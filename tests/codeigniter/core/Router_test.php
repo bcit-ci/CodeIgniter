@@ -248,28 +248,30 @@ class Router_test extends CI_TestCase {
 		$this->ci->load->paths = array($this->ci_app_path);
 
 		// Do we get FALSE with no error route?
-		$this->assertFalse($this->router->get_error_route());
+		$this->assertFalse($this->router->get_error_route('error_override'));
 
 		// Set up error override
 		$dir = 'controllers';
 		$ectlr = 'error_ctlr';
 		$efunc = 'error_func';
+		$eroute = 'error_override';
 		$this->ci_vfs_create($ectlr, '', $this->ci_app_root, $dir);
-		$this->router->routes = array('error_override' => $ectlr.'/'.$efunc);
+		$this->router->routes = array($eroute => $ectlr.'/'.$efunc);
 
 		// Do we get the error route when set?
 		$expect = array($this->ci_app_path, '', $ectlr, $efunc);
-		$this->assertEquals($expect, $this->router->get_error_route());
+		$this->assertEquals($expect, $this->router->get_error_route($eroute));
 
 		// Set up 404 override
 		$ctlr = 'e404_ctlr';
 		$func = 'e404_func';
+		$route = '404_override';
 		$this->ci_vfs_create($ctlr, '', $this->ci_app_root, $dir);
-		$this->router->routes = array('404_override' => $ctlr.'/'.$func);
+		$this->router->routes = array($route => $ctlr.'/'.$func);
 
 		// Do we get the error route when set?
 		$expect = array($this->ci_app_path, '', $ctlr, $func);
-		$this->assertEquals($expect, $this->router->get_error_route(TRUE));
+		$this->assertEquals($expect, $this->router->get_error_route($route));
 	}
 
 	/**

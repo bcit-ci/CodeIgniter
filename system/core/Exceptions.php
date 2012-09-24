@@ -106,13 +106,18 @@ class CI_Exceptions {
 	public function show_404($page = '', $log_error = TRUE)
 	{
 		// By default we log this, but allow a dev to skip it
+		$heading = '404 Page Not Found';
 		if ($log_error)
 		{
-			log_message('error', '404 Page Not Found --> '.$page);
+			log_message('error', $heading.' --> '.$page);
 		}
 
-		// Call show_error for the 404 - it will exit
-		$this->show_error('404 Page Not Found', 'The page you requested was not found.', 'error_404', 404);
+		// Set status header
+		set_status_header(404);
+
+		// Route the error to a controller or 404 template and exit
+		$this->_route_error('404_override', 'error_404', array($heading, 'The page you requested was not found.'));
+		exit;
 	}
 
 	// --------------------------------------------------------------------
@@ -136,59 +141,10 @@ class CI_Exceptions {
 	public function show_error($heading, $message, $template = 'error_general', $status_code = 500)
 	{
 		// Set status header
-		set_status_header($status_code);
+		set_status_header(500);
 
-		// Clear any output buffering
-		if (ob_get_level() > $this->ob_level + 1)
-		{
-			ob_end_flush();
-		}
-
-		// Check Router for an error (or 404) override
-		$CI =& get_instance();
-		if (isset($CI->router))
-		{
-			$route = $CI->router->get_error_route($status_code == 404);
-			if ($route !== FALSE)
-			{
-				// Insert or append arguments
-				if (count($route) > CI_Router::SEG_ARGS)
-				{
-					// Insert heading and message after path, subdir, class, and method and before other args
-					$route = array_merge(
-							array_slice($route, 0, CI_Router::SEG_ARGS),
-							array($heading, $message),
-							array_slice($route, CI_Router::SEG_ARGS)
-							);
-				}
-				else
-				{
-					// Just append heading and message to the end
-					$route[] = $heading;
-					$route[] = $message;
-				}
-
-				// Ensure "routed" is not set
-				if (isset($CI->routed))
-				{
-					unset($CI->routed);
-				}
-
-				// Load the error Controller as "routed" and call the method
-				if ($CI->load->controller($route, 'routed'))
-				{
-					// Display the output and exit
-					$CI->output->_display();
-					exit;
-				}
-			}
-		}
-
-		// If the override didn't exit above, just display the generic error template
-		ob_start();
-		$message = '<p>'.implode('</p><p>', (array) $message).'</p>';
-		include(VIEWPATH.'errors/'.$template.'.php');
-		echo ob_get_clean();
+		// Route the error to a controller or error template and exit
+		$this->_route_error('error_override', 'error_general', array($heading, $message));
 		exit;
 	}
 
@@ -215,12 +171,80 @@ class CI_Exceptions {
 			$filepath = $x[count($x)-2].'/'.end($x);
 		}
 
+		// Route the error to a controller or exception template
+		$this->_route_error('exception_override', 'error_php', array($severity, $message, $filepath, $line));
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Route error to an override controller or a template
+	 *
+	 * @param	string	Override route name
+	 * @param	string	Template name
+	 * @param	array	Route/template arguments
+	 * @return	void
+	 */
+	protected function _route_error($route, $template, $args = NULL)
+	{
+		// Clear any output buffering
 		if (ob_get_level() > $this->ob_level + 1)
 		{
 			ob_end_flush();
 		}
+
+		// Check Router for an override
+		$CI =& get_instance();
+		if (isset($CI->router))
+		{
+			$stack = $CI->router->get_error_route($route);
+			if ($stack !== FALSE)
+			{
+				// Check for arguments
+				if ( ! empty($args))
+				{
+					// Insert or append arguments
+					if (count($stack) > CI_Router::SEG_ARGS)
+					{
+						// Insert args after path, subdir, class, and method and before other args
+						$stack = array_merge(
+							array_slice($stack, 0, CI_Router::SEG_ARGS),
+							$args,
+							array_slice($stack, CI_Router::SEG_ARGS)
+						);
+					}
+					else
+					{
+						// Just append args to the end
+						$stack = array_merge($stack, $args);
+					}
+				}
+
+				// Ensure "routed" is not set
+				if (isset($CI->routed))
+				{
+					unset($CI->routed);
+				}
+
+				// Load the error Controller as "routed" and call the method
+				if ($CI->load->controller($stack, 'routed'))
+				{
+					// Display the output and return
+					$CI->output->_display();
+					return;
+				}
+			}
+		}
+
+		// If the override didn't exit above, just export the args and display the template
+		if (isset($args['message']))
+		{
+			// Wrap message(s) in P tags
+			$args['message'] = '<p>'.implode('</p><p>', (array) $args['message']).'</p>';
+		}
+		extract($args);
 		ob_start();
-		include(VIEWPATH.'errors/error_php.php');
+		include(VIEWPATH.'errors/'.$template.'.php');
 		echo ob_get_clean();
 	}
 }

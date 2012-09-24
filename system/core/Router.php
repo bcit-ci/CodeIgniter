@@ -465,15 +465,12 @@ class CI_Router {
 	 *
 	 * Identifies the 404 or error override route, if defined, and validates it.
 	 *
-	 * @param	boolean	TRUE for 404 route
+	 * @param	string	Override route name
 	 * @return	mixed	FALSE if route doesn't exist, otherwise array of 4+ segments
 	 */
-	public function get_error_route($is404 = FALSE)
+	public function get_error_route($route)
 	{
-		// Select route
-		$route = ($is404 ? '404' : 'error').'_override';
-
-		// See if error or 404 override is defined
+		// See if override is defined
 		if (empty($this->routes[$route])) {
 			// No override to apply
 			return FALSE;
