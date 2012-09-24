@@ -226,7 +226,7 @@ class CI_Config {
 
 		// Merge arrays from all viable config paths
 		$_merged = array();
-		$_check_locations = defined('ENVIRONMENT') ? array(ENVIRONMENT.'/'.$_file, $_file) : array($_file);
+		$_check_locations = defined('ENVIRONMENT') ? array($_file, ENVIRONMENT.'/'.$_file) : array($_file);
 		foreach ($this->_config_paths as $_path)
 		{
 			// Check with/without ENVIRONMENT
