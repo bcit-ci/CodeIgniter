@@ -107,9 +107,8 @@ class Upload_test extends CI_TestCase {
 
 	function test_set_image_properties()
 	{
-		$dir = preg_replace('/^(.*[\/\\\\]tests[\/\\\\]).*$/', '$1', __FILE__);
 		$this->upload->file_type = 'image/gif';
-		$this->upload->file_temp = $dir.'mocks/uploads/ci_logo.gif';
+		$this->upload->file_temp = realpath(dirname(__FILE__).'/../../mocks/uploads/ci_logo.gif');
 
 		$props = array(
 			'image_width'	=>	170,
@@ -158,8 +157,7 @@ class Upload_test extends CI_TestCase {
 		$this->assertTrue($this->upload->is_allowed_filetype(FALSE));
 		$this->assertTrue($this->upload->is_allowed_filetype(TRUE));
 
-		$dir = preg_replace('/^(.*[\/\\\\]tests[\/\\\\]).*$/', '$1', __FILE__);
-		$this->upload->file_temp = $dir.'mocks/uploads/ci_logo.gif';
+		$this->upload->file_temp = realpath(dirname(__FILE__).'/../../mocks/uploads/ci_logo.gif');
 		$this->upload->file_ext = '.gif';
 		$this->upload->file_type = 'image/gif';
 		$this->assertTrue($this->upload->is_allowed_filetype());
@@ -181,9 +179,8 @@ class Upload_test extends CI_TestCase {
 		$this->upload->file_type = 'text/plain';
 		$this->assertTrue($this->upload->is_allowed_dimensions());
 
-		$dir = preg_replace('/^(.*[\/\\\\]tests[\/\\\\]).*$/', '$1', __FILE__);
 		$this->upload->file_type = 'image/gif';
-		$this->upload->file_temp = $dir.'mocks/uploads/ci_logo.gif';
+		$this->upload->file_temp = realpath(dirname(__FILE__).'/../../mocks/uploads/ci_logo.gif');
 
 		$this->upload->max_width = 10;		
 		$this->assertFalse($this->upload->is_allowed_dimensions());
@@ -239,8 +236,7 @@ class Upload_test extends CI_TestCase {
 		$this->upload->file_temp = vfsStream::url('file3.txt');
 		$this->assertFalse($this->upload->do_xss_clean());
 
-		$dir = preg_replace('/^(.*[\/\\\\]tests[\/\\\\]).*$/', '$1', __FILE__);
-		$this->upload->file_temp = $dir.'mocks/uploads/ci_logo.gif';
+		$this->upload->file_temp = realpath(dirname(__FILE__).'/../../mocks/uploads/ci_logo.gif');
 		$this->assertTrue($this->upload->do_xss_clean());
 	}
 
