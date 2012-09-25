@@ -44,7 +44,6 @@ class Log_test extends CI_TestCase {
 		// Log debug message
 		$level = 'debug';
 		$msg = 'Testing debug output';
-		$date = date($this->date_fmt);
 		$this->assertTrue($this->log->write_log($level, $msg));
 
 		// Was the file written?
@@ -57,8 +56,9 @@ class Log_test extends CI_TestCase {
 		$log = ob_get_clean();
 
 		// Was the message written?
-		$expect = "\n".strtoupper($level).' - '.$date.' --> '.$msg."\n";
-		$this->assertEquals($expect, $log);
+		$expect = "\n".strtoupper($level).' - ##:##:## --> '.$msg."\n";
+        $cleaned = preg_replace('/\d/', '#', $log);
+		$this->assertEquals($expect, $cleaned);
 
 		// Does an info message get skipped?
 		$this->assertFalse($this->log->write_log('info', 'Do not write this'));
