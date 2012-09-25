@@ -22,7 +22,7 @@ $mimes = array('hqx'	=>	array('application/mac-binhex40', 'application/mac-binhe
 				'sea'	=>	'application/octet-stream',
 				'dll'	=>	'application/octet-stream',
 				'oda'	=>	'application/oda',
-				'pdf'	=>	array('application/pdf', 'application/x-download'),
+				'pdf'	=>	array('application/pdf', 'application/x-download', 'binary/octet-stream'),
 				'ai'	=>	'application/postscript',
 				'eps'	=>	'application/postscript',
 				'ps'	=>	'application/postscript',
