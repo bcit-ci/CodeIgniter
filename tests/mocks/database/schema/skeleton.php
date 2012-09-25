@@ -30,7 +30,7 @@ class Mock_Database_Schema_Skeleton {
 
 			CI_TestCase::instance()->ci_instance_var('db', $db);
 
-			$dbdriver = $config['dbdriver'];
+			$dbdriver = $config[$driver]['dbdriver'];
 			require_once(BASEPATH.'database/DB_forge.php');
 			require_once(BASEPATH.'database/drivers/'.$dbdriver.'/'.$dbdriver.'_forge.php');
 			$class = 'CI_DB_'.$dbdriver.'_forge';
