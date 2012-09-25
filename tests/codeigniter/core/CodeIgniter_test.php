@@ -286,7 +286,7 @@ class CodeIgniter_test extends CI_TestCase {
 		$classes = array(
 			'Benchmark' => array('methods' => array('mark($a)' => '$this->'.$marks.'[] = $a;')),
 			'Config' => array('methods' => array('get($a, $b)' => 'return TRUE;')),
-			'Hooks' => array('methods' => array('_call_hook($a)' => '$this->'.$hooks.'[] = $a; return FALSE;')),
+			'Hooks' => array('methods' => array('call_hook($a)' => '$this->'.$hooks.'[] = $a; return FALSE;')),
 			'Loader' => array('obj' => 'load')
 		);
 		$names = $this->_create_core($pre, $prop, $classes);
@@ -338,7 +338,7 @@ class CodeIgniter_test extends CI_TestCase {
 		// The order here establishes the sequence that will be checked below
 		// We include Hooks first, as it was already loaded and is called in routing
 		$classes = array(
-			'Hooks' => array('methods' => array('_call_hook($a)' => '$this->'.$hooks.'[] = $a; return FALSE;')),
+			'Hooks' => array('methods' => array('call_hook($a)' => '$this->'.$hooks.'[] = $a; return FALSE;')),
 			'Utf8' => array(),
 			'URI' => array(),
 			'Output' => array('methods' => array('_display_cache()' => 'return FALSE;')),
@@ -396,7 +396,7 @@ class CodeIgniter_test extends CI_TestCase {
 		// Create core classes in VFS
 		// This time, _display_cache will return TRUE as if it displayed the cache
 		$classes = array(
-			'Hooks' => array('methods' => array('_call_hook($a)' => 'return FALSE;')),
+			'Hooks' => array('methods' => array('call_hook($a)' => 'return FALSE;')),
 			'Utf8' => array(),
 			'URI' => array(),
 			'Output' => array('methods' => array('_display_cache()' => 'return TRUE;')),
@@ -706,7 +706,7 @@ class CodeIgniter_test extends CI_TestCase {
 
 		// Create Hooks with optional hook tracking
 		$code = $hooks ? '$this->'.$hooks.'[] = $a; ' : '';
-		$this->_create_core($pre, $prop, 'Hooks', '', array('_call_hook($a)' => $code.'return FALSE;'));
+		$this->_create_core($pre, $prop, 'Hooks', '', array('call_hook($a)' => $code.'return FALSE;'));
 
 		// Create Loader with a simple controller loader to instantiate our class
 		// at the right time

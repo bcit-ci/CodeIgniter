@@ -611,7 +611,7 @@ class CodeIgniter {
 
 		// Load the hooks class and call pre_system (depends on Config)
 		$this->load_core_class('Hooks');
-		$this->hooks->_call_hook('pre_system');
+		$this->hooks->call_hook('pre_system');
 
 		// Load Loader as 'load' (depends on Config)
 		$this->load_core_class('Loader', 'load');
@@ -654,7 +654,7 @@ class CodeIgniter {
 		}
 
 		// Is there a valid cache file? If so, we're done...
-		if ($this->hooks->_call_hook('cache_override') === FALSE && $this->output->_display_cache() === TRUE)
+		if ($this->hooks->call_hook('cache_override') === FALSE && $this->output->_display_cache() === TRUE)
 		{
 			$this->_display_cache = TRUE;
 			static::_status_exit();
@@ -697,7 +697,7 @@ class CodeIgniter {
 	protected function _run_controller()
 	{
 		// Call pre_controller hook
-		$this->hooks->_call_hook('pre_controller');
+		$this->hooks->call_hook('pre_controller');
 
 		// Get the parsed route and identify class, method, and arguments
 		$rtr_class = get_class($this->router);
@@ -719,7 +719,7 @@ class CodeIgniter {
 		$this->routed = $this->$class;
 
 		// Call post_controller_constructor hook
-		$this->hooks->_call_hook('post_controller_constructor');
+		$this->hooks->call_hook('post_controller_constructor');
 
 		if ($this->call_controller($class, $method, $args) == FALSE)
 		{
@@ -758,17 +758,17 @@ class CodeIgniter {
 			// Call post_controller hook unless we're displaying a cache
 			if ( ! $this->_display_cache)
 			{
-				$this->hooks->_call_hook('post_controller');
+				$this->hooks->call_hook('post_controller');
 			}
 
 			// Send the final rendered output to the browser
-			if ($this->hooks->_call_hook('display_override') === FALSE && isset($this->output))
+			if ($this->hooks->call_hook('display_override') === FALSE && isset($this->output))
 			{
 				$this->output->_display();
 			}
 				
 			// Call post_system hook
-			$this->hooks->_call_hook('post_system');
+			$this->hooks->call_hook('post_system');
 		}
 	}
 
