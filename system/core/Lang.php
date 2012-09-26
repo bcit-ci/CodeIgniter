@@ -151,12 +151,12 @@ class CI_Lang {
 	 * @param	string	$line	the language line
 	 * @return	string
 	 */
-	public function line($line = '')
+	public function line($line = '', $log = TRUE)
 	{
 		$value = ($line === '' OR ! isset($this->language[$line])) ? FALSE : $this->language[$line];
 
 		// Because killer robots like unicorns!
-		if ($value === FALSE)
+		if ($value === FALSE && $log)
 		{
 			log_message('error', 'Could not find the language line "'.$line.'"');
 		}
