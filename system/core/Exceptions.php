@@ -116,7 +116,11 @@ class CI_Exceptions {
 		set_status_header(404);
 
 		// Route the error to a controller or 404 template and exit
-		$this->_route_error('404_override', 'error_404', array($heading, 'The page you requested was not found.'));
+		$args = array(
+			'heading' => $heading,
+			'message' => 'The page you requested was not found.'
+		);
+		$this->_route_error('404_override', 'error_404', $args);
 		exit;
 	}
 
@@ -144,7 +148,11 @@ class CI_Exceptions {
 		set_status_header(500);
 
 		// Route the error to a controller or error template and exit
-		$this->_route_error('error_override', 'error_general', array($heading, $message));
+		$args = array(
+			'heading' => $heading,
+			'message' => $message
+		);
+		$this->_route_error('error_override', 'error_general', $args);
 		exit;
 	}
 
@@ -172,7 +180,13 @@ class CI_Exceptions {
 		}
 
 		// Route the error to a controller or exception template
-		$this->_route_error('exception_override', 'error_php', array($severity, $message, $filepath, $line));
+		$args = array(
+			'severity'	=> $severity,
+			'message'	=> $message,
+			'filepath'	=> $filepath,
+			'line'		=> $line
+		);
+		$this->_route_error('exception_override', 'error_php', $args);
 	}
 
 	// --------------------------------------------------------------------
