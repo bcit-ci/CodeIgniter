@@ -368,16 +368,13 @@ class CI_Router {
 		foreach ($this->routes as $key => $val)
 		{
 			// Convert wild-cards to RegEx
-			$key = str_replace(':any', '.+', str_replace(':num', '[0-9]+', $key));
+			$key = str_replace(array(':any', ':num'), array('.+', '[0-9]+'), $key);
 
 			// Does the RegEx match?
 			if (preg_match('#^'.$key.'$#', $uri, $matches))
 			{
-				// Are we using a callback?
-				$callable = ! is_string($val) && is_callable($val);
-
 				// Are we using callbacks to process back-references?
-				if($callable)
+				if(! is_string($val) && is_callable($val))
 				{
 					// Remove the original string from the matches array.
 					array_shift($matches);
@@ -400,7 +397,7 @@ class CI_Router {
 					$val = call_user_func_array($val, $matches);
 				}
 				// Are we using the default routing method for back-references?
-				else if (strpos($val, '$') !== FALSE AND strpos($key, '(') !== FALSE)
+				elseif (strpos($val, '$') !== FALSE && strpos($key, '(') !== FALSE)
 				{
 					$val = preg_replace('#^'.$key.'$#', $val, $uri);
 				}
