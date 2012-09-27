@@ -149,7 +149,7 @@ class CI_Lang {
 	 * Fetch a single line of text from the language array
 	 *
 	 * @param	string	$line	the language line
-	 * @param	bool	$log	bypass error logging
+	 * @param	bool	$log	bypass error logging (default: TRUE)
 	 * @return	string
 	 */
 	public function line($line = '', $log = TRUE)
