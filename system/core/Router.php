@@ -374,7 +374,7 @@ class CI_Router {
 			if (preg_match('#^'.$key.'$#', $uri, $matches))
 			{
 				// Are we using callbacks to process back-references?
-				if(! is_string($val) && is_callable($val))
+				if ( ! is_string($val) && is_callable($val))
 				{
 					// Remove the original string from the matches array.
 					array_shift($matches);
@@ -387,7 +387,7 @@ class CI_Router {
 					$param_count = $reflection->getNumberOfParameters();
 
 					// Are there more parameters than matches?
-					if($param_count > $match_count)
+					if ($param_count > $match_count)
 					{
 						// Any params without matches will be set to an empty string.
 						$matches = array_merge($matches, array_fill($match_count, $param_count - $match_count, ''));
