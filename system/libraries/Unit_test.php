@@ -240,7 +240,7 @@ class CI_Unit_test {
 				{
 					foreach ($val as $k => $v)
 					{
-						if (FALSE !== ($line = $CI->lang->line(strtolower('ut_'.$v))))
+						if (FALSE !== ($line = $CI->lang->line(strtolower('ut_'.$v), FALSE)))
 						{
 							$v = $line;
 						}
@@ -249,7 +249,7 @@ class CI_Unit_test {
 				}
 				else
 				{
-					if (FALSE !== ($line = $CI->lang->line(strtolower('ut_'.$val))))
+					if (FALSE !== ($line = $CI->lang->line(strtolower('ut_'.$val), FALSE)))
 					{
 						$val = $line;
 					}
