@@ -132,12 +132,20 @@ class CI_Output {
 	 *
 	 * Returns the current output string
 	 *
-	 * @param	bool	Get all flag
+	 * @param	mixed	Optional level (FALSE = current, TRUE = all)
 	 * @return	string
 	 */
-	public function get_output($all = FALSE)
+	public function get_output($level = FALSE)
 	{
-		return ($all ? implode($this->final_output) : end($this->final_output));
+		// Check for all flag
+		if ($level === TRUE)
+		{
+			// Return entire stack
+			return implode($this->final_output);
+		}
+
+		// Return specified level (or current)
+		return $this->final_output[$this->_get_index($level)];
 	}
 
 	// --------------------------------------------------------------------
@@ -148,23 +156,21 @@ class CI_Output {
 	 * Sets the output string
 	 *
 	 * @param	string	Output
-	 * @param	bool	Overwrite all flag
-	 * @return	void
+	 * @param	mixed	Optional level (FALSE = current, TRUE = all)
+	 * @return	object	This
 	 */
-	public function set_output($output, $all = FALSE)
+	public function set_output($output, $level = FALSE)
 	{
 		// Check for all flag
-		if ($all)
+		if ($level === TRUE)
 		{
 			// Reset stack to one level with output
 			$this->final_output = array($output);
 		}
 		else
 		{
-			// Set buffer contents for current buffer in stack
-			// Note: stack_pop() prevents emptying the array, so count will always be >= 1
-			$level = count($this->final_output) - 1;
-			$this->final_output[$level] = $output;
+			// Set buffer contents to stack
+			$this->final_output[$this->_get_index($level)] = $output;
 		}
 
 		return $this;
@@ -177,17 +183,33 @@ class CI_Output {
 	 *
 	 * Appends data onto the output string
 	 *
-	 * @param	string
-	 * @return	void
+	 * @param	string	Output to append
+	 * @param	mixed	Optional stack level (FALSE = current)
+	 * @return	object	This
 	 */
-	public function append_output($output)
+	public function append_output($output, $level = FALSE)
 	{
-		// Append output to current buffer in stack
-		// Note: stack_pop() prevents emptying the array, so count will always be >= 1
-		$level = count($this->final_output) - 1;
-		$this->final_output[$level] .= $output;
-
+		// Append output to stack
+		$this->final_output[$this->_get_index($level)] .= $output;
 		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get stack index from level number
+	 *
+	 * @param	mixed	Level number (or FALSE for current)
+	 * @return	int		Stack index
+	 */
+	protected function _get_index($level)
+	{
+		// Get top level
+		// Note: stack_pop() prevents emptying the array, so count will always be >= 1
+		$top = count($this->final_output);
+
+		// Return level if valid, otherwise top
+		return (is_int($level) && $level > 0 && $level <= $top) ? $level - 1 : $top - 1;
 	}
 
 	// --------------------------------------------------------------------
@@ -243,8 +265,10 @@ class CI_Output {
 			return array_pop($this->final_output);
 		}
 
-		// Nothing to pop - just return contents of bottom buffer
-		return $this->final_output[0];
+		// Nothing to pop - just return contents and empty bottom buffer
+		$out = $this->final_output[0];
+		$this->final_output[0] = '';
+		return $out;
 	}
 
 	// --------------------------------------------------------------------

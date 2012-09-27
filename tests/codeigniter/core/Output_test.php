@@ -27,7 +27,7 @@ class Output_test extends CI_TestCase {
 	 */
 	public function test_output()
 	{
-		// Do we start at level 1?
+		// Do we start at level 0?
 		$this->assertEquals(1, $this->output->stack_level());
 
 		// Append output and check it
@@ -56,17 +56,22 @@ class Output_test extends CI_TestCase {
 		$this->assertEquals(1, $this->output->stack_level());
 		$this->assertEquals($out1, $this->output->get_output(TRUE));
 
-		// Make sure pop doesn't remove first level
+		// Make sure pop empties but doesn't remove first level
 		$this->assertEquals($out1, $this->output->stack_pop());
 		$this->assertEquals(1, $this->output->stack_level());
+		$this->assertEquals('', $this->output->get_output());
 
 		// Add another
 		$out2 = 'Second hand ';
 		$this->output->stack_push($out2);
 		$this->assertEquals(2, $this->output->stack_level());
+		$this->assertEquals($out2, $this->output->get_output(TRUE));
+
+		// Restore first level
+		$this->output->set_output($out1, 1);
 		$this->assertEquals($out1.$out2, $this->output->get_output(TRUE));
 
-		// ...and remove it
+		// Remove second level
 		$this->assertEquals($out2, $this->output->stack_pop());
 		$this->assertEquals(1, $this->output->stack_level());
 		$this->assertEquals($out1, $this->output->get_output(TRUE));
