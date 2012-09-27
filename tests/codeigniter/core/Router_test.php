@@ -27,7 +27,8 @@ class Router_test extends CI_TestCase {
 		$alt_dir = 'alternative';
 		$alt_root = $this->ci_vfs_mkdir($alt_dir);
 		$alt_path = $this->ci_vfs_path($alt_dir.'/');
-		$this->ci->load->paths = array($alt_path, $this->ci_app_path);
+		$this->ci->load->packages = array($alt_path, $this->ci_app_path);
+		$this->ci->load->modules = array();
 
 		// Create controller in app path
 		$dir = 'controllers';
@@ -115,7 +116,8 @@ class Router_test extends CI_TestCase {
 
 		// Mock loader with package paths
 		$this->_mock_loader();
-		$this->ci->load->paths = array($this->ci_app_path);
+		$this->ci->load->packages = array($this->ci_app_path);
+		$this->ci->load->modules = array();
 
 		// Set up routes config with default
 		$stack = array('main', 'handler');
@@ -169,7 +171,8 @@ class Router_test extends CI_TestCase {
 
 		// Mock loader with package paths
 		$this->_mock_loader();
-		$this->ci->load->paths = array($this->ci_app_path);
+		$this->ci->load->packages = array($this->ci_app_path);
+		$this->ci->load->modules = array();
 
 		// Set up routes config
 		$routes = array('default_controller' => '');
@@ -211,7 +214,8 @@ class Router_test extends CI_TestCase {
 
 		// Mock loader with package paths
 		$this->_mock_loader();
-		$this->ci->load->paths = array($this->ci_app_path);
+		$this->ci->load->packages = array($this->ci_app_path);
+		$this->ci->load->modules = array();
 
 		// Set up routes config
 		$route = 'main/path';
@@ -245,7 +249,8 @@ class Router_test extends CI_TestCase {
 	{
 		// Mock loader with package paths
 		$this->_mock_loader();
-		$this->ci->load->paths = array($this->ci_app_path);
+		$this->ci->load->packages = array($this->ci_app_path);
+		$this->ci->load->modules = array();
 
 		// Do we get FALSE with no error route?
 		$this->assertFalse($this->router->get_error_route('error_override'));
@@ -332,7 +337,8 @@ class Router_test extends CI_TestCase {
 		$alt_dir = 'alternative';
 		$alt_root = $this->ci_vfs_mkdir($alt_dir);
 		$alt_path = $this->ci_vfs_path($alt_dir.'/');
-		$this->ci->load->paths = array($alt_path, $this->ci_app_path);
+		$this->ci->load->packages = array($alt_path, $this->ci_app_path);
+		$this->ci->load->modules = array();
 
 		// Set up routes config
 		$routes = array('default_controller' => '');
@@ -404,7 +410,10 @@ class Router_test extends CI_TestCase {
 		$class = 'Router_Loader';
 		if ( ! class_exists($class))
 		{
-			eval('class '.$class.' { public $paths; public function get_package_paths() { return $this->paths; } }');
+			$code = 'class '.$class.' { public $packages; public $modules; '.
+				'public function get_package_paths() { return $this->packages; } '.
+				'public function get_module_paths() { return $this->modules; } }';
+			eval($code);
 		}
 		$this->ci->load = new $class();
 	}

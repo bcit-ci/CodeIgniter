@@ -294,6 +294,84 @@ class CI_Router {
 			}
 		}
 
+		// Search for controller in modules hierarchy
+		// If the module path is APPPATH/modules/, "/foo/bar/baz" may map to:
+		//	APPPATH/modules/controllers/foo.php
+		//	APPPATH/modules/foo/controllers/bar.php
+		//	APPPATH/modules/foo/bar/controllers/baz.php
+		//	APPPATH/modules/foo/bar/baz/controllers/[default].php
+		$seg_ct = count($route);
+		foreach ($this->CI->load->get_module_paths() as $path)
+		{
+			// Does the requested controller exist in the base folder?
+			if (file_exists($path.'controllers/'.$route[0].'.php'))
+			{
+				// Found it - append method if missing
+				if ($seg_ct < 2)
+				{
+					$route[] = 'index';
+				}
+
+				// Prepend path and empty directory and return
+				return array_merge(array($path, ''), $route);
+			}
+
+			// Is there a module sub-folder?
+			$sub = '';
+			for ($seg = 0; $seg < $seg_ct; ++$seg)
+			{
+				// Add segment to subdirectory path and check for controllers
+				$sub .= $route[$seg].'/';
+				if (is_dir($path.$sub.'controllers/'))
+				{
+					// Found a module - is there a controller name?
+					if ($seg_ct > $seg + 1)
+					{
+						// Yes - get class and method
+						$class = $route[$seg + 1];
+						$method = $seg_ct > $seg + 2 ? $route[$seg + 2] : 'index';
+					}
+					else
+					{
+						// Get default controller segments
+						$default = $this->_default_segments();
+						if (empty($default))
+						{
+							// No default controller to apply - carry on
+							unset($default);
+							continue;
+						}
+
+						// Get class and method
+						$class = array_shift($default);
+						$method = array_shift($default);
+					}
+
+					// Does the requested controller exist in the module?
+					if (file_exists($path.$sub.'controllers/'.$class.'.php'))
+					{
+						// Found it - assemble segments
+						if ($seg_ct <= $seg + 1)
+						{
+							$route[] = $class;
+						}
+						if ($seg_ct <= $seg + 2)
+						{
+							$route[] = $method;
+						}
+						if (isset($default) && count($default) > 0)
+						{
+							$route = array_merge($route, $default);
+						}
+
+						// Prepend path and return
+						array_unshift($route, $path.$sub);
+						return $route;
+					}
+				}
+			}
+		}
+
 		// If we got here, no valid route was found
 		return FALSE;
 	}

@@ -88,6 +88,13 @@ class CI_Loader {
 	protected $_ci_mvc_paths = array();
 
 	/**
+	 * List of module paths to load models/viewers/controllers from
+	 *
+	 * @var		array
+	 */
+	protected $_ci_module_paths = array();
+
+	/**
 	 * List of cached variables
 	 *
 	 * @var		array
@@ -172,6 +179,30 @@ class CI_Loader {
 		{
 			// Use default from constants
 			$this->_ci_mvc_paths = array(APPPATH => TRUE);
+		}
+
+		// Get module path
+		$paths = $this->CI->config->item('module_path');
+		if ($paths)
+		{
+			// Validate each path and add to list
+			foreach ( (array) $paths as $path)
+			{
+				// Groom and resolve path against includes
+				$path = CodeIgniter::resolve_path($path);
+
+				// If path isn't absolute or resolved against includes, try it against the app path
+				foreach (array($path, $this->_ci_app_path.ltrim($path, '\/')) as $dir)
+				{
+					// Make sure it's a directory with contents (not just '.' and '..')
+					if (is_dir($dir) && count(scandir($dir)) > 2)
+					{
+						// Add to paths and move on to next path
+						$this->_ci_module_paths[] = $dir;
+						break;
+					}
+				}
+			}
 		}
 
 		log_message('debug', 'Loader Class Initialized');
@@ -432,19 +463,43 @@ class CI_Loader {
 		}
 
 		// Search MVC paths for model
+		$found = FALSE;
 		$model = strtolower($model);
 		$file = 'models/'.$path.$model.'.php';
-		foreach ($this->_ci_mvc_paths as $mod_path => $view_cascade)
+		foreach (array_keys($this->_ci_mvc_paths) as $mod_path)
 		{
 			// Check each path for filename
-			if ( ! file_exists($mod_path.$file))
+			if (file_exists($mod_path.$file))
 			{
-				continue;
+				// Include source and mark found
+				include($mod_path.$file);
+				$found = TRUE;
+				break;
 			}
+		}
 
-			// Include source and instantiate object
-			require_once($mod_path.$file);
+		// Do we need to keep looking?
+		if ( ! $found)
+		{
+			// Search module paths for model
+			$file = $path.'models/'.$model.'.php';
+			foreach ($this->_ci_module_paths as $mod_path)
+			{
+				// Does the model exist in the module?
+				if (file_exists($mod_path.$file))
+				{
+					// Include source and mark found
+					include($mod_path.$file);
+					$found = TRUE;
+					break;
+				}
+			}
+		}
 
+		// Did we find the model?
+		if ($found)
+		{
+			// Instantiate object
 			$model = ucfirst($model);
 			$this->CI->$name = new $model();
 			$this->_ci_models[] = $name;
@@ -876,6 +931,22 @@ class CI_Loader {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Get Module Paths
+	 *
+	 * Return a list of all module paths to check within mvc paths for
+	 * subdirectories containing models, views, and controllers
+	 *
+	 * @return	array	Module paths
+	 */
+	public function get_module_paths()
+	{
+		// Just return module paths
+		return $this->_ci_module_paths;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Include a file from package paths
 	 *
 	 * This function includes a prefixed subclass file if found, and its base file
@@ -989,6 +1060,36 @@ class CI_Loader {
 					{
 						// No cascade - stop looking
 						break;
+					}
+				}
+
+				// Did we find it?
+				if ( ! $_ci_exists)
+				{
+					// Is a subdirectory included?
+					$_ci_subdir = '';
+					if (($_ci_slash = strrpos($_ci_file, '/')) !== FALSE)
+					{
+						// The path is in front of the last slash
+						$_ci_subdir = substr($_ci_file, 0, ++$last_slash);
+
+						// And the file name behind it
+						$_ci_file = substr($_ci_file, $_ci_slash);
+					}
+					unset($_ci_slash);
+
+					// Search module paths for view
+					$_ci_viewpath = $_ci_subdir.'views/'.$_ci_file;
+					foreach ($this->_ci_module_paths as $_ci_mod_path)
+					{
+						// Does the view exist in the module?
+						if (file_exists($_ci_mod_path.$_ci_viewpath))
+						{
+							// Set path, mark existing, and quit
+							$_ci_path = $_ci_mod_path.$_ci_viewpath;
+							$_ci_exists = TRUE;
+							break;
+						}
 					}
 				}
 			}

@@ -248,6 +248,27 @@ $config['cache_path'] = '';
 
 /*
 |--------------------------------------------------------------------------
+| Module Directory Path
+|--------------------------------------------------------------------------
+|
+| Where to look for HMVC modules. The default is APPPATH/modules/.
+| Paths may be absolute, relative to the PHP includes path, or relative to
+| APPPATH.
+|
+| Empty path directories will not be searched, but subdirectories may be
+| recursed with URI segments when routing or leading subdirectories when
+| calling Loader directly. For example, if the module path is APPPATH/modules/,
+| then "/foo/bar/baz" may map to any of these Controllers:
+|	APPPATH/modules/controllers/foo.php
+|	APPPATH/modules/foo/controllers/bar.php
+|	APPPATH/modules/foo/bar/controllers/baz.php
+|	APPPATH/modules/foo/bar/baz/controllers/[default].php
+|
+*/
+$config['module_path'] = array('modules');
+
+/*
+|--------------------------------------------------------------------------
 | Encryption Key
 |--------------------------------------------------------------------------
 |
