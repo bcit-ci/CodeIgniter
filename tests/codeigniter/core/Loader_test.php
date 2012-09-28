@@ -14,7 +14,9 @@ class Loader_test extends CI_TestCase {
 		$this->ci_view_path = vfsStream::url('views/');
 
 		// Determine if we need core support methods
-		if (strpos($this->getName(), 'controller') !== FALSE) {
+		$test = $this->getName();
+		if (strpos($test, 'controller') !== FALSE)
+		{
 			// Create CI mockup
 			$class = 'Mock_Loader_CI';
 			if ( ! class_exists($class))
@@ -28,6 +30,7 @@ class Loader_test extends CI_TestCase {
 				eval($code);
 			}
 			$this->ci_obj = new $class();
+			$this->ci_instance($this->ci_obj);
 
 			// Initialize support flags
 			$this->_ctlr_ran = FALSE; 
@@ -47,7 +50,27 @@ class Loader_test extends CI_TestCase {
 			// Initialize route to return
 			$this->ci_obj->router->_valid_route = array();
 		}
-		else {
+		else if ($test == 'test_ctor' OR $test == 'test_mod_model' OR $test == 'test_mod_view')
+		{
+			// Create CI mockup
+			$class = 'Mock_Mod_Loader_CI';
+			if ( ! class_exists($class))
+			{
+				$code = 'class '.$class.' { public static function resolve_path($path) '.
+					'{ return rtrim($path, \'\/\').\'/\'; } }';
+				eval($code);
+			}
+			$this->ci_obj = new $class();
+			$this->ci_instance($this->ci_obj);
+
+			// Set module path config
+			$this->modules = 'modules';
+			$this->ci_set_config('module_path', $this->modules);
+			$this->ci_vfs_create('empty', '', $this->ci_app_root, $this->modules);
+			$this->ci_mod_path = $this->ci_vfs_path($this->modules.'/', $this->ci_app_path);
+		}
+		else
+		{
 			// Just get the default instance
 			$this->ci_obj = $this->ci_instance();
 		}
@@ -56,7 +79,6 @@ class Loader_test extends CI_TestCase {
 		$this->ci_obj->_autoload = array();
 		$this->ci_obj->base_paths = array($this->ci_app_path, $this->ci_base_path);
 		$this->ci_obj->app_paths = array($this->ci_app_path);
-		$this->ci_instance($this->ci_obj);
 
 		// Set up config
 		$this->subclass = 'MY_';
@@ -69,22 +91,23 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers	CI_Loader::__construct
-	 * @covers	CI_Loader::get_package_paths
+	 * covers	CI_Loader::__construct
+	 * covers	CI_Loader::get_package_paths
 	 */
 	public function test_ctor()
 	{
 		// Did we get paths from the core?
 		$this->assertEquals($this->ci_obj->base_paths, $this->load->get_package_paths(TRUE));
 		$this->assertEquals($this->ci_obj->app_paths, $this->load->get_package_paths());
+		$this->assertEquals(array($this->ci_mod_path), $this->load->get_module_paths());
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers	CI_Loader::library
-	 * @covers	CI_Loader::_ci_load_class
-	 * @covers	CI_Loader::_ci_init_class
+	 * covers	CI_Loader::library
+	 * covers	CI_Loader::_ci_load_class
+	 * covers	CI_Loader::_ci_init_class
 	 */
 	public function test_library()
 	{
@@ -108,13 +131,15 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers	CI_Loader::library
+	 * covers	CI_Loader::library
+	 * covers	CI_Loader::is_loaded
 	 */
 	public function test_library_config()
 	{
 		// Create libraries directory with capitalized test library in subdir
 		$sub = 'mylibs';
-		$lib = ucfirst('unit_test_config_lib');
+		$name = 'unit_test_config_lib';
+		$lib = ucfirst($name);
 		$class = 'CI_'.$lib;
 		$content = '<?php class '.$class.
 			' { public function __construct($params = NULL) { $this->config = $params; } } ';
@@ -141,12 +166,15 @@ class Loader_test extends CI_TestCase {
 		// Did the config get set?
 		$this->assertObjectHasAttribute('config', $this->ci_obj->$obj);
 		$this->assertEquals($cfg, $this->ci_obj->$obj->config);
+
+		// Does is_loaded identify the object name?
+		$this->assertEquals($obj, $this->load->is_loaded($name));
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers	CI_Loader::library
+	 * covers	CI_Loader::library
 	 */
 	public function test_load_library_in_application_dir()
 	{
@@ -167,7 +195,7 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers	CI_Loader::library
+	 * covers	CI_Loader::library
 	 */
 	public function test_library_subclass()
 	{
@@ -194,7 +222,7 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers	CI_Loader::driver
+	 * covers	CI_Loader::driver
 	 */
 	public function test_driver()
 	{
@@ -226,7 +254,7 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers	CI_Loader::model
+	 * covers	CI_Loader::model
 	 */
 	public function test_model()
 	{
@@ -255,7 +283,7 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers	CI_Loader::model
+	 * covers	CI_Loader::model
 	 */
 	public function test_model_subdir()
 	{
@@ -292,7 +320,35 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers	CI_Loader::model
+	 * covers	CI_Loader::model
+	 */
+	public function test_mod_model()
+	{
+		// Make sure base class is loaded - we'll test _ci_include later
+		$this->ci_core_class('model');
+
+		// Create model in module models directory
+		$model = 'unit_test_mod_model';
+		$subdir = 'mymod';
+		$base = 'CI_Model';
+		$class = ucfirst($model);
+		$this->ci_vfs_create($model, $this->_empty($class, $base), $this->ci_app_root,
+			array($this->modules, $subdir, 'models'));
+
+		// Load model with subdir
+		$this->assertNull($this->load->model($subdir.'/'.$model));
+
+		// Was the model class instantiated?
+		$this->assertTrue(class_exists($class));
+		$this->assertObjectHasAttribute($model, $this->ci_obj);
+		$this->assertAttributeInstanceOf($base, $model, $this->ci_obj);
+		$this->assertAttributeInstanceOf($class, $model, $this->ci_obj);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * covers	CI_Loader::model
 	 */
 	public function test_non_existent_model()
 	{
@@ -318,9 +374,9 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers	CI_Loader::view
-	 * @covers	CI_Loader::_ci_load
-	 * @covers	CI_Loader::_ci_object_to_array
+	 * covers	CI_Loader::view
+	 * covers	CI_Loader::_ci_load
+	 * covers	CI_Loader::_ci_object_to_array
 	 */
 	public function test_load_view()
 	{
@@ -337,7 +393,28 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers	CI_Loader::view
+	 * covers	CI_Loader::view
+	 * covers	CI_Loader::_ci_load
+	 * covers	CI_Loader::_ci_object_to_array
+	 */
+	public function test_mod_view()
+	{
+		// Create view in module views directory
+		$view = 'unit_test_mod_view';
+		$sub1 = 'test';
+		$sub2 = 'module';
+		$out = 'This is my module test page.';
+		$this->ci_vfs_create($view, $out, $this->ci_app_root, array($this->modules, $sub1, $sub2, 'views'));
+
+		// Use the optional return parameter in this test, so the view is not
+		// run through the output class.
+		$this->assertEquals($out, $this->load->view($sub1.'/'.$sub2.'/'.$view, NULL, TRUE));
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * covers	CI_Loader::view
 	 */
 	public function test_non_existent_view()
 	{
@@ -355,7 +432,7 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers	CI_Loader::controller
+	 * covers	CI_Loader::controller
 	 */
 	public function test_controller()
 	{
@@ -394,7 +471,7 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers	CI_Loader::controller
+	 * covers	CI_Loader::controller
 	 */
 	public function test_controller_result()
 	{
@@ -447,7 +524,7 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers	CI_Loader::controller_output
+	 * covers	CI_Loader::controller_output
 	 */
 	public function test_controller_output()
 	{
@@ -487,8 +564,8 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers	CI_Loader::file
-	 * @covers	CI_Loader::_ci_load
+	 * covers	CI_Loader::file
+	 * covers	CI_Loader::_ci_load
 	 */
 	public function test_file()
 	{
@@ -514,19 +591,26 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers	CI_Loader::vars
+	 * covers	CI_Loader::vars
+	 * covers	CI_Loader::get_var
+	 * covers	CI_Loader::get_vars
 	 */
 	public function test_vars()
 	{
-		$this->assertNull($this->load->vars(array('foo' => 'bar')));
-		$this->assertNull($this->load->vars('foo', 'bar'));
+		$key1 = 'foo';
+		$val1 = 'bar';
+		$key2 = 'boo';
+		$val2 = 'hoo';
+		$this->assertNull($this->load->vars(array($key1 => $val1)));
+		$this->assertNull($this->load->vars($key2, $val2));
+		$this->assertEquals($val1, $this->load->get_var($key1));
+		$this->assertEquals(array($key1 => $val1, $key2 => $val2), $this->load->get_vars());
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers	CI_Loader::helper
-	 * @covers	CI_Loader::helpers
+	 * covers	CI_Loader::helper
 	 */
 	public function test_helper()
 	{
@@ -552,7 +636,8 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers	CI_Loader::helper
+	 * covers	CI_Loader::helper
+	 * covers	CI_Loader::helpers
 	 */
 	public function test_loading_multiple_helpers()
 	{
@@ -581,7 +666,7 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers	CI_Loader::language
+	 * covers	CI_Loader::language
 	 */
 	public function test_language()
 	{
@@ -601,9 +686,9 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers	CI_Loader::add_package_path
-	 * @covers	CI_Loader::get_package_paths
-	 * @covers	CI_Loader::remove_package_path
+	 * covers	CI_Loader::add_package_path
+	 * covers	CI_Loader::get_package_paths
+	 * covers	CI_Loader::remove_package_path
 	 */
 	public function test_packages()
 	{
@@ -638,7 +723,7 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers	CI_Loader::config
+	 * covers	CI_Loader::config
 	 */
 	public function test_load_config()
 	{
@@ -648,7 +733,7 @@ class Loader_test extends CI_TestCase {
 	// --------------------------------------------------------------------
 
 	/**
-	 * @covers	CI_Loader::_ci_autoloader
+	 * covers	CI_Loader::_ci_autoloader
 	 */
 	public function test_autoloader()
 	{

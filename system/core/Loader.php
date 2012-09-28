@@ -188,14 +188,16 @@ class CI_Loader {
 			// Validate each path and add to list
 			foreach ( (array) $paths as $path)
 			{
-				// Groom and resolve path against includes
-				$path = CodeIgniter::resolve_path($path);
+			   	// Groom and resolve path against includes
+				// (get root object class for unit test override)
+				$ciclass = get_class($this->CI);
+				$path = $ciclass::resolve_path($path);
 
 				// If path isn't absolute or resolved against includes, try it against the app path
 				foreach (array($path, $this->_ci_app_path.ltrim($path, '\/')) as $dir)
 				{
 					// Make sure it's a directory with contents (not just '.' and '..')
-					if (is_dir($dir) && count(scandir($dir)) > 2)
+					if (is_dir($dir) && count(array_diff(scandir($dir), array('.', '..'))))
 					{
 						// Add to paths and move on to next path
 						$this->_ci_module_paths[] = $dir;
@@ -1071,7 +1073,7 @@ class CI_Loader {
 					if (($_ci_slash = strrpos($_ci_file, '/')) !== FALSE)
 					{
 						// The path is in front of the last slash
-						$_ci_subdir = substr($_ci_file, 0, ++$last_slash);
+						$_ci_subdir = substr($_ci_file, 0, ++$_ci_slash);
 
 						// And the file name behind it
 						$_ci_file = substr($_ci_file, $_ci_slash);

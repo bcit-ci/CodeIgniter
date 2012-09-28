@@ -22,11 +22,11 @@ class CodeIgniter_test extends CI_TestCase {
 	/**
 	 * Test CodeIgniter instance singleton
 	 *
-	 * @covers	CodeIgniter::instance
-	 * @covers	CodeIgniter::__construct
-	 * @covers	CodeIgniter::resolve_path
-	 * @covers	CodeIgniter::_get_class
-	 * @covers	CodeIgniter::_status_exit
+	 * covers	CodeIgniter::instance
+	 * covers	CodeIgniter::__construct
+	 * covers	CodeIgniter::resolve_path
+	 * covers	CodeIgniter::_get_class
+	 * covers	CodeIgniter::_status_exit
 	 */
 	public function test_instance()
 	{
@@ -63,7 +63,7 @@ class CodeIgniter_test extends CI_TestCase {
 	/**
 	 * Test instantiation without config.php
 	 *
-	 * @covers  CodeIgniter::instance
+	 * covers  CodeIgniter::instance
 	 */
 	public function test_noconfig()
 	{
@@ -75,7 +75,7 @@ class CodeIgniter_test extends CI_TestCase {
 	/**
 	 * Test package path autoloading
 	 *
-	 * @covers  CodeIgniter::instance
+	 * covers  CodeIgniter::instance
 	 */
 	public function test_auto_package()
 	{
@@ -109,8 +109,8 @@ class CodeIgniter_test extends CI_TestCase {
 	/**
 	 * Test $assign_to_config
 	 *
-	 * @covers	CodeIgniter::instance
-	 * @covers	CodeIgniter::log_message
+	 * covers	CodeIgniter::instance
+	 * covers	CodeIgniter::log_message
 	 */
 	public function test_assign_config()
 	{
@@ -158,7 +158,7 @@ class CodeIgniter_test extends CI_TestCase {
 	/**
 	 * Test instance subclass
 	 *
-	 * @covers	CodeIgniter::instance
+	 * covers	CodeIgniter::instance
 	 */
 	public function test_sub_instance()
 	{
@@ -192,7 +192,7 @@ class CodeIgniter_test extends CI_TestCase {
 	/**
 	 * Test loading core class
 	 *
-	 * @covers	CodeIgniter::load_core_class
+	 * covers	CodeIgniter::load_core_class
 	 */
 	public function test_load_core()
 	{
@@ -230,8 +230,8 @@ class CodeIgniter_test extends CI_TestCase {
 	/**
 	 * Test calling a controller
 	 *
-	 * @covers	CodeIgniter::call_controller
-	 * @covers	CodeIgniter::is_callable
+	 * covers	CodeIgniter::call_controller
+	 * covers	CodeIgniter::is_callable
 	 */
 	public function test_call_controller()
 	{
@@ -264,7 +264,7 @@ class CodeIgniter_test extends CI_TestCase {
 	/**
 	 * Test loading core base
 	 *
-	 * @covers	CodeIgniter::_load_base
+	 * covers	CodeIgniter::_load_base
 	 */
 	public function test_load_base()
 	{
@@ -314,7 +314,7 @@ class CodeIgniter_test extends CI_TestCase {
 	/**
 	 * Test loading core routing
 	 *
-	 * @covers	CodeIgniter::_load_routing
+	 * covers	CodeIgniter::_load_routing
 	 */
 	public function test_load_routing()
 	{
@@ -380,7 +380,7 @@ class CodeIgniter_test extends CI_TestCase {
 	/**
 	 * Test caching
 	 *
-	 * @covers	CodeIgniter::_load_routing
+	 * covers	CodeIgniter::_load_routing
 	 */
 	public function test_load_cache()
 	{
@@ -416,7 +416,7 @@ class CodeIgniter_test extends CI_TestCase {
 	/**
 	 * Test loading core support
 	 *
-	 * @covers	CodeIgniter::_load_support
+	 * covers	CodeIgniter::_load_support
 	 */
 	public function test_load_support()
 	{
@@ -469,7 +469,7 @@ class CodeIgniter_test extends CI_TestCase {
 	/**
 	 * Test running a controller
 	 *
-	 * @covers	CodeIgniter::_run_controller
+	 * covers	CodeIgniter::_run_controller
 	 */
 	public function test_run_controller()
 	{
@@ -534,7 +534,7 @@ class CodeIgniter_test extends CI_TestCase {
 	/**
 	 * Test a controller 404
 	 *
-	 * @covers	CodeIgniter::_run_controller
+	 * covers	CodeIgniter::_run_controller
 	 */
 	public function test_controller_404()
 	{
@@ -570,7 +570,7 @@ class CodeIgniter_test extends CI_TestCase {
 	/**
 	 * Test a method 404
 	 *
-	 * @covers	CodeIgniter::_run_controller
+	 * covers	CodeIgniter::_run_controller
 	 */
 	public function test_method_404()
 	{
@@ -610,7 +610,7 @@ class CodeIgniter_test extends CI_TestCase {
 	/**
 	 * Test finalization and output
 	 *
-	 * @covers	CodeIgniter::_finalize
+	 * covers	CodeIgniter::_finalize
 	 */
 	public function test_finalize()
 	{
