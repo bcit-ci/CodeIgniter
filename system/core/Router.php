@@ -364,8 +364,8 @@ class CI_Router {
 							$route = array_merge($route, $default);
 						}
 
-						// Prepend path and return
-						array_unshift($route, $path.$sub);
+						// Return path, empty (post-)subdirectory, and remainder of route
+						$route = array_merge(array($path.$sub, ''), array_slice($route, $seg + 1));
 						return $route;
 					}
 				}

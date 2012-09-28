@@ -18,7 +18,7 @@ class Router_test extends CI_TestCase {
 	/**
 	 * Test validating route
 	 *
-	 * @covers	CI_Router::validate_route
+	 * covers	CI_Router::validate_route
 	 */
 	public function test_validate_route()
 	{
@@ -28,7 +28,6 @@ class Router_test extends CI_TestCase {
 		$alt_root = $this->ci_vfs_mkdir($alt_dir);
 		$alt_path = $this->ci_vfs_path($alt_dir.'/');
 		$this->ci->load->packages = array($alt_path, $this->ci_app_path);
-		$this->ci->load->modules = array();
 
 		// Create controller in app path
 		$dir = 'controllers';
@@ -102,9 +101,61 @@ class Router_test extends CI_TestCase {
 	}
 
 	/**
+	 * Test validating module routes
+	 *
+	 * covers	CI_Router::validate_route
+	 */
+	public function test_validate_module_route()
+	{
+		// Mock loader with package paths
+		$this->_mock_loader();
+		$this->ci->load->packages = array($this->ci_app_path);
+
+		// Set up module path
+		$mod_dir = 'modules';
+		$mod_path = $this->ci_vfs_path($mod_dir.'/', $this->ci_app_path);
+		$this->ci->load->modules = array($mod_path);
+
+		// Create controller
+		$ctlr = 'custom';
+		$this->ci_vfs_create($ctlr, '', $this->ci_app_root, array($mod_dir, 'controllers'));
+
+		// Does it find the module controller and apply the default function?
+		$path = $this->ci_vfs_path($mod_dir.'/', $this->ci_app_path);
+		$expect = array($path, '', $ctlr, 'index');
+		$this->assertEquals($expect, $this->router->validate_route($ctlr));
+
+		// Create controller in subdirectory
+		$subdir = 'general';
+		$mctlr = 'util';
+		$mfunc = 'knife';
+		$this->ci_vfs_create($mctlr, '', $this->ci_app_root, array($mod_dir, $subdir, 'controllers'));
+
+		// Does the subdirectory get recursed from the URI?
+		$mpath = $this->ci_vfs_path($mod_dir.'/'.$subdir.'/', $this->ci_app_path);
+		$expect = array($mpath, '', $mctlr, $mfunc);
+		$this->assertEquals($expect, $this->router->validate_route($subdir.'/'.$mctlr.'/'.$mfunc));
+
+		// Set default controller
+		$dctlr = 'engine';
+		$dfunc = 'start';
+		$this->router->default_ctlr($dctlr.'/'.$dfunc);
+
+		// Create default controller in modules subdirectories
+		$sub1 = 'third_party';
+		$sub2 = 'fire';
+		$this->ci_vfs_create($dctlr, '', $this->ci_app_root, array($mod_dir, $sub1, $sub2, 'controllers'));
+
+		// Does the default get applied to the module subs?
+		$dpath = $this->ci_vfs_path($mod_dir.'/'.$sub1.'/'.$sub2.'/', $this->ci_app_path);
+		$expect = array($dpath, '', $dctlr, $dfunc);
+		$this->assertEquals($expect, $this->router->validate_route($sub1.'/'.$sub2));
+	}
+
+	/**
 	 * Test default routing
 	 *
-	 * @covers	CI_Router::_set_routing
+	 * covers	CI_Router::_set_routing
 	 */
 	public function test_default_routing()
 	{
@@ -117,7 +168,6 @@ class Router_test extends CI_TestCase {
 		// Mock loader with package paths
 		$this->_mock_loader();
 		$this->ci->load->packages = array($this->ci_app_path);
-		$this->ci->load->modules = array();
 
 		// Set up routes config with default
 		$stack = array('main', 'handler');
@@ -150,7 +200,7 @@ class Router_test extends CI_TestCase {
 	/**
 	 * Test query string routing
 	 *
-	 * @covers	CI_Router::_set_routing
+	 * covers	CI_Router::_set_routing
 	 */
 	public function test_query_routing()
 	{
@@ -172,7 +222,6 @@ class Router_test extends CI_TestCase {
 		// Mock loader with package paths
 		$this->_mock_loader();
 		$this->ci->load->packages = array($this->ci_app_path);
-		$this->ci->load->modules = array();
 
 		// Set up routes config
 		$routes = array('default_controller' => '');
@@ -202,7 +251,7 @@ class Router_test extends CI_TestCase {
 	/**
 	 * Test route remapping
 	 *
-	 * @covers	CI_Router::_set_routing
+	 * covers	CI_Router::_set_routing
 	 */
 	public function test_remap_routing()
 	{
@@ -215,7 +264,6 @@ class Router_test extends CI_TestCase {
 		// Mock loader with package paths
 		$this->_mock_loader();
 		$this->ci->load->packages = array($this->ci_app_path);
-		$this->ci->load->modules = array();
 
 		// Set up routes config
 		$route = 'main/path';
@@ -243,14 +291,13 @@ class Router_test extends CI_TestCase {
 	/**
 	 * Test getting error route
 	 *
-	 * @covers	CI_Router::get_error_route
+	 * covers	CI_Router::get_error_route
 	 */
 	public function test_error_route()
 	{
 		// Mock loader with package paths
 		$this->_mock_loader();
 		$this->ci->load->packages = array($this->ci_app_path);
-		$this->ci->load->modules = array();
 
 		// Do we get FALSE with no error route?
 		$this->assertFalse($this->router->get_error_route('error_override'));
@@ -282,15 +329,15 @@ class Router_test extends CI_TestCase {
 	/**
 	 * Test set/fetch methods
 	 *
-	 * @covers	CI_Router::set_path
-	 * @covers	CI_Router::fetch_path
-	 * @covers	CI_Router::set_directory
-	 * @covers	CI_Router::fetch_directory
-	 * @covers	CI_Router::set_class
-	 * @covers	CI_Router::fetch_class
-	 * @covers	CI_Router::set_method
-	 * @covers	CI_Router::fetch_method
-	 * @covers	CI_Router::fetch_route
+	 * covers	CI_Router::set_path
+	 * covers	CI_Router::fetch_path
+	 * covers	CI_Router::set_directory
+	 * covers	CI_Router::fetch_directory
+	 * covers	CI_Router::set_class
+	 * covers	CI_Router::fetch_class
+	 * covers	CI_Router::set_method
+	 * covers	CI_Router::fetch_method
+	 * covers	CI_Router::fetch_route
 	 */
 	public function test_set_fetch()
 	{
@@ -322,7 +369,7 @@ class Router_test extends CI_TestCase {
 	/**
 	 * Test setting overrides
 	 *
-	 * @covers	CI_Router::_set_overrides
+	 * covers	CI_Router::_set_overrides
 	 */
 	public function test_set_overrides()
 	{
@@ -338,7 +385,6 @@ class Router_test extends CI_TestCase {
 		$alt_root = $this->ci_vfs_mkdir($alt_dir);
 		$alt_path = $this->ci_vfs_path($alt_dir.'/');
 		$this->ci->load->packages = array($alt_path, $this->ci_app_path);
-		$this->ci->load->modules = array();
 
 		// Set up routes config
 		$routes = array('default_controller' => '');
@@ -410,7 +456,7 @@ class Router_test extends CI_TestCase {
 		$class = 'Router_Loader';
 		if ( ! class_exists($class))
 		{
-			$code = 'class '.$class.' { public $packages; public $modules; '.
+			$code = 'class '.$class.' { public $packages; public $modules = array(); '.
 				'public function get_package_paths() { return $this->packages; } '.
 				'public function get_module_paths() { return $this->modules; } }';
 			eval($code);
