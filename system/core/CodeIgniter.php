@@ -221,20 +221,21 @@ class CodeIgniter {
 			$path = $apppath.'config/';
 			foreach (array('config', 'autoload') as $name)
 			{
-				if ($env && file_exists($path.$env.'/'.$name.'.php'))
+				// Get regular config
+				if (file_exists($path.$name.'.php'))
 				{
-					// Use ENVIRONMENT config
-					include($path.$env.'/'.$name.'.php');
-				}
-				else if (file_exists($path.$name.'.php'))
-				{
-					// Use regular config
 					include($path.$name.'.php');
 				}
 				else if ($name == 'config')
 				{
 					// Can't run without main config - error out
 					static::_status_exit(503, 'The configuration file does not exist.');
+				}
+
+				// Check for ENVIRONMENT config override
+				if ($env && file_exists($path.$env.'/'.$name.'.php'))
+				{
+					include($path.$env.'/'.$name.'.php');
 				}
 			}
 
