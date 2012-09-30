@@ -257,7 +257,7 @@ class CodeIgniter_test extends CI_TestCase {
 		$CI->$name = new $class();
 
 		// Call method
-		$this->assertTrue($CI->call_controller($class, $method, array(), $name));
+		$this->assertNull($CI->call_controller($class, $method, array(), $name));
 		$this->assertEquals($msg, $CI->$name->message);
 	}
 

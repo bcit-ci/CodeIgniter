@@ -15,7 +15,7 @@ class Controller_test extends CI_TestCase {
 	 *
 	 * Make sure $this->core_object gets objects attached to the root instance
 	 *
-	 * @covers	CI_Controller::__get
+	 * covers	CI_Controller::__get
 	 */
 	public function test_get()
 	{
@@ -45,7 +45,7 @@ class Controller_test extends CI_TestCase {
 	/**
 	 * Test __isset magic method
 	 *
-	 * @covers	CI_Controller::__isset
+	 * covers	CI_Controller::__isset
 	 */
 	public function test_isset()
 	{
@@ -64,7 +64,7 @@ class Controller_test extends CI_TestCase {
 	/**
 	 * Test instance method
 	 *
-	 * @covers	CI_Controller::instance
+	 * covers	CI_Controller::instance
 	 */
 	public function test_instance()
 	{

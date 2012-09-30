@@ -188,7 +188,7 @@ class CI_Loader {
 			// Validate each path and add to list
 			foreach ( (array) $paths as $path)
 			{
-			   	// Groom and resolve path against includes
+				// Groom and resolve path against includes
 				// (get root object class for unit test override)
 				$ciclass = get_class($this->CI);
 				$path = $ciclass::resolve_path($path);
@@ -276,10 +276,10 @@ class CI_Loader {
 	 *
 	 * @param	mixed	Route to controller/method
 	 * @param	string	Optional controller object name
-	 * @param	bool	TRUE to return method result, FALSE to skip calling method
-	 * @return	bool	TRUE or call result on success, otherwise FALSE or NULL (if $call == TRUE)
+	 * @param	bool	FALSE to skip calling method
+	 * @return	mixed	Called method return value or NULL if not called
 	 */
-	public function controller($route, $name = NULL, $call = NULL)
+	public function controller($route, $name = NULL, $call = TRUE)
 	{
 		// Set output flag to be passed
 		$out = FALSE;
@@ -295,15 +295,15 @@ class CI_Loader {
 	 * @param	string	Reference to output string
 	 * @param	mixed	Route to controller/method
 	 * @param	string	Optional controller object name
-	 * @param	bool	TRUE to return method result, FALSE to skip calling method
-	 * @return	bool	TRUE or call result on success, otherwise FALSE or NULL (if $call == TRUE)
+	 * @param	bool	FALSE to skip calling method
+	 * @return	mixed	Called method return value or NULL if not called
 	 */
-	public function controller_output(&$out, $route, $name = NULL, $call = NULL)
+	public function controller_output(&$out, $route, $name = NULL, $call = TRUE)
 	{
 		// Check for missing class
 		if (empty($route))
 		{
-			return $call === TRUE ? NULL : FALSE;
+			return NULL;
 		}
 
 		// Get instance and establish segment stack
@@ -312,7 +312,7 @@ class CI_Loader {
 			// Assume segments have been pre-parsed by CI_Router::validate_route() - make sure there's 4
 			if (count($route) <= CI_Router::SEG_METHOD)
 			{
-				return $call === TRUE ? NULL : FALSE;
+				show_error('Invalid route stack provided');
 			}
 		}
 		else
@@ -321,7 +321,7 @@ class CI_Loader {
 			$route = $this->CI->router->validate_route(explode('/', $route));
 			if ($route === FALSE)
 			{
-				return $call === TRUE ? NULL : FALSE;
+				show_error('The route "'.$route.'" does not resolve to a valid controller');
 			}
 		}
 
@@ -369,22 +369,30 @@ class CI_Loader {
 			$this->_ci_controllers[] = $name;
 		}
 
-		// Check call and output flags
+		// Check call flag
 		if ($call === FALSE)
 		{
-			// Call disabled - return success
-			return TRUE;
+			// Call disabled - we're done here
+			return NULL;
 		}
-		else if ($out === FALSE)
+
+		// Check for output
+		if ($out !== FALSE)
 		{
-			// No output - just return result or success status
-			return $this->CI->call_controller($class, $method, $route, $name, (bool)$call);
+			// Push a new stack level to capture output
+			$this->CI->output->stack_push();
 		}
-		else
+
+		// Call method and get return value
+		$result = $this->CI->call_controller($class, $method, $route, $name);
+
+		if ($out !== FALSE)
 		{
-			// Get output and return success status
-			return $this->CI->get_controller_output($out, $class, $method, $route, $name);
+			// Capture output from stack level
+			$out = $this->CI->output->stack_pop();
 		}
+
+		return $result;
 	}
 
 	// --------------------------------------------------------------------

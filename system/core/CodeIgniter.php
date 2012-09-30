@@ -491,10 +491,10 @@ class CodeIgniter {
 	 * @param	string	Method
 	 * @param	array	Optional arguments
 	 * @param	string	Optional object name
-	 * @param	bool	TRUE to return call result (or NULL if failed)
-	 * @return	bool	TRUE or call result on success, otherwise FALSE or NULL (if $return == TRUE)
+	 * @param	bool	TRUE to return call success/failure
+	 * @return	mixed	Called method return value
 	 */
-	public function call_controller($class, $method, array $args = array(), $name = '', $return = FALSE)
+	public function call_controller($class, $method, array $args = array(), $name = '', $status = FALSE)
 	{
 		// Default name if not provided
 		if (empty($name))
@@ -502,11 +502,8 @@ class CodeIgniter {
 			$name = strtolower($class);
 		}
 
-		// Track whether it ran and what it returned
-		$ran = FALSE;
-		$result = NULL;
-
 		// Class must be loaded, and method cannot start with underscore, nor be a member of the base class
+		$result = NULL;
 		if (isset($this->$name) && strncmp($method, '_', 1) != 0 && ! $this->is_callable('CI_Controller', $method))
 		{
 			// Check for _remap
@@ -514,42 +511,34 @@ class CodeIgniter {
 			{
 				// Call _remap
 				$result = $this->$name->_remap($method, $args);
-				$ran = TRUE;
 			}
 			else if ($this->is_callable($class, $method))
 			{
 				// Call method
 				$result = call_user_func_array(array(&$this->$name, $method), $args);
-				$ran = TRUE;
+			}
+			else
+			{
+				// Not callable - check for status return
+				if ($status)
+				{
+					return FALSE;
+				}
+				show_error($method.' is not a callable method of '.$class);
 			}
 		}
+		else
+		{
+			// Not valid - check for status return
+			if ($status)
+			{
+				return FALSE;
+			}
+			show_error($class.'->'.$method.' is not a valid controller method to call');
+		}
 
-		// Return result or success status
-		return $return ? $result : $ran;
-	}
-
-	/**
-	 * Call a controller method and get its output
-	 *
-	 * Requires that controller already be loaded, validates method name, and calls
-	 * _remap if available.
-	 *
-	 * @param	string	Reference to output string
-	 * @param	string	Class name
-	 * @param	string	Method
-	 * @param	array	Optional arguments
-	 * @param	string	Optional object name
-	 * @return	bool	TRUE on success, otherwise FALSE
-	 */
-	public function get_controller_output(&$out, $class, $method, array $args = array(), $name = '')
-	{
-		// Capture output and call controller
-		$this->output->stack_push();
-		$result = $this->call_controller($class, $method, $args, $name);
-		$out = $this->output->stack_pop();
-
-		// Return success or failure
-		return $result;
+		// Return success status or result
+		return $status ? TRUE : $result;
 	}
 
 	/**
@@ -722,7 +711,7 @@ class CodeIgniter {
 		// Call post_controller_constructor hook
 		$this->hooks->call_hook('post_controller_constructor');
 
-		if ($this->call_controller($class, $method, $args) == FALSE)
+		if ($this->call_controller($class, $method, $args, '', TRUE) === FALSE)
 		{
 			// Both _remap and $method failed - go to 404
 			show_404($class.'/'.$method);

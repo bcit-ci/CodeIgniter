@@ -38,7 +38,7 @@ class Config_test extends CI_TestCase {
 	/**
 	 * Test constructor
 	 *
-	 * @covers	CI_Config::__construct
+	 * covers	CI_Config::__construct
 	 */
 	public function test_ctor()
 	{
@@ -59,7 +59,7 @@ class Config_test extends CI_TestCase {
 	/**
 	 * Test item retrieval
 	 *
-	 * @covers  CI_Config::item
+	 * covers  CI_Config::item
 	 */
 	public function test_item()
 	{
@@ -86,7 +86,7 @@ class Config_test extends CI_TestCase {
 	/**
 	 * Test set item
 	 *
-	 * @covers  CI_Config::set_item
+	 * covers  CI_Config::set_item
 	 */
 	public function test_set_item()
 	{
@@ -105,7 +105,7 @@ class Config_test extends CI_TestCase {
 	/**
 	 * Test slash item
 	 *
-	 * @covers  CI_Config::slash_item
+	 * covers  CI_Config::slash_item
 	 */
 	public function test_slash_item()
 	{
@@ -122,7 +122,7 @@ class Config_test extends CI_TestCase {
 	/**
 	 * Test site url
 	 *
-	 * @covers  CI_Config::site_url
+	 * covers  CI_Config::site_url
 	 */
 	public function test_site_url()
 	{
@@ -160,7 +160,7 @@ class Config_test extends CI_TestCase {
 	/**
 	 * Test system url
 	 *
-	 * @covers  CI_Config::system_url
+	 * covers  CI_Config::system_url
 	 */
 	public function test_system_url()
 	{
@@ -171,7 +171,7 @@ class Config_test extends CI_TestCase {
 	/**
 	 * Test loading a config file
 	 *
-	 * @covers	CI_Config::load
+	 * covers	CI_Config::load
 	 */
 	public function test_load()
 	{
@@ -214,7 +214,7 @@ class Config_test extends CI_TestCase {
 	/**
 	 * Test getting config file contents
 	 *
-	 * @covers	CI_Config::get
+	 * covers	CI_Config::get
 	 */
 	public function test_get()
 	{
@@ -278,7 +278,7 @@ class Config_test extends CI_TestCase {
 	/**
 	 * Test getting config file contents with extras
 	 *
-	 * @covers	CI_Config::get_ext
+	 * covers	CI_Config::get_ext
 	 */
 	public function test_get_ext()
 	{

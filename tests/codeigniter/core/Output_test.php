@@ -18,12 +18,12 @@ class Output_test extends CI_TestCase {
 	/**
 	 * Test get/set output and stack operations
 	 *
-	 * @covers	CI_Output::get_output
-	 * @covers	CI_Output::set_output
-	 * @covers	CI_Output::append_output
-	 * @covers	CI_Output::stack_push
-	 * @covers	CI_Output::stack_pop
-	 * @covers	CI_Output::stack_level
+	 * covers	CI_Output::get_output
+	 * covers	CI_Output::set_output
+	 * covers	CI_Output::append_output
+	 * covers	CI_Output::stack_push
+	 * covers	CI_Output::stack_pop
+	 * covers	CI_Output::stack_level
 	 */
 	public function test_output()
 	{
@@ -80,7 +80,7 @@ class Output_test extends CI_TestCase {
 	/**
 	 * Test setting a header
 	 *
-	 * @covers	CI_Output::set_header
+	 * covers	CI_Output::set_header
 	 */
 	public function test_set_header()
 	{
@@ -102,8 +102,8 @@ class Output_test extends CI_TestCase {
 	/**
 	 * Test setting content-type
 	 *
-	 * @covers	CI_Output::set_content_type
-	 * @covers	CI_Output::get_content_type
+	 * covers	CI_Output::set_content_type
+	 * covers	CI_Output::get_content_type
 	 */
 	public function test_content_type()
 	{
@@ -158,7 +158,7 @@ class Output_test extends CI_TestCase {
 	/**
 	 * Test enabling/disabling profiler
 	 *
-	 * @covers	CI_Output::enable_profiler
+	 * covers	CI_Output::enable_profiler
 	 */
 	public function test_enable_profiler()
 	{
@@ -174,12 +174,12 @@ class Output_test extends CI_TestCase {
 	/**
 	 * Test output display
 	 *
-	 * @covers	CI_Output::_display
-	 * @covers	CI_Output::minify
-	 * @covers	CI_Output::cache
-	 * @covers	CI_Output::_write_cache
-	 * @covers	CI_Output::_display_cache
-	 * @covers	CI_Output::set_profiler_sections
+	 * covers	CI_Output::_display
+	 * covers	CI_Output::minify
+	 * covers	CI_Output::cache
+	 * covers	CI_Output::_write_cache
+	 * covers	CI_Output::_display_cache
+	 * covers	CI_Output::set_profiler_sections
 	 */
 	public function test_display()
 	{
@@ -297,7 +297,7 @@ class Output_test extends CI_TestCase {
 	/**
 	 * Test access to final_output
 	 *
-	 * @covers	CI_Output::__get
+	 * covers	CI_Output::__get
 	 */
 	public function test_final_output()
 	{

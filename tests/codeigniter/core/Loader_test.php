@@ -21,21 +21,24 @@ class Loader_test extends CI_TestCase {
 			$class = 'Mock_Loader_CI';
 			if ( ! class_exists($class))
 			{
-				$code = 'class '.$class.' { '.
-					'public function call_controller($class, $method, $args, $name, $return) '.
-						'{ $this->_ctlr_ran = $method; return $return ? $this->_ctlr_result : TRUE; } '.
-					'public function get_controller_output(&$out, $class, $method, $args, $name) '.
-						'{ $this->_ctlr_ran = $method; $out = $this->_ctlr_output; return TRUE; } '.
-				'}';
+				$code = 'class '.$class.' { public $_ctlr_ran = FALSE; public $_ctlr_result = TRUE; '.
+					'public function call_controller($class, $method, $args, $name = \'\', $status = FALSE) '.
+						'{ $this->_ctlr_ran = $method; return $status ? TRUE : $this->_ctlr_result; } }';
 				eval($code);
 			}
 			$this->ci_obj = new $class();
 			$this->ci_instance($this->ci_obj);
 
-			// Initialize support flags
-			$this->_ctlr_ran = FALSE; 
-			$this->_ctlr_result = TRUE;
-			$this->_ctlr_output = '';
+			// Create output mockup
+			$class = 'Mock_Loader_Output';
+			if ( ! class_exists($class))
+			{
+				$code = 'class '.$class.' { public $_ctlr_output = \'\'; '.
+					'public function stack_push() { } '.
+					'public function stack_pop() { return $this->_ctlr_output; } }';
+				eval($code);
+			}
+			$this->ci_obj->output = new $class();
 
 			// Create router mockup
 			$class = 'Mock_Loader_Router';
@@ -453,19 +456,27 @@ class Loader_test extends CI_TestCase {
 			$method
 		);
 
+		// Set method return value
+		$result = 'tested';
+		$this->ci_obj->_ctlr_result = $result;
+
 		// Did the controller get loaded?
-		$this->assertTrue($this->load->controller($class.'/'.$method));
+		$this->assertEquals($result, $this->load->controller($class.'/'.$method));
 		$this->assertObjectHasAttribute($name, $this->ci_obj);
 		$this->assertAttributeInstanceOf($class, $name, $this->ci_obj);
 
 		// Did the correct method get called?
 		$this->assertEquals($method, $this->ci_obj->_ctlr_ran);
 
-		// Do we get FALSE for an empty route?
-		$this->assertFalse($this->load->controller(''));
+		// Do we get NULL for an empty route?
+		$this->assertNull($this->load->controller(''));
 
-		// Do we get FALSE for an invalid stack?
-		$this->assertFalse($this->load->controller(array('foo', 'bar', 'baz')));
+		// Do we get an error for an invalid stack?
+		$this->setExpectedException(
+			'RuntimeException',
+			'CI Error: Invalid route stack provided'
+		);
+		$this->load->controller(array('foo', 'bar', 'baz'));
 	}
 
 	// --------------------------------------------------------------------
@@ -473,7 +484,7 @@ class Loader_test extends CI_TestCase {
 	/**
 	 * covers	CI_Loader::controller
 	 */
-	public function test_controller_result()
+	public function test_controller_stack()
 	{
 		// Make sure base class is loaded - we'll test _ci_include later
 		$this->ci_core_class('ctlr');
@@ -499,7 +510,7 @@ class Loader_test extends CI_TestCase {
 		$this->ci_obj->_ctlr_result = $result;
 
 		// Was the result returned?
-		$this->assertEquals($result, $this->load->controller($route, $name, TRUE));
+		$this->assertEquals($result, $this->load->controller($route, $name));
 
 		// Did the controller get loaded?
 		$this->assertObjectHasAttribute($name, $this->ci_obj);
@@ -511,14 +522,8 @@ class Loader_test extends CI_TestCase {
 		// Does it skip the call if we tell it to?
 		$route[3] = 'not_a_handler';
 		$this->ci_obj->_ctlr_ran = FALSE;
-		$this->assertTrue($this->load->controller($route, $name, FALSE));
+		$this->assertNull($this->load->controller($route, $name, FALSE));
 		$this->assertFalse($this->ci_obj->_ctlr_ran);
-
-		// Do we get NULL as a result for an empty route?
-		$this->assertNull($this->load->controller('', NULL, TRUE));
-
-		// Do we get NULL as a result for an invalid stack?
-		$this->assertNull($this->load->controller(array('foo', 'bar', 'baz'), NULL, TRUE));
 	}
 
 	// --------------------------------------------------------------------
@@ -547,7 +552,7 @@ class Loader_test extends CI_TestCase {
 
 		// Create output to generate
 		$expected = 'Don\'t panic.';
-		$this->ci_obj->_ctlr_output = $expected;
+		$this->ci_obj->output->_ctlr_output = $expected;
 
 		// Did the controller get loaded?
 		$this->assertTrue($this->load->controller_output($out, $route));

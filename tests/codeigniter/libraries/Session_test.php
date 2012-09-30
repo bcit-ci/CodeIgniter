@@ -82,8 +82,8 @@ class Session_test extends CI_TestCase {
 	/**
 	 * Test set_userdata() function
 	 *
-	 * @covers  CI_Session::set_userdata
-	 * @covers  CI_Session::userdata
+	 * covers  CI_Session::set_userdata
+	 * covers  CI_Session::userdata
 	 */
 	public function test_set_userdata()
 	{
@@ -116,7 +116,7 @@ class Session_test extends CI_TestCase {
 	/**
 	 * Test the has_userdata() function
 	 *
-	 * @covers	CI_Session::has_userdata
+	 * covers	CI_Session::has_userdata
 	 */
 	public function test_has_userdata()
 	{
@@ -140,7 +140,7 @@ class Session_test extends CI_TestCase {
 	/**
 	 * Test the all_userdata() function
 	 *
-	 * @covers	CI_Session::all_userdata
+	 * covers	CI_Session::all_userdata
 	 */
 	public function test_all_userdata()
 	{
@@ -176,7 +176,7 @@ class Session_test extends CI_TestCase {
 	/**
 	 * Test the unset_userdata() function
 	 *
-	 * @covers	CI_Session::unset_userdata
+	 * covers	CI_Session::unset_userdata
 	 */
 	public function test_unset_userdata()
 	{
@@ -201,8 +201,8 @@ class Session_test extends CI_TestCase {
 	/**
 	 * Test the flashdata() functions
 	 *
-	 * @covers	CI_Session::set_flashdata
-	 * @covers	CI_Session::flashdata
+	 * covers	CI_Session::set_flashdata
+	 * covers	CI_Session::flashdata
 	 */
 	public function test_flashdata()
 	{
@@ -233,7 +233,7 @@ class Session_test extends CI_TestCase {
 	/**
 	 * Test the keep_flashdata() function
 	 *
-	 * @covers	CI_Session::keep_flashdata
+	 * covers	CI_Session::keep_flashdata
 	 */
 	public function test_keep_flashdata()
 	{
@@ -270,7 +270,7 @@ class Session_test extends CI_TestCase {
 	/**
 	 * Test the all_flashdata() function
 	 *
-	 * @covers	CI_Session::all_flashdata
+	 * covers	CI_Session::all_flashdata
 	 */
 	public function test_all_flashdata()
 	{
@@ -302,8 +302,8 @@ class Session_test extends CI_TestCase {
 	/**
 	 * Test the tempdata() functions
 	 *
-	 * @covers	CI_Session::set_tempdata
-	 * @covers	CI_Session::tempdata
+	 * covers	CI_Session::set_tempdata
+	 * covers	CI_Session::tempdata
 	 */
 	public function test_set_tempdata()
 	{
@@ -331,7 +331,7 @@ class Session_test extends CI_TestCase {
 	/**
 	 * Test the unset_tempdata() function
 	 *
-	 * @covers	CI_Session::unset_tempdata
+	 * covers	CI_Session::unset_tempdata
 	 */
 	public function test_unset_tempdata()
 	{
@@ -356,7 +356,7 @@ class Session_test extends CI_TestCase {
 	/**
 	 * Test the sess_regenerate() function
 	 *
-	 * @covers	CI_Session::sess_regenerate
+	 * covers	CI_Session::sess_regenerate
 	 */
 	public function test_sess_regenerate()
 	{
@@ -377,7 +377,7 @@ class Session_test extends CI_TestCase {
 	/**
 	 * Test the sess_destroy() function
 	 *
-	 * @covers	CI_Session::sess_destroy
+	 * covers	CI_Session::sess_destroy
 	 */
 	public function test_sess_destroy()
 	{

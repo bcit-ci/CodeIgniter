@@ -16,7 +16,7 @@ class Log_test extends CI_TestCase {
 	/**
 	 * Test configuration
 	 *
-	 * @covers	CI_Log::configure
+	 * covers	CI_Log::configure
 	 */
 	public function test_configure()
 	{
@@ -34,7 +34,7 @@ class Log_test extends CI_TestCase {
 	/**
 	 * Write a log message
 	 *
-	 * @covers	CI_Log::write_log
+	 * covers	CI_Log::write_log
 	 */
 	public function test_write_log()
 	{
