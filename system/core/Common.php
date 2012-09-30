@@ -230,9 +230,13 @@ if ( ! function_exists('get_config'))
 		{
 			return $_config[0];
 		}
+		
+		require(BASEPATH.'config/config.php');
+		
+		// fix codeigniter compatibility.
+		$found = TRUE;
 
 		$file_path = APPPATH.'config/config.php';
-		$found = FALSE;
 		if (file_exists($file_path))
 		{
 			$found = TRUE;

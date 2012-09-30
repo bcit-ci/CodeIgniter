@@ -100,4 +100,4 @@ $db['default'] = array(
 );
 
 /* End of file database.php */
-/* Location: ./application/config/database.php */
+/* Location: ./system/config/database.php */

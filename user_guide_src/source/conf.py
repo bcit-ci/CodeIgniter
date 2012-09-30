@@ -18,6 +18,17 @@ import sys, os
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #sys.path.insert(0, os.path.abspath('.'))
 
+# .. Fix Errors
+from sphinx.highlighting import lexers
+from pygments.lexers.web import PhpLexer
+
+lexers['php'] = PhpLexer(startinline=True)
+lexers['php-annotations'] = PhpLexer(startinline=True)
+lexers['ci'] = PhpLexer(startinline=True)
+primary_domain = "php"    # It seems to help sphinx in some kind (don't know why)
+
+sys.path.append(os.path.abspath('_exts'))
+
 # -- General configuration -----------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.

@@ -168,4 +168,4 @@ return array(
 );
 
 /* End of file mimes.php */
-/* Location: ./application/config/mimes.php */
+/* Location: ./system/config/mimes.php */

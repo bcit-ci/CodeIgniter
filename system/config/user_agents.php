@@ -217,4 +217,4 @@ $robots = array(
 );
 
 /* End of file user_agents.php */
-/* Location: ./application/config/user_agents.php */
+/* Location: ./system/config/user_agents.php */

@@ -27,16 +27,15 @@
 
 /*
 | -------------------------------------------------------------------------
-| Profiler Sections
+| Hooks
 | -------------------------------------------------------------------------
-| This file lets you determine whether or not various sections of Profiler
-| data are displayed when the Profiler is enabled.
-| Please see the user guide for info:
+| This file lets you define "hooks" to extend CI without hacking the core
+| files.  Please see the user guide for info:
 |
-|	http://codeigniter.com/user_guide/general/profiling.html
+|	http://codeigniter.com/user_guide/general/hooks.html
 |
 */
 
 
-/* End of file profiler.php */
-/* Location: ./application/config/profiler.php */
+/* End of file hooks.php */
+/* Location: ./system/config/hooks.php */
