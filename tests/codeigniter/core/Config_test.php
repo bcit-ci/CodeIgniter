@@ -306,4 +306,3 @@ class Config_test extends CI_TestCase {
 		$this->assertEquals(array($var1 => $val1, $var2 => $val2), $extras);
 	}
 }
-
