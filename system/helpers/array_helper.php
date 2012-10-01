@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,28 +19,28 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 1.0
  * @filesource
  */
 
 /**
  * CodeIgniter Array Helpers
  *
- * @package		CodeIgniter
- * @subpackage	Helpers
- * @category	Helpers
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/helpers/array_helper.html
+ * @package        CodeIgniter
+ * @subpackage    Helpers
+ * @category    Helpers
+ * @author        EllisLab Dev Team
+ * @link        http://codeigniter.com/user_guide/helpers/array_helper.html
  */
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('element'))
+if (!function_exists('element'))
 {
 	/**
 	 * Element
@@ -45,10 +48,11 @@ if ( ! function_exists('element'))
 	 * Lets you determine whether an array index is set and whether it has a value.
 	 * If the element is empty it returns NULL (or whatever you specify as the default value.)
 	 *
-	 * @param	string
-	 * @param	array
-	 * @param	mixed
-	 * @return	mixed	depends on what the array contains
+	 * @param    string
+	 * @param    array
+	 * @param    mixed
+	 *
+	 * @return    mixed    depends on what the array contains
 	 */
 	function element($item, $array, $default = NULL)
 	{
@@ -58,13 +62,14 @@ if ( ! function_exists('element'))
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('random_element'))
+if (!function_exists('random_element'))
 {
 	/**
 	 * Random Element - Takes an array as input and returns a random element
 	 *
-	 * @param	array
-	 * @return	mixed	depends on what the array contains
+	 * @param    array
+	 *
+	 * @return    mixed    depends on what the array contains
 	 */
 	function random_element($array)
 	{
@@ -74,7 +79,7 @@ if ( ! function_exists('random_element'))
 
 // --------------------------------------------------------------------
 
-if ( ! function_exists('elements'))
+if (!function_exists('elements'))
 {
 	/**
 	 * Elements
@@ -82,10 +87,11 @@ if ( ! function_exists('elements'))
 	 * Returns only the array items specified. Will return a default value if
 	 * it is not set.
 	 *
-	 * @param	array
-	 * @param	array
-	 * @param	mixed
-	 * @return	mixed	depends on what the array contains
+	 * @param    array
+	 * @param    array
+	 * @param    mixed
+	 *
+	 * @return    mixed    depends on what the array contains
 	 */
 	function elements($items, $array, $default = NULL)
 	{

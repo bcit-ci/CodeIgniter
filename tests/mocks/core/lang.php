@@ -1,6 +1,7 @@
 <?php
 
-class Mock_Core_Lang extends CI_Lang {
+class Mock_Core_Lang extends CI_Lang
+{
 
 	function line($line = '')
 	{

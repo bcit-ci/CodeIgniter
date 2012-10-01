@@ -1,6 +1,7 @@
 <?php
 
-class Truncate_test extends CI_TestCase {
+class Truncate_test extends CI_TestCase
+{
 
 	/**
 	 * @var object Database/Query Builder holder

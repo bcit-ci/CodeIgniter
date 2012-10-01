@@ -1,6 +1,7 @@
 <?php
 
-class Where_test extends CI_TestCase {
+class Where_test extends CI_TestCase
+{
 
 	/**
 	 * @var object Database/Query Builder holder
@@ -80,10 +81,7 @@ class Where_test extends CI_TestCase {
 	 */
 	public function test_where_or()
 	{
-		$jobs = $this->db->where('name !=', 'Accountant')
-							->or_where('id >', 3)
-							->get('job')
-							->result_array();
+		$jobs = $this->db->where('name !=', 'Accountant')->or_where('id >', 3)->get('job')->result_array();
 
 		$this->assertEquals(3, count($jobs));
 		$this->assertEquals('Developer', $jobs[0]['name']);
@@ -98,9 +96,7 @@ class Where_test extends CI_TestCase {
 	 */
 	public function test_where_in()
 	{
-		$jobs = $this->db->where_in('name', array('Politician', 'Accountant'))
-							->get('job')
-							->result_array();
+		$jobs = $this->db->where_in('name', array('Politician', 'Accountant'))->get('job')->result_array();
 
 		$this->assertEquals(2, count($jobs));
 		$this->assertEquals('Politician', $jobs[0]['name']);
@@ -114,9 +110,7 @@ class Where_test extends CI_TestCase {
 	 */
 	public function test_where_not_in()
 	{
-		$jobs = $this->db->where_not_in('name', array('Politician', 'Accountant'))
-							->get('job')
-							->result_array();
+		$jobs = $this->db->where_not_in('name', array('Politician', 'Accountant'))->get('job')->result_array();
 
 		$this->assertEquals(2, count($jobs));
 		$this->assertEquals('Developer', $jobs[0]['name']);

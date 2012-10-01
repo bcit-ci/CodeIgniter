@@ -1,8 +1,8 @@
 {
-    "require": {
-        "mikey179/vfsStream": "*"
-    },
-    "require-dev": {
-		"EHER/PHPUnit": "*"
+	"require":{
+		"mikey179/vfsStream":"*"
+	},
+	"require-dev":{
+		"EHER/PHPUnit":"*"
 	}
 }

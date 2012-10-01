@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,22 +19,22 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2006 - 2012 EllisLab, Inc.
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 3.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2006 - 2012 EllisLab, Inc.
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 3.0
  * @filesource
  */
 
 /**
  * CodeIgniter Redis Caching Class
  *
- * @package	   CodeIgniter
+ * @package       CodeIgniter
  * @subpackage Libraries
  * @category   Core
- * @author	   Anton Lindqvist <anton@qvister.se>
+ * @author       Anton Lindqvist <anton@qvister.se>
  * @link
  */
 class CI_Cache_redis extends CI_Driver
@@ -40,19 +43,14 @@ class CI_Cache_redis extends CI_Driver
 	 * Default config
 	 *
 	 * @static
-	 * @var	array
+	 * @var    array
 	 */
-	protected static $_default_config = array(
-		'host' => '127.0.0.1',
-		'password' => NULL,
-		'port' => 6379,
-		'timeout' => 0
-	);
+	protected static $_default_config = array('host' => '127.0.0.1', 'password' => NULL, 'port' => 6379, 'timeout' => 0);
 
 	/**
 	 * Redis connection
 	 *
-	 * @var	Redis
+	 * @var    Redis
 	 */
 	protected $_redis;
 
@@ -61,8 +59,9 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Get cache
 	 *
-	 * @param	string	Cache key identifier
-	 * @return	mixed
+	 * @param    string    Cache key identifier
+	 *
+	 * @return    mixed
 	 */
 	public function get($key)
 	{
@@ -74,16 +73,15 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Save cache
 	 *
-	 * @param	string	Cache key identifier
-	 * @param	mixed	Data to save
-	 * @param	int	Time to live
-	 * @return	bool
+	 * @param    string    Cache key identifier
+	 * @param    mixed    Data to save
+	 * @param    int    Time to live
+	 *
+	 * @return    bool
 	 */
 	public function save($key, $value, $ttl = NULL)
 	{
-		return ($ttl)
-			? $this->_redis->setex($key, $ttl, $value)
-			: $this->_redis->set($key, $value);
+		return ($ttl) ? $this->_redis->setex($key, $ttl, $value) : $this->_redis->set($key, $value);
 	}
 
 	// ------------------------------------------------------------------------
@@ -91,8 +89,9 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Delete from cache
 	 *
-	 * @param	string	Cache key
-	 * @return	bool
+	 * @param    string    Cache key
+	 *
+	 * @return    bool
 	 */
 	public function delete($key)
 	{
@@ -104,8 +103,8 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Clean cache
 	 *
-	 * @return	bool
-	 * @see		Redis::flushDB()
+	 * @return    bool
+	 * @see        Redis::flushDB()
 	 */
 	public function clean()
 	{
@@ -117,11 +116,12 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Get cache driver info
 	 *
-	 * @param	string	Not supported in Redis.
-	 *			Only included in order to offer a
-	 *			consistent cache API.
-	 * @return	array
-	 * @see		Redis::info()
+	 * @param    string    Not supported in Redis.
+	 *            Only included in order to offer a
+	 *            consistent cache API.
+	 *
+	 * @return    array
+	 * @see        Redis::info()
 	 */
 	public function cache_info($type = NULL)
 	{
@@ -133,8 +133,9 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Get cache metadata
 	 *
-	 * @param	string	Cache key
-	 * @return	array
+	 * @param    string    Cache key
+	 *
+	 * @return    array
 	 */
 	public function get_metadata($key)
 	{
@@ -142,10 +143,7 @@ class CI_Cache_redis extends CI_Driver
 
 		if ($value)
 		{
-			return array(
-				'expire' => time() + $this->_redis->ttl($key),
-				'data' => $value
-			);
+			return array('expire' => time() + $this->_redis->ttl($key), 'data' => $value);
 		}
 
 		return FALSE;
@@ -156,7 +154,7 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Check if Redis driver is supported
 	 *
-	 * @return	bool
+	 * @return    bool
 	 */
 	public function is_supported()
 	{
@@ -180,8 +178,8 @@ class CI_Cache_redis extends CI_Driver
 	 * Loads Redis config file if present. Will halt execution
 	 * if a Redis connection can't be established.
 	 *
-	 * @return	bool
-	 * @see		Redis::connect()
+	 * @return    bool
+	 * @see        Redis::connect()
 	 */
 	protected function _setup_redis()
 	{
@@ -215,12 +213,11 @@ class CI_Cache_redis extends CI_Driver
 	// ------------------------------------------------------------------------
 
 	/**
-
 	 * Class destructor
 	 *
 	 * Closes the connection to Redis if present.
 	 *
-	 * @return	void
+	 * @return    void
 	 */
 	public function __destruct()
 	{

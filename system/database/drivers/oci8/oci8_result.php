@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,12 +19,12 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
  * @copyright   Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 1.0
  * @filesource
  */
 
@@ -30,12 +33,13 @@
  *
  * This class extends the parent result class: CI_DB_result
  *
- * @category	Database
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
- * @since	1.4.1
+ * @category    Database
+ * @author        EllisLab Dev Team
+ * @link        http://codeigniter.com/user_guide/database/
+ * @since    1.4.1
  */
-class CI_DB_oci8_result extends CI_DB_result {
+class CI_DB_oci8_result extends CI_DB_result
+{
 
 	public $stmt_id;
 	public $curs_id;
@@ -45,8 +49,9 @@ class CI_DB_oci8_result extends CI_DB_result {
 	/**
 	 * Constructor
 	 *
-	 * @param	object
-	 * @return	void
+	 * @param    object
+	 *
+	 * @return    void
 	 */
 	public function __construct(&$driver_object)
 	{
@@ -64,7 +69,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	/**
 	 * Number of fields in the result set
 	 *
-	 * @return	int
+	 * @return    int
 	 */
 	public function num_fields()
 	{
@@ -81,7 +86,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 *
 	 * Generates an array of column names
 	 *
-	 * @return	array
+	 * @return    array
 	 */
 	public function list_fields()
 	{
@@ -100,17 +105,17 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 *
 	 * Generates an array of objects containing field meta-data
 	 *
-	 * @return	array
+	 * @return    array
 	 */
 	public function field_data()
 	{
 		$retval = array();
 		for ($c = 1, $fieldCount = $this->num_fields(); $c <= $fieldCount; $c++)
 		{
-			$F		= new stdClass();
-			$F->name	= oci_field_name($this->stmt_id, $c);
-			$F->type	= oci_field_type($this->stmt_id, $c);
-			$F->max_length	= oci_field_size($this->stmt_id, $c);
+			$F = new stdClass();
+			$F->name = oci_field_name($this->stmt_id, $c);
+			$F->type = oci_field_type($this->stmt_id, $c);
+			$F->max_length = oci_field_size($this->stmt_id, $c);
 
 			$retval[] = $F;
 		}
@@ -123,7 +128,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	/**
 	 * Free the result
 	 *
-	 * @return	void
+	 * @return    void
 	 */
 	public function free_result()
 	{
@@ -152,7 +157,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an array
 	 *
-	 * @return	array
+	 * @return    array
 	 */
 	protected function _fetch_assoc()
 	{
@@ -167,16 +172,15 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @param	string
-	 * @return	object
+	 * @param    string
+	 *
+	 * @return    object
 	 */
 	protected function _fetch_object($class_name = 'stdClass')
 	{
-		$row = ($this->curs_id)
-			? oci_fetch_object($this->curs_id)
-			: oci_fetch_object($this->stmt_id);
+		$row = ($this->curs_id) ? oci_fetch_object($this->curs_id) : oci_fetch_object($this->stmt_id);
 
-		if ($class_name === 'stdClass' OR ! $row)
+		if ($class_name === 'stdClass' OR !$row)
 		{
 			return $row;
 		}
@@ -211,7 +215,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 * some point in the future, but it will only work for resetting the
 	 * pointer to zero.
 	 *
-	 * @return	bool
+	 * @return    bool
 	 */
 	protected function _data_seek()
 	{

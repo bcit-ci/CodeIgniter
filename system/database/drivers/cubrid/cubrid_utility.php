@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,28 +19,29 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 2.1
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 2.1
  * @filesource
  */
 
 /**
  * CUBRID Utility Class
  *
- * @category	Database
- * @author		Esen Sagynov
- * @link		http://codeigniter.com/user_guide/database/
+ * @category    Database
+ * @author        Esen Sagynov
+ * @link        http://codeigniter.com/user_guide/database/
  */
-class CI_DB_cubrid_utility extends CI_DB_utility {
+class CI_DB_cubrid_utility extends CI_DB_utility
+{
 
 	/**
 	 * List databases
 	 *
-	 * @return	array
+	 * @return    array
 	 */
 	public function list_databases()
 	{
@@ -54,8 +58,9 @@ class CI_DB_cubrid_utility extends CI_DB_utility {
 	/**
 	 * CUBRID Export
 	 *
-	 * @param	array	Preferences
-	 * @return	mixed
+	 * @param    array    Preferences
+	 *
+	 * @return    mixed
 	 */
 	protected function _backup($params = array())
 	{

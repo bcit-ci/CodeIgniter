@@ -1,6 +1,7 @@
 <?php
 
-class Delete_test extends CI_TestCase {
+class Delete_test extends CI_TestCase
+{
 
 	/**
 	 * @var object Database/Query Builder holder

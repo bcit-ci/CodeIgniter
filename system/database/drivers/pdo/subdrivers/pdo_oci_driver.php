@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,12 +19,12 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 3.0.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 3.0.0
  * @filesource
  */
 
@@ -32,13 +35,14 @@
  * creates dynamically based on whether the query builder
  * class is being used or not.
  *
- * @package		CodeIgniter
- * @subpackage	Drivers
- * @category	Database
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @package        CodeIgniter
+ * @subpackage    Drivers
+ * @category    Database
+ * @author        EllisLab Dev Team
+ * @link        http://codeigniter.com/user_guide/database/
  */
-class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
+class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver
+{
 
 	public $subdriver = 'oci';
 
@@ -57,8 +61,9 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 	 *
 	 * Builds the DSN if not already set.
 	 *
-	 * @param	array
-	 * @return	void
+	 * @param    array
+	 *
+	 * @return    void
 	 */
 	public function __construct($params)
 	{
@@ -76,17 +81,16 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 			}
 			else
 			{
-				$this->dsn .= '//'.(empty($this->hostname) ? '127.0.0.1' : $this->hostname)
-					.(empty($this->port) ? '' : ':'.$this->port).'/';
+				$this->dsn .= '//' . (empty($this->hostname) ? '127.0.0.1' : $this->hostname) . (empty($this->port) ? '' : ':' . $this->port) . '/';
 
 				empty($this->database) OR $this->dsn .= $this->database;
 			}
 
-			empty($this->char_set) OR $this->dsn .= ';charset='.$this->char_set;
+			empty($this->char_set) OR $this->dsn .= ';charset=' . $this->char_set;
 		}
-		elseif ( ! empty($this->char_set) && strpos($this->dsn, 'charset=', 4) === FALSE)
+		elseif (!empty($this->char_set) && strpos($this->dsn, 'charset=', 4) === FALSE)
 		{
-			$this->dsn .= ';charset='.$this->char_set;
+			$this->dsn .= ';charset=' . $this->char_set;
 		}
 	}
 
@@ -97,8 +101,9 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	bool
-	 * @return	string
+	 * @param    bool
+	 *
+	 * @return    string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
@@ -106,8 +111,7 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 
 		if ($prefix_limit === TRUE && $this->dbprefix !== '')
 		{
-			return $sql.' WHERE "TABLE_NAME" LIKE \''.$this->escape_like_str($this->dbprefix)."%' "
-				.sprintf($this->_like_escape_str, $this->_like_escape_chr);
+			return $sql . ' WHERE "TABLE_NAME" LIKE \'' . $this->escape_like_str($this->dbprefix) . "%' " . sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
 
 		return $sql;
@@ -120,12 +124,13 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @param	string	the table name
-	 * @return	string
+	 * @param    string    the table name
+	 *
+	 * @return    string
 	 */
 	protected function _list_columns($table = '')
 	{
-		return 'SELECT "COLUMN_NAME" FROM "all_tab_columns" WHERE "TABLE_NAME" = '.$this->escape($table);
+		return 'SELECT "COLUMN_NAME" FROM "all_tab_columns" WHERE "TABLE_NAME" = ' . $this->escape($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -135,12 +140,13 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
-	 * @param	string	the table name
-	 * @return	string
+	 * @param    string    the table name
+	 *
+	 * @return    string
 	 */
 	protected function _field_data($table)
 	{
-		return 'SELECT * FROM '.$this->protect_identifiers($table).' WHERE rownum = 1';
+		return 'SELECT * FROM ' . $this->protect_identifiers($table) . ' WHERE rownum = 1';
 	}
 
 	// --------------------------------------------------------------------
@@ -151,8 +157,9 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 	 * This function implicitly groups FROM tables so there is no confusion
 	 * about operator precedence in harmony with SQL standards
 	 *
-	 * @param	array
-	 * @return	string
+	 * @param    array
+	 *
+	 * @return    string
 	 */
 	protected function _from_tables($tables)
 	{
@@ -164,10 +171,11 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 	/**
 	 * Insert_batch statement
 	 *
-	 * @param	string	the table name
-	 * @param	array	the insert keys
-	 * @param	array	the insert values
-	 * @return 	string
+	 * @param    string    the table name
+	 * @param    array    the insert keys
+	 * @param    array    the insert values
+	 *
+	 * @return     string
 	 */
 	protected function _insert_batch($table, $keys, $values)
 	{
@@ -176,10 +184,10 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 
 		for ($i = 0, $c = count($values); $i < $c; $i++)
 		{
-			$sql .= '	INTO '.$table.' ('.$keys.') VALUES '.$values[$i]."\n";
+			$sql .= '	INTO ' . $table . ' (' . $keys . ') VALUES ' . $values[$i] . "\n";
 		}
 
-		return $sql.'SELECT * FROM dual';
+		return $sql . 'SELECT * FROM dual';
 	}
 
 	// --------------------------------------------------------------------
@@ -189,11 +197,12 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific delete string from the supplied data
 	 *
-	 * @param	string	the table name
-	 * @param	array	the where clause
-	 * @param	array	the like clause
-	 * @param	string	the limit clause
-	 * @return	string
+	 * @param    string    the table name
+	 * @param    array    the where clause
+	 * @param    array    the like clause
+	 * @param    string    the limit clause
+	 *
+	 * @return    string
 	 */
 	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
 	{
@@ -201,9 +210,9 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 
 		empty($where) OR $conditions[] = implode(' ', $where);
 		empty($like) OR $conditions[] = implode(' ', $like);
-		empty($limit) OR $conditions[] = 'rownum <= '.$limit;
+		empty($limit) OR $conditions[] = 'rownum <= ' . $limit;
 
-		return 'DELETE FROM '.$table.(count($conditions) > 0 ? ' WHERE '.implode(' AND ', $conditions) : '');
+		return 'DELETE FROM ' . $table . (count($conditions) > 0 ? ' WHERE ' . implode(' AND ', $conditions) : '');
 	}
 
 	// --------------------------------------------------------------------
@@ -213,15 +222,15 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific LIMIT clause
 	 *
-	 * @param	string	the sql query string
-	 * @param	int	the number of rows to limit the query to
-	 * @param	int	the offset value
-	 * @return	string
+	 * @param    string    the sql query string
+	 * @param    int    the number of rows to limit the query to
+	 * @param    int    the offset value
+	 *
+	 * @return    string
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		return 'SELECT * FROM (SELECT inner_query.*, rownum rnum FROM ('.$sql.') inner_query WHERE rownum < '.($offset + $limit + 1).')'
-			.($offset ? ' WHERE rnum >= '.($offset + 1): '');
+		return 'SELECT * FROM (SELECT inner_query.*, rownum rnum FROM (' . $sql . ') inner_query WHERE rownum < ' . ($offset + $limit + 1) . ')' . ($offset ? ' WHERE rnum >= ' . ($offset + 1) : '');
 	}
 
 }

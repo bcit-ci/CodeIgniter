@@ -1,6 +1,7 @@
 <?php
 
-class DB_driver_test extends CI_TestCase {
+class DB_driver_test extends CI_TestCase
+{
 
 	public function test_initialize()
 	{

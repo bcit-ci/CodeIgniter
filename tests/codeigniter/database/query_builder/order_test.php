@@ -1,6 +1,7 @@
 <?php
 
-class Order_test extends CI_TestCase {
+class Order_test extends CI_TestCase
+{
 
 	/**
 	 * @var object Database/Query Builder holder
@@ -22,9 +23,7 @@ class Order_test extends CI_TestCase {
 	 */
 	public function test_order_ascending()
 	{
-		$jobs = $this->db->order_by('name', 'asc')
-		                      ->get('job')
-		                      ->result_array();
+		$jobs = $this->db->order_by('name', 'asc')->get('job')->result_array();
 
 		// Check the result
 		$this->assertEquals(4, count($jobs));
@@ -41,9 +40,7 @@ class Order_test extends CI_TestCase {
 	 */
 	public function test_order_descending()
 	{
-		$jobs = $this->db->order_by('name', 'desc')
-		                      ->get('job')
-		                      ->result_array();
+		$jobs = $this->db->order_by('name', 'desc')->get('job')->result_array();
 
 		$this->assertEquals(4, count($jobs));
 		$this->assertEquals('Politician', $jobs[0]['name']);

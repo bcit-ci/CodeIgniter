@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,28 +19,28 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 1.0
  * @filesource
  */
 
 /**
  * CodeIgniter Cookie Helpers
  *
- * @package		CodeIgniter
- * @subpackage	Helpers
- * @category	Helpers
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/helpers/cookie_helper.html
+ * @package        CodeIgniter
+ * @subpackage    Helpers
+ * @category    Helpers
+ * @author        EllisLab Dev Team
+ * @link        http://codeigniter.com/user_guide/helpers/cookie_helper.html
  */
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('set_cookie'))
+if (!function_exists('set_cookie'))
 {
 	/**
 	 * Set cookie
@@ -45,15 +48,16 @@ if ( ! function_exists('set_cookie'))
 	 * Accepts seven parameters, or you can submit an associative
 	 * array in the first parameter containing all the values.
 	 *
-	 * @param	mixed
-	 * @param	string	the value of the cookie
-	 * @param	string	the number of seconds until expiration
-	 * @param	string	the cookie domain.  Usually:  .yourdomain.com
-	 * @param	string	the cookie path
-	 * @param	string	the cookie prefix
-	 * @param	bool	true makes the cookie secure
-	 * @param	bool	true makes the cookie accessible via http(s) only (no javascript)
-	 * @return	void
+	 * @param    mixed
+	 * @param    string    the value of the cookie
+	 * @param    string    the number of seconds until expiration
+	 * @param    string    the cookie domain.  Usually:  .yourdomain.com
+	 * @param    string    the cookie path
+	 * @param    string    the cookie prefix
+	 * @param    bool    true makes the cookie secure
+	 * @param    bool    true makes the cookie accessible via http(s) only (no javascript)
+	 *
+	 * @return    void
 	 */
 	function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE, $httponly = FALSE)
 	{
@@ -65,35 +69,37 @@ if ( ! function_exists('set_cookie'))
 
 // --------------------------------------------------------------------
 
-if ( ! function_exists('get_cookie'))
+if (!function_exists('get_cookie'))
 {
 	/**
 	 * Fetch an item from the COOKIE array
 	 *
-	 * @param	string
-	 * @param	bool
-	 * @return	mixed
+	 * @param    string
+	 * @param    bool
+	 *
+	 * @return    mixed
 	 */
 	function get_cookie($index = '', $xss_clean = FALSE)
 	{
 		$CI =& get_instance();
 		$prefix = isset($_COOKIE[$index]) ? '' : config_item('cookie_prefix');
-		return $CI->input->cookie($prefix.$index, $xss_clean);
+		return $CI->input->cookie($prefix . $index, $xss_clean);
 	}
 }
 
 // --------------------------------------------------------------------
 
-if ( ! function_exists('delete_cookie'))
+if (!function_exists('delete_cookie'))
 {
 	/**
 	 * Delete a COOKIE
 	 *
-	 * @param	mixed
-	 * @param	string	the cookie domain. Usually: .yourdomain.com
-	 * @param	string	the cookie path
-	 * @param	string	the cookie prefix
-	 * @return	void
+	 * @param    mixed
+	 * @param    string    the cookie domain. Usually: .yourdomain.com
+	 * @param    string    the cookie path
+	 * @param    string    the cookie prefix
+	 *
+	 * @return    void
 	 */
 	function delete_cookie($name = '', $domain = '', $path = '/', $prefix = '')
 	{

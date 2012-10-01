@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,12 +19,12 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 1.0
  * @filesource
  */
 
@@ -32,14 +35,15 @@
  * creates dynamically based on whether the query builder
  * class is being used or not.
  *
- * @package		CodeIgniter
- * @subpackage	Drivers
- * @category	Database
- * @author		Andrey Andreev
- * @link		http://codeigniter.com/user_guide/database/
- * @since		Version 3.0
+ * @package        CodeIgniter
+ * @subpackage    Drivers
+ * @category    Database
+ * @author        Andrey Andreev
+ * @link        http://codeigniter.com/user_guide/database/
+ * @since        Version 3.0
  */
-class CI_DB_sqlite3_driver extends CI_DB {
+class CI_DB_sqlite3_driver extends CI_DB
+{
 
 	public $dbdriver = 'sqlite3';
 
@@ -55,15 +59,13 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * Non-persistent database connection
 	 *
-	 * @return	object	type SQLite3
+	 * @return    object    type SQLite3
 	 */
 	public function db_connect()
 	{
 		try
 		{
-			return ( ! $this->password)
-				? new SQLite3($this->database)
-				: new SQLite3($this->database, SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE, $this->password);
+			return (!$this->password) ? new SQLite3($this->database) : new SQLite3($this->database, SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE, $this->password);
 		}
 		catch (Exception $e)
 		{
@@ -76,7 +78,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * Persistent database connection
 	 *
-	 * @return  object	type SQLite3
+	 * @return  object    type SQLite3
 	 */
 	public function db_pconnect()
 	{
@@ -89,7 +91,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * Database version number
 	 *
-	 * @return	string
+	 * @return    string
 	 */
 	public function version()
 	{
@@ -107,16 +109,15 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * Execute the query
 	 *
-	 * @param	string	an SQL query
-	 * @return	mixed	SQLite3Result object or bool
+	 * @param    string    an SQL query
+	 *
+	 * @return    mixed    SQLite3Result object or bool
 	 */
 	protected function _execute($sql)
 	{
 		// TODO: Implement use of SQLite3::querySingle(), if needed
 
-		return $this->is_write_type($sql)
-			? $this->conn_id->exec($sql)
-			: $this->conn_id->query($sql);
+		return $this->is_write_type($sql) ? $this->conn_id->exec($sql) : $this->conn_id->query($sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -124,12 +125,12 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
-	 * @return	bool
+	 * @return    bool
 	 */
 	public function trans_begin($test_mode = FALSE)
 	{
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
+		if (!$this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -147,12 +148,12 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * Commit Transaction
 	 *
-	 * @return	bool
+	 * @return    bool
 	 */
 	public function trans_commit()
 	{
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
+		if (!$this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -165,12 +166,12 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * Rollback Transaction
 	 *
-	 * @return	bool
+	 * @return    bool
 	 */
 	public function trans_rollback()
 	{
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
+		if (!$this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -183,9 +184,10 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * Escape String
 	 *
-	 * @param	string
-	 * @param	bool	whether or not the string will be used in a LIKE condition
-	 * @return	string
+	 * @param    string
+	 * @param    bool    whether or not the string will be used in a LIKE condition
+	 *
+	 * @return    string
 	 */
 	public function escape_str($str, $like = FALSE)
 	{
@@ -204,9 +206,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
 		{
-			return str_replace(array($this->_like_escape_chr, '%', '_'),
-						array($this->_like_escape_chr.$this->_like_escape_chr, $this->_like_escape_chr.'%', $this->_like_escape_chr.'_'),
-						$str);
+			return str_replace(array($this->_like_escape_chr, '%', '_'), array($this->_like_escape_chr . $this->_like_escape_chr, $this->_like_escape_chr . '%', $this->_like_escape_chr . '_'), $str);
 		}
 
 		return $str;
@@ -217,7 +217,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * Affected Rows
 	 *
-	 * @return	int
+	 * @return    int
 	 */
 	public function affected_rows()
 	{
@@ -229,7 +229,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * Insert ID
 	 *
-	 * @return	int
+	 * @return    int
 	 */
 	public function insert_id()
 	{
@@ -243,15 +243,13 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	bool
-	 * @return	string
+	 * @param    bool
+	 *
+	 * @return    string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		return 'SELECT "NAME" FROM "SQLITE_MASTER" WHERE "TYPE" = \'table\''
-			.(($prefix_limit !== FALSE && $this->dbprefix != '')
-				? ' AND "NAME" LIKE \''.$this->escape_like_str($this->dbprefix).'%\' '.sprintf($this->_like_escape_str, $this->_like_escape_chr)
-				: '');
+		return 'SELECT "NAME" FROM "SQLITE_MASTER" WHERE "TYPE" = \'table\'' . (($prefix_limit !== FALSE && $this->dbprefix != '') ? ' AND "NAME" LIKE \'' . $this->escape_like_str($this->dbprefix) . '%\' ' . sprintf($this->_like_escape_str, $this->_like_escape_chr) : '');
 	}
 
 	// --------------------------------------------------------------------
@@ -261,8 +259,9 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @param	string	the table name
-	 * @return	string
+	 * @param    string    the table name
+	 *
+	 * @return    string
 	 */
 	protected function _list_columns($table = '')
 	{
@@ -277,12 +276,13 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
-	 * @param	string	the table name
-	 * @return	string
+	 * @param    string    the table name
+	 *
+	 * @return    string
 	 */
 	protected function _field_data($table)
 	{
-		return 'SELECT * FROM '.$table.' LIMIT 0,1';
+		return 'SELECT * FROM ' . $table . ' LIMIT 0,1';
 	}
 
 	// --------------------------------------------------------------------
@@ -290,7 +290,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * The error message string
 	 *
-	 * @return	string
+	 * @return    string
 	 */
 	protected function _error_message()
 	{
@@ -302,7 +302,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * The error message number
 	 *
-	 * @return	int
+	 * @return    int
 	 */
 	protected function _error_number()
 	{
@@ -316,14 +316,15 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific replace string from the supplied data
 	 *
-	 * @param	string	the table name
-	 * @param	array	the insert keys
-	 * @param	array	the insert values
-	 * @return	string
+	 * @param    string    the table name
+	 * @param    array    the insert keys
+	 * @param    array    the insert values
+	 *
+	 * @return    string
 	 */
 	protected function _replace($table, $keys, $values)
 	{
-		return 'INSERT OR '.parent::_replace($table, $keys, $values);
+		return 'INSERT OR ' . parent::_replace($table, $keys, $values);
 	}
 
 	// --------------------------------------------------------------------
@@ -336,12 +337,13 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 * If the database does not support the truncate() command, then,
 	 * then this method maps to 'DELETE FROM table'
 	 *
-	 * @param	string	the table name
-	 * @return	string
+	 * @param    string    the table name
+	 *
+	 * @return    string
 	 */
 	protected function _truncate($table)
 	{
-		return 'DELETE FROM '.$table;
+		return 'DELETE FROM ' . $table;
 	}
 
 	// --------------------------------------------------------------------
@@ -349,7 +351,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @return	void
+	 * @return    void
 	 */
 	protected function _close()
 	{

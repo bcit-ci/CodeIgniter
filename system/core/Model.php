@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,30 +19,31 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 1.0
  * @filesource
  */
 
 /**
  * CodeIgniter Model Class
  *
- * @package		CodeIgniter
- * @subpackage	Libraries
- * @category	Libraries
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/config.html
+ * @package        CodeIgniter
+ * @subpackage    Libraries
+ * @category    Libraries
+ * @author        EllisLab Dev Team
+ * @link        http://codeigniter.com/user_guide/libraries/config.html
  */
-class CI_Model {
+class CI_Model
+{
 
 	/**
 	 * Initialize CI_Model Class
 	 *
-	 * @return	void
+	 * @return    void
 	 */
 	public function __construct()
 	{
@@ -52,7 +56,7 @@ class CI_Model {
 	 * Allows models to access CI's loaded classes using the same
 	 * syntax as controllers.
 	 *
-	 * @param	string
+	 * @param    string
 	 */
 	public function __get($key)
 	{

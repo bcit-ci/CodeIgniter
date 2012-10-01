@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,12 +19,12 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/AFL-3.0 Academic Free License (AFL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/AFL-3.0 Academic Free License (AFL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 1.0
  * @filesource
  */
 /*
@@ -78,26 +81,7 @@
 $active_group = 'default';
 $query_builder = TRUE;
 
-$db['default'] = array(
-	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => '',
-	'password' => '',
-	'database' => '',
-	'dbdriver' => 'mysqli',
-	'dbprefix' => '',
-	'pconnect' => TRUE,
-	'db_debug' => TRUE,
-	'cache_on' => FALSE,
-	'cachedir' => '',
-	'char_set' => 'utf8',
-	'dbcollat' => 'utf8_general_ci',
-	'swap_pre' => '',
-	'autoinit' => TRUE,
-	'compress' => TRUE,
-	'stricton' => FALSE,
-	'failover' => array()
-);
+$db['default'] = array('dsn' => '', 'hostname' => 'localhost', 'username' => '', 'password' => '', 'database' => '', 'dbdriver' => 'mysqli', 'dbprefix' => '', 'pconnect' => TRUE, 'db_debug' => TRUE, 'cache_on' => FALSE, 'cachedir' => '', 'char_set' => 'utf8', 'dbcollat' => 'utf8_general_ci', 'swap_pre' => '', 'autoinit' => TRUE, 'compress' => TRUE, 'stricton' => FALSE, 'failover' => array());
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */

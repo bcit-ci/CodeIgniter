@@ -1,6 +1,7 @@
 <?php
 
-class Join_test extends CI_TestCase {
+class Join_test extends CI_TestCase
+{
 
 	/**
 	 * @var object Database/Query Builder holder
@@ -22,11 +23,7 @@ class Join_test extends CI_TestCase {
 	 */
 	public function test_join_simple()
 	{
-		$job_user = $this->db->select('job.id as job_id, job.name as job_name, user.id as user_id, user.name as user_name')
-							->from('job')
-							->join('user', 'user.id = job.id')
-							->get()
-							->result_array();
+		$job_user = $this->db->select('job.id as job_id, job.name as job_name, user.id as user_id, user.name as user_name')->from('job')->join('user', 'user.id = job.id')->get()->result_array();
 
 		// Check the result
 		$this->assertEquals('1', $job_user[0]['job_id']);
@@ -42,15 +39,9 @@ class Join_test extends CI_TestCase {
 		// We just need a valid query produced, not one that makes sense
 		$fields = array($this->db->protect_identifiers('table1.field1'), $this->db->protect_identifiers('table2.field2'));
 
-		$expected = 'SELECT '.implode(', ', $fields)
-				."\nFROM ".$this->db->escape_identifiers('table1')
-				."\nLEFT JOIN ".$this->db->escape_identifiers('table2').' ON '.implode(' = ', $fields)
-				.' AND '.$fields[0]." = 'foo' AND ".$fields[1].' = 0';
+		$expected = 'SELECT ' . implode(', ', $fields) . "\nFROM " . $this->db->escape_identifiers('table1') . "\nLEFT JOIN " . $this->db->escape_identifiers('table2') . ' ON ' . implode(' = ', $fields) . ' AND ' . $fields[0] . " = 'foo' AND " . $fields[1] . ' = 0';
 
-		$result = $this->db->select('table1.field1, table2.field2')
-				->from('table1')
-				->join('table2', "table1.field1 = table2.field2 AND table1.field1 = 'foo' AND table2.field2 = 0", 'LEFT')
-				->get_compiled_select();
+		$result = $this->db->select('table1.field1, table2.field2')->from('table1')->join('table2', "table1.field1 = table2.field2 AND table1.field1 = 'foo' AND table2.field2 = 0", 'LEFT')->get_compiled_select();
 
 		$this->assertEquals($expected, $result);
 	}

@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,34 +19,35 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 1.0
  * @filesource
  */
 
 /**
  * Database Forge Class
  *
- * @category	Database
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @category    Database
+ * @author        EllisLab Dev Team
+ * @link        http://codeigniter.com/user_guide/database/
  */
-abstract class CI_DB_forge {
+abstract class CI_DB_forge
+{
 
-	public $fields		= array();
-	public $keys		= array();
-	public $primary_keys	= array();
-	public $db_char_set	=	'';
+	public $fields = array();
+	public $keys = array();
+	public $primary_keys = array();
+	public $db_char_set = '';
 
 	// Platform specific SQL strings
-	protected $_create_database	= 'CREATE DATABASE %s';
-	protected $_drop_database	= 'DROP DATABASE %s';
-	protected $_drop_table		= 'DROP TABLE IF EXISTS %s';
-	protected $_rename_table	= 'ALTER TABLE %s RENAME TO %s';
+	protected $_create_database = 'CREATE DATABASE %s';
+	protected $_drop_database = 'DROP DATABASE %s';
+	protected $_drop_table = 'DROP TABLE IF EXISTS %s';
+	protected $_rename_table = 'ALTER TABLE %s RENAME TO %s';
 
 	public function __construct()
 	{
@@ -58,8 +62,9 @@ abstract class CI_DB_forge {
 	/**
 	 * Create database
 	 *
-	 * @param	string	the database name
-	 * @return	bool
+	 * @param    string    the database name
+	 *
+	 * @return    bool
 	 */
 	public function create_database($db_name)
 	{
@@ -67,12 +72,12 @@ abstract class CI_DB_forge {
 		{
 			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
 		}
-		elseif ( ! $this->db->query(sprintf($this->_create_database, $db_name, $this->db->char_set, $this->db->dbcollat)))
+		elseif (!$this->db->query(sprintf($this->_create_database, $db_name, $this->db->char_set, $this->db->dbcollat)))
 		{
 			return ($this->db->db_debug) ? $this->db->display_error('db_unable_to_drop') : FALSE;
 		}
 
-		if ( ! empty($this->db->data_cache['db_names']))
+		if (!empty($this->db->data_cache['db_names']))
 		{
 			$this->db->data_cache['db_names'][] = $db_name;
 		}
@@ -85,8 +90,9 @@ abstract class CI_DB_forge {
 	/**
 	 * Drop database
 	 *
-	 * @param	string	the database name
-	 * @return	bool
+	 * @param    string    the database name
+	 *
+	 * @return    bool
 	 */
 	public function drop_database($db_name)
 	{
@@ -99,12 +105,12 @@ abstract class CI_DB_forge {
 		{
 			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
 		}
-		elseif ( ! $this->db->query(sprintf($this->_drop_database, $db_name)))
+		elseif (!$this->db->query(sprintf($this->_drop_database, $db_name)))
 		{
 			return ($this->db->db_debug) ? $this->db->display_error('db_unable_to_drop') : FALSE;
 		}
 
-		if ( ! empty($this->db->data_cache['db_names']))
+		if (!empty($this->db->data_cache['db_names']))
 		{
 			$key = array_search(strtolower($db_name), array_map('strtolower', $this->db->data_cache['db_names']), TRUE);
 			if ($key !== FALSE)
@@ -121,9 +127,10 @@ abstract class CI_DB_forge {
 	/**
 	 * Add Key
 	 *
-	 * @param	string	key
-	 * @param	string	type
-	 * @return	object
+	 * @param    string    key
+	 * @param    string    type
+	 *
+	 * @return    object
 	 */
 	public function add_key($key = '', $primary = FALSE)
 	{
@@ -159,8 +166,9 @@ abstract class CI_DB_forge {
 	/**
 	 * Add Field
 	 *
-	 * @param	string	collation
-	 * @return	object
+	 * @param    string    collation
+	 *
+	 * @return    object
 	 */
 	public function add_field($field = '')
 	{
@@ -173,13 +181,7 @@ abstract class CI_DB_forge {
 		{
 			if ($field === 'id')
 			{
-				$this->add_field(array(
-					'id' => array(
-						'type' => 'INT',
-						'constraint' => 9,
-						'auto_increment' => TRUE
-					)
-				));
+				$this->add_field(array('id' => array('type' => 'INT', 'constraint' => 9, 'auto_increment' => TRUE)));
 				$this->add_key('id', TRUE);
 			}
 			else
@@ -206,8 +208,9 @@ abstract class CI_DB_forge {
 	/**
 	 * Create Table
 	 *
-	 * @param	string	the table name
-	 * @return	bool
+	 * @param    string    the table name
+	 *
+	 * @return    bool
 	 */
 	public function create_table($table = '', $if_not_exists = FALSE)
 	{
@@ -221,7 +224,7 @@ abstract class CI_DB_forge {
 			show_error('Field information is required.');
 		}
 
-		$sql = $this->_create_table($this->db->dbprefix.$table, $this->fields, $this->primary_keys, $this->keys, $if_not_exists);
+		$sql = $this->_create_table($this->db->dbprefix . $table, $this->fields, $this->primary_keys, $this->keys, $if_not_exists);
 		$this->_reset();
 
 		if (is_bool($sql))
@@ -229,9 +232,9 @@ abstract class CI_DB_forge {
 			return $sql;
 		}
 
-		if (($result = $this->db->query($sql)) !== FALSE && ! empty($this->db->data_cache['table_names']))
+		if (($result = $this->db->query($sql)) !== FALSE && !empty($this->db->data_cache['table_names']))
 		{
-			$this->db->data_cache['table_names'][] = $this->db->dbprefix.$table;
+			$this->db->data_cache['table_names'][] = $this->db->dbprefix . $table;
 		}
 
 		return $result;
@@ -242,8 +245,9 @@ abstract class CI_DB_forge {
 	/**
 	 * Drop Table
 	 *
-	 * @param	string	the table name
-	 * @return	bool
+	 * @param    string    the table name
+	 *
+	 * @return    bool
 	 */
 	public function drop_table($table_name)
 	{
@@ -256,12 +260,12 @@ abstract class CI_DB_forge {
 			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
 		}
 
-		$result = $this->db->query(sprintf($this->_drop_table, $this->db->escape_identifiers($this->db->dbprefix.$table_name)));
+		$result = $this->db->query(sprintf($this->_drop_table, $this->db->escape_identifiers($this->db->dbprefix . $table_name)));
 
 		// Update table list cache
-		if ($result && ! empty($this->db->data_cache['table_names']))
+		if ($result && !empty($this->db->data_cache['table_names']))
 		{
-			$key = array_search(strtolower($this->db->dbprefix.$table_name), array_map('strtolower', $this->db->data_cache['table_names']), TRUE);
+			$key = array_search(strtolower($this->db->dbprefix . $table_name), array_map('strtolower', $this->db->data_cache['table_names']), TRUE);
 			if ($key !== FALSE)
 			{
 				unset($this->db->data_cache['table_names'][$key]);
@@ -276,9 +280,10 @@ abstract class CI_DB_forge {
 	/**
 	 * Rename Table
 	 *
-	 * @param	string	the old table name
-	 * @param	string	the new table name
-	 * @return	bool
+	 * @param    string    the old table name
+	 * @param    string    the new table name
+	 *
+	 * @return    bool
 	 */
 	public function rename_table($table_name, $new_table_name)
 	{
@@ -292,17 +297,14 @@ abstract class CI_DB_forge {
 			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
 		}
 
-		$result = $this->db->query(sprintf($this->_rename_table,
-						$this->db->escape_identifiers($this->db->dbprefix.$table_name),
-						$this->db->escape_identifiers($this->db->dbprefix.$new_table_name))
-					);
+		$result = $this->db->query(sprintf($this->_rename_table, $this->db->escape_identifiers($this->db->dbprefix . $table_name), $this->db->escape_identifiers($this->db->dbprefix . $new_table_name)));
 
-		if ($result && ! empty($this->db->data_cache['table_names']))
+		if ($result && !empty($this->db->data_cache['table_names']))
 		{
-			$key = array_search(strtolower($this->db->dbprefix.$table_name), array_map('strtolower', $this->db->data_cache['table_names']), TRUE);
+			$key = array_search(strtolower($this->db->dbprefix . $table_name), array_map('strtolower', $this->db->data_cache['table_names']), TRUE);
 			if ($key !== FALSE)
 			{
-				$this->db->data_cache['table_names'][$key] = $this->db->dbprefix.$new_table_name;
+				$this->db->data_cache['table_names'][$key] = $this->db->dbprefix . $new_table_name;
 			}
 		}
 
@@ -314,10 +316,11 @@ abstract class CI_DB_forge {
 	/**
 	 * Column Add
 	 *
-	 * @param	string	the table name
-	 * @param	string	the column name
-	 * @param	string	the column definition
-	 * @return	bool
+	 * @param    string    the table name
+	 * @param    string    the column name
+	 * @param    string    the column definition
+	 *
+	 * @return    bool
 	 */
 	public function add_column($table = '', $field = array(), $after_field = '')
 	{
@@ -337,7 +340,7 @@ abstract class CI_DB_forge {
 				show_error('Field information is required.');
 			}
 
-			$sql = $this->_alter_table('ADD', $this->db->dbprefix.$table, $this->fields, $after_field);
+			$sql = $this->_alter_table('ADD', $this->db->dbprefix . $table, $this->fields, $after_field);
 			$this->_reset();
 
 			if ($this->db->query($sql) === FALSE)
@@ -354,9 +357,10 @@ abstract class CI_DB_forge {
 	/**
 	 * Column Drop
 	 *
-	 * @param	string	the table name
-	 * @param	string	the column name
-	 * @return	bool
+	 * @param    string    the table name
+	 * @param    string    the column name
+	 *
+	 * @return    bool
 	 */
 	public function drop_column($table = '', $column_name = '')
 	{
@@ -370,7 +374,7 @@ abstract class CI_DB_forge {
 			show_error('A column name is required for that operation.');
 		}
 
-		return $this->db->query($this->_alter_table('DROP', $this->db->dbprefix.$table, $column_name));
+		return $this->db->query($this->_alter_table('DROP', $this->db->dbprefix . $table, $column_name));
 	}
 
 	// --------------------------------------------------------------------
@@ -378,10 +382,11 @@ abstract class CI_DB_forge {
 	/**
 	 * Column Modify
 	 *
-	 * @param	string	the table name
-	 * @param	string	the column name
-	 * @param	string	the column definition
-	 * @return	bool
+	 * @param    string    the table name
+	 * @param    string    the column name
+	 * @param    string    the column definition
+	 *
+	 * @return    bool
 	 */
 	public function modify_column($table = '', $field = array())
 	{
@@ -395,7 +400,7 @@ abstract class CI_DB_forge {
 		foreach (array_keys($field) as $k)
 		{
 			// If no name provided, use the current name
-			if ( ! isset($field[$k]['name']))
+			if (!isset($field[$k]['name']))
 			{
 				$field[$k]['name'] = $k;
 			}
@@ -406,7 +411,7 @@ abstract class CI_DB_forge {
 				show_error('Field information is required.');
 			}
 
-			$sql = $this->_alter_table('CHANGE', $this->db->dbprefix.$table, $this->fields);
+			$sql = $this->_alter_table('CHANGE', $this->db->dbprefix . $table, $this->fields);
 			$this->_reset();
 
 			if ($this->db->query($sql) === FALSE)
@@ -425,7 +430,7 @@ abstract class CI_DB_forge {
 	 *
 	 * Resets table creation vars
 	 *
-	 * @return	void
+	 * @return    void
 	 */
 	protected function _reset()
 	{

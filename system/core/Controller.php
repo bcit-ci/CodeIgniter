@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,12 +19,12 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 1.0
  * @filesource
  */
 
@@ -31,25 +34,26 @@
  * This class object is the super class that every library in
  * CodeIgniter will be assigned to.
  *
- * @package		CodeIgniter
- * @subpackage	Libraries
- * @category	Libraries
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/general/controllers.html
+ * @package        CodeIgniter
+ * @subpackage    Libraries
+ * @category    Libraries
+ * @author        EllisLab Dev Team
+ * @link        http://codeigniter.com/user_guide/general/controllers.html
  */
-class CI_Controller {
+class CI_Controller
+{
 
 	/**
 	 * Reference to the global CI instance
 	 *
-	 * @var	object
+	 * @var    object
 	 */
 	private static $instance;
 
 	/**
 	 * Set up controller properties and methods
 	 *
-	 * @return	void
+	 * @return    void
 	 */
 	public function __construct()
 	{
@@ -71,7 +75,7 @@ class CI_Controller {
 	/**
 	 * Return the CI object
 	 *
-	 * @return	object
+	 * @return    object
 	 */
 	public static function &get_instance()
 	{

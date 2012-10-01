@@ -1,17 +1,13 @@
 <?php
 
-class Array_helper_test extends CI_TestCase {
+class Array_helper_test extends CI_TestCase
+{
 
 	public function set_up()
 	{
 		$this->helper('array');
 
-		$this->my_array = array(
-			'foo'		=> 'bar',
-			'sally'		=> 'jim',
-			'maggie'	=> 'bessie',
-			'herb'		=> 'cook'
-		);
+		$this->my_array = array('foo' => 'bar', 'sally' => 'jim', 'maggie' => 'bessie', 'herb' => 'cook');
 	}
 
 	// ------------------------------------------------------------------------

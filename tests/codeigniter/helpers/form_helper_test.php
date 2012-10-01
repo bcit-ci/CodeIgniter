@@ -23,14 +23,7 @@ EOH;
 
 EOH;
 
-		$data = array(
-			'name'        => 'username',
-			'id'          => 'username',
-			'value'       => 'johndoe',
-			'maxlength'   => '100',
-			'size'        => '50',
-			'style'       => 'width:50%',
-		);
+		$data = array('name' => 'username', 'id' => 'username', 'value' => 'johndoe', 'maxlength' => '100', 'size' => '50', 'style' => 'width:50%',);
 
 		$this->assertEquals($expected, form_input($data));
 	}
@@ -77,12 +70,7 @@ EOH;
 
 EOH;
 
-		$options = array(
-			'small'		=> 'Small Shirt',
-			'med'		=> 'Medium Shirt',
-			'large'		=> 'Large Shirt',
-			'xlarge'	=> 'Extra Large Shirt',
-		);
+		$options = array('small' => 'Small Shirt', 'med' => 'Medium Shirt', 'large' => 'Large Shirt', 'xlarge' => 'Extra Large Shirt',);
 
 		$this->assertEquals($expected, form_dropdown('shirts', $options, 'large'));
 
@@ -100,16 +88,7 @@ EOH;
 
 		$this->assertEquals($expected, form_dropdown('shirts', $options, $shirts_on_sale));
 
-		$options = array(
-			'Swedish Cars' => array(
-				'volvo'	=> 'Volvo',
-				'saab'	=> 'Saab'
-			),
-			'German Cars' => array(
-				'mercedes'	=> 'Mercedes',
-				'audi'		=> 'Audi'
-			)
-		);
+		$options = array('Swedish Cars' => array('volvo' => 'Volvo', 'saab' => 'Saab'), 'German Cars' => array('mercedes' => 'Mercedes', 'audi' => 'Audi'));
 
 		$expected = <<<EOH
 <select name="cars" multiple="multiple">
@@ -140,12 +119,7 @@ EOH;
 
 EOH;
 
-		$options = array(
-			'small'		=> 'Small Shirt',
-			'med'		=> 'Medium Shirt',
-			'large'		=> 'Large Shirt',
-			'xlarge'	=> 'Extra Large Shirt',
-		);
+		$options = array('small' => 'Small Shirt', 'med' => 'Medium Shirt', 'large' => 'Large Shirt', 'xlarge' => 'Extra Large Shirt',);
 
 		$this->assertEquals($expected, form_multiselect('shirts[]', $options, array('med', 'large')));
 	}

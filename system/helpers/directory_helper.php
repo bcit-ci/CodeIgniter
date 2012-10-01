@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,28 +19,28 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 1.0
  * @filesource
  */
 
 /**
  * CodeIgniter Directory Helpers
  *
- * @package		CodeIgniter
- * @subpackage	Helpers
- * @category	Helpers
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/helpers/directory_helper.html
+ * @package        CodeIgniter
+ * @subpackage    Helpers
+ * @category    Helpers
+ * @author        EllisLab Dev Team
+ * @link        http://codeigniter.com/user_guide/helpers/directory_helper.html
  */
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('directory_map'))
+if (!function_exists('directory_map'))
 {
 	/**
 	 * Create a Directory Map
@@ -46,18 +49,19 @@ if ( ! function_exists('directory_map'))
 	 * representation of it. Sub-folders contained with the
 	 * directory will be mapped as well.
 	 *
-	 * @param	string	path to source
-	 * @param	int	depth of directories to traverse (0 = fully recursive, 1 = current dir, etc)
-	 * @param	bool	whether to show hidden files
-	 * @return	array
+	 * @param    string    path to source
+	 * @param    int    depth of directories to traverse (0 = fully recursive, 1 = current dir, etc)
+	 * @param    bool    whether to show hidden files
+	 *
+	 * @return    array
 	 */
 	function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE)
 	{
 		if ($fp = @opendir($source_dir))
 		{
-			$filedata	= array();
-			$new_depth	= $directory_depth - 1;
-			$source_dir	= rtrim($source_dir, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+			$filedata = array();
+			$new_depth = $directory_depth - 1;
+			$source_dir = rtrim($source_dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
 			while (FALSE !== ($file = readdir($fp)))
 			{
@@ -67,9 +71,9 @@ if ( ! function_exists('directory_map'))
 					continue;
 				}
 
-				if (($directory_depth < 1 OR $new_depth > 0) && @is_dir($source_dir.$file))
+				if (($directory_depth < 1 OR $new_depth > 0) && @is_dir($source_dir . $file))
 				{
-					$filedata[$file] = directory_map($source_dir.$file.DIRECTORY_SEPARATOR, $new_depth, $hidden);
+					$filedata[$file] = directory_map($source_dir . $file . DIRECTORY_SEPARATOR, $new_depth, $hidden);
 				}
 				else
 				{

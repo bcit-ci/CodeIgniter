@@ -1,6 +1,7 @@
 <?php
 
-class Escape_test extends CI_TestCase {
+class Escape_test extends CI_TestCase
+{
 
 	/**
 	 * @var object Database/Query Builder holder
@@ -31,7 +32,7 @@ class Escape_test extends CI_TestCase {
 		}
 		else
 		{
-			$sql = 'SELECT "value" FROM "misc" WHERE "key" LIKE \''.$string.'%\' ESCAPE \'!\';';
+			$sql = 'SELECT "value" FROM "misc" WHERE "key" LIKE \'' . $string . '%\' ESCAPE \'!\';';
 		}
 
 		$res = $this->db->query($sql)->result_array();
@@ -56,7 +57,7 @@ class Escape_test extends CI_TestCase {
 		}
 		else
 		{
-			$sql = 'SELECT "value" FROM "misc" WHERE "key" LIKE \''.$string.'%\' ESCAPE \'!\';';
+			$sql = 'SELECT "value" FROM "misc" WHERE "key" LIKE \'' . $string . '%\' ESCAPE \'!\';';
 		}
 
 		$res = $this->db->query($sql)->result_array();

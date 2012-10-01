@@ -1,6 +1,7 @@
 <?php
 
-class Mock_Database_DB_Driver extends CI_DB_driver {
+class Mock_Database_DB_Driver extends CI_DB_driver
+{
 
 	/**
 	 * @var object The actual Driver
@@ -10,8 +11,9 @@ class Mock_Database_DB_Driver extends CI_DB_driver {
 	/**
 	 * Instantiate the database driver
 	 *
-	 * @param  string 	DB Driver class name
-	 * @param  array 	DB configuration to set
+	 * @param  string     DB Driver class name
+	 * @param  array     DB configuration to set
+	 *
 	 * @return void
 	 */
 	public function __construct($driver_class, $config = array())
@@ -27,13 +29,15 @@ class Mock_Database_DB_Driver extends CI_DB_driver {
 	 */
 	public function __call($method, $arguments)
 	{
-		if ( ! is_callable(array($this->ci_db_driver, $method)))
+		if (!is_callable(array($this->ci_db_driver, $method)))
 		{
-			throw new BadMethodCallException($method. ' not exists or not implemented');
+			throw new BadMethodCallException($method . ' not exists or not implemented');
 		}
 
 		return call_user_func_array(array($this->ci_db_driver, $method), $arguments);
 	}
 }
 
-class CI_DB extends Mock_Database_DB_QueryBuilder {}
+class CI_DB extends Mock_Database_DB_QueryBuilder
+{
+}

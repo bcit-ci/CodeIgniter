@@ -1,6 +1,7 @@
 <?php
 
-class Group_test extends CI_TestCase {
+class Group_test extends CI_TestCase
+{
 
 	/**
 	 * @var object Database/Query Builder holder
@@ -22,11 +23,7 @@ class Group_test extends CI_TestCase {
 	 */
 	public function test_group_by()
 	{
-		$jobs = $this->db->select('name')
-					->from('job')
-					->group_by('name')
-					->get()
-					->result_array();
+		$jobs = $this->db->select('name')->from('job')->group_by('name')->get()->result_array();
 
 		$this->assertEquals(4, count($jobs));
 	}
@@ -38,12 +35,7 @@ class Group_test extends CI_TestCase {
 	 */
 	public function test_having_by()
 	{
-		$jobs = $this->db->select('name')
-					->from('job')
-					->group_by('name')
-					->having('SUM(id) > 2')
-					->get()
-					->result_array();
+		$jobs = $this->db->select('name')->from('job')->group_by('name')->having('SUM(id) > 2')->get()->result_array();
 
 		$this->assertEquals(2, count($jobs));
 	}

@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,12 +19,12 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 2.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 2.0
  * @filesource
  */
 
@@ -30,20 +33,21 @@
  *
  * Provides support for UTF-8 environments
  *
- * @package		CodeIgniter
- * @subpackage	Libraries
- * @category	UTF-8
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/utf8.html
+ * @package        CodeIgniter
+ * @subpackage    Libraries
+ * @category    UTF-8
+ * @author        EllisLab Dev Team
+ * @link        http://codeigniter.com/user_guide/libraries/utf8.html
  */
-class CI_Utf8 {
+class CI_Utf8
+{
 
 	/**
 	 * Constructor
 	 *
 	 * Determines if UTF-8 support is to be enabled
 	 *
-	 * @return	void
+	 * @return    void
 	 */
 	public function __construct()
 	{
@@ -51,12 +55,11 @@ class CI_Utf8 {
 
 		global $CFG;
 
-		if (
-			@preg_match('/./u', 'é') === 1		// PCRE must support UTF-8
-			&& function_exists('iconv')			// iconv must be installed
-			&& (bool) @ini_get('mbstring.func_overload') !== TRUE	// Multibyte string function overloading cannot be enabled
-			&& $CFG->item('charset') === 'UTF-8'		// Application charset must be UTF-8
-			)
+		if (@preg_match('/./u', 'é') === 1 // PCRE must support UTF-8
+			&& function_exists('iconv') // iconv must be installed
+			&& (bool)@ini_get('mbstring.func_overload') !== TRUE // Multibyte string function overloading cannot be enabled
+				&& $CFG->item('charset') === 'UTF-8' // Application charset must be UTF-8
+		)
 		{
 			define('UTF8_ENABLED', TRUE);
 			log_message('debug', 'UTF-8 Support Enabled');
@@ -88,8 +91,9 @@ class CI_Utf8 {
 	 *
 	 * Ensures strings are UTF-8
 	 *
-	 * @param	string
-	 * @return	string
+	 * @param    string
+	 *
+	 * @return    string
 	 */
 	public function clean_string($str)
 	{
@@ -110,8 +114,9 @@ class CI_Utf8 {
 	 * line feeds, and carriage returns, as all others can cause
 	 * problems in XML
 	 *
-	 * @param	string
-	 * @return	string
+	 * @param    string
+	 *
+	 * @return    string
 	 */
 	public function safe_ascii_for_xml($str)
 	{
@@ -125,9 +130,10 @@ class CI_Utf8 {
 	 *
 	 * Attempts to convert a string to UTF-8
 	 *
-	 * @param	string
-	 * @param	string	input encoding
-	 * @return	string
+	 * @param    string
+	 * @param    string    input encoding
+	 *
+	 * @return    string
 	 */
 	public function convert_to_utf8($str, $encoding)
 	{
@@ -150,8 +156,9 @@ class CI_Utf8 {
 	 *
 	 * Tests if a string is standard 7-bit ASCII or not
 	 *
-	 * @param	string
-	 * @return	bool
+	 * @param    string
+	 *
+	 * @return    bool
 	 */
 	protected function _is_ascii($str)
 	{

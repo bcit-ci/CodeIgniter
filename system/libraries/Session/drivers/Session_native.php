@@ -1,4 +1,7 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,12 +19,12 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 1.0
  * @filesource
  */
 
@@ -30,51 +33,40 @@
  *
  * This is the driver that uses the native PHP $_SESSION array through the Session driver library.
  *
- * @package		CodeIgniter
- * @subpackage	Libraries
- * @category	Sessions
- * @author		EllisLab Dev Team
+ * @package        CodeIgniter
+ * @subpackage    Libraries
+ * @category    Sessions
+ * @author        EllisLab Dev Team
  */
-class CI_Session_native extends CI_Session_driver {
+class CI_Session_native extends CI_Session_driver
+{
 
 	/**
 	 * Initialize session driver object
 	 *
-	 * @return	void
+	 * @return    void
 	 */
 	protected function initialize()
 	{
 		// Get config parameters
 		$config = array();
 		$CI =& get_instance();
-		$prefs = array(
-			'sess_cookie_name',
-			'sess_expire_on_close',
-			'sess_expiration',
-			'sess_match_ip',
-			'sess_match_useragent',
-			'sess_time_to_update',
-			'cookie_prefix',
-			'cookie_path',
-			'cookie_domain'
-		);
+		$prefs = array('sess_cookie_name', 'sess_expire_on_close', 'sess_expiration', 'sess_match_ip', 'sess_match_useragent', 'sess_time_to_update', 'cookie_prefix', 'cookie_path', 'cookie_domain');
 
 		foreach ($prefs as $key)
 		{
-			$config[$key] = isset($this->_parent->params[$key])
-				? $this->_parent->params[$key]
-				: $CI->config->item($key);
+			$config[$key] = isset($this->_parent->params[$key]) ? $this->_parent->params[$key] : $CI->config->item($key);
 		}
 
 		// Set session name, if specified
 		if ($config['sess_cookie_name'])
 		{
 			// Differentiate name from cookie driver with '_id' suffix
-			$name = $config['sess_cookie_name'].'_id';
+			$name = $config['sess_cookie_name'] . '_id';
 			if ($config['cookie_prefix'])
 			{
 				// Prepend cookie prefix
-				$name = $config['cookie_prefix'].$name;
+				$name = $config['cookie_prefix'] . $name;
 			}
 			session_name($name);
 		}
@@ -86,7 +78,7 @@ class CI_Session_native extends CI_Session_driver {
 		if ($config['sess_expiration'] !== FALSE)
 		{
 			// Default to 2 years if expiration is "0"
-			$expire = ($config['sess_expiration'] == 0) ? (60*60*24*365*2) : $config['sess_expiration'];
+			$expire = ($config['sess_expiration'] == 0) ? (60 * 60 * 24 * 365 * 2) : $config['sess_expiration'];
 		}
 
 		if ($config['cookie_path'])
@@ -113,14 +105,12 @@ class CI_Session_native extends CI_Session_driver {
 			// Expired - destroy
 			$destroy = TRUE;
 		}
-		elseif ($config['sess_match_ip'] === TRUE && isset($_SESSION['ip_address'])
-			&& $_SESSION['ip_address'] !== $CI->input->ip_address())
+		elseif ($config['sess_match_ip'] === TRUE && isset($_SESSION['ip_address']) && $_SESSION['ip_address'] !== $CI->input->ip_address())
 		{
 			// IP doesn't match - destroy
 			$destroy = TRUE;
 		}
-		elseif ($config['sess_match_useragent'] === TRUE && isset($_SESSION['user_agent'])
-			&& $_SESSION['user_agent'] !== trim(substr($CI->input->user_agent(), 0, 50)))
+		elseif ($config['sess_match_useragent'] === TRUE && isset($_SESSION['user_agent']) && $_SESSION['user_agent'] !== trim(substr($CI->input->user_agent(), 0, 50)))
 		{
 			// Agent doesn't match - destroy
 			$destroy = TRUE;
@@ -135,8 +125,7 @@ class CI_Session_native extends CI_Session_driver {
 		}
 
 		// Check for update time
-		if ($config['sess_time_to_update'] && isset($_SESSION['last_activity'])
-			&& ($_SESSION['last_activity'] + $config['sess_time_to_update']) < $now)
+		if ($config['sess_time_to_update'] && isset($_SESSION['last_activity']) && ($_SESSION['last_activity'] + $config['sess_time_to_update']) < $now)
 		{
 			// Regenerate ID, but don't destroy session
 			$this->sess_regenerate(FALSE);
@@ -146,13 +135,13 @@ class CI_Session_native extends CI_Session_driver {
 		$_SESSION['last_activity'] = $now;
 
 		// Set matching values as required
-		if ($config['sess_match_ip'] === TRUE && ! isset($_SESSION['ip_address']))
+		if ($config['sess_match_ip'] === TRUE && !isset($_SESSION['ip_address']))
 		{
 			// Store user IP address
 			$_SESSION['ip_address'] = $CI->input->ip_address();
 		}
 
-		if ($config['sess_match_useragent'] === TRUE && ! isset($_SESSION['user_agent']))
+		if ($config['sess_match_useragent'] === TRUE && !isset($_SESSION['user_agent']))
 		{
 			// Store user agent string
 			$_SESSION['user_agent'] = trim(substr($CI->input->user_agent(), 0, 50));
@@ -167,7 +156,7 @@ class CI_Session_native extends CI_Session_driver {
 	/**
 	 * Save the session data
 	 *
-	 * @return	void
+	 * @return    void
 	 */
 	public function sess_save()
 	{
@@ -179,7 +168,7 @@ class CI_Session_native extends CI_Session_driver {
 	/**
 	 * Destroy the current session
 	 *
-	 * @return	void
+	 * @return    void
 	 */
 	public function sess_destroy()
 	{
@@ -203,8 +192,9 @@ class CI_Session_native extends CI_Session_driver {
 	 *
 	 * Regenerate the session id
 	 *
-	 * @param	bool	Destroy session data flag (default: FALSE)
-	 * @return	void
+	 * @param    bool    Destroy session data flag (default: FALSE)
+	 *
+	 * @return    void
 	 */
 	public function sess_regenerate($destroy = FALSE)
 	{
@@ -218,7 +208,7 @@ class CI_Session_native extends CI_Session_driver {
 	/**
 	 * Get a reference to user data array
 	 *
-	 * @return	array	Reference to userdata
+	 * @return    array    Reference to userdata
 	 */
 	public function &get_userdata()
 	{

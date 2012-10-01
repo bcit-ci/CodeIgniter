@@ -1,6 +1,7 @@
 <?php
 
-class Like_test extends CI_TestCase {
+class Like_test extends CI_TestCase
+{
 
 	/**
 	 * @var object Database/Query Builder holder
@@ -22,9 +23,7 @@ class Like_test extends CI_TestCase {
 	 */
 	public function test_like()
 	{
-		$job1 = $this->db->like('name', 'veloper')
-							->get('job')
-							->row();
+		$job1 = $this->db->like('name', 'veloper')->get('job')->row();
 
 		// Check the result
 		$this->assertEquals('1', $job1->id);
@@ -38,10 +37,7 @@ class Like_test extends CI_TestCase {
 	 */
 	public function test_or_like()
 	{
-		$jobs = $this->db->like('name', 'ian')
-							->or_like('name', 'veloper')
-							->get('job')
-							->result_array();
+		$jobs = $this->db->like('name', 'ian')->or_like('name', 'veloper')->get('job')->result_array();
 
 		// Check the result
 		$this->assertEquals(3, count($jobs));
@@ -57,9 +53,7 @@ class Like_test extends CI_TestCase {
 	 */
 	public function test_not_like()
 	{
-		$jobs = $this->db->not_like('name', 'veloper')
-							->get('job')
-							->result_array();
+		$jobs = $this->db->not_like('name', 'veloper')->get('job')->result_array();
 
 		// Check the result
 		$this->assertEquals(3, count($jobs));
@@ -75,10 +69,7 @@ class Like_test extends CI_TestCase {
 	 */
 	public function test_or_not_like()
 	{
-		$jobs = $this->db->like('name', 'an')
-							->or_not_like('name', 'veloper')
-							->get('job')
-							->result_array();
+		$jobs = $this->db->like('name', 'an')->or_not_like('name', 'veloper')->get('job')->result_array();
 
 		// Check the result
 		$this->assertEquals(3, count($jobs));

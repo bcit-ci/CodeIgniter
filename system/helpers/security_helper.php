@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,35 +19,36 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 1.0
  * @filesource
  */
 
 /**
  * CodeIgniter Security Helpers
  *
- * @package		CodeIgniter
- * @subpackage	Helpers
- * @category	Helpers
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/helpers/security_helper.html
+ * @package        CodeIgniter
+ * @subpackage    Helpers
+ * @category    Helpers
+ * @author        EllisLab Dev Team
+ * @link        http://codeigniter.com/user_guide/helpers/security_helper.html
  */
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('xss_clean'))
+if (!function_exists('xss_clean'))
 {
 	/**
 	 * XSS Filtering
 	 *
-	 * @param	string
-	 * @param	bool	whether or not the content is an image file
-	 * @return	string
+	 * @param    string
+	 * @param    bool    whether or not the content is an image file
+	 *
+	 * @return    string
 	 */
 	function xss_clean($str, $is_image = FALSE)
 	{
@@ -55,13 +59,14 @@ if ( ! function_exists('xss_clean'))
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('sanitize_filename'))
+if (!function_exists('sanitize_filename'))
 {
 	/**
 	 * Sanitize Filename
 	 *
-	 * @param	string
-	 * @return	string
+	 * @param    string
+	 *
+	 * @return    string
 	 */
 	function sanitize_filename($filename)
 	{
@@ -72,7 +77,7 @@ if ( ! function_exists('sanitize_filename'))
 
 // --------------------------------------------------------------------
 
-if ( ! function_exists('do_hash'))
+if (!function_exists('do_hash'))
 {
 	/**
 	 * Hash encode a string
@@ -81,13 +86,15 @@ if ( ! function_exists('do_hash'))
 	 * CodeIgniter 3.1+. Use hash() instead.
 	 *
 	 * @deprecated
-	 * @param	string
-	 * @param	string
-	 * @return	string
+	 *
+	 * @param    string
+	 * @param    string
+	 *
+	 * @return    string
 	 */
 	function do_hash($str, $type = 'sha1')
 	{
-		if ( ! in_array(strtolower($type), hash_algos()))
+		if (!in_array(strtolower($type), hash_algos()))
 		{
 			$type = 'md5';
 		}
@@ -98,13 +105,14 @@ if ( ! function_exists('do_hash'))
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('strip_image_tags'))
+if (!function_exists('strip_image_tags'))
 {
 	/**
 	 * Strip Image Tags
 	 *
-	 * @param	string
-	 * @return	string
+	 * @param    string
+	 *
+	 * @return    string
 	 */
 	function strip_image_tags($str)
 	{
@@ -115,13 +123,14 @@ if ( ! function_exists('strip_image_tags'))
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('encode_php_tags'))
+if (!function_exists('encode_php_tags'))
 {
 	/**
 	 * Convert PHP tags to entities
 	 *
-	 * @param	string
-	 * @return	string
+	 * @param    string
+	 *
+	 * @return    string
 	 */
 	function encode_php_tags($str)
 	{

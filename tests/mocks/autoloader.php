@@ -11,30 +11,13 @@
 // and so on...
 function autoload($class)
 {
-	$dir = realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR;
+	$dir = realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR;
 
-	$ci_core = array(
-		'Benchmark', 'Config', 'Controller',
-		'Exceptions', 'Hooks', 'Input',
-		'Lang', 'Loader', 'Model',
-		'Output', 'Router', 'Security',
-		'URI', 'Utf8',
-	);
+	$ci_core = array('Benchmark', 'Config', 'Controller', 'Exceptions', 'Hooks', 'Input', 'Lang', 'Loader', 'Model', 'Output', 'Router', 'Security', 'URI', 'Utf8',);
 
-	$ci_libraries = array(
-		'Calendar', 'Cart', 'Driver_Library',
-		'Email', 'Encrypt', 'Form_validation',
-		'Ftp', 'Image_lib', 'Javascript',
-		'Log', 'Migration', 'Pagination',
-		'Parser', 'Profiler', 'Table',
-	   	'Trackback', 'Typography', 'Unit_test',
-	   	'Upload', 'User_agent', 'Xmlrpc',
-	   	'Zip',
-	);
+	$ci_libraries = array('Calendar', 'Cart', 'Driver_Library', 'Email', 'Encrypt', 'Form_validation', 'Ftp', 'Image_lib', 'Javascript', 'Log', 'Migration', 'Pagination', 'Parser', 'Profiler', 'Table', 'Trackback', 'Typography', 'Unit_test', 'Upload', 'User_agent', 'Xmlrpc', 'Zip',);
 
-	$ci_drivers = array(
-		'Session',
-	);
+	$ci_drivers = array('Session',);
 
 	if (strpos($class, 'Mock_') === 0)
 	{
@@ -48,33 +31,34 @@ function autoload($class)
 
 		if (in_array($subclass, $ci_core))
 		{
-			$dir = BASEPATH.'core'.DIRECTORY_SEPARATOR;
+			$dir = BASEPATH . 'core' . DIRECTORY_SEPARATOR;
 			$class = $subclass;
 		}
 		elseif (in_array($subclass, $ci_libraries))
 		{
-			$dir = BASEPATH.'libraries'.DIRECTORY_SEPARATOR;
+			$dir = BASEPATH . 'libraries' . DIRECTORY_SEPARATOR;
 			$class = ($subclass === 'Driver_Library') ? 'Driver' : $subclass;
 		}
 		elseif (in_array($subclass, $ci_drivers))
 		{
-			$dir = BASEPATH.'libraries'.DIRECTORY_SEPARATOR.$subclass.DIRECTORY_SEPARATOR;
+			$dir = BASEPATH . 'libraries' . DIRECTORY_SEPARATOR . $subclass . DIRECTORY_SEPARATOR;
 			$class = $subclass;
 		}
-		elseif (in_array(($parent = strtok($subclass, '_')), $ci_drivers)) {
-			$dir = BASEPATH.'libraries'.DIRECTORY_SEPARATOR.$parent.DIRECTORY_SEPARATOR.'drivers'.DIRECTORY_SEPARATOR;
+		elseif (in_array(($parent = strtok($subclass, '_')), $ci_drivers))
+		{
+			$dir = BASEPATH . 'libraries' . DIRECTORY_SEPARATOR . $parent . DIRECTORY_SEPARATOR . 'drivers' . DIRECTORY_SEPARATOR;
 			$class = $subclass;
 		}
 		elseif (preg_match('/^CI_DB_(.+)_(driver|forge|result|utility)$/', $class, $m) && count($m) === 3)
 		{
-			$driver_path = BASEPATH.'database'.DIRECTORY_SEPARATOR.'drivers'.DIRECTORY_SEPARATOR;
-			$dir = $driver_path.$m[1].DIRECTORY_SEPARATOR;
-			$file = $dir.$m[1].'_'.$m[2].'.php';
+			$driver_path = BASEPATH . 'database' . DIRECTORY_SEPARATOR . 'drivers' . DIRECTORY_SEPARATOR;
+			$dir = $driver_path . $m[1] . DIRECTORY_SEPARATOR;
+			$file = $dir . $m[1] . '_' . $m[2] . '.php';
 		}
 		elseif (strpos($class, 'CI_DB') === 0)
 		{
-			$dir = BASEPATH.'database'.DIRECTORY_SEPARATOR;
-			$file = $dir.str_replace(array('CI_DB','active_record'), array('DB', 'active_rec'), $subclass).'.php';
+			$dir = BASEPATH . 'database' . DIRECTORY_SEPARATOR;
+			$file = $dir . str_replace(array('CI_DB', 'active_record'), array('DB', 'active_rec'), $subclass) . '.php';
 		}
 		else
 		{
@@ -82,9 +66,9 @@ function autoload($class)
 		}
 	}
 
-	$file = (isset($file)) ? $file : $dir.$class.'.php';
+	$file = (isset($file)) ? $file : $dir . $class . '.php';
 
-	if ( ! file_exists($file))
+	if (!file_exists($file))
 	{
 		$trace = debug_backtrace();
 

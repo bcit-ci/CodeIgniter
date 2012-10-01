@@ -1,6 +1,7 @@
 <?php
 
-class Benchmark_test extends CI_TestCase {
+class Benchmark_test extends CI_TestCase
+{
 
 	public function set_up()
 	{

@@ -1,6 +1,7 @@
 <?php
 
-class String_helper_test extends CI_TestCase {
+class String_helper_test extends CI_TestCase
+{
 
 	public function set_up()
 	{
@@ -9,25 +10,16 @@ class String_helper_test extends CI_TestCase {
 
 	public function test_strip_slashes()
 	{
-		$expected = array(
-			"Is your name O'reilly?",
-			"No, my name is O'connor."
-		);
+		$expected = array("Is your name O'reilly?", "No, my name is O'connor.");
 
-		$str = array(
-			"Is your name O\'reilly?",
-			"No, my name is O\'connor."
-		);
+		$str = array("Is your name O\'reilly?", "No, my name is O\'connor.");
 
 		$this->assertEquals($expected, strip_slashes($str));
 	}
 
 	public function test_trim_slashes()
 	{
-		$strs = array(
-			'//Slashes//\/'	=> 'Slashes//\\',
-			'/var/www/html/'	=> 'var/www/html'
-		);
+		$strs = array('//Slashes//\/' => 'Slashes//\\', '/var/www/html/' => 'var/www/html');
 
 		foreach ($strs as $str => $expect)
 		{
@@ -39,10 +31,7 @@ class String_helper_test extends CI_TestCase {
 
 	public function test_strip_quotes()
 	{
-		$strs = array(
-			'"me oh my!"'		=> 'me oh my!',
-			"it's a winner!"	=> 'its a winner!',
-		);
+		$strs = array('"me oh my!"' => 'me oh my!', "it's a winner!" => 'its a winner!',);
 
 		foreach ($strs as $str => $expect)
 		{
@@ -54,10 +43,7 @@ class String_helper_test extends CI_TestCase {
 
 	public function test_quotes_to_entities()
 	{
-		$strs = array(
-			'"me oh my!"'		=> '&quot;me oh my!&quot;',
-			"it's a winner!"	=> 'it&#39;s a winner!',
-		);
+		$strs = array('"me oh my!"' => '&quot;me oh my!&quot;', "it's a winner!" => 'it&#39;s a winner!',);
 
 		foreach ($strs as $str => $expect)
 		{
@@ -69,11 +55,7 @@ class String_helper_test extends CI_TestCase {
 
 	public function test_reduce_double_slashes()
 	{
-		$strs = array(
-			'http://codeigniter.com'		=> 'http://codeigniter.com',
-			'//var/www/html/example.com/'	=> '/var/www/html/example.com/',
-			'/var/www/html//index.php'		=> '/var/www/html/index.php'
-		);
+		$strs = array('http://codeigniter.com' => 'http://codeigniter.com', '//var/www/html/example.com/' => '/var/www/html/example.com/', '/var/www/html//index.php' => '/var/www/html/index.php');
 
 		foreach ($strs as $str => $expect)
 		{
@@ -85,20 +67,14 @@ class String_helper_test extends CI_TestCase {
 
 	public function test_reduce_multiples()
 	{
-		$strs = array(
-			'Fred, Bill,, Joe, Jimmy'	=> 'Fred, Bill, Joe, Jimmy',
-			'Ringo, John, Paul,,'		=> 'Ringo, John, Paul,'
-		);
+		$strs = array('Fred, Bill,, Joe, Jimmy' => 'Fred, Bill, Joe, Jimmy', 'Ringo, John, Paul,,' => 'Ringo, John, Paul,');
 
 		foreach ($strs as $str => $expect)
 		{
 			$this->assertEquals($expect, reduce_multiples($str));
 		}
 
-		$strs = array(
-			'Fred, Bill,, Joe, Jimmy'	=> 'Fred, Bill, Joe, Jimmy',
-			'Ringo, John, Paul,,'		=> 'Ringo, John, Paul'
-		);
+		$strs = array('Fred, Bill,, Joe, Jimmy' => 'Fred, Bill, Joe, Jimmy', 'Ringo, John, Paul,,' => 'Ringo, John, Paul');
 
 		foreach ($strs as $str => $expect)
 		{
@@ -110,10 +86,7 @@ class String_helper_test extends CI_TestCase {
 
 	public function test_repeater()
 	{
-		$strs = array(
-			'a'			=> 'aaaaaaaaaa',
-			'&nbsp;'	=> '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-			'<br>'		=> '<br><br><br><br><br><br><br><br><br><br>'
+		$strs = array('a' => 'aaaaaaaaaa', '&nbsp;' => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', '<br>' => '<br><br><br><br><br><br><br><br><br><br>'
 
 		);
 

@@ -1,6 +1,7 @@
 <?php
 
-class From_test extends CI_TestCase {
+class From_test extends CI_TestCase
+{
 
 	/**
 	 * @var object Database/Query Builder holder
@@ -22,9 +23,7 @@ class From_test extends CI_TestCase {
 	 */
 	public function test_from_simple()
 	{
-		$jobs = $this->db->from('job')
-					->get()
-					->result_array();
+		$jobs = $this->db->from('job')->get()->result_array();
 
 		$this->assertEquals(4, count($jobs));
 	}
@@ -36,10 +35,7 @@ class From_test extends CI_TestCase {
 	 */
 	public function test_from_with_where()
 	{
-		$job1 = $this->db->from('job')
-					->where('id', 1)
-					->get()
-					->row();
+		$job1 = $this->db->from('job')->where('id', 1)->get()->row();
 
 		$this->assertEquals('1', $job1->id);
 		$this->assertEquals('Developer', $job1->name);

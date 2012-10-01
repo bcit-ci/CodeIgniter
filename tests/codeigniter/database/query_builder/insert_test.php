@@ -1,6 +1,7 @@
 <?php
 
-class Insert_test extends CI_TestCase {
+class Insert_test extends CI_TestCase
+{
 
 	/**
 	 * @var object Database/Query Builder holder
@@ -44,10 +45,7 @@ class Insert_test extends CI_TestCase {
 	 */
 	public function test_insert_batch()
 	{
-		$job_datas = array(
-			array('id' => 2, 'name' => 'Commedian', 'description' => 'Theres something in your teeth'),
-			array('id' => 3, 'name' => 'Cab Driver', 'description' => 'Iam yellow'),
-		);
+		$job_datas = array(array('id' => 2, 'name' => 'Commedian', 'description' => 'Theres something in your teeth'), array('id' => 3, 'name' => 'Cab Driver', 'description' => 'Iam yellow'),);
 
 		// Do insert batch except for sqlite driver
 		if (strpos(DB_DRIVER, 'sqlite') === FALSE)
