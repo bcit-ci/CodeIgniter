@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,12 +19,12 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 1.0
  * @filesource
  */
 
@@ -32,13 +35,14 @@
  * creates dynamically based on whether the query builder
  * class is being used or not.
  *
- * @package		CodeIgniter
- * @subpackage	Drivers
- * @category	Database
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @package        CodeIgniter
+ * @subpackage    Drivers
+ * @category    Database
+ * @author        EllisLab Dev Team
+ * @link        http://codeigniter.com/user_guide/database/
  */
-class CI_DB_odbc_driver extends CI_DB {
+class CI_DB_odbc_driver extends CI_DB
+{
 
 	public $dbdriver = 'odbc';
 
@@ -55,7 +59,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	{
 		parent::__construct($params);
 
-		$this->_random_keyword = ' RND('.time().')'; // database specific random keyword
+		$this->_random_keyword = ' RND(' . time() . ')'; // database specific random keyword
 
 		// Legacy support for DSN in the hostname field
 		if (empty($this->dsn))
@@ -67,7 +71,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	/**
 	 * Non-persistent database connection
 	 *
-	 * @return	resource
+	 * @return    resource
 	 */
 	public function db_connect()
 	{
@@ -79,7 +83,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	/**
 	 * Persistent database connection
 	 *
-	 * @return	resource
+	 * @return    resource
 	 */
 	public function db_pconnect()
 	{
@@ -91,8 +95,9 @@ class CI_DB_odbc_driver extends CI_DB {
 	/**
 	 * Execute the query
 	 *
-	 * @param	string	an SQL query
-	 * @return	resource
+	 * @param    string    an SQL query
+	 *
+	 * @return    resource
 	 */
 	protected function _execute($sql)
 	{
@@ -104,12 +109,12 @@ class CI_DB_odbc_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
-	 * @return	bool
+	 * @return    bool
 	 */
 	public function trans_begin($test_mode = FALSE)
 	{
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
+		if (!$this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -127,12 +132,12 @@ class CI_DB_odbc_driver extends CI_DB {
 	/**
 	 * Commit Transaction
 	 *
-	 * @return	bool
+	 * @return    bool
 	 */
 	public function trans_commit()
 	{
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
+		if (!$this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -147,12 +152,12 @@ class CI_DB_odbc_driver extends CI_DB {
 	/**
 	 * Rollback Transaction
 	 *
-	 * @return	bool
+	 * @return    bool
 	 */
 	public function trans_rollback()
 	{
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
+		if (!$this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -167,9 +172,10 @@ class CI_DB_odbc_driver extends CI_DB {
 	/**
 	 * Escape String
 	 *
-	 * @param	string
-	 * @param	bool	whether or not the string will be used in a LIKE condition
-	 * @return	string
+	 * @param    string
+	 * @param    bool    whether or not the string will be used in a LIKE condition
+	 *
+	 * @return    string
 	 */
 	public function escape_str($str, $like = FALSE)
 	{
@@ -188,9 +194,7 @@ class CI_DB_odbc_driver extends CI_DB {
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
 		{
-			return str_replace(array($this->_like_escape_chr, '%', '_'),
-						array($this->_like_escape_chr.$this->_like_escape_chr, $this->_like_escape_chr.'%', $this->_like_escape_chr.'_'),
-						$str);
+			return str_replace(array($this->_like_escape_chr, '%', '_'), array($this->_like_escape_chr . $this->_like_escape_chr, $this->_like_escape_chr . '%', $this->_like_escape_chr . '_'), $str);
 		}
 
 		return $str;
@@ -201,7 +205,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	/**
 	 * Affected Rows
 	 *
-	 * @return	int
+	 * @return    int
 	 */
 	public function affected_rows()
 	{
@@ -213,7 +217,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	/**
 	 * Insert ID
 	 *
-	 * @return	bool
+	 * @return    bool
 	 */
 	public function insert_id()
 	{
@@ -227,12 +231,13 @@ class CI_DB_odbc_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	bool
-	 * @return	string
+	 * @param    bool
+	 *
+	 * @return    string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		$sql = 'SHOW TABLES FROM '.$this->database;
+		$sql = 'SHOW TABLES FROM ' . $this->database;
 
 		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{
@@ -250,12 +255,13 @@ class CI_DB_odbc_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @param	string	the table name
-	 * @return	string
+	 * @param    string    the table name
+	 *
+	 * @return    string
 	 */
 	protected function _list_columns($table = '')
 	{
-		return 'SHOW COLUMNS FROM '.$table;
+		return 'SHOW COLUMNS FROM ' . $table;
 	}
 
 	// --------------------------------------------------------------------
@@ -265,12 +271,13 @@ class CI_DB_odbc_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
-	 * @param	string	the table name
-	 * @return	string
+	 * @param    string    the table name
+	 *
+	 * @return    string
 	 */
 	protected function _field_data($table)
 	{
-		return 'SELECT TOP 1 FROM '.$table;
+		return 'SELECT TOP 1 FROM ' . $table;
 	}
 
 	// --------------------------------------------------------------------
@@ -281,7 +288,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	 * Returns an array containing code and message of the last
 	 * database error that has occured.
 	 *
-	 * @return	array
+	 * @return    array
 	 */
 	public function error()
 	{
@@ -296,8 +303,9 @@ class CI_DB_odbc_driver extends CI_DB {
 	 * This function implicitly groups FROM tables so there is no confusion
 	 * about operator precedence in harmony with SQL standards
 	 *
-	 * @param	array
-	 * @return	string
+	 * @param    array
+	 *
+	 * @return    string
 	 */
 	protected function _from_tables($tables)
 	{
@@ -314,12 +322,13 @@ class CI_DB_odbc_driver extends CI_DB {
 	 * If the database does not support the truncate() command,
 	 * then this method maps to 'DELETE FROM table'
 	 *
-	 * @param	string	the table name
-	 * @return	string
+	 * @param    string    the table name
+	 *
+	 * @return    string
 	 */
 	protected function _truncate($table)
 	{
-		return 'DELETE FROM '.$table;
+		return 'DELETE FROM ' . $table;
 	}
 
 	// --------------------------------------------------------------------
@@ -327,7 +336,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @return	void
+	 * @return    void
 	 */
 	protected function _close()
 	{

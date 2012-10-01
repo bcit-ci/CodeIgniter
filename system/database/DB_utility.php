@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,30 +19,31 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 1.0
  * @filesource
  */
 
 /**
  * Database Utility Class
  *
- * @category	Database
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @category    Database
+ * @author        EllisLab Dev Team
+ * @link        http://codeigniter.com/user_guide/database/
  */
-abstract class CI_DB_utility extends CI_DB_forge {
+abstract class CI_DB_utility extends CI_DB_forge
+{
 
 	public $db;
 
 	// Platform specific SQL strings
 	// Just setting those defaults to FALSE as they are mostly MySQL-specific
-	protected $_optimize_table	= FALSE;
-	protected $_repair_table	= FALSE;
+	protected $_optimize_table = FALSE;
+	protected $_repair_table = FALSE;
 
 	public function __construct()
 	{
@@ -54,7 +58,7 @@ abstract class CI_DB_utility extends CI_DB_forge {
 	/**
 	 * List databases
 	 *
-	 * @return	array
+	 * @return    array
 	 */
 	public function list_databases()
 	{
@@ -89,8 +93,9 @@ abstract class CI_DB_utility extends CI_DB_forge {
 	/**
 	 * Determine if a particular database exists
 	 *
-	 * @param	string
-	 * @return	bool
+	 * @param    string
+	 *
+	 * @return    bool
 	 */
 	public function database_exists($database_name)
 	{
@@ -102,8 +107,9 @@ abstract class CI_DB_utility extends CI_DB_forge {
 	/**
 	 * Optimize Table
 	 *
-	 * @param	string	the table name
-	 * @return	mixed
+	 * @param    string    the table name
+	 *
+	 * @return    mixed
 	 */
 	public function optimize_table($table_name)
 	{
@@ -127,7 +133,7 @@ abstract class CI_DB_utility extends CI_DB_forge {
 	/**
 	 * Optimize Database
 	 *
-	 * @return	mixed
+	 * @return    mixed
 	 */
 	public function optimize_database()
 	{
@@ -148,7 +154,7 @@ abstract class CI_DB_utility extends CI_DB_forge {
 			// Build the result array...
 			$res = $res->result_array();
 			$res = current($res);
-			$key = str_replace($this->db->database.'.', '', current($res));
+			$key = str_replace($this->db->database . '.', '', current($res));
 			$keys = array_keys($res);
 			unset($res[$keys[0]]);
 
@@ -163,8 +169,9 @@ abstract class CI_DB_utility extends CI_DB_forge {
 	/**
 	 * Repair Table
 	 *
-	 * @param	string	the table name
-	 * @return	mixed
+	 * @param    string    the table name
+	 *
+	 * @return    mixed
 	 */
 	public function repair_table($table_name)
 	{
@@ -188,15 +195,16 @@ abstract class CI_DB_utility extends CI_DB_forge {
 	/**
 	 * Generate CSV from a query result object
 	 *
-	 * @param	object	The query result object
-	 * @param	string	The delimiter - comma by default
-	 * @param	string	The newline character - \n by default
-	 * @param	string	The enclosure - double quote by default
-	 * @return	string
+	 * @param    object    The query result object
+	 * @param    string    The delimiter - comma by default
+	 * @param    string    The newline character - \n by default
+	 * @param    string    The enclosure - double quote by default
+	 *
+	 * @return    string
 	 */
 	public function csv_from_result($query, $delim = ',', $newline = "\n", $enclosure = '"')
 	{
-		if ( ! is_object($query) OR ! method_exists($query, 'list_fields'))
+		if (!is_object($query) OR !method_exists($query, 'list_fields'))
 		{
 			show_error('You must submit a valid result object');
 		}
@@ -205,19 +213,19 @@ abstract class CI_DB_utility extends CI_DB_forge {
 		// First generate the headings from the table column names
 		foreach ($query->list_fields() as $name)
 		{
-			$out .= $enclosure.str_replace($enclosure, $enclosure.$enclosure, $name).$enclosure.$delim;
+			$out .= $enclosure . str_replace($enclosure, $enclosure . $enclosure, $name) . $enclosure . $delim;
 		}
 
-		$out = rtrim($out).$newline;
+		$out = rtrim($out) . $newline;
 
 		// Next blast through the result array and build out the rows
 		while ($row = $query->unbuffered_row('array'))
 		{
 			foreach ($row as $item)
 			{
-				$out .= $enclosure.str_replace($enclosure, $enclosure.$enclosure, $item).$enclosure.$delim;
+				$out .= $enclosure . str_replace($enclosure, $enclosure . $enclosure, $item) . $enclosure . $delim;
 			}
-			$out = rtrim($out).$newline;
+			$out = rtrim($out) . $newline;
 		}
 
 		return $out;
@@ -228,13 +236,14 @@ abstract class CI_DB_utility extends CI_DB_forge {
 	/**
 	 * Generate XML data from a query result object
 	 *
-	 * @param	object	The query result object
-	 * @param	array	Any preferences
-	 * @return	string
+	 * @param    object    The query result object
+	 * @param    array    Any preferences
+	 *
+	 * @return    string
 	 */
 	public function xml_from_result($query, $params = array())
 	{
-		if ( ! is_object($query) OR ! method_exists($query, 'list_fields'))
+		if (!is_object($query) OR !method_exists($query, 'list_fields'))
 		{
 			show_error('You must submit a valid result object');
 		}
@@ -242,7 +251,7 @@ abstract class CI_DB_utility extends CI_DB_forge {
 		// Set our default values
 		foreach (array('root' => 'root', 'element' => 'element', 'newline' => "\n", 'tab' => "\t") as $key => $val)
 		{
-			if ( ! isset($params[$key]))
+			if (!isset($params[$key]))
 			{
 				$params[$key] = $val;
 			}
@@ -256,18 +265,18 @@ abstract class CI_DB_utility extends CI_DB_forge {
 		$CI->load->helper('xml');
 
 		// Generate the result
-		$xml = '<'.$root.'>'.$newline;
+		$xml = '<' . $root . '>' . $newline;
 		while ($row = $query->unbuffered_row())
 		{
-			$xml .= $tab.'<'.$element.'>'.$newline;
+			$xml .= $tab . '<' . $element . '>' . $newline;
 			foreach ($row as $key => $val)
 			{
-				$xml .= $tab.$tab.'<'.$key.'>'.xml_convert($val).'</'.$key.'>'.$newline;
+				$xml .= $tab . $tab . '<' . $key . '>' . xml_convert($val) . '</' . $key . '>' . $newline;
 			}
-			$xml .= $tab.'</'.$element.'>'.$newline;
+			$xml .= $tab . '</' . $element . '>' . $newline;
 		}
 
-		return $xml.'</'.$root.'>'.$newline;
+		return $xml . '</' . $root . '>' . $newline;
 	}
 
 	// --------------------------------------------------------------------
@@ -275,7 +284,7 @@ abstract class CI_DB_utility extends CI_DB_forge {
 	/**
 	 * Database Backup
 	 *
-	 * @return	void
+	 * @return    void
 	 */
 	public function backup($params = array())
 	{
@@ -290,15 +299,8 @@ abstract class CI_DB_utility extends CI_DB_forge {
 		// ------------------------------------------------------
 
 		// Set up our default preferences
-		$prefs = array(
-				'tables'		=> array(),
-				'ignore'		=> array(),
-				'filename'		=> '',
-				'format'		=> 'gzip', // gzip, zip, txt
-				'add_drop'		=> TRUE,
-				'add_insert'		=> TRUE,
-				'newline'		=> "\n"
-			);
+		$prefs = array('tables' => array(), 'ignore' => array(), 'filename' => '', 'format' => 'gzip', // gzip, zip, txt
+			'add_drop' => TRUE, 'add_insert' => TRUE, 'newline' => "\n");
 
 		// Did the user submit any preferences? If so set them....
 		if (count($params) > 0)
@@ -320,15 +322,16 @@ abstract class CI_DB_utility extends CI_DB_forge {
 		}
 
 		// Validate the format
-		if ( ! in_array($prefs['format'], array('gzip', 'zip', 'txt'), TRUE))
+		if (!in_array($prefs['format'], array('gzip', 'zip', 'txt'), TRUE))
 		{
 			$prefs['format'] = 'txt';
 		}
 
 		// Is the encoder supported? If not, we'll either issue an
 		// error or use plain text depending on the debug settings
-		if (($prefs['format'] === 'gzip' && ! @function_exists('gzencode'))
-			OR ($prefs['format'] === 'zip' && ! @function_exists('gzcompress')))
+		if (($prefs['format'] === 'gzip' && !@function_exists('gzencode'))
+			OR ($prefs['format'] === 'zip' && !@function_exists('gzcompress'))
+		)
 		{
 			if ($this->db->db_debug)
 			{
@@ -344,8 +347,7 @@ abstract class CI_DB_utility extends CI_DB_forge {
 			// Set the filename if not provided (only needed with Zip files)
 			if ($prefs['filename'] === '')
 			{
-				$prefs['filename'] = (count($prefs['tables']) === 1 ? $prefs['tables'] : $this->db->database)
-							.date('Y-m-d_H-i', time()).'.sql';
+				$prefs['filename'] = (count($prefs['tables']) === 1 ? $prefs['tables'] : $this->db->database) . date('Y-m-d_H-i', time()) . '.sql';
 			}
 			else
 			{
@@ -356,7 +358,7 @@ abstract class CI_DB_utility extends CI_DB_forge {
 				}
 
 				// Tack on the ".sql" file extension if needed
-				if ( ! preg_match('|.+?\.sql$|', $prefs['filename']))
+				if (!preg_match('|.+?\.sql$|', $prefs['filename']))
 				{
 					$prefs['filename'] .= '.sql';
 				}

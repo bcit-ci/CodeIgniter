@@ -1,6 +1,7 @@
 <?php
 
-class Number_helper_test extends CI_TestCase {
+class Number_helper_test extends CI_TestCase
+{
 
 	public function set_up()
 	{
@@ -13,9 +14,7 @@ class Number_helper_test extends CI_TestCase {
 		// we'll just check for the expected parameter
 
 		$lang = $this->getMock($lang_cls, array('load'));
-		$lang->expects($this->once())
-			 ->method('load')
-			 ->with($this->equalTo('number'));
+		$lang->expects($this->once())->method('load')->with($this->equalTo('number'));
 
 		// Assign the proper language array
 
@@ -34,7 +33,7 @@ class Number_helper_test extends CI_TestCase {
 	// file. Consider moving this to ci_testcase?
 	public function _get_lang($name)
 	{
-		require BASEPATH.'language/english/'.$name.'_lang.php';
+		require BASEPATH . 'language/english/' . $name . '_lang.php';
 		return $lang;
 	}
 

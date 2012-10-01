@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,12 +19,12 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 2.1
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 2.1
  * @filesource
  */
 
@@ -30,23 +33,22 @@
  *
  * This class extends the parent result class: CI_DB_result
  *
- * @category	Database
- * @author		Esen Sagynov
- * @link		http://codeigniter.com/user_guide/database/
- * @since	2.1
+ * @category    Database
+ * @author        Esen Sagynov
+ * @link        http://codeigniter.com/user_guide/database/
+ * @since    2.1
  */
-class CI_DB_cubrid_result extends CI_DB_result {
+class CI_DB_cubrid_result extends CI_DB_result
+{
 
 	/**
 	 * Number of rows in the result set
 	 *
-	 * @return	int
+	 * @return    int
 	 */
 	public function num_rows()
 	{
-		return is_int($this->num_rows)
-			? $this->num_rows
-			: $this->num_rows = @cubrid_num_rows($this->result_id);
+		return is_int($this->num_rows) ? $this->num_rows : $this->num_rows = @cubrid_num_rows($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -54,7 +56,7 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	/**
 	 * Number of fields in the result set
 	 *
-	 * @return	int
+	 * @return    int
 	 */
 	public function num_fields()
 	{
@@ -68,7 +70,7 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	 *
 	 * Generates an array of column names
 	 *
-	 * @return	array
+	 * @return    array
 	 */
 	public function list_fields()
 	{
@@ -82,7 +84,7 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	 *
 	 * Generates an array of objects containing field meta-data
 	 *
-	 * @return	array
+	 * @return    array
 	 */
 	public function field_data()
 	{
@@ -91,16 +93,16 @@ class CI_DB_cubrid_result extends CI_DB_result {
 
 		while ($field = cubrid_fetch_field($this->result_id))
 		{
-			$retval[$i]			= new stdClass();
-			$retval[$i]->name		= $field->name;
+			$retval[$i] = new stdClass();
+			$retval[$i]->name = $field->name;
 			// CUBRID returns type as e.g. varchar(100),
 			// so we need to remove all digits and brackets.
-			$retval[$i]->type		= preg_replace('/[\d()]/', '', $field->type);
-			$retval[$i]->default		= $field->def;
+			$retval[$i]->type = preg_replace('/[\d()]/', '', $field->type);
+			$retval[$i]->default = $field->def;
 			// Use CUBRID's native API to obtain column's max_length,
 			// otherwise $field->max_length has incorrect info
-			$retval[$i]->max_length		= cubrid_field_len($this->result_id, $i);
-			$retval[$i++]->primary_key	= $field->primary_key;
+			$retval[$i]->max_length = cubrid_field_len($this->result_id, $i);
+			$retval[$i++]->primary_key = $field->primary_key;
 		}
 
 		return $retval;
@@ -111,12 +113,13 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	/**
 	 * Free the result
 	 *
-	 * @return	void
+	 * @return    void
 	 */
 	public function free_result()
 	{
 		if (is_resource($this->result_id) OR
-			(get_resource_type($this->result_id) === 'Unknown' && preg_match('/Resource id #/', strval($this->result_id))))
+			(get_resource_type($this->result_id) === 'Unknown' && preg_match('/Resource id #/', strval($this->result_id)))
+		)
 		{
 			cubrid_close_request($this->result_id);
 			$this->result_id = FALSE;
@@ -132,7 +135,7 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	 * this internally before fetching results to make sure the
 	 * result set starts at zero
 	 *
-	 * @return	bool
+	 * @return    bool
 	 */
 	protected function _data_seek($n = 0)
 	{
@@ -146,7 +149,7 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an array
 	 *
-	 * @return	array
+	 * @return    array
 	 */
 	protected function _fetch_assoc()
 	{
@@ -160,8 +163,9 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @param	string
-	 * @return	object
+	 * @param    string
+	 *
+	 * @return    object
 	 */
 	protected function _fetch_object($class_name = 'stdClass')
 	{

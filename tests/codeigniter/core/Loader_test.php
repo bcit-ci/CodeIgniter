@@ -1,6 +1,7 @@
 <?php
 
-class Loader_test extends CI_TestCase {
+class Loader_test extends CI_TestCase
+{
 
 	private $ci_obj;
 
@@ -56,9 +57,7 @@ class Loader_test extends CI_TestCase {
 		// Mock up a config object until we
 		// figure out how to test the library configs
 		$config = $this->getMock('CI_Config', NULL, array(), '', FALSE);
-		$config->expects($this->any())
-			   ->method('load')
-			   ->will($this->returnValue(TRUE));
+		$config->expects($this->any())->method('load')->will($this->returnValue(TRUE));
 
 		// Add the mock to our stdClass
 		$this->ci_instance_var('config', $config);
@@ -68,10 +67,7 @@ class Loader_test extends CI_TestCase {
 
 	public function test_non_existent_model()
 	{
-		$this->setExpectedException(
-			'RuntimeException',
-			'CI Error: Unable to locate the model you have specified: ci_test_nonexistent_model.php'
-		);
+		$this->setExpectedException('RuntimeException', 'CI Error: Unable to locate the model you have specified: ci_test_nonexistent_model.php');
 
 		$this->load->model('ci_test_nonexistent_model.php');
 	}
@@ -120,8 +116,7 @@ class Loader_test extends CI_TestCase {
 
 		// Use the optional return parameter in this test, so the view is not
 		// run through the output class.
-		$this->assertEquals('This is my test page.  World!',
-		$this->load->view('unit_test_view', array('hello' => "World!"), TRUE));
+		$this->assertEquals('This is my test page.  World!', $this->load->view('unit_test_view', array('hello' => "World!"), TRUE));
 
 	}
 
@@ -132,10 +127,7 @@ class Loader_test extends CI_TestCase {
 	 */
 	public function test_non_existent_view()
 	{
-		$this->setExpectedException(
-			'RuntimeException',
-			'CI Error: Unable to load the requested file: ci_test_nonexistent_view.php'
-		);
+		$this->setExpectedException('RuntimeException', 'CI Error: Unable to load the requested file: ci_test_nonexistent_view.php');
 
 		$this->load->view('ci_test_nonexistent_view', array('foo' => 'bar'));
 	}
@@ -148,14 +140,11 @@ class Loader_test extends CI_TestCase {
 		$file = vfsStream::newFile('ci_test_mock_file.php')->withContent($content)->at($this->load->views_dir);
 
 		// Just like load->view(), take the output class out of the mix here.
-		$load = $this->load->file(vfsStream::url('application').'/views/ci_test_mock_file.php', TRUE);
+		$load = $this->load->file(vfsStream::url('application') . '/views/ci_test_mock_file.php', TRUE);
 
 		$this->assertEquals($content, $load);
 
-		$this->setExpectedException(
-			'RuntimeException',
-			'CI Error: Unable to load the requested file: ci_test_file_not_exists'
-		);
+		$this->setExpectedException('RuntimeException', 'CI Error: Unable to load the requested file: ci_test_file_not_exists');
 
 		$this->load->file('ci_test_file_not_exists', TRUE);
 	}
@@ -174,10 +163,7 @@ class Loader_test extends CI_TestCase {
 	{
 		$this->assertEquals(NULL, $this->load->helper('array'));
 
-		$this->setExpectedException(
-			'RuntimeException',
-			'CI Error: Unable to load the requested file: helpers/bad_helper.php'
-		);
+		$this->setExpectedException('RuntimeException', 'CI Error: Unable to load the requested file: helpers/bad_helper.php');
 
 		$this->load->helper('bad');
 	}
@@ -210,10 +196,7 @@ class Loader_test extends CI_TestCase {
 	{
 		$this->_setup_config_mock();
 
-		$this->setExpectedException(
-			'RuntimeException',
-			'CI Error: The configuration file foobar.php does not exist.'
-		);
+		$this->setExpectedException('RuntimeException', 'CI Error: The configuration file foobar.php does not exist.');
 
 		$this->load->config('foobar', FALSE);
 	}

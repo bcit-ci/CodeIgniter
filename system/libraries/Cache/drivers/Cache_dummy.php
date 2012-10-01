@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,33 +19,35 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2006 - 2012 EllisLab, Inc.
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 2.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2006 - 2012 EllisLab, Inc.
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 2.0
  * @filesource
  */
 
 /**
  * CodeIgniter Dummy Caching Class
  *
- * @package		CodeIgniter
- * @subpackage	Libraries
- * @category	Core
- * @author		EllisLab Dev Team
+ * @package        CodeIgniter
+ * @subpackage    Libraries
+ * @category    Core
+ * @author        EllisLab Dev Team
  * @link
  */
-class CI_Cache_dummy extends CI_Driver {
+class CI_Cache_dummy extends CI_Driver
+{
 
 	/**
 	 * Get
 	 *
 	 * Since this is the dummy class, it's always going to return FALSE.
 	 *
-	 * @param	string
-	 * @return	bool	FALSE
+	 * @param    string
+	 *
+	 * @return    bool    FALSE
 	 */
 	public function get($id)
 	{
@@ -54,10 +59,11 @@ class CI_Cache_dummy extends CI_Driver {
 	/**
 	 * Cache Save
 	 *
-	 * @param	string	Unique Key
-	 * @param	mixed	Data to store
-	 * @param	int	Length of time (in seconds) to cache the data
-	 * @return	bool	TRUE, Simulating success
+	 * @param    string    Unique Key
+	 * @param    mixed    Data to store
+	 * @param    int    Length of time (in seconds) to cache the data
+	 *
+	 * @return    bool    TRUE, Simulating success
 	 */
 	public function save($id, $data, $ttl = 60)
 	{
@@ -69,8 +75,9 @@ class CI_Cache_dummy extends CI_Driver {
 	/**
 	 * Delete from Cache
 	 *
-	 * @param	mixed	unique identifier of the item in the cache
-	 * @return	bool	TRUE, simulating success
+	 * @param    mixed    unique identifier of the item in the cache
+	 *
+	 * @return    bool    TRUE, simulating success
 	 */
 	public function delete($id)
 	{
@@ -82,7 +89,7 @@ class CI_Cache_dummy extends CI_Driver {
 	/**
 	 * Clean the cache
 	 *
-	 * @return	bool	TRUE, simulating success
+	 * @return    bool    TRUE, simulating success
 	 */
 	public function clean()
 	{
@@ -94,21 +101,23 @@ class CI_Cache_dummy extends CI_Driver {
 	/**
 	 * Cache Info
 	 *
-	 * @param	string	user/filehits
-	 * @return	bool	FALSE
+	 * @param    string    user/filehits
+	 *
+	 * @return    bool    FALSE
 	 */
-	 public function cache_info($type = NULL)
-	 {
-		 return FALSE;
-	 }
+	public function cache_info($type = NULL)
+	{
+		return FALSE;
+	}
 
 	// ------------------------------------------------------------------------
 
 	/**
 	 * Get Cache Metadata
 	 *
-	 * @param	mixed	key to get cache metadata on
-	 * @return	bool	FALSE
+	 * @param    mixed    key to get cache metadata on
+	 *
+	 * @return    bool    FALSE
 	 */
 	public function get_metadata($id)
 	{
@@ -121,7 +130,7 @@ class CI_Cache_dummy extends CI_Driver {
 	 * Is this caching driver supported on the system?
 	 * Of course this one is.
 	 *
-	 * @return	bool	TRUE
+	 * @return    bool    TRUE
 	 */
 	public function is_supported()
 	{

@@ -1,6 +1,7 @@
 <?php
 
-class Update_test extends CI_TestCase {
+class Update_test extends CI_TestCase
+{
 
 	/**
 	 * @var object Database/Query Builder holder

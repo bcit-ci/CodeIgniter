@@ -1,6 +1,7 @@
 <?php
 
-class Path_helper_test extends CI_TestCase {
+class Path_helper_test extends CI_TestCase
+{
 
 	public function set_up()
 	{
@@ -9,7 +10,7 @@ class Path_helper_test extends CI_TestCase {
 
 	public function test_set_realpath()
 	{
-		$this->assertEquals(getcwd().DIRECTORY_SEPARATOR, set_realpath(getcwd()));
+		$this->assertEquals(getcwd() . DIRECTORY_SEPARATOR, set_realpath(getcwd()));
 	}
 
 	public function test_set_realpath_nonexistent_directory()
@@ -20,9 +21,7 @@ class Path_helper_test extends CI_TestCase {
 
 	public function test_set_realpath_error_trigger()
 	{
-		$this->setExpectedException(
-				'RuntimeException', 'CI Error: Not a valid path: /path/to/nowhere'
-		);
+		$this->setExpectedException('RuntimeException', 'CI Error: Not a valid path: /path/to/nowhere');
 
 		set_realpath('/path/to/nowhere', TRUE);
 	}

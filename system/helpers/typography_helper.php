@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,34 +19,35 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 1.0
  * @filesource
  */
 
 /**
  * CodeIgniter Typography Helpers
  *
- * @package		CodeIgniter
- * @subpackage	Helpers
- * @category	Helpers
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/helpers/typography_helper.html
+ * @package        CodeIgniter
+ * @subpackage    Helpers
+ * @category    Helpers
+ * @author        EllisLab Dev Team
+ * @link        http://codeigniter.com/user_guide/helpers/typography_helper.html
  */
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('nl2br_except_pre'))
+if (!function_exists('nl2br_except_pre'))
 {
 	/**
 	 * Convert newlines to HTML line breaks except within PRE tags
 	 *
-	 * @param	string
-	 * @return	string
+	 * @param    string
+	 *
+	 * @return    string
 	 */
 	function nl2br_except_pre($str)
 	{
@@ -55,15 +59,16 @@ if ( ! function_exists('nl2br_except_pre'))
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('auto_typography'))
+if (!function_exists('auto_typography'))
 {
 	/**
 	 * Auto Typography Wrapper Function
 	 *
-	 * @param	string
-	 * @param	bool	whether to allow javascript event handlers
-	 * @param	bool	whether to reduce multiple instances of double newlines to two
-	 * @return	string
+	 * @param    string
+	 * @param    bool    whether to allow javascript event handlers
+	 * @param    bool    whether to reduce multiple instances of double newlines to two
+	 *
+	 * @return    string
 	 */
 	function auto_typography($str, $reduce_linebreaks = FALSE)
 	{
@@ -75,16 +80,17 @@ if ( ! function_exists('auto_typography'))
 
 // --------------------------------------------------------------------
 
-if ( ! function_exists('entity_decode'))
+if (!function_exists('entity_decode'))
 {
 	/**
 	 * HTML Entities Decode
 	 *
 	 * This function is a replacement for html_entity_decode()
 	 *
-	 * @param	string
-	 * @param	string
-	 * @return	string
+	 * @param    string
+	 * @param    string
+	 *
+	 * @return    string
 	 */
 	function entity_decode($str, $charset = NULL)
 	{

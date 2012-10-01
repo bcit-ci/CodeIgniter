@@ -1,6 +1,7 @@
 <?php
 
-class Mock_Core_Loader extends CI_Loader {
+class Mock_Core_Loader extends CI_Loader
+{
 
 	/**
 	 * Since we use paths to load up models, views, etc, we need the ability to
@@ -16,16 +17,16 @@ class Mock_Core_Loader extends CI_Loader {
 		vfsStreamWrapper::register();
 		vfsStreamWrapper::setRoot(new vfsStreamDirectory('application'));
 
-		$this->models_dir 	= vfsStream::newDirectory('models')->at(vfsStreamWrapper::getRoot());
-		$this->libs_dir 	= vfsStream::newDirectory('libraries')->at(vfsStreamWrapper::getRoot());
-		$this->helpers_dir 	= vfsStream::newDirectory('helpers')->at(vfsStreamWrapper::getRoot());
-		$this->views_dir 	= vfsStream::newDirectory('views')->at(vfsStreamWrapper::getRoot());
+		$this->models_dir = vfsStream::newDirectory('models')->at(vfsStreamWrapper::getRoot());
+		$this->libs_dir = vfsStream::newDirectory('libraries')->at(vfsStreamWrapper::getRoot());
+		$this->helpers_dir = vfsStream::newDirectory('helpers')->at(vfsStreamWrapper::getRoot());
+		$this->views_dir = vfsStream::newDirectory('views')->at(vfsStreamWrapper::getRoot());
 
-		$this->_ci_ob_level  		= ob_get_level();
-		$this->_ci_library_paths	= array(vfsStream::url('application').'/', BASEPATH);
-		$this->_ci_helper_paths 	= array(vfsStream::url('application').'/', BASEPATH);
-		$this->_ci_model_paths 		= array(vfsStream::url('application').'/');
-		$this->_ci_view_paths 		= array(vfsStream::url('application').'/views/' => TRUE);
+		$this->_ci_ob_level = ob_get_level();
+		$this->_ci_library_paths = array(vfsStream::url('application') . '/', BASEPATH);
+		$this->_ci_helper_paths = array(vfsStream::url('application') . '/', BASEPATH);
+		$this->_ci_model_paths = array(vfsStream::url('application') . '/');
+		$this->_ci_view_paths = array(vfsStream::url('application') . '/views/' => TRUE);
 	}
 
 }

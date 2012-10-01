@@ -1,6 +1,7 @@
 <?php
 
-class Setup_test extends PHPUnit_Framework_TestCase {
+class Setup_test extends PHPUnit_Framework_TestCase
+{
 
 	public function test_bootstrap_constants()
 	{

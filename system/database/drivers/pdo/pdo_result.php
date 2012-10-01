@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,12 +19,12 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 1.0
  * @filesource
  */
 
@@ -30,17 +33,18 @@
  *
  * This class extends the parent result class: CI_DB_result
  *
- * @category	Database
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
- * @since	2.1
+ * @category    Database
+ * @author        EllisLab Dev Team
+ * @link        http://codeigniter.com/user_guide/database/
+ * @since    2.1
  */
-class CI_DB_pdo_result extends CI_DB_result {
+class CI_DB_pdo_result extends CI_DB_result
+{
 
 	/**
 	 * Number of rows in the result set
 	 *
-	 * @return	int
+	 * @return    int
 	 */
 	public function num_rows()
 	{
@@ -69,7 +73,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 	/**
 	 * Number of fields in the result set
 	 *
-	 * @return	int
+	 * @return    int
 	 */
 	public function num_fields()
 	{
@@ -83,7 +87,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * Generates an array of column names
 	 *
-	 * @return	bool
+	 * @return    bool
 	 */
 	public function list_fields()
 	{
@@ -104,7 +108,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * Generates an array of objects containing field meta-data
 	 *
-	 * @return	array
+	 * @return    array
 	 */
 	public function field_data()
 	{
@@ -118,38 +122,38 @@ class CI_DB_pdo_result extends CI_DB_result {
 				{
 					preg_match('/([a-zA-Z]+)(\(\d+\))?/', $field['type'], $matches);
 
-					$F		= new stdClass();
-					$F->name	= $field['name'];
-					$F->type	= ( ! empty($matches[1])) ? $matches[1] : NULL;
-					$F->default	= NULL;
-					$F->max_length	= ( ! empty($matches[2])) ? preg_replace('/[^\d]/', '', $matches[2]) : NULL;
-					$F->primary_key = (int) $field['pk'];
-					$F->pdo_type	= NULL;
+					$F = new stdClass();
+					$F->name = $field['name'];
+					$F->type = (!empty($matches[1])) ? $matches[1] : NULL;
+					$F->default = NULL;
+					$F->max_length = (!empty($matches[2])) ? preg_replace('/[^\d]/', '', $matches[2]) : NULL;
+					$F->primary_key = (int)$field['pk'];
+					$F->pdo_type = NULL;
 
 					$data[] = $F;
 				}
 			}
 			else
 			{
-				for($i = 0, $max = $this->num_fields(); $i < $max; $i++)
+				for ($i = 0, $max = $this->num_fields(); $i < $max; $i++)
 				{
 					$field = $this->result_id->getColumnMeta($i);
 
-					$F		= new stdClass();
-					$F->name	= $field['name'];
-					$F->type	= $field['native_type'];
-					$F->default	= NULL;
-					$F->pdo_type	= $field['pdo_type'];
+					$F = new stdClass();
+					$F->name = $field['name'];
+					$F->type = $field['native_type'];
+					$F->default = NULL;
+					$F->pdo_type = $field['pdo_type'];
 
 					if ($field['precision'] < 0)
 					{
-						$F->max_length	= NULL;
+						$F->max_length = NULL;
 						$F->primary_key = 0;
 					}
 					else
 					{
-						$F->max_length	= ($field['len'] > 255) ? 0 : $field['len'];
-						$F->primary_key = (int) ( ! empty($field['flags']) && in_array('primary_key', $field['flags']));
+						$F->max_length = ($field['len'] > 255) ? 0 : $field['len'];
+						$F->primary_key = (int)(!empty($field['flags']) && in_array('primary_key', $field['flags']));
 					}
 
 					$data[] = $F;
@@ -174,7 +178,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 	/**
 	 * Free the result
 	 *
-	 * @return	void
+	 * @return    void
 	 */
 	public function free_result()
 	{
@@ -191,7 +195,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an array
 	 *
-	 * @return	array
+	 * @return    array
 	 */
 	protected function _fetch_assoc()
 	{
@@ -205,8 +209,9 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @param	string
-	 * @return	object
+	 * @param    string
+	 *
+	 * @return    object
 	 */
 	protected function _fetch_object($class_name = 'stdClass')
 	{

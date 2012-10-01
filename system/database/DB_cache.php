@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,26 +19,27 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 1.0
  * @filesource
  */
 
 /**
  * Database Cache Class
  *
- * @category	Database
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @category    Database
+ * @author        EllisLab Dev Team
+ * @link        http://codeigniter.com/user_guide/database/
  */
-class CI_DB_Cache {
+class CI_DB_Cache
+{
 
 	public $CI;
-	public $db;	// allows passing of db object so that multiple database connections and returned db objects can be supported
+	public $db; // allows passing of db object so that multiple database connections and returned db objects can be supported
 
 	public function __construct(&$db)
 	{
@@ -50,8 +54,9 @@ class CI_DB_Cache {
 	/**
 	 * Set Cache Directory Path
 	 *
-	 * @param	string	the path to the cache directory
-	 * @return	bool
+	 * @param    string    the path to the cache directory
+	 *
+	 * @return    bool
 	 */
 	public function check_path($path = '')
 	{
@@ -66,9 +71,9 @@ class CI_DB_Cache {
 		}
 
 		// Add a trailing slash to the path if needed
-		$path = preg_replace('/(.+?)\/*$/', '\\1/',  $path);
+		$path = preg_replace('/(.+?)\/*$/', '\\1/', $path);
 
-		if ( ! is_dir($path) OR ! is_really_writable($path))
+		if (!is_dir($path) OR !is_really_writable($path))
 		{
 			// If the path is wrong we'll turn off caching
 			return $this->db->cache_off();
@@ -86,18 +91,18 @@ class CI_DB_Cache {
 	 * The URI being requested will become the name of the cache sub-folder.
 	 * An MD5 hash of the SQL statement will become the cache file name
 	 *
-	 * @return	string
+	 * @return    string
 	 */
 	public function read($sql)
 	{
-		if ( ! $this->check_path())
+		if (!$this->check_path())
 		{
 			return $this->db->cache_off();
 		}
 
 		$segment_one = ($this->CI->uri->segment(1) == FALSE) ? 'default' : $this->CI->uri->segment(1);
 		$segment_two = ($this->CI->uri->segment(2) == FALSE) ? 'index' : $this->CI->uri->segment(2);
-		$filepath = $this->db->cachedir.$segment_one.'+'.$segment_two.'/'.md5($sql);
+		$filepath = $this->db->cachedir . $segment_one . '+' . $segment_two . '/' . md5($sql);
 
 		if (FALSE === ($cachedata = file_get_contents($filepath)))
 		{
@@ -112,23 +117,23 @@ class CI_DB_Cache {
 	/**
 	 * Write a query to a cache file
 	 *
-	 * @return	bool
+	 * @return    bool
 	 */
 	public function write($sql, $object)
 	{
-		if ( ! $this->check_path())
+		if (!$this->check_path())
 		{
 			return $this->db->cache_off();
 		}
 
 		$segment_one = ($this->CI->uri->segment(1) == FALSE) ? 'default' : $this->CI->uri->segment(1);
 		$segment_two = ($this->CI->uri->segment(2) == FALSE) ? 'index' : $this->CI->uri->segment(2);
-		$dir_path = $this->db->cachedir.$segment_one.'+'.$segment_two.'/';
+		$dir_path = $this->db->cachedir . $segment_one . '+' . $segment_two . '/';
 		$filename = md5($sql);
 
-		if ( ! @is_dir($dir_path))
+		if (!@is_dir($dir_path))
 		{
-			if ( ! @mkdir($dir_path, DIR_WRITE_MODE))
+			if (!@mkdir($dir_path, DIR_WRITE_MODE))
 			{
 				return FALSE;
 			}
@@ -136,12 +141,12 @@ class CI_DB_Cache {
 			@chmod($dir_path, DIR_WRITE_MODE);
 		}
 
-		if (write_file($dir_path.$filename, serialize($object)) === FALSE)
+		if (write_file($dir_path . $filename, serialize($object)) === FALSE)
 		{
 			return FALSE;
 		}
 
-		@chmod($dir_path.$filename, FILE_WRITE_MODE);
+		@chmod($dir_path . $filename, FILE_WRITE_MODE);
 		return TRUE;
 	}
 
@@ -150,13 +155,13 @@ class CI_DB_Cache {
 	/**
 	 * Delete cache files within a particular directory
 	 *
-	 * @return	bool
+	 * @return    bool
 	 */
 	public function delete($segment_one = '', $segment_two = '')
 	{
 		if ($segment_one === '')
 		{
-			$segment_one  = ($this->CI->uri->segment(1) == FALSE) ? 'default' : $this->CI->uri->segment(1);
+			$segment_one = ($this->CI->uri->segment(1) == FALSE) ? 'default' : $this->CI->uri->segment(1);
 		}
 
 		if ($segment_two === '')
@@ -164,7 +169,7 @@ class CI_DB_Cache {
 			$segment_two = ($this->CI->uri->segment(2) == FALSE) ? 'index' : $this->CI->uri->segment(2);
 		}
 
-		$dir_path = $this->db->cachedir.$segment_one.'+'.$segment_two.'/';
+		$dir_path = $this->db->cachedir . $segment_one . '+' . $segment_two . '/';
 		delete_files($dir_path, TRUE);
 	}
 
@@ -173,7 +178,7 @@ class CI_DB_Cache {
 	/**
 	 * Delete all existing cache files
 	 *
-	 * @return	bool
+	 * @return    bool
 	 */
 	public function delete_all()
 	{

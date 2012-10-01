@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,25 +19,26 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 1.0
  * @filesource
  */
 
 /**
  * Parser Class
  *
- * @package		CodeIgniter
- * @subpackage	Libraries
- * @category	Parser
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/parser.html
+ * @package        CodeIgniter
+ * @subpackage    Libraries
+ * @category    Parser
+ * @author        EllisLab Dev Team
+ * @link        http://codeigniter.com/user_guide/libraries/parser.html
  */
-class CI_Parser {
+class CI_Parser
+{
 
 	/**
 	 * Left delimeter character for psuedo vars
@@ -63,10 +67,11 @@ class CI_Parser {
 	 * Parses pseudo-variables contained in the specified template view,
 	 * replacing them with the data in the second param
 	 *
-	 * @param	string
-	 * @param	array
-	 * @param	bool
-	 * @return	string
+	 * @param    string
+	 * @param    array
+	 * @param    bool
+	 *
+	 * @return    string
 	 */
 	public function parse($template, $data, $return = FALSE)
 	{
@@ -84,10 +89,11 @@ class CI_Parser {
 	 * Parses pseudo-variables contained in the specified string,
 	 * replacing them with the data in the second param
 	 *
-	 * @param	string
-	 * @param	array
-	 * @param	bool
-	 * @return	string
+	 * @param    string
+	 * @param    array
+	 * @param    bool
+	 *
+	 * @return    string
 	 */
 	public function parse_string($template, $data, $return = FALSE)
 	{
@@ -102,10 +108,11 @@ class CI_Parser {
 	 * Parses pseudo-variables contained in the specified template,
 	 * replacing them with the data in the second param
 	 *
-	 * @param	string
-	 * @param	array
-	 * @param	bool
-	 * @return	string
+	 * @param    string
+	 * @param    array
+	 * @param    bool
+	 *
+	 * @return    string
 	 */
 	protected function _parse($template, $data, $return = FALSE)
 	{
@@ -116,9 +123,7 @@ class CI_Parser {
 
 		foreach ($data as $key => $val)
 		{
-			$template = is_array($val)
-					? $this->_parse_pair($key, $val, $template)
-					: $template = $this->_parse_single($key, (string) $val, $template);
+			$template = is_array($val) ? $this->_parse_pair($key, $val, $template) : $template = $this->_parse_single($key, (string)$val, $template);
 		}
 
 		if ($return === FALSE)
@@ -134,9 +139,10 @@ class CI_Parser {
 	/**
 	 * Set the left/right variable delimiters
 	 *
-	 * @param	string
-	 * @param	string
-	 * @return	void
+	 * @param    string
+	 * @param    string
+	 *
+	 * @return    void
 	 */
 	public function set_delimiters($l = '{', $r = '}')
 	{
@@ -149,14 +155,15 @@ class CI_Parser {
 	/**
 	 * Parse a single key/value
 	 *
-	 * @param	string
-	 * @param	string
-	 * @param	string
-	 * @return	string
+	 * @param    string
+	 * @param    string
+	 * @param    string
+	 *
+	 * @return    string
 	 */
 	protected function _parse_single($key, $val, $string)
 	{
-		return str_replace($this->l_delim.$key.$this->r_delim, (string) $val, $string);
+		return str_replace($this->l_delim . $key . $this->r_delim, (string)$val, $string);
 	}
 
 	// --------------------------------------------------------------------
@@ -166,10 +173,11 @@ class CI_Parser {
 	 *
 	 * Parses tag pairs: {some_tag} string... {/some_tag}
 	 *
-	 * @param	string
-	 * @param	array
-	 * @param	string
-	 * @return	string
+	 * @param    string
+	 * @param    array
+	 * @param    string
+	 *
+	 * @return    string
 	 */
 	protected function _parse_pair($variable, $data, $string)
 	{
@@ -184,9 +192,7 @@ class CI_Parser {
 			$temp = $match[1];
 			foreach ($row as $key => $val)
 			{
-				$temp = is_array($val)
-						? $this->_parse_pair($key, $val, $temp)
-						: $this->_parse_single($key, $val, $temp);
+				$temp = is_array($val) ? $this->_parse_pair($key, $val, $temp) : $this->_parse_single($key, $val, $temp);
 			}
 
 			$str .= $temp;
@@ -200,15 +206,14 @@ class CI_Parser {
 	/**
 	 * Matches a variable pair
 	 *
-	 * @param	string
-	 * @param	string
-	 * @return	mixed
+	 * @param    string
+	 * @param    string
+	 *
+	 * @return    mixed
 	 */
 	protected function _match_pair($string, $variable)
 	{
-		return preg_match('|'.preg_quote($this->l_delim).$variable.preg_quote($this->r_delim).'(.+?)'.preg_quote($this->l_delim).'/'.$variable.preg_quote($this->r_delim).'|s',
-					$string, $match)
-			? $match : FALSE;
+		return preg_match('|' . preg_quote($this->l_delim) . $variable . preg_quote($this->r_delim) . '(.+?)' . preg_quote($this->l_delim) . '/' . $variable . preg_quote($this->r_delim) . '|s', $string, $match) ? $match : FALSE;
 	}
 
 }

@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,12 +19,12 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 1.0
  * @filesource
  */
 
@@ -30,17 +33,18 @@
  *
  * This class extends the parent result class: CI_DB_result
  *
- * @category	Database
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
- * @since	1.3
+ * @category    Database
+ * @author        EllisLab Dev Team
+ * @link        http://codeigniter.com/user_guide/database/
+ * @since    1.3
  */
-class CI_DB_odbc_result extends CI_DB_result {
+class CI_DB_odbc_result extends CI_DB_result
+{
 
 	/**
 	 * Number of rows in the result set
 	 *
-	 * @return	int
+	 * @return    int
 	 */
 	public function num_rows()
 	{
@@ -71,7 +75,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 	/**
 	 * Number of fields in the result set
 	 *
-	 * @return	int
+	 * @return    int
 	 */
 	public function num_fields()
 	{
@@ -85,7 +89,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 *
 	 * Generates an array of column names
 	 *
-	 * @return	array
+	 * @return    array
 	 */
 	public function list_fields()
 	{
@@ -110,19 +114,19 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 *
 	 * Generates an array of objects containing field meta-data
 	 *
-	 * @return	array
+	 * @return    array
 	 */
 	public function field_data()
 	{
 		$retval = array();
 		for ($i = 0, $odbc_index = 1, $c = $this->num_fields(); $i < $c; $i++, $odbc_index++)
 		{
-			$retval[$i]			= new stdClass();
-			$retval[$i]->name		= odbc_field_name($this->result_id, $odbc_index);
-			$retval[$i]->type		= odbc_field_type($this->result_id, $odbc_index);
-			$retval[$i]->max_length		= odbc_field_len($this->result_id, $odbc_index);
-			$retval[$i]->primary_key	= 0;
-			$retval[$i]->default		= '';
+			$retval[$i] = new stdClass();
+			$retval[$i]->name = odbc_field_name($this->result_id, $odbc_index);
+			$retval[$i]->type = odbc_field_type($this->result_id, $odbc_index);
+			$retval[$i]->max_length = odbc_field_len($this->result_id, $odbc_index);
+			$retval[$i]->primary_key = 0;
+			$retval[$i]->default = '';
 		}
 
 		return $retval;
@@ -133,7 +137,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 	/**
 	 * Free the result
 	 *
-	 * @return	void
+	 * @return    void
 	 */
 	public function free_result()
 	{
@@ -151,7 +155,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an array
 	 *
-	 * @return	array
+	 * @return    array
 	 */
 	protected function _fetch_assoc()
 	{
@@ -165,14 +169,15 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @param	string
-	 * @return	object
+	 * @param    string
+	 *
+	 * @return    object
 	 */
 	protected function _fetch_object($class_name = 'stdClass')
 	{
 		$row = odbc_fetch_object($this->result_id);
 
-		if ($class_name === 'stdClass' OR ! $row)
+		if ($class_name === 'stdClass' OR !$row)
 		{
 			return $row;
 		}
@@ -190,7 +195,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 
 // --------------------------------------------------------------------
 
-if ( ! function_exists('odbc_fetch_array'))
+if (!function_exists('odbc_fetch_array'))
 {
 	/**
 	 * ODBC Fetch array
@@ -198,14 +203,15 @@ if ( ! function_exists('odbc_fetch_array'))
 	 * Emulates the native odbc_fetch_array() function when
 	 * it is not available (odbc_fetch_array() requires unixODBC)
 	 *
-	 * @param	resource
-	 * @param	int
-	 * @return	array
+	 * @param    resource
+	 * @param    int
+	 *
+	 * @return    array
 	 */
 	function odbc_fetch_array(& $result, $rownumber = 1)
 	{
 		$rs = array();
-		if ( ! odbc_fetch_into($result, $rs, $rownumber))
+		if (!odbc_fetch_into($result, $rs, $rownumber))
 		{
 			return FALSE;
 		}
@@ -213,7 +219,7 @@ if ( ! function_exists('odbc_fetch_array'))
 		$rs_assoc = array();
 		foreach ($rs as $k => $v)
 		{
-			$field_name = odbc_field_name($result, $k+1);
+			$field_name = odbc_field_name($result, $k + 1);
 			$rs_assoc[$field_name] = $v;
 		}
 
@@ -223,7 +229,7 @@ if ( ! function_exists('odbc_fetch_array'))
 
 // --------------------------------------------------------------------
 
-if ( ! function_exists('odbc_fetch_object'))
+if (!function_exists('odbc_fetch_object'))
 {
 	/**
 	 * ODBC Fetch object
@@ -231,14 +237,15 @@ if ( ! function_exists('odbc_fetch_object'))
 	 * Emulates the native odbc_fetch_object() function when
 	 * it is not available.
 	 *
-	 * @param	resource
-	 * @param	int
-	 * @return	object
+	 * @param    resource
+	 * @param    int
+	 *
+	 * @return    object
 	 */
 	function odbc_fetch_object(& $result, $rownumber = 1)
 	{
 		$rs = array();
-		if ( ! odbc_fetch_into($result, $rs, $rownumber))
+		if (!odbc_fetch_into($result, $rs, $rownumber))
 		{
 			return FALSE;
 		}
@@ -246,7 +253,7 @@ if ( ! function_exists('odbc_fetch_object'))
 		$rs_object = new stdClass();
 		foreach ($rs as $k => $v)
 		{
-			$field_name = odbc_field_name($result, $k+1);
+			$field_name = odbc_field_name($result, $k + 1);
 			$rs_object->$field_name = $v;
 		}
 

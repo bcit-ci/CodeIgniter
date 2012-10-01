@@ -1,6 +1,7 @@
 <?php
 
-class Calendar_test extends CI_TestCase {
+class Calendar_test extends CI_TestCase
+{
 
 	function __construct()
 	{
@@ -12,10 +13,7 @@ class Calendar_test extends CI_TestCase {
 
 	function test_initialize()
 	{
-		$this->calendar->initialize(array(
-			'month_type'	=>	'short',
-			'start_day'	=>	'monday'
-		));
+		$this->calendar->initialize(array('month_type' => 'short', 'start_day' => 'monday'));
 		$this->assertEquals('short', $this->calendar->month_type);
 		$this->assertEquals('monday', $this->calendar->start_day);
 	}
@@ -60,12 +58,7 @@ class Calendar_test extends CI_TestCase {
 
 		$this->assertEquals($no_events, $this->calendar->generate(2011, 9));
 
-		$data = array(
-			3  => 'http://example.com/news/article/2006/03/',
-			7  => 'http://example.com/news/article/2006/07/',
-			13 => 'http://example.com/news/article/2006/13/',
-			26 => 'http://example.com/news/article/2006/26/'
-		);
+		$data = array(3 => 'http://example.com/news/article/2006/03/', 7 => 'http://example.com/news/article/2006/07/', 13 => 'http://example.com/news/article/2006/13/', 26 => 'http://example.com/news/article/2006/26/');
 
 		$events = '<table border="0" cellpadding="4" cellspacing="0">
 
@@ -114,37 +107,13 @@ class Calendar_test extends CI_TestCase {
 
 	function test_get_day_names()
 	{
-		$this->assertEquals(array(
-			'Sunday',
-			'Monday',
-			'Tuesday',
-			'Wednesday',
-			'Thursday',
-			'Friday',
-			'Saturday'
-		), $this->calendar->get_day_names('long'));
+		$this->assertEquals(array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'), $this->calendar->get_day_names('long'));
 
-		$this->assertEquals(array(
-			'Sun',
-			'Mon',
-			'Tue',
-			'Wed',
-			'Thu',
-			'Fri',
-			'Sat'
-		), $this->calendar->get_day_names('short'));
+		$this->assertEquals(array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'), $this->calendar->get_day_names('short'));
 
 		$this->calendar->day_type = NULL;
 
-		$this->assertEquals(array(
-			'Su',
-			'Mo',
-			'Tu',
-			'We',
-			'Th',
-			'Fr',
-			'Sa'
-		), $this->calendar->get_day_names());
+		$this->assertEquals(array('Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'), $this->calendar->get_day_names());
 	}
 
 	function test_adjust_date()
@@ -174,29 +143,7 @@ class Calendar_test extends CI_TestCase {
 
 	function test_default_template()
 	{
-		$array = array(
-			'table_open'				=> '<table border="0" cellpadding="4" cellspacing="0">',
-			'heading_row_start'			=> '<tr>',
-			'heading_previous_cell'		=> '<th><a href="{previous_url}">&lt;&lt;</a></th>',
-			'heading_title_cell'		=> '<th colspan="{colspan}">{heading}</th>',
-			'heading_next_cell'			=> '<th><a href="{next_url}">&gt;&gt;</a></th>',
-			'heading_row_end'			=> '</tr>',
-			'week_row_start'			=> '<tr>',
-			'week_day_cell'				=> '<td>{week_day}</td>',
-			'week_row_end'				=> '</tr>',
-			'cal_row_start'				=> '<tr>',
-			'cal_cell_start'			=> '<td>',
-			'cal_cell_start_today'		=> '<td>',
-			'cal_cell_content'			=> '<a href="{content}">{day}</a>',
-			'cal_cell_content_today'	=> '<a href="{content}"><strong>{day}</strong></a>',
-			'cal_cell_no_content'		=> '{day}',
-			'cal_cell_no_content_today'	=> '<strong>{day}</strong>',
-			'cal_cell_blank'			=> '&nbsp;',
-			'cal_cell_end'				=> '</td>',
-			'cal_cell_end_today'		=> '</td>',
-			'cal_row_end'				=> '</tr>',
-			'table_close'				=> '</table>'
-		);
+		$array = array('table_open' => '<table border="0" cellpadding="4" cellspacing="0">', 'heading_row_start' => '<tr>', 'heading_previous_cell' => '<th><a href="{previous_url}">&lt;&lt;</a></th>', 'heading_title_cell' => '<th colspan="{colspan}">{heading}</th>', 'heading_next_cell' => '<th><a href="{next_url}">&gt;&gt;</a></th>', 'heading_row_end' => '</tr>', 'week_row_start' => '<tr>', 'week_day_cell' => '<td>{week_day}</td>', 'week_row_end' => '</tr>', 'cal_row_start' => '<tr>', 'cal_cell_start' => '<td>', 'cal_cell_start_today' => '<td>', 'cal_cell_content' => '<a href="{content}">{day}</a>', 'cal_cell_content_today' => '<a href="{content}"><strong>{day}</strong></a>', 'cal_cell_no_content' => '{day}', 'cal_cell_no_content_today' => '<strong>{day}</strong>', 'cal_cell_blank' => '&nbsp;', 'cal_cell_end' => '</td>', 'cal_cell_end_today' => '</td>', 'cal_row_end' => '</tr>', 'table_close' => '</table>');
 
 		$this->assertEquals($array, $this->calendar->default_template());
 	}

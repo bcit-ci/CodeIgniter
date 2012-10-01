@@ -1,6 +1,7 @@
 <?php
 
-class Encrypt_test extends CI_TestCase {
+class Encrypt_test extends CI_TestCase
+{
 
 	public function set_up()
 	{

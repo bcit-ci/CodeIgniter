@@ -1,17 +1,14 @@
 <?php
 
-class Config_test extends CI_TestCase {
+class Config_test extends CI_TestCase
+{
 
 	public function set_up()
 	{
 		$cls =& $this->ci_core_class('cfg');
 
 		// set predictable config values
-		$this->ci_set_config(array(
-			'index_page'		=> 'index.php',
-			'base_url'			=> 'http://example.com/',
-			'subclass_prefix'	=> 'MY_'
-		));
+		$this->ci_set_config(array('index_page' => 'index.php', 'base_url' => 'http://example.com/', 'subclass_prefix' => 'MY_'));
 
 		$this->config = new $cls;
 	}

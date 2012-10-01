@@ -1,6 +1,7 @@
 <?php
 
-class Parser_test extends CI_TestCase {
+class Parser_test extends CI_TestCase
+{
 
 	public function set_up()
 	{
@@ -39,10 +40,7 @@ class Parser_test extends CI_TestCase {
 
 	public function test_parse_simple_string()
 	{
-		$data = array(
-			'title' => 'Page Title',
-			'body' => 'Lorem ipsum dolor sit amet.'
-		);
+		$data = array('title' => 'Page Title', 'body' => 'Lorem ipsum dolor sit amet.');
 
 		$template = "{title}\n{body}";
 
@@ -71,14 +69,7 @@ class Parser_test extends CI_TestCase {
 
 	private function _parse_var_pair()
 	{
-		$data = array(
-			'title'		=> 'Super Heroes',
-			'powers'	=> array(
-					array(
-						'invisibility'	=> 'yes',
-						'flying'		=> 'no'),
-			)
-		);
+		$data = array('title' => 'Super Heroes', 'powers' => array(array('invisibility' => 'yes', 'flying' => 'no'),));
 
 		$template = "{title}\n{powers}{invisibility}\n{flying}{/powers}";
 
@@ -89,14 +80,7 @@ class Parser_test extends CI_TestCase {
 
 	private function _mismatched_var_pair()
 	{
-		$data = array(
-			'title'		=> 'Super Heroes',
-			'powers'	=> array(
-					array(
-						'invisibility'	=> 'yes',
-						'flying'		=> 'no'),
-			)
-		);
+		$data = array('title' => 'Super Heroes', 'powers' => array(array('invisibility' => 'yes', 'flying' => 'no'),));
 
 		$template = "{title}\n{powers}{invisibility}\n{flying}";
 		$result = "Super Heroes\n{powers}{invisibility}\n{flying}";

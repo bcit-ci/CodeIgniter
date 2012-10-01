@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,12 +19,12 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 2.1
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 2.1
  * @filesource
  */
 
@@ -32,13 +35,14 @@
  * creates dynamically based on whether the query builder
  * class is being used or not.
  *
- * @package		CodeIgniter
- * @subpackage	Drivers
- * @category	Database
- * @author		Esen Sagynov
- * @link		http://codeigniter.com/user_guide/database/
+ * @package        CodeIgniter
+ * @subpackage    Drivers
+ * @category    Database
+ * @author        Esen Sagynov
+ * @link        http://codeigniter.com/user_guide/database/
  */
-class CI_DB_cubrid_driver extends CI_DB {
+class CI_DB_cubrid_driver extends CI_DB
+{
 
 	public $dbdriver = 'cubrid';
 
@@ -75,7 +79,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	/**
 	 * Non-persistent database connection
 	 *
-	 * @return	resource
+	 * @return    resource
 	 */
 	public function db_connect()
 	{
@@ -93,7 +97,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 * connections established between the client application and the
 	 * server will become persistent.
 	 *
-	 * @return	resource
+	 * @return    resource
 	 */
 	public function db_pconnect()
 	{
@@ -109,24 +113,21 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 * Except for determining if a persistent connection should be used,
 	 * the rest of the logic is the same for db_connect() and db_pconnect().
 	 *
-	 * @param	bool
-	 * @return	resource
+	 * @param    bool
+	 *
+	 * @return    resource
 	 */
 	protected function _cubrid_connect($persistent = FALSE)
 	{
 		if (preg_match('/^CUBRID:[^:]+(:[0-9][1-9]{0,4})?:[^:]+:([^:]*):([^:]*):(\?.+)?$/', $this->dsn, $matches))
 		{
 			$_temp = ($persistent !== TRUE) ? 'cubrid_connect_with_url' : 'cubrid_pconnect_with_url';
-			$conn_id = ($matches[2] === '' && $matches[3] === '' && $this->username !== '' && $this->password !== '')
-					? $_temp($this->dsn, $this->username, $this->password)
-					: $_temp($this->dsn);
+			$conn_id = ($matches[2] === '' && $matches[3] === '' && $this->username !== '' && $this->password !== '') ? $_temp($this->dsn, $this->username, $this->password) : $_temp($this->dsn);
 		}
 		else
 		{
 			$_temp = ($persistent !== TRUE) ? 'cubrid_connect' : 'cubrid_pconnect';
-			$conn_id = ($this->username !== '')
-					? $_temp($this->hostname, $this->port, $this->database, $this->username, $this->password)
-					: $_temp($this->hostname, $this->port, $this->database);
+			$conn_id = ($this->username !== '') ? $_temp($this->hostname, $this->port, $this->database, $this->username, $this->password) : $_temp($this->hostname, $this->port, $this->database);
 		}
 
 		return $conn_id;
@@ -140,7 +141,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 * Keep / reestablish the db connection if no queries have been
 	 * sent for a length of time exceeding the server's idle timeout
 	 *
-	 * @return	void
+	 * @return    void
 	 */
 	public function reconnect()
 	{
@@ -155,13 +156,11 @@ class CI_DB_cubrid_driver extends CI_DB {
 	/**
 	 * Database version number
 	 *
-	 * @return	string
+	 * @return    string
 	 */
 	public function version()
 	{
-		return isset($this->data_cache['version'])
-			? $this->data_cache['version']
-			: $this->data_cache['version'] = cubrid_get_server_info($this->conn_id);
+		return isset($this->data_cache['version']) ? $this->data_cache['version'] : $this->data_cache['version'] = cubrid_get_server_info($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -169,8 +168,9 @@ class CI_DB_cubrid_driver extends CI_DB {
 	/**
 	 * Execute the query
 	 *
-	 * @param	string	an SQL query
-	 * @return	resource
+	 * @param    string    an SQL query
+	 *
+	 * @return    resource
 	 */
 	protected function _execute($sql)
 	{
@@ -182,12 +182,12 @@ class CI_DB_cubrid_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
-	 * @return	bool
+	 * @return    bool
 	 */
 	public function trans_begin($test_mode = FALSE)
 	{
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
+		if (!$this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -210,19 +210,19 @@ class CI_DB_cubrid_driver extends CI_DB {
 	/**
 	 * Commit Transaction
 	 *
-	 * @return	bool
+	 * @return    bool
 	 */
 	public function trans_commit()
 	{
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
+		if (!$this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
 
 		cubrid_commit($this->conn_id);
 
-		if ($this->auto_commit && ! cubrid_get_autocommit($this->conn_id))
+		if ($this->auto_commit && !cubrid_get_autocommit($this->conn_id))
 		{
 			cubrid_set_autocommit($this->conn_id, CUBRID_AUTOCOMMIT_TRUE);
 		}
@@ -235,19 +235,19 @@ class CI_DB_cubrid_driver extends CI_DB {
 	/**
 	 * Rollback Transaction
 	 *
-	 * @return	bool
+	 * @return    bool
 	 */
 	public function trans_rollback()
 	{
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
+		if (!$this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
 
 		cubrid_rollback($this->conn_id);
 
-		if ($this->auto_commit && ! cubrid_get_autocommit($this->conn_id))
+		if ($this->auto_commit && !cubrid_get_autocommit($this->conn_id))
 		{
 			cubrid_set_autocommit($this->conn_id, CUBRID_AUTOCOMMIT_TRUE);
 		}
@@ -260,9 +260,10 @@ class CI_DB_cubrid_driver extends CI_DB {
 	/**
 	 * Escape String
 	 *
-	 * @param	string
-	 * @param	bool	whether or not the string will be used in a LIKE condition
-	 * @return	string
+	 * @param    string
+	 * @param    bool    whether or not the string will be used in a LIKE condition
+	 *
+	 * @return    string
 	 */
 	public function escape_str($str, $like = FALSE)
 	{
@@ -276,9 +277,9 @@ class CI_DB_cubrid_driver extends CI_DB {
 			return $str;
 		}
 
-		if (function_exists('cubrid_real_escape_string') &&
-			(is_resource($this->conn_id)
-				OR (get_resource_type($this->conn_id) === 'Unknown' && preg_match('/Resource id #/', strval($this->conn_id)))))
+		if (function_exists('cubrid_real_escape_string') && (is_resource($this->conn_id)
+			OR (get_resource_type($this->conn_id) === 'Unknown' && preg_match('/Resource id #/', strval($this->conn_id))))
+		)
 		{
 			$str = cubrid_real_escape_string($str, $this->conn_id);
 		}
@@ -301,7 +302,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	/**
 	 * Affected Rows
 	 *
-	 * @return	int
+	 * @return    int
 	 */
 	public function affected_rows()
 	{
@@ -313,7 +314,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	/**
 	 * Insert ID
 	 *
-	 * @return	int
+	 * @return    int
 	 */
 	public function insert_id()
 	{
@@ -327,8 +328,9 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	bool
-	 * @return	string
+	 * @param    bool
+	 *
+	 * @return    string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
@@ -336,7 +338,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 
 		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{
-			return $sql." LIKE '".$this->escape_like_str($this->dbprefix)."%'";
+			return $sql . " LIKE '" . $this->escape_like_str($this->dbprefix) . "%'";
 		}
 
 		return $sql;
@@ -349,12 +351,13 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @param	string	the table name
-	 * @return	string
+	 * @param    string    the table name
+	 *
+	 * @return    string
 	 */
 	protected function _list_columns($table = '')
 	{
-		return 'SHOW COLUMNS FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE);
+		return 'SHOW COLUMNS FROM ' . $this->protect_identifiers($table, TRUE, NULL, FALSE);
 	}
 
 	// --------------------------------------------------------------------
@@ -364,12 +367,13 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
-	 * @param	string	the table name
-	 * @return	string
+	 * @param    string    the table name
+	 *
+	 * @return    string
 	 */
 	protected function _field_data($table)
 	{
-		return 'SELECT * FROM '.$table.' LIMIT 1';
+		return 'SELECT * FROM ' . $table . ' LIMIT 1';
 	}
 
 	// --------------------------------------------------------------------
@@ -380,7 +384,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 * Returns an array containing code and message of the last
 	 * database error that has occured.
 	 *
-	 * @return	array
+	 * @return    array
 	 */
 	public function error()
 	{
@@ -394,10 +398,11 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific batch update string from the supplied data
 	 *
-	 * @param	string	the table name
-	 * @param	array	the update data
-	 * @param	array	the where clause
-	 * @return	string
+	 * @param    string    the table name
+	 * @param    array    the update data
+	 * @param    array    the where clause
+	 *
+	 * @return    string
 	 */
 	protected function _update_batch($table, $values, $index, $where = NULL)
 	{
@@ -410,7 +415,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 			{
 				if ($field !== $index)
 				{
-					$final[$field][] = 'WHEN '.$index.' = '.$val[$index].' THEN '.$val[$field];
+					$final[$field][] = 'WHEN ' . $index . ' = ' . $val[$index] . ' THEN ' . $val[$field];
 				}
 			}
 		}
@@ -418,14 +423,10 @@ class CI_DB_cubrid_driver extends CI_DB {
 		$cases = '';
 		foreach ($final as $k => $v)
 		{
-			$cases .= $k." = CASE \n"
-				.implode("\n", $v)
-				.'ELSE '.$k.' END, ';
+			$cases .= $k . " = CASE \n" . implode("\n", $v) . 'ELSE ' . $k . ' END, ';
 		}
 
-		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2)
-			.' WHERE '.(($where !== '' && count($where) > 0) ? implode(' ', $where).' AND ' : '')
-			.$index.' IN ('.implode(',', $ids).')';
+		return 'UPDATE ' . $table . ' SET ' . substr($cases, 0, -2) . ' WHERE ' . (($where !== '' && count($where) > 0) ? implode(' ', $where) . ' AND ' : '') . $index . ' IN (' . implode(',', $ids) . ')';
 	}
 
 	// --------------------------------------------------------------------
@@ -433,7 +434,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @return	void
+	 * @return    void
 	 */
 	protected function _close()
 	{

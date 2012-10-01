@@ -16,12 +16,12 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 1.0
  * @filesource
  */
 
@@ -42,7 +42,7 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
 /*
  *---------------------------------------------------------------
@@ -57,13 +57,13 @@ switch (ENVIRONMENT)
 	case 'development':
 		error_reporting(-1);
 		ini_set('display_errors', 1);
-	break;
+		break;
 
 	case 'testing':
 	case 'production':
 		error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_STRICT);
 		ini_set('display_errors', 0);
-	break;
+		break;
 
 	default:
 		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
@@ -79,7 +79,7 @@ switch (ENVIRONMENT)
  * Include the path if the folder is not in the same  directory
  * as this file.
  */
-	$system_path = 'system';
+$system_path = 'system';
 
 /*
  *---------------------------------------------------------------
@@ -94,7 +94,7 @@ switch (ENVIRONMENT)
  *
  * NO TRAILING SLASH!
  */
-	$application_folder = 'application';
+$application_folder = 'application';
 
 /*
  *---------------------------------------------------------------
@@ -109,7 +109,7 @@ switch (ENVIRONMENT)
  *
  * NO TRAILING SLASH!
  */
-	$view_folder = '';
+$view_folder = '';
 
 
 /*
@@ -131,15 +131,15 @@ switch (ENVIRONMENT)
  *
  * Un-comment the $routing array below to use this feature
  */
-	// The directory name, relative to the "controllers" folder.  Leave blank
-	// if your controller is not in a sub-folder within the "controllers" folder
-	// $routing['directory'] = '';
+// The directory name, relative to the "controllers" folder.  Leave blank
+// if your controller is not in a sub-folder within the "controllers" folder
+// $routing['directory'] = '';
 
-	// The controller class file name.  Example:  mycontroller
-	// $routing['controller'] = '';
+// The controller class file name.  Example:  mycontroller
+// $routing['controller'] = '';
 
-	// The controller function you wish to be called.
-	// $routing['function']	= '';
+// The controller function you wish to be called.
+// $routing['function']	= '';
 
 
 /*
@@ -156,8 +156,7 @@ switch (ENVIRONMENT)
  *
  * Un-comment the $assign_to_config array below to use this feature
  */
-	// $assign_to_config['name_of_config_item'] = 'value of config item';
-
+// $assign_to_config['name_of_config_item'] = 'value of config item';
 
 
 // --------------------------------------------------------------------
@@ -170,95 +169,95 @@ switch (ENVIRONMENT)
  * ---------------------------------------------------------------
  */
 
-	// Set the current directory correctly for CLI requests
-	if (defined('STDIN'))
-	{
-		chdir(dirname(__FILE__));
-	}
+// Set the current directory correctly for CLI requests
+if (defined('STDIN'))
+{
+	chdir(dirname(__FILE__));
+}
 
-	if (($_temp = realpath($system_path)) !== FALSE)
-	{
-		$system_path = $_temp.'/';
-	}
-	else
-	{
-		// Ensure there's a trailing slash
-		$system_path = rtrim($system_path, '/').'/';
-	}
+if (($_temp = realpath($system_path)) !== FALSE)
+{
+	$system_path = $_temp . '/';
+}
+else
+{
+	// Ensure there's a trailing slash
+	$system_path = rtrim($system_path, '/') . '/';
+}
 
-	// Is the system path correct?
-	if ( ! is_dir($system_path))
-	{
-		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
-		exit('Your system folder path does not appear to be set correctly. Please open the following file and correct this: '.pathinfo(__FILE__, PATHINFO_BASENAME));
-	}
+// Is the system path correct?
+if (!is_dir($system_path))
+{
+	header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
+	exit('Your system folder path does not appear to be set correctly. Please open the following file and correct this: ' . pathinfo(__FILE__, PATHINFO_BASENAME));
+}
 
 /*
  * -------------------------------------------------------------------
  *  Now that we know the path, set the main path constants
  * -------------------------------------------------------------------
  */
-	// The name of THIS file
-	define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
+// The name of THIS file
+define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 
-	// Path to the system folder
-	define('BASEPATH', str_replace('\\', '/', $system_path));
+// Path to the system folder
+define('BASEPATH', str_replace('\\', '/', $system_path));
 
-	// Path to the front controller (this file)
-	define('FCPATH', str_replace(SELF, '', __FILE__));
+// Path to the front controller (this file)
+define('FCPATH', str_replace(SELF, '', __FILE__));
 
-	// Name of the "system folder"
-	define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
+// Name of the "system folder"
+define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
 
-	// The path to the "application" folder
-	if (is_dir($application_folder))
+// The path to the "application" folder
+if (is_dir($application_folder))
+{
+	if (($_temp = realpath($application_folder)) !== FALSE)
 	{
-		if (($_temp = realpath($application_folder)) !== FALSE)
-		{
-			$application_folder = $_temp;
-		}
+		$application_folder = $_temp;
+	}
 
-		define('APPPATH', $application_folder.'/');
+	define('APPPATH', $application_folder . '/');
+}
+else
+{
+	if (!is_dir(BASEPATH . $application_folder . '/'))
+	{
+		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
+		exit('Your application folder path does not appear to be set correctly. Please open the following file and correct this: ' . SELF);
+	}
+
+	define('APPPATH', BASEPATH . $application_folder . '/');
+}
+
+// The path to the "views" folder
+if (!is_dir($view_folder))
+{
+	if (!empty($view_folder) && is_dir(APPPATH . $view_folder . '/'))
+	{
+		$view_folder = APPPATH . $view_folder;
+	}
+	elseif (!is_dir(APPPATH . 'views/'))
+	{
+		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
+		exit('Your view folder path does not appear to be set correctly. Please open the following file and correct this: ' . SELF);
 	}
 	else
 	{
-		if ( ! is_dir(BASEPATH.$application_folder.'/'))
-		{
-			header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
-			exit('Your application folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF);
-		}
-
-		define('APPPATH', BASEPATH.$application_folder.'/');
+		$view_folder = APPPATH . 'views';
 	}
+}
 
-	// The path to the "views" folder
-	if ( ! is_dir($view_folder))
-	{
-		if ( ! empty($view_folder) && is_dir(APPPATH.$view_folder.'/'))
-		{
-			$view_folder = APPPATH.$view_folder;
-		}
-		elseif ( ! is_dir(APPPATH.'views/'))
-		{
-			header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
-			exit('Your view folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF);
-		}
-		else
-		{
-			$view_folder = APPPATH.'views';
-		}
-	}
+if (($_temp = realpath($view_folder)) !== FALSE)
+{
+	$view_folder = realpath($view_folder) . '/';
+}
+else
+{
+	$view_folder = rtrim($view_folder, '/') . '/';
+}
 
-	if (($_temp = realpath($view_folder)) !== FALSE)
-	{
-		$view_folder = realpath($view_folder).'/';
-	}
-	else
-	{
-		$view_folder = rtrim($view_folder, '/').'/';
-	}
-
-	define('VIEWPATH', $view_folder);
+define('VIEWPATH', $view_folder);
 
 /*
  * --------------------------------------------------------------------
@@ -267,7 +266,7 @@ switch (ENVIRONMENT)
  *
  * And away we go...
  */
-require_once BASEPATH.'core/CodeIgniter.php';
+require_once BASEPATH . 'core/CodeIgniter.php';
 
 /* End of file index.php */
 /* Location: ./index.php */

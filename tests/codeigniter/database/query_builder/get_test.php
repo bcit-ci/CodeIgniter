@@ -1,6 +1,7 @@
 <?php
 
-class Get_test extends CI_TestCase {
+class Get_test extends CI_TestCase
+{
 
 	/**
 	 * @var object Database/Query Builder holder

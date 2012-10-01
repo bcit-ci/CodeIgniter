@@ -1,6 +1,7 @@
 <?php
 
-class URI_test extends CI_TestCase {
+class URI_test extends CI_TestCase
+{
 
 	public function set_up()
 	{
@@ -34,19 +35,15 @@ class URI_test extends CI_TestCase {
 		$this->uri->config->set_item('uri_protocol', 'AUTO');
 
 		// Test a variety of request uris
-		$requests = array(
-			'/index.php/controller/method' => 'controller/method',
-			'/index.php?/controller/method' => 'controller/method',
-			'/index.php?/controller/method/?var=foo' => 'controller/method'
-		);
+		$requests = array('/index.php/controller/method' => 'controller/method', '/index.php?/controller/method' => 'controller/method', '/index.php?/controller/method/?var=foo' => 'controller/method');
 
-		foreach($requests as $request => $expected)
+		foreach ($requests as $request => $expected)
 		{
 			$_SERVER['SCRIPT_NAME'] = '/index.php';
 			$_SERVER['REQUEST_URI'] = $request;
 
 			$this->uri->_fetch_uri_string();
-			$this->assertEquals($expected, $this->uri->uri_string );
+			$this->assertEquals($expected, $this->uri->uri_string);
 		}
 
 		// Test a subfolder
@@ -92,11 +89,7 @@ class URI_test extends CI_TestCase {
 	public function test_explode_segments()
 	{
 		// Lets test the function's ability to clean up this mess
-		$uris = array(
-			'test/uri' => array('test', 'uri'),
-			'/test2/uri2' => array('test2', 'uri2'),
-			'//test3/test3///' => array('test3', 'test3')
-		);
+		$uris = array('test/uri' => array('test', 'uri'), '/test2/uri2' => array('test2', 'uri2'), '//test3/test3///' => array('test3', 'test3'));
 
 		foreach ($uris as $uri => $a)
 		{
@@ -187,32 +180,20 @@ class URI_test extends CI_TestCase {
 	{
 		$this->uri->segments = array('a', '1', 'b', '2', 'c', '3');
 
-		$this->assertEquals(
-			array('a' => '1', 'b' => '2', 'c' => '3'),
-			$this->uri->uri_to_assoc(1)
-		);
+		$this->assertEquals(array('a' => '1', 'b' => '2', 'c' => '3'), $this->uri->uri_to_assoc(1));
 
-		$this->assertEquals(
-			array('b' => '2', 'c' => '3'),
-			$this->uri->uri_to_assoc(3)
-		);
+		$this->assertEquals(array('b' => '2', 'c' => '3'), $this->uri->uri_to_assoc(3));
 
 		$this->uri->keyval = array(); // reset cache
 		$this->uri->segments = array('a', '1', 'b', '2', 'c');
 
-		$this->assertEquals(
-			array('a' => '1', 'b' => '2', 'c' => FALSE),
-			$this->uri->uri_to_assoc(1)
-		);
+		$this->assertEquals(array('a' => '1', 'b' => '2', 'c' => FALSE), $this->uri->uri_to_assoc(1));
 
 		$this->uri->keyval = array(); // reset cache
 		$this->uri->segments = array('a', '1');
 
 		// test default
-		$this->assertEquals(
-			array('a' => '1', 'b' => FALSE),
-			$this->uri->uri_to_assoc(1, array('a', 'b'))
-		);
+		$this->assertEquals(array('a' => '1', 'b' => FALSE), $this->uri->uri_to_assoc(1, array('a', 'b')));
 	}
 
 	// --------------------------------------------------------------------
@@ -221,32 +202,20 @@ class URI_test extends CI_TestCase {
 	{
 		$this->uri->rsegments = array('x', '1', 'y', '2', 'z', '3');
 
-		$this->assertEquals(
-			array('x' => '1', 'y' => '2', 'z' => '3'),
-			$this->uri->ruri_to_assoc(1)
-		);
+		$this->assertEquals(array('x' => '1', 'y' => '2', 'z' => '3'), $this->uri->ruri_to_assoc(1));
 
-		$this->assertEquals(
-			array('y' => '2', 'z' => '3'),
-			$this->uri->ruri_to_assoc(3)
-		);
+		$this->assertEquals(array('y' => '2', 'z' => '3'), $this->uri->ruri_to_assoc(3));
 
 		$this->uri->keyval = array(); // reset cache
 		$this->uri->rsegments = array('x', '1', 'y', '2', 'z');
 
-		$this->assertEquals(
-			array('x' => '1', 'y' => '2', 'z' => FALSE),
-			$this->uri->ruri_to_assoc(1)
-		);
+		$this->assertEquals(array('x' => '1', 'y' => '2', 'z' => FALSE), $this->uri->ruri_to_assoc(1));
 
 		$this->uri->keyval = array(); // reset cache
 		$this->uri->rsegments = array('x', '1');
 
 		// test default
-		$this->assertEquals(
-			array('x' => '1', 'y' => FALSE),
-			$this->uri->ruri_to_assoc(1, array('x', 'y'))
-		);
+		$this->assertEquals(array('x' => '1', 'y' => FALSE), $this->uri->ruri_to_assoc(1, array('x', 'y')));
 	}
 
 	// --------------------------------------------------------------------

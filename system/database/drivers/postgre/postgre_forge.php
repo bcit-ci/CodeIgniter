@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,31 +19,33 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 1.0
  * @filesource
  */
 
 /**
  * Postgre Forge Class
  *
- * @category	Database
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @category    Database
+ * @author        EllisLab Dev Team
+ * @link        http://codeigniter.com/user_guide/database/
  */
-class CI_DB_postgre_forge extends CI_DB_forge {
+class CI_DB_postgre_forge extends CI_DB_forge
+{
 
-	protected $_drop_table	= 'DROP TABLE IF EXISTS %s CASCADE';
+	protected $_drop_table = 'DROP TABLE IF EXISTS %s CASCADE';
 
 	/**
 	 * Process Fields
 	 *
-	 * @param	mixed	the fields
-	 * @return	string
+	 * @param    mixed    the fields
+	 *
+	 * @return    string
 	 */
 	protected function _process_fields($fields, $primary_keys = array())
 	{
@@ -54,14 +59,14 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 			// entered the field information, so we'll simply add it to the list
 			if (is_numeric($field))
 			{
-				$sql .= "\n\t".$attributes;
+				$sql .= "\n\t" . $attributes;
 			}
 			else
 			{
-				$sql .= "\n\t".$this->db->escape_identifiers($field);
+				$sql .= "\n\t" . $this->db->escape_identifiers($field);
 
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
-				$is_unsigned = ( ! empty($attributes['UNSIGNED']) && $attributes['UNSIGNED'] === TRUE);
+				$is_unsigned = (!empty($attributes['UNSIGNED']) && $attributes['UNSIGNED'] === TRUE);
 
 				// Convert datatypes to be PostgreSQL-compatible
 				switch (strtoupper($attributes['TYPE']))
@@ -98,25 +103,23 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 				}
 
 				// If this is an auto-incrementing primary key, use the serial data type instead
-				$sql .= (in_array($field, $primary_keys) && ! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === TRUE)
-					? ' SERIAL' : ' '.$attributes['TYPE'];
+				$sql .= (in_array($field, $primary_keys) && !empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === TRUE) ? ' SERIAL' : ' ' . $attributes['TYPE'];
 
 				// Modified to prevent constraints with integer data types
-				if ( ! empty($attributes['CONSTRAINT']) && strpos($attributes['TYPE'], 'INT') === FALSE)
+				if (!empty($attributes['CONSTRAINT']) && strpos($attributes['TYPE'], 'INT') === FALSE)
 				{
-					$sql .= '('.$attributes['CONSTRAINT'].')';
+					$sql .= '(' . $attributes['CONSTRAINT'] . ')';
 				}
 
 				if (isset($attributes['DEFAULT']))
 				{
-					$sql .= " DEFAULT '".$attributes['DEFAULT']."'";
+					$sql .= " DEFAULT '" . $attributes['DEFAULT'] . "'";
 				}
 
-				$sql .= ( ! empty($attributes['NULL']) && $attributes['NULL'] === TRUE)
-					? ' NULL' : ' NOT NULL';
+				$sql .= (!empty($attributes['NULL']) && $attributes['NULL'] === TRUE) ? ' NULL' : ' NOT NULL';
 
 				// Added new attribute to create unique fields. Also works with MySQL
-				if ( ! empty($attributes['UNIQUE']) && $attributes['UNIQUE'] === TRUE)
+				if (!empty($attributes['UNIQUE']) && $attributes['UNIQUE'] === TRUE)
 				{
 					$sql .= ' UNIQUE';
 				}
@@ -137,12 +140,13 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	/**
 	 * Create Table
 	 *
-	 * @param	string	the table name
-	 * @param	array	the fields
-	 * @param	mixed	primary key(s)
-	 * @param	mixed	key(s)
-	 * @param	bool	should 'IF NOT EXISTS' be added to the SQL
-	 * @return	bool
+	 * @param    string    the table name
+	 * @param    array    the fields
+	 * @param    mixed    primary key(s)
+	 * @param    mixed    key(s)
+	 * @param    bool    should 'IF NOT EXISTS' be added to the SQL
+	 *
+	 * @return    bool
 	 */
 	protected function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
@@ -154,11 +158,11 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 			return TRUE;
 		}
 
-		$sql .= $this->db->escape_identifiers($table).' ('.$this->_process_fields($fields, $primary_keys);
+		$sql .= $this->db->escape_identifiers($table) . ' (' . $this->_process_fields($fields, $primary_keys);
 
 		if (count($primary_keys) > 0)
 		{
-			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $this->db->escape_identifiers($primary_keys)).')';
+			$sql .= ",\n\tPRIMARY KEY (" . implode(', ', $this->db->escape_identifiers($primary_keys)) . ')';
 		}
 
 		$sql .= "\n);";
@@ -167,14 +171,11 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 		{
 			foreach ($keys as $key)
 			{
-				$key = is_array($key)
-					? $this->db->escape_identifiers($key)
-					: array($this->db->escape_identifiers($key));
+				$key = is_array($key) ? $this->db->escape_identifiers($key) : array($this->db->escape_identifiers($key));
 
 				foreach ($key as $field)
 				{
-					$sql .= "\nCREATE INDEX ".$this->db->escape_identifiers($table.'_'.str_replace(array('"', "'"), '', $field).'_index')
-						.' ON '.$this->db->escape_identifiers($table).' ('.$this->db->escape_identifiers($field).');';
+					$sql .= "\nCREATE INDEX " . $this->db->escape_identifiers($table . '_' . str_replace(array('"', "'"), '', $field) . '_index') . ' ON ' . $this->db->escape_identifiers($table) . ' (' . $this->db->escape_identifiers($field) . ');';
 				}
 			}
 		}
@@ -190,28 +191,28 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 * Generates a platform-specific query so that a table can be altered
 	 * Called by add_column(), drop_column(), and column_alter(),
 	 *
-	 * @param	string	the ALTER type (ADD, DROP, CHANGE)
-	 * @param	string	the column name
-	 * @param	string	the table name
-	 * @param	string	the column definition
-	 * @param	string	the default value
-	 * @param	bool	should 'NOT NULL' be added
-	 * @param	string	the field after which we should add the new field
-	 * @return	string
+	 * @param    string    the ALTER type (ADD, DROP, CHANGE)
+	 * @param    string    the column name
+	 * @param    string    the table name
+	 * @param    string    the column definition
+	 * @param    string    the default value
+	 * @param    bool    should 'NOT NULL' be added
+	 * @param    string    the field after which we should add the new field
+	 *
+	 * @return    string
 	 */
 	protected function _alter_table($alter_type, $table, $fields, $after_field = '')
- 	{
- 		$sql = 'ALTER TABLE '.$this->db->escape_identifiers($table).' '.$alter_type.' ';
+	{
+		$sql = 'ALTER TABLE ' . $this->db->escape_identifiers($table) . ' ' . $alter_type . ' ';
 
- 		// DROP has everything it needs now.
- 		if ($alter_type === 'DROP')
- 		{
- 			return $sql.$this->db->escape_identifiers($fields);
- 		}
+		// DROP has everything it needs now.
+		if ($alter_type === 'DROP')
+		{
+			return $sql . $this->db->escape_identifiers($fields);
+		}
 
- 		return $sql.$this->_process_fields($fields)
-			.($after_field !== '' ? ' AFTER '.$this->db->escape_identifiers($after_field) : '');
- 	}
+		return $sql . $this->_process_fields($fields) . ($after_field !== '' ? ' AFTER ' . $this->db->escape_identifiers($after_field) : '');
+	}
 
 }
 

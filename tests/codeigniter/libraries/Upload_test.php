@@ -1,6 +1,7 @@
 <?php
 
-class Upload_test extends CI_TestCase {
+class Upload_test extends CI_TestCase
+{
 
 	function set_up()
 	{
@@ -18,35 +19,20 @@ class Upload_test extends CI_TestCase {
 		$this->_test_dir = vfsStreamWrapper::getRoot();
 	}
 
-	function test_do_upload() 
+	function test_do_upload()
 	{
 		$this->markTestIncomplete('We can\'t really test this at the moment because of the call to `is_uploaded_file` in do_upload which isn\'t supported by vfsStream');
 	}
 
 	function test_data()
 	{
-		$data = array(
-				'file_name'		=> 'hello.txt',
-				'file_type'		=> 'text/plain',
-				'file_path'		=> '/tmp/',
-				'full_path'		=> '/tmp/hello.txt',
-				'raw_name'		=> 'hello',
-				'orig_name'		=> 'hello.txt',
-				'client_name'		=> '',
-				'file_ext'		=> '.txt',
-				'file_size'		=> 100,
-				'is_image'		=> FALSE,
-				'image_width'		=> '',
-				'image_height'		=> '',
-				'image_type'		=> '',
-				'image_size_str'	=> ''
-			);
+		$data = array('file_name' => 'hello.txt', 'file_type' => 'text/plain', 'file_path' => '/tmp/', 'full_path' => '/tmp/hello.txt', 'raw_name' => 'hello', 'orig_name' => 'hello.txt', 'client_name' => '', 'file_ext' => '.txt', 'file_size' => 100, 'is_image' => FALSE, 'image_width' => '', 'image_height' => '', 'image_type' => '', 'image_size_str' => '');
 
 		$this->upload->set_upload_path('/tmp/');
 
 		foreach ($data as $k => $v)
 		{
-			$this->upload->{$k}	= $v;
+			$this->upload->{$k} = $v;
 		}
 
 		$this->assertEquals('hello.txt', $this->upload->data('file_name'));
@@ -67,15 +53,15 @@ class Upload_test extends CI_TestCase {
 		$file1 = vfsStream::newFile('hello-world.txt')->withContent('Hello world.')->at($this->_test_dir);
 		$this->upload->file_ext = '.txt';
 
-		$this->assertEquals('helloworld.txt', $this->upload->set_filename(vfsStream::url('testDir').'/', 'helloworld.txt'));
-		$this->assertEquals('hello-world1.txt', $this->upload->set_filename(vfsStream::url('testDir').'/', 'hello-world.txt'));
+		$this->assertEquals('helloworld.txt', $this->upload->set_filename(vfsStream::url('testDir') . '/', 'helloworld.txt'));
+		$this->assertEquals('hello-world1.txt', $this->upload->set_filename(vfsStream::url('testDir') . '/', 'hello-world.txt'));
 	}
 
 	function test_set_max_filesize()
 	{
 		$this->upload->set_max_filesize(100);
 		$this->assertEquals(100, $this->upload->max_size);
-	}	
+	}
 
 	function test_set_max_filename()
 	{
@@ -87,7 +73,7 @@ class Upload_test extends CI_TestCase {
 	{
 		$this->upload->set_max_width(100);
 		$this->assertEquals(100, $this->upload->max_width);
-	}	
+	}
 
 	function test_set_max_height()
 	{
@@ -109,12 +95,7 @@ class Upload_test extends CI_TestCase {
 		$this->upload->file_type = 'image/gif';
 		$this->upload->file_temp = 'tests/mocks/uploads/ci_logo.gif';
 
-		$props = array(
-			'image_width'	=>	170,
-			'image_height'	=>	73,
-			'image_type'	=>	'gif',
-			'image_size_str'	=>	'width="170" height="73"'
-		);
+		$props = array('image_width' => 170, 'image_height' => 73, 'image_type' => 'gif', 'image_size_str' => 'width="170" height="73"');
 
 		$this->upload->set_image_properties($this->upload->file_temp);
 
@@ -181,7 +162,7 @@ class Upload_test extends CI_TestCase {
 		$this->upload->file_type = 'image/gif';
 		$this->upload->file_temp = 'tests/mocks/uploads/ci_logo.gif';
 
-		$this->upload->max_width = 10;		
+		$this->upload->max_width = 10;
 		$this->assertFalse($this->upload->is_allowed_dimensions());
 
 		$this->upload->max_width = 170;
@@ -241,9 +222,7 @@ class Upload_test extends CI_TestCase {
 
 	function test_set_error()
 	{
-		$errors = array(
-			'An error!'
-		);
+		$errors = array('An error!');
 
 		$another = 'Another error!';
 

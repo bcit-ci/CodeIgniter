@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,23 +19,24 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 1.0
  * @filesource
  */
 
 /**
  * Initialize the database
  *
- * @category	Database
- * @author	EllisLab Dev Team
- * @link	http://codeigniter.com/user_guide/database/
- * @param 	string
- * @param 	bool	Determines if query builder should be used or not
+ * @category    Database
+ * @author    EllisLab Dev Team
+ * @link    http://codeigniter.com/user_guide/database/
+ *
+ * @param     string
+ * @param     bool    Determines if query builder should be used or not
  */
 function &DB($params = '', $query_builder_override = NULL)
 {
@@ -40,30 +44,29 @@ function &DB($params = '', $query_builder_override = NULL)
 	if (is_string($params) && strpos($params, '://') === FALSE)
 	{
 		// Is the config file in the environment folder?
-		if (( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php'))
-			&& ! file_exists($file_path = APPPATH.'config/database.php'))
+		if ((!defined('ENVIRONMENT') OR !file_exists($file_path = APPPATH . 'config/' . ENVIRONMENT . '/database.php')) && !file_exists($file_path = APPPATH . 'config/database.php'))
 		{
 			show_error('The configuration file database.php does not exist.');
 		}
 
 		include($file_path);
 		//make packages contain database config files
-		foreach(get_instance()->load->get_package_paths() as $path)
+		foreach (get_instance()->load->get_package_paths() as $path)
 		{
 			if ($path !== APPPATH)
 			{
-				if (file_exists ($file_path = $path.'config/'.ENVIRONMENT.'/database.php'))
+				if (file_exists($file_path = $path . 'config/' . ENVIRONMENT . '/database.php'))
 				{
 					include ($file_path);
 				}
-				elseif ( file_exists ($file_path = $path.'config/database.php'))
+				elseif (file_exists($file_path = $path . 'config/database.php'))
 				{
 					include ($file_path);
 				}
 			}
 		}
 
-		if ( ! isset($db) OR count($db) === 0)
+		if (!isset($db) OR count($db) === 0)
 		{
 			show_error('No database connection settings were found in the database config file.');
 		}
@@ -73,7 +76,7 @@ function &DB($params = '', $query_builder_override = NULL)
 			$active_group = $params;
 		}
 
-		if ( ! isset($active_group) OR ! isset($db[$active_group]))
+		if (!isset($active_group) OR !isset($db[$active_group]))
 		{
 			show_error('You have specified an invalid database connection group.');
 		}
@@ -94,14 +97,7 @@ function &DB($params = '', $query_builder_override = NULL)
 			show_error('Invalid DB Connection String');
 		}
 
-		$params = array(
-				'dbdriver'	=> $dsn['scheme'],
-				'hostname'	=> isset($dsn['host']) ? rawurldecode($dsn['host']) : '',
-				'port'		=> isset($dsn['port']) ? rawurldecode($dsn['port']) : '',
-				'username'	=> isset($dsn['user']) ? rawurldecode($dsn['user']) : '',
-				'password'	=> isset($dsn['pass']) ? rawurldecode($dsn['pass']) : '',
-				'database'	=> isset($dsn['path']) ? rawurldecode(substr($dsn['path'], 1)) : ''
-			);
+		$params = array('dbdriver' => $dsn['scheme'], 'hostname' => isset($dsn['host']) ? rawurldecode($dsn['host']) : '', 'port' => isset($dsn['port']) ? rawurldecode($dsn['port']) : '', 'username' => isset($dsn['user']) ? rawurldecode($dsn['user']) : '', 'password' => isset($dsn['pass']) ? rawurldecode($dsn['pass']) : '', 'database' => isset($dsn['path']) ? rawurldecode(substr($dsn['path'], 1)) : '');
 
 		// were additional config items set?
 		if (isset($dsn['query']))
@@ -136,30 +132,34 @@ function &DB($params = '', $query_builder_override = NULL)
 	// Backwards compatibility work-around for keeping the
 	// $active_record config variable working. Should be
 	// removed in v3.1
-	elseif ( ! isset($query_builder) && isset($active_record))
+	elseif (!isset($query_builder) && isset($active_record))
 	{
 		$query_builder = $active_record;
 	}
 
-	require_once(BASEPATH.'database/DB_driver.php');
+	require_once(BASEPATH . 'database/DB_driver.php');
 
-	if ( ! isset($query_builder) OR $query_builder === TRUE)
+	if (!isset($query_builder) OR $query_builder === TRUE)
 	{
-		require_once(BASEPATH.'database/DB_query_builder.php');
-		if ( ! class_exists('CI_DB'))
+		require_once(BASEPATH . 'database/DB_query_builder.php');
+		if (!class_exists('CI_DB'))
 		{
-			class CI_DB extends CI_DB_query_builder { }
+			class CI_DB extends CI_DB_query_builder
+			{
+			}
 		}
 	}
-	elseif ( ! class_exists('CI_DB'))
+	elseif (!class_exists('CI_DB'))
 	{
-		class CI_DB extends CI_DB_driver { }
+		class CI_DB extends CI_DB_driver
+		{
+		}
 	}
 
 	// Load the DB driver
-	$driver_file = BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver.php';
+	$driver_file = BASEPATH . 'database/drivers/' . $params['dbdriver'] . '/' . $params['dbdriver'] . '_driver.php';
 
-	if ( ! file_exists($driver_file))
+	if (!file_exists($driver_file))
 	{
 		show_error('Invalid DB driver');
 	}
@@ -167,18 +167,18 @@ function &DB($params = '', $query_builder_override = NULL)
 	require_once($driver_file);
 
 	// Instantiate the DB adapter
-	$driver = 'CI_DB_'.$params['dbdriver'].'_driver';
+	$driver = 'CI_DB_' . $params['dbdriver'] . '_driver';
 	$DB = new $driver($params);
 
 	// Check for a subdriver
-	if ( ! empty($DB->subdriver))
+	if (!empty($DB->subdriver))
 	{
-		$driver_file = BASEPATH.'database/drivers/'.$DB->dbdriver.'/subdrivers/'.$DB->dbdriver.'_'.$DB->subdriver.'_driver.php';
+		$driver_file = BASEPATH . 'database/drivers/' . $DB->dbdriver . '/subdrivers/' . $DB->dbdriver . '_' . $DB->subdriver . '_driver.php';
 
 		if (file_exists($driver_file))
 		{
 			require_once($driver_file);
-			$driver = 'CI_DB_'.$DB->dbdriver.'_'.$DB->subdriver.'_driver';
+			$driver = 'CI_DB_' . $DB->dbdriver . '_' . $DB->subdriver . '_driver';
 			$DB = new $driver($params);
 		}
 	}
@@ -188,7 +188,7 @@ function &DB($params = '', $query_builder_override = NULL)
 		$DB->initialize();
 	}
 
-	if ( ! empty($params['stricton']))
+	if (!empty($params['stricton']))
 	{
 		$DB->query('SET SESSION sql_mode="STRICT_ALL_TABLES"');
 	}

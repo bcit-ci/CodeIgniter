@@ -1,24 +1,13 @@
 <?php
 
-class CI_TestCase extends PHPUnit_Framework_TestCase {
+class CI_TestCase extends PHPUnit_Framework_TestCase
+{
 
 	protected $ci_config;
 	protected $ci_instance;
 	protected static $ci_test_instance;
 
-	private $global_map = array(
-		'benchmark'	=> 'bm',
-		'config'	=> 'cfg',
-		'hooks'		=> 'ext',
-		'utf8'		=> 'uni',
-		'router'	=> 'rtr',
-		'output'	=> 'out',
-		'security'	=> 'sec',
-		'input'		=> 'in',
-		'lang'		=> 'lang',
-		'loader'	=> 'load',
-		'model'		=> 'model'
-	);
+	private $global_map = array('benchmark' => 'bm', 'config' => 'cfg', 'hooks' => 'ext', 'utf8' => 'uni', 'router' => 'rtr', 'output' => 'out', 'security' => 'sec', 'input' => 'in', 'lang' => 'lang', 'loader' => 'load', 'model' => 'model');
 
 	// --------------------------------------------------------------------
 
@@ -80,7 +69,7 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 
 	public function ci_instance($obj = FALSE)
 	{
-		if ( ! is_object($obj))
+		if (!is_object($obj))
 		{
 			return $this->ci_instance;
 		}
@@ -92,7 +81,7 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 
 	public function ci_instance_var($name, $obj = FALSE)
 	{
-		if ( ! is_object($obj))
+		if (!is_object($obj))
 		{
 			return $this->ci_instance->$name;
 		}
@@ -130,12 +119,12 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 			throw new Exception('Not a valid core class.');
 		}
 
-		if ( ! class_exists('CI_'.$class_name))
+		if (!class_exists('CI_' . $class_name))
 		{
-			require_once BASEPATH.'core/'.$class_name.'.php';
+			require_once BASEPATH . 'core/' . $class_name . '.php';
 		}
 
-		$GLOBALS[strtoupper($global_name)] = 'CI_'.$class_name;
+		$GLOBALS[strtoupper($global_name)] = 'CI_' . $class_name;
 		return $GLOBALS[strtoupper($global_name)];
 	}
 
@@ -171,7 +160,7 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 
 	public function helper($name)
 	{
-		require_once(BASEPATH.'helpers/'.$name.'_helper.php');
+		require_once(BASEPATH . 'helpers/' . $name . '_helper.php');
 	}
 
 	// --------------------------------------------------------------------
@@ -183,7 +172,7 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 	{
 		if ($this->{$method} instanceof Closure)
 		{
-			return call_user_func_array($this->{$method},$args);
+			return call_user_func_array($this->{$method}, $args);
 		}
 		else
 		{

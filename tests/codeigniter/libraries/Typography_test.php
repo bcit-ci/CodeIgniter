@@ -1,6 +1,7 @@
 <?php
 
-class Typography_test extends CI_TestCase {
+class Typography_test extends CI_TestCase
+{
 
 	public function set_up()
 	{
@@ -21,19 +22,7 @@ class Typography_test extends CI_TestCase {
 	 */
 	public function test_format_characters()
 	{
-		$strs = array(
-			'"double quotes"' 				=> '&#8220;double quotes&#8221;',
-			'"testing" in "theory" that is' => '&#8220;testing&#8221; in &#8220;theory&#8221; that is',
-			"Here's what I'm" 				=> 'Here&#8217;s what I&#8217;m',
-			'&' 							=> '&amp;',
-			'&amp;' 						=> '&amp;',
-			'&nbsp;'						=> '&nbsp;',
-			'--'							=> '&#8212;',
-			'foo...'						=> 'foo&#8230;',
-			'foo..'							=> 'foo..',
-			'foo...bar.'					=> 'foo&#8230;bar.',
-			'test.  new'					=> 'test.&nbsp; new',
-		);
+		$strs = array('"double quotes"' => '&#8220;double quotes&#8221;', '"testing" in "theory" that is' => '&#8220;testing&#8221; in &#8220;theory&#8221; that is', "Here's what I'm" => 'Here&#8217;s what I&#8217;m', '&' => '&amp;', '&amp;' => '&amp;', '&nbsp;' => '&nbsp;', '--' => '&#8212;', 'foo...' => 'foo&#8230;', 'foo..' => 'foo..', 'foo...bar.' => 'foo&#8230;bar.', 'test.  new' => 'test.&nbsp; new',);
 
 		foreach ($strs as $str => $expected)
 		{
@@ -113,10 +102,7 @@ EOH;
 
 	private function _standardize_new_lines()
 	{
-		$strs = array(
-			"My string\rhas return characters"	=> "<p>My string<br />\nhas return characters</p>",
-			'This one does not!' 				=> '<p>This one does not!</p>'
-		);
+		$strs = array("My string\rhas return characters" => "<p>My string<br />\nhas return characters</p>", 'This one does not!' => '<p>This one does not!</p>');
 
 		foreach ($strs as $str => $expect)
 		{

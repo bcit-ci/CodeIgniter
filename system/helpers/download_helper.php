@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,38 +19,39 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 1.0
  * @filesource
  */
 
 /**
  * CodeIgniter Download Helpers
  *
- * @package		CodeIgniter
- * @subpackage	Helpers
- * @category	Helpers
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/helpers/download_helper.html
+ * @package        CodeIgniter
+ * @subpackage    Helpers
+ * @category    Helpers
+ * @author        EllisLab Dev Team
+ * @link        http://codeigniter.com/user_guide/helpers/download_helper.html
  */
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('force_download'))
+if (!function_exists('force_download'))
 {
 	/**
 	 * Force Download
 	 *
 	 * Generates headers that force a download to happen
 	 *
-	 * @param	string	filename
-	 * @param	mixed	the data to be downloaded
-	 * @param	bool	whether to try and send the actual file MIME type
-	 * @return	void
+	 * @param    string    filename
+	 * @param    mixed    the data to be downloaded
+	 * @param    bool    whether to try and send the actual file MIME type
+	 *
+	 * @return    void
 	 */
 	function force_download($filename = '', $data = '', $set_mime = FALSE)
 	{
@@ -101,11 +105,11 @@ if ( ! function_exists('force_download'))
 		}
 
 		// Generate the server headers
-		header('Content-Type: '.$mime);
-		header('Content-Disposition: attachment; filename="'.$filename.'"');
+		header('Content-Type: ' . $mime);
+		header('Content-Disposition: attachment; filename="' . $filename . '"');
 		header('Expires: 0');
 		header('Content-Transfer-Encoding: binary');
-		header('Content-Length: '.strlen($data));
+		header('Content-Length: ' . strlen($data));
 
 		// Internet Explorer-specific headers
 		if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE)

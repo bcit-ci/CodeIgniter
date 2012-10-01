@@ -1,6 +1,7 @@
 <?php
 
-class Input_test extends CI_TestCase {
+class Input_test extends CI_TestCase
+{
 
 	public function set_up()
 	{
@@ -8,7 +9,7 @@ class Input_test extends CI_TestCase {
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 
 		// Set config for Input class
-		$this->ci_set_config('allow_get_array',	TRUE);
+		$this->ci_set_config('allow_get_array', TRUE);
 		$this->ci_set_config('global_xss_filtering', FALSE);
 		$this->ci_set_config('csrf_protection', FALSE);
 
@@ -25,8 +26,8 @@ class Input_test extends CI_TestCase {
 		$this->assertEmpty($this->input->get());
 		$this->assertEmpty($this->input->get('foo'));
 
-		$this->assertTrue( ! $this->input->get());
-		$this->assertTrue( ! $this->input->get('foo'));
+		$this->assertTrue(!$this->input->get());
+		$this->assertTrue(!$this->input->get('foo'));
 
 		// Test we're getting empty results
 		$this->assertTrue($this->input->get() === NULL);
@@ -67,8 +68,8 @@ class Input_test extends CI_TestCase {
 		$this->assertEmpty($this->input->post());
 		$this->assertEmpty($this->input->post('foo'));
 
-		$this->assertTrue( ! $this->input->post());
-		$this->assertTrue( ! $this->input->post('foo'));
+		$this->assertTrue(!$this->input->post());
+		$this->assertTrue(!$this->input->post('foo'));
 
 		$this->assertTrue($this->input->post() === NULL);
 		$this->assertTrue($this->input->post('foo') === NULL);
@@ -130,10 +131,7 @@ class Input_test extends CI_TestCase {
 
 	public function test_fetch_from_array()
 	{
-		$data = array(
-			'foo' => 'bar',
-			'harm' => 'Hello, i try to <script>alert(\'Hack\');</script> your site',
-		);
+		$data = array('foo' => 'bar', 'harm' => 'Hello, i try to <script>alert(\'Hack\');</script> your site',);
 
 		$foo = $this->input->fetch_from_array($data, 'foo');
 		$harm = $this->input->fetch_from_array($data, 'harm');

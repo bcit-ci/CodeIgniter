@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -16,35 +19,36 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @package        CodeIgniter
+ * @author        EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link        http://codeigniter.com
+ * @since        Version 1.0
  * @filesource
  */
 
 /**
  * CodeIgniter XML Helpers
  *
- * @package		CodeIgniter
- * @subpackage	Helpers
- * @category	Helpers
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/helpers/xml_helper.html
+ * @package        CodeIgniter
+ * @subpackage    Helpers
+ * @category    Helpers
+ * @author        EllisLab Dev Team
+ * @link        http://codeigniter.com/user_guide/helpers/xml_helper.html
  */
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('xml_convert'))
+if (!function_exists('xml_convert'))
 {
 	/**
 	 * Convert Reserved XML characters to Entities
 	 *
-	 * @param	string
-	 * @param	bool
-	 * @return	string
+	 * @param    string
+	 * @param    bool
+	 *
+	 * @return    string
 	 */
 	function xml_convert($str, $protect_all = FALSE)
 	{
@@ -52,23 +56,21 @@ if ( ! function_exists('xml_convert'))
 
 		// Replace entities to temporary markers so that
 		// ampersands won't get messed up
-		$str = preg_replace('/&#(\d+);/', $temp.'\\1;', $str);
+		$str = preg_replace('/&#(\d+);/', $temp . '\\1;', $str);
 
 		if ($protect_all === TRUE)
 		{
-			$str = preg_replace('/&(\w+);/', $temp.'\\1;', $str);
+			$str = preg_replace('/&(\w+);/', $temp . '\\1;', $str);
 		}
 
-		$str = str_replace(array('&', '<', '>', '"', "'", '-'),
-					array('&amp;', '&lt;', '&gt;', '&quot;', '&apos;', '&#45;'),
-					$str);
+		$str = str_replace(array('&', '<', '>', '"', "'", '-'), array('&amp;', '&lt;', '&gt;', '&quot;', '&apos;', '&#45;'), $str);
 
 		// Decode the temp markers back to entities
-		$str = preg_replace('/'.$temp.'(\d+);/', '&#\\1;', $str);
+		$str = preg_replace('/' . $temp . '(\d+);/', '&#\\1;', $str);
 
 		if ($protect_all === TRUE)
 		{
-			return preg_replace('/'.$temp.'(\w+);/', '&\\1;', $str);
+			return preg_replace('/' . $temp . '(\w+);/', '&\\1;', $str);
 		}
 
 		return $str;

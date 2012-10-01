@@ -1,6 +1,7 @@
 <?php
 
-class Text_helper_test extends CI_TestCase {
+class Text_helper_test extends CI_TestCase
+{
 
 	private $_long_string;
 
@@ -34,10 +35,7 @@ class Text_helper_test extends CI_TestCase {
 
 	public function test_ascii_to_entities()
 	{
-		$strs = array(
-			'“‘ “test”'			=> '&#8220;&#8216; &#8220;test&#8221;',
-			'†¥¨ˆøåß∂ƒ©˙∆˚¬'	=> '&#8224;&#165;&#168;&#710;&#248;&#229;&#223;&#8706;&#402;&#169;&#729;&#8710;&#730;&#172;'
-		);
+		$strs = array('“‘ “test”' => '&#8220;&#8216; &#8220;test&#8221;', '†¥¨ˆøåß∂ƒ©˙∆˚¬' => '&#8224;&#165;&#168;&#710;&#248;&#229;&#223;&#8706;&#402;&#169;&#729;&#8710;&#730;&#172;');
 
 		foreach ($strs as $str => $expect)
 		{
@@ -49,10 +47,7 @@ class Text_helper_test extends CI_TestCase {
 
 	public function test_entities_to_ascii()
 	{
-		$strs = array(
-			'&#8220;&#8216; &#8220;test&#8221;' => '“‘ “test”',
-			'&#8224;&#165;&#168;&#710;&#248;&#229;&#223;&#8706;&#402;&#169;&#729;&#8710;&#730;&#172;' => '†¥¨ˆøåß∂ƒ©˙∆˚¬'
-		);
+		$strs = array('&#8220;&#8216; &#8220;test&#8221;' => '“‘ “test”', '&#8224;&#165;&#168;&#710;&#248;&#229;&#223;&#8706;&#402;&#169;&#729;&#8710;&#730;&#172;' => '†¥¨ˆøåß∂ƒ©˙∆˚¬');
 
 		foreach ($strs as $str => $expect)
 		{
@@ -74,13 +69,7 @@ class Text_helper_test extends CI_TestCase {
 	{
 		$censored = array('boob', 'nerd', 'ass', 'fart');
 
-		$strs = array(
-			'Ted bobbled the ball' 			=> 'Ted bobbled the ball',
-			'Jake is a nerdo'				=> 'Jake is a nerdo',
-			'The borg will assimilate you'	=> 'The borg will assimilate you',
-			'Did Mary Fart?'				=> 'Did Mary $*#?',
-			'Jake is really a boob'			=> 'Jake is really a $*#'
-		);
+		$strs = array('Ted bobbled the ball' => 'Ted bobbled the ball', 'Jake is a nerdo' => 'Jake is a nerdo', 'The borg will assimilate you' => 'The borg will assimilate you', 'Did Mary Fart?' => 'Did Mary $*#?', 'Jake is really a boob' => 'Jake is really a $*#');
 
 		foreach ($strs as $str => $expect)
 		{
@@ -104,13 +93,7 @@ class Text_helper_test extends CI_TestCase {
 
 	public function test_highlight_phrase()
 	{
-		$strs = array(
-			'this is a phrase'			=> '<strong>this is</strong> a phrase',
-			'this is another'			=> '<strong>this is</strong> another',
-			'Gimme a test, Sally'		=> 'Gimme a test, Sally',
-			'Or tell me what this is'	=> 'Or tell me what <strong>this is</strong>',
-			''							=> ''
-		);
+		$strs = array('this is a phrase' => '<strong>this is</strong> a phrase', 'this is another' => '<strong>this is</strong> another', 'Gimme a test, Sally' => 'Gimme a test, Sally', 'Or tell me what this is' => 'Or tell me what <strong>this is</strong>', '' => '');
 
 		foreach ($strs as $str => $expect)
 		{
@@ -122,26 +105,7 @@ class Text_helper_test extends CI_TestCase {
 
 	public function test_ellipsize()
 	{
-		$strs = array(
-			'0'		=> array(
-				'this is my string'				=> '&hellip; my string',
-				"here's another one"			=> '&hellip;nother one',
-				'this one is just a bit longer'	=> '&hellip;bit longer',
-				'short'							=> 'short'
-			),
-			'.5'	=> array(
-				'this is my string'				=> 'this &hellip;tring',
-				"here's another one"			=> "here'&hellip;r one",
-				'this one is just a bit longer'	=> 'this &hellip;onger',
-				'short'							=> 'short'
-			),
-			'1'	=> array(
-				'this is my string'				=> 'this is my&hellip;',
-				"here's another one"			=> "here's ano&hellip;",
-				'this one is just a bit longer'	=> 'this one i&hellip;',
-				'short'							=> 'short'
-			),
-		);
+		$strs = array('0' => array('this is my string' => '&hellip; my string', "here's another one" => '&hellip;nother one', 'this one is just a bit longer' => '&hellip;bit longer', 'short' => 'short'), '.5' => array('this is my string' => 'this &hellip;tring', "here's another one" => "here'&hellip;r one", 'this one is just a bit longer' => 'this &hellip;onger', 'short' => 'short'), '1' => array('this is my string' => 'this is my&hellip;', "here's another one" => "here's ano&hellip;", 'this one is just a bit longer' => 'this one i&hellip;', 'short' => 'short'),);
 
 		foreach ($strs as $pos => $s)
 		{

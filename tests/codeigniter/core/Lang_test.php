@@ -1,6 +1,7 @@
 <?php
 
-class Lang_test extends CI_TestCase {
+class Lang_test extends CI_TestCase
+{
 
 	protected $lang;
 

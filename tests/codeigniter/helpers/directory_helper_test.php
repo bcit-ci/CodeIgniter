@@ -1,6 +1,7 @@
 <?php
 
-class Directory_helper_test extends CI_TestCase {
+class Directory_helper_test extends CI_TestCase
+{
 
 	public function set_up()
 	{
@@ -14,27 +15,12 @@ class Directory_helper_test extends CI_TestCase {
 
 	public function test_directory_map()
 	{
-		$structure = array(
-			'libraries' => array(
-				'benchmark.html' => '',
-				'database' => array('active_record.html' => '', 'binds.html' => ''),
-				'email.html' => '',
-				'0' => '',
-				'.hiddenfile.txt' => ''
-			)
-		);
+		$structure = array('libraries' => array('benchmark.html' => '', 'database' => array('active_record.html' => '', 'binds.html' => ''), 'email.html' => '', '0' => '', '.hiddenfile.txt' => ''));
 
 		vfsStream::create($structure, $this->_test_dir);
 
 		// test default recursive behavior
-		$expected = array(
-			'libraries' => array(
-				'benchmark.html',
-				'database' => array('active_record.html', 'binds.html'),
-				'email.html',
-				'0'
-			)
-		);
+		$expected = array('libraries' => array('benchmark.html', 'database' => array('active_record.html', 'binds.html'), 'email.html', '0'));
 
 		$this->assertEquals($expected, directory_map(vfsStream::url('testDir')));
 

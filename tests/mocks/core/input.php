@@ -1,6 +1,7 @@
 <?php
 
-class Mock_Core_Input extends CI_Input {
+class Mock_Core_Input extends CI_Input
+{
 
 	/**
 	 * Since we use GLOBAL to fetch Security and Utf8 classes,
@@ -11,9 +12,9 @@ class Mock_Core_Input extends CI_Input {
 	 */
 	public function __construct($security, $utf8)
 	{
-		$this->_allow_get_array	= (config_item('allow_get_array') === TRUE);
-		$this->_enable_xss	= (config_item('global_xss_filtering') === TRUE);
-		$this->_enable_csrf	= (config_item('csrf_protection') === TRUE);
+		$this->_allow_get_array = (config_item('allow_get_array') === TRUE);
+		$this->_enable_xss = (config_item('global_xss_filtering') === TRUE);
+		$this->_enable_csrf = (config_item('csrf_protection') === TRUE);
 
 		// Assign Security and Utf8 classes
 		$this->security = $security;

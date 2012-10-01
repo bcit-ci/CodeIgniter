@@ -1,6 +1,7 @@
 <?php
 
-class Mock_Core_Utf8 extends CI_Utf8 {
+class Mock_Core_Utf8 extends CI_Utf8
+{
 
 	/**
 	 * We need to define several constants as
