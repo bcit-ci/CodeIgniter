@@ -37,6 +37,7 @@
  * @link		http://codeigniter.com/user_guide/libraries/loader.html
  */
 class CI_Loader {
+
 	// All these are set automatically. Don't mess with them.
 	/**
 	 * CodeIgniter core
@@ -343,8 +344,7 @@ class CI_Loader {
 			// Check for name conflict
 			if (isset($this->CI->$name))
 			{
-				$msg = 'The controller name you are loading is the name of a resource that is already being used: '.
-					$name;
+				$msg = 'The controller name you are loading is the name of a resource that is already being used: '.$name;
 				if ($name == 'routed')
 				{
 					// This could be a request from Exceptions - avoid recursive calls to show_error
@@ -409,7 +409,6 @@ class CI_Loader {
 	 */
 	public function model($model, $name = '', $db_conn = FALSE)
 	{
-		// Delegate multiples
 		if (is_array($model))
 		{
 			foreach ($model as $class)
@@ -419,7 +418,6 @@ class CI_Loader {
 			return;
 		}
 
-		// Check for missing class
 		if ($model === '')
 		{
 			return;
@@ -437,13 +435,11 @@ class CI_Loader {
 			$model = substr($model, $last_slash);
 		}
 
-		// Set name if not provided
 		if (empty($name))
 		{
 			$name = $model;
 		}
 
-		// Check if already loaded
 		if (in_array($name, $this->_ci_models, TRUE))
 		{
 			return;
@@ -533,8 +529,7 @@ class CI_Loader {
 	public function database($params = '', $return = FALSE, $query_builder = NULL)
 	{
 		// Do we even need to load the database class?
-		if (class_exists('CI_DB') && $return === FALSE && $query_builder === NULL && isset($this->CI->db) &&
-		is_object($this->CI->db))
+		if (class_exists('CI_DB') && $return === FALSE && $query_builder === NULL && isset($this->CI->db) && is_object($this->CI->db))
 		{
 			return FALSE;
 		}
@@ -1151,8 +1146,7 @@ class CI_Loader {
 		// If the PHP installation does not support short tags we'll
 		// do a little string replacement, changing the short tags
 		// to standard PHP echo statements.
-		if ( ! is_php('5.4') && (bool) @ini_get('short_open_tag') === FALSE &&
-		$this->CI->config->item('rewrite_short_tags') === TRUE)
+		if ( ! is_php('5.4') && (bool) @ini_get('short_open_tag') === FALSE && $this->CI->config->item('rewrite_short_tags') === TRUE)
 		{
 			echo eval('?>'.preg_replace('/;*\s*\?>/', '; ?>',
 				str_replace('<?=', '<?php echo ', file_get_contents($_ci_path))));
@@ -1302,7 +1296,7 @@ class CI_Loader {
 				}
 
 				// If this looks like a driver, make sure the base class is loaded
-				if (strtolower($subdir) == strtolower($class).'/' && !class_exists('CI_Driver_Library'))
+				if (strtolower($subdir) == strtolower($class).'/' && ! class_exists('CI_Driver_Library'))
 				{
 					// We aren't instantiating an object here, that'll be done by the Library itself
 					require $this->_ci_base_path.'libraries/Driver.php';
@@ -1352,7 +1346,7 @@ class CI_Loader {
 			// See if there's a config file for the class
 			$file = strtolower($class);
 			$data = $this->CI->config->get($file.'.php', 'config');
-			if (!is_array($data))
+			if ( ! is_array($data))
 			{
 				// Try uppercase
 				$data = $this->CI->config->get(ucfirst($file).'.php', 'config');
@@ -1438,7 +1432,7 @@ class CI_Loader {
 		unset($this->CI->_autoload);
 
 		// Check for autoload array
-		if ( ! is_array($autoload) OR empty($autoload))
+		if (empty($autoload) OR ! is_array($autoload))
 		{
 			return FALSE;
 		}
@@ -1456,7 +1450,7 @@ class CI_Loader {
 		if (isset($autoload['libraries']))
 		{
 			// Load the database driver.
-			$libs = (array)$autoload['libraries'];
+			$libs = (array) $autoload['libraries'];
 			$key = array_search('database', $libs);
 			if ($key !== FALSE)
 			{
@@ -1506,6 +1500,7 @@ class CI_Loader {
 	{
 		return is_object($object) ? get_object_vars($object) : $object;
 	}
+
 }
 
 /* End of file Loader.php */

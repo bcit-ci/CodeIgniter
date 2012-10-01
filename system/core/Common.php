@@ -219,15 +219,9 @@ if ( ! function_exists('config_item'))
 	 */
 	function config_item($item)
 	{
-		// Get instance and check for config
+		// Get instance and return config item or FALSE
 		$CI = CodeIgniter::instance();
-		if ( ! isset($CI->config))
-		{
-			return FALSE;
-		}
-
-		// Return config item
-		return $CI->config->item($item);
+		return isset($CI->config) ? $CI->config->item($item) : FALSE;
 	}
 }
 

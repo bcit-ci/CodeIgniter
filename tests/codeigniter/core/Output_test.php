@@ -1,6 +1,7 @@
 <?php
 
 class Output_test extends CI_TestCase {
+
 	private $ci;
 
 	/**
@@ -404,5 +405,5 @@ class Output_test extends CI_TestCase {
 		}
 		$this->ci->load = new $class();
 	}
-}
 
+}

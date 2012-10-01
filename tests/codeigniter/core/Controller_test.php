@@ -1,6 +1,7 @@
 <?php
 
 class Controller_test extends CI_TestCase {
+
 	public function set_up()
 	{
 		// Get instance
@@ -75,5 +76,5 @@ class Controller_test extends CI_TestCase {
 		// What if we make a static call?
 		$this->assertEquals($this->ci, CI_Controller::instance());
 	}
-}
 
+}

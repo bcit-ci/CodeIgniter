@@ -37,31 +37,32 @@
  * @link		http://codeigniter.com/user_guide/libraries/input.html
  */
 class CI_Input {
+
 	/**
 	 * IP address of the current user
 	 *
-	 * @var		string
+	 * @var	string
 	 */
 	public $ip_address =	FALSE;
 
 	/**
 	 * user agent (web browser) being used by the current user
 	 *
-	 * @var		string
+	 * @var	string
 	 */
 	public $user_agent =	FALSE;
 
 	/**
 	 * If FALSE, then $_GET will be set to an empty array
 	 *
-	 * @var		bool
+	 * @var	bool
 	 */
 	protected $_allow_get_array =	TRUE;
 
 	/**
 	 * If TRUE, then newlines are standardized
 	 *
-	 * @var		bool
+	 * @var	bool
 	 */
 	protected $_standardize_newlines =	TRUE;
 
@@ -69,7 +70,7 @@ class CI_Input {
 	 * Determines whether the XSS filter is always active when GET, POST or COOKIE data is encountered
 	 * Set automatically based on config setting
 	 *
-	 * @var		bool
+	 * @var	bool
 	 */
 	protected $_enable_xss =	FALSE;
 
@@ -77,14 +78,14 @@ class CI_Input {
 	 * Enables a CSRF cookie token to be set.
 	 * Set automatically based on config setting
 	 *
-	 * @var		bool
+	 * @var	bool
 	 */
 	protected $_enable_csrf =	FALSE;
 
 	/**
 	 * List of all HTTP request headers
 	 *
-	 * @var		array
+	 * @var	array
 	 */
 	protected $headers =	array();
 
@@ -751,6 +752,7 @@ class CI_Input {
 			? strtoupper($this->server('REQUEST_METHOD'))
 			: strtolower($this->server('REQUEST_METHOD'));
 	}
+
 }
 
 /* End of file Input.php */

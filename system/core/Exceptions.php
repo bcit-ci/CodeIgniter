@@ -35,6 +35,7 @@
  * @link		http://codeigniter.com/user_guide/libraries/exceptions.html
  */
 class CI_Exceptions {
+
 	/**
 	 * Nesting level of the output buffering mechanism
 	 *
@@ -261,6 +262,7 @@ class CI_Exceptions {
 		include(VIEWPATH.'errors/'.$template.'.php');
 		echo ob_get_clean();
 	}
+
 }
 
 /* End of file Exceptions.php */

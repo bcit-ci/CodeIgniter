@@ -37,6 +37,7 @@
  * @link		http://codeigniter.com/user_guide/general/routing.html
  */
 class CI_Router {
+
 	/**
 	 * CodeIgniter core
 	 *
@@ -109,8 +110,8 @@ class CI_Router {
 
 		// Set the default controller so we can display it in the event
 		// the URI doesn't correlate to a valid controller.
-		$this->default_controller = empty($this->routes['default_controller']) ? FALSE :
-			strtolower($this->routes['default_controller']);
+		$this->default_controller = empty($this->routes['default_controller'])
+		   	? FALSE : strtolower($this->routes['default_controller']);
 
 		// Are query strings enabled in the config file? Normally CI doesn't utilize query strings
 		// since URI segments are more search-engine friendly, but they can optionally be used.
@@ -274,14 +275,8 @@ class CI_Router {
 				if (file_exists($path.'controllers/'.$route[0].'/'.$class.'.php'))
 				{
 					// Found it - assemble segments
-					if ( ! isset($route[1]))
-					{
-						$route[] = $class;
-					}
-					if ( ! isset($route[2]))
-					{
-						$route[] = $method;
-					}
+					isset($route[1]) OR $route[] = $class;
+					isset($route[2]) OR $route[] = $method;
 					if (isset($default) && count($default) > 0)
 					{
 						$route = array_merge($route, $default);
@@ -317,8 +312,7 @@ class CI_Router {
 			}
 
 			// Is there a module sub-folder?
-			$sub = '';
-			for ($seg = 0; $seg < $seg_ct; ++$seg)
+			for ($sub = '', $seg = 0; $seg < $seg_ct; ++$seg)
 			{
 				// Add segment to subdirectory path and check for controllers
 				$sub .= $route[$seg].'/';
@@ -622,6 +616,7 @@ class CI_Router {
 
 		return $default;
 	}
+
 }
 
 /* End of file Router.php */

@@ -37,17 +37,18 @@
  * @link		http://codeigniter.com/user_guide/libraries/config.html
  */
 class CI_Config {
+
 	/**
 	 * List of all loaded config values
 	 *
-	 * @var		array
+	 * @var	array
 	 */
 	public $config = array();
 
 	/**
 	 * List of all loaded config files
 	 *
-	 * @var		array
+	 * @var	array
 	 */
 	public $is_loaded =	array();
 
@@ -55,14 +56,14 @@ class CI_Config {
 	 * List of paths to search when trying to load a config file.
 	 * This must be public as it's used by the Loader class.
 	 *
-	 * @var		array
+	 * @var	array
 	 */
 	public $_config_paths = array();
 
 	/**
 	 * Callback to array merging function
 	 *
-	 * @var		callback
+	 * @var	callback
 	 */
 	protected $merge_arrays;
 
@@ -93,7 +94,7 @@ class CI_Config {
 		$autoload = $CI->_autoload;
 		if (is_array($autoload) && isset($autoload['config']))
 		{
-			foreach ((array)$autoload['config'] as $file)
+			foreach ((array) $autoload['config'] as $file)
 			{
 				$this->load($file);
 			}
@@ -150,7 +151,7 @@ class CI_Config {
 			}
 			show_error('The configuration file '.$file.'.php does not exist.');
 		}
-		else if (is_string($config))
+		elseif (is_string($config))
 		{
 			if ($fail_gracefully)
 			{
@@ -163,14 +164,7 @@ class CI_Config {
 		if ($use_sections === TRUE)
 		{
 			// Merge or set section
-			if (isset($this->config[$file]))
-			{
-				$this->config[$file] = array_merge($this->config[$file], $config);
-			}
-			else
-			{
-				$this->config[$file] = $config;
-			}
+			$this->config[$file] = isset($this->config[$file]) ? array_merge($this->config[$file], $config) : $config;
 		}
 		else
 		{
@@ -219,7 +213,7 @@ class CI_Config {
 	public function get_ext($_file, $_name, &$_extras)
 	{
 		// Ensure file ends with .php
-		if (!preg_match('/\.php$/', $_file))
+		if ( ! preg_match('/\.php$/', $_file))
 		{
 			$_file .= '.php';
 		}
@@ -258,7 +252,7 @@ class CI_Config {
 						// Use the return value of the file we captured above
 						$_name = '_return';
 					}
-					else if (empty($_name))
+					elseif (empty($_name))
 					{
 						// Nope - just note we found something
 						$_merged = TRUE;
@@ -279,15 +273,8 @@ class CI_Config {
 			}
 		}
 
-		// Test for merged config
-		if (empty($_merged))
-		{
-			// None - quit
-			return FALSE;
-		}
-
-		// Return merged config
-		return $_merged;
+		// Return merged config or FALSE
+		return empty($_merged) ? FALSE : $_merged;
 	}
 
 	// --------------------------------------------------------------------
@@ -467,6 +454,7 @@ class CI_Config {
 		// Return merged array
 		return $main;
 	}
+
 }
 
 /* End of file Config.php */

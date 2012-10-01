@@ -27,8 +27,6 @@
 
 /**
  * CodeIgniter Version
- *
- * @var string
  */
 define('CI_VERSION', '3.0-dev');
 
@@ -45,56 +43,53 @@ define('CI_VERSION', '3.0-dev');
  * @link		http://codeigniter.com/user_guide/
  */
 class CodeIgniter {
+
 	/**
 	 * Base paths for loading core classes
 	 *
-	 * @access	protected
-	 * @var		array
+	 * @var	array
 	 */
 	public $base_paths = array();
 
 	/**
 	 * App paths for loading core class extensions
 	 *
-	 * @var		array
+	 * @var	array
 	 */
 	public $app_paths = array();
 
 	/**
 	 * Log threshold
 	 *
-	 * @var		int
+	 * @var	int
 	 */
 	public $log_threshold = 1;
 
 	/**
 	 * Subclass prefix for core class extensions
 	 *
-	 * @var		string
+	 * @var	string
 	 */
 	public $subclass_prefix = '';
 
 	/**
 	 * Is running flag to prevent run() reentry
 	 *
-	 * @access	protected
-	 * @var		bool
+	 * @var	bool
 	 */
 	protected $_is_running = FALSE;
 
 	/**
 	 * Display cache flag
 	 *
-	 * @access	protected
-	 * @var	 bool
+	 * @var	bool
 	 */
 	protected $_display_cache = FALSE;
 
 	/**
 	 * CodeIgniter singleton instance
 	 *
-	 * @access	protected
-	 * @var		object
+	 * @staticvar	object
 	 */
 	protected static $instance = NULL;
 
@@ -108,7 +103,7 @@ class CodeIgniter {
 	 * @param	array	Autoload config
 	 * @param	string	Base path
 	 * @param	string	Application path
-	 * @access	protected
+	 * @return	void
 	 */
 	protected function __construct($config, $autoload, $basepath, $apppath)
 	{
@@ -145,7 +140,7 @@ class CodeIgniter {
 		// Check autoload for package paths to add
 		if (isset($autoload['packages']))
 		{
-			foreach ((array)$autoload['packages'] as $path)
+			foreach ((array) $autoload['packages'] as $path)
 			{
 				// Resolve path and add to paths
 				$path = self::resolve_path($path);
@@ -170,6 +165,8 @@ class CodeIgniter {
 
 	/**
 	 * Destructor
+	 *
+	 * @return	void
 	 */
 	public function __destruct()
 	{
@@ -188,6 +185,7 @@ class CodeIgniter {
 	 * All other loadables are loaded via CI_Loader.
 	 * The second parameter supports overriding the APPPATH constant in unit testing.
 	 *
+	 * @static
 	 * @param	string	Optional base path override (for unit tests)
 	 * @param	string	Optional app path override (for unit tests)
 	 * @param	string	Optional environment override (for unit tests)
@@ -226,7 +224,7 @@ class CodeIgniter {
 				{
 					include($path.$name.'.php');
 				}
-				else if ($name == 'config')
+				elseif ($name === 'config')
 				{
 					// Can't run without main config - error out
 					static::_status_exit(503, 'The configuration file does not exist.');
@@ -250,16 +248,16 @@ class CodeIgniter {
 			{
 				$autoload = array();
 			}
-			else if (isset($autoload['packages']))
+			elseif (isset($autoload['packages']))
 			{
-				foreach ((array)$autoload['packages'] as $path)
+				foreach ((array) $autoload['packages'] as $path)
 				{
 					array_unshift($packages, self::resolve_path($path));
 				}
 			}
 
 			// Are any values being dynamically replaced?
-			if ( ! empty($assign_to_config) > 0)
+			if ( ! empty($assign_to_config))
 			{
 				$config = array_merge($config, $assign_to_config);
 			}
@@ -473,7 +471,7 @@ class CodeIgniter {
 	 *
 	 * @param	mixed	class name or object
 	 * @param	string	method
-	 * @return	boolean	TRUE if publicly callable, otherwise FALSE
+	 * @return	bool	TRUE if publicly callable, otherwise FALSE
 	 */
 	public function is_callable($class, $method)
 	{
@@ -512,7 +510,7 @@ class CodeIgniter {
 				// Call _remap
 				$result = $this->$name->_remap($method, $args);
 			}
-			else if ($this->is_callable($class, $method))
+			elseif ($this->is_callable($class, $method))
 			{
 				// Call method
 				$result = call_user_func_array(array(&$this->$name, $method), $args);
@@ -538,7 +536,7 @@ class CodeIgniter {
 		}
 
 		// Return success status or result
-		return $status ? TRUE : $result;
+		return ($status) ? TRUE : $result;
 	}
 
 	/**
@@ -586,7 +584,6 @@ class CodeIgniter {
 	 * that lay the foundation for the rest of the core
 	 * Benchmark, Config, Hooks, and Loader
 	 *
-	 * @access	protected
 	 * @return	void
 	 */
 	protected function _load_base()
@@ -615,7 +612,6 @@ class CodeIgniter {
 	 * UTF-8, URI, Output, and Routing
 	 * If a cache is found, we output it and exit at the end of the call.
 	 *
-	 * @access	protected
 	 * @return	void
 	 */
 	protected function _load_routing()
@@ -681,7 +677,6 @@ class CodeIgniter {
 	/**
 	 * Load and run routed Controller
 	 *
-	 * @access	protected
 	 * @return	void
 	 */
 	protected function _run_controller()
@@ -724,7 +719,6 @@ class CodeIgniter {
 	 * This gets run from the destructor, so we check the existence of everything
 	 * we need as opposed to assuming it's loaded.
 	 *
-	 * @access	protected
 	 * @return	void
 	 */
 	protected function _finalize()
@@ -814,15 +808,16 @@ class CodeIgniter {
 
 		$this->exceptions->log_exception($severity, $message, $filepath, $line);
 	}
+
 }
 
-/**
- * Global function to get CodeIgniter instance
- *
- * @return	object	CodeIgniter instance
- */
 if ( ! function_exists('get_instance'))
 {
+	/**
+	 * Global function to get CodeIgniter instance
+	 *
+	 * @return	object	CodeIgniter instance
+	 */
 	function &get_instance()
 	{
 		return CodeIgniter::instance();

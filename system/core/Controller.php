@@ -37,6 +37,7 @@
  * @link		http://codeigniter.com/user_guide/general/controllers.html
  */
 class CI_Controller {
+
 	/**
 	 * Reference to the global CI instance
 	 *
@@ -94,6 +95,7 @@ class CI_Controller {
 		// Return root instance
 		return get_instance();
 	}
+
 }
 
 /* End of file Controller.php */

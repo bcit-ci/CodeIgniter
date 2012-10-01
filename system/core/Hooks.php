@@ -37,24 +37,25 @@
  * @link		http://codeigniter.com/user_guide/libraries/encryption.html
  */
 class CI_Hooks {
+
 	/**
 	 * Determines whether hooks are enabled
 	 *
-	 * @var		bool
+	 * @var	bool
 	 */
 	public $enabled =	FALSE;
 
 	/**
 	 * List of all hooks set in config/hooks.php
 	 *
-	 * @var		array
+	 * @var	array
 	 */
 	public $hooks =	array();
 
 	/**
 	 * Determines whether hook is in progress, used to prevent infinte loops
 	 *
-	 * @var bool
+	 * @var	bool
 	 */
 	public $in_progress	=	FALSE;
 
@@ -223,6 +224,7 @@ class CI_Hooks {
 		$this->in_progress = FALSE;
 		return TRUE;
 	}
+
 }
 
 /* End of file Hooks.php */

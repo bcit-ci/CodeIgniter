@@ -400,7 +400,6 @@ class CI_Form_validation {
 	 *
 	 * Returns the error messages as an array
 	 *
-	 * @access	public
 	 * @return	array
 	 */
 	public function error_array()

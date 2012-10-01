@@ -14,5 +14,5 @@ class Mock_Core_Router extends CI_Router {
 		}
 		return $this->default_controller;
 	}
-}
 
+}

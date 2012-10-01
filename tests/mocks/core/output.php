@@ -1,6 +1,7 @@
 <?php
 
 class Mock_Core_Output extends CI_Output {
+
 	public function get_mime_type()
 	{
 		return $this->mime_type;
@@ -15,5 +16,5 @@ class Mock_Core_Output extends CI_Output {
 	{
 		// Do nothing
 	}
-}
 
+}

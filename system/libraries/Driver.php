@@ -38,6 +38,7 @@
  * @link
  */
 class CI_Driver_Library {
+
 	/**
 	 * Array of drivers that are available to use with the driver class
 	 *
@@ -131,6 +132,7 @@ class CI_Driver_Library {
 		log_message('error', $msg);
 		show_error($msg);
 	}
+
 }
 
 // --------------------------------------------------------------------------
@@ -148,6 +150,7 @@ class CI_Driver_Library {
  * @link
  */
 class CI_Driver {
+
 	/**
 	 * Instance of the parent class
 	 *
@@ -221,6 +224,8 @@ class CI_Driver {
 		}
 	}
 
+	// --------------------------------------------------------------------------
+
 	/**
 	 * __call magic method
 	 *
@@ -242,6 +247,8 @@ class CI_Driver {
 		exit;
 	}
 
+	// --------------------------------------------------------------------------
+
 	/**
 	 * __get magic method
 	 *
@@ -257,6 +264,8 @@ class CI_Driver {
 			return $this->_parent->$var;
 		}
 	}
+
+	// --------------------------------------------------------------------------
 
 	/**
 	 * __set magic method
@@ -274,6 +283,7 @@ class CI_Driver {
 			$this->_parent->$var = $val;
 		}
 	}
+
 }
 
 /* End of file Driver.php */

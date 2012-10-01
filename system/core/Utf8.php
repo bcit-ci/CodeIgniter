@@ -37,6 +37,7 @@
  * @link		http://codeigniter.com/user_guide/libraries/utf8.html
  */
 class CI_Utf8 {
+
 	/**
 	 * Constructor
 	 *
@@ -156,6 +157,7 @@ class CI_Utf8 {
 	{
 		return (preg_match('/[^\x00-\x7F]/S', $str) === 0);
 	}
+
 }
 
 /* End of file Utf8.php */

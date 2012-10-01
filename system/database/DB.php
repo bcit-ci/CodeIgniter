@@ -31,7 +31,7 @@
  * @category	Database
  * @author	EllisLab Dev Team
  * @link	http://codeigniter.com/user_guide/database/
- * @param 		string
+ * @param 	string
  * @param 	bool	Determines if query builder should be used or not
  */
 function &DB($params = '', $query_builder_override = NULL)

@@ -1,6 +1,7 @@
 <?php
 
 class Mock_Core_CodeIgniter extends CodeIgniter {
+
 	public $_log = '';
 	private $core_pre = FALSE;
 
@@ -139,5 +140,5 @@ class Mock_Core_CodeIgniter extends CodeIgniter {
 	{
 		// Do nothing
 	}
-}
 
+}

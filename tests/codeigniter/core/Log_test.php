@@ -1,6 +1,7 @@
 <?php
 
 class Log_test extends CI_TestCase {
+
 	/**
 	 * Set up each test
 	 */
@@ -85,5 +86,5 @@ class Log_test extends CI_TestCase {
 		);
 		$this->log->configure($config);
 	}
-}
 
+}

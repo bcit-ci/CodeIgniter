@@ -37,10 +37,11 @@
  * @link		http://codeigniter.com/user_guide/libraries/output.html
  */
 class CI_Output {
+
 	/**
 	 * CodeIgniter core
 	 *
-	 * @var		object
+	 * @var	object
 	 */
 	protected $CI;
 
@@ -50,63 +51,63 @@ class CI_Output {
 	 * Protected to prevent corruption
 	 * Accessible as string via __get for backward compatibility
 	 *
-	 * @var		array
+	 * @var	array
 	 */
 	protected $final_output			= array('');
 
 	/**
 	 * Cache expiration time
 	 *
-	 * @var		int
+	 * @var	int
 	 */
 	public $cache_expiration		= 0;
 
 	/**
 	 * List of server headers
 	 *
-	 * @var		array
+	 * @var	array
 	 */
 	public $headers					= array();
 
 	/**
 	 * List of mime types
 	 *
-	 * @var		array
+	 * @var	array
 	 */
 	public $mimes					= NULL;
 
 	/**
 	 * Mime-type for the current page
 	 *
-	 * @var string
+	 * @var	string
 	 */
 	protected $mime_type			= 'text/html';
 
 	/**
 	 * Determines whether profiler is enabled
 	 *
-	 * @var		bool
+	 * @var	bool
 	 */
 	public $enable_profiler			= FALSE;
 
 	/**
 	 * Determines if output compression is enabled
 	 *
-	 * @var		bool
+	 * @var	bool
 	 */
 	protected $_zlib_oc				= FALSE;
 
 	/**
 	 * List of profiler sections
 	 *
-	 * @var		array
+	 * @var	array
 	 */
 	protected $_profiler_sections	= array();
 
 	/**
 	 * Whether or not to parse variables like {elapsed_time} and {memory_usage}
 	 *
-	 * @var		bool
+	 * @var	bool
 	 */
 	public $parse_exec_vars			= TRUE;
 
@@ -826,6 +827,7 @@ class CI_Output {
 			return $this->get_output(TRUE);
 		}
 	}
+
 }
 
 /* End of file Output.php */

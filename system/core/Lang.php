@@ -35,6 +35,7 @@
  * @link		http://codeigniter.com/user_guide/libraries/language.html
  */
 class CI_Lang {
+
 	/**
 	 * List of translations
 	 *
@@ -163,6 +164,7 @@ class CI_Lang {
 
 		return $value;
 	}
+
 }
 
 /* End of file Lang.php */

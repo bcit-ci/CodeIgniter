@@ -1,6 +1,7 @@
 <?php
 
 class CI_TestConfig {
+
 	public $config = array();
 	public $_config_paths = array();
 	public $to_get = FALSE;
@@ -24,5 +25,5 @@ class CI_TestConfig {
 	{
 		$this->to_get = $config;
 	}
-}
 
+}

@@ -1,6 +1,7 @@
 <?php
 
 class Router_test extends CI_TestCase {
+
 	private $ci;
 
 	/**
@@ -463,5 +464,5 @@ class Router_test extends CI_TestCase {
 		}
 		$this->ci->load = new $class();
 	}
-}
 
+}

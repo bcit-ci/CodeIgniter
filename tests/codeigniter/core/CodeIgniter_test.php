@@ -1,6 +1,7 @@
 <?php
 
 class CodeIgniter_test extends CI_TestCase {
+
 	/**
 	 * Prepare for test
 	 */
@@ -810,5 +811,5 @@ class CodeIgniter_test extends CI_TestCase {
 		$this->ci_vfs_create($mock, $content, $this->ci_base_root, 'core');
 		return $class;
 	}
-}
 
+}

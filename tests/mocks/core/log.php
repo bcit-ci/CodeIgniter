@@ -1,6 +1,7 @@
 <?php
 
 class Mock_Core_Log extends CI_Log {
+
 	/**
 	 * Get protected property
 	 *
@@ -10,5 +11,5 @@ class Mock_Core_Log extends CI_Log {
 	{
 		return isset($this->$name) ? $this->$name : NULL;
 	}
-}
 
+}
