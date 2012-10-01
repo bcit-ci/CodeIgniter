@@ -46,70 +46,70 @@ class CI_Output {
 	protected $CI;
 
 	/**
-	 * Current output string
+	 * Current output stack
 	 *
 	 * Protected to prevent corruption
 	 * Accessible as string via __get for backward compatibility
 	 *
 	 * @var	array
 	 */
-	protected $final_output			= array('');
+	protected $final_output = array('');
 
 	/**
 	 * Cache expiration time
 	 *
 	 * @var	int
 	 */
-	public $cache_expiration		= 0;
+	public $cache_expiration = 0;
 
 	/**
 	 * List of server headers
 	 *
 	 * @var	array
 	 */
-	public $headers					= array();
+	public $headers = array();
 
 	/**
 	 * List of mime types
 	 *
 	 * @var	array
 	 */
-	public $mimes					= NULL;
+	public $mimes = NULL;
 
 	/**
 	 * Mime-type for the current page
 	 *
 	 * @var	string
 	 */
-	protected $mime_type			= 'text/html';
+	protected $mime_type = 'text/html';
 
 	/**
 	 * Determines whether profiler is enabled
 	 *
 	 * @var	bool
 	 */
-	public $enable_profiler			= FALSE;
+	public $enable_profiler = FALSE;
 
 	/**
 	 * Determines if output compression is enabled
 	 *
 	 * @var	bool
 	 */
-	protected $_zlib_oc				= FALSE;
+	protected $_zlib_oc = FALSE;
 
 	/**
 	 * List of profiler sections
 	 *
 	 * @var	array
 	 */
-	protected $_profiler_sections	= array();
+	protected $_profiler_sections = array();
 
 	/**
 	 * Whether or not to parse variables like {elapsed_time} and {memory_usage}
 	 *
 	 * @var	bool
 	 */
-	public $parse_exec_vars			= TRUE;
+	public $parse_exec_vars = TRUE;
 
 	/**
 	 * Set up Output class
@@ -119,7 +119,7 @@ class CI_Output {
 	public function __construct()
 	{
 		// Get parent reference
-		$this->CI =& get_instance();
+		$this->CI =& get_instance();	// Use get_instance() for unit test override
 
 		$this->_zlib_oc = (bool) @ini_get('zlib.output_compression');
 
@@ -134,7 +134,7 @@ class CI_Output {
 	 * Returns the current output string
 	 *
 	 * @param	mixed	Optional level (FALSE = current, TRUE = all)
-	 * @return	string
+	 * @return	string	Output
 	 */
 	public function get_output($level = FALSE)
 	{
@@ -220,7 +220,6 @@ class CI_Output {
 	 *
 	 * Pushes a new output buffer onto the stack
 	 *
-	 * @access	public
 	 * @param	string	Optional initial buffer contents
 	 * @return	int		New stack depth
 	 */
@@ -238,7 +237,6 @@ class CI_Output {
 	 *
 	 * Returns number of buffer levels in final output stack
 	 *
-	 * @access	public
 	 * @return	int		Stack depth
 	 */
 	public function stack_level()
@@ -255,8 +253,7 @@ class CI_Output {
 	 * Pops current output buffer off the stack and returns it
 	 * Returns bottom buffer contents (without pop) if only one exists
 	 *
-	 * @access	public
-	 * @return	string
+	 * @return	string	Output
 	 */
 	public function stack_pop()
 	{
@@ -282,8 +279,8 @@ class CI_Output {
 	 * Note: If a file is cached, headers will not be sent. We need to figure out
 	 * how to permit header data to be saved with the cache data...
 	 *
-	 * @param	string
-	 * @param	bool
+	 * @param	string	Header text
+	 * @param	bool	Replace previous flag
 	 * @return	void
 	 */
 	public function set_header($header, $replace = TRUE)
@@ -306,7 +303,7 @@ class CI_Output {
 	/**
 	 * Set Content Type Header
 	 *
-	 * @param	string	extension of the file we're outputting
+	 * @param	string	Extension of the file we're outputting
 	 * @return	void
 	 */
 	public function set_content_type($mime_type, $charset = NULL)
@@ -374,8 +371,8 @@ class CI_Output {
 	 * Set HTTP Status Header
 	 * moved to Common procedural functions in 1.7.2
 	 *
-	 * @param	int	the status code
-	 * @param	string
+	 * @param	int		Status code
+	 * @param	string	Header text
 	 * @return	void
 	 */
 	public function set_status_header($code = 200, $text = '')
@@ -389,7 +386,7 @@ class CI_Output {
 	/**
 	 * Enable/disable Profiler
 	 *
-	 * @param	bool
+	 * @param	bool	Enable/disable flag
 	 * @return	void
 	 */
 	public function enable_profiler($val = TRUE)
@@ -405,7 +402,7 @@ class CI_Output {
 	 *
 	 * Allows override of default / config settings for Profiler section display
 	 *
-	 * @param	array
+	 * @param	array	Section overrides
 	 * @return	void
 	 */
 	public function set_profiler_sections($sections)
@@ -429,7 +426,7 @@ class CI_Output {
 	/**
 	 * Set Cache
 	 *
-	 * @param	int
+	 * @param	int		Expiration in seconds
 	 * @return	void
 	 */
 	public function cache($time)
@@ -447,9 +444,9 @@ class CI_Output {
 	 *
 	 * $this->final_output
 	 *
-	 * This function sends the finalized output data to the browser along
-	 * with any server headers and profile data. It also stops the
-	 * benchmark timer so the page rendering speed and memory usage can be shown.
+	 * This function sends any server headers; inserts the page rendering speed,
+	 * memory usage, and any profile data; and sends the finalized output data
+	 * to the browser (or CI_Controller::_output).
 	 *
 	 * @param	string
 	 * @return	mixed
@@ -486,13 +483,10 @@ class CI_Output {
 
 		// Parse out the elapsed time and memory usage,
 		// then swap the pseudo-variables with the data
-
 		$elapsed = $this->CI->benchmark->elapsed_time('total_execution_time_start', 'total_execution_time_end');
-
 		if ($this->parse_exec_vars === TRUE)
 		{
 			$memory	= round(memory_get_usage() / 1024 / 1024, 2).'MB';
-
 			$output = str_replace(array('{elapsed_time}', '{memory_usage}'), array($elapsed, $memory), $output);
 		}
 
@@ -571,7 +565,7 @@ class CI_Output {
 	/**
 	 * Write a Cache File
 	 *
-	 * @param	string
+	 * @param	string	Page output
 	 * @return	void
 	 */
 	public function _write_cache($output)
@@ -623,7 +617,7 @@ class CI_Output {
 	/**
 	 * Update/serve a cached file
 	 *
-	 * @return	bool
+	 * @return	bool	TRUE on success, otherwise FALSE
 	 */
 	public function _display_cache()
 	{
@@ -633,7 +627,7 @@ class CI_Output {
 			$cache_path = APPPATH.'cache/';
 		}
 
-		// Build the file path. The file name is an MD5 hash of the full this->CI->uri
+		// Build the file path. The file name is an MD5 hash of the full URI
 		$uri =	$this->CI->config->item('base_url').$this->CI->config->item('index_page').$this->CI->uri->uri_string;
 		$filepath = $cache_path.md5($uri);
 
@@ -682,8 +676,8 @@ class CI_Output {
 	 * Set the HTTP headers to match the server-side file cache settings
 	 * in order to reduce bandwidth.
 	 *
-	 * @param	int	timestamp of when the page was last modified
-	 * @param	int	timestamp of when should the requested page expire from cache
+	 * @param	int		Timestamp of when the page was last modified
+	 * @param	int		Timestamp of when should the requested page expire from cache
 	 * @return	void
 	 */
 	public function set_cache_header($last_modified, $expiration)
@@ -709,9 +703,9 @@ class CI_Output {
 	/**
 	 * Reduce excessive size of HTML content.
 	 *
-	 * @param	string
-	 * @param	string
-	 * @return	string
+	 * @param	string	Output
+	 * @param	string	Content type
+	 * @return	string	Minified output
 	 */
 	public function minify($output, $type = 'text/html')
 	{

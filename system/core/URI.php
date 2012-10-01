@@ -78,7 +78,7 @@ class CI_URI {
 	 */
 	public function __construct()
 	{
-		$this->config = get_instance()->config;
+		$this->config = get_instance()->config;	// Use get_instance() for unit test override
 		log_message('debug', 'URI Class Initialized');
 	}
 

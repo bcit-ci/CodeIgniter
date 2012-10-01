@@ -85,7 +85,7 @@ class CI_Lang {
 
 		if ($idiom === '')
 		{
-			$CI = get_instance();
+			$CI = get_instance();	// Use get_instance() for unit test override
 			$cfg_lang = $CI->config->item('language');
 			$idiom = ( ! empty($cfg_lang)) ? $cfg_lang : 'english';
 		}

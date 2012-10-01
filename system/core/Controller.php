@@ -52,7 +52,7 @@ class CI_Controller {
 	 */
 	public function __construct()
 	{
-		$this->CI = get_instance();
+		$this->CI = get_instance();	// Use get_instance() for unit test override
 		log_message('debug', 'Controller Class Initialized');
 	}
 		

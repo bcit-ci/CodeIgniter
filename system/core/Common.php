@@ -120,7 +120,7 @@ if ( ! function_exists('load_class'))
 	 * Load class
 	 *
 	 * This function returns classes loaded in the core CodeIgniter object.
- 	 * DEPRECATED - get object from CodeIgniter::instance() directly
+	 * DEPRECATED - get object from CodeIgniter::instance() directly
 	 * Core classes are loaded internally, and all others should call CI_Loader.
 	 *
 	 * @param	string	the class name being requested
@@ -152,7 +152,7 @@ if ( ! function_exists('is_loaded'))
 	/**
 	 * Checks if a class is loaded
 	 *
- 	 * DEPRECATED - check object with CodeIgniter::instance() directly
+	 * DEPRECATED - check object with CodeIgniter::instance() directly
 	 *
 	 * @param	string
 	 * @return	array

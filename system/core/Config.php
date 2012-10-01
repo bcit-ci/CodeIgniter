@@ -73,11 +73,13 @@ class CI_Config {
 	 * Sets the $config data from CodeIgniter::_core_config as a class variable.
 	 * This is the contents of the primary config.php file with $assign_to_config
 	 * overrides applied.
+	 *
+	 * @return	void
 	 */
 	public function __construct()
 	{
 		// Take over core config
-		$CI = get_instance();
+		$CI = get_instance();	// Use get_instance() for unit test override
 		$this->config = $CI->_core_config;
 		unset($CI->_core_config);
 

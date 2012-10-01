@@ -158,14 +158,14 @@ class CI_Loader {
 	public function __construct()
 	{
 		// Attach parent reference
-		$this->CI =& get_instance();
+		$this->CI =& get_instance();	// Use get_instance() for unit test override
 
 		// Get initial buffering level
 		$this->_ci_ob_level = ob_get_level();
 
 		// Get library paths with autoloaded package paths
-		$this->_ci_library_paths = (isset($this->CI->base_paths) && is_array($this->CI->base_paths)) ?
-			$this->CI->base_paths : array(APPPATH, BASEPATH);
+		$this->_ci_library_paths = (isset($this->CI->base_paths) && is_array($this->CI->base_paths))
+			? $this->CI->base_paths : array(APPPATH, BASEPATH);
 
 		// Get MVC paths with autoloaded package paths
 		// Apply cascade default to each one
@@ -187,7 +187,7 @@ class CI_Loader {
 		if ($paths)
 		{
 			// Validate each path and add to list
-			foreach ( (array) $paths as $path)
+			foreach ((array) $paths as $path)
 			{
 				// Groom and resolve path against includes
 				// (get root object class for unit test override)
@@ -222,8 +222,8 @@ class CI_Loader {
 	 *
 	 * It is mainly used in the form_helper -> _get_validation_object()
 	 *
-	 * @param		string	class being checked for
-	 * @return		mixed	class object name on the CI SuperObject or FALSE
+	 * @param	string	Class being checked for
+	 * @return	mixed	Class object name on the CI SuperObject or FALSE
 	 */
 	public function is_loaded($class)
 	{
@@ -238,9 +238,9 @@ class CI_Loader {
 	 * This function lets users load and instantiate classes.
 	 * It is designed to be called from a user's app controllers.
 	 *
-	 * @param	string	the name of the class
-	 * @param	mixed	the optional parameters
-	 * @param	string	an optional object name
+	 * @param	string	Class name
+	 * @param	mixed	Optional parameters
+	 * @param	string	Optional object name
 	 * @return	void
 	 */
 	public function library($library = '', $params = NULL, $object_name = NULL)
@@ -402,9 +402,9 @@ class CI_Loader {
 	 *
 	 * This function lets users load and instantiate models.
 	 *
-	 * @param	string	the name of the class
-	 * @param	string	name for the model
-	 * @param	bool	database connection
+	 * @param	string	Class name
+	 * @param	string	Optional object name
+	 * @param	bool	Database connection flag
 	 * @return	void
 	 */
 	public function model($model, $name = '', $db_conn = FALSE)
@@ -521,10 +521,10 @@ class CI_Loader {
 	/**
 	 * Database Loader
 	 *
-	 * @param	string	the DB credentials
-	 * @param	bool	whether to return the DB object
-	 * @param	bool	whether to enable query builder (this allows us to override the config setting)
-	 * @return	object
+	 * @param	string	DB credentials
+	 * @param	bool	Whether to return the DB object
+	 * @param	bool	Whether to enable query builder (this allows us to override the config setting)
+	 * @return	object	DB object
 	 */
 	public function database($params = '', $return = FALSE, $query_builder = NULL)
 	{
@@ -554,7 +554,7 @@ class CI_Loader {
 	/**
 	 * Load the Utilities Class
 	 *
-	 * @return	string
+	 * @return	void
 	 */
 	public function dbutil()
 	{
@@ -580,7 +580,7 @@ class CI_Loader {
 	/**
 	 * Load the Database Forge Class
 	 *
-	 * @return	string
+	 * @return	void
 	 */
 	public function dbforge()
 	{
@@ -610,10 +610,10 @@ class CI_Loader {
 	 *	some cases it's advantageous to be able to return data so that
 	 *	a developer can process it in some way.
 	 *
-	 * @param	string
-	 * @param	array
-	 * @param	bool
-	 * @return	void
+	 * @param	string	View name
+	 * @param	array	Optional vars
+	 * @param	bool	Return output flag
+	 * @return	mixed	Output string if requested, otherwise void
 	 */
 	public function view($view, $vars = array(), $return = FALSE)
 	{
@@ -631,9 +631,9 @@ class CI_Loader {
 	 *
 	 * This is a generic file loader
 	 *
-	 * @param	string
-	 * @param	bool
-	 * @return	string
+	 * @param	string	File path
+	 * @param	bool	Return output flag
+	 * @return	mixed	Output string if requested, otherwise void
 	 */
 	public function file($path, $return = FALSE)
 	{
@@ -651,8 +651,8 @@ class CI_Loader {
 	 * Once variables are set they become available within
 	 * the controller class and its "view" files.
 	 *
-	 * @param	array
-	 * @param 	string
+	 * @param	mixed	Variable name or array of vars
+	 * @param 	string	Variable value
 	 * @return	void
 	 */
 	public function vars($vars = array(), $val = '')
@@ -680,8 +680,8 @@ class CI_Loader {
 	 *
 	 * Check if a variable is set and retrieve it.
 	 *
-	 * @param	array
-	 * @return	void
+	 * @param	string	Variable name
+	 * @return	mixed	Variable value on success, otherwise NULL
 	 */
 	public function get_var($key)
 	{
@@ -695,7 +695,7 @@ class CI_Loader {
 	 *
 	 * Retrieve all loaded variables
 	 *
-	 * @return	array
+	 * @return	array	All cached variables
 	 */
 	public function get_vars()
 	{
@@ -709,7 +709,7 @@ class CI_Loader {
 	 *
 	 * This function loads the specified helper file.
 	 *
-	 * @param	mixed
+	 * @param	mixed	Helper name or array of names
 	 * @return	void
 	 */
 	public function helper($helpers = array())
@@ -754,7 +754,7 @@ class CI_Loader {
 	 * This is simply an alias to the above function in case the
 	 * user has written the plural form of this function.
 	 *
-	 * @param	array
+	 * @param	mixed	Helper name or array of names
 	 * @return	void
 	 */
 	public function helpers($helpers = array())
@@ -767,8 +767,8 @@ class CI_Loader {
 	/**
 	 * Loads a language file
 	 *
-	 * @param	array
-	 * @param	string
+	 * @param	mixed	File name or array of names
+	 * @param	string	Optional language
 	 * @return	void
 	 */
 	public function language($file = array(), $lang = '')
@@ -789,9 +789,9 @@ class CI_Loader {
 	/**
 	 * Loads a config file
 	 *
-	 * @param	string
-	 * @param	bool
-	 * @param 	bool
+	 * @param	string	File name
+	 * @param	bool	Sections flag
+	 * @param 	bool	Fail gracefully flag
 	 * @return	void
 	 */
 	public function config($file = '', $use_sections = FALSE, $fail_gracefully = FALSE)
@@ -806,9 +806,9 @@ class CI_Loader {
 	 *
 	 * Loads a driver library
 	 *
-	 * @param	mixed	the name of the class or array of classes
-	 * @param	mixed	the optional parameters
-	 * @param	string	an optional object name
+	 * @param	mixed	Class name or array of classes
+	 * @param	mixed	Optional parameters
+	 * @param	string	Optional object name
 	 * @return	void
 	 */
 	public function driver($library = '', $params = NULL, $object_name = NULL)
@@ -845,8 +845,8 @@ class CI_Loader {
 	 *
 	 * Prepends a parent path to the library, mvc, and config path arrays
 	 *
-	 * @param	string	path
-	 * @param	bool	view cascade flag
+	 * @param	string	Path
+	 * @param	bool	View cascade flag
 	 * @return	void
 	 */
 	public function add_package_path($path, $view_cascade = TRUE)
@@ -871,8 +871,8 @@ class CI_Loader {
 	 *
 	 * Return a list of all package paths, by default it will ignore $this->_ci_base_path.
 	 *
-	 * @param	boolean include base path flag
-	 * @return	void
+	 * @param	bool	Include base path flag
+	 * @return	array	Package paths
 	 */
 	public function get_package_paths($include_base = FALSE)
 	{
@@ -887,8 +887,8 @@ class CI_Loader {
 	 * Remove a path from the library, mvc, and config path arrays if it exists
 	 * If no path is provided, the most recently added path is removed.
 	 *
-	 * @param	string	path
-	 * @param	boolean remove from config path flag
+	 * @param	string	Path
+	 * @param	bool	Remove from config path flag
 	 * @return	void
 	 */
 	public function remove_package_path($path = '', $remove_config_path = TRUE)
@@ -1016,8 +1016,8 @@ class CI_Loader {
 	 * Variables are prefixed with _ci_ to avoid symbol collision with
 	 * variables made available to view files
 	 *
-	 * @param	array
-	 * @return	void
+	 * @param	array	Load parameters
+	 * @return	mixed	Output if requested, otherwise void
 	 */
 	protected function _ci_load($_ci_data)
 	{
@@ -1190,9 +1190,9 @@ class CI_Loader {
 	 *
 	 * This function loads the requested class.
 	 *
-	 * @param	string	the item that is being loaded
-	 * @param	mixed	any additional parameters
-	 * @param	string	an optional object name
+	 * @param	string	Class name
+	 * @param	mixed	Optional parameters
+	 * @param	string	Optional object name
 	 * @return	void
 	 */
 	protected function _ci_load_class($class, $params = NULL, $object_name = NULL)
@@ -1422,7 +1422,7 @@ class CI_Loader {
 	 * libraries, and helpers to be loaded automatically.
 	 *
 	 * This function is public, as it's called from CodeIgniter.php.
-	 * However, there is no reason you should ever need to use it.
+	 * However, there is no reason you should ever need to call it directly.
 	 *
 	 * @return	void
 	 */
@@ -1473,7 +1473,7 @@ class CI_Loader {
 		{
 			// We have to "manually" feed multiples to controller(), since an array
 			// is treated as a router stack instead of more than one controller
-			foreach ((array)$autoload['controller'] as $uri)
+			foreach ((array) $autoload['controller'] as $uri)
 			{
 				$this->controller($uri);
 			}
@@ -1493,8 +1493,8 @@ class CI_Loader {
 	 *
 	 * Takes an object as input and converts the class variables to array key/vals
 	 *
-	 * @param	object
-	 * @return	array
+	 * @param	object	Input object
+	 * @return	array	Array conversion
 	 */
 	protected function _ci_object_to_array($object)
 	{

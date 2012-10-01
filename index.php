@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -36,9 +36,9 @@
  *
  * This can be set to anything, but default usage is:
  *
- *     development
- *     testing
- *     production
+ *	development
+ *	testing
+ *	production
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
@@ -76,7 +76,7 @@ switch (ENVIRONMENT)
  *---------------------------------------------------------------
  *
  * This variable must contain the name of your "system" folder.
- * Include the path if the folder is not in the same  directory
+ * Include the path if the folder is not in the same directory
  * as this file.
  */
 	$system_path = 'system';
@@ -131,11 +131,11 @@ switch (ENVIRONMENT)
  *
  * Un-comment the $routing array below to use this feature
  */
-	// The directory name, relative to the "controllers" folder.  Leave blank
+	// The directory name, relative to the "controllers" folder. Leave blank
 	// if your controller is not in a sub-folder within the "controllers" folder
 	// $routing['directory'] = '';
 
-	// The controller class file name.  Example:  mycontroller
+	// The controller class file name. Example: mycontroller
 	// $routing['controller'] = '';
 
 	// The controller function you wish to be called.
@@ -143,7 +143,7 @@ switch (ENVIRONMENT)
 
 /*
  * -------------------------------------------------------------------
- *  CUSTOM CONFIG VALUES
+ * CUSTOM CONFIG VALUES
  * -------------------------------------------------------------------
  *
  * The $assign_to_config array below will be passed dynamically to the
@@ -160,12 +160,12 @@ switch (ENVIRONMENT)
 
 
 // --------------------------------------------------------------------
-// END OF USER CONFIGURABLE SETTINGS.  DO NOT EDIT BELOW THIS LINE
+// END OF USER CONFIGURABLE SETTINGS. DO NOT EDIT BELOW THIS LINE
 // --------------------------------------------------------------------
 
 /*
  * ---------------------------------------------------------------
- *  Resolve the system path for increased reliability
+ * Resolve the system path for increased reliability
  * ---------------------------------------------------------------
  */
 
@@ -192,7 +192,7 @@ switch (ENVIRONMENT)
 		{
 			$path = rtrim($path, '\/').'/'.$system_path;
 			if (is_dir($path))
-		   	{
+			{
 				$system_path = $path;
 				$found = TRUE;
 				break;
@@ -208,7 +208,7 @@ switch (ENVIRONMENT)
 
 /*
  * -------------------------------------------------------------------
- *  Now that we know the path, set the main path constants
+ * Now that we know the path, set the main path constants
  * -------------------------------------------------------------------
  */
 	// The name of THIS file

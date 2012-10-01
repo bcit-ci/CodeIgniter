@@ -209,7 +209,7 @@ class CI_Exceptions {
 		}
 
 		// Check Router for an override
-		$CI =& get_instance();
+		$CI =& get_instance();	// Use get_instance() for unit test override
 		if (isset($CI->router))
 		{
 			$stack = $CI->router->get_error_route($route);

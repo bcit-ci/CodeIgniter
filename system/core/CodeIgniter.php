@@ -166,6 +166,7 @@ class CodeIgniter {
 	/**
 	 * Destructor
 	 *
+	 * @codeCoverageIgnore
 	 * @return	void
 	 */
 	public function __destruct()
@@ -328,6 +329,8 @@ class CodeIgniter {
 	 * PHP < 5.3 get_called_class() is not available. For unit testing, this
 	 * function can be overloaded in the mock class to return that class
 	 * name for instantiation instead of CodeIgniter.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected static function _get_class()
 	{
@@ -342,6 +345,7 @@ class CodeIgniter {
 	 * before show_error can be called. It provides a mechanism
 	 * for unit tests to override the exit calls.
 	 *
+	 * @codeCoverageIgnore
 	 * @param	int		Status code
 	 * @param	string	Exit message
 	 * @return	void
@@ -547,6 +551,7 @@ class CodeIgniter {
 	 * of the sequence in an extension class, and to unit test the operations
 	 * in smaller chunks.
 	 *
+	 * @codeCoverageIgnore
 	 * @return	void
 	 */
 	public function run()
@@ -764,6 +769,7 @@ class CodeIgniter {
 	 * in place, and may not want this registered for all the other unit
 	 * tests.
 	 *
+	 * @codeCoverageIgnore
 	 * @return	void
 	 */
 	protected function _catch_exceptions()
@@ -816,6 +822,10 @@ if ( ! function_exists('get_instance'))
 	/**
 	 * Global function to get CodeIgniter instance
 	 *
+	 * For unit testing, this should be overridden to return the
+	 * CI_TestCase instance object instead
+	 *
+	 * @codeCoverageIgnore
 	 * @return	object	CodeIgniter instance
 	 */
 	function &get_instance()

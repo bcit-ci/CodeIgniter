@@ -48,21 +48,21 @@ class CI_Router {
 	/**
 	 * List of routes
 	 *
-	 * @var		array
+	 * @var	array
 	 */
-	public $routes =	array();
+	public $routes = array();
 
 	/**
 	 * Stack of route data
 	 *
-	 * @var		array
+	 * @var	array
 	 */
 	protected $route_stack;
 
 	/**
 	 * Default controller (and method if specific)
 	 *
-	 * @var		string
+	 * @var	string
 	 */
 	protected $default_controller;
 
@@ -84,7 +84,7 @@ class CI_Router {
 	 */
 	public function __construct()
 	{
-		$this->CI =& get_instance();
+		$this->CI =& get_instance();	// Use get_instance() for unit test override
 		$this->route_stack = array('', '', '', '');
 		log_message('debug', 'Router Class Initialized');
 	}
@@ -111,7 +111,7 @@ class CI_Router {
 		// Set the default controller so we can display it in the event
 		// the URI doesn't correlate to a valid controller.
 		$this->default_controller = empty($this->routes['default_controller'])
-		   	? FALSE : strtolower($this->routes['default_controller']);
+			? FALSE : strtolower($this->routes['default_controller']);
 
 		// Are query strings enabled in the config file? Normally CI doesn't utilize query strings
 		// since URI segments are more search-engine friendly, but they can optionally be used.
@@ -203,8 +203,7 @@ class CI_Router {
 	 *		...				// Any remaining segments
 	 *	);
 	 *
-	 * @access	public
-	 * @param	array	route segments
+	 * @param	mixed	URI string or route segments
 	 * @return	mixed	FALSE if route doesn't exist, otherwise array of 4+ segments
 	 */
 	public function validate_route($route)
@@ -422,7 +421,7 @@ class CI_Router {
 	/**
 	 * Set the class name
 	 *
-	 * @param	string
+	 * @param	string	Class name
 	 * @return	void
 	 */
 	public function set_class($class)
@@ -435,7 +434,7 @@ class CI_Router {
 	/**
 	 * Fetch the current class
 	 *
-	 * @return	string
+	 * @return	string	Class name
 	 */
 	public function fetch_class()
 	{
@@ -447,7 +446,7 @@ class CI_Router {
 	/**
 	 * Set the method name
 	 *
-	 * @param	string
+	 * @param	string	Method name
 	 * @return	void
 	 */
 	public function set_method($method)
@@ -460,7 +459,7 @@ class CI_Router {
 	/**
 	 * Fetch the current method
 	 *
-	 * @return	string
+	 * @return	string	Method name
 	 */
 	public function fetch_method()
 	{
@@ -473,7 +472,7 @@ class CI_Router {
 	/**
 	 * Set the directory name
 	 *
-	 * @param	string
+	 * @param	string	Sub-directory name
 	 * @return	void
 	 */
 	public function set_directory($dir)
@@ -486,7 +485,7 @@ class CI_Router {
 	/**
 	 * Fetch the sub-directory (if any) that contains the requested controller class
 	 *
-	 * @return	string
+	 * @return	string	Sub-directory name
 	 */
 	public function fetch_directory()
 	{
@@ -498,7 +497,7 @@ class CI_Router {
 	/**
 	 * Set the package path
 	 *
-	 * @param	string
+	 * @param	string	Package path
 	 * @return	void
 	 */
 	public function set_path($path)
@@ -511,7 +510,7 @@ class CI_Router {
 	/**
 	 * Fetch the current package path
 	 *
-	 * @return	string
+	 * @return	string	Package path
 	 */
 	public function fetch_path()
 	{
@@ -523,7 +522,7 @@ class CI_Router {
 	/**
 	 * Fetch the current route stack
 	 *
-	 * @return	array
+	 * @return	array	Route stack
 	 */
 	public function fetch_route()
 	{
@@ -557,7 +556,7 @@ class CI_Router {
 	/**
 	 * Set the controller overrides
 	 *
-	 * @param	array
+	 * @param	array	Routing config overrides
 	 * @return	void
 	 */
 	public function _set_overrides($routing)
@@ -594,8 +593,7 @@ class CI_Router {
 	/**
 	 * Get segments of default controller
 	 *
-	 * @access	protected
-	 * @return	array	array of segments
+	 * @return	array	Default controller segments
 	 */
 	protected function _default_segments()
 	{
