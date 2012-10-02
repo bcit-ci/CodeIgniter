@@ -280,6 +280,47 @@ controller as specified in your application/config/routes.php file
 CodeIgniter also permits you to remap your URIs using its :doc:`URI
 Routing <routing>` feature.
 
+Loading Sub-Controllers
+=======================
+
+The Hierarchical aspect of CodeIgniter's HMVC pattern allows you to pass
+control to another Controller to handle part of a task. This is achieved
+by calling::
+
+	$this->load->controller('subhandler');
+
+The first parameter to the Controller loader function is a URI string,
+just like those explained above, except you don't specify a host or
+index.php. The previous example would run the same Controller function as::
+
+	example.com/index.php/subhandler/
+
+In fact, any Controller in your application may be run either from the
+request URL or through the Controller loader. The difference is that the
+Controller routed by the request has primary control over the whole
+application, whereas one loaded afterwards plays a secondary role. In
+order to identify which Controller was routed, it gets a special "handle"
+on the CodeIgniter root object::
+
+	$this->routed;
+
+Any time a part of your application needs to reference the top Controller,
+this is how to identify it. Likewise, if a Controller needs to determine
+whether it has been routed or called somewhere in the hierarchy, it can
+compare itself to the routed Controller object::
+
+	if ($this === $this->routed)
+	{
+		// We are the top Controller!
+	}
+	else
+	{
+		// Some other Controller called us to do a job
+	}
+
+More information about loading Controllers is available on the
+:ref:`Loader <load-controller>` page.
+
 Class Constructors
 ==================
 

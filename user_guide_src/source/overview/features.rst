@@ -12,7 +12,7 @@ an app is to try it and get to know the code.
 encourage you to do just that. In the mean time here's a list of
 CodeIgniter's main features.
 
--  Model-View-Controller Based System
+-  Hierarchical Model-View-Controller Based System
 -  Extremely Light Weight
 -  Full Featured database classes with support for several platforms.
 -  Query Builder Database Support
@@ -43,4 +43,3 @@ CodeIgniter's main features.
 -  Flexible URI Routing
 -  Support for Hooks and Class Extensions
 -  Large library of "helper" functions
-

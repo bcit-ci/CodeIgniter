@@ -12,5 +12,5 @@ The following pages describe the broad concepts behind CodeIgniter:
 	CodeIgniter Cheatsheets <cheatsheets>
 	Supported Features <features>
 	Application Flow Chart <appflow>
-	Model-View-Controller <mvc>
+	Model-View-Controller <hmvc>
 	Architectural Goals <goals>
