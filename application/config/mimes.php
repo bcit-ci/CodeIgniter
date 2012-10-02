@@ -175,7 +175,7 @@ return array(
 	'sql'   =>      'text/plain',
 	'zsh'   =>      'text/x-scriptzsh',
 	'zoo'   =>      'application/octet-stream',
-	'zip'   =>      array('application/x-compressed', 'application/x-zip-compressed', 'application/zip', 'multipart/x-zip'),
+	'7zip'   =>      array('application/x-compressed', 'application/x-zip-compressed', 'application/zip', 'multipart/x-zip'),
 	'xml'   =>      array('application/xml', 'text/xml'),
 );
 
