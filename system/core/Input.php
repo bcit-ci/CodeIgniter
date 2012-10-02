@@ -101,7 +101,7 @@ class CI_Input {
 	{
 		log_message('debug', 'Input Class Initialized');
 
-		$CI =& get_instance();	// Use get_instance() for unit test override
+		$CI =& get_instance();
 		$this->security =& $CI->security;
 
 		$this->_allow_get_array	= ($CI->config->item('allow_get_array') === TRUE);

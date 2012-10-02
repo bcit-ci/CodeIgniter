@@ -79,7 +79,7 @@ class CI_Config {
 	public function __construct()
 	{
 		// Take over core config
-		$CI = get_instance();	// Use get_instance() for unit test override
+		$CI = get_instance();
 		$this->config = $CI->_core_config;
 		unset($CI->_core_config);
 

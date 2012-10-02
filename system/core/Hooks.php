@@ -66,7 +66,7 @@ class CI_Hooks {
 	 */
 	public function __construct()
 	{
-		$CI =& get_instance();	// Use get_instance() for unit test override
+		$CI =& get_instance();
 
 		log_message('debug', 'Hooks Class Initialized');
 

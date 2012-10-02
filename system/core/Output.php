@@ -119,7 +119,7 @@ class CI_Output {
 	public function __construct()
 	{
 		// Get parent reference
-		$this->CI =& get_instance();	// Use get_instance() for unit test override
+		$this->CI =& get_instance();
 
 		$this->_zlib_oc = (bool) @ini_get('zlib.output_compression');
 

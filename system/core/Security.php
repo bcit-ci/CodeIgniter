@@ -111,7 +111,7 @@ class CI_Security {
 	public function __construct()
 	{
 		// Is CSRF protection enabled?
-		$CI = get_instance();	// Use get_instance() for unit test override
+		$CI = get_instance();
 		if ($CI->config->item('csrf_protection') === TRUE)
 		{
 			// CSRF config
@@ -152,7 +152,7 @@ class CI_Security {
 		}
 
 		// Check if URI has been whitelisted from CSRF checks
-		$CI = get_instance();	// Use get_instance() for unit test override
+		$CI = get_instance();
 		if ($exclude_uris = $CI->config->item('csrf_exclude_uris'))
 		{
 			if (in_array($CI->uri->uri_string(), $exclude_uris))
@@ -196,7 +196,7 @@ class CI_Security {
 	 */
 	public function csrf_set_cookie()
 	{
-		$CI = get_instance();	// Use get_instance() for unit test override
+		$CI = get_instance();
 		$expire = time() + $this->_csrf_expire;
 		$secure_cookie = (bool) $CI->config->item('cookie_secure');
 

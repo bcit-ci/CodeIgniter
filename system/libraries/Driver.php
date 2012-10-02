@@ -96,7 +96,7 @@ class CI_Driver_Library {
 			if ( ! class_exists($child_class))
 			{
 				// check application path first
-				$CI =& CodeIgniter::instance();
+				$CI =& get_instance();
 				foreach ($CI->load->get_package_paths(TRUE) as $path)
 				{
 					// loves me some nesting!

@@ -49,7 +49,7 @@ class CI_Utf8 {
 	{
 		log_message('debug', 'Utf8 Class Initialized');
 
-		$CI =& get_instance();	// Use get_instance() for unit test override
+		$CI =& get_instance();
 
 		if (
 			@preg_match('/./u', 'é') === 1		// PCRE must support UTF-8

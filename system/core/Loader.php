@@ -158,7 +158,7 @@ class CI_Loader {
 	public function __construct()
 	{
 		// Attach parent reference
-		$this->CI =& get_instance();	// Use get_instance() for unit test override
+		$this->CI =& get_instance();
 
 		// Get initial buffering level
 		$this->_ci_ob_level = ob_get_level();

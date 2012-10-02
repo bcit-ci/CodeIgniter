@@ -84,7 +84,7 @@ class CI_Router {
 	 */
 	public function __construct()
 	{
-		$this->CI =& get_instance();	// Use get_instance() for unit test override
+		$this->CI =& get_instance();
 		$this->route_stack = array('', '', '', '');
 		log_message('debug', 'Router Class Initialized');
 	}
