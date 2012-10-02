@@ -166,7 +166,17 @@ return array(
 	'ogg'   =>	'audio/ogg',
 	'kmz'	=>	array('application/vnd.google-earth.kmz', 'application/zip', 'application/x-zip'),
 	'kml'	=>	array('application/vnd.google-earth.kml+xml', 'application/xml', 'text/xml'),
-	'ics'	=>	'text/calendar'
+	'ics'	=>	'text/calendar',
+	'jar'   =>      'application/java-archive',
+	'msi'   =>      array('application/x-ole-storage', 'text/mspg-legacyinfo'),
+	'dat'   =>      array('application/octet-stream', 'zz-application/zz-winassoc-dat'),
+	'wma'   =>      array('audio/x-ms-wma', 'video/x-ms-asf'),
+	'cdr'   =>      array('application/cdr', 'application/coreldraw', 'application/x-cdr', 'application/x-coreldraw', 'image/cdr', 'image/x-cdr', 'zz-application/zz-winassoc-cdr'),
+	'sql'   =>      'text/plain',
+	'zsh'   =>      'text/x-scriptzsh',
+	'zoo'   =>      'application/octet-stream',
+	'zip'   =>      array('application/x-compressed', 'application/x-zip-compressed', 'application/zip', 'multipart/x-zip'),
+	'xml'   =>      array('application/xml', 'text/xml'),
 );
 
 /* End of file mimes.php */
