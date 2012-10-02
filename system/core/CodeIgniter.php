@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst. It is
+ * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -197,6 +197,7 @@ class CodeIgniter {
 		// Check for existing instance
 		if (is_null(self::$instance))
 		{
+			// Reference $assign_to_config from index.php
 			global $assign_to_config;
 
 			// Determine base and application paths
@@ -621,6 +622,7 @@ class CodeIgniter {
 	 */
 	protected function _load_routing()
 	{
+		// Reference $routing from index.php
 		global $routing;
 
 		// Load the UTF-8 class (depends on Config)
@@ -639,7 +641,7 @@ class CodeIgniter {
 		$this->router->_set_routing();
 
 		// Set any routing overrides that may exist in the main index file
-		if ( isset($routing) && ! empty($routing))
+		if ( ! empty($routing))
 		{
 			$this->router->_set_overrides($routing);
 		}

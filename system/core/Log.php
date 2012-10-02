@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst. It is
+ * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -48,42 +48,42 @@ class CI_Log {
 	 *
 	 * @var int
 	 */
-	protected $_threshold		= 1;
+	protected $_threshold = 1;
 
 	/**
 	 * Highest level of logging
 	 *
 	 * @var int
 	 */
-	protected $_threshold_max	= 0;
+	protected $_threshold_max = 0;
 
 	/**
 	 * Array of threshold levels to log
 	 *
 	 * @var array
 	 */
-	protected $_threshold_array	= array();
+	protected $_threshold_array = array();
 
 	/**
 	 * Format of timestamp for log files
 	 *
 	 * @var string
 	 */
-	protected $_date_fmt		= 'Y-m-d H:i:s';
+	protected $_date_fmt = 'Y-m-d H:i:s';
 
 	/**
 	 * Whether or not the logger can write to the log files
 	 *
 	 * @var bool
 	 */
-	protected $_enabled		= TRUE;
+	protected $_enabled = TRUE;
 
 	/**
 	 * Predefined logging levels
 	 *
 	 * @var array
 	 */
-	protected $_levels		= array('ERROR' => 1, 'DEBUG' => 2, 'INFO' => 3, 'ALL' => 4);
+	protected $_levels = array('ERROR' => 1, 'DEBUG' => 2, 'INFO' => 3, 'ALL' => 4);
 
 	/**
 	 * Configure Logging class
@@ -95,8 +95,7 @@ class CI_Log {
 	 */
 	public function configure($config)
 	{
-		$this->_log_path = (isset($config['log_path']) && ! empty($config['log_path']))
-			? $config['log_path'] : APPPATH.'logs/';
+		$this->_log_path = empty($config['log_path']) ? APPPATH.'logs/' : $config['log_path'];
 
 		if ( ! is_dir($this->_log_path) OR ! is_really_writable($this->_log_path))
 		{
@@ -116,7 +115,7 @@ class CI_Log {
 			}
 		}
 
-		if (isset($config['log_date_format']) && ! empty($config['log_date_format']))
+		if ( ! empty($config['log_date_format']))
 		{
 			$this->_date_fmt = $config['log_date_format'];
 		}
@@ -129,10 +128,10 @@ class CI_Log {
 	 *
 	 * Generally this function will be called using the global log_message() function
 	 *
-	 * @param	string	the error level
-	 * @param	string	the error message
-	 * @param	bool	whether the error is a native PHP error
-	 * @return	bool
+	 * @param	string	Error level
+	 * @param	string	Error message
+	 * @param	bool	Whether the error is a native PHP error
+	 * @return	bool	TRUE on success, otherwise FALSE
 	 */
 	public function write_log($level = 'error', $msg, $php_error = FALSE)
 	{
