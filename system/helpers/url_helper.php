@@ -382,11 +382,11 @@ if ( ! function_exists('auto_link'))
 	 */
 	function auto_link($str, $type = 'both', $popup = FALSE)
 	{
-		if ($type != 'email')
+		if ($type !== 'email')
 		{
 			if (preg_match_all("#(^|\s|\()((http(s?)://)|(www\.))(\w+[^\s\)\<]+)#i", $str, $matches))
 			{
-				$pop = ($popup == TRUE) ? " target=\"_blank\" " : "";
+				$pop = ($popup === TRUE) ? " target=\"_blank\" " : "";
 
 				for ($i = 0; $i < count($matches['0']); $i++)
 				{
@@ -417,7 +417,7 @@ if ( ! function_exists('auto_link'))
 			}
 		}
 
-		if ($type != 'url')
+		if ($type !== 'url')
 		{
 			if (preg_match_all("/([a-zA-Z0-9_\.\-\+]+)@([a-zA-Z0-9\-]+)\.([a-zA-Z0-9\-\.]*)/i", $str, $matches))
 			{
