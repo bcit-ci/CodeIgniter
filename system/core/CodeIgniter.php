@@ -68,10 +68,11 @@
 
 /*
  * ------------------------------------------------------
- *  Define a custom error handler so we can log PHP errors
+ *  Define a custom error and exception handler so we can log PHP errors
  * ------------------------------------------------------
  */
-	set_error_handler('_exception_handler');
+	set_error_handler('_error_handler');
+	set_exception_handler('_exception_handler');
 
 	if ( ! is_php('5.4'))
 	{

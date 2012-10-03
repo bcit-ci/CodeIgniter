@@ -132,23 +132,15 @@ class CI_Exceptions {
 	 * @param 	int	the status code
 	 * @return	string
 	 */
-	public function show_error($heading, $message, $template = 'error_general', $status_code = 500)
-	{
-		set_status_header($status_code);
+    public function show_error($heading, $message, $template = 'error_general', $status_code = 500)
+    {
+        set_status_header($status_code);
 
-		$message = '<p>'.implode('</p><p>', is_array($message) ? $message : array($message)).'</p>';
+        $message = '<p>'.implode('</p><p>', ( ! is_array($message)) ? array($message) : $message).'</p>';
 
-		if (ob_get_level() > $this->ob_level + 1)
-		{
-			ob_end_flush();
-		}
-		ob_start();
-		include(VIEWPATH.'errors/'.$template.'.php');
-		$buffer = ob_get_contents();
-		ob_end_clean();
-		return $buffer;
-	}
-
+        throw new CI_RuntimeException($heading, $message, $template, $status_code, E_ERROR);
+    }
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -183,6 +175,26 @@ class CI_Exceptions {
 		echo $buffer;
 	}
 
+}
+
+class CI_RuntimeException extends Exception {
+
+    protected $heading;
+    protected $template;
+    protected $status_code;
+
+    public function __construct($heading, $message, $template = 'error_general', $status_code = 500, $code = 0, Exception $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+
+        $this->heading      = $heading;
+        $this->template     = $template;
+        $this->status_code  = $status_code;
+    }
+
+    final public function getHeading(){ return $this->heading; }
+    final public function getTemplate(){ return $this->template; }
+    final public function getStatus(){ return $this->status_code; }
 }
 
 /* End of file Exceptions.php */
