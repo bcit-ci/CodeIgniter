@@ -295,6 +295,10 @@ index.php. The previous example would run the same Controller function as::
 
 	example.com/index.php/subhandler/
 
+.. note:: URIs used when loading a sub-Controller are also subject to
+	`URI Routing <routing>`_, and may be manipulated by custom routing
+	rules.
+
 In fact, any Controller in your application may be run either from the
 request URL or through the Controller loader. The difference is that the
 Controller routed by the request has primary control over the whole
@@ -319,7 +323,8 @@ compare itself to the routed Controller object::
 	}
 
 More information about loading Controllers is available on the
-:ref:`Loader <load-controller>` page.
+:ref:`Loader <load-controller>` page, and discussion of using Controllers
+in HMVC modules can be found on the :ref:`HMVC <hmvc-modules>` page.
 
 Class Constructors
 ==================
