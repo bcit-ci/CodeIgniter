@@ -484,7 +484,7 @@ class CI_Encrypt {
 	 */
 	public function set_hash($type = 'sha1')
 	{
-		$this->_hash_type = ($type !== 'sha1' && $type !== 'md5') ? 'sha1' : $type;
+		$this->_hash_type = in_array($type, hash_algos()) ? $type : 'sha1';
 	}
 
 	// --------------------------------------------------------------------
@@ -497,7 +497,7 @@ class CI_Encrypt {
 	 */
 	public function hash($str)
 	{
-		return ($this->_hash_type === 'sha1') ? sha1($str) : md5($str);
+		return hash($this->_hash_type, $str);
 	}
 
 }
