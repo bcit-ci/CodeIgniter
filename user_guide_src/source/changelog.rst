@@ -231,6 +231,7 @@ Release Date: Not Released
    -  Added method ``strip_image_tags()`` to the :doc:`Security Library <libraries/security>`.
    -  Changed ``_exception_handler()`` to respect php.ini 'display_errors' setting.
    -  Added support for IPv4 range masks (e.g. 192.168.1.1/24) to specify ranges of IP addresses for use with the proxy_ips setting.
+   -  Removed redundant conditional to determine HTTP server protocol in ``set_status_header()``
 
 Bug fixes for 3.0
 ------------------
