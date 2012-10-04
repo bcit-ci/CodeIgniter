@@ -490,7 +490,7 @@ if ( ! function_exists('set_status_header'))
 		}
 		else
 		{
-			header($server_protocol ?: 'HTTP/1.1'.' '.$code.' '.$text, TRUE, $code);
+			header(($server_protocol ? $server_protocol : 'HTTP/1.1').' '.$code.' '.$text, TRUE, $code);
 		}
 	}
 }
