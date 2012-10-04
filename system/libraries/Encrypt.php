@@ -484,7 +484,7 @@ class CI_Encrypt {
 	 */
 	public function set_hash($type = 'sha1')
 	{
-		$this->_hash_type = (in_array($type, hash_algos())) ? $type : 'sha1';
+		$this->_hash_type = in_array($type, hash_algos()) ? $type : 'sha1';
 	}
 
 	// --------------------------------------------------------------------
