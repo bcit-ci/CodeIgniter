@@ -31,8 +31,8 @@
  * Loads the base classes and executes the request.
  *
  * @package		CodeIgniter
- * @subpackage	CodeIgniter
- * @category	Common Functions
+ * @subpackage		CodeIgniter
+ * @category		Common Functions
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/
  */
