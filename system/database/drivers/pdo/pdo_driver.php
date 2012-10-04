@@ -105,13 +105,10 @@ class CI_DB_pdo_driver extends CI_DB {
 	/**
 	 * Non-persistent database connection
 	 *
-	 * @param	bool
 	 * @return	object
 	 */
-	public function db_connect($persistent = FALSE)
+	public function db_connect()
 	{
-		$this->options[PDO::ATTR_PERSISTENT] = $persistent;
-
 		// Connecting...
 		try
 		{
@@ -137,7 +134,8 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		return $this->db_connect(TRUE);
+		$this->options[PDO::ATTR_PERSISTENT] = FALSE;
+		return $this->db_connect();
 	}
 
 	// --------------------------------------------------------------------
