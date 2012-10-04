@@ -27,7 +27,7 @@ class Escape_test extends CI_TestCase {
 
 		if (strpos(DB_DRIVER, 'mysql') !== FALSE)
 		{
-			$sql = "SELECT `value` FROM `misc` WHERE `key` LIKE '$string%' ESCAPE '';";
+			$sql = "SELECT `value` FROM `misc` WHERE `key` LIKE '$string%' ESCAPE '!';";
 		}
 		else
 		{
@@ -52,7 +52,7 @@ class Escape_test extends CI_TestCase {
 
 		if (strpos(DB_DRIVER, 'mysql') !== FALSE)
 		{
-			$sql = "SELECT `value` FROM `misc` WHERE `key` LIKE '$string%' ESCAPE '';";
+			$sql = "SELECT `value` FROM `misc` WHERE `key` LIKE '$string%' ESCAPE '!';";
 		}
 		else
 		{
