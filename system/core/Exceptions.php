@@ -138,7 +138,7 @@ class CI_Exceptions {
 
         $message = '<p>'.implode('</p><p>', ( ! is_array($message)) ? array($message) : $message).'</p>';
 
-        throw new CI_RuntimeException($heading, $message, $template, $status_code, E_ERROR);
+        throw new CIRuntimeException($heading, $message, $template, $status_code, E_ERROR);
     }
 	
 	// --------------------------------------------------------------------
@@ -177,7 +177,16 @@ class CI_Exceptions {
 
 }
 
-class CI_RuntimeException extends Exception {
+/**
+ * CIRuntimeException Class
+ *
+ * @package		CodeIgniter
+ * @subpackage	Libraries
+ * @category	Exceptions
+ * @author		EllisLab Dev Team
+ * @link		http://codeigniter.com/user_guide/libraries/exceptions.html
+ */
+class CIRuntimeException extends Exception {
 
     protected $heading;
     protected $template;
