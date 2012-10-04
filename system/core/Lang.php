@@ -149,14 +149,15 @@ class CI_Lang {
 	 * Fetch a single line of text from the language array
 	 *
 	 * @param	string	$line	the language line
+	 * @param	bool	$log	bypass error logging (default: TRUE)
 	 * @return	string
 	 */
-	public function line($line = '')
+	public function line($line = '', $log = TRUE)
 	{
 		$value = ($line === '' OR ! isset($this->language[$line])) ? FALSE : $this->language[$line];
 
 		// Because killer robots like unicorns!
-		if ($value === FALSE)
+		if ($value === FALSE && $log)
 		{
 			log_message('error', 'Could not find the language line "'.$line.'"');
 		}
