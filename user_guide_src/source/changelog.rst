@@ -312,12 +312,12 @@ Bug fixes for 3.0
 -  Fixed a bug (#666) - :doc:`Output library <libraries/output>`'s set_content_type() method didn't set the document charset.
 -  Fixed a bug (#784, #861) - :doc:`Database Forge <database/forge>` method ``create_table()`` used to accept constraints for MSSQL/SQLSRV integer-type columns.
 -  Fixed a bug (#706) - SQLSRV/MSSSQL didn't escape field names.
--  Fixed a bug (#1452) - protect_identifiers() didn't properly detect identifiers with spaces in their names.
--  Fixed a bug where protect_identifiers() ignored it's extra arguments when the value passed to it is an array.
--  Fixed a bug where _has_operator() didn't detect BETWEEN.
--  Fixed a bug in :doc:`Query Builder <database/query_builder>`'s join() method where it failed with identifiers containing dashes.
+-  Fixed a bug (#1452) - ``protect_identifiers()`` didn't properly detect identifiers with spaces in their names.
+-  Fixed a bug where ``protect_identifiers()`` ignored it's extra arguments when the value passed to it is an array.
+-  Fixed a bug where ``_has_operator()`` didn't detect BETWEEN.
+-  Fixed a bug in :doc:`Query Builder <database/query_builder>`'s ``join()`` method where it failed with identifiers containing dashes.
 -  Fixed a bug (#1264) - :doc:`Database Forge <database/forge>` and :doc:`Database Utilities <database/utilities>` didn't update/reset the databases and tables list cache when a table or a database is created, dropped or renamed.
--  Fixed a bug (#7) - :doc:`Query Builder <database/query_builder>`'s join() method only escaped one set of conditions.
+-  Fixed a bug (#7) - :doc:`Query Builder <database/query_builder>`'s ``join()`` method only escaped one set of conditions.
 -  Fixed a bug (#1321) - Core Exceptions class couldn't find the errors/ folder in some cases.
 -  Fixed a bug in the File-based :doc:`Cache Library <libraries/caching>` driver's get_metadata() method where a non-existent array key was accessed for the TTL value.
 -  Fixed a bug (#1202) - :doc:`Encryption Library <libraries/encryption>` encode_from_legacy() didn't set back the encrypt mode on failure.
@@ -343,6 +343,7 @@ Bug fixes for 3.0
 -  Fixed a bug in SQLSRV's ``affected_rows()`` method where an erroneous function name was used.
 -  Fixed a bug (#1000) - Change syntax of ``$view_file`` to ``$_ci_view_file`` to prevent being overwritten by application.
 -  Fixed a bug (#1757) - :doc:`Directory Helper <helpers/directory_helper>` function ``directory_map()`` was skipping files and directories named *0*.
+-  Fixed a bug (#1789) - :doc:`Database Library <libraries/database>` method ``escape_str()`` escaped quote characters in LIKE conditions twice under MySQL.
 
 Version 2.1.2
 =============
