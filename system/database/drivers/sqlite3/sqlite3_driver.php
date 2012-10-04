@@ -46,10 +46,6 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	// The character used for escaping
 	protected $_escape_char = '"';
 
-	// clause and character used for LIKE escape sequences
-	protected $_like_escape_str = ' ESCAPE \'%s\' ';
-	protected $_like_escape_chr = '!';
-
 	protected $_random_keyword = ' RANDOM()';
 
 	/**
