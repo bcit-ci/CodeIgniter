@@ -547,43 +547,43 @@ if ( ! function_exists('_error_handler'))
 if ( ! function_exists('_exception_handler'))
 {
 	/**
-    * Default Exception Handler
-    * Triggers on uncaught exceptions
-    *
-    * @access   private
-    * @return   void
-    */
-    function _exception_handler($exception)
-    {
-        $heading = $exception->getHeading();
-        $message = $exception->getMessage();
+	* Default Exception Handler
+	* Triggers on uncaught exceptions
+	*
+	* @access   private
+	* @return   void
+	*/
+	function _exception_handler($exception)
+	{
+		$heading = $exception->getHeading();
+		$message = $exception->getMessage();
 
-        parent::log_exception(E_ERROR, $message, $exception->getFile(), $exception->getLine());
+		parent::log_exception(E_ERROR, $message, $exception->getFile(), $exception->getLine());
 
-        set_status_header($exception->getStatus());
+		set_status_header($exception->getStatus());
 
-	$_input =& load_class('Input');
-		
-        if ($_input->is_ajax_request())
-        {
-            echo $message;
-        }
-        else
-        {
-            if (ob_get_level() > $this->ob_level + 1)
-            {
-                ob_end_flush();
-            }
-            ob_start();
-            include(APPPATH.'errors/'.$exception->getTemplate().'.php');
-            $buffer = ob_get_contents();
-            ob_end_clean();
+		$_input =& load_class('Input');
 
-            echo $buffer;
-        }
-		
-        exit;
-    }
+		if ($_input->is_ajax_request())
+		{
+			echo $message;
+		}
+		else
+		{
+			if (ob_get_level() > $this->ob_level + 1)
+			{
+				ob_end_flush();
+			}
+			ob_start();
+			include(APPPATH.'errors/'.$exception->getTemplate().'.php');
+			$buffer = ob_get_contents();
+			ob_end_clean();
+
+			echo $buffer;
+		}
+
+		exit;
+	}
 }
 
 // --------------------------------------------------------------------
