@@ -562,7 +562,7 @@ if ( ! function_exists('_exception_handler'))
 
         set_status_header($exception->getStatus());
 
-		$_input =& load_class('Input');
+	$_input =& load_class('Input');
 		
         if ($_input->is_ajax_request())
         {
