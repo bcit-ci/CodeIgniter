@@ -145,7 +145,7 @@ Release Date: Not Released
    -  Added capability for packages to hold database.php config files
    -  Added subdrivers support (currently only used by PDO).
    -  Added client compression support for MySQL and MySQLi.
-   -  Removed :doc:`Loader Class <libraries/loader>` from Database error to better find the likely culprit.
+   -  Removed :doc:`Loader Class <libraries/loader>` from Database error tracing to better find the likely culprit.
 
 -  Libraries
 
@@ -160,10 +160,12 @@ Release Date: Not Released
 	 -  Changed the Cookie driver to select only one row when using database sessions.
 	 -  Cookie driver now only writes to database at end of request when using database.
 	 -  Cookie driver now uses PHP functions for faster array manipulation when using database.
-	 -  Added all_flashdata() method to session class. Returns an associative array of only flashdata.
-	 -  Added has_userdata() method to verify existence of userdata item.
-	 -  Added tempdata(), set_tempdata(), and unset_tempdata() methods for manipulating tempdata.
-   -  Added max_filename_increment config setting for Upload library.
+	 -  Added ``all_flashdata()`` method to session class. Returns an associative array of only flashdata.
+	 -  Added ``has_userdata()`` method to verify existence of userdata item.
+	 -  Added ``tempdata()``, ``set_tempdata()``, and ``unset_tempdata()`` methods for manipulating tempdata.
+   -  :doc:`File Uploading Library <libraries/upload>` changes include:
+	 -  Added *max_filename_increment* config setting.
+	 -  Added an "index" parameter to the ``data()`` method.
    -  :doc:`Cart library <libraries/cart>` changes include:
 	 -  It now auto-increments quantity's instead of just resetting it, this is the default behaviour of large e-commerce sites.
 	 -  Product Name strictness can be disabled via the Cart Library by switching "$product_name_safe".
@@ -174,9 +176,6 @@ Release Date: Not Released
 	 -  Class properties wm_font_color, wm_shadow_color and wm_use_drop_shadow are now protected, to avoid breaking the text_watermark() method if they are set manually after initialization.
 	 -  If property maintain_ratio is set to TRUE, image_reproportion() now doesn't need both width and height to be specified.
 	 -  Property maintain_ratio is now taken into account when resizing images using ImageMagick library
-   -  Removed SHA1 function in the :doc:`Encryption Library <libraries/encryption>`.
-   -  Added $config['csrf_regeneration'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which makes token regeneration optional.
-   -  Added $config['csrf_exclude_uris'] to the CSRF protection in the :doc:`Security library <libraries/security>`, which allows you list URIs which will not have the CSRF validation functions run.
    -  :doc:`Form Validation library <libraries/form_validation>` changes include:
 	 -  Added method error_array() to return all error messages as an array.
 	 -  Added method set_data() to set an alternative data array to be validated instead of the default $_POST.
@@ -187,7 +186,7 @@ Release Date: Not Released
 	 -  Native PHP functions used as rules can now accept an additional parameter, other than the data itself.
 	 -  Updated set_rules() to accept an array of rules as well as a string.
 	 -  Fields that have empty rules set no longer run through validation (and therefore are not considered erroneous).
-   -  Allowed for setting table class defaults in a config file.
+   -  Added support for setting :doc:`Table <libraries/table>` class defaults in a config file.
    -  Added a Wincache driver to the :doc:`Caching Library <libraries/caching>`.
    -  Added a Redis driver to the :doc:`Caching Library <libraries/caching>`.
    -  :doc:`Email library <libraries/email>` changes include:
@@ -196,7 +195,6 @@ Release Date: Not Released
 	 -  Added dsn (delivery status notification) option.
 	 -  Renamed method _set_header() to set_header() and made it public to enable adding custom headers in the :doc:`Email Library <libraries/email>`.
 	 -  Successfully sent emails will automatically clear the parameters.
-   -  Added an "index" parameter to the data() method in the :doc:`Upload Library <libraries/file_uploading>`.
    -  :doc:`Pagination Library <libraries/pagination>` changes include:
 	 -  Added support for the anchor "rel" attribute.
 	 -  Added support for setting custom attributes.
@@ -204,31 +202,39 @@ Release Date: Not Released
 	 -  Added $config['reuse_query_string'] to allow automatic repopulation of query string arguments, combined with normal URI segments.
    -  Removed the default ``&nbsp;`` from a number of the configuration variables.
    -  Added the ability to use a proxy with the :doc:`XML-RPC Library <libraries/xmlrpc>`.
+   -  :doc:`Encryption Library <libraries/encrypt>` changes include:
+	 -  Added support for hashing algorithms other than SHA1 and MD5.
+	 -  Removed previously deprecated ``sha1()`` method.
 
 -  Core
 
    -  Changed private methods in the :doc:`URI Library <libraries/uri>` to protected so MY_URI can override them.
-   -  Removed CI_CORE boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
+   -  Removed ``CI_CORE`` boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
    -  :doc:`Loader Library <libraries/loader>` changes include:
 	 -  Added method get_vars() to the Loader to retrieve all variables loaded with $this->load->vars().
 	 -  CI_Loader::_ci_autoloader() is now a protected method.
 	 -  Added autoloading of drivers with $autoload['drivers'].
 	 -  CI_Loader::library() will now load drivers as well, for backward compatibility of converted libraries (like Session).
-   -  is_loaded() function from system/core/Commons.php now returns a reference.
+   -  ``is_loaded()`` function from *system/core/Commons.php* now returns a reference.
    -  $config['rewrite_short_tags'] now has no effect when using PHP 5.4 as *<?=* will always be available.
-   -  Added method() to the :doc:`Input Library <libraries/input>` to retrieve $_SERVER['REQUEST_METHOD'].
+   -  Added ``method()`` to the :doc:`Input Library <libraries/input>` to retrieve ``$_SERVER['REQUEST_METHOD']``.
    -  Modified valid_ip() to use PHP's filter_var() in the :doc:`Input Library <libraries/input>`.
-   -  Added support for HTTP-Only cookies with new config option ``cookie_httponly`` (default FALSE).
+   -  Added support for HTTP-Only cookies with new config option *cookie_httponly* (default FALSE).
    -  Renamed method _call_hook() to call_hook() in the :doc:`Hooks Library <general/hooks>`.
-   -  Added get_content_type() method to the :doc:`Output Library <libraries/output>`.
-   -  Added get_mimes() function to system/core/Commons.php to return the config/mimes.php array.
-   -  Added a second argument to set_content_type() in the :doc:`Output Library <libraries/output>` that allows setting the document charset as well.
-   -  $config['time_reference'] now supports all timezone strings supported by PHP.
-   -  Added support for HTTP code 303 ("See Other") in set_status_header().
-   -  Changed :doc:`Config Library <libraries/config>` method site_url() to accept an array as well.
-   -  Added method ``strip_image_tags()`` to the :doc:`Security Library <libraries/security>`.
+   -  :doc:`Output Library <libraries/output>` changes include:
+	 -  Added method ``get_content_type()``.
+	 -  Added a second argument to method ``set_content_type()`` that allows setting the document charset as well.
+   -  Added ``get_mimes()`` function to *system/core/Commons.php* to return the *config/mimes.php* array.
+   -  ``$config['time_reference']`` now supports all timezone strings supported by PHP.
+   -  Added support for HTTP code 303 ("See Other") in ``set_status_header()``.
+   -  Changed :doc:`Config Library <libraries/config>` method ``site_url()`` to accept an array as well.
+   -  :doc:`Security Library <libraries/security>` changes include:
+	 -  Added method ``strip_image_tags()``.
+	 -  Added ``$config['csrf_regeneration']``, which makes token regeneration optional.
+	 -  Added ``$config['csrf_exclude_uris']``, which allows you list URIs which will not have the CSRF validation methods run.
    -  Changed ``_exception_handler()`` to respect php.ini 'display_errors' setting.
-   -  Added support for IPv4 range masks (e.g. 192.168.1.1/24) to specify ranges of IP addresses for use with the proxy_ips setting.
+   -  Removed redundant conditional to determine HTTP server protocol in ``set_status_header()``
+   -  Added support for IPv4 range masks (e.g. 192.168.1.1/24) to specify ranges of IP addresses for use with the *proxy_ips* setting.
 
 Bug fixes for 3.0
 ------------------
@@ -312,12 +318,12 @@ Bug fixes for 3.0
 -  Fixed a bug (#666) - :doc:`Output library <libraries/output>`'s set_content_type() method didn't set the document charset.
 -  Fixed a bug (#784, #861) - :doc:`Database Forge <database/forge>` method ``create_table()`` used to accept constraints for MSSQL/SQLSRV integer-type columns.
 -  Fixed a bug (#706) - SQLSRV/MSSSQL didn't escape field names.
--  Fixed a bug (#1452) - protect_identifiers() didn't properly detect identifiers with spaces in their names.
--  Fixed a bug where protect_identifiers() ignored it's extra arguments when the value passed to it is an array.
--  Fixed a bug where _has_operator() didn't detect BETWEEN.
--  Fixed a bug in :doc:`Query Builder <database/query_builder>`'s join() method where it failed with identifiers containing dashes.
+-  Fixed a bug (#1452) - ``protect_identifiers()`` didn't properly detect identifiers with spaces in their names.
+-  Fixed a bug where ``protect_identifiers()`` ignored it's extra arguments when the value passed to it is an array.
+-  Fixed a bug where ``_has_operator()`` didn't detect BETWEEN.
+-  Fixed a bug in :doc:`Query Builder <database/query_builder>`'s ``join()`` method where it failed with identifiers containing dashes.
 -  Fixed a bug (#1264) - :doc:`Database Forge <database/forge>` and :doc:`Database Utilities <database/utilities>` didn't update/reset the databases and tables list cache when a table or a database is created, dropped or renamed.
--  Fixed a bug (#7) - :doc:`Query Builder <database/query_builder>`'s join() method only escaped one set of conditions.
+-  Fixed a bug (#7) - :doc:`Query Builder <database/query_builder>`'s ``join()`` method only escaped one set of conditions.
 -  Fixed a bug (#1321) - Core Exceptions class couldn't find the errors/ folder in some cases.
 -  Fixed a bug in the File-based :doc:`Cache Library <libraries/caching>` driver's get_metadata() method where a non-existent array key was accessed for the TTL value.
 -  Fixed a bug (#1202) - :doc:`Encryption Library <libraries/encryption>` encode_from_legacy() didn't set back the encrypt mode on failure.
@@ -344,6 +350,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1000) - Change syntax of ``$view_file`` to ``$_ci_view_file`` to prevent being overwritten by application.
 -  Fixed a bug (#1757) - :doc:`Directory Helper <helpers/directory_helper>` function ``directory_map()`` was skipping files and directories named *0*.
 -  Fixed a bug (#395)  - :doc:`Unit Testing Library <libraries/Unit_test>` method ``result()`` didn't properly check array result columns against _test_items_visible when called from ``report()`` method.
+-  Fixed a bug (#1789) - :doc:`Database Library <libraries/database>` method ``escape_str()`` escaped quote characters in LIKE conditions twice under MySQL.
 
 Version 2.1.2
 =============
