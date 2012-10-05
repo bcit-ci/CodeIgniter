@@ -204,7 +204,7 @@ Release Date: Not Released
 	 -  Added $config['reuse_query_string'] to allow automatic repopulation of query string arguments, combined with normal URI segments.
    -  Removed the default ``&nbsp;`` from a number of the configuration variables.
    -  Added the ability to use a proxy with the :doc:`XML-RPC Library <libraries/xmlrpc>`.
-   -  :doc:`Encryption Library <libraries/encrypt>` changes include:
+   -  :doc:`Encryption Library <libraries/encryption>` changes include:
 	 -  Added support for hashing algorithms other than SHA1 and MD5.
 	 -  Removed previously deprecated ``sha1()`` method.
 
