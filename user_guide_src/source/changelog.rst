@@ -196,6 +196,7 @@ Release Date: Not Released
 	 -  Added dsn (delivery status notification) option.
 	 -  Renamed method _set_header() to set_header() and made it public to enable adding custom headers in the :doc:`Email Library <libraries/email>`.
 	 -  Successfully sent emails will automatically clear the parameters.
+	 -  Added third parameter $return_path in method Email::from().
    -  :doc:`Pagination Library <libraries/pagination>` changes include:
 	 -  Added support for the anchor "rel" attribute.
 	 -  Added support for setting custom attributes.
