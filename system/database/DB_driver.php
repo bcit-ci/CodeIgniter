@@ -1348,7 +1348,7 @@ abstract class CI_DB_driver {
 		}
 		else
 		{
-			$message = ( ! is_array($error)) ? array(str_replace('%s', $swap, $LANG->line($error))) : $error;
+			$message = is_array($error) ? $error : array(str_replace('%s', $swap, $LANG->line($error)));
 		}
 
 		// Find the most likely culprit of the error by going through
@@ -1357,7 +1357,13 @@ abstract class CI_DB_driver {
 		$trace = debug_backtrace();
 		foreach ($trace as $call)
 		{
-			if (isset($call['file'], $call['class']) && strpos($call['file'], BASEPATH.'database') === FALSE && strpos($call['class'], 'Loader') !== FALSE)
+			// We'll need this on Windows, as APPPATH and BASEPATH will always use forward slashes
+			if (DIRECTORY_SEPARATOR !== '/')
+			{
+				$call['file'] = str_replace('\\', '/', $call['file']);
+			}
+
+			if (isset($call['file'], $call['class']) && strpos($call['file'], $basepath.'database') === FALSE && strpos($call['class'], 'Loader') !== FALSE)
 			{
 				// Found it - use a relative path for safety
 				$message[] = 'Filename: '.str_replace(array(APPPATH, BASEPATH), '', $call['file']);
