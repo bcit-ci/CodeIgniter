@@ -163,7 +163,7 @@ Release Date: Not Released
 	 -  Added ``all_flashdata()`` method to session class. Returns an associative array of only flashdata.
 	 -  Added ``has_userdata()`` method to verify existence of userdata item.
 	 -  Added ``tempdata()``, ``set_tempdata()``, and ``unset_tempdata()`` methods for manipulating tempdata.
-   -  :doc:`File Uploading Library <libraries/upload>` changes include:
+   -  :doc:`File Uploading Library <libraries/file_uploading>` changes include:
 	 -  Added *max_filename_increment* config setting.
 	 -  Added an "index" parameter to the ``data()`` method.
    -  :doc:`Cart library <libraries/cart>` changes include:
