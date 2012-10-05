@@ -60,7 +60,8 @@ Release Date: Not Released
 	 - ``now()`` now works with all timezone strings supported by PHP.
 	 - Added an optional third parameter to ``timespan()`` that constrains the number of time units displayed.
 	 - Added an optional parameter to ``timezone_menu()`` that allows more attributes to be added to the generated select tag.
-	 - Deprecated ``standard_date()``, which now just uses the native ``date()`` with `DateTime constants <http://bg2.php.net/manual/en/class.datetime.php#datetime.constants.types>`_.
+	 - Deprecated ``standard_date()``, which now just uses the native ``date()`` with `DateTime constants <http://www.php.net/manual/en/class.datetime.php#datetime.constants.types>`_.
+	 - Added function ``date_range()`` that generates a list of dates between a specified period.
    -  ``create_captcha()`` accepts additional colors parameter, allowing for color customization.
    -  :doc:`URL Helper <helpers/url_helper>` changes include:
 	 - ``url_title()`` will now trim extra dashes from beginning and end.
@@ -75,7 +76,7 @@ Release Date: Not Released
    -  Added a work-around in ``force_download()`` for a bug Android <= 2.1, where the filename extension needs to be in uppercase.
    -  ``form_dropdown()`` will now also take an array for unity with other form helpers.
    -  ``do_hash()`` now uses PHP's native ``hash()`` function (supporting more algorithms) and is deprecated.
-   -  Removed previously deprecated helper function ``js_insert_smiley()`` from smiley helper.
+   -  Removed previously deprecated helper function ``js_insert_smiley()`` from :doc:`Smiley Helper <helpers/smiley_helper>`.
    -  :doc:`File Helper <helpers/file_helper>` changes include:
 	 - ``set_realpath()`` can now also handle file paths as opposed to just directories.
 	 - Added an optional paramater to ``delete_files()`` to enable it to skip deleting files such as .htaccess and index.html.
