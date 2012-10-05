@@ -172,10 +172,11 @@ Release Date: Not Released
 	 -  Added function remove() to remove a cart item, updating with quantity of 0 seemed like a hack but has remained to retain compatibility.
    -  :doc:`Image Manipulation library <libraries/image_lib>` changes include:
 	 -  The initialize() method now only sets existing class properties.
-	 -  Added support for 3-length hex color values for wm_font_color and wm_shadow_color properties, as well as validation for them.
-	 -  Class properties wm_font_color, wm_shadow_color and wm_use_drop_shadow are now protected, to avoid breaking the text_watermark() method if they are set manually after initialization.
-	 -  If property maintain_ratio is set to TRUE, image_reproportion() now doesn't need both width and height to be specified.
-	 -  Property maintain_ratio is now taken into account when resizing images using ImageMagick library
+	 -  Added support for 3-length hex color values for *wm_font_color* and *wm_shadow_color* properties, as well as validation for them.
+	 -  Class properties *wm_font_color*, *wm_shadow_color* and *wm_use_drop_shadow* are now protected, to avoid breaking the ``text_watermark()`` method if they are set manually after initialization.
+	 -  If property *maintain_ratio* is set to TRUE, ``image_reproportion()`` now doesn't need both width and height to be specified.
+	 -  Property *maintain_ratio* is now taken into account when resizing images using ImageMagick library.
+	 -  Added support for maintaining transparency for PNG images in method ``text_watermark()``.
    -  :doc:`Form Validation library <libraries/form_validation>` changes include:
 	 -  Added method error_array() to return all error messages as an array.
 	 -  Added method set_data() to set an alternative data array to be validated instead of the default $_POST.
