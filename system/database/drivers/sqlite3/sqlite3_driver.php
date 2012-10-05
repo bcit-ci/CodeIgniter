@@ -284,25 +284,16 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * The error message string
+	 * Error
 	 *
-	 * @return	string
-	 */
-	protected function _error_message()
-	{
-		return $this->conn_id->lastErrorMsg();
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * The error message number
+	 * Returns an array containing code and message of the last
+	 * database error that has occured.
 	 *
-	 * @return	int
+	 * @return	array
 	 */
-	protected function _error_number()
+	public function error()
 	{
-		return $this->conn_id->lastErrorCode();
+		return array('code' => $this->conn_id->lastErrorCode(), 'message' => $this->conn_id->lastErrorMsg());
 	}
 
 	// --------------------------------------------------------------------
