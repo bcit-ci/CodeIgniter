@@ -861,8 +861,9 @@ Rule                      Parameter  Description                                
 ========================= ========== ============================================================================================= =======================
 **required**              No         Returns FALSE if the form element is empty.                                                                          
 **matches**               Yes        Returns FALSE if the form element does not match the one in the parameter.                    matches[form_item]     
-**is_unique**             Yes        Returns FALSE if the form element is not unique to the                                        is_unique[table.field] 
-                                     table and field name in the parameter. is_unique[table.field]                                                        
+**is_unique**             Yes        Returns FALSE if the form element is not unique to the table and field name in the            is_unique[table.field] 
+                                     parameter. Note: This rule requires :doc:`Query Builder <database/query_builder>` to be                             
+                                     enabled in order to work.
 **max_length**            Yes        Returns FALSE if the form element is longer then the parameter value.                         max_length[12]         
 **exact_length**          Yes        Returns FALSE if the form element is not exactly the parameter value.                         exact_length[8]        
 **greater_than**          Yes        Returns FALSE if the form element is less than or equal to the parameter value or not         greater_than[8]
