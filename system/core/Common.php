@@ -488,13 +488,9 @@ if ( ! function_exists('set_status_header'))
 		{
 			header('Status: '.$code.' '.$text, TRUE);
 		}
-		elseif ($server_protocol === 'HTTP/1.0')
-		{
-			header('HTTP/1.0 '.$code.' '.$text, TRUE, $code);
-		}
 		else
 		{
-			header('HTTP/1.1 '.$code.' '.$text, TRUE, $code);
+			header(($server_protocol ? $server_protocol : 'HTTP/1.1').' '.$code.' '.$text, TRUE, $code);
 		}
 	}
 }
