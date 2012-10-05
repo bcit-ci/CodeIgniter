@@ -39,7 +39,7 @@ Release Date: Not Released
    -  Updated support for zip files in mimes.php.
    -  Updated support for csv files in mimes.php.
    -  Added some more doctypes.
-   -  Added Romanian and Greek characters in foreign_characters.php.
+   -  Added Romanian, Greek and Vietnamese characters in *foreign_characters.php*.
    -  Changed logger to only chmod when file is first created.
    -  Removed previously deprecated SHA1 Library.
    -  Removed previously deprecated use of ``$autoload['core']`` in application/config/autoload.php.
