@@ -233,6 +233,7 @@ Release Date: Not Released
 	 -  Added ``$config['csrf_regeneration']``, which makes token regeneration optional.
 	 -  Added ``$config['csrf_exclude_uris']``, which allows you list URIs which will not have the CSRF validation methods run.
    -  Changed ``_exception_handler()`` to respect php.ini 'display_errors' setting.
+   -  Removed redundant conditional to determine HTTP server protocol in ``set_status_header()``
    -  Added support for IPv4 range masks (e.g. 192.168.1.1/24) to specify ranges of IP addresses for use with the *proxy_ips* setting.
 
 Bug fixes for 3.0
