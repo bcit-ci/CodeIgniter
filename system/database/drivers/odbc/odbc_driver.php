@@ -45,9 +45,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	// the character used to excape - not necessary for ODBC
 	protected $_escape_char = '';
 
-	// clause and character used for LIKE escape sequences
 	protected $_like_escape_str = " {escape '%s'} ";
-	protected $_like_escape_chr = '!';
 
 	protected $_random_keyword;
 
