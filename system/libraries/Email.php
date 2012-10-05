@@ -198,7 +198,7 @@ class CI_Email {
 		if ($this->validate)
 		{
 			$this->validate_email($this->_str_to_array($from));
-			if($return_path)
+			if ($return_path)
 			{
 				$this->validate_email($this->_str_to_array($return_path));
 			}
@@ -221,7 +221,7 @@ class CI_Email {
 
 		$this->set_header('From', $name.' <'.$from.'>');
 
-		if(!$return_path)
+		if( ! $return_path)
 		{
 			$return_path = $from;
 		}

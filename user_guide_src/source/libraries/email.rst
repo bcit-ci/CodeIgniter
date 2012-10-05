@@ -117,12 +117,12 @@ Sets the email address and name of the person sending the email::
 
 	$this->email->from('you@example.com', 'Your Name');
 
-::
+You can also set a Return-Path, to help redirect undelivered mail::
 
 	$this->email->from('you@example.com', 'Your Name', 'returned_emails@example.com');
 	
-Third parameter is redirect for undelivered emails (may not be configured with
-protocol 'smtp').
+.. note:: Return-Path can't be used if you've configured
+	'smtp' as your protocol.
 
 $this->email->reply_to()
 -------------------------
