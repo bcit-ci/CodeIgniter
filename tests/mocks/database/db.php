@@ -6,7 +6,7 @@ class Mock_Database_DB {
 	 * @var array DB configuration
 	 */
 	private $config = array();
-	
+
 	/**
 	 * Prepare database configuration skeleton
 	 *
@@ -21,7 +21,7 @@ class Mock_Database_DB {
 	/**
 	 * Build DSN connection string for DB driver instantiate process
 	 *
-	 * @param 	string 	Group name 		
+	 * @param 	string 	Group name
 	 * @return 	string 	DSN Connection string
 	 */
 	public function set_dsn($group = 'default')
@@ -45,9 +45,9 @@ class Mock_Database_DB {
 		);
 
 		$config = array_merge($this->config[$group], $params);
-		$dsnstring = ( ! empty($config['dsn'])) ? $config['dsn'] : FALSE;
-		$pdodriver = ( ! empty($config['pdodriver'])) ? $config['pdodriver'] : FALSE;
-		$failover = ( ! empty($config['failover'])) ? $config['failover'] : FALSE;
+		$dsnstring = empty($config['dsn']) ? FALSE : $config['dsn'];
+		$subdriver = empty($config['subdriver']) ? FALSE: $config['subdriver'];
+		$failover = empty($config['failover']) ? FALSE : $config['failover'];
 
 		$dsn = $config['dbdriver'].'://'.$config['username'].':'.$config['password']
 			       .'@'.$config['hostname'].'/'.$config['database'];
@@ -55,7 +55,7 @@ class Mock_Database_DB {
 		// Build the parameter
 		$other_params = array_slice($config, 6);
 		if ($dsnstring) $other_params['dsn'] = $dsnstring;
-		if ($pdodriver) $other_params['pdodriver'] = $pdodriver;
+		if ($subdriver) $other_params['subdriver'] = $subdriver;
 		if ($failover) $other_params['failover'] = $failover;
 
 		return $dsn.'?'.http_build_query($other_params);
@@ -65,28 +65,27 @@ class Mock_Database_DB {
 	 * Return a database config array
 	 *
 	 * @see 	./config
-	 * @param 	string 		Driver based configuration
-	 * @return 	array 		
+	 * @param	string	Driver based configuration
+	 * @return	array
 	 */
 	public static function config($driver)
 	{
 		$dir = realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR;
-
 		return include($dir.'config'.DIRECTORY_SEPARATOR.$driver.'.php');
 	}
 
 	/**
 	 * Main DB method wrapper
 	 *
-	 * @param 	string 		Group or DSN string
-	 * @param 	bool 		
-	 * @return 	object 		
+	 * @param 	string	Group or DSN string
+	 * @param 	bool
+	 * @return 	object
 	 */
 	public static function DB($group, $query_builder = FALSE)
 	{
 		include_once(BASEPATH.'database/DB.php');
 
-		try 
+		try
 		{
 			$db = DB($group, $query_builder);
 		}
@@ -97,4 +96,5 @@ class Mock_Database_DB {
 
 		return $db;
 	}
+
 }

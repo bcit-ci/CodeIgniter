@@ -197,6 +197,7 @@ Preference                   Default Value     Options                 Descripti
                                                                        Separate multiple types with a pipe.
 **file_name**                None              Desired file name       If set CodeIgniter will rename the uploaded file to this name. The
                                                                        extension provided in the file name must also be an allowed file type.
+                                                                       If no extension is provided in the original file_name will be used.
 **overwrite**                FALSE             TRUE/FALSE (boolean)    If set to true, if a file with the same name as the one you are
                                                                        uploading exists, it will be overwritten. If set to false, a number will
                                                                        be appended to the filename if another with the same name exists.
@@ -215,6 +216,9 @@ Preference                   Default Value     Options                 Descripti
                                                                        that can not be discerned by the person uploading it.
 **remove_spaces**            TRUE              TRUE/FALSE (boolean)    If set to TRUE, any spaces in the file name will be converted to
                                                                        underscores. This is recommended.
+**detect_mime**              TRUE              TRUE/FALSE (boolean)    If set to TRUE, a server side detection of the file type will be
+                                                                       performed to avoid code injection attacks. DO NOT disable this option
+                                                                       unless you have no other option as that would cause a security risk.
 ============================ ================= ======================= ======================================================================
 
 Setting preferences in a config file
@@ -286,6 +290,10 @@ data related to the file you uploaded. Here is the array prototype::
 	    [image_type]   => jpeg
 	    [image_size_str] => width="800" height="200"
 	)
+
+To return one element from the array::
+
+	$this->upload->data('file_name');	// Returns: mypic.jpg
 
 Explanation
 ***********

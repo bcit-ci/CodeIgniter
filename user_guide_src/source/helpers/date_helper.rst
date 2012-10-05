@@ -21,18 +21,26 @@ now()
 =====
 
 Returns the current time as a Unix timestamp, referenced either to your
-server's local time or GMT, based on the "time reference" setting in
-your config file. If you do not intend to set your master time reference
-to GMT (which you'll typically do if you run a site that lets each user
-set their own timezone settings) there is no benefit to using this
+server's local time or any PHP suported timezone, based on the "time reference"
+setting in your config file. If you do not intend to set your master time reference
+to any other PHP suported timezone (which you'll typically do if you run a site that
+lets each user set their own timezone settings) there is no benefit to using this
 function over PHP's time() function.
 
-.. php:method:: now()
+.. php:method:: now($timezone = NULL)
+
+	:param string 	$timezone: The timezone you want to be returned
+	:returns: integer
+
+::
+	echo now("Australia/Victoria");
+
+If a timezone is not provided, it will return time() based on "time_reference" setting.
 
 mdate()
 =======
 
-This function is identical to PHPs `date() <http://www.php.net/date>`_
+This function is identical to PHP's `date() <http://www.php.net/date>`_
 function, except that it lets you use MySQL style date codes, where each
 code letter is preceded with a percent sign: %Y %m %d etc.
 
@@ -77,37 +85,34 @@ Example
 The first parameter must contain the format, the second parameter must
 contain the date as a Unix timestamp.
 
+.. note:: This function is DEPRECATED. Use the native ``date()`` combined
+	with `DateTime's format constants <http://www.php.net/manual/en/class.datetime.php#datetime.constants.types>`_
+	instead:
+
+	|
+	| echo date(DATE_RFC822, time());
+
 Supported formats:
 
-+----------------+------------------------+-----------------------------------+
-| Constant       | Description            | Example                           |
-+================+========================+===================================+
-| DATE_ATOM      | Atom                   | 2005-08-15T16:13:03+0000          |
-+----------------+------------------------+-----------------------------------+
-| DATE_COOKIE    | HTTP Cookies           | Sun, 14 Aug 2005 16:13:03 UTC     |
-+----------------+------------------------+-----------------------------------+
-| DATE_ISO8601   | ISO-8601               | 2005-08-14T16:13:03+00:00         |
-+----------------+------------------------+-----------------------------------+
-| DATE_RFC822    | RFC 822                | Sun, 14 Aug 05 16:13:03 UTC       |
-+----------------+------------------------+-----------------------------------+
-| DATE_RFC850    | RFC 850                | Sunday, 14-Aug-05 16:13:03 UTC    |
-+----------------+------------------------+-----------------------------------+
-| DATE_RFC1036   | RFC 1036               | Sunday, 14-Aug-05 16:13:03 UTC    |
-+----------------+------------------------+-----------------------------------+
-| DATE_RFC1123   | RFC 1123               | Sun, 14 Aug 2005 16:13:03 UTC     |
-+----------------+------------------------+-----------------------------------+
-| DATE_RFC2822   | RFC 2822               | Sun, 14 Aug 2005 16:13:03 +0000   |
-+----------------+------------------------+-----------------------------------+
-| DATE_RSS       | RSS                    | Sun, 14 Aug 2005 16:13:03 UTC     |
-+----------------+------------------------+-----------------------------------+
-| DATE_W3C       | W3C                    | 2005-08-14T16:13:03+0000          |
-+----------------+------------------------+-----------------------------------+
-
+===============	=======================	======================================
+Constant		Description				Example
+===============	=======================	======================================
+DATE_ATOM	Atom			2005-08-15T16:13:03+0000
+DATE_COOKIE	HTTP Cookies		Sun, 14 Aug 2005 16:13:03 UTC
+DATE_ISO8601   	ISO-8601		2005-08-14T16:13:03+00:00
+DATE_RFC822	RFC 822			Sun, 14 Aug 05 16:13:03 UTC
+DATE_RFC850	RFC 850			Sunday, 14-Aug-05 16:13:03 UTC
+DATE_RFC1036	RFC 1036		Sunday, 14-Aug-05 16:13:03 UTC
+DATE_RFC1123	RFC 1123		Sun, 14 Aug 2005 16:13:03 UTC
+DATE_RFC2822 	RFC 2822		Sun, 14 Aug 2005 16:13:03 +0000
+DATE_RSS	RSS			Sun, 14 Aug 2005 16:13:03 UTC
+DATE_W3C	W3C			2005-08-14T16:13:03+0000
+===============	=======================	======================================
 
 local_to_gmt()
 ==============
 
-Takes a Unix timestamp as input and returns it as GMT. 
+Takes a Unix timestamp as input and returns it as GMT.
 
 .. php:method:: local_to_gmt($time = '')
 
@@ -151,7 +156,7 @@ Example
 mysql_to_unix()
 ===============
 
-Takes a MySQL Timestamp as input and returns it as Unix. 
+Takes a MySQL Timestamp as input and returns it as Unix.
 
 .. php:method:: mysql_to_unix($time = '')
 
@@ -204,7 +209,7 @@ human_to_unix()
 The opposite of the above function. Takes a "human" time as input and
 returns it as Unix. This function is useful if you accept "human"
 formatted dates submitted via a form. Returns FALSE (boolean) if the
-date string passed to it is not formatted as indicated above. 
+date string passed to it is not formatted as indicated above.
 
 .. php:method:: human_to_unix($datestr = '')
 
@@ -227,9 +232,9 @@ them into something useful. It also accepts well-formed dates.
 
 The function will return a Unix timestamp by default. You can,
 optionally, pass a format string (the same type as the PHP date function
-accepts) as the second parameter. 
+accepts) as the second parameter.
 
-.. php:method:: nice_date($bad_date = '', $format = FALSE) 
+.. php:method:: nice_date($bad_date = '', $format = FALSE)
 
 	:param integer 	$bad_date: The terribly formatted date-like string
 	:param string 	$format: Date format to return (same as php date function)
@@ -239,26 +244,28 @@ Example
 
 ::
 
-	$bad_time = 199605  // Should Produce: 1996-05-01
-	$better_time = nice_date($bad_time,'Y-m-d');
-	$bad_time = 9-11-2001 // Should Produce: 2001-09-11
-	$better_time = nice_date($human,'Y-m-d');
+	$bad_date = '199605';
+	// Should Produce: 1996-05-01
+	$better_date = nice_date($bad_date, 'Y-m-d');
+
+	$bad_date = '9-11-2001';
+	// Should Produce: 2001-09-11
+	$better_date = nice_date($bad_date, 'Y-m-d');
 
 timespan()
 ==========
 
 Formats a unix timestamp so that is appears similar to this
-
 ::
 
 	1 Year, 10 Months, 2 Weeks, 5 Days, 10 Hours, 16 Minutes
 
 The first parameter must contain a Unix timestamp. The second parameter
 must contain a timestamp that is greater that the first timestamp. If
-the second parameter empty, the current time will be used. The third 
-parameter is optional and limits the number of time units to display. 
-The most common purpose for this function is to show how much time has 
-elapsed from some point in time in the past to now. 
+the second parameter empty, the current time will be used. The third
+parameter is optional and limits the number of time units to display.
+The most common purpose for this function is to show how much time has
+elapsed from some point in time in the past to now.
 
 .. php:method:: timespan($seconds = 1, $time = '', $units = '')
 
@@ -283,7 +290,7 @@ days_in_month()
 ===============
 
 Returns the number of days in a given month/year. Takes leap years into
-account. 
+account.
 
 .. php:method:: days_in_month($month = 0, $year = '')
 
@@ -404,14 +411,15 @@ allowed to set their local timezone value.
 The first parameter lets you set the "selected" state of the menu. For
 example, to set Pacific time as the default you will do this
 
-.. php:method:: timezone_menu($default = 'UTC', $class = "", $name = 'timezones')
+.. php:method:: timezone_menu($default = 'UTC', $class = '', $name = 'timezones', $attributes = '')
 
 	:param string 	$default: timezone
 	:param string	$class: classname
 	:param string	$name: menu name
+	:param mixed	$attributes: attributes
 	:returns: string
 
-Example: 
+Example:
 
 ::
 
@@ -420,6 +428,8 @@ Example:
 Please see the timezone reference below to see the values of this menu.
 
 The second parameter lets you set a CSS class name for the menu.
+
+The fourth parameter lets you set one or more attributes on the generated select tag.
 
 .. note:: The text contained in the menu is found in the following
 	language file: `language/<your_lang>/date_lang.php`
@@ -432,86 +442,47 @@ The following table indicates each timezone and its location.
 
 Note some of the location lists have been abridged for clarity and formatting.
 
-+------------+----------------------------------------------------------------+
-| Time Zone  | Location                                                       |
-+============+================================================================+
-| UM12       | (UTC - 12:00) Baker/Howland Island	                          |
-+------------+----------------------------------------------------------------+
-| UM11       | (UTC - 11:00) Samoa Time Zone, Niue						      |
-+------------+----------------------------------------------------------------+
-| UM10       | (UTC - 10:00) Hawaii-Aleutian Standard Time, Cook Islands	  |
-+------------+----------------------------------------------------------------+
-| UM95       | (UTC - 09:30) Marquesas Islands							      |
-+------------+----------------------------------------------------------------+
-| UM9        | (UTC - 09:00) Alaska Standard Time, Gambier Islands		      |
-+------------+----------------------------------------------------------------+
-| UM8        | (UTC - 08:00) Pacific Standard Time, Clipperton Island	      |
-+------------+----------------------------------------------------------------+
-| UM7        | (UTC - 11:00) Mountain Standard Time						      |
-+------------+----------------------------------------------------------------+
-| UM6        | (UTC - 06:00) Central Standard Time						      |
-+------------+----------------------------------------------------------------+
-| UM5        | (UTC - 05:00) Eastern Standard Time, Western Caribbean		  |
-+------------+----------------------------------------------------------------+
-| UM45       | (UTC - 04:30) Venezuelan Standard Time					      |
-+------------+----------------------------------------------------------------+
-| UM4        | (UTC - 04:00) Atlantic Standard Time, Eastern Caribbean		  |
-+------------+----------------------------------------------------------------+
-| UM35       | (UTC - 03:30) Newfoundland Standard Time					      |
-+------------+----------------------------------------------------------------+
-| UM3        | (UTC - 03:00) Argentina, Brazil, French Guiana, Uruguay	      |
-+------------+----------------------------------------------------------------+
-| UM2        | (UTC - 02:00) South Georgia/South Sandwich Islands		      |
-+------------+----------------------------------------------------------------+
-| UM1        | (UTC -1:00) Azores, Cape Verde Islands						  |
-+------------+----------------------------------------------------------------+
-| UTC        | (UTC) Greenwich Mean Time, Western European Time				  |
-+------------+----------------------------------------------------------------+
-| UP1        | (UTC +1:00) Central European Time, West Africa Time			  |
-+------------+----------------------------------------------------------------+
-| UP2        | (UTC +2:00) Central Africa Time, Eastern European Time		  |
-+------------+----------------------------------------------------------------+
-| UP3        | (UTC +3:00) Moscow Time, East Africa Time			  		  |
-+------------+----------------------------------------------------------------+
-| UP35       | (UTC +3:30) Iran Standard Time								  |
-+------------+----------------------------------------------------------------+
-| UP4        | (UTC +4:00) Azerbaijan Standard Time, Samara Time			  |
-+------------+----------------------------------------------------------------+
-| UP45       | (UTC +4:30) Afghanistan										  |
-+------------+----------------------------------------------------------------+
-| UP5        | (UTC +5:00) Pakistan Standard Time, Yekaterinburg Time		  |
-+------------+----------------------------------------------------------------+
-| UP55       | (UTC +5:30) Indian Standard Time, Sri Lanka Time				  |
-+------------+----------------------------------------------------------------+
-| UP575      | (UTC +5:45) Nepal Time										  |
-+------------+----------------------------------------------------------------+
-| UP6        | (UTC +6:00) Bangladesh Standard Time, Bhutan Time, Omsk Time   |
-+------------+----------------------------------------------------------------+
-| UP65       | (UTC +6:30) Cocos Islands, Myanmar							  |
-+------------+----------------------------------------------------------------+
-| UP7        | (UTC +7:00) Krasnoyarsk Time, Cambodia, Laos, Thailand, Vietnam|
-+------------+----------------------------------------------------------------+
-| UP8        | (UTC +8:00) Australian Western Standard Time, Beijing Time	  |
-+------------+----------------------------------------------------------------+
-| UP875      | (UTC +8:45) Australian Central Western Standard Time		      |
-+------------+----------------------------------------------------------------+
-| UP9        | (UTC +9:00) Japan Standard Time, Korea Standard Time, Yakutsk  |
-+------------+----------------------------------------------------------------+
-| UP95       | (UTC +9:30) Australian Central Standard Time					  |
-+------------+----------------------------------------------------------------+
-| UP10       | (UTC +10:00) Australian Eastern Standard Time, Vladivostok Time|
-+------------+----------------------------------------------------------------+
-| UP105      | (UTC +10:30) Lord Howe Island								  |
-+------------+----------------------------------------------------------------+
-| UP11       | (UTC +11:00) Magadan Time, Solomon Islands, Vanuatu            |
-+------------+----------------------------------------------------------------+
-| UP115      | (UTC +11:30) Norfolk Island									  |
-+------------+----------------------------------------------------------------+
-| UP12       | (UTC +12:00) Fiji, Gilbert Islands, Kamchatka, New Zealand     |
-+------------+----------------------------------------------------------------+
-| UP1275     | (UTC +12:45) Chatham Islands Standard Time					  |
-+------------+----------------------------------------------------------------+
-| UP13       | (UTC +13:00) Phoenix Islands Time, Tonga						  |
-+------------+----------------------------------------------------------------+
-| UP14       | (UTC +14:00) Line Islands									  |
-+------------+----------------------------------------------------------------+
+===========	=====================================================================
+Time Zone	Location
+===========	=====================================================================
+UM2			(UTC - 12:00) Baker/Howland Island
+UM1			(UTC - 11:00) Samoa Time Zone, Niue
+UM0			(UTC - 10:00) Hawaii-Aleutian Standard Time, Cook Islands
+UM95		(UTC - 09:30) Marquesas Islands
+UM9			(UTC - 09:00) Alaska Standard Time, Gambier Islands
+UM8			(UTC - 08:00) Pacific Standard Time, Clipperton Island
+UM7			(UTC - 11:00) Mountain Standard Time
+UM6			(UTC - 06:00) Central Standard Time
+UM5			(UTC - 05:00) Eastern Standard Time, Western Caribbean
+UM45		(UTC - 04:30) Venezuelan Standard Time
+UM4			(UTC - 04:00) Atlantic Standard Time, Eastern Caribbean
+UM35		(UTC - 03:30) Newfoundland Standard Time
+UM3			(UTC - 03:00) Argentina, Brazil, French Guiana, Uruguay
+UM2			(UTC - 02:00) South Georgia/South Sandwich Islands
+UM			(UTC -1:00) Azores, Cape Verde Islands
+UTC			(UTC) Greenwich Mean Time, Western European Time
+UP1			(UTC +1:00) Central European Time, West Africa Time
+UP2			(UTC +2:00) Central Africa Time, Eastern European Time
+UP3			(UTC +3:00) Moscow Time, East Africa Time
+UP35		(UTC +3:30) Iran Standard Time
+UP4			(UTC +4:00) Azerbaijan Standard Time, Samara Time
+UP45		(UTC +4:30) Afghanistan
+UP5			(UTC +5:00) Pakistan Standard Time, Yekaterinburg Time
+UP55		(UTC +5:30) Indian Standard Time, Sri Lanka Time
+UP575		(UTC +5:45) Nepal Time
+UP6			(UTC +6:00) Bangladesh Standard Time, Bhutan Time, Omsk Time
+UP65		(UTC +6:30) Cocos Islands, Myanmar
+UP7			(UTC +7:00) Krasnoyarsk Time, Cambodia, Laos, Thailand, Vietnam
+UP8			(UTC +8:00) Australian Western Standard Time, Beijing Time
+UP875		(UTC +8:45) Australian Central Western Standard Time
+UP9			(UTC +9:00) Japan Standard Time, Korea Standard Time, Yakutsk
+UP95		(UTC +9:30) Australian Central Standard Time
+UP10		(UTC +10:00) Australian Eastern Standard Time, Vladivostok Time
+UP105		(UTC +10:30) Lord Howe Island
+UP11		(UTC +11:00) Magadan Time, Solomon Islands, Vanuatu
+UP115		(UTC +11:30) Norfolk Island
+UP12		(UTC +12:00) Fiji, Gilbert Islands, Kamchatka, New Zealand
+UP1275		(UTC +12:45) Chatham Islands Standard Time
+UP1			(UTC +13:00) Phoenix Islands Time, Tonga
+UP14		(UTC +14:00) Line Islands
+===========	=====================================================================

@@ -212,7 +212,7 @@ class CI_Cache_memcached extends CI_Driver {
 				$cache_server['weight'] = $this->_memcache_conf['default']['default_weight'];
 			}
 
-			if (get_class($this->_memcached) == 'Memcache')
+			if (get_class($this->_memcached) === 'Memcache')
 			{
 				// Third parameter is persistance and defaults to TRUE.
 				$this->_memcached->addServer(

@@ -1,34 +1,107 @@
-Welcome to CodeIgniter
-======================
+######################
+CodeIgniter User Guide
+######################
 
-CodeIgniter is an Application Development Framework - a toolkit - for
-people who build web sites using PHP. Its goal is to enable you to
-develop projects much faster than you could if you were writing code
-from scratch, by providing a rich set of libraries for commonly needed
-tasks, as well as a simple interface and logical structure to access
-these libraries. CodeIgniter lets you creatively focus on your project
-by minimizing the amount of code needed for a given task.
+- :doc:`License Agreement <license>`
+- :doc:`Change Log <changelog>`
 
-Who is CodeIgniter For?
-=======================
+.. contents::
+   :local:
+   :depth: 2
 
-CodeIgniter is right for you if:
+*******
+Welcome
+*******
 
--  You want a framework with a small footprint.
--  You need exceptional performance.
--  You need broad compatibility with standard hosting accounts that run
-   a variety of PHP versions and configurations.
--  You want a framework that requires nearly zero configuration.
--  You want a framework that does not require you to use the command
-   line.
--  You want a framework that does not require you to adhere to
-   restrictive coding rules.
--  You are not interested in large-scale monolithic libraries like PEAR.
--  You do not want to be forced to learn a templating language (although
-   a template parser is optionally available if you desire one).
--  You eschew complexity, favoring simple solutions.
--  You need clear, thorough documentation.
+- :doc:`general/welcome`
 
+**********
+Basic Info
+**********
+
+- :doc:`general/requirements`
+- :doc:`general/credits`
+
+************
+Installation
+************
+
+- :doc:`installation/downloads`
+- :doc:`installation/index`
+- :doc:`installation/upgrading`
+- :doc:`installation/troubleshooting`
+
+************
+Introduction
+************
+
+- :doc:`overview/getting_started`
+- :doc:`overview/at_a_glance`
+- :doc:`overview/cheatsheets`
+- :doc:`overview/features`
+- :doc:`overview/appflow`
+- :doc:`overview/mvc`
+- :doc:`overview/goals`
+
+********
+Tutorial
+********
+
+- :doc:`tutorial/index`
+- :doc:`tutorial/static_pages`
+- :doc:`tutorial/news_section`
+- :doc:`tutorial/create_news_items`
+- :doc:`tutorial/conclusion`
+
+**************
+General Topics
+**************
+
+.. toctree::
+	:glob:
+	:titlesonly:
+	
+	general/index
+
+*****************
+Library Reference
+*****************
+
+.. toctree::
+	:glob:
+	:titlesonly:
+	
+	libraries/index
+
+****************
+Driver Reference
+****************
+
+- :doc:`libraries/caching`
+- :doc:`database/index`
+- :doc:`libraries/javascript`
+- :doc:`libraries/sessions`
+
+****************
+Helper Reference
+****************
+
+.. toctree::
+	:glob:
+	:titlesonly:
+	
+	helpers/index
+
+***************************
+Contributing to CodeIgniter
+***************************
+
+.. toctree::
+	:glob:
+	:titlesonly:
+	
+	contributing/index
+	DCO
 
 .. toctree::
 	:glob:
@@ -38,6 +111,7 @@ CodeIgniter is right for you if:
 	*
 	overview/index
 	general/requirements
+	general/welcome
 	installation/index
 	general/index
 	libraries/index

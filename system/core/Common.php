@@ -44,13 +44,13 @@ if ( ! function_exists('is_php'))
 	/**
 	 * Determines if the current version of PHP is greater then the supplied value
 	 *
-	 * Since there are a few places where we conditionally test for PHP > 5
+	 * Since there are a few places where we conditionally test for PHP > 5.3
 	 * we'll set a static variable.
 	 *
 	 * @param	string
 	 * @return	bool	TRUE if the current version is $version or higher
 	 */
-	function is_php($version = '5.0.0')
+	function is_php($version = '5.3.0')
 	{
 		static $_is_php;
 		$version = (string) $version;
@@ -172,7 +172,7 @@ if ( ! function_exists('load_class'))
 		if ($name === FALSE)
 		{
 			// Note: We use exit() rather then show_error() in order to avoid a
-			// self-referencing loop with the Excptions class
+			// self-referencing loop with the Exceptions class
 			set_status_header(503);
 			exit('Unable to locate the specified class: '.$class.'.php');
 		}
@@ -200,7 +200,7 @@ if ( ! function_exists('is_loaded'))
 	{
 		static $_is_loaded = array();
 
-		if ($class != '')
+		if ($class !== '')
 		{
 			$_is_loaded[strtolower($class)] = $class;
 		}
@@ -231,20 +231,24 @@ if ( ! function_exists('get_config'))
 			return $_config[0];
 		}
 
-		// Is the config file in the environment folder?
-		if ( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config.php'))
+		$file_path = APPPATH.'config/config.php';
+		$found = FALSE;
+		if (file_exists($file_path))
 		{
-			$file_path = APPPATH.'config/config.php';
+			$found = TRUE;
+			require($file_path);
 		}
 
-		// Fetch the config file
-		if ( ! file_exists($file_path))
+		// Is the config file in the environment folder?
+		if (defined('ENVIRONMENT') && file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config.php'))
+		{
+			require($file_path);
+		}
+		elseif ( ! $found)
 		{
 			set_status_header(503);
 			exit('The configuration file does not exist.');
 		}
-
-		require($file_path);
 
 		// Does the $config array exist in the file?
 		if ( ! isset($config) OR ! is_array($config))
@@ -295,6 +299,32 @@ if ( ! function_exists('config_item'))
 		}
 
 		return $_config_item[$item];
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('get_mimes'))
+{
+	/**
+	 * Returns the MIME types array from config/mimes.php
+	 *
+	 * @return	array
+	 */
+	function &get_mimes()
+	{
+		static $_mimes = array();
+
+		if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+		{
+			$_mimes = include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
+		}
+		elseif (is_file(APPPATH.'config/mimes.php'))
+		{
+			$_mimes = include(APPPATH.'config/mimes.php');
+		}
+
+		return $_mimes;
 	}
 }
 
@@ -366,7 +396,7 @@ if ( ! function_exists('log_message'))
 	{
 		static $_log;
 
-		if (config_item('log_threshold') == 0)
+		if (config_item('log_threshold') === 0)
 		{
 			return;
 		}
@@ -401,6 +431,7 @@ if ( ! function_exists('set_status_header'))
 			300	=> 'Multiple Choices',
 			301	=> 'Moved Permanently',
 			302	=> 'Found',
+			303	=> 'See Other',
 			304	=> 'Not Modified',
 			305	=> 'Use Proxy',
 			307	=> 'Temporary Redirect',
@@ -432,19 +463,23 @@ if ( ! function_exists('set_status_header'))
 			505	=> 'HTTP Version Not Supported'
 		);
 
-		if ($code == '' OR ! is_numeric($code))
+		if (empty($code) OR ! is_numeric($code))
 		{
 			show_error('Status codes must be numeric', 500);
 		}
 
-		if (isset($stati[$code]) && $text == '')
-		{
-			$text = $stati[$code];
-		}
+		is_int($code) OR $code = (int) $code;
 
-		if ($text == '')
+		if (empty($text))
 		{
-			show_error('No status text available. Please check your status code number or supply your own message text.', 500);
+			if (isset($stati[$code]))
+			{
+				$text = $stati[$code];
+			}
+			else
+			{
+				show_error('No status text available. Please check your status code number or supply your own message text.', 500);
+			}
 		}
 
 		$server_protocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : FALSE;
@@ -453,13 +488,9 @@ if ( ! function_exists('set_status_header'))
 		{
 			header('Status: '.$code.' '.$text, TRUE);
 		}
-		elseif ($server_protocol === 'HTTP/1.0')
-		{
-			header('HTTP/1.0 '.$code.' '.$text, TRUE, $code);
-		}
 		else
 		{
-			header('HTTP/1.1 '.$code.' '.$text, TRUE, $code);
+			header(($server_protocol ? $server_protocol : 'HTTP/1.1').' '.$code.' '.$text, TRUE, $code);
 		}
 	}
 }
@@ -487,29 +518,19 @@ if ( ! function_exists('_exception_handler'))
 	 */
 	function _exception_handler($severity, $message, $filepath, $line)
 	{
-		 // We don't bother with "strict" notices since they tend to fill up
-		 // the log file with excess information that isn't normally very helpful.
-		 // For example, if you are running PHP 5 and you use version 4 style
-		 // class functions (without prefixes like "public", "private", etc.)
-		 // you'll get notices telling you that these have been deprecated.
-		if ($severity == E_STRICT)
-		{
-			return;
-		}
-
 		$_error =& load_class('Exceptions', 'core');
 
-		// Should we display the error? We'll get the current error_reporting
+		// Should we ignore the error? We'll get the current error_reporting
 		// level and add its bits with the severity bits to find out.
-		if (($severity & error_reporting()) == $severity)
-		{
-			$_error->show_php_error($severity, $message, $filepath, $line);
-		}
-
-		// Should we log the error? No? We're done...
-		if (config_item('log_threshold') == 0)
+		if (($severity & error_reporting()) !== $severity)
 		{
 			return;
+		}
+
+		// Should we display the error?
+		if ((bool) ini_get('display_errors') === TRUE)
+		{
+			$_error->show_php_error($severity, $message, $filepath, $line);
 		}
 
 		$_error->log_exception($severity, $message, $filepath, $line);
@@ -569,6 +590,45 @@ if ( ! function_exists('html_escape'))
 		return is_array($var)
 			? array_map('html_escape', $var)
 			: htmlspecialchars($var, ENT_QUOTES, config_item('charset'));
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('_stringify_attributes'))
+{
+	/**
+	 * Stringify attributes for use in HTML tags.
+	 *
+	 * Helper function used to convert a string, array, or object
+	 * of attributes to a string.
+	 *
+	 * @param	mixed	string, array, object
+	 * @param	bool
+	 * @return	string
+	 */
+	function _stringify_attributes($attributes, $js = FALSE)
+	{
+		$atts = NULL;
+
+		if (empty($attributes))
+		{
+			return $atts;
+		}
+
+		if (is_string($attributes))
+		{
+			return ' '.$attributes;
+		}
+
+		$attributes = (array) $attributes;
+
+		foreach ($attributes as $key => $val)
+		{
+			$atts .= ($js) ? $key.'='.$val.',' : ' '.$key.'="'.$val.'"';
+		}
+
+		return rtrim($atts, ',');
 	}
 }
 

@@ -23,10 +23,9 @@ class From_test extends CI_TestCase {
 	public function test_from_simple()
 	{
 		$jobs = $this->db->from('job')
-		                      ->get()
-		                      ->result_array();
-		
-		// Check items
+					->get()
+					->result_array();
+
 		$this->assertEquals(4, count($jobs));
 	}
 
@@ -38,14 +37,13 @@ class From_test extends CI_TestCase {
 	public function test_from_with_where()
 	{
 		$job1 = $this->db->from('job')
-							->where('id', 1)
-		                    ->get()
-		                    ->row();
-		
-		// Check the result
+					->where('id', 1)
+					->get()
+					->row();
+
 		$this->assertEquals('1', $job1->id);
 		$this->assertEquals('Developer', $job1->name);
 		$this->assertEquals('Awesome job, but sometimes makes you bored', $job1->description);
 	}
-	
+
 }

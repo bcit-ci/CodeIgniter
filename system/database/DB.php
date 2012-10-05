@@ -29,8 +29,8 @@
  * Initialize the database
  *
  * @category	Database
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @author	EllisLab Dev Team
+ * @link	http://codeigniter.com/user_guide/database/
  * @param 	string
  * @param 	bool	Determines if query builder should be used or not
  */
@@ -47,13 +47,28 @@ function &DB($params = '', $query_builder_override = NULL)
 		}
 
 		include($file_path);
+		//make packages contain database config files
+		foreach(get_instance()->load->get_package_paths() as $path)
+		{
+			if ($path !== APPPATH)
+			{
+				if (file_exists ($file_path = $path.'config/'.ENVIRONMENT.'/database.php'))
+				{
+					include ($file_path);
+				}
+				elseif ( file_exists ($file_path = $path.'config/database.php'))
+				{
+					include ($file_path);
+				}
+			}
+		}
 
 		if ( ! isset($db) OR count($db) === 0)
 		{
 			show_error('No database connection settings were found in the database config file.');
 		}
 
-		if ($params != '')
+		if ($params !== '')
 		{
 			$active_group = $params;
 		}
@@ -106,7 +121,7 @@ function &DB($params = '', $query_builder_override = NULL)
 	}
 
 	// No DB specified yet? Beat them senseless...
-	if ( ! isset($params['dbdriver']) OR $params['dbdriver'] == '')
+	if (empty($params['dbdriver']))
 	{
 		show_error('You have not selected a database type to connect to.');
 	}
@@ -118,10 +133,17 @@ function &DB($params = '', $query_builder_override = NULL)
 	{
 		$query_builder = $query_builder_override;
 	}
+	// Backwards compatibility work-around for keeping the
+	// $active_record config variable working. Should be
+	// removed in v3.1
+	elseif ( ! isset($query_builder) && isset($active_record))
+	{
+		$query_builder = $active_record;
+	}
 
 	require_once(BASEPATH.'database/DB_driver.php');
 
-	if ( ! isset($query_builder) OR $query_builder == TRUE)
+	if ( ! isset($query_builder) OR $query_builder === TRUE)
 	{
 		require_once(BASEPATH.'database/DB_query_builder.php');
 		if ( ! class_exists('CI_DB'))
@@ -137,7 +159,10 @@ function &DB($params = '', $query_builder_override = NULL)
 	// Load the DB driver
 	$driver_file = BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver.php';
 
-	if ( ! file_exists($driver_file)) show_error('Invalid DB driver');
+	if ( ! file_exists($driver_file))
+	{
+		show_error('Invalid DB driver');
+	}
 
 	require_once($driver_file);
 
@@ -145,12 +170,25 @@ function &DB($params = '', $query_builder_override = NULL)
 	$driver = 'CI_DB_'.$params['dbdriver'].'_driver';
 	$DB = new $driver($params);
 
-	if ($DB->autoinit == TRUE)
+	// Check for a subdriver
+	if ( ! empty($DB->subdriver))
+	{
+		$driver_file = BASEPATH.'database/drivers/'.$DB->dbdriver.'/subdrivers/'.$DB->dbdriver.'_'.$DB->subdriver.'_driver.php';
+
+		if (file_exists($driver_file))
+		{
+			require_once($driver_file);
+			$driver = 'CI_DB_'.$DB->dbdriver.'_'.$DB->subdriver.'_driver';
+			$DB = new $driver($params);
+		}
+	}
+
+	if ($DB->autoinit === TRUE)
 	{
 		$DB->initialize();
 	}
 
-	if (isset($params['stricton']) && $params['stricton'] == TRUE)
+	if ( ! empty($params['stricton']))
 	{
 		$DB->query('SET SESSION sql_mode="STRICT_ALL_TABLES"');
 	}

@@ -93,7 +93,7 @@ class CI_FTP {
 
 		if (FALSE === ($this->conn_id = @ftp_connect($this->hostname, $this->port)))
 		{
-			if ($this->debug == TRUE)
+			if ($this->debug === TRUE)
 			{
 				$this->_error('ftp_unable_to_connect');
 			}
@@ -102,7 +102,7 @@ class CI_FTP {
 
 		if ( ! $this->_login())
 		{
-			if ($this->debug == TRUE)
+			if ($this->debug === TRUE)
 			{
 				$this->_error('ftp_unable_to_login');
 			}
@@ -110,7 +110,7 @@ class CI_FTP {
 		}
 
 		// Set passive mode if needed
-		if ($this->passive == TRUE)
+		if ($this->passive === TRUE)
 		{
 			ftp_pasv($this->conn_id, TRUE);
 		}
@@ -141,7 +141,7 @@ class CI_FTP {
 	{
 		if ( ! is_resource($this->conn_id))
 		{
-			if ($this->debug == TRUE)
+			if ($this->debug === TRUE)
 			{
 				$this->_error('ftp_no_connection');
 			}
@@ -167,7 +167,7 @@ class CI_FTP {
 	 */
 	public function changedir($path = '', $supress_debug = FALSE)
 	{
-		if ($path == '' OR ! $this->_is_conn())
+		if ($path === '' OR ! $this->_is_conn())
 		{
 			return FALSE;
 		}
@@ -176,7 +176,7 @@ class CI_FTP {
 
 		if ($result === FALSE)
 		{
-			if ($this->debug == TRUE && $supress_debug == FALSE)
+			if ($this->debug === TRUE && $supress_debug === FALSE)
 			{
 				$this->_error('ftp_unable_to_changedir');
 			}
@@ -197,7 +197,7 @@ class CI_FTP {
 	 */
 	public function mkdir($path = '', $permissions = NULL)
 	{
-		if ($path == '' OR ! $this->_is_conn())
+		if ($path === '' OR ! $this->_is_conn())
 		{
 			return FALSE;
 		}
@@ -206,7 +206,7 @@ class CI_FTP {
 
 		if ($result === FALSE)
 		{
-			if ($this->debug == TRUE)
+			if ($this->debug === TRUE)
 			{
 				$this->_error('ftp_unable_to_makdir');
 			}
@@ -260,7 +260,7 @@ class CI_FTP {
 
 		if ($result === FALSE)
 		{
-			if ($this->debug == TRUE)
+			if ($this->debug === TRUE)
 			{
 				$this->_error('ftp_unable_to_upload');
 			}
@@ -307,7 +307,7 @@ class CI_FTP {
 
 		if ($result === FALSE)
 		{
-			if ($this->debug == TRUE)
+			if ($this->debug === TRUE)
 			{
 				$this->_error('ftp_unable_to_download');
 			}
@@ -338,9 +338,9 @@ class CI_FTP {
 
 		if ($result === FALSE)
 		{
-			if ($this->debug == TRUE)
+			if ($this->debug === TRUE)
 			{
-				$this->_error('ftp_unable_to_' . ($move == FALSE ? 'rename' : 'move'));
+				$this->_error('ftp_unable_to_' . ($move === FALSE ? 'rename' : 'move'));
 			}
 			return FALSE;
 		}
@@ -381,7 +381,7 @@ class CI_FTP {
 
 		if ($result === FALSE)
 		{
-			if ($this->debug == TRUE)
+			if ($this->debug === TRUE)
 			{
 				$this->_error('ftp_unable_to_delete');
 			}
@@ -429,7 +429,7 @@ class CI_FTP {
 
 		if ($result === FALSE)
 		{
-			if ($this->debug == TRUE)
+			if ($this->debug === TRUE)
 			{
 				$this->_error('ftp_unable_to_delete');
 			}
@@ -445,7 +445,7 @@ class CI_FTP {
 	 * Set file permissions
 	 *
 	 * @param	string	the file path
-	 * @param	string	the permissions
+	 * @param	int	the permissions
 	 * @return	bool
 	 */
 	public function chmod($path, $perm)
@@ -459,7 +459,7 @@ class CI_FTP {
 
 		if ($result === FALSE)
 		{
-			if ($this->debug == TRUE)
+			if ($this->debug === TRUE)
 			{
 				$this->_error('ftp_unable_to_chmod');
 			}

@@ -135,7 +135,7 @@ class CI_Input {
 	{
 		if ( ! isset($array[$index]))
 		{
-			return FALSE;
+			return NULL;
 		}
 
 		if ($xss_clean === TRUE)
@@ -263,23 +263,27 @@ class CI_Input {
 			}
 		}
 
-		if ($prefix == '' && config_item('cookie_prefix') != '')
+		if ($prefix === '' && config_item('cookie_prefix') !== '')
 		{
 			$prefix = config_item('cookie_prefix');
 		}
+
 		if ($domain == '' && config_item('cookie_domain') != '')
 		{
 			$domain = config_item('cookie_domain');
 		}
-		if ($path == '/' && config_item('cookie_path') !== '/')
+
+		if ($path === '/' && config_item('cookie_path') !== '/')
 		{
 			$path = config_item('cookie_path');
 		}
-		if ($secure == FALSE && config_item('cookie_secure') != FALSE)
+
+		if ($secure === FALSE && config_item('cookie_secure') !== FALSE)
 		{
 			$secure = config_item('cookie_secure');
 		}
-		if ($httponly == FALSE && config_item('cookie_httponly') != FALSE)
+
+		if ($httponly === FALSE && config_item('cookie_httponly') !== FALSE)
 		{
 			$httponly = config_item('cookie_httponly');
 		}
@@ -326,10 +330,37 @@ class CI_Input {
 
 		if (config_item('proxy_ips') != '' && $this->server('HTTP_X_FORWARDED_FOR') && $this->server('REMOTE_ADDR'))
 		{
+			$has_ranges = strpos($proxies, '/') !== FALSE;
 			$proxies = preg_split('/[\s,]/', config_item('proxy_ips'), -1, PREG_SPLIT_NO_EMPTY);
 			$proxies = is_array($proxies) ? $proxies : array($proxies);
 
-			$this->ip_address = in_array($_SERVER['REMOTE_ADDR'], $proxies) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
+			if ($has_ranges)
+			{
+				$long_ip = ip2long($_SERVER['REMOTE_ADDR']);
+				$bit_32 = 1 << 32;
+
+				// Go through each of the IP Addresses to check for and
+				// test against range notation
+				foreach ($proxies as $ip)
+				{
+					list($address, $mask_length) = explode('/', $ip, 2);
+
+					// Generate the bitmask for a 32 bit IP Address
+					$bitmask = $bit_32 - (1 << (32 - (int) $mask_length));
+					if (($long_ip & $bitmask) === $address)
+					{
+						$this->ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
+						break;
+					}
+				}
+
+			}
+			else
+			{
+				$this->ip_address = in_array($_SERVER['REMOTE_ADDR'], $proxies)
+					? $_SERVER['HTTP_X_FORWARDED_FOR']
+					: $_SERVER['REMOTE_ADDR'];
+			}
 		}
 		elseif ( ! $this->server('HTTP_CLIENT_IP') && $this->server('REMOTE_ADDR'))
 		{
@@ -356,7 +387,7 @@ class CI_Input {
 		if (strpos($this->ip_address, ',') !== FALSE)
 		{
 			$x = explode(',', $this->ip_address);
-			$this->ip_address = trim(end($x));
+			$this->ip_address = trim($x[0]);
 		}
 
 		if ( ! $this->valid_ip($this->ip_address))
@@ -372,14 +403,26 @@ class CI_Input {
 	/**
 	 * Validate IP Address
 	 *
-	 * Updated version suggested by Geert De Deckere
-	 *
 	 * @param	string
+	 * @param	string	'ipv4' or 'ipv6'
 	 * @return	bool
 	 */
-	public function valid_ip($ip)
+	public function valid_ip($ip, $which = '')
 	{
-		return (bool) filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
+		switch (strtolower($which))
+		{
+			case 'ipv4':
+				$which = FILTER_FLAG_IPV4;
+				break;
+			case 'ipv6':
+				$which = FILTER_FLAG_IPV6;
+				break;
+			default:
+				$which = NULL;
+				break;
+		}
+
+		return (bool) filter_var($ip, FILTER_VALIDATE_IP, $which);
 	}
 
 	// --------------------------------------------------------------------
@@ -459,7 +502,7 @@ class CI_Input {
 		}
 
 		// Is $_GET data allowed? If not we'll set the $_GET to an empty array
-		if ($this->_allow_get_array == FALSE)
+		if ($this->_allow_get_array === FALSE)
 		{
 			$_GET = array();
 		}
@@ -502,7 +545,7 @@ class CI_Input {
 		$_SERVER['PHP_SELF'] = strip_tags($_SERVER['PHP_SELF']);
 
 		// CSRF Protection check
-		if ($this->_enable_csrf == TRUE)
+		if ($this->_enable_csrf === TRUE)
 		{
 			$this->security->csrf_verify();
 		}
@@ -559,7 +602,7 @@ class CI_Input {
 		}
 
 		// Standardize newlines if needed
-		if ($this->_standardize_newlines == TRUE && strpos($str, "\r") !== FALSE)
+		if ($this->_standardize_newlines === TRUE && strpos($str, "\r") !== FALSE)
 		{
 			return str_replace(array("\r\n", "\r", "\r\n\n"), PHP_EOL, $str);
 		}
@@ -659,7 +702,7 @@ class CI_Input {
 
 		if ( ! isset($this->headers[$index]))
 		{
-			return FALSE;
+			return NULL;
 		}
 
 		return ($xss_clean === TRUE)

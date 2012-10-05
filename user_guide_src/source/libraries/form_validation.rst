@@ -304,6 +304,10 @@ Give it a try! Submit your form without the proper data and you'll see
 new error messages that correspond to your new rules. There are numerous
 rules available which you can read about in the validation reference.
 
+.. note:: You can also pass an array of rules to set_rules(), instead of a string. Example::
+
+	$this->form_validation->set_rules('username', 'Username', array('required', 'min_length[5]'));
+
 Prepping Data
 =============
 
@@ -483,6 +487,17 @@ In the "callback" example above, the error message was set by passing
 the name of the function::
 
 	$this->form_validation->set_message('username_check')
+
+If you are using an error message that can accept two $s in your error string,
+such as:
+::
+
+	$this->form_validation->set_message('min_length', 'The $s field must contain at least $s characters.');
+
+Then you can also use %1$s and %2$s:
+::
+
+	$this->form_validation->set_message('min_length', 'This field must contain at least %2$s characters.');
 
 You can also override any error message found in the language file. For
 example, to change the message for the "required" rule you will do this::
@@ -857,8 +872,9 @@ Rule                      Parameter  Description                                
 ========================= ========== ============================================================================================= =======================
 **required**              No         Returns FALSE if the form element is empty.                                                                          
 **matches**               Yes        Returns FALSE if the form element does not match the one in the parameter.                    matches[form_item]     
-**is_unique**             Yes        Returns FALSE if the form element is not unique to the                                        is_unique[table.field] 
-                                     table and field name in the parameter. is_unique[table.field]                                                        
+**is_unique**             Yes        Returns FALSE if the form element is not unique to the table and field name in the            is_unique[table.field] 
+                                     parameter. Note: This rule requires :doc:`Query Builder <../database/query_builder>` to be                             
+                                     enabled in order to work.
 **max_length**            Yes        Returns FALSE if the form element is longer then the parameter value.                         max_length[12]         
 **exact_length**          Yes        Returns FALSE if the form element is not exactly the parameter value.                         exact_length[8]        
 **greater_than**          Yes        Returns FALSE if the form element is less than or equal to the parameter value or not         greater_than[8]
@@ -880,10 +896,10 @@ Rule                      Parameter  Description                                
                                      0, 1, 2, 3, etc.
 **is_natural_no_zero**    No         Returns FALSE if the form element contains anything other than a natural
                                      number, but not zero: 1, 2, 3, etc.
-**is_unique**             Yes        Returns FALSE if the form element is not unique in a database table.                          is_unique[table.field] 
 **valid_email**           No         Returns FALSE if the form element does not contain a valid email address.
 **valid_emails**          No         Returns FALSE if any value provided in a comma separated list is not a valid email.
 **valid_ip**              No         Returns FALSE if the supplied IP is not valid.
+                                     Accepts an optional parameter of 'ipv4' or 'ipv6' to specify an IP format.
 **valid_base64**          No         Returns FALSE if the supplied string contains anything other than valid Base64 characters.
 ========================= ========== ============================================================================================= =======================
 
@@ -934,7 +950,7 @@ $this->form_validation->set_rules();
 
 		:param string $field: The field name
 		:param string $label: The field label
-		:param string $rules: The rules, seperated by a pipe "|"
+		:param mixed $rules: The rules, as a string with rules separated by a pipe "|", or an array or rules.
 		:rtype: Object
 	
 		Permits you to set validation rules, as described in the tutorial

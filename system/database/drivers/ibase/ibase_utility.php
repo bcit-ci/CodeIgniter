@@ -32,7 +32,7 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_interbase_utility extends CI_DB_utility {
+class CI_DB_ibase_utility extends CI_DB_utility {
 
 	protected $_list_databases	= FALSE;
 
@@ -58,5 +58,5 @@ class CI_DB_interbase_utility extends CI_DB_utility {
 
 }
 
-/* End of file interbase_utility.php */
-/* Location: ./system/database/drivers/interbase/interbase_utility.php */
+/* End of file ibase_utility.php */
+/* Location: ./system/database/drivers/ibase/ibase_utility.php */

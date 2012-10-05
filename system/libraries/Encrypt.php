@@ -97,15 +97,14 @@ class CI_Encrypt {
 	 */
 	public function get_key($key = '')
 	{
-		if ($key == '')
+		if ($key === '')
 		{
-			if ($this->encryption_key != '')
+			if ($this->encryption_key !== '')
 			{
 				return $this->encryption_key;
 			}
 
-			$CI =& get_instance();
-			$key = $CI->config->item('encryption_key');
+			$key = config_item('encryption_key');
 
 			if ($key === FALSE)
 			{
@@ -214,6 +213,7 @@ class CI_Encrypt {
 		$dec = base64_decode($string);
 		if (($dec = $this->mcrypt_decode($dec, $key)) === FALSE)
 		{
+			$this->set_mode($current_mode);
 			return FALSE;
 		}
 
@@ -449,7 +449,7 @@ class CI_Encrypt {
 	 */
 	protected function _get_cipher()
 	{
-		if ($this->_mcrypt_cipher == '')
+		if ($this->_mcrypt_cipher === NULL)
 		{
 			return $this->_mcrypt_cipher = MCRYPT_RIJNDAEL_256;
 		}
@@ -466,7 +466,7 @@ class CI_Encrypt {
 	 */
 	protected function _get_mode()
 	{
-		if ($this->_mcrypt_mode == '')
+		if ($this->_mcrypt_mode === NULL)
 		{
 			return $this->_mcrypt_mode = MCRYPT_MODE_CBC;
 		}
@@ -484,7 +484,7 @@ class CI_Encrypt {
 	 */
 	public function set_hash($type = 'sha1')
 	{
-		$this->_hash_type = ($type !== 'sha1' && $type !== 'md5') ? 'sha1' : $type;
+		$this->_hash_type = in_array($type, hash_algos()) ? $type : 'sha1';
 	}
 
 	// --------------------------------------------------------------------
@@ -497,7 +497,7 @@ class CI_Encrypt {
 	 */
 	public function hash($str)
 	{
-		return ($this->_hash_type === 'sha1') ? sha1($str) : md5($str);
+		return hash($this->_hash_type, $str);
 	}
 
 }
