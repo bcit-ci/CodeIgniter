@@ -117,6 +117,13 @@ Sets the email address and name of the person sending the email::
 
 	$this->email->from('you@example.com', 'Your Name');
 
+You can also set a Return-Path, to help redirect undelivered mail::
+
+	$this->email->from('you@example.com', 'Your Name', 'returned_emails@example.com');
+	
+.. note:: Return-Path can't be used if you've configured
+	'smtp' as your protocol.
+
 $this->email->reply_to()
 -------------------------
 
@@ -182,6 +189,14 @@ formatting which is added to the header string for people who do not
 accept HTML email. If you do not set your own message CodeIgniter will
 extract the message from your HTML email and strip the tags.
 
+$this->email->set_header()
+--------------------------
+
+Appends additional headers to the e-mail::
+
+	$this->email->set_header('Header1', 'Value1');
+	$this->email->set_header('Header2', 'Value2');
+
 $this->email->clear()
 ---------------------
 
@@ -217,6 +232,14 @@ success or failure, enabling it to be used conditionally::
 	{
 	    // Generate error
 	}
+
+This function will automatically clear all parameters if the request was
+successful. To stop this behaviour pass FALSE::
+
+ 	if ($this->email->send(FALSE))
+ 	{
+ 		// Parameters won't be cleared
+ 	}
 
 $this->email->attach()
 ----------------------

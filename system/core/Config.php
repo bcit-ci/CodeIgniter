@@ -43,7 +43,7 @@ class CI_Config {
 	 *
 	 * @var array
 	 */
-	public $config =	array();
+	public $config = array();
 
 	/**
 	 * List of all loaded config files
@@ -100,15 +100,15 @@ class CI_Config {
 	 */
 	public function load($file = '', $use_sections = FALSE, $fail_gracefully = FALSE)
 	{
-		$file = ($file == '') ? 'config' : str_replace('.php', '', $file);
+		$file = ($file === '') ? 'config' : str_replace('.php', '', $file);
 		$found = $loaded = FALSE;
+
+		$check_locations = defined('ENVIRONMENT')
+			? array(ENVIRONMENT.'/'.$file, $file)
+			: array($file);
 
 		foreach ($this->_config_paths as $path)
 		{
-			$check_locations = defined('ENVIRONMENT')
-				? array(ENVIRONMENT.'/'.$file, $file)
-				: array($file);
-
 			foreach ($check_locations as $location)
 			{
 				$file_path = $path.'config/'.$location.'.php';
@@ -172,7 +172,7 @@ class CI_Config {
 			{
 				return FALSE;
 			}
-			show_error('The configuration file '.$file.'.php'.' does not exist.');
+			show_error('The configuration file '.$file.'.php does not exist.');
 		}
 
 		return TRUE;
@@ -211,7 +211,7 @@ class CI_Config {
 		{
 			return FALSE;
 		}
-		elseif (trim($this->config[$item]) == '')
+		elseif (trim($this->config[$item]) === '')
 		{
 			return '';
 		}
@@ -225,25 +225,39 @@ class CI_Config {
 	 * Site URL
 	 * Returns base_url . index_page [. uri_string]
 	 *
-	 * @param	string	the URI string
+	 * @param	mixed	the URI string or an array of segments
 	 * @return	string
 	 */
 	public function site_url($uri = '')
 	{
-		if ($uri == '')
+		if (empty($uri))
 		{
 			return $this->slash_item('base_url').$this->item('index_page');
 		}
 
-		if ($this->item('enable_query_strings') == FALSE)
+		$uri = $this->_uri_string($uri);
+
+		if ($this->item('enable_query_strings') === FALSE)
 		{
-			$suffix = ($this->item('url_suffix') == FALSE) ? '' : $this->item('url_suffix');
-			return $this->slash_item('base_url').$this->slash_item('index_page').$this->_uri_string($uri).$suffix;
+			$suffix = ($this->item('url_suffix') === FALSE) ? '' : $this->item('url_suffix');
+
+			if ($suffix !== '' && ($offset = strpos($uri, '?')) !== FALSE)
+			{
+				$uri = substr($uri, 0, $offset).$suffix.substr($uri, $offset);
+			}
+			else
+			{
+				$uri .= $suffix;
+			}
+
+			return $this->slash_item('base_url').$this->slash_item('index_page').$uri;
 		}
-		else
+		elseif (strpos($uri, '?') === FALSE)
 		{
-			return $this->slash_item('base_url').$this->item('index_page').'?'.$this->_uri_string($uri);
+			$uri = '?'.$uri;
 		}
+
+		return $this->slash_item('base_url').$this->item('index_page').$uri;
 	}
 
 	// -------------------------------------------------------------
@@ -257,7 +271,7 @@ class CI_Config {
 	 */
 	public function base_url($uri = '')
 	{
-		return $this->slash_item('base_url').ltrim($this->_uri_string($uri),'/');
+		return $this->slash_item('base_url').ltrim($this->_uri_string($uri), '/');
 	}
 
 	// -------------------------------------------------------------
@@ -270,7 +284,7 @@ class CI_Config {
 	 */
 	protected function _uri_string($uri)
 	{
-		if ($this->item('enable_query_strings') == FALSE)
+		if ($this->item('enable_query_strings') === FALSE)
 		{
 			if (is_array($uri))
 			{
@@ -280,15 +294,7 @@ class CI_Config {
 		}
 		elseif (is_array($uri))
 		{
-			$i = 0;
-			$str = '';
-			foreach ($uri as $key => $val)
-			{
-				$prefix = ($i === 0) ? '' : '&';
-				$str .= $prefix.$key.'='.$val;
-				$i++;
-			}
-			return $str;
+			return http_build_query($uri);
 		}
 
 		return $uri;

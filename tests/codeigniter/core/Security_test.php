@@ -1,7 +1,7 @@
 <?php
 
 class Security_test extends CI_TestCase {
-	
+
 	public function set_up()
 	{
 		// Set cookie for security test
@@ -14,9 +14,9 @@ class Security_test extends CI_TestCase {
 
 		$this->security = new Mock_Core_Security();
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	public function test_csrf_verify()
 	{
 		$_SERVER['REQUEST_METHOD'] = 'GET';
@@ -25,7 +25,7 @@ class Security_test extends CI_TestCase {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	public function test_csrf_verify_invalid()
 	{
 		// Without issuing $_POST[csrf_token_name], this request will triggering CSRF error
@@ -37,7 +37,7 @@ class Security_test extends CI_TestCase {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	public function test_csrf_verify_valid()
 	{
 		$_SERVER['REQUEST_METHOD'] = 'POST';
@@ -47,21 +47,21 @@ class Security_test extends CI_TestCase {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	public function test_get_csrf_hash()
 	{
 		$this->assertEquals($this->security->csrf_hash, $this->security->get_csrf_hash());
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	public function test_get_csrf_token_name()
 	{
 		$this->assertEquals('ci_csrf_token', $this->security->get_csrf_token_name());
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	public function test_xss_clean()
 	{
 		$harm_string = "Hello, i try to <script>alert('Hack');</script> your site";
@@ -70,4 +70,37 @@ class Security_test extends CI_TestCase {
 
 		$this->assertEquals("Hello, i try to [removed]alert&#40;'Hack'&#41;;[removed] your site", $harmless_string);
 	}
+
+	// --------------------------------------------------------------------
+
+	public function test_xss_hash()
+	{
+		$this->assertEmpty($this->security->xss_hash);
+
+		// Perform hash
+		$this->security->xss_hash();
+
+		$this->assertTrue(preg_match('#^[0-9a-f]{32}$#iS', $this->security->xss_hash) === 1);
+	}
+
+	// --------------------------------------------------------------------
+
+	public function test_entity_decode()
+	{
+		$encoded = '&lt;div&gt;Hello &lt;b&gt;Booya&lt;/b&gt;&lt;/div&gt;';
+		$decoded = $this->security->entity_decode($encoded);
+
+		$this->assertEquals('<div>Hello <b>Booya</b></div>', $decoded);
+	}
+
+	// --------------------------------------------------------------------
+
+	public function test_sanitize_filename()
+	{
+		$filename = './<!--foo-->';
+		$safe_filename = $this->security->sanitize_filename($filename);
+
+		$this->assertEquals('foo', $safe_filename);
+	}
+
 }

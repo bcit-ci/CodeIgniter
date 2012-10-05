@@ -1,16 +1,16 @@
 <?php
 
 return array(
-	
+
 	// Typical Database configuration
 	'pdo/mysql' => array(
-		'dsn' => '',
+		'dsn' => 'mysql:host=localhost;dbname=ci_test',
 		'hostname' => 'localhost',
 		'username' => 'travis',
 		'password' => '',
 		'database' => 'ci_test',
 		'dbdriver' => 'pdo',
-		'pdodriver' => 'mysql',
+		'subdriver' => 'mysql'
 	),
 
 	// Database configuration with failover
@@ -21,17 +21,17 @@ return array(
 		'password' => 'wrong password',
 		'database' => 'not_ci_test',
 		'dbdriver' => 'pdo',
-		'pdodriver' => 'mysql',
+		'subdriver' => 'mysql',
 		'failover' => array(
 			array(
-				'dsn' => '',
+				'dsn' => 'mysql:host=localhost;dbname=ci_test',
 				'hostname' => 'localhost',
 				'username' => 'travis',
 				'password' => '',
 				'database' => 'ci_test',
 				'dbdriver' => 'pdo',
-				'pdodriver' => 'mysql',
-			),
-		),
-	),
+				'subdriver' => 'mysql'
+			)
+		)
+	)
 );

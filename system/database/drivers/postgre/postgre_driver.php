@@ -44,16 +44,6 @@ class CI_DB_postgre_driver extends CI_DB {
 
 	protected $_escape_char = '"';
 
-	// clause and character used for LIKE escape sequences
-	protected $_like_escape_str = " ESCAPE '%s' ";
-	protected $_like_escape_chr = '!';
-
-	/**
-	 * The syntax to count rows is slightly different across different
-	 * database engines, so this string appears in each driver and is
-	 * used for the count_all() and count_all_results() functions.
-	 */
-	protected $_count_string = 'SELECT COUNT(*) AS ';
 	protected $_random_keyword = ' RANDOM()'; // database specific random keyword
 
 	/**
@@ -138,7 +128,15 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		return @pg_pconnect($this->dsn);
+		$conn = @pg_pconnect($this->dsn);
+		if ($conn && pg_connection_status($conn) === PGSQL_CONNECTION_BAD)
+		{
+			if (pg_ping($conn) === FALSE)
+			{
+				return FALSE;
+			}
+		}
+		return $conn;
 	}
 
 	// --------------------------------------------------------------------
@@ -356,13 +354,13 @@ class CI_DB_postgre_driver extends CI_DB {
 		$table	= (func_num_args() > 0) ? func_get_arg(0) : NULL;
 		$column	= (func_num_args() > 1) ? func_get_arg(1) : NULL;
 
-		if ($table == NULL && $v >= '8.1')
+		if ($table === NULL && $v >= '8.1')
 		{
 			$sql = 'SELECT LASTVAL() AS ins_id';
 		}
-		elseif ($table != NULL)
+		elseif ($table !== NULL)
 		{
-			if ($column != NULL && $v >= '8.0')
+			if ($column !== NULL && $v >= '8.0')
 			{
 				$sql = 'SELECT pg_get_serial_sequence(\''.$table."', '".$column."') AS seq";
 				$query = $this->query($sql);
@@ -390,35 +388,6 @@ class CI_DB_postgre_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * "Count All" query
-	 *
-	 * Generates a platform-specific query string that counts all records in
-	 * the specified database
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	public function count_all($table = '')
-	{
-		if ($table == '')
-		{
-			return 0;
-		}
-
-		$query = $this->query($this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
-		if ($query->num_rows() == 0)
-		{
-			return 0;
-		}
-
-		$query = $query->row();
-		$this->_reset_select();
-		return (int) $query->numrows;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Show table query
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
@@ -428,11 +397,13 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		$sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'";
+		$sql = 'SELECT "table_name" FROM "information_schema"."tables" WHERE "table_schema" = \'public\'';
 
-		if ($prefix_limit !== FALSE && $this->dbprefix != '')
+		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{
-			return $sql." AND table_name LIKE '".$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
+			return $sql.' AND "table_name" LIKE \''
+				.$this->escape_like_str($this->dbprefix)."%' "
+				.sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
 
 		return $sql;
@@ -450,7 +421,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	protected function _list_columns($table = '')
 	{
-		return "SELECT column_name FROM information_schema.columns WHERE table_name = '".$table."'";
+		return 'SELECT "column_name" FROM "information_schema"."columns" WHERE "table_name" = '.$this->escape($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -496,12 +467,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	protected function _from_tables($tables)
 	{
-		if ( ! is_array($tables))
-		{
-			$tables = array($tables);
-		}
-
-		return implode(', ', $tables);
+		return is_array($tables) ? implode(', ', $tables) : $tables;
 	}
 
 	// --------------------------------------------------------------------
@@ -534,6 +500,47 @@ class CI_DB_postgre_driver extends CI_DB {
 		}
 
 		return 'UPDATE '.$table.' SET '.implode(', ', $valstr).$where;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Update_Batch statement
+	 *
+	 * Generates a platform-specific batch update string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @param	array	the update data
+	 * @param	array	the where clause
+	 * @return	string
+	 */
+	protected function _update_batch($table, $values, $index, $where = NULL)
+	{
+		$ids = array();
+		foreach ($values as $key => $val)
+		{
+			$ids[] = $val[$index];
+
+			foreach (array_keys($val) as $field)
+			{
+				if ($field !== $index)
+				{
+					$final[$field][] =  'WHEN '.$val[$index].' THEN '.$val[$field];
+				}
+			}
+		}
+
+		$cases = '';
+		foreach ($final as $k => $v)
+		{
+			$cases .= $k.' = (CASE '.$index."\n"
+				.implode("\n", $v)."\n"
+				.'ELSE '.$k.' END), ';
+		}
+
+		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2)
+			.' WHERE '.(($where !== '' && count($where) > 0) ? implode(' ', $where).' AND ' : '')
+			.$index.' IN('.implode(',', $ids).')';
 	}
 
 	// --------------------------------------------------------------------
@@ -573,7 +580,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	protected function _limit($sql, $limit, $offset)
 	{
-		return $sql.' LIMIT '.$limit.($offset == 0 ? '' : ' OFFSET '.$offset);
+		return $sql.' LIMIT '.$limit.($offset ? ' OFFSET '.$offset : '');
 	}
 
 	// --------------------------------------------------------------------
@@ -586,27 +593,31 @@ class CI_DB_postgre_driver extends CI_DB {
 	 * @param	mixed
 	 * @param	mixed
 	 * @param	string
+	 * @param	mixed
 	 * @return	object
-	 *
 	 */
 	protected function _where($key, $value = NULL, $type = 'AND ', $escape = NULL)
 	{
-		$type = $this->_group_get_type($type);
-
 		if ( ! is_array($key))
 		{
 			$key = array($key => $value);
 		}
 
 		// If the escape value was not set will will base it on the global setting
-		if ( ! is_bool($escape))
-		{
-			$escape = $this->_protect_identifiers;
-		}
+		is_bool($escape) OR $escape = $this->_protect_identifiers;
 
 		foreach ($key as $k => $v)
 		{
-			$prefix = (count($this->qb_where) === 0 && count($this->qb_cache_where) === 0) ? '' : $type;
+			$prefix = (count($this->qb_where) === 0 && count($this->qb_cache_where) === 0)
+				? $this->_group_get_type('')
+				: $this->_group_get_type($type);
+
+			if ($escape === TRUE)
+			{
+				$k = (($op = $this->_get_operator($k)) !== FALSE)
+					? $this->escape_identifiers(trim(substr($k, 0, strpos($k, $op)))).' '.strstr($k, $op)
+					: $this->escape_identifiers(trim($k));
+			}
 
 			if (is_null($v) && ! $this->_has_operator($k))
 			{
@@ -618,7 +629,6 @@ class CI_DB_postgre_driver extends CI_DB {
 			{
 				if ($escape === TRUE)
 				{
-					$k = $this->protect_identifiers($k, FALSE, $escape);
 					$v = ' '.$this->escape($v);
 				}
 				elseif (is_bool($v))
@@ -630,10 +640,6 @@ class CI_DB_postgre_driver extends CI_DB {
 				{
 					$k .= ' = ';
 				}
-			}
-			else
-			{
-				$k = $this->protect_identifiers($k, FALSE, $escape);
 			}
 
 			$this->qb_where[] = $prefix.$k.$v;
@@ -653,12 +659,11 @@ class CI_DB_postgre_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close($conn_id)
+	protected function _close()
 	{
-		@pg_close($conn_id);
+		@pg_close($this->conn_id);
 	}
 
 }

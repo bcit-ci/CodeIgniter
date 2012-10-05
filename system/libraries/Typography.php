@@ -95,7 +95,7 @@ class CI_Typography {
 	 */
 	public function auto_typography($str, $reduce_linebreaks = FALSE)
 	{
-		if ($str == '')
+		if ($str === '')
 		{
 			return '';
 		}
@@ -173,7 +173,7 @@ class CI_Typography {
 					$process = ($match[1] === '/');
 				}
 
-				if ($match[1] == '')
+				if ($match[1] === '')
 				{
 					$this->last_block_element = $match[2];
 				}
@@ -344,7 +344,7 @@ class CI_Typography {
 	 */
 	protected function _format_newlines($str)
 	{
-		if ($str == '' OR (strpos($str, "\n") === FALSE && ! in_array($this->last_block_element, $this->inner_block_required)))
+		if ($str === '' OR (strpos($str, "\n") === FALSE && ! in_array($this->last_block_element, $this->inner_block_required)))
 		{
 			return $str;
 		}
@@ -356,7 +356,7 @@ class CI_Typography {
 		$str = preg_replace("/([^\n])(\n)([^\n])/", '\\1<br />\\2\\3', $str);
 
 		// Wrap the whole enchilada in enclosing paragraphs
-		if ($str != "\n")
+		if ($str !== "\n")
 		{
 			// We trim off the right-side new line so that the closing </p> tag
 			// will be positioned immediately following the string, matching

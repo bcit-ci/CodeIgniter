@@ -32,7 +32,7 @@
  * @subpackage	Helpers
  * @category	Helpers
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/helpers/xml_helper.html
+ * @link		http://codeigniter.com/user_guide/helpers/captcha_helper.html
  */
 
 // ------------------------------------------------------------------------
@@ -64,7 +64,7 @@ if ( ! function_exists('create_captcha'))
 			}
 		}
 
-		if ($img_path == '' OR $img_url == ''
+		if ($img_path === '' OR $img_url === ''
 			OR ! @is_dir($img_path) OR ! is_writeable($img_path)
 			OR ! extension_loaded('gd'))
 		{
@@ -80,8 +80,7 @@ if ( ! function_exists('create_captcha'))
 		$current_dir = @opendir($img_path);
 		while ($filename = @readdir($current_dir))
 		{
-			if ($filename !== '.' && $filename !== '..' && $filename !== 'index.html'
-				&& (str_replace('.jpg', '', $filename) + $expiration) < $now)
+			if (substr($filename, -4) === '.jpg' && (str_replace('.jpg', '', $filename) + $expiration) < $now)
 			{
 				@unlink($img_path.$filename);
 			}
@@ -93,7 +92,7 @@ if ( ! function_exists('create_captcha'))
 		// Do we have a "word" yet?
 		// -----------------------------------
 
-		if ($word == '')
+		if ($word === '')
 		{
 			$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 			$word = '';
@@ -156,7 +155,7 @@ if ( ! function_exists('create_captcha'))
 		//  Write the text
 		// -----------------------------------
 
-		$use_font = ($font_path != '' && file_exists($font_path) && function_exists('imagettftext'));
+		$use_font = ($font_path !== '' && file_exists($font_path) && function_exists('imagettftext'));
 		if ($use_font === FALSE)
 		{
 			$font_size = 5;
@@ -185,7 +184,6 @@ if ( ! function_exists('create_captcha'))
 				$x += $font_size;
 			}
 		}
-
 
 		// Create the border
 		imagerectangle($im, 0, 0, $img_width - 1, $img_height - 1, $border_color);

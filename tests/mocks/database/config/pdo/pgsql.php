@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	
+
 	// Typical Database configuration
 	'pdo/pgsql' => array(
 		'dsn' => 'pgsql:host=localhost;port=5432;dbname=ci_test;',
@@ -10,7 +10,7 @@ return array(
 		'password' => '',
 		'database' => 'ci_test',
 		'dbdriver' => 'pdo',
-		'pdodriver' => 'pgsql',
+		'subdriver' => 'pgsql'
 	),
 
 	// Database configuration with failover
@@ -21,7 +21,7 @@ return array(
 		'password' => 'wrong password',
 		'database' => 'not_ci_test',
 		'dbdriver' => 'pdo',
-		'pdodriver' => 'pgsql',
+		'subdriver' => 'pgsql',
 		'failover' => array(
 			array(
 				'dsn' => 'pgsql:host=localhost;port=5432;dbname=ci_test;',
@@ -30,8 +30,8 @@ return array(
 				'password' => '',
 				'database' => 'ci_test',
 				'dbdriver' => 'pdo',
-				'pdodriver' => 'pgsql',
-			),
-		),
-	),
+				'subdriver' => 'pgsql'
+			)
+		)
+	)
 );

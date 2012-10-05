@@ -33,6 +33,7 @@
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
+ * @since	2.0.3
  */
 class CI_DB_sqlsrv_result extends CI_DB_result {
 
@@ -43,7 +44,9 @@ class CI_DB_sqlsrv_result extends CI_DB_result {
 	 */
 	public function num_rows()
 	{
-		return @sqlsrv_num_rows($this->result_id);
+		return is_int($this->num_rows)
+			? $this->num_rows
+			: $this->num_rows = @sqlsrv_num_rows($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -92,12 +95,12 @@ class CI_DB_sqlsrv_result extends CI_DB_result {
 		$retval = array();
 		foreach (sqlsrv_field_metadata($this->result_id) as $offset => $field)
 		{
-			$F 				= new stdClass();
-			$F->name 		= $field['Name'];
-			$F->type 		= $field['Type'];
+			$F 		= new stdClass();
+			$F->name 	= $field['Name'];
+			$F->type 	= $field['Type'];
 			$F->max_length	= $field['Size'];
 			$F->primary_key = 0;
-			$F->default		= '';
+			$F->default	= '';
 
 			$retval[] = $F;
 		}
@@ -142,11 +145,12 @@ class CI_DB_sqlsrv_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
+	 * @param	string
 	 * @return	object
 	 */
-	protected function _fetch_object()
+	protected function _fetch_object($class_name = 'stdClass')
 	{
-		return sqlsrv_fetch_object($this->result_id);
+		return sqlsrv_fetch_object($this->result_id, $class_name);
 	}
 
 }

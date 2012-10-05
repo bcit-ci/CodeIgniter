@@ -38,24 +38,14 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_interbase_driver extends CI_DB {
+class CI_DB_ibase_driver extends CI_DB {
 
-	public $dbdriver = 'interbase';
+	public $dbdriver = 'ibase';
 
 	// The character used to escape with
 	protected $_escape_char = '"';
 
-	// clause and character used for LIKE escape sequences
-	protected $_like_escape_str = " ESCAPE '%s' ";
-	protected $_like_escape_chr = '!';
-
-	/**
-	 * The syntax to count rows is slightly different across different
-	 * database engines, so this string appears in each driver and is
-	 * used for the count_all() and count_all_results() functions.
-	 */
-	protected $_count_string	= 'SELECT COUNT(*) AS ';
-	protected $_random_keyword	= ' Random()'; // database specific random keyword
+	protected $_random_keyword = ' Random()'; // database specific random keyword
 
 	// Keeps track of the resource for the current transaction
 	protected $trans;
@@ -235,39 +225,10 @@ class CI_DB_interbase_driver extends CI_DB {
 	 * @param	int	$inc_by
 	 * @return	int
 	 */
-	public function insert_id($generator_name, $inc_by=0)
+	public function insert_id($generator_name, $inc_by = 0)
 	{
 		//If a generator hasn't been used before it will return 0
 		return ibase_gen_id('"'.$generator_name.'"', $inc_by);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * "Count All" query
-	 *
-	 * Generates a platform-specific query string that counts all records in
-	 * the specified database
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	public function count_all($table = '')
-	{
-		if ($table == '')
-		{
-			return 0;
-		}
-
-		$query = $this->query($this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
-		if ($query->num_rows() == 0)
-		{
-			return 0;
-		}
-
-		$query = $query->row();
-		$this->_reset_select();
-		return (int) $query->numrows;
 	}
 
 	// --------------------------------------------------------------------
@@ -284,9 +245,10 @@ class CI_DB_interbase_driver extends CI_DB {
 	{
 		$sql = 'SELECT "RDB$RELATION_NAME" FROM "RDB$RELATIONS" WHERE "RDB$RELATION_NAME" NOT LIKE \'RDB$%\' AND "RDB$RELATION_NAME" NOT LIKE \'MON$%\'';
 
-		if ($prefix_limit !== FALSE && $this->dbprefix != '')
+		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{
-			return $sql.' AND "RDB$RELATION_NAME" LIKE \''.$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
+			return $sql.' AND "RDB$RELATION_NAME" LIKE \''.$this->escape_like_str($this->dbprefix)."%' "
+				.sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
 
 		return $sql;
@@ -304,7 +266,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 */
 	protected function _list_columns($table = '')
 	{
-		return 'SELECT "RDB$FIELD_NAME" FROM "RDB$RELATION_FIELDS" WHERE "RDB$RELATION_NAME" = \''.$this->escape_str($table)."'";
+		return 'SELECT "RDB$FIELD_NAME" FROM "RDB$RELATION_FIELDS" WHERE "RDB$RELATION_NAME" = '.$this->escape($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -319,10 +281,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 */
 	protected function _field_data($table)
 	{
-		// Need to find a more efficient way to do this
-		// but Interbase/Firebird seems to lack the
-		// limit clause
-		return 'SELECT * FROM '.$table;
+		return $this->_limit('SELECT * FROM '.$this->protect_identifiers($table), 1, NULL);
 	}
 
 	// --------------------------------------------------------------------
@@ -353,13 +312,7 @@ class CI_DB_interbase_driver extends CI_DB {
 	 */
 	protected function _from_tables($tables)
 	{
-		if ( ! is_array($tables))
-		{
-			$tables = array($tables);
-		}
-
-		//Interbase/Firebird doesn't like grouped tables
-		return implode(', ', $tables);
+		return is_array($tables) ? implode(', ', $tables) : $tables;
 	}
 
 	// --------------------------------------------------------------------
@@ -395,7 +348,6 @@ class CI_DB_interbase_driver extends CI_DB {
 			.$where
 			.(count($orderby) > 0 ? ' ORDER BY '.implode(', ', $orderby) : '');
 	}
-
 
 	// --------------------------------------------------------------------
 
@@ -456,12 +408,12 @@ class CI_DB_interbase_driver extends CI_DB {
 		if (stripos($this->version(), 'firebird') !== FALSE)
 		{
 			$select = 'FIRST '. (int) $limit
-				.($offset > 0 ? ' SKIP '. (int) $offset : '');
+				.($offset ? ' SKIP '. (int) $offset : '');
 		}
 		else
 		{
 			$select = 'ROWS '
-				.($offset > 0 ? (int) $offset.' TO '.($limit + $offset) : (int) $limit);
+				.($offset ? (int) $offset.' TO '.($limit + $offset) : (int) $limit);
 		}
 
 		return preg_replace('`SELECT`i', 'SELECT '.$select, $sql);
@@ -472,15 +424,14 @@ class CI_DB_interbase_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close($conn_id)
+	protected function _close()
 	{
-		@ibase_close($conn_id);
+		@ibase_close($this->conn_id);
 	}
 
 }
 
-/* End of file interbase_driver.php */
-/* Location: ./system/database/drivers/interbase/interbase_driver.php */
+/* End of file ibase_driver.php */
+/* Location: ./system/database/drivers/ibase/ibase_driver.php */

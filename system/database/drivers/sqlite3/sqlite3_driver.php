@@ -46,16 +46,6 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	// The character used for escaping
 	protected $_escape_char = '"';
 
-	// clause and character used for LIKE escape sequences
-	protected $_like_escape_str = ' ESCAPE \'%s\' ';
-	protected $_like_escape_chr = '!';
-
-	/**
-	 * The syntax to count rows is slightly different across different
-	 * database engines, so this string appears in each driver and is
-	 * used for the count_all() and count_all_results() functions.
-	 */
-	protected $_count_string = 'SELECT COUNT(*) AS ';
 	protected $_random_keyword = ' RANDOM()';
 
 	/**
@@ -87,7 +77,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	public function db_pconnect()
 	{
 		log_message('debug', 'SQLite3 doesn\'t support persistent connections');
-		return $this->db_pconnect();
+		return $this->db_connect();
 	}
 
 	// --------------------------------------------------------------------
@@ -104,7 +94,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 			return $this->data_cache['version'];
 		}
 
-		$version = $this->conn_id->version();
+		$version = SQLite3::version();
 		return $this->data_cache['version'] = $version['versionString'];
 	}
 
@@ -245,30 +235,6 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * "Count All" query
-	 *
-	 * Generates a platform-specific query string that counts all records in
-	 * the specified database
-	 *
-	 * @param	string
-	 * @return	int
-	 */
-	public function count_all($table = '')
-	{
-		if ($table == '')
-		{
-			return 0;
-		}
-
-		$result = $this->conn_id->querySingle($this->_count_string.$this->protect_identifiers('numrows')
-							.' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
-
-		return empty($result) ? 0 : (int) $result;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Show table query
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
@@ -318,46 +284,16 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * The error message string
+	 * Error
 	 *
-	 * @return	string
+	 * Returns an array containing code and message of the last
+	 * database error that has occured.
+	 *
+	 * @return	array
 	 */
-	protected function _error_message()
+	public function error()
 	{
-		return $this->conn_id->lastErrorMsg();
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * The error message number
-	 *
-	 * @return	int
-	 */
-	protected function _error_number()
-	{
-		return $this->conn_id->lastErrorCode();
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * From Tables
-	 *
-	 * This function implicitly groups FROM tables so there is no confusion
-	 * about operator precedence in harmony with SQL standards
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	protected function _from_tables($tables)
-	{
-		if ( ! is_array($tables))
-		{
-			$tables = array($tables);
-		}
-
-		return '('.implode(', ', $tables).')';
+		return array('code' => $this->conn_id->lastErrorCode(), 'message' => $this->conn_id->lastErrorMsg());
 	}
 
 	// --------------------------------------------------------------------
@@ -398,29 +334,11 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Limit string
-	 *
-	 * Generates a platform-specific LIMIT clause
-	 *
-	 * @param	string	the sql query string
-	 * @param	int	the number of rows to limit the query to
-	 * @param	int	the offset value
-	 * @return	string
-	 */
-	protected function _limit($sql, $limit, $offset)
-	{
-		return $sql.' LIMIT '.($offset ? $offset.',' : '').$limit;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Close DB Connection
 	 *
-	 * @param	object (ignored)
 	 * @return	void
 	 */
-	protected function _close($conn_id)
+	protected function _close()
 	{
 		$this->conn_id->close();
 	}

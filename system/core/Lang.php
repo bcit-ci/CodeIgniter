@@ -65,37 +65,37 @@ class CI_Lang {
 	/**
 	 * Load a language file
 	 *
-	 * @param	mixed	the name of the language file to be loaded. Can be an array
+	 * @param	mixed	the name of the language file to be loaded
 	 * @param	string	the language (english, etc.)
 	 * @param	bool	return loaded array of translations
 	 * @param 	bool	add suffix to $langfile
 	 * @param 	string	alternative path to look for language file
 	 * @return	mixed
 	 */
-	public function load($langfile = '', $idiom = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '')
+	public function load($langfile, $idiom = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '')
 	{
 		$langfile = str_replace('.php', '', $langfile);
 
-		if ($add_suffix == TRUE)
+		if ($add_suffix === TRUE)
 		{
 			$langfile = str_replace('_lang', '', $langfile).'_lang';
 		}
 
 		$langfile .= '.php';
 
-		if ($idiom == '')
+		if ($idiom === '')
 		{
 			$config =& get_config();
 			$idiom = ( ! empty($config['language'])) ? $config['language'] : 'english';
 		}
 
-		if ($return == FALSE && isset($this->is_loaded[$langfile]) && $this->is_loaded[$langfile] === $idiom)
+		if ($return === FALSE && isset($this->is_loaded[$langfile]) && $this->is_loaded[$langfile] === $idiom)
 		{
 			return;
 		}
 
 		// Determine where the language file is and load it
-		if ($alt_path != '' && file_exists($alt_path.'language/'.$idiom.'/'.$langfile))
+		if ($alt_path !== '' && file_exists($alt_path.'language/'.$idiom.'/'.$langfile))
 		{
 			include($alt_path.'language/'.$idiom.'/'.$langfile);
 		}
@@ -124,14 +124,14 @@ class CI_Lang {
 		{
 			log_message('error', 'Language file contains no data: language/'.$idiom.'/'.$langfile);
 
-			if ($return == TRUE)
+			if ($return === TRUE)
 			{
 				return array();
 			}
 			return;
 		}
 
-		if ($return == TRUE)
+		if ($return === TRUE)
 		{
 			return $lang;
 		}
@@ -153,7 +153,7 @@ class CI_Lang {
 	 */
 	public function line($line = '')
 	{
-		$value = ($line == '' OR ! isset($this->language[$line])) ? FALSE : $this->language[$line];
+		$value = ($line === '' OR ! isset($this->language[$line])) ? FALSE : $this->language[$line];
 
 		// Because killer robots like unicorns!
 		if ($value === FALSE)

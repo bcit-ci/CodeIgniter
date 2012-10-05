@@ -26,7 +26,7 @@ key security so you may want to think carefully before using it for
 anything that requires high security, like storing credit card numbers.
 
 To take maximum advantage of the encryption algorithm, your key should
-be 32 characters in length (128 bits). The key should be as random a
+be 32 characters in length (256 bits). The key should be as random a
 string as you can concoct, with numbers and uppercase and lowercase
 letters. Your key should **not** be a simple text string. In order to be
 cryptographically secure it needs to be as random as possible.

@@ -37,24 +37,25 @@
 
 // ------------------------------------------------------------------------
 
-/**
- * Smiley Javascript
- *
- * Returns the javascript required for the smiley insertion. Optionally takes
- * an array of aliases to loosely couple the smiley array to the view.
- *
- * @param	mixed	alias name or array of alias->field_id pairs
- * @param	string	field_id if alias name was passed in
- * @return	array
- */
 if ( ! function_exists('smiley_js'))
 {
+	/**
+	 * Smiley Javascript
+	 *
+	 * Returns the javascript required for the smiley insertion.  Optionally takes
+	 * an array of aliases to loosely couple the smiley array to the view.
+	 *
+	 * @param	mixed	alias name or array of alias->field_id pairs
+	 * @param	string	field_id if alias name was passed in
+	 * @param	bool
+	 * @return	array
+	 */
 	function smiley_js($alias = '', $field_id = '', $inline = TRUE)
 	{
 		static $do_setup = TRUE;
 		$r = '';
 
-		if ($alias != '' && ! is_array($alias))
+		if ($alias !== '' && ! is_array($alias))
 		{
 			$alias = array($alias => $field_id);
 		}
@@ -118,17 +119,20 @@ EOF;
 
 // ------------------------------------------------------------------------
 
-/**
- * Get Clickable Smileys
- *
- * Returns an array of image tag links that can be clicked to be inserted
- * into a form field.
- *
- * @param	string	the URL to the folder containing the smiley images
- * @return	array
- */
+
 if ( ! function_exists('get_clickable_smileys'))
 {
+	/**
+	 * Get Clickable Smileys
+	 *
+	 * Returns an array of image tag links that can be clicked to be inserted
+	 * into a form field.
+	 *
+	 * @param	string	the URL to the folder containing the smiley images
+	 * @param	array
+	 * @param	array
+	 * @return	array
+	 */
 	function get_clickable_smileys($image_url, $alias = '', $smileys = NULL)
 	{
 		// For backward compatibility with js_insert_smiley
@@ -166,20 +170,21 @@ if ( ! function_exists('get_clickable_smileys'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Parse Smileys
- *
- * Takes a string as input and swaps any contained smileys for the actual image
- *
- * @param	string	the text to be parsed
- * @param	string	the URL to the folder containing the smiley images
- * @return	string
- */
 if ( ! function_exists('parse_smileys'))
 {
+	/**
+	 * Parse Smileys
+	 *
+	 * Takes a string as input and swaps any contained smileys for the actual image
+	 *
+	 * @param	string	the text to be parsed
+	 * @param	string	the URL to the folder containing the smiley images
+	 * @param	array
+	 * @return	string
+	 */
 	function parse_smileys($str = '', $image_url = '', $smileys = NULL)
 	{
-		if ($image_url == '' OR ( ! is_array($smileys) && FALSE === ($smileys = _get_smiley_array())))
+		if ($image_url === '' OR ( ! is_array($smileys) && FALSE === ($smileys = _get_smiley_array())))
 		{
 			return $str;
 		}
@@ -198,15 +203,15 @@ if ( ! function_exists('parse_smileys'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Get Smiley Array
- *
- * Fetches the config/smiley.php file
- *
- * @return	mixed
- */
 if ( ! function_exists('_get_smiley_array'))
 {
+	/**
+	 * Get Smiley Array
+	 *
+	 * Fetches the config/smiley.php file
+	 *
+	 * @return	mixed
+	 */
 	function _get_smiley_array()
 	{
 		if (defined('ENVIRONMENT') && file_exists(APPPATH.'config/'.ENVIRONMENT.'/smileys.php'))
@@ -219,34 +224,6 @@ if ( ! function_exists('_get_smiley_array'))
 		}
 
 		return (isset($smileys) && is_array($smileys)) ? $smileys : FALSE;
-	}
-}
-
-// ------------------------------------------------------------------------
-
-/**
- * JS Insert Smiley
- *
- * Generates the javascript function needed to insert smileys into a form field
- *
- * DEPRECATED as of version 1.7.2, use smiley_js instead
- *
- * @param	string	form name
- * @param	string	field name
- * @return	string
- */
-if ( ! function_exists('js_insert_smiley'))
-{
-	function js_insert_smiley($form_name = '', $form_field = '')
-	{
-		return <<<EOF
-<script type="text/javascript">
-	function insert_smiley(smiley)
-	{
-		document.{$form_name}.{$form_field}.value += " " + smiley;
-	}
-</script>
-EOF;
 	}
 }
 

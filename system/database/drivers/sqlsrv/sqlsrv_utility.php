@@ -21,7 +21,7 @@
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @since		Version 2.0.3
  * @filesource
  */
 
@@ -41,7 +41,7 @@ class CI_DB_sqlsrv_utility extends CI_DB_utility {
 	 * SQLSRV Export
 	 *
 	 * @param	array	Preferences
-	 * @return	mixed
+	 * @return	bool
 	 */
 	protected function _backup($params = array())
 	{
