@@ -32,7 +32,7 @@ behavior through :doc:`extensions <../general/core_classes>` and/or
 #. Apply $assign_to_config overrides if present
 #. Autoload package paths
 #. Load CodeIgniter extension class if present
-#. Instantiate the CodeIgniter object
+#. Instantiate the :doc:`CodeIgniter <../general/codeigniter>` object
 #. Register the exception handler
 #. Disable magic quotes for PHP < 5.4
 #. Load :doc:`Benchmark <../libraries/benchmark>` class
