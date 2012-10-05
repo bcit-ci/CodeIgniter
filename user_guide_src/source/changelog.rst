@@ -233,7 +233,7 @@ Release Date: Not Released
 	 -  Added ``$config['csrf_regeneration']``, which makes token regeneration optional.
 	 -  Added ``$config['csrf_exclude_uris']``, which allows you list URIs which will not have the CSRF validation methods run.
    -  Changed ``_exception_handler()`` to respect php.ini 'display_errors' setting.
-   -  Removed redundant conditional to determine HTTP server protocol in ``set_status_header()``
+   -  Removed redundant conditional to determine HTTP server protocol in ``set_status_header()``.
    -  Added support for IPv4 range masks (e.g. 192.168.1.1/24) to specify ranges of IP addresses for use with the *proxy_ips* setting.
 
 Bug fixes for 3.0
@@ -349,8 +349,8 @@ Bug fixes for 3.0
 -  Fixed a bug in SQLSRV's ``affected_rows()`` method where an erroneous function name was used.
 -  Fixed a bug (#1000) - Change syntax of ``$view_file`` to ``$_ci_view_file`` to prevent being overwritten by application.
 -  Fixed a bug (#1757) - :doc:`Directory Helper <helpers/directory_helper>` function ``directory_map()`` was skipping files and directories named *0*.
--  Fixed a bug (#395)  - :doc:`Unit Testing Library <libraries/Unit_test>` method ``result()`` didn't properly check array result columns against _test_items_visible when called from ``report()`` method.
 -  Fixed a bug (#1789) - :doc:`Database Library <libraries/database>` method ``escape_str()`` escaped quote characters in LIKE conditions twice under MySQL.
+-  Fixed a bug (#395)  - :doc:`Unit Testing Library <libraries/unit_testing>` method ``result()`` didn't properly check array result columns when called from ``report()``.
 
 Version 2.1.2
 =============

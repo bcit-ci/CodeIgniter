@@ -244,7 +244,7 @@ class CI_Unit_test {
 						{
 							continue;
 						}
-						
+
 						if (FALSE !== ($line = $CI->lang->line(strtolower('ut_'.$v))))
 						{
 							$v = $line;
