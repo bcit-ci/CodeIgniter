@@ -188,7 +188,7 @@ class CI_Email {
 	 * @param	string
 	 * @return	object
 	 */
-	public function from($from, $name = '')
+	public function from($from, $name = '', $return_path = '')
 	{
 		if (preg_match('/\<(.*)\>/', $from, $match))
 		{
@@ -198,6 +198,10 @@ class CI_Email {
 		if ($this->validate)
 		{
 			$this->validate_email($this->_str_to_array($from));
+			if($return_path)
+			{
+				$this->validate_email($this->_str_to_array($return_path));
+			}
 		}
 
 		// prepare the display name
@@ -216,7 +220,12 @@ class CI_Email {
 		}
 
 		$this->set_header('From', $name.' <'.$from.'>');
-		$this->set_header('Return-Path', '<'.$from.'>');
+
+		if(!$return_path)
+		{
+			$return_path = $from;
+		}
+		$this->set_header('Return-Path', '<'.$return_path.'>');
 
 		return $this;
 	}
@@ -1399,7 +1408,7 @@ class CI_Email {
 		{
 			// most documentation of sendmail using the "-f" flag lacks a space after it, however
 			// we've encountered servers that seem to require it to be in place.
-			return mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str, '-f '.$this->clean_email($this->_headers['From']));
+			return mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str, '-f '.$this->clean_email($this->_headers['Return-Path']));
 		}
 	}
 
@@ -1412,7 +1421,7 @@ class CI_Email {
 	 */
 	protected function _send_with_sendmail()
 	{
-		$fp = @popen($this->mailpath.' -oi -f '.$this->clean_email($this->_headers['From']).' -t', 'w');
+		$fp = @popen($this->mailpath.' -oi -f '.$this->clean_email($this->_headers['From']).' -t'.' -r '.$this->clean_email($this->_headers['Return-Path']), 'w');
 
 		if ($fp === FALSE OR $fp === NULL)
 		{
