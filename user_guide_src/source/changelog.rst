@@ -355,6 +355,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#395) - :doc:`Unit Testing Library <libraries/unit_testing>` method ``result()`` didn't properly check array result columns when called from ``report()``.
 -  Fixed a bug (#1692) - :doc:`Database Library <database/index>` method ``display_error()`` didn't properly trace the possible error source on Windows systems.
 -  Fixed a bug (#1745) - ``is_write_type()`` method in the :doc:`Database Library <database/index>` didn't return TRUE for LOAD queries.
+-  Fixed a bug (#1765) - :doc:`Database Library <database/index>` didn't properly detect connection errors for MySQLi.
 
 Version 2.1.2
 =============
