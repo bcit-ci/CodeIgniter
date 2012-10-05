@@ -190,7 +190,7 @@ accept HTML email. If you do not set your own message CodeIgniter will
 extract the message from your HTML email and strip the tags.
 
 $this->email->set_header()
------------------------
+--------------------------
 
 Appends additional headers to the e-mail::
 
@@ -232,6 +232,14 @@ success or failure, enabling it to be used conditionally::
 	{
 	    // Generate error
 	}
+
+This function will automatically clear all parameters if the request was
+successful. To stop this behaviour pass FALSE::
+
+ 	if ($this->email->send(FALSE))
+ 	{
+ 		// Parameters won't be cleared
+ 	}
 
 $this->email->attach()
 ----------------------

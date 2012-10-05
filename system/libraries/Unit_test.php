@@ -240,6 +240,11 @@ class CI_Unit_test {
 				{
 					foreach ($val as $k => $v)
 					{
+						if ( ! in_array($k, $this->_test_items_visible))
+						{
+							continue;
+						}
+
 						if (FALSE !== ($line = $CI->lang->line(strtolower('ut_'.$v))))
 						{
 							$v = $line;

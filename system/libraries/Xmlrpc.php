@@ -174,7 +174,7 @@ class CI_Xmlrpc {
 	 * @param	int	port
 	 * @return	void
 	 */
-	public function server($url, $port = 80)
+	public function server($url, $port = 80, $proxy = FALSE, $proxy_port = 8080)
 	{
 		if (strpos($url, 'http') !== 0)
 		{
@@ -190,7 +190,7 @@ class CI_Xmlrpc {
 			$path .= '?'.$parts['query'];
 		}
 
-		$this->client = new XML_RPC_Client($path, $parts['host'], $port);
+		$this->client = new XML_RPC_Client($path, $parts['host'], $port, $proxy, $proxy_port);
 	}
 
 	// --------------------------------------------------------------------
@@ -385,6 +385,8 @@ class XML_RPC_Client extends CI_Xmlrpc
 	public $path			= '';
 	public $server			= '';
 	public $port			= 80;
+	public $proxy			= FALSE;
+	public $proxy_port		= 8080;
 	public $errno			= '';
 	public $errstring		= '';
 	public $timeout		= 5;
@@ -398,13 +400,15 @@ class XML_RPC_Client extends CI_Xmlrpc
 	 * @param	int
 	 * @return	void
 	 */
-	public function __construct($path, $server, $port = 80)
+	public function __construct($path, $server, $port = 80, $proxy = FALSE, $proxy_port = 8080)
 	{
 		parent::__construct();
 
 		$this->port = $port;
 		$this->server = $server;
 		$this->path = $path;
+		$this->proxy = $proxy;
+		$this->proxy_port = $proxy_port;
 	}
 
 	// --------------------------------------------------------------------
@@ -436,7 +440,18 @@ class XML_RPC_Client extends CI_Xmlrpc
 	 */
 	public function sendPayload($msg)
 	{
-		$fp = @fsockopen($this->server, $this->port,$this->errno, $this->errstring, $this->timeout);
+		if ($this->proxy === FALSE)
+		{
+			$server = $this->server;
+			$port = $this->port;
+		}
+		else
+		{
+			$server = $this->proxy;
+			$port = $this->proxy_port;
+		}
+
+		$fp = @fsockopen($server, $port, $this->errno, $this->errstring, $this->timeout);
 
 		if ( ! is_resource($fp))
 		{
@@ -1302,15 +1317,15 @@ class XML_RPC_Values extends CI_Xmlrpc
 		{
 			$type = $type === '' ? 'string' : $type;
 
-			if ($this->xmlrpcTypes[$type] === 1)
+			if ($this->xmlrpcTypes[$type] == 1)
 			{
 				$this->addScalar($val,$type);
 			}
-			elseif ($this->xmlrpcTypes[$type] === 2)
+			elseif ($this->xmlrpcTypes[$type] == 2)
 			{
 				$this->addArray($val);
 			}
-			elseif ($this->xmlrpcTypes[$type] === 3)
+			elseif ($this->xmlrpcTypes[$type] == 3)
 			{
 				$this->addStruct($val);
 			}
@@ -1336,7 +1351,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 			return 0;
 		}
 
-		if ($typeof !== 1)
+		if ($typeof != 1)
 		{
 			echo '<strong>XML_RPC_Values</strong>: not a scalar type (${typeof})<br />';
 			return 0;
@@ -1344,7 +1359,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 
 		if ($type === $this->xmlrpcBoolean)
 		{
-			$val = (int) (strcasecmp($val,'true') === 0 OR $val === 1 OR ($val === TRUE && strcasecmp($val, 'false')));
+			$val = (int) (strcasecmp($val, 'true') === 0 OR $val === 1 OR ($val === TRUE && strcasecmp($val, 'false')));
 		}
 
 		if ($this->mytype === 2)

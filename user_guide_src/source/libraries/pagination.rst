@@ -80,7 +80,7 @@ The number of "digit" links you would like before and after the selected
 page number. For example, the number 2 will place two digits on either
 side, as in the example links at the very top of this page.
 
-$config['use_page_number'] = TRUE;
+$config['use_page_numbers'] = TRUE;
 ==================================
 
 By default, the URI segment will use the starting index for the items
@@ -113,7 +113,7 @@ Note that "per_page" is the default query string passed, however can be
 configured using $config['query_string_segment'] = 'your_string'
 
 $config['reuse_query_string'] = FALSE;
-====================================
+======================================
 
 By default your Query String arguments (nothing to do with other
 query string options) will be ignored. Setting this config to

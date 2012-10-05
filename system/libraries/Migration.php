@@ -285,14 +285,14 @@ class CI_Migration {
 		if ( ! $migrations = $this->find_migrations())
 		{
 			$this->_error_string = $this->lang->line('migration_none_found');
-			return false;
+			return FALSE;
 		}
 
 		$last_migration = basename(end($migrations));
 
 		// Calculate the last migration step from existing migration
 		// filenames and procceed to the standard version migration
-		return $this->version((int) substr($last_migration, 0, 3));
+		return $this->version((int) $last_migration);
 	}
 
 	// --------------------------------------------------------------------
@@ -322,9 +322,9 @@ class CI_Migration {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set's the schema to the latest migration
+	 * Retrieves list of available migration scripts
 	 *
-	 * @return	mixed	true if already latest, false if failed, int if upgraded
+	 * @return	array	list of migration file paths sorted by version
 	 */
 	protected function find_migrations()
 	{

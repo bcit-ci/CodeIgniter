@@ -165,7 +165,7 @@ if ( ! function_exists('anchor'))
 
 		if ($attributes !== '')
 		{
-			$attributes = _parse_attributes($attributes);
+			$attributes = _stringify_attributes($attributes);
 		}
 
 		return '<a href="'.$site_url.'"'.$attributes.'>'.$title.'</a>';
@@ -221,10 +221,10 @@ if ( ! function_exists('anchor_popup'))
 			unset($attributes[$key]);
 		}
 
-		$attributes = empty($attributes) ? '' : _parse_attributes($attributes);
+		$attributes = _stringify_attributes($attributes);
 
 		return '<a href="'.$site_url
-			.'" onclick="window.open(\''.$site_url."', '".$window_name."', '"._parse_attributes($atts, TRUE)."'); return false;\""
+			.'" onclick="window.open(\''.$site_url."', '".$window_name."', '"._stringify_attributes($atts, TRUE)."'); return false;\""
 			.$attributes.'>'.$title.'</a>';
 	}
 }
@@ -250,7 +250,7 @@ if ( ! function_exists('mailto'))
 			$title = $email;
 		}
 
-		return '<a href="mailto:'.$email.'"'._parse_attributes($attributes).'>'.$title.'</a>';
+		return '<a href="mailto:'.$email.'"'._stringify_attributes($attributes).'>'.$title.'</a>';
 	}
 }
 
@@ -526,7 +526,7 @@ if ( ! function_exists('redirect'))
 	 * @param	int
 	 * @return	string
 	 */
-	function redirect($uri = '', $method = 'auto', $http_response_code = 302)
+	function redirect($uri = '', $method = 'auto', $code = NULL)
 	{
 		if ( ! preg_match('#^https?://#i', $uri))
 		{
@@ -534,63 +534,29 @@ if ( ! function_exists('redirect'))
 		}
 
 		// IIS environment likely? Use 'refresh' for better compatibility
-		if (DIRECTORY_SEPARATOR !== '/' && $method === 'auto')
+		if ($method === 'auto' && isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== FALSE)
 		{
 			$method = 'refresh';
 		}
+		elseif ($method !== 'refresh' && (empty($code) OR ! is_numeric($code)))
+		{
+			// Reference: http://en.wikipedia.org/wiki/Post/Redirect/Get
+			$code = (isset($_SERVER['REQUEST_METHOD'], $_SERVER['SERVER_PROTOCOL'])
+					&& $_SERVER['REQUEST_METHOD'] === 'POST'
+					&& $_SERVER['SERVER_PROTOCOL'] === 'HTTP/1.1')
+				? 303 : 302;
+		}
 
-		switch($method)
+		switch ($method)
 		{
 			case 'refresh':
 				header('Refresh:0;url='.$uri);
 				break;
 			default:
-				header('Location: '.$uri, TRUE, $http_response_code);
+				header('Location: '.$uri, TRUE, $code);
 				break;
 		}
 		exit;
-	}
-}
-
-// ------------------------------------------------------------------------
-
-if ( ! function_exists('_parse_attributes'))
-{
-	/**
-	 * Parse out the attributes
-	 *
-	 * Some of the functions use this
-	 *
-	 * @param	array
-	 * @param	bool
-	 * @return	string
-	 */
-	function _parse_attributes($attributes, $javascript = FALSE)
-	{
-		if (is_string($attributes))
-		{
-			return ($attributes !== '') ? ' '.$attributes : '';
-		}
-
-		$att = '';
-		foreach ($attributes as $key => $val)
-		{
-			if ($javascript === TRUE)
-			{
-				$att .= $key.'='.$val.',';
-			}
-			else
-			{
-				$att .= ' '.$key.'="'.$val.'"';
-			}
-		}
-
-		if ($javascript === TRUE && $att !== '')
-		{
-			return substr($att, 0, -1);
-		}
-
-		return $att;
 	}
 }
 

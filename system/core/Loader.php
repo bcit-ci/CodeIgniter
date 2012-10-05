@@ -237,9 +237,9 @@ class CI_Loader {
 	{
 		if (is_array($model))
 		{
-			foreach ($model as $babe)
+			foreach ($model as $class)
 			{
-				$this->model($babe);
+				$this->model($class);
 			}
 			return;
 		}
@@ -409,8 +409,8 @@ class CI_Loader {
 	 * 1. The name of the "view" file to be included.
 	 * 2. An associative array of data to be extracted for use in the view.
 	 * 3. TRUE/FALSE - whether to return the data or load it. In
-	 *    some cases it's advantageous to be able to return data so that
-	 *    a developer can process it in some way.
+	 *	some cases it's advantageous to be able to return data so that
+	 *	a developer can process it in some way.
 	 *
 	 * @param	string
 	 * @param	array
@@ -633,13 +633,7 @@ class CI_Loader {
 			{
 				$this->driver($driver);
 			}
-			return FALSE;
-		}
-
-		if ( ! class_exists('CI_Driver_Library'))
-		{
-			// we aren't instantiating an object here, that'll be done by the Library itself
-			require BASEPATH.'libraries/Driver.php';
+			return;
 		}
 
 		if ($library === '')
@@ -785,11 +779,11 @@ class CI_Loader {
 			$_ci_ext = pathinfo($_ci_view, PATHINFO_EXTENSION);
 			$_ci_file = ($_ci_ext === '') ? $_ci_view.'.php' : $_ci_view;
 
-			foreach ($this->_ci_view_paths as $view_file => $cascade)
+			foreach ($this->_ci_view_paths as $_ci_view_file => $cascade)
 			{
-				if (file_exists($view_file.$_ci_file))
+				if (file_exists($_ci_view_file.$_ci_file))
 				{
-					$_ci_path = $view_file.$_ci_file;
+					$_ci_path = $_ci_view_file.$_ci_file;
 					$file_exists = TRUE;
 					break;
 				}
@@ -820,7 +814,7 @@ class CI_Loader {
 		/*
 		 * Extract and cache variables
 		 *
-		 * You can either set variables using the dedicated $this->load_vars()
+		 * You can either set variables using the dedicated $this->load->vars()
 		 * function or via the second parameter of this function. We'll merge
 		 * the two types and cache them so that views that are embedded within
 		 * other views can have access to these variables.
@@ -837,10 +831,10 @@ class CI_Loader {
 		 * We buffer the output for two reasons:
 		 * 1. Speed. You get a significant speed boost.
 		 * 2. So that the final rendered template can be post-processed by
-		 *    the output class. Why do we need post processing? For one thing,
-		 *    in order to show the elapsed page load time. Unless we can
-		 *    intercept the content right before it's sent to the browser and
-		 *    then stop the timer it won't be accurate.
+		 *	the output class. Why do we need post processing? For one thing,
+		 *	in order to show the elapsed page load time. Unless we can
+		 *	intercept the content right before it's sent to the browser and
+		 *	then stop the timer it won't be accurate.
 		 */
 		ob_start();
 
@@ -915,6 +909,13 @@ class CI_Loader {
 
 			// Get the filename from the path
 			$class = substr($class, $last_slash);
+
+			// Check for match and driver base class
+			if (strtolower(trim($subdir, '/')) == strtolower($class) && ! class_exists('CI_Driver_Library'))
+			{
+				// We aren't instantiating an object here, just making the base class available
+				require BASEPATH.'libraries/Driver.php';
+			}
 		}
 
 		// We'll test for both lowercase and capitalized versions of the file name
@@ -996,14 +997,19 @@ class CI_Loader {
 				$this->_ci_loaded_files[] = $filepath;
 				return $this->_ci_init_class($class, '', $params, $object_name);
 			}
-
 		} // END FOREACH
 
 		// One last attempt. Maybe the library is in a subdirectory, but it wasn't specified?
 		if ($subdir === '')
 		{
 			$path = strtolower($class).'/'.$class;
-			return $this->_ci_load_class($path, $params);
+			return $this->_ci_load_class($path, $params, $object_name);
+		}
+		else if (ucfirst($subdir) != $subdir)
+		{
+			// Lowercase subdir failed - retry capitalized
+			$path = ucfirst($subdir).$class;
+			return $this->_ci_load_class($path, $params, $object_name);
 		}
 
 		// If we got this far we were unable to find the requested class.
@@ -1091,7 +1097,7 @@ class CI_Loader {
 		if ( ! class_exists($name))
 		{
 			log_message('error', 'Non-existent class: '.$name);
-			show_error('Non-existent class: '.$class);
+			show_error('Non-existent class: '.$name);
 		}
 
 		// Set the variable name we will assign the class to
@@ -1190,6 +1196,15 @@ class CI_Loader {
 			foreach ($autoload['libraries'] as $item)
 			{
 				$this->library($item);
+			}
+		}
+
+		// Autoload drivers
+		if (isset($autoload['drivers']))
+		{
+			foreach ($autoload['drivers'] as $item)
+			{
+				$this->driver($item);
 			}
 		}
 
