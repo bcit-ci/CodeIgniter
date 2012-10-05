@@ -35,4 +35,24 @@ class Join_test extends CI_TestCase {
 		$this->assertEquals('Developer', $job_user[0]['job_name']);
 	}
 
+	// ------------------------------------------------------------------------
+
+	public function test_join_escape_multiple_conditions()
+	{
+		// We just need a valid query produced, not one that makes sense
+		$fields = array($this->db->protect_identifiers('table1.field1'), $this->db->protect_identifiers('table2.field2'));
+
+		$expected = 'SELECT '.implode(', ', $fields)
+				."\nFROM ".$this->db->escape_identifiers('table1')
+				."\nLEFT JOIN ".$this->db->escape_identifiers('table2').' ON '.implode(' = ', $fields)
+				.' AND '.$fields[0]." = 'foo' AND ".$fields[1].' = 0';
+
+		$result = $this->db->select('table1.field1, table2.field2')
+				->from('table1')
+				->join('table2', "table1.field1 = table2.field2 AND table1.field1 = 'foo' AND table2.field2 = 0", 'LEFT')
+				->get_compiled_select();
+
+		$this->assertEquals($expected, $result);
+	}
+
 }

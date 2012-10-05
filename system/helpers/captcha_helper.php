@@ -32,7 +32,7 @@
  * @subpackage	Helpers
  * @category	Helpers
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/helpers/xml_helper.html
+ * @link		http://codeigniter.com/user_guide/helpers/captcha_helper.html
  */
 
 // ------------------------------------------------------------------------
@@ -80,8 +80,7 @@ if ( ! function_exists('create_captcha'))
 		$current_dir = @opendir($img_path);
 		while ($filename = @readdir($current_dir))
 		{
-			if ($filename !== '.' && $filename !== '..' && $filename !== 'index.html'
-				&& (str_replace('.jpg', '', $filename) + $expiration) < $now)
+			if (substr($filename, -4) === '.jpg' && (str_replace('.jpg', '', $filename) + $expiration) < $now)
 			{
 				@unlink($img_path.$filename);
 			}
@@ -185,7 +184,6 @@ if ( ! function_exists('create_captcha'))
 				$x += $font_size;
 			}
 		}
-
 
 		// Create the border
 		imagerectangle($im, 0, 0, $img_width - 1, $img_height - 1, $border_color);

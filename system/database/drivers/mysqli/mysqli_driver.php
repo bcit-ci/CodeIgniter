@@ -45,16 +45,6 @@ class CI_DB_mysqli_driver extends CI_DB {
 	// The character used for escaping
 	protected $_escape_char = '`';
 
-	// clause and character used for LIKE escape sequences - not used in MySQL
-	protected $_like_escape_str = '';
-	protected $_like_escape_chr = '\\';
-
-	/**
-	 * The syntax to count rows is slightly different across different
-	 * database engines, so this string appears in each driver and is
-	 * used for the count_all() and count_all_results() functions.
-	 */
-	protected $_count_string = 'SELECT COUNT(*) AS ';
 	protected $_random_keyword = ' RAND()'; // database specific random keyword
 
 	/**
@@ -71,6 +61,17 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	public function db_connect()
 	{
+		// Use MySQL client compression?
+		if ($this->compress === TRUE)
+		{
+			$port = empty($this->port) ? NULL : $this->port;
+
+			$mysqli = mysqli_init();
+			$mysqli->real_connect($this->hostname, $this->username, $this->password, $this->database, $port, NULL, MYSQLI_CLIENT_COMPRESS);
+
+			return $mysqli;
+		}
+
 		return empty($this->port)
 			? @new mysqli($this->hostname, $this->username, $this->password, $this->database)
 			: @new mysqli($this->hostname, $this->username, $this->password, $this->database, $this->port);
@@ -89,6 +90,17 @@ class CI_DB_mysqli_driver extends CI_DB {
 		if ( ! is_php('5.3'))
 		{
 			return $this->db_connect();
+		}
+
+		// Use MySQL client compression?
+		if ($this->compress === TRUE)
+		{
+			$port = empty($this->port) ? NULL : $this->port;
+
+			$mysqli = mysqli_init();
+			$mysqli->real_connect('p:'.$this->hostname, $this->username, $this->password, $this->database, $port, NULL, MYSQLI_CLIENT_COMPRESS);
+
+			return $mysqli;
 		}
 
 		return empty($this->port)

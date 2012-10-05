@@ -26,13 +26,14 @@
  */
 
 /**
- * MS SQL Result Class
+ * MSSQL Result Class
  *
  * This class extends the parent result class: CI_DB_result
  *
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
+ * @since	1.3
  */
 class CI_DB_mssql_result extends CI_DB_result {
 
@@ -43,7 +44,9 @@ class CI_DB_mssql_result extends CI_DB_result {
 	 */
 	public function num_rows()
 	{
-		return @mssql_num_rows($this->result_id);
+		return is_int($this->num_rows)
+			? $this->num_rows
+			: $this->num_rows = @mssql_num_rows($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -158,11 +161,25 @@ class CI_DB_mssql_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
+	 * @param	string
 	 * @return	object
 	 */
-	protected function _fetch_object()
+	protected function _fetch_object($class_name = 'stdClass')
 	{
-		return mssql_fetch_object($this->result_id);
+		$row = @mssql_fetch_object($this->result_id);
+
+		if ($class_name === 'stdClass' OR ! $row)
+		{
+			return $row;
+		}
+
+		$class_name = new $class_name();
+		foreach ($row as $key => $value)
+		{
+			$class_name->$key = $value;
+		}
+
+		return $class_name;
 	}
 
 }

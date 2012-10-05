@@ -32,7 +32,7 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_interbase_forge extends CI_DB_forge {
+class CI_DB_ibase_forge extends CI_DB_forge {
 
 	protected $_drop_table	= 'DROP TABLE %s';
 
@@ -190,5 +190,5 @@ class CI_DB_interbase_forge extends CI_DB_forge {
 
 }
 
-/* End of file interbase_forge.php */
-/* Location: ./system/database/drivers/interbase/interbase_forge.php */
+/* End of file ibase_forge.php */
+/* Location: ./system/database/drivers/ibase/ibase_forge.php */

@@ -21,7 +21,7 @@
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
- * @since		Version 2.1.0
+ * @since		Version 1.0
  * @filesource
  */
 
@@ -33,18 +33,9 @@
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
+ * @since	2.1
  */
 class CI_DB_pdo_result extends CI_DB_result {
-
-	/**
-	 * @var bool  Hold the flag whether a result handler already fetched before
-	 */
-	protected $is_fetched = FALSE;
-
-	/**
-	 * @var mixed Hold the fetched assoc array of a result handler
-	 */
-	protected $result_assoc;
 
 	/**
 	 * Number of rows in the result set
@@ -53,52 +44,24 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	public function num_rows()
 	{
-		if (empty($this->result_id) OR ! is_object($this->result_id))
+		if (is_int($this->num_rows))
 		{
-			// invalid result handler
-			return 0;
+			return $this->num_rows;
 		}
-		elseif (($num_rows = $this->result_id->rowCount()) && $num_rows > 0)
+		elseif (count($this->result_array) > 0)
 		{
-			// If rowCount return something, we're done.
-			return $num_rows;
+			return $this->num_rows = count($this->result_array);
 		}
-
-		// Fetch the result, instead perform another extra query
-		return ($this->is_fetched && is_array($this->result_assoc)) ? count($this->result_assoc) : count($this->result_assoc());
-	}
-
-	/**
-	 * Fetch the result handler
-	 *
-	 * @return	mixed
-	 */
-	public function result_assoc()
-	{
-		// If the result already fetched before, use that one
-		if (count($this->result_array) > 0 OR $this->is_fetched)
+		elseif (count($this->result_object) > 0)
 		{
-			return $this->result_array();
+			return $this->num_rows = count($this->result_object);
+		}
+		elseif (($num_rows = $this->result_id->rowCount()) > 0)
+		{
+			return $this->num_rows = $num_rows;
 		}
 
-		// Define the output
-		$output = array('assoc', 'object');
-
-		// Initial value
-		$this->result_assoc = array() and $this->result_object = array();
-
-		// Fetch the result
-		while ($row = $this->_fetch_assoc())
-		{
-			$this->result_assoc[] = $row;
-			$this->result_object[] = (object) $row;
-		}
-
-		// Save this as buffer and marked the fetch flag
-		$this->result_array = $this->result_assoc;
-		$this->is_fetched = TRUE;
-
-		return $this->result_assoc;
+		return $this->num_rows = count($this->result_array());
 	}
 
 	// --------------------------------------------------------------------
@@ -124,12 +87,14 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	public function list_fields()
 	{
-		if ($this->db->db_debug)
+		$field_names = array();
+		for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 		{
-			return $this->db->display_error('db_unsuported_feature');
+			$field_names[$i] = @$this->result_id->getColumnMeta();
+			$field_names[$i] = $field_names[$i]['name'];
 		}
 
-		return FALSE;
+		return $field_names;
 	}
 
 	// --------------------------------------------------------------------
@@ -240,11 +205,12 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
+	 * @param	string
 	 * @return	object
 	 */
-	protected function _fetch_object()
+	protected function _fetch_object($class_name = 'stdClass')
 	{
-		return $this->result_id->fetch(PDO::FETCH_OBJ);
+		return $this->result_id->fetchObject($class_name);
 	}
 
 }

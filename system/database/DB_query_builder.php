@@ -350,18 +350,18 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		is_bool($escape) OR $escape = $this->_protect_identifiers;
 
 		// Split multiple conditions
-		if ($escape === TRUE && preg_match_all('/\sAND\s|\sOR\s/i', $cond, $m, PREG_SET_ORDER | PREG_OFFSET_CAPTURE))
+		if ($escape === TRUE && preg_match_all('/\sAND\s|\sOR\s/i', $cond, $m, PREG_OFFSET_CAPTURE))
 		{
 			$newcond = '';
 			$m[0][] = array('', strlen($cond));
 
 			for ($i = 0, $c = count($m[0]), $s = 0;
 				$i < $c;
-				$s += $m[0][$i][1] + strlen($m[0][$i][0]), $i++)
+				$s = $m[0][$i][1] + strlen($m[0][$i][0]), $i++)
 			{
-				$temp = substr($cond, $s, $m[0][$i][1]);
+				$temp = substr($cond, $s, ($m[0][$i][1] - $s));
 
-				$newcond .= preg_match('/([\[\w\.-]+)([\W\s]+)(.+)/i', $temp, $match)
+				$newcond .= preg_match("/([\[\]\w\.'-]+)(\s*[^\"\[`'\w]+\s*)(.+)/i", $temp, $match)
 						? $this->protect_identifiers($match[1]).$match[2].$this->protect_identifiers($match[3])
 						: $temp;
 
@@ -371,7 +371,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$cond = ' ON '.$newcond;
 		}
 		// Split apart the condition and protect the identifiers
-		elseif ($escape === TRUE && preg_match('/([\[\w\.-]+)([\W\s]+)(.+)/i', $cond, $match))
+		elseif ($escape === TRUE && preg_match("/([\[\]\w\.'-]+)(\s*[^\"\[`'\w]+\s*)(.+)/i", $cond, $match))
 		{
 			$cond = ' ON '.$this->protect_identifiers($match[1]).$match[2].$this->protect_identifiers($match[3]);
 		}
@@ -1435,23 +1435,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Insert statement
-	 *
-	 * Generates a platform-specific insert string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the insert keys
-	 * @param	array	the insert values
-	 * @return	string
-	 */
-	protected function _insert($table, $keys, $values)
-	{
-		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Validate Insert
 	 *
 	 * This method is used by both insert() and get_compiled_insert() to
@@ -1626,41 +1609,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		$this->_reset_write();
 		return $this->query($sql);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Update statement
-	 *
-	 * Generates a platform-specific update string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the update data
-	 * @param	array	the where clause
-	 * @param	array	the orderby clause
-	 * @param	array	the limit clause
-	 * @param	array	the like clause
-	 * @return	string
-	 */
-	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
-	{
-		foreach ($values as $key => $val)
-		{
-			$valstr[] = $key.' = '.$val;
-		}
-
-		$where = empty($where) ? '' : ' WHERE '.implode(' ', $where);
-
-		if ( ! empty($like))
-		{
-			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
-		}
-
-		return 'UPDATE '.$table.' SET '.implode(', ', $valstr)
-			.$where
-			.(count($orderby) > 0 ? ' ORDER BY '.implode(', ', $orderby) : '')
-			.($limit ? ' LIMIT '.$limit : '');
 	}
 
 	// --------------------------------------------------------------------

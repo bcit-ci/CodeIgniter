@@ -69,7 +69,7 @@ class Date_helper_test extends CI_TestCase {
 	public function test_standard_date_rfc822()
 	{
 		$this->assertEquals(
-			date('D, d M y H:i:s O', $this->time),
+			date(DATE_RFC822, $this->time),
 			standard_date('DATE_RFC822', $this->time)
 		);
 	}
@@ -79,7 +79,7 @@ class Date_helper_test extends CI_TestCase {
 	public function test_standard_date_atom()
 	{
 		$this->assertEquals(
-			date("Y-m-d\TH:i:sO", $this->time),
+			date(DATE_ATOM, $this->time),
 			standard_date('DATE_ATOM', $this->time)
 		);
 	}
@@ -89,7 +89,7 @@ class Date_helper_test extends CI_TestCase {
 	public function test_standard_date_cookie()
 	{
 		$this->assertEquals(
-			date("l, d-M-y H:i:s \U\T\C", $this->time),
+			date(DATE_COOKIE, $this->time),
 			standard_date('DATE_COOKIE', $this->time)
 		);
 	}
@@ -99,7 +99,7 @@ class Date_helper_test extends CI_TestCase {
 	public function test_standard_date_iso8601()
 	{
 		$this->assertEquals(
-			date("Y-m-d\TH:i:sO", $this->time),
+			date(DATE_ISO8601, $this->time),
 			standard_date('DATE_ISO8601', $this->time)
 		);
 	}
@@ -109,7 +109,7 @@ class Date_helper_test extends CI_TestCase {
 	public function test_standard_date_rfc850()
 	{
 		$this->assertEquals(
-			date("l, d-M-y H:i:s \U\T\C", $this->time),
+			date(DATE_RFC850, $this->time),
 			standard_date('DATE_RFC850', $this->time)
 		);
 	}
@@ -119,7 +119,7 @@ class Date_helper_test extends CI_TestCase {
 	public function test_standard_date_rfc1036()
 	{
 		$this->assertEquals(
-			date('D, d M y H:i:s O', $this->time),
+			date(DATE_RFC1036, $this->time),
 			standard_date('DATE_RFC1036', $this->time)
 		);
 	}
@@ -129,7 +129,7 @@ class Date_helper_test extends CI_TestCase {
 	public function test_standard_date_rfc1123()
 	{
 		$this->assertEquals(
-			date('D, d M Y H:i:s O', $this->time),
+			date(DATE_RFC1123, $this->time),
 			standard_date('DATE_RFC1123', $this->time)
 		);
 	}
@@ -139,7 +139,7 @@ class Date_helper_test extends CI_TestCase {
 	public function test_standard_date_rfc2822()
 	{
 		$this->assertEquals(
-			date('D, d M Y H:i:s O', $this->time),
+			date(DATE_RFC2822, $this->time),
 			standard_date('DATE_RFC2822', $this->time)
 		);
 	}
@@ -149,7 +149,7 @@ class Date_helper_test extends CI_TestCase {
 	public function test_standard_date_rss()
 	{
 		$this->assertEquals(
-			date('D, d M Y H:i:s O', $this->time),
+			date(DATE_RSS, $this->time),
 			standard_date('DATE_RSS', $this->time)
 		);
 	}
@@ -159,7 +159,7 @@ class Date_helper_test extends CI_TestCase {
 	public function test_standard_date_w3c()
 	{
 		$this->assertEquals(
-			date("Y-m-d\TH:i:sO", $this->time),
+			date(DATE_W3C, $this->time),
 			standard_date('DATE_W3C', $this->time)
 		);
 	}

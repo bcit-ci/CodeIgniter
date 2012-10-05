@@ -34,7 +34,6 @@
  */
 class CI_DB_odbc_forge extends CI_DB_forge {
 
-	protected $_drop_database	= 'DROP DATABASE %s';
 	protected $_drop_table		= 'DROP TABLE %s';
 
 	/**

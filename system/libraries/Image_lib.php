@@ -855,7 +855,14 @@ class CI_Image_lib {
 		}
 		else // Resize
 		{
-			$cmd .= ' -resize '.$this->width.'x'.$this->height.' "'.$this->full_src_path.'" "'.$this->full_dst_path.'" 2>&1';
+			if($this->maintain_ratio === TRUE)
+			{
+				$cmd .= ' -resize '.$this->width.'x'.$this->height.' "'.$this->full_src_path.'" "'.$this->full_dst_path.'" 2>&1';
+			}
+			else
+			{
+				$cmd .= ' -resize '.$this->width.'x'.$this->height.'\! "'.$this->full_src_path.'" "'.$this->full_dst_path.'" 2>&1';
+			}
 		}
 
 		$retval = 1;
@@ -1312,6 +1319,13 @@ class CI_Image_lib {
 			{
 				imagestring($src_img, $this->wm_font_size, $x_shad, $y_shad, $this->wm_text, $drp_color);
 				imagestring($src_img, $this->wm_font_size, $x_axis, $y_axis, $this->wm_text, $txt_color);
+			}
+
+			// We can preserve transparency for PNG images
+			if ($this->image_type === 3)
+			{
+				imagealphablending($src_img, FALSE);
+				imagesavealpha($src_img, TRUE);
 			}
 		}
 

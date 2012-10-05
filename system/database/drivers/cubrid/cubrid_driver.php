@@ -45,16 +45,6 @@ class CI_DB_cubrid_driver extends CI_DB {
 	// The character used for escaping - no need in CUBRID
 	protected $_escape_char = '`';
 
-	// clause and character used for LIKE escape sequences - not used in CUBRID
-	protected $_like_escape_str = '';
-	protected $_like_escape_chr = '';
-
-	/**
-	 * The syntax to count rows is slightly different across different
-	 * database engines, so this string appears in each driver and is
-	 * used for the count_all() and count_all_results() functions.
-	 */
-	protected $_count_string = 'SELECT COUNT(*) AS ';
 	protected $_random_keyword = ' RAND()'; // database specific random keyword
 
 	// CUBRID-specific properties
@@ -77,6 +67,8 @@ class CI_DB_cubrid_driver extends CI_DB {
 			empty($this->port) OR $this->port = 33000;
 		}
 	}
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Non-persistent database connection
