@@ -212,18 +212,20 @@ Release Date: Not Released
 -  Core
 
    -  Changed private methods in the :doc:`URI Library <libraries/uri>` to protected so MY_URI can override them.
-   -  Removed ``CI_CORE`` boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
+   -  Removed ``CI_CORE`` boolean constant from *CodeIgniter.php* (no longer Reactor and Core versions).
    -  :doc:`Loader Library <libraries/loader>` changes include:
-	 -  Added method get_vars() to the Loader to retrieve all variables loaded with $this->load->vars().
-	 -  CI_Loader::_ci_autoloader() is now a protected method.
-	 -  Added autoloading of drivers with $autoload['drivers'].
-	 -  CI_Loader::library() will now load drivers as well, for backward compatibility of converted libraries (like Session).
+	 -  Added method ``get_vars()`` to the Loader to retrieve all variables loaded with ``$this->load->vars()``.
+	 -  ``CI_Loader::_ci_autoloader()`` is now a protected method.
+	 -  Added autoloading of drivers with ``$autoload['drivers']``.
+	 -  ``CI_Loader::library()`` will now load drivers as well, for backward compatibility of converted libraries (like Session).
    -  ``is_loaded()`` function from *system/core/Commons.php* now returns a reference.
-   -  $config['rewrite_short_tags'] now has no effect when using PHP 5.4 as *<?=* will always be available.
-   -  Added ``method()`` to the :doc:`Input Library <libraries/input>` to retrieve ``$_SERVER['REQUEST_METHOD']``.
-   -  Modified valid_ip() to use PHP's filter_var() in the :doc:`Input Library <libraries/input>`.
+   -  ``$config['rewrite_short_tags']`` now has no effect when using PHP 5.4 as *<?=* will always be available.
+   -  :doc:`Input Library <libraries/input>` changes include:
+	 -  Added ``method()`` to retrieve ``$_SERVER['REQUEST_METHOD']``.
+	 -  Modified ``valid_ip()`` to use PHP's ``filter_var()``.
+	 -  Added support for arrays and network addresses (e.g. 192.168.1.1/24) for use with the *proxy_ips* setting.
    -  Added support for HTTP-Only cookies with new config option *cookie_httponly* (default FALSE).
-   -  Renamed method _call_hook() to call_hook() in the :doc:`Hooks Library <general/hooks>`.
+   -  Renamed method ``_call_hook()`` to ``call_hook()`` in the :doc:`Hooks Library <general/hooks>`.
    -  :doc:`Output Library <libraries/output>` changes include:
 	 -  Added method ``get_content_type()``.
 	 -  Added a second argument to method ``set_content_type()`` that allows setting the document charset as well.
@@ -235,9 +237,8 @@ Release Date: Not Released
 	 -  Added method ``strip_image_tags()``.
 	 -  Added ``$config['csrf_regeneration']``, which makes token regeneration optional.
 	 -  Added ``$config['csrf_exclude_uris']``, which allows you list URIs which will not have the CSRF validation methods run.
-   -  Changed ``_exception_handler()`` to respect php.ini 'display_errors' setting.
+   -  Changed ``_exception_handler()`` to respect php.ini *display_errors* setting.
    -  Removed redundant conditional to determine HTTP server protocol in ``set_status_header()``.
-   -  Added support for IPv4 range masks (e.g. 192.168.1.1/24) to specify ranges of IP addresses for use with the *proxy_ips* setting.
 
 Bug fixes for 3.0
 ------------------
