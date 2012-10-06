@@ -358,6 +358,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1692) - :doc:`Database Library <database/index>` method ``display_error()`` didn't properly trace the possible error source on Windows systems.
 -  Fixed a bug (#1745) - ``is_write_type()`` method in the :doc:`Database Library <database/index>` didn't return TRUE for LOAD queries.
 -  Fixed a bug (#1765) - :doc:`Database Library <database/index>` didn't properly detect connection errors for MySQLi.
+-  Fixed a bug (#1257) - :doc:`Query Builder <database/query_builder>` used to (unnecessarily) group FROM clause contents, which breaks certain queries and is invalid for some databases.
 
 Version 2.1.2
 =============
