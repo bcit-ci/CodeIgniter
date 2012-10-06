@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.1.2</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.1.3</h1></td>
 <td id="breadcrumb_right"><a href="./toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -63,9 +63,11 @@ Change Log
 <h3>Bug fixes for 2.1.3:</h3>
 <ul>
 	<li>Fixed a bug (#1543) - <a href="libraries/caching.html#file">File-based Caching</a> method <samp>get_metadata()</samp> used a non-existent array key to look for the TTL value.</li>
-	<li>Fixed a bug (#1314) - <a href="libraries/session.html">Session Library</a> method <samp>sess_destroy()</samp> didn't destroy the userdata array.
+	<li>Fixed a bug (#1314) - <a href="libraries/session.html">Session Library</a> method <samp>sess_destroy()</samp> didn't destroy the userdata array.</li>
 	<li>Fixed a bug where the <a href="libraries/profiler.html">Profiler Library</a> issued an E_WARNING error if <a href="libraries/session.html">Session</a> userdata contains objects.</li>
-	<li>Fixed a bug (#1699) - <a href="libraries/migration.html">Migration Library</a> ignored the <samp>$config['migration_path']</samp> setting.
+	<li>Fixed a bug (#1699) - <a href="libraries/migration.html">Migration Library</a> ignored the <samp>$config['migration_path']</samp> setting.</li>
+	<li>Fixed a bug (#227) - <a href="libraries/input.html">Input Library</a> allowed unconditional spoofing of HTTP clients' IP addresses through the HTTP_CLIENT_IP header.</li>
+	<li>Fixed a bug (#907) - <a href="libraries/input.html">Input Library</a> ignored HTTP_X_CLUSTER_CLIENT_IP and HTTP_X_CLIENT_IP headers when checking for proxies.</li>
 </ul>
 
 <h2>Version 2.1.2</h2>
