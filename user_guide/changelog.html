@@ -68,6 +68,8 @@ Change Log
 	<li>Fixed a bug (#1699) - <a href="libraries/migration.html">Migration Library</a> ignored the <samp>$config['migration_path']</samp> setting.</li>
 	<li>Fixed a bug (#227) - <a href="libraries/input.html">Input Library</a> allowed unconditional spoofing of HTTP clients' IP addresses through the HTTP_CLIENT_IP header.</li>
 	<li>Fixed a bug (#907) - <a href="libraries/input.html">Input Library</a> ignored HTTP_X_CLUSTER_CLIENT_IP and HTTP_X_CLIENT_IP headers when checking for proxies.</li>
+	<li>Fixed a bug (#940) - <samp>csrf_verify()</samp> used to set the CSRF cookie while processing a POST request with no actual POST data, which resulted in validating a request that should be considered invalid.</li>
+	<li>Fixed a bug in the <a href="libraries/security.html">Security Library</a> where a CSRF cookie was created even if <samp>$config['csrf_protection']</samp> is set tot FALSE.</li>
 </ul>
 
 <h2>Version 2.1.2</h2>
