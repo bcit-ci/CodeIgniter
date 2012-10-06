@@ -1522,24 +1522,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * From Tables
-	 *
-	 * This public function implicitly groups FROM tables so there is no confusion
-	 * about operator precedence in harmony with SQL standards
-	 *
-	 * @param       array
-	 * @return      string
-	 */
-	protected function _from_tables($tables)
-	{
-		is_array($tables) OR $tables = array($tables);
-
-		return (count($tables) === 1) ? $tables[0] : '('.implode(', ', $tables).')';
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Get UPDATE query string
 	 *
 	 * Compiles an update query and returns the sql
@@ -2058,7 +2040,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		// Write the "FROM" portion of the query
 		if (count($this->qb_from) > 0)
 		{
-			$sql .= "\nFROM ".$this->_from_tables($this->qb_from);
+			$sql .= "\nFROM ".implode(', ', $this->qb_from);
 		}
 
 		// Write the "JOIN" portion of the query
