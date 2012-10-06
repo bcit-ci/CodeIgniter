@@ -218,7 +218,12 @@ Release Date: Not Released
 	 -  CI_Loader::_ci_autoloader() is now a protected method.
 	 -  Added autoloading of drivers with $autoload['drivers'].
 	 -  CI_Loader::library() will now load drivers as well, for backward compatibility of converted libraries (like Session).
-   -  ``is_loaded()`` function from *system/core/Commons.php* now returns a reference.
+   -  :doc:`Common functions <general/common_functions>` changes include:
+	 -  ``is_loaded()`` function now returns a reference.
+	 -  Added ``get_mimes()`` function to return the *config/mimes.php* array.
+	 -  Added support for HTTP code 303 ("See Other") in ``set_status_header()``.
+	 -  Removed redundant conditional to determine HTTP server protocol in ``set_status_header()``.
+	 -  Changed ``_exception_handler()`` to respect php.ini *display_errors* setting.
    -  $config['rewrite_short_tags'] now has no effect when using PHP 5.4 as *<?=* will always be available.
    -  Added ``method()`` to the :doc:`Input Library <libraries/input>` to retrieve ``$_SERVER['REQUEST_METHOD']``.
    -  Modified valid_ip() to use PHP's filter_var() in the :doc:`Input Library <libraries/input>`.
@@ -227,16 +232,12 @@ Release Date: Not Released
    -  :doc:`Output Library <libraries/output>` changes include:
 	 -  Added method ``get_content_type()``.
 	 -  Added a second argument to method ``set_content_type()`` that allows setting the document charset as well.
-   -  Added ``get_mimes()`` function to *system/core/Commons.php* to return the *config/mimes.php* array.
    -  ``$config['time_reference']`` now supports all timezone strings supported by PHP.
-   -  Added support for HTTP code 303 ("See Other") in ``set_status_header()``.
    -  Changed :doc:`Config Library <libraries/config>` method ``site_url()`` to accept an array as well.
    -  :doc:`Security Library <libraries/security>` changes include:
 	 -  Added method ``strip_image_tags()``.
 	 -  Added ``$config['csrf_regeneration']``, which makes token regeneration optional.
 	 -  Added ``$config['csrf_exclude_uris']``, which allows you list URIs which will not have the CSRF validation methods run.
-   -  Changed ``_exception_handler()`` to respect php.ini 'display_errors' setting.
-   -  Removed redundant conditional to determine HTTP server protocol in ``set_status_header()``.
    -  Added support for IPv4 range masks (e.g. 192.168.1.1/24) to specify ranges of IP addresses for use with the *proxy_ips* setting.
 
 Bug fixes for 3.0
