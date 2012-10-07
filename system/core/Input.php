@@ -334,7 +334,7 @@ class CI_Input {
 
 					if ( ! $this->valid_ip($spoof))
 					{
-						$spoof = NULL;
+						$spoof = FALSE;
 					}
 					else
 					{
@@ -343,7 +343,7 @@ class CI_Input {
 				}
 			}
 
-			$this->ip_address = ($spoof !== NULL && in_array($_SERVER['REMOTE_ADDR'], $proxy_ips, TRUE))
+			$this->ip_address = ($spoof !== FALSE && in_array($_SERVER['REMOTE_ADDR'], $proxy_ips, TRUE))
 				? $spoof : $_SERVER['REMOTE_ADDR'];
 		}
 		else
