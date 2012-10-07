@@ -1317,15 +1317,15 @@ class XML_RPC_Values extends CI_Xmlrpc
 		{
 			$type = $type === '' ? 'string' : $type;
 
-			if ($this->xmlrpcTypes[$type] === 1)
+			if ($this->xmlrpcTypes[$type] == 1)
 			{
 				$this->addScalar($val,$type);
 			}
-			elseif ($this->xmlrpcTypes[$type] === 2)
+			elseif ($this->xmlrpcTypes[$type] == 2)
 			{
 				$this->addArray($val);
 			}
-			elseif ($this->xmlrpcTypes[$type] === 3)
+			elseif ($this->xmlrpcTypes[$type] == 3)
 			{
 				$this->addStruct($val);
 			}
@@ -1351,7 +1351,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 			return 0;
 		}
 
-		if ($typeof !== 1)
+		if ($typeof != 1)
 		{
 			echo '<strong>XML_RPC_Values</strong>: not a scalar type (${typeof})<br />';
 			return 0;
