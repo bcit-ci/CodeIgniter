@@ -399,7 +399,7 @@ The validation system supports callbacks to your own validation
 functions. This permits you to extend the validation class to meet your
 needs. For example, if you need to run a database query to see if the
 user is choosing a unique username, you can create a callback function
-that does that. Let's create a example of this.
+that does that. Let's create an example of this.
 
 In your controller, change the "username" rule to this::
 
