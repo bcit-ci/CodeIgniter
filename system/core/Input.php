@@ -642,7 +642,7 @@ class CI_Input {
 
 
 		// CSRF Protection check on HTTP requests
-		if ($this->_enable_csrf == TRUE && $this->is_cli_request())
+		if ($this->_enable_csrf == TRUE && ! $this->is_cli_request())
 		{
 			$this->security->csrf_verify();
 		}
