@@ -62,7 +62,7 @@ if ( ! function_exists('directory_map'))
 			while (FALSE !== ($file = readdir($fp)))
 			{
 				// Remove '.', '..', and hidden files [optional]
-				if ( ! trim($file, '.') OR ($hidden === FALSE && $file[0] === '.'))
+				if ($file === '.' OR $file === '..' OR ($hidden === FALSE && $file[0] === '.'))
 				{
 					continue;
 				}

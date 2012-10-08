@@ -534,7 +534,7 @@ if ( ! function_exists('redirect'))
 		}
 
 		// IIS environment likely? Use 'refresh' for better compatibility
-		if (DIRECTORY_SEPARATOR !== '/' && $method === 'auto')
+		if ($method === 'auto' && isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== FALSE)
 		{
 			$method = 'refresh';
 		}

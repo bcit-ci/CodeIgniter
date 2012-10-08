@@ -80,8 +80,8 @@ The number of "digit" links you would like before and after the selected
 page number. For example, the number 2 will place two digits on either
 side, as in the example links at the very top of this page.
 
-$config['use_page_number'] = TRUE;
-==================================
+$config['use_page_numbers'] = TRUE;
+===================================
 
 By default, the URI segment will use the starting index for the items
 you are paginating. If you prefer to show the the actual page number,
