@@ -1237,7 +1237,7 @@ class CI_Email {
 
 		// wrap each line with the shebang, charset, and transfer encoding
 		// the preceding space on successive lines is required for header "folding"
-		return trim(preg_replace('/^(.*)$/m', ' =?'.$this->charset.'?Q?$1?=', $output.$temp));
+		return trim(preg_replace('/^(.*?)(\r*)$/m', ' =?'.$this->charset.'?Q?$1?=$2', $output.$temp));
 	}
 
 	// --------------------------------------------------------------------
