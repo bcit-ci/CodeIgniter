@@ -243,6 +243,7 @@ Release Date: Not Released
 Bug fixes for 3.0
 ------------------
 
+-  Fixed a bug (#1709) where the email headers were broken when using long email subjects and \r\n as crlf.
 -  Fixed a bug where ``unlink()`` raised an error if cache file did not exist when you try to delete it.
 -  Fixed a bug (#181) where a mis-spelling was in the form validation language file.
 -  Fixed a bug (#159, #163) that mishandled Query Builder nested transactions because _trans_depth was not getting incremented.
