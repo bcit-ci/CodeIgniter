@@ -64,7 +64,7 @@ class CI_Email {
 	public $bcc_batch_mode	= FALSE;	// TRUE/FALSE - Turns on/off Bcc batch feature
 	public $bcc_batch_size	= 200;		// If bcc_batch_mode = TRUE, sets max number of Bccs in each batch
 
-	protected $_safe_mode		= FALSE;
+	protected $safe_mode		= FALSE;
 	protected $_subject		= '';
 	protected $_body		= '';
 	protected $_finalbody		= '';

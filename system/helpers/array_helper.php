@@ -102,5 +102,41 @@ if ( ! function_exists('elements'))
 	}
 }
 
+// --------------------------------------------------------------------
+
+/**
+ * Array to string - Join array elements with a string.
+ *
+ * @access	public
+ * @param	array
+ * @param	string
+ * @param	string
+ * @return	string
+ */
+if ( ! function_exists('array_to_str'))
+{
+	function array_to_str($array = array(), $sep = ', ', $sep_last = '')
+	{
+		if (empty($array) OR ! is_array($array))
+		{
+			return '';
+		}
+		
+		if ($sep_last)
+		{
+			$last_element = array_pop($array);
+			
+			if ( ! count($array))
+			{
+				return $last_element;
+			}
+			
+			return implode($sep, $array).$sep_last.$last_element;
+		}
+		
+		return implode($sep, $array);
+	}
+}
+
 /* End of file array_helper.php */
 /* Location: ./system/helpers/array_helper.php */
