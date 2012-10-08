@@ -70,6 +70,7 @@ Change Log
 	<li>Fixed a bug (#907) - <a href="libraries/input.html">Input Library</a> ignored HTTP_X_CLUSTER_CLIENT_IP and HTTP_X_CLIENT_IP headers when checking for proxies.</li>
 	<li>Fixed a bug (#940) - <samp>csrf_verify()</samp> used to set the CSRF cookie while processing a POST request with no actual POST data, which resulted in validating a request that should be considered invalid.</li>
 	<li>Fixed a bug in the <a href="libraries/security.html">Security Library</a> where a CSRF cookie was created even if <samp>$config['csrf_protection']</samp> is set tot FALSE.</li>
+	<li>Fixed a bug (#1715) - <a href="libraries/input.html">Input Library</a> triggered <samp>csrf_verify()</samp> on CLI requests.</li>
 </ul>
 
 <h2>Version 2.1.2</h2>
