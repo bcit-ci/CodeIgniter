@@ -45,9 +45,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	// the character used to excape - not necessary for ODBC
 	protected $_escape_char = '';
 
-	// clause and character used for LIKE escape sequences
 	protected $_like_escape_str = " {escape '%s'} ";
-	protected $_like_escape_chr = '!';
 
 	protected $_random_keyword;
 
@@ -286,22 +284,6 @@ class CI_DB_odbc_driver extends CI_DB {
 	public function error()
 	{
 		return array('code' => odbc_error($this->conn_id), 'message' => odbc_errormsg($this->conn_id));
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * From Tables
-	 *
-	 * This function implicitly groups FROM tables so there is no confusion
-	 * about operator precedence in harmony with SQL standards
-	 *
-	 * @param	array
-	 * @return	string
-	 */
-	protected function _from_tables($tables)
-	{
-		return is_array($tables) ? implode(', ', $tables) : $tables;
 	}
 
 	// --------------------------------------------------------------------

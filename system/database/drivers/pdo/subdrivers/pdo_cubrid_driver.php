@@ -44,10 +44,6 @@ class CI_DB_pdo_cubrid_driver extends CI_DB_pdo_driver {
 
 	protected $_escape_char = '`';
 
-	// clause and character used for LIKE escape sequences - not used in CUBRID
-	protected $_like_escape_str = '';
-	protected $_like_escape_chr = '\\';
-
 	protected $_random_keyword = ' RAND()';
 
 	/**

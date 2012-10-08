@@ -114,7 +114,7 @@ store them. Here is a basic prototype for such a table::
 	 excerpt text NOT NULL,
 	 blog_name varchar(100) NOT NULL,
 	 tb_date int(10) NOT NULL,
-	 ip_address varchar(16) NOT NULL,
+	 ip_address varchar(45) NOT NULL,
 	 PRIMARY KEY `tb_id` (`tb_id`),
 	 KEY `entry_id` (`entry_id`)
 	);
