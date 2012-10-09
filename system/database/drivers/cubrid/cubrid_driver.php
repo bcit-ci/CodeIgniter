@@ -438,7 +438,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	protected function _from_tables()
 	{
-		if ( ! empty($this->qb_join) && count($this->qb_from) > 0)
+		if ( ! empty($this->qb_join) && count($this->qb_from) > 1)
 		{
 			return '('.implode(', ', $this->qb_from).')';
 		}

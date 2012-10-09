@@ -219,7 +219,7 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _from_tables()
 	{
-		if ( ! empty($this->qb_join) && count($this->qb_from) > 0)
+		if ( ! empty($this->qb_join) && count($this->qb_from) > 1)
 		{
 			return '('.implode(', ', $this->qb_from).')';
 		}
