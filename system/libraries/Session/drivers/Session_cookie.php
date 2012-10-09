@@ -158,13 +158,6 @@ class CI_Session_cookie extends CI_Session_driver {
 	public $userdata				= array();
 
 	/**
-	 * Reference to CodeIgniter instance
-	 *
-	 * @var object
-	 */
-	public $CI;
-
-	/**
 	 * Current time
 	 *
 	 * @var int
@@ -197,9 +190,6 @@ class CI_Session_cookie extends CI_Session_driver {
 	 */
 	protected function initialize()
 	{
-		// Set the super object to a local variable for use throughout the class
-		$this->CI =& get_instance();
-
 		// Set all the session preferences, which can either be set
 		// manually via the $params array or via the config file
 		$prefs = array(
