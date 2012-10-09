@@ -29,16 +29,28 @@ class Session_test extends CI_TestCase {
 		$_COOKIE = array();
 
 		// Establish necessary support classes
+		$cfg = $this->ci_core_class('cfg');
+		$ldr = $this->ci_core_class('load');
 		$obj = new stdClass;
-		$classes = array(
-			'config' => 'cfg',
-			'load' => 'load',
-			'input' => 'in'
-		);
-		foreach ($classes as $name => $abbr) {
-			$class = $this->ci_core_class($abbr);
-			$obj->$name = new $class;
+		$obj->config = new $cfg();
+		$obj->load = new $ldr();
+
+		// Mock up Input
+		$input = 'Session_Input';
+		if ( ! class_exists($input))
+		{
+			$code = 'class '.$input.' { public $cookie = \'\'; public $ip_addr = \'\'; public $agent = \'\'; '.
+				'public function cookie($name) { return $this->cookie; } '.
+				'public function ip_address() { return $this->ip_addr; } '.
+				'public function user_agent() { return $this->agent; } '.
+				'public function is_cli_request() { return FALSE; } '.
+				'public function is_ajax_request() { return FALSE; } }';
+			eval($code);
 		}
+		$obj->input = new $input();
+		$obj->input->ip_addr = '127.0.0.1';
+		$obj->input->agent = 'Mozilla/5.0 (Unit Test OS) AppleWebKit/537.4 (KHTML, like Gecko) CLI/1.2.3.4 PHP/5.x';
+
 		$this->ci_instance($obj);
 
 		// Attach session instance locally
@@ -402,4 +414,3 @@ class Session_test extends CI_TestCase {
 		$this->assertNull($this->session->native->userdata($key));
 	}
 }
-
