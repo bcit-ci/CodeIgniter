@@ -1522,6 +1522,23 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * FROM tables
+	 *
+	 * Groups tables in FROM clauses if needed, so there is no confusion
+	 * about operator precedence.
+	 *
+	 * Note: This is only used (and overriden) by MySQL and CUBRID.
+	 *
+	 * @return	string
+	 */
+	protected function _from_tables()
+	{
+		return implode(', ', $this->qb_from);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Get UPDATE query string
 	 *
 	 * Compiles an update query and returns the sql
@@ -2040,7 +2057,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		// Write the "FROM" portion of the query
 		if (count($this->qb_from) > 0)
 		{
-			$sql .= "\nFROM ".implode(', ', $this->qb_from);
+			$sql .= "\nFROM ".$this->from_tables();
 		}
 
 		// Write the "JOIN" portion of the query
