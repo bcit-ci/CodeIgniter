@@ -39,7 +39,7 @@ Release Date: Not Released
    -  Updated support for zip files in mimes.php.
    -  Updated support for csv files in mimes.php.
    -  Added some more doctypes.
-   -  Added Romanian and Greek characters in foreign_characters.php.
+   -  Added Romanian, Greek and Vietnamese characters in *foreign_characters.php*.
    -  Changed logger to only chmod when file is first created.
    -  Removed previously deprecated SHA1 Library.
    -  Removed previously deprecated use of ``$autoload['core']`` in application/config/autoload.php.
@@ -60,7 +60,8 @@ Release Date: Not Released
 	 - ``now()`` now works with all timezone strings supported by PHP.
 	 - Added an optional third parameter to ``timespan()`` that constrains the number of time units displayed.
 	 - Added an optional parameter to ``timezone_menu()`` that allows more attributes to be added to the generated select tag.
-	 - Deprecated ``standard_date()``, which now just uses the native ``date()`` with `DateTime constants <http://bg2.php.net/manual/en/class.datetime.php#datetime.constants.types>`_.
+	 - Deprecated ``standard_date()``, which now just uses the native ``date()`` with `DateTime constants <http://www.php.net/manual/en/class.datetime.php#datetime.constants.types>`_.
+	 - Added function ``date_range()`` that generates a list of dates between a specified period.
    -  ``create_captcha()`` accepts additional colors parameter, allowing for color customization.
    -  :doc:`URL Helper <helpers/url_helper>` changes include:
 	 - ``url_title()`` will now trim extra dashes from beginning and end.
@@ -75,7 +76,7 @@ Release Date: Not Released
    -  Added a work-around in ``force_download()`` for a bug Android <= 2.1, where the filename extension needs to be in uppercase.
    -  ``form_dropdown()`` will now also take an array for unity with other form helpers.
    -  ``do_hash()`` now uses PHP's native ``hash()`` function (supporting more algorithms) and is deprecated.
-   -  Removed previously deprecated helper function ``js_insert_smiley()`` from smiley helper.
+   -  Removed previously deprecated helper function ``js_insert_smiley()`` from :doc:`Smiley Helper <helpers/smiley_helper>`.
    -  :doc:`File Helper <helpers/file_helper>` changes include:
 	 - ``set_realpath()`` can now also handle file paths as opposed to just directories.
 	 - Added an optional paramater to ``delete_files()`` to enable it to skip deleting files such as .htaccess and index.html.
@@ -163,7 +164,7 @@ Release Date: Not Released
 	 -  Added ``all_flashdata()`` method to session class. Returns an associative array of only flashdata.
 	 -  Added ``has_userdata()`` method to verify existence of userdata item.
 	 -  Added ``tempdata()``, ``set_tempdata()``, and ``unset_tempdata()`` methods for manipulating tempdata.
-   -  :doc:`File Uploading Library <libraries/upload>` changes include:
+   -  :doc:`File Uploading Library <libraries/file_uploading>` changes include:
 	 -  Added *max_filename_increment* config setting.
 	 -  Added an "index" parameter to the ``data()`` method.
    -  :doc:`Cart library <libraries/cart>` changes include:
@@ -204,7 +205,7 @@ Release Date: Not Released
 	 -  Added $config['reuse_query_string'] to allow automatic repopulation of query string arguments, combined with normal URI segments.
    -  Removed the default ``&nbsp;`` from a number of the configuration variables.
    -  Added the ability to use a proxy with the :doc:`XML-RPC Library <libraries/xmlrpc>`.
-   -  :doc:`Encryption Library <libraries/encrypt>` changes include:
+   -  :doc:`Encryption Library <libraries/encryption>` changes include:
 	 -  Added support for hashing algorithms other than SHA1 and MD5.
 	 -  Removed previously deprecated ``sha1()`` method.
 
@@ -217,7 +218,12 @@ Release Date: Not Released
 	 -  CI_Loader::_ci_autoloader() is now a protected method.
 	 -  Added autoloading of drivers with $autoload['drivers'].
 	 -  CI_Loader::library() will now load drivers as well, for backward compatibility of converted libraries (like Session).
-   -  ``is_loaded()`` function from *system/core/Commons.php* now returns a reference.
+   -  :doc:`Common functions <general/common_functions>` changes include:
+	 -  ``is_loaded()`` function now returns a reference.
+	 -  Added ``get_mimes()`` function to return the *config/mimes.php* array.
+	 -  Added support for HTTP code 303 ("See Other") in ``set_status_header()``.
+	 -  Removed redundant conditional to determine HTTP server protocol in ``set_status_header()``.
+	 -  Changed ``_exception_handler()`` to respect php.ini *display_errors* setting.
    -  $config['rewrite_short_tags'] now has no effect when using PHP 5.4 as *<?=* will always be available.
    -  Added ``method()`` to the :doc:`Input Library <libraries/input>` to retrieve ``$_SERVER['REQUEST_METHOD']``.
    -  Modified valid_ip() to use PHP's filter_var() in the :doc:`Input Library <libraries/input>`.
@@ -226,16 +232,12 @@ Release Date: Not Released
    -  :doc:`Output Library <libraries/output>` changes include:
 	 -  Added method ``get_content_type()``.
 	 -  Added a second argument to method ``set_content_type()`` that allows setting the document charset as well.
-   -  Added ``get_mimes()`` function to *system/core/Commons.php* to return the *config/mimes.php* array.
    -  ``$config['time_reference']`` now supports all timezone strings supported by PHP.
-   -  Added support for HTTP code 303 ("See Other") in ``set_status_header()``.
    -  Changed :doc:`Config Library <libraries/config>` method ``site_url()`` to accept an array as well.
    -  :doc:`Security Library <libraries/security>` changes include:
 	 -  Added method ``strip_image_tags()``.
 	 -  Added ``$config['csrf_regeneration']``, which makes token regeneration optional.
 	 -  Added ``$config['csrf_exclude_uris']``, which allows you list URIs which will not have the CSRF validation methods run.
-   -  Changed ``_exception_handler()`` to respect php.ini 'display_errors' setting.
-   -  Removed redundant conditional to determine HTTP server protocol in ``set_status_header()``.
    -  Added support for IPv4 range masks (e.g. 192.168.1.1/24) to specify ranges of IP addresses for use with the *proxy_ips* setting.
 
 Bug fixes for 3.0
@@ -355,6 +357,9 @@ Bug fixes for 3.0
 -  Fixed a bug (#395) - :doc:`Unit Testing Library <libraries/unit_testing>` method ``result()`` didn't properly check array result columns when called from ``report()``.
 -  Fixed a bug (#1692) - :doc:`Database Library <database/index>` method ``display_error()`` didn't properly trace the possible error source on Windows systems.
 -  Fixed a bug (#1745) - ``is_write_type()`` method in the :doc:`Database Library <database/index>` didn't return TRUE for LOAD queries.
+-  Fixed a bug (#1765) - :doc:`Database Library <database/index>` didn't properly detect connection errors for MySQLi.
+-  Fixed a bug (#1257) - :doc:`Query Builder <database/query_builder>` used to (unnecessarily) group FROM clause contents, which breaks certain queries and is invalid for some databases.
+-  Fixed a bug (#1709) - :doc:`Email <libraries/email>` headers were broken when using long email subjects and \r\n as CRLF.
 
 Version 2.1.2
 =============

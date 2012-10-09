@@ -66,8 +66,8 @@ class CI_DB_mysqli_driver extends CI_DB {
 		{
 			$port = empty($this->port) ? NULL : $this->port;
 
-			$mysqli = mysqli_init();
-			$mysqli->real_connect($this->hostname, $this->username, $this->password, $this->database, $port, NULL, MYSQLI_CLIENT_COMPRESS);
+			$mysqli = new mysqli();
+			@$mysqli->real_connect($this->hostname, $this->username, $this->password, $this->database, $port, NULL, MYSQLI_CLIENT_COMPRESS);
 
 			return $mysqli;
 		}
@@ -418,6 +418,14 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	public function error()
 	{
+		if ( ! empty($this->conn_id->connect_errno))
+		{
+			return array(
+				'code' => $this->conn_id->connect_errno,
+				'message' => is_php('5.2.9') ? $this->conn_id->connect_error : mysqli_connect_error()
+			);
+		}
+
 		return array('code' => $this->conn_id->errno, 'message' => $this->conn_id->error);
 	}
 
