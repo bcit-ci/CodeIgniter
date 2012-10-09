@@ -188,7 +188,7 @@ class CI_Email {
 	 * @param	string
 	 * @return	object
 	 */
-	public function from($from, $name = '')
+	public function from($from, $name = '', $return_path = '')
 	{
 		if (preg_match('/\<(.*)\>/', $from, $match))
 		{
@@ -198,6 +198,10 @@ class CI_Email {
 		if ($this->validate)
 		{
 			$this->validate_email($this->_str_to_array($from));
+			if ($return_path)
+			{
+				$this->validate_email($this->_str_to_array($return_path));
+			}
 		}
 
 		// prepare the display name
@@ -216,7 +220,12 @@ class CI_Email {
 		}
 
 		$this->set_header('From', $name.' <'.$from.'>');
-		$this->set_header('Return-Path', '<'.$from.'>');
+
+		if( ! $return_path)
+		{
+			$return_path = $from;
+		}
+		$this->set_header('Return-Path', '<'.$return_path.'>');
 
 		return $this;
 	}
@@ -971,7 +980,6 @@ class CI_Email {
 
 				$this->_finalbody = $body.$this->_prep_quoted_printable($this->_body).$this->newline.$this->newline;
 
-
 				if ($this->_get_protocol() === 'mail')
 				{
 					$this->_header_str .= $hdr;
@@ -1091,11 +1099,19 @@ class CI_Email {
 	 * Refer to RFC 2045 http://www.ietf.org/rfc/rfc2045.txt
 	 *
 	 * @param	string
-	 * @param	int
 	 * @return	string
 	 */
-	protected function _prep_quoted_printable($str, $charlim = '')
+	protected function _prep_quoted_printable($str)
 	{
+		// RFC 2045 specifies CRLF as "\r\n".
+		// However, many developers choose to override that and violate
+		// the RFC rules due to (apparently) a bug in MS Exchange,
+		// which only works with "\n".
+		if ($this->crlf === "\r\n" && is_php('5.3'))
+		{
+			return quoted_printable_encode($str);
+		}
+
 		// Set the character limit
 		// Don't allow over 76, as that will make servers and MUAs barf
 		// all over quoted-printable data
@@ -1228,7 +1244,7 @@ class CI_Email {
 
 		// wrap each line with the shebang, charset, and transfer encoding
 		// the preceding space on successive lines is required for header "folding"
-		return trim(preg_replace('/^(.*)$/m', ' =?'.$this->charset.'?Q?$1?=', $output.$temp));
+		return trim(preg_replace('/^(.*?)(\r*)$/m', ' =?'.$this->charset.'?Q?$1?=$2', $output.$temp));
 	}
 
 	// --------------------------------------------------------------------
@@ -1399,7 +1415,7 @@ class CI_Email {
 		{
 			// most documentation of sendmail using the "-f" flag lacks a space after it, however
 			// we've encountered servers that seem to require it to be in place.
-			return mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str, '-f '.$this->clean_email($this->_headers['From']));
+			return mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str, '-f '.$this->clean_email($this->_headers['Return-Path']));
 		}
 	}
 
@@ -1412,7 +1428,7 @@ class CI_Email {
 	 */
 	protected function _send_with_sendmail()
 	{
-		$fp = @popen($this->mailpath.' -oi -f '.$this->clean_email($this->_headers['From']).' -t', 'w');
+		$fp = @popen($this->mailpath.' -oi -f '.$this->clean_email($this->_headers['From']).' -t'.' -r '.$this->clean_email($this->_headers['Return-Path']), 'w');
 
 		if ($fp === FALSE OR $fp === NULL)
 		{

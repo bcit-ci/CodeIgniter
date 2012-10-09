@@ -1320,6 +1320,13 @@ class CI_Image_lib {
 				imagestring($src_img, $this->wm_font_size, $x_shad, $y_shad, $this->wm_text, $drp_color);
 				imagestring($src_img, $this->wm_font_size, $x_axis, $y_axis, $this->wm_text, $txt_color);
 			}
+
+			// We can preserve transparency for PNG images
+			if ($this->image_type === 3)
+			{
+				imagealphablending($src_img, FALSE);
+				imagesavealpha($src_img, TRUE);
+			}
 		}
 
 		// Output the final image

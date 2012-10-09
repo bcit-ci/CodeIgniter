@@ -45,10 +45,6 @@ class CI_DB_ibase_driver extends CI_DB {
 	// The character used to escape with
 	protected $_escape_char = '"';
 
-	// clause and character used for LIKE escape sequences
-	protected $_like_escape_str = " ESCAPE '%s' ";
-	protected $_like_escape_chr = '!';
-
 	protected $_random_keyword = ' Random()'; // database specific random keyword
 
 	// Keeps track of the resource for the current transaction
@@ -301,22 +297,6 @@ class CI_DB_ibase_driver extends CI_DB {
 	public function error()
 	{
 		return array('code' => ibase_errcode(), 'message' => ibase_errmsg());
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * From Tables
-	 *
-	 * This public function implicitly groups FROM tables so there is no confusion
-	 * about operator precedence in harmony with SQL standards
-	 *
-	 * @param	array
-	 * @return	string
-	 */
-	protected function _from_tables($tables)
-	{
-		return is_array($tables) ? implode(', ', $tables) : $tables;
 	}
 
 	// --------------------------------------------------------------------

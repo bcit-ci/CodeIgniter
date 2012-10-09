@@ -45,10 +45,6 @@ class CI_DB_mysql_driver extends CI_DB {
 	// The character used for escaping
 	protected $_escape_char = '`';
 
-	// clause and character used for LIKE escape sequences - not used in MySQL
-	protected $_like_escape_str = '';
-	protected $_like_escape_chr = '\\';
-
 	protected $_random_keyword = ' RAND()'; // database specific random keyword
 
 	/**
@@ -464,6 +460,26 @@ class CI_DB_mysql_driver extends CI_DB {
 		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2)
 			.' WHERE '.(($where !== '' && count($where) > 0) ? implode(' ', $where).' AND ' : '')
 			.$index.' IN('.implode(',', $ids).')';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * FROM tables
+	 *
+	 * Groups tables in FROM clauses if needed, so there is no confusion
+	 * about operator precedence.
+	 *
+	 * @return	string
+	 */
+	protected function _from_tables()
+	{
+		if ( ! empty($this->qb_join) && count($this->qb_from) > 1)
+		{
+			return '('.implode(', ', $this->qb_from).')';
+		}
+
+		return implode(', ', $this->qb_from);
 	}
 
 	// --------------------------------------------------------------------

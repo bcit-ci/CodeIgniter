@@ -91,9 +91,9 @@ error upon failure, like this::
 	    echo $this->image_lib->display_errors();
 	}
 
-Note: You can optionally specify the HTML formatting to be applied to
-the errors, by submitting the opening/closing tags in the function, like
-this::
+.. note:: You can optionally specify the HTML formatting to be applied to
+	the errors, by submitting the opening/closing tags in the function,
+	like this::
 
 	$this->image_lib->display_errors('<p>', '</p>');
 
@@ -225,8 +225,7 @@ pixels) specifying where to crop, like this::
 	$config['y_axis'] = '40';
 
 All preferences listed in the table above are available for this
-function except these: rotation_angle, width, height, create_thumb,
-new_image.
+function except these: rotation_angle, create_thumb, new_image.
 
 Here's an example showing how you might crop an image::
 
@@ -243,11 +242,11 @@ Here's an example showing how you might crop an image::
 	    echo $this->image_lib->display_errors();
 	}
 
-Note: Without a visual interface it is difficult to crop images, so this
-function is not very useful unless you intend to build such an
-interface. That's exactly what we did using for the photo gallery module
-in ExpressionEngine, the CMS we develop. We added a JavaScript UI that
-lets the cropping area be selected.
+.. note:: Without a visual interface it is difficult to crop images, so this
+	function is not very useful unless you intend to build such an
+	interface. That's exactly what we did using for the photo gallery module
+	in ExpressionEngine, the CMS we develop. We added a JavaScript UI that
+	lets the cropping area be selected.
 
 $this->image_lib->rotate()
 ===========================
@@ -338,8 +337,8 @@ The above example will use a 16 pixel True Type font to create the text
 bottom/center of the image, 20 pixels from the bottom of the image.
 
 .. note:: In order for the image class to be allowed to do any
-	processing, the image file must have "write" file permissions. For
-	example, 777.
+	processing, the image file must have "write" file permissions
+	For example, 777.
 
 Watermarking Preferences
 ========================
