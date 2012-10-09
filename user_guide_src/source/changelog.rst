@@ -218,27 +218,27 @@ Release Date: Not Released
 	 -  ``CI_Loader::_ci_autoloader()`` is now a protected method.
 	 -  Added autoloading of drivers with ``$autoload['drivers']``.
 	 -  ``CI_Loader::library()`` will now load drivers as well, for backward compatibility of converted libraries (like Session).
-   -  ``is_loaded()`` function from *system/core/Commons.php* now returns a reference.
    -  ``$config['rewrite_short_tags']`` now has no effect when using PHP 5.4 as *<?=* will always be available.
    -  :doc:`Input Library <libraries/input>` changes include:
 	 -  Added ``method()`` to retrieve ``$_SERVER['REQUEST_METHOD']``.
 	 -  Modified ``valid_ip()`` to use PHP's ``filter_var()``.
 	 -  Added support for arrays and network addresses (e.g. 192.168.1.1/24) for use with the *proxy_ips* setting.
+   -  :doc:`Common functions <general/common_functions>` changes include:
+	 -  Added ``get_mimes()`` function to return the *config/mimes.php* array.
+	 -  Added support for HTTP code 303 ("See Other") in ``set_status_header()``.
+	 -  Removed redundant conditional to determine HTTP server protocol in ``set_status_header()``.
+	 -  Changed ``_exception_handler()`` to respect php.ini *display_errors* setting.
    -  Added support for HTTP-Only cookies with new config option *cookie_httponly* (default FALSE).
    -  Renamed method ``_call_hook()`` to ``call_hook()`` in the :doc:`Hooks Library <general/hooks>`.
    -  :doc:`Output Library <libraries/output>` changes include:
 	 -  Added method ``get_content_type()``.
 	 -  Added a second argument to method ``set_content_type()`` that allows setting the document charset as well.
-   -  Added ``get_mimes()`` function to *system/core/Commons.php* to return the *config/mimes.php* array.
    -  ``$config['time_reference']`` now supports all timezone strings supported by PHP.
-   -  Added support for HTTP code 303 ("See Other") in ``set_status_header()``.
    -  Changed :doc:`Config Library <libraries/config>` method ``site_url()`` to accept an array as well.
    -  :doc:`Security Library <libraries/security>` changes include:
 	 -  Added method ``strip_image_tags()``.
 	 -  Added ``$config['csrf_regeneration']``, which makes token regeneration optional.
 	 -  Added ``$config['csrf_exclude_uris']``, which allows you list URIs which will not have the CSRF validation methods run.
-   -  Changed ``_exception_handler()`` to respect php.ini *display_errors* setting.
-   -  Removed redundant conditional to determine HTTP server protocol in ``set_status_header()``.
 
 Bug fixes for 3.0
 ------------------
@@ -279,17 +279,14 @@ Bug fixes for 3.0
 -  Fixed a bug in CUBRID's affected_rows() method where a connection resource was passed to cubrid_affected_rows() instead of a result.
 -  Fixed a bug (#638) - db_set_charset() ignored its arguments and always used the configured charset instead.
 -  Fixed a bug (#413) - Oracle's error handling methods used to only return connection-related errors.
--  Fixed a bug (#804) - Profiler library was trying to handle objects as strings in some cases, resulting in warnings being issued by htmlspecialchars().
 -  Fixed a bug (#1101) - MySQL/MySQLi result method field_data() was implemented as if it was handling a DESCRIBE result instead of the actual result set.
 -  Fixed a bug in Oracle's :doc:`Database Forge Class <database/forge>` method _create_table() where it failed with AUTO_INCREMENT as it's not supported.
 -  Fixed a bug (#1080) - When using the SMTP protocol, the :doc:`Email Library <libraries/email>` send() method was returning TRUE even if the connection/authentication against the server failed.
--  Fixed a bug (#499) - a CSRF cookie was created even with CSRF protection being disabled.
 -  Fixed a bug (#306) - ODBC's insert_id() method was calling non-existent function odbc_insert_id(), which resulted in a fatal error.
 -  Fixed a bug in Oracle's DB_result class where the cursor id passed to it was always NULL.
 -  Fixed a bug (#64) - Regular expression in DB_query_builder.php failed to handle queries containing SQL bracket delimiters in the join condition.
 -  Fixed a bug in the :doc:`Session Library <libraries/sessions>` where a PHP E_NOTICE error was triggered by _unserialize() due to results from databases such as MSSQL and Oracle being space-padded on the right.
 -  Fixed a bug (#501) - set_rules() to check if the request method is not 'POST' before aborting, instead of depending on count($_POST) in the :doc:`Form Validation Library <libraries/form_validation>`.
--  Fixed a bug (#940) - csrf_verify() used to set the CSRF cookie while processing a POST request with no actual POST data, which resulted in validating a request that should be considered invalid.
 -  Fixed a bug (#136) - PostgreSQL, MySQL and MySQLi's escape_str() method didn't properly escape LIKE wild characters.
 -  Fixed a bug in the library loader where some PHP versions wouldn't execute the class constructor.
 -  Fixed a bug (#88) - An unexisting property was used for configuration of the Memcache cache driver.
@@ -308,7 +305,6 @@ Bug fixes for 3.0
 -  Fixed a bug (#1265) - Database connections were always closed, regardless of the 'pconnect' option value.
 -  Fixed a bug (#128) - :doc:`Language Library <libraries/language>` did not correctly keep track of loaded language files.
 -  Fixed a bug (#1242) - Added Windows path compatibility to function read_dir of ZIP library.
--  Fixed a bug (#1314) - sess_destroy() did not destroy userdata.
 -  Fixed a bug (#1349) - get_extension() in the :doc:`File Uploading Library <libraries/file_uploading>` returned the original filename when it didn't have an actual extension.
 -  Fixed a bug (#1273) - E_NOTICE being generated by :doc:`Query Builder <database/query_builder>`'s set_update_batch() method.
 -  Fixed a bug (#44, #110) - :doc:`Upload library <libraries/file_uploading>`'s clean_file_name() method didn't clear '!' and '#' characters.
@@ -329,7 +325,6 @@ Bug fixes for 3.0
 -  Fixed a bug (#1264) - :doc:`Database Forge <database/forge>` and :doc:`Database Utilities <database/utilities>` didn't update/reset the databases and tables list cache when a table or a database is created, dropped or renamed.
 -  Fixed a bug (#7) - :doc:`Query Builder <database/query_builder>`'s ``join()`` method only escaped one set of conditions.
 -  Fixed a bug (#1321) - Core Exceptions class couldn't find the errors/ folder in some cases.
--  Fixed a bug in the File-based :doc:`Cache Library <libraries/caching>` driver's get_metadata() method where a non-existent array key was accessed for the TTL value.
 -  Fixed a bug (#1202) - :doc:`Encryption Library <libraries/encryption>` encode_from_legacy() didn't set back the encrypt mode on failure.
 -  Fixed a bug (#145) - compile_binds() failed when the bind marker was present in a literal string within the query.
 -  Fixed a bug in protect_identifiers() where if passed along with the field names, operators got escaped as well.
@@ -358,6 +353,29 @@ Bug fixes for 3.0
 -  Fixed a bug (#1692) - :doc:`Database Library <database/index>` method ``display_error()`` didn't properly trace the possible error source on Windows systems.
 -  Fixed a bug (#1745) - ``is_write_type()`` method in the :doc:`Database Library <database/index>` didn't return TRUE for LOAD queries.
 -  Fixed a bug (#1765) - :doc:`Database Library <database/index>` didn't properly detect connection errors for MySQLi.
+-  Fixed a bug (#1257) - :doc:`Query Builder <database/query_builder>` used to (unnecessarily) group FROM clause contents, which breaks certain queries and is invalid for some databases.
+-  Fixed a bug (#1709) - :doc:`Email <libraries/email>` headers were broken when using long email subjects and \r\n as CRLF.
+
+Version 2.1.3
+=============
+
+Release Date: October 8, 2012
+
+-  Core
+   - :doc:`Common function <general/common_functions>` ``is_loaded()`` now returns a reference.
+
+Bug fixes for 2.1.3
+-------------------
+
+-  Fixed a bug (#1543) - File-based :doc:`Caching <libraries/caching>` method ``get_metadata()`` used a non-existent array key to look for the TTL value.
+-  Fixed a bug (#1314) - :doc:`Session Library <libraries/session>` method ``sess_destroy()`` didn't destroy the userdata array.
+-  Fixed a bug (#804) - Profiler library was trying to handle objects as strings in some cases, resulting in *E_WARNING* messages being issued by ``htmlspecialchars()``.
+-  Fixed a bug (#1699) - :doc:`Migration Library <libraries/migration>` ignored the ``$config['migration_path']`` setting.
+-  Fixed a bug (#227) - :doc:`Input Library <libraries/input>` allowed unconditional spoofing of HTTP clients' IP addresses through the *HTTP_CLIENT_IP* header.
+-  Fixed a bug (#907) - :doc:`Input Library <libraries/input>` ignored *HTTP_X_CLUSTER_CLIENT_IP* and *HTTP_X_CLIENT_IP* headers when checking for proxies.
+-  Fixed a bug (#940) - ``csrf_verify()`` used to set the CSRF cookie while processing a POST request with no actual POST data, which resulted in validating a request that should be considered invalid.
+-  Fixed a bug (#499) - :doc:`Security Library <libraries/security>` where a CSRF cookie was created even if ``$config['csrf_protection']`` is set tot FALSE.
+-  Fixed a bug (#1715) - :doc:`Input Library <libraries/input>` triggered ``csrf_verify()`` on CLI requests.
 
 Version 2.1.2
 =============
