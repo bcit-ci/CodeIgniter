@@ -6,6 +6,7 @@ General Topics
 	:titlesonly:
 	
 	urls
+	codeigniter
 	controllers
 	reserved_names
 	views

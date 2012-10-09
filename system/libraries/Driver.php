@@ -96,7 +96,8 @@ class CI_Driver_Library {
 			if ( ! class_exists($child_class))
 			{
 				// check application path first
-				foreach (get_instance()->load->get_package_paths(TRUE) as $path)
+				$CI =& get_instance();
+				foreach ($CI->load->get_package_paths(TRUE) as $path)
 				{
 					// loves me some nesting!
 					foreach (array(ucfirst($driver_name), $driver_name) as $class)
@@ -114,8 +115,9 @@ class CI_Driver_Library {
 				// it's a valid driver, but the file simply can't be found
 				if ( ! class_exists($child_class))
 				{
-					log_message('error', 'Unable to load the requested driver: '.$child_class);
-					show_error('Unable to load the requested driver: '.$child_class);
+					$msg = 'Unable to load the requested driver: '.$child_class;
+					log_message('error', $msg);
+					show_error($msg);
 				}
 			}
 
@@ -126,8 +128,9 @@ class CI_Driver_Library {
 		}
 
 		// The requested driver isn't valid!
-		log_message('error', 'Invalid driver requested: '.$child_class);
-		show_error('Invalid driver requested: '.$child_class);
+		$msg = 'Invalid driver requested: '.$child_class;
+		log_message('error', $msg);
+		show_error($msg);
 	}
 
 }

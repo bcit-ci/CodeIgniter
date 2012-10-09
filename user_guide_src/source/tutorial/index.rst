@@ -3,7 +3,7 @@ Tutorial
 ########
 
 This tutorial is intended to introduce you to the CodeIgniter framework
-and the basic principles of MVC architecture. It will show you how a
+and the basic principles of (H)MVC architecture. It will show you how a
 basic CodeIgniter application is constructed in step-by-step fashion.
 
 In this tutorial, you will be creating a **basic news application**. You

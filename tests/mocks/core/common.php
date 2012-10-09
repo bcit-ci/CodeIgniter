@@ -39,6 +39,15 @@ if ( ! function_exists('config_item'))
 	}
 }
 
+if ( ! function_exists('get_mimes'))
+{
+	function &get_mimes()
+	{
+		$mimes = include(APPPATH.'config/mimes.php');
+		return $mimes;
+	}
+}
+
 // --------------------------------------------------------------------
 
 if ( ! function_exists('load_class'))
@@ -113,14 +122,6 @@ if ( ! function_exists('show_404'))
 	function show_404($page = '', $log_error = TRUE)
 	{
 		throw new RuntimeException('CI Error: 404');
-	}
-}
-
-if ( ! function_exists('_exception_handler'))
-{
-	function _exception_handler($severity, $message, $filepath, $line)
-	{
-		throw new RuntimeException('CI Exception: '.$message.' | '.$filepath.' | '.$line);
 	}
 }
 

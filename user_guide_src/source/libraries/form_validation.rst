@@ -464,6 +464,20 @@ then it will be passed as the second argument of your callback function.
 	boolean TRUE/FALSE it is assumed that the data is your newly processed
 	form data.
 
+In addition, you can route a callback to another Controller. In the example above, if
+username_check was in your Validation Controller instead of your Form
+Controller, the rule would look like::
+
+	$this->form_validation->set_rules('username', 'Username', 'callback_validation/username_check');
+
+When the rule gets applied, the funcion is called on the named
+:ref:`sub-Controller <sub-controllers>` (after the prefix and before the slash),
+instead of having to be part of the same Controller where the rule gets set.
+The sub-Controller is loaded immediately before the call if it was not
+previously loaded. Note that the slash in the rule name is required to identify
+a routed callback. You cannot leave it out, even if your callback is the index()
+function of your sub-Controller.
+
 .. _setting-error-messages:
 
 Setting Error Messages

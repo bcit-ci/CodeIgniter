@@ -40,7 +40,7 @@ Introduction
 - :doc:`overview/cheatsheets`
 - :doc:`overview/features`
 - :doc:`overview/appflow`
-- :doc:`overview/mvc`
+- :doc:`overview/hmvc`
 - :doc:`overview/goals`
 
 ********

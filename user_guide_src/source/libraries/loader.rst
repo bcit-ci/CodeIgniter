@@ -6,7 +6,9 @@ Loader, as the name suggests, is used to load elements. These elements
 can be libraries (classes) :doc:`View files <../general/views>`,
 :doc:`Drivers <../general/drivers>`,
 :doc:`Helpers <../general/helpers>`,
-:doc:`Models <../general/models>`, or your own files.
+:doc:`Models <../general/models>`,
+:doc:`Controllers <../general/controllers>`,
+or your own files.
 
 .. note:: This class is initialized automatically by the system so there
 	is no need to do it manually.
@@ -202,6 +204,31 @@ specify it via the second parameter of the loading function::
 	$this->load->model('model_name', 'fubar');
 
 	$this->fubar->function();
+
+.. _load-controller:
+
+$this->load->controller('controller_name', 'object_name', $call)
+================================================================
+
+This function loads a sub-Controller and calls the appropriate function::
+
+	$this->load->controller('subhandler/task');
+
+The call above would load the Subhandler Controller, make it accessible as
+$this->subhandler, and pass control to the task() function. You may also 
+assign an alternate object name::
+
+	$this->load->controller('weirdness', 'normal');
+
+This would make the Weirdness Controller accessible as $this->normal, and
+call its index() function.
+
+Sometimes, you may want to load the controller, but not call any of its
+functions yet::
+
+	$this->load->controller('later', '', FALSE);
+
+You could then call $this->later->*some_function*() when the time is right.
 
 $this->load->database('options', true/false)
 ============================================

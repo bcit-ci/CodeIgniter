@@ -35,14 +35,16 @@ CodeIgniter is Fast
 Really fast. We challenge you to find a framework that has better
 performance than CodeIgniter.
 
-CodeIgniter Uses M-V-C
-======================
+CodeIgniter Uses HMVC
+=====================
 
-CodeIgniter uses the Model-View-Controller approach, which allows great
-separation between logic and presentation. This is particularly good for
+CodeIgniter uses the Hierarchical Model-View-Controller approach, which allows
+great separation between logic and presentation. This is particularly good for
 projects in which designers are working with your template files, as the
-code these files contain will be minimized. We describe MVC in more
-detail on its own page.
+code these files contain will be minimized. With the hierarchical capability,
+you can break your application down into modular components for better division
+of labor and code reusability. We describe :doc:`HMVC <hmvc>` in more detail
+on its own page.
 
 CodeIgniter Generates Clean URLs
 ================================

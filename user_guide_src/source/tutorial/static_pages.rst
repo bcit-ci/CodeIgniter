@@ -14,7 +14,7 @@ For example, when a call is made to:
 ``http://example.com/news/latest/10`` We might imagine that there is a
 controller named "news". The method being called on news would be
 "latest". The news method's job could be to grab 10 news items, and
-render them on the page. Very often in MVC, you'll see URL patterns that
+render them on the page. Very often in (H)MVC, you'll see URL patterns that
 match:
 ``http://example.com/[controller-class]/[controller-method]/[arguments]``
 As URL schemes become more complex, this may change. But for now, this

@@ -39,14 +39,14 @@ class CI_Lang {
 	/**
 	 * List of translations
 	 *
-	 * @var array
+	 * @var		array
 	 */
 	public $language =	array();
 
 	/**
 	 * List of loaded language files
 	 *
-	 * @var array
+	 * @var		array
 	 */
 	public $is_loaded =	array();
 
@@ -85,8 +85,9 @@ class CI_Lang {
 
 		if ($idiom === '')
 		{
-			$config =& get_config();
-			$idiom = ( ! empty($config['language'])) ? $config['language'] : 'english';
+			$CI = get_instance();
+			$cfg_lang = $CI->config->item('language');
+			$idiom = ( ! empty($cfg_lang)) ? $cfg_lang : 'english';
 		}
 
 		if ($return === FALSE && isset($this->is_loaded[$langfile]) && $this->is_loaded[$langfile] === $idiom)
@@ -148,7 +149,7 @@ class CI_Lang {
 	/**
 	 * Fetch a single line of text from the language array
 	 *
-	 * @param	string	$line	the language line
+	 * @param	string	the language line
 	 * @return	string
 	 */
 	public function line($line = '')

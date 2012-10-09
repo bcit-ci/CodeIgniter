@@ -36,9 +36,9 @@
  *
  * This can be set to anything, but default usage is:
  *
- *     development
- *     testing
- *     production
+ *	development
+ *	testing
+ *	production
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
@@ -76,7 +76,7 @@ switch (ENVIRONMENT)
  *---------------------------------------------------------------
  *
  * This variable must contain the name of your "system" folder.
- * Include the path if the folder is not in the same  directory
+ * Include the path if the folder is not in the same directory
  * as this file.
  */
 	$system_path = 'system';
@@ -131,20 +131,19 @@ switch (ENVIRONMENT)
  *
  * Un-comment the $routing array below to use this feature
  */
-	// The directory name, relative to the "controllers" folder.  Leave blank
+	// The directory name, relative to the "controllers" folder. Leave blank
 	// if your controller is not in a sub-folder within the "controllers" folder
 	// $routing['directory'] = '';
 
-	// The controller class file name.  Example:  mycontroller
+	// The controller class file name. Example: mycontroller
 	// $routing['controller'] = '';
 
 	// The controller function you wish to be called.
 	// $routing['function']	= '';
 
-
 /*
  * -------------------------------------------------------------------
- *  CUSTOM CONFIG VALUES
+ * CUSTOM CONFIG VALUES
  * -------------------------------------------------------------------
  *
  * The $assign_to_config array below will be passed dynamically to the
@@ -161,12 +160,12 @@ switch (ENVIRONMENT)
 
 
 // --------------------------------------------------------------------
-// END OF USER CONFIGURABLE SETTINGS.  DO NOT EDIT BELOW THIS LINE
+// END OF USER CONFIGURABLE SETTINGS. DO NOT EDIT BELOW THIS LINE
 // --------------------------------------------------------------------
 
 /*
  * ---------------------------------------------------------------
- *  Resolve the system path for increased reliability
+ * Resolve the system path for increased reliability
  * ---------------------------------------------------------------
  */
 
@@ -189,13 +188,27 @@ switch (ENVIRONMENT)
 	// Is the system path correct?
 	if ( ! is_dir($system_path))
 	{
-		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
-		exit('Your system folder path does not appear to be set correctly. Please open the following file and correct this: '.pathinfo(__FILE__, PATHINFO_BASENAME));
+		foreach (explode(PATH_SEPARATOR, get_include_path()) as $path)
+		{
+			$path = rtrim($path, '\/').'/'.$system_path;
+			if (is_dir($path))
+			{
+				$system_path = $path;
+				$found = TRUE;
+				break;
+			}
+		}
+
+		if ( ! $found)
+		{
+			header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
+			exit('Your system folder path does not appear to be set correctly. Please open the following file and correct this: '.pathinfo(__FILE__, PATHINFO_BASENAME));
+		}
 	}
 
 /*
  * -------------------------------------------------------------------
- *  Now that we know the path, set the main path constants
+ * Now that we know the path, set the main path constants
  * -------------------------------------------------------------------
  */
 	// The name of THIS file
@@ -268,6 +281,7 @@ switch (ENVIRONMENT)
  * And away we go...
  */
 require_once BASEPATH.'core/CodeIgniter.php';
+CodeIgniter::instance()->run();
 
 /* End of file index.php */
 /* Location: ./index.php */

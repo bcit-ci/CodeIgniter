@@ -49,13 +49,13 @@ class CI_Utf8 {
 	{
 		log_message('debug', 'Utf8 Class Initialized');
 
-		global $CFG;
+		$CI =& get_instance();
 
 		if (
 			@preg_match('/./u', 'é') === 1		// PCRE must support UTF-8
 			&& function_exists('iconv')			// iconv must be installed
 			&& (bool) @ini_get('mbstring.func_overload') !== TRUE	// Multibyte string function overloading cannot be enabled
-			&& $CFG->item('charset') === 'UTF-8'		// Application charset must be UTF-8
+			&& $CI->config->item('charset') == 'UTF-8'		// Application charset must be UTF-8
 			)
 		{
 			define('UTF8_ENABLED', TRUE);

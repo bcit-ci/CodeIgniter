@@ -6,6 +6,10 @@ class Lang_test extends CI_TestCase {
 
 	public function set_up()
 	{
+		$this->ci_set_config('language', 'english');
+
+		$ci = $this->ci_instance();
+
 		$loader_cls = $this->ci_core_class('load');
 		$this->ci_instance_var('load', new $loader_cls);
 

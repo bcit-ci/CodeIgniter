@@ -48,70 +48,74 @@ class CI_Log {
 	 *
 	 * @var int
 	 */
-	protected $_threshold		= 1;
+	protected $_threshold = 1;
 
 	/**
 	 * Highest level of logging
 	 *
 	 * @var int
 	 */
-	protected $_threshold_max	= 0;
+	protected $_threshold_max = 0;
 
 	/**
 	 * Array of threshold levels to log
 	 *
 	 * @var array
 	 */
-	protected $_threshold_array	= array();
+	protected $_threshold_array = array();
 
 	/**
 	 * Format of timestamp for log files
 	 *
 	 * @var string
 	 */
-	protected $_date_fmt		= 'Y-m-d H:i:s';
+	protected $_date_fmt = 'Y-m-d H:i:s';
 
 	/**
 	 * Whether or not the logger can write to the log files
 	 *
 	 * @var bool
 	 */
-	protected $_enabled		= TRUE;
+	protected $_enabled = TRUE;
 
 	/**
 	 * Predefined logging levels
 	 *
 	 * @var array
 	 */
-	protected $_levels		= array('ERROR' => 1, 'DEBUG' => 2,  'INFO' => 3, 'ALL' => 4);
+	protected $_levels = array('ERROR' => 1, 'DEBUG' => 2, 'INFO' => 3, 'ALL' => 4);
 
 	/**
-	 * Initialize Logging class
+	 * Configure Logging class
+	 *
+	 * This function lets the core object configure logging so it is not
+	 * dependent on CI_Config being loaded before it can be used.
 	 *
 	 * @return	void
 	 */
-	public function __construct()
+	public function configure($config)
 	{
-		$config =& get_config();
-
-		$this->_log_path = ($config['log_path'] !== '') ? $config['log_path'] : APPPATH.'logs/';
+		$this->_log_path = empty($config['log_path']) ? APPPATH.'logs/' : $config['log_path'];
 
 		if ( ! is_dir($this->_log_path) OR ! is_really_writable($this->_log_path))
 		{
 			$this->_enabled = FALSE;
 		}
 
-		if (is_numeric($config['log_threshold']))
+		if (isset($config['log_threshold']))
 		{
-			$this->_threshold = (int) $config['log_threshold'];
-		}
-		elseif (is_array($config['log_threshold']))
-		{
-			$this->_threshold = $this->_threshold_max;
-			$this->_threshold_array = array_flip($config['log_threshold']);
+			if (is_numeric($config['log_threshold']))
+			{
+				$this->_threshold = (int) $config['log_threshold'];
+			}
+			elseif (is_array($config['log_threshold']))
+			{
+				$this->_threshold = $this->_threshold_max;
+				$this->_threshold_array = array_flip($config['log_threshold']);
+			}
 		}
 
-		if ($config['log_date_format'] !== '')
+		if ( ! empty($config['log_date_format']))
 		{
 			$this->_date_fmt = $config['log_date_format'];
 		}
@@ -124,10 +128,10 @@ class CI_Log {
 	 *
 	 * Generally this function will be called using the global log_message() function
 	 *
-	 * @param	string	the error level
-	 * @param	string	the error message
-	 * @param	bool	whether the error is a native PHP error
-	 * @return	bool
+	 * @param	string	Error level
+	 * @param	string	Error message
+	 * @param	bool	Whether the error is a native PHP error
+	 * @return	bool	TRUE on success, otherwise FALSE
 	 */
 	public function write_log($level = 'error', $msg, $php_error = FALSE)
 	{
@@ -144,9 +148,8 @@ class CI_Log {
 			return FALSE;
 		}
 
-
 		$filepath = $this->_log_path.'log-'.date('Y-m-d').'.php';
-		$message  = '';
+		$message = '';
 
 		if ( ! file_exists($filepath))
 		{
@@ -154,7 +157,7 @@ class CI_Log {
 			$message .= '<'."?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?".">\n\n";
 		}
 
-		if ( ! $fp = @fopen($filepath, FOPEN_WRITE_CREATE))
+		if ( ! $fp = @fopen($filepath, 'a+'))
 		{
 			return FALSE;
 		}

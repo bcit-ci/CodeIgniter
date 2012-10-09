@@ -117,11 +117,11 @@ if ( ! function_exists('is_really_writable'))
 if ( ! function_exists('load_class'))
 {
 	/**
-	 * Class registry
+	 * Load class
 	 *
-	 * This function acts as a singleton. If the requested class does not
-	 * exist it is instantiated and set to a static variable. If it has
-	 * previously been instantiated the variable is returned.
+	 * This function returns classes loaded in the core CodeIgniter object.
+	 * DEPRECATED - get object from CodeIgniter::instance() directly
+	 * Core classes are loaded internally, and all others should call CI_Loader.
 	 *
 	 * @param	string	the class name being requested
 	 * @param	string	the directory where the class should be found
@@ -130,58 +130,18 @@ if ( ! function_exists('load_class'))
 	 */
 	function &load_class($class, $directory = 'libraries', $prefix = 'CI_')
 	{
-		static $_classes = array();
-
-		// Does the class exist? If so, we're done...
-		if (isset($_classes[$class]))
+		// Get instance, lowercase class, and check
+		$CI = CodeIgniter::instance();
+		$class = strtolower($class);
+		if (isset($CI->$class))
 		{
-			return $_classes[$class];
+			// Return loaded class
+			return $CI->$class;
 		}
 
-		$name = FALSE;
-
-		// Look for the class first in the local application/libraries folder
-		// then in the native system/libraries folder
-		foreach (array(APPPATH, BASEPATH) as $path)
-		{
-			if (file_exists($path.$directory.'/'.$class.'.php'))
-			{
-				$name = $prefix.$class;
-
-				if (class_exists($name) === FALSE)
-				{
-					require($path.$directory.'/'.$class.'.php');
-				}
-
-				break;
-			}
-		}
-
-		// Is the request a class extension? If so we load it too
-		if (file_exists(APPPATH.$directory.'/'.config_item('subclass_prefix').$class.'.php'))
-		{
-			$name = config_item('subclass_prefix').$class;
-
-			if (class_exists($name) === FALSE)
-			{
-				require(APPPATH.$directory.'/'.config_item('subclass_prefix').$class.'.php');
-			}
-		}
-
-		// Did we find the class?
-		if ($name === FALSE)
-		{
-			// Note: We use exit() rather then show_error() in order to avoid a
-			// self-referencing loop with the Exceptions class
-			set_status_header(503);
-			exit('Unable to locate the specified class: '.$class.'.php');
-		}
-
-		// Keep track of what we just loaded
-		is_loaded($class);
-
-		$_classes[$class] = new $name();
-		return $_classes[$class];
+		// Failed - return NULL
+		$null = NULL;
+		return $null;
 	}
 }
 
@@ -190,22 +150,19 @@ if ( ! function_exists('load_class'))
 if ( ! function_exists('is_loaded'))
 {
 	/**
-	 * Keeps track of which libraries have been loaded. This function is
-	 * called by the load_class() function above
+	 * Checks if a class is loaded
+	 *
+	 * DEPRECATED - check object with CodeIgniter::instance() directly
 	 *
 	 * @param	string
 	 * @return	array
 	 */
 	function &is_loaded($class = '')
 	{
-		static $_is_loaded = array();
-
-		if ($class !== '')
-		{
-			$_is_loaded[strtolower($class)] = $class;
-		}
-
-		return $_is_loaded;
+		// Get instance, lowercase class, and check
+		$CI = CodeIgniter::instance();
+		$class = strtolower($class);
+		return isset($CI->$class);
 	}
 }
 
@@ -214,48 +171,25 @@ if ( ! function_exists('is_loaded'))
 if ( ! function_exists('get_config'))
 {
 	/**
-	 * Loads the main config.php file
+	 * Gets the main config.php file
 	 *
-	 * This function lets us grab the config file even if the Config class
-	 * hasn't been instantiated yet
+	 * DEPRECATED - check with CodeIgniter::instance()->config directly, as
+	 * Config is loaded before every class except Benchmark
 	 *
 	 * @param	array
 	 * @return	array
 	 */
 	function &get_config($replace = array())
 	{
-		static $_config;
-
-		if (isset($_config))
+		// Get instance and check for config
+		$CI = CodeIgniter::instance();
+		if ( ! isset($CI->config->config))
 		{
-			return $_config[0];
+			exit('The configuration file has not been loaded.');
 		}
 
-		$file_path = APPPATH.'config/config.php';
-		$found = FALSE;
-		if (file_exists($file_path))
-		{
-			$found = TRUE;
-			require($file_path);
-		}
-
-		// Is the config file in the environment folder?
-		if (defined('ENVIRONMENT') && file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config.php'))
-		{
-			require($file_path);
-		}
-		elseif ( ! $found)
-		{
-			set_status_header(503);
-			exit('The configuration file does not exist.');
-		}
-
-		// Does the $config array exist in the file?
-		if ( ! isset($config) OR ! is_array($config))
-		{
-			set_status_header(503);
-			exit('Your config file does not appear to be formatted correctly.');
-		}
+		// Get config array
+		$config = $CI->config->config;
 
 		// Are any values being dynamically replaced?
 		if (count($replace) > 0)
@@ -269,7 +203,7 @@ if ( ! function_exists('get_config'))
 			}
 		}
 
-		return $_config[0] =& $config;
+		return $config;
 	}
 }
 
@@ -285,20 +219,9 @@ if ( ! function_exists('config_item'))
 	 */
 	function config_item($item)
 	{
-		static $_config_item = array();
-
-		if ( ! isset($_config_item[$item]))
-		{
-			$config =& get_config();
-
-			if ( ! isset($config[$item]))
-			{
-				return FALSE;
-			}
-			$_config_item[$item] = $config[$item];
-		}
-
-		return $_config_item[$item];
+		// Get instance and return config item or FALSE
+		$CI = CodeIgniter::instance();
+		return isset($CI->config) ? $CI->config->item($item) : FALSE;
 	}
 }
 
@@ -313,18 +236,8 @@ if ( ! function_exists('get_mimes'))
 	 */
 	function &get_mimes()
 	{
-		static $_mimes = array();
-
-		if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
-		{
-			$_mimes = include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
-		}
-		elseif (is_file(APPPATH.'config/mimes.php'))
-		{
-			$_mimes = include(APPPATH.'config/mimes.php');
-		}
-
-		return $_mimes;
+		$CI = CodeIgniter::instance();
+		return $CI->config->get('mimes.php');
 	}
 }
 
@@ -348,9 +261,10 @@ if ( ! function_exists('show_error'))
 	 */
 	function show_error($message, $status_code = 500, $heading = 'An Error Was Encountered')
 	{
-		$_error =& load_class('Exceptions', 'core');
-		echo $_error->show_error($heading, $message, 'error_general', $status_code);
-		exit;
+		// Get instance, load Exceptions and call show_error
+		$CI = CodeIgniter::instance();
+		$CI->load_core_class('Exceptions');
+		$CI->exceptions->show_error($heading, $message, 'error_general', $status_code);
 	}
 }
 
@@ -371,9 +285,10 @@ if ( ! function_exists('show_404'))
 	 */
 	function show_404($page = '', $log_error = TRUE)
 	{
-		$_error =& load_class('Exceptions', 'core');
-		$_error->show_404($page, $log_error);
-		exit;
+		// Get instance, load Exceptions and call show_404
+		$CI = CodeIgniter::instance();
+		$CI->load_core_class('Exceptions');
+		$CI->exceptions->show_404($page, $log_error);
 	}
 }
 
@@ -394,15 +309,9 @@ if ( ! function_exists('log_message'))
 	 */
 	function log_message($level = 'error', $message, $php_error = FALSE)
 	{
-		static $_log;
-
-		if (config_item('log_threshold') === 0)
-		{
-			return;
-		}
-
-		$_log =& load_class('Log');
-		$_log->write_log($level, $message, $php_error);
+		// Get instance and call log_message
+		$CI = CodeIgniter::instance();
+		$CI->log_message($level, $message, $php_error);
 	}
 }
 
@@ -492,48 +401,6 @@ if ( ! function_exists('set_status_header'))
 		{
 			header(($server_protocol ? $server_protocol : 'HTTP/1.1').' '.$code.' '.$text, TRUE, $code);
 		}
-	}
-}
-
-// --------------------------------------------------------------------
-
-if ( ! function_exists('_exception_handler'))
-{
-	/**
-	 * Exception Handler
-	 *
-	 * This is the custom exception handler that is declaired at the top
-	 * of Codeigniter.php. The main reason we use this is to permit
-	 * PHP errors to be logged in our own log files since the user may
-	 * not have access to server logs. Since this function
-	 * effectively intercepts PHP errors, however, we also need
-	 * to display errors based on the current error_reporting level.
-	 * We do that with the use of a PHP error template.
-	 *
-	 * @param	int
-	 * @param	string
-	 * @param	string
-	 * @param	int
-	 * @return	void
-	 */
-	function _exception_handler($severity, $message, $filepath, $line)
-	{
-		$_error =& load_class('Exceptions', 'core');
-
-		// Should we ignore the error? We'll get the current error_reporting
-		// level and add its bits with the severity bits to find out.
-		if (($severity & error_reporting()) !== $severity)
-		{
-			return;
-		}
-
-		// Should we display the error?
-		if ((bool) ini_get('display_errors') === TRUE)
-		{
-			$_error->show_php_error($severity, $message, $filepath, $line);
-		}
-
-		$_error->log_exception($severity, $message, $filepath, $line);
 	}
 }
 

@@ -3,7 +3,7 @@ Models
 ######
 
 Models are **optionally** available for those who want to use a more
-traditional MVC approach.
+traditional HMVC approach.
 
 .. contents:: Page Contents
 
@@ -54,8 +54,8 @@ model class might look like::
 
 	}
 
-.. note:: The functions in the above example use the :doc:`Active
-	Record <../database/query_builder>` database functions.
+.. note:: The functions in the above example use the :doc:`Query
+	Builder <../database/query_builder>` database functions.
 
 .. note:: For the sake of simplicity in this example we're using $_POST
 	directly. This is generally bad practice, and a more common approach
@@ -66,7 +66,10 @@ Anatomy of a Model
 ==================
 
 Model classes are stored in your **application/models/ folder**. They can be
-nested within sub-folders if you want this type of organization.
+nested within sub-folders if you want this type of organization. They may also
+be stored in the **models/** folder of a directory in your
+:ref:`Module Path <hmvc-modules>`, where sub-folders lead to the module
+directory instead of nesting inside the models/ subdirectory.
 
 The basic prototype for a model class is this::
 
@@ -113,6 +116,10 @@ your models folder. For example, if you have a model located at
 application/models/blog/queries.php you'll load it using::
 
 	$this->load->model('blog/queries');
+
+This would also apply to a model in the blog/ directory inside your
+:ref:`Module Path <hmvc-modules>`, which might be at
+application/modules/blog/models/queries.php.
 
 Once loaded, you will access your model methods using an object with the
 same name as your class::

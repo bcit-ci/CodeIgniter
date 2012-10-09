@@ -77,6 +77,97 @@ have it loaded automatically by the system. To do this, open the
 **autoload.php** file, located at application/config/autoload.php,
 and add your config file as indicated in the file.
 
+Retrieving Config File Contents
+===============================
+
+It is also possible to get the contents of a config file without loading
+them into the master config array. This is the mechanism employed when
+you create a config file for a Library class (instead of passing parameters
+when you load the Library), or when loading the Mimes config. While it is
+often most convenient to let the system automatically read your config and
+pass the items to your Library constructor, you may need this feature in
+some other context.
+
+Simple Config Files
+*******************
+
+In order to retrieve simple config file data, use the get() function::
+
+	myconfig.php:
+	<?php
+		$config['mykey'] = 'some value';
+		$config['other'] = false;
+	?>
+
+	$CI->config->get('myconfig', 'config');
+
+The above example would locate config/myconfig.php and return the $config array
+defined in it. The get() function checks the application config directory and
+any additional package paths defined. If more than one version of your config
+file is found across those paths, they are merged. Values in later package
+paths override those in earlier paths or the application config directory.
+If there is a copy of your config file in config/{ENVIRONMENT}/, that version
+of the config file is merged after any copy in config/ for each path checked.
+
+If your config file defines an array of values with a different variable name,
+pass that name instead of 'config' as the second parameter. If you want your
+file to return an array instead of declaring one to be extracted, omit the
+second parameter::
+
+	myconfig.php:
+	<?php
+		return array(
+			'mykey' => 'some value',
+			'other' => false
+		);
+	?>
+
+	$CI->config->get('myconfig');
+
+Do be aware, however, that the defined value or the returned value MUST be an
+array or the operation will fail. On rare occasions, a config file will not
+declare or return a value, but instead perform some other kind of configuration
+(such as declaring constants in the constants.php config file). Such a file
+can be parsed by passing FALSE to indicate no return::
+
+	$CI->config->get('myconstants', FALSE);
+
+Extended Config Files
+*********************
+
+An extended config file contains both an array of configuration items and one
+or more extra variables (which do not have to be arrays). These are handled
+exactly the same as simple config files described above, but a reference
+to a third parameter is used to collect any other variables in the config file::
+
+	extconfig.php:
+	<?php
+		$cars['Aventador'] = array(
+			'make' => 'Lamborghini',
+			'hp' => 700,
+			'to60' => 2.9
+		);
+		$cars['458 Italia'] = array(
+			'make' => 'Ferrari',
+			'hp' => 570,
+			'to60' => 3.4
+		);
+		$cars['911 Turbo'] = array(
+			'make' => 'Porsche',
+			'hp' => 480,
+			'to60' => 3.4
+		);
+		$mycar = 'Aventador';
+		$isnew = true;
+	?>
+
+	$CI->get('extconfig', 'cars', $extras);
+
+In the example above, the entire $cars array would be returned, and $extras
+would contain::
+
+	$extras['mycar'] = 'Aventador';
+	$extras['isnew'] = true;
 
 Fetching Config Items
 =====================

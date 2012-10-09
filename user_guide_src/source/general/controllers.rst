@@ -280,6 +280,72 @@ controller as specified in your application/config/routes.php file
 CodeIgniter also permits you to remap your URIs using its :doc:`URI
 Routing <routing>` feature.
 
+.. _sub-controllers:
+
+Loading Sub-Controllers
+=======================
+
+The Hierarchical aspect of CodeIgniter's HMVC pattern allows you to pass
+control to another Controller to handle part of a task. This is achieved
+by calling::
+
+	$this->load->controller('subhandler');
+
+The first parameter to the Controller loader function is a URI string,
+just like those explained above, except you don't specify a host or
+index.php. The previous example would run the same Controller function as::
+
+	example.com/index.php/subhandler/
+
+.. note:: URIs used when loading a sub-Controller are also subject to
+	`URI Routing <routing>`_, and may be manipulated by custom routing
+	rules.
+
+In fact, any Controller in your application may be run either from the
+request URL or through the Controller loader. The difference is that the
+Controller routed by the request has primary control over the whole
+application, whereas one loaded afterwards plays a secondary role. In
+order to identify which Controller was routed, it gets a special "handle"
+on the CodeIgniter root object::
+
+	$this->routed;
+
+Any time a part of your application needs to reference the top Controller,
+this is how to identify it. Likewise, if a Controller needs to determine
+whether it has been routed or called somewhere in the hierarchy, it can
+compare itself to the routed Controller object::
+
+	if ($this === $this->routed)
+	{
+		// We are the top Controller!
+	}
+	else
+	{
+		// Some other Controller called us to do a job
+	}
+
+It is also possible to check for the presence of a sub-Controller before
+attempting to load it::
+
+	$route = $this->router->validate_route('mymodule/mymodctlr/some_func');
+	if ($route === FALSE)
+	{
+		log_error(INFO, 'Mymodctlr::some_func does not exist!');
+	}
+	else
+	{
+		$this->load->controller($route);
+	}
+
+The validate_route() function will return FALSE if the named Controller
+can not be found. Otherwise, it will return a "route stack" which can be
+passed to the Controller loader instead of a URI string. The route stack
+saves the Loader from having to locate the Controller all over again.
+
+More information about loading Controllers is available on the
+:ref:`Loader <load-controller>` page, and discussion of using Controllers
+in HMVC modules can be found on the :ref:`HMVC <hmvc-modules>` page.
+
 Class Constructors
 ==================
 

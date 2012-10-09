@@ -2,7 +2,12 @@
 
 class CI_TestCase extends PHPUnit_Framework_TestCase {
 
-	protected $ci_config;
+	public $ci_vfs_root = NULL;
+	public $ci_app_root = NULL;
+	public $ci_base_root = NULL;
+	public $ci_app_path = '';
+	public $ci_base_path = '';
+
 	protected $ci_instance;
 	protected static $ci_test_instance;
 
@@ -17,7 +22,8 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 		'input'		=> 'in',
 		'lang'		=> 'lang',
 		'loader'	=> 'load',
-		'model'		=> 'model'
+		'model'		=> 'model',
+		'controller'=> 'ctlr'
 	);
 
 	// --------------------------------------------------------------------
@@ -25,7 +31,7 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->ci_config = array();
+		$this->ci_instance = new stdClass();
 	}
 
 	// --------------------------------------------------------------------
@@ -57,15 +63,27 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 
 	// --------------------------------------------------------------------
 
-	public function ci_set_config($key, $val = '')
+	public function ci_set_config($key = '', $val = '')
 	{
+		// Add test config
+		if ( ! isset($this->ci_instance->config))
+		{
+			$this->ci_instance->config = new CI_TestConfig();
+		}
+
+		// Empty key means just do setup above
+		if ($key === '')
+		{
+			return;
+		}
+
 		if (is_array($key))
 		{
-			$this->ci_config = $key;
+			$this->ci_instance->config->config = $key;
 		}
 		else
 		{
-			$this->ci_config[$key] = $val;
+			$this->ci_instance->config->config[$key] = $val;
 		}
 	}
 
@@ -73,7 +91,7 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 
 	public function ci_get_config()
 	{
-		return $this->ci_config;
+		return isset($this->ci_instance->config) ? $this->ci_instance->config->config : array();
 	}
 
 	// --------------------------------------------------------------------
@@ -146,6 +164,147 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 	{
 		$orig =& $this->ci_core_class($name);
 		$orig = $obj;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Create VFS root with system and application directories
+	 *
+	 * @return	void
+	 */
+	public function ci_vfs_setup()
+	{
+		// Create VFS tree
+		$this->ci_vfs_root = vfsStream::setup();
+		$this->ci_app_root = vfsStream::newDirectory('application')->at($this->ci_vfs_root);
+		$this->ci_base_root = vfsStream::newDirectory('system')->at($this->ci_vfs_root);
+
+		// Get VFS app and base path URLs
+		$this->ci_app_path = vfsStream::url('application/');
+		$this->ci_base_path = vfsStream::url('system/');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Create VFS directory
+	 *
+	 * @param	string	Directory name
+	 * @param	object	Optional root to create in
+	 * @param	object	New directory object
+	 */
+	public function ci_vfs_mkdir($name, $root = NULL)
+	{
+		// Check for root
+		if ( ! $root)
+		{
+			$root = $this->ci_vfs_root;
+		}
+
+		// Return new directory object
+		return vfsStream::newDirectory($name)->at($root);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Create VFS content
+	 *
+	 * @param	string	File name
+	 * @param	string	File content
+	 * @param	object	VFS directory object
+	 * @param	mixed	Optional subdirectory path or array of subs
+	 * @return	void
+	 */
+	public function ci_vfs_create($file, $content, $root = NULL, $path = NULL)
+	{
+		// Check for array
+		if (is_array($file))
+		{
+			foreach ($file as $name => $content)
+			{
+				$this->ci_vfs_create($name, $content, $root, $path);
+			}
+			return;
+		}
+
+		// Assert .php extension
+		if (strrpos($file, '.php') !== strlen($file) - 4)
+		{
+			$file .= '.php';
+		}
+
+		// Build content
+		$tree = array($file => $content);
+
+		// Check for path
+		$subs = array();
+		if ($path)
+		{
+			// Explode if not array
+			$subs = is_array($path) ? $path : explode('/', trim($path, '/'));
+		}
+
+		// Handle subdirectories
+		while (($dir = array_shift($subs)))
+		{
+			// See if subdir exists under current root
+			$dir_root = $root->getChild($dir);
+			if ($dir_root)
+			{
+				// Yes - recurse into subdir
+				$root = $dir_root;
+			}
+			else
+			{
+				// No - put subdirectory back and quit
+				array_unshift($subs, $dir);
+				break;
+			}
+		}
+
+		// Create any remaining subdirectories
+		if ($subs)
+		{
+			foreach (array_reverse($subs) as $dir)
+			{
+				// Wrap content in subdirectory for creation
+				$tree = array($dir => $tree);
+			}
+		}
+
+		// Create tree
+		vfsStream::create($tree, $root);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Helper to get a VFS URL path
+	 *
+	 * @param	string	Path
+	 * @param	string	Optional base path
+	 * @return	string	Path URL
+	 */
+	public function ci_vfs_path($path, $base = '')
+	{
+		// Check for base path
+		if ($base)
+		{
+			// Prepend to path
+			$path = rtrim($base, '/').'/'.ltrim($path, '/');
+
+			// Is it already in URL form?
+			if (strpos($path, '://') !== FALSE)
+			{
+				// Done - return path
+				return $path;
+			}
+		}
+
+		// Trim leading slash and return URL
+		return vfsStream::url(ltrim($path, '/'));
 	}
 
 	// --------------------------------------------------------------------

@@ -4,6 +4,13 @@ class URI_test extends CI_TestCase {
 
 	public function set_up()
 	{
+		// set predictable config values
+		$this->ci_set_config(array(
+			'index_page'		=> 'index.php',
+			'base_url'			=> 'http://example.com/',
+			'subclass_prefix'	=> 'MY_'
+		));
+
 		$this->uri = new Mock_Core_URI();
 	}
 
@@ -31,7 +38,7 @@ class URI_test extends CI_TestCase {
 		define('SELF', 'index.php');
 
 		// uri_protocol: AUTO
-		$this->uri->config->set_item('uri_protocol', 'AUTO');
+		$this->ci_set_config('uri_protocol', 'AUTO');
 
 		// Test a variety of request uris
 		$requests = array(
@@ -112,8 +119,8 @@ class URI_test extends CI_TestCase {
 
 	public function test_filter_uri()
 	{
-		$this->uri->config->set_item('enable_query_strings', FALSE);
-		$this->uri->config->set_item('permitted_uri_chars', 'a-z 0-9~%.:_\-');
+		$this->ci_set_config('enable_query_strings', FALSE);
+		$this->ci_set_config('permitted_uri_chars', 'a-z 0-9~%.:_\-');
 
 		$str_in = 'abc01239~%.:_-';
 		$str = $this->uri->_filter_uri($str_in);
@@ -127,8 +134,8 @@ class URI_test extends CI_TestCase {
 	{
 		// ensure escaping even if dodgey characters are permitted
 
-		$this->uri->config->set_item('enable_query_strings', FALSE);
-		$this->uri->config->set_item('permitted_uri_chars', 'a-z 0-9~%.:_\-()$');
+		$this->ci_set_config('enable_query_strings', FALSE);
+		$this->ci_set_config('permitted_uri_chars', 'a-z 0-9~%.:_\-()$');
 
 		$str = $this->uri->_filter_uri('$destroy_app(foo)');
 
@@ -141,8 +148,8 @@ class URI_test extends CI_TestCase {
 	{
 		$this->setExpectedException('RuntimeException');
 
-		$this->uri->config->set_item('enable_query_strings', FALSE);
-		$this->uri->config->set_item('permitted_uri_chars', 'a-z 0-9~%.:_\-');
+		$this->ci_set_config('enable_query_strings', FALSE);
+		$this->ci_set_config('permitted_uri_chars', 'a-z 0-9~%.:_\-');
 		$this->uri->_filter_uri('$this()');
 	}
 
@@ -150,7 +157,7 @@ class URI_test extends CI_TestCase {
 
 	public function test_remove_url_suffix()
 	{
-		$this->uri->config->set_item('url_suffix', '.html');
+		$this->ci_set_config('url_suffix', '.html');
 
 		$this->uri->uri_string = 'controller/method/index.html';
 		$this->uri->_remove_url_suffix();
@@ -253,7 +260,7 @@ class URI_test extends CI_TestCase {
 
 	public function test_assoc_to_uri()
 	{
-		$this->uri->config->set_item('uri_string_slashes', 'none');
+		$this->ci_set_config('uri_string_slashes', 'none');
 		$this->assertEquals('a/1/b/2', $this->uri->assoc_to_uri(array('a' => '1', 'b' => '2')));
 	}
 

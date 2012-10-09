@@ -98,6 +98,14 @@ name loading the view. Example::
 
 	$this->load->view('folder_name/file_name');
 
+This same notation also works for loading views from an
+:ref:`HMVC Module <hmvc-modules>`, where the subdirectory name leads to
+the module directory. For example, if you wanted to load a view from
+application/modules/my_module/views/myview.php (assuming application/modules
+is in your module path), you would load::
+
+	$this->load->view('my_module/myview');
+
 Adding Dynamic Data to the View
 ===============================
 

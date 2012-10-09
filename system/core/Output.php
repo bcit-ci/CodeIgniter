@@ -39,67 +39,77 @@
 class CI_Output {
 
 	/**
-	 * Current output string
+	 * CodeIgniter core
 	 *
-	 * @var string
+	 * @var	object
 	 */
-	public $final_output;
+	protected $CI;
+
+	/**
+	 * Current output stack
+	 *
+	 * Protected to prevent corruption
+	 * Accessible as string via __get for backward compatibility
+	 *
+	 * @var	array
+	 */
+	protected $final_output = array('');
 
 	/**
 	 * Cache expiration time
 	 *
-	 * @var int
+	 * @var	int
 	 */
-	public $cache_expiration =	0;
+	public $cache_expiration = 0;
 
 	/**
 	 * List of server headers
 	 *
-	 * @var array
+	 * @var	array
 	 */
-	public $headers =	array();
+	public $headers = array();
 
 	/**
 	 * List of mime types
 	 *
-	 * @var array
+	 * @var	array
 	 */
-	public $mimes =		array();
+	public $mimes = NULL;
 
 	/**
 	 * Mime-type for the current page
 	 *
-	 * @var string
+	 * @var	string
 	 */
-	protected $mime_type		= 'text/html';
+	protected $mime_type = 'text/html';
 
 	/**
 	 * Determines whether profiler is enabled
 	 *
-	 * @var book
+	 * @var	bool
 	 */
-	public $enable_profiler =	FALSE;
+	public $enable_profiler = FALSE;
 
 	/**
 	 * Determines if output compression is enabled
 	 *
-	 * @var bool
+	 * @var	bool
 	 */
-	protected $_zlib_oc =		FALSE;
+	protected $_zlib_oc = FALSE;
 
 	/**
 	 * List of profiler sections
 	 *
-	 * @var array
+	 * @var	array
 	 */
-	protected $_profiler_sections =	array();
+	protected $_profiler_sections = array();
 
 	/**
 	 * Whether or not to parse variables like {elapsed_time} and {memory_usage}
 	 *
-	 * @var bool
+	 * @var	bool
 	 */
-	public $parse_exec_vars =	TRUE;
+	public $parse_exec_vars = TRUE;
 
 	/**
 	 * Set up Output class
@@ -108,10 +118,10 @@ class CI_Output {
 	 */
 	public function __construct()
 	{
-		$this->_zlib_oc = (bool) @ini_get('zlib.output_compression');
+		// Get parent reference
+		$this->CI =& get_instance();
 
-		// Get mime types for later
-		$this->mimes =& get_mimes();
+		$this->_zlib_oc = (bool) @ini_get('zlib.output_compression');
 
 		log_message('debug', 'Output Class Initialized');
 	}
@@ -123,11 +133,20 @@ class CI_Output {
 	 *
 	 * Returns the current output string
 	 *
-	 * @return	string
+	 * @param	mixed	Optional level (FALSE = current, TRUE = all)
+	 * @return	string	Output
 	 */
-	public function get_output()
+	public function get_output($level = FALSE)
 	{
-		return $this->final_output;
+		// Check for all flag
+		if ($level === TRUE)
+		{
+			// Return entire stack
+			return implode($this->final_output);
+		}
+
+		// Return specified level (or current)
+		return $this->final_output[$this->_get_index($level)];
 	}
 
 	// --------------------------------------------------------------------
@@ -137,12 +156,24 @@ class CI_Output {
 	 *
 	 * Sets the output string
 	 *
-	 * @param	string
-	 * @return	void
+	 * @param	string	Output
+	 * @param	mixed	Optional level (FALSE = current, TRUE = all)
+	 * @return	object	This
 	 */
-	public function set_output($output)
+	public function set_output($output, $level = FALSE)
 	{
-		$this->final_output = $output;
+		// Check for all flag
+		if ($level === TRUE)
+		{
+			// Reset stack to one level with output
+			$this->final_output = array($output);
+		}
+		else
+		{
+			// Set buffer contents to stack
+			$this->final_output[$this->_get_index($level)] = $output;
+		}
+
 		return $this;
 	}
 
@@ -153,21 +184,89 @@ class CI_Output {
 	 *
 	 * Appends data onto the output string
 	 *
-	 * @param	string
-	 * @return	void
+	 * @param	string	Output to append
+	 * @param	mixed	Optional stack level (FALSE = current)
+	 * @return	object	This
 	 */
-	public function append_output($output)
+	public function append_output($output, $level = FALSE)
 	{
-		if ($this->final_output == '')
+		// Append output to stack
+		$this->final_output[$this->_get_index($level)] .= $output;
+		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get stack index from level number
+	 *
+	 * @param	mixed	Level number (or FALSE for current)
+	 * @return	int		Stack index
+	 */
+	protected function _get_index($level)
+	{
+		// Get top level
+		// Note: stack_pop() prevents emptying the array, so count will always be >= 1
+		$top = count($this->final_output);
+
+		// Return level if valid, otherwise top
+		return (is_int($level) && $level > 0 && $level <= $top) ? $level - 1 : $top - 1;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Stack Push
+	 *
+	 * Pushes a new output buffer onto the stack
+	 *
+	 * @param	string	Optional initial buffer contents
+	 * @return	int		New stack depth
+	 */
+	public function stack_push($output = '')
+	{
+		// Add a buffer to the output stack
+		$this->final_output[] = $output;
+		return count($this->final_output);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get Stack Level
+	 *
+	 * Returns number of buffer levels in final output stack
+	 *
+	 * @return	int		Stack depth
+	 */
+	public function stack_level()
+	{
+		// Just return count of buffers
+		return count($this->final_output);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Stack Pop
+	 *
+	 * Pops current output buffer off the stack and returns it
+	 * Returns bottom buffer contents (without pop) if only one exists
+	 *
+	 * @return	string	Output
+	 */
+	public function stack_pop()
+	{
+		if (count($this->final_output) > 1)
 		{
-			$this->final_output = $output;
-		}
-		else
-		{
-			$this->final_output .= $output;
+			// Pop the topmost buffer and return it
+			return array_pop($this->final_output);
 		}
 
-		return $this;
+		// Nothing to pop - just return contents and empty bottom buffer
+		$out = $this->final_output[0];
+		$this->final_output[0] = '';
+		return $out;
 	}
 
 	// --------------------------------------------------------------------
@@ -180,8 +279,8 @@ class CI_Output {
 	 * Note: If a file is cached, headers will not be sent. We need to figure out
 	 * how to permit header data to be saved with the cache data...
 	 *
-	 * @param	string
-	 * @param	bool
+	 * @param	string	Header text
+	 * @param	bool	Replace previous flag
 	 * @return	void
 	 */
 	public function set_header($header, $replace = TRUE)
@@ -204,7 +303,7 @@ class CI_Output {
 	/**
 	 * Set Content Type Header
 	 *
-	 * @param	string	extension of the file we're outputting
+	 * @param	string	Extension of the file we're outputting
 	 * @return	void
 	 */
 	public function set_content_type($mime_type, $charset = NULL)
@@ -212,6 +311,13 @@ class CI_Output {
 		if (strpos($mime_type, '/') === FALSE)
 		{
 			$extension = ltrim($mime_type, '.');
+
+			// Do we need to get mime types?
+			if ($this->mimes === NULL)
+			{
+				$mimes = $this->CI->config->get('mimes.php');
+				$this->mimes = is_array($mimes) ? $mimes : array();
+			}
 
 			// Is this extension supported?
 			if (isset($this->mimes[$extension]))
@@ -229,7 +335,7 @@ class CI_Output {
 
 		if (empty($charset))
 		{
-			$charset = config_item('charset');
+			$charset = $this->CI->config->item('charset');
 		}
 
 		$header = 'Content-Type: '.$mime_type
@@ -265,8 +371,8 @@ class CI_Output {
 	 * Set HTTP Status Header
 	 * moved to Common procedural functions in 1.7.2
 	 *
-	 * @param	int	the status code
-	 * @param	string
+	 * @param	int		Status code
+	 * @param	string	Header text
 	 * @return	void
 	 */
 	public function set_status_header($code = 200, $text = '')
@@ -280,7 +386,7 @@ class CI_Output {
 	/**
 	 * Enable/disable Profiler
 	 *
-	 * @param	bool
+	 * @param	bool	Enable/disable flag
 	 * @return	void
 	 */
 	public function enable_profiler($val = TRUE)
@@ -296,7 +402,7 @@ class CI_Output {
 	 *
 	 * Allows override of default / config settings for Profiler section display
 	 *
-	 * @param	array
+	 * @param	array	Section overrides
 	 * @return	void
 	 */
 	public function set_profiler_sections($sections)
@@ -320,7 +426,7 @@ class CI_Output {
 	/**
 	 * Set Cache
 	 *
-	 * @param	int
+	 * @param	int		Expiration in seconds
 	 * @return	void
 	 */
 	public function cache($time)
@@ -338,49 +444,37 @@ class CI_Output {
 	 *
 	 * $this->final_output
 	 *
-	 * This function sends the finalized output data to the browser along
-	 * with any server headers and profile data. It also stops the
-	 * benchmark timer so the page rendering speed and memory usage can be shown.
+	 * This function sends any server headers; inserts the page rendering speed,
+	 * memory usage, and any profile data; and sends the finalized output data
+	 * to the browser (or CI_Controller::_output).
 	 *
 	 * @param	string
 	 * @return	mixed
 	 */
 	public function _display($output = '')
 	{
-		// Note:  We use globals because we can't use $CI =& get_instance()
-		// since this function is sometimes called by the caching mechanism,
-		// which happens before the CI super object is available.
-		global $BM, $CFG;
-
-		// Grab the super object if we can.
-		if (class_exists('CI_Controller'))
-		{
-			$CI =& get_instance();
-		}
-
-		// --------------------------------------------------------------------
-
 		// Set the output data
 		if ($output === '')
 		{
-			$output =& $this->final_output;
+			// Collapse the output stack
+			$output = implode($this->final_output);
 		}
 
 		// --------------------------------------------------------------------
 
 		// Is minify requested?
-		if ($CFG->item('minify_output') === TRUE)
+		if ($this->CI->config->item('minify_output') === TRUE)
 		{
 			$output = $this->minify($output, $this->mime_type);
 		}
 
-
 		// --------------------------------------------------------------------
 
-		// Do we need to write a cache file?  Only if the controller does not have its
+		// Do we need to write a cache file? Only if the controller does not have its
 		// own _output() method and we are not dealing with a cache file, which we
-		// can determine by the existence of the $CI object above
-		if ($this->cache_expiration > 0 && isset($CI) && ! method_exists($CI, '_output'))
+		// can determine by the existence of the $this->CI->routed object
+		$cached = ( ! isset($this->CI->routed));
+		if ($this->cache_expiration > 0 && ! $cached && ! method_exists($this->CI->routed, '_output'))
 		{
 			$this->_write_cache($output);
 		}
@@ -389,20 +483,17 @@ class CI_Output {
 
 		// Parse out the elapsed time and memory usage,
 		// then swap the pseudo-variables with the data
-
-		$elapsed = $BM->elapsed_time('total_execution_time_start', 'total_execution_time_end');
-
+		$elapsed = $this->CI->benchmark->elapsed_time('total_execution_time_start', 'total_execution_time_end');
 		if ($this->parse_exec_vars === TRUE)
 		{
 			$memory	= round(memory_get_usage() / 1024 / 1024, 2).'MB';
-
 			$output = str_replace(array('{elapsed_time}', '{memory_usage}'), array($elapsed, $memory), $output);
 		}
 
 		// --------------------------------------------------------------------
 
 		// Is compression requested?
-		if ($CFG->item('compress_output') === TRUE && $this->_zlib_oc === FALSE
+		if ($this->CI->config->item('compress_output') === TRUE && $this->_zlib_oc === FALSE
 			&& extension_loaded('zlib')
 			&& isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE)
 		{
@@ -422,10 +513,10 @@ class CI_Output {
 
 		// --------------------------------------------------------------------
 
-		// Does the $CI object exist?
+		// Does the routed controller object exist?
 		// If not we know we are dealing with a cache file so we'll
 		// simply echo out the data and exit.
-		if ( ! isset($CI))
+		if ($cached)
 		{
 			echo $output;
 			log_message('debug', 'Final output sent to browser');
@@ -439,15 +530,15 @@ class CI_Output {
 		// If so, load the Profile class and run it.
 		if ($this->enable_profiler === TRUE)
 		{
-			$CI->load->library('profiler');
+			$this->CI->load->library('profiler');
 			if ( ! empty($this->_profiler_sections))
 			{
-				$CI->profiler->set_sections($this->_profiler_sections);
+				$this->CI->profiler->set_sections($this->_profiler_sections);
 			}
 
 			// If the output data contains closing </body> and </html> tags
 			// we will remove them and add them back after we insert the profile data
-			$output = preg_replace('|</body>.*?</html>|is', '', $output, -1, $count).$CI->profiler->run();
+			$output = preg_replace('|</body>.*?</html>|is', '', $output, -1, $count).$this->CI->profiler->run();
 			if ($count > 0)
 			{
 				$output .= '</body></html>';
@@ -455,14 +546,14 @@ class CI_Output {
 		}
 
 		// Does the controller contain a function named _output()?
-		// If so send the output there.  Otherwise, echo it.
-		if (method_exists($CI, '_output'))
+		// If so send the output there. Otherwise, echo it.
+		if (method_exists($this->CI->routed, '_output'))
 		{
-			$CI->_output($output);
+			$this->CI->routed->_output($output);
 		}
 		else
 		{
-			echo $output; // Send it to the browser!
+			echo $output;	// Send it to the browser!
 		}
 
 		log_message('debug', 'Final output sent to browser');
@@ -474,13 +565,12 @@ class CI_Output {
 	/**
 	 * Write a Cache File
 	 *
-	 * @param	string
+	 * @param	string	Page output
 	 * @return	void
 	 */
 	public function _write_cache($output)
 	{
-		$CI =& get_instance();
-		$path = $CI->config->item('cache_path');
+		$path = $this->CI->config->item('cache_path');
 		$cache_path = ($path === '') ? APPPATH.'cache/' : $path;
 
 		if ( ! is_dir($cache_path) OR ! is_really_writable($cache_path))
@@ -489,13 +579,13 @@ class CI_Output {
 			return;
 		}
 
-		$uri =	$CI->config->item('base_url').
-				$CI->config->item('index_page').
-				$CI->uri->uri_string();
+		$uri =	$this->CI->config->item('base_url').
+				$this->CI->config->item('index_page').
+				$this->CI->uri->uri_string();
 
 		$cache_path .= md5($uri);
 
-		if ( ! $fp = @fopen($cache_path, FOPEN_WRITE_CREATE_DESTRUCTIVE))
+		if ( ! $fp = @fopen($cache_path, 'w'))
 		{
 			log_message('error', 'Unable to write cache file: '.$cache_path);
 			return;
@@ -527,19 +617,21 @@ class CI_Output {
 	/**
 	 * Update/serve a cached file
 	 *
-	 * @param	object	config class
-	 * @param	object	uri class
-	 * @return	bool
+	 * @return	bool	TRUE on success, otherwise FALSE
 	 */
-	public function _display_cache(&$CFG, &$URI)
+	public function _display_cache()
 	{
-		$cache_path = ($CFG->item('cache_path') === '') ? APPPATH.'cache/' : $CFG->item('cache_path');
+		$cache_path = $this->CI->config->item('cache_path');
+		if ($cache_path === '')
+		{
+			$cache_path = APPPATH.'cache/';
+		}
 
 		// Build the file path. The file name is an MD5 hash of the full URI
-		$uri =	$CFG->item('base_url').$CFG->item('index_page').$URI->uri_string;
+		$uri =	$this->CI->config->item('base_url').$this->CI->config->item('index_page').$this->CI->uri->uri_string;
 		$filepath = $cache_path.md5($uri);
 
-		if ( ! @file_exists($filepath) OR ! $fp = @fopen($filepath, FOPEN_READ))
+		if ( ! @file_exists($filepath) OR ! $fp = @fopen($filepath, 'r'))
 		{
 			return FALSE;
 		}
@@ -568,14 +660,12 @@ class CI_Output {
 			log_message('debug', 'Cache file has expired. File deleted.');
 			return FALSE;
 		}
-		else
-		{
-			// Or else send the HTTP cache control headers.
-			$this->set_cache_header($last_modified, $expire);
-		}
 
-		// Display the cache
-		$this->_display(substr($cache, strlen($match[0])));
+		// Send the HTTP cache control headers.
+		$this->set_cache_header($last_modified, $expire);
+
+		// Output the cache (displayed during CodeIgniter::finalize)
+		$this->set_output(substr($cache, strlen($match[0])), TRUE);
 		log_message('debug', 'Cache file is current. Sending it to browser.');
 		return TRUE;
 	}
@@ -586,8 +676,8 @@ class CI_Output {
 	 * Set the HTTP headers to match the server-side file cache settings
 	 * in order to reduce bandwidth.
 	 *
-	 * @param	int	timestamp of when the page was last modified
-	 * @param	int	timestamp of when should the requested page expire from cache
+	 * @param	int		Timestamp of when the page was last modified
+	 * @param	int		Timestamp of when should the requested page expire from cache
 	 * @return	void
 	 */
 	public function set_cache_header($last_modified, $expiration)
@@ -613,9 +703,9 @@ class CI_Output {
 	/**
 	 * Reduce excessive size of HTML content.
 	 *
-	 * @param	string
-	 * @param	string
-	 * @return	string
+	 * @param	string	Output
+	 * @param	string	Content type
+	 * @return	string	Minified output
 	 */
 	public function minify($output, $type = 'text/html')
 	{
@@ -673,7 +763,7 @@ class CI_Output {
 					$output = str_replace($codes_messed[0], $codes_clean[0], $output);
 				}
 
-				if ( ! empty($codes_clean))
+				if ( ! empty($textareas_clean))
 				{
 					preg_match_all('{<textarea.+</textarea>}msU', $output, $textareas_messed);
 					$output = str_replace($textareas_messed[0], $textareas_clean[0], $output);
@@ -712,6 +802,24 @@ class CI_Output {
 		}
 
 		return $output;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get inaccessible property (final_output)
+	 *
+	 * @param	string	Property name
+	 * @return	mixed	Collapsed output stack if final_output, otherwise void
+	 */
+	public function __get($name)
+	{
+		// Check for now-protected 'final_output'
+		if ($name === 'final_output')
+		{
+			// Collapse the stack and return it
+			return $this->get_output(TRUE);
+		}
 	}
 
 }

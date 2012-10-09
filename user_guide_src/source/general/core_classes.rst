@@ -20,6 +20,7 @@ System Class List
 The following is a list of the core system files that are invoked every
 time CodeIgniter runs:
 
+-  CodeIgniter
 -  Benchmark
 -  Config
 -  Controller
@@ -55,8 +56,15 @@ your file is named Input.php the class will be named::
 
 	}
 
-Extending Core Class
-====================
+.. note:: The CodeIgniter class can not be replaced, but it can be extended.
+	See below for an explanation of extending classes, and be sure to read
+	the special `warnings and considerations <extending-codeigniter>`_
+	about doing so.
+
+.. _core-extensions:
+
+Extending Core Classes
+======================
 
 If all you need to do is add some functionality to an existing library -
 perhaps add a function or two - then it's overkill to replace the entire

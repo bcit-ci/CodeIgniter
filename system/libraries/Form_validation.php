@@ -396,6 +396,20 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Error Array
+	 *
+	 * Returns the error messages as an array
+	 *
+	 * @return	array
+	 */
+	public function error_array()
+	{
+		return $this->_error_array;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Run the Validator
 	 *
 	 * This function does all the work.
@@ -682,15 +696,39 @@ class CI_Form_validation {
 			// Call the function that corresponds to the rule
 			if ($callback === TRUE)
 			{
-				if ( ! method_exists($this->CI, $rule))
+				// Check for routed controller callback
+				if (strpos($rule, '/') !== false)
 				{
-					log_message('debug', 'Unable to find callback validation rule: '.$rule);
-					$result = FALSE;
+					// Validate route
+					$route = $this->CI->router->validate_route(explode('/', $rule));
+					if ($route === FALSE)
+					{
+						log_message('debug', 'Unable to find callback validation rule: '.$rule);
+						$result = FALSE;
+					}
+					else
+					{
+						// Load the controller, but don't call the method yet
+						$this->CI->load->controller($route, NULL, FALSE);
+
+						// Run the function and grab the result
+						$class = strtolower($route[CI_Router::SEG_CLASS]);
+						$method = $route[CI_Router::SEG_METHOD];
+						$result = $this->CI->$class->$method($postdata, $param);
+					}
 				}
 				else
 				{
-					// Run the function and grab the result
-					$result = $this->CI->$rule($postdata, $param);
+					if ( ! method_exists($this->CI->routed, $rule))
+					{
+						log_message('debug', 'Unable to find callback validation rule: '.$rule);
+						$result = FALSE;
+					}
+					else
+					{
+						// Run the function and grab the result
+						$result = $this->CI->routed->$rule($postdata, $param);
+					}
 				}
 
 				// Re-assign the result to the master data array

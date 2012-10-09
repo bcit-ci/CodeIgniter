@@ -49,10 +49,10 @@ class CI_Exceptions {
 	 * @var	array
 	 */
 	public $levels = array(
-		E_ERROR			=>	'Error',
-		E_WARNING		=>	'Warning',
-		E_PARSE			=>	'Parsing Error',
-		E_NOTICE		=>	'Notice',
+		E_ERROR				=>	'Error',
+		E_WARNING			=>	'Warning',
+		E_PARSE				=>	'Parsing Error',
+		E_NOTICE			=>	'Notice',
 		E_CORE_ERROR		=>	'Core Error',
 		E_CORE_WARNING		=>	'Core Warning',
 		E_COMPILE_ERROR		=>	'Compile Error',
@@ -60,7 +60,7 @@ class CI_Exceptions {
 		E_USER_ERROR		=>	'User Error',
 		E_USER_WARNING		=>	'User Warning',
 		E_USER_NOTICE		=>	'User Notice',
-		E_STRICT		=>	'Runtime Notice'
+		E_STRICT			=>	'Runtime Notice'
 	);
 
 	/**
@@ -98,22 +98,30 @@ class CI_Exceptions {
 	/**
 	 * 404 Page Not Found Handler
 	 *
+	 * Calls the 404 override method if configured, or displays a generic 404 error.
+	 *
 	 * @param	string	the page
 	 * @param 	bool	log error yes/no
 	 * @return	string
 	 */
 	public function show_404($page = '', $log_error = TRUE)
 	{
-		$heading = '404 Page Not Found';
-		$message = 'The page you requested was not found.';
-
 		// By default we log this, but allow a dev to skip it
+		$heading = '404 Page Not Found';
 		if ($log_error)
 		{
-			log_message('error', '404 Page Not Found --> '.$page);
+			log_message('error', $heading.' --> '.$page);
 		}
 
-		echo $this->show_error($heading, $message, 'error_404', 404);
+		// Set status header
+		set_status_header(404);
+
+		// Route the error to a controller or 404 template and exit
+		$args = array(
+			'heading' => $heading,
+			'message' => 'The page you requested was not found.'
+		);
+		$this->_route_error('404_override', 'error_404', $args);
 		exit;
 	}
 
@@ -122,31 +130,31 @@ class CI_Exceptions {
 	/**
 	 * General Error Page
 	 *
-	 * This function takes an error message as input
-	 * (either as a string or an array) and displays
-	 * it using the specified template.
+	 * This function takes an error message as input and passes it to the error
+	 * override method if configured, or displays it using the specified template.
+	 * The override method will get the heading and message(s) as its first arguments,
+	 * followed by any trailing segments of the override route. So, if the override
+	 * route was "errclass/method/one/two", the effect would be to call:
+	 *	errclass->method($heading, $message, "one", "two");
 	 *
 	 * @param	string	the heading
-	 * @param	string	the message
+	 * @param	mixed	the message string or array of strings
 	 * @param	string	the template name
 	 * @param 	int	the status code
 	 * @return	string
 	 */
 	public function show_error($heading, $message, $template = 'error_general', $status_code = 500)
 	{
-		set_status_header($status_code);
+		// Set status header
+		set_status_header(500);
 
-		$message = '<p>'.implode('</p><p>', is_array($message) ? $message : array($message)).'</p>';
-
-		if (ob_get_level() > $this->ob_level + 1)
-		{
-			ob_end_flush();
-		}
-		ob_start();
-		include(VIEWPATH.'errors/'.$template.'.php');
-		$buffer = ob_get_contents();
-		ob_end_clean();
-		return $buffer;
+		// Route the error to a controller or error template and exit
+		$args = array(
+			'heading' => $heading,
+			'message' => $message
+		);
+		$this->_route_error('error_override', 'error_general', $args);
+		exit;
 	}
 
 	// --------------------------------------------------------------------
@@ -172,15 +180,87 @@ class CI_Exceptions {
 			$filepath = $x[count($x)-2].'/'.end($x);
 		}
 
+		// Route the error to a controller or exception template
+		$args = array(
+			'severity'	=> $severity,
+			'message'	=> $message,
+			'filepath'	=> $filepath,
+			'line'		=> $line
+		);
+		$this->_route_error('exception_override', 'error_php', $args);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Route error to an override controller or a template
+	 *
+	 * @param	string	Override route name
+	 * @param	string	Template name
+	 * @param	array	Route/template arguments
+	 * @return	void
+	 */
+	protected function _route_error($route, $template, $args = NULL)
+	{
+		// Clear any output buffering
 		if (ob_get_level() > $this->ob_level + 1)
 		{
 			ob_end_flush();
 		}
+
+		// Check Router for an override
+		$CI =& get_instance();
+		if (isset($CI->router))
+		{
+			$stack = $CI->router->get_error_route($route);
+			if ($stack !== FALSE)
+			{
+				// Check for arguments
+				if ( ! empty($args))
+				{
+					// Insert or append arguments
+					if (count($stack) > CI_Router::SEG_ARGS)
+					{
+						// Insert args after path, subdir, class, and method and before other args
+						$stack = array_merge(
+							array_slice($stack, 0, CI_Router::SEG_ARGS),
+							$args,
+							array_slice($stack, CI_Router::SEG_ARGS)
+						);
+					}
+					else
+					{
+						// Just append args to the end
+						$stack = array_merge($stack, $args);
+					}
+				}
+
+				// Ensure "routed" is not set
+				if (isset($CI->routed))
+				{
+					unset($CI->routed);
+				}
+
+				// Load the error Controller as "routed" and call the method
+				if ($CI->load->controller($stack, 'routed'))
+				{
+					// Display the output and return
+					$CI->output->_display();
+					return;
+				}
+			}
+		}
+
+		// If the override didn't exit above, just export the args and display the template
+		if (isset($args['message']))
+		{
+			// Wrap message(s) in P tags
+			$args['message'] = '<p>'.implode('</p><p>', (array) $args['message']).'</p>';
+		}
+		extract($args);
 		ob_start();
-		include(VIEWPATH.'errors/error_php.php');
-		$buffer = ob_get_contents();
-		ob_end_clean();
-		echo $buffer;
+		include(VIEWPATH.'errors/'.$template.'.php');
+		echo ob_get_clean();
 	}
 
 }
