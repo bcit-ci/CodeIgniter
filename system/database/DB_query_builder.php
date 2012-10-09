@@ -2057,7 +2057,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		// Write the "FROM" portion of the query
 		if (count($this->qb_from) > 0)
 		{
-			$sql .= "\nFROM ".$this->from_tables();
+			$sql .= "\nFROM ".$this->_from_tables();
 		}
 
 		// Write the "JOIN" portion of the query
