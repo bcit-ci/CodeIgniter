@@ -364,7 +364,7 @@ class CI_Input {
 
 			if ($spoof)
 			{
-				for ($i = 0, $c = count($proxy_ips), $separator = (strlen($ip) === 32 ? '.' : ':'); $i < $c; $i++)
+				for ($i = 0, $c = count($proxy_ips); $i < $c; $i++)
 				{
 					// Check if we have an IP address or a subnet
 					if (strpos($proxy_ips[$i], '/') === FALSE)
