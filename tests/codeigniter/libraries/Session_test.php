@@ -30,15 +30,11 @@ class Session_test extends CI_TestCase {
 
 		// Establish necessary support classes
 		$obj = new stdClass;
-		$classes = array(
-			'config' => 'cfg',
-			'load' => 'load',
-			'input' => 'in'
-		);
-		foreach ($classes as $name => $abbr) {
-			$class = $this->ci_core_class($abbr);
-			$obj->$name = new $class;
-		}
+		$cfg = $this->ci_core_class('cfg');
+		$obj->config = new $cfg();
+		$ldr = $this->ci_core_class('load');
+		$obj->load = new $ldr();
+		$obj->input = new Mock_Core_Input(NULL, NULL);
 		$this->ci_instance($obj);
 
 		// Attach session instance locally
@@ -402,4 +398,3 @@ class Session_test extends CI_TestCase {
 		$this->assertNull($this->session->native->userdata($key));
 	}
 }
-
