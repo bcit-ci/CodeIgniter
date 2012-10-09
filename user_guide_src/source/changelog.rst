@@ -198,6 +198,8 @@ Release Date: Not Released
 	 -  Renamed method _set_header() to set_header() and made it public to enable adding custom headers in the :doc:`Email Library <libraries/email>`.
 	 -  Successfully sent emails will automatically clear the parameters.
 	 -  Added a *return_path* parameter to the ``from()`` method.
+	 -  Removed the second parameter (character limit) from internal method ``_prep_quoted_printable()`` as it is never used.
+	 -  Internal method ``_prep_quoted_printable()`` will now utilize the native ``quoted_printable_encode()`` function on PHP 5.3+ if CRLF is set to "\r\n".
    -  :doc:`Pagination Library <libraries/pagination>` changes include:
 	 -  Added support for the anchor "rel" attribute.
 	 -  Added support for setting custom attributes.

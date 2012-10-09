@@ -980,7 +980,6 @@ class CI_Email {
 
 				$this->_finalbody = $body.$this->_prep_quoted_printable($this->_body).$this->newline.$this->newline;
 
-
 				if ($this->_get_protocol() === 'mail')
 				{
 					$this->_header_str .= $hdr;
@@ -1100,11 +1099,19 @@ class CI_Email {
 	 * Refer to RFC 2045 http://www.ietf.org/rfc/rfc2045.txt
 	 *
 	 * @param	string
-	 * @param	int
 	 * @return	string
 	 */
-	protected function _prep_quoted_printable($str, $charlim = '')
+	protected function _prep_quoted_printable($str)
 	{
+		// RFC 2045 specifies CRLF as "\r\n".
+		// However, many developers choose to override that and violate
+		// the RFC rules due to (apparently) a bug in MS Exchange,
+		// which only works with "\n".
+		if ($this->crlf === "\r\n" && is_php('5.3'))
+		{
+			return quoted_printable_encode($str);
+		}
+
 		// Set the character limit
 		// Don't allow over 76, as that will make servers and MUAs barf
 		// all over quoted-printable data
