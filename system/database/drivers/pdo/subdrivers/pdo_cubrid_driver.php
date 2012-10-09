@@ -179,6 +179,26 @@ class CI_DB_pdo_cubrid_driver extends CI_DB_pdo_driver {
 		return 'TRUNCATE '.$table;
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * FROM tables
+	 *
+	 * Groups tables in FROM clauses if needed, so there is no confusion
+	 * about operator precedence.
+	 *
+	 * @return	string
+	 */
+	protected function _from_tables()
+	{
+		if ( ! empty($this->qb_join) && count($this->qb_from) > 1)
+		{
+			return '('.implode(', ', $this->qb_from).')';
+		}
+
+		return implode(', ', $this->qb_from);
+	}
+
 }
 
 /* End of file pdo_cubrid_driver.php */

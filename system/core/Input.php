@@ -329,11 +329,7 @@ class CI_Input {
 		}
 
 		$proxy_ips = config_item('proxy_ips');
-		if (empty($proxy_ips))
-		{
-			$proxy_ips = FALSE;
-		}
-		elseif ( ! is_array($proxy_ips))
+		if ( ! empty($proxy_ips) && ! is_array($proxy_ips))
 		{
 			$proxy_ips = explode(',', str_replace(' ', '', $proxy_ips));
 		}
@@ -366,7 +362,7 @@ class CI_Input {
 				}
 			}
 
-			if ($spoof !== NULL)
+			if ($spoof)
 			{
 				for ($i = 0, $c = count($proxy_ips), $separator = (strlen($ip) === 32 ? '.' : ':'); $i < $c; $i++)
 				{
@@ -439,12 +435,6 @@ class CI_Input {
 					}
 				}
 			}
-		}
-
-		if (strpos($this->ip_address, ',') !== FALSE)
-		{
-			$x = explode(',', $this->ip_address);
-			$this->ip_address = trim($x[0]);
 		}
 
 		if ( ! $this->valid_ip($this->ip_address))
@@ -602,7 +592,7 @@ class CI_Input {
 		$_SERVER['PHP_SELF'] = strip_tags($_SERVER['PHP_SELF']);
 
 		// CSRF Protection check
-		if ($this->_enable_csrf === TRUE)
+		if ($this->_enable_csrf === TRUE && ! $this->is_cli_request())
 		{
 			$this->security->csrf_verify();
 		}

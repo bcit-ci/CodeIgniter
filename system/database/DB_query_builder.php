@@ -1522,19 +1522,18 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * From Tables
+	 * FROM tables
 	 *
-	 * This public function implicitly groups FROM tables so there is no confusion
-	 * about operator precedence in harmony with SQL standards
+	 * Groups tables in FROM clauses if needed, so there is no confusion
+	 * about operator precedence.
 	 *
-	 * @param       array
-	 * @return      string
+	 * Note: This is only used (and overriden) by MySQL and CUBRID.
+	 *
+	 * @return	string
 	 */
-	protected function _from_tables($tables)
+	protected function _from_tables()
 	{
-		is_array($tables) OR $tables = array($tables);
-
-		return (count($tables) === 1) ? $tables[0] : '('.implode(', ', $tables).')';
+		return implode(', ', $this->qb_from);
 	}
 
 	// --------------------------------------------------------------------
@@ -2058,7 +2057,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		// Write the "FROM" portion of the query
 		if (count($this->qb_from) > 0)
 		{
-			$sql .= "\nFROM ".$this->_from_tables($this->qb_from);
+			$sql .= "\nFROM ".$this->_from_tables();
 		}
 
 		// Write the "JOIN" portion of the query

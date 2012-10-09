@@ -11,6 +11,7 @@ defined('PROJECT_BASE') OR define('PROJECT_BASE', realpath($dir.'/../').'/');
 defined('BASEPATH') OR define('BASEPATH', PROJECT_BASE.'system/');
 defined('APPPATH') OR define('APPPATH', PROJECT_BASE.'application/');
 defined('VIEWPATH') OR define('VIEWPATH', PROJECT_BASE.'');
+isset($_SERVER['REMOTE_ADDR']) OR $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
 // Get vfsStream either via PEAR or composer
 foreach (explode(PATH_SEPARATOR, get_include_path()) as $path)
