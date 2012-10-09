@@ -280,6 +280,8 @@ controller as specified in your application/config/routes.php file
 CodeIgniter also permits you to remap your URIs using its :doc:`URI
 Routing <routing>` feature.
 
+.. _sub-controllers:
+
 Loading Sub-Controllers
 =======================
 
@@ -321,6 +323,24 @@ compare itself to the routed Controller object::
 	{
 		// Some other Controller called us to do a job
 	}
+
+It is also possible to check for the presence of a sub-Controller before
+attempting to load it::
+
+	$route = $this->router->validate_route('mymodule/mymodctlr/some_func');
+	if ($route === FALSE)
+	{
+		log_error(INFO, 'Mymodctlr::some_func does not exist!');
+	}
+	else
+	{
+		$this->load->controller($route);
+	}
+
+The validate_route() function will return FALSE if the named Controller
+can not be found. Otherwise, it will return a "route stack" which can be
+passed to the Controller loader instead of a URI string. The route stack
+saves the Loader from having to locate the Controller all over again.
 
 More information about loading Controllers is available on the
 :ref:`Loader <load-controller>` page, and discussion of using Controllers

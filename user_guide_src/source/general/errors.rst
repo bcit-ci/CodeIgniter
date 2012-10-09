@@ -28,6 +28,9 @@ following error template:
 
 application/errors/error_general.php
 
+Or, you can specify a Controller to handle the error through
+:ref:`error overrides <error-overrides>`.
+
 The optional parameter $status_code determines what HTTP status code
 should be sent with the error.
 
@@ -38,6 +41,9 @@ This function will display the 404 error message supplied to it using
 the following error template:
 
 application/errors/error_404.php
+
+Or, you can specify a Controller to handle the 404 through
+:ref:`error overrides <error-overrides>`.
 
 The function expects the string passed to it to be the file path to the
 page that isn't found. Note that CodeIgniter automatically shows 404

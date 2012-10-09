@@ -109,25 +109,44 @@ You can also mix and match wildcards with regular expressions.
 Reserved Routes
 ===============
 
-There are two reserved routes::
+There are four reserved routes::
 
 	$route['default_controller'] = 'welcome';
 
 This route indicates which controller class should be loaded if the URI
 contains no data, which will be the case when people load your root URL.
-In the above example, the "welcome" class would be loaded. You are
+In the above example, the Welcome class would be loaded. You are
 encouraged to always have a default route otherwise a 404 page will
 appear by default.
 
+.. _error-overrides:
+
 ::
 
-	$route['404_override'] = '';
+	$route['404_override'] = 'errors/my404';
+	$route['error_override'] = 'errors/myerror';
+	$route['exception_override'] = 'errors/myexception';
 
-This route indicates which controller class should be loaded if the
-requested controller is not found. It will override the default 404
-error page. It won't affect to the show_404() function, which will
-continue loading the default error_404.php file at
-application/errors/error_404.php.
+These routes indicate which Controller should be loaded and run instead of
+displaying an error template in the case of an error. They are each set to
+a URI string which identifies the route to the Controller, just as you would
+pass to :ref:`load->controller() <load-controller>`. The rules for loading
+Controllers from :ref:`modules <hmvc-modules>` also apply.
+
+The following table indicates when these overrides would be triggered, which
+error template would be overridden, what controller class and method would be
+run (according to the above example), and what arguments would be passed to
+the method.
+
++----------------------+---------------+--------------------+-----------+-------------+-------------------------------+
+| **Scenario**         | **Template**  | **Override**       | **Class** | **Method**  | **Parameters**                |
++----------------------+---------------+--------------------+-----------+-------------+-------------------------------+
+| Controller not found | error_404     | 404_override       | Errors    | my404       | heading, message              |
++----------------------+---------------+--------------------+-----------+-------------+-------------------------------+
+| Call to show_error() | error_general | error_override     | Errors    | myerror     | heading, message              |
++----------------------+---------------+--------------------+-----------+-------------+-------------------------------+
+| PHP fatal error      | error_php     | exception_override | Errors    | myexception | severity, message, path, line |
++----------------------+---------------+--------------------+-----------+-------------+-------------------------------+
 
 .. important:: The reserved routes must come before any wildcard or
 	regular expression routes.

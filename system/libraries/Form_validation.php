@@ -717,7 +717,8 @@ class CI_Form_validation {
 						$result = $this->CI->$class->$method($postdata, $param);
 					}
 				}
-				else {
+				else
+				{
 					if ( ! method_exists($this->CI->routed, $rule))
 					{
 						log_message('debug', 'Unable to find callback validation rule: '.$rule);
