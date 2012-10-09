@@ -46,7 +46,6 @@ class CI_Session_native extends CI_Session_driver {
 	{
 		// Get config parameters
 		$config = array();
-		$CI =& get_instance();
 		$prefs = array(
 			'sess_cookie_name',
 			'sess_expire_on_close',
@@ -63,7 +62,7 @@ class CI_Session_native extends CI_Session_driver {
 		{
 			$config[$key] = isset($this->_parent->params[$key])
 				? $this->_parent->params[$key]
-				: $CI->config->item($key);
+				: $this->CI->config->item($key);
 		}
 
 		// Set session name, if specified
@@ -114,13 +113,13 @@ class CI_Session_native extends CI_Session_driver {
 			$destroy = TRUE;
 		}
 		elseif ($config['sess_match_ip'] === TRUE && isset($_SESSION['ip_address'])
-			&& $_SESSION['ip_address'] !== $CI->input->ip_address())
+			&& $_SESSION['ip_address'] !== $this->CI->input->ip_address())
 		{
 			// IP doesn't match - destroy
 			$destroy = TRUE;
 		}
 		elseif ($config['sess_match_useragent'] === TRUE && isset($_SESSION['user_agent'])
-			&& $_SESSION['user_agent'] !== trim(substr($CI->input->user_agent(), 0, 50)))
+			&& $_SESSION['user_agent'] !== trim(substr($this->CI->input->user_agent(), 0, 50)))
 		{
 			// Agent doesn't match - destroy
 			$destroy = TRUE;
@@ -149,13 +148,13 @@ class CI_Session_native extends CI_Session_driver {
 		if ($config['sess_match_ip'] === TRUE && ! isset($_SESSION['ip_address']))
 		{
 			// Store user IP address
-			$_SESSION['ip_address'] = $CI->input->ip_address();
+			$_SESSION['ip_address'] = $this->CI->input->ip_address();
 		}
 
 		if ($config['sess_match_useragent'] === TRUE && ! isset($_SESSION['user_agent']))
 		{
 			// Store user agent string
-			$_SESSION['user_agent'] = trim(substr($CI->input->user_agent(), 0, 50));
+			$_SESSION['user_agent'] = trim(substr($this->CI->input->user_agent(), 0, 50));
 		}
 
 		// Make session ID available
