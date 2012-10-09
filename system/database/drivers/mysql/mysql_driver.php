@@ -465,6 +465,26 @@ class CI_DB_mysql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * FROM tables
+	 *
+	 * Groups tables in FROM clauses if needed, so there is no confusion
+	 * about operator precedence.
+	 *
+	 * @return	string
+	 */
+	protected function _from_tables()
+	{
+		if ( ! empty($this->qb_join) && count($this->qb_from) > 0)
+		{
+			return '('.implode(', ', $this->qb_from).')';
+		}
+
+		return implode(', ', $this->qb_from);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Close DB Connection
 	 *
 	 * @return	void
