@@ -1112,14 +1112,6 @@ class CI_Email {
 			return quoted_printable_encode($str);
 		}
 
-		// Set the character limit
-		// Don't allow over 76, as that will make servers and MUAs barf
-		// all over quoted-printable data
-		if ($charlim === '' OR $charlim > 76)
-		{
-			$charlim = 76;
-		}
-
 		// Reduce multiple spaces & remove nulls
 		$str = preg_replace(array('| +|', '/\x00+/'), array(' ', ''), $str);
 
@@ -1162,7 +1154,7 @@ class CI_Email {
 
 				// If we're at the character limit, add the line to the output,
 				// reset our temp variable, and keep on chuggin'
-				if ((strlen($temp) + strlen($char)) >= $charlim)
+				if ((strlen($temp) + strlen($char)) >= 76)
 				{
 					$output .= $temp.$escape.$this->crlf;
 					$temp = '';
