@@ -89,7 +89,8 @@ if ( ! function_exists('character_limiter'))
 			return $str;
 		}
 
-		$str = preg_replace('/\s+/', ' ', str_replace(array("\r\n", "\r", "\n"), ' ', $str));
+		// a bit complicated, but faster than preg_replace with \s+
+		$str = preg_replace('/ {2,}/', ' ', str_replace(array("\r", "\n", "\t", "\x0B", "\x0C"), ' ', $str));
 
 		if (strlen($str) <= $n)
 		{

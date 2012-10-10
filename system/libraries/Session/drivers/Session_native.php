@@ -2,17 +2,28 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
+ *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the Open Software License version 3.0
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst. It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
  *
  * @package		CodeIgniter
- * @author		ExpressionEngine	Dev Team
- * @copyright	Copyright	(c) 2008 - 2010, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
- * @since		Version	2.0
+ * @since		Version 1.0
  * @filesource
  */
-
 
 /**
  * Native PHP session management driver
@@ -22,20 +33,19 @@
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Sessions
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  */
 class CI_Session_native extends CI_Session_driver {
+
 	/**
 	 * Initialize session driver object
 	 *
-	 * @access	protected
 	 * @return	void
 	 */
 	protected function initialize()
 	{
 		// Get config parameters
 		$config = array();
-		$CI =& get_instance();
 		$prefs = array(
 			'sess_cookie_name',
 			'sess_expire_on_close',
@@ -47,10 +57,12 @@ class CI_Session_native extends CI_Session_driver {
 			'cookie_path',
 			'cookie_domain'
 		);
+
 		foreach ($prefs as $key)
 		{
-			$config[$key] = isset($this->_parent->params[$key]) ? $this->_parent->params[$key] :
-				$CI->config->item($key);
+			$config[$key] = isset($this->_parent->params[$key])
+				? $this->_parent->params[$key]
+				: $this->CI->config->item($key);
 		}
 
 		// Set session name, if specified
@@ -75,11 +87,13 @@ class CI_Session_native extends CI_Session_driver {
 			// Default to 2 years if expiration is "0"
 			$expire = ($config['sess_expiration'] == 0) ? (60*60*24*365*2) : $config['sess_expiration'];
 		}
+
 		if ($config['cookie_path'])
 		{
 			// Use specified path
 			$path = $config['cookie_path'];
 		}
+
 		if ($config['cookie_domain'])
 		{
 			// Use specified domain
@@ -98,14 +112,14 @@ class CI_Session_native extends CI_Session_driver {
 			// Expired - destroy
 			$destroy = TRUE;
 		}
-		else if ($config['sess_match_ip'] == TRUE && isset($_SESSION['ip_address']) &&
-		$_SESSION['ip_address'] != $CI->input->ip_address())
+		elseif ($config['sess_match_ip'] === TRUE && isset($_SESSION['ip_address'])
+			&& $_SESSION['ip_address'] !== $this->CI->input->ip_address())
 		{
 			// IP doesn't match - destroy
 			$destroy = TRUE;
 		}
-		else if ($config['sess_match_useragent'] == TRUE && isset($_SESSION['user_agent']) &&
-		$_SESSION['user_agent'] != trim(substr($CI->input->user_agent(), 0, 50)))
+		elseif ($config['sess_match_useragent'] === TRUE && isset($_SESSION['user_agent'])
+			&& $_SESSION['user_agent'] !== trim(substr($this->CI->input->user_agent(), 0, 50)))
 		{
 			// Agent doesn't match - destroy
 			$destroy = TRUE;
@@ -120,8 +134,8 @@ class CI_Session_native extends CI_Session_driver {
 		}
 
 		// Check for update time
-		if ($config['sess_time_to_update'] && isset($_SESSION['last_activity']) &&
-		($_SESSION['last_activity'] + $config['sess_time_to_update']) < $now)
+		if ($config['sess_time_to_update'] && isset($_SESSION['last_activity'])
+			&& ($_SESSION['last_activity'] + $config['sess_time_to_update']) < $now)
 		{
 			// Regenerate ID, but don't destroy session
 			$this->sess_regenerate(FALSE);
@@ -131,25 +145,27 @@ class CI_Session_native extends CI_Session_driver {
 		$_SESSION['last_activity'] = $now;
 
 		// Set matching values as required
-		if ($config['sess_match_ip'] == TRUE && !isset($_SESSION['ip_address']))
+		if ($config['sess_match_ip'] === TRUE && ! isset($_SESSION['ip_address']))
 		{
 			// Store user IP address
-			$_SESSION['ip_address'] = $CI->input->ip_address();
+			$_SESSION['ip_address'] = $this->CI->input->ip_address();
 		}
-		if ($config['sess_match_useragent'] == TRUE && !isset($_SESSION['user_agent']))
+
+		if ($config['sess_match_useragent'] === TRUE && ! isset($_SESSION['user_agent']))
 		{
 			// Store user agent string
-			$_SESSION['user_agent'] = trim(substr($CI->input->user_agent(), 0, 50));
+			$_SESSION['user_agent'] = trim(substr($this->CI->input->user_agent(), 0, 50));
 		}
 
 		// Make session ID available
 		$_SESSION['session_id'] = session_id();
 	}
 
+	// ------------------------------------------------------------------------
+
 	/**
 	 * Save the session data
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function sess_save()
@@ -157,10 +173,11 @@ class CI_Session_native extends CI_Session_driver {
 		// Nothing to do - changes to $_SESSION are automatically saved
 	}
 
+	// ------------------------------------------------------------------------
+
 	/**
 	 * Destroy the current session
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function sess_destroy()
@@ -178,13 +195,14 @@ class CI_Session_native extends CI_Session_driver {
 		session_destroy();
 	}
 
+	// ------------------------------------------------------------------------
+
 	/**
 	 * Regenerate the current session
 	 *
 	 * Regenerate the session id
 	 *
-	 * @access	public
-	 * @param	boolean	Destroy session data flag (default: FALSE)
+	 * @param	bool	Destroy session data flag (default: FALSE)
 	 * @return	void
 	 */
 	public function sess_regenerate($destroy = FALSE)
@@ -194,10 +212,11 @@ class CI_Session_native extends CI_Session_driver {
 		$_SESSION['session_id'] = session_id();
 	}
 
+	// ------------------------------------------------------------------------
+
 	/**
 	 * Get a reference to user data array
 	 *
-	 * @access	public
 	 * @return	array	Reference to userdata
 	 */
 	public function &get_userdata()
@@ -205,6 +224,7 @@ class CI_Session_native extends CI_Session_driver {
 		// Just return reference to $_SESSION
 		return $_SESSION;
 	}
+
 }
 
 /* End of file Session_native.php */

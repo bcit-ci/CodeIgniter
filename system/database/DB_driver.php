@@ -51,6 +51,7 @@ abstract class CI_DB_driver {
 	public $char_set		= 'utf8';
 	public $dbcollat		= 'utf8_general_ci';
 	public $autoinit		= TRUE; // Whether to automatically initialize the DB
+	public $compress		= TRUE;
 	public $swap_pre		= '';
 	public $port			= '';
 	public $pconnect		= FALSE;
@@ -77,6 +78,10 @@ abstract class CI_DB_driver {
 
 	protected $_protect_identifiers		= TRUE;
 	protected $_reserved_identifiers	= array('*'); // Identifiers that should NOT be escaped
+
+	// clause and character used for LIKE escape sequences
+	protected $_like_escape_str = " ESCAPE '%s' ";
+	protected $_like_escape_chr = '!';
 
 	/**
 	 * The syntax to count rows is slightly different across different
@@ -669,7 +674,7 @@ abstract class CI_DB_driver {
 	 */
 	public function is_write_type($sql)
 	{
-		return (bool) preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|TRUNCATE|LOAD DATA|COPY|ALTER|RENAME|GRANT|REVOKE|LOCK|UNLOCK|REINDEX)\s+/i', $sql);
+		return (bool) preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|TRUNCATE|LOAD|COPY|ALTER|RENAME|GRANT|REVOKE|LOCK|UNLOCK|REINDEX)\s+/i', $sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -1343,7 +1348,7 @@ abstract class CI_DB_driver {
 		}
 		else
 		{
-			$message = ( ! is_array($error)) ? array(str_replace('%s', $swap, $LANG->line($error))) : $error;
+			$message = is_array($error) ? $error : array(str_replace('%s', $swap, $LANG->line($error)));
 		}
 
 		// Find the most likely culprit of the error by going through
@@ -1352,7 +1357,13 @@ abstract class CI_DB_driver {
 		$trace = debug_backtrace();
 		foreach ($trace as $call)
 		{
-			if (isset($call['file']) && strpos($call['file'], BASEPATH.'database') === FALSE)
+			// We'll need this on Windows, as APPPATH and BASEPATH will always use forward slashes
+			if (DIRECTORY_SEPARATOR !== '/')
+			{
+				$call['file'] = str_replace('\\', '/', $call['file']);
+			}
+
+			if (isset($call['file'], $call['class']) && strpos($call['file'], BASEPATH.'database') === FALSE && strpos($call['class'], 'Loader') !== FALSE)
 			{
 				// Found it - use a relative path for safety
 				$message[] = 'Filename: '.str_replace(array(APPPATH, BASEPATH), '', $call['file']);
