@@ -552,13 +552,13 @@ class CI_Output {
 		fclose($fp);
 
 		// Strip out the embedded timestamp
-		if ( ! preg_match('/\d+TS--->/', $cache, $match))
+		if ( ! preg_match('/^(\d+)TS--->/', $cache, $match))
 		{
 			return FALSE;
 		}
 
 		$last_modified = filemtime($cache_path);
-		$expire = str_replace('TS--->', '', $match[0]);
+		$expire = $match[1];
 
 		// Has the file expired?
 		if ($_SERVER['REQUEST_TIME'] >= $expire && is_really_writable($cache_path))

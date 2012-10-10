@@ -63,7 +63,7 @@ class CI_Driver_Library {
 	 * @return  object  Child class
 	 */
 	public function __get($child)
-    {
+	{
 		// Try to load the driver
 		return $this->load_driver($child);
 	}

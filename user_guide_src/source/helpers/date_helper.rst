@@ -306,6 +306,30 @@ Example
 
 If the second parameter is empty, the current year will be used.
 
+date_range()
+============
+
+Returns a list of dates within a specified period.
+
+.. php:method:: date_range($unix_start = '', $mixed = '', $is_unix = TRUE, $format = 'Y-m-d')
+
+	:param integer	$unix_start: UNIX timestamp of the range start date
+	:param integer	$mixed: UNIX timestamp of the range end date or interval in days
+	:param boolean	$is_unix: set to FALSE if $mixed is not a timestamp
+	:param string	$format: output date format, same as in date()
+	:returns: array
+
+Example
+
+::
+
+	$range = date_range('2012-01-01', '2012-01-15');
+	echo "First 15 days of 2012:";
+	foreach ($range as $date)
+	{
+		echo $date."\n";
+	}
+
 timezones()
 ===========
 
