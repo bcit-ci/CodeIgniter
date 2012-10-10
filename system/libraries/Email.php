@@ -98,6 +98,8 @@ class CI_Email {
 	 */
 	public function __construct($config = array())
 	{
+		$this->charset = strtoupper(config_item('charset'));
+
 		if (count($config) > 0)
 		{
 			$this->initialize($config);
