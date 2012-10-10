@@ -136,7 +136,7 @@ class CI_Utf8 {
 		{
 			return @iconv($encoding, 'UTF-8', $str);
 		}
-		elseif (function_exists('mb_convert_encoding'))
+		elseif (MB_ENABLED === TRUE)
 		{
 			return @mb_convert_encoding($str, 'UTF-8', $encoding);
 		}
