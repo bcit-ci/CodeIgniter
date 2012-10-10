@@ -134,12 +134,6 @@ class CI_Form_validation {
 		// Automatically load the form helper
 		$this->CI->load->helper('form');
 
-		// Set the character encoding in MB.
-		if (MB_ENABLED === TRUE)
-		{
-			mb_internal_encoding($this->CI->config->item('charset'));
-		}
-
 		log_message('debug', 'Form Validation Class Initialized');
 	}
 
