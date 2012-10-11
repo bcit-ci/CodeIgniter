@@ -199,7 +199,7 @@ Release Date: Not Released
 	 -  Successfully sent emails will automatically clear the parameters.
 	 -  Added a *return_path* parameter to the ``from()`` method.
 	 -  Removed the second parameter (character limit) from internal method ``_prep_quoted_printable()`` as it is never used.
-	 -  Internal method ``_prep_quoted_printable()`` will now utilize the native ``quoted_printable_encode()`` function on PHP 5.3+ if CRLF is set to "\r\n".
+	 -  Internal method ``_prep_quoted_printable()`` will now utilize the native ``quoted_printable_encode()``, ``imap_8bit()`` functions (if available) when CRLF is set to "\r\n".
 	 -  Default charset now relies on the global ``$config['charset']`` setting.
    -  :doc:`Pagination Library <libraries/pagination>` changes include:
 	 -  Added support for the anchor "rel" attribute.
