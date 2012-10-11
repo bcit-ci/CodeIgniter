@@ -266,7 +266,7 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
 			$orderby = 'ORDER BY '.implode(', ', $this->qb_orderby);
 
 			// We have to strip the ORDER BY clause
-			$sql = trim(substr($sql, 0, strrpos($sql, 'ORDER BY '.$orderby)));
+			$sql = trim(substr($sql, 0, strrpos($sql, $orderby)));
 
 			return 'SELECT '.(count($this->qb_select) === 0 ? '*' : implode(', ', $this->qb_select))." FROM (\n"
 				.preg_replace('/^(SELECT( DISTINCT)?)/i', '\\1 ROW_NUMBER() OVER('.$orderby.') AS '.$this->escape_identifiers('CI_rownum').', ', $sql)
