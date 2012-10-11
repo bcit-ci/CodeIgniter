@@ -872,6 +872,7 @@ Rule                      Parameter  Description                                
 ========================= ========== ============================================================================================= =======================
 **required**              No         Returns FALSE if the form element is empty.                                                                          
 **matches**               Yes        Returns FALSE if the form element does not match the one in the parameter.                    matches[form_item]     
+**differs**               Yes        Returns FALSE if the form element does not differ from the one in the parameter.              differs[form_item]     
 **is_unique**             Yes        Returns FALSE if the form element is not unique to the table and field name in the            is_unique[table.field] 
                                      parameter. Note: This rule requires :doc:`Query Builder <../database/query_builder>` to be                             
                                      enabled in order to work.
