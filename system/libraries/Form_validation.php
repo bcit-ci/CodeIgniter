@@ -971,6 +971,19 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Differs from another field
+	 *
+	 * @param	string
+	 * @param	string	field
+	 * @return	bool
+	 */
+	public function differs($str, $field)
+	{
+		return ! (isset($this->_field_data[$field]) && $this->_field_data[$field]['postdata'] === $str);
+	}
+
+	// --------------------------------------------------------------------
+	/**
 	 * Is Unique
 	 *
 	 * Check if the input value doesn't already exist
