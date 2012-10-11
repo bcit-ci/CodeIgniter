@@ -85,6 +85,9 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 		// Extract the prefs for simplicity
 		extract($params);
 
+
+		// Escape table name for output
+		$db_escaped = $this->db->_escape_identifiers($this->db->database);
 		// Build the output
 		$output = '';
 		foreach ((array)$tables as $table)
@@ -95,8 +98,11 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 				continue;
 			}
 
+			// Escape table name
+			$table_escaped = $this->db->_escape_identifiers($table);
+
 			// Get the table schema
-			$query = $this->db->query("SHOW CREATE TABLE `".$this->db->database.'`.`'.$table.'`');
+			$query = $this->db->query("SHOW CREATE TABLE ".$db_escaped.'.'.$table_escaped);
 
 			// No result means the table name was invalid
 			if ($query === FALSE)
@@ -105,11 +111,11 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 			}
 
 			// Write out the table schema
-			$output .= '#'.$newline.'# TABLE STRUCTURE FOR: '.$table.$newline.'#'.$newline.$newline;
+			$output .= '#'.$newline.'# TABLE STRUCTURE FOR: '.$table_escaped.$newline.'#'.$newline.$newline;
 
 			if ($add_drop == TRUE)
 			{
-				$output .= 'DROP TABLE IF EXISTS '.$table.';'.$newline.$newline;
+				$output .= 'DROP TABLE IF EXISTS '.$table_escaped.';'.$newline.$newline;
 			}
 
 			$i = 0;
@@ -129,7 +135,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 			}
 
 			// Grab all the data from the current table
-			$query = $this->db->query("SELECT * FROM $table");
+			$query = $this->db->query("SELECT * FROM .$table_escaped");
 
 			if ($query->num_rows() == 0)
 			{
@@ -196,7 +202,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 				$val_str = preg_replace( "/, $/" , "" , $val_str);
 
 				// Build the INSERT string
-				$output .= 'INSERT INTO '.$table.' ('.$field_str.') VALUES ('.$val_str.');'.$newline;
+				$output .= 'INSERT INTO '.$table_escaped.' ('.$field_str.') VALUES ('.$val_str.');'.$newline;
 			}
 
 			$output .= $newline.$newline;
