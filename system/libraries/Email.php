@@ -1109,9 +1109,16 @@ class CI_Email {
 		// However, many developers choose to override that and violate
 		// the RFC rules due to (apparently) a bug in MS Exchange,
 		// which only works with "\n".
-		if ($this->crlf === "\r\n" && is_php('5.3'))
+		if ($this->crlf === "\r\n")
 		{
-			return quoted_printable_encode($str);
+			if (is_php('5.3'))
+			{
+				return quoted_printable_encode($str);
+			}
+			elseif (function_exists('imap_8bit'))
+			{
+				return imap_8bit($str);
+			}
 		}
 
 		// Reduce multiple spaces & remove nulls
