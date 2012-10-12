@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright		Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -29,8 +29,8 @@
  * Exceptions Class
  *
  * @package		CodeIgniter
- * @subpackage	Libraries
- * @category	Exceptions
+ * @subpackage		Libraries
+ * @category		Exceptions
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/exceptions.html
  */
@@ -136,19 +136,11 @@ class CI_Exceptions {
 	{
 		set_status_header($status_code);
 
-		$message = '<p>'.implode('</p><p>', is_array($message) ? $message : array($message)).'</p>';
+		$message = '<p>'.implode('</p><p>', ( ! is_array($message)) ? array($message) : $message).'</p>';
 
-		if (ob_get_level() > $this->ob_level + 1)
-		{
-			ob_end_flush();
-		}
-		ob_start();
-		include(VIEWPATH.'errors/'.$template.'.php');
-		$buffer = ob_get_contents();
-		ob_end_clean();
-		return $buffer;
+		throw new CIRuntimeException($heading, $message, $template, $status_code, E_ERROR);
 	}
-
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -183,6 +175,35 @@ class CI_Exceptions {
 		echo $buffer;
 	}
 
+}
+
+/**
+ * CIRuntimeException Class
+ *
+ * @package		CodeIgniter
+ * @subpackage	Libraries
+ * @category	Exceptions
+ * @author		EllisLab Dev Team
+ * @link		http://codeigniter.com/user_guide/libraries/exceptions.html
+ */
+class CIRuntimeException extends Exception {
+
+	protected $heading;
+	protected $template;
+	protected $status_code;
+
+	public function __construct($heading, $message, $template = 'error_general', $status_code = 500, $code = 0, Exception $previous = null)
+	{
+		parent::__construct($message, $code, $previous);
+
+		$this->heading      = $heading;
+		$this->template     = $template;
+		$this->status_code  = $status_code;
+	}
+
+	final public function getHeading(){ return $this->heading; }
+	final public function getTemplate(){ return $this->template; }
+	final public function getStatus(){ return $this->status_code; }
 }
 
 /* End of file Exceptions.php */

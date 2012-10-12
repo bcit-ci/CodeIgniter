@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright		Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -31,8 +31,8 @@
  * Loads the base classes and executes the request.
  *
  * @package		CodeIgniter
- * @subpackage	CodeIgniter
- * @category	Common Functions
+ * @subpackage		CodeIgniter
+ * @category		Common Functions
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/
  */
@@ -497,12 +497,12 @@ if ( ! function_exists('set_status_header'))
 
 // --------------------------------------------------------------------
 
-if ( ! function_exists('_exception_handler'))
+if ( ! function_exists('_error_handler'))
 {
 	/**
-	 * Exception Handler
+	 * Error Handler
 	 *
-	 * This is the custom exception handler that is declaired at the top
+	 * This is the custom error handler that is declaired at the top
 	 * of Codeigniter.php. The main reason we use this is to permit
 	 * PHP errors to be logged in our own log files since the user may
 	 * not have access to server logs. Since this function
@@ -516,7 +516,7 @@ if ( ! function_exists('_exception_handler'))
 	 * @param	int
 	 * @return	void
 	 */
-	function _exception_handler($severity, $message, $filepath, $line)
+	function _error_handler($severity, $message, $filepath, $line)
 	{
 		$_error =& load_class('Exceptions', 'core');
 
@@ -534,6 +534,50 @@ if ( ! function_exists('_exception_handler'))
 		}
 
 		$_error->log_exception($severity, $message, $filepath, $line);
+	}
+}
+
+// --------------------------------------------------------------------
+
+if ( ! function_exists('_exception_handler'))
+{
+	/**
+	* Default Exception Handler
+	* Triggers on uncaught exceptions
+	*
+	* @access   private
+	* @return   void
+	*/
+	function _exception_handler($exception)
+	{
+		$heading = $exception->getHeading();
+		$message = $exception->getMessage();
+
+		parent::log_exception(E_ERROR, $message, $exception->getFile(), $exception->getLine());
+
+		set_status_header($exception->getStatus());
+
+		$_input =& load_class('Input');
+
+		if ($_input->is_ajax_request())
+		{
+			echo $message;
+		}
+		else
+		{
+			if (ob_get_level() > $this->ob_level + 1)
+			{
+				ob_end_flush();
+			}
+			ob_start();
+			include(APPPATH.'errors/'.$exception->getTemplate().'.php');
+			$buffer = ob_get_contents();
+			ob_end_clean();
+
+			echo $buffer;
+		}
+
+		exit;
 	}
 }
 

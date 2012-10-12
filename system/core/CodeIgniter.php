@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright		Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -31,8 +31,8 @@
  * Loads the base classes and executes the request.
  *
  * @package		CodeIgniter
- * @subpackage	CodeIgniter
- * @category	Front-controller
+ * @subpackage		CodeIgniter
+ * @category		Front-controller
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/
  */
@@ -68,10 +68,11 @@
 
 /*
  * ------------------------------------------------------
- *  Define a custom error handler so we can log PHP errors
+ *  Define a custom error and exception handler so we can log PHP errors
  * ------------------------------------------------------
  */
-	set_error_handler('_exception_handler');
+	set_error_handler('_error_handler');
+	set_exception_handler('_exception_handler');
 
 	if ( ! is_php('5.4'))
 	{
