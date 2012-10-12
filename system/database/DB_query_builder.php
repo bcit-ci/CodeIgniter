@@ -2056,25 +2056,36 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 					continue;
 				}
 
-				$op = preg_quote($this->_get_operator($this->{$qb_key}[$i]['condition']));
-				if ( ! preg_match('/^(\s*(?:AND|OR)\s+)?(\(?)(.*)('.$op.')(.*(?<!\)))?(\)?)$/i', $this->{$qb_key}[$i]['condition'], $matches))
+				// Split multiple conditions
+				$conditions = preg_split(
+					'/(\s*AND\s+|\s*OR\s+)/i',
+					$this->{$qb_key}[$i]['condition'],
+					-1,
+					PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
+				);
+
+				for ($ci = 0, $cc = count($conditions); $ci < $cc; $ci++)
 				{
-					$this->{$qb_key}[$i] = $this->{$qb_key}[$i]['condition'];
-					continue;
+					if (($op = $this->_get_operator($conditions[$ci])) === FALSE
+						OR ! preg_match('/^(\(?)(.*)('.preg_quote($op).')(.*(?<!\)))?(\)?)$/i', $conditions[$ci], $matches))
+					{
+						continue;
+					}
+
+					// $matches = array(
+					//	0 => '(test <= foo)',	/* the whole thing */
+					//	1 => '(',		/* optional */
+					//	2 => 'test',		/* the field name */
+					//	3 => ' <= ',		/* $op */
+					//	4 => 'foo',		/* optional, if $op is e.g. 'IS NULL' */
+					//	5 => ')'		/* optional */
+					// );
+					empty($matches[4]) OR $matches[4] = ' '.$this->protect_identifiers(trim($matches[4]));
+					$conditions[$ci] = $matches[1].$this->protect_identifiers(trim($matches[2]))
+						.' '.trim($matches[3]).$matches[4].$matches[5];
 				}
 
-				// $matches = array(
-				//	0 => 'OR (test <= foo)',	/* the whole thing */
-				//	1 => 'OR ',			/* optional */
-				//	2 => '(',			/* optional */
-				//	3 => 'test',			/* the field name */
-				//	4 => ' <= ',			/* $op */
-				//	5 => 'foo',			/* optional, if $op is e.g. 'IS NULL' */
-				//	6 => ')'			/* optional */
-				// );
-				empty($matches[5]) OR $matches[5] = ' '.$this->protect_identifiers(trim($matches[5]));
-				$this->{$qb_key}[$i] = $matches[1].$matches[2].$this->protect_identifiers(trim($matches[3]))
-						.' '.trim($matches[4]).$matches[5].$matches[6];
+				$this->{$qb_key}[$i] = implode('', $conditions);
 			}
 
 			return ($qb_key === 'qb_having' ? "\nHAVING " : "\nWHERE ")
