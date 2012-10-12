@@ -134,12 +134,6 @@ class CI_Form_validation {
 		// Automatically load the form helper
 		$this->CI->load->helper('form');
 
-		// Set the character encoding in MB.
-		if (MB_ENABLED === TRUE)
-		{
-			mb_internal_encoding($this->CI->config->item('charset'));
-		}
-
 		log_message('debug', 'Form Validation Class Initialized');
 	}
 
@@ -972,6 +966,20 @@ class CI_Form_validation {
 		$validation_array = empty($this->validation_data) ? $_POST : $this->validation_data;
 
 		return isset($validation_array[$field]) ? ($str === $validation_array[$field]) : FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Differs from another field
+	 *
+	 * @param	string
+	 * @param	string	field
+	 * @return	bool
+	 */
+	public function differs($str, $field)
+	{
+		return ! (isset($this->_field_data[$field]) && $this->_field_data[$field]['postdata'] === $str);
 	}
 
 	// --------------------------------------------------------------------

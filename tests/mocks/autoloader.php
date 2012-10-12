@@ -26,10 +26,14 @@ function autoload($class)
 		'Email', 'Encrypt', 'Form_validation',
 		'Ftp', 'Image_lib', 'Javascript',
 		'Log', 'Migration', 'Pagination',
-		'Parser', 'Profiler', 'Session',
-		'Table', 'Trackback', 'Typography',
-		'Unit_test', 'Upload', 'User_agent',
-		'Xmlrpc', 'Zip',
+		'Parser', 'Profiler', 'Table',
+	   	'Trackback', 'Typography', 'Unit_test',
+	   	'Upload', 'User_agent', 'Xmlrpc',
+	   	'Zip',
+	);
+
+	$ci_drivers = array(
+		'Session',
 	);
 
 	if (strpos($class, 'Mock_') === 0)
@@ -51,6 +55,15 @@ function autoload($class)
 		{
 			$dir = BASEPATH.'libraries'.DIRECTORY_SEPARATOR;
 			$class = ($subclass === 'Driver_Library') ? 'Driver' : $subclass;
+		}
+		elseif (in_array($subclass, $ci_drivers))
+		{
+			$dir = BASEPATH.'libraries'.DIRECTORY_SEPARATOR.$subclass.DIRECTORY_SEPARATOR;
+			$class = $subclass;
+		}
+		elseif (in_array(($parent = strtok($subclass, '_')), $ci_drivers)) {
+			$dir = BASEPATH.'libraries'.DIRECTORY_SEPARATOR.$parent.DIRECTORY_SEPARATOR.'drivers'.DIRECTORY_SEPARATOR;
+			$class = $subclass;
 		}
 		elseif (preg_match('/^CI_DB_(.+)_(driver|forge|result|utility)$/', $class, $m) && count($m) === 3)
 		{

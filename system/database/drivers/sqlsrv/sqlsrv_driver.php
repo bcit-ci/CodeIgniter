@@ -45,10 +45,6 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	// The character used for escaping
 	protected $_escape_char = '"';
 
-	// clause and character used for LIKE escape sequences
-	protected $_like_escape_str = " ESCAPE '%s' ";
-	protected $_like_escape_chr = '!';
-
 	protected $_random_keyword = ' NEWID()';
 
 	// SQLSRV-specific properties
@@ -225,7 +221,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function affected_rows()
 	{
-		return sqlrv_rows_affected($this->result_id);
+		return sqlsrv_rows_affected($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -357,22 +353,6 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		}
 
 		return $error;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * From Tables
-	 *
-	 * This function implicitly groups FROM tables so there is no confusion
-	 * about operator precedence in harmony with SQL standards
-	 *
-	 * @param	array
-	 * @return	string
-	 */
-	protected function _from_tables($tables)
-	{
-		return is_array($tables) ? implode(', ', $tables) : $tables;
 	}
 
 	// --------------------------------------------------------------------

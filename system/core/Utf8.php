@@ -49,30 +49,31 @@ class CI_Utf8 {
 	{
 		log_message('debug', 'Utf8 Class Initialized');
 
-		global $CFG;
+		$charset = strtoupper(config_item('charset'));
+
+		// set internal encoding for multibyte string functions if necessary
+		// and set a flag so we don't have to repeatedly use extension_loaded()
+		// or function_exists()
+		if (extension_loaded('mbstring'))
+		{
+			define('MB_ENABLED', TRUE);
+			mb_internal_encoding($charset);
+		}
+		else
+		{
+			define('MB_ENABLED', FALSE);
+		}
+
 
 		if (
-			@preg_match('/./u', 'é') === 1		// PCRE must support UTF-8
-			&& function_exists('iconv')			// iconv must be installed
-			&& (bool) @ini_get('mbstring.func_overload') !== TRUE	// Multibyte string function overloading cannot be enabled
-			&& $CFG->item('charset') === 'UTF-8'		// Application charset must be UTF-8
+			@preg_match('/./u', 'é') === 1	// PCRE must support UTF-8
+			&& function_exists('iconv')	// iconv must be installed
+			&& MB_ENABLED === TRUE		// mbstring must be enabled
+			&& $charset === 'UTF-8'		// Application charset must be UTF-8
 			)
 		{
 			define('UTF8_ENABLED', TRUE);
 			log_message('debug', 'UTF-8 Support Enabled');
-
-			// set internal encoding for multibyte string functions if necessary
-			// and set a flag so we don't have to repeatedly use extension_loaded()
-			// or function_exists()
-			if (extension_loaded('mbstring'))
-			{
-				define('MB_ENABLED', TRUE);
-				mb_internal_encoding('UTF-8');
-			}
-			else
-			{
-				define('MB_ENABLED', FALSE);
-			}
 		}
 		else
 		{
@@ -135,7 +136,7 @@ class CI_Utf8 {
 		{
 			return @iconv($encoding, 'UTF-8', $str);
 		}
-		elseif (function_exists('mb_convert_encoding'))
+		elseif (MB_ENABLED === TRUE)
 		{
 			return @mb_convert_encoding($str, 'UTF-8', $encoding);
 		}
