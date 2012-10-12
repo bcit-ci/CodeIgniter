@@ -1832,10 +1832,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			foreach ($table as $single_table)
 			{
-				$this->delete($single_table, $where, $limit, FALSE);
+				$this->delete($single_table, $where, $limit, $reset_data);
 			}
-
-			$this->_reset_write();
 			return;
 		}
 		else
@@ -2109,7 +2107,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			{
 				$this->qb_groupby[$i] = ($this->qb_groupby[$i]['escape'] === FALSE)
 					? $this->qb_groupby[$i]['field']
-					: $this->protect_identifiers($qb_groupby[$i]['field']);
+					: $this->protect_identifiers($this->qb_groupby[$i]['field']);
 			}
 
 			$sql .= implode(', ', $this->qb_groupby);
