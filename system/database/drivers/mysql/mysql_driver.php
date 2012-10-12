@@ -81,7 +81,6 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	public function db_connect($persistent = FALSE)
 	{
-		$connect_func = ($persistent === TRUE) ? 'mysql_pconnect' : 'mysql_connect';
 		$client_flags = ($this->compress === FALSE) ? 0 : MYSQL_CLIENT_COMPRESS;
 
 		if ($this->encrypt === TRUE)
@@ -89,7 +88,9 @@ class CI_DB_mysql_driver extends CI_DB {
 			$client_flags = $client_flags | MYSQL_CLIENT_SSL;
 		}
 
-		return @$connect_func($this->hostname, $this->username, $this->password, TRUE, $client_flags);
+		return ($persistent === TRUE)
+			? @mysql_pconnect($this->hostname, $this->username, $this->password, $client_flags)
+			: @mysql_connect($this->hostname, $this->username, $this->password, TRUE, $client_flags);
 	}
 
 	// --------------------------------------------------------------------
