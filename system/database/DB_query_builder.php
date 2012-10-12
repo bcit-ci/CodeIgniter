@@ -2148,7 +2148,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			{
 				if ($this->qb_orderby[$i]['escape'] !== FALSE)
 				{
-					$this->qb_orderby[$i]['field'] = $this->protect_identifiers($field);
+					$this->qb_orderby[$i]['field'] = $this->protect_identifiers($this->qb_orderby[$i]['field']);
 				}
 
 				$this->qb_orderby[$i] = $this->qb_orderby[$i]['field'].$this->qb_orderby[$i]['direction'];
