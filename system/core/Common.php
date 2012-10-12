@@ -150,7 +150,7 @@ if ( ! function_exists('load_class'))
 
 				if (class_exists($name) === FALSE)
 				{
-					require($path.$directory.'/'.$class.'.php');
+					require_once($path.$directory.'/'.$class.'.php');
 				}
 
 				break;
@@ -164,7 +164,7 @@ if ( ! function_exists('load_class'))
 
 			if (class_exists($name) === FALSE)
 			{
-				require(APPPATH.$directory.'/'.config_item('subclass_prefix').$class.'.php');
+				require_once(APPPATH.$directory.'/'.config_item('subclass_prefix').$class.'.php');
 			}
 		}
 
