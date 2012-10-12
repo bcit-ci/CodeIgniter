@@ -2050,8 +2050,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	{
 		if (count($this->$qb_key) > 0)
 		{
-			$sql = ($qb_key === 'qb_having') ? "\nHAVING " : "\nWHERE ";
-
 			for ($i = 0, $c = count($this->$qb_key); $i < $c; $i++)
 			{
 				if ($this->{$qb_key}[$i]['escape'] === FALSE)
@@ -2081,7 +2079,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 						.' '.trim($matches[4]).$matches[5].$matches[6];
 			}
 
-			return implode("\n", $this->$qb_key);
+			return ($qb_key === 'qb_having' ? "\nHAVING " : "\nWHERE ")
+				.implode("\n", $this->$qb_key);
 		}
 
 		return '';
