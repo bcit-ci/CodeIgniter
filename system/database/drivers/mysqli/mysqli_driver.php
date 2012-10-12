@@ -41,6 +41,7 @@
 class CI_DB_mysqli_driver extends CI_DB {
 
 	public $dbdriver = 'mysqli';
+	public $compress = FALSE;
 
 	// The character used for escaping
 	protected $_escape_char = '`';
@@ -57,24 +58,21 @@ class CI_DB_mysqli_driver extends CI_DB {
 	/**
 	 * Non-persistent database connection
 	 *
+	 * @param	bool
 	 * @return	object
+	 * @todo	SSL support
 	 */
-	public function db_connect()
+	public function db_connect($persistent = FALSE)
 	{
-		// Use MySQL client compression?
-		if ($this->compress === TRUE)
-		{
-			$port = empty($this->port) ? NULL : $this->port;
+		// Persistent connection support was added in PHP 5.3.0
+		$hostname = ($persistent === TRUE && is_php('5.3'))
+			? 'p:'.$this->hostname : $this->hostname;
+		$port = empty($this->port) ? NULL : $this->port;
+		$client_flags = ($this->compress === TRUE) ? MYSQLI_CLIENT_COMPRESS : 0;
+		$mysqli = new mysqli();
 
-			$mysqli = new mysqli();
-			@$mysqli->real_connect($this->hostname, $this->username, $this->password, $this->database, $port, NULL, MYSQLI_CLIENT_COMPRESS);
-
-			return $mysqli;
-		}
-
-		return empty($this->port)
-			? @new mysqli($this->hostname, $this->username, $this->password, $this->database)
-			: @new mysqli($this->hostname, $this->username, $this->password, $this->database, $this->port);
+		return @$mysqli->real_connect($hostname, $this->username, $this->password, $this->database, $port, NULL, $client_flags)
+			? $mysqli : FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -86,26 +84,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		// Persistent connection support was added in PHP 5.3.0
-		if ( ! is_php('5.3'))
-		{
-			return $this->db_connect();
-		}
-
-		// Use MySQL client compression?
-		if ($this->compress === TRUE)
-		{
-			$port = empty($this->port) ? NULL : $this->port;
-
-			$mysqli = mysqli_init();
-			$mysqli->real_connect('p:'.$this->hostname, $this->username, $this->password, $this->database, $port, NULL, MYSQLI_CLIENT_COMPRESS);
-
-			return $mysqli;
-		}
-
-		return empty($this->port)
-			? @new mysqli('p:'.$this->hostname, $this->username, $this->password, $this->database)
-			: @new mysqli('p:'.$this->hostname, $this->username, $this->password, $this->database, $this->port);
+		return $this->db_connect(TRUE);
 	}
 
 	// --------------------------------------------------------------------
