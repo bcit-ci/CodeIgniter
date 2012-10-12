@@ -2154,7 +2154,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				$this->qb_orderby[$i] = $this->qb_orderby[$i]['field'].$this->qb_orderby[$i]['direction'];
 			}
 
-			$sql .= implode(', ', $this->qb_orderby);
+			return "\nORDER BY ".implode(', ', $this->qb_orderby);
 		}
 
 		return '';
