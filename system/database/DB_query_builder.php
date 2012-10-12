@@ -920,7 +920,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	bool
 	 * @return	object
 	 */
-	public function having($key, $value = '', $escape = NULL)
+	public function having($key, $value = NULL, $escape = NULL)
 	{
 		return $this->_wh('qb_having', $key, $value, 'AND ', $escape);
 	}
@@ -937,7 +937,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	bool
 	 * @return	object
 	 */
-	public function or_having($key, $value = '', $escape = NULL)
+	public function or_having($key, $value = NULL, $escape = NULL)
 	{
 		return $this->_wh('qb_having', $key, $value, 'OR ', $escape);
 	}
@@ -1812,7 +1812,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	mixed	the where clause
 	 * @param	mixed	the limit clause
 	 * @param	bool
-	 * @return	object
+	 * @return	mixed
 	 */
 	public function delete($table = '', $where = '', $limit = NULL, $reset_data = TRUE)
 	{
@@ -2101,8 +2101,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	{
 		if (count($this->qb_groupby) > 0)
 		{
-			$sql = "\nGROUP BY ";
-
 			for ($i = 0, $c = count($this->qb_groupby); $i < $c; $i++)
 			{
 				$this->qb_groupby[$i] = ($this->qb_groupby[$i]['escape'] === FALSE)
@@ -2110,7 +2108,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 					: $this->protect_identifiers($this->qb_groupby[$i]['field']);
 			}
 
-			$sql .= implode(', ', $this->qb_groupby);
+			return "\nGROUP BY ".implode(', ', $this->qb_groupby);
 		}
 
 		return '';
