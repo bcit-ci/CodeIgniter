@@ -1167,9 +1167,8 @@ abstract class CI_DB_driver {
 		if (empty($_operators))
 		{
 			$_les = ($this->_like_escape_str !== '')
-				? preg_quote(trim(sprintf($this->_like_escape_str, $this->_like_escape_chr)))
+				? '\s+'.preg_quote(trim(sprintf($this->_like_escape_str, $this->_like_escape_chr)))
 				: '';
-
 			$_operators = array(
 				'\s*(?:<|>|!)?=\s*',		// =, <=, >=, !=
 				'\s*<>?\s*',			// <, <>
