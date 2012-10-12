@@ -87,65 +87,66 @@ Release Date: Not Released
 
    -  :doc:`Query Builder <database/query_builder>` changes include:
 	 - Renamed the Active Record class to Query Builder to remove confusion with the Active Record design pattern.
-	 - Added the ability to insert objects with insert_batch().
-	 - Added new methods that return the SQL string of queries without executing them: get_compiled_select(), get_compiled_insert(), get_compiled_update(), get_compiled_delete().
-	 - Added an optional parameter that allows to disable escaping (useful for custom fields) for methods join(), order_by(), where_in(), or_where_in(), where_not_in(), or_where_not_in().
-	 - Added support for join() with multiple conditions.
-	 - Added support for USING in join().
-	 - Changed limit() to ignore NULL values instead of always casting to integer.
-	 - Changed offset() to ignore empty values instead of always casting to integer.
+	 - Added the ability to insert objects with ``insert_batch()``.
+	 - Added new methods that return the SQL string of queries without executing them: ``get_compiled_select()``, ``get_compiled_insert()``, ``get_compiled_update()``, ``get_compiled_delete()``.
+	 - Added an optional parameter that allows to disable escaping (useful for custom fields) for methods ``join()``, ``order_by()``, ``where_in()``, ``or_where_in()``, ``where_not_in()``, ``or_where_not_in()``.
+	 - Added support for ``join()`` with multiple conditions.
+	 - Added support for *USING* in ``join()``.
+	 - Changed ``limit()`` to ignore NULL values instead of always casting to integer.
+	 - Changed ``offset()`` to ignore empty values instead of always casting to integer.
    -  Improved support for the MySQLi driver, including:
 	 - OOP style of the PHP extension is now used, instead of the procedural aliases.
 	 - Server version checking is now done via ``mysqli::$server_info`` instead of running an SQL query.
 	 - Added persistent connections support for PHP >= 5.3.
-	 - Added support for backup() in :doc:`Database Utilities <database/utilities>`.
-   -  Added 'dsn' configuration setting for drivers that support DSN strings (PDO, PostgreSQL, Oracle, ODBC, CUBRID).
+	 - Added support for ``backup()`` in :doc:`Database Utilities <database/utilities>`.
+   -  Added *dsn* configuration setting for drivers that support DSN strings (PDO, PostgreSQL, Oracle, ODBC, CUBRID).
    -  Improved PDO database support.
-   -  Added Interbase/Firebird database support via the 'ibase' driver.
-   -  Added an optional database name parameter to db_select().
-   -  Replaced the _error_message() and _error_number() methods with error(), that returns an array containing the last database error code and message.
-   -  Improved version() implementation so that drivers that have a native function to get the version number don't have to be defined in the core DB_driver class.
+   -  Added Interbase/Firebird database support via the *ibase* driver.
+   -  Added an optional database name parameter to ``db_select()``.
+   -  Replaced the ``_error_message()`` and ``_error_number()`` methods with ``error()``, which returns an array containing the last database error code and message.
+   -  Improved ``version()`` implementation so that drivers that have a native function to get the version number don't have to be defined in the core ``DB_driver`` class.
    -  Improved support of the PostgreSQL driver, including:
 	 - ``pg_version()`` is now used to get the database version number, when possible.
 	 - Added ``db_set_charset()`` support.
 	 - Added support for ``optimize_table()`` in :doc:`Database Utilities <database/utilities>` (rebuilds table indexes).
 	 - Added boolean data type support in ``escape()``.
 	 - Added ``update_batch()`` support.
-	 - Removed ``limit()`` and ``order_by()`` support for UPDATE and DELETE queries as PostgreSQL does not support those features.
+	 - Removed ``limit()`` and ``order_by()`` support for *UPDATE* and *DELETE* queries as PostgreSQL does not support those features.
 	 - Added a work-around for dead persistent connections to be re-created after a database restart.
-   -  Added a constructor to the DB_result class and moved all driver-specific properties and logic out of the base DB_driver class to allow better abstraction.
-   -  Removed protect_identifiers() and renamed internal method _protect_identifiers() to it instead - it was just an alias.
-   -  Renamed internal method _escape_identifiers() to escape_identifiers().
-   -  Updated escape_identifiers() to accept an array of fields as well as strings.
+   -  Added a constructor to the ``DB_result`` class and moved all driver-specific properties and logic out of the base ``DB_driver`` class to allow better abstraction.
+   -  Removed ``protect_identifiers()`` and renamed internal method ``_protect_identifiers()`` to it instead - it was just an alias.
+   -  Renamed internal method ``_escape_identifiers()`` to ``escape_identifiers()``.
+   -  Updated ``escape_identifiers()`` to accept an array of fields as well as strings.
    -  MySQL and MySQLi drivers now require at least MySQL version 5.1.
-   -  db_set_charset() now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
+   -  ``db_set_charset()`` now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
    -  Added support for SQLite3 database driver.
    -  Improved support of the CUBRID driver, including:
 	 - Added DSN string support.
 	 - Added persistent connections support.
-	 - Improved list_databases() in :doc:`Database Utility <database/utilities>` (until now only the currently used database was returned).
+	 - Improved ``list_databases()`` in :doc:`Database Utility <database/utilities>` (until now only the currently used database was returned).
    -  Improved support of the MSSQL and SQLSRV drivers, including:
 	 - Added random ordering support.
-	 - Added support for optimize_table() in :doc:`Database Utility <database/utilities>`.
-	 - Added escaping with QUOTE_IDENTIFIER setting detection.
+	 - Added support for ``optimize_table()`` in :doc:`Database Utility <database/utilities>`.
+	 - Added escaping with *QUOTE_IDENTIFIER* setting detection.
 	 - Added port handling support for UNIX-based systems (MSSQL driver).
-	 - Added OFFSET support for SQL Server 2005 and above.
+	 - Added *OFFSET* support for SQL Server 2005 and above.
    -  Improved support of the Oracle (OCI8) driver, including:
 	 - Added DSN string support (Easy Connect and TNS).
-	 - Added support for drop_table() in :doc:`Database Forge <database/forge>`.
-	 - Added support for list_databases() in :doc:`Database Utilities <database/utilities>`.
+	 - Added support for ``drop_table()`` in :doc:`Database Forge <database/forge>`.
+	 - Added support for ``list_databases()`` in :doc:`Database Utilities <database/utilities>`.
 	 - Generally improved for speed and cleaned up all of its components.
-	 - num_rows() is now only called explicitly by the developer and no longer re-executes statements.
+	 - ``num_rows()`` is now only called explicitly by the developer and no longer re-executes statements.
    -  Improved support of the SQLite driver, including:
-	 - Added support for replace() in :doc:`Query Builder <database/query_builder>`.
-	 - Added support for drop_table() in :doc:`Database Forge <database/forge>`.
-   -  Added ODBC support for create_database(), drop_database() and drop_table() in :doc:`Database Forge <database/forge>`.
-   -  Added PDO support for create_database(), drop_database and drop_table() in :doc:`Database Forge <database/forge>`.
-   -  Added unbuffered_row() method for getting a row without prefetching whole result (consume less memory).
+	 - Added support for ``replace()`` in :doc:`Query Builder <database/query_builder>`.
+	 - Added support for ``drop_table()`` in :doc:`Database Forge <database/forge>`.
+   -  Added ODBC support for ``create_database()``, ``drop_database()`` and ``drop_table()`` in :doc:`Database Forge <database/forge>`.
+   -  Added PDO support for ``create_database()``, ``drop_database()`` and ``drop_table()`` in :doc:`Database Forge <database/forge>`.
+   -  Added ``unbuffered_row()`` method for getting a row without prefetching whole result (consume less memory).
    -  Added PDO support for ``list_fields()`` in :doc:`Database Results <database/results>`.
-   -  Added capability for packages to hold database.php config files
+   -  Added capability for packages to hold *database.php* config files
    -  Added subdrivers support (currently only used by PDO).
-   -  Added client compression support for MySQL and MySQLi.
+   -  Added MySQL client compression support.
+   -  Added encrypted connections support (for *mysql*, *sqlsrv* and PDO with *sqlsrv*).
    -  Removed :doc:`Loader Class <libraries/loader>` from Database error tracing to better find the likely culprit.
 
 -  Libraries
@@ -179,15 +180,16 @@ Release Date: Not Released
 	 -  Property *maintain_ratio* is now taken into account when resizing images using ImageMagick library.
 	 -  Added support for maintaining transparency for PNG images in method ``text_watermark()``.
    -  :doc:`Form Validation library <libraries/form_validation>` changes include:
-	 -  Added method error_array() to return all error messages as an array.
-	 -  Added method set_data() to set an alternative data array to be validated instead of the default $_POST.
-	 -  Added method reset_validation(), which resets internal validation variables in case of multiple validation routines.
-	 -  Added support for setting error delimiters in the config file via $config['error_prefix'] and $config['error_suffix'].
-	 -  _execute() now considers input data to be invalid if a specified rule is not found.
-	 -  Removed method is_numeric() as it exists as a native PHP function and _execute() will find and use that (the 'is_numeric' rule itself is deprecated since 1.6.1).
+	 -  Added method ``error_array()`` to return all error messages as an array.
+	 -  Added method ``set_data()`` to set an alternative data array to be validated instead of the default ``$_POST``.
+	 -  Added method ``reset_validation()`` which resets internal validation variables in case of multiple validation routines.
+	 -  Added support for setting error delimiters in the config file via ``$config['error_prefix']`` and ``$config['error_suffix']``.
+	 -  ``_execute()`` now considers input data to be invalid if a specified rule is not found.
+	 -  Removed method ``is_numeric()`` as it exists as a native PHP function and ``_execute()`` will find and use that (the *is_numeric* rule itself is deprecated since 1.6.1).
 	 -  Native PHP functions used as rules can now accept an additional parameter, other than the data itself.
-	 -  Updated set_rules() to accept an array of rules as well as a string.
+	 -  Updated ``set_rules()`` to accept an array of rules as well as a string.
 	 -  Fields that have empty rules set no longer run through validation (and therefore are not considered erroneous).
+	 -  Added rule *differs* to check if the value of a field differs from the value of another field.
    -  Added support for setting :doc:`Table <libraries/table>` class defaults in a config file.
    -  Added a Wincache driver to the :doc:`Caching Library <libraries/caching>`.
    -  Added a Redis driver to the :doc:`Caching Library <libraries/caching>`.
@@ -199,7 +201,8 @@ Release Date: Not Released
 	 -  Successfully sent emails will automatically clear the parameters.
 	 -  Added a *return_path* parameter to the ``from()`` method.
 	 -  Removed the second parameter (character limit) from internal method ``_prep_quoted_printable()`` as it is never used.
-	 -  Internal method ``_prep_quoted_printable()`` will now utilize the native ``quoted_printable_encode()`` function on PHP 5.3+ if CRLF is set to "\r\n".
+	 -  Internal method ``_prep_quoted_printable()`` will now utilize the native ``quoted_printable_encode()``, ``imap_8bit()`` functions (if available) when CRLF is set to "\r\n".
+	 -  Default charset now relies on the global ``$config['charset']`` setting.
    -  :doc:`Pagination Library <libraries/pagination>` changes include:
 	 -  Added support for the anchor "rel" attribute.
 	 -  Added support for setting custom attributes.
@@ -335,8 +338,8 @@ Bug fixes for 3.0
 -  Fixed a bug (#520) - :doc:`Date Helper <helpers/date_helper>` function nice_date() failed when the optional second parameter is not passed.
 -  Fixed a bug (#167) - ``$config['permitted_uri_chars']`` didn't affect URL-encoded characters.
 -  Fixed a bug (#318) - :doc:`Profiling <general/profiling>` setting *query_toggle_count* was not settable as described in the manual.
--  Fixed a bug (#938) - :doc:`Config Library <libraries/config>` method site_url() added a question mark to the URL string when query strings are enabled even if it already existed.
--  Fixed a bug (#999) - :doc:`Config Library <libraries/config>` method site_url() always appended ``$config['url_suffix']`` to the end of the URL string, regardless of wether a query string exists in it.
+-  Fixed a bug (#938) - :doc:`Config Library <libraries/config>` method ``site_url()`` added a question mark to the URL string when query strings are enabled even if it already existed.
+-  Fixed a bug (#999) - :doc:`Config Library <libraries/config>` method ``site_url()`` always appended ``$config['url_suffix']`` to the end of the URL string, regardless of whether a query string exists in it.
 -  Fixed a bug where :doc:`URL Helper <helpers/url_helper>` function anchor_popup() ignored the attributes argument if it is not an array.
 -  Fixed a bug (#1328) - :doc:`Form Validation Library <libraries/form_validation>` didn't properly check the type of the form fields before processing them.
 -  Fixed a bug (#79) - :doc:`Form Validation Library <libraries/form_validation>` didn't properly validate array fields that use associative keys or have custom indexes.
@@ -357,6 +360,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1765) - :doc:`Database Library <database/index>` didn't properly detect connection errors for MySQLi.
 -  Fixed a bug (#1257) - :doc:`Query Builder <database/query_builder>` used to (unnecessarily) group FROM clause contents, which breaks certain queries and is invalid for some databases.
 -  Fixed a bug (#1709) - :doc:`Email <libraries/email>` headers were broken when using long email subjects and \r\n as CRLF.
+-  Fixed a bug where MB_ENABLED was only declared if UTF8_ENABLED was set to TRUE.
 
 Version 2.1.3
 =============

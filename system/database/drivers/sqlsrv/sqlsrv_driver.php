@@ -57,15 +57,16 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function db_connect($pooling = FALSE)
 	{
-		// Check for a UTF-8 charset being passed as CI's default 'utf8'.
-		$character_set = (0 === strcasecmp('utf8', $this->char_set)) ? 'UTF-8' : $this->char_set;
+		$charset = in_array(strtolower($this->char_set), array('utf-8', 'utf8'), TRUE)
+			? 'UTF-8' : SQLSRV_ENC_CHAR;
 
 		$connection = array(
 			'UID'			=> empty($this->username) ? '' : $this->username,
 			'PWD'			=> empty($this->password) ? '' : $this->password,
 			'Database'		=> $this->database,
-			'ConnectionPooling'	=> $pooling ? 1 : 0,
-			'CharacterSet'		=> $character_set,
+			'ConnectionPooling'	=> ($pooling === TRUE) ? 1 : 0,
+			'CharacterSet'		=> $charset,
+			'Encrypt'		=> ($this->encrypt === TRUE) ? 1 : 0,
 			'ReturnDatesAsStrings'	=> 1
 		);
 
@@ -460,7 +461,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 			$orderby = 'ORDER BY '.implode(', ', $this->qb_orderby);
 
 			// We have to strip the ORDER BY clause
-			$sql = trim(substr($sql, 0, strrpos($sql, 'ORDER BY '.$orderby)));
+			$sql = trim(substr($sql, 0, strrpos($sql, $orderby)));
 
 			return 'SELECT '.(count($this->qb_select) === 0 ? '*' : implode(', ', $this->qb_select))." FROM (\n"
 				.preg_replace('/^(SELECT( DISTINCT)?)/i', '\\1 ROW_NUMBER() OVER('.$orderby.') AS '.$this->escape_identifiers('CI_rownum').', ', $sql)

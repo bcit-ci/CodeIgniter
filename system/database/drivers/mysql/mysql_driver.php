@@ -41,6 +41,7 @@
 class CI_DB_mysql_driver extends CI_DB {
 
 	public $dbdriver = 'mysql';
+	public $compress = FALSE;
 
 	// The character used for escaping
 	protected $_escape_char = '`';
@@ -75,18 +76,21 @@ class CI_DB_mysql_driver extends CI_DB {
 	/**
 	 * Non-persistent database connection
 	 *
+	 * @param	bool
 	 * @return	resource
 	 */
-	public function db_connect()
+	public function db_connect($persistent = FALSE)
 	{
-		if ($this->compress === TRUE)
+		$client_flags = ($this->compress === FALSE) ? 0 : MYSQL_CLIENT_COMPRESS;
+
+		if ($this->encrypt === TRUE)
 		{
-			return @mysql_connect($this->hostname, $this->username, $this->password, TRUE, MYSQL_CLIENT_COMPRESS);
+			$client_flags = $client_flags | MYSQL_CLIENT_SSL;
 		}
-		else
-		{
-			return @mysql_connect($this->hostname, $this->username, $this->password, TRUE);
-		}
+
+		return ($persistent === TRUE)
+			? @mysql_pconnect($this->hostname, $this->username, $this->password, $client_flags)
+			: @mysql_connect($this->hostname, $this->username, $this->password, TRUE, $client_flags);
 	}
 
 	// --------------------------------------------------------------------
@@ -98,14 +102,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		if ($this->compress === TRUE)
-		{
-			return @mysql_pconnect($this->hostname, $this->username, $this->password, MYSQL_CLIENT_COMPRESS);
-		}
-		else
-		{
-			return @mysql_pconnect($this->hostname, $this->username, $this->password);
-		}
+		return $this->db_connect(TRUE);
 	}
 
 	// --------------------------------------------------------------------
