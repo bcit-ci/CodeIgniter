@@ -599,7 +599,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		$where_in = array();
 		foreach ($values as $value)
 		{
-			$wherein[] = $this->escape($value);
+			$where_in[] = $this->escape($value);
 		}
 
 		$prefix = (count($this->qb_where) === 0) ? $this->_group_get_type('') : $this->_group_get_type($type);
