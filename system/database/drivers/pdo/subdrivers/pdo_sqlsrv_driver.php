@@ -78,9 +78,9 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
 				$this->dsn .= ';ConnectionPooling='.$this->ConnectionPooling;
 			}
 
-			if (isset($this->Encrypt))
+			if ($this->encrypt === TRUE)
 			{
-				$this->dsn .= ';Encrypt='.$this->Encrypt;
+				$this->dsn .= ';Encrypt=1';
 			}
 
 			if (isset($this->TraceOn))

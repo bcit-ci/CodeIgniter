@@ -669,7 +669,7 @@ if ( ! function_exists('date_range'))
 	 * @param	int	unix_start	UNIX timestamp of period start date
 	 * @param	int	unix_end|days	UNIX timestamp of period end date
 	 *					or interval in days.
-	 * @param	mixed	is_unix		Specifies wether the second parameter
+	 * @param	mixed	is_unix		Specifies whether the second parameter
 	 *					is a UNIX timestamp or a day interval
 	 *					 - TRUE or 'unix' for a timestamp
 	 *					 - FALSE or 'days' for an interval
