@@ -19,6 +19,7 @@ class Directory_helper_test extends CI_TestCase {
 				'benchmark.html' => '',
 				'database' => array('active_record.html' => '', 'binds.html' => ''),
 				'email.html' => '',
+				'0' => '',
 				'.hiddenfile.txt' => ''
 			)
 		);
@@ -30,7 +31,8 @@ class Directory_helper_test extends CI_TestCase {
 			'libraries' => array(
 				'benchmark.html',
 				'database' => array('active_record.html', 'binds.html'),
-				'email.html'
+				'email.html',
+				'0'
 			)
 		);
 

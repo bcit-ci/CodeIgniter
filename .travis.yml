@@ -3,6 +3,11 @@ language: php
 php:
   - 5.3
   - 5.4
+  
+services:
+  - mysql
+  - postgresql
+  - sqlite
 
 env:
   - DB=mysql

@@ -146,22 +146,6 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * From Tables
-	 *
-	 * This function implicitly groups FROM tables so there is no confusion
-	 * about operator precedence in harmony with SQL standards
-	 *
-	 * @param	array
-	 * @return	string
-	 */
-	protected function _from_tables($tables)
-	{
-		return is_array($tables) ? implode(', ', $tables) : $tables;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Insert_batch statement
 	 *
 	 * @param	string	the table name

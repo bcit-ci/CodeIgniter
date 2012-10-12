@@ -4,6 +4,7 @@ Loader Class
 
 Loader, as the name suggests, is used to load elements. These elements
 can be libraries (classes) :doc:`View files <../general/views>`,
+:doc:`Drivers <../general/drivers>`,
 :doc:`Helpers <../general/helpers>`,
 :doc:`Models <../general/models>`, or your own files.
 
@@ -74,6 +75,70 @@ Assigning a Library to a different object name
 
 If the third (optional) parameter is blank, the library will usually be
 assigned to an object with the same name as the library. For example, if
+the library is named Calendar, it will be assigned to a variable named
+$this->calendar.
+
+If you prefer to set your own class names you can pass its value to the
+third parameter::
+
+	$this->load->library('calendar', '', 'my_calendar');
+
+	// Calendar class is now accessed using:
+
+	$this->my_calendar
+
+Please take note, when multiple libraries are supplied in an array for
+the first parameter, this parameter is discarded.
+
+$this->load->driver('parent_name', $config, 'object name')
+===========================================================
+
+This function is used to load driver libraries. Where parent_name is the
+name of the parent class you want to load.
+
+As an example, if you would like to use sessions with CodeIgniter, the first
+step is to load the session driver within your controller::
+
+	$this->load->driver('session');
+
+Once loaded, the library will be ready for use, using
+$this->session->*some_function*().
+
+Driver files must be stored in a subdirectory within the main
+"libraries" folder, or within your personal application/libraries
+folder. The subdirectory must match the parent class name. Read the
+:doc:`Drivers <../general/drivers>` description for details.
+
+Additionally, multiple driver libraries can be loaded at the same time by
+passing an array of drivers to the load function.
+
+::
+
+	$this->load->driver(array('session', 'cache'));
+
+Setting options
+---------------
+
+The second (optional) parameter allows you to optionally pass
+configuration settings. You will typically pass these as an array::
+
+	$config = array (
+	                  'sess_driver' => 'cookie',
+	                  'sess_encrypt_cookie'  => true,
+	                  'encryption_key' => 'mysecretkey'
+	               );
+
+	$this->load->driver('session', $config);
+
+Config options can usually also be set via a config file. Each library
+is explained in detail in its own page, so please read the information
+regarding each one you would like to use.
+
+Assigning a Driver to a different object name
+----------------------------------------------
+
+If the third (optional) parameter is blank, the library will be assigned
+to an object with the same name as the parent class. For example, if
 the library is named Session, it will be assigned to a variable named
 $this->session.
 
@@ -86,8 +151,8 @@ third parameter::
 
 	$this->my_session
 
-Please take note, when multiple libraries are supplied in an array for
-the first parameter, this parameter is discarded.
+.. note:: Driver libraries may also be loaded with the library() method,
+	but it is faster to use driver()
 
 $this->load->view('file_name', $data, true/false)
 ==================================================
@@ -279,6 +344,6 @@ calling add_package_path().
 	$this->load->remove_package_path(APPPATH.'my_app');
 
 	// Again without the second parameter:
-	$this->load->add_package_path(APPPATH.'my_app', TRUE);
+	$this->load->add_package_path(APPPATH.'my_app');
 	$this->load->view('my_app_index'); // Loads
 	$this->load->view('welcome_message'); // Loads

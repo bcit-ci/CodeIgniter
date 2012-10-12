@@ -44,10 +44,6 @@ class CI_DB_postgre_driver extends CI_DB {
 
 	protected $_escape_char = '"';
 
-	// clause and character used for LIKE escape sequences
-	protected $_like_escape_str = " ESCAPE '%s' ";
-	protected $_like_escape_chr = '!';
-
 	protected $_random_keyword = ' RANDOM()'; // database specific random keyword
 
 	/**
@@ -132,7 +128,15 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		return @pg_pconnect($this->dsn);
+		$conn = @pg_pconnect($this->dsn);
+		if ($conn && pg_connection_status($conn) === PGSQL_CONNECTION_BAD)
+		{
+			if (pg_ping($conn) === FALSE)
+			{
+				return FALSE;
+			}
+		}
+		return $conn;
 	}
 
 	// --------------------------------------------------------------------
@@ -448,22 +452,6 @@ class CI_DB_postgre_driver extends CI_DB {
 	public function error()
 	{
 		return array('code' => '', 'message' => pg_last_error($this->conn_id));
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * From Tables
-	 *
-	 * This function implicitly groups FROM tables so there is no confusion
-	 * about operator precedence in harmony with SQL standards
-	 *
-	 * @param	array
-	 * @return	string
-	 */
-	protected function _from_tables($tables)
-	{
-		return is_array($tables) ? implode(', ', $tables) : $tables;
 	}
 
 	// --------------------------------------------------------------------

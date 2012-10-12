@@ -45,10 +45,6 @@ class CI_DB_mssql_driver extends CI_DB {
 	// The character used for escaping
 	protected $_escape_char = '"';
 
-	// clause and character used for LIKE escape sequences
-	protected $_like_escape_str = " ESCAPE '%s' ";
-	protected $_like_escape_chr = '!';
-
 	protected $_random_keyword = ' NEWID()';
 
 	// MSSQL-specific properties
@@ -361,22 +357,6 @@ class CI_DB_mssql_driver extends CI_DB {
 		$query = $this->query('SELECT @@ERROR AS code');
 		$query = $query->row();
 		return array('code' => $query->code, 'message' => mssql_get_last_message());
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * From Tables
-	 *
-	 * This function implicitly groups FROM tables so there is no confusion
-	 * about operator precedence in harmony with SQL standards
-	 *
-	 * @param	array
-	 * @return	string
-	 */
-	protected function _from_tables($tables)
-	{
-		return is_array($tables) ? implode(', ', $tables) : $tables;
 	}
 
 	// --------------------------------------------------------------------

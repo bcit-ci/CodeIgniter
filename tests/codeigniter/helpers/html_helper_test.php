@@ -22,6 +22,22 @@ class Html_helper_test extends CI_TestCase {
 		$this->assertEquals('<h2 class="bar">foobar</h2>', heading('foobar', 2, 'class="bar"'));
 	}
 
+	public function test_heading_array_attributes()
+	{
+		// Test array of attributes
+		$this->assertEquals('<h2 class="bar" id="foo">foobar</h2>', heading('foobar', 2, array('class' => 'bar', 'id' => 'foo')));
+	}
+
+	public function test_heading_object_attributes()
+	{
+		// Test array of attributes
+		$this->assertEquals('<h2 class="bar" id="foo">foobar</h2>', heading('foobar', 2, array('class' => 'bar', 'id' => 'foo')));
+		$test = new stdClass;
+		$test->class = "bar";
+		$test->id = "foo";
+		$this->assertEquals('<h2 class="bar" id="foo">foobar</h2>', heading('foobar', 2, $test));
+	}
+
 	// ------------------------------------------------------------------------
 
 	public function test_Ul()
@@ -72,5 +88,4 @@ EOH;
 		$this->assertEquals($expect, meta(array('name' => 'foo')));
 
 	}
-
 }

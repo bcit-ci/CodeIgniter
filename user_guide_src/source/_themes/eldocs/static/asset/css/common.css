@@ -148,6 +148,8 @@ fieldset{ border: 0; }
 
 .top{ float: right; }
 
+.highlight{ overflow-x: auto; }
+
 .admonition,
 .highlight-ee,
 .highlight-ci,
@@ -166,6 +168,8 @@ fieldset{ border: 0; }
 	padding: 10px 10px 8px; 
 }
 
+.highlight-ci{ background-color: #FEFEFE; border-color: #E5E5E5; }
+
 	.admonition p{ margin: 0; }
 	
 	.codeblock{ margin: 10px 0; }
@@ -181,6 +185,8 @@ fieldset{ border: 0; }
 }
 
 .admonition-title:after{ content: ':  '; }
+
+.highlighted{ background-color: #FFF09B; }
 	
 #table-contents{
 	bottom: 0;

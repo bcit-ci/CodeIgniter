@@ -265,6 +265,9 @@ $config['encryption_key'] = '';
 | Session Variables
 |--------------------------------------------------------------------------
 |
+| 'sess_driver'				= the driver to load: cookie (Classic), native (PHP sessions),
+|	or your custom driver name
+| 'sess_valid_drivers'		= additional valid drivers which may be loaded
 | 'sess_cookie_name'		= the name you want for the cookie
 | 'sess_expiration'			= the number of SECONDS you want the session to last.
 |   by default sessions last 7200 seconds (two hours).  Set to zero for no expiration.
@@ -278,6 +281,8 @@ $config['encryption_key'] = '';
 | 'sess_time_to_update'		= how many seconds between CI refreshing Session Information
 |
 */
+$config['sess_driver']			= 'cookie';
+$config['sess_valid_drivers']	= array();
 $config['sess_cookie_name']		= 'ci_session';
 $config['sess_expiration']		= 7200;
 $config['sess_expire_on_close']	= FALSE;
@@ -401,14 +406,18 @@ $config['rewrite_short_tags'] = FALSE;
 | Reverse Proxy IPs
 |--------------------------------------------------------------------------
 |
-| If your server is behind a reverse proxy, you must whitelist the proxy IP
-| addresses from which CodeIgniter should trust the HTTP_X_FORWARDED_FOR
-| header in order to properly identify the visitor's IP address.
-| Comma-delimited, e.g. '10.0.1.200,10.0.1.201'
+| If your server is behind a reverse proxy, you must whitelist the proxy
+| IP addresses from which CodeIgniter should trust headers such as
+| HTTP_X_FORWARDED_FOR and HTTP_CLIENT_IP in order to properly identify
+| the visitor's IP address.
 |
+| You can use both an array or a comma-separated list of proxy addresses,
+| as well as specifying whole subnets. Here are a few examples:
+|
+| Comma-separated:	'10.0.1.200,192.168.5.0/24'
+| Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
-
 
 
 /* End of file config.php */
