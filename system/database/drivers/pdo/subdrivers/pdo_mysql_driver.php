@@ -41,6 +41,7 @@
 class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 
 	public $subdriver = 'mysql';
+	public $compress = FALSE;
 
 	protected $_escape_char = '`';
 
@@ -79,6 +80,7 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 	 *
 	 * @param	bool
 	 * @return	object
+	 * @todo	SSL support
 	 */
 	public function db_connect($persistent = FALSE)
 	{
@@ -91,6 +93,11 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 		{
 			$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES '.$this->char_set
 				.(empty($this->dbcollat) ? '' : ' COLLATE '.$this->dbcollat);
+		}
+
+		if ($this->compress === TRUE)
+		{
+			$this->options[PDO::MYSQL_ATTR_COMPRESS] = TRUE;
 		}
 
 		return parent::db_connect($persistent);
