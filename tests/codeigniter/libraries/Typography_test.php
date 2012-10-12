@@ -4,12 +4,8 @@ class Typography_test extends CI_TestCase {
 
 	public function set_up()
 	{
-		$obj = new stdClass;
-		$obj->type = new Mock_Libraries_Typography();
-
-		$this->ci_instance($obj);
-
-		$this->type = $obj->type;
+		$this->type = new Mock_Libraries_Typography();
+		$this->ci_instance('type', $this->type);
 	}
 
 	// --------------------------------------------------------------------

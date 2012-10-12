@@ -39,6 +39,30 @@ if ( ! function_exists('config_item'))
 	}
 }
 
+if ( ! function_exists('get_mimes'))
+{
+	/**
+	 * Returns the MIME types array from config/mimes.php
+	 *
+	 * @return	array
+	 */
+	function &get_mimes()
+	{
+		static $_mimes = array();
+
+		if (empty($_mimes))
+		{
+			$path = realpath(PROJECT_BASE.'application/config/mimes.php');
+			if (is_file($path))
+			{
+				$_mimes = include($path);
+			}
+		}
+
+		return $_mimes;
+	}
+}
+
 // --------------------------------------------------------------------
 
 if ( ! function_exists('load_class'))
