@@ -412,7 +412,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		}
 
 		// Does the IP match?
-		if ($this->sess_match_ip === TRUE && $session['ip_address'] !== $this->CI->input->ip_address())
+		if ($this->sess_match_ip === TRUE && $session['ip_address'] !== $_SERVER['REMOTE_ADDR'])
 		{
 			$this->sess_destroy();
 			return FALSE;
@@ -491,7 +491,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		// Initialize userdata
 		$this->userdata = array(
 			'session_id'	=> $this->_make_sess_id(),
-			'ip_address'	=> $this->CI->input->ip_address(),
+			'ip_address'	=> $_SERVER['REMOTE_ADDR'],
 			'user_agent'	=> substr($this->CI->input->user_agent(), 0, 120),
 			'last_activity'	=> $this->now,
 		);
@@ -615,7 +615,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		while (strlen($new_sessid) < 32);
 
 		// To make the session ID even more secure we'll combine it with the user's IP
-		$new_sessid .= $this->CI->input->ip_address();
+		$new_sessid .= $_SERVER['REMOTE_ADDR'];
 
 		// Turn it into a hash and return
 		return md5(uniqid($new_sessid, TRUE));
