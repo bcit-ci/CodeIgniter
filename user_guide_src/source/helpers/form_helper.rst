@@ -500,6 +500,10 @@ form. Example
 
 The above form will show "0" when loaded for the first time.
 
+.. note:: In order for the POST data to be available to this function, the form variable 
+	must first be validated with the Form Validation Class. If this is not done, the
+	default value will always be returned.
+
 set_select()
 ============
 
