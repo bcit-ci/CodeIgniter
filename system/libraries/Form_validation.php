@@ -988,7 +988,7 @@ class CI_Form_validation {
 	 * Is Unique
 	 *
 	 * Check if the input value doesn't already exist
-	 * in the specified database field.
+	 * in the specified database field with option ignore edited record.
 	 *
 	 * @param	string
 	 * @param	string	field
@@ -999,6 +999,12 @@ class CI_Form_validation {
 		list($table, $field) = explode('.', $field);
 		if (isset($this->CI->db))
 		{
+			if (strpos($field, ','))
+			{
+				list($field, $id) = explode(',', $field);
+				$primary = $this->CI->db->query("SHOW KEYS FROM $table WHERE Key_name = 'PRIMARY'")->row();
+				$this->CI->db->where($primary->Column_name.' <>', $id);
+			}
 			$query = $this->CI->db->limit(1)->get_where($table, array($field => $str));
 			return $query->num_rows() === 0;
 		}
