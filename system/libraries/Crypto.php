@@ -172,7 +172,7 @@ class CI_Crypto {
 		}
 		$ciphertext = $this->aes_128_cbc_encrypt($string, $key, $iv);
 		
-		$auth_code = $this->hmac($iv.$ciphertext, $iv.$key);
+		$auth_code = $this->hmac($iv.$ciphertext, $key);
 
 		return base64_encode($iv.$ciphertext.$auth_code);
 	}
@@ -199,7 +199,7 @@ class CI_Crypto {
 
 		$ciphertext = substr($ciphertext, 0, strlen($ciphertext) - 40);
 	
-		$check_auth_code = $this->hmac($iv.$ciphertext, $iv.$key);
+		$check_auth_code = $this->hmac($iv.$ciphertext, $key);
 		
 		// validate cipher text,  prevent the creation of a cryptographic oracle.
 		if($auth_code !== $check_auth_code){
