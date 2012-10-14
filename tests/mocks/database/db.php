@@ -8,6 +8,16 @@ class Mock_Database_DB {
 	private $config = array();
 
 	/**
+	 * @var string DB driver name
+	 */
+	private static $dbdriver = '';
+
+	/**
+	 * @var string DB sub-driver name
+	 */
+	private static $subdriver = '';
+
+	/**
 	 * Prepare database configuration skeleton
 	 *
 	 * @param  array 	DB configuration to set
@@ -31,6 +41,12 @@ class Mock_Database_DB {
 			throw new InvalidArgumentException('Group '.$group.' not exists');
 		}
 
+		self::$dbdriver = $this->config[$group]['dbdriver'];
+		if (isset($this->config[$group]['subdriver']))
+		{
+			self::$subdriver = $this->config[$group]['subdriver'];
+		}
+
 		$params = array(
 			'dbprefix' => '',
 			'pconnect' => FALSE,
@@ -50,7 +66,7 @@ class Mock_Database_DB {
 		$failover = empty($config['failover']) ? FALSE : $config['failover'];
 
 		$dsn = $config['dbdriver'].'://'.$config['username'].':'.$config['password']
-			       .'@'.$config['hostname'].'/'.$config['database'];
+					.'@'.$config['hostname'].'/'.$config['database'];
 
 		// Build the parameter
 		$other_params = array_slice($config, 6);
@@ -83,7 +99,32 @@ class Mock_Database_DB {
 	 */
 	public static function DB($group, $query_builder = FALSE)
 	{
-		include_once(BASEPATH.'database/DB.php');
+		// Create dummy driver and builder files to "load" - the mocks have
+		// already triggered autoloading of the real files
+		$case = CI_TestCase::instance();
+		$driver = self::$dbdriver;
+		$subdriver = self::$subdriver;
+		$case->ci_vfs_create(array(
+			'DB_driver.php' => '',
+			'DB_forge.php' => '',
+			'DB_query_builder.php' => ''
+		), '', $case->ci_base_root, 'database');
+		if (file_exists(SYSTEM_PATH.'database/drivers/'.$driver.'/'.$driver.'_driver.php'))
+		{
+			$case->ci_vfs_create(array(
+				$driver.'_driver.php' => '',
+				$driver.'_forge.php' => ''
+			), '', $case->ci_base_root, 'database/drivers/'.$driver);
+		}
+		if ($subdriver)
+		{
+			$case->ci_vfs_create(array(
+				$driver.'_'.$subdriver.'_driver.php' => '',
+				$driver.'_'.$subdriver.'_forge.php' => ''
+			), '', $case->ci_base_root, 'database/drivers/'.$driver.'/subdrivers');
+		}
+
+		include_once(SYSTEM_PATH.'database/DB.php');
 
 		try
 		{
