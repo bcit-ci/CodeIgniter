@@ -94,7 +94,7 @@ class Config_test extends CI_TestCase {
 
 	public function test_load()
 	{
-		// Create VFS tree of application config files
+		// Create config files in VFS
 		$file1 = 'test.php';
 		$file2 = 'secttest';
 		$key1 = 'testconfig';
@@ -107,18 +107,10 @@ class Config_test extends CI_TestCase {
 			'two' => 2,
 			'three' => true
 		);
-		$tree = array(
-			'application' => array(
-				'config' => array(
-					$file1 => '<?php $config = '.var_export($cfg1, TRUE).';',
-					$file2.'.php' => '<?php $config = '.var_export($cfg2, TRUE).';'
-				)
-			)
-		);
-		$root = vfsStream::setup('root', NULL, $tree);
-
-		// Set config path with VFS URL
-		$this->config->_config_paths = array(vfsStream::url('application').'/');
+		$this->ci_vfs_create(array(
+			$file1 => '<?php $config = '.var_export($cfg1, TRUE).';',
+			$file2.'.php' => '<?php $config = '.var_export($cfg2, TRUE).';'
+		), '', $this->ci_app_root, 'config');
 
 		// Test regular load
 		$this->assertTrue($this->config->load($file1));
