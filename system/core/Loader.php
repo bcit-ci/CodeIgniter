@@ -1140,16 +1140,13 @@ class CI_Loader {
 	 */
 	protected function _ci_autoloader()
 	{
-		// Get autoloader file from config path
-		$CI =& get_instance();
-		$path = reset($CI->config->_config_paths).'config/';
-		if (defined('ENVIRONMENT') && file_exists($path.ENVIRONMENT.'/autoload.php'))
+		if (defined('ENVIRONMENT') && file_exists(APPPATH.'config/'.ENVIRONMENT.'/autoload.php'))
 		{
-			include($path.ENVIRONMENT.'/autoload.php');
+			include(APPPATH.'config/'.ENVIRONMENT.'/autoload.php');
 		}
 		else
 		{
-			include($path.'autoload.php');
+			include(APPPATH.'config/autoload.php');
 		}
 
 		if ( ! isset($autoload))
@@ -1169,6 +1166,7 @@ class CI_Loader {
 		// Load any custom config file
 		if (count($autoload['config']) > 0)
 		{
+			$CI =& get_instance();
 			foreach ($autoload['config'] as $key => $val)
 			{
 				$CI->config->load($val);
