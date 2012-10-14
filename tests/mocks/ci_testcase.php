@@ -275,6 +275,16 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 	 */
 	public function ci_vfs_clone($path)
 	{
+		// Check for array
+		if (is_array($path))
+		{
+			foreach ($path as $file)
+			{
+				$this->ci_vfs_clone($file);
+			}
+			return;
+		}
+
 		// Get real file contents
 		$content = file_get_contents(PROJECT_BASE.$path);
 		if ($content === FALSE)
