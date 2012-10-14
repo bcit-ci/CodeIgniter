@@ -127,7 +127,7 @@ class CI_Session_cookie extends CI_Session_driver {
 	 *
 	 * @var bool
 	 */
-	public $cookie_httponly 		= FALSE;
+	public $cookie_httponly 		= TRUE;
 
 	/**
 	 * Interval at which to update session

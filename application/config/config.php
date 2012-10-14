@@ -301,15 +301,17 @@ $config['sess_time_to_update']	= 300;
 | 'cookie_prefix' = Set a prefix if you need to avoid collisions
 | 'cookie_domain' = Set to .your-domain.com for site-wide cookies
 | 'cookie_path'   =  Typically will be a forward slash
-| 'cookie_secure' =  Cookies will only be set if a secure HTTPS connection exists.
+| 'cookie_secure' =  Transmit cookies over HTTPS (Prevents OWASP A9)
 | 'cookie_httponly' = Cookie will only be accessible via HTTP(S) (no javascript)
 |
 */
-$config['cookie_prefix']	= '';
-$config['cookie_domain']	= '';
-$config['cookie_path']		= '/';
-$config['cookie_secure']	= FALSE;
-$config['cookie_httponly'] 	= FALSE;
+$config['cookie_prefix']	  = '';
+$config['cookie_domain']	  = '';
+$config['cookie_path']        = '/';
+if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on"){
+	$config['cookie_secure']	  =  TRUE;
+}
+$config['cookie_httponly']   = TRUE;
 
 /*
 |--------------------------------------------------------------------------
