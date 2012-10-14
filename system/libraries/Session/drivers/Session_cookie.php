@@ -85,14 +85,14 @@ class CI_Session_cookie extends CI_Session_driver {
 	 *
 	 * @var bool
 	 */
-	public $sess_match_useragent	= TRUE;
+	public $sess_match_useragent	= FALSE;
 
 	/**
 	 * Name of session cookie
 	 *
 	 * @var string
 	 */
-	public $sess_cookie_name		= 'ci_session';
+	public $sess_cookie_name		= 'ci';
 
 	/**
 	 * Session cookie prefix
@@ -218,18 +218,16 @@ class CI_Session_cookie extends CI_Session_driver {
 				: $this->CI->config->item($key);
 		}
 
-		if ($this->encryption_key === '')
-		{
-			show_error('In order to use the Cookie Session driver you are required to set an encryption key in your config file.');
-		}
-
 		// Load the string helper so we can use the strip_slashes() function
 		$this->CI->load->helper('string');
+		
+		//Load our cryptographic utilities
+		$this->CI->load->library('crypto');
 
-		// Do we need encryption? If so, load the encryption class
-		if ($this->sess_encrypt_cookie === TRUE)
+		if ($this->encryption_key === ''  &&  $this->sess_encrypt_cookie === TRUE)
 		{
-			$this->CI->load->library('encrypt');
+			$new_key =$this->CI->crypto->new_key();
+			show_error('In order to use the Cookie Session driver you are required to set an encryption key in your config file. You can use this randomly generated key:'.$new_key);
 		}
 
 		// Check for database
@@ -376,17 +374,23 @@ class CI_Session_cookie extends CI_Session_driver {
 		if ($this->sess_encrypt_cookie === TRUE)
 		{
 			// Decrypt the cookie data
-			$session = $this->CI->encrypt->decode($session);
+			$session = $this->CI->crypto->decrypt($session);
+			//If the HMAC fails we will get a false,  this could be someone trying to modify the cihper text. 
+			if(!$session){
+				log_message('error', 'The session cookie data did not match what was expected. This could be a possible hacking attempt.');
+				$this->sess_destroy();
+				return FALSE;
+			}
 		}
 		else
 		{
-			// Encryption was not used, so we need to check the md5 hash in the last 32 chars
-			$len	 = strlen($session)-32;
+			// Encryption was not used, so we need to check the sha1 hash in the last 40 chars
+			$len	 = strlen($session)-40;
 			$hash	 = substr($session, $len);
 			$session = substr($session, 0, $len);
 
-			// Does the md5 hash match? This is to prevent manipulation of session data in userspace
-			if ($hash !== md5($session.$this->encryption_key))
+			// Does the message authenticaiton code match? This is to prevent manipulation of session data in userspace
+			if ($hash !== $this->CI->crypto->hmac($session, $this->encryption_key))
 			{
 				log_message('error', 'The session cookie data did not match what was expected. This could be a possible hacking attempt.');
 				$this->sess_destroy();
@@ -398,7 +402,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		$session = $this->_unserialize($session);
 
 		// Is the session data we unserialized an array with the correct format?
-		if ( ! is_array($session) OR ! isset($session['session_id'], $session['ip_address'], $session['user_agent'], $session['last_activity']))
+		if ( ! is_array($session) OR ! isset($session['session_id'], $session['last_activity']))
 		{
 			$this->sess_destroy();
 			return FALSE;
@@ -491,10 +495,18 @@ class CI_Session_cookie extends CI_Session_driver {
 		// Initialize userdata
 		$this->userdata = array(
 			'session_id'	=> $this->_make_sess_id(),
-			'ip_address'	=> $_SERVER['REMOTE_ADDR'],
-			'user_agent'	=> substr($this->CI->input->user_agent(), 0, 120),
 			'last_activity'	=> $this->now,
 		);
+		
+		//We want to make the session state as small as possilbe.
+		if($this->sess_match_useragent === TRUE)
+		{
+			$this->userdata['user_agent'] = substr($this->CI->input->user_agent(), 0, 120);
+		}
+		if($this->sess_match_ip === TRUE )
+		{
+			$this->userdata['ip_address'] = $_SERVER['REMOTE_ADDR'];
+		}
 
 		// Check for database
 		if ($this->sess_use_database === TRUE)
@@ -607,18 +619,10 @@ class CI_Session_cookie extends CI_Session_driver {
 	 */
 	protected function _make_sess_id()
 	{
-		$new_sessid = '';
-		do
-		{
-			$new_sessid .= mt_rand(0, mt_getrandmax());
-		}
-		while (strlen($new_sessid) < 32);
-
-		// To make the session ID even more secure we'll combine it with the user's IP
-		$new_sessid .= $_SERVER['REMOTE_ADDR'];
-
-		// Turn it into a hash and return
-		return md5(uniqid($new_sessid, TRUE));
+		//base64 is more compact than base16
+		$ret = base64_encode($this->CI->crypto->random(24));
+		$ret = rtrim($ret,"=");
+		return $ret;
 	}
 
 	// ------------------------------------------------------------------------
@@ -659,9 +663,9 @@ class CI_Session_cookie extends CI_Session_driver {
 		$cookie_data = $this->_serialize($cookie_data);
 
 		$cookie_data = ($this->sess_encrypt_cookie === TRUE)
-			? $this->CI->encrypt->encode($cookie_data)
-			// if encryption is not used, we provide an md5 hash to prevent userside tampering
-			: $cookie_data.md5($cookie_data.$this->encryption_key);
+			? $this->CI->crypto->encrypt($cookie_data)
+			// if encryption is not used, we will use an hashed message authnetication code to prevent tampering. 
+			: $cookie_data.$this->CI->crypto->hmac($cookie_data, $this->encryption_key);
 
 		$expire = ($this->sess_expire_on_close === TRUE) ? 0 : $this->sess_expiration + time();
 
