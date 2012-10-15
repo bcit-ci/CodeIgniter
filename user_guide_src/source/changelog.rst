@@ -203,6 +203,7 @@ Release Date: Not Released
 	 -  Removed the second parameter (character limit) from internal method ``_prep_quoted_printable()`` as it is never used.
 	 -  Internal method ``_prep_quoted_printable()`` will now utilize the native ``quoted_printable_encode()``, ``imap_8bit()`` functions (if available) when CRLF is set to "\r\n".
 	 -  Default charset now relies on the global ``$config['charset']`` setting.
+	 -  Removed unused protected method ``_get_ip()`` (:doc:`Input Library <libraries/input>`'s ``ip_address()`` should be used anyway).
    -  :doc:`Pagination Library <libraries/pagination>` changes include:
 	 -  Added support for the anchor "rel" attribute.
 	 -  Added support for setting custom attributes.
