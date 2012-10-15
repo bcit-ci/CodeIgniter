@@ -107,7 +107,7 @@ class CI_Session_native extends CI_Session_driver {
 		// Check session expiration, ip, and agent
 		$now = time();
 		$destroy = FALSE;
-		if (isset($_SESSION['last_activity']) && ($_SESSION['last_activity'] + $expire) < $now)
+		if (isset($_SESSION['last_activity']) && (($_SESSION['last_activity'] + $expire) < $now OR $_SESSION['last_activity'] > $now))
 		{
 			// Expired - destroy
 			$destroy = TRUE;
