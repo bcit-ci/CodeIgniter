@@ -192,7 +192,7 @@ and triggered by a click using the jQuery library's click() event.
 	'width' => '50%',
 	'marginLeft' => 125
 	);
-	$this->jquery->click('#trigger', $this->jquery->animate('#note', $params, normal));
+	$this->jquery->click('#trigger', $this->jquery->animate('#note', $params, 'normal'));
 
 fadeIn() / fadeOut()
 --------------------
