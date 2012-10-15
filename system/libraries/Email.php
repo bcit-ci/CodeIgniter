@@ -1754,47 +1754,6 @@ class CI_Email {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Get IP
-	 *
-	 * @return	string
-	 */
-	protected function _get_ip()
-	{
-		if ($this->_IP !== FALSE)
-		{
-			return $this->_IP;
-		}
-
-		$cip = ( ! empty($_SERVER['HTTP_CLIENT_IP'])) ? $_SERVER['HTTP_CLIENT_IP'] : FALSE;
-		$rip = ( ! empty($_SERVER['REMOTE_ADDR'])) ? $_SERVER['REMOTE_ADDR'] : FALSE;
-		if ($cip) $this->_IP = $cip;
-		elseif ($rip) $this->_IP = $rip;
-		else
-		{
-			$fip = ( ! empty($_SERVER['HTTP_X_FORWARDED_FOR'])) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : FALSE;
-			if ($fip)
-			{
-				$this->_IP = $fip;
-			}
-		}
-
-		if (strpos($this->_IP, ',') !== FALSE)
-		{
-			$x = explode(',', $this->_IP);
-			$this->_IP = end($x);
-		}
-
-		if ( ! preg_match('/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/', $this->_IP))
-		{
-			$this->_IP = '0.0.0.0';
-		}
-
-		return $this->_IP;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Get Debug Message
 	 *
 	 * @return	string
