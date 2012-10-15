@@ -337,28 +337,6 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Re-index Segments
-	 *
-	 * This function re-indexes the $this->segment array so that it
-	 * starts at 1 rather than 0. Doing so makes it simpler to
-	 * use functions like $this->uri->segment(n) since there is
-	 * a 1:1 relationship between the segment array and the actual segments.
-	 *
-	 * Called by CI_Router
-	 *
-	 * @return	void
-	 */
-	public function _reindex_segments()
-	{
-		array_unshift($this->segments, NULL);
-		array_unshift($this->rsegments, NULL);
-		unset($this->segments[0]);
-		unset($this->rsegments[0]);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Fetch a URI Segment
 	 *
 	 * This function returns the URI segment based on the number provided.
@@ -369,7 +347,7 @@ class CI_URI {
 	 */
 	public function segment($n, $no_result = NULL)
 	{
-		return isset($this->segments[$n]) ? $this->segments[$n] : $no_result;
+		return isset($this->segments[$n - 1]) ? $this->segments[$n - 1] : $no_result;
 	}
 
 	// --------------------------------------------------------------------
@@ -387,7 +365,7 @@ class CI_URI {
 	 */
 	public function rsegment($n, $no_result = NULL)
 	{
-		return isset($this->rsegments[$n]) ? $this->rsegments[$n] : $no_result;
+		return isset($this->rsegments[$n - 1]) ? $this->rsegments[$n - 1] : $no_result;
 	}
 
 	// --------------------------------------------------------------------
