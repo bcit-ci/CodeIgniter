@@ -129,11 +129,20 @@ if ( ! function_exists('form_hidden'))
 	 * @param	bool
 	 * @return	string
 	 */
-	function form_hidden($name, $value = '', $recursing = FALSE, $extra = '')
+	function form_hidden($name, $value = '', $extra = '', $recursing = FALSE)
 	{
 		static $form;
 
-		if(strlen($extra))
+		if (is_array($extra))
+		{
+			$extra_string = '';
+			foreach ($extra as $key => $val)
+			{
+				$extra_string .= ' '.$key.'="'.$val.'"';
+			}
+                        $extra = $extra_string;
+		}
+		elseif($extra != '')
 			$extra = ' '.$extra;
 
 		if ($recursing === FALSE)
@@ -145,7 +154,7 @@ if ( ! function_exists('form_hidden'))
 		{
 			foreach ($name as $key => $val)
 			{
-				form_hidden($key, $val, TRUE, $extra);
+				form_hidden($key, $val, $extra, TRUE);
 			}
 			return $form;
 		}
@@ -159,7 +168,7 @@ if ( ! function_exists('form_hidden'))
 			foreach ($value as $k => $v)
 			{
 				$k = is_int($k) ? '' : $k;
-				form_hidden($name.'['.$k.']', $v, TRUE, $extra);
+				form_hidden($name.'['.$k.']', $v, $extra, TRUE);
 			}
 		}
 

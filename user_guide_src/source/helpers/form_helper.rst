@@ -148,6 +148,23 @@ If you want to create hidden input fields with extra attributes
 		<input type="hidden" name="email" value="john@example.com" id="hiddenemail" class="hiddenemail" />
 	*/
 
+or:
+
+::
+
+	$data = array(
+		'id'          => 'hiddenemail',
+		'class'       => 'hiddenemail'
+	);
+
+	echo form_hidden('email', 'john@example.com', $data);
+
+	/*
+		Would produce:
+
+		<input type="hidden" name="email" value="john@example.com" id="hiddenemail" class="hiddenemail" />
+	*/
+
 form_input()
 ============
 
