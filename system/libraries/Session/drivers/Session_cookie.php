@@ -405,7 +405,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		}
 
 		// Is the session current?
-		if (($session['last_activity'] + $this->sess_expiration) < $this->now)
+		if (($session['last_activity'] + $this->sess_expiration) < $this->now OR $session['last_activity'] > $this->now)
 		{
 			$this->sess_destroy();
 			return FALSE;
