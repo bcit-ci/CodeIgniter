@@ -105,7 +105,7 @@ Permits you to manually set a server status header. Example::
 `See here <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html>`_ for
 a full list of headers.
 
-.. note:: This method is an alias for :doc:`Common function <../general/common_funtions.rst>`
+.. note:: This method is an alias for :doc:`Common function <../general/common_functions.rst>`
 	``set_status_header()``.
 
 $this->output->enable_profiler();

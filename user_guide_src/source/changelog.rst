@@ -362,7 +362,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1257) - :doc:`Query Builder <database/query_builder>` used to (unnecessarily) group FROM clause contents, which breaks certain queries and is invalid for some databases.
 -  Fixed a bug (#1709) - :doc:`Email <libraries/email>` headers were broken when using long email subjects and \r\n as CRLF.
 -  Fixed a bug where ``MB_ENABLED`` was only declared if ``UTF8_ENABLED`` was set to TRUE.
--  Fixed a bug where the :doc:`Session Library <libraries/session>` accepted cookies with *last_activity* values being in the future.
+-  Fixed a bug where the :doc:`Session Library <libraries/sessions>` accepted cookies with *last_activity* values being in the future.
 
 Version 2.1.3
 =============
@@ -376,7 +376,7 @@ Bug fixes for 2.1.3
 -------------------
 
 -  Fixed a bug (#1543) - File-based :doc:`Caching <libraries/caching>` method ``get_metadata()`` used a non-existent array key to look for the TTL value.
--  Fixed a bug (#1314) - :doc:`Session Library <libraries/session>` method ``sess_destroy()`` didn't destroy the userdata array.
+-  Fixed a bug (#1314) - :doc:`Session Library <libraries/sessions>` method ``sess_destroy()`` didn't destroy the userdata array.
 -  Fixed a bug (#804) - Profiler library was trying to handle objects as strings in some cases, resulting in *E_WARNING* messages being issued by ``htmlspecialchars()``.
 -  Fixed a bug (#1699) - :doc:`Migration Library <libraries/migration>` ignored the ``$config['migration_path']`` setting.
 -  Fixed a bug (#227) - :doc:`Input Library <libraries/input>` allowed unconditional spoofing of HTTP clients' IP addresses through the *HTTP_CLIENT_IP* header.
