@@ -55,7 +55,9 @@ class CI_Session_native extends CI_Session_driver {
 			'sess_time_to_update',
 			'cookie_prefix',
 			'cookie_path',
-			'cookie_domain'
+			'cookie_domain',
+			'cookie_secure',
+			'cookie_httponly'
 		);
 
 		foreach ($prefs as $key)
@@ -82,6 +84,9 @@ class CI_Session_native extends CI_Session_driver {
 		$expire = 7200;
 		$path = '/';
 		$domain = '';
+		$secure = FALSE;
+		$http_only = FALSE;
+
 		if ($config['sess_expiration'] !== FALSE)
 		{
 			// Default to 2 years if expiration is "0"
@@ -99,7 +104,20 @@ class CI_Session_native extends CI_Session_driver {
 			// Use specified domain
 			$domain = $config['cookie_domain'];
 		}
-		session_set_cookie_params($config['sess_expire_on_close'] ? 0 : $expire, $path, $domain);
+
+		if ($config['cookie_secure'])
+		{
+			// Send over SSL / HTTPS only?
+			$secure = $config['cookie_secure'];
+		}
+
+		if ($config['cookie_httponly'])
+		{
+			// only available to HTTP(S)?
+			$http_only = $config['http_only'];
+		}
+
+		session_set_cookie_params($config['sess_expire_on_close'] ? 0 : $expire, $path, $domain, $secure, $http_only);
 
 		// Start session
 		session_start();
@@ -189,7 +207,7 @@ class CI_Session_native extends CI_Session_driver {
 		{
 			// Clear session cookie
 			$params = session_get_cookie_params();
-			setcookie($name, '', time() - 42000, $params['path'], $params['domain']);
+			setcookie($name, '', time() - 42000, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
 			unset($_COOKIE[$name]);
 		}
 		session_destroy();
