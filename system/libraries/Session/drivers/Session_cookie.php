@@ -372,26 +372,30 @@ class CI_Session_cookie extends CI_Session_driver {
 			return FALSE;
 		}
 
+		$len = strlen($session) - 40;
+
+		if ($len < 0)
+		{
+			log_message('debug', 'The session cookie was not signed.');
+			return FALSE;
+		}
+
+		// Check cookie authentication
+		$hmac	 = substr($session, $len);
+		$session = substr($session, 0, $len);
+
+		if ($hmac !== hash_hmac('sha1', $session, $this->encryption_key))
+		{
+			log_message('error', 'The session cookie data did not match what was expected. This could be a possible hacking attempt.');
+			$this->sess_destroy();
+			return FALSE;
+		}
+
 		// Check for encryption
 		if ($this->sess_encrypt_cookie === TRUE)
 		{
 			// Decrypt the cookie data
 			$session = $this->CI->encrypt->decode($session);
-		}
-		else
-		{
-			// Encryption was not used, so we need to check the md5 hash in the last 32 chars
-			$len	 = strlen($session)-32;
-			$hash	 = substr($session, $len);
-			$session = substr($session, 0, $len);
-
-			// Does the md5 hash match? This is to prevent manipulation of session data in userspace
-			if ($hash !== md5($session.$this->encryption_key))
-			{
-				log_message('error', 'The session cookie data did not match what was expected. This could be a possible hacking attempt.');
-				$this->sess_destroy();
-				return FALSE;
-			}
 		}
 
 		// Unserialize the session array
@@ -658,10 +662,13 @@ class CI_Session_cookie extends CI_Session_driver {
 		// Serialize the userdata for the cookie
 		$cookie_data = $this->_serialize($cookie_data);
 
-		$cookie_data = ($this->sess_encrypt_cookie === TRUE)
-			? $this->CI->encrypt->encode($cookie_data)
-			// if encryption is not used, we provide an md5 hash to prevent userside tampering
-			: $cookie_data.md5($cookie_data.$this->encryption_key);
+		if ($this->sess_encrypt_cookie === TRUE)
+		{
+			$this->CI->encrypt->encode($cookie_data);
+		}
+
+		// Require message authentication
+		$cookie_data .= hash_hmac('sha1', $cookie_data, $this->encryption_key);
 
 		$expire = ($this->sess_expire_on_close === TRUE) ? 0 : $this->sess_expiration + time();
 
