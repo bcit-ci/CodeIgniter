@@ -84,8 +84,8 @@ class CI_Session_native extends CI_Session_driver {
 		$expire = 7200;
 		$path = '/';
 		$domain = '';
-		$secure = FALSE;
-		$http_only = FALSE;
+		$secure = (bool) $config['cookie_secure'];
+		$http_only = (bool) $config['cookie_httponly'];
 
 		if ($config['sess_expiration'] !== FALSE)
 		{
@@ -103,18 +103,6 @@ class CI_Session_native extends CI_Session_driver {
 		{
 			// Use specified domain
 			$domain = $config['cookie_domain'];
-		}
-
-		if ($config['cookie_secure'])
-		{
-			// Send over SSL / HTTPS only?
-			$secure = $config['cookie_secure'];
-		}
-
-		if ($config['cookie_httponly'])
-		{
-			// only available to HTTP(S)?
-			$http_only = $config['http_only'];
 		}
 
 		session_set_cookie_params($config['sess_expire_on_close'] ? 0 : $expire, $path, $domain, $secure, $http_only);
