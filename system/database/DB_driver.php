@@ -727,9 +727,9 @@ abstract class CI_DB_driver {
 	 */
 	public function escape($str)
 	{
-		if($str=='NOW()')
+		if(is_array($str) && count($str)==1)
 		{
-			return $this->escape_str($str);
+			return $this->escape_str($str[0]);
 		}
 		elseif (is_string($str) OR method_exists($str, '__toString'))
 		{
