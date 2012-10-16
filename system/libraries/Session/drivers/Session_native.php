@@ -155,8 +155,12 @@ class CI_Session_native extends CI_Session_driver {
 		if ($config['sess_time_to_update'] && isset($_SESSION['last_activity'])
 			&& ($_SESSION['last_activity'] + $config['sess_time_to_update']) < $now)
 		{
-			// Regenerate ID, but don't destroy session
-			$this->sess_regenerate(FALSE);
+			// Changing the session ID amidst a series of AJAX calls causes problems
+			if( ! $this->CI->input->is_ajax_request())
+			{
+				// Regenerate ID, but don't destroy session
+				$this->sess_regenerate(FALSE);
+			}
 		}
 
 		// Set activity time
