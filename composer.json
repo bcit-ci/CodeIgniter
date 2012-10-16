@@ -3,6 +3,6 @@
         "mikey179/vfsStream": "*"
     },
     "require-dev": {
-		"EHER/PHPUnit": "*"
+		"phpunit/phpunit": "*"
 	}
 }
