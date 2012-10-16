@@ -721,8 +721,9 @@ abstract class CI_DB_driver {
 	 *
 	 * Escapes data based on type
 	 * Sets boolean and null types
+	 * skips the adding of "" on the first value of array types
 	 *
-	 * @param	string
+	 * @param	string|array
 	 * @return	mixed
 	 */
 	public function escape($str)
