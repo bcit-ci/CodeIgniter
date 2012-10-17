@@ -363,6 +363,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1709) - :doc:`Email <libraries/email>` headers were broken when using long email subjects and \r\n as CRLF.
 -  Fixed a bug where ``MB_ENABLED`` was only declared if ``UTF8_ENABLED`` was set to TRUE.
 -  Fixed a bug where the :doc:`Session Library <libraries/sessions>` accepted cookies with *last_activity* values being in the future.
+-  Fixed a bug (#1897) - :doc:`Email Library <library/email>` triggered PHP E_WARNING errors when *mail* protocol used and ``to()`` is never called.
 
 Version 2.1.3
 =============
