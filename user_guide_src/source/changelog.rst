@@ -159,6 +159,8 @@ Release Date: Not Released
 	 -  New tempdata feature allows setting user data items with an expiration time.
 	 -  Added default $config['sess_driver'] and $config['sess_valid_drivers'] items to config.php file.
 	 -  Cookie driver now respects php.ini's session.gc_probability and session.gc_divisor
+    -  The Cookie driver now uses HMAC authentication instead of the simple md5 checksum.
+    -  The Cookie driver now also checks authentication on encrypted session data.
 	 -  Changed the Cookie driver to select only one row when using database sessions.
 	 -  Cookie driver now only writes to database at end of request when using database.
 	 -  Cookie driver now uses PHP functions for faster array manipulation when using database.
