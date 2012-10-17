@@ -191,7 +191,9 @@ class CI_Session_ajax extends CI_Session_driver {
 	 * 
 	 * @var bool
 	 */
-	private $prevent_update = FALSE;
+	protected $prevent_update = FALSE;
+	
+	const PREVENT_UPDATE_KEY = ':ajax_session:prevent_update';
 	
 	/**
 	 * Initialize session driver object
@@ -485,7 +487,15 @@ class CI_Session_ajax extends CI_Session_driver {
 		}
 
 		//Is the current session still allowed to be updated?
-		$this->prevent_update = isset($row->prevent_update)?$row->prevent_update:NULL;
+		if(isset($session[self::PREVENT_UPDATE_KEY]))
+		{
+			$this->prevent_update = ($session[self::PREVENT_UPDATE_KEY] === 0)?FALSE:TRUE;
+			unset($session[self::PREVENT_UPDATE_KEY]);
+		}
+		else 
+		{
+			$this->prevent_update = NULL;	
+		}
                 
 		// Check to see if this session doesn't exist (previously destroyed) 
 		//  If so, kill it.
@@ -529,19 +539,17 @@ class CI_Session_ajax extends CI_Session_driver {
 			'session_id'		=> $this->_make_sess_id(),
 			'ip_address'		=> $this->CI->input->ip_address(),
 			'user_agent'		=> substr($this->CI->input->user_agent(), 0, 120),
-			'last_activity'		=> $this->now,
-			'prevent_update'	=> 0
+			'last_activity'		=> $this->now
 		);
 
 		// Add empty user_data field and save the data to the DB
-		$this->CI->db->set('user_data', '')->insert($this->sess_table_name, $this->userdata);
+		$userdata = array(self::PREVENT_UPDATE_KEY => 0);
+		$this->CI->db->set('user_data', $this->_serialize($userdata))->insert($this->sess_table_name, $this->userdata);
 
 		// Setup the session to store information on whether  or not
 		// the session can be updated
 		$this->_get_multi_session($this->userdata['session_id']);
 		$this->prevent_update = FALSE;
-		
-		unset($this->userdata['prevent_update']);
 
 		session_write_close();
 
@@ -580,25 +588,36 @@ class CI_Session_ajax extends CI_Session_driver {
 		// Save the old session id so we know which DB record to update
 		$old_sessid = $this->userdata['session_id'];
 
-		// Get new id
-		$this->userdata['session_id'] = $this->_make_sess_id();
-
 		//Set the session as no longer allowing updates
 		$this->prevent_update = TRUE;
+		$this->userdata[self::PREVENT_UPDATE_KEY] = 1;
+
+		// Get the custom userdata, leaving out the defaults
+		// (which get stored in the cookie)
+		$userdata = array_diff_key($this->userdata, $this->defaults);
+		
+		// Did we find any custom data?
+		$old_userdata = $this->_serialize($userdata);
 
 		// Update the last_activity and prevent_update fields in the DB
 		$this->CI->db->update($this->sess_table_name, array(
 				 'last_activity' => $this->now,
-				 'prevent_update' => 1
+				 'user_data' => $old_userdata
 		), array('session_id' => $old_sessid));
 
 		//Release the session lock so other requests can process
 		session_write_close();
 
+		// Get new id
+		$this->userdata['session_id'] = $this->_make_sess_id();
+
 		// Create a new entry for the updated session id. This will be the only
 		// session id that can continue to update.
 		$this->_get_multi_session($this->userdata['session_id']);
+		
+		// Clear the prevent update flag
 		$this->prevent_update = FALSE;
+		$this->userdata[self::PREVENT_UPDATE_KEY] = 0;
 
 		// Set up activity and data fields to be set
 		// If we don't find custom data, user_data will remain an empty string
@@ -608,7 +627,6 @@ class CI_Session_ajax extends CI_Session_driver {
 			'ip_address' => $this->userdata['ip_address'],
 			'user_agent' => $this->userdata['user_agent'],
 			'user_data' => '',
-			'prevent_update' => 0
 		);
 
 		// Get the custom userdata, leaving out the defaults
@@ -624,6 +642,9 @@ class CI_Session_ajax extends CI_Session_driver {
 
 		// Write the new session id to the database 
 		$this->CI->db->insert($this->sess_table_name, $set);
+
+		// Unset the internal session data
+		unset($this->userdata[self::PREVENT_UPDATE_KEY]);
 
 		// Release the session lock for the new session
 		session_write_close();
@@ -649,7 +670,7 @@ class CI_Session_ajax extends CI_Session_driver {
 	{
 		// Check for database and dirty flag and unsaved, and allow update only
 		// if the multisession is allowed to and has not expired
-		if ( (!$this->prevent_update ) && $this->data_dirty === TRUE)
+		if ( !$this->prevent_update && $this->data_dirty === TRUE)
 		{
 			// Set up activity and data fields to be set
 			// If we don't find custom data, user_data will remain an empty string
@@ -661,6 +682,9 @@ class CI_Session_ajax extends CI_Session_driver {
 			// Get the custom userdata, leaving out the defaults
 			// (which get stored in the cookie)
 			$userdata = array_diff_key($this->userdata, $this->defaults);
+
+			// Make sure the internal session data is stored
+			$userdata[self::PREVENT_UPDATE_KEY] = ($this->prevent_update ? 1 : 0);
 
 			// Did we find any custom data?
 			if ( ! empty($userdata))
@@ -891,10 +915,6 @@ class CI_Session_ajax extends CI_Session_driver {
 		{
 			$expire = $this->now - $this->sess_expiration;
 			$this->CI->db->delete($this->sess_table_name, 'last_activity < '.$expire);
-
-			// Remove the expired multisessions
-			$expire = $this->now - $this->sess_multi_expiration;
-			$this->CI->db->delete($this->sess_table_name, 'last_activity < '.$expire.' AND prevent_update = 1');
 
 			log_message('debug', 'Session garbage collection performed.');
 		}
