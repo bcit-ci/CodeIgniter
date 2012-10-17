@@ -292,16 +292,7 @@ class CI_Email {
 			$this->set_header('To', implode(', ', $to));
 		}
 
-		switch ($this->_get_protocol())
-		{
-			case 'smtp':
-				$this->_recipients = $to;
-			break;
-			case 'sendmail':
-			case 'mail':
-				$this->_recipients = implode(', ', $to);
-			break;
-		}
+		$this->_recipients = $to;
 
 		return $this;
 	}
@@ -1408,6 +1399,11 @@ class CI_Email {
 	 */
 	protected function _send_with_mail()
 	{
+		if (is_array($this->_recipients))
+		{
+			$this->_recipients = implode(', ', $this->_recipients);
+		}
+
 		if ($this->_safe_mode === TRUE)
 		{
 			return mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str);
