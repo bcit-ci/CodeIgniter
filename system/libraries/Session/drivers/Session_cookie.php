@@ -386,7 +386,7 @@ class CI_Session_cookie extends CI_Session_driver {
 
 		if ($hmac !== hash_hmac('sha1', $session, $this->encryption_key))
 		{
-			log_message('error', 'The session cookie data did not match what was expected. This could be a possible hacking attempt.');
+			log_message('error', 'The session cookie data did not match what was expected.');
 			$this->sess_destroy();
 			return FALSE;
 		}
