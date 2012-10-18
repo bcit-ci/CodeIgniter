@@ -308,7 +308,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		}
 
 		// Kill the cookie
-		$this->_setcookie($this->sess_cookie_name, addslashes(serialize(array())), ($this->now - 31500000),
+		$this->_setcookie($this->sess_cookie_name, '', ($this->now - 31500000),
 			$this->cookie_path, $this->cookie_domain, 0);
 
 		// Kill session data
@@ -664,7 +664,7 @@ class CI_Session_cookie extends CI_Session_driver {
 
 		if ($this->sess_encrypt_cookie === TRUE)
 		{
-			$this->CI->encrypt->encode($cookie_data);
+			$cookie_data = $this->CI->encrypt->encode($cookie_data);
 		}
 
 		// Require message authentication
