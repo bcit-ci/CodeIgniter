@@ -153,14 +153,14 @@ Release Date: Not Released
 
    -  :doc:`Session Library <libraries/sessions>` changes include:
 	 -  Library changed to :doc:`Driver <general/drivers>` with classic Cookie driver as default.
-	 -  Added Native PHP Session driver to work with $_SESSION.
-	 -  Custom session drivers can be added anywhere in package paths and loaded with Session library.
-	 -  Session drivers interchangeable on the fly.
-	 -  New tempdata feature allows setting user data items with an expiration time.
-	 -  Added default $config['sess_driver'] and $config['sess_valid_drivers'] items to config.php file.
-	 -  Cookie driver now respects php.ini's session.gc_probability and session.gc_divisor
-    -  The Cookie driver now uses HMAC authentication instead of the simple md5 checksum.
-    -  The Cookie driver now also checks authentication on encrypted session data.
+	 -  Added Native PHP Session driver to work with ``$_SESSION``.
+	 -  Custom drivers can be added anywhere in package paths and be loaded with the library.
+	 -  Drivers interchangeable on the fly.
+	 -  New **tempdata** feature allows setting user data items with an expiration time.
+	 -  Added default ``$config['sess_driver']`` and ``$config['sess_valid_drivers']`` items to *config.php* file.
+	 -  Cookie driver now respects php.ini's *session.gc_probability* and *session.gc_divisor* settings.
+	 -  Cookie driver now uses HMAC authentication instead of the simple md5 checksum.
+	 -  The Cookie driver now also checks authentication on encrypted session data.
 	 -  Changed the Cookie driver to select only one row when using database sessions.
 	 -  Cookie driver now only writes to database at end of request when using database.
 	 -  Cookie driver now uses PHP functions for faster array manipulation when using database.
