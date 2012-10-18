@@ -98,6 +98,8 @@ class CI_Email {
 	 */
 	public function __construct($config = array())
 	{
+		$this->charset = strtoupper(config_item('charset'));
+
 		if (count($config) > 0)
 		{
 			$this->initialize($config);
@@ -188,7 +190,7 @@ class CI_Email {
 	 * @param	string
 	 * @return	object
 	 */
-	public function from($from, $name = '')
+	public function from($from, $name = '', $return_path = '')
 	{
 		if (preg_match('/\<(.*)\>/', $from, $match))
 		{
@@ -198,6 +200,10 @@ class CI_Email {
 		if ($this->validate)
 		{
 			$this->validate_email($this->_str_to_array($from));
+			if ($return_path)
+			{
+				$this->validate_email($this->_str_to_array($return_path));
+			}
 		}
 
 		// prepare the display name
@@ -216,7 +222,12 @@ class CI_Email {
 		}
 
 		$this->set_header('From', $name.' <'.$from.'>');
-		$this->set_header('Return-Path', '<'.$from.'>');
+
+		if( ! $return_path)
+		{
+			$return_path = $from;
+		}
+		$this->set_header('Return-Path', '<'.$return_path.'>');
 
 		return $this;
 	}
@@ -281,16 +292,7 @@ class CI_Email {
 			$this->set_header('To', implode(', ', $to));
 		}
 
-		switch ($this->_get_protocol())
-		{
-			case 'smtp':
-				$this->_recipients = $to;
-			break;
-			case 'sendmail':
-			case 'mail':
-				$this->_recipients = implode(', ', $to);
-			break;
-		}
+		$this->_recipients = $to;
 
 		return $this;
 	}
@@ -752,7 +754,7 @@ class CI_Email {
 	{
 		if ($this->alt_message !== '')
 		{
-			return $this->word_wrap($this->alt_message, '76');
+			return $this->word_wrap($this->alt_message, 76);
 		}
 
 		$body = preg_match('/\<body.*?\>(.*)\<\/body\>/si', $this->_body, $match) ? $match[1] : $this->_body;
@@ -775,12 +777,12 @@ class CI_Email {
 	 * @param	int
 	 * @return	string
 	 */
-	public function word_wrap($str, $charlim = '')
+	public function word_wrap($str, $charlim = NULL)
 	{
-		// Se the character limit
-		if ($charlim === '')
+		// Set the character limit, if not already present
+		if (empty($charlim))
 		{
-			$charlim = ($this->wrapchars === '') ? 76 : $this->wrapchars;
+			$charlim = empty($this->wrapchars) ? 76 : $this->wrapchars;
 		}
 
 		// Reduce multiple spaces
@@ -971,7 +973,6 @@ class CI_Email {
 
 				$this->_finalbody = $body.$this->_prep_quoted_printable($this->_body).$this->newline.$this->newline;
 
-
 				if ($this->_get_protocol() === 'mail')
 				{
 					$this->_header_str .= $hdr;
@@ -1091,17 +1092,28 @@ class CI_Email {
 	 * Refer to RFC 2045 http://www.ietf.org/rfc/rfc2045.txt
 	 *
 	 * @param	string
-	 * @param	int
 	 * @return	string
 	 */
-	protected function _prep_quoted_printable($str, $charlim = '')
+	protected function _prep_quoted_printable($str)
 	{
-		// Set the character limit
-		// Don't allow over 76, as that will make servers and MUAs barf
-		// all over quoted-printable data
-		if ($charlim === '' OR $charlim > 76)
+		// We are intentionally wrapping so mail servers will encode characters
+		// properly and MUAs will behave, so {unwrap} must go!
+		$str = str_replace(array('{unwrap}', '{/unwrap}'), '', $str);
+
+		// RFC 2045 specifies CRLF as "\r\n".
+		// However, many developers choose to override that and violate
+		// the RFC rules due to (apparently) a bug in MS Exchange,
+		// which only works with "\n".
+		if ($this->crlf === "\r\n")
 		{
-			$charlim = 76;
+			if (is_php('5.3'))
+			{
+				return quoted_printable_encode($str);
+			}
+			elseif (function_exists('imap_8bit'))
+			{
+				return imap_8bit($str);
+			}
 		}
 
 		// Reduce multiple spaces & remove nulls
@@ -1112,10 +1124,6 @@ class CI_Email {
 		{
 			$str = str_replace(array("\r\n", "\r"), "\n", $str);
 		}
-
-		// We are intentionally wrapping so mail servers will encode characters
-		// properly and MUAs will behave, so {unwrap} must go!
-		$str = str_replace(array('{unwrap}', '{/unwrap}'), '', $str);
 
 		$escape = '=';
 		$output = '';
@@ -1146,7 +1154,7 @@ class CI_Email {
 
 				// If we're at the character limit, add the line to the output,
 				// reset our temp variable, and keep on chuggin'
-				if ((strlen($temp) + strlen($char)) >= $charlim)
+				if ((strlen($temp) + strlen($char)) >= 76)
 				{
 					$output .= $temp.$escape.$this->crlf;
 					$temp = '';
@@ -1228,7 +1236,7 @@ class CI_Email {
 
 		// wrap each line with the shebang, charset, and transfer encoding
 		// the preceding space on successive lines is required for header "folding"
-		return trim(preg_replace('/^(.*)$/m', ' =?'.$this->charset.'?Q?$1?=', $output.$temp));
+		return trim(preg_replace('/^(.*?)(\r*)$/m', ' =?'.$this->charset.'?Q?$1?=$2', $output.$temp));
 	}
 
 	// --------------------------------------------------------------------
@@ -1391,6 +1399,11 @@ class CI_Email {
 	 */
 	protected function _send_with_mail()
 	{
+		if (is_array($this->_recipients))
+		{
+			$this->_recipients = implode(', ', $this->_recipients);
+		}
+
 		if ($this->_safe_mode === TRUE)
 		{
 			return mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str);
@@ -1399,7 +1412,7 @@ class CI_Email {
 		{
 			// most documentation of sendmail using the "-f" flag lacks a space after it, however
 			// we've encountered servers that seem to require it to be in place.
-			return mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str, '-f '.$this->clean_email($this->_headers['From']));
+			return mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str, '-f '.$this->clean_email($this->_headers['Return-Path']));
 		}
 	}
 
@@ -1412,7 +1425,7 @@ class CI_Email {
 	 */
 	protected function _send_with_sendmail()
 	{
-		$fp = @popen($this->mailpath.' -oi -f '.$this->clean_email($this->_headers['From']).' -t', 'w');
+		$fp = @popen($this->mailpath.' -oi -f '.$this->clean_email($this->_headers['From']).' -t'.' -r '.$this->clean_email($this->_headers['Return-Path']), 'w');
 
 		if ($fp === FALSE OR $fp === NULL)
 		{
@@ -1732,47 +1745,6 @@ class CI_Email {
 	protected function _get_hostname()
 	{
 		return isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : 'localhost.localdomain';
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Get IP
-	 *
-	 * @return	string
-	 */
-	protected function _get_ip()
-	{
-		if ($this->_IP !== FALSE)
-		{
-			return $this->_IP;
-		}
-
-		$cip = ( ! empty($_SERVER['HTTP_CLIENT_IP'])) ? $_SERVER['HTTP_CLIENT_IP'] : FALSE;
-		$rip = ( ! empty($_SERVER['REMOTE_ADDR'])) ? $_SERVER['REMOTE_ADDR'] : FALSE;
-		if ($cip) $this->_IP = $cip;
-		elseif ($rip) $this->_IP = $rip;
-		else
-		{
-			$fip = ( ! empty($_SERVER['HTTP_X_FORWARDED_FOR'])) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : FALSE;
-			if ($fip)
-			{
-				$this->_IP = $fip;
-			}
-		}
-
-		if (strpos($this->_IP, ',') !== FALSE)
-		{
-			$x = explode(',', $this->_IP);
-			$this->_IP = end($x);
-		}
-
-		if ( ! preg_match('/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/', $this->_IP))
-		{
-			$this->_IP = '0.0.0.0';
-		}
-
-		return $this->_IP;
 	}
 
 	// --------------------------------------------------------------------

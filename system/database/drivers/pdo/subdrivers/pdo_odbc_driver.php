@@ -46,7 +46,6 @@ class CI_DB_pdo_odbc_driver extends CI_DB_pdo_driver {
 	protected $_escape_char = '';
 
 	// clause and character used for LIKE escape sequences
-	protected $_like_escape_chr = '!';
 	protected $_like_escape_str = " {escape '%s'} ";
 
 	protected $_random_keyword = ' RAND()';
@@ -152,22 +151,6 @@ class CI_DB_pdo_odbc_driver extends CI_DB_pdo_driver {
 	protected function _list_columns($table = '')
 	{
 		return 'SELECT column_name FROM information_schema.columns WHERE table_name = '.$this->escape($table);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * From Tables
-	 *
-	 * This function implicitly groups FROM tables so there is no confusion
-	 * about operator precedence in harmony with SQL standards
-	 *
-	 * @param	array
-	 * @return	string
-	 */
-	protected function _from_tables($tables)
-	{
-		return is_array($tables) ? implode(', ', $tables) : $tables;
 	}
 
 	// --------------------------------------------------------------------

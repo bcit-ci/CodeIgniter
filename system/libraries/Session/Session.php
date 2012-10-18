@@ -69,13 +69,21 @@ class CI_Session extends CI_Driver_Library {
 	 * routines in its constructor, and manages flashdata aging.
 	 *
 	 * @param	array	Configuration parameters
+	 * @return	void
 	 */
 	public function __construct(array $params = array())
 	{
+		$CI =& get_instance();
+
+		// No sessions under CLI
+		if ($CI->input->is_cli_request())
+		{
+			return;
+		}
+
 		log_message('debug', 'CI_Session Class Initialized');
 
 		// Get valid drivers list
-		$CI =& get_instance();
 		$this->valid_drivers = array(
 			'Session_native',
 		   	'Session_cookie'
@@ -586,6 +594,23 @@ class CI_Session extends CI_Driver_Library {
  * @author		EllisLab Dev Team
  */
 abstract class CI_Session_driver extends CI_Driver {
+
+	protected $CI;
+
+	/**
+	 * Constructor
+	 *
+	 * Gets the CI singleton, so that individual drivers
+	 * don't have to do it separately.
+	 *
+	 * @return	void
+	 */
+	public function __construct()
+	{
+		$this->CI =& get_instance();
+	}
+
+	// ------------------------------------------------------------------------
 
 	/**
 	 * Decorate

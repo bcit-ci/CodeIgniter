@@ -9,7 +9,7 @@ application you should consider auto-loading them for convenience.
 
 The following items can be loaded automatically:
 
--  Core classes found in the "libraries" folder
+-  Classes found in the "libraries" folder
 -  Helper files found in the "helpers" folder
 -  Custom config files found in the "config" folder
 -  Language files found in the "system/language" folder

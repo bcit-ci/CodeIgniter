@@ -41,13 +41,10 @@
 class CI_DB_mysqli_driver extends CI_DB {
 
 	public $dbdriver = 'mysqli';
+	public $compress = FALSE;
 
 	// The character used for escaping
 	protected $_escape_char = '`';
-
-	// clause and character used for LIKE escape sequences - not used in MySQL
-	protected $_like_escape_str = '';
-	protected $_like_escape_chr = '\\';
 
 	protected $_random_keyword = ' RAND()'; // database specific random keyword
 
@@ -61,24 +58,21 @@ class CI_DB_mysqli_driver extends CI_DB {
 	/**
 	 * Non-persistent database connection
 	 *
+	 * @param	bool
 	 * @return	object
+	 * @todo	SSL support
 	 */
-	public function db_connect()
+	public function db_connect($persistent = FALSE)
 	{
-		// Use MySQL client compression?
-		if ($this->compress === TRUE)
-		{
-			$port = empty($this->port) ? NULL : $this->port;
+		// Persistent connection support was added in PHP 5.3.0
+		$hostname = ($persistent === TRUE && is_php('5.3'))
+			? 'p:'.$this->hostname : $this->hostname;
+		$port = empty($this->port) ? NULL : $this->port;
+		$client_flags = ($this->compress === TRUE) ? MYSQLI_CLIENT_COMPRESS : 0;
+		$mysqli = mysqli_init();
 
-			$mysqli = mysqli_init();
-			$mysqli->real_connect($this->hostname, $this->username, $this->password, $this->database, $port, NULL, MYSQLI_CLIENT_COMPRESS);
-
-			return $mysqli;
-		}
-
-		return empty($this->port)
-			? @new mysqli($this->hostname, $this->username, $this->password, $this->database)
-			: @new mysqli($this->hostname, $this->username, $this->password, $this->database, $this->port);
+		return @$mysqli->real_connect($hostname, $this->username, $this->password, $this->database, $port, NULL, $client_flags)
+			? $mysqli : FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -90,26 +84,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		// Persistent connection support was added in PHP 5.3.0
-		if ( ! is_php('5.3'))
-		{
-			return $this->db_connect();
-		}
-
-		// Use MySQL client compression?
-		if ($this->compress === TRUE)
-		{
-			$port = empty($this->port) ? NULL : $this->port;
-
-			$mysqli = mysqli_init();
-			$mysqli->real_connect('p:'.$this->hostname, $this->username, $this->password, $this->database, $port, NULL, MYSQLI_CLIENT_COMPRESS);
-
-			return $mysqli;
-		}
-
-		return empty($this->port)
-			? @new mysqli('p:'.$this->hostname, $this->username, $this->password, $this->database)
-			: @new mysqli('p:'.$this->hostname, $this->username, $this->password, $this->database, $this->port);
+		return $this->db_connect(TRUE);
 	}
 
 	// --------------------------------------------------------------------
@@ -422,6 +397,14 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	public function error()
 	{
+		if ( ! empty($this->conn_id->connect_errno))
+		{
+			return array(
+				'code' => $this->conn_id->connect_errno,
+				'message' => is_php('5.2.9') ? $this->conn_id->connect_error : mysqli_connect_error()
+			);
+		}
+
 		return array('code' => $this->conn_id->errno, 'message' => $this->conn_id->error);
 	}
 
@@ -466,6 +449,26 @@ class CI_DB_mysqli_driver extends CI_DB {
 		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2)
 			.' WHERE '.(($where !== '' && count($where) > 0) ? implode(' ', $where).' AND ' : '')
 			.$index.' IN('.implode(',', $ids).')';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * FROM tables
+	 *
+	 * Groups tables in FROM clauses if needed, so there is no confusion
+	 * about operator precedence.
+	 *
+	 * @return	string
+	 */
+	protected function _from_tables()
+	{
+		if ( ! empty($this->qb_join) && count($this->qb_from) > 1)
+		{
+			return '('.implode(', ', $this->qb_from).')';
+		}
+
+		return implode(', ', $this->qb_from);
 	}
 
 	// --------------------------------------------------------------------

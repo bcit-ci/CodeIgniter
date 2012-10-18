@@ -139,22 +139,6 @@ class CI_DB_pdo_firebird_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * From Tables
-	 *
-	 * This function implicitly groups FROM tables so there is no confusion
-	 * about operator precedence in harmony with SQL standards
-	 *
-	 * @param	array
-	 * @return 	string
-	 */
-	protected function _from_tables($tables)
-	{
-		return is_array($tables) ? implode(', ', $tables) : $tables;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Update statement
 	 *
 	 * Generates a platform-specific update string from the supplied data

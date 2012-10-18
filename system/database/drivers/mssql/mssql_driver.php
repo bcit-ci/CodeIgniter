@@ -45,10 +45,6 @@ class CI_DB_mssql_driver extends CI_DB {
 	// The character used for escaping
 	protected $_escape_char = '"';
 
-	// clause and character used for LIKE escape sequences
-	protected $_like_escape_str = " ESCAPE '%s' ";
-	protected $_like_escape_chr = '!';
-
 	protected $_random_keyword = ' NEWID()';
 
 	// MSSQL-specific properties
@@ -366,22 +362,6 @@ class CI_DB_mssql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * From Tables
-	 *
-	 * This function implicitly groups FROM tables so there is no confusion
-	 * about operator precedence in harmony with SQL standards
-	 *
-	 * @param	array
-	 * @return	string
-	 */
-	protected function _from_tables($tables)
-	{
-		return is_array($tables) ? implode(', ', $tables) : $tables;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Update statement
 	 *
 	 * Generates a platform-specific update string from the supplied data
@@ -485,7 +465,7 @@ class CI_DB_mssql_driver extends CI_DB {
 			$orderby = 'ORDER BY '.implode(', ', $this->qb_orderby);
 
 			// We have to strip the ORDER BY clause
-			$sql = trim(substr($sql, 0, strrpos($sql, 'ORDER BY '.$orderby)));
+			$sql = trim(substr($sql, 0, strrpos($sql, $orderby)));
 
 			return 'SELECT '.(count($this->qb_select) === 0 ? '*' : implode(', ', $this->qb_select))." FROM (\n"
 				.preg_replace('/^(SELECT( DISTINCT)?)/i', '\\1 ROW_NUMBER() OVER('.$orderby.') AS '.$this->escape_identifiers('CI_rownum').', ', $sql)

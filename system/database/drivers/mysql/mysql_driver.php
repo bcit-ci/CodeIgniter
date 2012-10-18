@@ -41,13 +41,10 @@
 class CI_DB_mysql_driver extends CI_DB {
 
 	public $dbdriver = 'mysql';
+	public $compress = FALSE;
 
 	// The character used for escaping
 	protected $_escape_char = '`';
-
-	// clause and character used for LIKE escape sequences - not used in MySQL
-	protected $_like_escape_str = '';
-	protected $_like_escape_chr = '\\';
 
 	protected $_random_keyword = ' RAND()'; // database specific random keyword
 
@@ -79,18 +76,21 @@ class CI_DB_mysql_driver extends CI_DB {
 	/**
 	 * Non-persistent database connection
 	 *
+	 * @param	bool
 	 * @return	resource
 	 */
-	public function db_connect()
+	public function db_connect($persistent = FALSE)
 	{
-		if ($this->compress === TRUE)
+		$client_flags = ($this->compress === FALSE) ? 0 : MYSQL_CLIENT_COMPRESS;
+
+		if ($this->encrypt === TRUE)
 		{
-			return @mysql_connect($this->hostname, $this->username, $this->password, TRUE, MYSQL_CLIENT_COMPRESS);
+			$client_flags = $client_flags | MYSQL_CLIENT_SSL;
 		}
-		else
-		{
-			return @mysql_connect($this->hostname, $this->username, $this->password, TRUE);
-		}
+
+		return ($persistent === TRUE)
+			? @mysql_pconnect($this->hostname, $this->username, $this->password, $client_flags)
+			: @mysql_connect($this->hostname, $this->username, $this->password, TRUE, $client_flags);
 	}
 
 	// --------------------------------------------------------------------
@@ -102,14 +102,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		if ($this->compress === TRUE)
-		{
-			return @mysql_pconnect($this->hostname, $this->username, $this->password, MYSQL_CLIENT_COMPRESS);
-		}
-		else
-		{
-			return @mysql_pconnect($this->hostname, $this->username, $this->password);
-		}
+		return $this->db_connect(TRUE);
 	}
 
 	// --------------------------------------------------------------------
@@ -464,6 +457,26 @@ class CI_DB_mysql_driver extends CI_DB {
 		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2)
 			.' WHERE '.(($where !== '' && count($where) > 0) ? implode(' ', $where).' AND ' : '')
 			.$index.' IN('.implode(',', $ids).')';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * FROM tables
+	 *
+	 * Groups tables in FROM clauses if needed, so there is no confusion
+	 * about operator precedence.
+	 *
+	 * @return	string
+	 */
+	protected function _from_tables()
+	{
+		if ( ! empty($this->qb_join) && count($this->qb_from) > 1)
+		{
+			return '('.implode(', ', $this->qb_from).')';
+		}
+
+		return implode(', ', $this->qb_from);
 	}
 
 	// --------------------------------------------------------------------

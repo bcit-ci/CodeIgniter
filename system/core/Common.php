@@ -150,7 +150,7 @@ if ( ! function_exists('load_class'))
 
 				if (class_exists($name) === FALSE)
 				{
-					require($path.$directory.'/'.$class.'.php');
+					require_once($path.$directory.'/'.$class.'.php');
 				}
 
 				break;
@@ -164,7 +164,7 @@ if ( ! function_exists('load_class'))
 
 			if (class_exists($name) === FALSE)
 			{
-				require(APPPATH.$directory.'/'.config_item('subclass_prefix').$class.'.php');
+				require_once(APPPATH.$directory.'/'.config_item('subclass_prefix').$class.'.php');
 			}
 		}
 
@@ -488,13 +488,9 @@ if ( ! function_exists('set_status_header'))
 		{
 			header('Status: '.$code.' '.$text, TRUE);
 		}
-		elseif ($server_protocol === 'HTTP/1.0')
-		{
-			header('HTTP/1.0 '.$code.' '.$text, TRUE, $code);
-		}
 		else
 		{
-			header('HTTP/1.1 '.$code.' '.$text, TRUE, $code);
+			header(($server_protocol ? $server_protocol : 'HTTP/1.1').' '.$code.' '.$text, TRUE, $code);
 		}
 	}
 }
@@ -524,18 +520,17 @@ if ( ! function_exists('_exception_handler'))
 	{
 		$_error =& load_class('Exceptions', 'core');
 
-		// Should we display the error? We'll get the current error_reporting
+		// Should we ignore the error? We'll get the current error_reporting
 		// level and add its bits with the severity bits to find out.
-		// And respect display_errors
-		if (($severity & error_reporting()) === $severity && (bool) ini_get('display_errors') === TRUE)
-		{
-			$_error->show_php_error($severity, $message, $filepath, $line);
-		}
-
-		// Should we log the error? No? We're done...
-		if (config_item('log_threshold') === 0)
+		if (($severity & error_reporting()) !== $severity)
 		{
 			return;
+		}
+
+		// Should we display the error?
+		if ((bool) ini_get('display_errors') === TRUE)
+		{
+			$_error->show_php_error($severity, $message, $filepath, $line);
 		}
 
 		$_error->log_exception($severity, $message, $filepath, $line);
