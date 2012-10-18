@@ -297,6 +297,7 @@ class CI_Security {
 
 			return $str;
 		}
+		
 
 		// Remove Invisible Characters and validate entities in URLs
 		$str = $this->_validate_entities(remove_invisible_characters($str));
@@ -779,6 +780,7 @@ class CI_Security {
 	 */
 	protected function _validate_entities($str)
 	{
+		
 		/*
 		 * Protect GET variables in URLs
 		 */
@@ -792,7 +794,7 @@ class CI_Security {
 		 * Add a semicolon if missing.  We do this to enable
 		 * the conversion of entities to ASCII later.
 		 */
-		$str = preg_replace('#(&\#?[0-9a-z]{2,})([\x00-\x20])*;?#i', '\\1;\\2', $str);
+		$str = preg_replace('#(^&\#?[0-9a-z]{2,})([\x00-\x20])*;?#i', '\\1;\\2', $str);
 
 		/*
 		 * Validate UTF16 two byte encoding (x00)
