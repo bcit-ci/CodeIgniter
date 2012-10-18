@@ -292,16 +292,7 @@ class CI_Email {
 			$this->set_header('To', implode(', ', $to));
 		}
 
-		switch ($this->_get_protocol())
-		{
-			case 'smtp':
-				$this->_recipients = $to;
-			break;
-			case 'sendmail':
-			case 'mail':
-				$this->_recipients = implode(', ', $to);
-			break;
-		}
+		$this->_recipients = $to;
 
 		return $this;
 	}
@@ -763,7 +754,7 @@ class CI_Email {
 	{
 		if ($this->alt_message !== '')
 		{
-			return $this->word_wrap($this->alt_message, '76');
+			return $this->word_wrap($this->alt_message, 76);
 		}
 
 		$body = preg_match('/\<body.*?\>(.*)\<\/body\>/si', $this->_body, $match) ? $match[1] : $this->_body;
@@ -786,12 +777,12 @@ class CI_Email {
 	 * @param	int
 	 * @return	string
 	 */
-	public function word_wrap($str, $charlim = '')
+	public function word_wrap($str, $charlim = NULL)
 	{
-		// Se the character limit
-		if ($charlim === '')
+		// Set the character limit, if not already present
+		if (empty($charlim))
 		{
-			$charlim = ($this->wrapchars === '') ? 76 : $this->wrapchars;
+			$charlim = empty($this->wrapchars) ? 76 : $this->wrapchars;
 		}
 
 		// Reduce multiple spaces
@@ -1105,6 +1096,10 @@ class CI_Email {
 	 */
 	protected function _prep_quoted_printable($str)
 	{
+		// We are intentionally wrapping so mail servers will encode characters
+		// properly and MUAs will behave, so {unwrap} must go!
+		$str = str_replace(array('{unwrap}', '{/unwrap}'), '', $str);
+
 		// RFC 2045 specifies CRLF as "\r\n".
 		// However, many developers choose to override that and violate
 		// the RFC rules due to (apparently) a bug in MS Exchange,
@@ -1129,10 +1124,6 @@ class CI_Email {
 		{
 			$str = str_replace(array("\r\n", "\r"), "\n", $str);
 		}
-
-		// We are intentionally wrapping so mail servers will encode characters
-		// properly and MUAs will behave, so {unwrap} must go!
-		$str = str_replace(array('{unwrap}', '{/unwrap}'), '', $str);
 
 		$escape = '=';
 		$output = '';
@@ -1408,6 +1399,11 @@ class CI_Email {
 	 */
 	protected function _send_with_mail()
 	{
+		if (is_array($this->_recipients))
+		{
+			$this->_recipients = implode(', ', $this->_recipients);
+		}
+
 		if ($this->_safe_mode === TRUE)
 		{
 			return mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str);

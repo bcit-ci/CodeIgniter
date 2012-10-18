@@ -153,12 +153,14 @@ Release Date: Not Released
 
    -  :doc:`Session Library <libraries/sessions>` changes include:
 	 -  Library changed to :doc:`Driver <general/drivers>` with classic Cookie driver as default.
-	 -  Added Native PHP Session driver to work with $_SESSION.
-	 -  Custom session drivers can be added anywhere in package paths and loaded with Session library.
-	 -  Session drivers interchangeable on the fly.
-	 -  New tempdata feature allows setting user data items with an expiration time.
-	 -  Added default $config['sess_driver'] and $config['sess_valid_drivers'] items to config.php file.
-	 -  Cookie driver now respects php.ini's session.gc_probability and session.gc_divisor
+	 -  Added Native PHP Session driver to work with ``$_SESSION``.
+	 -  Custom drivers can be added anywhere in package paths and be loaded with the library.
+	 -  Drivers interchangeable on the fly.
+	 -  New **tempdata** feature allows setting user data items with an expiration time.
+	 -  Added default ``$config['sess_driver']`` and ``$config['sess_valid_drivers']`` items to *config.php* file.
+	 -  Cookie driver now respects php.ini's *session.gc_probability* and *session.gc_divisor* settings.
+	 -  Cookie driver now uses HMAC authentication instead of the simple md5 checksum.
+	 -  The Cookie driver now also checks authentication on encrypted session data.
 	 -  Changed the Cookie driver to select only one row when using database sessions.
 	 -  Cookie driver now only writes to database at end of request when using database.
 	 -  Cookie driver now uses PHP functions for faster array manipulation when using database.
@@ -363,6 +365,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1709) - :doc:`Email <libraries/email>` headers were broken when using long email subjects and \r\n as CRLF.
 -  Fixed a bug where ``MB_ENABLED`` was only declared if ``UTF8_ENABLED`` was set to TRUE.
 -  Fixed a bug where the :doc:`Session Library <libraries/sessions>` accepted cookies with *last_activity* values being in the future.
+-  Fixed a bug (#1897) - :doc:`Email Library <library/email>` triggered PHP E_WARNING errors when *mail* protocol used and ``to()`` is never called.
 
 Version 2.1.3
 =============
