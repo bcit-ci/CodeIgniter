@@ -19,7 +19,7 @@ class Cookie_helper_test extends CI_TestCase {
 			'foobar'
 		));*/
 
-		$this->markTestIncomplete('Need to find a way to overcome a headers already set exception');
+		$this->markTestSkipped('Need to find a way to overcome a headers already set exception');
 	}
 
 	// ------------------------------------------------------------------------
@@ -53,7 +53,7 @@ class Cookie_helper_test extends CI_TestCase {
 			'my_cookie'
 		));*/
 
-		$this->markTestIncomplete('Need to find a way to overcome a headers already set exception');
+		$this->markTestSkipped('Need to find a way to overcome a headers already set exception');
 	}
 
 }
