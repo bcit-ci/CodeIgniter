@@ -65,7 +65,7 @@ Release Date: Not Released
    -  ``create_captcha()`` accepts additional colors parameter, allowing for color customization.
    -  :doc:`URL Helper <helpers/url_helper>` changes include:
 	 - ``url_title()`` will now trim extra dashes from beginning and end.
-	 - ``anchor_popup()`` will now fill the "href" attribute with the URL and its JS code will return false instead.
+	 - ``anchor_popup()`` will now fill the *href* attribute with the URL and its JS code will return FALSE instead.
 	 - Added JS window name support to ``anchor_popup()`` function.
 	 - Added support (auto-detection) for HTTP/1.1 response code 303 in ``redirect()``.
 	 - "auto" method in ``redirect()`` now chooses the "refresh" method only on IIS servers, instead of all servers on Windows.
@@ -343,7 +343,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#318) - :doc:`Profiling <general/profiling>` setting *query_toggle_count* was not settable as described in the manual.
 -  Fixed a bug (#938) - :doc:`Config Library <libraries/config>` method ``site_url()`` added a question mark to the URL string when query strings are enabled even if it already existed.
 -  Fixed a bug (#999) - :doc:`Config Library <libraries/config>` method ``site_url()`` always appended ``$config['url_suffix']`` to the end of the URL string, regardless of whether a query string exists in it.
--  Fixed a bug where :doc:`URL Helper <helpers/url_helper>` function anchor_popup() ignored the attributes argument if it is not an array.
+-  Fixed a bug where :doc:`URL Helper <helpers/url_helper>` function ``anchor_popup()`` ignored the attributes argument if it is not an array.
 -  Fixed a bug (#1328) - :doc:`Form Validation Library <libraries/form_validation>` didn't properly check the type of the form fields before processing them.
 -  Fixed a bug (#79) - :doc:`Form Validation Library <libraries/form_validation>` didn't properly validate array fields that use associative keys or have custom indexes.
 -  Fixed a bug (#427) - :doc:`Form Validation Library <libraries/form_validation>` method ``strip_image_tags()`` was an alias to a non-existent method.
