@@ -742,8 +742,8 @@ class CI_Email {
 	/**
 	 * Build alternative plain text message
 	 *
-	 * This public function provides the raw message for use
-	 * in plain-text headers of HTML-formatted emails.
+	 * Provides the raw message for use in plain-text headers of
+	 * HTML-formatted emails.
 	 * If the user hasn't specified his own alternative message
 	 * it creates one by stripping the HTML
 	 *
@@ -751,9 +751,11 @@ class CI_Email {
 	 */
 	protected function _get_alt_message()
 	{
-		if ($this->alt_message !== '')
+		if ( ! empty($this->alt_message))
 		{
-			return $this->word_wrap($this->alt_message, 76);
+			return ($this->wordwrap)
+				? $this->word_wrap($this->alt_message, 76)
+				: $this->alt_message;
 		}
 
 		$body = preg_match('/\<body.*?\>(.*)\<\/body\>/si', $this->_body, $match) ? $match[1] : $this->_body;
@@ -764,7 +766,9 @@ class CI_Email {
 			$body = str_replace(str_repeat("\n", $i), "\n\n", $body);
 		}
 
-		return $this->word_wrap($body, 76);
+		return ($this->wordwrap)
+			? $this->word_wrap($body, 76)
+			: $body;
 	}
 
 	// --------------------------------------------------------------------
@@ -773,7 +777,7 @@ class CI_Email {
 	 * Word Wrap
 	 *
 	 * @param	string
-	 * @param	int
+	 * @param	int	line-length limit
 	 * @return	string
 	 */
 	public function word_wrap($str, $charlim = NULL)

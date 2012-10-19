@@ -368,6 +368,7 @@ Bug fixes for 3.0
 -  Fixed a bug where the :doc:`Session Library <libraries/sessions>` accepted cookies with *last_activity* values being in the future.
 -  Fixed a bug (#1897) - :doc:`Email Library <libraries/email>` triggered PHP E_WARNING errors when *mail* protocol used and ``to()`` is never called.
 -  Fixed a bug (#1409) - :doc:`Email Library <libraries/email>` didn't properly handle multibyte characters when applying Q-encoding to headers.
+-  Fixed a bug where :doc:`Email Library <libraries/email>` didn't honor it's *wordwrap* setting while handling alternative messages.
 
 Version 2.1.3
 =============
