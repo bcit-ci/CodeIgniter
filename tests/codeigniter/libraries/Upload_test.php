@@ -11,9 +11,9 @@ class Upload_test extends CI_TestCase {
 		$this->upload = $ci->upload;
 	}
 
-	function test_do_upload() 
+	function test_do_upload()
 	{
-		$this->markTestIncomplete('We can\'t really test this at the moment because of the call to `is_uploaded_file` in do_upload which isn\'t supported by vfsStream');
+		$this->markTestSkipped('We can\'t really test this at the moment because of the call to `is_uploaded_file` in do_upload which isn\'t supported by vfsStream');
 	}
 
 	function test_data()
@@ -72,7 +72,7 @@ class Upload_test extends CI_TestCase {
 	{
 		$this->upload->set_max_filesize(100);
 		$this->assertEquals(100, $this->upload->max_size);
-	}	
+	}
 
 	function test_set_max_filename()
 	{
@@ -84,7 +84,7 @@ class Upload_test extends CI_TestCase {
 	{
 		$this->upload->set_max_width(100);
 		$this->assertEquals(100, $this->upload->max_width);
-	}	
+	}
 
 	function test_set_max_height()
 	{
@@ -178,7 +178,7 @@ class Upload_test extends CI_TestCase {
 		$this->upload->file_type = 'image/gif';
 		$this->upload->file_temp = realpath(PROJECT_BASE.'tests/mocks/uploads/ci_logo.gif');
 
-		$this->upload->max_width = 10;		
+		$this->upload->max_width = 10;
 		$this->assertFalse($this->upload->is_allowed_dimensions());
 
 		$this->upload->max_width = 170;
