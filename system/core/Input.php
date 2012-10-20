@@ -390,31 +390,32 @@ class CI_Input {
 					}
 
 					// Convert the REMOTE_ADDR IP address to binary, if needed
-					if ( ! isset($ip, $convert_func))
+					if ( ! isset($ip, $sprintf))
 					{
 						if ($separator === ':')
 						{
 							// Make sure we're have the "full" IPv6 format
-							$ip = str_replace('::', str_repeat(':', 9 - substr_count($this->ip_address, ':')), $this->ip_address);
-							$convert_func = is_php('5.3')
-								? function ($value)
-									{
-										return str_pad(base_convert($value, 16, 2), 16, '0', STR_PAD_LEFT);
-									}
-								: create_function('$value', 'return str_pad(base_convert($value, 16, 2), 16, "0", STR_PAD_LEFT);');
+							$ip = explode(':',
+								str_replace('::',
+									str_repeat(':', 9 - substr_count($this->ip_address, ':')),
+									$this->ip_address
+								)
+							);
+
+							for ($i = 0; $i < 8; $i++)
+							{
+								$ip[$i] = intval($ip[$i], 16);
+							}
+
+							$sprintf = '%016b%016b%016b%016b%016b%016b%016b%016b';
 						}
 						else
 						{
-							$ip = $this->ip_address;
-							$convert_func = is_php('5.3')
-								? function ($value)
-									{
-										return str_pad(decbin($value), 8, '0', STR_PAD_LEFT);
-									}
-								: create_function('$value', 'return str_pad(decbin($value), 8, "0", STR_PAD_LEFT);');
+							$ip = explode('.', $this->ip_address);
+							$sprintf = '%08b%08b%08b%08b';
 						}
 
-						$ip = implode(array_map($convert_func, explode($separator, $ip)));
+						$ip = vsprintf($sprintf, $ip);
 					}
 
 					// Split the netmask length off the network address
@@ -423,12 +424,19 @@ class CI_Input {
 					// Again, an IPv6 address is most likely in a compressed form
 					if ($separator === ':')
 					{
-						$netaddr = str_replace('::', str_repeat(':', 9 - substr_count($netaddr, ':')), $netaddr);
+						$netaddr = explode(':', str_replace('::', str_repeat(':', 9 - substr_count($netaddr, ':')), $netaddr));
+						for ($i = 0; $i < 8; $i++)
+						{
+							$netaddr[$i] = intval($netaddr[$i], 16);
+						}
+					}
+					else
+					{
+						$netaddr = explode('.', $netaddr);
 					}
 
-					// Convert to a binary form and finally compare
-					$netaddr = implode(array_map($convert_func, explode($separator, $netaddr)));
-					if (strncmp($ip, $netaddr, $masklen) === 0)
+					// Convert to binary and finally compare
+					if (strncmp($ip, vsprintf($sprintf, $netaddr), $masklen) === 0)
 					{
 						$this->ip_address = $spoof;
 						break;
