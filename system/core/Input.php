@@ -90,6 +90,22 @@ class CI_Input {
 	protected $headers =	array();
 
 	/**
+	 * List of all HTTP PUT data
+	 *
+	 * @var array
+	 */
+	protected $http_put_data =	array();
+
+	/**
+	 * List of all HTTP DELETE data
+	 *
+	 * @var array
+	 */
+	protected $http_delete_data =	array();
+
+
+
+	/**
 	 * Constructor
 	 *
 	 * Sets whether to globally enable the XSS processing
@@ -172,6 +188,80 @@ class CI_Input {
 
 		return $this->_fetch_from_array($_GET, $index, $xss_clean);
 	}
+
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Fetch an item from the HTTP PUT array
+	 *
+	 * @param	string
+	 * @param	bool
+	 * @return	string
+	*/
+
+	public function put($index = NULL, $xss_clean = FALSE) 
+	{
+		// Check if HTTP METHOD is PUT
+		if ( $this->server('REQUEST_METHOD') != 'PUT' )
+		{
+			return FALSE;
+		} 
+		// Read PUT variables
+		parse_str( file_get_contents("php://input"), $this->http_put_data );
+		// Check if a field has been provided
+		if ($index === NULL && !empty($this->http_put_data))
+		{
+			$put = array();
+			// Loop through the full put args array and return it
+			foreach (array_keys($this->http_put_data) as $key)
+			{
+				$put[$key] = $this->_fetch_from_array($this->http_put_data, $key, $xss_clean);
+			}
+			return $put;
+		}
+
+		return $this->_fetch_from_array($this->http_put_data, $index, $xss_clean);
+
+	}
+
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Fetch an item from the HTTP DELETE array
+	 *
+	 * @param	string
+	 * @param	bool
+	 * @return	string
+	*/
+
+	public function delete($index = NULL, $xss_clean = FALSE) 
+	{
+		// Check if HTTP METHOD is DELETE
+		if ($this->server('REQUEST_METHOD') != 'DELETE')
+		{
+			return FALSE;
+		}
+		// Read DELETE variables
+		parse_str( file_get_contents("php://input"), $this->http_delete_data );
+		// Check if a field has been provided
+		if ($index === NULL && !empty($this->http_delete_data))
+		{
+			$put = array();
+			// Loop through the full delete args array and return it
+			foreach (array_keys($this->http_delete_data) as $key)
+			{
+				$put[$key] = $this->_fetch_from_array($this->http_delete_data, $key, $xss_clean);
+			}
+			return $put;
+		}
+
+		return $this->_fetch_from_array($this->http_delete_data, $index, $xss_clean);
+
+	}
+
+
 
 	// --------------------------------------------------------------------
 
