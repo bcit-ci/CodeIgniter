@@ -157,7 +157,7 @@ class CI_Pagination {
 		// See if we are using a prefix or suffix on links
 		if ($this->prefix !== '' OR $this->suffix !== '')
 		{
-			$this->cur_page = (int) str_replace(array($this->prefix, $this->suffix), '', $CI->uri->segment($this->uri_segment));
+			$this->cur_page = (int) str_replace(array($this->prefix, $this->suffix), '', $CI->uri->rsegment($this->uri_segment));
 		}
 
 		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
@@ -169,7 +169,7 @@ class CI_Pagination {
 		}
 		elseif ( ! $this->cur_page && $CI->uri->segment($this->uri_segment) !== $base_page)
 		{
-			$this->cur_page = (int) $CI->uri->segment($this->uri_segment);
+			$this->cur_page = (int) $CI->uri->rsegment($this->uri_segment);
 		}
 
 		// Set current page to 1 if it's not valid or if using page numbers instead of offset
