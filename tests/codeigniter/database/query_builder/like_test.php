@@ -96,8 +96,8 @@ class Like_test extends CI_TestCase {
 	 */
 	public function test_like_spaces_and_tabs()
 	{
-		$spaces = $this->db->like('key', '   ')->get('misc')->result_array();
-		$tabs = $this->db->like('key', "\t")->get('misc')->result_array();
+		$spaces = $this->db->like('value', '   ')->get('misc')->result_array();
+		$tabs = $this->db->like('value', "\t")->get('misc')->result_array();
 
 		$this->assertEquals(1, count($spaces));
 		$this->assertEquals(1, count($tabs));
