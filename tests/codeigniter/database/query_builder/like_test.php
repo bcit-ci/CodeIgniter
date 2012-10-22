@@ -87,4 +87,20 @@ class Like_test extends CI_TestCase {
 		$this->assertEquals('Musician', $jobs[2]['name']);
 	}
 
+	// ------------------------------------------------------------------------
+
+	/**
+	 * GitHub issue #273
+	 *
+	 * @see ./mocks/schema/skeleton.php
+	 */
+	public function test_like_spaces_and_tabs()
+	{
+		$spaces = $this->db->like('key', '   ')->get('misc')->result_array();
+		$tabs = $this->db->like('key', "\t")->get('misc')->result_array();
+
+		$this->assertEquals(1, count($spaces));
+		$this->assertEquals(1, count($tabs));
+	}
+
 }
