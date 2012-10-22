@@ -51,6 +51,8 @@ class Url_helper_test extends CI_TestCase {
 			'www.codeigniter.com test' => '<a href="http://www.codeigniter.com">http://www.codeigniter.com</a> test',
 			'This is my noreply@codeigniter.com test' => 'This is my noreply@codeigniter.com test',
 			'<br />www.google.com' => '<br /><a href="http://www.google.com">http://www.google.com</a>',
+			'Download CodeIgniter at www.codeigniter.com. Period test.' => 'Download CodeIgniter at <a href="http://www.codeigniter.com">http://www.codeigniter.com</a>. Period test.',
+			'Download CodeIgniter at www.codeigniter.com, comma test' => 'Download CodeIgniter at <a href="http://www.codeigniter.com">http://www.codeigniter.com</a>, comma test'
 		);
 
 		foreach ($strings as $in => $out)

@@ -65,7 +65,7 @@ Release Date: Not Released
    -  ``create_captcha()`` accepts additional colors parameter, allowing for color customization.
    -  :doc:`URL Helper <helpers/url_helper>` changes include:
 	 - ``url_title()`` will now trim extra dashes from beginning and end.
-	 - ``anchor_popup()`` will now fill the "href" attribute with the URL and its JS code will return false instead.
+	 - ``anchor_popup()`` will now fill the *href* attribute with the URL and its JS code will return FALSE instead.
 	 - Added JS window name support to ``anchor_popup()`` function.
 	 - Added support (auto-detection) for HTTP/1.1 response code 303 in ``redirect()``.
 	 - "auto" method in ``redirect()`` now chooses the "refresh" method only on IIS servers, instead of all servers on Windows.
@@ -153,12 +153,14 @@ Release Date: Not Released
 
    -  :doc:`Session Library <libraries/sessions>` changes include:
 	 -  Library changed to :doc:`Driver <general/drivers>` with classic Cookie driver as default.
-	 -  Added Native PHP Session driver to work with $_SESSION.
-	 -  Custom session drivers can be added anywhere in package paths and loaded with Session library.
-	 -  Session drivers interchangeable on the fly.
-	 -  New tempdata feature allows setting user data items with an expiration time.
-	 -  Added default $config['sess_driver'] and $config['sess_valid_drivers'] items to config.php file.
-	 -  Cookie driver now respects php.ini's session.gc_probability and session.gc_divisor
+	 -  Added Native PHP Session driver to work with ``$_SESSION``.
+	 -  Custom drivers can be added anywhere in package paths and be loaded with the library.
+	 -  Drivers interchangeable on the fly.
+	 -  New **tempdata** feature allows setting user data items with an expiration time.
+	 -  Added default ``$config['sess_driver']`` and ``$config['sess_valid_drivers']`` items to *config.php* file.
+	 -  Cookie driver now respects php.ini's *session.gc_probability* and *session.gc_divisor* settings.
+	 -  Cookie driver now uses HMAC authentication instead of the simple md5 checksum.
+	 -  The Cookie driver now also checks authentication on encrypted session data.
 	 -  Changed the Cookie driver to select only one row when using database sessions.
 	 -  Cookie driver now only writes to database at end of request when using database.
 	 -  Cookie driver now uses PHP functions for faster array manipulation when using database.
@@ -203,6 +205,8 @@ Release Date: Not Released
 	 -  Removed the second parameter (character limit) from internal method ``_prep_quoted_printable()`` as it is never used.
 	 -  Internal method ``_prep_quoted_printable()`` will now utilize the native ``quoted_printable_encode()``, ``imap_8bit()`` functions (if available) when CRLF is set to "\r\n".
 	 -  Default charset now relies on the global ``$config['charset']`` setting.
+	 -  Removed unused protected method ``_get_ip()`` (:doc:`Input Library <libraries/input>`'s ``ip_address()`` should be used anyway).
+	 -  Internal method ``_prep_q_encoding()`` now utilizes PHP's *mbstring* and *iconv* extensions (when available) and no longer has a second (``$from``) argument.
    -  :doc:`Pagination Library <libraries/pagination>` changes include:
 	 -  Added support for the anchor "rel" attribute.
 	 -  Added support for setting custom attributes.
@@ -229,10 +233,11 @@ Release Date: Not Released
 	 -  Modified ``valid_ip()`` to use PHP's ``filter_var()``.
 	 -  Added support for arrays and network addresses (e.g. 192.168.1.1/24) for use with the *proxy_ips* setting.
    -  :doc:`Common functions <general/common_functions>` changes include:
-	 -  Added ``get_mimes()`` function to return the *config/mimes.php* array.
+	 -  Added function ``get_mimes()`` to return the *config/mimes.php* array.
 	 -  Added support for HTTP code 303 ("See Other") in ``set_status_header()``.
 	 -  Removed redundant conditional to determine HTTP server protocol in ``set_status_header()``.
 	 -  Changed ``_exception_handler()`` to respect php.ini *display_errors* setting.
+	 -  Added function ``is_https()`` to check if a secure connection is used.
    -  Added support for HTTP-Only cookies with new config option *cookie_httponly* (default FALSE).
    -  Renamed method ``_call_hook()`` to ``call_hook()`` in the :doc:`Hooks Library <general/hooks>`.
    -  :doc:`Output Library <libraries/output>` changes include:
@@ -340,7 +345,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#318) - :doc:`Profiling <general/profiling>` setting *query_toggle_count* was not settable as described in the manual.
 -  Fixed a bug (#938) - :doc:`Config Library <libraries/config>` method ``site_url()`` added a question mark to the URL string when query strings are enabled even if it already existed.
 -  Fixed a bug (#999) - :doc:`Config Library <libraries/config>` method ``site_url()`` always appended ``$config['url_suffix']`` to the end of the URL string, regardless of whether a query string exists in it.
--  Fixed a bug where :doc:`URL Helper <helpers/url_helper>` function anchor_popup() ignored the attributes argument if it is not an array.
+-  Fixed a bug where :doc:`URL Helper <helpers/url_helper>` function ``anchor_popup()`` ignored the attributes argument if it is not an array.
 -  Fixed a bug (#1328) - :doc:`Form Validation Library <libraries/form_validation>` didn't properly check the type of the form fields before processing them.
 -  Fixed a bug (#79) - :doc:`Form Validation Library <libraries/form_validation>` didn't properly validate array fields that use associative keys or have custom indexes.
 -  Fixed a bug (#427) - :doc:`Form Validation Library <libraries/form_validation>` method ``strip_image_tags()`` was an alias to a non-existent method.
@@ -360,7 +365,12 @@ Bug fixes for 3.0
 -  Fixed a bug (#1765) - :doc:`Database Library <database/index>` didn't properly detect connection errors for MySQLi.
 -  Fixed a bug (#1257) - :doc:`Query Builder <database/query_builder>` used to (unnecessarily) group FROM clause contents, which breaks certain queries and is invalid for some databases.
 -  Fixed a bug (#1709) - :doc:`Email <libraries/email>` headers were broken when using long email subjects and \r\n as CRLF.
--  Fixed a bug where MB_ENABLED was only declared if UTF8_ENABLED was set to TRUE.
+-  Fixed a bug where ``MB_ENABLED`` was only declared if ``UTF8_ENABLED`` was set to TRUE.
+-  Fixed a bug where the :doc:`Session Library <libraries/sessions>` accepted cookies with *last_activity* values being in the future.
+-  Fixed a bug (#1897) - :doc:`Email Library <libraries/email>` triggered PHP E_WARNING errors when *mail* protocol used and ``to()`` is never called.
+-  Fixed a bug (#1409) - :doc:`Email Library <libraries/email>` didn't properly handle multibyte characters when applying Q-encoding to headers.
+-  Fixed a bug where :doc:`Email Library <libraries/email>` didn't honor it's *wordwrap* setting while handling alternative messages.
+-  Fixed a bug (#1476, #1909) - :doc:`Pagination Library <libraries/pagination>` didn't take into account actual routing when determining the current page.
 
 Version 2.1.3
 =============
@@ -374,7 +384,7 @@ Bug fixes for 2.1.3
 -------------------
 
 -  Fixed a bug (#1543) - File-based :doc:`Caching <libraries/caching>` method ``get_metadata()`` used a non-existent array key to look for the TTL value.
--  Fixed a bug (#1314) - :doc:`Session Library <libraries/session>` method ``sess_destroy()`` didn't destroy the userdata array.
+-  Fixed a bug (#1314) - :doc:`Session Library <libraries/sessions>` method ``sess_destroy()`` didn't destroy the userdata array.
 -  Fixed a bug (#804) - Profiler library was trying to handle objects as strings in some cases, resulting in *E_WARNING* messages being issued by ``htmlspecialchars()``.
 -  Fixed a bug (#1699) - :doc:`Migration Library <libraries/migration>` ignored the ``$config['migration_path']`` setting.
 -  Fixed a bug (#227) - :doc:`Input Library <libraries/input>` allowed unconditional spoofing of HTTP clients' IP addresses through the *HTTP_CLIENT_IP* header.
