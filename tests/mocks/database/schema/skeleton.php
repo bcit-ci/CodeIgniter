@@ -30,7 +30,7 @@ class Mock_Database_Schema_Skeleton {
 
 			CI_TestCase::instance()->ci_instance_var('db', $db);
 
-			$loader = new Mock_Core_Loader();
+			$loader = new CI_Loader();
 			$loader->dbforge();
 			$forge = CI_TestCase::instance()->ci_instance_var('dbforge');
 
