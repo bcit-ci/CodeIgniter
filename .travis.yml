@@ -29,4 +29,4 @@ script: phpunit --coverage-text --configuration tests/travis/$DB.phpunit.xml
 branches:
   only:
     - develop
-    - /^feature.+/
+    - /^feature\/.+$/
