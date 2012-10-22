@@ -170,9 +170,10 @@ if ( ! function_exists('is_really_writable'))
 
 if ( ! function_exists('is_loaded'))
 {
-	function is_loaded()
+	function &is_loaded()
 	{
-		throw new Exception('Bad Isolation: mock up environment');
+		$loaded = array();
+		return $loaded;
 	}
 }
 
