@@ -330,6 +330,24 @@ if ( ! function_exists('get_mimes'))
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('is_https'))
+{
+	/**
+	 * Is HTTPS?
+	 *
+	 * Determines if the application is accessed via an encrypted
+	 * (HTTPS) connection.
+	 *
+	 * @return	bool
+	 */
+	function is_https()
+	{
+		return ( ! empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off');
+	}
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('show_error'))
 {
 	/**
