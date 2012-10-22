@@ -210,6 +210,9 @@ switch (ENVIRONMENT)
 	// Name of the "system folder"
 	define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
 
+	// Path to the root folder
+	define('ROOTPATH', str_replace(SYSDIR.'/', '', BASEPATH));
+
 	// The path to the "application" folder
 	if (is_dir($application_folder))
 	{
