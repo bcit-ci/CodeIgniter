@@ -185,6 +185,11 @@ class CI_Session extends CI_Driver_Library {
 		}
 	}
 
+	public function get_driver()
+	{
+		return $this->current;
+	}
+
 	// ------------------------------------------------------------------------
 
 	/**
@@ -287,9 +292,6 @@ class CI_Session extends CI_Driver_Library {
 				$this->userdata[$key] = $val;
 			}
 		}
-
-		// Tell driver data changed
-		$this->current->sess_save();
 	}
 
 	// ------------------------------------------------------------------------
