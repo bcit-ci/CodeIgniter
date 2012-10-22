@@ -2067,7 +2067,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				for ($ci = 0, $cc = count($conditions); $ci < $cc; $ci++)
 				{
 					if (($op = $this->_get_operator($conditions[$ci])) === FALSE
-						OR ! preg_match('/^(\(?)(.*)('.preg_quote($op).')(.*(?<!\)))?(\)?)$/i', $conditions[$ci], $matches))
+						OR ! preg_match('/^(\(?)(.*)('.preg_quote($op).')\s*(.*(?<!\)))?(\)?)$/i', $conditions[$ci], $matches))
 					{
 						continue;
 					}
@@ -2080,7 +2080,13 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 					//	4 => 'foo',		/* optional, if $op is e.g. 'IS NULL' */
 					//	5 => ')'		/* optional */
 					// );
-					empty($matches[4]) OR $matches[4] = ' '.$this->protect_identifiers(trim($matches[4]));
+
+					if ( ! empty($matches[4]))
+					{
+						$this->_is_literal($matches[4]) OR $matches[4] = $this->protect_identifiers(trim($matches[4]));
+						$matches[4] = ' '.$matches[4];
+					}
+
 					$conditions[$ci] = $matches[1].$this->protect_identifiers(trim($matches[2]))
 						.' '.trim($matches[3]).$matches[4].$matches[5];
 				}
@@ -2114,7 +2120,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			for ($i = 0, $c = count($this->qb_groupby); $i < $c; $i++)
 			{
-				$this->qb_groupby[$i] = ($this->qb_groupby[$i]['escape'] === FALSE)
+				$this->qb_groupby[$i] = ($this->qb_groupby[$i]['escape'] === FALSE OR $this->_is_literal($this->qb_groupby[$i]['field']))
 					? $this->qb_groupby[$i]['field']
 					: $this->protect_identifiers($this->qb_groupby[$i]['field']);
 			}
@@ -2146,7 +2152,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 			for ($i = 0, $c = count($this->qb_orderby); $i < $c; $i++)
 			{
-				if ($this->qb_orderby[$i]['escape'] !== FALSE)
+				if ($this->qb_orderby[$i]['escape'] !== FALSE && ! $this->_is_literal($this->qb_orderby[$i]['field']))
 				{
 					$this->qb_orderby[$i]['field'] = $this->protect_identifiers($this->qb_orderby[$i]['field']);
 				}
@@ -2319,6 +2325,36 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		$this->qb_no_escape = $this->qb_cache_no_escape;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Is literal
+	 *
+	 * Determines if a string represents a literal value or a field name
+	 *
+	 * @param	string
+	 * @return	bool
+	 */
+	protected function _is_literal($str)
+	{
+		$str = trim($str);
+
+		if (empty($str))
+		{
+			return TRUE;
+		}
+
+		static $_str;
+
+		if (empty($_str))
+		{
+			$_str = ($this->_escape_char !== '"')
+				? array('"', "'") : array("'");
+		}
+
+		return (ctype_digit($str) OR in_array($str[0], $_str, TRUE));
 	}
 
 	// --------------------------------------------------------------------
