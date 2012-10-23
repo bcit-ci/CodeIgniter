@@ -4,18 +4,11 @@ class Upload_test extends CI_TestCase {
 
 	function set_up()
 	{
-		$obj = new stdClass;
-		$obj->upload = new Mock_Libraries_Upload();
-		$obj->security = new Mock_Core_Security();
-		$obj->lang = new Mock_Core_Lang();
-
-		$this->ci_instance($obj);
-		$this->upload = $obj->upload;
-
-		vfsStreamWrapper::register();
-		vfsStreamWrapper::setRoot(new vfsStreamDirectory('testDir'));
-
-		$this->_test_dir = vfsStreamWrapper::getRoot();
+		$ci = $this->ci_instance();
+		$ci->upload = new Mock_Libraries_Upload();
+		$ci->security = new Mock_Core_Security();
+		$ci->lang = new Mock_Core_Lang();
+		$this->upload = $ci->upload;
 	}
 
 	function test_do_upload()
@@ -64,11 +57,15 @@ class Upload_test extends CI_TestCase {
 
 	function test_set_filename()
 	{
-		$file1 = vfsStream::newFile('hello-world.txt')->withContent('Hello world.')->at($this->_test_dir);
+		$dir = 'uploads';
+		$isnew = 'helloworld.txt';
+		$exists = 'hello-world.txt';
+		$this->ci_vfs_create($exists, 'Hello world.', $this->ci_app_root, $dir);
+		$path = $this->ci_vfs_path($dir.'/', APPPATH);
 		$this->upload->file_ext = '.txt';
 
-		$this->assertEquals('helloworld.txt', $this->upload->set_filename(vfsStream::url('testDir').'/', 'helloworld.txt'));
-		$this->assertEquals('hello-world1.txt', $this->upload->set_filename(vfsStream::url('testDir').'/', 'hello-world.txt'));
+		$this->assertEquals($isnew, $this->upload->set_filename($path, $isnew));
+		$this->assertEquals('hello-world1.txt', $this->upload->set_filename($path, $exists));
 	}
 
 	function test_set_max_filesize()
@@ -107,7 +104,7 @@ class Upload_test extends CI_TestCase {
 	function test_set_image_properties()
 	{
 		$this->upload->file_type = 'image/gif';
-		$this->upload->file_temp = 'tests/mocks/uploads/ci_logo.gif';
+		$this->upload->file_temp = realpath(PROJECT_BASE.'tests/mocks/uploads/ci_logo.gif');
 
 		$props = array(
 			'image_width'	=>	170,
@@ -156,7 +153,7 @@ class Upload_test extends CI_TestCase {
 		$this->assertTrue($this->upload->is_allowed_filetype(FALSE));
 		$this->assertTrue($this->upload->is_allowed_filetype(TRUE));
 
-		$this->upload->file_temp = 'tests/mocks/uploads/ci_logo.gif';
+		$this->upload->file_temp = realpath(PROJECT_BASE.'tests/mocks/uploads/ci_logo.gif');
 		$this->upload->file_ext = '.gif';
 		$this->upload->file_type = 'image/gif';
 		$this->assertTrue($this->upload->is_allowed_filetype());
@@ -179,7 +176,7 @@ class Upload_test extends CI_TestCase {
 		$this->assertTrue($this->upload->is_allowed_dimensions());
 
 		$this->upload->file_type = 'image/gif';
-		$this->upload->file_temp = 'tests/mocks/uploads/ci_logo.gif';
+		$this->upload->file_temp = realpath(PROJECT_BASE.'tests/mocks/uploads/ci_logo.gif');
 
 		$this->upload->max_width = 10;
 		$this->assertFalse($this->upload->is_allowed_dimensions());
@@ -197,7 +194,9 @@ class Upload_test extends CI_TestCase {
 		$this->upload->upload_path = '';
 		$this->assertFalse($this->upload->validate_upload_path());
 
-		$this->upload->upload_path = vfsStream::url('testDir');
+		$dir = 'uploads';
+		$this->ci_vfs_mkdir($dir);
+		$this->upload->upload_path = $this->ci_vfs_path($dir);
 		$this->assertTrue($this->upload->validate_upload_path());
 	}
 
@@ -222,20 +221,24 @@ class Upload_test extends CI_TestCase {
 
 	function test_do_xss_clean()
 	{
-		$file1 = vfsStream::newFile('file1.txt')->withContent('The billy goat was waiting for them.')->at($this->_test_dir);
-		$file2 = vfsStream::newFile('file2.txt')->at($this->_test_dir);
-		$file3 = vfsStream::newFile('file3.txt')->withContent('<script type="text/javascript">alert("Boo! said the billy goat")</script>')->at($this->_test_dir);
+		$dir = 'uploads';
+		$file1 = 'file1.txt';
+		$file2 = 'file2.txt';
+		$file3 = 'file3.txt';
+		$this->ci_vfs_create($file1, 'The billy goat was waiting for them.', $this->ci_vfs_root, $dir);
+		$this->ci_vfs_create($file2, '', $this->ci_vfs_root, $dir);
+		$this->ci_vfs_create($file3, '<script type="text/javascript">alert("Boo! said the billy goat")</script>', $this->ci_vfs_root, $dir);
 
-		$this->upload->file_temp = vfsStream::url('file1.txt');
+		$this->upload->file_temp = $this->ci_vfs_path($file1, $dir);
 		$this->assertTrue($this->upload->do_xss_clean());
 
-		$this->upload->file_temp = vfsStream::url('file2.txt');
+		$this->upload->file_temp = $this->ci_vfs_path($file2, $dir);
 		$this->assertFalse($this->upload->do_xss_clean());
 
-		$this->upload->file_temp = vfsStream::url('file3.txt');
+		$this->upload->file_temp = $this->ci_vfs_path($file3, $dir);
 		$this->assertFalse($this->upload->do_xss_clean());
 
-		$this->upload->file_temp = 'tests/mocks/uploads/ci_logo.gif';
+		$this->upload->file_temp = realpath(PROJECT_BASE.'tests/mocks/uploads/ci_logo.gif');
 		$this->assertTrue($this->upload->do_xss_clean());
 	}
 
