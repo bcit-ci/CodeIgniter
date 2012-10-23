@@ -289,6 +289,24 @@ class CI_DB_odbc_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Update statement
+	 *
+	 * Generates a platform-specific update string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @param	array	the update data
+	 * @return	string
+         */
+	protected function _update($table, $values)
+	{
+		$this->qb_limit = FALSE;
+		$this->qb_orderby = array();
+		return parent::_update($table, $values);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Truncate statement
 	 *
 	 * Generates a platform-specific truncate string from the supplied data
@@ -302,6 +320,22 @@ class CI_DB_odbc_driver extends CI_DB {
 	protected function _truncate($table)
 	{
 		return 'DELETE FROM '.$table;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Delete statement
+	 *
+	 * Generates a platform-specific delete string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @return	string
+	 */
+	protected function _delete($table)
+	{
+		$this->qb_limit = FALSE;
+		return parent::_delete($table);
 	}
 
 	// --------------------------------------------------------------------

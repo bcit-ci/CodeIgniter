@@ -251,27 +251,24 @@ class CI_DB_result {
 	/**
 	 * Query result.  Acts as a wrapper function for the following functions.
 	 *
-	 * @param	string
+	 * @param	mixed
 	 * @param	string	can be "object" or "array"
-	 * @return	mixed	either a result object or array
+	 * @return	mixed
 	 */
 	public function row($n = 0, $type = 'object')
 	{
 		if ( ! is_numeric($n))
 		{
 			// We cache the row data for subsequent uses
-			if ( ! is_array($this->row_data))
+			is_array($this->row_data) OR $this->row_data = $this->row_array(0);
+
+			// array_key_exists() instead of isset() to allow for NULL values
+			if (empty($this->row_data) OR ! array_key_exists($n, $this->row_data))
 			{
-				$this->row_data = $this->row_array(0);
+				return NULL;
 			}
 
-			// array_key_exists() instead of isset() to allow for MySQL NULL values
-			if (array_key_exists($n, $this->row_data))
-			{
-				return $this->row_data[$n];
-			}
-			// reset the $n variable if the result was not achieved
-			$n = 0;
+			return $this->row_data[$n];
 		}
 
 		if ($type === 'object') return $this->row_object($n);
