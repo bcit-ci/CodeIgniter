@@ -47,10 +47,15 @@ segment of the URL, and a number is found in the second segment, the
 You can match literal values or you can use two wildcard types:
 
 **(:num)** will match a segment containing only numbers.
- **(:any)** will match a segment containing any character.
+**(:any)** will match a segment containing any character.
 
 .. note:: Routes will run in the order they are defined. Higher routes
 	will always take precedence over lower ones.
+
+.. note:: Route rules are not filters! Setting a rule of e.g.
+	'foo/bar/(:num)' will not prevent controller *Foo* and method
+	*bar* to be called with a non-numeric value if that is a valid
+	route.
 
 Examples
 ========
