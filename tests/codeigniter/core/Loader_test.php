@@ -264,15 +264,12 @@ class Loader_test extends CI_TestCase {
 		$this->assertEquals($content.$value, $out);
 
 		// Mock output class
-		$class = 'Mock_Load_Output';
-		$prop = 'output';
-		eval('class '.$class.' { public function append_output($out) { $this->'.$prop.' = $out; } }');
-		$this->ci_instance_var('output', new $class());
+		$output = $this->getMock('CI_Output', array('append_output'));
+		$output->expects($this->once())->method('append_output')->with($content.$value);
+		$this->ci_instance_var('output', $output);
 
 		// Test view output
-		$this->load->view($view, array($var => $value));
-		$this->assertObjectHasAttribute($prop, $this->ci_obj->output);
-		$this->assertEquals($content.$value, $this->ci_obj->output->$prop);
+		$this->assertNull($this->load->view($view, array($var => $value)));
 	}
 
 	// --------------------------------------------------------------------
@@ -397,17 +394,12 @@ class Loader_test extends CI_TestCase {
 
 	public function test_language()
 	{
-		// Create mock Lang class with load stub
-		$class = 'Mock_Load_Lang';
-		$prop = '_file';
-		eval('class '.$class.' { public function load($file, $lang) { $this->'.$prop.' = $file; } }');
-		$this->ci_instance_var('lang', new $class());
-
-		// Does the right file get loaded?
+		// Mock lang class and test load call
 		$file = 'test';
+		$lang = $this->getMock('CI_Lang', array('load'));
+		$lang->expects($this->once())->method('load')->with($file);
+		$this->ci_instance_var('lang', $lang);
 		$this->assertNull($this->load->language($file));
-		$this->assertObjectHasAttribute($prop, $this->ci_obj->lang);
-		$this->assertEquals($file, $this->ci_obj->lang->$prop);
 	}
 
 	// --------------------------------------------------------------------
