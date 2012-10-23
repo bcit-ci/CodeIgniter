@@ -102,5 +102,28 @@ if ( ! function_exists('elements'))
 	}
 }
 
+if ( ! function_exists('flatten')) 
+{
+        /**
+         * Flatten
+         *
+         * Returns all of the leaves of an array, flattening it.
+         *
+         * @param  array       
+         * @return array      leaves of the array 
+         */
+        function flatten(array $array)
+	{
+	        $return = array();
+
+                array_walk_recursive($array, 
+				     function($el) use (&$return) {
+				             $return[] = $el;
+				     });
+    
+		return $return;
+	}
+}
+
 /* End of file array_helper.php */
 /* Location: ./system/helpers/array_helper.php */
