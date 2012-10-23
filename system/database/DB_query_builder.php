@@ -2146,10 +2146,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	protected function _compile_order_by()
 	{
-		if (count($this->qb_orderby) > 0)
+		if (is_array($this->qb_orderby) && count($this->qb_orderby) > 0)
 		{
-			$sql = "\nORDER BY ";
-
 			for ($i = 0, $c = count($this->qb_orderby); $i < $c; $i++)
 			{
 				if ($this->qb_orderby[$i]['escape'] !== FALSE && ! $this->_is_literal($this->qb_orderby[$i]['field']))
@@ -2160,7 +2158,11 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				$this->qb_orderby[$i] = $this->qb_orderby[$i]['field'].$this->qb_orderby[$i]['direction'];
 			}
 
-			return "\nORDER BY ".implode(', ', $this->qb_orderby);
+			return $this->qb_orderby = "\nORDER BY ".implode(', ', $this->qb_orderby);
+		}
+		elseif (is_string($this->qb_orderby))
+		{
+			return $this->qb_orderby;
 		}
 
 		return '';
