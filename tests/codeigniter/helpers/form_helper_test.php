@@ -1,10 +1,12 @@
 <?php
 
-require BASEPATH . 'core/Common.php';
-require BASEPATH . 'helpers/form_helper.php';
-
 class Form_helper_test extends CI_TestCase
 {
+	public function set_up()
+	{
+		$this->helper('form');
+	}
+
 	public function test_form_hidden()
 	{
 		$expected = <<<EOH

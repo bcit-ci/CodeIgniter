@@ -4,11 +4,8 @@ class Encrypt_test extends CI_TestCase {
 
 	public function set_up()
 	{
-		$obj = new stdClass;
-		$obj->encrypt = new Mock_Libraries_Encrypt();
-
-		$this->ci_instance($obj);
-		$this->encrypt = $obj->encrypt;
+		$this->encrypt = new Mock_Libraries_Encrypt();
+		$this->ci_instance_var('encrypt', $this->encrypt);
 
 		$this->ci_set_config('encryption_key', "Encryptin'glike@boss!");
 		$this->msg = 'My secret message';

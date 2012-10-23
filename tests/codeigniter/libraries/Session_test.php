@@ -29,13 +29,15 @@ class Session_test extends CI_TestCase {
 		$_COOKIE = array();
 
 		// Establish necessary support classes
-		$obj = new stdClass;
 		$cfg = $this->ci_core_class('cfg');
-		$obj->config = new $cfg();
 		$ldr = $this->ci_core_class('load');
-		$obj->load = new $ldr();
-		$obj->input = new Mock_Core_Input(NULL, NULL);
-		$this->ci_instance($obj);
+		$ci = $this->ci_instance();
+		$ci->config = new $cfg();
+		$ci->load = new $ldr();
+		$ci->input = new Mock_Core_Input(NULL, NULL);
+
+		// Make sure string helper is available
+		$this->ci_vfs_clone('system/helpers/string_helper.php');
 
 		// Attach session instance locally
 		$config = array(

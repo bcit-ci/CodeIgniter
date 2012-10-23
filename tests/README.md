@@ -64,6 +64,30 @@ with a base for application and package tests. That gives us:
 3. Application Test	- bootstrapping for application/tests [not started]
 4. Package Test		- bootstrapping for <package>/tests [not started]
 
+### Test Environment:
+
+The test/Bootstrap.php file establishes global constants such as BASEPATH,
+APPPATH, and VIEWPATH, initializing them to point to VFS locations. The
+test case class employs vfsStream to make a clean virtual filesystem with
+the necessary paths for every individual test.
+
+Within each test case, VFS directory objects are available to use as arguments
+to the VFS convenience functions (see below):
+
+- ci_vfs_root: VFS filesystem root
+- ci_app_root: Application directory
+- ci_base_root: System directory
+- ci_view_root: Views directory
+
+Classes being instantiated for testing are read from the actual filesystem
+by the unit test autoloader, as are mockups created in tests/mocks. If you
+need access to the real system directory, the SYSTEM_PATH constant always
+points to it.
+
+Any other resources which need to be read from the path constants must be
+created or cloned within your test. Functions for doing so are outlined
+below.
+
 ### CI_TestCase Documentation
 
 Test cases should extend CI_TestCase. This internally extends
@@ -78,8 +102,14 @@ Current API is *not stable*. Names and implementations will change.
 
     $this->ci_set_config($key, $val)
 
-Set the global config variables. If key is an array, it will
-replace the entire config array. They are _not_ merged.
+Set the global config variables in a mock Config object. If key is an array,
+it will replace the entire config array. They are _not_ merged. If called
+without any parameters, it will create the mock object but not set any values.
+The mock Config object also provides rudimentary item() and load() stubs for
+delivering configured values to classes being tested and handling config load
+calls, respectively. The load() stub does _not_ actually load any files, it
+only records the filename provided. Check the config->loaded array to verify
+calls made.
 
     $this->ci_instance($obj)
 
@@ -103,11 +133,48 @@ $GLOBALS key. For example:
     $cfg = new $cfg; // instantiates config and overwrites the CFG global
 
 	$this->ci_set_core_class($name, $obj)
-	
+
 An alternative way to set one of the core globals.
 
+	$this->ci_vfs_mkdir($name, $root)
+
+Creates a new directory in the test VFS. Pass a directory object to be the
+parent directory or none to create a root-level directory. Returns the new
+directory object.
+
+	$this->ci_vfs_create($file, $content, $root, $path)
+
+Creates a new VFS file. '.php' is automatically appended to the filename if
+it has no extension. Pass a directory object as the root, and an optional path
+to recurse and/or create for containing the file. Path may be a string (such
+as 'models/subdir') or an array (e.g. - array('models', 'subdir') ). Existing
+directories in the VFS root will be recursed until a new directory is
+identified - all others in the path will be created, so you can mix-and-match
+old and new directories. If $file is an array (key = name, value = content),
+multiple files will be created in the same path.
+
+	$this->ci_vfs_clone($path)
+
+Clones an existing file from the real filesystem to exist in the same path of
+the VFS. Path must be relative to the project root (i.e. - starting with
+'system' or 'application').
+
+	$this->ci_vfs_path($path, $base)
+
+Creates a VFS file path string suitable for use with PHP file operations. Path
+may be absolute from the VFS root, or relative to a base path. It is often
+useful to use APPPATH or BASEPATH as the base.
+
+	$this->helper($name)
+
+Loads a helper from the real filesystem.
+
+	$this->lang($name)
+
+Loads a language file from the real filesystem and returns the $lang array.
+
 	$this->ci_get_config()  __internal__
-	
+
 Returns the global config array. Internal as you shouldn't need to
 call this (you're setting it, after all). Used internally to make
 CI's get_config() work.
