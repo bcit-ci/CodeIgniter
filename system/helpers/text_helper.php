@@ -97,7 +97,7 @@ if ( ! function_exists('character_limiter'))
 			return $str;
 		}
 
-		$out = '';
+		/*$out = '';
 		foreach (explode(' ', trim($str)) as $val)
 		{
 			$out .= $val.' ';
@@ -107,7 +107,8 @@ if ( ! function_exists('character_limiter'))
 				$out = trim($out);
 				return (strlen($out) === strlen($str)) ? $out : $out.$end_char;
 			}
-		}
+		}*/
+		return substr($str, 0, $n) . $end_char;
 	}
 }
 
