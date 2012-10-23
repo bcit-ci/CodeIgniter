@@ -356,14 +356,12 @@ class CI_DB_pdo_driver extends CI_DB {
 	 *
 	 * @param	string	the table name
 	 * @param	array	the update data
-	 * @param	array	the where clause
+	 * @param	string	the where key
 	 * @return	string
 	 */
-	protected function _update_batch($table, $values, $index, $where = NULL)
+	protected function _update_batch($table, $values, $index)
 	{
 		$ids = array();
-		$where = ($where !== '' && count($where) >=1) ? implode(' ', $where).' AND ' : '';
-
 		foreach ($values as $key => $val)
 		{
 			$ids[] = $val[$index];
@@ -377,9 +375,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			}
 		}
 
-		$sql   = 'UPDATE '.$table.' SET ';
 		$cases = '';
-
 		foreach ($final as $k => $v)
 		{
 			$cases .= $k.' = CASE '."\n";
@@ -392,10 +388,9 @@ class CI_DB_pdo_driver extends CI_DB {
 			$cases .= 'ELSE '.$k.' END, ';
 		}
 
-		$sql .= substr($cases, 0, -2);
-		$sql .= ' WHERE '.$where.$index.' IN ('.implode(',', $ids).')';
+		$this->where($index.' IN('.implode(',', $ids).')', NULL, FALSE);
 
-		return $sql;
+		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2).$this->_compile_wh('qb_where');
 	}
 
 	// --------------------------------------------------------------------

@@ -233,10 +233,11 @@ Release Date: Not Released
 	 -  Modified ``valid_ip()`` to use PHP's ``filter_var()``.
 	 -  Added support for arrays and network addresses (e.g. 192.168.1.1/24) for use with the *proxy_ips* setting.
    -  :doc:`Common functions <general/common_functions>` changes include:
-	 -  Added ``get_mimes()`` function to return the *config/mimes.php* array.
+	 -  Added function ``get_mimes()`` to return the *config/mimes.php* array.
 	 -  Added support for HTTP code 303 ("See Other") in ``set_status_header()``.
 	 -  Removed redundant conditional to determine HTTP server protocol in ``set_status_header()``.
 	 -  Changed ``_exception_handler()`` to respect php.ini *display_errors* setting.
+	 -  Added function ``is_https()`` to check if a secure connection is used.
    -  Added support for HTTP-Only cookies with new config option *cookie_httponly* (default FALSE).
    -  Renamed method ``_call_hook()`` to ``call_hook()`` in the :doc:`Hooks Library <general/hooks>`.
    -  :doc:`Output Library <libraries/output>` changes include:
@@ -369,6 +370,9 @@ Bug fixes for 3.0
 -  Fixed a bug (#1897) - :doc:`Email Library <libraries/email>` triggered PHP E_WARNING errors when *mail* protocol used and ``to()`` is never called.
 -  Fixed a bug (#1409) - :doc:`Email Library <libraries/email>` didn't properly handle multibyte characters when applying Q-encoding to headers.
 -  Fixed a bug where :doc:`Email Library <libraries/email>` didn't honor it's *wordwrap* setting while handling alternative messages.
+-  Fixed a bug (#1476, #1909) - :doc:`Pagination Library <libraries/pagination>` didn't take into account actual routing when determining the current page.
+-  Fixed a bug (#1766) - :doc:`Query Builder <database/query_builder>` didn't always take into account the *dbprefix* setting.
+-  Fixed a bug (#779) - :doc:`URI Class <libraries/uri>` didn't always trim slashes from the *uri_string* as shown in the documentation.
 
 Version 2.1.3
 =============

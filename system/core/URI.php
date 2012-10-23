@@ -165,11 +165,8 @@ class CI_URI {
 	 */
 	protected function _set_uri_string($str)
 	{
-		// Filter out control characters
-		$str = remove_invisible_characters($str, FALSE);
-
-		// If the URI contains only a slash we'll kill it
-		$this->uri_string = ($str === '/') ? '' : $str;
+		// Filter out control characters and trim slashes
+		$this->uri_string = trim(remove_invisible_characters($str, FALSE), '/');
 	}
 
 	// --------------------------------------------------------------------

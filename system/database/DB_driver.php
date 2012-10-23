@@ -1124,30 +1124,19 @@ abstract class CI_DB_driver {
 	 *
 	 * @param	string	the table name
 	 * @param	array	the update data
-	 * @param	array	the where clause
-	 * @param	array	the orderby clause
-	 * @param	array	the limit clause
-	 * @param	array	the like clause
 	 * @return	string
 	 */
-	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
+	protected function _update($table, $values)
 	{
 		foreach ($values as $key => $val)
 		{
 			$valstr[] = $key.' = '.$val;
 		}
 
-		$where = empty($where) ? '' : ' WHERE '.implode(' ', $where);
-
-		if ( ! empty($like))
-		{
-			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
-		}
-
 		return 'UPDATE '.$table.' SET '.implode(', ', $valstr)
-			.$where
-			.(count($orderby) > 0 ? ' ORDER BY '.implode(', ', $orderby) : '')
-			.($limit ? ' LIMIT '.$limit : '');
+			.$this->_compile_wh('qb_where')
+			.$this->_compile_order_by()
+			.($this->qb_limit ? ' LIMIT '.$this->qb_limit : '');
 	}
 
 	// --------------------------------------------------------------------
@@ -1160,7 +1149,7 @@ abstract class CI_DB_driver {
 	 */
 	protected function _has_operator($str)
 	{
-		return (bool) preg_match('/(\s|<|>|!|=|IS NULL|IS NOT NULL|BETWEEN)/i', trim($str));
+		return (bool) preg_match('/(<|>|!|=|\sIS NULL|\sIS NOT NULL|\sBETWEEN|\sLIKE|\sIN\s*\(|\s)/i', trim($str));
 	}
 
 	// --------------------------------------------------------------------
@@ -1173,8 +1162,30 @@ abstract class CI_DB_driver {
 	 */
 	protected function _get_operator($str)
 	{
-		return preg_match('/(=|!|<|>| IS NULL| IS NOT NULL| BETWEEN)/i', $str, $match)
-			? $match[1] : FALSE;
+		static $_operators;
+
+		if (empty($_operators))
+		{
+			$_les = ($this->_like_escape_str !== '')
+				? '\s+'.preg_quote(trim(sprintf($this->_like_escape_str, $this->_like_escape_chr)))
+				: '';
+			$_operators = array(
+				'\s*(?:<|>|!)?=\s*',		// =, <=, >=, !=
+				'\s*<>?\s*',			// <, <>
+				'\s*>\s*',			// >
+				'\s+IS NULL',			// IS NULL
+				'\s+IS NOT NULL',		// IS NOT NULL
+				'\s+BETWEEN\s+\S+\s+AND\s+\S+',	// BETWEEN value AND value
+				'\s+IN\s*\([^\)]+\)',		// IN(list)
+				'\s+NOT IN\s*\([^\)]+\)',	// NOT IN (list)
+				'\s+LIKE\s+\S+'.$_les,		// LIKE 'expr'[ ESCAPE '%s']
+				'\s+NOT LIKE\s+\S+'.$_les	// NOT LIKE 'expr'[ ESCAPE '%s']
+			);
+
+		}
+
+		return preg_match('/'.implode('|', $_operators).'/i', $str, $match)
+			? $match[0] : FALSE;
 	}
 
 	// --------------------------------------------------------------------
