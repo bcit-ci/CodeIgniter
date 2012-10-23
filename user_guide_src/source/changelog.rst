@@ -53,6 +53,7 @@ Release Date: Not Released
    -  Updated email validation methods to use ``filter_var()`` instead of PCRE.
    -  Changed environment defaults to report all errors in *development* and only fatal ones in *testing*, *production* but only display them in *development*.
    -  Updated *ip_address* database field lengths from 16 to 45 for supporting IPv6 address on :doc:`Trackback Library <libraries/trackback>` and :doc:`Captcha Helper <helpers/captcha_helper>`.
+   -  Removed *cheatsheets* and *quick_reference* PDFs from the documentation.
 
 -  Helpers
 
