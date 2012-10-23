@@ -43,6 +43,8 @@ class CI_DB_Cache {
 		$this->CI =& get_instance();
 		$this->db =& $db;
 		$this->CI->load->helper('file');
+
+		$this->check_path();
 	}
 
 	// --------------------------------------------------------------------
@@ -66,7 +68,9 @@ class CI_DB_Cache {
 		}
 
 		// Add a trailing slash to the path if needed
-		$path = preg_replace('/(.+?)\/*$/', '\\1/',  $path);
+		$path = realpath($path)
+			? rtrim(realpath($path), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR
+			: rtrim($path, '/').'/';
 
 		if ( ! is_dir($path) OR ! is_really_writable($path))
 		{
@@ -90,11 +94,6 @@ class CI_DB_Cache {
 	 */
 	public function read($sql)
 	{
-		if ( ! $this->check_path())
-		{
-			return $this->db->cache_off();
-		}
-
 		$segment_one = ($this->CI->uri->segment(1) == FALSE) ? 'default' : $this->CI->uri->segment(1);
 		$segment_two = ($this->CI->uri->segment(2) == FALSE) ? 'index' : $this->CI->uri->segment(2);
 		$filepath = $this->db->cachedir.$segment_one.'+'.$segment_two.'/'.md5($sql);
@@ -116,11 +115,6 @@ class CI_DB_Cache {
 	 */
 	public function write($sql, $object)
 	{
-		if ( ! $this->check_path())
-		{
-			return $this->db->cache_off();
-		}
-
 		$segment_one = ($this->CI->uri->segment(1) == FALSE) ? 'default' : $this->CI->uri->segment(1);
 		$segment_two = ($this->CI->uri->segment(2) == FALSE) ? 'index' : $this->CI->uri->segment(2);
 		$dir_path = $this->db->cachedir.$segment_one.'+'.$segment_two.'/';

@@ -109,7 +109,7 @@ if ( ! function_exists('delete_files'))
 	function delete_files($path, $del_dir = FALSE, $level = 0, $htdocs = FALSE)
 	{
 		// Trim the trailing slash
-		$path = rtrim($path, DIRECTORY_SEPARATOR);
+		$path = rtrim($path, '/\\');
 
 		if ( ! $current_dir = @opendir($path))
 		{
