@@ -391,6 +391,21 @@ class CI_Router {
 					{
 						// Any params without matches will be set to an empty string.
 						$matches = array_merge($matches, array_fill($match_count, $param_count - $match_count, ''));
+
+						$match_count = $param_count;
+					}
+
+					// Get the parameters so we can use their default values.
+					$params = $reflection->getParameters();
+
+					for ($m = 0; $m < $match_count; $m++)
+					{
+						// Is the match empty and does a default value exist?
+						if (empty($matches[$m]) && $params[$m]->isDefaultValueAvailable())
+						{
+							// Substitute the empty match for the default value.
+							$matches[$m] = $params[$m]->getDefaultValue();
+						}
 					}
 
 					// Execute the callback using the values in matches as its parameters.
