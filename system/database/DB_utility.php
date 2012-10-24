@@ -41,6 +41,11 @@ abstract class CI_DB_utility extends CI_DB_forge {
 	protected $_optimize_table	= FALSE;
 	protected $_repair_table	= FALSE;
 
+	/**
+	 * Constructor
+	 *
+	 * @return	void
+	 */
 	public function __construct()
 	{
 		// Assign the main database object to $this->db
@@ -275,6 +280,7 @@ abstract class CI_DB_utility extends CI_DB_forge {
 	/**
 	 * Database Backup
 	 *
+	 * @param	array	$params = array()
 	 * @return	void
 	 */
 	public function backup($params = array())

@@ -165,7 +165,7 @@ if ( ! function_exists('anchor'))
 
 		if ($attributes !== '')
 		{
-			$attributes = _parse_attributes($attributes);
+			$attributes = _stringify_attributes($attributes);
 		}
 
 		return '<a href="'.$site_url.'"'.$attributes.'>'.$title.'</a>';
@@ -221,10 +221,10 @@ if ( ! function_exists('anchor_popup'))
 			unset($attributes[$key]);
 		}
 
-		$attributes = empty($attributes) ? '' : _parse_attributes($attributes);
+		$attributes = _stringify_attributes($attributes);
 
 		return '<a href="'.$site_url
-			.'" onclick="window.open(\''.$site_url."', '".$window_name."', '"._parse_attributes($atts, TRUE)."'); return false;\""
+			.'" onclick="window.open(\''.$site_url."', '".$window_name."', '"._stringify_attributes($atts, TRUE)."'); return false;\""
 			.$attributes.'>'.$title.'</a>';
 	}
 }
@@ -250,7 +250,7 @@ if ( ! function_exists('mailto'))
 			$title = $email;
 		}
 
-		return '<a href="mailto:'.$email.'"'._parse_attributes($attributes).'>'.$title.'</a>';
+		return '<a href="mailto:'.$email.'"'._stringify_attributes($attributes).'>'.$title.'</a>';
 	}
 }
 
@@ -388,40 +388,43 @@ if ( ! function_exists('auto_link'))
 
 			for ($i = 0, $c = count($matches[0]); $i < $c; $i++)
 			{
-				if (preg_match('|\.$|', $matches[6][$i]))
+				if (preg_match('/(\.|\,)$/i', $matches[6][$i], $m))
 				{
-					$period = '.';
+					$punct = $m[1];
 					$matches[6][$i] = substr($matches[6][$i], 0, -1);
 				}
 				else
 				{
-					$period = '';
+					$punct = '';
 				}
 
 				$str = str_replace($matches[0][$i],
 							$matches[1][$i].'<a href="http'.$matches[4][$i].'://'
 								.$matches[5][$i].$matches[6][$i].'"'.$pop.'>http'
 								.$matches[4][$i].'://'.$matches[5][$i]
-								.$matches[6][$i].'</a>'.$period,
+								.$matches[6][$i].'</a>'.$punct,
 							$str);
 			}
 		}
 
-		if ($type !== 'url' && preg_match_all('/([a-zA-Z0-9_\.\-\+]+)@([a-zA-Z0-9\-]+)\.([a-zA-Z0-9\-\.]*)/i', $str, $matches))
+		if ($type !== 'url' && preg_match_all('/([a-zA-Z0-9_\.\-\+]+)@([a-zA-Z0-9\-]+)\.([a-zA-Z0-9\-\.]+)/i', $str, $matches))
 		{
 			for ($i = 0, $c = count($matches); $i < $c; $i++)
 			{
-				if (preg_match('|\.$|', $matches[3][$i]))
+				if (preg_match('/(\.|\,)$/i', $matches[3][$i], $m))
 				{
-					$period = '.';
+					$punct = $m[1];
 					$matches[3][$i] = substr($matches[3][$i], 0, -1);
 				}
 				else
 				{
-					$period = '';
+					$punct = '';
 				}
 
-				$str = str_replace($matches[0][$i], safe_mailto($matches[1][$i].'@'.$matches[2][$i].'.'.$matches[3][$i]).$period, $str);
+				if (filter_var(($m = $matches[1][$i].'@'.$matches[2][$i].'.'.$matches[3][$i]), FILTER_VALIDATE_EMAIL) !== FALSE)
+				{
+					$str = str_replace($matches[0][$i], safe_mailto($m).$punct, $str);
+				}
 			}
 		}
 
@@ -534,7 +537,7 @@ if ( ! function_exists('redirect'))
 		}
 
 		// IIS environment likely? Use 'refresh' for better compatibility
-		if (DIRECTORY_SEPARATOR !== '/' && $method === 'auto')
+		if ($method === 'auto' && isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== FALSE)
 		{
 			$method = 'refresh';
 		}
@@ -557,48 +560,6 @@ if ( ! function_exists('redirect'))
 				break;
 		}
 		exit;
-	}
-}
-
-// ------------------------------------------------------------------------
-
-if ( ! function_exists('_parse_attributes'))
-{
-	/**
-	 * Parse out the attributes
-	 *
-	 * Some of the functions use this
-	 *
-	 * @param	array
-	 * @param	bool
-	 * @return	string
-	 */
-	function _parse_attributes($attributes, $javascript = FALSE)
-	{
-		if (is_string($attributes))
-		{
-			return ($attributes !== '') ? ' '.$attributes : '';
-		}
-
-		$att = '';
-		foreach ($attributes as $key => $val)
-		{
-			if ($javascript === TRUE)
-			{
-				$att .= $key.'='.$val.',';
-			}
-			else
-			{
-				$att .= ' '.$key.'="'.$val.'"';
-			}
-		}
-
-		if ($javascript === TRUE && $att !== '')
-		{
-			return substr($att, 0, -1);
-		}
-
-		return $att;
 	}
 }
 

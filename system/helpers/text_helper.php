@@ -89,7 +89,8 @@ if ( ! function_exists('character_limiter'))
 			return $str;
 		}
 
-		$str = preg_replace('/\s+/', ' ', str_replace(array("\r\n", "\r", "\n"), ' ', $str));
+		// a bit complicated, but faster than preg_replace with \s+
+		$str = preg_replace('/ {2,}/', ' ', str_replace(array("\r", "\n", "\t", "\x0B", "\x0C"), ' ', $str));
 
 		if (strlen($str) <= $n)
 		{
@@ -389,19 +390,19 @@ if ( ! function_exists('convert_accented_characters'))
 
 // ------------------------------------------------------------------------
 
-/**
- * Word Wrap
- *
- * Wraps text at the specified character. Maintains the integrity of words.
- * Anything placed between {unwrap}{/unwrap} will not be word wrapped, nor
- * will URLs.
- *
- * @param	string	the text string
- * @param	int	the number of characters to wrap at
- * @return	string
- */
 if ( ! function_exists('word_wrap'))
 {
+	/**
+	 * Word Wrap
+	 *
+	 * Wraps text at the specified character. Maintains the integrity of words.
+	 * Anything placed between {unwrap}{/unwrap} will not be word wrapped, nor
+	 * will URLs.
+	 *
+	 * @param	string	$str		the text string
+	 * @param	int	$charlim = 76	the number of characters to wrap at
+	 * @return	string
+	 */
 	function word_wrap($str, $charlim = 76)
 	{
 		// Set the character limit

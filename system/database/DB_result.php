@@ -251,27 +251,24 @@ class CI_DB_result {
 	/**
 	 * Query result.  Acts as a wrapper function for the following functions.
 	 *
-	 * @param	string
-	 * @param	string	can be "object" or "array"
-	 * @return	mixed	either a result object or array
+	 * @param	mixed	$n = 0
+	 * @param	string	$type = 'object'	'object' or 'array'
+	 * @return	mixed
 	 */
 	public function row($n = 0, $type = 'object')
 	{
 		if ( ! is_numeric($n))
 		{
 			// We cache the row data for subsequent uses
-			if ( ! is_array($this->row_data))
+			is_array($this->row_data) OR $this->row_data = $this->row_array(0);
+
+			// array_key_exists() instead of isset() to allow for NULL values
+			if (empty($this->row_data) OR ! array_key_exists($n, $this->row_data))
 			{
-				$this->row_data = $this->row_array(0);
+				return NULL;
 			}
 
-			// array_key_exists() instead of isset() to allow for MySQL NULL values
-			if (array_key_exists($n, $this->row_data))
-			{
-				return $this->row_data[$n];
-			}
-			// reset the $n variable if the result was not achieved
-			$n = 0;
+			return $this->row_data[$n];
 		}
 
 		if ($type === 'object') return $this->row_object($n);
@@ -284,6 +281,8 @@ class CI_DB_result {
 	/**
 	 * Assigns an item into a particular column slot
 	 *
+	 * @param	mixed	$key
+	 * @param	mixed	$value
 	 * @return	void
 	 */
 	public function set_row($key, $value = NULL)
@@ -314,6 +313,8 @@ class CI_DB_result {
 	/**
 	 * Returns a single result row - custom object version
 	 *
+	 * @param	int	$n
+	 * @param	string	$type
 	 * @return	object
 	 */
 	public function custom_row_object($n, $type)
@@ -338,6 +339,7 @@ class CI_DB_result {
 	/**
 	 * Returns a single result row - object version
 	 *
+	 * @param	int	$n = 0
 	 * @return	object
 	 */
 	public function row_object($n = 0)
@@ -361,6 +363,7 @@ class CI_DB_result {
 	/**
 	 * Returns a single result row - array version
 	 *
+	 * @param	int	$n = 0
 	 * @return	array
 	 */
 	public function row_array($n = 0)
@@ -384,7 +387,8 @@ class CI_DB_result {
 	/**
 	 * Returns the "first" row
 	 *
-	 * @return	object
+	 * @param	string	$type = 'object'
+	 * @return	mixed
 	 */
 	public function first_row($type = 'object')
 	{
@@ -397,7 +401,8 @@ class CI_DB_result {
 	/**
 	 * Returns the "last" row
 	 *
-	 * @return	object
+	 * @param	string	$type = 'object'
+	 * @return	mixed
 	 */
 	public function last_row($type = 'object')
 	{
@@ -410,7 +415,8 @@ class CI_DB_result {
 	/**
 	 * Returns the "next" row
 	 *
-	 * @return	object
+	 * @param	string	$type = 'object'
+	 * @return	mixed
 	 */
 	public function next_row($type = 'object')
 	{
@@ -433,7 +439,8 @@ class CI_DB_result {
 	/**
 	 * Returns the "previous" row
 	 *
-	 * @return	object
+	 * @param	string	$type = 'object'
+	 * @return	mixed
 	 */
 	public function previous_row($type = 'object')
 	{
@@ -455,8 +462,8 @@ class CI_DB_result {
 	/**
 	 * Returns an unbuffered row and move pointer to next row
 	 *
-	 * @param	string	'array', 'object' or a custom class name
-	 * @return	mixed	either a result object or array
+	 * @param	string	$type = 'object'	'array', 'object' or a custom class name
+	 * @return	mixed
 	 */
 	public function unbuffered_row($type = 'object')
 	{

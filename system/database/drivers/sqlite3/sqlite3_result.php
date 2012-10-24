@@ -167,6 +167,7 @@ class CI_DB_sqlite3_result extends CI_DB_result {
 	 * this internally before fetching results to make sure the
 	 * result set starts at zero
 	 *
+	 * @param	$n = 0	(ignored)
 	 * @return	array
 	 */
 	protected function _data_seek($n = 0)

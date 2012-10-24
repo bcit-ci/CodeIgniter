@@ -38,13 +38,18 @@
  */
 class CI_Unit_test {
 
-	public $active					= TRUE;
-	public $results				= array();
-	public $strict					= FALSE;
-	protected $_template				= NULL;
-	protected $_template_rows			= NULL;
+	public $active			= TRUE;
+	public $results			= array();
+	public $strict			= FALSE;
+	protected $_template		= NULL;
+	protected $_template_rows	= NULL;
 	protected $_test_items_visible	= array();
 
+	/**
+	 * Constructor
+	 *
+	 * @return	void
+	 */
 	public function __construct()
 	{
 		// These are the default items visible when a test is run.
@@ -86,9 +91,10 @@ class CI_Unit_test {
 	 *
 	 * Runs the supplied tests
 	 *
-	 * @param	mixed
-	 * @param	mixed
-	 * @param	string
+	 * @param	mixed	$test
+	 * @param	mixed	$expected = TRUE
+	 * @param	string	$test_name = 'undefined'
+	 * @param	string	$notes = ''
 	 * @return	string
 	 */
 	public function run($test, $expected = TRUE, $test_name = 'undefined', $notes = '')
@@ -134,6 +140,7 @@ class CI_Unit_test {
 	 *
 	 * Displays a table with the test data
 	 *
+	 * @param	array	 $result = array()
 	 * @return	string
 	 */
 	public function report($result = array())
@@ -213,6 +220,7 @@ class CI_Unit_test {
 	 *
 	 * Returns the raw result data
 	 *
+	 * @param	array	$results = array()
 	 * @return	array
 	 */
 	public function result($results = array())
@@ -240,6 +248,11 @@ class CI_Unit_test {
 				{
 					foreach ($val as $k => $v)
 					{
+						if ( ! in_array($k, $this->_test_items_visible))
+						{
+							continue;
+						}
+
 						if (FALSE !== ($line = $CI->lang->line(strtolower('ut_'.$v))))
 						{
 							$v = $line;
@@ -340,14 +353,22 @@ class CI_Unit_test {
 }
 
 /**
- * Helper functions to test boolean true/false
+ * Helper function to test boolean TRUE
  *
+ * @param	mixed	$test
  * @return	bool
  */
 function is_true($test)
 {
 	return ($test === TRUE);
 }
+
+/**
+ * Helper function to test boolean FALSE
+ *
+ * @param	mixed	$test
+ * @return	bool
+ */
 function is_false($test)
 {
 	return ($test === FALSE);

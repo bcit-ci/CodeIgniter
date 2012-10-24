@@ -37,12 +37,20 @@ class CI_DB_Cache {
 	public $CI;
 	public $db;	// allows passing of db object so that multiple database connections and returned db objects can be supported
 
+	/**
+	 * Constructor
+	 *
+	 * @param	object	&$db
+	 * @return	void
+	 */
 	public function __construct(&$db)
 	{
 		// Assign the main CI object to $this->CI and load the file helper since we use it a lot
 		$this->CI =& get_instance();
 		$this->db =& $db;
 		$this->CI->load->helper('file');
+
+		$this->check_path();
 	}
 
 	// --------------------------------------------------------------------
@@ -66,7 +74,9 @@ class CI_DB_Cache {
 		}
 
 		// Add a trailing slash to the path if needed
-		$path = preg_replace('/(.+?)\/*$/', '\\1/',  $path);
+		$path = realpath($path)
+			? rtrim(realpath($path), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR
+			: rtrim($path, '/').'/';
 
 		if ( ! is_dir($path) OR ! is_really_writable($path))
 		{
@@ -86,15 +96,11 @@ class CI_DB_Cache {
 	 * The URI being requested will become the name of the cache sub-folder.
 	 * An MD5 hash of the SQL statement will become the cache file name
 	 *
+	 * @param	string	$sql
 	 * @return	string
 	 */
 	public function read($sql)
 	{
-		if ( ! $this->check_path())
-		{
-			return $this->db->cache_off();
-		}
-
 		$segment_one = ($this->CI->uri->segment(1) == FALSE) ? 'default' : $this->CI->uri->segment(1);
 		$segment_two = ($this->CI->uri->segment(2) == FALSE) ? 'index' : $this->CI->uri->segment(2);
 		$filepath = $this->db->cachedir.$segment_one.'+'.$segment_two.'/'.md5($sql);
@@ -112,15 +118,12 @@ class CI_DB_Cache {
 	/**
 	 * Write a query to a cache file
 	 *
+	 * @param	string	$sql
+	 * @param	object	$object
 	 * @return	bool
 	 */
 	public function write($sql, $object)
 	{
-		if ( ! $this->check_path())
-		{
-			return $this->db->cache_off();
-		}
-
 		$segment_one = ($this->CI->uri->segment(1) == FALSE) ? 'default' : $this->CI->uri->segment(1);
 		$segment_two = ($this->CI->uri->segment(2) == FALSE) ? 'index' : $this->CI->uri->segment(2);
 		$dir_path = $this->db->cachedir.$segment_one.'+'.$segment_two.'/';
@@ -150,7 +153,9 @@ class CI_DB_Cache {
 	/**
 	 * Delete cache files within a particular directory
 	 *
-	 * @return	bool
+	 * @param	string	$segment_one = ''
+	 * @param	string	$segment_two = ''
+	 * @return	void
 	 */
 	public function delete($segment_one = '', $segment_two = '')
 	{
@@ -173,7 +178,7 @@ class CI_DB_Cache {
 	/**
 	 * Delete all existing cache files
 	 *
-	 * @return	bool
+	 * @return	void
 	 */
 	public function delete_all()
 	{
