@@ -40,7 +40,7 @@ class CI_DB_Cache {
 	/**
 	 * Constructor
 	 *
-	 * @param	&$db
+	 * @param	object	&$db
 	 * @return	void
 	 */
 	public function __construct(&$db)
