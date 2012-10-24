@@ -380,6 +380,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#191) - :doc:`Loader Library <libraries/loader>` ignored attempts for (re)loading databases to ``get_instance()->db`` even when the old database connection is dead.
 -  Fixed a bug (#1255) - :doc:`User Agent Library <libraries/user_agent>` method ``is_referral()`` only checked if ``$_SERVER['HTTP_REFERER']`` exists.
 -  Fixed a bug (#1146) - :doc:`Download Helper <helpers/download_helper>` function ``force_download()`` incorrectly sent *Cache-Control* directives *pre-check* and *post-check* to Internet Explorer.
+-  Fixed a bug (#1811) - :doc:`URI Library <libraries/uri>` didn't properly cache segments for ``uri_to_assoc()`` and ``ruri_to_assoc()``.
 
 Version 2.1.3
 =============
