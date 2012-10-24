@@ -1216,9 +1216,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Compiles batch insert strings and runs the queries
 	 *
-	 * @param	string	the table to retrieve the results from
-	 * @param	array	an associative array of insert values
-	 * @return	object
+	 * @param	string	$table = ''	table to insert into
+	 * @param	array	$set 		an associative array of insert values
+	 * @return	int	number of rows inserted or FALSE on failure
 	 */
 	public function insert_batch($table = '', $set = NULL)
 	{
@@ -1229,12 +1229,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		if (count($this->qb_set) === 0)
 		{
-			if ($this->db_debug)
-			{
-				// No valid data array. Folds in cases where keys and values did not match up
-				return $this->display_error('db_must_use_set');
-			}
-			return FALSE;
+			// No valid data array. Folds in cases where keys and values did not match up
+			return ($this->db_debug) ? $this->display_error('db_must_use_set') : FALSE;
 		}
 
 		if ($table === '')
@@ -1248,13 +1244,15 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		// Batch this baby
+		$affected_rows = 0;
 		for ($i = 0, $total = count($this->qb_set); $i < $total; $i += 100)
 		{
 			$this->query($this->_insert_batch($this->protect_identifiers($table, TRUE, NULL, FALSE), $this->qb_keys, array_slice($this->qb_set, $i, 100)));
+			$affected_rows += $this->affected_rows();
 		}
 
 		$this->_reset_write();
-		return TRUE;
+		return $affected_rows;
 	}
 
 	// --------------------------------------------------------------------
@@ -1621,7 +1619,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	string	the table to retrieve the results from
 	 * @param	array	an associative array of update values
 	 * @param	string	the where key
-	 * @return	bool
+	 * @return	int	number of rows affected or FALSE on failure
 	 */
 	public function update_batch($table = '', $set = NULL, $index = NULL)
 	{
@@ -1654,13 +1652,15 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		// Batch this baby
+		$affected_rows = 0;
 		for ($i = 0, $total = count($this->qb_set); $i < $total; $i += 100)
 		{
 			$this->query($this->_update_batch($this->protect_identifiers($table, TRUE, NULL, FALSE), array_slice($this->qb_set, $i, 100), $this->protect_identifiers($index)));
+			$affected_rows += $this->affected_rows();
 		}
 
 		$this->_reset_write();
-		return TRUE;
+		return $affected_rows;
 	}
 
 	// --------------------------------------------------------------------

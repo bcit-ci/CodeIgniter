@@ -95,6 +95,7 @@ Release Date: Not Released
 	 - Added support for *USING* in ``join()``.
 	 - Changed ``limit()`` to ignore NULL values instead of always casting to integer.
 	 - Changed ``offset()`` to ignore empty values instead of always casting to integer.
+	 - Methods ``insert_batch()`` and ``update_batch()`` now return an integer representing the number of rows affected by them.
    -  Improved support for the MySQLi driver, including:
 	 - OOP style of the PHP extension is now used, instead of the procedural aliases.
 	 - Server version checking is now done via ``mysqli::$server_info`` instead of running an SQL query.
