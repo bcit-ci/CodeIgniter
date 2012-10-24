@@ -275,6 +275,7 @@ Release Date: Not Released
 	 -  Added ``$config['csrf_regeneration']``, which makes token regeneration optional.
 	 -  Added ``$config['csrf_exclude_uris']``, which allows you list URIs which will not have the CSRF validation methods run.
 >>>>>>> a7001e968a4791312391eb245ad84888893cda8f
+   -  Added possibility to route requests using callbacks.
 
 Bug fixes for 3.0
 ------------------
