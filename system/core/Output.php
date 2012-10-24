@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
  * Output Class
@@ -205,6 +206,7 @@ class CI_Output {
 	 * Set Content Type Header
 	 *
 	 * @param	string	extension of the file we're outputting
+	 * @param	string
 	 * @return	void
 	 */
 	public function set_content_type($mime_type, $charset = NULL)

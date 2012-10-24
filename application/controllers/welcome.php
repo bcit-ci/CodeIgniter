@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,7 +24,16 @@
  * @since		Version 1.0
  * @filesource
  */
+if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+ * CodeIgniter Application Welcome Controller
+ *
+ * This class enables the welcome screen for new installations.
+ *
+ * @package		CodeIgniter
+ * @author		EllisLab Dev Team
+ */
 class Welcome extends CI_Controller {
 
 	/**
