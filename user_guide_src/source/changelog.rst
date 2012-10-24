@@ -137,7 +137,7 @@ Release Date: Not Released
    -  Added PDO support for create_database(), drop_database and drop_table() in :doc:`Database Forge <database/forge>`.
    -  Added unbuffered_row() method for getting a row without prefetching whole result (consume less memory).
    -  Added PDO support for ``list_fields()`` in :doc:`Database Results <database/results>`.
-   -  Added capability for packages to hold database.php config files 
+   -  Added capability for packages to hold database.php config files
    -  Added subdrivers support (currently only used by PDO).
 
 -  Libraries
@@ -204,7 +204,7 @@ Release Date: Not Released
    -  Changed :doc:`Config Library <libraries/config>` method site_url() to accept an array as well.
    -  Added method ``strip_image_tags()`` to the :doc:`Security Library <libraries/security>`.
    -  Changed ``_exception_handler()`` to respect php.ini 'display_errors' setting.
-
+   -  Added possibility to route requests using callback methods.
 
 Bug fixes for 3.0
 ------------------
