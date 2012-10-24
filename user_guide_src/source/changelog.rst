@@ -219,6 +219,7 @@ Release Date: Not Released
    -  :doc:`Encryption Library <libraries/encryption>` changes include:
 	 -  Added support for hashing algorithms other than SHA1 and MD5.
 	 -  Removed previously deprecated ``sha1()`` method.
+   -  Changed :doc:`Language Library <libraries/language>` method ``load()`` to filter the language name with ``ctype_digit()``.
 
 -  Core
 
