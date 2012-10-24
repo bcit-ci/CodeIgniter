@@ -501,6 +501,7 @@ class CI_URI {
 		}
 
 		// Cache the array for reuse
+		isset($this->keyval[$which]) OR $this->keyval[$which] = array();
 		$this->keyval[$which][$n] = $retval;
 		return $retval;
 	}
