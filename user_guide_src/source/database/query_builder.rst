@@ -681,6 +681,35 @@ associative array of values.
 
 .. note:: All values are escaped automatically producing safer queries.
 
+$this->db->replace()
+====================
+
+This method executes a REPLACE statement, which is basically the SQL
+standard for (optional) DELETE + INSERT, using *PRIMARY* and *UNIQUE*
+keys as the determining factor.
+In our case, it will save you from the need to implement complex
+logics with different combinations of  ``select()``, ``update()``,
+``delete()`` and ``insert()`` calls.
+
+Example::
+
+	$data = array(
+		'title' => 'My title',
+		'name'  => 'My Name',
+		'date'  => 'My date'
+	);
+
+	$this->db->replace('table', $data);
+
+	// Executes: REPLACE INTO mytable (title, name, date) VALUES ('My title', 'My name', 'My date')
+
+In the above example, if we assume that the *title* field is our primary
+key, then if a row containing 'My title' as the *title* value, that row
+will be deleted with our new row data replacing it.
+
+Usage of the ``set()`` method is also allowed and all fields are
+automatically escaped, just like with ``insert()``.
+
 $this->db->set()
 ================
 
@@ -740,7 +769,6 @@ Or an object::
 	$this->db->set($object);
 	$this->db->insert('mytable');
 
-
 *************
 Updating Data
 *************
@@ -791,6 +819,7 @@ Or as an array::
 
 You may also use the $this->db->set() function described above when
 performing updates.
+
 
 $this->db->update_batch()
 =========================
