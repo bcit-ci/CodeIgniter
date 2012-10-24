@@ -26,12 +26,12 @@ Release Date: Not Released
    -  Added Fennec (Firefox for mobile) to the list of mobile user agents.
    -  Ability to log certain error types, not all under a threshold.
    -  Added support for pem, p10, p12, p7a, p7c, p7m, p7r, p7s, crt, crl, der, kdb, rsa, cer, sst, csr Certs to mimes.php.
-   -  Added support for pgp and gpg to mimes.php.
+   -  Added support for pgp, gpg, zsh and cdr files to mimes.php.
    -  Added support for 3gp, 3g2, mp4, wmv, f4v, vlc Video files to mimes.php.
-   -  Added support for m4a, aac, m4u, xspf, au, ac3, flac, ogg Audio files to mimes.php.
+   -  Added support for m4a, aac, m4u, xspf, au, ac3, flac, ogg, wma Audio files to mimes.php.
    -  Added support for kmz and kml (Google Earth) files to mimes.php.
    -  Added support for ics Calendar files to mimes.php.
-   -  Added support for rar archives to mimes.php.
+   -  Added support for rar, jar and 7zip archives to mimes.php.
    -  Updated support for xml ('application/xml') and xsl ('application/xml', 'text/xsl') files in mimes.php.
    -  Updated support for doc files in mimes.php.
    -  Updated support for docx files in mimes.php.
