@@ -44,6 +44,12 @@ class CI_FTP {
 	public $debug		= FALSE;
 	public $conn_id		= FALSE;
 
+	/**
+	 * Constructor
+	 *
+	 * @param	array	$config = array()
+	 * @return	void
+	 */
 	public function __construct($config = array())
 	{
 		if (count($config) > 0)
@@ -474,6 +480,7 @@ class CI_FTP {
 	/**
 	 * FTP List files in the specified directory
 	 *
+	 * @param	string	$path = '.'
 	 * @return	array
 	 */
 	public function list_files($path = '.')

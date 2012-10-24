@@ -37,6 +37,12 @@ class CI_DB_Cache {
 	public $CI;
 	public $db;	// allows passing of db object so that multiple database connections and returned db objects can be supported
 
+	/**
+	 * Constructor
+	 *
+	 * @param	&$db
+	 * @return	void
+	 */
 	public function __construct(&$db)
 	{
 		// Assign the main CI object to $this->CI and load the file helper since we use it a lot
@@ -90,6 +96,7 @@ class CI_DB_Cache {
 	 * The URI being requested will become the name of the cache sub-folder.
 	 * An MD5 hash of the SQL statement will become the cache file name
 	 *
+	 * @param	string	$sql
 	 * @return	string
 	 */
 	public function read($sql)
@@ -111,6 +118,8 @@ class CI_DB_Cache {
 	/**
 	 * Write a query to a cache file
 	 *
+	 * @param	string	$sql
+	 * @param	object	$object
 	 * @return	bool
 	 */
 	public function write($sql, $object)
@@ -144,7 +153,9 @@ class CI_DB_Cache {
 	/**
 	 * Delete cache files within a particular directory
 	 *
-	 * @return	bool
+	 * @param	string	$segment_one = ''
+	 * @param	string	$segment_two = ''
+	 * @return	void
 	 */
 	public function delete($segment_one = '', $segment_two = '')
 	{
@@ -167,7 +178,7 @@ class CI_DB_Cache {
 	/**
 	 * Delete all existing cache files
 	 *
-	 * @return	bool
+	 * @return	void
 	 */
 	public function delete_all()
 	{

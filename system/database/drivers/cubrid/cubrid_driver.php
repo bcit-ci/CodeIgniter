@@ -50,6 +50,12 @@ class CI_DB_cubrid_driver extends CI_DB {
 	// CUBRID-specific properties
 	public $auto_commit = TRUE;
 
+	/**
+	 * Constructor
+	 *
+	 * @param	array	$params
+	 * @return	void
+	 */
 	public function __construct($params)
 	{
 		parent::__construct($params);
@@ -180,6 +186,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
+	 * @param	bool	$test_mode = FALSE
 	 * @return	bool
 	 */
 	public function trans_begin($test_mode = FALSE)

@@ -38,6 +38,12 @@ class CI_Javascript {
 
 	protected $_javascript_location = 'js';
 
+	/**
+	 * Constructor
+	 *
+	 * @param	array	$params = array()
+	 * @return	void
+	 */
 	public function __construct($params = array())
 	{
 		$defaults = array('js_library_driver' => 'jquery', 'autoload' => TRUE);
@@ -312,8 +318,7 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library mouseup event
 	 *
-	 * @param	string	The element to attach the event to
-	 * @param	string	The code to execute
+	 * @param	string	$js	Code to execute
 	 * @return	string
 	 */
 	public function ready($js)
@@ -394,9 +399,10 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library animate event
 	 *
-	 * @param	string	- element
-	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
-	 * @param	string	- Javascript callback function
+	 * @param	string	$element = 'this'
+	 * @param	array	$params = array()
+	 * @param	mixed	$speed			'slow', 'normal', 'fast', or time in milliseconds
+	 * @param	string	$extra
 	 * @return	string
 	 */
 	public function animate($element = 'this', $params = array(), $speed = '', $extra = '')
@@ -546,10 +552,11 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library toggle class event
 	 *
-	 * @param	string	- element
+	 * @param	string	$element = 'this'
+	 * @param	string	$class = ''
 	 * @return	string
 	 */
-	public function toggleClass($element = 'this', $class='')
+	public function toggleClass($element = 'this', $class = '')
 	{
 		return $this->js->_toggleClass($element, $class);
 	}
@@ -579,13 +586,16 @@ class CI_Javascript {
 	 *
 	 * gather together all script needing to be output
 	 *
-	 * @param	string	The element to attach the event to
+	 * @param	string	$view_var = 'script_foot'
+	 * @param	bool	$script_tags = TRUE
 	 * @return	string
 	 */
 	public function compile($view_var = 'script_foot', $script_tags = TRUE)
 	{
 		$this->js->_compile($view_var, $script_tags);
 	}
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Clear Compile
@@ -606,7 +616,8 @@ class CI_Javascript {
 	 *
 	 * Outputs a <script> tag with the source as an external js file
 	 *
-	 * @param	string	The element to attach the event to
+	 * @param	string	$external_file = ''
+	 * @param	bool	$relative = FALSE
 	 * @return	string
 	 */
 	public function external($external_file = '', $relative = FALSE)
@@ -799,7 +810,8 @@ class CI_Javascript {
 	 *
 	 * Ensures a standard json value and escapes values
 	 *
-	 * @param	mixed
+	 * @param	mixed	$result
+	 * @param	bool	$is_key = FALSE
 	 * @return	string
 	 */
 	protected function _prep_args($result, $is_key = FALSE)

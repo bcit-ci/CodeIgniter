@@ -133,6 +133,7 @@ class CI_DB_mssql_result extends CI_DB_result {
 	 * this internally before fetching results to make sure the
 	 * result set starts at zero
 	 *
+	 * @param	int	$n = 0
 	 * @return	bool
 	 */
 	protected function _data_seek($n = 0)

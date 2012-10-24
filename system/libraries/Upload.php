@@ -154,6 +154,7 @@ class CI_Upload {
 	/**
 	 * Perform the file upload
 	 *
+	 * @param	string	$field = 'userfile'
 	 * @return	bool
 	 */
 	public function do_upload($field = 'userfile')
@@ -790,7 +791,8 @@ class CI_Upload {
 	/**
 	 * Limit the File Name Length
 	 *
-	 * @param	string
+	 * @param	string	$filename
+	 * @param	int	$length
 	 * @return	string
 	 */
 	public function limit_filename_length($filename, $length)

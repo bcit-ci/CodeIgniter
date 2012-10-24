@@ -204,7 +204,8 @@ class CI_Output {
 	/**
 	 * Set Content Type Header
 	 *
-	 * @param	string	extension of the file we're outputting
+	 * @param	string	$mime_type	extension of the file we're outputting
+	 * @param	string	$charset = NULL
 	 * @return	void
 	 */
 	public function set_content_type($mime_type, $charset = NULL)

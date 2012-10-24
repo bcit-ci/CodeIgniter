@@ -51,6 +51,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 *
 	 * Creates a DSN string to be used for db_connect() and db_pconnect()
 	 *
+	 * @param	array	$params
 	 * @return	void
 	 */
 	public function __construct($params)

@@ -310,8 +310,9 @@ abstract class CI_DB_driver {
 	 * FALSE upon failure, and if the $db_debug variable is set to TRUE
 	 * will raise an error.
 	 *
-	 * @param	string	An SQL query string
-	 * @param	array	An array of binding data
+	 * @param	string	$sql
+	 * @param	array	$binds = FALSE		An array of binding data
+	 * @param	bool	$return_object = NULL
 	 * @return	mixed
 	 */
 	public function query($sql, $binds = FALSE, $return_object = NULL)
@@ -514,6 +515,7 @@ abstract class CI_DB_driver {
 	 * If strict mode is disabled, each group is treated autonomously, meaning
 	 * a failure of one group will not affect any others
 	 *
+	 * @param	bool	$mode = TRUE
 	 * @return	void
 	 */
 	public function trans_strict($mode = TRUE)
@@ -526,6 +528,7 @@ abstract class CI_DB_driver {
 	/**
 	 * Start Transaction
 	 *
+	 * @param	bool	$test_mode = FALSE
 	 * @return	void
 	 */
 	public function trans_start($test_mode = FALSE)
@@ -810,6 +813,7 @@ abstract class CI_DB_driver {
 	/**
 	 * Returns an array of table names
 	 *
+	 * @param	string	$constrain_by_prefix = FALSE
 	 * @return	array
 	 */
 	public function list_tables($constrain_by_prefix = FALSE)
@@ -864,6 +868,7 @@ abstract class CI_DB_driver {
 	/**
 	 * Determine if a particular table exists
 	 *
+	 * @param	string	$table_name
 	 * @return	bool
 	 */
 	public function table_exists($table_name)
@@ -1193,8 +1198,8 @@ abstract class CI_DB_driver {
 	/**
 	 * Enables a native PHP function to be run, using a platform agnostic wrapper.
 	 *
-	 * @param	string	the function name
-	 * @param	mixed	any parameters needed by the function
+	 * @param	string	$function	the function name
+	 * @param	mixed	$param,...	optional parameters needed by the function
 	 * @return	mixed
 	 */
 	public function call_function($function)
@@ -1258,6 +1263,8 @@ abstract class CI_DB_driver {
 	/**
 	 * Delete the cache files associated with a particular URI
 	 *
+	 * @param	string	$segment_one = ''
+	 * @param	string	$segment_two = ''
 	 * @return	bool
 	 */
 	public function cache_delete($segment_one = '', $segment_two = '')

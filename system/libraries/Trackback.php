@@ -45,6 +45,11 @@ class CI_Trackback {
 	public $response		= '';
 	public $error_msg		= array();
 
+	/**
+	 * Constructor
+	 *
+	 * @return	void
+	 */
 	public function __construct()
 	{
 		log_message('debug', 'Trackback Class Initialized');

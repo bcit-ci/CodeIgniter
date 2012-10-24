@@ -172,7 +172,8 @@ class CI_Driver {
 	/**
 	 * Array of methods and properties for the parent class(es)
 	 *
-	 * @var array
+	 * @static
+	 * @var	array
 	 */
 	protected static $_reflections = array();
 

@@ -182,15 +182,17 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Processing Function for the four functions above:
+	 * Processing Function for the following functions:
 	 *
 	 *	select_max()
 	 *	select_min()
 	 *	select_avg()
 	 *	select_sum()
 	 *
-	 * @param	string	the field
-	 * @param	string	an alias
+	 *
+	 * @param	string	$select = ''	field name
+	 * @param	string	$alias = ''
+	 * @param	string	$type = 'MAX'
 	 * @return	object
 	 */
 	protected function _max_min_avg_sum($select = '', $alias = '', $type = 'MAX')
@@ -504,11 +506,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	/**
 	 * Where_in
 	 *
-	 * Generates a WHERE field IN ('item', 'item') SQL query joined with
+	 * Generates a WHERE field IN('item', 'item') SQL query joined with
 	 * AND if appropriate
 	 *
-	 * @param	string	The field to search
-	 * @param	array	The values searched on
+	 * @param	string	$key = NULL	The field to search
+	 * @param	array	$values = NULL	The values searched on
+	 * @param	bool	$escape = NULL
 	 * @return	object
 	 */
 	public function where_in($key = NULL, $values = NULL, $escape = NULL)
@@ -519,13 +522,14 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Where_in_or
+	 * Or_where_in
 	 *
-	 * Generates a WHERE field IN ('item', 'item') SQL query joined with
+	 * Generates a WHERE field IN('item', 'item') SQL query joined with
 	 * OR if appropriate
 	 *
-	 * @param	string	The field to search
-	 * @param	array	The values searched on
+	 * @param	string	$key = NULL	The field to search
+	 * @param	array	$values = NULL	The values searched on
+	 * @param	bool	$escape = NULL
 	 * @return	object
 	 */
 	public function or_where_in($key = NULL, $values = NULL, $escape = NULL)
@@ -538,11 +542,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	/**
 	 * Where_not_in
 	 *
-	 * Generates a WHERE field NOT IN ('item', 'item') SQL query joined
+	 * Generates a WHERE field NOT IN('item', 'item') SQL query joined
 	 * with AND if appropriate
 	 *
-	 * @param	string	The field to search
-	 * @param	array	The values searched on
+	 * @param	string	$key = NULL	The field to search
+	 * @param	array	$values = NULL	The values searched on
+	 * @param	bool	$escape = NULL
 	 * @return	object
 	 */
 	public function where_not_in($key = NULL, $values = NULL, $escape = NULL)
@@ -553,13 +558,14 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Where_not_in_or
+	 * Or_where_not_in
 	 *
-	 * Generates a WHERE field NOT IN ('item', 'item') SQL query joined
+	 * Generates a WHERE field NOT IN('item', 'item') SQL query joined
 	 * with OR if appropriate
 	 *
-	 * @param	string	The field to search
-	 * @param	array	The values searched on
+	 * @param	string	$key = NULL	The field to search
+	 * @param	array	$values = NULL	The values searched on
+	 * @param	bool	$escape = NULL
 	 * @return	object
 	 */
 	public function or_where_not_in($key = NULL, $values = NULL, $escape = NULL)
@@ -572,12 +578,13 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	/**
 	 * Where_in
 	 *
-	 * Called by where_in, where_in_or, where_not_in, where_not_in_or
+	 * Called by where_in(), or_where_in(), where_not_in(), or_where_not_in()
 	 *
-	 * @param	string	The field to search
-	 * @param	array	The values searched on
-	 * @param	bool	If the statement would be IN or NOT IN
-	 * @param	string
+	 * @param	string	$key = NULL	The field to search
+	 * @param	array	$values = NULL	The values searched on
+	 * @param	bool	$not = FALSE	If the statement would be IN or NOT IN
+	 * @param	string	$type = 'AND '
+	 * @param	bool	$escape = NULL
 	 * @return	object
 	 */
 	protected function _where_in($key = NULL, $values = NULL, $not = FALSE, $type = 'AND ', $escape = NULL)
@@ -1174,9 +1181,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Allows the where clause, limit and offset to be added directly
 	 *
-	 * @param	string	the where clause
-	 * @param	string	the limit clause
-	 * @param	string	the offset clause
+	 * @param	string	$table = ''
+	 * @param	string	$where = NULL
+	 * @param	int	$limit = NULL
+	 * @param	int	$offset = NULL
 	 * @return	object
 	 */
 	public function get_where($table = '', $where = NULL, $limit = NULL, $offset = NULL)
@@ -1535,9 +1543,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Compiles an update string and runs the query
 	 *
-	 * @param	string	the table to retrieve the results from
-	 * @param	array	an associative array of update values
-	 * @param	mixed	the where clause
+	 * @param	string	$table = ''
+	 * @param	array	$set = NULL	an associative array of update values
+	 * @param	mixed	$where = NULL
+	 * @param	int	$limit = NULL
 	 * @return	object
 	 */
 	public function update($table = '', $set = NULL, $where = NULL, $limit = NULL)
@@ -1967,8 +1976,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * Compile the SELECT statement
 	 *
 	 * Generates a query string based on which functions were used.
-	 * Should not be called directly.  The get() function calls it.
+	 * Should not be called directly.
 	 *
+	 * @param	bool	$select_override = FALSE
 	 * @return	string
 	 */
 	protected function _compile_select($select_override = FALSE)

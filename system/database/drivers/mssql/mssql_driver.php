@@ -50,12 +50,12 @@ class CI_DB_mssql_driver extends CI_DB {
 	// MSSQL-specific properties
 	protected $_quoted_identifier = TRUE;
 
-	/*
+	/**
 	 * Constructor
 	 *
 	 * Appends the port number to the hostname, if needed.
 	 *
-	 * @param	array
+	 * @param	array	$params
 	 * @return	void
 	 */
 	public function __construct($params)
@@ -152,6 +152,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
+	 * @param	bool	$test_mode = FALSE
 	 * @return	bool
 	 */
 	public function trans_begin($test_mode = FALSE)

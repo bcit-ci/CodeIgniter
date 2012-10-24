@@ -53,6 +53,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	/**
 	 * Non-persistent database connection
 	 *
+	 * @param	bool	$pooling = FALSE
 	 * @return	resource
 	 */
 	public function db_connect($pooling = FALSE)
@@ -144,6 +145,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
+	 * @param	bool	$test_mode = FALSE
 	 * @return	bool
 	 */
 	public function trans_begin($test_mode = FALSE)

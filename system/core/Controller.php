@@ -42,6 +42,7 @@ class CI_Controller {
 	/**
 	 * Reference to the global CI instance
 	 *
+	 * @static
 	 * @var	object
 	 */
 	private static $instance;
@@ -71,6 +72,7 @@ class CI_Controller {
 	/**
 	 * Return the CI object
 	 *
+	 * @static
 	 * @return	object
 	 */
 	public static function &get_instance()
