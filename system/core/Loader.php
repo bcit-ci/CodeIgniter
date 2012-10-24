@@ -318,9 +318,9 @@ class CI_Loader {
 	/**
 	 * Database Loader
 	 *
-	 * @param	string	the DB credentials
-	 * @param	bool	whether to return the DB object
-	 * @param	bool	whether to enable query builder (this allows us to override the config setting)
+	 * @param	mixed	$params = ''		the DB settings
+	 * @param	bool	$return = FALSE		whether to return the DB object
+	 * @param	bool	$query_builder = NULL	whether to enable query builder (overrides the config setting)
 	 * @return	object
 	 */
 	public function database($params = '', $return = FALSE, $query_builder = NULL)
@@ -329,7 +329,7 @@ class CI_Loader {
 		$CI =& get_instance();
 
 		// Do we even need to load the database class?
-		if (class_exists('CI_DB') && $return === FALSE && $query_builder === NULL && isset($CI->db) && is_object($CI->db))
+		if ($return === FALSE && $query_builder === NULL && isset($CI->db) && is_object($CI->db) && ! empty($CI->db->conn_id))
 		{
 			return FALSE;
 		}
