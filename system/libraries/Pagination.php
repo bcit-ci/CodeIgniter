@@ -52,20 +52,20 @@ class CI_Pagination {
 	protected $full_tag_open		= '';
 	protected $full_tag_close		= '';
 	protected $first_tag_open		= '';
-	protected $first_tag_close		= '&nbsp;';
-	protected $last_tag_open		= '&nbsp;';
+	protected $first_tag_close		= '';
+	protected $last_tag_open		= '';
 	protected $last_tag_close		= '';
 	protected $first_url			= ''; // Alternative URL for the First Page.
-	protected $cur_tag_open			= '&nbsp;<strong>';
+	protected $cur_tag_open			= '<strong>';
 	protected $cur_tag_close		= '</strong>';
-	protected $next_tag_open		= '&nbsp;';
-	protected $next_tag_close		= '&nbsp;';
-	protected $prev_tag_open		= '&nbsp;';
+	protected $next_tag_open		= '';
+	protected $next_tag_close		= '';
+	protected $prev_tag_open		= '';
 	protected $prev_tag_close		= '';
-	protected $num_tag_open			= '&nbsp;';
+	protected $num_tag_open			= '';
 	protected $num_tag_close		= '';
 	protected $page_query_string	= FALSE;
-	protected $query_string_segment 	= 'per_page';
+	protected $query_string_segment = 'per_page';
 	protected $display_pages		= TRUE;
 	protected $_attributes			= '';
 	protected $_link_types			= array();
@@ -157,7 +157,7 @@ class CI_Pagination {
 		// See if we are using a prefix or suffix on links
 		if ($this->prefix !== '' OR $this->suffix !== '')
 		{
-			$this->cur_page = (int) str_replace(array($this->prefix, $this->suffix), '', $CI->uri->segment($this->uri_segment));
+			$this->cur_page = (int) str_replace(array($this->prefix, $this->suffix), '', $CI->uri->rsegment($this->uri_segment));
 		}
 
 		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
@@ -169,7 +169,7 @@ class CI_Pagination {
 		}
 		elseif ( ! $this->cur_page && $CI->uri->segment($this->uri_segment) !== $base_page)
 		{
-			$this->cur_page = (int) $CI->uri->segment($this->uri_segment);
+			$this->cur_page = (int) $CI->uri->rsegment($this->uri_segment);
 		}
 
 		// Set current page to 1 if it's not valid or if using page numbers instead of offset
@@ -215,7 +215,8 @@ class CI_Pagination {
 		// string. If post, add a trailing slash to the base URL if needed
 		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
 		{
-			$this->base_url = rtrim($this->base_url).'&amp;'.$this->query_string_segment.'=';
+			$segment = (strpos($this->base_url, '?')) ? '&amp;' : '?';
+			$this->base_url = rtrim($this->base_url).$segment.$this->query_string_segment.'=';
 		}
 		else
 		{

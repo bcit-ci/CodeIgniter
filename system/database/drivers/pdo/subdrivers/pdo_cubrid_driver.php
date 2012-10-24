@@ -44,10 +44,6 @@ class CI_DB_pdo_cubrid_driver extends CI_DB_pdo_driver {
 
 	protected $_escape_char = '`';
 
-	// clause and character used for LIKE escape sequences - not used in CUBRID
-	protected $_like_escape_str = '';
-	protected $_like_escape_chr = '\\';
-
 	protected $_random_keyword = ' RAND()';
 
 	/**
@@ -133,10 +129,10 @@ class CI_DB_pdo_cubrid_driver extends CI_DB_pdo_driver {
 	 *
 	 * @param	string	the table name
 	 * @param	array	the update data
-	 * @param	array	the where clause
+	 * @param	string	the where key
 	 * @return	string
 	 */
-	protected function _update_batch($table, $values, $index, $where = NULL)
+	protected function _update_batch($table, $values, $index)
 	{
 		$ids = array();
 		foreach ($values as $key => $val)
@@ -160,9 +156,9 @@ class CI_DB_pdo_cubrid_driver extends CI_DB_pdo_driver {
 				.'ELSE '.$k.' END), ';
 		}
 
-		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2)
-			.' WHERE '.(($where !== '' && count($where) > 0) ? implode(' ', $where).' AND ' : '')
-			.$index.' IN('.implode(',', $ids).')';
+		$this->where($index.' IN('.implode(',', $ids).')', NULL, FALSE);
+
+		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2).$this->_compile_wh('qb_where');
 	}
 
 	// --------------------------------------------------------------------
@@ -181,6 +177,26 @@ class CI_DB_pdo_cubrid_driver extends CI_DB_pdo_driver {
 	protected function _truncate($table)
 	{
 		return 'TRUNCATE '.$table;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * FROM tables
+	 *
+	 * Groups tables in FROM clauses if needed, so there is no confusion
+	 * about operator precedence.
+	 *
+	 * @return	string
+	 */
+	protected function _from_tables()
+	{
+		if ( ! empty($this->qb_join) && count($this->qb_from) > 1)
+		{
+			return '('.implode(', ', $this->qb_from).')';
+		}
+
+		return implode(', ', $this->qb_from);
 	}
 
 }

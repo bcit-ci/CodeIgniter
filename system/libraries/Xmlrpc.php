@@ -170,8 +170,10 @@ class CI_Xmlrpc {
 	/**
 	 * Parse server URL
 	 *
-	 * @param	string	url
-	 * @param	int	port
+	 * @param	string	$url
+	 * @param	int	$port = 80
+	 * @param	string	$proxy = FALSE
+	 * @param	int	$proxy_port = 8080
 	 * @return	void
 	 */
 	public function server($url, $port = 80, $proxy = FALSE, $proxy_port = 8080)
@@ -395,9 +397,11 @@ class XML_RPC_Client extends CI_Xmlrpc
 	/**
 	 * Constructor
 	 *
-	 * @param	string
-	 * @param	object
-	 * @param	int
+	 * @param	string	$path
+	 * @param	object	$server
+	 * @param	int	$port = 80
+	 * @param	string	$proxy = FALSE
+	 * @param	int	$proxy_port = 8080
 	 * @return	void
 	 */
 	public function __construct($path, $server, $port = 80, $proxy = FALSE, $proxy_port = 8080)
@@ -1317,15 +1321,15 @@ class XML_RPC_Values extends CI_Xmlrpc
 		{
 			$type = $type === '' ? 'string' : $type;
 
-			if ($this->xmlrpcTypes[$type] === 1)
+			if ($this->xmlrpcTypes[$type] == 1)
 			{
 				$this->addScalar($val,$type);
 			}
-			elseif ($this->xmlrpcTypes[$type] === 2)
+			elseif ($this->xmlrpcTypes[$type] == 2)
 			{
 				$this->addArray($val);
 			}
-			elseif ($this->xmlrpcTypes[$type] === 3)
+			elseif ($this->xmlrpcTypes[$type] == 3)
 			{
 				$this->addStruct($val);
 			}
@@ -1351,7 +1355,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 			return 0;
 		}
 
-		if ($typeof !== 1)
+		if ($typeof != 1)
 		{
 			echo '<strong>XML_RPC_Values</strong>: not a scalar type (${typeof})<br />';
 			return 0;
@@ -1359,7 +1363,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 
 		if ($type === $this->xmlrpcBoolean)
 		{
-			$val = (int) (strcasecmp($val,'true') === 0 OR $val === 1 OR ($val === TRUE && strcasecmp($val, 'false')));
+			$val = (int) (strcasecmp($val, 'true') === 0 OR $val === 1 OR ($val === TRUE && strcasecmp($val, 'false')));
 		}
 
 		if ($this->mytype === 2)

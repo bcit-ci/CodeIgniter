@@ -4,12 +4,8 @@ class Table_test extends CI_TestCase {
 
 	public function set_up()
 	{
-		$obj = new stdClass;
-		$obj->table = new Mock_Libraries_Table();
-
-		$this->ci_instance($obj);
-
-		$this->table = $obj->table;
+		$this->table = new Mock_Libraries_Table();
+		$this->ci_instance_var('table', $this->table);
 	}
 
 	// Setter Methods

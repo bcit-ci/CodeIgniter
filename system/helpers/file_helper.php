@@ -109,7 +109,7 @@ if ( ! function_exists('delete_files'))
 	function delete_files($path, $del_dir = FALSE, $level = 0, $htdocs = FALSE)
 	{
 		// Trim the trailing slash
-		$path = rtrim($path, DIRECTORY_SEPARATOR);
+		$path = rtrim($path, '/\\');
 
 		if ( ! $current_dir = @opendir($path))
 		{
@@ -124,7 +124,7 @@ if ( ! function_exists('delete_files'))
 				{
 					delete_files($path.DIRECTORY_SEPARATOR.$filename, $del_dir, $level + 1, $htdocs);
 				}
-				elseif ($htdocs === TRUE && ! preg_match('/^(\.htaccess|index\.(html|htm|php)|web\.config)$/i', $filename))
+				elseif ($htdocs !== TRUE OR ! preg_match('/^(\.htaccess|index\.(html|htm|php)|web\.config)$/i', $filename))
 				{
 					@unlink($path.DIRECTORY_SEPARATOR.$filename);
 				}

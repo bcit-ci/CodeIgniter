@@ -28,4 +28,14 @@ class Mock_Core_Input extends CI_Input {
 		return parent::_fetch_from_array($array, $index, $xss_clean);
 	}
 
+	/**
+	 * Lie about being a CLI request
+	 *
+	 * We take advantage of this in libraries/Session_test
+	 */
+	public function is_cli_request()
+	{
+		return FALSE;
+	}
+
 }

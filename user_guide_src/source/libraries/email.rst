@@ -97,7 +97,7 @@ Preference          Default Value          Options                      Descript
 **mailtype**        text                   text or html                 Type of mail. If you send HTML email you must send it as a complete web
                                                                         page. Make sure you don't have any relative links or relative image
                                                                         paths otherwise they will not work.
-**charset**         utf-8                                               Character set (utf-8, iso-8859-1, etc.).
+**charset**         ``$config['charset']``                              Character set (utf-8, iso-8859-1, etc.).
 **validate**        FALSE                  TRUE or FALSE (boolean)      Whether to validate the email address.
 **priority**        3                      1, 2, 3, 4, 5                Email Priority. 1 = highest. 5 = lowest. 3 = normal.
 **crlf**            \\n                    "\\r\\n" or "\\n" or "\\r"   Newline character. (Use "\\r\\n" to comply with RFC 822).
@@ -116,6 +116,13 @@ $this->email->from()
 Sets the email address and name of the person sending the email::
 
 	$this->email->from('you@example.com', 'Your Name');
+
+You can also set a Return-Path, to help redirect undelivered mail::
+
+	$this->email->from('you@example.com', 'Your Name', 'returned_emails@example.com');
+	
+.. note:: Return-Path can't be used if you've configured
+	'smtp' as your protocol.
 
 $this->email->reply_to()
 -------------------------
@@ -225,6 +232,14 @@ success or failure, enabling it to be used conditionally::
 	{
 	    // Generate error
 	}
+
+This function will automatically clear all parameters if the request was
+successful. To stop this behaviour pass FALSE::
+
+ 	if ($this->email->send(FALSE))
+ 	{
+ 		// Parameters won't be cleared
+ 	}
 
 $this->email->attach()
 ----------------------

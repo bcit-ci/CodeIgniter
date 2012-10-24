@@ -46,10 +46,6 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	// The character used for escaping
 	protected $_escape_char = '"';
 
-	// clause and character used for LIKE escape sequences
-	protected $_like_escape_str = ' ESCAPE \'%s\' ';
-	protected $_like_escape_chr = '!';
-
 	protected $_random_keyword = ' RANDOM()';
 
 	/**
@@ -107,13 +103,12 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * Execute the query
 	 *
-	 * @param	string	an SQL query
+	 * @todo	Implement use of SQLite3::querySingle(), if needed
+	 * @param	string	$sql
 	 * @return	mixed	SQLite3Result object or bool
 	 */
 	protected function _execute($sql)
 	{
-		// TODO: Implement use of SQLite3::querySingle(), if needed
-
 		return $this->is_write_type($sql)
 			? $this->conn_id->exec($sql)
 			: $this->conn_id->query($sql);
@@ -124,6 +119,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
+	 * @param	bool	$test_mode = FALSE
 	 * @return	bool
 	 */
 	public function trans_begin($test_mode = FALSE)
@@ -288,25 +284,16 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * The error message string
+	 * Error
 	 *
-	 * @return	string
-	 */
-	protected function _error_message()
-	{
-		return $this->conn_id->lastErrorMsg();
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * The error message number
+	 * Returns an array containing code and message of the last
+	 * database error that has occured.
 	 *
-	 * @return	int
+	 * @return	array
 	 */
-	protected function _error_number()
+	public function error()
 	{
-		return $this->conn_id->lastErrorCode();
+		return array('code' => $this->conn_id->lastErrorCode(), 'message' => $this->conn_id->lastErrorMsg());
 	}
 
 	// --------------------------------------------------------------------

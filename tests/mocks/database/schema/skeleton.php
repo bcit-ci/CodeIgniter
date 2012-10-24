@@ -30,7 +30,7 @@ class Mock_Database_Schema_Skeleton {
 
 			CI_TestCase::instance()->ci_instance_var('db', $db);
 
-			$loader = new Mock_Core_Loader();
+			$loader = new CI_Loader();
 			$loader->dbforge();
 			$forge = CI_TestCase::instance()->ci_instance_var('dbforge');
 
@@ -129,7 +129,8 @@ class Mock_Database_Schema_Skeleton {
 			),
 			'misc' => array(
 				array('id' => 1, 'key' => '\\xxxfoo456', 'value' => 'Entry with \\xxx'),
-				array('id' => 2, 'key' => '\\%foo456', 'value' => 'Entry with \\%')
+				array('id' => 2, 'key' => '\\%foo456', 'value' => 'Entry with \\%'),
+				array('id' => 3, 'key' => 'spaces and tabs', 'value' => ' One  two   three	tab')
 			)
 		);
 

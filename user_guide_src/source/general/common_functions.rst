@@ -7,7 +7,7 @@ defined, and are available to you at any point. These do not require
 loading any libraries or helpers.
 
 is_php('version_number')
-==========================
+========================
 
 is_php() determines of the PHP version being used is greater than the
 supplied version_number.
@@ -24,7 +24,7 @@ greater than the supplied version number. Returns FALSE if the installed
 version of PHP is lower than the supplied version number.
 
 is_really_writable('path/to/file')
-====================================
+==================================
 
 is_writable() returns TRUE on Windows servers when you really can't
 write to the file as the OS reports to PHP as FALSE only if the
@@ -44,7 +44,7 @@ recommended on platforms where this information may be unreliable.
 	}
 
 config_item('item_key')
-=========================
+=======================
 
 The :doc:`Config library <../libraries/config>` is the preferred way of
 accessing configuration information, however config_item() can be used
@@ -56,8 +56,8 @@ show_error('message'), show_404('page'), log_message('level', 'message')
 
 These are each outlined on the :doc:`Error Handling <errors>` page.
 
-set_status_header(code, 'text');
-================================
+set_status_header(code, 'text')
+===============================
 
 Permits you to manually set a server status header. Example::
 
@@ -68,19 +68,25 @@ Permits you to manually set a server status header. Example::
 a full list of headers.
 
 remove_invisible_characters($str)
-===================================
+=================================
 
 This function prevents inserting null characters between ascii
 characters, like Java\\0script.
 
 html_escape($mixed)
-====================
+===================
 
-This function provides short cut for htmlspecialchars() function. It
+This function provides short cut for ``htmlspecialchars()`` function. It
 accepts string and array. To prevent Cross Site Scripting (XSS), it is
 very useful.
 
 get_mimes()
-=============
+===========
 
-This function returns the MIMEs array from config/mimes.php.
+This function returns the MIMEs array *from config/mimes.php*.
+
+is_https()
+==========
+
+Returns TRUE if a secure (HTTPS) connection is used and FALSE
+in any other case (including non-HTTP requests).

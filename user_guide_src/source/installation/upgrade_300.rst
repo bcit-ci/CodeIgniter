@@ -31,8 +31,24 @@ Step 3: Remove $autoload['core'] from your config/autoload.php
 Use of the ``$autoload['core']`` config array has been deprecated as of CodeIgniter 1.4.1 and is now removed.
 Move any entries that you might have listed there to ``$autoload['libraries']`` instead.
 
+**************************************************************
+Step 4: Add new session driver items to your config/config.php
+**************************************************************
+
+With the change from a single Session Library to the new Session Driver, two new config items have been added:
+
+   -  ``$config['sess_driver']`` selects which driver to initially load. Options are:
+       -  'cookie' (the default) for classic CodeIgniter cookie-based sessions
+       -  'native' for native PHP Session support
+       -  the name of a custom driver you have provided (see :doc:`Session Driver <../libraries/sessions>` for more info)
+   -  ``$config['sess_valid_drivers']`` provides an array of additional custom drivers to make available for loading
+
+As the new Session Driver library loads the classic Cookie driver by default and always makes 'cookie' and 'native'
+available as valid drivers, neither of these configuration items are required. However, it is recommended that you
+add them for clarity and ease of configuration in the future.
+
 ***************************************
-Step 4: Update your config/database.php
+Step 5: Update your config/database.php
 ***************************************
 
 Due to 3.0.0's renaming of Active Record to Query Builder, inside your `config/database.php`, you will
@@ -43,20 +59,20 @@ need to rename the `$active_record` variable to `$query_builder`.
     $query_builder = TRUE;
 
 *******************************
-Step 5: Move your errors folder
+Step 6: Move your errors folder
 *******************************
 
 In version 3.0.0, the errors folder has been moved from _application/errors* to _application/views/errors*.
 
 ****************************************************************************
-Step 6: Check the calls to Array Helper's element() and elements() functions
+Step 7: Check the calls to Array Helper's element() and elements() functions
 ****************************************************************************
 
 The default return value of these functions, when the required elements
 don't exist, has been changed from FALSE to NULL.
 
 ***************************************************************
-Step 7: Remove usage of (previously) deprecated functionalities
+Step 8: Remove usage of (previously) deprecated functionalities
 ***************************************************************
 
 In addition to the ``$autoload['core']`` configuration setting, there's a number of other functionalities
@@ -139,3 +155,16 @@ CodeIgniter 3.1+.
 
 .. note:: This setting is still available, but you're strongly encouraged to remove its' usage sooner
 	rather than later.
+
+Email library
+=============
+
+The :doc:`Email library <../libraries/email>` will automatically clear the set parameters after successfully sending
+emails. To override this behaviour, pass FALSE as the first parameter in the ``send()`` function:
+
+::
+
+	if ($this->email->send(FALSE))
+ 	{
+ 		// Parameters won't be cleared
+ 	}

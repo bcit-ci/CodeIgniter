@@ -41,13 +41,10 @@
 class CI_DB_mysqli_driver extends CI_DB {
 
 	public $dbdriver = 'mysqli';
+	public $compress = FALSE;
 
 	// The character used for escaping
 	protected $_escape_char = '`';
-
-	// clause and character used for LIKE escape sequences - not used in MySQL
-	protected $_like_escape_str = '';
-	protected $_like_escape_chr = '\\';
 
 	protected $_random_keyword = ' RAND()'; // database specific random keyword
 
@@ -61,13 +58,21 @@ class CI_DB_mysqli_driver extends CI_DB {
 	/**
 	 * Non-persistent database connection
 	 *
+	 * @param	bool
 	 * @return	object
+	 * @todo	SSL support
 	 */
-	public function db_connect()
+	public function db_connect($persistent = FALSE)
 	{
-		return empty($this->port)
-			? @new mysqli($this->hostname, $this->username, $this->password, $this->database)
-			: @new mysqli($this->hostname, $this->username, $this->password, $this->database, $this->port);
+		// Persistent connection support was added in PHP 5.3.0
+		$hostname = ($persistent === TRUE && is_php('5.3'))
+			? 'p:'.$this->hostname : $this->hostname;
+		$port = empty($this->port) ? NULL : $this->port;
+		$client_flags = ($this->compress === TRUE) ? MYSQLI_CLIENT_COMPRESS : 0;
+		$mysqli = mysqli_init();
+
+		return @$mysqli->real_connect($hostname, $this->username, $this->password, $this->database, $port, NULL, $client_flags)
+			? $mysqli : FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -79,15 +84,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		// Persistent connection support was added in PHP 5.3.0
-		if ( ! is_php('5.3'))
-		{
-			return $this->db_connect();
-		}
-
-		return empty($this->port)
-			? @new mysqli('p:'.$this->hostname, $this->username, $this->password, $this->database)
-			: @new mysqli('p:'.$this->hostname, $this->username, $this->password, $this->database, $this->port);
+		return $this->db_connect(TRUE);
 	}
 
 	// --------------------------------------------------------------------
@@ -199,6 +196,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
+	 * @param	bool	$test_mode = FALSE
 	 * @return	bool
 	 */
 	public function trans_begin($test_mode = FALSE)
@@ -400,6 +398,14 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	public function error()
 	{
+		if ( ! empty($this->conn_id->connect_errno))
+		{
+			return array(
+				'code' => $this->conn_id->connect_errno,
+				'message' => is_php('5.2.9') ? $this->conn_id->connect_error : mysqli_connect_error()
+			);
+		}
+
 		return array('code' => $this->conn_id->errno, 'message' => $this->conn_id->error);
 	}
 
@@ -412,10 +418,10 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 *
 	 * @param	string	the table name
 	 * @param	array	the update data
-	 * @param	array	the where clause
+	 * @param	string	the where key
 	 * @return	string
 	 */
-	protected function _update_batch($table, $values, $index, $where = NULL)
+	protected function _update_batch($table, $values, $index)
 	{
 		$ids = array();
 		foreach ($values as $key => $val)
@@ -439,11 +445,29 @@ class CI_DB_mysqli_driver extends CI_DB {
 				.'ELSE '.$k.' END, ';
 		}
 
-		$where = ($where !== '' && count($where) > 0) ? implode(' ', $where).' AND ' : '';
+		$this->where($index.' IN('.implode(',', $ids).')', NULL, FALSE);
 
-		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2)
-			.' WHERE '.(($where !== '' && count($where) > 0) ? implode(' ', $where).' AND ' : '')
-			.$index.' IN('.implode(',', $ids).')';
+		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2).$this->_compile_wh('qb_where');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * FROM tables
+	 *
+	 * Groups tables in FROM clauses if needed, so there is no confusion
+	 * about operator precedence.
+	 *
+	 * @return	string
+	 */
+	protected function _from_tables()
+	{
+		if ( ! empty($this->qb_join) && count($this->qb_from) > 1)
+		{
+			return '('.implode(', ', $this->qb_from).')';
+		}
+
+		return implode(', ', $this->qb_from);
 	}
 
 	// --------------------------------------------------------------------
