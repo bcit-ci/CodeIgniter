@@ -830,6 +830,10 @@ array of values, the third parameter is the where key.
 
 .. note:: All values are escaped automatically producing safer queries.
 
+.. note:: ``affected_rows()`` won't give you proper results with this method,
+	due to the very nature of how it works. Instead, ``update_batch()``
+	returns the number of rows affected.
+
 $this->db->get_compiled_update()
 ================================
 
