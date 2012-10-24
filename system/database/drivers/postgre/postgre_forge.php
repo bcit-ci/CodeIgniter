@@ -39,7 +39,8 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	/**
 	 * Process Fields
 	 *
-	 * @param	mixed	the fields
+	 * @param	mixed	$fields
+	 * @param	array	$primary_keys = array()
 	 * @return	string
 	 */
 	protected function _process_fields($fields, $primary_keys = array())
@@ -190,13 +191,10 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 * Generates a platform-specific query so that a table can be altered
 	 * Called by add_column(), drop_column(), and column_alter(),
 	 *
-	 * @param	string	the ALTER type (ADD, DROP, CHANGE)
-	 * @param	string	the column name
-	 * @param	string	the table name
-	 * @param	string	the column definition
-	 * @param	string	the default value
-	 * @param	bool	should 'NOT NULL' be added
-	 * @param	string	the field after which we should add the new field
+	 * @param	string	$alter_type	the ALTER type (ADD, DROP, CHANGE)
+	 * @param	string	$table		the table name
+	 * @param	string	$fields		the column definition
+	 * @param	string	$after_field = ''
 	 * @return	string
 	 */
 	protected function _alter_table($alter_type, $table, $fields, $after_field = '')

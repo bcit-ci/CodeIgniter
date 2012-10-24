@@ -127,6 +127,7 @@ class CI_DB_sqlite_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
+	 * @param	bool	$test_mode = FALSE
 	 * @return	bool
 	 */
 	public function trans_begin($test_mode = FALSE)

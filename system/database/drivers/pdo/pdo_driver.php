@@ -57,7 +57,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 *
 	 * Validates the DSN string and/or detects the subdriver
 	 *
-	 * @param	array
+	 * @param	array	$params
 	 * @return	void
 	 */
 	public function __construct($params)
@@ -183,6 +183,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
+	 * @param	bool	$test_mode = FALSE
 	 * @return	bool
 	 */
 	public function trans_begin($test_mode = FALSE)

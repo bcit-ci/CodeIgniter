@@ -75,6 +75,12 @@ class CI_DB_oci8_driver extends CI_DB {
 	// throw off num_fields later
 	public $limit_used;
 
+	/**
+	 * Constructor
+	 *
+	 * @param	array	$params
+	 * @return	void
+	 */
 	public function __construct($params)
 	{
 		parent::__construct($params);

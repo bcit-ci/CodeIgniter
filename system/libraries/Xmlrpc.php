@@ -170,8 +170,10 @@ class CI_Xmlrpc {
 	/**
 	 * Parse server URL
 	 *
-	 * @param	string	url
-	 * @param	int	port
+	 * @param	string	$url
+	 * @param	int	$port = 80
+	 * @param	string	$proxy = FALSE
+	 * @param	int	$proxy_port = 8080
 	 * @return	void
 	 */
 	public function server($url, $port = 80, $proxy = FALSE, $proxy_port = 8080)
@@ -395,9 +397,11 @@ class XML_RPC_Client extends CI_Xmlrpc
 	/**
 	 * Constructor
 	 *
-	 * @param	string
-	 * @param	object
-	 * @param	int
+	 * @param	string	$path
+	 * @param	object	$server
+	 * @param	int	$port = 80
+	 * @param	string	$proxy = FALSE
+	 * @param	int	$proxy_port = 8080
 	 * @return	void
 	 */
 	public function __construct($path, $server, $port = 80, $proxy = FALSE, $proxy_port = 8080)

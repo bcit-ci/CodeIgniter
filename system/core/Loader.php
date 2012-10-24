@@ -689,7 +689,7 @@ class CI_Loader {
 	 */
 	public function get_package_paths($include_base = FALSE)
 	{
-		return $include_base === TRUE ? $this->_ci_library_paths : $this->_ci_model_paths;
+		return ($include_base === TRUE) ? $this->_ci_library_paths : $this->_ci_model_paths;
 	}
 
 	// --------------------------------------------------------------------
@@ -1005,7 +1005,7 @@ class CI_Loader {
 			$path = strtolower($class).'/'.$class;
 			return $this->_ci_load_class($path, $params, $object_name);
 		}
-		else if (ucfirst($subdir) != $subdir)
+		elseif (ucfirst($subdir) != $subdir)
 		{
 			// Lowercase subdir failed - retry capitalized
 			$path = ucfirst($subdir).$class;

@@ -49,6 +49,12 @@ class CI_DB_odbc_driver extends CI_DB {
 
 	protected $_random_keyword;
 
+	/**
+	 * Constructor
+	 *
+	 * @param	array	$params
+	 * @return	void
+	 */
 	public function __construct($params)
 	{
 		parent::__construct($params);
@@ -61,6 +67,8 @@ class CI_DB_odbc_driver extends CI_DB {
 			$this->dsn = $this->hostname;
 		}
 	}
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Non-persistent database connection
@@ -102,6 +110,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
+	 * @param	bool	$test_mode = FALSE
 	 * @return	bool
 	 */
 	public function trans_begin($test_mode = FALSE)

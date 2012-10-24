@@ -94,6 +94,7 @@ class CI_Email {
 	 *
 	 * The constructor can be passed an array of config values
 	 *
+	 * @param	array	$config = array()
 	 * @return	void
 	 */
 	public function __construct($config = array())
@@ -188,8 +189,9 @@ class CI_Email {
 	/**
 	 * Set FROM
 	 *
-	 * @param	string	From
-	 * @param	string	Return-Path
+	 * @param	string	$from
+	 * @param	string	$name
+	 * @param	string	$return_path = NULL	Return-Path
 	 * @return	object
 	 */
 	public function from($from, $name = '', $return_path = NULL)
@@ -405,7 +407,10 @@ class CI_Email {
 	/**
 	 * Assign file attachments
 	 *
-	 * @param	string
+	 * @param	string	$filename
+	 * @param	string	$disposition = 'attachment'
+	 * @param	string	$newname = NULL
+	 * @param	string	$mime = ''
 	 * @return	object
 	 */
 	public function attach($filename, $disposition = '', $newname = NULL, $mime = '')
@@ -1256,6 +1261,7 @@ class CI_Email {
 	/**
 	 * Send Email
 	 *
+	 * @param	bool	$auto_clear = TRUE
 	 * @return	bool
 	 */
 	public function send($auto_clear = TRUE)
@@ -1368,6 +1374,7 @@ class CI_Email {
 	/**
 	 * Strip line-breaks via callback
 	 *
+	 * @param	string	$matches
 	 * @return	string
 	 */
 	protected function _remove_nl_callback($matches)
@@ -1535,7 +1542,6 @@ class CI_Email {
 	/**
 	 * SMTP Connect
 	 *
-	 * @param	string
 	 * @return	string
 	 */
 	protected function _smtp_connect()
@@ -1710,11 +1716,12 @@ class CI_Email {
 	/**
 	 * Send SMTP data
 	 *
+	 * @param	string	$data
 	 * @return	bool
 	 */
 	protected function _send_data($data)
 	{
-		if ( ! fwrite($this->_smtp_connect, $data . $this->newline))
+		if ( ! fwrite($this->_smtp_connect, $data.$this->newline))
 		{
 			$this->_set_error_message('lang:email_smtp_data_failure', $data);
 			return FALSE;
@@ -1786,7 +1793,8 @@ class CI_Email {
 	/**
 	 * Set Message
 	 *
-	 * @param	string
+	 * @param	string	$msg
+	 * @param	string	$val = ''
 	 * @return	void
 	 */
 	protected function _set_error_message($msg, $val = '')
