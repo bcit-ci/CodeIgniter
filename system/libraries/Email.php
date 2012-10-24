@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+﻿<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -1771,9 +1771,12 @@ class CI_Email {
 	/**
 	 * Get Debug Message
 	 *
+	 * @param	bool
+	 * @param	bool
+	 * @param	bool	 
 	 * @return	string
 	 */
-	public function print_debugger()
+	public function print_debugger($inc_header = TRUE, $inc_subject = TRUE, $inc_body = TRUE)
 	{
 		$msg = '';
 
@@ -1785,7 +1788,29 @@ class CI_Email {
 			}
 		}
 
-		return $msg.'<pre>'.$this->_header_str."\n".htmlspecialchars($this->_subject)."\n".htmlspecialchars($this->_finalbody).'</pre>';
+		$options = array();
+
+		if ($inc_header)
+		{
+			$options[] = $this->_header_str;
+		}
+		
+		if ($inc_subject)
+		{
+			$options[] = htmlspecialchars($this->_subject);
+		}
+		
+		if ($inc_body)
+		{
+			$options[] = htmlspecialchars($this->_finalbody);
+		}
+		
+		if ( ! empty($options))
+		{
+			$msg .= '<pre>'.implode("\n", $options).'</pre>';
+		}
+		
+		return $msg;
 	}
 
 	// --------------------------------------------------------------------
