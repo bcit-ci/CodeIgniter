@@ -166,7 +166,10 @@ return array(
 	'ogg'   =>	'audio/ogg',
 	'kmz'	=>	array('application/vnd.google-earth.kmz', 'application/zip', 'application/x-zip'),
 	'kml'	=>	array('application/vnd.google-earth.kml+xml', 'application/xml', 'text/xml'),
-	'ics'	=>	'text/calendar'
+	'ics'	=>	'text/calendar',
+	'zsh'   =>      'text/x-scriptzsh',
+	'zoo'   =>      'application/octet-stream',
+	'7zip'   =>      array('application/x-compressed', 'application/x-zip-compressed', 'application/zip', 'multipart/x-zip'),
 );
 
 /* End of file mimes.php */
