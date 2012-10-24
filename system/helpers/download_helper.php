@@ -110,13 +110,10 @@ if ( ! function_exists('force_download'))
 		// Internet Explorer-specific headers
 		if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE)
 		{
-			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-			header('Pragma: public');
+			header('Cache-Control: no-cache, no-store, must-revalidate');
 		}
-		else
-		{
-			header('Pragma: no-cache');
-		}
+
+		header('Pragma: no-cache');
 
 		exit($data);
 	}
