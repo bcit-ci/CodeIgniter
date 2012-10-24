@@ -975,7 +975,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		if ($escape === FALSE)
 		{
-			$qb_orderby[] = array(array('field' => $orderby, 'direction' => $direction, $escape => FALSE));
+			$qb_orderby[] = array('field' => $orderby, 'direction' => $direction, 'escape' => FALSE);
 		}
 		else
 		{
