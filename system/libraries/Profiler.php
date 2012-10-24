@@ -190,11 +190,11 @@ class CI_Profiler {
 		$dbs = array();
 
 		// Let's determine which databases are currently connected to
-		foreach (get_object_vars($this->CI) as $CI_object)
+		foreach (get_object_vars($this->CI) as $name => $CI_object)
 		{
-			if (is_object($CI_object) && is_subclass_of(get_class($CI_object), 'CI_DB'))
+			if (is_object($CI_object) && is_subclass_of(get_class($CI_object), 'CI_DB') || is_a($CI_object, 'CI_Cache'))
 			{
-				$dbs[] = $CI_object;
+				$dbs[$name] = $CI_object;
 			}
 		}
 
@@ -219,7 +219,7 @@ class CI_Profiler {
 		$output  = "\n\n";
 		$count = 0;
 
-		foreach ($dbs as $db)
+		foreach ($dbs as $name => $db)
 		{
 			$hide_queries = (count($db->queries) > $this->_query_toggle_count) ? ' display:none' : '';
 
@@ -232,8 +232,8 @@ class CI_Profiler {
 
 			$output .= '<fieldset style="border:1px solid #0000FF;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee;">'
 				."\n"
-				.'<legend style="color:#0000FF;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_database')
-				.':&nbsp; '.$db->database.'&nbsp;&nbsp;&nbsp;'.$this->CI->lang->line('profiler_queries')
+				.'<legend style="color:#0000FF;">&nbsp;&nbsp;'.(is_a($db, 'CI_DB') ? $this->CI->lang->line('profiler_database') : $this->CI->lang->line('profiler_cache') )
+				.':&nbsp; '.(isset($db->database) ? $db->database : $db->_adapter).'&nbsp;('.$name.') &nbsp;&nbsp;&nbsp;'.$this->CI->lang->line('profiler_queries')
 				.': '.count($db->queries).'&nbsp;&nbsp;'.$show_hide_js."</legend>\n\n\n"
 				.'<table style="width:100%;'.$hide_queries.'" id="ci_profiler_queries_db_'.$count."\">\n";
 

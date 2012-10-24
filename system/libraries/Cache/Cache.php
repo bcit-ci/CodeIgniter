@@ -71,6 +71,11 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	protected $_backup_driver = 'dummy';
 
+	public $query_count     = 0;
+	public $save_queries    = TRUE;
+	public $queries         = array();
+	public $query_times     = array();
+
 	/**
 	 * Constructor
 	 *
@@ -134,7 +139,27 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	public function get($id)
 	{
-		return $this->{$this->_adapter}->get($id);
+		if ($this->save_queries)
+		{
+			$this->queries[] = "get( '{$id}' )";
+		}
+
+		// Start the Query Timer
+		$time_start = microtime(TRUE);
+
+		$item =  $this->{$this->_adapter}->get($id);
+
+		// Stop and aggregate the query time results
+		$time_end = microtime(TRUE);
+
+		if ($this->save_queries)
+		{
+			$this->query_times[] = $time_end - $time_start;
+		}
+
+		$this->query_count++;
+
+		return $item;
 	}
 
 	// ------------------------------------------------------------------------
@@ -149,7 +174,27 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	public function save($id, $data, $ttl = 60)
 	{
-		return $this->{$this->_adapter}->save($id, $data, $ttl);
+		if ($this->save_queries)
+		{
+			$this->queries[] = "save( '{$id}' )";
+		}
+
+		// Start the Query Timer
+		$time_start = microtime(TRUE);
+
+		$response = $this->{$this->_adapter}->save($id, $data, $ttl);
+
+		// Stop and aggregate the query time results
+		$time_end = microtime(TRUE);
+
+		if ($this->save_queries)
+		{
+			$this->query_times[] = $time_end - $time_start;
+		}
+
+		$this->query_count++;
+
+		return $response;
 	}
 
 	// ------------------------------------------------------------------------
@@ -162,7 +207,27 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	public function delete($id)
 	{
-		return $this->{$this->_adapter}->delete($id);
+		if ($this->save_queries)
+		{
+			$this->queries[] = "delete( '{$id}' )";
+		}
+
+		// Start the Query Timer
+		$time_start = microtime(TRUE);
+
+		$response = $this->{$this->_adapter}->delete($id);
+
+		// Stop and aggregate the query time results
+		$time_end = microtime(TRUE);
+
+		if ($this->save_queries)
+		{
+			$this->query_times[] = $time_end - $time_start;
+		}
+
+		$this->query_count++;
+
+		return $response;
 	}
 
 	// ------------------------------------------------------------------------
