@@ -94,6 +94,8 @@ class CI_Log {
 	{
 		$config =& get_config();
 
+		date_default_timezone_set($config['time_reference']);
+
 		$this->_log_path = ($config['log_path'] !== '') ? $config['log_path'] : APPPATH.'logs/';
 
 		if ( ! is_dir($this->_log_path) OR ! is_really_writable($this->_log_path))
