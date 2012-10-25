@@ -128,7 +128,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function select_max($select = '', $alias = '')
 	{
-		return $this->_max_min_avg_sum($select, $alias, 'MAX');
+		return $this->_max_min_avg_sum_count($select, $alias, 'MAX');
 	}
 
 	// --------------------------------------------------------------------
@@ -144,7 +144,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function select_min($select = '', $alias = '')
 	{
-		return $this->_max_min_avg_sum($select, $alias, 'MIN');
+		return $this->_max_min_avg_sum_count($select, $alias, 'MIN');
 	}
 
 	// --------------------------------------------------------------------
@@ -160,23 +160,23 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function select_avg($select = '', $alias = '')
 	{
-		return $this->_max_min_avg_sum($select, $alias, 'AVG');
+		return $this->_max_min_avg_sum_count($select, $alias, 'AVG');
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Select Sum
+	 * Select Count
 	 *
-	 * Generates a SELECT SUM(field) portion of a query
+	 * Generates a SELECT COUNT(field) portion of a query
 	 *
 	 * @param	string	the field
 	 * @param	string	an alias
 	 * @return	object
 	 */
-	public function select_sum($select = '', $alias = '')
+	public function select_count($select = '', $alias = '')
 	{
-		return $this->_max_min_avg_sum($select, $alias, 'SUM');
+		return $this->_max_min_avg_sum_count($select, $alias, 'COUNT');
 	}
 
 	// --------------------------------------------------------------------
@@ -188,6 +188,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *	select_min()
 	 *	select_avg()
 	 *	select_sum()
+ 	 *	select_count()
 	 *
 	 *
 	 * @param	string	$select = ''	field name
@@ -195,7 +196,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	string	$type = 'MAX'
 	 * @return	object
 	 */
-	protected function _max_min_avg_sum($select = '', $alias = '', $type = 'MAX')
+	protected function _max_min_avg_sum_count($select = '', $alias = '', $type = 'MAX')
 	{
 		if ( ! is_string($select) OR $select === '')
 		{
@@ -204,7 +205,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		$type = strtoupper($type);
 
-		if ( ! in_array($type, array('MAX', 'MIN', 'AVG', 'SUM')))
+		if ( ! in_array($type, array('MAX', 'MIN', 'AVG', 'SUM', 'COUNT')))
 		{
 			show_error('Invalid function type: '.$type);
 		}
