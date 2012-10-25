@@ -173,7 +173,7 @@ Release Date: Not Released
 	 -  Added *max_filename_increment* config setting.
 	 -  Added an "index" parameter to the ``data()`` method.
    -  :doc:`Cart library <libraries/cart>` changes include:
-	 -  It now auto-increments quantity instead of just resetting it, this is the default behaviour of large e-commerce sites.
+	 -  ``insert()`` now auto-increments quantity for an item when inserted twice instead of resetting it, this is the default behaviour of large e-commerce sites.
 	 -  *Product Name* strictness can be disabled by switching the ``$product_name_safe`` property to FALSE.
 	 -  Added method ``remove()`` to remove a cart item, updating with quantity of 0 seemed like a hack but has remained to retain compatibility.
 	 -  Added method ``get_item()`` to enable retrieving data for a single cart item.
