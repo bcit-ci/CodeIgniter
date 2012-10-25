@@ -65,11 +65,11 @@ class CI_Lang {
 	/**
 	 * Load a language file
 	 *
-	 * @param	mixed	the name of the language file to be loaded
-	 * @param	string	the language (english, etc.)
-	 * @param	bool	return loaded array of translations
-	 * @param 	bool	add suffix to $langfile
-	 * @param 	string	alternative path to look for language file
+	 * @param	mixed	$langile		the name of the language file to be loaded
+	 * @param	string	$idiom = ''		the language (english, etc.)
+	 * @param	bool	$return = FALSE		return loaded array of translations
+	 * @param 	bool	$add_suffix = TRUE	add suffix to $langfile
+	 * @param 	string	$alt_path = ''		alternative path to look for language file
 	 * @return	mixed
 	 */
 	public function load($langfile, $idiom = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '')
@@ -83,10 +83,10 @@ class CI_Lang {
 
 		$langfile .= '.php';
 
-		if ($idiom === '')
+		if (empty($idiom) OR ! ctype_alpha($idiom))
 		{
 			$config =& get_config();
-			$idiom = ( ! empty($config['language'])) ? $config['language'] : 'english';
+			$idiom = empty($config['language']) ? 'english' : $config['language'];
 		}
 
 		if ($return === FALSE && isset($this->is_loaded[$langfile]) && $this->is_loaded[$langfile] === $idiom)
