@@ -640,7 +640,7 @@ abstract class CI_DB_driver {
 		// Make sure not to replace a chunk inside a string that happens to match the bind marker
 		if ($c = preg_match_all("/'[^']*'/i", $sql, $matches))
 		{
-			$c = preg_match_all('/'.preg_quote($this->bind_marker).'/i',
+			$c = preg_match_all('/'.preg_quote($this->bind_marker, '/').'/i',
 				str_replace($matches[0],
 					str_replace($this->bind_marker, str_repeat(' ', $ml), $matches[0]),
 					$sql, $c),
@@ -652,7 +652,7 @@ abstract class CI_DB_driver {
 				return $sql;
 			}
 		}
-		elseif (($c = preg_match_all('/'.preg_quote($this->bind_marker).'/i', $sql, $matches, PREG_OFFSET_CAPTURE)) !== $bind_count)
+		elseif (($c = preg_match_all('/'.preg_quote($this->bind_marker, '/').'/i', $sql, $matches, PREG_OFFSET_CAPTURE)) !== $bind_count)
 		{
 			return $sql;
 		}
@@ -1007,13 +1007,13 @@ abstract class CI_DB_driver {
 			if (is_array($this->_escape_char))
 			{
 				$preg_ec = array(
-						preg_quote($this->_escape_char[0]), preg_quote($this->_escape_char[1]),
+						preg_quote($this->_escape_char[0], '/'), preg_quote($this->_escape_char[1], '/'),
 						$this->_escape_char[0], $this->_escape_char[1]
 						);
 			}
 			else
 			{
-				$preg_ec[0] = $preg_ec[1] = preg_quote($this->_escape_char);
+				$preg_ec[0] = $preg_ec[1] = preg_quote($this->_escape_char, '/');
 				$preg_ec[2] = $preg_ec[3] = $this->_escape_char;
 			}
 		}
@@ -1172,7 +1172,7 @@ abstract class CI_DB_driver {
 		if (empty($_operators))
 		{
 			$_les = ($this->_like_escape_str !== '')
-				? '\s+'.preg_quote(trim(sprintf($this->_like_escape_str, $this->_like_escape_chr)))
+				? '\s+'.preg_quote(trim(sprintf($this->_like_escape_str, $this->_like_escape_chr)), '/')
 				: '';
 			$_operators = array(
 				'\s*(?:<|>|!)?=\s*',		// =, <=, >=, !=
