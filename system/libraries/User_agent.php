@@ -466,7 +466,13 @@ class CI_User_agent {
 	 */
 	public function is_referral()
 	{
-		return ! empty($_SERVER['HTTP_REFERER']);
+		if (empty($_SERVER['HTTP_REFERER']))
+		{
+			return FALSE;
+		}
+
+		$referer = parse_url($_SERVER['HTTP_REFERER']);
+		return ! (empty($referer['host']) && strpos(config_item('base_url'), $referer['host']) !== FALSE);
 	}
 
 	// --------------------------------------------------------------------

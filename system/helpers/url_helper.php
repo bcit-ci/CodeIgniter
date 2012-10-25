@@ -489,7 +489,7 @@ if ( ! function_exists('url_title'))
 			$separator = '_';
 		}
 
-		$q_separator = preg_quote($separator);
+		$q_separator = preg_quote($separator, '#');
 
 		$trans = array(
 				'&.+?;'			=> '',
