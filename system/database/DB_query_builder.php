@@ -166,6 +166,22 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Select Sum
+	 *
+	 * Generates a SELECT SUM(field) portion of a query
+	 *
+	 * @param	string	the field
+	 * @param	string	an alias
+	 * @return	object
+	 */
+	public function select_sum($select = '', $alias = '')
+	{
+		return $this->_max_min_avg_sum_count($select, $alias, 'SUM');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Select Count
 	 *
 	 * Generates a SELECT COUNT(field) portion of a query
