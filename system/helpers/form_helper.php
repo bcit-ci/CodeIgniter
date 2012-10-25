@@ -921,6 +921,10 @@ if ( ! function_exists('_parse_form_attributes'))
 			{
 				$val = form_prep($val, $default['name']);
 			}
+			elseif ($key === 'name' && ! strlen($default['name']))
+			{
+				continue;
+			}
 
 			$att .= $key.'="'.$val.'" ';
 		}
