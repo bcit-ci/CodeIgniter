@@ -298,10 +298,10 @@ if ( ! function_exists('form_dropdown'))
 	/**
 	 * Drop-down Menu
 	 *
-	 * @param	string
-	 * @param	array
-	 * @param	string
-	 * @param	string
+	 * @param	mixed	$name = ''
+	 * @param	mixed	$options = array()
+	 * @param	mixed	$selected = array()
+	 * @param	mixed	$extra = array()
 	 * @return	string
 	 */
 	function form_dropdown($name = '', $options = array(), $selected = array(), $extra = '')
@@ -316,10 +316,7 @@ if ( ! function_exists('form_dropdown'))
 			return form_dropdown($name['name'], $name['options'], $name['selected'], $name['extra']);
 		}
 
-		if ( ! is_array($selected))
-		{
-			$selected = array($selected);
-		}
+		is_array($selected) OR $selected = array($selected);
 
 		// If no selected state was submitted we will attempt to set it automatically
 		if (count($selected) === 0 && isset($_POST[$name]))
@@ -352,14 +349,17 @@ if ( ! function_exists('form_dropdown'))
 				foreach ($val as $optgroup_key => $optgroup_val)
 				{
 					$sel = in_array($optgroup_key, $selected) ? ' selected="selected"' : '';
-					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.(string) $optgroup_val."</option>\n";
+					$form .= '<option value="'.html_escape($optgroup_key).'"'.$sel.'>'
+						.(string) $optgroup_val."</option>\n";
 				}
 
 				$form .= "</optgroup>\n";
 			}
 			else
 			{
-				$form .= '<option value="'.$key.'"'.(in_array($key, $selected) ? ' selected="selected"' : '').'>'.(string) $val."</option>\n";
+				$form .= '<option value="'.html_escape($key).'"'
+					.(in_array($key, $selected) ? ' selected="selected"' : '').'>'
+					.(string) $val."</option>\n";
 			}
 		}
 
