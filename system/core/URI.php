@@ -219,7 +219,7 @@ class CI_URI {
 			$_GET = array();
 		}
 
-		if ($uri === '/' OR empty($uri))
+		if ($uri === '/' OR $uri === '')
 		{
 			return '/';
 		}
