@@ -119,19 +119,16 @@ if ( ! function_exists('standard_date'))
 	 *
 	 * As of PHP 5.2, the DateTime extension provides constants that
 	 * serve for the exact same purpose and are used with date().
-	 * Due to that, this function is DEPRECATED and should be removed
-	 * in CodeIgniter 3.1+.
 	 *
-	 * Here are two examples of how you should replace it:
+	 * @todo	Remove in version 3.1+.
+	 * @deprecated	3.0.0	Use PHP's native date() instead.
+	 * @link	http://www.php.net/manual/en/class.datetime.php#datetime.constants.types
 	 *
-	 *	date(DATE_RFC822, now()); // default
-	 *	date(DATE_W3C, $time); // a different format and time
+	 * @example	date(DATE_RFC822, now()); // default
+	 * @example	date(DATE_W3C, $time); // a different format and time
 	 *
-	 * Reference: http://www.php.net/manual/en/class.datetime.php#datetime.constants.types
-	 *
-	 * @deprecated
-	 * @param	string	the chosen format
-	 * @param	int	Unix timestamp
+	 * @param	string	$fmt = 'DATE_RFC822'	the chosen format
+	 * @param	int	$time = NULL		Unix timestamp
 	 * @return	string
 	 */
 	function standard_date($fmt = 'DATE_RFC822', $time = NULL)

@@ -600,6 +600,7 @@ if ( ! function_exists('form_prep'))
 	 *
 	 * Formats text so that it can be safely placed in a form field in the event it has HTML tags.
 	 *
+	 * @todo	Remove in version 3.1+.
 	 * @deprecated	3.0.0	This function has been broken for a long time
 	 *			and is now just an alias for html_escape(). It's
 	 *			second argument is ignored.
