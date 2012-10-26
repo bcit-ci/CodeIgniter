@@ -149,7 +149,7 @@ if ( ! function_exists('form_hidden'))
 
 		if ( ! is_array($value))
 		{
-			$form .= '<input type="hidden" name="'.$name.'" value="'.form_prep($value, $name)."\" />\n";
+			$form .= '<input type="hidden" name="'.$name.'" value="'.html_escape($value)."\" />\n";
 		}
 		else
 		{
@@ -263,7 +263,7 @@ if ( ! function_exists('form_textarea'))
 		}
 
 		$name = is_array($data) ? $data['name'] : $data;
-		return '<textarea '._parse_form_attributes($data, $defaults).$extra.'>'.form_prep($val, $name)."</textarea>\n";
+		return '<textarea '._parse_form_attributes($data, $defaults).$extra.'>'.html_escape($val)."</textarea>\n";
 	}
 }
 
@@ -600,44 +600,15 @@ if ( ! function_exists('form_prep'))
 	 *
 	 * Formats text so that it can be safely placed in a form field in the event it has HTML tags.
 	 *
-	 * @param	string
-	 * @param	string
+	 * @deprecated	3.0.0	This function has been broken for a long time
+	 *			and is now just an alias for html_escape(). It's
+	 *			second argument is ignored.
+	 * @param	string	$str = ''
+	 * @param	string	$field_name = ''
 	 * @return	string
 	 */
 	function form_prep($str = '', $field_name = '')
 	{
-		static $prepped_fields = array();
-
-		// if the field name is an array we do this recursively
-		if (is_array($str))
-		{
-			foreach ($str as $key => $val)
-			{
-				$str[$key] = form_prep($val);
-			}
-
-			return $str;
-		}
-
-		if ($str === '')
-		{
-			return '';
-		}
-
-		// we've already prepped a field with this name
-		// @todo need to figure out a way to namespace this so
-		// that we know the *exact* field and not just one with
-		// the same name
-		if (isset($prepped_fields[$field_name]))
-		{
-			return $str;
-		}
-
-		if ($field_name !== '')
-		{
-			$prepped_fields[$field_name] = $field_name;
-		}
-
 		return html_escape($str);
 	}
 }
@@ -663,13 +634,13 @@ if ( ! function_exists('set_value'))
 		{
 			if ( ! isset($_POST[$field]))
 			{
-				return $default;
+				return html_escape($default);
 			}
 
-			return form_prep($_POST[$field], $field);
+			return html_escape($_POST[$field]);
 		}
 
-		return form_prep($OBJ->set_value($field, $default), $field);
+		return html_escape($OBJ->set_value($field, $default));
 	}
 }
 
@@ -919,7 +890,7 @@ if ( ! function_exists('_parse_form_attributes'))
 		{
 			if ($key === 'value')
 			{
-				$val = form_prep($val, $default['name']);
+				$val = html_escape($val);
 			}
 			elseif ($key === 'name' && ! strlen($default['name']))
 			{
