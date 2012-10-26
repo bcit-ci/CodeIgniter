@@ -212,7 +212,7 @@ class CI_Upload {
 			// Was the file able to be uploaded? If not, determine the reason why.
 			if (!is_uploaded_file($this->files[$key]['tmp_name'])) 
 			{
-				$error = (!isset($this->files[$key]['error'])) ? 4 : $this->files[$key]['error'];
+				$error = ( ! isset($this->files[$key]['error'])) ? 4 : $this->files[$key]['error'];
 
 				switch ($error) 
 				{
@@ -262,7 +262,7 @@ class CI_Upload {
 			$this->client_name = $this->file_name;
 
 			// Is the file type allowed to be uploaded?
-			if (!$this->is_allowed_filetype()) 
+			if ( ! $this->is_allowed_filetype()) 
 			{
 				$this->set_error('upload_invalid_filetype');
 				return FALSE;
@@ -284,7 +284,7 @@ class CI_Upload {
 					$this->file_ext = $this->get_extension($this->_file_name_override);
 				}
 
-				if (!$this->is_allowed_filetype(TRUE)) 
+				if ( ! $this->is_allowed_filetype(TRUE)) 
 				{
 					$this->set_error('upload_invalid_filetype');
 					return FALSE;
@@ -298,7 +298,7 @@ class CI_Upload {
 			}
 
 			// Is the file size within the allowed maximum?
-			if (!$this->is_allowed_filesize()) 
+			if ( ! $this->is_allowed_filesize()) 
 			{
 				$this->set_error('upload_invalid_filesize');
 				return FALSE;
@@ -306,7 +306,7 @@ class CI_Upload {
 
 			// Are the image dimensions within the allowed size?
 			// Note: This can fail if the server has an open_basdir restriction.
-			if (!$this->is_allowed_dimensions()) 
+			if ( ! $this->is_allowed_dimensions()) 
 			{
 				$this->set_error('upload_invalid_dimensions');
 				return FALSE;
@@ -364,9 +364,9 @@ class CI_Upload {
 			 * we'll use move_uploaded_file(). One of the two should
 			 * reliably work in most environments
 			 */
-			if (!@copy($this->file_temp, $this->upload_path . $this->file_name)) 
+			if ( ! @copy($this->file_temp, $this->upload_path . $this->file_name)) 
 			{
-				if (!@move_uploaded_file($this->file_temp, $this->upload_path . $this->file_name)) 
+				if ( ! @move_uploaded_file($this->file_temp, $this->upload_path . $this->file_name)) 
 				{
 					$this->set_error('upload_destination_error');
 					return FALSE;
