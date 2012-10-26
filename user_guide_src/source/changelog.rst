@@ -75,7 +75,9 @@ Release Date: Not Released
    -  Refactored ``plural()`` and ``singular()`` to avoid double pluralization and support more words.
    -  Added an optional third parameter to ``force_download()`` that enables/disables sending the actual file MIME type in the Content-Type header (disabled by default).
    -  Added a work-around in ``force_download()`` for a bug Android <= 2.1, where the filename extension needs to be in uppercase.
-   -  ``form_dropdown()`` will now also take an array for unity with other form helpers.
+   -  :doc:`Form Helper <helpers/form_helper>` changes include:
+	 - ``form_dropdown()`` will now also take an array for unity with other form helpers.
+	 - ``form_prep()`` is now **DEPRECATED** and only acts as an alias for :doc:`common function <general/common_functions>` ``html_escape()``.
    -  ``do_hash()`` now uses PHP's native ``hash()`` function (supporting more algorithms) and is deprecated.
    -  Removed previously deprecated helper function ``js_insert_smiley()`` from :doc:`Smiley Helper <helpers/smiley_helper>`.
    -  :doc:`File Helper <helpers/file_helper>` changes include:
@@ -387,6 +389,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1506) - :doc:`Form Helpers <helpers/form_helper>` set empty *name* attributes.
 -  Fixed a bug (#59) - :doc:`Query Builder <database/query_builder>` method ``count_all_results()`` ignored the DISTINCT clause.
 -  Fixed a bug (#1624) - :doc:`Form Validation Library <libraries/form_validation>` rule **matches** didn't property handle array field names.
+-  Fixed a bug (#1630) - :doc:`Form Helper <helpers/form_helper>` function ``set_value()`` didn't escape HTML entities.
 
 Version 2.1.3
 =============

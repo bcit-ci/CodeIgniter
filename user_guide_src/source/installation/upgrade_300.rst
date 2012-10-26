@@ -71,8 +71,24 @@ Step 7: Check the calls to Array Helper's element() and elements() functions
 The default return value of these functions, when the required elements
 don't exist, has been changed from FALSE to NULL.
 
+**********************************************************
+Step 8: Change usage of Email library with multiple emails
+**********************************************************
+
+The :doc:`Email library <../libraries/email>` will automatically clear the
+set parameters after successfully sending emails. To override this behaviour,
+pass FALSE as the first parameter in the ``send()`` method:
+
+::
+
+	if ($this->email->send(FALSE))
+ 	{
+ 		// Parameters won't be cleared
+ 	}
+
+
 ***************************************************************
-Step 8: Remove usage of (previously) deprecated functionalities
+Step 9: Remove usage of (previously) deprecated functionalities
 ***************************************************************
 
 In addition to the ``$autoload['core']`` configuration setting, there's a number of other functionalities
@@ -118,6 +134,16 @@ CodeIgniter 3.1+.
 .. note:: This function is still available, but you're strongly encouraged to remove it's usage sooner
 	rather than later.
 
+Form helper form_prep()
+=======================
+
+:doc:`Form Helper <../helpers/form_helper>` function ``form_prep()`` is now just an alias for
+:doc:`common function <../general/common_functions>` ``html_escape()`` and it's second argument
+is ignored. It is deprecated and scheduled for removal in CodeIgniter 3.1+.
+
+.. note:: This function is still available, but you're strongly encouraged to remove it's usage sooner
+	rather than later.
+
 Date helper standard_date()
 ===========================
 
@@ -155,16 +181,3 @@ CodeIgniter 3.1+.
 
 .. note:: This setting is still available, but you're strongly encouraged to remove its' usage sooner
 	rather than later.
-
-Email library
-=============
-
-The :doc:`Email library <../libraries/email>` will automatically clear the set parameters after successfully sending
-emails. To override this behaviour, pass FALSE as the first parameter in the ``send()`` function:
-
-::
-
-	if ($this->email->send(FALSE))
- 	{
- 		// Parameters won't be cleared
- 	}
