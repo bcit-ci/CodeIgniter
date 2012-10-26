@@ -157,6 +157,7 @@ class CI_Upload {
 	/**
 	 * Perform the file upload
 	 *
+	 * @param	string	$field = 'userfile'
 	 * @return	bool
 	 */
 	public function do_upload($field = 'userfile') 
