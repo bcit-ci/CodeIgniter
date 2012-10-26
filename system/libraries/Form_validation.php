@@ -957,15 +957,15 @@ class CI_Form_validation {
 	/**
 	 * Match one field to another
 	 *
-	 * @param	string
-	 * @param	string	field
+	 * @param	string	$str	string to compare against
+	 * @param	string	$field
 	 * @return	bool
 	 */
 	public function matches($str, $field)
 	{
-		$validation_array = empty($this->validation_data) ? $_POST : $this->validation_data;
-
-		return isset($validation_array[$field]) ? ($str === $validation_array[$field]) : FALSE;
+		return isset($this->_field_data[$field], $this->_field_data[$field]['postdata'])
+			? ($str === $this->_field_data[$field]['postdata'])
+			: FALSE;
 	}
 
 	// --------------------------------------------------------------------
