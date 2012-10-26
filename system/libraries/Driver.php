@@ -63,7 +63,7 @@ class CI_Driver_Library {
 	 * @return  object  Child class
 	 */
 	public function __get($child)
-	{
+	{ 
 		// Try to load the driver
 		return $this->load_driver($child);
 	}
@@ -80,54 +80,77 @@ class CI_Driver_Library {
 	{
 		if ( ! isset($this->lib_name))
 		{
-			$this->lib_name = get_class($this);
+			$this->lib_name = ucfirst(strtolower(str_replace(config_item('subclass_prefix'), '', get_class($this))));
 		}
 
 		// The class will be prefixed with the parent lib
-		$child_class = $this->lib_name.'_'.$child;
+		$_child_class = $this->lib_name.'_'.$child;
 
 		// Remove the CI_ prefix and lowercase
 		$lib_name = ucfirst(strtolower(str_replace('CI_', '', $this->lib_name)));
-		$driver_name = strtolower(str_replace('CI_', '', $child_class));
+		$driver_name = strtolower(str_replace('CI_', '', $_child_class));
+
+		// Check for CI_ & MY_ prefixed files / classes
+		$prefixes_for_loading = array('CI_', config_item('subclass_prefix'));
+		$prefixes_for_creating = array_reverse($init_prefixes);
+		
 
 		if (in_array($driver_name, array_map('strtolower', $this->valid_drivers)))
 		{
-			// check and see if the driver is in a separate file
-			if ( ! class_exists($child_class))
-			{
-				// check application path first
-				foreach (get_instance()->load->get_package_paths(TRUE) as $path)
-				{
-					// loves me some nesting!
-					foreach (array(ucfirst($driver_name), $driver_name) as $class)
-					{
-						$filepath = $path.'libraries/'.$lib_name.'/drivers/'.$class.'.php';
 
-						if (file_exists($filepath))
+			foreach($load_prefixes as $prefix) {
+
+				$child_class = $prefix . $_child_class;
+
+				// check and see if the driver is in a separate file
+				if ( ! class_exists($child_class))
+				{
+					
+					// check application path first
+					foreach (get_instance()->load->get_package_paths(TRUE) as $path)
+					{
+						// loves me some nesting!
+						foreach (array(ucfirst($driver_name), $driver_name) as $class)
 						{
-							include_once $filepath;
-							break 2;
+							if($prefix != 'CI_') {
+								$class = $prefix . $class;
+							}
+
+							$filepath = $path.'libraries/'.$lib_name.'/drivers/'.$class.'.php';
+
+							if (file_exists($filepath))
+							{
+								include_once $filepath;
+								break 2;
+							}
 						}
+					}
+
+					// it's a valid driver, but the file simply can't be found
+					if ( ! class_exists($child_class))
+					{
+						log_message('error', 'Unable to load the requested driver: '.$child_class);
+						show_error('Unable to load the requested driver: '.$child_class);
 					}
 				}
 
-				// it's a valid driver, but the file simply can't be found
-				if ( ! class_exists($child_class))
-				{
-					log_message('error', 'Unable to load the requested driver: '.$child_class);
-					show_error('Unable to load the requested driver: '.$child_class);
-				}
 			}
 
-			$obj = new $child_class;
-			$obj->decorate($this);
-			$this->$child = $obj;
-			return $this->$child;
-		}
+			// after loading the classes, create new instance, custom classes before CI_
+			foreach($init_prefixes as $prefix) {				
+				$child_class = $prefix . $_child_class;
+				$obj = new $child_class;
+				$obj->decorate($this);
+				$this->$child = $obj;
+				return $this->$child;	
+			}	
+
+		}	
+
 
 		// The requested driver isn't valid!
-		log_message('error', 'Invalid driver requested: '.$child_class);
-		show_error('Invalid driver requested: '.$child_class);
+		log_message('error', 'Invalid driver requested: '.$_child_class);
+		show_error('Invalid driver requested: '.$_child_class);
 	}
 
 }
