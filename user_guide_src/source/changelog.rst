@@ -196,8 +196,10 @@ Release Date: Not Released
 	 -  Fields that have empty rules set no longer run through validation (and therefore are not considered erroneous).
 	 -  Added rule *differs* to check if the value of a field differs from the value of another field.
    -  Added support for setting :doc:`Table <libraries/table>` class defaults in a config file.
-   -  Added a Wincache driver to the :doc:`Caching Library <libraries/caching>`.
-   -  Added a Redis driver to the :doc:`Caching Library <libraries/caching>`.
+   -  :doc:`Caching Library <libraries/caching>` changes include:
+	 -  Added Wincache driver.
+	 -  Added Redis driver.
+	 -  Added a *key_prefix* option for cache IDs.
    -  :doc:`Email library <libraries/email>` changes include:
 	 -  Added custom filename to ``Email::attach()`` as ``$this->email->attach($filename, $disposition, $newname)``.
 	 -  Added possibility to send attachment as buffer string in ``Email::attach()`` as ``$this->email->attach($buffer, $disposition, $newname, $mime)``.
