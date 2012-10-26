@@ -162,20 +162,20 @@ class CI_Upload {
 	public function do_upload($field = 'userfile') 
 	{
         	// Is $_FILES[$field] set? If not, no reason to continue.
-		if (!isset($_FILES[$field])) 
+		if ( ! isset($_FILES[$field])) 
 		{
 			$this->set_error('upload_no_file_selected');
 			return FALSE;
 		}
 		
 		// Is the upload path valid?
-		if (!$this->validate_upload_path()) 
+		if ( ! $this->validate_upload_path()) 
 		{
 			// errors will already be set by validate_upload_path() so just return FALSE
 			return FALSE;
 		}
 
-		if (!is_array($_FILES[$field]['tmp_name'])) 
+		if ( ! is_array($_FILES[$field]['tmp_name'])) 
 		{
 			foreach ($_FILES[$field] as $key => $value) 
 			{
