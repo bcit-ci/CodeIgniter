@@ -63,6 +63,8 @@ class CI_Email {
 	public $send_multipart	= TRUE;		// TRUE/FALSE - Yahoo does not like multipart alternative, so this is an override.  Set to FALSE for Yahoo.
 	public $bcc_batch_mode	= FALSE;	// TRUE/FALSE - Turns on/off Bcc batch feature
 	public $bcc_batch_size	= 200;		// If bcc_batch_mode = TRUE, sets max number of Bccs in each batch
+	public $inline_images	= FALSE;	// TRUE/FALSE  Turns on/off attaching inline images
+	public $image_path		= '';		// Path to inline images folder
 
 	protected $_safe_mode		= FALSE;
 	protected $_subject		= '';
@@ -84,6 +86,7 @@ class CI_Email {
 	protected $_attach_name		= array();
 	protected $_attach_type		= array();
 	protected $_attach_disp		= array();
+	protected $_attach_cid		= array();
 	protected $_protocols		= array('mail', 'sendmail', 'smtp');
 	protected $_base_charsets	= array('us-ascii', 'iso-2022-');	// 7-bit charsets (excluding language suffix)
 	protected $_bit_depths		= array('7bit', '8bit');
@@ -179,6 +182,7 @@ class CI_Email {
 			$this->_attach_name = array();
 			$this->_attach_type = array();
 			$this->_attach_disp = array();
+			$this->_attach_cid  = array();
 		}
 
 		return $this;
@@ -416,9 +420,19 @@ class CI_Email {
 	public function attach($filename, $disposition = '', $newname = NULL, $mime = '')
 	{
 		$this->_attach_name[] = array($filename, $newname);
+		$this->_attach_type[] = $this->_mime_types(pathinfo($filename, PATHINFO_EXTENSION));
 		$this->_attach_disp[] = empty($disposition) ? 'attachment' : $disposition; // Can also be 'inline'  Not sure if it matters
-		$this->_attach_type[] = $mime;
-		return $this;
+		if ($disposition === 'inline')
+		{
+			$cid = $this->_get_content_id();
+			$this->_attach_cid[] = $cid;
+			return "cid:".$cid;
+		}
+		else
+		{
+			$this->_attach_cid[] = NULL;
+			return $this;
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -577,6 +591,20 @@ class CI_Email {
 	{
 		$from = str_replace(array('>', '<'), '', $this->_headers['Return-Path']);
 		return '<'.uniqid('').strstr($from, '@').'>';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get a Content ID
+	 *
+	 * @return	string
+	 */
+	protected function _get_content_id()
+	{
+		$from = str_replace(array('>', '<'), '', $this->_headers['Return-Path']);
+
+		return uniqid('').strstr($from, '@');
 	}
 
 	// --------------------------------------------------------------------
@@ -938,6 +966,23 @@ class CI_Email {
 		$hdr = ($this->_get_protocol() === 'mail') ? $this->newline : '';
 		$body = '';
 
+		if ($this->inline_images === TRUE && $this->mailtype === 'html')
+		{
+			preg_match_all('/<.*?(src|background)\=([\x22\x27])?([^\s\x22\x27]+)([\x22\x27])?.*?>/i', $this->_body, $matched_images, PREG_PATTERN_ORDER);
+			$embed_images = array_unique($matched_images[2]);
+			if (isset($embed_images))
+			{
+				foreach ($embed_images as $filename)
+				{
+					if (strpos($filename, '://') === FALSE)
+					{
+						$cid = $this->attach($this->image_path.$filename, "inline");
+						$this->_body = str_replace($filename, $cid, $this->_body);
+					}
+				}
+			}
+		}
+
 		switch ($this->_get_content_type())
 		{
 			case 'plain' :
@@ -1078,10 +1123,11 @@ class CI_Email {
 			}
 
 			$attachment[$z++] = '--'.$this->_atc_boundary.$this->newline
-				.'Content-type: '.$ctype.'; '
+				.'Content-Type: '.$ctype.'; '
 				.'name="'.$basename.'"'.$this->newline
 				.'Content-Disposition: '.$this->_attach_disp[$i].';'.$this->newline
-				.'Content-Transfer-Encoding: base64'.$this->newline;
+				.'Content-Transfer-Encoding: base64'.$this->newline
+				.(($this->_attach_cid[$i]) ? 'Content-ID: <'.$this->_attach_cid[$i].'>'.$this->newline : '');
 
 			$attachment[$z++] = chunk_split(base64_encode($file_content));
 		}
