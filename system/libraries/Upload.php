@@ -210,7 +210,7 @@ class CI_Upload {
 		{
 			$this->file_key = $key;
 			// Was the file able to be uploaded? If not, determine the reason why.
-			if (!is_uploaded_file($this->files[$key]['tmp_name'])) 
+			if ( ! is_uploaded_file($this->files[$key]['tmp_name'])) 
 			{
 				$error = ( ! isset($this->files[$key]['error'])) ? 4 : $this->files[$key]['error'];
 
