@@ -92,13 +92,13 @@ class CI_Driver_Library {
 
 		// Check for CI_ & MY_ prefixed files / classes
 		$prefixes_for_loading = array('CI_', config_item('subclass_prefix'));
-		$prefixes_for_creating = array_reverse($init_prefixes);
+		$prefixes_for_creating = array_reverse($prefixes_for_loading);
 		
 
 		if (in_array($driver_name, array_map('strtolower', $this->valid_drivers)))
 		{
 
-			foreach($load_prefixes as $prefix) {
+			foreach($prefixes_for_loading as $prefix) {
 
 				$child_class = $prefix . $_child_class;
 
@@ -137,7 +137,7 @@ class CI_Driver_Library {
 			}
 
 			// after loading the classes, create new instance, custom classes before CI_
-			foreach($init_prefixes as $prefix) {				
+			foreach($prefixes_for_creating as $prefix) {				
 				$child_class = $prefix . $_child_class;
 				$obj = new $child_class;
 				$obj->decorate($this);
