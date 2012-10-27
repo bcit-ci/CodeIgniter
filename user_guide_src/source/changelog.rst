@@ -391,6 +391,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1624) - :doc:`Form Validation Library <libraries/form_validation>` rule **matches** didn't property handle array field names.
 -  Fixed a bug (#1630) - :doc:`Form Helper <helpers/form_helper>` function ``set_value()`` didn't escape HTML entities.
 -  Fixed a bug (#142) - :doc:`Form Helper <helpers/form_helper>` function ``form_dropdown()`` didn't escape HTML entities in option values.
+-  Fixed a bug (#50) - :doc:`Session Library <libraries/sessions>` unnecessarily stripped slashed from serialized data, making it impossible to read objects in a namespace.
 
 Version 2.1.3
 =============
