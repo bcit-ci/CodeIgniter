@@ -39,19 +39,19 @@ class CI_Lang {
 	/**
 	 * List of translations
 	 *
-	 * @var array
+	 * @var	array
 	 */
 	public $language =	array();
 
 	/**
 	 * List of loaded language files
 	 *
-	 * @var array
+	 * @var	array
 	 */
 	public $is_loaded =	array();
 
 	/**
-	 * Initialize language class
+	 * Class constructor
 	 *
 	 * @return	void
 	 */
@@ -65,12 +65,13 @@ class CI_Lang {
 	/**
 	 * Load a language file
 	 *
-	 * @param	mixed	$langile		the name of the language file to be loaded
-	 * @param	string	$idiom = ''		the language (english, etc.)
-	 * @param	bool	$return = FALSE		return loaded array of translations
-	 * @param 	bool	$add_suffix = TRUE	add suffix to $langfile
-	 * @param 	string	$alt_path = ''		alternative path to look for language file
-	 * @return	mixed
+	 * @param	mixed	$langfile	Language file name
+	 * @param	string	$idiom		Language name (english, etc.)
+	 * @param	bool	$return		Whether to return the loaded array of translations
+	 * @param 	bool	$add_suffix	Whether to add suffix to $langfile
+	 * @param 	string	$alt_path	Alternative path to look for the language file
+	 *
+	 * @return	void|string[]	Array containing translations, if $return is set to TRUE
 	 */
 	public function load($langfile, $idiom = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '')
 	{
@@ -146,10 +147,12 @@ class CI_Lang {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Fetch a single line of text from the language array
+	 * Language line
 	 *
-	 * @param	string	$line	the language line
-	 * @return	string
+	 * Fetches a single line of text from the language array
+	 *
+	 * @param	string	$line	Language line key
+	 * @return	string	Translation
 	 */
 	public function line($line = '')
 	{

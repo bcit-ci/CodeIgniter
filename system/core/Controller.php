@@ -26,7 +26,7 @@
  */
 
 /**
- * CodeIgniter Application Controller Class
+ * Application Controller Class
  *
  * This class object is the super class that every library in
  * CodeIgniter will be assigned to.
@@ -40,15 +40,14 @@
 class CI_Controller {
 
 	/**
-	 * Reference to the global CI instance
+	 * Reference to the CI singleton
 	 *
-	 * @static
 	 * @var	object
 	 */
 	private static $instance;
 
 	/**
-	 * Set up controller properties and methods
+	 * Class constructor
 	 *
 	 * @return	void
 	 */
@@ -69,8 +68,10 @@ class CI_Controller {
 		log_message('debug', 'Controller Class Initialized');
 	}
 
+	// --------------------------------------------------------------------
+
 	/**
-	 * Return the CI object
+	 * Get the CI singleton
 	 *
 	 * @static
 	 * @return	object

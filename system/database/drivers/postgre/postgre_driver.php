@@ -47,7 +47,9 @@ class CI_DB_postgre_driver extends CI_DB {
 	protected $_random_keyword = ' RANDOM()'; // database specific random keyword
 
 	/**
-	 * @var	string Database schema
+	 * Database schema
+	 *
+	 * @var	string
 	 */
 	public $schema = 'public';
 

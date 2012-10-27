@@ -50,7 +50,9 @@ class CI_DB_odbc_driver extends CI_DB {
 	protected $_random_keyword;
 
 	/**
-	 * @var	string Database schema
+	 * Database schema
+	 *
+	 * @var	string
 	 */
 	public $schema = 'public';
 
