@@ -36,7 +36,7 @@ class Loader_test extends CI_TestCase {
 		$this->assertAttributeInstanceOf($class, $lib, $this->ci_obj);
 
 		// Test no lib given
-		$this->assertFalse($this->load->library());
+		$this->assertNull($this->load->library());
 
 		// Test a string given to params
 		$this->assertNull($this->load->library($lib, ' '));
@@ -450,7 +450,7 @@ class Loader_test extends CI_TestCase {
 	public function test_load_config()
 	{
 		$cfg = 'someconfig';
-		$this->assertNull($this->load->config($cfg, FALSE));
+		$this->assertTrue($this->load->config($cfg, FALSE));
 		$this->assertContains($cfg, $this->ci_obj->config->loaded);
 	}
 
