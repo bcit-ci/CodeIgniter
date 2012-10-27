@@ -236,8 +236,8 @@ Release Date: Not Released
 	 -  Added method ``get_vars()`` to the Loader to retrieve all variables loaded with ``$this->load->vars()``.
 	 -  ``CI_Loader::_ci_autoloader()`` is now a protected method.
 	 -  Added autoloading of drivers with ``$autoload['drivers']``.
-	 -  ``CI_Loader::library()`` will now load drivers as well, for backward compatibility of converted libraries (like Session).
-   -  ``$config['rewrite_short_tags']`` now has no effect when using PHP 5.4 as *<?=* will always be available.
+	 -  ``CI_Loader::library()`` will now load drivers as well, for backward compatibility of converted libraries (like :doc:`Session <libraries/sessions>`).
+	 -  ``$config['rewrite_short_tags']`` now has no effect when using PHP 5.4 as ``<?=`` will always be available.
    -  :doc:`Input Library <libraries/input>` changes include:
 	 -  Added ``method()`` to retrieve ``$_SERVER['REQUEST_METHOD']``.
 	 -  Modified ``valid_ip()`` to use PHP's ``filter_var()``.
@@ -254,7 +254,9 @@ Release Date: Not Released
 	 -  Added method ``get_content_type()``.
 	 -  Added a second argument to method ``set_content_type()`` that allows setting the document charset as well.
    -  ``$config['time_reference']`` now supports all timezone strings supported by PHP.
-   -  Changed :doc:`Config Library <libraries/config>` method ``site_url()`` to accept an array as well.
+   -  :doc:`Config Library <libraries/config>` changes include:
+	 -  Changed ``site_url()`` method  to accept an array as well.
+	 -  Removed internal method ``_assign_to_config()`` and moved it's implementation in *CodeIgniter.php* instead.
    -  :doc:`Security Library <libraries/security>` changes include:
 	 -  Added method ``strip_image_tags()``.
 	 -  Added ``$config['csrf_regeneration']``, which makes token regeneration optional.
