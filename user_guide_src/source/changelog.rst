@@ -234,10 +234,11 @@ Release Date: Not Released
    -  Removed ``CI_CORE`` boolean constant from *CodeIgniter.php* (no longer Reactor and Core versions).
    -  :doc:`Loader Library <libraries/loader>` changes include:
 	 -  Added method ``get_vars()`` to the Loader to retrieve all variables loaded with ``$this->load->vars()``.
-	 -  ``CI_Loader::_ci_autoloader()`` is now a protected method.
+	 -  ``_ci_autoloader()`` is now a protected method.
 	 -  Added autoloading of drivers with ``$autoload['drivers']``.
-	 -  ``CI_Loader::library()`` will now load drivers as well, for backward compatibility of converted libraries (like :doc:`Session <libraries/sessions>`).
+	 -  ``library()`` method will now load drivers as well, for backward compatibility of converted libraries (like :doc:`Session <libraries/sessions>`).
 	 -  ``$config['rewrite_short_tags']`` now has no effect when using PHP 5.4 as ``<?=`` will always be available.
+	 -  Changed method ``config()`` to return whatever ``CI_Config::load()`` returns instead of always being void.
    -  :doc:`Input Library <libraries/input>` changes include:
 	 -  Added ``method()`` to retrieve ``$_SERVER['REQUEST_METHOD']``.
 	 -  Added support for arrays and network addresses (e.g. 192.168.1.1/24) for use with the *proxy_ips* setting.
