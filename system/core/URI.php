@@ -473,7 +473,7 @@ class CI_URI {
 		$segments = array_slice($this->$segment_array(), ($n - 1));
 		$i = 0;
 		$lastval = '';
-		$retval  = array();
+		$retval = array();
 		foreach ($segments as $seg)
 		{
 			if ($i % 2)
@@ -639,7 +639,6 @@ class CI_URI {
 	{
 		return $this->uri_string;
 	}
-
 
 	// --------------------------------------------------------------------
 
