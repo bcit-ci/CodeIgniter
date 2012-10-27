@@ -103,7 +103,8 @@ Release Date: Not Released
 	 - Server version checking is now done via ``mysqli::$server_info`` instead of running an SQL query.
 	 - Added persistent connections support for PHP >= 5.3.
 	 - Added support for ``backup()`` in :doc:`Database Utilities <database/utilities>`.
-   -  Added *dsn* configuration setting for drivers that support DSN strings (PDO, PostgreSQL, Oracle, ODBC, CUBRID).
+   -  Added **dsn** configuration setting for drivers that support DSN strings (PDO, PostgreSQL, Oracle, ODBC, CUBRID).
+   -  Added **schema** configuration setting (defaults to *public*) for drivers that might need it (currently used by PostgreSQL and ODBC).
    -  Improved PDO database support.
    -  Added Interbase/Firebird database support via the *ibase* driver.
    -  Added an optional database name parameter to ``db_select()``.
