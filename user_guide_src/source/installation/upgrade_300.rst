@@ -134,6 +134,16 @@ CodeIgniter 3.1+.
 .. note:: This function is still available, but you're strongly encouraged to remove it's usage sooner
 	rather than later.
 
+String helper repeater()
+========================
+
+:doc:`String Helper <../helpers/string_helper>` function ``repeater()`` is now just an alias for
+PHP's native ``str_repeat()`` function. It is deprecated and scheduled for removal in
+CodeIgniter 3.1+.
+
+.. note:: This function is still available, but you're strongly encouraged to remove it's usage sooner
+	rather than later.
+
 Form helper form_prep()
 =======================
 
