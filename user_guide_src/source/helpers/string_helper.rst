@@ -96,6 +96,9 @@ Generates repeating copies of the data you submit. Example
 
 The above would generate 30 newlines.
 
+.. note:: This function is DEPRECATED. Use the native ``str_repeat()``
+	instead.
+
 reduce_double_slashes()
 =======================
 
