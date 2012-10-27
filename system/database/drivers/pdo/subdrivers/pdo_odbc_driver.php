@@ -51,7 +51,9 @@ class CI_DB_pdo_odbc_driver extends CI_DB_pdo_driver {
 	protected $_random_keyword = ' RAND()';
 
 	/**
-	 * @var	string Database schema
+	 * Database schema
+	 *
+	 * @var	string
 	 */
 	public $schema = 'public';
 

@@ -45,7 +45,9 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	protected $_random_keyword = ' RANDOM()';
 
 	/**
-	 * @var	string Database schema
+	 * Database schema
+	 *
+	 * @var	string
 	 */
 	public $schema = 'public';
 
