@@ -55,7 +55,7 @@ class CI_Config {
 	/**
 	 * List of paths to search when trying to load a config file.
 	 *
-	 * @used-by	CI_Loader	Must be public
+	 * @used-by	CI_Loader
 	 * @var		array
 	 */
 	public $_config_paths =	array(APPPATH);

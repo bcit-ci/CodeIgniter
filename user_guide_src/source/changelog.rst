@@ -240,8 +240,10 @@ Release Date: Not Released
 	 -  ``$config['rewrite_short_tags']`` now has no effect when using PHP 5.4 as ``<?=`` will always be available.
    -  :doc:`Input Library <libraries/input>` changes include:
 	 -  Added ``method()`` to retrieve ``$_SERVER['REQUEST_METHOD']``.
-	 -  Modified ``valid_ip()`` to use PHP's ``filter_var()``.
 	 -  Added support for arrays and network addresses (e.g. 192.168.1.1/24) for use with the *proxy_ips* setting.
+	 -  Changed method ``valid_ip()`` to use PHP's native ``filter_var()`` function.
+	 -  Changed internal method ``_sanitize_globals()`` to skip enforcing reversal of *register_globals* in PHP 5.4+, where this functionality no longer exists.
+	 -  Changed methods ``get()``, ``post()``, ``get_post()``, ``cookie()``, ``server()``, ``user_agent()`` to return NULL instead of FALSE when no value is found.
    -  :doc:`Common functions <general/common_functions>` changes include:
 	 -  Added function ``get_mimes()`` to return the *config/mimes.php* array.
 	 -  Added support for HTTP code 303 ("See Other") in ``set_status_header()``.
