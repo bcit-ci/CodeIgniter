@@ -209,7 +209,6 @@ class CI_Input {
 		return $this->_fetch_from_array($_POST, $index, $xss_clean);
 	}
 
-
 	// --------------------------------------------------------------------
 
 	/**

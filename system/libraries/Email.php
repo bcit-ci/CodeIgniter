@@ -47,20 +47,20 @@ class CI_Email {
 	public $smtp_port	= 25;			// SMTP Port
 	public $smtp_timeout	= 5;			// SMTP Timeout in seconds
 	public $smtp_crypto	= '';			// SMTP Encryption. Can be null, tls or ssl.
-	public $wordwrap	= TRUE;			// TRUE/FALSE  Turns word-wrap on/off
+	public $wordwrap	= TRUE;			// TRUE/FALSE - Turns word-wrap on/off
 	public $wrapchars	= 76;			// Number of characters to wrap at.
-	public $mailtype	= 'text';		// text/html  Defines email formatting
+	public $mailtype	= 'text';		// text/html - Defines email formatting
 	public $charset		= 'utf-8';		// Default char set: iso-8859-1 or us-ascii
 	public $multipart	= 'mixed';		// "mixed" (in the body) or "related" (separate)
 	public $alt_message	= '';			// Alternative message for HTML emails
-	public $validate	= FALSE;		// TRUE/FALSE.  Enables email validation
+	public $validate	= FALSE;		// TRUE/FALSE - Enables email validation
 	public $priority	= 3;			// Default priority (1 - 5)
 	public $newline		= "\n";			// Default newline. "\r\n" or "\n" (Use "\r\n" to comply with RFC 822)
-	public $crlf		= "\n";			// The RFC 2045 compliant CRLF for quoted-printable is "\r\n".  Apparently some servers,
+	public $crlf		= "\n";			// The RFC 2045 compliant CRLF for quoted-printable is "\r\n". Apparently some servers,
 									// even on the receiving end think they need to muck with CRLFs, so using "\n", while
 									// distasteful, is the only thing that seems to work for all environments.
 	public $dsn		= FALSE;		// Delivery Status Notification
-	public $send_multipart	= TRUE;		// TRUE/FALSE - Yahoo does not like multipart alternative, so this is an override.  Set to FALSE for Yahoo.
+	public $send_multipart	= TRUE;		// TRUE/FALSE - Yahoo does not like multipart alternative, so this is an override. Set to FALSE for Yahoo.
 	public $bcc_batch_mode	= FALSE;	// TRUE/FALSE - Turns on/off Bcc batch feature
 	public $bcc_batch_size	= 200;		// If bcc_batch_mode = TRUE, sets max number of Bccs in each batch
 
@@ -989,7 +989,6 @@ class CI_Email {
 					$this->_finalbody = $hdr.$this->_finalbody;
 				}
 
-
 				if ($this->send_multipart !== FALSE)
 				{
 					$this->_finalbody .= '--'.$this->_alt_boundary.'--';
@@ -1661,7 +1660,7 @@ class CI_Email {
 	// --------------------------------------------------------------------
 
 	/**
-	 *  SMTP Authenticate
+	 * SMTP Authenticate
 	 *
 	 * @return	bool
 	 */
