@@ -50,6 +50,11 @@ class CI_DB_odbc_driver extends CI_DB {
 	protected $_random_keyword;
 
 	/**
+	 * @var	string Database schema
+	 */
+	public $schema = 'public';
+
+	/**
 	 * Constructor
 	 *
 	 * @param	array	$params
@@ -234,17 +239,17 @@ class CI_DB_odbc_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	bool
+	 * @param	bool	$prefix_limit = FALSE
 	 * @return	string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		$sql = 'SHOW TABLES FROM '.$this->database;
+		$sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '".$this->schema."'";
 
 		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{
-			//$sql .= " LIKE '".$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
-			return FALSE; // not currently supported
+			return $sql." AND table_name LIKE '".$this->escape_like_str($this->dbprefix)."%' "
+				.sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
 
 		return $sql;

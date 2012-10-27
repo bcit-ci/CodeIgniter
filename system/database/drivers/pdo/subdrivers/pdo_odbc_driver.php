@@ -51,6 +51,11 @@ class CI_DB_pdo_odbc_driver extends CI_DB_pdo_driver {
 	protected $_random_keyword = ' RAND()';
 
 	/**
+	 * @var	string Database schema
+	 */
+	public $schema = 'public';
+
+	/**
 	 * Constructor
 	 *
 	 * Builds the DSN if not already set.
@@ -122,12 +127,12 @@ class CI_DB_pdo_odbc_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	bool
+	 * @param	bool	$prefix_limit = FALSE
 	 * @return	string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		$sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'";
+		$sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '".$this->schema."'";
 
 		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{
