@@ -64,7 +64,6 @@ class CI_Utf8 {
 			define('MB_ENABLED', FALSE);
 		}
 
-
 		if (
 			@preg_match('/./u', 'é') === 1	// PCRE must support UTF-8
 			&& function_exists('iconv')	// iconv must be installed
