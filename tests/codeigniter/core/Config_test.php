@@ -9,7 +9,7 @@ class Config_test extends CI_TestCase {
 		// set predictable config values
 		$this->cfg = array(
 			'index_page'		=> 'index.php',
-			'base_url'			=> 'http://example.com/',
+			'base_url'		=> 'http://example.com/',
 			'subclass_prefix'	=> 'MY_'
 		);
 		$this->ci_set_config($this->cfg);
@@ -38,7 +38,6 @@ class Config_test extends CI_TestCase {
 		$this->assertFalse($this->config->item('not_yet_set'));
 
 		$this->config->set_item('not_yet_set', 'is set');
-
 		$this->assertEquals('is set', $this->config->item('not_yet_set'));
 	}
 
@@ -50,7 +49,6 @@ class Config_test extends CI_TestCase {
 		$this->assertFalse($this->config->slash_item('no_good_item'));
 
 		$this->assertEquals($this->cfg['base_url'], $this->config->slash_item('base_url'));
-
 		$this->assertEquals($this->cfg['subclass_prefix'].'/', $this->config->slash_item('subclass_prefix'));
 	}
 
@@ -124,7 +122,7 @@ class Config_test extends CI_TestCase {
 		$q_string = $this->config->item('enable_query_strings');
 		$this->config->set_item('enable_query_strings', FALSE);
 
-		$uri= 'test';
+		$uri = 'test';
 		$uri2 = '1';
 		$this->assertEquals($index_page.'/'.$uri, $this->config->site_url($uri));
 		$this->assertEquals($index_page.'/'.$uri.'/'.$uri2, $this->config->site_url(array($uri, $uri2)));
@@ -137,7 +135,6 @@ class Config_test extends CI_TestCase {
 		$this->assertEquals($index_page.'/'.$uri.$suffix.'?'.$arg, $this->config->site_url($uri.'?'.$arg));
 
 		$this->config->set_item('url_suffix', FALSE);
-
 		$this->config->set_item('enable_query_strings', TRUE);
 
 		$this->assertEquals($index_page.'?'.$uri, $this->config->site_url($uri));
@@ -231,24 +228,6 @@ class Config_test extends CI_TestCase {
 			'CI Error: The configuration file '.$file.'.php does not exist.'
 		);
 		$this->assertNull($this->config->load($file));
-	}
-
-	// --------------------------------------------------------------------
-
-	public function test_assign_to_config()
-	{
-		$key1 = 'test';
-		$key2 = '1';
-		$val1 = 'foo';
-		$val2 = 'bar';
-		$cfg = array(
-			$key1 => $val1,
-			$key2 => $val2
-		);
-
-		$this->assertNull($this->config->_assign_to_config($cfg));
-		$this->assertEquals($val1, $this->config->item($key1));
-		$this->assertEquals($val2, $this->config->item($key2));
 	}
 
 }
