@@ -223,9 +223,6 @@ class CI_Session_cookie extends CI_Session_driver {
 			show_error('In order to use the Cookie Session driver you are required to set an encryption key in your config file.');
 		}
 
-		// Load the string helper so we can use the strip_slashes() function
-		$this->CI->load->helper('string');
-
 		// Do we need encryption? If so, load the encryption class
 		if ($this->sess_encrypt_cookie === TRUE)
 		{
@@ -755,7 +752,7 @@ class CI_Session_cookie extends CI_Session_driver {
 	 */
 	protected function _unserialize($data)
 	{
-		$data = @unserialize(strip_slashes(trim($data)));
+		$data = @unserialize(trim($data));
 
 		if (is_array($data))
 		{
