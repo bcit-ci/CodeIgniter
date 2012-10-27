@@ -382,10 +382,9 @@ class CI_Output {
 			$output = $this->minify($output, $this->mime_type);
 		}
 
-
 		// --------------------------------------------------------------------
 
-		// Do we need to write a cache file?  Only if the controller does not have its
+		// Do we need to write a cache file? Only if the controller does not have its
 		// own _output() method and we are not dealing with a cache file, which we
 		// can determine by the existence of the $CI object above
 		if ($this->cache_expiration > 0 && isset($CI) && ! method_exists($CI, '_output'))

@@ -232,7 +232,6 @@
 		return CI_Controller::get_instance();
 	}
 
-
 	if (file_exists(APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php'))
 	{
 		require APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php';

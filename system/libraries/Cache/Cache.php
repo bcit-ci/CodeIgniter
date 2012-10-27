@@ -103,7 +103,7 @@ class CI_Cache extends CI_Driver_Library {
 			}
 		}
 
-		isset($config['key_prefix']) AND $this->key_prefix = $config['key_prefix'];
+		isset($config['key_prefix']) && $this->key_prefix = $config['key_prefix'];
 
 		if (isset($config['backup']) && in_array('cache_'.$config['backup'], $this->valid_drivers))
 		{

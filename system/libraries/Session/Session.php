@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -86,7 +86,7 @@ class CI_Session extends CI_Driver_Library {
 		// Get valid drivers list
 		$this->valid_drivers = array(
 			'Session_native',
-		   	'Session_cookie'
+			'Session_cookie'
 		);
 		$key = 'sess_valid_drivers';
 		$drivers = isset($params[$key]) ? $params[$key] : $CI->config->item($key);
@@ -243,7 +243,7 @@ class CI_Session extends CI_Driver_Library {
 	/**
 	 * Fetch all flashdata
 	 *
-	 * @return	array   Flash data array
+	 * @return	array	Flash data array
 	 */
 	public function all_flashdata()
 	{
