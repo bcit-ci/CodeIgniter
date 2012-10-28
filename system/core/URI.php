@@ -39,36 +39,37 @@
 class CI_URI {
 
 	/**
-	 * List of cached uri segments
+	 * List of cached URI segments
 	 *
-	 * @var array
+	 * @var	array
 	 */
 	public $keyval =	array();
 
 	/**
-	 * Current uri string
+	 * Current URI string
 	 *
-	 * @var string
+	 * @var	string
 	 */
 	public $uri_string;
 
 	/**
-	 * List of uri segments
+	 * List of URI segments
 	 *
-	 * @var array
+	 * @var	array
 	 */
 	public $segments =	array();
 
 	/**
-	 * Re-indexed list of uri segments
-	 * Starts at 1 instead of 0
+	 * Re-indexed list of URI segments
 	 *
-	 * @var array
+	 * Starts at 1 instead of 0.
+	 *
+	 * @var	array
 	 */
 	public $rsegments =	array();
 
 	/**
-	 * Constructor
+	 * Class constructor
 	 *
 	 * Simply globalizes the $RTR object. The front
 	 * loads the Router class early on so it's not available
@@ -85,10 +86,9 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Get the URI String
+	 * Fetch URI String
 	 *
-	 * Called by CI_Router
-	 *
+	 * @used-by	CI_Router
 	 * @return	void
 	 */
 	public function _fetch_uri_string()
@@ -158,9 +158,9 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set the URI String
+	 * Set URI String
 	 *
-	 * @param 	string
+	 * @param 	string	$str
 	 * @return	void
 	 */
 	protected function _set_uri_string($str)
@@ -172,10 +172,9 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Detects the URI
+	 * Detects URI
 	 *
-	 * This function will detect the URI automatically
-	 * and fix the query string if necessary.
+	 * Will detect the URI automatically and fix the query string if necessary.
 	 *
 	 * @return	string
 	 */
@@ -233,10 +232,13 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Is cli Request?
+	 * Is CLI Request?
 	 *
-	 * Duplicate of function from the Input class to test to see if a request was made from the command line
+	 * Duplicate of method from the Input class to test to see if
+	 * a request was made from the command line.
 	 *
+	 * @see		CI_Input::is_cli_request()
+	 * @used-by	CI_URI::_fetch_uri_string()
 	 * @return 	bool
 	 */
 	protected function _is_cli_request()
@@ -247,7 +249,7 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Parse cli arguments
+	 * Parse CLI arguments
 	 *
 	 * Take each command line argument and assume it is a URI segment.
 	 *
@@ -262,11 +264,12 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Filter segments for malicious characters
+	 * Filter URI
 	 *
-	 * Called by CI_Router
+	 * Filters segments for malicious characters.
 	 *
-	 * @param	string
+	 * @used-by	CI_Router
+	 * @param	string	$str
 	 * @return	string
 	 */
 	public function _filter_uri($str)
@@ -291,10 +294,11 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Remove the suffix from the URL if needed
+	 * Remove URL suffix
 	 *
-	 * Called by CI_Router
+	 * Removes the suffix from the URL if needed.
 	 *
+	 * @used-by	CI_Router
 	 * @return	void
 	 */
 	public function _remove_url_suffix()
@@ -310,11 +314,12 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Explode the URI Segments. The individual segments will
-	 * be stored in the $this->segments array.
+	 * Explode URI segments
 	 *
-	 * Called by CI_Router
+	 * The individual segments will be stored in the $this->segments array.
 	 *
+	 * @see		CI_URI::$segments
+	 * @used-by	CI_Router
 	 * @return	void
 	 */
 	public function _explode_segments()
@@ -336,13 +341,12 @@ class CI_URI {
 	/**
 	 * Re-index Segments
 	 *
-	 * This function re-indexes the $this->segment array so that it
-	 * starts at 1 rather than 0. Doing so makes it simpler to
-	 * use functions like $this->uri->segment(n) since there is
-	 * a 1:1 relationship between the segment array and the actual segments.
+	 * Re-indexes the CI_URI::$segment array so that it starts at 1 rather
+	 * than 0. Doing so makes it simpler to use methods like
+	 * CI_URI::segment(n) since there is a 1:1 relationship between the
+	 * segment array and the actual segments.
 	 *
-	 * Called by CI_Router
-	 *
+	 * @used-by	CI_Router
 	 * @return	void
 	 */
 	public function _reindex_segments()
@@ -356,13 +360,12 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Fetch a URI Segment
+	 * Fetch URI Segment
 	 *
-	 * This function returns the URI segment based on the number provided.
-	 *
-	 * @param	int
-	 * @param	mixed
-	 * @return	string
+	 * @see		CI_URI::$segments
+	 * @param	int		$n		Index
+	 * @param	mixed		$no_result	What to return if the segment index is not found
+	 * @return	mixed
 	 */
 	public function segment($n, $no_result = NULL)
 	{
@@ -372,15 +375,17 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Fetch a URI "routed" Segment
+	 * Fetch URI "routed" Segment
 	 *
-	 * This function returns the re-routed URI segment (assuming routing rules are used)
-	 * based on the number provided. If there is no routing this function returns the
-	 * same result as $this->segment()
+	 * Returns the re-routed URI segment (assuming routing rules are used)
+	 * based on the index provided. If there is no routing, will return
+	 * the same result as CI_URI::segment().
 	 *
-	 * @param	int
-	 * @param	mixed
-	 * @return	string
+	 * @see		CI_URI::$rsegments
+	 * @see		CI_URI::segment()
+	 * @param	int		$n		Index
+	 * @param	mixed		$no_result	What to return if the segment index is not found
+	 * @return	mixed
 	 */
 	public function rsegment($n, $no_result = NULL)
 	{
@@ -390,23 +395,23 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Generate a key value pair from the URI string
+	 * URI to assoc
 	 *
-	 * This function generates and associative array of URI data starting
-	 * at the supplied segment. For example, if this is your URI:
+	 * Generates an associative array of URI data starting at the supplied
+	 * segment index. For example, if this is your URI:
 	 *
 	 *	example.com/user/search/name/joe/location/UK/gender/male
 	 *
-	 * You can use this function to generate an array with this prototype:
+	 * You can use this method to generate an array with this prototype:
 	 *
-	 * array (
-	 *			name => joe
-	 *			location => UK
-	 *			gender => male
-	 *		 )
+	 *	array (
+	 *		name => joe
+	 *		location => UK
+	 *		gender => male
+	 *	 )
 	 *
-	 * @param	int	the starting segment number
-	 * @param	array	an array of default values
+	 * @param	int	$n		Index (default: 3)
+	 * @param	array	$default	Default values
 	 * @return	array
 	 */
 	public function uri_to_assoc($n = 3, $default = array())
@@ -417,10 +422,14 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Identical to above only it uses the re-routed segment array
+	 * Routed URI to assoc
 	 *
-	 * @param 	int	the starting segment number
-	 * @param 	array	an array of default values
+	 * Identical to CI_URI::uri_to_assoc(), only it uses the re-routed
+	 * segment array.
+	 *
+	 * @see		CI_URI::uri_to_assoc()
+	 * @param 	int	$n		Index (default: 3)
+	 * @param 	array	$default	Default values
 	 * @return 	array
 	 */
 	public function ruri_to_assoc($n = 3, $default = array())
@@ -431,11 +440,15 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Generate a key value pair from the URI string or Re-routed URI string
+	 * Internal URI-to-assoc
 	 *
-	 * @param	int	$n = 3			the starting segment number
-	 * @param	array	$default = array()	an array of default values
-	 * @param	string	$which = 'segment'	which array we should use
+	 * Generates a key/value pair from the URI string or re-routed URI string.
+	 *
+	 * @used-by	CI_URI::uri_to_assoc()
+	 * @used-by	CI_URI::ruri_to_assoc()
+	 * @param	int	$n		Index (default: 3)
+	 * @param	array	$default	Default values
+	 * @param	string	$which		Array name ('segment' or 'rsegment')
 	 * @return	array
 	 */
 	protected function _uri_to_assoc($n = 3, $default = array(), $which = 'segment')
@@ -509,10 +522,12 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Generate a URI string from an associative array
+	 * Assoc to URI
 	 *
-	 * @param	array	an associative array of key/values
-	 * @return	array
+	 * Generates a URI string from an associative array.
+	 *
+	 * @param	array	$array	Input array of key/value pairs
+	 * @return	string	URI string
 	 */
 	public function assoc_to_uri($array)
 	{
@@ -529,10 +544,12 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Fetch a URI Segment and add a trailing slash
+	 * Slash segment
 	 *
-	 * @param	int
-	 * @param	string
+	 * Fetches an URI segment with a slash.
+	 *
+	 * @param	int	$n	Index
+	 * @param	string	$where	Where to add the slash ('trailing' or 'leading')
 	 * @return	string
 	 */
 	public function slash_segment($n, $where = 'trailing')
@@ -543,10 +560,12 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Fetch a URI Segment and add a trailing slash
+	 * Slash routed segment
 	 *
-	 * @param	int
-	 * @param	string
+	 * Fetches an URI routed segment with a slash.
+	 *
+	 * @param	int	$n	Index
+	 * @param	string	$where	Where to add the slash ('trailing' or 'leading')
 	 * @return	string
 	 */
 	public function slash_rsegment($n, $where = 'trailing')
@@ -557,11 +576,16 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Fetch a URI Segment and add a trailing slash - helper function
+	 * Internal Slash segment
 	 *
-	 * @param	int
-	 * @param	string
-	 * @param	string
+	 * Fetches an URI Segment and adds a slash to it.
+	 *
+	 * @used-by	CI_URI::slash_segment()
+	 * @used-by	CI_URI::slash_rsegment()
+	 *
+	 * @param	int	$n	Index
+	 * @param	string	$where	Where to add the slash ('trailing' or 'leading')
+	 * @param	string	$which	Array name ('segment' or 'rsegment')
 	 * @return	string
 	 */
 	protected function _slash_segment($n, $where = 'trailing', $which = 'segment')
@@ -585,7 +609,7 @@ class CI_URI {
 	/**
 	 * Segment Array
 	 *
-	 * @return	array
+	 * @return	array	CI_URI::$segments
 	 */
 	public function segment_array()
 	{
@@ -597,7 +621,7 @@ class CI_URI {
 	/**
 	 * Routed Segment Array
 	 *
-	 * @return	array
+	 * @return	array	CI_URI::$rsegments
 	 */
 	public function rsegment_array()
 	{
@@ -631,9 +655,9 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Fetch the entire URI string
+	 * Fetch URI string
 	 *
-	 * @return	string
+	 * @return	string	CI_URI::$uri_string
 	 */
 	public function uri_string()
 	{
@@ -643,7 +667,7 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Fetch the entire Re-routed URI string
+	 * Fetch Re-routed URI string
 	 *
 	 * @return	string
 	 */
