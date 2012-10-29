@@ -279,6 +279,7 @@ $config['encryption_key'] = '';
 | 'sess_match_ip'			= Whether to match the user's IP address when reading the session data
 | 'sess_match_useragent'	= Whether to match the User Agent when reading the session data
 | 'sess_time_to_update'		= how many seconds between CI refreshing Session Information
+| 'sess_forward_window'     = how long to forward sessions to regenerated ID in seconds
 |
 */
 $config['sess_driver']			= 'cookie';
@@ -292,6 +293,7 @@ $config['sess_table_name']		= 'ci_sessions';
 $config['sess_match_ip']		= FALSE;
 $config['sess_match_useragent']	= TRUE;
 $config['sess_time_to_update']	= 300;
+$config['sess_forward_window']  = FALSE;
 
 /*
 |--------------------------------------------------------------------------
