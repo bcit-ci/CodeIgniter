@@ -368,7 +368,7 @@ class CI_Router {
 		foreach ($this->routes as $key => $val)
 		{
 			// Convert wild-cards to RegEx
-			$key = str_replace(array(':any', ':num'), array('.+', '[0-9]+'), $key);
+			$key = str_replace(array(':any', ':num'), array('[^/]+', '[0-9]+'), $key);
 
 			// Does the RegEx match?
 			if (preg_match('#^'.$key.'$#', $uri))
