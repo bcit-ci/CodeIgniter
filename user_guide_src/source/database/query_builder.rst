@@ -492,8 +492,8 @@ Or multiple function calls can be made if you need multiple fields.
 .. note:: order_by() was formerly known as orderby(), which has been
 	removed.
 
-.. note:: random ordering is not currently supported in Oracle or MSSQL
-	drivers. These will default to 'ASC'.
+.. note:: Random ordering is not currently supported in Oracle and
+	will default to ASC instead.
 
 $this->db->limit()
 ==================
