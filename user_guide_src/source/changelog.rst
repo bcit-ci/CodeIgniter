@@ -400,6 +400,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#142) - :doc:`Form Helper <helpers/form_helper>` function ``form_dropdown()`` didn't escape HTML entities in option values.
 -  Fixed a bug (#50) - :doc:`Session Library <libraries/sessions>` unnecessarily stripped slashed from serialized data, making it impossible to read objects in a namespace.
 -  Fixed a bug (#658) - :doc:`Routing <general/routing>` wildcard **:any** didn't work as advertised and matched multiple URI segments instead of all characters within a single segment.
+-  Fixed a bug (#1938) - :doc:`Email <libraries/email>` where the email library removed multiple spaces inside a pre-formatted plain text message.
 
 Version 2.1.3
 =============
