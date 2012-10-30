@@ -770,6 +770,9 @@ class CI_Email {
 			$body = str_replace(str_repeat("\n", $i), "\n\n", $body);
 		}
 
+		// Reduce multiple spaces
+		$str = preg_replace('| +|', ' ', $str);
+
 		return ($this->wordwrap)
 			? $this->word_wrap($body, 76)
 			: $body;
@@ -792,14 +795,14 @@ class CI_Email {
 			$charlim = empty($this->wrapchars) ? 76 : $this->wrapchars;
 		}
 
-		// Reduce multiple spaces
-		$str = preg_replace('| +|', ' ', $str);
-
 		// Standardize newlines
 		if (strpos($str, "\r") !== FALSE)
 		{
 			$str = str_replace(array("\r\n", "\r"), "\n", $str);
 		}
+
+		// Reduce multiple spaces at end of line
+		$str = preg_replace('| +\n|', "\n", $str);
 
 		// If the current word is surrounded by {unwrap} tags we'll
 		// strip the entire chunk and replace it with a marker.
