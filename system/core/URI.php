@@ -102,23 +102,21 @@ class CI_URI {
 				return;
 			}
 
-			// Let's try the REQUEST_URI first, this will work in most situations
+			// Is there a PATH_INFO variable? This should be the easiest solution.
+			if (isset($_SERVER['PATH_INFO']))
+			{
+				$this->_set_uri_string($_SERVER['PATH_INFO']);
+				return;
+			}
+
+			// Let's try REQUEST_URI then, this will work in most situations
 			if (($uri = $this->_parse_request_uri()) !== '')
 			{
 				$this->_set_uri_string($uri);
 				return;
 			}
 
-			// Is there a PATH_INFO variable?
-			// Note: some servers seem to have trouble with getenv() so we'll test it two ways
-			$uri = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');
-			if (trim($uri, '/') !== '' && $uri !== '/'.SELF)
-			{
-				$this->_set_uri_string($uri);
-				return;
-			}
-
-			// No PATH_INFO?... What about QUERY_STRING?
+			// No REQUEST_URI either?... What about QUERY_STRING?
 			if (($uri = $this->_parse_query_string()) !== '')
 			{
 				$this->_set_uri_string($uri);
