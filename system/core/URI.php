@@ -98,12 +98,12 @@ class CI_URI {
 			// Is the request coming from the command line?
 			if ($this->_is_cli_request())
 			{
-				$this->_set_uri_string($this->_parse_cli_args());
+				$this->_set_uri_string($this->_parse_argv());
 				return;
 			}
 
 			// Let's try the REQUEST_URI first, this will work in most situations
-			if ($uri = $this->_detect_uri())
+			if (($uri = $this->_parse_request_uri()) !== '')
 			{
 				$this->_set_uri_string($uri);
 				return;
@@ -111,18 +111,17 @@ class CI_URI {
 
 			// Is there a PATH_INFO variable?
 			// Note: some servers seem to have trouble with getenv() so we'll test it two ways
-			$path = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');
-			if (trim($path, '/') !== '' && $path !== '/'.SELF)
+			$uri = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');
+			if (trim($uri, '/') !== '' && $uri !== '/'.SELF)
 			{
 				$this->_set_uri_string($path);
 				return;
 			}
 
 			// No PATH_INFO?... What about QUERY_STRING?
-			$path = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
-			if (trim($path, '/') !== '')
+			if (($uri = $this->_parse_query_string()) !== '')
 			{
-				$this->_set_uri_string($path);
+				$this->_set_uri_string($uri);
 				return;
 			}
 
@@ -140,19 +139,19 @@ class CI_URI {
 
 		$uri = strtoupper($this->config->item('uri_protocol'));
 
-		if ($uri === 'REQUEST_URI')
+		if ($uri === 'CLI')
 		{
-			$this->_set_uri_string($this->_detect_uri());
+			$this->_set_uri_string($this->_parse_argv());
 			return;
 		}
-		elseif ($uri === 'CLI')
+		elseif (method_exists($this, ($method = '_parse_'.strtolower($uri))))
 		{
-			$this->_set_uri_string($this->_parse_cli_args());
+			$this->_set_uri_string($this->$method());
 			return;
 		}
 
-		$path = isset($_SERVER[$uri]) ? $_SERVER[$uri] : @getenv($uri);
-		$this->_set_uri_string($path);
+		$uri = isset($_SERVER[$uri]) ? $_SERVER[$uri] : @getenv($uri);
+		$this->_set_uri_string($uri);
 	}
 
 	// --------------------------------------------------------------------
@@ -172,13 +171,15 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Detects URI
+	 * Parse REQUEST_URI
 	 *
-	 * Will detect the URI automatically and fix the query string if necessary.
+	 * Will parse REQUEST_URI and automatically detect the URI from it,
+	 * while fixing the query string if necessary.
 	 *
+	 * @used-by	CI_URI::_fetch_uri_string()
 	 * @return	string
 	 */
-	protected function _detect_uri()
+	protected function _parse_request_uri()
 	{
 		if ( ! isset($_SERVER['REQUEST_URI'], $_SERVER['SCRIPT_NAME']))
 		{
@@ -197,10 +198,10 @@ class CI_URI {
 		{
 			$uri = (string) substr($uri, strlen(dirname($_SERVER['SCRIPT_NAME'])));
 		}
+
 		// This section ensures that even on servers that require the URI to be in the query string (Nginx) a correct
 		// URI is found, and also fixes the QUERY_STRING server var and $_GET array.
-
-		if ($uri === '' && strncmp($query, '/', 1) === 0)
+		if (trim($uri, '/') === '' && strncmp($query, '/', 1) === 0)
 		{
 			$query = explode('?', $query, 2);
 			$uri = $query[0];
@@ -211,14 +212,7 @@ class CI_URI {
 			$_SERVER['QUERY_STRING'] = $query;
 		}
 
-		if ($_SERVER['QUERY_STRING'] === '')
-		{
-			$_GET = array();
-		}
-		else
-		{
-			parse_str($_SERVER['QUERY_STRING'], $_GET);
-		}
+		$this->_reset_query_string();
 
 		if ($uri === '/' OR $uri === '')
 		{
@@ -227,6 +221,59 @@ class CI_URI {
 
 		// Do some final cleaning of the URI and return it
 		return str_replace(array('//', '../'), '/', trim($uri, '/'));
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Parse QUERY_STRING
+	 *
+	 * Will parse QUERY_STRING and automatically detect the URI from it.
+	 *
+	 * @used-by	CI_URI::_fetch_uri_string()
+	 * @return	string
+	 */
+	protected function _parse_query_string()
+	{
+		$uri = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
+
+		if (trim($uri, '/') === '')
+		{
+			return '';
+		}
+		elseif (strncmp($uri, '/', 1) === 0)
+		{
+			$uri = explode('?', $uri, 2);
+			$_SERVER['QUERY_STRING'] = isset($uri[1]) ? $uri[1] : '';
+			$uri = $uri[0];
+		}
+		$this->_reset_query_string();
+
+		return str_replace(array('//', '../'), '/', trim($uri, '/'));
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Reset QUERY_STRING
+	 *
+	 * Re-processes QUERY_STRING to and fetches the real GET values from it.
+	 * Useful for cases where we got the URI path from it's query string.
+	 *
+	 * @used-by	CI_URI::_parse_request_uri()
+	 * @used-by	CI_URI::_parse_query_string()
+	 * @return	void
+	 */
+	protected function _reset_query_string()
+	{
+		if ($_SERVER['QUERY_STRING'] === '')
+		{
+			$_GET = array();
+		}
+		else
+		{
+			parse_str($_SERVER['QUERY_STRING']);
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -255,10 +302,10 @@ class CI_URI {
 	 *
 	 * @return	string
 	 */
-	protected function _parse_cli_args()
+	protected function _parse_argv()
 	{
 		$args = array_slice($_SERVER['argv'], 1);
-		return $args ? '/'.implode('/', $args) : '';
+		return $args ? implode('/', $args) : '';
 	}
 
 	// --------------------------------------------------------------------
