@@ -371,10 +371,48 @@ class CI_Router {
 			$key = str_replace(array(':any', ':num'), array('[^/]+', '[0-9]+'), $key);
 
 			// Does the RegEx match?
-			if (preg_match('#^'.$key.'$#', $uri))
+			if (preg_match('#^'.$key.'$#', $uri, $matches))
 			{
-				// Do we have a back-reference?
-				if (strpos($val, '$') !== FALSE && strpos($key, '(') !== FALSE)
+				// Are we using callbacks to process back-references?
+				if ( ! is_string($val) && is_callable($val))
+				{
+					// Remove the original string from the matches array.
+					array_shift($matches);
+
+					// Get the match count.
+					$match_count = count($matches);
+
+					// Determine how many parameters the callback has.
+					$reflection = new ReflectionFunction($val);
+					$param_count = $reflection->getNumberOfParameters();
+
+					// Are there more parameters than matches?
+					if ($param_count > $match_count)
+					{
+						// Any params without matches will be set to an empty string.
+						$matches = array_merge($matches, array_fill($match_count, $param_count - $match_count, ''));
+
+						$match_count = $param_count;
+					}
+
+					// Get the parameters so we can use their default values.
+					$params = $reflection->getParameters();
+
+					for ($m = 0; $m < $match_count; $m++)
+					{
+						// Is the match empty and does a default value exist?
+						if (empty($matches[$m]) && $params[$m]->isDefaultValueAvailable())
+						{
+							// Substitute the empty match for the default value.
+							$matches[$m] = $params[$m]->getDefaultValue();
+						}
+					}
+
+					// Execute the callback using the values in matches as its parameters.
+					$val = call_user_func_array($val, $matches);
+				}
+				// Are we using the default routing method for back-references?
+				elseif (strpos($val, '$') !== FALSE && strpos($key, '(') !== FALSE)
 				{
 					$val = preg_replace('#^'.$key.'$#', $val, $uri);
 				}
