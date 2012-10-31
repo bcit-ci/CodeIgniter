@@ -114,7 +114,7 @@ class CI_URI {
 			$uri = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : @getenv('PATH_INFO');
 			if (trim($uri, '/') !== '' && $uri !== '/'.SELF)
 			{
-				$this->_set_uri_string($path);
+				$this->_set_uri_string($uri);
 				return;
 			}
 
