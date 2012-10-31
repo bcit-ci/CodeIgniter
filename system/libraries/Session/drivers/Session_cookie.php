@@ -540,11 +540,25 @@ class CI_Session_cookie extends CI_Session_driver {
 		// Check for database
 		if ($this->sess_use_database === TRUE)
 		{
+			$this->CI->db->where('session_id', $old_sessid);
+
+			if ($this->sess_match_ip === TRUE)
+			{
+				$this->CI->db->where('ip_address', $this->CI->input->ip_address());
+			}
+
+			if ($this->sess_match_useragent === TRUE)
+			{
+				$this->CI->db->where('user_agent', trim(substr($this->CI->input->user_agent(), 0, 120)));
+			}
+
 			// Update the session ID and last_activity field in the DB
-			$this->CI->db->update($this->sess_table_name, array(
-					 'last_activity' => $this->now,
-					 'session_id' => $this->userdata['session_id']
-			), array('session_id' => $old_sessid));
+			$this->CI->db->update($this->sess_table_name,
+				array(
+					'last_activity' => $this->now,
+					'session_id' => $this->userdata['session_id']
+				)
+			);
 		}
 
 		// Write the cookie
@@ -590,7 +604,19 @@ class CI_Session_cookie extends CI_Session_driver {
 			// Run the update query
 			// Any time we change the session id, it gets updated immediately,
 			// so our where clause below is always safe
-			$this->CI->db->update($this->sess_table_name, $set, array('session_id' => $this->userdata['session_id']));
+			$this->CI->db->where('session_id', $this->userdata['session_id']);
+
+			if ($this->sess_match_ip === TRUE)
+			{
+				$this->CI->db->where('ip_address', $this->CI->input->ip_address());
+			}
+
+			if ($this->sess_match_useragent === TRUE)
+			{
+				$this->CI->db->where('user_agent', trim(substr($this->CI->input->user_agent(), 0, 120)));
+			}
+
+			$this->CI->db->update($this->sess_table_name, $set);
 
 			// Clear dirty flag to prevent double updates
 			$this->data_dirty = FALSE;
