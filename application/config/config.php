@@ -64,10 +64,9 @@ $config['index_page'] = 'index.php';
 |
 | 'AUTO'		Default - auto detects
 | 'CLI' or 'argv'	Uses $_SERVER['argv'] (for php-cli only)
-| 'REQUEST_URI'		Uses $_SERVER['REQUEST_URI']
 | 'PATH_INFO'		Uses $_SERVER['PATH_INFO']
+| 'REQUEST_URI'		Uses $_SERVER['REQUEST_URI']
 | 'QUERY_STRING'	Uses $_SERVER['QUERY_STRING']
-| 'ORIG_PATH_INFO'	Uses $_SERVER['ORIG_PATH_INFO']
 |
 */
 $config['uri_protocol']	= 'AUTO';
