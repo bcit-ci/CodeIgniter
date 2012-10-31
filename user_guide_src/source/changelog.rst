@@ -230,7 +230,9 @@ Release Date: Not Released
 
 -  Core
 
-   -  Changed private methods in the :doc:`URI Library <libraries/uri>` to protected so MY_URI can override them.
+   -  :doc:`URI Library <libraries/uri>` changes include:
+	 -  Changed private methods to protected so that MY_URI can override them.
+	 -  Changed ``_detect_uri()`` to accept absolute URIs for compatibility with HTTP/1.1 as per `RFC2616 <http://www.ietf.org/rfc/rfc2616.txt>`.
    -  Removed ``CI_CORE`` boolean constant from *CodeIgniter.php* (no longer Reactor and Core versions).
    -  :doc:`Loader Library <libraries/loader>` changes include:
 	 -  Added method ``get_vars()`` to the Loader to retrieve all variables loaded with ``$this->load->vars()``.
