@@ -463,29 +463,6 @@ the tag. For example
 	echo form_close($string);
 	// Would produce:  </form> </div></div>
 
-form_prep()
-===========
-
-Allows you to safely use HTML and characters such as quotes within form
-elements without breaking out of the form. Consider this example
-
-::
-
-	$string = 'Here is a string containing "quoted" text.';
-	<input type="text" name="myform" value="$string" />
-
-Since the above string contains a set of quotes it will cause the form
-to break. The `form_prep()` function converts HTML so that it can be used
-safely
-
-::
-
-	<input type="text" name="myform" value="<?php echo form_prep($string); ?>" />
-
-.. note:: If you use any of the form helper functions listed in this page the form
-	values will be prepped automatically, so there is no need to call this
-	function. Use it only if you are creating your own form elements.
-
 set_value()
 ===========
 
@@ -547,3 +524,25 @@ This function is identical to the **set_checkbox()** function above.
 	even if empty, in order for the set_*() functions to work. This is because if a Form Validation object
 	is defined, the control for set_*() is handed over to a method of the class instead of the generic helper
 	function.
+
+Escaping field values
+=====================
+
+You may need to use HTML and characters such as quotes within form
+elements. In order to do that safely, you'll need to use
+:doc:`common function <../general/common_functions>` ``html_escape()``.
+
+Consider the following example::
+
+	$string = 'Here is a string containing "quoted" text.';
+	<input type="text" name="myform" value="$string" />
+
+Since the above string contains a set of quotes it will cause the form
+to break. The ``html_escape()`` function converts HTML so that it can be
+used safely::
+
+	<input type="text" name="myform" value="<?php echo html_escape($string); ?>" />
+
+.. note:: If you use any of the form helper functions listed in this page, the form
+	values will be prepped automatically, so there is no need to call this
+	function. Use it only if you are creating your own form elements.

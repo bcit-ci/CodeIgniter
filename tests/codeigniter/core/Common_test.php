@@ -2,8 +2,6 @@
 
 class Common_test extends CI_TestCase {
 
-	// ------------------------------------------------------------------------
-
 	public function test_is_php()
 	{
 		$this->assertEquals(TRUE, is_php('1.2.0'));
@@ -16,12 +14,12 @@ class Common_test extends CI_TestCase {
 	{
 		$this->assertEquals(' class="foo" id="bar"', _stringify_attributes(array('class' => 'foo', 'id' => 'bar')));
 
-		$atts = new Stdclass;
+		$atts = new stdClass;
 		$atts->class = 'foo';
 		$atts->id = 'bar';
 		$this->assertEquals(' class="foo" id="bar"', _stringify_attributes($atts));
 
-		$atts = new Stdclass;
+		$atts = new stdClass;
 		$this->assertEquals('', _stringify_attributes($atts));
 
 		$this->assertEquals(' class="foo" id="bar"', _stringify_attributes('class="foo" id="bar"'));
@@ -35,10 +33,20 @@ class Common_test extends CI_TestCase {
 	{
 		$this->assertEquals('width=800,height=600', _stringify_attributes(array('width' => '800', 'height' => '600'), TRUE));
 
-		$atts = new Stdclass;
+		$atts = new stdClass;
 		$atts->width = 800;
 		$atts->height = 600;
 		$this->assertEquals('width=800,height=600', _stringify_attributes($atts, TRUE));
+	}
+
+	// ------------------------------------------------------------------------
+
+	public function test_html_escape()
+	{
+		$this->assertEquals(
+			html_escape('Here is a string containing "quoted" text.'),
+			'Here is a string containing &quot;quoted&quot; text.'
+		);
 	}
 
 }

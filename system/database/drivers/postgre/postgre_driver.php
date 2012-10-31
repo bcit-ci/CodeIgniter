@@ -47,6 +47,13 @@ class CI_DB_postgre_driver extends CI_DB {
 	protected $_random_keyword = ' RANDOM()'; // database specific random keyword
 
 	/**
+	 * Database schema
+	 *
+	 * @var	string
+	 */
+	public $schema = 'public';
+
+	/**
 	 * Constructor
 	 *
 	 * Creates a DSN string to be used for db_connect() and db_pconnect()
@@ -393,12 +400,12 @@ class CI_DB_postgre_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	bool
+	 * @param	bool	$prefix_limit = FALSE
 	 * @return	string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		$sql = 'SELECT "table_name" FROM "information_schema"."tables" WHERE "table_schema" = \'public\'';
+		$sql = 'SELECT "table_name" FROM "information_schema"."tables" WHERE "table_schema" = \''.$this->schema."'";
 
 		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{

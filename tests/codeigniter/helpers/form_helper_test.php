@@ -7,6 +7,8 @@ class Form_helper_test extends CI_TestCase
 		$this->helper('form');
 	}
 
+	// ------------------------------------------------------------------------
+
 	public function test_form_hidden()
 	{
 		$expected = <<<EOH
@@ -17,6 +19,8 @@ EOH;
 
 		$this->assertEquals($expected, form_hidden('username', 'johndoe'));
 	}
+
+	// ------------------------------------------------------------------------
 
 	public function test_form_input()
 	{
@@ -37,6 +41,8 @@ EOH;
 		$this->assertEquals($expected, form_input($data));
 	}
 
+	// ------------------------------------------------------------------------
+
 	public function test_form_password()
 	{
 		$expected = <<<EOH
@@ -46,6 +52,8 @@ EOH;
 
 		$this->assertEquals($expected, form_password('password'));
 	}
+
+	// ------------------------------------------------------------------------
 
 	public function test_form_upload()
 	{
@@ -57,6 +65,8 @@ EOH;
 		$this->assertEquals($expected, form_upload('attachment'));
 	}
 
+	// ------------------------------------------------------------------------
+
 	public function test_form_textarea()
 	{
 		$expected = <<<EOH
@@ -66,6 +76,8 @@ EOH;
 
 		$this->assertEquals($expected, form_textarea('notes', 'Notes'));
 	}
+
+	// ------------------------------------------------------------------------
 
 	public function test_form_dropdown()
 	{
@@ -130,6 +142,8 @@ EOH;
 		$this->assertEquals($expected, form_dropdown('cars', $options, array('volvo', 'audi')));
 	}
 
+	// ------------------------------------------------------------------------
+
 	public function test_form_multiselect()
 	{
 		$expected = <<<EOH
@@ -152,6 +166,8 @@ EOH;
 		$this->assertEquals($expected, form_multiselect('shirts[]', $options, array('med', 'large')));
 	}
 
+	// ------------------------------------------------------------------------
+
 	public function test_form_fieldset()
 	{
 		$expected = <<<EOH
@@ -163,6 +179,8 @@ EOH;
 		$this->assertEquals($expected, form_fieldset('Address Information'));
 	}
 
+	// ------------------------------------------------------------------------
+
 	public function test_form_fieldset_close()
 	{
 		$expected = <<<EOH
@@ -171,6 +189,8 @@ EOH;
 
 		$this->assertEquals($expected, form_fieldset_close('</div></div>'));
 	}
+
+	// ------------------------------------------------------------------------
 
 	public function test_form_checkbox()
 	{
@@ -182,6 +202,8 @@ EOH;
 		$this->assertEquals($expected, form_checkbox('newsletter', 'accept', TRUE));
 	}
 
+	// ------------------------------------------------------------------------
+
 	public function test_form_radio()
 	{
 		$expected = <<<EOH
@@ -191,6 +213,8 @@ EOH;
 
 		$this->assertEquals($expected, form_radio('newsletter', 'accept', TRUE));
 	}
+
+	// ------------------------------------------------------------------------
 
 	public function test_form_submit()
 	{
@@ -202,6 +226,8 @@ EOH;
 		$this->assertEquals($expected, form_submit('mysubmit', 'Submit Post!'));
 	}
 
+	// ------------------------------------------------------------------------
+
 	public function test_form_label()
 	{
 		$expected = <<<EOH
@@ -210,6 +236,8 @@ EOH;
 
 		$this->assertEquals($expected, form_label('What is your Name', 'username'));
 	}
+
+	// ------------------------------------------------------------------------
 
 	public function test_form_reset()
 	{
@@ -221,6 +249,8 @@ EOH;
 		$this->assertEquals($expected, form_reset('myreset', 'Reset'));
 	}
 
+	// ------------------------------------------------------------------------
+
 	public function test_form_button()
 	{
 		$expected = <<<EOH
@@ -231,6 +261,8 @@ EOH;
 		$this->assertEquals($expected, form_button('name', 'content'));
 	}
 
+	// ------------------------------------------------------------------------
+
 	public function test_form_close()
 	{
 		$expected = <<<EOH
@@ -238,13 +270,6 @@ EOH;
 EOH;
 
 		$this->assertEquals($expected, form_close('</div></div>'));
-	}
-
-	public function test_form_prep()
-	{
-		$expected = 'Here is a string containing &quot;quoted&quot; text.';
-
-		$this->assertEquals($expected, form_prep('Here is a string containing "quoted" text.'));
 	}
 
 }

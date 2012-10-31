@@ -157,7 +157,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	protected function _fetch_assoc()
 	{
 		$id = ($this->curs_id) ? $this->curs_id : $this->stmt_id;
-		return oci_fetch_assoc($id);
+		return @oci_fetch_assoc($id);
 	}
 
 	// --------------------------------------------------------------------
