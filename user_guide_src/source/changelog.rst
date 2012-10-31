@@ -145,11 +145,7 @@ Release Date: Not Released
    -  Added PDO support for ``create_database()``, ``drop_database()`` and ``drop_table()`` in :doc:`Database Forge <database/forge>`.
    -  Added ``unbuffered_row()`` method for getting a row without prefetching whole result (consume less memory).
    -  Added PDO support for ``list_fields()`` in :doc:`Database Results <database/results>`.
-<<<<<<< HEAD
-   -  Added capability for packages to hold database.php config files
-=======
    -  Added capability for packages to hold *database.php* config files
->>>>>>> a7001e968a4791312391eb245ad84888893cda8f
    -  Added subdrivers support (currently only used by PDO).
    -  Added MySQL client compression support.
    -  Added encrypted connections support (for *mysql*, *sqlsrv* and PDO with *sqlsrv*).
@@ -228,25 +224,6 @@ Release Date: Not Released
 -  Core
 
    -  Changed private methods in the :doc:`URI Library <libraries/uri>` to protected so MY_URI can override them.
-<<<<<<< HEAD
-   -  Removed CI_CORE boolean constant from CodeIgniter.php (no longer Reactor and Core versions).
-   -  Added method get_vars() to the :doc:`Loader Library <libraries/loader>` to retrieve all variables loaded with $this->load->vars().
-   -  is_loaded() function from system/core/Commons.php now returns a reference.
-   -  $config['rewrite_short_tags'] now has no effect when using PHP 5.4 as *<?=* will always be available.
-   -  Added method() to the :doc:`Input Library <libraries/input>` to retrieve $_SERVER['REQUEST_METHOD'].
-   -  Modified valid_ip() to use PHP's filter_var() in the :doc:`Input Library <libraries/input>`.
-   -  Added support for HTTP-Only cookies with new config option ``cookie_httponly`` (default FALSE).
-   -  Renamed method _call_hook() to call_hook() in the :doc:`Hooks Library <general/hooks>`.
-   -  Added get_content_type() method to the :doc:`Output Library <libraries/output>`.
-   -  Added get_mimes() function to system/core/Commons.php to return the config/mimes.php array.
-   -  Added a second argument to set_content_type() in the :doc:`Output Library <libraries/output>` that allows setting the document charset as well.
-   -  $config['time_reference'] now supports all timezone strings supported by PHP.
-   -  Added support for HTTP code 303 ("See Other") in set_status_header().
-   -  Changed :doc:`Config Library <libraries/config>` method site_url() to accept an array as well.
-   -  Added method ``strip_image_tags()`` to the :doc:`Security Library <libraries/security>`.
-   -  Changed ``_exception_handler()`` to respect php.ini 'display_errors' setting.
-   -  Added possibility to route requests using callback methods.
-=======
    -  Removed ``CI_CORE`` boolean constant from *CodeIgniter.php* (no longer Reactor and Core versions).
    -  :doc:`Loader Library <libraries/loader>` changes include:
 	 -  Added method ``get_vars()`` to the Loader to retrieve all variables loaded with ``$this->load->vars()``.
@@ -275,7 +252,6 @@ Release Date: Not Released
 	 -  Added method ``strip_image_tags()``.
 	 -  Added ``$config['csrf_regeneration']``, which makes token regeneration optional.
 	 -  Added ``$config['csrf_exclude_uris']``, which allows you list URIs which will not have the CSRF validation methods run.
->>>>>>> a7001e968a4791312391eb245ad84888893cda8f
    -  Added possibility to route requests using callbacks.
 
 Bug fixes for 3.0
