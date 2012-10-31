@@ -1080,41 +1080,17 @@ abstract class CI_DB_driver {
 	 */
 	public function update_string($table, $data, $where)
 	{
-		if ($where === '')
+		if (empty($where))
 		{
 			return FALSE;
 		}
+
+		$this->where($where);
 
 		$fields = array();
 		foreach ($data as $key => $val)
 		{
 			$fields[$this->protect_identifiers($key)] = $this->escape($val);
-		}
-
-		if ( ! is_array($where))
-		{
-			$dest = array($where);
-		}
-		else
-		{
-			$dest = array();
-			foreach ($where as $key => $val)
-			{
-				$prefix = (count($dest) === 0) ? '' : ' AND ';
-				$key = $this->protect_identifiers($key);
-
-				if ($val !== '')
-				{
-					if ( ! $this->_has_operator($key))
-					{
-						$key .= ' =';
-					}
-
-					$val = ' '.$this->escape($val);
-				}
-
-				$dest[] = $prefix.$key.$val;
-			}
 		}
 
 		return $this->_update($this->protect_identifiers($table, TRUE, NULL, FALSE), $fields, $dest);
