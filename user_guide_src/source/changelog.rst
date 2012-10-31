@@ -227,6 +227,9 @@ Release Date: Not Released
 	 -  Added support for hashing algorithms other than SHA1 and MD5.
 	 -  Removed previously deprecated ``sha1()`` method.
    -  Changed :doc:`Language Library <libraries/language>` method ``load()`` to filter the language name with ``ctype_digit()``.
+   -  :doc:`Migration Library <libraries/migration>` changes include:
+     -  Added support for timestamp-based migrations (enabled by default)
+     -  Added ``$config['migration_style']`` to allow switching between sequential migrations and timestamp migrations
 
 -  Core
 

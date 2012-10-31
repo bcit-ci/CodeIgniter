@@ -45,6 +45,13 @@ class CI_Migration {
 	 * @var bool
 	 */
 	protected $_migration_enabled = FALSE;
+	
+	/**
+	 * Migration numbering style
+	 *
+	 * @var bool
+	 */
+	protected $_migration_style = 'sequential';
 
 	/**
 	 * Path to migration classes
@@ -73,6 +80,13 @@ class CI_Migration {
 	 * @var bool
 	 */
 	protected $_migration_auto_latest = FALSE;
+	
+	/**
+	 * Migration basename regex
+	 *
+	 * @var bool
+	 */
+	protected $_migration_regex = NULL;
 
 	/**
 	 * Error message
@@ -125,12 +139,21 @@ class CI_Migration {
 		{
 			show_error('Migrations configuration file (migration.php) must have "migration_table" set.');
 		}
+		
+		// Migration basename regex
+		$this->_migration_regex = $this->_migration_style === 'timestamp' ? '/^\d{14}_(\w+)$/' : '/^\d{3}_(\w+)$/';
+		
+		// Make sure a valid migration numbering style was set.
+		if ( ! in_array($this->_migration_style, array('sequential', 'timestamp')))
+		{
+			show_error('An invalid migration numbering style was specified: '.$this->_migration_style);
+		}
 
 		// If the migrations table is missing, make it
 		if ( ! $this->db->table_exists($this->_migration_table))
 		{
 			$this->dbforge->add_field(array(
-				'version' => array('type' => 'INT', 'constraint' => 3),
+				'version' => array('type' => 'BIGINT', 'constraint' => 3),
 			));
 
 			$this->dbforge->create_table($this->_migration_table, TRUE);
@@ -158,113 +181,80 @@ class CI_Migration {
 	 */
 	public function version($target_version)
 	{
-		$start = $current_version = $this->_get_version();
-		$stop = $target_version;
-
+		$current_version = (int) $this->_get_version();
+		$target_version = (int) $target_version;
+		
+		$migrations = $this->find_migrations();
+		
+		if ($target_version > 0 AND ! isset($migrations[$target_version]))
+		{
+			$this->_error_string = sprintf($this->lang->line('migration_not_found'), $target_version);
+			return FALSE;
+		}
+		
 		if ($target_version > $current_version)
 		{
 			// Moving Up
-			++$start;
-			++$stop;
-			$step = 1;
+			$method = 'up';
 		}
 		else
 		{
-			// Moving Down
-			$step = -1;
+			// Moving Down, apply in reverse order
+			$method = 'down';
+			krsort($migrations);
 		}
 
-		$method = $step === 1 ? 'up' : 'down';
-		$migrations = array();
-
-		// We now prepare to actually DO the migrations
-		// But first let's make sure that everything is the way it should be
-		for ($i = $start; $i != $stop; $i += $step)
-		{
-			$f = glob(sprintf($this->_migration_path.'%03d_*.php', $i));
-
-			// Only one migration per step is permitted
-			if (count($f) > 1)
-			{
-				$this->_error_string = sprintf($this->lang->line('migration_multiple_version'), $i);
-				return FALSE;
-			}
-
-			// Migration step not found
-			if (count($f) === 0)
-			{
-				// If trying to migrate up to a version greater than the last
-				// existing one, migrate to the last one.
-				if ($step === 1)
-				{
-					break;
-				}
-
-				// If trying to migrate down but we're missing a step,
-				// something must definitely be wrong.
-				$this->_error_string = sprintf($this->lang->line('migration_not_found'), $i);
-				return FALSE;
-			}
-
-			$file = basename($f[0]);
-			$name = basename($f[0], '.php');
-
-			// Filename validations
-			if (preg_match('/^\d{3}_(\w+)$/', $name, $match))
-			{
-				$match[1] = strtolower($match[1]);
-
-				// Cannot repeat a migration at different steps
-				if (in_array($match[1], $migrations))
-				{
-					$this->_error_string = sprintf($this->lang->line('migration_multiple_version'), $match[1]);
-					return FALSE;
-				}
-
-				include $f[0];
-				$class = 'Migration_'.ucfirst($match[1]);
-
-				if ( ! class_exists($class))
-				{
-					$this->_error_string = sprintf($this->lang->line('migration_class_doesnt_exist'), $class);
-					return FALSE;
-				}
-
-				if ( ! is_callable(array($class, $method)))
-				{
-					$this->_error_string = sprintf($this->lang->line('migration_missing_'.$method.'_method'), $class);
-					return FALSE;
-				}
-
-				$migrations[] = $match[1];
-			}
-			else
-			{
-				$this->_error_string = sprintf($this->lang->line('migration_invalid_filename'), $file);
-				return FALSE;
-			}
-		}
-
-		log_message('debug', 'Current migration: '.$current_version);
-
-		$version = $i + ($step === 1 ? -1 : 0);
-
-		// If there is nothing to do so quit
-		if ($migrations === array())
+		if (empty($migrations))
 		{
 			return TRUE;
 		}
+		
+		$previous = FALSE;
 
-		log_message('debug', 'Migrating from '.$method.' to version '.$version);
-
-		// Loop through the migrations
-		foreach ($migrations AS $migration)
+		// Validate all available migrations, and run the ones within our target range
+		foreach ($migrations as $number => $file)
 		{
-			// Run the migration class
-			$class = 'Migration_'.ucfirst(strtolower($migration));
-			call_user_func(array(new $class, $method));
+			// Check for sequence gaps
+			if ($this->_migration_style === 'sequential' AND $previous !== FALSE AND abs($number - $previous) > 1)
+			{
+				$this->_error_string = sprintf($this->lang->line('migration_sequence_gap'), $number);
+				return FALSE;
+			}
+		
+			include $file;
+			$class = 'Migration_'.ucfirst(strtolower($this->_get_migration_name(basename($file, '.php'))));
 
-			$current_version += $step;
+			// Validate the migration file structure
+			if ( ! class_exists($class))
+			{
+				$this->_error_string = sprintf($this->lang->line('migration_class_doesnt_exist'), $class);
+				return FALSE;
+			}
+			elseif ( ! is_callable(array($class, $method)))
+			{
+				$this->_error_string = sprintf($this->lang->line('migration_missing_'.$method.'_method'), $class);
+				return FALSE;
+			}
+			
+			$previous = $number;
+
+			// Run migrations that are inside the target range
+			if (
+				($method === 'up'   AND $number > $current_version AND $number <= $target_version) OR
+				($method === 'down' AND $number <= $current_version AND $number > $target_version)
+			) {
+				log_message('debug', 'Migrating '.$method.' from version '.$current_version.' to version '.$number);
+				call_user_func(array(new $class, $method));
+				$current_version = $number;
+				$this->_update_version($current_version);
+			}
+		}
+		
+		// This is necessary when moving down, since the the last migration applied
+		// will be the down() method for the next migration up from the target
+		if ($current_version <> $target_version)
+		{
+			$current_version = $target_version;
 			$this->_update_version($current_version);
 		}
 
@@ -282,17 +272,19 @@ class CI_Migration {
 	 */
 	public function latest()
 	{
-		if ( ! $migrations = $this->find_migrations())
+		$migrations = $this->find_migrations();
+		
+		if (empty($migrations))
 		{
 			$this->_error_string = $this->lang->line('migration_none_found');
 			return FALSE;
 		}
 
 		$last_migration = basename(end($migrations));
-
+		
 		// Calculate the last migration step from existing migration
 		// filenames and procceed to the standard version migration
-		return $this->version((int) $last_migration);
+		return $this->version($this->_get_migration_number($last_migration));
 	}
 
 	// --------------------------------------------------------------------
@@ -326,22 +318,60 @@ class CI_Migration {
 	 *
 	 * @return	array	list of migration file paths sorted by version
 	 */
-	protected function find_migrations()
+	public function find_migrations()
 	{
+		$migrations = array();
+	
 		// Load all *_*.php files in the migrations path
-		$files = glob($this->_migration_path.'*_*.php');
-
-		for ($i = 0, $c = count($files); $i < $c; $i++)
+		foreach (glob($this->_migration_path.'*_*.php') as $file)
 		{
-			// Mark wrongly formatted files as false for later filtering
-			if ( ! preg_match('/^\d{3}_(\w+)$/', basename($files[$i], '.php')))
+			$name = basename($file, '.php');
+		
+			// Filter out non-migration files
+			if (preg_match($this->_migration_regex, $name))
 			{
-				$files[$i] = FALSE;
+				$number = $this->_get_migration_number($name);
+				
+				// There cannot be duplicate migration numbers
+				if (isset($migrations[$number]))
+				{
+					$this->_error_string = sprintf($this->lang->line('migration_multiple_version'), $number);
+					show_error($this->_error_string);
+				}
+				
+				$migrations[$number] = $file;
 			}
 		}
 
-		sort($files);
-		return $files;
+		ksort($migrations);
+		return $migrations;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Extracts the migration number from a filename
+	 *
+	 * @return	int Numeric portion of a migration filename
+	 */
+	protected function _get_migration_number($migration)
+	{
+		$parts = explode('_', $migration);
+		return (int) $parts[0];
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Extracts the migration class name from a filename
+	 *
+	 * @return	string text portion of a migration filename
+	 */
+	protected function _get_migration_name($migration)
+	{
+		$parts = explode('_', $migration);
+		array_shift($parts);
+		return implode('_', $parts);
 	}
 
 	// --------------------------------------------------------------------
@@ -365,10 +395,10 @@ class CI_Migration {
 	 * @param	int	Migration reached
 	 * @return	void	Outputs a report of the migration
 	 */
-	protected function _update_version($migrations)
+	protected function _update_version($migration)
 	{
 		return $this->db->update($this->_migration_table, array(
-			'version' => $migrations
+			'version' => $migration
 		));
 	}
 
