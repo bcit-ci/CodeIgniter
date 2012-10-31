@@ -269,6 +269,7 @@ Release Date: Not Released
 	 -  Added method ``strip_image_tags()``.
 	 -  Added ``$config['csrf_regeneration']``, which makes token regeneration optional.
 	 -  Added ``$config['csrf_exclude_uris']``, which allows you list URIs which will not have the CSRF validation methods run.
+   -  Added possibility to route requests using callbacks.
 
 Bug fixes for 3.0
 ------------------
