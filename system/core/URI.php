@@ -212,7 +212,7 @@ class CI_URI {
 			$_SERVER['QUERY_STRING'] = $query;
 		}
 
-		$this->_reset_query_string();
+		parse_str($_SERVER['QUERY_STRING'], $_GET);
 
 		if ($uri === '/' OR $uri === '')
 		{
@@ -248,33 +248,9 @@ class CI_URI {
 			$uri = rawurldecode($uri[0]);
 		}
 
-		$this->_reset_query_string();
+		parse_str($_SERVER['QUERY_STRING'], $_GET);
 
 		return str_replace(array('//', '../'), '/', trim($uri, '/'));
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Reset QUERY_STRING
-	 *
-	 * Re-processes QUERY_STRING to and fetches the real GET values from it.
-	 * Useful for cases where we got the URI path from it's query string.
-	 *
-	 * @used-by	CI_URI::_parse_request_uri()
-	 * @used-by	CI_URI::_parse_query_string()
-	 * @return	void
-	 */
-	protected function _reset_query_string()
-	{
-		if ($_SERVER['QUERY_STRING'] === '')
-		{
-			$_GET = array();
-		}
-		else
-		{
-			parse_str($_SERVER['QUERY_STRING']);
-		}
 	}
 
 	// --------------------------------------------------------------------
