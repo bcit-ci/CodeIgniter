@@ -700,7 +700,6 @@ class CI_Jquery extends CI_Javascript {
 		return $updater."\t\t$($container).load('$controller'$request_options);";
 	}
 
-
 	// --------------------------------------------------------------------
 	// Pre-written handy stuff
 	// --------------------------------------------------------------------
@@ -716,7 +715,7 @@ class CI_Jquery extends CI_Javascript {
 	protected function _zebraTables($class = '', $odd = 'odd', $hover = '')
 	{
 		$class = ($class !== '') ? '.'.$class : '';
-		$zebra  = "\t\$(\"table{$class} tbody tr:nth-child(even)\").addClass(\"{$odd}\");";
+		$zebra = "\t\$(\"table{$class} tbody tr:nth-child(even)\").addClass(\"{$odd}\");";
 
 		$this->jquery_code_for_compile[] = $zebra;
 

@@ -32,6 +32,17 @@ available in the hosting environment.
 	
 	echo $foo;
 
+You can also prefix cache item names via the **key_prefix** setting, which is useful
+to avoid collisions when you're running multiple applications on the same environment.
+
+::
+
+	$this->load->driver('cache',
+		array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'my_')
+	);
+
+	$this->cache->get('foo'); // Will get the cache entry named 'my_foo'
+
 ******************
 Function Reference
 ******************
@@ -39,7 +50,7 @@ Function Reference
 .. php:class:: CI_Cache
 
 is_supported()
-===============
+==============
 
 	.. php:method:: is_supported ( $driver )
 
@@ -130,7 +141,7 @@ clean()
 			$this->cache->clean();
 
 cache_info()
-=============
+============
 
 	.. php:method:: cache_info ( )
 
@@ -148,7 +159,7 @@ cache_info()
 	
 
 get_metadata()
-===============
+==============
 
 	.. php:method:: get_metadata ( $id )
 	
@@ -166,7 +177,6 @@ get_metadata()
 		.. note:: The information returned and the structure of the data is dependent
 			on which adapter is being used.
 
-			
 *******
 Drivers
 *******
@@ -181,7 +191,7 @@ specific adapter to the driver loader as follows::
 	$this->cache->apc->save('foo', 'bar', 10);
 
 For more information on APC, please see
-`http://php.net/apc <http://php.net/apc>`_
+`http://php.net/apc <http://php.net/apc>`_.
 
 File-based Caching
 ==================
@@ -201,16 +211,45 @@ Memcached Caching
 =================
 
 Multiple Memcached servers can be specified in the memcached.php
-configuration file, located in the application/config/ directory.
+configuration file, located in the _application/config/* directory.
 
-All of the functions listed above can be accessed without passing a
+All of the methods listed above can be accessed without passing a
 specific adapter to the driver loader as follows::
 
 	$this->load->driver('cache');
 	$this->cache->memcached->save('foo', 'bar', 10);
 
 For more information on Memcached, please see
-`http://php.net/memcached <http://php.net/memcached>`_
+`http://php.net/memcached <http://php.net/memcached>`_.
+
+WinCache Caching
+================
+
+Under Windows, you can also utilize the WinCache driver.
+
+All of the functions listed above can be accessed without passing a
+specific adapter to the driver loader as follows::
+
+	$this->load->driver('cache');
+	$this->cache->wincache->save('foo', 'bar', 10);
+
+For more information on WinCache, please see
+`http://php.net/wincache <http://php.net/wincache>`_.
+
+Redis Caching
+=============
+
+All of the methods listed above can be accessed without passing a
+specific adapter to the driver loader as follows::
+
+	$this->load->driver('cache');
+	$this->cache->redis->save('foo', 'bar', 10);
+
+.. important:: Redis may require one or more of the following options:
+	**host**, **post**, **timeout**, **password**.
+
+The Redis PHP extension repository is located at
+`https://github.com/nicolasff/phpredis <https://github.com/nicolasff/phpredis>`_.
 
 Dummy Cache
 ===========

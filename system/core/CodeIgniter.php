@@ -130,9 +130,12 @@
 	$CFG =& load_class('Config', 'core');
 
 	// Do we have any manually set config items in the index.php file?
-	if (isset($assign_to_config))
+	if (isset($assign_to_config) && is_array($assign_to_config))
 	{
-		$CFG->_assign_to_config($assign_to_config);
+		foreach ($assign_to_config as $key => $value)
+		{
+			$CFG->set_item($key, $value);
+		}
 	}
 
 /*
@@ -228,7 +231,6 @@
 	{
 		return CI_Controller::get_instance();
 	}
-
 
 	if (file_exists(APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php'))
 	{

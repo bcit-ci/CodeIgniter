@@ -480,17 +480,34 @@ class CI_Cart {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Get cart item
+	 *
+	 * Returns the details of a specific item in the cart
+	 *
+	 * @param	string	$row_id
+	 * @return	array
+	 */
+	public function get_item($row_id)
+	{
+		return (in_array($row_id, array('total_items', 'cart_total'), TRUE) OR ! isset($this->_cart_contents[$row_id]))
+			? FALSE
+			: $this->_cart_contents[$row_id];
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Has options
 	 *
 	 * Returns TRUE if the rowid passed to this function correlates to an item
 	 * that has options associated with it.
 	 *
-	 * @param	mixed
+	 * @param	string	$row_id = ''
 	 * @return	bool
 	 */
-	public function has_options($rowid = '')
+	public function has_options($row_id = '')
 	{
-		return (isset($this->_cart_contents[$rowid]['options']) && count($this->_cart_contents[$rowid]['options']) !== 0);
+		return (isset($this->_cart_contents[$row_id]['options']) && count($this->_cart_contents[$row_id]['options']) !== 0);
 	}
 
 	// --------------------------------------------------------------------
@@ -500,12 +517,12 @@ class CI_Cart {
 	 *
 	 * Returns the an array of options, for a particular product row ID
 	 *
-	 * @param	int
+	 * @param	string	$row_id = ''
 	 * @return	array
 	 */
-	public function product_options($rowid = '')
+	public function product_options($row_id = '')
 	{
-		return isset($this->_cart_contents[$rowid]['options']) ? $this->_cart_contents[$rowid]['options'] : array();
+		return isset($this->_cart_contents[$row_id]['options']) ? $this->_cart_contents[$row_id]['options'] : array();
 	}
 
 	// --------------------------------------------------------------------

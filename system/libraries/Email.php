@@ -47,20 +47,20 @@ class CI_Email {
 	public $smtp_port	= 25;			// SMTP Port
 	public $smtp_timeout	= 5;			// SMTP Timeout in seconds
 	public $smtp_crypto	= '';			// SMTP Encryption. Can be null, tls or ssl.
-	public $wordwrap	= TRUE;			// TRUE/FALSE  Turns word-wrap on/off
+	public $wordwrap	= TRUE;			// TRUE/FALSE - Turns word-wrap on/off
 	public $wrapchars	= 76;			// Number of characters to wrap at.
-	public $mailtype	= 'text';		// text/html  Defines email formatting
+	public $mailtype	= 'text';		// text/html - Defines email formatting
 	public $charset		= 'utf-8';		// Default char set: iso-8859-1 or us-ascii
 	public $multipart	= 'mixed';		// "mixed" (in the body) or "related" (separate)
 	public $alt_message	= '';			// Alternative message for HTML emails
-	public $validate	= FALSE;		// TRUE/FALSE.  Enables email validation
+	public $validate	= FALSE;		// TRUE/FALSE - Enables email validation
 	public $priority	= 3;			// Default priority (1 - 5)
 	public $newline		= "\n";			// Default newline. "\r\n" or "\n" (Use "\r\n" to comply with RFC 822)
-	public $crlf		= "\n";			// The RFC 2045 compliant CRLF for quoted-printable is "\r\n".  Apparently some servers,
+	public $crlf		= "\n";			// The RFC 2045 compliant CRLF for quoted-printable is "\r\n". Apparently some servers,
 									// even on the receiving end think they need to muck with CRLFs, so using "\n", while
 									// distasteful, is the only thing that seems to work for all environments.
 	public $dsn		= FALSE;		// Delivery Status Notification
-	public $send_multipart	= TRUE;		// TRUE/FALSE - Yahoo does not like multipart alternative, so this is an override.  Set to FALSE for Yahoo.
+	public $send_multipart	= TRUE;		// TRUE/FALSE - Yahoo does not like multipart alternative, so this is an override. Set to FALSE for Yahoo.
 	public $bcc_batch_mode	= FALSE;	// TRUE/FALSE - Turns on/off Bcc batch feature
 	public $bcc_batch_size	= 200;		// If bcc_batch_mode = TRUE, sets max number of Bccs in each batch
 
@@ -81,9 +81,7 @@ class CI_Email {
 	protected $_cc_array		= array();
 	protected $_bcc_array		= array();
 	protected $_headers		= array();
-	protected $_attach_name		= array();
-	protected $_attach_type		= array();
-	protected $_attach_disp		= array();
+	protected $_attachments		= array();
 	protected $_protocols		= array('mail', 'sendmail', 'smtp');
 	protected $_base_charsets	= array('us-ascii', 'iso-2022-');	// 7-bit charsets (excluding language suffix)
 	protected $_bit_depths		= array('7bit', '8bit');
@@ -176,9 +174,7 @@ class CI_Email {
 
 		if ($clear_attachments !== FALSE)
 		{
-			$this->_attach_name = array();
-			$this->_attach_type = array();
-			$this->_attach_disp = array();
+			$this->_attachments = array();
 		}
 
 		return $this;
@@ -415,9 +411,12 @@ class CI_Email {
 	 */
 	public function attach($filename, $disposition = '', $newname = NULL, $mime = '')
 	{
-		$this->_attach_name[] = array($filename, $newname);
-		$this->_attach_disp[] = empty($disposition) ? 'attachment' : $disposition; // Can also be 'inline'  Not sure if it matters
-		$this->_attach_type[] = $mime;
+		$this->_attachments[] = array(
+			'name'		=> array($filename, $newname),
+			'disposition'	=> empty($disposition) ? 'attachment' : $disposition,  // Can also be 'inline'  Not sure if it matters
+			'type' 		=> $mime
+		);
+
 		return $this;
 	}
 
@@ -635,9 +634,9 @@ class CI_Email {
 	{
 		if ($this->mailtype === 'html')
 		{
-			return (count($this->_attach_name) === 0) ? 'html' : 'html-attach';
+			return (count($this->_attachments) === 0) ? 'html' : 'html-attach';
 		}
-		elseif	($this->mailtype === 'text' && count($this->_attach_name) > 0)
+		elseif	($this->mailtype === 'text' && count($this->_attachments) > 0)
 		{
 			return 'plain-attach';
 		}
@@ -771,6 +770,9 @@ class CI_Email {
 			$body = str_replace(str_repeat("\n", $i), "\n\n", $body);
 		}
 
+		// Reduce multiple spaces
+		$str = preg_replace('| +|', ' ', $str);
+
 		return ($this->wordwrap)
 			? $this->word_wrap($body, 76)
 			: $body;
@@ -793,14 +795,14 @@ class CI_Email {
 			$charlim = empty($this->wrapchars) ? 76 : $this->wrapchars;
 		}
 
-		// Reduce multiple spaces
-		$str = preg_replace('| +|', ' ', $str);
-
 		// Standardize newlines
 		if (strpos($str, "\r") !== FALSE)
 		{
 			$str = str_replace(array("\r\n", "\r"), "\n", $str);
 		}
+
+		// Reduce multiple spaces at end of line
+		$str = preg_replace('| +\n|', "\n", $str);
 
 		// If the current word is surrounded by {unwrap} tags we'll
 		// strip the entire chunk and replace it with a marker.
@@ -990,7 +992,6 @@ class CI_Email {
 					$this->_finalbody = $hdr.$this->_finalbody;
 				}
 
-
 				if ($this->send_multipart !== FALSE)
 				{
 					$this->_finalbody .= '--'.$this->_alt_boundary.'--';
@@ -1045,14 +1046,15 @@ class CI_Email {
 		}
 
 		$attachment = array();
-		for ($i = 0, $c = count($this->_attach_name), $z = 0; $i < $c; $i++)
+		for ($i = 0, $c = count($this->_attachments), $z = 0; $i < $c; $i++)
 		{
-			$filename = $this->_attach_name[$i][0];
-			$basename = is_null($this->_attach_name[$i][1]) ? basename($filename) : $this->_attach_name[$i][1];
-			$ctype = $this->_attach_type[$i];
+			$filename = $this->_attachments[$i]['name'][0];
+			$basename = is_null($this->_attachments[$i]['name'][1])
+				? basename($filename) : $this->_attachments[$i]['name'][1];
+			$ctype = $this->_attachments[$i]['type'];
 			$file_content = '';
 
-			if ($this->_attach_type[$i] === '')
+			if ($ctype === '')
 			{
 				if ( ! file_exists($filename))
 				{
@@ -1074,13 +1076,13 @@ class CI_Email {
 			}
 			else
 			{
-				$file_content =& $this->_attach_content[$i];
+				$file_content =& $this->_attachments[$i]['name'][0];
 			}
 
 			$attachment[$z++] = '--'.$this->_atc_boundary.$this->newline
 				.'Content-type: '.$ctype.'; '
 				.'name="'.$basename.'"'.$this->newline
-				.'Content-Disposition: '.$this->_attach_disp[$i].';'.$this->newline
+				.'Content-Disposition: '.$this->_attachments[$i]['disposition'].';'.$this->newline
 				.'Content-Transfer-Encoding: base64'.$this->newline;
 
 			$attachment[$z++] = chunk_split(base64_encode($file_content));
@@ -1661,7 +1663,7 @@ class CI_Email {
 	// --------------------------------------------------------------------
 
 	/**
-	 *  SMTP Authenticate
+	 * SMTP Authenticate
 	 *
 	 * @return	bool
 	 */
