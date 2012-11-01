@@ -35,16 +35,65 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 abstract class CI_DB_forge {
 
+	/**
+	 * Fields data
+	 *
+	 * @var	array
+	 */
 	public $fields		= array();
+
+	/**
+	 * Keys data
+	 *
+	 * @var	array
+	 */
 	public $keys		= array();
+
+	/**
+	 * Primary Keys data
+	 *
+	 * @var	array
+	 */
 	public $primary_keys	= array();
+
+	/**
+	 * Database character set
+	 *
+	 * @var	string
+	 */
 	public $db_char_set	= '';
 
-	// Platform specific SQL strings
+	// --------------------------------------------------------------------
+
+	/**
+	 * CREATE DATABASE statement
+	 *
+	 * @var	string
+	 */
 	protected $_create_database	= 'CREATE DATABASE %s';
+
+	/**
+	 * DROP DATABASE statement
+	 *
+	 * @var	string
+	 */
 	protected $_drop_database	= 'DROP DATABASE %s';
+
+	/**
+	 * DROP TABLE statement
+	 *
+	 * @var	string
+	 */
 	protected $_drop_table		= 'DROP TABLE IF EXISTS %s';
+
+	/**
+	 * RENAME TABLE statement
+	 *
+	 * @var	string
+	 */
 	protected $_rename_table	= 'ALTER TABLE %s RENAME TO %s';
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Constructor
