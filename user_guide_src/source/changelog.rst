@@ -46,7 +46,7 @@ Release Date: Not Released
       Only entries in ``$autoload['libraries']`` are auto-loaded now.
    -  Removed previously deprecated EXT constant.
    -  Updated all classes to be written in PHP 5 style, with visibility declarations and no ``var`` usage for properties.
-   -  Moved error templates to "application/views/errors"
+   -  Moved error templates to *application/views/errors*.
    -  Global config files are loaded first, then environment ones. Environment config keys overwrite base ones, allowing to only set the keys we want changed per environment.
    -  Changed detection of ``$view_folder`` so that if it's not found in the current path, it will now also be searched for under the application folder.
    -  Path constants BASEPATH, APPPATH and VIEWPATH are now (internally) defined as absolute paths.
@@ -270,7 +270,9 @@ Release Date: Not Released
 	 -  Added method ``strip_image_tags()``.
 	 -  Added ``$config['csrf_regeneration']``, which makes token regeneration optional.
 	 -  Added ``$config['csrf_exclude_uris']``, which allows you list URIs which will not have the CSRF validation methods run.
-   -  Added possibility to route requests using callbacks.
+   -  :doc:`URI Routing <general/routing>` changes include:
+	 -  Added possibility to route requests using callbacks.
+	 -  Added possibility to use dashes in the controller and method URI segments (translated to underscores).
 
 Bug fixes for 3.0
 ------------------

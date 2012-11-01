@@ -28,9 +28,28 @@ approach, usually represent::
 #. The third, and any additional segments, represent the ID and any
    variables that will be passed to the controller.
 
-The :doc:`URI Class <../libraries/uri>` and the :doc:`URL Helper <../helpers/url_helper>` contain functions that make it
-easy to work with your URI data. In addition, your URLs can be remapped
-using the :doc:`URI Routing <routing>` feature for more flexibility.
+The :doc:`URI Class <../libraries/uri>` and the :doc:`URL Helper <../helpers/url_helper>`
+contain functions that make it easy to work with your URI data. In addition,
+your URLs can be remapped using the :doc:`URI Routing <routing>` feature for
+more flexibility.
+
+Friendly URLs
+=============
+
+As you might guess, since there's a straight relationship between
+URI segments and the controller/method pair that's being called,
+those two determining segments must represent a valid class and
+method name.
+You may however also use dashes in the class/method-representing
+segments, and they will automatically be translated to underscores
+in order to be valid routed segments.
+
+For example::
+
+	example.com/my-settings/change-password/
+
+The above example will route to the ``My_settings`` controller and
+its method ``change_password()``.
 
 Removing the index.php file
 ===========================
