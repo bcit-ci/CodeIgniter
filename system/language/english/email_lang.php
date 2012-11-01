@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 $lang['email_must_be_array'] = 'The email validation method must be passed an array.';
 $lang['email_invalid_address'] = 'Invalid email address: %s';
