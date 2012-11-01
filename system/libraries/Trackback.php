@@ -39,12 +39,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_Trackback {
 
-	public $time_format	= 'local';
+	/**
+	 * Character set
+	 *
+	 * @var	string
+	 */
 	public $charset		= 'UTF-8';
-	public $data			= array('url' => '', 'title' => '', 'excerpt' => '', 'blog_name' => '', 'charset' => '');
+
+	/**
+	 * Trackback data
+	 *
+	 * @var	array
+	 */
+	public $data		= array('url' => '', 'title' => '', 'excerpt' => '', 'blog_name' => '', 'charset' => '');
+
+	/**
+	 * Convert ASCII flag
+	 *
+	 * Whether to convert high-ASCII and MS Word
+	 * characters to HTML entities.
+	 *
+	 * @var	bool
+	 */
 	public $convert_ascii	= TRUE;
-	public $response		= '';
-	public $error_msg		= array();
+
+	/**
+	 * Response
+	 *
+	 * @var	string
+	 */
+	public $response	= '';
+
+	/**
+	 * Error messages list
+	 *
+	 * @var	string[]
+	 */
+	public $error_msg	= array();
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Constructor
