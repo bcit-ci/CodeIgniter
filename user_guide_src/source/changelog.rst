@@ -39,10 +39,10 @@ Release Date: Not Released
    -  Updated support for zip files in mimes.php.
    -  Updated support for csv files in mimes.php.
    -  Added some more doctypes.
-   -  Added Romanian, Greek and Vietnamese characters in *foreign_characters.php*.
+   -  Added Romanian, Greek, Vietnamese and Cyrilic characters in *application/config/foreign_characters.php*.
    -  Changed logger to only chmod when file is first created.
    -  Removed previously deprecated SHA1 Library.
-   -  Removed previously deprecated use of ``$autoload['core']`` in application/config/autoload.php.
+   -  Removed previously deprecated use of ``$autoload['core']`` in *application/config/autoload.php*.
       Only entries in ``$autoload['libraries']`` are auto-loaded now.
    -  Removed previously deprecated EXT constant.
    -  Updated all classes to be written in PHP 5 style, with visibility declarations and no ``var`` usage for properties.
