@@ -696,7 +696,14 @@ class CI_URI {
 	 */
 	public function ruri_string()
 	{
-		return implode('/', $this->rsegment_array());
+		global $RTR;
+
+		if (($dir = $RTR->fetch_directory()) === '/')
+		{
+			$dir = '';
+		}
+
+		return $dir.implode('/', $this->rsegment_array());
 	}
 
 }

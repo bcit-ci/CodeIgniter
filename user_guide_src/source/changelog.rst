@@ -411,6 +411,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#658) - :doc:`Routing <general/routing>` wildcard **:any** didn't work as advertised and matched multiple URI segments instead of all characters within a single segment.
 -  Fixed a bug (#1938) - :doc:`Email Library <libraries/email>` removed multiple spaces inside a pre-formatted plain text message.
 -  Fixed a bug (#388, #705) - :doc:`URI Library <libraries/uri>` didn't apply URL-decoding to URI segments that it got from **REQUEST_URI** and/or **QUERY_STRING**.
+-  Fixed a bug (#122) - :doc:`URI Library <libraries/uri>` method ``ruri_string()`` didn't include a directory if one is used.
 
 Version 2.1.3
 =============
