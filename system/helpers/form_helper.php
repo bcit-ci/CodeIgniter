@@ -621,7 +621,7 @@ if ( ! function_exists('form_prep'))
 			return str_replace(array('<', '>'), array('&lt;', '&gt;'), stripslashes($str));
 		}
 
-		return str_replace(array("'", '"'), array('&#39;', '&quot;'), stripslashes($data));
+		return str_replace(array("'", '"'), array('&#39;', '&quot;'), stripslashes($str));
 	}
 }
 
