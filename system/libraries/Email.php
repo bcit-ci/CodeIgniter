@@ -39,54 +39,339 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_Email {
 
+	/**
+	 * Used as the User-Agent and X-Mailer headers' value.
+	 *
+	 * @var	string
+	 */
 	public $useragent	= 'CodeIgniter';
-	public $mailpath	= '/usr/sbin/sendmail';	// Sendmail path
-	public $protocol	= 'mail';		// mail/sendmail/smtp
-	public $smtp_host	= '';			// SMTP Server. Example: mail.earthlink.net
-	public $smtp_user	= '';			// SMTP Username
-	public $smtp_pass	= '';			// SMTP Password
-	public $smtp_port	= 25;			// SMTP Port
-	public $smtp_timeout	= 5;			// SMTP Timeout in seconds
-	public $smtp_crypto	= '';			// SMTP Encryption. Can be null, tls or ssl.
-	public $wordwrap	= TRUE;			// TRUE/FALSE - Turns word-wrap on/off
-	public $wrapchars	= 76;			// Number of characters to wrap at.
-	public $mailtype	= 'text';		// text/html - Defines email formatting
-	public $charset		= 'utf-8';		// Default char set: iso-8859-1 or us-ascii
-	public $multipart	= 'mixed';		// "mixed" (in the body) or "related" (separate)
-	public $alt_message	= '';			// Alternative message for HTML emails
-	public $validate	= FALSE;		// TRUE/FALSE - Enables email validation
-	public $priority	= 3;			// Default priority (1 - 5)
-	public $newline		= "\n";			// Default newline. "\r\n" or "\n" (Use "\r\n" to comply with RFC 822)
-	public $crlf		= "\n";			// The RFC 2045 compliant CRLF for quoted-printable is "\r\n". Apparently some servers,
-									// even on the receiving end think they need to muck with CRLFs, so using "\n", while
-									// distasteful, is the only thing that seems to work for all environments.
-	public $dsn		= FALSE;		// Delivery Status Notification
-	public $send_multipart	= TRUE;		// TRUE/FALSE - Yahoo does not like multipart alternative, so this is an override. Set to FALSE for Yahoo.
-	public $bcc_batch_mode	= FALSE;	// TRUE/FALSE - Turns on/off Bcc batch feature
-	public $bcc_batch_size	= 200;		// If bcc_batch_mode = TRUE, sets max number of Bccs in each batch
 
+	/**
+	 * Path to the Sendmail binary.
+	 *
+	 * @var	string
+	 */
+	public $mailpath	= '/usr/sbin/sendmail';	// Sendmail path
+
+	/**
+	 * Which method to use for sending e-mails.
+	 *
+	 * @var	string	'mail', 'sendmail' or 'smtp'
+	 */
+	public $protocol	= 'mail';		// mail/sendmail/smtp
+
+	/**
+	 * STMP Server host
+	 *
+	 * @var	string
+	 */
+	public $smtp_host	= '';
+
+	/**
+	 * SMTP Username
+	 *
+	 * @var	string
+	 */
+	public $smtp_user	= '';
+
+	/**
+	 * SMTP Password
+	 *
+	 * @var	string
+	 */
+	public $smtp_pass	= '';
+
+	/**
+	 * SMTP Server port
+	 *
+	 * @var	int
+	 */
+	public $smtp_port	= 25;
+
+	/**
+	 * SMTP connection timeout in seconds
+	 *
+	 * @var	int
+	 */
+	public $smtp_timeout	= 5;
+
+	/**
+	 * SMTP Encryption
+	 *
+	 * @var	string	NULL, 'tls' or 'ssl'
+	 */
+	public $smtp_crypto	= NULL;
+
+	/**
+	 * Whether to apply word-wrapping to the message body.
+	 *
+	 * @var	bool
+	 */
+	public $wordwrap	= TRUE;
+
+	/**
+	 * Number of characters to wrap at.
+	 *
+	 * @see	CI_Email::$wordwrap
+	 * @var	int
+	 */
+	public $wrapchars	= 76;
+
+	/**
+	 * Message format.
+	 *
+	 * @var	string	'text' or 'html'
+	 */
+	public $mailtype	= 'text';
+
+	/**
+	 * Character set (default: utf-8)
+	 *
+	 * @var	string
+	 */
+	public $charset		= 'utf-8';
+
+	/**
+	 * Multipart message
+	 *
+	 * @var	string	'mixed' (in the body) or 'related' (separate)
+	 */
+	public $multipart	= 'mixed';		// "mixed" (in the body) or "related" (separate)
+
+	/**
+	 * Alternative message (for HTML messages only)
+	 *
+	 * @var	string
+	 */
+	public $alt_message	= '';
+
+	/**
+	 * Whether to validate e-mail addresses.
+	 *
+	 * @var	bool
+	 */
+	public $validate	= FALSE;
+
+	/**
+	 * X-Priority header value.
+	 *
+	 * @var	int	1-5
+	 */
+	public $priority	= 3;			// Default priority (1 - 5)
+
+	/**
+	 * Newline character sequence.
+	 * Use "\r\n" to comply with RFC 822.
+	 *
+	 * @link	http://www.ietf.org/rfc/rfc822.txt
+	 * @var	string	"\r\n" or "\n"
+	 */
+	public $newline		= "\n";			// Default newline. "\r\n" or "\n" (Use "\r\n" to comply with RFC 822)
+
+	/**
+	 * CRLF character sequence
+	 *
+	 * RFC 2045 specifies that for 'quoted-printable' encoding,
+	 * "\r\n" must be used. However, it appears that some servers
+	 * (even on the receiving end) don't handle it properly and
+	 * switching to "\n", while improper, is the only solution
+	 * that seems to work for all environments.
+	 *
+	 * @link	http://www.ietf.org/rfc/rfc822.txt
+	 * @var	string
+	 */
+	public $crlf		= "\n";
+
+	/**
+	 * Whether to use Delivery Status Notification.
+	 *
+	 * @var	bool
+	 */
+	public $dsn		= FALSE;
+
+	/**
+	 * Whether to send multipart alternatives.
+	 * Yahoo! doesn't seem to like these.
+	 *
+	 * @var	bool
+	 */
+	public $send_multipart	= TRUE;
+
+	/**
+	 * Whether to send messages to BCC recipients in batches.
+	 *
+	 * @var	bool
+	 */
+	public $bcc_batch_mode	= FALSE;
+
+	/**
+	 * BCC Batch max number size.
+	 *
+	 * @see	CI_Email::$bcc_batch_mode
+	 * @var	int
+	 */
+	public $bcc_batch_size	= 200;
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Whether PHP is running in safe mode. Initialized by the class constructor.
+	 *
+	 * @var	bool
+	 */
 	protected $_safe_mode		= FALSE;
+
+	/**
+	 * Subject header
+	 *
+	 * @var	string
+	 */
 	protected $_subject		= '';
+
+	/**
+	 * Message body
+	 *
+	 * @var	string
+	 */
 	protected $_body		= '';
+
+	/**
+	 * Final message body to be sent.
+	 *
+	 * @var	string
+	 */
 	protected $_finalbody		= '';
+
+	/**
+	 * multipart/alternative boundary
+	 *
+	 * @var	string
+	 */
 	protected $_alt_boundary	= '';
+
+	/**
+	 * Attachment boundary
+	 *
+	 * @var	string
+	 */
 	protected $_atc_boundary	= '';
+
+	/**
+	 * Final headers to send
+	 *
+	 * @var	string
+	 */
 	protected $_header_str		= '';
+
+	/**
+	 * SMTP Connection socket placeholder
+	 *
+	 * @var	resource
+	 */
 	protected $_smtp_connect	= '';
+
+	/**
+	 * Mail encoding
+	 *
+	 * @var	string	'8bit' or '7bit'
+	 */
 	protected $_encoding		= '8bit';
-	protected $_IP			= FALSE;
+
+	/**
+	 * Whether to perform SMTP authentication
+	 *
+	 * @var	bool
+	 */
 	protected $_smtp_auth		= FALSE;
+
+	/**
+	 * Whether to send a Reply-To header
+	 *
+	 * @var	bool
+	 */
 	protected $_replyto_flag	= FALSE;
+
+	/**
+	 * Debug messages
+	 *
+	 * @see	CI_Email::print_debugger()
+	 * @var	string
+	 */
 	protected $_debug_msg		= array();
+
+	/**
+	 * Recipients
+	 *
+	 * @var	string[]
+	 */
 	protected $_recipients		= array();
+
+	/**
+	 * CC Recipients
+	 *
+	 * @var	string[]
+	 */
 	protected $_cc_array		= array();
+
+	/**
+	 * BCC Recipients
+	 *
+	 * @var	string[]
+	 */
 	protected $_bcc_array		= array();
+
+	/**
+	 * Message headers
+	 *
+	 * @var	string[]
+	 */
 	protected $_headers		= array();
+
+	/**
+	 * Attachment data
+	 *
+	 * @var	array
+	 */
 	protected $_attachments		= array();
+
+	/**
+	 * Valid $protocol values
+	 *
+	 * @see	CI_Email::$protocol
+	 * @var	string[]
+	 */
 	protected $_protocols		= array('mail', 'sendmail', 'smtp');
-	protected $_base_charsets	= array('us-ascii', 'iso-2022-');	// 7-bit charsets (excluding language suffix)
+
+	/**
+	 * Base charsets
+	 *
+	 * Character sets valid for 7-bit encoding,
+	 * excluding language suffix.
+	 *
+	 * @var	string[]
+	 */
+	protected $_base_charsets	= array('us-ascii', 'iso-2022-');
+
+	/**
+	 * Bit depths
+	 *
+	 * Valid mail encodings
+	 *
+	 * @see	CI_Email::$_encoding
+	 * @var	string[]
+	 */
 	protected $_bit_depths		= array('7bit', '8bit');
+
+	/**
+	 * $priority translations
+	 *
+	 * Actual values to send with the X-Priority header
+	 *
+	 * @var	string[]
+	 */
 	protected $_priorities		= array('1 (Highest)', '2 (High)', '3 (Normal)', '4 (Low)', '5 (Lowest)');
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Constructor - Sets Email Preferences
