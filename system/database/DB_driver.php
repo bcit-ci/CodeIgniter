@@ -41,60 +41,300 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 abstract class CI_DB_driver {
 
+	/**
+	 * Data Source Name / Connect string
+	 *
+	 * @var	string
+	 */
 	public $dsn;
+
+	/**
+	 * Username
+	 *
+	 * @var	string
+	 */
 	public $username;
+
+	/**
+	 * Password
+	 *
+	 * @var	string
+	 */
 	public $password;
+
+	/**
+	 * Hostname
+	 *
+	 * @var	string
+	 */
 	public $hostname;
+
+	/**
+	 * Database name
+	 *
+	 * @var	string
+	 */
 	public $database;
+
+	/**
+	 * Database driver
+	 *
+	 * @var	string
+	 */
 	public $dbdriver		= 'mysqli';
+
+	/**
+	 * Sub-driver
+	 *
+	 * @used-by	CI_DB_pdo_driver
+	 * @var	string
+	 */
 	public $subdriver;
+
+	/**
+	 * Table prefix
+	 *
+	 * @var	string
+	 */
 	public $dbprefix		= '';
+
+	/**
+	 * Character set
+	 *
+	 * @var	string
+	 */
 	public $char_set		= 'utf8';
+
+	/**
+	 * Collation
+	 *
+	 * @var	string
+	 */
 	public $dbcollat		= 'utf8_general_ci';
-	public $autoinit		= TRUE; // Whether to automatically initialize the DB
+
+	/**
+	 * Auto-init flag
+	 *
+	 * Whether to automatically initialize the DB connection.
+	 *
+	 * @var	bool
+	 */
+	public $autoinit		= TRUE;
+
+	/**
+	 * Encryption flag/data
+	 *
+	 * @var	mixed
+	 */
 	public $encrypt			= FALSE;
+
+	/**
+	 * Swap Prefix
+	 *
+	 * @var	string
+	 */
 	public $swap_pre		= '';
+
+	/**
+	 * Database port
+	 *
+	 * @var	int
+	 */
 	public $port			= '';
+
+	/**
+	 * Persistent connection flag
+	 *
+	 * @var	bool
+	 */
 	public $pconnect		= FALSE;
+
+	/**
+	 * Connection ID
+	 *
+	 * @var	object|resource
+	 */
 	public $conn_id			= FALSE;
+
+	/**
+	 * Result ID
+	 *
+	 * @var	object|resource
+	 */
 	public $result_id		= FALSE;
+
+	/**
+	 * Debug flag
+	 *
+	 * Whether to display error messages.
+	 *
+	 * @var	bool
+	 */
 	public $db_debug		= FALSE;
+
+	/**
+	 * Benchmark time
+	 *
+	 * @var	int
+	 */
 	public $benchmark		= 0;
+
+	/**
+	 * Executed queries count
+	 *
+	 * @var	int
+	 */
 	public $query_count		= 0;
+
+	/**
+	 * Bind marker
+	 *
+	 * Character used to identify values in a prepared statement.
+	 *
+	 * @var	string
+	 */
 	public $bind_marker		= '?';
+
+	/**
+	 * Save queries flag
+	 *
+	 * Whether to keep an in-memory history of queries for debugging purposes.
+	 *
+	 * @var	bool
+	 */
 	public $save_queries		= TRUE;
+
+	/**
+	 * Queries list
+	 *
+	 * @see	CI_DB_driver::$save_queries
+	 * @var	string[]
+	 */
 	public $queries			= array();
+
+	/**
+	 * Query times
+	 *
+	 * A list of times that queries took to execute.
+	 *
+	 * @var	array
+	 */
 	public $query_times		= array();
+
+	/**
+	 * Data cache
+	 *
+	 * An internal generic value cache.
+	 *
+	 * @var	array
+	 */
 	public $data_cache		= array();
 
+	/**
+	 * Transaction enabled flag
+	 *
+	 * @var	bool
+	 */
 	public $trans_enabled		= TRUE;
+
+	/**
+	 * Strict transaction mode flag
+	 *
+	 * @var	bool
+	 */
 	public $trans_strict		= TRUE;
+
+	/**
+	 * Transaction depth level
+	 *
+	 * @var	int
+	 */
 	protected $_trans_depth		= 0;
-	protected $_trans_status	= TRUE; // Used with transactions to determine if a rollback should occur
 
+	/**
+	 * Transaction status flag
+	 *
+	 * Used with transactions to determine if a rollback should occur.
+	 *
+	 * @var	bool
+	 */
+	protected $_trans_status	= TRUE;
+
+	/**
+	 * Cache On flag
+	 *
+	 * @var	bool
+	 */
 	public $cache_on		= FALSE;
+
+	/**
+	 * Cache directory path
+	 *
+	 * @var	bool
+	 */
 	public $cachedir		= '';
+
+	/**
+	 * Cache auto-delete flag
+	 *
+	 * @var	bool
+	 */
 	public $cache_autodel		= FALSE;
-	public $CACHE; // The cache class object
 
+	/**
+	 * DB Cache object
+	 *
+	 * @see	CI_DB_cache
+	 * @var	object
+	 */
+	public $CACHE;
+
+	/**
+	 * Protect identifiers flag
+	 *
+	 * @var	bool
+	 */
 	protected $_protect_identifiers		= TRUE;
-	protected $_reserved_identifiers	= array('*'); // Identifiers that should NOT be escaped
 
-	// clause and character used for LIKE escape sequences
+	/**
+	 * List of reserved identifiers
+	 *
+	 * Identifiers that must NOT be escaped.
+	 *
+	 * @var	string[]
+	 */
+	protected $_reserved_identifiers	= array('*');
+
+	/**
+	 * ESCAPE statement string
+	 *
+	 * @var	string
+	 */
 	protected $_like_escape_str = " ESCAPE '%s' ";
+
+	/**
+	 * ESCAPE character
+	 *
+	 * @var	string
+	 */
 	protected $_like_escape_chr = '!';
 
 	/**
-	 * The syntax to count rows is slightly different across different
-	 * database engines, so this string appears in each driver and is
-	 * used for the count_all() and count_all_results() functions.
+	 * COUNT string
+	 *
+	 * @used-by	CI_DB_driver::count_all()
+	 * @used-by	CI_DB_query_builder::count_all_results()
+	 *
+	 * @var	string
 	 */
 	protected $_count_string = 'SELECT COUNT(*) AS ';
 
+	// --------------------------------------------------------------------
+
 	/**
-	 * Constructor
+	 * Class constructor
 	 *
-	 * @param	array
+	 * @param	array	$params
 	 * @return	void
 	 */
 	public function __construct($params)
@@ -1175,8 +1415,7 @@ abstract class CI_DB_driver {
 	/**
 	 * Enables a native PHP function to be run, using a platform agnostic wrapper.
 	 *
-	 * @param	string	$function	the function name
-	 * @param	mixed	$param,...	optional parameters needed by the function
+	 * @param	string	$function	Function name
 	 * @return	mixed
 	 */
 	public function call_function($function)
