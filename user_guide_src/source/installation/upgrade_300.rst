@@ -166,16 +166,6 @@ CodeIgniter 3.1+.
 .. note:: This function is still available, but you're strongly encouraged to remove it's usage sooner
 	rather than later.
 
-Form helper form_prep()
-=======================
-
-:doc:`Form Helper <../helpers/form_helper>` function ``form_prep()`` is now just an alias for
-:doc:`common function <../general/common_functions>` ``html_escape()`` and it's second argument
-is ignored. It is deprecated and scheduled for removal in CodeIgniter 3.1+.
-
-.. note:: This function is still available, but you're strongly encouraged to remove it's usage sooner
-	rather than later.
-
 Date helper standard_date()
 ===========================
 
