@@ -52,9 +52,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_Session extends CI_Driver_Library {
 
+	/**
+	 * Initialization parameters
+	 *
+	 * @var	array
+	 */
 	public $params = array();
+
+	/**
+	 * Current driver in use
+	 *
+	 * @var	string
+	 */
 	protected $current = NULL;
+
+	/**
+	 * User data
+	 *
+	 * @var	array
+	 */
 	protected $userdata = array();
+
+	// ------------------------------------------------------------------------
 
 	const FLASHDATA_KEY = 'flash';
 	const FLASHDATA_NEW = ':new:';
@@ -62,6 +81,8 @@ class CI_Session extends CI_Driver_Library {
 	const FLASHDATA_EXP = ':exp:';
 	const EXPIRATION_KEY = '__expirations';
 	const TEMP_EXP_DEF = 300;
+
+	// ------------------------------------------------------------------------
 
 	/**
 	 * CI_Session constructor
@@ -596,7 +617,15 @@ class CI_Session extends CI_Driver_Library {
  */
 abstract class CI_Session_driver extends CI_Driver {
 
+	/**
+	 * CI Singleton
+	 *
+	 * @see	get_instance()
+	 * @var	object
+	 */
 	protected $CI;
+
+	// ------------------------------------------------------------------------
 
 	/**
 	 * Constructor
