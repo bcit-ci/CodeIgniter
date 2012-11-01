@@ -77,7 +77,7 @@ Release Date: Not Released
    -  Added a work-around in ``force_download()`` for a bug Android <= 2.1, where the filename extension needs to be in uppercase.
    -  :doc:`Form Helper <helpers/form_helper>` changes include:
 	 - ``form_dropdown()`` will now also take an array for unity with other form helpers.
-	 - ``form_prep()`` is now **DEPRECATED** and only acts as an alias for :doc:`common function <general/common_functions>` ``html_escape()``.
+	 - ``form_prep()``'s second argument now only accepts a boolean value, which determines whether the value is escaped for a *textarea* or a regular *input* element.
    -  ``do_hash()`` now uses PHP's native ``hash()`` function (supporting more algorithms) and is deprecated.
    -  Removed previously deprecated helper function ``js_insert_smiley()`` from :doc:`Smiley Helper <helpers/smiley_helper>`.
    -  :doc:`File Helper <helpers/file_helper>` changes include:
