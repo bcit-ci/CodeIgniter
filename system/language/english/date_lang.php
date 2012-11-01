@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 $lang['date_year'] = 'Year';
 $lang['date_years'] = 'Years';
