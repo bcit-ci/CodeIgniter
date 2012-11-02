@@ -54,13 +54,6 @@ class CI_Router {
 	public $routes =	array();
 
 	/**
-	 * List of error routes
-	 *
-	 * @var	array
-	 */
-	public $error_routes =	array();
-
-	/**
 	 * Current class name
 	 *
 	 * @var	string
