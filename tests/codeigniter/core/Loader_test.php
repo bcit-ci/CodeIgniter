@@ -6,6 +6,41 @@ class Loader_test extends CI_TestCase {
 
 	public function set_up()
 	{
+		// Create helper in VFS
+		$helper = 'autohelp';
+		$hlp_func = '_autohelp_test_func';
+		$content = '<?php function '.$hlp_func.'() { return true; }';
+		$this->ci_vfs_create($helper.'_helper', $content, $this->ci_app_root, 'helpers');
+
+		// Create library in VFS
+		$lib = 'autolib';
+		$lib_class = 'CI_'.ucfirst($lib);
+		$this->ci_vfs_create($lib, '<?php class '.$lib_class.' { }', $this->ci_base_root, 'libraries');
+
+		// Create driver in VFS
+		$drv = 'autodrv';
+		$subdir = ucfirst($drv);
+		$drv_class = 'CI_'.$subdir;
+		$this->ci_vfs_create($drv, '<?php class '.$drv_class.' { }', $this->ci_base_root, array('libraries', $subdir));
+
+		// Create model in VFS package path
+		$dir = 'testdir';
+		$path = APPPATH.$dir.'/';
+		$model = 'automod';
+		$mod_class = ucfirst($model);
+		$this->ci_vfs_create($model, '<?php class '.$mod_class.' { }', $this->ci_app_root, array($dir, 'models'));
+
+		// Create autoloader config
+		$cfg = array(
+			'packages' => array($path),
+			'helper' => array($helper),
+			'libraries' => array($lib),
+			'drivers' => array($drv),
+			'model' => array($model),
+			'config' => array('config1', 'config2')
+		);
+		$this->ci_vfs_create('autoload', '<?php $autoload = '.var_export($cfg, TRUE).';', $this->ci_app_root, 'config');
+
 		// Instantiate a new loader
 		$loader = $this->ci_core_class('loader');
 		$this->load = new $loader();
@@ -458,44 +493,6 @@ class Loader_test extends CI_TestCase {
 
 	public function test_initialize()
 	{
-		// Create helper in VFS
-		$helper = 'autohelp';
-		$hlp_func = '_autohelp_test_func';
-		$content = '<?php function '.$hlp_func.'() { return true; }';
-		$this->ci_vfs_create($helper.'_helper', $content, $this->ci_app_root, 'helpers');
-
-		// Create library in VFS
-		$lib = 'autolib';
-		$lib_class = 'CI_'.ucfirst($lib);
-		$this->ci_vfs_create($lib, '<?php class '.$lib_class.' { }', $this->ci_base_root, 'libraries');
-
-		// Create driver in VFS
-		$drv = 'autodrv';
-		$subdir = ucfirst($drv);
-		$drv_class = 'CI_'.$subdir;
-		$this->ci_vfs_create($drv, '<?php class '.$drv_class.' { }', $this->ci_base_root, array('libraries', $subdir));
-
-		// Create model in VFS package path
-		$dir = 'testdir';
-		$path = APPPATH.$dir.'/';
-		$model = 'automod';
-		$mod_class = ucfirst($model);
-		$this->ci_vfs_create($model, '<?php class '.$mod_class.' { }', $this->ci_app_root, array($dir, 'models'));
-
-		// Create autoloader config
-		$cfg = array(
-			'packages' => array($path),
-			'helper' => array($helper),
-			'libraries' => array($lib),
-			'drivers' => array($drv),
-			'model' => array($model),
-			'config' => array('config1', 'config2')
-		);
-		$this->ci_vfs_create('autoload', '<?php $autoload = '.var_export($cfg, TRUE).';', $this->ci_app_root, 'config');
-
-		// Run initialize and autoloader
-		$this->load->initialize();
-
 		// Verify path
 		$this->assertContains($path, $this->load->get_package_paths());
 
