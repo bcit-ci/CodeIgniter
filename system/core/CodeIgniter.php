@@ -267,9 +267,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	{
 		if ( ! empty($RTR->routes['404_override']))
 		{
-			$x = explode('/', $RTR->routes['404_override'], 2);
-			$class = $x[0];
-			$method = isset($x[1]) ? $x[1] : 'index';
+			if (sscanf($RTR->routes['404_override'], '%[^/]/%s', $class, $method) !== 2)
+			{
+				$method = 'index';
+			}
+
 			if ( ! class_exists($class))
 			{
 				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
@@ -327,9 +329,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			// Check and see if we are using a 404 override and use it.
 			if ( ! empty($RTR->routes['404_override']))
 			{
-				$x = explode('/', $RTR->routes['404_override'], 2);
-				$class = $x[0];
-				$method = isset($x[1]) ? $x[1] : 'index';
+				if (sscanf($RTR->routes['404_override'], '%[^/]/%s', $class, $method) !== 2)
+				{
+					$method = 'index';
+				}
+
 				if ( ! class_exists($class))
 				{
 					if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
