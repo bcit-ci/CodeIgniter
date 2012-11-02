@@ -38,13 +38,11 @@ function autoload($class)
 
 	if (strpos($class, 'Mock_') === 0)
 	{
-		$class = str_replace(array('Mock_', '_'), array('', DIRECTORY_SEPARATOR), $class);
-		$class = strtolower($class);
+		$class = strtolower(str_replace(array('Mock_', '_'), array('', DIRECTORY_SEPARATOR), $class));
 	}
 	elseif (strpos($class, 'CI_') === 0)
 	{
-		$fragments = explode('_', $class, 2);
-		$subclass = next($fragments);
+		$subclass = substr($class, 3);
 
 		if (in_array($subclass, $ci_core))
 		{
@@ -88,7 +86,7 @@ function autoload($class)
 		}
 	}
 
-	$file = (isset($file)) ? $file : $dir.$class.'.php';
+	$file = isset($file) ? $file : $dir.$class.'.php';
 
 	if ( ! file_exists($file))
 	{

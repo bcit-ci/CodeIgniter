@@ -450,20 +450,13 @@ if ( ! function_exists('human_to_unix'))
 			return FALSE;
 		}
 
-		$split = explode(' ', $datestr);
+		sscanf($datestr, '%d-%d-%d %s %s', $year, $month, $day, $time, $ampm);
+		sscanf($time, '%d:%d:%d', $hour, $min, $sec);
+		isset($sec) OR $sec = 0;
 
-		list($year, $month, $day) = explode('-', $split[0]);
-
-		$ex = explode(':', $split['1']);
-
-		$hour	= (int) $ex[0];
-		$min	= (int) $ex[1];
-		$sec	= ( ! empty($ex[2]) && preg_match('/[0-9]{1,2}/', $ex[2]))
-				? (int) $ex[2] : 0;
-
-		if (isset($split[2]))
+		if (isset($ampm))
 		{
-			$ampm = strtolower($split[2]);
+			$ampm = strtolower($ampm);
 
 			if ($ampm[0] === 'p' && $hour < 12)
 			{
