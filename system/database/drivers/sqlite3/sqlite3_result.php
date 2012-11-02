@@ -38,9 +38,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_DB_sqlite3_result extends CI_DB_result {
 
-	// num_fields() might be called multiple times, so we'll use this one to cache it's result
-	protected $_num_fields;
-
 	/**
 	 * Number of fields in the result set
 	 *
@@ -48,9 +45,7 @@ class CI_DB_sqlite3_result extends CI_DB_result {
 	 */
 	public function num_fields()
 	{
-		return ( ! is_int($this->_num_fields))
-			? $this->_num_fields = $this->result_id->numColumns()
-			: $this->_num_fields;
+		return $this->result_id->numColumns();
 	}
 
 	// --------------------------------------------------------------------
@@ -135,7 +130,7 @@ class CI_DB_sqlite3_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @param	string
+	 * @param	string	$class_name
 	 * @return	object
 	 */
 	protected function _fetch_object($class_name = 'stdClass')
@@ -166,9 +161,9 @@ class CI_DB_sqlite3_result extends CI_DB_result {
 	 *
 	 * Moves the internal pointer to the desired offset. We call
 	 * this internally before fetching results to make sure the
-	 * result set starts at zero
+	 * result set starts at zero.
 	 *
-	 * @param	$n = 0	(ignored)
+	 * @param	int	$n	(ignored)
 	 * @return	array
 	 */
 	protected function _data_seek($n = 0)

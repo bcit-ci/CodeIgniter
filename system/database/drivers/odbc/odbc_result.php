@@ -166,7 +166,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @param	string
+	 * @param	string	$class_name
 	 * @return	object
 	 */
 	protected function _fetch_object($class_name = 'stdClass')
@@ -199,11 +199,11 @@ if ( ! function_exists('odbc_fetch_array'))
 	 * Emulates the native odbc_fetch_array() function when
 	 * it is not available (odbc_fetch_array() requires unixODBC)
 	 *
-	 * @param	resource
-	 * @param	int
+	 * @param	resource	&$result
+	 * @param	int		$rownumber
 	 * @return	array
 	 */
-	function odbc_fetch_array(& $result, $rownumber = 1)
+	function odbc_fetch_array(&$result, $rownumber = 1)
 	{
 		$rs = array();
 		if ( ! odbc_fetch_into($result, $rs, $rownumber))
@@ -232,11 +232,11 @@ if ( ! function_exists('odbc_fetch_object'))
 	 * Emulates the native odbc_fetch_object() function when
 	 * it is not available.
 	 *
-	 * @param	resource
-	 * @param	int
+	 * @param	resource	&$result
+	 * @param	int		$rownumber
 	 * @return	object
 	 */
-	function odbc_fetch_object(& $result, $rownumber = 1)
+	function odbc_fetch_object(&$result, $rownumber = 1)
 	{
 		$rs = array();
 		if ( ! odbc_fetch_into($result, $rs, $rownumber))
