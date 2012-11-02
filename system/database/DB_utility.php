@@ -49,7 +49,7 @@ abstract class CI_DB_utility extends CI_DB_forge {
 	 *
 	 * @var	string
 	 */
-	$_list_databases		= FALSE;
+	protected $_list_databases		= FALSE;
 
 	/**
 	 * OPTIMIZE TABLE statement

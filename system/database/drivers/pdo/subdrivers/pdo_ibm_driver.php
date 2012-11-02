@@ -41,16 +41,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_DB_pdo_ibm_driver extends CI_DB_pdo_driver {
 
+	/**
+	 * Sub-driver
+	 *
+	 * @var	string
+	 */
 	public $subdriver = 'ibm';
 
-	protected $_random_keyword = ' RAND()';
+	// --------------------------------------------------------------------
 
 	/**
-	 * Constructor
+	 * Class constructor
 	 *
 	 * Builds the DSN if not already set.
 	 *
-	 * @param	array
+	 * @param	array	$params
 	 * @return	void
 	 */
 	public function __construct($params)
@@ -116,7 +121,7 @@ class CI_DB_pdo_ibm_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	bool
+	 * @param	bool	$prefix_limit
 	 * @return	string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
@@ -139,7 +144,7 @@ class CI_DB_pdo_ibm_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _list_columns($table = '')
@@ -155,7 +160,7 @@ class CI_DB_pdo_ibm_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _field_data($table)
@@ -170,8 +175,8 @@ class CI_DB_pdo_ibm_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific update string from the supplied data
 	 *
-	 * @param	string	the table name
-	 * @param	array	the update data
+	 * @param	string	$table
+	 * @param	array	$values
 	 * @return	string
          */
 	protected function _update($table, $values)
@@ -188,7 +193,7 @@ class CI_DB_pdo_ibm_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific delete string from the supplied data
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _delete($table)
@@ -200,21 +205,19 @@ class CI_DB_pdo_ibm_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Limit string
+	 * LIMIT
 	 *
 	 * Generates a platform-specific LIMIT clause
 	 *
-	 * @param	string	the sql query string
-	 * @param	int	the number of rows to limit the query to
-	 * @param	int	the offset value
+	 * @param	string	$sql	SQL Query
 	 * @return	string
 	 */
-	protected function _limit($sql, $limit, $offset)
+	protected function _limit($sql)
 	{
-		$sql .= ' FETCH FIRST '.($limit + $offset).' ROWS ONLY';
+		$sql .= ' FETCH FIRST '.($this->qb_limit + $this->qb_offset).' ROWS ONLY';
 
-		return ($offset)
-			? 'SELECT * FROM ('.$sql.') WHERE rownum > '.$offset
+		return ($this->qb_offset)
+			? 'SELECT * FROM ('.$sql.') WHERE rownum > '.$this->qb_offset
 			: $sql;
 	}
 

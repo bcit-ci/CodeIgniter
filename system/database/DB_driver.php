@@ -306,6 +306,13 @@ abstract class CI_DB_driver {
 	protected $_reserved_identifiers	= array('*');
 
 	/**
+	 * Identifier escape character
+	 *
+	 * @var	string
+	 */
+	protected $_escape_char = '"';
+
+	/**
 	 * ESCAPE statement string
 	 *
 	 * @var	string
@@ -318,6 +325,13 @@ abstract class CI_DB_driver {
 	 * @var	string
 	 */
 	protected $_like_escape_chr = '!';
+
+	/**
+	 * ORDER BY random keyword
+	 *
+	 * @var	string
+	 */
+	protected $_random_keyword = ' RAND()';
 
 	/**
 	 * COUNT string
