@@ -35,12 +35,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_DB_mysql_forge extends CI_DB_forge {
 
+	/**
+	 * CREATE DATABASE statement
+	 *
+	 * @var	string
+	 */
 	protected $_create_database	= 'CREATE DATABASE %s CHARACTER SET %s COLLATE %s';
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Process Fields
 	 *
-	 * @param	mixed	the fields
+	 * @param	mixed	$fields
 	 * @return	string
 	 */
 	protected function _process_fields($fields)

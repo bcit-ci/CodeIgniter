@@ -45,23 +45,30 @@ abstract class CI_DB_utility extends CI_DB_forge {
 	// --------------------------------------------------------------------
 
 	/**
+	 * List databases statement
+	 *
+	 * @var	string
+	 */
+	$_list_databases		= FALSE;
+
+	/**
 	 * OPTIMIZE TABLE statement
 	 *
-	 * @var	string|bool
+	 * @var	string
 	 */
 	protected $_optimize_table	= FALSE;
 
 	/**
 	 * REPAIR TABLE statement
 	 *
-	 * @var	string|bool
+	 * @var	string
 	 */
 	protected $_repair_table	= FALSE;
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Constructor
+	 * Class constructor
 	 *
 	 * @return	void
 	 */

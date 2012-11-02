@@ -35,10 +35,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_DB_ibase_utility extends CI_DB_utility {
 
-	protected $_list_databases	= FALSE;
-
 	/**
-	 * Interbase/Firebird Export
+	 * Export
 	 *
 	 * @param	string	$filename
 	 * @return	mixed

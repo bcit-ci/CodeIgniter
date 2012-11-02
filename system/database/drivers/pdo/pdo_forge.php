@@ -35,7 +35,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_DB_pdo_forge extends CI_DB_forge {
 
+	/**
+	 * DROP TABLE statement
+	 *
+	 * @var	string
+	 */
 	protected $_drop_table		= 'DROP TABLE %s';
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Create Table

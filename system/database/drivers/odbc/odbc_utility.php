@@ -35,12 +35,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_DB_odbc_utility extends CI_DB_utility {
 
-	protected $_list_databases	= FALSE;
-
 	/**
-	 * ODBC Export
+	 * Export
 	 *
-	 * @param	array	Preferences
+	 * @param	array	$params	Preferences
 	 * @return	mixed
 	 */
 	protected function _backup($params = array())
