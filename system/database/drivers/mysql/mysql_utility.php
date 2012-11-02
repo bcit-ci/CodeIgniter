@@ -35,14 +35,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_DB_mysql_utility extends CI_DB_utility {
 
+	/**
+	 * List databases statement
+	 *
+	 * @var	string
+	 */
 	protected $_list_databases	= 'SHOW DATABASES';
-	protected $_optimize_table	= 'OPTIMIZE TABLE %s';
-	protected $_repair_table	= 'REPAIR TABLE %s';
 
 	/**
-	 * MySQL Export
+	 * OPTIMIZE TABLE statement
 	 *
-	 * @param	array	Preferences
+	 * @var	string
+	 */
+	protected $_optimize_table	= 'OPTIMIZE TABLE %s';
+
+	/**
+	 * REPAIR TABLE statement
+	 *
+	 * @var	string
+	 */
+	protected $_repair_table	= 'REPAIR TABLE %s';
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Export
+	 *
+	 * @param	array	$params	Preferences
 	 * @return	mixed
 	 */
 	protected function _backup($params = array())

@@ -35,12 +35,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_DB_ibase_forge extends CI_DB_forge {
 
+	/**
+	 * DROP TABLE statement
+	 *
+	 * @var	string
+	 */
 	protected $_drop_table	= 'DROP TABLE %s';
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Create database
 	 *
-	 * @param	string	the database name
+	 * @param	string	$db_name
 	 * @return	string
 	 */
 	public function create_database($db_name)

@@ -35,13 +35,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_DB_mssql_utility extends CI_DB_utility {
 
+	/**
+	 * List databases statement
+	 *
+	 * @var	string
+	 */
 	protected $_list_databases	= 'EXEC sp_helpdb'; // Can also be: EXEC sp_databases
+
+	/**
+	 * OPTIMIZE TABLE statement
+	 *
+	 * @var	string
+	 */
 	protected $_optimize_table	= 'ALTER INDEX all ON %s REORGANIZE';
 
 	/**
-	 * MSSQL Export
+	 * Export
 	 *
-	 * @param	array	Preferences
+	 * @param	array	$params	Preferences
 	 * @return	bool
 	 */
 	protected function _backup($params = array())

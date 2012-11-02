@@ -35,13 +35,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_DB_postgre_forge extends CI_DB_forge {
 
+	/**
+	 * DROP TABLE statement
+	 *
+	 * @var	string
+	 */
 	protected $_drop_table	= 'DROP TABLE IF EXISTS %s CASCADE';
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Process Fields
 	 *
 	 * @param	mixed	$fields
-	 * @param	array	$primary_keys = array()
+	 * @param	array	$primary_keys
 	 * @return	string
 	 */
 	protected function _process_fields($fields, $primary_keys = array())
@@ -195,7 +202,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 * @param	string	$alter_type	the ALTER type (ADD, DROP, CHANGE)
 	 * @param	string	$table		the table name
 	 * @param	string	$fields		the column definition
-	 * @param	string	$after_field = ''
+	 * @param	string	$after_field
 	 * @return	string
 	 */
 	protected function _alter_table($alter_type, $table, $fields, $after_field = '')
