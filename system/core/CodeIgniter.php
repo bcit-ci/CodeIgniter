@@ -288,6 +288,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}
 	}
 
+	if (method_exists($class, '_remap'))
+	{
+		$params = array($method, array_slice($URI->rsegments, 2));
+		$method = '_remap';
+	}
+	else
+	{
+		if ( ! is_callable(array($class, $method)))
+		{
+			if (empty($RTR->routes['404_override']))
+			{
+				show_404($class.'/'.$method);
+			}
+			elseif (sscanf($RTR->routes['404_override'], '%[^/]/%s', $class, $method) !== 2)
+			{
+				$method = 'index';
+			}
+
+			if ( ! class_exists($class))
+			{
+				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
+				{
+					show_404($class.'/'.$method);
+				}
+
+				include_once(APPPATH.'controllers/'.$class.'.php');
+			}
+		}
+
+		$params = array_slice($URI->rsegments, 2);
+	}
+
 /*
  * ------------------------------------------------------
  *  Is there a "pre_controller" hook?
@@ -317,45 +349,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  Call the requested method
  * ------------------------------------------------------
  */
-	// Is there a "remap" function? If so, we call it instead
-	if (method_exists($CI, '_remap'))
-	{
-		$CI->_remap($method, array_slice($URI->rsegments, 2));
-	}
-	else
-	{
-		if ( ! is_callable(array($CI, $method)))
-		{
-			// Check and see if we are using a 404 override and use it.
-			if ( ! empty($RTR->routes['404_override']))
-			{
-				if (sscanf($RTR->routes['404_override'], '%[^/]/%s', $class, $method) !== 2)
-				{
-					$method = 'index';
-				}
-
-				if ( ! class_exists($class))
-				{
-					if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
-					{
-						show_404($class.'/'.$method);
-					}
-
-					include_once(APPPATH.'controllers/'.$class.'.php');
-					unset($CI);
-					$CI = new $class();
-				}
-			}
-			else
-			{
-				show_404($class.'/'.$method);
-			}
-		}
-
-		// Call the requested method.
-		// Any URI segments present (besides the class/function) will be passed to the method for convenience
-		call_user_func_array(array(&$CI, $method), array_slice($URI->rsegments, 2));
-	}
+	call_user_func_array(array(&$CI, $method), $params);
 
 	// Mark a benchmark end point
 	$BM->mark('controller_execution_time_( '.$class.' / '.$method.' )_end');
