@@ -528,7 +528,7 @@ class CI_Session extends CI_Driver_Library {
 		foreach ($this->all_userdata() as $name => $value)
 		{
 			$parts = explode(self::FLASHDATA_NEW, $name);
-			if (is_array($parts) && count($parts) === 2)
+			if (count($parts) === 2)
 			{
 				$new_name = self::FLASHDATA_KEY.self::FLASHDATA_OLD.$parts[1];
 				$this->set_userdata($new_name, $value);
