@@ -182,7 +182,7 @@ Release Date: Not Released
 	 -  Added method ``remove()`` to remove a cart item, updating with quantity of 0 seemed like a hack but has remained to retain compatibility.
 	 -  Added method ``get_item()`` to enable retrieving data for a single cart item.
    -  :doc:`Image Manipulation library <libraries/image_lib>` changes include:
-	 -  The initialize() method now only sets existing class properties.
+	 -  The ``initialize()`` method now only sets existing class properties.
 	 -  Added support for 3-length hex color values for *wm_font_color* and *wm_shadow_color* properties, as well as validation for them.
 	 -  Class properties *wm_font_color*, *wm_shadow_color* and *wm_use_drop_shadow* are now protected, to avoid breaking the ``text_watermark()`` method if they are set manually after initialization.
 	 -  If property *maintain_ratio* is set to TRUE, ``image_reproportion()`` now doesn't need both width and height to be specified.
@@ -245,7 +245,6 @@ Release Date: Not Released
 	 -  ``library()`` method will now load drivers as well, for backward compatibility of converted libraries (like :doc:`Session <libraries/sessions>`).
 	 -  ``$config['rewrite_short_tags']`` now has no effect when using PHP 5.4 as ``<?=`` will always be available.
 	 -  Changed method ``config()`` to return whatever ``CI_Config::load()`` returns instead of always being void.
-	 -  Removed method ``initialize()`` and moved its logic to the constructor.
    -  :doc:`Input Library <libraries/input>` changes include:
 	 -  Added ``method()`` to retrieve ``$_SERVER['REQUEST_METHOD']``.
 	 -  Added support for arrays and network addresses (e.g. 192.168.1.1/24) for use with the *proxy_ips* setting.

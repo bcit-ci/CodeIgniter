@@ -493,7 +493,7 @@ class Loader_test extends CI_TestCase {
 		);
 		$this->ci_vfs_create('autoload', '<?php $autoload = '.var_export($cfg, TRUE).';', $this->ci_app_root, 'config');
 
-		$this->load->__construct();
+		$this->load->initialize();
 
 		// Verify path
 		$this->assertContains($path, $this->load->get_package_paths());
