@@ -130,10 +130,8 @@ class CI_Loader {
 	/**
 	 * Class constructor
 	 *
-	 * Sets component load paths, gets the initial output buffering level
-	 * and calls the autoloader.
+	 * Sets component load paths, gets the initial output buffering level.
 	 *
-	 * @uses	CI_Loader::_ci_autoloader()
 	 * @return	void
 	 */
 	public function __construct()
@@ -143,10 +141,25 @@ class CI_Loader {
 		$this->_ci_helper_paths = array(APPPATH, BASEPATH);
 		$this->_ci_model_paths = array(APPPATH);
 		$this->_ci_view_paths = array(VIEWPATH	=> TRUE);
-		$this->_base_classes =& is_loaded();
-		$this->_ci_autoloader();
 
 		log_message('debug', 'Loader Class Initialized');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Initializer
+	 *
+	 * @todo	Figure out a way to move this to the constructor
+	 *		without breaking *package_path*() methods.
+	 * @uses	CI_Loader::_ci_autoloader()
+	 * @used-by	CI_Controller::__construct()
+	 * @return	void
+	 */
+	public function initialize()
+	{
+		$this->_base_classes =& is_loaded();
+		$this->_ci_autoloader();
 	}
 
 	// --------------------------------------------------------------------
@@ -1134,7 +1147,7 @@ class CI_Loader {
 	 *
 	 * Loads component listed in the config/autoload.php file.
 	 *
-	 * @used-by	CI_Loader::__construct()
+	 * @used-by	CI_Loader::initialize()
 	 * @return	void
 	 */
 	protected function _ci_autoloader()
