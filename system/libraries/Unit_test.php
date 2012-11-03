@@ -158,7 +158,7 @@ class CI_Unit_test {
 
 		$back = $this->_backtrace();
 
-		$report[] = array (
+		$report = array (
 							'test_name'			=> $test_name,
 							'test_datatype'		=> gettype($test),
 							'res_datatype'		=> $extype,
@@ -170,7 +170,7 @@ class CI_Unit_test {
 
 		$this->results[] = $report;
 
-		return $this->report($this->result($report));
+		return $this->report($this->result(array($report)));
 	}
 
 	// --------------------------------------------------------------------
@@ -284,30 +284,11 @@ class CI_Unit_test {
 					continue;
 				}
 
-				if (is_array($val))
+				if (FALSE !== ($line = $CI->lang->line(strtolower('ut_'.$val))))
 				{
-					foreach ($val as $k => $v)
-					{
-						if ( ! in_array($k, $this->_test_items_visible))
-						{
-							continue;
-						}
-
-						if (FALSE !== ($line = $CI->lang->line(strtolower('ut_'.$v))))
-						{
-							$v = $line;
-						}
-						$temp[$CI->lang->line('ut_'.$k)] = $v;
-					}
+					$val = $line;
 				}
-				else
-				{
-					if (FALSE !== ($line = $CI->lang->line(strtolower('ut_'.$val))))
-					{
-						$val = $line;
-					}
-					$temp[$CI->lang->line('ut_'.$key)] = $val;
-				}
+				$temp[$CI->lang->line('ut_'.$key)] = $val;
 			}
 
 			$retval[] = $temp;
