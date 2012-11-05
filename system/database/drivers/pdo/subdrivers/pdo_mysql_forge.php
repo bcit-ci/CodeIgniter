@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -21,19 +21,19 @@
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @since		Version 2.1.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * MySQLi Forge Class
+ * PDO MySQL Forge Class
  *
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_mysqli_forge extends CI_DB_forge {
+class CI_DB_pdo_mysql_forge extends CI_DB_pdo_forge {
 
 	/**
 	 * CREATE DATABASE statement
@@ -41,6 +41,20 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 	 * @var	string
 	 */
 	protected $_create_database	= 'CREATE DATABASE %s CHARACTER SET %s COLLATE %s';
+
+	/**
+	 * CREATE TABLE IF statement
+	 *
+	 * @var	string
+	 */
+	protected $_create_table_if	= 'CREATE TABLE IF NOT EXISTS';
+
+	/**
+	 * DROP TABLE IF statement
+	 *
+	 * @var	string
+	 */
+	protected $_drop_table_if	= 'DROP TABLE IF EXISTS';
 
 	/**
 	 * UNSIGNED support
@@ -180,5 +194,5 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 
 }
 
-/* End of file mysqli_forge.php */
-/* Location: ./system/database/drivers/mysqli/mysqli_forge.php */
+/* End of file pdo_mysql_forge.php */
+/* Location: ./system/database/drivers/pdo/subdrivers/pdo_mysql_forge.php */

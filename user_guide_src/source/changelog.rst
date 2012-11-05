@@ -154,6 +154,8 @@ Release Date: Not Released
    -  Added MySQL client compression support.
    -  Added encrypted connections support (for *mysql*, *sqlsrv* and PDO with *sqlsrv*).
    -  Removed :doc:`Loader Class <libraries/loader>` from Database error tracing to better find the likely culprit.
+   -  Added an optional second parameter to ``drop_table()`` in :doc:`Database Forge <database/forge>` that allows adding the IF EXISTS condition.
+   -  Removed the optional AFTER clause from :doc:`Database Forge <database/forge>` method ``add_column()``.
 
 -  Libraries
 

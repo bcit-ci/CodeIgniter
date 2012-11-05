@@ -392,7 +392,20 @@ class CI_Loader {
 
 		require_once(BASEPATH.'database/DB_forge.php');
 		require_once(BASEPATH.'database/drivers/'.$CI->db->dbdriver.'/'.$CI->db->dbdriver.'_forge.php');
-		$class = 'CI_DB_'.$CI->db->dbdriver.'_forge';
+
+		if ( ! empty($CI->db->subdriver))
+		{
+			$driver_path = BASEPATH.'database/drivers/'.$CI->db->dbdriver.'/subdrivers/'.$CI->db->dbdriver.'_'.$CI->db->subdriver.'_forge.php';
+			if (file_exists($driver_path))
+			{
+				require_once($driver_path);
+				$class = 'CI_DB_'.$CI->db->dbdriver.'_'.$CI->db->subdriver.'_forge';
+			}
+		}
+		else
+		{
+			$class = 'CI_DB_'.$CI->db->dbdriver.'_forge';
+		}
 
 		$CI->dbforge = new $class();
 	}
