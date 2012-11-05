@@ -67,21 +67,21 @@ This is **not** valid::
 	?>
 
 Also, always make sure your controller extends the parent controller
-class so that it can inherit all its functions.
+class so that it can inherit all its methods.
 
-Functions
-=========
+Methods
+=======
 
-In the above example the function name is index(). The "index" function
+In the above example the method name is ``index()``. The "index" method
 is always loaded by default if the **second segment** of the URI is
 empty. Another way to show your "Hello World" message would be this::
 
 	example.com/index.php/blog/index/
 
-**The second segment of the URI determines which function in the
+**The second segment of the URI determines which method in the
 controller gets called.**
 
-Let's try it. Add a new function to your controller::
+Let's try it. Add a new method to your controller::
 
 	<?php
 	class Blog extends CI_Controller {
@@ -98,37 +98,37 @@ Let's try it. Add a new function to your controller::
 	}
 	?>
 
-Now load the following URL to see the comment function::
+Now load the following URL to see the comment method::
 
 	example.com/index.php/blog/comments/
 
 You should see your new message.
 
-Passing URI Segments to your Functions
-======================================
+Passing URI Segments to your methods
+====================================
 
 If your URI contains more then two segments they will be passed to your
-function as parameters.
+method as parameters.
 
 For example, lets say you have a URI like this::
 
 	example.com/index.php/products/shoes/sandals/123
 
-Your function will be passed URI segments 3 and 4 ("sandals" and "123")::
+Your method will be passed URI segments 3 and 4 ("sandals" and "123")::
 
 	<?php
 	class Products extends CI_Controller {
 
-	    public function shoes($sandals, $id)
-	    {
-	        echo $sandals;
-	        echo $id;
-	    }
+		public function shoes($sandals, $id)
+		{
+			echo $sandals;
+			echo $id;
+		}
 	}
 	?>
 
 .. important:: If you are using the :doc:`URI Routing <routing>`
-	feature, the segments passed to your function will be the re-routed
+	feature, the segments passed to your method will be the re-routed
 	ones.
 
 Defining a Default Controller
@@ -145,53 +145,53 @@ Where Blog is the name of the controller class you want used. If you now
 load your main index.php file without specifying any URI segments you'll
 see your Hello World message by default.
 
-Remapping Function Calls
-========================
+Remapping Method Calls
+======================
 
 As noted above, the second segment of the URI typically determines which
-function in the controller gets called. CodeIgniter permits you to
-override this behavior through the use of the _remap() function::
+method in the controller gets called. CodeIgniter permits you to override
+this behavior through the use of the ``_remap()`` method::
 
 	public function _remap()
 	{
-	    // Some code here...
+		// Some code here...
 	}
 
-.. important:: If your controller contains a function named _remap(),
+.. important:: If your controller contains a method named _remap(),
 	it will **always** get called regardless of what your URI contains. It
-	overrides the normal behavior in which the URI determines which function
-	is called, allowing you to define your own function routing rules.
+	overrides the normal behavior in which the URI determines which method
+	is called, allowing you to define your own method routing rules.
 
-The overridden function call (typically the second segment of the URI)
-will be passed as a parameter to the _remap() function::
+The overridden method call (typically the second segment of the URI) will
+be passed as a parameter to the ``_remap()`` method::
 
 	public function _remap($method)
 	{
-	    if ($method == 'some_method')
-	    {
-	        $this->$method();
-	    }
-	    else
-	    {
-	        $this->default_method();
-	    }
+		if ($method == 'some_method')
+		{
+			$this->$method();
+		}
+		else
+		{
+			$this->default_method();
+		}
 	}
 
-Any extra segments after the method name are passed into _remap() as an
+Any extra segments after the method name are passed into ``_remap()`` as an
 optional second parameter. This array can be used in combination with
-PHP's `call_user_func_array <http://php.net/call_user_func_array>`_
+PHP's `call_user_func_array() <http://php.net/call_user_func_array>`_
 to emulate CodeIgniter's default behavior.
 
 ::
 
 	public function _remap($method, $params = array())
 	{
-	    $method = 'process_'.$method;
-	    if (method_exists($this, $method))
-	    {
-	        return call_user_func_array(array($this, $method), $params);
-	    }
-	    show_404();
+		$method = 'process_'.$method;
+		if (method_exists($this, $method))
+		{
+			return call_user_func_array(array($this, $method), $params);
+		}
+		show_404();
 	}
 
 Processing Output
@@ -199,29 +199,29 @@ Processing Output
 
 CodeIgniter has an output class that takes care of sending your final
 rendered data to the web browser automatically. More information on this
-can be found in the :doc:`Views <views>` and :doc:`Output class <../libraries/output>` pages. In some cases, however, you
-might want to post-process the finalized data in some way and send it to
-the browser yourself. CodeIgniter permits you to add a function named
-_output() to your controller that will receive the finalized output
-data.
+can be found in the :doc:`Views <views>` and :doc:`Output Class
+<../libraries/output>` pages. In some cases, however, you might want to
+post-process the finalized data in some way and send it to the browser
+yourself. CodeIgniter permits you to add a method named ``_output()``
+to your controller that will receive the finalized output data.
 
-.. important:: If your controller contains a function named _output(),
-	it will **always** be called by the output class instead of echoing the
-	finalized data directly. The first parameter of the function will
-	contain the finalized output.
+.. important:: If your controller contains a method named _output(), it
+	will **always** be called by the output class instead of echoing
+	the finalized data directly. The first parameter of the method
+	will contain the finalized output.
 
 Here is an example::
 
 	public function _output($output)
 	{
-	    echo $output;
+		echo $output;
 	}
 
-.. note:: Please note that your _output() function will receive the data in its
+.. note:: Please note that your _output() method will receive the data in its
 	finalized state. Benchmark and memory usage data will be rendered, cache
 	files written (if you have caching enabled), and headers will be sent
 	(if you use that :doc:`feature <../libraries/output>`) before it is
-	handed off to the _output() function.
+	handed off to the _output() method.
 	To have your controller's output cached properly, its _output() method
 	can use::
 
@@ -236,22 +236,26 @@ Here is an example::
 	output *before* any of the final processing is done, please see the
 	available methods in the :doc:`Output Class <../libraries/output>`.
 
-Private Functions
-=================
+Private methods
+===============
 
-In some cases you may want certain functions hidden from public access.
-To make a function private, simply add an underscore as the name prefix
-and it will not be served via a URL request. For example, if you were to
-have a function like this::
+In some cases you may want certain methods hidden from public access.
+In order to achieve this, simply declare the method as being private
+or protected and it will not be served via a URL request. For example,
+if you were to have a method like this::
 
 	private function _utility()
 	{
-	  // some code
+		// some code
 	}
 
 Trying to access it via the URL, like this, will not work::
 
 	example.com/index.php/blog/_utility/
+
+.. note:: Prefixing method names with an underscore will also prevent
+	them from being called. This is a legacy feature that is left
+	for backwards-compatibility.
 
 Organizing Your Controllers into Sub-folders
 ============================================
@@ -297,11 +301,11 @@ manually call it.
 	<?php
 	class Blog extends CI_Controller {
 
-	       public function __construct()
-	       {
-	            parent::__construct();
-	            // Your own constructor code
-	       }
+		public function __construct()
+		{
+			parent::__construct();
+			// Your own constructor code
+		}
 	}
 	?>
 
@@ -309,14 +313,20 @@ Constructors are useful if you need to set some default values, or run a
 default process when your class is instantiated. Constructors can't
 return a value, but they can do some default work.
 
-Reserved Function Names
-=======================
+Reserved method names
+=====================
 
 Since your controller classes will extend the main application
-controller you must be careful not to name your functions identically to
+controller you must be careful not to name your methods identically to
 the ones used by that class, otherwise your local functions will
 override them. See :doc:`Reserved Names <reserved_names>` for a full
 list.
+
+.. important:: You should also never have a method named identically
+	to its class name. If you do, and there is no __construct()
+	method in the same class, then your e.g. Index::index() method
+	will be executed as a class constructor! This is a PHP4
+	backwards-compatibility feature.
 
 That's it!
 ==========
