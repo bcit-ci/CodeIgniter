@@ -99,7 +99,7 @@ Step 9: Update usage of Database Forge's drop_table() method
 
 Up until now, ``drop_table()`` added an IF EXISTS clause by default or it didn't work
 at all with some drivers. In CodeIgniter 3.0, the IF EXISTS condition is no longer added
-by deafault and has an optional second parameter that allows that instead and is set to
+by default and has an optional second parameter that allows that instead and is set to
 FALSE by default.
 
 If your application relies on IF EXISTS, you'll have to change its usage.

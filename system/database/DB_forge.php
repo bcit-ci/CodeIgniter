@@ -40,7 +40,7 @@ abstract class CI_DB_forge {
 	 *
 	 * @var	object
 	 */
-	public $db;
+	protected $db;
 
 	/**
 	 * Fields data
@@ -150,13 +150,12 @@ abstract class CI_DB_forge {
 	/**
 	 * Class constructor
 	 *
+	 * @param	object	&$db	Database object
 	 * @return	void
 	 */
-	public function __construct()
+	public function __construct(&$db)
 	{
-		// Assign the main database object to $this->db
-		$CI =& get_instance();
-		$this->db =& $CI->db;
+		$this->db =& $db;
 		log_message('debug', 'Database Forge Class Initialized');
 	}
 

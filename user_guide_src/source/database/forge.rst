@@ -2,7 +2,7 @@
 Database Forge Class
 ####################
 
-The Database Forge Class contains functions that help you manage your
+The Database Forge Class contains methods that help you manage your
 database.
 
 .. contents:: Table of Contents
@@ -18,13 +18,25 @@ Load the Forge Class as follows::
 
 	$this->load->dbforge()
 
-Once initialized you will access the functions using the $this->dbforge
+You can also pass another database object to the DB Forge loader, in case
+the database you want to manage isn't the default one::
+
+	$this->myforge = $this->load->dbforge($this->other_db, TRUE);
+
+In the above example, we're passing a custom database object as the first
+parameter and then tell it to return the dbforge object, instead of
+assigning it directly to ``$this->dbforge``.
+
+.. note:: Both of the parameters can be used individually, just pass an empty
+	value as the first one if you wish to skip it.
+
+Once initialized you will access the methods using the ``$this->dbforge``
 object::
 
-	$this->dbforge->some_function()
+	$this->dbforge->some_method();
 
 $this->dbforge->create_database('db_name')
-============================================
+==========================================
 
 Permits you to create the database specified in the first parameter.
 Returns TRUE/FALSE based on success or failure::
@@ -108,13 +120,13 @@ Additionally, the following key/values can be used:
 
 
 After the fields have been defined, they can be added using
-$this->dbforge->add_field($fields); followed by a call to the
-create_table() function.
+``$this->dbforge->add_field($fields);`` followed by a call to the
+``create_table()`` method.
 
 $this->dbforge->add_field()
-----------------------------
+---------------------------
 
-The add fields function will accept the above array.
+The add fields method will accept the above array.
 
 Passing strings as fields
 -------------------------
@@ -221,7 +233,7 @@ Modifying Tables
 $this->dbforge->add_column()
 =============================
 
-The add_column() function is used to modify an existing table. It
+The ``add_column()`` method is used to modify an existing table. It
 accepts the same field array as above, and can be used for an unlimited
 number of additional fields.
 
@@ -246,7 +258,7 @@ Used to remove a column from a table.
 $this->dbforge->modify_column()
 ================================
 
-The usage of this function is identical to add_column(), except it
+The usage of this method is identical to ``add_column()``, except it
 alters an existing column rather than adding a new one. In order to
 change the name you can add a "name" key into the field defining array.
 
