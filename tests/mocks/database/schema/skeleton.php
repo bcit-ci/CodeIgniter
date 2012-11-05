@@ -69,7 +69,7 @@ class Mock_Database_Schema_Skeleton {
 			)
 		));
 		static::$forge->add_key('id', TRUE);
-		static::$forge->create_table('user', (strpos(static::$driver, 'pgsql') === FALSE));
+		static::$forge->create_table('user', TRUE);
 
 		// Job Table
 		static::$forge->add_field(array(
@@ -86,7 +86,7 @@ class Mock_Database_Schema_Skeleton {
 			)
 		));
 		static::$forge->add_key('id', TRUE);
-		static::$forge->create_table('job', (strpos(static::$driver, 'pgsql') === FALSE));
+		static::$forge->create_table('job', TRUE);
 
 		// Misc Table
 		static::$forge->add_field(array(
@@ -103,7 +103,7 @@ class Mock_Database_Schema_Skeleton {
 			)
 		));
 		static::$forge->add_key('id', TRUE);
-		static::$forge->create_table('misc', (strpos(static::$driver, 'pgsql') === FALSE));
+		static::$forge->create_table('misc', TRUE);
 	}
 
 	/**

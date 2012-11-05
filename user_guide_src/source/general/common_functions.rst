@@ -46,10 +46,14 @@ recommended on platforms where this information may be unreliable.
 config_item('item_key')
 =======================
 
-The :doc:`Config library <../libraries/config>` is the preferred way of
-accessing configuration information, however config_item() can be used
-to retrieve single keys. See Config library documentation for more
-information.
+The :doc:`Config Library <../libraries/config>` is the preferred way of
+accessing configuration information, however ``config_item()`` can be used
+to retrieve single keys. See :doc:`Config Library <../libraries/config>`
+documentation for more information.
+
+.. important:: This function only returns values set in your configuration
+	files. It does not take into account config values that are
+	dynamically set at runtime.
 
 show_error('message'), show_404('page'), log_message('level', 'message')
 ========================================================================

@@ -440,11 +440,10 @@ class CI_Form_validation {
 		// Load the language file containing error messages
 		$this->CI->lang->load('form_validation');
 
-		// Cycle through the rules for each field, match the
-		// corresponding $_POST item and test for errors
+		// Cycle through the rules for each field and match the corresponding $validation_data item
 		foreach ($this->_field_data as $field => $row)
 		{
-			// Fetch the data from the corresponding $_POST or validation array and cache it in the _field_data array.
+			// Fetch the data from the validation_data array item and cache it in the _field_data array.
 			// Depending on whether the field name is an array or a string will determine where we get it from.
 			if ($row['is_array'] === TRUE)
 			{
@@ -454,7 +453,13 @@ class CI_Form_validation {
 			{
 				$this->_field_data[$field]['postdata'] = $validation_array[$field];
 			}
+		}
 
+		// Execute validation rules
+		// Note: A second foreach (for now) is required in order to avoid false-positives
+		//	 for rules like 'matches', which correlate to other validation fields.
+		foreach ($this->_field_data as $field => $row)
+		{
 			// Don't try to validate if we have no rules set
 			if (empty($row['rules']))
 			{

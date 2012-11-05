@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -27,29 +27,36 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * PDO Forge Class
+ * PDO ODBC Forge Class
  *
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/database/
  */
-class CI_DB_pdo_forge extends CI_DB_forge {
+class CI_DB_pdo_odbc_forge extends CI_DB_pdo_forge {
 
 	/**
-	 * CREATE TABLE IF statement
+	 * UNSIGNED support
 	 *
-	 * @var	string
+	 * @var	bool|array
 	 */
-	protected $_create_table_if	= FALSE;
+	protected $_unsigned		= FALSE;
+
+	// --------------------------------------------------------------------
 
 	/**
-	 * DROP TABLE IF statement
+	 * Field attribute AUTO_INCREMENT
 	 *
-	 * @var	string
+	 * @param	array	&$attributes
+	 * @param	array	&$field
+	 * @return	void
 	 */
-	protected $_drop_table_if	= FALSE;
+	protected function _attr_auto_increment(&$attributes, &$field)
+	{
+		// Not supported (in most databases at least)
+	}
 
 }
 
-/* End of file pdo_forge.php */
-/* Location: ./system/database/drivers/pdo/pdo_forge.php */
+/* End of file pdo_odbc_forge.php */
+/* Location: ./system/database/drivers/pdo/subdrivers/pdo_odbc_forge.php */

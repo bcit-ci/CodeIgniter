@@ -910,9 +910,6 @@ Rule                      Parameter  Description                                
 	to two parameters, where at least one is required (to pass
 	the field data).
 
-.. note:: When using the **matches** rule, the form item specified
-	to compare against must already be defined.
-
 ******************
 Prepping Reference
 ******************
