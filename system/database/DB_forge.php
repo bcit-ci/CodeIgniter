@@ -239,7 +239,7 @@ abstract class CI_DB_forge {
 			show_error('Key information is required for that operation.');
 		}
 
-		if (is_array($key))
+		if ($primary === TRUE && is_array($key))
 		{
 			foreach ($key as $one)
 			{
