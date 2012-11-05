@@ -275,8 +275,12 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		{
 			return $this->data_cache['version'];
 		}
+		elseif ( ! $this->conn_id)
+		{
+			$this->initialize();
+		}
 
-		if (($info = sqlsrv_server_info($this->conn_id)) === FALSE)
+		if ( ! $this->conn_id OR ($info = sqlsrv_server_info($this->conn_id)) === FALSE)
 		{
 			return FALSE;
 		}

@@ -165,6 +165,10 @@ class CI_DB_pdo_driver extends CI_DB {
 		{
 			return $this->data_cache['version'];
 		}
+		elseif ( ! $this->conn_id)
+		{
+			$this->initialize();
+		}
 
 		// Not all subdrivers support the getAttribute() method
 		try
