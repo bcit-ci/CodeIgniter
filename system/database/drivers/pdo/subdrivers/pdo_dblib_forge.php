@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -21,19 +21,19 @@
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @since		Version 2.1.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * MS SQL Forge Class
+ * PDO DBLIB Forge Class
  *
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_mssql_forge extends CI_DB_forge {
+class CI_DB_pdo_dblib_forge extends CI_DB_pdo_forge {
 
 	/**
 	 * CREATE TABLE IF statement
@@ -132,5 +132,5 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 
 }
 
-/* End of file mssql_forge.php */
-/* Location: ./system/database/drivers/mssql/mssql_forge.php */
+/* End of file pdo_dblib_forge.php */
+/* Location: ./system/database/drivers/pdo/subdrivers/pdo_dblib_forge.php */

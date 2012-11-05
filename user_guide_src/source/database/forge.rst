@@ -193,13 +193,15 @@ into the definition
 Dropping a table
 ================
 
-Executes a DROP TABLE sql
+Execute a DROP TABLE statement and optionally add an IF EXISTS clause.
 
 ::
 
+	// Produces: DROP TABLE table_name
 	$this->dbforge->drop_table('table_name');
-	// gives DROP TABLE IF EXISTS  table_name
 
+	// Produces: DROP TABLE IF EXISTS table_name
+	$this->dbforge->drop_table('table_name');
 
 Renaming a table
 ================
@@ -230,14 +232,6 @@ number of additional fields.
 	);
 	$this->dbforge->add_column('table_name', $fields); 
 	// gives ALTER TABLE table_name ADD preferences TEXT
-
-An optional third parameter can be used to specify which existing column
-to add the new column after.
-
-::
-
-	$this->dbforge->add_column('table_name', $fields, 'after_field');
-
 
 $this->dbforge->drop_column()
 ==============================

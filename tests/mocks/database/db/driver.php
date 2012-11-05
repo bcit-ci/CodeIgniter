@@ -34,6 +34,7 @@ class Mock_Database_DB_Driver extends CI_DB_driver {
 
 		return call_user_func_array(array($this->ci_db_driver, $method), $arguments);
 	}
+
 }
 
 class CI_DB extends Mock_Database_DB_QueryBuilder {}

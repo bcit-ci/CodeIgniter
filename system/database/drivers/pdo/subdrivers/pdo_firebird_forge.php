@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -21,33 +21,37 @@
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @since		Version 2.1.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * SQLite Forge Class
+ * PDO Firebird Forge Class
  *
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_sqlite_forge extends CI_DB_forge {
+class CI_DB_pdo_firebird_forge extends CI_DB_pdo_forge {
 
 	/**
-	 * CREATE TABLE IF statement
+	 * RENAME TABLE statement
 	 *
 	 * @var	string
 	 */
-	protected $_create_table_if	= FALSE;
+	protected $_rename_table	= FALSE;
 
 	/**
 	 * UNSIGNED support
 	 *
-	 * @var	bool|array
+	 * @var	array
 	 */
-	protected $_unsigned		= FALSE;
+	protected $_unsigned		= array(
+		'SMALLINT'	=> 'INTEGER',
+		'INTEGER'	=> 'INT64',
+		'FLOAT'		=> 'DOUBLE PRECISION'
+	);
 
 	/**
 	 * NULL value representation in CREATE/ALTER TABLE statements
@@ -61,14 +65,17 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 	/**
 	 * Create database
 	 *
-	 * @param	string	$db_name	(ignored)
-	 * @return	bool
+	 * @param	string	$db_name
+	 * @return	string
 	 */
-	public function create_database($db_name = '')
+	public function create_database($db_name)
 	{
-		// In SQLite, a database is created when you connect to the database.
-		// We'll return TRUE so that an error isn't generated
-		return TRUE;
+		// Firebird databases are flat files, so a path is required
+
+		// Hostname is needed for remote access
+		empty($this->db->hostname) OR $db_name = $this->hostname.':'.$db_name;
+
+		return parent::create_database('"'.$db_name.'"');
 	}
 
 	// --------------------------------------------------------------------
@@ -81,7 +88,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 	 */
 	public function drop_database($db_name = '')
 	{
-		if ( ! @file_exists($this->db->database) OR ! @unlink($this->db->database))
+		if ( ! ibase_drop_db($this->conn_id))
 		{
 			return ($this->db->db_debug) ? $this->db->display_error('db_unable_to_drop') : FALSE;
 		}
@@ -102,31 +109,55 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 	/**
 	 * ALTER TABLE
 	 *
-	 * @todo	implement drop_column(), modify_column()
 	 * @param	string	$alter_type	ALTER type
 	 * @param	string	$table		Table name
 	 * @param	mixed	$field		Column definition
 	 * @return	string|string[]
 	 */
 	protected function _alter_table($alter_type, $table, $field)
-	{
-		if ($alter_type === 'DROP' OR $alter_type === 'CHANGE')
+ 	{
+		if (in_array($alter_type, array('DROP', 'ADD'), TRUE))
 		{
-			// drop_column():
-			//	BEGIN TRANSACTION;
-			//	CREATE TEMPORARY TABLE t1_backup(a,b);
-			//	INSERT INTO t1_backup SELECT a,b FROM t1;
-			//	DROP TABLE t1;
-			//	CREATE TABLE t1(a,b);
-			//	INSERT INTO t1 SELECT a,b FROM t1_backup;
-			//	DROP TABLE t1_backup;
-			//	COMMIT;
-
-			return FALSE;
+			return parent::_alter_table($alter_type, $table, $field);
 		}
 
-		return parent::_alter_table($alter_type, $table, $field);
-	}
+		$sql = 'ALTER TABLE '.$this->db->escape_identifiers($table);
+		$sqls = array();
+		for ($i = 0, $c = count($field), $sql .= $alter_type.' '; $i < $c; $i++)
+		{
+			if ($field[$i]['_literal'] !== FALSE)
+			{
+				return FALSE;
+			}
+
+			if (isset($field[$i]['type']))
+			{
+				$sqls[] = $sql.' TYPE '.$field[$i]['type'].$field[$i]['length'];
+			}
+
+			if ( ! empty($field[$i]['default']))
+			{
+				$sqls[] = $sql.' ALTER '.$this->db->escape_identifiers($field[$i]['name'])
+					.' SET '.$field[$i]['default'];
+			}
+
+			if (isset($field[$i]['null']))
+			{
+				$sqls[] = 'UPDATE "RDB$RELATION_FIELDS" SET "RDB$NULL_FLAG" = '
+					.($field[$i]['null'] === TRUE ? 'NULL' : '1')
+					.' WHERE "RDB$FIELD_NAME" = '.$this->db->escape($field[$i]['name'])
+					.' AND "RDB$RELATION_NAME" = '.$this->db->escape($table);
+			}
+
+			if ( ! empty($field[$i]['new_name']))
+			{
+				$sqls[] = $sql.' ALTER '.$this->db->escape_identifiers($field[$i]['name'])
+					.' TO '.$this->db->escape_identifiers($field[$i]['new_name']);
+			}
+		}
+
+		return $sqls;
+ 	}
 
 	// --------------------------------------------------------------------
 
@@ -139,8 +170,7 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 	protected function _process_column($field)
 	{
 		return $this->db->escape_identifiers($field['name'])
-			.' '.$field['type']
-			.$field['auto_increment']
+			.' '.$field['type'].$field['length']
 			.$field['null']
 			.$field['unique']
 			.$field['default'];
@@ -160,9 +190,19 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 	{
 		switch (strtoupper($attributes['TYPE']))
 		{
-			case 'ENUM':
-			case 'SET':
-				$attributes['TYPE'] = 'TEXT';
+			case 'TINYINT':
+				$attributes['TYPE'] = 'SMALLINT';
+				$attributes['UNSIGNED'] = FALSE;
+				return;
+			case 'MEDIUMINT':
+				$attributes['TYPE'] = 'INTEGER';
+				$attributes['UNSIGNED'] = FALSE;
+				return;
+			case 'INT':
+				$attributes['TYPE'] = 'INTEGER';
+				return;
+			case 'BIGINT':
+				$attributes['TYPE'] = 'INT64';
 				return;
 			default: return;
 		}
@@ -179,19 +219,10 @@ class CI_DB_sqlite_forge extends CI_DB_forge {
 	 */
 	protected function _attr_auto_increment(&$attributes, &$field)
 	{
-		if ( ! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === TRUE && stripos($field['type'], 'int') !== FALSE)
-		{
-			$field['type'] = 'INTEGER PRIMARY KEY';
-			$field['default'] = '';
-			$field['null'] = '';
-			$field['unique'] = '';
-			$field['auto_increment'] = ' AUTOINCREMENT';
-
-			$this->primary_keys = array();
-		}
+		// Not supported
 	}
 
 }
 
-/* End of file sqlite_forge.php */
-/* Location: ./system/database/drivers/sqlite/sqlite_forge.php */
+/* End of file pdo_firebird_forge.php */
+/* Location: ./system/database/drivers/pdo/subdrivers/pdo_firebird_forge.php */
