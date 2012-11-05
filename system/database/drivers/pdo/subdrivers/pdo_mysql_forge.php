@@ -88,11 +88,12 @@ class CI_DB_pdo_mysql_forge extends CI_DB_pdo_forge {
 	/**
 	 * Class constructor
 	 *
+	 * @param	object	&$db	Database object
 	 * @return	void
 	 */
-	public function __construct()
+	public function __construct(&$db)
 	{
-		parent::__construct();
+		parent::__construct($db);
 
 		$this->_create_table .= ' DEFAULT CHARSET '.$this->db->char_set.' COLLATE '.$this->db->dbcollat;
 	}

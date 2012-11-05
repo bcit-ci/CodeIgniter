@@ -33,14 +33,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-abstract class CI_DB_utility extends CI_DB_forge {
+abstract class CI_DB_utility {
 
 	/**
 	 * Database object
 	 *
 	 * @var	object
 	 */
-	public $db;
+	protected $db;
 
 	// --------------------------------------------------------------------
 
@@ -70,13 +70,12 @@ abstract class CI_DB_utility extends CI_DB_forge {
 	/**
 	 * Class constructor
 	 *
+	 * @param	object	&$db	Database object
 	 * @return	void
 	 */
-	public function __construct()
+	public function __construct(&$db)
 	{
-		// Assign the main database object to $this->db
-		$CI =& get_instance();
-		$this->db =& $CI->db;
+		$this->db =& $db;
 		log_message('debug', 'Database Utility Class Initialized');
 	}
 

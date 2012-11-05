@@ -89,6 +89,26 @@ Release Date: Not Released
 
 -  Database
 
+   -  Added **dsn** configuration setting for drivers that support DSN strings (PDO, PostgreSQL, Oracle, ODBC, CUBRID).
+   -  Added **schema** configuration setting (defaults to *public*) for drivers that might need it (currently used by PostgreSQL and ODBC).
+   -  Added subdrivers support (currently only used by PDO).
+   -  Added an optional database name parameter to ``db_select()``.
+   -  Added a constructor to the ``DB_result`` class and moved all driver-specific properties and logic out of the base ``DB_driver`` class to allow better abstraction.
+   -  Removed ``protect_identifiers()`` and renamed internal method ``_protect_identifiers()`` to it instead - it was just an alias.
+   -  Renamed internal method ``_escape_identifiers()`` to ``escape_identifiers()``.
+   -  Updated ``escape_identifiers()`` to accept an array of fields as well as strings.
+   -  MySQL and MySQLi drivers now require at least MySQL version 5.1.
+   -  ``db_set_charset()`` now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
+   -  Replaced the ``_error_message()`` and ``_error_number()`` methods with ``error()``, which returns an array containing the last database error code and message.
+   -  Improved ``version()`` implementation so that drivers that have a native function to get the version number don't have to be defined in the core ``DB_driver`` class.
+   -  Added ``unbuffered_row()`` method for getting a row without prefetching whole result (consume less memory).
+   -  Added capability for packages to hold *database.php* config files.
+   -  Added MySQL client compression support.
+   -  Added encrypted connections support (for *mysql*, *sqlsrv* and PDO with *sqlsrv*).
+   -  Removed :doc:`Loader Class <libraries/loader>` from Database error tracing to better find the likely culprit.
+   -  Added support for SQLite3 database driver.
+   -  Added Interbase/Firebird database support via the *ibase* driver.
+   -  Added ODBC support for ``create_database()``, ``drop_database()`` and ``drop_table()`` in :doc:`Database Forge <database/forge>`.
    -  :doc:`Query Builder <database/query_builder>` changes include:
 	 - Renamed the Active Record class to Query Builder to remove confusion with the Active Record design pattern.
 	 - Added the ability to insert objects with ``insert_batch()``.
@@ -104,13 +124,10 @@ Release Date: Not Released
 	 - Server version checking is now done via ``mysqli::$server_info`` instead of running an SQL query.
 	 - Added persistent connections support for PHP >= 5.3.
 	 - Added support for ``backup()`` in :doc:`Database Utilities <database/utilities>`.
-   -  Added **dsn** configuration setting for drivers that support DSN strings (PDO, PostgreSQL, Oracle, ODBC, CUBRID).
-   -  Added **schema** configuration setting (defaults to *public*) for drivers that might need it (currently used by PostgreSQL and ODBC).
-   -  Improved PDO database support.
-   -  Added Interbase/Firebird database support via the *ibase* driver.
-   -  Added an optional database name parameter to ``db_select()``.
-   -  Replaced the ``_error_message()`` and ``_error_number()`` methods with ``error()``, which returns an array containing the last database error code and message.
-   -  Improved ``version()`` implementation so that drivers that have a native function to get the version number don't have to be defined in the core ``DB_driver`` class.
+   -  Improved support of the PDO driver, including:
+	 - Added support for ``create_database()``, ``drop_database()`` and ``drop_table()`` in :doc:`Database Forge <database/forge>`.
+	 - Added support for ``list_fields()`` in :doc:`Database Results <database/results>`.
+	 - Subdrivers are now isolated from each other instead of being in one large class.
    -  Improved support of the PostgreSQL driver, including:
 	 - ``pg_version()`` is now used to get the database version number, when possible.
 	 - Added ``db_set_charset()`` support.
@@ -119,13 +136,6 @@ Release Date: Not Released
 	 - Added ``update_batch()`` support.
 	 - Removed ``limit()`` and ``order_by()`` support for *UPDATE* and *DELETE* queries as PostgreSQL does not support those features.
 	 - Added a work-around for dead persistent connections to be re-created after a database restart.
-   -  Added a constructor to the ``DB_result`` class and moved all driver-specific properties and logic out of the base ``DB_driver`` class to allow better abstraction.
-   -  Removed ``protect_identifiers()`` and renamed internal method ``_protect_identifiers()`` to it instead - it was just an alias.
-   -  Renamed internal method ``_escape_identifiers()`` to ``escape_identifiers()``.
-   -  Updated ``escape_identifiers()`` to accept an array of fields as well as strings.
-   -  MySQL and MySQLi drivers now require at least MySQL version 5.1.
-   -  ``db_set_charset()`` now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
-   -  Added support for SQLite3 database driver.
    -  Improved support of the CUBRID driver, including:
 	 - Added DSN string support.
 	 - Added persistent connections support.
@@ -145,17 +155,15 @@ Release Date: Not Released
    -  Improved support of the SQLite driver, including:
 	 - Added support for ``replace()`` in :doc:`Query Builder <database/query_builder>`.
 	 - Added support for ``drop_table()`` in :doc:`Database Forge <database/forge>`.
-   -  Added ODBC support for ``create_database()``, ``drop_database()`` and ``drop_table()`` in :doc:`Database Forge <database/forge>`.
-   -  Added PDO support for ``create_database()``, ``drop_database()`` and ``drop_table()`` in :doc:`Database Forge <database/forge>`.
-   -  Added ``unbuffered_row()`` method for getting a row without prefetching whole result (consume less memory).
-   -  Added PDO support for ``list_fields()`` in :doc:`Database Results <database/results>`.
-   -  Added capability for packages to hold *database.php* config files
-   -  Added subdrivers support (currently only used by PDO).
-   -  Added MySQL client compression support.
-   -  Added encrypted connections support (for *mysql*, *sqlsrv* and PDO with *sqlsrv*).
-   -  Removed :doc:`Loader Class <libraries/loader>` from Database error tracing to better find the likely culprit.
-   -  Added an optional second parameter to ``drop_table()`` in :doc:`Database Forge <database/forge>` that allows adding the IF EXISTS condition.
-   -  Removed the optional AFTER clause from :doc:`Database Forge <database/forge>` method ``add_column()``.
+   -  :doc:`Database Forge <database/forge>` changes include:
+	 - Added an optional second parameter to ``drop_table()`` that allows adding the **IF EXISTS** condition, which is no longer the default.
+	 - Added support for passing a custom database object to the loader.
+	 - Removed the optional AFTER clause from method ``add_column()``.
+	 - Overall improved support for all of the drivers.
+   -  :doc:`Database Utility <database/utilities>` chages include:
+	 - Added support for passing a custom database object to the loader.
+	 - Modified the class to no longer extend :doc:`Database Forge <database/forge>`, which has been a deprecated behavior for awhile.
+	 - Overall improved support for all of the drivers.
 
 -  Libraries
 
