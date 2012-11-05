@@ -204,8 +204,12 @@ class CI_DB_postgre_driver extends CI_DB {
 		{
 			return $this->data_cache['version'];
 		}
+		elseif ( ! $this->conn_id)
+		{
+			$this->initialize();
+		}
 
-		if (($pg_version = pg_version($this->conn_id)) === FALSE)
+		if ( ! $this->conn_id OR ($pg_version = pg_version($this->conn_id)) === FALSE)
 		{
 			return FALSE;
 		}
