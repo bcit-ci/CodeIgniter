@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -21,45 +21,47 @@
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @since		Version 2.1.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * MS SQL Forge Class
+ * PDO Oracle Forge Class
  *
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_mssql_forge extends CI_DB_forge {
+class CI_DB_pdo_oci_forge extends CI_DB_pdo_forge {
+
+	/**
+	 * CREATE DATABASE statement
+	 *
+	 * @var	string
+	 */
+	protected $_create_database	= FALSE;
+
+	/**
+	 * DROP DATABASE statement
+	 *
+	 * @var	string
+	 */
+	protected $_drop_database	= FALSE;
 
 	/**
 	 * CREATE TABLE IF statement
 	 *
 	 * @var	string
 	 */
-	protected $_create_table_if	= "IF NOT EXISTS (SELECT * FROM sysobjects WHERE ID = object_id(N'%s') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)\nCREATE TABLE";
-
-	/**
-	 * DROP TABLE IF statement
-	 *
-	 * @var	string
-	 */
-	protected $_drop_table_if	= "IF EXISTS (SELECT * FROM sysobjects WHERE ID = object_id(N'%s') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)\nDROP TABLE";
+	protected $_create_table_if	= 'CREATE TABLE IF NOT EXISTS';
 
 	/**
 	 * UNSIGNED support
 	 *
-	 * @var	array
+	 * @var	bool|array
 	 */
-	protected $_unsigned		= array(
-		'TINYINT'	=> 'SMALLINT',
-		'SMALLINT'	=> 'INT',
-		'INT'		=> 'BIGINT',
-		'REAL'		=> 'FLOAT'
-	);
+	protected $_unsigned		= FALSE;
 
 	// --------------------------------------------------------------------
 
@@ -73,44 +75,42 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 	 */
 	protected function _alter_table($alter_type, $table, $field)
 	{
-		if (in_array($alter_type, array('ADD', 'DROP'), TRUE))
+		if ($alter_type === 'DROP')
 		{
 			return parent::_alter_table($alter_type, $table, $field);
 		}
+		elseif ($alter_type === 'CHANGE')
+		{
+			$alter_type = 'MODIFY';
+		}
 
-		$sql = 'ALTER TABLE '.$this->db->escape_identifiers($table).' ALTER COLUMN ';
+		$sql = 'ALTER TABLE '.$this->db->escape_identifiers($table);
 		$sqls = array();
 		for ($i = 0, $c = count($field); $i < $c; $i++)
 		{
-			$sqls[] = $sql.$this->_process_column($field[$i]);
+			if ($field[$i]['_literal'] !== FALSE)
+			{
+				$field[$i] = "\n\t".$field[$i]['_literal'];
+			}
+			else
+			{
+				$field[$i]['_literal'] = "\n\t".$this->_process_column($field[$i]);
+				if ($alter_type === 'MODIFY' && ! empty($field[$i]['new_name']))
+				{
+					$sqls[] = $sql.' RENAME COLUMN '.$this->db->escape_identifiers($field[$i]['name'])
+						.' '.$this->db->escape_identifiers($field[$i]['new_name']);
+				}
+			}
 		}
 
-		return $sqls;
-	}
+		$sql .= ' '.$alter_type.' ';
+		$sql .= (count($field) === 1)
+				? $fields[0]
+				: '('.implode(',', $field).')';
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Field attribute TYPE
-	 *
-	 * Performs a data type mapping between different databases.
-	 *
-	 * @param	array	&$attributes
-	 * @return	void
-	 */
-	protected function _attr_type(&$attributes)
-	{
-		switch (strtoupper($attributes['TYPE']))
-		{
-			case 'MEDIUMINT':
-				$attributes['TYPE'] = 'INTEGER';
-				$attributes['UNSIGNED'] = FALSE;
-				return;
-			case 'INTEGER':
-				$attributes['TYPE'] = 'INT';
-				return;
-			default: return;
-		}
+		// RENAME COLUMN must be executed after MODIFY
+		array_unshift($sqls, $sql);
+		return $sql;
 	}
 
 	// --------------------------------------------------------------------
@@ -124,13 +124,10 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 	 */
 	protected function _attr_auto_increment(&$attributes, &$field)
 	{
-		if ( ! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === TRUE && stripos($field['type'], 'int') !== FALSE)
-		{
-			$field['auto_increment'] = ' IDENTITY(1,1)';
-		}
+		// Not supported - sequences and triggers must be used instead
 	}
 
 }
 
-/* End of file mssql_forge.php */
-/* Location: ./system/database/drivers/mssql/mssql_forge.php */
+/* End of file pdo_oci_forge.php */
+/* Location: ./system/database/drivers/pdo/subdrivers/pdo_oci_forge.php */

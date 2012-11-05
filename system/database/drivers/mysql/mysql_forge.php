@@ -42,165 +42,140 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 	 */
 	protected $_create_database	= 'CREATE DATABASE %s CHARACTER SET %s COLLATE %s';
 
+	/**
+	 * UNSIGNED support
+	 *
+	 * @var	array
+	 */
+	protected $_unsigned		= array(
+		'TINYINT',
+		'SMALLINT',
+		'MEDIUMINT',
+		'INT',
+		'INTEGER',
+		'BIGINT',
+		'REAL',
+		'DOUBLE',
+		'DOUBLE PRECISION',
+		'FLOAT',
+		'DECIMAL',
+		'NUMERIC'
+	);
+
+	/**
+	 * NULL value representation in CREATE/ALTER TABLE statements
+	 *
+	 * @var	string
+	 */
+	protected $_null		= 'NULL';
+
 	// --------------------------------------------------------------------
 
 	/**
-	 * Process Fields
+	 * Class constructor
 	 *
-	 * @param	mixed	$fields
-	 * @return	string
+	 * @return	void
 	 */
-	protected function _process_fields($fields)
+	public function __construct()
 	{
-		$current_field_count = 0;
-		$sql = '';
+		parent::__construct();
 
-		foreach ($fields as $field => $attributes)
+		$this->_create_table .= ' DEFAULT CHARSET '.$this->db->char_set.' COLLATE '.$this->db->dbcollat;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * ALTER TABLE
+	 *
+	 * @param	string	$alter_type	ALTER type
+	 * @param	string	$table		Table name
+	 * @param	mixed	$field		Column definition
+	 * @return	string|string[]
+	 */
+	protected function _alter_table($alter_type, $table, $field)
+	{
+		if ($alter_type === 'DROP')
 		{
-			// Numeric field names aren't allowed in databases, so if the key is
-			// numeric, we know it was assigned by PHP and the developer manually
-			// entered the field information, so we'll simply add it to the list
-			if (is_numeric($field))
+			return parent::_alter_table($alter_type, $table, $field);
+		}
+
+		$sql = 'ALTER TABLE '.$this->db->escape_identifiers($table);
+		for ($i = 0, $c = count($field); $i < $c; $i++)
+		{
+			if ($field[$i]['_literal'] !== FALSE)
 			{
-				$sql .= "\n\t".$attributes;
+				$field[$i] = ($alter_type === 'ADD')
+						? "\n\tADD ".$field[$i]['_literal']
+						: "\n\tMODIFY ".$field[$i]['_literal'];
 			}
 			else
 			{
-				$attributes = array_change_key_case($attributes, CASE_UPPER);
-
-				$sql .= "\n\t".$this->db->escape_identifiers($field);
-
-				empty($attributes['NAME']) OR $sql .= ' '.$this->db->escape_identifiers($attributes['NAME']).' ';
-
-				if ( ! empty($attributes['TYPE']))
+				if ($alter_type === 'ADD')
 				{
-					$sql .=  ' '.$attributes['TYPE'];
-
-					if ( ! empty($attributes['CONSTRAINT']))
-					{
-						switch (strtolower($attributes['TYPE']))
-						{
-							case 'decimal':
-							case 'float':
-							case 'numeric':
-								$sql .= '('.implode(',', $attributes['CONSTRAINT']).')';
-								break;
-							case 'enum':
-							case 'set':
-								$sql .= '("'.implode('","', $attributes['CONSTRAINT']).'")';
-								break;
-							default:
-								$sql .= '('.$attributes['CONSTRAINT'].')';
-						}
-					}
-				}
-
-				if ( ! empty($attributes['UNSIGNED']) && $attributes['UNSIGNED'] === TRUE)
-				{
-					$sql .= ' UNSIGNED';
-				}
-
-				if (isset($attributes['DEFAULT']))
-				{
-					$sql .= " DEFAULT '".$attributes['DEFAULT']."'";
-				}
-
-				$sql .= ( ! empty($attributes['NULL']) && $attributes['NULL'] === TRUE)
-					? ' NULL' : ' NOT NULL';
-
-				if ( ! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === TRUE)
-				{
-					$sql .= ' AUTO_INCREMENT';
-				}
-			}
-
-			// don't add a comma on the end of the last field
-			if (++$current_field_count < count($fields))
-			{
-				$sql .= ',';
-			}
-		}
-
-		return $sql;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Create Table
-	 *
-	 * @param	string	the table name
-	 * @param	mixed	the fields
-	 * @param	mixed	primary key(s)
-	 * @param	mixed	key(s)
-	 * @param	bool	should 'IF NOT EXISTS' be added to the SQL
-	 * @return	bool
-	 */
-	protected function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
-	{
-		$sql = 'CREATE TABLE ';
-
-		if ($if_not_exists === TRUE)
-		{
-			$sql .= 'IF NOT EXISTS ';
-		}
-
-		$sql .= $this->db->escape_identifiers($table).' ('.$this->_process_fields($fields);
-
-		if (count($primary_keys) > 0)
-		{
-			$key_name = $this->db->escape_identifiers(implode('_', $primary_keys));
-			$sql .= ",\n\tPRIMARY KEY ".$key_name.' ('.implode(', ', $this->db->escape_identifiers($primary_keys)).')';
-		}
-
-		if (is_array($keys) && count($keys) > 0)
-		{
-			foreach ($keys as $key)
-			{
-				if (is_array($key))
-				{
-					$key_name = $this->db->escape_identifiers(implode('_', $key));
-					$key = $this->db->escape_identifiers($key);
+					$field[$i]['_literal'] = "\n\tADD ";
 				}
 				else
 				{
-					$key_name = $this->db->escape_identifiers($key);
-					$key = array($key_name);
+					$field[$i]['_literal'] = empty($field['new_name']) ? "\n\tMODIFY " : "\n\tCHANGE ";
 				}
 
-				$sql .= ",\n\tKEY ".$key_name.' ('.implode(', ', $key).')';
+				$field[$i] = $field['_literal'].$this->_process_column($field[$i]);
 			}
 		}
 
-		return $sql."\n) DEFAULT CHARACTER SET ".$this->db->char_set.' COLLATE '.$this->db->dbcollat.';';
+		return array($sql.implode(',', $field));
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Alter table query
+	 * Process column
 	 *
-	 * Generates a platform-specific query so that a table can be altered
-	 * Called by add_column(), drop_column() and column_alter()
-	 *
-	 * @param	string	the ALTER type (ADD, DROP, CHANGE)
-	 * @param	string	the column name
-	 * @param	array	fields
-	 * @param	string	the field after which we should add the new field
+	 * @param	array	$field
 	 * @return	string
 	 */
-	protected function _alter_table($alter_type, $table, $fields, $after_field = '')
+	protected function _process_column($field)
 	{
-		$sql = 'ALTER TABLE '.$this->db->escape_identifiers($table).' '.$alter_type.' ';
+		return $this->db->escape_identifiers($field['name'])
+			.(empty($field['new_name']) ? '' : $this->db->escape_identifiers($field['new_name']))
+			.' '.$field['type'].$field['length']
+			.$field['unsigned']
+			.$field['null']
+			.$field['default']
+			.$field['auto_increment']
+			.$field['unique'];
+	}
 
-		// DROP has everything it needs now.
-		if ($alter_type === 'DROP')
+	// --------------------------------------------------------------------
+
+	/**
+	 * Process indexes
+	 *
+	 * @param	string	$table	(ignored)
+	 * @return	string
+	 */
+	protected function _process_indexes($table = NULL)
+	{
+		$sql = '';
+
+		for ($i = 0, $c = count($this->keys); $i < $c; $i++)
 		{
-			return $sql.$this->db->escape_identifiers($fields);
+			if ( ! isset($this->fields[$this->keys[$i]]))
+			{
+				unset($this->keys[$i]);
+				continue;
+			}
+
+			is_array($this->keys[$i]) OR $this->keys[$i] = array($this->keys[$i]);
+
+			$sql .= ",\n\tKEY ".$this->db->escape_identifiers(implode('_', $this->keys[$i]))
+				.' ('.implode(', ', $this->db->escape_identifiers($this->keys[$i])).')';
 		}
 
-		return $sql.$this->_process_fields($fields)
-			.($after_field !== '' ? ' AFTER '.$this->db->escape_identifiers($after_field) : '');
+		$this->keys = array();
+
+		return $sql;
 	}
 
 }

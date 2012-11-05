@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -21,40 +21,26 @@
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
- * @since		Version 3.0
+ * @since		Version 2.1.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Interbase/Firebird Forge Class
+ * PDO PostgreSQL Forge Class
  *
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_ibase_forge extends CI_DB_forge {
-
-	/**
-	 * CREATE TABLE IF statement
-	 *
-	 * @var	string
-	 */
-	protected $_create_table_if	= FALSE;
-
-	/**
-	 * RENAME TABLE statement
-	 *
-	 * @var	string
-	 */
-	protected $_rename_table	= FALSE;
+class CI_DB_pdo_pgsql_forge extends CI_DB_pdo_forge {
 
 	/**
 	 * DROP TABLE IF statement
 	 *
 	 * @var	string
 	 */
-	protected $_drop_table_if	= FALSE;
+	protected $_drop_table_if	= 'DROP TABLE IF EXISTS';
 
 	/**
 	 * UNSIGNED support
@@ -62,8 +48,14 @@ class CI_DB_ibase_forge extends CI_DB_forge {
 	 * @var	array
 	 */
 	protected $_unsigned		= array(
+		'INT2'		=> 'INTEGER',
 		'SMALLINT'	=> 'INTEGER',
-		'INTEGER'	=> 'INT64',
+		'INT'		=> 'BIGINT',
+		'INT4'		=> 'BIGINT',
+		'INTEGER'	=> 'BIGINT',
+		'INT8'		=> 'NUMERIC',
+		'BIGINT'	=> 'NUMERIC',
+		'REAL'		=> 'DOUBLE PRECISION',
 		'FLOAT'		=> 'DOUBLE PRECISION'
 	);
 
@@ -77,45 +69,18 @@ class CI_DB_ibase_forge extends CI_DB_forge {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Create database
+	 * Class constructor
 	 *
-	 * @param	string	$db_name
-	 * @return	string
+	 * @return	void
 	 */
-	public function create_database($db_name)
+	public function __construct()
 	{
-		// Firebird databases are flat files, so a path is required
+		parent::__construct();
 
-		// Hostname is needed for remote access
-		empty($this->db->hostname) OR $db_name = $this->hostname.':'.$db_name;
-
-		return parent::create_database('"'.$db_name.'"');
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Drop database
-	 *
-	 * @param	string	$db_name	(ignored)
-	 * @return	bool
-	 */
-	public function drop_database($db_name = '')
-	{
-		if ( ! ibase_drop_db($this->conn_id))
+		if (version_compare($this->db->version(), '9.0', '>'))
 		{
-			return ($this->db->db_debug) ? $this->db->display_error('db_unable_to_drop') : FALSE;
+			$this->create_table_if = 'CREATE TABLE IF NOT EXISTS';
 		}
-		elseif ( ! empty($this->db->data_cache['db_names']))
-		{
-			$key = array_search(strtolower($this->db->database), array_map('strtolower', $this->db->data_cache['db_names']), TRUE);
-			if ($key !== FALSE)
-			{
-				unset($this->db->data_cache['db_names'][$key]);
-			}
-		}
-
-		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -144,7 +109,7 @@ class CI_DB_ibase_forge extends CI_DB_forge {
 				return FALSE;
 			}
 
-			if (isset($field[$i]['type']))
+			if (version_compare($this->db->version(), '8', '>=') && isset($field[$i]['type']))
 			{
 				$sqls[] = $sql.' TYPE '.$field[$i]['type'].$field[$i]['length'];
 			}
@@ -157,38 +122,19 @@ class CI_DB_ibase_forge extends CI_DB_forge {
 
 			if (isset($field[$i]['null']))
 			{
-				$sqls[] = 'UPDATE "RDB$RELATION_FIELDS" SET "RDB$NULL_FLAG" = '
-					.($field[$i]['null'] === TRUE ? 'NULL' : '1')
-					.' WHERE "RDB$FIELD_NAME" = '.$this->db->escape($field[$i]['name'])
-					.' AND "RDB$RELATION_NAME" = '.$this->db->escape($table);
+				$sqls[] = $sql.' ALTER '.$this->db->escape_identifiers($field[$i]['name'])
+					.($field[$i]['null'] === TRUE ? ' DROP NOT NULL' : ' SET NOT NULL');
 			}
 
 			if ( ! empty($field[$i]['new_name']))
 			{
-				$sqls[] = $sql.' ALTER '.$this->db->escape_identifiers($field[$i]['name'])
+				$sqls[] = $sql.' RENAME '.$this->db->escape_identifiers($field[$i]['name'])
 					.' TO '.$this->db->escape_identifiers($field[$i]['new_name']);
 			}
 		}
 
 		return $sqls;
  	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Process column
-	 *
-	 * @param	array	$field
-	 * @return	string
-	 */
-	protected function _process_column($field)
-	{
-		return $this->db->escape_identifiers($field['name'])
-			.' '.$field['type'].$field['length']
-			.$field['null']
-			.$field['unique']
-			.$field['default'];
-	}
 
 	// --------------------------------------------------------------------
 
@@ -202,6 +148,12 @@ class CI_DB_ibase_forge extends CI_DB_forge {
 	 */
 	protected function _attr_type(&$attributes)
 	{
+		// Reset field lenghts for data types that don't support it
+		if (isset($attributes['CONSTRAINT']) && stripos($attributes['TYPE'], 'int') !== FALSE)
+		{
+			$attributes['CONSTRAINT'] = NULL;
+		}
+
 		switch (strtoupper($attributes['TYPE']))
 		{
 			case 'TINYINT':
@@ -211,12 +163,6 @@ class CI_DB_ibase_forge extends CI_DB_forge {
 			case 'MEDIUMINT':
 				$attributes['TYPE'] = 'INTEGER';
 				$attributes['UNSIGNED'] = FALSE;
-				return;
-			case 'INT':
-				$attributes['TYPE'] = 'INTEGER';
-				return;
-			case 'BIGINT':
-				$attributes['TYPE'] = 'INT64';
 				return;
 			default: return;
 		}
@@ -233,10 +179,15 @@ class CI_DB_ibase_forge extends CI_DB_forge {
 	 */
 	protected function _attr_auto_increment(&$attributes, &$field)
 	{
-		// Not supported
+		if ( ! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === TRUE)
+		{
+			$field['type'] = ($field['type'] === 'NUMERIC')
+						? 'BIGSERIAL'
+						: 'SERIAL';
+		}
 	}
 
 }
 
-/* End of file ibase_forge.php */
-/* Location: ./system/database/drivers/ibase/ibase_forge.php */
+/* End of file pdo_pgsql_forge.php */
+/* Location: ./system/database/drivers/pdo/subdrivers/pdo_pgsql_forge.php */

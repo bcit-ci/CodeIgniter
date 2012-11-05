@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -21,33 +21,40 @@
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @since		Version 2.1.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * MS SQL Forge Class
+ * PDO CUBRID Forge Class
  *
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_mssql_forge extends CI_DB_forge {
+class CI_DB_pdo_cubrid_forge extends CI_DB_pdo_forge {
 
 	/**
-	 * CREATE TABLE IF statement
+	 * CREATE DATABASE statement
 	 *
 	 * @var	string
 	 */
-	protected $_create_table_if	= "IF NOT EXISTS (SELECT * FROM sysobjects WHERE ID = object_id(N'%s') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)\nCREATE TABLE";
+	protected $_create_database	= FALSE;
+
+	/**
+	 * DROP DATABASE statement
+	 *
+	 * @var	string
+	 */
+	protected $_drop_database	= FALSE;
 
 	/**
 	 * DROP TABLE IF statement
 	 *
 	 * @var	string
 	 */
-	protected $_drop_table_if	= "IF EXISTS (SELECT * FROM sysobjects WHERE ID = object_id(N'%s') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)\nDROP TABLE";
+	protected $_drop_table_if	= 'DROP TABLE IF EXISTS';
 
 	/**
 	 * UNSIGNED support
@@ -55,10 +62,13 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 	 * @var	array
 	 */
 	protected $_unsigned		= array(
-		'TINYINT'	=> 'SMALLINT',
-		'SMALLINT'	=> 'INT',
+		'SHORT'		=> 'INTEGER',
+		'SMALLINT'	=> 'INTEGER',
 		'INT'		=> 'BIGINT',
-		'REAL'		=> 'FLOAT'
+		'INTEGER'	=> 'BIGINT',
+		'BIGINT'	=> 'NUMERIC',
+		'FLOAT'		=> 'DOUBLE',
+		'REAL'		=> 'DOUBLE'
 	);
 
 	// --------------------------------------------------------------------
@@ -73,16 +83,28 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 	 */
 	protected function _alter_table($alter_type, $table, $field)
 	{
-		if (in_array($alter_type, array('ADD', 'DROP'), TRUE))
+		if (in_array($alter_type, array('DROP', 'ADD'), TRUE))
 		{
 			return parent::_alter_table($alter_type, $table, $field);
 		}
 
-		$sql = 'ALTER TABLE '.$this->db->escape_identifiers($table).' ALTER COLUMN ';
+		$sql = 'ALTER TABLE '.$this->db->escape_identifiers($table);
 		$sqls = array();
 		for ($i = 0, $c = count($field); $i < $c; $i++)
 		{
-			$sqls[] = $sql.$this->_process_column($field[$i]);
+			if ($field[$i]['_literal'] !== FALSE)
+			{
+				$sqls[] = $sql.' CHANGE '.$field[$i]['_literal'];
+			}
+			else
+			{
+				$sqls[] = $sql.' CHANGE '.$this->_process_column($field[$i]);
+				if ( ! empty($field[$i]['new_name']))
+				{
+					$sqls[] = $sql.' RENAME COLUMN '.$this->db->escape_identifiers($field[$i]['name'])
+						.' AS '.$this->db->escape_identifiers($field[$i]['name']);
+				}
+			}
 		}
 
 		return $sqls;
@@ -102,12 +124,13 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 	{
 		switch (strtoupper($attributes['TYPE']))
 		{
+			case 'TINYINT':
+				$attributes['TYPE'] = 'SMALLINT';
+				$attributes['UNSIGNED'] = FALSE;
+				return;
 			case 'MEDIUMINT':
 				$attributes['TYPE'] = 'INTEGER';
 				$attributes['UNSIGNED'] = FALSE;
-				return;
-			case 'INTEGER':
-				$attributes['TYPE'] = 'INT';
 				return;
 			default: return;
 		}
@@ -116,21 +139,35 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Field attribute AUTO_INCREMENT
+	 * Process indexes
 	 *
-	 * @param	array	&$attributes
-	 * @param	array	&$field
-	 * @return	void
+	 * @param	string	$table	(ignored)
+	 * @return	string
 	 */
-	protected function _attr_auto_increment(&$attributes, &$field)
+	protected function _process_indexes($table = NULL)
 	{
-		if ( ! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === TRUE && stripos($field['type'], 'int') !== FALSE)
+		$sql = '';
+
+		for ($i = 0, $c = count($this->keys); $i < $c; $i++)
 		{
-			$field['auto_increment'] = ' IDENTITY(1,1)';
+			if ( ! isset($this->fields[$this->keys[$i]]))
+			{
+				unset($this->keys[$i]);
+				continue;
+			}
+
+			is_array($this->keys[$i]) OR $this->keys[$i] = array($this->keys[$i]);
+
+			$sql .= ",\n\tKEY ".$this->db->escape_identifiers(implode('_', $this->keys[$i]))
+				.' ('.implode(', ', $this->db->escape_identifiers($this->keys[$i])).')';
 		}
+
+		$this->keys = array();
+
+		return $sql;
 	}
 
 }
 
-/* End of file mssql_forge.php */
-/* Location: ./system/database/drivers/mssql/mssql_forge.php */
+/* End of file pdo_cubrid_forge.php */
+/* Location: ./system/database/drivers/pdo/subdrivers/pdo_cubrid_forge.php */
