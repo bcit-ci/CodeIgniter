@@ -564,7 +564,7 @@ abstract class CI_DB_forge {
 
 		for ($i = 0, $c = count($sqls); $i < $c; $i++)
 		{
-			if ($this->db->query($sql) === FALSE)
+			if ($this->db->query($sqls[$i]) === FALSE)
 			{
 				return FALSE;
 			}
@@ -644,7 +644,7 @@ abstract class CI_DB_forge {
 
 		for ($i = 0, $c = count($sqls); $i < $c; $i++)
 		{
-			if ($this->db->query($sql) === FALSE)
+			if ($this->db->query($sqls[$i]) === FALSE)
 			{
 				return FALSE;
 			}
