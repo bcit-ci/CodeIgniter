@@ -979,13 +979,18 @@ abstract class CI_DB_driver {
 	 *
 	 * Escapes data based on type
 	 * Sets boolean and null types
+	 * skips the adding of "" on the first value of array types
 	 *
-	 * @param	string
+	 * @param	string|array
 	 * @return	mixed
 	 */
 	public function escape($str)
 	{
-		if (is_string($str) OR method_exists($str, '__toString'))
+		if(is_array($str) && count($str)==1)
+		{
+			return $this->escape_str($str[0]);
+		}
+		elseif (is_string($str) OR method_exists($str, '__toString'))
 		{
 			return "'".$this->escape_str($str)."'";
 		}
