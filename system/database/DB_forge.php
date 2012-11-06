@@ -171,7 +171,7 @@ abstract class CI_DB_forge {
 	{
 		if ($this->_create_database === FALSE)
 		{
-			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
+			return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
 		}
 		elseif ( ! $this->db->query(sprintf($this->_create_database, $db_name, $this->db->char_set, $this->db->dbcollat)))
 		{
@@ -203,7 +203,7 @@ abstract class CI_DB_forge {
 		}
 		elseif ($this->_drop_database === FALSE)
 		{
-			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
+			return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
 		}
 		elseif ( ! $this->db->query(sprintf($this->_drop_database, $db_name)))
 		{
@@ -339,7 +339,7 @@ abstract class CI_DB_forge {
 			$this->_reset();
 			if ($sql === FALSE)
 			{
-				return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
+				return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
 			}
 		}
 
@@ -434,7 +434,7 @@ abstract class CI_DB_forge {
 		$query = $this->_drop_table($this->db->dbprefix.$table_name, $if_exists);
 		if ($query === FALSE)
 		{
-			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
+			return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
 		}
 		elseif ($query === TRUE)
 		{
@@ -507,7 +507,7 @@ abstract class CI_DB_forge {
 		}
 		elseif ($this->_rename_table === FALSE)
 		{
-			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
+			return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
 		}
 
 		$result = $this->db->query(sprintf($this->_rename_table,
@@ -558,7 +558,7 @@ abstract class CI_DB_forge {
 		$this->_reset();
 		if ($sqls === FALSE)
 		{
-			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
+			return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
 		}
 
 		for ($i = 0, $c = count($sqls); $i < $c; $i++)
@@ -596,7 +596,7 @@ abstract class CI_DB_forge {
 		$sql = $this->_alter_table('DROP', $this->db->dbprefix.$table, $column_name);
 		if ($sql === FALSE)
 		{
-			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
+			return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
 		}
 
 		return $this->db->query($sql);
@@ -638,7 +638,7 @@ abstract class CI_DB_forge {
 		$this->_reset();
 		if ($sqls === FALSE)
 		{
-			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
+			return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
 		}
 
 		for ($i = 0, $c = count($sqls); $i < $c; $i++)

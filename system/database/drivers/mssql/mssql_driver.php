@@ -506,7 +506,7 @@ class CI_DB_mssql_driver extends CI_DB {
 			return parent::_insert_batch($table, $keys, $values);
 		}
 
-		return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
+		return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
 	}
 
 	// --------------------------------------------------------------------

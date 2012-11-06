@@ -95,7 +95,7 @@ abstract class CI_DB_utility {
 		}
 		elseif ($this->_list_databases === FALSE)
 		{
-			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
+			return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
 		}
 
 		$this->db->data_cache['db_names'] = array();
@@ -139,7 +139,7 @@ abstract class CI_DB_utility {
 	{
 		if ($this->_optimize_table === FALSE)
 		{
-			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
+			return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
 		}
 
 		$query = $this->db->query(sprintf($this->_optimize_table, $this->db->escape_identifiers($table_name)));
@@ -163,7 +163,7 @@ abstract class CI_DB_utility {
 	{
 		if ($this->_optimize_table === FALSE)
 		{
-			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
+			return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
 		}
 
 		$result = array();
@@ -200,7 +200,7 @@ abstract class CI_DB_utility {
 	{
 		if ($this->_repair_table === FALSE)
 		{
-			return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
+			return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
 		}
 
 		$query = $this->db->query(sprintf($this->_repair_table, $this->db->escape_identifiers($table_name)));
@@ -361,7 +361,7 @@ abstract class CI_DB_utility {
 		{
 			if ($this->db->db_debug)
 			{
-				return $this->db->display_error('db_unsuported_compression');
+				return $this->db->display_error('db_unsupported_compression');
 			}
 
 			$prefs['format'] = 'txt';
