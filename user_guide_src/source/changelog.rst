@@ -113,7 +113,7 @@ Release Date: Not Released
 	 - Renamed the Active Record class to Query Builder to remove confusion with the Active Record design pattern.
 	 - Added the ability to insert objects with ``insert_batch()``.
 	 - Added new methods that return the SQL string of queries without executing them: ``get_compiled_select()``, ``get_compiled_insert()``, ``get_compiled_update()``, ``get_compiled_delete()``.
-	 - Added an optional parameter that allows to disable escaping (useful for custom fields) for methods ``join()``, ``order_by()``, ``where_in()``, ``or_where_in()``, ``where_not_in()``, ``or_where_not_in()``.
+	 - Added an optional parameter that allows to disable escaping (useful for custom fields) for methods ``join()``, ``order_by()``, ``where_in()``, ``or_where_in()``, ``where_not_in()``, ``or_where_not_in()``, ``insert()``, ``insert_batch()``.
 	 - Added support for ``join()`` with multiple conditions.
 	 - Added support for *USING* in ``join()``.
 	 - Changed ``limit()`` to ignore NULL values instead of always casting to integer.

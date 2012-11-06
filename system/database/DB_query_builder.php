@@ -1403,13 +1403,14 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * @param	string	$table	Table to insert into
 	 * @param	array	$set 	An associative array of insert values
+	 * @param	bool	$escape	Whether to escape values and identifiers
 	 * @return	int	Number of rows inserted or FALSE on failure
 	 */
-	public function insert_batch($table = '', $set = NULL)
+	public function insert_batch($table = '', $set = NULL, $escape = NULL)
 	{
 		if ( ! is_null($set))
 		{
-			$this->set_insert_batch($set);
+			$this->set_insert_batch($set, '', $escape);
 		}
 
 		if (count($this->qb_set) === 0)
@@ -1432,7 +1433,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		$affected_rows = 0;
 		for ($i = 0, $total = count($this->qb_set); $i < $total; $i += 100)
 		{
-			$this->query($this->_insert_batch($this->protect_identifiers($table, TRUE, NULL, FALSE), $this->qb_keys, array_slice($this->qb_set, $i, 100)));
+			$this->query($this->_insert_batch($this->protect_identifiers($table, TRUE, $escape, FALSE), $this->qb_keys, array_slice($this->qb_set, $i, 100)));
 			$affected_rows += $this->affected_rows();
 		}
 
@@ -1558,13 +1559,14 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * @param	string	the table to insert data into
 	 * @param	array	an associative array of insert values
+	 * @param	bool	$escape	Whether to escape values and identifiers
 	 * @return	object
 	 */
-	public function insert($table = '', $set = NULL)
+	public function insert($table = '', $set = NULL, $escape = NULL)
 	{
 		if ( ! is_null($set))
 		{
-			$this->set($set);
+			$this->set($set, '', $escape);
 		}
 
 		if ($this->_validate_insert($table) === FALSE)
@@ -1574,7 +1576,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		$sql = $this->_insert(
 			$this->protect_identifiers(
-				$this->qb_from[0], TRUE, NULL, FALSE
+				$this->qb_from[0], TRUE, $escape, FALSE
 			),
 			array_keys($this->qb_set),
 			array_values($this->qb_set)
