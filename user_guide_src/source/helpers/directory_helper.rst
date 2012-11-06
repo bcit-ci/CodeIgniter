@@ -57,7 +57,7 @@ be numerically indexed. Here is an example of a typical array::
 			(        
 				[0] => benchmark.html        
 				[1] => config.html        
-				[database] => Array
+				["database/"] => Array
 					(              
 						[0] => query_builder.html              
 						[1] => binds.html              
@@ -77,4 +77,3 @@ be numerically indexed. Here is an example of a typical array::
 				[8] => pagination.html        
 				[9] => uri.html
 			)
-

@@ -86,6 +86,7 @@ Release Date: Not Released
 	 - ``read_file()`` is now a deprecated alias of ``file_get_contents()``.
    -  :doc:`Security Helper <helpers/security_helper>` function ``strip_image_tags()`` is now an alias for the same method in the :doc:`Security Library <libraries/security>`.
    -  Deprecated :doc:`String Helper <helpers/string_helper>` function ``repeater()`` - it's just an alias for PHP's native ``str_repeat()``.
+   -  :doc:`Directory Helper <helpers/directory_helper>` ``directory_map()`` will now append DIRECTORY_SEPARATOR to directory names in the returned array.
 
 -  Database
 
@@ -427,6 +428,7 @@ Bug fixes for 3.0
 -  Fixed a bug - :doc:`Routing Library <general/routing>` didn't properly handle *default_controller* in a subdirectory when a method is also specified.
 -  Fixed a bug (#953) - :doc:`post_controller_constructor hook <general/hooks>` wasn't called with a *404_override*.
 -  Fixed a bug (#1220) - :doc:`Profiler Library <general/profiling>` didn't display information for database objects that are instantiated inside models.
+-  Fixed a bug (#1978) - :doc:`Directory Helper <helpers/directory_helper>` function ``directory_map()``'s return array didn't make a distinction between directories and file indexes when a directory with a numeric name is present.
 
 Version 2.1.3
 =============
