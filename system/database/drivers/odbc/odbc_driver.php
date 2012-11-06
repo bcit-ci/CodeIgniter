@@ -250,7 +250,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	 */
 	public function insert_id()
 	{
-		return ($this->db->db_debug) ? $this->db->display_error('db_unsuported_feature') : FALSE;
+		return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
 	}
 
 	// --------------------------------------------------------------------
