@@ -172,7 +172,7 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Insert_batch statement
+	 * Insert batch statement
 	 *
 	 * @param	string	$table	Table name
 	 * @param	array	$keys	INSERT keys
