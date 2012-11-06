@@ -100,6 +100,16 @@ class CI_Input {
 	protected $headers = array();
 
 	/**
+	 * Input stream data
+	 *
+	 * Parsed from php://input at runtime
+	 *
+	 * @see	CI_Input::input_stream()
+	 * @var	array
+	 */
+	protected $_input_stream = NULL;
+
+	/**
 	 * Class constructor
 	 *
 	 * Determines whether to globally enable the XSS processing
@@ -252,6 +262,37 @@ class CI_Input {
 	public function server($index = '', $xss_clean = FALSE)
 	{
 		return $this->_fetch_from_array($_SERVER, $index, $xss_clean);
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Fetch an item from the php://input stream
+	 *
+	 * Useful when you need to access PUT, DELETE or PATCH request data.
+	 *
+	 * @param	string	$index		Index for item to be fetched
+	 * @param	bool	$xss_clean	Whether to apply XSS filtering
+	 * @return	mixed
+	 */
+	public function input_stream($index = '', $xss_clean = FALSE)
+	{
+		// The input stream can only be read once, so we'll need to check
+		// if we have already done that first.
+		if (is_array($this->_input_stream))
+		{
+			return $this->_fetch_from_array($this->_input_stream, $index, $xss_clean);
+		}
+
+		// Parse the input stream in our cache var
+		parse_str(file_get_contents('php://input'), $this->_input_stream);
+		if ( ! is_array($this->_input_stream))
+		{
+			$this->_input_stream = array();
+			return NULL;
+		}
+
+		return $this->_fetch_from_array($this->_input_stream, $index, $xss_clean);
 	}
 
 	// ------------------------------------------------------------------------
