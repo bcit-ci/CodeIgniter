@@ -604,7 +604,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Insert_batch statement
+	 * Insert batch statement
 	 *
 	 * Generates a platform-specific insert string from the supplied data
 	 *
