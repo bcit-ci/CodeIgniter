@@ -69,9 +69,10 @@ if ( ! function_exists('directory_map'))
 					continue;
 				}
 
+				@is_dir($source_dir.$file) AND $file .= DIRECTORY_SEPARATOR;
+
 				if (($directory_depth < 1 OR $new_depth > 0) && @is_dir($source_dir.$file))
 				{
-					$file .= DIRECTORY_SEPARATOR;
 					$filedata[$file] = directory_map($source_dir.$file, $new_depth, $hidden);
 				}
 				else

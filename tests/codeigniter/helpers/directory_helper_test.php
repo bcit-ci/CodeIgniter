@@ -30,7 +30,7 @@ class Directory_helper_test extends CI_TestCase {
 		$expected = array(
 			'libraries/' => array(
 				'benchmark.html',
-				'database' => array('active_record.html', 'binds.html'),
+				'database/' => array('active_record.html', 'binds.html'),
 				'email.html',
 				'0'
 			)
