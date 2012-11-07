@@ -974,7 +974,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	string
 	 * @return	string
 	 */
-	public function count_all_results($table = '')
+	public function count_all_results($table = '', $reset = true)
 	{
 		if ($table != '')
 		{
@@ -985,7 +985,10 @@ class CI_DB_active_record extends CI_DB_driver {
 		$sql = $this->_compile_select($this->_count_string . $this->_protect_identifiers('numrows'));
 
 		$query = $this->query($sql);
-		$this->_reset_select();
+		if ($reset === true)
+		{
+			$this->_reset_select();
+		}
 
 		if ($query->num_rows() == 0)
 		{
