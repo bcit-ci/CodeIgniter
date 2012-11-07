@@ -94,3 +94,16 @@ is_https()
 
 Returns TRUE if a secure (HTTPS) connection is used and FALSE
 in any other case (including non-HTTP requests).
+
+function_usable($function_name)
+===============================
+
+Returns TRUE if a function exists and is usable, FALSE otherwise.
+
+This function runs a ``function_exists()`` check and if the
+`Suhosin extension <http://www.hardened-php.net/suhosin/>` is loaded,
+checks if it doesn't disable the function being checked.
+
+It is useful if you want to check for the availability of functions
+such as ``eval()`` and ``exec()``, which are dangerous and might be
+disabled on servers with highly restrictive security policies.
