@@ -40,27 +40,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 if ( ! function_exists('lang'))
 {
+
 	/**
 	 * Lang
 	 *
-	 * Fetches a language variable and optionally outputs a form label
+	 * Fetches a language variable and optionally replaces key->values
 	 *
 	 * @param	string	the language line
-	 * @param	string	the id of the form element
+	 * @param	array	search keys -> replace values
 	 * @return	string
 	 */
-	function lang($line, $id = '')
+
+	function lang($line, $repl=array())
 	{
 		$CI =& get_instance();
 		$line = $CI->lang->line($line);
 
-		if ($id !== '')
+		if( count($repl) > 0)
 		{
-			$line = '<label for="'.$id.'">'.$line.'</label>';
+			$line = str_replace( array_keys($repl), array_values($repl), $line);
 		}
 
 		return $line;
 	}
+
 }
 
 /* End of file language_helper.php */
