@@ -1208,7 +1208,7 @@ class CI_Upload {
 				? 'file --brief --mime '.escapeshellarg($file['tmp_name']).' 2>&1'
 				: 'file --brief --mime '.$file['tmp_name'].' 2>&1';
 
-			if (function_exists('exec'))
+			if (function_usable('exec'))
 			{
 				/* This might look confusing, as $mime is being populated with all of the output when set in the second parameter.
 				 * However, we only neeed the last line, which is the actual return value of exec(), and as such - it overwrites
@@ -1223,7 +1223,7 @@ class CI_Upload {
 				}
 			}
 
-			if ( (bool) @ini_get('safe_mode') === FALSE && function_exists('shell_exec'))
+			if ( (bool) @ini_get('safe_mode') === FALSE && function_usable('shell_exec'))
 			{
 				$mime = @shell_exec($cmd);
 				if (strlen($mime) > 0)
@@ -1237,7 +1237,7 @@ class CI_Upload {
 				}
 			}
 
-			if (function_exists('popen'))
+			if (function_usable('popen'))
 			{
 				$proc = @popen($cmd, 'r');
 				if (is_resource($proc))

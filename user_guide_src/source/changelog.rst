@@ -54,6 +54,7 @@ Release Date: Not Released
    -  Changed environment defaults to report all errors in *development* and only fatal ones in *testing*, *production* but only display them in *development*.
    -  Updated *ip_address* database field lengths from 16 to 45 for supporting IPv6 address on :doc:`Trackback Library <libraries/trackback>` and :doc:`Captcha Helper <helpers/captcha_helper>`.
    -  Removed *cheatsheets* and *quick_reference* PDFs from the documentation.
+   -  Added availability checks where usage of dangerous functions like ``eval()`` and ``exec()`` is required.
 
 -  Helpers
 
@@ -270,6 +271,7 @@ Release Date: Not Released
 	 -  Removed redundant conditional to determine HTTP server protocol in ``set_status_header()``.
 	 -  Changed ``_exception_handler()`` to respect php.ini *display_errors* setting.
 	 -  Added function ``is_https()`` to check if a secure connection is used.
+	 -  Added function ``function_usable()`` to check if a function exists and is not disabled by `Suhosin <http://www.hardened-php.net/suhosin/>`.
    -  Added support for HTTP-Only cookies with new config option *cookie_httponly* (default FALSE).
    -  Renamed method ``_call_hook()`` to ``call_hook()`` in the :doc:`Hooks Library <general/hooks>`.
    -  :doc:`Output Library <libraries/output>` changes include:
