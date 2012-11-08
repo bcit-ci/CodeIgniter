@@ -327,7 +327,7 @@ class CI_Router {
 		$uri = implode('/', $this->uri->segments);
 
 		// Is there a literal match?  If so we're done
-		if (isset($this->routes[$uri]))
+		if (isset($this->routes[$uri]) && is_string($this->routes[$uri]))
 		{
 			return $this->_set_request(explode('/', $this->routes[$uri]));
 		}
