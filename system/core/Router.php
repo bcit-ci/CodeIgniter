@@ -341,13 +341,8 @@ class CI_Router {
 			// Does the RegEx match?
 			if (preg_match('#^'.$key.'$#', $uri, $matches))
 			{
-				// Are we using the default routing method for back-references?
-				if (strpos($val, '$') !== FALSE && strpos($key, '(') !== FALSE)
-				{
-					$val = preg_replace('#^'.$key.'$#', $val, $uri);
-				}
 				// Are we using callbacks to process back-references?
-				elseif ( ! is_string($val) && is_callable($val))
+				if ( ! is_string($val) && is_callable($val))
 				{
 					// Remove the original string from the matches array.
 					array_shift($matches);
@@ -383,6 +378,11 @@ class CI_Router {
 
 					// Execute the callback using the values in matches as its parameters.
 					$val = call_user_func_array($val, $matches);
+				}
+				// Are we using the default routing method for back-references?
+				elseif (strpos($val, '$') !== FALSE && strpos($key, '(') !== FALSE)
+				{
+					$val = preg_replace('#^'.$key.'$#', $val, $uri);
 				}
 
 				return $this->_set_request(explode('/', $val));
