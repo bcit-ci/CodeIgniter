@@ -72,21 +72,25 @@ Release Date: Not Released
 	 - Added support (auto-detection) for HTTP/1.1 response code 303 in ``redirect()``.
 	 - "auto" method in ``redirect()`` now chooses the "refresh" method only on IIS servers, instead of all servers on Windows.
    -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
-   -  Changed ``humanize()`` to include a second param for the separator.
-   -  Refactored ``plural()`` and ``singular()`` to avoid double pluralization and support more words.
+   -  :doc:`Inflector Helper <helpers/inflector_helper>` changes include:
+	 -  Changed :php:func:`humanize()` to allow passing an input separator as its second parameter.
+	 -  Refactored :php:func:`plural()` and :php:func:`singular()` to avoid double pluralization and support more words.
    -  Added an optional third parameter to ``force_download()`` that enables/disables sending the actual file MIME type in the Content-Type header (disabled by default).
    -  Added a work-around in ``force_download()`` for a bug Android <= 2.1, where the filename extension needs to be in uppercase.
    -  :doc:`Form Helper <helpers/form_helper>` changes include:
-	 - ``form_dropdown()`` will now also take an array for unity with other form helpers.
-	 - ``form_prep()``'s second argument now only accepts a boolean value, which determines whether the value is escaped for a *textarea* or a regular *input* element.
-   -  ``do_hash()`` now uses PHP's native ``hash()`` function (supporting more algorithms) and is deprecated.
+	 -  :php:func:`form_dropdown()` will now also take an array for unity with other form helpers.
+	 -  :php:func:`form_prep()`'s second argument now only accepts a boolean value, which determines whether the value is escaped for a <textarea> or a regular <input> element.
+   -  :doc:`Security Helper <helpers/security_helper>` changes include:
+	 -  :php:func:`do_hash()` now uses PHP's native ``hash()`` function (supporting more algorithms) and is deprecated.
+	 -  :php:func:`strip_image_tags()` is now an alias for the same method in the :doc:`Security Library <libraries/security>`.
    -  Removed previously deprecated helper function ``js_insert_smiley()`` from :doc:`Smiley Helper <helpers/smiley_helper>`.
    -  :doc:`File Helper <helpers/file_helper>` changes include:
 	 - ``set_realpath()`` can now also handle file paths as opposed to just directories.
 	 - Added an optional paramater to ``delete_files()`` to enable it to skip deleting files such as .htaccess and index.html.
 	 - ``read_file()`` is now a deprecated alias of ``file_get_contents()``.
-   -  :doc:`Security Helper <helpers/security_helper>` function ``strip_image_tags()`` is now an alias for the same method in the :doc:`Security Library <libraries/security>`.
-   -  Deprecated :doc:`String Helper <helpers/string_helper>` function ``repeater()`` - it's just an alias for PHP's native ``str_repeat()``.
+   -  :doc:`String Helper <helpers/string_helper>` changes include:
+	 -  Deprecated function :php:func:`repeater()` - it's just an alias for PHP's native ``str_repeat()``.
+	 -  Deprecated function :php:func:`trim_slashes()` - it's just an alias for PHP's native ``trim()`` (with a slash as its second argument).
    -  :doc:`Directory Helper <helpers/directory_helper>` ``directory_map()`` will now append DIRECTORY_SEPARATOR to directory names in the returned array.
    -  Deprecated the :doc:`Email Helper <helpers/email_helper>` as its ``valid_email()``, ``send_email()`` functions are now only aliases for PHP native functions ``filter_var()`` and ``mail()`` respectively.
 

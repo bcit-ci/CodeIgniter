@@ -51,6 +51,9 @@ if ( ! function_exists('trim_slashes'))
 	 *
 	 * this/that/theother
 	 *
+	 * @todo	Remove in version 3.1+.
+	 * @deprecated	3.0.0	This is just an alias for PHP's native trim()
+	 *
 	 * @param	string
 	 * @return	string
 	 */
