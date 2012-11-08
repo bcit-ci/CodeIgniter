@@ -88,6 +88,7 @@ Release Date: Not Released
    -  :doc:`Security Helper <helpers/security_helper>` function ``strip_image_tags()`` is now an alias for the same method in the :doc:`Security Library <libraries/security>`.
    -  Deprecated :doc:`String Helper <helpers/string_helper>` function ``repeater()`` - it's just an alias for PHP's native ``str_repeat()``.
    -  :doc:`Directory Helper <helpers/directory_helper>` ``directory_map()`` will now append DIRECTORY_SEPARATOR to directory names in the returned array.
+   -  Deprecated the :doc:`Email Helper <helpers/email_helper>` as its ``valid_email()``, ``send_email()`` functions are now only aliases for PHP native functions ``filter_var()`` and ``mail()`` respectively.
 
 -  Database
 
