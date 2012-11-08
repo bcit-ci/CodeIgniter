@@ -10,9 +10,7 @@ strings.
 Loading this Helper
 ===================
 
-This helper is loaded using the following code
-
-::
+This helper is loaded using the following code::
 
 	$this->load->helper('string');
 
@@ -88,11 +86,16 @@ your loop the next item will be returned.
 repeater()
 ==========
 
-Generates repeating copies of the data you submit. Example
+.. php:function:: repeater($data, $num = 1)
 
-::
+	:param	string	$data: Input
+	:param	int	$num: Number of times to repeat
+	:returns:	string
 
-	$string = "\n"; echo repeater($string, 30);
+Generates repeating copies of the data you submit. Example::
+
+	$string = "\n";
+	echo repeater($string, 30);
 
 The above would generate 30 newlines.
 
@@ -143,13 +146,19 @@ The above will return the following array:
 trim_slashes()
 ==============
 
-Removes any leading/trailing slashes from a string. Example
+.. php:function:: trim_slashes($str)
 
-::
+	:param	string	$str: Input string
+	:returns:	string
+
+Removes any leading/trailing slashes from a string. Example::
 
 	$string = "/this/that/theother/";
 	echo trim_slashes($string); // results in this/that/theother
 
+.. note:: This function is DEPRECATED. Use the native ``trim()`` instead:
+	|
+	| trim($str, '/');
 
 reduce_multiples()
 ==================
@@ -196,4 +205,3 @@ Removes single and double quotes from a string. Example::
 
 	$string = "Joe's \"dinner\"";
 	$string = strip_quotes($string); //results in "Joes dinner"
-
