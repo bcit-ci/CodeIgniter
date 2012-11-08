@@ -45,7 +45,7 @@ if ( ! function_exists('singular'))
 	 *
 	 * Takes a plural word and makes it singular
 	 *
-	 * @param	string
+	 * @param	string	$str	Input string
 	 * @return	string
 	 */
 	function singular($str)
@@ -109,11 +109,10 @@ if ( ! function_exists('plural'))
 	 *
 	 * Takes a singular word and makes it plural
 	 *
-	 * @param	string
-	 * @param	bool
+	 * @param	string	$str	Input string
 	 * @return	string
 	 */
-	function plural($str, $force = FALSE)
+	function plural($str)
 	{
 		$result = strval($str);
 
@@ -166,7 +165,7 @@ if ( ! function_exists('camelize'))
 	 *
 	 * Takes multiple words separated by spaces or underscores and camelizes them
 	 *
-	 * @param	string
+	 * @param	string	$str	Input string
 	 * @return	string
 	 */
 	function camelize($str)
@@ -184,7 +183,7 @@ if ( ! function_exists('underscore'))
 	 *
 	 * Takes multiple words separated by spaces and underscores them
 	 *
-	 * @param	string
+	 * @param	string	$str	Input string
 	 * @return	string
 	 */
 	function underscore($str)
@@ -202,8 +201,8 @@ if ( ! function_exists('humanize'))
 	 *
 	 * Takes multiple words separated by the separator and changes them to spaces
 	 *
-	 * @param	string	$str
-	 * @param 	string	$separator
+	 * @param	string	$str		Input string
+	 * @param 	string	$separator	Input separator
 	 * @return	string
 	 */
 	function humanize($str, $separator = '_')
@@ -219,12 +218,12 @@ if ( ! function_exists('is_countable'))
 	/**
 	 * Checks if the given word has a plural version.
 	 *
-	 * @param	string	the word to check
-	 * @return	bool	if the word is countable
+	 * @param	string	$word	Word to check
+	 * @return	bool
 	 */
 	function is_countable($word)
 	{
-		return ! in_array(strtolower(strval($word)),
+		return ! in_array(strtolower($word),
 					array(
 						'equipment', 'information', 'rice', 'money',
 						'species', 'series', 'fish', 'meta'
