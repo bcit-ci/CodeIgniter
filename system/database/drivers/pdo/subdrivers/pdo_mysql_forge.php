@@ -132,10 +132,10 @@ class CI_DB_pdo_mysql_forge extends CI_DB_pdo_forge {
 				}
 				else
 				{
-					$field[$i]['_literal'] = empty($field['new_name']) ? "\n\tMODIFY " : "\n\tCHANGE ";
+					$field[$i]['_literal'] = empty($field[$i]['new_name']) ? "\n\tMODIFY " : "\n\tCHANGE ";
 				}
 
-				$field[$i] = $field['_literal'].$this->_process_column($field[$i]);
+				$field[$i] = $field[$i]['_literal'].$this->_process_column($field[$i]);
 			}
 		}
 
