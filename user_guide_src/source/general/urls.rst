@@ -20,7 +20,6 @@ approach, usually represent::
 
 	example.com/class/function/ID
 
-
 #. The first segment represents the controller **class** that should be
    invoked.
 #. The second segment represents the class **function**, or method, that
@@ -28,10 +27,10 @@ approach, usually represent::
 #. The third, and any additional segments, represent the ID and any
    variables that will be passed to the controller.
 
-The :doc:`URI Class <../libraries/uri>` and the :doc:`URL Helper <../helpers/url_helper>`
-contain functions that make it easy to work with your URI data. In addition,
-your URLs can be remapped using the :doc:`URI Routing <routing>` feature for
-more flexibility.
+The :doc:`URI Library <../libraries/uri>` and the :doc:`URL Helper
+<../helpers/url_helper>` contain functions that make it easy to work
+with your URI data. In addition, your URLs can be remapped using the
+:doc:`URI Routing <routing>` feature for more flexibility.
 
 Friendly URLs
 =============
@@ -58,7 +57,7 @@ By default, the **index.php** file will be included in your URLs::
 
 	example.com/index.php/news/article/my_article
 
-If your Apache server has mod_rewrite enabled, you can easily remove this
+If your Apache server has *mod_rewrite* enabled, you can easily remove this
 file by using a .htaccess file with some simple rules. Here is an example
 of such a file, using the "negative" method in which everything is redirected
 except the specified items:
@@ -73,7 +72,10 @@ except the specified items:
 In the above example, any HTTP request other than those for existing
 directories and existing files is treated as a request for your index.php file.
 
-.. note:: Note: These specific rules might not work for all server configurations.
+.. note:: These specific rules might not work for all server configurations.
+
+.. note:: Make sure to also exclude from the above rule any assets that you
+	might need to be accessible from the outside world.
 
 Adding a URL Suffix
 ===================
@@ -110,7 +112,7 @@ active. Your controllers and functions will then be accessible using the
 
 	index.php?c=controller&m=method
 
-.. note:: If you are using query strings you will have to build
-	your own URLs, rather than utilizing the URL helpers (and other helpers
-	that generate URLs, like some of the form helpers) as these are designed
-	to work with segment based URLs.
+.. note:: If you are using query strings you will have to build your own
+	URLs, rather than utilizing the URL helpers (and other helpers
+	that generate URLs, like some of the form helpers) as these are
+	designed to work with segment based URLs.
