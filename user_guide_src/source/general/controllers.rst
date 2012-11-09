@@ -38,33 +38,32 @@ in it::
 			echo 'Hello World!';
 		}
 	}
-	?>
 
-Then save the file to your application/controllers/ folder.
+Then save the file to your *application/controllers/* directory.
 
 Now visit the your site using a URL similar to this::
 
 	example.com/index.php/blog/
 
-If you did it right, you should see Hello World!.
+If you did it right, you should see:
 
-Note: Class names must start with an uppercase letter. In other words,
-this is valid::
+	Hello World!
+
+.. important:: Class names must start with an uppercase letter.
+
+This is valid::
 
 	<?php
 	class Blog extends CI_Controller {
 
 	}
-	?>
 	
-
 This is **not** valid::
 
 	<?php
 	class blog extends CI_Controller {
 
 	}
-	?>
 
 Also, always make sure your controller extends the parent controller
 class so that it can inherit all its methods.
@@ -96,7 +95,6 @@ Let's try it. Add a new method to your controller::
 			echo 'Look at this!';
 		}
 	}
-	?>
 
 Now load the following URL to see the comment method::
 
@@ -125,7 +123,6 @@ Your method will be passed URI segments 3 and 4 ("sandals" and "123")::
 			echo $id;
 		}
 	}
-	?>
 
 .. important:: If you are using the :doc:`URI Routing <routing>`
 	feature, the segments passed to your method will be the re-routed
@@ -139,7 +136,7 @@ present, as will be the case when only your site root URL is requested.
 To specify a default controller, open your **application/config/routes.php**
 file and set this variable::
 
-	$route['default_controller'] = 'Blog';
+	$route['default_controller'] = 'blog';
 
 Where Blog is the name of the controller class you want used. If you now
 load your main index.php file without specifying any URI segments you'll
@@ -167,7 +164,7 @@ be passed as a parameter to the ``_remap()`` method::
 
 	public function _remap($method)
 	{
-		if ($method == 'some_method')
+		if ($method === 'some_method')
 		{
 			$this->$method();
 		}
@@ -182,7 +179,7 @@ optional second parameter. This array can be used in combination with
 PHP's `call_user_func_array() <http://php.net/call_user_func_array>`_
 to emulate CodeIgniter's default behavior.
 
-::
+Example::
 
 	public function _remap($method, $params = array())
 	{
@@ -205,10 +202,10 @@ post-process the finalized data in some way and send it to the browser
 yourself. CodeIgniter permits you to add a method named ``_output()``
 to your controller that will receive the finalized output data.
 
-.. important:: If your controller contains a method named _output(), it
-	will **always** be called by the output class instead of echoing
-	the finalized data directly. The first parameter of the method
-	will contain the finalized output.
+.. important:: If your controller contains a method named ``_output()``,
+	it will **always** be called by the output class instead of
+	echoing the finalized data directly. The first parameter of the
+	method will contain the finalized output.
 
 Here is an example::
 
@@ -217,24 +214,26 @@ Here is an example::
 		echo $output;
 	}
 
-.. note:: Please note that your _output() method will receive the data in its
-	finalized state. Benchmark and memory usage data will be rendered, cache
-	files written (if you have caching enabled), and headers will be sent
-	(if you use that :doc:`feature <../libraries/output>`) before it is
-	handed off to the _output() method.
-	To have your controller's output cached properly, its _output() method
-	can use::
+.. note:: Please note that your ``_output()`` method will receive the
+	data in its finalized state. Benchmark and memory usage data
+	will be rendered, cache files written (if you have caching
+	enabled), and headers will be sent (if you use that
+	:doc:`feature <../libraries/output>`) before it is handed off
+	to the ``_output()`` method.
+	To have your controller's output cached properly, its
+	``_output()`` method can use::
 
 		if ($this->output->cache_expiration > 0)
 		{
-		    $this->output->_write_cache($output);
+			$this->output->_write_cache($output);
 		}
 
-	If you are using this feature the page execution timer and memory usage
-	stats might not be perfectly accurate since they will not take into
-	acccount any further processing you do. For an alternate way to control
-	output *before* any of the final processing is done, please see the
-	available methods in the :doc:`Output Class <../libraries/output>`.
+	If you are using this feature the page execution timer and
+	memory usage stats might not be perfectly accurate since they
+	will not take into account any further processing you do.
+	For an alternate way to control output *before* any of the
+	final processing is done, please see the available methods
+	in the :doc:`Output Library <../libraries/output>`.
 
 Private methods
 ===============
@@ -257,15 +256,15 @@ Trying to access it via the URL, like this, will not work::
 	them from being called. This is a legacy feature that is left
 	for backwards-compatibility.
 
-Organizing Your Controllers into Sub-folders
-============================================
+Organizing Your Controllers into Sub-directories
+================================================
 
 If you are building a large application you might find it convenient to
-organize your controllers into sub-folders. CodeIgniter permits you to
-do this.
+organize your controllers into sub-directories. CodeIgniter permits you
+to do this.
 
-Simply create folders within your application/controllers directory and
-place your controller classes within them.
+Simply create folders within your *application/controllers/* directory
+and place your controller classes within them.
 
 .. note:: When using this feature the first segment of your URI must
 	specify the folder. For example, lets say you have a controller located
@@ -277,9 +276,9 @@ place your controller classes within them.
 
 		example.com/index.php/products/shoes/show/123
 
-Each of your sub-folders may contain a default controller which will be
+Each of your sub-directories may contain a default controller which will be
 called if the URL contains only the sub-folder. Simply name your default
-controller as specified in your application/config/routes.php file
+controller as specified in your *application/config/routes.php* file.
 
 CodeIgniter also permits you to remap your URIs using its :doc:`URI
 Routing <routing>` feature.
@@ -296,7 +295,7 @@ The reason this line is necessary is because your local constructor will
 be overriding the one in the parent controller class so we need to
 manually call it.
 
-::
+Example::
 
 	<?php
 	class Blog extends CI_Controller {
@@ -307,7 +306,6 @@ manually call it.
 			// Your own constructor code
 		}
 	}
-	?>
 
 Constructors are useful if you need to set some default values, or run a
 default process when your class is instantiated. Constructors can't
@@ -323,9 +321,9 @@ override them. See :doc:`Reserved Names <reserved_names>` for a full
 list.
 
 .. important:: You should also never have a method named identically
-	to its class name. If you do, and there is no __construct()
-	method in the same class, then your e.g. Index::index() method
-	will be executed as a class constructor! This is a PHP4
+	to its class name. If you do, and there is no ``__construct()``
+	method in the same class, then your e.g. ``Index::index()``
+	method will be executed as a class constructor! This is a PHP4
 	backwards-compatibility feature.
 
 That's it!
