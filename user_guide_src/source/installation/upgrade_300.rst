@@ -31,8 +31,19 @@ Step 3: Remove $autoload['core'] from your config/autoload.php
 Use of the ``$autoload['core']`` config array has been deprecated as of CodeIgniter 1.4.1 and is now removed.
 Move any entries that you might have listed there to ``$autoload['libraries']`` instead.
 
+***************************************************
+Step 4: Move your Log class overrides or extensions
+***************************************************
+
+The Log Class is considered as a "core" class and is now located in the
+**system/core/** directory. Therefore, in order for your Log class overrides
+or extensions to work, you need to move them to **application/core/**::
+
+	application/libraries/Log.php -> application/core/Log.php
+	application/libraries/MY_Log.php -> application/core/MY_log.php
+
 **************************************************************
-Step 4: Add new session driver items to your config/config.php
+Step 5: Add new session driver items to your config/config.php
 **************************************************************
 
 With the change from a single Session Library to the new Session Driver, two new config items have been added:
@@ -48,7 +59,7 @@ available as valid drivers, neither of these configuration items are required. H
 add them for clarity and ease of configuration in the future.
 
 ***************************************
-Step 5: Update your config/database.php
+Step 6: Update your config/database.php
 ***************************************
 
 Due to 3.0.0's renaming of Active Record to Query Builder, inside your `config/database.php`, you will
@@ -60,13 +71,13 @@ need to rename the `$active_record` variable to `$query_builder`
 	$query_builder = TRUE;
 
 *******************************
-Step 6: Move your errors folder
+Step 7: Move your errors folder
 *******************************
 
 In version 3.0.0, the errors folder has been moved from _application/errors* to _application/views/errors*.
 
 *******************************************************
-Step 7: Update your config/routes.php containing (:any)
+Step 8: Update your config/routes.php containing (:any)
 *******************************************************
 
 Historically, CodeIgniter has always provided the **:any** wildcard in routing,
@@ -87,15 +98,15 @@ regular expression::
 
 
 ****************************************************************************
-Step 8: Check the calls to Array Helper's element() and elements() functions
+Step 9: Check the calls to Array Helper's element() and elements() functions
 ****************************************************************************
 
 The default return value of these functions, when the required elements
 don't exist, has been changed from FALSE to NULL.
 
-************************************************************
-Step 9: Update usage of Database Forge's drop_table() method
-************************************************************
+*************************************************************
+Step 10: Update usage of Database Forge's drop_table() method
+*************************************************************
 
 Up until now, ``drop_table()`` added an IF EXISTS clause by default or it didn't work
 at all with some drivers. In CodeIgniter 3.0, the IF EXISTS condition is no longer added
@@ -116,7 +127,7 @@ If your application relies on IF EXISTS, you'll have to change its usage.
 	all drivers with the exception of ODBC.
 
 ***********************************************************
-Step 10: Change usage of Email library with multiple emails
+Step 11: Change usage of Email library with multiple emails
 ***********************************************************
 
 The :doc:`Email library <../libraries/email>` will automatically clear the
@@ -132,7 +143,7 @@ pass FALSE as the first parameter in the ``send()`` method:
 
 
 ****************************************************************
-Step 11: Remove usage of (previously) deprecated functionalities
+Step 12: Remove usage of (previously) deprecated functionalities
 ****************************************************************
 
 In addition to the ``$autoload['core']`` configuration setting, there's a number of other functionalities
