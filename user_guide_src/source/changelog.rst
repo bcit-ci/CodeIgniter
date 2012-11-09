@@ -273,12 +273,12 @@ Release Date: Not Released
 	 -  Changed internal method ``_sanitize_globals()`` to skip enforcing reversal of *register_globals* in PHP 5.4+, where this functionality no longer exists.
 	 -  Changed methods ``get()``, ``post()``, ``get_post()``, ``cookie()``, ``server()``, ``user_agent()`` to return NULL instead of FALSE when no value is found.
    -  :doc:`Common functions <general/common_functions>` changes include:
-	 -  Added function ``get_mimes()`` to return the *config/mimes.php* array.
-	 -  Added support for HTTP code 303 ("See Other") in ``set_status_header()``.
-	 -  Removed redundant conditional to determine HTTP server protocol in ``set_status_header()``.
+	 -  Added function :php:func:`get_mimes()` to return the *application/config/mimes.php* array.
+	 -  Added support for HTTP code 303 ("See Other") in :php:func:`set_status_header()`.
+	 -  Removed redundant conditional to determine HTTP server protocol in :php:func:`set_status_header()`.
 	 -  Changed ``_exception_handler()`` to respect php.ini *display_errors* setting.
-	 -  Added function ``is_https()`` to check if a secure connection is used.
-	 -  Added function ``function_usable()`` to check if a function exists and is not disabled by `Suhosin <http://www.hardened-php.net/suhosin/>`.
+	 -  Added function :php:func:`is_https()` to check if a secure connection is used.
+	 -  Added function :php:func:`function_usable()` to check if a function exists and is not disabled by `Suhosin <http://www.hardened-php.net/suhosin/>`.
    -  Added support for HTTP-Only cookies with new config option *cookie_httponly* (default FALSE).
    -  Renamed method ``_call_hook()`` to ``call_hook()`` in the :doc:`Hooks Library <general/hooks>`.
    -  :doc:`Output Library <libraries/output>` changes include:
