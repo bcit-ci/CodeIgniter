@@ -16,7 +16,7 @@ function autoload($class)
 	$ci_core = array(
 		'Benchmark', 'Config', 'Controller',
 		'Exceptions', 'Hooks', 'Input',
-		'Lang', 'Loader', 'Model',
+		'Lang', 'Loader', 'Log', 'Model',
 		'Output', 'Router', 'Security',
 		'URI', 'Utf8',
 	);
@@ -25,11 +25,10 @@ function autoload($class)
 		'Calendar', 'Cart', 'Driver_Library',
 		'Email', 'Encrypt', 'Form_validation',
 		'Ftp', 'Image_lib', 'Javascript',
-		'Log', 'Migration', 'Pagination',
-		'Parser', 'Profiler', 'Table',
-	   	'Trackback', 'Typography', 'Unit_test',
-	   	'Upload', 'User_agent', 'Xmlrpc',
-	   	'Zip',
+		'Migration', 'Pagination', 'Parser',
+		'Profiler', 'Table', 'Trackback',
+	   	'Typography', 'Unit_test', 'Upload',
+	   	'User_agent', 'Xmlrpc', 'Zip'
 	);
 
 	$ci_drivers = array(
