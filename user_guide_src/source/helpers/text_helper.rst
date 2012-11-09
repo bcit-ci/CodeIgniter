@@ -59,7 +59,7 @@ The third parameter is an optional suffix added to the string, if
 undeclared this helper uses an ellipsis.
 
 .. note:: If you need to truncate to an exact number of characters please
-	see the :php:func:`ellipsize()` function below.
+	see the :ref:`ellipsize()` function below.
 
 ascii_to_entities()
 ===================
@@ -192,6 +192,8 @@ Example::
 	echo word_wrap($string, 25);
 
 	// Would produce:  Here is a simple string of text that will help us demonstrate this function
+
+.. _ellipsize():
 
 ellipsize()
 ===========

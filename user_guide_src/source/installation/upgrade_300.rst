@@ -249,3 +249,28 @@ CodeIgniter 3.1+.
 
 .. note:: This setting is still available, but you're strongly encouraged to remove its' usage sooner
 	rather than later.
+
+String helper random_string() types 'unique' and 'encrypt'
+==========================================================
+
+When using the :doc:`String Helper <helpers/string_helper>` function :php:func:`random_string()`,
+you should no longer pass the **unique** and **encrypt** randomization types. They are only
+aliases for **md5** and **sha1** respectively and are now deprecated and scheduled for removal
+in CodeIgniter 3.1+.
+
+.. note:: These options are still available, but you're strongly encouraged to remove their usage
+	sooner rather than later.
+
+URL helper url_title() separators 'dash' and 'underscore'
+=========================================================
+
+When using the :doc:`URL Helper <helpers/url_helper>` function :php:func:`url_title()`, you
+should no longer pass **dash** or **underscore** as the word separator. This function will
+now accept any character and you should just pass the chosen character directly, so you
+should write '-' instead of 'dash' and '_' instead of 'underscore'.
+
+**dash** and **underscore** now act as aliases and are deprecated and scheduled for removal
+in CodeIgniter 3.1+.
+
+.. note:: These options are still available, but you're strongly encouraged to remove their usage
+	sooner rather than later.

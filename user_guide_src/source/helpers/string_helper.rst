@@ -31,18 +31,13 @@ Useful for creating passwords or generating random hashes.
 The first parameter specifies the type of string, the second parameter
 specifies the length. The following choices are available:
 
-alpha, alunum, basic, numeric, nozero, md5 and sha1
-
 -  **alpha**: A string with lower and uppercase letters only.
 -  **alnum**: Alpha-numeric string with lower and uppercase characters.
 -  **basic**: A random number based on ``mt_rand()``.
 -  **numeric**: Numeric string.
 -  **nozero**: Numeric string with no zeros.
--  **unique**: Encrypted with MD5 and uniqid(). Note: The length
-   parameter is not available for this type. Returns a fixed length 32
-   character string.
--  **md5**: An encrypted random number based on ``md5()``.
--  **sha1**: An encrypted random number based on ``sha1()``.
+-  **md5**: An encrypted random number based on ``md5()`` (fixed length of 32).
+-  **sha1**: An encrypted random number based on ``sha1()`` (fixed length of 40).
 
 Usage example::
 
