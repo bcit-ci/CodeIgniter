@@ -43,6 +43,16 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 	protected $_create_database	= 'CREATE DATABASE %s CHARACTER SET %s COLLATE %s';
 
 	/**
+	 * CREATE TABLE keys flag
+	 *
+	 * Whether table keys are created from within the
+	 * CREATE TABLE statement.
+	 *
+	 * @var	bool
+	 */
+	protected $_create_table_keys	= TRUE;
+
+	/**
 	 * UNSIGNED support
 	 *
 	 * @var	array

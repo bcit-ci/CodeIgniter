@@ -50,6 +50,16 @@ class CI_DB_pdo_cubrid_forge extends CI_DB_pdo_forge {
 	protected $_drop_database	= FALSE;
 
 	/**
+	 * CREATE TABLE keys flag
+	 *
+	 * Whether table keys are created from within the
+	 * CREATE TABLE statement.
+	 *
+	 * @var	bool
+	 */
+	protected $_create_table_keys	= TRUE;
+
+	/**
 	 * DROP TABLE IF statement
 	 *
 	 * @var	string
