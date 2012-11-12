@@ -252,7 +252,7 @@ Release Date: Not Released
    -  :doc:`Profiler Library <general/profiling>` now also displays database object names.
    -  :doc:`Migration Library <libraries/migration>` changes include:
      -  Added support for timestamp-based migrations (enabled by default)
-     -  Added ``$config['migration_style']`` to allow switching between sequential migrations and timestamp migrations
+     -  Added ``$config['migration_type']`` to allow switching between sequential migrations and timestamp migrations
 
 -  Core
 
