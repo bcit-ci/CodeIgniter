@@ -256,9 +256,9 @@ class CI_Output {
 	{
 		for ($i = 0, $c = count($this->headers); $i < $c; $i++)
 		{
-			if (preg_match('/^Content-Type:\s(.+)$/', $this->headers[$i][0], $matches))
+			if (sscanf($this->headers[$i][0], 'Content-Type: %s', $content_type) === 1)
 			{
-				return $matches[1];
+				return $content_type;
 			}
 		}
 

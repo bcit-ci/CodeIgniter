@@ -199,12 +199,10 @@ class CI_Form_validation {
 
 		// Is the field name an array? If it is an array, we break it apart
 		// into its components so that we can fetch the corresponding POST data later
+		$indexes = array();
 		if (preg_match_all('/\[(.*?)\]/', $field, $matches))
 		{
-			// Note: Due to a bug in current() that affects some versions
-			// of PHP we can not pass function call directly into it
-			$x = explode('[', $field);
-			$indexes[] = current($x);
+			sscanf($field, '%[^[][', $indexes[0]);
 
 			for ($i = 0, $c = count($matches[0]); $i < $c; $i++)
 			{
@@ -218,7 +216,6 @@ class CI_Form_validation {
 		}
 		else
 		{
-			$indexes	= array();
 			$is_array	= FALSE;
 		}
 
@@ -673,11 +670,7 @@ class CI_Form_validation {
 			// Strip the parameter (if exists) from the rule
 			// Rules can contain a parameter: max_length[5]
 			$param = FALSE;
-			if (preg_match('/(.*?)\[(.*)\]/', $rule, $match))
-			{
-				$rule	= $match[1];
-				$param	= $match[2];
-			}
+			sscanf($rule, '%[^[][%[^]]', $rule, $param);
 
 			// Call the function that corresponds to the rule
 			if ($callback === TRUE)
@@ -796,11 +789,8 @@ class CI_Form_validation {
 	{
 		// Do we need to translate the field name?
 		// We look for the prefix lang: to determine this
-		if (strpos($fieldname, 'lang:') === 0)
+		if (sscanf($fieldname, 'lang:%s', $line) === 1)
 		{
-			// Grab the variable
-			$line = substr($fieldname, 5);
-
 			// Were we able to translate the field name?  If not we use $line
 			if (FALSE === ($fieldname = $this->CI->lang->line($line)))
 			{
@@ -1002,7 +992,7 @@ class CI_Form_validation {
 	 */
 	public function is_unique($str, $field)
 	{
-		list($table, $field) = explode('.', $field);
+		sscanf($field, '%[^.].%[^.]', $table, $field);
 		if (isset($this->CI->db))
 		{
 			$query = $this->CI->db->limit(1)->get_where($table, array($field => $str));

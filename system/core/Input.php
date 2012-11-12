@@ -768,9 +768,9 @@ class CI_Input {
 
 			foreach ($_SERVER as $key => $val)
 			{
-				if (strpos($key, 'HTTP_') === 0)
+				if (sscanf($key, 'HTTP_%s', $header) === 1)
 				{
-					$headers[substr($key, 5)] = $this->_fetch_from_array($_SERVER, $key, $xss_clean);
+					$headers[$header] = $this->_fetch_from_array($_SERVER, $key, $xss_clean);
 				}
 			}
 		}

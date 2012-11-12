@@ -605,7 +605,7 @@ class CI_Image_lib {
 		// Set the quality
 		$this->quality = trim(str_replace('%', '', $this->quality));
 
-		if ($this->quality === '' OR $this->quality === 0 OR ! preg_match('/^[0-9]+$/', $this->quality))
+		if ($this->quality === '' OR $this->quality === 0 OR ! ctype_digit($this->quality))
 		{
 			$this->quality = 90;
 		}
@@ -1277,8 +1277,8 @@ class CI_Image_lib {
 		if ($this->wm_use_drop_shadow === FALSE)
 			$this->wm_shadow_distance = 0;
 
-		$this->wm_vrt_alignment = strtoupper(substr($this->wm_vrt_alignment, 0, 1));
-		$this->wm_hor_alignment = strtoupper(substr($this->wm_hor_alignment, 0, 1));
+		$this->wm_vrt_alignment = strtoupper($this->wm_vrt_alignment[0]);
+		$this->wm_hor_alignment = strtoupper($this->wm_hor_alignment[0]);
 
 		// Set verticle alignment
 		if ($this->wm_vrt_alignment === 'M')
@@ -1518,13 +1518,13 @@ class CI_Image_lib {
 	public function image_reproportion()
 	{
 		if (($this->width === 0 && $this->height === 0) OR $this->orig_width === 0 OR $this->orig_height === 0
-			OR ( ! preg_match('/^[0-9]+$/', $this->width) && ! preg_match('/^[0-9]+$/', $this->height))
-			OR ! preg_match('/^[0-9]+$/', $this->orig_width) OR ! preg_match('/^[0-9]+$/', $this->orig_height))
+			OR ( ! ctype_digit((string) $this->width) && ! ctype_digit((string) $this->height))
+			OR ! ctype_digit((string) $this->orig_width) OR ! ctype_digit((string) $this->orig_height))
 		{
 			return;
 		}
 
-		// Sanitize so we don't call preg_match() anymore
+		// Sanitize
 		$this->width = (int) $this->width;
 		$this->height = (int) $this->height;
 
