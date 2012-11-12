@@ -168,7 +168,8 @@ Release Date: Not Released
    -  :doc:`Database Forge <database/forge>` changes include:
 	 - Added an optional second parameter to ``drop_table()`` that allows adding the **IF EXISTS** condition, which is no longer the default.
 	 - Added support for passing a custom database object to the loader.
-	 - Removed the optional AFTER clause from method ``add_column()``.
+	 - Deprecated ``add_column()``'s third method. *AFTER* clause should now be added to the field definition array instead.
+	 - Added support for usage of the *FIRST* clause in ``add_column()`` for MySQL and CUBRID.
 	 - Overall improved support for all of the drivers.
    -  :doc:`Database Utility <database/utilities>` chages include:
 	 - Added support for passing a custom database object to the loader.

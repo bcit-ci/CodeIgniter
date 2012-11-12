@@ -285,3 +285,33 @@ in CodeIgniter 3.1+.
 
 .. note:: These options are still available, but you're strongly encouraged to remove their usage
 	sooner rather than later.
+
+Database Forge method add_column() with an AFTER clause
+=======================================================
+
+If you have used the **third parameter** for :doc:`Database Forge <database/forge>` method
+``add_column()`` to add a field for an AFTER clause, then you should change its usage.
+
+That third parameter has been deprecated and scheduled for removal in CodeIgniter 3.1+.
+
+You should now put AFTER clause field names in the field definition array instead::
+
+	// Old usage:
+	$field = array(
+		'new_field' => array('type' => 'TEXT')
+	);
+
+	$this->dbforge->add_column('table_name', $field, 'another_field');
+
+	// New usage:
+	$field = array(
+		'new_field' => array('type' => 'TEXT', 'after' => 'another_field')
+	);
+
+	$this->dbforge->add_column('table_name', $field);
+
+.. note:: The parameter is still available, but you're strongly encouraged to remove its usage
+	sooner rather than later.
+
+.. note:: This is for MySQL and CUBRID databases only! Other drivers don't support this
+	clause and will silently ignore it.

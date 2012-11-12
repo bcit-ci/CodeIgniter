@@ -231,7 +231,7 @@ Modifying Tables
 ****************
 
 $this->dbforge->add_column()
-=============================
+============================
 
 The ``add_column()`` method is used to modify an existing table. It
 accepts the same field array as above, and can be used for an unlimited
@@ -243,10 +243,25 @@ number of additional fields.
 		'preferences' => array('type' => 'TEXT')
 	);
 	$this->dbforge->add_column('table_name', $fields); 
-	// gives ALTER TABLE table_name ADD preferences TEXT
+	// Executes: ALTER TABLE table_name ADD preferences TEXT
+
+If you are using MySQL or CUBIRD, then you can take advantage of their
+AFTER and FIRST clauses to position the new column.
+
+Examples::
+
+	// Will place the new column after the `another_field` column:
+	$fields = array(
+		'preferences' => array('type' => 'TEXT', 'after' => 'another_field')
+	);
+
+	// Will place the new column at the start of the table definition:
+	$fields = array(
+		'preferences' => array('type' => 'TEXT', 'first' => TRUE)
+	);
 
 $this->dbforge->drop_column()
-==============================
+=============================
 
 Used to remove a column from a table.
 
@@ -256,7 +271,7 @@ Used to remove a column from a table.
 
 
 $this->dbforge->modify_column()
-================================
+===============================
 
 The usage of this method is identical to ``add_column()``, except it
 alters an existing column rather than adding a new one. In order to
