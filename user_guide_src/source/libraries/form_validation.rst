@@ -288,8 +288,8 @@ CodeIgniter lets you pipe multiple rules together. Let's try it. Change
 your rules in the third parameter of rule setting function, like this::
 
 	$this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[12]|is_unique[users.username]');
-	$this->form_validation->set_rules('password', 'Password', 'required|matches[passconf]');
-	$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required');
+	$this->form_validation->set_rules('password', 'Password', 'required');
+	$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[password]');
 	$this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
 
 The above code sets the following rules:
@@ -315,8 +315,8 @@ can also prep your data in various ways. For example, you can set up
 rules like this::
 
 	$this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[12]|xss_clean');
-	$this->form_validation->set_rules('password', 'Password', 'trim|required|matches[passconf]|md5');
-	$this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|required');
+	$this->form_validation->set_rules('password', 'Password', 'trim|required|md5');
+	$this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|required|matches[password]');
 	$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
 
 In the above example, we are "trimming" the fields, converting the
@@ -909,9 +909,6 @@ Rule                      Parameter  Description                                
 .. note:: You can also use any native PHP functions that permit up
 	to two parameters, where at least one is required (to pass
 	the field data).
-
-.. note:: When using the **matches** rule, the form item specified
-	to compare against must already be defined.
 
 ******************
 Prepping Reference

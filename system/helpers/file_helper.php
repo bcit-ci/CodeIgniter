@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter File Helpers
@@ -65,12 +66,12 @@ if ( ! function_exists('write_file'))
 	 * Writes data to the file specified in the path.
 	 * Creates a new file if non-existent.
 	 *
-	 * @param	string	path to file
-	 * @param	string	file data
-	 * @param	int
+	 * @param	string	$path	File path
+	 * @param	string	$data	Data to write
+	 * @param	string	$mode	fopen() mode (default: 'wb')
 	 * @return	bool
 	 */
-	function write_file($path, $data, $mode = FOPEN_WRITE_CREATE_DESTRUCTIVE)
+	function write_file($path, $data, $mode = 'wb')
 	{
 		if ( ! $fp = @fopen($path, $mode))
 		{
@@ -98,13 +99,13 @@ if ( ! function_exists('delete_files'))
 	 * If the second parameter is set to TRUE, any directories contained
 	 * within the supplied base directory will be nuked as well.
 	 *
-	 * @param	string	path to file
-	 * @param	bool	whether to delete any directories found in the path
-	 * @param	int
-	 * @param	bool	whether to skip deleting .htaccess and index page files
+	 * @param	string	$path		File path
+	 * @param	bool	$del_dir	Whether to delete any directories found in the path
+	 * @param	bool	$htdocs		Whether to skip deleting .htaccess and index page files
+	 * @param	int	$_level		Current directory depth level (default: 0; internal use only)
 	 * @return	bool
 	 */
-	function delete_files($path, $del_dir = FALSE, $level = 0, $htdocs = FALSE)
+	function delete_files($path, $del_dir = FALSE, $htdocs = FALSE, $_level = 0)
 	{
 		// Trim the trailing slash
 		$path = rtrim($path, '/\\');
@@ -120,7 +121,7 @@ if ( ! function_exists('delete_files'))
 			{
 				if (is_dir($path.DIRECTORY_SEPARATOR.$filename) && $filename[0] !== '.')
 				{
-					delete_files($path.DIRECTORY_SEPARATOR.$filename, $del_dir, $level + 1, $htdocs);
+					delete_files($path.DIRECTORY_SEPARATOR.$filename, $del_dir, $htdocs, $_level + 1);
 				}
 				elseif ($htdocs !== TRUE OR ! preg_match('/^(\.htaccess|index\.(html|htm|php)|web\.config)$/i', $filename))
 				{
@@ -130,7 +131,7 @@ if ( ! function_exists('delete_files'))
 		}
 		@closedir($current_dir);
 
-		if ($del_dir === TRUE && $level > 0)
+		if ($del_dir === TRUE && $_level > 0)
 		{
 			return @rmdir($path);
 		}
@@ -318,12 +319,12 @@ if ( ! function_exists('get_mime_by_extension'))
 	 * Note: this is NOT an accurate way of determining file mime types, and is here strictly as a convenience
 	 * It should NOT be trusted, and should certainly NOT be used for security
 	 *
-	 * @param	string	path to file
-	 * @return	mixed
+	 * @param	string	$filename	File name
+	 * @return	string
 	 */
-	function get_mime_by_extension($file)
+	function get_mime_by_extension($filename)
 	{
-		$extension = strtolower(substr(strrchr($file, '.'), 1));
+		$extension = strtolower(substr(strrchr($filename, '.'), 1));
 
 		static $mimes;
 
@@ -358,7 +359,7 @@ if ( ! function_exists('symbolic_permissions'))
 	 * Takes a numeric value representing a file's permissions and returns
 	 * standard symbolic notation representing that value
 	 *
-	 * @param	int
+	 * @param	int	$perms	Permissions
 	 * @return	string
 	 */
 	function symbolic_permissions($perms)
@@ -425,7 +426,7 @@ if ( ! function_exists('octal_permissions'))
 	 * Takes a numeric value representing a file's permissions and returns
 	 * a three character string representing the file's octal permissions
 	 *
-	 * @param	int
+	 * @param	int	$perms	Permissions
 	 * @return	string
 	 */
 	function octal_permissions($perms)

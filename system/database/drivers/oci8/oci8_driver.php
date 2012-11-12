@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * oci8 Database Adapter Class
@@ -49,34 +50,76 @@
  */
 class CI_DB_oci8_driver extends CI_DB {
 
+	/**
+	 * Database driver
+	 *
+	 * @var	string
+	 */
 	public $dbdriver = 'oci8';
 
-	// The character used for excaping
-	protected $_escape_char = '"';
+	/**
+	 * Statement ID
+	 *
+	 * @var	resource
+	 */
+	public $stmt_id;
 
 	/**
-	 * The syntax to count rows is slightly different across different
-	 * database engines, so this string appears in each driver and is
-	 * used for the count_all() and count_all_results() functions.
+	 * Cursor ID
+	 *
+	 * @var	resource
 	 */
-	protected $_count_string = 'SELECT COUNT(1) AS ';
-	protected $_random_keyword = ' ASC'; // not currently supported
-
-	protected $_reserved_identifiers = array('*', 'rownum');
-
-	// Set "auto commit" by default
-	public $commit_mode = OCI_COMMIT_ON_SUCCESS;
-
-	// need to track statement id and cursor id
-	public $stmt_id;
 	public $curs_id;
 
-	// if we use a limit, we will add a field that will
-	// throw off num_fields later
-	public $limit_used;
+	/**
+	 * Commit mode flag
+	 *
+	 * @var	int
+	 */
+	public $commit_mode = OCI_COMMIT_ON_SUCCESS;
 
 	/**
-	 * Constructor
+	 * Limit used flag
+	 *
+	 * If we use LIMIT, we'll add a field that will
+	 * throw off num_fields later.
+	 *
+	 * @var	bool
+	 */
+	public $limit_used;
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * List of reserved identifiers
+	 *
+	 * Identifiers that must NOT be escaped.
+	 *
+	 * @var	string[]
+	 */
+	protected $_reserved_identifiers = array('*', 'rownum');
+
+	/**
+	 * ORDER BY random keyword
+	 *
+	 * @var	string
+	 */
+	protected $_random_keyword = ' ASC'; // not currently supported
+
+	/**
+	 * COUNT string
+	 *
+	 * @used-by	CI_DB_driver::count_all()
+	 * @used-by	CI_DB_query_builder::count_all_results()
+	 *
+	 * @var	string
+	 */
+	protected $_count_string = 'SELECT COUNT(1) AS ';
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Class constructor
 	 *
 	 * @param	array	$params
 	 * @return	void
@@ -197,9 +240,21 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	public function version()
 	{
-		return isset($this->data_cache['version'])
-			? $this->data_cache['version']
-			: $this->data_cache['version'] = oci_server_version($this->conn_id);
+		if (isset($this->data_cache['version']))
+		{
+			return $this->data_cache['version'];
+		}
+		elseif ( ! $this->conn_id)
+		{
+			$this->initialize();
+		}
+
+		if ( ! $this->conn_id OR ($version = oci_server_version($this->conn_id)) === FALSE)
+		{
+			return FALSE;
+		}
+
+		return $this->data_cache['version'] = $version;
 	}
 
 	// --------------------------------------------------------------------
@@ -207,7 +262,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Execute the query
 	 *
-	 * @param	string	an SQL query
+	 * @param	string	$sql	an SQL query
 	 * @return	resource
 	 */
 	protected function _execute($sql)
@@ -226,7 +281,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Generate a statement ID
 	 *
-	 * @param	string	an SQL query
+	 * @param	string	$sql	an SQL query
 	 * @return	void
 	 */
 	protected function _set_stmt_id($sql)
@@ -306,7 +361,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Bind parameters
 	 *
-	 * @param	array
+	 * @param	array	$params
 	 * @return	void
 	 */
 	protected function _bind_params($params)
@@ -335,7 +390,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
-	 * @param	bool
+	 * @param	bool	$test_mode
 	 * @return	bool
 	 */
 	public function trans_begin($test_mode = FALSE)
@@ -408,8 +463,8 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Escape String
 	 *
-	 * @param	string
-	 * @param	bool	whether or not the string will be used in a LIKE condition
+	 * @param	string	$str
+	 * @param	bool	$like	Whether or not the string will be used in a LIKE condition
 	 * @return	string
 	 */
 	public function escape_str($str, $like = FALSE)
@@ -469,7 +524,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	bool
+	 * @param	bool	$prefix_limit
 	 * @return	string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
@@ -492,7 +547,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _list_columns($table = '')
@@ -507,7 +562,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _field_data($table)
@@ -549,13 +604,13 @@ class CI_DB_oci8_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Insert_batch statement
+	 * Insert batch statement
 	 *
 	 * Generates a platform-specific insert string from the supplied data
 	 *
-	 * @param	string	the table name
-	 * @param	array	the insert keys
-	 * @param 	array	the insert values
+	 * @param	string	$table	Table name
+	 * @param	array	$keys	INSERT keys
+	 * @param 	array	$values	INSERT values
 	 * @return	string
 	 */
 	protected function _insert_batch($table, $keys, $values)
@@ -578,10 +633,10 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific truncate string from the supplied data
 	 *
-	 * If the database does not support the truncate() command,
+	 * If the database does not support the TRUNCATE statement,
 	 * then this method maps to 'DELETE FROM table'
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _truncate($table)
@@ -596,7 +651,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific delete string from the supplied data
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _delete($table)
@@ -613,11 +668,11 @@ class CI_DB_oci8_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Limit string
+	 * LIMIT
 	 *
 	 * Generates a platform-specific LIMIT clause
 	 *
-	 * @param	string	the sql query string
+	 * @param	string	$sql	SQL Query
 	 * @return	string
 	 */
 	protected function _limit($sql)

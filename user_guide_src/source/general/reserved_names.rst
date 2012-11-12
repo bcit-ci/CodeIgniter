@@ -2,16 +2,17 @@
 Reserved Names
 ##############
 
-In order to help out, CodeIgniter uses a series of functions and names
-in its operation. Because of this, some names cannot be used by a
-developer. Following is a list of reserved names that cannot be used.
+In order to help out, CodeIgniter uses a series of function, method,
+class and variable names in its operation. Because of this, some names
+cannot be used by a developer. Following is a list of reserved names
+that cannot be used.
 
 Controller names
 ----------------
 
 Since your controller classes will extend the main application
-controller you must be careful not to name your functions identically to
-the ones used by that class, otherwise your local functions will
+controller you must be careful not to name your methods identically to
+the ones used by that class, otherwise your local methods will
 override them. The following is a list of reserved names. Do not name
 your controller any of these:
 
@@ -24,22 +25,25 @@ your controller any of these:
 Functions
 ---------
 
--  is_really_writable()
--  load_class()
--  get_config()
--  config_item()
--  show_error()
--  show_404()
--  log_message()
--  _exception_handler()
--  get_instance()
+-  :php:func:`is_really_writable()`
+-  ``load_class()``
+-  ``get_config()``
+-  :php:func:`config_item()`
+-  :php:func:`show_error()`
+-  :php:func:`show_404()`
+-  :php:func:`log_message()`
+-  :php:func:`get_mimes()`
+-  :php:func:`html_escape()`
+-  :php:func:`get_instance()`
+-  ``_exception_handler()``
+-  ``_stringify_attributes()``
 
 Variables
 ---------
 
--  $config
--  $mimes
--  $lang
+-  ``$config``
+-  ``$db``
+-  ``$lang``
 
 Constants
 ---------
@@ -63,4 +67,3 @@ Constants
 -  FOPEN_READ_WRITE_CREATE
 -  FOPEN_WRITE_CREATE_STRICT
 -  FOPEN_READ_WRITE_CREATE_STRICT
-

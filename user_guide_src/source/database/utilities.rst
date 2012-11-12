@@ -2,7 +2,7 @@
 Database Utility Class
 ######################
 
-The Database Utility Class contains functions that help you manage your
+The Database Utility Class contains methods that help you manage your
 database.
 
 .. contents:: Table of Contents
@@ -22,12 +22,24 @@ Load the Utility Class as follows::
 
 	$this->load->dbutil()
 
-Once initialized you will access the functions using the $this->dbutil
+You can also pass another database object to the DB Utility loader, in case
+the database you want to manage isn't the default one::
+
+	$this->myutil = $this->load->dbutil($this->other_db, TRUE);
+
+In the above example, we're passing a custom database object as the first
+parameter and then tell it to return the dbutil object, instead of
+assigning it directly to ``$this->dbutil``.
+
+.. note:: Both of the parameters can be used individually, just pass an empty
+	value as the first one if you wish to skip it.
+
+Once initialized you will access the methods using the ``$this->dbutil``
 object::
 
-	$this->dbutil->some_function()
+	$this->dbutil->some_method()
 
-$this->dbutil->list_databases()
+$this->dbutil->list_databases();
 ================================
 
 Returns an array of database names::
@@ -40,7 +52,7 @@ Returns an array of database names::
 	}
 
 $this->dbutil->database_exists();
-==================================
+=================================
 
 Sometimes it's helpful to know whether a particular database exists.
 Returns a boolean TRUE/FALSE. Usage example::
@@ -50,13 +62,11 @@ Returns a boolean TRUE/FALSE. Usage example::
 		// some code...
 	}
 
-Note: Replace *database_name* with the name of the table you are
-looking for. This function is case sensitive.
+.. note:: Replace *database_name* with the name of the table you are
+	looking for. This method is case sensitive.
 
 $this->dbutil->optimize_table('table_name');
-==============================================
-
-.. note:: This features is only available for MySQL/MySQLi databases.
+============================================
 
 Permits you to optimize a table using the table name specified in the
 first parameter. Returns TRUE/FALSE based on success or failure::
@@ -66,12 +76,11 @@ first parameter. Returns TRUE/FALSE based on success or failure::
 		echo 'Success!';
 	}
 
-.. note:: Not all database platforms support table optimization.
+.. note:: Not all database platforms support table optimization. It is
+	mostly for use with MySQL.
 
 $this->dbutil->repair_table('table_name');
-============================================
-
-.. note:: This features is only available for MySQL/MySQLi databases.
+==========================================
 
 Permits you to repair a table using the table name specified in the
 first parameter. Returns TRUE/FALSE based on success or failure::
@@ -86,8 +95,6 @@ first parameter. Returns TRUE/FALSE based on success or failure::
 $this->dbutil->optimize_database();
 ====================================
 
-.. note:: This features is only available for MySQL/MySQLi databases.
-
 Permits you to optimize the database your DB class is currently
 connected to. Returns an array containing the DB status messages or
 FALSE on failure.
@@ -101,13 +108,14 @@ FALSE on failure.
 		print_r($result);
 	}
 
-.. note:: Not all database platforms support table optimization.
+.. note:: Not all database platforms support table optimization. It
+	it is mostly for use with MySQL.
 
-$this->dbutil->csv_from_result($db_result)
-=============================================
+$this->dbutil->csv_from_result($db_result);
+===========================================
 
 Permits you to generate a CSV file from a query result. The first
-parameter of the function must contain the result object from your
+parameter of the method must contain the result object from your
 query. Example::
 
 	$this->load->dbutil();
@@ -127,12 +135,12 @@ is used as the enclosure. Example::
 
 	echo $this->dbutil->csv_from_result($query, $delimiter, $newline, $enclosure);
 
-.. important:: This function will NOT write the CSV file for you. It
+.. important:: This method will NOT write the CSV file for you. It
 	simply creates the CSV layout. If you need to write the file
 	use the :doc:`File Helper <../helpers/file_helper>`.
 
-$this->dbutil->xml_from_result($db_result)
-=============================================
+$this->dbutil->xml_from_result($db_result);
+===========================================
 
 Permits you to generate an XML file from a query result. The first
 parameter expects a query result object, the second may contain an
@@ -151,17 +159,17 @@ optional array of config parameters. Example::
 	
 	echo $this->dbutil->xml_from_result($query, $config);
 
-.. important:: This function will NOT write the XML file for you. It
+.. important:: This method will NOT write the XML file for you. It
 	simply creates the XML layout. If you need to write the file
 	use the :doc:`File Helper <../helpers/file_helper>`.
 
-$this->dbutil->backup()
-=======================
+$this->dbutil->backup();
+========================
 
 Permits you to backup your full database or individual tables. The
 backup data can be compressed in either Zip or Gzip format.
 
-.. note:: This features is only available for MySQL and Interbase/Firebird databases.
+.. note:: This feature is only available for MySQL and Interbase/Firebird databases.
 
 .. note:: For Interbase/Firebird databases, the backup file name is the only parameter.
 	
@@ -196,16 +204,16 @@ Setting Backup Preferences
 --------------------------
 
 Backup preferences are set by submitting an array of values to the first
-parameter of the backup function. Example::
+parameter of the ``backup()`` method. Example::
 
 	$prefs = array(
-		'tables'		=> array('table1', 'table2'),	// Array of tables to backup.
-		'ignore'		=> array(),						// List of tables to omit from the backup
-		'format'		=> 'txt',						// gzip, zip, txt
-		'filename'		=> 'mybackup.sql',				// File name - NEEDED ONLY WITH ZIP FILES
-		'add_drop'		=> TRUE,						// Whether to add DROP TABLE statements to backup file
-		'add_insert'	=> TRUE,						// Whether to add INSERT data to backup file
-		'newline'		=> "\n"							// Newline character used in backup file
+		'tables'	=> array('table1', 'table2'),	// Array of tables to backup.
+		'ignore'	=> array(),			// List of tables to omit from the backup
+		'format'	=> 'txt',			// gzip, zip, txt
+		'filename'	=> 'mybackup.sql',		// File name - NEEDED ONLY WITH ZIP FILES
+		'add_drop'	=> TRUE,			// Whether to add DROP TABLE statements to backup file
+		'add_insert'	=> TRUE,			// Whether to add INSERT data to backup file
+		'newline'	=> "\n"				// Newline character used in backup file
 	);
 	
 	$this->dbutil->backup($prefs);

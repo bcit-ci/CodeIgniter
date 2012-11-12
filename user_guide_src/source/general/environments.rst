@@ -11,8 +11,8 @@ when "live".
 The ENVIRONMENT Constant
 ========================
 
-By default, CodeIgniter comes with the environment constant set to use 
-the value provided in ``$_SERVER['CI_ENV']``, otherwise defaults to 
+By default, CodeIgniter comes with the environment constant set to use
+the value provided in ``$_SERVER['CI_ENV']``, otherwise defaults to
 'development'. At the top of index.php, you will see::
 
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');

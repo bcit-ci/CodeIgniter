@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Image Manipulation class
@@ -866,7 +867,11 @@ class CI_Image_lib {
 		}
 
 		$retval = 1;
-		@exec($cmd, $output, $retval);
+		// exec() might be disabled
+		if (function_usable('exec'))
+		{
+			@exec($cmd, $output, $retval);
+		}
 
 		// Did it work?
 		if ($retval > 0)
@@ -946,7 +951,11 @@ class CI_Image_lib {
 		$cmd = $this->library_path.$cmd_in.' '.$this->full_src_path.' | '.$cmd_inner.' | '.$cmd_out.' > '.$this->dest_folder.'netpbm.tmp';
 
 		$retval = 1;
-		@exec($cmd, $output, $retval);
+		// exec() might be disabled
+		if (function_usable('exec'))
+		{
+			@exec($cmd, $output, $retval);
+		}
 
 		// Did it work?
 		if ($retval > 0)
@@ -958,7 +967,7 @@ class CI_Image_lib {
 		// With NetPBM we have to create a temporary image.
 		// If you try manipulating the original it fails so
 		// we have to rename the temp file.
-		copy ($this->dest_folder.'netpbm.tmp', $this->full_dst_path);
+		copy($this->dest_folder.'netpbm.tmp', $this->full_dst_path);
 		unlink($this->dest_folder.'netpbm.tmp');
 		@chmod($this->full_dst_path, FILE_WRITE_MODE);
 

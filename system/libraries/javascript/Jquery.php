@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Jquery Class
@@ -36,13 +37,56 @@
  */
 class CI_Jquery extends CI_Javascript {
 
+	/**
+	 * JavaScript directory location
+	 *
+	 * @var	string
+	 */
 	protected $_javascript_folder = 'js';
+
+	/**
+	 * JQuery code for load
+	 *
+	 * @var	array
+	 */
 	public $jquery_code_for_load = array();
+
+	/**
+	 * JQuery code for compile
+	 *
+	 * @var	array
+	 */
 	public $jquery_code_for_compile = array();
+
+	/**
+	 * JQuery corner active flag
+	 *
+	 * @var	bool
+	 */
 	public $jquery_corner_active = FALSE;
+
+	/**
+	 * JQuery table sorter active flag
+	 *
+	 * @var	bool
+	 */
 	public $jquery_table_sorter_active = FALSE;
+
+	/**
+	 * JQuery table sorder pager active
+	 *
+	 * @var	bool
+	 */
 	public $jquery_table_sorter_pager_active = FALSE;
+
+	/**
+	 * JQuery AJAX image
+	 *
+	 * @var	string
+	 */
 	public $jquery_ajax_img = '';
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Constructor
@@ -382,8 +426,8 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery addClass event
 	 *
-	 * @param	string	$element = 'this'
-	 * @param	string	$class = ''
+	 * @param	string	$element
+	 * @param	string	$class
 	 * @return	string
 	 */
 	protected function _addClass($element = 'this', $class = '')
@@ -399,10 +443,10 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery animate event
 	 *
-	 * @param	string	$element = 'this'
-	 * @param	array	$params = array()
-	 * @param	string	$speed = ''		'slow', 'normal', 'fast', or time in milliseconds
-	 * @param	string	$extra = ''
+	 * @param	string	$element
+	 * @param	array	$params
+	 * @param	string	$speed	'slow', 'normal', 'fast', or time in milliseconds
+	 * @param	string	$extra
 	 * @return	string
 	 */
 	protected function _animate($element = 'this', $params = array(), $speed = '', $extra = '')
@@ -514,8 +558,8 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery remove class event
 	 *
-	 * @param	string	$element = 'this'
-	 * @param	string	$class = ''
+	 * @param	string	$element
+	 * @param	string	$class
 	 * @return	string
 	 */
 	protected function _removeClass($element = 'this', $class = '')
@@ -622,8 +666,8 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs a jQuery toggle class event
 	 *
-	 * @param	string	$element = 'this'
-	 * @param	string	$class = ''
+	 * @param	string	$element
+	 * @param	string	$class
 	 * @return	string
 	 */
 	protected function _toggleClass($element = 'this', $class = '')
@@ -707,9 +751,9 @@ class CI_Jquery extends CI_Javascript {
 	/**
 	 * Zebra tables
 	 *
-	 * @param	string	$class = ''
-	 * @param	string	$odd = 'odd'
-	 * @param	string	$hover = ''
+	 * @param	string	$class
+	 * @param	string	$odd
+	 * @param	string	$hover
 	 * @return	string
 	 */
 	protected function _zebraTables($class = '', $odd = 'odd', $hover = '')
@@ -734,10 +778,9 @@ class CI_Jquery extends CI_Javascript {
 	/**
 	 * Corner Plugin
 	 *
-	 * http://www.malsup.com/jquery/corner/
-	 *
-	 * @param	string	$element = ''
-	 * @param	string	$corner_style = ''
+	 * @link	http://www.malsup.com/jquery/corner/
+	 * @param	string	$element
+	 * @param	string	$corner_style
 	 * @return	string
 	 */
 	public function corner($element = '', $corner_style = '')
@@ -761,7 +804,7 @@ class CI_Jquery extends CI_Javascript {
 	 * Load a thickbox modal window
 	 *
 	 * @param	string	$src
-	 * @param	bool	$relative = FALSE
+	 * @param	bool	$relative
 	 * @return	void
 	 */
 	public function modal($src, $relative = FALSE)
@@ -777,7 +820,7 @@ class CI_Jquery extends CI_Javascript {
 	 * Load an Effect library
 	 *
 	 * @param	string	$src
-	 * @param	bool	$relative = FALSE
+	 * @param	bool	$relative
 	 * @return	void
 	 */
 	public function effect($src, $relative = FALSE)
@@ -793,7 +836,7 @@ class CI_Jquery extends CI_Javascript {
 	 * Load a plugin library
 	 *
 	 * @param	string	$src
-	 * @param	bool	$relative = FALSE
+	 * @param	bool	$relative
 	 * @return	void
 	 */
 	public function plugin($src, $relative = FALSE)
@@ -809,7 +852,7 @@ class CI_Jquery extends CI_Javascript {
 	 * Load a user interface library
 	 *
 	 * @param	string	$src
-	 * @param	bool	$relative = FALSE
+	 * @param	bool	$relative
 	 * @return	void
 	 */
 	public function ui($src, $relative = FALSE)
@@ -825,7 +868,7 @@ class CI_Jquery extends CI_Javascript {
 	 * Creates a jQuery sortable
 	 *
 	 * @param	string	$element
-	 * @param	array	$options = array()
+	 * @param	array	$options
 	 * @return	string
 	 */
 	public function sortable($element, $options = array())
@@ -896,8 +939,8 @@ class CI_Jquery extends CI_Javascript {
 	 * As events are specified, they are stored in an array
 	 * This funciton compiles them all for output on a page
 	 *
-	 * @param	string	$view_var = 'script_foot'
-	 * @param	bool	$script_tags = TRUE
+	 * @param	string	$view_var
+	 * @param	bool	$script_tags
 	 * @return	void
 	 */
 	protected function _compile($view_var = 'script_foot', $script_tags = TRUE)
@@ -963,8 +1006,8 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * Outputs the script tag that loads the jquery.js file into an HTML document
 	 *
-	 * @param	string	$library_src = ''
-	 * @param	bool	$relative = FALSE
+	 * @param	string	$library_src
+	 * @param	bool	$relative
 	 * @return	string
 	 */
 	public function script($library_src = '', $relative = FALSE)

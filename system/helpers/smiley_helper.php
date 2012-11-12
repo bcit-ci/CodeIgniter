@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter Smiley Helpers
@@ -130,10 +131,9 @@ if ( ! function_exists('get_clickable_smileys'))
 	 *
 	 * @param	string	the URL to the folder containing the smiley images
 	 * @param	array
-	 * @param	array
 	 * @return	array
 	 */
-	function get_clickable_smileys($image_url, $alias = '', $smileys = NULL)
+	function get_clickable_smileys($image_url, $alias = '')
 	{
 		// For backward compatibility with js_insert_smiley
 		if (is_array($alias))
@@ -142,7 +142,7 @@ if ( ! function_exists('get_clickable_smileys'))
 		}
 		elseif (FALSE === ($smileys = _get_smiley_array()))
 		{
-			return $smileys;
+			return FALSE;
 		}
 
 		// Add a trailing slash to the file path if needed

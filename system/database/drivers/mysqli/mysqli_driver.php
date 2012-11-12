@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * MySQLi Database Adapter Class
@@ -40,25 +41,46 @@
  */
 class CI_DB_mysqli_driver extends CI_DB {
 
+	/**
+	 * Database driver
+	 *
+	 * @var	string
+	 */
 	public $dbdriver = 'mysqli';
-	public $compress = FALSE;
-
-	// The character used for escaping
-	protected $_escape_char = '`';
-
-	protected $_random_keyword = ' RAND()'; // database specific random keyword
 
 	/**
+	 * Compression flag
+	 *
+	 * @var	bool
+	 */
+	public $compress = FALSE;
+
+	/**
+	 * DELETE hack flag
+	 *
 	 * Whether to use the MySQL "delete hack" which allows the number
 	 * of affected rows to be shown. Uses a preg_replace when enabled,
 	 * adding a bit more processing to all queries.
+	 *
+	 * @var	bool
 	 */
 	public $delete_hack = TRUE;
 
+	// --------------------------------------------------------------------
+
 	/**
-	 * Non-persistent database connection
+	 * Identifier escape character
 	 *
-	 * @param	bool
+	 * @var	string
+	 */
+	protected $_escape_char = '`';
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Database connection
+	 *
+	 * @param	bool	$persistent
 	 * @return	object
 	 * @todo	SSL support
 	 */
@@ -110,7 +132,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	/**
 	 * Select the database
 	 *
-	 * @param	string	database name
+	 * @param	string	$database
 	 * @return	bool
 	 */
 	public function db_select($database = '')
@@ -134,7 +156,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	/**
 	 * Set client character set
 	 *
-	 * @param	string
+	 * @param	string	$charset
 	 * @return	bool
 	 */
 	protected function _db_set_charset($charset)
@@ -151,9 +173,16 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	public function version()
 	{
-		return isset($this->data_cache['version'])
-			? $this->data_cache['version']
-			: $this->data_cache['version'] = $this->conn_id->server_info;
+		if (isset($this->data_cache['version']))
+		{
+			return $this->data_cache['version'];
+		}
+		elseif ( ! $this->conn_id)
+		{
+			$this->initialize();
+		}
+
+		return $this->data_cache['version'] = $this->conn_id->server_info;
 	}
 
 	// --------------------------------------------------------------------
@@ -161,7 +190,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	/**
 	 * Execute the query
 	 *
-	 * @param	string	an SQL query
+	 * @param	string	$sql	an SQL query
 	 * @return	mixed
 	 */
 	protected function _execute($sql)
@@ -176,7 +205,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 *
 	 * If needed, each database adapter can prep the query string
 	 *
-	 * @param	string	an SQL query
+	 * @param	string	$sql	an SQL query
 	 * @return	string
 	 */
 	protected function _prep_query($sql)
@@ -196,7 +225,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
-	 * @param	bool	$test_mode = FALSE
+	 * @param	bool	$test_mode
 	 * @return	bool
 	 */
 	public function trans_begin($test_mode = FALSE)
@@ -262,8 +291,8 @@ class CI_DB_mysqli_driver extends CI_DB {
 	/**
 	 * Escape String
 	 *
-	 * @param	string
-	 * @param	bool	whether or not the string will be used in a LIKE condition
+	 * @param	string	$str
+	 * @param	bool	$like	Whether or not the string will be used in a LIKE condition
 	 * @return	string
 	 */
 	public function escape_str($str, $like = FALSE)
@@ -322,7 +351,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	bool
+	 * @param	bool	$prefix_limit
 	 * @return	string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
@@ -344,7 +373,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _list_columns($table = '')
@@ -357,7 +386,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	/**
 	 * Returns an object with field data
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	object
 	 */
 	public function field_data($table = '')
@@ -416,9 +445,9 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific batch update string from the supplied data
 	 *
-	 * @param	string	the table name
-	 * @param	array	the update data
-	 * @param	string	the where key
+	 * @param	string	$table	Table name
+	 * @param	array	$values	Update data
+	 * @param	string	$index	WHERE key
 	 * @return	string
 	 */
 	protected function _update_batch($table, $values, $index)

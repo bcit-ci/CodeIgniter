@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 3.0.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * PDO PostgreSQL Database Adapter Class
@@ -40,9 +41,12 @@
  */
 class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 
+	/**
+	 * Sub-driver
+	 *
+	 * @var	string
+	 */
 	public $subdriver = 'pgsql';
-
-	protected $_random_keyword = ' RANDOM()';
 
 	/**
 	 * Database schema
@@ -51,12 +55,23 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	 */
 	public $schema = 'public';
 
+	// --------------------------------------------------------------------
+
 	/**
-	 * Constructor
+	 * ORDER BY random keyword
+	 *
+	 * @var	string
+	 */
+	protected $_random_keyword = ' RANDOM()';
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Class constructor
 	 *
 	 * Builds the DSN if not already set.
 	 *
-	 * @param	array
+	 * @param	array	$params
 	 * @return	void
 	 */
 	public function __construct($params)
@@ -77,7 +92,7 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	/**
 	 * Insert ID
 	 *
-	 * @param	string
+	 * @param	string	$name
 	 * @return	int
 	 */
 	public function insert_id($name = NULL)
@@ -99,7 +114,7 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	bool	$prefix_limit = FALSE
+	 * @param	bool	$prefix_limit
 	 * @return	string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
@@ -123,7 +138,7 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _list_columns($table = '')
@@ -138,7 +153,7 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _field_data($table)
@@ -153,8 +168,8 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific update string from the supplied data
 	 *
-	 * @param	string	the table name
-	 * @param	array	the update data
+	 * @param	string	$table
+	 * @param	array	$values
 	 * @return	string
          */
 	protected function _update($table, $values)
@@ -171,9 +186,9 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific batch update string from the supplied data
 	 *
-	 * @param	string	the table name
-	 * @param	array	the update data
-	 * @param	string	the where key
+	 * @param	string	$table	Table name
+	 * @param	array	$values	Update data
+	 * @param	string	$index	WHERE key
 	 * @return	string
 	 */
 	protected function _update_batch($table, $values, $index)
@@ -212,7 +227,7 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific delete string from the supplied data
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _delete($table)
@@ -224,11 +239,11 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Limit string
+	 * LIMIT
 	 *
 	 * Generates a platform-specific LIMIT clause
 	 *
-	 * @param	string	the sql query string
+	 * @param	string	$sql	SQL Query
 	 * @return	string
 	 */
 	protected function _limit($sql)

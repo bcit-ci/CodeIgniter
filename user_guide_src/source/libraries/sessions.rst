@@ -388,7 +388,7 @@ session class::
 		user_agent varchar(120) NOT NULL,
 		last_activity int(10) unsigned DEFAULT 0 NOT NULL,
 		user_data text NOT NULL,
-		PRIMARY KEY (session_id),
+		PRIMARY KEY (session_id, ip_address, user_agent),
 		KEY `last_activity_idx` (`last_activity`)
 	);
 

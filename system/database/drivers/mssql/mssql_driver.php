@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * MS SQL Database Adapter Class
@@ -40,18 +41,36 @@
  */
 class CI_DB_mssql_driver extends CI_DB {
 
+	/**
+	 * Database driver
+	 *
+	 * @var	string
+	 */
 	public $dbdriver = 'mssql';
 
-	// The character used for escaping
-	protected $_escape_char = '"';
-
-	protected $_random_keyword = ' NEWID()';
-
-	// MSSQL-specific properties
-	protected $_quoted_identifier = TRUE;
+	// --------------------------------------------------------------------
 
 	/**
-	 * Constructor
+	 * ORDER BY random keyword
+	 *
+	 * @var	string
+	 */
+	protected $_random_keyword = ' NEWID()';
+
+	/**
+	 * Quoted identifier flag
+	 *
+	 * Whether to use SQL-92 standard quoted identifier
+	 * (double quotes) or brackets for identifier escaping.
+	 *
+	 * @var	bool
+	 */
+	protected $_quoted_identifier = TRUE;
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Class constructor
 	 *
 	 * Appends the port number to the hostname, if needed.
 	 *
@@ -73,7 +92,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	/**
 	 * Non-persistent database connection
 	 *
-	 * @param	bool
+	 * @param	bool	$persistent
 	 * @return	resource
 	 */
 	public function db_connect($persistent = FALSE)
@@ -113,7 +132,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	/**
 	 * Select the database
 	 *
-	 * @param	string	database name
+	 * @param	string	$database
 	 * @return	bool
 	 */
 	public function db_select($database = '')
@@ -139,7 +158,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	/**
 	 * Execute the query
 	 *
-	 * @param	string	an SQL query
+	 * @param	string	$sql	an SQL query
 	 * @return	mixed	resource if rows are returned, bool otherwise
 	 */
 	protected function _execute($sql)
@@ -152,7 +171,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
-	 * @param	bool	$test_mode = FALSE
+	 * @param	bool	$test_mode
 	 * @return	bool
 	 */
 	public function trans_begin($test_mode = FALSE)
@@ -212,8 +231,8 @@ class CI_DB_mssql_driver extends CI_DB {
 	/**
 	 * Escape String
 	 *
-	 * @param	string
-	 * @param	bool	whether or not the string will be used in a LIKE condition
+	 * @param	string	$str
+	 * @param	bool	$like	Whether or not the string will be used in a LIKE condition
 	 * @return	string
 	 */
 	public function escape_str($str, $like = FALSE)
@@ -295,7 +314,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	bool
+	 * @param	bool	$prefix_limit
 	 * @return	string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
@@ -320,7 +339,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _list_columns($table = '')
@@ -335,7 +354,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _field_data($table)
@@ -367,8 +386,8 @@ class CI_DB_mssql_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific update string from the supplied data
 	 *
-	 * @param	string	the table name
-	 * @param	array	the update data
+	 * @param	string	$table
+	 * @param	array	$values
 	 * @return	string
 	 */
 	protected function _update($table, $values)
@@ -385,10 +404,10 @@ class CI_DB_mssql_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific truncate string from the supplied data
 	 *
-	 * If the database does not support the truncate() command,
+	 * If the database does not support the TRUNCATE statement,
 	 * then this method maps to 'DELETE FROM table'
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _truncate($table)
@@ -403,7 +422,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific delete string from the supplied data
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _delete($table)
@@ -419,11 +438,11 @@ class CI_DB_mssql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Limit string
+	 * LIMIT
 	 *
 	 * Generates a platform-specific LIMIT clause
 	 *
-	 * @param	string	the sql query string
+	 * @param	string	$sql	SQL Query
 	 * @return	string
 	 */
 	protected function _limit($sql)
@@ -465,6 +484,29 @@ class CI_DB_mssql_driver extends CI_DB {
 		}
 
 		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$limit.' ', $sql);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Insert batch statement
+	 *
+	 * Generates a platform-specific insert string from the supplied data.
+	 *
+	 * @param	string	$table	Table name
+	 * @param	array	$keys	INSERT keys
+	 * @param	array	$values	INSERT values
+	 * @return	string|bool
+	 */
+	protected function _insert_batch($table, $keys, $values)
+	{
+		// Multiple-value inserts are only supported as of SQL Server 2008
+		if (version_compare($this->version(), '10', '>='))
+		{
+			return parent::_insert_batch($table, $keys, $values);
+		}
+
+		return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
 	}
 
 	// --------------------------------------------------------------------

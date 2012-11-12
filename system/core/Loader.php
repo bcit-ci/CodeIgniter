@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Loader Class
@@ -129,7 +130,7 @@ class CI_Loader {
 	/**
 	 * Class constructor
 	 *
-	 * Sets component load paths gets the initial output buffering level.
+	 * Sets component load paths, gets the initial output buffering level.
 	 *
 	 * @return	void
 	 */
@@ -147,21 +148,18 @@ class CI_Loader {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Initialize the Loader
+	 * Initializer
 	 *
-	 * @used-by	CI_Controller
+	 * @todo	Figure out a way to move this to the constructor
+	 *		without breaking *package_path*() methods.
 	 * @uses	CI_Loader::_ci_autoloader()
-	 * @return 	object	$this
+	 * @used-by	CI_Controller::__construct()
+	 * @return	void
 	 */
 	public function initialize()
 	{
-		$this->_ci_classes = array();
-		$this->_ci_loaded_files = array();
-		$this->_ci_models = array();
 		$this->_base_classes =& is_loaded();
-
 		$this->_ci_autoloader();
-		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -354,26 +352,30 @@ class CI_Loader {
 	/**
 	 * Load the Database Utilities Class
 	 *
-	 * @return	void
+	 * @param	object	$db	Database object
+	 * @param	bool	$return	Whether to return the DB Forge class object or not
+	 * @return	void|object
 	 */
-	public function dbutil()
+	public function dbutil($db = NULL, $return = FALSE)
 	{
-		if ( ! class_exists('CI_DB'))
-		{
-			$this->database();
-		}
-
 		$CI =& get_instance();
 
-		// for backwards compatibility, load dbforge so we can extend dbutils off it
-		// this use is deprecated and strongly discouraged
-		$CI->load->dbforge();
+		if ( ! is_object($db) OR ! ($db instanceof CI_DB))
+		{
+			class_exists('CI_DB', FALSE) OR $this->database();
+			$db =& $CI->db;
+		}
 
 		require_once(BASEPATH.'database/DB_utility.php');
-		require_once(BASEPATH.'database/drivers/'.$CI->db->dbdriver.'/'.$CI->db->dbdriver.'_utility.php');
-		$class = 'CI_DB_'.$CI->db->dbdriver.'_utility';
+		require_once(BASEPATH.'database/drivers/'.$db->dbdriver.'/'.$db->dbdriver.'_utility.php');
+		$class = 'CI_DB_'.$db->dbdriver.'_utility';
 
-		$CI->dbutil = new $class();
+		if ($return === TRUE)
+		{
+			return new $class($db);
+		}
+
+		$CI->dbutil = new $class($db);
 	}
 
 	// --------------------------------------------------------------------
@@ -381,22 +383,42 @@ class CI_Loader {
 	/**
 	 * Load the Database Forge Class
 	 *
-	 * @return	void
+	 * @param	object	$db	Database object
+	 * @param	bool	$return	Whether to return the DB Forge class object or not
+	 * @return	void|object
 	 */
-	public function dbforge()
+	public function dbforge($db = NULL, $return = FALSE)
 	{
-		if ( ! class_exists('CI_DB'))
+		$CI =& get_instance();
+		if ( ! is_object($db) OR ! ($db instanceof CI_DB))
 		{
-			$this->database();
+			class_exists('CI_DB', FALSE) OR $this->database();
+			$db =& $CI->db;
 		}
 
-		$CI =& get_instance();
-
 		require_once(BASEPATH.'database/DB_forge.php');
-		require_once(BASEPATH.'database/drivers/'.$CI->db->dbdriver.'/'.$CI->db->dbdriver.'_forge.php');
-		$class = 'CI_DB_'.$CI->db->dbdriver.'_forge';
+		require_once(BASEPATH.'database/drivers/'.$db->dbdriver.'/'.$db->dbdriver.'_forge.php');
 
-		$CI->dbforge = new $class();
+		if ( ! empty($db->subdriver))
+		{
+			$driver_path = BASEPATH.'database/drivers/'.$db->dbdriver.'/subdrivers/'.$db->dbdriver.'_'.$db->subdriver.'_forge.php';
+			if (file_exists($driver_path))
+			{
+				require_once($driver_path);
+				$class = 'CI_DB_'.$db->dbdriver.'_'.$db->subdriver.'_forge';
+			}
+		}
+		else
+		{
+			$class = 'CI_DB_'.$db->dbdriver.'_forge';
+		}
+
+		if ($return === TRUE)
+		{
+			return new $class($db);
+		}
+
+		$CI->dbforge = new $class($db);
 	}
 
 	// --------------------------------------------------------------------
@@ -510,27 +532,34 @@ class CI_Loader {
 				continue;
 			}
 
-			$ext_helper = APPPATH.'helpers/'.config_item('subclass_prefix').$helper.'.php';
-
 			// Is this a helper extension request?
-			if (file_exists($ext_helper))
+			$ext_helper = config_item('subclass_prefix').$helper;
+			$ext_loaded = FALSE;
+			foreach ($this->_ci_helper_paths as $path)
+			{
+				if (file_exists($path.'helpers/'.$ext_helper.'.php'))
+				{
+					include_once($path.'helpers/'.$ext_helper.'.php');
+					$ext_loaded = TRUE;
+				}
+			}
+
+			// If we have loaded extensions - check if the base one is here
+			if ($ext_loaded === TRUE)
 			{
 				$base_helper = BASEPATH.'helpers/'.$helper.'.php';
-
 				if ( ! file_exists($base_helper))
 				{
 					show_error('Unable to load the requested file: helpers/'.$helper.'.php');
 				}
 
-				include_once($ext_helper);
 				include_once($base_helper);
-
 				$this->_ci_helpers[$helper] = TRUE;
 				log_message('debug', 'Helper loaded: '.$helper);
 				continue;
 			}
 
-			// Try to load the helper
+			// No extensions found ... try loading regular helpers and/or overrides
 			foreach ($this->_ci_helper_paths as $path)
 			{
 				if (file_exists($path.'helpers/'.$helper.'.php'))
@@ -849,7 +878,9 @@ class CI_Loader {
 		// If the PHP installation does not support short tags we'll
 		// do a little string replacement, changing the short tags
 		// to standard PHP echo statements.
-		if ( ! is_php('5.4') && (bool) @ini_get('short_open_tag') === FALSE && config_item('rewrite_short_tags') === TRUE)
+		if ( ! is_php('5.4') && (bool) @ini_get('short_open_tag') === FALSE
+			&& config_item('rewrite_short_tags') === TRUE && function_usable('eval')
+		)
 		{
 			echo eval('?>'.preg_replace('/;*\s*\?>/', '; ?>', str_replace('<?=', '<?php echo ', file_get_contents($_ci_path))));
 		}
