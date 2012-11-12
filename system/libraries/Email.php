@@ -1935,7 +1935,7 @@ class CI_Email {
 
 		$this->_debug_msg[] = '<pre>'.$cmd.': '.$reply.'</pre>';
 
-		if ( (int) substr($reply, 0, 3) !== $resp)
+		if ((int) substr($reply, 0, 3) !== $resp)
 		{
 			$this->_set_error_message('lang:email_smtp_error', $reply);
 			return FALSE;
@@ -2093,7 +2093,7 @@ class CI_Email {
 		$CI =& get_instance();
 		$CI->lang->load('email');
 
-		if (substr($msg, 0, 5) !== 'lang:' OR FALSE === ($line = $CI->lang->line(substr($msg, 5))))
+		if (sscanf($msg, 'lang:%s', $line) !== 1 OR FALSE === ($line = $CI->lang->line($line)))
 		{
 			$this->_debug_msg[] = str_replace('%s', $val, $msg).'<br />';
 		}

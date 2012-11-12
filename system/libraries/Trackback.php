@@ -394,7 +394,7 @@ class CI_Trackback {
 			}
 		}
 
-		return preg_match('/^[0-9]+$/', $tb_id) ? $tb_id : FALSE;
+		return ctype_digit((string) $tb_id) ? $tb_id : FALSE;
 	}
 
 	// --------------------------------------------------------------------
