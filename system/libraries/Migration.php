@@ -153,7 +153,7 @@ class CI_Migration {
 		if ( ! $this->db->table_exists($this->_migration_table))
 		{
 			$this->dbforge->add_field(array(
-				'version' => array('type' => 'BIGINT', 'constraint' => 3),
+				'version' => array('type' => 'BIGINT', 'constraint' => 20),
 			));
 
 			$this->dbforge->create_table($this->_migration_table, TRUE);
