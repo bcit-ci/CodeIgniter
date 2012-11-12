@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -22,7 +22,9 @@
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
+ * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter Form Helpers
@@ -124,9 +126,9 @@ if ( ! function_exists('form_hidden'))
 	 * Generates hidden fields. You can pass a simple key/value string or
 	 * an associative array with multiple values.
 	 *
-	 * @param	mixed
-	 * @param	string
-	 * @param	bool
+	 * @param	mixed	$name		Field name
+	 * @param	string	$value		Field value
+	 * @param	bool	$recursing
 	 * @return	string
 	 */
 	function form_hidden($name, $value = '', $recursing = FALSE)
@@ -149,7 +151,7 @@ if ( ! function_exists('form_hidden'))
 
 		if ( ! is_array($value))
 		{
-			$form .= '<input type="hidden" name="'.$name.'" value="'.html_escape($value)."\" />\n";
+			$form .= '<input type="hidden" name="'.$name.'" value="'.form_prep($value)."\" />\n";
 		}
 		else
 		{
@@ -243,9 +245,9 @@ if ( ! function_exists('form_textarea'))
 	/**
 	 * Textarea field
 	 *
-	 * @param	mixed
-	 * @param	string
-	 * @param	string
+	 * @param	mixed	$data
+	 * @param	string	$value
+	 * @param	string	$extra
 	 * @return	string
 	 */
 	function form_textarea($data = '', $value = '', $extra = '')
@@ -263,7 +265,7 @@ if ( ! function_exists('form_textarea'))
 		}
 
 		$name = is_array($data) ? $data['name'] : $data;
-		return '<textarea '._parse_form_attributes($data, $defaults).$extra.'>'.html_escape($val)."</textarea>\n";
+		return '<textarea '._parse_form_attributes($data, $defaults).$extra.'>'.form_prep($val, TRUE)."</textarea>\n";
 	}
 }
 
@@ -298,10 +300,10 @@ if ( ! function_exists('form_dropdown'))
 	/**
 	 * Drop-down Menu
 	 *
-	 * @param	mixed	$name = ''
-	 * @param	mixed	$options = array()
-	 * @param	mixed	$selected = array()
-	 * @param	mixed	$extra = array()
+	 * @param	mixed	$name
+	 * @param	mixed	$options
+	 * @param	mixed	$selected
+	 * @param	mixed	$extra
 	 * @return	string
 	 */
 	function form_dropdown($name = '', $options = array(), $selected = array(), $extra = '')
@@ -349,7 +351,7 @@ if ( ! function_exists('form_dropdown'))
 				foreach ($val as $optgroup_key => $optgroup_val)
 				{
 					$sel = in_array($optgroup_key, $selected) ? ' selected="selected"' : '';
-					$form .= '<option value="'.html_escape($optgroup_key).'"'.$sel.'>'
+					$form .= '<option value="'.form_prep($optgroup_key).'"'.$sel.'>'
 						.(string) $optgroup_val."</option>\n";
 				}
 
@@ -357,7 +359,7 @@ if ( ! function_exists('form_dropdown'))
 			}
 			else
 			{
-				$form .= '<option value="'.html_escape($key).'"'
+				$form .= '<option value="'.form_prep($key).'"'
 					.(in_array($key, $selected) ? ' selected="selected"' : '').'>'
 					.(string) $val."</option>\n";
 			}
@@ -600,17 +602,28 @@ if ( ! function_exists('form_prep'))
 	 *
 	 * Formats text so that it can be safely placed in a form field in the event it has HTML tags.
 	 *
-	 * @todo	Remove in version 3.1+.
-	 * @deprecated	3.0.0	This function has been broken for a long time
-	 *			and is now just an alias for html_escape(). It's
-	 *			second argument is ignored.
-	 * @param	string	$str = ''
-	 * @param	string	$field_name = ''
-	 * @return	string
+	 * @param	string|string[]	$str		Value to escape
+	 * @param	bool		$is_textarea	Whether we're escaping for a textarea element
+	 * @return	string|string[]	Escaped values
 	 */
-	function form_prep($str = '', $field_name = '')
+	function form_prep($str = '', $is_textarea = FALSE)
 	{
-		return html_escape($str);
+		if (is_array($str))
+		{
+			foreach (array_keys($str) as $key)
+			{
+				$str[$key] = form_prep($str[$key], $is_textarea);
+			}
+
+			return $str;
+		}
+
+		if ($is_textarea === TRUE)
+		{
+			return str_replace(array('<', '>'), array('&lt;', '&gt;'), stripslashes($str));
+		}
+
+		return str_replace(array("'", '"'), array('&#39;', '&quot;'), stripslashes($str));
 	}
 }
 
@@ -625,23 +638,21 @@ if ( ! function_exists('set_value'))
 	 * re-populate an input field or textarea. If Form Validation
 	 * is active it retrieves the info from the validation class
 	 *
-	 * @param	string
-	 * @param	string
-	 * @return	mixed
+	 * @param	string	$field		Field name
+	 * @param	string	$default	Default value
+	 * @param	bool	$is_textarea	Whether the field is a textarea element
+	 * @return	string
 	 */
-	function set_value($field = '', $default = '')
+	function set_value($field = '', $default = '', $is_textarea = FALSE)
 	{
 		if (FALSE === ($OBJ =& _get_validation_object()))
 		{
-			if ( ! isset($_POST[$field]))
-			{
-				return html_escape($default);
-			}
-
-			return html_escape($_POST[$field]);
+			return isset($_POST[$field])
+				? form_prep($_POST[$field], $is_textarea)
+				: form_prep($default, $is_textarea);
 		}
 
-		return html_escape($OBJ->set_value($field, $default));
+		return form_prep($OBJ->set_value($field, $default), $is_textarea);
 	}
 }
 
@@ -862,8 +873,8 @@ if ( ! function_exists('_parse_form_attributes'))
 	 *
 	 * Helper function used by some of the form helpers
 	 *
-	 * @param	array
-	 * @param	array
+	 * @param	array	$attributes	List of attributes
+	 * @param	array	$default	Default values
 	 * @return	string
 	 */
 	function _parse_form_attributes($attributes, $default)
@@ -891,7 +902,7 @@ if ( ! function_exists('_parse_form_attributes'))
 		{
 			if ($key === 'value')
 			{
-				$val = html_escape($val);
+				$val = form_prep($val);
 			}
 			elseif ($key === 'name' && ! strlen($default['name']))
 			{

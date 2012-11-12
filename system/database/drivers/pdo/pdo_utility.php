@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 2.1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * PDO Utility Class
@@ -34,18 +35,16 @@
  */
 class CI_DB_pdo_utility extends CI_DB_utility {
 
-	protected $_list_databases = FALSE;
-
 	/**
-	 * PDO Export
+	 * Export
 	 *
-	 * @param	array	Preferences
+	 * @param	array	$params	Preferences
 	 * @return	mixed
 	 */
 	protected function _backup($params = array())
 	{
 		// Currently unsupported
-		return $this->db->display_error('db_unsuported_feature');
+		return $this->db->display_error('db_unsupported_feature');
 	}
 
 }

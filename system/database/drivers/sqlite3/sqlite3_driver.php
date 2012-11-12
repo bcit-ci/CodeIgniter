@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * SQLite3 Database Adapter Class
@@ -41,12 +42,23 @@
  */
 class CI_DB_sqlite3_driver extends CI_DB {
 
+	/**
+	 * Database driver
+	 *
+	 * @var	string
+	 */
 	public $dbdriver = 'sqlite3';
 
-	// The character used for escaping
-	protected $_escape_char = '"';
+	// --------------------------------------------------------------------
 
+	/**
+	 * ORDER BY random keyword
+	 *
+	 * @var	string
+	 */
 	protected $_random_keyword = ' RANDOM()';
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Non-persistent database connection
@@ -119,7 +131,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
-	 * @param	bool	$test_mode = FALSE
+	 * @param	bool	$test_mode
 	 * @return	bool
 	 */
 	public function trans_begin($test_mode = FALSE)
@@ -179,8 +191,8 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * Escape String
 	 *
-	 * @param	string
-	 * @param	bool	whether or not the string will be used in a LIKE condition
+	 * @param	string	$str
+	 * @param	bool	$like	Whether or not the string will be used in a LIKE condition
 	 * @return	string
 	 */
 	public function escape_str($str, $like = FALSE)
@@ -239,7 +251,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	bool
+	 * @param	bool	$prefix_limit
 	 * @return	string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
@@ -257,7 +269,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _list_columns($table = '')
@@ -273,7 +285,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _field_data($table)
@@ -303,9 +315,9 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific replace string from the supplied data
 	 *
-	 * @param	string	the table name
-	 * @param	array	the insert keys
-	 * @param	array	the insert values
+	 * @param	string	$table	Table name
+	 * @param	array	$keys	INSERT keys
+	 * @param	array	$values	INSERT values
 	 * @return	string
 	 */
 	protected function _replace($table, $keys, $values)
@@ -320,10 +332,10 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific truncate string from the supplied data
 	 *
-	 * If the database does not support the truncate() command, then,
+	 * If the database does not support the TRUNCATE statement,
 	 * then this method maps to 'DELETE FROM table'
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _truncate($table)

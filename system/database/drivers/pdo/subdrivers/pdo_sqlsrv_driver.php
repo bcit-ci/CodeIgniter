@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 3.0.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * PDO SQLSRV Database Adapter Class
@@ -40,18 +41,40 @@
  */
 class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
 
+	/**
+	 * Sub-driver
+	 *
+	 * @var	string
+	 */
 	public $subdriver = 'sqlsrv';
 
-	protected $_random_keyword = ' NEWID()';
-
-	protected $_quoted_identifier;
+	// --------------------------------------------------------------------
 
 	/**
-	 * Constructor
+	 * ORDER BY random keyword
+	 *
+	 * @var	string
+	 */
+	protected $_random_keyword = ' NEWID()';
+
+	/**
+	 * Quoted identifier flag
+	 *
+	 * Whether to use SQL-92 standard quoted identifier
+	 * (double quotes) or brackets for identifier escaping.
+	 *
+	 * @var	bool
+	 */
+	protected $_quoted_identifier;
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Class constructor
 	 *
 	 * Builds the DSN if not already set.
 	 *
-	 * @param	array
+	 * @param	array	$params
 	 * @return	void
 	 */
 	public function __construct($params)
@@ -109,9 +132,9 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Non-persistent database connection
+	 * Database connection
 	 *
-	 * @param	bool
+	 * @param	bool	$persistent
 	 * @return	object
 	 */
 	public function db_connect($persistent = FALSE)
@@ -144,7 +167,7 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	bool
+	 * @param	bool	$prefix_limit
 	 * @return	string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
@@ -169,7 +192,7 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _list_columns($table = '')
@@ -186,8 +209,8 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific update string from the supplied data
 	 *
-	 * @param	string	the table name
-	 * @param	array	the update data
+	 * @param	string	$table
+	 * @param	array	$values
 	 * @return	string
          */
 	protected function _update($table, $values)
@@ -204,7 +227,7 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific delete string from the supplied data
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _delete($table)
@@ -220,11 +243,11 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Limit string
+	 * LIMIT
 	 *
 	 * Generates a platform-specific LIMIT clause
 	 *
-	 * @param	string	the sql query string
+	 * @param	string	$sql	SQL Query
 	 * @return	string
 	 */
 	protected function _limit($sql)
@@ -271,6 +294,29 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
 		}
 
 		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$limit.' ', $sql);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Insert batch statement
+	 *
+	 * Generates a platform-specific insert string from the supplied data.
+	 *
+	 * @param	string	$table	Table name
+	 * @param	array	$keys	INSERT keys
+	 * @param	array	$values	INSERT values
+	 * @return	string|bool
+	 */
+	protected function _insert_batch($table, $keys, $values)
+	{
+		// Multiple-value inserts are only supported as of SQL Server 2008
+		if (version_compare($this->version(), '10', '>='))
+		{
+			return parent::_insert_batch($table, $keys, $values);
+		}
+
+		return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
 	}
 
 }

@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 2.1
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CUBRID Database Adapter Class
@@ -40,18 +41,33 @@
  */
 class CI_DB_cubrid_driver extends CI_DB {
 
+	/**
+	 * Database driver
+	 *
+	 * @var	string
+	 */
 	public $dbdriver = 'cubrid';
 
-	// The character used for escaping - no need in CUBRID
-	protected $_escape_char = '`';
-
-	protected $_random_keyword = ' RAND()'; // database specific random keyword
-
-	// CUBRID-specific properties
+	/**
+	 * Auto-commit flag
+	 *
+	 * @var	bool
+	 */
 	public $auto_commit = TRUE;
 
+	// --------------------------------------------------------------------
+
 	/**
-	 * Constructor
+	 * Identifier escape character
+	 *
+	 * @var	string
+	 */
+	protected $_escape_char = '`';
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Class constructor
 	 *
 	 * @param	array	$params
 	 * @return	void
@@ -113,7 +129,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 * Except for determining if a persistent connection should be used,
 	 * the rest of the logic is the same for db_connect() and db_pconnect().
 	 *
-	 * @param	bool
+	 * @param	bool	$persistent
 	 * @return	resource
 	 */
 	protected function _cubrid_connect($persistent = FALSE)
@@ -163,9 +179,18 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	public function version()
 	{
-		return isset($this->data_cache['version'])
-			? $this->data_cache['version']
-			: $this->data_cache['version'] = cubrid_get_server_info($this->conn_id);
+		if (isset($this->data_cache['version']))
+		{
+			return $this->data_cache['version'];
+		}
+		elseif ( ! $this->conn_id)
+		{
+			$this->initialize();
+		}
+
+		return ( ! $this->conn_id OR ($version = cubrid_get_server_info($this->conn_id)) === FALSE)
+			? FALSE
+			: $this->data_cache['version'] = $version;
 	}
 
 	// --------------------------------------------------------------------
@@ -173,7 +198,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	/**
 	 * Execute the query
 	 *
-	 * @param	string	an SQL query
+	 * @param	string	$sql	an SQL query
 	 * @return	resource
 	 */
 	protected function _execute($sql)
@@ -186,7 +211,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
-	 * @param	bool	$test_mode = FALSE
+	 * @param	bool	$test_mode
 	 * @return	bool
 	 */
 	public function trans_begin($test_mode = FALSE)
@@ -265,8 +290,8 @@ class CI_DB_cubrid_driver extends CI_DB {
 	/**
 	 * Escape String
 	 *
-	 * @param	string
-	 * @param	bool	whether or not the string will be used in a LIKE condition
+	 * @param	string	$str
+	 * @param	bool	$like	Whether or not the string will be used in a LIKE condition
 	 * @return	string
 	 */
 	public function escape_str($str, $like = FALSE)
@@ -332,7 +357,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	bool
+	 * @param	bool	$prefix_limit
 	 * @return	string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
@@ -354,7 +379,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _list_columns($table = '')
@@ -369,7 +394,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _field_data($table)
@@ -399,9 +424,9 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific batch update string from the supplied data
 	 *
-	 * @param	string	the table name
-	 * @param	array	the update data
-	 * @param	string	the where key
+	 * @param	string	$table	Table name
+	 * @param	array	$values	Update data
+	 * @param	string	$index	WHERE key
 	 * @return	string
 	 */
 	protected function _update_batch($table, $values, $index)

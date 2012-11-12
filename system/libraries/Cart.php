@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Shopping Cart Class
@@ -193,7 +194,7 @@ class CI_Cart {
 		$items['qty'] = (float) $items['qty'];
 
 		// If the quantity is zero or blank there's nothing for us to do
-		if ( ! is_numeric($items['qty']) OR $items['qty'] == 0)
+		if ($items['qty'] == 0)
 		{
 			return FALSE;
 		}
@@ -223,15 +224,6 @@ class CI_Cart {
 
 		// Prep the price. Remove leading zeros and anything that isn't a number or decimal point.
 		$items['price'] = (float) $items['price'];
-
-		// Is the price a valid number?
-		if ( ! is_numeric($items['price']))
-		{
-			log_message('error', 'An invalid price was submitted for product ID: '.$items['id']);
-			return FALSE;
-		}
-
-		// --------------------------------------------------------------------
 
 		// We now need to create a unique identifier for the item being inserted into the cart.
 		// Every time something is added to the cart it is stored in the master cart array.
@@ -349,12 +341,6 @@ class CI_Cart {
 
 		// Prep the quantity
 		$items['qty'] = (float) $items['qty'];
-
-		// Is the quantity a number?
-		if ( ! is_numeric($items['qty']))
-		{
-			return FALSE;
-		}
 
 		// Is the quantity zero?  If so we will remove the item from the cart.
 		// If the quantity is greater than zero we are updating

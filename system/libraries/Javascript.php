@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Javascript Class
@@ -36,12 +37,19 @@
  */
 class CI_Javascript {
 
+	/**
+	 * JavaScript location
+	 *
+	 * @var	string
+	 */
 	protected $_javascript_location = 'js';
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Constructor
 	 *
-	 * @param	array	$params = array()
+	 * @param	array	$params
 	 * @return	void
 	 */
 	public function __construct($params = array())
@@ -586,8 +594,8 @@ class CI_Javascript {
 	 *
 	 * gather together all script needing to be output
 	 *
-	 * @param	string	$view_var = 'script_foot'
-	 * @param	bool	$script_tags = TRUE
+	 * @param	string	$view_var
+	 * @param	bool	$script_tags
 	 * @return	string
 	 */
 	public function compile($view_var = 'script_foot', $script_tags = TRUE)
@@ -616,8 +624,8 @@ class CI_Javascript {
 	 *
 	 * Outputs a <script> tag with the source as an external js file
 	 *
-	 * @param	string	$external_file = ''
-	 * @param	bool	$relative = FALSE
+	 * @param	string	$external_file
+	 * @param	bool	$relative
 	 * @return	string
 	 */
 	public function external($external_file = '', $relative = FALSE)

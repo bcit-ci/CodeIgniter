@@ -21,7 +21,7 @@ Why run via the command-line?
 There are many reasons for running CodeIgniter from the command-line,
 but they are not always obvious.
 
--  Run your cron-jobs without needing to use wget or curl
+-  Run your cron-jobs without needing to use *wget* or *curl*
 -  Make your cron-jobs inaccessible from being loaded in the URL by
    checking for ``$this->input->is_cli_request()``
 -  Make interactive "tasks" that can do things like set permissions,
@@ -44,9 +44,8 @@ in it::
 			echo "Hello {$to}!".PHP_EOL;
 		}
 	}
-	?>
 
-Then save the file to your application/controllers/ folder.
+Then save the file to your *application/controllers/* folder.
 
 Now normally you would visit the your site using a URL similar to this::
 
@@ -60,19 +59,20 @@ in Windows and navigate to our CodeIgniter project.
 	$ cd /path/to/project;
 	$ php index.php tools message
 
-If you did it right, you should see Hello World!.
+If you did it right, you should see *Hello World!* printed.
 
 .. code-block:: bash
 
 	$ php index.php tools message "John Smith"
 
 Here we are passing it a argument in the same way that URL parameters
-work. "John Smith" is passed as a argument and output is: Hello John
-Smith!.
+work. "John Smith" is passed as a argument and output is::
+
+	Hello John Smith!
 
 That's it!
 ==========
 
 That, in a nutshell, is all there is to know about controllers on the
 command line. Remember that this is just a normal controller, so routing
-and _remap works fine.
+and ``_remap()`` works fine.

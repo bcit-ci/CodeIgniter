@@ -16,7 +16,7 @@ function autoload($class)
 	$ci_core = array(
 		'Benchmark', 'Config', 'Controller',
 		'Exceptions', 'Hooks', 'Input',
-		'Lang', 'Loader', 'Model',
+		'Lang', 'Loader', 'Log', 'Model',
 		'Output', 'Router', 'Security',
 		'URI', 'Utf8',
 	);
@@ -25,11 +25,10 @@ function autoload($class)
 		'Calendar', 'Cart', 'Driver_Library',
 		'Email', 'Encrypt', 'Form_validation',
 		'Ftp', 'Image_lib', 'Javascript',
-		'Log', 'Migration', 'Pagination',
-		'Parser', 'Profiler', 'Table',
-	   	'Trackback', 'Typography', 'Unit_test',
-	   	'Upload', 'User_agent', 'Xmlrpc',
-	   	'Zip',
+		'Migration', 'Pagination', 'Parser',
+		'Profiler', 'Table', 'Trackback',
+	   	'Typography', 'Unit_test', 'Upload',
+	   	'User_agent', 'Xmlrpc', 'Zip'
 	);
 
 	$ci_drivers = array(
@@ -38,13 +37,11 @@ function autoload($class)
 
 	if (strpos($class, 'Mock_') === 0)
 	{
-		$class = str_replace(array('Mock_', '_'), array('', DIRECTORY_SEPARATOR), $class);
-		$class = strtolower($class);
+		$class = strtolower(str_replace(array('Mock_', '_'), array('', DIRECTORY_SEPARATOR), $class));
 	}
 	elseif (strpos($class, 'CI_') === 0)
 	{
-		$fragments = explode('_', $class, 2);
-		$subclass = next($fragments);
+		$subclass = substr($class, 3);
 
 		if (in_array($subclass, $ci_core))
 		{
@@ -88,7 +85,7 @@ function autoload($class)
 		}
 	}
 
-	$file = (isset($file)) ? $file : $dir.$class.'.php';
+	$file = isset($file) ? $file : $dir.$class.'.php';
 
 	if ( ! file_exists($file))
 	{

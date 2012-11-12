@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * MySQL Result Class
@@ -38,9 +39,9 @@
 class CI_DB_mysql_result extends CI_DB_result {
 
 	/**
-	 * Constructor
+	 * Class constructor
 	 *
-	 * @param	object
+	 * @param	object	&$driver_object
 	 * @return	void
 	 */
 	public function __construct(&$driver_object)
@@ -144,9 +145,9 @@ class CI_DB_mysql_result extends CI_DB_result {
 	 *
 	 * Moves the internal pointer to the desired offset. We call
 	 * this internally before fetching results to make sure the
-	 * result set starts at zero
+	 * result set starts at zero.
 	 *
-	 * @param	int	$n = 0
+	 * @param	int	$n
 	 * @return	bool
 	 */
 	protected function _data_seek($n = 0)
@@ -177,7 +178,7 @@ class CI_DB_mysql_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @param	string
+	 * @param	string	$class_name
 	 * @return	object
 	 */
 	protected function _fetch_object($class_name = 'stdClass')

@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Interbase/Firebird Result Class
@@ -128,7 +129,7 @@ class CI_DB_ibase_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @param	string
+	 * @param	string	$class_name
 	 * @return	object
 	 */
 	protected function _fetch_object($class_name = 'stdClass')

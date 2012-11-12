@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter URL Helpers
@@ -473,9 +474,11 @@ if ( ! function_exists('url_title'))
 	 * human-friendly URL string with a "separator" string
 	 * as the word separator.
 	 *
-	 * @param	string	the string
-	 * @param	string	the separator
-	 * @param	bool
+	 * @todo	Remove old 'dash' and 'underscore' usage in 3.1+.
+	 * @param	string	$str		Input string
+	 * @param	string	$separator	Word separator
+	 *			(usually '-' or '_')
+	 * @param	bool	$lowercase	Wether to transform the output string to lowercase
 	 * @return	string
 	 */
 	function url_title($str, $separator = '-', $lowercase = FALSE)
@@ -524,10 +527,11 @@ if ( ! function_exists('redirect'))
 	 * For very fine grained control over headers, you could use the Output
 	 * Library's set_header() function.
 	 *
-	 * @param	string	the URL
-	 * @param	string	the method: location or refresh
-	 * @param	int
-	 * @return	string
+	 * @param	string	$uri	URL
+	 * @param	string	$method	Redirect method
+	 *			'auto', 'location' or 'refresh'
+	 * @param	int	$code	HTTP Response status code
+	 * @return	void
 	 */
 	function redirect($uri = '', $method = 'auto', $code = NULL)
 	{

@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * MySQLi Utility Class
@@ -34,14 +35,33 @@
  */
 class CI_DB_mysqli_utility extends CI_DB_utility {
 
+	/**
+	 * List databases statement
+	 *
+	 * @var	string
+	 */
 	protected $_list_databases	= 'SHOW DATABASES';
-	protected $_optimize_table	= 'OPTIMIZE TABLE %s';
-	protected $_repair_table	= 'REPAIR TABLE %s';
 
 	/**
-	 * MySQLi Export
+	 * OPTIMIZE TABLE statement
 	 *
-	 * @param	array	Preferences
+	 * @var	string
+	 */
+	protected $_optimize_table	= 'OPTIMIZE TABLE %s';
+
+	/**
+	 * REPAIR TABLE statement
+	 *
+	 * @var	string
+	 */
+	protected $_repair_table	= 'REPAIR TABLE %s';
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Export
+	 *
+	 * @param	array	$params	Preferences
 	 * @return	mixed
 	 */
 	protected function _backup($params = array())

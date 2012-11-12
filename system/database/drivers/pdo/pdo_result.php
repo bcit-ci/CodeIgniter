@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * PDO Result Class
@@ -162,7 +163,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 		{
 			if ($this->db->db_debug)
 			{
-				return $this->db->display_error('db_unsuported_feature');
+				return $this->db->display_error('db_unsupported_feature');
 			}
 
 			return FALSE;
@@ -205,7 +206,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @param	string
+	 * @param	string	$class_name
 	 * @return	object
 	 */
 	protected function _fetch_object($class_name = 'stdClass')

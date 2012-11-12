@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Database Cache Class
@@ -34,8 +35,24 @@
  */
 class CI_DB_Cache {
 
+	/**
+	 * CI Singleton
+	 *
+	 * @var	object
+	 */
 	public $CI;
-	public $db;	// allows passing of db object so that multiple database connections and returned db objects can be supported
+
+	/**
+	 * Database object
+	 *
+	 * Allows passing of DB object so that multiple database connections
+	 * and returned DB objects can be supported.
+	 *
+	 * @var	object
+	 */
+	public $db;
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Constructor
@@ -58,7 +75,7 @@ class CI_DB_Cache {
 	/**
 	 * Set Cache Directory Path
 	 *
-	 * @param	string	the path to the cache directory
+	 * @param	string	$path	Path to the cache directory
 	 * @return	bool
 	 */
 	public function check_path($path = '')
@@ -94,7 +111,7 @@ class CI_DB_Cache {
 	 * Retrieve a cached query
 	 *
 	 * The URI being requested will become the name of the cache sub-folder.
-	 * An MD5 hash of the SQL statement will become the cache file name
+	 * An MD5 hash of the SQL statement will become the cache file name.
 	 *
 	 * @param	string	$sql
 	 * @return	string
@@ -153,8 +170,8 @@ class CI_DB_Cache {
 	/**
 	 * Delete cache files within a particular directory
 	 *
-	 * @param	string	$segment_one = ''
-	 * @param	string	$segment_two = ''
+	 * @param	string	$segment_one
+	 * @param	string	$segment_two
 	 * @return	void
 	 */
 	public function delete($segment_one = '', $segment_two = '')
@@ -182,7 +199,7 @@ class CI_DB_Cache {
 	 */
 	public function delete_all()
 	{
-		delete_files($this->db->cachedir, TRUE, 0, TRUE);
+		delete_files($this->db->cachedir, TRUE, TRUE);
 	}
 
 }

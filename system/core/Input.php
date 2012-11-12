@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Input Class
@@ -97,6 +98,16 @@ class CI_Input {
 	 * @var array
 	 */
 	protected $headers = array();
+
+	/**
+	 * Input stream data
+	 *
+	 * Parsed from php://input at runtime
+	 *
+	 * @see	CI_Input::input_stream()
+	 * @var	array
+	 */
+	protected $_input_stream = NULL;
 
 	/**
 	 * Class constructor
@@ -256,6 +267,37 @@ class CI_Input {
 	// ------------------------------------------------------------------------
 
 	/**
+	 * Fetch an item from the php://input stream
+	 *
+	 * Useful when you need to access PUT, DELETE or PATCH request data.
+	 *
+	 * @param	string	$index		Index for item to be fetched
+	 * @param	bool	$xss_clean	Whether to apply XSS filtering
+	 * @return	mixed
+	 */
+	public function input_stream($index = '', $xss_clean = FALSE)
+	{
+		// The input stream can only be read once, so we'll need to check
+		// if we have already done that first.
+		if (is_array($this->_input_stream))
+		{
+			return $this->_fetch_from_array($this->_input_stream, $index, $xss_clean);
+		}
+
+		// Parse the input stream in our cache var
+		parse_str(file_get_contents('php://input'), $this->_input_stream);
+		if ( ! is_array($this->_input_stream))
+		{
+			$this->_input_stream = array();
+			return NULL;
+		}
+
+		return $this->_fetch_from_array($this->_input_stream, $index, $xss_clean);
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
 	 * Set cookie
 	 *
 	 * Accepts an arbitrary number of parameters (up to 7) or an associative
@@ -355,11 +397,7 @@ class CI_Input {
 					// Some proxies typically list the whole chain of IP
 					// addresses through which the client has reached us.
 					// e.g. client_ip, proxy_ip1, proxy_ip2, etc.
-					if (strpos($spoof, ',') !== FALSE)
-					{
-						$spoof = explode(',', $spoof, 2);
-						$spoof = $spoof[0];
-					}
+					sscanf($spoof, '%[^,]', $spoof);
 
 					if ( ! $this->valid_ip($spoof))
 					{
@@ -429,7 +467,7 @@ class CI_Input {
 					}
 
 					// Split the netmask length off the network address
-					list($netaddr, $masklen) = explode('/', $proxy_ips[$i], 2);
+					sscanf($proxy_ips[$i], '%[^/]/%d', $netaddr, $masklen);
 
 					// Again, an IPv6 address is most likely in a compressed form
 					if ($separator === ':')
@@ -694,7 +732,7 @@ class CI_Input {
 	 */
 	protected function _clean_input_keys($str)
 	{
-		if ( ! preg_match('/^[a-z0-9:_\/-]+$/i', $str))
+		if ( ! preg_match('/^[a-z0-9:_\/|-]+$/i', $str))
 		{
 			set_status_header(503);
 			exit('Disallowed Key Characters.');

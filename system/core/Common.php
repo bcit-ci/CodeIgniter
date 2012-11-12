@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Common Functions
@@ -419,7 +420,7 @@ if ( ! function_exists('log_message'))
 			return;
 		}
 
-		$_log =& load_class('Log');
+		$_log =& load_class('Log', 'core');
 		$_log->write_log($level, $message, $php_error);
 	}
 }
@@ -647,6 +648,53 @@ if ( ! function_exists('_stringify_attributes'))
 		}
 
 		return rtrim($atts, ',');
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('function_usable'))
+{
+	/**
+	 * Function usable
+	 *
+	 * Executes a function_exists() check, and if the Suhosin PHP
+	 * extension is loaded - checks whether the function that is
+	 * checked might be disabled in there as well.
+	 *
+	 * This is useful as function_exists() will return FALSE for
+	 * functions disabled via the *disable_functions* php.ini
+	 * setting, but not for *suhosin.executor.func.blacklist* and
+	 * *suhosin.executor.disable_eval*. These settings will just
+	 * terminate script execution if a disabled function is executed.
+	 *
+	 * @link	http://www.hardened-php.net/suhosin/
+	 * @param	string	$function_name	Function to check for
+	 * @return	bool	TRUE if the function exists and is safe to call,
+	 *			FALSE otherwise.
+	 */
+	function function_usable($function_name)
+	{
+		static $_suhosin_func_blacklist;
+
+		if (function_exists($function_name))
+		{
+			if ( ! isset($_suhosin_func_blacklist))
+			{
+				$_suhosin_func_blacklist = extension_loaded('suhosin')
+					? array()
+					: explode(',', trim(@ini_get('suhosin.executor.func.blacklist')));
+
+				if ( ! in_array('eval', $_suhosin_func_blacklist, TRUE) && @ini_get('suhosin.executor.disable_eval'))
+				{
+					$_suhosin_func_blacklist[] = 'eval';
+				}
+			}
+
+			return in_array($function_name, $_suhosin_func_blacklist, TRUE);
+		}
+
+		return FALSE;
 	}
 }
 

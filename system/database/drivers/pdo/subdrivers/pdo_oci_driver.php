@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 3.0.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * PDO Oracle Database Adapter Class
@@ -40,24 +41,49 @@
  */
 class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 
+	/**
+	 * Sub-driver
+	 *
+	 * @var	string
+	 */
 	public $subdriver = 'oci';
 
-	/**
-	 * The syntax to count rows is slightly different across different
-	 * database engines, so this string appears in each driver and is
-	 * used for the count_all() and count_all_results() functions.
-	 */
-	protected $_count_string = 'SELECT COUNT(1) AS ';
-	protected $_random_keyword = ' ASC'; // Currently not supported
+	// --------------------------------------------------------------------
 
+	/**
+	 * List of reserved identifiers
+	 *
+	 * Identifiers that must NOT be escaped.
+	 *
+	 * @var	string[]
+	 */
 	protected $_reserved_identifiers = array('*', 'rownum');
 
 	/**
-	 * Constructor
+	 * ORDER BY random keyword
+	 *
+	 * @var	string
+	 */
+	protected $_random_keyword = ' ASC'; // Currently not supported
+
+	/**
+	 * COUNT string
+	 *
+	 * @used-by	CI_DB_driver::count_all()
+	 * @used-by	CI_DB_query_builder::count_all_results()
+	 *
+	 * @var	string
+	 */
+	protected $_count_string = 'SELECT COUNT(1) AS ';
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Class constructor
 	 *
 	 * Builds the DSN if not already set.
 	 *
-	 * @param	array
+	 * @param	array	$params
 	 * @return	void
 	 */
 	public function __construct($params)
@@ -97,7 +123,7 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	bool
+	 * @param	bool	$prefix_limit
 	 * @return	string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
@@ -120,7 +146,7 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _list_columns($table = '')
@@ -135,7 +161,7 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _field_data($table)
@@ -146,11 +172,11 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Insert_batch statement
+	 * Insert batch statement
 	 *
-	 * @param	string	the table name
-	 * @param	array	the insert keys
-	 * @param	array	the insert values
+	 * @param	string	$table	Table name
+	 * @param	array	$keys	INSERT keys
+	 * @param	array	$values	INSERT values
 	 * @return 	string
 	 */
 	protected function _insert_batch($table, $keys, $values)
@@ -173,7 +199,7 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific delete string from the supplied data
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _delete($table)
@@ -190,11 +216,11 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Limit string
+	 * LIMIT
 	 *
 	 * Generates a platform-specific LIMIT clause
 	 *
-	 * @param	string	the sql query string
+	 * @param	string	$sql	SQL Query
 	 * @return	string
 	 */
 	protected function _limit($sql)
