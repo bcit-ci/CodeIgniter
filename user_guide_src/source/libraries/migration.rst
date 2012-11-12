@@ -28,7 +28,7 @@ method taken. Two numbering styles are available:
   helps prevent numbering conflicts when working in a team environment, and is
   the preferred scheme in CodeIgniter 3.0 and later.
 
-The desired style may be selected using the **$config['migration_style']**
+The desired style may be selected using the **$config['migration_type']**
 setting in your **migration.php** config file.
 
 Regardless of which numbering style you choose to use, prefix your migration
@@ -158,6 +158,6 @@ Preference                 Default                Options                    Des
                                                                              version number.
 **migration_auto_latest**  FALSE                  TRUE / FALSE               Enable or disable automatically 
                                                                              running migrations.
-**migration_style**        'timestamp'            'timestamp' / 'sequential' The type of numeric identifier used to name
+**migration_type**        'timestamp'            'timestamp' / 'sequential' The type of numeric identifier used to name
                                                                              migration files.
 ========================== ====================== ========================== =============================================
