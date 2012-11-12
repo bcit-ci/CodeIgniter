@@ -58,6 +58,20 @@ class CI_Parser {
 	 */
 	protected $CI;
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Class constructor
+	 *
+	 * @return	void
+	 */
+	public function __construct()
+	{
+		$this->CI =& get_instance();
+	}
+
+	// --------------------------------------------------------------------
+
 	/**
 	 * Parse a template
 	 *
@@ -71,7 +85,6 @@ class CI_Parser {
 	 */
 	public function parse($template, $data, $return = FALSE)
 	{
-		$this->CI =& get_instance();
 		$template = $this->CI->load->view($template, $data, TRUE);
 
 		return $this->_parse($template, $data, $return);
