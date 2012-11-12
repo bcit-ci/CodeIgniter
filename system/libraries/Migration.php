@@ -187,7 +187,7 @@ class CI_Migration {
 		
 		$migrations = $this->find_migrations();
 		
-		if ($target_version > 0 AND ! isset($migrations[$target_version]))
+		if ($target_version > 0 && ! isset($migrations[$target_version]))
 		{
 			$this->_error_string = sprintf($this->lang->line('migration_not_found'), $target_version);
 			return FALSE;
@@ -216,7 +216,7 @@ class CI_Migration {
 		foreach ($migrations as $number => $file)
 		{
 			// Check for sequence gaps
-			if ($this->_migration_type === 'sequential' AND $previous !== FALSE AND abs($number - $previous) > 1)
+			if ($this->_migration_type === 'sequential' && $previous !== FALSE && abs($number - $previous) > 1)
 			{
 				$this->_error_string = sprintf($this->lang->line('migration_sequence_gap'), $number);
 				return FALSE;
@@ -241,9 +241,10 @@ class CI_Migration {
 
 			// Run migrations that are inside the target range
 			if (
-				($method === 'up'   AND $number > $current_version AND $number <= $target_version) OR
-				($method === 'down' AND $number <= $current_version AND $number > $target_version)
-			) {
+				($method === 'up'   && $number > $current_version && $number <= $target_version) OR
+				($method === 'down' && $number <= $current_version && $number > $target_version)
+			)
+			{
 				log_message('debug', 'Migrating '.$method.' from version '.$current_version.' to version '.$number);
 				call_user_func(array(new $class, $method));
 				$current_version = $number;
