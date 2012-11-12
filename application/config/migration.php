@@ -39,7 +39,7 @@ $config['migration_enabled'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
-| Migration Style
+| Migration Type
 |--------------------------------------------------------------------------
 |
 | Migration file names may be based on a sequential identifier or on
@@ -53,7 +53,7 @@ $config['migration_enabled'] = FALSE;
 | to 'sequential' for backward compatibility.
 |
 */
-$config['migration_style'] = 'timestamp';
+$config['migration_type'] = 'timestamp';
 
 /*
 |--------------------------------------------------------------------------

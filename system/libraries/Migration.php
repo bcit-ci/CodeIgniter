@@ -48,11 +48,11 @@ class CI_Migration {
 	protected $_migration_enabled = FALSE;
 	
 	/**
-	 * Migration numbering style
+	 * Migration numbering type
 	 *
 	 * @var bool
 	 */
-	protected $_migration_style = 'sequential';
+	protected $_migration_type = 'sequential';
 
 	/**
 	 * Path to migration classes
@@ -142,12 +142,12 @@ class CI_Migration {
 		}
 		
 		// Migration basename regex
-		$this->_migration_regex = $this->_migration_style === 'timestamp' ? '/^\d{14}_(\w+)$/' : '/^\d{3}_(\w+)$/';
+		$this->_migration_regex = $this->_migration_type === 'timestamp' ? '/^\d{14}_(\w+)$/' : '/^\d{3}_(\w+)$/';
 		
-		// Make sure a valid migration numbering style was set.
-		if ( ! in_array($this->_migration_style, array('sequential', 'timestamp')))
+		// Make sure a valid migration numbering type was set.
+		if ( ! in_array($this->_migration_type, array('sequential', 'timestamp')))
 		{
-			show_error('An invalid migration numbering style was specified: '.$this->_migration_style);
+			show_error('An invalid migration numbering type was specified: '.$this->_migration_type);
 		}
 
 		// If the migrations table is missing, make it
@@ -216,7 +216,7 @@ class CI_Migration {
 		foreach ($migrations as $number => $file)
 		{
 			// Check for sequence gaps
-			if ($this->_migration_style === 'sequential' AND $previous !== FALSE AND abs($number - $previous) > 1)
+			if ($this->_migration_type === 'sequential' AND $previous !== FALSE AND abs($number - $previous) > 1)
 			{
 				$this->_error_string = sprintf($this->lang->line('migration_sequence_gap'), $number);
 				return FALSE;
