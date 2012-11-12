@@ -148,6 +148,14 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 	 */
 	protected function _process_column($field)
 	{
+		$extra_clause = isset($field['after'])
+			? ' AFTER '.$this->db->escape_identifiers($field['after']) : '';
+
+		if (empty($extra_clause) && isset($field['first']) && $field['first'] === TRUE)
+		{
+			$extra_clause = ' FIRST';
+		}
+
 		return $this->db->escape_identifiers($field['name'])
 			.(empty($field['new_name']) ? '' : $this->db->escape_identifiers($field['new_name']))
 			.' '.$field['type'].$field['length']
@@ -155,7 +163,8 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 			.$field['null']
 			.$field['default']
 			.$field['auto_increment']
-			.$field['unique'];
+			.$field['unique']
+			.$extra_clause;
 	}
 
 	// --------------------------------------------------------------------
