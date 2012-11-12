@@ -106,9 +106,9 @@ abstract class CI_DB_utility {
 			return $this->db->data_cache['db_names'];
 		}
 
-		for ($i = 0, $c = count($query); $i < $c; $i++)
+		for ($i = 0, $query = $query->result_array(), $c = count($query); $i < $c; $i++)
 		{
-			$this->db->data_cache['db_names'] = current($query[$i]);
+			$this->db->data_cache['db_names'][] = current($query[$i]);
 		}
 
 		return $this->db->data_cache['db_names'];
