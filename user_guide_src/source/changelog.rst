@@ -251,8 +251,8 @@ Release Date: Not Released
    -  Changed :doc:`Language Library <libraries/language>` method ``load()`` to filter the language name with ``ctype_digit()``.
    -  :doc:`Profiler Library <general/profiling>` now also displays database object names.
    -  :doc:`Migration Library <libraries/migration>` changes include:
-     -  Added support for timestamp-based migrations (enabled by default)
-     -  Added ``$config['migration_type']`` to allow switching between sequential migrations and timestamp migrations
+	 -  Added support for timestamp-based migrations (enabled by default).
+	 -  Added ``$config['migration_type']`` to allow switching between *sequential* and *timestamp* migrations.
 
 -  Core
 
