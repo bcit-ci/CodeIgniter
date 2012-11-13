@@ -53,9 +53,9 @@ class CI_DB_ibase_driver extends CI_DB {
 	/**
 	 * ORDER BY random keyword
 	 *
-	 * @var	string
+	 * @var	array
 	 */
-	protected $_random_keyword = ' Random()';
+	protected $_random_keyword = array('RAND()', 'RAND()');
 
 	/**
 	 * IBase Transaction status flag

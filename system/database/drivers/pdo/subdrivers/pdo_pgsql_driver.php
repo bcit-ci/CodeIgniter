@@ -60,9 +60,9 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	/**
 	 * ORDER BY random keyword
 	 *
-	 * @var	string
+	 * @var	array
 	 */
-	protected $_random_keyword = ' RANDOM()';
+	protected $_random_keyword = array('RANDOM()', 'RANDOM()');
 
 	// --------------------------------------------------------------------
 
@@ -105,6 +105,41 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 		}
 
 		return $this->conn_id->lastInsertId($name);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * ORDER BY
+	 *
+	 * @param	string	$orderby
+	 * @param	string	$direction	ASC or DESC
+	 * @param	bool	$escape
+	 * @return	object
+	 */
+	public function order_by($orderby, $direction = '', $escape = NULL)
+	{
+		$direction = strtoupper(trim($direction));
+		if ($direction === 'RANDOM')
+		{
+			if ( ! is_float($orderby) && ctype_digit((string) $orderby))
+			{
+				$orderby = ($orderby > 1)
+					? (float) '0.'.$orderby
+					: (float) $orderby;
+			}
+
+			if (is_float($orderby))
+			{
+				$this->simple_query('SET SEED '.$orderby);
+			}
+
+			$orderby = $this->_random_keyword[0];
+			$direction = '';
+			$escape = FALSE;
+		}
+
+		return parent::order_by($orderby, $direction, $escape);
 	}
 
 	// --------------------------------------------------------------------

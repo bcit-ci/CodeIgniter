@@ -469,25 +469,41 @@ Identical to having(), only separates multiple clauses with "OR".
 $this->db->order_by()
 =====================
 
-Lets you set an ORDER BY clause. The first parameter contains the name
-of the column you would like to order by. The second parameter lets you
-set the direction of the result. Options are asc or desc, or random.
+Lets you set an ORDER BY clause.
+
+The first parameter contains the name of the column you would like to order by.
+
+The second parameter lets you set the direction of the result.
+Options are **ASC**, **DESC** AND **RANDOM**.
 
 ::
 
-	$this->db->order_by("title", "desc");  // Produces: ORDER BY title DESC
+	$this->db->order_by('title', 'DESC');
+	// Produces: ORDER BY `title` DESC
 
 You can also pass your own string in the first parameter::
 
-	$this->db->order_by('title desc, name asc');  // Produces: ORDER BY title DESC, name ASC
+	$this->db->order_by('title DESC, name ASC');
+	// Produces: ORDER BY `title` DESC, `name` ASC
 
 Or multiple function calls can be made if you need multiple fields.
 
 ::
 
-	$this->db->order_by("title", "desc");
-	$this->db->order_by("name", "asc"); // Produces: ORDER BY title DESC, name ASC
+	$this->db->order_by('title', 'DESC');
+	$this->db->order_by('name', 'ASC');
+	// Produces: ORDER BY `title` DESC, `name` ASC
 
+If you choose the **RANDOM** direction option, then the first parameters will
+be ignored, unless you specify a numeric seed value.
+
+::
+
+	$this->db->order_by('title', 'RANDOM');
+	// Produces: ORDER BY RAND()
+
+	$this->db->order_by(42, 'RANDOM');
+	// Produces: ORDER BY RAND(42)
 
 .. note:: order_by() was formerly known as orderby(), which has been
 	removed.

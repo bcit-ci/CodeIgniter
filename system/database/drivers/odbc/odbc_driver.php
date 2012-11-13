@@ -73,6 +73,13 @@ class CI_DB_odbc_driver extends CI_DB {
 	 */
 	protected $_like_escape_str = " {escape '%s'} ";
 
+	/**
+	 * ORDER BY random keyword
+	 *
+	 * @var	array
+	 */
+	protected $_random_keyword = array('RND()', 'RND(%d)');
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -84,8 +91,6 @@ class CI_DB_odbc_driver extends CI_DB {
 	public function __construct($params)
 	{
 		parent::__construct($params);
-
-		$this->_random_keyword = ' RND('.time().')'; // database specific random keyword
 
 		// Legacy support for DSN in the hostname field
 		if (empty($this->dsn))

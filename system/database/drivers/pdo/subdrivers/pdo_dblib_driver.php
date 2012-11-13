@@ -53,9 +53,9 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 	/**
 	 * ORDER BY random keyword
 	 *
-	 * @var	string
+	 * @var	array
 	 */
-	protected $_random_keyword = ' NEWID()';
+	protected $_random_keyword = array('NEWID()', 'RAND(%d)');
 
 	/**
 	 * Quoted identifier flag

@@ -62,9 +62,9 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 	/**
 	 * ORDER BY random keyword
 	 *
-	 * @var	string
+	 * @var	array
 	 */
-	protected $_random_keyword = ' ASC'; // Currently not supported
+	protected $_random_keyword = array('ASC', 'ASC'); // Currently not supported
 
 	/**
 	 * COUNT string

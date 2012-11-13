@@ -53,7 +53,7 @@ class CI_DB_pdo_sqlite_driver extends CI_DB_pdo_driver {
 	/**
 	 * ORDER BY random keyword
 	 *
-	 * @var	string
+	 * @var	array
 	 */
 	protected $_random_keyword = ' RANDOM()';
 
