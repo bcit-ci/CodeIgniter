@@ -1144,13 +1144,16 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function order_by($orderby, $direction = '', $escape = NULL)
 	{
-		$direction = trim($direction);
+		$direction = strtoupper(trim($direction));
 
-		if (strtolower($direction) === 'random' OR $orderby === $this->_random_keyword)
+		if ($direction === 'RANDOM')
 		{
-			// Random ordered results don't need a field name
-			$orderby = $this->_random_keyword;
 			$direction = '';
+
+			// Do we have a seed value?
+			$orderby = ctype_digit((string) $orderby)
+				? $orderby = sprintf($this->_random_keyword[1], $orderby)
+				: $this->_random_keyword[0];
 		}
 		elseif (empty($orderby))
 		{
@@ -1158,7 +1161,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 		elseif ($direction !== '')
 		{
-			$direction = in_array(strtoupper(trim($direction)), array('ASC', 'DESC'), TRUE) ? ' '.$direction : '';
+			$direction = in_array($direction, array('ASC', 'DESC'), TRUE) ? ' '.$direction : '';
 		}
 
 		is_bool($escape) OR $escape = $this->_protect_identifiers;

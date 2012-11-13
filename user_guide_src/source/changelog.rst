@@ -126,6 +126,7 @@ Release Date: Not Released
 	 - Added an optional parameter that allows to disable escaping (useful for custom fields) for methods ``join()``, ``order_by()``, ``where_in()``, ``or_where_in()``, ``where_not_in()``, ``or_where_not_in()``, ``insert()``, ``insert_batch()``.
 	 - Added support for ``join()`` with multiple conditions.
 	 - Added support for *USING* in ``join()``.
+	 - Added seed values support for random ordering with ``order_by(seed, 'RANDOM')``.
 	 - Changed ``limit()`` to ignore NULL values instead of always casting to integer.
 	 - Changed ``offset()`` to ignore empty values instead of always casting to integer.
 	 - Methods ``insert_batch()`` and ``update_batch()`` now return an integer representing the number of rows affected by them.

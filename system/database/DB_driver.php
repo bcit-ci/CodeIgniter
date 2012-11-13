@@ -329,9 +329,9 @@ abstract class CI_DB_driver {
 	/**
 	 * ORDER BY random keyword
 	 *
-	 * @var	string
+	 * @var	array
 	 */
-	protected $_random_keyword = ' RAND()';
+	protected $_random_keyword = array('RAND()', 'RAND(%d)');
 
 	/**
 	 * COUNT string

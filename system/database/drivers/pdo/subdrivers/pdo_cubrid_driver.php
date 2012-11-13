@@ -55,6 +55,13 @@ class CI_DB_pdo_cubrid_driver extends CI_DB_pdo_driver {
 	 */
 	protected $_escape_char = '`';
 
+	/**
+	 * ORDER BY random keyword
+	 *
+	 * @var	array
+	 */
+	protected $_random_keyword = array('RANDOM()', 'RANDOM(%d)');
+
 	// --------------------------------------------------------------------
 
 	/**

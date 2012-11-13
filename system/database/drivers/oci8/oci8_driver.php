@@ -102,9 +102,9 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * ORDER BY random keyword
 	 *
-	 * @var	string
+	 * @var	array
 	 */
-	protected $_random_keyword = ' ASC'; // not currently supported
+	protected $_random_keyword = array('ASC', 'ASC'); // not currently supported
 
 	/**
 	 * COUNT string

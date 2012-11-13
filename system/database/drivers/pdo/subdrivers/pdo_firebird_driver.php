@@ -53,9 +53,9 @@ class CI_DB_pdo_firebird_driver extends CI_DB_pdo_driver {
 	/**
 	 * ORDER BY random keyword
 	 *
-	 * @var	string
+	 * @var	array
 	 */
-	protected $_random_keyword = ' RANDOM()';
+	protected $_random_keyword = array('RAND()', 'RAND()');
 
 	// --------------------------------------------------------------------
 

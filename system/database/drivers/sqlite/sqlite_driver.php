@@ -53,9 +53,9 @@ class CI_DB_sqlite_driver extends CI_DB {
 	/**
 	 * ORDER BY random keyword
 	 *
-	 * @var	string
+	 * @var	array
 	 */
-	protected $_random_keyword = ' Random()'; // database specific random keyword
+	protected $_random_keyword = array('RANDOM()', 'RANDOM()');
 
 	// --------------------------------------------------------------------
 

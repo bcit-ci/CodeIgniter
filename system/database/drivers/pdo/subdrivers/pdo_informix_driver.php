@@ -51,6 +51,15 @@ class CI_DB_pdo_informix_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * ORDER BY random keyword
+	 *
+	 * @var	array
+	 */
+	protected $_random_keyword = array('ASC', 'ASC'); // Currently not supported
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Class constructor
 	 *
 	 * Builds the DSN if not already set.

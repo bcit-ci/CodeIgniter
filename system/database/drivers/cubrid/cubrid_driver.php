@@ -64,6 +64,13 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	protected $_escape_char = '`';
 
+	/**
+	 * ORDER BY random keyword
+	 *
+	 * @var	array
+	 */
+	protected $_random_keyword = array('RANDOM()', 'RANDOM(%d)');
+
 	// --------------------------------------------------------------------
 
 	/**

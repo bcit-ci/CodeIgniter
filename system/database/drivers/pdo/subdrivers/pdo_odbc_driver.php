@@ -73,6 +73,13 @@ class CI_DB_pdo_odbc_driver extends CI_DB_pdo_driver {
 	 */
 	protected $_like_escape_str = " {escape '%s'} ";
 
+	/**
+	 * ORDER BY random keyword
+	 *
+	 * @var	array
+	 */
+	protected $_random_keyword = array('RND()', 'RND(%d)');
+
 	// --------------------------------------------------------------------
 
 	/**
