@@ -2534,7 +2534,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Determines if a string represents a literal value or a field name
 	 *
-	 * @param	string
+	 * @param	string	$str
 	 * @return	bool
 	 */
 	protected function _is_literal($str)

@@ -674,6 +674,23 @@ class CI_DB_postgre_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Is literal
+	 *
+	 * Determines if a string represents a literal value or a field name
+	 *
+	 * @param	string	$str
+	 * @return	bool
+	 */
+	protected function _is_literal($str)
+	{
+		$str = trim($str);
+
+		return (empty($str) OR ctype_digit($str) OR $str[0] === "'" OR in_array($str, array('TRUE', 'FALSE'), TRUE));
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Close DB Connection
 	 *
 	 * @return	void

@@ -353,6 +353,24 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 		return $this;
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Is literal
+	 *
+	 * Determines if a string represents a literal value or a field name
+	 *
+	 * @param	string	$str
+	 * @return	bool
+	 */
+	protected function _is_literal($str)
+	{
+		$str = trim($str);
+
+		return (empty($str) OR ctype_digit($str) OR $str[0] === "'" OR in_array($str, array('TRUE', 'FALSE'), TRUE));
+	}
+
+
 }
 
 /* End of file pdo_pgsql_driver.php */
