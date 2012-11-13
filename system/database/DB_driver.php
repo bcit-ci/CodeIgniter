@@ -692,7 +692,7 @@ abstract class CI_DB_driver {
 			// resource ID won't be any good once we've cached the
 			// result object, so we'll have to compile the data
 			// and save it)
-			$CR = new CI_DB_result();
+			$CR = new CI_DB_result($this);
 			$CR->result_object	= $RES->result_object();
 			$CR->result_array	= $RES->result_array();
 			$CR->num_rows		= $RES->num_rows();
