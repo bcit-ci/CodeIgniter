@@ -1,136 +1,101 @@
-.. note:: This driver is experimental. Its feature set and
-	implementation may change in future releases.
+.. note:: This driver is experimental. Its feature set and implementation may change in future releases. 
 
 ################
 Javascript Class
 ################
 
-CodeIgniter provides a library to help you with certain common functions
-that you may want to use with Javascript. Please note that CodeIgniter
-does not require the jQuery library to run, and that any scripting
-library will work equally well. The jQuery library is simply presented
-as a convenience if you choose to use it.
+This Class provides an interface to Javascript libraries.  Currently only the `jQuery library <http://jquery.com/>`_ is supported.  Note that CodeIgniter does not require Javascript to run.
 
-Initializing the Class
-======================
-
-To initialize the Javascript class manually in your controller
-constructor, use the $this->load->library function. Currently, the only
-available library is jQuery, which will automatically be loaded like
-this::
-
-	$this->load->library('javascript');
-
-The Javascript class also accepts parameters, js_library_driver
-(string) default 'jquery' and autoload (bool) default TRUE. You may
-override the defaults if you wish by sending an associative array::
-
-	$this->load->library('javascript', array('js_library_driver' => 'scripto', 'autoload' => FALSE));
-
-Again, presently only 'jquery' is available. You may wish to set
-autoload to FALSE, though, if you do not want the jQuery library to
-automatically include a script tag for the main jQuery script file. This
-is useful if you are loading it from a location outside of CodeIgniter,
-or already have the script tag in your markup.
-
-Once loaded, the jQuery library object will be available using:
-$this->javascript
-
-Setup and Configuration
+Configuration
 =======================
 
-Set these variables in your view
---------------------------------
+To use a Javascript library you will need to set a configuration item for the path to the Javascript library that you'll be using.
 
-As a Javascript library, your files must be available to your
-application.
+	::
 
-As Javascript is a client side language, the library must be able to
-write content into your final output. This generally means a view.
-You'll need to include the following variables in the <head> sections of
-your output.
+		$config['javascript_location'] = 'http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js';
 
-::
+You can find details on how to set config items in :doc:`Config Library <config>`
 
-	<?php echo $library_src;?>
-	<?php echo $script_head;?>
+	.. note:: The example above uses the `Google CDN <http://developers.google.com/speed/libraries/devguide>`_ 
+		(Content Delivery Network) to host the script and there are some advantages to doing so: decreased latency, 
+		increased parallelism, and better caching.  **However, you currently can't use the protocol-less form of the
+		Google URL** so be sure that you specify "http:" or "https:" depending on what your site is using.
 
 
-$library_src, is where the actual library file will be loaded, as well
-as any subsequent plugin script calls; $script_head is where specific
-events, functions and other commands will be rendered.
+What you'll need in your controller
+=================================================
 
-Set the path to the librarys with config items
-----------------------------------------------
+Load the library
+--------------------------------------------------
+Initialize the Javascript class in your controller constructor, for example:
 
-There are some configuration items in Javascript library. These can
-either be set in application/config.php, within its own
-config/javascript.php file, or within any controller usings the
-set_item() function.
+	::
 
-An image to be used as an "ajax loader", or progress indicator. Without
-one, the simple text message of "loading" will appear when Ajax calls
-need to be made.
+			function __construct() 
+			{ 
+			    parent::__construct();
+			    $this->load->library('javascript');
+			}
 
-::
 
-	$config['javascript_location'] = 'http://localhost/codeigniter/themes/js/jquery/';
-	$config['javascript_ajax_img'] = 'images/ajax-loader.gif';
+Add Javascript Elements and Compile
+--------------------------------------------------
+Add javascript events or effects from the list below as needed and finally call compile() to make them available to the view.  
 
-If you keep your files in the same directories they were downloaded
-from, then you need not set this configuration items.
+	::
 
-The jQuery Class
-================
+			$this->javascript->click('#button', $this->javascript->toggle('#container') );
+			$this->javascript->compile();
 
-To initialize the jQuery class manually in your controller constructor,
-use the $this->load->library function::
+This example sets up a click event for <div id="button"> so that when it's clicked will toggle the display of  <div id="container">
 
-	$this->load->library('javascript/jquery');
+	.. note:: Currently you must have at least one javascript element present.
 
-You may send an optional parameter to determine whether or not a script
-tag for the main jQuery file will be automatically included when loading
-the library. It will be created by default. To prevent this, load the
-library as follows::
 
-	$this->load->library('javascript/jquery', FALSE);
 
-Once loaded, the jQuery library object will be available using:
-$this->jquery
+What you'll need in your view
+===========================================
+
+In your HTML <head>
+---------------------------------------------------------
+Somewhere in the HTML head you'll need to add $library_src whichs contain the script command to point to your jQuery script and $script_foot will contain the javascript elements that you defined in the controller.  For example:
+
+
+	::
+
+			<head>
+			    <?php echo $library_src;?>
+			    <?php echo $script_foot;?> 
+			</head>
+
+Javascript Methods
+=====================================================================
+
+compile()
+---------------------------------------------------------------------
+Creates the variables used in the html header.  The default variables are $library_src for the pointers to the jquery script and $script_foot for the javascript elements that you've defined.
+
 
 jQuery Events
-=============
+======================================================================
 
-Events are set using the following syntax.
+Events are set up using the following syntax.
 
-::
+	::
 
-	$this->jquery->event('element_path', code_to_run());
+		$this->jquery->event('selector', handler() );
 
 
-In the above example:
+	-  "event" is one of: "blur", "change",	"click", "dblclick", "focus", "error", "hover", "keydown", "keyup", "load", "mousedown", "mouseup", "mouseout", "mouseover", "resize", "scroll", or "unload." `See jQuery events <http://api.jquery.com/category/Events/>`_.
+		
+	-  "selector" is any valid `jQuery selector <http://docs.jquery.com/Selectors>`_. 
+	-  "handler()" is script you write yourself, or an action such as an element from the jQuery Effects.
 
--  "event" is any of blur, change, click, dblclick, error, focus, hover,
-   keydown, keyup, load, mousedown, mouseup, mouseover, mouseup, resize,
-   scroll, or unload.
--  "element_path" is any valid `jQuery
-   selector <http://docs.jquery.com/Selectors>`_. Due to jQuery's unique
-   selector syntax, this is usually an element id, or CSS selector. For
-   example "#notice_area" would effect <div id="notice_area">, and
-   "#content a.notice" would effect all anchors with a class of "notice"
-   in the div with id "content".
--  "code_to_run()" is script your write yourself, or an action such as
-   an effect from the jQuery library below.
 
-Effects
-=======
 
-The query library supports a powerful
-`Effects <http://docs.jquery.com/Effects>`_ repertoire. Before an effect
-can be used, it must be loaded::
-
-	$this->jquery->effect([optional path] plugin name); // for example $this->jquery->effect('bounce');
-
+jQuery Effects
+======================================================================
 
 hide() / show()
 ---------------
@@ -138,17 +103,15 @@ hide() / show()
 Each of this functions will affect the visibility of an item on your
 page. hide() will set an item invisible, show() will reveal it.
 
-::
+	::
 
-	$this->jquery->hide(target, optional speed, optional extra information);
-	$this->jquery->show(target, optional speed, optional extra information);
+		$this->javascript->hide(target, [speed], [callback]);
+		$this->javascript->show(target, [speed], [callback]);
 
+	-  "target" will be any valid jQuery selector or selectors.
+	-  "speed" **optional** set to either slow, normal, fast, or alternatively a number of milliseconds.
+	-  "callback" **optional** A function to be execute when finished.
 
--  "target" will be any valid jQuery selector or selectors.
--  "speed" is optional, and is set to either slow, normal, fast, or
-   alternatively a number of milliseconds.
--  "extra information" is optional, and could include a callback, or
-   other additional information.
 
 toggle()
 --------
@@ -156,146 +119,88 @@ toggle()
 toggle() will change the visibility of an item to the opposite of its
 current state, hiding visible elements, and revealing hidden ones.
 
-::
+	::
 
-	$this->jquery->toggle(target);
+		$this->javascript->toggle(target, [speed], [callback]);
 
 
--  "target" will be any valid jQuery selector or selectors.
+	- "switch" A boolean true/false to show/hide all elements.
+	- "target" will be any valid jQuery selector or selectors.
+	- "speed" **optional** set to either slow, normal, fast, or alternatively a number of milliseconds.
+	- "callback" **optional** A function to be execute when finished.
+
 
 animate()
 ---------
+A effect for making custom animations. For a full summary, see `http://docs.jquery.com/Effects/animate <http://docs.jquery.com/Effects/animate>`_
 
-::
+	::
 
-	 $this->jquery->animate(target, parameters, optional speed, optional extra information);
+		 $this->javascript->animate(target, parameters, [speed], [extra]);
 
 
--  "target" will be any valid jQuery selector or selectors.
--  "parameters" in jQuery would generally include a series of CSS
-   properties that you wish to change.
--  "speed" is optional, and is set to either slow, normal, fast, or
-   alternatively a number of milliseconds.
--  "extra information" is optional, and could include a callback, or
-   other additional information.
+	-  "target" will be any valid jQuery selector or selectors.
+	-  "parameters" in jQuery would generally include a series of CSS properties that you wish to change.
+	-  "speed" **optional** set to either slow, normal, fast, or alternatively a number of milliseconds.
+	-  "extra" **optional** Can include a callback, or other additional information.
 
-For a full summary, see
-`http://docs.jquery.com/Effects/animate <http://docs.jquery.com/Effects/animate>`_
+This is an example of an animation for <div id="container"> that is triggered when <div id="button"> is clicked:
 
-Here is an example of an animate() called on a div with an id of "note",
-and triggered by a click using the jQuery library's click() event.
+	::
 
-::
-
-	$params = array(
-	'height' => 80,
-	'width' => '50%',
-	'marginLeft' => 125
-	);
-	$this->jquery->click('#trigger', $this->jquery->animate('#note', $params, 'normal'));
+		$params = array(
+		   'height' => '80',
+		   'width' => '50%',
+		   'marginLeft' => 125
+		);
+		
+		$this->javascript->click('#button', $this->javascript->animate('#container', $params, 'normal') );
+		$this->javascript->compile();
 
 fadeIn() / fadeOut()
 --------------------
-
-::
-
-	$this->jquery->fadeIn(target,  optional speed, optional extra information);
-	$this->jquery->fadeOut(target,  optional speed, optional extra information);
-
-
--  "target" will be any valid jQuery selector or selectors.
--  "speed" is optional, and is set to either slow, normal, fast, or
-   alternatively a number of milliseconds.
--  "extra information" is optional, and could include a callback, or
-   other additional information.
-
-toggleClass()
--------------
-
-This function will add or remove a CSS class to its target.
-
-::
-
-	$this->jquery->toggleClass(target, class)
-
-
--  "target" will be any valid jQuery selector or selectors.
--  "class" is any CSS classname. Note that this class must be defined
-   and available in a CSS that is already loaded.
-
-fadeIn() / fadeOut()
---------------------
-
 These effects cause an element(s) to disappear or reappear over time.
 
-::
+	::
 
-	$this->jquery->fadeIn(target,  optional speed, optional extra information);
-	$this->jquery->fadeOut(target,  optional speed, optional extra information);
+		$this->javascript->fadeIn(target,  [speed], [callback]);
+		$this->javascript->fadeOut(target,  [speed], [callback]);
 
 
--  "target" will be any valid jQuery selector or selectors.
--  "speed" is optional, and is set to either slow, normal, fast, or
-   alternatively a number of milliseconds.
--  "extra information" is optional, and could include a callback, or
-   other additional information.
+	-  "target" will be any valid jQuery selector or selectors.
+	-  "speed" **optional** Set to either slow, normal, fast, or  alternatively a number of milliseconds.
+	-  "callback" **optional** A function to be execute when finished.
 
 slideUp() / slideDown() / slideToggle()
 ---------------------------------------
 
 These effects cause an element(s) to slide.
 
-::
+	::
 
-	$this->jquery->slideUp(target,  optional speed, optional extra information);
-	$this->jquery->slideDown(target,  optional speed, optional extra information);
-	$this->jquery->slideToggle(target,  optional speed, optional extra information);
-
-
--  "target" will be any valid jQuery selector or selectors.
--  "speed" is optional, and is set to either slow, normal, fast, or
-   alternatively a number of milliseconds.
--  "extra information" is optional, and could include a callback, or
-   other additional information.
-
-Plugins
-=======
-
-Some select jQuery plugins are made available using this library.
-
-corner()
---------
-
-Used to add distinct corners to page elements. For full details see
-`http://www.malsup.com/jquery/corner/ <http://www.malsup.com/jquery/corner/>`_
-
-::
-
-	$this->jquery->corner(target, corner_style);
+		$this->javascript->slideUp(target,  [speed], [callback] );
+		$this->javascript->slideDown(target,  [speed], [callback] );
+		$this->javascript->slideToggle(target,  [speed], [callback] );
 
 
--  "target" will be any valid jQuery selector or selectors.
--  "corner_style" is optional, and can be set to any valid style such
-   as round, sharp, bevel, bite, dog, etc. Individual corners can be set
-   by following the style with a space and using "tl" (top left), "tr"
-   (top right), "bl" (bottom left), or "br" (bottom right).
-
-::
-
-	$this->jquery->corner("#note", "cool tl br");
+	-  "target" will be any valid jQuery selector or selectors.
+	-  "speed" **optional** Set to either slow, normal, fast, or  alternatively a number of milliseconds.
+	-  "callback" **optional** A function to be execute when finished.
 
 
-tablesorter()
+jQuery Attributes
+======================================================================
+
+toggleClass()
 -------------
 
-description to come
+This function will add or remove a CSS class for its target.
 
-modal()
--------
+	::
 
-description to come
+		$this->javascript->toggleClass(target, class)
 
-calendar()
-----------
+	-  "target" will be any valid jQuery selector or selectors.
+	-  "class" is any CSS classname. Note that this class must be defined and available in a CSS that is already loaded.
 
-description to come
+
