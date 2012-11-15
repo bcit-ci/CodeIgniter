@@ -89,8 +89,6 @@ class CI_DB_ibase_result extends CI_DB_result {
 			$retval[$i]->name		= $info['name'];
 			$retval[$i]->type		= $info['type'];
 			$retval[$i]->max_length		= $info['length'];
-			$retval[$i]->primary_key	= 0;
-			$retval[$i]->default		= '';
 		}
 
 		return $retval;
