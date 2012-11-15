@@ -109,55 +109,22 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	public function field_data()
 	{
-		$data = array();
-
 		try
 		{
-			if (strpos($this->result_id->queryString, 'PRAGMA') !== FALSE)
+			$retval = array();
+
+			for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 			{
-				foreach ($this->result_array() as $field)
-				{
-					preg_match('/([a-zA-Z]+)(\(\d+\))?/', $field['type'], $matches);
+				$field = $this->result_id->getColumnMeta($i);
 
-					$F		= new stdClass();
-					$F->name	= $field['name'];
-					$F->type	= ( ! empty($matches[1])) ? $matches[1] : NULL;
-					$F->default	= NULL;
-					$F->max_length	= ( ! empty($matches[2])) ? preg_replace('/[^\d]/', '', $matches[2]) : NULL;
-					$F->primary_key = (int) $field['pk'];
-					$F->pdo_type	= NULL;
-
-					$data[] = $F;
-				}
-			}
-			else
-			{
-				for($i = 0, $max = $this->num_fields(); $i < $max; $i++)
-				{
-					$field = $this->result_id->getColumnMeta($i);
-
-					$F		= new stdClass();
-					$F->name	= $field['name'];
-					$F->type	= $field['native_type'];
-					$F->default	= NULL;
-					$F->pdo_type	= $field['pdo_type'];
-
-					if ($field['precision'] < 0)
-					{
-						$F->max_length	= NULL;
-						$F->primary_key = 0;
-					}
-					else
-					{
-						$F->max_length	= ($field['len'] > 255) ? 0 : $field['len'];
-						$F->primary_key = (int) ( ! empty($field['flags']) && in_array('primary_key', $field['flags']));
-					}
-
-					$data[] = $F;
-				}
+				$retval[$i]			= new stdClass();
+				$retval[$i]->name		= $field['name'];
+				$retval[$i]->type		= $field['native_type'];
+				$retval[$i]->max_length		= ($field['len'] > 0) ? $field['len'] : NULL;
+				$retval[$i]->primary_key	= (int) ( ! empty($field['flags']) && in_array('primary_key', $field['flags'], TRUE));
 			}
 
-			return $data;
+			return $retval;
 		}
 		catch (Exception $e)
 		{
