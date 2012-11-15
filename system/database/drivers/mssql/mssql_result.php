@@ -94,16 +94,14 @@ class CI_DB_mssql_result extends CI_DB_result {
 	public function field_data()
 	{
 		$retval = array();
-		while ($field = mssql_fetch_field($this->result_id))
+		for ($i = 0, $c = $this->num_field(); $i < $c; $i++)
 		{
-			$F		= new stdClass();
-			$F->name	= $field->name;
-			$F->type	= $field->type;
-			$F->max_length	= $field->max_length;
-			$F->primary_key = 0;
-			$F->default	= '';
+			$field = mssql_fetch_field($this->result_id, $i);
 
-			$retval[] = $F;
+			$retval[$i]		= new stdClass();
+			$retval[$i]->name	= $field->name;
+			$retval[$i]->type	= $field->type;
+			$retval[$i]->max_length	= $field->max_length;
 		}
 
 		return $retval;
