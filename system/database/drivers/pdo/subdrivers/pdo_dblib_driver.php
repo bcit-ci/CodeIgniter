@@ -168,9 +168,9 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _list_columns($table = '')
 	{
-		return 'SELECT '.$this->escape_identifiers('column_name')
-				.' FROM '.$this->escape_identifiers('information_schema.columns')
-				.' WHERE '.$this->escape_identifiers('table_name').' = '.$this->escape($table);
+		return 'SELECT COLUMN_NAME
+			FROM INFORMATION_SCHEMA.Columns
+			WHERE TABLE_NAME = '.$this->escape($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -204,7 +204,7 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 			$retval[$i]			= new stdClass();
 			$retval[$i]->name		= $query[$i]->COLUMN_NAME;
 			$retval[$i]->type		= $query[$i]->DATA_TYPE;
-			$retval[$i]->max_length		= ($query[$i]->CHARACTER_MAXIMUM_LENGTH > 0) ? $query[$i]->NUMERIC_PRECISION : $query[$i]->CHARACTER_MAXIMUM_LENGTH;
+			$retval[$i]->max_length		= ($query[$i]->CHARACTER_MAXIMUM_LENGTH > 0) ? $query[$i]->CHARACTER_MAXIMUM_LENGTH : $query[$i]->NUMERIC_PRECISION;
 			$retval[$i]->default		= $query[$i]->COLUMN_DEFAULT;
 		}
 
