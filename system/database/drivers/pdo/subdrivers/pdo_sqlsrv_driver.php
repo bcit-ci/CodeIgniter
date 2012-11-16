@@ -199,7 +199,7 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
 	{
 		return 'SELECT COLUMN_NAME
 			FROM INFORMATION_SCHEMA.Columns
-			WHERE TABLE_NAME = '.$this->escape($table);
+			WHERE UPPER(TABLE_NAME) = '.$this->escape(strtoupper($table));
 	}
 
 	// --------------------------------------------------------------------
@@ -219,7 +219,7 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
 
 		$sql = 'SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, NUMERIC_PRECISION, COLUMN_DEFAULT
 			FROM INFORMATION_SCHEMA.Columns
-			WHERE TABLE_NAME = '.$this->escape($table);
+			WHERE UPPER(TABLE_NAME) = '.$this->escape(strtoupper($table));
 
 		if (($query = $this->query($sql)) === FALSE)
 		{
