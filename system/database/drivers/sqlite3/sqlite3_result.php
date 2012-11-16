@@ -79,15 +79,24 @@ class CI_DB_sqlite3_result extends CI_DB_result {
 	 */
 	public function field_data()
 	{
+		static $data_types = array(
+			SQLITE3_INTEGER	=> 'integer',
+			SQLITE3_FLOAT	=> 'float',
+			SQLITE3_TEXT	=> 'text',
+			SQLITE3_BLOB	=> 'blob',
+			SQLITE3_NULL	=> 'null'
+		);
+
 		$retval = array();
 		for ($i = 0, $c = $this->num_fields(); $i < $this->num_fields(); $i++)
 		{
 			$retval[$i]			= new stdClass();
 			$retval[$i]->name		= $this->result_id->columnName($i);
-			$retval[$i]->type		= 'varchar';
-			$retval[$i]->max_length		= 0;
-			$retval[$i]->primary_key	= 0;
-			$retval[$i]->default		= '';
+
+			$type = $this->result_id->columnType($i);
+			$retval[$i]->type		= isset($data_types[$type]) ? $data_types[$type] : $type;
+
+			$retval[$i]->max_length		= NULL;
 		}
 
 		return $retval;
