@@ -325,7 +325,9 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _list_columns($table = '')
 	{
-		return "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.Columns WHERE TABLE_NAME = '".$table."'";
+		return 'SELECT COLUMN_NAME
+			FROM INFORMATION_SCHEMA.Columns
+			WHERE TABLE_NAME = '.$this->escape($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -359,7 +361,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 			$retval[$i]			= new stdClass();
 			$retval[$i]->name		= $query[$i]->COLUMN_NAME;
 			$retval[$i]->type		= $query[$i]->DATA_TYPE;
-			$retval[$i]->max_length		= ($query[$i]->CHARACTER_MAXIMUM_LENGTH > 0) ? $query[$i]->NUMERIC_PRECISION : $query[$i]->CHARACTER_MAXIMUM_LENGTH;
+			$retval[$i]->max_length		= ($query[$i]->CHARACTER_MAXIMUM_LENGTH > 0) ? $query[$i]->CHARACTER_MAXIMUM_LENGTH : $query[$i]->NUMERIC_PRECISION;
 			$retval[$i]->default		= $query[$i]->COLUMN_DEFAULT;
 		}
 
