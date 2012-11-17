@@ -126,7 +126,8 @@ class CI_DB_pdo_ibm_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		$sql = 'SELECT "tabname" FROM "syscat"."tables" WHERE "type" = \'T\'';
+		$sql = 'SELECT "tabname" FROM "syscat"."tables"
+			WHERE "type" = \'T\' AND LOWER("tabschema") = '.$this->escape(strtolower($this->database));
 
 		if ($prefix_limit === TRUE && $this->dbprefix !== '')
 		{
@@ -145,27 +146,35 @@ class CI_DB_pdo_ibm_driver extends CI_DB_pdo_driver {
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
 	 * @param	string	$table
-	 * @return	string
+	 * @return	array
 	 */
 	protected function _list_columns($table = '')
 	{
-		return 'SELECT "colname" FROM "syscat"."tables"
-			WHERE "syscat"."tabtype" = \'T\' AND "syscat"."tabname" = '.$this->escape($table);
+		return 'SELECT "colname" FROM "syscat"."columns"
+			WHERE LOWER("tabschema") = '.$this->escape(strtolower($this->database)).'
+				AND LOWER("tabname") = '.$this->escape(strtolower($table));
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Field data query
-	 *
-	 * Generates a platform-specific query so that the column data can be retrieved
+	 * Returns an object with field data
 	 *
 	 * @param	string	$table
-	 * @return	string
+	 * @return	array
 	 */
-	protected function _field_data($table)
+	public function field_data($table = '')
 	{
-		return 'SELECT * FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE).' FETCH FIRST 1 ROWS ONLY';
+		$sql = 'SELECT "colname" AS "name", "typename" AS "type", "default" AS "default", "length" AS "max_length",
+				CASE "keyseq" WHEN NULL THEN 0 ELSE 1 END AS "primary_key"
+			FROM "syscat"."columns"
+			WHERE LOWER("tabschema") = '.$this->escape(strtolower($this->database)).'
+				AND LOWER("tabname") = '.$this->escape(strtolower($table)).'
+			ORDER BY "colno"';
+
+		return (($query = $this->query($sql)) !== FALSE)
+			? $query->result_object()
+			: FALSE;
 	}
 
 	// --------------------------------------------------------------------

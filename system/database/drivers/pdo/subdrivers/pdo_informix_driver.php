@@ -128,7 +128,8 @@ class CI_DB_pdo_informix_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		$sql = 'SELECT "tabname" FROM "systables" WHERE "tabid" > 99 AND "tabtype" = \'T\'';
+		$sql = 'SELECT "tabname" FROM "systables"
+			WHERE "tabid" > 99 AND "tabtype" = \'T\' AND LOWER("owner") = '.$this->escape(strtolower($this->username));
 
 		if ($prefix_limit === TRUE && $this->dbprefix !== '')
 		{
@@ -151,24 +152,79 @@ class CI_DB_pdo_informix_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _list_columns($table = '')
 	{
+		if (strpos($table, '.') !== FALSE)
+		{
+			sscanf($table, '%[^.].%s', $owner, $table);
+		}
+		else
+		{
+			$owner = $this->username;
+		}
+
 		return 'SELECT "colname" FROM "systables", "syscolumns"
-			WHERE "systables"."tabid" = "syscolumns"."tabid" AND "systables"."tabtype" = \'T\' AND "systables"."tabname" = '
-			.$this->escape($table);
+			WHERE "systables"."tabid" = "syscolumns"."tabid"
+				AND "systables"."tabtype" = \'T\'
+				AND LOWER("systables"."owner") = '.$this->escape(strtolower($owner)).'
+				AND LOWER("systables"."tabname") = '.$this->escape(strtolower($table));
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Field data query
-	 *
-	 * Generates a platform-specific query so that the column data can be retrieved
+	 * Returns an object with field data
 	 *
 	 * @param	string	$table
-	 * @return	string
+	 * @return	array
 	 */
-	protected function _field_data($table)
+	public function field_data($table = '')
 	{
-		return 'SELECT FIRST 1 * FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE);
+		$sql = 'SELECT "syscolumns"."colname" AS "name",
+				CASE "syscolumns"."coltype"
+					WHEN 0 THEN \'CHAR\'
+					WHEN 1 THEN \'SMALLINT\'
+					WHEN 2 THEN \'INTEGER\'
+					WHEN 3 THEN \'FLOAT\'
+					WHEN 4 THEN \'SMALLFLOAT\'
+					WHEN 5 THEN \'DECIMAL\'
+					WHEN 6 THEN \'SERIAL\'
+					WHEN 7 THEN \'DATE\'
+					WHEN 8 THEN \'MONEY\'
+					WHEN 9 THEN \'NULL\'
+					WHEN 10 THEN \'DATETIME\'
+					WHEN 11 THEN \'BYTE\'
+					WHEN 12 THEN \'TEXT\'
+					WHEN 13 THEN \'VARCHAR\'
+					WHEN 14 THEN \'INTERVAL\'
+					WHEN 15 THEN \'NCHAR\'
+					WHEN 16 THEN \'NVARCHAR\'
+					WHEN 17 THEN \'INT8\'
+					WHEN 18 THEN \'SERIAL8\'
+					WHEN 19 THEN \'SET\'
+					WHEN 20 THEN \'MULTISET\'
+					WHEN 21 THEN \'LIST\'
+					WHEN 22 THEN \'Unnamed ROW\'
+					WHEN 40 THEN \'LVARCHAR\'
+					WHEN 41 THEN \'BLOB/CLOB/BOOLEAN\'
+					WHEN 4118 THEN \'Named ROW\'
+					ELSE "syscolumns"."coltype"
+				END AS "type",
+				"syscolumns"."collength" as "max_length",
+				CASE "sysdefaults"."type"
+					WHEN \'L\' THEN "sysdefaults"."default"
+					ELSE NULL
+				END AS "default"
+			FROM "syscolumns", "systables", "sysdefaults"
+			WHERE "syscolumns"."tabid" = "systables"."tabid"
+				AND "systables"."tabid" = "sysdefaults"."tabid"
+				AND "syscolumns"."colno" = "sysdefaults"."colno"
+				AND "systables"."tabtype" = \'T\'
+				AND LOWER("systables"."owner") = '.$this->escape(strtolower($this->username)).'
+				AND LOWER("systables"."tabname") = '.$this->escape(strtolower($table)).'
+			ORDER BY "syscolumns"."colno"';
+
+		return (($query = $this->query($sql)) !== FALSE)
+			? $query->result_object()
+			: FALSE;
 	}
 
 	// --------------------------------------------------------------------
