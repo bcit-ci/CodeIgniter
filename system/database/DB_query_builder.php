@@ -2513,8 +2513,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			{
 				continue;
 			}
-
-			$this->$qb_variable = array_unique(array_merge($this->$qb_cache_var, $this->$qb_variable));
+			$this->$qb_variable = array_merge($this->$qb_variable, array_diff($this->$qb_cache_var, $this->$qb_variable));
 		}
 
 		// If we are "protecting identifiers" we need to examine the "from"
@@ -2524,7 +2523,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->_track_aliases($this->qb_from);
 		}
 
-		$this->qb_no_escape = $this->qb_cache_no_escape;
+		$this->qb_no_escape = array_merge($this->qb_no_escape, array_diff($this->qb_cache_no_escape, $this->qb_no_escape));
 	}
 
 	// --------------------------------------------------------------------
