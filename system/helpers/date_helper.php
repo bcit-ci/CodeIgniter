@@ -360,8 +360,8 @@ if ( ! function_exists('mysql_to_unix'))
 	/**
 	 * Converts a MySQL Timestamp to Unix
 	 *
-	 * @param	int	Unix timestamp
-	 * @return	int
+	 * @param	int	MySQL timestamp YYYY-MM-DD HH:MM:SS
+	 * @return	int	Unix timstamp
 	 */
 	function mysql_to_unix($time = '')
 	{
