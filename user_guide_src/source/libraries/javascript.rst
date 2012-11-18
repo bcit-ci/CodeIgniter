@@ -22,7 +22,8 @@ the path to the Javascript library that you'll be using.
 
 You can set the configuration item in Applications/config/config.php, your own
 configuration file, or with set_item() calls before you intialize the class.
-You can find details on how to set config items in :doc:`Config Library <config>`
+You can find details on how to set config items in 
+:doc:`Config Library <config>`
 
 	.. note:: The example above uses the `Google CDN 
 		<http://developers.google.com/speed/libraries/devguide>`_ 
