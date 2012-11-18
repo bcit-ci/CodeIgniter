@@ -20,7 +20,8 @@ the path to the Javascript library that you'll be using.
 		$config['javascript_location'] = 
 			'http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js';
 
-You can find details on how to set config items in 
+You can set the configuration item in Applications/config/config.php, your own configuration file, or with 
+set_item() calls before you intialize the class.  You can find details on how to set config items in 
 :doc:`Config Library <config>`
 
 	.. note:: The example above uses the `Google CDN 
@@ -37,15 +38,11 @@ What you'll need in your controller
 
 Load the library
 ----------------
-Initialize the Javascript class in your controller constructor, for example:
+Initialize the Javascript class in your controller.
 
 	::
 
-			function __construct() 
-			{ 
-			    parent::__construct();
-			    $this->load->library('javascript');
-			}
+			$this->load->library('javascript');
 
 
 Add Javascript Elements and Compile
