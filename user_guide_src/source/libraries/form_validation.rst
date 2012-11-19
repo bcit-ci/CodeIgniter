@@ -63,7 +63,7 @@ The Form
 ========
 
 Using a text editor, create a form called myform.php. In it, place this
-code and save it to your applications/views/ folder::
+code and save it to your application/views/ folder::
 
 	<html>
 	<head>
@@ -98,7 +98,7 @@ The Success Page
 ================
 
 Using a text editor, create a form called formsuccess.php. In it, place
-this code and save it to your applications/views/ folder::
+this code and save it to your application/views/ folder::
 
 	<html>
 	<head>
@@ -117,7 +117,7 @@ The Controller
 ==============
 
 Using a text editor, create a controller called form.php. In it, place
-this code and save it to your applications/controllers/ folder::
+this code and save it to your application/controllers/ folder::
 
 	<?php
 
