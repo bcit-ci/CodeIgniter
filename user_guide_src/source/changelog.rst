@@ -157,6 +157,7 @@ Release Date: Not Released
 	 - Added escaping with *QUOTE_IDENTIFIER* setting detection.
 	 - Added port handling support for UNIX-based systems (MSSQL driver).
 	 - Added *OFFSET* support for SQL Server 2005 and above.
+	 - Added ``db_set_charset()`` support (MSSQL driver).
    -  Improved support of the Oracle (OCI8) driver, including:
 	 - Added DSN string support (Easy Connect and TNS).
 	 - Added support for ``drop_table()`` in :doc:`Database Forge <database/forge>`.
