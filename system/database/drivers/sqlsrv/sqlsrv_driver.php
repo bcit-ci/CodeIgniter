@@ -135,7 +135,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 			$database = $this->database;
 		}
 
-		if ($this->_execute('USE '.$database))
+		if ($this->_execute('USE '.$this->escape_identifiers($database)))
 		{
 			$this->database = $database;
 			return TRUE;
