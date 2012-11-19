@@ -762,7 +762,7 @@ abstract class CI_DB_forge {
 						$attributes['CONSTRAINT'] = $this->db->escape($attributes['CONSTRAINT']);
 					default:
 						$field['length'] = is_array($attributes['CONSTRAINT'])
-								? '('.implode(',', $attributes['CONSTRAINT']).')'
+								? '("'.implode('","', $attributes['CONSTRAINT']).'")'
 								: '('.$attributes['CONSTRAINT'].')';
 						break;
 				}
