@@ -26,7 +26,7 @@ Creating the Upload Form
 ========================
 
 Using a text editor, create a form called upload_form.php. In it, place
-this code and save it to your applications/views/ folder::
+this code and save it to your application/views/ folder::
 
 	<html>
 	<head>
@@ -59,7 +59,7 @@ The Success Page
 ================
 
 Using a text editor, create a form called upload_success.php. In it,
-place this code and save it to your applications/views/ folder::
+place this code and save it to your application/views/ folder::
 
 	<html>
 	<head>
@@ -84,7 +84,7 @@ The Controller
 ==============
 
 Using a text editor, create a controller called upload.php. In it, place
-this code and save it to your applications/controllers/ folder::
+this code and save it to your application/controllers/ folder::
 
 	<?php
 

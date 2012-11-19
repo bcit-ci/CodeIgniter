@@ -2399,7 +2399,7 @@ Release Date: September 17, 2006
 -  Moved the list of "allowed URI characters" out of the Router class
    and into the config file.
 -  Moved the MIME type array out of the Upload class and into its own
-   file in the applications/config/ folder.
+   file in the application/config/ folder.
 -  Updated the Upload class to allow the upload field name to be set
    when calling :doc:`do_upload() <./libraries/file_uploading>`.
 -  Updated the :doc:`Config Library <./libraries/config>` to be able to
