@@ -38,6 +38,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_Session_native extends CI_Session_driver {
 
+	protected $forwarding = FALSE;
+
 	/**
 	 * Initialize session driver object
 	 *
@@ -54,6 +56,7 @@ class CI_Session_native extends CI_Session_driver {
 			'sess_match_ip',
 			'sess_match_useragent',
 			'sess_time_to_update',
+			'sess_forward_window',
 			'cookie_prefix',
 			'cookie_path',
 			'cookie_domain',
@@ -69,16 +72,17 @@ class CI_Session_native extends CI_Session_driver {
 		}
 
 		// Set session name, if specified
+		$sess_name = '';
 		if ($config['sess_cookie_name'])
 		{
 			// Differentiate name from cookie driver with '_id' suffix
-			$name = $config['sess_cookie_name'].'_id';
+			$sess_name = $config['sess_cookie_name'].'_id';
 			if ($config['cookie_prefix'])
 			{
 				// Prepend cookie prefix
-				$name = $config['cookie_prefix'].$name;
+				$sess_name = $config['cookie_prefix'].$sess_name;
 			}
-			session_name($name);
+			session_name($sess_name);
 		}
 
 		// Set expiration, path, and domain
@@ -106,13 +110,39 @@ class CI_Session_native extends CI_Session_driver {
 			$domain = $config['cookie_domain'];
 		}
 
+		if ($config['sess_forward_window'] && $config['sess_forward_window'] > 0)
+		{
+			// Save forwarding window
+			$this->forwarding = $config['sess_forward_window'];
+		}
+
 		session_set_cookie_params($config['sess_expire_on_close'] ? 0 : $expire, $path, $domain, $secure, $http_only);
 
 		// Start session
 		session_start();
 
-		// Check session expiration, ip, and agent
+		// Check for session forwarding
 		$now = time();
+		if ($this->forwarding && isset($_SESSION['sess_new_id']))
+		{
+			// Get new ID and fowarding expiration and destroy old session
+			$new_id = $_SESSION['sess_new_id'];
+			$expires = isset($_SESSION['fwd_expires']) ? $_SESSION['fwd_expires'] : 0;
+			$this->sess_destroy();
+
+			// Check expiration
+			if ($now < $expires)
+			{
+				// Forward to new session
+				$name = $sess_name ? $sess_name : session_name();
+				$_COOKIE[$sess_name] = $new_id;
+			}
+
+			// Start new session
+			session_start();
+		}
+
+		// Check session expiration, ip, and agent
 		$destroy = FALSE;
 		if (isset($_SESSION['last_activity']) && (($_SESSION['last_activity'] + $expire) < $now OR $_SESSION['last_activity'] > $now))
 		{
@@ -145,7 +175,7 @@ class CI_Session_native extends CI_Session_driver {
 			&& ($_SESSION['last_activity'] + $config['sess_time_to_update']) < $now)
 		{
 			// Changing the session ID amidst a series of AJAX calls causes problems
-			if( ! $this->CI->input->is_ajax_request())
+			if($this->forwarding OR ! $this->CI->input->is_ajax_request())
 			{
 				// Regenerate ID, but don't destroy session
 				$this->sess_regenerate(FALSE);
@@ -187,6 +217,19 @@ class CI_Session_native extends CI_Session_driver {
 	// ------------------------------------------------------------------------
 
 	/**
+	 * Close session and release locks
+	 *
+	 * @return	void
+	 */
+	public function sess_close()
+	{
+		// Close session - releases file lock
+		session_write_close();
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
 	 * Destroy the current session
 	 *
 	 * @return	void
@@ -218,8 +261,40 @@ class CI_Session_native extends CI_Session_driver {
 	 */
 	public function sess_regenerate($destroy = FALSE)
 	{
-		// Just regenerate id, passing destroy flag
-		session_regenerate_id($destroy);
+		// Check for session forwarding
+		if ($this->forwarding)
+		{
+			// Generate new session ID
+			// We use the same method as php_session_create_id - the default
+			// generator in the PHP session extension
+			$addr = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
+			$time = gettimeofday();
+			$id = md5(sprintf('%.15s%ld%ld%0.8F', $addr, $time['sec'], $time['usec'], lcg_value()));
+
+			// Replace current session data
+			if ( ! $destroy)
+			{
+				$data = $_SESSION;
+			}
+			$_SESSION = array('sess_new_id' => $id, 'fwd_expires' => time() + $this->forwarding);
+
+			// Close session and open new
+			session_write_close();
+			session_id($id);
+			session_start();
+
+			// Restore session data
+			if ( ! $destroy)
+			{
+				$_SESSION = $data;
+			}
+		}
+		else
+		{
+			// Just regenerate id, passing destroy flag
+			session_regenerate_id($destroy);
+		}
+
 		$_SESSION['session_id'] = session_id();
 	}
 
