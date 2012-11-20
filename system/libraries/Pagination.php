@@ -473,7 +473,7 @@ class CI_Pagination {
 		// Render the "First" link
 		if ($this->first_link !== FALSE && $this->cur_page > ($this->num_links + 1))
 		{
-			$first_url = ($this->first_url === '') ? $this->base_url : $this->first_url;
+			$first_url = ($this->first_url === '') ? $this->prefix.$this->base_url.$this->suffix : $this->first_url;
 
 			// Take the general parameters, and squeeze this pagination-page attr in there for JS fw's
 			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, 1);
