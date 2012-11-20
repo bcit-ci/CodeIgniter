@@ -110,6 +110,26 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * "Smart" Escape String
+	 *
+	 * Escapes data based on type
+	 *
+	 * @param	string	$str
+	 * @return	mixed
+	 */
+	public function escape($str)
+	{
+		if (is_bool($str))
+		{
+			return ($str) ? 'TRUE' : 'FALSE';
+		}
+
+		return parent::escape($str);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * ORDER BY
 	 *
 	 * @param	string	$orderby
@@ -310,91 +330,6 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	{
 		return $sql.' LIMIT '.$this->qb_limit.($this->qb_offset ? ' OFFSET '.$this->qb_offset : '');
 	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * WHERE, HAVING
-	 *
-	 * Called by where(), or_where(), having(), or_having()
-	 *
-	 * @param	string	'qb_where' or 'qb_having'
-	 * @param	mixed
-	 * @param	mixed
-	 * @param	string
-	 * @param	bool
-	 * @return	object
-	 */
-	protected function _wh($qb_key, $key, $value = NULL, $type = 'AND ', $escape = NULL)
-	{
-		$qb_cache_key = ($qb_key === 'qb_having') ? 'qb_cache_having' : 'qb_cache_where';
-
-		if ( ! is_array($key))
-		{
-			$key = array($key => $value);
-		}
-
-		// If the escape value was not set will will base it on the global setting
-		is_bool($escape) OR $escape = $this->_protect_identifiers;
-
-		foreach ($key as $k => $v)
-		{
-			$prefix = (count($this->$qb_key) === 0 && count($this->$qb_cache_key) === 0)
-				? $this->_group_get_type('')
-				: $this->_group_get_type($type);
-
-			if (is_null($v) && ! $this->_has_operator($k))
-			{
-				// value appears not to have been set, assign the test to IS NULL
-				$k .= ' IS NULL';
-			}
-
-			if ( ! is_null($v))
-			{
-				if (is_bool($v))
-				{
-					$v = ' '.($v ? 'TRUE' : 'FALSE');
-				}
-				elseif ($escape === TRUE)
-				{
-					$v = ' '.(is_int($v) ? $v : $this->escape($v));
-				}
-
-				if ( ! $this->_has_operator($k))
-				{
-					$k .= ' = ';
-				}
-			}
-
-			$this->{$qb_key}[] = array('condition' => $prefix.$k.$v, 'escape' => $escape);
-			if ($this->qb_caching === TRUE)
-			{
-				$this->{$qb_cache_key}[] = array('condition' => $prefix.$k.$v, 'escape' => $escape);
-				$this->qb_cache_exists[] = substr($qb_key, 3);
-			}
-
-		}
-
-		return $this;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Is literal
-	 *
-	 * Determines if a string represents a literal value or a field name
-	 *
-	 * @param	string	$str
-	 * @return	bool
-	 */
-	protected function _is_literal($str)
-	{
-		$str = trim($str);
-
-		return (empty($str) OR ctype_digit($str) OR $str[0] === "'" OR in_array($str, array('TRUE', 'FALSE'), TRUE));
-	}
-
 
 }
 
