@@ -1348,7 +1348,7 @@ abstract class CI_DB_driver {
 			$fields[$this->protect_identifiers($key)] = $this->escape($val);
 		}
 
-		return $this->_update($this->protect_identifiers($table, TRUE, NULL, FALSE), $fields, $dest);
+		return $this->_update($this->protect_identifiers($table, TRUE, NULL, FALSE), $fields);
 	}
 
 	// --------------------------------------------------------------------
