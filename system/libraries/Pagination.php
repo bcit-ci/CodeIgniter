@@ -460,7 +460,7 @@ class CI_Pagination {
 			// Unset the controll, method, old-school routing options
 			unset($get['c'], $get['m'], $get[$this->query_string_segment]);
 
-			if (is_array($get) AND ! empty($get))
+			if ( ! empty($get))
 			{
 				// Put everything else onto the end
 				$query_string = (strpos($this->base_url, '?') !== FALSE ? '&amp;' : '?') . http_build_query($get, '', '&amp;');
