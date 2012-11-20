@@ -644,23 +644,22 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				? $this->_group_get_type('')
 				: $this->_group_get_type($type);
 
-			if (is_null($v) && ! $this->_has_operator($k))
-			{
-				// value appears not to have been set, assign the test to IS NULL
-				$k .= ' IS NULL';
-			}
-
 			if ( ! is_null($v))
 			{
 				if ($escape === TRUE)
 				{
-					$v = ' '.(is_int($v) ? $v : $this->escape($v));
+					$v = ' '.$this->escape($v);
 				}
 
 				if ( ! $this->_has_operator($k))
 				{
 					$k .= ' = ';
 				}
+			}
+			elseif ( ! $this->_has_operator($k))
+			{
+				// value appears not to have been set, assign the test to IS NULL
+				$k .= ' IS NULL';
 			}
 
 			$this->{$qb_key}[] = array('condition' => $prefix.$k.$v, 'escape' => $escape);
@@ -2540,7 +2539,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	{
 		$str = trim($str);
 
-		if (empty($str))
+		if (empty($str) OR ctype_digit($str) OR (string) (float) $str === $str OR in_array(strtoupper($str), array('TRUE', 'FALSE'), TRUE))
 		{
 			return TRUE;
 		}
@@ -2553,7 +2552,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				? array('"', "'") : array("'");
 		}
 
-		return (ctype_digit($str) OR in_array($str[0], $_str, TRUE));
+		return in_array($str[0], $_str, TRUE);
 	}
 
 	// --------------------------------------------------------------------
