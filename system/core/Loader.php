@@ -132,7 +132,7 @@ class CI_Loader {
 	 *
 	 * @var	array
 	 */
-	protected $_ci_db_connections =	array();
+	protected $_ci_db_conns =	array();
 
 	/**
 	 * Class constructor
@@ -343,15 +343,17 @@ class CI_Loader {
 
 		if ($return === TRUE)
 		{
-			if (isset($this->_ci_db_connections[md5(serialize($params).serialize($query_builder))]))
+			$connection_identifier = md5(serialize($params).serialize($query_builder));
+
+			if (isset($this->_ci_db_conns[$connection_identifier]))
 			{
-				return $this->_ci_db_connections[md5(serialize($params).serialize($query_builder))];
+				return $this->_ci_db_conns[$connection_identifier];
 			}
 			else
 			{
-				$this->_ci_db_connections[md5(serialize($params).serialize($query_builder))] = DB($params, $query_builder);
+				$this->_ci_db_conns[$connection_identifier] = DB($params, $query_builder);
 				
-				return $this->_ci_db_connections[md5(serialize($params).serialize($query_builder))];
+				return $this->_ci_db_conns[$connection_identifier];
 			}
 		}
 
