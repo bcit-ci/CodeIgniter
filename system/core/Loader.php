@@ -128,6 +128,13 @@ class CI_Loader {
 	);
 
 	/**
+	 * Established database connections
+	 *
+	 * @var	array
+	 */
+	protected $_ci_db_connections =	array();
+
+	/**
 	 * Class constructor
 	 *
 	 * Sets component load paths, gets the initial output buffering level.
@@ -336,7 +343,16 @@ class CI_Loader {
 
 		if ($return === TRUE)
 		{
-			return DB($params, $query_builder);
+			if (isset($this->_ci_db_connections[md5(serialize($params).serialize($query_builder))]))
+			{
+				return $this->_ci_db_connections[md5(serialize($params).serialize($query_builder))];
+			}
+			else
+			{
+				$this->_ci_db_connections[md5(serialize($params).serialize($query_builder))] = DB($params, $query_builder);
+				
+				return $this->_ci_db_connections[md5(serialize($params).serialize($query_builder))];
+			}
 		}
 
 		// Initialize the db variable. Needed to prevent
