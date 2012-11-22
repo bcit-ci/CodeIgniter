@@ -108,12 +108,8 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 			}
 			else
 			{
-				$sqls[] = $sql.' CHANGE '.$this->_process_column($field[$i]);
-				if ( ! empty($field[$i]['new_name']))
-				{
-					$sqls[] = $sql.' RENAME COLUMN '.$this->db->escape_identifiers($field[$i]['name'])
-						.' AS '.$this->db->escape_identifiers($field[$i]['name']);
-				}
+				$alter_type = empty($field[$i]['new_name']) ? ' MODIFY ' : ' CHANGE ';
+				$sqls[] = $sql.$alter_type$this->_process_column($field[$i]);
 			}
 		}
 
@@ -139,7 +135,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 		}
 
 		return $this->db->escape_identifiers($field['name'])
-			.(empty($field['new_name']) ? '' : $this->db->escape_identifiers($field['new_name']))
+			.(empty($field['new_name']) ? '' : ' '.$this->db->escape_identifiers($field['new_name']))
 			.' '.$field['type'].$field['length']
 			.$field['unsigned']
 			.$field['null']
