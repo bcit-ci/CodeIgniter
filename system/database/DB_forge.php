@@ -642,7 +642,7 @@ abstract class CI_DB_forge {
 			show_error('Field information is required.');
 		}
 
-		$sqls = $this->_alter_table('CHANGE', $this->db->dbprefix.$table, $this->fields);
+		$sqls = $this->_alter_table('CHANGE', $this->db->dbprefix.$table, $this->_process_fields());
 		$this->_reset();
 		if ($sqls === FALSE)
 		{

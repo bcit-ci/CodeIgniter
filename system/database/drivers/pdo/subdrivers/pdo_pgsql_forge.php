@@ -103,7 +103,7 @@ class CI_DB_pdo_pgsql_forge extends CI_DB_pdo_forge {
 
 		$sql = 'ALTER TABLE '.$this->db->escape_identifiers($table);
 		$sqls = array();
-		for ($i = 0, $c = count($field), $sql .= $alter_type.' '; $i < $c; $i++)
+		for ($i = 0, $c = count($field); $i < $c; $i++)
 		{
 			if ($field[$i]['_literal'] !== FALSE)
 			{
@@ -112,24 +112,25 @@ class CI_DB_pdo_pgsql_forge extends CI_DB_pdo_forge {
 
 			if (version_compare($this->db->version(), '8', '>=') && isset($field[$i]['type']))
 			{
-				$sqls[] = $sql.' TYPE '.$field[$i]['type'].$field[$i]['length'];
+				$sqls[] = $sql.' ALTER COLUMN '.$this->db->escape_identifiers($field[$i]['name'])
+					.' TYPE '.$field[$i]['type'].$field[$i]['length'];
 			}
 
 			if ( ! empty($field[$i]['default']))
 			{
-				$sqls[] = $sql.' ALTER '.$this->db->escape_identifiers($field[$i]['name'])
-					.' SET '.$field[$i]['default'];
+				$sqls[] = $sql.' ALTER COLUMN '.$this->db->escape_identifiers($field[$i]['name'])
+					.' SET DEFAULT '.$field[$i]['default'];
 			}
 
 			if (isset($field[$i]['null']))
 			{
-				$sqls[] = $sql.' ALTER '.$this->db->escape_identifiers($field[$i]['name'])
+				$sqls[] = $sql.' ALTER COLUMN '.$this->db->escape_identifiers($field[$i]['name'])
 					.($field[$i]['null'] === TRUE ? ' DROP NOT NULL' : ' SET NOT NULL');
 			}
 
 			if ( ! empty($field[$i]['new_name']))
 			{
-				$sqls[] = $sql.' RENAME '.$this->db->escape_identifiers($field[$i]['name'])
+				$sqls[] = $sql.' RENAME COLUMN '.$this->db->escape_identifiers($field[$i]['name'])
 					.' TO '.$this->db->escape_identifiers($field[$i]['new_name']);
 			}
 		}

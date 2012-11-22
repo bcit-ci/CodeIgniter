@@ -56,6 +56,23 @@ if ( ! function_exists('force_download'))
 		{
 			return FALSE;
 		}
+		elseif ($data === NULL)
+		{
+			if (@is_file($filename) && @file_exists($filename) && ($filesize = @filesize($filename)) !== FALSE)
+			{
+				$filepath = $filename;
+				$filename = explode('/', str_replace(DIRECTORY_SEPARATOR, '/', $filename));
+				$filename = end($filename);
+			}
+			else
+			{
+				return FALSE;
+			}
+		}
+		else
+		{
+			$filesize = strlen($data);
+		}
 
 		// Set the default MIME type to send
 		$mime = 'application/octet-stream';
@@ -95,8 +112,13 @@ if ( ! function_exists('force_download'))
 			$filename = implode('.', $x);
 		}
 
+		if ($data === NULL && ($fp = @fopen($filepath, 'rb')) === FALSE)
+		{
+			return FALSE;
+		}
+
 		// Clean output buffer
-		if (ob_get_level() !== 0)
+		if (ob_get_level() !== 0 && @ob_end_clean() === FALSE)
 		{
 			ob_clean();
 		}
@@ -106,7 +128,7 @@ if ( ! function_exists('force_download'))
 		header('Content-Disposition: attachment; filename="'.$filename.'"');
 		header('Expires: 0');
 		header('Content-Transfer-Encoding: binary');
-		header('Content-Length: '.strlen($data));
+		header('Content-Length: '.$filesize);
 
 		// Internet Explorer-specific headers
 		if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE)
@@ -116,7 +138,20 @@ if ( ! function_exists('force_download'))
 
 		header('Pragma: no-cache');
 
-		exit($data);
+		// If we have raw data - just dump it
+		if ($data !== NULL)
+		{
+			exit($data);
+		}
+
+		// Flush 1MB chunks of data
+		while ( ! feof($fp) && ($data = fread($fp, 1048576)) !== FALSE)
+		{
+			echo $data;
+		}
+
+		fclose($fp);
+		exit;
 	}
 }
 

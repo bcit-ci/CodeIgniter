@@ -77,8 +77,10 @@ Release Date: Not Released
    -  :doc:`Inflector Helper <helpers/inflector_helper>` changes include:
 	 - Changed :php:func:`humanize()` to allow passing an input separator as its second parameter.
 	 - Refactored :php:func:`plural()` and :php:func:`singular()` to avoid double pluralization and support more words.
-   -  Added an optional third parameter to ``force_download()`` that enables/disables sending the actual file MIME type in the Content-Type header (disabled by default).
-   -  Added a work-around in ``force_download()`` for a bug Android <= 2.1, where the filename extension needs to be in uppercase.
+   -  :doc:`Download Helper <helpers/download_helper>` changes include:
+	 - Added an optional third parameter to :php:func:`force_download()` that enables/disables sending the actual file MIME type in the Content-Type header (disabled by default).
+	 - Added a work-around in :php:func:`force_download()` for a bug Android <= 2.1, where the filename extension needs to be in uppercase.
+	 - Added support for reading from an existing file path by passing NULL as the second parameter to :php:func:`force_download()` (useful for large files and/or safely transmitting binary data).
    -  :doc:`Form Helper <helpers/form_helper>` changes include:
 	 - :php:func:`form_dropdown()` will now also take an array for unity with other form helpers.
 	 - :php:func:`form_prep()`'s second argument now only accepts a boolean value, which determines whether the value is escaped for a <textarea> or a regular <input> element.
@@ -249,7 +251,9 @@ Release Date: Not Released
    -  :doc:`Encryption Library <libraries/encryption>` changes include:
 	 -  Added support for hashing algorithms other than SHA1 and MD5.
 	 -  Removed previously deprecated ``sha1()`` method.
-   -  Changed :doc:`Language Library <libraries/language>` method ``load()`` to filter the language name with ``ctype_digit()``.
+   -  :doc:`Language Library <libraries/language>` changes include:
+	 -  Changed method ``load()`` to filter the language name with ``ctype_digit()``.
+	 -  Added an optional second parameter to method ``line()`` to disable error login for line keys that were not found.
    -  :doc:`Profiler Library <general/profiling>` now also displays database object names.
    -  :doc:`Migration Library <libraries/migration>` changes include:
 	 -  Added support for timestamp-based migrations (enabled by default).
@@ -448,6 +452,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1978) - :doc:`Directory Helper <helpers/directory_helper>` function :php:func:`directory_map()`'s return array didn't make a distinction between directories and file indexes when a directory with a numeric name is present.
 -  Fixed a bug (#777) - :doc:`Loader Library <libraries/loader>` didn't look for helper extensions in added package paths.
 -  Fixed a bug (#18) - :doc:`APC Cache <libraries/caching>` driver didn't (un)serialize data, resulting in failure to store objects.
+-  Fixed a bug (#188) - :doc:`Unit Testing Library <libraries/unit_testing>` filled up logs with error messages for non-existing language keys.
 
 Version 2.1.3
 =============

@@ -105,7 +105,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 
 		$sql .= ' '.$alter_type.' ';
 		$sql .= (count($field) === 1)
-				? $fields[0]
+				? $field[0]
 				: '('.implode(',', $field).')';
 
 		// RENAME COLUMN must be executed after MODIFY
