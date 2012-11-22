@@ -66,8 +66,13 @@ text using this function::
 
 	$this->lang->line('language_key');
 
-Where language_key is the array key corresponding to the line you wish
+Where *language_key* is the array key corresponding to the line you wish
 to show.
+
+You can optionally pass FALSE as the second argument of that method to
+disable error logging, in case you're not sure if the line exists::
+
+	$this->lang->line('misc_key', FALSE);
 
 .. note:: This method simply returns the line. It does not echo it.
 
