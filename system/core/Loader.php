@@ -41,6 +41,13 @@ class CI_Loader {
 
 	// All these are set automatically. Don't mess with them.
 	/**
+	 * Established database connections
+	 *
+	 * @var	array
+	 */
+	public $ci_db_conns =	array();
+
+	/**
 	 * Nesting level of the output buffering mechanism
 	 *
 	 * @var	int
@@ -126,13 +133,6 @@ class CI_Loader {
 		'unit_test' => 'unit',
 		'user_agent' => 'agent'
 	);
-
-	/**
-	 * Established database connections
-	 *
-	 * @var	array
-	 */
-	protected $_ci_db_conns =	array();
 
 	/**
 	 * Class constructor
@@ -345,15 +345,15 @@ class CI_Loader {
 		{
 			$connection_identifier = md5(serialize($params).serialize($query_builder));
 
-			if (isset($this->_ci_db_conns[$connection_identifier]))
+			if (isset($this->ci_db_conns[$connection_identifier]))
 			{
-				return $this->_ci_db_conns[$connection_identifier];
+				return $this->ci_db_conns[$connection_identifier];
 			}
 			else
 			{
-				$this->_ci_db_conns[$connection_identifier] = DB($params, $query_builder);
+				$this->ci_db_conns[$connection_identifier] = DB($params, $query_builder);
 				
-				return $this->_ci_db_conns[$connection_identifier];
+				return $this->ci_db_conns[$connection_identifier];
 			}
 		}
 

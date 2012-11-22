@@ -1552,6 +1552,17 @@ abstract class CI_DB_driver {
 	 */
 	public function close()
 	{
+		if (is_array($this->load->ci_db_conns) && ! empty($this->load->ci_db_conns))
+		{
+			foreach( $this->load->ci_db_conns as $k => $instance )
+			{
+				if( $this == $instance )
+				{
+					unset( $this->load->ci_db_conns[$k] );
+				}
+			}
+		}
+
 		if ($this->conn_id)
 		{
 			$this->_close();
