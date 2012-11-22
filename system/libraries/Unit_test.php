@@ -284,11 +284,11 @@ class CI_Unit_test {
 					continue;
 				}
 
-				if (FALSE !== ($line = $CI->lang->line(strtolower('ut_'.$val))))
+				if (FALSE !== ($line = $CI->lang->line(strtolower('ut_'.$val), FALSE)))
 				{
 					$val = $line;
 				}
-				$temp[$CI->lang->line('ut_'.$key)] = $val;
+				$temp[$CI->lang->line('ut_'.$key, FALSE)] = $val;
 			}
 
 			$retval[] = $temp;

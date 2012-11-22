@@ -251,7 +251,9 @@ Release Date: Not Released
    -  :doc:`Encryption Library <libraries/encryption>` changes include:
 	 -  Added support for hashing algorithms other than SHA1 and MD5.
 	 -  Removed previously deprecated ``sha1()`` method.
-   -  Changed :doc:`Language Library <libraries/language>` method ``load()`` to filter the language name with ``ctype_digit()``.
+   -  :doc:`Language Library <libraries/language>` changes include:
+	 -  Changed method ``load()`` to filter the language name with ``ctype_digit()``.
+	 -  Added an optional second parameter to method ``line()`` to disable error login for line keys that were not found.
    -  :doc:`Profiler Library <general/profiling>` now also displays database object names.
    -  :doc:`Migration Library <libraries/migration>` changes include:
 	 -  Added support for timestamp-based migrations (enabled by default).
@@ -450,6 +452,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1978) - :doc:`Directory Helper <helpers/directory_helper>` function :php:func:`directory_map()`'s return array didn't make a distinction between directories and file indexes when a directory with a numeric name is present.
 -  Fixed a bug (#777) - :doc:`Loader Library <libraries/loader>` didn't look for helper extensions in added package paths.
 -  Fixed a bug (#18) - :doc:`APC Cache <libraries/caching>` driver didn't (un)serialize data, resulting in failure to store objects.
+-  Fixed a bug (#188) - :doc:`Unit Testing Library <libraries/unit_testing>` filled up logs with error messages for non-existing language keys.
 
 Version 2.1.3
 =============

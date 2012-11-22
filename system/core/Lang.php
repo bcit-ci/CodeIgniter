@@ -151,15 +151,16 @@ class CI_Lang {
 	 *
 	 * Fetches a single line of text from the language array
 	 *
-	 * @param	string	$line	Language line key
+	 * @param	string	$line		Language line key
+	 * @param	bool	$log_errors	Whether to log an error message if the line is not found
 	 * @return	string	Translation
 	 */
-	public function line($line = '')
+	public function line($line = '', $log_errors = TRUE)
 	{
 		$value = ($line === '' OR ! isset($this->language[$line])) ? FALSE : $this->language[$line];
 
 		// Because killer robots like unicorns!
-		if ($value === FALSE)
+		if ($value === FALSE && $log_errors === TRUE)
 		{
 			log_message('error', 'Could not find the language line "'.$line.'"');
 		}
