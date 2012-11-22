@@ -304,6 +304,14 @@ class CI_Loader {
 			require_once($mod_path.'models/'.$path.$model.'.php');
 
 			$model = ucfirst($model);
+
+			$class = new ReflectionClass($model);
+			if ( ! $class->isInstantiable())
+			{
+				// return here because there is no need to instantiate the model
+				return;
+			}
+
 			$CI->$name = new $model();
 			$this->_ci_models[] = $name;
 			return;
