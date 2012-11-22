@@ -460,19 +460,20 @@ class CI_Pagination {
 			// Unset the controll, method, old-school routing options
 			unset($get['c'], $get['m'], $get[$this->query_string_segment]);
 
-			if ( ! $get) $get = array();
+			if ( ! empty($get))
+			{
+				// Put everything else onto the end
+				$query_string = (strpos($this->base_url, '?') !== FALSE ? '&amp;' : '?') . http_build_query($get, '', '&amp;');
 
-			// Put everything else onto the end
-			$query_string = (strpos($this->base_url, '&amp;') !== FALSE ? '&amp;' : '?') . http_build_query($get, '', '&amp;');
-
-			// Add this after the suffix to put it into more links easily
-			$this->suffix .= $query_string;
+				// Add this after the suffix to put it into more links easily
+				$this->suffix .= $query_string;
+			}
 		}
 
 		// Render the "First" link
 		if ($this->first_link !== FALSE && $this->cur_page > ($this->num_links + 1))
 		{
-			$first_url = ($this->first_url === '') ? $this->base_url : $this->first_url;
+			$first_url = ($this->first_url === '') ? $this->prefix.$this->base_url.$this->suffix : $this->first_url;
 
 			// Take the general parameters, and squeeze this pagination-page attr in there for JS fw's
 			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, 1);
