@@ -231,7 +231,7 @@ class CI_Xmlrpc {
 	 *
 	 * @var	array
 	 */
-	public $response		= array();  // Response from remote server
+	public $response		= array(); // Response from remote server
 
 	/**
 	 * XSS Filter flag
@@ -265,7 +265,7 @@ class CI_Xmlrpc {
 			$this->xmlrpcBase64		=> '1',
 			$this->xmlrpcArray		=> '2',
 			$this->xmlrpcStruct		=> '3'
-			);
+		);
 
 		// Array of Valid Parents for Various XML-RPC elements
 		$this->valid_parents = array('BOOLEAN' => array('VALUE'),
@@ -285,14 +285,13 @@ class CI_Xmlrpc {
 			'DATA'				=> array('ARRAY'),
 			'FAULT'			=> array('METHODRESPONSE'),
 			'VALUE'			=> array('MEMBER', 'DATA', 'PARAM', 'FAULT')
-		 );
-
+		);
 
 		// XML-RPC Responses
 		$this->xmlrpcerr['unknown_method'] = '1';
 		$this->xmlrpcstr['unknown_method'] = 'This is not a known method for this XML-RPC Server';
 		$this->xmlrpcerr['invalid_return'] = '2';
-		$this->xmlrpcstr['invalid_return'] = 'The XML data received was either invalid or not in the correct form for XML-RPC.  Turn on debugging to examine the XML data further.';
+		$this->xmlrpcstr['invalid_return'] = 'The XML data received was either invalid or not in the correct form for XML-RPC. Turn on debugging to examine the XML data further.';
 		$this->xmlrpcerr['incorrect_params'] = '3';
 		$this->xmlrpcstr['incorrect_params'] = 'Incorrect parameters were passed to method';
 		$this->xmlrpcerr['introspect_unknown'] = '4';
@@ -300,7 +299,7 @@ class CI_Xmlrpc {
 		$this->xmlrpcerr['http_error'] = '5';
 		$this->xmlrpcstr['http_error'] = "Did not receive a '200 OK' response from remote server.";
 		$this->xmlrpcerr['no_data'] = '6';
-		$this->xmlrpcstr['no_data'] ='No data received from server.';
+		$this->xmlrpcstr['no_data'] = 'No data received from server.';
 
 		$this->initialize($config);
 
@@ -946,7 +945,7 @@ class XML_RPC_Response
 	 */
 	public function iso8601_decode($time, $utc = FALSE)
 	{
-		// return a time in the localtime, or UTC
+		// Return a time in the localtime, or UTC
 		$t = 0;
 		if (preg_match('/([0-9]{4})([0-9]{2})([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})/', $time, $regs))
 		{
@@ -1081,7 +1080,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 		}
 
 		//-------------------------------------
-		//  Create and Set Up XML Parser
+		// Create and Set Up XML Parser
 		//-------------------------------------
 
 		$parser = xml_parser_create($this->xmlrpc_defencoding);
@@ -1119,7 +1118,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 			$errstr = sprintf('XML error: %s at line %d',
 						xml_error_string(xml_get_error_code($parser)),
 						xml_get_current_line_number($parser));
-			//error_log($errstr);
+
 			$r = new XML_RPC_Response(0, $this->xmlrpcerr['invalid_return'], $this->xmlrpcstr['invalid_return']);
 			xml_parser_free($parser);
 			return $r;
@@ -1230,7 +1229,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 		elseif ( ! in_array($this->xh[$the_parser]['stack'][0], $this->valid_parents[$name], TRUE))
 		{
 			$this->xh[$the_parser]['isf'] = 2;
-			$this->xh[$the_parser]['isf_reason'] = 'XML-RPC element $name cannot be child of '.$this->xh[$the_parser]['stack'][0];
+			$this->xh[$the_parser]['isf_reason'] = 'XML-RPC element '.$name.' cannot be child of '.$this->xh[$the_parser]['stack'][0];
 			return;
 		}
 
@@ -1268,7 +1267,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 				{
 					//two data elements inside a value: an error occurred!
 					$this->xh[$the_parser]['isf'] = 2;
-					$this->xh[$the_parser]['isf_reason'] = "'Twas a ".$name.' element following a '
+					$this->xh[$the_parser]['isf_reason'] = 'There is a '.$name.' element following a '
 										.$this->xh[$the_parser]['vt'].' element inside a single value';
 					return;
 				}
@@ -1380,7 +1379,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 				break;
 			case 'VALUE':
 				// This if() detects if no scalar was inside <VALUE></VALUE>
-				if ($this->xh[$the_parser]['vt']=='value')
+				if ($this->xh[$the_parser]['vt'] == 'value')
 				{
 					$this->xh[$the_parser]['value']	= $this->xh[$the_parser]['ac'];
 					$this->xh[$the_parser]['vt']	= $this->xmlrpcString;
@@ -1613,7 +1612,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 
 			if ($this->xmlrpcTypes[$type] == 1)
 			{
-				$this->addScalar($val,$type);
+				$this->addScalar($val, $type);
 			}
 			elseif ($this->xmlrpcTypes[$type] == 2)
 			{
