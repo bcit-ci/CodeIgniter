@@ -99,7 +99,7 @@ class CI_Cart {
 
 		// Grab the shopping cart array from the session table
 		$this->_cart_contents = $this->CI->session->userdata('cart_contents');
-		if ($this->_cart_contents === FALSE)
+		if ($this->_cart_contents === NULL)
 		{
 			// No cart exists so we'll set some base values
 			$this->_cart_contents = array('cart_total' => 0, 'total_items' => 0);
