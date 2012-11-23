@@ -453,6 +453,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#777) - :doc:`Loader Library <libraries/loader>` didn't look for helper extensions in added package paths.
 -  Fixed a bug (#18) - :doc:`APC Cache <libraries/caching>` driver didn't (un)serialize data, resulting in failure to store objects.
 -  Fixed a bug (#188) - :doc:`Unit Testing Library <libraries/unit_testing>` filled up logs with error messages for non-existing language keys.
+-  Fixed a bug (#113) - :doc:`Form Validation Library <libraries/form_validation>` didn't properly handle empty fields that were specified as an array.
 
 Version 2.1.3
 =============
