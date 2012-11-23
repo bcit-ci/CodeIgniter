@@ -497,7 +497,7 @@ class CI_Form_validation {
 		}
 
 		// NULL must be returned for empty fields
-		return ($array === '') ? NULL : $array;;
+		return ($array === '') ? NULL : $array;
 	}
 
 	// --------------------------------------------------------------------
