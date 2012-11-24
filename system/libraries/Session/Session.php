@@ -389,18 +389,28 @@ class CI_Session extends CI_Driver_Library {
 	/**
 	 * Keeps existing flashdata available to next request.
 	 *
-	 * @param	string	Item key
+	 * @param	mixed	Item key
 	 * @return	void
 	 */
-	public function keep_flashdata($key)
+	public function keep_flashdata($data)
 	{
-		// 'old' flashdata gets removed. Here we mark all flashdata as 'new' to preserve it from _flashdata_sweep()
-		// Note the function will return NULL if the $key provided cannot be found
-		$old_flashdata_key = self::FLASHDATA_KEY.self::FLASHDATA_OLD.$key;
-		$value = $this->userdata($old_flashdata_key);
+		// Wrap item as array if singular
+		if (is_string($data))
+		{
+			$data = array($data);
+		}
 
-		$new_flashdata_key = self::FLASHDATA_KEY.self::FLASHDATA_NEW.$key;
-		$this->set_userdata($new_flashdata_key, $value);
+		foreach($data as $key)
+		{
+			// 'old' flashdata gets removed. Here we mark all flashdata as 'new' to preserve it from _flashdata_sweep()
+			// Note the function will return NULL if the $key provided cannot be found
+			$old_flashdata_key = self::FLASHDATA_KEY.self::FLASHDATA_OLD.$key;
+			$value = $this->userdata($old_flashdata_key);
+
+			$new_flashdata_key = self::FLASHDATA_KEY.self::FLASHDATA_NEW.$key;
+			$this->set_userdata($new_flashdata_key, $value);
+		}
+
 	}
 
 	// ------------------------------------------------------------------------
