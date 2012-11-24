@@ -40,7 +40,7 @@ class Session_test extends CI_TestCase {
 		$this->ci_vfs_clone('system/helpers/string_helper.php');
 
 		// Set subclass prefix to match our mock
-		$obj->config->set_item('subclass_prefix', 'Mock_Libraries_');
+		$ci->config->set_item('subclass_prefix', 'Mock_Libraries_');
 
 		// Attach session instance locally
 		$config = array(

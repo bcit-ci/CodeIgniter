@@ -968,6 +968,9 @@ class CI_Loader {
 			}
 		}
 
+        // Get the subclass prefix
+        $prefix = config_item('subclass_prefix');
+
 		// We'll test for both lowercase and capitalized versions of the file name
 		$cases = array(ucfirst($class));
 		if (DIRECTORY_SEPARATOR !== '\\')
@@ -981,25 +984,13 @@ class CI_Loader {
 			foreach($trysubs as $dir)
 			{
 				// Check each path for an extension file
-				$subclass = APPPATH.'libraries/'.$dir.config_item('subclass_prefix').$class.'.php';
+				$subclass = APPPATH.'libraries/'.$dir.$prefix.$class.'.php';
 				if (file_exists($subclass))
 				{
-					// Found it - check paths for the base
-					// The second loop here allows us to match an extension in
-					// the libraries root with a base in a subdirectory (like a driver!)
-					$found = FALSE;
-					foreach ($trysubs as $basesub)
-					{
-						$baseclass = BASEPATH.'libraries/'.$basesub.ucfirst($class).'.php';
-						if (file_exists($baseclass))
-						{
-							$found = TRUE;
-							break;
-						}
-					}
-
-					if ( ! $found)
-					{
+                    // Require the base class in the same directory
+                    $baseclass = BASEPATH.'libraries/'.$dir.ucfirst($class).'.php';
+                    if ( ! file_exists($baseclass))
+                    {
 						// No base matches extension - bail
 						$msg = 'Unable to load the requested class: '.$class;
 						log_message('error', $msg);
@@ -1007,9 +998,7 @@ class CI_Loader {
 					}
 
 					// Does this look like a driver?
-					$driversub = strtolower($class).'/';
-					if ((strtolower($dir) === $driversub OR strtolower($basesub) === $driversub)
-						&& ! class_exists('CI_Driver_Library'))
+					if (strtolower($dir) === strtolower($class).'/' && ! class_exists('CI_Driver_Library'))
 					{
 						// We aren't instantiating an object here, just making the base class available
 						require BASEPATH.'libraries/Driver.php';
@@ -1026,7 +1015,7 @@ class CI_Loader {
 							$CI =& get_instance();
 							if ( ! isset($CI->$object_name))
 							{
-								return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);
+								return $this->_ci_init_class($class, $prefix, $params, $object_name);
 							}
 						}
 
@@ -1039,7 +1028,7 @@ class CI_Loader {
 					include($subclass);
 					$this->_ci_loaded_files[] = $subclass;
 
-					return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);
+					return $this->_ci_init_class($class, $prefix, $params, $object_name);
 				}
 			}
 
