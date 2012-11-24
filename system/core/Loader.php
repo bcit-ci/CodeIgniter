@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -136,7 +136,7 @@ class CI_Loader {
 	 */
 	public function __construct()
 	{
-		$this->_ci_ob_level  = ob_get_level();
+		$this->_ci_ob_level = ob_get_level();
 		$this->_ci_library_paths = array(APPPATH, BASEPATH);
 		$this->_ci_helper_paths = array(APPPATH, BASEPATH);
 		$this->_ci_model_paths = array(APPPATH);
@@ -953,16 +953,29 @@ class CI_Loader {
 
 		// Establish subdirectories to try - if one was specified, just use that
 		$trysubs = array($subdir);
-		if ($subdir == '')
+		if ($subdir === '')
 		{
 			// Also check subdirectories matching class name
+			// This allows us to find libraries in self-named subdirectories
+			// (like Drivers) and extensions for those in the main libraries dir
 			$dir = strtolower($class).'/';
 			$trysubs[] = ucfirst($dir);
-		   	$trysubs[] = $dir;
+
+			// If we aren't case-insensitive, check lowercase too
+			if (DIRECTORY_SEPARATOR !== '\\')
+			{
+				$trysubs[] = $dir;
+			}
 		}
 
 		// We'll test for both lowercase and capitalized versions of the file name
-		foreach (array(ucfirst($class), strtolower($class)) as $class)
+		$cases = array(ucfirst($class));
+		if (DIRECTORY_SEPARATOR !== '\\')
+		{
+			// Case-sensitive - try lowercase too
+			$cases[] = strtolower($class);
+		}
+		foreach ($cases as $class)
 		{
 			// Is this a class extension request?
 			foreach($trysubs as $dir)
@@ -995,8 +1008,8 @@ class CI_Loader {
 
 					// Does this look like a driver?
 					$driversub = strtolower($class).'/';
-					if ((strtolower($dir) == $driversub || strtolower($basesub) == $driversub)
-					&& ! class_exists('CI_Driver_Library'))
+					if ((strtolower($dir) === $driversub OR strtolower($basesub) === $driversub)
+						&& ! class_exists('CI_Driver_Library'))
 					{
 						// We aren't instantiating an object here, just making the base class available
 						require BASEPATH.'libraries/Driver.php';
@@ -1013,8 +1026,7 @@ class CI_Loader {
 							$CI =& get_instance();
 							if ( ! isset($CI->$object_name))
 							{
-							   	return $this->_ci_init_class($class, config_item('subclass_prefix'), $params,
-									$object_name);
+								return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);
 							}
 						}
 
@@ -1046,7 +1058,7 @@ class CI_Loader {
 					}
 
 					// Does this look like a driver?
-					if (strtolower($dir) == strtolower($class).'/' && ! class_exists('CI_Driver_Library'))
+					if (strtolower($dir) === strtolower($class).'/' && ! class_exists('CI_Driver_Library'))
 					{
 						// We aren't instantiating an object here, just making the base class available
 						require BASEPATH.'libraries/Driver.php';
