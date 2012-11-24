@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -136,7 +136,7 @@ class CI_Loader {
 	 */
 	public function __construct()
 	{
-		$this->_ci_ob_level  = ob_get_level();
+		$this->_ci_ob_level = ob_get_level();
 		$this->_ci_library_paths = array(APPPATH, BASEPATH);
 		$this->_ci_helper_paths = array(APPPATH, BASEPATH);
 		$this->_ci_model_paths = array(APPPATH);
@@ -949,108 +949,136 @@ class CI_Loader {
 
 			// Get the filename from the path
 			$class = substr($class, $last_slash);
+		}
 
-			// Check for match and driver base class
-			if (strtolower(trim($subdir, '/')) == strtolower($class) && ! class_exists('CI_Driver_Library'))
+		// Establish subdirectories to try - if one was specified, just use that
+		$trysubs = array($subdir);
+		if ($subdir === '')
+		{
+			// Also check subdirectories matching class name
+			// This allows us to find libraries in self-named subdirectories
+			// (like Drivers) and extensions for those in the main libraries dir
+			$dir = strtolower($class).'/';
+			$trysubs[] = ucfirst($dir);
+
+			// If we aren't case-insensitive, check lowercase too
+			if (DIRECTORY_SEPARATOR !== '\\')
 			{
-				// We aren't instantiating an object here, just making the base class available
-				require BASEPATH.'libraries/Driver.php';
+				$trysubs[] = $dir;
 			}
 		}
 
+        // Get the subclass prefix
+        $prefix = config_item('subclass_prefix');
+
 		// We'll test for both lowercase and capitalized versions of the file name
-		foreach (array(ucfirst($class), strtolower($class)) as $class)
+		$cases = array(ucfirst($class));
+		if (DIRECTORY_SEPARATOR !== '\\')
 		{
-			$subclass = APPPATH.'libraries/'.$subdir.config_item('subclass_prefix').$class.'.php';
-
+			// Case-sensitive - try lowercase too
+			$cases[] = strtolower($class);
+		}
+		foreach ($cases as $class)
+		{
 			// Is this a class extension request?
-			if (file_exists($subclass))
+			foreach($trysubs as $dir)
 			{
-				$baseclass = BASEPATH.'libraries/'.ucfirst($class).'.php';
-
-				if ( ! file_exists($baseclass))
+				// Check each path for an extension file
+				$subclass = APPPATH.'libraries/'.$dir.$prefix.$class.'.php';
+				if (file_exists($subclass))
 				{
-					log_message('error', 'Unable to load the requested class: '.$class);
-					show_error('Unable to load the requested class: '.$class);
-				}
-
-				// Safety: Was the class already loaded by a previous call?
-				if (in_array($subclass, $this->_ci_loaded_files))
-				{
-					// Before we deem this to be a duplicate request, let's see
-					// if a custom object name is being supplied. If so, we'll
-					// return a new instance of the object
-					if ( ! is_null($object_name))
-					{
-						$CI =& get_instance();
-						if ( ! isset($CI->$object_name))
-						{
-							return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);
-						}
+                    // Require the base class in the same directory
+                    $baseclass = BASEPATH.'libraries/'.$dir.ucfirst($class).'.php';
+                    if ( ! file_exists($baseclass))
+                    {
+						// No base matches extension - bail
+						$msg = 'Unable to load the requested class: '.$class;
+						log_message('error', $msg);
+						show_error($msg);
 					}
 
-					$is_duplicate = TRUE;
-					log_message('debug', $class.' class already loaded. Second attempt ignored.');
-					return;
+					// Does this look like a driver?
+					if (strtolower($dir) === strtolower($class).'/' && ! class_exists('CI_Driver_Library'))
+					{
+						// We aren't instantiating an object here, just making the base class available
+						require BASEPATH.'libraries/Driver.php';
+					}
+
+					// Safety: Was the class already loaded by a previous call?
+					if (in_array($subclass, $this->_ci_loaded_files))
+					{
+						// Before we deem this to be a duplicate request, let's see
+						// if a custom object name is being supplied. If so, we'll
+						// return a new instance of the object
+						if ( ! is_null($object_name))
+						{
+							$CI =& get_instance();
+							if ( ! isset($CI->$object_name))
+							{
+								return $this->_ci_init_class($class, $prefix, $params, $object_name);
+							}
+						}
+
+						$is_duplicate = TRUE;
+						log_message('debug', $class.' class already loaded. Second attempt ignored.');
+						return;
+					}
+
+					include($baseclass);
+					include($subclass);
+					$this->_ci_loaded_files[] = $subclass;
+
+					return $this->_ci_init_class($class, $prefix, $params, $object_name);
 				}
-
-				include_once($baseclass);
-				include_once($subclass);
-				$this->_ci_loaded_files[] = $subclass;
-
-				return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);
 			}
 
 			// Lets search for the requested library file and load it.
 			$is_duplicate = FALSE;
 			foreach ($this->_ci_library_paths as $path)
 			{
-				$filepath = $path.'libraries/'.$subdir.$class.'.php';
-
-				// Does the file exist? No? Bummer...
-				if ( ! file_exists($filepath))
+				foreach ($trysubs as $dir)
 				{
-					continue;
-				}
+					$filepath = $path.'libraries/'.$dir.$class.'.php';
 
-				// Safety: Was the class already loaded by a previous call?
-				if (in_array($filepath, $this->_ci_loaded_files))
-				{
-					// Before we deem this to be a duplicate request, let's see
-					// if a custom object name is being supplied. If so, we'll
-					// return a new instance of the object
-					if ( ! is_null($object_name))
+					// Does the file exist? No? Bummer...
+					if ( ! file_exists($filepath))
 					{
-						$CI =& get_instance();
-						if ( ! isset($CI->$object_name))
-						{
-							return $this->_ci_init_class($class, '', $params, $object_name);
-						}
+						continue;
 					}
 
-					$is_duplicate = TRUE;
-					log_message('debug', $class.' class already loaded. Second attempt ignored.');
-					return;
-				}
+					// Does this look like a driver?
+					if (strtolower($dir) === strtolower($class).'/' && ! class_exists('CI_Driver_Library'))
+					{
+						// We aren't instantiating an object here, just making the base class available
+						require BASEPATH.'libraries/Driver.php';
+					}
 
-				include_once($filepath);
-				$this->_ci_loaded_files[] = $filepath;
-				return $this->_ci_init_class($class, '', $params, $object_name);
+					// Safety: Was the class already loaded by a previous call?
+					if (in_array($filepath, $this->_ci_loaded_files))
+					{
+						// Before we deem this to be a duplicate request, let's see
+						// if a custom object name is being supplied. If so, we'll
+						// return a new instance of the object
+						if ( ! is_null($object_name))
+						{
+							$CI =& get_instance();
+							if ( ! isset($CI->$object_name))
+							{
+								return $this->_ci_init_class($class, '', $params, $object_name);
+							}
+						}
+
+						$is_duplicate = TRUE;
+						log_message('debug', $class.' class already loaded. Second attempt ignored.');
+						return;
+					}
+
+					include($filepath);
+					$this->_ci_loaded_files[] = $filepath;
+					return $this->_ci_init_class($class, '', $params, $object_name);
+				}
 			}
 		} // END FOREACH
-
-		// One last attempt. Maybe the library is in a subdirectory, but it wasn't specified?
-		if ($subdir === '')
-		{
-			$path = strtolower($class).'/'.$class;
-			return $this->_ci_load_class($path, $params, $object_name);
-		}
-		elseif (ucfirst($subdir) != $subdir)
-		{
-			// Lowercase subdir failed - retry capitalized
-			$path = ucfirst($subdir).$class;
-			return $this->_ci_load_class($path, $params, $object_name);
-		}
 
 		// If we got this far we were unable to find the requested class.
 		// We do not issue errors if the load call failed due to a duplicate request

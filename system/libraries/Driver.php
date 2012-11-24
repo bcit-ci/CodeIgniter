@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
+ * bundled with this package in the files license.txt / license.rst. It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -55,13 +55,20 @@ class CI_Driver_Library {
 	protected $lib_name;
 
 	/**
+	 * Subclass prefix from config
+	 *
+	 * @var	string
+	 */
+	protected $subclass_prefix = '';
+
+	/**
 	 * Get magic method
 	 *
 	 * The first time a child is used it won't exist, so we instantiate it
 	 * subsequents calls will go straight to the proper child.
 	 *
-	 * @param   string  Child class name
-	 * @return  object  Child class
+	 * @param	string	Child class name
+	 * @return	object	Child class
 	 */
 	public function __get($child)
 	{
@@ -74,61 +81,120 @@ class CI_Driver_Library {
 	 *
 	 * Separate load_driver call to support explicit driver load by library or user
 	 *
-	 * @param   string  Child class name
-	 * @return  object  Child class
+	 * @param	string	Driver name (w/o parent prefix)
+	 * @return	object	Child class
 	 */
 	public function load_driver($child)
 	{
+		// Get CodeIgniter instance
+		$CI = get_instance();
+
 		if ( ! isset($this->lib_name))
 		{
-			$this->lib_name = get_class($this);
+			// Get library name without any prefix
+			$this->subclass_prefix = (string) $CI->config->item('subclass_prefix');
+			$this->lib_name = str_replace(array('CI_', $this->subclass_prefix), '', get_class($this));
 		}
 
-		// The class will be prefixed with the parent lib
-		$child_class = $this->lib_name.'_'.$child;
+		// The child will be prefixed with the parent lib
+		$child_name = $this->lib_name.'_'.$child;
 
-		// Remove the CI_ prefix and lowercase
-		$lib_name = ucfirst(strtolower(str_replace('CI_', '', $this->lib_name)));
-		$driver_name = strtolower(str_replace('CI_', '', $child_class));
-
-		if (in_array($driver_name, array_map('strtolower', $this->valid_drivers)))
+		// See if requested child is a valid driver
+		if ( ! in_array($child, array_map('strtolower', $this->valid_drivers)))
 		{
-			// check and see if the driver is in a separate file
-			if ( ! class_exists($child_class))
-			{
-				// check application path first
-				foreach (get_instance()->load->get_package_paths(TRUE) as $path)
-				{
-					// loves me some nesting!
-					foreach (array(ucfirst($driver_name), $driver_name) as $class)
-					{
-						$filepath = $path.'libraries/'.$lib_name.'/drivers/'.$class.'.php';
+			// The requested driver isn't valid!
+			$msg = 'Invalid driver requested: '.$child_name;
+			log_message('error', $msg);
+			show_error($msg);
+		}
 
-						if (file_exists($filepath))
+		// All driver files should be in a library subdirectory - capitalized
+		$subdir = ucfirst(strtolower($this->lib_name));
+
+		// Get package paths and filename case variations to search
+		$paths = $CI->load->get_package_paths(TRUE);
+		$cases = array(ucfirst($child_name), strtolower($child_name));
+
+		// Is there an extension?
+		$class_name = $this->subclass_prefix.$child_name;
+		$found = class_exists($class_name);
+		if ( ! $found)
+		{
+			// Check for subclass file
+			foreach ($paths as $path)
+			{
+				// Extension will be in drivers subdirectory
+				$path .= 'libraries/'.$subdir.'/drivers/';
+
+				// Try filename with caps and all lowercase
+				foreach ($cases as $name)
+				{
+					// Does the file exist?
+					$file = $path.$this->subclass_prefix.$name.'.php';
+					if (file_exists($file))
+					{
+						// Yes - require base class from last path (BASEPATH)
+						$basepath = end($paths).'libraries/'.$subdir.'/drivers/'.ucfirst($child_name).'.php';
+						if ( ! file_exists($basepath))
 						{
-							include_once $filepath;
+							$msg = 'Unable to load the requested class: CI_'.$child_name;
+							log_message('error', $msg);
+							show_error($msg);
+						}
+
+						// Include both sources and mark found
+						include($basepath);
+						include($file);
+						$found = TRUE;
+						break 2;
+					}
+				}
+			}
+		}
+
+		// Do we need to search for the class?
+		if ( ! $found)
+		{
+			// Use standard class name
+			$class_name = 'CI_'.$child_name;
+			$found = class_exists($class_name);
+			if ( ! $found)
+			{
+				// Check package paths
+				foreach ($paths as $path)
+				{
+					// Class will be in drivers subdirectory
+					$path .= 'libraries/'.$subdir.'/drivers/';
+
+					// Try filename with caps and all lowercase
+					foreach ($cases as $name)
+					{
+						// Does the file exist?
+						$file = $path.$name.'.php';
+						if (file_exists($file))
+						{
+							// Include source
+							include $file;
 							break 2;
 						}
 					}
 				}
-
-				// it's a valid driver, but the file simply can't be found
-				if ( ! class_exists($child_class))
-				{
-					log_message('error', 'Unable to load the requested driver: '.$child_class);
-					show_error('Unable to load the requested driver: '.$child_class);
-				}
 			}
-
-			$obj = new $child_class;
-			$obj->decorate($this);
-			$this->$child = $obj;
-			return $this->$child;
 		}
 
-		// The requested driver isn't valid!
-		log_message('error', 'Invalid driver requested: '.$child_class);
-		show_error('Invalid driver requested: '.$child_class);
+		// Did we finally find the class?
+		if ( ! class_exists($class_name))
+		{
+			$msg = 'Unable to load the requested driver: '.$class_name;
+			log_message('error', $msg);
+			show_error($msg);
+		}
+
+		// Instantiate, decorate, and add child
+		$obj = new $class_name;
+		$obj->decorate($this);
+		$this->$child = $obj;
+		return $this->$child;
 	}
 
 }

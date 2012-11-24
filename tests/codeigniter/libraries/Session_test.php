@@ -39,6 +39,9 @@ class Session_test extends CI_TestCase {
 		// Make sure string helper is available
 		$this->ci_vfs_clone('system/helpers/string_helper.php');
 
+		// Set subclass prefix to match our mock
+		$ci->config->set_item('subclass_prefix', 'Mock_Libraries_');
+
 		// Attach session instance locally
 		$config = array(
 			'sess_encrypt_cookie' => FALSE,
@@ -56,11 +59,7 @@ class Session_test extends CI_TestCase {
 			'sess_time_to_update' => 300,
 			'time_reference' => 'local',
 			'cookie_prefix' => '',
-			'encryption_key' => 'foobar',
-			'sess_valid_drivers' => array(
-				'Mock_Libraries_Session_native',
-			   	'Mock_Libraries_Session_cookie'
-			)
+			'encryption_key' => 'foobar'
 		);
 		$this->session = new Mock_Libraries_Session($config);
 	}
