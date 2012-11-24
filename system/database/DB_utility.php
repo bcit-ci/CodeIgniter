@@ -146,7 +146,7 @@ abstract class CI_DB_utility {
 		if ($query !== FALSE)
 		{
 			$query = $query->result_array();
-			return current($res);
+			return current($query);
 		}
 
 		return FALSE;
