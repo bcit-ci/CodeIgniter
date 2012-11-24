@@ -107,17 +107,15 @@ class CI_Session extends CI_Driver_Library {
 
 		// Get valid drivers list
 		$this->valid_drivers = array(
-			'Session_native',
-			'Session_cookie'
+			'native',
+			'cookie'
 		);
 		$key = 'sess_valid_drivers';
 		$drivers = isset($params[$key]) ? $params[$key] : $CI->config->item($key);
 		if ($drivers)
 		{
-			is_array($drivers) OR $drivers = array($drivers);
-
 			// Add driver names to valid list
-			foreach ($drivers as $driver)
+			foreach ((array) $drivers as $driver)
 			{
 				if ( ! in_array(strtolower($driver), array_map('strtolower', $this->valid_drivers)))
 				{
@@ -134,9 +132,9 @@ class CI_Session extends CI_Driver_Library {
 			$driver = 'cookie';
 		}
 
-		if ( ! in_array('session_'.strtolower($driver), array_map('strtolower', $this->valid_drivers)))
+		if ( ! in_array(strtolower($driver), array_map('strtolower', $this->valid_drivers)))
 		{
-			$this->valid_drivers[] = 'Session_'.$driver;
+			$this->valid_drivers[] = $driver;
 		}
 
 		// Save a copy of parameters in case drivers need access
@@ -178,17 +176,17 @@ class CI_Session extends CI_Driver_Library {
 	/**
 	 * Select default session storage driver
 	 *
-	 * @param	string	Driver classname
+	 * @param	string	Driver name
 	 * @return	void
 	 */
 	public function select_driver($driver)
 	{
 		// Validate driver name
-		$lowername = strtolower(str_replace('CI_', '', $driver));
-		if (in_array($lowername, array_map('strtolower', $this->valid_drivers)))
+		$prefix = (string) get_instance()->config->item('subclass_prefix');
+		$child = strtolower(str_replace(array('CI_', $prefix, $this->lib_name.'_'), '', $driver));
+		if (in_array($child, array_map('strtolower', $this->valid_drivers)))
 		{
 			// See if driver is loaded
-			$child = str_replace($this->lib_name.'_', '', $driver);
 			if (isset($this->$child))
 			{
 				// See if driver is already current
