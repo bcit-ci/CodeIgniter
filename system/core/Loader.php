@@ -669,6 +669,12 @@ class CI_Loader {
 			return FALSE;
 		}
 
+		if ( ! class_exists('CI_Driver_Library'))
+		{
+			// We aren't instantiating an object here, just making the base class available
+			require BASEPATH.'libraries/Driver.php';
+		}
+
 		// We can save the loader some time since Drivers will *always* be in a subfolder,
 		// and typically identically named to the library
 		if ( ! strpos($library, '/'))
@@ -949,13 +955,6 @@ class CI_Loader {
 
 			// Get the filename from the path
 			$class = substr($class, $last_slash);
-
-			// Check for match and driver base class
-			if (strtolower(trim($subdir, '/')) == strtolower($class) && ! class_exists('CI_Driver_Library'))
-			{
-				// We aren't instantiating an object here, just making the base class available
-				require BASEPATH.'libraries/Driver.php';
-			}
 		}
 
 		// We'll test for both lowercase and capitalized versions of the file name

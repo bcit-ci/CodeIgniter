@@ -28,10 +28,6 @@ use the $this->load->driver function::
 Once loaded, the Sessions library object will be available using:
 $this->session
 
-.. note:: For backward compatibility, the Session class may stil be loaded
-	using the $this->load->library function, but converting your applications
-	to use $this->load->driver is strongly recommended.
-
 How do Sessions work?
 =====================
 
@@ -485,4 +481,3 @@ without making it the initially loaded driver, set 'sess_valid_drivers' in
 your config.php file to an array including your driver name::
 
 	$config['sess_valid_drivers'] = array('sess_driver');
-
