@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Initialize the database
@@ -31,8 +32,10 @@
  * @category	Database
  * @author	EllisLab Dev Team
  * @link	http://codeigniter.com/user_guide/database/
- * @param 	string
- * @param 	bool	Determines if query builder should be used or not
+ *
+ * @param 	string|string[]	$params
+ * @param 	bool		$query_builder_override
+ *				Determines if query builder should be used or not
  */
 function &DB($params = '', $query_builder_override = NULL)
 {
@@ -47,18 +50,18 @@ function &DB($params = '', $query_builder_override = NULL)
 		}
 
 		include($file_path);
-		//make packages contain database config files
-		foreach(get_instance()->load->get_package_paths() as $path)
+		// Make packages contain database config files
+		foreach (get_instance()->load->get_package_paths() as $path)
 		{
 			if ($path !== APPPATH)
 			{
-				if (file_exists ($file_path = $path.'config/'.ENVIRONMENT.'/database.php'))
+				if (file_exists($file_path = $path.'config/'.ENVIRONMENT.'/database.php'))
 				{
-					include ($file_path);
+					include($file_path);
 				}
-				elseif ( file_exists ($file_path = $path.'config/database.php'))
+				elseif (file_exists($file_path = $path.'config/database.php'))
 				{
-					include ($file_path);
+					include($file_path);
 				}
 			}
 		}
@@ -82,12 +85,12 @@ function &DB($params = '', $query_builder_override = NULL)
 	}
 	elseif (is_string($params))
 	{
-
-		/* parse the URL from the DSN string
-		 *  Database settings can be passed as discreet
-		 *  parameters or as a data source name in the first
-		 *  parameter. DSNs must have this prototype:
-		 *  $dsn = 'driver://username:password@hostname/database';
+		/**
+		 * Parse the URL from the DSN string
+		 * Database settings can be passed as discreet
+		 * parameters or as a data source name in the first
+		 * parameter. DSNs must have this prototype:
+		 * $dsn = 'driver://username:password@hostname/database';
 		 */
 		if (($dsn = @parse_url($params)) === FALSE)
 		{
@@ -103,7 +106,7 @@ function &DB($params = '', $query_builder_override = NULL)
 				'database'	=> isset($dsn['path']) ? rawurldecode(substr($dsn['path'], 1)) : ''
 			);
 
-		// were additional config items set?
+		// Were additional config items set?
 		if (isset($dsn['query']))
 		{
 			parse_str($dsn['query'], $extra);
@@ -148,11 +151,22 @@ function &DB($params = '', $query_builder_override = NULL)
 		require_once(BASEPATH.'database/DB_query_builder.php');
 		if ( ! class_exists('CI_DB'))
 		{
+			/**
+			 * CI_DB
+			 *
+			 * Acts as an alias for both CI_DB_driver and CI_DB_query_builder.
+			 *
+			 * @see	CI_DB_query_builder
+			 * @see	CI_DB_driver
+			 */
 			class CI_DB extends CI_DB_query_builder { }
 		}
 	}
 	elseif ( ! class_exists('CI_DB'))
 	{
+		/**
+	 	 * @ignore
+		 */
 		class CI_DB extends CI_DB_driver { }
 	}
 

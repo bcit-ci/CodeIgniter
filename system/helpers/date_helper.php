@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter Date Helpers
@@ -119,19 +120,16 @@ if ( ! function_exists('standard_date'))
 	 *
 	 * As of PHP 5.2, the DateTime extension provides constants that
 	 * serve for the exact same purpose and are used with date().
-	 * Due to that, this function is DEPRECATED and should be removed
-	 * in CodeIgniter 3.1+.
 	 *
-	 * Here are two examples of how you should replace it:
+	 * @todo	Remove in version 3.1+.
+	 * @deprecated	3.0.0	Use PHP's native date() instead.
+	 * @link	http://www.php.net/manual/en/class.datetime.php#datetime.constants.types
 	 *
-	 *	date(DATE_RFC822, now()); // default
-	 *	date(DATE_W3C, $time); // a different format and time
+	 * @example	date(DATE_RFC822, now()); // default
+	 * @example	date(DATE_W3C, $time); // a different format and time
 	 *
-	 * Reference: http://www.php.net/manual/en/class.datetime.php#datetime.constants.types
-	 *
-	 * @deprecated
-	 * @param	string	the chosen format
-	 * @param	int	Unix timestamp
+	 * @param	string	$fmt = 'DATE_RFC822'	the chosen format
+	 * @param	int	$time = NULL		Unix timestamp
 	 * @return	string
 	 */
 	function standard_date($fmt = 'DATE_RFC822', $time = NULL)
@@ -362,8 +360,8 @@ if ( ! function_exists('mysql_to_unix'))
 	/**
 	 * Converts a MySQL Timestamp to Unix
 	 *
-	 * @param	int	Unix timestamp
-	 * @return	int
+	 * @param	int	MySQL timestamp YYYY-MM-DD HH:MM:SS
+	 * @return	int	Unix timstamp
 	 */
 	function mysql_to_unix($time = '')
 	{
@@ -452,20 +450,13 @@ if ( ! function_exists('human_to_unix'))
 			return FALSE;
 		}
 
-		$split = explode(' ', $datestr);
+		sscanf($datestr, '%d-%d-%d %s %s', $year, $month, $day, $time, $ampm);
+		sscanf($time, '%d:%d:%d', $hour, $min, $sec);
+		isset($sec) OR $sec = 0;
 
-		list($year, $month, $day) = explode('-', $split[0]);
-
-		$ex = explode(':', $split['1']);
-
-		$hour	= (int) $ex[0];
-		$min	= (int) $ex[1];
-		$sec	= ( ! empty($ex[2]) && preg_match('/[0-9]{1,2}/', $ex[2]))
-				? (int) $ex[2] : 0;
-
-		if (isset($split[2]))
+		if (isset($ampm))
 		{
-			$ampm = strtolower($split[2]);
+			$ampm = strtolower($ampm);
 
 			if ($ampm[0] === 'p' && $hour < 12)
 			{
@@ -654,6 +645,137 @@ if ( ! function_exists('timezones'))
 		}
 
 		return isset($zones[$tz]) ? $zones[$tz] : 0;
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('date_range'))
+{
+	/**
+	 * Date range
+	 *
+	 * Returns a list of dates within a specified period.
+	 *
+	 * @param	int	unix_start	UNIX timestamp of period start date
+	 * @param	int	unix_end|days	UNIX timestamp of period end date
+	 *					or interval in days.
+	 * @param	mixed	is_unix		Specifies whether the second parameter
+	 *					is a UNIX timestamp or a day interval
+	 *					 - TRUE or 'unix' for a timestamp
+	 *					 - FALSE or 'days' for an interval
+	 * @param	string  date_format	Output date format, same as in date()
+	 * @return	array
+	 */
+	function date_range($unix_start = '', $mixed = '', $is_unix = TRUE, $format = 'Y-m-d')
+	{
+		if ($unix_start == '' OR $mixed == '' OR $format == '')
+		{
+			return FALSE;
+		}
+
+		$is_unix = ! ( ! $is_unix OR $is_unix === 'days');
+
+		// Validate input and try strtotime() on invalid timestamps/intervals, just in case
+		if ( ( ! ctype_digit((string) $unix_start) && ($unix_start = @strtotime($unix_time)) === FALSE)
+			OR ( ! ctype_digit((string) $mixed) && ($is_unix === FALSE OR ($mixed = @strtotime($mixed)) === FALSE))
+			OR ($is_unix === TRUE && $mixed < $unix_start))
+		{
+			return FALSE;
+		}
+
+		if ($is_unix && ($unix_start == $mixed OR date($format, $unix_start) === date($format, $mixed)))
+		{
+			return array($start_date);
+		}
+
+		$range = array();
+
+		/* NOTE: Even though the DateTime object has many useful features, it appears that
+		 *	 it doesn't always handle properly timezones, when timestamps are passed
+		 *	 directly to its constructor. Neither of the following gave proper results:
+		 *
+		 *		new DateTime('<timestamp>')
+		 *		new DateTime('<timestamp>', '<timezone>')
+		 *
+		 *	 --- available in PHP 5.3:
+		 *
+		 *		DateTime::createFromFormat('<format>', '<timestamp>')
+		 *		DateTime::createFromFormat('<format>', '<timestamp>', '<timezone')
+		 *
+		 *	 ... so we'll have to set the timestamp after the object is instantiated.
+		 *	 Furthermore, in PHP 5.3 we can use DateTime::setTimestamp() to do that and
+		 *	 given that we have UNIX timestamps - we should use it.
+		*/
+		$from = new DateTime();
+
+		if (is_php('5.3'))
+		{
+			$from->setTimestamp($unix_start);
+			if ($is_unix)
+			{
+				$arg = new DateTime();
+				$arg->setTimestamp($mixed);
+			}
+			else
+			{
+				$arg = (int) $mixed;
+			}
+
+			$period = new DatePeriod($from, new DateInterval('P1D'), $arg);
+			foreach ($period as $date)
+			{
+				$range[] = $date->format($format);
+			}
+
+			/* If a period end date was passed to the DatePeriod constructor, it might not
+			 * be in our results. Not sure if this is a bug or it's just possible because
+			 * the end date might actually be less than 24 hours away from the previously
+			 * generated DateTime object, but either way - we have to append it manually.
+			 */
+			if ( ! is_int($arg) && $range[count($range) - 1] !== $arg->format($format))
+			{
+				$range[] = $arg->format($format);
+			}
+
+			return $range;
+		}
+
+		$from->setDate(date('Y', $unix_start), date('n', $unix_start), date('j', $unix_start));
+		$from->setTime(date('G', $unix_start), date('i', $unix_start), date('s', $unix_start));
+		if ($is_unix)
+		{
+			$arg = new DateTime();
+			$arg->setDate(date('Y', $mixed), date('n', $mixed), date('j', $mixed));
+			$arg->setTime(date('G', $mixed), date('i', $mixed), date('s', $mixed));
+		}
+		else
+		{
+			$arg = (int) $mixed;
+		}
+		$range[] = $from->format($format);
+
+		if (is_int($arg)) // Day intervals
+		{
+			do
+			{
+				$from->modify('+1 day');
+				$range[] = $from->format($format);
+			}
+			while (--$arg > 0);
+		}
+		else // end date UNIX timestamp
+		{
+			for ($from->modify('+1 day'), $end_check = $arg->format('Ymd'); $from->format('Ymd') < $end_check; $from->modify('+1 day'))
+			{
+				$range[] = $from->format($format);
+			}
+
+			// Our loop only appended dates prior to our end date
+			$range[] = $arg->format($format);
+		}
+
+		return $range;
 	}
 }
 

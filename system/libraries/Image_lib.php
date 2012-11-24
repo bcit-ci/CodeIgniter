@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Image Manipulation class
@@ -604,7 +605,7 @@ class CI_Image_lib {
 		// Set the quality
 		$this->quality = trim(str_replace('%', '', $this->quality));
 
-		if ($this->quality === '' OR $this->quality === 0 OR ! preg_match('/^[0-9]+$/', $this->quality))
+		if ($this->quality === '' OR $this->quality === 0 OR ! ctype_digit($this->quality))
 		{
 			$this->quality = 90;
 		}
@@ -866,7 +867,11 @@ class CI_Image_lib {
 		}
 
 		$retval = 1;
-		@exec($cmd, $output, $retval);
+		// exec() might be disabled
+		if (function_usable('exec'))
+		{
+			@exec($cmd, $output, $retval);
+		}
 
 		// Did it work?
 		if ($retval > 0)
@@ -946,7 +951,11 @@ class CI_Image_lib {
 		$cmd = $this->library_path.$cmd_in.' '.$this->full_src_path.' | '.$cmd_inner.' | '.$cmd_out.' > '.$this->dest_folder.'netpbm.tmp';
 
 		$retval = 1;
-		@exec($cmd, $output, $retval);
+		// exec() might be disabled
+		if (function_usable('exec'))
+		{
+			@exec($cmd, $output, $retval);
+		}
 
 		// Did it work?
 		if ($retval > 0)
@@ -958,7 +967,7 @@ class CI_Image_lib {
 		// With NetPBM we have to create a temporary image.
 		// If you try manipulating the original it fails so
 		// we have to rename the temp file.
-		copy ($this->dest_folder.'netpbm.tmp', $this->full_dst_path);
+		copy($this->dest_folder.'netpbm.tmp', $this->full_dst_path);
 		unlink($this->dest_folder.'netpbm.tmp');
 		@chmod($this->full_dst_path, FILE_WRITE_MODE);
 
@@ -1268,8 +1277,8 @@ class CI_Image_lib {
 		if ($this->wm_use_drop_shadow === FALSE)
 			$this->wm_shadow_distance = 0;
 
-		$this->wm_vrt_alignment = strtoupper(substr($this->wm_vrt_alignment, 0, 1));
-		$this->wm_hor_alignment = strtoupper(substr($this->wm_hor_alignment, 0, 1));
+		$this->wm_vrt_alignment = strtoupper($this->wm_vrt_alignment[0]);
+		$this->wm_hor_alignment = strtoupper($this->wm_hor_alignment[0]);
 
 		// Set verticle alignment
 		if ($this->wm_vrt_alignment === 'M')
@@ -1319,6 +1328,13 @@ class CI_Image_lib {
 			{
 				imagestring($src_img, $this->wm_font_size, $x_shad, $y_shad, $this->wm_text, $drp_color);
 				imagestring($src_img, $this->wm_font_size, $x_axis, $y_axis, $this->wm_text, $txt_color);
+			}
+
+			// We can preserve transparency for PNG images
+			if ($this->image_type === 3)
+			{
+				imagealphablending($src_img, FALSE);
+				imagesavealpha($src_img, TRUE);
 			}
 		}
 
@@ -1502,13 +1518,13 @@ class CI_Image_lib {
 	public function image_reproportion()
 	{
 		if (($this->width === 0 && $this->height === 0) OR $this->orig_width === 0 OR $this->orig_height === 0
-			OR ( ! preg_match('/^[0-9]+$/', $this->width) && ! preg_match('/^[0-9]+$/', $this->height))
-			OR ! preg_match('/^[0-9]+$/', $this->orig_width) OR ! preg_match('/^[0-9]+$/', $this->orig_height))
+			OR ( ! ctype_digit((string) $this->width) && ! ctype_digit((string) $this->height))
+			OR ! ctype_digit((string) $this->orig_width) OR ! ctype_digit((string) $this->orig_height))
 		{
 			return;
 		}
 
-		// Sanitize so we don't call preg_match() anymore
+		// Sanitize
 		$this->width = (int) $this->width;
 		$this->height = (int) $this->height;
 

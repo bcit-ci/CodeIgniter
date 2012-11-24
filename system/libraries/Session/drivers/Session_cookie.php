@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst. It is
+ * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Cookie-based session management driver
@@ -158,13 +159,6 @@ class CI_Session_cookie extends CI_Session_driver {
 	public $userdata				= array();
 
 	/**
-	 * Reference to CodeIgniter instance
-	 *
-	 * @var object
-	 */
-	public $CI;
-
-	/**
 	 * Current time
 	 *
 	 * @var int
@@ -197,9 +191,6 @@ class CI_Session_cookie extends CI_Session_driver {
 	 */
 	protected function initialize()
 	{
-		// Set the super object to a local variable for use throughout the class
-		$this->CI =& get_instance();
-
 		// Set all the session preferences, which can either be set
 		// manually via the $params array or via the config file
 		$prefs = array(
@@ -232,9 +223,6 @@ class CI_Session_cookie extends CI_Session_driver {
 		{
 			show_error('In order to use the Cookie Session driver you are required to set an encryption key in your config file.');
 		}
-
-		// Load the string helper so we can use the strip_slashes() function
-		$this->CI->load->helper('string');
 
 		// Do we need encryption? If so, load the encryption class
 		if ($this->sess_encrypt_cookie === TRUE)
@@ -318,7 +306,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		}
 
 		// Kill the cookie
-		$this->_setcookie($this->sess_cookie_name, addslashes(serialize(array())), ($this->now - 31500000),
+		$this->_setcookie($this->sess_cookie_name, '', ($this->now - 31500000),
 			$this->cookie_path, $this->cookie_domain, 0);
 
 		// Kill session data
@@ -382,26 +370,30 @@ class CI_Session_cookie extends CI_Session_driver {
 			return FALSE;
 		}
 
+		$len = strlen($session) - 40;
+
+		if ($len < 0)
+		{
+			log_message('debug', 'The session cookie was not signed.');
+			return FALSE;
+		}
+
+		// Check cookie authentication
+		$hmac	 = substr($session, $len);
+		$session = substr($session, 0, $len);
+
+		if ($hmac !== hash_hmac('sha1', $session, $this->encryption_key))
+		{
+			log_message('error', 'The session cookie data did not match what was expected.');
+			$this->sess_destroy();
+			return FALSE;
+		}
+
 		// Check for encryption
 		if ($this->sess_encrypt_cookie === TRUE)
 		{
 			// Decrypt the cookie data
 			$session = $this->CI->encrypt->decode($session);
-		}
-		else
-		{
-			// Encryption was not used, so we need to check the md5 hash in the last 32 chars
-			$len	 = strlen($session)-32;
-			$hash	 = substr($session, $len);
-			$session = substr($session, 0, $len);
-
-			// Does the md5 hash match? This is to prevent manipulation of session data in userspace
-			if ($hash !== md5($session.$this->encryption_key))
-			{
-				log_message('error', 'The session cookie data did not match what was expected. This could be a possible hacking attempt.');
-				$this->sess_destroy();
-				return FALSE;
-			}
 		}
 
 		// Unserialize the session array
@@ -415,7 +407,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		}
 
 		// Is the session current?
-		if (($session['last_activity'] + $this->sess_expiration) < $this->now)
+		if (($session['last_activity'] + $this->sess_expiration) < $this->now OR $session['last_activity'] > $this->now)
 		{
 			$this->sess_destroy();
 			return FALSE;
@@ -549,11 +541,25 @@ class CI_Session_cookie extends CI_Session_driver {
 		// Check for database
 		if ($this->sess_use_database === TRUE)
 		{
+			$this->CI->db->where('session_id', $old_sessid);
+
+			if ($this->sess_match_ip === TRUE)
+			{
+				$this->CI->db->where('ip_address', $this->CI->input->ip_address());
+			}
+
+			if ($this->sess_match_useragent === TRUE)
+			{
+				$this->CI->db->where('user_agent', trim(substr($this->CI->input->user_agent(), 0, 120)));
+			}
+
 			// Update the session ID and last_activity field in the DB
-			$this->CI->db->update($this->sess_table_name, array(
-					 'last_activity' => $this->now,
-					 'session_id' => $this->userdata['session_id']
-			), array('session_id' => $old_sessid));
+			$this->CI->db->update($this->sess_table_name,
+				array(
+					'last_activity' => $this->now,
+					'session_id' => $this->userdata['session_id']
+				)
+			);
 		}
 
 		// Write the cookie
@@ -599,7 +605,19 @@ class CI_Session_cookie extends CI_Session_driver {
 			// Run the update query
 			// Any time we change the session id, it gets updated immediately,
 			// so our where clause below is always safe
-			$this->CI->db->update($this->sess_table_name, $set, array('session_id' => $this->userdata['session_id']));
+			$this->CI->db->where('session_id', $this->userdata['session_id']);
+
+			if ($this->sess_match_ip === TRUE)
+			{
+				$this->CI->db->where('ip_address', $this->CI->input->ip_address());
+			}
+
+			if ($this->sess_match_useragent === TRUE)
+			{
+				$this->CI->db->where('user_agent', trim(substr($this->CI->input->user_agent(), 0, 120)));
+			}
+
+			$this->CI->db->update($this->sess_table_name, $set);
 
 			// Clear dirty flag to prevent double updates
 			$this->data_dirty = FALSE;
@@ -668,10 +686,13 @@ class CI_Session_cookie extends CI_Session_driver {
 		// Serialize the userdata for the cookie
 		$cookie_data = $this->_serialize($cookie_data);
 
-		$cookie_data = ($this->sess_encrypt_cookie === TRUE)
-			? $this->CI->encrypt->encode($cookie_data)
-			// if encryption is not used, we provide an md5 hash to prevent userside tampering
-			: $cookie_data.md5($cookie_data.$this->encryption_key);
+		if ($this->sess_encrypt_cookie === TRUE)
+		{
+			$cookie_data = $this->CI->encrypt->encode($cookie_data);
+		}
+
+		// Require message authentication
+		$cookie_data .= hash_hmac('sha1', $cookie_data, $this->encryption_key);
 
 		$expire = ($this->sess_expire_on_close === TRUE) ? 0 : $this->sess_expiration + time();
 
@@ -758,7 +779,7 @@ class CI_Session_cookie extends CI_Session_driver {
 	 */
 	protected function _unserialize($data)
 	{
-		$data = @unserialize(strip_slashes(trim($data)));
+		$data = @unserialize(trim($data));
 
 		if (is_array($data))
 		{

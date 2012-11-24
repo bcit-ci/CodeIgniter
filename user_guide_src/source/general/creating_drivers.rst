@@ -16,5 +16,6 @@ Sample driver directory and file structure layout:
       -  Driver_name_subclass_2.php
       -  Driver_name_subclass_3.php
 
-**NOTE:** In order to maintain compatibility on case-sensitive file
-systems, the Driver_name directory must be ucfirst()
+.. note:: In order to maintain compatibility on case-sensitive
+	file systems, the Driver_name directory must be
+	named in the format returned by ``ucfirst()``.

@@ -19,6 +19,7 @@ class Directory_helper_test extends CI_TestCase {
 				'benchmark.html' => '',
 				'database' => array('active_record.html' => '', 'binds.html' => ''),
 				'email.html' => '',
+				'0' => '',
 				'.hiddenfile.txt' => ''
 			)
 		);
@@ -27,22 +28,23 @@ class Directory_helper_test extends CI_TestCase {
 
 		// test default recursive behavior
 		$expected = array(
-			'libraries' => array(
+			'libraries/' => array(
 				'benchmark.html',
-				'database' => array('active_record.html', 'binds.html'),
-				'email.html'
+				'database/' => array('active_record.html', 'binds.html'),
+				'email.html',
+				'0'
 			)
 		);
 
 		$this->assertEquals($expected, directory_map(vfsStream::url('testDir')));
 
 		// test detection of hidden files
-		$expected['libraries'][] = '.hiddenfile.txt';
+		$expected['libraries/'][] = '.hiddenfile.txt';
 
 		$this->assertEquals($expected, directory_map(vfsStream::url('testDir'), FALSE, TRUE));
 
 		// test recursion depth behavior
-		$this->assertEquals(array('libraries'), directory_map(vfsStream::url('testDir'), 1));
+		$this->assertEquals(array('libraries/'), directory_map(vfsStream::url('testDir'), 1));
 	}
 
 }

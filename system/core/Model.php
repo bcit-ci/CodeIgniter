@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,9 +24,10 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * CodeIgniter Model Class
+ * Model Class
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
@@ -37,7 +38,7 @@
 class CI_Model {
 
 	/**
-	 * Initialize CI_Model Class
+	 * Class constructor
 	 *
 	 * @return	void
 	 */
@@ -46,13 +47,15 @@ class CI_Model {
 		log_message('debug', 'Model Class Initialized');
 	}
 
+	// --------------------------------------------------------------------
+
 	/**
-	 * __get
+	 * __get magic
 	 *
 	 * Allows models to access CI's loaded classes using the same
 	 * syntax as controllers.
 	 *
-	 * @param	string
+	 * @param	string	$key
 	 */
 	public function __get($key)
 	{

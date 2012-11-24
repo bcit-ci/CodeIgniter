@@ -168,6 +168,8 @@ class Date_helper_test extends CI_TestCase {
 
 	public function test_timespan()
 	{
+		$this->ci_vfs_clone('system/language/english/date_lang.php');
+
 		$loader_cls = $this->ci_core_class('load');
 		$this->ci_instance_var('load', new $loader_cls);
 
@@ -288,6 +290,29 @@ class Date_helper_test extends CI_TestCase {
 
 		$this->assertArrayHasKey('UP3', timezones());
 		$this->assertEquals(0, timezones('non_existant'));
+	}
+
+	// ------------------------------------------------------------------------
+
+	public function test_date_range()
+	{
+		$dates = array(
+			'29-01-2012', '30-01-2012', '31-01-2012',
+			'01-02-2012', '02-02-2012', '03-02-2012',
+			'04-02-2012', '05-02-2012', '06-02-2012',
+			'07-02-2012', '08-02-2012', '09-02-2012',
+			'10-02-2012', '11-02-2012', '12-02-2012',
+			'13-02-2012', '14-02-2012', '15-02-2012',
+			'16-02-2012', '17-02-2012', '18-02-2012',
+			'19-02-2012', '20-02-2012', '21-02-2012',
+			'22-02-2012', '23-02-2012', '24-02-2012',
+			'25-02-2012', '26-02-2012', '27-02-2012',
+			'28-02-2012', '29-02-2012', '01-03-2012'
+		);
+
+		$this->assertEquals($dates, date_range(mktime(12, 0, 0, 1, 29, 2012), mktime(12, 0, 0, 3, 1, 2012), TRUE, 'd-m-Y'));
+		array_pop($dates);
+		$this->assertEquals($dates, date_range(mktime(12, 0, 0, 1, 29, 2012), 31, FALSE, 'd-m-Y'));
 	}
 
 }

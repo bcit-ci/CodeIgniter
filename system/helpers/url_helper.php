@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter URL Helpers
@@ -388,40 +389,43 @@ if ( ! function_exists('auto_link'))
 
 			for ($i = 0, $c = count($matches[0]); $i < $c; $i++)
 			{
-				if (preg_match('|\.$|', $matches[6][$i]))
+				if (preg_match('/(\.|\,)$/i', $matches[6][$i], $m))
 				{
-					$period = '.';
+					$punct = $m[1];
 					$matches[6][$i] = substr($matches[6][$i], 0, -1);
 				}
 				else
 				{
-					$period = '';
+					$punct = '';
 				}
 
 				$str = str_replace($matches[0][$i],
 							$matches[1][$i].'<a href="http'.$matches[4][$i].'://'
 								.$matches[5][$i].$matches[6][$i].'"'.$pop.'>http'
 								.$matches[4][$i].'://'.$matches[5][$i]
-								.$matches[6][$i].'</a>'.$period,
+								.$matches[6][$i].'</a>'.$punct,
 							$str);
 			}
 		}
 
-		if ($type !== 'url' && preg_match_all('/([a-zA-Z0-9_\.\-\+]+)@([a-zA-Z0-9\-]+)\.([a-zA-Z0-9\-\.]*)/i', $str, $matches))
+		if ($type !== 'url' && preg_match_all('/([a-zA-Z0-9_\.\-\+]+)@([a-zA-Z0-9\-]+)\.([a-zA-Z0-9\-\.]+)/i', $str, $matches))
 		{
 			for ($i = 0, $c = count($matches); $i < $c; $i++)
 			{
-				if (preg_match('|\.$|', $matches[3][$i]))
+				if (preg_match('/(\.|\,)$/i', $matches[3][$i], $m))
 				{
-					$period = '.';
+					$punct = $m[1];
 					$matches[3][$i] = substr($matches[3][$i], 0, -1);
 				}
 				else
 				{
-					$period = '';
+					$punct = '';
 				}
 
-				$str = str_replace($matches[0][$i], safe_mailto($matches[1][$i].'@'.$matches[2][$i].'.'.$matches[3][$i]).$period, $str);
+				if (filter_var(($m = $matches[1][$i].'@'.$matches[2][$i].'.'.$matches[3][$i]), FILTER_VALIDATE_EMAIL) !== FALSE)
+				{
+					$str = str_replace($matches[0][$i], safe_mailto($m).$punct, $str);
+				}
 			}
 		}
 
@@ -470,9 +474,11 @@ if ( ! function_exists('url_title'))
 	 * human-friendly URL string with a "separator" string
 	 * as the word separator.
 	 *
-	 * @param	string	the string
-	 * @param	string	the separator
-	 * @param	bool
+	 * @todo	Remove old 'dash' and 'underscore' usage in 3.1+.
+	 * @param	string	$str		Input string
+	 * @param	string	$separator	Word separator
+	 *			(usually '-' or '_')
+	 * @param	bool	$lowercase	Wether to transform the output string to lowercase
 	 * @return	string
 	 */
 	function url_title($str, $separator = '-', $lowercase = FALSE)
@@ -486,7 +492,7 @@ if ( ! function_exists('url_title'))
 			$separator = '_';
 		}
 
-		$q_separator = preg_quote($separator);
+		$q_separator = preg_quote($separator, '#');
 
 		$trans = array(
 				'&.+?;'			=> '',
@@ -521,10 +527,11 @@ if ( ! function_exists('redirect'))
 	 * For very fine grained control over headers, you could use the Output
 	 * Library's set_header() function.
 	 *
-	 * @param	string	the URL
-	 * @param	string	the method: location or refresh
-	 * @param	int
-	 * @return	string
+	 * @param	string	$uri	URL
+	 * @param	string	$method	Redirect method
+	 *			'auto', 'location' or 'refresh'
+	 * @param	int	$code	HTTP Response status code
+	 * @return	void
 	 */
 	function redirect($uri = '', $method = 'auto', $code = NULL)
 	{
@@ -534,7 +541,7 @@ if ( ! function_exists('redirect'))
 		}
 
 		// IIS environment likely? Use 'refresh' for better compatibility
-		if (DIRECTORY_SEPARATOR !== '/' && $method === 'auto')
+		if ($method === 'auto' && isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== FALSE)
 		{
 			$method = 'refresh';
 		}

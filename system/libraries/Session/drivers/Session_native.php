@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst. It is
+ * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Native PHP session management driver
@@ -46,7 +47,6 @@ class CI_Session_native extends CI_Session_driver {
 	{
 		// Get config parameters
 		$config = array();
-		$CI =& get_instance();
 		$prefs = array(
 			'sess_cookie_name',
 			'sess_expire_on_close',
@@ -56,14 +56,16 @@ class CI_Session_native extends CI_Session_driver {
 			'sess_time_to_update',
 			'cookie_prefix',
 			'cookie_path',
-			'cookie_domain'
+			'cookie_domain',
+			'cookie_secure',
+			'cookie_httponly'
 		);
 
 		foreach ($prefs as $key)
 		{
 			$config[$key] = isset($this->_parent->params[$key])
 				? $this->_parent->params[$key]
-				: $CI->config->item($key);
+				: $this->CI->config->item($key);
 		}
 
 		// Set session name, if specified
@@ -83,6 +85,9 @@ class CI_Session_native extends CI_Session_driver {
 		$expire = 7200;
 		$path = '/';
 		$domain = '';
+		$secure = (bool) $config['cookie_secure'];
+		$http_only = (bool) $config['cookie_httponly'];
+
 		if ($config['sess_expiration'] !== FALSE)
 		{
 			// Default to 2 years if expiration is "0"
@@ -100,7 +105,8 @@ class CI_Session_native extends CI_Session_driver {
 			// Use specified domain
 			$domain = $config['cookie_domain'];
 		}
-		session_set_cookie_params($config['sess_expire_on_close'] ? 0 : $expire, $path, $domain);
+
+		session_set_cookie_params($config['sess_expire_on_close'] ? 0 : $expire, $path, $domain, $secure, $http_only);
 
 		// Start session
 		session_start();
@@ -108,19 +114,19 @@ class CI_Session_native extends CI_Session_driver {
 		// Check session expiration, ip, and agent
 		$now = time();
 		$destroy = FALSE;
-		if (isset($_SESSION['last_activity']) && ($_SESSION['last_activity'] + $expire) < $now)
+		if (isset($_SESSION['last_activity']) && (($_SESSION['last_activity'] + $expire) < $now OR $_SESSION['last_activity'] > $now))
 		{
 			// Expired - destroy
 			$destroy = TRUE;
 		}
 		elseif ($config['sess_match_ip'] === TRUE && isset($_SESSION['ip_address'])
-			&& $_SESSION['ip_address'] !== $CI->input->ip_address())
+			&& $_SESSION['ip_address'] !== $this->CI->input->ip_address())
 		{
 			// IP doesn't match - destroy
 			$destroy = TRUE;
 		}
 		elseif ($config['sess_match_useragent'] === TRUE && isset($_SESSION['user_agent'])
-			&& $_SESSION['user_agent'] !== trim(substr($CI->input->user_agent(), 0, 50)))
+			&& $_SESSION['user_agent'] !== trim(substr($this->CI->input->user_agent(), 0, 50)))
 		{
 			// Agent doesn't match - destroy
 			$destroy = TRUE;
@@ -138,8 +144,12 @@ class CI_Session_native extends CI_Session_driver {
 		if ($config['sess_time_to_update'] && isset($_SESSION['last_activity'])
 			&& ($_SESSION['last_activity'] + $config['sess_time_to_update']) < $now)
 		{
-			// Regenerate ID, but don't destroy session
-			$this->sess_regenerate(FALSE);
+			// Changing the session ID amidst a series of AJAX calls causes problems
+			if( ! $this->CI->input->is_ajax_request())
+			{
+				// Regenerate ID, but don't destroy session
+				$this->sess_regenerate(FALSE);
+			}
 		}
 
 		// Set activity time
@@ -149,13 +159,13 @@ class CI_Session_native extends CI_Session_driver {
 		if ($config['sess_match_ip'] === TRUE && ! isset($_SESSION['ip_address']))
 		{
 			// Store user IP address
-			$_SESSION['ip_address'] = $CI->input->ip_address();
+			$_SESSION['ip_address'] = $this->CI->input->ip_address();
 		}
 
 		if ($config['sess_match_useragent'] === TRUE && ! isset($_SESSION['user_agent']))
 		{
 			// Store user agent string
-			$_SESSION['user_agent'] = trim(substr($CI->input->user_agent(), 0, 50));
+			$_SESSION['user_agent'] = trim(substr($this->CI->input->user_agent(), 0, 50));
 		}
 
 		// Make session ID available
@@ -190,7 +200,7 @@ class CI_Session_native extends CI_Session_driver {
 		{
 			// Clear session cookie
 			$params = session_get_cookie_params();
-			setcookie($name, '', time() - 42000, $params['path'], $params['domain']);
+			setcookie($name, '', time() - 42000, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
 			unset($_COOKIE[$name]);
 		}
 		session_destroy();

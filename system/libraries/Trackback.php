@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Trackback Class
@@ -38,13 +39,51 @@
  */
 class CI_Trackback {
 
-	public $time_format	= 'local';
+	/**
+	 * Character set
+	 *
+	 * @var	string
+	 */
 	public $charset		= 'UTF-8';
-	public $data			= array('url' => '', 'title' => '', 'excerpt' => '', 'blog_name' => '', 'charset' => '');
-	public $convert_ascii	= TRUE;
-	public $response		= '';
-	public $error_msg		= array();
 
+	/**
+	 * Trackback data
+	 *
+	 * @var	array
+	 */
+	public $data		= array('url' => '', 'title' => '', 'excerpt' => '', 'blog_name' => '', 'charset' => '');
+
+	/**
+	 * Convert ASCII flag
+	 *
+	 * Whether to convert high-ASCII and MS Word
+	 * characters to HTML entities.
+	 *
+	 * @var	bool
+	 */
+	public $convert_ascii	= TRUE;
+
+	/**
+	 * Response
+	 *
+	 * @var	string
+	 */
+	public $response	= '';
+
+	/**
+	 * Error messages list
+	 *
+	 * @var	string[]
+	 */
+	public $error_msg	= array();
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Constructor
+	 *
+	 * @return	void
+	 */
 	public function __construct()
 	{
 		log_message('debug', 'Trackback Class Initialized');
@@ -355,7 +394,7 @@ class CI_Trackback {
 			}
 		}
 
-		return preg_match('/^[0-9]+$/', $tb_id) ? $tb_id : FALSE;
+		return ctype_digit((string) $tb_id) ? $tb_id : FALSE;
 	}
 
 	// --------------------------------------------------------------------

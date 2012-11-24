@@ -63,7 +63,7 @@ The Form
 ========
 
 Using a text editor, create a form called myform.php. In it, place this
-code and save it to your applications/views/ folder::
+code and save it to your application/views/ folder::
 
 	<html>
 	<head>
@@ -98,7 +98,7 @@ The Success Page
 ================
 
 Using a text editor, create a form called formsuccess.php. In it, place
-this code and save it to your applications/views/ folder::
+this code and save it to your application/views/ folder::
 
 	<html>
 	<head>
@@ -117,7 +117,7 @@ The Controller
 ==============
 
 Using a text editor, create a controller called form.php. In it, place
-this code and save it to your applications/controllers/ folder::
+this code and save it to your application/controllers/ folder::
 
 	<?php
 
@@ -254,30 +254,30 @@ Setting Rules Using an Array
 
 Before moving on it should be noted that the rule setting function can
 be passed an array if you prefer to set all your rules in one action. If
-you use this approach you must name your array keys as indicated::
+you use this approach, you must name your array keys as indicated::
 
 	$config = array(
-	               array(
-	                     'field'   => 'username', 
-	                     'label'   => 'Username', 
-	                     'rules'   => 'required'
-	                  ),
-	               array(
-	                     'field'   => 'password', 
-	                     'label'   => 'Password', 
-	                     'rules'   => 'required'
-	                  ),
-	               array(
-	                     'field'   => 'passconf', 
-	                     'label'   => 'Password Confirmation', 
-	                     'rules'   => 'required'
-	                  ),   
-	               array(
-	                     'field'   => 'email', 
-	                     'label'   => 'Email', 
-	                     'rules'   => 'required'
-	                  )
-	            );
+		array(
+			'field' => 'username',
+			'label' => 'Username',
+			'rules' => 'required'
+		),
+		array(
+			'field' => 'password',
+			'label' => 'Password',
+			'rules' => 'required'
+		),
+		array(
+			'field' => 'passconf',
+			'label' => 'Password Confirmation',
+			'rules' => 'required'
+		),
+		array(
+			'field' => 'email',
+			'label' => 'Email',
+			'rules' => 'required'
+		)
+	);
 
 	$this->form_validation->set_rules($config);
 
@@ -288,10 +288,9 @@ CodeIgniter lets you pipe multiple rules together. Let's try it. Change
 your rules in the third parameter of rule setting function, like this::
 
 	$this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[12]|is_unique[users.username]');
-	$this->form_validation->set_rules('password', 'Password', 'required|matches[passconf]');
-	$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required');
+	$this->form_validation->set_rules('password', 'Password', 'required');
+	$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[password]');
 	$this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
-	
 
 The above code sets the following rules:
 
@@ -316,8 +315,8 @@ can also prep your data in various ways. For example, you can set up
 rules like this::
 
 	$this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[12]|xss_clean');
-	$this->form_validation->set_rules('password', 'Password', 'trim|required|matches[passconf]|md5');
-	$this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|required');
+	$this->form_validation->set_rules('password', 'Password', 'trim|required|md5');
+	$this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|required|matches[password]');
 	$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
 
 In the above example, we are "trimming" the fields, converting the
@@ -399,7 +398,7 @@ The validation system supports callbacks to your own validation
 functions. This permits you to extend the validation class to meet your
 needs. For example, if you need to run a database query to see if the
 user is choosing a unique username, you can create a callback function
-that does that. Let's create a example of this.
+that does that. Let's create an example of this.
 
 In your controller, change the "username" rule to this::
 
@@ -488,6 +487,17 @@ the name of the function::
 
 	$this->form_validation->set_message('username_check')
 
+If you are using an error message that can accept two $s in your error string,
+such as:
+::
+
+	$this->form_validation->set_message('min_length', 'The $s field must contain at least $s characters.');
+
+Then you can also use %1$s and %2$s:
+::
+
+	$this->form_validation->set_message('min_length', 'This field must contain at least %2$s characters.');
+
 You can also override any error message found in the language file. For
 example, to change the message for the "required" rule you will do this::
 
@@ -549,10 +559,9 @@ globally, individually, or change the defaults in a config file.
 
 #. **Set delimiters in a config file**
    You can add your error delimiters in application/config/form_validation.php as follows::
-   
+
       $config['error_prefix'] = '<div class="error_prefix">';
       $config['error_suffix'] = '</div>';
-
 
 Showing Errors Individually
 ===========================
@@ -581,8 +590,8 @@ Try it! Change your form so that it looks like this::
 If there are no errors, nothing will be shown. If there is an error, the
 message will appear.
 
-**Important Note:** If you use an array as the name of a form field, you
-must supply it as an array to the function. Example::
+.. important:: If you use an array as the name of a form field, you
+	must supply it as an array to the function. Example::
 
 	<?php echo form_error('options[size]'); ?>
 	<input type="text" name="options[size]" value="<?php echo set_value("options[size]"); ?>" size="50" />
@@ -592,20 +601,20 @@ For more info please see the :ref:`using-arrays-as-field-names` section below.
 Validating an Array (other than $_POST)
 =======================================
 
-Sometimes you may want to validate an array that does not originate from $_POST data.
+Sometimes you may want to validate an array that does not originate from ``$_POST`` data.
 
 In this case, you can specify the array to be validated::
-	
+
 	$data = array(
-			'username' => 'johndoe',
-			'password' => 'mypassword',
-		 	'passconf' => 'mypassword'
-		);
+		'username' => 'johndoe',
+		'password' => 'mypassword',
+		'passconf' => 'mypassword'
+	);
 
 	$this->form_validation->set_data($data);
 
-Creating validation rules, running the validation and retrieving error messages works the same whether you are
-validating $_POST data or an array.
+Creating validation rules, running the validation and retrieving error messages works the
+same whether you are validating ``$_POST`` data or an array.
 
 **Important Note:** If you want to validate more than one array during a single execution, then you should	
 call the reset_validation() function before setting up rules and validating the new array.
@@ -633,32 +642,32 @@ you will place an array named $config with your rules. As shown earlier,
 the validation array will have this prototype::
 
 	$config = array(
-	               array(
-	                     'field'   => 'username', 
-	                     'label'   => 'Username', 
-	                     'rules'   => 'required'
-	                  ),
-	               array(
-	                     'field'   => 'password', 
-	                     'label'   => 'Password', 
-	                     'rules'   => 'required'
-	                  ),
-	               array(
-	                     'field'   => 'passconf', 
-	                     'label'   => 'Password Confirmation', 
-	                     'rules'   => 'required'
-	                  ),   
-	               array(
-	                     'field'   => 'email', 
-	                     'label'   => 'Email', 
-	                     'rules'   => 'required'
-	                  )
-	            );
+		array(
+			'field' => 'username',
+			'label' => 'Username',
+			'rules' => 'required'
+		),
+		array(
+			'field' => 'password',
+			'label' => 'Password',
+			'rules' => 'required'
+		),
+		array(
+			'field' => 'passconf',
+			'label' => 'Password Confirmation',
+			'rules' => 'required'
+		),
+		array(
+			'field' => 'email',
+			'label' => 'Email',
+			'rules' => 'required'
+		)
+	);
 
 Your validation rule file will be loaded automatically and used when you
-call the run() function.
+call the ``run()`` method.
 
-Please note that you MUST name your array $config.
+Please note that you MUST name your ``$config`` array.
 
 Creating Sets of Rules
 ======================
@@ -718,45 +727,44 @@ You can name your rules anything you want::
 Calling a Specific Rule Group
 =============================
 
-In order to call a specific group you will pass its name to the run()
-function. For example, to call the signup rule you will do this::
+In order to call a specific group you will pass its name to the ``run()``
+method. For example, to call the signup rule you will do this::
 
 	if ($this->form_validation->run('signup') == FALSE)
 	{
-	   $this->load->view('myform');
+		$this->load->view('myform');
 	}
 	else
 	{
-	   $this->load->view('formsuccess');
+		$this->load->view('formsuccess');
 	}
 
 Associating a Controller Function with a Rule Group
 ===================================================
 
 An alternate (and more automatic) method of calling a rule group is to
-name it according to the controller class/function you intend to use it
+name it according to the controller class/method you intend to use it
 with. For example, let's say you have a controller named Member and a
-function named signup. Here's what your class might look like::
+method named signup. Here's what your class might look like::
 
 	<?php
 
 	class Member extends CI_Controller {
 
-	   function signup()
-	   {      
-	      $this->load->library('form_validation');
+		function signup()
+		{
+			$this->load->library('form_validation');
 
-	      if ($this->form_validation->run() == FALSE)
-	      {
-	         $this->load->view('myform');
-	      }
-	      else
-	      {
-	         $this->load->view('formsuccess');
-	      }
-	   }
+			if ($this->form_validation->run() == FALSE)
+			{
+				$this->load->view('myform');
+			}
+			else
+			{
+				$this->load->view('formsuccess');
+			}
+		}
 	}
-	?>
 
 In your validation config file, you will name your rule group
 member/signup::
@@ -861,8 +869,10 @@ Rule                      Parameter  Description                                
 ========================= ========== ============================================================================================= =======================
 **required**              No         Returns FALSE if the form element is empty.                                                                          
 **matches**               Yes        Returns FALSE if the form element does not match the one in the parameter.                    matches[form_item]     
-**is_unique**             Yes        Returns FALSE if the form element is not unique to the                                        is_unique[table.field] 
-                                     table and field name in the parameter. is_unique[table.field]                                                        
+**differs**               Yes        Returns FALSE if the form element does not differ from the one in the parameter.              differs[form_item]     
+**is_unique**             Yes        Returns FALSE if the form element is not unique to the table and field name in the            is_unique[table.field] 
+                                     parameter. Note: This rule requires :doc:`Query Builder <../database/query_builder>` to be                             
+                                     enabled in order to work.
 **max_length**            Yes        Returns FALSE if the form element is longer then the parameter value.                         max_length[12]         
 **exact_length**          Yes        Returns FALSE if the form element is not exactly the parameter value.                         exact_length[8]        
 **greater_than**          Yes        Returns FALSE if the form element is less than or equal to the parameter value or not         greater_than[8]
@@ -932,7 +942,7 @@ The following functions are intended for use in your controller
 functions.
 
 $this->form_validation->set_rules();
-======================================
+====================================
 
 	.. php:method:: set_rules ($field, $label = '', $rules = '')
 
@@ -940,7 +950,7 @@ $this->form_validation->set_rules();
 		:param string $label: The field label
 		:param mixed $rules: The rules, as a string with rules separated by a pipe "|", or an array or rules.
 		:rtype: Object
-	
+
 		Permits you to set validation rules, as described in the tutorial
 		sections above:
 
@@ -948,19 +958,19 @@ $this->form_validation->set_rules();
 	-  :ref:`saving-groups`
 
 $this->form_validation->run();
-===============================
+==============================
 	
 	.. php:method:: run ($group = '')
 
 		:param string $group: The name of the validation group to run
 		:rtype: Boolean
-	
+
 		Runs the validation routines. Returns boolean TRUE on success and FALSE
 		on failure. You can optionally pass the name of the validation group via
 		the function, as described in: :ref:`saving-groups`
 
 $this->form_validation->set_message();
-========================================
+======================================
 	
 	.. php:method:: set_message ($lang, $val = '')
 
@@ -971,7 +981,7 @@ $this->form_validation->set_message();
 		Permits you to set custom error messages. See :ref:`setting-error-messages`
 
 $this->form_validation->set_data();
-========================================
+===================================
 	
 	.. php:method:: set_data ($data = '')
 
@@ -983,13 +993,13 @@ $this->form_validation->set_data();
 $this->form_validation->reset_validation();
 ===========================================
 
- .. php:method:: reset_validation ()
+	.. php:method:: reset_validation ()
 
-    Permits you to reset the validation when you validate more than one array.
-	This function should be called before validating each new array.
+		Permits you to reset the validation when you validate more than one array.
+		This method should be called before validating each new array.
 
 $this->form_validation->error_array();
-========================================
+======================================
 	
 	.. php:method:: error_array ()
 
@@ -1008,7 +1018,7 @@ containing your forms. Note that these are procedural functions, so they
 **do not** require you to prepend them with $this->form_validation.
 
 form_error()
-=============
+============
 
 Shows an individual error message associated with the field name
 supplied to the function. Example::
@@ -1019,7 +1029,7 @@ The error delimiters can be optionally specified. See the
 :ref:`changing-delimiters` section above.
 
 validation_errors()
-====================
+===================
 
 Shows all error messages as a string: Example::
 
@@ -1029,7 +1039,7 @@ The error delimiters can be optionally specified. See the
 :ref:`changing-delimiters` section above.
 
 set_value()
-============
+===========
 
 Permits you to set the value of an input form or textarea. You must
 supply the field name via the first parameter of the function. The
@@ -1041,7 +1051,7 @@ form. Example::
 The above form will show "0" when loaded for the first time.
 
 set_select()
-=============
+============
 
 If you use a <select> menu, this function permits you to display the
 menu item that was selected. The first parameter must contain the name
@@ -1058,7 +1068,7 @@ Example::
 	</select>
 
 set_checkbox()
-===============
+==============
 
 Permits you to display a checkbox in the state it was submitted. The
 first parameter must contain the name of the checkbox, the second
@@ -1069,7 +1079,7 @@ lets you set an item as the default (use boolean TRUE/FALSE). Example::
 	<input type="checkbox" name="mycheck[]" value="2" <?php echo set_checkbox('mycheck[]', '2'); ?> />
 
 set_radio()
-============
+===========
 
 Permits you to display radio buttons in the state they were submitted.
 This function is identical to the **set_checkbox()** function above.

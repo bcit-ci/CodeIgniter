@@ -26,7 +26,7 @@ Creating the Upload Form
 ========================
 
 Using a text editor, create a form called upload_form.php. In it, place
-this code and save it to your applications/views/ folder::
+this code and save it to your application/views/ folder::
 
 	<html>
 	<head>
@@ -59,7 +59,7 @@ The Success Page
 ================
 
 Using a text editor, create a form called upload_success.php. In it,
-place this code and save it to your applications/views/ folder::
+place this code and save it to your application/views/ folder::
 
 	<html>
 	<head>
@@ -84,7 +84,7 @@ The Controller
 ==============
 
 Using a text editor, create a controller called upload.php. In it, place
-this code and save it to your applications/controllers/ folder::
+this code and save it to your application/controllers/ folder::
 
 	<?php
 
@@ -197,6 +197,7 @@ Preference                   Default Value     Options                 Descripti
                                                                        Separate multiple types with a pipe.
 **file_name**                None              Desired file name       If set CodeIgniter will rename the uploaded file to this name. The
                                                                        extension provided in the file name must also be an allowed file type.
+                                                                       If no extension is provided in the original file_name will be used.
 **overwrite**                FALSE             TRUE/FALSE (boolean)    If set to true, if a file with the same name as the one you are
                                                                        uploading exists, it will be overwritten. If set to false, a number will
                                                                        be appended to the filename if another with the same name exists.

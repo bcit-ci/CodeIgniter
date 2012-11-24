@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,9 +24,10 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * CodeIgniter Hooks Class
+ * Hooks Class
  *
  * Provides a mechanism to extend the base system without hacking.
  *
@@ -41,26 +42,28 @@ class CI_Hooks {
 	/**
 	 * Determines whether hooks are enabled
 	 *
-	 * @var bool
+	 * @var	bool
 	 */
-	public $enabled =	FALSE;
+	public $enabled = FALSE;
 
 	/**
 	 * List of all hooks set in config/hooks.php
 	 *
-	 * @var array
+	 * @var	array
 	 */
 	public $hooks =	array();
 
 	/**
+	 * In progress flag
+	 *
 	 * Determines whether hook is in progress, used to prevent infinte loops
 	 *
-	 * @var bool
+	 * @var	bool
 	 */
-	public $in_progress	=	FALSE;
+	protected $_in_progress = FALSE;
 
 	/**
-	 * Initialize the Hooks Preferences
+	 * Class constructor
 	 *
 	 * @return	void
 	 */
@@ -104,8 +107,10 @@ class CI_Hooks {
 	 *
 	 * Calls a particular hook. Called by CodeIgniter.php.
 	 *
-	 * @param	string	the hook name
-	 * @return	mixed
+	 * @uses	CI_Hooks::_run_hook()
+	 *
+	 * @param	string	$which	Hook name
+	 * @return	bool	TRUE on success or FALSE on failure
 	 */
 	public function call_hook($which = '')
 	{
@@ -136,8 +141,8 @@ class CI_Hooks {
 	 *
 	 * Runs a particular hook
 	 *
-	 * @param	array	the hook details
-	 * @return	bool
+	 * @param	array	$data	Hook details
+	 * @return	bool	TRUE on success or FALSE on failure
 	 */
 	protected function _run_hook($data)
 	{
@@ -152,7 +157,7 @@ class CI_Hooks {
 
 		// If the script being called happens to have the same
 		// hook call within it a loop can happen
-		if ($this->in_progress === TRUE)
+		if ($this->_in_progress === TRUE)
 		{
 			return;
 		}
@@ -173,44 +178,20 @@ class CI_Hooks {
 			return FALSE;
 		}
 
-		// -----------------------------------
-		// Set class/function name
-		// -----------------------------------
-
-		$class		= FALSE;
-		$function	= FALSE;
-		$params		= '';
-
-		if ( ! empty($data['class']))
-		{
-			$class = $data['class'];
-		}
-
-		if ( ! empty($data['function']))
-		{
-			$function = $data['function'];
-		}
-
-		if (isset($data['params']))
-		{
-			$params = $data['params'];
-		}
+		// Determine and class and/or function names
+		$class		= empty($data['class']) ? FALSE : $data['class'];
+		$function	= empty($data['function']) ? FALSE : $data['function'];
+		$params		= isset($data['params']) ? $data['params'] : '';
 
 		if ($class === FALSE && $function === FALSE)
 		{
 			return FALSE;
 		}
 
-		// -----------------------------------
-		// Set the in_progress flag
-		// -----------------------------------
+		// Set the _in_progress flag
+		$this->_in_progress = TRUE;
 
-		$this->in_progress = TRUE;
-
-		// -----------------------------------
 		// Call the requested class and/or function
-		// -----------------------------------
-
 		if ($class !== FALSE)
 		{
 			if ( ! class_exists($class))
@@ -218,7 +199,7 @@ class CI_Hooks {
 				require($filepath);
 			}
 
-			$HOOK = new $class;
+			$HOOK = new $class();
 			$HOOK->$function($params);
 		}
 		else
@@ -231,7 +212,7 @@ class CI_Hooks {
 			$function($params);
 		}
 
-		$this->in_progress = FALSE;
+		$this->_in_progress = FALSE;
 		return TRUE;
 	}
 

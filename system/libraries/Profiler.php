@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter Profiler Class
@@ -74,12 +75,14 @@ class CI_Profiler {
 	 */
 	protected $CI;
 
+	// --------------------------------------------------------------------
+
 	/**
-	 * Constructor
+	 * Class constructor
 	 *
 	 * Initialize Profiler
 	 *
-	 * @param array $config
+	 * @param	array	$config	Parameters
 	 */
 	public function __construct($config = array())
 	{
@@ -111,7 +114,7 @@ class CI_Profiler {
 	 *
 	 * Sets the private _compile_* properties to enable/disable Profiler sections
 	 *
-	 * @param	mixed
+	 * @param	mixed	$config
 	 * @return	void
 	 */
 	public function set_sections($config)
@@ -190,11 +193,24 @@ class CI_Profiler {
 		$dbs = array();
 
 		// Let's determine which databases are currently connected to
-		foreach (get_object_vars($this->CI) as $CI_object)
+		foreach (get_object_vars($this->CI) as $name => $cobject)
 		{
-			if (is_object($CI_object) && is_subclass_of(get_class($CI_object), 'CI_DB'))
+			if (is_object($cobject))
 			{
-				$dbs[] = $CI_object;
+				if ($cobject instanceof CI_DB)
+				{
+					$dbs[get_class($this->CI).':$'.$name] = $cobject;
+				}
+				elseif ($cobject instanceof CI_Model)
+				{
+					foreach (get_object_vars($cobject) as $mname => $mobject)
+					{
+						if ($mobject instanceof CI_DB)
+						{
+							$dbs[get_class($cobject).':$'.$mname] = $mobject;
+						}
+					}
+				}
 			}
 		}
 
@@ -219,7 +235,7 @@ class CI_Profiler {
 		$output  = "\n\n";
 		$count = 0;
 
-		foreach ($dbs as $db)
+		foreach ($dbs as $name => $db)
 		{
 			$hide_queries = (count($db->queries) > $this->_query_toggle_count) ? ' display:none' : '';
 
@@ -233,7 +249,7 @@ class CI_Profiler {
 			$output .= '<fieldset style="border:1px solid #0000FF;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee;">'
 				."\n"
 				.'<legend style="color:#0000FF;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_database')
-				.':&nbsp; '.$db->database.'&nbsp;&nbsp;&nbsp;'.$this->CI->lang->line('profiler_queries')
+				.':&nbsp; '.$db->database.' ('.$name.')&nbsp;&nbsp;&nbsp;'.$this->CI->lang->line('profiler_queries')
 				.': '.count($db->queries).'&nbsp;&nbsp;'.$show_hide_js."</legend>\n\n\n"
 				.'<table style="width:100%;'.$hide_queries.'" id="ci_profiler_queries_db_'.$count."\">\n";
 

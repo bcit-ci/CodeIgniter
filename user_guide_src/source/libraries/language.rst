@@ -54,7 +54,9 @@ first. Loading a language file is done with the following code::
 Where filename is the name of the file you wish to load (without the
 file extension), and language is the language set containing it (ie,
 english). If the second parameter is missing, the default language set
-in your application/config/config.php file will be used.
+in your *application/config/config.php* file will be used.
+
+.. note:: The *language* parameter can only consist of letters.
 
 Fetching a Line of Text
 =======================
@@ -64,11 +66,15 @@ text using this function::
 
 	$this->lang->line('language_key');
 
-Where language_key is the array key corresponding to the line you wish
+Where *language_key* is the array key corresponding to the line you wish
 to show.
 
-Note: This function simply returns the line. It does not echo it for
-you.
+You can optionally pass FALSE as the second argument of that method to
+disable error logging, in case you're not sure if the line exists::
+
+	$this->lang->line('misc_key', FALSE);
+
+.. note:: This method simply returns the line. It does not echo it.
 
 Using language lines as form labels
 -----------------------------------

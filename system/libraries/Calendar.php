@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter Calendar Class
@@ -95,11 +96,13 @@ class CI_Calendar {
 	public $next_prev_url		= '';
 
 	/**
-	 * Constructor
+	 * Class constructor
 	 *
-	 * Loads the calendar language file and sets the default time reference
+	 * Loads the calendar language file and sets the default time reference.
 	 *
-	 * @param	array
+	 * @uses	CI_Lang::$is_loaded
+	 *
+	 * @param	array	$config	Calendar options
 	 * @return	void
 	 */
 	public function __construct($config = array())

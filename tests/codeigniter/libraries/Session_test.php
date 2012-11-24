@@ -29,17 +29,15 @@ class Session_test extends CI_TestCase {
 		$_COOKIE = array();
 
 		// Establish necessary support classes
-		$obj = new stdClass;
-		$classes = array(
-			'config' => 'cfg',
-			'load' => 'load',
-			'input' => 'in'
-		);
-		foreach ($classes as $name => $abbr) {
-			$class = $this->ci_core_class($abbr);
-			$obj->$name = new $class;
-		}
-		$this->ci_instance($obj);
+		$cfg = $this->ci_core_class('cfg');
+		$ldr = $this->ci_core_class('load');
+		$ci = $this->ci_instance();
+		$ci->config = new $cfg();
+		$ci->load = new $ldr();
+		$ci->input = new Mock_Core_Input(NULL, NULL);
+
+		// Make sure string helper is available
+		$this->ci_vfs_clone('system/helpers/string_helper.php');
 
 		// Set subclass prefix to match our mock
 		$obj->config->set_item('subclass_prefix', 'Mock_Libraries_');
@@ -401,4 +399,3 @@ class Session_test extends CI_TestCase {
 		$this->assertNull($this->session->native->userdata($key));
 	}
 }
-

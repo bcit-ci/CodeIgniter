@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter HTML Helpers
@@ -156,12 +157,12 @@ if ( ! function_exists('br'))
 	/**
 	 * Generates HTML BR tags based on number supplied
 	 *
-	 * @param	int
+	 * @param	int	$count	Number of times to repeat the tag
 	 * @return	string
 	 */
-	function br($num = 1)
+	function br($count = 1)
 	{
-		return str_repeat('<br />', $num);
+		return str_repeat('<br />', $count);
 	}
 }
 

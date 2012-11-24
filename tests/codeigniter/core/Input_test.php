@@ -22,18 +22,7 @@ class Input_test extends CI_TestCase {
 
 	public function test_get_not_exists()
 	{
-		$this->assertEmpty($this->input->get());
-		$this->assertEmpty($this->input->get('foo'));
-
-		$this->assertTrue( ! $this->input->get());
-		$this->assertTrue( ! $this->input->get('foo'));
-
-		// Test we're getting empty results
-		$this->assertTrue($this->input->get() === NULL);
-		$this->assertTrue($this->input->get('foo') === NULL);
-
-		// Test new 3.0 behaviour for non existant results (used to be FALSE)
-		$this->assertTrue($this->input->get() === NULL);
+		$this->assertTrue($this->input->get() === array());
 		$this->assertTrue($this->input->get('foo') === NULL);
 	}
 
@@ -64,16 +53,7 @@ class Input_test extends CI_TestCase {
 
 	public function test_post_not_exists()
 	{
-		$this->assertEmpty($this->input->post());
-		$this->assertEmpty($this->input->post('foo'));
-
-		$this->assertTrue( ! $this->input->post());
-		$this->assertTrue( ! $this->input->post('foo'));
-
-		$this->assertTrue($this->input->post() === NULL);
-		$this->assertTrue($this->input->post('foo') === NULL);
-
-		$this->assertTrue($this->input->post() === NULL);
+		$this->assertTrue($this->input->post() === array());
 		$this->assertTrue($this->input->post('foo') === NULL);
 	}
 

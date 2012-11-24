@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * oci8 Result Class
@@ -37,15 +38,40 @@
  */
 class CI_DB_oci8_result extends CI_DB_result {
 
+	/**
+	 * Statement ID
+	 *
+	 * @var	resource
+	 */
 	public $stmt_id;
-	public $curs_id;
-	public $limit_used;
-	public $commit_mode;
 
 	/**
-	 * Constructor
+	 * Cursor ID
 	 *
-	 * @param	object
+	 * @var	resource
+	 */
+	public $curs_id;
+
+	/**
+	 * Limit used flag
+	 *
+	 * @var	bool
+	 */
+	public $limit_used;
+
+	/**
+	 * Commit mode flag
+	 *
+	 * @var	int
+	 */
+	public $commit_mode;
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Class constructor
+	 *
+	 * @param	object	&$driver_object
 	 * @return	void
 	 */
 	public function __construct(&$driver_object)
@@ -157,7 +183,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	protected function _fetch_assoc()
 	{
 		$id = ($this->curs_id) ? $this->curs_id : $this->stmt_id;
-		return oci_fetch_assoc($id);
+		return @oci_fetch_assoc($id);
 	}
 
 	// --------------------------------------------------------------------
@@ -167,7 +193,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @param	string
+	 * @param	string	$class_name
 	 * @return	object
 	 */
 	protected function _fetch_object($class_name = 'stdClass')
@@ -211,9 +237,10 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 * some point in the future, but it will only work for resetting the
 	 * pointer to zero.
 	 *
+	 * @param	int	$n	(ignored)
 	 * @return	bool
 	 */
-	protected function _data_seek()
+	protected function _data_seek($n = 0)
 	{
 		/* The PHP manual says that if OCI_NO_AUTO_COMMIT mode
 		 * is used, and oci_rollback() and/or oci_commit() are

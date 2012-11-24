@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Postgres Result Class
@@ -99,8 +100,6 @@ class CI_DB_postgre_result extends CI_DB_result {
 			$retval[$i]->name		= pg_field_name($this->result_id, $i);
 			$retval[$i]->type		= pg_field_type($this->result_id, $i);
 			$retval[$i]->max_length		= pg_field_size($this->result_id, $i);
-			$retval[$i]->primary_key	= 0;
-			$retval[$i]->default		= '';
 		}
 
 		return $retval;
@@ -129,8 +128,9 @@ class CI_DB_postgre_result extends CI_DB_result {
 	 *
 	 * Moves the internal pointer to the desired offset. We call
 	 * this internally before fetching results to make sure the
-	 * result set starts at zero
+	 * result set starts at zero.
 	 *
+	 * @param	int	$n
 	 * @return	bool
 	 */
 	protected function _data_seek($n = 0)
@@ -159,7 +159,7 @@ class CI_DB_postgre_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @param	string
+	 * @param	string	$class_name
 	 * @return	object
 	 */
 	protected function _fetch_object($class_name = 'stdClass')
