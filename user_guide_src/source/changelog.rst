@@ -274,7 +274,6 @@ Release Date: Not Released
 	 -  Added method ``get_vars()`` to the Loader to retrieve all variables loaded with ``$this->load->vars()``.
 	 -  ``_ci_autoloader()`` is now a protected method.
 	 -  Added autoloading of drivers with ``$autoload['drivers']``.
-	 -  ``library()`` method will now load drivers as well, for backward compatibility of converted libraries (like :doc:`Session <libraries/sessions>`).
 	 -  ``$config['rewrite_short_tags']`` now has no effect when using PHP 5.4 as ``<?=`` will always be available.
 	 -  Changed method ``config()`` to return whatever ``CI_Config::load()`` returns instead of always being void.
    -  :doc:`Input Library <libraries/input>` changes include:
