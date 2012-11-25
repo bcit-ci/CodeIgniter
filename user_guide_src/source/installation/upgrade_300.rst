@@ -42,9 +42,13 @@ or extensions to work, you need to move them to **application/core/**::
 	application/libraries/Log.php -> application/core/Log.php
 	application/libraries/MY_Log.php -> application/core/MY_log.php
 
-**************************************************************
-Step 5: Add new session driver items to your config/config.php
-**************************************************************
+*********************************************************
+Step 5: Convert your Session usage from library to driver
+*********************************************************
+
+When you load (or autoload) the Session library, you must now load it as a driver instead of a library. This means
+calling ``$this->load->driver('session')`` instead of ``$this->load->library('session')`` and/or listing 'session'
+in ``$autoload['drivers']`` instead of ``$autoload['libraries']``.
 
 With the change from a single Session Library to the new Session Driver, two new config items have been added:
 
@@ -57,6 +61,10 @@ With the change from a single Session Library to the new Session Driver, two new
 As the new Session Driver library loads the classic Cookie driver by default and always makes 'cookie' and 'native'
 available as valid drivers, neither of these configuration items are required. However, it is recommended that you
 add them for clarity and ease of configuration in the future.
+
+If you have written a Session extension, you must move it into a 'Session' sub-directory of 'libraries', following the
+standard for Drivers. Also beware that some functions which are not part of the external Session API have moved into
+the drivers, so your extension may have to be broken down into separate library and driver class extensions.
 
 ***************************************
 Step 6: Update your config/database.php
