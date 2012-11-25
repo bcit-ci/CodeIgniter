@@ -402,7 +402,7 @@ abstract class CI_DB_forge {
 		// Are indexes created from within the CREATE TABLE statement? (e.g. in MySQL)
 		if ($this->_create_table_keys === TRUE)
 		{
-			$columns .= $this->_process_indexes();
+			$columns .= $this->_process_indexes($table);
 		}
 
 		// _create_table will usually have the following format: "%s %s (%s\n)"
@@ -962,14 +962,25 @@ abstract class CI_DB_forge {
 	 * @param	string	$table
 	 * @return	string
 	 */
-	protected function _process_indexes($table = NULL)
+	protected function _process_indexes($table)
 	{
 		$table = $this->db->escape_identifiers($table);
 		$sqls = array();
 
 		for ($i = 0, $c = count($this->keys); $i < $c; $i++)
 		{
-			if ( ! isset($this->fields[$this->keys[$i]]))
+			if (is_array($this->keys[$i]))
+			{
+				for ($i2 = 0, $c2 = count($this->keys[$i]); $i2 < $c2; $i2++)
+				{
+					if ( ! isset($this->fields[$this->keys[$i][$i2]]))
+					{
+						unset($this->keys[$i][$i2]);
+						continue;
+					}
+				}
+			}
+			elseif ( ! isset($this->fields[$this->keys[$i]]))
 			{
 				unset($this->keys[$i]);
 				continue;
