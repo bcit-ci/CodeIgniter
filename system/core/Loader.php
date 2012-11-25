@@ -1030,25 +1030,7 @@ class CI_Loader {
 	protected function _ci_init_class($class, $prefix = '', $config = FALSE, $object_name = NULL)
 	{
 		// Determine class name
-		if ($prefix === '')
-		{
-			if (class_exists('CI_'.$class))
-			{
-				$name = 'CI_'.$class;
-			}
-			elseif (class_exists(config_item('subclass_prefix').$class))
-			{
-				$name = config_item('subclass_prefix').$class;
-			}
-			else
-			{
-				$name = $class;
-			}
-		}
-		else
-		{
-			$name = $prefix.$class;
-		}
+		$name = ($prefix === '' && class_exists('CI_'.$class)) ? 'CI_'.$class : $prefix.$class;
 
 		// Is the class name valid?
 		if ( ! class_exists($name))
