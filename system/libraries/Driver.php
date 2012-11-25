@@ -93,7 +93,7 @@ class CI_Driver_Library {
 		$child_name = $this->lib_name.'_'.$child;
 
 		// See if requested child is a valid driver
-		if ( ! in_array($child, array_map('strtolower', $this->valid_drivers)))
+		if ( ! in_array($child, $this->valid_drivers))
 		{
 			// The requested driver isn't valid!
 			$msg = 'Invalid driver requested: '.$child_name;
@@ -101,12 +101,8 @@ class CI_Driver_Library {
 			show_error($msg);
 		}
 
-		// All driver files should be in a library subdirectory - capitalized
-		$subdir = ucfirst(strtolower($this->lib_name));
-
 		// Get package paths and filename case variations to search
 		$paths = $CI->load->get_package_paths(TRUE);
-		$cases = array(ucfirst($child_name), strtolower($child_name));
 
 		// Is there an extension?
 		$class_name = $prefix.$child_name;
@@ -116,31 +112,24 @@ class CI_Driver_Library {
 			// Check for subclass file
 			foreach ($paths as $path)
 			{
-				// Extension will be in drivers subdirectory
-				$path .= 'libraries/'.$subdir.'/drivers/';
-
-				// Try filename with caps and all lowercase
-				foreach ($cases as $name)
+				// Does the file exist?
+				$file = $path.'libraries/'.$this->lib_name.'/drivers/'.$prefix.$child_name.'.php';
+				if (file_exists($file))
 				{
-					// Does the file exist?
-					$file = $path.$prefix.$name.'.php';
-					if (file_exists($file))
+					// Yes - require base class from BASEPATH
+					$basepath = BASEPATH.'libraries/'.$this->lib_name.'/drivers/'.$child_name.'.php';
+					if ( ! file_exists($basepath))
 					{
-						// Yes - require base class from BASEPATH
-						$basepath = BASEPATH.'libraries/'.$subdir.'/drivers/'.ucfirst($child_name).'.php';
-						if ( ! file_exists($basepath))
-						{
-							$msg = 'Unable to load the requested class: CI_'.$child_name;
-							log_message('error', $msg);
-							show_error($msg);
-						}
-
-						// Include both sources and mark found
-						include($basepath);
-						include($file);
-						$found = TRUE;
-						break 2;
+						$msg = 'Unable to load the requested class: CI_'.$child_name;
+						log_message('error', $msg);
+						show_error($msg);
 					}
+
+					// Include both sources and mark found
+					include($basepath);
+					include($file);
+					$found = TRUE;
+					break;
 				}
 			}
 		}
@@ -156,20 +145,13 @@ class CI_Driver_Library {
 				// Check package paths
 				foreach ($paths as $path)
 				{
-					// Class will be in drivers subdirectory
-					$path .= 'libraries/'.$subdir.'/drivers/';
-
-					// Try filename with caps and all lowercase
-					foreach ($cases as $name)
+					// Does the file exist?
+					$file = $path.'libraries/'.$this->lib_name.'/drivers/'.$child_name.'.php';
+					if (file_exists($file))
 					{
-						// Does the file exist?
-						$file = $path.$name.'.php';
-						if (file_exists($file))
-						{
-							// Include source
-							include($file);
-							break 2;
-						}
+						// Include source
+						include($file);
+						break;
 					}
 				}
 			}
@@ -183,8 +165,8 @@ class CI_Driver_Library {
 			show_error($msg);
 		}
 
-		// Instantiate, decorate, and add child
-		$obj = new $class_name;
+		// Instantiate, decorate and add child
+		$obj = new $class_name();
 		$obj->decorate($this);
 		$this->$child = $obj;
 		return $this->$child;
