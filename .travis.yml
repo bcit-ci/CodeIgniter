@@ -6,6 +6,7 @@ php:
   
 env:
   - DB=mysql
+  - DB=mysqli
   - DB=pgsql
   - DB=sqlite
   - DB=pdo/mysql
