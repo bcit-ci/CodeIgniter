@@ -72,7 +72,7 @@ class Driver_test extends CI_TestCase {
 		$file = $this->name.'_'.$driver;
 		$class = 'CI_'.$file;
 		$content = '<?php class '.$class.' extends CI_Driver {  }';
-		$this->ci_vfs_create(strtolower($file), $content, $this->ci_app_root,
+		$this->ci_vfs_create($file, $content, $this->ci_app_root,
 			array('libraries', $this->name, 'drivers'));
 
 		// Make valid list
