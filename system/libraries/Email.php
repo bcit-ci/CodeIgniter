@@ -2062,9 +2062,11 @@ class CI_Email {
 	/**
 	 * Get Debug Message
 	 *
+	 * @param	array	$include	List of raw data chunks to include in the output
+	 *					Valid options are: 'headers', 'subject', 'body'
 	 * @return	string
 	 */
-	public function print_debugger()
+	public function print_debugger($include = array('headers', 'subject', 'body'))
 	{
 		$msg = '';
 
@@ -2076,7 +2078,26 @@ class CI_Email {
 			}
 		}
 
-		return $msg.'<pre>'.$this->_header_str."\n".htmlspecialchars($this->_subject)."\n".htmlspecialchars($this->_finalbody).'</pre>';
+		// Determine which parts of our raw data needs to be printed
+		$raw_data = '';
+		is_array($include) OR $include = array($include);
+
+		if (in_array('headers', $include, TRUE))
+		{
+			$raw_data = $this->_header_str."\n";
+		}
+
+		if (in_array('subject', $include, TRUE))
+		{
+			$raw_data .= htmlspecialchars($this->_subject)."\n";
+		}
+
+		if (in_array('body', $include, TRUE))
+		{
+			$raw_data .= htmlspecialchars($this->_finalbody);
+		}
+
+		return $msg.($raw_data === '' ? '' : '<pre>'.$raw_data.'</pre>');
 	}
 
 	// --------------------------------------------------------------------
