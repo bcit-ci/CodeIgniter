@@ -10,7 +10,7 @@ class Language_helper_test extends CI_TestCase {
 		$this->ci_instance_var('lang', $lang);
 
 		$this->assertFalse(lang(1));
-		$this->assertEquals('<label for="foo"></label>', lang(1, 'foo'));
+		$this->assertEquals('<label for="foo" class="bar"></label>', lang(1, 'foo', array('class' => 'bar')));
 	}
 
 }
