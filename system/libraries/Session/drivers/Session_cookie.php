@@ -219,7 +219,7 @@ class CI_Session_cookie extends CI_Session_driver {
 				: $this->CI->config->item($key);
 		}
 
-		if ($this->encryption_key === '')
+		if (empty($this->encryption_key))
 		{
 			show_error('In order to use the Cookie Session driver you are required to set an encryption key in your config file.');
 		}
