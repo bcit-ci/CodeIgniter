@@ -814,6 +814,53 @@ if ( ! function_exists('set_radio'))
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('set_multiselect'))
+{
+	/**
+	 * Set Multiselect
+	 *
+	 * Let's you set the selected value of a multiselect field via info in the POST array.
+	 * If Form Validation is active it retrieves the info from the validation class
+	 *
+	 * @param	string
+	 * @param	array
+	 * @return	array
+	 */
+
+	function set_multiselect( $field = '', $values = array() )
+	{
+	    $OBJ =& _get_validation_object();
+
+	    if ( $OBJ === FALSE )
+	    {
+	        if ( ! isset( $_POST[ $field ] ) )
+	        {
+	            return $values;
+	        }
+
+	        $field = $_POST[ $field ];
+
+	        if ( is_array( $field ) )
+	        {
+	            return $field;
+	        }
+	        else
+	        {
+	            if ( ( $field == '' OR empty( $value ) OR ( ! in_array( $field, $value ) ) ) )
+	            {
+	                return array();
+	            }
+	        }
+
+	        return $values;
+	    }
+
+	    return $OBJ->set_multiselect( $field, $values );
+	}
+}
+
+// ------------------------------------------------------------------------
+
 
 if ( ! function_exists('form_error'))
 {

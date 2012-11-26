@@ -929,6 +929,47 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Set multiselect
+	 *
+	 * Enables multiselect to be set to the value the user
+	 * selected in the event of an error
+	 *
+	 * @param	string
+	 * @param	array
+	 * @return	array
+	 */
+	public function set_multiselect( $field = '', $values = array() )
+	{
+		if ( ! isset($this->_field_data[$field]) OR ! isset($this->_field_data[$field]['postdata']))
+		{
+			if ( count( $this->_field_data ) === 0 )
+			{
+				return $values;
+			}
+
+			return array();
+		}
+
+		$field = $this->_field_data[$field]['postdata'];
+
+		if ( is_array( $field ) )
+		{
+			return $field;
+		}
+		else
+		{
+			if ( ( $field == '' OR empty( $value ) OR ( ! in_array( $field, $value ) ) ) )
+            {
+                return array();
+            }
+		}
+
+		return $values;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Required
 	 *
 	 * @param	string
