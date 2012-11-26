@@ -117,7 +117,7 @@ class CI_Lang {
 		{
 			foreach (get_instance()->load->get_package_paths(TRUE) as $package_path)
 			{
-				$package_path .= 'language/'.$idiom.'/'.$langpath;
+				$package_path .= 'language/'.$idiom.'/'.$langfile;
 				if ($basepath !== $package_path && file_exists($package_path))
 				{
 					include($package_path);

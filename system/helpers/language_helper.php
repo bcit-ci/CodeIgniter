@@ -55,9 +55,9 @@ if ( ! function_exists('lang'))
 		$CI =& get_instance();
 		$line = $CI->lang->line($line);
 
-		if ($id !== '')
+		if ($for !== '')
 		{
-			$line = '<label for="'.$id.'"'._stringify_attributes($attributes).'>'.$line.'</label>';
+			$line = '<label for="'.$for.'"'._stringify_attributes($attributes).'>'.$line.'</label>';
 		}
 
 		return $line;
