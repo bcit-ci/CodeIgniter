@@ -220,11 +220,12 @@ Release Date: Not Released
 	 -  Added method ``reset_validation()`` which resets internal validation variables in case of multiple validation routines.
 	 -  Added support for setting error delimiters in the config file via ``$config['error_prefix']`` and ``$config['error_suffix']``.
 	 -  ``_execute()`` now considers input data to be invalid if a specified rule is not found.
-	 -  Removed method ``is_numeric()`` as it exists as a native PHP function and ``_execute()`` will find and use that (the *is_numeric* rule itself is deprecated since 1.6.1).
+	 -  Removed method ``is_numeric()`` as it exists as a native PHP function and ``_execute()`` will find and use that (the **is_numeric** rule itself is deprecated since 1.6.1).
 	 -  Native PHP functions used as rules can now accept an additional parameter, other than the data itself.
 	 -  Updated ``set_rules()`` to accept an array of rules as well as a string.
 	 -  Fields that have empty rules set no longer run through validation (and therefore are not considered erroneous).
-	 -  Added rule *differs* to check if the value of a field differs from the value of another field.
+	 -  Added rule **differs* to check if the value of a field differs from the value of another field.
+	 -  Added rule **valid_url**.
    -  Added support for setting :doc:`Table <libraries/table>` class defaults in a config file.
    -  :doc:`Caching Library <libraries/caching>` changes include:
 	 -  Added Wincache driver.
