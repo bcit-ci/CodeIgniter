@@ -894,6 +894,7 @@ Rule                      Parameter  Description                                
                                      0, 1, 2, 3, etc.
 **is_natural_no_zero**    No         Returns FALSE if the form element contains anything other than a natural
                                      number, but not zero: 1, 2, 3, etc.
+**valid_url**             No         Returns FALSE if the form element does not contain a valid URL.
 **valid_email**           No         Returns FALSE if the form element does not contain a valid email address.
 **valid_emails**          No         Returns FALSE if any value provided in a comma separated list is not a valid email.
 **valid_ip**              No         Returns FALSE if the supplied IP is not valid.
