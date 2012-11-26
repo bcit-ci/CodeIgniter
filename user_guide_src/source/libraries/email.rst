@@ -268,10 +268,20 @@ parameter as mime-type::
 	$this->email->attach($buffer, 'attachment', 'report.pdf', 'application/pdf');
 
 $this->email->print_debugger()
--------------------------------
+------------------------------
 
 Returns a string containing any server messages, the email headers, and
 the email messsage. Useful for debugging.
+
+You can optionally specify which parts of the message should be printed.
+Valid options are: **headers**, **subject**, **body**.
+
+Example::
+
+	// Will only print the email headers, excluding the message subject and body
+	$this->email->print_debugger(array('headers'));
+
+.. note:: By default, all of the raw data will be printed.
 
 Overriding Word Wrapping
 ========================
