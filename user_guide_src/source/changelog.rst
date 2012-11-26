@@ -254,9 +254,6 @@ Release Date: Not Released
    -  :doc:`Encryption Library <libraries/encryption>` changes include:
 	 -  Added support for hashing algorithms other than SHA1 and MD5.
 	 -  Removed previously deprecated ``sha1()`` method.
-   -  :doc:`Language Library <libraries/language>` changes include:
-	 -  Changed method ``load()`` to filter the language name with ``ctype_digit()``.
-	 -  Added an optional second parameter to method ``line()`` to disable error login for line keys that were not found.
    -  :doc:`Profiler Library <general/profiling>` now also displays database object names.
    -  :doc:`Migration Library <libraries/migration>` changes include:
 	 -  Added support for timestamp-based migrations (enabled by default).
@@ -309,6 +306,10 @@ Release Date: Not Released
    -  :doc:`URI Routing <general/routing>` changes include:
 	 -  Added possibility to route requests using callbacks.
 	 -  Added possibility to use dashes in the controller and method URI segments (translated to underscores).
+   -  :doc:`Language Library <libraries/language>` changes include:
+	 -  Changed method ``load()`` to filter the language name with ``ctype_digit()``.
+	 -  Added an optional second parameter to method ``line()`` to disable error login for line keys that were not found.
+	 -  Language files are now loaded in a cascading style with the one in **system/** always loaded and overriden afterwards, if another one is found.
 
 Bug fixes for 3.0
 ------------------

@@ -96,29 +96,40 @@ class CI_Lang {
 			return;
 		}
 
-		// Determine where the language file is and load it
-		if ($alt_path !== '' && file_exists($alt_path.'language/'.$idiom.'/'.$langfile))
+		// Load the base file, so any others found can override it
+		$basepath = BASEPATH.'language/'.$idiom.'/'.$langfile;
+		if (($found = file_exists($basepath)) === TRUE)
 		{
-			include($alt_path.'language/'.$idiom.'/'.$langfile);
+			include($basepath);
+		}
+
+		// Do we have an alternative path to look in?
+		if ($alt_path !== '')
+		{
+			$alt_path .= 'language/'.$idiom.'/'.$langfile;
+			if (file_exists($alt_path))
+			{
+				include($alt_path);
+				$found = TRUE;
+			}
 		}
 		else
 		{
-			$found = FALSE;
-
 			foreach (get_instance()->load->get_package_paths(TRUE) as $package_path)
 			{
-				if (file_exists($package_path.'language/'.$idiom.'/'.$langfile))
+				$package_path .= 'language/'.$idiom.'/'.$langpath;
+				if ($basepath !== $package_path && file_exists($package_path))
 				{
-					include($package_path.'language/'.$idiom.'/'.$langfile);
+					include($package_path);
 					$found = TRUE;
 					break;
 				}
 			}
+		}
 
-			if ($found !== TRUE)
-			{
-				show_error('Unable to load the requested language file: language/'.$idiom.'/'.$langfile);
-			}
+		if ($found !== TRUE)
+		{
+			show_error('Unable to load the requested language file: language/'.$idiom.'/'.$langfile);
 		}
 
 		if ( ! isset($lang) OR ! is_array($lang))
