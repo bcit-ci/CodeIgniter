@@ -19,18 +19,18 @@ The following functions are available:
 lang()
 ======
 
-.. php:function:: lang($line, $id = '')
+.. php:function:: lang($line, $for = '', $attributes = array())
 
 	:param	string	$line: Language line key
-	:param	string	$id: ID of the element we're creating a label for
+	:param	string	$for: HTML "for" attribute (ID of the element we're creating a label for)
+	:param	array	$attributes: Any additional HTML attributes
 	:returns:	string
 
 This function returns a line of text from a loaded language file with
 simplified syntax that may be more desirable for view files than 
 ``CI_Lang::line()``.
-The optional second parameter will also output a form label for you.
 
 Example::
 
-	echo lang('language_key', 'form_item_id');
-	// becomes <label for="form_item_id">language_key</label>
+	echo lang('language_key', 'form_item_id', array('class' => 'myClass');
+	// Outputs: <label for="form_item_id" class="myClass">Language line</label>

@@ -45,18 +45,19 @@ if ( ! function_exists('lang'))
 	 *
 	 * Fetches a language variable and optionally outputs a form label
 	 *
-	 * @param	string	the language line
-	 * @param	string	the id of the form element
+	 * @param	string	$line		The language line
+	 * @param	string	$for		The "for" value (id of the form element)
+	 * @param	array	$attributes	Any additional HTML attributes
 	 * @return	string
 	 */
-	function lang($line, $id = '')
+	function lang($line, $for = '', $attributes = array())
 	{
 		$CI =& get_instance();
 		$line = $CI->lang->line($line);
 
 		if ($id !== '')
 		{
-			$line = '<label for="'.$id.'">'.$line.'</label>';
+			$line = '<label for="'.$id.'"'._stringify_attributes($attributes).'>'.$line.'</label>';
 		}
 
 		return $line;
