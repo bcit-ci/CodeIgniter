@@ -105,7 +105,7 @@ class CI_Form_validation {
 	 *
 	 * @var array
 	 */
-	protected $validation_data	= array();
+	public $validation_data	= array();
 
 	/**
 	 * Initialize Form_Validation class
