@@ -104,32 +104,43 @@ class CI_Driver_Library {
 		// Get package paths and filename case variations to search
 		$paths = $CI->load->get_package_paths(TRUE);
 
-		// Is there an extension?
-		$class_name = $prefix.$child_name;
-		$found = class_exists($class_name);
-		if ( ! $found)
+		// Is this a homebrew
+		$file = APPPATH.'libraries/'.$this->lib_name.'/drivers/'.$child_name.'.php';
+		if (file_exists($file))
 		{
-			// Check for subclass file
-			foreach ($paths as $path)
+			$class_name = $child_name;
+			include($file);
+			$found = true; 
+		}
+		else
+		{
+			// Is there an extension?
+			$class_name = $prefix.$child_name;
+			$found = class_exists($class_name);
+			if ( ! $found)
 			{
-				// Does the file exist?
-				$file = $path.'libraries/'.$this->lib_name.'/drivers/'.$prefix.$child_name.'.php';
-				if (file_exists($file))
+				// Check for subclass file
+				foreach ($paths as $path)
 				{
-					// Yes - require base class from BASEPATH
-					$basepath = BASEPATH.'libraries/'.$this->lib_name.'/drivers/'.$child_name.'.php';
-					if ( ! file_exists($basepath))
+					// Does the file exist?
+					$file = $path.'libraries/'.$this->lib_name.'/drivers/'.$prefix.$child_name.'.php';
+					if (file_exists($file))
 					{
-						$msg = 'Unable to load the requested class: CI_'.$child_name;
-						log_message('error', $msg);
-						show_error($msg);
-					}
+						// Yes - require base class from BASEPATH
+						$basepath = BASEPATH.'libraries/'.$this->lib_name.'/drivers/'.$child_name.'.php';
+						if ( ! file_exists($basepath))
+						{
+							$msg = 'Unable to load the requested class: CI_'.$child_name;
+							log_message('error', $msg);
+							show_error($msg);
+						}
 
-					// Include both sources and mark found
-					include($basepath);
-					include($file);
-					$found = TRUE;
-					break;
+						// Include both sources and mark found
+						include($basepath);
+						include($file);
+						$found = TRUE;
+						break;
+					}
 				}
 			}
 		}
