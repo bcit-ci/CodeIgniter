@@ -160,9 +160,17 @@ class CI_Driver_Library {
 		// Did we finally find the class?
 		if ( ! class_exists($class_name))
 		{
-			$msg = 'Unable to load the requested driver: '.$class_name;
-			log_message('error', $msg);
-			show_error($msg);
+			// last ditch effort. Maybe someone is coding by the 2.1 driver style.
+			if (class_exists($child_name))
+			{
+				$class_name = $child_name;
+			}
+			else
+			{
+				$msg = 'Unable to load the requested driver: '.$class_name;
+				log_message('error', $msg);
+				show_error($msg);
+			}
 		}
 
 		// Instantiate, decorate and add child
