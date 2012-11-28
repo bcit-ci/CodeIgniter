@@ -18,18 +18,17 @@ the path to the Javascript library that you'll be using.
 	::
 
 		$config['javascript_location'] = 
-			'http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js';
+			'//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js';
 
 	.. note:: The example above uses the `Google CDN 
 		<http://developers.google.com/speed/libraries/devguide>`_ 
 		(Content Delivery Network) to host the script and there are some
 		advantages to doing so: decreased latency, increased parallelism, 
-		and better caching.  **However, you currently can't use the 
-		protocol-less form of the Google URL so you will need to be sure
-		that you specify http:" or "https:" depending on what your site
-		is using.**
+		and better caching.  Notice that leaving the "http:" or "https:" 
+		off is intentional as the browser will default to the type of
+		page your on.  The Google CDN supports both.
 
-You can set the configuration item in Applications/config/config.php, your own
+You can set the configuration item in applications/config/config.php, your own
 configuration file, or with set_item() calls before you intialize the class.
 You can find details on how to set config items in :doc:`Config Library <config>`.
 You can also specify the configuration items by passing a 2nd argument when you
