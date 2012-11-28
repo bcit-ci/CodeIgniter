@@ -233,11 +233,6 @@ class CI_Migration {
 				$this->_error_string = sprintf($this->lang->line('migration_class_doesnt_exist'), $class);
 				return FALSE;
 			}
-			elseif ( ! is_callable(array($class, $method)))
-			{
-				$this->_error_string = sprintf($this->lang->line('migration_missing_'.$method.'_method'), $class);
-				return FALSE;
-			}
 
 			$previous = $number;
 
@@ -247,8 +242,15 @@ class CI_Migration {
 				($method === 'down' && $number <= $current_version && $number > $target_version)
 			)
 			{
+				$instance = new $class();
+				if ( ! is_callable(array($instance, $method)))
+				{
+					$this->_error_string = sprintf($this->lang->line('migration_missing_'.$method.'_method'), $class);
+					return FALSE;
+				}
+
 				log_message('debug', 'Migrating '.$method.' from version '.$current_version.' to version '.$number);
-				call_user_func(array(new $class, $method));
+				call_user_func(array($instance, $method));
 				$current_version = $number;
 				$this->_update_version($current_version);
 			}
