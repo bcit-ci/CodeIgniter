@@ -160,7 +160,6 @@ class CI_Driver_Library {
 		// Did we finally find the class?
 		if ( ! class_exists($class_name))
 		{
-			// last ditch effort. Maybe someone is coding by the 2.1 driver style.
 			if (class_exists($child_name))
 			{
 				$class_name = $child_name;
