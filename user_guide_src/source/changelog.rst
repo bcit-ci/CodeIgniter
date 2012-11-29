@@ -294,8 +294,9 @@ Release Date: Not Released
    -  Added support for HTTP-Only cookies with new config option *cookie_httponly* (default FALSE).
    -  Renamed method ``_call_hook()`` to ``call_hook()`` in the :doc:`Hooks Library <general/hooks>`.
    -  :doc:`Output Library <libraries/output>` changes include:
-	 -  Added method ``get_content_type()``.
 	 -  Added a second argument to method ``set_content_type()`` that allows setting the document charset as well.
+	 -  Added method ``get_content_type()``.
+	 -  Added method ``get_header()``.
    -  ``$config['time_reference']`` now supports all timezone strings supported by PHP.
    -  :doc:`Config Library <libraries/config>` changes include:
 	 -  Changed ``site_url()`` method  to accept an array as well.

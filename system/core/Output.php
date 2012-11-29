@@ -256,13 +256,46 @@ class CI_Output {
 	{
 		for ($i = 0, $c = count($this->headers); $i < $c; $i++)
 		{
-			if (sscanf($this->headers[$i][0], 'Content-Type: %s', $content_type) === 1)
+			if (sscanf($this->headers[$i][0], 'Content-Type: %[^;]', $content_type) === 1)
 			{
 				return $content_type;
 			}
 		}
 
 		return 'text/html';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get Header
+	 *
+	 * @param	string	$header_name
+	 * @return	string
+	 */
+	public function get_header($header)
+	{
+		// Combine headers already sent with our batched headers
+		$headers = array_merge(
+			// We only need [x][0] from our multi-dimensional array
+			array_map('array_shift', $this->headers),
+			headers_list()
+		);
+
+		if (empty($headers) OR empty($header))
+		{
+			return NULL;
+		}
+
+		for ($i = 0, $c = count($headers); $i < $c; $i++)
+		{
+			if (strncasecmp($header, $headers[$i], $l = strlen($header)) === 0)
+			{
+				return trim(substr($headers[$i], $l+1));
+			}
+		}
+
+		return NULL;
 	}
 
 	// --------------------------------------------------------------------
