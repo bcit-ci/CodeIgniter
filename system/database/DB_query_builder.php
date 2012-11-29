@@ -903,11 +903,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		is_bool($escape) OR $escape = $this->_protect_identifiers;
-		$prefix = (count($this->qb_where) === 0 && count($this->qb_cache_where) === 0)
-			? $this->_group_get_type('') : $this->_group_get_type($type);
 
 		foreach ($field as $k => $v)
 		{
+			$prefix = (count($this->qb_where) === 0 && count($this->qb_cache_where) === 0)
+				? $this->_group_get_type('') : $this->_group_get_type($type);
+
 			$v = $this->escape_like_str($v);
 
 			if ($side === 'none')

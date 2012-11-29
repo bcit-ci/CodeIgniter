@@ -345,23 +345,24 @@ if appropriate
 $this->db->like()
 =================
 
-This function enables you to generate **LIKE** clauses, useful for doing
+This method enables you to generate **LIKE** clauses, useful for doing
 searches.
 
-.. note:: All values passed to this function are escaped automatically.
+.. note:: All values passed to this method are escaped automatically.
 
 #. **Simple key/value method:**
 
 	::
 
-		$this->db->like('title', 'match');     // Produces: WHERE title LIKE '%match%'
+		$this->db->like('title', 'match');
+		// Produces: WHERE `title` LIKE '%match%' ESCAPE '!'
 
-	If you use multiple function calls they will be chained together with
+	If you use multiple method calls they will be chained together with
 	AND between them::
 
 		$this->db->like('title', 'match');
 		$this->db->like('body', 'match');
-		// WHERE title LIKE '%match%' AND  body LIKE '%match%
+		// WHERE `title` LIKE '%match%' ESCAPE '!' AND  `body` LIKE '%match% ESCAPE '!'
 
 	If you want to control where the wildcard (%) is placed, you can use
 	an optional third argument. Your options are 'before', 'after' and
@@ -369,9 +370,9 @@ searches.
 
 	::
 
-		$this->db->like('title', 'match', 'before');	// Produces: WHERE title LIKE '%match'
-		$this->db->like('title', 'match', 'after');		// Produces: WHERE title LIKE 'match%'
-		$this->db->like('title', 'match', 'both');		// Produces: WHERE title LIKE '%match%'
+		$this->db->like('title', 'match', 'before');	// Produces: WHERE `title` LIKE '%match' ESCAPE '!'
+		$this->db->like('title', 'match', 'after');	// Produces: WHERE `title` LIKE 'match%' ESCAPE '!'
+		$this->db->like('title', 'match', 'both');	// Produces: WHERE `title` LIKE '%match%' ESCAPE '!'
 
 #. **Associative array method:**
 
@@ -379,37 +380,37 @@ searches.
 
 		$array = array('title' => $match, 'page1' => $match, 'page2' => $match);
 		$this->db->like($array);
-		// WHERE title LIKE '%match%' AND  page1 LIKE '%match%' AND  page2 LIKE '%match%'
+		// WHERE `title` LIKE '%match%' ESCAPE '!' AND  `page1` LIKE '%match%' ESCAPE '!' AND  `page2` LIKE '%match%' ESCAPE '!'
 
 
 $this->db->or_like()
 ====================
 
-This function is identical to the one above, except that multiple
+This method is identical to the one above, except that multiple
 instances are joined by OR::
 
 	$this->db->like('title', 'match'); $this->db->or_like('body', $match);
-	// WHERE title LIKE '%match%' OR  body LIKE '%match%'
+	// WHERE `title` LIKE '%match%' ESCAPE '!' OR  `body` LIKE '%match%' ESCAPE '!'
 
-.. note:: or_like() was formerly known as orlike(), which has been removed.
+.. note:: ``or_like()`` was formerly known as ``orlike()``, which has been removed.
 
 $this->db->not_like()
 =====================
 
-This function is identical to **like()**, except that it generates NOT
-LIKE statements::
+This method is identical to ``like()``, except that it generates
+NOT LIKE statements::
 
-	$this->db->not_like('title', 'match');  // WHERE title NOT LIKE '%match%
+	$this->db->not_like('title', 'match');	// WHERE `title` NOT LIKE '%match% ESCAPE '!'
 
 $this->db->or_not_like()
 ========================
 
-This function is identical to **not_like()**, except that multiple
+This method is identical to ``not_like()``, except that multiple
 instances are joined by OR::
 
 	$this->db->like('title', 'match');
 	$this->db->or_not_like('body', 'match');
-	// WHERE title  LIKE '%match% OR body NOT LIKE '%match%'
+	// WHERE `title` LIKE '%match% OR  `body` NOT LIKE '%match%' ESCAPE '!'
 
 $this->db->group_by()
 =====================
