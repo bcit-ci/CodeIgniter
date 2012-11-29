@@ -2,11 +2,13 @@
 
 class Output_test extends CI_TestCase {
 
+	public $output;
+
 	public function set_up()
 	{
 		$this->ci_set_config('charset', 'UTF-8');
 		$output = $this->ci_core_class('output');
-                $this->output = new $output();
+		$this->output = new $output();
 	}
 
 	// --------------------------------------------------------------------
