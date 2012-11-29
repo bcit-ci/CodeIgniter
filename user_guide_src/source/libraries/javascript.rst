@@ -26,9 +26,9 @@ the path to the Javascript library that you'll be using.
 		advantages to doing so: decreased latency, increased parallelism, 
 		and better caching.  Notice that leaving the "http:" or "https:" 
 		off is intentional as the browser will default to the type of
-		page your on.  The Google CDN supports both.
-
-You can set the configuration item in applications/config/config.php, your own
+		page your on.
+		
+You can set the configuration item in application/config/config.php, your own
 configuration file, or with set_item() calls before you intialize the class.
 You can find details on how to set config items in :doc:`Config Library <config>`.
 You can also specify the configuration items by passing a 2nd argument when you
