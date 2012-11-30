@@ -627,6 +627,45 @@ class CI_Output {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Delete cache
+	 *
+	 * @param	string	$uri	URI string
+	 * @return	bool
+	 */
+	public function delete_cache($uri = '')
+	{
+		$CI =& get_instance();
+		$cache_path = $CI->config->item('cache_path');
+		if ($cache_path === '')
+		{
+			$cache_path = APPPATH.'cache/';
+		}
+
+		if ( ! is_dir($cache_path))
+		{
+			log_message('error', 'Unable to find cache path: '.$cache_path);
+			return FALSE;
+		}
+
+		if (empty($uri))
+		{
+			$uri = $CI->uri->uri_string();
+		}
+
+		$cache_path .= md5($CI->config->item('base_url').$CI->config->item('index_page').$uri);
+
+		if ( ! @unlink($cache_path))
+		{
+			log_message('error', 'Unable to delete cache file for '.$uri);
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Set Cache Header
 	 *
 	 * Set the HTTP headers to match the server-side file cache settings
