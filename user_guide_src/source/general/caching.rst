@@ -56,5 +56,13 @@ If you no longer wish to cache a file you can remove the caching tag and
 it will no longer be refreshed when it expires.
 
 .. note:: Removing the tag will not delete the cache immediately. It will
-	have to expire normally. If you need to remove it earlier you
-	will need to manually delete it from your cache directory.
+	have to expire normally.
+
+If you need to manually delete the cache, you can use the ``delete_cache()``
+method::
+
+	// Deletes cache for the currently requested URI
+	$this->output->delete_cache();
+
+	// Deletes cache for /foo/bar
+	$this->output->delete_cache('/foo/bar');
