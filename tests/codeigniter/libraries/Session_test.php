@@ -252,6 +252,56 @@ class Session_test extends CI_TestCase {
 		$this->assertNull($this->session->native->flashdata($key));
 	}
 
+	public function test_keep_flashdata_with_array()
+	{
+		// Set flashdata array for each driver
+		$cdata = array(
+			'one' => 'first',
+			'two' => 'second',
+			'three' => 'third',
+			'foo' => 'bar',
+			'bar' => 'baz'
+		);
+		$ndata = array(
+			'one' => 'gold',
+			'two' => 'silver',
+			'three' => 'bronze',
+			'foo' => 'baz',
+			'bar' => 'foo'
+		);
+		$kdata = array(
+			'one',
+			'two',
+			'three',
+			'foo',
+			'bar'
+		);
+		$this->session->cookie->set_flashdata($cdata);
+		$this->session->native->set_flashdata($ndata);
+
+		// Simulate page reload and verify independent messages
+		$this->session->cookie->reload();
+		$this->session->native->reload();
+		$this->assertEquals($cdata, $this->session->cookie->all_flashdata());
+		$this->assertEquals($ndata, $this->session->native->all_flashdata());
+
+		// Keep messages
+		$this->session->cookie->keep_flashdata($kdata);
+		$this->session->native->keep_flashdata($kdata);
+
+		// Simulate next page reload and verify message persistence
+		$this->session->cookie->reload();
+		$this->session->native->reload();
+		$this->assertEquals($cdata, $this->session->cookie->all_flashdata());
+		$this->assertEquals($ndata, $this->session->native->all_flashdata());
+
+		// Simulate next page reload and verify absence of messages
+		$this->session->cookie->reload();
+		$this->session->native->reload();
+		$this->assertEmpty($this->session->cookie->all_flashdata());
+		$this->assertEmpty($this->session->native->all_flashdata());
+	}
+
 	/**
 	 * Test the all_flashdata() function
 	 */
