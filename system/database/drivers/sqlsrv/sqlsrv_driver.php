@@ -159,6 +159,21 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 			: sqlsrv_query($this->conn_id, $sql, NULL, array('Scrollable' => SQLSRV_CURSOR_STATIC));
 	}
 
+	/**
+	 * Execute the stored produce
+	 *
+	 * @param	string	$sql					an SQL query
+	 * @param	bool	$resultType = TRUE		Result type FALSE is free result
+	 * @return	mixed
+	 */
+	protected function _execute_procedure($sql, $resultType)
+	{
+		$result		= sqlsrv_query($this->conn_id, $sql);
+		sqlsrv_fetch_object( $result );
+		sqlsrv_next_result( $result );
+		return $result;
+	}
+	
 	// --------------------------------------------------------------------
 
 	/**

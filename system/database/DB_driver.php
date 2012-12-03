@@ -1467,7 +1467,7 @@ abstract class CI_DB_driver {
 	
 	public function call($procedureName, $binds = FALSE, $resultData = TRUE)
 	{
-		if($this->dbdriver === 'mysqli')
+		if($this->dbdriver === 'mysqli' || $this->dbdriver === 'sqlsrv')
 		{
 			if ($procedureName === '')
 			{
@@ -1477,7 +1477,15 @@ abstract class CI_DB_driver {
 			}
 			
 			// Create procedure query string
-			$sql	= 'CALL '.$procedureName;
+			switch($this->dbdriver)
+			{
+			case 'mysqli':
+				$sql	= 'CALL '.$procedureName;
+			break;
+			case 'sqlsrv':
+				$sql	= 'EXECUTE '.$procedureName;
+			break;
+			}
 			
 			// Compile binds if needed
 			if ($binds !== FALSE)
@@ -1590,7 +1598,7 @@ abstract class CI_DB_driver {
 			
 			return $RES;
 			
-			}else{
+		}else{
 			return ($this->db_debug) ? $this->display_error('db_unsupported_function') : FALSE;
 		}
 	}
