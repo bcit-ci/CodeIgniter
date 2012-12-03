@@ -90,6 +90,26 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Database connection
+	 *
+	 * @param	bool	$persistent
+	 * @return	object
+	 */
+	public function db_connect($persistent = FALSE)
+	{
+		$this->conn_id = parent::db_connect($persistent);
+
+		if (is_object($this->conn_id) && ! empty($this->schema))
+		{
+			$this->simple_query('SET search_path TO '.$this->schema.',public');
+		}
+
+		return $this->conn_id;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Insert ID
 	 *
 	 * @param	string	$name
