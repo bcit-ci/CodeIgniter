@@ -167,7 +167,7 @@ class CI_DB_pdo_odbc_driver extends CI_DB_pdo_driver {
 				.sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
 
-                return $sql;
+		return $sql;
 	}
 
 	// --------------------------------------------------------------------
@@ -195,7 +195,7 @@ class CI_DB_pdo_odbc_driver extends CI_DB_pdo_driver {
 	 * @param	string	$table
 	 * @param	array	$values
 	 * @return	string
-         */
+	 */
 	protected function _update($table, $values)
 	{
 		$this->qb_limit = FALSE;

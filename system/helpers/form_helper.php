@@ -814,7 +814,6 @@ if ( ! function_exists('set_radio'))
 
 // ------------------------------------------------------------------------
 
-
 if ( ! function_exists('form_error'))
 {
 	/**

@@ -84,7 +84,7 @@ class CI_Log {
 	 *
 	 * @var array
 	 */
-	protected $_levels		= array('ERROR' => 1, 'DEBUG' => 2,  'INFO' => 3, 'ALL' => 4);
+	protected $_levels		= array('ERROR' => 1, 'DEBUG' => 2, 'INFO' => 3, 'ALL' => 4);
 
 	/**
 	 * Initialize Logging class
@@ -144,7 +144,6 @@ class CI_Log {
 		{
 			return FALSE;
 		}
-
 
 		$filepath = $this->_log_path.'log-'.date('Y-m-d').'.php';
 		$message  = '';

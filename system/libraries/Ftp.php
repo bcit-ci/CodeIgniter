@@ -460,7 +460,7 @@ class CI_FTP {
 		}
 
 		// Add a trailing slash to the file path if needed
-		$filepath = preg_replace('/(.+?)\/*$/', '\\1/',  $filepath);
+		$filepath = preg_replace('/(.+?)\/*$/', '\\1/', $filepath);
 
 		$list = $this->list_files($filepath);
 
@@ -635,7 +635,6 @@ class CI_FTP {
 					'log',
 					'xml'
 				);
-
 
 		return in_array($ext, $text_types) ? 'ascii' : 'binary';
 	}

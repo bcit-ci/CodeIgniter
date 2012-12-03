@@ -323,12 +323,12 @@ class CI_DB_mysql_driver extends CI_DB {
 		if (is_array($str))
 		{
 			foreach ($str as $key => $val)
-	   		{
+			{
 				$str[$key] = $this->escape_str($val, $like);
-	   		}
+			}
 
-	   		return $str;
-	   	}
+			return $str;
+		}
 
 		$str = is_resource($this->conn_id) ? mysql_real_escape_string($str, $this->conn_id) : addslashes($str);
 
@@ -481,7 +481,7 @@ class CI_DB_mysql_driver extends CI_DB {
 			{
 				if ($field !== $index)
 				{
-					$final[$field][] =  'WHEN '.$index.' = '.$val[$index].' THEN '.$val[$field];
+					$final[$field][] = 'WHEN '.$index.' = '.$val[$index].' THEN '.$val[$field];
 				}
 			}
 		}

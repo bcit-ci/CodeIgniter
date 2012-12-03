@@ -1443,7 +1443,7 @@ class CI_Form_validation {
 	 */
 	public function encode_php_tags($str)
 	{
-		return str_replace(array('<?', '?>'),  array('&lt;?', '?&gt;'), $str);
+		return str_replace(array('<?', '?>'), array('&lt;?', '?&gt;'), $str);
 	}
 
 	// --------------------------------------------------------------------

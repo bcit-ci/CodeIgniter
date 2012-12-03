@@ -294,7 +294,6 @@ class CI_Upload {
 					'client_name'			=> ''
 				);
 
-
 		foreach ($defaults as $key => $val)
 		{
 			if (isset($config[$key]))

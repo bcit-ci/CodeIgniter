@@ -368,7 +368,7 @@ class CI_Security {
 		}
 		else
 		{
-			$str = str_replace(array('<?', '?'.'>'),  array('&lt;?', '?&gt;'), $str);
+			$str = str_replace(array('<?', '?'.'>'), array('&lt;?', '?&gt;'), $str);
 		}
 
 		/*
@@ -381,7 +381,6 @@ class CI_Security {
 			'javascript', 'expression', 'vbscript', 'script', 'base64',
 			'applet', 'alert', 'document', 'write', 'cookie', 'window'
 		);
-
 
 		foreach ($words as $word)
 		{

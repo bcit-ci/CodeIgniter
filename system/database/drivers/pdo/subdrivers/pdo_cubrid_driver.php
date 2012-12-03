@@ -185,7 +185,7 @@ class CI_DB_pdo_cubrid_driver extends CI_DB_pdo_driver {
 			{
 				if ($field !== $index)
 				{
-					$final[$field][] =  'WHEN '.$index.' = '.$val[$index].' THEN '.$val[$field];
+					$final[$field][] = 'WHEN '.$index.' = '.$val[$index].' THEN '.$val[$field];
 				}
 			}
 		}

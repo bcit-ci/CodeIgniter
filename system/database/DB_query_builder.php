@@ -1508,7 +1508,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				$row = $clean;
 			}
 
-			$this->qb_set[] =  '('.implode(',', $row).')';
+			$this->qb_set[] = '('.implode(',', $row).')';
 		}
 
 		foreach ($keys as $k)
