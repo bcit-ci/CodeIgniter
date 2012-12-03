@@ -131,13 +131,32 @@ class CI_DB_postgre_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Non-persistent database connection
+	 * Database connection
 	 *
+	 * @param	bool	$persistent
 	 * @return	resource
 	 */
-	public function db_connect()
+	public function db_connect($persistent = FALSE)
 	{
-		return @pg_connect($this->dsn);
+		if ($persistent === TRUE
+			&& ($conn = @pg_pconnect($this->dsn))
+			&& pg_connection_status($conn) === PGSQL_CONNECTION_BAD
+			&& pg_ping($conn) === FALSE
+		)
+		{
+			return FALSE;
+		}
+		else
+		{
+			$conn = @pg_connect($this->dsn);
+		}
+
+		if ($conn && ! empty($this->schema))
+		{
+			$this->simple_query('SET search_path TO '.$this->schema.',public');
+		}
+
+		return $conn;
 	}
 
 	// --------------------------------------------------------------------
@@ -149,15 +168,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		$conn = @pg_pconnect($this->dsn);
-		if ($conn && pg_connection_status($conn) === PGSQL_CONNECTION_BAD)
-		{
-			if (pg_ping($conn) === FALSE)
-			{
-				return FALSE;
-			}
-		}
-		return $conn;
+		return $this->db_connect(TRUE);
 	}
 
 	// --------------------------------------------------------------------

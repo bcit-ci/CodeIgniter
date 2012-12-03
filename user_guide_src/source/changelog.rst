@@ -150,6 +150,7 @@ Release Date: Not Released
 	 - Added ``update_batch()`` support.
 	 - Removed ``limit()`` and ``order_by()`` support for *UPDATE* and *DELETE* queries as PostgreSQL does not support those features.
 	 - Added a work-around for dead persistent connections to be re-created after a database restart.
+	 - Changed ``db_connect()`` to include the (new) **schema** value into Postgre's **search_path** session variable.
    -  Improved support of the CUBRID driver, including:
 	 - Added DSN string support.
 	 - Added persistent connections support.
