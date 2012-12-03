@@ -202,8 +202,9 @@ Release Date: Not Released
 	 -  Added ``tempdata()``, ``set_tempdata()``, and ``unset_tempdata()`` methods for manipulating tempdata.
 	 -  ``keep_flashdata()`` now accepts an array of keys.
    -  :doc:`File Uploading Library <libraries/file_uploading>` changes include:
-	 -  Added *max_filename_increment* config setting.
-	 -  Added an "index" parameter to the ``data()`` method.
+	 -  Added **max_filename_increment** config setting.
+	 -  Added an **index** parameter to the ``data()`` method.
+	 -  Added the **min_width** and **min_height** options for images.
    -  :doc:`Cart library <libraries/cart>` changes include:
 	 -  ``insert()`` now auto-increments quantity for an item when inserted twice instead of resetting it, this is the default behaviour of large e-commerce sites.
 	 -  *Product Name* strictness can be disabled by switching the ``$product_name_safe`` property to FALSE.
