@@ -245,15 +245,18 @@ class CI_Config {
 
 		if ($this->item('enable_query_strings') === FALSE)
 		{
-			$suffix = ($this->item('url_suffix') === FALSE) ? '' : $this->item('url_suffix');
+			$suffix = isset($this->config['url_suffix']) ? $this->config['url_suffix'] : '';
 
-			if ($suffix !== '' && ($offset = strpos($uri, '?')) !== FALSE)
+			if ($suffix !== '')
 			{
-				$uri = substr($uri, 0, $offset).$suffix.substr($uri, $offset);
-			}
-			else
-			{
-				$uri .= $suffix;
+				if (($offset = strpos($uri, '?')) !== FALSE)
+				{
+					$uri = substr($uri, 0, $offset).$suffix.substr($uri, $offset);
+				}
+				else
+				{
+					$uri .= $suffix;
+				}
 			}
 
 			return $this->slash_item('base_url').$this->slash_item('index_page').$uri;
