@@ -245,7 +245,7 @@ class CI_Config {
 
 		if ($this->item('enable_query_strings') === FALSE)
 		{
-			$suffix = isset($this->config['url_suffix']) ? (string) $this->config['url_suffix'] : '';
+			$suffix = isset($this->config['url_suffix']) ? $this->config['url_suffix'] : '';
 
 			if ($suffix !== '')
 			{
