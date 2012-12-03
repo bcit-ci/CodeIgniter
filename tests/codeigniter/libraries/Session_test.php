@@ -4,6 +4,7 @@
  * Session driver library unit test
  */
 class Session_test extends CI_TestCase {
+
 	protected $settings = array(
 		'use_cookies' => 0,
 		'use_only_cookies' => 0,
@@ -421,4 +422,5 @@ class Session_test extends CI_TestCase {
 		$this->session->native->sess_destroy();
 		$this->assertNull($this->session->native->userdata($key));
 	}
+
 }

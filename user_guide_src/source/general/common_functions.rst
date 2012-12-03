@@ -178,8 +178,8 @@ is_https()
 Returns TRUE if a secure (HTTPS) connection is used and FALSE
 in any other case (including non-HTTP requests).
 
-function_usable($function_name)
-===============================
+function_usable()
+=================
 
 .. php:function:: function_usable($function_name)
 

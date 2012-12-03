@@ -127,10 +127,10 @@ class CI_Cache_wincache extends CI_Driver {
 			$hitcount = $stored['ucache_entries'][1]['hitcount'];
 
 			return array(
-				'expire'    => $ttl - $age,
-				'hitcount'  => $hitcount,
-				'age'       => $age,
-				'ttl'       => $ttl
+				'expire'	=> $ttl - $age,
+				'hitcount'	=> $hitcount,
+				'age'		=> $age,
+				'ttl'		=> $ttl
 			);
 		}
 

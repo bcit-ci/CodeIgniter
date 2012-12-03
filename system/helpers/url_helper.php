@@ -293,7 +293,7 @@ if ( ! function_exists('safe_mailto'))
 			{
 				foreach ($attributes as $key => $val)
 				{
-					$x[] =  ' '.$key.'="';
+					$x[] = ' '.$key.'="';
 					for ($i = 0, $l = strlen($val); $i < $l; $i++)
 					{
 						$x[] = '|'.ord($val[$i]);

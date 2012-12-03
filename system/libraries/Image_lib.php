@@ -1373,7 +1373,6 @@ class CI_Image_lib {
 		if ($image_type === '')
 			$image_type = $this->image_type;
 
-
 		switch ($image_type)
 		{
 			case	 1 :

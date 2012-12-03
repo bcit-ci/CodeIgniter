@@ -139,7 +139,7 @@ if ( ! function_exists('ascii_to_entities'))
 				*/
 				if (count($temp) === 1)
 				{
-					$out  .= '&#'.array_shift($temp).';';
+					$out .= '&#'.array_shift($temp).';';
 					$count = 1;
 				}
 

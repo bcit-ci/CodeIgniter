@@ -148,7 +148,6 @@ if ( ! function_exists('_exception_handler'))
 	}
 }
 
-
 // We assume a few things about our environment ...
 // --------------------------------------------------------------------
 

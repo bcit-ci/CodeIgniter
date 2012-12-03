@@ -51,7 +51,6 @@ class Encrypt_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
-
 	public function test_set_cipher()
 	{
 		if ( ! $this->mcrypt)

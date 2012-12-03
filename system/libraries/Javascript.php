@@ -586,7 +586,6 @@ class CI_Javascript {
 		return $this->js->_show($element, $speed, $callback);
 	}
 
-
 	// --------------------------------------------------------------------
 
 	/**

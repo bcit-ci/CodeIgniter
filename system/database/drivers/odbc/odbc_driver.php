@@ -336,7 +336,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	 * @param	string	$table
 	 * @param	array	$values
 	 * @return	string
-         */
+	 */
 	protected function _update($table, $values)
 	{
 		$this->qb_limit = FALSE;

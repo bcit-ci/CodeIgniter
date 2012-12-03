@@ -579,7 +579,7 @@ class CI_DB_postgre_driver extends CI_DB {
 			{
 				if ($field !== $index)
 				{
-					$final[$field][] =  'WHEN '.$val[$index].' THEN '.$val[$field];
+					$final[$field][] = 'WHEN '.$val[$index].' THEN '.$val[$field];
 				}
 			}
 		}

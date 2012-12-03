@@ -5,7 +5,6 @@ class Date_helper_test extends CI_TestCase {
 	public function set_up()
 	{
 		$this->helper('date');
-
 		$this->time = time();
 	}
 

@@ -173,4 +173,5 @@ class Driver_test extends CI_TestCase {
 		// Can we call the parent method?
 		$this->assertEquals($return, $child->$method());
 	}
+
 }
