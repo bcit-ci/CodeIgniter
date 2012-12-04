@@ -240,8 +240,13 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 * @param	int	$n	(ignored)
 	 * @return	bool
 	 */
-	protected function _data_seek($n = 0)
+	public function data_seek($n = 0)
 	{
+		if ($n > 0)
+		{
+			return FALSE;
+		}
+
 		/* The PHP manual says that if OCI_NO_AUTO_COMMIT mode
 		 * is used, and oci_rollback() and/or oci_commit() are
 		 * not subsequently called - this will cause an unnecessary
