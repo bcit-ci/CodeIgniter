@@ -597,6 +597,7 @@ if ( ! function_exists('form_close'))
 {
 	function form_close($extra = '')
 	{
+		form_prep('','',TRUE);
 		return "</form>".$extra;
 	}
 }
@@ -614,10 +615,14 @@ if ( ! function_exists('form_close'))
  */
 if ( ! function_exists('form_prep'))
 {
-	function form_prep($str = '', $field_name = '')
+	function form_prep($str = '', $field_name = '', $clear = FALSE)
 	{
 		static $prepped_fields = array();
-
+		
+		if ($clear === TRUE) {
+			$prepped_fields = array();
+			return;
+		}
 		// if the field name is an array we do this recursively
 		if (is_array($str))
 		{
