@@ -274,7 +274,7 @@ class CI_URI {
 
 		parse_str($_SERVER['QUERY_STRING'], $_GET);
 
-		return str_replace(array('//', '../'), '/', trim($uri, '/'));
+		return $this->_remove_relative_directory($uri);
 	}
 
 	// --------------------------------------------------------------------
