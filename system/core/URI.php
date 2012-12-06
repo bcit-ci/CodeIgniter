@@ -219,7 +219,26 @@ class CI_URI {
 		}
 
 		// Do some final cleaning of the URI and return it
-		return str_replace(array('//', '../'), '/', trim($uri, '/'));
+		return $this->_remove_relative_directory_str($uri);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Remove relative directory (../) and multi slashes (///)
+	 * @param 	string $url
+	 * @return 	string
+	 */
+	private function _remove_relative_directory_str($url)
+	{
+		$uris = array();
+		$tok = strtok($url, '/');
+		while ($tok !== false)
+		{
+			($tok != '..' && ! empty($tok) || $tok === '0') && $uris[] = $tok;
+			$tok = strtok('/');
+		}
+		return implode('/', $uris);
 	}
 
 	// --------------------------------------------------------------------
