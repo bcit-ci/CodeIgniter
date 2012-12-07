@@ -73,6 +73,7 @@ Release Date: Not Released
 	 - Added JS window name support to the :php:func:`anchor_popup()` function.
 	 - Added support (auto-detection) for HTTP/1.1 response code 303 in :php:func:`redirect()`.
 	 - Changed :php:func:`redirect()` to only choose the **refresh** method only on IIS servers, instead of all servers on Windows (when **auto** is used).
+	 - Changed :php:func:`anchor()`, :php:func:`anchor_popup()`, and :php:func:`redirect()` to support protocol-relative URLs, such as `redirect('//ellislab.com/codeigniter')`.
    -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
    -  :doc:`Inflector Helper <helpers/inflector_helper>` changes include:
 	 - Changed :php:func:`humanize()` to allow passing an input separator as its second parameter.
