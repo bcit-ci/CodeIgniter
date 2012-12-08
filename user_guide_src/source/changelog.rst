@@ -73,6 +73,7 @@ Release Date: Not Released
 	 - Added JS window name support to the :php:func:`anchor_popup()` function.
 	 - Added support (auto-detection) for HTTP/1.1 response code 303 in :php:func:`redirect()`.
 	 - Changed :php:func:`redirect()` to only choose the **refresh** method only on IIS servers, instead of all servers on Windows (when **auto** is used).
+	 - Changed :php:func:`anchor()`, :php:func:`anchor_popup()`, and :php:func:`redirect()` to support protocol-relative URLs, such as `redirect('//ellislab.com/codeigniter')`.
    -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
    -  :doc:`Inflector Helper <helpers/inflector_helper>` changes include:
 	 - Changed :php:func:`humanize()` to allow passing an input separator as its second parameter.
@@ -106,7 +107,6 @@ Release Date: Not Released
    -  Added **schema** configuration setting (defaults to *public*) for drivers that might need it (currently used by PostgreSQL and ODBC).
    -  Added subdrivers support (currently only used by PDO).
    -  Added an optional database name parameter to ``db_select()``.
-   -  Added a constructor to the ``DB_result`` class and moved all driver-specific properties and logic out of the base ``DB_driver`` class to allow better abstraction.
    -  Removed ``protect_identifiers()`` and renamed internal method ``_protect_identifiers()`` to it instead - it was just an alias.
    -  Renamed internal method ``_escape_identifiers()`` to ``escape_identifiers()``.
    -  Updated ``escape_identifiers()`` to accept an array of fields as well as strings.
@@ -114,8 +114,7 @@ Release Date: Not Released
    -  ``db_set_charset()`` now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
    -  Replaced the ``_error_message()`` and ``_error_number()`` methods with ``error()``, which returns an array containing the last database error code and message.
    -  Improved ``version()`` implementation so that drivers that have a native function to get the version number don't have to be defined in the core ``DB_driver`` class.
-   -  Added ``unbuffered_row()`` method for getting a row without prefetching whole result (consume less memory).
-   -  Added capability for packages to hold *database.php* config files.
+   -  Added capability for packages to hold *config/database.php* config files.
    -  Added MySQL client compression support.
    -  Added encrypted connections support (for *mysql*, *sqlsrv* and PDO with *sqlsrv*).
    -  Removed :doc:`Loader Class <libraries/loader>` from Database error tracing to better find the likely culprit.
@@ -133,6 +132,10 @@ Release Date: Not Released
 	 - Changed ``limit()`` to ignore NULL values instead of always casting to integer.
 	 - Changed ``offset()`` to ignore empty values instead of always casting to integer.
 	 - Methods ``insert_batch()`` and ``update_batch()`` now return an integer representing the number of rows affected by them.
+   -  :doc:`Database Results <database/results>` changes include:
+	 - Added a constructor to the ``DB_result`` class and moved all driver-specific properties and logic out of the base ``DB_driver`` class to allow better abstraction.
+	 - Added method ``unbuffered_row()`` for fetching a row without prefetching the whole result (consume less memory).
+	 - Renamed former method ``_data_seek()`` to ``data_seek()`` and made it public.
    -  Improved support for the MySQLi driver, including:
 	 - OOP style of the PHP extension is now used, instead of the procedural aliases.
 	 - Server version checking is now done via ``mysqli::$server_info`` instead of running an SQL query.
@@ -461,6 +464,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#18) - :doc:`APC Cache <libraries/caching>` driver didn't (un)serialize data, resulting in failure to store objects.
 -  Fixed a bug (#188) - :doc:`Unit Testing Library <libraries/unit_testing>` filled up logs with error messages for non-existing language keys.
 -  Fixed a bug (#113) - :doc:`Form Validation Library <libraries/form_validation>` didn't properly handle empty fields that were specified as an array.
+-  Fixed a bug (#2061) - :doc:`Routing Class <general/routing>` didn't properly sanitize directory, controller and function triggers with **enable_query_strings** set to TRUE.
 
 Version 2.1.3
 =============
