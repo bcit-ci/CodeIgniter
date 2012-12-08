@@ -122,10 +122,10 @@ if ( ! function_exists('create_captcha'))
 		$green = rand(50, 100);
 		$blue = rand(50, 100);
 
-		$bg_color		= imagecolorallocate($im, 255, 255, 255);
+		$bg_color	= imagecolorallocate($im, 255, 255, 255);
 		$border_color	= imagecolorallocate($im, $red, $green, $blue);
-		$text_color		= imagecolorallocate($im, $red+30, $green+30, $blue+30);
-		$grid_color		= imagecolorallocate($im, $red+60, $green+60, $blue+60);
+		$text_color	= imagecolorallocate($im, $red+30, $green+30, $blue+30);
+		$grid_color	= imagecolorallocate($im, $red+60, $green+60, $blue+60);
 		$shadow_color	= imagecolorallocate($im, 255, 240, 240);
 		
 		
