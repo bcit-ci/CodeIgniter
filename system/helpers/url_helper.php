@@ -152,7 +152,7 @@ if ( ! function_exists('anchor'))
 
 		if ( ! is_array($uri))
 		{
-			$site_url = preg_match('!^\w+://! i', $uri) ? $uri : site_url($uri);
+			$site_url = preg_match('#^(\w+:)?//#i', $uri) ? $uri : site_url($uri);
 		}
 		else
 		{
@@ -191,7 +191,7 @@ if ( ! function_exists('anchor_popup'))
 	function anchor_popup($uri = '', $title = '', $attributes = FALSE)
 	{
 		$title = (string) $title;
-		$site_url = preg_match('!^\w+://! i', $uri) ? $uri : site_url($uri);
+		$site_url = preg_match('#^(\w+:)?//#i', $uri) ? $uri : site_url($uri);
 
 		if ($title === '')
 		{
@@ -535,7 +535,7 @@ if ( ! function_exists('redirect'))
 	 */
 	function redirect($uri = '', $method = 'auto', $code = NULL)
 	{
-		if ( ! preg_match('#^https?://#i', $uri))
+		if ( ! preg_match('#^(\w+:)?//#i', $uri))
 		{
 			$uri = site_url($uri);
 		}
