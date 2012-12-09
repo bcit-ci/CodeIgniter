@@ -203,7 +203,7 @@ class CI_DB_result {
 			return $this->custom_result_object[$class_name];
 		}
 
-		$this->_data_seek(0);
+		$this->data_seek(0);
 		$this->custom_result_object[$class_name] = array();
 
 		while ($row = $this->_fetch_object($class_name))
@@ -246,7 +246,7 @@ class CI_DB_result {
 			return $this->result_object;
 		}
 
-		$this->_data_seek(0);
+		$this->data_seek(0);
 		while ($row = $this->_fetch_object())
 		{
 			$this->result_object[] = $row;
@@ -287,7 +287,7 @@ class CI_DB_result {
 			return $this->result_array;
 		}
 
-		$this->_data_seek(0);
+		$this->data_seek(0);
 		while ($row = $this->_fetch_assoc())
 		{
 			$this->result_array[] = $row;
@@ -617,7 +617,7 @@ class CI_DB_result {
 	 * @param	int	$n
 	 * @return	bool
 	 */
-	protected function _data_seek($n = 0)
+	public function data_seek($n = 0)
 	{
 		return FALSE;
 	}

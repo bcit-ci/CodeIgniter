@@ -216,64 +216,6 @@ class CI_DB_oci8_result extends CI_DB_result {
 		return $class_name;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Data Seek
-	 *
-	 * Moves the internal pointer to the desired offset. We call
-	 * this internally before fetching results to make sure the
-	 * result set starts at zero.
-	 *
-	 * Oracle's PHP extension doesn't have an easy way of doing this
-	 * and the only workaround is to (re)execute the statement or cursor
-	 * in order to go to the first (zero) index of the result set.
-	 * Then, we would need to "dummy" fetch ($n - 1) rows to get to the
-	 * right one.
-	 *
-	 * This is as ridiculous as it sounds and it's the reason why every
-	 * other method that is fetching data tries to use an already "cached"
-	 * result set. Keeping this just in case it becomes needed at
-	 * some point in the future, but it will only work for resetting the
-	 * pointer to zero.
-	 *
-	 * @param	int	$n	(ignored)
-	 * @return	bool
-	 */
-	protected function _data_seek($n = 0)
-	{
-		/* The PHP manual says that if OCI_NO_AUTO_COMMIT mode
-		 * is used, and oci_rollback() and/or oci_commit() are
-		 * not subsequently called - this will cause an unnecessary
-		 * rollback to be triggered at the end of the script execution.
-		 *
-		 * Therefore we'll try to avoid using that mode flag
-		 * if we're not currently in the middle of a transaction.
-		 */
-		if ($this->commit_mode !== OCI_COMMIT_ON_SUCCESS)
-		{
-			$result = @oci_execute($this->stmt_id, $this->commit_mode);
-		}
-		else
-		{
-			$result = @oci_execute($this->stmt_id);
-		}
-
-		if ($result && $this->curs_id)
-		{
-			if ($this->commit_mode !== OCI_COMMIT_ON_SUCCESS)
-			{
-				return @oci_execute($this->curs_id, $this->commit_mode);
-			}
-			else
-			{
-				return @oci_execute($this->curs_id);
-			}
-		}
-
-		return $result;
-	}
-
 }
 
 /* End of file oci8_result.php */
