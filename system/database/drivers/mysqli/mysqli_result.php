@@ -136,7 +136,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	 * @param	int	$n
 	 * @return	bool
 	 */
-	protected function _data_seek($n = 0)
+	public function data_seek($n = 0)
 	{
 		return $this->result_id->data_seek($n);
 	}

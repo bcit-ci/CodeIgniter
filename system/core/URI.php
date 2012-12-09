@@ -219,7 +219,32 @@ class CI_URI {
 		}
 
 		// Do some final cleaning of the URI and return it
-		return str_replace(array('//', '../'), '/', trim($uri, '/'));
+		return $this->_remove_relative_directory($uri);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Remove relative directory (../) and multi slashes (///)
+	 *
+	 * Do some final cleaning of the URI and return it, currently only used in self::_parse_request_uri()
+	 *
+	 * @param	string	$url
+	 * @return	string
+	 */
+	protected function _remove_relative_directory($uri)
+	{
+		$uris = array();
+		$tok = strtok($uri, '/');
+		while ($tok !== FALSE)
+		{
+			if (( ! empty($tok) OR $tok === '0') && $tok !== '..')
+			{
+				$uris[] = $tok;
+			}
+			$tok = strtok('/');
+		}
+		return implode('/', $uris);
 	}
 
 	// --------------------------------------------------------------------
@@ -249,7 +274,7 @@ class CI_URI {
 
 		parse_str($_SERVER['QUERY_STRING'], $_GET);
 
-		return str_replace(array('//', '../'), '/', trim($uri, '/'));
+		return $this->_remove_relative_directory($uri);
 	}
 
 	// --------------------------------------------------------------------
