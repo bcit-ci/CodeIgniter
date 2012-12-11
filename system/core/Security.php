@@ -329,7 +329,7 @@ class CI_Security {
 		 * these are the ones that will pose security problems.
 		 */
 		$str = preg_replace_callback("/[a-z]+=([\'\"]).*?\\1/si", array($this, '_convert_attribute'), $str);
-		$str = preg_replace_callback('/<\w+.*?=.*?>/si', array($this, '_decode_entity'), $str);
+		$str = preg_replace_callback('/<\w+.*/si', array($this, '_decode_entity'), $str);
 
 		// Remove Invisible Characters Again!
 		$str = remove_invisible_characters($str);
@@ -529,7 +529,7 @@ class CI_Security {
                 do
                 {
                     $matches = $matches1 = 0;
-                    
+
                     $str = html_entity_decode($str, ENT_COMPAT, $charset);
                     $str = preg_replace('~&#x(0*[0-9a-f]{2,5})~ei', 'chr(hexdec("\\1"))', $str, -1, $matches);
                     $str = preg_replace('~&#([0-9]{2,4})~e', 'chr(\\1)', $str, -1, $matches1);
