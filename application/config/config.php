@@ -197,15 +197,19 @@ $config['directory_trigger']	= 'd'; // experimental not currently in use
 | You can enable error logging by setting a threshold over zero. The
 | threshold determines what gets logged. Threshold options are:
 |
-|	0 = Disables logging, Error logging TURNED OFF
-|	1 = Error Messages (including PHP errors)
-|	2 = Debug Messages
-|	3 = Informational Messages
-|	4 = All Messages
-|
+|  0 = Disables logging, Error logging TURNED OFF
+|  1 = Error Messages (including PHP errors) - ERROR
+|  2 = Warning messages - WARN
+|  3 = Informational messages - INFO
+|  4 = Debug Messages - DEBUG
+|  5 = All Messages
 | You can also pass in a array with threshold levels to show individual error types
 |
 | 	array(2) = Debug Messages, without Error Messages
+|   array(1,3) = Error messages, and Informational messages, without Warning messages and Debug messages
+|   array(0,3,5) = Disables logging
+|   array(1,2,5) = All messages
+|
 |
 | For a live site you'll usually only enable Errors (1) to be logged otherwise
 | your log files will fill up very fast.
@@ -234,6 +238,23 @@ $config['log_path'] = '';
 |
 */
 $config['log_date_format'] = 'Y-m-d H:i:s';
+
+/*
+|--------------------------------------------------------------------------
+| Logs folder
+|--------------------------------------------------------------------------
+|
+| Whether enable the logger to store the logs into a newly created folder
+| based on current date
+|
+| Leave this BLANK unless you would like to store logs into a calendar-based folder
+|
+| 'Y' = system/cms/logs/2012[current year]
+| 'Y/m' = system/cms/logs/2012/12[current year/current month]
+| 'Y/m/d' = system/cms/logs/2012/12/12[current year/current month/current day]
+|
+*/
+$config['log_path_date'] = 'Y/m';
 
 /*
 |--------------------------------------------------------------------------
