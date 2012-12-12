@@ -21,11 +21,31 @@ this::
 $this->db->simple_query();
 ===========================
 
-This is a simplified version of the $this->db->query() function. It ONLY
-returns TRUE/FALSE on success or failure. It DOES NOT return a database
-result set, nor does it set the query timer, or compile bind data, or
-store your query for debugging. It simply lets you submit a query. Most
-users will rarely use this function.
+This is a simplified version of the $this->db->query() method. It DOES
+NOT return a database result set, nor does it set the query timer, or
+compile bind data, or store your query for debugging. It simply lets you
+submit a query. Most users will rarely use this function.
+
+It returns whatever the database drivers' "execute" function returns.
+That typically is TRUE/FALSE on success or failure for write type queries
+such as INSERT, DELETE or UPDATE statements (which is what it really
+should be used for) and a resource/object on success for queries with
+fetchable results.
+
+::
+
+	if ($this->db->simple_query('YOUR QUERY'))
+	{
+		echo "Success!";
+	}
+	else
+	{
+		echo "Query failed!";
+	}
+
+.. note:: PostgreSQL's pg_exec() function always returns a resource on
+	success, even for write type queries. So take that in mind if
+	you're looking for a boolean value.
 
 ***************************************
 Working with Database prefixes manually
@@ -50,7 +70,7 @@ Protecting identifiers
 **********************
 
 In many databases it is advisable to protect table and field names - for
-example with backticks in MySQL. **Active Record queries are
+example with backticks in MySQL. **Query Builder queries are
 automatically protected**, however if you need to manually protect an
 identifier you can use::
 

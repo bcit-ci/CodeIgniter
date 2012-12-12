@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2006 - 2012 EllisLab, Inc.
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 2.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter Caching Class
@@ -36,32 +37,62 @@
  */
 class CI_Cache extends CI_Driver_Library {
 
-	protected $valid_drivers 	= array(
-						'cache_apc',
-						'cache_file',
-						'cache_memcached',
-						'cache_dummy',
-						'cache_wincache'
-					);
+	/**
+	 * Valid cache drivers
+	 *
+	 * @var array
+	 */
+	protected $valid_drivers = array(
+		'apc',
+		'dummy',
+		'file',
+		'memcached',
+		'redis',
+		'wincache'
+	);
 
-	protected $_cache_path		= NULL;	// Path of cache files (if file-based cache)
-	protected $_adapter		= 'dummy';
-	protected $_backup_driver;
+	/**
+	 * Path of cache files (if file-based cache)
+	 *
+	 * @var string
+	 */
+	protected $_cache_path = NULL;
+
+	/**
+	 * Reference to the driver
+	 *
+	 * @var mixed
+	 */
+	protected $_adapter = 'dummy';
+
+	/**
+	 * Fallback driver
+	 *
+	 * @var string
+	 */
+	protected $_backup_driver = 'dummy';
+
+	/**
+	 * Cache key prefix
+	 *
+	 * @var	string
+	 */
+	public $key_prefix = '';
 
 	/**
 	 * Constructor
 	 *
 	 * Initialize class properties based on the configuration array.
 	 *
-	 * @param	array
+	 * @param	array	$config = array()
 	 * @return	void
 	 */
 	public function __construct($config = array())
 	{
 		$default_config = array(
-				'adapter',
-				'memcached'
-			);
+			'adapter',
+			'memcached'
+		);
 
 		foreach ($default_config as $key)
 		{
@@ -73,11 +104,26 @@ class CI_Cache extends CI_Driver_Library {
 			}
 		}
 
-		if (isset($config['backup']))
+		isset($config['key_prefix']) && $this->key_prefix = $config['key_prefix'];
+
+		if (isset($config['backup']) && in_array('cache_'.$config['backup'], $this->valid_drivers))
 		{
-			if (in_array('cache_'.$config['backup'], $this->valid_drivers))
+			$this->_backup_driver = $config['backup'];
+		}
+
+		// If the specified adapter isn't available, check the backup.
+		if ( ! $this->is_supported($this->_adapter))
+		{
+			if ( ! $this->is_supported($this->_backup_driver))
 			{
-				$this->_backup_driver = $config['backup'];
+				// Backup isn't supported either. Default to 'Dummy' driver.
+				log_message('error', 'Cache adapter "'.$this->_adapter.'" and backup "'.$this->_backup_driver.'" are both unavailable. Cache is now using "Dummy" adapter.');
+				$this->_adapter = 'dummy';
+			}
+			else
+			{
+				// Backup is supported. Set it to primary.
+				$this->_adapter = $this->_backup_driver;
 			}
 		}
 	}
@@ -90,12 +136,12 @@ class CI_Cache extends CI_Driver_Library {
 	 * Look for a value in the cache. If it exists, return the data
 	 * if not, return FALSE
 	 *
-	 * @param	string
-	 * @return	mixed	value that is stored/FALSE on failure
+	 * @param	string	$id
+	 * @return	mixed	value matching $id or FALSE on failure
 	 */
 	public function get($id)
 	{
-		return $this->{$this->_adapter}->get($id);
+		return $this->{$this->_adapter}->get($this->key_prefix.$id);
 	}
 
 	// ------------------------------------------------------------------------
@@ -103,14 +149,14 @@ class CI_Cache extends CI_Driver_Library {
 	/**
 	 * Cache Save
 	 *
-	 * @param	string	Unique Key
-	 * @param	mixed	Data to store
-	 * @param	int	Length of time (in seconds) to cache the data
-	 * @return	bool	true on success/false on failure
+	 * @param	string	$id		Cache ID
+	 * @param	mixed	$data		Data to store
+	 * @param	int	$ttl = 60	Cache TTL (in seconds)
+	 * @return	bool	TRUE on success, FALSE on failure
 	 */
 	public function save($id, $data, $ttl = 60)
 	{
-		return $this->{$this->_adapter}->save($id, $data, $ttl);
+		return $this->{$this->_adapter}->save($this->key_prefix.$id, $data, $ttl);
 	}
 
 	// ------------------------------------------------------------------------
@@ -118,12 +164,12 @@ class CI_Cache extends CI_Driver_Library {
 	/**
 	 * Delete from Cache
 	 *
-	 * @param	mixed	unique identifier of the item in the cache
-	 * @return	bool	true on success/false on failure
+	 * @param	string	$id	Cache ID
+	 * @return	bool	TRUE on success, FALSE on failure
 	 */
 	public function delete($id)
 	{
-		return $this->{$this->_adapter}->delete($id);
+		return $this->{$this->_adapter}->delete($this->key_prefix.$id);
 	}
 
 	// ------------------------------------------------------------------------
@@ -131,7 +177,7 @@ class CI_Cache extends CI_Driver_Library {
 	/**
 	 * Clean the cache
 	 *
-	 * @return	bool	false on failure/true on success
+	 * @return	bool	TRUE on success, FALSE on failure
 	 */
 	public function clean()
 	{
@@ -143,8 +189,8 @@ class CI_Cache extends CI_Driver_Library {
 	/**
 	 * Cache Info
 	 *
-	 * @param	string	user/filehits
-	 * @return	mixed	array on success, false on failure
+	 * @param	string	$type = 'user'	user/filehits
+	 * @return	mixed	array containing cache info on success OR FALSE on failure
 	 */
 	public function cache_info($type = 'user')
 	{
@@ -156,12 +202,12 @@ class CI_Cache extends CI_Driver_Library {
 	/**
 	 * Get Cache Metadata
 	 *
-	 * @param	mixed	key to get cache metadata on
-	 * @return	mixed	return value from child method
+	 * @param	string	$id	key to get cache metadata on
+	 * @return	mixed	cache item metadata
 	 */
 	public function get_metadata($id)
 	{
-		return $this->{$this->_adapter}->get_metadata($id);
+		return $this->{$this->_adapter}->get_metadata($this->key_prefix.$id);
 	}
 
 	// ------------------------------------------------------------------------
@@ -169,7 +215,7 @@ class CI_Cache extends CI_Driver_Library {
 	/**
 	 * Is the requested driver supported in this environment?
 	 *
-	 * @param	string	The driver to test.
+	 * @param	string	$driver	The driver to test
 	 * @return	array
 	 */
 	public function is_supported($driver)
@@ -182,26 +228,6 @@ class CI_Cache extends CI_Driver_Library {
 		}
 
 		return $support[$driver];
-	}
-
-	// ------------------------------------------------------------------------
-
-	/**
-	 * __get()
-	 *
-	 * @param	child
-	 * @return	object
-	 */
-	public function __get($child)
-	{
-		$obj = parent::__get($child);
-
-		if ( ! $this->is_supported($child))
-		{
-			$this->_adapter = $this->_backup_driver;
-		}
-
-		return $obj;
 	}
 
 }

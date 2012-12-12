@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -21,9 +21,10 @@
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
- * @since		Version 2.1.0
+ * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * PDO Result Class
@@ -33,18 +34,9 @@
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
+ * @since	2.1
  */
 class CI_DB_pdo_result extends CI_DB_result {
-
-	/**
-	 * @var bool  Hold the flag whether a result handler already fetched before
-	 */
-	protected $is_fetched = FALSE;
-
-	/**
-	 * @var mixed Hold the fetched assoc array of a result handler
-	 */
-	protected $result_assoc;
 
 	/**
 	 * Number of rows in the result set
@@ -53,57 +45,24 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	public function num_rows()
 	{
-		if (empty($this->result_id) OR ! is_object($this->result_id))
+		if (is_int($this->num_rows))
 		{
-			// invalid result handler
-			return 0;
+			return $this->num_rows;
 		}
-		elseif (($num_rows = $this->result_id->rowCount()) && $num_rows > 0)
+		elseif (count($this->result_array) > 0)
 		{
-			// If rowCount return something, we're done.
-			return $num_rows;
+			return $this->num_rows = count($this->result_array);
 		}
-
-		// Fetch the result, instead perform another extra query
-		return ($this->is_fetched && is_array($this->result_assoc)) ? count($this->result_assoc) : count($this->result_assoc());
-	}
-
-	/**
-	 * Fetch the result handler
-	 *
-	 * @return	mixed
-	 */
-	public function result_assoc()
-	{
-		// If the result already fetched before, use that one
-		if (count($this->result_array) > 0 OR $this->is_fetched)
+		elseif (count($this->result_object) > 0)
 		{
-			return $this->result_array();
+			return $this->num_rows = count($this->result_object);
+		}
+		elseif (($num_rows = $this->result_id->rowCount()) > 0)
+		{
+			return $this->num_rows = $num_rows;
 		}
 
-		// Define the output
-		$output = array('assoc', 'object');
-
-		// Fetch the result
-		foreach ($output as $type)
-		{
-			// Define the method and handler
-			$res_method  = '_fetch_'.$type;
-			$res_handler = 'result_'.$type;
-
-			$this->$res_handler = array();
-
-			while ($row = $this->$res_method())
-			{
-				$this->{$res_handler}[] = $row;
-			}
-		}
-
-		// Save this as buffer and marked the fetch flag
-		$this->result_array = $this->result_assoc;
-		$this->is_fetched = TRUE;
-
-		return $this->result_assoc;
+		return $this->num_rows = count($this->result_array());
 	}
 
 	// --------------------------------------------------------------------
@@ -129,12 +88,14 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	public function list_fields()
 	{
-		if ($this->db->db_debug)
+		$field_names = array();
+		for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 		{
-			return $this->db->display_error('db_unsuported_feature');
+			$field_names[$i] = @$this->result_id->getColumnMeta();
+			$field_names[$i] = $field_names[$i]['name'];
 		}
 
-		return FALSE;
+		return $field_names;
 	}
 
 	// --------------------------------------------------------------------
@@ -148,61 +109,28 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	public function field_data()
 	{
-		$data = array();
-
 		try
 		{
-			if (strpos($this->result_id->queryString, 'PRAGMA') !== FALSE)
+			$retval = array();
+
+			for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 			{
-				foreach ($this->result_array() as $field)
-				{
-					preg_match('/([a-zA-Z]+)(\(\d+\))?/', $field['type'], $matches);
+				$field = $this->result_id->getColumnMeta($i);
 
-					$F		= new stdClass();
-					$F->name	= $field['name'];
-					$F->type	= ( ! empty($matches[1])) ? $matches[1] : NULL;
-					$F->default	= NULL;
-					$F->max_length	= ( ! empty($matches[2])) ? preg_replace('/[^\d]/', '', $matches[2]) : NULL;
-					$F->primary_key = (int) $field['pk'];
-					$F->pdo_type	= NULL;
-
-					$data[] = $F;
-				}
-			}
-			else
-			{
-				for($i = 0, $max = $this->num_fields(); $i < $max; $i++)
-				{
-					$field = $this->result_id->getColumnMeta($i);
-
-					$F		= new stdClass();
-					$F->name	= $field['name'];
-					$F->type	= $field['native_type'];
-					$F->default	= NULL;
-					$F->pdo_type	= $field['pdo_type'];
-
-					if ($field['precision'] < 0)
-					{
-						$F->max_length	= NULL;
-						$F->primary_key = 0;
-					}
-					else
-					{
-						$F->max_length	= ($field['len'] > 255) ? 0 : $field['len'];
-						$F->primary_key = (int) ( ! empty($field['flags']) && in_array('primary_key', $field['flags']));
-					}
-
-					$data[] = $F;
-				}
+				$retval[$i]			= new stdClass();
+				$retval[$i]->name		= $field['name'];
+				$retval[$i]->type		= $field['native_type'];
+				$retval[$i]->max_length		= ($field['len'] > 0) ? $field['len'] : NULL;
+				$retval[$i]->primary_key	= (int) ( ! empty($field['flags']) && in_array('primary_key', $field['flags'], TRUE));
 			}
 
-			return $data;
+			return $retval;
 		}
 		catch (Exception $e)
 		{
 			if ($this->db->db_debug)
 			{
-				return $this->db->display_error('db_unsuported_feature');
+				return $this->db->display_error('db_unsupported_feature');
 			}
 
 			return FALSE;
@@ -245,11 +173,12 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
+	 * @param	string	$class_name
 	 * @return	object
 	 */
-	protected function _fetch_object()
+	protected function _fetch_object($class_name = 'stdClass')
 	{
-		return $this->result_id->fetchObject();
+		return $this->result_id->fetchObject($class_name);
 	}
 
 }

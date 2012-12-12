@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	
+
 	// Typical Database configuration
 	'mysql' => array(
 		'dsn' => '',
@@ -9,7 +9,7 @@ return array(
 		'username' => 'travis',
 		'password' => '',
 		'database' => 'ci_test',
-		'dbdriver' => 'mysql',
+		'dbdriver' => 'mysql'
 	),
 
 	// Database configuration with failover
@@ -28,7 +28,7 @@ return array(
 				'password' => '',
 				'database' => 'ci_test',
 				'dbdriver' => 'mysql',
-			),
-		),
-	),
+			)
+		)
+	)
 );

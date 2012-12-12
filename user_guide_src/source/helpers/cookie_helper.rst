@@ -10,9 +10,7 @@ cookies.
 Loading this Helper
 ===================
 
-This helper is loaded using the following code
-
-::
+This helper is loaded using the following code::
 
 	$this->load->helper('cookie');
 
@@ -21,52 +19,53 @@ The following functions are available:
 set_cookie()
 ============
 
+.. php:function:: set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE, $httponly = FALSE)
+
+	:param	string	$name: Cookie name
+	:param	string	$value: Cookie value
+	:param	int	$expire: Number of seconds until expiration
+	:param	string	$domain: Cookie domain (usually: .yourdomain.com)
+	:param	string	$path: Cookie path
+	:param	string	$prefix: Cookie name prefix
+	:param	bool	$secure: Whether to only send the cookie through HTTPS
+	:param	bool	$httponly: Whether to hide the cookie from JavaScript
+	:returns:	void
+
 This helper function gives you view file friendly syntax to set browser
-cookies. Refer to the :doc:`Input class <../libraries/input>` for a
-description of use, as this function is an alias to
-`$this->input->set_cookie()`.
-
-.. php:method:: set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE)
-
-	:param string 	$name: the name of the cookie
-	:param string 	$value: the value of the cookie
-	:param string 	$expire: the number of seconds until expiration
-	:param string 	$domain: the cookie domain.  Usually:  .yourdomain.com
-	:param string 	$path: the cookie path
-	:param string 	$prefix: the cookie prefix
-	:param boolean	$secure: secure cookie or not.
-	:returns: void
+cookies. Refer to the :doc:`Input Library <../libraries/input>` for a
+description of its use, as this function is an alias for
+``CI_Input::set_cookie()``.
 
 get_cookie()
 ============
 
+.. php:function:: get_cookie($index = '', $xss_clean = FALSE)
+
+	:param	string	$index: Cookie name
+	:param	bool	$xss_clean: Whether to apply XSS filtering to the returned value
+	:returns:	mixed
+
 This helper function gives you view file friendly syntax to get browser
-cookies. Refer to the :doc:`Input class <../libraries/input>` for a
-description of use, as this function is an alias to `$this->input->cookie()`.
-
-.. php:method:: get_cookie($index = '', $xss_clean = FALSE)
-
-	:param string 	$index: the name of the cookie
-	:param boolean	$xss_clean: If the resulting value should be xss_cleaned or not
-	:returns: mixed
+cookies. Refer to the :doc:`Input Library <../libraries/input>` for a
+description of itsuse, as this function is an alias for ``CI_Input::cookie()``.
 
 delete_cookie()
 ===============
 
-Lets you delete a cookie. Unless you've set a custom path or other
-values, only the name of the cookie is needed
+.. php:function:: delete_cookie($name = '', $domain = '', $path = '/', $prefix = '')
 
-.. php:method:: delete_cookie($name = '', $domain = '', $path = '/', $prefix = '')
-
-	:param string 	$name: the name of the cookie
-	:param string 	$domain: cookie domain (ususally .example.com)
-	:param string 	$path: cookie path
-	:param string 	$prefix: cookie prefix
+	:param	string	$name: Cookie name
+	:param	string	$domain: Cookie domain (usually: .yourdomain.com)
+	:param	string	$path: Cookie path
+	:param	string	$prefix: Cookie name prefix
 	:returns: void
+
+Lets you delete a cookie. Unless you've set a custom path or other
+values, only the name of the cookie is needed.
 
 ::
 
-	delete_cookie("name");
+	delete_cookie('name');
 
 This function is otherwise identical to ``set_cookie()``, except that it
 does not have the value and expiration parameters. You can submit an

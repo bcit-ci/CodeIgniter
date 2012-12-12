@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -21,9 +21,10 @@
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
- * @since		Version 2.0.2
+ * @since		Version 2.1
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CUBRID Result Class
@@ -33,6 +34,7 @@
  * @category	Database
  * @author		Esen Sagynov
  * @link		http://codeigniter.com/user_guide/database/
+ * @since	2.1
  */
 class CI_DB_cubrid_result extends CI_DB_result {
 
@@ -43,7 +45,9 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	 */
 	public function num_rows()
 	{
-		return @cubrid_num_rows($this->result_id);
+		return is_int($this->num_rows)
+			? $this->num_rows
+			: $this->num_rows = @cubrid_num_rows($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -85,52 +89,13 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	{
 		$retval = array();
 
-		$tablePrimaryKeys = array();
-
-		while ($field = cubrid_fetch_field($this->result_id))
+		for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 		{
-			$F				= new stdClass();
-			$F->name		= $field->name;
-			$F->type		= $field->type;
-			$F->default		= $field->def;
-			$F->max_length	= $field->max_length;
-
-			// At this moment primary_key property is not returned when
-			// cubrid_fetch_field is called. The following code will
-			// provide a patch for it. primary_key property will be added
-			// in the next release.
-
-			// TODO: later version of CUBRID will provide primary_key
-			// property.
-			// When PK is defined in CUBRID, an index is automatically
-			// created in the db_index system table in the form of
-			// pk_tblname_fieldname. So the following will count how many
-			// columns are there which satisfy this format.
-			// The query will search for exact single columns, thus
-			// compound PK is not supported.
-			$res = cubrid_query($this->conn_id,
-				"SELECT COUNT(*) FROM db_index WHERE class_name = '" . $field->table .
-				"' AND is_primary_key = 'YES' AND index_name = 'pk_" .
-				$field->table . "_" . $field->name . "'"
-			);
-
-			if ($res)
-			{
-				$row = cubrid_fetch_array($res, CUBRID_NUM);
-				$F->primary_key = ($row[0] > 0 ? 1 : null);
-			}
-			else
-			{
-				$F->primary_key = null;
-			}
-
-			if (is_resource($res))
-			{
-				cubrid_close_request($res);
-				$this->result_id = FALSE;
-			}
-
-			$retval[] = $F;
+			$retval[$i]			= new stdClass();
+			$retval[$i]->name		= cubrid_field_name($this->result_id, $i);
+			$retval[$i]->type		= cubrid_field_type($this->result_id, $i);
+			$retval[$i]->max_length		= cubrid_field_len($this->result_id, $i);
+			$retval[$i]->primary_key	= (int) (strpos(cubrid_field_flags($this->result_id, $i), 'primary_key') !== FALSE);
 		}
 
 		return $retval;
@@ -145,9 +110,8 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	 */
 	public function free_result()
 	{
-		if(is_resource($this->result_id) ||
-			get_resource_type($this->result_id) == "Unknown" &&
-			preg_match('/Resource id #/', strval($this->result_id)))
+		if (is_resource($this->result_id) OR
+			(get_resource_type($this->result_id) === 'Unknown' && preg_match('/Resource id #/', strval($this->result_id))))
 		{
 			cubrid_close_request($this->result_id);
 			$this->result_id = FALSE;
@@ -161,11 +125,12 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	 *
 	 * Moves the internal pointer to the desired offset. We call
 	 * this internally before fetching results to make sure the
-	 * result set starts at zero
+	 * result set starts at zero.
 	 *
+	 * @param	int	$n
 	 * @return	bool
 	 */
-	protected function _data_seek($n = 0)
+	public function data_seek($n = 0)
 	{
 		return cubrid_data_seek($this->result_id, $n);
 	}
@@ -191,11 +156,12 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
+	 * @param	string	$class_name
 	 * @return	object
 	 */
-	protected function _fetch_object()
+	protected function _fetch_object($class_name = 'stdClass')
 	{
-		return cubrid_fetch_object($this->result_id);
+		return cubrid_fetch_object($this->result_id, $class_name);
 	}
 
 }

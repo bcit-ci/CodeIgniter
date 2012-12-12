@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * SQLite Result Class
@@ -33,6 +34,7 @@
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
+ * @since	1.3
  */
 class CI_DB_sqlite_result extends CI_DB_result {
 
@@ -43,7 +45,9 @@ class CI_DB_sqlite_result extends CI_DB_result {
 	 */
 	public function num_rows()
 	{
-		return @sqlite_num_rows($this->result_id);
+		return is_int($this->num_rows)
+			? $this->num_rows
+			: $this->num_rows = @sqlite_num_rows($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -94,10 +98,8 @@ class CI_DB_sqlite_result extends CI_DB_result {
 		{
 			$retval[$i]			= new stdClass();
 			$retval[$i]->name		= sqlite_field_name($this->result_id, $i);
-			$retval[$i]->type		= 'varchar';
-			$retval[$i]->max_length		= 0;
-			$retval[$i]->primary_key	= 0;
-			$retval[$i]->default		= '';
+			$retval[$i]->type		= NULL;
+			$retval[$i]->max_length		= NULL;
 		}
 
 		return $retval;
@@ -110,11 +112,12 @@ class CI_DB_sqlite_result extends CI_DB_result {
 	 *
 	 * Moves the internal pointer to the desired offset. We call
 	 * this internally before fetching results to make sure the
-	 * result set starts at zero
+	 * result set starts at zero.
 	 *
+	 * @param	int	$n
 	 * @return	bool
 	 */
-	protected function _data_seek($n = 0)
+	public function data_seek($n = 0)
 	{
 		return sqlite_seek($this->result_id, $n);
 	}
@@ -140,17 +143,12 @@ class CI_DB_sqlite_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
+	 * @param	string	$class_name
 	 * @return	object
 	 */
-	protected function _fetch_object()
+	protected function _fetch_object($class_name = 'stdClass')
 	{
-		if (function_exists('sqlite_fetch_object'))
-		{
-			return sqlite_fetch_object($this->result_id);
-		}
-
-		$arr = sqlite_fetch_array($this->result_id, SQLITE_ASSOC);
-		return is_array($arr) ? (object) $arr : FALSE;
+		return sqlite_fetch_object($this->result_id, $class_name);
 	}
 
 }

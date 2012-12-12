@@ -52,7 +52,7 @@ whether introduced by the developer, user, or an FTP application, can
 cause unwanted output, PHP errors, or if the latter are suppressed,
 blank pages. For this reason, all PHP files should **OMIT** the closing
 PHP tag, and instead use a comment block to mark the end of file and
-it's location relative to the application root. This allows you to still
+its location relative to the application root. This allows you to still
 identify a file as being complete and not truncated.
 
 **INCORRECT**::
@@ -149,7 +149,7 @@ months down the line. There is not a required format for comments, but
 the following are recommended.
 
 `DocBlock <http://manual.phpdoc.org/HTMLSmartyConverter/HandS/phpDocumentor/tutorial_phpDocumentor.howto.pkg.html#basics.docblock>`_
-style comments preceding class and method declarations so they can be
+style comments preceding class, method, and property declarations so they can be
 picked up by IDEs::
 
 	/**
@@ -168,10 +168,19 @@ picked up by IDEs::
 	/**
 	 * Encodes string for use in XML
 	 *
-	 * @param	string
+	 * @param	string	$str	Input string
 	 * @return	string
 	 */
 	function xml_encode($str)
+
+::
+
+	/**
+	 * Data for class manipulation
+	 *
+	 * @var	array
+	 */
+	public $data = array();
 
 Use single line comments within code, leaving a blank line between large
 comment blocks and code.
@@ -297,8 +306,8 @@ Use **===** and **!==** as necessary.
 	}
 
 
-See also information regarding
-`typecasting <http://us3.php.net/manual/en/language.types.type-juggling.php#language.types.typecasting>`_,
+See also information regarding `typecasting
+<http://php.net/manual/en/language.types.type-juggling.php#language.types.typecasting>`_,
 which can be quite useful. Typecasting has a slightly different effect
 which may be desirable. When casting a variable as a string, for
 instance, NULL and boolean FALSE variables become empty strings, 0 (and
@@ -326,7 +335,6 @@ tag. Output is buffered, so whitespace in your files can cause output to
 begin before CodeIgniter outputs its content, leading to errors and an
 inability for CodeIgniter to send proper headers. In the examples below,
 select the text with your mouse to reveal the incorrect whitespace.
-
 
 Compatibility
 =============
@@ -548,16 +556,16 @@ code abstraction, should be prefixed with an underscore.
 
 ::
 
-	convert_text()		// public method
-	_convert_text()		// private method
+	public function convert_text()
+	private function _convert_text()
 
 PHP Errors
 ==========
 
 Code must run error free and not rely on warnings and notices to be
 hidden to meet this requirement. For instance, never access a variable
-that you did not set yourself (such as $_POST array keys) without first
-checking to see that it isset().
+that you did not set yourself (such as ``$_POST`` array keys) without first
+checking to see that it ``isset()``.
 
 Make sure that while developing your add-on, error reporting is enabled
 for ALL users, and that display_errors is enabled in the PHP
@@ -568,22 +576,22 @@ environment. You can check this setting with::
 		exit "Enabled";
 	}
 
-On some servers where display_errors is disabled, and you do not have
+On some servers where *display_errors* is disabled, and you do not have
 the ability to change this in the php.ini, you can often enable it with::
 
 	ini_set('display_errors', 1);
 
-**NOTE:** Setting the
-`display_errors <http://us.php.net/manual/en/ref.errorfunc.php#ini.display-errors>`_
-setting with ini_set() at runtime is not identical to having it enabled
-in the PHP environment. Namely, it will not have any effect if the
-script has fatal errors
+.. note:: Setting the `display_errors
+	<http://php.net/manual/en/ref.errorfunc.php#ini.display-errors>`_
+	setting with ``ini_set()`` at runtime is not identical to having
+	it enabled in the PHP environment. Namely, it will not have any
+	effect if the script has fatal errors.
 
 Short Open Tags
 ===============
 
 Always use full PHP opening tags, in case a server does not have
-short_open_tag enabled.
+*short_open_tag* enabled.
 
 **INCORRECT**::
 
@@ -594,6 +602,8 @@ short_open_tag enabled.
 **CORRECT**::
 
 	<?php echo $foo; ?>
+
+.. note:: PHP 5.4 will always have the **<?=** tag available.
 
 One Statement Per Line
 ======================
@@ -634,7 +644,7 @@ characters.
 SQL Queries
 ===========
 
-MySQL keywords are always capitalized: SELECT, INSERT, UPDATE, WHERE,
+SQL keywords are always capitalized: SELECT, INSERT, UPDATE, WHERE,
 AS, JOIN, ON, IN, etc.
 
 Break up long queries into multiple lines for legibility, preferably
@@ -664,4 +674,3 @@ prevent PHP errors with mistaken calls and provides common fallback
 values which can save a few lines of code. Example::
 
 	function foo($bar = '', $baz = FALSE)
-

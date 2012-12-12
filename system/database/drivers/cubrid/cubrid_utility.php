@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -21,9 +21,10 @@
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @since		Version 2.1
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CUBRID Utility Class
@@ -41,12 +42,12 @@ class CI_DB_cubrid_utility extends CI_DB_utility {
 	 */
 	public function list_databases()
 	{
-		if (isset($this->data_cache['db_names']))
+		if (isset($this->db->data_cache['db_names']))
 		{
-			return $this->data_cache['db_names'];
+			return $this->db->data_cache['db_names'];
 		}
 
-		return $this->data_cache['db_names'] = cubrid_list_dbs($this->db->conn_id);
+		return $this->db->data_cache['db_names'] = cubrid_list_dbs($this->db->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -62,7 +63,7 @@ class CI_DB_cubrid_utility extends CI_DB_utility {
 		// No SQL based support in CUBRID as of version 8.4.0. Database or
 		// table backup can be performed using CUBRID Manager
 		// database administration tool.
-		return $this->db->display_error('db_unsuported_feature');
+		return $this->db->display_error('db_unsupported_feature');
 	}
 }
 

@@ -5,8 +5,7 @@ Input Class
 The Input Class serves two purposes:
 
 #. It pre-processes global input data for security.
-#. It provides some helper functions for fetching input data and
-   pre-processing it.
+#. It provides some helper methods for fetching input data and pre-processing it.
 
 .. note:: This class is initialized automatically by the system so there
 	is no need to do it manually.
@@ -14,11 +13,11 @@ The Input Class serves two purposes:
 Security Filtering
 ==================
 
-The security filtering function is called automatically when a new
+The security filtering method is called automatically when a new
 :doc:`controller <../general/controllers>` is invoked. It does the
 following:
 
--  If $config['allow_get_array'] is FALSE(default is TRUE), destroys
+-  If $config['allow_get_array'] is FALSE (default is TRUE), destroys
    the global GET array.
 -  Destroys all global variables in the event register_globals is
    turned on.
@@ -42,33 +41,27 @@ this::
 Please refer to the :doc:`Security class <security>` documentation for
 information on using XSS Filtering in your application.
 
-Using POST, COOKIE, or SERVER Data
-==================================
+Using POST, GET, COOKIE, or SERVER Data
+=======================================
 
-CodeIgniter comes with three helper functions that let you fetch POST,
+CodeIgniter comes with four helper methods that let you fetch POST, GET,
 COOKIE or SERVER items. The main advantage of using the provided
-functions rather than fetching an item directly ($_POST['something'])
-is that the functions will check to see if the item is set and return
-false (boolean) if not. This lets you conveniently use data without
+methods rather than fetching an item directly (``$_POST['something']``)
+is that the methods will check to see if the item is set and return
+NULL if not. This lets you conveniently use data without
 having to test whether an item exists first. In other words, normally
 you might do something like this::
 
-	if ( ! isset($_POST['something']))
-	{
-	    $something = FALSE;
-	}
-	else
-	{
-	    $something = $_POST['something'];
-	}
+	$something = isset($_POST['something']) ? $_POST['something'] : NULL;
 
-With CodeIgniter's built in functions you can simply do this::
+With CodeIgniter's built in methods you can simply do this::
 
 	$something = $this->input->post('something');
 
-The three functions are:
+The four methods are:
 
 -  $this->input->post()
+-  $this->input->get()
 -  $this->input->cookie()
 -  $this->input->server()
 
@@ -80,8 +73,8 @@ looking for::
 
 	$this->input->post('some_data');
 
-The function returns FALSE (boolean) if the item you are attempting to
-retrieve does not exist.
+The method returns NULL if the item you are attempting to retrieve
+does not exist.
 
 The second optional parameter lets you run the data through the XSS
 filter. It's enabled by setting the second parameter to boolean TRUE;
@@ -95,7 +88,7 @@ To return an array of all POST items call without any parameters.
 To return all POST items and pass them through the XSS filter set the
 first parameter NULL while setting the second parameter to boolean;
 
-The function returns FALSE (boolean) if there are no items in the POST.
+The method returns NULL if there are no items in the POST.
 
 ::
 
@@ -105,8 +98,8 @@ The function returns FALSE (boolean) if there are no items in the POST.
 $this->input->get()
 ===================
 
-This function is identical to the post function, only it fetches get
-data::
+This method is identical to the post method, only it fetches get data
+::
 
 	$this->input->get('some_data', TRUE);
 
@@ -115,7 +108,7 @@ To return an array of all GET items call without any parameters.
 To return all GET items and pass them through the XSS filter set the
 first parameter NULL while setting the second parameter to boolean;
 
-The function returns FALSE (boolean) if there are no items in the GET.
+The method returns NULL if there are no items in the GET.
 
 ::
 
@@ -124,9 +117,9 @@ The function returns FALSE (boolean) if there are no items in the GET.
 
 
 $this->input->get_post()
-=========================
+========================
 
-This function will search through both the post and get streams for
+This method will search through both the post and get streams for
 data, looking first in post, and then in get::
 
 	$this->input->get_post('some_data', TRUE);
@@ -134,24 +127,53 @@ data, looking first in post, and then in get::
 $this->input->cookie()
 ======================
 
-This function is identical to the post function, only it fetches cookie
-data::
+This method is identical to the post method, only it fetches cookie data
+::
 
-	$this->input->cookie('some_data', TRUE);
+	$this->input->cookie('some_cookie');
+	$this->input->cookie('some_cookie, TRUE); // with XSS filter
+
 
 $this->input->server()
 ======================
 
-This function is identical to the above functions, only it fetches
+This method is identical to the above methods, only it fetches server
 server data::
 
 	$this->input->server('some_data');
 
+Using the php://input stream
+============================
+
+If you want to utilize the PUT, DELETE, PATCH or other exotic request
+methods, they can only be accessed via a special input stream, that
+can only be read once. This isn't as easy as just reading from e.g.
+the ``$_POST`` array, because it will always exist and you can try
+and access multiple variables without caring that you might only have
+one shot at all of the POST data.
+
+CodeIgniter will take care of that for you, and you can access data
+from the **php://input** stream at any time, just by calling the
+``input_stream()`` method::
+
+	$this->input->input_stream('key');
+
+Similar to the methods above, if the requested data is not found, it
+will return NULL and you can also decide whether to run the data
+through ``xss_clean()`` by passing a boolean value as the second
+parameter::
+
+	$this->input->input_stream('key', TRUE); // XSS Clean
+	$this->input->input_stream('key', FALSE); // No XSS filter
+
+.. note:: You can utilize method() in order to know if you're reading
+	PUT, DELETE or PATCH data.
+
 $this->input->set_cookie()
-===========================
+==========================
 
 Sets a cookie containing the values you specify. There are two ways to
-pass information to this function so that a cookie can be set: Array
+pass information to this method so that a cookie can be set: Array
 Method, and Discrete Parameters:
 
 Array Method
@@ -186,7 +208,7 @@ For site-wide cookies regardless of how your site is requested, add your
 URL to the **domain** starting with a period, like this:
 .your-domain.com
 
-The path is usually not needed since the function sets a root path.
+The path is usually not needed since the method sets a root path.
 
 The prefix is only needed if you need to avoid name collisions with
 other identically named cookies for your server.
@@ -202,41 +224,25 @@ parameters::
 
 	$this->input->set_cookie($name, $value, $expire, $domain, $path, $prefix, $secure);
 
-$this->input->cookie()
-======================
-
-Lets you fetch a cookie. The first parameter will contain the name of
-the cookie you are looking for (including any prefixes)::
-
-	cookie('some_cookie');
-
-The function returns FALSE (boolean) if the item you are attempting to
-retrieve does not exist.
-
-The second optional parameter lets you run the data through the XSS
-filter. It's enabled by setting the second parameter to boolean TRUE;
-
-::
-
-	cookie('some_cookie', TRUE);
-
 
 $this->input->ip_address()
-===========================
+==========================
 
 Returns the IP address for the current user. If the IP address is not
-valid, the function will return an IP of: 0.0.0.0
+valid, the method will return an IP of: 0.0.0.0
 
 ::
 
 	echo $this->input->ip_address();
 
 $this->input->valid_ip($ip)
-============================
+===========================
 
 Takes an IP address as input and returns TRUE or FALSE (boolean) if it
-is valid or not. Note: The $this->input->ip_address() function above
-validates the IP automatically.
+is valid or not.
+
+.. note:: The $this->input->ip_address() method above automatically
+	validates the IP address.
 
 ::
 
@@ -249,8 +255,11 @@ validates the IP automatically.
 	     echo 'Valid';
 	}
 
+Accepts an optional second string parameter of 'ipv4' or 'ipv6' to specify
+an IP format. The default checks for both formats.
+
 $this->input->user_agent()
-===========================
+==========================
 
 Returns the user agent (web browser) being used by the current user.
 Returns FALSE if it's not available.
@@ -263,7 +272,7 @@ See the :doc:`User Agent Class <user_agent>` for methods which extract
 information from the user agent string.
 
 $this->input->request_headers()
-================================
+===============================
 
 Useful if running in a non-Apache environment where
 `apache_request_headers() <http://php.net/apache_request_headers>`_
@@ -273,8 +282,8 @@ will not be supported. Returns an array of headers.
 
 	$headers = $this->input->request_headers();
 
-$this->input->get_request_header();
-=====================================
+$this->input->get_request_header()
+==================================
 
 Returns a single member of the request headers array.
 
@@ -283,13 +292,13 @@ Returns a single member of the request headers array.
 	$this->input->get_request_header('some-header', TRUE);
 
 $this->input->is_ajax_request()
-=================================
+===============================
 
 Checks to see if the HTTP_X_REQUESTED_WITH server header has been
 set, and returns a boolean response.
 
 $this->input->is_cli_request()
-================================
+==============================
 
 Checks to see if the STDIN constant is set, which is a failsafe way to
 see if PHP is being run on the command line.
@@ -298,8 +307,8 @@ see if PHP is being run on the command line.
 
 	$this->input->is_cli_request()
 
-$this->input->method();
-=====================================
+$this->input->method()
+======================
 
 Returns the $_SERVER['REQUEST_METHOD'], optional set uppercase or lowercase (default lowercase).
 

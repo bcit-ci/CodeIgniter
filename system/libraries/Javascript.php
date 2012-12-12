@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Javascript Class
@@ -36,8 +37,21 @@
  */
 class CI_Javascript {
 
+	/**
+	 * JavaScript location
+	 *
+	 * @var	string
+	 */
 	protected $_javascript_location = 'js';
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Constructor
+	 *
+	 * @param	array	$params
+	 * @return	void
+	 */
 	public function __construct($params = array())
 	{
 		$defaults = array('js_library_driver' => 'jquery', 'autoload' => TRUE);
@@ -312,8 +326,7 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library mouseup event
 	 *
-	 * @param	string	The element to attach the event to
-	 * @param	string	The code to execute
+	 * @param	string	$js	Code to execute
 	 * @return	string
 	 */
 	public function ready($js)
@@ -394,9 +407,10 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library animate event
 	 *
-	 * @param	string	- element
-	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
-	 * @param	string	- Javascript callback function
+	 * @param	string	$element = 'this'
+	 * @param	array	$params = array()
+	 * @param	mixed	$speed			'slow', 'normal', 'fast', or time in milliseconds
+	 * @param	string	$extra
 	 * @return	string
 	 */
 	public function animate($element = 'this', $params = array(), $speed = '', $extra = '')
@@ -546,10 +560,11 @@ class CI_Javascript {
 	 *
 	 * Outputs a javascript library toggle class event
 	 *
-	 * @param	string	- element
+	 * @param	string	$element = 'this'
+	 * @param	string	$class = ''
 	 * @return	string
 	 */
-	public function toggleClass($element = 'this', $class='')
+	public function toggleClass($element = 'this', $class = '')
 	{
 		return $this->js->_toggleClass($element, $class);
 	}
@@ -571,7 +586,6 @@ class CI_Javascript {
 		return $this->js->_show($element, $speed, $callback);
 	}
 
-
 	// --------------------------------------------------------------------
 
 	/**
@@ -579,13 +593,16 @@ class CI_Javascript {
 	 *
 	 * gather together all script needing to be output
 	 *
-	 * @param	string	The element to attach the event to
+	 * @param	string	$view_var
+	 * @param	bool	$script_tags
 	 * @return	string
 	 */
 	public function compile($view_var = 'script_foot', $script_tags = TRUE)
 	{
 		$this->js->_compile($view_var, $script_tags);
 	}
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Clear Compile
@@ -606,7 +623,8 @@ class CI_Javascript {
 	 *
 	 * Outputs a <script> tag with the source as an external js file
 	 *
-	 * @param	string	The element to attach the event to
+	 * @param	string	$external_file
+	 * @param	bool	$relative
 	 * @return	string
 	 */
 	public function external($external_file = '', $relative = FALSE)
@@ -615,12 +633,12 @@ class CI_Javascript {
 		{
 			$this->_javascript_location = $external_file;
 		}
-		elseif ($this->CI->config->item('javascript_location') != '')
+		elseif ($this->CI->config->item('javascript_location') !== '')
 		{
 			$this->_javascript_location = $this->CI->config->item('javascript_location');
 		}
 
-		if ($relative === TRUE OR strncmp($external_file, 'http://', 7) === 0 OR strncmp($external_file, 'https://', 8) === 0)
+		if ($relative === TRUE OR strpos($external_file, 'http://') === 0 OR strpos($external_file, 'https://') === 0)
 		{
 			$str = $this->_open_script($external_file);
 		}
@@ -667,7 +685,7 @@ class CI_Javascript {
 	protected function _open_script($src = '')
 	{
 		return '<script type="text/javascript" charset="'.strtolower($this->CI->config->item('charset')).'"'
-			.($src == '' ? '>' : ' src="'.$src.'">');
+			.($src === '' ? '>' : ' src="'.$src.'">');
 	}
 
 	// --------------------------------------------------------------------
@@ -723,7 +741,7 @@ class CI_Javascript {
 		{
 			if (is_object($result))
 			{
-				$json_result = $result->result_array();
+				$json_result = is_callable(array($result, 'result_array')) ? $result->result_array() : (array) $result;
 			}
 			elseif (is_array($result))
 			{
@@ -799,7 +817,8 @@ class CI_Javascript {
 	 *
 	 * Ensures a standard json value and escapes values
 	 *
-	 * @param	mixed
+	 * @param	mixed	$result
+	 * @param	bool	$is_key = FALSE
 	 * @return	string
 	 */
 	protected function _prep_args($result, $is_key = FALSE)

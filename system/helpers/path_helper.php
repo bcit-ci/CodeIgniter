@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter Path Helpers
@@ -32,20 +33,20 @@
  * @subpackage	Helpers
  * @category	Helpers
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/helpers/xml_helper.html
+ * @link		http://codeigniter.com/user_guide/helpers/path_helper.html
  */
 
 // ------------------------------------------------------------------------
 
-/**
- * Set Realpath
- *
- * @param	string
- * @param	bool	checks to see if the path exists
- * @return	string
- */
 if ( ! function_exists('set_realpath'))
 {
+	/**
+	 * Set Realpath
+	 *
+	 * @param	string
+	 * @param	bool	checks to see if the path exists
+	 * @return	string
+	 */
 	function set_realpath($path, $check_existance = FALSE)
 	{
 		// Security check to make sure the path is NOT a URL. No remote file inclusion!
@@ -55,7 +56,7 @@ if ( ! function_exists('set_realpath'))
 		}
 
 		// Resolve the path
-		if (function_exists('realpath') && @realpath($path) !== FALSE)
+		if (@realpath($path) !== FALSE)
 		{
 			$path = realpath($path);
 		}

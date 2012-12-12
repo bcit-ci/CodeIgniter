@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * SQLSRV Result Class
@@ -33,6 +34,7 @@
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
+ * @since	2.0.3
  */
 class CI_DB_sqlsrv_result extends CI_DB_result {
 
@@ -43,7 +45,9 @@ class CI_DB_sqlsrv_result extends CI_DB_result {
 	 */
 	public function num_rows()
 	{
-		return @sqlsrv_num_rows($this->result_id);
+		return is_int($this->num_rows)
+			? $this->num_rows
+			: $this->num_rows = @sqlsrv_num_rows($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -90,16 +94,12 @@ class CI_DB_sqlsrv_result extends CI_DB_result {
 	public function field_data()
 	{
 		$retval = array();
-		foreach (sqlsrv_field_metadata($this->result_id) as $offset => $field)
+		foreach (sqlsrv_field_metadata($this->result_id) as $i => $field)
 		{
-			$F 				= new stdClass();
-			$F->name 		= $field['Name'];
-			$F->type 		= $field['Type'];
-			$F->max_length	= $field['Size'];
-			$F->primary_key = 0;
-			$F->default		= '';
-
-			$retval[] = $F;
+			$retval[$i]		= new stdClass();
+			$retval[$i]->name	= $field['Name'];
+			$retval[$i]->type	= $field['Type'];
+			$retval[$i]->max_length	= $field['Size'];
 		}
 
 		return $retval;
@@ -142,11 +142,12 @@ class CI_DB_sqlsrv_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
+	 * @param	string	$class_name
 	 * @return	object
 	 */
-	protected function _fetch_object()
+	protected function _fetch_object($class_name = 'stdClass')
 	{
-		return sqlsrv_fetch_object($this->result_id);
+		return sqlsrv_fetch_object($this->result_id, $class_name);
 	}
 
 }
