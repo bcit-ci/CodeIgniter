@@ -1078,5 +1078,5 @@ This function is identical to the **set_checkbox()** function above.
 
 ::
 
-	<input type="radio" name="myradio" value="1" <?php echo  set_radio('myradio', '1', TRUE); ?> />
-	<input type="radio" name="myradio" value="2" <?php echo  set_radio('myradio', '2'); ?> />
+	<input type="radio" name="myradio" value="1" <?php echo set_radio('myradio', '1', TRUE); ?> />
+	<input type="radio" name="myradio" value="2" <?php echo set_radio('myradio', '2'); ?> />

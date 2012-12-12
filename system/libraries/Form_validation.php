@@ -819,7 +819,7 @@ class CI_Form_validation {
 	protected function _build_error_msg($line, $field = '', $param = '')
 	{
 		// Check for %s in the string for legacy support.
-		if (strpos($line, '%s') !== false)
+		if (strpos($line, '%s') !== FALSE)
 		{
 			return sprintf($line, $field, $param);
 		}
