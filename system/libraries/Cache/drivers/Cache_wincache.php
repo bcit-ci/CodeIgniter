@@ -1,8 +1,8 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
  *
  * NOTICE OF LICENSE
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2006 - 2012 EllisLab, Inc.
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 3.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter Wincache Caching Class
@@ -78,7 +79,7 @@ class CI_Cache_wincache extends CI_Driver {
 	 * Delete from Cache
 	 *
 	 * @param	mixed	unique identifier of the item in the cache
-	 * @param	bool	true on success/false on failure
+	 * @return	bool	true on success/false on failure
 	 */
 	public function delete($id)
 	{
@@ -126,10 +127,10 @@ class CI_Cache_wincache extends CI_Driver {
 			$hitcount = $stored['ucache_entries'][1]['hitcount'];
 
 			return array(
-				'expire'    => $ttl - $age,
-				'hitcount'  => $hitcount,
-				'age'       => $age,
-				'ttl'       => $ttl
+				'expire'	=> $ttl - $age,
+				'hitcount'	=> $hitcount,
+				'age'		=> $age,
+				'ttl'		=> $ttl
 			);
 		}
 

@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter Download Helpers
@@ -37,23 +38,40 @@
 
 // ------------------------------------------------------------------------
 
-/**
- * Force Download
- *
- * Generates headers that force a download to happen
- *
- * @param	string	filename
- * @param	mixed	the data to be downloaded
- * @param	bool	wether to try and send the actual file MIME type
- * @return	void
- */
 if ( ! function_exists('force_download'))
 {
+	/**
+	 * Force Download
+	 *
+	 * Generates headers that force a download to happen
+	 *
+	 * @param	string	filename
+	 * @param	mixed	the data to be downloaded
+	 * @param	bool	whether to try and send the actual file MIME type
+	 * @return	void
+	 */
 	function force_download($filename = '', $data = '', $set_mime = FALSE)
 	{
-		if ($filename == '' OR $data == '')
+		if ($filename === '' OR $data === '')
 		{
 			return FALSE;
+		}
+		elseif ($data === NULL)
+		{
+			if (@is_file($filename) && @file_exists($filename) && ($filesize = @filesize($filename)) !== FALSE)
+			{
+				$filepath = $filename;
+				$filename = explode('/', str_replace(DIRECTORY_SEPARATOR, '/', $filename));
+				$filename = end($filename);
+			}
+			else
+			{
+				return FALSE;
+			}
+		}
+		else
+		{
+			$filesize = strlen($data);
 		}
 
 		// Set the default MIME type to send
@@ -73,14 +91,7 @@ if ( ! function_exists('force_download'))
 			}
 
 			// Load the mime types
-			if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
-			{
-				include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
-			}
-			elseif (is_file(APPPATH.'config/mimes.php'))
-			{
-				include(APPPATH.'config/mimes.php');
-			}
+			$mimes =& get_mimes();
 
 			// Only change the default MIME if we can find one
 			if (isset($mimes[$extension]))
@@ -101,25 +112,46 @@ if ( ! function_exists('force_download'))
 			$filename = implode('.', $x);
 		}
 
+		if ($data === NULL && ($fp = @fopen($filepath, 'rb')) === FALSE)
+		{
+			return FALSE;
+		}
+
+		// Clean output buffer
+		if (ob_get_level() !== 0 && @ob_end_clean() === FALSE)
+		{
+			ob_clean();
+		}
+
 		// Generate the server headers
 		header('Content-Type: '.$mime);
 		header('Content-Disposition: attachment; filename="'.$filename.'"');
 		header('Expires: 0');
 		header('Content-Transfer-Encoding: binary');
-		header('Content-Length: '.strlen($data));
+		header('Content-Length: '.$filesize);
 
 		// Internet Explorer-specific headers
 		if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE)
 		{
-			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-			header('Pragma: public');
-		}
-		else
-		{
-			header('Pragma: no-cache');
+			header('Cache-Control: no-cache, no-store, must-revalidate');
 		}
 
-		exit($data);
+		header('Pragma: no-cache');
+
+		// If we have raw data - just dump it
+		if ($data !== NULL)
+		{
+			exit($data);
+		}
+
+		// Flush 1MB chunks of data
+		while ( ! feof($fp) && ($data = fread($fp, 1048576)) !== FALSE)
+		{
+			echo $data;
+		}
+
+		fclose($fp);
+		exit;
 	}
 }
 

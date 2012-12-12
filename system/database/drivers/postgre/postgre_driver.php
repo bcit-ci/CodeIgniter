@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,12 +24,13 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Postgre Database Adapter Class
  *
  * Note: _DB is an extender class that the app controller
- * creates dynamically based on whether the active record
+ * creates dynamically based on whether the query builder
  * class is being used or not.
  *
  * @package		CodeIgniter
@@ -40,27 +41,37 @@
  */
 class CI_DB_postgre_driver extends CI_DB {
 
+	/**
+	 * Database driver
+	 *
+	 * @var	string
+	 */
 	public $dbdriver = 'postgre';
 
-	protected $_escape_char = '"';
-
-	// clause and character used for LIKE escape sequences
-	protected $_like_escape_str = " ESCAPE '%s' ";
-	protected $_like_escape_chr = '!';
-
 	/**
-	 * The syntax to count rows is slightly different across different
-	 * database engines, so this string appears in each driver and is
-	 * used for the count_all() and count_all_results() functions.
+	 * Database schema
+	 *
+	 * @var	string
 	 */
-	protected $_count_string = 'SELECT COUNT(*) AS ';
-	protected $_random_keyword = ' RANDOM()'; // database specific random keyword
+	public $schema = 'public';
+
+	// --------------------------------------------------------------------
 
 	/**
-	 * Constructor
+	 * ORDER BY random keyword
+	 *
+	 * @var	array
+	 */
+	protected $_random_keyword = array('RANDOM()', 'RANDOM()');
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Class constructor
 	 *
 	 * Creates a DSN string to be used for db_connect() and db_pconnect()
 	 *
+	 * @param	array	$params
 	 * @return	void
 	 */
 	public function __construct($params)
@@ -120,13 +131,32 @@ class CI_DB_postgre_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Non-persistent database connection
+	 * Database connection
 	 *
+	 * @param	bool	$persistent
 	 * @return	resource
 	 */
-	public function db_connect()
+	public function db_connect($persistent = FALSE)
 	{
-		return @pg_connect($this->dsn);
+		if ($persistent === TRUE
+			&& ($this->conn_id = @pg_pconnect($this->dsn))
+			&& pg_connection_status($this->conn_id) === PGSQL_CONNECTION_BAD
+			&& pg_ping($this->conn_id) === FALSE
+		)
+		{
+			return FALSE;
+		}
+		else
+		{
+			$this->conn_id = @pg_connect($this->dsn);
+		}
+
+		if ($this->conn_id && ! empty($this->schema))
+		{
+			$this->simple_query('SET search_path TO '.$this->schema.',public');
+		}
+
+		return $this->conn_id;
 	}
 
 	// --------------------------------------------------------------------
@@ -138,7 +168,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function db_pconnect()
 	{
-		return @pg_pconnect($this->dsn);
+		return $this->db_connect(TRUE);
 	}
 
 	// --------------------------------------------------------------------
@@ -164,8 +194,8 @@ class CI_DB_postgre_driver extends CI_DB {
 	/**
 	 * Set client character set
 	 *
-	 * @param       string
-	 * @return      bool
+	 * @param	string	$charset
+	 * @return	bool
 	 */
 	protected function _db_set_charset($charset)
 	{
@@ -185,8 +215,12 @@ class CI_DB_postgre_driver extends CI_DB {
 		{
 			return $this->data_cache['version'];
 		}
+		elseif ( ! $this->conn_id)
+		{
+			$this->initialize();
+		}
 
-		if (($pg_version = pg_version($this->conn_id)) === FALSE)
+		if ( ! $this->conn_id OR ($pg_version = pg_version($this->conn_id)) === FALSE)
 		{
 			return FALSE;
 		}
@@ -206,7 +240,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	/**
 	 * Execute the query
 	 *
-	 * @param	string	an SQL query
+	 * @param	string	$sql	an SQL query
 	 * @return	resource
 	 */
 	protected function _execute($sql)
@@ -219,6 +253,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
+	 * @param	bool	$test_mode
 	 * @return	bool
 	 */
 	public function trans_begin($test_mode = FALSE)
@@ -234,7 +269,7 @@ class CI_DB_postgre_driver extends CI_DB {
 		// even if the queries produce a successful result.
 		$this->_trans_failure = ($test_mode === TRUE);
 
-		return @pg_query($this->conn_id, 'BEGIN');
+		return (bool) @pg_query($this->conn_id, 'BEGIN');
 	}
 
 	// --------------------------------------------------------------------
@@ -252,7 +287,7 @@ class CI_DB_postgre_driver extends CI_DB {
 			return TRUE;
 		}
 
-		return @pg_query($this->conn_id, 'COMMIT');
+		return (bool) @pg_query($this->conn_id, 'COMMIT');
 	}
 
 	// --------------------------------------------------------------------
@@ -270,7 +305,7 @@ class CI_DB_postgre_driver extends CI_DB {
 			return TRUE;
 		}
 
-		return @pg_query($this->conn_id, 'ROLLBACK');
+		return (bool) @pg_query($this->conn_id, 'ROLLBACK');
 	}
 
 	// --------------------------------------------------------------------
@@ -278,8 +313,8 @@ class CI_DB_postgre_driver extends CI_DB {
 	/**
 	 * Escape String
 	 *
-	 * @param	string
-	 * @param	bool	whether or not the string will be used in a LIKE condition
+	 * @param	string	$str
+	 * @param	bool	$like Whether or not the string will be used in a LIKE condition
 	 * @return	string
 	 */
 	public function escape_str($str, $like = FALSE)
@@ -310,6 +345,26 @@ class CI_DB_postgre_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * "Smart" Escape String
+	 *
+	 * Escapes data based on type
+	 *
+	 * @param	string	$str
+	 * @return	mixed
+	 */
+	public function escape($str)
+	{
+		if (is_bool($str))
+		{
+			return ($str) ? 'TRUE' : 'FALSE';
+		}
+
+		return parent::escape($str);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Affected Rows
 	 *
 	 * @return	int
@@ -328,63 +383,41 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function insert_id()
 	{
-		$v = $this->version();
+		$v = pg_version($this->conn_id);
+		$v = isset($v['server']) ? $v['server'] : 0; // 'server' key is only available since PosgreSQL 7.4
 
-		$table	= func_num_args() > 0 ? func_get_arg(0) : NULL;
-		$column	= func_num_args() > 1 ? func_get_arg(1) : NULL;
+		$table	= (func_num_args() > 0) ? func_get_arg(0) : NULL;
+		$column	= (func_num_args() > 1) ? func_get_arg(1) : NULL;
 
-		if ($table == NULL && $v >= '8.1')
+		if ($table === NULL && $v >= '8.1')
 		{
-			$sql='SELECT LASTVAL() as ins_id';
+			$sql = 'SELECT LASTVAL() AS ins_id';
 		}
-		elseif ($table != NULL && $column != NULL && $v >= '8.0')
+		elseif ($table !== NULL)
 		{
-			$sql = sprintf("SELECT pg_get_serial_sequence('%s','%s') as seq", $table, $column);
-			$query = $this->query($sql);
-			$row = $query->row();
-			$sql = sprintf("SELECT CURRVAL('%s') as ins_id", $row->seq);
-		}
-		elseif ($table != NULL)
-		{
-			// seq_name passed in table parameter
-			$sql = sprintf("SELECT CURRVAL('%s') as ins_id", $table);
+			if ($column !== NULL && $v >= '8.0')
+			{
+				$sql = 'SELECT pg_get_serial_sequence(\''.$table."', '".$column."') AS seq";
+				$query = $this->query($sql);
+				$query = $query->row();
+				$seq = $query->seq;
+			}
+			else
+			{
+				// seq_name passed in table parameter
+				$seq = $table;
+			}
+
+			$sql = 'SELECT CURRVAL(\''.$seq."') AS ins_id";
 		}
 		else
 		{
 			return pg_last_oid($this->result_id);
 		}
+
 		$query = $this->query($sql);
-		$row = $query->row();
-		return $row->ins_id;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * "Count All" query
-	 *
-	 * Generates a platform-specific query string that counts all records in
-	 * the specified database
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	public function count_all($table = '')
-	{
-		if ($table == '')
-		{
-			return 0;
-		}
-
-		$query = $this->query($this->_count_string.$this->protect_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
-		if ($query->num_rows() == 0)
-		{
-			return 0;
-		}
-
-		$row = $query->row();
-		$this->_reset_select();
-		return (int) $row->numrows;
+		$query = $query->row();
+		return (int) $query->ins_id;
 	}
 
 	// --------------------------------------------------------------------
@@ -394,16 +427,18 @@ class CI_DB_postgre_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	bool
+	 * @param	bool	$prefix_limit
 	 * @return	string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		$sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'";
+		$sql = 'SELECT "table_name" FROM "information_schema"."tables" WHERE "table_schema" = \''.$this->schema."'";
 
-		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
+		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{
-			$sql .= " AND table_name LIKE '".$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
+			return $sql.' AND "table_name" LIKE \''
+				.$this->escape_like_str($this->dbprefix)."%' "
+				.sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
 
 		return $sql;
@@ -412,31 +447,56 @@ class CI_DB_postgre_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Show column query
+	 * List column query
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _list_columns($table = '')
 	{
-		return "SELECT column_name FROM information_schema.columns WHERE table_name ='".$table."'";
+		return 'SELECT "column_name"
+			FROM "information_schema"."columns"
+			WHERE LOWER("table_name") = '.$this->escape(strtolower($table));
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Field data query
+	 * Returns an object with field data
 	 *
-	 * Generates a platform-specific query so that the column data can be retrieved
-	 *
-	 * @param	string	the table name
-	 * @return	object
+	 * @param	string	$table
+	 * @return	array
 	 */
-	protected function _field_data($table)
+	public function field_data($table = '')
 	{
-		return "SELECT * FROM ".$table." LIMIT 1";
+		if ($table === '')
+		{
+			return ($this->db_debug) ? $this->display_error('db_field_param_missing') : FALSE;
+		}
+
+		$sql = 'SELECT "column_name", "data_type", "character_maximum_length", "numeric_precision", "column_default"
+			FROM "information_schema"."columns"
+			WHERE LOWER("table_name") = '.$this->escape(strtolower($table));
+
+		if (($query = $this->query($sql)) === FALSE)
+		{
+			return FALSE;
+		}
+		$query = $query->result_object();
+
+		$retval = array();
+		for ($i = 0, $c = count($query); $i < $c; $i++)
+		{
+			$retval[$i]			= new stdClass();
+			$retval[$i]->name		= $query[$i]->column_name;
+			$retval[$i]->type		= $query[$i]->data_type;
+			$retval[$i]->max_length		= ($query[$i]->character_maximum_length > 0) ? $query[$i]->character_maximum_length : $query[$i]->numeric_precision;
+			$retval[$i]->default		= $query[$i]->column_default;
+		}
+
+		return $retval;
 	}
 
 	// --------------------------------------------------------------------
@@ -457,22 +517,36 @@ class CI_DB_postgre_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * From Tables
+	 * ORDER BY
 	 *
-	 * This function implicitly groups FROM tables so there is no confusion
-	 * about operator precedence in harmony with SQL standards
-	 *
-	 * @param	array
-	 * @return	string
+	 * @param	string	$orderby
+	 * @param	string	$direction	ASC or DESC
+	 * @param	bool	$escape
+	 * @return	object
 	 */
-	protected function _from_tables($tables)
+	public function order_by($orderby, $direction = '', $escape = NULL)
 	{
-		if ( ! is_array($tables))
+		$direction = strtoupper(trim($direction));
+		if ($direction === 'RANDOM')
 		{
-			$tables = array($tables);
+			if ( ! is_float($orderby) && ctype_digit((string) $orderby))
+			{
+				$orderby = ($orderby > 1)
+					? (float) '0.'.$orderby
+					: (float) $orderby;
+			}
+
+			if (is_float($orderby))
+			{
+				$this->simple_query('SET SEED '.$orderby);
+			}
+
+			$orderby = $this->_random_keyword[0];
+			$direction = '';
+			$escape = FALSE;
 		}
 
-		return implode(', ', $tables);
+		return parent::order_by($orderby, $direction, $escape);
 	}
 
 	// --------------------------------------------------------------------
@@ -482,29 +556,56 @@ class CI_DB_postgre_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific update string from the supplied data
 	 *
-	 * @param	string	the table name
-	 * @param	array	the update data
-	 * @param	array	the where clause
-	 * @param	array	the orderby clause (ignored)
-	 * @param	array	the limit clause (ignored)
-	 * @param	array	the like clause
+	 * @param	string	$table
+	 * @param	array	$values
 	 * @return	string
 	 */
-	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
+	protected function _update($table, $values)
 	{
+		$this->qb_limit = FALSE;
+		$this->qb_orderby = array();
+		return parent::_update($table, $values);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Update_Batch statement
+	 *
+	 * Generates a platform-specific batch update string from the supplied data
+	 *
+	 * @param	string	$table	Table name
+	 * @param	array	$values	Update data
+	 * @param	string	$index	WHERE key
+	 * @return	string
+	 */
+	protected function _update_batch($table, $values, $index)
+	{
+		$ids = array();
 		foreach ($values as $key => $val)
 		{
-			$valstr[] = $key.' = '.$val;
+			$ids[] = $val[$index];
+
+			foreach (array_keys($val) as $field)
+			{
+				if ($field !== $index)
+				{
+					$final[$field][] = 'WHEN '.$val[$index].' THEN '.$val[$field];
+				}
+			}
 		}
 
-		$where = empty($where) ? '' : ' WHERE '.implode(' ', $where);
-
-		if ( ! empty($like))
+		$cases = '';
+		foreach ($final as $k => $v)
 		{
-			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
+			$cases .= $k.' = (CASE '.$index."\n"
+				.implode("\n", $v)."\n"
+				.'ELSE '.$k.' END), ';
 		}
 
-		return 'UPDATE '.$table.' SET '.implode(', ', $valstr).$where;
+		$this->where($index.' IN('.implode(',', $ids).')', NULL, FALSE);
+
+		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2).$this->_compile_wh('qb_where');
 	}
 
 	// --------------------------------------------------------------------
@@ -514,43 +615,28 @@ class CI_DB_postgre_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific delete string from the supplied data
 	 *
-	 * @param	string	the table name
-	 * @param	array	the where clause
-	 * @param	array	the like clause
-	 * @param	string	the limit clause (ignored)
+	 * @param	string	$table
 	 * @return	string
 	 */
-	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
+	protected function _delete($table)
 	{
-		$conditions = array();
-
-		empty($where) OR $conditions[] = implode(' ', $where);
-		empty($like) OR $conditions[] = implode(' ', $like);
-
-		return 'DELETE FROM '.$table.(count($conditions) > 0 ? ' WHERE '.implode(' AND ', $conditions) : '');
+		$this->qb_limit = FALSE;
+		return parent::_delete($table);
 	}
 
 	// --------------------------------------------------------------------
+
 	/**
-	 * Limit string
+	 * LIMIT
 	 *
 	 * Generates a platform-specific LIMIT clause
 	 *
-	 * @param	string	the sql query string
-	 * @param	int	the number of rows to limit the query to
-	 * @param	int	the offset value
+	 * @param	string	$sql	SQL Query
 	 * @return	string
 	 */
-	protected function _limit($sql, $limit, $offset)
+	protected function _limit($sql)
 	{
-		$sql .= "LIMIT ".$limit;
-
-		if ($offset > 0)
-		{
-			$sql .= " OFFSET ".$offset;
-		}
-
-		return $sql;
+		return $sql.' LIMIT '.$this->qb_limit.($this->qb_offset ? ' OFFSET '.$this->qb_offset : '');
 	}
 
 	// --------------------------------------------------------------------
@@ -558,12 +644,11 @@ class CI_DB_postgre_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close($conn_id)
+	protected function _close()
 	{
-		@pg_close($conn_id);
+		@pg_close($this->conn_id);
 	}
 
 }

@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * User Agent Class
@@ -38,25 +39,110 @@
  */
 class CI_User_agent {
 
-	public $agent		= NULL;
+	/**
+	 * Current user-agent
+	 *
+	 * @var string
+	 */
+	public $agent = NULL;
 
-	public $is_browser	= FALSE;
-	public $is_robot	= FALSE;
-	public $is_mobile	= FALSE;
+	/**
+	 * Flag for if the user-agent belongs to a browser
+	 *
+	 * @var bool
+	 */
+	public $is_browser = FALSE;
 
-	public $languages	= array();
-	public $charsets	= array();
+	/**
+	 * Flag for if the user-agent is a robot
+	 *
+	 * @var bool
+	 */
+	public $is_robot = FALSE;
 
-	public $platforms	= array();
-	public $browsers	= array();
-	public $mobiles		= array();
-	public $robots		= array();
+	/**
+	 * Flag for if the user-agent is a mobile browser
+	 *
+	 * @var bool
+	 */
+	public $is_mobile = FALSE;
 
-	public $platform	= '';
-	public $browser		= '';
-	public $version		= '';
-	public $mobile		= '';
-	public $robot		= '';
+	/**
+	 * Languages accepted by the current user agent
+	 *
+	 * @var array
+	 */
+	public $languages = array();
+
+	/**
+	 * Character sets accepted by the current user agent
+	 *
+	 * @var array
+	 */
+	public $charsets = array();
+
+	/**
+	 * List of platforms to compare against current user agent
+	 *
+	 * @var array
+	 */
+	public $platforms = array();
+
+	/**
+	 * List of browsers to compare against current user agent
+	 *
+	 * @var array
+	 */
+	public $browsers = array();
+
+	/**
+	 * List of mobile browsers to compare against current user agent
+	 *
+	 * @var array
+	 */
+	public $mobiles = array();
+
+	/**
+	 * List of robots to compare against current user agent
+	 *
+	 * @var array
+	 */
+	public $robots = array();
+
+	/**
+	 * Current user-agent platform
+	 *
+	 * @var string
+	 */
+	public $platform = '';
+
+	/**
+	 * Current user-agent browser
+	 *
+	 * @var string
+	 */
+	public $browser = '';
+
+	/**
+	 * Current user-agent version
+	 *
+	 * @var string
+	 */
+	public $version = '';
+
+	/**
+	 * Current user-agent mobile name
+	 *
+	 * @var string
+	 */
+	public $mobile = '';
+
+	/**
+	 * Current user-agent robot name
+	 *
+	 * @var string
+	 */
+	public $robot = '';
 
 	/**
 	 * Constructor
@@ -224,6 +310,7 @@ class CI_User_agent {
 				{
 					$this->is_robot = TRUE;
 					$this->robot = $val;
+					$this->_set_mobile();
 					return TRUE;
 				}
 			}
@@ -245,7 +332,7 @@ class CI_User_agent {
 		{
 			foreach ($this->mobiles as $key => $val)
 			{
-				if (FALSE !== (strpos(strtolower($this->agent), $key)))
+				if (FALSE !== (stripos($this->agent, $key)))
 				{
 					$this->is_mobile = TRUE;
 					$this->mobile = $val;
@@ -302,6 +389,7 @@ class CI_User_agent {
 	/**
 	 * Is Browser
 	 *
+	 * @param	string	$key
 	 * @return	bool
 	 */
 	public function is_browser($key = NULL)
@@ -326,6 +414,7 @@ class CI_User_agent {
 	/**
 	 * Is Robot
 	 *
+	 * @param	string	$key
 	 * @return	bool
 	 */
 	public function is_robot($key = NULL)
@@ -350,6 +439,7 @@ class CI_User_agent {
 	/**
 	 * Is Mobile
 	 *
+	 * @param	string	$key
 	 * @return	bool
 	 */
 	public function is_mobile($key = NULL)
@@ -378,7 +468,13 @@ class CI_User_agent {
 	 */
 	public function is_referral()
 	{
-		return ! empty($_SERVER['HTTP_REFERER']);
+		if (empty($_SERVER['HTTP_REFERER']))
+		{
+			return FALSE;
+		}
+
+		$referer = parse_url($_SERVER['HTTP_REFERER']);
+		return ! (empty($referer['host']) && strpos(config_item('base_url'), $referer['host']) !== FALSE);
 	}
 
 	// --------------------------------------------------------------------
@@ -503,6 +599,7 @@ class CI_User_agent {
 	/**
 	 * Test for a particular language
 	 *
+	 * @param	string	$lang
 	 * @return	bool
 	 */
 	public function accept_lang($lang = 'en')
@@ -515,6 +612,7 @@ class CI_User_agent {
 	/**
 	 * Test for a particular character set
 	 *
+	 * @param	string	$charset
 	 * @return	bool
 	 */
 	public function accept_charset($charset = 'utf-8')

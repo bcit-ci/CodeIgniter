@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,11 +24,10 @@
  * @since		Version 1.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * CodeIgniter Application Controller Class
+ * Application Controller Class
  *
  * This class object is the super class that every library in
  * CodeIgniter will be assigned to.
@@ -41,8 +40,18 @@
  */
 class CI_Controller {
 
+	/**
+	 * Reference to the CI singleton
+	 *
+	 * @var	object
+	 */
 	private static $instance;
 
+	/**
+	 * Class constructor
+	 *
+	 * @return	void
+	 */
 	public function __construct()
 	{
 		self::$instance =& $this;
@@ -60,10 +69,19 @@ class CI_Controller {
 		log_message('debug', 'Controller Class Initialized');
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get the CI singleton
+	 *
+	 * @static
+	 * @return	object
+	 */
 	public static function &get_instance()
 	{
 		return self::$instance;
 	}
+
 }
 
 /* End of file Controller.php */

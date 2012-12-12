@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * File Uploading Class
@@ -36,39 +37,224 @@
  */
 class CI_Upload {
 
+	/**
+	 * Maximum file size
+	 *
+	 * @var	int
+	 */
 	public $max_size		= 0;
+
+	/**
+	 * Maximum image width
+	 *
+	 * @var	int
+	 */
 	public $max_width		= 0;
+
+	/**
+	 * Maximum image height
+	 *
+	 * @var	int
+	 */
 	public $max_height		= 0;
+
+	/**
+	 * Minimum image width
+	 *
+	 * @var	int
+	 */
+	public $min_width		= 0;
+
+	/**
+	 * Minimum image height
+	 *
+	 * @var	int
+	 */
+	public $min_height		= 0;
+
+	/**
+	 * Maximum filename length
+	 *
+	 * @var	int
+	 */
 	public $max_filename		= 0;
+
+	/**
+	 * Maximum duplicate filename increment ID
+	 *
+	 * @var	int
+	 */
 	public $max_filename_increment 	= 100;
+
+	/**
+	 * Allowed file types
+	 *
+	 * @var	string
+	 */
 	public $allowed_types		= '';
+
+	/**
+	 * Temporary filename
+	 *
+	 * @var	string
+	 */
 	public $file_temp		= '';
+
+	/**
+	 * Filename
+	 *
+	 * @var	string
+	 */
 	public $file_name		= '';
+
+	/**
+	 * Original filename
+	 *
+	 * @var	string
+	 */
 	public $orig_name		= '';
+
+	/**
+	 * File type
+	 *
+	 * @var	string
+	 */
 	public $file_type		= '';
-	public $file_size		= '';
+
+	/**
+	 * File size
+	 *
+	 * @var	int
+	 */
+	public $file_size		= NULL;
+
+	/**
+	 * Filename extension
+	 *
+	 * @var	string
+	 */
 	public $file_ext		= '';
+
+	/**
+	 * Upload path
+	 *
+	 * @var	string
+	 */
 	public $upload_path		= '';
+
+	/**
+	 * Overwrite flag
+	 *
+	 * @var	bool
+	 */
 	public $overwrite		= FALSE;
+
+	/**
+	 * Obfuscate filename flag
+	 *
+	 * @var	bool
+	 */
 	public $encrypt_name		= FALSE;
+
+	/**
+	 * Is image flag
+	 *
+	 * @var	bool
+	 */
 	public $is_image		= FALSE;
-	public $image_width		= '';
-	public $image_height		= '';
+
+	/**
+	 * Image width
+	 *
+	 * @var	int
+	 */
+	public $image_width		= NULL;
+
+	/**
+	 * Image height
+	 *
+	 * @var	int
+	 */
+	public $image_height		= NULL;
+
+	/**
+	 * Image type
+	 *
+	 * @var	string
+	 */
 	public $image_type		= '';
+
+	/**
+	 * Image size string
+	 *
+	 * @var	string
+	 */
 	public $image_size_str		= '';
+
+	/**
+	 * Error messages list
+	 *
+	 * @var	array
+	 */
 	public $error_msg		= array();
+
+	/**
+	 * MIME types list
+	 *
+	 * @var	array
+	 */
 	public $mimes			= array();
+
+	/**
+	 * Remove spaces flag
+	 *
+	 * @var	bool
+	 */
 	public $remove_spaces		= TRUE;
+
+	/**
+	 * MIME detection flag
+	 *
+	 * @var	bool
+	 */
+	public $detect_mime		= TRUE;
+
+	/**
+	 * XSS filter flag
+	 *
+	 * @var	bool
+	 */
 	public $xss_clean		= FALSE;
+
+	/**
+	 * Temporary filename prefix
+	 *
+	 * @var	string
+	 */
 	public $temp_prefix		= 'temp_file_';
+
+	/**
+	 * Filename sent by the client
+	 *
+	 * @var	bool
+	 */
 	public $client_name		= '';
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Filename override
+	 *
+	 * @var	string
+	 */
 	protected $_file_name_override	= '';
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Constructor
 	 *
-	 * @param	array
+	 * @param	array	$props
 	 * @return	void
 	 */
 	public function __construct($props = array())
@@ -78,6 +264,8 @@ class CI_Upload {
 			$this->initialize($props);
 		}
 
+		$this->mimes =& get_mimes();
+
 		log_message('debug', 'Upload Class Initialized');
 	}
 
@@ -86,7 +274,7 @@ class CI_Upload {
 	/**
 	 * Initialize preferences
 	 *
-	 * @param	array
+	 * @param	array	$config
 	 * @return	void
 	 */
 	public function initialize($config = array())
@@ -95,6 +283,8 @@ class CI_Upload {
 					'max_size'			=> 0,
 					'max_width'			=> 0,
 					'max_height'			=> 0,
+					'min_width'			=> 0,
+					'min_height'			=> 0,
 					'max_filename'			=> 0,
 					'max_filename_increment'	=> 100,
 					'allowed_types'			=> '',
@@ -102,24 +292,23 @@ class CI_Upload {
 					'file_name'			=> '',
 					'orig_name'			=> '',
 					'file_type'			=> '',
-					'file_size'			=> '',
+					'file_size'			=> NULL,
 					'file_ext'			=> '',
 					'upload_path'			=> '',
 					'overwrite'			=> FALSE,
 					'encrypt_name'			=> FALSE,
 					'is_image'			=> FALSE,
-					'image_width'			=> '',
-					'image_height'			=> '',
+					'image_width'			=> NULL,
+					'image_height'			=> NULL,
 					'image_type'			=> '',
 					'image_size_str'		=> '',
 					'error_msg'			=> array(),
-					'mimes'				=> array(),
 					'remove_spaces'			=> TRUE,
+					'detect_mime'			=> TRUE,
 					'xss_clean'			=> FALSE,
 					'temp_prefix'			=> 'temp_file_',
 					'client_name'			=> ''
 				);
-
 
 		foreach ($defaults as $key => $val)
 		{
@@ -151,6 +340,7 @@ class CI_Upload {
 	/**
 	 * Perform the file upload
 	 *
+	 * @param	string	$field
 	 * @return	bool
 	 */
 	public function do_upload($field = 'userfile')
@@ -208,7 +398,13 @@ class CI_Upload {
 		// Set the uploaded data as class variables
 		$this->file_temp = $_FILES[$field]['tmp_name'];
 		$this->file_size = $_FILES[$field]['size'];
-		$this->_file_mime_type($_FILES[$field]);
+
+		// Skip MIME type detection?
+		if ($this->detect_mime !== FALSE)
+		{
+			$this->_file_mime_type($_FILES[$field]);
+		}
+
 		$this->file_type = preg_replace('/^(.+?);.*$/', '\\1', $this->file_type);
 		$this->file_type = strtolower(trim(stripslashes($this->file_type), '"'));
 		$this->file_name = $this->_prep_filename($_FILES[$field]['name']);
@@ -223,7 +419,7 @@ class CI_Upload {
 		}
 
 		// if we're overriding, let's now make sure the new name and type is allowed
-		if ($this->_file_name_override != '')
+		if ($this->_file_name_override !== '')
 		{
 			$this->file_name = $this->_prep_filename($this->_file_name_override);
 
@@ -276,7 +472,7 @@ class CI_Upload {
 		}
 
 		// Remove white spaces in the name
-		if ($this->remove_spaces == TRUE)
+		if ($this->remove_spaces === TRUE)
 		{
 			$this->file_name = preg_replace('/\s+/', '_', $this->file_name);
 		}
@@ -289,7 +485,7 @@ class CI_Upload {
 		 */
 		$this->orig_name = $this->file_name;
 
-		if ($this->overwrite == FALSE)
+		if ($this->overwrite === FALSE)
 		{
 			$this->file_name = $this->set_filename($this->upload_path, $this->file_name);
 
@@ -346,11 +542,12 @@ class CI_Upload {
 	 * Returns an associative array containing all of the information
 	 * related to the upload, allowing the developer easy access in one array.
 	 *
-	 * @return	array
+	 * @param	string	$index
+	 * @return	mixed
 	 */
-	public function data()
+	public function data($index = NULL)
 	{
-		return array(
+		$data = array(
 				'file_name'		=> $this->file_name,
 				'file_type'		=> $this->file_type,
 				'file_path'		=> $this->upload_path,
@@ -366,6 +563,13 @@ class CI_Upload {
 				'image_type'		=> $this->image_type,
 				'image_size_str'	=> $this->image_size_str,
 			);
+
+		if ( ! empty($index))
+		{
+			return isset($data[$index]) ? $data[$index] : NULL;
+		}
+
+		return $data;
 	}
 
 	// --------------------------------------------------------------------
@@ -373,7 +577,7 @@ class CI_Upload {
 	/**
 	 * Set Upload Path
 	 *
-	 * @param	string
+	 * @param	string	$path
 	 * @return	void
 	 */
 	public function set_upload_path($path)
@@ -391,13 +595,13 @@ class CI_Upload {
 	 * existence of a file with the same name. If found, it will append a
 	 * number to the end of the filename to avoid overwriting a pre-existing file.
 	 *
-	 * @param	string
-	 * @param	string
+	 * @param	string	$path
+	 * @param	string	$filename
 	 * @return	string
 	 */
 	public function set_filename($path, $filename)
 	{
-		if ($this->encrypt_name == TRUE)
+		if ($this->encrypt_name === TRUE)
 		{
 			mt_srand();
 			$filename = md5(uniqid(mt_rand())).$this->file_ext;
@@ -420,7 +624,7 @@ class CI_Upload {
 			}
 		}
 
-		if ($new_filename == '')
+		if ($new_filename === '')
 		{
 			$this->set_error('upload_bad_filename');
 			return FALSE;
@@ -436,7 +640,7 @@ class CI_Upload {
 	/**
 	 * Set Maximum File Size
 	 *
-	 * @param	int
+	 * @param	int	$n
 	 * @return	void
 	 */
 	public function set_max_filesize($n)
@@ -449,7 +653,7 @@ class CI_Upload {
 	/**
 	 * Set Maximum File Name Length
 	 *
-	 * @param	int
+	 * @param	int	$n
 	 * @return	void
 	 */
 	public function set_max_filename($n)
@@ -462,7 +666,7 @@ class CI_Upload {
 	/**
 	 * Set Maximum Image Width
 	 *
-	 * @param	int
+	 * @param	int	$n
 	 * @return	void
 	 */
 	public function set_max_width($n)
@@ -475,7 +679,7 @@ class CI_Upload {
 	/**
 	 * Set Maximum Image Height
 	 *
-	 * @param	int
+	 * @param	int	$n
 	 * @return	void
 	 */
 	public function set_max_height($n)
@@ -486,9 +690,35 @@ class CI_Upload {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Set minimum image width
+	 *
+	 * @param	int	$n
+	 * @return	void
+	 */
+	public function set_min_width($n)
+	{
+		$this->min_width = ((int) $n < 0) ? 0 : (int) $n;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set minimum image height
+	 *
+	 * @param	int	$n
+	 * @return	void
+	 */
+	public function set_min_height($n)
+	{
+		$this->min_height = ((int) $n < 0) ? 0 : (int) $n;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Set Allowed File Types
 	 *
-	 * @param	string
+	 * @param	string	$types
 	 * @return	void
 	 */
 	public function set_allowed_types($types)
@@ -508,7 +738,7 @@ class CI_Upload {
 	 *
 	 * Uses GD to determine the width/height/type of image
 	 *
-	 * @param	string
+	 * @param	string	$path
 	 * @return	void
 	 */
 	public function set_image_properties($path = '')
@@ -540,12 +770,12 @@ class CI_Upload {
 	 * Enables the XSS flag so that the file that was uploaded
 	 * will be run through the XSS filter.
 	 *
-	 * @param	bool
+	 * @param	bool	$flag
 	 * @return	void
 	 */
 	public function set_xss_clean($flag = FALSE)
 	{
-		$this->xss_clean = ($flag == TRUE);
+		$this->xss_clean = ($flag === TRUE);
 	}
 
 	// --------------------------------------------------------------------
@@ -582,7 +812,7 @@ class CI_Upload {
 	/**
 	 * Verify that the filetype is allowed
 	 *
-	 * @param	bool
+	 * @param	bool	$ignore_mime
 	 * @return	bool
 	 */
 	public function is_allowed_filetype($ignore_mime = FALSE)
@@ -641,7 +871,7 @@ class CI_Upload {
 	 */
 	public function is_allowed_filesize()
 	{
-		return ($this->max_size == 0 OR $this->max_size > $this->file_size);
+		return ($this->max_size === 0 OR $this->max_size > $this->file_size);
 	}
 
 	// --------------------------------------------------------------------
@@ -671,6 +901,16 @@ class CI_Upload {
 			{
 				return FALSE;
 			}
+
+			if ($this->min_width > 0 && $D[0] < $this->min_width)
+			{
+				return FALSE;
+			}
+
+			if ($this->min_height > 0 && $D[1] < $this->min_height)
+			{
+				return FALSE;
+			}
 		}
 
 		return TRUE;
@@ -687,13 +927,13 @@ class CI_Upload {
 	 */
 	public function validate_upload_path()
 	{
-		if ($this->upload_path == '')
+		if ($this->upload_path === '')
 		{
 			$this->set_error('upload_no_filepath');
 			return FALSE;
 		}
 
-		if (function_exists('realpath') && @realpath($this->upload_path) !== FALSE)
+		if (@realpath($this->upload_path) !== FALSE)
 		{
 			$this->upload_path = str_replace('\\', '/', realpath($this->upload_path));
 		}
@@ -719,13 +959,13 @@ class CI_Upload {
 	/**
 	 * Extract the file extension
 	 *
-	 * @param	string
+	 * @param	string	$filename
 	 * @return	string
 	 */
 	public function get_extension($filename)
 	{
 		$x = explode('.', $filename);
-		return '.'.end($x);
+		return (count($x) !== 1) ? '.'.end($x) : '';
 	}
 
 	// --------------------------------------------------------------------
@@ -733,7 +973,7 @@ class CI_Upload {
 	/**
 	 * Clean the file name for security
 	 *
-	 * @param	string
+	 * @param	string	$filename
 	 * @return	string
 	 */
 	public function clean_file_name($filename)
@@ -747,6 +987,8 @@ class CI_Upload {
 				';',
 				'?',
 				'/',
+				'!',
+				'#',
 				'%20',
 				'%22',
 				'%3c',		// <
@@ -771,7 +1013,8 @@ class CI_Upload {
 	/**
 	 * Limit the File Name Length
 	 *
-	 * @param	string
+	 * @param	string	$filename
+	 * @param	int	$length
 	 * @return	string
 	 */
 	public function limit_filename_length($filename, $length)
@@ -812,17 +1055,17 @@ class CI_Upload {
 			return FALSE;
 		}
 
-		if (function_exists('memory_get_usage') && memory_get_usage() && ini_get('memory_limit') != '')
+		if (memory_get_usage() && ($memory_limit = ini_get('memory_limit')))
 		{
-			$current = ini_get('memory_limit') * 1024 * 1024;
+			$memory_limit *= 1024 * 1024;
 
 			// There was a bug/behavioural change in PHP 5.2, where numbers over one million get output
 			// into scientific notation. number_format() ensures this number is an integer
 			// http://bugs.php.net/bug.php?id=43053
 
-			$new_memory = number_format(ceil(filesize($file) + $current), 0, '.', '');
+			$memory_limit = number_format(ceil(filesize($file) + $memory_limit), 0, '.', '');
 
-			ini_set('memory_limit', $new_memory); // When an integer is used, the value is measured in bytes. - PHP.net
+			ini_set('memory_limit', $memory_limit); // When an integer is used, the value is measured in bytes. - PHP.net
 		}
 
 		// If the file being uploaded is an image, then we should have no problem with XSS attacks (in theory), but
@@ -846,10 +1089,8 @@ class CI_Upload {
 			// <a, <body, <head, <html, <img, <plaintext, <pre, <script, <table, <title
 			// title is basically just in SVG, but we filter it anyhow
 
-			if ( ! preg_match('/<(a|body|head|html|img|plaintext|pre|script|table|title)[\s>]/i', $opening_bytes))
-			{
-				return TRUE; // its an image, no "triggers" detected in the first 256 bytes, we're good
-			}
+			// if its an image or no "triggers" detected in the first 256 bytes - we're good
+			return ! preg_match('/<(a|body|head|html|img|plaintext|pre|script|table|title)[\s>]/i', $opening_bytes);
 		}
 
 		if (($data = @file_get_contents($file)) === FALSE)
@@ -866,7 +1107,7 @@ class CI_Upload {
 	/**
 	 * Set an error message
 	 *
-	 * @param	string
+	 * @param	string	$msg
 	 * @return	void
 	 */
 	public function set_error($msg)
@@ -878,14 +1119,14 @@ class CI_Upload {
 		{
 			foreach ($msg as $val)
 			{
-				$msg = ($CI->lang->line($val) == FALSE) ? $val : $CI->lang->line($val);
+				$msg = ($CI->lang->line($val) === FALSE) ? $val : $CI->lang->line($val);
 				$this->error_msg[] = $msg;
 				log_message('error', $msg);
 			}
 		}
 		else
 		{
-			$msg = ($CI->lang->line($msg) == FALSE) ? $msg : $CI->lang->line($msg);
+			$msg = ($CI->lang->line($msg) === FALSE) ? $msg : $CI->lang->line($msg);
 			$this->error_msg[] = $msg;
 			log_message('error', $msg);
 		}
@@ -896,8 +1137,8 @@ class CI_Upload {
 	/**
 	 * Display the error message
 	 *
-	 * @param	string
-	 * @param	string
+	 * @param	string	$open
+	 * @param	string	$close
 	 * @return	string
 	 */
 	public function display_errors($open = '<p>', $close = '</p>')
@@ -913,31 +1154,11 @@ class CI_Upload {
 	 * This is a list of mime types. We use it to validate
 	 * the "allowed types" set by the developer
 	 *
-	 * @param	string
+	 * @param	string	$mime
 	 * @return	string
 	 */
 	public function mimes_types($mime)
 	{
-		global $mimes;
-
-		if (count($this->mimes) == 0)
-		{
-			if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
-			{
-				include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
-			}
-			elseif (is_file(APPPATH.'config/mimes.php'))
-			{
-				include(APPPATH.'config/mimes.php');
-			}
-			else
-			{
-				return FALSE;
-			}
-
-			$this->mimes = $mimes;
-		}
-
 		return isset($this->mimes[$mime]) ? $this->mimes[$mime] : FALSE;
 	}
 
@@ -946,15 +1167,17 @@ class CI_Upload {
 	/**
 	 * Prep Filename
 	 *
-	 * Prevents possible script execution from Apache's handling of files multiple extensions
-	 * http://httpd.apache.org/docs/1.3/mod/mod_mime.html#multipleext
+	 * Prevents possible script execution from Apache's handling
+	 * of files' multiple extensions.
 	 *
-	 * @param	string
+	 * @link	http://httpd.apache.org/docs/1.3/mod/mod_mime.html#multipleext
+	 *
+	 * @param	string	$filename
 	 * @return	string
 	 */
 	protected function _prep_filename($filename)
 	{
-		if (strpos($filename, '.') === FALSE OR $this->allowed_types == '*')
+		if (strpos($filename, '.') === FALSE OR $this->allowed_types === '*')
 		{
 			return $filename;
 		}
@@ -986,7 +1209,7 @@ class CI_Upload {
 	 * Detects the (actual) MIME type of the uploaded file, if possible.
 	 * The input array is expected to be $_FILES[$field]
 	 *
-	 * @param	array
+	 * @param	array	$file
 	 * @return	void
 	 */
 	protected function _file_mime_type($file)
@@ -1001,7 +1224,7 @@ class CI_Upload {
 		 */
 		if (function_exists('finfo_file'))
 		{
-			$finfo = finfo_open(FILEINFO_MIME);
+			$finfo = @finfo_open(FILEINFO_MIME);
 			if (is_resource($finfo)) // It is possible that a FALSE value is returned, if there is no magic MIME database file found on the system
 			{
 				$mime = @finfo_file($finfo, $file['tmp_name']);
@@ -1032,9 +1255,11 @@ class CI_Upload {
 		 */
 		if (DIRECTORY_SEPARATOR !== '\\')
 		{
-			$cmd = 'file --brief --mime ' . escapeshellarg($file['tmp_name']) . ' 2>&1';
+			$cmd = function_exists('escapeshellarg')
+				? 'file --brief --mime '.escapeshellarg($file['tmp_name']).' 2>&1'
+				: 'file --brief --mime '.$file['tmp_name'].' 2>&1';
 
-			if (function_exists('exec'))
+			if (function_usable('exec'))
 			{
 				/* This might look confusing, as $mime is being populated with all of the output when set in the second parameter.
 				 * However, we only neeed the last line, which is the actual return value of exec(), and as such - it overwrites
@@ -1049,7 +1274,7 @@ class CI_Upload {
 				}
 			}
 
-			if ( (bool) @ini_get('safe_mode') === FALSE && function_exists('shell_exec'))
+			if ( (bool) @ini_get('safe_mode') === FALSE && function_usable('shell_exec'))
 			{
 				$mime = @shell_exec($cmd);
 				if (strlen($mime) > 0)
@@ -1063,7 +1288,7 @@ class CI_Upload {
 				}
 			}
 
-			if (function_exists('popen'))
+			if (function_usable('popen'))
 			{
 				$proc = @popen($cmd, 'r');
 				if (is_resource($proc))

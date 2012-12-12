@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter Email Helpers
@@ -37,33 +38,35 @@
 
 // ------------------------------------------------------------------------
 
-/**
- * Validate email address
- *
- * @param	string
- * @return	bool
- */
 if ( ! function_exists('valid_email'))
 {
-	function valid_email($address)
+	/**
+	 * Validate email address
+	 *
+	 * @deprecated	3.0.0	Use PHP's filter_var() instead
+	 * @param	string	$email
+	 * @return	bool
+	 */
+	function valid_email($email)
 	{
-		return (bool) preg_match('/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix', $address);
+		return (bool) filter_var($email, FILTER_VALIDATE_EMAIL);
 	}
 }
 
 // ------------------------------------------------------------------------
 
-/**
- * Send an email
- *
- * @param	string
- * @param	string
- * @param	string
- * @return	bool
- */
 if ( ! function_exists('send_email'))
 {
-	function send_email($recipient, $subject = 'Test email', $message = 'Hello World')
+	/**
+	 * Send an email
+	 *
+	 * @deprecated	3.0.0	Use PHP's mail() instead
+	 * @param	string	$recipient
+	 * @param	string	$subject
+	 * @param	string	$message
+	 * @return	bool
+	 */
+	function send_email($recipient, $subject, $message)
 	{
 		return mail($recipient, $subject, $message);
 	}

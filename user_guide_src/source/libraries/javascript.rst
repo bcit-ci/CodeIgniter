@@ -86,14 +86,14 @@ The jQuery Class
 To initialize the jQuery class manually in your controller constructor,
 use the $this->load->library function::
 
-	$this->load->library('jquery');
+	$this->load->library('javascript/jquery');
 
 You may send an optional parameter to determine whether or not a script
 tag for the main jQuery file will be automatically included when loading
 the library. It will be created by default. To prevent this, load the
 library as follows::
 
-	$this->load->library('jquery', FALSE);
+	$this->load->library('javascript/jquery', FALSE);
 
 Once loaded, the jQuery library object will be available using:
 $this->jquery
@@ -192,7 +192,7 @@ and triggered by a click using the jQuery library's click() event.
 	'width' => '50%',
 	'marginLeft' => 125
 	);
-	$this->jquery->click('#trigger', $this->jquery->animate('#note', $params, normal));
+	$this->jquery->click('#trigger', $this->jquery->animate('#note', $params, 'normal'));
 
 fadeIn() / fadeOut()
 --------------------

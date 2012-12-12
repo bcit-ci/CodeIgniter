@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	
+
 	// Typical Database configuration
 	'pgsql' => array(
 		'dsn' => '',
@@ -9,7 +9,7 @@ return array(
 		'username' => 'postgres',
 		'password' => '',
 		'database' => 'ci_test',
-		'dbdriver' => 'postgre',
+		'dbdriver' => 'postgre'
 	),
 
 	// Database configuration with failover
@@ -28,7 +28,7 @@ return array(
 				'password' => '',
 				'database' => 'ci_test',
 				'dbdriver' => 'postgre',
-			),
-		),
-	),
+			)
+		)
+	)
 );

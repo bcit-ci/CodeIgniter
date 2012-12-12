@@ -131,7 +131,7 @@ default:
 -  Any notes you entered for the test (notes)
 
 You can customize which of these items get displayed by using
-$this->unit->set_items(). For example, if you only wanted the test name
+$this->unit->set_test_items(). For example, if you only wanted the test name
 and the result displayed:
 
 Customizing displayed tests

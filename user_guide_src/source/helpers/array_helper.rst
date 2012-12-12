@@ -10,9 +10,7 @@ arrays.
 Loading this Helper
 ===================
 
-This helper is loaded using the following code
-
-::
+This helper is loaded using the following code::
 
 	$this->load->helper('array');
 
@@ -21,20 +19,19 @@ The following functions are available:
 element()
 =========
 
-.. php:method:: element($item, $array, $default = FALSE)
+.. php:function:: element($item, $array, $default = NULL)
 
-	:param string 	$item: Item to fetch from the array
-	:param array 	$array: Input array
-	:param boolean	$default: What to return if the array isn't valid
-	:returns: FALSE on failure or the array item.
-
+	:param	string	$item: Item to fetch from the array
+	:param	array	$array: Input array
+	:param	bool	$default: What to return if the array isn't valid
+	:returns:	NULL on failure or the array item.
 
 Lets you fetch an item from an array. The function tests whether the
 array index is set and whether it has a value. If a value exists it is
-returned. If a value does not exist it returns FALSE, or whatever you've
-specified as the default value via the third parameter. Example
+returned. If a value does not exist it returns NULL, or whatever you've
+specified as the default value via the third parameter.
 
-::
+Example::
 
 	$array = array(
 		'color'	=> 'red',
@@ -43,65 +40,58 @@ specified as the default value via the third parameter. Example
 	);
 
 	echo element('color', $array); // returns "red" 
-	echo element('size', $array, NULL); // returns NULL 
+	echo element('size', $array, 'foobar'); // returns "foobar" 
 
 elements()
 ==========
 
+.. php:function:: elements($items, $array, $default = NULL)
+
+	:param	string	$item: Item to fetch from the array
+	:param	array	$array: Input array
+	:param	bool	$default: What to return if the array isn't valid
+	:returns:	NULL on failure or the array item.
+
 Lets you fetch a number of items from an array. The function tests
 whether each of the array indices is set. If an index does not exist it
-is set to FALSE, or whatever you've specified as the default value via
+is set to NULL, or whatever you've specified as the default value via
 the third parameter. 
 
-.. php:method:: elements($items, $array, $default = FALSE)
-
-	:param string 	$item: Item to fetch from the array
-	:param array 	$array: Input array
-	:param boolean	$default: What to return if the array isn't valid
-	:returns: FALSE on failure or the array item.
-
-Example
-
-::
+Example::
 
 	$array = array(
-		'color' => 'red',  
-		'shape' => 'round',     
-		'radius' => '10',     
+		'color' => 'red',
+		'shape' => 'round',
+		'radius' => '10',
 		'diameter' => '20'
 	);
 
 	$my_shape = elements(array('color', 'shape', 'height'), $array);
 
-The above will return the following array
-
-::
+The above will return the following array::
 
 	array(
-		'color' => 'red',     
-		'shape' => 'round',     
-		'height' => FALSE
+		'color' => 'red',
+		'shape' => 'round',
+		'height' => NULL
 	);
 
-You can set the third parameter to any default value you like
-
+You can set the third parameter to any default value you like.
 ::
 
-	 $my_shape = elements(array('color', 'shape', 'height'), $array, NULL);
+	 $my_shape = elements(array('color', 'shape', 'height'), $array, 'foobar');
 
-The above will return the following array
-
-::
+The above will return the following array::
 
 	array(     
-		'color' 	=> 'red',     
-		'shape' 	=> 'round',     
-		'height'	=> NULL
+		'color' 	=> 'red',
+		'shape' 	=> 'round',
+		'height'	=> 'foobar'
 	);
 
-This is useful when sending the $_POST array to one of your Models.
+This is useful when sending the ``$_POST`` array to one of your Models.
 This prevents users from sending additional POST data to be entered into
-your tables
+your tables.
 
 ::
 
@@ -116,15 +106,14 @@ updated.
 random_element()
 ================
 
-Takes an array as input and returns a random element from it. Usage
-example
+.. php:function:: random_element($array)
 
-.. php:method:: random_element($array)
+	:param	array	$array: Input array
+	:returns:	string (a random element from the array)
 
-	:param array 	$array: Input array
-	:returns: String - Random element from the array.
+Takes an array as input and returns a random element from it.
 
-::
+Usage example::
 
 	$quotes = array(
 		"I find that the harder I work, the more luck I seem to have. - Thomas Jefferson",
@@ -136,4 +125,3 @@ example
 	);
 
 	echo random_element($quotes);
-

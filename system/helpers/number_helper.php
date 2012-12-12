@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter Number Helpers
@@ -37,14 +38,15 @@
 
 // ------------------------------------------------------------------------
 
-/**
- * Formats a numbers as bytes, based on size, and adds the appropriate suffix
- *
- * @param	mixed	// will be cast as int
- * @return	string
- */
 if ( ! function_exists('byte_format'))
 {
+	/**
+	 * Formats a numbers as bytes, based on size, and adds the appropriate suffix
+	 *
+	 * @param	mixed	will be cast as int
+	 * @param	int
+	 * @return	string
+	 */
 	function byte_format($num, $precision = 1)
 	{
 		$CI =& get_instance();

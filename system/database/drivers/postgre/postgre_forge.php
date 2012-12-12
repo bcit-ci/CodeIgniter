@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Postgre Forge Class
@@ -34,215 +35,152 @@
  */
 class CI_DB_postgre_forge extends CI_DB_forge {
 
-	protected $_drop_table	= 'DROP TABLE IF EXISTS %s CASCADE';
+	/**
+	 * UNSIGNED support
+	 *
+	 * @var	array
+	 */
+	protected $_unsigned		= array(
+		'INT2'		=> 'INTEGER',
+		'SMALLINT'	=> 'INTEGER',
+		'INT'		=> 'BIGINT',
+		'INT4'		=> 'BIGINT',
+		'INTEGER'	=> 'BIGINT',
+		'INT8'		=> 'NUMERIC',
+		'BIGINT'	=> 'NUMERIC',
+		'REAL'		=> 'DOUBLE PRECISION',
+		'FLOAT'		=> 'DOUBLE PRECISION'
+	);
 
 	/**
-	 * Process Fields
+	 * NULL value representation in CREATE/ALTER TABLE statements
 	 *
-	 * @param	mixed	the fields
-	 * @return	string
+	 * @var	string
 	 */
-	protected function _process_fields($fields, $primary_keys=array())
+	protected $_null		= 'NULL';
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Class constructor
+	 *
+	 * @param	object	&$db	Database object
+	 * @return	void
+	 */
+	public function __construct(&$db)
 	{
-		$sql = '';
-		$current_field_count = 0;
+		parent::__construct($db);
 
-		foreach ($fields as $field => $attributes)
+		if (version_compare($this->db->version(), '9.0', '>'))
 		{
-			// Numeric field names aren't allowed in databases, so if the key is
-			// numeric, we know it was assigned by PHP and the developer manually
-			// entered the field information, so we'll simply add it to the list
-			if (is_numeric($field))
-			{
-				$sql .= "\n\t$attributes";
-			}
-			else
-			{
-				$attributes = array_change_key_case($attributes, CASE_UPPER);
-
-				$sql .= "\n\t".$this->db->protect_identifiers($field);
-
-				$is_unsigned = (array_key_exists('UNSIGNED', $attributes) && $attributes['UNSIGNED'] === TRUE);
-
-				// Convert datatypes to be PostgreSQL-compatible
-				switch (strtoupper($attributes['TYPE']))
-				{
-					case 'TINYINT':
-						$attributes['TYPE'] = 'SMALLINT';
-						break;
-					case 'SMALLINT':
-						$attributes['TYPE'] = ($is_unsigned) ? 'INTEGER' : 'SMALLINT';
-						break;
-					case 'MEDIUMINT':
-						$attributes['TYPE'] = 'INTEGER';
-						break;
-					case 'INT':
-						$attributes['TYPE'] = ($is_unsigned) ? 'BIGINT' : 'INTEGER';
-						break;
-					case 'BIGINT':
-						$attributes['TYPE'] = ($is_unsigned) ? 'NUMERIC' : 'BIGINT';
-						break;
-					case 'DOUBLE':
-						$attributes['TYPE'] = 'DOUBLE PRECISION';
-						break;
-					case 'DATETIME':
-						$attributes['TYPE'] = 'TIMESTAMP';
-						break;
-					case 'LONGTEXT':
-						$attributes['TYPE'] = 'TEXT';
-						break;
-					case 'BLOB':
-						$attributes['TYPE'] = 'BYTEA';
-						break;
-				}
-
-				// If this is an auto-incrementing primary key, use the serial data type instead
-				if (in_array($field, $primary_keys) && array_key_exists('AUTO_INCREMENT', $attributes) 
-					&& $attributes['AUTO_INCREMENT'] === TRUE)
-				{
-					$sql .= ' SERIAL';
-				}
-				else
-				{
-					$sql .=  ' '.$attributes['TYPE'];
-				}
-
-				// Modified to prevent constraints with integer data types
-				if (array_key_exists('CONSTRAINT', $attributes) && strpos($attributes['TYPE'], 'INT') === false)
-				{
-					$sql .= '('.$attributes['CONSTRAINT'].')';
-				}
-
-				if (array_key_exists('DEFAULT', $attributes))
-				{
-					$sql .= ' DEFAULT \''.$attributes['DEFAULT'].'\'';
-				}
-
-				if (array_key_exists('NULL', $attributes) && $attributes['NULL'] === TRUE)
-				{
-					$sql .= ' NULL';
-				}
-				else
-				{
-					$sql .= ' NOT NULL';
-				}
-
-				// Added new attribute to create unqite fields. Also works with MySQL
-				if (array_key_exists('UNIQUE', $attributes) && $attributes['UNIQUE'] === TRUE)
-				{
-					$sql .= ' UNIQUE';
-				}
-			}
-
-			// don't add a comma on the end of the last field
-			if (++$current_field_count < count($fields))
-			{
-				$sql .= ',';
-			}
+			$this->create_table_if = 'CREATE TABLE IF NOT EXISTS';
 		}
-
-		return $sql;
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Create Table
+	 * ALTER TABLE
 	 *
-	 * @param	string	the table name
-	 * @param	array	the fields
-	 * @param	mixed	primary key(s)
-	 * @param	mixed	key(s)
-	 * @param	bool	should 'IF NOT EXISTS' be added to the SQL
-	 * @return	bool
+	 * @param	string	$alter_type	ALTER type
+	 * @param	string	$table		Table name
+	 * @param	mixed	$field		Column definition
+	 * @return	string|string[]
 	 */
-	protected function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
-	{
-		$sql = 'CREATE TABLE ';
-
-		if ($if_not_exists === TRUE)
-		{
-			// PostgreSQL doesn't support IF NOT EXISTS syntax so we check if table exists manually
-			if ($this->db->table_exists($table))
-			{
-				return TRUE;
-			}
-		}
-
-		$sql .= $this->db->escape_identifiers($table).' ('.$this->_process_fields($fields, $primary_keys);
-
-		if (count($primary_keys) > 0)
-		{
-			// Something seems to break when passing an array to protect_identifiers()
-			foreach ($primary_keys as $index => $key)
-			{
-				$primary_keys[$index] = $this->db->protect_identifiers($key);
-			}
-
-			$sql .= ",\n\tPRIMARY KEY (" . implode(', ', $primary_keys) . ")";
-		}
-
-		$sql .= "\n);";
-
-		if (is_array($keys) && count($keys) > 0)
-		{
-			foreach ($keys as $key)
-			{
-				if (is_array($key))
-				{
-					$key = $this->db->protect_identifiers($key);
-				}
-				else
-				{
-					$key = array($this->db->protect_identifiers($key));
-				}
-
-				foreach ($key as $field)
-				{
-					$sql .= "CREATE INDEX " . $table . "_" . str_replace(array('"', "'"), '', $field) . "_index ON $table ($field); ";
-				}
-			}
-		}
-
-		return $sql;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Alter table query
-	 *
-	 * Generates a platform-specific query so that a table can be altered
-	 * Called by add_column(), drop_column(), and column_alter(),
-	 *
-	 * @param	string	the ALTER type (ADD, DROP, CHANGE)
-	 * @param	string	the column name
-	 * @param	string	the table name
-	 * @param	string	the column definition
-	 * @param	string	the default value
-	 * @param	boolean	should 'NOT NULL' be added
-	 * @param	string	the field after which we should add the new field
-	 * @return	string
-	 */
-	protected function _alter_table($alter_type, $table, $fields, $after_field = '')
+	protected function _alter_table($alter_type, $table, $field)
  	{
- 		$sql = 'ALTER TABLE '.$this->db->protect_identifiers($table).' '.$alter_type.' ';
+		if (in_array($alter_type, array('DROP', 'ADD'), TRUE))
+		{
+			return parent::_alter_table($alter_type, $table, $field);
+		}
 
- 		// DROP has everything it needs now.
- 		if ($alter_type == 'DROP')
- 		{
- 			return $sql.$this->db->protect_identifiers($fields);
- 		}
+		$sql = 'ALTER TABLE '.$this->db->escape_identifiers($table);
+		$sqls = array();
+		for ($i = 0, $c = count($field); $i < $c; $i++)
+		{
+			if ($field[$i]['_literal'] !== FALSE)
+			{
+				return FALSE;
+			}
 
- 		$sql .= $this->_process_fields($fields);
+			if (version_compare($this->db->version(), '8', '>=') && isset($field[$i]['type']))
+			{
+				$sqls[] = $sql.' ALTER COLUMN '.$this->db->escape_identifiers($field[$i]['name'])
+					.' TYPE '.$field[$i]['type'].$field[$i]['length'];
+			}
 
- 		if ($after_field != '')
- 		{
- 			return $sql.' AFTER '.$this->db->protect_identifiers($after_field);
- 		}
+			if ( ! empty($field[$i]['default']))
+			{
+				$sqls[] = $sql.' ALTER COLUMN '.$this->db->escape_identifiers($field[$i]['name'])
+					.' SET DEFAULT '.$field[$i]['default'];
+			}
 
- 		return $sql;
+			if (isset($field[$i]['null']))
+			{
+				$sqls[] = $sql.' ALTER COLUMN '.$this->db->escape_identifiers($field[$i]['name'])
+					.($field[$i]['null'] === TRUE ? ' DROP NOT NULL' : ' SET NOT NULL');
+			}
+
+			if ( ! empty($field[$i]['new_name']))
+			{
+				$sqls[] = $sql.' RENAME COLUMN '.$this->db->escape_identifiers($field[$i]['name'])
+					.' TO '.$this->db->escape_identifiers($field[$i]['new_name']);
+			}
+		}
+
+		return $sqls;
  	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Field attribute TYPE
+	 *
+	 * Performs a data type mapping between different databases.
+	 *
+	 * @param	array	&$attributes
+	 * @return	void
+	 */
+	protected function _attr_type(&$attributes)
+	{
+		// Reset field lenghts for data types that don't support it
+		if (isset($attributes['CONSTRAINT']) && stripos($attributes['TYPE'], 'int') !== FALSE)
+		{
+			$attributes['CONSTRAINT'] = NULL;
+		}
+
+		switch (strtoupper($attributes['TYPE']))
+		{
+			case 'TINYINT':
+				$attributes['TYPE'] = 'SMALLINT';
+				$attributes['UNSIGNED'] = FALSE;
+				return;
+			case 'MEDIUMINT':
+				$attributes['TYPE'] = 'INTEGER';
+				$attributes['UNSIGNED'] = FALSE;
+				return;
+			default: return;
+		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Field attribute AUTO_INCREMENT
+	 *
+	 * @param	array	&$attributes
+	 * @param	array	&$field
+	 * @return	void
+	 */
+	protected function _attr_auto_increment(&$attributes, &$field)
+	{
+		if ( ! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === TRUE)
+		{
+			$field['type'] = ($field['type'] === 'NUMERIC')
+						? 'BIGSERIAL'
+						: 'SERIAL';
+		}
+	}
 
 }
 

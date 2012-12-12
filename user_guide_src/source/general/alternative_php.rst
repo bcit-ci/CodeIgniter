@@ -17,12 +17,12 @@ Automatic Short Tag Support
 	work on your server it might be that "short tags" are disabled in your
 	PHP ini file. CodeIgniter will optionally rewrite short tags on-the-fly,
 	allowing you to use that syntax even if your server doesn't support it.
-	This feature can be enabled in your config/config.php file.
+	This feature can be enabled in your *config/config.php* file.
 
 Please note that if you do use this feature, if PHP errors are
 encountered in your **view files**, the error message and line number
 will not be accurately shown. Instead, all errors will be shown as
-eval() errors.
+``eval()`` errors.
 
 Alternative Echos
 =================
@@ -39,13 +39,13 @@ Alternative Control Structures
 ==============================
 
 Controls structures, like if, for, foreach, and while can be written in
-a simplified format as well. Here is an example using foreach::
+a simplified format as well. Here is an example using ``foreach``::
 
 	<ul>
 
 	<?php foreach ($todo as $item): ?>
 
-	<li><?=$item?></li>
+		<li><?=$item?></li>
 
 	<?php endforeach; ?>
 
@@ -60,17 +60,16 @@ Also notice that instead of using a semicolon after each structure
 
 Here is another example, using ``if``/``elseif``/``else``. Notice the colons::
 
-	<?php if ($username == 'sally'): ?>
+	<?php if ($username === 'sally'): ?>
 
-	   <h3>Hi Sally</h3>
+		<h3>Hi Sally</h3>
 
-	<?php elseif ($username == 'joe'): ?>
+	<?php elseif ($username === 'joe'): ?>
 
-	   <h3>Hi Joe</h3>
+		<h3>Hi Joe</h3>
 
 	<?php else: ?>
 
-	   <h3>Hi unknown user</h3>
+		<h3>Hi unknown user</h3>
 
 	<?php endif; ?>
-

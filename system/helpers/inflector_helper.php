@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter Inflector Helpers
@@ -37,16 +38,16 @@
 
 // --------------------------------------------------------------------
 
-/**
- * Singular
- *
- * Takes a plural word and makes it singular
- *
- * @param	string
- * @return	str
- */
 if ( ! function_exists('singular'))
 {
+	/**
+	 * Singular
+	 *
+	 * Takes a plural word and makes it singular
+	 *
+	 * @param	string	$str	Input string
+	 * @return	string
+	 */
 	function singular($str)
 	{
 		$result = strval($str);
@@ -57,33 +58,33 @@ if ( ! function_exists('singular'))
 		}
 
 		$singular_rules = array(
-			'/(matr)ices$/'         => '\1ix',
-			'/(vert|ind)ices$/'     => '\1ex',
-			'/^(ox)en/'             => '\1',
-			'/(alias)es$/'          => '\1',
-			'/([octop|vir])i$/'     => '\1us',
-			'/(cris|ax|test)es$/'   => '\1is',
-			'/(shoe)s$/'            => '\1',
-			'/(o)es$/'              => '\1',
-			'/(bus|campus)es$/'     => '\1',
-			'/([m|l])ice$/'         => '\1ouse',
-			'/(x|ch|ss|sh)es$/'     => '\1',
-			'/(m)ovies$/'           => '\1\2ovie',
-			'/(s)eries$/'           => '\1\2eries',
-			'/([^aeiouy]|qu)ies$/'  => '\1y',
-			'/([lr])ves$/'          => '\1f',
-			'/(tive)s$/'            => '\1',
-			'/(hive)s$/'            => '\1',
-			'/([^f])ves$/'          => '\1fe',
-			'/(^analy)ses$/'        => '\1sis',
+			'/(matr)ices$/'		=> '\1ix',
+			'/(vert|ind)ices$/'	=> '\1ex',
+			'/^(ox)en/'		=> '\1',
+			'/(alias)es$/'		=> '\1',
+			'/([octop|vir])i$/'	=> '\1us',
+			'/(cris|ax|test)es$/'	=> '\1is',
+			'/(shoe)s$/'		=> '\1',
+			'/(o)es$/'		=> '\1',
+			'/(bus|campus)es$/'	=> '\1',
+			'/([m|l])ice$/'		=> '\1ouse',
+			'/(x|ch|ss|sh)es$/'	=> '\1',
+			'/(m)ovies$/'		=> '\1\2ovie',
+			'/(s)eries$/'		=> '\1\2eries',
+			'/([^aeiouy]|qu)ies$/'	=> '\1y',
+			'/([lr])ves$/'		=> '\1f',
+			'/(tive)s$/'		=> '\1',
+			'/(hive)s$/'		=> '\1',
+			'/([^f])ves$/'		=> '\1fe',
+			'/(^analy)ses$/'	=> '\1sis',
 			'/((a)naly|(b)a|(d)iagno|(p)arenthe|(p)rogno|(s)ynop|(t)he)ses$/' => '\1\2sis',
-			'/([ti])a$/'            => '\1um',
-			'/(p)eople$/'           => '\1\2erson',
-			'/(m)en$/'              => '\1an',
-			'/(s)tatuses$/'         => '\1\2tatus',
-			'/(c)hildren$/'         => '\1\2hild',
-			'/(n)ews$/'             => '\1\2ews',
-			'/([^us])s$/'           => '\1',
+			'/([ti])a$/'		=> '\1um',
+			'/(p)eople$/'		=> '\1\2erson',
+			'/(m)en$/'		=> '\1an',
+			'/(s)tatuses$/'		=> '\1\2tatus',
+			'/(c)hildren$/'		=> '\1\2hild',
+			'/(n)ews$/'		=> '\1\2ews',
+			'/([^us])s$/'		=> '\1'
 		);
 
 		foreach ($singular_rules as $rule => $replacement)
@@ -101,18 +102,17 @@ if ( ! function_exists('singular'))
 
 // --------------------------------------------------------------------
 
-/**
- * Plural
- *
- * Takes a singular word and makes it plural
- *
- * @param	string
- * @param	bool
- * @return	str
- */
 if ( ! function_exists('plural'))
 {
-	function plural($str, $force = FALSE)
+	/**
+	 * Plural
+	 *
+	 * Takes a singular word and makes it plural
+	 *
+	 * @param	string	$str	Input string
+	 * @return	string
+	 */
+	function plural($str)
 	{
 		$result = strval($str);
 
@@ -158,16 +158,16 @@ if ( ! function_exists('plural'))
 
 // --------------------------------------------------------------------
 
-/**
- * Camelize
- *
- * Takes multiple words separated by spaces or underscores and camelizes them
- *
- * @param	string
- * @return	str
- */
 if ( ! function_exists('camelize'))
 {
+	/**
+	 * Camelize
+	 *
+	 * Takes multiple words separated by spaces or underscores and camelizes them
+	 *
+	 * @param	string	$str	Input string
+	 * @return	string
+	 */
 	function camelize($str)
 	{
 		return strtolower($str[0]).substr(str_replace(' ', '', ucwords(preg_replace('/[\s_]+/', ' ', $str))), 1);
@@ -176,16 +176,16 @@ if ( ! function_exists('camelize'))
 
 // --------------------------------------------------------------------
 
-/**
- * Underscore
- *
- * Takes multiple words separated by spaces and underscores them
- *
- * @param	string
- * @return	str
- */
 if ( ! function_exists('underscore'))
 {
+	/**
+	 * Underscore
+	 *
+	 * Takes multiple words separated by spaces and underscores them
+	 *
+	 * @param	string	$str	Input string
+	 * @return	string
+	 */
 	function underscore($str)
 	{
 		return preg_replace('/[\s]+/', '_', strtolower(trim($str)));
@@ -194,34 +194,36 @@ if ( ! function_exists('underscore'))
 
 // --------------------------------------------------------------------
 
-/**
- * Humanize
- *
- * Takes multiple words separated by the separator and changes them to spaces
- *
- * @param	string	$str
- * @param 	string	$separator
- * @return	str
- */
 if ( ! function_exists('humanize'))
 {
+	/**
+	 * Humanize
+	 *
+	 * Takes multiple words separated by the separator and changes them to spaces
+	 *
+	 * @param	string	$str		Input string
+	 * @param 	string	$separator	Input separator
+	 * @return	string
+	 */
 	function humanize($str, $separator = '_')
 	{
 		return ucwords(preg_replace('/['.$separator.']+/', ' ', strtolower(trim($str))));
 	}
 }
 
-/**
- * Checks if the given word has a plural version.
- *
- * @param	string	the word to check
- * @return	bool	if the word is countable
- */
+// --------------------------------------------------------------------
+
 if ( ! function_exists('is_countable'))
 {
+	/**
+	 * Checks if the given word has a plural version.
+	 *
+	 * @param	string	$word	Word to check
+	 * @return	bool
+	 */
 	function is_countable($word)
 	{
-		return ! in_array(strtolower(strval($word)),
+		return ! in_array(strtolower($word),
 					array(
 						'equipment', 'information', 'rice', 'money',
 						'species', 'series', 'fish', 'meta'

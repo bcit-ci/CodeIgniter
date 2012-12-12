@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -24,6 +24,7 @@
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter CAPTCHA Helper
@@ -32,22 +33,22 @@
  * @subpackage	Helpers
  * @category	Helpers
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/helpers/xml_helper.html
+ * @link		http://codeigniter.com/user_guide/helpers/captcha_helper.html
  */
 
 // ------------------------------------------------------------------------
 
-/**
- * Create CAPTCHA
- *
- * @param	array	array of data for the CAPTCHA
- * @param	string	path to create the image in
- * @param	string	URL to the CAPTCHA image folder
- * @param	string	server path to font
- * @return	string
- */
 if ( ! function_exists('create_captcha'))
 {
+	/**
+	 * Create CAPTCHA
+	 *
+	 * @param	array	array of data for the CAPTCHA
+	 * @param	string	path to create the image in
+	 * @param	string	URL to the CAPTCHA image folder
+	 * @param	string	server path to font
+	 * @return	string
+	 */
 	function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = '')
 	{
 		$defaults = array('word' => '', 'img_path' => '', 'img_url' => '', 'img_width' => '150', 'img_height' => '30', 'font_path' => '', 'expiration' => 7200);
@@ -64,7 +65,7 @@ if ( ! function_exists('create_captcha'))
 			}
 		}
 
-		if ($img_path == '' OR $img_url == ''
+		if ($img_path === '' OR $img_url === ''
 			OR ! @is_dir($img_path) OR ! is_writeable($img_path)
 			OR ! extension_loaded('gd'))
 		{
@@ -80,8 +81,7 @@ if ( ! function_exists('create_captcha'))
 		$current_dir = @opendir($img_path);
 		while ($filename = @readdir($current_dir))
 		{
-			if ($filename !== '.' && $filename !== '..' && $filename !== 'index.html'
-				&& (str_replace('.jpg', '', $filename) + $expiration) < $now)
+			if (substr($filename, -4) === '.jpg' && (str_replace('.jpg', '', $filename) + $expiration) < $now)
 			{
 				@unlink($img_path.$filename);
 			}
@@ -93,7 +93,7 @@ if ( ! function_exists('create_captcha'))
 		// Do we have a "word" yet?
 		// -----------------------------------
 
-		if ($word == '')
+		if ($word === '')
 		{
 			$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 			$word = '';
@@ -156,7 +156,7 @@ if ( ! function_exists('create_captcha'))
 		//  Write the text
 		// -----------------------------------
 
-		$use_font = ($font_path != '' && file_exists($font_path) && function_exists('imagettftext'));
+		$use_font = ($font_path !== '' && file_exists($font_path) && function_exists('imagettftext'));
 		if ($use_font === FALSE)
 		{
 			$font_size = 5;
@@ -185,7 +185,6 @@ if ( ! function_exists('create_captcha'))
 				$x += $font_size;
 			}
 		}
-
 
 		// Create the border
 		imagerectangle($im, 0, 0, $img_width - 1, $img_height - 1, $border_color);
