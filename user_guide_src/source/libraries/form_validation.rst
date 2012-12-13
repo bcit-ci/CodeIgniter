@@ -466,7 +466,7 @@ Setting Error Messages
 ======================
 
 All of the native error messages are located in the following language
-file: /system/language/english/form_validation_lang.php
+file: system/language/english/form_validation_lang.php
 
 To set your own custom message you can either edit that file, or use the
 following function::
