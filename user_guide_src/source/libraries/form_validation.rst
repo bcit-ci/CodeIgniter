@@ -139,7 +139,6 @@ this code and save it to your application/controllers/ folder::
 			}
 		}
 	}
-	?>
 
 Try it!
 =======
@@ -240,7 +239,6 @@ Your controller should now look like this::
 			}
 		}
 	}
-	?>
 
 Now submit the form with the fields blank and you should see the error
 messages. If you submit the form with all the fields populated you'll
@@ -436,7 +434,7 @@ Here's how your controller should now look::
 		{
 			if ($str == 'test')
 			{
-				$this->form_validation->set_message('username_check', 'The %s field can not be the word "test"');
+				$this->form_validation->set_message('username_check', 'The {field} field can not be the word "test"');
 				return FALSE;
 			}
 			else
@@ -446,7 +444,6 @@ Here's how your controller should now look::
 		}
 
 	}
-	?>
 
 Reload your form and submit it with the word "test" as the username. You
 can see that the form field data was passed to your callback function
@@ -469,7 +466,7 @@ Setting Error Messages
 ======================
 
 All of the native error messages are located in the following language
-file: language/english/form_validation_lang.php
+file: system/language/english/form_validation_lang.php
 
 To set your own custom message you can either edit that file, or use the
 following function::
@@ -479,29 +476,23 @@ following function::
 Where rule corresponds to the name of a particular rule, and Error
 Message is the text you would like displayed.
 
-If you include %s in your error string, it will be replaced with the
-"human" name you used for your field when you set your rules.
+If you'd like to include a field's "human" name, or the optional 
+parameter some rules allow for (such as max_length), you can add the 
+**{field}** and **{param}** tags to your message, respectively.
 
-In the "callback" example above, the error message was set by passing
-the name of the function::
+	$this->form_validation->set_message('min_length', '{field} must have at least {param} characters.');
+
+On a field with the human name Username and a rule of min_length[5], an
+error would display: "Username must have at least 5 characters."
+
+.. note:: The old method of using **%s** in your error messages will
+still work, however it will override the tags above. You should use
+one or the other.
+
+In the callback rule example above, the error message was set by passing
+the name of the function (without the "callback_" prefix)::
 
 	$this->form_validation->set_message('username_check')
-
-If you are using an error message that can accept two $s in your error string,
-such as:
-::
-
-	$this->form_validation->set_message('min_length', 'The $s field must contain at least $s characters.');
-
-Then you can also use %1$s and %2$s:
-::
-
-	$this->form_validation->set_message('min_length', 'This field must contain at least %2$s characters.');
-
-You can also override any error message found in the language file. For
-example, to change the message for the "required" rule you will do this::
-
-	$this->form_validation->set_message('required', 'Your custom message here');
 
 .. _translating-field-names:
 
@@ -613,7 +604,7 @@ In this case, you can specify the array to be validated::
 
 	$this->form_validation->set_data($data);
 
-Creating validation rules, running the validation and retrieving error messages works the
+Creating validation rules, running the validation, and retrieving error messages works the
 same whether you are validating ``$_POST`` data or an array.
 
 **Important Note:** If you want to validate more than one array during a single execution, then you should	
@@ -678,56 +669,56 @@ rules. We've arbitrarily called these two rules "signup" and "email".
 You can name your rules anything you want::
 
 	$config = array(
-	                 'signup' => array(
-	                                    array(
-	                                            'field' => 'username',
-	                                            'label' => 'Username',
-	                                            'rules' => 'required'
-	                                         ),
-	                                    array(
-	                                            'field' => 'password',
-	                                            'label' => 'Password',
-	                                            'rules' => 'required'
-	                                         ),
-	                                    array(
-	                                            'field' => 'passconf',
-	                                            'label' => 'PasswordConfirmation',
-	                                            'rules' => 'required'
-	                                         ),
-	                                    array(
-	                                            'field' => 'email',
-	                                            'label' => 'Email',
-	                                            'rules' => 'required'
-	                                         )
-	                                    ),
-	                 'email' => array(
-	                                    array(
-	                                            'field' => 'emailaddress',
-	                                            'label' => 'EmailAddress',
-	                                            'rules' => 'required|valid_email'
-	                                         ),
-	                                    array(
-	                                            'field' => 'name',
-	                                            'label' => 'Name',
-	                                            'rules' => 'required|alpha'
-	                                         ),
-	                                    array(
-	                                            'field' => 'title',
-	                                            'label' => 'Title',
-	                                            'rules' => 'required'
-	                                         ),
-	                                    array(
-	                                            'field' => 'message',
-	                                            'label' => 'MessageBody',
-	                                            'rules' => 'required'
-	                                         )
-	                                    )                          
-	               );
+		'signup' => array(
+			array(
+				'field' => 'username',
+				'label' => 'Username',
+				'rules' => 'required'
+			),
+			array(
+				'field' => 'password',
+				'label' => 'Password',
+				'rules' => 'required'
+			),
+			array(
+				'field' => 'passconf',
+				'label' => 'Password Confirmation',
+				'rules' => 'required'
+			),
+			array(
+				'field' => 'email',
+				'label' => 'Email',
+				'rules' => 'required'
+			)
+		),
+		'email' => array(
+			array(
+				'field' => 'emailaddress',
+				'label' => 'EmailAddress',
+				'rules' => 'required|valid_email'
+			),
+			array(
+				'field' => 'name',
+				'label' => 'Name',
+				'rules' => 'required|alpha'
+			),
+			array(
+				'field' => 'title',
+				'label' => 'Title',
+				'rules' => 'required'
+			),
+			array(
+				'field' => 'message',
+				'label' => 'MessageBody',
+				'rules' => 'required'
+			)
+		)
+	);
 
 Calling a Specific Rule Group
 =============================
 
-In order to call a specific group you will pass its name to the ``run()``
+In order to call a specific group, you will pass its name to the ``run()``
 method. For example, to call the signup rule you will do this::
 
 	if ($this->form_validation->run('signup') == FALSE)
@@ -770,29 +761,29 @@ In your validation config file, you will name your rule group
 member/signup::
 
 	$config = array(
-	           'member/signup' => array(
-	                                    array(
-	                                            'field' => 'username',
-	                                            'label' => 'Username',
-	                                            'rules' => 'required'
-	                                         ),
-	                                    array(
-	                                            'field' => 'password',
-	                                            'label' => 'Password',
-	                                            'rules' => 'required'
-	                                         ),
-	                                    array(
-	                                            'field' => 'passconf',
-	                                            'label' => 'PasswordConfirmation',
-	                                            'rules' => 'required'
-	                                         ),
-	                                    array(
-	                                            'field' => 'email',
-	                                            'label' => 'Email',
-	                                            'rules' => 'required'
-	                                         )
-	                                    )
-	               );
+		'member/signup' => array(
+			array(
+				'field' => 'username',
+				'label' => 'Username',
+				'rules' => 'required'
+			),
+			array(
+				'field' => 'password',
+				'label' => 'Password',
+				'rules' => 'required'
+			),
+			array(
+				'field' => 'passconf',
+				'label' => 'PasswordConfirmation',
+				'rules' => 'required'
+			),
+			array(
+				'field' => 'email',
+				'label' => 'Email',
+				'rules' => 'required'
+			)
+		)
+	);
 
 When a rule group is named identically to a controller class/function it
 will be used automatically when the run() function is invoked from that
@@ -928,8 +919,8 @@ Name                 Parameter Description
 **encode_php_tags**  No        Converts PHP tags to entities.
 ==================== ========= ===================================================================================================
 
-.. note:: You can also use any native PHP functions that permit one
-	parameter, like trim, htmlspecialchars, urldecode, etc.
+.. note:: You can also use any native PHP functions that permits one
+	parameter, like ``trim()``, ``htmlspecialchars()``, ``urldecode()``, etc.
 
 .. _function-reference:
 
@@ -1087,5 +1078,5 @@ This function is identical to the **set_checkbox()** function above.
 
 ::
 
-	<input type="radio" name="myradio" value="1" <?php echo  set_radio('myradio', '1', TRUE); ?> />
-	<input type="radio" name="myradio" value="2" <?php echo  set_radio('myradio', '2'); ?> />
+	<input type="radio" name="myradio" value="1" <?php echo set_radio('myradio', '1', TRUE); ?> />
+	<input type="radio" name="myradio" value="2" <?php echo set_radio('myradio', '2'); ?> />
