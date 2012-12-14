@@ -73,7 +73,7 @@ Release Date: Not Released
 	 - Added JS window name support to the :php:func:`anchor_popup()` function.
 	 - Added support (auto-detection) for HTTP/1.1 response code 303 in :php:func:`redirect()`.
 	 - Changed :php:func:`redirect()` to only choose the **refresh** method only on IIS servers, instead of all servers on Windows (when **auto** is used).
-	 - Changed :php:func:`anchor()`, :php:func:`anchor_popup()`, and :php:func:`redirect()` to support protocol-relative URLs, such as `redirect('//ellislab.com/codeigniter')`.
+	 - Changed :php:func:`anchor()`, :php:func:`anchor_popup()`, and :php:func:`redirect()` to support protocol-relative URLs (e.g. *//ellislab.com/codeigniter*).
    -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
    -  :doc:`Inflector Helper <helpers/inflector_helper>` changes include:
 	 - Changed :php:func:`humanize()` to allow passing an input separator as its second parameter.
@@ -225,13 +225,15 @@ Release Date: Not Released
 	 -  Added method ``set_data()`` to set an alternative data array to be validated instead of the default ``$_POST``.
 	 -  Added method ``reset_validation()`` which resets internal validation variables in case of multiple validation routines.
 	 -  Added support for setting error delimiters in the config file via ``$config['error_prefix']`` and ``$config['error_suffix']``.
-	 -  ``_execute()`` now considers input data to be invalid if a specified rule is not found.
+	 -  Internal method ``_execute()`` now considers input data to be invalid if a specified rule is not found.
 	 -  Removed method ``is_numeric()`` as it exists as a native PHP function and ``_execute()`` will find and use that (the **is_numeric** rule itself is deprecated since 1.6.1).
 	 -  Native PHP functions used as rules can now accept an additional parameter, other than the data itself.
-	 -  Updated ``set_rules()`` to accept an array of rules as well as a string.
+	 -  Updated method ``set_rules()`` to accept an array of rules as well as a string.
 	 -  Fields that have empty rules set no longer run through validation (and therefore are not considered erroneous).
 	 -  Added rule **differs* to check if the value of a field differs from the value of another field.
 	 -  Added rule **valid_url**.
+	 -  Added support for named parameters in error messages.
+	 -  :doc:`Language <libraries/language>` line keys must now be prefixed with **form_validation_**.
    -  Added support for setting :doc:`Table <libraries/table>` class defaults in a config file.
    -  :doc:`Caching Library <libraries/caching>` changes include:
 	 -  Added Wincache driver.

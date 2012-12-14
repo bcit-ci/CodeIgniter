@@ -609,7 +609,9 @@ class CI_Form_validation {
 				{
 					$line = $this->_error_messages[$type];
 				}
-				elseif (FALSE === ($line = $this->CI->lang->line($type)))
+				elseif (FALSE === ($line = $this->CI->lang->line('form_validation_'.$type))
+					// DEPRECATED support for non-prefixed keys
+					&& FALSE === ($line = $this->CI->lang->line($type, FALSE)))
 				{
 					$line = 'The field was not set';
 				}
@@ -749,7 +751,9 @@ class CI_Form_validation {
 			{
 				if ( ! isset($this->_error_messages[$rule]))
 				{
-					if (FALSE === ($line = $this->CI->lang->line($rule)))
+					if (FALSE === ($line = $this->CI->lang->line('form_validation_'.$rule))
+						// DEPRECATED support for non-prefixed keys
+						&& FALSE === ($line = $this->CI->lang->line($rule, FALSE)))
 					{
 						$line = 'Unable to access an error message corresponding to your field name.';
 					}
@@ -797,7 +801,9 @@ class CI_Form_validation {
 		if (sscanf($fieldname, 'lang:%s', $line) === 1)
 		{
 			// Were we able to translate the field name?  If not we use $line
-			if (FALSE === ($fieldname = $this->CI->lang->line($line)))
+			if (FALSE === ($fieldname = $this->CI->lang->line('form_validation_'.$line))
+				// DEPRECATED support for non-prefixed keys
+				&& FALSE === ($fieldname = $this->CI->lang->line($line, FALSE)))
 			{
 				return $line;
 			}
@@ -807,7 +813,7 @@ class CI_Form_validation {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Build an error message using the field and param.
 	 *

@@ -138,7 +138,7 @@ If your application relies on IF EXISTS, you'll have to change its usage.
 Step 11: Change usage of Email library with multiple emails
 ***********************************************************
 
-The :doc:`Email library <../libraries/email>` will automatically clear the
+The :doc:`Email Library <../libraries/email>` will automatically clear the
 set parameters after successfully sending emails. To override this behaviour,
 pass FALSE as the first parameter in the ``send()`` method:
 
@@ -149,13 +149,43 @@ pass FALSE as the first parameter in the ``send()`` method:
  		// Parameters won't be cleared
  	}
 
+***************************************************
+Step 12: Update your Form_validation language lines
+***************************************************
+
+Two improvements have been made to the :doc:`Form Validation Library
+<../libraries/form_validation>`'s :doc:`language <../libraries/language>`
+files and error messages format:
+
+ - :doc:`Language Library <../libraries/language>` line keys now must be
+   prefixed with **form_validation_** in order to avoid collisions::
+
+	// Old
+	$lang['rule'] = ...
+
+	// New
+	$lang['form_validation_rule'] = ...
+
+ - The error messages format has been changed to use named parameters, to
+   allow more flexibility than what `sprintf()` offers::
+
+	// Old
+	'The %s field does not match the %s field.'
+
+	// New
+	'The {field} field does not match the {param} field.'
+
+.. note:: The old formatting still works, but the non-prefixed line keys
+	are DEPRECATED and scheduled for removal in CodeIgniter 3.1+.
+	Therefore you're encouraged to update its usage sooner rather than
+	later.
 
 ****************************************************************
-Step 12: Remove usage of (previously) deprecated functionalities
+Step 13: Remove usage of (previously) deprecated functionalities
 ****************************************************************
 
-In addition to the ``$autoload['core']`` configuration setting, there's a number of other functionalities
-that have been removed in CodeIgniter 3.0.0:
+In addition to the ``$autoload['core']`` configuration setting, there's a
+number of other functionalities that have been removed in CodeIgniter 3.0.0:
 
 The SHA1 library
 ================
