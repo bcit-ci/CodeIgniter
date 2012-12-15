@@ -109,7 +109,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 			else
 			{
 				$alter_type = empty($field[$i]['new_name']) ? ' MODIFY ' : ' CHANGE ';
-				$sqls[] = $sql.$alter_type$this->_process_column($field[$i]);
+				$sqls[] = $sql.$alter_type.$this->_process_column($field[$i]);
 			}
 		}
 
