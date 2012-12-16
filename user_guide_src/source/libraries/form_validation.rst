@@ -914,7 +914,7 @@ to use:
 ==================== ========= ===================================================================================================
 Name                 Parameter Description
 ==================== ========= ===================================================================================================
-**xss_clean**        No        Runs the data through the XSS filtering method, described in the :doc:`Input Class <input>` page.
+**xss_clean**        No        Runs the data through the XSS filtering method, described in the :doc:`Security Class <security>` page.
 **prep_for_form**    No        Converts special characters so that HTML data can be shown in a form field without breaking it.
 **prep_url**         No        Adds "\http://" to URLs if missing.
 **strip_image_tags** No        Strips the HTML from image tags leaving the raw URL.
