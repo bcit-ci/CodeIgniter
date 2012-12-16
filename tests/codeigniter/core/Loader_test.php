@@ -78,11 +78,6 @@ class Loader_test extends CI_TestCase {
 		$this->assertAttributeInstanceOf($class, $obj, $this->ci_obj);
 		$this->assertAttributeInstanceOf($ext, $obj, $this->ci_obj);
 
-		// Test reloading
-		unset($this->ci_obj->$name);
-		$this->assertNull($this->load->library($lib));
-		$this->assertObjectNotHasAttribute($name, $this->ci_obj);
-
 		// Create baseless library
 		$name = 'ext_baseless_lib';
 		$lib = ucfirst($name);
@@ -159,9 +154,9 @@ class Loader_test extends CI_TestCase {
 		$this->assertTrue(class_exists($class), $class.' does not exist');
 		$this->assertAttributeInstanceOf($class, $driver, $this->ci_obj);
 
-		// Test loading as a library with a name
+		// Test re-loading with an object name
 		$obj = 'testdrive';
-		$this->assertNull($this->load->library($driver, NULL, $obj));
+		$this->assertNull($this->load->driver($driver, NULL, $obj));
 		$this->assertAttributeInstanceOf($class, $obj, $this->ci_obj);
 
 		// Test no driver given
