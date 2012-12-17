@@ -457,7 +457,7 @@ class CI_Session_cookie extends CI_Session_driver {
 			}
 
 			// No result? Kill it!
-			if ($query->num_rows() === 0)
+			if (empty($query) OR $query->num_rows() === 0)
 			{
 				$this->sess_destroy();
 				return FALSE;
