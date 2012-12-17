@@ -122,7 +122,7 @@ class CI_Encrypt {
 	 * Set the encryption key
 	 *
 	 * @param	string
-	 * @return	object
+	 * @return	CI_Encrypt
 	 */
 	public function set_key($key = '')
 	{
@@ -419,7 +419,7 @@ class CI_Encrypt {
 	 * Set the Mcrypt Cipher
 	 *
 	 * @param	int
-	 * @return	object
+	 * @return	CI_Encrypt
 	 */
 	public function set_cipher($cipher)
 	{
@@ -433,7 +433,7 @@ class CI_Encrypt {
 	 * Set the Mcrypt Mode
 	 *
 	 * @param	int
-	 * @return	object
+	 * @return	CI_Encrypt
 	 */
 	public function set_mode($mode)
 	{
