@@ -149,7 +149,7 @@ class CI_Form_validation {
 	 * @param	mixed	$field
 	 * @param	string	$label
 	 * @param	mixed	$rules
-	 * @return	object
+	 * @return	CI_Form_validation
 	 */
 	public function set_rules($field, $label = '', $rules = '')
 	{
@@ -266,7 +266,7 @@ class CI_Form_validation {
 	 *
 	 * @param	array
 	 * @param	string
-	 * @return	object
+	 * @return	CI_Form_validation
 	 */
 	public function set_message($lang, $val = '')
 	{
@@ -288,7 +288,7 @@ class CI_Form_validation {
 	 *
 	 * @param	string
 	 * @param	string
-	 * @return	object
+	 * @return	CI_Form_validation
 	 */
 	public function set_error_delimiters($prefix = '<p>', $suffix = '</p>')
 	{
@@ -829,7 +829,7 @@ class CI_Form_validation {
 		{
 			return sprintf($line, $field, $param);
 		}
-		
+
 		return str_replace(array('{field}', '{param}'), array($field, $param), $line);
 	}
 

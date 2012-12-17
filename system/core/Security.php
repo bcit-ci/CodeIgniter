@@ -151,7 +151,7 @@ class CI_Security {
 	/**
 	 * CSRF Verify
 	 *
-	 * @return	object
+	 * @return	CI_Security
 	 */
 	public function csrf_verify()
 	{
@@ -202,7 +202,7 @@ class CI_Security {
 	 * CSRF Set Cookie
 	 *
 	 * @codeCoverageIgnore
-	 * @return	object
+	 * @return	CI_Security
 	 */
 	public function csrf_set_cookie()
 	{
