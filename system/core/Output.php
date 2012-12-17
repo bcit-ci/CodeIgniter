@@ -780,6 +780,7 @@ class CI_Output {
 			break;
 
 			case 'text/css':
+			case 'text/javascript':
 
 				//Remove CSS comments
 				$output = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $output);
@@ -788,11 +789,12 @@ class CI_Output {
 				// semi-colons, parenthesis, commas
 				$output = preg_replace('!\s*(:|;|,|}|{|\(|\))\s*!', '$1', $output);
 
-			break;
+				// Remove spaces
+			        $output =  preg_replace('/  /s', ' ', $output);
 
-			case 'text/javascript':
+			        // Remove breaklines and tabs
+			        $output =  preg_replace('/[\r\n\t]/', '', $output);
 
-				// Currently leaves JavaScript untouched.
 			break;
 
 			default: break;
