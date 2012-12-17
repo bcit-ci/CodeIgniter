@@ -438,7 +438,7 @@ class CI_Zip {
 	 * Lets you clear current zip data. Useful if you need to create
 	 * multiple zips with different data.
 	 *
-	 * @return	object
+	 * @return	CI_Zip
 	 */
 	public function clear_data()
 	{
