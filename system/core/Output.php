@@ -705,172 +705,172 @@ class CI_Output {
 	 * @return	string	Minified output
 	 */
 	public function minify($output, $type = 'text/html')
-    {
-        switch ($type)
-        {
-            case 'text/html':
+	{
+		switch ($type)
+		{
+			case 'text/html':
 
-                $size_before = strlen($output);
+				$size_before = strlen($output);
 
-                if ($size_before === 0)
-                {
-                    return '';
-                }
+				if ($size_before === 0)
+				{
+					return '';
+				}
 
-                // Find all the <pre>,<code>,<textarea>, and <javascript> tags
-                // We'll want to return them to this unprocessed state later.
-                preg_match_all('{<pre.+</pre>}msU', $output, $pres_clean);
-                preg_match_all('{<code.+</code>}msU', $output, $codes_clean);
-                preg_match_all('{<textarea.+</textarea>}msU', $output, $textareas_clean);
-                preg_match_all('{<script.+</script>}msU', $output, $javascript_clean);
+				// Find all the <pre>,<code>,<textarea>, and <javascript> tags
+				// We'll want to return them to this unprocessed state later.
+				preg_match_all('{<pre.+</pre>}msU', $output, $pres_clean);
+				preg_match_all('{<code.+</code>}msU', $output, $codes_clean);
+				preg_match_all('{<textarea.+</textarea>}msU', $output, $textareas_clean);
+				preg_match_all('{<script.+</script>}msU', $output, $javascript_clean);
 
-                // Minify the CSS in all the <style> tags.
-                preg_match_all('{<style.+</style>}msU', $output, $style_clean);
-                foreach ($style_clean[0] as $s)
-                {
-                    $output = str_replace($s, $this->_minify_script_style($s, $type), $output);
-                }
+				// Minify the CSS in all the <style> tags.
+				preg_match_all('{<style.+</style>}msU', $output, $style_clean);
+				foreach ($style_clean[0] as $s)
+				{
+					$output = str_replace($s, $this->_minify_script_style($s, $type), $output);
+				}
 
-                // Minify the javascript in <script> tags.
-                foreach ($javascript_clean[0] as $s)
-                {
-                    $javascript_mini[] = $this->_minify_script_style($s, $type);
-                }
+				// Minify the javascript in <script> tags.
+				foreach ($javascript_clean[0] as $s)
+				{
+					$javascript_mini[] = $this->_minify_script_style($s, $type);
+				}
 
-                // Replace multiple spaces with a single space.
-                $output = preg_replace('!\s{2,}!', ' ', $output);
+				// Replace multiple spaces with a single space.
+				$output = preg_replace('!\s{2,}!', ' ', $output);
 
-                // Remove comments (non-MSIE conditionals)
-                $output = preg_replace('{\s*<!--[^\[].*-->\s*}msU', '', $output);
+				// Remove comments (non-MSIE conditionals)
+				$output = preg_replace('{\s*<!--[^\[].*-->\s*}msU', '', $output);
 
-                // Remove spaces around block-level elements.
-                $output = preg_replace('/\s*(<\/?(html|head|title|meta|script|link|style|body|h[1-6]|div|p|br)[^>]*>)\s*/is', '$1', $output);
+				// Remove spaces around block-level elements.
+				$output = preg_replace('/\s*(<\/?(html|head|title|meta|script|link|style|body|h[1-6]|div|p|br)[^>]*>)\s*/is', '$1', $output);
 
-                // Replace mangled <pre> etc. tags with unprocessed ones.
+				// Replace mangled <pre> etc. tags with unprocessed ones.
 
-                if ( ! empty($pres_clean))
-                {
-                    preg_match_all('{<pre.+</pre>}msU', $output, $pres_messed);
-                    $output = str_replace($pres_messed[0], $pres_clean[0], $output);
-                }
+				if ( ! empty($pres_clean))
+				{
+					preg_match_all('{<pre.+</pre>}msU', $output, $pres_messed);
+					$output = str_replace($pres_messed[0], $pres_clean[0], $output);
+				}
 
-                if ( ! empty($codes_clean))
-                {
-                    preg_match_all('{<code.+</code>}msU', $output, $codes_messed);
-                    $output = str_replace($codes_messed[0], $codes_clean[0], $output);
-                }
+				if ( ! empty($codes_clean))
+				{
+					preg_match_all('{<code.+</code>}msU', $output, $codes_messed);
+					$output = str_replace($codes_messed[0], $codes_clean[0], $output);
+				}
 
-                if ( ! empty($codes_clean))
-                {
-                    preg_match_all('{<textarea.+</textarea>}msU', $output, $textareas_messed);
-                    $output = str_replace($textareas_messed[0], $textareas_clean[0], $output);
-                }
+				if ( ! empty($codes_clean))
+				{
+					preg_match_all('{<textarea.+</textarea>}msU', $output, $textareas_messed);
+					$output = str_replace($textareas_messed[0], $textareas_clean[0], $output);
+				}
 
-                if (isset($javascript_mini))
-                {
-                    preg_match_all('{<script.+</script>}msU', $output, $javascript_messed);
-                    $output = str_replace($javascript_messed[0], $javascript_mini, $output);
-                }
+				if (isset($javascript_mini))
+				{
+					preg_match_all('{<script.+</script>}msU', $output, $javascript_messed);
+					$output = str_replace($javascript_messed[0], $javascript_mini, $output);
+				}
 
-                $size_removed = $size_before - strlen($output);
-                $savings_percent = round(($size_removed / $size_before * 100));
+				$size_removed = $size_before - strlen($output);
+				$savings_percent = round(($size_removed / $size_before * 100));
 
-                log_message('debug', 'Minifier shaved '.($size_removed / 1000).'KB ('.$savings_percent.'%) off final HTML output.');
+				log_message('debug', 'Minifier shaved '.($size_removed / 1000).'KB ('.$savings_percent.'%) off final HTML output.');
 
-            break;
+			break;
 
-            case 'text/css':
-            case 'text/javascript':
+			case 'text/css':
+			case 'text/javascript':
 
-                $output = $this->_minify_scripts_css($output, $type);
+				$output = $this->_minify_scripts_css($output, $type);
 
-            break;
+			break;
 
-            default: break;
-        }
+			default: break;
+		}
 
-        return $output;
-    }
+		return $output;
+	}
 
 
-    // --------------------------------------------------------------------
+	// --------------------------------------------------------------------
 
 	/**
 	 * Minify Style and Script
 	 *
 	 * Reduce excessive size of CSS/JavaScript content.  To remove spaces this
-     * script walks the string as an array and determines if the pointer is inside
-     * a string created by single quotes or double quotes.  spaces inside those
-     * strings are not stripped.  Opening and closing tags are severed from
-     * the string initially and saved without stripping whitespace to preserve
-     * the tags and any associated properties if tags are present
+	 * script walks the string as an array and determines if the pointer is inside
+	 * a string created by single quotes or double quotes.  spaces inside those
+	 * strings are not stripped.  Opening and closing tags are severed from
+	 * the string initially and saved without stripping whitespace to preserve
+	 * the tags and any associated properties if tags are present
 	 *
 	 * @param	string	$output	Output to minify
-     * @param   string  $type Output content MIME type
+	 * @param	string  $type Output content MIME type
 	 * @return	string	Minified output
 	 */
-    protected function _minify_script_style($output, $type = 'text/html')
-    {
-        // We only need this if there are tags in the file
-        if ($type == 'text/html')
-        {
-            // Remove opening tag and save for later
-            $pos = strpos($output, '>');
-            $open_tag = substr($output, 0, $pos);
-            $output = substr_replace($output, '', 0, $pos);
+	protected function _minify_script_style($output, $type = 'text/html')
+	{
+		// We only need this if there are tags in the file
+		if ($type == 'text/html')
+		{
+			// Remove opening tag and save for later
+			$pos = strpos($output, '>');
+			$open_tag = substr($output, 0, $pos);
+			$output = substr_replace($output, '', 0, $pos);
 
-            // Remove closing tag and save it for later
-            $end_pos = strlen($output);
-            $pos = strpos($output, '</');
-            $closing_tag = substr($output, $pos, $end_pos);
-            $output = substr_replace($output, '', $pos);
-        }
+			// Remove closing tag and save it for later
+			$end_pos = strlen($output);
+			$pos = strpos($output, '</');
+			$closing_tag = substr($output, $pos, $end_pos);
+			$output = substr_replace($output, '', $pos);
+		}
 
-        // Remove CSS comments
-        $output = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $output);
+		// Remove CSS comments
+		$output = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $output);
 
-        // Remove spaces around curly brackets, colons,
-        // semi-colons, parenthesis, commas
-        $output = preg_replace('!\s*(:|;|,|}|{|\(|\))\s*!', '$1', $output);
+		// Remove spaces around curly brackets, colons,
+		// semi-colons, parenthesis, commas
+		$output = preg_replace('!\s*(:|;|,|}|{|\(|\))\s*!', '$1', $output);
 
-        // Remove spaces
-        $in_string = FALSE;
-        $in_dstring = FALSE;
-        $array_output = str_split($output);
-        foreach ($array_output as $key => $value)
-        {
-            if ($in_string === FALSE and $in_dstring === FALSE)
-            {
-                if ($value == ' ')
-                {
-                    unset($array_output[$key]);
-                }
-            }
+		// Remove spaces
+		$in_string = FALSE;
+		$in_dstring = FALSE;
+		$array_output = str_split($output);
+		foreach ($array_output as $key => $value)
+		{
+			if ($in_string === FALSE and $in_dstring === FALSE)
+			{
+				if ($value == ' ')
+				{
+					unset($array_output[$key]);
+				}
+			}
 
-            if ($value == "'")
-            {
-                $in_string = !$in_string;
-            }
+			if ($value == "'")
+			{
+				$in_string = !$in_string;
+			}
 
-            if ($value == '"')
-            {
-                $in_dstring = !$in_dstring;
-            }
-        }
+			if ($value == '"')
+			{
+				$in_dstring = !$in_dstring;
+			}
+		}
 
-        $output =  implode($array_output);
+		$output = implode($array_output);
 
-        // Remove breaklines and tabs
-        $output =  preg_replace('/[\r\n\t]/', '', $output);
+		// Remove breaklines and tabs
+		$output = preg_replace('/[\r\n\t]/', '', $output);
 
-        // Put the opening and closing tags back if applicable
-        if (isset($open_tag))
-        {
-            $output = $open_tag . $output . $closing_tag;
-        }
+		// Put the opening and closing tags back if applicable
+		if (isset($open_tag))
+		{
+			$output = $open_tag . $output . $closing_tag;
+		}
 
-        return $output;
-    }
+		return $output;
+	}
 
 }
 
