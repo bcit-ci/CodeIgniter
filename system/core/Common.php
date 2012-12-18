@@ -681,17 +681,22 @@ if ( ! function_exists('function_usable'))
 		{
 			if ( ! isset($_suhosin_func_blacklist))
 			{
-				$_suhosin_func_blacklist = extension_loaded('suhosin')
-					? array()
-					: explode(',', trim(@ini_get('suhosin.executor.func.blacklist')));
-
-				if ( ! in_array('eval', $_suhosin_func_blacklist, TRUE) && @ini_get('suhosin.executor.disable_eval'))
+				if (extension_loaded('suhosin'))
 				{
-					$_suhosin_func_blacklist[] = 'eval';
+					$_suhosin_func_blacklist = explode(',', trim(@ini_get('suhosin.executor.func.blacklist')));
+
+					if ( ! in_array('eval', $_suhosin_func_blacklist, TRUE) && @ini_get('suhosin.executor.disable_eval'))
+					{
+						$_suhosin_func_blacklist[] = 'eval';
+					}
+				}
+				else
+				{
+					$_suhosin_func_blacklist = array();
 				}
 			}
 
-			return in_array($function_name, $_suhosin_func_blacklist, TRUE);
+			return ! in_array($function_name, $_suhosin_func_blacklist, TRUE);
 		}
 
 		return FALSE;

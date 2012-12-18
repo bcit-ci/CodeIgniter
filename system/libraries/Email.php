@@ -406,7 +406,7 @@ class CI_Email {
 	 * Initialize preferences
 	 *
 	 * @param	array
-	 * @return	void
+	 * @return	CI_Email
 	 */
 	public function initialize($config = array())
 	{
@@ -440,7 +440,7 @@ class CI_Email {
 	 * Initialize the Email Data
 	 *
 	 * @param	bool
-	 * @return	object
+	 * @return	CI_Email
 	 */
 	public function clear($clear_attachments = FALSE)
 	{
@@ -474,7 +474,7 @@ class CI_Email {
 	 * @param	string	$from
 	 * @param	string	$name
 	 * @param	string	$return_path = NULL	Return-Path
-	 * @return	object
+	 * @return	CI_Email
 	 */
 	public function from($from, $name = '', $return_path = NULL)
 	{
@@ -522,7 +522,7 @@ class CI_Email {
 	 *
 	 * @param	string
 	 * @param	string
-	 * @return	object
+	 * @return	CI_Email
 	 */
 	public function reply_to($replyto, $name = '')
 	{
@@ -558,7 +558,7 @@ class CI_Email {
 	 * Set Recipients
 	 *
 	 * @param	string
-	 * @return	object
+	 * @return	CI_Email
 	 */
 	public function to($to)
 	{
@@ -586,7 +586,7 @@ class CI_Email {
 	 * Set CC
 	 *
 	 * @param	string
-	 * @return	object
+	 * @return	CI_Email
 	 */
 	public function cc($cc)
 	{
@@ -614,7 +614,7 @@ class CI_Email {
 	 *
 	 * @param	string
 	 * @param	string
-	 * @return	object
+	 * @return	CI_Email
 	 */
 	public function bcc($bcc, $limit = '')
 	{
@@ -649,7 +649,7 @@ class CI_Email {
 	 * Set Email Subject
 	 *
 	 * @param	string
-	 * @return	object
+	 * @return	CI_Email
 	 */
 	public function subject($subject)
 	{
@@ -664,7 +664,7 @@ class CI_Email {
 	 * Set Body
 	 *
 	 * @param	string
-	 * @return	object
+	 * @return	CI_Email
 	 */
 	public function message($body)
 	{
@@ -693,7 +693,7 @@ class CI_Email {
 	 * @param	string	$disposition = 'attachment'
 	 * @param	string	$newname = NULL
 	 * @param	string	$mime = ''
-	 * @return	object
+	 * @return	CI_Email
 	 */
 	public function attach($filename, $disposition = '', $newname = NULL, $mime = '')
 	{
@@ -746,7 +746,7 @@ class CI_Email {
 	 * Set Multipart Value
 	 *
 	 * @param	string
-	 * @return	object
+	 * @return	CI_Email
 	 */
 	public function set_alt_message($str = '')
 	{
@@ -760,7 +760,7 @@ class CI_Email {
 	 * Set Mailtype
 	 *
 	 * @param	string
-	 * @return	object
+	 * @return	CI_Email
 	 */
 	public function set_mailtype($type = 'text')
 	{
@@ -774,7 +774,7 @@ class CI_Email {
 	 * Set Wordwrap
 	 *
 	 * @param	bool
-	 * @return	object
+	 * @return	CI_Email
 	 */
 	public function set_wordwrap($wordwrap = TRUE)
 	{
@@ -788,7 +788,7 @@ class CI_Email {
 	 * Set Protocol
 	 *
 	 * @param	string
-	 * @return	object
+	 * @return	CI_Email
 	 */
 	public function set_protocol($protocol = 'mail')
 	{
@@ -802,7 +802,7 @@ class CI_Email {
 	 * Set Priority
 	 *
 	 * @param	int
-	 * @return	object
+	 * @return	CI_Email
 	 */
 	public function set_priority($n = 3)
 	{
@@ -816,7 +816,7 @@ class CI_Email {
 	 * Set Newline Character
 	 *
 	 * @param	string
-	 * @return	object
+	 * @return	CI_Email
 	 */
 	public function set_newline($newline = "\n")
 	{
@@ -830,7 +830,7 @@ class CI_Email {
 	 * Set CRLF
 	 *
 	 * @param	string
-	 * @return	object
+	 * @return	CI_Email
 	 */
 	public function set_crlf($crlf = "\n")
 	{

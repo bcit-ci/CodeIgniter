@@ -133,7 +133,7 @@ class CI_Zip {
 	protected function _get_mod_time($dir)
 	{
 		// filemtime() may return false, but raises an error for non-existing files
-		$date = file_exists($dir) ? filemtime($dir) : getdate($this->now);
+		$date = file_exists($dir) ? @filemtime($dir) : getdate($this->now);
 
 		return array(
 				'file_mtime' => ($date['hours'] << 11) + ($date['minutes'] << 5) + $date['seconds'] / 2,
@@ -438,7 +438,7 @@ class CI_Zip {
 	 * Lets you clear current zip data. Useful if you need to create
 	 * multiple zips with different data.
 	 *
-	 * @return	object
+	 * @return	CI_Zip
 	 */
 	public function clear_data()
 	{

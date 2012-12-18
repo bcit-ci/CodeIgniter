@@ -143,7 +143,7 @@ class CI_Output {
 	 * Sets the output string.
 	 *
 	 * @param	string	$output	Output data
-	 * @return	object	$this
+	 * @return	CI_Output
 	 */
 	public function set_output($output)
 	{
@@ -159,7 +159,7 @@ class CI_Output {
 	 * Appends data onto the output string.
 	 *
 	 * @param	string	$output	Data to append
-	 * @return	object	$this
+	 * @return	CI_Output
 	 */
 	public function append_output($output)
 	{
@@ -187,7 +187,7 @@ class CI_Output {
 	 *
 	 * @param	string	$header		Header
 	 * @param	bool	$replace	Whether to replace the old header value, if already set
-	 * @return	object	$this
+	 * @return	CI_Output
 	 */
 	public function set_header($header, $replace = TRUE)
 	{
@@ -211,7 +211,7 @@ class CI_Output {
 	 *
 	 * @param	string	$mime_type	Extension of the file we're outputting
 	 * @param	string	$charset	Character set (default: NULL)
-	 * @return	object	$this
+	 * @return	CI_Output
 	 */
 	public function set_content_type($mime_type, $charset = NULL)
 	{
@@ -308,7 +308,7 @@ class CI_Output {
 	 *
 	 * @param	int	$code	Status code (default: 200)
 	 * @param	string	$text	Optional message
-	 * @return	object	$this
+	 * @return	CI_Output
 	 */
 	public function set_status_header($code = 200, $text = '')
 	{
@@ -322,7 +322,7 @@ class CI_Output {
 	 * Enable/disable Profiler
 	 *
 	 * @param	bool	$val	TRUE to enable or FALSE to disable
-	 * @return	object	$this
+	 * @return	CI_Output
 	 */
 	public function enable_profiler($val = TRUE)
 	{
@@ -339,7 +339,7 @@ class CI_Output {
 	 * Profiler section display.
 	 *
 	 * @param	array	$sections	Profiler sections
-	 * @return	object	$this
+	 * @return	CI_Output
 	 */
 	public function set_profiler_sections($sections)
 	{
@@ -363,7 +363,7 @@ class CI_Output {
 	 * Set Cache
 	 *
 	 * @param	int	$time	Cache expiration time in seconds
-	 * @return	object	$this
+	 * @return	CI_Output
 	 */
 	public function cache($time)
 	{
@@ -780,6 +780,7 @@ class CI_Output {
 			break;
 
 			case 'text/css':
+			case 'text/javascript':
 
 				//Remove CSS comments
 				$output = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $output);
@@ -788,11 +789,12 @@ class CI_Output {
 				// semi-colons, parenthesis, commas
 				$output = preg_replace('!\s*(:|;|,|}|{|\(|\))\s*!', '$1', $output);
 
-			break;
+				// Remove spaces
+			        $output =  preg_replace('/  /s', ' ', $output);
 
-			case 'text/javascript':
+			        // Remove breaklines and tabs
+			        $output =  preg_replace('/[\r\n\t]/', '', $output);
 
-				// Currently leaves JavaScript untouched.
 			break;
 
 			default: break;

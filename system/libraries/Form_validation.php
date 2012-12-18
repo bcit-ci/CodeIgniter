@@ -149,7 +149,7 @@ class CI_Form_validation {
 	 * @param	mixed	$field
 	 * @param	string	$label
 	 * @param	mixed	$rules
-	 * @return	object
+	 * @return	CI_Form_validation
 	 */
 	public function set_rules($field, $label = '', $rules = '')
 	{
@@ -266,7 +266,7 @@ class CI_Form_validation {
 	 *
 	 * @param	array
 	 * @param	string
-	 * @return	object
+	 * @return	CI_Form_validation
 	 */
 	public function set_message($lang, $val = '')
 	{
@@ -288,7 +288,7 @@ class CI_Form_validation {
 	 *
 	 * @param	string
 	 * @param	string
-	 * @return	object
+	 * @return	CI_Form_validation
 	 */
 	public function set_error_delimiters($prefix = '<p>', $suffix = '</p>')
 	{
@@ -609,13 +609,15 @@ class CI_Form_validation {
 				{
 					$line = $this->_error_messages[$type];
 				}
-				elseif (FALSE === ($line = $this->CI->lang->line($type)))
+				elseif (FALSE === ($line = $this->CI->lang->line('form_validation_'.$type))
+					// DEPRECATED support for non-prefixed keys
+					&& FALSE === ($line = $this->CI->lang->line($type, FALSE)))
 				{
 					$line = 'The field was not set';
 				}
 
 				// Build the error message
-				$message = sprintf($line, $this->_translate_fieldname($row['label']));
+				$message = $this->_build_error_msg($line, $this->_translate_fieldname($row['label']));
 
 				// Save the error message
 				$this->_field_data[$row['field']]['error'] = $message;
@@ -749,7 +751,9 @@ class CI_Form_validation {
 			{
 				if ( ! isset($this->_error_messages[$rule]))
 				{
-					if (FALSE === ($line = $this->CI->lang->line($rule)))
+					if (FALSE === ($line = $this->CI->lang->line('form_validation_'.$rule))
+						// DEPRECATED support for non-prefixed keys
+						&& FALSE === ($line = $this->CI->lang->line($rule, FALSE)))
 					{
 						$line = 'Unable to access an error message corresponding to your field name.';
 					}
@@ -767,7 +771,7 @@ class CI_Form_validation {
 				}
 
 				// Build the error message
-				$message = sprintf($line, $this->_translate_fieldname($row['label']), $param);
+				$message = $this->_build_error_msg($line, $this->_translate_fieldname($row['label']), $param);
 
 				// Save the error message
 				$this->_field_data[$row['field']]['error'] = $message;
@@ -797,13 +801,36 @@ class CI_Form_validation {
 		if (sscanf($fieldname, 'lang:%s', $line) === 1)
 		{
 			// Were we able to translate the field name?  If not we use $line
-			if (FALSE === ($fieldname = $this->CI->lang->line($line)))
+			if (FALSE === ($fieldname = $this->CI->lang->line('form_validation_'.$line))
+				// DEPRECATED support for non-prefixed keys
+				&& FALSE === ($fieldname = $this->CI->lang->line($line, FALSE)))
 			{
 				return $line;
 			}
 		}
 
 		return $fieldname;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Build an error message using the field and param.
+	 *
+	 * @param	string	The error message line
+	 * @param	string	A field's human name
+	 * @param	mixed	A rule's optional parameter
+	 * @return	string
+	 */
+	protected function _build_error_msg($line, $field = '', $param = '')
+	{
+		// Check for %s in the string for legacy support.
+		if (strpos($line, '%s') !== FALSE)
+		{
+			return sprintf($line, $field, $param);
+		}
+
+		return str_replace(array('{field}', '{param}'), array($field, $param), $line);
 	}
 
 	// --------------------------------------------------------------------
