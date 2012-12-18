@@ -229,7 +229,7 @@ abstract class CI_DB_forge {
 	 *
 	 * @param	string	$key
 	 * @param	bool	$primary
-	 * @return	object
+	 * @return	CI_DB_forge
 	 */
 	public function add_key($key = '', $primary = FALSE)
 	{
@@ -266,7 +266,7 @@ abstract class CI_DB_forge {
 	 * Add Field
 	 *
 	 * @param	array	$field
-	 * @return	object
+	 * @return	CI_DB_forge
 	 */
 	public function add_field($field = '')
 	{
