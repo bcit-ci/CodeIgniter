@@ -839,22 +839,22 @@ class CI_Output {
 		$array_output = str_split($output);
 		foreach ($array_output as $key => $value)
 		{
-			if ($in_string === FALSE and $in_dstring === FALSE)
+			if ($in_string === FALSE && $in_dstring === FALSE)
 			{
-				if ($value == ' ')
+				if ($value === ' ')
 				{
 					unset($array_output[$key]);
 				}
 			}
 
-			if ($value == "'")
+			if ($value === "'")
 			{
-				$in_string = !$in_string;
+				$in_string = ! $in_string;
 			}
 
-			if ($value == '"')
+			if ($value === '"')
 			{
-				$in_dstring = !$in_dstring;
+				$in_dstring = ! $in_dstring;
 			}
 		}
 
@@ -866,7 +866,7 @@ class CI_Output {
 		// Put the opening and closing tags back if applicable
 		if (isset($open_tag))
 		{
-			$output = $open_tag . $output . $closing_tag;
+			$output = $open_tag.$output.$closing_tag;
 		}
 
 		return $output;
