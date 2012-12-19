@@ -728,13 +728,13 @@ class CI_Output {
 				preg_match_all('{<style.+</style>}msU', $output, $style_clean);
 				foreach ($style_clean[0] as $s)
 				{
-					$output = str_replace($s, $this->minify($s, 'text/css'), $output);
+					$output = str_replace($s, $this->_minify_script_style($s, TRUE), $output);
 				}
 
 				// Minify the javascript in <script> tags.
 				foreach ($javascript_clean[0] as $s)
 				{
-					$javascript_mini[] = $this->minify($s, 'text/javascript');
+					$javascript_mini[] = $this->_minify_script_style($s, TRUE);
 				}
 
 				// Replace multiple spaces with a single space.
@@ -782,22 +782,91 @@ class CI_Output {
 			case 'text/css':
 			case 'text/javascript':
 
-				//Remove CSS comments
-				$output = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $output);
-
-				// Remove spaces around curly brackets, colons,
-				// semi-colons, parenthesis, commas
-				$output = preg_replace('!\s*(:|;|,|}|{|\(|\))\s*!', '$1', $output);
-
-				// Remove spaces
-			        $output =  preg_replace('/  /s', ' ', $output);
-
-			        // Remove breaklines and tabs
-			        $output =  preg_replace('/[\r\n\t]/', '', $output);
+				$output = $this->_minify_script_style($output);
 
 			break;
 
 			default: break;
+		}
+
+		return $output;
+	}
+
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Minify Style and Script
+	 *
+	 * Reduce excessive size of CSS/JavaScript content.  To remove spaces this
+	 * script walks the string as an array and determines if the pointer is inside
+	 * a string created by single quotes or double quotes.  spaces inside those
+	 * strings are not stripped.  Opening and closing tags are severed from
+	 * the string initially and saved without stripping whitespace to preserve
+	 * the tags and any associated properties if tags are present
+	 *
+	 * @param	string	$output	Output to minify
+	 * @param	bool	$has_tags specify if the output has style or script tags
+	 * @return	string	Minified output
+	 */
+	protected function _minify_script_style($output, $has_tags = FALSE)
+	{
+		// We only need this if there are tags in the file
+		if ($has_tags === TRUE)
+		{
+			// Remove opening tag and save for later
+			$pos = strpos($output, '>');
+			$open_tag = substr($output, 0, $pos);
+			$output = substr_replace($output, '', 0, $pos);
+
+			// Remove closing tag and save it for later
+			$end_pos = strlen($output);
+			$pos = strpos($output, '</');
+			$closing_tag = substr($output, $pos, $end_pos);
+			$output = substr_replace($output, '', $pos);
+		}
+
+		// Remove CSS comments
+		$output = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $output);
+
+		// Remove spaces around curly brackets, colons,
+		// semi-colons, parenthesis, commas
+		$output = preg_replace('!\s*(:|;|,|}|{|\(|\))\s*!', '$1', $output);
+
+		// Remove spaces
+		$in_string = FALSE;
+		$in_dstring = FALSE;
+		$array_output = str_split($output);
+		foreach ($array_output as $key => $value)
+		{
+			if ($in_string === FALSE && $in_dstring === FALSE)
+			{
+				if ($value === ' ')
+				{
+					unset($array_output[$key]);
+				}
+			}
+
+			if ($value === "'")
+			{
+				$in_string = ! $in_string;
+			}
+
+			if ($value === '"')
+			{
+				$in_dstring = ! $in_dstring;
+			}
+		}
+
+		$output = implode($array_output);
+
+		// Remove breaklines and tabs
+		$output = preg_replace('/[\r\n\t]/', '', $output);
+
+		// Put the opening and closing tags back if applicable
+		if (isset($open_tag))
+		{
+			$output = $open_tag.$output.$closing_tag;
 		}
 
 		return $output;
