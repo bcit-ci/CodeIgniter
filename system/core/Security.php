@@ -534,7 +534,7 @@ class CI_Security {
 			$str = preg_replace('~&#x(0*[0-9a-f]{2,5})~ei', 'chr(hexdec("\\1"))', $str, -1, $matches);
 			$str = preg_replace('~&#([0-9]{2,4})~e', 'chr(\\1)', $str, -1, $matches1);
 		}
-		while($matches OR $matches1);
+		while ($matches OR $matches1);
 
 		return $str;
 	}
@@ -671,8 +671,8 @@ class CI_Security {
 			{
 				$str = preg_replace('/(<?)(\/?[^><]+?)([^A-Za-z<>\-])(.*?)('.implode('|', $attribs).')(.*?)([\s><]?)([><]*)/i', '$1$2 $4$6$7$8', $str, -1, $count);
 			}
-
-		} while ($count);
+		}
+		while ($count);
 
 		return $str;
 	}
