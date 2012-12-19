@@ -728,13 +728,13 @@ class CI_Output {
 				preg_match_all('{<style.+</style>}msU', $output, $style_clean);
 				foreach ($style_clean[0] as $s)
 				{
-					$output = str_replace($s, $this->_minify_script_style($s, $type), $output);
+					$output = str_replace($s, $this->_minify_script_style($s, TRUE), $output);
 				}
 
 				// Minify the javascript in <script> tags.
 				foreach ($javascript_clean[0] as $s)
 				{
-					$javascript_mini[] = $this->_minify_script_style($s, $type);
+					$javascript_mini[] = $this->_minify_script_style($s, TRUE);
 				}
 
 				// Replace multiple spaces with a single space.
@@ -782,7 +782,7 @@ class CI_Output {
 			case 'text/css':
 			case 'text/javascript':
 
-				$output = $this->_minify_script_style($output, $type);
+				$output = $this->_minify_script_style($output);
 
 			break;
 
@@ -806,13 +806,13 @@ class CI_Output {
 	 * the tags and any associated properties if tags are present
 	 *
 	 * @param	string	$output	Output to minify
-	 * @param	string  $type Output content MIME type
+	 * @param	bool	$has_tags specify if the output has style or script tags
 	 * @return	string	Minified output
 	 */
-	protected function _minify_script_style($output, $type = 'text/html')
+	protected function _minify_script_style($output, $has_tags = FALSE)
 	{
 		// We only need this if there are tags in the file
-		if ($type == 'text/html')
+		if ($has_tags === TRUE)
 		{
 			// Remove opening tag and save for later
 			$pos = strpos($output, '>');
