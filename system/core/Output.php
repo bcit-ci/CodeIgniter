@@ -710,9 +710,7 @@ class CI_Output {
 		{
 			case 'text/html':
 
-				$size_before = strlen($output);
-
-				if ($size_before === 0)
+				if (($size_before = strlen($output)) === 0)
 				{
 					return '';
 				}
@@ -792,7 +790,6 @@ class CI_Output {
 		return $output;
 	}
 
-
 	// --------------------------------------------------------------------
 
 	/**
@@ -805,8 +802,8 @@ class CI_Output {
 	 * the string initially and saved without stripping whitespace to preserve
 	 * the tags and any associated properties if tags are present
 	 *
-	 * @param	string	$output	Output to minify
-	 * @param	bool	$has_tags specify if the output has style or script tags
+	 * @param	string	$output		Output to minify
+	 * @param	bool	$has_tags	Specify if the output has style or script tags
 	 * @return	string	Minified output
 	 */
 	protected function _minify_script_style($output, $has_tags = FALSE)
@@ -827,15 +824,14 @@ class CI_Output {
 		}
 
 		// Remove CSS comments
-		$output = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $output);
+		$output = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!i', '', $output);
 
 		// Remove spaces around curly brackets, colons,
 		// semi-colons, parenthesis, commas
-		$output = preg_replace('!\s*(:|;|,|}|{|\(|\))\s*!', '$1', $output);
+		$output = preg_replace('!\s*(:|;|,|}|{|\(|\))\s*!i', '$1', $output);
 
 		// Remove spaces
-		$in_string = FALSE;
-		$in_dstring = FALSE;
+		$in_string = $in_dstring = FALSE;
 		$array_output = str_split($output);
 		foreach ($array_output as $key => $value)
 		{
@@ -851,25 +847,19 @@ class CI_Output {
 			{
 				$in_string = ! $in_string;
 			}
-
-			if ($value === '"')
+			elseif ($value === '"')
 			{
 				$in_dstring = ! $in_dstring;
 			}
 		}
 
-		$output = implode($array_output);
-
 		// Remove breaklines and tabs
-		$output = preg_replace('/[\r\n\t]/', '', $output);
+		$output = preg_replace('/[\r\n\t]/', '', implode($array_output));
 
 		// Put the opening and closing tags back if applicable
-		if (isset($open_tag))
-		{
-			$output = $open_tag.$output.$closing_tag;
-		}
-
-		return $output;
+		return isset($open_tag)
+			? $open_tag.$output.$closing_tag
+			: $output;
 	}
 
 }
