@@ -326,7 +326,8 @@ abstract class CI_DB_utility {
 				'format'		=> 'gzip', // gzip, zip, txt
 				'add_drop'		=> TRUE,
 				'add_insert'		=> TRUE,
-				'newline'		=> "\n"
+				'newline'		=> "\n",
+				'fk_checks'		=> TRUE
 			);
 
 		// Did the user submit any preferences? If so set them....
