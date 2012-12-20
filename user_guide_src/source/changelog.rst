@@ -121,6 +121,7 @@ Release Date: Not Released
    -  Added support for SQLite3 database driver.
    -  Added Interbase/Firebird database support via the *ibase* driver.
    -  Added ODBC support for ``create_database()``, ``drop_database()`` and ``drop_table()`` in :doc:`Database Forge <database/forge>`.
+   -  Added 'foreign_key_checks' parameter to MySQL/MySQLi backup, allowing statement to disable/re-enable foreign key checks to be inserted into the backup output
    -  :doc:`Query Builder <database/query_builder>` changes include:
 	 - Renamed the Active Record class to Query Builder to remove confusion with the Active Record design pattern.
 	 - Added the ability to insert objects with ``insert_batch()``.
@@ -180,7 +181,7 @@ Release Date: Not Released
 	 - Deprecated ``add_column()``'s third method. *AFTER* clause should now be added to the field definition array instead.
 	 - Added support for usage of the *FIRST* clause in ``add_column()`` for MySQL and CUBRID.
 	 - Overall improved support for all of the drivers.
-   -  :doc:`Database Utility <database/utilities>` chages include:
+   -  :doc:`Database Utility <database/utilities>` changes include:
 	 - Added support for passing a custom database object to the loader.
 	 - Modified the class to no longer extend :doc:`Database Forge <database/forge>`, which has been a deprecated behavior for awhile.
 	 - Overall improved support for all of the drivers.
