@@ -76,6 +76,13 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 
 		// Build the output
 		$output = '';
+
+		// Do we need to include a statement to disable foreign key checks?
+		if ($foreign_key_checks === FALSE)
+		{
+			$output .= "SET foreign_key_checks = 0;".$newline;
+		}
+
 		foreach ( (array) $tables as $table)
 		{
 			// Is the table in the "ignore" list?
@@ -179,6 +186,12 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 			}
 
 			$output .= $newline.$newline;
+		}
+
+		// Do we need to include a statement to re-enable foreign key checks?
+		if ($foreign_key_checks === FALSE)
+		{
+			$output .= "SET foreign_key_checks = 1;".$newline;
 		}
 
 		return $output;

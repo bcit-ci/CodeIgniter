@@ -45,7 +45,7 @@ $this->dbutil->list_databases();
 Returns an array of database names::
 
 	$dbs = $this->dbutil->list_databases();
-	
+
 	foreach ($dbs as $db)
 	{
  		echo $db;
@@ -102,7 +102,7 @@ FALSE on failure.
 ::
 
 	$result = $this->dbutil->optimize_database();
-	
+
 	if ($result !== FALSE)
 	{
 		print_r($result);
@@ -119,9 +119,9 @@ parameter of the method must contain the result object from your
 query. Example::
 
 	$this->load->dbutil();
-	
+
 	$query = $this->db->query("SELECT * FROM mytable");
-	
+
 	echo $this->dbutil->csv_from_result($query);
 
 The second, third, and fourth parameters allow you to set the delimiter
@@ -147,16 +147,16 @@ parameter expects a query result object, the second may contain an
 optional array of config parameters. Example::
 
 	$this->load->dbutil();
-	
+
 	$query = $this->db->query("SELECT * FROM mytable");
-	
+
 	$config = array (
 		'root'		=> 'root',
 		'element'	=> 'element',
 		'newline'	=> "\n",
-		'tab'		=> "\t" 
+		'tab'		=> "\t"
 	);
-	
+
 	echo $this->dbutil->xml_from_result($query, $config);
 
 .. important:: This method will NOT write the XML file for you. It
@@ -172,7 +172,7 @@ backup data can be compressed in either Zip or Gzip format.
 .. note:: This feature is only available for MySQL and Interbase/Firebird databases.
 
 .. note:: For Interbase/Firebird databases, the backup file name is the only parameter.
-	
+
 		Eg. $this->dbutil->backup('db_backup_filename');
 
 .. note:: Due to the limited execution time and memory available to PHP,
@@ -188,14 +188,14 @@ Usage Example
 
 	// Load the DB utility class
 	$this->load->dbutil();
-	
+
 	// Backup your entire database and assign it to a variable
 	$backup =& $this->dbutil->backup();
-	
+
 	// Load the file helper and write the file to your server
 	$this->load->helper('file');
 	write_file('/path/to/mybackup.gz', $backup);
-	
+
 	// Load the download helper and send the file to your desktop
 	$this->load->helper('download');
 	force_download('mybackup.gz', $backup);
@@ -215,22 +215,23 @@ parameter of the ``backup()`` method. Example::
 		'add_insert'	=> TRUE,			// Whether to add INSERT data to backup file
 		'newline'	=> "\n"				// Newline character used in backup file
 	);
-	
+
 	$this->dbutil->backup($prefs);
 
 Description of Backup Preferences
 ---------------------------------
 
-=============== ======================= ======================= ========================================================================
-Preference      Default Value           Options                 Description
-=============== ======================= ======================= ========================================================================
-**tables**      empty array             None                    An array of tables you want backed up. If left blank all tables will be
-                                                                exported.
-**ignore**      empty array             None                    An array of tables you want the backup routine to ignore.
-**format**      gzip                    gzip, zip, txt          The file format of the export file.
-**filename**    the current date/time   None                    The name of the backed-up file. The name is needed only if you are using
-                                                                zip compression.
-**add_drop**    TRUE                    TRUE/FALSE              Whether to include DROP TABLE statements in your SQL export file.
-**add_insert**  TRUE                    TRUE/FALSE              Whether to include INSERT statements in your SQL export file.
-**newline**     "\\n"                   "\\n", "\\r", "\\r\\n"  Type of newline to use in your SQL export file.
-=============== ======================= ======================= ========================================================================
+======================= ======================= ======================= ========================================================================
+Preference              Default Value           Options                 Description
+======================= ======================= ======================= ========================================================================
+**tables**               empty array             None                    An array of tables you want backed up. If left blank all tables will be
+                                                                         exported.
+**ignore**               empty array             None                    An array of tables you want the backup routine to ignore.
+**format**               gzip                    gzip, zip, txt          The file format of the export file.
+**filename**             the current date/time   None                    The name of the backed-up file. The name is needed only if you are using
+                                                                         zip compression.
+**add_drop**             TRUE                    TRUE/FALSE              Whether to include DROP TABLE statements in your SQL export file.
+**add_insert**           TRUE                    TRUE/FALSE              Whether to include INSERT statements in your SQL export file.
+**newline**              "\\n"                   "\\n", "\\r", "\\r\\n"  Type of newline to use in your SQL export file.
+**foreign_key_checks**   TRUE                    TRUE/FALSE              Whether output should keep foreign key checks enabled.
+======================= ======================= ======================= ========================================================================
