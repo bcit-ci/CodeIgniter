@@ -320,15 +320,15 @@ abstract class CI_DB_utility {
 
 		// Set up our default preferences
 		$prefs = array(
-				'tables'				=> array(),
-				'ignore'				=> array(),
-				'filename'				=> '',
-				'format'				=> 'gzip', // gzip, zip, txt
-				'add_drop'				=> TRUE,
-				'add_insert'			=> TRUE,
-				'newline'				=> "\n",
-				'foreign_key_checks'	=> TRUE
-			);
+			'tables'		=> array(),
+			'ignore'		=> array(),
+			'filename'		=> '',
+			'format'		=> 'gzip', // gzip, zip, txt
+			'add_drop'		=> TRUE,
+			'add_insert'		=> TRUE,
+			'newline'		=> "\n",
+			'foreign_key_checks'	=> TRUE
+		);
 
 		// Did the user submit any preferences? If so set them....
 		if (count($params) > 0)
