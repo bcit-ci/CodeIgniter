@@ -221,17 +221,17 @@ parameter of the ``backup()`` method. Example::
 Description of Backup Preferences
 ---------------------------------
 
-=============== ======================= ======================= ========================================================================
-Preference      Default Value           Options                 Description
-=============== ======================= ======================= ========================================================================
-**tables**      empty array             None                    An array of tables you want backed up. If left blank all tables will be
-                                                                exported.
-**ignore**      empty array             None                    An array of tables you want the backup routine to ignore.
-**format**      gzip                    gzip, zip, txt          The file format of the export file.
-**filename**    the current date/time   None                    The name of the backed-up file. The name is needed only if you are using
-                                                                zip compression.
-**add_drop**    TRUE                    TRUE/FALSE              Whether to include DROP TABLE statements in your SQL export file.
-**add_insert**  TRUE                    TRUE/FALSE              Whether to include INSERT statements in your SQL export file.
-**newline**     "\\n"                   "\\n", "\\r", "\\r\\n"  Type of newline to use in your SQL export file.
-**fk_checks**   TRUE                    TRUE/FALSE              Whether output should keep foreign key checks enabled.
-=============== ======================= ======================= ========================================================================
+======================= ======================= ======================= ========================================================================
+Preference              Default Value           Options                 Description
+======================= ======================= ======================= ========================================================================
+**tables**               empty array             None                    An array of tables you want backed up. If left blank all tables will be
+                                                                         exported.
+**ignore**               empty array             None                    An array of tables you want the backup routine to ignore.
+**format**               gzip                    gzip, zip, txt          The file format of the export file.
+**filename**             the current date/time   None                    The name of the backed-up file. The name is needed only if you are using
+                                                                         zip compression.
+**add_drop**             TRUE                    TRUE/FALSE              Whether to include DROP TABLE statements in your SQL export file.
+**add_insert**           TRUE                    TRUE/FALSE              Whether to include INSERT statements in your SQL export file.
+**newline**              "\\n"                   "\\n", "\\r", "\\r\\n"  Type of newline to use in your SQL export file.
+**foreign_key_checks**   TRUE                    TRUE/FALSE              Whether output should keep foreign key checks enabled.
+======================= ======================= ======================= ========================================================================
