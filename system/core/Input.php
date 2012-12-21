@@ -173,9 +173,10 @@ class CI_Input {
 	 *
 	 * @param	string	$index		Index for item to be fetched from $_GET
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
+	 * @param 	array	$hystack	Limit input params
 	 * @return	mixed
 	 */
-	public function get($index = NULL, $xss_clean = FALSE)
+	public function get($index = NULL, $xss_clean = FALSE, $hystack = NULL)
 	{
 		// Check if a field has been provided
 		if ($index === NULL)
@@ -190,6 +191,11 @@ class CI_Input {
 			// loop through the full _GET array
 			foreach (array_keys($_GET) as $key)
 			{
+				if ( ! empty($hystack) && ! in_array($key, $hystack))
+				{
+					continue;
+				}
+				
 				$get[$key] = $this->_fetch_from_array($_GET, $key, $xss_clean);
 			}
 			return $get;
@@ -205,9 +211,10 @@ class CI_Input {
 	 *
 	 * @param	string	$index		Index for item to be fetched from $_POST
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
+	 * @param 	array	$hystack	Limit input params
 	 * @return	mixed
 	 */
-	public function post($index = NULL, $xss_clean = FALSE)
+	public function post($index = NULL, $xss_clean = FALSE, $hystack = NULL)
 	{
 		// Check if a field has been provided
 		if ($index === NULL)
@@ -222,6 +229,11 @@ class CI_Input {
 			// Loop through the full _POST array and return it
 			foreach (array_keys($_POST) as $key)
 			{
+				if ( ! empty($hystack) && ! in_array($key, $hystack))
+				{
+					continue;
+				}
+				
 				$post[$key] = $this->_fetch_from_array($_POST, $key, $xss_clean);
 			}
 			return $post;
