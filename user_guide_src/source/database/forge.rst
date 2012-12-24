@@ -181,6 +181,38 @@ below is for MySQL.
 	// gives KEY `blog_name_blog_label` (`blog_name`, `blog_label`)
 
 
+Adding Foreign Keys
+===================
+
+Foreign keys can be added using a call to $this->dbforge->add_foreign_key().  The
+method expects an array with the following elements: Note that add_foreign_key()
+must be followed by a call to create_table().
+
+- field: the name of the field that the foreign key is being set on
+- foreign_table: the table being referenced
+- foreign_field: the field in the table being referenced
+- delete: the reference option for delete actions [default: NO ACTION]
+- update: the reference option for update actions [default: NO ACTION]
+
+Optionally, a string can be passed to the method.  The string should be the custom
+SQL syntax you want to use to create the foreign key constraint.  This is provided
+to easily allow for more complex foreign key requirements
+
+The method can only create one foreign key per method call. If you need multiple
+foreign keys, either pass a custom string or use multiple calls to the method.
+Sample output is shown below.
+
+::
+	$this->dbforge->add_foreign_key(
+		array('field' => 'myField',
+			'foreign_table' => 'testTable',
+			'foreign_field' => 'testField',
+			'delete' => 'cascade',
+			'update' => 'cascade');
+	//gives CONSTRAINT FOREIGN KEY `fk_testTable_testField` (`myField`)
+	//		REFERENCES testTable(`testField`) ON DELETE CASCADE ON UPDATE CASCADE
+
+
 Creating a table
 ================
 
