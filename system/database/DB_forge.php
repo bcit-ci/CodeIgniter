@@ -64,6 +64,13 @@ abstract class CI_DB_forge {
 	public $primary_keys	= array();
 
 	/**
+	 * Foreign Keys data
+	 *
+	 * @var	array
+	 */
+	public $foreign_keys	= array();
+
+	/**
 	 * Database character set
 	 *
 	 * @var	string
@@ -263,6 +270,35 @@ abstract class CI_DB_forge {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Add Foreign Key
+	 *
+	 * Accepts a string or an array.  A string would be the foreign key SQL syntax.
+	 * An array will have the following elements:
+	 *  field (string) - name of the field for the foreign key
+	 *  foreign_table (string) - name of the table being referenced
+	 *  foreign_field (string) - name of the field being referenced in the foreign table
+	 *  delete (string) - the reference option for delete [optional]
+	 *  update (string) - the reference option for update [optional]
+	 * Only 1 Foreign Key can be added per method call
+	 *
+	 * @param	string|array	$key The foreign key being added
+	 * @return	CI_DB_forge
+	 */
+	public function add_foreign_key($key = '')
+	{
+		if (empty($key))
+		{
+			show_error('Key information is required for that operation.');
+		}
+		
+		$this->foreign_keys[] = $key;
+		
+		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Add Field
 	 *
 	 * @param	array	$field
@@ -397,7 +433,8 @@ abstract class CI_DB_forge {
 		}
 
 		$columns = implode(',', $columns)
-				.$this->_process_primary_keys($table);
+				.$this->_process_primary_keys($table)
+				.$this->_process_foreign_keys();
 
 		// Are indexes created from within the CREATE TABLE statement? (e.g. in MySQL)
 		if ($this->_create_table_keys === TRUE)
@@ -949,6 +986,53 @@ abstract class CI_DB_forge {
 		{
 			$sql .= ",\n\tCONSTRAINT ".$this->db->escape_identifiers('pk_'.$table)
 				.' PRIMARY KEY('.implode(', ', $this->db->escape_identifiers($this->primary_keys)).')';
+		}
+
+		return $sql;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Process Adding of Foreign Keys
+	 * Called by _create_table()
+	 *
+	 * @return string SQL statement component
+	 */
+	protected function _process_foreign_keys()
+	{
+		$sql = '';
+
+		// If we have any foreign keys to process...
+		if (count($this->foreign_keys) > 0)
+		{
+			foreach ($this->foreign_keys as $foreign_key)
+			{
+				//  If this is an array, construct the statement
+				if (is_array($foreign_key))
+				{
+					// Initialize update and delete actions with default values
+					$array_init = array('delete' => 'NO ACTION', 'update' => 'NO ACTION');
+
+					// Add the default values if needed
+					$foreign_key = array_merge($array_init, $foreign_key);
+
+					// Extract the array elements into variables for simplicity
+					extract($foreign_key);
+
+					// Construct the SQL to add the foreign constraint
+					$sql .= ", \n\tCONSTRAINT FOREIGN KEY "
+						.$this->db->escape_identifiers('fk_'.$foreign_table.'_'.$foreign_field)
+						.' ('.$this->db->escape_identifiers($field).') '
+						.' REFERENCES '.$this->db->escape_identifiers($foreign_table
+						.'('.$this->db->escape_identifiers($foreign_field).')')
+						.' ON DELETE '.strtoupper($delete).' ON UPDATE '.strtoupper($update).' ';
+
+				} else {
+					// Otherwise add the string statement as-is
+					$sql .= ', '.$foreign_key.' ';
+				}
+			}
 		}
 
 		return $sql;
