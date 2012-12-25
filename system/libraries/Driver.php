@@ -181,7 +181,7 @@ class CI_Driver_Library {
 				show_error($msg);
 			}
 		}
-
+		
 		// Instantiate, decorate and add child
 		$obj = new $class_name();
 		$obj->decorate($this);

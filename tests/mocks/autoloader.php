@@ -56,7 +56,7 @@ function autoload($class)
 		'Zip'
 	);
 
-	$ci_drivers = array('Session', 'Cache');
+	$ci_drivers = array('Session', 'Cache', 'Parser');
 
 	if (strpos($class, 'Mock_') === 0)
 	{
