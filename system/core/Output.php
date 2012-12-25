@@ -802,7 +802,16 @@ class CI_Output {
 	 * the string initially and saved without stripping whitespace to preserve
 	 * the tags and any associated properties if tags are present
 	 *
-	 * @param	string	$output		Output to minify
+	 * Minification logic/workflow is similar to methods used by Douglas Crockford
+	 * in JSMIN. http://www.crockford.com/javascript/jsmin.html
+	 *
+	 * KNOWN ISSUE: ending a line with a closing parenthesis ')' and no semicolon
+	 * where there should be one will break the Javascript. New lines after a
+	 * closing parenthesis are not recognized by the script. For best results
+	 * be sure to terminate lines with a semicolon when appropriate.
+	 *
+	 *
+	 * @param	string	$output	Output to minify
 	 * @param	bool	$has_tags	Specify if the output has style or script tags
 	 * @return	string	Minified output
 	 */
@@ -812,7 +821,7 @@ class CI_Output {
 		if ($has_tags === TRUE)
 		{
 			// Remove opening tag and save for later
-			$pos = strpos($output, '>');
+			$pos = strpos($output, '>') + 1;
 			$open_tag = substr($output, 0, $pos);
 			$output = substr_replace($output, '', 0, $pos);
 
@@ -830,8 +839,18 @@ class CI_Output {
 		// semi-colons, parenthesis, commas
 		$output = preg_replace('!\s*(:|;|,|}|{|\(|\))\s*!i', '$1', $output);
 
-		// Remove spaces
-		$in_string = $in_dstring = FALSE;
+		// Replace tabs with spaces
+		$output = preg_replace('/\t/', ' ', $output);
+
+		// Replace carriage returns with new line
+		$output = preg_replace('/\r/', "\n", $output);
+
+		// Replace multiple new line with single new line
+		// and trim any leading or trailing whitespace
+		$output = trim(preg_replace('/\n+/', "\n", $output));
+
+		// Remove spaces when safe to do so.
+		$in_string = $in_dstring = $prev = FALSE;
 		$array_output = str_split($output);
 		foreach ($array_output as $key => $value)
 		{
@@ -839,7 +858,26 @@ class CI_Output {
 			{
 				if ($value === ' ')
 				{
-					unset($array_output[$key]);
+					// Get the next element in the array for comparisons
+					$next = $array_output[$key + 1];
+
+					// Strip spaces preceded/followed by a non-ASCII character
+					// or not preceded/followed by an alphanumeric
+					// or not preceded/followed \ $ and _
+					if ((preg_match('/^[\x20-\x7f]*$/D', $next)
+						|| preg_match('/^[\x20-\x7f]*$/D', $prev))
+						&& ( ! ctype_alnum($next) || ! ctype_alnum($prev))
+						&& ( ! in_array($next, array('\\', '_', '$'))
+							&& ! in_array($prev, array('\\', '_', '$'))))
+					{
+						unset($array_output[$key]);
+					}
+				}
+				else
+				{
+					// Save this value as previous for the next iteration
+					// if it is not a blank space
+					$prev = $value;
 				}
 			}
 
@@ -853,8 +891,27 @@ class CI_Output {
 			}
 		}
 
-		// Remove breaklines and tabs
-		$output = preg_replace('/[\r\n\t]/', '', implode($array_output));
+		// Put the string back together after spaces have been stripped
+		$output = implode($array_output);
+
+		// Remove new line characters unless previous or next character is
+		// printable or Non-ASCII
+		preg_match_all('/[\n]/', $output, $lf, PREG_OFFSET_CAPTURE);
+		foreach ($lf as $feed_position)
+		{
+			foreach($feed_position as $position)
+			{
+				$next_char = substr($output, $position[1] + 1, 1);
+				$prev_char = substr($output, $position[1] - 1, 1);
+				if ( ! ctype_print($next_char)
+					&& ! ctype_print($prev_char)
+					&& ! preg_match('/^[\x20-\x7f]*$/D', $next_char)
+					&& ! preg_match('/^[\x20-\x7f]*$/D', $prev_char))
+				{
+					substr_replace($output, '', $position[1], 1);
+				}
+			}
+		}
 
 		// Put the opening and closing tags back if applicable
 		return isset($open_tag)
