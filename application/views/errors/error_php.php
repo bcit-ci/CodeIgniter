@@ -25,6 +25,9 @@
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
+if(defined('STDIN')): ?>
+PHP <?php echo $severity; ?> : <?php echo ($message); ?> in <?php echo $filepath; ?> on line <?php echo $line; ?> 
+<?php else: 
 ?>
 
 <div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
@@ -56,4 +59,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <?php endif ?>
 
-</div>
+</div><?php
+endif;
+/* End of file error_php.php */
+/* Location: ./application/views/errors/error_php.php */

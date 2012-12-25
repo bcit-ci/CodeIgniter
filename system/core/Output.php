@@ -453,7 +453,7 @@ class CI_Output {
 		// --------------------------------------------------------------------
 
 		// Are there any server headers to send?
-		if (count($this->headers) > 0)
+		if (count($this->headers) > 0 || ! defined('STDIN'))
 		{
 			foreach ($this->headers as $header)
 			{
