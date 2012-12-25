@@ -267,8 +267,9 @@ Release Date: Not Released
    -  :doc:`Migration Library <libraries/migration>` changes include:
 	 -  Added support for timestamp-based migrations (enabled by default).
 	 -  Added ``$config['migration_type']`` to allow switching between *sequential* and *timestamp* migrations.
-   -  :doc:`User Agent Library <libraries/user_agent>` will now check if robots are pretending to be mobile clients (helps with e.g. Google indexing mobile website versions).
-
+   -  :doc:`User Agent Library <libraries/user_agent>` changes include:
+     -  Will now check if robots are pretending to be mobile clients (helps with e.g. Google indexing mobile website versions).
+     -  Will detect Internet Explorer 8,9,10 running in IE7 compatibility mode
 -  Core
 
    -  :doc:`URI Library <libraries/uri>` changes include:

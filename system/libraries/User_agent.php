@@ -54,6 +54,13 @@ class CI_User_agent {
 	public $is_browser = FALSE;
 
 	/**
+	 * Flag for if the user agent is MSIE in compatibility mode
+	 *
+	 * @var bool
+	 */
+	public $is_compatibility_mode = FALSE;
+
+	/**
 	 * Flag for if the user-agent is a robot
 	 *
 	 * @var bool
@@ -94,6 +101,13 @@ class CI_User_agent {
 	 * @var array
 	 */
 	public $browsers = array();
+
+	/**
+	 * List of MSIE trident engines to determine compatibility mode
+	 *
+	 * @var array
+	 */
+	public $msie_compatibility_modes = array();
 
 	/**
 	 * List of mobile browsers to compare against current user agent
@@ -204,6 +218,13 @@ class CI_User_agent {
 			$return = TRUE;
 		}
 
+		if (isset($msie_compatibility_modes))
+		{
+			$this->msie_compatibility_modes = $msie_compatibility_modes;
+			unset($msie_compatibility_modes);
+			$return = TRUE;
+		}
+
 		if (isset($mobiles))
 		{
 			$this->mobiles = $mobiles;
@@ -285,6 +306,7 @@ class CI_User_agent {
 					$this->version = $match[1];
 					$this->browser = $val;
 					$this->_set_mobile();
+					$this->_set_msie_compatibility();
 					return TRUE;
 				}
 			}
@@ -342,6 +364,32 @@ class CI_User_agent {
 		}
 
 		return FALSE;
+	}
+
+	// --------------------------------------------------------------------
+	/**
+	 * Detect MSIE Compatibility Mode (IE8, IE9, IE10)
+	 *
+	 * @return	void
+	 */
+	protected function _set_msie_compatibility()
+	{
+		// Check for any possible IE7 compatibility mode
+		if (strstr($this->agent, 'MSIE 7'))
+		{
+			// Iterate Trident engines, and look for a match
+			foreach ($this->msie_compatibility_modes as $version => $engine)
+			{
+				//  If a match is found change to the real version and append
+				//  browser name to show it is running in compatibility mode
+				if (strstr($this->agent, $engine))
+				{
+					$this->is_compatibility_mode = TRUE;
+					$this->browser .= ' (Compatibility Mode)';
+					$this->version = $version;
+				}
+			}
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -511,6 +559,18 @@ class CI_User_agent {
 	public function browser()
 	{
 		return $this->browser;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get whether browser is MSIE in compatibility mode
+	 *
+	 * @return	bool
+	 */
+	public function compatibility_mode()
+	{
+		return $this->is_compatibility_mode;
 	}
 
 	// --------------------------------------------------------------------
