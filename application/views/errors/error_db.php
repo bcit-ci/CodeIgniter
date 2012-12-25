@@ -25,6 +25,9 @@
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
+if(defined('STDIN')): ?>
+Database Error <?php echo $heading; ?> <?php echo strip_tags($message); ?> 
+<?php else: 
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -89,4 +92,7 @@ p {
 		<?php echo $message; ?>
 	</div>
 </body>
-</html>
+</html><?php
+endif;
+/* End of file error_db.php */
+/* Location: ./application/views/errors/error_db.php */
