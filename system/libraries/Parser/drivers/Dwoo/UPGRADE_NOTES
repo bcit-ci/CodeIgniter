@@ -1,0 +1,65 @@
+-----------------------------------------------------------------------------
+-- Upgrading to Dwoo v1.0.0beta
+-----------------------------------------------------------------------------
+
+1. Dwoo classes loading
+-----------------------
+
+While everything was previously included by Dwoo.php, this version introduces
+an autoload function (dwooAutoload) that handles this automatically. This
+means your choices are now :
+
+a) change your : include 'path/to/Dwoo.php';
+   into : include 'path/to/dwooAutoload.php';
+   this is the recommended setting, especially during development, so that if you
+   are seeing a Dwoo error and want to report a bug, you get proper line numbers
+   with the error and not just "error in Dwoo.compiled.php at line 2"
+
+b) use the compiled version of Dwoo, this is "experimental" and seems to provide better
+   performances mostly under windows, with a linux server it might imrpove performances
+   slightly if you have an opcode cache (APC, xcache, ..) :
+   include 'path/to/Dwoo.compiled.php';
+
+c) load Dwoo classes yourself somehow, as part of your autoload function or
+   whatever suits you best
+
+-----------------------------------------------------------------------------
+-- Upgrading to Dwoo v0.9.2
+-----------------------------------------------------------------------------
+
+1. Block plugins
+----------------
+
+This version introduced a backward compatibility break with block plugins, this
+was needed to allow compile-time access to the block's (parsed) content, be
+very careful if you manipulate this content since it is php code and should remain
+so if you don't want syntax errors (which are fatal) during template run.
+
+Error message :
+
+	Strict Standards: Declaration of Dwoo_Plugin_*::postProcessing() should be compatible with that of Dwoo_Block_Plugin::postProcessing()
+
+Solution :
+
+	* Change your block plugins postProcessing method declaration to the following :
+
+		public static function postProcessing(Dwoo_Compiler $compiler, array $params, $prepend, $append, $content)
+
+	* Then add "$content" to the beginning of your return value, or modify it if required
+
+2. Strip modifier
+-----------------
+
+The strip modifier had the same name as the strip block, this worked when the block
+was hard coded within the compiler, but with the API change (see above) I was able
+to move it to a plugin. Since both plugins don't have the same purpose, there was
+a real problem and I had to rename it. The renaming will be handled by the smarty compatibility
+layer, but if you used it without smarty compatibility, you should edit your templates.
+
+3. DWOO_COMPILE_DIRECTORY and DWOO_CACHE_DIRECTORY constants
+------------------------------------------------------------
+
+If you used those before, you will now get an exception when loading Dwoo. This is done
+on purpose to help people to make the transition to the new method of doing it :
+
+     $dwoo = new Dwoo('myCompileDir', 'myCacheDir');
