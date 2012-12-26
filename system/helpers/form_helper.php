@@ -128,7 +128,7 @@ if ( ! function_exists('form_hidden'))
 	 *
 	 * @param	mixed	$name		Field name
 	 * @param	string	$value		Field value
-	 * @param	string	$extra		Extra
+	 * @param	string	$extra		Extra data
 	 * @param	bool	$recursing
 	 * @return	string
 	 */
