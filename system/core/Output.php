@@ -842,12 +842,9 @@ class CI_Output {
 		// Replace tabs with spaces
 		$output = preg_replace('/\t/', ' ', $output);
 
-		// Replace carriage returns with new line
-		$output = preg_replace('/\r/', "\n", $output);
-
-		// Replace multiple new line with single new line
+		// Replace carriage returns & multiple new lines with single new line
 		// and trim any leading or trailing whitespace
-		$output = trim(preg_replace('/\n+/', "\n", $output));
+		$output = trim(preg_replace(array('/\r/', '/\n+/'), "\n", $output));
 
 		// Remove spaces when safe to do so.
 		$in_string = $in_dstring = $prev = FALSE;
@@ -864,11 +861,9 @@ class CI_Output {
 					// Strip spaces preceded/followed by a non-ASCII character
 					// or not preceded/followed by an alphanumeric
 					// or not preceded/followed \ $ and _
-					if ((preg_match('/^[\x20-\x7f]*$/D', $next)
-						|| preg_match('/^[\x20-\x7f]*$/D', $prev))
+					if ((preg_match('/^[\x20-\x7f]*$/D', $next) or preg_match('/^[\x20-\x7f]*$/D', $prev))
 						&& ( ! ctype_alnum($next) || ! ctype_alnum($prev))
-						&& ( ! in_array($next, array('\\', '_', '$'))
-							&& ! in_array($prev, array('\\', '_', '$'))))
+						&& ( ! in_array($next, array('\\', '_', '$')) && ! in_array($prev, array('\\', '_', '$'))))
 					{
 						unset($array_output[$key]);
 					}
@@ -897,18 +892,18 @@ class CI_Output {
 		// Remove new line characters unless previous or next character is
 		// printable or Non-ASCII
 		preg_match_all('/[\n]/', $output, $lf, PREG_OFFSET_CAPTURE);
+		$removed_lf = 0;
 		foreach ($lf as $feed_position)
 		{
-			foreach($feed_position as $position)
+			foreach ($feed_position as $position)
 			{
-				$next_char = substr($output, $position[1] + 1, 1);
-				$prev_char = substr($output, $position[1] - 1, 1);
-				if ( ! ctype_print($next_char)
-					&& ! ctype_print($prev_char)
-					&& ! preg_match('/^[\x20-\x7f]*$/D', $next_char)
-					&& ! preg_match('/^[\x20-\x7f]*$/D', $prev_char))
+				$next_char = substr($output, $position[1] - $removed_lf + 1, 1);
+				$prev_char = substr($output, $position[1] - $removed_lf - 1, 1);
+				if ( ! ctype_print($next_char) && ! ctype_print($prev_char)
+					&& ! preg_match('/^[\x20-\x7f]*$/D', $next_char) && ! preg_match('/^[\x20-\x7f]*$/D', $prev_char))
 				{
-					substr_replace($output, '', $position[1], 1);
+					$output = substr_replace($output, '', $position[1] - $removed_lf, 1);
+					$removed_lf++;
 				}
 			}
 		}
