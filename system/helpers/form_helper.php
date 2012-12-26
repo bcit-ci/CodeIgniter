@@ -168,6 +168,34 @@ if ( ! function_exists('form_hidden'))
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('form_csrf'))
+{
+	/**
+	 * CSRF field
+	 *
+	 * Generates a hidden field with the CSRF data
+	 *
+	 * @return	string
+	 */
+	function form_csrf()
+	{
+		$CI =& get_instance();
+
+		$csrf_field = "";
+
+		// Check if CSRF is enabled
+		if ($CI->config->item('csrf_protection') === TRUE)
+		{
+			$csrf_data = array($CI->security->get_csrf_token_name()] => $CI->security->get_csrf_hash());
+			$csrf_field = '<div style="display:none;">'.form_hidden($csrf_data).'</div>';
+		}
+
+		return $csrf_field;
+	}
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('form_input'))
 {
 	/**
