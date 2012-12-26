@@ -862,7 +862,7 @@ class CI_Output {
 					// or not preceded/followed by an alphanumeric
 					// or not preceded/followed \ $ and _
 					if ((preg_match('/^[\x20-\x7f]*$/D', $next) or preg_match('/^[\x20-\x7f]*$/D', $prev))
-						&& ( ! ctype_alnum($next) || ! ctype_alnum($prev))
+						&& ( ! ctype_alnum($next) or ! ctype_alnum($prev))
 						&& ( ! in_array($next, array('\\', '_', '$')) && ! in_array($prev, array('\\', '_', '$'))))
 					{
 						unset($array_output[$key]);
