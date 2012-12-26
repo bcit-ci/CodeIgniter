@@ -51,25 +51,60 @@ if ( ! function_exists('byte_format'))
 	{
 		$CI =& get_instance();
 		$CI->lang->load('number');
+		
+		$kb = 1024;			// Kilobyte
+		$mb = 1024 * $kb;	// Megabyte
+		$gb = 1024 * $mb;	// Gigabyte
+		$tb = 1024 * $gb;	// Terabyte
+		$pb = 1024 * $tb;	// Pettabyte
+		$eb = 1024 * $pb;	// Exabyte
+		$zb = 1024 * $eb;	// Zettabyte
+		$yb = 1024 * $zb;	// Yottabyte
+		$bb = 1024 * $yb;	// Brontobyte
 
-		if ($num >= 1000000000000)
+		if ($num >= $bb)
 		{
-			$num = round($num / 1099511627776, $precision);
+			$num = round($num / $bb, $precision);
+			$unit = $CI->lang->line('brontobyte_abbr');
+		}
+		elseif ($num >= $yb)
+		{
+			$num = round($num / $yb, $precision);
+			$unit = $CI->lang->line('yottabyte_abbr');
+		}
+		elseif ($num >= $zb)
+		{
+			$num = round($num / $zb, $precision);
+			$unit = $CI->lang->line('zettabyte_abbr');
+		}
+		elseif ($num >= $eb)
+		{
+			$num = round($num / $eb, $precision);
+			$unit = $CI->lang->line('exabyte_abbr');
+		}
+		elseif ($num >= $pb)
+		{
+			$num = round($num / $pb, $precision);
+			$unit = $CI->lang->line('pettabyte_abbr');
+		}
+		elseif ($num >= $tb)
+		{
+			$num = round($num / $tb, $precision);
 			$unit = $CI->lang->line('terabyte_abbr');
 		}
-		elseif ($num >= 1000000000)
+		elseif ($num >= $gb)
 		{
-			$num = round($num / 1073741824, $precision);
+			$num = round($num / $gb, $precision);
 			$unit = $CI->lang->line('gigabyte_abbr');
 		}
-		elseif ($num >= 1000000)
+		elseif ($num >= $mb)
 		{
-			$num = round($num / 1048576, $precision);
+			$num = round($num / $mb, $precision);
 			$unit = $CI->lang->line('megabyte_abbr');
 		}
-		elseif ($num >= 1000)
+		elseif ($num >= $kb)
 		{
-			$num = round($num / 1024, $precision);
+			$num = round($num / $kb, $precision);
 			$unit = $CI->lang->line('kilobyte_abbr');
 		}
 		else
