@@ -85,6 +85,7 @@ Release Date: Not Released
    -  :doc:`Form Helper <helpers/form_helper>` changes include:
 	 - :php:func:`form_dropdown()` will now also take an array for unity with other form helpers.
 	 - :php:func:`form_prep()`'s second argument now only accepts a boolean value, which determines whether the value is escaped for a <textarea> or a regular <input> element.
+	 - :php:func:`form_hidden()` added an optional paramater to allow pass extra attributes.
    -  :doc:`Security Helper <helpers/security_helper>` changes include:
 	 - :php:func:`do_hash()` now uses PHP's native ``hash()`` function (supporting more algorithms) and is deprecated.
 	 - :php:func:`strip_image_tags()` is now an alias for the same method in the :doc:`Security Library <libraries/security>`.
@@ -100,8 +101,6 @@ Release Date: Not Released
    -  :doc:`Directory Helper <helpers/directory_helper>` :php:func:`directory_map()` will now append ``DIRECTORY_SEPARATOR`` to directory names in the returned array.
    -  :doc:`Language Helper <helpers/language_helper>` :php:func:`lang()` now accepts an optional list of additional HTML attributes.
    -  Deprecated the :doc:`Email Helper <helpers/email_helper>` as its ``valid_email()``, ``send_email()`` functions are now only aliases for PHP native functions ``filter_var()`` and ``mail()`` respectively.
-   -  :doc:`Form Helper <helpers/form_helper>` changes include:
-	 - Added an optional paramater to :php:func:`form_hidden()` to allow pass extra attributes.
 
 -  Database
 
