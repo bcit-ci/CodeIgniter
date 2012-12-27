@@ -4,7 +4,9 @@ class Parser_test extends CI_TestCase {
 
 	public function set_up()
 	{
-		$this->parser = new Mock_Libraries_Parser();
+		// pass in a useless array to bypass loading from config file
+		$config = array('tmp' => 'no_val');	
+		$this->parser = new Mock_Libraries_Parser($config);
 		$this->ci_instance_var('parser', $this->parser);
 	}
 
