@@ -32,14 +32,6 @@
 | The driver to be loaded. Similar to the database config file where you
 | select which db driver to be used. The default is Codeigniter's Scorch parser.
 | The adpater name must be all lower case.
-| Drivers supported natively by Codeigniter:
-| dwoo
-| mustache
-| raintpl
-| scorch
-| smarty
-| twig
-|
 | If you add any new drivers, then you must set the driver here to access
 | your driver with this syntax:
 | $this->parser->my_new_driver_func()
@@ -47,7 +39,7 @@
 | $this->parser->my_new_driver->some_func()
 */
 
-$config['driver'] = 'scorch';
+$config['driver'] = 'simple';
 
 /*
 | -------------------------------------------------------------------------

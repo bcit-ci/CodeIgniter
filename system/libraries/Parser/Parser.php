@@ -50,12 +50,7 @@ class CI_Parser extends CI_Driver_Library {
 	 * @var array
 	 */
 	protected $valid_drivers = array(
-		'scorch',
-		'smarty',
-		'dwoo',
-		'raintpl',
-		'twig',
-		'mustache'
+		'simple'
 	);
 
 	/**
@@ -99,12 +94,12 @@ class CI_Parser extends CI_Driver_Library {
 		$this->valid_drivers = array_merge($this->valid_drivers, $default_config['valid_drivers']);
 		
 		// set template config items
-		$this->template_config['template_dir']	= ($default_config['template_dir']) ? $default_config['template_dir'] : APPPATH.'views/templates/';
-		$this->template_config['cache_dir']		= ($default_config['cache_dir']) ? $default_config['cache_dir'] : APPPATH.'cache/';
-		$this->template_config['compile_dir']	= ($default_config['compile_dir']) ? $default_config['compile_dir'] : APPPATH.'views/templates/compile/';
+		$this->template_config['template_dir']	= ($default_config['template_dir'])	? $default_config['template_dir'] : APPPATH.'views/templates/';
+		$this->template_config['cache_dir']		= ($default_config['cache_dir'])	? $default_config['cache_dir'] : APPPATH.'cache/';
+		$this->template_config['compile_dir']	= ($default_config['compile_dir'])	? $default_config['compile_dir'] : APPPATH.'views/templates/compile/';
 		
 		// set the driver
-		$this->driver = $this->load_driver(($default_config['driver']) ? $default_config['driver'] : 'scorch');	// make sure we have a driver to load
+		$this->driver = $this->load_driver(($default_config['driver']) ? $default_config['driver'] : 'simple');	// make sure we have a driver to load
 	}
 	
 	/**
