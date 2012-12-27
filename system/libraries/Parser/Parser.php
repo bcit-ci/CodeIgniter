@@ -79,14 +79,13 @@ class CI_Parser extends CI_Driver_Library {
 	{
 		$this->ci = &get_instance();
 		
-		if ($this->ci->config->load('parser', TRUE, TRUE))
-		{
-			$default_config = $this->ci->config->item('parser');
-		}
-		
 		if (count($config) > 0)
 		{
 			$default_config = array_merge($default_config, $config);
+		}
+		else
+		{
+			$default_config = $this->ci->config->item('parser');
 		}
 		
 		// if user added some drivers, then we need put them in the valid_drivers array
