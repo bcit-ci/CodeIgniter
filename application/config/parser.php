@@ -37,9 +37,11 @@
 | $this->parser->my_new_driver_func()
 | instead of:
 | $this->parser->my_new_driver->some_func()
+| 
+| Defaults to CI's simple parser
 */
 
-$config['driver'] = 'dummy';
+$config['driver'] = '';
 
 /*
 | -------------------------------------------------------------------------
@@ -50,7 +52,7 @@ $config['driver'] = 'dummy';
 |
 */
 
-$config['valid_drivers'] = array('dummy');
+$config['valid_drivers'] = array();
 
 /*
 | -------------------------------------------------------------------------
@@ -59,17 +61,18 @@ $config['valid_drivers'] = array('dummy');
 | Some default directories for the parser drivers. These variables don't apply
 | to every driver. For example, CI's Scorch driver uses CI views for its
 | templates.
+| 'var_name'		= description - default value
 |
-| 'template_dir'	= base directory to the stored templates
+| 'template_dir'	= base directory to the stored templates - APPPATH.'views/templates/'
 | 'cache_dir'		= directory to the cached templates (this directory has to be writable) if 
-|	the chosen driver uses caching
-| 'compile_dir'		= directory to the compiled templates. (this directory needs to be writable)
+|	the chosen driver uses caching - APPPATH.'cache/';
+| 'compile_dir'		= directory to the compiled templates. (this directory needs to be writable) - APPPATH.'views/templates/compile/';
 |
 */
 
-$config['template_dir']	= APPPATH.'views/templates/';
-$config['cache_dir']	= APPPATH.'cache/';
-$config['compile_dir']	= APPPATH.'views/templates/compile/';
+$config['template_dir']	= '';
+$config['cache_dir']	= '';
+$config['compile_dir']	= '';
 
 /* End of file profiler.php */
 /* Location: ./application/config/parser.php */
