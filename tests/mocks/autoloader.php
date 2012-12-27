@@ -25,14 +25,14 @@ function autoload($class)
 		'Calendar', 'Cart', 'Driver_Library',
 		'Email', 'Encrypt', 'Form_validation',
 		'Ftp', 'Image_lib', 'Javascript',
-		'Migration', 'Pagination', 'Parser',
-		'Profiler', 'Table', 'Trackback',
-	   	'Typography', 'Unit_test', 'Upload',
-	   	'User_agent', 'Xmlrpc', 'Zip'
+		'Migration', 'Pagination', 'Profiler',
+		'Table', 'Trackback', 'Typography',
+		'Unit_test', 'Upload', 'User_agent',
+		'Xmlrpc', 'Zip'
 	);
 
 	$ci_drivers = array(
-		'Session',
+		'Session', 'Parser'
 	);
 
 	if (strpos($class, 'Mock_') === 0)

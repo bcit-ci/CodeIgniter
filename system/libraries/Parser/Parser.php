@@ -138,18 +138,33 @@ class CI_Parser extends CI_Driver_Library {
 		return $this->driver->parse_string($template, $data, $return);
 	}
 	
+	public function __get($name)
+	{
+		if (property_exists($this->driver, $name))
+		{
+			return $this->driver->{$name};
+		}
+		
+		return NULL;	
+	}
+	
 	/**
-	* __call magic method
-	*
-	* Any call to the parser driver will default to calling the specified adapter
-	*
-	* @param	string
-	* @param	array
-	* @return	mixed
-	*/
+	 * __call magic method
+	 *
+	 * Any call to the parser driver will default to calling the specified adapter
+	 *
+	 * @param	string
+	 * @param	array
+	 * @return	mixed
+	 */
 	public function __call($method, $args = array())
 	{
-		return call_user_func_array(array($this->{$this->driver}, $method), $args);
+		if (method_exists($this->driver, $method))
+		{
+			return call_user_func_array(array($this->driver, $method), $args);
+		}
+		
+		return NULL;
 	}
 }
 
