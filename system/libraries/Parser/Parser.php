@@ -79,9 +79,17 @@ class CI_Parser extends CI_Driver_Library {
 	{
 		$this->ci = &get_instance();
 		
+		$default_config = array(
+			'valid_drivers' => array(),
+			'driver'		=> '',
+			'template_dir'	=> '',
+			'cache_dir'		=> '',
+			'compile_dir'	=> '',
+		);
+		
 		if (count($config) > 0)
 		{
-			$default_config = $config;
+			$default_config = array_merge($default_config, $config);
 		}
 		else
 		{
