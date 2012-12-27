@@ -81,7 +81,7 @@ class CI_Parser extends CI_Driver_Library {
 		
 		if (count($config) > 0)
 		{
-			$default_config = array_merge($default_config, $config);
+			$default_config = $config;
 		}
 		else
 		{
