@@ -39,7 +39,7 @@
 | $this->parser->my_new_driver->some_func()
 */
 
-$config['driver'] = 'simple';
+$config['driver'] = 'dummy';
 
 /*
 | -------------------------------------------------------------------------
@@ -50,7 +50,7 @@ $config['driver'] = 'simple';
 |
 */
 
-$config['valid_drivers'] = array();
+$config['valid_drivers'] = array('dummy');
 
 /*
 | -------------------------------------------------------------------------

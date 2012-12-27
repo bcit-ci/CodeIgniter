@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/parser.html
  */
-class CI_Parser_simple extends CI_Driver {
+class CI_Parser_simple extends CI_Parser_driver {
 
 	/**
 	 * Left delimeter character for psuedo vars
@@ -67,8 +67,6 @@ class CI_Parser_simple extends CI_Driver {
 	 */
 	public function __construct()
 	{
-		parent::__construct();
-		
 		$this->CI =& get_instance();
 	}
 
