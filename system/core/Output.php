@@ -840,11 +840,9 @@ class CI_Output {
 		$output = preg_replace('!\s*(:|;|,|}|{|\(|\))\s*!i', '$1', $output);
 
 		// Replace tabs with spaces
-		$output = preg_replace('/\t/', ' ', $output);
-
 		// Replace carriage returns & multiple new lines with single new line
 		// and trim any leading or trailing whitespace
-		$output = trim(preg_replace(array('/\r/', '/\n+/'), "\n", $output));
+		$output = trim(preg_replace(array('/\t+/', '/\r/', '/\n+/'), array(' ', "\n", "\n"), $output));
 
 		// Remove spaces when safe to do so.
 		$in_string = $in_dstring = $prev = FALSE;
@@ -900,10 +898,10 @@ class CI_Output {
 				$next_char = substr($output, $position[1] - $removed_lf + 1, 1);
 				$prev_char = substr($output, $position[1] - $removed_lf - 1, 1);
 				if ( ! ctype_print($next_char) && ! ctype_print($prev_char)
-					&& ! preg_match('/^[\x20-\x7f]*$/D', $next_char) && ! preg_match('/^[\x20-\x7f]*$/D', $prev_char))
+					&& ! preg_match('/^[\x20-\x7f]*$/D', $next_char)
+					&& ! preg_match('/^[\x20-\x7f]*$/D', $prev_char))
 				{
-					$output = substr_replace($output, '', $position[1] - $removed_lf, 1);
-					$removed_lf++;
+					$output = substr_replace($output, '', $position[1] - $removed_lf++, 1);
 				}
 			}
 		}
