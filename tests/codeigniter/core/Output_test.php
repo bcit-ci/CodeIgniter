@@ -29,8 +29,8 @@ class Output_test extends CI_TestCase {
 
 		$this->output->set_content_type('text/plain', 'WINDOWS-1251');
 		$this->assertEquals(
-			'text/plain; charset=windows-1251',		// Character set is converted to lowercase
-			$this->output->get_header('content-type')	// Case-insensitive comparison
+			'text/plain; charset=WINDOWS-1251',
+			$this->output->get_header('content-type')
 		);
 	}
 
