@@ -239,7 +239,7 @@ class CI_Output {
 		}
 
 		$header = 'Content-Type: '.$mime_type
-			.(empty($charset) ? NULL : '; charset='.strtolower($charset));
+			.(empty($charset) ? NULL : '; charset='.$charset);
 
 		$this->headers[] = array($header, TRUE);
 		return $this;
@@ -810,8 +810,7 @@ class CI_Output {
 	 * closing parenthesis are not recognized by the script. For best results
 	 * be sure to terminate lines with a semicolon when appropriate.
 	 *
-	 *
-	 * @param	string	$output	Output to minify
+	 * @param	string	$output		Output to minify
 	 * @param	bool	$has_tags	Specify if the output has style or script tags
 	 * @return	string	Minified output
 	 */
@@ -861,7 +860,9 @@ class CI_Output {
 					// or not preceded/followed \ $ and _
 					if ((preg_match('/^[\x20-\x7f]*$/D', $next) OR preg_match('/^[\x20-\x7f]*$/D', $prev))
 						&& ( ! ctype_alnum($next) OR ! ctype_alnum($prev))
-						&& ( ! in_array($next, array('\\', '_', '$')) && ! in_array($prev, array('\\', '_', '$'))))
+						&& ! in_array($next, array('\\', '_', '$'), TRUE)
+						&& ! in_array($prev, array('\\', '_', '$'), TRUE)
+					)
 					{
 						unset($array_output[$key]);
 					}
@@ -895,13 +896,16 @@ class CI_Output {
 		{
 			foreach ($feed_position as $position)
 			{
-				$next_char = substr($output, $position[1] - $removed_lf + 1, 1);
-				$prev_char = substr($output, $position[1] - $removed_lf - 1, 1);
-				if ( ! ctype_print($next_char) && ! ctype_print($prev_char)
-					&& ! preg_match('/^[\x20-\x7f]*$/D', $next_char)
-					&& ! preg_match('/^[\x20-\x7f]*$/D', $prev_char))
+				$position = $position[1] - $removed_lf;
+				$next = $output[$position + 1];
+				$prev = $output[$position - 1];
+				if ( ! ctype_print($next) && ! ctype_print($prev)
+					&& ! preg_match('/^[\x20-\x7f]*$/D', $next)
+					&& ! preg_match('/^[\x20-\x7f]*$/D', $prev)
+				)
 				{
-					$output = substr_replace($output, '', $position[1] - $removed_lf++, 1);
+					$output = substr_replace($output, '', $position, 1);
+					$removed_lf++;
 				}
 			}
 		}
