@@ -410,6 +410,113 @@ abstract class CI_DB_utility {
 		return;
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Database Restore
+	 *
+	 * @param	array	$params
+	 * @return	void
+	 */
+	public function restore($params = array())
+	{
+		// If the parameters have not been submitted as an
+		// array then we know that it is simply the filepath,
+		// which is a valid short cut.
+		if (is_string($params))
+		{
+			$params = array('filepath' => $params);
+		}
+
+		// Set up our default preferences
+		$prefs = array(
+			'filepath'				=> '',
+			'delete_after_upload'	=> FALSE
+		);
+
+		// Did the user submit any preferences? If so set them....
+		if (count($params) > 0)
+		{
+			foreach ($prefs as $key => $val)
+			{
+				if (isset($params[$key]))
+				{
+					$prefs[$key] = $params[$key];
+				}
+			}
+		}
+
+		// Check if given filepath is not empty
+		if ($prefs['filepath'] == '')
+		{
+			show_error('Parameter filepath is not set. Please specify a filepath.');
+			return FALSE;
+		}
+		// Do the following if filepath is specified
+		else
+		{
+			$CI =& get_instance();
+			$CI->load->helper('file');
+
+			$string = read_file($prefs['filepath']);
+			$queries = explode(';', $string);
+
+			if ($string)
+			{
+				// Load database and dbforge library
+				$CI->load->database();
+				$CI->load->dbforge();
+				
+				$db_name = $CI->db->database; // get name of active database
+
+				$CI->dbforge->drop_database($db_name); // drops the active database
+				$CI->dbforge->create_database($db_name); // creates the original database again
+
+				$CI->db->close();
+				$CI->load->database();
+
+				$flag = FALSE;
+
+				foreach ($queries as $query)
+				{
+					if ($query != '' || $query != NULL)
+					{
+						$CI->db->query("SET FOREIGN_KEY_CHECKS = 0");
+						$check = $CI->db->query($query);
+						$CI->db->query("SET FOREIGN_KEY_CHECKS = 1");
+						if($check) {
+							$flag = TRUE;
+						}
+						else {
+							$flag = FALSE;
+							break;
+						}
+					}
+				}
+
+				if ($flag)
+				{
+					if ($prefs['delete_after_upload'] == TRUE)
+					{
+						unlink($prefs['filepath']);
+					}
+					return TRUE;
+				}
+				else
+				{
+					return FALSE;
+				}
+			}
+			else
+			{
+				show_error($prefs['filepath'] . ' could not be read. Please make sure it\'s accessible.');
+				return FALSE;
+			}
+		}
+
+		return;
+	}
+
 }
 
 /* End of file DB_utility.php */
