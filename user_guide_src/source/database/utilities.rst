@@ -277,7 +277,6 @@ Description of Restore Preferences
 ======================= ======================= ======================= ========================================================================
 Preference              Default Value           Options                 Description
 ======================= ======================= ======================= ========================================================================
-**filepath**             ''                      None                    The path of the file from where you want to backup
-                                                                         exported.
+**filepath**             ""                      None                    The path of the file from where you want to backup
 **delete_after_upload**  FALSE                   TRUE/FALSE              Whether to delete the file after completion of the restore
 ======================= ======================= ======================= ========================================================================
