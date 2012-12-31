@@ -788,7 +788,7 @@ class CI_Input {
 		// take SOME_HEADER and turn it into Some-Header
 		foreach ($headers as $key => $val)
 		{
-			$key = str_replace('_', ' ', strtolower($key));
+			$key = str_replace(array('_', '-'), ' ', strtolower($key));
 			$key = str_replace(' ', '-', ucwords($key));
 
 			$this->headers[$key] = $val;
