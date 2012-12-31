@@ -506,23 +506,13 @@ class CI_URI {
 			return $default;
 		}
 
-		in_array($which, array('segment', 'rsegment'), TRUE) OR $which = 'segment';
-
 		if (isset($this->keyval[$which], $this->keyval[$which][$n]))
 		{
 			return $this->keyval[$which][$n];
 		}
 
-		if ($which === 'segment')
-		{
-			$total_segments = 'total_segments';
-			$segment_array = 'segment_array';
-		}
-		else
-		{
-			$total_segments = 'total_rsegments';
-			$segment_array = 'rsegment_array';
-		}
+		$total_segments = "total_{$which}s";
+		$segment_array = "{$which}_array";
 
 		if ($this->$total_segments() < $n)
 		{
