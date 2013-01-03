@@ -195,7 +195,7 @@ class Config_test extends CI_TestCase {
 		$pkg_dir = 'package';
 		$this->ci_vfs_create($file.'.php', '<?php $config = '.var_export($cfg2, TRUE).';', $this->ci_app_root,
 			array($pkg_dir, 'config'));
-		array_push($this->config->_config_paths, $this->ci_vfs_path($pkg_dir.'/', APPPATH));
+		$this->config->_config_paths[] = $this->ci_vfs_path($pkg_dir.'/', APPPATH);
 		$this->assertTrue($this->config->load($file, TRUE));
 		$this->assertEquals(array_merge($cfg, $cfg2), $this->config->item($file));
 		array_pop($this->config->_config_paths);
