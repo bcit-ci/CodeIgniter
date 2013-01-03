@@ -127,6 +127,14 @@ $this->agent->browser()
 Returns a string containing the name of the web browser viewing your
 site.
 
+$this->agent->compatibility_mode()
+==================================
+
+Returns a boolean identifying whether or not Internet Explorer running
+in compatibility mode was detected in the user agent string.  This is
+based on comparing the reported browser version to the Trident engine
+version in the user agent string.
+
 $this->agent->version()
 =======================
 

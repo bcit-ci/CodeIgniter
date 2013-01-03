@@ -104,6 +104,13 @@ $browsers = array(
 	'IBrowse'		=> 'IBrowse'
 );
 
+// Internet Explorer Trident engines used to determine IE7 compatibility mode
+$msie_compatibility_modes = array(
+	'8.0'   =>  'Trident/4',
+	'9.0'   =>  'Trident/5',
+	'10.0'  =>  'Trident/6'
+);
+
 $mobiles = array(
 	// legacy array, old values commented out
 	'mobileexplorer'	=> 'Mobile Explorer',
