@@ -378,7 +378,12 @@ class CI_Form_validation {
 		{
 			if ($val !== '')
 			{
-				$str .= $prefix.$val.$suffix."\n";
+				//For more custom, delete this "\n"
+				// now you can do this :
+				// validation_errors("<p>","</p>\n");
+				// or this :
+				// validation_errors("<p>","</p><br />");
+				$str .= $prefix.$val.$suffix; 
 			}
 		}
 
