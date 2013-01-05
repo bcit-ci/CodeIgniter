@@ -739,7 +739,7 @@ class CI_Output {
 				$output = preg_replace('!\s{2,}!', ' ', $output);
 
 				// Remove comments (non-MSIE conditionals)
-				$output = preg_replace('{\s*<!--[^\[<>].*(?<!!)-->\s*}msU', '', $output);
+				$output = preg_replace('{\s*<!--[^\[].*-->\s*}msU', '', $output);
 
 				// Remove spaces around block-level elements.
 				$output = preg_replace('/\s*(<\/?(html|head|title|meta|script|link|style|body|h[1-6]|div|p|br)[^>]*>)\s*/is', '$1', $output);
