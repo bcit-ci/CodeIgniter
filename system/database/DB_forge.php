@@ -1011,25 +1011,21 @@ abstract class CI_DB_forge {
 				//  If this is an array, construct the statement
 				if (is_array($foreign_key))
 				{
-					// Initialize update and delete actions with default values
-					$array_init = array('delete' => 'NO ACTION', 'update' => 'NO ACTION');
-
-					// Add the default values if needed
-					$foreign_key = array_merge($array_init, $foreign_key);
-
-					// Extract the array elements into variables for simplicity
-					extract($foreign_key);
+					// Initialize default actions and use them if needed
+					// Then put array into variables for simplicity
+					$vars = extract(array_merge(array(
+						'delete' => 'NO ACTION', 'update' => 'NO ACTION'), $foreign_key));
 
 					// Construct the SQL to add the foreign constraint
-					$sql .= ", \n\tCONSTRAINT FOREIGN KEY "
-						.$this->db->escape_identifiers('fk_'.$foreign_table.'_'.$foreign_field)
-						.' ('.$this->db->escape_identifiers($field).') '
+					$sql .= ", \n\tCONSTRAINT FOREIGN KEY (".$this->db->escape_identifiers($field).') '
 						.' REFERENCES '.$this->db->escape_identifiers($foreign_table
 						.'('.$this->db->escape_identifiers($foreign_field).')')
 						.' ON DELETE '.strtoupper($delete).' ON UPDATE '.strtoupper($update).' ';
 
-				} else {
-					// Otherwise add the string statement as-is
+				}
+				// Otherwise add the string statement as-is
+				else
+				{
 					$sql .= ', '.$foreign_key.' ';
 				}
 			}
