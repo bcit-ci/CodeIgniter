@@ -465,9 +465,9 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	protected function _delete($table)
 	{
-		if ($this->qb_limit)
+		if ($this->db_limit)
 		{
-			return 'WITH ci_delete AS (SELECT TOP '.$this->qb_limit.' * FROM '.$table.$this->_compile_wh('qb_where').') DELETE FROM ci_delete';
+			return 'WITH ci_delete AS (SELECT TOP '.$this->db_limit.' * FROM '.$table.$this->_compile_wh('db_where').') DELETE FROM ci_delete';
 		}
 
 		return parent::_delete($table);
@@ -485,11 +485,11 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	protected function _limit($sql)
 	{
-		$limit = $this->qb_offset + $this->qb_limit;
+		$limit = $this->db_offset + $this->db_limit;
 
 		// As of SQL Server 2005 (9.0.*) ROW_NUMBER() is supported,
 		// however an ORDER BY clause is required for it to work
-		if (version_compare($this->version(), '9', '>=') && $this->qb_offset && ! empty($this->qb_orderby))
+		if (version_compare($this->version(), '9', '>=') && $this->db_offset && ! empty($this->db_orderby))
 		{
 			$orderby = $this->_compile_order_by();
 
@@ -497,7 +497,7 @@ class CI_DB_mssql_driver extends CI_DB {
 			$sql = trim(substr($sql, 0, strrpos($sql, $orderby)));
 
 			// Get the fields to select from our subquery, so that we can avoid CI_rownum appearing in the actual results
-			if (count($this->qb_select) === 0)
+			if (count($this->db_select) === 0)
 			{
 				$select = '*'; // Inevitable
 			}
@@ -507,10 +507,10 @@ class CI_DB_mssql_driver extends CI_DB {
 				$select = array();
 				$field_regexp = ($this->_quoted_identifier)
 					? '("[^\"]+")' : '(\[[^\]]+\])';
-				for ($i = 0, $c = count($this->qb_select); $i < $c; $i++)
+				for ($i = 0, $c = count($this->db_select); $i < $c; $i++)
 				{
-					$select[] = preg_match('/(?:\s|\.)'.$field_regexp.'$/i', $this->qb_select[$i], $m)
-						? $m[1] : $this->qb_select[$i];
+					$select[] = preg_match('/(?:\s|\.)'.$field_regexp.'$/i', $this->db_select[$i], $m)
+						? $m[1] : $this->db_select[$i];
 				}
 				$select = implode(', ', $select);
 			}
@@ -518,7 +518,7 @@ class CI_DB_mssql_driver extends CI_DB {
 			return 'SELECT '.$select." FROM (\n\n"
 				.preg_replace('/^(SELECT( DISTINCT)?)/i', '\\1 ROW_NUMBER() OVER('.trim($orderby).') AS '.$this->escape_identifiers('CI_rownum').', ', $sql)
 				."\n\n) ".$this->escape_identifiers('CI_subquery')
-				."\nWHERE ".$this->escape_identifiers('CI_rownum').' BETWEEN '.($this->qb_offset + 1).' AND '.$limit;
+				."\nWHERE ".$this->escape_identifiers('CI_rownum').' BETWEEN '.($this->db_offset + 1).' AND '.$limit;
 		}
 
 		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$limit.' ', $sql);
