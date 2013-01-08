@@ -56,13 +56,6 @@ $laws = array(
  
  
 public class Cookie {
-        	
-		/**
-		 * Log all errors so it can be displayed for debug purposes
-		 * 
-		 * @var array
-		 * */
-		private $log = array();
 		
 		/**
 		 * You can define cookie objects to either follow the law provided in the framework
@@ -72,7 +65,7 @@ public class Cookie {
 		 * 
 		 * @var bool
 		 * */
-        private $follow_law = true;
+        protected $follow_law = true;
 		
 		/**
 		 * True if PHPs setcookie function works
@@ -80,37 +73,51 @@ public class Cookie {
 		 * 
 		 * @var bool
 		 * */
-        private $success;
+        protected $setcookie;
 		
 		/**
-		 * 1 = This cookie is allways disabled, no matter laws
+		 * 
+		 * There's two levels of options.
+		 * First is the site owner.
+		 * -managed by the $disabled variable
+		 * Second is the end-user
+		 * -managed by the $end_user_accepted variable 
+		 *
+		 * 1 = This cookie is always disabled, no matter laws
 		 * 0 = disabled/enabled depending
-		 * -1 = This cookie is allways disabled, no matter laws
+		 * -1 = This cookie is always enabled, no matter laws
 		 * 
 		 * @var number 
 		 * */
-        private $disabled = 0;
+        protected $disabled = 0;
 		
 		/**
+		 * 
+		 * There's two levels of options.
+		 * First is the site owner.
+		 * -managed by the $disabled variable
+		 * Second is the end-user
+		 * -managed by the $end_user_accepted variable
+		 *
 		 * true if the end user agreed to store cookies
 		 * 
 		 * @var bool
 		 * */
-		private $end_user_accepted = false;
+		protected $end_user_accepted = false;
 		
 		/**
 		 * Set the region
 		 * 
 		 * @var String
 		 * */
-		private $region = "";
+		protected $region = '';
 		
 		/**
 		 * See the switch case in this->create() for details of the laws
 		 * 
 		 * @var String
 		 * */
-		private $law = "";
+		protected $law = '';
        
        
         /**
@@ -118,65 +125,65 @@ public class Cookie {
 		 * 
 		 * @var String
 		 * */
-		private $name;
+		protected $name;
 		
 		/**
 		 * Cookie value
 		 * 
 		 * @var String
 		 * */
-		private $value;
+		protected $value;
 		
 		/**
 		 * Cookie expiration
 		 * 
 		 * @var 
 		 * */
-		private $expiration;
+		protected $expiration;
 		
 		/**
 		 * Cookie domain
 		 * 
 		 * @var 
 		 * */
-		private $domain;
+		protected $domain;
 		
 		/**
 		 * Cookie path
 		 * 
 		 * @var 
 		 * */
-		private $path;
+		protected $path;
 
 		/**
 		 * Cookie prefix
 		 * 
 		 * @var 
 		 * */
-		private $prefix;
+		protected $prefix;
         
 		/**
 		 * Cookie secure
 		 * 
 		 * @var 
 		 * */
-		private $security;
+		protected $security;
 		
 		/**
 		 * Cookie httponly
 		 * 
 		 * @var 
 		 * */
-		private $httponly;
+		protected $httponly;
        
  
         /*
-        private $laws = array(
+        protected $laws = array(
                 'region' => ''
         );
        
         //etc ->
-        private $laws = array(
+        protected $laws = array(
                 'EU' => array(
                         'general_rule' => 'not_before_accepted' //No cookies before acception
                         'regional_exceptions' => array(
@@ -209,7 +216,7 @@ public class Cookie {
  
 
  
-        private function set_cookie($expire = this->expire)
+        protected function set_cookie($expire = this->expire)
         {
                 if(!setcookie($this->prefix.$this->name,
                         $this->value,
@@ -220,13 +227,13 @@ public class Cookie {
                         $this->httponly
                 ))
 				{
-					$this->success=false;
-					$this->log[] = 'Cookies cannot be set by Cookie::set_cookie()';
+					$this->setcookie=false;
+					log_message('error', 'Cookies cannot be set by Cookie::set_cookie()');
 				}
         }
 		
 		
-		private function register_law($laws, $region)
+		protected function register_law($laws, $region)
 		{
 			foreach($laws as $el => $key)
 			{
@@ -291,7 +298,7 @@ public class Cookie {
 							}
 							else
 							{
-								$this->log[] = "The law is followed and making this cookie is illegal";
+								log_message('error', 'The law is followed and making this cookie is illegal');
 								return false;
 								break;
 							}
@@ -305,11 +312,11 @@ public class Cookie {
 			}
 			if($this->disabled === true)
 			{
-				$this->log[] = "Cannot set a new cookie, since disabled is true";
+				log_message('error', 'Cannot set a new cookie, since disabled is true');
 			}
 			else
 			{
-				$this->log[] = "Unknown error in 'Cookie::create();'";	
+				log_message('error', 'Unknown error in "Cookie::create();"');	
 			}
 			
 			return false;
@@ -354,9 +361,10 @@ public class Cookie {
 		}
 		
 		
-		public function display_log()
+		public function set_disabled($num)
 		{
-			return var_dump($this->log);
+			//1, 0 or -1
+			$this->disbled = $num;
 		}
 		
 		
@@ -408,19 +416,19 @@ public class Cookie {
         }
        
        
-        public get_follow_law()
+        public function get_follow_law()
         {
                 return $this->follow_law;
         }
  
  
-        public get_success()
+        public function get_success()
         {
-                return $this->success;
+                return $this->setcookie;
         }
  
  
-        public get_disabled()
+        public function get_disabled()
         {
                 return $this->disabled;
         }
