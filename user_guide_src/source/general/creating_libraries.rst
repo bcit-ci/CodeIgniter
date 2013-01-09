@@ -148,30 +148,30 @@ take full advantage of the OOP principles. So, in order to
 be able to use the CodeIgniter super-object in all of the class
 methods, you're encouraged to assign it to a property instead::
 
-class Example_library {
+	class Example_library {
 
-	protected $CI;
+		protected $CI;
 
-	// We'll use a constructor, as you can't directly call a function
-	// from a property definition.
-	public function __construct()
-	{
-		// Assign the CodeIgniter super-object
-		$this->CI =& get_instance();
+		// We'll use a constructor, as you can't directly call a function
+		// from a property definition.
+		public function __construct()
+		{
+			// Assign the CodeIgniter super-object
+			$this->CI =& get_instance();
+		}
+
+		public function foo()
+		{
+			$this->CI->load->helper('url');
+			redirect();
+		}
+
+		public function bar()
+		{
+			echo $this->CI->config_item('base_url');
+		}
+
 	}
-
-	public function foo()
-	{
-		$this->CI->load->helper('url');
-		redirect();
-	}
-
-	public function bar()
-	{
-		echo $this->CI->config_item('base_url');
-	}
-
-}
 
 Replacing Native Libraries with Your Versions
 =============================================
