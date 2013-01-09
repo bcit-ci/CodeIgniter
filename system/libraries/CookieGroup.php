@@ -34,7 +34,7 @@
  * @subpackage	Libraries
  * @category	Libraries
  * @author		Anders Persson
- * @link		http://codeigniter.com/user_guide/libraries/cookie.html
+ * @link		http://codeigniter.com/user_guide/libraries/cookiegroup.html
  *
  * */
 class CookieGroup {
