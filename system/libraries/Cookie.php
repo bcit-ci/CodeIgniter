@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
@@ -54,149 +54,128 @@ $laws = array(
 	//And so on
 );
  
- 
 class Cookie {
 		
-		/**
-		 * You can define cookie objects to either follow the law provided in the framework
-		 * or not
-		 * However, it's still possible to disable/enable cookies and therefore define your
-		 * own laws
-		 * 
-		 * @var bool
-		 * */
-        protected $follow_law = TRUE;
-		
-		/**
-		 * TRUE if PHPs setcookie function works
-		 * FALSE if it doesn't
-		 * 
-		 * @var bool
-		 * */
-        protected $setcookie;
-		
-		/**
-		 * 
-		 * There's two levels of options.
-		 * First is the site owner.
-		 * -managed by the $disabled variable
-		 * Second is the end-user
-		 * -managed by the $end_user_accepted variable 
-		 *
-		 * 1 = This cookie is always disabled, no matter laws
-		 * 0 = disabled/enabled depending
-		 * -1 = This cookie is always enabled, no matter laws
-		 * 
-		 * @var int 
-		 * */
-        protected $disabled = 0;
-		
-		/**
-		 * 
-		 * There's two levels of options.
-		 * First is the site owner.
-		 * -managed by the $disabled variable
-		 * Second is the end-user
-		 * -managed by the $end_user_accepted variable
-		 *
-		 * TRUE if the end user agreed to store cookies
-		 * 
-		 * @var bool
-		 * */
-		protected $end_user_accepted = FALSE;
-		
-		/**
-		 * Set the region
-		 * 
-		 * @var String
-		 * */
-		protected $region = '';
-		
-		/**
-		 * See the switch case in this->create() for details of the laws
-		 * 
-		 * @var String
-		 * */
-		protected $law = '';
-       
-       
-        /**
-		 * Cookie name
-		 * 
-		 * @var String
-		 * */
-		protected $name;
-		
-		/**
-		 * Cookie value
-		 * 
-		 * @var String
-		 * */
-		protected $value;
-		
-		/**
-		 * Cookie expiration
-		 * 
-		 * @var int
-		 * */
-		protected $expiration;
-		
-		/**
-		 * Cookie domain
-		 * 
-		 * @var String
-		 * */
-		protected $domain;
-		
-		/**
-		 * Cookie path
-		 * 
-		 * @var String
-		 * */
-		protected $path;
+	/**
+	 * You can define cookie objects to either follow the law provided in the framework
+	 * or not
+	 * However, it's still possible to disable/enable cookies and therefore define your
+	 * own laws
+	 * 
+	 * @var bool
+	 * */
+	protected $follow_law = TRUE;
 
-		/**
-		 * Cookie prefix
-		 * 
-		 * @var String
-		 * */
-		protected $prefix;
-        
-		/**
-		 * Cookie secure
-		 * 
-		 * @var bool
-		 * */
-		protected $security;
-		
-		/**
-		 * Cookie httponly
-		 * 
-		 * @var bool
-		 * */
-		protected $httponly;
-       
- 
-        /*
-        protected $laws = array(
-                'region' => ''
-        );
-       
-        //etc ->
-        protected $laws = array(
-                'EU' => array(
-                        'general_rule' => 'not_before_accepted' //No cookies before acception
-                        'regional_exceptions' => array(
-                                'UK' => 'remove_after_not_accepted', //Start cookies allowed
-                                'Netherland' 'other_law'
-                        )
-                ),
-                'USA' => '',
-                'China' => '',
-                'Russia' => ''
-        );
-       
-       
+	/**
+	 * TRUE if PHPs setcookie function works
+	 * FALSE if it doesn't
+	 * 
+	 * @var bool
+	 * */
+	protected $setcookie;
+
+	/**
+	 * 
+	 * There's two levels of options.
+	 * First is the site owner.
+	 * -managed by the $disabled variable
+	 * Second is the end-user
+	 * -managed by the $end_user_accepted variable 
+	 *
+	 * 1 = This cookie is always disabled, no matter laws
+	 * 0 = disabled/enabled depending
+	 * -1 = This cookie is always enabled, no matter laws
+	 * 
+	 * @var int 
+	 * */
+	protected $disabled = 0;
+
+	/**
+	 * 
+	 * There's two levels of options.
+	 * First is the site owner.
+	 * -managed by the $disabled variable
+	 * Second is the end-user
+	 * -managed by the $end_user_accepted variable
+	 *
+	 * TRUE if the end user agreed to store cookies
+	 * 
+	 * @var bool
+	 * */
+	protected $end_user_accepted = FALSE;
+
+	/**
+	 * Set the region
+	 * 
+	 * @var String
+	 * */
+	protected $region = '';
+	
+	/**
+	 * See the switch case in this->create() for details of the laws
+	 * 
+	 * @var String
+	 * */
+	protected $law = '';
+
+
+	/**
+	 * Cookie name
+	 * 
+	 * @var String
+	 * */
+	protected $name;
+
+	/**
+	 * Cookie value
+	 * 
+	 * @var String
+	 * */
+	protected $value;
+
+	/**
+	 * Cookie expiration
+	 * 
+	 * @var int
+	 * */
+	protected $expiration;
+
+	/**
+	 * Cookie domain
+	 * 
+	 * @var String
+	 * */
+	protected $domain;
+
+	/**
+	 * Cookie path
+	 * 
+	 * @var String
+	 * */
+	protected $path;
+
+	/**
+	 * Cookie prefix
+	 * 
+	 * @var String
+	 * */
+	protected $prefix;
+
+	/**
+	 * Cookie secure
+	 * 
+	 * @var bool
+	 * */
+	protected $security;
+
+	/**
+	 * Cookie httponly
+	 * 
+	 * @var bool
+	 * */
+	protected $httponly;
+
+	/*
         In order to comply with legal frameworks in different countries,
         All cookies should perhaps be disabled by default for some countries.
        
@@ -212,7 +191,15 @@ class Cookie {
         1. Some cookies can follow the law, others not.
         2. It should be as easy as possible to modify the class when a region change it laws, it should also
         3. Be possible to modify the behaviour in the objects itself.
-        */
+	*/
+	
+	/**
+	 * Constructor
+	 *
+	 * Sets cookie preferences
+	 *
+	 * @return	void
+	 */
 
 	public function __construct($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE, $httponly = FALSE)
 	{
@@ -232,7 +219,6 @@ class Cookie {
 		{
 			$this->prefix = config_item('cookie_prefix');
 		}
-
 
 		if ($domain == '' && config_item('cookie_domain') != '')
 		{
@@ -505,7 +491,7 @@ class Cookie {
 	/**
 	 * Delete this cookie object!
 	 *
-	 * @param Local law-region(that defines the location of the site)
+	 * @param	Local law-region(that defines the location of the site)
 	 * @return	(FALSE)bool
 	 */
 	public function set_region($region)
