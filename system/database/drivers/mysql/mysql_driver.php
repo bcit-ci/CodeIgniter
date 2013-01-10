@@ -237,7 +237,7 @@ class CI_DB_mysql_driver extends CI_DB {
 		// modifies the query so that it a proper number of affected rows is returned.
 		if ($this->delete_hack === TRUE && preg_match('/^\s*DELETE\s+FROM\s+(\S+)\s*$/i', $sql))
 		{
-			return preg_replace('/^\s*DELETE\s+FROM\s+(\S+)\s*$/', 'DELETE FROM \\1 WHERE 1=1', $sql);
+			return trim($sql).' WHERE 1=1';
 		}
 
 		return $sql;
