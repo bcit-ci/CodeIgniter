@@ -629,6 +629,7 @@ class CI_Javascript {
 	 */
 	public function external($external_file = '', $relative = FALSE)
 	{
+		// If they specified a file use it, otherwise get it from the config.
 		if ($external_file !== '')
 		{
 			$this->_javascript_location = $external_file;
@@ -638,17 +639,28 @@ class CI_Javascript {
 			$this->_javascript_location = $this->CI->config->item('javascript_location');
 		}
 
-		if ($relative === TRUE OR strpos($external_file, 'http://') === 0 OR strpos($external_file, 'https://') === 0)
+		
+		// If Relative OR Arg is a complete url then load the file from the Arg
+		if ($relative === TRUE OR strpos($external_file, 'http://') === 0 OR 
+								  strpos($external_file, 'https://') === 0 OR
+								  strpos($external_file, '//') === 0 )
 		{
 			$str = $this->_open_script($external_file);
 		}
-		elseif (strpos($this->_javascript_location, 'http://') !== FALSE)
+		
+		// Does the config have a complete url?  "//" is for CDNs that 
+		// support both.
+		elseif (strpos($this->_javascript_location, 'http://') === 0 OR
+				strpos($this->_javascript_location, "https://") === 0 OR
+				strpos($this->_javascript_location, "//") === 0 )
 		{
 			$str = $this->_open_script($this->_javascript_location.$external_file);
 		}
+		
+		// Last chance base it off of our base url
 		else
 		{
-			$str = $this->_open_script($this->CI->config->slash_item('base_url').$this->_javascript_location.$external_file);
+			$str = $this->_open_script($this->CI->config->slash_item('base_url') . $this->_javascript_location.$external_file);
 		}
 
 		return $str.$this->_close_script();
