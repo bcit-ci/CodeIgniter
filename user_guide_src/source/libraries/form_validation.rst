@@ -479,7 +479,7 @@ Message is the text you would like displayed.
 
 If you'd like to include a field's "human" name, or the optional 
 parameter some rules allow for (such as max_length), you can add the 
-**{field}** and **{param}** tags to your message, respectively.
+**{field}** and **{param}** tags to your message, respectively::
 
 	$this->form_validation->set_message('min_length', '{field} must have at least {param} characters.');
 
@@ -491,7 +491,7 @@ error would display: "Username must have at least 5 characters."
 	use one or the other.
 
 In the callback rule example above, the error message was set by passing
-the name of the method (without the "callback_" prefix)::
+the name of the method (without the "callback\_" prefix)::
 
 	$this->form_validation->set_message('username_check')
 
