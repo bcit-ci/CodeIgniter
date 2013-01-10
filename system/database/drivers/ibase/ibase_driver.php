@@ -421,7 +421,7 @@ class CI_DB_ibase_driver extends CI_DB {
 				.($this->qb_offset ? $this->qb_offset.' TO '.($this->qb_limit + $this->qb_offset) : $this->qb_limit);
 		}
 
-		return preg_replace('`SELECT`i', 'SELECT '.$select, $sql);
+		return preg_replace('`SELECT`i', 'SELECT '.$select, $sql, 1);
 	}
 
 	// --------------------------------------------------------------------
