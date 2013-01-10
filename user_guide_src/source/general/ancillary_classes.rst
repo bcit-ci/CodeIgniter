@@ -58,30 +58,30 @@ won't need to call ``get_instance()`` in every single method.
 
 Example::
 
-class Example {
+	class Example {
 
-	protected $CI;
+		protected $CI;
 
-	// We'll use a constructor, as you can't directly call a function
-	// from a property definition.
-	public function __construct()
-	{
-		// Assign the CodeIgniter super-object
-		$this->CI =& get_instance();
+		// We'll use a constructor, as you can't directly call a function
+		// from a property definition.
+		public function __construct()
+		{
+			// Assign the CodeIgniter super-object
+			$this->CI =& get_instance();
+		}
+
+		public function foo()
+		{
+			$this->CI->load->helper('url');
+			redirect();
+		}
+
+		public function bar()
+		{
+			$this->CI->config_item('base_url');
+		}
+
 	}
-
-	public function foo()
-	{
-		$this->CI->load->helper('url');
-		redirect();
-	}
-
-	public function bar()
-	{
-		$this->CI->config_item('base_url');
-	}
-
-}
 
 In the above example, both methods ``foo()`` and ``bar()`` will work
 after you instantiate the Example class, without the need to call
