@@ -189,9 +189,12 @@ form to contain::
 	*/
 
 If you would like your form to contain some additional data, like
-JavaScript, you can pass it as a string in the third parameter::
+JavaScript, you can pass it as an associative array in the third
+parameter::
 
-	$js = 'onClick="some_function()"';
+	$js = array(
+		'onClick' => 'some_function()'
+	);
 	echo form_input('username', 'johndoe', $js);
 
 form_password()
@@ -292,10 +295,13 @@ Example::
 	*/
 
 If you would like the opening <select> to contain additional data, like
-an id attribute or JavaScript, you can pass it as a string in the fourth
-parameter::
+an id attribute or JavaScript, you can pass it as an associative array
+in the fourth parameter::
 
-	$js = 'id="shirts" onChange="some_function();"';
+	$js = array(
+		'id' => 'shirts',
+		'onChange' => 'some_function();'
+	);
 	echo form_dropdown('shirts', $options, 'large', $js);
 
 If the array passed as ``$options`` is a multidimensional array, then
@@ -423,10 +429,12 @@ array of attributes to the function
 	// Would produce: <input type="checkbox" name="newsletter" id="newsletter" value="accept" checked="checked" style="margin:10px" />
 
 Also as with other functions, if you would like the tag to contain
-additional data like JavaScript, you can pass it as a string in the
-fourth parameter::
+additional data like JavaScript, you can pass it as an associative
+array in the fourth parameter::
 
-	$js = 'onClick="some_function()"';
+	$js = array(
+		'onClick' => 'some_function()'
+	);
 	echo form_checkbox('newsletter', 'accept', TRUE, $js)
 
 form_radio()
@@ -487,8 +495,11 @@ Lets you generate a standard submit button. Simple example::
 	// Would produce:  <input type="submit" name="mysubmit" value="Submit Post!" />
 
 Similar to other functions, you can submit an associative array in the
-first parameter if you prefer to set your own attributes. The third
-parameter lets you add extra data to your form, like JavaScript.
+first parameter if you prefer to set your own attributes.
+
+Also similar to other functions, if you would like the tag to contain
+additional data like JavaScript, you can pass it as an associative
+array in the third parameter.
 
 form_reset()
 ============
@@ -534,9 +545,12 @@ form to contain::
 	// Would produce: <button name="button" id="button" value="true" type="reset">Reset</button>
 
 If you would like your form to contain some additional data, like
-JavaScript, you can pass it as a string in the third parameter::
+JavaScript, you can pass it as an associative array in the third
+parameter::
 
-	$js = 'onClick="some_function()"';
+	$js = array(
+		'onClick' => 'some_function()'
+	);
 	echo form_button('mybutton', 'Click Me', $js);
 
 form_close()

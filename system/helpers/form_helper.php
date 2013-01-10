@@ -182,6 +182,8 @@ if ( ! function_exists('form_input'))
 	{
 		$defaults = array('type' => 'text', 'name' => ( ! is_array($data) ? $data : ''), 'value' => $value);
 
+		$extra = is_array($extra) ? _parse_form_attributes($extra, array()) : $extra;
+
 		return '<input '._parse_form_attributes($data, $defaults).$extra." />\n";
 	}
 }
@@ -264,6 +266,8 @@ if ( ! function_exists('form_textarea'))
 			unset($data['value']); // textareas don't use the value attribute
 		}
 
+		$extra = is_array($extra) ? _parse_form_attributes($extra, array()) : $extra;
+
 		$name = is_array($data) ? $data['name'] : $data;
 		return '<textarea '._parse_form_attributes($data, $defaults).$extra.'>'.form_prep($val, TRUE)."</textarea>\n";
 	}
@@ -284,6 +288,8 @@ if ( ! function_exists('form_multiselect'))
 	 */
 	function form_multiselect($name = '', $options = array(), $selected = array(), $extra = '')
 	{
+		$extra = is_array($extra) ? _parse_form_attributes($extra, array()) : $extra;
+
 		if ( ! strpos($extra, 'multiple'))
 		{
 			$extra .= ' multiple="multiple"';
@@ -325,6 +331,8 @@ if ( ! function_exists('form_dropdown'))
 		{
 			$selected = array($_POST[$name]);
 		}
+
+		$extra = is_array($extra) ? _parse_form_attributes($extra, array()) : $extra;
 
 		if ($extra != '')
 		{
@@ -409,6 +417,8 @@ if ( ! function_exists('form_checkbox'))
 			unset($defaults['checked']);
 		}
 
+		$extra = is_array($extra) ? _parse_form_attributes($extra, array()) : $extra;
+
 		return '<input '._parse_form_attributes($data, $defaults).$extra." />\n";
 	}
 }
@@ -453,6 +463,9 @@ if ( ! function_exists('form_submit'))
 	function form_submit($data = '', $value = '', $extra = '')
 	{
 		$defaults = array('type' => 'submit', 'name' => ( ! is_array($data) ? $data : ''), 'value' => $value);
+
+		$extra = is_array($extra) ? _parse_form_attributes($extra, array()) : $extra;
+
 		return '<input '._parse_form_attributes($data, $defaults).$extra." />\n";
 	}
 }
@@ -472,6 +485,9 @@ if ( ! function_exists('form_reset'))
 	function form_reset($data = '', $value = '', $extra = '')
 	{
 		$defaults = array('type' => 'reset', 'name' => ( ! is_array($data) ? $data : ''), 'value' => $value);
+
+		$extra = is_array($extra) ? _parse_form_attributes($extra, array()) : $extra;
+
 		return '<input '._parse_form_attributes($data, $defaults).$extra." />\n";
 	}
 }
@@ -496,6 +512,8 @@ if ( ! function_exists('form_button'))
 			$content = $data['content'];
 			unset($data['content']); // content is not an attribute
 		}
+
+		$extra = is_array($extra) ? _parse_form_attributes($extra, array()) : $extra;
 
 		return '<button '._parse_form_attributes($data, $defaults).$extra.'>'.$content."</button>\n";
 	}
