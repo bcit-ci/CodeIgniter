@@ -94,7 +94,9 @@ class CI_URI {
 	 */
 	public function _fetch_uri_string()
 	{
-		if (strtoupper($this->config->item('uri_protocol')) === 'AUTO')
+		$protocol = strtoupper($this->config->item('uri_protocol'));
+
+		if ($protocol === 'AUTO')
 		{
 			// Is the request coming from the command line?
 			if ($this->_is_cli_request())
@@ -136,20 +138,18 @@ class CI_URI {
 			return;
 		}
 
-		$uri = strtoupper($this->config->item('uri_protocol'));
-
-		if ($uri === 'CLI')
+		if ($protocol === 'CLI')
 		{
 			$this->_set_uri_string($this->_parse_argv());
 			return;
 		}
-		elseif (method_exists($this, ($method = '_parse_'.strtolower($uri))))
+		elseif (method_exists($this, ($method = '_parse_'.strtolower($protocol))))
 		{
 			$this->_set_uri_string($this->$method());
 			return;
 		}
 
-		$uri = isset($_SERVER[$uri]) ? $_SERVER[$uri] : @getenv($uri);
+		$uri = isset($_SERVER[$protocol]) ? $_SERVER[$protocol] : @getenv($protocol);
 		$this->_set_uri_string($uri);
 	}
 
@@ -291,7 +291,7 @@ class CI_URI {
 	 */
 	protected function _is_cli_request()
 	{
-		return (php_sapi_name() === 'cli') OR defined('STDIN');
+		return (PHP_SAPI === 'cli') OR defined('STDIN');
 	}
 
 	// --------------------------------------------------------------------
