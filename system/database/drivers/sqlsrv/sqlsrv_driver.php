@@ -230,8 +230,30 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function escape_str($str, $like = FALSE)
 	{
+		if (is_array($str))
+		{
+			foreach ($str as $key => $val)
+			{
+				$str[$key] = $this->escape_str($val, $like);
+			}
+
+			return $str;
+		}
+
 		// Escape single quotes
-		return str_replace("'", "''", $str);
+		$str = str_replace("'", "''", remove_invisible_characters($str));
+
+		// escape LIKE condition wildcards
+		if ($like === TRUE)
+		{
+			return str_replace(
+				array($this->_like_escape_chr, '%', '_'),
+				array($this->_like_escape_chr.$this->_like_escape_chr, $this->_like_escape_chr.'%', $this->_like_escape_chr.'_'),
+				$str
+			);
+		}
+
+		return $str;
 	}
 
 	// --------------------------------------------------------------------
