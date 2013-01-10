@@ -353,9 +353,16 @@ class CI_URI {
 	{
 		$suffix = (string) $this->config->item('url_suffix');
 
-		if ($suffix !== '' && ($offset = strrpos($this->uri_string, $suffix)) !== FALSE)
+		if ($suffix === '')
 		{
-			$this->uri_string = substr_replace($this->uri_string, '', $offset, strlen($suffix));
+			return;
+		}
+
+		$offset = strrpos($this->uri_string, $suffix);
+
+		if ($offset !== FALSE && $offset === strlen($this->uri_string) - strlen($suffix))
+		{
+			$this->uri_string = substr($this->uri_string, 0, $offset);
 		}
 	}
 
