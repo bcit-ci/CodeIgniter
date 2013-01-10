@@ -231,7 +231,7 @@ Release Date: Not Released
 	 -  Native PHP functions used as rules can now accept an additional parameter, other than the data itself.
 	 -  Updated method ``set_rules()`` to accept an array of rules as well as a string.
 	 -  Fields that have empty rules set no longer run through validation (and therefore are not considered erroneous).
-	 -  Added rule **differs* to check if the value of a field differs from the value of another field.
+	 -  Added rule **differs** to check if the value of a field differs from the value of another field.
 	 -  Added rule **valid_url**.
 	 -  Added support for named parameters in error messages.
 	 -  :doc:`Language <libraries/language>` line keys must now be prefixed with **form_validation_**.

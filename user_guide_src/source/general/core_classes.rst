@@ -76,15 +76,15 @@ application/core/MY_Input.php, and declare your class with::
 	}
 
 .. note:: If you need to use a constructor in your class make sure you
-extend the parent constructor::
+	extend the parent constructor::
 
-	class MY_Input extends CI_Input {
+		class MY_Input extends CI_Input {
 
-		public function __construct()
-		{
-			parent::__construct();
+			public function __construct()
+			{
+				parent::__construct();
+			}
 		}
-	}
 
 **Tip:** Any functions in your class that are named identically to the
 methods in the parent class will be used instead of the native ones
