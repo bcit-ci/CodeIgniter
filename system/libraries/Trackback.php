@@ -268,9 +268,8 @@ class CI_Trackback {
 		}
 
 		// Build the path
-		$ppath = isset($target['path']) ? $target['path'] : $url;
-
-		$path = empty($target['query']) ? $ppath : $ppath.'?'.$target['query'];
+		$path = isset($target['path']) ? $target['path'] : $url;
+		empty($target['query']) OR $path .= '?'.$target['query'];
 
 		// Add the Trackback ID to the data string
 		if ($id = $this->get_id($url))
