@@ -358,11 +358,11 @@ class CI_URI {
 			return;
 		}
 
-		$offset = strrpos($this->uri_string, $suffix);
+		$slen = strlen($suffix);
 
-		if ($offset !== FALSE && $offset === strlen($this->uri_string) - strlen($suffix))
+		if (substr($this->uri_string, -$slen) === $suffix)
 		{
-			$this->uri_string = substr($this->uri_string, 0, $offset);
+			$this->uri_string = substr($this->uri_string, 0, -$slen);
 		}
 	}
 
