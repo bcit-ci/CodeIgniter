@@ -265,8 +265,9 @@ Restore preferences are set by submitting an array of values to the first
 parameter of the ``restore()`` method. Example::
 
 	$prefs = array(
-		'filepath'				=> './path/to/file',
-		'delete_after_upload'	=> TRUE
+		'filepath'						=> './path/to/file',
+		'delete_after_upload'	=> TRUE,
+		'delimiter'						=> ';'
 	);
 
 	$this->dbutil->restore($prefs);
@@ -279,4 +280,5 @@ Preference              Default Value           Options                 Descript
 ======================= ======================= ======================= ========================================================================
 **filepath**             ""                      None                    The path of the file from where you want to backup
 **delete_after_upload**  FALSE                   TRUE/FALSE              Whether to delete the file after completion of the restore
+**delimiter**						 ";"										 Any delimiter value 		 Enter the delimiter you are using in your backup file
 ======================= ======================= ======================= ========================================================================
