@@ -430,8 +430,9 @@ abstract class CI_DB_utility {
 
 		// Set up our default preferences
 		$prefs = array(
-			'filepath'				=> '',
-			'delete_after_upload'	=> FALSE
+			'filepath'						=> '',
+			'delete_after_upload'	=> FALSE,
+			'delimiter'						=> ';'
 		);
 
 		// Did the user submit any preferences? If so set them....
@@ -447,7 +448,7 @@ abstract class CI_DB_utility {
 		}
 
 		// Check if given filepath is not empty
-		if ($prefs['filepath'] == '')
+		if (empty($prefs['filepath']))
 		{
 			show_error('Parameter filepath is not set. Please specify a filepath.');
 			return FALSE;
@@ -455,39 +456,28 @@ abstract class CI_DB_utility {
 		// Do the following if filepath is specified
 		else
 		{
-			$CI =& get_instance();
-			$CI->load->helper('file');
-
-			$string = read_file($prefs['filepath']);
-			$queries = explode(';', $string);
+			$string = file_get_contents($prefs['filepath']);
+			$queries = explode($prefs['delimiter'], $string);
 
 			if ($string)
 			{
-				// Load database and dbforge library
-				$CI->load->database();
-				$CI->load->dbforge();
-				
-				$db_name = $CI->db->database; // get name of active database
+				$CI =& get_instance();
 
-				$CI->dbforge->drop_database($db_name); // drops the active database
-				$CI->dbforge->create_database($db_name); // creates the original database again
-
-				$CI->db->close();
+				// Load database library
 				$CI->load->database();
 
 				$flag = FALSE;
 
 				foreach ($queries as $query)
 				{
-					if ($query != '' || $query != NULL)
+					if (!empty($query))
 					{
-						$CI->db->query("SET FOREIGN_KEY_CHECKS = 0");
-						$check = $CI->db->query($query);
-						$CI->db->query("SET FOREIGN_KEY_CHECKS = 1");
-						if($check) {
+						if($this->db->query($query))
+						{
 							$flag = TRUE;
 						}
-						else {
+						else
+						{
 							$flag = FALSE;
 							break;
 						}
