@@ -233,9 +233,9 @@ class CI_Loader {
 		}
 		elseif (is_array($model))
 		{
-			foreach ($model as $class)
+			foreach ($model as $key => $value)
 			{
-				$this->model($class);
+				$this->model(is_int($key) ? $value : $key, $value);
 			}
 			return;
 		}
