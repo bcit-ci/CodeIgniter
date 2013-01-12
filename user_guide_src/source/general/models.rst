@@ -129,6 +129,13 @@ specify it via the second parameter of the loading method::
 
 	$this->foobar->method();
 
+You can also load multiple models at the same time, and choose to use
+a different object name if you like.
+
+	$this->load->model(array('model_name', 'another_model_name'));
+	
+	$this->load->model(array(array('model_name', 'foobar'), 'another_model_name'));
+
 Here is an example of a controller, that loads a model, then serves a
 view::
 

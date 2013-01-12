@@ -233,11 +233,20 @@ class CI_Loader {
 		}
 		elseif (is_array($model))
 		{
-			foreach ($model as $class)
+			foreach ($model as $single_model)
 			{
-				$this->model($class);
+				if (is_array($single_model))
+				{
+					list($class, $name) = $single_model;
+					$this->model($class, $name);
+					return;
+				}
+				else
+				{
+					$this->model($single_model);
+					return;
+				}
 			}
-			return;
 		}
 
 		$path = '';
