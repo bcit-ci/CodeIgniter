@@ -106,9 +106,7 @@ class CI_Config {
 		$file = ($file === '') ? 'config' : str_replace('.php', '', $file);
 		$found = $loaded = FALSE;
 
-		$check_locations = defined('ENVIRONMENT')
-			? array(ENVIRONMENT.'/'.$file, $file)
-			: array($file);
+		$check_locations = (ENVIRONMENT !== '') ? array(ENVIRONMENT.'/'.$file, $file) : array($file);
 
 		foreach ($this->_config_paths as $path)
 		{
