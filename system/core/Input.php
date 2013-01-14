@@ -168,6 +168,23 @@ class CI_Input {
 
 	// --------------------------------------------------------------------
 
+    	/**
+    	 * Check if request method is POST
+  	 */
+ 	   public function ispost()
+ 	   {
+  	      if ($_SERVER['REQUEST_METHOD'] === 'POST')
+  	      {
+  	          return true;
+  	      }
+  	      else
+  	      {
+  	          return false;
+  	      }
+  	  }
+    
+   	// --------------------------------------------------------------------
+
 	/**
 	 * Fetch an item from the GET array
 	 *
