@@ -97,6 +97,17 @@ class CI_Log {
 
 		$this->_log_path = ($config['log_path'] !== '') ? $config['log_path'] : APPPATH.'logs/';
 
+		// Small hack - we group logs by year / month
+		$year  = date('Y', time());
+		$month = date('m', time());
+
+		$this->_log_path .= $year.'/'.$month.'/';
+
+		if ( ! is_dir($this->_log_path))
+		{
+			mkdir($this->_log_path, DIR_WRITE_MODE, TRUE);
+		}
+
 		if ( ! is_dir($this->_log_path) OR ! is_really_writable($this->_log_path))
 		{
 			$this->_enabled = FALSE;
