@@ -95,9 +95,8 @@ class CI_Log {
 	{
 		$config =& get_config();
 
-		$this->_log_path = ($config['log_path'] !== '') ? $config['log_path'] : APPPATH.'logs/';
-
-		$this->_log_path .= date('Y/m/', time());
+		$this->_log_path  = ($config['log_path'] !== '') ? $config['log_path'] : APPPATH.'logs/';
+		$this->_log_path .= date('Y/m/');
 
 		if ( ! is_dir($this->_log_path))
 		{
