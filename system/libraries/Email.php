@@ -1335,7 +1335,7 @@ class CI_Email {
 		for ($i = 0, $c = count($this->_attachments), $z = 0; $i < $c; $i++)
 		{
 			$filename = $this->_attachments[$i]['name'][0];
-			$basename = $this->_attachments[$i]['name'][1] === NULL
+			$basename = ($this->_attachments[$i]['name'][1] === NULL)
 				? basename($filename) : $this->_attachments[$i]['name'][1];
 			$ctype = $this->_attachments[$i]['type'];
 			$file_content = '';
