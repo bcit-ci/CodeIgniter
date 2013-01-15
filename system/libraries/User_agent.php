@@ -158,7 +158,7 @@ class CI_User_agent {
 			$this->agent = trim($_SERVER['HTTP_USER_AGENT']);
 		}
 
-		if ( ! is_null($this->agent) && $this->_load_agent_file())
+		if ($this->agent !== NULL && $this->_load_agent_file())
 		{
 			$this->_compile_data();
 		}
