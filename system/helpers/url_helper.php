@@ -408,23 +408,18 @@ if ( ! function_exists('auto_link'))
 			}
 		}
 
-		if ($type !== 'url' && preg_match_all('/([a-zA-Z0-9_\.\-\+]+)@([a-zA-Z0-9\-]+)\.([a-zA-Z0-9\-\.]+)/i', $str, $matches))
+		if ($type !== 'url' && preg_match_all('/([a-zA-Z0-9_\.\-\+]+)@([a-zA-Z0-9\-]+)\.([a-zA-Z0-9\-\.]+)/i', $str, $matches, PREG_OFFSET_CAPTURE))
 		{
-			for ($i = 0, $c = count($matches); $i < $c; $i++)
+			for ($i = count($matches[0]) - 1; $i > -1; $i--)
 			{
-				if (preg_match('/(\.|\,)$/i', $matches[3][$i], $m))
+				if (preg_match('/(\.|\,)$/i', $matches[3][$i][0], $m))
 				{
-					$punct = $m[1];
-					$matches[3][$i] = substr($matches[3][$i], 0, -1);
-				}
-				else
-				{
-					$punct = '';
+					$matches[3][$i][0] = substr($matches[3][$i][0], 0, -1);
 				}
 
-				if (filter_var(($m = $matches[1][$i].'@'.$matches[2][$i].'.'.$matches[3][$i]), FILTER_VALIDATE_EMAIL) !== FALSE)
+				if (filter_var(($m = $matches[1][$i][0].'@'.$matches[2][$i][0].'.'.$matches[3][$i][0]), FILTER_VALIDATE_EMAIL) !== FALSE)
 				{
-					$str = str_replace($matches[0][$i], safe_mailto($m).$punct, $str);
+					$str = substr_replace($str, safe_mailto($m), $matches[0][$i][1], strlen($m));
 				}
 			}
 		}
