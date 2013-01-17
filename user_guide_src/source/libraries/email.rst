@@ -40,8 +40,6 @@ This example assumes you are sending the email from one of your
 
 	$this->email->send();
 
-	echo $this->email->print_debugger();
-
 Setting Email Preferences
 =========================
 
@@ -51,7 +49,7 @@ or automatically via preferences stored in your config file, described
 below:
 
 Preferences are set by passing an array of preference values to the
-email initialize function. Here is an example of how you might set some
+email initialize method. Here is an example of how you might set some
 preferences::
 
 	$config['protocol'] = 'sendmail';
@@ -71,8 +69,8 @@ If you prefer not to set preferences using the above method, you can
 instead put them into a config file. Simply create a new file called the
 email.php, add the $config array in that file. Then save the file at
 config/email.php and it will be used automatically. You will NOT need to
-use the $this->email->initialize() function if you save your preferences
-in a config file.
+use the ``$this->email->initialize()`` method if you save your
+preferences in a config file.
 
 Email Preferences
 =================
@@ -107,8 +105,8 @@ Preference          Default Value          Options                      Descript
 **dsn**             FALSE                  TRUE or FALSE (boolean)      Enable notify message from server
 =================== ====================== ============================ =======================================================================
 
-Email Function Reference
-========================
+Email Methods Reference
+=======================
 
 $this->email->from()
 --------------------
@@ -125,10 +123,10 @@ You can also set a Return-Path, to help redirect undelivered mail::
 	'smtp' as your protocol.
 
 $this->email->reply_to()
--------------------------
+------------------------
 
 Sets the reply-to address. If the information is not provided the
-information in the "from" function is used. Example::
+information in the "from" method is used. Example::
 
 	$this->email->reply_to('you@example.com', 'Your Name');
 
@@ -177,7 +175,7 @@ Sets the email message body::
 	$this->email->message('This is my message');
 
 $this->email->set_alt_message()
----------------------------------
+-------------------------------
 
 Sets the alternative email message body::
 
@@ -200,21 +198,21 @@ Appends additional headers to the e-mail::
 $this->email->clear()
 ---------------------
 
-Initializes all the email variables to an empty state. This function is
-intended for use if you run the email sending function in a loop,
+Initializes all the email variables to an empty state. This method is
+intended for use if you run the email sending method in a loop,
 permitting the data to be reset between cycles.
 
 ::
 
 	foreach ($list as $name => $address)
 	{
-	    $this->email->clear();
+		$this->email->clear();
 
-	    $this->email->to($address);
-	    $this->email->from('your@example.com');
-	    $this->email->subject('Here is your info '.$name);
-	    $this->email->message('Hi '.$name.' Here is the info you requested.');
-	    $this->email->send();
+		$this->email->to($address);
+		$this->email->from('your@example.com');
+		$this->email->subject('Here is your info '.$name);
+		$this->email->message('Hi '.$name.' Here is the info you requested.');
+		$this->email->send();
 	}
 
 If you set the parameter to TRUE any attachments will be cleared as
@@ -225,15 +223,15 @@ well::
 $this->email->send()
 --------------------
 
-The Email sending function. Returns boolean TRUE or FALSE based on
+The Email sending method. Returns boolean TRUE or FALSE based on
 success or failure, enabling it to be used conditionally::
 
 	if ( ! $this->email->send())
 	{
-	    // Generate error
+		// Generate error
 	}
 
-This function will automatically clear all parameters if the request was
+This method will automatically clear all parameters if the request was
 successful. To stop this behaviour pass FALSE::
 
  	if ($this->email->send(FALSE))
@@ -241,12 +239,15 @@ successful. To stop this behaviour pass FALSE::
  		// Parameters won't be cleared
  	}
 
+.. note:: In order to use the ``print_debugger()`` method, you need
+	to avoid clearing the email parameters.
+
 $this->email->attach()
 ----------------------
 
 Enables you to send an attachment. Put the file path/name in the first
 parameter. Note: Use a file path, not a URL. For multiple attachments
-use the function multiple times. For example::
+use the method multiple times. For example::
 
 	$this->email->attach('/path/to/photo1.jpg');
 	$this->email->attach('/path/to/photo2.jpg');
@@ -277,6 +278,11 @@ You can optionally specify which parts of the message should be printed.
 Valid options are: **headers**, **subject**, **body**.
 
 Example::
+
+	// You need to pass FALSE while sending in order for the email data
+	// to not be cleared - if that happens, print_debugger() would have
+	// nothing to output.
+	$this->email->send(FALSE);
 
 	// Will only print the email headers, excluding the message subject and body
 	$this->email->print_debugger(array('headers'));
