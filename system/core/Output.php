@@ -543,10 +543,16 @@ class CI_Output {
 		}
 
 		$expire = time() + ($this->cache_expiration * 60);
+		
+		// Put together our serialized info.
+		$cache_info = serialize(array(
+			'expire'	=> $expire,
+			'headers'	=> $this->headers
+		));
 
 		if (flock($fp, LOCK_EX))
 		{
-			fwrite($fp, $expire.'TS--->'.$output);
+			fwrite($fp, $cache_info.'ENDCI--->'.$output);
 			flock($fp, LOCK_UN);
 		}
 		else
@@ -595,14 +601,16 @@ class CI_Output {
 		flock($fp, LOCK_UN);
 		fclose($fp);
 
-		// Strip out the embedded timestamp
-		if ( ! preg_match('/^(\d+)TS--->/', $cache, $match))
+		// Look for embedded serialized file info.
+		if ( ! preg_match('/^(.*)ENDCI--->/', $cache, $match))
 		{
 			return FALSE;
 		}
+		
+		$cache_info = unserialize($match[1]);
+		$expire = $cache_info['expire'];
 
 		$last_modified = filemtime($cache_path);
-		$expire = $match[1];
 
 		// Has the file expired?
 		if ($_SERVER['REQUEST_TIME'] >= $expire && is_really_writable($cache_path))
@@ -616,6 +624,12 @@ class CI_Output {
 		{
 			// Or else send the HTTP cache control headers.
 			$this->set_cache_header($last_modified, $expire);
+		}
+		
+		// Add headers from cache file.
+		foreach ($cache_info['headers'] as $header)
+		{
+			$this->set_header($header[0], $header[1]);
 		}
 
 		// Display the cache
