@@ -439,8 +439,17 @@ class CI_Pagination {
 		// string. If post, add a trailing slash to the base URL if needed
 		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
 		{
+			$this->base_url = rtrim($this->base_url);
+
+			// If a custom first URL is not defined, use the base_url
+			// before the pagination query segment is added.
+			if (empty($this->first_url))
+			{
+				$this->first_url = $this->base_url;
+			}
+
 			$segment = (strpos($this->base_url, '?')) ? '&amp;' : '?';
-			$this->base_url = rtrim($this->base_url).$segment.$this->query_string_segment.'=';
+			$this->base_url = $this->base_url.$segment.$this->query_string_segment.'=';
 		}
 		else
 		{
