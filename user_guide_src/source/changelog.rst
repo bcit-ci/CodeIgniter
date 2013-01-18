@@ -231,7 +231,7 @@ Release Date: Not Released
 	 -  Native PHP functions used as rules can now accept an additional parameter, other than the data itself.
 	 -  Updated method ``set_rules()`` to accept an array of rules as well as a string.
 	 -  Fields that have empty rules set no longer run through validation (and therefore are not considered erroneous).
-	 -  Added rule **differs* to check if the value of a field differs from the value of another field.
+	 -  Added rule **differs** to check if the value of a field differs from the value of another field.
 	 -  Added rule **valid_url**.
 	 -  Added support for named parameters in error messages.
 	 -  :doc:`Language <libraries/language>` line keys must now be prefixed with **form_validation_**.
@@ -285,6 +285,7 @@ Release Date: Not Released
 	 -  Added autoloading of drivers with ``$autoload['drivers']``.
 	 -  ``$config['rewrite_short_tags']`` now has no effect when using PHP 5.4 as ``<?=`` will always be available.
 	 -  Changed method ``config()`` to return whatever ``CI_Config::load()`` returns instead of always being void.
+	 -  Added support for model aliasing on autoload.
    -  :doc:`Input Library <libraries/input>` changes include:
 	 -  Added ``method()`` to retrieve ``$_SERVER['REQUEST_METHOD']``.
 	 -  Added support for arrays and network addresses (e.g. 192.168.1.1/24) for use with the *proxy_ips* setting.
@@ -468,6 +469,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#188) - :doc:`Unit Testing Library <libraries/unit_testing>` filled up logs with error messages for non-existing language keys.
 -  Fixed a bug (#113) - :doc:`Form Validation Library <libraries/form_validation>` didn't properly handle empty fields that were specified as an array.
 -  Fixed a bug (#2061) - :doc:`Routing Class <general/routing>` didn't properly sanitize directory, controller and function triggers with **enable_query_strings** set to TRUE.
+-  Fixed a bug - SQLSRV didn't support ``escape_like_str()`` or escaping an array of values.
 
 Version 2.1.3
 =============

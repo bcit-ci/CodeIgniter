@@ -302,7 +302,7 @@ CodeIgniter 3.1+.
 String helper random_string() types 'unique' and 'encrypt'
 ==========================================================
 
-When using the :doc:`String Helper <helpers/string_helper>` function :php:func:`random_string()`,
+When using the :doc:`String Helper <../helpers/string_helper>` function :php:func:`random_string()`,
 you should no longer pass the **unique** and **encrypt** randomization types. They are only
 aliases for **md5** and **sha1** respectively and are now deprecated and scheduled for removal
 in CodeIgniter 3.1+.
@@ -313,7 +313,7 @@ in CodeIgniter 3.1+.
 URL helper url_title() separators 'dash' and 'underscore'
 =========================================================
 
-When using the :doc:`URL Helper <helpers/url_helper>` function :php:func:`url_title()`, you
+When using the :doc:`URL Helper <../helpers/url_helper>` function :php:func:`url_title()`, you
 should no longer pass **dash** or **underscore** as the word separator. This function will
 now accept any character and you should just pass the chosen character directly, so you
 should write '-' instead of 'dash' and '_' instead of 'underscore'.
@@ -327,7 +327,7 @@ in CodeIgniter 3.1+.
 Database Forge method add_column() with an AFTER clause
 =======================================================
 
-If you have used the **third parameter** for :doc:`Database Forge <database/forge>` method
+If you have used the **third parameter** for :doc:`Database Forge <../database/forge>` method
 ``add_column()`` to add a field for an AFTER clause, then you should change its usage.
 
 That third parameter has been deprecated and scheduled for removal in CodeIgniter 3.1+.

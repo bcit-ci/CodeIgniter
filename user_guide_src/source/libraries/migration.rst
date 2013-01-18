@@ -158,6 +158,6 @@ Preference                 Default                Options                    Des
                                                                              version number.
 **migration_auto_latest**  FALSE                  TRUE / FALSE               Enable or disable automatically 
                                                                              running migrations.
-**migration_type**        'timestamp'            'timestamp' / 'sequential' The type of numeric identifier used to name
+**migration_type**         'timestamp'            'timestamp' / 'sequential' The type of numeric identifier used to name
                                                                              migration files.
 ========================== ====================== ========================== =============================================

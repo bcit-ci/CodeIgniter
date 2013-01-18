@@ -1491,7 +1491,7 @@ class CI_Image_lib {
 		{
 			case 1	:	imagegif($resource);
 				break;
-			case 2	:	imagejpeg($resource, '', $this->quality);
+			case 2	:	imagejpeg($resource, NULL, $this->quality);
 				break;
 			case 3	:	imagepng($resource);
 				break;

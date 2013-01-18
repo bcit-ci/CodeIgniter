@@ -222,21 +222,6 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Escape String
-	 *
-	 * @param	string	$str
-	 * @param	bool	$like	Whether or not the string will be used in a LIKE condition
-	 * @return	string
-	 */
-	public function escape_str($str, $like = FALSE)
-	{
-		// Escape single quotes
-		return str_replace("'", "''", $str);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Affected Rows
 	 *
 	 * @return	int

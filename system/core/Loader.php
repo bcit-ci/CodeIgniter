@@ -205,7 +205,7 @@ class CI_Loader {
 			return;
 		}
 
-		if ( ! is_null($params) && ! is_array($params))
+		if ($params !== NULL && ! is_array($params))
 		{
 			$params = NULL;
 		}
@@ -233,9 +233,9 @@ class CI_Loader {
 		}
 		elseif (is_array($model))
 		{
-			foreach ($model as $class)
+			foreach ($model as $key => $value)
 			{
-				$this->model($class);
+				$this->model(is_int($key) ? $value : $key, $value);
 			}
 			return;
 		}
@@ -975,7 +975,7 @@ class CI_Loader {
 					// Before we deem this to be a duplicate request, let's see
 					// if a custom object name is being supplied. If so, we'll
 					// return a new instance of the object
-					if ( ! is_null($object_name))
+					if ($object_name !== NULL)
 					{
 						$CI =& get_instance();
 						if ( ! isset($CI->$object_name))
@@ -1014,7 +1014,7 @@ class CI_Loader {
 					// Before we deem this to be a duplicate request, let's see
 					// if a custom object name is being supplied. If so, we'll
 					// return a new instance of the object
-					if ( ! is_null($object_name))
+					if ($object_name !== NULL)
 					{
 						$CI =& get_instance();
 						if ( ! isset($CI->$object_name))
@@ -1144,7 +1144,7 @@ class CI_Loader {
 		// Was a custom class name supplied? If so we'll use it
 		$class = strtolower($class);
 
-		if (is_null($object_name))
+		if ($object_name === NULL)
 		{
 			$classvar = isset($this->_ci_varmap[$class]) ? $this->_ci_varmap[$class] : $class;
 		}
