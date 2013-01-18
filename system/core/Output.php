@@ -58,21 +58,21 @@ class CI_Output {
 	 *
 	 * @var	array
 	 */
-	public $headers = array();
+	public $headers =	array();
 
 	/**
 	 * List of mime types
 	 *
 	 * @var	array
 	 */
-	public $mimes = array();
+	public $mimes =		array();
 
 	/**
 	 * Mime-type for the current page
 	 *
 	 * @var	string
 	 */
-	protected $mime_type = 'text/html';
+	protected $mime_type	= 'text/html';
 
 	/**
 	 * Enable Profiler flag
@@ -86,14 +86,14 @@ class CI_Output {
 	 *
 	 * @var	bool
 	 */
-	protected $_zlib_oc = FALSE;
+	protected $_zlib_oc =		FALSE;
 
 	/**
 	 * List of profiler sections
 	 *
 	 * @var	array
 	 */
-	protected $_profiler_sections = array();
+	protected $_profiler_sections =	array();
 
 	/**
 	 * Parse markers flag
@@ -102,7 +102,7 @@ class CI_Output {
 	 *
 	 * @var	bool
 	 */
-	public $parse_exec_vars = TRUE;
+	public $parse_exec_vars =	TRUE;
 
 	/**
 	 * Class constructor
