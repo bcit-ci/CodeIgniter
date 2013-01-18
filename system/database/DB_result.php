@@ -625,6 +625,47 @@ class CI_DB_result {
 	// --------------------------------------------------------------------
 
 	/**
+	 * return a mapped version of the result, useful for dropdown list.
+	 *
+	 * @access	public
+	 * @param	key_field	the field that will be the key in the map 
+	 * @param	value_field	the field that will be the value in the map 
+	 * @return	array	the mapped array
+	 */
+	public function map_array($key_field, $value_field){
+
+		$result = array();
+		foreach ($this->result_array() as $row) {
+		 	$result[ $row[$key_field] ] = $row[$value_field];
+		 } 
+
+		return $result;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * return a mapped version (object) of the result, useful for dropdown list.
+	 *
+	 * @access	public
+	 * @param	key_field	the field that will be the key in the map 
+	 * @param	value_field	the field that will be the value in the map 
+	 * @return	object	the mapped object
+	 */
+	public function map($key_field, $value_field){
+
+		$result = new stdClass;
+		foreach ($this->result_object() as $row) {
+			$key = $row->$key_field;
+		 	$result->$key = $row->$value_field;
+		 } 
+
+		return $result;
+	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
 	 * Result - associative array
 	 *
 	 * Returns the result set as an array.
