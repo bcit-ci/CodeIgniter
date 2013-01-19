@@ -132,8 +132,19 @@ class CI_Utf8 {
 	 * @param	string	$encoding	Input encoding
 	 * @return	string	$str encoded in UTF-8 or FALSE on failure
 	 */
-	public function convert_to_utf8($str, $encoding)
+	public function convert_to_utf8($str, $encoding = FALSE)
 	{
+                if ($encoding === FALSE)
+                {
+                  if (MB_ENABLED === TRUE)
+                  {
+                    $encoding = @mb_detect_encoding($str, 'auto');
+                  }
+                  else
+                  {
+                    $encoding = 'ASCII';
+                  }
+                }
 		if (function_exists('iconv'))
 		{
 			return @iconv($encoding, 'UTF-8', $str);

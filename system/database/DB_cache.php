@@ -51,8 +51,8 @@ class CI_DB_Cache {
 	 * @var	object
 	 */
 	public $db;
-
-	// --------------------------------------------------------------------
+        
+       	// --------------------------------------------------------------------
 
 	/**
 	 * Constructor
@@ -71,6 +71,21 @@ class CI_DB_Cache {
 	}
 
 	// --------------------------------------------------------------------
+        
+        /**
+         * Get initialization vector (IV) for mcrypt extension encryption
+         * @return string
+         */
+        private function get_encryption_iv()
+        {
+          if ($this->db->cache_encrypt)
+          {
+            $size = mcrypt_get_iv_size($this->db->cache_encrypt_cipher, MCRYPT_MODE_CBC);
+            $iv = mcrypt_create_iv($size, MCRYPT_RAND);
+            return $iv;
+          }
+          return FALSE;
+        }
 
 	/**
 	 * Set Cache Directory Path
@@ -131,12 +146,14 @@ class CI_DB_Cache {
 		$segment_one = ($this->CI->uri->segment(1) == FALSE) ? 'default' : $this->CI->uri->segment(1);
 		$segment_two = ($this->CI->uri->segment(2) == FALSE) ? 'index' : $this->CI->uri->segment(2);
 		$filepath = $this->db->cachedir.$segment_one.'+'.$segment_two.'/'.md5($sql);
-
-		if (FALSE === ($cachedata = @file_get_contents($filepath)))
+    		if (FALSE === ($cachedata = @file_get_contents($filepath)))
 		{
 			return FALSE;
-		}
-
+		}                
+                if ($this->db->cache_encrypt !== FALSE)
+                {
+                        $cachedata = @mcrypt_decrypt($this->db->cache_encrypt_cipher, $this->db->cache_encryption_key, $cachedata, MCRYPT_MODE_CBC, $this->get_encryption_iv);
+                }
 		return unserialize($cachedata);
 	}
 
@@ -165,8 +182,12 @@ class CI_DB_Cache {
 
 			@chmod($dir_path, DIR_WRITE_MODE);
 		}
-
-		if (write_file($dir_path.$filename, serialize($object)) === FALSE)
+                $object_serialized = serialize($object);
+                if ($this->db->cache_encrypt)
+                {
+                        $object_serialized = @mcrypt_encrypt($this->db->cache_encrypt_cipher, $this->db->cache_encryption_key, $object_serialized, MCRYPT_MODE_CBC, $this->get_encryption_iv);
+                }
+		if (write_file($dir_path.$filename, $object_serialized) === FALSE)
 		{
 			return FALSE;
 		}
