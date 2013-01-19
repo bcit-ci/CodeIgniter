@@ -74,17 +74,18 @@ class CI_DB_Cache {
         
         /**
          * Get initialization vector (IV) for mcrypt extension encryption
+	 *
          * @return string
          */
-        private function get_encryption_iv()
+        private function _get_encryption_iv() 
         {
-          if ($this->db->cache_encrypt)
-          {
-            $size = mcrypt_get_iv_size($this->db->cache_encrypt_cipher, MCRYPT_MODE_CBC);
-            $iv = mcrypt_create_iv($size, MCRYPT_RAND);
-            return $iv;
-          }
-          return FALSE;
+		if ($this->db->cache_encrypt)
+		{
+			$size = mcrypt_get_iv_size($this->db->cache_encrypt_cipher, MCRYPT_MODE_CBC);
+			$iv = mcrypt_create_iv($size, MCRYPT_RAND);
+			return $iv;
+		}
+		return FALSE;
         }
 
 	/**
@@ -150,10 +151,10 @@ class CI_DB_Cache {
 		{
 			return FALSE;
 		}                
-                if ($this->db->cache_encrypt !== FALSE)
-                {
-                        $cachedata = @mcrypt_decrypt($this->db->cache_encrypt_cipher, $this->db->cache_encryption_key, $cachedata, MCRYPT_MODE_CBC, $this->get_encryption_iv);
-                }
+		if ($this->db->cache_encrypt !== FALSE)
+		{
+			$cachedata = @mcrypt_decrypt($this->db->cache_encrypt_cipher, $this->db->cache_encryption_key, $cachedata, MCRYPT_MODE_CBC, $this->get_encryption_iv);
+		}
 		return unserialize($cachedata);
 	}
 
@@ -182,11 +183,11 @@ class CI_DB_Cache {
 
 			@chmod($dir_path, DIR_WRITE_MODE);
 		}
-                $object_serialized = serialize($object);
-                if ($this->db->cache_encrypt)
-                {
-                        $object_serialized = @mcrypt_encrypt($this->db->cache_encrypt_cipher, $this->db->cache_encryption_key, $object_serialized, MCRYPT_MODE_CBC, $this->get_encryption_iv);
-                }
+		$object_serialized = serialize($object);
+		if ($this->db->cache_encrypt) 
+		{
+			$object_serialized = @mcrypt_encrypt($this->db->cache_encrypt_cipher, $this->db->cache_encryption_key, $object_serialized, MCRYPT_MODE_CBC, $this->_get_encryption_iv);
+		}
 		if (write_file($dir_path.$filename, $object_serialized) === FALSE)
 		{
 			return FALSE;
