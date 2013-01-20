@@ -157,7 +157,7 @@ if ( ! function_exists('get_filenames'))
 	 */
 	function get_filenames($source_dir, $include_path = FALSE, $_recursion = FALSE)
 	{
-		static $_filedata = array();
+		$_filedata = array();
 
 		if ($fp = @opendir($source_dir))
 		{
