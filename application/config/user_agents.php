@@ -101,7 +101,8 @@ $browsers = array(
 	'Links'			=> 'Links',
 	'hotjava'		=> 'HotJava',
 	'amaya'			=> 'Amaya',
-	'IBrowse'		=> 'IBrowse'
+	'IBrowse'		=> 'IBrowse',
+	'Maxthon'		=> 'Maxthon'
 );
 
 $mobiles = array(
