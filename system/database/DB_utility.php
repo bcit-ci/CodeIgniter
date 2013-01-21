@@ -416,7 +416,7 @@ abstract class CI_DB_utility {
 	 * Database Restore
 	 *
 	 * @param	array	$params
-	 * @return	void
+	 * @return	bool
 	 */
 	public function restore($params = array())
 	{
@@ -436,14 +436,11 @@ abstract class CI_DB_utility {
 		);
 
 		// Did the user submit any preferences? If so set them....
-		if (count($params) > 0)
+		foreach ($prefs as $key => $val)
 		{
-			foreach ($prefs as $key => $val)
+			if (isset($params[$key]))
 			{
-				if (isset($params[$key]))
-				{
-					$prefs[$key] = $params[$key];
-				}
+				$prefs[$key] = $params[$key];
 			}
 		}
 
@@ -453,58 +450,35 @@ abstract class CI_DB_utility {
 			show_error('Parameter filepath is not set. Please specify a filepath.');
 			return FALSE;
 		}
-		// Do the following if filepath is specified
-		else
+		$string = file_get_contents($prefs['filepath']);
+		$queries = explode($prefs['delimiter'], $string);
+
+		if ($string)
 		{
-			$string = file_get_contents($prefs['filepath']);
-			$queries = explode($prefs['delimiter'], $string);
-
-			if ($string)
+			foreach ($queries as $query)
 			{
-				$CI =& get_instance();
+			    if ( ! empty($query) && ! $this->db->simple_query($query))
+			    {
+			        return FALSE;
+			    }
+			}
 
-				// Load database library
-				$CI->load->database();
-
-				$flag = FALSE;
-
-				foreach ($queries as $query)
-				{
-					if (!empty($query))
-					{
-						if($this->db->query($query))
-						{
-							$flag = TRUE;
-						}
-						else
-						{
-							$flag = FALSE;
-							break;
-						}
-					}
-				}
-
-				if ($flag)
-				{
-					if ($prefs['delete_after_upload'] == TRUE)
-					{
-						unlink($prefs['filepath']);
-					}
-					return TRUE;
-				}
-				else
-				{
-					return FALSE;
-				}
+			if ($prefs['delete_after_upload'] === TRUE)
+			{
+			    unlink($prefs['filepath']);
 			}
 			else
 			{
-				show_error($prefs['filepath'] . ' could not be read. Please make sure it\'s accessible.');
 				return FALSE;
 			}
 		}
 
-		return;
+		if ($this->db->db_debug)
+		{
+		    show_error($prefs['filepath']." could not be read. Please make sure it's accessible.");
+		}
+
+		return TRUE;
 	}
 
 }
