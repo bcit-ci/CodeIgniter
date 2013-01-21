@@ -321,6 +321,7 @@ Release Date: Not Released
 	 -  Changed method ``load()`` to filter the language name with ``ctype_digit()``.
 	 -  Added an optional second parameter to method ``line()`` to disable error login for line keys that were not found.
 	 -  Language files are now loaded in a cascading style with the one in **system/** always loaded and overriden afterwards, if another one is found.
+   -  Log Library will now try to create the **log_path** directory if it doesn't exist.
 
 Bug fixes for 3.0
 ------------------
