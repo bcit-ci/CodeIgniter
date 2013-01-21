@@ -457,15 +457,15 @@ abstract class CI_DB_utility {
 		{
 			foreach ($queries as $query)
 			{
-			    if ( ! empty($query) && ! $this->db->simple_query($query))
-			    {
-			        return FALSE;
-			    }
+		    if ( ! empty($query) && ! $this->db->simple_query($query))
+		    {
+	        return FALSE;
+		    }
 			}
 
 			if ($prefs['delete_after_upload'] === TRUE)
 			{
-			    unlink($prefs['filepath']);
+		    unlink($prefs['filepath']);
 			}
 			else
 			{
@@ -475,7 +475,7 @@ abstract class CI_DB_utility {
 
 		if ($this->db->db_debug)
 		{
-		    show_error($prefs['filepath']." could not be read. Please make sure it's accessible.");
+	    show_error($prefs['filepath']." could not be read. Please make sure it's accessible.");
 		}
 
 		return TRUE;
