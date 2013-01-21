@@ -384,7 +384,7 @@ if ( ! function_exists('auto_link'))
 	function auto_link($str, $type = 'both', $popup = FALSE)
 	{
 		// Find and replace any URLs.
-		if ($type !== 'email' && preg_match_all('#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#', $str, $matches, PREG_OFFSET_CAPTURE))
+		if ($type !== 'email' && preg_match_all('#\b(([\w-]+://?|www\.)[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#', $str, $matches, PREG_OFFSET_CAPTURE))
 		{
 			// Set our target HTML if using popup links.
 			$target = ($popup) ? 'target="_blank"' : '';
