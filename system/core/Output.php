@@ -543,7 +543,7 @@ class CI_Output {
 		}
 
 		$expire = time() + ($this->cache_expiration * 60);
-		
+
 		// Put together our serialized info.
 		$cache_info = serialize(array(
 			'expire'	=> $expire,
@@ -606,7 +606,7 @@ class CI_Output {
 		{
 			return FALSE;
 		}
-		
+
 		$cache_info = unserialize($match[1]);
 		$expire = $cache_info['expire'];
 
@@ -625,7 +625,7 @@ class CI_Output {
 			// Or else send the HTTP cache control headers.
 			$this->set_cache_header($last_modified, $expire);
 		}
-		
+
 		// Add headers from cache file.
 		foreach ($cache_info['headers'] as $header)
 		{
@@ -756,7 +756,7 @@ class CI_Output {
 				$output = preg_replace('{\s*<!--[^\[<>].*(?<!!)-->\s*}msU', '', $output);
 
 				// Remove spaces around block-level elements.
-				$output = preg_replace('/\s*(<\/?(html|head|title|meta|script|link|style|body|h[1-6]|div|p|br)[^>]*>)\s*/is', '$1', $output);
+				$output = preg_replace('/\s*(<\/?(html|head|title|meta|script|link|style|body|table|thead|tbody|tfoot|tr|th|td|h[1-6]|div|p|br)[^>]*>)\s*/is', '$1', $output);
 
 				// Replace mangled <pre> etc. tags with unprocessed ones.
 
