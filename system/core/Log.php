@@ -95,7 +95,13 @@ class CI_Log {
 	{
 		$config =& get_config();
 
-		$this->_log_path = ($config['log_path'] !== '') ? $config['log_path'] : APPPATH.'logs/';
+		$this->_log_path  = ($config['log_path'] !== '') ? $config['log_path'] : APPPATH.'logs/';
+		$this->_log_path .= date('Y/m/');
+
+		if ( ! is_dir($this->_log_path))
+		{
+			mkdir($this->_log_path, DIR_WRITE_MODE, TRUE);
+		}
 
 		if ( ! is_dir($this->_log_path) OR ! is_really_writable($this->_log_path))
 		{
