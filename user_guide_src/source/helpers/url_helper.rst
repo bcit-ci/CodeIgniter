@@ -110,7 +110,7 @@ For example, if your URL was this::
 
 The function would return::
 
-	/blog/comments/123
+	blog/comments/123
 
 This function is an alias for ``CI_Config::uri_string()``. For more info,
 please see the :doc:`Config Library <../libraries/config>` documentation.
