@@ -54,6 +54,13 @@ class CI_Encrypt {
 	protected $_hash_type		= 'sha1';
 
 	/**
+	 * Byte length of selected hash output
+	 *
+	 * @var int
+	 */
+	protected $_hmac_len;
+
+	/**
 	 * Flag for the existance of mcrypt
 	 *
 	 * @var bool
@@ -306,6 +313,39 @@ class CI_Encrypt {
 
 		return $str;
 	}
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get hash algorithm.
+	 *
+	 * @access	private
+	 * @return	string
+	 */
+
+	function _get_hash()
+	{
+		return $this->_hash_type;
+	}
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get HMAC length for currently selected hash algorithm.
+	 *
+	 * @access	private
+	 * @return	integer
+	 */
+
+	function _get_hmac_len()
+	{
+		if($this->_hmac_len == '')
+		{
+			// this will actually calculate HMAC for a dummy data in hex format
+			$this->_hmac_len = strlen(hash_hmac($this->_get_hash(), 'dummy', 'dummy', FALSE));
+		}
+
+		// as we use hex the binary length will be half of it
+		return $this->_hmac_len / 2;
+	}
 
 	// --------------------------------------------------------------------
 
@@ -318,9 +358,24 @@ class CI_Encrypt {
 	 */
 	public function mcrypt_encode($data, $key)
 	{
+		print('<h2>Encryption</h2>');
 		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
 		$init_vect = mcrypt_create_iv($init_size, MCRYPT_RAND);
-		return $this->_add_cipher_noise($init_vect.mcrypt_encrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), $key);
+		$ciphertext = mcrypt_encrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect);
+		// calculate binary HMAC for ciphertext plus IV
+		$mac = hash_hmac($this->_get_hash(), $init_vect.$ciphertext, $key, TRUE);
+
+		print('iv=' . bin2hex($init_vect) . '<br>');
+		print('ciphertext=' . bin2hex($ciphertext) . '<br>');
+		print('mac=' . bin2hex($mac) . '<br>');
+		print('output=' . bin2hex($mac.$init_vect.$ciphertext) . '(before noise)<br>');
+
+		$noise = $this->_add_cipher_noise($mac.$init_vect.$ciphertext, $key);
+
+		print('output=' . bin2hex($noise) . '(after noise)<br>');
+		print('<h2>End Encryption</h2>');
+
+		return $this->_add_cipher_noise($mac.$init_vect.$ciphertext, $key);
 	}
 
 	// --------------------------------------------------------------------
@@ -334,7 +389,13 @@ class CI_Encrypt {
 	 */
 	public function mcrypt_decode($data, $key)
 	{
+		print('<h2>Decryption</h2>');
+		print('input=' . bin2hex($data) . '(noise) <br>');
+
 		$data = $this->_remove_cipher_noise($data, $key);
+
+		print('input=' . bin2hex($data) . '(noise removed) <br>');
+
 		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
 
 		if ($init_size > strlen($data))
@@ -342,8 +403,24 @@ class CI_Encrypt {
 			return FALSE;
 		}
 
-		$init_vect = substr($data, 0, $init_size);
-		$data = substr($data, $init_size);
+		$mac = substr($data, 0, $this->_get_hmac_len());
+		$init_vect = substr($data, $this->_get_hmac_len(), $init_size);
+		$data = substr($data, $this->_get_hmac_len() + $init_size);
+
+		print('mac=' . bin2hex($mac) . '(received) <br>');
+		print('iv=' . bin2hex($init_vect) . '<br>');
+		print('ciphertext=' . bin2hex($data) . '<br>');
+
+		$calculated_mac = hash_hmac($this->_get_hash(), $init_vect.$data, $key, TRUE);
+		print('mac=' . bin2hex($calculated_mac) . '(calculated) <br>');
+
+		if ($calculated_mac != $mac) 
+		{
+	//		return FALSE;
+			print('<h3>INTEGRITY ERROR</h3>');
+		}
+		print('<h2>End Decryption</h2>');
+
 		return rtrim(mcrypt_decrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), "\0");
 	}
 
