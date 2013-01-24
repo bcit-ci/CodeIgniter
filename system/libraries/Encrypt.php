@@ -358,31 +358,17 @@ class CI_Encrypt {
 	 */
 	public function mcrypt_encode($data, $key)
 	{
-		print('<h2>Encryption</h2>');
 		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
-
-		print("data=\"$data\" (orig)<br>");
 
 		// PKCS#7 padding
 		$block_size = mcrypt_get_block_size($this->_get_cipher(), $this->_get_mode());
 		$pad = $block_size - (strlen($data) % $block_size);
 		$data .= str_repeat(chr($pad), $pad);
 
-		print("data=\"$data\" (padded)<br>");
-
 		$init_vect = mcrypt_create_iv($init_size, MCRYPT_RAND);
 		$ciphertext = mcrypt_encrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect);
 		// calculate binary HMAC for ciphertext plus IV
 		$mac = hash_hmac($this->_get_hash(), $init_vect.$ciphertext, $key, TRUE);
-
-		print("block size=$block_size data len=" . strlen($data) . "<br>");
-		print("pad=$pad pad str=" . str_repeat(chr($pad), $pad) . " <br>");
-		print('iv=' . bin2hex($init_vect) . '<br>');
-		print('ciphertext=' . bin2hex($ciphertext) . '<br>');
-		print('mac=' . bin2hex($mac) . '<br>');
-		print('output=' . bin2hex($mac.$init_vect.$ciphertext) . '<br>');
-
-		print('<h2>End Encryption</h2>');
 
 		return $mac.$init_vect.$ciphertext;
 	}
@@ -398,9 +384,6 @@ class CI_Encrypt {
 	 */
 	public function mcrypt_decode($data, $key)
 	{
-		print('<h2>Decryption</h2>');
-		print('input=' . bin2hex($data) . '<br>');
-
 		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
 
 		if ($init_size > strlen($data))
@@ -412,31 +395,20 @@ class CI_Encrypt {
 		$init_vect = substr($data, $this->_get_hmac_len(), $init_size);
 		$data = substr($data, $this->_get_hmac_len() + $init_size);
 
-		print('mac=' . bin2hex($mac) . '(received) <br>');
-		print('iv=' . bin2hex($init_vect) . '<br>');
-		print('ciphertext=' . bin2hex($data) . '<br>');
-
 		$calculated_mac = hash_hmac($this->_get_hash(), $init_vect.$data, $key, TRUE);
-		print('mac=' . bin2hex($calculated_mac) . '(calculated) <br>');
 
 		if ($calculated_mac != $mac) 
 		{
-			print('<h2>Integrity error</h2>');
+			log_message('error', 'Data was tampered with - HMAC verification failed');
 			return FALSE;
 		}
 
 		$plaintext = mcrypt_decrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect);
-
-		print("plain=\"$plaintext\" (before pad removal)<br>");
-		
 		// PKCS#7 padding removal
 		$block_size = mcrypt_get_block_size($this->_get_cipher(), $this->_get_mode());
 		$pad = ord($plaintext[($len = strlen($plaintext)) - 1]);
 
 		$plaintext = substr($plaintext, 0, strlen($plaintext) - $pad);
-		print("plain=\"$plaintext\" (after pad removal)<br>");
-
-		print('<h2>End Decryption</h2>');
 
 		return $plaintext;
 	}
