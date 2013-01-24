@@ -112,6 +112,7 @@ Release Date: Not Released
    -  Updated ``escape_identifiers()`` to accept an array of fields as well as strings.
    -  MySQL and MySQLi drivers now require at least MySQL version 5.1.
    -  ``db_set_charset()`` now only requires one parameter (collation was only needed due to legacy support for MySQL versions prior to 5.1).
+   -  ``db_select()`` will now always (if required by the driver) be called by ``db_connect()`` / ``db_pconnect()`` instead of only when initializing.
    -  Replaced the ``_error_message()`` and ``_error_number()`` methods with ``error()``, which returns an array containing the last database error code and message.
    -  Improved ``version()`` implementation so that drivers that have a native function to get the version number don't have to be defined in the core ``DB_driver`` class.
    -  Added capability for packages to hold *config/database.php* config files.
