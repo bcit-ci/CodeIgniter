@@ -360,22 +360,31 @@ class CI_Encrypt {
 	{
 		print('<h2>Encryption</h2>');
 		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
+
+		print("data=\"$data\" (orig)<br>");
+
+		// PKCS#7 padding
+		$block_size = mcrypt_get_block_size($this->_get_cipher(), $this->_get_mode());
+		$pad = $block_size - (strlen($data) % $block_size);
+		$data .= str_repeat(chr($pad), $pad);
+
+		print("data=\"$data\" (padded)<br>");
+
 		$init_vect = mcrypt_create_iv($init_size, MCRYPT_RAND);
 		$ciphertext = mcrypt_encrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect);
 		// calculate binary HMAC for ciphertext plus IV
 		$mac = hash_hmac($this->_get_hash(), $init_vect.$ciphertext, $key, TRUE);
 
+		print("block size=$block_size data len=" . strlen($data) . "<br>");
+		print("pad=$pad pad str=" . str_repeat(chr($pad), $pad) . " <br>");
 		print('iv=' . bin2hex($init_vect) . '<br>');
 		print('ciphertext=' . bin2hex($ciphertext) . '<br>');
 		print('mac=' . bin2hex($mac) . '<br>');
-		print('output=' . bin2hex($mac.$init_vect.$ciphertext) . '(before noise)<br>');
+		print('output=' . bin2hex($mac.$init_vect.$ciphertext) . '<br>');
 
-		$noise = $this->_add_cipher_noise($mac.$init_vect.$ciphertext, $key);
-
-		print('output=' . bin2hex($noise) . '(after noise)<br>');
 		print('<h2>End Encryption</h2>');
 
-		return $this->_add_cipher_noise($mac.$init_vect.$ciphertext, $key);
+		return $mac.$init_vect.$ciphertext;
 	}
 
 	// --------------------------------------------------------------------
@@ -390,11 +399,7 @@ class CI_Encrypt {
 	public function mcrypt_decode($data, $key)
 	{
 		print('<h2>Decryption</h2>');
-		print('input=' . bin2hex($data) . '(noise) <br>');
-
-		$data = $this->_remove_cipher_noise($data, $key);
-
-		print('input=' . bin2hex($data) . '(noise removed) <br>');
+		print('input=' . bin2hex($data) . '<br>');
 
 		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
 
@@ -416,78 +421,24 @@ class CI_Encrypt {
 
 		if ($calculated_mac != $mac) 
 		{
-			return FALSE;
 			print('<h2>Integrity error</h2>');
+			return FALSE;
 		}
+
+		$plaintext = mcrypt_decrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect);
+
+		print("plain=\"$plaintext\" (before pad removal)<br>");
+		
+		// PKCS#7 padding removal
+		$block_size = mcrypt_get_block_size($this->_get_cipher(), $this->_get_mode());
+		$pad = ord($plaintext[($len = strlen($plaintext)) - 1]);
+
+		$plaintext = substr($plaintext, 0, strlen($plaintext) - $pad);
+		print("plain=\"$plaintext\" (after pad removal)<br>");
+
 		print('<h2>End Decryption</h2>');
 
-		return rtrim(mcrypt_decrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), "\0");
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Adds permuted noise to the IV + encrypted data to protect
-	 * against Man-in-the-middle attacks on CBC mode ciphers
-	 * http://www.ciphersbyritter.com/GLOSSARY.HTM#IV
-	 *
-	 * @param	string
-	 * @param	string
-	 * @return	string
-	 */
-	protected function _add_cipher_noise($data, $key)
-	{
-		$key = $this->hash($key);
-		$str = '';
-
-		for ($i = 0, $j = 0, $ld = strlen($data), $lk = strlen($key); $i < $ld; ++$i, ++$j)
-		{
-			if ($j >= $lk)
-			{
-				$j = 0;
-			}
-
-			$str .= chr((ord($data[$i]) + ord($key[$j])) % 256);
-		}
-
-		return $str;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Removes permuted noise from the IV + encrypted data, reversing
-	 * _add_cipher_noise()
-	 *
-	 * Function description
-	 *
-	 * @param	string	$data
-	 * @param	string	$key
-	 * @return	string
-	 */
-	protected function _remove_cipher_noise($data, $key)
-	{
-		$key = $this->hash($key);
-		$str = '';
-
-		for ($i = 0, $j = 0, $ld = strlen($data), $lk = strlen($key); $i < $ld; ++$i, ++$j)
-		{
-			if ($j >= $lk)
-			{
-				$j = 0;
-			}
-
-			$temp = ord($data[$i]) - ord($key[$j]);
-
-			if ($temp < 0)
-			{
-				$temp += 256;
-			}
-
-			$str .= chr($temp);
-		}
-
-		return $str;
+		return $plaintext;
 	}
 
 	// --------------------------------------------------------------------
