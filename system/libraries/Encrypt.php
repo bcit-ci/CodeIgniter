@@ -416,8 +416,8 @@ class CI_Encrypt {
 
 		if ($calculated_mac != $mac) 
 		{
-	//		return FALSE;
-			print('<h3>INTEGRITY ERROR</h3>');
+			return FALSE;
+			print('<h2>Integrity error</h2>');
 		}
 		print('<h2>End Decryption</h2>');
 
