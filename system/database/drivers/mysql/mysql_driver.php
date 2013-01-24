@@ -110,9 +110,23 @@ class CI_DB_mysql_driver extends CI_DB {
 			$client_flags = $client_flags | MYSQL_CLIENT_SSL;
 		}
 
-		return ($persistent === TRUE)
+		$this->conn_id = ($persistent === TRUE)
 			? @mysql_pconnect($this->hostname, $this->username, $this->password, $client_flags)
 			: @mysql_connect($this->hostname, $this->username, $this->password, TRUE, $client_flags);
+
+		// ----------------------------------------------------------------
+
+		// Select the DB... assuming a database name is specified in the config file
+		if ($this->database !== '' && ! $this->db_select())
+		{
+			log_message('error', 'Unable to select database: '.$this->database);
+
+			return ($this->db_debug === TRUE)
+				? $this->display_error('db_unable_to_select', $this->database)
+				: FALSE;
+		}
+
+		return $this->conn_id;
 	}
 
 	// --------------------------------------------------------------------
