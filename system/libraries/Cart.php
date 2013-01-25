@@ -95,7 +95,7 @@ class CI_Cart {
 		$config = is_array($params) ? $params : array();
 
 		// Load the Sessions class
-		$this->CI->load->library('session', $config);
+		$this->CI->load->driver('session', $config);
 
 		// Grab the shopping cart array from the session table
 		$this->_cart_contents = $this->CI->session->userdata('cart_contents');
