@@ -170,7 +170,8 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 
 		header('Content-Type: text/xml');
 		header('Content-Length: '.strlen($payload));
-		exit($payload);
+		echo $payload;
+		exit(0);
 	}
 
 	// --------------------------------------------------------------------

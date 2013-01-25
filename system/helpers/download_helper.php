@@ -141,7 +141,8 @@ if ( ! function_exists('force_download'))
 		// If we have raw data - just dump it
 		if ($data !== NULL)
 		{
-			exit($data);
+			echo $data;
+			exit(0);
 		}
 
 		// Flush 1MB chunks of data
@@ -151,7 +152,7 @@ if ( ! function_exists('force_download'))
 		}
 
 		fclose($fp);
-		exit;
+		exit(0);
 	}
 }
 
