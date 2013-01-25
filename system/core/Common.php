@@ -1,3 +1,4 @@
+
 <?php
 /**
  * CodeIgniter
@@ -175,7 +176,8 @@ if ( ! function_exists('load_class'))
 			// Note: We use exit() rather then show_error() in order to avoid a
 			// self-referencing loop with the Exceptions class
 			set_status_header(503);
-			exit('Unable to locate the specified class: '.$class.'.php');
+			echo 'Unable to locate the specified class: '.$class.'.php';
+			exit(2);
 		}
 
 		// Keep track of what we just loaded
@@ -248,14 +250,16 @@ if ( ! function_exists('get_config'))
 		elseif ( ! $found)
 		{
 			set_status_header(503);
-			exit('The configuration file does not exist.');
+			echo 'The configuration file does not exist.';
+			exit(1);
 		}
 
 		// Does the $config array exist in the file?
 		if ( ! isset($config) OR ! is_array($config))
 		{
 			set_status_header(503);
-			exit('Your config file does not appear to be formatted correctly.');
+			echo 'Your config file does not appear to be formatted correctly.';
+			exit(1);
 		}
 
 		// Are any values being dynamically replaced?
@@ -367,9 +371,20 @@ if ( ! function_exists('show_error'))
 	 */
 	function show_error($message, $status_code = 500, $heading = 'An Error Was Encountered')
 	{
+		$status_code = abs($status_code);
+		if ($status_code < 100)
+		{
+			$exit_status = $status_code + 28;
+			$status_code = 500;
+		}
+		else
+		{
+			$exit_status = 27;
+		}
+		
 		$_error =& load_class('Exceptions', 'core');
 		echo $_error->show_error($heading, $message, 'error_general', $status_code);
-		exit;
+		exit($exit_status);
 	}
 }
 
@@ -392,7 +407,7 @@ if ( ! function_exists('show_404'))
 	{
 		$_error =& load_class('Exceptions', 'core');
 		$_error->show_404($page, $log_error);
-		exit;
+		exit(4);
 	}
 }
 
@@ -514,11 +529,11 @@ if ( ! function_exists('set_status_header'))
 
 		if (strpos(php_sapi_name(), 'cgi') === 0)
 		{
-			header('Status: '.$code.' '.$text, TRUE);
+			if (!headers_sent()) header('Status: '.$code.' '.$text, TRUE);
 		}
 		else
 		{
-			header(($server_protocol ? $server_protocol : 'HTTP/1.1').' '.$code.' '.$text, TRUE, $code);
+			if (!headers_sent()) header(($server_protocol ? $server_protocol : 'HTTP/1.1').' '.$code.' '.$text, TRUE, $code);
 		}
 	}
 }
