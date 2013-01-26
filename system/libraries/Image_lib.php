@@ -810,7 +810,7 @@ class CI_Image_lib {
 		imagedestroy($dst_img);
 		imagedestroy($src_img);
 
-		// Set the file to 777
+		// Set the file to 666
 		@chmod($this->full_dst_path, FILE_WRITE_MODE);
 
 		return TRUE;
