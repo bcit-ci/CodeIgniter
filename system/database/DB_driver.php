@@ -428,20 +428,6 @@ abstract class CI_DB_driver {
 			}
 		}
 
-		// ----------------------------------------------------------------
-
-		// Select the DB... assuming a database name is specified in the config file
-		if ($this->database !== '' && ! $this->db_select())
-		{
-			log_message('error', 'Unable to select database: '.$this->database);
-
-			if ($this->db_debug)
-			{
-				$this->display_error('db_unable_to_select', $this->database);
-			}
-			return FALSE;
-		}
-
 		// Now we set the character set and that's all
 		return $this->db_set_charset($this->char_set);
 	}
@@ -993,7 +979,7 @@ abstract class CI_DB_driver {
 		{
 			return ($str === FALSE) ? 0 : 1;
 		}
-		elseif (is_null($str))
+		elseif ($str === NULL)
 		{
 			return 'NULL';
 		}
