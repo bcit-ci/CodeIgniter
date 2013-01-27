@@ -154,7 +154,7 @@ return array(
 	'mp4'   =>	'video/mp4',
 	'm4a'   =>	'audio/x-m4a',
 	'f4v'   =>	'video/mp4',
-	'webm'	=>	'video/webm'
+	'webm'	=>	'video/webm',
 	'aac'   =>	'audio/x-acc',
 	'm4u'   =>	'application/vnd.mpegurl',
 	'm3u'   =>	'text/plain',
