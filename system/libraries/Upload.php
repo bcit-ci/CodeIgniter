@@ -1005,7 +1005,14 @@ class CI_Upload {
 				'%3d'		// =
 			);
 
-		return stripslashes(str_replace($bad, '', $filename));
+		do
+		{
+			$old_filename = $filename;
+			$filename = str_replace($bad, '', $filename);
+		}
+		while ($old_filename !== $filename);
+
+		return stripslashes($filename);
 	}
 
 	// --------------------------------------------------------------------
