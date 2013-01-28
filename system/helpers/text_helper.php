@@ -367,7 +367,7 @@ if ( ! function_exists('convert_accented_characters'))
 
 		if ( ! isset($foreign_characters) OR ! is_array($foreign_characters))
 		{
-			if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php'))
+			if (is_file(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php'))
 			{
 				include(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php');
 			}
