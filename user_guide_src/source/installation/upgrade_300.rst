@@ -104,16 +104,40 @@ regular expression::
 	(.+)	// matches ANYTHING
 	(:any)	// matches any character, except for '/'
 
+*******************************************
+Step 9: Update your librararies' file names
+*******************************************
+
+CodeIgniter 3.0 only allows library file names to be named in a *ucfirst* manner
+(meaning that the first letter of the class name must be a capital). For example,
+if you have the following library file:
+
+	application/libraries/mylibrary.php
+
+... then you'll have to rename it to:
+
+	application/libraries/Mylibrary.php
+
+The same goes for driver libraries and extensions and/or overrides of CodeIgniter's
+own libraries and core classes.
+
+	application/libraries/MY_email.php
+	application/core/MY_log.php
+
+The above files should respectively be renamed to the following:
+
+	application/libraries/MY_Email.php
+	application/core/MY_Log.php
 
 ****************************************************************************
-Step 9: Check the calls to Array Helper's element() and elements() functions
+Step 10: Check the calls to Array Helper's element() and elements() functions
 ****************************************************************************
 
 The default return value of these functions, when the required elements
 don't exist, has been changed from FALSE to NULL.
 
 *************************************************************
-Step 10: Update usage of Database Forge's drop_table() method
+Step 11: Update usage of Database Forge's drop_table() method
 *************************************************************
 
 Up until now, ``drop_table()`` added an IF EXISTS clause by default or it didn't work
@@ -135,7 +159,7 @@ If your application relies on IF EXISTS, you'll have to change its usage.
 	all drivers with the exception of ODBC.
 
 ***********************************************************
-Step 11: Change usage of Email library with multiple emails
+Step 12: Change usage of Email library with multiple emails
 ***********************************************************
 
 The :doc:`Email Library <../libraries/email>` will automatically clear the
@@ -150,7 +174,7 @@ pass FALSE as the first parameter in the ``send()`` method:
  	}
 
 ***************************************************
-Step 12: Update your Form_validation language lines
+Step 13: Update your Form_validation language lines
 ***************************************************
 
 Two improvements have been made to the :doc:`Form Validation Library
@@ -181,7 +205,7 @@ files and error messages format:
 	later.
 
 ****************************************************************
-Step 13: Remove usage of (previously) deprecated functionalities
+Step 14: Remove usage of (previously) deprecated functionalities
 ****************************************************************
 
 In addition to the ``$autoload['core']`` configuration setting, there's a
