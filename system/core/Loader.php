@@ -939,7 +939,7 @@ class CI_Loader {
 		if (($last_slash = strrpos($class, '/')) !== FALSE)
 		{
 			// Extract the path
-			$subdir = ucfirst(substr($class, 0, ++$last_slash));
+			$subdir = substr($class, 0, ++$last_slash);
 
 			// Get the filename from the path
 			$class = substr($class, $last_slash);
