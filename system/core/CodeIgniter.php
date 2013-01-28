@@ -58,6 +58,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  Load the framework constants
  * ------------------------------------------------------
  */
+ 
 	if (defined('ENVIRONMENT') && file_exists(APPPATH.'config/'.ENVIRONMENT.'/constants.php'))
 	{
 		require(APPPATH.'config/'.ENVIRONMENT.'/constants.php');
@@ -65,7 +66,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	else
 	{
 		require(APPPATH.'config/constants.php');
-	}
+		
+		// if ENVIRONMENT not defined in constants.php, define it here for rest of framework to use
+		if ( ! defined('ENVIRONMENT'))
+	 	{
+	 		define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+	 	}
+	}	
 
 /*
  * ------------------------------------------------------
