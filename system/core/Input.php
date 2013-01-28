@@ -720,9 +720,9 @@ class CI_Input {
 		}
 
 		// Standardize newlines if needed
-		if ($this->_standardize_newlines === TRUE && strpos($str, "\r") !== FALSE)
+		if ($this->_standardize_newlines === TRUE)
 		{
-			return str_replace(array("\r\n", "\r", "\r\n\n"), PHP_EOL, $str);
+			return preg_replace('/(?:\r\n|[\r\n])/', PHP_EOL, $str);
 		}
 
 		return $str;
