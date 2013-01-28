@@ -408,13 +408,13 @@ class CI_Pagination {
 				// If we saved any GET items earlier, make sure they're appended.
 				if ( ! empty($get))
 				{
-					$this->first_url .= $query_string_sep . http_build_query($get);
+					$this->first_url .= $query_string_sep.http_build_query($get);
 				}
 			}
 
 			// Add the page segment to the end of the query string, where the
 			// page number will be appended.
-			$this->base_url .= $query_string_sep . http_build_query(array_merge($get, array($this->query_string_segment => '')));
+			$this->base_url .= $query_string_sep.http_build_query(array_merge($get, array($this->query_string_segment => '')));
 		}
 		else
 		{
@@ -422,7 +422,7 @@ class CI_Pagination {
 			// Generate our saved query string to append later after the page number.
 			if ( ! empty($get))
 			{
-				$query_string = $query_string_sep . http_build_query($get);
+				$query_string = $query_string_sep.http_build_query($get);
 				$this->suffix .= $query_string;
 			}
 
@@ -435,10 +435,10 @@ class CI_Pagination {
 
 			if ($this->first_url === '')
 			{
-				$this->first_url = $this->base_url . $query_string;
+				$this->first_url = $this->base_url.$query_string;
 			}
 
-			$this->base_url = rtrim($this->base_url, '/') . '/';
+			$this->base_url = rtrim($this->base_url, '/').'/';
 		}
 
 		// Determine the current page number.
