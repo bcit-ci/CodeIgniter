@@ -48,11 +48,12 @@ class Url_helper_test extends CI_TestCase {
 	public function test_auto_link_url()
 	{
 		$strings = array(
-			'www.codeigniter.com test' => '<a href="http://www.codeigniter.com">http://www.codeigniter.com</a> test',
+			'www.codeigniter.com test' => '<a href="http://www.codeigniter.com">www.codeigniter.com</a> test',
 			'This is my noreply@codeigniter.com test' => 'This is my noreply@codeigniter.com test',
-			'<br />www.google.com' => '<br /><a href="http://www.google.com">http://www.google.com</a>',
-			'Download CodeIgniter at www.codeigniter.com. Period test.' => 'Download CodeIgniter at <a href="http://www.codeigniter.com">http://www.codeigniter.com</a>. Period test.',
-			'Download CodeIgniter at www.codeigniter.com, comma test' => 'Download CodeIgniter at <a href="http://www.codeigniter.com">http://www.codeigniter.com</a>, comma test'
+			'<br />www.google.com' => '<br /><a href="http://www.google.com">www.google.com</a>',
+			'Download CodeIgniter at www.codeigniter.com. Period test.' => 'Download CodeIgniter at <a href="http://www.codeigniter.com">www.codeigniter.com</a>. Period test.',
+			'Download CodeIgniter at www.codeigniter.com, comma test' => 'Download CodeIgniter at <a href="http://www.codeigniter.com">www.codeigniter.com</a>, comma test',
+			'This one: ://codeigniter.com must not break this one: http://codeigniter.com' => 'This one: <a href="://codeigniter.com">://codeigniter.com</a> must not break this one: <a href="http://codeigniter.com">http://codeigniter.com</a>'
 		);
 
 		foreach ($strings as $in => $out)
@@ -66,7 +67,7 @@ class Url_helper_test extends CI_TestCase {
 	public function test_pull_675()
 	{
 		$strings = array(
-			'<br />www.google.com' => '<br /><a href="http://www.google.com">http://www.google.com</a>',
+			'<br />www.google.com' => '<br /><a href="http://www.google.com">www.google.com</a>',
 		);
 
 		foreach ($strings as $in => $out)
