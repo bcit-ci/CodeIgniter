@@ -32,6 +32,7 @@ if ( ! class_exists('vfsStream') && file_exists(PROJECT_BASE.'vendor/autoload.ph
 defined('BASEPATH') OR define('BASEPATH', vfsStream::url('system/'));
 defined('APPPATH') OR define('APPPATH', vfsStream::url('application/'));
 defined('VIEWPATH') OR define('VIEWPATH', APPPATH.'views/');
+defined('ENVIRONMENT') OR define('ENVIRONMENT', 'development');
 
 // Set localhost "remote" IP
 isset($_SERVER['REMOTE_ADDR']) OR $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
