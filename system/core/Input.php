@@ -390,6 +390,11 @@ class CI_Input {
 			return $this->ip_address;
 		}
 
+		if (php_sapi_name == 'cli')
+		{
+			return '127.0.0.1';
+		}
+
 		$proxy_ips = config_item('proxy_ips');
 		if ( ! empty($proxy_ips) && ! is_array($proxy_ips))
 		{
