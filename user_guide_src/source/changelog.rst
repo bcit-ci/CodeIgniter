@@ -215,6 +215,7 @@ Release Date: Not Released
 	 -  Added **max_filename_increment** config setting.
 	 -  Added an **index** parameter to the ``data()`` method.
 	 -  Added the **min_width** and **min_height** options for images.
+	 -  Removed method ``clean_file_name()`` and its usage in favor of :doc:`Security Library <libraries/security>`'s ``sanitize_filename()``.
    -  :doc:`Cart library <libraries/cart>` changes include:
 	 -  ``insert()`` now auto-increments quantity for an item when inserted twice instead of resetting it, this is the default behaviour of large e-commerce sites.
 	 -  *Product Name* strictness can be disabled by switching the ``$product_name_safe`` property to FALSE.
@@ -478,6 +479,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#2061) - :doc:`Routing Class <general/routing>` didn't properly sanitize directory, controller and function triggers with **enable_query_strings** set to TRUE.
 -  Fixed a bug - SQLSRV didn't support ``escape_like_str()`` or escaping an array of values.
 -  Fixed a bug - :doc:`DB result <database/results>` method ``list_fields()`` didn't reset its field pointer for the *mysql*, *mysqli* and *mssql* drivers.
+-  Fixed a bug (#73) - :doc:`Security Library <libraries/security>` method ``sanitize_filename()`` could be tricked by an XSS attack.
 
 Version 2.1.3
 =============
