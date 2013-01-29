@@ -316,11 +316,11 @@ if ( ! function_exists('get_mimes'))
 	{
 		static $_mimes = array();
 
-		if (is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
 		{
 			$_mimes = include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
 		}
-		elseif (is_file(APPPATH.'config/mimes.php'))
+		elseif (file_exists(APPPATH.'config/mimes.php'))
 		{
 			$_mimes = include(APPPATH.'config/mimes.php');
 		}
