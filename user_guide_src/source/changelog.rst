@@ -38,7 +38,6 @@ Release Date: Not Released
    -  Updated support for php files in mimes.php.
    -  Updated support for zip files in mimes.php.
    -  Updated support for csv files in mimes.php.
-   -  Added some more doctypes.
    -  Added Romanian, Greek, Vietnamese and Cyrilic characters in *application/config/foreign_characters.php*.
    -  Changed logger to only chmod when file is first created.
    -  Removed previously deprecated SHA1 Library.
@@ -74,7 +73,10 @@ Release Date: Not Released
 	 - Added support (auto-detection) for HTTP/1.1 response code 303 in :php:func:`redirect()`.
 	 - Changed :php:func:`redirect()` to only choose the **refresh** method only on IIS servers, instead of all servers on Windows (when **auto** is used).
 	 - Changed :php:func:`anchor()`, :php:func:`anchor_popup()`, and :php:func:`redirect()` to support protocol-relative URLs (e.g. *//ellislab.com/codeigniter*).
-   -  Added XHTML Basic 1.1 doctype to :doc:`HTML Helper <helpers/html_helper>`.
+   -  :doc:`HTML Helper <helpers/html_helper>` changes include:
+	 - Added more doctypes.
+	 - Changed application and environment config files to be loaded in a cascade-like manner.
+	 - The doctypes array is now cached and loaded only once.
    -  :doc:`Inflector Helper <helpers/inflector_helper>` changes include:
 	 - Changed :php:func:`humanize()` to allow passing an input separator as its second parameter.
 	 - Refactored :php:func:`plural()` and :php:func:`singular()` to avoid double pluralization and support more words.
@@ -88,7 +90,10 @@ Release Date: Not Released
    -  :doc:`Security Helper <helpers/security_helper>` changes include:
 	 - :php:func:`do_hash()` now uses PHP's native ``hash()`` function (supporting more algorithms) and is deprecated.
 	 - :php:func:`strip_image_tags()` is now an alias for the same method in the :doc:`Security Library <libraries/security>`.
-   -  Removed previously deprecated helper function ``js_insert_smiley()`` from :doc:`Smiley Helper <helpers/smiley_helper>`.
+   -  :doc:`Smiley Helper <helpers/smiley_helper>` changes include:
+	 - Removed previously deprecated function ``js_insert_smiley()``.
+	 - Changed application and environment config files to be loaded in a cascade-like manner.
+	 - The smileys array is now cached and loaded only once.
    -  :doc:`File Helper <helpers/file_helper>` changes include:
 	 - :php:func:`set_realpath()` can now also handle file paths as opposed to just directories.
 	 - Added an optional paramater to :php:func:`delete_files()` to enable it to skip deleting files such as *.htaccess* and *index.html*.
@@ -472,6 +477,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#113) - :doc:`Form Validation Library <libraries/form_validation>` didn't properly handle empty fields that were specified as an array.
 -  Fixed a bug (#2061) - :doc:`Routing Class <general/routing>` didn't properly sanitize directory, controller and function triggers with **enable_query_strings** set to TRUE.
 -  Fixed a bug - SQLSRV didn't support ``escape_like_str()`` or escaping an array of values.
+-  Fixed a bug - :doc:`DB result <database/results>` method ``list_fields()`` didn't reset its field pointer for the *mysql*, *mysqli* and *mssql* drivers.
 
 Version 2.1.3
 =============
