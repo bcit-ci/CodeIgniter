@@ -387,6 +387,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1506) - :doc:`Form Helpers <helpers/form_helper>` set empty *name* attributes.
 -  Fixed a bug (#59) - :doc:`Query Builder <database/query_builder>` method ``count_all_results()`` ignored the DISTINCT clause.
 -  Fixed a bug (#1624) - :doc:`Form Validation Library <libraries/form_validation>` rule **matches** didn't property handle array field names.
+-  Fixed a bug where :doc:`Form Validation Library <libraries/form_validation>` rules wouldn't match if method/controller accepted a parameter.
 
 Version 2.1.3
 =============
