@@ -380,14 +380,16 @@ class CI_Pagination {
 
 		// Keep any existing query string items.
 		// Note: Has nothing to do with any other query string option.
-		$get = array();
-
 		if ($this->reuse_query_string === TRUE)
 		{
 			$get = $CI->input->get();
 
 			// Unset the controll, method, old-school routing options
 			unset($get['c'], $get['m'], $get[$this->query_string_segment]);
+		}
+		else
+		{
+			$get = array();
 		}
 
 		// Put together our base and first URLs.
