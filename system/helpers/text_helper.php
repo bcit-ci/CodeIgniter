@@ -358,31 +358,35 @@ if ( ! function_exists('convert_accented_characters'))
 	/**
 	 * Convert Accented Foreign Characters to ASCII
 	 *
-	 * @param	string	the text string
+	 * @param	string	$str	Input string
 	 * @return	string
 	 */
 	function convert_accented_characters($str)
 	{
-		global $foreign_characters;
+		static $_foreign_characters;
 
-		if ( ! isset($foreign_characters) OR ! is_array($foreign_characters))
+		if ( ! is_array($_foreign_characters))
 		{
-			if (is_file(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php'))
-			{
-				include(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php');
-			}
-			elseif (is_file(APPPATH.'config/foreign_chars.php'))
+			if (file_exists(APPPATH.'config/foreign_chars.php'))
 			{
 				include(APPPATH.'config/foreign_chars.php');
 			}
 
-			if ( ! isset($foreign_characters) OR ! is_array($foreign_characters))
+			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php'))
 			{
+				include(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php');
+			}
+
+			if (empty($foreign_characters) OR ! is_array($foreign_characters))
+			{
+				$_foreign_characters = array();
 				return $str;
 			}
+
+			$_foreign_characters = $foreign_characters;
 		}
 
-		return preg_replace(array_keys($foreign_characters), array_values($foreign_characters), $str);
+		return preg_replace(array_keys($_foreign_characters), array_values($_foreign_characters), $str);
 	}
 }
 

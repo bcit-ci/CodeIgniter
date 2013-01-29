@@ -81,11 +81,12 @@ class CI_Hooks {
 		}
 
 		// Grab the "hooks" definition file.
-		if (is_file(APPPATH.'config/'.ENVIRONMENT.'/hooks.php'))
+		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/hooks.php'))
 		{
 			include(APPPATH.'config/'.ENVIRONMENT.'/hooks.php');
 		}
-		elseif (is_file(APPPATH.'config/hooks.php'))
+
+		if (file_exists(APPPATH.'config/hooks.php'))
 		{
 			include(APPPATH.'config/hooks.php');
 		}

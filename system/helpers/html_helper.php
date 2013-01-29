@@ -238,26 +238,30 @@ if ( ! function_exists('doctype'))
 	 */
 	function doctype($type = 'xhtml1-strict')
 	{
-		global $_doctypes;
+		static $doctypes;
 
-		if ( ! is_array($_doctypes))
+		if ( ! is_array($doctypes))
 		{
-			if (is_file(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php'))
-			{
-				include(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php');
-			}
-			elseif (is_file(APPPATH.'config/doctypes.php'))
+			if (file_exists(APPPATH.'config/doctypes.php'))
 			{
 				include(APPPATH.'config/doctypes.php');
 			}
 
-			if ( ! is_array($_doctypes))
+			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php'))
 			{
+				include(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php');
+			}
+
+			if (empty($_doctypes) OR ! is_array($_doctypes))
+			{
+				$doctypes = array();
 				return FALSE;
 			}
+
+			$doctypes = $_doctypes;
 		}
 
-		return isset($_doctypes[$type]) ? $_doctypes[$type] : FALSE;
+		return isset($doctypes[$type]) ? $doctypes[$type] : FALSE;
 	}
 }
 
