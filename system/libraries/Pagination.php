@@ -449,7 +449,8 @@ class CI_Pagination {
 		// Are we using query strings?
 		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
 		{
-			$this->cur_page = (int) $CI->input->get($this->query_string_segment);
+			// Cast as string for use in ctype_digit() later.
+			$this->cur_page = (string) $CI->input->get($this->query_string_segment);
 		}
 		else
 		{
@@ -459,18 +460,24 @@ class CI_Pagination {
 				$this->uri_segment = count($CI->uri->segment_array());
 			}
 
-			$this->cur_page = $CI->uri->segment($this->uri_segment);
+			$this->cur_page = (string) $CI->uri->segment($this->uri_segment);
 
 			// Remove any specified prefix/suffix from the segment.
-			$this->cur_page = ($this->prefix !== '' OR $this->suffix !== '')
-				? (int) str_replace(array($this->prefix, $this->suffix), '', $this->cur_page)
-				: (int) $this->cur_page;
+			if ($this->prefix !== '' OR $this->suffix !== '')
+			{
+				$this->cur_page = str_replace(array($this->prefix, $this->suffix), '', $this->cur_page);
+			}
 		}
 
 		// If something isn't quite right, back to the default base page.
-		if ( ! is_numeric($this->cur_page) OR ($this->use_page_numbers && $this->cur_page === 0))
+		if ( ! ctype_digit($this->cur_page) OR ($this->use_page_numbers && (int) $this->cur_page === 0))
 		{
 			$this->cur_page = $base_page;
+		}
+		else
+		{
+			// Make sure we're using integers for comparisons later.
+			$this->cur_page = (int) $this->cur_page;
 		}
 
 		// Is the page number beyond the result range?
