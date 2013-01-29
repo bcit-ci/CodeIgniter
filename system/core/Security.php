@@ -576,7 +576,15 @@ class CI_Security {
 		}
 
 		$str = remove_invisible_characters($str, FALSE);
-		return stripslashes(str_replace($bad, '', $str));
+
+		do
+		{
+			$old = $str;
+			$str = str_replace($bad, '', $str);
+		}
+		while ($old !== $str);
+
+		return stripslashes($str);
 	}
 
 	// ----------------------------------------------------------------
