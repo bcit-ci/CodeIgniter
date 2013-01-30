@@ -208,12 +208,6 @@ class Upload_test extends CI_TestCase {
 		$this->assertEquals('', $this->upload->get_extension('hello'));
 	}
 
-	function test_clean_file_name()
-	{
-		$this->assertEquals('hello.txt', $this->upload->clean_file_name('hello.txt'));
-		$this->assertEquals('hello.txt', $this->upload->clean_file_name('%253chell>o.txt'));
-	}
-
 	function test_limit_filename_length()
 	{
 		$this->assertEquals('hello.txt', $this->upload->limit_filename_length('hello.txt', 10));
