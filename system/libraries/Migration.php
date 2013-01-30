@@ -104,12 +104,6 @@ class CI_Migration {
 	 */
 	public function __construct($config = array())
 	{
-		# Only run this constructor on main library load
-		if (get_parent_class($this) !== FALSE)
-		{
-			return;
-		}
-
 		foreach ($config as $key => $val)
 		{
 			$this->{'_'.$key} = $val;
