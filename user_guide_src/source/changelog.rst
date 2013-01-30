@@ -480,6 +480,7 @@ Bug fixes for 3.0
 -  Fixed a bug - SQLSRV didn't support ``escape_like_str()`` or escaping an array of values.
 -  Fixed a bug - :doc:`DB result <database/results>` method ``list_fields()`` didn't reset its field pointer for the *mysql*, *mysqli* and *mssql* drivers.
 -  Fixed a bug (#73) - :doc:`Security Library <libraries/security>` method ``sanitize_filename()`` could be tricked by an XSS attack.
+-  Fixed a bug (#2211) - :doc:`Migration Library <libraries/migration>` extensions couldn't execute ``CI_Migration::__construct()``.
 
 Version 2.1.3
 =============
