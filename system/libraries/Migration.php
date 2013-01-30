@@ -104,8 +104,8 @@ class CI_Migration {
 	 */
 	public function __construct($config = array())
 	{
-		# Only run this constructor on main library load
-		if (get_parent_class($this) !== FALSE)
+		// Only run this constructor on main library load
+		if ( ! in_array(get_class($this), array('CI_Migration', config_item('subclass_prefix').'Migration'), TRUE))
 		{
 			return;
 		}
