@@ -148,8 +148,13 @@ class CI_Router {
 			include(APPPATH.'config/routes.php');
 		}
 
+		// Get routes
 		$this->routes = ( ! isset($route) OR ! is_array($route)) ? array() : $route;
 		unset($route);
+
+		// Get alias
+		$this->alias = ( ! isset($alias) OR ! is_array($alias)) ? array() : $alias;
+		unset($alias);
 
 		// Set the default controller so we can display it in the event
 		// the URI doesn't correlated to a valid controller.
@@ -355,6 +360,11 @@ class CI_Router {
 	 */
 	protected function _parse_routes()
 	{
+		// Check for alias
+		if(count($this->uri->segments)>0 && isset($this->alias[$this->uri->segments[0]])){
+			$this->uri->segments[0] = $this->alias[$this->uri->segments[0]];
+		}
+	
 		// Turn the segment array into a URI string
 		$uri = implode('/', $this->uri->segments);
 
