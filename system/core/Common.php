@@ -129,7 +129,7 @@ if ( ! function_exists('load_class'))
 	 * @param	string	the class name prefix
 	 * @return	object
 	 */
-	function &load_class($class, $directory = 'libraries', $prefix = 'CI_')
+	function load_class($class, $directory = 'libraries', $prefix = 'CI_')
 	{
 		static $_classes = array();
 
@@ -197,7 +197,7 @@ if ( ! function_exists('is_loaded'))
 	 * @param	string
 	 * @return	array
 	 */
-	function &is_loaded($class = '')
+	function is_loaded($class = '')
 	{
 		static $_is_loaded = array();
 
@@ -223,7 +223,7 @@ if ( ! function_exists('get_config'))
 	 * @param	array
 	 * @return	array
 	 */
-	function &get_config($replace = array())
+	function get_config($replace = array())
 	{
 		static $_config;
 
@@ -290,7 +290,7 @@ if ( ! function_exists('config_item'))
 
 		if ( ! isset($_config_item[$item]))
 		{
-			$config =& get_config();
+			$config = get_config();
 
 			if ( ! isset($config[$item]))
 			{
@@ -312,7 +312,7 @@ if ( ! function_exists('get_mimes'))
 	 *
 	 * @return	array
 	 */
-	function &get_mimes()
+	function get_mimes()
 	{
 		static $_mimes = array();
 
@@ -367,7 +367,7 @@ if ( ! function_exists('show_error'))
 	 */
 	function show_error($message, $status_code = 500, $heading = 'An Error Was Encountered')
 	{
-		$_error =& load_class('Exceptions', 'core');
+		$_error = load_class('Exceptions', 'core');
 		echo $_error->show_error($heading, $message, 'error_general', $status_code);
 		exit;
 	}
@@ -390,7 +390,7 @@ if ( ! function_exists('show_404'))
 	 */
 	function show_404($page = '', $log_error = TRUE)
 	{
-		$_error =& load_class('Exceptions', 'core');
+		$_error = load_class('Exceptions', 'core');
 		$_error->show_404($page, $log_error);
 		exit;
 	}
@@ -427,7 +427,7 @@ if ( ! function_exists('log_message'))
 
 		if ($_log === NULL)
 		{
-			$_log =& load_class('Log', 'core');
+			$_log = load_class('Log', 'core');
 		}
 		
 		$_log->write_log($level, $message, $php_error);
@@ -546,7 +546,7 @@ if ( ! function_exists('_exception_handler'))
 	 */
 	function _exception_handler($severity, $message, $filepath, $line)
 	{
-		$_error =& load_class('Exceptions', 'core');
+		$_error = load_class('Exceptions', 'core');
 
 		// Should we ignore the error? We'll get the current error_reporting
 		// level and add its bits with the severity bits to find out.

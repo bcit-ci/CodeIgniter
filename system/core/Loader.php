@@ -147,7 +147,7 @@ class CI_Loader {
 	 */
 	public function initialize()
 	{
-		$this->_base_classes =& is_loaded();
+		$this->_base_classes = is_loaded();
 		$this->_ci_autoloader();
 	}
 
@@ -599,7 +599,7 @@ class CI_Loader {
 	 */
 	public function language($files = array(), $lang = '')
 	{
-		$CI =& get_instance();
+		$CI = get_instance();
 
 		is_array($files) OR $files = array($files);
 
@@ -624,7 +624,7 @@ class CI_Loader {
 	 */
 	public function config($file = '', $use_sections = FALSE, $fail_gracefully = FALSE)
 	{
-		$CI =& get_instance();
+		$CI = get_instance();
 		return $CI->config->load($file, $use_sections, $fail_gracefully);
 	}
 
@@ -702,7 +702,7 @@ class CI_Loader {
 		$this->_ci_view_paths = array($path.'views/' => $view_cascade) + $this->_ci_view_paths;
 
 		// Add config file path
-		$config =& $this->_ci_get_component('config');
+		$config = $this->_ci_get_component('config');
 		$config->_config_paths[] = $path;
 	}
 
@@ -834,12 +834,12 @@ class CI_Loader {
 
 		// This allows anything loaded using $this->load (views, files, etc.)
 		// to become accessible from within the Controller and Model functions.
-		$_ci_CI =& get_instance();
+		$_ci_CI = get_instance();
 		foreach (get_object_vars($_ci_CI) as $_ci_key => $_ci_var)
 		{
 			if ( ! isset($this->$_ci_key))
 			{
-				$this->$_ci_key =& $_ci_CI->$_ci_key;
+				$this->$_ci_key = $_ci_CI->$_ci_key;
 			}
 		}
 
@@ -971,7 +971,7 @@ class CI_Loader {
 				// return a new instance of the object
 				if ($object_name !== NULL)
 				{
-					$CI =& get_instance();
+					$CI = get_instance();
 					if ( ! isset($CI->$object_name))
 					{
 						return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);
@@ -1001,7 +1001,7 @@ class CI_Loader {
 				// return a new instance of the object
 				if ($object_name !== NULL)
 				{
-					$CI =& get_instance();
+					$CI = get_instance();
 					if ( ! isset($CI->$object_name))
 					{
 						return $this->_ci_init_class($class, '', $params, $object_name);
@@ -1133,7 +1133,7 @@ class CI_Loader {
 		$this->_ci_classes[$class] = $classvar;
 
 		// Instantiate the class
-		$CI =& get_instance();
+		$CI = get_instance();
 		if ($config !== NULL)
 		{
 			$CI->$classvar = new $name($config);
@@ -1182,7 +1182,7 @@ class CI_Loader {
 		// Load any custom config file
 		if (count($autoload['config']) > 0)
 		{
-			$CI =& get_instance();
+			$CI = get_instance();
 			foreach ($autoload['config'] as $key => $val)
 			{
 				$CI->config->load($val);
@@ -1257,9 +1257,9 @@ class CI_Loader {
 	 * @param 	string	$component	Component name
 	 * @return	bool
 	 */
-	protected function &_ci_get_component($component)
+	protected function _ci_get_component($component)
 	{
-		$CI =& get_instance();
+		$CI = get_instance();
 		return $CI->$component;
 	}
 

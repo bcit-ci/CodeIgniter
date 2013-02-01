@@ -69,7 +69,7 @@ class CI_Hooks {
 	 */
 	public function __construct()
 	{
-		$CFG =& load_class('Config', 'core');
+		$CFG = load_class('Config', 'core');
 
 		log_message('debug', 'Hooks Class Initialized');
 
