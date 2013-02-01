@@ -105,7 +105,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  Start the timer... tick tock tick tock...
  * ------------------------------------------------------
  */
-	$BM =& load_class('Benchmark', 'core');
+	$BM = load_class('Benchmark', 'core');
 	$BM->mark('total_execution_time_start');
 	$BM->mark('loading_time:_base_classes_start');
 
@@ -114,7 +114,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  Instantiate the hooks class
  * ------------------------------------------------------
  */
-	$EXT =& load_class('Hooks', 'core');
+	$EXT = load_class('Hooks', 'core');
 
 /*
  * ------------------------------------------------------
@@ -128,7 +128,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  Instantiate the config class
  * ------------------------------------------------------
  */
-	$CFG =& load_class('Config', 'core');
+	$CFG = load_class('Config', 'core');
 
 	// Do we have any manually set config items in the index.php file?
 	if (isset($assign_to_config) && is_array($assign_to_config))
@@ -150,21 +150,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * after the Config class is instantiated.
  *
  */
-	$UNI =& load_class('Utf8', 'core');
+	$UNI = load_class('Utf8', 'core');
 
 /*
  * ------------------------------------------------------
  *  Instantiate the URI class
  * ------------------------------------------------------
  */
-	$URI =& load_class('URI', 'core');
+	$URI = load_class('URI', 'core');
 
 /*
  * ------------------------------------------------------
  *  Instantiate the routing class and set the routing
  * ------------------------------------------------------
  */
-	$RTR =& load_class('Router', 'core');
+	$RTR = load_class('Router', 'core');
 	$RTR->_set_routing();
 
 	// Set any routing overrides that may exist in the main index file
@@ -178,7 +178,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  Instantiate the output class
  * ------------------------------------------------------
  */
-	$OUT =& load_class('Output', 'core');
+	$OUT = load_class('Output', 'core');
 
 /*
  * ------------------------------------------------------
@@ -196,21 +196,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Load the security class for xss and csrf support
  * -----------------------------------------------------
  */
-	$SEC =& load_class('Security', 'core');
+	$SEC = load_class('Security', 'core');
 
 /*
  * ------------------------------------------------------
  *  Load the Input class and sanitize globals
  * ------------------------------------------------------
  */
-	$IN	=& load_class('Input', 'core');
+	$IN	= load_class('Input', 'core');
 
 /*
  * ------------------------------------------------------
  *  Load the Language class
  * ------------------------------------------------------
  */
-	$LANG =& load_class('Lang', 'core');
+	$LANG = load_class('Lang', 'core');
 
 /*
  * ------------------------------------------------------
@@ -228,7 +228,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	 *
 	 * @return object
 	 */
-	function &get_instance()
+	function get_instance()
 	{
 		return CI_Controller::get_instance();
 	}

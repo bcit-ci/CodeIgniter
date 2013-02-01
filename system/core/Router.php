@@ -90,8 +90,8 @@ class CI_Router {
 	 */
 	public function __construct()
 	{
-		$this->config =& load_class('Config', 'core');
-		$this->uri =& load_class('URI', 'core');
+		$this->config = load_class('Config', 'core');
+		$this->uri = load_class('URI', 'core');
 		log_message('debug', 'Router Class Initialized');
 	}
 

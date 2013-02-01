@@ -116,7 +116,7 @@ class CI_Output {
 		$this->_zlib_oc = (bool) @ini_get('zlib.output_compression');
 
 		// Get mime types for later
-		$this->mimes =& get_mimes();
+		$this->mimes = get_mimes();
 
 		log_message('debug', 'Output Class Initialized');
 	}
@@ -222,7 +222,7 @@ class CI_Output {
 			// Is this extension supported?
 			if (isset($this->mimes[$extension]))
 			{
-				$mime_type =& $this->mimes[$extension];
+				$mime_type = $this->mimes[$extension];
 
 				if (is_array($mime_type))
 				{
@@ -397,7 +397,7 @@ class CI_Output {
 		// Grab the super object if we can.
 		if (class_exists('CI_Controller'))
 		{
-			$CI =& get_instance();
+			$CI = get_instance();
 		}
 
 		// --------------------------------------------------------------------
@@ -405,7 +405,7 @@ class CI_Output {
 		// Set the output data
 		if ($output === '')
 		{
-			$output =& $this->final_output;
+			$output = $this->final_output;
 		}
 
 		// --------------------------------------------------------------------
@@ -520,7 +520,7 @@ class CI_Output {
 	 */
 	public function _write_cache($output)
 	{
-		$CI =& get_instance();
+		$CI = get_instance();
 		$path = $CI->config->item('cache_path');
 		$cache_path = ($path === '') ? APPPATH.'cache/' : $path;
 
@@ -577,11 +577,11 @@ class CI_Output {
 	 * @uses	CI_Config
 	 * @uses	CI_URI
 	 *
-	 * @param	object	&$CFG	CI_Config class instance
-	 * @param	object	&$URI	CI_URI class instance
+	 * @param	object	$CFG	CI_Config class instance
+	 * @param	object	$URI	CI_URI class instance
 	 * @return	bool	TRUE on success or FALSE on failure
 	 */
-	public function _display_cache(&$CFG, &$URI)
+	public function _display_cache($CFG, $URI)
 	{
 		$cache_path = ($CFG->item('cache_path') === '') ? APPPATH.'cache/' : $CFG->item('cache_path');
 
