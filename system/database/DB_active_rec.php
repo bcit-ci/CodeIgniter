@@ -550,7 +550,8 @@ class CI_DB_active_record extends CI_DB_driver {
 			$this->ar_wherein[] = $this->escape($value);
 		}
 
-		$prefix = (count($this->ar_where) == 0) ? '' : $type;
+		//$prefix = (count($this->ar_where) == 0) ? '' : $type;
+		$prefix = (count($this->ar_where) == 0 AND count($this->ar_cache_where) == 0) ? '' : $type;
 
 		$where_in = $prefix . $this->_protect_identifiers($key) . $not . " IN (" . implode(", ", $this->ar_wherein) . ") ";
 
