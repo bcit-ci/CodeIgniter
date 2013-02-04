@@ -168,10 +168,3 @@ emails. To override this behaviour, pass FALSE as the first parameter in the ``s
  	{
  		// Parameters won't be cleared
  	}
-
-Form Validation library
-=======================
-
-The :doc:`Form Validation Library <../libraries/form_validation>` now correctly matches rules against router/method
-consistent with documentation. Previous functionality where rules were matched against the entire RURI has been removed.
-This should only affect applications where rules were matched incorrectly against router/method/parameter.
