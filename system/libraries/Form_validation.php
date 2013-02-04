@@ -416,7 +416,7 @@ class CI_Form_validation {
 				return FALSE;
 			}
 
-			// Is there a validation rule for the particular Controller/Method being accessed?
+			// Is there a validation rule for the particular Controller/Method being accessed? 
 			$uri = ($group == '') ? $this->CI->router->fetch_class().'/'.$this->CI->router->fetch_method() : $group;
 
 			if ($uri !== '' && isset($this->_config_rules[$uri]))
