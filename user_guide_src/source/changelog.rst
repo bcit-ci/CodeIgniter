@@ -242,6 +242,7 @@ Release Date: Not Released
 	 -  Added rule **valid_url**.
 	 -  Added support for named parameters in error messages.
 	 -  :doc:`Language <libraries/language>` line keys must now be prefixed with **form_validation_**.
+	 -  Added rule **alpha_numeric_spaces**.
    -  Added support for setting :doc:`Table <libraries/table>` class defaults in a config file.
    -  :doc:`Caching Library <libraries/caching>` changes include:
 	 -  Added Wincache driver.
