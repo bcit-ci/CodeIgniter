@@ -449,8 +449,7 @@ class CI_Pagination {
 		// Are we using query strings?
 		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
 		{
-			// Cast as string for use in ctype_digit() later.
-			$this->cur_page = (string) $CI->input->get($this->query_string_segment);
+			$this->cur_page = $CI->input->get($this->query_string_segment);
 		}
 		else
 		{
@@ -460,7 +459,7 @@ class CI_Pagination {
 				$this->uri_segment = count($CI->uri->segment_array());
 			}
 
-			$this->cur_page = (string) $CI->uri->segment($this->uri_segment);
+			$this->cur_page = $CI->uri->segment($this->uri_segment);
 
 			// Remove any specified prefix/suffix from the segment.
 			if ($this->prefix !== '' OR $this->suffix !== '')
