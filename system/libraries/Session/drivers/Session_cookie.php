@@ -805,7 +805,7 @@ class CI_Session_cookie extends CI_Session_driver {
 	{
 		if (is_string($val))
 		{
-	 		$val= str_replace('{{slash}}', '\\', $val);
+	 		$val = str_replace('{{slash}}', '\\', $val);
 		}
 	}
 
