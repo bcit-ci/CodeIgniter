@@ -187,26 +187,34 @@ class CI_Parser {
 	 */
 	protected function _parse_pair($variable, $data, $string)
 	{
-		if (FALSE === ($match = $this->_match_pair($string, $variable)))
+		if (FALSE === ($matches = $this->_match_pair($string, $variable)))
 		{
 			return $string;
 		}
 
-		$str = '';
-		foreach ($data as $row)
+		$search = array();
+		$replace = array();
+		
+		foreach ($matches as $match)
 		{
-			$temp = $match[1];
-			foreach ($row as $key => $val)
+                        $str = '';
+			foreach ($data as $row)
 			{
-				$temp = is_array($val)
-						? $this->_parse_pair($key, $val, $temp)
-						: $this->_parse_single($key, $val, $temp);
+				$temp = $match[1];
+				foreach ($row as $key => $val)
+				{
+					$temp = is_array($val)
+							? $this->_parse_pair($key, $val, $temp)
+							: $this->_parse_single($key, $val, $temp);
+				}
+	
+				$str .= $temp;
 			}
-
-			$str .= $temp;
+			$search[] = $match['0'];
+			$replace[] = $str;
 		}
 
-		return str_replace($match[0], $str, $string);
+		return str_replace($search, $replace, $string);
 	}
 
 	// --------------------------------------------------------------------
@@ -220,8 +228,8 @@ class CI_Parser {
 	 */
 	protected function _match_pair($string, $variable)
 	{
-		return preg_match('|'.preg_quote($this->l_delim).$variable.preg_quote($this->r_delim).'(.+?)'.preg_quote($this->l_delim).'/'.$variable.preg_quote($this->r_delim).'|s',
-					$string, $match)
+		return preg_match_all('|'.preg_quote($this->l_delim).$variable.preg_quote($this->r_delim).'(.+?)'.preg_quote($this->l_delim).'/'.$variable.preg_quote($this->r_delim).'|s',
+					$string, $match, PREG_SET_ORDER)
 			? $match : FALSE;
 	}
 
