@@ -343,7 +343,7 @@ if ( ! function_exists('is_https'))
 	 */
 	function is_https()
 	{
-		return ( ! empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off');
+		return (  ( ! empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ) || ($_SERVER["SERVER_PORT"] === '443') );
 	}
 }
 
