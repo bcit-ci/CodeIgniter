@@ -55,6 +55,7 @@ Release Date: Not Released
    -  Updated *ip_address* database field lengths from 16 to 45 for supporting IPv6 address on :doc:`Trackback Library <libraries/trackback>` and :doc:`Captcha Helper <helpers/captcha_helper>`.
    -  Removed *cheatsheets* and *quick_reference* PDFs from the documentation.
    -  Added availability checks where usage of dangerous functions like ``eval()`` and ``exec()`` is required.
+   -  Added support for changing the file extension of CodeIgniter log files using $config['log_file_extension'].
 
 -  Helpers
 
