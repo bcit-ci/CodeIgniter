@@ -728,6 +728,14 @@ class CI_Form_validation {
 	 */
 	public function set_value($field = '', $default = '')
 	{
+		if (is_null($field)) {
+			$return = array();
+			foreach ($this->_field_data as $line) {
+				$key = $line['field'];
+				$array[$key] = $line['postdata'];
+			}
+			return $return;
+		}
 		if ( ! isset($this->_field_data[$field]))
 		{
 			return $default;
