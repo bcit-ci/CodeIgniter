@@ -71,13 +71,6 @@ class CI_Log {
 	 * @var string
 	 */
 	protected $_date_fmt		= 'Y-m-d H:i:s';
-	
-	/**
-	 * Log file extension
-	 *
-	 * @var string
-	 */
-	protected $_log_ext		= 'php';
 
 	/**
 	 * Whether or not the logger can write to the log files
@@ -156,7 +149,7 @@ class CI_Log {
 			return FALSE;
 		}
 
-		$filepath = $this->_log_path.'log-'.date('Y-m-d').'.'.$this->_log_ext;
+		$filepath = $this->_log_path.'log-'.date('Y-m-d').'.php';
 		$message  = '';
 
 		if ( ! file_exists($filepath))
