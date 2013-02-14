@@ -104,7 +104,7 @@ class CI_Log {
 
 		$this->_log_path = ($config['log_path'] !== '') ? $config['log_path'] : APPPATH.'logs/';
 
-		$this->_log_ext = ($config['log_file_extension'] !== '') ? $config['log_file_extension'] : $this->_log_ext;
+		$this->_log_ext = ($config['log_file_extension'] !== '') ? ltrim($config['log_file_extension'],'.') : $this->_log_ext;
 
 		file_exists($this->_log_path) OR mkdir($this->_log_path, DIR_WRITE_MODE, TRUE);
 
