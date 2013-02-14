@@ -271,7 +271,9 @@ Release Date: Not Released
    -  :doc:`Encryption Library <libraries/encryption>` changes include:
 	 -  Added support for hashing algorithms other than SHA1 and MD5.
 	 -  Removed previously deprecated ``sha1()`` method.
-   -  :doc:`Profiler Library <general/profiling>` now also displays database object names.
+   -  :doc:`Profiler Library <general/profiling>` changes include:
+	 -  Database object names displayed.
+	 -  The sum of all queries running times in seconds displayed.
    -  :doc:`Migration Library <libraries/migration>` changes include:
 	 -  Added support for timestamp-based migrations (enabled by default).
 	 -  Added ``$config['migration_type']`` to allow switching between *sequential* and *timestamp* migrations.
