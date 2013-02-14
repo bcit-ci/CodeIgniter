@@ -713,5 +713,4 @@ if ( ! function_exists('function_usable'))
 }
 
 /* End of file Common.php */
-/* Location: ./system/core/Common.php 
-*/
+/* Location: ./system/core/Common.php */
