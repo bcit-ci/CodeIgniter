@@ -162,7 +162,10 @@ class CI_Log {
 		if ( ! file_exists($filepath))
 		{
 			$newfile = TRUE;
-			$message .= '<'."?php defined('BASEPATH') OR exit('No direct script access allowed'); ?".">\n\n";
+			if($this->_log_ext === 'php')
+			{
+				$message .= '<'."?php defined('BASEPATH') OR exit('No direct script access allowed'); ?".">\n\n";
+			}
 		}
 
 		if ( ! $fp = @fopen($filepath, FOPEN_WRITE_CREATE))
