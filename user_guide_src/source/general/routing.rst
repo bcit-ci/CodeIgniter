@@ -12,7 +12,7 @@ In some instances, however, you may want to remap this relationship so
 that a different class/method can be called instead of the one
 corresponding to the URL.
 
-For example, lets say you want your URLs to have this prototype::
+For example, let's say you want your URLs to have this prototype::
 
 	example.com/product/1/
 	example.com/product/2/
