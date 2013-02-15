@@ -108,7 +108,7 @@ Passing URI Segments to your methods
 If your URI contains more then two segments they will be passed to your
 method as parameters.
 
-For example, lets say you have a URI like this::
+For example, let's say you have a URI like this::
 
 	example.com/index.php/products/shoes/sandals/123
 
@@ -267,7 +267,7 @@ Simply create folders within your *application/controllers/* directory
 and place your controller classes within them.
 
 .. note:: When using this feature the first segment of your URI must
-	specify the folder. For example, lets say you have a controller located
+	specify the folder. For example, let's say you have a controller located
 	here::
 
 		application/controllers/products/shoes.php

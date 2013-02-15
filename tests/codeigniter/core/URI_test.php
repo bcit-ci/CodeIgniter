@@ -91,7 +91,7 @@ class URI_test extends CI_TestCase {
 
 	public function test_explode_segments()
 	{
-		// Lets test the function's ability to clean up this mess
+		// Let's test the function's ability to clean up this mess
 		$uris = array(
 			'test/uri' => array('test', 'uri'),
 			'/test2/uri2' => array('test2', 'uri2'),

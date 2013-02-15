@@ -430,7 +430,7 @@ class CI_Upload {
 			}
 			else
 			{
-				// An extension was provided, lets have it!
+				// An extension was provided, let's have it!
 				$this->file_ext	= $this->get_extension($this->_file_name_override);
 			}
 
@@ -1050,7 +1050,7 @@ class CI_Upload {
 			// <a, <body, <head, <html, <img, <plaintext, <pre, <script, <table, <title
 			// title is basically just in SVG, but we filter it anyhow
 
-			// if its an image or no "triggers" detected in the first 256 bytes - we're good
+			// if it's an image or no "triggers" detected in the first 256 bytes - we're good
 			return ! preg_match('/<(a|body|head|html|img|plaintext|pre|script|table|title)[\s>]/i', $opening_bytes);
 		}
 

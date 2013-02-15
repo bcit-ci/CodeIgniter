@@ -356,7 +356,7 @@ class CI_Form_validation {
 	 */
 	public function error_string($prefix = '', $suffix = '')
 	{
-		// No errrors, validation passes!
+		// No errors, validation passes!
 		if (count($this->_error_array) === 0)
 		{
 			return '';

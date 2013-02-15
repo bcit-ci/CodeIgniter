@@ -365,7 +365,7 @@ class CI_Cart {
 	 */
 	protected function _save_cart()
 	{
-		// Lets add up the individual prices and set the cart sub-total
+		// Let's add up the individual prices and set the cart sub-total
 		$this->_cart_contents['total_items'] = $this->_cart_contents['cart_total'] = 0;
 		foreach ($this->_cart_contents as $key => $val)
 		{
