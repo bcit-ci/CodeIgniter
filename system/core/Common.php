@@ -414,7 +414,7 @@ if ( ! function_exists('log_message'))
 	function log_message($level = 'error', $message, $php_error = FALSE)
 	{
 		static $_log, $_log_threshold;
-		
+
 		if ($_log_threshold === NULL)
 		{
 			$_log_threshold = config_item('log_threshold');
@@ -429,7 +429,7 @@ if ( ! function_exists('log_message'))
 		{
 			$_log =& load_class('Log', 'core');
 		}
-		
+
 		$_log->write_log($level, $message, $php_error);
 	}
 }

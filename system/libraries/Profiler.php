@@ -238,7 +238,6 @@ class CI_Profiler {
 		foreach ($dbs as $name => $db)
 		{
 			$hide_queries = (count($db->queries) > $this->_query_toggle_count) ? ' display:none' : '';
-
 			$total_time = number_format(array_sum($db->query_times), 4).' '.$this->CI->lang->line('profiler_seconds');
 
 			$show_hide_js = '(<span style="cursor: pointer;" onclick="var s=document.getElementById(\'ci_profiler_queries_db_'.$count.'\').style;s.display=s.display==\'none\'?\'\':\'none\';this.innerHTML=this.innerHTML==\''.$this->CI->lang->line('profiler_section_hide').'\'?\''.$this->CI->lang->line('profiler_section_show').'\':\''.$this->CI->lang->line('profiler_section_hide').'\';">'.$this->CI->lang->line('profiler_section_hide').'</span>)';
@@ -252,7 +251,7 @@ class CI_Profiler {
 				."\n"
 				.'<legend style="color:#0000FF;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_database')
 				.':&nbsp; '.$db->database.' ('.$name.')&nbsp;&nbsp;&nbsp;'.$this->CI->lang->line('profiler_queries')
-				.': '.count($db->queries).'('.$total_time.')'.'&nbsp;&nbsp;'.$show_hide_js."</legend>\n\n\n"
+				.': '.count($db->queries).' ('.$total_time.')&nbsp;&nbsp;'.$show_hide_js."</legend>\n\n\n"
 				.'<table style="width:100%;'.$hide_queries.'" id="ci_profiler_queries_db_'.$count."\">\n";
 
 			if (count($db->queries) === 0)

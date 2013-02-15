@@ -55,7 +55,7 @@ Release Date: Not Released
    -  Updated *ip_address* database field lengths from 16 to 45 for supporting IPv6 address on :doc:`Trackback Library <libraries/trackback>` and :doc:`Captcha Helper <helpers/captcha_helper>`.
    -  Removed *cheatsheets* and *quick_reference* PDFs from the documentation.
    -  Added availability checks where usage of dangerous functions like ``eval()`` and ``exec()`` is required.
-   -  Added support for changing the file extension of CodeIgniter log files using $config['log_file_extension'].
+   -  Added support for changing the file extension of log files using ``$config['log_file_extension']``.
 
 -  Helpers
 
@@ -273,8 +273,8 @@ Release Date: Not Released
 	 -  Added support for hashing algorithms other than SHA1 and MD5.
 	 -  Removed previously deprecated ``sha1()`` method.
    -  :doc:`Profiler Library <general/profiling>` changes include:
-	 -  Database object names displayed.
-	 -  The sum of all queries running times in seconds displayed.
+	 -  Database object names are now being displayed.
+	 -  The sum of all queries running times in seconds is now being displayed.
    -  :doc:`Migration Library <libraries/migration>` changes include:
 	 -  Added support for timestamp-based migrations (enabled by default).
 	 -  Added ``$config['migration_type']`` to allow switching between *sequential* and *timestamp* migrations.
