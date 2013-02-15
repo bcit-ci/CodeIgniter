@@ -129,9 +129,9 @@ The above files should respectively be renamed to the following:
 	application/libraries/MY_Email.php
 	application/core/MY_Log.php
 
-****************************************************************************
+*****************************************************************************
 Step 10: Check the calls to Array Helper's element() and elements() functions
-****************************************************************************
+*****************************************************************************
 
 The default return value of these functions, when the required elements
 don't exist, has been changed from FALSE to NULL.
