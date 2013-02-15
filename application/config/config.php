@@ -226,6 +226,17 @@ $config['log_path'] = '';
 
 /*
 |--------------------------------------------------------------------------
+| Log File Extension
+|--------------------------------------------------------------------------
+|
+| Leave this BLANK unless you would like to set something other than the default
+| 'php'. For example you could change it to 'log'.
+|
+*/
+$config['log_file_extension'] = '';
+
+/*
+|--------------------------------------------------------------------------
 | Date Format for Logs
 |--------------------------------------------------------------------------
 |
