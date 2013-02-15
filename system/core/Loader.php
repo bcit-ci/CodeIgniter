@@ -988,7 +988,7 @@ class CI_Loader {
 			return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);
 		}
 
-		// Lets search for the requested library file and load it.
+		// Let's search for the requested library file and load it.
 		foreach ($this->_ci_library_paths as $path)
 		{
 			$filepath = $path.'libraries/'.$subdir.$class.'.php';
