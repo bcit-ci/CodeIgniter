@@ -97,6 +97,8 @@ class CI_Log {
 
 		$this->_log_path = ($config['log_path'] !== '') ? $config['log_path'] : APPPATH.'logs/';
 
+		$this->_log_ext = ($config['log_file_extension'] !== '') ? ltrim($config['log_file_extension'], '.') : $this->_log_ext;
+
 		file_exists($this->_log_path) OR mkdir($this->_log_path, DIR_WRITE_MODE, TRUE);
 
 		if ( ! is_dir($this->_log_path) OR ! is_really_writable($this->_log_path))
@@ -153,7 +155,10 @@ class CI_Log {
 		if ( ! file_exists($filepath))
 		{
 			$newfile = TRUE;
-			$message .= '<'."?php defined('BASEPATH') OR exit('No direct script access allowed'); ?".">\n\n";
+			if($this->_log_ext === 'php')
+			{
+				$message .= '<'."?php defined('BASEPATH') OR exit('No direct script access allowed'); ?".">\n\n";
+			}
 		}
 
 		if ( ! $fp = @fopen($filepath, FOPEN_WRITE_CREATE))
