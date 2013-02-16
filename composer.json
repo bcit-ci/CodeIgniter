@@ -1,9 +1,9 @@
 {
-    "name" : "EllisLab/CodeIgniter",
+    "name" : "ellislab/codeigniter",
     "require": {
         "mikey179/vfsStream": "*"
     },
     "require-dev": {
-		"phpunit/phpunit": "*"
-	}
+		  "phpunit/phpunit": "*"
+		}
 }
