@@ -1,4 +1,5 @@
 {
+    "name" : "EllisLab/CodeIgniter",
     "require": {
         "mikey179/vfsStream": "*"
     },
