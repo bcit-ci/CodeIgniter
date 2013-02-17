@@ -94,6 +94,13 @@ class CI_Email {
 	 * @var	int
 	 */
 	public $smtp_timeout	= 5;
+	
+	/**
+     * STMP Persistent connection
+     *
+     * @var	bool
+     */
+    public	$smtp_keepalive	= FALSE;
 
 	/**
 	 * SMTP Encryption
@@ -399,6 +406,19 @@ class CI_Email {
 
 		log_message('debug', 'Email Class Initialized');
 	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+     * Destructor - Releases Resources
+     *
+     * @return	void
+     */
+    function __destruct()
+    {        
+        if(is_resource($this->_smtp_connect))
+            $this->_send_command('quit');        
+    }
 
 	// --------------------------------------------------------------------
 
@@ -768,6 +788,23 @@ class CI_Email {
 		return $this;
 	}
 
+	// --------------------------------------------------------------------
+
+    /**
+     * Set Useragent
+     *
+     * @param	string
+     * @return	void
+     */
+    public function set_useragent($type = '')
+    {
+        if( ! $type)
+            $this->useragent = isset($_SERVER['HTTP_USER_AGENT'])? $_SERVER['HTTP_USER_AGENT'] : 'PHP/'.phpversion();
+        else
+            $this->useragent = $type;
+        return $this;
+    }
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -1766,241 +1803,260 @@ class CI_Email {
 	 * @return	bool
 	 */
 	protected function _send_with_smtp()
-	{
-		if ($this->smtp_host === '')
-		{
-			$this->_set_error_message('lang:email_no_hostname');
-			return FALSE;
-		}
+    {
+        if ($this->smtp_host === '')
+        {
+            $this->_set_error_message('lang:email_no_hostname');
+            return FALSE;
+        }
 
-		if ( ! $this->_smtp_connect() OR ! $this->_smtp_authenticate())
-		{
-			return FALSE;
-		}
+        if ( ! $this->_smtp_connect() OR ! $this->_smtp_authenticate())
+        {
+            return FALSE;
+        }
 
-		$this->_send_command('from', $this->clean_email($this->_headers['From']));
+        $this->_send_command('from', $this->clean_email($this->_headers['From']));
 
-		foreach ($this->_recipients as $val)
-		{
-			$this->_send_command('to', $val);
-		}
+        foreach ($this->_recipients as $val)
+        {
+            $this->_send_command('to', $val);
+        }
 
-		if (count($this->_cc_array) > 0)
-		{
-			foreach ($this->_cc_array as $val)
-			{
-				if ($val !== '')
-				{
-					$this->_send_command('to', $val);
-				}
-			}
-		}
+        if (count($this->_cc_array) > 0)
+        {
+            foreach ($this->_cc_array as $val)
+            {
+                if ($val !== '')
+                {
+                    $this->_send_command('to', $val);
+                }
+            }
+        }
 
-		if (count($this->_bcc_array) > 0)
-		{
-			foreach ($this->_bcc_array as $val)
-			{
-				if ($val !== '')
-				{
-					$this->_send_command('to', $val);
-				}
-			}
-		}
+        if (count($this->_bcc_array) > 0)
+        {
+            foreach ($this->_bcc_array as $val)
+            {
+                if ($val !== '')
+                {
+                    $this->_send_command('to', $val);
+                }
+            }
+        }
 
-		$this->_send_command('data');
+        $this->_send_command('data');
 
-		// perform dot transformation on any lines that begin with a dot
-		$this->_send_data($this->_header_str.preg_replace('/^\./m', '..$1', $this->_finalbody));
+        // perform dot transformation on any lines that begin with a dot
+        $this->_send_data($this->_header_str.preg_replace('/^\./m', '..$1', $this->_finalbody));
 
-		$this->_send_data('.');
+        $this->_send_data('.');
 
-		$reply = $this->_get_smtp_data();
+        $reply = $this->_get_smtp_data();
 
-		$this->_set_error_message($reply);
+        $this->_set_error_message($reply);
 
-		if (strpos($reply, '250') !== 0)
-		{
-			$this->_set_error_message('lang:email_smtp_error', $reply);
-			return FALSE;
-		}
+        if (strpos($reply, '250') !== 0)
+        {
+            $this->_set_error_message('lang:email_smtp_error', $reply);
+            return FALSE;
+        }
 
-		$this->_send_command('quit');
-		return TRUE;
-	}
+        if($this->smtp_keepalive)
+            $this->_send_command('reset');
+        else
+            $this->_send_command('quit');
 
-	// --------------------------------------------------------------------
+        return TRUE;
+    }
 
-	/**
-	 * SMTP Connect
-	 *
-	 * @return	string
-	 */
-	protected function _smtp_connect()
-	{
-		$ssl = ($this->smtp_crypto === 'ssl') ? 'ssl://' : NULL;
+    // --------------------------------------------------------------------
 
-		$this->_smtp_connect = fsockopen($ssl.$this->smtp_host,
-							$this->smtp_port,
-							$errno,
-							$errstr,
-							$this->smtp_timeout);
+    /**
+     * SMTP Connect
+     *
+     * @param bool
+     * @return	string
+     */
+    protected function _smtp_connect($force=FALSE)
+    {
+        if( ! is_resource($this->_smtp_connect) || $force)
+        {
+            $ssl = ($this->smtp_crypto === 'ssl') ? 'ssl://' : NULL;
 
-		if ( ! is_resource($this->_smtp_connect))
-		{
-			$this->_set_error_message('lang:email_smtp_error', $errno.' '.$errstr);
-			return FALSE;
-		}
+            $this->_smtp_connect = fsockopen($ssl.$this->smtp_host,
+                $this->smtp_port,
+                $errno,
+                $errstr,
+                $this->smtp_timeout);
 
-		$this->_set_error_message($this->_get_smtp_data());
+            if ( ! is_resource($this->_smtp_connect))
+            {
+                $this->_set_error_message('lang:email_smtp_error', $errno.' '.$errstr);
+                return FALSE;
+            }
 
-		if ($this->smtp_crypto === 'tls')
-		{
-			$this->_send_command('hello');
-			$this->_send_command('starttls');
+            stream_set_timeout($this->_smtp_connect, $this->smtp_timeout);
+            $this->_set_error_message($this->_get_smtp_data());
 
-			$crypto = stream_socket_enable_crypto($this->_smtp_connect, TRUE, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+            if ($this->smtp_crypto === 'tls')
+            {
+                $this->_send_command('hello');
+                $this->_send_command('starttls');
 
-			if ($crypto !== TRUE)
-			{
-				$this->_set_error_message('lang:email_smtp_error', $this->_get_smtp_data());
-				return FALSE;
-			}
-		}
+                $crypto = stream_socket_enable_crypto($this->_smtp_connect, TRUE, STREAM_CRYPTO_METHOD_TLS_CLIENT);
 
-		return $this->_send_command('hello');
-	}
+                if ($crypto !== TRUE)
+                {
+                    $this->_set_error_message('lang:email_smtp_error', $this->_get_smtp_data());
+                    return FALSE;
+                }
+            }
 
-	// --------------------------------------------------------------------
+            return $this->_send_command('hello');
+        }
+        return TRUE;
+    }
 
-	/**
-	 * Send SMTP command
-	 *
-	 * @param	string
-	 * @param	string
-	 * @return	string
-	 */
-	protected function _send_command($cmd, $data = '')
-	{
-		switch ($cmd)
-		{
-			case 'hello' :
+    // --------------------------------------------------------------------
 
-						if ($this->_smtp_auth OR $this->_get_encoding() === '8bit')
-						{
-							$this->_send_data('EHLO '.$this->_get_hostname());
-						}
-						else
-						{
-							$this->_send_data('HELO '.$this->_get_hostname());
-						}
+    /**
+     * Send SMTP command
+     *
+     * @param	string
+     * @param	string
+     * @return	string
+     */
+    protected function _send_command($cmd, $data = '')
+    {
+        switch ($cmd)
+        {
+            case 'hello' :
 
-						$resp = 250;
-			break;
-			case 'starttls'	:
+                if ($this->_smtp_auth OR $this->_get_encoding() === '8bit')
+                {
+                    $this->_send_data('EHLO '.$this->_get_hostname());
+                }
+                else
+                {
+                    $this->_send_data('HELO '.$this->_get_hostname());
+                }
 
-						$this->_send_data('STARTTLS');
-						$resp = 220;
-			break;
-			case 'from' :
+                $resp = 250;
+                break;
+            case 'starttls'	:
 
-						$this->_send_data('MAIL FROM:<'.$data.'>');
-						$resp = 250;
-			break;
-			case 'to' :
+                $this->_send_data('STARTTLS');
+                $resp = 220;
+                break;
+            case 'from' :
 
-						if ($this->dsn)
-						{
-							$this->_send_data('RCPT TO:<'.$data.'> NOTIFY=SUCCESS,DELAY,FAILURE ORCPT=rfc822;'.$data);
-						}
-						else
-						{
-							$this->_send_data('RCPT TO:<'.$data.'>');
-						}
+                $this->_send_data('MAIL FROM:<'.$data.'>');
+                $resp = 250;
+                break;
+            case 'to' :
 
-						$resp = 250;
-			break;
-			case 'data'	:
+                if ($this->dsn)
+                {
+                    $this->_send_data('RCPT TO:<'.$data.'> NOTIFY=SUCCESS,DELAY,FAILURE ORCPT=rfc822;'.$data);
+                }
+                else
+                {
+                    $this->_send_data('RCPT TO:<'.$data.'>');
+                }
 
-						$this->_send_data('DATA');
-						$resp = 354;
-			break;
-			case 'quit'	:
+                $resp = 250;
+                break;
+            case 'data'	:
 
-						$this->_send_data('QUIT');
-						$resp = 221;
-			break;
-		}
+                $this->_send_data('DATA');
+                $resp = 354;
+                break;
+            case 'reset':
 
-		$reply = $this->_get_smtp_data();
+                $this->_send_data('RSET');
 
-		$this->_debug_msg[] = '<pre>'.$cmd.': '.$reply.'</pre>';
+                $resp = 250;
+                break;
+            case 'quit'	:
 
-		if ((int) substr($reply, 0, 3) !== $resp)
-		{
-			$this->_set_error_message('lang:email_smtp_error', $reply);
-			return FALSE;
-		}
+                $this->_send_data('QUIT');
+                $resp = 221;
+                break;
+        }
 
-		if ($cmd === 'quit')
-		{
-			fclose($this->_smtp_connect);
-		}
+        $reply = $this->_get_smtp_data();
 
-		return TRUE;
-	}
+        $this->_debug_msg[] = '<pre>'.$cmd.': '.$reply.'</pre>';
 
-	// --------------------------------------------------------------------
+        if ((int) substr($reply, 0, 3) !== $resp)
+        {
+            $this->_set_error_message('lang:email_smtp_error', $reply);
+            return FALSE;
+        }
 
-	/**
-	 * SMTP Authenticate
-	 *
-	 * @return	bool
-	 */
-	protected function _smtp_authenticate()
-	{
-		if ( ! $this->_smtp_auth)
-		{
-			return TRUE;
-		}
+        if ($cmd === 'quit')
+        {
+            fclose($this->_smtp_connect);
+        }
 
-		if ($this->smtp_user === '' && $this->smtp_pass === '')
-		{
-			$this->_set_error_message('lang:email_no_smtp_unpw');
-			return FALSE;
-		}
+        return TRUE;
+    }
 
-		$this->_send_data('AUTH LOGIN');
+    // --------------------------------------------------------------------
 
-		$reply = $this->_get_smtp_data();
+    /**
+     * SMTP Authenticate
+     *
+     * @return	bool
+     */
+    protected function _smtp_authenticate()
+    {
+        if ( ! $this->_smtp_auth)
+        {
+            return TRUE;
+        }
 
-		if (strpos($reply, '334') !== 0)
-		{
-			$this->_set_error_message('lang:email_failed_smtp_login', $reply);
-			return FALSE;
-		}
+        if ($this->smtp_user === '' && $this->smtp_pass === '')
+        {
+            $this->_set_error_message('lang:email_no_smtp_unpw');
+            return FALSE;
+        }
 
-		$this->_send_data(base64_encode($this->smtp_user));
+        $this->_send_data('AUTH LOGIN');
 
-		$reply = $this->_get_smtp_data();
+        $reply = $this->_get_smtp_data();
 
-		if (strpos($reply, '334') !== 0)
-		{
-			$this->_set_error_message('lang:email_smtp_auth_un', $reply);
-			return FALSE;
-		}
+        if (strpos($reply, '503') === 0) // Already authenticated
+            return TRUE;
 
-		$this->_send_data(base64_encode($this->smtp_pass));
+        if (strpos($reply, '334') !== 0)
+        {
+            $this->_set_error_message('lang:email_failed_smtp_login', $reply);
+            return FALSE;
+        }
 
-		$reply = $this->_get_smtp_data();
+        $this->_send_data(base64_encode($this->smtp_user));
 
-		if (strpos($reply, '235') !== 0)
-		{
-			$this->_set_error_message('lang:email_smtp_auth_pw', $reply);
-			return FALSE;
-		}
+        $reply = $this->_get_smtp_data();
 
-		return TRUE;
-	}
+        if (strpos($reply, '334') !== 0)
+        {
+            $this->_set_error_message('lang:email_smtp_auth_un', $reply);
+            return FALSE;
+        }
+
+        $this->_send_data(base64_encode($this->smtp_pass));
+
+        $reply = $this->_get_smtp_data();
+
+        if (strpos($reply, '235') !== 0)
+        {
+            $this->_set_error_message('lang:email_smtp_auth_pw', $reply);
+            return FALSE;
+        }
+
+        return TRUE;
+    }
 
 	// --------------------------------------------------------------------
 
