@@ -1868,7 +1868,7 @@ class CI_Email {
 	 */
 	protected function _smtp_connect($force=FALSE)
 	{
-		if ( ! is_resource($this->_smtp_connect) || $force)
+		if ( ! is_resource($this->_smtp_connect) OR $force)
 		{
 			$ssl = ($this->smtp_crypto === 'ssl') ? 'ssl://' : NULL;
 
