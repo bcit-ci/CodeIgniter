@@ -249,7 +249,7 @@ Release Date: Not Released
 	 -  Added Wincache driver.
 	 -  Added Redis driver.
 	 -  Added a *key_prefix* option for cache IDs.
-   -  :doc:`Email library <libraries/email>` changes include:	 
+   -  :doc:`Email library <libraries/email>` changes include:
 	 -  Added custom filename to ``Email::attach()`` as ``$this->email->attach($filename, $disposition, $newname)``.
 	 -  Added possibility to send attachment as buffer string in ``Email::attach()`` as ``$this->email->attach($buffer, $disposition, $newname, $mime)``.
 	 -  Added dsn (delivery status notification) option.
