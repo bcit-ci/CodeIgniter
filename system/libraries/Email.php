@@ -94,6 +94,13 @@ class CI_Email {
 	 * @var	int
 	 */
 	public $smtp_timeout	= 5;
+	
+	/**
+	 * SMTP persistent connection
+	 *
+	 * @var	bool
+	 */
+	public $smtp_keepalive	= FALSE;
 
 	/**
 	 * SMTP Encryption
@@ -398,6 +405,21 @@ class CI_Email {
 		$this->charset = strtoupper($this->charset);
 
 		log_message('debug', 'Email Class Initialized');
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Destructor - Releases Resources
+	 *
+	 * @return	void
+	 */
+	public function __destruct()
+	{
+		if (is_resource($this->_smtp_connect))
+		{
+			$this->_send_command('quit');
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -1824,7 +1846,15 @@ class CI_Email {
 			return FALSE;
 		}
 
-		$this->_send_command('quit');
+		if ($this->smtp_keepalive)
+		{
+			$this->_send_command('reset');
+		}
+		else
+		{
+			$this->_send_command('quit');
+		}
+
 		return TRUE;
 	}
 
@@ -1837,6 +1867,11 @@ class CI_Email {
 	 */
 	protected function _smtp_connect()
 	{
+		if (is_resource($this->_smtp_connect))
+		{
+			return TRUE;
+		}
+
 		$ssl = ($this->smtp_crypto === 'ssl') ? 'ssl://' : NULL;
 
 		$this->_smtp_connect = fsockopen($ssl.$this->smtp_host,
@@ -1851,6 +1886,7 @@ class CI_Email {
 			return FALSE;
 		}
 
+		stream_set_timeout($this->_smtp_connect, $this->smtp_timeout);
 		$this->_set_error_message($this->_get_smtp_data());
 
 		if ($this->smtp_crypto === 'tls')
@@ -1924,6 +1960,11 @@ class CI_Email {
 						$this->_send_data('DATA');
 						$resp = 354;
 			break;
+			case 'reset':
+
+						$this->_send_data('RSET');
+						$resp = 250;
+			break;
 			case 'quit'	:
 
 						$this->_send_data('QUIT');
@@ -1973,6 +2014,11 @@ class CI_Email {
 
 		$reply = $this->_get_smtp_data();
 
+		if (strpos($reply, '503') !== 0)	// Already authenticated
+		{
+			return TRUE;
+		}
+			
 		if (strpos($reply, '334') !== 0)
 		{
 			$this->_set_error_message('lang:email_failed_smtp_login', $reply);
