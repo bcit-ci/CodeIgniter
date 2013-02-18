@@ -228,7 +228,7 @@ if ( ! function_exists('form_upload'))
 	 */
 	function form_upload($data = '', $value = '', $extra = '')
 	{
-		$default = array('type' => 'file', 'name' => '');
+		$defaults = array('type' => 'file', 'name' => '');
 		is_array($data) OR $data = array('name' => $data);
 		$data['type'] = 'file';
 		return '<input '._parse_form_attributes($data, $defaults).$extra." />\n";
