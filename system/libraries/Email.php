@@ -416,8 +416,10 @@ class CI_Email {
 	 */
 	public function __destruct()
 	{
-		if(is_resource($this->_smtp_connect))
+		if (is_resource($this->_smtp_connect))
+		{
 			$this->_send_command('quit');
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -785,23 +787,6 @@ class CI_Email {
 	public function set_mailtype($type = 'text')
 	{
 		$this->mailtype = ($type === 'html') ? 'html' : 'text';
-		return $this;
-	}
-
-	// --------------------------------------------------------------------
-	
-	/**
-	 * Set Useragent
-	 *
-	 * @param	string
-	 * @return	void
-	 */
-	public function set_useragent($type = '')
-	{
-		if( ! $type)
-			$this->useragent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'PHP/'.phpversion();
-		else
-			$this->useragent = $type;
 		return $this;
 	}
 
@@ -1861,10 +1846,14 @@ class CI_Email {
 			return FALSE;
 		}
 
-		if($this->smtp_keepalive)
+		if ($this->smtp_keepalive)
+		{
 			$this->_send_command('reset');
+		}
 		else
+		{
 			$this->_send_command('quit');
+		}
 
 		return TRUE;
 	}
@@ -1879,7 +1868,7 @@ class CI_Email {
 	 */
 	protected function _smtp_connect($force=FALSE)
 	{
-		if( ! is_resource($this->_smtp_connect) || $force)
+		if ( ! is_resource($this->_smtp_connect) || $force)
 		{
 			$ssl = ($this->smtp_crypto === 'ssl') ? 'ssl://' : NULL;
 
@@ -2026,7 +2015,9 @@ class CI_Email {
 		$reply = $this->_get_smtp_data();
 
 		if (strpos($reply, '503') !== 0)	// Already authenticated
+		{
 			return TRUE;
+		}
 			
 		if (strpos($reply, '334') !== 0)
 		{
