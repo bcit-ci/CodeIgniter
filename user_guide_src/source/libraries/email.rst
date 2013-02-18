@@ -89,6 +89,7 @@ Preference          Default Value          Options                      Descript
 **smtp_pass**       No Default             None                         SMTP Password.
 **smtp_port**       25                     None                         SMTP Port.
 **smtp_timeout**    5                      None                         SMTP Timeout (in seconds).
+**smtp_keepalive**  FALSE                  TRUE or FALSE (boolean)      Enable persistent SMTP connections.
 **smtp_crypto**     No Default             tls or ssl                   SMTP Encryption
 **wordwrap**        TRUE                   TRUE or FALSE (boolean)      Enable word-wrap.
 **wrapchars**       76                                                  Character count to wrap at.
