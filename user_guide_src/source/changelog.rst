@@ -249,9 +249,7 @@ Release Date: Not Released
 	 -  Added Wincache driver.
 	 -  Added Redis driver.
 	 -  Added a *key_prefix* option for cache IDs.
-   -  :doc:`Email library <libraries/email>` changes include:
-	 -  Added SMTP keepalive option to avoid opening the connection for each ``Email::send()``. Accessible as ``$smtp_keepalive``.
-	 -  Empty string passed into useragent will be set to the first valid value in ``$_SERVER['HTTP_USER_AGENT']`` or ``PHP/<version>``.
+   -  :doc:`Email library <libraries/email>` changes include:	 
 	 -  Added custom filename to ``Email::attach()`` as ``$this->email->attach($filename, $disposition, $newname)``.
 	 -  Added possibility to send attachment as buffer string in ``Email::attach()`` as ``$this->email->attach($buffer, $disposition, $newname, $mime)``.
 	 -  Added dsn (delivery status notification) option.
@@ -264,6 +262,7 @@ Release Date: Not Released
 	 -  Removed unused protected method ``_get_ip()`` (:doc:`Input Library <libraries/input>`'s ``ip_address()`` should be used anyway).
 	 -  Internal method ``_prep_q_encoding()`` now utilizes PHP's *mbstring* and *iconv* extensions (when available) and no longer has a second (``$from``) argument.
 	 -  Added an optional parameter to ``print_debugger()`` to allow specifying which parts of the message should be printed ('headers', 'subject', 'body').
+	 -  Added SMTP keepalive option to avoid opening the connection for each ``Email::send()``. Accessible as ``$smtp_keepalive``.
    -  :doc:`Pagination Library <libraries/pagination>` changes include:
 	 -  Added support for the anchor "rel" attribute.
 	 -  Added support for setting custom attributes.
@@ -339,7 +338,6 @@ Release Date: Not Released
 Bug fixes for 3.0
 ------------------
 
--  Fixed a bug (#2255, #2256) where ``smtp_timeout`` was not being applied to read and writes for the socket.
 -  Fixed a bug where ``unlink()`` raised an error if cache file did not exist when you try to delete it.
 -  Fixed a bug (#181) where a mis-spelling was in the form validation language file.
 -  Fixed a bug (#159, #163) that mishandled Query Builder nested transactions because _trans_depth was not getting incremented.
@@ -488,6 +486,7 @@ Bug fixes for 3.0
 -  Fixed a bug - :doc:`DB result <database/results>` method ``list_fields()`` didn't reset its field pointer for the *mysql*, *mysqli* and *mssql* drivers.
 -  Fixed a bug (#73) - :doc:`Security Library <libraries/security>` method ``sanitize_filename()`` could be tricked by an XSS attack.
 -  Fixed a bug (#2211) - :doc:`Migration Library <libraries/migration>` extensions couldn't execute ``CI_Migration::__construct()``.
+-  Fixed a bug (#2255, #2256) where ``smtp_timeout`` was not being applied to read and writes for the socket.
 
 Version 2.1.3
 =============
