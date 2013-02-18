@@ -1863,47 +1863,47 @@ class CI_Email {
 	/**
 	 * SMTP Connect
 	 *
-	 * @param	bool
 	 * @return	string
 	 */
-	protected function _smtp_connect($force=FALSE)
+	protected function _smtp_connect()
 	{
-		if ( ! is_resource($this->_smtp_connect) OR $force)
+		if (is_resource($this->_smtp_connect))
 		{
-			$ssl = ($this->smtp_crypto === 'ssl') ? 'ssl://' : NULL;
+			return TRUE;
+		}
 
-			$this->_smtp_connect = fsockopen($ssl.$this->smtp_host,
-								$this->smtp_port,
-								$errno,
-								$errstr,
-								$this->smtp_timeout);
+		$ssl = ($this->smtp_crypto === 'ssl') ? 'ssl://' : NULL;
 
-			if ( ! is_resource($this->_smtp_connect))
+		$this->_smtp_connect = fsockopen($ssl.$this->smtp_host,
+							$this->smtp_port,
+							$errno,
+							$errstr,
+							$this->smtp_timeout);
+
+		if ( ! is_resource($this->_smtp_connect))
+		{
+			$this->_set_error_message('lang:email_smtp_error', $errno.' '.$errstr);
+			return FALSE;
+		}
+
+		stream_set_timeout($this->_smtp_connect, $this->smtp_timeout);
+		$this->_set_error_message($this->_get_smtp_data());
+
+		if ($this->smtp_crypto === 'tls')
+		{
+			$this->_send_command('hello');
+			$this->_send_command('starttls');
+
+			$crypto = stream_socket_enable_crypto($this->_smtp_connect, TRUE, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+
+			if ($crypto !== TRUE)
 			{
-				$this->_set_error_message('lang:email_smtp_error', $errno.' '.$errstr);
+				$this->_set_error_message('lang:email_smtp_error', $this->_get_smtp_data());
 				return FALSE;
 			}
-
-			stream_set_timeout($this->_smtp_connect, $this->smtp_timeout);
-			$this->_set_error_message($this->_get_smtp_data());
-
-			if ($this->smtp_crypto === 'tls')
-			{
-				$this->_send_command('hello');
-				$this->_send_command('starttls');
-
-				$crypto = stream_socket_enable_crypto($this->_smtp_connect, TRUE, STREAM_CRYPTO_METHOD_TLS_CLIENT);
-
-				if ($crypto !== TRUE)
-				{
-					$this->_set_error_message('lang:email_smtp_error', $this->_get_smtp_data());
-					return FALSE;
-				}
-			}
-
-			return $this->_send_command('hello');
 		}
-		return TRUE;
+
+		return $this->_send_command('hello');
 	}
 
 	// --------------------------------------------------------------------
