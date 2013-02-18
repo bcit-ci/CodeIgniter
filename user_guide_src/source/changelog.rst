@@ -486,7 +486,7 @@ Bug fixes for 3.0
 -  Fixed a bug - :doc:`DB result <database/results>` method ``list_fields()`` didn't reset its field pointer for the *mysql*, *mysqli* and *mssql* drivers.
 -  Fixed a bug (#73) - :doc:`Security Library <libraries/security>` method ``sanitize_filename()`` could be tricked by an XSS attack.
 -  Fixed a bug (#2211) - :doc:`Migration Library <libraries/migration>` extensions couldn't execute ``CI_Migration::__construct()``.
--  Fixed a bug (#2255, #2256) where ``smtp_timeout`` was not being applied to read and writes for the socket.
+-  Fixed a bug (#2255) where ``smtp_timeout`` was not being applied to read and writes for the socket.
 
 Version 2.1.3
 =============
