@@ -250,6 +250,8 @@ Release Date: Not Released
 	 -  Added Redis driver.
 	 -  Added a *key_prefix* option for cache IDs.
    -  :doc:`Email library <libraries/email>` changes include:
+	 -  Added SMTP keepalive option to avoid opening the connection for each ``Email::send()``. Accessible as ``$smtp_keepalive``.
+	 -  Empty string passed into useragent will be set to the first valid value in ``$_SERVER['HTTP_USER_AGENT']`` or ``PHP/<version>``.
 	 -  Added custom filename to ``Email::attach()`` as ``$this->email->attach($filename, $disposition, $newname)``.
 	 -  Added possibility to send attachment as buffer string in ``Email::attach()`` as ``$this->email->attach($buffer, $disposition, $newname, $mime)``.
 	 -  Added dsn (delivery status notification) option.
@@ -337,6 +339,7 @@ Release Date: Not Released
 Bug fixes for 3.0
 ------------------
 
+-  Fixed a bug (#2255, #2256) where ``smtp_timeout`` was not being applied to read and writes for the socket.
 -  Fixed a bug where ``unlink()`` raised an error if cache file did not exist when you try to delete it.
 -  Fixed a bug (#181) where a mis-spelling was in the form validation language file.
 -  Fixed a bug (#159, #163) that mishandled Query Builder nested transactions because _trans_depth was not getting incremented.
