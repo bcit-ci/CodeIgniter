@@ -1,5 +1,5 @@
 #############################
-Upgrading from 2.1.2 to 3.0.0
+Upgrading from 2.1.3 to 3.0.0
 #############################
 
 .. note:: These upgrade notes are for a version that is yet to be released.
@@ -104,9 +104,9 @@ regular expression::
 	(.+)	// matches ANYTHING
 	(:any)	// matches any character, except for '/'
 
-*******************************************
-Step 9: Update your librararies' file names
-*******************************************
+*****************************************
+Step 9: Update your libraries' file names
+*****************************************
 
 CodeIgniter 3.0 only allows library file names to be named in a *ucfirst* manner
 (meaning that the first letter of the class name must be a capital). For example,
@@ -238,7 +238,7 @@ Security helper do_hash()
 :doc:`Security Helper <../helpers/security_helper>` function ``do_hash()`` is now just an alias for
 PHP's native ``hash()`` function. It is deprecated and scheduled for removal in CodeIgniter 3.1+.
 
-.. note:: This function is still available, but you're strongly encouraged to remove it's usage sooner
+.. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
 	rather than later.
 
 File helper read_file()
@@ -248,7 +248,7 @@ File helper read_file()
 PHP's native ``file_get_contents()`` function. It is deprecated and scheduled for removal in
 CodeIgniter 3.1+.
 
-.. note:: This function is still available, but you're strongly encouraged to remove it's usage sooner
+.. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
 	rather than later.
 
 String helper repeater()
@@ -257,7 +257,7 @@ String helper repeater()
 :doc:`String Helper <../helpers/string_helper>` function :php:func:`repeater()` is now just an alias for
 PHP's native ``str_repeat()`` function. It is deprecated and scheduled for removal in CodeIgniter 3.1+.
 
-.. note:: This function is still available, but you're strongly encouraged to remove it's usage sooner
+.. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
 	rather than later.
 
 String helper trim_slashes()
@@ -267,7 +267,7 @@ String helper trim_slashes()
 for PHP's native ``trim()`` function (with a slash passed as its second argument). It is deprecated and
 scheduled for removal in CodeIgniter 3.1+.
 
-.. note:: This function is still available, but you're strongly encouraged to remove it's usage sooner
+.. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
 	rather than later.
 
 Email helper functions
@@ -292,7 +292,7 @@ Date helper standard_date()
 to the availability of native PHP `constants <http://www.php.net/manual/en/class.datetime.php#datetime.constants.types>`_,
 which when combined with ``date()`` provide the same functionality. Furthermore, they have the
 exact same names as the ones supported by ``standard_date()``. Here are examples of how to replace
-it's usage:
+its usage:
 
 ::
 
@@ -308,7 +308,7 @@ it's usage:
 	// Replacement
 	date(DATE_ATOM, $time);
 
-.. note:: This function is still available, but you're strongly encouraged to remove its' usage sooner
+.. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
 	rather than later as it is scheduled for removal in CodeIgniter 3.1+.
 
 Pagination library 'anchor_class' setting
@@ -320,7 +320,7 @@ attribute to your anchors via the 'attributes' configuration setting. This inclu
 As a result of that, the 'anchor_class' setting is now deprecated and scheduled for removal in
 CodeIgniter 3.1+.
 
-.. note:: This setting is still available, but you're strongly encouraged to remove its' usage sooner
+.. note:: This setting is still available, but you're strongly encouraged to remove its usage sooner
 	rather than later.
 
 String helper random_string() types 'unique' and 'encrypt'
