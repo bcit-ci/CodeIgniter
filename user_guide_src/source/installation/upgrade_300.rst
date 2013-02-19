@@ -136,8 +136,15 @@ Step 10: Check the calls to Array Helper's element() and elements() functions
 The default return value of these functions, when the required elements
 don't exist, has been changed from FALSE to NULL.
 
+***********************************************************************
+Step 11: Check the calls to Directory Helper's directory_map() function
+***********************************************************************
+
+In the resulting array, directories now end with a trailing directory
+separator (i.e. a slash, usually).
+
 *************************************************************
-Step 11: Update usage of Database Forge's drop_table() method
+Step 12: Update usage of Database Forge's drop_table() method
 *************************************************************
 
 Up until now, ``drop_table()`` added an IF EXISTS clause by default or it didn't work
@@ -159,7 +166,7 @@ If your application relies on IF EXISTS, you'll have to change its usage.
 	all drivers with the exception of ODBC.
 
 ***********************************************************
-Step 12: Change usage of Email library with multiple emails
+Step 13: Change usage of Email library with multiple emails
 ***********************************************************
 
 The :doc:`Email Library <../libraries/email>` will automatically clear the
@@ -174,7 +181,7 @@ pass FALSE as the first parameter in the ``send()`` method:
  	}
 
 ***************************************************
-Step 13: Update your Form_validation language lines
+Step 14: Update your Form_validation language lines
 ***************************************************
 
 Two improvements have been made to the :doc:`Form Validation Library
@@ -205,7 +212,7 @@ files and error messages format:
 	later.
 
 ****************************************************************
-Step 14: Remove usage of (previously) deprecated functionalities
+Step 15: Remove usage of (previously) deprecated functionalities
 ****************************************************************
 
 In addition to the ``$autoload['core']`` configuration setting, there's a
