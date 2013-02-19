@@ -1205,8 +1205,11 @@ class CI_Email {
 	{
 		if ($this->protocol === 'mail')
 		{
-			$this->_subject = $this->_headers['Subject'];
-			unset($this->_headers['Subject']);
+			if (isset($this->_headers['Subject']))
+			{
+				$this->_subject = $this->_headers['Subject'];
+				unset($this->_headers['Subject']);
+			}
 		}
 
 		reset($this->_headers);
