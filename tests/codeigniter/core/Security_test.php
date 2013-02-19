@@ -12,7 +12,7 @@ class Security_test extends CI_TestCase {
 		$this->ci_set_config('csrf_protection', TRUE);
 		$this->ci_set_config('csrf_token_name', 'ci_csrf_token');
 		$this->ci_set_config('csrf_cookie_name', 'ci_csrf_cookie');
-		$this->ci_set_config('csrf_secret', 'secret!');
+		$this->ci_set_config('csrf_secret', 'secret');
 
 		$this->security = new Mock_Core_Security();
 	}
@@ -43,7 +43,7 @@ class Security_test extends CI_TestCase {
 	public function test_csrf_verify_valid()
 	{
 		$_SERVER['REQUEST_METHOD'] = 'POST';
-		$_POST[$this->security->csrf_token_name] = substr($this->security->csrf_hash, 0, 31);
+		$_POST[$this->security->csrf_token_name] = $this->security->csrf_hash;
 
 		$this->assertInstanceOf('CI_Security', $this->security->csrf_verify());
 	}
