@@ -5,12 +5,14 @@ class Security_test extends CI_TestCase {
 	public function set_up()
 	{
 		// Set cookie for security test
-		$_COOKIE['ci_csrf_cookie'] = md5(uniqid(rand(), TRUE));
+		$hash = md5(uniqid(rand(), TRUE));
+		$_COOKIE['ci_csrf_cookie'] = $hash.hash('sha256', $hash);
 
 		// Set config for Security class
 		$this->ci_set_config('csrf_protection', TRUE);
 		$this->ci_set_config('csrf_token_name', 'ci_csrf_token');
 		$this->ci_set_config('csrf_cookie_name', 'ci_csrf_cookie');
+		$this->ci_set_config('csrf_secret', 'secret!');
 
 		$this->security = new Mock_Core_Security();
 	}
@@ -41,7 +43,7 @@ class Security_test extends CI_TestCase {
 	public function test_csrf_verify_valid()
 	{
 		$_SERVER['REQUEST_METHOD'] = 'POST';
-		$_POST[$this->security->csrf_token_name] = $this->security->csrf_hash;
+		$_POST[$this->security->csrf_token_name] = substr($this->security->csrf_hash, 0, 31);
 
 		$this->assertInstanceOf('CI_Security', $this->security->csrf_verify());
 	}

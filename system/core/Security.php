@@ -182,7 +182,7 @@ class CI_Security {
 
 		// Do the tokens exist in both the _POST and _COOKIE arrays?
 		if ( ! isset($_POST[$this->_csrf_token_name], $_COOKIE[$this->_csrf_cookie_name])
-			OR hash('sha256', $_POST[$this->_csrf_token_name].$this->_csrf_secret) !== $_COOKIE[$this->_csrf_cookie_name]) // Do the tokens match?
+			OR hash('sha256', $_POST[$this->_csrf_token_name].$this->_csrf_secret) !== substr($_COOKIE[$this->_csrf_cookie_name], 32)) // Do the tokens match?
 		{
 			$this->csrf_show_error();
 		}
@@ -225,7 +225,7 @@ class CI_Security {
 
 		setcookie(
 			$this->_csrf_cookie_name,
-			hash('sha256', $this->_csrf_hash.$this->_csrf_secret),
+			$this->_csrf_hash.hash('sha256', $this->_csrf_hash.$this->_csrf_secret),
 			$expire,
 			config_item('cookie_path'),
 			config_item('cookie_domain'),
@@ -887,14 +887,14 @@ class CI_Security {
 	{
 		if ($this->_csrf_hash === '')
 		{
-			// If the cookie exists we will use it's value.
+			// If the cookie exists we will use its value.
 			// We don't necessarily want to regenerate it with
 			// each page load since a page could contain embedded
 			// sub-pages causing this feature to fail
 			if (isset($_COOKIE[$this->_csrf_cookie_name]) &&
-				preg_match('#^[0-9a-f]{32}$#iS', $_COOKIE[$this->_csrf_cookie_name]) === 1)
+				preg_match('#^[0-9a-f]{96}$#iS', $_COOKIE[$this->_csrf_cookie_name]) === 1)
 			{
-				return $this->_csrf_hash = $_COOKIE[$this->_csrf_cookie_name];
+				return $this->_csrf_hash = substr($_COOKIE[$this->_csrf_cookie_name], 0, 32);
 			}
 
 			$this->_csrf_hash = md5(uniqid(rand(), TRUE));
