@@ -53,7 +53,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 *
 	 * @var	bool
 	 */
-	public $trans_enabled = FALSE;
+	public $trans_enabled = TRUE;
 
 	/**
 	 * PDO Options
