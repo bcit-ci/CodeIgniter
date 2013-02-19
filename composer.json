@@ -1,8 +1,9 @@
 {
+    "name" : "ellislab/codeigniter",
     "require": {
-        "mikey179/vfsStream": "*"
+        "php": ">=5.2.4"
     },
     "require-dev": {
-		"phpunit/phpunit": "*"
-	}
+      "mikey179/vfsStream": "*"
+		}
 }
