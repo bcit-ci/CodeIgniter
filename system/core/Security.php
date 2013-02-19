@@ -84,6 +84,15 @@ class CI_Security {
 	protected $_csrf_cookie_name =	'ci_csrf_token';
 
 	/**
+	 * CSRF Secret
+	 *
+	 * Arbitrary string for validation of CSRF hash and cookie.
+	 *
+	 * @var	string
+	 */
+	protected $_csrf_secret =	'';
+
+	/**
 	 * List of never allowed strings
 	 *
 	 * @var	array
@@ -125,7 +134,7 @@ class CI_Security {
 		if (config_item('csrf_protection') === TRUE)
 		{
 			// CSRF config
-			foreach (array('csrf_expire', 'csrf_token_name', 'csrf_cookie_name') as $key)
+			foreach (array('csrf_expire', 'csrf_token_name', 'csrf_cookie_name', 'csrf_secret') as $key)
 			{
 				if (FALSE !== ($val = config_item($key)))
 				{
@@ -173,7 +182,7 @@ class CI_Security {
 
 		// Do the tokens exist in both the _POST and _COOKIE arrays?
 		if ( ! isset($_POST[$this->_csrf_token_name], $_COOKIE[$this->_csrf_cookie_name])
-			OR $_POST[$this->_csrf_token_name] !== $_COOKIE[$this->_csrf_cookie_name]) // Do the tokens match?
+			OR hash('sha256', $_POST[$this->_csrf_token_name].$this->_csrf_secret) !== $_COOKIE[$this->_csrf_cookie_name]) // Do the tokens match?
 		{
 			$this->csrf_show_error();
 		}
@@ -216,7 +225,7 @@ class CI_Security {
 
 		setcookie(
 			$this->_csrf_cookie_name,
-			$this->_csrf_hash,
+			hash('sha256', $this->_csrf_hash.$this->_csrf_secret),
 			$expire,
 			config_item('cookie_path'),
 			config_item('cookie_domain'),
