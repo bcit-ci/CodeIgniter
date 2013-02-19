@@ -487,6 +487,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#73) - :doc:`Security Library <libraries/security>` method ``sanitize_filename()`` could be tricked by an XSS attack.
 -  Fixed a bug (#2211) - :doc:`Migration Library <libraries/migration>` extensions couldn't execute ``CI_Migration::__construct()``.
 -  Fixed a bug (#2255) where ``smtp_timeout`` was not being applied to read and writes for the socket.
+-  Fixed a bug (#2239) of missing subject when using ``bcc_batch_mode``.
 
 Version 2.1.3
 =============
