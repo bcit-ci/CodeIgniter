@@ -602,6 +602,9 @@ class CI_Session_cookie extends CI_Session_driver {
 				$set['user_data'] = $this->_serialize($userdata);
 			}
 
+			// Reset query builder values.
+			$this->CI->db->reset_query();
+
 			// Run the update query
 			// Any time we change the session id, it gets updated immediately,
 			// so our where clause below is always safe
