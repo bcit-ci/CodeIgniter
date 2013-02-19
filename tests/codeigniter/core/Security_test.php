@@ -41,7 +41,7 @@ class Security_test extends CI_TestCase {
 	public function test_csrf_verify_valid()
 	{
 		$_SERVER['REQUEST_METHOD'] = 'POST';
-		$_POST[$this->security->csrf_token_name] = hash('sha256', $this->security->csrf_hash.$this->security->csrf_secret);
+		hash('sha256', $_POST[$this->security->csrf_token_name].$this->security->csrf_secret) = $this->security->csrf_hash;
 
 		$this->assertInstanceOf('CI_Security', $this->security->csrf_verify());
 	}
