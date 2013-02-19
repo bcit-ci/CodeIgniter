@@ -94,7 +94,7 @@ class CI_Email {
 	 * @var	int
 	 */
 	public $smtp_timeout	= 5;
-	
+
 	/**
 	 * SMTP persistent connection
 	 *
@@ -408,7 +408,7 @@ class CI_Email {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Destructor - Releases Resources
 	 *
@@ -2018,7 +2018,7 @@ class CI_Email {
 		{
 			return TRUE;
 		}
-			
+
 		if (strpos($reply, '334') !== 0)
 		{
 			$this->_set_error_message('lang:email_failed_smtp_login', $reply);
