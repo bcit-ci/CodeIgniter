@@ -49,13 +49,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	public $dbdriver = 'pdo';
 
 	/**
-	 * Transaction enabled flag
-	 *
-	 * @var	bool
-	 */
-	public $trans_enabled = TRUE;
-
-	/**
 	 * PDO Options
 	 *
 	 * @var	array
