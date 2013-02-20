@@ -6,7 +6,7 @@ class Security_test extends CI_TestCase {
 	{
 		// Set cookie for security test
 		$hash = md5(uniqid(rand(), TRUE));
-		$_COOKIE['ci_csrf_cookie'] = $hash.hash('sha256', $hash);
+		$_COOKIE['ci_csrf_cookie'] = $hash.hash('sha256', $hash.'secret');
 
 		// Set config for Security class
 		$this->ci_set_config('csrf_protection', TRUE);
