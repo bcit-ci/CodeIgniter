@@ -162,7 +162,7 @@ The news overview page is now done, but a page to display individual
 news items is still absent. The model created earlier is made in such
 way that it can easily be used for this functionality. You only need to
 add some code to the controller and create a new view. Go back to the
-news controller and add the following lines to the file.
+news controller and update ``view()`` with the following:
 
 ::
 
