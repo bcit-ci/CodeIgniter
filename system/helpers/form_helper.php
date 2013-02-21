@@ -128,10 +128,11 @@ if ( ! function_exists('form_hidden'))
 	 *
 	 * @param	mixed	$name		Field name
 	 * @param	string	$value		Field value
+	 * @param	string	$extra		Extra data
 	 * @param	bool	$recursing
 	 * @return	string
 	 */
-	function form_hidden($name, $value = '', $recursing = FALSE)
+	function form_hidden($name, $value = '', $extra = '', $recursing = FALSE)
 	{
 		static $form;
 
@@ -144,21 +145,21 @@ if ( ! function_exists('form_hidden'))
 		{
 			foreach ($name as $key => $val)
 			{
-				form_hidden($key, $val, TRUE);
+				form_hidden($key, $val, $extra, TRUE);
 			}
 			return $form;
 		}
 
 		if ( ! is_array($value))
 		{
-			$form .= '<input type="hidden" name="'.$name.'" value="'.form_prep($value)."\" />\n";
+			$form .= '<input type="hidden" name="'.$name.'" value="'.form_prep($value).'"'.$extra." />\n";
 		}
 		else
 		{
 			foreach ($value as $k => $v)
 			{
 				$k = is_int($k) ? '' : $k;
-				form_hidden($name.'['.$k.']', $v, TRUE);
+				form_hidden($name.'['.$k.']', $v, $extra, TRUE);
 			}
 		}
 

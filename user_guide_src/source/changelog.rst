@@ -87,6 +87,7 @@ Release Date: Not Released
    -  :doc:`Form Helper <helpers/form_helper>` changes include:
 	 - :php:func:`form_dropdown()` will now also take an array for unity with other form helpers.
 	 - :php:func:`form_prep()`'s second argument now only accepts a boolean value, which determines whether the value is escaped for a <textarea> or a regular <input> element.
+	 - :php:func:`form_hidden()` added an optional paramater to allow pass extra attributes.
    -  :doc:`Security Helper <helpers/security_helper>` changes include:
 	 - :php:func:`do_hash()` now uses PHP's native ``hash()`` function (supporting more algorithms) and is deprecated.
 	 - :php:func:`strip_image_tags()` is now an alias for the same method in the :doc:`Security Library <libraries/security>`.

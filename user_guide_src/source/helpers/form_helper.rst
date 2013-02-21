@@ -92,6 +92,7 @@ form_hidden()
 
 	:param	string	$name: Field name
 	:param	string	$value: Field value
+	:param	string	$extra: Extra attributes to be added to the tag *as is*
 	:returns:	string
 
 Lets you generate hidden input fields. You can either submit a
@@ -152,6 +153,12 @@ If you want to create hidden input fields with extra attributes::
 
 		<input type="hidden" name="email" value="john@example.com" id="hiddenemail" class="hiddenemail" />
 	*/
+
+If you would like your form to contain some additional data, like
+ID, you can pass it as a string in the third parameter::
+
+	$extra = 'id="hidden_field"';
+	echo form_hidden('username', 'johndoe', $extra);
 
 form_input()
 ============
