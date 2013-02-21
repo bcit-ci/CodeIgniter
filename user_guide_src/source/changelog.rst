@@ -65,7 +65,6 @@ Release Date: Not Released
 	 - Added an optional parameter to :php:func:`timezone_menu()` that allows more attributes to be added to the generated select tag.
 	 - Deprecated ``standard_date()``, which now just uses the native ``date()`` with `DateTime constants <http://www.php.net/manual/en/class.datetime.php#datetime.constants.types>`_.
 	 - Added function :php:func:`date_range()` that generates a list of dates between a specified period.
-   -  :doc:`Captcha Helper <helpers/captcha_helper>` :php:func:`create_captcha()` now accepts additional colors parameter, allowing for color customization.
    -  :doc:`URL Helper <helpers/url_helper>` changes include:
 	 - Deprecated *separator* options **dash** and **underscore** for function :php:func:`url_title()` (they are only aliases for '-' and '_' respectively).
 	 - :php:func:`url_title()` will now trim extra dashes from beginning and end.
