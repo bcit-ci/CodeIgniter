@@ -244,6 +244,7 @@ Release Date: Not Released
 	 -  Added support for named parameters in error messages.
 	 -  :doc:`Language <libraries/language>` line keys must now be prefixed with **form_validation_**.
 	 -  Added rule **alpha_numeric_spaces**.
+	 -  Added method ``has_rule()`` to determine if a rule exists.
    -  Added support for setting :doc:`Table <libraries/table>` class defaults in a config file.
    -  :doc:`Caching Library <libraries/caching>` changes include:
 	 -  Added Wincache driver.
@@ -463,7 +464,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1255) - :doc:`User Agent Library <libraries/user_agent>` method ``is_referral()`` only checked if ``$_SERVER['HTTP_REFERER']`` exists.
 -  Fixed a bug (#1146) - :doc:`Download Helper <helpers/download_helper>` function ``force_download()`` incorrectly sent *Cache-Control* directives *pre-check* and *post-check* to Internet Explorer.
 -  Fixed a bug (#1811) - :doc:`URI Library <libraries/uri>` didn't properly cache segments for ``uri_to_assoc()`` and ``ruri_to_assoc()``.
--  Fixed a bug (#1506) - :doc:`Form Helpers <helpers/form_helper>` set empty *name* attributes.
+-  Fixed a bug (#1506) - :doc:`Form Helper <helpers/form_helper>` set empty *name* attributes.
 -  Fixed a bug (#59) - :doc:`Query Builder <database/query_builder>` method ``count_all_results()`` ignored the DISTINCT clause.
 -  Fixed a bug (#1624) - :doc:`Form Validation Library <libraries/form_validation>` rule **matches** didn't property handle array field names.
 -  Fixed a bug (#1630) - :doc:`Form Helper <helpers/form_helper>` function ``set_value()`` didn't escape HTML entities.
@@ -488,6 +489,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#2211) - :doc:`Migration Library <libraries/migration>` extensions couldn't execute ``CI_Migration::__construct()``.
 -  Fixed a bug (#2255) where ``smtp_timeout`` was not being applied to read and writes for the socket.
 -  Fixed a bug (#2239) of missing subject when using ``bcc_batch_mode``.
+-  Fixed a bug (#2236) - :doc:`Form Helper <helpers/form_helper>` incorrectly determined the value to return in method ``set_value()``.
 
 Version 2.1.3
 =============

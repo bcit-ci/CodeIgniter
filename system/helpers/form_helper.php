@@ -642,14 +642,37 @@ if ( ! function_exists('set_value'))
 	 */
 	function set_value($field = '', $default = '', $is_textarea = FALSE)
 	{
-		if (FALSE === ($OBJ =& _get_validation_object()))
+		if (FALSE !== ($OBJ =& _get_validation_object()) && $OBJ->has_rule($field))
 		{
-			return isset($_POST[$field])
-				? form_prep($_POST[$field], $is_textarea)
-				: form_prep($default, $is_textarea);
+			return form_prep($OBJ->set_value($field, $default), $is_textarea);
 		}
 
-		return form_prep($OBJ->set_value($field, $default), $is_textarea);
+		// We couldn't find the $field in validator, so try in $_POST array
+		$index = $field;
+		$container = $_POST;
+		
+		// Test if the $field is an array name, and try to obtain the final index
+		if (preg_match_all('/\[(.*?)\]/', $field, $matches))
+		{
+			sscanf($field, '%[^[][', $index);
+			for ($i = 0, $c = count($matches[0]); $i < $c; $i++)
+			{
+				if (isset($container[$index]) && $matches[1][$i] !== '')
+				{
+					$container = $container[$index];
+					$index = $matches[1][$i];
+				}
+				else
+				{
+					$container = array();
+					break;
+				}
+			}
+		}
+
+		return isset($container[$index]) 
+			? form_prep($container[$index], $is_textarea)
+			: form_prep($default, $is_textarea);
 	}
 }
 
