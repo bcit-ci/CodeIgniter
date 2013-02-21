@@ -228,7 +228,7 @@ class CI_Migration {
 			$class = 'Migration_'.ucfirst(strtolower($this->_get_migration_name(basename($file, '.php'))));
 
 			// Validate the migration file structure
-			if ( ! class_exists($class))
+			if ( ! class_exists($class, FALSE))
 			{
 				$this->_error_string = sprintf($this->lang->line('migration_class_doesnt_exist'), $class);
 				return FALSE;

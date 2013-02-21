@@ -270,7 +270,7 @@ class CI_Loader {
 				continue;
 			}
 
-			if ($db_conn !== FALSE && ! class_exists('CI_DB'))
+			if ($db_conn !== FALSE && ! class_exists('CI_DB', FALSE))
 			{
 				if ($db_conn === TRUE)
 				{
@@ -280,7 +280,7 @@ class CI_Loader {
 				$CI->load->database($db_conn, FALSE, TRUE);
 			}
 
-			if ( ! class_exists('CI_Model'))
+			if ( ! class_exists('CI_Model', FALSE))
 			{
 				load_class('Model', 'core');
 			}
@@ -1091,11 +1091,11 @@ class CI_Loader {
 
 		if ($prefix === '')
 		{
-			if (class_exists('CI_'.$class))
+			if (class_exists('CI_'.$class, FALSE))
 			{
 				$name = 'CI_'.$class;
 			}
-			elseif (class_exists(config_item('subclass_prefix').$class))
+			elseif (class_exists(config_item('subclass_prefix').$class, FALSE))
 			{
 				$name = config_item('subclass_prefix').$class;
 			}
@@ -1110,7 +1110,7 @@ class CI_Loader {
 		}
 
 		// Is the class name valid?
-		if ( ! class_exists($name))
+		if ( ! class_exists($name, FALSE))
 		{
 			log_message('error', 'Non-existent class: '.$name);
 			show_error('Non-existent class: '.$name);
