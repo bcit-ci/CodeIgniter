@@ -182,11 +182,11 @@ class CI_Cache_memcached extends CI_Driver {
 			}
 		}
 
-		if (class_exists('Memcached'))
+		if (class_exists('Memcached', FALSE))
 		{
 			$this->_memcached = new Memcached();
 		}
-		elseif (class_exists('Memcache'))
+		elseif (class_exists('Memcache', FALSE))
 		{
 			$this->_memcached = new Memcache();
 		}

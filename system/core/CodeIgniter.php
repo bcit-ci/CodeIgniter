@@ -263,7 +263,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	$class  = $RTR->fetch_class();
 	$method = $RTR->fetch_method();
 
-	if ( ! class_exists($class) OR $method[0] === '_' OR method_exists('CI_Controller', $method))
+	if ( ! class_exists($class, FALSE) OR $method[0] === '_' OR method_exists('CI_Controller', $method))
 	{
 		if ( ! empty($RTR->routes['404_override']))
 		{
@@ -272,7 +272,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$method = 'index';
 			}
 
-			if ( ! class_exists($class))
+			if ( ! class_exists($class, FALSE))
 			{
 				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
 				{
@@ -310,7 +310,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$method = 'index';
 			}
 
-			if ( ! class_exists($class))
+			if ( ! class_exists($class, FALSE))
 			{
 				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
 				{

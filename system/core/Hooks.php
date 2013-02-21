@@ -195,7 +195,7 @@ class CI_Hooks {
 		// Call the requested class and/or function
 		if ($class !== FALSE)
 		{
-			if ( ! class_exists($class))
+			if ( ! class_exists($class, FALSE))
 			{
 				require($filepath);
 			}

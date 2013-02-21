@@ -149,7 +149,7 @@ if ( ! function_exists('load_class'))
 			{
 				$name = $prefix.$class;
 
-				if (class_exists($name) === FALSE)
+				if (class_exists($name, FALSE) === FALSE)
 				{
 					require_once($path.$directory.'/'.$class.'.php');
 				}
@@ -163,7 +163,7 @@ if ( ! function_exists('load_class'))
 		{
 			$name = config_item('subclass_prefix').$class;
 
-			if (class_exists($name) === FALSE)
+			if (class_exists($name, FALSE) === FALSE)
 			{
 				require_once(APPPATH.$directory.'/'.config_item('subclass_prefix').$class.'.php');
 			}
