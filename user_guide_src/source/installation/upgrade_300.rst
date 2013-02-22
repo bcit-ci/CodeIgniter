@@ -1,5 +1,5 @@
 #############################
-Upgrading from 2.1.2 to 3.0.0
+Upgrading from 2.1.3 to 3.0.0
 #############################
 
 .. note:: These upgrade notes are for a version that is yet to be released.
@@ -104,16 +104,47 @@ regular expression::
 	(.+)	// matches ANYTHING
 	(:any)	// matches any character, except for '/'
 
+*****************************************
+Step 9: Update your libraries' file names
+*****************************************
 
-****************************************************************************
-Step 9: Check the calls to Array Helper's element() and elements() functions
-****************************************************************************
+CodeIgniter 3.0 only allows library file names to be named in a *ucfirst* manner
+(meaning that the first letter of the class name must be a capital). For example,
+if you have the following library file:
+
+	application/libraries/mylibrary.php
+
+... then you'll have to rename it to:
+
+	application/libraries/Mylibrary.php
+
+The same goes for driver libraries and extensions and/or overrides of CodeIgniter's
+own libraries and core classes.
+
+	application/libraries/MY_email.php
+	application/core/MY_log.php
+
+The above files should respectively be renamed to the following:
+
+	application/libraries/MY_Email.php
+	application/core/MY_Log.php
+
+*****************************************************************************
+Step 10: Check the calls to Array Helper's element() and elements() functions
+*****************************************************************************
 
 The default return value of these functions, when the required elements
 don't exist, has been changed from FALSE to NULL.
 
+***********************************************************************
+Step 11: Check the calls to Directory Helper's directory_map() function
+***********************************************************************
+
+In the resulting array, directories now end with a trailing directory
+separator (i.e. a slash, usually).
+
 *************************************************************
-Step 10: Update usage of Database Forge's drop_table() method
+Step 12: Update usage of Database Forge's drop_table() method
 *************************************************************
 
 Up until now, ``drop_table()`` added an IF EXISTS clause by default or it didn't work
@@ -135,7 +166,7 @@ If your application relies on IF EXISTS, you'll have to change its usage.
 	all drivers with the exception of ODBC.
 
 ***********************************************************
-Step 11: Change usage of Email library with multiple emails
+Step 13: Change usage of Email library with multiple emails
 ***********************************************************
 
 The :doc:`Email Library <../libraries/email>` will automatically clear the
@@ -150,7 +181,7 @@ pass FALSE as the first parameter in the ``send()`` method:
  	}
 
 ***************************************************
-Step 12: Update your Form_validation language lines
+Step 14: Update your Form_validation language lines
 ***************************************************
 
 Two improvements have been made to the :doc:`Form Validation Library
@@ -181,7 +212,7 @@ files and error messages format:
 	later.
 
 ****************************************************************
-Step 13: Remove usage of (previously) deprecated functionalities
+Step 15: Remove usage of (previously) deprecated functionalities
 ****************************************************************
 
 In addition to the ``$autoload['core']`` configuration setting, there's a
@@ -214,7 +245,7 @@ Security helper do_hash()
 :doc:`Security Helper <../helpers/security_helper>` function ``do_hash()`` is now just an alias for
 PHP's native ``hash()`` function. It is deprecated and scheduled for removal in CodeIgniter 3.1+.
 
-.. note:: This function is still available, but you're strongly encouraged to remove it's usage sooner
+.. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
 	rather than later.
 
 File helper read_file()
@@ -224,7 +255,7 @@ File helper read_file()
 PHP's native ``file_get_contents()`` function. It is deprecated and scheduled for removal in
 CodeIgniter 3.1+.
 
-.. note:: This function is still available, but you're strongly encouraged to remove it's usage sooner
+.. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
 	rather than later.
 
 String helper repeater()
@@ -233,7 +264,7 @@ String helper repeater()
 :doc:`String Helper <../helpers/string_helper>` function :php:func:`repeater()` is now just an alias for
 PHP's native ``str_repeat()`` function. It is deprecated and scheduled for removal in CodeIgniter 3.1+.
 
-.. note:: This function is still available, but you're strongly encouraged to remove it's usage sooner
+.. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
 	rather than later.
 
 String helper trim_slashes()
@@ -243,7 +274,7 @@ String helper trim_slashes()
 for PHP's native ``trim()`` function (with a slash passed as its second argument). It is deprecated and
 scheduled for removal in CodeIgniter 3.1+.
 
-.. note:: This function is still available, but you're strongly encouraged to remove it's usage sooner
+.. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
 	rather than later.
 
 Email helper functions
@@ -268,7 +299,7 @@ Date helper standard_date()
 to the availability of native PHP `constants <http://www.php.net/manual/en/class.datetime.php#datetime.constants.types>`_,
 which when combined with ``date()`` provide the same functionality. Furthermore, they have the
 exact same names as the ones supported by ``standard_date()``. Here are examples of how to replace
-it's usage:
+its usage:
 
 ::
 
@@ -284,7 +315,7 @@ it's usage:
 	// Replacement
 	date(DATE_ATOM, $time);
 
-.. note:: This function is still available, but you're strongly encouraged to remove its' usage sooner
+.. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
 	rather than later as it is scheduled for removal in CodeIgniter 3.1+.
 
 Pagination library 'anchor_class' setting
@@ -296,7 +327,7 @@ attribute to your anchors via the 'attributes' configuration setting. This inclu
 As a result of that, the 'anchor_class' setting is now deprecated and scheduled for removal in
 CodeIgniter 3.1+.
 
-.. note:: This setting is still available, but you're strongly encouraged to remove its' usage sooner
+.. note:: This setting is still available, but you're strongly encouraged to remove its usage sooner
 	rather than later.
 
 String helper random_string() types 'unique' and 'encrypt'

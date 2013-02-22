@@ -937,7 +937,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->qb_where[] = array('condition' => $like_statement, 'escape' => $escape);
 			if ($this->qb_caching === TRUE)
 			{
-				$this->qb_cache_where[] = $like_statement;
+				$this->qb_cache_where[] = array('condition' => $like_statement, 'escape' => $escape);
 				$this->qb_cache_exists[] = 'where';
 			}
 		}
@@ -2627,6 +2627,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		$this->_reset_run(array(
 			'qb_set'	=> array(),
 			'qb_from'	=> array(),
+			'qb_join'	=> array(),
 			'qb_where'	=> array(),
 			'qb_orderby'	=> array(),
 			'qb_keys'	=> array(),

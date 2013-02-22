@@ -58,7 +58,7 @@ if ( ! function_exists('force_download'))
 		}
 		elseif ($data === NULL)
 		{
-			if (@is_file($filename) && @file_exists($filename) && ($filesize = @filesize($filename)) !== FALSE)
+			if (@is_file($filename) && ($filesize = @filesize($filename)) !== FALSE)
 			{
 				$filepath = $filename;
 				$filename = explode('/', str_replace(DIRECTORY_SEPARATOR, '/', $filename));

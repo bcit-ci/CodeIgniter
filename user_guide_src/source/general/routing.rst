@@ -12,7 +12,7 @@ In some instances, however, you may want to remap this relationship so
 that a different class/method can be called instead of the one
 corresponding to the URL.
 
-For example, lets say you want your URLs to have this prototype::
+For example, let's say you want your URLs to have this prototype::
 
 	example.com/product/1/
 	example.com/product/2/
@@ -129,7 +129,7 @@ For those of you who don't know regular expressions and want to learn
 more about them, `regular-expressions.info <http://www.regular-expressions.info/>`
 might be a good starting point.
 
-..note:: You can also mix and match wildcards with regular expressions.
+.. note:: You can also mix and match wildcards with regular expressions.
 
 Callbacks
 =========
@@ -137,7 +137,7 @@ Callbacks
 If you are using PHP >= 5.3 you can use callbacks in place of the normal
 routing rules to process the back-references. Example::
 
-	$route['products/([a-z]+)/edit/(\d+)'] = function ($product_type, $id)
+	$route['products/([a-zA-Z]+)/edit/(\d+)'] = function ($product_type, $id)
 	{
 		return 'catalog/product_edit/' . strtolower($product_type) . '/' . $id;
 	};

@@ -126,7 +126,7 @@ class CI_URI {
 				return;
 			}
 
-			// As a last ditch effort lets try using the $_GET array
+			// As a last ditch effort let's try using the $_GET array
 			if (is_array($_GET) && count($_GET) === 1 && trim(key($_GET), '/') !== '')
 			{
 				$this->_set_uri_string(key($_GET));

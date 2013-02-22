@@ -74,6 +74,7 @@ class CI_DB_mssql_result extends CI_DB_result {
 	public function list_fields()
 	{
 		$field_names = array();
+		mssql_field_seek($this->result_id, 0);
 		while ($field = mssql_fetch_field($this->result_id))
 		{
 			$field_names[] = $field->name;
