@@ -150,7 +150,7 @@ if ( ! function_exists('load_class'))
 			{
 				$name = $prefix.$class;
 
-				if (class_exists($name) === FALSE)
+				if (class_exists($name, FALSE) === FALSE)
 				{
 					require_once($path.$directory.'/'.$class.'.php');
 				}
@@ -164,7 +164,7 @@ if ( ! function_exists('load_class'))
 		{
 			$name = config_item('subclass_prefix').$class;
 
-			if (class_exists($name) === FALSE)
+			if (class_exists($name, FALSE) === FALSE)
 			{
 				require_once(APPPATH.$directory.'/'.config_item('subclass_prefix').$class.'.php');
 			}
@@ -243,7 +243,7 @@ if ( ! function_exists('get_config'))
 		}
 
 		// Is the config file in the environment folder?
-		if (defined('ENVIRONMENT') && file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config.php'))
+		if (file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config.php'))
 		{
 			require($file_path);
 		}
@@ -320,11 +320,11 @@ if ( ! function_exists('get_mimes'))
 	{
 		static $_mimes = array();
 
-		if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
 		{
 			$_mimes = include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
 		}
-		elseif (is_file(APPPATH.'config/mimes.php'))
+		elseif (file_exists(APPPATH.'config/mimes.php'))
 		{
 			$_mimes = include(APPPATH.'config/mimes.php');
 		}
@@ -347,7 +347,7 @@ if ( ! function_exists('is_https'))
 	 */
 	function is_https()
 	{
-		return ( ! empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off');
+		return (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) === 'on');
 	}
 }
 
@@ -429,7 +429,7 @@ if ( ! function_exists('log_message'))
 	function log_message($level = 'error', $message, $php_error = FALSE)
 	{
 		static $_log, $_log_threshold;
-		
+
 		if ($_log_threshold === NULL)
 		{
 			$_log_threshold = config_item('log_threshold');
@@ -444,7 +444,7 @@ if ( ! function_exists('log_message'))
 		{
 			$_log =& load_class('Log', 'core');
 		}
-		
+
 		$_log->write_log($level, $message, $php_error);
 	}
 }

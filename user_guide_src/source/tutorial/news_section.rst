@@ -68,7 +68,7 @@ following code to your model.
 			$query = $this->db->get('news');
 			return $query->result_array();
 		}
-        
+
 		$query = $this->db->get_where('news', array('slug' => $slug));
 		return $query->row_array();
 	}
@@ -146,7 +146,7 @@ and add the next piece of code.
 	<?php foreach ($news as $news_item): ?>
 
 		<h2><?php echo $news_item['title'] ?></h2>
-		<div id="main">
+		<div class="main">
 			<?php echo $news_item['text'] ?>
 		</div>
 		<p><a href="<?php echo $news_item['slug'] ?>">View article</a></p>
@@ -162,7 +162,7 @@ The news overview page is now done, but a page to display individual
 news items is still absent. The model created earlier is made in such
 way that it can easily be used for this functionality. You only need to
 add some code to the controller and create a new view. Go back to the
-news controller and add the following lines to the file.
+news controller and update ``view()`` with the following:
 
 ::
 

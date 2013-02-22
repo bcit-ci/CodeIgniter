@@ -93,7 +93,7 @@ if ( ! function_exists('create_captcha'))
 		// Do we have a "word" yet?
 		// -----------------------------------
 
-		if ($word === '')
+		if (empty($word))
 		{
 			$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 			$word = '';
@@ -101,6 +101,10 @@ if ( ! function_exists('create_captcha'))
 			{
 				$word .= $pool[mt_rand(0, $mt_rand_max)];
 			}
+		}
+		elseif ( ! is_string($word))
+		{
+			$word = (string) $word;
 		}
 
 		// -----------------------------------

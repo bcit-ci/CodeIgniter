@@ -43,7 +43,7 @@ function &DB($params = '', $query_builder_override = NULL)
 	if (is_string($params) && strpos($params, '://') === FALSE)
 	{
 		// Is the config file in the environment folder?
-		if (( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php'))
+		if ( ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php')
 			&& ! file_exists($file_path = APPPATH.'config/database.php'))
 		{
 			show_error('The configuration file database.php does not exist.');
@@ -149,7 +149,7 @@ function &DB($params = '', $query_builder_override = NULL)
 	if ( ! isset($query_builder) OR $query_builder === TRUE)
 	{
 		require_once(BASEPATH.'database/DB_query_builder.php');
-		if ( ! class_exists('CI_DB'))
+		if ( ! class_exists('CI_DB', FALSE))
 		{
 			/**
 			 * CI_DB
@@ -162,7 +162,7 @@ function &DB($params = '', $query_builder_override = NULL)
 			class CI_DB extends CI_DB_query_builder { }
 		}
 	}
-	elseif ( ! class_exists('CI_DB'))
+	elseif ( ! class_exists('CI_DB', FALSE))
 	{
 		/**
 	 	 * @ignore
