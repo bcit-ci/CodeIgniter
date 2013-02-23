@@ -550,7 +550,7 @@ if ( ! function_exists('redirect'))
 				header('Location: '.$uri, TRUE, $code);
 				break;
 		}
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 }
 

@@ -177,7 +177,7 @@ if ( ! function_exists('load_class'))
 			// self-referencing loop with the Exceptions class
 			set_status_header(503);
 			echo 'Unable to locate the specified class: '.$class.'.php';
-			exit(2);
+			exit(EXIT_UNK_CLASS);
 		}
 
 		// Keep track of what we just loaded
@@ -251,7 +251,7 @@ if ( ! function_exists('get_config'))
 		{
 			set_status_header(503);
 			echo 'The configuration file does not exist.';
-			exit(1);
+			exit(EXIT_CONFIG);
 		}
 
 		// Does the $config array exist in the file?
@@ -259,7 +259,7 @@ if ( ! function_exists('get_config'))
 		{
 			set_status_header(503);
 			echo 'Your config file does not appear to be formatted correctly.';
-			exit(1);
+			exit(EXIT_CONFIG);
 		}
 
 		// Are any values being dynamically replaced?
@@ -374,12 +374,16 @@ if ( ! function_exists('show_error'))
 		$status_code = abs($status_code);
 		if ($status_code < 100)
 		{
-			$exit_status = $status_code + 28;
+			$exit_status = $status_code + EXIT__AUTO_MIN;
+			if ($exit_status > EXIT__AUTO_MAX)
+			{
+				$exit_status = EXIT_FAILURE;
+			}
 			$status_code = 500;
 		}
 		else
 		{
-			$exit_status = 27;
+			$exit_status = EXIT_FAILURE;
 		}
 		
 		$_error =& load_class('Exceptions', 'core');
@@ -407,7 +411,7 @@ if ( ! function_exists('show_404'))
 	{
 		$_error =& load_class('Exceptions', 'core');
 		$_error->show_404($page, $log_error);
-		exit(4);
+		exit(EXIT_UNK_FILE);
 	}
 }
 
