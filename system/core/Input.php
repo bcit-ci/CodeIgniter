@@ -746,7 +746,7 @@ class CI_Input {
 		{
 			set_status_header(503);
 			echo 'Disallowed Key Characters.';
-			exit(6);
+			exit(EXIT_USER_INPUT);
 		}
 
 		// Clean UTF-8 if supported

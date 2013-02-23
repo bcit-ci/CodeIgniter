@@ -696,7 +696,7 @@ class CI_Output {
 		if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && $last_modified <= strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']))
 		{
 			$this->set_status_header(304);
-			exit(0);
+			exit(EXIT_SUCCESS);
 		}
 		else
 		{

@@ -142,7 +142,7 @@ if ( ! function_exists('force_download'))
 		if ($data !== NULL)
 		{
 			echo $data;
-			exit(0);
+			exit(EXIT_SUCCESS);
 		}
 
 		// Flush 1MB chunks of data
@@ -152,7 +152,7 @@ if ( ! function_exists('force_download'))
 		}
 
 		fclose($fp);
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 }
 
