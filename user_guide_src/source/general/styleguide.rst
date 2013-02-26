@@ -105,7 +105,8 @@ should be separated with an underscore, and not CamelCased.
 
 Class methods should be entirely lowercased and named to clearly
 indicate their function, preferably including a verb. Try to avoid
-overly long and verbose names.
+overly long and verbose names. Multiple words should be separated
+with an underscore.
 
 **INCORRECT**::
 
@@ -247,10 +248,10 @@ uppercase.
 Logical Operators
 =================
 
-Use of the **\|\|** *OR* comparison operator is discouraged, as its clarity
+Use of the ``||`` "or" comparison operator is discouraged, as its clarity
 on some output devices is low (looking like the number 11, for instance).
-**&&** is preferred over **AND** but either are acceptable, and a space should
-always precede and follow **!**.
+``&&`` is preferred over ``AND`` but either are acceptable, and a space should
+always precede and follow ``!``.
 
 **INCORRECT**::
 
@@ -324,7 +325,7 @@ Debugging Code
 ==============
 
 Do not leave debugging code in your submissions, even when commented out.
-Things such as var_dump(), print_r(), die() or exit() should not be included
+Things such as ``var_dump()``, ``print_r()``, ``die()``/``exit()`` should not be included
 in your code unless it serves a specific purpose other than debugging.
 
 Whitespace in Files
@@ -351,9 +352,8 @@ One File per Class
 ==================
 
 Use separate files for each class, unless the classes are *closely related*.
-An example of CodeIgniter files that contains multiple classes is the 
-Database class file, which contains both the DB class and the DB_Cache 
-class.
+An example of a CodeIgniter file that contains multiple classes is the 
+Xmlrpc library file.
 
 Whitespace
 ==========
