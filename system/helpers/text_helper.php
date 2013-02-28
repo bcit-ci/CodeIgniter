@@ -363,9 +363,9 @@ if ( ! function_exists('convert_accented_characters'))
 	 */
 	function convert_accented_characters($str)
 	{
-		static $_foreign_characters;
+		static $array_from, $array_to;
 
-		if ( ! is_array($_foreign_characters))
+		if ( ! is_array($array_from))
 		{
 			if (file_exists(APPPATH.'config/foreign_chars.php'))
 			{
@@ -379,14 +379,17 @@ if ( ! function_exists('convert_accented_characters'))
 
 			if (empty($foreign_characters) OR ! is_array($foreign_characters))
 			{
-				$_foreign_characters = array();
+				$array_from = array();
+				$array_to = array();
+
 				return $str;
 			}
 
-			$_foreign_characters = $foreign_characters;
+			$array_from = array_keys($foreign_characters);
+			$array_to = array_values($foreign_characters);
 		}
 
-		return preg_replace(array_keys($_foreign_characters), array_values($_foreign_characters), $str);
+		return preg_replace($array_from, $array_to, $str);
 	}
 }
 
