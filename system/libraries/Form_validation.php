@@ -166,17 +166,32 @@ class CI_Form_validation {
 		{
 			foreach ($field as $row)
 			{
-				// Houston, we have a problem...
-				if ( ! isset($row['field'], $row['rules']))
+				// at least on of the fields is string => it's associative array
+				if ( count(array_filter(array_keys($row), 'is_string')) )
 				{
-					continue;
+
+					// Houston, we have a problem...
+					if ( ! isset($row['field'], $row['rules']))
+					{
+						continue;
+					}
+
+					// If the field label wasn't passed we use the field name
+					$label = isset($row['label']) ? $row['label'] : $row['field'];
+
+					// Here we go!
+					$this->set_rules($row['field'], $label, $row['rules']);
 				}
-
-				// If the field label wasn't passed we use the field name
-				$label = isset($row['label']) ? $row['label'] : $row['field'];
-
-				// Here we go!
-				$this->set_rules($row['field'], $label, $row['rules']);
+				else
+				{
+					// numeric array was passed
+					// check if everything is set
+					if ( sizeof($row) !== 3 )
+					{
+						continue;
+					}
+					$this->set_rules($row[0], $row[1], $row[2]);
+				}
 			}
 
 			return $this;

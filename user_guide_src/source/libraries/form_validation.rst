@@ -279,6 +279,17 @@ you use this approach, you must name your array keys as indicated::
 
 	$this->form_validation->set_rules($config);
 
+You can also use numeric array with parameters in order: field, label, rules::
+
+	$config = array(
+		array('username', 'Username', 'required'),
+		array('password', 'Password', 'required'),
+		array('passconf', 'Password Confirmation', 'required'),
+		array('email', 'Email', 'required')
+	);
+	$this->form_validation->set_rules($config);
+
+
 Cascading Rules
 ===============
 
@@ -477,8 +488,8 @@ following method::
 Where rule corresponds to the name of a particular rule, and Error
 Message is the text you would like displayed.
 
-If you'd like to include a field's "human" name, or the optional 
-parameter some rules allow for (such as max_length), you can add the 
+If you'd like to include a field's "human" name, or the optional
+parameter some rules allow for (such as max_length), you can add the
 **{field}** and **{param}** tags to your message, respectively::
 
 	$this->form_validation->set_message('min_length', '{field} must have at least {param} characters.');
@@ -860,14 +871,14 @@ use:
 ========================= ========== ============================================================================================= =======================
 Rule                      Parameter  Description                                                                                   Example
 ========================= ========== ============================================================================================= =======================
-**required**              No         Returns FALSE if the form element is empty.                                                                          
-**matches**               Yes        Returns FALSE if the form element does not match the one in the parameter.                    matches[form_item]     
-**differs**               Yes        Returns FALSE if the form element does not differ from the one in the parameter.              differs[form_item]     
-**is_unique**             Yes        Returns FALSE if the form element is not unique to the table and field name in the            is_unique[table.field] 
-                                     parameter. Note: This rule requires :doc:`Query Builder <../database/query_builder>` to be                             
+**required**              No         Returns FALSE if the form element is empty.
+**matches**               Yes        Returns FALSE if the form element does not match the one in the parameter.                    matches[form_item]
+**differs**               Yes        Returns FALSE if the form element does not differ from the one in the parameter.              differs[form_item]
+**is_unique**             Yes        Returns FALSE if the form element is not unique to the table and field name in the            is_unique[table.field]
+                                     parameter. Note: This rule requires :doc:`Query Builder <../database/query_builder>` to be
                                      enabled in order to work.
-**max_length**            Yes        Returns FALSE if the form element is longer then the parameter value.                         max_length[12]         
-**exact_length**          Yes        Returns FALSE if the form element is not exactly the parameter value.                         exact_length[8]        
+**max_length**            Yes        Returns FALSE if the form element is longer then the parameter value.                         max_length[12]
+**exact_length**          Yes        Returns FALSE if the form element is not exactly the parameter value.                         exact_length[8]
 **greater_than**          Yes        Returns FALSE if the form element is less than or equal to the parameter value or not         greater_than[8]
                                      numeric.
 **greater_than_equal_to** Yes        Returns FALSE if the form element is less than the parameter value,                           greater_than_equal_to[8]
@@ -876,15 +887,15 @@ Rule                      Parameter  Description                                
                                      not numeric.
 **less_than_equal_to**    Yes        Returns FALSE if the form element is greater than the parameter value,                        less_than_equal_to[8]
                                      or not numeric.
-**alpha**                 No         Returns FALSE if the form element contains anything other than alphabetical characters.                              
+**alpha**                 No         Returns FALSE if the form element contains anything other than alphabetical characters.
 **alpha_numeric**         No         Returns FALSE if the form element contains anything other than alpha-numeric characters.
 **alpha_numeric_spaces**  No         Returns FALSE if the form element contains anything other than alpha-numeric characters
-                                     or spaces.  Should be used after trim to avoid spaces at the beginning or end.                             
-**alpha_dash**            No         Returns FALSE if the form element contains anything other than alpha-numeric characters,                             
-                                     underscores or dashes.                                                                                               
-**numeric**               No         Returns FALSE if the form element contains anything other than numeric characters.                                   
-**integer**               No         Returns FALSE if the form element contains anything other than an integer.                                           
-**decimal**               No         Returns FALSE if the form element contains anything other than a decimal number.                                     
+                                     or spaces.  Should be used after trim to avoid spaces at the beginning or end.
+**alpha_dash**            No         Returns FALSE if the form element contains anything other than alpha-numeric characters,
+                                     underscores or dashes.
+**numeric**               No         Returns FALSE if the form element contains anything other than numeric characters.
+**integer**               No         Returns FALSE if the form element contains anything other than an integer.
+**decimal**               No         Returns FALSE if the form element contains anything other than a decimal number.
 **is_natural**            No         Returns FALSE if the form element contains anything other than a natural number:
                                      0, 1, 2, 3, etc.
 **is_natural_no_zero**    No         Returns FALSE if the form element contains anything other than a natural
@@ -955,7 +966,7 @@ $this->form_validation->set_rules()
 
 $this->form_validation->run()
 =============================
-	
+
 	.. php:method:: run ($group = '')
 
 		:param string $group: The name of the validation group to run
@@ -967,7 +978,7 @@ $this->form_validation->run()
 
 $this->form_validation->set_message()
 =====================================
-	
+
 	.. php:method:: set_message ($lang, $val = '')
 
 		:param string $lang: The rule the message is for
@@ -978,7 +989,7 @@ $this->form_validation->set_message()
 
 $this->form_validation->set_data()
 ==================================
-	
+
 	.. php:method:: set_data ($data = '')
 
 		:param array $data: The data to validate
@@ -996,7 +1007,7 @@ $this->form_validation->reset_validation()
 
 $this->form_validation->error_array()
 =====================================
-	
+
 	.. php:method:: error_array ()
 
 		:rtype: Array
@@ -1031,7 +1042,7 @@ Shows all error messages as a string: Example::
 
 	<?php echo validation_errors(); ?>
 
-The error delimiters can be optionally specified. See the 
+The error delimiters can be optionally specified. See the
 :ref:`changing-delimiters` section above.
 
 set_value()
