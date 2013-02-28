@@ -238,7 +238,7 @@ abstract class CI_DB_utility {
 			$out .= $enclosure.str_replace($enclosure, $enclosure.$enclosure, $name).$enclosure.$delim;
 		}
 
-		$out = substr(rtrim($out),0,-strlen($delim)); // Remove the trailing delimiter character(s) at the end of the column names
+		$out = substr(rtrim($out), 0, -strlen($delim)); // Remove the trailing delimiter character(s) at the end of the column names
 		$out = $out.$newline;
 
 		// Next blast through the result array and build out the rows
@@ -248,7 +248,7 @@ abstract class CI_DB_utility {
 			{
 				$out .= $enclosure.str_replace($enclosure, $enclosure.$enclosure, $item).$enclosure.$delim;
 			}
-			$out = substr(rtrim($out),0,-strlen($delim)); // Remove the trailing delimiter character(s) at the end of the row lines
+			$out = substr(rtrim($out), 0, -strlen($delim)); // Remove the trailing delimiter character(s) at the end of the row lines
 			$out = rtrim($out).$newline;
 		}
 
