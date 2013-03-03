@@ -494,7 +494,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		$this->userdata = array(
 			'session_id'	=> $this->_make_sess_id(),
 			'ip_address'	=> $this->CI->input->ip_address(),
-			'user_agent'	=> substr($this->CI->input->user_agent(), 0, 120),
+			'user_agent'	=> trim(substr($this->CI->input->user_agent(), 0, 120)),
 			'last_activity'	=> $this->now,
 		);
 
