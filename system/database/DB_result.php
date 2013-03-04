@@ -478,12 +478,9 @@ class CI_DB_result {
 			return NULL;
 		}
 
-		if (isset($result[$this->current_row + 1]))
-		{
-			++$this->current_row;
-		}
-
-		return $result[$this->current_row];
+		return isset($result[$this->current_row + 1])
+			? $result[++$this->current_row]
+			: NULL;
 	}
 
 	// --------------------------------------------------------------------
