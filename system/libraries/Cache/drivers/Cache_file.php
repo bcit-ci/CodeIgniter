@@ -133,7 +133,7 @@ class CI_Cache_file extends CI_Driver {
 	 */
 	public function clean()
 	{
-		return delete_files($this->_cache_path);
+		return delete_files($this->_cache_path, FALSE, TRUE);
 	}
 
 	// ------------------------------------------------------------------------
