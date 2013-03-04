@@ -2017,7 +2017,7 @@ class CI_Email {
 
 		$reply = $this->_get_smtp_data();
 
-		if (strpos($reply, '503') !== 0)	// Already authenticated
+		if (strpos($reply, '503') === 0)	// Already authenticated
 		{
 			return TRUE;
 		}
