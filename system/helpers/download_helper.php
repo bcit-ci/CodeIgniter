@@ -141,8 +141,7 @@ if ( ! function_exists('force_download'))
 		// If we have raw data - just dump it
 		if ($data !== NULL)
 		{
-			echo $data;
-			exit;
+			exit($data);
 		}
 
 		// Flush 1MB chunks of data
