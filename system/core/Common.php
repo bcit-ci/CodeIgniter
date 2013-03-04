@@ -177,7 +177,7 @@ if ( ! function_exists('load_class'))
 			// self-referencing loop with the Exceptions class
 			set_status_header(503);
 			echo 'Unable to locate the specified class: '.$class.'.php';
-			exit(EXIT_UNK_CLASS);
+			exit(EXIT_UNKNOWN_CLASS);
 		}
 
 		// Keep track of what we just loaded
@@ -377,13 +377,13 @@ if ( ! function_exists('show_error'))
 			$exit_status = $status_code + EXIT__AUTO_MIN;
 			if ($exit_status > EXIT__AUTO_MAX)
 			{
-				$exit_status = EXIT_FAILURE;
+				$exit_status = EXIT_ERROR;
 			}
 			$status_code = 500;
 		}
 		else
 		{
-			$exit_status = EXIT_FAILURE;
+			$exit_status = EXIT_ERROR;
 		}
 		
 		$_error =& load_class('Exceptions', 'core');
@@ -411,7 +411,7 @@ if ( ! function_exists('show_404'))
 	{
 		$_error =& load_class('Exceptions', 'core');
 		$_error->show_404($page, $log_error);
-		exit(EXIT_UNK_FILE);
+		exit(EXIT_UNKNOWN_FILE);
 	}
 }
 
@@ -531,13 +531,16 @@ if ( ! function_exists('set_status_header'))
 
 		$server_protocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : FALSE;
 
-		if (strpos(php_sapi_name(), 'cgi') === 0)
+		if ( ! headers_sent())
 		{
-			if (!headers_sent()) header('Status: '.$code.' '.$text, TRUE);
-		}
-		else
-		{
-			if (!headers_sent()) header(($server_protocol ? $server_protocol : 'HTTP/1.1').' '.$code.' '.$text, TRUE, $code);
+			if (strpos(php_sapi_name(), 'cgi') === 0)
+			{
+				header('Status: '.$code.' '.$text, TRUE);
+			}
+			else
+			{
+				header(($server_protocol ? $server_protocol : 'HTTP/1.1').' '.$code.' '.$text, TRUE, $code);
+			}
 		}
 	}
 }

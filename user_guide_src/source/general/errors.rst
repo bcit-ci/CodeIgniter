@@ -49,7 +49,7 @@ code should be sent with the error. If ``$status_code`` is less than 100,
 the HTTP status code will be set to 500, and the exit status code will
 be set to ``$status_code + EXIT__AUTO_MIN``. If that value is larger than
 ``EXIT__AUTO_MAX``, or if ``$status_code`` is 100 or higher, the exit
-status code will be set to ``EXIT_FAILURE``. You can check in 
+status code will be set to ``EXIT_ERROR``. You can check in 
 *application/config/constants.php* for more detail.
 
 show_404()
@@ -67,7 +67,7 @@ the following error template::
 	application/errors/error_404.php
 
 The function expects the string passed to it to be the file path to the
-page that isn't found. The exit status code will be set to ``EXIT_UNK_FILE``.
+page that isn't found. The exit status code will be set to ``EXIT_UNKNOWN_FILE``.
 Note that CodeIgniter automatically shows 404 messages if controllers are
 not found.
 
