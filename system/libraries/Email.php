@@ -2017,12 +2017,11 @@ class CI_Email {
 
 		$reply = $this->_get_smtp_data();
 
-		if (strpos($reply, '503') !== 0)	// Already authenticated
+		if (strpos($reply, '503') === 0)	// Already authenticated
 		{
 			return TRUE;
 		}
-
-		if (strpos($reply, '334') !== 0)
+		elseif (strpos($reply, '334') !== 0)
 		{
 			$this->_set_error_message('lang:email_failed_smtp_login', $reply);
 			return FALSE;
