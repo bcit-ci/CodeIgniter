@@ -459,7 +459,7 @@ class CI_Loader {
 	 */
 	public function vars($vars = array(), $val = '')
 	{
-		if ($val !== '' && is_string($vars))
+		if (is_string($vars))
 		{
 			$vars = array($vars => $val);
 		}
