@@ -188,7 +188,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	if ($EXT->call_hook('cache_override') === FALSE
 		&& $OUT->_display_cache($CFG, $URI) === TRUE)
 	{
-		exit(EXIT_SUCCESS);
+		exit;
 	}
 
 /*
