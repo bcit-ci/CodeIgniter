@@ -25,15 +25,21 @@ your controller any of these:
 Functions
 ---------
 
+-  :php:func:`is_php()`
 -  :php:func:`is_really_writable()`
 -  ``load_class()``
+-  ``is_loaded()``
 -  ``get_config()``
 -  :php:func:`config_item()`
 -  :php:func:`show_error()`
 -  :php:func:`show_404()`
 -  :php:func:`log_message()`
+-  :php:func:`set_status_header()`
 -  :php:func:`get_mimes()`
 -  :php:func:`html_escape()`
+-  :php:func:`remove_invisible_characters()`
+-  :php:func:`is_https()`
+-  :php:func:`function_usable()`
 -  :php:func:`get_instance()`
 -  ``_exception_handler()``
 -  ``_stringify_attributes()``
