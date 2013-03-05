@@ -31,7 +31,7 @@ version of PHP is lower than the supplied version number.
 is_really_writable()
 ====================
 
-.. php:function:: is_really_writeable($file)
+.. php:function:: is_really_writable($file)
 
 	:param	string	$file: File path
 	:returns:	bool
