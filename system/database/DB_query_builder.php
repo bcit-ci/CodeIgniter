@@ -1563,9 +1563,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	string	the table to insert data into
 	 * @param	array	an associative array of insert values
 	 * @param	bool	$escape	Whether to escape values and identifiers
+	 * @param   array 	an associative array of update values ON DUPLICATE KEY
 	 * @return	object
 	 */
-	public function insert($table = '', $set = NULL, $escape = NULL)
+	public function insert($table = '', $set = NULL, $escape = NULL, $update_set = NULL)
 	{
 		if ($set !== NULL)
 		{
@@ -1577,13 +1578,33 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			return FALSE;
 		}
 
-		$sql = $this->_insert(
-			$this->protect_identifiers(
-				$this->qb_from[0], TRUE, $escape, FALSE
-			),
-			array_keys($this->qb_set),
-			array_values($this->qb_set)
-		);
+		if ($update_set !== NULL)
+		{
+			$insert_keys = array_keys($this->qb_set);
+			$insert_values = array_values($this->qb_set);
+			$this->qb_set = array();
+			$this->set($update_set);
+
+			$sql = $this->_insert_on_duplicate(
+				$this->protect_identifiers(
+					$this->qb_from[0], TRUE, $escape, FALSE
+				),
+				$insert_keys,
+				$insert_values,
+				$this->qb_set
+			);	
+		}
+		else
+		{
+			$sql = $this->_insert(
+				$this->protect_identifiers(
+					$this->qb_from[0], TRUE, $escape, FALSE
+				),
+				array_keys($this->qb_set),
+				array_values($this->qb_set)
+			);
+		}
+		
 
 		$this->_reset_write();
 		return $this->query($sql);

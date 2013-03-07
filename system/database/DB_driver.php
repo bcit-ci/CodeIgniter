@@ -1359,6 +1359,27 @@ abstract class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Insert statement ON DUPLICATE KEY
+	 *
+	 * Generates a platform-specific insert string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @param	array	the insert keys
+	 * @param	array	the insert values
+	 * @return	string
+	 */
+	protected function _insert_on_duplicate($table, $keys, $values, $update_mixed)
+	{
+		foreach ($update_mixed as $key => $val)
+		{
+			$valstr[] = $key.' = '.$val;
+		}
+		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).') ON DUPLICATE KEY UPDATE '.implode(', ', $valstr);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Generate an update string
 	 *
 	 * @param	string	the table upon which the query will be performed
