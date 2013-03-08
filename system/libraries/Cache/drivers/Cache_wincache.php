@@ -105,7 +105,7 @@ class CI_Cache_wincache extends CI_Cache_driver {
 	 *
 	 * @return	mixed	array on success, false on failure
 	 */
-	 public function cache_info()
+	 public function cache_info($type = NULL)
 	 {
 		 return wincache_ucache_info(TRUE);
 	 }

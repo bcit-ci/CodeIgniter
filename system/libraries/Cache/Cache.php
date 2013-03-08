@@ -407,7 +407,7 @@ abstract class CI_Cache_driver extends CI_Driver {
 	 * @param	string	$driver	The driver to test
 	 * @return	array
 	 */
-	abstract public function is_supported($driver);
+	abstract public function is_supported();
 }
 
 /* End of file Cache.php */

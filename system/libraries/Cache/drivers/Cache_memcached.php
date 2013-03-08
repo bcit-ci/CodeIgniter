@@ -126,7 +126,7 @@ class CI_Cache_memcached extends CI_Cache_driver {
 	 *
 	 * @return	mixed	array on success, false on failure
 	 */
-	public function cache_info()
+	public function cache_info($type = NULL)
 	{
 		return $this->_memcached->getStats();
 	}
