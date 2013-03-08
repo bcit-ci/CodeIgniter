@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		Mike Murkovic
  * @link
  */
-class CI_Cache_wincache extends CI_Driver {
+class CI_Cache_wincache extends CI_Cache_driver {
 
 	/**
 	 * Get

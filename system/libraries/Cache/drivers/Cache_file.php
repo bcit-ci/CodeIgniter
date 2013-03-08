@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link
  */
-class CI_Cache_file extends CI_Driver {
+class CI_Cache_file extends CI_Cache_driver {
 
 	/**
 	 * Directory in which to save cache files
