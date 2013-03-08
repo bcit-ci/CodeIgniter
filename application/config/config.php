@@ -251,17 +251,6 @@ $config['log_date_format'] = 'Y-m-d H:i:s';
 
 /*
 |--------------------------------------------------------------------------
-| Cache Directory Path
-|--------------------------------------------------------------------------
-|
-| Leave this BLANK unless you would like to set something other than the default
-| application/cache/ folder.  Use a full server path with trailing slash.
-|
-*/
-$config['cache_path'] = '';
-
-/*
-|--------------------------------------------------------------------------
 | Encryption Key
 |--------------------------------------------------------------------------
 |
@@ -324,6 +313,34 @@ $config['cookie_domain']	= '';
 $config['cookie_path']		= '/';
 $config['cookie_secure']	= FALSE;
 $config['cookie_httponly'] 	= FALSE;
+
+/*
+|--------------------------------------------------------------------------
+| Cache Variables
+|--------------------------------------------------------------------------
+|
+| 'cache_adapter'		= the adapter (driver) to load: apc, dummy, file, memcached, redis, wincache,
+|	or your custom driver name
+| 'cache_backup_driver'	= the backup driver to load up: same values accepted as cache_driver
+| 'cache_valid_drivers'	= additional valid drivers which may be loaded
+| 'cache_key_prefix'	= a specific prefix for you cache keys
+*/
+$config['cache_driver']			= 'dummy';
+$config['cache_backup_driver']	= 'dummy';
+$config['cache_valid_drivers']	= array();
+$config['cache_key_prefix']		= '';
+
+/*
+|--------------------------------------------------------------------------
+| Cache Directory Path
+|--------------------------------------------------------------------------
+|
+| Leave this BLANK unless you would like to set something other than the default
+| application/cache/ folder.  Use a full server path with trailing slash.
+| Only applies to the CI_Cache_file driver
+|
+*/
+$config['cache_path'] = '';
 
 /*
 |--------------------------------------------------------------------------
