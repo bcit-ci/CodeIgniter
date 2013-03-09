@@ -321,7 +321,7 @@ $config['cookie_httponly'] 	= FALSE;
 |
 | 'cache_adapter'		= the adapter (driver) to load: apc, dummy, file, memcached, redis, wincache,
 |	or your custom driver name
-| 'cache_backup_driver'	= the backup driver to load up: same values accepted as cache_driver
+| 'cache_backup'		= the backup driver to load up: same values accepted as cache_adapter
 | 'cache_valid_drivers'	= additional valid drivers which may be loaded
 | 'cache_key_prefix'	= a specific prefix for your cache keys
 */
