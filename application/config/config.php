@@ -323,10 +323,10 @@ $config['cookie_httponly'] 	= FALSE;
 |	or your custom driver name
 | 'cache_backup_driver'	= the backup driver to load up: same values accepted as cache_driver
 | 'cache_valid_drivers'	= additional valid drivers which may be loaded
-| 'cache_key_prefix'	= a specific prefix for you cache keys
+| 'cache_key_prefix'	= a specific prefix for your cache keys
 */
-$config['cache_driver']			= 'dummy';
-$config['cache_backup_driver']	= 'dummy';
+$config['cache_adapter']		= 'dummy';
+$config['cache_backup']			= 'dummy';
 $config['cache_valid_drivers']	= array();
 $config['cache_key_prefix']		= '';
 
