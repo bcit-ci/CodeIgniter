@@ -51,7 +51,7 @@ class CI_Cart {
 	 *
 	 * @var string
 	 */
-	public $product_name_rules	= '\.\:\- \w';
+	public $product_name_rules	= '\w \-\.\:';
 
 	/**
 	 * only allow safe product names
