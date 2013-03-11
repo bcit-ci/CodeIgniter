@@ -190,12 +190,12 @@ class CI_Loader {
 				$this->library($class, $params);
 			}
 
-			return;
+			return $this;
 		}
 
 		if ($library === '' OR isset($this->_base_classes[$library]))
 		{
-			return;
+			return $this;
 		}
 
 		if ($params !== NULL && ! is_array($params))
@@ -204,6 +204,8 @@ class CI_Loader {
 		}
 
 		$this->_ci_load_class($library, $params, $object_name);
+
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -222,7 +224,7 @@ class CI_Loader {
 	{
 		if (empty($model))
 		{
-			return;
+			return $this;
 		}
 		elseif (is_array($model))
 		{
@@ -230,7 +232,7 @@ class CI_Loader {
 			{
 				$this->model(is_int($key) ? $value : $key, $value);
 			}
-			return;
+			return $this;
 		}
 
 		$path = '';
@@ -252,7 +254,7 @@ class CI_Loader {
 
 		if (in_array($name, $this->_ci_models, TRUE))
 		{
-			return;
+			return $this;
 		}
 
 		$CI =& get_instance();
@@ -290,7 +292,7 @@ class CI_Loader {
 			$model = ucfirst($model);
 			$CI->$name = new $model();
 			$this->_ci_models[] = $name;
-			return;
+			return $this;
 		}
 
 		// couldn't find the model
@@ -567,6 +569,8 @@ class CI_Loader {
 				show_error('Unable to load the requested file: helpers/'.$helper.'.php');
 			}
 		}
+
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -607,6 +611,8 @@ class CI_Loader {
 		{
 			$CI->lang->load($langfile, $lang);
 		}
+
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -650,7 +656,7 @@ class CI_Loader {
 			{
 				$this->driver($driver);
 			}
-			return;
+			return $this;
 		}
 
 		if ($library === '')
@@ -912,6 +918,8 @@ class CI_Loader {
 			$_ci_CI->output->append_output(ob_get_contents());
 			@ob_end_clean();
 		}
+
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
