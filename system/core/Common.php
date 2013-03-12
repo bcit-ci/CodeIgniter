@@ -191,6 +191,7 @@ if ( ! function_exists('load_class'))
 
 if ( ! function_exists('is_loaded'))
 {
+<<<<<<< HEAD
 	/**
 	 * Keeps track of which libraries have been loaded. This function is
 	 * called by the load_class() function above
@@ -198,6 +199,8 @@ if ( ! function_exists('is_loaded'))
 	 * @param	string
 	 * @return	array
 	 */
+=======
+>>>>>>> upstream/master
 	function &is_loaded($class = '')
 	{
 		static $_is_loaded = array();

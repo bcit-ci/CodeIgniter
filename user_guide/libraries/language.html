@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Language Class : CodeIgniter User Guide</title>
+
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='CodeIgniter User Guide' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle_darker.jpg" width="154" height="43" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>CodeIgniter User Guide Version 2.1.3</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Language Class
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+
+<h1>Language Class</h1>
+
+<p>The Language Class provides functions to retrieve language files and lines of text for purposes of internationalization.</p>
+
+<p>In your CodeIgniter system folder you'll find one called <dfn>language</dfn> containing sets of language files.  You can create
+your own language files as needed in order to display error and other messages in other languages.</p>
+
+<p>Language files are typically stored in your <dfn>system/language</dfn> directory.  Alternately you can create a folder called <kbd>language</kbd> inside
+your <kbd>application</kbd> folder and store them there.  CodeIgniter will look first in your <dfn>application/language</dfn>
+directory.  If the directory does not exist or the specified language is not located there CI will instead look in your global
+<dfn>system/language</dfn> folder.</p>
+
+<p class="important"><strong>Note:</strong>&nbsp; Each language should be stored in its own folder.  For example, the English files are located at:
+<dfn>system/language/english</dfn></p>
+
+
+
+<h2>Creating Language Files</h2>
+
+<p>Language files must be named with <kbd>_lang.php</kbd> as the file extension.  For example, let's say you want to create a file
+containing error messages.  You might name it:  <kbd>error_lang.php</kbd></p>
+
+<p>Within the file you will assign each line of text to an array called <var>$lang</var> with this prototype:</p>
+
+<code>$lang['language_key'] = "The actual message to be shown";</code>
+
+<p><strong>Note:</strong> It's a good practice to use a common prefix for all messages in a given file to avoid collisions with
+similarly named items in other files.  For example, if you are creating error messages you might prefix them with <var>error_</var></p>
+
+<code>$lang['<var>error</var>_email_missing'] = "You must submit an email address";<br />
+$lang['<var>error</var>_url_missing'] = "You must submit a URL";<br />
+$lang['<var>error</var>_username_missing'] = "You must submit a username";</code>
+
+
+<h2>Loading A Language File</h2>
+
+<p>In order to fetch a line from a particular file you must load the file first.  Loading a language file is done with the following code:</p>
+
+<code>$this->lang->load('<samp>filename</samp>', '<dfn>language</dfn>');</code>
+
+<p>Where <samp>filename</samp> is the name of the file you wish to load (without the file extension), and <dfn>language</dfn>
+is the language set containing it (ie, english).  If the second parameter is missing, the default language set in your
+<kbd>application/config/config.php</kbd> file will be used.</p>
+
+
+<h2>Fetching a Line of Text</h2>
+
+<p>Once your desired language file is loaded you can access any line of text using this function:</p>
+
+<code>$this->lang->line('<samp>language_key</samp>');</code>
+
+<p>Where <samp>language_key</samp> is the array key corresponding to the line you wish to show.</p>
+
+<p>Note: This function simply returns the line.  It does not echo it for you.</p>
+
+<h3>Using language lines as form labels</h3>
+
+<p class="important">This feature has been deprecated from the language library and moved to the <kbd>lang()</kbd> function of the <a href="../helpers/language_helper.html">Language helper</a>.</p>
+
+<h2>Auto-loading Languages</h2>
+<p>If you find that you need a particular language globally throughout your application, you can tell CodeIgniter to <a href="../general/autoloader.html">auto-load</a> it during system initialization. This is done by opening the application/config/autoload.php file and adding the language(s) to the autoload array.</p>
+<p>&nbsp;</p>
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+Previous Topic:&nbsp;&nbsp;<a href="loader.html">Loader Class</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Next Topic:&nbsp;&nbsp;<a href="output.html">Output Class</a>
+</p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
+</div>
+
+</body>
+</html>

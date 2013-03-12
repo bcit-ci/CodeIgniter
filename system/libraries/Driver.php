@@ -40,6 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_Driver_Library {
 
+<<<<<<< HEAD
 	/**
 	 * Array of drivers that are available to use with the driver class
 	 *
@@ -68,6 +69,10 @@ class CI_Driver_Library {
 		// Try to load the driver
 		return $this->load_driver($child);
 	}
+=======
+	protected $valid_drivers	= array();
+	protected $lib_name;
+>>>>>>> upstream/master
 
 	/**
 	 * Load driver

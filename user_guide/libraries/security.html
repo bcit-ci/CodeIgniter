@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Security Class : CodeIgniter User Guide</title>
+
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='CodeIgniter User Guide' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle_darker.jpg" width="154" height="43" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>CodeIgniter User Guide Version 2.1.3</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Security Class
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+
+<h1>Security Class</h1>
+
+<p>The Security Class contains methods that help you create a secure application, processing input data for security.</p>
+
+<h2>XSS Filtering</h2>
+
+<p>CodeIgniter comes with a Cross Site Scripting Hack prevention filter which can either run automatically to filter
+all POST and COOKIE data that is encountered, or you can run it on a per item basis.  By default it does <strong>not</strong>
+run globally since it requires a bit of processing overhead, and since you may not need it in all cases.</p>
+
+<p>The XSS filter looks for commonly used techniques to trigger Javascript or other types of code that attempt to hijack cookies
+or do other malicious things.  If anything disallowed is encountered it is rendered safe by converting the data to character entities.</p>
+
+<p>
+Note: This function should only be used to deal with data upon submission. It's not something that should be used for general runtime processing since it requires a fair amount of processing overhead.</p>
+
+
+<p>To filter data through the XSS filter use this function:</p>
+
+<h2>$this->security->xss_clean()</h2>
+
+<p>Here is an usage example:</p>
+
+<code>$data = $this->security->xss_clean($data);</code>
+
+<p>If you want the filter to run automatically every time it encounters POST or COOKIE data you can enable it by opening your
+<kbd>application/config/config.php</kbd> file and setting this:</p>
+
+<code>$config['global_xss_filtering'] = TRUE;</code>
+
+<p>Note: If you use the form validation class, it gives you the option of XSS filtering as well.</p>
+
+<p>An optional second parameter, <dfn>is_image</dfn>, allows this function to be used to test images for potential XSS attacks, useful for file upload security.  When this second parameter is set to <dfn>TRUE</dfn>, instead of returning an altered string, the function returns TRUE if the image is safe, and FALSE if it contained potentially malicious information that a browser may attempt to execute.</p>
+
+<code>if ($this->security->xss_clean($file, TRUE) === FALSE)<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;// file failed the XSS test<br />
+}</code>
+
+
+<h2>$this->security->sanitize_filename()</h2>
+
+<p>When accepting filenames from user input, it is best to sanitize them to prevent directory traversal and other security related issues.  To do so, use the <dfn>sanitize_filename()</dfn> method of the Security class.  Here is an example:</p>
+
+<code>$filename = $this->security->sanitize_filename($this->input->post('filename'));</code>
+
+<p>If it is acceptable for the user input to include relative paths, e.g. <kbd>file/in/some/approved/folder.txt</kbd>, you can set the second optional parameter,
+	<samp>$relative_path</samp> to TRUE.</p>
+
+<code>$filename = $this->security->sanitize_filename($this->input->post('filename'), TRUE);</code>
+
+<!-- @todo write docs for CSRF methods -->
+
+<h2>Cross-site request forgery (CSRF)</h2>
+
+<p>You can enable csrf protection by opening your <kbd>application/config/config.php</kbd> file and setting this:</p>
+<code>$config['csrf_protection'] = TRUE;</code>
+
+<p>If you use the <a href="../helpers/form_helper.html">form helper</a> the <var>form_open()</var> function will automatically insert a hidden csrf field in your forms.</p>
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+Previous Topic:&nbsp;&nbsp;<a href="pagination.html">Pagination Class</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Next Topic:&nbsp;&nbsp;<a href="sessions.html">Session Class</a>
+</p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
+</div>
+
+</body>
+</html>

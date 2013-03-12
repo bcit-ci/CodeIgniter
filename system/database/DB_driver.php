@@ -1720,6 +1720,7 @@ abstract class CI_DB_driver {
 		$item = preg_replace('/\s+/', ' ', $item);
 
 		// If the item has an alias declaration we remove it and set it aside.
+<<<<<<< HEAD
 		// Note: strripos() is used in order to support spaces in table names
 		if ($offset = strripos($item, ' AS '))
 		{
@@ -1729,6 +1730,24 @@ abstract class CI_DB_driver {
 			$item = substr($item, 0, $offset);
 		}
 		elseif ($offset = strrpos($item, ' '))
+=======
+		// Basically we remove everything to the right of the first space
+		if (strpos($item, ' ') !== FALSE)
+		{
+			$alias = strstr($item, ' ');
+			$item = substr($item, 0, - strlen($alias));
+		}
+		else
+		{
+			$alias = '';
+		}
+
+		// This is basically a bug fix for queries that use MAX, MIN, etc.
+		// If a parenthesis is found we know that we do not need to
+		// escape the data or add a prefix.  There's probably a more graceful
+		// way to deal with this, but I'm not thinking of it -- Rick
+		if (strpos($item, '(') !== FALSE)
+>>>>>>> upstream/master
 		{
 			$alias = ($protect_identifiers)
 					? ' '.$this->escape_identifiers(substr($item, $offset + 1))
@@ -1850,6 +1869,11 @@ abstract class CI_DB_driver {
 	 * Dummy method that allows Query Builder class to be disabled
 	 * and keep count_all() working.
 	 *
+<<<<<<< HEAD
+=======
+	 * This function is used extensively by every db driver.
+	 *
+>>>>>>> upstream/master
 	 * @return	void
 	 */
 	protected function _reset_select()

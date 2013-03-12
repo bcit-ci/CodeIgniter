@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Error Handling : CodeIgniter User Guide</title>
+
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='CodeIgniter User Guide' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle_darker.jpg" width="154" height="43" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>CodeIgniter User Guide Version 2.1.3</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Error Handling
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>Error Handling</h1>
+
+<p>CodeIgniter lets you build error reporting into your applications using the functions described below.
+In addition, it has an error logging class that permits error and debugging messages to be saved as text files.</p>
+
+<p class="important"><strong>Note:</strong> By default, CodeIgniter displays all PHP errors.  You might
+wish to change this behavior once your development is complete.  You'll find the <dfn>error_reporting()</dfn>
+function located at the top of your main index.php file. Disabling error reporting will NOT prevent log files
+from being written if there are errors.</p>
+
+<p>Unlike most systems in CodeIgniter, the error functions are simple procedural interfaces that are available
+globally throughout the application.  This approach permits error messages to get triggered without having to worry
+about class/function scoping.</p>
+
+<p>The following functions let you generate errors:</p>
+
+<h2>show_error('<var>message</var>' [, int <var>$status_code</var>= 500 ] )</h2>
+<p>This function will display the error message supplied to it using the following error template:</p>
+<p><dfn>application/errors/</dfn><kbd>error_general.php</kbd></p>
+<p>The optional parameter $status_code determines what HTTP status code should be sent with the error.</p>
+
+<h2>show_404('<var>page</var>' [, '<var>log_error</var>'])</h2>
+<p>This function will display the 404 error message supplied to it using the following error template:</p>
+<p><dfn>application/errors/</dfn><kbd>error_404.php</kbd></p>
+
+<p>The function expects the string passed to it to be the file path to the page that isn't found.
+Note that CodeIgniter automatically shows 404 messages if controllers are not found.</p>
+
+<p>CodeIgniter automatically logs any show_404() calls. Setting the optional second parameter to FALSE will skip logging.</p>
+
+
+<h2>log_message('<var>level</var>', '<samp>message</samp>')</h2>
+
+<p>This function lets you write messages to your log files.  You must supply one of three "levels"
+in the first parameter, indicating what type of message it is (debug, error, info), with the message
+itself in the second parameter.  Example:</p>
+
+<code>
+if ($some_var == "")<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;log_message('error', 'Some variable did not contain a value.');<br />
+}<br />
+else<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;log_message('debug', 'Some variable was correctly set');<br />
+}<br />
+<br />
+log_message('info', 'The purpose of some variable is to provide some value.');<br />
+</code>
+
+<p>There are three message types:</p>
+
+<ol>
+<li>Error Messages.  These are actual errors, such as PHP errors or user errors.</li>
+<li>Debug Messages.  These are messages that assist in debugging. For example, if a class has been initialized, you could log this as debugging info.</li>
+<li>Informational Messages.  These are the lowest priority messages, simply giving information regarding some process.  CodeIgniter doesn't natively generate any info messages but you may want to in your application.</li>
+</ol>
+
+
+<p class="important"><strong>Note:</strong> In order for the log file to actually be written, the
+ "logs" folder must be writable.  In addition, you must set the "threshold" for logging in <dfn>application/config/config.php</dfn>.
+You might, for example, only want error messages to be logged, and not the other two types.
+If you set it to zero logging will be disabled.</p>
+
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+Previous Topic:&nbsp;&nbsp;<a href="routing.html">URI Routing</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Next Topic:&nbsp;&nbsp;<a href="caching.html">Page Caching</a>
+</p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
+</div>
+
+</body>
+</html>

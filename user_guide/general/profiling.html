@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Profiling Your Application : CodeIgniter User Guide</title>
+
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='CodeIgniter User Guide' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle_darker.jpg" width="154" height="43" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>CodeIgniter User Guide Version 2.1.3</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Profiling Your Application
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+
+<h1>Profiling Your Application</h1>
+
+<p>The Profiler Class will display benchmark results, queries you have run, and $_POST data at the bottom of your pages.
+This information can be useful during development in order to help with debugging and optimization.</p>
+
+
+<h2>Initializing the Class</h2>
+
+<p class="important"><strong>Important:</strong>&nbsp; This class does <kbd>NOT</kbd> need to be initialized. It is loaded automatically by the
+<a href="../libraries/output.html">Output Class</a> if profiling is enabled as shown below.</p>
+
+<h2>Enabling the Profiler</h2>
+
+	<p>To enable the profiler place the following function anywhere within your <a href="controllers.html">Controller</a> functions:</p>
+	<code>$this->output->enable_profiler(TRUE);</code>
+
+	<p>When enabled a report will be generated and inserted at the bottom of your pages.</p>
+
+	<p>To disable the profiler you will use:</p>
+	<code>$this->output->enable_profiler(FALSE);</code>
+
+
+<h2>Setting Benchmark Points</h2>
+
+	<p>In order for the Profiler to compile and display your benchmark data you must name your mark points using specific syntax.</p>
+
+	<p>Please read the information on setting Benchmark points in <a href="../libraries/benchmark.html">Benchmark Class</a> page.</p>
+
+
+<h2>Enabling and Disabling Profiler Sections</h2>
+
+	<p>Each section of Profiler data can be enabled or disabled by setting a corresponding config variable to <var>TRUE</var> or <var>FALSE</var>.  This can be done one of two ways.  First, you can set application wide defaults with the <dfn>application/config/profiler.php</dfn> config file.</p>
+
+	<code>$config['config']&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= FALSE;<br />
+	$config['queries']&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= FALSE;<br /></code>
+
+	<p>In your controllers, you can override the defaults and config file values by calling the <kbd>set_profiler_sections()</kbd> method of the <a href="../libraries/output.html">Output class</a>:</p>
+
+	<code>$sections = array(<br />
+	&nbsp;&nbsp;&nbsp;&nbsp;'config' &nbsp;=> TRUE,<br />
+	&nbsp;&nbsp;&nbsp;&nbsp;'queries' => TRUE<br />
+	&nbsp;&nbsp;&nbsp;&nbsp;);<br />
+	<br />
+	$this->output->set_profiler_sections($sections);</code>
+
+	<p>Available sections and the array key used to access them are described in the table below.</p>
+
+	<table cellpadding="0" cellspacing="1" border="0" style="width:100%" class="tableborder">
+		<tr>
+			<th>Key</th>
+			<th>Description</th>
+			<th>Default</th>
+		</tr>
+		<tr>
+			<td class="td"><strong>benchmarks</strong></td>
+			<td class="td">Elapsed time of Benchmark points and total execution time</td>
+			<td class="td">TRUE</td>
+		</tr>
+		<tr>
+			<td class="td"><strong>config</strong></td>
+			<td class="td">CodeIgniter Config variables</td>
+			<td class="td">TRUE</td>
+		</tr>
+		<tr>
+			<td class="td"><strong>controller_info</strong></td>
+			<td class="td">The Controller class and method requested</td>
+			<td class="td">TRUE</td>
+		</tr>
+		<tr>
+			<td class="td"><strong>get</strong></td>
+			<td class="td">Any GET data passed in the request</td>
+			<td class="td">TRUE</td>
+		</tr>
+		<tr>
+			<td class="td"><strong>http_headers</strong></td>
+			<td class="td">The HTTP headers for the current request</td>
+			<td class="td">TRUE</td>
+		</tr>
+		<tr>
+			<td class="td"><strong>memory_usage</strong></td>
+			<td class="td">Amount of memory consumed by the current request, in bytes</td>
+			<td class="td">TRUE</td>
+		</tr>
+		<tr>
+			<td class="td"><strong>post</strong></td>
+			<td class="td">Any POST data passed in the request</td>
+			<td class="td">TRUE</td>
+		</tr>
+		<tr>
+			<td class="td"><strong>queries</strong></td>
+			<td class="td">Listing of all database queries executed, including execution time</td>
+			<td class="td">TRUE</td>
+		</tr>
+		<tr>
+			<td class="td"><strong>uri_string</strong></td>
+			<td class="td">The URI of the current request</td>
+			<td class="td">TRUE</td>
+		</tr>
+		<tr>
+			<td class="td"><strong>query_toggle_count</strong></td>
+			<td class="td">The number of queries after which the query block will default to hidden.</td>
+			<td class="td">25</td>
+		</tr>
+	</table>
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+Previous Topic:&nbsp;&nbsp;<a href="caching.html">Caching</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Next Topic:&nbsp;&nbsp;<a href="managing_apps.html">Managing Applications</a>
+</p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
+</div>
+
+</body>
+</html>
