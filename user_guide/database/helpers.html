@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Query Helper Functions : CodeIgniter User Guide</title>
+
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='CodeIgniter User Guide' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle_darker.jpg" width="154" height="43" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>CodeIgniter User Guide Version 2.1.3</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">Database Library</a> &nbsp;&#8250;&nbsp;
+Query Helpers
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+
+<h1>Query Helper Functions</h1>
+
+
+<h2>$this->db->insert_id()</h2>
+<p>The insert ID number when performing database inserts.</p>
+
+<h2>$this->db->affected_rows()</h2>
+<p>Displays the number of affected rows, when doing "write" type queries (insert, update, etc.).</p>
+<p>Note:  In MySQL "DELETE FROM TABLE" returns 0 affected rows. The database class has a small hack that allows it to return the
+correct number of affected rows.  By default this hack is enabled but it can be turned off in the database driver file.</p>
+
+
+<h2>$this->db->count_all();</h2>
+<p>Permits you to determine the number of rows in a particular table.  Submit the table name in the first parameter. Example:</p>
+<code>echo $this->db->count_all('<var>my_table</var>');<br />
+<br />
+// Produces an integer, like 25
+</code>
+
+
+<h2>$this->db->platform()</h2>
+<p>Outputs the database platform you are running (MySQL, MS SQL, Postgres, etc...):</p>
+<code>echo $this->db->platform();</code>
+
+
+<h2>$this->db->version()</h2>
+<p>Outputs the database version you are running:</p>
+<code>echo $this->db->version();</code>
+
+
+<h2>$this->db->last_query();</h2>
+<p>Returns the last query that was run (the query string, not the result).  Example:</p>
+
+<code>$str = $this->db->last_query();<br />
+<br />
+// Produces:  SELECT * FROM sometable....
+</code>
+
+
+<p>The following two functions help simplify the process of writing database INSERTs and UPDATEs.</p>
+
+
+<h2>$this->db->insert_string(); </h2>
+<p>This function simplifies the process of writing database inserts. It returns a correctly formatted SQL insert string. Example:</p>
+
+<code>$data = array('name' => $name, 'email' => $email, 'url' => $url);<br />
+<br />
+$str = $this->db->insert_string('table_name', $data);
+</code>
+
+<p>The first parameter is the table name, the second is an associative array with the data to be inserted.  The above example produces:</p>
+<code>INSERT INTO table_name (name, email, url) VALUES ('Rick', 'rick@example.com', 'example.com')</code>
+
+<p class="important">Note: Values are automatically escaped, producing safer queries.</p>
+
+
+
+<h2>$this->db->update_string(); </h2>
+<p>This function simplifies the process of writing database updates. It returns a correctly formatted SQL update string. Example:</p>
+
+<code>$data = array('name' => $name, 'email' => $email, 'url' => $url);<br />
+<br />
+$where = "author_id = 1 AND status = 'active'";
+<br /><br />
+$str = $this->db->update_string('table_name', $data, $where);
+</code>
+
+<p>The first parameter is the table name, the second is an associative array with the data to be updated, and the third parameter is the "where" clause. The above example produces:</p>
+<code> UPDATE table_name SET name = 'Rick', email = 'rick@example.com', url = 'example.com' WHERE author_id = 1 AND status = 'active'</code>
+
+<p class="important">Note: Values are automatically escaped, producing safer queries.</p>
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+Previous Topic:&nbsp;&nbsp;<a href="results.html">Query Results</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Next Topic:&nbsp;&nbsp;<a href="active_record.html">Active Record Pattern</a>
+</p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
+</div>
+
+</body>
+</html>

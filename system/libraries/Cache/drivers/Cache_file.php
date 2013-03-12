@@ -166,7 +166,12 @@ class CI_Cache_file extends CI_Driver {
 			return FALSE;
 		}
 
+<<<<<<< HEAD
 		$data = unserialize(file_get_contents($this->_cache_path.$id));
+=======
+		$data = read_file($this->_cache_path.$id);
+		$data = unserialize($data);
+>>>>>>> upstream/master
 
 		if (is_array($data))
 		{
@@ -178,8 +183,13 @@ class CI_Cache_file extends CI_Driver {
 			}
 
 			return array(
+<<<<<<< HEAD
 				'expire' => $mtime + $data['ttl'],
 				'mtime'	 => $mtime
+=======
+				'expire'	=> $mtime + $data['ttl'],
+				'mtime'		=> $mtime
+>>>>>>> upstream/master
 			);
 		}
 

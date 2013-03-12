@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Config Class : CodeIgniter User Guide</title>
+
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='CodeIgniter User Guide' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle_darker.jpg" width="154" height="43" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>CodeIgniter User Guide Version 2.1.3</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Config Class
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+
+<h1>Config Class</h1>
+
+<p>The Config class provides a means to retrieve configuration preferences.  These preferences can
+come from the default config file (<samp>application/config/config.php</samp>) or from your own custom config files.</p>
+
+<p class="important"><strong>Note:</strong> This class is initialized automatically by the system so there is no need to do it manually.</p>
+
+
+<h2>Anatomy of a Config File</h2>
+
+<p>By default, CodeIgniter has one primary config file, located at <samp>application/config/config.php</samp>.  If you open the file using
+your text editor you'll see that config items are stored in an array called <var>$config</var>.</p>
+
+<p>You can add your own config items to
+this file, or if you prefer to keep your configuration items separate (assuming you even need config items),
+simply create your own file and save it in <dfn>config</dfn> folder.</p>
+
+<p><strong>Note:</strong> If you do create your own config files use the same format as the primary one, storing your items in
+an array called  <var>$config</var>. CodeIgniter will intelligently manage these files so there will be no conflict even though
+the array has the same name (assuming an array index is not named the same as another).</p>
+
+<h2>Loading a Config File</h2>
+
+<p><strong>Note:</strong> CodeIgniter automatically loads the primary config file (<samp>application/config/config.php</samp>),
+so you will only need to load a config file if you have created your own.</p>
+
+<p>There are two ways to load a config file:</p>
+
+<ol><li><strong>Manual Loading</strong>
+
+<p>To load one of your custom config files you will use the following function within the <a href="../general/controllers.html">controller</a> that needs it:</p>
+
+<code>$this->config->load('<var>filename</var>');</code>
+
+<p>Where <var>filename</var> is the name of your config file, without the .php file extension.</p>
+
+<p>If you need to load multiple config files normally they will be merged into one master config array.  Name collisions can occur, however, if
+you have identically named array indexes in different config files.  To avoid collisions you can set the second parameter to <kbd>TRUE</kbd>
+and each config file will be stored in an array index corresponding to the name of the config file. Example:</p>
+
+<code>
+// Stored in an array with this prototype:  $this->config['blog_settings'] = $config<br />
+$this->config->load('<var>blog_settings</var>', <kbd>TRUE</kbd>);</code>
+
+<p>Please see the section entitled <dfn>Fetching Config Items</dfn> below to learn how to retrieve config items set this way.</p>
+
+<p>The third parameter allows you to suppress errors in the event that a config file does not exist:</p>
+
+<code>$this->config->load('<var>blog_settings</var>', <dfn>FALSE</dfn>, <kbd>TRUE</kbd>);</code>
+
+</li>
+<li><strong>Auto-loading</strong>
+
+<p>If you find that you need a particular config file globally, you can have it loaded automatically by the system.  To do this,
+open the <strong>autoload.php</strong> file, located at <samp>application/config/autoload.php</samp>, and add your config file as
+indicated in the file.</p>
+</li>
+</ol>
+
+
+<h2>Fetching Config Items</h2>
+
+<p>To retrieve an item from your config file, use the following function:</p>
+
+<code>$this->config->item('<var>item name</var>');</code>
+
+<p>Where <var>item name</var> is the $config array index you want to retrieve. For example, to fetch your language choice you'll do this:</p>
+
+<code>$lang = $this->config->item('language');</code>
+
+<p>The function returns FALSE (boolean) if the item you are trying to fetch does not exist.</p>
+
+<p>If you are using the second parameter of the <kbd>$this->config->load</kbd> function in order to assign your config items to a specific index
+you can retrieve it by specifying the index name in the second parameter of the <kbd>$this->config->item()</kbd> function.  Example:</p>
+
+<code>
+// Loads a config file named blog_settings.php and assigns it to an index named "blog_settings"<br />
+$this->config->load('<var>blog_settings</var>', <kbd>TRUE</kbd>);<br /><br />
+
+// Retrieve a config item named site_name contained within the blog_settings array<br />
+$site_name = $this->config->item('<dfn>site_name</dfn>', '<var>blog_settings</var>');<br /><br />
+
+// An alternate way to specify the same item:<br />
+$blog_config = $this->config->item('<var>blog_settings</var>');<br />
+$site_name = $blog_config['site_name'];</code>
+
+<h2>Setting a Config Item</h2>
+
+<p>If you would like to dynamically set a config item or change an existing one, you can do so using:</p>
+
+<code>$this->config->set_item('<var>item_name</var>', '<var>item_value</var>');</code>
+
+<p>Where <var>item_name</var> is the $config array index you want to change, and <var>item_value</var> is its value.</p>
+
+<a name="environments"></a>
+<h2>Environments</h2>
+
+<p>
+    You may load different configuration files depending on the current environment.
+    The <kbd>ENVIRONMENT</kbd> constant is defined in index.php, and is described
+    in detail in the <a href="../general/environments.html">Handling Environments</a>
+    section.
+</p>
+
+<p>
+    To create an environment-specific configuration file,
+    create or copy a configuration file in application/config/{ENVIRONMENT}/{FILENAME}.php
+</p>
+
+<p>For example, to create a production-only config.php, you would:</p>
+
+<ol>
+    <li>Create the directory application/config/production/</li>
+    <li>Copy your existing config.php into the above directory</li>
+    <li>Edit application/config/production/config.php so it contains your production settings</li>
+</ol>
+
+<p>
+    When you set the <kbd>ENVIRONMENT</kbd> constant to 'production', the settings
+    for your new production-only config.php will be loaded.
+</p>
+
+<p>You can place the following configuration files in environment-specific folders:</p>
+	
+<ul>
+<li>Default CodeIgniter configuration files</li>
+<li>Your own custom configuration files</li>
+</ul>
+
+<p><strong>Note:</strong> CodeIgniter always tries to load the configuration files for the current environment first. If the file does not exist, the global config file (i.e., the one in <samp>application/config/</samp>) is loaded. This means you are not obligated to place <strong>all</strong> of your configuration files in an environment folder &minus; only the files that change per environment.</p>
+
+<h2>Helper Functions</h2>
+
+<p>The config class has the following helper functions:</p>
+
+<h2>$this->config->site_url();</h2>
+<p>This function retrieves the URL to your site, along with the "index" value you've specified in the config file.</p>
+
+<h2>$this->config->base_url();</h2>
+<p>This function retrieves the URL to your site, plus an optional path such as to a stylesheet or image.</p>
+
+<p>The two functions above are normally accessed via the corresponding functions in the <a href="../helpers/url_helper.html">URL Helper.</a></p>    
+    
+<h2>$this->config->system_url();</h2>
+<p>This function retrieves the URL to your <dfn>system folder</dfn>.</p>
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+Previous Topic:&nbsp;&nbsp;<a href="calendar.html">Calendaring Class</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Next Topic:&nbsp;&nbsp;<a href="../database/index.html">Database Class</a>
+</p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
+</div>
+
+</body>
+</html>

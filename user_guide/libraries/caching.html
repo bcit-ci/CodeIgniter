@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Caching Driver : CodeIgniter User Guide</title>
+
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='CodeIgniter User Guide' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle_darker.jpg" width="154" height="43" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>CodeIgniter User Guide Version 2.1.3</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+<a href="../general/drivers.html">Drivers</a> &nbsp;&#8250;&nbsp;
+Caching Driver
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>Caching Driver</h1>
+
+<p>CodeIgniter features wrappers around some of the most popular forms of fast and dynamic caching.  All but file-based caching require specific server requirements, and a Fatal Exception will be thrown if server requirements are not met.</p>
+
+<h2>Table of Contents</h2>
+<ul>
+	<li><a href="#example_usage" title="Example Usage">Example Usage</a></li>
+	<li><a href="#function_reference" title="Function Reference">Function Reference</a></li>
+</ul>
+
+<h3>Available Drivers</h3>
+<ul>
+	<li><a href="#apc" title="APC Cache">Alternative PHP Cache (APC) Caching</a></li>
+	<li><a href="#file" title="File Caching">File-based Caching</a></li>
+	<li><a href="#memcached" title="Memcached">Memcached Caching</a></li>
+	<li><a href="#dummy" title="Dummy Caching">Dummy Cache</a></li>
+</ul>
+
+<h2 id="example_usage">Example Usage</h2>
+
+<p>The following example will load the cache driver, specify <a href="#apc" title="APC">APC</a> as the driver to use, and fall back to file-based caching if APC is not available in the hosting environment.</p>
+
+<code>
+$this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));<br />
+<br />
+if ( ! $foo = $this->cache->get('foo'))<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo 'Saving to the cache!&lt;br />';<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$foo = 'foobarbaz!';<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Save into the cache for 5 minutes<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this->cache->save('foo', $foo, 300);<br />
+}<br />
+<br />
+echo $foo;
+</code>
+
+<h1 id="function_reference">Function Reference</h1>
+
+<h2>is_supported(<var>driver</var>['string'])</h2>
+
+<p>This function is automatically called when accessing drivers via <samp>$this->cache->get()</samp>.  However, if the individual drivers are used, make sure to call this function to ensure the driver is supported in the hosting environment.</p>
+
+<code>
+if ($this->cache->apc->is_supported())<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($data = $this->cache->apc->get('my_cache'))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// do things.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+}
+</code>
+
+<h2>get(<var>id</var>['string'])</h2>
+
+<p>This function will attempt to fetch an item from the cache store.  If the item does not exist, the function will return <samp>FALSE</samp>.</p>
+<code>$foo = $this->cache->get('my_cached_item');</code>
+
+<h2>save(<var>id</var>['string'], <var>data</var>['mixed'], <var>ttl</var>['int'])</h2>
+
+<p>This function will save an item to the cache store.  If saving fails, the function will return <samp>FALSE</samp>.</p>
+<p>The optional third parameter (Time To Live) defaults to 60 seconds.</p>
+<code>$this->cache->save('cache_item_id', 'data_to_cache');</code>
+
+<h2>delete(<var>id</var>['string'])</h2>
+
+<p>This function will delete a specific item from the cache store.  If item deletion fails, the function will return <samp>FALSE</samp>.</p>
+<code>$this->cache->delete('cache_item_id');</code>
+
+<h2>clean()</h2>
+
+<p>This function will 'clean' the entire cache.  If the deletion of the cache files fails, the function will return <samp>FALSE</samp>.</p>
+
+<code>$this->cache->clean();</code>
+
+<h2>cache_info()</h2>
+
+<p>This function will return information on the entire cache.</p>
+
+<code>var_dump($this->cache->cache_info());</code>
+
+<h2>get_metadata(<var>id</var>['string'])</h2>
+
+<p>This function will return detailed information on a specific item in the cache.</p>
+
+<code>var_dump($this->cache->get_metadata('my_cached_item'));</code>
+
+<h1>Drivers</h1>
+
+<h2 id="apc">Alternative PHP Cache (APC) Caching</h2>
+
+<p>All of the functions listed above can be accessed without passing a specific adapter to the driver loader as follows:</p>
+<code>$this->load->driver('cache');<br />
+	$this->cache->apc->save('foo', 'bar', 10);</code>
+<p>For more information on APC, please see <a href="http://php.net/apc">http://php.net/apc</a></p>
+
+<h2 id="file">File-based Caching</h2>
+
+<p>Unlike caching from the Output Class, the driver file-based caching allows for pieces of view files to be cached.  Use this with care, and make sure to benchmark your application, as a point can come where disk I/O will negate positive gains by caching.</p>
+
+<p>All of the functions listed above can be accessed without passing a specific adapter to the driver loader as follows:</p>
+<code>$this->load->driver('cache');<br />
+	$this->cache->file->save('foo', 'bar', 10);</code>
+
+<h2 id="memcached">Memcached Caching</h2>
+
+<p>Multiple Memcached servers can be specified in the memcached.php configuration file, located in the <samp>application/config/</samp> directory.
+
+<p>All of the functions listed above can be accessed without passing a specific adapter to the driver loader as follows:</p>
+<code>$this->load->driver('cache');<br />
+	$this->cache->memcached->save('foo', 'bar', 10);</code>
+
+<p>For more information on Memcached, please see <a href="http://php.net/memcached">http://php.net/memcached</a></p>
+
+<h2 id="dummy">Dummy Cache</h2>
+
+<p>This is a caching backend that will always 'miss.'  It stores no data, but lets you keep your caching code in place in environments that don't support your chosen cache.</p>
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+Previous Topic:&nbsp;&nbsp;<a href="zip.html">Zip Encoding Class</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Next Topic:&nbsp;&nbsp;<a href="../database/index.html">Database Class</a>
+</p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
+</div>
+
+</body>
+</html>

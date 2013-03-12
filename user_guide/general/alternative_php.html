@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Alternate PHP Syntax for View Files : CodeIgniter User Guide</title>
+
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='CodeIgniter User Guide' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle_darker.jpg" width="154" height="43" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>CodeIgniter User Guide Version 2.1.3</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Alternate PHP Syntax
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>Alternate PHP Syntax for View Files</h1>
+
+<p>If you do not utilize CodeIgniter's <a href="../libraries/parser.html">template engine</a>, you'll be using pure PHP
+in your View files.  To minimize the PHP code in these files, and to make it easier to identify the code blocks it is recommended that you use
+PHPs alternative syntax for control structures and short tag echo statements.  If you are not familiar with this syntax, it allows you to eliminate the braces from your code,
+and eliminate "echo" statements.</p>
+
+<h2>Automatic Short Tag Support</h2>
+
+<p><strong>Note:</strong> If you find that the syntax described in this page does not work on your server it might
+be that "short tags" are disabled in your PHP ini file. CodeIgniter will optionally rewrite short tags on-the-fly,
+allowing you to use that syntax even if your server doesn't support it.  This feature can be enabled in your
+<dfn>config/config.php</dfn> file.</p>
+
+<p class="important">Please note that if you do use this feature, if PHP errors are encountered
+in your <strong>view files</strong>, the error message and line number will not be accurately shown.  Instead, all errors
+will be shown as <kbd>eval()</kbd> errors.</p>
+
+
+<h2>Alternative Echos</h2>
+
+<p>Normally to echo, or print out a variable you would do this:</p>
+
+<code>&lt;?php echo $variable; ?></code>
+
+<p>With the alternative syntax you can instead do it this way:</p>
+
+<code>&lt;?=$variable?></code>
+
+
+
+<h2>Alternative Control Structures</h2>
+
+<p>Controls structures, like <var>if</var>, <var>for</var>, <var>foreach</var>, and <var>while</var> can be
+written in a simplified format as well.  Here is an example using foreach:</p>
+
+<code>
+&lt;ul><br />
+<br />
+<var>&lt;?php foreach ($todo as $item): ?></var><br />
+<br />
+&lt;li><var>&lt;?=$item?></var>&lt;/li><br />
+<br />
+<var>&lt;?php endforeach; ?></var><br />
+<br />
+&lt;/ul></code>
+
+<p>Notice that there are no braces.  Instead, the end brace is replaced with <var>endforeach</var>.
+Each of the control structures listed above has a similar closing syntax:
+<var>endif</var>, <var>endfor</var>, <var>endforeach</var>, and <var>endwhile</var></p>
+
+<p>Also notice that instead of using a semicolon after each structure (except the last one), there is a colon.  This is
+important!</p>
+
+<p>Here is another example, using if/elseif/else.  Notice the colons:</p>
+
+
+<code><var>&lt;?php if ($username == 'sally'): ?></var><br />
+<br />
+&nbsp;&nbsp;&nbsp;&lt;h3>Hi Sally&lt;/h3><br />
+<br />
+<var>&lt;?php elseif ($username == 'joe'): ?></var><br />
+<br />
+&nbsp;&nbsp;&nbsp;&lt;h3>Hi Joe&lt;/h3><br />
+<br />
+<var>&lt;?php else: ?></var><br />
+<br />
+&nbsp;&nbsp;&nbsp;&lt;h3>Hi unknown user&lt;/h3><br />
+<br />
+<var>&lt;?php endif; ?></var></code>
+
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+Previous Topic:&nbsp;&nbsp;<a href="managing_apps.html">Managing Applications</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Next Topic:&nbsp;&nbsp;<a href="security.html">Security</a>
+</p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
+</div>
+
+</body>
+</html>
