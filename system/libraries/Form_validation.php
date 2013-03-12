@@ -859,7 +859,7 @@ class CI_Form_validation {
 			return array_shift($this->_field_data[$field]['postdata']);
 		}
 
-		return $this->_field_data[$field]['postdata'];
+		return is_null($this->_field_data[$field]['postdata']) ? $default : $this->_field_data[$field]['postdata'];
 	}
 
 	// --------------------------------------------------------------------
