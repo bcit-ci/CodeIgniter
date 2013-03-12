@@ -793,6 +793,8 @@ class CI_Output {
 
 			case 'text/css':
 			case 'text/javascript':
+			case 'application/javascript':
+			case 'application/x-javascript':
 
 				$output = $this->_minify_script_style($output);
 
