@@ -75,7 +75,22 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 	{
 		if (in_array($alter_type, array('ADD', 'DROP'), TRUE))
 		{
-			return parent::_alter_table($alter_type, $table, $field);
+			$sql = 'ALTER TABLE '.$this->db->escape_identifiers($table).' ';
+
+			// DROP has everything it needs now.
+			if ($alter_type === 'DROP')
+			{
+				return $sql.'DROP COLUMN '.$this->db->escape_identifiers($field);
+			}
+
+			$sqls = array();
+			for ($i = 0, $c = count($field), $sql .= $alter_type.' '; $i < $c; $i++)
+			{
+				$sqls[] = $sql
+					.($field[$i]['_literal'] !== FALSE ? $field[$i]['_literal'] : $this->_process_column($field[$i]));
+			}
+
+			return $sqls;
 		}
 
 		$sql = 'ALTER TABLE '.$this->db->escape_identifiers($table).' ALTER COLUMN ';
