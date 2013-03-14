@@ -359,9 +359,10 @@ if (!function_exists('script_tag'))
 	 * @param	bool	async
 	 * @param	bool	defer
 	 * @param	bool	should defered JavaScript be used
+	 * @param	string	defer script id attribute
 	 * @return	string
 	 */
-	function script_tag($src = '', $type = 'application/javascript', $index_page = FALSE, $async = FALSE, $defer = FALSE, $force_defer = FALSE)
+	function script_tag($src = '', $type = 'application/javascript', $index_page = FALSE, $async = FALSE, $defer = FALSE, $force_defer = FALSE, $defer_script_id = 'asyncdeferloader_')
 	{
 		$CI = &get_instance();
 		$script = '<script ';
@@ -404,7 +405,7 @@ if (!function_exists('script_tag'))
 			}
 			else
 			{
-				$script .= 'id="asyncdeferloader_'.$k.'">';
+				$script .= 'id="'.$defer_script_id.$k.'">';
 				$script .= 'var node = document.createElement("script");';
 				$script .= 'node.src = "'.$v.'";';
 				$script .= 'node.type = "'.$type.'";';
@@ -412,7 +413,7 @@ if (!function_exists('script_tag'))
 				{
 					$script .= 'node.async = "async";';
 				}
-				$script .= 'var s = document.getElementById("asyncdeferloader_'.$k.'");';
+				$script .= 'var s = document.getElementById("'.$defer_script_id.$k.'");';
 				$script .= 's.parentNode.insertBefore(node,s);';
 			}
 		}
