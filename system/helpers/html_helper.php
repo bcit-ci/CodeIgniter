@@ -342,6 +342,88 @@ if ( ! function_exists('link_tag'))
 
 // ------------------------------------------------------------------------
 
+if (!function_exists('script_tag'))
+{
+	/**
+	 * Script
+	 *
+	 * Generates script tag to link to an external script file
+	 * 
+	 * Forced defer option uses inline JavaScript as a means of deferring
+	 * the loading of external script files until after page load.
+	 *
+	 * @param	mixed	script src or an array of src's
+	 * @param	string	type
+	 * @param	bool	should index_page be added to the script path
+	 * @param	bool	should index_page be added to the script path
+	 * @param	bool	async
+	 * @param	bool	defer
+	 * @param	bool	should defered JavaScript be used
+	 * @return	string
+	 */
+	function script_tag($src = '', $type = 'application/javascript', $index_page = FALSE, $async = FALSE, $defer = FALSE, $force_defer = FALSE)
+	{
+		$CI = &get_instance();
+		$script = '<script ';
+
+		if (!is_array($src))
+		{
+			$src = array($src);
+		}
+
+		foreach ($src as $k => $v)
+		{
+			if (!$v) continue;
+			if ($k)
+			{
+				$script .= "</script>\n<script ";
+			}
+			if (strpos($v, '://') === FALSE)
+			{
+				if ($index_page === TRUE)
+				{
+					$v = $CI->config->site_url($v);
+				}
+				else
+				{
+					$v = $CI->config->slash_item('base_url').$v;
+				}
+			}
+			if ($force_defer === FALSE)
+			{
+				$script .= 'src="'.$v.'" type="'.$type.'"';
+				if ($async === TRUE)
+				{
+					$script .= ' async="async"';
+				}
+				if ($defer === TRUE)
+				{
+					$script .= ' defer="defer"';
+				}
+				$script .= '>';
+			}
+			else
+			{
+				$script .= 'id="asyncdeferloader_'.$k.'">';
+				$script .= 'var node = document.createElement("script");';
+				$script .= 'node.src = "'.$v.'";';
+				$script .= 'node.type = "'.$type.'";';
+				if ($async === TRUE)
+				{
+					$script .= 'node.async = "async";';
+				}
+				$script .= 'var s = document.getElementById("asyncdeferloader_'.$k.'");';
+				$script .= 's.parentNode.insertBefore(node,s);';
+			}
+		}
+
+		return $script."</script>\n";
+	}
+
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('meta'))
 {
 	/**
