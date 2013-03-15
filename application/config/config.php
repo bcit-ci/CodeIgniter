@@ -328,7 +328,7 @@ $config['cookie_httponly'] 	= FALSE;
 $config['cache_adapter']		= 'dummy';
 $config['cache_backup']			= 'dummy';
 $config['cache_valid_drivers']	= array();
-$config['cache_key_prefix']		= '';
+$config['cache_key_prefix']		= 'sup_';
 
 /*
 |--------------------------------------------------------------------------

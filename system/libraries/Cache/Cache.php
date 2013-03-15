@@ -91,7 +91,7 @@ class CI_Cache extends CI_Driver_Library {
 		 * 3. Key prefix (key_prefix)
 		 */
 		
-		$adapter = isset($config['adapter']) ? $config['adapter'] : $CI->config->item('cache_driver');
+		$adapter = isset($config['adapter']) ? $config['adapter'] : $CI->config->item('cache_adapter');
 		
 		// if $adapter returns a TRUE value, then set it to $this->_adapter
 		if ($adapter)
@@ -99,7 +99,7 @@ class CI_Cache extends CI_Driver_Library {
 			$this->_adapter = $adapter;
 		}
 		 
-		$backup = isset($config['backup']) ? $config['backup'] : $CI->config->item('cache_backup_driver');
+		$backup = isset($config['backup']) ? $config['backup'] : $CI->config->item('cache_backup');
 		if ($backup)
 		{
 			$this->_backup_driver = $backup;

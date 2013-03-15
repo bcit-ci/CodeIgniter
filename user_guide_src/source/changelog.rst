@@ -248,7 +248,7 @@ Release Date: Not Released
 	 -  Added Wincache driver.
 	 -  Added Redis driver.
 	 -  Added a *key_prefix* option for cache IDs.
-	 -  Added default ``$config['cache_driver']``, ``$config['cache_backup_driver']``, ``$config['cache_valid_drivers']``, and ``$config['cache_key_prefix']`` to *config.php*
+	 -  Added default ``$config['cache_adapter']``, ``$config['cache_backup']``, ``$config['cache_valid_drivers']``, and ``$config['cache_key_prefix']`` to *config.php*
 	 -  Adding abstract driver class *CI_Cache_driver* for all cache drivers to extend
    -  :doc:`Email library <libraries/email>` changes include:
 	 -  Added custom filename to ``Email::attach()`` as ``$this->email->attach($filename, $disposition, $newname)``.

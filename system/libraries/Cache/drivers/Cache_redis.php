@@ -187,11 +187,10 @@ class CI_Cache_redis extends CI_Cache_driver
 	protected function _setup_redis()
 	{
 		$config = array();
-		$CI =& get_instance();
 
-		if ($CI->config->load('redis', TRUE, TRUE))
+		if ($this->CI->config->load('redis', TRUE, TRUE))
 		{
-			$config += $CI->config->item('redis');
+			$config += $this->CI->config->item('redis');
 		}
 
 		$config = array_merge(self::$_default_config, $config);

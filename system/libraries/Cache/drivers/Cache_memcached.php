@@ -166,16 +166,13 @@ class CI_Cache_memcached extends CI_Cache_driver {
 	 */
 	protected function _setup_memcached()
 	{
-		// Try to load memcached server info from the config file.
-		$CI =& get_instance();
-
-		if ($CI->config->load('memcached', TRUE, TRUE))
+		if ($this->CI->config->load('memcached', TRUE, TRUE))
 		{
-			if (is_array($CI->config->config['memcached']))
+			if (is_array($this->CI->config->config['memcached']))
 			{
 				$this->_memcache_conf = NULL;
 
-				foreach ($CI->config->config['memcached'] as $name => $conf)
+				foreach ($this->CI->config->config['memcached'] as $name => $conf)
 				{
 					$this->_memcache_conf[$name] = $conf;
 				}
