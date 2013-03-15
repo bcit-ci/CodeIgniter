@@ -680,8 +680,12 @@ abstract class CI_DB_forge {
 			return $sql.'DROP COLUMN '.$this->db->escape_identifiers($field);
 		}
 
+		$sql .= ($alter_type === 'ADD')
+			? 'ADD '
+			: $alter_type.' COLUMN ';
+
 		$sqls = array();
-		for ($i = 0, $c = count($field), $sql .= $alter_type.' COLUMN '; $i < $c; $i++)
+		for ($i = 0, $c = count($field); $i < $c; $i++)
 		{
 			$sqls[] = $sql
 				.($field[$i]['_literal'] !== FALSE ? $field[$i]['_literal'] : $this->_process_column($field[$i]));
