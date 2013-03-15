@@ -271,8 +271,9 @@ class CI_Cache extends CI_Driver_Library {
  * application directory, the system directory, or any path you add with $CI->load->add_package_path().
  * Your driver must be named CI_Cache_<name>, and your filename must be Cache_<name>.php,
  * preferably also capitalized. (e.g.: CI_Cache_foo in libraries/Cache/drivers/Cache_foo.php)
- * Then specify the driver by setting 'cache_driver' in your config file or as a parameter when loading the CI_Cache
- * object. (e.g.: $config['cache_driver'] = 'foo'; OR $CI->load->driver('cache', array('cache_driver' => 'foo')); )
+ * Then specify the driver by setting 'cache_adapter' in your config file or as a parameter when loading the CI_Cache
+ * object or by simply using $this->cache->foo->some_method() (e.g.: $config['cache_adapter'] = 'foo'; OR
+ * $CI->load->driver('cache', array('cache_adapter' => 'foo')); )
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
