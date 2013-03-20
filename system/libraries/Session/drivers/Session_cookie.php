@@ -722,7 +722,7 @@ class CI_Session_cookie extends CI_Session_driver {
 	 */
 	protected function _setcookie($name, $value = '', $expire = 0, $path = '', $domain = '', $secure = FALSE, $httponly = FALSE)
 	{
-		setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
+		$this->CI->input->set_cookie($name, $value, $expire, $domain, $path, '', $secure, $httponly);
 	}
 
 	// ------------------------------------------------------------------------
