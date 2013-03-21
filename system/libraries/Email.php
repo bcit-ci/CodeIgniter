@@ -105,9 +105,9 @@ class CI_Email {
 	/**
 	 * SMTP Encryption
 	 *
-	 * @var	string	NULL, 'tls' or 'ssl'
+	 * @var	string	empty, 'tls' or 'ssl'
 	 */
-	public $smtp_crypto	= NULL;
+	public $smtp_crypto	= '';
 
 	/**
 	 * Whether to apply word-wrapping to the message body.
@@ -1875,7 +1875,7 @@ class CI_Email {
 			return TRUE;
 		}
 
-		$ssl = ($this->smtp_crypto === 'ssl') ? 'ssl://' : NULL;
+		$ssl = ($this->smtp_crypto === 'ssl') ? 'ssl://' : '';
 
 		$this->_smtp_connect = fsockopen($ssl.$this->smtp_host,
 							$this->smtp_port,
@@ -2021,8 +2021,7 @@ class CI_Email {
 		{
 			return TRUE;
 		}
-
-		if (strpos($reply, '334') !== 0)
+		elseif (strpos($reply, '334') !== 0)
 		{
 			$this->_set_error_message('lang:email_failed_smtp_login', $reply);
 			return FALSE;
