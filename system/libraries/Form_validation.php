@@ -836,6 +836,21 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Checks if the rule is present within the validator
+	 *
+	 * Permits you to check if a rule is present within the validator
+	 *
+	 * @param	string	the field name
+	 * @return	bool
+	 */
+	public function has_rule($field)
+	{
+		return isset($this->_field_data[$field]);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Get the value from a form
 	 *
 	 * Permits you to repopulate a form field with the value it was submitted
