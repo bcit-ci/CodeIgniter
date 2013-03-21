@@ -149,21 +149,59 @@ class CI_Input {
 	 * @param	array	&$array		$_GET, $_POST, $_COOKIE, $_SERVER, etc.
 	 * @param	string	$index		Index for item to be fetched from $array
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
+	 * @param	bool	$recurse	Whether to recurse into arrays via nested keys
 	 * @return	mixed
 	 */
-	protected function _fetch_from_array(&$array, $index = '', $xss_clean = FALSE)
+	protected function _fetch_from_array(&$array, $index = '', $xss_clean = FALSE, $recurse = FALSE)
 	{
-		if ( ! isset($array[$index]))
+		$value = NULL;
+
+		if (isset($array[$index]))
 		{
-			return NULL;
+			$value = $array[$index];
+		}
+		else if($recurse)
+		{
+			// We couldn't find the $field as a simple key, so try the nested notation
+			$key = $index;
+			$container = $array;
+			
+			// Test if the $index is an array name, and try to obtain the final index
+			if (preg_match_all('/\[(.*?)\]/', $index, $matches))
+			{
+				sscanf($index, '%[^[][', $key);
+				for ($i = 0, $c = count($matches[0]); $i < $c; $i++)
+				{
+					if($matches[1][$i] === '')			// The array notation will return the value as array
+					{
+						break;
+					}
+					if (isset($container[$key]))
+					{
+						$container = $container[$key];
+						$key = $matches[1][$i];
+					}
+					else
+					{
+						$container = array();
+						break;
+					}
+				}
+
+				// Check if the deepest container has the field
+				if(isset($container[$key]))
+				{
+					$value = $container[$key];
+				}
+			}
 		}
 
 		if ($xss_clean === TRUE)
 		{
-			return $this->security->xss_clean($array[$index]);
+			return $this->security->xss_clean($value);
 		}
 
-		return $array[$index];
+		return $value;
 	}
 
 	// --------------------------------------------------------------------
@@ -173,9 +211,10 @@ class CI_Input {
 	 *
 	 * @param	string	$index		Index for item to be fetched from $_GET
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
+	 * @param	bool	$recurse	Whether to recurse into arrays via nested keys
 	 * @return	mixed
 	 */
-	public function get($index = NULL, $xss_clean = FALSE)
+	public function get($index = NULL, $xss_clean = FALSE, $recurse = FALSE)
 	{
 		// Check if a field has been provided
 		if ($index === NULL)
@@ -190,12 +229,12 @@ class CI_Input {
 			// loop through the full _GET array
 			foreach (array_keys($_GET) as $key)
 			{
-				$get[$key] = $this->_fetch_from_array($_GET, $key, $xss_clean);
+				$get[$key] = $this->_fetch_from_array($_GET, $key, $xss_clean, $recurse);
 			}
 			return $get;
 		}
 
-		return $this->_fetch_from_array($_GET, $index, $xss_clean);
+		return $this->_fetch_from_array($_GET, $index, $xss_clean, $recurse);
 	}
 
 	// --------------------------------------------------------------------
@@ -205,9 +244,10 @@ class CI_Input {
 	 *
 	 * @param	string	$index		Index for item to be fetched from $_POST
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
+	 * @param	bool	$recurse	Whether to recurse into arrays via nested keys
 	 * @return	mixed
 	 */
-	public function post($index = NULL, $xss_clean = FALSE)
+	public function post($index = NULL, $xss_clean = FALSE, $recurse = FALSE)
 	{
 		// Check if a field has been provided
 		if ($index === NULL)
@@ -222,12 +262,12 @@ class CI_Input {
 			// Loop through the full _POST array and return it
 			foreach (array_keys($_POST) as $key)
 			{
-				$post[$key] = $this->_fetch_from_array($_POST, $key, $xss_clean);
+				$post[$key] = $this->_fetch_from_array($_POST, $key, $xss_clean, $recurse);
 			}
 			return $post;
 		}
 
-		return $this->_fetch_from_array($_POST, $index, $xss_clean);
+		return $this->_fetch_from_array($_POST, $index, $xss_clean, $recurse);
 	}
 
 	// --------------------------------------------------------------------
@@ -237,13 +277,14 @@ class CI_Input {
 	 *
 	 * @param	string	$index		Index for item to be fetched from $_POST or $_GET
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
+	 * @param	bool	$recurse	Whether to recurse into arrays via nested keys
 	 * @return	mixed
 	 */
-	public function get_post($index = '', $xss_clean = FALSE)
+	public function get_post($index = '', $xss_clean = FALSE, $recurse = FALSE)
 	{
 		return isset($_POST[$index])
-			? $this->post($index, $xss_clean)
-			: $this->get($index, $xss_clean);
+			? $this->post($index, $xss_clean, $recurse)
+			: $this->get($index, $xss_clean, $recurse);
 	}
 
 	// --------------------------------------------------------------------
@@ -253,11 +294,12 @@ class CI_Input {
 	 *
 	 * @param	string	$index		Index for item to be fetched from $_COOKIE
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
+	 * @param	bool	$recurse	Whether to recurse into arrays via nested keys
 	 * @return	mixed
 	 */
-	public function cookie($index = '', $xss_clean = FALSE)
+	public function cookie($index = '', $xss_clean = FALSE, $recurse = FALSE)
 	{
-		return $this->_fetch_from_array($_COOKIE, $index, $xss_clean);
+		return $this->_fetch_from_array($_COOKIE, $index, $xss_clean, $recurse);
 	}
 
 	// --------------------------------------------------------------------
