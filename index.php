@@ -67,7 +67,8 @@ switch (ENVIRONMENT)
 
 	default:
 		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
-		exit('The application environment is not set correctly.');
+		echo 'The application environment is not set correctly.';
+		exit(1); // EXIT_* constants not yet defined; 1 is EXIT_ERROR, a generic error.
 }
 
 /*
@@ -190,7 +191,8 @@ switch (ENVIRONMENT)
 	if ( ! is_dir($system_path))
 	{
 		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
-		exit('Your system folder path does not appear to be set correctly. Please open the following file and correct this: '.pathinfo(__FILE__, PATHINFO_BASENAME));
+		echo 'Your system folder path does not appear to be set correctly. Please open the following file and correct this: '.pathinfo(__FILE__, PATHINFO_BASENAME);
+		exit(3); // EXIT_* constants not yet defined; 3 is EXIT_CONFIG.
 	}
 
 /*
@@ -225,7 +227,8 @@ switch (ENVIRONMENT)
 		if ( ! is_dir(BASEPATH.$application_folder.'/'))
 		{
 			header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
-			exit('Your application folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF);
+			echo 'Your application folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF;
+			exit(3); // EXIT_* constants not yet defined; 3 is EXIT_CONFIG.
 		}
 
 		define('APPPATH', BASEPATH.$application_folder.'/');
@@ -241,7 +244,8 @@ switch (ENVIRONMENT)
 		elseif ( ! is_dir(APPPATH.'views/'))
 		{
 			header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
-			exit('Your view folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF);
+			echo 'Your view folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF;
+			exit(3); // EXIT_* constants not yet defined; 3 is EXIT_CONFIG.
 		}
 		else
 		{
