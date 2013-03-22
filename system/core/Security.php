@@ -344,6 +344,14 @@ class CI_Security {
 		 */
 		$str = str_replace("\t", ' ', $str);
 
+		/*
+		* Turn quotes into their appropriate entities
+		* 52aa456eef8b60ad6754b31fbdcc77bb
+		*/
+		
+		$str = str_replace('"', '&#34;', $str);
+		$str = str_replace("'", '&#39;', $str);
+		
 		// Capture converted string for later comparison
 		$converted_string = $str;
 
