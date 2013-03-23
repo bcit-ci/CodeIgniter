@@ -647,7 +647,7 @@ if ( ! function_exists('set_value'))
 			return form_prep($OBJ->set_value($field, $default), $is_textarea);
 		}
 
-		if (FALSE !== ($OBJ =& _get_input_object()) && ($value = $OBJ->post($field, FALSE, TRUE)))
+		if (FALSE !== ($OBJ =& _get_input_object()) && ($value = $OBJ->post($field, FALSE)))
 		{
 			return form_prep($value, $is_textarea);
 		}
