@@ -149,10 +149,9 @@ class CI_Input {
 	 * @param	array	&$array		$_GET, $_POST, $_COOKIE, $_SERVER, etc.
 	 * @param	string	$index		Index for item to be fetched from $array
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
-	 * @param	bool	$recurse	Whether to recurse into arrays via nested keys
 	 * @return	mixed
 	 */
-	protected function _fetch_from_array(&$array, $index = '', $xss_clean = FALSE, $recurse = FALSE)
+	protected function _fetch_from_array(&$array, $index = '', $xss_clean = FALSE)
 	{
 		$value = NULL;
 
@@ -160,9 +159,8 @@ class CI_Input {
 		{
 			$value = $array[$index];
 		}
-		else if($recurse)
+		else if(preg_match('/\[[^]]*\]$/', $index))		// Does the index contain array notation
 		{
-			// We couldn't find the $field as a simple key, so try the nested notation
 			$key = $index;
 			$container = $array;
 			
@@ -211,10 +209,9 @@ class CI_Input {
 	 *
 	 * @param	string	$index		Index for item to be fetched from $_GET
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
-	 * @param	bool	$recurse	Whether to recurse into arrays via nested keys
 	 * @return	mixed
 	 */
-	public function get($index = NULL, $xss_clean = FALSE, $recurse = FALSE)
+	public function get($index = NULL, $xss_clean = FALSE)
 	{
 		// Check if a field has been provided
 		if ($index === NULL)
@@ -229,12 +226,12 @@ class CI_Input {
 			// loop through the full _GET array
 			foreach (array_keys($_GET) as $key)
 			{
-				$get[$key] = $this->_fetch_from_array($_GET, $key, $xss_clean, $recurse);
+				$get[$key] = $this->_fetch_from_array($_GET, $key, $xss_clean);
 			}
 			return $get;
 		}
 
-		return $this->_fetch_from_array($_GET, $index, $xss_clean, $recurse);
+		return $this->_fetch_from_array($_GET, $index, $xss_clean);
 	}
 
 	// --------------------------------------------------------------------
@@ -244,10 +241,9 @@ class CI_Input {
 	 *
 	 * @param	string	$index		Index for item to be fetched from $_POST
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
-	 * @param	bool	$recurse	Whether to recurse into arrays via nested keys
 	 * @return	mixed
 	 */
-	public function post($index = NULL, $xss_clean = FALSE, $recurse = FALSE)
+	public function post($index = NULL, $xss_clean = FALSE)
 	{
 		// Check if a field has been provided
 		if ($index === NULL)
@@ -262,12 +258,12 @@ class CI_Input {
 			// Loop through the full _POST array and return it
 			foreach (array_keys($_POST) as $key)
 			{
-				$post[$key] = $this->_fetch_from_array($_POST, $key, $xss_clean, $recurse);
+				$post[$key] = $this->_fetch_from_array($_POST, $key, $xss_clean);
 			}
 			return $post;
 		}
 
-		return $this->_fetch_from_array($_POST, $index, $xss_clean, $recurse);
+		return $this->_fetch_from_array($_POST, $index, $xss_clean);
 	}
 
 	// --------------------------------------------------------------------
@@ -277,14 +273,13 @@ class CI_Input {
 	 *
 	 * @param	string	$index		Index for item to be fetched from $_POST or $_GET
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
-	 * @param	bool	$recurse	Whether to recurse into arrays via nested keys
 	 * @return	mixed
 	 */
-	public function get_post($index = '', $xss_clean = FALSE, $recurse = FALSE)
+	public function get_post($index = '', $xss_clean = FALSE)
 	{
 		return isset($_POST[$index])
-			? $this->post($index, $xss_clean, $recurse)
-			: $this->get($index, $xss_clean, $recurse);
+			? $this->post($index, $xss_clean)
+			: $this->get($index, $xss_clean);
 	}
 
 	// --------------------------------------------------------------------
@@ -294,12 +289,11 @@ class CI_Input {
 	 *
 	 * @param	string	$index		Index for item to be fetched from $_COOKIE
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
-	 * @param	bool	$recurse	Whether to recurse into arrays via nested keys
 	 * @return	mixed
 	 */
-	public function cookie($index = '', $xss_clean = FALSE, $recurse = FALSE)
+	public function cookie($index = '', $xss_clean = FALSE)
 	{
-		return $this->_fetch_from_array($_COOKIE, $index, $xss_clean, $recurse);
+		return $this->_fetch_from_array($_COOKIE, $index, $xss_clean);
 	}
 
 	// --------------------------------------------------------------------
