@@ -347,7 +347,7 @@ if (!function_exists('script_tag'))
 	/**
 	 * Script
 	 *
-	 * Generates script tag to link to an external script file
+	 * Generates script tag to a script file
 	 *
 	 * @param	mixed	script src or an array of src's
 	 * @param	string	type
@@ -379,7 +379,7 @@ if (!function_exists('script_tag'))
 			
 			if (strpos($v, '://') === FALSE)
 			{
-				$v = $CI->config->site_url($v);
+				$v = $CI->config->base_url($v);
 			}
 			
 			if ($force_defer === FALSE)
