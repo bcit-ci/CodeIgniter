@@ -348,21 +348,14 @@ if (!function_exists('script_tag'))
 	 * Script
 	 *
 	 * Generates script tag to link to an external script file
-	 * 
-	 * Forced defer option uses inline JavaScript as a means of deferring
-	 * the loading of external script files until after page load.
 	 *
 	 * @param	mixed	script src or an array of src's
 	 * @param	string	type
-	 * @param	bool	should index_page be added to the script path
-	 * @param	bool	should index_page be added to the script path
 	 * @param	bool	async
 	 * @param	bool	defer
-	 * @param	bool	should defered JavaScript be used
-	 * @param	string	defer script id attribute
 	 * @return	string
 	 */
-	function script_tag($src = '', $type = 'application/javascript', $index_page = FALSE, $async = FALSE, $defer = FALSE, $force_defer = FALSE, $defer_script_id = 'asyncdeferloader_')
+	function script_tag($src = '', $type = 'application/javascript', $async = FALSE, $defer = FALSE)
 	{
 		$CI = &get_instance();
 		$script = '<script ';
@@ -374,22 +367,21 @@ if (!function_exists('script_tag'))
 
 		foreach ($src as $k => $v)
 		{
-			if (!$v) continue;
+			if (empty($v))
+			{
+				continue;
+			}
+			
 			if ($k)
 			{
-				$script .= "</script>\n<script ";
+				$script .= "</script>".PHP_EOL."<script ";
 			}
+			
 			if (strpos($v, '://') === FALSE)
 			{
-				if ($index_page === TRUE)
-				{
-					$v = $CI->config->site_url($v);
-				}
-				else
-				{
-					$v = $CI->config->slash_item('base_url').$v;
-				}
+				$v = $CI->config->site_url($v);
 			}
+			
 			if ($force_defer === FALSE)
 			{
 				$script .= 'src="'.$v.'" type="'.$type.'"';
@@ -403,24 +395,10 @@ if (!function_exists('script_tag'))
 				}
 				$script .= '>';
 			}
-			else
-			{
-				$script .= 'id="'.$defer_script_id.$k.'">';
-				$script .= 'var node = document.createElement("script");';
-				$script .= 'node.src = "'.$v.'";';
-				$script .= 'node.type = "'.$type.'";';
-				if ($async === TRUE)
-				{
-					$script .= 'node.async = "async";';
-				}
-				$script .= 'var s = document.getElementById("'.$defer_script_id.$k.'");';
-				$script .= 's.parentNode.insertBefore(node,s);';
-			}
 		}
 
-		return $script."</script>\n";
+		return $script."</script>".PHP_EOL;
 	}
-
 }
 
 // ------------------------------------------------------------------------
