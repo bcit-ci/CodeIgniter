@@ -153,53 +153,38 @@ class CI_Input {
 	 */
 	protected function _fetch_from_array(&$array, $index = '', $xss_clean = FALSE)
 	{
-		$value = NULL;
-
 		if (isset($array[$index]))
 		{
 			$value = $array[$index];
 		}
-		elseif(preg_match('/\[[^]]*\]$/', $index))		// Does the index contain array notation
+		elseif (($count = preg_match_all('/(?:^[^\[]+)|\[[^]]*\]/', $index, $matches)) > 1)		// Does the index contain array notation
 		{
-			$key = $index;
 			$container = $array;
-			
-			// Test if the $index is an array name, and try to obtain the final index
-			if (preg_match_all('/\[(.*?)\]/', $index, $matches))
+			for ($i = 0; $i < $count; $i++)
 			{
-				sscanf($index, '%[^[][', $key);
-				for ($i = 0, $c = count($matches[0]); $i < $c; $i++)
+				$key = trim($matches[0][$i], '[]');
+				if($key === '')			// The array notation will return the value as array
 				{
-					if($matches[1][$i] === '')			// The array notation will return the value as array
-					{
-						break;
-					}
-					if (isset($container[$key]))
-					{
-						$container = $container[$key];
-						$key = $matches[1][$i];
-					}
-					else
-					{
-						$container = array();
-						break;
-					}
+					break;
 				}
-
-				// Check if the deepest container has the field
-				if(isset($container[$key]))
+				if (isset($container[$key]))
 				{
-					$value = $container[$key];
+					$value = $container = $container[$key];
+				}
+				else
+				{
+					return NULL;
 				}
 			}
 		}
-
-		if ($xss_clean === TRUE)
+		else
 		{
-			return $this->security->xss_clean($value);
+			return NULL;
 		}
 
-		return $value;
+		return ($xss_clean === TRUE)
+			? $this->security->xss_clean($value)
+			: $value;
 	}
 
 	// --------------------------------------------------------------------
