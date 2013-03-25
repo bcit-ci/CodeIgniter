@@ -647,7 +647,8 @@ if ( ! function_exists('set_value'))
 			return form_prep($OBJ->set_value($field, $default), $is_textarea);
 		}
 
-		if (FALSE !== ($OBJ =& _get_input_object()) && ($value = $OBJ->post($field, FALSE)))
+		$CI =& get_instance();
+		if (NULL !== ($value = $CI->input->post($field, FALSE)))
 		{
 			return form_prep($value, $is_textarea);
 		}
@@ -1003,37 +1004,6 @@ if ( ! function_exists('_get_validation_object'))
 			return $CI->$object;
 		}
 
-		return $return;
-	}
-}
-
-// ------------------------------------------------------------------------
-
-if ( ! function_exists('_get_input_object'))
-{
-	/**
-	 * Input Object
-	 *
-	 * Fetches the input object
-	 *
-	 * @return	mixed
-	 */
-	function &_get_input_object()
-	{
-		$CI =& get_instance();
-
-		// We set this as a variable since we're returning by reference.
-		$return = FALSE;
-
-		if ( ! isset($CI->input) OR ! is_object($CI->input))
-		{
-			return $return;
-		}
-		else
-		{
-			$return = $CI->input;
-		}
-		
 		return $return;
 	}
 }
