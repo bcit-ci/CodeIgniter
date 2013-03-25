@@ -81,6 +81,11 @@ application/config/config.php file and setting this::
 
 	$config['csrf_protection'] = TRUE;
 
+CSRF protection relies on a secret string that is unique to your site.
+The string should be impossible to guess::
+
+	$config['csrf_secret'] = 'sdfdew3453fghdfo';
+
 If you use the :doc:`form helper <../helpers/form_helper>`, then
 ``form_open()`` will automatically insert a hidden csrf field in
 your forms. If not, then you can use ``csrf_get_token_name()``
