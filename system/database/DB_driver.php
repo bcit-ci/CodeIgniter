@@ -1743,7 +1743,7 @@ abstract class CI_DB_driver {
 		// Break the string apart if it contains periods not inside quotes, then insert the table prefix
 		// in the correct location, assuming the period doesn't indicate that we're dealing
 		// with an alias. While we're at it, we will escape the components
-		if (preg_match('!^[^\'"]+\.(?=(?:[\'"].*?[\'"])?)!', $item, $matches, PREG_OFFSET_CAPTURE))
+		if (preg_match('/^[^\'"]+\./', $item, $matches, PREG_OFFSET_CAPTURE))
 		{
 			$parts	= explode('.', $matches[0][0]);
 			// Assign rest of the string as last part since the regex excludes the trailing segment of item
