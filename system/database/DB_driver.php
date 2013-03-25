@@ -1740,12 +1740,14 @@ abstract class CI_DB_driver {
 			$alias = '';
 		}
 
-		// Break the string apart if it contains periods, then insert the table prefix
+		// Break the string apart if it contains periods not inside quotes, then insert the table prefix
 		// in the correct location, assuming the period doesn't indicate that we're dealing
 		// with an alias. While we're at it, we will escape the components
-		if (strpos($item, '.') !== FALSE)
+		if (preg_match('!^[^\'"]+\.(?=(?:[\'"].*?[\'"])?)!', $item, $matches, PREG_OFFSET_CAPTURE))
 		{
-			$parts	= explode('.', $item);
+			$parts	= explode('.', $matches[0][0]);
+			// Assign rest of the string as last part since the regex excludes the trailing segment of item
+			$parts[count($parts)-1] = substr($item, strlen($matches[0][0]));
 
 			// Does the first segment of the exploded item match
 			// one of the aliases previously identified? If so,
