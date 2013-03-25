@@ -159,7 +159,7 @@ class CI_Input {
 		{
 			$value = $array[$index];
 		}
-		else if(preg_match('/\[[^]]*\]$/', $index))		// Does the index contain array notation
+		elseif(preg_match('/\[[^]]*\]$/', $index))		// Does the index contain array notation
 		{
 			$key = $index;
 			$container = $array;
