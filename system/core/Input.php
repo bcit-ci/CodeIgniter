@@ -163,7 +163,7 @@ class CI_Input {
 			for ($i = 0; $i < $count; $i++)
 			{
 				$key = trim($matches[0][$i], '[]');
-				if($key === '') // Empty notation will return the value as array
+				if ($key === '') // Empty notation will return the value as array
 				{
 					break;
 				}
