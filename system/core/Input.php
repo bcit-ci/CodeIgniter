@@ -157,19 +157,20 @@ class CI_Input {
 		{
 			$value = $array[$index];
 		}
-		elseif (($count = preg_match_all('/(?:^[^\[]+)|\[[^]]*\]/', $index, $matches)) > 1)		// Does the index contain array notation
+		elseif (($count = preg_match_all('/(?:^[^\[]+)|\[[^]]*\]/', $index, $matches)) > 1) // Does the index contain array notation
 		{
-			$container = $array;
+			$value = $array;
 			for ($i = 0; $i < $count; $i++)
 			{
 				$key = trim($matches[0][$i], '[]');
-				if($key === '')			// The array notation will return the value as array
+				if($key === '') // Empty notation will return the value as array
 				{
 					break;
 				}
-				if (isset($container[$key]))
+
+				if (isset($value[$key]))
 				{
-					$value = $container = $container[$key];
+					$value = $value[$key];
 				}
 				else
 				{
