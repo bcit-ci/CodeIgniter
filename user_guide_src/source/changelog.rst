@@ -304,6 +304,7 @@ Release Date: Not Released
 	 -  Changed method ``valid_ip()`` to use PHP's native ``filter_var()`` function.
 	 -  Changed internal method ``_sanitize_globals()`` to skip enforcing reversal of *register_globals* in PHP 5.4+, where this functionality no longer exists.
 	 -  Changed methods ``get()``, ``post()``, ``get_post()``, ``cookie()``, ``server()``, ``user_agent()`` to return NULL instead of FALSE when no value is found.
+	 -  Changed method ``_fetch_from_array()`` to parse array notation in field name.
    -  :doc:`Common functions <general/common_functions>` changes include:
 	 -  Added function :php:func:`get_mimes()` to return the *application/config/mimes.php* array.
 	 -  Added support for HTTP code 303 ("See Other") in :php:func:`set_status_header()`.
@@ -488,6 +489,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#2239) - :doc:`Email Library <libraries/email>` improperly handled the Subject when used with ``bcc_batch_mode`` resulting in E_WARNING messages and an empty Subject.
 -  Fixed a bug (#2234) - :doc:`Query Builder <database/query_builder>` didn't reset JOIN cache for write-type queries.
 -  Fixed a bug (#2298) - :doc:`Database Results <database/results>` method `next_row()` kept returning the last row, allowing for infinite loops.
+-  Fixed a bug (#2236) - :doc:`Form Helper <helpers/form_helper>` function ``set_value()`` didn't parse array notation for keys if the rule was not present in the :doc:`Form Validation Library <libraries/form_validation>`.
 
 Version 2.1.3
 =============
