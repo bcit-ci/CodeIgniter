@@ -43,7 +43,7 @@ This example assumes you are sending the email from one of your
 Setting Email Preferences
 =========================
 
-There are 17 different preferences available to tailor how your email
+There are 21 different preferences available to tailor how your email
 messages are sent. You can either set them manually as described here,
 or automatically via preferences stored in your config file, described
 below:
