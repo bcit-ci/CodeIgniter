@@ -153,17 +153,39 @@ class CI_Input {
 	 */
 	protected function _fetch_from_array(&$array, $index = '', $xss_clean = FALSE)
 	{
-		if ( ! isset($array[$index]))
+		if (isset($array[$index]))
+		{
+			$value = $array[$index];
+		}
+		elseif (($count = preg_match_all('/(?:^[^\[]+)|\[[^]]*\]/', $index, $matches)) > 1) // Does the index contain array notation
+		{
+			$value = $array;
+			for ($i = 0; $i < $count; $i++)
+			{
+				$key = trim($matches[0][$i], '[]');
+				if ($key === '') // Empty notation will return the value as array
+				{
+					break;
+				}
+
+				if (isset($value[$key]))
+				{
+					$value = $value[$key];
+				}
+				else
+				{
+					return NULL;
+				}
+			}
+		}
+		else
 		{
 			return NULL;
 		}
 
-		if ($xss_clean === TRUE)
-		{
-			return $this->security->xss_clean($array[$index]);
-		}
-
-		return $array[$index];
+		return ($xss_clean === TRUE)
+			? $this->security->xss_clean($value)
+			: $value;
 	}
 
 	// --------------------------------------------------------------------
