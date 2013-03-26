@@ -342,59 +342,62 @@ if ( ! function_exists('link_tag'))
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('script_tag'))
+if ( ! function_exists('script_tag'))
 {
 	/**
 	 * Script
 	 *
-	 * Generates script tag to a script file
+	 * Generates script tag point to a script file with options for async 
+	 * or defered script loading to speed up DOM rendering.
 	 *
 	 * @param	mixed	script src or an array of src's
-	 * @param	string	type
-	 * @param	bool	async
-	 * @param	bool	defer
+	 * @param	string	MIME type of file(s)
+	 * @param	bool	async option
+	 * @param	bool	defer option
 	 * @return	string
 	 */
-	function script_tag($src = '', $type = 'application/javascript', $async = FALSE, $defer = FALSE)
+	function script_tag($src, $type = 'application/javascript', $async = FALSE, $defer = FALSE)
 	{
 		$CI = &get_instance();
 		$script = '<script ';
-
+		
 		if (!is_array($src))
 		{
 			$src = array($src);
 		}
 
-		foreach ($src as $k => $v)
+		foreach ($src as $key => $value)
 		{
-			if (empty($v))
+			if (empty($value))
 			{
 				continue;
 			}
 			
-			if ($k)
+			// If not the first script tag, close tag and open new tag
+			if ($script != '<script ')
 			{
-				$script .= "</script>".PHP_EOL."<script ";
+				$script .= '</script>'.PHP_EOL.'<script ';
 			}
 			
-			if (strpos($v, '://') === FALSE)
+			// If $value is not FQDN, use the application's base url as root
+			if (strpos($value, '://') === FALSE)
 			{
-				$v = $CI->config->base_url($v);
+				$value = $CI->config->base_url($value);
 			}
 			
-			if ($force_defer === FALSE)
+			$script .= 'src="'.$value.'" type="'.$type.'"';
+			
+			// Sets defer tag or async tag
+			if ($defer === TRUE)
 			{
-				$script .= 'src="'.$v.'" type="'.$type.'"';
-				if ($async === TRUE)
-				{
-					$script .= ' async="async"';
-				}
-				if ($defer === TRUE)
-				{
-					$script .= ' defer="defer"';
-				}
-				$script .= '>';
+				$script .= ' defer="defer"';
 			}
+			elseif ($async === TRUE)
+			{
+				$script .= ' async="async"';
+			}
+			
+			$script .= '>';
 		}
 
 		return $script."</script>".PHP_EOL;
