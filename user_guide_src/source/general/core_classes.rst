@@ -39,9 +39,9 @@ Replacing Core Classes
 ======================
 
 To use one of your own system classes instead of a default one simply
-place your version inside your local application/core directory::
+place your version inside your local *application/core/* directory::
 
-	application/core/some-class.php
+	application/core/some_class.php
 
 If this directory does not exist you can create it.
 
@@ -59,7 +59,7 @@ Extending Core Class
 ====================
 
 If all you need to do is add some functionality to an existing library -
-perhaps add a function or two - then it's overkill to replace the entire
+perhaps add a method or two - then it's overkill to replace the entire
 library with your version. In this case it's better to simply extend the
 class. Extending a class is nearly identical to replacing a class with a
 couple exceptions:
@@ -75,19 +75,19 @@ application/core/MY_Input.php, and declare your class with::
 
 	}
 
-Note: If you need to use a constructor in your class make sure you
-extend the parent constructor::
+.. note:: If you need to use a constructor in your class make sure you
+	extend the parent constructor::
 
-	class MY_Input extends CI_Input {
+		class MY_Input extends CI_Input {
 
-	    function __construct()
-	    {
-	        parent::__construct();
-	    }
-	}
+			public function __construct()
+			{
+				parent::__construct();
+			}
+		}
 
 **Tip:** Any functions in your class that are named identically to the
-functions in the parent class will be used instead of the native ones
+methods in the parent class will be used instead of the native ones
 (this is known as "method overriding"). This allows you to substantially
 alter the CodeIgniter core.
 
@@ -98,24 +98,24 @@ your new class in your application controller's constructors.
 
 	class Welcome extends MY_Controller {
 
-	    function __construct()
-	    {
-	        parent::__construct();
-	    }
+		public function __construct()
+		{
+			parent::__construct();
+		}
 
-	    function index()
-	    {
-	        $this->load->view('welcome_message');
-	    }
+		public function index()
+		{
+			$this->load->view('welcome_message');
+		}
 	}
 
 Setting Your Own Prefix
 -----------------------
 
 To set your own sub-class prefix, open your
-application/config/config.php file and look for this item::
+*application/config/config.php* file and look for this item::
 
 	$config['subclass_prefix'] = 'MY_';
 
-Please note that all native CodeIgniter libraries are prefixed with CI\_
-so DO NOT use that as your prefix.
+Please note that all native CodeIgniter libraries are prefixed
+with CI\_ so DO NOT use that as your prefix.

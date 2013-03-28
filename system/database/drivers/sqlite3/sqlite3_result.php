@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * SQLite3 Result Class
@@ -37,9 +38,6 @@
  */
 class CI_DB_sqlite3_result extends CI_DB_result {
 
-	// num_fields() might be called multiple times, so we'll use this one to cache it's result
-	protected $_num_fields;
-
 	/**
 	 * Number of fields in the result set
 	 *
@@ -47,9 +45,7 @@ class CI_DB_sqlite3_result extends CI_DB_result {
 	 */
 	public function num_fields()
 	{
-		return ( ! is_int($this->_num_fields))
-			? $this->_num_fields = $this->result_id->numColumns()
-			: $this->_num_fields;
+		return $this->result_id->numColumns();
 	}
 
 	// --------------------------------------------------------------------
@@ -83,15 +79,24 @@ class CI_DB_sqlite3_result extends CI_DB_result {
 	 */
 	public function field_data()
 	{
+		static $data_types = array(
+			SQLITE3_INTEGER	=> 'integer',
+			SQLITE3_FLOAT	=> 'float',
+			SQLITE3_TEXT	=> 'text',
+			SQLITE3_BLOB	=> 'blob',
+			SQLITE3_NULL	=> 'null'
+		);
+
 		$retval = array();
 		for ($i = 0, $c = $this->num_fields(); $i < $this->num_fields(); $i++)
 		{
 			$retval[$i]			= new stdClass();
 			$retval[$i]->name		= $this->result_id->columnName($i);
-			$retval[$i]->type		= 'varchar';
-			$retval[$i]->max_length		= 0;
-			$retval[$i]->primary_key	= 0;
-			$retval[$i]->default		= '';
+
+			$type = $this->result_id->columnType($i);
+			$retval[$i]->type		= isset($data_types[$type]) ? $data_types[$type] : $type;
+
+			$retval[$i]->max_length		= NULL;
 		}
 
 		return $retval;
@@ -134,7 +139,7 @@ class CI_DB_sqlite3_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @param	string
+	 * @param	string	$class_name
 	 * @return	object
 	 */
 	protected function _fetch_object($class_name = 'stdClass')
@@ -165,14 +170,15 @@ class CI_DB_sqlite3_result extends CI_DB_result {
 	 *
 	 * Moves the internal pointer to the desired offset. We call
 	 * this internally before fetching results to make sure the
-	 * result set starts at zero
+	 * result set starts at zero.
 	 *
+	 * @param	int	$n	(ignored)
 	 * @return	array
 	 */
-	protected function _data_seek($n = 0)
+	public function data_seek($n = 0)
 	{
 		// Only resetting to the start of the result set is supported
-		return $this->result_id->reset();
+		return ($n > 0) ? FALSE : $this->result_id->reset();
 	}
 
 }

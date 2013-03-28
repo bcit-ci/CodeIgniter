@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2006 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2006 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Shopping Cart Class
@@ -94,11 +95,11 @@ class CI_Cart {
 		$config = is_array($params) ? $params : array();
 
 		// Load the Sessions class
-		$this->CI->load->library('session', $config);
+		$this->CI->load->driver('session', $config);
 
 		// Grab the shopping cart array from the session table
 		$this->_cart_contents = $this->CI->session->userdata('cart_contents');
-		if ($this->_cart_contents === FALSE)
+		if ($this->_cart_contents === NULL)
 		{
 			// No cart exists so we'll set some base values
 			$this->_cart_contents = array('cart_total' => 0, 'total_items' => 0);
@@ -193,7 +194,7 @@ class CI_Cart {
 		$items['qty'] = (float) $items['qty'];
 
 		// If the quantity is zero or blank there's nothing for us to do
-		if ( ! is_numeric($items['qty']) OR $items['qty'] == 0)
+		if ($items['qty'] == 0)
 		{
 			return FALSE;
 		}
@@ -223,15 +224,6 @@ class CI_Cart {
 
 		// Prep the price. Remove leading zeros and anything that isn't a number or decimal point.
 		$items['price'] = (float) $items['price'];
-
-		// Is the price a valid number?
-		if ( ! is_numeric($items['price']))
-		{
-			log_message('error', 'An invalid price was submitted for product ID: '.$items['id']);
-			return FALSE;
-		}
-
-		// --------------------------------------------------------------------
 
 		// We now need to create a unique identifier for the item being inserted into the cart.
 		// Every time something is added to the cart it is stored in the master cart array.
@@ -350,12 +342,6 @@ class CI_Cart {
 		// Prep the quantity
 		$items['qty'] = (float) $items['qty'];
 
-		// Is the quantity a number?
-		if ( ! is_numeric($items['qty']))
-		{
-			return FALSE;
-		}
-
 		// Is the quantity zero?  If so we will remove the item from the cart.
 		// If the quantity is greater than zero we are updating
 		if ($items['qty'] == 0)
@@ -379,7 +365,7 @@ class CI_Cart {
 	 */
 	protected function _save_cart()
 	{
-		// Lets add up the individual prices and set the cart sub-total
+		// Let's add up the individual prices and set the cart sub-total
 		$this->_cart_contents['total_items'] = $this->_cart_contents['cart_total'] = 0;
 		foreach ($this->_cart_contents as $key => $val)
 		{
@@ -480,17 +466,34 @@ class CI_Cart {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Get cart item
+	 *
+	 * Returns the details of a specific item in the cart
+	 *
+	 * @param	string	$row_id
+	 * @return	array
+	 */
+	public function get_item($row_id)
+	{
+		return (in_array($row_id, array('total_items', 'cart_total'), TRUE) OR ! isset($this->_cart_contents[$row_id]))
+			? FALSE
+			: $this->_cart_contents[$row_id];
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Has options
 	 *
 	 * Returns TRUE if the rowid passed to this function correlates to an item
 	 * that has options associated with it.
 	 *
-	 * @param	mixed
+	 * @param	string	$row_id = ''
 	 * @return	bool
 	 */
-	public function has_options($rowid = '')
+	public function has_options($row_id = '')
 	{
-		return (isset($this->_cart_contents[$rowid]['options']) && count($this->_cart_contents[$rowid]['options']) !== 0);
+		return (isset($this->_cart_contents[$row_id]['options']) && count($this->_cart_contents[$row_id]['options']) !== 0);
 	}
 
 	// --------------------------------------------------------------------
@@ -500,12 +503,12 @@ class CI_Cart {
 	 *
 	 * Returns the an array of options, for a particular product row ID
 	 *
-	 * @param	int
+	 * @param	string	$row_id = ''
 	 * @return	array
 	 */
-	public function product_options($rowid = '')
+	public function product_options($row_id = '')
 	{
-		return isset($this->_cart_contents[$rowid]['options']) ? $this->_cart_contents[$rowid]['options'] : array();
+		return isset($this->_cart_contents[$row_id]['options']) ? $this->_cart_contents[$row_id]['options'] : array();
 	}
 
 	// --------------------------------------------------------------------

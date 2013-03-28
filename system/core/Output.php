@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,17 +18,18 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Output Class
  *
- * Responsible for sending final output to browser
+ * Responsible for sending final output to the browser.
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
@@ -39,70 +40,74 @@
 class CI_Output {
 
 	/**
-	 * Current output string
+	 * Final output string
 	 *
-	 * @var string
+	 * @var	string
 	 */
 	public $final_output;
 
 	/**
 	 * Cache expiration time
 	 *
-	 * @var int
+	 * @var	int
 	 */
-	public $cache_expiration =	0;
+	public $cache_expiration = 0;
 
 	/**
 	 * List of server headers
 	 *
-	 * @var array
+	 * @var	array
 	 */
 	public $headers =	array();
 
 	/**
 	 * List of mime types
 	 *
-	 * @var array
+	 * @var	array
 	 */
 	public $mimes =		array();
 
 	/**
 	 * Mime-type for the current page
 	 *
-	 * @var string
+	 * @var	string
 	 */
-	protected $mime_type		= 'text/html';
+	protected $mime_type	= 'text/html';
 
 	/**
-	 * Determines whether profiler is enabled
+	 * Enable Profiler flag
 	 *
-	 * @var book
+	 * @var	bool
 	 */
-	public $enable_profiler =	FALSE;
+	public $enable_profiler = FALSE;
 
 	/**
-	 * Determines if output compression is enabled
+	 * zLib output compression flag
 	 *
-	 * @var bool
+	 * @var	bool
 	 */
 	protected $_zlib_oc =		FALSE;
 
 	/**
 	 * List of profiler sections
 	 *
-	 * @var array
+	 * @var	array
 	 */
 	protected $_profiler_sections =	array();
 
 	/**
-	 * Whether or not to parse variables like {elapsed_time} and {memory_usage}
+	 * Parse markers flag
 	 *
-	 * @var bool
+	 * Whether or not to parse variables like {elapsed_time} and {memory_usage}.
+	 *
+	 * @var	bool
 	 */
 	public $parse_exec_vars =	TRUE;
 
 	/**
-	 * Set up Output class
+	 * Class constructor
+	 *
+	 * Determines whether zLib output compression will be used.
 	 *
 	 * @return	void
 	 */
@@ -121,7 +126,7 @@ class CI_Output {
 	/**
 	 * Get Output
 	 *
-	 * Returns the current output string
+	 * Returns the current output string.
 	 *
 	 * @return	string
 	 */
@@ -135,10 +140,10 @@ class CI_Output {
 	/**
 	 * Set Output
 	 *
-	 * Sets the output string
+	 * Sets the output string.
 	 *
-	 * @param	string
-	 * @return	void
+	 * @param	string	$output	Output data
+	 * @return	CI_Output
 	 */
 	public function set_output($output)
 	{
@@ -151,14 +156,14 @@ class CI_Output {
 	/**
 	 * Append Output
 	 *
-	 * Appends data onto the output string
+	 * Appends data onto the output string.
 	 *
-	 * @param	string
-	 * @return	void
+	 * @param	string	$output	Data to append
+	 * @return	CI_Output
 	 */
 	public function append_output($output)
 	{
-		if ($this->final_output == '')
+		if (empty($this->final_output))
 		{
 			$this->final_output = $output;
 		}
@@ -175,14 +180,14 @@ class CI_Output {
 	/**
 	 * Set Header
 	 *
-	 * Lets you set a server header which will be outputted with the final display.
+	 * Lets you set a server header which will be sent with the final output.
 	 *
-	 * Note: If a file is cached, headers will not be sent. We need to figure out
-	 * how to permit header data to be saved with the cache data...
+	 * Note: If a file is cached, headers will not be sent.
+	 * @todo	We need to figure out how to permit headers to be cached.
 	 *
-	 * @param	string
-	 * @param	bool
-	 * @return	void
+	 * @param	string	$header		Header
+	 * @param	bool	$replace	Whether to replace the old header value, if already set
+	 * @return	CI_Output
 	 */
 	public function set_header($header, $replace = TRUE)
 	{
@@ -192,7 +197,7 @@ class CI_Output {
 		// We'll just skip content-length in those cases.
 		if ($this->_zlib_oc && strncasecmp($header, 'content-length', 14) === 0)
 		{
-			return;
+			return $this;
 		}
 
 		$this->headers[] = array($header, $replace);
@@ -202,10 +207,11 @@ class CI_Output {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set Content Type Header
+	 * Set Content-Type Header
 	 *
-	 * @param	string	extension of the file we're outputting
-	 * @return	void
+	 * @param	string	$mime_type	Extension of the file we're outputting
+	 * @param	string	$charset	Character set (default: NULL)
+	 * @return	CI_Output
 	 */
 	public function set_content_type($mime_type, $charset = NULL)
 	{
@@ -233,7 +239,7 @@ class CI_Output {
 		}
 
 		$header = 'Content-Type: '.$mime_type
-			.(empty($charset) ? NULL : '; charset='.strtolower($charset));
+			.(empty($charset) ? NULL : '; charset='.$charset);
 
 		$this->headers[] = array($header, TRUE);
 		return $this;
@@ -242,7 +248,7 @@ class CI_Output {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Get Current Content Type Header
+	 * Get Current Content-Type Header
 	 *
 	 * @return	string	'text/html', if not already set
 	 */
@@ -250,9 +256,9 @@ class CI_Output {
 	{
 		for ($i = 0, $c = count($this->headers); $i < $c; $i++)
 		{
-			if (preg_match('/^Content-Type:\s(.+)$/', $this->headers[$i][0], $matches))
+			if (sscanf($this->headers[$i][0], 'Content-Type: %[^;]', $content_type) === 1)
 			{
-				return $matches[1];
+				return $content_type;
 			}
 		}
 
@@ -262,12 +268,47 @@ class CI_Output {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set HTTP Status Header
-	 * moved to Common procedural functions in 1.7.2
+	 * Get Header
 	 *
-	 * @param	int	the status code
-	 * @param	string
-	 * @return	void
+	 * @param	string	$header_name
+	 * @return	string
+	 */
+	public function get_header($header)
+	{
+		// Combine headers already sent with our batched headers
+		$headers = array_merge(
+			// We only need [x][0] from our multi-dimensional array
+			array_map('array_shift', $this->headers),
+			headers_list()
+		);
+
+		if (empty($headers) OR empty($header))
+		{
+			return NULL;
+		}
+
+		for ($i = 0, $c = count($headers); $i < $c; $i++)
+		{
+			if (strncasecmp($header, $headers[$i], $l = strlen($header)) === 0)
+			{
+				return trim(substr($headers[$i], $l+1));
+			}
+		}
+
+		return NULL;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set HTTP Status Header
+	 *
+	 * As of version 1.7.2, this is an alias for common function
+	 * set_status_header().
+	 *
+	 * @param	int	$code	Status code (default: 200)
+	 * @param	string	$text	Optional message
+	 * @return	CI_Output
 	 */
 	public function set_status_header($code = 200, $text = '')
 	{
@@ -280,8 +321,8 @@ class CI_Output {
 	/**
 	 * Enable/disable Profiler
 	 *
-	 * @param	bool
-	 * @return	void
+	 * @param	bool	$val	TRUE to enable or FALSE to disable
+	 * @return	CI_Output
 	 */
 	public function enable_profiler($val = TRUE)
 	{
@@ -294,10 +335,11 @@ class CI_Output {
 	/**
 	 * Set Profiler Sections
 	 *
-	 * Allows override of default / config settings for Profiler section display
+	 * Allows override of default/config settings for
+	 * Profiler section display.
 	 *
-	 * @param	array
-	 * @return	void
+	 * @param	array	$sections	Profiler sections
+	 * @return	CI_Output
 	 */
 	public function set_profiler_sections($sections)
 	{
@@ -320,8 +362,8 @@ class CI_Output {
 	/**
 	 * Set Cache
 	 *
-	 * @param	int
-	 * @return	void
+	 * @param	int	$time	Cache expiration time in seconds
+	 * @return	CI_Output
 	 */
 	public function cache($time)
 	{
@@ -334,16 +376,16 @@ class CI_Output {
 	/**
 	 * Display Output
 	 *
-	 * All "view" data is automatically put into this variable by the controller class:
+	 * Processes sends the sends finalized output data to the browser along
+	 * with any server headers and profile data. It also stops benchmark
+	 * timers so the page rendering speed and memory usage can be shown.
 	 *
-	 * $this->final_output
+	 * Note: All "view" data is automatically put into $this->final_output
+	 *	 by controller class.
 	 *
-	 * This function sends the finalized output data to the browser along
-	 * with any server headers and profile data. It also stops the
-	 * benchmark timer so the page rendering speed and memory usage can be shown.
-	 *
-	 * @param	string
-	 * @return	mixed
+	 * @uses	CI_Output::$final_output
+	 * @param	string	$output	Output data override
+	 * @return	void
 	 */
 	public function _display($output = '')
 	{
@@ -353,7 +395,7 @@ class CI_Output {
 		global $BM, $CFG;
 
 		// Grab the super object if we can.
-		if (class_exists('CI_Controller'))
+		if (class_exists('CI_Controller', FALSE))
 		{
 			$CI =& get_instance();
 		}
@@ -374,10 +416,9 @@ class CI_Output {
 			$output = $this->minify($output, $this->mime_type);
 		}
 
-
 		// --------------------------------------------------------------------
 
-		// Do we need to write a cache file?  Only if the controller does not have its
+		// Do we need to write a cache file? Only if the controller does not have its
 		// own _output() method and we are not dealing with a cache file, which we
 		// can determine by the existence of the $CI object above
 		if ($this->cache_expiration > 0 && isset($CI) && ! method_exists($CI, '_output'))
@@ -430,7 +471,7 @@ class CI_Output {
 			echo $output;
 			log_message('debug', 'Final output sent to browser');
 			log_message('debug', 'Total execution time: '.$elapsed);
-			return TRUE;
+			return;
 		}
 
 		// --------------------------------------------------------------------
@@ -472,9 +513,9 @@ class CI_Output {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Write a Cache File
+	 * Write Cache
 	 *
-	 * @param	string
+	 * @param	string	$output	Output data to cache
 	 * @return	void
 	 */
 	public function _write_cache($output)
@@ -503,9 +544,15 @@ class CI_Output {
 
 		$expire = time() + ($this->cache_expiration * 60);
 
+		// Put together our serialized info.
+		$cache_info = serialize(array(
+			'expire'	=> $expire,
+			'headers'	=> $this->headers
+		));
+
 		if (flock($fp, LOCK_EX))
 		{
-			fwrite($fp, $expire.'TS--->'.$output);
+			fwrite($fp, $cache_info.'ENDCI--->'.$output);
 			flock($fp, LOCK_UN);
 		}
 		else
@@ -525,11 +572,14 @@ class CI_Output {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Update/serve a cached file
+	 * Update/serve cached output
 	 *
-	 * @param	object	config class
-	 * @param	object	uri class
-	 * @return	bool
+	 * @uses	CI_Config
+	 * @uses	CI_URI
+	 *
+	 * @param	object	&$CFG	CI_Config class instance
+	 * @param	object	&$URI	CI_URI class instance
+	 * @return	bool	TRUE on success or FALSE on failure
 	 */
 	public function _display_cache(&$CFG, &$URI)
 	{
@@ -551,14 +601,16 @@ class CI_Output {
 		flock($fp, LOCK_UN);
 		fclose($fp);
 
-		// Strip out the embedded timestamp
-		if ( ! preg_match('/^(\d+)TS--->/', $cache, $match))
+		// Look for embedded serialized file info.
+		if ( ! preg_match('/^(.*)ENDCI--->/', $cache, $match))
 		{
 			return FALSE;
 		}
 
+		$cache_info = unserialize($match[1]);
+		$expire = $cache_info['expire'];
+
 		$last_modified = filemtime($cache_path);
-		$expire = $match[1];
 
 		// Has the file expired?
 		if ($_SERVER['REQUEST_TIME'] >= $expire && is_really_writable($cache_path))
@@ -574,6 +626,12 @@ class CI_Output {
 			$this->set_cache_header($last_modified, $expire);
 		}
 
+		// Add headers from cache file.
+		foreach ($cache_info['headers'] as $header)
+		{
+			$this->set_header($header[0], $header[1]);
+		}
+
 		// Display the cache
 		$this->_display(substr($cache, strlen($match[0])));
 		log_message('debug', 'Cache file is current. Sending it to browser.');
@@ -583,11 +641,52 @@ class CI_Output {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Delete cache
+	 *
+	 * @param	string	$uri	URI string
+	 * @return	bool
+	 */
+	public function delete_cache($uri = '')
+	{
+		$CI =& get_instance();
+		$cache_path = $CI->config->item('cache_path');
+		if ($cache_path === '')
+		{
+			$cache_path = APPPATH.'cache/';
+		}
+
+		if ( ! is_dir($cache_path))
+		{
+			log_message('error', 'Unable to find cache path: '.$cache_path);
+			return FALSE;
+		}
+
+		if (empty($uri))
+		{
+			$uri = $CI->uri->uri_string();
+		}
+
+		$cache_path .= md5($CI->config->item('base_url').$CI->config->item('index_page').$uri);
+
+		if ( ! @unlink($cache_path))
+		{
+			log_message('error', 'Unable to delete cache file for '.$uri);
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set Cache Header
+	 *
 	 * Set the HTTP headers to match the server-side file cache settings
 	 * in order to reduce bandwidth.
 	 *
-	 * @param	int	timestamp of when the page was last modified
-	 * @param	int	timestamp of when should the requested page expire from cache
+	 * @param	int	$last_modified	Timestamp of when the page was last modified
+	 * @param	int	$expiration	Timestamp of when should the requested page expire from cache
 	 * @return	void
 	 */
 	public function set_cache_header($last_modified, $expiration)
@@ -611,11 +710,13 @@ class CI_Output {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Reduce excessive size of HTML content.
+	 * Minify
 	 *
-	 * @param	string
-	 * @param	string
-	 * @return	string
+	 * Reduce excessive size of HTML/CSS/JavaScript content.
+	 *
+	 * @param	string	$output	Output to minify
+	 * @param	string	$type	Output content MIME type
+	 * @return	string	Minified output
 	 */
 	public function minify($output, $type = 'text/html')
 	{
@@ -623,9 +724,7 @@ class CI_Output {
 		{
 			case 'text/html':
 
-				$size_before = strlen($output);
-
-				if ($size_before === 0)
+				if (($size_before = strlen($output)) === 0)
 				{
 					return '';
 				}
@@ -641,23 +740,23 @@ class CI_Output {
 				preg_match_all('{<style.+</style>}msU', $output, $style_clean);
 				foreach ($style_clean[0] as $s)
 				{
-					$output = str_replace($s, $this->minify($s, 'text/css'), $output);
+					$output = str_replace($s, $this->_minify_script_style($s, TRUE), $output);
 				}
 
 				// Minify the javascript in <script> tags.
 				foreach ($javascript_clean[0] as $s)
 				{
-					$javascript_mini[] = $this->minify($s, 'text/javascript');
+					$javascript_mini[] = $this->_minify_script_style($s, TRUE);
 				}
 
 				// Replace multiple spaces with a single space.
 				$output = preg_replace('!\s{2,}!', ' ', $output);
 
 				// Remove comments (non-MSIE conditionals)
-				$output = preg_replace('{\s*<!--[^\[].*-->\s*}msU', '', $output);
+				$output = preg_replace('{\s*<!--[^\[<>].*(?<!!)-->\s*}msU', '', $output);
 
 				// Remove spaces around block-level elements.
-				$output = preg_replace('/\s*(<\/?(html|head|title|meta|script|link|style|body|h[1-6]|div|p|br)[^>]*>)\s*/is', '$1', $output);
+				$output = preg_replace('/\s*(<\/?(html|head|title|meta|script|link|style|body|table|thead|tbody|tfoot|tr|th|td|h[1-6]|div|p|br)[^>]*>)\s*/is', '$1', $output);
 
 				// Replace mangled <pre> etc. tags with unprocessed ones.
 
@@ -673,7 +772,7 @@ class CI_Output {
 					$output = str_replace($codes_messed[0], $codes_clean[0], $output);
 				}
 
-				if ( ! empty($codes_clean))
+				if ( ! empty($textareas_clean))
 				{
 					preg_match_all('{<textarea.+</textarea>}msU', $output, $textareas_messed);
 					$output = str_replace($textareas_messed[0], $textareas_clean[0], $output);
@@ -693,25 +792,144 @@ class CI_Output {
 			break;
 
 			case 'text/css':
-
-				//Remove CSS comments
-				$output = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $output);
-
-				// Remove spaces around curly brackets, colons,
-				// semi-colons, parenthesis, commas
-				$output = preg_replace('!\s*(:|;|,|}|{|\(|\))\s*!', '$1', $output);
-
-			break;
-
 			case 'text/javascript':
+			case 'application/javascript':
+			case 'application/x-javascript':
 
-				// Currently leaves JavaScript untouched.
+				$output = $this->_minify_script_style($output);
+
 			break;
 
 			default: break;
 		}
 
 		return $output;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Minify Style and Script
+	 *
+	 * Reduce excessive size of CSS/JavaScript content.  To remove spaces this
+	 * script walks the string as an array and determines if the pointer is inside
+	 * a string created by single quotes or double quotes.  spaces inside those
+	 * strings are not stripped.  Opening and closing tags are severed from
+	 * the string initially and saved without stripping whitespace to preserve
+	 * the tags and any associated properties if tags are present
+	 *
+	 * Minification logic/workflow is similar to methods used by Douglas Crockford
+	 * in JSMIN. http://www.crockford.com/javascript/jsmin.html
+	 *
+	 * KNOWN ISSUE: ending a line with a closing parenthesis ')' and no semicolon
+	 * where there should be one will break the Javascript. New lines after a
+	 * closing parenthesis are not recognized by the script. For best results
+	 * be sure to terminate lines with a semicolon when appropriate.
+	 *
+	 * @param	string	$output		Output to minify
+	 * @param	bool	$has_tags	Specify if the output has style or script tags
+	 * @return	string	Minified output
+	 */
+	protected function _minify_script_style($output, $has_tags = FALSE)
+	{
+		// We only need this if there are tags in the file
+		if ($has_tags === TRUE)
+		{
+			// Remove opening tag and save for later
+			$pos = strpos($output, '>') + 1;
+			$open_tag = substr($output, 0, $pos);
+			$output = substr_replace($output, '', 0, $pos);
+
+			// Remove closing tag and save it for later
+			$end_pos = strlen($output);
+			$pos = strpos($output, '</');
+			$closing_tag = substr($output, $pos, $end_pos);
+			$output = substr_replace($output, '', $pos);
+		}
+
+		// Remove CSS comments
+		$output = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!i', '', $output);
+
+		// Remove spaces around curly brackets, colons,
+		// semi-colons, parenthesis, commas
+		$output = preg_replace('!\s*(:|;|,|}|{|\(|\))\s*!i', '$1', $output);
+
+		// Replace tabs with spaces
+		// Replace carriage returns & multiple new lines with single new line
+		// and trim any leading or trailing whitespace
+		$output = trim(preg_replace(array('/\t+/', '/\r/', '/\n+/'), array(' ', "\n", "\n"), $output));
+
+		// Remove spaces when safe to do so.
+		$in_string = $in_dstring = $prev = FALSE;
+		$array_output = str_split($output);
+		foreach ($array_output as $key => $value)
+		{
+			if ($in_string === FALSE && $in_dstring === FALSE)
+			{
+				if ($value === ' ')
+				{
+					// Get the next element in the array for comparisons
+					$next = $array_output[$key + 1];
+
+					// Strip spaces preceded/followed by a non-ASCII character
+					// or not preceded/followed by an alphanumeric
+					// or not preceded/followed \ $ and _
+					if ((preg_match('/^[\x20-\x7f]*$/D', $next) OR preg_match('/^[\x20-\x7f]*$/D', $prev))
+						&& ( ! ctype_alnum($next) OR ! ctype_alnum($prev))
+						&& ! in_array($next, array('\\', '_', '$'), TRUE)
+						&& ! in_array($prev, array('\\', '_', '$'), TRUE)
+					)
+					{
+						unset($array_output[$key]);
+					}
+				}
+				else
+				{
+					// Save this value as previous for the next iteration
+					// if it is not a blank space
+					$prev = $value;
+				}
+			}
+
+			if ($value === "'")
+			{
+				$in_string = ! $in_string;
+			}
+			elseif ($value === '"')
+			{
+				$in_dstring = ! $in_dstring;
+			}
+		}
+
+		// Put the string back together after spaces have been stripped
+		$output = implode($array_output);
+
+		// Remove new line characters unless previous or next character is
+		// printable or Non-ASCII
+		preg_match_all('/[\n]/', $output, $lf, PREG_OFFSET_CAPTURE);
+		$removed_lf = 0;
+		foreach ($lf as $feed_position)
+		{
+			foreach ($feed_position as $position)
+			{
+				$position = $position[1] - $removed_lf;
+				$next = $output[$position + 1];
+				$prev = $output[$position - 1];
+				if ( ! ctype_print($next) && ! ctype_print($prev)
+					&& ! preg_match('/^[\x20-\x7f]*$/D', $next)
+					&& ! preg_match('/^[\x20-\x7f]*$/D', $prev)
+				)
+				{
+					$output = substr_replace($output, '', $position, 1);
+					$removed_lf++;
+				}
+			}
+		}
+
+		// Put the opening and closing tags back if applicable
+		return isset($open_tag)
+			? $open_tag.$output.$closing_tag
+			: $output;
 	}
 
 }

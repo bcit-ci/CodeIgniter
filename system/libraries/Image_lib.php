@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Image Manipulation class
@@ -387,7 +388,7 @@ class CI_Image_lib {
 	 */
 	public function clear()
 	{
-		$props = array('library_path', 'source_image', 'new_image', 'width', 'height', 'rotation_angle', 'x_axis', 'y_axis', 'wm_text', 'wm_overlay_path', 'wm_font_path', 'wm_shadow_color', 'source_folder', 'dest_folder', 'mime_type', 'orig_width', 'orig_height', 'image_type', 'size_str', 'full_src_path', 'full_dst_path');
+		$props = array('thumb_marker', 'library_path', 'source_image', 'new_image', 'width', 'height', 'rotation_angle', 'x_axis', 'y_axis', 'wm_text', 'wm_overlay_path', 'wm_font_path', 'wm_shadow_color', 'source_folder', 'dest_folder', 'mime_type', 'orig_width', 'orig_height', 'image_type', 'size_str', 'full_src_path', 'full_dst_path');
 
 		foreach ($props as $val)
 		{
@@ -604,7 +605,7 @@ class CI_Image_lib {
 		// Set the quality
 		$this->quality = trim(str_replace('%', '', $this->quality));
 
-		if ($this->quality === '' OR $this->quality === 0 OR ! preg_match('/^[0-9]+$/', $this->quality))
+		if ($this->quality === '' OR $this->quality === 0 OR ! ctype_digit($this->quality))
 		{
 			$this->quality = 90;
 		}
@@ -809,7 +810,7 @@ class CI_Image_lib {
 		imagedestroy($dst_img);
 		imagedestroy($src_img);
 
-		// Set the file to 777
+		// Set the file to 666
 		@chmod($this->full_dst_path, FILE_WRITE_MODE);
 
 		return TRUE;
@@ -866,7 +867,11 @@ class CI_Image_lib {
 		}
 
 		$retval = 1;
-		@exec($cmd, $output, $retval);
+		// exec() might be disabled
+		if (function_usable('exec'))
+		{
+			@exec($cmd, $output, $retval);
+		}
 
 		// Did it work?
 		if ($retval > 0)
@@ -946,7 +951,11 @@ class CI_Image_lib {
 		$cmd = $this->library_path.$cmd_in.' '.$this->full_src_path.' | '.$cmd_inner.' | '.$cmd_out.' > '.$this->dest_folder.'netpbm.tmp';
 
 		$retval = 1;
-		@exec($cmd, $output, $retval);
+		// exec() might be disabled
+		if (function_usable('exec'))
+		{
+			@exec($cmd, $output, $retval);
+		}
 
 		// Did it work?
 		if ($retval > 0)
@@ -958,7 +967,7 @@ class CI_Image_lib {
 		// With NetPBM we have to create a temporary image.
 		// If you try manipulating the original it fails so
 		// we have to rename the temp file.
-		copy ($this->dest_folder.'netpbm.tmp', $this->full_dst_path);
+		copy($this->dest_folder.'netpbm.tmp', $this->full_dst_path);
 		unlink($this->dest_folder.'netpbm.tmp');
 		@chmod($this->full_dst_path, FILE_WRITE_MODE);
 
@@ -1268,8 +1277,8 @@ class CI_Image_lib {
 		if ($this->wm_use_drop_shadow === FALSE)
 			$this->wm_shadow_distance = 0;
 
-		$this->wm_vrt_alignment = strtoupper(substr($this->wm_vrt_alignment, 0, 1));
-		$this->wm_hor_alignment = strtoupper(substr($this->wm_hor_alignment, 0, 1));
+		$this->wm_vrt_alignment = strtoupper($this->wm_vrt_alignment[0]);
+		$this->wm_hor_alignment = strtoupper($this->wm_hor_alignment[0]);
 
 		// Set verticle alignment
 		if ($this->wm_vrt_alignment === 'M')
@@ -1363,7 +1372,6 @@ class CI_Image_lib {
 
 		if ($image_type === '')
 			$image_type = $this->image_type;
-
 
 		switch ($image_type)
 		{
@@ -1483,7 +1491,7 @@ class CI_Image_lib {
 		{
 			case 1	:	imagegif($resource);
 				break;
-			case 2	:	imagejpeg($resource, '', $this->quality);
+			case 2	:	imagejpeg($resource, NULL, $this->quality);
 				break;
 			case 3	:	imagepng($resource);
 				break;
@@ -1509,13 +1517,13 @@ class CI_Image_lib {
 	public function image_reproportion()
 	{
 		if (($this->width === 0 && $this->height === 0) OR $this->orig_width === 0 OR $this->orig_height === 0
-			OR ( ! preg_match('/^[0-9]+$/', $this->width) && ! preg_match('/^[0-9]+$/', $this->height))
-			OR ! preg_match('/^[0-9]+$/', $this->orig_width) OR ! preg_match('/^[0-9]+$/', $this->orig_height))
+			OR ( ! ctype_digit((string) $this->width) && ! ctype_digit((string) $this->height))
+			OR ! ctype_digit((string) $this->orig_width) OR ! ctype_digit((string) $this->orig_height))
 		{
 			return;
 		}
 
-		// Sanitize so we don't call preg_match() anymore
+		// Sanitize
 		$this->width = (int) $this->width;
 		$this->height = (int) $this->height;
 

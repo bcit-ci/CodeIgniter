@@ -22,18 +22,7 @@ class Input_test extends CI_TestCase {
 
 	public function test_get_not_exists()
 	{
-		$this->assertEmpty($this->input->get());
-		$this->assertEmpty($this->input->get('foo'));
-
-		$this->assertTrue( ! $this->input->get());
-		$this->assertTrue( ! $this->input->get('foo'));
-
-		// Test we're getting empty results
-		$this->assertTrue($this->input->get() === NULL);
-		$this->assertTrue($this->input->get('foo') === NULL);
-
-		// Test new 3.0 behaviour for non existant results (used to be FALSE)
-		$this->assertTrue($this->input->get() === NULL);
+		$this->assertTrue($this->input->get() === array());
 		$this->assertTrue($this->input->get('foo') === NULL);
 	}
 
@@ -64,16 +53,7 @@ class Input_test extends CI_TestCase {
 
 	public function test_post_not_exists()
 	{
-		$this->assertEmpty($this->input->post());
-		$this->assertEmpty($this->input->post('foo'));
-
-		$this->assertTrue( ! $this->input->post());
-		$this->assertTrue( ! $this->input->post('foo'));
-
-		$this->assertTrue($this->input->post() === NULL);
-		$this->assertTrue($this->input->post('foo') === NULL);
-
-		$this->assertTrue($this->input->post() === NULL);
+		$this->assertTrue($this->input->post() === array());
 		$this->assertTrue($this->input->post('foo') === NULL);
 	}
 
@@ -115,8 +95,8 @@ class Input_test extends CI_TestCase {
 	public function test_cookie()
 	{
 		$_COOKIE['foo'] = 'bar';
-
 		$this->assertEquals('bar', $this->input->cookie('foo'));
+		$this->assertNull($this->input->cookie('bar'));
 	}
 
 	// --------------------------------------------------------------------
@@ -156,6 +136,29 @@ class Input_test extends CI_TestCase {
 		{
 			$this->assertTrue($this->input->valid_ip($ip));
 		}
+	}
+
+	// --------------------------------------------------------------------
+
+	public function test_method()
+	{
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+		$this->assertEquals('get', $this->input->method());
+		$this->assertEquals('GET', $this->input->method(TRUE));
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+		$this->assertEquals('post', $this->input->method());
+		$this->assertEquals('POST', $this->input->method(TRUE));
+	}
+
+	// --------------------------------------------------------------------
+
+	public function test_is_ajax_request()
+	{
+		$this->assertFalse($this->input->is_ajax_request());
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'test';
+		$this->assertFalse($this->input->is_ajax_request());
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+		$this->assertTrue($this->input->is_ajax_request());
 	}
 
 }

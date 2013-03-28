@@ -12,7 +12,7 @@ your local resources and the global framework resources.
 As an added bonus, CodeIgniter permits your libraries to extend native
 classes if you simply need to add some functionality to an existing
 library. Or you can even replace native libraries just by placing
-identically named versions in your application/libraries folder.
+identically named versions in your *application/libraries* directory.
 
 In summary:
 
@@ -28,8 +28,8 @@ The page below explains these three concepts in detail.
 Storage
 =======
 
-Your library classes should be placed within your application/libraries
-folder, as this is where CodeIgniter will look for them when they are
+Your library classes should be placed within your *application/libraries*
+directory, as this is where CodeIgniter will look for them when they are
 initialized.
 
 Naming Conventions
@@ -49,9 +49,9 @@ Someclass purely as an example)::
 
 	class Someclass {
 
-	    public function some_function()
-	    {
-	    }
+		public function some_method()
+		{
+		}
 	}
 
 	/* End of file Someclass.php */
@@ -59,7 +59,7 @@ Someclass purely as an example)::
 Using Your Class
 ================
 
-From within any of your :doc:`Controller <controllers>` functions you
+From within any of your :doc:`Controller <controllers>` methods you
 can initialize your class using the standard::
 
 	$this->load->library('someclass');
@@ -70,12 +70,12 @@ doesn't care.
 
 Once loaded you can access your class using the lower case version::
 
-	$this->someclass->some_function();  // Object instances will always be lower case
+	$this->someclass->some_method();  // Object instances will always be lower case
 
 Passing Parameters When Initializing Your Class
 ===============================================
 
-In the library loading function you can dynamically pass data as an
+In the library loading method you can dynamically pass data as an
 array via the second parameter and it will be passed to your class
 constructor::
 
@@ -86,21 +86,19 @@ constructor::
 If you use this feature you must set up your class constructor to expect
 data::
 
-	<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+	<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 	class Someclass {
 
-	    public function __construct($params)
-	    {
-	        // Do something with $params
-	    }
+		public function __construct($params)
+		{
+			// Do something with $params
+		}
 	}
-
-	?>
 
 You can also pass parameters stored in a config file. Simply create a
 config file named identically to the class file name and store it in
-your application/config/ folder. Note that if you dynamically pass
+your *application/config/* directory. Note that if you dynamically pass
 parameters as described above, the config file option will not be
 available.
 
@@ -108,18 +106,18 @@ Utilizing CodeIgniter Resources within Your Library
 ===================================================
 
 To access CodeIgniter's native resources within your library use the
-get_instance() function. This function returns the CodeIgniter super
+``get_instance()`` method. This method returns the CodeIgniter super
 object.
 
-Normally from within your controller functions you will call any of the
-available CodeIgniter functions using the $this construct::
+Normally from within your controller methods you will call any of the
+available CodeIgniter methods using the ``$this`` construct::
 
 	$this->load->helper('url');
 	$this->load->library('session');
 	$this->config->item('base_url');
 	// etc.
 
-$this, however, only works directly within your controllers, your
+``$this``, however, only works directly within your controllers, your
 models, or your views. If you would like to use CodeIgniter's classes
 from within your own custom classes you can do so as follows:
 
@@ -128,7 +126,7 @@ First, assign the CodeIgniter object to a variable::
 	$CI =& get_instance();
 
 Once you've assigned the object to a variable, you'll use that variable
-*instead* of $this::
+*instead* of ``$this``::
 
 	$CI =& get_instance();
 
@@ -137,13 +135,43 @@ Once you've assigned the object to a variable, you'll use that variable
 	$CI->config->item('base_url');
 	// etc.
 
-.. note:: You'll notice that the above get_instance() function is being
+.. note:: You'll notice that the above ``get_instance()`` function is being
 	passed by reference::
 	
 		$CI =& get_instance();
 
 	This is very important. Assigning by reference allows you to use the
 	original CodeIgniter object rather than creating a copy of it.
+
+However, since a library is a class, it would be better if you
+take full advantage of the OOP principles. So, in order to
+be able to use the CodeIgniter super-object in all of the class
+methods, you're encouraged to assign it to a property instead::
+
+	class Example_library {
+
+		protected $CI;
+
+		// We'll use a constructor, as you can't directly call a function
+		// from a property definition.
+		public function __construct()
+		{
+			// Assign the CodeIgniter super-object
+			$this->CI =& get_instance();
+		}
+
+		public function foo()
+		{
+			$this->CI->load->helper('url');
+			redirect();
+		}
+
+		public function bar()
+		{
+			echo $this->CI->config_item('base_url');
+		}
+
+	}
 
 Replacing Native Libraries with Your Versions
 =============================================
@@ -152,8 +180,8 @@ Simply by naming your class files identically to a native library will
 cause CodeIgniter to use it instead of the native one. To use this
 feature you must name the file and the class declaration exactly the
 same as the native library. For example, to replace the native Email
-library you'll create a file named application/libraries/Email.php, and
-declare your class with::
+library you'll create a file named *application/libraries/Email.php*,
+and declare your class with::
 
 	class CI_Email {
 	
@@ -161,7 +189,7 @@ declare your class with::
 
 Note that most native classes are prefixed with CI\_.
 
-To load your library you'll see the standard loading function::
+To load your library you'll see the standard loading method::
 
 	$this->load->library('email');
 
@@ -172,7 +200,7 @@ Extending Native Libraries
 ==========================
 
 If all you need to do is add some functionality to an existing library -
-perhaps add a function or two - then it's overkill to replace the entire
+perhaps add a method or two - then it's overkill to replace the entire
 library with your version. In this case it's better to simply extend the
 class. Extending a class is nearly identical to replacing a class with a
 couple exceptions:
@@ -182,7 +210,7 @@ couple exceptions:
    item is configurable. See below.).
 
 For example, to extend the native Email class you'll create a file named
-application/libraries/MY_Email.php, and declare your class with::
+*application/libraries/MY_Email.php*, and declare your class with::
 
 	class MY_Email extends CI_Email {
 
@@ -200,8 +228,7 @@ extend the parent constructor::
 
 	}
 
-.. note::
-	Not all of the libraries have the same (or any) parameters
+.. note:: Not all of the libraries have the same (or any) parameters
 	in their constructor. Take a look at the library that you're
 	extending first to see how it should be implemented.
 
@@ -218,13 +245,13 @@ Once loaded you will use the class variable as you normally would for
 the class you are extending. In the case of the email class all calls
 will use::
 
-	$this->email->some_function();
+	$this->email->some_method();
 
 Setting Your Own Prefix
 -----------------------
 
 To set your own sub-class prefix, open your
-application/config/config.php file and look for this item::
+*application/config/config.php* file and look for this item::
 
 	$config['subclass_prefix'] = 'MY_';
 

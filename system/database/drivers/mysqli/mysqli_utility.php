@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * MySQLi Utility Class
@@ -34,14 +35,33 @@
  */
 class CI_DB_mysqli_utility extends CI_DB_utility {
 
+	/**
+	 * List databases statement
+	 *
+	 * @var	string
+	 */
 	protected $_list_databases	= 'SHOW DATABASES';
-	protected $_optimize_table	= 'OPTIMIZE TABLE %s';
-	protected $_repair_table	= 'REPAIR TABLE %s';
 
 	/**
-	 * MySQLi Export
+	 * OPTIMIZE TABLE statement
 	 *
-	 * @param	array	Preferences
+	 * @var	string
+	 */
+	protected $_optimize_table	= 'OPTIMIZE TABLE %s';
+
+	/**
+	 * REPAIR TABLE statement
+	 *
+	 * @var	string
+	 */
+	protected $_repair_table	= 'REPAIR TABLE %s';
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Export
+	 *
+	 * @param	array	$params	Preferences
 	 * @return	mixed
 	 */
 	protected function _backup($params = array())
@@ -56,6 +76,13 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 
 		// Build the output
 		$output = '';
+
+		// Do we need to include a statement to disable foreign key checks?
+		if ($foreign_key_checks === FALSE)
+		{
+			$output .= 'SET foreign_key_checks = 0;'.$newline;
+		}
+
 		foreach ( (array) $tables as $table)
 		{
 			// Is the table in the "ignore" list?
@@ -159,6 +186,12 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 			}
 
 			$output .= $newline.$newline;
+		}
+
+		// Do we need to include a statement to re-enable foreign key checks?
+		if ($foreign_key_checks === FALSE)
+		{
+			$output .= 'SET foreign_key_checks = 1;'.$newline;
 		}
 
 		return $output;

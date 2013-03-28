@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * MySQLi Result Class
@@ -73,6 +74,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	public function list_fields()
 	{
 		$field_names = array();
+		$this->result_id->field_seek(0);
 		while ($field = $this->result_id->fetch_field())
 		{
 			$field_names[] = $field->name;
@@ -101,7 +103,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 			$retval[$i]->type		= $field_data[$i]->type;
 			$retval[$i]->max_length		= $field_data[$i]->max_length;
 			$retval[$i]->primary_key	= (int) ($field_data[$i]->flags & 2);
-			$retval[$i]->default		= '';
+			$retval[$i]->default		= $field_data[$i]->def;
 		}
 
 		return $retval;
@@ -130,11 +132,12 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	 *
 	 * Moves the internal pointer to the desired offset. We call
 	 * this internally before fetching results to make sure the
-	 * result set starts at zero
+	 * result set starts at zero.
 	 *
+	 * @param	int	$n
 	 * @return	bool
 	 */
-	protected function _data_seek($n = 0)
+	public function data_seek($n = 0)
 	{
 		return $this->result_id->data_seek($n);
 	}
@@ -160,7 +163,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @param	string
+	 * @param	string	$class_name
 	 * @return	object
 	 */
 	protected function _fetch_object($class_name = 'stdClass')

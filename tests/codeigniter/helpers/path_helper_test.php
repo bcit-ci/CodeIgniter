@@ -26,6 +26,7 @@ class Path_helper_test extends CI_TestCase {
 
 		set_realpath('/path/to/nowhere', TRUE);
 	}
+
 }
 
 /* End of file path_helper_test.php */

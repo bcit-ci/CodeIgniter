@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Logging Class
@@ -72,6 +73,13 @@ class CI_Log {
 	protected $_date_fmt		= 'Y-m-d H:i:s';
 
 	/**
+	 * Filename extension
+	 *
+	 * @var	string
+	 */
+	protected $_file_ext;
+
+	/**
 	 * Whether or not the logger can write to the log files
 	 *
 	 * @var bool
@@ -83,10 +91,12 @@ class CI_Log {
 	 *
 	 * @var array
 	 */
-	protected $_levels		= array('ERROR' => 1, 'DEBUG' => 2,  'INFO' => 3, 'ALL' => 4);
+	protected $_levels		= array('ERROR' => 1, 'DEBUG' => 2, 'INFO' => 3, 'ALL' => 4);
+
+	// --------------------------------------------------------------------
 
 	/**
-	 * Initialize Logging class
+	 * Class constructor
 	 *
 	 * @return	void
 	 */
@@ -95,6 +105,10 @@ class CI_Log {
 		$config =& get_config();
 
 		$this->_log_path = ($config['log_path'] !== '') ? $config['log_path'] : APPPATH.'logs/';
+		$this->_file_ext = (isset($config['log_file_extension']) && $config['log_file_extension'] !== '')
+			? ltrim($config['log_file_extension'], '.') : 'php';
+
+		file_exists($this->_log_path) OR mkdir($this->_log_path, DIR_WRITE_MODE, TRUE);
 
 		if ( ! is_dir($this->_log_path) OR ! is_really_writable($this->_log_path))
 		{
@@ -144,14 +158,17 @@ class CI_Log {
 			return FALSE;
 		}
 
-
-		$filepath = $this->_log_path.'log-'.date('Y-m-d').'.php';
-		$message  = '';
+		$filepath = $this->_log_path.'log-'.date('Y-m-d').'.'.$this->_file_ext;
+		$message = '';
 
 		if ( ! file_exists($filepath))
 		{
 			$newfile = TRUE;
-			$message .= '<'."?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?".">\n\n";
+			// Only add protection to php files
+			if ($this->_file_ext === 'php')
+			{
+				$message .= "<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>\n\n";
+			}
 		}
 
 		if ( ! $fp = @fopen($filepath, FOPEN_WRITE_CREATE))
@@ -177,4 +194,4 @@ class CI_Log {
 }
 
 /* End of file Log.php */
-/* Location: ./system/libraries/Log.php */
+/* Location: ./system/core/Log.php */

@@ -8,10 +8,7 @@ $dir = realpath(dirname(__FILE__));
 
 // Path constants
 defined('PROJECT_BASE') OR define('PROJECT_BASE', realpath($dir.'/../').'/');
-defined('BASEPATH') OR define('BASEPATH', PROJECT_BASE.'system/');
-defined('APPPATH') OR define('APPPATH', PROJECT_BASE.'application/');
-defined('VIEWPATH') OR define('VIEWPATH', PROJECT_BASE.'');
-isset($_SERVER['REMOTE_ADDR']) OR $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+defined('SYSTEM_PATH') OR define('SYSTEM_PATH', PROJECT_BASE.'system/');
 
 // Get vfsStream either via PEAR or composer
 foreach (explode(PATH_SEPARATOR, get_include_path()) as $path)
@@ -31,8 +28,18 @@ if ( ! class_exists('vfsStream') && file_exists(PROJECT_BASE.'vendor/autoload.ph
 	class_alias('org\bovigo\vfs\vfsStreamWrapper', 'vfsStreamWrapper');
 }
 
+// Define CI path constants to VFS (filesystem setup in CI_TestCase::setUp)
+defined('BASEPATH') OR define('BASEPATH', vfsStream::url('system/'));
+defined('APPPATH') OR define('APPPATH', vfsStream::url('application/'));
+defined('VIEWPATH') OR define('VIEWPATH', APPPATH.'views/');
+defined('ENVIRONMENT') OR define('ENVIRONMENT', 'development');
+
+// Set localhost "remote" IP
+isset($_SERVER['REMOTE_ADDR']) OR $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+
 // Prep our test environment
 include_once $dir.'/mocks/core/common.php';
+include_once SYSTEM_PATH.'core/Common.php';
 include_once $dir.'/mocks/autoloader.php';
 spl_autoload_register('autoload');
 

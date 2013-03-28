@@ -10,20 +10,43 @@ need to be run against the production machines next time you deploy.
 
 The database table **migration** tracks which migrations have already been 
 run so all you have to do is update your application files and 
-call **$this->migrate->current()** to work out which migrations should be run. 
+call **$this->migration->current()** to work out which migrations should be run. 
 The current version is found in **config/migration.php**.
+
+********************
+Migration file names
+********************
+
+Each Migration is run in numeric order forward or backwards depending on the
+method taken. Two numbering styles are available:
+
+* **Sequential:** each migration is numbered in sequence, starting with **001**.
+  Each number must be three digits, and there must not be any gaps in the
+  sequence. (This was the numbering scheme prior to CodeIgniter 3.0.)
+* **Timestamp:** each migration is numbered using the timestamp when the migration
+  was created, in **YYYYMMDDHHIISS** format (e.g. **20121031100537**). This
+  helps prevent numbering conflicts when working in a team environment, and is
+  the preferred scheme in CodeIgniter 3.0 and later.
+
+The desired style may be selected using the **$config['migration_type']**
+setting in your **migration.php** config file.
+
+Regardless of which numbering style you choose to use, prefix your migration
+files with the migration number followed by an underscore and a descriptive
+name for the migration. For example:
+
+* **001_add_blog.php** (sequential numbering)
+* **20121031100537_add_blog.php** (timestamp numbering)
 
 ******************
 Create a Migration
 ******************
-
-.. note:: Each Migration is run in numerical order forward or backwards 
-	depending on the method taken. Use a prefix of 3 numbers followed by an 
-	underscore for the filename of your migration.
 	
 This will be the first migration for a new site which has a blog. All 
 migrations go in the folder **application/migrations/** and have names such 
-as: **001_add_blog.php**.::
+as **20121031100537_add_blog.php**.::
+
+	<?php
 
 	defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -47,7 +70,7 @@ as: **001_add_blog.php**.::
 					'null' => TRUE,
 				),
 			));
-			
+			$this->dbforge->add_key('blog_id', TRUE);
 			$this->dbforge->create_table('blog');
 		}
 
@@ -55,6 +78,7 @@ as: **001_add_blog.php**.::
 		{
 			$this->dbforge->drop_table('blog');
 		}
+	}
 
 Then in **application/config/migration.php** set **$config['migration_version'] = 1;**.
 
@@ -65,24 +89,24 @@ Usage Example
 In this example some simple code is placed in **application/controllers/migrate.php** 
 to update the schema.::
 
-	$this->load->library('migration');
-
-	if ( ! $this->migration->current())
+	<?php
+	
+	class Migrate extends CI_Controller
 	{
-		show_error($this->migration->error_string());
+	    public function index()
+	    {
+	    	$this->load->library('migration');
+	    	
+	    	if ($this->migration->current() === FALSE)
+	    	{
+	    		show_error($this->migration->error_string());
+	    	}
+	    }
 	}
 
 ******************
 Function Reference
 ******************
-
-There are five available methods for the Migration class:
-
--  $this->migration->current();
--  $this->migration->error_string();
--  $this->migration->find_migrations();
--  $this->migration->latest();
--  $this->migration->version();
 
 $this->migration->current()
 ============================
@@ -124,14 +148,16 @@ Migration Preferences
 
 The following is a table of all the config options for migrations.
 
-========================== ====================== ============= =============================================
-Preference                 Default                Options       Description
-========================== ====================== ============= =============================================
-**migration_enabled**      FALSE                  TRUE / FALSE  Enable or disable migrations.
-**migration_path**         APPPATH.'migrations/'  None          The path to your migrations folder.
-**migration_version**      0                      None          The current version your database should use.
-**migration_table**        migrations             None          The table name for storing the shema
-                                                                version number.
-**migration_auto_latest**  FALSE                  TRUE / FALSE  Enable or disable automatically 
-                                                                running migrations.
-========================== ====================== ============= =============================================
+========================== ====================== ========================== =============================================
+Preference                 Default                Options                    Description
+========================== ====================== ========================== =============================================
+**migration_enabled**      FALSE                  TRUE / FALSE               Enable or disable migrations.
+**migration_path**         APPPATH.'migrations/'  None                       The path to your migrations folder.
+**migration_version**      0                      None                       The current version your database should use.
+**migration_table**        migrations             None                       The table name for storing the schema
+                                                                             version number.
+**migration_auto_latest**  FALSE                  TRUE / FALSE               Enable or disable automatically 
+                                                                             running migrations.
+**migration_type**         'timestamp'            'timestamp' / 'sequential' The type of numeric identifier used to name
+                                                                             migration files.
+========================== ====================== ========================== =============================================

@@ -88,4 +88,5 @@ EOH;
 		$this->assertEquals($expect, meta(array('name' => 'foo')));
 
 	}
+
 }

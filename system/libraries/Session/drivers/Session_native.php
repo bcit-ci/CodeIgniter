@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -9,7 +9,7 @@
  * Licensed under the Open Software License version 3.0
  *
  * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst. It is
+ * bundled with this package in the files license.txt / license.rst.  It is
  * also available through the world wide web at this URL:
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Native PHP session management driver
@@ -55,7 +56,9 @@ class CI_Session_native extends CI_Session_driver {
 			'sess_time_to_update',
 			'cookie_prefix',
 			'cookie_path',
-			'cookie_domain'
+			'cookie_domain',
+			'cookie_secure',
+			'cookie_httponly'
 		);
 
 		foreach ($prefs as $key)
@@ -82,6 +85,9 @@ class CI_Session_native extends CI_Session_driver {
 		$expire = 7200;
 		$path = '/';
 		$domain = '';
+		$secure = (bool) $config['cookie_secure'];
+		$http_only = (bool) $config['cookie_httponly'];
+
 		if ($config['sess_expiration'] !== FALSE)
 		{
 			// Default to 2 years if expiration is "0"
@@ -99,7 +105,8 @@ class CI_Session_native extends CI_Session_driver {
 			// Use specified domain
 			$domain = $config['cookie_domain'];
 		}
-		session_set_cookie_params($config['sess_expire_on_close'] ? 0 : $expire, $path, $domain);
+
+		session_set_cookie_params($config['sess_expire_on_close'] ? 0 : $expire, $path, $domain, $secure, $http_only);
 
 		// Start session
 		session_start();
@@ -137,8 +144,12 @@ class CI_Session_native extends CI_Session_driver {
 		if ($config['sess_time_to_update'] && isset($_SESSION['last_activity'])
 			&& ($_SESSION['last_activity'] + $config['sess_time_to_update']) < $now)
 		{
-			// Regenerate ID, but don't destroy session
-			$this->sess_regenerate(FALSE);
+			// Changing the session ID amidst a series of AJAX calls causes problems
+			if( ! $this->CI->input->is_ajax_request())
+			{
+				// Regenerate ID, but don't destroy session
+				$this->sess_regenerate(FALSE);
+			}
 		}
 
 		// Set activity time
@@ -189,7 +200,7 @@ class CI_Session_native extends CI_Session_driver {
 		{
 			// Clear session cookie
 			$params = session_get_cookie_params();
-			setcookie($name, '', time() - 42000, $params['path'], $params['domain']);
+			setcookie($name, '', time() - 42000, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
 			unset($_COOKIE[$name]);
 		}
 		session_destroy();

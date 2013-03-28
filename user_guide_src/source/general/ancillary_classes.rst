@@ -7,31 +7,35 @@ controllers but have the ability to utilize all of CodeIgniter's
 resources. This is easily possible as you'll see.
 
 get_instance()
-===============
+==============
 
-**Any class that you instantiate within your controller functions can
+.. php:function:: get_instance()
+
+	:returns:	object of class CI_Controller
+
+**Any class that you instantiate within your controller methods can
 access CodeIgniter's native resources** simply by using the
-get_instance() function. This function returns the main CodeIgniter
-object.
+``get_instance()`` function. This function returns the main
+CodeIgniter object.
 
-Normally, to call any of the available CodeIgniter functions requires
-you to use the $this construct::
+Normally, to call any of the available CodeIgniter methods requires
+you to use the ``$this`` construct::
 
 	$this->load->helper('url');
 	$this->load->library('session');
 	$this->config->item('base_url');
 	// etc.
 
-$this, however, only works within your controllers, your models, or your
-views. If you would like to use CodeIgniter's classes from within your
-own custom classes you can do so as follows:
+``$this``, however, only works within your controllers, your models,
+or your views. If you would like to use CodeIgniter's classes from
+within your own custom classes you can do so as follows:
 
 First, assign the CodeIgniter object to a variable::
 
 	$CI =& get_instance();
 
 Once you've assigned the object to a variable, you'll use that variable
-*instead* of $this::
+*instead* of ``$this``::
 
 	$CI =& get_instance();
 
@@ -40,10 +44,45 @@ Once you've assigned the object to a variable, you'll use that variable
 	$CI->config->item('base_url');
 	// etc.
 
-.. note:: You'll notice that the above get_instance() function is being
+.. note:: You'll notice that the above get_instance() ``function`` is being
 	passed by reference::
 
 		$CI =& get_instance();
 	
 	This is very important. Assigning by reference allows you to use the
 	original CodeIgniter object rather than creating a copy of it.
+
+Furthermore, if you'll be using ``get_intance()`` inside anoter class,
+then it would be better if you assign it to a property. This way, you
+won't need to call ``get_instance()`` in every single method.
+
+Example::
+
+	class Example {
+
+		protected $CI;
+
+		// We'll use a constructor, as you can't directly call a function
+		// from a property definition.
+		public function __construct()
+		{
+			// Assign the CodeIgniter super-object
+			$this->CI =& get_instance();
+		}
+
+		public function foo()
+		{
+			$this->CI->load->helper('url');
+			redirect();
+		}
+
+		public function bar()
+		{
+			$this->CI->config_item('base_url');
+		}
+
+	}
+
+In the above example, both methods ``foo()`` and ``bar()`` will work
+after you instantiate the Example class, without the need to call
+``get_instance()`` in each of them.

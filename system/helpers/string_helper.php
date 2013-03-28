@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter String Helpers
@@ -49,6 +50,9 @@ if ( ! function_exists('trim_slashes'))
 	 * becomes:
 	 *
 	 * this/that/theother
+	 *
+	 * @todo	Remove in version 3.1+.
+	 * @deprecated	3.0.0	This is just an alias for PHP's native trim()
 	 *
 	 * @param	string
 	 * @return	string
@@ -214,10 +218,10 @@ if ( ! function_exists('random_string'))
 						break;
 				}
 				return substr(str_shuffle(str_repeat($pool, ceil($len / strlen($pool)))), 0, $len);
-			case 'unique':
+			case 'unique': // todo: remove in 3.1+
 			case 'md5':
 				return md5(uniqid(mt_rand()));
-			case 'encrypt':
+			case 'encrypt': // todo: remove in 3.1+
 			case 'sha1':
 				return sha1(uniqid(mt_rand(), TRUE));
 		}
@@ -276,8 +280,11 @@ if ( ! function_exists('repeater'))
 	/**
 	 * Repeater function
 	 *
-	 * @param	string
-	 * @param	int	number of repeats
+	 * @todo	Remove in version 3.1+.
+	 * @deprecated	3.0.0	This is just an alias for PHP's native str_repeat()
+	 *
+	 * @param	string	$data	String to repeat
+	 * @param	int	$num	Number of repeats
 	 * @return	string
 	 */
 	function repeater($data, $num = 1)

@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * PDO Result Class
@@ -108,61 +109,28 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	public function field_data()
 	{
-		$data = array();
-
 		try
 		{
-			if (strpos($this->result_id->queryString, 'PRAGMA') !== FALSE)
+			$retval = array();
+
+			for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 			{
-				foreach ($this->result_array() as $field)
-				{
-					preg_match('/([a-zA-Z]+)(\(\d+\))?/', $field['type'], $matches);
+				$field = $this->result_id->getColumnMeta($i);
 
-					$F		= new stdClass();
-					$F->name	= $field['name'];
-					$F->type	= ( ! empty($matches[1])) ? $matches[1] : NULL;
-					$F->default	= NULL;
-					$F->max_length	= ( ! empty($matches[2])) ? preg_replace('/[^\d]/', '', $matches[2]) : NULL;
-					$F->primary_key = (int) $field['pk'];
-					$F->pdo_type	= NULL;
-
-					$data[] = $F;
-				}
-			}
-			else
-			{
-				for($i = 0, $max = $this->num_fields(); $i < $max; $i++)
-				{
-					$field = $this->result_id->getColumnMeta($i);
-
-					$F		= new stdClass();
-					$F->name	= $field['name'];
-					$F->type	= $field['native_type'];
-					$F->default	= NULL;
-					$F->pdo_type	= $field['pdo_type'];
-
-					if ($field['precision'] < 0)
-					{
-						$F->max_length	= NULL;
-						$F->primary_key = 0;
-					}
-					else
-					{
-						$F->max_length	= ($field['len'] > 255) ? 0 : $field['len'];
-						$F->primary_key = (int) ( ! empty($field['flags']) && in_array('primary_key', $field['flags']));
-					}
-
-					$data[] = $F;
-				}
+				$retval[$i]			= new stdClass();
+				$retval[$i]->name		= $field['name'];
+				$retval[$i]->type		= $field['native_type'];
+				$retval[$i]->max_length		= ($field['len'] > 0) ? $field['len'] : NULL;
+				$retval[$i]->primary_key	= (int) ( ! empty($field['flags']) && in_array('primary_key', $field['flags'], TRUE));
 			}
 
-			return $data;
+			return $retval;
 		}
 		catch (Exception $e)
 		{
 			if ($this->db->db_debug)
 			{
-				return $this->db->display_error('db_unsuported_feature');
+				return $this->db->display_error('db_unsupported_feature');
 			}
 
 			return FALSE;
@@ -205,7 +173,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @param	string
+	 * @param	string	$class_name
 	 * @return	object
 	 */
 	protected function _fetch_object($class_name = 'stdClass')

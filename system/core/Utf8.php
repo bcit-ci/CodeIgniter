@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 2.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Utf8 Class
@@ -39,9 +40,9 @@
 class CI_Utf8 {
 
 	/**
-	 * Constructor
+	 * Class constructor
 	 *
-	 * Determines if UTF-8 support is to be enabled
+	 * Determines if UTF-8 support is to be enabled.
 	 *
 	 * @return	void
 	 */
@@ -63,7 +64,6 @@ class CI_Utf8 {
 		{
 			define('MB_ENABLED', FALSE);
 		}
-
 
 		if (
 			@preg_match('/./u', 'é') === 1	// PCRE must support UTF-8
@@ -87,9 +87,11 @@ class CI_Utf8 {
 	/**
 	 * Clean UTF-8 strings
 	 *
-	 * Ensures strings are UTF-8
+	 * Ensures strings contain only valid UTF-8 characters.
 	 *
-	 * @param	string
+	 * @uses	CI_Utf8::_is_ascii()	Decide whether a conversion is needed
+	 *
+	 * @param	string	$str	String to clean
 	 * @return	string
 	 */
 	public function clean_string($str)
@@ -109,9 +111,9 @@ class CI_Utf8 {
 	 *
 	 * Removes all ASCII control characters except horizontal tabs,
 	 * line feeds, and carriage returns, as all others can cause
-	 * problems in XML
+	 * problems in XML.
 	 *
-	 * @param	string
+	 * @param	string	$str	String to clean
 	 * @return	string
 	 */
 	public function safe_ascii_for_xml($str)
@@ -124,11 +126,11 @@ class CI_Utf8 {
 	/**
 	 * Convert to UTF-8
 	 *
-	 * Attempts to convert a string to UTF-8
+	 * Attempts to convert a string to UTF-8.
 	 *
-	 * @param	string
-	 * @param	string	input encoding
-	 * @return	string
+	 * @param	string	$str		Input string
+	 * @param	string	$encoding	Input encoding
+	 * @return	string	$str encoded in UTF-8 or FALSE on failure
 	 */
 	public function convert_to_utf8($str, $encoding)
 	{
@@ -149,9 +151,9 @@ class CI_Utf8 {
 	/**
 	 * Is ASCII?
 	 *
-	 * Tests if a string is standard 7-bit ASCII or not
+	 * Tests if a string is standard 7-bit ASCII or not.
 	 *
-	 * @param	string
+	 * @param	string	$str	String to check
 	 * @return	bool
 	 */
 	protected function _is_ascii($str)

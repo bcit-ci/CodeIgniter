@@ -52,7 +52,7 @@ class Insert_test extends CI_TestCase {
 		// Do insert batch except for sqlite driver
 		if (strpos(DB_DRIVER, 'sqlite') === FALSE)
 		{
-			$this->assertTrue($this->db->insert_batch('job', $job_datas));
+			$this->assertEquals(2, $this->db->insert_batch('job', $job_datas));
 
 			$job_2 = $this->db->where('id', 2)->get('job')->row();
 			$job_3 = $this->db->where('id', 3)->get('job')->row();

@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,15 +18,16 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * CodeIgniter Config Class
+ * Config Class
  *
  * This class contains functions that enable config files to be managed
  *
@@ -41,29 +42,31 @@ class CI_Config {
 	/**
 	 * List of all loaded config values
 	 *
-	 * @var array
+	 * @var	array
 	 */
 	public $config = array();
 
 	/**
 	 * List of all loaded config files
 	 *
-	 * @var array
+	 * @var	array
 	 */
 	public $is_loaded =	array();
 
 	/**
 	 * List of paths to search when trying to load a config file.
-	 * This must be public as it's used by the Loader class.
 	 *
-	 * @var array
+	 * @used-by	CI_Loader
+	 * @var		array
 	 */
 	public $_config_paths =	array(APPPATH);
 
 	/**
-	 * Constructor
+	 * Class constructor
 	 *
-	 * Sets the $config data from the primary config.php file as a class variable
+	 * Sets the $config data from the primary config.php file as a class variable.
+	 *
+	 * @return	void
 	 */
 	public function __construct()
 	{
@@ -75,7 +78,7 @@ class CI_Config {
 		{
 			if (isset($_SERVER['HTTP_HOST']))
 			{
-				$base_url = ( ! empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off') ? 'https' : 'http';
+				$base_url = is_https() ? 'https' : 'http';
 				$base_url .= '://'.$_SERVER['HTTP_HOST']
 					.str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
 			}
@@ -93,23 +96,19 @@ class CI_Config {
 	/**
 	 * Load Config File
 	 *
-	 * @param	string	the config file name
-	 * @param	bool	if configuration values should be loaded into their own section
-	 * @param	bool	true if errors should just return false, false if an error message should be displayed
-	 * @return	bool	if the file was loaded correctly
+	 * @param	string	$file			Configuration file name
+	 * @param	bool	$use_sections		Whether configuration values should be loaded into their own section
+	 * @param	bool	$fail_gracefully	Whether to just return FALSE or display an error message
+	 * @return	bool	TRUE if the file was loaded correctly or FALSE on failure
 	 */
 	public function load($file = '', $use_sections = FALSE, $fail_gracefully = FALSE)
 	{
 		$file = ($file === '') ? 'config' : str_replace('.php', '', $file);
 		$found = $loaded = FALSE;
 
-		$check_locations = defined('ENVIRONMENT')
-			? array(ENVIRONMENT.'/'.$file, $file)
-			: array($file);
-
 		foreach ($this->_config_paths as $path)
 		{
-			foreach ($check_locations as $location)
+			foreach (array(ENVIRONMENT.'/'.$file, $file) as $location)
 			{
 				$file_path = $path.'config/'.$location.'.php';
 
@@ -183,9 +182,9 @@ class CI_Config {
 	/**
 	 * Fetch a config file item
 	 *
-	 * @param	string	the config item name
-	 * @param	string	the index name
-	 * @return	string
+	 * @param	string	$item	Config item name
+	 * @param	string	$index	Index name
+	 * @return	string|bool	The configuration item or FALSE on failure
 	 */
 	public function item($item, $index = '')
 	{
@@ -200,10 +199,10 @@ class CI_Config {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Fetch a config file item - adds slash after item (if item is not empty)
+	 * Fetch a config file item with slash appended (if not empty)
 	 *
-	 * @param	string	the config item name
-	 * @return	string
+	 * @param	string		$item	Config item name
+	 * @return	string|bool	The configuration item or FALSE on failure
 	 */
 	public function slash_item($item)
 	{
@@ -223,9 +222,12 @@ class CI_Config {
 
 	/**
 	 * Site URL
+	 *
 	 * Returns base_url . index_page [. uri_string]
 	 *
-	 * @param	mixed	the URI string or an array of segments
+	 * @uses	CI_Config::_uri_string()
+	 *
+	 * @param	string|string[]	$uri	URI string or an array of segments
 	 * @return	string
 	 */
 	public function site_url($uri = '')
@@ -239,15 +241,18 @@ class CI_Config {
 
 		if ($this->item('enable_query_strings') === FALSE)
 		{
-			$suffix = ($this->item('url_suffix') === FALSE) ? '' : $this->item('url_suffix');
+			$suffix = isset($this->config['url_suffix']) ? $this->config['url_suffix'] : '';
 
-			if ($suffix !== '' && ($offset = strpos($uri, '?')) !== FALSE)
+			if ($suffix !== '')
 			{
-				$uri = substr($uri, 0, $offset).$suffix.substr($uri, $offset);
-			}
-			else
-			{
-				$uri .= $suffix;
+				if (($offset = strpos($uri, '?')) !== FALSE)
+				{
+					$uri = substr($uri, 0, $offset).$suffix.substr($uri, $offset);
+				}
+				else
+				{
+					$uri .= $suffix;
+				}
 			}
 
 			return $this->slash_item('base_url').$this->slash_item('index_page').$uri;
@@ -264,9 +269,12 @@ class CI_Config {
 
 	/**
 	 * Base URL
+	 *
 	 * Returns base_url [. uri_string]
 	 *
-	 * @param	string	$uri
+	 * @uses	CI_Config::_uri_string()
+	 *
+	 * @param	string|string[]	$uri	URI string or an array of segments
 	 * @return	string
 	 */
 	public function base_url($uri = '')
@@ -277,9 +285,12 @@ class CI_Config {
 	// -------------------------------------------------------------
 
 	/**
-	 * Build URI string for use in Config::site_url() and Config::base_url()
+	 * Build URI string
 	 *
-	 * @param	mixed	$uri
+	 * @used-by	CI_Config::site_url()
+	 * @used-by	CI_Config::base_url()
+	 *
+	 * @param	string|string[]	$uri	URI string or an array of segments
 	 * @return	string
 	 */
 	protected function _uri_string($uri)
@@ -318,36 +329,13 @@ class CI_Config {
 	/**
 	 * Set a config file item
 	 *
-	 * @param	string	the config item key
-	 * @param	string	the config item value
+	 * @param	string	$item	Config item key
+	 * @param	string	$value	Config item value
 	 * @return	void
 	 */
 	public function set_item($item, $value)
 	{
 		$this->config[$item] = $value;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Assign to Config
-	 *
-	 * This function is called by the front controller (CodeIgniter.php)
-	 * after the Config class is instantiated. It permits config items
-	 * to be assigned or overriden by variables contained in the index.php file
-	 *
-	 * @param	array
-	 * @return	void
-	 */
-	public function _assign_to_config($items = array())
-	{
-		if (is_array($items))
-		{
-			foreach ($items as $key => $val)
-			{
-				$this->set_item($key, $val);
-			}
-		}
 	}
 
 }

@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,15 +18,16 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * CodeIgniter Benchmark Class
+ * Benchmark Class
  *
  * This class enables you to mark points and calculate the time difference
  * between them. Memory consumption can also be displayed.
@@ -40,21 +41,19 @@
 class CI_Benchmark {
 
 	/**
-	 * List of all benchmark markers and when they were added
+	 * List of all benchmark markers
 	 *
-	 * @var array
+	 * @var	array
 	 */
-	public $marker =	array();
-
-	// --------------------------------------------------------------------
+	public $marker = array();
 
 	/**
 	 * Set a benchmark marker
 	 *
 	 * Multiple calls to this function can be made so that several
-	 * execution points can be timed
+	 * execution points can be timed.
 	 *
-	 * @param	string	$name	name of the marker
+	 * @param	string	$name	Marker name
 	 * @return	void
 	 */
 	public function mark($name)
@@ -65,6 +64,8 @@ class CI_Benchmark {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Elapsed time
+	 *
 	 * Calculates the time difference between two marked points.
 	 *
 	 * If the first parameter is empty this function instead returns the
@@ -72,10 +73,13 @@ class CI_Benchmark {
 	 * execution time to be shown in a template. The output class will
 	 * swap the real value for this variable.
 	 *
-	 * @param	string	a particular marked point
-	 * @param	string	a particular marked point
-	 * @param	integer	the number of decimal places
-	 * @return	mixed
+	 * @param	string	$point1		A particular marked point
+	 * @param	string	$point2		A particular marked point
+	 * @param	int	$decimals	Number of decimal places
+	 *
+	 * @return	string	Calculated elapsed time on success,
+	 *			an '{elapsed_string}' if $point1 is empty
+	 *			or an empty string if $point1 is not found.
 	 */
 	public function elapsed_time($point1 = '', $point2 = '', $decimals = 4)
 	{
@@ -102,12 +106,13 @@ class CI_Benchmark {
 	/**
 	 * Memory Usage
 	 *
-	 * This function returns the {memory_usage} pseudo-variable.
+	 * Simply returns the {memory_usage} marker.
+	 *
 	 * This permits it to be put it anywhere in a template
 	 * without the memory being calculated until the end.
 	 * The output class will swap the real value for this variable.
 	 *
-	 * @return	string
+	 * @return	string	'{memory_usage}'
 	 */
 	public function memory_usage()
 	{

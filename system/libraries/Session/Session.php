@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2006 - 2012 EllisLab, Inc.
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 2.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter Session Class
@@ -51,9 +52,28 @@
  */
 class CI_Session extends CI_Driver_Library {
 
+	/**
+	 * Initialization parameters
+	 *
+	 * @var	array
+	 */
 	public $params = array();
+
+	/**
+	 * Current driver in use
+	 *
+	 * @var	string
+	 */
 	protected $current = NULL;
+
+	/**
+	 * User data
+	 *
+	 * @var	array
+	 */
 	protected $userdata = array();
+
+	// ------------------------------------------------------------------------
 
 	const FLASHDATA_KEY = 'flash';
 	const FLASHDATA_NEW = ':new:';
@@ -61,6 +81,8 @@ class CI_Session extends CI_Driver_Library {
 	const FLASHDATA_EXP = ':exp:';
 	const EXPIRATION_KEY = '__expirations';
 	const TEMP_EXP_DEF = 300;
+
+	// ------------------------------------------------------------------------
 
 	/**
 	 * CI_Session constructor
@@ -85,17 +107,15 @@ class CI_Session extends CI_Driver_Library {
 
 		// Get valid drivers list
 		$this->valid_drivers = array(
-			'Session_native',
-		   	'Session_cookie'
+			'native',
+			'cookie'
 		);
 		$key = 'sess_valid_drivers';
 		$drivers = isset($params[$key]) ? $params[$key] : $CI->config->item($key);
 		if ($drivers)
 		{
-			is_array($drivers) OR $drivers = array($drivers);
-
 			// Add driver names to valid list
-			foreach ($drivers as $driver)
+			foreach ((array) $drivers as $driver)
 			{
 				if ( ! in_array(strtolower($driver), array_map('strtolower', $this->valid_drivers)))
 				{
@@ -112,9 +132,9 @@ class CI_Session extends CI_Driver_Library {
 			$driver = 'cookie';
 		}
 
-		if ( ! in_array('session_'.strtolower($driver), array_map('strtolower', $this->valid_drivers)))
+		if ( ! in_array(strtolower($driver), array_map('strtolower', $this->valid_drivers)))
 		{
-			$this->valid_drivers[] = 'Session_'.$driver;
+			$this->valid_drivers[] = $driver;
 		}
 
 		// Save a copy of parameters in case drivers need access
@@ -156,17 +176,17 @@ class CI_Session extends CI_Driver_Library {
 	/**
 	 * Select default session storage driver
 	 *
-	 * @param	string	Driver classname
+	 * @param	string	Driver name
 	 * @return	void
 	 */
 	public function select_driver($driver)
 	{
 		// Validate driver name
-		$lowername = strtolower(str_replace('CI_', '', $driver));
-		if (in_array($lowername, array_map('strtolower', $this->valid_drivers)))
+		$prefix = (string) get_instance()->config->item('subclass_prefix');
+		$child = strtolower(str_replace(array('CI_', $prefix, $this->lib_name.'_'), '', $driver));
+		if (in_array($child, array_map('strtolower', $this->valid_drivers)))
 		{
 			// See if driver is loaded
-			$child = str_replace($this->lib_name.'_', '', $driver);
 			if (isset($this->$child))
 			{
 				// See if driver is already current
@@ -243,7 +263,7 @@ class CI_Session extends CI_Driver_Library {
 	/**
 	 * Fetch all flashdata
 	 *
-	 * @return	array   Flash data array
+	 * @return	array	Flash data array
 	 */
 	public function all_flashdata()
 	{
@@ -367,11 +387,22 @@ class CI_Session extends CI_Driver_Library {
 	/**
 	 * Keeps existing flashdata available to next request.
 	 *
-	 * @param	string	Item key
+	 * @param	mixed	Item key(s)
 	 * @return	void
 	 */
 	public function keep_flashdata($key)
 	{
+
+		if (is_array($key))
+		{
+			foreach ($key as $k)
+			{
+				$this->keep_flashdata($k);
+			}
+
+			return;
+		}
+
 		// 'old' flashdata gets removed. Here we mark all flashdata as 'new' to preserve it from _flashdata_sweep()
 		// Note the function will return NULL if the $key provided cannot be found
 		$old_flashdata_key = self::FLASHDATA_KEY.self::FLASHDATA_OLD.$key;
@@ -506,7 +537,7 @@ class CI_Session extends CI_Driver_Library {
 		foreach ($this->all_userdata() as $name => $value)
 		{
 			$parts = explode(self::FLASHDATA_NEW, $name);
-			if (is_array($parts) && count($parts) === 2)
+			if (count($parts) === 2)
 			{
 				$new_name = self::FLASHDATA_KEY.self::FLASHDATA_OLD.$parts[1];
 				$this->set_userdata($new_name, $value);
@@ -595,7 +626,15 @@ class CI_Session extends CI_Driver_Library {
  */
 abstract class CI_Session_driver extends CI_Driver {
 
+	/**
+	 * CI Singleton
+	 *
+	 * @see	get_instance()
+	 * @var	object
+	 */
 	protected $CI;
+
+	// ------------------------------------------------------------------------
 
 	/**
 	 * Constructor

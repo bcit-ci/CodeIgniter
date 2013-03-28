@@ -37,7 +37,6 @@ Introduction
 
 - :doc:`overview/getting_started`
 - :doc:`overview/at_a_glance`
-- :doc:`overview/cheatsheets`
 - :doc:`overview/features`
 - :doc:`overview/appflow`
 - :doc:`overview/mvc`
@@ -119,5 +118,4 @@ Contributing to CodeIgniter
 	database/index
 	documentation/index
 	tutorial/index
-	general/quick_reference
 	general/credits

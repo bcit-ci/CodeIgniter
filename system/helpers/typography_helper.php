@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter Typography Helpers
@@ -60,9 +61,8 @@ if ( ! function_exists('auto_typography'))
 	/**
 	 * Auto Typography Wrapper Function
 	 *
-	 * @param	string
-	 * @param	bool	whether to allow javascript event handlers
-	 * @param	bool	whether to reduce multiple instances of double newlines to two
+	 * @param	string	$str
+	 * @param	bool	$reduce_linebreaks = FALSE	whether to reduce multiple instances of double newlines to two
 	 * @return	string
 	 */
 	function auto_typography($str, $reduce_linebreaks = FALSE)

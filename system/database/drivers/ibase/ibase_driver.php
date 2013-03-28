@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 3.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Firebird/Interbase Database Adapter Class
@@ -40,15 +41,30 @@
  */
 class CI_DB_ibase_driver extends CI_DB {
 
+	/**
+	 * Database driver
+	 *
+	 * @var	string
+	 */
 	public $dbdriver = 'ibase';
 
-	// The character used to escape with
-	protected $_escape_char = '"';
+	// --------------------------------------------------------------------
 
-	protected $_random_keyword = ' Random()'; // database specific random keyword
+	/**
+	 * ORDER BY random keyword
+	 *
+	 * @var	array
+	 */
+	protected $_random_keyword = array('RAND()', 'RAND()');
 
-	// Keeps track of the resource for the current transaction
-	protected $trans;
+	/**
+	 * IBase Transaction status flag
+	 *
+	 * @var	resource
+	 */
+	protected $_ibase_trans;
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Non-persistent database connection
@@ -103,7 +119,7 @@ class CI_DB_ibase_driver extends CI_DB {
 	/**
 	 * Execute the query
 	 *
-	 * @param	string	an SQL query
+	 * @param	string	$sql	an SQL query
 	 * @return	resource
 	 */
 	protected function _execute($sql)
@@ -116,6 +132,7 @@ class CI_DB_ibase_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
+	 * @param	bool	$test_mode
 	 * @return	bool
 	 */
 	public function trans_begin($test_mode = FALSE)
@@ -131,7 +148,7 @@ class CI_DB_ibase_driver extends CI_DB {
 		// even if the queries produce a successful result.
 		$this->_trans_failure = ($test_mode === TRUE);
 
-		$this->trans = @ibase_trans($this->conn_id);
+		$this->_ibase_trans = @ibase_trans($this->conn_id);
 
 		return TRUE;
 	}
@@ -151,7 +168,7 @@ class CI_DB_ibase_driver extends CI_DB {
 			return TRUE;
 		}
 
-		return @ibase_commit($this->trans);
+		return @ibase_commit($this->_ibase_trans);
 	}
 
 	// --------------------------------------------------------------------
@@ -169,39 +186,7 @@ class CI_DB_ibase_driver extends CI_DB {
 			return TRUE;
 		}
 
-		return @ibase_rollback($this->trans);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Escape String
-	 *
-	 * @param	string
-	 * @param	bool	whether or not the string will be used in a LIKE condition
-	 * @return	string
-	 */
-	public function escape_str($str, $like = FALSE)
-	{
-		if (is_array($str))
-		{
-			foreach ($str as $key => $val)
-			{
-				$str[$key] = $this->escape_str($val, $like);
-			}
-
-			return $str;
-		}
-
-		// escape LIKE condition wildcards
-		if ($like === TRUE)
-		{
-			return str_replace(array($this->_like_escape_chr, '%', '_'),
-						array($this->_like_escape_chr.$this->_like_escape_chr, $this->_like_escape_chr.'%', $this->_like_escape_chr.'_'),
-						$str);
-		}
-
-		return $str;
+		return @ibase_rollback($this->_ibase_trans);
 	}
 
 	// --------------------------------------------------------------------
@@ -238,7 +223,7 @@ class CI_DB_ibase_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	bool
+	 * @param	bool	$prefix_limit
 	 * @return	string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
@@ -261,7 +246,7 @@ class CI_DB_ibase_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _list_columns($table = '')
@@ -272,16 +257,46 @@ class CI_DB_ibase_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Field data query
+	 * Returns an object with field data
 	 *
-	 * Generates a platform-specific query so that the column data can be retrieved
-	 *
-	 * @param	string	the table name
-	 * @return	string
+	 * @param	string	$table
+	 * @return	array
 	 */
-	protected function _field_data($table)
+	public function field_data($table = '')
 	{
-		return $this->_limit('SELECT * FROM '.$this->protect_identifiers($table), 1, NULL);
+		if ($table === '')
+		{
+			return ($this->db_debug) ? $this->display_error('db_field_param_missing') : FALSE;
+		}
+
+		$sql = 'SELECT "rfields"."RDB$FIELD_NAME" AS "name",
+				CASE "fields"."RDB$FIELD_TYPE"
+					WHEN 7 THEN \'SMALLINT\'
+					WHEN 8 THEN \'INTEGER\'
+					WHEN 9 THEN \'QUAD\'
+					WHEN 10 THEN \'FLOAT\'
+					WHEN 11 THEN \'DFLOAT\'
+					WHEN 12 THEN \'DATE\'
+					WHEN 13 THEN \'TIME\'
+					WHEN 14 THEN \'CHAR\'
+					WHEN 16 THEN \'INT64\'
+					WHEN 27 THEN \'DOUBLE\'
+					WHEN 35 THEN \'TIMESTAMP\'
+					WHEN 37 THEN \'VARCHAR\'
+					WHEN 40 THEN \'CSTRING\'
+					WHEN 261 THEN \'BLOB\'
+					ELSE NULL
+				END AS "type",
+				"fields"."RDB$FIELD_LENGTH" AS "max_length",
+				"rfields"."RDB$DEFAULT_VALUE" AS "default"
+			FROM "RDB$RELATION_FIELDS" "rfields"
+				JOIN "RDB$FIELDS" "fields" ON "rfields"."RDB$FIELD_SOURCE" = "fields"."RDB$FIELD_NAME"
+			WHERE "rfields"."RDB$RELATION_NAME" = '.$this->escape($table).'
+			ORDER BY "rfields"."RDB$FIELD_POSITION"';
+
+		return (($query = $this->query($sql)) !== FALSE)
+			? $query->result_object()
+			: FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -306,31 +321,14 @@ class CI_DB_ibase_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific update string from the supplied data
 	 *
-	 * @param	string	the table name
-	 * @param	array	the update data
-	 * @param	array	the where clause
-	 * @param	array	the orderby clause
-	 * @param	array	the limit clause (ignored)
-	 * @param	array	the like clause
+	 * @param	string	$table
+	 * @param	array	$values
 	 * @return	string
 	 */
-	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
+	protected function _update($table, $values)
 	{
-		foreach ($values as $key => $val)
-		{
-			$valstr[] = $key.' = '.$val;
-		}
-
-		$where = empty($where) ? '' : ' WHERE '.implode(' ', $where);
-
-		if ( ! empty($like))
-		{
-			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
-		}
-
-		return 'UPDATE '.$table.' SET '.implode(', ', $valstr)
-			.$where
-			.(count($orderby) > 0 ? ' ORDER BY '.implode(', ', $orderby) : '');
+		$this->qb_limit = FALSE;
+		return parent::_update($table, $values);
 	}
 
 	// --------------------------------------------------------------------
@@ -340,10 +338,10 @@ class CI_DB_ibase_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific truncate string from the supplied data
 	 *
-	 * If the database does not support the truncate() command,
+	 * If the database does not support the TRUNCATE statement,
 	 * then this method maps to 'DELETE FROM table'
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _truncate($table)
@@ -358,49 +356,40 @@ class CI_DB_ibase_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific delete string from the supplied data
 	 *
-	 * @param	string	the table name
-	 * @param	array	the where clause
-	 * @param	array	the like clause
-	 * @param	string	the limit clause (ignored)
+	 * @param	string	$table
 	 * @return	string
 	 */
-	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
+	protected function _delete($table)
 	{
-		$conditions = array();
-
-		empty($where) OR $conditions[] = implode(' ', $where);
-		empty($like) OR $conditions[] = implode(' ', $like);
-
-		return 'DELETE FROM '.$table.(count($conditions) > 0 ? ' WHERE '.implode(' AND ', $conditions) : '');
+		$this->qb_limit = FALSE;
+		return parent::_delete($table);
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Limit string
+	 * LIMIT
 	 *
 	 * Generates a platform-specific LIMIT clause
 	 *
-	 * @param	string	the sql query string
-	 * @param	int	the number of rows to limit the query to
-	 * @param	int	the offset value
+	 * @param	string	$sql	SQL Query
 	 * @return	string
 	 */
-	protected function _limit($sql, $limit, $offset)
+	protected function _limit($sql)
 	{
 		// Limit clause depends on if Interbase or Firebird
 		if (stripos($this->version(), 'firebird') !== FALSE)
 		{
-			$select = 'FIRST '. (int) $limit
-				.($offset ? ' SKIP '. (int) $offset : '');
+			$select = 'FIRST '.$this->qb_limit
+				.($this->qb_offset ? ' SKIP '.$this->qb_offset : '');
 		}
 		else
 		{
 			$select = 'ROWS '
-				.($offset ? (int) $offset.' TO '.($limit + $offset) : (int) $limit);
+				.($this->qb_offset ? $this->qb_offset.' TO '.($this->qb_limit + $this->qb_offset) : $this->qb_limit);
 		}
 
-		return preg_replace('`SELECT`i', 'SELECT '.$select, $sql);
+		return preg_replace('`SELECT`i', 'SELECT '.$select, $sql, 1);
 	}
 
 	// --------------------------------------------------------------------

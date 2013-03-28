@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * MS SQL Utility Class
@@ -34,19 +35,30 @@
  */
 class CI_DB_mssql_utility extends CI_DB_utility {
 
+	/**
+	 * List databases statement
+	 *
+	 * @var	string
+	 */
 	protected $_list_databases	= 'EXEC sp_helpdb'; // Can also be: EXEC sp_databases
+
+	/**
+	 * OPTIMIZE TABLE statement
+	 *
+	 * @var	string
+	 */
 	protected $_optimize_table	= 'ALTER INDEX all ON %s REORGANIZE';
 
 	/**
-	 * MSSQL Export
+	 * Export
 	 *
-	 * @param	array	Preferences
+	 * @param	array	$params	Preferences
 	 * @return	bool
 	 */
 	protected function _backup($params = array())
 	{
 		// Currently unsupported
-		return $this->db->display_error('db_unsuported_feature');
+		return $this->db->display_error('db_unsupported_feature');
 	}
 
 }

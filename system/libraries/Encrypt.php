@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter Encryption Class
@@ -121,7 +122,7 @@ class CI_Encrypt {
 	 * Set the encryption key
 	 *
 	 * @param	string
-	 * @return	object
+	 * @return	CI_Encrypt
 	 */
 	public function set_key($key = '')
 	{
@@ -418,7 +419,7 @@ class CI_Encrypt {
 	 * Set the Mcrypt Cipher
 	 *
 	 * @param	int
-	 * @return	object
+	 * @return	CI_Encrypt
 	 */
 	public function set_cipher($cipher)
 	{
@@ -432,7 +433,7 @@ class CI_Encrypt {
 	 * Set the Mcrypt Mode
 	 *
 	 * @param	int
-	 * @return	object
+	 * @return	CI_Encrypt
 	 */
 	public function set_mode($mode)
 	{

@@ -26,7 +26,7 @@ Creating the Upload Form
 ========================
 
 Using a text editor, create a form called upload_form.php. In it, place
-this code and save it to your applications/views/ folder::
+this code and save it to your **application/views/** directory::
 
 	<html>
 	<head>
@@ -59,7 +59,7 @@ The Success Page
 ================
 
 Using a text editor, create a form called upload_success.php. In it,
-place this code and save it to your applications/views/ folder::
+place this code and save it to your **application/views/** directory::
 
 	<html>
 	<head>
@@ -84,7 +84,7 @@ The Controller
 ==============
 
 Using a text editor, create a controller called upload.php. In it, place
-this code and save it to your applications/controllers/ folder::
+this code and save it to your **application/controllers/** directory::
 
 	<?php
 
@@ -127,12 +127,12 @@ this code and save it to your applications/controllers/ folder::
 	}
 	?>
 
-The Upload Folder
-=================
+The Upload Directory
+====================
 
-You'll need a destination folder for your uploaded images. Create a
-folder at the root of your CodeIgniter installation called uploads and
-set its file permissions to 777.
+You'll need a destination directory for your uploaded images. Create a
+directory at the root of your CodeIgniter installation called uploads
+and set its file permissions to 777.
 
 Try it!
 =======
@@ -153,7 +153,7 @@ Initializing the Upload Class
 =============================
 
 Like most other classes in CodeIgniter, the Upload class is initialized
-in your controller using the $this->load->library function::
+in your controller using the ``$this->load->library()`` method::
 
 	$this->load->library('upload');
 
@@ -175,7 +175,7 @@ following preferences::
 
 	$this->load->library('upload', $config);
 
-	// Alternately you can set preferences by calling the initialize function. Useful if you auto-load the class:
+	// Alternately you can set preferences by calling the ``initialize()`` method. Useful if you auto-load the class:
 	$this->upload->initialize($config);
 
 The above preferences should be fairly self-explanatory. Below is a
@@ -190,8 +190,8 @@ what will be used if you do not specify that preference.
 ============================ ================= ======================= ======================================================================
 Preference                   Default Value     Options                 Description
 ============================ ================= ======================= ======================================================================
-**upload_path**              None              None                    The path to the folder where the upload should be placed. The folder
-                                                                       must be writable and the path can be absolute or relative.
+**upload_path**              None              None                    The path to the directory where the upload should be placed. The
+                                                                       directory must be writable and the path can be absolute or relative.
 **allowed_types**            None              None                    The mime types corresponding to the types of files you allow to be
                                                                        uploaded. Usually the file extension can be used as the mime type.
                                                                        Separate multiple types with a pipe.
@@ -204,9 +204,13 @@ Preference                   Default Value     Options                 Descripti
 **max_size**                 0                 None                    The maximum size (in kilobytes) that the file can be. Set to zero for no
                                                                        limit. Note: Most PHP installations have their own limit, as specified
                                                                        in the php.ini file. Usually 2 MB (or 2048 KB) by default.
-**max_width**                0                 None                    The maximum width (in pixels) that the file can be. Set to zero for no
+**max_width**                0                 None                    The maximum width (in pixels) that the image can be. Set to zero for no
                                                                        limit.
-**max_height**               0                 None                    The maximum height (in pixels) that the file can be. Set to zero for no
+**max_height**               0                 None                    The maximum height (in pixels) that the image can be. Set to zero for no
+                                                                       limit.
+**min_width**                0                 None                    The minimum width (in pixels) that the image can be. Set to zero for no
+                                                                       limit.
+**min_height**               0                 None                    The minimum height (in pixels) that the image can be. Set to zero for no
                                                                        limit.
 **max_filename**             0                 None                    The maximum length that a file name can be. Set to zero for no limit.
 **max_filename_increment**   100               None                    When overwrite is set to FALSE, use this to set the maximum filename
@@ -227,42 +231,46 @@ Setting preferences in a config file
 If you prefer not to set preferences using the above method, you can
 instead put them into a config file. Simply create a new file called the
 upload.php, add the $config array in that file. Then save the file in:
-config/upload.php and it will be used automatically. You will NOT need
-to use the $this->upload->initialize function if you save your
+**config/upload.php** and it will be used automatically. You will NOT
+need to use the ``$this->upload->initialize()`` method if you save your
 preferences in a config file.
 
-******************
-Function Reference
-******************
+***************
+Class Reference
+***************
 
-The following functions are available
+The following methods are available:
 
 $this->upload->do_upload()
-===========================
+==========================
 
-Performs the upload based on the preferences you've set. Note: By
-default the upload routine expects the file to come from a form field
-called userfile, and the form must be a "multipart type::
+Performs the upload based on the preferences you've set.
+
+.. note:: By default the upload routine expects the file to come from
+	a form field called userfile, and the form must be of type
+	"multipart".
+
+::
 
 	<form method="post" action="some_action" enctype="multipart/form-data" />
 
 If you would like to set your own field name simply pass its value to
-the do_upload function::
+the ``do_upload()`` method::
 
 	$field_name = "some_field_name";
 	$this->upload->do_upload($field_name);
 
 $this->upload->display_errors()
-================================
+===============================
 
-Retrieves any error messages if the do_upload() function returned
-false. The function does not echo automatically, it returns the data so
+Retrieves any error messages if the ``do_upload()`` method returned
+false. The method does not echo automatically, it returns the data so
 you can assign it however you need.
 
 Formatting Errors
 *****************
 
-By default the above function wraps any errors within <p> tags. You can
+By default the above method wraps any errors within <p> tags. You can
 set your own delimiters like this::
 
 	$this->upload->display_errors('<p>', '</p>');
@@ -270,25 +278,25 @@ set your own delimiters like this::
 $this->upload->data()
 =====================
 
-This is a helper function that returns an array containing all of the
+This is a helper method that returns an array containing all of the
 data related to the file you uploaded. Here is the array prototype::
 
 	Array
 	(
-	    [file_name]    => mypic.jpg
-	    [file_type]    => image/jpeg
-	    [file_path]    => /path/to/your/upload/
-	    [full_path]    => /path/to/your/upload/jpg.jpg
-	    [raw_name]     => mypic
-	    [orig_name]    => mypic.jpg
-	    [client_name]  => mypic.jpg
-	    [file_ext]     => .jpg
-	    [file_size]    => 22.2
-	    [is_image]     => 1
-	    [image_width]  => 800
-	    [image_height] => 600
-	    [image_type]   => jpeg
-	    [image_size_str] => width="800" height="200"
+		[file_name]	=> mypic.jpg
+		[file_type]	=> image/jpeg
+		[file_path]	=> /path/to/your/upload/
+		[full_path]	=> /path/to/your/upload/jpg.jpg
+		[raw_name]	=> mypic
+		[orig_name]	=> mypic.jpg
+		[client_name]	=> mypic.jpg
+		[file_ext]	=> .jpg
+		[file_size]	=> 22.2
+		[is_image]	=> 1
+		[image_width]	=> 800
+		[image_height]	=> 600
+		[image_type]	=> jpeg
+		[image_size_str] => width="800" height="200"
 	)
 
 To return one element from the array::

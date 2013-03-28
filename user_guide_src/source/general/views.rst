@@ -31,20 +31,22 @@ in it::
 	</body>
 	</html>
 	
-Then save the file in your application/views/ folder.
+Then save the file in your *application/views/* directory.
 
 Loading a View
 ==============
 
-To load a particular view file you will use the following function::
+To load a particular view file you will use the following method::
 
 	$this->load->view('name');
 
-Where name is the name of your view file. Note: The .php file extension
-does not need to be specified unless you use something other than .php.
+Where name is the name of your view file.
+
+.. note:: The .php file extension does not need to be specified
+	unless you use something other than .php.
 
 Now, open the controller file you made earlier called blog.php, and
-replace the echo statement with the view loading function::
+replace the echo statement with the view loading method::
 
 	<?php
 	class Blog extends CI_Controller {
@@ -54,7 +56,6 @@ replace the echo statement with the view loading function::
 			$this->load->view('blogview');
 		}
 	}
-	?>
 
 If you visit your site using the URL you did earlier you should see your
 new view. The URL was similar to this::
@@ -65,7 +66,7 @@ Loading multiple views
 ======================
 
 CodeIgniter will intelligently handle multiple calls to
-$this->load->view from within a controller. If more than one call
+``$this->load->view()`` from within a controller. If more than one call
 happens they will be appended together. For example, you may wish to
 have a header view, a menu view, a content view, and a footer view. That
 might look something like this::
@@ -84,32 +85,31 @@ might look something like this::
 		}
 
 	}
-	?>
 
 In the example above, we are using "dynamically added data", which you
 will see below.
 
-Storing Views within Sub-folders
-================================
+Storing Views within Sub-directories
+====================================
 
-Your view files can also be stored within sub-folders if you prefer that
-type of organization. When doing so you will need to include the folder
-name loading the view. Example::
+Your view files can also be stored within sub-directories if you prefer
+that type of organization. When doing so you will need to include the
+directory name loading the view. Example::
 
-	$this->load->view('folder_name/file_name');
+	$this->load->view('directory_name/file_name');
 
 Adding Dynamic Data to the View
 ===============================
 
 Data is passed from the controller to the view by way of an **array** or
-an **object** in the second parameter of the view loading function. Here
+an **object** in the second parameter of the view loading method. Here
 is an example using an array::
 
 	$data = array(
-	               'title' => 'My Title',
-	               'heading' => 'My Heading',
-	               'message' => 'My Message'
-	          );
+		'title' => 'My Title',
+		'heading' => 'My Heading',
+		'message' => 'My Message'
+	);
 
 	$this->load->view('blogview', $data);
 
@@ -118,8 +118,8 @@ And here's an example using an object::
 	$data = new Someclass();
 	$this->load->view('blogview', $data);
 
-Note: If you use an object, the class variables will be turned into
-array elements.
+.. note:: If you use an object, the class variables will be turned
+	into array elements.
 
 Let's try it with your controller file. Open it add this code::
 
@@ -134,7 +134,6 @@ Let's try it with your controller file. Open it add this code::
 			$this->load->view('blogview', $data);
 		}
 	}
-	?>
 
 Now open your view file and change the text to variables that correspond
 to the array keys in your data::
@@ -174,7 +173,6 @@ Here's a simple example. Add this to your controller::
 			$this->load->view('blogview', $data);
 		}
 	}
-	?>
 
 Now open your view file and create a loop::
 
@@ -200,17 +198,16 @@ Now open your view file and create a loop::
 
 .. note:: You'll notice that in the example above we are using PHP's
 	alternative syntax. If you are not familiar with it you can read about
-	it :doc:`here </general/alternative_php>`.
+	it :doc:`here <alternative_php>`.
 
 Returning views as data
 =======================
 
 There is a third **optional** parameter lets you change the behavior of
-the function so that it returns data as a string rather than sending it
+the method so that it returns data as a string rather than sending it
 to your browser. This can be useful if you want to process the data in
-some way. If you set the parameter to true (boolean) it will return
+some way. If you set the parameter to TRUE (boolean) it will return
 data. The default behavior is false, which sends it to your browser.
 Remember to assign it to a variable if you want the data returned::
 
-	$string = $this->load->view('myfile', '', true);
-
+	$string = $this->load->view('myfile', '', TRUE);

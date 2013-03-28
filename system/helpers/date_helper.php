@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter Date Helpers
@@ -119,19 +120,16 @@ if ( ! function_exists('standard_date'))
 	 *
 	 * As of PHP 5.2, the DateTime extension provides constants that
 	 * serve for the exact same purpose and are used with date().
-	 * Due to that, this function is DEPRECATED and should be removed
-	 * in CodeIgniter 3.1+.
 	 *
-	 * Here are two examples of how you should replace it:
+	 * @todo	Remove in version 3.1+.
+	 * @deprecated	3.0.0	Use PHP's native date() instead.
+	 * @link	http://www.php.net/manual/en/class.datetime.php#datetime.constants.types
 	 *
-	 *	date(DATE_RFC822, now()); // default
-	 *	date(DATE_W3C, $time); // a different format and time
+	 * @example	date(DATE_RFC822, now()); // default
+	 * @example	date(DATE_W3C, $time); // a different format and time
 	 *
-	 * Reference: http://www.php.net/manual/en/class.datetime.php#datetime.constants.types
-	 *
-	 * @deprecated
-	 * @param	string	the chosen format
-	 * @param	int	Unix timestamp
+	 * @param	string	$fmt = 'DATE_RFC822'	the chosen format
+	 * @param	int	$time = NULL		Unix timestamp
 	 * @return	string
 	 */
 	function standard_date($fmt = 'DATE_RFC822', $time = NULL)
@@ -362,8 +360,8 @@ if ( ! function_exists('mysql_to_unix'))
 	/**
 	 * Converts a MySQL Timestamp to Unix
 	 *
-	 * @param	int	Unix timestamp
-	 * @return	int
+	 * @param	int	MySQL timestamp YYYY-MM-DD HH:MM:SS
+	 * @return	int	Unix timstamp
 	 */
 	function mysql_to_unix($time = '')
 	{
@@ -452,20 +450,13 @@ if ( ! function_exists('human_to_unix'))
 			return FALSE;
 		}
 
-		$split = explode(' ', $datestr);
+		sscanf($datestr, '%d-%d-%d %s %s', $year, $month, $day, $time, $ampm);
+		sscanf($time, '%d:%d:%d', $hour, $min, $sec);
+		isset($sec) OR $sec = 0;
 
-		list($year, $month, $day) = explode('-', $split[0]);
-
-		$ex = explode(':', $split['1']);
-
-		$hour	= (int) $ex[0];
-		$min	= (int) $ex[1];
-		$sec	= ( ! empty($ex[2]) && preg_match('/[0-9]{1,2}/', $ex[2]))
-				? (int) $ex[2] : 0;
-
-		if (isset($split[2]))
+		if (isset($ampm))
 		{
-			$ampm = strtolower($split[2]);
+			$ampm = strtolower($ampm);
 
 			if ($ampm[0] === 'p' && $hour < 12)
 			{
@@ -686,8 +677,8 @@ if ( ! function_exists('date_range'))
 		$is_unix = ! ( ! $is_unix OR $is_unix === 'days');
 
 		// Validate input and try strtotime() on invalid timestamps/intervals, just in case
-		if ( ( ! preg_match('/^[0-9]+$/', $unix_start) && ($unix_start = @strtotime($unix_time)) === FALSE)
-			OR ( ! preg_match('/^[0-9]+$/', $mixed) && ($is_unix === FALSE OR ($mixed = @strtotime($mixed)) === FALSE))
+		if ( ( ! ctype_digit((string) $unix_start) && ($unix_start = @strtotime($unix_time)) === FALSE)
+			OR ( ! ctype_digit((string) $mixed) && ($is_unix === FALSE OR ($mixed = @strtotime($mixed)) === FALSE))
 			OR ($is_unix === TRUE && $mixed < $unix_start))
 		{
 			return FALSE;

@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/AFL-3.0 Academic Free License (AFL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -101,7 +101,8 @@ $browsers = array(
 	'Links'			=> 'Links',
 	'hotjava'		=> 'HotJava',
 	'amaya'			=> 'Amaya',
-	'IBrowse'		=> 'IBrowse'
+	'IBrowse'		=> 'IBrowse',
+	'Maxthon'		=> 'Maxthon'
 );
 
 $mobiles = array(

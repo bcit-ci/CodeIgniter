@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * MSSQL Result Class
@@ -73,6 +74,7 @@ class CI_DB_mssql_result extends CI_DB_result {
 	public function list_fields()
 	{
 		$field_names = array();
+		mssql_field_seek($this->result_id, 0);
 		while ($field = mssql_fetch_field($this->result_id))
 		{
 			$field_names[] = $field->name;
@@ -93,16 +95,14 @@ class CI_DB_mssql_result extends CI_DB_result {
 	public function field_data()
 	{
 		$retval = array();
-		while ($field = mssql_fetch_field($this->result_id))
+		for ($i = 0, $c = $this->num_field(); $i < $c; $i++)
 		{
-			$F		= new stdClass();
-			$F->name	= $field->name;
-			$F->type	= $field->type;
-			$F->max_length	= $field->max_length;
-			$F->primary_key = 0;
-			$F->default	= '';
+			$field = mssql_fetch_field($this->result_id, $i);
 
-			$retval[] = $F;
+			$retval[$i]		= new stdClass();
+			$retval[$i]->name	= $field->name;
+			$retval[$i]->type	= $field->type;
+			$retval[$i]->max_length	= $field->max_length;
 		}
 
 		return $retval;
@@ -131,11 +131,12 @@ class CI_DB_mssql_result extends CI_DB_result {
 	 *
 	 * Moves the internal pointer to the desired offset. We call
 	 * this internally before fetching results to make sure the
-	 * result set starts at zero
+	 * result set starts at zero.
 	 *
+	 * @param	int	$n
 	 * @return	bool
 	 */
-	protected function _data_seek($n = 0)
+	public function data_seek($n = 0)
 	{
 		return mssql_data_seek($this->result_id, $n);
 	}
@@ -161,7 +162,7 @@ class CI_DB_mssql_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @param	string
+	 * @param	string	$class_name
 	 * @return	object
 	 */
 	protected function _fetch_object($class_name = 'stdClass')

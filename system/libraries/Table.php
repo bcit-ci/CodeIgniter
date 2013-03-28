@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.3.1
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * HTML Table Generating Class
@@ -290,7 +291,7 @@ class CI_Table {
 	{
 		// The table data can optionally be passed to this function
 		// either as a database result object or an array
-		if ( ! is_null($table_data))
+		if ($table_data !== NULL)
 		{
 			if (is_object($table_data))
 			{
@@ -526,7 +527,7 @@ class CI_Table {
 	 */
 	protected function _default_template()
 	{
-		return  array(
+		return array(
 				'table_open'		=> '<table border="0" cellpadding="4" cellspacing="0">',
 
 				'thead_open'		=> '<thead>',

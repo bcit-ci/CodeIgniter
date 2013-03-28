@@ -182,6 +182,7 @@ Explanation of Values:
 			customizable by the end user.
 **autoinit**		Whether or not to automatically connect to the database when the library loads. If set to false,
 			the connection will take place prior to executing the first query.
+**schema**		The database schema, defaults to 'public'. Used by PostgreSQL and ODBC drivers.
 **encrypt**		Whether or not to use an encrypted connection.
 **compress**		Whether or not to use client compression (MySQL only).
 **stricton**		TRUE/FALSE (boolean) - Whether to force "Strict Mode" connections, good for ensuring strict SQL

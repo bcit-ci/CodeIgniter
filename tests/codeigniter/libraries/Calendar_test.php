@@ -2,12 +2,12 @@
 
 class Calendar_test extends CI_TestCase {
 
-	function __construct()
+	function set_up()
 	{
-		$obj = new stdClass;
-		$obj->calendar = new Mock_Libraries_Calendar();
-
-		$this->calendar = $obj->calendar;
+		$lang = $this->getMock('CI_Lang', array('load', 'line'));
+		$lang->expects($this->any())->method('line')->will($this->returnValue(FALSE));
+		$this->ci_instance_var('lang', $lang);
+		$this->calendar = new CI_Calendar();
 	}
 
 	function test_initialize()
@@ -20,9 +20,6 @@ class Calendar_test extends CI_TestCase {
 		$this->assertEquals('monday', $this->calendar->start_day);
 	}
 
-	/**
-	 * @covers Mock_Libraries_Calendar::parse_template
-	 */
 	function test_generate()
 	{
 		$no_events = '<table border="0" cellpadding="4" cellspacing="0">

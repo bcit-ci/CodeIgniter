@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2006 - 2012 EllisLab, Inc.
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 2.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter File Caching Class
@@ -73,7 +74,7 @@ class CI_Cache_file extends CI_Driver {
 
 		$data = unserialize(file_get_contents($this->_cache_path.$id));
 
-		if ($data['ttl'] > 0 && time() >  $data['time'] + $data['ttl'])
+		if ($data['ttl'] > 0 && time() > $data['time'] + $data['ttl'])
 		{
 			unlink($this->_cache_path.$id);
 			return FALSE;
@@ -132,7 +133,7 @@ class CI_Cache_file extends CI_Driver {
 	 */
 	public function clean()
 	{
-		return delete_files($this->_cache_path);
+		return delete_files($this->_cache_path, FALSE, TRUE);
 	}
 
 	// ------------------------------------------------------------------------

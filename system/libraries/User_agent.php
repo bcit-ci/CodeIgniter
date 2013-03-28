@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * User Agent Class
@@ -157,7 +158,7 @@ class CI_User_agent {
 			$this->agent = trim($_SERVER['HTTP_USER_AGENT']);
 		}
 
-		if ( ! is_null($this->agent) && $this->_load_agent_file())
+		if ($this->agent !== NULL && $this->_load_agent_file())
 		{
 			$this->_compile_data();
 		}
@@ -174,15 +175,18 @@ class CI_User_agent {
 	 */
 	protected function _load_agent_file()
 	{
-		if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/user_agents.php'))
-		{
-			include(APPPATH.'config/'.ENVIRONMENT.'/user_agents.php');
-		}
-		elseif (is_file(APPPATH.'config/user_agents.php'))
+		if (($found = file_exists(APPPATH.'config/user_agents.php')))
 		{
 			include(APPPATH.'config/user_agents.php');
 		}
-		else
+
+		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/user_agents.php'))
+		{
+			include(APPPATH.'config/'.ENVIRONMENT.'/user_agents.php');
+			$found = TRUE;
+		}
+
+		if ($found !== TRUE)
 		{
 			return FALSE;
 		}
@@ -309,6 +313,7 @@ class CI_User_agent {
 				{
 					$this->is_robot = TRUE;
 					$this->robot = $val;
+					$this->_set_mobile();
 					return TRUE;
 				}
 			}
@@ -466,7 +471,13 @@ class CI_User_agent {
 	 */
 	public function is_referral()
 	{
-		return ! empty($_SERVER['HTTP_REFERER']);
+		if (empty($_SERVER['HTTP_REFERER']))
+		{
+			return FALSE;
+		}
+
+		$referer = parse_url($_SERVER['HTTP_REFERER']);
+		return ! (empty($referer['host']) && strpos(config_item('base_url'), $referer['host']) !== FALSE);
 	}
 
 	// --------------------------------------------------------------------

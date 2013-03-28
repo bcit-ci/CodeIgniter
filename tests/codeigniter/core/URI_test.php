@@ -40,13 +40,13 @@ class URI_test extends CI_TestCase {
 			'/index.php?/controller/method/?var=foo' => 'controller/method'
 		);
 
-		foreach($requests as $request => $expected)
+		foreach ($requests as $request => $expected)
 		{
 			$_SERVER['SCRIPT_NAME'] = '/index.php';
 			$_SERVER['REQUEST_URI'] = $request;
 
 			$this->uri->_fetch_uri_string();
-			$this->assertEquals($expected, $this->uri->uri_string );
+			$this->assertEquals($expected, $this->uri->uri_string);
 		}
 
 		// Test a subfolder
@@ -60,10 +60,10 @@ class URI_test extends CI_TestCase {
 		unset($_SERVER['REQUEST_URI']);
 
 		// life to path info
-		$_SERVER['PATH_INFO'] = $a = '/controller/method/';
+		$_SERVER['PATH_INFO'] = '/controller/method/';
 
 		$this->uri->_fetch_uri_string();
-		$this->assertEquals($a, $this->uri->uri_string);
+		$this->assertEquals('controller/method', $this->uri->uri_string);
 
 		// death to path info
 		// At this point your server must be seriously drunk
@@ -72,7 +72,7 @@ class URI_test extends CI_TestCase {
 		$_SERVER['QUERY_STRING'] = '/controller/method/';
 
 		$this->uri->_fetch_uri_string();
-		$this->assertEquals($a, $this->uri->uri_string);
+		$this->assertEquals('controller/method', $this->uri->uri_string);
 
 		// At this point your server is a labotomy victim
 		unset($_SERVER['QUERY_STRING']);
@@ -80,7 +80,7 @@ class URI_test extends CI_TestCase {
 		$_GET['/controller/method/'] = '';
 
 		$this->uri->_fetch_uri_string();
-		$this->assertEquals($a, $this->uri->uri_string);
+		$this->assertEquals('controller/method', $this->uri->uri_string);
 
 		// Test coverage implies that these will work
 		// uri_protocol: REQUEST_URI
@@ -91,7 +91,7 @@ class URI_test extends CI_TestCase {
 
 	public function test_explode_segments()
 	{
-		// Lets test the function's ability to clean up this mess
+		// Let's test the function's ability to clean up this mess
 		$uris = array(
 			'test/uri' => array('test', 'uri'),
 			'/test2/uri2' => array('test2', 'uri2'),

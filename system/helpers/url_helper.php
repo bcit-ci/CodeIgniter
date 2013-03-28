@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter URL Helpers
@@ -151,7 +152,7 @@ if ( ! function_exists('anchor'))
 
 		if ( ! is_array($uri))
 		{
-			$site_url = preg_match('!^\w+://! i', $uri) ? $uri : site_url($uri);
+			$site_url = preg_match('#^(\w+:)?//#i', $uri) ? $uri : site_url($uri);
 		}
 		else
 		{
@@ -190,7 +191,7 @@ if ( ! function_exists('anchor_popup'))
 	function anchor_popup($uri = '', $title = '', $attributes = FALSE)
 	{
 		$title = (string) $title;
-		$site_url = preg_match('!^\w+://! i', $uri) ? $uri : site_url($uri);
+		$site_url = preg_match('#^(\w+:)?//#i', $uri) ? $uri : site_url($uri);
 
 		if ($title === '')
 		{
@@ -292,7 +293,7 @@ if ( ! function_exists('safe_mailto'))
 			{
 				foreach ($attributes as $key => $val)
 				{
-					$x[] =  ' '.$key.'="';
+					$x[] = ' '.$key.'="';
 					for ($i = 0, $l = strlen($val); $i < $l; $i++)
 					{
 						$x[] = '|'.ord($val[$i]);
@@ -382,46 +383,36 @@ if ( ! function_exists('auto_link'))
 	 */
 	function auto_link($str, $type = 'both', $popup = FALSE)
 	{
-		if ($type !== 'email' && preg_match_all('#(^|\s|\(|\b)((http(s?)://)|(www\.))(\w+[^\s\)\<]+)#i', $str, $matches))
+		// Find and replace any URLs.
+		if ($type !== 'email' && preg_match_all('#(\w*://|www\.)[^\s()<>;]+\w#i', $str, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER))
 		{
-			$pop = ($popup) ? ' target="_blank" ' : '';
+			// Set our target HTML if using popup links.
+			$target = ($popup) ? ' target="_blank"' : '';
 
-			for ($i = 0, $c = count($matches[0]); $i < $c; $i++)
+			// We process the links in reverse order (last -> first) so that
+			// the returned string offsets from preg_match_all() are not
+			// moved as we add more HTML.
+			foreach (array_reverse($matches) as $match)
 			{
-				if (preg_match('|\.$|', $matches[6][$i]))
-				{
-					$period = '.';
-					$matches[6][$i] = substr($matches[6][$i], 0, -1);
-				}
-				else
-				{
-					$period = '';
-				}
-
-				$str = str_replace($matches[0][$i],
-							$matches[1][$i].'<a href="http'.$matches[4][$i].'://'
-								.$matches[5][$i].$matches[6][$i].'"'.$pop.'>http'
-								.$matches[4][$i].'://'.$matches[5][$i]
-								.$matches[6][$i].'</a>'.$period,
-							$str);
+				// $match[0] is the matched string/link
+				// $match[1] is either a protocol prefix or 'www.'
+				//
+				// With PREG_OFFSET_CAPTURE, both of the above is an array,
+				// where the actual value is held in [0] and its offset at the [1] index.
+				$a = '<a href="'.(strpos($match[1][0], '/') ? '' : 'http://').$match[0][0].'"'.$target.'>'.$match[0][0].'</a>';
+				$str = substr_replace($str, $a, $match[0][1], strlen($match[0][0]));
 			}
 		}
 
-		if ($type !== 'url' && preg_match_all('/([a-zA-Z0-9_\.\-\+]+)@([a-zA-Z0-9\-]+)\.([a-zA-Z0-9\-\.]*)/i', $str, $matches))
+		// Find and replace any emails.
+		if ($type !== 'url' && preg_match_all('#([\w\.\-\+]+@[a-z0-9\-]+\.[a-z0-9\-\.]+[^[:punct:]\s])#i', $str, $matches, PREG_OFFSET_CAPTURE))
 		{
-			for ($i = 0, $c = count($matches); $i < $c; $i++)
+			foreach (array_reverse($matches[0]) as $match)
 			{
-				if (preg_match('|\.$|', $matches[3][$i]))
+				if (filter_var($match[0], FILTER_VALIDATE_EMAIL) !== FALSE)
 				{
-					$period = '.';
-					$matches[3][$i] = substr($matches[3][$i], 0, -1);
+					$str = substr_replace($str, safe_mailto($match[0]), $match[1], strlen($match[0]));
 				}
-				else
-				{
-					$period = '';
-				}
-
-				$str = str_replace($matches[0][$i], safe_mailto($matches[1][$i].'@'.$matches[2][$i].'.'.$matches[3][$i]).$period, $str);
 			}
 		}
 
@@ -470,9 +461,11 @@ if ( ! function_exists('url_title'))
 	 * human-friendly URL string with a "separator" string
 	 * as the word separator.
 	 *
-	 * @param	string	the string
-	 * @param	string	the separator
-	 * @param	bool
+	 * @todo	Remove old 'dash' and 'underscore' usage in 3.1+.
+	 * @param	string	$str		Input string
+	 * @param	string	$separator	Word separator
+	 *			(usually '-' or '_')
+	 * @param	bool	$lowercase	Wether to transform the output string to lowercase
 	 * @return	string
 	 */
 	function url_title($str, $separator = '-', $lowercase = FALSE)
@@ -486,7 +479,7 @@ if ( ! function_exists('url_title'))
 			$separator = '_';
 		}
 
-		$q_separator = preg_quote($separator);
+		$q_separator = preg_quote($separator, '#');
 
 		$trans = array(
 				'&.+?;'			=> '',
@@ -521,14 +514,15 @@ if ( ! function_exists('redirect'))
 	 * For very fine grained control over headers, you could use the Output
 	 * Library's set_header() function.
 	 *
-	 * @param	string	the URL
-	 * @param	string	the method: location or refresh
-	 * @param	int
-	 * @return	string
+	 * @param	string	$uri	URL
+	 * @param	string	$method	Redirect method
+	 *			'auto', 'location' or 'refresh'
+	 * @param	int	$code	HTTP Response status code
+	 * @return	void
 	 */
 	function redirect($uri = '', $method = 'auto', $code = NULL)
 	{
-		if ( ! preg_match('#^https?://#i', $uri))
+		if ( ! preg_match('#^(\w+:)?//#i', $uri))
 		{
 			$uri = site_url($uri);
 		}

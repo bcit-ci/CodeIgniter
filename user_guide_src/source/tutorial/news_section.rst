@@ -22,19 +22,19 @@ your database properly as described
 
 ::
 
-    <?php
-    class News_model extends CI_Model {
+	<?php
+	class News_model extends CI_Model {
 
-        public function __construct()
-        {
-            $this->load->database();
-        }
-    }
+		public function __construct()
+		{
+			$this->load->database();
+		}
+	}
 
 This code looks similar to the controller code that was used earlier. It
-creates a new model by extending CI\_Model and loads the database
+creates a new model by extending ``CI_Model`` and loads the database
 library. This will make the database class available through the
-$this->db object.
+``$this->db`` object.
 
 Before querying the database, a database schema has to be created.
 Connect to your database and run the SQL command below. Also add some
@@ -42,14 +42,14 @@ seed records.
 
 ::
 
-    CREATE TABLE news (
-        id int(11) NOT NULL AUTO_INCREMENT,
-        title varchar(128) NOT NULL,
-        slug varchar(128) NOT NULL,
-        text text NOT NULL,
-        PRIMARY KEY (id),
-        KEY slug (slug)
-    );
+	CREATE TABLE news (
+		id int(11) NOT NULL AUTO_INCREMENT,
+		title varchar(128) NOT NULL,
+		slug varchar(128) NOT NULL,
+		text text NOT NULL,
+		PRIMARY KEY (id),
+		KEY slug (slug)
+	);
 
 Now that the database and a model have been set up, you'll need a method
 to get all of our posts from our database. To do this, the database
@@ -61,22 +61,22 @@ following code to your model.
 
 ::
 
-    public function get_news($slug = FALSE)
-    {
-        if ($slug === FALSE)
-        {
-            $query = $this->db->get('news');
-            return $query->result_array();
-        }
-        
-        $query = $this->db->get_where('news', array('slug' => $slug));
-        return $query->row_array();
-    }
+	public function get_news($slug = FALSE)
+	{
+		if ($slug === FALSE)
+		{
+			$query = $this->db->get('news');
+			return $query->result_array();
+		}
+
+		$query = $this->db->get_where('news', array('slug' => $slug));
+		return $query->row_array();
+	}
 
 With this code you can perform two different queries. You can get all
 news records, or get a news item by its `slug <#>`_. You might have
 noticed that the $slug variable wasn't sanitized before running the
-query; Query Builder does this for you.
+query; :doc:`Query Builder <../database/query_builder>` does this for you.
 
 Display the news
 ----------------
@@ -89,30 +89,30 @@ application/controllers/news.php.
 
 ::
 
-    <?php
-    class News extends CI_Controller {
+	<?php
+	class News extends CI_Controller {
 
-        public function __construct()
-        {
-            parent::__construct();
-            $this->load->model('news_model');
-        }
+		public function __construct()
+		{
+			parent::__construct();
+			$this->load->model('news_model');
+		}
 
-        public function index()
-        {
-            $data['news'] = $this->news_model->get_news();
-        }
+		public function index()
+		{
+			$data['news'] = $this->news_model->get_news();
+		}
 
-        public function view($slug)
-        {
-            $data['news'] = $this->news_model->get_news($slug);
-        }
-    }
+		public function view($slug = NULL)
+		{
+			$data['news_item'] = $this->news_model->get_news($slug);
+		}
+	}
 
 Looking at the code, you may see some similarity with the files we
-created earlier. First, the "\_\_construct" method: it calls the
-constructor of its parent class (CI\_Controller) and loads the model, so
-it can be used in all other methods in this controller.
+created earlier. First, the ``__construct()`` method: it calls the
+constructor of its parent class (``CI_Controller``) and loads the model,
+so it can be used in all other methods in this controller.
 
 Next, there are two methods to view all news items and one for a
 specific news item. You can see that the $slug variable is passed to the
@@ -125,15 +125,15 @@ the views.
 
 ::
 
-    public function index()
-    {
-        $data['news'] = $this->news_model->get_news();
-        $data['title'] = 'News archive';
+	public function index()
+	{
+		data['news'] = $this->news_model->get_news();
+		$data['title'] = 'News archive';
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('news/index', $data);
-        $this->load->view('templates/footer');
-    }
+		$this->load->view('templates/header', $data);
+		$this->load->view('news/index', $data);
+		$this->load->view('templates/footer');
+	}
 
 The code above gets all news records from the model and assigns it to a
 variable. The value for the title is also assigned to the $data['title']
@@ -143,55 +143,55 @@ and add the next piece of code.
 
 ::
 
-    <?php foreach ($news as $news_item): ?>
+	<?php foreach ($news as $news_item): ?>
 
-        <h2><?php echo $news_item['title'] ?></h2>
-        <div id="main">
-            <?php echo $news_item['text'] ?>
-        </div>
-        <p><a href="<?php echo $news_item['slug'] ?>">View article</a></p>
+		<h2><?php echo $news_item['title'] ?></h2>
+		<div class="main">
+			<?php echo $news_item['text'] ?>
+		</div>
+		<p><a href="<?php echo $news_item['slug'] ?>">View article</a></p>
 
-    <?php endforeach ?>
+	<?php endforeach ?>
 
 Here, each news item is looped and displayed to the user. You can see we
 wrote our template in PHP mixed with HTML. If you prefer to use a
 template language, you can use CodeIgniter's `Template
-Parser <../libraries/parser.html>`_ class or a third party parser.
+Parser <../libraries/parser>`_ class or a third party parser.
 
 The news overview page is now done, but a page to display individual
 news items is still absent. The model created earlier is made in such
 way that it can easily be used for this functionality. You only need to
 add some code to the controller and create a new view. Go back to the
-news controller and add the following lines to the file.
+news controller and update ``view()`` with the following:
 
 ::
 
-    public function view($slug)
-    {
-        $data['news_item'] = $this->news_model->get_news($slug);
+	public function view($slug = NULL)
+	{
+		$data['news_item'] = $this->news_model->get_news($slug);
 
-        if (empty($data['news_item']))
-        {
-            show_404();
-        }
+		if (empty($data['news_item']))
+		{
+			show_404();
+		}
 
-        $data['title'] = $data['news_item']['title'];
+		$data['title'] = $data['news_item']['title'];
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('news/view', $data);
-        $this->load->view('templates/footer');
-    }
+		$this->load->view('templates/header', $data);
+		$this->load->view('news/view', $data);
+		$this->load->view('templates/footer');
+	}
 
-Instead of calling the get\_news() method without a parameter, the $slug
-variable is passed, so it will return the specific news item. The only
-things left to do is create the corresponding view at
-application/views/news/view.php. Put the following code in this file.
+Instead of calling the ``get_news()`` method without a parameter, the
+``$slug`` variable is passed, so it will return the specific news item.
+The only things left to do is create the corresponding view at
+*application/views/news/view.php*. Put the following code in this file.
 
 ::
 
-    <?php
-    echo '<h2>'.$news_item['title'].'</h2>';
-    echo $news_item['text'];
+	<?php
+	echo '<h2>'.$news_item['title'].'</h2>';
+	echo $news_item['text'];
 
 Routing
 -------
@@ -205,10 +205,10 @@ a slug to the view method in the news controller.
 
 ::
 
-    $route['news/(:any)'] = 'news/view/$1';
-    $route['news'] = 'news';
-    $route['(:any)'] = 'pages/view/$1';
-    $route['default_controller'] = 'pages/view';
+	$route['news/(:any)'] = 'news/view/$1';
+	$route['news'] = 'news';
+	$route['(:any)'] = 'pages/view/$1';
+	$route['default_controller'] = 'pages/view';
 
 Point your browser to your document root, followed by index.php/news and
 watch your news page.

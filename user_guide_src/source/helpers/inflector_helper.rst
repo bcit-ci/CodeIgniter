@@ -10,9 +10,7 @@ words to plural, singular, camel case, etc.
 Loading this Helper
 ===================
 
-This helper is loaded using the following code
-
-::
+This helper is loaded using the following code::
 
 	$this->load->helper('inflector');
 
@@ -21,65 +19,81 @@ The following functions are available:
 singular()
 ==========
 
-Changes a plural word to singular. Example
+.. php:function:: singular($str)
 
-::
+	:param	string	$str: Input string
+	:returns:	string
 
-	$word = "dogs";
-	echo singular($word); // Returns "dog"
+Changes a plural word to singular. Example::
+
+	echo singular('dogs'); // Prints 'dog'
 
 plural()
 ========
 
-Changes a singular word to plural. Example
+.. php:function:: plural($str)
 
-::
+	:param	string	$str: Input string
+	:returns:	string
 
-	$word = "dog";
-	echo plural($word); // Returns "dogs"
+Changes a singular word to plural. Example::
 
-To force a word to end with "es" use a second "true" argument.
-
-::
-
-	$word = "pass";
-	echo plural($word, TRUE); // Returns "passes"
+	echo plural('dog'); // Prints 'dogs'
 
 camelize()
 ==========
 
+.. php:function:: camelize($str)
+
+	:param	string	$str: Input string
+	:returns:	string
+
 Changes a string of words separated by spaces or underscores to camel
-case. Example
+case. Example::
 
-::
-
-	$word = "my_dog_spot";
-	echo camelize($word); // Returns "myDogSpot"
+	echo camelize('my_dog_spot'); // Prints 'myDogSpot'
 
 underscore()
 ============
 
-Takes multiple words separated by spaces and underscores them. Example
+.. php:function:: camelize($str)
 
-::
+	:param	string	$str: Input string
+	:returns:	string
 
-	$word = "my dog spot";
-	echo underscore($word); // Returns "my_dog_spot"
+Takes multiple words separated by spaces and underscores them.
+Example::
+
+	echo underscore('my dog spot'); // Prints 'my_dog_spot'
 
 humanize()
 ==========
 
+.. php:function:: camelize($str)
+
+	:param	string	$str: Input string
+	:param	string	$separator: Input separator
+	:returns:	string
+
 Takes multiple words separated by underscores and adds spaces between
-them. Each word is capitalized. Example
+them. Each word is capitalized.
 
-::
+Example::
 
-	$word = "my_dog_spot";
-	echo humanize($word); // Returns "My Dog Spot"
+	echo humanize('my_dog_spot'); // Prints 'My Dog Spot'
 
-To use dashes instead of underscores
+To use dashes instead of underscores::
 
-::
+	echo humanize('my-dog-spot', '-'); // Prints 'My Dog Spot'
 
-	$word = "my-dog-spot";
-	echo humanize($word, '-'); // Returns "My Dog Spot"
+is_countable()
+==============
+
+.. php:function:: is_countable($word)
+
+	:param	string	$word: Input string
+	:returns:	bool
+
+Checks if the given word has a plural version. Example::
+
+	is_countable('equipment'); // Returns FALSE

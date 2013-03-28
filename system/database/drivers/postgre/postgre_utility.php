@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Postgre Utility Class
@@ -34,19 +35,32 @@
  */
 class CI_DB_postgre_utility extends CI_DB_utility {
 
+	/**
+	 * List databases statement
+	 *
+	 * @var	string
+	 */
 	protected $_list_databases	= 'SELECT datname FROM pg_database';
-	protected $_optimize_table	= 'REINDEX TABLE %s';
 
 	/**
-	 * Postgre Export
+	 * OPTIMIZE TABLE statement
 	 *
-	 * @param	array	Preferences
+	 * @var	string
+	 */
+	protected $_optimize_table	= 'REINDEX TABLE %s';
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Export
+	 *
+	 * @param	array	$params	Preferences
 	 * @return	mixed
 	 */
 	protected function _backup($params = array())
 	{
 		// Currently unsupported
-		return $this->db->display_error('db_unsuported_feature');
+		return $this->db->display_error('db_unsupported_feature');
 	}
 }
 

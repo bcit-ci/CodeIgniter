@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 3.0.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * PDO Firebird Database Adapter Class
@@ -40,21 +41,30 @@
  */
 class CI_DB_pdo_firebird_driver extends CI_DB_pdo_driver {
 
+	/**
+	 * Sub-driver
+	 *
+	 * @var	string
+	 */
 	public $subdriver = 'firebird';
 
-	/**
-	 * The syntax to count rows is slightly different across different
-	 * database engines, so this string appears in each driver and is
-	 * used for the count_all() and count_all_results() functions.
-	 */
-	protected $_random_keyword = ' RANDOM()'; // Currently not supported
+	// --------------------------------------------------------------------
 
 	/**
-	 * Constructor
+	 * ORDER BY random keyword
+	 *
+	 * @var	array
+	 */
+	protected $_random_keyword = array('RAND()', 'RAND()');
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Class constructor
 	 *
 	 * Builds the DSN if not already set.
 	 *
-	 * @param	array
+	 * @param	array	$params
 	 * @return	void
 	 */
 	public function __construct($params)
@@ -90,7 +100,7 @@ class CI_DB_pdo_firebird_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	bool
+	 * @param	bool	$prefix_limit
 	 * @return	string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
@@ -113,7 +123,7 @@ class CI_DB_pdo_firebird_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _list_columns($table = '')
@@ -124,16 +134,46 @@ class CI_DB_pdo_firebird_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Field data query
+	 * Returns an object with field data
 	 *
-	 * Generates a platform-specific query so that the column data can be retrieved
-	 *
-	 * @param	string	the table name
-	 * @return	string
+	 * @param	string	$table
+	 * @return	array
 	 */
-	protected function _field_data($table)
+	public function field_data($table = '')
 	{
-		return 'SELECT FIRST 1 * FROM '.$this->protect_identifiers($table);
+		if ($table === '')
+		{
+			return ($this->db_debug) ? $this->display_error('db_field_param_missing') : FALSE;
+		}
+
+		$sql = 'SELECT "rfields"."RDB$FIELD_NAME" AS "name",
+				CASE "fields"."RDB$FIELD_TYPE"
+					WHEN 7 THEN \'SMALLINT\'
+					WHEN 8 THEN \'INTEGER\'
+					WHEN 9 THEN \'QUAD\'
+					WHEN 10 THEN \'FLOAT\'
+					WHEN 11 THEN \'DFLOAT\'
+					WHEN 12 THEN \'DATE\'
+					WHEN 13 THEN \'TIME\'
+					WHEN 14 THEN \'CHAR\'
+					WHEN 16 THEN \'INT64\'
+					WHEN 27 THEN \'DOUBLE\'
+					WHEN 35 THEN \'TIMESTAMP\'
+					WHEN 37 THEN \'VARCHAR\'
+					WHEN 40 THEN \'CSTRING\'
+					WHEN 261 THEN \'BLOB\'
+					ELSE NULL
+				END AS "type",
+				"fields"."RDB$FIELD_LENGTH" AS "max_length",
+				"rfields"."RDB$DEFAULT_VALUE" AS "default"
+			FROM "RDB$RELATION_FIELDS" "rfields"
+				JOIN "RDB$FIELDS" "fields" ON "rfields"."RDB$FIELD_SOURCE" = "fields"."RDB$FIELD_NAME"
+			WHERE "rfields"."RDB$RELATION_NAME" = '.$this->escape($table).'
+			ORDER BY "rfields"."RDB$FIELD_POSITION"';
+
+		return (($query = $this->query($sql)) !== FALSE)
+			? $query->result_object()
+			: FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -143,31 +183,14 @@ class CI_DB_pdo_firebird_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific update string from the supplied data
 	 *
-	 * @param	string	the table name
-	 * @param	array	the update data
-	 * @param	array	the where clause
-	 * @param	array	the orderby clause
-	 * @param	array	the limit clause (ignored)
-	 * @param	array	the like clause
+	 * @param	string	$table
+	 * @param	array	$values
 	 * @return	string
 	 */
-	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
+	protected function _update($table, $values)
 	{
-		foreach ($values as $key => $val)
-		{
-			$valstr[] = $key.' = '.$val;
-		}
-
-		$where = empty($where) ? '' : ' WHERE '.implode(' ', $where);
-
-		if ( ! empty($like))
-		{
-			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
-		}
-
-		return 'UPDATE '.$table.' SET '.implode(', ', $valstr)
-			.$where
-			.(count($orderby) > 0 ? ' ORDER BY '.implode(', ', $orderby) : '');
+		$this->qb_limit = FALSE;
+		return parent::_update($table, $values);
 	}
 
 	// --------------------------------------------------------------------
@@ -177,10 +200,10 @@ class CI_DB_pdo_firebird_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific truncate string from the supplied data
 	 *
-	 * If the database does not support the truncate() command,
+	 * If the database does not support the TRUNCATE statement,
 	 * then this method maps to 'DELETE FROM table'
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
          */
 	protected function _truncate($table)
@@ -195,46 +218,37 @@ class CI_DB_pdo_firebird_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific delete string from the supplied data
 	 *
-	 * @param	string	the table name
-	 * @param	array	the where clause
-	 * @param	array	the like clause
-	 * @param	string	the limit clause (ignored)
+	 * @param	string	$table
 	 * @return	string
 	 */
-	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
+	protected function _delete($table)
 	{
-		$conditions = array();
-
-		empty($where) OR $conditions[] = implode(' ', $where);
-		empty($like) OR $conditions[] = implode(' ', $like);
-
-		return 'DELETE FROM '.$table.(count($conditions) > 0 ? ' WHERE '.implode(' AND ', $conditions) : '');
+		$this->qb_limit = FALSE;
+		return parent::_delete($table);
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Limit string
+	 * LIMIT
 	 *
 	 * Generates a platform-specific LIMIT clause
 	 *
-	 * @param	string	the sql query string
-	 * @param	int	the number of rows to limit the query to
-	 * @param	int	the offset value
+	 * @param	string	$sql	SQL Query
 	 * @return	string
 	 */
-	protected function _limit($sql, $limit, $offset)
+	protected function _limit($sql)
 	{
 		// Limit clause depends on if Interbase or Firebird
 		if (stripos($this->version(), 'firebird') !== FALSE)
 		{
-			$select = 'FIRST '. (int) $limit
-				.($offset > 0 ? ' SKIP '. (int) $offset : '');
+			$select = 'FIRST '.$this->qb_limit
+				.($this->qb_offset > 0 ? ' SKIP '.$this->qb_offset : '');
 		}
 		else
 		{
 			$select = 'ROWS '
-				.($offset > 0 ? (int) $offset.' TO '.($limit + $offset) : (int) $limit);
+				.($this->qb_offset > 0 ? $this->qb_offset.' TO '.($this->qb_limit + $this->qb_offset) : $this->qb_limit);
 		}
 
 		return preg_replace('`SELECT`i', 'SELECT '.$select, $sql);

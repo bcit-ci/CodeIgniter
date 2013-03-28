@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit 
+<phpunit
 	bootstrap="./Bootstrap.php"
 	colors="true"
 	convertNoticesToExceptions="true"
@@ -16,10 +16,11 @@
 			<directory suffix="test.php">./codeigniter/libraries</directory>
 		</testsuite>
 	</testsuites>
-	<filters>
+	<filter>
 		<blacklist>
 			<directory suffix=".php">PEAR_INSTALL_DIR</directory>
 			<directory suffix=".php">PHP_LIBDIR</directory>
+			<directory suffix=".php">../vendor</directory>
 		</blacklist>
-	</filters>
+	</filter>
 </phpunit>

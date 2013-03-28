@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,15 +18,16 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * CodeIgniter Model Class
+ * Model Class
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
@@ -37,7 +38,7 @@
 class CI_Model {
 
 	/**
-	 * Initialize CI_Model Class
+	 * Class constructor
 	 *
 	 * @return	void
 	 */
@@ -46,13 +47,15 @@ class CI_Model {
 		log_message('debug', 'Model Class Initialized');
 	}
 
+	// --------------------------------------------------------------------
+
 	/**
-	 * __get
+	 * __get magic
 	 *
 	 * Allows models to access CI's loaded classes using the same
 	 * syntax as controllers.
 	 *
-	 * @param	string
+	 * @param	string	$key
 	 */
 	public function __get($key)
 	{

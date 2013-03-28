@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter Email Helpers
@@ -42,7 +43,8 @@ if ( ! function_exists('valid_email'))
 	/**
 	 * Validate email address
 	 *
-	 * @param	string
+	 * @deprecated	3.0.0	Use PHP's filter_var() instead
+	 * @param	string	$email
 	 * @return	bool
 	 */
 	function valid_email($email)
@@ -58,12 +60,13 @@ if ( ! function_exists('send_email'))
 	/**
 	 * Send an email
 	 *
-	 * @param	string
-	 * @param	string
-	 * @param	string
+	 * @deprecated	3.0.0	Use PHP's mail() instead
+	 * @param	string	$recipient
+	 * @param	string	$subject
+	 * @param	string	$message
 	 * @return	bool
 	 */
-	function send_email($recipient, $subject = 'Test email', $message = 'Hello World')
+	function send_email($recipient, $subject, $message)
 	{
 		return mail($recipient, $subject, $message);
 	}

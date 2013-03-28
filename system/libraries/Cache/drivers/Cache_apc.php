@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2006 - 2012 EllisLab, Inc.
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 2.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter APC Caching Class
@@ -47,9 +48,11 @@ class CI_Cache_apc extends CI_Driver {
 	 */
 	public function get($id)
 	{
-		$data = apc_fetch($id);
+		$success = FALSE;
+		$data = apc_fetch($id, $success);
 
-		return is_array($data) ? $data[0] : FALSE;
+		return ($success === TRUE && is_array($data))
+			? unserialize($data[0]) : FALSE;
 	}
 
 	// ------------------------------------------------------------------------
@@ -66,7 +69,7 @@ class CI_Cache_apc extends CI_Driver {
 	public function save($id, $data, $ttl = 60)
 	{
 		$ttl = (int) $ttl;
-		return apc_store($id, array($data, time(), $ttl), $ttl);
+		return apc_store($id, array(serialize($data), time(), $ttl), $ttl);
 	}
 
 	// ------------------------------------------------------------------------
@@ -117,9 +120,10 @@ class CI_Cache_apc extends CI_Driver {
 	 */
 	public function get_metadata($id)
 	{
-		$stored = apc_fetch($id);
+		$success = FALSE;
+		$stored = apc_fetch($id, $success);
 
-		if (count($stored) !== 3)
+		if ($success === FALSE OR count($stored) !== 3)
 		{
 			return FALSE;
 		}
@@ -129,7 +133,7 @@ class CI_Cache_apc extends CI_Driver {
 		return array(
 			'expire'	=> $time + $ttl,
 			'mtime'		=> $time,
-			'data'		=> $data
+			'data'		=> unserialize($data)
 		);
 	}
 

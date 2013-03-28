@@ -53,17 +53,37 @@ You can also set the character set of the document, by passing a second argument
 
 	$this->output->set_content_type('css', 'utf-8');
 
-$this->output->get_content_type();
-==========================================
+$this->output->get_content_type()
+=================================
 
-Returns the Content-Type HTTP header that's currently in use.
+Returns the Content-Type HTTP header that's currently in use,
+excluding the character set value.
 
 	$mime = $this->output->get_content_type();
 
 .. note:: If not set, the default return value is 'text/html'.
 
-$this->output->get_output();
-=============================
+$this->output->get_header()
+===========================
+
+Gets the requested HTTP header value, if set.
+
+If the header is not set, NULL will be returned.
+If an empty value is passed to the method, it will return FALSE.
+
+Example::
+
+	$this->output->set_content_type('text/plain', 'UTF-8');
+	echo $this->output->get_header('content-type');
+	// Outputs: text/plain; charset=utf-8
+
+.. note:: The header name is compared in a case-insensitive manner.
+
+.. note:: Raw headers sent via PHP's native ``header()`` function are
+	also detected.
+
+$this->output->get_output()
+===========================
 
 Permits you to manually retrieve any output that has been sent for
 storage in the output class. Usage example::
@@ -105,7 +125,7 @@ Permits you to manually set a server status header. Example::
 `See here <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html>`_ for
 a full list of headers.
 
-.. note:: This method is an alias for :doc:`Common function <../general/common_functions.rst>`
+.. note:: This method is an alias for :doc:`Common function <../general/common_functions>`
 	``set_status_header()``.
 
 $this->output->enable_profiler();

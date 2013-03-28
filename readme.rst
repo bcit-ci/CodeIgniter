@@ -52,7 +52,7 @@ Resources
 -  `User Guide <http://codeigniter.com/user_guide/>`_
 -  `Community Forums <http://codeigniter.com/forums/>`_
 -  `Community Wiki <http://codeigniter.com/wiki/>`_
--  `Community IRC <http://codeigniter.com/irc/>`_
+-  `Community IRC <http://ellislab.com/codeigniter/irc>`_
 
 ***************
 Acknowledgement

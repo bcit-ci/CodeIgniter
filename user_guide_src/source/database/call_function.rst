@@ -7,7 +7,7 @@ $this->db->call_function();
 
 This function enables you to call PHP database functions that are not
 natively included in CodeIgniter, in a platform independent manner. For
-example, lets say you want to call the mysql_get_client_info()
+example, let's say you want to call the mysql_get_client_info()
 function, which is **not** natively supported by CodeIgniter. You could
 do so like this::
 

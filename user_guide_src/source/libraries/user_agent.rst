@@ -72,7 +72,7 @@ Returns TRUE/FALSE (boolean) if the user agent is a known web browser.
 	{
 	    echo 'You are using Safari.';
 	}
-	else if ($this->agent->is_browser())
+	elseif ($this->agent->is_browser())
 	{
 	    echo 'You are using a browser.';
 	}
@@ -94,7 +94,7 @@ Returns TRUE/FALSE (boolean) if the user agent is a known mobile device.
 	{
 	    $this->load->view('iphone/home');
 	}
-	else if ($this->agent->is_mobile())
+	elseif ($this->agent->is_mobile())
 	{
 	    $this->load->view('mobile/home');
 	}

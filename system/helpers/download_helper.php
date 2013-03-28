@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter Download Helpers
@@ -54,6 +55,23 @@ if ( ! function_exists('force_download'))
 		if ($filename === '' OR $data === '')
 		{
 			return FALSE;
+		}
+		elseif ($data === NULL)
+		{
+			if (@is_file($filename) && ($filesize = @filesize($filename)) !== FALSE)
+			{
+				$filepath = $filename;
+				$filename = explode('/', str_replace(DIRECTORY_SEPARATOR, '/', $filename));
+				$filename = end($filename);
+			}
+			else
+			{
+				return FALSE;
+			}
+		}
+		else
+		{
+			$filesize = strlen($data);
 		}
 
 		// Set the default MIME type to send
@@ -94,8 +112,13 @@ if ( ! function_exists('force_download'))
 			$filename = implode('.', $x);
 		}
 
+		if ($data === NULL && ($fp = @fopen($filepath, 'rb')) === FALSE)
+		{
+			return FALSE;
+		}
+
 		// Clean output buffer
-		if (ob_get_level() !== 0)
+		if (ob_get_level() !== 0 && @ob_end_clean() === FALSE)
 		{
 			ob_clean();
 		}
@@ -105,20 +128,30 @@ if ( ! function_exists('force_download'))
 		header('Content-Disposition: attachment; filename="'.$filename.'"');
 		header('Expires: 0');
 		header('Content-Transfer-Encoding: binary');
-		header('Content-Length: '.strlen($data));
+		header('Content-Length: '.$filesize);
 
 		// Internet Explorer-specific headers
 		if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE)
 		{
-			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-			header('Pragma: public');
-		}
-		else
-		{
-			header('Pragma: no-cache');
+			header('Cache-Control: no-cache, no-store, must-revalidate');
 		}
 
-		exit($data);
+		header('Pragma: no-cache');
+
+		// If we have raw data - just dump it
+		if ($data !== NULL)
+		{
+			exit($data);
+		}
+
+		// Flush 1MB chunks of data
+		while ( ! feof($fp) && ($data = fread($fp, 1048576)) !== FALSE)
+		{
+			echo $data;
+		}
+
+		fclose($fp);
+		exit;
 	}
 }
 

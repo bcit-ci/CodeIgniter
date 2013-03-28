@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter Smiley Helpers
@@ -119,7 +120,6 @@ EOF;
 
 // ------------------------------------------------------------------------
 
-
 if ( ! function_exists('get_clickable_smileys'))
 {
 	/**
@@ -130,10 +130,9 @@ if ( ! function_exists('get_clickable_smileys'))
 	 *
 	 * @param	string	the URL to the folder containing the smiley images
 	 * @param	array
-	 * @param	array
 	 * @return	array
 	 */
-	function get_clickable_smileys($image_url, $alias = '', $smileys = NULL)
+	function get_clickable_smileys($image_url, $alias = '')
 	{
 		// For backward compatibility with js_insert_smiley
 		if (is_array($alias))
@@ -142,7 +141,7 @@ if ( ! function_exists('get_clickable_smileys'))
 		}
 		elseif (FALSE === ($smileys = _get_smiley_array()))
 		{
-			return $smileys;
+			return FALSE;
 		}
 
 		// Add a trailing slash to the file path if needed
@@ -214,16 +213,30 @@ if ( ! function_exists('_get_smiley_array'))
 	 */
 	function _get_smiley_array()
 	{
-		if (defined('ENVIRONMENT') && file_exists(APPPATH.'config/'.ENVIRONMENT.'/smileys.php'))
+		static $_smileys;
+
+		if ( ! is_array($smileys))
 		{
-			include(APPPATH.'config/'.ENVIRONMENT.'/smileys.php');
-		}
-		elseif (file_exists(APPPATH.'config/smileys.php'))
-		{
-			include(APPPATH.'config/smileys.php');
+			if (file_exists(APPPATH.'config/smileys.php'))
+			{
+				include(APPPATH.'config/smileys.php');
+			}
+
+			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/smileys.php'))
+			{
+				include(APPPATH.'config/'.ENVIRONMENT.'/smileys.php');
+			}
+
+			if (empty($smileys) OR ! is_array($smileys))
+			{
+				$_smileys = array();
+				return FALSE;
+			}
+
+			$_smileys = $smileys;
 		}
 
-		return (isset($smileys) && is_array($smileys)) ? $smileys : FALSE;
+		return $_smileys;
 	}
 }
 

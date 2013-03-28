@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 3.0.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * PDO Informix Database Adapter Class
@@ -40,16 +41,30 @@
  */
 class CI_DB_pdo_informix_driver extends CI_DB_pdo_driver {
 
+	/**
+	 * Sub-driver
+	 *
+	 * @var	string
+	 */
 	public $subdriver = 'informix';
 
-	protected $_random_keyword = ' RAND()';
+	// --------------------------------------------------------------------
 
 	/**
-	 * Constructor
+	 * ORDER BY random keyword
+	 *
+	 * @var	array
+	 */
+	protected $_random_keyword = array('ASC', 'ASC'); // Currently not supported
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Class constructor
 	 *
 	 * Builds the DSN if not already set.
 	 *
-	 * @param	array
+	 * @param	array	$params
 	 * @return	void
 	 */
 	public function __construct($params)
@@ -108,12 +123,13 @@ class CI_DB_pdo_informix_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	bool
+	 * @param	bool	$prefix_limit
 	 * @return	string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		$sql = 'SELECT "tabname" FROM "systables" WHERE "tabid" > 99 AND "tabtype" = \'T\'';
+		$sql = 'SELECT "tabname" FROM "systables"
+			WHERE "tabid" > 99 AND "tabtype" = \'T\' AND LOWER("owner") = '.$this->escape(strtolower($this->username));
 
 		if ($prefix_limit === TRUE && $this->dbprefix !== '')
 		{
@@ -131,29 +147,84 @@ class CI_DB_pdo_informix_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _list_columns($table = '')
 	{
+		if (strpos($table, '.') !== FALSE)
+		{
+			sscanf($table, '%[^.].%s', $owner, $table);
+		}
+		else
+		{
+			$owner = $this->username;
+		}
+
 		return 'SELECT "colname" FROM "systables", "syscolumns"
-			WHERE "systables"."tabid" = "syscolumns"."tabid" AND "systables"."tabtype" = \'T\' AND "systables"."tabname" = '
-			.$this->escape($table);
+			WHERE "systables"."tabid" = "syscolumns"."tabid"
+				AND "systables"."tabtype" = \'T\'
+				AND LOWER("systables"."owner") = '.$this->escape(strtolower($owner)).'
+				AND LOWER("systables"."tabname") = '.$this->escape(strtolower($table));
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Field data query
+	 * Returns an object with field data
 	 *
-	 * Generates a platform-specific query so that the column data can be retrieved
-	 *
-	 * @param	string	the table name
-	 * @return	string
+	 * @param	string	$table
+	 * @return	array
 	 */
-	protected function _field_data($table)
+	public function field_data($table = '')
 	{
-		return 'SELECT FIRST 1 * FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE);
+		$sql = 'SELECT "syscolumns"."colname" AS "name",
+				CASE "syscolumns"."coltype"
+					WHEN 0 THEN \'CHAR\'
+					WHEN 1 THEN \'SMALLINT\'
+					WHEN 2 THEN \'INTEGER\'
+					WHEN 3 THEN \'FLOAT\'
+					WHEN 4 THEN \'SMALLFLOAT\'
+					WHEN 5 THEN \'DECIMAL\'
+					WHEN 6 THEN \'SERIAL\'
+					WHEN 7 THEN \'DATE\'
+					WHEN 8 THEN \'MONEY\'
+					WHEN 9 THEN \'NULL\'
+					WHEN 10 THEN \'DATETIME\'
+					WHEN 11 THEN \'BYTE\'
+					WHEN 12 THEN \'TEXT\'
+					WHEN 13 THEN \'VARCHAR\'
+					WHEN 14 THEN \'INTERVAL\'
+					WHEN 15 THEN \'NCHAR\'
+					WHEN 16 THEN \'NVARCHAR\'
+					WHEN 17 THEN \'INT8\'
+					WHEN 18 THEN \'SERIAL8\'
+					WHEN 19 THEN \'SET\'
+					WHEN 20 THEN \'MULTISET\'
+					WHEN 21 THEN \'LIST\'
+					WHEN 22 THEN \'Unnamed ROW\'
+					WHEN 40 THEN \'LVARCHAR\'
+					WHEN 41 THEN \'BLOB/CLOB/BOOLEAN\'
+					WHEN 4118 THEN \'Named ROW\'
+					ELSE "syscolumns"."coltype"
+				END AS "type",
+				"syscolumns"."collength" as "max_length",
+				CASE "sysdefaults"."type"
+					WHEN \'L\' THEN "sysdefaults"."default"
+					ELSE NULL
+				END AS "default"
+			FROM "syscolumns", "systables", "sysdefaults"
+			WHERE "syscolumns"."tabid" = "systables"."tabid"
+				AND "systables"."tabid" = "sysdefaults"."tabid"
+				AND "syscolumns"."colno" = "sysdefaults"."colno"
+				AND "systables"."tabtype" = \'T\'
+				AND LOWER("systables"."owner") = '.$this->escape(strtolower($this->username)).'
+				AND LOWER("systables"."tabname") = '.$this->escape(strtolower($table)).'
+			ORDER BY "syscolumns"."colno"';
+
+		return (($query = $this->query($sql)) !== FALSE)
+			? $query->result_object()
+			: FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -163,29 +234,15 @@ class CI_DB_pdo_informix_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific update string from the supplied data
 	 *
-	 * @param	string	the table name
-	 * @param	array	the update data
-	 * @param	array	the where clause
-	 * @param	array	the orderby clause (ignored)
-	 * @param	array	the limit clause (ignored)
-	 * @param	array	the like clause
+	 * @param	string	$table
+	 * @param	array	$values
 	 * @return	string
-         */
-	protected function _update($table, $values, $where, $orderby = array(), $limit = FALSE, $like = array())
+	 */
+	protected function _update($table, $values)
 	{
-		foreach ($values as $key => $val)
-		{
-			$valstr[] = $key.' = '.$val;
-		}
-
-		$where = empty($where) ? '' : ' WHERE '.implode(' ', $where);
-
-		if ( ! empty($like))
-		{
-			$where .= ($where === '' ? ' WHERE ' : ' AND ').implode(' ', $like);
-		}
-
-		return 'UPDATE '.$table.' SET '.implode(', ', $valstr).$where;
+		$this->qb_limit = FALSE;
+		$this->qb_orderby = array();
+		return parent::_update($table, $values);
 	}
 
 	// --------------------------------------------------------------------
@@ -195,10 +252,10 @@ class CI_DB_pdo_informix_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific truncate string from the supplied data
 	 *
-	 * If the database does not support the truncate() command,
+	 * If the database does not support the TRUNCATE statement,
 	 * then this method maps to 'DELETE FROM table'
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
 	protected function _truncate($table)
@@ -213,39 +270,28 @@ class CI_DB_pdo_informix_driver extends CI_DB_pdo_driver {
 	 *
 	 * Generates a platform-specific delete string from the supplied data
 	 *
-	 * @param	string	the table name
-	 * @param	array	the where clause
-	 * @param	array	the like clause
-	 * @param	string	the limit clause (ignored)
+	 * @param	string	$table
 	 * @return	string
 	 */
-	protected function _delete($table, $where = array(), $like = array(), $limit = FALSE)
+	protected function _delete($table)
 	{
-		$conditions = array();
-
-		empty($where) OR $conditions[] = implode(' ', $where);
-		empty($like) OR $conditions[] = implode(' ', $like);
-
-		$conditions = (count($conditions) > 0) ? ' WHERE '.implode(' AND ', $conditions) : '';
-
-		return 'DELETE FROM '.$table.$conditions;
+		$this->qb_limit = FALSE;
+		return parent::_delete($table);
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Limit string
+	 * LIMIT
 	 *
 	 * Generates a platform-specific LIMIT clause
 	 *
-	 * @param	string	the sql query string
-	 * @param	int	the number of rows to limit the query to
-	 * @param	int	the offset value
+	 * @param	string	$sql	$SQL Query
 	 * @return	string
 	 */
-	protected function _limit($sql, $limit, $offset)
+	protected function _limit($sql)
 	{
-		$select = 'SELECT '.($offset ? 'SKIP '.$offset : '').'FIRST '.$limit.' ';
+		$select = 'SELECT '.($this->qb_offset ? 'SKIP '.$this->qb_offset : '').'FIRST '.$this->qb_limit.' ';
 		return preg_replace('/^(SELECT\s)/i', $select, $sql, 1);
 	}
 

@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright   Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright   Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * oci8 Result Class
@@ -37,15 +38,40 @@
  */
 class CI_DB_oci8_result extends CI_DB_result {
 
+	/**
+	 * Statement ID
+	 *
+	 * @var	resource
+	 */
 	public $stmt_id;
-	public $curs_id;
-	public $limit_used;
-	public $commit_mode;
 
 	/**
-	 * Constructor
+	 * Cursor ID
 	 *
-	 * @param	object
+	 * @var	resource
+	 */
+	public $curs_id;
+
+	/**
+	 * Limit used flag
+	 *
+	 * @var	bool
+	 */
+	public $limit_used;
+
+	/**
+	 * Commit mode flag
+	 *
+	 * @var	int
+	 */
+	public $commit_mode;
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Class constructor
+	 *
+	 * @param	object	&$driver_object
 	 * @return	void
 	 */
 	public function __construct(&$driver_object)
@@ -157,7 +183,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	protected function _fetch_assoc()
 	{
 		$id = ($this->curs_id) ? $this->curs_id : $this->stmt_id;
-		return oci_fetch_assoc($id);
+		return @oci_fetch_assoc($id);
 	}
 
 	// --------------------------------------------------------------------
@@ -167,7 +193,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @param	string
+	 * @param	string	$class_name
 	 * @return	object
 	 */
 	protected function _fetch_object($class_name = 'stdClass')
@@ -188,63 +214,6 @@ class CI_DB_oci8_result extends CI_DB_result {
 		}
 
 		return $class_name;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Data Seek
-	 *
-	 * Moves the internal pointer to the desired offset. We call
-	 * this internally before fetching results to make sure the
-	 * result set starts at zero.
-	 *
-	 * Oracle's PHP extension doesn't have an easy way of doing this
-	 * and the only workaround is to (re)execute the statement or cursor
-	 * in order to go to the first (zero) index of the result set.
-	 * Then, we would need to "dummy" fetch ($n - 1) rows to get to the
-	 * right one.
-	 *
-	 * This is as ridiculous as it sounds and it's the reason why every
-	 * other method that is fetching data tries to use an already "cached"
-	 * result set. Keeping this just in case it becomes needed at
-	 * some point in the future, but it will only work for resetting the
-	 * pointer to zero.
-	 *
-	 * @return	bool
-	 */
-	protected function _data_seek()
-	{
-		/* The PHP manual says that if OCI_NO_AUTO_COMMIT mode
-		 * is used, and oci_rollback() and/or oci_commit() are
-		 * not subsequently called - this will cause an unnecessary
-		 * rollback to be triggered at the end of the script execution.
-		 *
-		 * Therefore we'll try to avoid using that mode flag
-		 * if we're not currently in the middle of a transaction.
-		 */
-		if ($this->commit_mode !== OCI_COMMIT_ON_SUCCESS)
-		{
-			$result = @oci_execute($this->stmt_id, $this->commit_mode);
-		}
-		else
-		{
-			$result = @oci_execute($this->stmt_id);
-		}
-
-		if ($result && $this->curs_id)
-		{
-			if ($this->commit_mode !== OCI_COMMIT_ON_SUCCESS)
-			{
-				return @oci_execute($this->curs_id, $this->commit_mode);
-			}
-			else
-			{
-				return @oci_execute($this->curs_id);
-			}
-		}
-
-		return $result;
 	}
 
 }

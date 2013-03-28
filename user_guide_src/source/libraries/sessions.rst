@@ -28,10 +28,6 @@ use the $this->load->driver function::
 Once loaded, the Sessions library object will be available using:
 $this->session
 
-.. note:: For backward compatibility, the Session class may stil be loaded
-	using the $this->load->library function, but converting your applications
-	to use $this->load->driver is strongly recommended.
-
 How do Sessions work?
 =====================
 
@@ -195,7 +191,7 @@ set_userdata().
 To read a flashdata variable::
 
 	$this->session->flashdata('item');
-	
+
 An array of all flashdata can be retrieved as follows::
 
 	$this->session->all_flashdata();
@@ -203,10 +199,12 @@ An array of all flashdata can be retrieved as follows::
 
 If you find that you need to preserve a flashdata variable through an
 additional request, you can do so using the keep_flashdata() function.
+You can either pass a single item or an array of flashdata items to keep.
 
 ::
 
 	$this->session->keep_flashdata('item');
+	$this->session->keep_flashdata(array('item1', 'item2', 'item3'));
 
 Tempdata
 ========
@@ -388,7 +386,7 @@ session class::
 		user_agent varchar(120) NOT NULL,
 		last_activity int(10) unsigned DEFAULT 0 NOT NULL,
 		user_data text NOT NULL,
-		PRIMARY KEY (session_id),
+		PRIMARY KEY (session_id, ip_address, user_agent),
 		KEY `last_activity_idx` (`last_activity`)
 	);
 
@@ -485,4 +483,3 @@ without making it the initially loaded driver, set 'sess_valid_drivers' in
 your config.php file to an array including your driver name::
 
 	$config['sess_valid_drivers'] = array('sess_driver');
-

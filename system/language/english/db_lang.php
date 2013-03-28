@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 $lang['db_invalid_connection_str'] = 'Unable to determine the database settings based on the connection string you submitted.';
 $lang['db_unable_to_connect'] = 'Unable to connect to your database server using the provided settings.';
@@ -40,8 +41,8 @@ $lang['db_field_param_missing'] = 'To fetch fields requires the name of the tabl
 $lang['db_unsupported_function'] = 'This feature is not available for the database you are using.';
 $lang['db_transaction_failure'] = 'Transaction failure: Rollback performed.';
 $lang['db_unable_to_drop'] = 'Unable to drop the specified database.';
-$lang['db_unsuported_feature'] = 'Unsupported feature of the database platform you are using.';
-$lang['db_unsuported_compression'] = 'The file compression format you chose is not supported by your server.';
+$lang['db_unsupported_feature'] = 'Unsupported feature of the database platform you are using.';
+$lang['db_unsupported_compression'] = 'The file compression format you chose is not supported by your server.';
 $lang['db_filepath_error'] = 'Unable to write data to the file path you have submitted.';
 $lang['db_invalid_cache_path'] = 'The cache path you submitted is not valid or writable.';
 $lang['db_table_name_required'] = 'A table name is required for that operation.';

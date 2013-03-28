@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * System Initialization File
@@ -57,7 +58,7 @@
  *  Load the framework constants
  * ------------------------------------------------------
  */
-	if (defined('ENVIRONMENT') && file_exists(APPPATH.'config/'.ENVIRONMENT.'/constants.php'))
+	if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/constants.php'))
 	{
 		require(APPPATH.'config/'.ENVIRONMENT.'/constants.php');
 	}
@@ -130,9 +131,12 @@
 	$CFG =& load_class('Config', 'core');
 
 	// Do we have any manually set config items in the index.php file?
-	if (isset($assign_to_config))
+	if (isset($assign_to_config) && is_array($assign_to_config))
 	{
-		$CFG->_assign_to_config($assign_to_config);
+		foreach ($assign_to_config as $key => $value)
+		{
+			$CFG->set_item($key, $value);
+		}
 	}
 
 /*
@@ -229,7 +233,6 @@
 		return CI_Controller::get_instance();
 	}
 
-
 	if (file_exists(APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php'))
 	{
 		require APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php';
@@ -253,24 +256,23 @@
  *  Security check
  * ------------------------------------------------------
  *
- *  None of the functions in the app controller or the
+ *  None of the methods in the app controller or the
  *  loader class can be called via the URI, nor can
- *  controller functions that begin with an underscore
+ *  controller functions that begin with an underscore.
  */
 	$class  = $RTR->fetch_class();
 	$method = $RTR->fetch_method();
 
-	if ( ! class_exists($class)
-		OR strpos($method, '_') === 0
-		OR in_array(strtolower($method), array_map('strtolower', get_class_methods('CI_Controller')))
-		)
+	if ( ! class_exists($class, FALSE) OR $method[0] === '_' OR method_exists('CI_Controller', $method))
 	{
 		if ( ! empty($RTR->routes['404_override']))
 		{
-			$x = explode('/', $RTR->routes['404_override'], 2);
-			$class = $x[0];
-			$method = isset($x[1]) ? $x[1] : 'index';
-			if ( ! class_exists($class))
+			if (sscanf($RTR->routes['404_override'], '%[^/]/%s', $class, $method) !== 2)
+			{
+				$method = 'index';
+			}
+
+			if ( ! class_exists($class, FALSE))
 			{
 				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
 				{
@@ -284,6 +286,42 @@
 		{
 			show_404($class.'/'.$method);
 		}
+	}
+
+	if (method_exists($class, '_remap'))
+	{
+		$params = array($method, array_slice($URI->rsegments, 2));
+		$method = '_remap';
+	}
+	else
+	{
+		// WARNING: It appears that there are issues with is_callable() even in PHP 5.2!
+		// Furthermore, there are bug reports and feature/change requests related to it
+		// that make it unreliable to use in this context. Please, DO NOT change this
+		// work-around until a better alternative is available.
+		if ( ! in_array(strtolower($method), array_map('strtolower', get_class_methods($class)), TRUE))
+		{
+			if (empty($RTR->routes['404_override']))
+			{
+				show_404($class.'/'.$method);
+			}
+			elseif (sscanf($RTR->routes['404_override'], '%[^/]/%s', $class, $method) !== 2)
+			{
+				$method = 'index';
+			}
+
+			if ( ! class_exists($class, FALSE))
+			{
+				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
+				{
+					show_404($class.'/'.$method);
+				}
+
+				include_once(APPPATH.'controllers/'.$class.'.php');
+			}
+		}
+
+		$params = array_slice($URI->rsegments, 2);
 	}
 
 /*
@@ -315,45 +353,7 @@
  *  Call the requested method
  * ------------------------------------------------------
  */
-	// Is there a "remap" function? If so, we call it instead
-	if (method_exists($CI, '_remap'))
-	{
-		$CI->_remap($method, array_slice($URI->rsegments, 2));
-	}
-	else
-	{
-		// is_callable() returns TRUE on some versions of PHP 5 for private and protected
-		// methods, so we'll use this workaround for consistent behavior
-		if ( ! in_array(strtolower($method), array_map('strtolower', get_class_methods($CI))))
-		{
-			// Check and see if we are using a 404 override and use it.
-			if ( ! empty($RTR->routes['404_override']))
-			{
-				$x = explode('/', $RTR->routes['404_override'], 2);
-				$class = $x[0];
-				$method = isset($x[1]) ? $x[1] : 'index';
-				if ( ! class_exists($class))
-				{
-					if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
-					{
-						show_404($class.'/'.$method);
-					}
-
-					include_once(APPPATH.'controllers/'.$class.'.php');
-					unset($CI);
-					$CI = new $class();
-				}
-			}
-			else
-			{
-				show_404($class.'/'.$method);
-			}
-		}
-
-		// Call the requested method.
-		// Any URI segments present (besides the class/function) will be passed to the method for convenience
-		call_user_func_array(array(&$CI, $method), array_slice($URI->rsegments, 2));
-	}
+	call_user_func_array(array(&$CI, $method), $params);
 
 	// Mark a benchmark end point
 	$BM->mark('controller_execution_time_( '.$class.' / '.$method.' )_end');

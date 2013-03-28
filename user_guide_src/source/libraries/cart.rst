@@ -279,16 +279,22 @@ by which this is returned by passing it "true" where the contents will be sorted
 from newest to oldest, by leaving this function blank, you'll automatically just get
 first added to the basket to last added to the basket.
 
-$this->cart->has_options(rowid);
-********************************
+$this->cart->get_item($row_id);
+*******************************
+
+Returns an array containing data for the item matching the specified row ID,
+or FALSE if no such item exists.
+
+$this->cart->has_options($row_id);
+**********************************
 
 Returns TRUE (boolean) if a particular row in the cart contains options.
 This function is designed to be used in a loop with
 $this->cart->contents(), since you must pass the rowid to this function,
 as shown in the Displaying the Cart example above.
 
-$this->cart->product_options(rowid);
-************************************
+$this->cart->product_options($row_id);
+**************************************
 
 Returns an array of options for a particular product. This function is
 designed to be used in a loop with $this->cart->contents(), since you

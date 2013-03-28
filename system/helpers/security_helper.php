@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter Security Helpers
@@ -77,12 +78,10 @@ if ( ! function_exists('do_hash'))
 	/**
 	 * Hash encode a string
 	 *
-	 * This function is DEPRECATED and should be removed in
-	 * CodeIgniter 3.1+. Use hash() instead.
-	 *
-	 * @deprecated
-	 * @param	string
-	 * @param	string
+	 * @todo	Remove in version 3.1+.
+	 * @deprecated	3.0.0	Use PHP's native hash() instead.
+	 * @param	string	$str
+	 * @param	string	$type = 'sha1'
 	 * @return	string
 	 */
 	function do_hash($str, $type = 'sha1')

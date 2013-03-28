@@ -3,7 +3,7 @@ Profiling Your Application
 ##########################
 
 The Profiler Class will display benchmark results, queries you have run,
-and $_POST data at the bottom of your pages. This information can be
+and ``$_POST`` data at the bottom of your pages. This information can be
 useful during development in order to help with debugging and
 optimization.
 
@@ -11,14 +11,14 @@ Initializing the Class
 ======================
 
 .. important:: This class does NOT need to be initialized. It is loaded
-	automatically by the :doc:`Output Class <../libraries/output>` if
-	profiling is enabled as shown below.
+	automatically by the :doc:`Output Library <../libraries/output>`
+	if profiling is enabled as shown below.
 
 Enabling the Profiler
 =====================
 
-To enable the profiler place the following function anywhere within your
-:doc:`Controller <controllers>` functions::
+To enable the profiler place the following line anywhere within your
+:doc:`Controller <controllers>` methods::
 
 	$this->output->enable_profiler(TRUE);
 
@@ -35,8 +35,8 @@ Setting Benchmark Points
 In order for the Profiler to compile and display your benchmark data you
 must name your mark points using specific syntax.
 
-Please read the information on setting Benchmark points in :doc:`Benchmark
-Class <../libraries/benchmark>` page.
+Please read the information on setting Benchmark points in the
+:doc:`Benchmark Library <../libraries/benchmark>` page.
 
 Enabling and Disabling Profiler Sections
 ========================================
@@ -44,21 +44,21 @@ Enabling and Disabling Profiler Sections
 Each section of Profiler data can be enabled or disabled by setting a
 corresponding config variable to TRUE or FALSE. This can be done one of
 two ways. First, you can set application wide defaults with the
-application/config/profiler.php config file.
+*application/config/profiler.php* config file.
 
-::
+Example::
 
 	$config['config']          = FALSE;
 	$config['queries']         = FALSE;
 
 In your controllers, you can override the defaults and config file
-values by calling the set_profiler_sections() method of the :doc:`Output
-class <../libraries/output>`::
+values by calling the ``set_profiler_sections()`` method of the
+:doc:`Output Library <../libraries/output>`::
 
 	$sections = array(
-	    'config'  => TRUE,
-	    'queries' => TRUE
-	    );
+		'config'  => TRUE,
+		'queries' => TRUE
+	);
 
 	$this->output->set_profiler_sections($sections);
 

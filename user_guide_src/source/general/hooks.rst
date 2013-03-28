@@ -16,25 +16,26 @@ Enabling Hooks
 ==============
 
 The hooks feature can be globally enabled/disabled by setting the
-following item in the application/config/config.php file::
+following item in the **application/config/config.php** file::
 
 	$config['enable_hooks'] = TRUE;
 
 Defining a Hook
 ===============
 
-Hooks are defined in application/config/hooks.php file. Each hook is
-specified as an array with this prototype::
+Hooks are defined in **application/config/hooks.php** file.
+Each hook is specified as an array with this prototype::
 
 	$hook['pre_controller'] = array(
-	                                'class'    => 'MyClass',
-	                                'function' => 'Myfunction',
-	                                'filename' => 'Myclass.php',
-	                                'filepath' => 'hooks',
-	                                'params'   => array('beer', 'wine', 'snacks')
-	                                );
+		'class'    => 'MyClass',
+		'function' => 'Myfunction',
+		'filename' => 'Myclass.php',
+		'filepath' => 'hooks',
+		'params'   => array('beer', 'wine', 'snacks')
+	);
 
 **Notes:**
+
 The array index correlates to the name of the particular hook point you
 want to use. In the above example the hook point is pre_controller. A
 list of hook points is found below. The following items should be
@@ -42,14 +43,15 @@ defined in your associative hook array:
 
 -  **class** The name of the class you wish to invoke. If you prefer to
    use a procedural function instead of a class, leave this item blank.
--  **function** The function name you wish to call.
+-  **function** The function (or method) name you wish to call.
 -  **filename** The file name containing your class/function.
--  **filepath** The name of the directory containing your script. Note:
-   Your script must be located in a directory INSIDE your application
-   folder, so the file path is relative to that folder. For example, if
-   your script is located in application/hooks, you will simply use
-   hooks as your filepath. If your script is located in
-   application/hooks/utilities you will use hooks/utilities as your
+-  **filepath** The name of the directory containing your script.
+   Note:
+   Your script must be located in a directory INSIDE your *application/*
+   directory, so the file path is relative to that directory. For example,
+   if your script is located in *application/hooks/*, you will simply use
+   'hooks' as your filepath. If your script is located in
+   *application/hooks/utilities/* you will use 'hooks/utilities' as your
    filepath. No trailing slash.
 -  **params** Any parameters you wish to pass to your script. This item
    is optional.
@@ -61,20 +63,20 @@ If want to use the same hook point with more then one script, simply
 make your array declaration multi-dimensional, like this::
 
 	$hook['pre_controller'][] = array(
-	                                'class'    => 'MyClass',
-	                                'function' => 'Myfunction',
-	                                'filename' => 'Myclass.php',
-	                                'filepath' => 'hooks',
-	                                'params'   => array('beer', 'wine', 'snacks')
-	                                );
+		'class'    => 'MyClass',
+		'function' => 'MyMethod',
+		'filename' => 'Myclass.php',
+		'filepath' => 'hooks',
+		'params'   => array('beer', 'wine', 'snacks')
+	);
 
 	$hook['pre_controller'][] = array(
-	                                'class'    => 'MyOtherClass',
-	                                'function' => 'MyOtherfunction',
-	                                'filename' => 'Myotherclass.php',
-	                                'filepath' => 'hooks',
-	                                'params'   => array('red', 'yellow', 'blue')
-	                                );
+		'class'    => 'MyOtherClass',
+		'function' => 'MyOtherMethod',
+		'filename' => 'Myotherclass.php',
+		'filepath' => 'hooks',
+		'params'   => array('red', 'yellow', 'blue')
+	);
 
 Notice the brackets after each array index::
 
@@ -101,18 +103,17 @@ The following is a list of available hook points.
 -  **post_controller**
    Called immediately after your controller is fully executed.
 -  **display_override**
-   Overrides the _display() function, used to send the finalized page
+   Overrides the ``_display()`` method, used to send the finalized page
    to the web browser at the end of system execution. This permits you
    to use your own display methodology. Note that you will need to
-   reference the CI superobject with $this->CI =& get_instance() and
+   reference the CI superobject with ``$this->CI =& get_instance()`` and
    then the finalized data will be available by calling
-   $this->CI->output->get_output()
+   ``$this->CI->output->get_output()``.
 -  **cache_override**
-   Enables you to call your own function instead of the
-   _display_cache() function in the output class. This permits you to
-   use your own cache display mechanism.
+   Enables you to call your own method instead of the ``_display_cache()``
+   method in the :doc:`Output Library <../libraries/output>`. This permits
+   you to use your own cache display mechanism.
 -  **post_system**
    Called after the final rendered page is sent to the browser, at the
    end of system execution after the finalized data is sent to the
    browser.
-

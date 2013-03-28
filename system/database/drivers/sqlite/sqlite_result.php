@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * SQLite Result Class
@@ -97,10 +98,8 @@ class CI_DB_sqlite_result extends CI_DB_result {
 		{
 			$retval[$i]			= new stdClass();
 			$retval[$i]->name		= sqlite_field_name($this->result_id, $i);
-			$retval[$i]->type		= 'varchar';
-			$retval[$i]->max_length		= 0;
-			$retval[$i]->primary_key	= 0;
-			$retval[$i]->default		= '';
+			$retval[$i]->type		= NULL;
+			$retval[$i]->max_length		= NULL;
 		}
 
 		return $retval;
@@ -113,11 +112,12 @@ class CI_DB_sqlite_result extends CI_DB_result {
 	 *
 	 * Moves the internal pointer to the desired offset. We call
 	 * this internally before fetching results to make sure the
-	 * result set starts at zero
+	 * result set starts at zero.
 	 *
+	 * @param	int	$n
 	 * @return	bool
 	 */
-	protected function _data_seek($n = 0)
+	public function data_seek($n = 0)
 	{
 		return sqlite_seek($this->result_id, $n);
 	}
@@ -143,7 +143,7 @@ class CI_DB_sqlite_result extends CI_DB_result {
 	 *
 	 * Returns the result set as an object
 	 *
-	 * @param	string
+	 * @param	string	$class_name
 	 * @return	object
 	 */
 	protected function _fetch_object($class_name = 'stdClass')

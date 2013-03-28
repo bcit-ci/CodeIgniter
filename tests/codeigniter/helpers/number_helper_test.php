@@ -11,31 +11,18 @@ class Number_helper_test extends CI_TestCase {
 
 		// Mock away load, too much going on in there,
 		// we'll just check for the expected parameter
-
 		$lang = $this->getMock($lang_cls, array('load'));
 		$lang->expects($this->once())
 			 ->method('load')
 			 ->with($this->equalTo('number'));
 
 		// Assign the proper language array
-
-		$lang->language = $this->_get_lang('number');
+		$lang->language = $this->lang('number');
 
 		// We don't have a controller, so just create
 		// a cheap class to act as our super object.
 		// Make sure it has a lang attribute.
-
-		$obj = new stdClass;
-		$obj->lang = $lang;
-		$this->ci_instance($obj);
-	}
-
-	// Quick helper to actually grab the language
-	// file. Consider moving this to ci_testcase?
-	public function _get_lang($name)
-	{
-		require BASEPATH.'language/english/'.$name.'_lang.php';
-		return $lang;
+		$this->ci_instance_var('lang', $lang);
 	}
 
 	public function test_byte_format()

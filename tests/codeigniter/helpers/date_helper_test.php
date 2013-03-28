@@ -5,7 +5,6 @@ class Date_helper_test extends CI_TestCase {
 	public function set_up()
 	{
 		$this->helper('date');
-
 		$this->time = time();
 	}
 
@@ -168,6 +167,8 @@ class Date_helper_test extends CI_TestCase {
 
 	public function test_timespan()
 	{
+		$this->ci_vfs_clone('system/language/english/date_lang.php');
+
 		$loader_cls = $this->ci_core_class('load');
 		$this->ci_instance_var('load', new $loader_cls);
 

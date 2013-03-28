@@ -10,12 +10,11 @@ class UserAgent_test extends CI_TestCase {
 		// set a baseline user agent
 		$_SERVER['HTTP_USER_AGENT'] = $this->_user_agent;
 
-		$obj = new stdClass;
-		$obj->agent = new Mock_Libraries_UserAgent();
+		$this->ci_vfs_clone('application/config/user_agents.php');
 
-		$this->ci_instance($obj);
+		$this->agent = new Mock_Libraries_UserAgent();
 
-		$this->agent = $obj->agent;
+		$this->ci_instance_var('agent', $this->agent);
 	}
 
 	// --------------------------------------------------------------------

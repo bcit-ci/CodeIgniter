@@ -15,7 +15,7 @@
 # through the world wide web, please send an email to
 # licensing@ellislab.com so we can send you a copy immediately.
 # 
-# Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+# Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
 # http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
 
 

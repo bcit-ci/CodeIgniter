@@ -3,8 +3,10 @@ PHP Style Guide
 ###############
 
 
-The following page describes the use of coding rules adhered to when
-developing CodeIgniter.
+The following page describes the coding styles adhered to when
+contributing to the development of CodeIgniter. There is no requirement
+to use these styles in your own CodeIgniter application, though they
+are recommended.
 
 .. contents:: Table of Contents
 
@@ -52,7 +54,7 @@ whether introduced by the developer, user, or an FTP application, can
 cause unwanted output, PHP errors, or if the latter are suppressed,
 blank pages. For this reason, all PHP files should **OMIT** the closing
 PHP tag, and instead use a comment block to mark the end of file and
-it's location relative to the application root. This allows you to still
+its location relative to the application root. This allows you to still
 identify a file as being complete and not truncated.
 
 **INCORRECT**::
@@ -72,14 +74,15 @@ identify a file as being complete and not truncated.
 	/* End of file myfile.php */
 	/* Location: ./system/modules/mymodule/myfile.php */
 
+.. note:: There should be no empty line or newline character(s) following
+	the closing comments. If you happen to see one when
+	submitting a pull request, please check your IDE settings and fix it.
+
 Class and Method Naming
 =======================
 
 Class names should always start with an uppercase letter. Multiple words
-should be separated with an underscore, and not CamelCased. All other
-class methods should be entirely lowercased and named to clearly
-indicate their function, preferably including a verb. Try to avoid
-overly long and verbose names.
+should be separated with an underscore, and not CamelCased.
 
 **INCORRECT**::
 
@@ -100,7 +103,10 @@ overly long and verbose names.
 		}
 	}
 
-Examples of improper and proper method naming:
+Class methods should be entirely lowercased and named to clearly
+indicate their function, preferably including a verb. Try to avoid
+overly long and verbose names. Multiple words should be separated
+with an underscore.
 
 **INCORRECT**::
 
@@ -117,8 +123,8 @@ Examples of improper and proper method naming:
 Variable Names
 ==============
 
-The guidelines for variable naming is very similar to that used for
-class methods. Namely, variables should contain only lowercase letters,
+The guidelines for variable naming are very similar to those used for
+class methods. Variables should contain only lowercase letters,
 use underscore separators, and be reasonably named to indicate their
 purpose and contents. Very short, non-word variables should only be used
 as iterators in for() loops.
@@ -168,11 +174,11 @@ picked up by IDEs::
 	/**
 	 * Encodes string for use in XML
 	 *
-	 * @param	string
+	 * @param	string	$str	Input string
 	 * @return	string
 	 */
 	function xml_encode($str)
-	
+
 ::
 
 	/**
@@ -180,9 +186,7 @@ picked up by IDEs::
 	 *
 	 * @var	array
 	 */
-	public $data
-	
-	
+	public $data = array();
 
 Use single line comments within code, leaving a blank line between large
 comment blocks and code.
@@ -244,10 +248,10 @@ uppercase.
 Logical Operators
 =================
 
-Use of **\|\|** is discouraged as its clarity on some output devices is
-low (looking like the number 11 for instance). **&&** is preferred over
-**AND** but either are acceptable, and a space should always precede and
-follow **!**.
+Use of the ``||`` "or" comparison operator is discouraged, as its clarity
+on some output devices is low (looking like the number 11, for instance).
+``&&`` is preferred over ``AND`` but either are acceptable, and a space should
+always precede and follow ``!``.
 
 **INCORRECT**::
 
@@ -308,8 +312,8 @@ Use **===** and **!==** as necessary.
 	}
 
 
-See also information regarding
-`typecasting <http://us3.php.net/manual/en/language.types.type-juggling.php#language.types.typecasting>`_,
+See also information regarding `typecasting
+<http://php.net/manual/en/language.types.type-juggling.php#language.types.typecasting>`_,
 which can be quite useful. Typecasting has a slightly different effect
 which may be desirable. When casting a variable as a string, for
 instance, NULL and boolean FALSE variables become empty strings, 0 (and
@@ -320,14 +324,9 @@ other numbers) become strings of digits, and boolean TRUE becomes "1"::
 Debugging Code
 ==============
 
-No debugging code can be left in place for submitted add-ons unless it
-is commented out, i.e. no var_dump(), print_r(), die(), and exit()
-calls that were used while creating the add-on, unless they are
-commented out.
-
-::
-
-	// print_r($foo);
+Do not leave debugging code in your submissions, even when commented out.
+Things such as ``var_dump()``, ``print_r()``, ``die()``/``exit()`` should not be included
+in your code unless it serves a specific purpose other than debugging.
 
 Whitespace in Files
 ===================
@@ -335,74 +334,26 @@ Whitespace in Files
 No whitespace can precede the opening PHP tag or follow the closing PHP
 tag. Output is buffered, so whitespace in your files can cause output to
 begin before CodeIgniter outputs its content, leading to errors and an
-inability for CodeIgniter to send proper headers. In the examples below,
-select the text with your mouse to reveal the incorrect whitespace.
-
+inability for CodeIgniter to send proper headers.
 
 Compatibility
 =============
 
-Unless specifically mentioned in your add-on's documentation, all code
-must be compatible with PHP version 5.1+. Additionally, do not use PHP
-functions that require non-default libraries to be installed unless your
-code contains an alternative method when the function is not available,
-or you implicitly document that your add-on requires said PHP libraries.
+CodeIgniter requires a minimum PHP version of 5.2.4. Your code must either
+be compatible with this minimum requirement, provide a suitable fallback,
+or be an optional feature that dies quietly without affecting a user's
+application.
 
-Class and File Names using Common Words
-=======================================
-
-When your class or filename is a common word, or might quite likely be
-identically named in another PHP script, provide a unique prefix to help
-prevent collision. Always realize that your end users may be running
-other add-ons or third party PHP scripts. Choose a prefix that is unique
-to your identity as a developer or company.
-
-**INCORRECT**::
-
-	class Email		pi.email.php
-	class Xml		ext.xml.php
-	class Import	mod.import.php
-
-**CORRECT**::
-
-	class Pre_email		pi.pre_email.php
-	class Pre_xml		ext.pre_xml.php
-	class Pre_import	mod.pre_import.php
-
-Database Table Names
-====================
-
-Any tables that your add-on might use must use the 'exp\_' prefix,
-followed by a prefix uniquely identifying you as the developer or
-company, and then a short descriptive table name. You do not need to be
-concerned about the database prefix being used on the user's
-installation, as CodeIgniter's database class will automatically convert
-'exp\_' to what is actually being used.
-
-**INCORRECT**::
-
-	email_addresses		// missing both prefixes
-	pre_email_addresses	// missing exp_ prefix
-	exp_email_addresses	// missing unique prefix
-
-**CORRECT**::
-
-	exp_pre_email_addresses
-
-.. note:: Be mindful that MySQL has a limit of 64 characters for table
-	names. This should not be an issue as table names that would exceed this
-	would likely have unreasonable names. For instance, the following table
-	name exceeds this limitation by one character. Silly, no?
-	**exp_pre_email_addresses_of_registered_users_in_seattle_washington**
+Additionally, do not use PHP functions that require non-default libraries
+to be installed unless your code contains an alternative method when the
+function is not available.
 
 One File per Class
 ==================
 
-Use separate files for each class your add-on uses, unless the classes
-are *closely related*. An example of CodeIgniter files that contains
-multiple classes is the Database class file, which contains both the DB
-class and the DB_Cache class, and the Magpie plugin, which contains
-both the Magpie and Snoopy classes.
+Use separate files for each class, unless the classes are *closely related*.
+An example of a CodeIgniter file that contains multiple classes is the 
+Xmlrpc library file.
 
 Whitespace
 ==========
@@ -539,8 +490,8 @@ functions and increase readability.
 Localized Text
 ==============
 
-Any text that is output in the control panel should use language
-variables in your lang file to allow localization.
+CodeIgniter libraries should take advantage of corresponding language files
+whenever possible.
 
 **INCORRECT**::
 
@@ -553,24 +504,24 @@ variables in your lang file to allow localization.
 Private Methods and Variables
 =============================
 
-Methods and variables that are only accessed internally by your class,
+Methods and variables that are only accessed internally,
 such as utility and helper functions that your public methods use for
 code abstraction, should be prefixed with an underscore.
 
 ::
 
-	convert_text()		// public method
-	_convert_text()		// private method
+	public function convert_text()
+	private function _convert_text()
 
 PHP Errors
 ==========
 
 Code must run error free and not rely on warnings and notices to be
 hidden to meet this requirement. For instance, never access a variable
-that you did not set yourself (such as $_POST array keys) without first
-checking to see that it isset().
+that you did not set yourself (such as ``$_POST`` array keys) without first
+checking to see that it ``isset()``.
 
-Make sure that while developing your add-on, error reporting is enabled
+Make sure that your dev environment has error reporting enabled
 for ALL users, and that display_errors is enabled in the PHP
 environment. You can check this setting with::
 
@@ -579,22 +530,22 @@ environment. You can check this setting with::
 		exit "Enabled";
 	}
 
-On some servers where display_errors is disabled, and you do not have
+On some servers where *display_errors* is disabled, and you do not have
 the ability to change this in the php.ini, you can often enable it with::
 
 	ini_set('display_errors', 1);
 
-**NOTE:** Setting the
-`display_errors <http://us.php.net/manual/en/ref.errorfunc.php#ini.display-errors>`_
-setting with ini_set() at runtime is not identical to having it enabled
-in the PHP environment. Namely, it will not have any effect if the
-script has fatal errors
+.. note:: Setting the `display_errors
+	<http://php.net/manual/en/ref.errorfunc.php#ini.display-errors>`_
+	setting with ``ini_set()`` at runtime is not identical to having
+	it enabled in the PHP environment. Namely, it will not have any
+	effect if the script has fatal errors.
 
 Short Open Tags
 ===============
 
 Always use full PHP opening tags, in case a server does not have
-short_open_tag enabled.
+*short_open_tag* enabled.
 
 **INCORRECT**::
 
@@ -605,6 +556,8 @@ short_open_tag enabled.
 **CORRECT**::
 
 	<?php echo $foo; ?>
+
+.. note:: PHP 5.4 will always have the **<?=** tag available.
 
 One Statement Per Line
 ======================
@@ -645,7 +598,7 @@ characters.
 SQL Queries
 ===========
 
-MySQL keywords are always capitalized: SELECT, INSERT, UPDATE, WHERE,
+SQL keywords are always capitalized: SELECT, INSERT, UPDATE, WHERE,
 AS, JOIN, ON, IN, etc.
 
 Break up long queries into multiple lines for legibility, preferably
@@ -675,4 +628,3 @@ prevent PHP errors with mistaken calls and provides common fallback
 values which can save a few lines of code. Example::
 
 	function foo($bar = '', $baz = FALSE)
-

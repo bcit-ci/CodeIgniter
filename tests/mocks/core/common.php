@@ -39,6 +39,30 @@ if ( ! function_exists('config_item'))
 	}
 }
 
+if ( ! function_exists('get_mimes'))
+{
+	/**
+	 * Returns the MIME types array from config/mimes.php
+	 *
+	 * @return	array
+	 */
+	function &get_mimes()
+	{
+		static $_mimes = array();
+
+		if (empty($_mimes))
+		{
+			$path = realpath(PROJECT_BASE.'application/config/mimes.php');
+			if (is_file($path))
+			{
+				$_mimes = include($path);
+			}
+		}
+
+		return $_mimes;
+	}
+}
+
 // --------------------------------------------------------------------
 
 if ( ! function_exists('load_class'))
@@ -124,7 +148,6 @@ if ( ! function_exists('_exception_handler'))
 	}
 }
 
-
 // We assume a few things about our environment ...
 // --------------------------------------------------------------------
 
@@ -146,9 +169,10 @@ if ( ! function_exists('is_really_writable'))
 
 if ( ! function_exists('is_loaded'))
 {
-	function is_loaded()
+	function &is_loaded()
 	{
-		throw new Exception('Bad Isolation: mock up environment');
+		$loaded = array();
+		return $loaded;
 	}
 }
 

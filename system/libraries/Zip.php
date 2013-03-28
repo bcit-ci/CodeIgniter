@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Zip Compression Class
@@ -132,7 +133,7 @@ class CI_Zip {
 	protected function _get_mod_time($dir)
 	{
 		// filemtime() may return false, but raises an error for non-existing files
-		$date = file_exists($dir) ? filemtime($dir) : getdate($this->now);
+		$date = file_exists($dir) ? @filemtime($dir) : getdate($this->now);
 
 		return array(
 				'file_mtime' => ($date['hours'] << 11) + ($date['minutes'] << 5) + $date['seconds'] / 2,
@@ -437,7 +438,7 @@ class CI_Zip {
 	 * Lets you clear current zip data. Useful if you need to create
 	 * multiple zips with different data.
 	 *
-	 * @return	object
+	 * @return	CI_Zip
 	 */
 	public function clear_data()
 	{
