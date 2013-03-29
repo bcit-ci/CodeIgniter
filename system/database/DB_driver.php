@@ -1706,7 +1706,10 @@ abstract class CI_DB_driver {
 		// If a parenthesis is found we know that we do not need to
 		// escape the data or add a prefix. There's probably a more graceful
 		// way to deal with this, but I'm not thinking of it -- Rick
-		if (strpos($item, '(') !== FALSE)
+		//
+		// Added exception for single quotes as well, we don't want to alter
+		// literal strings. -- Narf
+		if (strpos($item, '(') !== FALSE OR strpos($item, "'") !== FALSE)
 		{
 			return $item;
 		}
