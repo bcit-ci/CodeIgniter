@@ -143,8 +143,8 @@ class CI_Migration {
 
 		// Migration basename regex
 		$this->_migration_regex = ($this->_migration_type === 'timestamp')
-			? '/^\d{14}_(\w+)$/'
-			: '/^\d{3}_(\w+)$/';
+			? '/^(\d{14})_(\w+)$/'
+			: '/^(\d{3})_(\w+)$/';
 
 		// Make sure a valid migration numbering type was set.
 		if ( ! in_array($this->_migration_type, array('sequential', 'timestamp')))
@@ -179,17 +179,19 @@ class CI_Migration {
 	 * Calls each migration step required to get to the schema version of
 	 * choice
 	 *
-	 * @param	int	$target_version	Target schema version
-	 * @return	mixed	TRUE if already latest, FALSE if failed, int if upgraded
+	 * @param	mixed	$target_version	Target schema version
+	 * @return	mixed	TRUE if already latest, FALSE if failed, float if upgraded
 	 */
 	public function version($target_version)
 	{
-		$current_version = (int) $this->_get_version();
-		$target_version = (int) $target_version;
+		// Work with floats for portability to 32 bit PHP; float can
+		// represent exact 14 digit timestamp but 32 bit int cannot.
+		$current_version = (float) $this->_get_version();
+		$target_version = (float) $target_version;
 
 		$migrations = $this->find_migrations();
 
-		if ($target_version > 0 && ! isset($migrations[$target_version]))
+		if ($target_version > 0 && ! isset($migrations[(string)$target_version]))
 		{
 			$this->_error_string = sprintf($this->lang->line('migration_not_found'), $target_version);
 			return FALSE;
@@ -215,8 +217,10 @@ class CI_Migration {
 		$previous = FALSE;
 
 		// Validate all available migrations, and run the ones within our target range
-		foreach ($migrations as $number => $file)
+		foreach ($migrations as $key => $file)
 		{
+			$number = (float) $key;
+
 			// Check for sequence gaps
 			if ($this->_migration_type === 'sequential' && $previous !== FALSE && abs($number - $previous) > 1)
 			{
@@ -225,7 +229,8 @@ class CI_Migration {
 			}
 
 			include_once $file;
-			$class = 'Migration_'.ucfirst(strtolower($this->_get_migration_name(basename($file, '.php'))));
+			$parts = $this->_get_filename_parts($file);
+			$class = 'Migration_'.ucfirst(strtolower($parts[2]));
 
 			// Validate the migration file structure
 			if ( ! class_exists($class, FALSE))
@@ -289,16 +294,16 @@ class CI_Migration {
 		$last_migration = basename(end($migrations));
 
 		// Calculate the last migration step from existing migration
-		// filenames and procceed to the standard version migration
+		// filenames and proceed to the standard version migration
 		return $this->version($this->_get_migration_number($last_migration));
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set's the schema to the migration version set in config
+	 * Sets the schema to the migration version set in config
 	 *
-	 * @return	mixed	TRUE if already current, FALSE if failed, int if upgraded
+	 * @return	mixed	TRUE if already current, FALSE if failed, float if upgraded
 	 */
 	public function current()
 	{
@@ -331,12 +336,11 @@ class CI_Migration {
 		// Load all *_*.php files in the migrations path
 		foreach (glob($this->_migration_path.'*_*.php') as $file)
 		{
-			$name = basename($file, '.php');
-
 			// Filter out non-migration files
-			if (preg_match($this->_migration_regex, $name))
+			$parts = $this->_get_filename_parts($file);
+			if ($parts)
 			{
-				$number = $this->_get_migration_number($name);
+				$number = $parts[1];
 
 				// There cannot be duplicate migration numbers
 				if (isset($migrations[$number]))
@@ -359,27 +363,18 @@ class CI_Migration {
 	 * Extracts the migration number from a filename
 	 *
 	 * @param	string	$migration
-	 * @return	int	Numeric portion of a migration filename
+	 * @return	array|false   array with whole string, version and class name parts, or false if not valid
 	 */
-	protected function _get_migration_number($migration)
+	protected function _get_filename_parts($migration)
 	{
-		return sscanf($migration, '%d', $number)
-			? $number : 0;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Extracts the migration class name from a filename
-	 *
-	 * @param	string	$migration
-	 * @return	string	text portion of a migration filename
-	 */
-	protected function _get_migration_name($migration)
-	{
-		$parts = explode('_', $migration);
-		array_shift($parts);
-		return implode('_', $parts);
+		if(preg_match($this->_migration_regex, basename($migration, '.php'), $matches))
+		{
+			return $matches;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	// --------------------------------------------------------------------
