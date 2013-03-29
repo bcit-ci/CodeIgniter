@@ -1609,7 +1609,7 @@ abstract class CI_DB_driver {
 	 * @param	string	the error message
 	 * @param	string	any "swap" values
 	 * @param	bool	whether to localize the message
-	 * @return	string	sends the application/error_db.php template
+	 * @return	string	sends the application/views/errors/error_db.php template
 	 */
 	public function display_error($error = '', $swap = '', $native = FALSE)
 	{
