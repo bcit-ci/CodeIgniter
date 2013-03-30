@@ -1076,21 +1076,17 @@ class CI_Upload {
 		$CI =& get_instance();
 		$CI->lang->load('upload');
 
-		if (is_array($msg))
+		if ( ! is_array($msg))
 		{
-			foreach ($msg as $val)
-			{
-				$msg = ($CI->lang->line($val) === FALSE) ? $val : $CI->lang->line($val);
-				$this->error_msg[] = $msg;
-				log_message('error', $msg);
-			}
-		}
-		else
-		{
-			$msg = ($CI->lang->line($msg) === FALSE) ? $msg : $CI->lang->line($msg);
-			$this->error_msg[] = $msg;
-			log_message('error', $msg);
-		}
+            $msg = array($msg);
+        }
+
+        foreach ($msg as $val)
+        {
+            $msg = ($CI->lang->line($val) === FALSE) ? $val : $CI->lang->line($val);
+            $this->error_msg[] = $msg;
+            log_message('error', $msg);
+        }
 	}
 
 	// --------------------------------------------------------------------
