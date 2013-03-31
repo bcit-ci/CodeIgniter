@@ -604,7 +604,6 @@ class CI_Upload {
 	{
 		if ($this->encrypt_name === TRUE)
 		{
-			mt_srand();
 			$filename = md5(uniqid(mt_rand())).$this->file_ext;
 		}
 
