@@ -109,7 +109,9 @@ class CI_Session_native extends CI_Session_driver {
 		session_set_cookie_params($config['sess_expire_on_close'] ? 0 : $expire, $path, $domain, $secure, $http_only);
 
 		// Start session
-		session_start();
+		if ('' == session_id()) {
+			session_start();
+		}
 
 		// Check session expiration, ip, and agent
 		$now = time();
