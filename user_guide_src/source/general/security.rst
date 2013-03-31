@@ -15,11 +15,12 @@ the following:
 
 -  Alpha-numeric text (latin characters only)
 -  Tilde: ~
+-  Percent sign: %
 -  Period: .
 -  Colon: :
 -  Underscore: \_
 -  Dash: -
--  Pipe: |
+-  Space
 
 Register_globals
 =================
