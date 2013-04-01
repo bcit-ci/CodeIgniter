@@ -221,6 +221,7 @@ Release Date: Not Released
 	 -  *Product Name* strictness can be disabled by switching the ``$product_name_safe`` property to FALSE.
 	 -  Added method ``remove()`` to remove a cart item, updating with quantity of 0 seemed like a hack but has remained to retain compatibility.
 	 -  Added method ``get_item()`` to enable retrieving data for a single cart item.
+	 -  Added unicode support for product names.
    -  :doc:`Image Manipulation library <libraries/image_lib>` changes include:
 	 -  The ``initialize()`` method now only sets existing class properties.
 	 -  Added support for 3-length hex color values for *wm_font_color* and *wm_shadow_color* properties, as well as validation for them.
@@ -491,6 +492,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#2298) - :doc:`Database Results <database/results>` method `next_row()` kept returning the last row, allowing for infinite loops.
 -  Fixed a bug (#2236) - :doc:`Form Helper <helpers/form_helper>` function ``set_value()`` didn't parse array notation for keys if the rule was not present in the :doc:`Form Validation Library <libraries/form_validation>`.
 -  Fixed a bug (#2353) - :doc:`Query Builder <database/query_builder>` erroneously prefixed literal strings with **dbprefix**.
+-  Fixed a bug (#78) - :doc:`Cart Library <libraries/cart>` didn't allow non-English letters in product names.
 
 Version 2.1.3
 =============
