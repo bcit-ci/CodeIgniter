@@ -231,7 +231,7 @@ class Mongo_db {
 
 		if ($this->autoinit)
 		{
-			if(empty($this->dsn))
+			if (empty($this->dsn))
 			{
 				$this->build_dsn();
 			}

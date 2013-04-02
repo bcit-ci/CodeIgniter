@@ -105,13 +105,14 @@ The second parameter enable you to set a where condition::
 	returned by calling the ``result()`` method or its variants 
 	(``$this->mongo_db->find('mycollection')->result()``)
 
-Once the cursor object is built, next set of operations can be applied easily::
+Once the cursor object is built, next set of operations can be applied easily 
+to obtain the records::
 
 	$this->mongo_db
-		->find('mycollection', array('name' => 'John'), array('age' => 1))
-		->sort($sort)
-		->skip($this->_page_skip)
-		->limit($this->_page_limit)
+		->find('myusers, array('active' => TRUE), array('age' => 1, 'name' => 1, '_id' => -1))
+		->sort(array('date_of_birth' => -1))
+		->skip(5)
+		->limit(20)
 		->result();
 
 find_and_modify()
@@ -135,13 +136,13 @@ If the previous query failed for some reason, it can be obtained via
 ``$this->mongo_db->last_error_message()`` and ``$this->mongo_db->last_error_code()`` 
 methods ::
 
-	if($this->mongo_db->insert('myusers', $data))
+	if ($this->mongo_db->insert('myusers', $data))
 	{
 		echo 'User added with id:', $this->mongo_db->insert_id();
 	}
 	else
 	{
-		if($this->mongo_db->last_error_code() === 11000)
+		if ($this->mongo_db->last_error_code() === 11000)
 			echo 'Username already exists';
 		else
 			echo 'Unknown error:', $this->mongo_db->last_error_message();
