@@ -366,25 +366,25 @@ class CI_Upload {
 
 			switch ($error)
 			{
-				case 1:	// UPLOAD_ERR_INI_SIZE
+				case UPLOAD_ERR_INI_SIZE:
 					$this->set_error('upload_file_exceeds_limit');
 					break;
-				case 2: // UPLOAD_ERR_FORM_SIZE
+				case UPLOAD_ERR_FORM_SIZE:
 					$this->set_error('upload_file_exceeds_form_limit');
 					break;
-				case 3: // UPLOAD_ERR_PARTIAL
+				case UPLOAD_ERR_PARTIAL:
 					$this->set_error('upload_file_partial');
 					break;
-				case 4: // UPLOAD_ERR_NO_FILE
+				case UPLOAD_ERR_NO_FILE:
 					$this->set_error('upload_no_file_selected');
 					break;
-				case 6: // UPLOAD_ERR_NO_TMP_DIR
+				case UPLOAD_ERR_NO_TMP_DIR:
 					$this->set_error('upload_no_temp_directory');
 					break;
-				case 7: // UPLOAD_ERR_CANT_WRITE
+				case UPLOAD_ERR_CANT_WRITE:
 					$this->set_error('upload_unable_to_write_file');
 					break;
-				case 8: // UPLOAD_ERR_EXTENSION
+				case UPLOAD_ERR_EXTENSION:
 					$this->set_error('upload_stopped_by_extension');
 					break;
 				default:
@@ -604,7 +604,6 @@ class CI_Upload {
 	{
 		if ($this->encrypt_name === TRUE)
 		{
-			mt_srand();
 			$filename = md5(uniqid(mt_rand())).$this->file_ext;
 		}
 

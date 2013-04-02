@@ -1208,13 +1208,8 @@ abstract class CI_DB_driver {
 				}
 				else
 				{
-					/* We have no other choice but to just get the first element's key.
-					 * Due to array_shift() accepting it's argument by reference, if
-					 * E_STRICT is on, this would trigger a warning. So we'll have to
-					 * assign it first.
-					 */
-					$key = array_keys($row);
-					$key = array_shift($key);
+					// We have no other choice but to just get the first element's key.
+					$key = key($row);
 				}
 			}
 
@@ -1614,7 +1609,7 @@ abstract class CI_DB_driver {
 	 * @param	string	the error message
 	 * @param	string	any "swap" values
 	 * @param	bool	whether to localize the message
-	 * @return	string	sends the application/error_db.php template
+	 * @return	string	sends the application/views/errors/error_db.php template
 	 */
 	public function display_error($error = '', $swap = '', $native = FALSE)
 	{
@@ -1711,7 +1706,10 @@ abstract class CI_DB_driver {
 		// If a parenthesis is found we know that we do not need to
 		// escape the data or add a prefix. There's probably a more graceful
 		// way to deal with this, but I'm not thinking of it -- Rick
-		if (strpos($item, '(') !== FALSE)
+		//
+		// Added exception for single quotes as well, we don't want to alter
+		// literal strings. -- Narf
+		if (strpos($item, '(') !== FALSE OR strpos($item, "'") !== FALSE)
 		{
 			return $item;
 		}

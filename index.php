@@ -255,7 +255,7 @@ switch (ENVIRONMENT)
 
 	if (($_temp = realpath($view_folder)) !== FALSE)
 	{
-		$view_folder = realpath($view_folder).'/';
+		$view_folder = $_temp.'/';
 	}
 	else
 	{
