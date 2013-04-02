@@ -105,6 +105,15 @@ The second parameter enable you to set a where condition::
 	returned by calling the ``result()`` method or its variants 
 	(``$this->mongo_db->find('mycollection')->result()``)
 
+Once the cursor object is built, next set of operations can be applied easily::
+
+	$this->mongo_db
+		->find('mycollection', array('name' => 'John'), array('age' => 1))
+		->sort($sort)
+		->skip($this->_page_skip)
+		->limit($this->_page_limit)
+		->result();
+
 find_and_modify()
 -----------------
 
@@ -126,7 +135,7 @@ If the previous query failed for some reason, it can be obtained via
 ``$this->mongo_db->last_error_message()`` and ``$this->mongo_db->last_error_code()`` 
 methods ::
 
-	if($this->mongo_db->insert('users', $data))
+	if($this->mongo_db->insert('myusers', $data))
 	{
 		echo 'User added with id:', $this->mongo_db->insert_id();
 	}
