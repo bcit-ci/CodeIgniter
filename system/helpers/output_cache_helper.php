@@ -250,6 +250,34 @@ if ( ! function_exists('output_cache_delete'))
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('output_cache_delete_all'))
+{
+	/**
+	 * Deletes all cache files in the cache directory.
+	 *
+	 *
+	 * @return	bool
+	 */
+	function output_cache_delete_all()
+	{
+		$cache_array = output_cache_array(FALSE, FALSE, TRUE);
+
+		$success = TRUE;
+
+		if (!empty($cache_array))
+		{
+			foreach ($cache_array as $key => $cache_object)
+			{
+				$success = $success && output_cache_delete_hash($key);
+			}
+		}
+
+		return $success;
+	}
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('output_cache_delete_type'))
 {
 	/**
