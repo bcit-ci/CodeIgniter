@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		Mike Murkovic
  * @link
  */
-class CI_Cache_wincache extends CI_Driver {
+class CI_Cache_wincache extends CI_Cache_driver {
 
 	/**
 	 * Get
@@ -105,7 +105,7 @@ class CI_Cache_wincache extends CI_Driver {
 	 *
 	 * @return	mixed	array on success, false on failure
 	 */
-	 public function cache_info()
+	 public function cache_info($type = NULL)
 	 {
 		 return wincache_ucache_info(TRUE);
 	 }

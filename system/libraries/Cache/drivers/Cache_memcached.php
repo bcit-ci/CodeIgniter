@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link
  */
-class CI_Cache_memcached extends CI_Driver {
+class CI_Cache_memcached extends CI_Cache_driver {
 
 	/**
 	 * Holds the memcached object
@@ -126,7 +126,7 @@ class CI_Cache_memcached extends CI_Driver {
 	 *
 	 * @return	mixed	array on success, false on failure
 	 */
-	public function cache_info()
+	public function cache_info($type = NULL)
 	{
 		return $this->_memcached->getStats();
 	}
@@ -166,16 +166,13 @@ class CI_Cache_memcached extends CI_Driver {
 	 */
 	protected function _setup_memcached()
 	{
-		// Try to load memcached server info from the config file.
-		$CI =& get_instance();
-
-		if ($CI->config->load('memcached', TRUE, TRUE))
+		if ($this->CI->config->load('memcached', TRUE, TRUE))
 		{
-			if (is_array($CI->config->config['memcached']))
+			if (is_array($this->CI->config->config['memcached']))
 			{
 				$this->_memcache_conf = NULL;
 
-				foreach ($CI->config->config['memcached'] as $name => $conf)
+				foreach ($this->CI->config->config['memcached'] as $name => $conf)
 				{
 					$this->_memcache_conf[$name] = $conf;
 				}

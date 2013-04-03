@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link
  */
-class CI_Cache_file extends CI_Driver {
+class CI_Cache_file extends CI_Cache_driver {
 
 	/**
 	 * Directory in which to save cache files
@@ -51,9 +51,8 @@ class CI_Cache_file extends CI_Driver {
 	 */
 	public function __construct()
 	{
-		$CI =& get_instance();
-		$CI->load->helper('file');
-		$path = $CI->config->item('cache_path');
+		$this->CI->load->helper('file');
+		$path = $this->CI->config->item('cache_path');
 		$this->_cache_path = ($path === '') ? APPPATH.'cache/' : $path;
 	}
 
