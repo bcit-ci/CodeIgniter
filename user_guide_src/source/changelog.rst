@@ -330,6 +330,7 @@ Release Date: Not Released
    -  :doc:`URI Routing <general/routing>` changes include:
 	 -  Added possibility to route requests using callbacks.
 	 -  Added possibility to use dashes in the controller and method URI segments (translated to underscores).
+	 -  Deprecated methods ``fetch_directory()``, ``fetch_class()`` and ``fetch_method()`` in favor of their respective public properties.
    -  :doc:`Language Library <libraries/language>` changes include:
 	 -  Changed method ``load()`` to filter the language name with ``ctype_digit()``.
 	 -  Added an optional second parameter to method ``line()`` to disable error login for line keys that were not found.
@@ -489,11 +490,13 @@ Bug fixes for 3.0
 -  Fixed a bug (#2255) - :doc:`Email Library <libraries/email>` didn't apply ``smtp_timeout`` to socket reads and writes.
 -  Fixed a bug (#2239) - :doc:`Email Library <libraries/email>` improperly handled the Subject when used with ``bcc_batch_mode`` resulting in E_WARNING messages and an empty Subject.
 -  Fixed a bug (#2234) - :doc:`Query Builder <database/query_builder>` didn't reset JOIN cache for write-type queries.
--  Fixed a bug (#2298) - :doc:`Database Results <database/results>` method `next_row()` kept returning the last row, allowing for infinite loops.
+-  Fixed a bug (#2298) - :doc:`Database Results <database/results>` method ``next_row()`` kept returning the last row, allowing for infinite loops.
 -  Fixed a bug (#2236) - :doc:`Form Helper <helpers/form_helper>` function ``set_value()`` didn't parse array notation for keys if the rule was not present in the :doc:`Form Validation Library <libraries/form_validation>`.
 -  Fixed a bug (#2353) - :doc:`Query Builder <database/query_builder>` erroneously prefixed literal strings with **dbprefix**.
 -  Fixed a bug (#78) - :doc:`Cart Library <libraries/cart>` didn't allow non-English letters in product names.
 -  Fixed a bug (#77) - :doc:`Database Class <database/index>` didn't properly handle the transaction "test mode" flag.
+-  Fixed a bug (#2380) - :doc:`URI Routing <general/routing>` method ``fetch_method()`` returned 'index' if the requested method name matches its controller name.
+
 
 Version 2.1.3
 =============
