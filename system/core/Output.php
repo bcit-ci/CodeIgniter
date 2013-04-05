@@ -854,12 +854,12 @@ class CI_Output {
 		$chunks = preg_split('/([\'|"]).+(?![^\\\]\\1)\\1/iU', $output, -1, PREG_SPLIT_OFFSET_CAPTURE);
 		for ($i = count($chunks) - 1; $i >= 0; $i--)
 		{
-		        $output = substr_replace(
-		                $output,
-		                preg_replace('/\s*(:|;|,|}|{|\(|\))\s*/i', '$1', $chunks[$i][0]),
-		                $chunks[$i][1],
-		                strlen($chunks[$i][0])
-		        );
+			$output = substr_replace(
+				$output,
+				preg_replace('/\s*(:|;|,|}|{|\(|\))\s*/i', '$1', $chunks[$i][0]),
+				$chunks[$i][1],
+				strlen($chunks[$i][0])
+			);
 		}
 
 		// Replace tabs with spaces
