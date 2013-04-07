@@ -343,12 +343,12 @@ class CI_Config implements ArrayAccess {
 	
 	public function offsetExists($key)
 	{
-		return isset($this->config[$key]);
+		return array_key_exists($this->config[$key]);
 	}
 	
 	public function offsetGet($key)
 	{
-		if (isset($this->config[$key]))
+		if (array_key_exists($this->config[$key]))
 		{
 			return $this->config[$key];
 		}
