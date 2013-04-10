@@ -63,8 +63,8 @@ Once loaded you can generate a captcha like this::
 		'img_width'	=> '150',
 		'img_height'	=> 30,
 		'expiration'	=> 7200,
-		'captcha_word_length'	=> 8,
-		'character_pool_for_generated_word'	=> '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+		'word_length'	=> 8,
+		'pool'	=> '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 	);
 
 	$cap = create_captcha($vals);
@@ -81,7 +81,7 @@ Once loaded you can generate a captcha like this::
 -  The **expiration** (in seconds) signifies how long an image will remain
    in the captcha folder before it will be deleted. The default is two
    hours.
--  **captcha_word_length** defaults to 8 but a sanity check in /system/helpers/captcha_helper.php will enforce it to a minimum length of 4 or maximum length of 15, **character_pool_for_generated_word** defaults to '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+-  **word_length** defaults to 8, **pool** defaults to '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 Adding a Database
 -----------------
