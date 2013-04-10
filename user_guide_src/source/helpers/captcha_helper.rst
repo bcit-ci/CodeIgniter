@@ -62,7 +62,9 @@ Once loaded you can generate a captcha like this::
 		'font_path'	=> './path/to/fonts/texb.ttf',
 		'img_width'	=> '150',
 		'img_height'	=> 30,
-		'expiration'	=> 7200
+		'expiration'	=> 7200,
+		'captcha_word_length'	=> 8,
+		'character_pool_for_generated_word'	=> '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 	);
 
 	$cap = create_captcha($vals);
