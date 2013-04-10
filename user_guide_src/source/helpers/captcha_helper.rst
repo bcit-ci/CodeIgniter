@@ -81,6 +81,7 @@ Once loaded you can generate a captcha like this::
 -  The **expiration** (in seconds) signifies how long an image will remain
    in the captcha folder before it will be deleted. The default is two
    hours.
+-  **captcha_word_length** defaults to 8 but a sanity check will enforce it to a minimum length of 4 or maximum length of 15, **character_pool_for_generated_word** defaults to '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 Adding a Database
 -----------------
