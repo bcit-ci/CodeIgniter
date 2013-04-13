@@ -689,6 +689,7 @@ class CI_Jquery extends CI_Javascript {
 	 * @param	string	The code to execute
 	 * @param	string	The event to pass
 	 * @param	bool	Whether to trigger the event immediately after declaring it
+	 * @param	bool	Whether or not to return false/prevent default
 	 * @return	string
 	 */
 	protected function _add_event($element, $js, $event, $trigger = FALSE, $prevent_default = FALSE)

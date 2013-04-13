@@ -89,6 +89,7 @@ class CI_Javascript {
 	 * @param	string	The code to execute
 	 * @param	string	The event to pass
 	 * @param	bool	Whether to trigger the event immediately after declaring it
+	 * @param	bool	Whether or not to return false/prevent default
 	 * @return	string
 	 */
 	public function add_event($element, $js, $event, $trigger = FALSE, $prevent_default = FALSE)
@@ -151,7 +152,8 @@ class CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
-	 * @param	bool	whether or not to return false (prevent the link from being opened immediately)
+	 * @param	bool	Whether or not to return false (prevent the link from being opened immediately)
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
 	public function click($element = 'this', $js = '', $prevent_default = TRUE, $trigger = FALSE)
