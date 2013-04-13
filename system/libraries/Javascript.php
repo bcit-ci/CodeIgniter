@@ -81,17 +81,48 @@ class CI_Javascript {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Add Event
+	 *
+	 * Outputs a javascript library blur event
+	 *
+	 * @param	string	The element to attach the event to
+	 * @param	string	The code to execute
+	 * @param	string	The event to pass
+	 * @param	bool	Whether to trigger the event immediately after declaring it
+	 * @return	string
+	 */
+	public function add_event($element, $js, $event, $trigger = FALSE)
+	{
+		return $this->js->_add_event($element, $event, $js, $trigger);
+	}
+
+	/**
+	 * Trigger Event
+	 *
+	 * Constructs the syntax for triggering an event, and adds to into the array for compilation if applicable
+	 *
+	 * @param	string	The element to attach the event to
+	 * @param	string	The event to trigger
+	 * @return	string
+	 */
+	protected function trigger_event($element = 'this', $event)
+	{
+		return $this->js->_trigger_event($element, $event);
+	}
+
+	/**
 	 * Blur
 	 *
 	 * Outputs a javascript library blur event
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	public function blur($element = 'this', $js = '')
+	public function blur($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->js->_blur($element, $js);
+		return $this->js->_blur($element, $js, $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -103,11 +134,12 @@ class CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	public function change($element = 'this', $js = '')
+	public function change($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->js->_change($element, $js);
+		return $this->js->_change($element, $js, $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -122,9 +154,9 @@ class CI_Javascript {
 	 * @param	bool	whether or not to return false
 	 * @return	string
 	 */
-	public function click($element = 'this', $js = '', $ret_false = TRUE)
+	public function click($element = 'this', $js = '', $ret_false = TRUE, $trigger = FALSE)
 	{
-		return $this->js->_click($element, $js, $ret_false);
+		return $this->js->_click($element, $js, $ret_false, $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -136,11 +168,12 @@ class CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	public function dblclick($element = 'this', $js = '')
+	public function dblclick($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->js->_dblclick($element, $js);
+		return $this->js->_dblclick($element, $js, $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -152,11 +185,12 @@ class CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	public function error($element = 'this', $js = '')
+	public function error($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->js->_error($element, $js);
+		return $this->js->_error($element, $js, $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -168,11 +202,12 @@ class CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	public function focus($element = 'this', $js = '')
+	public function focus($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->js->__add_event($focus, $js);
+		return $this->js->_add_event($focus, $js, $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -189,7 +224,7 @@ class CI_Javascript {
 	 */
 	public function hover($element = 'this', $over, $out)
 	{
-		return $this->js->__hover($element, $over, $out);
+		return $this->js->_hover($element, $over, $out);
 	}
 
 	// --------------------------------------------------------------------
@@ -201,11 +236,12 @@ class CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	public function keydown($element = 'this', $js = '')
+	public function keydown($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->js->_keydown($element, $js);
+		return $this->js->_keydown($element, $js, $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -217,11 +253,12 @@ class CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	public function keyup($element = 'this', $js = '')
+	public function keyup($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->js->_keyup($element, $js);
+		return $this->js->_keyup($element, $js, $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -233,6 +270,7 @@ class CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
 	public function load($element = 'this', $js = '')
@@ -249,11 +287,12 @@ class CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	public function mousedown($element = 'this', $js = '')
+	public function mousedown($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->js->_mousedown($element, $js);
+		return $this->js->_mousedown($element, $js, $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -265,11 +304,12 @@ class CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	public function mouseout($element = 'this', $js = '')
+	public function mouseout($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->js->_mouseout($element, $js);
+		return $this->js->_mouseout($element, $js, $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -281,11 +321,12 @@ class CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	public function mouseover($element = 'this', $js = '')
+	public function mouseover($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->js->_mouseover($element, $js);
+		return $this->js->_mouseover($element, $js, $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -297,11 +338,12 @@ class CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	public function mouseup($element = 'this', $js = '')
+	public function mouseup($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->js->_mouseup($element, $js);
+		return $this->js->_mouseup($element, $js, $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -343,11 +385,12 @@ class CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	public function resize($element = 'this', $js = '')
+	public function resize($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->js->_resize($element, $js);
+		return $this->js->_resize($element, $js, $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -359,11 +402,12 @@ class CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	public function scroll($element = 'this', $js = '')
+	public function scroll($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->js->_scroll($element, $js);
+		return $this->js->_scroll($element, $js, $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -375,11 +419,12 @@ class CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	public function unload($element = 'this', $js = '')
+	public function unload($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->js->_unload($element, $js);
+		return $this->js->_unload($element, $js, $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -545,11 +590,12 @@ class CI_Javascript {
 	 * Outputs a javascript library toggle event
 	 *
 	 * @param	string	- element
+	 * @param	mixed - blank to toggle, true or false to force toggle state
 	 * @return	string
 	 */
-	public function toggle($element = 'this')
+	public function toggle($element = 'this', $show_or_hide = '')
 	{
-		return $this->js->_toggle($element);
+		return $this->js->_toggle($element, $show_or_hide);
 
 	}
 

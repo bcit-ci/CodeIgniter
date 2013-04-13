@@ -118,11 +118,12 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	protected function _blur($element = 'this', $js = '')
+	protected function _blur($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->_add_event($element, $js, 'blur');
+		return $this->_add_event($element, $js, 'blur', $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -134,11 +135,12 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	protected function _change($element = 'this', $js = '')
+	protected function _change($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->_add_event($element, $js, 'change');
+		return $this->_add_event($element, $js, 'change', $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -150,19 +152,20 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
-	 * @param	bool	whether or not to return false
+	 * @param	bool	whether or not to add event.preventDefault();
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	protected function _click($element = 'this', $js = '', $ret_false = TRUE)
+	protected function _click($element = 'this', $js = '', $prevent_default = TRUE, $trigger = FALSE)
 	{
 		is_array($js) OR $js = array($js);
 
 		if ($ret_false)
 		{
-			$js[] = 'return false;';
+			$js[] = 'event.preventDefault();';
 		}
 
-		return $this->_add_event($element, $js, 'click');
+		return $this->_add_event($element, $js, 'click', $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -174,11 +177,12 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	protected function _dblclick($element = 'this', $js = '')
+	protected function _dblclick($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->_add_event($element, $js, 'dblclick');
+		return $this->_add_event($element, $js, 'dblclick', $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -190,11 +194,12 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	protected function _error($element = 'this', $js = '')
+	protected function _error($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->_add_event($element, $js, 'error');
+		return $this->_add_event($element, $js, 'error', $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -206,11 +211,12 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	protected function _focus($element = 'this', $js = '')
+	protected function _focus($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->_add_event($element, $js, 'focus');
+		return $this->_add_event($element, $js, 'focus', $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -243,11 +249,12 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	protected function _keydown($element = 'this', $js = '')
+	protected function _keydown($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->_add_event($element, $js, 'keydown');
+		return $this->_add_event($element, $js, 'keydown', $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -259,11 +266,12 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	protected function _keyup($element = 'this', $js = '')
+	protected function _keyup($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->_add_event($element, $js, 'keyup');
+		return $this->_add_event($element, $js, 'keyup', $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -291,11 +299,12 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	protected function _mousedown($element = 'this', $js = '')
+	protected function _mousedown($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->_add_event($element, $js, 'mousedown');
+		return $this->_add_event($element, $js, 'mousedown', $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -307,11 +316,12 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	protected function _mouseout($element = 'this', $js = '')
+	protected function _mouseout($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->_add_event($element, $js, 'mouseout');
+		return $this->_add_event($element, $js, 'mouseout', $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -323,11 +333,12 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	protected function _mouseover($element = 'this', $js = '')
+	protected function _mouseover($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->_add_event($element, $js, 'mouseover');
+		return $this->_add_event($element, $js, 'mouseover', $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -339,11 +350,12 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	protected function _mouseup($element = 'this', $js = '')
+	protected function _mouseup($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->_add_event($element, $js, 'mouseup');
+		return $this->_add_event($element, $js, 'mouseup', $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -378,11 +390,12 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	protected function _resize($element = 'this', $js = '')
+	protected function _resize($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->_add_event($element, $js, 'resize');
+		return $this->_add_event($element, $js, 'resize', $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -394,11 +407,12 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	protected function _scroll($element = 'this', $js = '')
+	protected function _scroll($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->_add_event($element, $js, 'scroll');
+		return $this->_add_event($element, $js, 'scroll', $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -410,11 +424,12 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	protected function _unload($element = 'this', $js = '')
+	protected function _unload($element = 'this', $js = '', $trigger = FALSE)
 	{
-		return $this->_add_event($element, $js, 'unload');
+		return $this->_add_event($element, $js, 'unload', $trigger);
 	}
 
 	// --------------------------------------------------------------------
@@ -651,12 +666,17 @@ class CI_Jquery extends CI_Javascript {
 	 * Outputs a jQuery toggle event
 	 *
 	 * @param	string	- element
+	 * @param	mixed - blank to toggle, true or false to force toggle state
 	 * @return	string
 	 */
-	protected function _toggle($element = 'this')
+	protected function _toggle($element = 'this', $show_or_hide = '')
 	{
+		if ($show_or_hide !== '') {
+			$show_or_hide = $show_or_hide ? 'true' : 'false';
+		}
+
 		$element = $this->_prep_element($element);
-		return '$('.$element.').toggle();';
+		return '$('.$element.').toggle('.$show_or_hide.');';
 	}
 
 	// --------------------------------------------------------------------
@@ -916,18 +936,39 @@ class CI_Jquery extends CI_Javascript {
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @param	string	The event to pass
+	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	protected function _add_event($element, $js, $event)
+	protected function _add_event($element, $js, $event, $trigger = FALSE)
 	{
 		if (is_array($js))
 		{
 			$js = implode("\n\t\t", $js);
-
 		}
 
-		$event = "\n\t$(".$this->_prep_element($element).').'.$event."(function(){\n\t\t{$js}\n\t});\n";
+		$event = "\n\t$(".$this->_prep_element($element).').on("'.$event . '"'.", (function(event){\n\t\t{$js}\n\t}))".($trigger ? $this->_trigger_event(FALSE, $event) : '').";\n";
 		$this->jquery_code_for_compile[] = $event;
+		return $event;
+	}
+
+	/**
+	 * Trigger Event
+	 *
+	 * Constructs the syntax for triggering an event, and adds to into the array for compilation if applicable
+	 *
+	 * @param	string	The element to attach the event to
+	 * @param	string	The event to trigger
+	 * @return	string
+	 */
+	protected function _trigger_event($element = 'this', $event)
+	{
+		$event = '.trigger("'.$event.'")';
+
+		if ( $element ) {
+			$event = "\n\t$(".$this->_prep_element($element).')' . $event . ';';
+			$this->jquery_code_for_compile[] = $event;
+		}
+
 		return $event;
 	}
 
