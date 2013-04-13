@@ -955,7 +955,7 @@ class CI_Loader {
 		// Is this a class extension request?
 		if (file_exists($subclass))
 		{
-			$baseclass = BASEPATH.'libraries/'.$class.'.php';
+			$baseclass = BASEPATH.'libraries/'.$subdir.$class.'.php';
 
 			if ( ! file_exists($baseclass))
 			{
