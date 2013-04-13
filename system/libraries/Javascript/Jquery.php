@@ -405,7 +405,7 @@ class CI_Jquery extends CI_Javascript {
 	 *
 	 * @param	string	- element
 	 * @param	mixed - blank to toggle, true or false to force toggle state,
-	 *                  string for custom jquery JS
+	 *                  string for custom JS to evaluate
 	 * @return	string
 	 */
 	protected function _toggle($element = 'this', $show_or_hide = '')
@@ -413,10 +413,6 @@ class CI_Jquery extends CI_Javascript {
 		if (is_bool($show_or_hide))
 		{
 			$show_or_hide = $show_or_hide ? 'true' : 'false';
-		}
-		else if (!empty($show_or_hide) && is_string($show_or_hide))
-		{
-			$show_or_hide = $show_or_hide;
 		}
 
 		$element = $this->_prep_element($element);
@@ -440,9 +436,10 @@ class CI_Jquery extends CI_Javascript {
 	{
 		if (is_bool($switch))
 		{
-			$switch = ', '.($switch ? 'true' : 'false');
+			$switch = ($switch ? 'true' : 'false');
 		}
-		else if (!empty($switch) && is_string($switch))
+
+		if (!empty($switch))
 		{
 			$switch = ', '.$switch;
 		}
