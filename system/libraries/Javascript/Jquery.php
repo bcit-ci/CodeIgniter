@@ -410,9 +410,12 @@ class CI_Jquery extends CI_Javascript {
 	 */
 	protected function _toggle($element = 'this', $show_or_hide = '')
 	{
-		if (is_bool($show_or_hide)) {
+		if (is_bool($show_or_hide))
+		{
 			$show_or_hide = $show_or_hide ? 'true' : 'false';
-		} else if (!empty($show_or_hide) && is_string($show_or_hide)) {
+		}
+		else if (!empty($show_or_hide) && is_string($show_or_hide))
+		{
 			$show_or_hide = $show_or_hide;
 		}
 
@@ -435,9 +438,12 @@ class CI_Jquery extends CI_Javascript {
 	 */
 	protected function _toggleClass($element = 'this', $class = '', $switch = '')
 	{
-		if (is_bool($switch)) {
+		if (is_bool($switch))
+		{
 			$switch = ', '.($switch ? 'true' : 'false');
-		} else if (!empty($switch) && is_string($switch)) {
+		}
+		else if (!empty($switch) && is_string($switch))
+		{
 			$switch = ', '.$switch;
 		}
 
@@ -688,15 +694,25 @@ class CI_Jquery extends CI_Javascript {
 	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	protected function _add_event($element, $js, $event, $trigger = FALSE)
+	protected function _add_event($element, $js, $event, $trigger = FALSE, $prevent_default = FALSE)
 	{
-		if (is_array($js))
+		is_array($js) OR $js = array($js);
+
+		if ($prevent_default)
 		{
-			$js = implode("\n\t\t", $js);
+			$js[] = 'event.preventDefault();';
 		}
 
-		$event = "\n\t".$this->_prep_element($element).'.on("'.$event . '"'.", (function(event){\n\t\t{$js}\n\t}))".($trigger ? $this->_trigger_event(FALSE, $event) : '').";\n";
-		$this->jquery_code_for_compile[] = $event;
+		$js = implode("\n\t\t", $js);
+
+		$event = '.on("'.$event . '"'.", (function(event){\n\t\t{$js}\n\t}))".($trigger ? $this->_trigger_event(FALSE, $event) : '');
+
+		if ( $element )
+		{
+			$event = "\n\t".$this->_prep_element($element).$event.";\n";
+			$this->jquery_code_for_compile[] = $event;
+		}
+
 		return $event;
 	}
 
@@ -713,8 +729,9 @@ class CI_Jquery extends CI_Javascript {
 	{
 		$event = '.trigger("'.$event.'")';
 
-		if ( $element ) {
-			$event = "\n\t".$this->_prep_element($element) . $event . ';';
+		if ($element)
+		{
+			$event = "\n\t".$this->_prep_element($element).$event.";\n";
 			$this->jquery_code_for_compile[] = $event;
 		}
 
@@ -821,25 +838,18 @@ class CI_Jquery extends CI_Javascript {
 	 */
 	protected function _prep_element($element = 'this')
 	{
-		if (is_string($element)) {
+		if (is_string($element))
+		{
 			if ($element === 'this')
 			{
 				return '$('.$element.')';
 			}
 
-			if (isset($element[0])) {
-				switch ($element[0]) {
-					case '$' :
-						return $element;
-						break;
-
-					case '.' :
-					case '#' :
-					default :
-						return '$(\'' . $element . '\')';
-						break;
-
-				}
+			if (isset($element[0]) && $element[0] == '$')
+			{
+				return $element;
+			} else {
+				return '$(\'' . $element . '\')';
 			}
 		}
 

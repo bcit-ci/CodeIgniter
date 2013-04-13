@@ -151,12 +151,12 @@ class CI_Javascript {
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
-	 * @param	bool	whether or not to return false
+	 * @param	bool	whether or not to return false (prevent the link from being opened immediately)
 	 * @return	string
 	 */
-	public function click($element = 'this', $js = '', $ret_false = TRUE, $trigger = FALSE)
+	public function click($element = 'this', $js = '', $prevent_default = TRUE, $trigger = FALSE)
 	{
-		return $this->add_event($element, $js, 'click', $trigger);
+		return $this->add_event($element, $js, 'click', $trigger, $prevent_default);
 	}
 
 	// --------------------------------------------------------------------
