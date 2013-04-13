@@ -91,9 +91,9 @@ class CI_Javascript {
 	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	public function add_event($element, $js, $event, $trigger = FALSE)
+	public function add_event($element, $js, $event, $trigger = FALSE, $prevent_default = FALSE)
 	{
-		return $this->js->_add_event($element, $js, $event, $trigger);
+		return $this->js->_add_event($element, $js, $event, $trigger, $prevent_default);
 	}
 
 	/**
