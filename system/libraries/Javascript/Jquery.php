@@ -140,7 +140,7 @@ class CI_Jquery extends CI_Javascript {
 	 */
 	protected function _hover($element = 'this', $over, $out)
 	{
-		$event = "\n\t".$this->_prep_element($element).".hover(\n\t\tfunction()\n\t\t{\n\t\t\t{$over}\n\t\t}, \n\t\tfunction()\n\t\t{\n\t\t\t{$out}\n\t\t});\n";
+		$event = "\t".$this->_prep_element($element).".hover(\n\t\tfunction()\n\t\t{\n\t\t\t{$over}\n\t\t}, \n\t\tfunction()\n\t\t{\n\t\t\t{$out}\n\t\t});";
 
 		$this->jquery_code_for_compile[] = $event;
 
@@ -707,7 +707,7 @@ class CI_Jquery extends CI_Javascript {
 
 		if ( $element )
 		{
-			$event = "\n\t".$this->_prep_element($element).$event.";\n";
+			$event = "\t".$this->_prep_element($element).$event.';';
 			$this->jquery_code_for_compile[] = $event;
 		}
 
@@ -729,7 +729,7 @@ class CI_Jquery extends CI_Javascript {
 
 		if ($element)
 		{
-			$event = "\n\t".$this->_prep_element($element).$event.";\n";
+			$event = "\t".$this->_prep_element($element).$event.';';
 			$this->jquery_code_for_compile[] = $event;
 		}
 
@@ -762,7 +762,7 @@ class CI_Jquery extends CI_Javascript {
 
 		// Inline references
 		$script = '$(document).ready(function() {'."\n"
-			.implode('', $this->jquery_code_for_compile)
+			.implode("\n\n", $this->jquery_code_for_compile)
 			.'});';
 
 		$output = ($script_tags === FALSE) ? $script : $this->inline($script);
