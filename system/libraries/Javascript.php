@@ -27,22 +27,64 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Javascript Class
+ * Jquery Class
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
- * @category	Javascript
+ * @category	Loader
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/javascript.html
  */
-class CI_Javascript {
+class CI_Jquery extends CI_Javascript {
 
 	/**
-	 * JavaScript location
+	 * JavaScript directory location
 	 *
 	 * @var	string
 	 */
-	protected $_javascript_location = 'js';
+	protected $_javascript_folder = 'js';
+
+	/**
+	 * JQuery code for load
+	 *
+	 * @var	array
+	 */
+	public $jquery_code_for_load = array();
+
+	/**
+	 * JQuery code for compile
+	 *
+	 * @var	array
+	 */
+	public $jquery_code_for_compile = array();
+
+	/**
+	 * JQuery corner active flag
+	 *
+	 * @var	bool
+	 */
+	public $jquery_corner_active = FALSE;
+
+	/**
+	 * JQuery table sorter active flag
+	 *
+	 * @var	bool
+	 */
+	public $jquery_table_sorter_active = FALSE;
+
+	/**
+	 * JQuery table sorder pager active
+	 *
+	 * @var	bool
+	 */
+	public $jquery_table_sorter_pager_active = FALSE;
+
+	/**
+	 * JQuery AJAX image
+	 *
+	 * @var	string
+	 */
+	public $jquery_ajax_img = '';
 
 	// --------------------------------------------------------------------
 
@@ -52,28 +94,17 @@ class CI_Javascript {
 	 * @param	array	$params
 	 * @return	void
 	 */
-	public function __construct($params = array())
+	public function __construct($params)
 	{
-		$defaults = array('js_library_driver' => 'jquery', 'autoload' => TRUE);
+		$this->CI =& get_instance();
+		extract($params);
 
-		foreach ($defaults as $key => $val)
+		if ($autoload === TRUE)
 		{
-			if (isset($params[$key]) && $params[$key] !== '')
-			{
-				$defaults[$key] = $params[$key];
-			}
+			$this->script();
 		}
 
-		extract($defaults);
-
-		$this->CI =& get_instance();
-
-		// load the requested js library
-		$this->CI->load->library('Javascript/'.$js_library_driver, array('autoload' => $autoload));
-		// make js to refer to current library
-		$this->js =& $this->CI->$js_library_driver;
-
-		log_message('debug', 'Javascript Class Initialized and loaded. Driver used: '.$js_library_driver);
+		log_message('debug', 'Jquery Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -81,9 +112,570 @@ class CI_Javascript {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Error
+	 *
+	 * Outputs a jQuery error event
+	 *
+	 * @param	string	The element to attach the event to
+	 * @param	string	The code to execute
+	 * @param	bool	Whether to trigger the event immediately after declaring it
+	 * @return	string
+	 */
+	protected function _error($element = 'this', $js = '', $trigger = FALSE)
+	{
+		return $this->_add_event($element, $js, 'error', $trigger);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Hover
+	 *
+	 * Outputs a jQuery hover event
+	 *
+	 * @param	string	- element
+	 * @param	string	- Javascript code for mouse over
+	 * @param	string	- Javascript code for mouse out
+	 * @return	string
+	 */
+	protected function _hover($element = 'this', $over, $out)
+	{
+		$event = "\n\t$(".$this->_prep_element($element).").hover(\n\t\tfunction()\n\t\t{\n\t\t\t{$over}\n\t\t}, \n\t\tfunction()\n\t\t{\n\t\t\t{$out}\n\t\t});\n";
+
+		$this->jquery_code_for_compile[] = $event;
+
+		return $event;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Output
+	 *
+	 * Outputs script directly
+	 *
+	 * @param	array	$array_js = array()
+	 * @return	void
+	 */
+	protected function _output($array_js = array())
+	{
+		if ( ! is_array($array_js))
+		{
+			$array_js = array($array_js);
+		}
+
+		foreach ($array_js as $js)
+		{
+			$this->jquery_code_for_compile[] = "\t".$js."\n";
+		}
+	}
+
+	// --------------------------------------------------------------------
+	// Effects
+	// --------------------------------------------------------------------
+
+	/**
+	 * Add Class
+	 *
+	 * Outputs a jQuery addClass event
+	 *
+	 * @param	string	$element
+	 * @param	string	$class
+	 * @return	string
+	 */
+	protected function _addClass($element = 'this', $class = '')
+	{
+		$element = $this->_prep_element($element);
+		return '$('.$element.').addClass("'.$class.'");';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Animate
+	 *
+	 * Outputs a jQuery animate event
+	 *
+	 * @param	string	$element
+	 * @param	array	$params
+	 * @param	string	$speed	'slow', 'normal', 'fast', or time in milliseconds
+	 * @param	string	$extra
+	 * @return	string
+	 */
+	protected function _animate($element = 'this', $params = array(), $speed = '', $extra = '')
+	{
+		$element = $this->_prep_element($element);
+		$speed = $this->_validate_speed($speed);
+
+		$animations = "\t\t\t";
+
+		foreach ($params as $param => $value)
+		{
+			$animations .= $param.": '".$value."', ";
+		}
+
+		$animations = substr($animations, 0, -2); // remove the last ", "
+
+		if ($speed !== '')
+		{
+			$speed = ', '.$speed;
+		}
+
+		if ($extra !== '')
+		{
+			$extra = ', '.$extra;
+		}
+
+		return "$({$element}).animate({\n$animations\n\t\t}".$speed.$extra.');';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Fade In
+	 *
+	 * Outputs a jQuery hide event
+	 *
+	 * @param	string	- element
+	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
+	 * @param	string	- Javascript callback function
+	 * @return	string
+	 */
+	protected function _fadeIn($element = 'this', $speed = '', $callback = '')
+	{
+		$element = $this->_prep_element($element);
+		$speed = $this->_validate_speed($speed);
+
+		if ($callback !== '')
+		{
+			$callback = ", function(){\n{$callback}\n}";
+		}
+
+		return "$({$element}).fadeIn({$speed}{$callback});";
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Fade Out
+	 *
+	 * Outputs a jQuery hide event
+	 *
+	 * @param	string	- element
+	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
+	 * @param	string	- Javascript callback function
+	 * @return	string
+	 */
+	protected function _fadeOut($element = 'this', $speed = '', $callback = '')
+	{
+		$element = $this->_prep_element($element);
+		$speed = $this->_validate_speed($speed);
+
+		if ($callback !== '')
+		{
+			$callback = ", function(){\n{$callback}\n}";
+		}
+
+		return '$('.$element.').fadeOut('.$speed.$callback.');';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Hide
+	 *
+	 * Outputs a jQuery hide action
+	 *
+	 * @param	string	- element
+	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
+	 * @param	string	- Javascript callback function
+	 * @return	string
+	 */
+	protected function _hide($element = 'this', $speed = '', $callback = '')
+	{
+		$element = $this->_prep_element($element);
+		$speed = $this->_validate_speed($speed);
+
+		if ($callback !== '')
+		{
+			$callback = ", function(){\n{$callback}\n}";
+		}
+
+		return "$({$element}).hide({$speed}{$callback});";
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Remove Class
+	 *
+	 * Outputs a jQuery remove class event
+	 *
+	 * @param	string	$element
+	 * @param	string	$class
+	 * @return	string
+	 */
+	protected function _removeClass($element = 'this', $class = '')
+	{
+		$element = $this->_prep_element($element);
+		return '$('.$element.').removeClass("'.$class.'");';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Slide Up
+	 *
+	 * Outputs a jQuery slideUp event
+	 *
+	 * @param	string	- element
+	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
+	 * @param	string	- Javascript callback function
+	 * @return	string
+	 */
+	protected function _slideUp($element = 'this', $speed = '', $callback = '')
+	{
+		$element = $this->_prep_element($element);
+		$speed = $this->_validate_speed($speed);
+
+		if ($callback !== '')
+		{
+			$callback = ", function(){\n{$callback}\n}";
+		}
+
+		return '$('.$element.').slideUp('.$speed.$callback.');';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Slide Down
+	 *
+	 * Outputs a jQuery slideDown event
+	 *
+	 * @param	string	- element
+	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
+	 * @param	string	- Javascript callback function
+	 * @return	string
+	 */
+	protected function _slideDown($element = 'this', $speed = '', $callback = '')
+	{
+		$element = $this->_prep_element($element);
+		$speed = $this->_validate_speed($speed);
+
+		if ($callback !== '')
+		{
+			$callback = ", function(){\n{$callback}\n}";
+		}
+
+		return '$('.$element.').slideDown('.$speed.$callback.');';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Slide Toggle
+	 *
+	 * Outputs a jQuery slideToggle event
+	 *
+	 * @param	string	- element
+	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
+	 * @param	string	- Javascript callback function
+	 * @return	string
+	 */
+	protected function _slideToggle($element = 'this', $speed = '', $callback = '')
+	{
+		$element = $this->_prep_element($element);
+		$speed = $this->_validate_speed($speed);
+
+		if ($callback !== '')
+		{
+			$callback = ", function(){\n{$callback}\n}";
+		}
+
+		return '$('.$element.').slideToggle('.$speed.$callback.');';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Toggle
+	 *
+	 * Outputs a jQuery toggle event
+	 *
+	 * @param	string	- element
+	 * @param	mixed - blank to toggle, true or false to force toggle state
+	 * @return	string
+	 */
+	protected function _toggle($element = 'this', $show_or_hide = null)
+	{
+		if (!is_null($show_or_hide)) {
+			$show_or_hide = $show_or_hide ? 'true' : 'false';
+		}
+
+		$element = $this->_prep_element($element);
+		return '$('.$element.').toggle('.$show_or_hide.');';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Toggle Class
+	 *
+	 * Outputs a jQuery toggle class event
+	 *
+	 * @param	string	$element
+	 * @param	string	$class
+	 * @return	string
+	 */
+	protected function _toggleClass($element = 'this', $class = '', $switch = null)
+	{
+		if (!is_null($show_or_hide)) {
+			$switch = ', ' . ( (bool) $switch ? 'true' : 'false' );
+		} else {
+			$switch = '';
+		}
+
+		$element = $this->_prep_element($element);
+		return '$('.$element.').toggleClass("'.$class.'"'.$switch.');';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Show
+	 *
+	 * Outputs a jQuery show event
+	 *
+	 * @param	string	- element
+	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
+	 * @param	string	- Javascript callback function
+	 * @return	string
+	 */
+	protected function _show($element = 'this', $speed = '', $callback = '')
+	{
+		$element = $this->_prep_element($element);
+		$speed = $this->_validate_speed($speed);
+
+		if ($callback !== '')
+		{
+			$callback = ", function(){\n{$callback}\n}";
+		}
+
+		return '$('.$element.').show('.$speed.$callback.');';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Updater
+	 *
+	 * An Ajax call that populates the designated DOM node with
+	 * returned content
+	 *
+	 * @param	string	The element to attach the event to
+	 * @param	string	the controller to run the call against
+	 * @param	string	optional parameters
+	 * @return	string
+	 */
+
+	protected function _updater($container = 'this', $controller, $options = '')
+	{
+		$container = $this->_prep_element($container);
+		$controller = (strpos('://', $controller) === FALSE) ? $controller : $this->CI->config->site_url($controller);
+
+		// ajaxStart and ajaxStop are better choices here... but this is a stop gap
+		if ($this->CI->config->item('javascript_ajax_img') === '')
+		{
+			$loading_notifier = 'Loading...';
+		}
+		else
+		{
+			$loading_notifier = '<img src="'.$this->CI->config->slash_item('base_url').$this->CI->config->item('javascript_ajax_img').'" alt="Loading" />';
+		}
+
+		$updater = '$('.$container.").empty();\n" // anything that was in... get it out
+			."\t\t$(".$container.').prepend("'.$loading_notifier."\");\n"; // to replace with an image
+
+		$request_options = '';
+		if ($options !== '')
+		{
+			$request_options .= ', {'
+					.(is_array($options) ? "'".implode("', '", $options)."'" : "'".str_replace(':', "':'", $options)."'")
+					.'}';
+		}
+
+		return $updater."\t\t$($container).load('$controller'$request_options);";
+	}
+
+	// --------------------------------------------------------------------
+	// Pre-written handy stuff
+	// --------------------------------------------------------------------
+
+	/**
+	 * Zebra tables
+	 *
+	 * @param	string	$class
+	 * @param	string	$odd
+	 * @param	string	$hover
+	 * @return	string
+	 */
+	protected function _zebraTables($class = '', $odd = 'odd', $hover = '')
+	{
+		$class = ($class !== '') ? '.'.$class : '';
+		$zebra = "\t\$(\"table{$class} tbody tr:nth-child(even)\").addClass(\"{$odd}\");";
+
+		$this->jquery_code_for_compile[] = $zebra;
+
+		if ($hover !== '')
+		{
+			$hover = $this->hover("table{$class} tbody tr", "$(this).addClass('hover');", "$(this).removeClass('hover');");
+		}
+
+		return $zebra;
+	}
+
+	// --------------------------------------------------------------------
+	// Plugins
+	// --------------------------------------------------------------------
+
+	/**
+	 * Corner Plugin
+	 *
+	 * @link	http://www.malsup.com/jquery/corner/
+	 * @param	string	$element
+	 * @param	string	$corner_style
+	 * @return	string
+	 */
+	public function corner($element = '', $corner_style = '')
+	{
+		// may want to make this configurable down the road
+		$corner_location = '/plugins/jquery.corner.js';
+
+		if ($corner_style !== '')
+		{
+			$corner_style = '"'.$corner_style.'"';
+		}
+
+		return '$('.$this->_prep_element($element).').corner('.$corner_style.');';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Modal window
+	 *
+	 * Load a thickbox modal window
+	 *
+	 * @param	string	$src
+	 * @param	bool	$relative
+	 * @return	void
+	 */
+	public function modal($src, $relative = FALSE)
+	{
+		$this->jquery_code_for_load[] = $this->external($src, $relative);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Effect
+	 *
+	 * Load an Effect library
+	 *
+	 * @param	string	$src
+	 * @param	bool	$relative
+	 * @return	void
+	 */
+	public function effect($src, $relative = FALSE)
+	{
+		$this->jquery_code_for_load[] = $this->external($src, $relative);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Plugin
+	 *
+	 * Load a plugin library
+	 *
+	 * @param	string	$src
+	 * @param	bool	$relative
+	 * @return	void
+	 */
+	public function plugin($src, $relative = FALSE)
+	{
+		$this->jquery_code_for_load[] = $this->external($src, $relative);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * UI
+	 *
+	 * Load a user interface library
+	 *
+	 * @param	string	$src
+	 * @param	bool	$relative
+	 * @return	void
+	 */
+	public function ui($src, $relative = FALSE)
+	{
+		$this->jquery_code_for_load[] = $this->external($src, $relative);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Sortable
+	 *
+	 * Creates a jQuery sortable
+	 *
+	 * @param	string	$element
+	 * @param	array	$options
+	 * @return	string
+	 */
+	public function sortable($element, $options = array())
+	{
+		if (count($options) > 0)
+		{
+			$sort_options = array();
+			foreach ($options as $k=>$v)
+			{
+				$sort_options[] = "\n\t\t".$k.': '.$v;
+			}
+			$sort_options = implode(',', $sort_options);
+		}
+		else
+		{
+			$sort_options = '';
+		}
+
+		return '$('.$this->_prep_element($element).').sortable({'.$sort_options."\n\t});";
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Table Sorter Plugin
+	 *
+	 * @param	string	table name
+	 * @param	string	plugin location
+	 * @return	string
+	 */
+	public function tablesorter($table = '', $options = '')
+	{
+		$this->jquery_code_for_compile[] = "\t$(".$this->_prep_element($table).').tablesorter('.$options.");\n";
+	}
+
+	// --------------------------------------------------------------------
+	// Class functions
+	// --------------------------------------------------------------------
+
+	/**
 	 * Add Event
 	 *
-	 * Outputs a javascript library blur event
+	 * Constructs the syntax for an event, and adds to into the array for compilation
 	 *
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
@@ -91,9 +683,16 @@ class CI_Javascript {
 	 * @param	bool	Whether to trigger the event immediately after declaring it
 	 * @return	string
 	 */
-	public function add_event($element, $js, $event, $trigger = FALSE)
+	protected function _add_event($element, $js, $event, $trigger = FALSE)
 	{
-		return $this->js->_add_event($element, $event, $js, $trigger);
+		if (is_array($js))
+		{
+			$js = implode("\n\t\t", $js);
+		}
+
+		$event = "\n\t$(".$this->_prep_element($element).').on("'.$event . '"'.", (function(event){\n\t\t{$js}\n\t}))".($trigger ? $this->_trigger_event(FALSE, $event) : '').";\n";
+		$this->jquery_code_for_compile[] = $event;
+		return $event;
 	}
 
 	/**
@@ -105,531 +704,16 @@ class CI_Javascript {
 	 * @param	string	The event to trigger
 	 * @return	string
 	 */
-	protected function trigger_event($element = 'this', $event)
+	protected function _trigger_event($element = 'this', $event)
 	{
-		return $this->js->_trigger_event($element, $event);
-	}
+		$event = '.trigger("'.$event.'")';
 
-	/**
-	 * Blur
-	 *
-	 * Outputs a javascript library blur event
-	 *
-	 * @param	string	The element to attach the event to
-	 * @param	string	The code to execute
-	 * @param	bool	Whether to trigger the event immediately after declaring it
-	 * @return	string
-	 */
-	public function blur($element = 'this', $js = '', $trigger = FALSE)
-	{
-		return $this->js->_blur($element, $js, $trigger);
-	}
+		if ( $element ) {
+			$event = "\n\t$(".$this->_prep_element($element).')' . $event . ';';
+			$this->jquery_code_for_compile[] = $event;
+		}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Change
-	 *
-	 * Outputs a javascript library change event
-	 *
-	 * @param	string	The element to attach the event to
-	 * @param	string	The code to execute
-	 * @param	bool	Whether to trigger the event immediately after declaring it
-	 * @return	string
-	 */
-	public function change($element = 'this', $js = '', $trigger = FALSE)
-	{
-		return $this->js->_change($element, $js, $trigger);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Click
-	 *
-	 * Outputs a javascript library click event
-	 *
-	 * @param	string	The element to attach the event to
-	 * @param	string	The code to execute
-	 * @param	bool	whether or not to return false
-	 * @return	string
-	 */
-	public function click($element = 'this', $js = '', $ret_false = TRUE, $trigger = FALSE)
-	{
-		return $this->js->_click($element, $js, $ret_false, $trigger);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Double Click
-	 *
-	 * Outputs a javascript library dblclick event
-	 *
-	 * @param	string	The element to attach the event to
-	 * @param	string	The code to execute
-	 * @param	bool	Whether to trigger the event immediately after declaring it
-	 * @return	string
-	 */
-	public function dblclick($element = 'this', $js = '', $trigger = FALSE)
-	{
-		return $this->js->_dblclick($element, $js, $trigger);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Error
-	 *
-	 * Outputs a javascript library error event
-	 *
-	 * @param	string	The element to attach the event to
-	 * @param	string	The code to execute
-	 * @param	bool	Whether to trigger the event immediately after declaring it
-	 * @return	string
-	 */
-	public function error($element = 'this', $js = '', $trigger = FALSE)
-	{
-		return $this->js->_error($element, $js, $trigger);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Focus
-	 *
-	 * Outputs a javascript library focus event
-	 *
-	 * @param	string	The element to attach the event to
-	 * @param	string	The code to execute
-	 * @param	bool	Whether to trigger the event immediately after declaring it
-	 * @return	string
-	 */
-	public function focus($element = 'this', $js = '', $trigger = FALSE)
-	{
-		return $this->js->_add_event($focus, $js, $trigger);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Hover
-	 *
-	 * Outputs a javascript library hover event
-	 *
-	 * @param	string	- element
-	 * @param	string	- Javascript code for mouse over
-	 * @param	string	- Javascript code for mouse out
-	 * @return	string
-	 */
-	public function hover($element = 'this', $over, $out)
-	{
-		return $this->js->_hover($element, $over, $out);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Keydown
-	 *
-	 * Outputs a javascript library keydown event
-	 *
-	 * @param	string	The element to attach the event to
-	 * @param	string	The code to execute
-	 * @param	bool	Whether to trigger the event immediately after declaring it
-	 * @return	string
-	 */
-	public function keydown($element = 'this', $js = '', $trigger = FALSE)
-	{
-		return $this->js->_keydown($element, $js, $trigger);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Keyup
-	 *
-	 * Outputs a javascript library keydown event
-	 *
-	 * @param	string	The element to attach the event to
-	 * @param	string	The code to execute
-	 * @param	bool	Whether to trigger the event immediately after declaring it
-	 * @return	string
-	 */
-	public function keyup($element = 'this', $js = '', $trigger = FALSE)
-	{
-		return $this->js->_keyup($element, $js, $trigger);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Load
-	 *
-	 * Outputs a javascript library load event
-	 *
-	 * @param	string	The element to attach the event to
-	 * @param	string	The code to execute
-	 * @param	bool	Whether to trigger the event immediately after declaring it
-	 * @return	string
-	 */
-	public function load($element = 'this', $js = '')
-	{
-		return $this->js->_load($element, $js);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Mousedown
-	 *
-	 * Outputs a javascript library mousedown event
-	 *
-	 * @param	string	The element to attach the event to
-	 * @param	string	The code to execute
-	 * @param	bool	Whether to trigger the event immediately after declaring it
-	 * @return	string
-	 */
-	public function mousedown($element = 'this', $js = '', $trigger = FALSE)
-	{
-		return $this->js->_mousedown($element, $js, $trigger);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Mouse Out
-	 *
-	 * Outputs a javascript library mouseout event
-	 *
-	 * @param	string	The element to attach the event to
-	 * @param	string	The code to execute
-	 * @param	bool	Whether to trigger the event immediately after declaring it
-	 * @return	string
-	 */
-	public function mouseout($element = 'this', $js = '', $trigger = FALSE)
-	{
-		return $this->js->_mouseout($element, $js, $trigger);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Mouse Over
-	 *
-	 * Outputs a javascript library mouseover event
-	 *
-	 * @param	string	The element to attach the event to
-	 * @param	string	The code to execute
-	 * @param	bool	Whether to trigger the event immediately after declaring it
-	 * @return	string
-	 */
-	public function mouseover($element = 'this', $js = '', $trigger = FALSE)
-	{
-		return $this->js->_mouseover($element, $js, $trigger);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Mouseup
-	 *
-	 * Outputs a javascript library mouseup event
-	 *
-	 * @param	string	The element to attach the event to
-	 * @param	string	The code to execute
-	 * @param	bool	Whether to trigger the event immediately after declaring it
-	 * @return	string
-	 */
-	public function mouseup($element = 'this', $js = '', $trigger = FALSE)
-	{
-		return $this->js->_mouseup($element, $js, $trigger);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Output
-	 *
-	 * Outputs the called javascript to the screen
-	 *
-	 * @param	string	The code to output
-	 * @return	string
-	 */
-	public function output($js)
-	{
-		return $this->js->_output($js);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Ready
-	 *
-	 * Outputs a javascript library mouseup event
-	 *
-	 * @param	string	$js	Code to execute
-	 * @return	string
-	 */
-	public function ready($js)
-	{
-		return $this->js->_document_ready($js);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Resize
-	 *
-	 * Outputs a javascript library resize event
-	 *
-	 * @param	string	The element to attach the event to
-	 * @param	string	The code to execute
-	 * @param	bool	Whether to trigger the event immediately after declaring it
-	 * @return	string
-	 */
-	public function resize($element = 'this', $js = '', $trigger = FALSE)
-	{
-		return $this->js->_resize($element, $js, $trigger);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Scroll
-	 *
-	 * Outputs a javascript library scroll event
-	 *
-	 * @param	string	The element to attach the event to
-	 * @param	string	The code to execute
-	 * @param	bool	Whether to trigger the event immediately after declaring it
-	 * @return	string
-	 */
-	public function scroll($element = 'this', $js = '', $trigger = FALSE)
-	{
-		return $this->js->_scroll($element, $js, $trigger);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Unload
-	 *
-	 * Outputs a javascript library unload event
-	 *
-	 * @param	string	The element to attach the event to
-	 * @param	string	The code to execute
-	 * @param	bool	Whether to trigger the event immediately after declaring it
-	 * @return	string
-	 */
-	public function unload($element = 'this', $js = '', $trigger = FALSE)
-	{
-		return $this->js->_unload($element, $js, $trigger);
-	}
-
-	// --------------------------------------------------------------------
-	// Effects
-	// --------------------------------------------------------------------
-
-	/**
-	 * Add Class
-	 *
-	 * Outputs a javascript library addClass event
-	 *
-	 * @param	string	- element
-	 * @param	string	- Class to add
-	 * @return	string
-	 */
-	public function addClass($element = 'this', $class = '')
-	{
-		return $this->js->_addClass($element, $class);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Animate
-	 *
-	 * Outputs a javascript library animate event
-	 *
-	 * @param	string	$element = 'this'
-	 * @param	array	$params = array()
-	 * @param	mixed	$speed			'slow', 'normal', 'fast', or time in milliseconds
-	 * @param	string	$extra
-	 * @return	string
-	 */
-	public function animate($element = 'this', $params = array(), $speed = '', $extra = '')
-	{
-		return $this->js->_animate($element, $params, $speed, $extra);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Fade In
-	 *
-	 * Outputs a javascript library hide event
-	 *
-	 * @param	string	- element
-	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
-	 * @param	string	- Javascript callback function
-	 * @return	string
-	 */
-	public function fadeIn($element = 'this', $speed = '', $callback = '')
-	{
-		return $this->js->_fadeIn($element, $speed, $callback);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Fade Out
-	 *
-	 * Outputs a javascript library hide event
-	 *
-	 * @param	string	- element
-	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
-	 * @param	string	- Javascript callback function
-	 * @return	string
-	 */
-	public function fadeOut($element = 'this', $speed = '', $callback = '')
-	{
-		return $this->js->_fadeOut($element, $speed, $callback);
-	}
-	// --------------------------------------------------------------------
-
-	/**
-	 * Slide Up
-	 *
-	 * Outputs a javascript library slideUp event
-	 *
-	 * @param	string	- element
-	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
-	 * @param	string	- Javascript callback function
-	 * @return	string
-	 */
-	public function slideUp($element = 'this', $speed = '', $callback = '')
-	{
-		return $this->js->_slideUp($element, $speed, $callback);
-
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Remove Class
-	 *
-	 * Outputs a javascript library removeClass event
-	 *
-	 * @param	string	- element
-	 * @param	string	- Class to add
-	 * @return	string
-	 */
-	public function removeClass($element = 'this', $class = '')
-	{
-		return $this->js->_removeClass($element, $class);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Slide Down
-	 *
-	 * Outputs a javascript library slideDown event
-	 *
-	 * @param	string	- element
-	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
-	 * @param	string	- Javascript callback function
-	 * @return	string
-	 */
-	public function slideDown($element = 'this', $speed = '', $callback = '')
-	{
-		return $this->js->_slideDown($element, $speed, $callback);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Slide Toggle
-	 *
-	 * Outputs a javascript library slideToggle event
-	 *
-	 * @param	string	- element
-	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
-	 * @param	string	- Javascript callback function
-	 * @return	string
-	 */
-	public function slideToggle($element = 'this', $speed = '', $callback = '')
-	{
-		return $this->js->_slideToggle($element, $speed, $callback);
-
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Hide
-	 *
-	 * Outputs a javascript library hide action
-	 *
-	 * @param	string	- element
-	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
-	 * @param	string	- Javascript callback function
-	 * @return	string
-	 */
-	public function hide($element = 'this', $speed = '', $callback = '')
-	{
-		return $this->js->_hide($element, $speed, $callback);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Toggle
-	 *
-	 * Outputs a javascript library toggle event
-	 *
-	 * @param	string	- element
-	 * @param	mixed - blank to toggle, true or false to force toggle state
-	 * @return	string
-	 */
-	public function toggle($element = 'this', $show_or_hide = '')
-	{
-		return $this->js->_toggle($element, $show_or_hide);
-
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Toggle Class
-	 *
-	 * Outputs a javascript library toggle class event
-	 *
-	 * @param	string	$element = 'this'
-	 * @param	string	$class = ''
-	 * @return	string
-	 */
-	public function toggleClass($element = 'this', $class = '')
-	{
-		return $this->js->_toggleClass($element, $class);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Show
-	 *
-	 * Outputs a javascript library show event
-	 *
-	 * @param	string	- element
-	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
-	 * @param	string	- Javascript callback function
-	 * @return	string
-	 */
-	public function show($element = 'this', $speed = '', $callback = '')
-	{
-		return $this->js->_show($element, $speed, $callback);
+		return $event;
 	}
 
 	// --------------------------------------------------------------------
@@ -637,15 +721,33 @@ class CI_Javascript {
 	/**
 	 * Compile
 	 *
-	 * gather together all script needing to be output
+	 * As events are specified, they are stored in an array
+	 * This funciton compiles them all for output on a page
 	 *
 	 * @param	string	$view_var
 	 * @param	bool	$script_tags
-	 * @return	string
+	 * @return	void
 	 */
-	public function compile($view_var = 'script_foot', $script_tags = TRUE)
+	protected function _compile($view_var = 'script_foot', $script_tags = TRUE)
 	{
-		$this->js->_compile($view_var, $script_tags);
+		// External references
+		$external_scripts = implode('', $this->jquery_code_for_load);
+		$this->CI->load->vars(array('library_src' => $external_scripts));
+
+		if (count($this->jquery_code_for_compile) === 0)
+		{
+			// no inline references, let's just return
+			return;
+		}
+
+		// Inline references
+		$script = '$(document).ready(function() {'."\n"
+			.implode('', $this->jquery_code_for_compile)
+			.'});';
+
+		$output = ($script_tags === FALSE) ? $script : $this->inline($script);
+
+		$this->CI->load->vars(array($view_var => $output));
 	}
 
 	// --------------------------------------------------------------------
@@ -653,241 +755,100 @@ class CI_Javascript {
 	/**
 	 * Clear Compile
 	 *
-	 * Clears any previous javascript collected for output
+	 * Clears the array of script events collected for output
 	 *
 	 * @return	void
 	 */
-	public function clear_compile()
+	protected function _clear_compile()
 	{
-		$this->js->_clear_compile();
+		$this->jquery_code_for_compile = array();
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * External
+	 * Document Ready
 	 *
-	 * Outputs a <script> tag with the source as an external js file
+	 * A wrapper for writing document.ready()
 	 *
-	 * @param	string	$external_file
+	 * @param	array	$js
+	 * @return	void
+	 */
+	protected function _document_ready($js)
+	{
+		is_array($js) OR $js = array($js);
+
+		foreach ($js as $script)
+		{
+			$this->jquery_code_for_compile[] = $script;
+		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Script Tag
+	 *
+	 * Outputs the script tag that loads the jquery.js file into an HTML document
+	 *
+	 * @param	string	$library_src
 	 * @param	bool	$relative
 	 * @return	string
 	 */
-	public function external($external_file = '', $relative = FALSE)
+	public function script($library_src = '', $relative = FALSE)
 	{
-		if ($external_file !== '')
-		{
-			$this->_javascript_location = $external_file;
-		}
-		elseif ($this->CI->config->item('javascript_location') !== '')
-		{
-			$this->_javascript_location = $this->CI->config->item('javascript_location');
-		}
-
-		if ($relative === TRUE OR strpos($external_file, 'http://') === 0 OR strpos($external_file, 'https://') === 0)
-		{
-			$str = $this->_open_script($external_file);
-		}
-		elseif (strpos($this->_javascript_location, 'http://') !== FALSE)
-		{
-			$str = $this->_open_script($this->_javascript_location.$external_file);
-		}
-		else
-		{
-			$str = $this->_open_script($this->CI->config->slash_item('base_url').$this->_javascript_location.$external_file);
-		}
-
-		return $str.$this->_close_script();
+		$library_src = $this->external($library_src, $relative);
+		$this->jquery_code_for_load[] = $library_src;
+		return $library_src;
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Inline
+	 * Prep Element
 	 *
-	 * Outputs a <script> tag
-	 *
-	 * @param	string	The element to attach the event to
-	 * @param	bool	If a CDATA section should be added
-	 * @return	string
-	 */
-	public function inline($script, $cdata = TRUE)
-	{
-		return $this->_open_script()
-			. ($cdata ? "\n// <![CDATA[\n".$script."\n// ]]>\n" : "\n".$script."\n")
-			. $this->_close_script();
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Open Script
-	 *
-	 * Outputs an opening <script>
+	 * Puts HTML element in quotes for use in jQuery code
+	 * unless the supplied element is the Javascript 'this'
+	 * object, in which case no quotes are added
 	 *
 	 * @param	string
 	 * @return	string
 	 */
-	protected function _open_script($src = '')
+	protected function _prep_element($element)
 	{
-		return '<script type="text/javascript" charset="'.strtolower($this->CI->config->item('charset')).'"'
-			.($src === '' ? '>' : ' src="'.$src.'">');
+		if ($element !== 'this')
+		{
+			$element = '"'.$element.'"';
+		}
+
+		return $element;
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Close Script
+	 * Validate Speed
 	 *
-	 * Outputs an closing </script>
+	 * Ensures the speed parameter is valid for jQuery
 	 *
 	 * @param	string
 	 * @return	string
 	 */
-	protected function _close_script($extra = "\n")
+	protected function _validate_speed($speed)
 	{
-		return '</script>'.$extra;
-	}
-
-	// --------------------------------------------------------------------
-	// AJAX-Y STUFF - still a testbed
-	// --------------------------------------------------------------------
-
-	/**
-	 * Update
-	 *
-	 * Outputs a javascript library slideDown event
-	 *
-	 * @param	string	- element
-	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
-	 * @param	string	- Javascript callback function
-	 * @return	string
-	 */
-	public function update($element = 'this', $speed = '', $callback = '')
-	{
-		return $this->js->_updater($element, $speed, $callback);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Generate JSON
-	 *
-	 * Can be passed a database result or associative array and returns a JSON formatted string
-	 *
-	 * @param	mixed	result set or array
-	 * @param	bool	match array types (defaults to objects)
-	 * @return	string	a json formatted string
-	 */
-	public function generate_json($result = NULL, $match_array_type = FALSE)
-	{
-		// JSON data can optionally be passed to this function
-		// either as a database result object or an array, or a user supplied array
-		if ($result !== NULL)
+		if (in_array($speed, array('slow', 'normal', 'fast')))
 		{
-			if (is_object($result))
-			{
-				$json_result = is_callable(array($result, 'result_array')) ? $result->result_array() : (array) $result;
-			}
-			elseif (is_array($result))
-			{
-				$json_result = $result;
-			}
-			else
-			{
-				return $this->_prep_args($result);
-			}
+			return '"'.$speed.'"';
 		}
-		else
+		elseif (preg_match('/[^0-9]/', $speed))
 		{
-			return 'null';
+			return '';
 		}
 
-		$json = array();
-		$_is_assoc = TRUE;
-
-		if ( ! is_array($json_result) && empty($json_result))
-		{
-			show_error('Generate JSON Failed - Illegal key, value pair.');
-		}
-		elseif ($match_array_type)
-		{
-			$_is_assoc = $this->_is_associative_array($json_result);
-		}
-
-		foreach ($json_result as $k => $v)
-		{
-			if ($_is_assoc)
-			{
-				$json[] = $this->_prep_args($k, TRUE).':'.$this->generate_json($v, $match_array_type);
-			}
-			else
-			{
-				$json[] = $this->generate_json($v, $match_array_type);
-			}
-		}
-
-		$json = implode(',', $json);
-
-		return $_is_assoc ? '{'.$json.'}' : '['.$json.']';
-
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Is associative array
-	 *
-	 * Checks for an associative array
-	 *
-	 * @param	array
-	 * @return	bool
-	 */
-	protected function _is_associative_array($arr)
-	{
-		foreach (array_keys($arr) as $key => $val)
-		{
-			if ($key !== $val)
-			{
-				return TRUE;
-			}
-		}
-
-		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Prep Args
-	 *
-	 * Ensures a standard json value and escapes values
-	 *
-	 * @param	mixed	$result
-	 * @param	bool	$is_key = FALSE
-	 * @return	string
-	 */
-	protected function _prep_args($result, $is_key = FALSE)
-	{
-		if ($result === NULL)
-		{
-			return 'null';
-		}
-		elseif (is_bool($result))
-		{
-			return ($result === TRUE) ? 'true' : 'false';
-		}
-		elseif (is_string($result) OR $is_key)
-		{
-			return '"'.str_replace(array('\\', "\t", "\n", "\r", '"', '/'), array('\\\\', '\\t', '\\n', "\\r", '\"', '\/'), $result).'"';
-		}
-		elseif (is_scalar($result))
-		{
-			return $result;
-		}
+		return $speed;
 	}
 
 }
 
-/* End of file Javascript.php */
-/* Location: ./system/libraries/Javascript.php */
+/* End of file Jquery.php */
+/* Location: ./system/libraries/Jquery.php */
