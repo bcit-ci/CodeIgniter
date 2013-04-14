@@ -105,6 +105,7 @@ Release Date: Not Released
    -  :doc:`Directory Helper <helpers/directory_helper>` :php:func:`directory_map()` will now append ``DIRECTORY_SEPARATOR`` to directory names in the returned array.
    -  :doc:`Language Helper <helpers/language_helper>` :php:func:`lang()` now accepts an optional list of additional HTML attributes.
    -  Deprecated the :doc:`Email Helper <helpers/email_helper>` as its ``valid_email()``, ``send_email()`` functions are now only aliases for PHP native functions ``filter_var()`` and ``mail()`` respectively.
+   -  :doc:`CAPTCHA Helper <helpers/captcha_helper>` :php:func:`create_captcha` added word_length and pool options for setting length of randomly generated captcha word, and what characters to select from.
 
 -  Database
 
