@@ -206,3 +206,4 @@ if ( ! function_exists('create_captcha'))
 
 /* End of file captcha_helper.php */
 /* Location: ./system/helpers/captcha_helper.php */
+
