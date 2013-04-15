@@ -62,7 +62,9 @@ Once loaded you can generate a captcha like this::
 		'font_path'	=> './path/to/fonts/texb.ttf',
 		'img_width'	=> '150',
 		'img_height'	=> 30,
-		'expiration'	=> 7200
+		'expiration'	=> 7200,
+		'word_length'	=> 8,
+		'pool'	=> '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 	);
 
 	$cap = create_captcha($vals);
@@ -79,6 +81,7 @@ Once loaded you can generate a captcha like this::
 -  The **expiration** (in seconds) signifies how long an image will remain
    in the captcha folder before it will be deleted. The default is two
    hours.
+-  **word_length** defaults to 8, **pool** defaults to '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 Adding a Database
 -----------------
