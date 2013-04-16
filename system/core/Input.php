@@ -793,7 +793,7 @@ class CI_Input {
 		// In Apache, you can simply call apache_request_headers()
 		if (function_exists('apache_request_headers'))
 		{
-			$headers = apache_request_headers();
+			$this->headers = apache_request_headers();
 		}
 		else
 		{
@@ -806,15 +806,15 @@ class CI_Input {
 					$headers[$header] = $this->_fetch_from_array($_SERVER, $key, $xss_clean);
 				}
 			}
-		}
 
-		// take SOME_HEADER and turn it into Some-Header
-		foreach ($headers as $key => $val)
-		{
-			$key = str_replace(array('_', '-'), ' ', strtolower($key));
-			$key = str_replace(' ', '-', ucwords($key));
+			// take SOME_HEADER and turn it into Some-Header
+			foreach ($headers as $key => $val)
+			{
+				$key = str_replace('_', ' ', strtolower($key));
+				$key = str_replace(' ', '-', ucwords($key));
 
-			$this->headers[$key] = $val;
+				$this->headers[$key] = $val;
+			}
 		}
 
 		return $this->headers;
