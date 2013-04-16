@@ -803,7 +803,7 @@ class CI_Input {
 		}
 		else
 		{
-			$headers['Content-Type'] = isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : @getenv('CONTENT_TYPE');
+			$headers['CONTENT_TYPE'] = isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : @getenv('CONTENT_TYPE');
 
 			foreach ($_SERVER as $key => $val)
 			{
@@ -816,7 +816,7 @@ class CI_Input {
 			// take SOME_HEADER and turn it into Some-Header
 			foreach ($headers as $key => $val)
 			{
-				$key = str_replace(array('_', '-'), ' ', strtolower($key));
+				$key = str_replace('_', ' ', strtolower($key));
 				$key = str_replace(' ', '-', ucwords($key));
 
 				$this->headers[$key] = $val;
