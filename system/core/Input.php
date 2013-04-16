@@ -801,25 +801,18 @@ class CI_Input {
 		{
 			return $this->headers = apache_request_headers();
 		}
-		else
+
+		$this->headers['CONTENT_TYPE'] = isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : @getenv('CONTENT_TYPE');
+
+		foreach ($_SERVER as $key => $val)
 		{
-			$headers['CONTENT_TYPE'] = isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : @getenv('CONTENT_TYPE');
-
-			foreach ($_SERVER as $key => $val)
+			if (sscanf($key, 'HTTP_%s', $header) === 1)
 			{
-				if (sscanf($key, 'HTTP_%s', $header) === 1)
-				{
-					$headers[$header] = $this->_fetch_from_array($_SERVER, $key, $xss_clean);
-				}
-			}
+				// take SOME_HEADER and turn it into Some-Header
+				$header = str_replace('_', ' ', strtolower($header));
+				$header = str_replace(' ', '-', ucwords($header));
 
-			// take SOME_HEADER and turn it into Some-Header
-			foreach ($headers as $key => $val)
-			{
-				$key = str_replace('_', ' ', strtolower($key));
-				$key = str_replace(' ', '-', ucwords($key));
-
-				$this->headers[$key] = $val;
+				$this->headers[$header] = $this->_fetch_from_array($_SERVER, $key, $xss_clean);
 			}
 		}
 
