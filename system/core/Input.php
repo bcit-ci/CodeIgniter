@@ -790,10 +790,16 @@ class CI_Input {
 	 */
 	public function request_headers($xss_clean = FALSE)
 	{
+		// If header is already defined, return it immediately
+		if ( ! empty($this->headers))
+		{
+			return $this->headers;
+		}
+
 		// In Apache, you can simply call apache_request_headers()
 		if (function_exists('apache_request_headers'))
 		{
-			$this->headers = apache_request_headers();
+			return $this->headers = apache_request_headers();
 		}
 		else
 		{
@@ -810,7 +816,7 @@ class CI_Input {
 			// take SOME_HEADER and turn it into Some-Header
 			foreach ($headers as $key => $val)
 			{
-				$key = str_replace('_', ' ', strtolower($key));
+				$key = str_replace(array('_', '-'), ' ', strtolower($key));
 				$key = str_replace(' ', '-', ucwords($key));
 
 				$this->headers[$key] = $val;
