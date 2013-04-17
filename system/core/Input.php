@@ -802,7 +802,7 @@ class CI_Input {
 			return $this->headers = apache_request_headers();
 		}
 
-		$_SERVER['HTTP_CONTENT_TYPE'] = isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : @getenv('CONTENT_TYPE');
+		$this->headers['Content-Type'] = isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : @getenv('CONTENT_TYPE');
 
 		foreach ($_SERVER as $key => $val)
 		{
