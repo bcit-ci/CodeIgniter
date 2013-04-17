@@ -38,14 +38,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CI_Parser {
 
 	/**
-	 * Left delimeter character for psuedo vars
+	 * Left delimiter character for pseudo vars
 	 *
 	 * @var string
 	 */
 	public $l_delim = '{';
 
 	/**
-	 * Right delimeter character for psuedo vars
+	 * Right delimiter character for pseudo vars
 	 *
 	 * @var string
 	 */
