@@ -1236,7 +1236,7 @@ class CI_Email {
 	/**
 	 * Build Final Body and attachments
 	 *
-	 * @return	boolean
+	 * @return	bool
 	 */
 	protected function _build_message()
 	{
@@ -1610,6 +1610,7 @@ class CI_Email {
 		{
 			return FALSE;
 		}
+
 		$result = $this->_spool_email();
 
 		if ($result && $auto_clear)
@@ -1672,6 +1673,7 @@ class CI_Email {
 			{
 				return FALSE;
 			}
+
 			$this->_spool_email();
 		}
 	}
