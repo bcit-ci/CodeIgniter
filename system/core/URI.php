@@ -358,7 +358,7 @@ class CI_URI {
 	 */
 	public function _remove_url_suffix()
 	{
-		$detect_and_remove = (bool) $this->config->item('detect_and_remove_url_suffix');
+		$detect_and_remove = (bool) $this->config->item('detect_url_suffix');
 		
 		if($detect_and_remove === TRUE)
 		{
@@ -366,7 +366,7 @@ class CI_URI {
 			if($suffix_pos !== FALSE)
 			{
 				$this->uri_suffix = substr($this->uri_string, $suffix_pos + 1);
-				$this->uri_string = substr($this->uri_string, 0, $suffix_pos + 1);
+				$this->uri_string = substr($this->uri_string, 0, $suffix_pos);
 			}
 			else
 			{

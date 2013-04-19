@@ -80,7 +80,7 @@ $config['uri_protocol']	= 'AUTO';
 |
 */
 
-$config['detect_and_remove_url_suffix'] = TRUE;
+$config['detect_url_suffix'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
