@@ -54,6 +54,13 @@ class CI_URI {
 	public $uri_string;
 
 	/**
+	 * Current URI suffix
+	 *
+	 * @var	string
+	 */
+	public $uri_suffix;
+
+	/**
 	 * List of URI segments
 	 *
 	 * @var	array
@@ -351,18 +358,36 @@ class CI_URI {
 	 */
 	public function _remove_url_suffix()
 	{
-		$suffix = (string) $this->config->item('url_suffix');
-
-		if ($suffix === '')
+		$detect_and_remove = (bool) $this->config->item('detect_url_suffix');
+		
+		if($detect_and_remove === TRUE)
 		{
-			return;
+			$suffix_pos = strrpos($this->uri_string, '.');
+			if($suffix_pos !== FALSE)
+			{
+				$this->uri_suffix = substr($this->uri_string, $suffix_pos + 1);
+				$this->uri_string = substr($this->uri_string, 0, $suffix_pos);
+			}
+			else
+			{
+				return;
+			}
 		}
-
-		$slen = strlen($suffix);
-
-		if (substr($this->uri_string, -$slen) === $suffix)
+		else
 		{
-			$this->uri_string = substr($this->uri_string, 0, -$slen);
+			$suffix = (string) $this->config->item('url_suffix');
+
+			if ($suffix === '')
+			{
+				return;
+			}
+
+			$slen = strlen($suffix);
+
+			if (substr($this->uri_string, -$slen) === $suffix)
+			{
+				$this->uri_string = substr($this->uri_string, 0, -$slen);
+			}
 		}
 	}
 
