@@ -95,11 +95,11 @@ class CI_Log {
 
 	// --------------------------------------------------------------------
 
-	/**
-	 * Class constructor
-	 *
-	 * @return	void
-	 */
+    /**
+     * Class constructor
+     *
+     * @return \CI_Log
+     */
 	public function __construct()
 	{
 		$config =& get_config();

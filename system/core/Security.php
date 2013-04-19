@@ -114,11 +114,11 @@ class CI_Security {
 		"([\"'])?data\s*:[^\\1]*?base64[^\\1]*?,[^\\1]*?\\1?"
 	);
 
-	/**
-	 * Class constructor
-	 *
-	 * @return	void
-	 */
+    /**
+     * Class constructor
+     *
+     * @return \CI_Security
+     */
 	public function __construct()
 	{
 		// Is CSRF protection enabled?

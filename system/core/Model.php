@@ -37,11 +37,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_Model {
 
-	/**
-	 * Class constructor
-	 *
-	 * @return	void
-	 */
+    /**
+     * Class constructor
+     *
+     * @return \CI_Model
+     */
 	public function __construct()
 	{
 		log_message('debug', 'Model Class Initialized');

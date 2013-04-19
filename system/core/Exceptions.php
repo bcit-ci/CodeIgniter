@@ -64,11 +64,11 @@ class CI_Exceptions {
 		E_STRICT		=>	'Runtime Notice'
 	);
 
-	/**
-	 * Class constructor
-	 *
-	 * @return	void
-	 */
+    /**
+     * Class constructor
+     *
+     * @return \CI_Exceptions
+     */
 	public function __construct()
 	{
 		$this->ob_level = ob_get_level();

@@ -109,14 +109,14 @@ class CI_Input {
 	 */
 	protected $_input_stream = NULL;
 
-	/**
-	 * Class constructor
-	 *
-	 * Determines whether to globally enable the XSS processing
-	 * and whether to allow the $_GET array.
-	 *
-	 * @return	void
-	 */
+    /**
+     * Class constructor
+     *
+     * Determines whether to globally enable the XSS processing
+     * and whether to allow the $_GET array.
+     *
+     * @return \CI_Input
+     */
 	public function __construct()
 	{
 		log_message('debug', 'Input Class Initialized');
@@ -329,22 +329,23 @@ class CI_Input {
 
 	// ------------------------------------------------------------------------
 
-	/**
-	 * Set cookie
-	 *
-	 * Accepts an arbitrary number of parameters (up to 7) or an associative
-	 * array in the first parameter containing all the values.
-	 *
-	 * @param	string|mixed[]	$name		Cookie name or an array containing parameters
-	 * @param	string		$value		Cookie value
-	 * @param	int		$expire		Cookie expiration time in seconds
-	 * @param	string		$domain		Cookie domain (e.g.: '.yourdomain.com')
-	 * @param	string		$path		Cookie path (default: '/')
-	 * @param	string		$prefix		Cookie name prefix
-	 * @param	bool		$secure		Whether to only transfer cookies via SSL
-	 * @param	bool		$httponly	Whether to only makes the cookie accessible via HTTP (no javascript)
-	 * @return	void
-	 */
+    /**
+     * Set cookie
+     *
+     * Accepts an arbitrary number of parameters (up to 7) or an associative
+     * array in the first parameter containing all the values.
+     *
+     * @param    string|mixed[] $name          Cookie name or an array containing parameters
+     * @param    string         $value         Cookie value
+     * @param int|string        $expire        Cookie expiration time in seconds
+     * @param    string         $domain        Cookie domain (e.g.: '.yourdomain.com')
+     * @param    string         $path          Cookie path (default: '/')
+     * @param    string         $prefix        Cookie name prefix
+     * @param    bool           $secure        Whether to only transfer cookies via SSL
+     * @param    bool           $httponly      Whether to only makes the cookie accessible via HTTP (no javascript)
+     *
+     * @return    void
+     */
 	public function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE, $httponly = FALSE)
 	{
 		if (is_array($name))

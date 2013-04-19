@@ -62,11 +62,11 @@ class CI_Hooks {
 	 */
 	protected $_in_progress = FALSE;
 
-	/**
-	 * Class constructor
-	 *
-	 * @return	void
-	 */
+    /**
+     * Class constructor
+     *
+     * @return \CI_Hooks
+     */
 	public function __construct()
 	{
 		$CFG =& load_class('Config', 'core');
