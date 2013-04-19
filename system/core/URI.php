@@ -69,15 +69,15 @@ class CI_URI {
 	 */
 	public $rsegments =	array();
 
-	/**
-	 * Class constructor
-	 *
-	 * Simply globalizes the $RTR object. The front
-	 * loads the Router class early on so it's not available
-	 * normally as other classes are.
-	 *
-	 * @return	void
-	 */
+    /**
+     * Class constructor
+     *
+     * Simply globalizes the $RTR object. The front
+     * loads the Router class early on so it's not available
+     * normally as other classes are.
+     *
+     * @return \CI_URI
+     */
 	public function __construct()
 	{
 		$this->config =& load_class('Config', 'core');
@@ -229,7 +229,7 @@ class CI_URI {
 	 *
 	 * Do some final cleaning of the URI and return it, currently only used in self::_parse_request_uri()
 	 *
-	 * @param	string	$url
+	 * @param	string	$uri
 	 * @return	string
 	 */
 	protected function _remove_relative_directory($uri)

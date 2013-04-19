@@ -104,13 +104,13 @@ class CI_Output {
 	 */
 	public $parse_exec_vars =	TRUE;
 
-	/**
-	 * Class constructor
-	 *
-	 * Determines whether zLib output compression will be used.
-	 *
-	 * @return	void
-	 */
+    /**
+     * Class constructor
+     *
+     * Determines whether zLib output compression will be used.
+     *
+     * @return \CI_Output
+     */
 	public function __construct()
 	{
 		$this->_zlib_oc = (bool) @ini_get('zlib.output_compression');
@@ -270,7 +270,7 @@ class CI_Output {
 	/**
 	 * Get Header
 	 *
-	 * @param	string	$header_name
+	 * @param	string	$header
 	 * @return	string
 	 */
 	public function get_header($header)

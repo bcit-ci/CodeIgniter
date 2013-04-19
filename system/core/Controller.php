@@ -47,11 +47,11 @@ class CI_Controller {
 	 */
 	private static $instance;
 
-	/**
-	 * Class constructor
-	 *
-	 * @return	void
-	 */
+    /**
+     * Class constructor
+     *
+     * @return \CI_Controller
+     */
 	public function __construct()
 	{
 		self::$instance =& $this;

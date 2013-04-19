@@ -120,13 +120,13 @@ class CI_Loader {
 		'user_agent' => 'agent'
 	);
 
-	/**
-	 * Class constructor
-	 *
-	 * Sets component load paths, gets the initial output buffering level.
-	 *
-	 * @return	void
-	 */
+    /**
+     * Class constructor
+     *
+     * Sets component load paths, gets the initial output buffering level.
+     *
+     * @return \CI_Loader
+     */
 	public function __construct()
 	{
 		$this->_ci_ob_level  = ob_get_level();

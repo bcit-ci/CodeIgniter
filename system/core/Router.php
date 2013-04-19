@@ -81,13 +81,13 @@ class CI_Router {
 	 */
 	public $default_controller;
 
-	/**
-	 * Class constructor
-	 *
-	 * Runs the route mapping function.
-	 *
-	 * @return	void
-	 */
+    /**
+     * Class constructor
+     *
+     * Runs the route mapping function.
+     *
+     * @return \CI_Router
+     */
 	public function __construct()
 	{
 		$this->config =& load_class('Config', 'core');

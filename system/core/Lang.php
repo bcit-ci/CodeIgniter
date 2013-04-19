@@ -51,11 +51,11 @@ class CI_Lang {
 	 */
 	public $is_loaded =	array();
 
-	/**
-	 * Class constructor
-	 *
-	 * @return	void
-	 */
+    /**
+     * Class constructor
+     *
+     * @return \CI_Lang
+     */
 	public function __construct()
 	{
 		log_message('debug', 'Language Class Initialized');

@@ -39,13 +39,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_Utf8 {
 
-	/**
-	 * Class constructor
-	 *
-	 * Determines if UTF-8 support is to be enabled.
-	 *
-	 * @return	void
-	 */
+    /**
+     * Class constructor
+     *
+     * Determines if UTF-8 support is to be enabled.
+     *
+     * @return \CI_Utf8
+     */
 	public function __construct()
 	{
 		log_message('debug', 'Utf8 Class Initialized');
