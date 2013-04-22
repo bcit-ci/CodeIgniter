@@ -114,6 +114,5 @@ The following is a list of available hook points.
    method in the :doc:`Output Library <../libraries/output>`. This permits
    you to use your own cache display mechanism.
 -  **post_system**
-   Called after the final rendered page is sent to the browser, at the
-   end of system execution after the finalized data is sent to the
+   Called at the end of system execution after the finalized data is sent to the
    browser.
