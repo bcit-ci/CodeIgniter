@@ -841,9 +841,8 @@ class CI_Output {
 			$output = substr_replace($output, '', 0, $pos);
 
 			// Remove closing tag and save it for later
-			$end_pos = strlen($output);
 			$pos = strpos($output, '</');
-			$closing_tag = substr($output, $pos, $end_pos);
+			$closing_tag = substr($output, $pos, strlen($output));
 			$output = substr_replace($output, '', $pos);
 		}
 
@@ -852,7 +851,16 @@ class CI_Output {
 
 		// Remove spaces around curly brackets, colons,
 		// semi-colons, parenthesis, commas
-		$output = preg_replace('!\s*(:|;|,|}|{|\(|\))\s*!i', '$1', $output);
+		$chunks = preg_split('/([\'|"]).+(?![^\\\]\\1)\\1/iU', $output, -1, PREG_SPLIT_OFFSET_CAPTURE);
+		for ($i = count($chunks) - 1; $i >= 0; $i--)
+		{
+			$output = substr_replace(
+				$output,
+				preg_replace('/\s*(:|;|,|}|{|\(|\))\s*/i', '$1', $chunks[$i][0]),
+				$chunks[$i][1],
+				strlen($chunks[$i][0])
+			);
+		}
 
 		// Replace tabs with spaces
 		// Replace carriage returns & multiple new lines with single new line

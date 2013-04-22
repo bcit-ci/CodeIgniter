@@ -384,3 +384,21 @@ You should now put AFTER clause field names in the field definition array instea
 
 .. note:: This is for MySQL and CUBRID databases only! Other drivers don't support this
 	clause and will silently ignore it.
+
+URI Routing methods fetch_directory(), fetch_class(), fetch_method()
+====================================================================
+
+With properties ``CI_Router::$directory``, ``CI_Router::$class`` and ``CI_Router::$method``
+being public and their respective ``fetch_*()`` no longer doing anything else to just return
+the properties - it doesn't make sense to keep them.
+
+Those are all internal, undocumented methods, but we've opted to deprecate them for now
+in order to maintain backwards-compatibility just in case. If some of you have utilized them,
+then you can now just access the properties instead::
+
+	$this->router->directory;
+	$this->router->class;
+	$this->router->method;
+
+.. note:: Those methods are still available, but you're strongly encouraged to remove their usage
+	sooner rather than later.

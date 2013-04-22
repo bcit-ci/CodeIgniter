@@ -220,7 +220,7 @@ class Loader_test extends CI_TestCase {
 
 		// Test name conflict
 		$obj = 'conflict';
-		$this->ci_obj->$obj = new StdClass();
+		$this->ci_obj->$obj = new stdClass();
 		$this->setExpectedException(
 			'RuntimeException',
 			'CI Error: The model name you are loading is the name of a resource that is already being used: '.$obj

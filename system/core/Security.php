@@ -488,8 +488,7 @@ class CI_Security {
 	{
 		if ($this->_xss_hash === '')
 		{
-			mt_srand();
-			$this->_xss_hash = md5(time() + mt_rand(0, 1999999999));
+			$this->_xss_hash = md5(uniqid(mt_rand()));
 		}
 
 		return $this->_xss_hash;

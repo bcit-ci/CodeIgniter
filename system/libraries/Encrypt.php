@@ -244,7 +244,7 @@ class CI_Encrypt {
 		$rand = '';
 		do
 		{
-			$rand .= mt_rand(0, mt_getrandmax());
+			$rand .= mt_rand();
 		}
 		while (strlen($rand) < 32);
 
