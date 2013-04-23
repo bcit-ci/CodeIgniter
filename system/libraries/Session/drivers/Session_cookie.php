@@ -45,6 +45,12 @@ class CI_Session_cookie extends CI_Session_driver {
 	 * @var bool
 	 */
 	public $sess_encrypt_cookie		= FALSE;
+	
+	/**
+	 * database.php name
+	 * @var string
+	 */
+	public $sess_db_name			= 'default';
 
 	/**
 	 * Whether to use to the database for session storage
@@ -164,6 +170,12 @@ class CI_Session_cookie extends CI_Session_driver {
 	 * @var int
 	 */
 	public $now;
+	
+	/**
+	 * db user
+	 */
+	 public $dbsession				= null;
+	 
 
 	/**
 	 * Default userdata keys
@@ -196,6 +208,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		$prefs = array(
 			'sess_encrypt_cookie',
 			'sess_use_database',
+			'sess_db_name',
 			'sess_table_name',
 			'sess_expiration',
 			'sess_expire_on_close',
@@ -234,7 +247,9 @@ class CI_Session_cookie extends CI_Session_driver {
 		if ($this->sess_use_database === TRUE && $this->sess_table_name !== '')
 		{
 			// Load database driver
-			$this->CI->load->database();
+			//$this->CI->load->database();
+			//加载不同的数据库
+			$this->dbsession = $this->CI->load->database($this->sess_db_name,true);
 
 			// Register shutdown function
 			register_shutdown_function(array($this, '_update_db'));
@@ -301,7 +316,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		// Kill the session DB row
 		if ($this->sess_use_database === TRUE && isset($this->userdata['session_id']))
 		{
-			$this->CI->db->delete($this->sess_table_name, array('session_id' => $this->userdata['session_id']));
+			$this->dbsession->delete($this->sess_table_name, array('session_id' => $this->userdata['session_id']));
 			$this->data_dirty = FALSE;
 		}
 
@@ -431,29 +446,29 @@ class CI_Session_cookie extends CI_Session_driver {
 		// Is there a corresponding session in the DB?
 		if ($this->sess_use_database === TRUE)
 		{
-			$this->CI->db->where('session_id', $session['session_id']);
+			$this->dbsession->where('session_id', $session['session_id']);
 
 			if ($this->sess_match_ip === TRUE)
 			{
-				$this->CI->db->where('ip_address', $session['ip_address']);
+				$this->dbsession->where('ip_address', $session['ip_address']);
 			}
 
 			if ($this->sess_match_useragent === TRUE)
 			{
-				$this->CI->db->where('user_agent', $session['user_agent']);
+				$this->dbsession->where('user_agent', $session['user_agent']);
 			}
 
 			// Is caching in effect? Turn it off
-			$db_cache = $this->CI->db->cache_on;
-			$this->CI->db->cache_off();
+			$db_cache = $this->dbsession->cache_on;
+			$this->dbsession->cache_off();
 
-			$query = $this->CI->db->limit(1)->get($this->sess_table_name);
+			$query = $this->dbsession->limit(1)->get($this->sess_table_name);
 
 			// Was caching in effect?
 			if ($db_cache)
 			{
 				// Turn it back on
-				$this->CI->db->cache_on();
+				$this->dbsession->cache_on();
 			}
 
 			// No result? Kill it!
@@ -502,7 +517,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		if ($this->sess_use_database === TRUE)
 		{
 			// Add empty user_data field and save the data to the DB
-			$this->CI->db->set('user_data', '')->insert($this->sess_table_name, $this->userdata);
+			$this->dbsession->set('user_data', '')->insert($this->sess_table_name, $this->userdata);
 		}
 
 		// Write the cookie
@@ -541,20 +556,20 @@ class CI_Session_cookie extends CI_Session_driver {
 		// Check for database
 		if ($this->sess_use_database === TRUE)
 		{
-			$this->CI->db->where('session_id', $old_sessid);
+			$this->dbsession->where('session_id', $old_sessid);
 
 			if ($this->sess_match_ip === TRUE)
 			{
-				$this->CI->db->where('ip_address', $this->CI->input->ip_address());
+				$this->dbsession->where('ip_address', $this->CI->input->ip_address());
 			}
 
 			if ($this->sess_match_useragent === TRUE)
 			{
-				$this->CI->db->where('user_agent', trim(substr($this->CI->input->user_agent(), 0, 120)));
+				$this->dbsession->where('user_agent', trim(substr($this->CI->input->user_agent(), 0, 120)));
 			}
 
 			// Update the session ID and last_activity field in the DB
-			$this->CI->db->update($this->sess_table_name,
+			$this->dbsession->update($this->sess_table_name,
 				array(
 					'last_activity' => $this->now,
 					'session_id' => $this->userdata['session_id']
@@ -603,24 +618,24 @@ class CI_Session_cookie extends CI_Session_driver {
 			}
 
 			// Reset query builder values.
-			$this->CI->db->reset_query();
+			$this->dbsession->reset_query();
 
 			// Run the update query
 			// Any time we change the session id, it gets updated immediately,
 			// so our where clause below is always safe
-			$this->CI->db->where('session_id', $this->userdata['session_id']);
+			$this->dbsession->where('session_id', $this->userdata['session_id']);
 
 			if ($this->sess_match_ip === TRUE)
 			{
-				$this->CI->db->where('ip_address', $this->CI->input->ip_address());
+				$this->dbsession->where('ip_address', $this->CI->input->ip_address());
 			}
 
 			if ($this->sess_match_useragent === TRUE)
 			{
-				$this->CI->db->where('user_agent', trim(substr($this->CI->input->user_agent(), 0, 120)));
+				$this->dbsession->where('user_agent', trim(substr($this->CI->input->user_agent(), 0, 120)));
 			}
 
-			$this->CI->db->update($this->sess_table_name, $set);
+			$this->dbsession->update($this->sess_table_name, $set);
 
 			// Clear dirty flag to prevent double updates
 			$this->data_dirty = FALSE;
