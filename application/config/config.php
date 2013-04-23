@@ -111,14 +111,16 @@ $config['charset'] = 'UTF-8';
 
 /*
 |--------------------------------------------------------------------------
-| Enable/Disable System Hooks
+| Enable/Disable Plugin System
 |--------------------------------------------------------------------------
 |
-| If you would like to use the 'hooks' feature you must enable it by
-| setting this variable to TRUE (boolean).  See the user guide for details.
+| If you want to enable the Plugin System, you have to set the variable
+| below to TRUE (boolean).
+| Disabling the Plugin System can be a good effect for the site execution
+| speed.
 |
 */
-$config['enable_hooks'] = FALSE;
+$config['enable_plugin_system'] = TRUE;
 
 
 /*
