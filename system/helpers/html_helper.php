@@ -312,6 +312,11 @@ if ( ! function_exists('link_tag'))
 		{
 			if (strpos($href, '://') !== FALSE)
 			{
+				if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === "on") {
+					$href = str_replace("http://", "https://", $href);
+				} else {
+					$href = str_replace("https://", "http://", $href);
+				}
 				$link .= 'href="'.$href.'" ';
 			}
 			elseif ($index_page === TRUE)
