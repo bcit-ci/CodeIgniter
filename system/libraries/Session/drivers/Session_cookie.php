@@ -402,6 +402,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		// Is the session data we unserialized an array with the correct format?
 		if ( ! is_array($session) OR ! isset($session['session_id'], $session['ip_address'], $session['user_agent'], $session['last_activity']))
 		{
+			log_message('debug', 'Session: Incorrect format for data');
 			$this->sess_destroy();
 			return FALSE;
 		}
@@ -409,6 +410,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		// Is the session current?
 		if (($session['last_activity'] + $this->sess_expiration) < $this->now OR $session['last_activity'] > $this->now)
 		{
+			log_message('debug', 'Session: Session has expired');
 			$this->sess_destroy();
 			return FALSE;
 		}
@@ -416,6 +418,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		// Does the IP match?
 		if ($this->sess_match_ip === TRUE && $session['ip_address'] !== $this->CI->input->ip_address())
 		{
+			log_message('debug', 'Session: Client IP address doesn\'t match');
 			$this->sess_destroy();
 			return FALSE;
 		}
@@ -424,6 +427,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		if ($this->sess_match_useragent === TRUE &&
 			trim($session['user_agent']) !== trim(substr($this->CI->input->user_agent(), 0, 120)))
 		{
+			log_message('debug', 'Session: Client User Agent doesn\'t match');
 			$this->sess_destroy();
 			return FALSE;
 		}
@@ -459,6 +463,7 @@ class CI_Session_cookie extends CI_Session_driver {
 			// No result? Kill it!
 			if (empty($query) OR $query->num_rows() === 0)
 			{
+				log_message('debug', 'Session: No session found in database.');
 				$this->sess_destroy();
 				return FALSE;
 			}
@@ -497,6 +502,8 @@ class CI_Session_cookie extends CI_Session_driver {
 			'user_agent'	=> trim(substr($this->CI->input->user_agent(), 0, 120)),
 			'last_activity'	=> $this->now,
 		);
+
+		log_message('debug', 'Creating new session ' . $this->userdata['session_id']);
 
 		// Check for database
 		if ($this->sess_use_database === TRUE)
