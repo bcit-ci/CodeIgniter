@@ -18,7 +18,7 @@ class Test {
 	}
 	
 	public function pre_controller($params) {
-		// This method will be called before the controller gets called!
+		return $params;
 	}
 	 
 }
