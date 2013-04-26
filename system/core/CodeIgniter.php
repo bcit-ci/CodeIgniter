@@ -114,14 +114,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  Instantiate the hooks class
  * ------------------------------------------------------
  */
-	$EXT =& load_class('Hooks', 'core');
-
-/*
- * ------------------------------------------------------
- *  Is there a "pre_system" hook?
- * ------------------------------------------------------
- */
-	$EXT->call_hook('pre_system');
+	$EXT =& load_class('Plugins', 'core');
 
 /*
  * ------------------------------------------------------
@@ -185,8 +178,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *	Is there a valid cache file? If so, we're done...
  * ------------------------------------------------------
  */
-	if ($EXT->call_hook('cache_override') === FALSE
-		&& $OUT->_display_cache($CFG, $URI) === TRUE)
+	if ($OUT->_display_cache($CFG, $URI) === TRUE)
 	{
 		exit;
 	}
@@ -329,7 +321,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  Is there a "pre_controller" hook?
  * ------------------------------------------------------
  */
-	$EXT->call_hook('pre_controller');
+	$EXT->fire('system.pre_controller');
 
 /*
  * ------------------------------------------------------
@@ -340,13 +332,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	$BM->mark('controller_execution_time_( '.$class.' / '.$method.' )_start');
 
 	$CI = new $class();
-
-/*
- * ------------------------------------------------------
- *  Is there a "post_controller_constructor" hook?
- * ------------------------------------------------------
- */
-	$EXT->call_hook('post_controller_constructor');
 
 /*
  * ------------------------------------------------------
@@ -363,24 +348,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  Is there a "post_controller" hook?
  * ------------------------------------------------------
  */
-	$EXT->call_hook('post_controller');
+	$EXT->fire('system.post_controller');
 
 /*
  * ------------------------------------------------------
  *  Send the final rendered output to the browser
  * ------------------------------------------------------
  */
-	if ($EXT->call_hook('display_override') === FALSE)
-	{
-		$OUT->_display();
-	}
-
-/*
- * ------------------------------------------------------
- *  Is there a "post_system" hook?
- * ------------------------------------------------------
- */
-	$EXT->call_hook('post_system');
+	$OUT->_display();
 
 /* End of file CodeIgniter.php */
 /* Location: ./system/core/CodeIgniter.php */
