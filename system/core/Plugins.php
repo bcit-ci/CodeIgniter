@@ -62,7 +62,16 @@ class CI_Plugins {
 			if (array_key_exists($type, $hooks))
 			{
 				$tmp =& $plugin['instance'];
-				$return = array_merge($return, $tmp->$hooks[$type]($return));
+				$tmp_return = $tmp->$hooks[$type]($return);
+				if (is_array($tmp_return))
+				{
+					// If return is a array, merge it
+					$return = array_merge($return, $tmp_return);
+				} else
+				{
+					// If not, throw an error to the log
+					log_message('error', 'Invalid Hook (\''.$type.'\') in Plugin \''.$plugin['name'].'\'');
+				}
 			}
 		}
 		return $return;

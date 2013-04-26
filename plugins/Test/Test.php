@@ -18,7 +18,8 @@ class Test {
 	}
 	
 	public function pre_controller($params) {
-		return $params;
+		// If you do not want to change something in the params,
+		// you do not have to return it.
 	}
 	 
 }
