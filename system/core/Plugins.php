@@ -79,6 +79,8 @@ class CI_Plugins {
 	
 	protected function _load_plugins()
 	{
+		$BM =& load_class('Benchmark', 'core');
+		$BM->mark('load_plugins_start');
 		$plugin_folders = array();
 		foreach (new DirectoryIterator('plugins/') as $file)
 		{
@@ -105,8 +107,8 @@ class CI_Plugins {
 		}
 		
 		
-		// I can't save it in a field, because we use different instances of this class!
 		$this->plugins = $plugins;
+		$BM->mark('load_plugins_end');
 	}
 
 	protected function _register_hooks()
