@@ -31,6 +31,7 @@ class CI_Plugins {
 	public function __construct()
 	{
 		$CFG =& load_class('Config', 'core');
+		$CFG->load('plugins');
 
 		// If plugins are not enabled in the config file
 		// there is nothing else to do
@@ -81,6 +82,9 @@ class CI_Plugins {
 	{
 		$BM =& load_class('Benchmark', 'core');
 		$BM->mark('load_plugins_start');
+		
+		$CFG =& load_class('Config', 'core');
+		
 		$plugin_folders = array();
 		foreach (new DirectoryIterator('plugins/') as $file)
 		{
@@ -102,6 +106,24 @@ class CI_Plugins {
 			$plugins[$i] = $tmp->get_information();
 			$plugins[$i]['directory'] = $folder;
 			$plugins[$i]['instance'] = $tmp;
+			
+			$config = $this->_convert_name($plugins[$i]['name']).'_enabled';
+			if ($CFG->item($config) === FALSE)
+			{
+				$new_value = ($CFG->item('plugin_default_status') === TRUE) ? 'Yes' : 'No';
+				$filename = APPPATH.'config/plugins.php';
+				$content = file_get_contents($filename);
+				$content .= "\n\$config['".$config."'] = '".$new_value."';\n";
+				file_put_contents($filename, $content);
+			} else
+			{
+				if ($CFG->item($config) === 'No')
+				{
+					unset($plugins[$i]);
+					$i--;
+				}
+			}
+			
 			$tmp = NULL;
 			$i++;
 		}
@@ -111,6 +133,14 @@ class CI_Plugins {
 		$BM->mark('load_plugins_end');
 	}
 
+	protected function _convert_name($name)
+	{
+		$tmp =  str_replace(array(
+		    ' ', ':', '/', ',', '\'', ';', '\\'
+		), '_', $name);
+		return strtolower($tmp);
+	}
+	
 	protected function _register_hooks()
 	{
 		foreach ($this->plugins as $key=>$plugin)

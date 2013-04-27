@@ -111,20 +111,6 @@ $config['charset'] = 'UTF-8';
 
 /*
 |--------------------------------------------------------------------------
-| Enable/Disable Plugin System
-|--------------------------------------------------------------------------
-|
-| If you want to enable the Plugin System, you have to set the variable
-| below to TRUE (boolean).
-| Disabling the Plugin System can be a good effect for the site execution
-| speed.
-|
-*/
-$config['enable_plugin_system'] = TRUE;
-
-
-/*
-|--------------------------------------------------------------------------
 | Class Extension Prefix
 |--------------------------------------------------------------------------
 |
