@@ -34,9 +34,8 @@ $config['enable_plugin_system'] = TRUE;
 
 /*
 | -------------------------------------------------------------------------
-|  Default PLugin Status
+|  Default Plugin Status
 | -------------------------------------------------------------------------
 | 
-| Whether a new installed plugin should be enabled (TRUE) or disabled (FALSE)
+| Whether a new installed plugin should be enabled ('Yes') or disabled ('No')
 */
-$config['plugin_default_status'] = TRUE;

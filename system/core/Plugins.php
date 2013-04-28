@@ -59,19 +59,22 @@ class CI_Plugins {
 		$return = $params;
 		foreach ($this->plugins as $plugin)
 		{
-			$hooks = $plugin['registered_hooks'];
-			if (array_key_exists($type, $hooks))
+			if (!$plugin['disabled'])
 			{
-				$tmp =& $plugin['instance'];
-				$tmp_return = $tmp->$hooks[$type]($return);
-				if (is_array($tmp_return))
+				$hooks = $plugin['registered_hooks'];
+				if (array_key_exists($type, $hooks))
 				{
-					// If return is a array, merge it
-					$return = array_merge($return, $tmp_return);
-				} else
-				{
-					// If not, throw an error to the log
-					log_message('error', 'Invalid Hook (\''.$type.'\') in Plugin \''.$plugin['name'].'\'');
+					$tmp =& $plugin['instance'];
+					$tmp_return = $tmp->$hooks[$type]($return);
+					if (is_array($tmp_return))
+					{
+						// If return is a array, merge it
+						$return = array_merge($return, $tmp_return);
+					} else
+					{
+						// If not, throw an error to the log
+						log_message('error', 'Invalid Hook Result (\''.$type.'\') in Plugin \''.$plugin['name'].'\'');
+					}
 				}
 			}
 		}
@@ -117,11 +120,7 @@ class CI_Plugins {
 				file_put_contents($filename, $content);
 			} else
 			{
-				if ($CFG->item($config) === 'No')
-				{
-					unset($plugins[$i]);
-					$i--;
-				}
+				$plugins[$i]['disabled'] = ($CFG->item($config) === 'Yes') ? TRUE : FALSE;
 			}
 			
 			$tmp = NULL;
@@ -133,6 +132,12 @@ class CI_Plugins {
 		$BM->mark('load_plugins_end');
 	}
 
+	/*
+	 * Internal function to create a plugin's singular from its name
+	 * 
+	 * @param string $name Name of the Plugin
+	 * @return string singular of the Plugin
+	 */
 	protected function _convert_name($name)
 	{
 		$tmp =  str_replace(array(
@@ -150,6 +155,21 @@ class CI_Plugins {
 			$hooks = $tmp->register_hooks();
 			$this->plugins[$key]['registered_hooks'] = $hooks;
 		}
+	}
+	
+	/*
+	 * Set's the status of a plugin
+	 * 
+	 * @param string $name Singular of the Plugin
+	 * @param string $status 'Yes' or 'No'
+	 * @return void
+	 */
+	public function set_plugin_disabled($name, $status)
+	{
+		$value = ($status == TRUE) ? 'No' : 'Yes';
+		$config = file_get_contents(APPPATH.'config/plugins.php');
+		$config = preg_replace('/\[(?:\'|\")'.$name.'_enabled(?:\'|\")\]\s*=\s*(\'|\")(.*)\\1;/', "['".$name."_enabled'] = '".$value."';", $config);
+		file_put_contents(APPPATH.'config/plugins.php', $config);
 	}
 	
 	/*
