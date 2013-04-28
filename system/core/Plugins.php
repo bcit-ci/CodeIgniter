@@ -56,6 +56,12 @@ class CI_Plugins {
 	 */
 	public function fire($type, $params = array())
 	{
+		$CFG =& load_class('Config', 'core');
+		$CFG->load('plugins');
+		if ($CFG->item('enable_plugin_system') === FALSE)
+		{
+			return;
+		}
 		$return = $params;
 		foreach ($this->plugins as $plugin)
 		{
