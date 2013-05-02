@@ -119,16 +119,16 @@ class CI_Router {
 			if (isset($_GET[$this->config->item('directory_trigger')]) && is_string($_GET[$this->config->item('directory_trigger')]))
 			{
 				$this->set_directory(trim($this->uri->_filter_uri($_GET[$this->config->item('directory_trigger')])));
-				$segments[] = $this->fetch_directory();
+				$segments[] = $this->directory;
 			}
 
 			$this->set_class(trim($this->uri->_filter_uri($_GET[$this->config->item('controller_trigger')])));
-			$segments[] = $this->fetch_class();
+			$segments[] = $this->class;
 
 			if ( ! empty($_GET[$this->config->item('function_trigger')]) && is_string($_GET[$this->config->item('function_trigger')]))
 			{
 				$this->set_method(trim($this->uri->_filter_uri($_GET[$this->config->item('function_trigger')])));
-				$segments[] = $this->fetch_method();
+				$segments[] = $this->method;
 			}
 		}
 
@@ -270,7 +270,7 @@ class CI_Router {
 				empty($segments[1]) OR $segments[1] = str_replace('-', '_', $segments[1]);
 
 				// Does the requested controller exist in the sub-folder?
-				if ( ! file_exists(APPPATH.'controllers/'.$this->fetch_directory().$segments[0].'.php'))
+				if ( ! file_exists(APPPATH.'controllers/'.$this->directory.$segments[0].'.php'))
 				{
 					if ( ! empty($this->routes['404_override']))
 					{
@@ -279,7 +279,7 @@ class CI_Router {
 					}
 					else
 					{
-						show_404($this->fetch_directory().$segments[0]);
+						show_404($this->directory.$segments[0]);
 					}
 				}
 			}
@@ -287,7 +287,7 @@ class CI_Router {
 			{
 				// Is the method being specified in the route?
 				$segments = explode('/', $this->default_controller);
-				if ( ! file_exists(APPPATH.'controllers/'.$this->fetch_directory().$segments[0].'.php'))
+				if ( ! file_exists(APPPATH.'controllers/'.$this->directory.$segments[0].'.php'))
 				{
 					$this->directory = '';
 				}
@@ -413,6 +413,7 @@ class CI_Router {
 	/**
 	 * Fetch the current class
 	 *
+	 * @deprecated	3.0.0	Read the 'class' property instead
 	 * @return	string
 	 */
 	public function fetch_class()
@@ -438,11 +439,12 @@ class CI_Router {
 	/**
 	 * Fetch the current method
 	 *
+	 * @deprecated	3.0.0	Read the 'method' property instead
 	 * @return	string
 	 */
 	public function fetch_method()
 	{
-		return ($this->method === $this->fetch_class()) ? 'index' : $this->method;
+		return $this->method;
 	}
 
 	// --------------------------------------------------------------------
@@ -466,6 +468,7 @@ class CI_Router {
 	 * Feches the sub-directory (if any) that contains the requested
 	 * controller class.
 	 *
+	 * @deprecated	3.0.0	Read the 'directory' property instead
 	 * @return	string
 	 */
 	public function fetch_directory()
