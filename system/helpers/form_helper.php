@@ -651,6 +651,75 @@ if ( ! function_exists('set_value'))
 	}
 }
 
+
+// ------------------------------------------------------------------------
+
+/**
+ * Form Value, for checkbox elements
+ *
+ * Grabs a value from the POST array for the specified field and
+ * if it matches $lookfor it returned 'checked="checked"'
+ *
+ * @access	public
+ * @param	string
+ * @return	mixed
+ */
+if ( ! function_exists('set_checked'))
+{
+	function set_checked($field = '', $lookfor='')
+	{
+		if (FALSE === ($OBJ =& _get_validation_object()))
+		{
+			if ( ! isset($_POST[$field]))
+			{
+				return null;
+			}
+
+			if ($_POST[$field] == $lookfor) {
+				return " checked='checked' ";
+			}
+		}
+
+		if ($OBJ->set_value($field )== $lookfor) {
+				return " checked='checked' ";
+		}
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * Form Value, for select elements
+ *
+ * Grabs a value from the POST array for the specified field and
+ * if it matches $lookfor it returned 'selected="selected"'
+ *
+ * @access	public
+ * @param	string
+ * @return	mixed
+ */
+if ( ! function_exists('set_selected'))
+{
+	function set_selected($field = '', $lookfor='')
+	{
+		if (FALSE === ($OBJ =& _get_validation_object()))
+		{
+			if ( ! isset($_POST[$field]))
+			{
+				return null;
+			}
+
+			if ($_POST[$field] == $lookfor) {
+				return " selected='selected' ";
+			}
+		}
+
+		if ($OBJ->set_value($field )== $lookfor) {
+				return " selected='selected' ";
+		}
+	}
+}
+
 // ------------------------------------------------------------------------
 
 if ( ! function_exists('set_select'))

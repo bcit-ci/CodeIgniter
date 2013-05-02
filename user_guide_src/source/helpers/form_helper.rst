@@ -603,6 +603,26 @@ Example::
 
 The above form will show "0" when loaded for the first time.
 
+set_checked() and set_selected()
+================================
+
+.. php:function:: function set_checked($field = '', $lookfor='')
+.. php:function:: function set_selected($field = '', $lookfor='')
+
+    :param  string  $field: Field name
+    :param  string  $lookfor: If the value == this, return checked='checked' or selected='selected'
+
+Permits you to easily add selected='selected' to <option> elements, or checked='checked' 
+to <input> elements. 
+
+Example::
+
+    <input type='checkbox' name='color' value='red' <?=set_checked("color","red");?> />
+
+    <select name='color'>
+    <option value='red' <?=set_checked("color","red");?>>red</option>
+    </select>
+
 set_select()
 ============
 
