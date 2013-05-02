@@ -66,14 +66,23 @@
 			<property name="ignoreComments" value="true"/>
 		</properties>
 	</rule>
-
-	<!--<rule ref="Squiz.WhiteSpace.ScopeClosingBrace"/>-->
 	<rule ref="Squiz.ControlStructures.ForEachLoopDeclaration"/>
 	<rule ref="Squiz.ControlStructures.ForLoopDeclaration"/>
 	<rule ref="Squiz.ControlStructures.LowercaseDeclaration"/>
-
 	<!-- The keyword elseif SHOULD be used instead of else if so that all control keywords look like single words. -->
 	<rule ref="PSR2.ControlStructures.ElseIfDeclaration"/>
+
+	<!-- Naming conventions -->
+	<rule ref="CodeIgniter.NamingConventions.ValidFunctionName">
+		<properties>
+			<property name="forceUnderscore" value="true"/>
+		</properties>
+	</rule>
+	<rule ref="CodeIgniter.NamingConventions.ValidVariableName">
+		<properties>
+			<property name="forceUnderscore" value="true"/>
+		</properties>
+	</rule>
 
 	<!-- The PHP constants true, false, and null MUST be in lower case. -->
 	<rule ref="Generic.PHP.UpperCaseConstant"/>
