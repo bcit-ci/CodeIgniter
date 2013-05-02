@@ -38,6 +38,15 @@ Installation
 Please see the `installation section <http://codeigniter.com/user_guide/installation/index.html>`_
 of the CodeIgniter User Guide.
 
+*************
+Live Examples
+*************
+
+Run CodeIgniter examples live in your browser:
+
+.. image:: https://runnable.com/external/styles/assets/runnablebtn.png
+   :target: https://runnable.com/codeigniter
+
 *******
 License
 *******
