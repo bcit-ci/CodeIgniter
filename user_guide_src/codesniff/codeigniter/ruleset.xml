@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ruleset name="CodeIgniter">
+	<description>CodeIgniter coding standard as described at http://codeigniter.com/user_guide/general/styleguide.html</description>
+
+	<!-- Lines can be 150 chars long, but never show errors -->
+	<rule ref="Generic.Files.LineLength">
+		<properties>
+			<property name="lineLimit" value="150"/>
+			<property name="absoluteLineLimit" value="0"/>
+		</properties>
+	</rule>
+
+	<!-- Use Unix newlines -->
+	<rule ref="Generic.Files.LineEndings">
+		<properties>
+			<property name="eolChar" value="\n"/>
+		</properties>
+	</rule>
+
+	<!-- No ending tag -->
+	<rule ref="Zend.Files.ClosingTag"/>
+
+	<!-- One statement per line -->
+	<rule ref="Generic.Formatting.DisallowMultipleStatements"/>
+
+	<!-- PHP code MUST use the long <?php ?> tags or the short-echo <?= ?> tags; it MUST NOT use the other tag variations. -->
+	<!--
+	<rule ref="Generic.PHP.DisallowShortOpenTag.EchoFound">
+		<severity>0</severity>
+	</rule>
+	-->
+	<!-- PHP code MUST use the long <?php ?> tags only. -->
+	<rule ref="Generic.PHP.DisallowShortOpenTag">
+		<severity>0</severity>
+	</rule>
+
+	<!-- There MUST NOT be trailing whitespace at the end of non-blank lines. -->
+	<rule ref="Squiz.WhiteSpace.SuperfluousWhitespace">
+		<properties>
+			<property name="ignoreBlankLines" value="true"/>
+		</properties>
+	</rule>
+	<rule ref="Squiz.WhiteSpace.SuperfluousWhitespace.StartFile">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Squiz.WhiteSpace.SuperfluousWhitespace.EndFile">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Squiz.WhiteSpace.SuperfluousWhitespace.EmptyLines">
+		<severity>0</severity>
+	</rule>
+
+	<!-- Arrays -->
+	<rule ref="Squiz.Arrays.ArrayBracketSpacing" />
+
+	<!-- Debug -->
+	<rule ref="CodeIgniter.Debug.DebugCode">
+		<properties>
+			<property name="debugFunctions" type="array" value="print_r,var_dump,print,echo,die,exit" />
+		</properties>
+	</rule>
+
+	<!-- The general style rules for control structures -->
+	<rule ref="CodeIgniter.ControlStructures.ControlSignature">
+		<properties>
+			<property name="ignoreComments" value="true"/>
+		</properties>
+	</rule>
+
+	<!--<rule ref="Squiz.WhiteSpace.ScopeClosingBrace"/>-->
+	<rule ref="Squiz.ControlStructures.ForEachLoopDeclaration"/>
+	<rule ref="Squiz.ControlStructures.ForLoopDeclaration"/>
+	<rule ref="Squiz.ControlStructures.LowercaseDeclaration"/>
+
+	<!-- The keyword elseif SHOULD be used instead of else if so that all control keywords look like single words. -->
+	<rule ref="PSR2.ControlStructures.ElseIfDeclaration"/>
+
+	<!-- The PHP constants true, false, and null MUST be in lower case. -->
+	<rule ref="Generic.PHP.UpperCaseConstant"/>
+
+	<!-- Use Allman style indenting. With the exception of Class declarations,
+		braces are always placed on a line by themselves, and indented at the same level as the control statement that "owns" them.
+	-->
+	<rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman"/>
+	<rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
+
+	<!-- Must not use deprecated or forbidden functions -->
+	<rule ref="Generic.PHP.DeprecatedFunctions"/>
+	<rule ref="Generic.PHP.ForbiddenFunctions"/>
+
+	<rule ref="Squiz.Classes.SelfMemberReference"/>
+	<rule ref="PEAR.Formatting.MultiLineAssignment"/>
+	<rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
+	<rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+
+	<!-- Method arguments with default values MUST go at the end of the argument list. -->
+	<rule ref="PEAR.Functions.ValidDefaultValue"/>
+
+</ruleset>
