@@ -117,13 +117,20 @@ class CI_Plugins {
 			$plugins[$i]['instance'] = $tmp;
 			
 			$config = $this->_convert_name($plugins[$i]['name']).'_enabled';
-			if ($CFG->item($config) === FALSE)
+			if ($CFG->item($config) === FALSE) // When the Plugin is not installed, there is no config item
 			{
+				// Create a config item
 				$new_value = ($CFG->item('plugin_default_status') === TRUE) ? 'Yes' : 'No';
 				$filename = APPPATH.'config/plugins.php';
 				$content = file_get_contents($filename);
 				$content .= "\n\$config['".$config."'] = '".$new_value."';\n";
 				file_put_contents($filename, $content);
+				
+				// Tell the Plugin it is newly installed
+				if (method_exists($tmp, 'on_install'))
+				{
+					$tmp->on_install();
+				}
 			}
 			$plugins[$i]['disabled'] = ($CFG->item($config) === 'Yes') ? TRUE : FALSE;
 			
