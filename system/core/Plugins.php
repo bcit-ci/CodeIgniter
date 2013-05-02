@@ -158,6 +158,44 @@ class CI_Plugins {
 	}
 	
 	/*
+	 * Deletes a Plugin completely (And removes its folder)
+	 * 
+	 * @param string $ID ID of the Plugin
+	 * @return void
+	 */
+	
+	public function uninstall_plugin ($ID) {
+		foreach ($this->plugins as $plugin)
+		{
+			// If the Plugin ID matches the ID to delete
+			if ($plugin['ID'] == $ID)
+			{
+				$instance =& $plugin['instance'];
+				
+				// Plugin should remove data it has created when it gets uninstalled
+				if (method_exists($instance, 'on_uninstall'))
+				{
+					$instance->on_uninstall();
+				}
+				
+				$dir = 'plugins/'.$plugin['directory'];
+				$handle = opendir($dir);
+				while($file = readdir($handle)) {
+					if ($file != '.' && $file != '..') {
+						if (!is_dir($dir.'/'.$file))
+						{
+							unlink($dir.'/'.$file);		
+						} else {
+							delete_directory($dir.'/'.$file);
+						}
+					}
+				}
+				rmdir($dir);
+			}
+		}
+	}
+	
+	/*
 	 * Set's the status of a plugin
 	 * 
 	 * @param string $ID ID of the Plugin
