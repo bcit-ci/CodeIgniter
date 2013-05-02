@@ -124,10 +124,8 @@ class CI_Plugins {
 				$content = file_get_contents($filename);
 				$content .= "\n\$config['".$config."'] = '".$new_value."';\n";
 				file_put_contents($filename, $content);
-			} else
-			{
-				$plugins[$i]['disabled'] = ($CFG->item($config) === 'Yes') ? TRUE : FALSE;
 			}
+			$plugins[$i]['disabled'] = ($CFG->item($config) === 'Yes') ? TRUE : FALSE;
 			
 			$tmp = NULL;
 			$i++;
@@ -172,6 +170,12 @@ class CI_Plugins {
 	 */
 	public function set_plugin_disabled($name, $status)
 	{
+		$CFG =& load_class('Config', 'core');
+		$CFG->load('plugins');
+		if ($CFG->item('enable_plugin_system') === FALSE)
+		{
+			return;
+		}
 		$value = ($status == TRUE) ? 'No' : 'Yes';
 		$config = file_get_contents(APPPATH.'config/plugins.php');
 		$config = preg_replace('/\[(?:\'|\")'.$name.'_enabled(?:\'|\")\]\s*=\s*(\'|\")(.*)\\1;/', "['".$name."_enabled'] = '".$value."';", $config);
@@ -185,6 +189,12 @@ class CI_Plugins {
 	 */
 	public function get_plugins()
 	{
+		$CFG =& load_class('Config', 'core');
+		$CFG->load('plugins');
+		if ($CFG->item('enable_plugin_system') === FALSE)
+		{
+			return;
+		}
 		return $this->plugins;
 	}
 	
