@@ -5,6 +5,7 @@ class Test {
 	public function get_information() {
 		return array(
 		    'name' => 'Test Plugin',
+		    'ID' => 'test_plugin',
 		    'description' => 'This is a test description',
 		    'author' => 'hice3000',
 		    'version' => 0

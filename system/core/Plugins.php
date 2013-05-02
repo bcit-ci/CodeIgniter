@@ -9,13 +9,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author hice3000
  */
 class CI_Plugins {
-
-	/*
-	 * Are plugins loaded?
-	 * 
-	 * @var bool
-	 */
-	var $plugins_loaded;
 	
 	/*
 	 * List of installed version with basic information
@@ -109,14 +102,24 @@ class CI_Plugins {
 		$i = 0;
 		foreach ($plugin_folders as $folder)
 		{
+			$plugins[$i] = array();
+			
 			// Require the Plugin file
 			require 'plugins/'.$folder.'/'.$folder.'.php';
 			$tmp = new $folder();
-			$plugins[$i] = $tmp->get_information();
+			$info = $tmp->get_information();
+			if (array_key_exists('ID', $info)) // The ID has to exist!
+			{
+				$plugins[$i] = array_merge($plugins[$i], $info);
+			} else
+			{
+				log_message('error', 'Plugin \''.$folder.'\' has not defined an ID!');
+				continue;
+			}
 			$plugins[$i]['directory'] = $folder;
 			$plugins[$i]['instance'] = $tmp;
 			
-			$config = $this->_convert_name($plugins[$i]['name']).'_enabled';
+			$config = $plugins[$i]['ID'].'_enabled';
 			if ($CFG->item($config) === FALSE) // When the Plugin is not installed, there is no config item
 			{
 				// Create a config item
@@ -126,7 +129,7 @@ class CI_Plugins {
 				$content .= "\n\$config['".$config."'] = '".$new_value."';\n";
 				file_put_contents($filename, $content);
 				
-				// Tell the Plugin it is newly installed
+				// Tell the Plugin it is installed
 				if (method_exists($tmp, 'on_install'))
 				{
 					$tmp->on_install();
@@ -141,20 +144,6 @@ class CI_Plugins {
 		
 		$this->plugins = $plugins;
 		$BM->mark('load_plugins_end');
-	}
-
-	/*
-	 * Internal function to create a plugin's singular from its name
-	 * 
-	 * @param string $name Name of the Plugin
-	 * @return string singular of the Plugin
-	 */
-	protected function _convert_name($name)
-	{
-		$tmp =  str_replace(array(
-		    ' ', ':', '/', ',', '\'', ';', '\\'
-		), '_', $name);
-		return strtolower($tmp);
 	}
 	
 	protected function _register_hooks()
@@ -171,11 +160,11 @@ class CI_Plugins {
 	/*
 	 * Set's the status of a plugin
 	 * 
-	 * @param string $name Singular of the Plugin
+	 * @param string $ID ID of the Plugin
 	 * @param string $status 'Yes' or 'No'
 	 * @return void
 	 */
-	public function set_plugin_disabled($name, $status)
+	public function set_plugin_disabled($ID, $status)
 	{
 		$CFG =& load_class('Config', 'core');
 		$CFG->load('plugins');
@@ -185,7 +174,7 @@ class CI_Plugins {
 		}
 		$value = ($status == TRUE) ? 'No' : 'Yes';
 		$config = file_get_contents(APPPATH.'config/plugins.php');
-		$config = preg_replace('/\[(?:\'|\")'.$name.'_enabled(?:\'|\")\]\s*=\s*(\'|\")(.*)\\1;/', "['".$name."_enabled'] = '".$value."';", $config);
+		$config = preg_replace('/\[(?:\'|\")'.$ID.'_enabled(?:\'|\")\]\s*=\s*(\'|\")(.*)\\1;/', "['".$ID."_enabled'] = '".$value."';", $config);
 		file_put_contents(APPPATH.'config/plugins.php', $config);
 	}
 	
