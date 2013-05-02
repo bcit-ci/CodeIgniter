@@ -281,6 +281,7 @@ Release Date: Not Released
 	 -  Added support for timestamp-based migrations (enabled by default).
 	 -  Added ``$config['migration_type']`` to allow switching between *sequential* and *timestamp* migrations.
    -  :doc:`User Agent Library <libraries/user_agent>` will now check if robots are pretending to be mobile clients (helps with e.g. Google indexing mobile website versions).
+   -  :doc:`MongoDB Library <libraries/mongo_db>` added for working with MongoDB databases.
 
 -  Core
 
