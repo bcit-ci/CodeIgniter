@@ -27,7 +27,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * CodeIgniter MongoDB Class
+ * CodeIgniter Mongo_db Class
  *
  * A library to interface with the NoSQL database MongoDB. For more information see http://www.mongodb.org
  *
@@ -51,14 +51,14 @@ class Mongo_db {
 	 *
 	 * @var	MongoException
 	 */
-	protected $_last_error			= FALSE;
+	protected $_last_error			= NULL;
 
 	/**
 	 * The cursor object to the last query
 	 *
 	 * @var	MongoCursor
 	 */
-	protected $_cursor				= FALSE;
+	protected $_cursor				= NULL;
 
 	/**
 	 * MongoId of the last inserted document
@@ -161,14 +161,14 @@ class Mongo_db {
 	 *
 	 * @var MongoClient
 	 */
-	public $conn_id			= FALSE;
+	public $conn_id			= NULL;
 
 	/**
 	 * Connection object to current database
 	 *
 	 * @var string
 	 */
-	public $db				= FALSE;
+	public $db				= NULL;
 
 	/**
 	 * Constructor - Sets Email Preferences
@@ -251,11 +251,13 @@ class Mongo_db {
 		try
 		{
 			if (empty($this->dsn))
+			{
 				$this->build_dsn();
-			$this->conn_id = new Mongo($this->dsn, array(
-				'w' => $this->options['write_concern'],
-				'wTimeout' => $this->options['timeout']
-			));
+				$this->conn_id = new Mongo($this->dsn, array(
+					'w' => $this->options['write_concern'],
+					'wTimeout' => $this->options['timeout']
+				));
+			}
 			$this->db = $this->conn_id->{$this->database};
 			return $this;
 		}
@@ -333,7 +335,7 @@ class Mongo_db {
 	{
 		return (is_object($this->_last_error))
 			? $this->_last_error->getMessage()
-			: "";
+			: NULL;
 	}
 
 	/**
@@ -345,7 +347,7 @@ class Mongo_db {
 	{
 		return (is_object($this->_last_error))
 			? $this->_last_error->getCode()
-			: 0;
+			: NULL;
 	}
 
 	/**
@@ -477,9 +479,13 @@ class Mongo_db {
 				$this->_update_option('timeout', $options);
 
 				if ($collection !== FALSE)
+				{
 					return $this->db->selectCollection($collection)->command($command, $options);
+				}
 				else
+				{
 					return $this->db->command($command, $options);
+				}
 			}
 			catch (Exception $e)
 			{
@@ -685,9 +691,11 @@ class Mongo_db {
 				if ($r =  call_user_func_array(array($this->db->selectCollection($collection), 'aggregate'), $params))
 				{
 					if ($r['ok'])
+					{
 						return ($doc = $r['result']) && $this->result_set === 'object'
 							? (object)$doc
 							: $doc;
+					}
 				}
 				return FALSE;
 			}
@@ -921,7 +929,9 @@ class Mongo_db {
 				{
 					$this->_affected_documents = $r['ok'] ? 1 : 0;
 					if (isset($data['_id']))
+					{
 						$this->_insert_id = (string)$data['_id'];
+					}
 				}
 				return $r;
 			}
@@ -961,10 +971,14 @@ class Mongo_db {
 				{
 					$this->_affected_documents = $r['n'];
 					if (isset($r['upserted']))
+					{
 						$this->_insert_id = $r['upserted'];
+					}
 
 					if (isset($r['updatedExisting']))
+					{
 						$this->_updated_existing = $r['updatedExisting'];
+					}
 				}
 				return $r;
 			}
@@ -1003,10 +1017,14 @@ class Mongo_db {
 				{
 					$this->_affected_documents = $r['n'];
 					if (isset($r['upserted']))
+					{
 						$this->_insert_id = $r['upserted'];
+					}
 
 					if (isset($r['updatedExisting']))
+					{
 						$this->_updated_existing = $r['updatedExisting'];
+					}
 				}
 				return $r;
 			}
