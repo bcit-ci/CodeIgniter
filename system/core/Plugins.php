@@ -33,8 +33,13 @@ class CI_Plugins {
 			return;
 		}
 		
+		$BM =& load_class('Benchmark', 'core');
+		$BM->mark('load_plugins_start');
+		
 		$this->_load_plugins();
 		$this->_register_hooks();
+		
+		$BM->mark('load_plugins_end');
 		
 		log_message('debug', 'Plugin System initialized');
 
@@ -81,10 +86,7 @@ class CI_Plugins {
 	}
 	
 	protected function _load_plugins()
-	{
-		$BM =& load_class('Benchmark', 'core');
-		$BM->mark('load_plugins_start');
-		
+	{	
 		$CFG =& load_class('Config', 'core');
 		
 		$plugin_folders = array();
@@ -134,6 +136,8 @@ class CI_Plugins {
 				{
 					$tmp->on_install();
 				}
+				
+				log_message('debug', 'Plugin \''.$plugins[$i]['name'].'\' was installed.');
 			}
 			$plugins[$i]['disabled'] = ($CFG->item($config) === 'Yes') ? TRUE : FALSE;
 			
@@ -143,7 +147,6 @@ class CI_Plugins {
 		
 		
 		$this->plugins = $plugins;
-		$BM->mark('load_plugins_end');
 	}
 	
 	protected function _register_hooks()
@@ -180,12 +183,15 @@ class CI_Plugins {
 				
 				$dir = 'plugins/'.$plugin['directory'];
 				$handle = opendir($dir);
-				while($file = readdir($handle)) {
-					if ($file != '.' && $file != '..') {
+				while($file = readdir($handle))
+				{
+					if ($file != '.' && $file != '..') 
+					{
 						if (!is_dir($dir.'/'.$file))
 						{
 							unlink($dir.'/'.$file);		
-						} else {
+						} else
+						{
 							delete_directory($dir.'/'.$file);
 						}
 					}
