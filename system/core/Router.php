@@ -259,11 +259,13 @@ class CI_Router {
 			return $segments;
 		}
 
+		// Set the directory and remove it from the segment array
+		while (is_dir(APPPATH.'controllers/'.$this->directory.$segments[0]))
+			$this->append_directory(array_shift($segments));
+
 		// Is the controller in a sub-folder?
-		if (is_dir(APPPATH.'controllers/'.$segments[0]))
+		if (!empty($this->directory))
 		{
-			// Set the directory and remove it from the segment array
-			$this->set_directory(array_shift($segments));
 			if (count($segments) > 0)
 			{
 				$segments[0] = str_replace('-', '_', $segments[0]);
@@ -450,6 +452,19 @@ class CI_Router {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Append sub-directory to controller path 
+	 *
+	 * @param	string	$dir	Directory name
+	 * @return	void
+	 */
+	public function append_directory($dir)
+	{
+		$this->directory .= str_replace(array('/', '.'), '', $dir).'/';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Set directory name
 	 *
 	 * @param	string	$dir	Directory name
@@ -459,7 +474,7 @@ class CI_Router {
 	{
 		$this->directory = str_replace(array('/', '.'), '', $dir).'/';
 	}
-
+	
 	// --------------------------------------------------------------------
 
 	/**
