@@ -22,13 +22,19 @@ class Config_test extends CI_TestCase {
 	public function test_item()
 	{
 		$this->assertEquals($this->cfg['base_url'], $this->config->item('base_url'));
+		$this->assertEquals($this->cfg['base_url'], $this->config['base_url']);
 
 		// Bad Config value
 		$this->assertFalse($this->config->item('no_good_item'));
+		$this->assertNull($this->config['no_good_item']);
 
 		// Index
 		$this->assertFalse($this->config->item('no_good_item', 'bad_index'));
 		$this->assertFalse($this->config->item('no_good_item', 'default'));
+		
+		// this should print a php notice: undefined index
+		$this->assertNull($this->config['no_good_item']['bad_index']);
+		$this->assertNull($this->config['no_good_item']['default']);
 	}
 
 	// --------------------------------------------------------------------
@@ -36,9 +42,14 @@ class Config_test extends CI_TestCase {
 	public function test_set_item()
 	{
 		$this->assertFalse($this->config->item('not_yet_set'));
+		$this->assertNull($this->config['not_yet_set']);
 
 		$this->config->set_item('not_yet_set', 'is set');
 		$this->assertEquals('is set', $this->config->item('not_yet_set'));
+		
+		// test for ArrayAccess
+		$this->config['not_yet_set_ArrayAccess'] = 'is set';
+		$this->assertEquals('is set', $this->config['not_yet_set_ArrayAccess']);
 	}
 
 	// --------------------------------------------------------------------
