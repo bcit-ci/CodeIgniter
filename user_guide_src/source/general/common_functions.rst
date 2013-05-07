@@ -100,11 +100,11 @@ please see the :doc:`Error Handling <errors>` documentation.
 log_message()
 =============
 
-.. php:function:: log_message($level = 'error', $message, $php_error = FALSE)
+.. php:function:: log_message($level, $message, $php_error = FALSE)
 
-	:param	string	$level: Log level
+	:param	string	$level: Log level: 'error', 'debug' or 'info'
 	:param	string	$message: Message to log
-	:param	bool	$php_error: Whether we're loggin a native PHP error message
+	:param	bool	$php_error: Whether we're logging a native PHP error message
 	:returns:	void
 
 This function is an alias for ``CI_Log::write_log()``. For more info,
