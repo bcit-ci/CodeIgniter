@@ -331,7 +331,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * ------------------------------------------------------
  */
 	$EXT->call_hook('pre_controller');
-	$PM->fire('system.post_controller', array());
+	$PM->fire('system.pre_controller', array());
 
 /*
  * ------------------------------------------------------
