@@ -214,7 +214,9 @@ Here is an example::
 		echo $output;
 	}
 
-.. note:: Please note that your ``_output()`` method will receive the
+.. note::
+
+	Please note that your ``_output()`` method will receive the
 	data in its finalized state. Benchmark and memory usage data
 	will be rendered, cache files written (if you have caching
 	enabled), and headers will be sent (if you use that
