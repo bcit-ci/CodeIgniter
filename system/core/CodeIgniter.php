@@ -115,7 +115,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * ------------------------------------------------------
  */
 	$EXT =& load_class('Hooks', 'core');
-
+	$PM =& load_class('Plugins', 'core');
+	
 /*
  * ------------------------------------------------------
  *  Is there a "pre_system" hook?
@@ -330,6 +331,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * ------------------------------------------------------
  */
 	$EXT->call_hook('pre_controller');
+	$PM->fire('system.pre_controller', array());
 
 /*
  * ------------------------------------------------------
@@ -364,6 +366,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * ------------------------------------------------------
  */
 	$EXT->call_hook('post_controller');
+	$PM->fire('system.post_controller');
 
 /*
  * ------------------------------------------------------
