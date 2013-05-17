@@ -704,7 +704,7 @@ abstract class CI_DB_driver {
 	{
 		$driver = 'CI_DB_'.$this->dbdriver.'_result';
 
-		if ( ! class_exists($driver))
+		if ( ! class_exists($driver, FALSE))
 		{
 			include_once(BASEPATH.'database/DB_result.php');
 			include_once(BASEPATH.'database/drivers/'.$this->dbdriver.'/'.$this->dbdriver.'_result.php');
