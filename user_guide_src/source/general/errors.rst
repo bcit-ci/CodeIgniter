@@ -77,11 +77,11 @@ optional second parameter to FALSE will skip logging.
 log_message()
 =============
 
-.. php:function:: log_message($level = 'error', $message, $php_error = FALSE)
+.. php:function:: log_message($level, $message, $php_error = FALSE)
 
-	:param	string	$level: Log level
+	:param	string	$level: Log level: 'error', 'debug' or 'info'
 	:param	string	$message: Message to log
-	:param	bool	$php_error: Whether we're loggin a native PHP error message
+	:param	bool	$php_error: Whether we're logging a native PHP error message
 	:returns:	void
 
 This function lets you write messages to your log files. You must supply
