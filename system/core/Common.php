@@ -424,12 +424,12 @@ if ( ! function_exists('log_message'))
 	 * We use this as a simple mechanism to access the logging
 	 * class and send messages to be logged.
 	 *
-	 * @param	string
-	 * @param	string
-	 * @param	bool
+	 * @param	string	the error level: 'error', 'debug' or 'info'
+	 * @param	string	the error message
+	 * @param	bool	whether the error is a native PHP error
 	 * @return	void
 	 */
-	function log_message($level = 'error', $message, $php_error = FALSE)
+	function log_message($level, $message, $php_error = FALSE)
 	{
 		static $_log, $_log_threshold;
 
