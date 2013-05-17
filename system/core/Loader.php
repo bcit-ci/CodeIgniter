@@ -713,7 +713,7 @@ class CI_Loader {
 	 *
 	 * Return a list of all package paths.
 	 *
-	 * @param	bool	$include_base	Whether to include BASEPATH (default: TRUE)
+	 * @param	bool	$include_base	Whether to include BASEPATH (default: FALSE)
 	 * @return	array
 	 */
 	public function get_package_paths($include_base = FALSE)
