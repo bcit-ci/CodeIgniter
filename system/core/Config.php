@@ -184,16 +184,16 @@ class CI_Config {
 	 *
 	 * @param	string	$item	Config item name
 	 * @param	string	$index	Index name
-	 * @return	string|bool	The configuration item or FALSE on failure
+	 * @return	string|bool	The configuration item or NULL on failure
 	 */
 	public function item($item, $index = '')
 	{
 		if ($index == '')
 		{
-			return isset($this->config[$item]) ? $this->config[$item] : FALSE;
+			return isset($this->config[$item]) ? $this->config[$item] : NULL;
 		}
 
-		return isset($this->config[$index], $this->config[$index][$item]) ? $this->config[$index][$item] : FALSE;
+		return isset($this->config[$index], $this->config[$index][$item]) ? $this->config[$index][$item] : NULL;
 	}
 
 	// --------------------------------------------------------------------
