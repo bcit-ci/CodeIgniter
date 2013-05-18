@@ -264,7 +264,7 @@ class CI_Profiler {
 				foreach ($db->queries as $key => $val)
 				{
 					$time = number_format($db->query_times[$key], 4);
-					$val = highlight_code($val, ENT_QUOTES);
+					$val = highlight_code($val);
 
 					foreach ($highlight as $bold)
 					{
