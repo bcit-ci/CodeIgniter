@@ -923,7 +923,6 @@ class CI_Jquery extends CI_Javascript {
 		if (is_array($js))
 		{
 			$js = implode("\n\t\t", $js);
-
 		}
 
 		$event = "\n\t$(".$this->_prep_element($element).').'.$event."(function(){\n\t\t{$js}\n\t});\n";
@@ -937,7 +936,7 @@ class CI_Jquery extends CI_Javascript {
 	 * Compile
 	 *
 	 * As events are specified, they are stored in an array
-	 * This funciton compiles them all for output on a page
+	 * This function compiles them all for output on a page
 	 *
 	 * @param	string	$view_var
 	 * @param	bool	$script_tags
