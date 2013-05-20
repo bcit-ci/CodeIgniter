@@ -196,7 +196,7 @@ class CI_Cache_memcached extends CI_Driver {
 			return FALSE;
 		}
 
-		foreach ($this->_memcache_conf as $name => $cache_server)
+		foreach ($this->_memcache_conf as $cache_server)
 		{
 			if ( ! array_key_exists('hostname', $cache_server))
 			{
