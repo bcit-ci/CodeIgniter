@@ -720,7 +720,7 @@ class CI_URI {
 	{
 		global $RTR;
 
-		if (($dir = $RTR->fetch_directory()) === '/')
+		if (($dir = $RTR->directory) === '/')
 		{
 			$dir = '';
 		}

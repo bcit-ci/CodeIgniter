@@ -658,7 +658,7 @@ class CI_Loader {
 			return FALSE;
 		}
 
-		if ( ! class_exists('CI_Driver_Library'))
+		if ( ! class_exists('CI_Driver_Library', FALSE))
 		{
 			// We aren't instantiating an object here, just making the base class available
 			require BASEPATH.'libraries/Driver.php';
@@ -713,7 +713,7 @@ class CI_Loader {
 	 *
 	 * Return a list of all package paths.
 	 *
-	 * @param	bool	$include_base	Whether to include BASEPATH (default: TRUE)
+	 * @param	bool	$include_base	Whether to include BASEPATH (default: FALSE)
 	 * @return	array
 	 */
 	public function get_package_paths($include_base = FALSE)
