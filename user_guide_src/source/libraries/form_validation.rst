@@ -1052,8 +1052,10 @@ set_select()
 If you use a <select> menu, this function permits you to display the
 menu item that was selected. The first parameter must contain the name
 of the select menu, the second parameter must contain the value of each
-item, and the third (optional) parameter lets you set an item as the
-default (use boolean TRUE/FALSE).
+item, the third (optional) parameter lets you set an item as the
+default (use boolean TRUE/FALSE), and the fourth (optional) parameter 
+lets you set an array key when using arrays as field names (see below 
+for an explanation).
 
 Example::
 
@@ -1061,6 +1063,41 @@ Example::
 	<option value="one" <?php echo set_select('myselect', 'one', TRUE); ?> >One</option>
 	<option value="two" <?php echo set_select('myselect', 'two'); ?> >Two</option>
 	<option value="three" <?php echo set_select('myselect', 'three'); ?> >Three</option>
+	</select>
+
+The fourth optional paramter allows set_select() to be used with arrays as field 
+names. The POST-array from a "select" menu with an array as field name looks like 
+this:
+
+	array(
+		[0] => 'value1',
+		[1] => 'value2',
+		[2] => 'value3',
+		[3] => 'value4'
+	);
+
+Key 0 contains the selected value from the first "select" menu, key 1 the second, and 
+so on. Without some extra information the :php:func:`set_select()` function will not 
+know which key to use for the re-population. You can pass an integer as a fourth 
+parameter to the :php:func:`set_select()` function. This integer equals a POST-array 
+key.
+
+Example::
+
+First select menu, equals with POST-array key 0, so 0 is passed as fourth parameter.
+
+	<select name="myselect">
+		<option value="one" <?php echo  set_select('myselect', 'one', TRUE, 0); ?> >One</option>
+		<option value="two" <?php echo  set_select('myselect', 'two', FALSE, 0); ?> >Two</option>
+		<option value="three" <?php echo  set_select('myselect', 'three', FALSE, 0); ?> >Three</option>
+	</select>
+
+Second select menu, equals with POST-array key 1, so 1 is passed as fourth parameter.
+
+	<select name="myselect">
+		<option value="one" <?php echo  set_select('myselect', 'one', TRUE, 1); ?> >One</option>
+		<option value="two" <?php echo  set_select('myselect', 'two', FALSE, 1); ?> >Two</option>
+		<option value="three" <?php echo  set_select('myselect', 'three', FALSE, 1); ?> >Three</option>
 	</select>
 
 set_checkbox()
