@@ -887,8 +887,8 @@ class CI_Form_validation {
 	 *
 	 * @param	string
 	 * @param	string
-     * @param   int
 	 * @param	bool
+     * @param   int
 	 * @return	string
 	 */   
 	function set_select($field = '', $value = '', $default = FALSE, $id = '')
