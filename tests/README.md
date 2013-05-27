@@ -17,6 +17,7 @@ format to facilitate clean api design. [see http://arrenbrecht.ch/testing/]
 PHP Unit >= 3.5.6
 
 	pear channel-discover pear.phpunit.de
+	pear channel-discover pear.symfony.com
 	pear install phpunit/PHPUnit
 
 vfsStream
