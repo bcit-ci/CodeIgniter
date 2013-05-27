@@ -147,6 +147,9 @@ class Loader_test extends CI_TestCase {
 
 	public function test_driver()
 	{
+		// Call the autoloader, to include system/libraries/Driver.php
+		class_exists('CI_Driver_Library', TRUE);
+
 		// Create driver in VFS
 		$driver = 'unit_test_driver';
 		$dir = ucfirst($driver);
