@@ -779,5 +779,116 @@ if ( ! function_exists('date_range'))
 	}
 }
 
+//------------------------------------------------------------------------------
+/**
+	 * date_count
+	 *
+	 * Returns time elapsed between now and a previous date given in the argument. This is a helper function
+	 * Returns time like "2 months ago", "18 days ago" etc etc
+	 *
+	 * @param	string	$date_mysql_format
+	 * @return	string
+	 */
+if ( ! function_exists('date_count'))
+{
+	function date_count($date_mysql_format)
+	{
+	    $now = time(); 
+            $your_date = strtotime($date_mysql_format);
+            $datediff = $now - $your_date;
+            $output= floor($datediff/(60*60*24));
+
+            if($output >365 ) // an year has passed
+            {
+                $output= $output /365;
+                return floor($output) . " years ago";
+            }
+            elseif($output==0){
+                return "Today";
+            }
+            elseif ($output >30) // month has passed
+            {
+                $output= $output /30;
+                return ceil($output) . " months ago";
+            }
+            else
+            {
+                return $output. " days ago";
+            }
+	}
+}
+
+//------------------------------------------------------------------------------
+/**
+	 * countdown
+	 *
+	 * Returns time left between now and an event that is about to occur. This is a helper function
+	 * If the event is today the function will return today
+	 * If the event has passed it will return passed 
+	 
+	 *
+	 * @param	string	$evt_date
+	 * @return	string
+	 */
+	 
+if ( ! function_exists('countdown'))
+{
+    function countdown($evt_date)
+    {
+        $date_arr= explode('-', $evt_date);
+        $day= $date_arr[2];
+        $month= $date_arr[1];
+        $year= $date_arr[0];
+        $remain = ceil( ( mktime( 0,0,0,$month,$day,$year ) - time() ) / 86400 );
+        if($remain >0)
+        {
+        return '<strong>'.$remain .'</strong>'.' Days Remaining';
+        }
+        else if($remain==0)
+        {
+            return "<strong>Day of Event </strong>";
+        }
+        else
+        {
+            return "<strong>Date Passed</strong>";
+        }
+        
+    }
+    
+} 
+
+//------------------------------------------------------------------------------
+/**
+	 * human_date
+	 *
+	 * Returns a dd-mm-yyyy date into human readable dates like 12 April 2013 . This is a helper function
+	  
+	 
+	 *
+	 * @param	string	$date
+	 * @return	string
+	 */
+	 
+if ( ! function_exists('human_date'))
+{
+    function human_date($date)
+    {
+        $date_arr= explode('-', $date);
+        $day= $date_arr[2];
+        $month= $date_arr[1];
+        $year= $date_arr[0];
+        
+        $month_names = array("January","February","March","April","May","June","July","August","September","October","November","December");
+        $month= $month *1;
+        if($month >1)
+        {
+            $month= $month-1;
+        }
+        $month= $month_names[$month];
+        
+        return $day." ".$month.", ".$year;
+    }
+} 
+
 /* End of file date_helper.php */
 /* Location: ./system/helpers/date_helper.php */
