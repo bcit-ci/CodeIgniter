@@ -75,6 +75,15 @@ disable error logging, in case you're not sure if the line exists::
 
 .. note:: This method simply returns the line. It does not echo it.
 
+Retrieving all fetched lines
+----------------------------
+When you need to get all the lines from the files you loaded, you can
+use this one::
+
+      $this->lang->all_lines();
+
+It'll return an array with all language variables you loaded previously.
+
 Using language lines as form labels
 -----------------------------------
 
