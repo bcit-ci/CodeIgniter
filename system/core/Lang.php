@@ -178,6 +178,18 @@ class CI_Lang {
 
 		return $value;
 	}
+	
+	/*
+	 * Get all fetched lines
+	 * 
+	 * @author hice3000
+	 * 
+	 * @return array Translations
+	 */
+	public function all_lines()
+	{
+	      return $this->language;
+	}
 
 }
 
