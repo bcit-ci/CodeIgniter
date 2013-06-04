@@ -304,7 +304,7 @@ class CI_Session extends CI_Driver_Library {
 		{
 			foreach ($newdata as $key => $val)
 			{
-				$val = str_replace("\r", "", $val);
+				$val = str_replace("\r", "\n", $val);
 				$this->userdata[$key] = $val;
 			}
 		}
