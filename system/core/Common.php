@@ -345,9 +345,17 @@ if ( ! function_exists('is_https'))
 	 * @return	bool
 	 */
 	function is_https()
-	{
-		return (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) === 'on');
-	}
+    {
+        if(isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) === 'on'){
+            return True;
+        }elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https'){
+            return True;
+        }elseif (isset($_SERVER['HTTP_FRONT_END_HTTPS']) && $_SERVER['HTTP_FRONT_END_HTTPS'] == 'on'){
+            return True;
+        }else{
+            return False
+        }
+    }
 }
 
 // ------------------------------------------------------------------------
