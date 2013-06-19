@@ -347,13 +347,13 @@ if ( ! function_exists('is_https'))
 	function is_https()
     {
         if(isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) === 'on'){
-            return True;
+            return TRUE;
         }elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https'){
-            return True;
+            return TRUE;
         }elseif (isset($_SERVER['HTTP_FRONT_END_HTTPS']) && $_SERVER['HTTP_FRONT_END_HTTPS'] == 'on'){
-            return True;
+            return TRUE;
         }else{
-            return False
+            return FALSE;
         }
     }
 }
