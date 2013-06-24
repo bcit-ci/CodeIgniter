@@ -136,16 +136,16 @@ if ( ! function_exists('create_captcha'))
 		//  Assign colors
 		// ----------------------------------
 
-        // Find out if there was one color missing
-        $one_color_missing = ! isset(
-            $colors['bg_color'],
-            $colors['border_color'],
-            $colors['text_color'],
-            $colors['grid_color'],
-            $colors['shadow_color']
-        );
+		// Find out if there was one color missing
+		$one_color_missing = ! isset(
+			$colors['bg_color'],
+			$colors['border_color'],
+			$colors['text_color'],
+			$colors['grid_color'],
+			$colors['shadow_color']
+		);
 
-        // Default colors if needed
+		// Default colors if needed
 		if ( ! is_array($colors) OR $one_color_missing)
 		{
 			$colors = array(
@@ -156,7 +156,7 @@ if ( ! function_exists('create_captcha'))
 				'shadow_color'  => array(255, 240, 240),
 			);
 		}
-        
+
 		$bg_color	    = imagecolorallocate($im, $colors['bg_color'][0], $colors['bg_color'][1], $colors['bg_color'][2]);
 		$border_color	= imagecolorallocate($im, $colors['border_color'][0], $colors['border_color'][1], $colors['border_color'][2]);
 		$text_color	    = imagecolorallocate($im, $colors['text_color'][0], $colors['text_color'][1], $colors['text_color'][2]);
