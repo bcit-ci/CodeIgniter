@@ -53,16 +53,16 @@ if ( ! function_exists('create_captcha'))
 	function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = '', $colors = NULL)
 	{
 		$defaults = array(
-			'word' => '',
-			'img_path' => '',
-			'img_url' => '',
-			'img_width' => '150',
-			'img_height' => '30',
-			'font_path' => '',
-			'expiration' => 7200,
-			'word_length' => 8,
-			'pool' => '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
-			'colors' => NULL
+			'word'          => '',
+			'img_path'      => '',
+			'img_url'       => '',
+			'img_width'     => '150',
+			'img_height'    => '30',
+			'font_path'     => '',
+			'expiration'    => 7200,
+			'word_length'   => 8,
+			'pool'          => '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+			'colors'        => NULL
 		);
 
 		foreach ($defaults as $key => $val)
@@ -134,21 +134,33 @@ if ( ! function_exists('create_captcha'))
 
 		// -----------------------------------
 		//  Assign colors
-		// -----------------------------------
-		if(!is_array($colors))
+		// ----------------------------------
+
+        // Find out if there was one color missing
+        $one_color_missing = ! isset(
+            $colors['bg_color'],
+            $colors['border_color'],
+            $colors['text_color'],
+            $colors['grid_color'],
+            $colors['shadow_color']
+        );
+
+        // Default colors if needed
+		if ( ! is_array($colors) OR $one_color_missing)
 		{
 			$colors = array(
-				'bg_color' => array(255,255,255),
-				'border_color' => array(153,102,102),
-				'text_color' => array(204,153,153),
-				'grid_color' => array(255,182,182),
-				'shadow_color' => array(255, 240, 240),
+				'bg_color'      => array(255,255,255),
+				'border_color'  => array(153,102,102),
+				'text_color'    => array(204,153,153),
+				'grid_color'    => array(255,182,182),
+				'shadow_color'  => array(255, 240, 240),
 			);
 		}
-		$bg_color	= imagecolorallocate($im, $colors['bg_color'][0], $colors['bg_color'][1], $colors['bg_color'][2]);
+        
+		$bg_color	    = imagecolorallocate($im, $colors['bg_color'][0], $colors['bg_color'][1], $colors['bg_color'][2]);
 		$border_color	= imagecolorallocate($im, $colors['border_color'][0], $colors['border_color'][1], $colors['border_color'][2]);
-		$text_color	= imagecolorallocate($im, $colors['text_color'][0], $colors['text_color'][1], $colors['text_color'][2]);
-		$grid_color	= imagecolorallocate($im, $colors['grid_color'][0], $colors['grid_color'][1], $colors['grid_color'][2]);
+		$text_color	    = imagecolorallocate($im, $colors['text_color'][0], $colors['text_color'][1], $colors['text_color'][2]);
+		$grid_color	    = imagecolorallocate($im, $colors['grid_color'][0], $colors['grid_color'][1], $colors['grid_color'][2]);
 		$shadow_color	= imagecolorallocate($im, $colors['shadow_color'][0], $colors['shadow_color'][1], $colors['shadow_color'][2]);
 
 		//  Create the rectangle

@@ -92,7 +92,7 @@ Once loaded you can generate a captcha like this::
    in the captcha folder before it will be deleted. The default is two
    hours.
 -  **word_length** defaults to 8, **pool** defaults to '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
--  **colors** needs to have all keys, if supplied
+-  **colors** needs to have all keys. If it has not, all of the default colors are used.
 
 Adding a Database
 -----------------
