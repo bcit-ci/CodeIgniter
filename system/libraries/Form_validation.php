@@ -888,9 +888,10 @@ class CI_Form_validation {
 	 * @param	string
 	 * @param	string
 	 * @param	bool
+     * @param   int
 	 * @return	string
-	 */
-	public function set_select($field = '', $value = '', $default = FALSE)
+	 */   
+	function set_select($field = '', $value = '', $default = FALSE, $id = '')
 	{
 		if ( ! isset($this->_field_data[$field], $this->_field_data[$field]['postdata']))
 		{
@@ -900,18 +901,31 @@ class CI_Form_validation {
 		$field = $this->_field_data[$field]['postdata'];
 		if (is_array($field))
 		{
-			if ( ! in_array($value, $field))
+            if (isset($id))
+            {
+                if ( $value != $field[$id])
+                {
+                    return '';
+                }
+            }
+            else
+            {
+                if ( ! in_array($value, $field))
+                {
+                    return '';
+                }
+            }
+		}
+		else
+		{
+			if (($field == '' OR $value == '') OR ($field != $value))
 			{
 				return '';
-			}
-		}
-		elseif (($field === '' OR $value === '') OR ($field !== $value))
-		{
-			return '';
+			} 
 		}
 
 		return ' selected="selected"';
-	}
+	}    
 
 	// --------------------------------------------------------------------
 

@@ -498,6 +498,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#77) - :doc:`Database Class <database/index>` didn't properly handle the transaction "test mode" flag.
 -  Fixed a bug (#2380) - :doc:`URI Routing <general/routing>` method ``fetch_method()`` returned 'index' if the requested method name matches its controller name.
 -  Fixed a bug (#2388) - :doc:`Email Library <libraries/email>` used to ignore attachment errors, resulting in broken emails being sent.
+-  Fixed a bug (#35) - Function ``set_select()`` in :doc:`Form Helper <helpers/form_helper>` and :doc:`Form Validation Library <libraries/form_validation>` did not work properly when using arrays as field names.
 
 Version 2.1.3
 =============
