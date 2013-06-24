@@ -314,6 +314,7 @@ Release Date: Not Released
 	 -  Changed ``_exception_handler()`` to respect php.ini *display_errors* setting.
 	 -  Added function :php:func:`is_https()` to check if a secure connection is used.
 	 -  Added function :php:func:`function_usable()` to check if a function exists and is not disabled by `Suhosin <http://www.hardened-php.net/suhosin/>`.
+	 -  Added X-Forwarded-Proto support, used for loadbalancers / reverse proxy servers.
    -  Added support for HTTP-Only cookies with new config option *cookie_httponly* (default FALSE).
    -  Renamed method ``_call_hook()`` to ``call_hook()`` in the :doc:`Hooks Library <general/hooks>`.
    -  :doc:`Output Library <libraries/output>` changes include:
