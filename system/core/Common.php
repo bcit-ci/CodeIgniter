@@ -346,13 +346,20 @@ if ( ! function_exists('is_https'))
 	 */
 	function is_https()
     {
-        if(isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) === 'on'){
+        if(isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) === 'on')
+        {
             return TRUE;
-        }elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https'){
+        }
+        elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
+        {
             return TRUE;
-        }elseif (isset($_SERVER['HTTP_FRONT_END_HTTPS']) && $_SERVER['HTTP_FRONT_END_HTTPS'] == 'on'){
+        }
+        elseif (isset($_SERVER['HTTP_FRONT_END_HTTPS']) && $_SERVER['HTTP_FRONT_END_HTTPS'] == 'on')
+        {
             return TRUE;
-        }else{
+        }
+        else
+        {
             return FALSE;
         }
     }
@@ -737,6 +744,5 @@ if ( ! function_exists('function_usable'))
 		return FALSE;
 	}
 }
-
 /* End of file Common.php */
 /* Location: ./system/core/Common.php */
