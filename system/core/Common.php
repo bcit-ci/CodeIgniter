@@ -358,10 +358,7 @@ if ( ! function_exists('is_https'))
 		{
 			return TRUE;
 		}
-		else
-		{
-			return FALSE;
-		}
+		return FALSE;
 	}
 }
 
