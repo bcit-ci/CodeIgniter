@@ -1275,7 +1275,7 @@ class CI_Email {
 				if ($this->send_multipart === FALSE)
 				{
 					$hdr .= 'Content-Type: text/html; charset='.$this->charset.$this->newline
-						.'Content-Transfer-Encoding: quoted-printable';
+						.'Content-Transfer-Encoding: quoted-printable'.$this->newline.$this->newline;
 				}
 				else
 				{
