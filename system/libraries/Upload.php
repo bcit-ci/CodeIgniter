@@ -136,6 +136,13 @@ class CI_Upload {
 	public $file_ext		= '';
 
 	/**
+	 * Force filename extension to lowercase
+	 *
+	 * @var	string
+	 */
+	public $file_ext_case		= FALSE;
+
+	/**
 	 * Upload path
 	 *
 	 * @var	string
@@ -294,6 +301,7 @@ class CI_Upload {
 					'file_type'			=> '',
 					'file_size'			=> NULL,
 					'file_ext'			=> '',
+					'file_ext_case' => FALSE,
 					'upload_path'			=> '',
 					'overwrite'			=> FALSE,
 					'encrypt_name'			=> FALSE,
@@ -965,7 +973,11 @@ class CI_Upload {
 	public function get_extension($filename)
 	{
 		$x = explode('.', $filename);
-		return (count($x) !== 1) ? '.'.strtolower(end($x)) : '';
+
+		if($this->file_ext_case)
+			return (count($x) !== 1) ? '.'.strtolower(end($x)) : '';
+		else
+			return (count($x) !== 1) ? '.'.end($x) : '';
 	}
 
 	// --------------------------------------------------------------------
