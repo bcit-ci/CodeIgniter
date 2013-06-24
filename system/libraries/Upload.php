@@ -965,7 +965,7 @@ class CI_Upload {
 	public function get_extension($filename)
 	{
 		$x = explode('.', $filename);
-		return (count($x) !== 1) ? '.'.end($x) : '';
+		return (count($x) !== 1) ? '.'.strtolower(end($x)) : '';
 	}
 
 	// --------------------------------------------------------------------
