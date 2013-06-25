@@ -739,7 +739,7 @@ class CI_Email {
 	 */
 	public function set_header($header, $value)
 	{
-		$this->_headers[$header] = $value;
+		$this->_headers[$header] = str_replace(array("\n", "\r"), '', $value);
 	}
 
 	// --------------------------------------------------------------------
