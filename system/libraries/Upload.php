@@ -140,7 +140,7 @@ class CI_Upload {
 	 *
 	 * @var	string
 	 */
-	public $file_ext_case		= FALSE;
+	public $file_ext_tolower		= FALSE;
 
 	/**
 	 * Upload path
@@ -301,7 +301,7 @@ class CI_Upload {
 					'file_type'			=> '',
 					'file_size'			=> NULL,
 					'file_ext'			=> '',
-					'file_ext_case' => FALSE,
+					'file_ext_tolower' => FALSE,
 					'upload_path'			=> '',
 					'overwrite'			=> FALSE,
 					'encrypt_name'			=> FALSE,
@@ -974,10 +974,13 @@ class CI_Upload {
 	{
 		$x = explode('.', $filename);
 
-		if($this->file_ext_case)
-			return (count($x) !== 1) ? '.'.strtolower(end($x)) : '';
-		else
-			return (count($x) !== 1) ? '.'.end($x) : '';
+		if (count($x) === 1)
+		{
+		    return '';
+		}
+
+		$ext = ($this->file_ext_tolower) ? strtolower(end($x)) : end($x);
+		return '.'.$ext;
 	}
 
 	// --------------------------------------------------------------------
