@@ -217,6 +217,7 @@ Release Date: Not Released
 	 -  Added an **index** parameter to the ``data()`` method.
 	 -  Added the **min_width** and **min_height** options for images.
 	 -  Removed method ``clean_file_name()`` and its usage in favor of :doc:`Security Library <libraries/security>`'s ``sanitize_filename()``.
+     -  Added **file_ext_tolower** config setting.
    -  :doc:`Cart library <libraries/cart>` changes include:
 	 -  ``insert()`` now auto-increments quantity for an item when inserted twice instead of resetting it, this is the default behaviour of large e-commerce sites.
 	 -  *Product Name* strictness can be disabled by switching the ``$product_name_safe`` property to FALSE.
