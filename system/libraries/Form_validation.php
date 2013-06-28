@@ -1405,7 +1405,7 @@ class CI_Form_validation {
 	 */
 	public function valid_base64($str)
 	{
-		return ! preg_match('/[^a-zA-Z0-9\/\+=]/', $str);
+		return (base64_encode(base64_decode($str)) === $str);
 	}
 
 	// --------------------------------------------------------------------
