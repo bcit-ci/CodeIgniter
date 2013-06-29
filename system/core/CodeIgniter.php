@@ -246,6 +246,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		show_error('Unable to load your default controller. Please make sure the controller specified in your Routes.php file is valid.');
 	}
 
+	$EXT->call_hook('pre_controller');
 	include(APPPATH.'controllers/'.$RTR->directory.$RTR->class.'.php');
 
 	// Set a mark point for benchmarking
@@ -279,6 +280,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					show_404($class.'/'.$method);
 				}
 
+				$EXT->call_hook('pre_controller');
 				include_once(APPPATH.'controllers/'.$class.'.php');
 			}
 		}
