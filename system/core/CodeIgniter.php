@@ -317,6 +317,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					show_404($class.'/'.$method);
 				}
 
+				/* NOTE: moved from below, to allow loading additional libs in hooks, and EXTENDing them in the controller -- nonchip
+				 * ------------------------------------------------------
+				 *  Is there a "pre_controller" hook?
+				 * ------------------------------------------------------
+				 */
+				$EXT->call_hook('pre_controller');
 				include_once(APPPATH.'controllers/'.$class.'.php');
 			}
 		}
@@ -324,12 +330,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$params = array_slice($URI->rsegments, 2);
 	}
 
-/*
- * ------------------------------------------------------
- *  Is there a "pre_controller" hook?
- * ------------------------------------------------------
- */
-	$EXT->call_hook('pre_controller');
 
 /*
  * ------------------------------------------------------
