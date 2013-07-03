@@ -72,6 +72,25 @@ config/email.php and it will be used automatically. You will NOT need to
 use the ``$this->email->initialize()`` method if you save your
 preferences in a config file.
 
+SMTP Protocol Without Authentication
+------------------------------------
+
+If your configured SMTP server does not require authentication, you should
+not pass any username or password to the SMTP library, but still include
+the **smtp_user** and **smtp_pass** configuration variables.
+
+Here is a base example demonstrating how you might configure the email
+library to send email through an SMTP server that does not require any
+authentication::
+
+  $config['protocol'] = 'smtp';
+  $config['smtp_host'] = '127.0.0.1'
+  $config['smtp_user'] = '';
+  $config['smtp_pass'] = '';
+
+.. note:: The inclusion of **smtp_user** and **smtp_pass** is mandatory
+  even if you do not require authentication.
+
 Email Preferences
 =================
 
