@@ -1993,9 +1993,8 @@ Release Date: January 30, 2008
       for the community to use in writing their own documentation.
    -  Added titles to all user manual pages.
    -  Added attributes into <html> of userguide for valid html.
-   -  Added `Zip Encoding
-      Class <http://codeigniter.com/user_guide/libraries/zip>`_ to
-      the table of contents of the userguide.
+   -  Added :doc:`Zip Encoding Class <libraries/zip>`
+      to the table of contents of the userguide.
    -  Moved part of the userguide menu javascript to an external file.
    -  Documented distinct() in :doc:`Active
       Record <./database/query_builder>`.
