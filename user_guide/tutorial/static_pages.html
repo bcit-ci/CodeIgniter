@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.1.3</h1></td>
+<td><h1>CodeIgniter User Guide Version Location</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -109,15 +109,15 @@ We will be creating two &quot;views&quot; (page templates) that act as our page 
 </head>
 <body>
 	<h1>CodeIgniter 2 Tutorial</h1>
-	
+
 </textarea>
 
-<p>The header contains the basic HTML code that you'll want to display before loading the main view, together with a heading. 
+<p>The header contains the basic HTML code that you'll want to display before loading the main view, together with a heading.
 It will also output the <var>$title</var> variable, which we'll define later in the controller.
 Now create a footer at <dfn>application/views/templates/footer.php</dfn> that includes the following code:</p>
-	
+
 <textarea class="textarea" style="width:100%" cols="50" rows="4">
-<strong>&#38;copy; 2011</strong>	
+<strong>&#38;copy; 2011</strong>
 </body>
 </html>
 </textarea>
@@ -127,8 +127,8 @@ Now create a footer at <dfn>application/views/templates/footer.php</dfn> that in
 <p>Earlier you set up a controller with a view() method. The method accepts one parameter, which is the name of the page to be loaded.
 The static page templates will be located in the <dfn>application/views/pages/</dfn> directory.</p>
 
-<p>In that directory, create two files named <dfn>home.php</dfn> and <dfn>about.php</dfn>. 
-Within those files, type some text &minus; anything you'd like &minus; and save them. 
+<p>In that directory, create two files named <dfn>home.php</dfn> and <dfn>about.php</dfn>.
+Within those files, type some text &minus; anything you'd like &minus; and save them.
 If you like to be particularly un-original, try &quot;Hello World!&quot;.</p>
 
 <p>In order to load those pages, you'll have to check whether the requested page actually exists:</p>
@@ -136,15 +136,15 @@ If you like to be particularly un-original, try &quot;Hello World!&quot;.</p>
 <pre>
 public function view($page = 'home')
 {
-			
+
 	if ( ! file_exists('application/views/pages/'.$page.'.php'))
 	{
 		// Whoops, we don't have a page for that!
 		show_404();
 	}
-	
+
 	$data['title'] = ucfirst($page); // Capitalize the first letter
-	
+
 	$this->load->view('templates/header', $data);
 	$this->load->view('pages/'.$page, $data);
 	$this->load->view('templates/footer', $data);
@@ -160,7 +160,7 @@ public function view($page = 'home')
 
 <p>The last thing that has to be done is loading the views in the order they should be displayed.
 The second parameter in the <var>view()</var> method is used to pass values to the view. Each value in the <var>$data</var> array is assigned to a variable with the name of its key. So the value of <var>$data['title']</var> in the controller is equivalent to $title in the view.<p>
-	
+
 <h2>Routing</h2>
 
 <p>The controller is now functioning! Point your browser to <dfn>[your-site-url]index.php/pages/view</dfn> to see your page. When you visit <dfn>index.php/pages/view/about</dfn> you'll see the about page, again including the header and footer.</p>
@@ -169,7 +169,7 @@ The second parameter in the <var>view()</var> method is used to pass values to t
 <code>http://example.com/[controller-class]/[controller-method]/[arguments]</code></p>
 
 <p>Let's do that. Open the routing file located at <dfn>application/config/routes.php</dfn> and add the following two lines. Remove all other code that sets any element in the <var>$route</var> array.</p>
-	
+
 <pre>
 $route['default_controller'] = 'pages/view';
 $route['(:any)'] = 'pages/view/$1';
