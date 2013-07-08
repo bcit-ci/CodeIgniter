@@ -609,7 +609,7 @@ class CI_Security {
 		if ($is_image === TRUE)
 		{
 			/*
-			 * Adobe Photoshop puts XML metadata into JFIF images,
+			 * Adobe Photoshop puts XML metadata into JFIF images, 
 			 * including namespacing, so we have to allow this for images.
 			 */
 			unset($evil_attributes[array_search('xmlns', $evil_attributes)]);
