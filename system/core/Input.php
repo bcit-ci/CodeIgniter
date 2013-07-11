@@ -271,6 +271,21 @@ class CI_Input {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Fetch an item from GET data with fallback to POST
+	 *
+	 * @param	string	$index		Index for item to be fetched from $_POST or $_GET
+	 * @param	bool	$xss_clean	Whether to apply XSS filtering
+	 * @return	mixed
+	 */
+	public function post_get($index = '', $xss_clean = FALSE)
+	{
+		return isset($_GET[$index])
+			? $this->get($index, $xss_clean)
+			: $this->post($index, $xss_clean);
+	}
+	// --------------------------------------------------------------------
+
+	/**
 	 * Fetch an item from the COOKIE array
 	 *
 	 * @param	string	$index		Index for item to be fetched from $_COOKIE
