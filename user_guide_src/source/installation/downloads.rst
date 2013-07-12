@@ -44,5 +44,4 @@ Please note that while every effort is made to keep this code base
 functional, we cannot guarantee the functionality of code taken from
 the develop branch.
 
-Beginning with version 2.0.3, stable tags are also available via GitHub,
-simply select the version from the Tags dropdown.
+Beginning with version 2.0.3, stable releases are also available via GitHub. Simply select the version you want from the `Releases <https://github.com/EllisLab/CodeIgniter/releases>`_ page.
