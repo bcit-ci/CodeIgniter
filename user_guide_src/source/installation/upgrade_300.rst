@@ -1,5 +1,5 @@
 #############################
-Upgrading from 2.1.3 to 3.0.0
+Upgrading from 2.1.4 to 3.0.0
 #############################
 
 .. note:: These upgrade notes are for a version that is yet to be released.
