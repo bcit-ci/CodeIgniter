@@ -394,6 +394,9 @@ class CI_Output {
 		// which happens before the CI super object is available.
 		global $BM, $CFG;
 
+		$CFG =& load_class('Config', 'core');
+		$BM =& load_class('Benchmark', 'core');
+
 		// Grab the super object if we can.
 		if (class_exists('CI_Controller', FALSE))
 		{

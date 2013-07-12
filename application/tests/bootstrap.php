@@ -109,8 +109,9 @@ error_reporting(-1);
  * --------------------------------------------------------------------
  *
  */
-
-require_once BASEPATH . '/../vendor' . DS . 'autoload.php';
+if ( file_exists(BASEPATH . '/../vendor' . DS . 'autoload.php') ) {
+    require_once BASEPATH . '/../vendor' . DS . 'autoload.php';
+}
 
 /*
  * --------------------------------------------------------------------

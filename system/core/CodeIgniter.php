@@ -140,7 +140,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	}
 
 	//	CLI Verification
-	if ( (php_sapi_name() === 'cli' OR defined('STDIN')) AND 'ENVIRONMENT' === 'testing' )
+	if ( is_cli() AND ENVIRONMENT === 'testing' )
 	{
 		$CFG->set_item('enable_hooks', TRUE);
 	}

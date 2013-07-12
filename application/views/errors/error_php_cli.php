@@ -33,3 +33,4 @@ Message: {$message}\n
 Filename: {$filepath}\n
 Line Number: {$line}\n
 EOT;
+return;

@@ -39,7 +39,7 @@ class WelcomeTest extends PHPUnit_Framework_TestCase {
 
     // ------------------------------------------------------------------------
 
-    public function testEnvironmentWasDefined() {
+    public function testEnvironmentConstantWasDefined() {
         $this->assertTrue(defined('ENVIRONMENT'));
     }
 

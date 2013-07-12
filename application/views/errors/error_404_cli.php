@@ -30,3 +30,4 @@ echo <<<EOT
 \n{$heading}\n
 Message: {$message}\n
 EOT;
+return;
