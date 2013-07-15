@@ -106,6 +106,7 @@ class Mock_Database_DB {
 		$subdriver = self::$subdriver;
 		$case->ci_vfs_create(array(
 			'DB_driver.php' => '',
+			'DB_result.php' => '',
 			'DB_forge.php' => '',
 			'DB_query_builder.php' => ''
 		), '', $case->ci_base_root, 'database');
@@ -113,6 +114,7 @@ class Mock_Database_DB {
 		{
 			$case->ci_vfs_create(array(
 				$driver.'_driver.php' => '',
+				$driver.'_result.php' => '',
 				$driver.'_forge.php' => ''
 			), '', $case->ci_base_root, 'database/drivers/'.$driver);
 		}
