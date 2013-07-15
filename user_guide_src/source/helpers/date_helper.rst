@@ -414,9 +414,9 @@ Note some of the location lists have been abridged for clarity and formatting.
 ===========	=====================================================================
 Time Zone	Location
 ===========	=====================================================================
-UM2		(UTC - 12:00) Baker/Howland Island
-UM1		(UTC - 11:00) Samoa Time Zone, Niue
-UM0		(UTC - 10:00) Hawaii-Aleutian Standard Time, Cook Islands
+UM12		(UTC - 12:00) Baker/Howland Island
+UM11		(UTC - 11:00) Samoa Time Zone, Niue
+UM10		(UTC - 10:00) Hawaii-Aleutian Standard Time, Cook Islands
 UM95		(UTC - 09:30) Marquesas Islands
 UM9		(UTC - 09:00) Alaska Standard Time, Gambier Islands
 UM8		(UTC - 08:00) Pacific Standard Time, Clipperton Island
@@ -428,7 +428,7 @@ UM4		(UTC - 04:00) Atlantic Standard Time, Eastern Caribbean
 UM35		(UTC - 03:30) Newfoundland Standard Time
 UM3		(UTC - 03:00) Argentina, Brazil, French Guiana, Uruguay
 UM2		(UTC - 02:00) South Georgia/South Sandwich Islands
-UM		(UTC -1:00) Azores, Cape Verde Islands
+UM1		(UTC -1:00) Azores, Cape Verde Islands
 UTC		(UTC) Greenwich Mean Time, Western European Time
 UP1		(UTC +1:00) Central European Time, West Africa Time
 UP2		(UTC +2:00) Central Africa Time, Eastern European Time
@@ -452,6 +452,6 @@ UP11		(UTC +11:00) Magadan Time, Solomon Islands, Vanuatu
 UP115		(UTC +11:30) Norfolk Island
 UP12		(UTC +12:00) Fiji, Gilbert Islands, Kamchatka, New Zealand
 UP1275		(UTC +12:45) Chatham Islands Standard Time
-UP1		(UTC +13:00) Phoenix Islands Time, Tonga
+UP13		(UTC +13:00) Phoenix Islands Time, Tonga
 UP14		(UTC +14:00) Line Islands
 ===========	=====================================================================
