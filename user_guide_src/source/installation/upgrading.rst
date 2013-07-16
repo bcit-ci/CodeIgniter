@@ -6,7 +6,7 @@ Please read the upgrade notes corresponding to the version you are
 upgrading from.
 
 -  :doc:`Upgrading from 2.1.4 to 3.0.0 <upgrade_300>`
--  :doc:`Upgrading from 2.1.3 to 2.1.4 <upgrade_213>`
+-  :doc:`Upgrading from 2.1.3 to 2.1.4 <upgrade_214>`
 -  :doc:`Upgrading from 2.1.2 to 2.1.3 <upgrade_213>`
 -  :doc:`Upgrading from 2.1.1 to 2.1.2 <upgrade_212>`
 -  :doc:`Upgrading from 2.1.0 to 2.1.1 <upgrade_211>`
