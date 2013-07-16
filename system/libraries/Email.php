@@ -2140,7 +2140,7 @@ class CI_Email {
 
 		if (in_array('headers', $include, TRUE))
 		{
-			$raw_data = $this->_header_str."\n";
+			$raw_data = htmlspecialchars($this->_header_str)."\n";
 		}
 
 		if (in_array('subject', $include, TRUE))

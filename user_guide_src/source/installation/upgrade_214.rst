@@ -11,4 +11,4 @@ Step 1: Update your CodeIgniter files
 Replace all files and directories in your "system" folder.
 
 .. note:: If you have any custom developed files in these folders please
-   make copies of them first.
+	make copies of them first.
