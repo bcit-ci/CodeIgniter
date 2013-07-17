@@ -541,6 +541,30 @@ class CI_DB_postgre_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Determines if a query is a "write" type.
+         * overwrites DB_driver.php base method in order to support PostgreSQLs 
+         * "INSERT INTO .... RETURNING something" syntax
+	 *
+	 * @access	public
+	 * @param	string	An SQL query string
+	 * @return	boolean
+	 */
+	function is_write_type($sql)
+	{
+                if (( ! preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|TRUNCATE|LOAD DATA|COPY|ALTER|GRANT|REVOKE|LOCK|UNLOCK)\s+/i', $sql)) 
+                    OR
+                    (preg_match('/^\s*INSERT.*RETURNING\s+[\w\*,]+$/i', $sql))
+                    )
+		{
+			return FALSE;
+		}
+		return TRUE;
+	}
+
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Update statement
 	 *
 	 * Generates a platform-specific update string from the supplied data
