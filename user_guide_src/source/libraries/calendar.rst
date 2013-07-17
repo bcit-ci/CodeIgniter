@@ -65,6 +65,23 @@ pointing to the URLs you've provided.
 	you can customize how data passed to your cells is handled so you can
 	pass different types of information.
 
+If you need to add more than one item for any given day, you can pass an array 
+like this example::
+
+	$this->load->library('calendar');
+
+	$data = array(
+	               3  => array(
+	               'http://example.com/news/article/2006/03/',
+	               'http://example.com/news/article/2006/03/2',
+	               'http://example.com/news/article/2006/03/3'),
+	               7  => 'http://example.com/news/article/2006/07/',
+	               13 => 'http://example.com/news/article/2006/13/',
+	               26 => 'http://example.com/news/article/2006/26/'
+	             );
+
+	echo $this->calendar->generate(2006, 6, $data);
+
 Setting Display Preferences
 ===========================
 
