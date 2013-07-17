@@ -269,7 +269,11 @@ class CI_Calendar {
 					{
 						// Cells with content
 						$temp = ($is_current_month === TRUE && $day == $cur_day) ?
-								$this->temp['cal_cell_content_today'] : $this->temp['cal_cell_content'];
+							$this->temp['cal_cell_content_today'] : $this->temp['cal_cell_content'];
+							if (is_array($data[$day])) 
+							{
+								$data[$day] = implode('<br>', $data[$day]);
+							}
 						$out .= str_replace(array('{content}', '{day}'), array($data[$day], $day), $temp);
 					}
 					else
