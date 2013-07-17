@@ -94,18 +94,8 @@ if ( ! function_exists('base_url_secure'))
 {
 	function base_url_secure($uri = '')
 	{
-		$CI =& get_instance();
-		$result = $CI->config->base_url($uri);
-
-        $needle = "https";
-        if(!strncmp($result, $needle, strlen($needle)))
-        {
-            return $result;
-        }
-        else
-        {
-            return str_replace("http", "https", $result);
-        }
+		$base = base_url($uri);
+		return ((strncmp($base, "https", 5)) ? str_replace("http", "https", $base) : $base);
 	}
 }
 
@@ -126,18 +116,8 @@ if ( ! function_exists('base_url_unsecure'))
 {
 	function base_url_unsecure($uri = '')
 	{
-		$CI =& get_instance();
-		$result = $CI->config->base_url($uri);
-
-        $needle = "https";
-        if(!strncmp($result, $needle, strlen($needle)))
-        {
-            return str_replace("https", "http", $result);
-        }
-        else
-        {
-            return $result;
-        }
+		$base = base_url($uri);
+		return ((strncmp($base, "https", 5)) ? $base : str_replace("https", "http", $base));
 	}
 }
 
