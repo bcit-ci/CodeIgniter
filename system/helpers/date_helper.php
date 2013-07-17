@@ -677,7 +677,7 @@ if ( ! function_exists('date_range'))
 		$is_unix = ! ( ! $is_unix OR $is_unix === 'days');
 
 		// Validate input and try strtotime() on invalid timestamps/intervals, just in case
-		if ( ( ! ctype_digit((string) $unix_start) && ($unix_start = @strtotime($unix_time)) === FALSE)
+		if ( ( ! ctype_digit((string) $unix_start) && ($unix_start = @strtotime($unix_start)) === FALSE)
 			OR ( ! ctype_digit((string) $mixed) && ($is_unix === FALSE OR ($mixed = @strtotime($mixed)) === FALSE))
 			OR ($is_unix === TRUE && $mixed < $unix_start))
 		{
@@ -686,7 +686,7 @@ if ( ! function_exists('date_range'))
 
 		if ($is_unix && ($unix_start == $mixed OR date($format, $unix_start) === date($format, $mixed)))
 		{
-			return array($start_date);
+			return array(date($format, $unix_start));
 		}
 
 		$range = array();
