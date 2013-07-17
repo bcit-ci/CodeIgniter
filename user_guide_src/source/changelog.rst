@@ -7,7 +7,7 @@ Version 3.0 (planned)
 
 Release Date: Not Released
 
--  **License**
+-  License
 
    -  CodeIgniter has been relicensed with the Open Software License (3.0), eliminating its old proprietary licensing.
 
@@ -16,7 +16,7 @@ Release Date: Not Released
          licensed with the Academic Free License (3.0) to allow you to retain
          all licensing authority over your own application code.
 
--  **General Changes**
+-  General Changes
 
    -  PHP 5.1.6 is no longer supported. CodeIgniter now requires PHP 5.2.4.
    -  ``$_SERVER['CI_ENV']`` can now be set to control the ``ENVIRONMENT`` constant.
@@ -57,7 +57,7 @@ Release Date: Not Released
    -  Added availability checks where usage of dangerous functions like ``eval()`` and ``exec()`` is required.
    -  Added support for changing the file extension of log files using ``$config['log_file_extension']``.
 
--  **Helpers**
+-  Helpers
 
    -  :doc:`Date Helper <helpers/date_helper>` changes include:
 
@@ -127,7 +127,7 @@ Release Date: Not Released
    -  Deprecated the :doc:`Email Helper <helpers/email_helper>` as its ``valid_email()``, ``send_email()`` functions are now only aliases for PHP native functions ``filter_var()`` and ``mail()`` respectively.
    -  :doc:`CAPTCHA Helper <helpers/captcha_helper>` :php:func:`create_captcha` added word_length and pool options for setting length of randomly generated captcha word, and what characters to select from.
 
--  **Database**
+-  Database
 
    -  Added **dsn** configuration setting for drivers that support DSN strings (PDO, PostgreSQL, Oracle, ODBC, CUBRID).
    -  Added **schema** configuration setting (defaults to *public*) for drivers that might need it (currently used by PostgreSQL and ODBC).
@@ -235,7 +235,7 @@ Release Date: Not Released
       - Overall improved support for all of the drivers.
       - Added *foreign_key_checks* option to MySQL/MySQLi backup, allowing statement to disable/re-enable foreign key checks to be inserted into the backup output.
 
--  **Libraries**
+-  Libraries
 
    -  :doc:`Session Library <libraries/sessions>` changes include:
 
@@ -345,12 +345,10 @@ Release Date: Not Released
       -  Added support for timestamp-based migrations (enabled by default).
       -  Added ``$config['migration_type']`` to allow switching between *sequential* and *timestamp* migrations.
 
-   -  Miscellaneous
+   -  :doc:`User Agent Library <libraries/user_agent>` will now check if robots are pretending to be mobile clients (helps with e.g. Google indexing mobile website versions).
+   -  Added support for setting :doc:`Table <libraries/table>` class defaults in a config file.
 
-      -  :doc:`User Agent Library <libraries/user_agent>` will now check if robots are pretending to be mobile clients (helps with e.g. Google indexing mobile website versions).
-      -  Added support for setting :doc:`Table <libraries/table>` class defaults in a config file.
-
--  **Core**
+-  Core
 
    -  :doc:`URI Library <libraries/uri>` changes include:
 
@@ -418,13 +416,11 @@ Release Date: Not Released
       -  Added an optional second parameter to method ``line()`` to disable error login for line keys that were not found.
       -  Language files are now loaded in a cascading style with the one in **system/** always loaded and overriden afterwards, if another one is found.
 
-   -  Miscellaneous
-
-      -  Removed ``CI_CORE`` boolean constant from *CodeIgniter.php* (no longer Reactor and Core versions).
-      -  Log Library will now try to create the **log_path** directory if it doesn't exist.
-      -  Added support for HTTP-Only cookies with new config option *cookie_httponly* (default FALSE).
-      -  Renamed method ``_call_hook()`` to ``call_hook()`` in the :doc:`Hooks Library <general/hooks>`.
-      -  ``$config['time_reference']`` now supports all timezone strings supported by PHP.
+   -  Removed ``CI_CORE`` boolean constant from *CodeIgniter.php* (no longer Reactor and Core versions).
+   -  Log Library will now try to create the **log_path** directory if it doesn't exist.
+   -  Added support for HTTP-Only cookies with new config option *cookie_httponly* (default FALSE).
+   -  Renamed method ``_call_hook()`` to ``call_hook()`` in the :doc:`Hooks Library <general/hooks>`.
+   -  ``$config['time_reference']`` now supports all timezone strings supported by PHP.
 
 
 Bug fixes for 3.0
