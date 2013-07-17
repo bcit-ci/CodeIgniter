@@ -79,6 +79,70 @@ if ( ! function_exists('base_url'))
 
 // ------------------------------------------------------------------------
 
+/**
+ * Base URL Secure
+ *
+ * Create a local URL based on your basepath and forces it to use https.
+ * Segments can be passed in as a string or an array, same as site_url
+ * or a URL to a file can be passed in, e.g. to an image file.
+ *
+ * @access	public
+ * @param string
+ * @return	string
+ */
+if ( ! function_exists('base_url_secure'))
+{
+	function base_url_secure($uri = '')
+	{
+		$CI =& get_instance();
+		$result = $CI->config->base_url($uri);
+
+        $needle = "https";
+        if(!strncmp($result, $needle, strlen($needle)))
+        {
+            return $result;
+        }
+        else
+        {
+            return str_replace("http", "https", $result);
+        }
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * Base URL Unsecure
+ *
+ * Create a local URL based on your basepath and forces it to use http.
+ * Segments can be passed in as a string or an array, same as site_url
+ * or a URL to a file can be passed in, e.g. to an image file.
+ *
+ * @access	public
+ * @param string
+ * @return	string
+ */
+if ( ! function_exists('base_url_unsecure'))
+{
+	function base_url_unsecure($uri = '')
+	{
+		$CI =& get_instance();
+		$result = $CI->config->base_url($uri);
+
+        $needle = "https";
+        if(!strncmp($result, $needle, strlen($needle)))
+        {
+            return str_replace("https", "http", $result);
+        }
+        else
+        {
+            return $result;
+        }
+	}
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('current_url'))
 {
 	/**
