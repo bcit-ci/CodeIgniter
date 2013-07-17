@@ -327,12 +327,8 @@ class CI_DB_oci8_driver extends CI_DB {
 	{
 		if ($package === '' OR $procedure === '' OR ! is_array($params))
 		{
-			if ($this->db_debug)
-			{
-				log_message('error', 'Invalid query: '.$package.'.'.$procedure);
-				return $this->display_error('db_invalid_query');
-			}
-			return FALSE;
+			log_message('error', 'Invalid query: '.$package.'.'.$procedure);
+			return ($this->db_debug) ? $this->display_error('db_invalid_query') : FALSE;
 		}
 
 		// build the query string

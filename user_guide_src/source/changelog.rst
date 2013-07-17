@@ -255,6 +255,7 @@ Release Date: Not Released
       -  Added ``has_userdata()`` method to verify existence of userdata item.
       -  Added ``tempdata()``, ``set_tempdata()``, and ``unset_tempdata()`` methods for manipulating tempdata.
       -  ``keep_flashdata()`` now accepts an array of keys.
+      -  Added *debug* level log messages for key events in the session validation process.
 
    -  :doc:`File Uploading Library <libraries/file_uploading>` changes include:
 
@@ -585,6 +586,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#2380) - :doc:`URI Routing <general/routing>` method ``fetch_method()`` returned 'index' if the requested method name matches its controller name.
 -  Fixed a bug (#2388) - :doc:`Email Library <libraries/email>` used to ignore attachment errors, resulting in broken emails being sent.
 -  Fixed a bug (#2498) - :doc:`Form Validation Library <libraries/form_validation>` rule **valid_base64** only checked characters instead of actual validity.
+-  Fixed a bug (#2425) - OCI8 :doc:`database <database>` driver's method ``stored_procedure()`` didn't log an error unless **db_debug** was set to TRUE.
 
 Version 2.1.4
 =============

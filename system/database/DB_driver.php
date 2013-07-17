@@ -561,7 +561,6 @@ abstract class CI_DB_driver {
 		if ($sql === '')
 		{
 			log_message('error', 'Invalid query: '.$sql);
-
 			return ($this->db_debug) ? $this->display_error('db_invalid_query') : FALSE;
 		}
 		elseif ( ! is_bool($return_object))
