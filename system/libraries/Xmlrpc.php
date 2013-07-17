@@ -446,7 +446,7 @@ class CI_Xmlrpc {
 				{
 					while (list($k) = each($value[0]))
 					{
-						$value[0][$k] = $this->values_parsing($value[0][$k], TRUE);
+						$value[0][$k] = $this->values_parsing($value[0][$k]);
 					}
 				}
 
