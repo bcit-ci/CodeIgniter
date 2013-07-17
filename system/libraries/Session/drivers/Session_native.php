@@ -117,18 +117,21 @@ class CI_Session_native extends CI_Session_driver {
 		if (isset($_SESSION['last_activity']) && (($_SESSION['last_activity'] + $expire) < $now OR $_SESSION['last_activity'] > $now))
 		{
 			// Expired - destroy
+			log_message('debug', 'Session: Session has expired');
 			$destroy = TRUE;
 		}
 		elseif ($config['sess_match_ip'] === TRUE && isset($_SESSION['ip_address'])
 			&& $_SESSION['ip_address'] !== $this->CI->input->ip_address())
 		{
 			// IP doesn't match - destroy
+			log_message('debug', 'Session: Client IP address doesn\'t match');
 			$destroy = TRUE;
 		}
 		elseif ($config['sess_match_useragent'] === TRUE && isset($_SESSION['user_agent'])
 			&& $_SESSION['user_agent'] !== trim(substr($this->CI->input->user_agent(), 0, 50)))
 		{
 			// Agent doesn't match - destroy
+			log_message('debug', 'Session: Client UA doesn\'t match');
 			$destroy = TRUE;
 		}
 

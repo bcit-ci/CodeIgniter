@@ -423,8 +423,18 @@ class CI_Session extends CI_Driver_Library {
 	public function flashdata($key)
 	{
 		// Prepend key and retrieve value
-		$flashdata_key = self::FLASHDATA_KEY.self::FLASHDATA_OLD.$key;
-		return $this->userdata($flashdata_key);
+		// First check the current (FLASHDATA_NEW) values
+		$flashdata_key = self::FLASHDATA_KEY.self::FLASHDATA_NEW.$key;
+		$flashdata = $this->userdata($flashdata_key);
+		if (!$flashdata) {
+			// and then the expiring ones (FLASHDATA_OLD)
+			$flashdata_key = self::FLASHDATA_KEY.self::FLASHDATA_OLD.$key;
+			$flashdata = $this->userdata($flashdata_key);
+		} else {
+			// and unset current value so it won't leak through
+			$this->unset_userdata($flashdata_key);
+		}
+		return $flashdata;
 	}
 
 	// ------------------------------------------------------------------------
