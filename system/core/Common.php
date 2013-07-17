@@ -40,6 +40,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('is_cli'))
+{
+	/**
+	 * Determines if the current request is done in CLI
+	 *
+	 * @return	bool
+	 */
+	function is_cli()
+	{
+		return (php_sapi_name() === 'cli' OR defined('STDIN'));
+	}
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('is_php'))
 {
 	/**
@@ -233,8 +248,15 @@ if ( ! function_exists('get_config'))
 			return $_config[0];
 		}
 
-		$file_path = APPPATH.'config/config.php';
+		$file_path = BASEPATH.'config/config.php';
 		$found = FALSE;
+		if (file_exists($file_path))
+		{
+			$found = TRUE;
+			require($file_path);
+		}
+
+		$file_path = APPPATH.'config/config.php';
 		if (file_exists($file_path))
 		{
 			$found = TRUE;

@@ -139,6 +139,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}
 	}
 
+	//	CLI Verification
+	if ( is_cli() AND ENVIRONMENT === 'testing' )
+	{
+		$CFG->set_item('enable_hooks', TRUE);
+	}
+
 /*
  * ------------------------------------------------------
  *  Instantiate the UTF-8 class

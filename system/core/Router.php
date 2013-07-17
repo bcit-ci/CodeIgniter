@@ -277,6 +277,11 @@ class CI_Router {
 						$this->directory = '';
 						return explode('/', $this->routes['404_override'], 2);
 					}
+
+			        if (substr(php_sapi_name(), 0, 3) == 'cli' and ENVIRONMENT === 'testing')
+			        {
+			        	return;
+			        }
 					else
 					{
 						show_404($this->directory.$segments[0]);
@@ -308,6 +313,10 @@ class CI_Router {
 			return array($class, $method);
 		}
 
+        if (substr(php_sapi_name(), 0, 3) == 'cli' and ENVIRONMENT === 'testing')
+        {
+        	return;
+        }
 		// Nothing else to do at this point but show a 404
 		show_404($segments[0]);
 	}

@@ -16,12 +16,12 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/AFL-3.0 Academic Free License (AFL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @package     CodeIgniter
+ * @author      EllisLab Dev Team
+ * @copyright   Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @license     http://opensource.org/licenses/AFL-3.0 Academic Free License (AFL 3.0)
+ * @link        http://codeigniter.com
+ * @since       Version 1.0
  * @filesource
  */
 
@@ -32,7 +32,7 @@
 | This file lets you define "hooks" to extend CI without hacking the core
 | files.  Please see the user guide for info:
 |
-|	http://codeigniter.com/user_guide/general/hooks.html
+|   http://codeigniter.com/user_guide/general/hooks.html
 |
 */
 
