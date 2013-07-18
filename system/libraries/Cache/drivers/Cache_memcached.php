@@ -51,9 +51,9 @@ class CI_Cache_memcached extends CI_Driver {
 	 */
 	protected $_memcache_conf	= array(
 		'default' => array(
-			'default_host'		=> '127.0.0.1',
-			'default_port'		=> 11211,
-			'default_weight'	=> 1
+			'host'		=> '127.0.0.1',
+			'port'		=> 11211,
+			'weight'	=> 1
 		)
 	);
 
@@ -173,7 +173,8 @@ class CI_Cache_memcached extends CI_Driver {
 		{
 			if (is_array($CI->config->config['memcached']))
 			{
-				$this->_memcache_conf = NULL;
+				$defaults = $this->_memcache_conf['default'];
+				$this->_memcache_conf = array();
 
 				foreach ($CI->config->config['memcached'] as $name => $conf)
 				{
@@ -198,20 +199,9 @@ class CI_Cache_memcached extends CI_Driver {
 
 		foreach ($this->_memcache_conf as $cache_server)
 		{
-			if ( ! array_key_exists('hostname', $cache_server))
-			{
-				$cache_server['hostname'] = $this->_memcache_conf['default']['default_host'];
-			}
-
-			if ( ! array_key_exists('port', $cache_server))
-			{
-				$cache_server['port'] = $this->_memcache_conf['default']['default_port'];
-			}
-
-			if ( ! array_key_exists('weight', $cache_server))
-			{
-				$cache_server['weight'] = $this->_memcache_conf['default']['default_weight'];
-			}
+			isset($cache_server['hostname']) OR $cache_server['hostname'] = $defaults['host'];
+			isset($cache_server['port']) OR $cache_server['port'] = $defaults['host'];
+			isset($cache_server['weight']) OR $cache_server['weight'] = $defaults['weight'];
 
 			if (get_class($this->_memcached) === 'Memcache')
 			{

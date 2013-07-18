@@ -593,6 +593,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#2498) - :doc:`Form Validation Library <libraries/form_validation>` rule **valid_base64** only checked characters instead of actual validity.
 -  Fixed a bug (#2425) - OCI8 :doc:`database <database>` driver's method ``stored_procedure()`` didn't log an error unless **db_debug** was set to TRUE.
 -  Fixed a bug (#2490) - :doc:`Database Class <database/queries>` method ``query()`` returning boolean instead of a result object for PostgreSQL-specific *INSERT INTO ... RETURNING* statements.
+-  Fixed a bug (#249) - :doc:`Cache Library <libraries/caching>` didn't properly handle Memcache(d) configurations with missing options.
 
 Version 2.1.4
 =============
