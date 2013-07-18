@@ -66,7 +66,7 @@ Once loaded you can generate a captcha like this::
 		'word_length'	=> 8,
 		'pool'		=> '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
 
-		// White background and border, black text and shadow, red grid
+		// White background and border, black text and red grid
 		'colors'	=> array(
 			'background' => array(255, 255, 255),
 			'border' => array(255, 255, 255),
