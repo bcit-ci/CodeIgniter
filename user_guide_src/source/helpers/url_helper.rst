@@ -84,6 +84,28 @@ This would give you something like:
 This function is an alias for ``CI_Config::base_url()``. For more info,
 please see the :doc:`Config Library <../libraries/config>` documentation.
 
+base_url_secure()
+=================
+
+.. php:function:: base_url_secure($uri = '')
+
+	:param	string	$uri: URI string
+	:returns:	string
+
+This functions exactly the same as :php:func: `base_url()`, except that it changes 
+http to https at the start of the base url if necessary.
+
+base_url_unsecure()
+=================
+
+.. php:function:: base_url_unsecure($uri = '')
+
+	:param	string	$uri: URI string
+	:returns:	string
+
+This functions exactly the same as :php:func: `base_url()`, except that it changes 
+https to http at the start of the base url if necessary.
+
 current_url()
 =============
 
