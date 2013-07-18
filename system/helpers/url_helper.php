@@ -50,7 +50,7 @@ if ( ! function_exists('site_url'))
 	 * @param	string	$protocol
 	 * @return	string
 	 */
-	function site_url($uri = '')
+	function site_url($uri = '', $protocol = NULL)
 	{
 		$site_url = get_instance()->config->site_url($uri);
 
