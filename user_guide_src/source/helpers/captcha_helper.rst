@@ -26,6 +26,7 @@ create_captcha()
 	:param	string	$img_path: Path to create the image in
 	:param	string	$img_url: URL to the CAPTCHA image folder
 	:param	string	$font_path: Server path to font
+	:param	array	$colors: Array containing the colors of the captcha
 	:returns:	array('word' => $word, 'time' => $now, 'image' => $img)
 
 Takes an array of information to generate the CAPTCHA as input and
@@ -64,7 +65,16 @@ Once loaded you can generate a captcha like this::
 		'img_height'	=> 30,
 		'expiration'	=> 7200,
 		'word_length'	=> 8,
-		'pool'	=> '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+		'pool'	=> '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+
+		// White background and border, black text and shadow, red grid
+		'colors' => array (
+			'bg_color' => array(255, 255, 255),
+			'border_color' => array(255, 255, 255),
+			'text_color' => array(0, 0, 0),
+			'grid_color' => array(255, 40, 40),
+			'shadow_color' => array(255, 240, 240)
+		)
 	);
 
 	$cap = create_captcha($vals);
@@ -82,6 +92,7 @@ Once loaded you can generate a captcha like this::
    in the captcha folder before it will be deleted. The default is two
    hours.
 -  **word_length** defaults to 8, **pool** defaults to '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+-  **colors** needs to have all keys. If it has not, all of the default colors are used.
 
 Adding a Database
 -----------------
