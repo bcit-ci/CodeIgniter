@@ -76,9 +76,12 @@ function &DB($params = '', $query_builder_override = NULL)
 			$active_group = $params;
 		}
 
-		if ( ! isset($active_group) OR ! isset($db[$active_group]))
+		if ( ! isset($active_group) )
+        {
+			show_error('You have not specified a valid database connection group using the $active_group variable.');
+        } elseif ( ! isset($db[$active_group]))
 		{
-			show_error('You have specified an invalid database connection group.');
+			show_error('You have specified an invalid database connection group named [' . $active_group . ']');
 		}
 
 		$params = $db[$active_group];
