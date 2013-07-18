@@ -123,10 +123,14 @@ Release Date: Not Released
       - Deprecated function ``trim_slashes()`` - it's just an alias for PHP's native ``trim()`` (with a slash as its second argument).
       - Deprecated randomization type options **unique** and **encrypt** for funcion :php:func:`random_string()` (they are only aliases for **md5** and **sha1** respectively).
 
+   -  :doc:`CAPTCHA Helper <helpers/captcha_helper>` changes include:
+
+      - Added *word_length* and *pool* options to allow customization of the generated word.
+      - Added *colors* configuration to allow customization for the *background*, *border*, *text* and *grid* colors.
+
    -  :doc:`Directory Helper <helpers/directory_helper>` :php:func:`directory_map()` will now append ``DIRECTORY_SEPARATOR`` to directory names in the returned array.
    -  :doc:`Language Helper <helpers/language_helper>` :php:func:`lang()` now accepts an optional list of additional HTML attributes.
    -  Deprecated the :doc:`Email Helper <helpers/email_helper>` as its ``valid_email()``, ``send_email()`` functions are now only aliases for PHP native functions ``filter_var()`` and ``mail()`` respectively.
-   -  :doc:`CAPTCHA Helper <helpers/captcha_helper>` :php:func:`create_captcha` added word_length and pool options for setting length of randomly generated captcha word, and what characters to select from.
 
 -  Database
 
