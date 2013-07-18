@@ -181,3 +181,15 @@ $this->config->system_url();
 *****************************
 
 This function retrieves the URL to your system folder.
+
+Alternative Syntax
+==================
+
+The config class also implements `ArrayAccess 
+<http://php.net/manual/en/class.arrayaccess.php/>`_. Which allows for a less verbose syntax for
+accessing config items::
+
+	$this->config['item'];		// fetch
+	$this->config['item'] = $value;	// set
+	
+Where item is the config item you'd like to fetch or set.

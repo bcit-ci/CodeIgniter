@@ -37,7 +37,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/config.html
  */
-class CI_Config {
+class CI_Config implements ArrayAccess {
 
 	/**
 	 * List of all loaded config values
@@ -336,6 +336,41 @@ class CI_Config {
 	public function set_item($item, $value)
 	{
 		$this->config[$item] = $value;
+	}
+	
+	// --------------------------------------------------------------------
+	// ArrayAccess Methods
+	
+	public function offsetExists($key)
+	{
+		return array_key_exists($key, $this->config);
+	}
+	
+	public function offsetGet($key)
+	{
+		if (array_key_exists($key, $this->config))
+		{
+			return $this->config[$key];
+		}
+		
+		return NULL;
+	}
+	
+	public function offsetSet($key, $value)
+	{
+		if ($key === NULL)
+		{
+			$this->config[] = $value;
+		}
+		else
+		{
+			$this->config[$key] = $value;
+		}
+	}
+	
+	public function offsetUnset($key)
+	{
+		unset($this->config[$key]);
 	}
 
 }
