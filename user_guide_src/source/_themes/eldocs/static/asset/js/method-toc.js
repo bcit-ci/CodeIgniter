@@ -16,7 +16,7 @@ $(function (){
             var l = $(e).children('.headerlink');
 
             var a = $('<a>');
-            a.attr('href',l.attr('href')).attr('title', 'jump to ' + n = '()');
+            a.attr('href',l.attr('href')).attr('title', 'jump to ' + n + '()');
 
             a.append(p).append(n);
 
