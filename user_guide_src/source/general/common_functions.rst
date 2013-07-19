@@ -68,10 +68,6 @@ accessing configuration information, however ``config_item()`` can be used
 to retrieve single keys. See :doc:`Config Library <../libraries/config>`
 documentation for more information.
 
-.. important:: This function only returns values set in your configuration
-	files. It does not take into account config values that are
-	dynamically set at runtime.
-
 show_error()
 ============
 
