@@ -18,7 +18,7 @@ The following functions are available:
 xss_clean()
 ===========
 
-.. php:function:: xss_clean($str, $is_image = FALSE)
+.. function:: xss_clean($str, $is_image = FALSE)
 
 	:param	string	$str: Input data
 	:param	bool	$is_image: Whether we're dealing with an image
@@ -32,7 +32,7 @@ please see the :doc:`Input Library <../libraries/input>` documentation.
 sanitize_filename()
 ===================
 
-.. php:function:: sanitize_filename($filename)
+.. function:: sanitize_filename($filename)
 
 	:param	string	$filename: Filename
 	:returns:	string
@@ -46,7 +46,7 @@ documentation.
 do_hash()
 =========
 
-.. php:function:: do_hash($str, $type = 'sha1')
+.. function:: do_hash($str, $type = 'sha1')
 
 	:param	string	$str: Input
 	:param	string	$type: Algorithm
@@ -71,7 +71,7 @@ Examples::
 strip_image_tags()
 ==================
 
-.. php:function:: strip_image_tags($str)
+.. function:: strip_image_tags($str)
 
 	:param	string	$str: Input
 	:returns:	string
@@ -90,7 +90,7 @@ documentation.
 encode_php_tags()
 =================
 
-.. php:function:: encode_php_tags($str)
+.. function:: encode_php_tags($str)
 
 	:param	string	$str: Input
 	:returns:	string

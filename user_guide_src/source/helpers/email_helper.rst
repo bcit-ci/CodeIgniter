@@ -22,7 +22,7 @@ The following functions are available:
 valid_email()
 =============
 
-.. php:function:: valid_email($email)
+.. function:: valid_email($email)
 
 	:param	string	$email: Email address
 	:returns:	bool
@@ -49,7 +49,7 @@ Example::
 send_email()
 ============
 
-.. php:function:: send_email($recipient, $subject, $message)
+.. function:: send_email($recipient, $subject, $message)
 
 	:param	string	$recipient: E-mail address
 	:param	string	$subject: Mail subject

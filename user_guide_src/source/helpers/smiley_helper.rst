@@ -107,7 +107,7 @@ To map the alias to the field id, pass them both into the
 get_clickable_smileys()
 =======================
 
-.. php:function:: get_clickable_smileys($image_url, $alias = '', $smileys = NULL)
+.. function:: get_clickable_smileys($image_url, $alias = '', $smileys = NULL)
 
 	:param	string	$image_url: URL path to the smileys directory
 	:param	string	$alias: Field alias
@@ -124,7 +124,7 @@ Example::
 smiley_js()
 ===========
 
-.. php:function:: smiley_js($alias = '', $field_id = '', $inline = TRUE)
+.. function:: smiley_js($alias = '', $field_id = '', $inline = TRUE)
 
 	:param	string	$alias: Field alias
 	:param	string	$field_id: Field ID
@@ -143,7 +143,7 @@ Example::
 parse_smileys()
 ===============
 
-.. php:function:: parse_smileys($str = '', $image_url = '', $smileys = NULL)
+.. function:: parse_smileys($str = '', $image_url = '', $smileys = NULL)
 
 	:param	string	$str: Text containing smiley codes
 	:param	string	$image_url: URL path to the smileys directory

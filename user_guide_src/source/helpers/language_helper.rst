@@ -19,7 +19,7 @@ The following functions are available:
 lang()
 ======
 
-.. php:function:: lang($line, $for = '', $attributes = array())
+.. function:: lang($line, $for = '', $attributes = array())
 
 	:param	string	$line: Language line key
 	:param	string	$for: HTML "for" attribute (ID of the element we're creating a label for)
@@ -27,7 +27,7 @@ lang()
 	:returns:	string
 
 This function returns a line of text from a loaded language file with
-simplified syntax that may be more desirable for view files than 
+simplified syntax that may be more desirable for view files than
 ``CI_Lang::line()``.
 
 Example::

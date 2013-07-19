@@ -18,7 +18,7 @@ The following functions are available:
 force_download()
 ================
 
-.. php:function:: force_download($filename = '', $data = '', $set_mime = FALSE)
+.. function:: force_download($filename = '', $data = '', $set_mime = FALSE)
 
 	:param	string	$filename: Filename
 	:param	mixed	$data: File contents

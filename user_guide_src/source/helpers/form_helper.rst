@@ -19,7 +19,7 @@ The following functions are available:
 form_open()
 ===========
 
-.. php:function:: form_open($action = '', $attributes = '', $hidden = array())
+.. function:: form_open($action = '', $attributes = '', $hidden = array())
 
 	:param	string	$action: Form action/target URI string
 	:param	string	$attributes: HTML attributes
@@ -74,7 +74,7 @@ The above example would create a form similar to this::
 form_open_multipart()
 =====================
 
-.. php:function:: form_open_multipart($action = '', $attributes = array(), $hidden = array())
+.. function:: form_open_multipart($action = '', $attributes = array(), $hidden = array())
 
 	:param	string	$action: Form action/target URI string
 	:param	string	$attributes: HTML attributes
@@ -88,7 +88,7 @@ would like to use the form to upload files with.
 form_hidden()
 =============
 
-.. php:function:: form_hidden($name, $value = '')
+.. function:: form_hidden($name, $value = '')
 
 	:param	string	$name: Field name
 	:param	string	$value: Field value
@@ -156,7 +156,7 @@ If you want to create hidden input fields with extra attributes::
 form_input()
 ============
 
-.. php:function:: form_input($data = '', $value = '', $extra = '')
+.. function:: form_input($data = '', $value = '', $extra = '')
 
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
@@ -197,7 +197,7 @@ JavaScript, you can pass it as a string in the third parameter::
 form_password()
 ===============
 
-.. php:function:: form_password($data = '', $value = '', $extra = '')
+.. function:: form_password($data = '', $value = '', $extra = '')
 
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
@@ -210,7 +210,7 @@ function above except that it uses the "password" input type.
 form_upload()
 =============
 
-.. php:function:: form_upload($data = '', $value = '', $extra = '')
+.. function:: form_upload($data = '', $value = '', $extra = '')
 
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
@@ -224,7 +224,7 @@ be used to upload files.
 form_textarea()
 ===============
 
-.. php:function:: form_textarea($data = '', $value = '', $extra = '')
+.. function:: form_textarea($data = '', $value = '', $extra = '')
 
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
@@ -240,7 +240,7 @@ function above except that it generates a "textarea" type.
 form_dropdown()
 ===============
 
-.. php:function:: form_dropdown($name = '', $options = array(), $selected = array(), $extra = '')
+.. function:: form_dropdown($name = '', $options = array(), $selected = array(), $extra = '')
 
 	:param	string	$name: Field name
 	:param	array	$options: An associative array of options to be listed
@@ -305,7 +305,7 @@ label.
 form_multiselect()
 ==================
 
-.. php:function:: form_multiselect($name = '', $options = array(), $selected = array(), $extra = '')
+.. function:: form_multiselect($name = '', $options = array(), $selected = array(), $extra = '')
 
 	:param	string	$name: Field name
 	:param	array	$options: An associative array of options to be listed
@@ -325,7 +325,7 @@ syntax, e.g. foo[].
 form_fieldset()
 ===============
 
-.. php:function:: form_fieldset($legend_text = '', $attributes = array())
+.. function:: form_fieldset($legend_text = '', $attributes = array())
 
 	:param	string	$legend_text: Text to put in the <legend> tag
 	:param	array	$attributes: Attributes to be set on the <fieldset> tag
@@ -372,7 +372,7 @@ second parameter if you prefer to set additional attributes::
 form_fieldset_close()
 =====================
 
-.. php:function:: form_fieldset_close($extra = '')
+.. function:: form_fieldset_close($extra = '')
 
 	:param	string	$extra: Anything to append after the closing tag, *as is*
 	:returns:	string
@@ -390,7 +390,7 @@ the tag. For example
 form_checkbox()
 ===============
 
-.. php:function:: form_checkbox($data = '', $value = '', $checked = FALSE, $extra = '')
+.. function:: form_checkbox($data = '', $value = '', $checked = FALSE, $extra = '')
 
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
@@ -432,7 +432,7 @@ fourth parameter::
 form_radio()
 ============
 
-.. php:function:: form_radio($data = '', $value = '', $checked = FALSE, $extra = '')
+.. function:: form_radio($data = '', $value = '', $checked = FALSE, $extra = '')
 
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
@@ -446,7 +446,7 @@ function above except that it uses the "radio" input type.
 form_label()
 ============
 
-.. php:function:: form_label($label_text = '', $id = '', $attributes = array())
+.. function:: form_label($label_text = '', $id = '', $attributes = array())
 
 	:param	string	$label_text: Text to put in the <label> tag
 	:param	string	$id: ID of the form element that we're making a label for
@@ -474,7 +474,7 @@ Example::
 form_submit()
 =============
 
-.. php:function:: form_submit($data = '', $value = '', $extra = '')
+.. function:: form_submit($data = '', $value = '', $extra = '')
 
 	:param	string	$data: Button name
 	:param	string	$value: Button value
@@ -493,7 +493,7 @@ parameter lets you add extra data to your form, like JavaScript.
 form_reset()
 ============
 
-.. php:function:: form_reset($data = '', $value = '', $extra = '')
+.. function:: form_reset($data = '', $value = '', $extra = '')
 
 	:param	string	$data: Button name
 	:param	string	$value: Button value
@@ -506,7 +506,7 @@ Lets you generate a standard reset button. Use is identical to
 form_button()
 =============
 
-.. php:function:: form_button($data = '', $content = '', $extra = '')
+.. function:: form_button($data = '', $content = '', $extra = '')
 
 	:param	string	$data: Button name
 	:param	string	$content: Button label
@@ -542,7 +542,7 @@ JavaScript, you can pass it as a string in the third parameter::
 form_close()
 ============
 
-.. php:function:: form_close($extra = '')
+.. function:: form_close($extra = '')
 
 	:param	string	$extra: Anything to append after the closing tag, *as is*
 	:returns:	string
@@ -558,7 +558,7 @@ the tag. For example::
 form_prep()
 ===========
 
-.. php:function:: form_prep($str = '', $is_textarea = FALSE)
+.. function:: form_prep($str = '', $is_textarea = FALSE)
 
 	:param	string	$str: Value to escape
 	:param	bool	$is_textarea: Whether we're preparing for <textarea> or a regular input tag
@@ -585,7 +585,7 @@ safely::
 set_value()
 ===========
 
-.. php:function:: set_value($field = '', $default = '', $is_textarea = FALSE)
+.. function:: set_value($field = '', $default = '', $is_textarea = FALSE)
 
 	:param	string	$field: Field name
 	:param	string	$default: Default value
@@ -606,7 +606,7 @@ The above form will show "0" when loaded for the first time.
 set_select()
 ============
 
-.. php:function:: set_select($field = '', $value = '', $default = FALSE)
+.. function:: set_select($field = '', $value = '', $default = FALSE)
 
 	:param	string	$field: Field name
 	:param	string	$value: Value to check for
@@ -631,7 +631,7 @@ Example::
 set_checkbox()
 ==============
 
-.. php:function:: set_checkbox($field = '', $value = '', $default = FALSE)
+.. function:: set_checkbox($field = '', $value = '', $default = FALSE)
 
 	:param	string	$field: Field name
 	:param	string	$value: Value to check for
@@ -652,7 +652,7 @@ Example::
 set_radio()
 ===========
 
-.. php:function:: set_radio($field = '', $value = '', $default = FALSE)
+.. function:: set_radio($field = '', $value = '', $default = FALSE)
 
 	:param	string	$field: Field name
 	:param	string	$value: Value to check for
@@ -676,7 +676,7 @@ Example::
 form_error()
 ============
 
-.. php:function:: form_error($field = '', $prefix = '', $suffix = '')
+.. function:: form_error($field = '', $prefix = '', $suffix = '')
 
 	:param	string	$field:	Field name
 	:param	string	$prefix: Error opening tag
@@ -698,7 +698,7 @@ Example::
 validation_errors()
 ===================
 
-.. php:function:: validation_errors($prefix = '', $suffix = '')
+.. function:: validation_errors($prefix = '', $suffix = '')
 
 	:param	string	$prefix: Error opening tag
 	:param	string	$suffix: Error closing tag

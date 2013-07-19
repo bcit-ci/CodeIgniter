@@ -19,7 +19,7 @@ The following functions are available:
 set_cookie()
 ============
 
-.. php:function:: set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE, $httponly = FALSE)
+.. function:: set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE, $httponly = FALSE)
 
 	:param	string	$name: Cookie name
 	:param	string	$value: Cookie value
@@ -39,7 +39,7 @@ description of its use, as this function is an alias for
 get_cookie()
 ============
 
-.. php:function:: get_cookie($index = '', $xss_clean = FALSE)
+.. function:: get_cookie($index = '', $xss_clean = FALSE)
 
 	:param	string	$index: Cookie name
 	:param	bool	$xss_clean: Whether to apply XSS filtering to the returned value
@@ -52,7 +52,7 @@ description of itsuse, as this function is an alias for ``CI_Input::cookie()``.
 delete_cookie()
 ===============
 
-.. php:function:: delete_cookie($name = '', $domain = '', $path = '/', $prefix = '')
+.. function:: delete_cookie($name = '', $domain = '', $path = '/', $prefix = '')
 
 	:param	string	$name: Cookie name
 	:param	string	$domain: Cookie domain (usually: .yourdomain.com)

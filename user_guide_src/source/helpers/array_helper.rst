@@ -19,7 +19,7 @@ The following functions are available:
 element()
 =========
 
-.. php:function:: element($item, $array, $default = NULL)
+.. function:: element($item, $array, $default = NULL)
 
 	:param	string	$item: Item to fetch from the array
 	:param	array	$array: Input array
@@ -39,13 +39,13 @@ Example::
 		'size'	=> ''
 	);
 
-	echo element('color', $array); // returns "red" 
-	echo element('size', $array, 'foobar'); // returns "foobar" 
+	echo element('color', $array); // returns "red"
+	echo element('size', $array, 'foobar'); // returns "foobar"
 
 elements()
 ==========
 
-.. php:function:: elements($items, $array, $default = NULL)
+.. function:: elements($items, $array, $default = NULL)
 
 	:param	string	$item: Item to fetch from the array
 	:param	array	$array: Input array
@@ -55,7 +55,7 @@ elements()
 Lets you fetch a number of items from an array. The function tests
 whether each of the array indices is set. If an index does not exist it
 is set to NULL, or whatever you've specified as the default value via
-the third parameter. 
+the third parameter.
 
 Example::
 
@@ -106,7 +106,7 @@ updated.
 random_element()
 ================
 
-.. php:function:: random_element($array)
+.. function:: random_element($array)
 
 	:param	array	$array: Input array
 	:returns:	string (a random element from the array)

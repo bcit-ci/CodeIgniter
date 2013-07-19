@@ -21,8 +21,8 @@ without having to worry about class/function scoping.
 CodeIgniter also returns a status code whenever a portion of the core
 calls ``exit()``. This exit status code is separate from the HTTP status
 code, and serves as a notice to other processes that may be watching of
-whether the script completed successfully, or if not, what kind of 
-problem it encountered that caused it to abort. These values are 
+whether the script completed successfully, or if not, what kind of
+problem it encountered that caused it to abort. These values are
 defined in *application/config/constants.php*. While exit status codes
 are most useful in CLI settings, returning the proper code helps server
 software keep track of your scripts and the health of your application.
@@ -32,7 +32,7 @@ The following functions let you generate errors:
 show_error()
 ============
 
-.. php:function:: show_error($message, $status_code, $heading = 'An Error Was Encountered')
+.. function:: show_error($message, $status_code, $heading = 'An Error Was Encountered')
 
 	:param	mixed	$message: Error message
 	:param	int	$status_code: HTTP Response status code
@@ -49,13 +49,13 @@ code should be sent with the error. If ``$status_code`` is less than 100,
 the HTTP status code will be set to 500, and the exit status code will
 be set to ``$status_code + EXIT__AUTO_MIN``. If that value is larger than
 ``EXIT__AUTO_MAX``, or if ``$status_code`` is 100 or higher, the exit
-status code will be set to ``EXIT_ERROR``. You can check in 
+status code will be set to ``EXIT_ERROR``. You can check in
 *application/config/constants.php* for more detail.
 
 show_404()
 ==========
 
-.. php:function:: show_404($page = '', $log_error = TRUE)
+.. function:: show_404($page = '', $log_error = TRUE)
 
 	:param	string	$page: URI string
 	:param	bool	$log_error: Whether to log the error
@@ -77,7 +77,7 @@ optional second parameter to FALSE will skip logging.
 log_message()
 =============
 
-.. php:function:: log_message($level, $message, $php_error = FALSE)
+.. function:: log_message($level, $message, $php_error = FALSE)
 
 	:param	string	$level: Log level: 'error', 'debug' or 'info'
 	:param	string	$message: Message to log

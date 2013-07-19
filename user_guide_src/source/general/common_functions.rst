@@ -9,7 +9,7 @@ loading any libraries or helpers.
 is_php()
 ========
 
-.. php:function:: is_php($version = '5.3.0')
+.. function:: is_php($version = '5.3.0')
 
 	:param	string	$version: Version number
 	:returns:	bool
@@ -31,7 +31,7 @@ version of PHP is lower than the supplied version number.
 is_really_writable()
 ====================
 
-.. php:function:: is_really_writable($file)
+.. function:: is_really_writable($file)
 
 	:param	string	$file: File path
 	:returns:	bool
@@ -58,7 +58,7 @@ Example::
 config_item()
 =============
 
-.. php:function:: config_item($key)
+.. function:: config_item($key)
 
 	:param	string	$key: Config item key
 	:returns:	mixed
@@ -71,7 +71,7 @@ documentation for more information.
 show_error()
 ============
 
-.. php:function:: show_error($message, $status_code, $heading = 'An Error Was Encountered')
+.. function:: show_error($message, $status_code, $heading = 'An Error Was Encountered')
 
 	:param	mixed	$message: Error message
 	:param	int	$status_code: HTTP Response status code
@@ -84,7 +84,7 @@ please see the :doc:`Error Handling <errors>` documentation.
 show_404()
 ==========
 
-.. php:function:: show_404($page = '', $log_error = TRUE)
+.. function:: show_404($page = '', $log_error = TRUE)
 
 	:param	string	$page: URI string
 	:param	bool	$log_error: Whether to log the error
@@ -96,7 +96,7 @@ please see the :doc:`Error Handling <errors>` documentation.
 log_message()
 =============
 
-.. php:function:: log_message($level, $message, $php_error = FALSE)
+.. function:: log_message($level, $message, $php_error = FALSE)
 
 	:param	string	$level: Log level: 'error', 'debug' or 'info'
 	:param	string	$message: Message to log
@@ -109,7 +109,7 @@ please see the :doc:`Error Handling <errors>` documentation.
 set_status_header()
 ===============================
 
-.. php:function:: set_status_header($code, $text = '')
+.. function:: set_status_header($code, $text = '')
 
 	:param	int	$code: HTTP Reponse status code
 	:param	string	$text: A custom message to set with the status code
@@ -126,7 +126,7 @@ a full list of headers.
 remove_invisible_characters()
 =============================
 
-.. php:function:: remove_invisible_characters($str, $url_encoded = TRUE)
+.. function:: remove_invisible_characters($str, $url_encoded = TRUE)
 
 	:param	string	$str: Input string
 	:param	bool	$url_encoded: Whether to remove URL-encoded characters as well
@@ -143,7 +143,7 @@ Example::
 html_escape()
 =============
 
-.. php:function:: html_escape($var)
+.. function:: html_escape($var)
 
 	:param	mixed	$var: Variable to escape
 			(string or array)
@@ -157,7 +157,7 @@ It is useful in preventing Cross Site Scripting (XSS).
 get_mimes()
 ===========
 
-.. php:function:: get_mimes()
+.. function:: get_mimes()
 
 	:returns:	array
 
@@ -167,7 +167,7 @@ This function returns a *reference* to the MIMEs array from
 is_https()
 ==========
 
-.. php:function:: is_https()
+.. function:: is_https()
 
 	:returns:	bool
 
@@ -177,7 +177,7 @@ in any other case (including non-HTTP requests).
 function_usable()
 =================
 
-.. php:function:: function_usable($function_name)
+.. function:: function_usable($function_name)
 
 	:param	string	$function_name: Function name
 	:returns:	bool

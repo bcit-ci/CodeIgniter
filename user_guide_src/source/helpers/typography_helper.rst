@@ -19,7 +19,7 @@ The following functions are available:
 auto_typography()
 =================
 
-.. php:function:: auto_typography($str, $reduce_linebreaks = FALSE)
+.. function:: auto_typography($str, $reduce_linebreaks = FALSE)
 
 	:param	string	$str: Input string
 	:param	bool	$reduce_linebreaks: Whether to reduce multiple instances of double newlines to two
@@ -44,7 +44,7 @@ Usage example::
 nl2br_except_pre()
 ==================
 
-.. php:function:: nl2br_except_pre($str)
+.. function:: nl2br_except_pre($str)
 
 	:param	string	$str: Input string
 	:returns:	string
@@ -60,7 +60,7 @@ Usage example::
 entity_decode()
 ===============
 
-.. php:function:: entity_decode($str, $charset = NULL)
+.. function:: entity_decode($str, $charset = NULL)
 
 	:param	string	$str: Input string
 	:param	string	$charset: Character set

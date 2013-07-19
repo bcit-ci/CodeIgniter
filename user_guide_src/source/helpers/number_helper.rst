@@ -19,7 +19,7 @@ The following functions are available:
 byte_format()
 =============
 
-.. php:function:: byte_format($num, $precision = 1)
+.. function:: byte_format($num, $precision = 1)
 
 	:param	mixed	$num: Number of bytes
 	:param	int	$precision: Floating point precision
@@ -27,7 +27,7 @@ byte_format()
 
 Formats numbers as bytes, based on size, and adds the appropriate
 suffix. Examples::
-	
+
 	echo byte_format(456); // Returns 456 Bytes
 	echo byte_format(4567); // Returns 4.5 KB
 	echo byte_format(45678); // Returns 44.6 KB

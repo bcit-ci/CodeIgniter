@@ -19,7 +19,7 @@ The following functions are available:
 word_limiter()
 ==============
 
-.. php:function:: word_limiter($str, $limit = 100, $end_char = '&#8230;')
+.. function:: word_limiter($str, $limit = 100, $end_char = '&#8230;')
 
 	:param	string	$str: Input string
 	:param	int	$limit: Limit
@@ -38,7 +38,7 @@ default it adds an ellipsis.
 character_limiter()
 ===================
 
-.. php:function:: character_limiter($str, $n = 500, $end_char = '&#8230;')
+.. function:: character_limiter($str, $n = 500, $end_char = '&#8230;')
 
 	:param	string	$str: Input string
 	:param	int	$n: Number of characters
@@ -64,7 +64,7 @@ undeclared this helper uses an ellipsis.
 ascii_to_entities()
 ===================
 
-.. php:function:: ascii_to_entities($str)
+.. function:: ascii_to_entities($str)
 
 	:param	string	$str: Input string
 	:returns:	string
@@ -84,7 +84,7 @@ Example::
 entities_to_ascii()
 ===================
 
-.. php:function::entities_to_ascii($str, $all = TRUE)
+.. function::entities_to_ascii($str, $all = TRUE)
 
 	:param	string	$str: Input string
 	:param	bool	$all: Whether to convert unsafe entities as well
@@ -96,7 +96,7 @@ It turns character entities back into ASCII.
 convert_accented_characters()
 =============================
 
-.. php:function:: convert_accented_characters($str)
+.. function:: convert_accented_characters($str)
 
 	:param	string	$str: Input string
 	:returns:	string
@@ -116,7 +116,7 @@ Example::
 word_censor()
 =============
 
-.. php:function:: word_censor($str, $censored, $replacement = '')
+.. function:: word_censor($str, $censored, $replacement = '')
 
 	:param	string	$str: Input string
 	:param	array	$censored: List of bad words to censor
@@ -137,7 +137,7 @@ Example::
 highlight_code()
 ================
 
-.. php:function:: highlight_code($str)
+.. function:: highlight_code($str)
 
 	:param	string	$str: Input string
 	:returns:	string
@@ -152,7 +152,7 @@ colors used are the ones specified in your php.ini file.
 highlight_phrase()
 ==================
 
-.. php:function:: highlight_phrase($str, $phrase, $tag_open = '<strong>', $tag_close = '</strong>')
+.. function:: highlight_phrase($str, $phrase, $tag_open = '<strong>', $tag_close = '</strong>')
 
 	:param	string	$str: Input string
 	:param	string	$phrase: Phrase to highlight
@@ -177,7 +177,7 @@ The above code prints::
 word_wrap()
 ===========
 
-.. php:function:: word_wrap($str, $charlim = 76)
+.. function:: word_wrap($str, $charlim = 76)
 
 	:param	string	$str: Input string
 	:param	int	$charlim: Character limit
@@ -198,7 +198,7 @@ Example::
 ellipsize()
 ===========
 
-.. php:function:: ellipsize($str, $max_length, $position = 1, $ellipsis = '&hellip;')
+.. function:: ellipsize($str, $max_length, $position = 1, $ellipsis = '&hellip;')
 
 	:param	string	$str: Input string
 	:param	int	$max_length: String length limit

@@ -19,7 +19,7 @@ The following functions are available:
 set_realpath()
 ==============
 
-.. php:function:: set_realpath($path, $check_existance = FALSE)
+.. function:: set_realpath($path, $check_existance = FALSE)
 
 	:param	string	$path: Path
 	:param	bool	$check_existance: Whether to check if the path actually exists
@@ -40,7 +40,7 @@ Examples::
 
 	$directory = '/etc/php5';
 	echo set_realpath($directory);	// Prints '/etc/php5/'
-	
+
 	$non_existent_directory = '/path/to/nowhere';
 	echo set_realpath($non_existent_directory, TRUE);	// Shows an error, as the path cannot be resolved
 	echo set_realpath($non_existent_directory, FALSE);	// Prints '/path/to/nowhere'

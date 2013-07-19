@@ -18,7 +18,7 @@ The following functions are available:
 now()
 =====
 
-.. php:function:: now($timezone = NULL)
+.. function:: now($timezone = NULL)
 
 	:param	string	$timezone: Timezone
 	:returns:	int
@@ -40,7 +40,7 @@ If a timezone is not provided, it will return ``time()`` based on the
 mdate()
 =======
 
-.. php:function:: mdate($datestr = '', $time = '')
+.. function:: mdate($datestr = '', $time = '')
 
 	:param	string 	$datestr: Date string
 	:param	int 	$time: UNIX timestamp
@@ -66,7 +66,7 @@ will be used.
 standard_date()
 ===============
 
-.. php:function:: standard_date($fmt = 'DATE_RFC822', $time = NULL)
+.. function:: standard_date($fmt = 'DATE_RFC822', $time = NULL)
 
 	:param	string	$fmt: Date format
 	:param	int 	$time: UNIX timestamp
@@ -109,7 +109,7 @@ DATE_W3C	W3C			2005-08-14T16:13:03+0000
 local_to_gmt()
 ==============
 
-.. php:function:: local_to_gmt($time = '')
+.. function:: local_to_gmt($time = '')
 
 	:param	int	$time: UNIX timestamp
 	:returns:	string
@@ -123,7 +123,7 @@ Example::
 gmt_to_local()
 ==============
 
-.. php:function:: gmt_to_local($time = '', $timezone = 'UTC', $dst = FALSE)
+.. function:: gmt_to_local($time = '', $timezone = 'UTC', $dst = FALSE)
 
 	:param	int 	$time: UNIX timestamp
 	:param	string	$timezone: Timezone
@@ -147,7 +147,7 @@ Example::
 mysql_to_unix()
 ===============
 
-.. php:function:: mysql_to_unix($time = '')
+.. function:: mysql_to_unix($time = '')
 
 	:param	int 	$time: UNIX timestamp
 	:returns:	int
@@ -161,7 +161,7 @@ Example::
 unix_to_human()
 ===============
 
-.. php:function:: unix_to_human($time = '', $seconds = FALSE, $fmt = 'us')
+.. function:: unix_to_human($time = '', $seconds = FALSE, $fmt = 'us')
 
 	:param	int	$time: UNIX timestamp
 	:param	bool	$seconds: Whether to show seconds
@@ -190,7 +190,7 @@ Examples::
 human_to_unix()
 ===============
 
-.. php:function:: human_to_unix($datestr = '')
+.. function:: human_to_unix($datestr = '')
 
 	:param	int 	$datestr: Date string
 	:returns:	int UNIX timestamp or FALSE on failure
@@ -209,7 +209,7 @@ Example::
 nice_date()
 ===========
 
-.. php:function:: nice_date($bad_date = '', $format = FALSE)
+.. function:: nice_date($bad_date = '', $format = FALSE)
 
 	:param	int	$bad_date: The terribly formatted date-like string
 	:param	string	$format: Date format to return (same as PHP's ``date()`` function)
@@ -235,7 +235,7 @@ Example::
 timespan()
 ==========
 
-.. php:function:: timespan($seconds = 1, $time = '', $units = '')
+.. function:: timespan($seconds = 1, $time = '', $units = '')
 
 	:param	int	$seconds: Number of seconds
 	:param	string	$time: UNIX timestamp
@@ -269,7 +269,7 @@ Example::
 days_in_month()
 ===============
 
-.. php:function:: days_in_month($month = 0, $year = '')
+.. function:: days_in_month($month = 0, $year = '')
 
 	:param	int	$month: a numeric month
 	:param	int	$year: a numeric year
@@ -287,7 +287,7 @@ If the second parameter is empty, the current year will be used.
 date_range()
 ============
 
-.. php:function:: date_range($unix_start = '', $mixed = '', $is_unix = TRUE, $format = 'Y-m-d')
+.. function:: date_range($unix_start = '', $mixed = '', $is_unix = TRUE, $format = 'Y-m-d')
 
 	:param	int	$unix_start: UNIX timestamp of the range start date
 	:param	int	$mixed: UNIX timestamp of the range end date or interval in days
@@ -309,7 +309,7 @@ Example::
 timezones()
 ===========
 
-.. php:function:: timezones($tz = '')
+.. function:: timezones($tz = '')
 
 	:param	string	$tz: a numeric timezone
 	:returns:	string
@@ -328,7 +328,7 @@ This function is useful when used with :php:func:`timezone_menu()`.
 timezone_menu()
 ===============
 
-.. php:function:: timezone_menu($default = 'UTC', $class = '', $name = 'timezones', $attributes = '')
+.. function:: timezone_menu($default = 'UTC', $class = '', $name = 'timezones', $attributes = '')
 
 	:param	string	$default: Timezone
 	:param	string	$class: Class name

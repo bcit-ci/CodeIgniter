@@ -20,7 +20,7 @@ The following functions are available:
 create_captcha()
 ================
 
-.. php:function:: function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = '')
+.. function:: function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = '')
 
 	:param	array	$data: Array of data for the CAPTCHA
 	:param	string	$img_path: Path to create the image in
@@ -132,7 +132,7 @@ CAPTCHA will be shown you'll have something like this::
 	$this->db->query($query);
 
 	echo 'Submit the word you see below:';
-	echo $cap['image']; 
+	echo $cap['image'];
 	echo '<input type="text" name="captcha" value="" />';
 
 Then, on the page that accepts the submission you'll have something like

@@ -19,7 +19,7 @@ The following functions are available:
 singular()
 ==========
 
-.. php:function:: singular($str)
+.. function:: singular($str)
 
 	:param	string	$str: Input string
 	:returns:	string
@@ -31,7 +31,7 @@ Changes a plural word to singular. Example::
 plural()
 ========
 
-.. php:function:: plural($str)
+.. function:: plural($str)
 
 	:param	string	$str: Input string
 	:returns:	string
@@ -43,7 +43,7 @@ Changes a singular word to plural. Example::
 camelize()
 ==========
 
-.. php:function:: camelize($str)
+.. function:: camelize($str)
 
 	:param	string	$str: Input string
 	:returns:	string
@@ -56,7 +56,7 @@ case. Example::
 underscore()
 ============
 
-.. php:function:: camelize($str)
+.. function:: camelize($str)
 
 	:param	string	$str: Input string
 	:returns:	string
@@ -69,7 +69,7 @@ Example::
 humanize()
 ==========
 
-.. php:function:: camelize($str)
+.. function:: camelize($str)
 
 	:param	string	$str: Input string
 	:param	string	$separator: Input separator
@@ -89,7 +89,7 @@ To use dashes instead of underscores::
 is_countable()
 ==============
 
-.. php:function:: is_countable($word)
+.. function:: is_countable($word)
 
 	:param	string	$word: Input string
 	:returns:	bool

@@ -18,7 +18,7 @@ The following functions are available:
 read_file()
 ===========
 
-.. php:function:: read_file($file)
+.. function:: read_file($file)
 
 	:param	string	$file: File path
 	:returns:	string or FALSE on failure
@@ -45,7 +45,7 @@ The path can be a relative or full server path. Returns FALSE (boolean) on failu
 write_file()
 ============
 
-.. php:function:: write_file($path, $data, $mode = 'wb')
+.. function:: write_file($path, $data, $mode = 'wb')
 
 	:param	string	$path: File path
 	:param	string	$data: Data to write to file
@@ -87,7 +87,7 @@ for mode options.
 delete_files()
 ==============
 
-.. php:function:: delete_files($path, $del_dir = FALSE, $htdocs = FALSE)
+.. function:: delete_files($path, $del_dir = FALSE, $htdocs = FALSE)
 
 	:param	string	$path: Directory path
 	:param	bool	$del_dir: Whether to also delete directories
@@ -112,7 +112,7 @@ Example::
 get_filenames()
 ===============
 
-.. php:function:: get_filenames($source_dir, $include_path = FALSE)
+.. function:: get_filenames($source_dir, $include_path = FALSE)
 
 	:param	string	$source_dir: Directory path
 	:param	bool	$include_path: Whether to include the path as part of the filenames
@@ -129,7 +129,7 @@ Example::
 get_dir_file_info()
 ===================
 
-.. php:function:: get_dir_file_info($source_dir, $top_level_only)
+.. function:: get_dir_file_info($source_dir, $top_level_only)
 
 	:param	string	$source_dir: Directory path
 	:param	bool	$top_level_only: Whether to look only at the specified directory
@@ -148,7 +148,7 @@ Example::
 get_file_info()
 ===============
 
-.. php:function: get_file_info($file, $returned_values = array('name', 'server_path', 'size', 'date'))
+.. function: get_file_info($file, $returned_values = array('name', 'server_path', 'size', 'date'))
 
 	:param	string	$file: File path
 	:param	array	$returned_values: What type of info to return
@@ -168,7 +168,7 @@ Valid ``$returned_values`` options are: `name`, `size`, `date`, `readable`, `wri
 get_mime_by_extension()
 =======================
 
-.. php:function:: get_mime_by_extension($filename)
+.. function:: get_mime_by_extension($filename)
 
 	:param	string	$filename: File name
 	:returns:	string or FALSE on failure
@@ -188,7 +188,7 @@ Returns FALSE if it can't determine the type, or read the MIME config file.
 symbolic_permissions()
 ======================
 
-.. php:function:: symbolic_permissions($perms)
+.. function:: symbolic_permissions($perms)
 
 	:param	int	$perms: Permissions
 	:returns:	string
@@ -203,7 +203,7 @@ standard symbolic notation of file permissions.
 octal_permissions()
 ===================
 
-.. php:function:: octal_permissions($perms)
+.. function:: octal_permissions($perms)
 
 	:param	int	$perms: Permissions
 	:returns:	string

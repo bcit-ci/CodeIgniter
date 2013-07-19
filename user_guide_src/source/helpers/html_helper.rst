@@ -19,7 +19,7 @@ The following functions are available:
 br()
 ====
 
-.. php:function:: br($count = 1)
+.. function:: br($count = 1)
 
 	:param	int	$count: Number of times to repeat the tag
 	:returns:	string
@@ -34,7 +34,7 @@ The above would produce: <br /><br /><br />
 heading()
 =========
 
-.. php:function:: heading($data = '', $h = '1', $attributes = '')
+.. function:: heading($data = '', $h = '1', $attributes = '')
 
 	:param	string	$data: Content
 	:param	string	$h: Heading level
@@ -58,7 +58,7 @@ The above code produces: <h3 class="pink">Welcome!<<h3>
 img()
 =====
 
-.. php:function:: img($src = '', $index_page = FALSE, $attributes = '')
+.. function:: img($src = '', $index_page = FALSE, $attributes = '')
 
 	:param	string	$src: Image source data
 	:param	bool	$index_page: Whether to treat $src as a routed URI string
@@ -101,7 +101,7 @@ Example::
 link_tag()
 ==========
 
-.. php:function:: ling_tag($href = '', $rel = 'stylesheet', $type = 'text/css', $title = '', $media = '', $index_page = FALSE)
+.. function:: ling_tag($href = '', $rel = 'stylesheet', $type = 'text/css', $title = '', $media = '', $index_page = FALSE)
 
 	:param	string	$href: What are we linking to
 	:param	string	$rel: Relation type
@@ -148,7 +148,7 @@ for complete control over all attributes and values::
 nbs()
 =====
 
-.. php:function:: nbs($num = 1)
+.. function:: nbs($num = 1)
 
 	:param	int	$num: Number of space entities to produce
 	:returns:	string
@@ -165,7 +165,7 @@ The above would produce::
 ul() and ol()
 =============
 
-.. php:function:: ul($list, $attributes = '')
+.. function:: ul($list, $attributes = '')
 
 	:param	array	$list: List entries
 	:param	array	$attributes: HTML attributes
@@ -280,7 +280,7 @@ The above code will produce this::
 		</li>
 	</ul>
 
-.. php:function:: ol($list, $attributes = '')
+.. function:: ol($list, $attributes = '')
 
 	:param	array	$list: List entries
 	:param	array	$attributes: HTML attributes
@@ -292,7 +292,7 @@ ordered lists instead of <ul>.
 meta()
 ======
 
-.. php:function:: meta($name = '', $content = '', $type = 'name', $newline = "\n")
+.. function:: meta($name = '', $content = '', $type = 'name', $newline = "\n")
 
 	:param	string	$name: Meta name
 	:param	string	$content: Meta content
@@ -349,7 +349,7 @@ Examples::
 doctype()
 =========
 
-.. php:function:: doctype($type = 'xhtml1-strict')
+.. function:: doctype($type = 'xhtml1-strict')
 
 	:param	string	$type: Doctype name
 

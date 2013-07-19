@@ -19,7 +19,7 @@ The following functions are available:
 random_string()
 ===============
 
-.. php:function:: random_string($type = 'alnum', $len = 8)
+.. function:: random_string($type = 'alnum', $len = 8)
 
 	:param	string	$type: Randomization type
 	:param	int	$len: Output string length
@@ -49,7 +49,7 @@ Usage example::
 increment_string()
 ==================
 
-.. php:function:: increment_string($str, $separator = '_', $first = 1)
+.. function:: increment_string($str, $separator = '_', $first = 1)
 
 	:param	string	$str: Input string
 	:param	string	$separator: Separator to append a duplicate number with
@@ -69,7 +69,7 @@ Usage example::
 alternator()
 ============
 
-.. php:function:: alternator($args)
+.. function:: alternator($args)
 
 	:param	mixed	$args: A variable number of arguments
 	:returns:	mixed
@@ -98,7 +98,7 @@ your loop the next item will be returned.
 repeater()
 ==========
 
-.. php:function:: repeater($data, $num = 1)
+.. function:: repeater($data, $num = 1)
 
 	:param	string	$data: Input
 	:param	int	$num: Number of times to repeat
@@ -117,7 +117,7 @@ The above would generate 30 newlines.
 reduce_double_slashes()
 =======================
 
-.. php:function:: reduce_double_slashes($str)
+.. function:: reduce_double_slashes($str)
 
 	:param	string	$str: Input string
 	:returns:	string
@@ -133,7 +133,7 @@ Example::
 strip_slashes()
 ===============
 
-.. php:function:: strip_slashes($data)
+.. function:: strip_slashes($data)
 
 	:param	array	$data: Input
 	:returns:	array
@@ -141,14 +141,14 @@ strip_slashes()
 Removes any slashes from an array of strings.
 
 Example::
-	
+
 	$str = array(
 		'question'  => 'Is your name O\'reilly?',
 		'answer' => 'No, my name is O\'connor.'
 	);
-	
+
 	$str = strip_slashes($str);
-	
+
 The above will return the following array::
 
 	array(
@@ -163,7 +163,7 @@ The above will return the following array::
 trim_slashes()
 ==============
 
-.. php:function:: trim_slashes($str)
+.. function:: trim_slashes($str)
 
 	:param	string	$str: Input string
 	:returns:	string
@@ -180,7 +180,7 @@ Removes any leading/trailing slashes from a string. Example::
 reduce_multiples()
 ==================
 
-.. php:function:: reduce_multiples($str, $character = '', $trim = FALSE)
+.. function:: reduce_multiples($str, $character = '', $trim = FALSE)
 
 	:param	string	$str: Text to search in
 	:param	string	$character: Character to reduce
@@ -202,7 +202,7 @@ character at the beginning and the end of the string. Example::
 quotes_to_entities()
 ====================
 
-.. php:function:: quotes_to_entities($str)
+.. function:: quotes_to_entities($str)
 
 	:param	string	$str: Input string
 	:returns:	string
@@ -216,7 +216,7 @@ entities. Example::
 strip_quotes()
 ==============
 
-.. php:function:: strip_quotes($str)
+.. function:: strip_quotes($str)
 
 	:param	string	$str: Input string
 	:returns:	string
