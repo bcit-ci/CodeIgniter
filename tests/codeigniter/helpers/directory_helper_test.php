@@ -28,8 +28,8 @@ class Directory_helper_test extends CI_TestCase {
 
 		vfsStream::create($structure, $this->_test_dir);
 
-		// opendir() seems to fail on Windows + vfsStream when there are trailing slashes in directory names
-		if ( ! @opendir(vfsStream::url('testDir')))
+		// is_dir(), opendir(), etc. seem to fail on Windows + vfsStream when there are trailing backslashes in directory names
+		if (DIRECTORY_SEPARATOR === '\\' && ! is_dir(vfsStream::url('testDir').'\\'))
 		{
 			$this->markTestSkipped();
 			return;
