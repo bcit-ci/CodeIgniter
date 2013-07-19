@@ -43,7 +43,7 @@ class Directory_helper_test extends CI_TestCase {
 		// test detection of hidden files
 		$expected['libraries'.$ds][] = '.hiddenfile.txt';
 
-		$this->assertEquals($expected, directory_map(vfsStream::url('testDir'), FALSE, TRUE));
+		$this->assertEquals($expected, directory_map(vfsStream::url('testDir'), 0, TRUE));
 
 		// test recursion depth behavior
 		$this->assertEquals(array('libraries'.$ds), directory_map(vfsStream::url('testDir'), 1));
