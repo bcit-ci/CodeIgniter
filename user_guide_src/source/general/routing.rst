@@ -145,7 +145,7 @@ routing rules to process the back-references. Example::
 Reserved Routes
 ===============
 
-There are two reserved routes::
+There are three reserved routes::
 
 	$route['default_controller'] = 'welcome';
 
@@ -164,6 +164,18 @@ requested controller is not found. It will override the default 404
 error page. It won't affect to the ``show_404()`` function, which will
 continue loading the default *error_404.php* file at
 *application/views/errors/error_404.php*.
+
+
+::
+
+	$route['translate_uri_dashes'] = FALSE;
+
+As evident by the boolean value, this is not exactly a route. This
+option enables you to automatically replace dashes ('-') with
+underscores in the controller and method URI segments, thus saving you
+additional route entries if you need to do that.
+This is required, because the dash isn't a valid class or method name
+character and would cause a fatal error if you try to use it.
 
 .. important:: The reserved routes must come before any wildcard or
 	regular expression routes.
