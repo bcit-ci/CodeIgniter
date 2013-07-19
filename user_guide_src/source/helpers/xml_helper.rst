@@ -9,6 +9,10 @@ data.
 .. contents::
   :local:
 
+.. raw:: html
+
+  <div class="custom-index container"></div>
+
 Loading this Helper
 ===================
 
@@ -22,10 +26,6 @@ Available Functions
 ===================
 
 The following functions are available:
-
-
-xml_convert()
--------------
 
 .. method:: xml_convert($str[, $protect_all = FALSE])
 
