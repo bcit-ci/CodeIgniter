@@ -28,6 +28,13 @@ class Directory_helper_test extends CI_TestCase {
 
 		vfsStream::create($structure, $this->_test_dir);
 
+		// opendir() seems to fail on Windows + vfsStream when there are trailing slashes in directory names
+		if ( ! @opendir(vfsStream::url('testDir')))
+		{
+			$this->markTestSkipped();
+			return;
+		}
+
 		// test default recursive behavior
 		$expected = array(
 			'libraries'.$ds => array(
