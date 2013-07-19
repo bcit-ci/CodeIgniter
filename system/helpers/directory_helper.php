@@ -55,11 +55,14 @@ if ( ! function_exists('directory_map'))
 	 */
 	function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE)
 	{
+		$source_dir = rtrim($source_dir, DIRECTORY_SEPARATOR);
+
+		// opendir fails on VFS if trailing backslash
 		if ($fp = @opendir($source_dir))
 		{
 			$filedata	= array();
 			$new_depth	= $directory_depth - 1;
-			$source_dir	= rtrim($source_dir, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+			$source_dir	= $source_dir.DIRECTORY_SEPARATOR;
 
 			while (FALSE !== ($file = readdir($fp)))
 			{
@@ -69,11 +72,19 @@ if ( ! function_exists('directory_map'))
 					continue;
 				}
 
-				@is_dir($source_dir.$file) AND $file .= DIRECTORY_SEPARATOR;
+				// is_dir fails on VFS if trailing backslash
+				if (@is_dir($source_dir.$file)) {
 
-				if (($directory_depth < 1 OR $new_depth > 0) && @is_dir($source_dir.$file))
-				{
-					$filedata[$file] = directory_map($source_dir.$file, $new_depth, $hidden);
+					$file .= DIRECTORY_SEPARATOR;
+
+					if ($directory_depth < 1 OR $new_depth > 0)
+					{
+						$filedata[$file] = directory_map($source_dir.$file, $new_depth, $hidden);
+					}
+					else
+					{
+						$filedata[] = $file;
+					}
 				}
 				else
 				{
