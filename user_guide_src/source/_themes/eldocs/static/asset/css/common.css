@@ -112,20 +112,30 @@ table{
 	.class .property{ color: #094776; }
 
 	.method big,
-	.method .optional{ color: #094776; padding: 0 4px 0 6px; }
+	.method .optional
+	.function big,
+	.function .optional{ color: #094776; padding: 0 4px 0 6px; }
 
 	.class em,
-	.method em{ color: #008080; }
+	.method em,
+	.function em{ color: #008080; }
 
-	.method dt{ margin: 20px 0; }
+	.method dt,
+	.function dt{ margin: 20px 0; }
 
-	.method table{ margin-bottom: 0; margin-left: 20px; }
+	.method table,
+	.function table{ margin-bottom: 0; margin-left: 20px; }
 
 	.method th,
-	.method td{ padding: 10px; }
+	.method td,
+	.function th,
+	.function td{ padding: 10px; }
 
-	.method td > ul{ margin: 0; margin-left: 20px; }
-	.method td.field-body > p { margin: 0; margin-left: 20px; }
+	.method td > ul,
+	.function td > ul{ margin: 0; margin-left: 20px; }
+
+	.method td.field-body > p,
+	.function td.field-body > p { margin: 0; margin-left: 20px; }
 
 a:link,
 a:visited{ color: #1A5B8D; }

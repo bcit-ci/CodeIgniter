@@ -16,7 +16,7 @@ $(function (){
             var l = $(e).children('.headerlink');
 
             var a = $('<a>');
-            a.attr('href',l.attr('href')).attr('title', 'Link to this definition');
+            a.attr('href',l.attr('href')).attr('title', 'jump to ' + n = '()');
 
             a.append(p).append(n);
 
@@ -34,7 +34,7 @@ $(function (){
     customIndex.empty();
     customIndex.append(ul0);
 
-    var l = createList('dl.method > dt');
+    var l = createList('dl.method > dt, dl.function > dt');
     if (l) {
         var ul = c.clone()
             .append('<h3>Methods / Functions</h3>')
