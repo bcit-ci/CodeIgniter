@@ -81,7 +81,7 @@ form_open_multipart()
 	:param	array	$hidden: An array of hidden fields' definitions
 	:returns:	string
 
-This function is absolutely identical to :php:func:`form_open()` above,
+This function is absolutely identical to :func:`form_open()` above,
 except that it adds a *multipart* attribute, which is necessary if you
 would like to use the form to upload files with.
 
@@ -204,7 +204,7 @@ form_password()
 	:param	string	$extra: Extra attributes to be added to the tag *as is*
 	:returns:	string
 
-This function is identical in all respects to the :php:func:`form_input()`
+This function is identical in all respects to the :func:`form_input()`
 function above except that it uses the "password" input type.
 
 form_upload()
@@ -217,7 +217,7 @@ form_upload()
 	:param	string	$extra: Extra attributes to be added to the tag *as is*
 	:returns:	string
 
-This function is identical in all respects to the :php:func:`form_input()`
+This function is identical in all respects to the :func:`form_input()`
 function above except that it uses the "file" input type, allowing it to
 be used to upload files.
 
@@ -231,7 +231,7 @@ form_textarea()
 	:param	string	$extra: Extra attributes to be added to the tag *as is*
 	:returns:	string
 
-This function is identical in all respects to the :php:func:`form_input()`
+This function is identical in all respects to the :func:`form_input()`
 function above except that it generates a "textarea" type.
 
 .. note: Instead of the *maxlength* and *size* attributes in the above example,
@@ -318,7 +318,7 @@ contain the name of the field, the second parameter will contain an
 associative array of options, and the third parameter will contain the
 value or values you wish to be selected.
 
-The parameter usage is identical to using :php:func:`form_dropdown()` above,
+The parameter usage is identical to using :func:`form_dropdown()` above,
 except of course that the name of the field will need to use POST array
 syntax, e.g. foo[].
 
@@ -440,7 +440,7 @@ form_radio()
 	:param	string	$extra: Extra attributes to be added to the tag *as is*
 	:returns:	string
 
-This function is identical in all respects to the :php:func:`form_checkbox()`
+This function is identical in all respects to the :func:`form_checkbox()`
 function above except that it uses the "radio" input type.
 
 form_label()
@@ -501,7 +501,7 @@ form_reset()
 	:returns:	string
 
 Lets you generate a standard reset button. Use is identical to
-:php:func:`form_submit()`.
+:func:`form_submit()`.
 
 form_button()
 =============
@@ -660,7 +660,7 @@ set_radio()
 	:returns:	string
 
 Permits you to display radio buttons in the state they were submitted.
-This function is identical to the :php:func:`set_checkbox()` function above.
+This function is identical to the :func:`set_checkbox()` function above.
 
 Example::
 
@@ -704,7 +704,7 @@ validation_errors()
 	:param	string	$suffix: Error closing tag
 	:returns:	string
 
-Similarly to the :php:func:`form_error()` function, returns all validation
+Similarly to the :func:`form_error()` function, returns all validation
 error messages produced by the :doc:`Form Validation Library
 <../libraries/form_validation>`, with optional opening and closing tags
 around each of the messages.

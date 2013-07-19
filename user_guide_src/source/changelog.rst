@@ -61,22 +61,22 @@ Release Date: Not Released
 
    -  :doc:`Date Helper <helpers/date_helper>` changes include:
 
-      - :php:func:`now()` now works with all timezone strings supported by PHP.
-      - Added an optional third parameter to :php:func:`timespan()` that constrains the number of time units displayed.
-      - Added an optional parameter to :php:func:`timezone_menu()` that allows more attributes to be added to the generated select tag.
+      - :func:`now()` now works with all timezone strings supported by PHP.
+      - Added an optional third parameter to :func:`timespan()` that constrains the number of time units displayed.
+      - Added an optional parameter to :func:`timezone_menu()` that allows more attributes to be added to the generated select tag.
       - Deprecated ``standard_date()``, which now just uses the native ``date()`` with `DateTime constants <http://www.php.net/manual/en/class.datetime.php#datetime.constants.types>`_.
-      - Added function :php:func:`date_range()` that generates a list of dates between a specified period.
+      - Added function :func:`date_range()` that generates a list of dates between a specified period.
 
    -  :doc:`URL Helper <helpers/url_helper>` changes include:
 
-      - Deprecated *separator* options **dash** and **underscore** for function :php:func:`url_title()` (they are only aliases for '-' and '_' respectively).
-      - :php:func:`url_title()` will now trim extra dashes from beginning and end.
-      - :php:func:`anchor_popup()` will now fill the *href* attribute with the URL and its JS code will return FALSE instead.
-      - Added JS window name support to the :php:func:`anchor_popup()` function.
-      - Added support (auto-detection) for HTTP/1.1 response code 303 in :php:func:`redirect()`.
-      - Changed :php:func:`redirect()` to only choose the **refresh** method only on IIS servers, instead of all servers on Windows (when **auto** is used).
-      - Changed :php:func:`anchor()`, :php:func:`anchor_popup()`, and :php:func:`redirect()` to support protocol-relative URLs (e.g. *//ellislab.com/codeigniter*).
-      - Added an optional second parameter to both :php:func:`base_url()` and :php:func:`site_url()` that allows enforcing of a protocol different than the one in the *base_url* configuration setting.
+      - Deprecated *separator* options **dash** and **underscore** for function :func:`url_title()` (they are only aliases for '-' and '_' respectively).
+      - :func:`url_title()` will now trim extra dashes from beginning and end.
+      - :func:`anchor_popup()` will now fill the *href* attribute with the URL and its JS code will return FALSE instead.
+      - Added JS window name support to the :func:`anchor_popup()` function.
+      - Added support (auto-detection) for HTTP/1.1 response code 303 in :func:`redirect()`.
+      - Changed :func:`redirect()` to only choose the **refresh** method only on IIS servers, instead of all servers on Windows (when **auto** is used).
+      - Changed :func:`anchor()`, :func:`anchor_popup()`, and :func:`redirect()` to support protocol-relative URLs (e.g. *//ellislab.com/codeigniter*).
+      - Added an optional second parameter to both :func:`base_url()` and :func:`site_url()` that allows enforcing of a protocol different than the one in the *base_url* configuration setting.
 
    -  :doc:`HTML Helper <helpers/html_helper>` changes include:
 
@@ -86,24 +86,24 @@ Release Date: Not Released
 
    -  :doc:`Inflector Helper <helpers/inflector_helper>` changes include:
 
-      - Changed :php:func:`humanize()` to allow passing an input separator as its second parameter.
-      - Refactored :php:func:`plural()` and :php:func:`singular()` to avoid double pluralization and support more words.
+      - Changed :func:`humanize()` to allow passing an input separator as its second parameter.
+      - Refactored :func:`plural()` and :func:`singular()` to avoid double pluralization and support more words.
 
    -  :doc:`Download Helper <helpers/download_helper>` changes include:
 
-      - Added an optional third parameter to :php:func:`force_download()` that enables/disables sending the actual file MIME type in the Content-Type header (disabled by default).
-      - Added a work-around in :php:func:`force_download()` for a bug Android <= 2.1, where the filename extension needs to be in uppercase.
-      - Added support for reading from an existing file path by passing NULL as the second parameter to :php:func:`force_download()` (useful for large files and/or safely transmitting binary data).
+      - Added an optional third parameter to :func:`force_download()` that enables/disables sending the actual file MIME type in the Content-Type header (disabled by default).
+      - Added a work-around in :func:`force_download()` for a bug Android <= 2.1, where the filename extension needs to be in uppercase.
+      - Added support for reading from an existing file path by passing NULL as the second parameter to :func:`force_download()` (useful for large files and/or safely transmitting binary data).
 
    -  :doc:`Form Helper <helpers/form_helper>` changes include:
 
-      - :php:func:`form_dropdown()` will now also take an array for unity with other form helpers.
-      - :php:func:`form_prep()`'s second argument now only accepts a boolean value, which determines whether the value is escaped for a <textarea> or a regular <input> element.
+      - :func:`form_dropdown()` will now also take an array for unity with other form helpers.
+      - :func:`form_prep()`'s second argument now only accepts a boolean value, which determines whether the value is escaped for a <textarea> or a regular <input> element.
 
    -  :doc:`Security Helper <helpers/security_helper>` changes include:
 
-      - :php:func:`do_hash()` now uses PHP's native ``hash()`` function (supporting more algorithms) and is deprecated.
-      - :php:func:`strip_image_tags()` is now an alias for the same method in the :doc:`Security Library <libraries/security>`.
+      - :func:`do_hash()` now uses PHP's native ``hash()`` function (supporting more algorithms) and is deprecated.
+      - :func:`strip_image_tags()` is now an alias for the same method in the :doc:`Security Library <libraries/security>`.
 
    -  :doc:`Smiley Helper <helpers/smiley_helper>` changes include:
 
@@ -113,23 +113,23 @@ Release Date: Not Released
 
    -  :doc:`File Helper <helpers/file_helper>` changes include:
 
-      - :php:func:`set_realpath()` can now also handle file paths as opposed to just directories.
-      - Added an optional paramater to :php:func:`delete_files()` to enable it to skip deleting files such as *.htaccess* and *index.html*.
+      - :func:`set_realpath()` can now also handle file paths as opposed to just directories.
+      - Added an optional paramater to :func:`delete_files()` to enable it to skip deleting files such as *.htaccess* and *index.html*.
       - Deprecated function ``read_file()`` - it's just an alias for PHP's native ``file_get_contents()``.
 
    -  :doc:`String Helper <helpers/string_helper>` changes include:
 
       - Deprecated function ``repeater()`` - it's just an alias for PHP's native ``str_repeat()``.
       - Deprecated function ``trim_slashes()`` - it's just an alias for PHP's native ``trim()`` (with a slash as its second argument).
-      - Deprecated randomization type options **unique** and **encrypt** for funcion :php:func:`random_string()` (they are only aliases for **md5** and **sha1** respectively).
+      - Deprecated randomization type options **unique** and **encrypt** for funcion :func:`random_string()` (they are only aliases for **md5** and **sha1** respectively).
 
    -  :doc:`CAPTCHA Helper <helpers/captcha_helper>` changes include:
 
       - Added *word_length* and *pool* options to allow customization of the generated word.
       - Added *colors* configuration to allow customization for the *background*, *border*, *text* and *grid* colors.
 
-   -  :doc:`Directory Helper <helpers/directory_helper>` :php:func:`directory_map()` will now append ``DIRECTORY_SEPARATOR`` to directory names in the returned array.
-   -  :doc:`Language Helper <helpers/language_helper>` :php:func:`lang()` now accepts an optional list of additional HTML attributes.
+   -  :doc:`Directory Helper <helpers/directory_helper>` :func:`directory_map()` will now append ``DIRECTORY_SEPARATOR`` to directory names in the returned array.
+   -  :doc:`Language Helper <helpers/language_helper>` :func:`lang()` now accepts an optional list of additional HTML attributes.
    -  Deprecated the :doc:`Email Helper <helpers/email_helper>` as its ``valid_email()``, ``send_email()`` functions are now only aliases for PHP native functions ``filter_var()`` and ``mail()`` respectively.
 
 -  Database
@@ -387,12 +387,12 @@ Release Date: Not Released
 
    -  :doc:`Common functions <general/common_functions>` changes include:
 
-      -  Added function :php:func:`get_mimes()` to return the *application/config/mimes.php* array.
-      -  Added support for HTTP code 303 ("See Other") in :php:func:`set_status_header()`.
-      -  Removed redundant conditional to determine HTTP server protocol in :php:func:`set_status_header()`.
+      -  Added function :func:`get_mimes()` to return the *application/config/mimes.php* array.
+      -  Added support for HTTP code 303 ("See Other") in :func:`set_status_header()`.
+      -  Removed redundant conditional to determine HTTP server protocol in :func:`set_status_header()`.
       -  Changed ``_exception_handler()`` to respect php.ini *display_errors* setting.
-      -  Added function :php:func:`is_https()` to check if a secure connection is used.
-      -  Added function :php:func:`function_usable()` to check if a function exists and is not disabled by `Suhosin <http://www.hardened-php.net/suhosin/>`.
+      -  Added function :func:`is_https()` to check if a secure connection is used.
+      -  Added function :func:`function_usable()` to check if a function exists and is not disabled by `Suhosin <http://www.hardened-php.net/suhosin/>`.
 
    -  :doc:`Output Library <libraries/output>` changes include:
 
@@ -437,13 +437,13 @@ Bug fixes for 3.0
 -  Fixed a bug (#181) where a mis-spelling was in the form validation language file.
 -  Fixed a bug (#159, #163) - :doc:`Query Builder <database/query_builder>` nested transactions didn't work properly due to ``_trans_depth`` not being incremented.
 -  Fixed a bug (#737, #75) - :doc:`Pagination <libraries/pagination>` anchor class was not set properly when using initialize method.
--  Fixed a bug (#419) - :php:func:`auto_link()` didn't recognize URLs that come after a word boundary.
+-  Fixed a bug (#419) - :func:`auto_link()` didn't recognize URLs that come after a word boundary.
 -  Fixed a bug (#724) - :doc:`Form Validation Library <libraries/form_validation>` rule **is_unique** didn't check if a database connection exists.
 -  Fixed a bug (#647) - :doc:`Zip Library <libraries/zip>` internal method ``_get_mod_time()`` didn't suppress possible "stat failed" errors generated by ``filemtime()``.
 -  Fixed a bug (#157, #174) - :doc:`Image Manipulation Library <libraries/image_lib>` method ``clear()`` didn't completely clear properties.
 -  Fixed a bug where :doc:`Database Forge <database/forge>` method ``create_table()`` with PostgreSQL database could lead to fetching the whole table.
--  Fixed a bug (#795) - :doc:`Form Helper <helpers/form_helper>` :php:func:`form_open()` didn't add the default form *method* and *accept-charset* when an empty array is passed to it.
--  Fixed a bug (#797) - :php:func:`timespan()` was using incorrect seconds for year and month.
+-  Fixed a bug (#795) - :doc:`Form Helper <helpers/form_helper>` :func:`form_open()` didn't add the default form *method* and *accept-charset* when an empty array is passed to it.
+-  Fixed a bug (#797) - :func:`timespan()` was using incorrect seconds for year and month.
 -  Fixed a bug in CI_Cart::contents() where if called without a TRUE (or equal) parameter, it would fail due to a typo.
 -  Fixed a bug (#696) - make oci_execute() calls inside num_rows() non-committing, since they are only there to reset which row is next in line for oci_fetch calls and thus don't need to be committed.
 -  Fixed a bug (#406) - SQLSRV DB driver not returning resource on ``db_pconnect()``.
@@ -570,7 +570,7 @@ Bug fixes for 3.0
 -  Fixed a bug - :doc:`Routing Library <general/routing>` didn't properly handle *default_controller* in a subdirectory when a method is also specified.
 -  Fixed a bug (#953) - :doc:`post_controller_constructor hook <general/hooks>` wasn't called with a *404_override*.
 -  Fixed a bug (#1220) - :doc:`Profiler Library <general/profiling>` didn't display information for database objects that are instantiated inside models.
--  Fixed a bug (#1978) - :doc:`Directory Helper <helpers/directory_helper>` function :php:func:`directory_map()`'s return array didn't make a distinction between directories and file indexes when a directory with a numeric name is present.
+-  Fixed a bug (#1978) - :doc:`Directory Helper <helpers/directory_helper>` function :func:`directory_map()`'s return array didn't make a distinction between directories and file indexes when a directory with a numeric name is present.
 -  Fixed a bug (#777) - :doc:`Loader Library <libraries/loader>` didn't look for helper extensions in added package paths.
 -  Fixed a bug (#18) - :doc:`APC Cache <libraries/caching>` driver didn't (un)serialize data, resulting in failure to store objects.
 -  Fixed a bug (#188) - :doc:`Unit Testing Library <libraries/unit_testing>` filled up logs with error messages for non-existing language keys.
@@ -594,7 +594,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#2425) - OCI8 :doc:`database <database>` driver's method ``stored_procedure()`` didn't log an error unless **db_debug** was set to TRUE.
 -  Fixed a bug (#2490) - :doc:`Database Class <database/queries>` method ``query()`` returning boolean instead of a result object for PostgreSQL-specific *INSERT INTO ... RETURNING* statements.
 -  Fixed a bug (#249) - :doc:`Cache Library <libraries/caching>` didn't properly handle Memcache(d) configurations with missing options.
--  Fixed a bug (#180) - :php:func:`config_item()` didn't take into account run-time configuration changes.
+-  Fixed a bug (#180) - :func:`config_item()` didn't take into account run-time configuration changes.
 
 Version 2.1.4
 =============

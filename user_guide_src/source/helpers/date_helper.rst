@@ -195,7 +195,7 @@ human_to_unix()
 	:param	int 	$datestr: Date string
 	:returns:	int UNIX timestamp or FALSE on failure
 
-The opposite of the :php:func:`unix_to_time()` function. Takes a "human"
+The opposite of the :func:`unix_to_time()` function. Takes a "human"
 time as input and returns it as a UNIX timestamp. This is useful if you
 accept "human" formatted dates submitted via a form. Returns boolean FALSE
 date string passed to it is not formatted as indicated above.
@@ -323,7 +323,7 @@ Example::
 	echo timezones('UM5');
 
 
-This function is useful when used with :php:func:`timezone_menu()`.
+This function is useful when used with :func:`timezone_menu()`.
 
 timezone_menu()
 ===============

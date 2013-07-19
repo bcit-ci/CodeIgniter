@@ -286,7 +286,7 @@ The above code will produce this::
 	:param	array	$attributes: HTML attributes
 	:returns:	string
 
-Identical to :php:func:`ul()`, only it produces the <ol> tag for
+Identical to :func:`ul()`, only it produces the <ol> tag for
 ordered lists instead of <ul>.
 
 meta()

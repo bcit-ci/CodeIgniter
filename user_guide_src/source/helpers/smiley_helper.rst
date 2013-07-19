@@ -46,7 +46,7 @@ The Controller
 In your `application/controllers/` folder, create a file called
 smileys.php and place the code below in it.
 
-.. important:: Change the URL in the :php:func:`get_clickable_smileys()`
+.. important:: Change the URL in the :func:`get_clickable_smileys()`
 	function below so that it points to your smiley folder.
 
 You'll notice that in addition to the smiley helper, we are also using
@@ -100,7 +100,7 @@ links a generic name that will be tied to a specific id in your view.
 	$image_array = get_smiley_links("http://example.com/images/smileys/", "comment_textarea_alias");
 
 To map the alias to the field id, pass them both into the
-:php:func:`smiley_js()` function::
+:func:`smiley_js()` function::
 
 	$image_array = smiley_js("comment_textarea_alias", "comments");
 

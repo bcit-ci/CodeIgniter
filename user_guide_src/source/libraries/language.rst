@@ -79,7 +79,7 @@ Using language lines as form labels
 -----------------------------------
 
 This feature has been deprecated from the language library and moved to
-the :php:func:`lang()` function of the :doc:`Language Helper
+the :func:`lang()` function of the :doc:`Language Helper
 <../helpers/language_helper>`.
 
 Auto-loading Languages

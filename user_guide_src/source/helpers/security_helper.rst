@@ -97,7 +97,7 @@ encode_php_tags()
 
 This is a security function that converts PHP tags to entities.
 
-.. note: :php:func:`xss_clean()` does this automatically, if you use it.
+.. note: :func:`xss_clean()` does this automatically, if you use it.
 
 Example::
 
