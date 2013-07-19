@@ -37,7 +37,7 @@ $(function (){
     var l = createList('dl.method > dt');
     if (l) {
         var ul = c.clone()
-            .append('<h3>Methods / Function</h3>')
+            .append('<h3>Methods / Functions</h3>')
             .append(l);
     }
     customIndex.append(ul);
