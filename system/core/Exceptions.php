@@ -141,6 +141,17 @@ class CI_Exceptions {
 
 		$message = '<p>'.implode('</p><p>', is_array($message) ? $message : array($message)).'</p>';
 
+		//	Verification CLI Requests (for unit test)
+		if (PHP_SAPI == 'cli')
+		{
+			$message = str_replace(array('<p>', '</p>'), '', $message);
+			echo <<<EOT
+\n{$heading}\n
+Message: {$message}\n
+EOT;
+			return;
+		}
+
 		if (ob_get_level() > $this->ob_level + 1)
 		{
 			ob_end_flush();
@@ -167,6 +178,19 @@ class CI_Exceptions {
 	{
 		$severity = isset($this->levels[$severity]) ? $this->levels[$severity] : $severity;
 		$filepath = str_replace('\\', '/', $filepath);
+
+		//	Verification CLI Requests (for unit test)
+		if (PHP_SAPI == 'cli')
+		{
+			echo <<<EOT
+\nA PHP Error was encountered\n
+Severity: {$severity}\n
+Message: {$message}\n
+Filename: {$filepath}\n
+Line Number: {$line}\n
+EOT;
+			return;
+		}
 
 		// For safety reasons we do not show the full file path
 		if (FALSE !== strpos($filepath, '/'))
