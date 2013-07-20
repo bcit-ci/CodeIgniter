@@ -471,15 +471,24 @@ class CI_User_agent {
 	 */
 	public function is_referral()
 	{
-		if (empty($_SERVER['HTTP_REFERER']))
+		static $result;
+
+		if ( ! isset($result))
 		{
-			return FALSE;
+			if (empty($_SERVER['HTTP_REFERER']))
+			{
+				$result = FALSE;
+			}
+			else
+			{
+				$referer_host = @parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
+				$own_host = parse_url(config_item('base_url'), PHP_URL_HOST);
+
+				$result = ($referer_host && $referer_host !== $own_host);
+			}
 		}
 
-		$referer_host = @parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
-		$own_host = parse_url(config_item('base_url'), PHP_URL_HOST);
-
-		return ($referer_host && $referer_host !== $own_host);
+		return $result;
 	}
 
 	// --------------------------------------------------------------------
