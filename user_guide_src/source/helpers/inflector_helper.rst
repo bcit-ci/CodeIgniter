@@ -5,7 +5,12 @@ Inflector Helper
 The Inflector Helper file contains functions that permits you to change
 words to plural, singular, camel case, etc.
 
-.. contents:: Page Contents
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
 
 Loading this Helper
 ===================
@@ -14,86 +19,77 @@ This helper is loaded using the following code::
 
 	$this->load->helper('inflector');
 
+Available Functions
+===================
+
 The following functions are available:
 
-singular()
-==========
 
 .. function:: singular($str)
 
 	:param	string	$str: Input string
 	:returns:	string
 
-Changes a plural word to singular. Example::
+	Changes a plural word to singular. Example::
 
-	echo singular('dogs'); // Prints 'dog'
+		echo singular('dogs'); // Prints 'dog'
 
-plural()
-========
 
 .. function:: plural($str)
 
 	:param	string	$str: Input string
 	:returns:	string
 
-Changes a singular word to plural. Example::
+	Changes a singular word to plural. Example::
 
-	echo plural('dog'); // Prints 'dogs'
+		echo plural('dog'); // Prints 'dogs'
 
-camelize()
-==========
 
 .. function:: camelize($str)
 
 	:param	string	$str: Input string
 	:returns:	string
 
-Changes a string of words separated by spaces or underscores to camel
-case. Example::
+	Changes a string of words separated by spaces or underscores to camel
+	case. Example::
 
-	echo camelize('my_dog_spot'); // Prints 'myDogSpot'
+		echo camelize('my_dog_spot'); // Prints 'myDogSpot'
 
-underscore()
-============
 
-.. function:: camelize($str)
+.. function:: underscore($str)
 
 	:param	string	$str: Input string
 	:returns:	string
 
-Takes multiple words separated by spaces and underscores them.
-Example::
+	Takes multiple words separated by spaces and underscores them.
+	Example::
 
-	echo underscore('my dog spot'); // Prints 'my_dog_spot'
+		echo underscore('my dog spot'); // Prints 'my_dog_spot'
 
-humanize()
-==========
 
-.. function:: camelize($str)
+.. function:: humanize($str[, $separator = '_'])
 
 	:param	string	$str: Input string
 	:param	string	$separator: Input separator
 	:returns:	string
 
-Takes multiple words separated by underscores and adds spaces between
-them. Each word is capitalized.
+	Takes multiple words separated by underscores and adds spaces between
+	them. Each word is capitalized.
 
-Example::
+	Example::
 
-	echo humanize('my_dog_spot'); // Prints 'My Dog Spot'
+		echo humanize('my_dog_spot'); // Prints 'My Dog Spot'
 
-To use dashes instead of underscores::
+	To use dashes instead of underscores::
 
-	echo humanize('my-dog-spot', '-'); // Prints 'My Dog Spot'
+		echo humanize('my-dog-spot', '-'); // Prints 'My Dog Spot'
 
-is_countable()
-==============
 
 .. function:: is_countable($word)
 
 	:param	string	$word: Input string
 	:returns:	bool
 
-Checks if the given word has a plural version. Example::
+	Checks if the given word has a plural version. Example::
 
-	is_countable('equipment'); // Returns FALSE
+		is_countable('equipment'); // Returns FALSE
