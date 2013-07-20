@@ -476,8 +476,10 @@ class CI_User_agent {
 			return FALSE;
 		}
 
-		$referer = parse_url($_SERVER['HTTP_REFERER']);
-		return ! (empty($referer['host']) && strpos(config_item('base_url'), $referer['host']) !== FALSE);
+		$referer_host = @parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
+		$own_host = parse_url(config_item('base_url'), PHP_URL_HOST);
+
+		return ($referer_host && $referer_host !== $own_host);
 	}
 
 	// --------------------------------------------------------------------
