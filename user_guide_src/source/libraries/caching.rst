@@ -20,16 +20,16 @@ available in the hosting environment.
 ::
 
 	$this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-	
+
 	if ( ! $foo = $this->cache->get('foo'))
 	{
 		echo 'Saving to the cache!<br />';
 		$foo = 'foobarbaz!';
-		
+
 		// Save into the cache for 5 minutes
 		$this->cache->save('foo', $foo, 300);
 	}
-	
+
 	echo $foo;
 
 You can also prefix cache item names via the **key_prefix** setting, which is useful
@@ -47,24 +47,24 @@ to avoid collisions when you're running multiple applications on the same enviro
 Function Reference
 ******************
 
-.. php:class:: CI_Cache
+.. class:: CI_Cache
 
 is_supported()
 ==============
 
-	.. php:method:: is_supported ( $driver )
+	.. method:: is_supported ( $driver )
 
 		This function is automatically called when accessing drivers via
 		$this->cache->get(). However, if the individual drivers are used, make
 		sure to call this function to ensure the driver is supported in the
 		hosting environment.
-		
+
 		:param string $driver: the name of the caching driver
 		:returns: TRUE if supported, FALSE if not
 		:rtype: Boolean
-		
+
 		::
-				
+
 			if ($this->cache->apc->is_supported()
 			{
 				if ($data = $this->cache->apc->get('my_cache'))
@@ -77,15 +77,15 @@ is_supported()
 get()
 =====
 
-	.. php:method:: get ( $id )
-	
+	.. method:: get ( $id )
+
 		This function will attempt to fetch an item from the cache store. If the
 		item does not exist, the function will return FALSE.
 
 		:param string $id: name of cached item
 		:returns: The item if it exists, FALSE if it does not
 		:rtype: Mixed
-		
+
 		::
 
 			$foo = $this->cache->get('my_cached_item');
@@ -94,8 +94,8 @@ get()
 save()
 ======
 
-	.. php:method:: save ( $id , $data [, $ttl])
-	
+	.. method:: save ( $id , $data [, $ttl])
+
 		This function will save an item to the cache store. If saving fails, the
 		function will return FALSE.
 
@@ -108,19 +108,19 @@ save()
 		::
 
 			$this->cache->save('cache_item_id', 'data_to_cache');
-	
+
 delete()
 ========
 
-	.. php:method:: delete ( $id )
-	
+	.. method:: delete ( $id )
+
 		This function will delete a specific item from the cache store. If item
 		deletion fails, the function will return FALSE.
 
 		:param string $id: name of cached item
 		:returns: TRUE if deleted, FALSE if the deletion fails
 		:rtype: Boolean
-		
+
 		::
 
 			$this->cache->delete('cache_item_id');
@@ -128,14 +128,14 @@ delete()
 clean()
 =======
 
-	.. php:method:: clean ( )
-	
+	.. method:: clean ( )
+
 		This function will 'clean' the entire cache. If the deletion of the
 		cache files fails, the function will return FALSE.
 
 		:returns: TRUE if deleted, FALSE if the deletion fails
 		:rtype: Boolean
-		
+
 		::
 
 			$this->cache->clean();
@@ -143,33 +143,33 @@ clean()
 cache_info()
 ============
 
-	.. php:method:: cache_info ( )
+	.. method:: cache_info ( )
 
 		This function will return information on the entire cache.
 
 		:returns: information on the entire cache
 		:rtype: Mixed
-		
+
 		::
 
 			var_dump($this->cache->cache_info());
-		
+
 		.. note:: The information returned and the structure of the data is dependent
 			on which adapter is being used.
-	
+
 
 get_metadata()
 ==============
 
-	.. php:method:: get_metadata ( $id )
-	
+	.. method:: get_metadata ( $id )
+
 		This function will return detailed information on a specific item in the
 		cache.
-		
+
 		:param string $id: name of cached item
 		:returns: metadadta for the cached item
 		:rtype: Mixed
-		
+
 		::
 
 			var_dump($this->cache->get_metadata('my_cached_item'));
