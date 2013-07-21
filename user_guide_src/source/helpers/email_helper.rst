@@ -6,9 +6,14 @@ The Email Helper provides some assistive functions for working with
 Email. For a more robust email solution, see CodeIgniter's :doc:`Email
 Class <../libraries/email>`.
 
-.. contents:: Page Contents
+.. important:: The Email helper is **deprecated**.
 
-.. important:: The Email helper is DEPRECATED.
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
 
 Loading this Helper
 ===================
@@ -17,37 +22,36 @@ This helper is loaded using the following code::
 
 	$this->load->helper('email');
 
+Available Functions
+===================
+
 The following functions are available:
 
-valid_email()
-=============
 
 .. function:: valid_email($email)
 
 	:param	string	$email: Email address
 	:returns:	bool
 
-Checks if the input is a correctly formatted e-mail address. Note that is
-doesn't actually prove that the address will be able recieve mail, but
-simply that it is a validly formed address.
+	Checks if the input is a correctly formatted e-mail address. Note that is
+	doesn't actually prove that the address will be able recieve mail, but
+	simply that it is a validly formed address.
 
-Example::
+	Example::
 
-	if (valid_email('email@somesite.com'))
-	{
-		echo 'email is valid';
-	}
-	else
-	{
-		echo 'email is not valid';
-	}
+		if (valid_email('email@somesite.com'))
+		{
+			echo 'email is valid';
+		}
+		else
+		{
+			echo 'email is not valid';
+		}
 
-.. note:: All that this function does is to use PHP's native ``filter_var()``:
-	|
-	| (bool) filter_var($email, FILTER_VALIDATE_EMAIL);
+	.. note:: All that this function does is to use PHP's native ``filter_var()``::
 
-send_email()
-============
+		(bool) filter_var($email, FILTER_VALIDATE_EMAIL);
+
 
 .. function:: send_email($recipient, $subject, $message)
 
@@ -56,12 +60,14 @@ send_email()
 	:param	string	$message: Message body
 	:returns:	bool
 
-Sends an email using PHP's native `mail() <http://www.php.net/function.mail>`_
-function.
+	Sends an email using PHP's native `mail() <http://www.php.net/function.mail>`_
+	function.
 
-.. note:: All that this function does is to use PHP's native ``mail``:
-	|
-	| mail($recipient, $subject, $message);
+	.. note:: All that this function does is to use PHP's native ``mail``
 
-For a more robust email solution, see CodeIgniter's :doc:`Email Library
-<../libraries/email>`.
+		::
+
+			mail($recipient, $subject, $message);
+
+	For a more robust email solution, see CodeIgniter's :doc:`Email Library
+	<../libraries/email>`.
