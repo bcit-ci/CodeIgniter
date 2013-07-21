@@ -7,6 +7,17 @@ calendars can be formatted through the use of a calendar template,
 allowing 100% control over every aspect of its design. In addition, you
 can pass data to your calendar cells.
 
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
+
+***************************
+Using the Calendaring Class
+***************************
+
 Initializing the Class
 ======================
 
@@ -87,7 +98,7 @@ month heading, and the "short" day names. More information regarding
 preferences below.
 
 ======================  ===========  ===============================================  ===================================================================
-Preference              Default		Options						Description                                                    
+Preference              Default		Options						Description
 ======================  ===========  ===============================================  ===================================================================
 **template**           	None		None                                         	A string containing your calendar template.
 											See the template section below.
@@ -95,7 +106,7 @@ Preference              Default		Options						Description
 **start_day**         	sunday		Any week day (sunday, monday, tuesday, etc.) 	Sets the day of the week the calendar should start on.
 **month_type**        	long          	long, short                                   	Determines what version of the month name to use in the header.
 											long = January, short = Jan.
-**day_type**		abr		long, short, abr 				Determines what version of the weekday names to use in 
+**day_type**		abr		long, short, abr 				Determines what version of the weekday names to use in
 											the column headers. long = Sunday, short = Sun, abr = Su.
 **show_next_prev**	FALSE		TRUE/FALSE (boolean)				Determines whether to display links allowing you to toggle
 											to next/previous months. See information on this feature below.
@@ -172,3 +183,94 @@ pair of pseudo-variables as shown here::
 	$this->load->library('calendar', $prefs);
 
 	echo $this->calendar->generate();
+
+***************
+Class Reference
+***************
+
+.. class:: CI_Calendar
+
+	.. method:: initialize([$config = array()])
+
+		:param array $config: config preferences
+		:returns: void
+
+		Initializes the Calendaring preferences. Accepts an associative array as input, containing display preferences.
+
+
+	.. method:: generate([$year = ''[, $month = ''[, $data = array()]]])
+
+		:param int $year: the year
+		:param int $month: the month
+		:param array $data: the data to be shown in the calendar cells
+		:returns: string
+
+		Generate the calendar.
+
+
+	.. method:: get_month_name($month)
+
+		:param int $month: the numeric month
+		:returns: string
+
+		Generates a textual month name based on the numeric month provided.
+
+
+	.. method:: get_day_names($day_type = '')
+
+		:param string $day_type: one of 'long', 'short', or 'abr'
+		:returns: array
+
+		Returns an array of day names (Sunday, Monday, etc.) based on the type
+		provided. Options: long, short, abr. If no ``$day_type`` is provided (or
+		if an invalid type is provided) this method will return the "abbreviated"
+		style.
+
+
+	.. method:: adjust_date($month, $year)
+
+		:param int $month: the month
+		:param int $year: the year
+		:returns: array
+
+		This method makes usre that you have a valid month/year. For example, if
+		you submit 13 as the month, the year will increment and the month will
+		become January::
+
+			print_r($this->calendar->adjust_date(13, 2013));
+
+		outputs::
+
+			Array
+			(    
+				[month] => '01'
+				[year] => '2014'
+			)
+
+
+	.. method:: get_total_days($month, $year)
+
+		:param int $month: the month
+		:param int $year: the year
+		:returns: int
+
+		Total days in a given month::
+
+			echo $this->calendar->get_total_days(2, 2012);
+			// 29
+
+
+	.. method:: default_template()
+
+		:returns: array
+
+		Sets the default template. This method is used when you have not created
+		your own template.
+
+
+	.. method:: parse_template()
+
+		:returns: void
+
+		Harvests the data within the template ``{pseudo-variables}`` used to
+		display the calendar.

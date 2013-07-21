@@ -329,7 +329,7 @@ class CI_Calendar {
 	 * Get Day Names
 	 *
 	 * Returns an array of day names (Sunday, Monday, etc.) based
-	 * on the type. Options: long, short, abrev
+	 * on the type. Options: long, short, abr
 	 *
 	 * @param	string
 	 * @return	array
