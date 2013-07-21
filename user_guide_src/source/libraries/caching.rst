@@ -7,7 +7,12 @@ fast and dynamic caching. All but file-based caching require specific
 server requirements, and a Fatal Exception will be thrown if server
 requirements are not met.
 
-.. contents:: Table of Contents
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
 
 *************
 Example Usage
@@ -43,25 +48,22 @@ to avoid collisions when you're running multiple applications on the same enviro
 
 	$this->cache->get('foo'); // Will get the cache entry named 'my_foo'
 
-******************
-Function Reference
-******************
+***************
+Class Reference
+***************
 
 .. class:: CI_Cache
 
-is_supported()
-==============
-
 	.. method:: is_supported ( $driver )
+
+		:param string $driver: the name of the caching driver
+		:returns: TRUE if supported, FALSE if not
+		:rtype: Boolean
 
 		This function is automatically called when accessing drivers via
 		$this->cache->get(). However, if the individual drivers are used, make
 		sure to call this function to ensure the driver is supported in the
 		hosting environment.
-
-		:param string $driver: the name of the caching driver
-		:returns: TRUE if supported, FALSE if not
-		:rtype: Boolean
 
 		::
 
@@ -74,30 +76,21 @@ is_supported()
 			}
 
 
-get()
-=====
-
 	.. method:: get ( $id )
-
-		This function will attempt to fetch an item from the cache store. If the
-		item does not exist, the function will return FALSE.
 
 		:param string $id: name of cached item
 		:returns: The item if it exists, FALSE if it does not
 		:rtype: Mixed
+
+		This function will attempt to fetch an item from the cache store. If the
+		item does not exist, the function will return FALSE.
 
 		::
 
 			$foo = $this->cache->get('my_cached_item');
 
 
-save()
-======
-
-	.. method:: save ( $id , $data [, $ttl])
-
-		This function will save an item to the cache store. If saving fails, the
-		function will return FALSE.
+	.. method:: save ( $id , $data [, $ttl = 60])
 
 		:param string $id: name of the cached item
 		:param mixed $data: the data to save
@@ -105,50 +98,47 @@ save()
 		:returns: TRUE on success, FALSE on failure
 		:rtype: Boolean
 
+		This function will save an item to the cache store. If saving fails, the
+		function will return FALSE.
+
 		::
 
 			$this->cache->save('cache_item_id', 'data_to_cache');
 
-delete()
-========
 
 	.. method:: delete ( $id )
-
-		This function will delete a specific item from the cache store. If item
-		deletion fails, the function will return FALSE.
 
 		:param string $id: name of cached item
 		:returns: TRUE if deleted, FALSE if the deletion fails
 		:rtype: Boolean
 
+		This function will delete a specific item from the cache store. If item
+		deletion fails, the function will return FALSE.
+
 		::
 
 			$this->cache->delete('cache_item_id');
 
-clean()
-=======
 
 	.. method:: clean ( )
 
-		This function will 'clean' the entire cache. If the deletion of the
-		cache files fails, the function will return FALSE.
-
 		:returns: TRUE if deleted, FALSE if the deletion fails
 		:rtype: Boolean
+
+		This function will 'clean' the entire cache. If the deletion of the
+		cache files fails, the function will return FALSE.
 
 		::
 
 			$this->cache->clean();
 
-cache_info()
-============
 
 	.. method:: cache_info ( )
 
-		This function will return information on the entire cache.
-
 		:returns: information on the entire cache
 		:rtype: Mixed
+
+		This function will return information on the entire cache.
 
 		::
 
@@ -158,17 +148,14 @@ cache_info()
 			on which adapter is being used.
 
 
-get_metadata()
-==============
-
 	.. method:: get_metadata ( $id )
-
-		This function will return detailed information on a specific item in the
-		cache.
 
 		:param string $id: name of cached item
 		:returns: metadadta for the cached item
 		:rtype: Mixed
+
+		This function will return detailed information on a specific item in the
+		cache.
 
 		::
 
