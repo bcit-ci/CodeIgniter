@@ -60,9 +60,9 @@ Class Reference
 		:returns: TRUE if supported, FALSE if not
 		:rtype: Boolean
 
-		This function is automatically called when accessing drivers via
+		This method is automatically called when accessing drivers via
 		$this->cache->get(). However, if the individual drivers are used, make
-		sure to call this function to ensure the driver is supported in the
+		sure to call this method to ensure the driver is supported in the
 		hosting environment.
 
 		::
@@ -82,8 +82,8 @@ Class Reference
 		:returns: The item if it exists, FALSE if it does not
 		:rtype: Mixed
 
-		This function will attempt to fetch an item from the cache store. If the
-		item does not exist, the function will return FALSE.
+		This method will attempt to fetch an item from the cache store. If the
+		item does not exist, the method will return FALSE.
 
 		::
 
@@ -98,8 +98,8 @@ Class Reference
 		:returns: TRUE on success, FALSE on failure
 		:rtype: Boolean
 
-		This function will save an item to the cache store. If saving fails, the
-		function will return FALSE.
+		This method will save an item to the cache store. If saving fails, the
+		method will return FALSE.
 
 		::
 
@@ -112,8 +112,8 @@ Class Reference
 		:returns: TRUE if deleted, FALSE if the deletion fails
 		:rtype: Boolean
 
-		This function will delete a specific item from the cache store. If item
-		deletion fails, the function will return FALSE.
+		This method will delete a specific item from the cache store. If item
+		deletion fails, the method will return FALSE.
 
 		::
 
@@ -125,8 +125,8 @@ Class Reference
 		:returns: TRUE if deleted, FALSE if the deletion fails
 		:rtype: Boolean
 
-		This function will 'clean' the entire cache. If the deletion of the
-		cache files fails, the function will return FALSE.
+		This method will 'clean' the entire cache. If the deletion of the
+		cache files fails, the method will return FALSE.
 
 		::
 
@@ -138,7 +138,7 @@ Class Reference
 		:returns: information on the entire cache
 		:rtype: Mixed
 
-		This function will return information on the entire cache.
+		This method will return information on the entire cache.
 
 		::
 
@@ -154,7 +154,7 @@ Class Reference
 		:returns: metadadta for the cached item
 		:rtype: Mixed
 
-		This function will return detailed information on a specific item in the
+		This method will return detailed information on a specific item in the
 		cache.
 
 		::
@@ -171,7 +171,7 @@ Drivers
 Alternative PHP Cache (APC) Caching
 ===================================
 
-All of the functions listed above can be accessed without passing a
+All of the methods listed above can be accessed without passing a
 specific adapter to the driver loader as follows::
 
 	$this->load->driver('cache');
@@ -188,7 +188,7 @@ allows for pieces of view files to be cached. Use this with care, and
 make sure to benchmark your application, as a point can come where disk
 I/O will negate positive gains by caching.
 
-All of the functions listed above can be accessed without passing a
+All of the methods listed above can be accessed without passing a
 specific adapter to the driver loader as follows::
 
 	$this->load->driver('cache');
@@ -214,7 +214,7 @@ WinCache Caching
 
 Under Windows, you can also utilize the WinCache driver.
 
-All of the functions listed above can be accessed without passing a
+All of the methods listed above can be accessed without passing a
 specific adapter to the driver loader as follows::
 
 	$this->load->driver('cache');
