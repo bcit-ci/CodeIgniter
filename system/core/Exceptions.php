@@ -110,9 +110,20 @@ class CI_Exceptions {
 		$heading = '404 Page Not Found';
 		$message = 'The page you requested was not found.';
 
+		$log_message = '404 Page Not Found --> '.$page;
+
 		// By default we log this, but allow a dev to skip it
 		if ($log_error)
 		{
+			$IN	=& load_class('Input', 'core');
+	        //  Verification CLI Requests (for unit test)
+	        if ($IN->is_cli_request() == 'cli')
+	        {
+				$heading = 'Method Not Found';
+				$message = 'The method you requested was not found.';
+				$log_message = 'Method Not Found --> '.$page;
+	        }
+
 			log_message('error', '404 Page Not Found --> '.$page);
 		}
 
@@ -141,6 +152,14 @@ class CI_Exceptions {
 
 		$message = '<p>'.implode('</p><p>', is_array($message) ? $message : array($message)).'</p>';
 
+		$IN	=& load_class('Input', 'core');
+
+        if ($IN->is_cli_request() == 'cli')
+        {
+        	$message = str_replace(array('<p>', '</p>'), '', $message);
+            $template .= '_cli';
+        }
+
 		if (ob_get_level() > $this->ob_level + 1)
 		{
 			ob_end_flush();
@@ -168,6 +187,13 @@ class CI_Exceptions {
 		$severity = isset($this->levels[$severity]) ? $this->levels[$severity] : $severity;
 		$filepath = str_replace('\\', '/', $filepath);
 
+		$template = 'error_php';
+		$IN	=& load_class('Input', 'core');
+        //  Verification CLI Requests (for unit test)
+        if ($IN->is_cli_request() == 'cli')
+        {
+            $template .= '_cli';
+        }
 		// For safety reasons we do not show the full file path
 		if (FALSE !== strpos($filepath, '/'))
 		{
@@ -180,7 +206,7 @@ class CI_Exceptions {
 			ob_end_flush();
 		}
 		ob_start();
-		include(VIEWPATH.'errors/error_php.php');
+		include(VIEWPATH.'errors/' . $template . '.php');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		echo $buffer;
