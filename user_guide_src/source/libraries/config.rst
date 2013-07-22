@@ -9,7 +9,16 @@ These preferences can come from the default config file
 .. note:: This class is initialized automatically by the system so there
 	is no need to do it manually.
 
-.. contents:: Page Contents
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
+
+*****************************
+Working with the Config Class
+*****************************
 
 Anatomy of a Config File
 ========================
@@ -157,27 +166,86 @@ folders:
 	that you wish to change for your environment. The config items declared in your environment
 	folders always overwrite those in your global config files.
 
-Helper Functions
-================
 
-The config class has the following helper functions:
+***************
+Class Reference
+***************
 
-$this->config->site_url();
-***************************
+.. class:: CI_Config
 
-This function retrieves the URL to your site, along with the "index"
-value you've specified in the config file.
+	.. attribute:: $config
 
-$this->config->base_url();
-***************************
+		Array of all loaded config values
 
-This function retrieves the URL to your site, plus an optional path such
-as to a stylesheet or image.
+	.. attribute:: $is_loaded
 
-The two functions above are normally accessed via the corresponding
-functions in the :doc:`URL Helper </helpers/url_helper>`.
+		Array of all loaded config files
 
-$this->config->system_url();
-*****************************
 
-This function retrieves the URL to your system folder.
+	.. method:: item($item[, $index=''])
+
+		:param string $item: config item name
+		:param string $index: index name, if the item is an element in a config
+			item that is itself an array.
+		:returns: mixed - the config item or FALSE if it does not exist
+
+		Fetch a config file item.
+
+
+	.. method:: set_item($item, $value)
+
+		:param string $item: config item name
+		:param string $value: config item value
+		:returns: void
+
+		Sets a config file item to the specified value.
+
+
+	.. method:: slash_item($item)
+
+		:param string $item: config item name
+		:returns: moxied - the config item (slashed) or FALSE if it does not exist
+
+		This method is identical to :meth:item:, except it appends a forward
+		slash to the end of the item, if it exists.
+
+
+	.. method:: load([$file = ''[, $use_sections = FALSE[, $fail_gracefully = FALSE]]])
+
+		:param string $file: Configuration file name
+		:param bool $use_sections: Whether config values shoud be loaded into
+			their own section (index of the main config array)
+		:param bool $fail_gracefully: Whether to return FALSE or to display an
+			error message
+		:returns: bool
+
+		Loads a configuration file.
+
+
+	.. method:: site_url()
+
+		:returns: string
+
+		This method retrieves the URL to your site, along with the "index" value
+		you've specified in the config file.
+
+		This method is normally accessed via the corresponding functions in the
+		:doc:`URL Helper </helpers/url_helper>`.
+
+
+	.. method:: base_url()
+
+		:returns: string
+
+		This method retrieves the URL to your site, plus an optional path such
+		as to a stylesheet or image.
+
+		This method is normally accessed via the corresponding functions in the
+		:doc:`URL Helper </helpers/url_helper>`.
+
+
+	.. method:: system_url()
+
+		:returns: string
+
+		This method retrieves the URL to your system folder.
