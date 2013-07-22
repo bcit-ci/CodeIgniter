@@ -97,8 +97,8 @@ Class files must be named in a Ucfirst-like manner, while any other file name
 
 **CORRECT**::
 
-	SomeLibrary.php
-	Some_Library.php
+	Somelibrary.php
+	Some_library.php
 
 	applicationconfig.php
 	application_config.php
