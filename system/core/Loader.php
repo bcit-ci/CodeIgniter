@@ -1197,6 +1197,15 @@ class CI_Loader {
 			}
 		}
 
+		// Autoload drivers
+		if (isset($autoload['drivers']))
+		{
+			foreach ($autoload['drivers'] as $item)
+			{
+				$this->driver($item);
+			}
+		}
+
 		// Load libraries
 		if (isset($autoload['libraries']) && count($autoload['libraries']) > 0)
 		{
@@ -1211,15 +1220,6 @@ class CI_Loader {
 			foreach ($autoload['libraries'] as $item)
 			{
 				$this->library($item);
-			}
-		}
-
-		// Autoload drivers
-		if (isset($autoload['drivers']))
-		{
-			foreach ($autoload['drivers'] as $item)
-			{
-				$this->driver($item);
 			}
 		}
 
