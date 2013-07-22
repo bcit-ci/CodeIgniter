@@ -40,7 +40,7 @@ The Log Class is considered as a "core" class and is now located in the
 or extensions to work, you need to move them to **application/core/**::
 
 	application/libraries/Log.php -> application/core/Log.php
-	application/libraries/MY_Log.php -> application/core/MY_log.php
+	application/libraries/MY_Log.php -> application/core/MY_Log.php
 
 *********************************************************
 Step 5: Convert your Session usage from library to driver
@@ -78,9 +78,9 @@ need to rename the `$active_record` variable to `$query_builder`
 	// $active_record = TRUE;
 	$query_builder = TRUE;
 
-*******************************
-Step 7: Move your errors folder
-*******************************
+*******************************************
+Step 7: Move your error templates directory
+*******************************************
 
 In version 3.0.0, the errors folder has been moved from _application/errors* to _application/views/errors*.
 
@@ -122,7 +122,7 @@ The same goes for driver libraries and extensions and/or overrides of CodeIgnite
 own libraries and core classes.
 
 	application/libraries/MY_email.php
-	application/core/MY_log.php
+	application/core/MY_Log.php
 
 The above files should respectively be renamed to the following:
 
