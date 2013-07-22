@@ -83,7 +83,7 @@ place this code and save it to your **application/views/** directory::
 The Controller
 ==============
 
-Using a text editor, create a controller called upload.php. In it, place
+Using a text editor, create a controller called Upload.php. In it, place
 this code and save it to your **application/controllers/** directory::
 
 	<?php

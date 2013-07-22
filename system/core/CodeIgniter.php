@@ -240,12 +240,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	// Load the local application controller
 	// Note: The Router class automatically validates the controller path using the router->_validate_request().
 	// If this include fails it means that the default controller in the Routes.php file is not resolving to something valid.
-	if ( ! file_exists(APPPATH.'controllers/'.$RTR->directory.$RTR->class.'.php'))
+	$class = ucfirst($RTR->class);
+	if ( ! file_exists(APPPATH.'controllers/'.$RTR->directory.$class.'.php'))
 	{
 		show_error('Unable to load your default controller. Please make sure the controller specified in your Routes.php file is valid.');
 	}
 
-	include(APPPATH.'controllers/'.$RTR->directory.$RTR->class.'.php');
+	include(APPPATH.'controllers/'.$RTR->directory.$class.'.php');
 
 	// Set a mark point for benchmarking
 	$BM->mark('loading_time:_base_classes_end');
@@ -257,9 +258,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  *  None of the methods in the app controller or the
  *  loader class can be called via the URI, nor can
- *  controller functions that begin with an underscore.
+ *  controller methods that begin with an underscore.
  */
-	$class	= $RTR->class;
 	$method	= $RTR->method;
 
 	if ( ! class_exists($class, FALSE) OR $method[0] === '_' OR method_exists('CI_Controller', $method))
@@ -270,6 +270,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			{
 				$method = 'index';
 			}
+
+			$class = ucfirst($class);
 
 			if ( ! class_exists($class, FALSE))
 			{
@@ -308,6 +310,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			{
 				$method = 'index';
 			}
+
+			$class = ucfirst($class);
 
 			if ( ! class_exists($class, FALSE))
 			{

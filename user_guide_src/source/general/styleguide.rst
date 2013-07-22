@@ -71,12 +71,41 @@ identify a file as being complete and not truncated.
 
 	echo "Here's my code!";
 
-	/* End of file myfile.php */
+	/* End of file Myfile.php */
 	/* Location: ./system/modules/mymodule/myfile.php */
 
 .. note:: There should be no empty line or newline character(s) following
 	the closing comments. If you happen to see one when
 	submitting a pull request, please check your IDE settings and fix it.
+
+File Naming
+===========
+
+Class files must be named in a Ucfirst-like manner, while any other file name
+(configurations, views, generic scripts, etc.) should be in all lowercase.
+
+**INCORRECT**::
+
+	somelibrary.php
+	someLibrary.php
+	SOMELIBRARY.php
+	Some_Library.php
+
+	Application_config.php
+	Application_Config.php
+	applicationConfig.php
+
+**CORRECT**::
+
+	SomeLibrary.php
+	Some_Library.php
+
+	applicationconfig.php
+	application_config.php
+
+Furthermore, class file names should match the name of the class itself.
+For example, if you have a class named `Myclass`, then its filename must
+be **Myclass.php**.
 
 Class and Method Naming
 =======================

@@ -261,7 +261,22 @@ class CI_Loader {
 			show_error('The model name you are loading is the name of a resource that is already being used: '.$name);
 		}
 
-		$model = strtolower($model);
+		if ($db_conn !== FALSE && ! class_exists('CI_DB', FALSE))
+		{
+			if ($db_conn === TRUE)
+			{
+				$db_conn = '';
+			}
+
+			$CI->load->database($db_conn, FALSE, TRUE);
+		}
+
+		if ( ! class_exists('CI_Model', FALSE))
+		{
+			load_class('Model', 'core');
+		}
+
+		$model = ucfirst(strtolower($model));
 
 		foreach ($this->_ci_model_paths as $mod_path)
 		{
@@ -270,24 +285,8 @@ class CI_Loader {
 				continue;
 			}
 
-			if ($db_conn !== FALSE && ! class_exists('CI_DB', FALSE))
-			{
-				if ($db_conn === TRUE)
-				{
-					$db_conn = '';
-				}
-
-				$CI->load->database($db_conn, FALSE, TRUE);
-			}
-
-			if ( ! class_exists('CI_Model', FALSE))
-			{
-				load_class('Model', 'core');
-			}
-
 			require_once($mod_path.'models/'.$path.$model.'.php');
 
-			$model = ucfirst($model);
 			$CI->$name = new $model();
 			$this->_ci_models[] = $name;
 			return;

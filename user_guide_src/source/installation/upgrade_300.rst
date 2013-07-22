@@ -17,22 +17,63 @@ they will need to be made fresh in this new one.
 .. note:: If you have any custom developed files in these folders please
 	make copies of them first.
 
+**************************************
+Step 2: Update your classes file names
+**************************************
+
+Starting with CodeIgniter 3.0, all class filenames (libraries, drivers, controllers
+and models) must be named in a Ucfirst-like manner or in other words - they must
+start with a capital letter.
+
+For example, if you have the following library file:
+
+	application/libraries/mylibrary.php
+
+... then you'll have to rename it to:
+
+	application/libraries/Mylibrary.php
+
+The same goes for driver libraries and extensions and/or overrides of CodeIgniter's
+own libraries and core classes.
+
+	application/libraries/MY_email.php
+	application/core/MY_log.php
+
+The above files should respectively be renamed to the following:
+
+	application/libraries/MY_Email.php
+	application/core/MY_Log.php
+
+Controllers:
+
+	application/controllers/welcome.php	->	application/controllers/Welcome.php
+
+Models:
+
+	application/models/misc_model.php	->	application/models/Misc_model.php
+
+Please note that this DOES NOT affect directories, configuration files, views,
+helpers, hooks and anything else - it is only applied to classes.
+
+You must now follow just one simple rule - class names in Ucfirst and everything else
+in lowercase.
+
 ********************************
-Step 2: Replace config/mimes.php
+Step 3: Replace config/mimes.php
 ********************************
 
 This config file has been updated to contain more user mime-types, please copy
 it to _application/config/mimes.php*.
 
 **************************************************************
-Step 3: Remove $autoload['core'] from your config/autoload.php
+Step 4: Remove $autoload['core'] from your config/autoload.php
 **************************************************************
 
 Use of the ``$autoload['core']`` config array has been deprecated as of CodeIgniter 1.4.1 and is now removed.
 Move any entries that you might have listed there to ``$autoload['libraries']`` instead.
 
 ***************************************************
-Step 4: Move your Log class overrides or extensions
+Step 5: Move your Log class overrides or extensions
 ***************************************************
 
 The Log Class is considered as a "core" class and is now located in the
@@ -43,7 +84,7 @@ or extensions to work, you need to move them to **application/core/**::
 	application/libraries/MY_Log.php -> application/core/MY_Log.php
 
 *********************************************************
-Step 5: Convert your Session usage from library to driver
+Step 6: Convert your Session usage from library to driver
 *********************************************************
 
 When you load (or autoload) the Session library, you must now load it as a driver instead of a library. This means
@@ -67,7 +108,7 @@ standard for Drivers. Also beware that some functions which are not part of the 
 the drivers, so your extension may have to be broken down into separate library and driver class extensions.
 
 ***************************************
-Step 6: Update your config/database.php
+Step 7: Update your config/database.php
 ***************************************
 
 Due to 3.0.0's renaming of Active Record to Query Builder, inside your `config/database.php`, you will
@@ -79,13 +120,13 @@ need to rename the `$active_record` variable to `$query_builder`
 	$query_builder = TRUE;
 
 *******************************************
-Step 7: Move your error templates directory
+Step 8: Move your error templates directory
 *******************************************
 
 In version 3.0.0, the errors folder has been moved from _application/errors* to _application/views/errors*.
 
 *******************************************************
-Step 8: Update your config/routes.php containing (:any)
+Step 9: Update your config/routes.php containing (:any)
 *******************************************************
 
 Historically, CodeIgniter has always provided the **:any** wildcard in routing,
@@ -103,31 +144,6 @@ regular expression::
 
 	(.+)	// matches ANYTHING
 	(:any)	// matches any character, except for '/'
-
-*****************************************
-Step 9: Update your libraries' file names
-*****************************************
-
-CodeIgniter 3.0 only allows library file names to be named in a *ucfirst* manner
-(meaning that the first letter of the class name must be a capital). For example,
-if you have the following library file:
-
-	application/libraries/mylibrary.php
-
-... then you'll have to rename it to:
-
-	application/libraries/Mylibrary.php
-
-The same goes for driver libraries and extensions and/or overrides of CodeIgniter's
-own libraries and core classes.
-
-	application/libraries/MY_email.php
-	application/core/MY_Log.php
-
-The above files should respectively be renamed to the following:
-
-	application/libraries/MY_Email.php
-	application/core/MY_Log.php
 
 *****************************************************************************
 Step 10: Check the calls to Array Helper's element() and elements() functions
