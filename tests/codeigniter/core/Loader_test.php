@@ -236,7 +236,7 @@ class Loader_test extends CI_TestCase {
 	{
 		$this->setExpectedException(
 			'RuntimeException',
-			'CI Error: Unable to locate the model you have specified: ci_test_nonexistent_model.php'
+			'CI Error: Unable to locate the model you have specified: Ci_test_nonexistent_model.php'
 		);
 
 		$this->load->model('ci_test_nonexistent_model.php');
