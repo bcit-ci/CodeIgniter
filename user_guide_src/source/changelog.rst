@@ -375,6 +375,8 @@ Release Date: Not Released
       -  ``$config['rewrite_short_tags']`` now has no effect when using PHP 5.4 as ``<?=`` will always be available.
       -  Changed method ``config()`` to return whatever ``CI_Config::load()`` returns instead of always being void.
       -  Added support for model aliasing on autoload.
+      -  Changed method ``is_loaded()`` to ask for the (case sensitive) library name instead of its instance name.
+      -  Removed ``$_base_classes`` property and unified all class data in ``$_ci_classes`` instead.
 
    -  :doc:`Input Library <libraries/input>` changes include:
 
@@ -596,6 +598,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#2490) - :doc:`Database Class <database/queries>` method ``query()`` returning boolean instead of a result object for PostgreSQL-specific *INSERT INTO ... RETURNING* statements.
 -  Fixed a bug (#249) - :doc:`Cache Library <libraries/caching>` didn't properly handle Memcache(d) configurations with missing options.
 -  Fixed a bug (#180) - :php:func:`config_item()` didn't take into account run-time configuration changes.
+-  Fixed a bug (#2551) - :doc:`Loader Library <libraries/loader>` method ``library()`` didn't properly check if a class that is being loaded already exits.
 
 Version 2.1.4
 =============
