@@ -28,7 +28,7 @@ class Loader_test extends CI_TestCase {
 		$this->ci_vfs_create(ucfirst($lib), '<?php class '.$class.' { }', $this->ci_base_root, 'libraries');
 
 		// Test is_loaded fail
-		$this->assertFalse($this->load->is_loaded($lib));
+		$this->assertFalse($this->load->is_loaded(ucfirst($lib)));
 
 		// Test loading as an array.
 		$this->assertNull($this->load->library(array($lib)));
@@ -123,7 +123,7 @@ class Loader_test extends CI_TestCase {
 		$this->assertEquals($cfg, $this->ci_obj->$obj->config);
 
 		// Test is_loaded
-		$this->assertEquals($obj, $this->load->is_loaded($lib));
+		$this->assertEquals($obj, $this->load->is_loaded(ucfirst($lib)));
 	}
 
 	// --------------------------------------------------------------------

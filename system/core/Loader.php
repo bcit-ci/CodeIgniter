@@ -76,13 +76,6 @@ class CI_Loader {
 	protected $_ci_helper_paths =	array(APPPATH, BASEPATH);
 
 	/**
-	 * List of loaded base classes
-	 *
-	 * @var	array
-	 */
-	protected $_base_classes =	array(); // Set by the controller class
-
-	/**
 	 * List of cached variables
 	 *
 	 * @var	array
@@ -120,6 +113,8 @@ class CI_Loader {
 		'user_agent' => 'agent'
 	);
 
+	// --------------------------------------------------------------------
+
 	/**
 	 * Class constructor
 	 *
@@ -129,7 +124,8 @@ class CI_Loader {
 	 */
 	public function __construct()
 	{
-		$this->_ci_ob_level  = ob_get_level();
+		$this->_ci_ob_level = ob_get_level();
+		$this->_ci_classes =& is_loaded();
 
 		log_message('debug', 'Loader Class Initialized');
 	}
@@ -147,7 +143,6 @@ class CI_Loader {
 	 */
 	public function initialize()
 	{
-		$this->_base_classes =& is_loaded();
 		$this->_ci_autoloader();
 	}
 
@@ -165,7 +160,7 @@ class CI_Loader {
 	 */
 	public function is_loaded($class)
 	{
-		return isset($this->_ci_classes[$class]) ? $this->_ci_classes[$class] : FALSE;
+		return array_search(ucfirst($class), $this->_ci_classes, TRUE);
 	}
 
 	// --------------------------------------------------------------------
@@ -183,18 +178,17 @@ class CI_Loader {
 	 */
 	public function library($library = '', $params = NULL, $object_name = NULL)
 	{
-		if (is_array($library))
+		if (empty($library))
+		{
+			return;
+		}
+		elseif (is_array($library))
 		{
 			foreach ($library as $class)
 			{
 				$this->library($class, $params);
 			}
 
-			return;
-		}
-
-		if ($library === '' OR isset($this->_base_classes[$library]))
-		{
 			return;
 		}
 
@@ -1117,30 +1111,35 @@ class CI_Loader {
 
 		// Set the variable name we will assign the class to
 		// Was a custom class name supplied? If so we'll use it
-		$class = strtolower($class);
-
-		if ($object_name === NULL)
+		if (empty($object_name))
 		{
-			$classvar = isset($this->_ci_varmap[$class]) ? $this->_ci_varmap[$class] : $class;
+			$object_name = strtolower($class);
+			if (isset($this->_ci_varmap[$object_name]))
+			{
+				$object_name = $this->_ci_varmap[$object_name];
+			}
 		}
-		else
+
+		// Don't overwrite existing properties
+		$CI =& get_instance();
+		if (isset($CI->$object_name))
 		{
-			$classvar = $object_name;
+			if ($CI->$object_name instanceof $name)
+			{
+				log_message('debug', $class." has already been instantiated as '".$object_name."'. Second attempt aborted.");
+				return;
+			}
+
+			show_error("Resource '".$object_name."' already exists and is not a ".$class." instance.");
 		}
 
 		// Save the class name and object name
-		$this->_ci_classes[$class] = $classvar;
+		$this->_ci_classes[$object_name] = $class;
 
 		// Instantiate the class
-		$CI =& get_instance();
-		if ($config !== NULL)
-		{
-			$CI->$classvar = new $name($config);
-		}
-		else
-		{
-			$CI->$classvar = new $name();
-		}
+		$CI->$object_name = isset($config)
+			? new $name($config)
+			: new $name();
 	}
 
 	// --------------------------------------------------------------------
@@ -1197,6 +1196,15 @@ class CI_Loader {
 			}
 		}
 
+		// Autoload drivers
+		if (isset($autoload['drivers']))
+		{
+			foreach ($autoload['drivers'] as $item)
+			{
+				$this->driver($item);
+			}
+		}
+
 		// Load libraries
 		if (isset($autoload['libraries']) && count($autoload['libraries']) > 0)
 		{
@@ -1211,15 +1219,6 @@ class CI_Loader {
 			foreach ($autoload['libraries'] as $item)
 			{
 				$this->library($item);
-			}
-		}
-
-		// Autoload drivers
-		if (isset($autoload['drivers']))
-		{
-			foreach ($autoload['drivers'] as $item)
-			{
-				$this->driver($item);
 			}
 		}
 
