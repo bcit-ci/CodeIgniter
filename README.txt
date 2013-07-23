@@ -33,8 +33,10 @@ If storing sessions in the database (recommended)
 		);
 	Add application/config/config.php
 		$config['sess_use_database']	= TRUE;				
-		$config['sess_table_name']		= 'ci_sessions';	// or whatever you named your created table
+		$config['sess_table_name']		= 'ci_sessions';	
+		// or whatever you named your created table
 		
 		If using encryption (recommended)
 			$config['sess_encrypt_cookie']	= TRUE;
-			$config['encryption_key'] = '';					// 32 upper & lower case plus numbers
+			$config['encryption_key'] = '';				
+			// 32 upper & lower case plus numbers
