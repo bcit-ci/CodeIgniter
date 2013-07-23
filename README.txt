@@ -1,12 +1,13 @@
 Add PDO to Codeigniter using all of the regular PHP PDO functionality => TRUE PDO
 
 Files different from Ellis Labs Codeigniter
-  READMEPDO.txt
+  README.txt
   PDOschema.sql
   /application/config/config.php
   /application/config/database.php
   /application/libraries/Session.php
   /system/database/DB.php
+  readme_ci.rst is the original readme.rst from Ellis Labs
 
 For a complete step by step installation tutorial, visit 
 http://christopherickes.com/web-app-development/pdo-for-codeigniter-2/ 
