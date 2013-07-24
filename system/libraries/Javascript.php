@@ -172,7 +172,7 @@ class CI_Javascript {
 	 */
 	public function focus($element = 'this', $js = '')
 	{
-		return $this->js->_add_event($focus, $js);
+		return $this->js->_focus($focus, $js);
 	}
 
 	// --------------------------------------------------------------------
