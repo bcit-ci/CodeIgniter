@@ -407,7 +407,8 @@ Release Date: Not Released
    -  :doc:`Config Library <libraries/config>` changes include:
 
       -  Changed ``site_url()`` method  to accept an array as well.
-      -  Removed internal method ``_assign_to_config()`` and moved it's implementation in *CodeIgniter.php* instead.
+      -  Removed internal method ``_assign_to_config()`` and moved its implementation to *CodeIgniter.php* instead.
+	 -  ``item()`` now returns NULL instead of FALSE when the required config item doesn't exist.
 
    -  :doc:`Security Library <libraries/security>` changes include:
 
