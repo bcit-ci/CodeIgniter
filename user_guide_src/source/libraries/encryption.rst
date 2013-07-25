@@ -10,6 +10,17 @@ reasonable degree of security for encrypted sessions or other such
 "light" purposes. If Mcrypt is available, you'll be provided with a high
 degree of security appropriate for storage.
 
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
+
+****************************
+Using the Encryption Library
+****************************
+
 Setting your Key
 ================
 
@@ -61,104 +72,127 @@ initialized in your controller using the **$this->load->library** function::
 
 	$this->load->library('encrypt');
 
-Once loaded, the Encrypt library object will be available using:
-$this->encrypt
+Once loaded, the Encrypt library object will be available using
+``$this->encrypt``
 
-$this->encrypt->encode()
-========================
+***************
+Class Reference
+***************
 
-Performs the data encryption and returns it as a string. Example::
+.. class:: CI_Encrypt
 
-	$msg = 'My secret message';
+	.. method:: encode($string, $key = '')
 
-	$encrypted_string = $this->encrypt->encode($msg);
-	
+		:param string $string: contents to be encrypted
+		:param string $key: encryption key
+		:returns: string
 
-You can optionally pass your encryption key via the second parameter if
-you don't want to use the one in your config file::
+		Performs the data encryption and returns it as a string. Example::
 
-	$msg = 'My secret message';
-	$key = 'super-secret-key';
+			$msg = 'My secret message';
 
-	$encrypted_string = $this->encrypt->encode($msg, $key);
+			$encrypted_string = $this->encrypt->encode($msg);
 
-$this->encrypt->decode()
-========================
+		You can optionally pass your encryption key via the second parameter if
+		you don't want to use the one in your config file::
 
-Decrypts an encoded string. Example::
+			$msg = 'My secret message';
+			$key = 'super-secret-key';
 
-	$encrypted_string = 'APANtByIGI1BpVXZTJgcsAG8GZl8pdwwa84';
+			$encrypted_string = $this->encrypt->encode($msg, $key);
 
-	$plaintext_string = $this->encrypt->decode($encrypted_string);
 
-You can optionally pass your encryption key via the second parameter if
-you don't want to use the one in your config file::
+	.. method:: decode($string, $key = '')
 
-	$msg = 'My secret message';
-	$key = 'super-secret-key';
+		:param string $string: contents to be decrypted
+		:param string $key: encryption key
+		:returns: string
 
-	$encrypted_string = $this->encrypt->decode($msg, $key);
+		Decrypts an encoded string. Example::
 
-$this->encrypt->set_cipher();
-==============================
+			$encrypted_string = 'APANtByIGI1BpVXZTJgcsAG8GZl8pdwwa84';
 
-Permits you to set an Mcrypt cipher. By default it uses
-**MCRYPT_RIJNDAEL_256**. Example::
+			$plaintext_string = $this->encrypt->decode($encrypted_string);
 
-	$this->encrypt->set_cipher(MCRYPT_BLOWFISH);
+		You can optionally pass your encryption key via the second parameter if
+		you don't want to use the one in your config file::
 
-Please visit php.net for a list of `available
-ciphers <http://php.net/mcrypt>`_.
+			$msg = 'My secret message';
+			$key = 'super-secret-key';
 
-If you'd like to manually test whether your server supports Mcrypt you
-can use::
+			$encrypted_string = $this->encrypt->decode($msg, $key);
 
-	echo ( ! function_exists('mcrypt_encrypt')) ? 'Nope' : 'Yup';
 
-$this->encrypt->set_mode();
-============================
+	.. method:: set_cipher($cipher)
 
-Permits you to set an Mcrypt mode. By default it uses **MCRYPT_MODE_CBC**.
-Example::
+		:param int $cipher: valid PHP Mcrypt cypher constant
+		:returns: CI_Encrypt object for method chaining
 
-	$this->encrypt->set_mode(MCRYPT_MODE_CFB);
+		Permits you to set an Mcrypt cipher. By default it uses
+		**MCRYPT_RIJNDAEL_256**. Example::
 
-Please visit php.net for a list of `available
-modes <http://php.net/mcrypt>`_.
+			$this->encrypt->set_cipher(MCRYPT_BLOWFISH);
 
-$this->encrypt->encode_from_legacy($orig_data, $legacy_mode = MCRYPT_MODE_ECB, $key = '');
-==========================================================================================
+		Please visit php.net for a list of `available
+		ciphers <http://php.net/mcrypt>`_.
 
-Enables you to re-encode data that was originally encrypted with
-CodeIgniter 1.x to be compatible with the Encryption library in
-CodeIgniter 2.x. It is only necessary to use this method if you have
-encrypted data stored permanently such as in a file or database and are
-on a server that supports Mcrypt. "Light" use encryption such as
-encrypted session data or transitory encrypted flashdata require no
-intervention on your part. However, existing encrypted Sessions will be
-destroyed since data encrypted prior to 2.x will not be decoded.
+		If you'd like to manually test whether your server supports Mcrypt you
+		can use::
 
-.. important::
-	**Why only a method to re-encode the data instead of maintaining legacy
-	methods for both encoding and decoding?** The algorithms in the
-	Encryption library have improved in CodeIgniter 2.x both for performance
-	and security, and we do not wish to encourage continued use of the older
-	methods. You can of course extend the Encryption library if you wish and
-	replace the new methods with the old and retain seamless compatibility
-	with CodeIgniter 1.x encrypted data, but this a decision that a
-	developer should make cautiously and deliberately, if at all.
+			echo ( ! function_exists('mcrypt_encrypt')) ? 'Nope' : 'Yup';
 
-::
 
-	$new_data = $this->encrypt->encode_from_legacy($old_encrypted_string);
+	.. method:: set_mode($mode)
 
-======================	===============	 =======================================================================
-Parameter		 Default	  Description
-======================	===============  =======================================================================
-**$orig_data**		n/a 		 The original encrypted data from CodeIgniter 1.x's Encryption library
-**$legacy_mode**	MCRYPT_MODE_ECB	 The Mcrypt mode that was used to generate the original encrypted data.
-					 CodeIgniter 1.x's default was MCRYPT_MODE_ECB, and it will assume that
-					 to be the case unless overridden by this parameter.
-**$key**		n/a 		 The encryption key. This it typically specified in your config file as
-					 outlined above.
-======================	===============	 =======================================================================
+		:param int $mode: valid PHP Mcrypt mode constant
+		:returns: CI_Encrypt object for method chaining
+
+		Permits you to set an Mcrypt mode. By default it uses **MCRYPT_MODE_CBC**.
+		Example::
+
+			$this->encrypt->set_mode(MCRYPT_MODE_CFB);
+
+		Please visit php.net for a list of `available
+		modes <http://php.net/mcrypt>`_.
+
+
+	.. method:: encode_from_legacy($string[, $legacy_mode = MCRYPT_MODE_ECB[, $key = '']])
+
+		:param string $string: contents to be encrypted
+		:param int $legacy_mode: valid PHP Mcrypt cypher constant
+		:param string $key: encryption key
+		:returns: string
+
+		Enables you to re-encode data that was originally encrypted with
+		CodeIgniter 1.x to be compatible with the Encryption library in
+		CodeIgniter 2.x. It is only necessary to use this method if you have
+		encrypted data stored permanently such as in a file or database and are
+		on a server that supports Mcrypt. "Light" use encryption such as
+		encrypted session data or transitory encrypted flashdata require no
+		intervention on your part. However, existing encrypted Sessions will be
+		destroyed since data encrypted prior to 2.x will not be decoded.
+
+		.. important::
+			**Why only a method to re-encode the data instead of maintaining legacy
+			methods for both encoding and decoding?** The algorithms in the
+			Encryption library have improved in CodeIgniter 2.x both for performance
+			and security, and we do not wish to encourage continued use of the older
+			methods. You can of course extend the Encryption library if you wish and
+			replace the new methods with the old and retain seamless compatibility
+			with CodeIgniter 1.x encrypted data, but this a decision that a
+			developer should make cautiously and deliberately, if at all.
+
+		::
+
+			$new_data = $this->encrypt->encode_from_legacy($old_encrypted_string);
+
+		======================	===============	 =======================================================================
+		Parameter		 Default	  Description
+		======================	===============  =======================================================================
+		**$orig_data**		n/a 		 The original encrypted data from CodeIgniter 1.x's Encryption library
+		**$legacy_mode**	MCRYPT_MODE_ECB	 The Mcrypt mode that was used to generate the original encrypted data.
+							 CodeIgniter 1.x's default was MCRYPT_MODE_ECB, and it will assume that
+							 to be the case unless overridden by this parameter.
+		**$key**		n/a 		 The encryption key. This it typically specified in your config file as
+							 outlined above.
+		======================	===============	 =======================================================================
