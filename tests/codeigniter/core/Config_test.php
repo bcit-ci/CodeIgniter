@@ -24,18 +24,18 @@ class Config_test extends CI_TestCase {
 		$this->assertEquals($this->cfg['base_url'], $this->config->item('base_url'));
 
 		// Bad Config value
-		$this->assertFalse($this->config->item('no_good_item'));
+		$this->assertNull($this->config->item('no_good_item'));
 
 		// Index
-		$this->assertFalse($this->config->item('no_good_item', 'bad_index'));
-		$this->assertFalse($this->config->item('no_good_item', 'default'));
+		$this->assertNull($this->config->item('no_good_item', 'bad_index'));
+		$this->assertNull($this->config->item('no_good_item', 'default'));
 	}
 
 	// --------------------------------------------------------------------
 
 	public function test_set_item()
 	{
-		$this->assertFalse($this->config->item('not_yet_set'));
+		$this->assertNull($this->config->item('not_yet_set'));
 
 		$this->config->set_item('not_yet_set', 'is set');
 		$this->assertEquals('is set', $this->config->item('not_yet_set'));
