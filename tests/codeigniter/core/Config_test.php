@@ -46,7 +46,7 @@ class Config_test extends CI_TestCase {
 	public function test_slash_item()
 	{
 		// Bad Config value
-		$this->assertFalse($this->config->slash_item('no_good_item'));
+		$this->assertNull($this->config->slash_item('no_good_item'));
 
 		$this->assertEquals($this->cfg['base_url'], $this->config->slash_item('base_url'));
 		$this->assertEquals($this->cfg['subclass_prefix'].'/', $this->config->slash_item('subclass_prefix'));

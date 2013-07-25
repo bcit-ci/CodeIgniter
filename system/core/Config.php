@@ -202,13 +202,13 @@ class CI_Config {
 	 * Fetch a config file item with slash appended (if not empty)
 	 *
 	 * @param	string		$item	Config item name
-	 * @return	string|bool	The configuration item or FALSE on failure
+	 * @return	string|null	The configuration item or NULL if the item doesn't exist
 	 */
 	public function slash_item($item)
 	{
 		if ( ! isset($this->config[$item]))
 		{
-			return FALSE;
+			return NULL;
 		}
 		elseif (trim($this->config[$item]) === '')
 		{
