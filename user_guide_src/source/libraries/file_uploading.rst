@@ -5,6 +5,13 @@ File Uploading Class
 CodeIgniter's File Uploading Class permits files to be uploaded. You can
 set various preferences, restricting the type and size of the files.
 
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
+
 ***********
 The Process
 ***********
@@ -240,105 +247,97 @@ preferences in a config file.
 Class Reference
 ***************
 
-The following methods are available:
+.. class:: CI_Upload
 
-$this->upload->do_upload()
-==========================
+	.. method:: do_upload([$field = 'userfile'])
 
-Performs the upload based on the preferences you've set.
+		:param string $field: name of the form field
+		:returns: bool
 
-.. note:: By default the upload routine expects the file to come from
-	a form field called userfile, and the form must be of type
-	"multipart".
+		Performs the upload based on the preferences you've set.
 
-::
+		.. note:: By default the upload routine expects the file to come from
+			a form field called userfile, and the form must be of type
+			"multipart".
 
-	<form method="post" action="some_action" enctype="multipart/form-data" />
+		::
 
-If you would like to set your own field name simply pass its value to
-the ``do_upload()`` method::
+			<form method="post" action="some_action" enctype="multipart/form-data" />
 
-	$field_name = "some_field_name";
-	$this->upload->do_upload($field_name);
+		If you would like to set your own field name simply pass its value to
+		the ``do_upload()`` method::
 
-$this->upload->display_errors()
-===============================
+			$field_name = "some_field_name";
+			$this->upload->do_upload($field_name);
 
-Retrieves any error messages if the ``do_upload()`` method returned
-false. The method does not echo automatically, it returns the data so
-you can assign it however you need.
 
-Formatting Errors
-*****************
+	.. method:: display_errors([$open = '<p>'[, $close = '</p>']])
 
-By default the above method wraps any errors within <p> tags. You can
-set your own delimiters like this::
+		:param string $open: Opening markup
+		:param string $close: Closing markup
+		:returns: string
 
-	$this->upload->display_errors('<p>', '</p>');
+		Retrieves any error messages if the ``do_upload()`` method returned
+		false. The method does not echo automatically, it returns the data so
+		you can assign it however you need.
 
-$this->upload->data()
-=====================
+		**Formatting Errors**
 
-This is a helper method that returns an array containing all of the
-data related to the file you uploaded. Here is the array prototype::
+			By default the above method wraps any errors within <p> tags. You can
+			set your own delimiters like this::
 
-	Array
-	(
-		[file_name]	=> mypic.jpg
-		[file_type]	=> image/jpeg
-		[file_path]	=> /path/to/your/upload/
-		[full_path]	=> /path/to/your/upload/jpg.jpg
-		[raw_name]	=> mypic
-		[orig_name]	=> mypic.jpg
-		[client_name]	=> mypic.jpg
-		[file_ext]	=> .jpg
-		[file_size]	=> 22.2
-		[is_image]	=> 1
-		[image_width]	=> 800
-		[image_height]	=> 600
-		[image_type]	=> jpeg
-		[image_size_str] => width="800" height="200"
-	)
+				$this->upload->display_errors('<p>', '</p>');
 
-To return one element from the array::
 
-	$this->upload->data('file_name');	// Returns: mypic.jpg
+	.. method:: data([$index = NULL])
 
-Explanation
-***********
+		:param string $data: element to return instead of the full array
+		:returns: mixed
 
-Here is an explanation of the above array items.
+		This is a helper method that returns an array containing all of the
+		data related to the file you uploaded. Here is the array prototype::
 
-Item
-Description
-**file_name**
-The name of the file that was uploaded including the file extension.
-**file_type**
-The file's Mime type
-**file_path**
-The absolute server path to the file
-**full_path**
-The absolute server path including the file name
-**raw_name**
-The file name without the extension
-**orig_name**
-The original file name. This is only useful if you use the encrypted
-name option.
-**client_name**
-The file name as supplied by the client user agent, prior to any file
-name preparation or incrementing.
-**file_ext**
-The file extension with period
-**file_size**
-The file size in kilobytes
-**is_image**
-Whether the file is an image or not. 1 = image. 0 = not.
-**image_width**
-Image width.
-**image_height**
-Image height
-**image_type**
-Image type. Typically the file extension without the period.
-**image_size_str**
-A string containing the width and height. Useful to put into an image
-tag.
+			Array
+			(
+				[file_name]	=> mypic.jpg
+				[file_type]	=> image/jpeg
+				[file_path]	=> /path/to/your/upload/
+				[full_path]	=> /path/to/your/upload/jpg.jpg
+				[raw_name]	=> mypic
+				[orig_name]	=> mypic.jpg
+				[client_name]	=> mypic.jpg
+				[file_ext]	=> .jpg
+				[file_size]	=> 22.2
+				[is_image]	=> 1
+				[image_width]	=> 800
+				[image_height]	=> 600
+				[image_type]	=> jpeg
+				[image_size_str] => width="800" height="200"
+			)
+
+		To return one element from the array::
+
+			$this->upload->data('file_name');	// Returns: mypic.jpg
+
+		**Explanation**
+
+			Here is an explanation of the above array items.
+
+			================	================================================
+			Item							Description
+			================	================================================
+			file_name					The name of the file that was uploaded including the file extension.
+			file_type					The file's Mime type
+			file_path					The absolute server path to the file
+			full_path					The absolute server path including the file name
+			raw_name					The file name without the extension
+			orig_name					The original file name. This is only useful if you use the encrypted name option.
+			client_name				The file name as supplied by the client user agent, prior to any file name preparation or incrementing.
+			file_ext					The file extension with period
+			file_size					The file size in kilobytes
+			is_image					Whether the file is an image or not. 1 = image. 0 = not.
+			image_width				Image width.
+			image_height			Image height
+			image_type				Image type. Typically the file extension without the period.
+			image_size_str		A string containing the width and height. Useful to put into an image tag.
+			================	================================================
