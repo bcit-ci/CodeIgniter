@@ -142,7 +142,7 @@ if ( ! function_exists('create_captcha'))
 
 		is_array($colors) OR $colors = $defaults['colors'];
 
-		foreach (array_keys($default['colors']) as $key)
+		foreach (array_keys($defaults['colors']) as $key)
 		{
 			// Check for a possible missing value
 			is_array($colors[$key]) OR $colors[$key] = $defaults['colors'][$key];
