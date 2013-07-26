@@ -54,7 +54,7 @@ if ( ! function_exists('form_open'))
 	{
 		$CI =& get_instance();
 
-		if ($attributes === '')
+		if ($attributes === '' || (is_array($attributes) && !key_exists('method', $attributes)))
 		{
 			$attributes = 'method="post"';
 		}
