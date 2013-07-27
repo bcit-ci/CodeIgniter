@@ -145,29 +145,51 @@ regular expression::
 	(.+)	// matches ANYTHING
 	(:any)	// matches any character, except for '/'
 
-*************************************************
-Step 10: Check the calls to config->item() method
-*************************************************
+*************************************************************************
+Step 10: Many functions now return NULL instead of FALSE on missing items
+*************************************************************************
 
-This method now returns NULL instead of FALSE when the required config
-item doesn't exist.
+Many methods and functions now return NULL instead of FALSE when the required items don't exist:
 
-*****************************************************************************
-Step 11: Check the calls to Array Helper's element() and elements() functions
-*****************************************************************************
+ - :doc:`Config Class <../libraries/config>`
 
-The default return value of these functions, when the required elements
-don't exist, has been changed from FALSE to NULL.
+   - config->item()
+   - config->slash_item()
+
+ - :doc:`Input Class <../libraries/input>`
+
+   - input->get()
+   - input->post()
+   - input->get_post()
+   - input->cookie()
+   - input->server()
+   - input->input_stream()
+   - input->get_request_header()
+
+ - :doc:`Session Class <../libraries/sessions>`
+
+   - session->userdata()
+   - session->flashdata()
+
+ - :doc:`URI Class <../libraries/uri>`
+
+   - uri->segment()
+   - uri->rsegment()
+
+ - :doc:`Array Helper <../helpers/array_helper>`
+
+   - element()
+   - elements()
 
 ***********************************************************************
-Step 12: Check the calls to Directory Helper's directory_map() function
+Step 11: Check the calls to Directory Helper's directory_map() function
 ***********************************************************************
 
 In the resulting array, directories now end with a trailing directory
 separator (i.e. a slash, usually).
 
 *************************************************************
-Step 13: Update usage of Database Forge's drop_table() method
+Step 12: Update usage of Database Forge's drop_table() method
 *************************************************************
 
 Up until now, ``drop_table()`` added an IF EXISTS clause by default or it didn't work
@@ -189,7 +211,7 @@ If your application relies on IF EXISTS, you'll have to change its usage.
 	all drivers with the exception of ODBC.
 
 ***********************************************************
-Step 14: Change usage of Email library with multiple emails
+Step 13: Change usage of Email library with multiple emails
 ***********************************************************
 
 The :doc:`Email Library <../libraries/email>` will automatically clear the
@@ -204,7 +226,7 @@ pass FALSE as the first parameter in the ``send()`` method:
  	}
 
 ***************************************************
-Step 15: Update your Form_validation language lines
+Step 14: Update your Form_validation language lines
 ***************************************************
 
 Two improvements have been made to the :doc:`Form Validation Library
@@ -235,7 +257,7 @@ files and error messages format:
 	later.
 
 ****************************************************************
-Step 16: Remove usage of (previously) deprecated functionalities
+Step 15: Remove usage of (previously) deprecated functionalities
 ****************************************************************
 
 In addition to the ``$autoload['core']`` configuration setting, there's a
