@@ -54,6 +54,17 @@ if ( ! function_exists('form_open'))
 	{
 		$CI =& get_instance();
 
+		// If an action is not a full URL then turn it into one
+		if ($action && strpos($action, '://') === FALSE)
+		{
+			$action = $CI->config->site_url($action);
+		}
+		elseif ( ! $action)
+		{
+			// If no action is provided then set to the current url
+			$action = $CI->config->site_url($CI->uri->uri_string());
+		}
+
 		$attributes = _attributes_to_string($attributes);
 
 		if (stripos($attributes, 'method=') === FALSE)
@@ -64,17 +75,6 @@ if ( ! function_exists('form_open'))
 		if (stripos($attributes, 'accept-charset=') === FALSE)
 		{
 			$attributes .= ' accept-charset="'.strtolower(config_item('charset')).'"';
-		}
-
-		// If an action is not a full URL then turn it into one
-		if ($action && strpos($action, '://') === FALSE)
-		{
-			$action = $CI->config->site_url($action);
-		}
-		elseif ( ! $action)
-		{
-			// If no action is provided then set to the current url
-			$action = $CI->config->site_url($CI->uri->uri_string());
 		}
 
 		$form = '<form action="'.$action.'"'.$attributes.">\n";
