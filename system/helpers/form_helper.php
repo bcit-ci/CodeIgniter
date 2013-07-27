@@ -50,21 +50,20 @@ if ( ! function_exists('form_open'))
 	 * @param	array	a key/value pair hidden data
 	 * @return	string
 	 */
-	function form_open($action = '', $attributes = '', $hidden = array())
+	function form_open($action = '', $attributes = array(), $hidden = array())
 	{
 		$CI =& get_instance();
 
-		if (empty($attributes))
-		{
-			$attributes = 'method="post"';
-		}
-		elseif (is_array($attributes) && ! isset($attributes['method']))
-		{
-			$attributes['method'] = 'post';
-		}
-		elseif (stripos($attributes, 'method=') === FALSE)
+		$attributes = _attributes_to_string($attributes);
+
+		if (stripos($attributes, 'method=') === FALSE)
 		{
 			$attributes .= ' method="post"';
+		}
+
+		if (stripos($attributes, 'accept-charset=') === FALSE)
+		{
+			$attributes .= ' accept-charset="'.strtolower(config_item('charset')).'"';
 		}
 
 		// If an action is not a full URL then turn it into one
@@ -78,7 +77,7 @@ if ( ! function_exists('form_open'))
 			$action = $CI->config->site_url($CI->uri->uri_string());
 		}
 
-		$form = '<form action="'.$action.'"'._attributes_to_string($attributes, TRUE).">\n";
+		$form = '<form action="'.$action.'"'.$attributes.">\n";
 
 		// Add CSRF field if enabled, but leave it out for GET requests and requests to external websites
 		if ($CI->config->item('csrf_protection') === TRUE && ! (strpos($action, $CI->config->base_url()) === FALSE OR stripos($form, 'method="get"')))
@@ -550,12 +549,12 @@ if ( ! function_exists('form_fieldset'))
 	 * use form_fieldset_close()
 	 *
 	 * @param	string	The legend text
-	 * @param	string	Additional attributes
+	 * @param	array	Additional attributes
 	 * @return	string
 	 */
 	function form_fieldset($legend_text = '', $attributes = array())
 	{
-		$fieldset = '<fieldset'._attributes_to_string($attributes, FALSE).">\n";
+		$fieldset = '<fieldset'._attributes_to_string($attributes).">\n";
 		if ($legend_text !== '')
 		{
 			return $fieldset.'<legend>'.$legend_text."</legend>\n";
@@ -928,44 +927,23 @@ if ( ! function_exists('_attributes_to_string'))
 	 * Helper function used by some of the form helpers
 	 *
 	 * @param	mixed
-	 * @param	bool
 	 * @return	string
 	 */
-	function _attributes_to_string($attributes, $formtag = FALSE)
+	function _attributes_to_string($attributes)
 	{
-		if (is_string($attributes) && strlen($attributes) > 0)
+		if (is_string($attributes))
 		{
-			if ($formtag === TRUE && strpos($attributes, 'method=') === FALSE)
-			{
-				$attributes .= ' method="post"';
-			}
-
-			if ($formtag === TRUE && strpos($attributes, 'accept-charset=') === FALSE)
-			{
-				$attributes .= ' accept-charset="'.strtolower(config_item('charset')).'"';
-			}
-
-			return ' '.$attributes;
+			return ($attributes === '' ? '' : ' '.$attributes);
 		}
 
-		if (is_object($attributes) && count($attributes) > 0)
+		if (is_object($attributes))
 		{
 			$attributes = (array) $attributes;
 		}
 
-		if (is_array($attributes) && ($formtag === TRUE OR count($attributes) > 0))
+		if (is_array($attributes))
 		{
 			$atts = '';
-
-			if ( ! isset($attributes['method']) && $formtag === TRUE)
-			{
-				$atts .= ' method="post"';
-			}
-
-			if ( ! isset($attributes['accept-charset']) && $formtag === TRUE)
-			{
-				$atts .= ' accept-charset="'.strtolower(config_item('charset')).'"';
-			}
 
 			foreach ($attributes as $key => $val)
 			{
@@ -974,6 +952,8 @@ if ( ! function_exists('_attributes_to_string'))
 
 			return $atts;
 		}
+
+		return FALSE;
 	}
 }
 
