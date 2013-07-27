@@ -184,16 +184,16 @@ class CI_Config {
 	 *
 	 * @param	string	$item	Config item name
 	 * @param	string	$index	Index name
-	 * @return	string|bool	The configuration item or FALSE on failure
+	 * @return	string|null	The configuration item or NULL if the item doesn't exist
 	 */
 	public function item($item, $index = '')
 	{
 		if ($index == '')
 		{
-			return isset($this->config[$item]) ? $this->config[$item] : FALSE;
+			return isset($this->config[$item]) ? $this->config[$item] : NULL;
 		}
 
-		return isset($this->config[$index], $this->config[$index][$item]) ? $this->config[$index][$item] : FALSE;
+		return isset($this->config[$index], $this->config[$index][$item]) ? $this->config[$index][$item] : NULL;
 	}
 
 	// --------------------------------------------------------------------
@@ -202,13 +202,13 @@ class CI_Config {
 	 * Fetch a config file item with slash appended (if not empty)
 	 *
 	 * @param	string		$item	Config item name
-	 * @return	string|bool	The configuration item or FALSE on failure
+	 * @return	string|null	The configuration item or NULL if the item doesn't exist
 	 */
 	public function slash_item($item)
 	{
 		if ( ! isset($this->config[$item]))
 		{
-			return FALSE;
+			return NULL;
 		}
 		elseif (trim($this->config[$item]) === '')
 		{
