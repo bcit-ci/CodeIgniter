@@ -931,11 +931,6 @@ if ( ! function_exists('_attributes_to_string'))
 	 */
 	function _attributes_to_string($attributes)
 	{
-		if (is_string($attributes))
-		{
-			return ($attributes === '' ? '' : ' '.$attributes);
-		}
-
 		if (is_object($attributes))
 		{
 			$attributes = (array) $attributes;
@@ -951,6 +946,11 @@ if ( ! function_exists('_attributes_to_string'))
 			}
 
 			return $atts;
+		}
+
+		if (is_string($attributes))
+		{
+			return ($attributes === '' ? '' : ' '.$attributes);
 		}
 
 		return FALSE;
