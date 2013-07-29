@@ -150,7 +150,7 @@ class CI_Cache_wincache extends CI_Driver {
 	{
 		if ( ! extension_loaded('wincache'))
 		{
-			log_message('error', 'The Wincache PHP extension must be loaded to use Wincache Cache.');
+			log_message('debug', 'The Wincache PHP extension must be loaded to use Wincache Cache.');
 			return FALSE;
 		}
 
