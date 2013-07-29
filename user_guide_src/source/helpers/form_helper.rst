@@ -264,10 +264,10 @@ multiple select for you.
 Example::
 
 	$options = array(
-		'small'  => 'Small Shirt',
-		'med'    => 'Medium Shirt',
-		'large'  => 'Large Shirt',
-		'xlarge' => 'Extra Large Shirt',
+		'small'		=> 'Small Shirt',
+		'med'		=> 'Medium Shirt',
+		'large'		=> 'Large Shirt',
+		'xlarge'	=> 'Extra Large Shirt',
 	);
 
 	$shirts_on_sale = array('small', 'large');
@@ -416,11 +416,11 @@ Similar to the other form functions in this helper, you can also pass an
 array of attributes to the function::
 
 	$data = array(
-		'name'    => 'newsletter',
-		'id'      => 'newsletter',
-		'value'   => 'accept',
-		'checked' => TRUE,
-		'style'   => 'margin:10px'
+		'name'		=> 'newsletter',
+		'id'		=> 'newsletter',
+		'value'		=> 'accept',
+		'checked'	=> TRUE,
+		'style'		=> 'margin:10px'
 	);
 
 	echo form_checkbox($data);
@@ -527,11 +527,11 @@ Or you can pass an associative array containing any data you wish your
 form to contain::
 
 	$data = array(
-		'name'    => 'button',
-		'id'      => 'button',
-		'value'   => 'true',
-		'type'    => 'reset',
-		'content' => 'Reset'
+		'name'		=> 'button',
+		'id'		=> 'button',
+		'value'		=> 'true',
+		'type'		=> 'reset',
+		'content'	=> 'Reset'
 	);
 
 	echo form_button($data);
