@@ -168,7 +168,7 @@ class CI_Cache_redis extends CI_Driver
 		}
 		else
 		{
-			log_message('error', 'The Redis extension must be loaded to use Redis cache.');
+			log_message('debug', 'The Redis extension must be loaded to use Redis cache.');
 			return FALSE;
 		}
 	}

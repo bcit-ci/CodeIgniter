@@ -240,7 +240,7 @@ class CI_Cache_memcached extends CI_Driver {
 	{
 		if ( ! extension_loaded('memcached') && ! extension_loaded('memcache'))
 		{
-			log_message('error', 'The Memcached Extension must be loaded to use Memcached Cache.');
+			log_message('debug', 'The Memcached Extension must be loaded to use Memcached Cache.');
 			return FALSE;
 		}
 
