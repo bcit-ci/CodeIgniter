@@ -311,6 +311,7 @@ Release Date: Not Released
       -  Added Wincache driver.
       -  Added Redis driver.
       -  Added a *key_prefix* option for cache IDs.
+      -  Updated driver ``is_supported()`` methods to log at the "debug" level.
 
    -  :doc:`Email library <libraries/email>` changes include:
 
