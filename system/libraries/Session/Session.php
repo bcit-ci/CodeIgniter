@@ -60,11 +60,18 @@ class CI_Session extends CI_Driver_Library {
 	public $params = array();
 
 	/**
+	 * Valid drivers list
+	 *
+	 * @var	array
+	 */
+	public $valid_drivers = array('native',	'cookie');
+
+	/**
 	 * Current driver in use
 	 *
 	 * @var	string
 	 */
-	protected $current = NULL;
+	public $current = NULL;
 
 	/**
 	 * User data
@@ -105,36 +112,26 @@ class CI_Session extends CI_Driver_Library {
 
 		log_message('debug', 'CI_Session Class Initialized');
 
-		// Get valid drivers list
-		$this->valid_drivers = array(
-			'native',
-			'cookie'
-		);
-		$key = 'sess_valid_drivers';
-		$drivers = isset($params[$key]) ? $params[$key] : $CI->config->item($key);
-		if ($drivers)
+		// Add possible extra entries to our valid drivers list
+		$drivers = isset($params['sess_valid_drivers']) ? $params['sess_valid_drivers'] : $CI->config->item('sess_valid_drivers');
+		if ( ! empty($drivers))
 		{
-			// Add driver names to valid list
-			foreach ((array) $drivers as $driver)
-			{
-				if ( ! in_array(strtolower($driver), array_map('strtolower', $this->valid_drivers)))
-				{
-					$this->valid_drivers[] = $driver;
-				}
-			}
+			$drivers = array_map('strtolower', (array) $drivers);
+			$this->valid_drivers = array_merge($this->valid_drivers, array_diff($drivers, $this->valid_drivers));
 		}
 
 		// Get driver to load
-		$key = 'sess_driver';
-		$driver = isset($params[$key]) ? $params[$key] : $CI->config->item($key);
+		$driver = isset($params['sess_driver']) ? $params['sess_driver'] : $CI->config->item('sess_driver');
 		if ( ! $driver)
 		{
+			log_message('debug', "Session: No driver name is configured, defaulting to 'cookie'.");
 			$driver = 'cookie';
 		}
 
-		if ( ! in_array(strtolower($driver), array_map('strtolower', $this->valid_drivers)))
+		if ( ! in_array($driver, $this->valid_drivers))
 		{
-			$this->valid_drivers[] = $driver;
+			log_message('error', 'Session: Configured driver name is not valid, aborting.');
+			return;
 		}
 
 		// Save a copy of parameters in case drivers need access
