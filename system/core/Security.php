@@ -115,6 +115,36 @@ class CI_Security {
 	);
 
 	/**
+	 * List of bad chars for sanitize filename
+	 *
+	 * @var	array
+	 */
+	private $_filename_bad_str_rules = array(
+		'default' => array(
+			'../', '<!--', '-->', '<', '>',
+			"'", '"', '&', '$', '#',
+			'{', '}', '[', ']', '=',
+			';', '?', '%20', '%22',
+			'%3c',		// <
+			'%253c',	// <
+			'%3e',		// >
+			'%0e',		// >
+			'%28',		// (
+			'%29',		// )
+			'%2528',	// (
+			'%26',		// &
+			'%24',		// $
+			'%3f',		// ?
+			'%3b',		// ;
+			'%3d'		// =
+		),
+		'windows' => array(
+			'\\', '/', ':', '*', '?',
+			'"', '<', '>', '|',
+		),
+	);
+
+	/**
 	 * Class constructor
 	 *
 	 * @return	void
@@ -547,26 +577,9 @@ class CI_Security {
 	 * @param 	bool	$relative_path	Whether to preserve paths
 	 * @return	string
 	 */
-	public function sanitize_filename($str, $relative_path = FALSE)
+	public function sanitize_filename($str, $relative_path = FALSE, $rule = 'default')
 	{
-		$bad = array(
-			'../', '<!--', '-->', '<', '>',
-			"'", '"', '&', '$', '#',
-			'{', '}', '[', ']', '=',
-			';', '?', '%20', '%22',
-			'%3c',		// <
-			'%253c',	// <
-			'%3e',		// >
-			'%0e',		// >
-			'%28',		// (
-			'%29',		// )
-			'%2528',	// (
-			'%26',		// &
-			'%24',		// $
-			'%3f',		// ?
-			'%3b',		// ;
-			'%3d'		// =
-		);
+		$bad = $this->_filename_bad_str_rules[$rule];
 
 		if ( ! $relative_path)
 		{
