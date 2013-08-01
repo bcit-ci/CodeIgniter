@@ -761,11 +761,11 @@ class CI_Loader {
 		}
 
 		// make sure the application default paths are still in the array
-		$this->_ci_library_paths = array_unique(array_merge($this->_ci_library_paths, array(APPPATH, BASEPATH)));
-		$this->_ci_helper_paths = array_unique(array_merge($this->_ci_helper_paths, array(APPPATH, BASEPATH)));
-		$this->_ci_model_paths = array_unique(array_merge($this->_ci_model_paths, array(APPPATH)));
-		$this->_ci_view_paths = array_merge($this->_ci_view_paths, array(APPPATH.'views/' => TRUE));
-		$config->_config_paths = array_unique(array_merge($config->_config_paths, array(APPPATH)));
+		$this->_ci_library_paths = array_unique(array_merge_recursive($this->_ci_library_paths, array(APPPATH, BASEPATH)));
+		$this->_ci_helper_paths = array_unique(array_merge_recursive($this->_ci_helper_paths, array(APPPATH, BASEPATH)));
+		$this->_ci_model_paths = array_unique(array_merge_recursive($this->_ci_model_paths, array(APPPATH)));
+		$this->_ci_view_paths = array_merge_recursive($this->_ci_view_paths, array(APPPATH.'views/' => TRUE));
+		$config->_config_paths = array_unique(array_merge_recursive($config->_config_paths, array(APPPATH)));
 	}
 
 	// --------------------------------------------------------------------
@@ -846,7 +846,7 @@ class CI_Loader {
 		 */
 		if (is_array($_ci_vars))
 		{
-			$this->_ci_cached_vars = array_merge($this->_ci_cached_vars, $_ci_vars);
+			$this->_ci_cached_vars = array_merge_recursive($this->_ci_cached_vars, $_ci_vars);
 		}
 		extract($this->_ci_cached_vars);
 
