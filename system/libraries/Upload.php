@@ -143,13 +143,6 @@ class CI_Upload {
 	public $file_ext_tolower		= FALSE;
 
 	/**
-	 * Filename Rule
-	 *
-	 * @var	string
-	 */
-	public $filename_rule		= 'default';
-
-	/**
 	 * Upload path
 	 *
 	 * @var	string
@@ -322,8 +315,7 @@ class CI_Upload {
 					'detect_mime'			=> TRUE,
 					'xss_clean'			=> FALSE,
 					'temp_prefix'			=> 'temp_file_',
-					'client_name'			=> '',
-					'filename_rule'			=> 'default',
+					'client_name'			=> ''
 				);
 
 		foreach ($defaults as $key => $val)
@@ -480,7 +472,7 @@ class CI_Upload {
 
 		// Sanitize the file name for security
 		$CI =& get_instance();
-		$this->file_name = $CI->security->sanitize_filename($this->file_name, FALSE, $this->filename_rule);
+		$this->file_name = $CI->security->sanitize_filename($this->file_name);
 
 		// Truncate the file name if it's too long
 		if ($this->max_filename > 0)
