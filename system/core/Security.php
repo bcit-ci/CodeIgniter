@@ -38,6 +38,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CI_Security {
 
 	/**
+	 * List of sanitize filename strings
+	 *
+	 * @var	array
+	 */
+	public $filename_bad_chars =	array(
+		'../', '<!--', '-->', '<', '>',
+		"'", '"', '&', '$', '#',
+		'{', '}', '[', ']', '=',
+		';', '?', '%20', '%22',
+		'%3c',		// <
+		'%253c',	// <
+		'%3e',		// >
+		'%0e',		// >
+		'%28',		// (
+		'%29',		// )
+		'%2528',	// (
+		'%26',		// &
+		'%24',		// $
+		'%3f',		// ?
+		'%3b',		// ;
+		'%3d'		// =
+	);
+
+	/**
 	 * XSS Hash
 	 *
 	 * Random Hash for protecting URLs.
@@ -549,24 +573,7 @@ class CI_Security {
 	 */
 	public function sanitize_filename($str, $relative_path = FALSE)
 	{
-		$bad = array(
-			'../', '<!--', '-->', '<', '>',
-			"'", '"', '&', '$', '#',
-			'{', '}', '[', ']', '=',
-			';', '?', '%20', '%22',
-			'%3c',		// <
-			'%253c',	// <
-			'%3e',		// >
-			'%0e',		// >
-			'%28',		// (
-			'%29',		// )
-			'%2528',	// (
-			'%26',		// &
-			'%24',		// $
-			'%3f',		// ?
-			'%3b',		// ;
-			'%3d'		// =
-		);
+		$bad = $this->filename_bad_chars;
 
 		if ( ! $relative_path)
 		{
