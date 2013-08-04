@@ -42,7 +42,7 @@ class CI_Security {
 	 *
 	 * @var	array
 	 */
-	public $sanitize_filename_str =	array(
+	public $filename_bad_chars =	array(
 		'../', '<!--', '-->', '<', '>',
 		"'", '"', '&', '$', '#',
 		'{', '}', '[', ']', '=',
@@ -565,19 +565,6 @@ class CI_Security {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set Sanitize Filename Strings
-	 *
-	 * @param	array	$strings
-	 * @return	void
-	 */
-	public function set_sanitize_filename_str($strings)
-	{
-		$this->sanitize_filename_str = $strings;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Sanitize Filename
 	 *
 	 * @param	string	$str		Input file name
@@ -586,7 +573,7 @@ class CI_Security {
 	 */
 	public function sanitize_filename($str, $relative_path = FALSE)
 	{
-		$bad = $this->sanitize_filename_str;
+		$bad = $this->filename_bad_chars;
 
 		if ( ! $relative_path)
 		{
