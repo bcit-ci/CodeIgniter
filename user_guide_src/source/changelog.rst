@@ -403,7 +403,7 @@ Release Date: Not Released
    -  :doc:`Config Library <libraries/config>` changes include:
 
       -  Changed ``site_url()`` method  to accept an array as well.
-      -  Removed internal method ``_assign_to_config()`` and moved its implementation in *CodeIgniter.php* instead.
+      -  Removed internal method ``_assign_to_config()`` and moved its implementation to *CodeIgniter.php* instead.
 
    -  :doc:`Security Library <libraries/security>` changes include:
 
