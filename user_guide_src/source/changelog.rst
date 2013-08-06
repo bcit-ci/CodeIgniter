@@ -416,7 +416,7 @@ Release Date: Not Released
       -  Added method ``strip_image_tags()``.
       -  Added ``$config['csrf_regeneration']``, which makes token regeneration optional.
       -  Added ``$config['csrf_exclude_uris']``, which allows you list URIs which will not have the CSRF validation methods run.
-      -  Changed ``sanitize_filename()``, makes filename_bad_chars a public property.
+      -  Modified method ``sanitize_filename()`` to read a public ``$filename_bad_chars`` property for getting the invalid characters list.
 
    -  :doc:`URI Routing <general/routing>` changes include:
 
