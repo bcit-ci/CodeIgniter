@@ -75,7 +75,7 @@ Release Date: Not Released
       - :php:func:`anchor_popup()` will now fill the *href* attribute with the URL and its JS code will return FALSE instead.
       - Added JS window name support to the :php:func:`anchor_popup()` function.
       - Added support (auto-detection) for HTTP/1.1 response code 303 in :php:func:`redirect()`.
-      - Changed :php:func:`redirect()` to only choose the **refresh** method only on IIS servers, instead of all servers on Windows (when **auto** is used).
+      - Changed :php:func:`redirect()` to choose the **refresh** method only on IIS servers, instead of all servers on Windows (when **auto** is used).
       - Changed :php:func:`anchor()`, :php:func:`anchor_popup()`, and :php:func:`redirect()` to support protocol-relative URLs (e.g. *//ellislab.com/codeigniter*).
       - Added an optional second parameter to both :php:func:`base_url()` and :php:func:`site_url()` that allows enforcing of a protocol different than the one in the *base_url* configuration setting.
 
@@ -515,7 +515,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#784, #861) - :doc:`Database Forge <database/forge>` method ``create_table()`` used to accept constraints for MSSQL/SQLSRV integer-type columns.
 -  Fixed a bug (#706) - SQLSRV/MSSSQL didn't escape field names.
 -  Fixed a bug (#1452) - ``protect_identifiers()`` didn't properly detect identifiers with spaces in their names.
--  Fixed a bug where ``protect_identifiers()`` ignored it's extra arguments when the value passed to it is an array.
+-  Fixed a bug where ``protect_identifiers()`` ignored its extra arguments when the value passed to it is an array.
 -  Fixed a bug where ``_has_operator()`` didn't detect BETWEEN.
 -  Fixed a bug in :doc:`Query Builder <database/query_builder>`'s ``join()`` method where it failed with identifiers containing dashes.
 -  Fixed a bug (#1264) - :doc:`Database Forge <database/forge>` and :doc:`Database Utilities <database/utilities>` didn't update/reset the databases and tables list cache when a table or a database is created, dropped or renamed.
@@ -555,7 +555,7 @@ Bug fixes for 3.0
 -  Fixed a bug where the :doc:`Session Library <libraries/sessions>` accepted cookies with *last_activity* values being in the future.
 -  Fixed a bug (#1897) - :doc:`Email Library <libraries/email>` triggered PHP E_WARNING errors when *mail* protocol used and ``to()`` is never called.
 -  Fixed a bug (#1409) - :doc:`Email Library <libraries/email>` didn't properly handle multibyte characters when applying Q-encoding to headers.
--  Fixed a bug where :doc:`Email Library <libraries/email>` didn't honor it's *wordwrap* setting while handling alternative messages.
+-  Fixed a bug where :doc:`Email Library <libraries/email>` didn't honor its *wordwrap* setting while handling alternative messages.
 -  Fixed a bug (#1476, #1909) - :doc:`Pagination Library <libraries/pagination>` didn't take into account actual routing when determining the current page.
 -  Fixed a bug (#1766) - :doc:`Query Builder <database/query_builder>` didn't always take into account the *dbprefix* setting.
 -  Fixed a bug (#779) - :doc:`URI Class <libraries/uri>` didn't always trim slashes from the *uri_string* as shown in the documentation.
@@ -602,7 +602,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#2490) - :doc:`Database Class <database/queries>` method ``query()`` returning boolean instead of a result object for PostgreSQL-specific *INSERT INTO ... RETURNING* statements.
 -  Fixed a bug (#249) - :doc:`Cache Library <libraries/caching>` didn't properly handle Memcache(d) configurations with missing options.
 -  Fixed a bug (#180) - :php:func:`config_item()` didn't take into account run-time configuration changes.
--  Fixed a bug (#2551) - :doc:`Loader Library <libraries/loader>` method ``library()`` didn't properly check if a class that is being loaded already exits.
+-  Fixed a bug (#2551) - :doc:`Loader Library <libraries/loader>` method ``library()`` didn't properly check if a class that is being loaded already exists.
 -  Fixed a bug (#2560) - :doc:`Form Helper <helpers/form_helper>` function :php:func:`form_open()` set the 'method="post"' attribute only if the passed attributes equaled an empty string.
 -  Fixed a bug (#2585) - :doc:`Query Builder <database/query_builder>` methods ``min()``, ``max()``, ``avg()``, ``sum()`` didn't escape field names.
 
@@ -684,7 +684,7 @@ Bug fixes for 2.1.1
 -  Fixed a bug (#538) - Windows paths were ignored when using the :doc:`Image Manipulation Library <libraries/image_lib>` to create a new file.
 -  Fixed a bug - When database caching was enabled, $this->db->query() checked the cache before binding variables which resulted in cached queries never being found.
 -  Fixed a bug - CSRF cookie value was allowed to be any (non-empty) string before being written to the output, making code injection a risk.
--  Fixed a bug (#726) - PDO put a 'dbname' argument in it's connection string regardless of the database platform in use, which made it impossible to use SQLite.
+-  Fixed a bug (#726) - PDO put a 'dbname' argument in its connection string regardless of the database platform in use, which made it impossible to use SQLite.
 -  Fixed a bug - ``CI_DB_pdo_driver::num_rows()`` was not returning properly value with SELECT queries, cause it was relying on ``PDOStatement::rowCount()``.
 -  Fixed a bug (#1059) - ``CI_Image_lib::clear()`` was not correctly clearing all necessary object properties, namely width and height.
 

@@ -463,7 +463,7 @@ class CI_Upload {
 		}
 
 		// Are the image dimensions within the allowed size?
-		// Note: This can fail if the server has an open_basdir restriction.
+		// Note: This can fail if the server has an open_basedir restriction.
 		if ( ! $this->is_allowed_dimensions())
 		{
 			$this->set_error('upload_invalid_dimensions');

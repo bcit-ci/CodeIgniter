@@ -182,7 +182,7 @@ $mobiles = array(
 	'operamini'		=> 'Opera Mini',
 	'opera mini'	=> 'Opera Mini',
 	'opera mobi'	=> 'Opera Mobile',
-	'fennec'	=> 'Firefox Mobile',
+	'fennec'		=> 'Firefox Mobile',
 
 	// Other
 	'digital paths'	=> 'Digital Paths',
