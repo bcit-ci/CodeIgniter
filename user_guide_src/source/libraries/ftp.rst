@@ -10,9 +10,19 @@ directory to be recreated remotely via FTP.
 .. note:: SFTP and SSL FTP protocols are not supported, only standard
 	FTP.
 
-**********************
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
+
+**************************
+Working with the FTP Class
+**************************
+
 Initializing the Class
-**********************
+======================
 
 Like most other classes in CodeIgniter, the FTP class is initialized in
 your controller using the $this->load->library function::
@@ -79,53 +89,54 @@ In this example a local directory is mirrored on the server.
 
 	$this->ftp->close();
 
-******************
-Function Reference
-******************
+***************
+Class Reference
+***************
 
-$this->ftp->connect()
-=====================
+.. class:: CI_FTP
 
-Connects and logs into to the FTP server. Connection preferences are set
-by passing an array to the function, or you can store them in a config
-file.
+	.. method:: connect([$config = array()])
 
-Here is an example showing how you set preferences manually::
+		:param array $config: Connection values
+		:returns: bool
 
-	$this->load->library('ftp');
+		Connects and logs into to the FTP server. Connection preferences are set
+		by passing an array to the function, or you can store them in a config
+		file.
 
-	$config['hostname'] = 'ftp.example.com';
-	$config['username'] = 'your-username';
-	$config['password'] = 'your-password';
-	$config['port']     = 21;
-	$config['passive']  = FALSE;
-	$config['debug']    = TRUE;
+		Here is an example showing how you set preferences manually::
 
-	$this->ftp->connect($config);
+			$this->load->library('ftp');
 
-Setting FTP Preferences in a Config File
-****************************************
+			$config['hostname'] = 'ftp.example.com';
+			$config['username'] = 'your-username';
+			$config['password'] = 'your-password';
+			$config['port']     = 21;
+			$config['passive']  = FALSE;
+			$config['debug']    = TRUE;
 
-If you prefer you can store your FTP preferences in a config file.
-Simply create a new file called the ftp.php, add the $config array in
-that file. Then save the file at config/ftp.php and it will be used
-automatically.
+			$this->ftp->connect($config);
 
-Available connection options
-****************************
+		**Setting FTP Preferences in a Config File**
 
--  **hostname** - the FTP hostname. Usually something like:
-   ftp.example.com
--  **username** - the FTP username.
--  **password** - the FTP password.
--  **port** - The port number. Set to 21 by default.
--  **debug** - TRUE/FALSE (boolean). Whether to enable debugging to
-   display error messages.
--  **passive** - TRUE/FALSE (boolean). Whether to use passive mode.
-   Passive is set automatically by default.
+		If you prefer you can store your FTP preferences in a config file.
+		Simply create a new file called the ftp.php, add the $config array in
+		that file. Then save the file at config/ftp.php and it will be used
+		automatically.
 
-$this->ftp->upload()
-====================
+		**Available connection options**
+
+		==================		===================================
+		Option Name						Description
+		==================		===================================
+		**hostname**					the FTP hostname. Usually something like: ftp.example.com
+		**username**					the FTP username
+		**password**					the FTP password
+		**port**							The port number. Set to 21 by default.
+		**debug**							TRUE/FALSE (boolean). Whether to enable debugging to display error messages.
+		**passive**						TRUE/FALSE (boolean). Whether to use passive mode. Passive is set automatically by default.
+		==================		===================================
+
 
 Uploads a file to your server. You must supply the local path and the
 remote path, and you can optionally set the mode and permissions.
