@@ -22,7 +22,7 @@ This helper is loaded using the following code::
 Overview
 ========
 
-The Smiley helper has a renderer that takes plain text simileys, like
+The Smiley helper has a renderer that takes plain text smileys, like
 :-) and turns them into a image representation, like |smile!|
 
 It also lets you display a set of smiley images that when clicked will
@@ -49,7 +49,7 @@ The Controller
 --------------
 
 In your `application/controllers/` folder, create a file called
-smileys.php and place the code below in it.
+Smileys.php and place the code below in it.
 
 .. important:: Change the URL in the :func:`get_clickable_smileys()`
 	function below so that it points to your smiley folder.
@@ -157,7 +157,7 @@ Available Functions
 
 	Example::
 
-		$str = 'Here are some simileys: :-)  ;-)';
+		$str = 'Here are some smileys: :-)  ;-)';
 		$str = parse_smileys($str, "http://example.com/images/smileys/");
 		echo $str;
 
