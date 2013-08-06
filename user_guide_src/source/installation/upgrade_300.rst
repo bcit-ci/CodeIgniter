@@ -207,7 +207,7 @@ If your application relies on IF EXISTS, you'll have to change its usage.
 	// Produces DROP TABLE IF EXISTS `table_name`
 	$this->dbforge->drop_table('table_name', TRUE);
 
-.. note:: The given example users MySQL-specific syntax, but it should work across
+.. note:: The given example uses MySQL-specific syntax, but it should work across
 	all drivers with the exception of ODBC.
 
 ***********************************************************

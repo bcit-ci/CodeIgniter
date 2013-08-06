@@ -47,7 +47,7 @@ class CI_Input {
 	public $ip_address = FALSE;
 
 	/**
-	 * User agent strin
+	 * User agent string
 	 *
 	 * @var	string
 	 */

@@ -351,10 +351,10 @@ class CI_Router {
 			return $this->_set_request(explode('/', $this->routes[$uri]));
 		}
 
-		// Loop through the route array looking for wild-cards
+		// Loop through the route array looking for wildcards
 		foreach ($this->routes as $key => $val)
 		{
-			// Convert wild-cards to RegEx
+			// Convert wildcards to RegEx
 			$key = str_replace(array(':any', ':num'), array('[^/]+', '[0-9]+'), $key);
 
 			// Does the RegEx match?
