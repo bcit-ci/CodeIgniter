@@ -1846,6 +1846,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			$this->query($this->_update_batch($this->protect_identifiers($table, TRUE, NULL, FALSE), array_slice($this->qb_set, $i, 100), $this->protect_identifiers($index)));
 			$affected_rows += $this->affected_rows();
+			$this->qb_where = array();
 		}
 
 		$this->_reset_write();
