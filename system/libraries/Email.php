@@ -1265,7 +1265,7 @@ class CI_Email {
 				}
 				else
 				{
-					$this->_finalbody = $hdr . $this->newline . $this->newline . $this->_body;
+					$this->_finalbody = $hdr.$this->newline.$this->newline.$this->_body;
 				}
 
 				return;
@@ -1275,11 +1275,11 @@ class CI_Email {
 				if ($this->send_multipart === FALSE)
 				{
 					$hdr .= 'Content-Type: text/html; charset='.$this->charset.$this->newline
-						.'Content-Transfer-Encoding: quoted-printable'.$this->newline.$this->newline;
+						.'Content-Transfer-Encoding: quoted-printable';
 				}
 				else
 				{
-					$hdr .= 'Content-Type: multipart/alternative; boundary="'.$this->_alt_boundary.'"'.$this->newline.$this->newline;
+					$hdr .= 'Content-Type: multipart/alternative; boundary="'.$this->_alt_boundary.'"';
 
 					$body .= $this->_get_mime_message().$this->newline.$this->newline
 						.'--'.$this->_alt_boundary.$this->newline
@@ -1300,7 +1300,7 @@ class CI_Email {
 				}
 				else
 				{
-					$this->_finalbody = $hdr.$this->_finalbody;
+					$this->_finalbody = $hdr.$this->newline.$this->newline.$this->_finalbody;
 				}
 
 				if ($this->send_multipart !== FALSE)
@@ -1312,25 +1312,25 @@ class CI_Email {
 
 			case 'plain-attach' :
 
-				$hdr .= 'Content-Type: multipart/'.$this->multipart.'; boundary="'.$this->_atc_boundary.'"'.$this->newline.$this->newline;
+				$hdr .= 'Content-Type: multipart/'.$this->multipart.'; boundary="'.$this->_atc_boundary.'"';
 
 				if ($this->_get_protocol() === 'mail')
 				{
 					$this->_header_str .= $hdr;
 				}
 
-				$body .= $this->_get_mime_message().$this->newline.$this->newline
+				$body .= $this->_get_mime_message().$this->newline
+					.$this->newline
 					.'--'.$this->_atc_boundary.$this->newline
-
 					.'Content-Type: text/plain; charset='.$this->charset.$this->newline
-					.'Content-Transfer-Encoding: '.$this->_get_encoding().$this->newline.$this->newline
-
+					.'Content-Transfer-Encoding: '.$this->_get_encoding().$this->newline
+					.$this->newline
 					.$this->_body.$this->newline.$this->newline;
 
 			break;
 			case 'html-attach' :
 
-				$hdr .= 'Content-Type: multipart/'.$this->multipart.'; boundary="'.$this->_atc_boundary.'"'.$this->newline.$this->newline;
+				$hdr .= 'Content-Type: multipart/'.$this->multipart.'; boundary="'.$this->_atc_boundary.'"';
 
 				if ($this->_get_protocol() === 'mail')
 				{
@@ -1400,7 +1400,9 @@ class CI_Email {
 		}
 
 		$body .= implode($this->newline, $attachment).$this->newline.'--'.$this->_atc_boundary.'--';
-		$this->_finalbody = ($this->_get_protocol() === 'mail') ? $body : $hdr.$body;
+		$this->_finalbody = ($this->_get_protocol() === 'mail')
+			? $body
+			: $hdr.$this->newline.$this->newline.$body;
 		return TRUE;
 	}
 
