@@ -453,10 +453,11 @@ if ( ! function_exists('log_message'))
 
 		if ($_log === NULL)
 		{
-			$_log =& load_class('Log', 'core');
+			// references cannot be directly assigned to static variables, so we use an array
+			$_log[0] =& load_class('Log', 'core');
 		}
 
-		$_log->write_log($level, $message, $php_error);
+		$_log[0]->write_log($level, $message, $php_error);
 	}
 }
 
