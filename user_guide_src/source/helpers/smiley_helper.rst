@@ -48,7 +48,7 @@ View as described.
 The Controller
 --------------
 
-In your `application/controllers/` folder, create a file called
+In your **application/controllers/** directory, create a file called
 Smileys.php and place the code below in it.
 
 .. important:: Change the URL in the :func:`get_clickable_smileys()`
@@ -75,7 +75,7 @@ the :doc:`Table Class <../libraries/table>`::
 
 	}
 
-In your `application/views/` folder, create a file called `smiley_view.php`
+In your **application/views/** folder, create a file called **smiley_view.php**
 and place this code in it::
 
 	<html>
