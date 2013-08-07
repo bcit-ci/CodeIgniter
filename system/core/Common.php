@@ -439,17 +439,7 @@ if ( ! function_exists('log_message'))
 	 */
 	function log_message($level, $message, $php_error = FALSE)
 	{
-		static $_log, $_log_threshold;
-
-		if ($_log_threshold === NULL)
-		{
-			$_log_threshold = config_item('log_threshold');
-		}
-
-		if ($_log_threshold === 0)
-		{
-			return;
-		}
+		static $_log;
 
 		if ($_log === NULL)
 		{
