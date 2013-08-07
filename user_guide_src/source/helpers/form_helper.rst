@@ -47,7 +47,7 @@ The following functions are available:
 	The above example would create a form that points to your base URL plus the
 	"email/send" URI segments, like this::
 
-		<form method="post" accept-charset="utf-8" action="http://example.com/index.php/email/send" />
+		<form method="post" accept-charset="utf-8" action="http://example.com/index.php/email/send">
 
 	**Adding Attributes**
 
@@ -57,9 +57,13 @@ The following functions are available:
 			$attributes = array('class' => 'email', 'id' => 'myform');
 			echo form_open('email/send', $attributes);
 
-		The above example would create a form similar to this::
+		Alternatively, you can specify the second parameter as a string::
 
-			<form method="post" accept-charset="utf-8" action="http://example.com/index.php/email/send" class="email" id="myform" />
+			echo form_open('email/send', 'class="email" id="myform"');
+
+		The above examples would create a form similar to this::
+
+			<form method="post" accept-charset="utf-8" action="http://example.com/index.php/email/send" class="email" id="myform">
 
 	**Adding Hidden Input Fields**
 
@@ -68,6 +72,8 @@ The following functions are available:
 
 			$hidden = array('username' => 'Joe', 'member_id' => '234');
 			echo form_open('email/send', '', $hidden);
+
+		You can skip the second parameter by passing any falsy value to it.
 
 		The above example would create a form similar to this::
 
@@ -248,10 +254,10 @@ The following functions are available:
 	Example::
 
 		$options = array(
-			'small'  => 'Small Shirt',
-			'med'    => 'Medium Shirt',
-			'large'  => 'Large Shirt',
-			'xlarge' => 'Extra Large Shirt',
+			'small'		=> 'Small Shirt',
+			'med'		=> 'Medium Shirt',
+			'large'		=> 'Large Shirt',
+			'xlarge'	=> 'Extra Large Shirt',
 		);
 
 		$shirts_on_sale = array('small', 'large');
@@ -389,16 +395,14 @@ The following functions are available:
 	the box should be checked or not.
 
 	Similar to the other form functions in this helper, you can also pass an
-	array of attributes to the function
-
-	::
+	array of attributes to the function::
 
 		$data = array(
-			'name'    => 'newsletter',
-			'id'      => 'newsletter',
-			'value'   => 'accept',
-			'checked' => TRUE,
-			'style'   => 'margin:10px'
+			'name'		=> 'newsletter',
+			'id'		=> 'newsletter',
+			'value'		=> 'accept',
+			'checked'	=> TRUE,
+			'style'		=> 'margin:10px'
 		);
 
 		echo form_checkbox($data);
@@ -495,11 +499,11 @@ The following functions are available:
 	form to contain::
 
 		$data = array(
-			'name'    => 'button',
-			'id'      => 'button',
-			'value'   => 'true',
-			'type'    => 'reset',
-			'content' => 'Reset'
+			'name'		=> 'button',
+			'id'		=> 'button',
+			'value'		=> 'true',
+			'type'		=> 'reset',
+			'content'	=> 'Reset'
 		);
 
 		echo form_button($data);
