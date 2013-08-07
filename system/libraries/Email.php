@@ -1032,7 +1032,7 @@ class CI_Email {
 
 				if ($this->_get_protocol() == 'mail')
 				{
-					$this->_header_str .= $hdr;
+					$this->_header_str .= rtrim($hdr);
 					$this->_finalbody = $this->_body;
 				}
 				else
@@ -1070,7 +1070,7 @@ class CI_Email {
 
 				if ($this->_get_protocol() == 'mail')
 				{
-					$this->_header_str .= $hdr;
+					$this->_header_str .= rtrim($hdr);
 				}
 				else
 				{
@@ -1092,7 +1092,7 @@ class CI_Email {
 
 				if ($this->_get_protocol() == 'mail')
 				{
-					$this->_header_str .= $hdr;
+					$this->_header_str .= rtrim($hdr);
 				}
 
 				$body .= $this->_get_mime_message() . $this->newline . $this->newline;
@@ -1110,7 +1110,7 @@ class CI_Email {
 
 				if ($this->_get_protocol() == 'mail')
 				{
-					$this->_header_str .= $hdr;
+					$this->_header_str .= rtrim($hdr);
 				}
 
 				$body .= $this->_get_mime_message() . $this->newline . $this->newline;
