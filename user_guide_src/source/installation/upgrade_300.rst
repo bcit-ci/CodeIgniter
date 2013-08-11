@@ -181,15 +181,26 @@ Many methods and functions now return NULL instead of FALSE when the required it
    - element()
    - elements()
 
+********************************************************
+Step 11: Update usage of Input Class's get_post() method
+********************************************************
+
+Previously, the :doc:`Input Class <../libraries/input>` method ``get_post()``
+was checking first in POST data, then in GET data. This method has been modified
+so that it checks in GET then in POST, as its name suggests.
+
+A method has been added, ``post_get()``, which checks in POST then in GET, as
+``get_post()`` was doing before.
+
 ***********************************************************************
-Step 11: Check the calls to Directory Helper's directory_map() function
+Step 12: Update usage of Directory Helper's directory_map() function
 ***********************************************************************
 
 In the resulting array, directories now end with a trailing directory
 separator (i.e. a slash, usually).
 
 *************************************************************
-Step 12: Update usage of Database Forge's drop_table() method
+Step 13: Update usage of Database Forge's drop_table() method
 *************************************************************
 
 Up until now, ``drop_table()`` added an IF EXISTS clause by default or it didn't work
@@ -211,7 +222,7 @@ If your application relies on IF EXISTS, you'll have to change its usage.
 	all drivers with the exception of ODBC.
 
 ***********************************************************
-Step 13: Change usage of Email library with multiple emails
+Step 14: Change usage of Email library with multiple emails
 ***********************************************************
 
 The :doc:`Email Library <../libraries/email>` will automatically clear the
@@ -226,7 +237,7 @@ pass FALSE as the first parameter in the ``send()`` method:
  	}
 
 ***************************************************
-Step 14: Update your Form_validation language lines
+Step 15: Update your Form_validation language lines
 ***************************************************
 
 Two improvements have been made to the :doc:`Form Validation Library
@@ -257,7 +268,7 @@ files and error messages format:
 	later.
 
 ****************************************************************
-Step 15: Remove usage of (previously) deprecated functionalities
+Step 16: Remove usage of (previously) deprecated functionalities
 ****************************************************************
 
 In addition to the ``$autoload['core']`` configuration setting, there's a

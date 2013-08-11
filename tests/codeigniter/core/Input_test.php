@@ -82,10 +82,20 @@ class Input_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
-	public function test_get_post()
+	public function test_post_get()
 	{
 		$_SERVER['REQUEST_METHOD'] = 'POST';
 		$_POST['foo'] = 'bar';
+
+		$this->assertEquals('bar', $this->input->post_get('foo'));
+	}
+
+	// --------------------------------------------------------------------
+
+	public function test_get_post()
+	{
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+		$_GET['foo'] = 'bar';
 
 		$this->assertEquals('bar', $this->input->get_post('foo'));
 	}
