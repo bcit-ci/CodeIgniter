@@ -332,7 +332,7 @@ class CI_Form_validation {
 			}
 			else
 			{
-				if (isset($_POST[$field]) AND $_POST[$field] != "")
+				if (isset($_POST[$field]))
 				{
 					$this->_field_data[$field]['postdata'] = $_POST[$field];
 				}
