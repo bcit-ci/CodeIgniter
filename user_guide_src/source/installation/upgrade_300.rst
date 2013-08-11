@@ -186,10 +186,10 @@ Step 11: Update usage of Input Class's get_post() method
 ********************************************************
 
 Previously, the :doc:`Input Class <../libraries/input>` method ``get_post()``
-was checking first in POST data, then in GET data. This method has been modified
-so that it checks in GET then in POST, as its name suggests.
+was searching first in POST data, then in GET data. This method has been
+modified so that it searches in GET then in POST, as its name suggests.
 
-A method has been added, ``post_get()``, which checks in POST then in GET, as
+A method has been added, ``post_get()``, which searches in POST then in GET, as
 ``get_post()`` was doing before.
 
 ***********************************************************************

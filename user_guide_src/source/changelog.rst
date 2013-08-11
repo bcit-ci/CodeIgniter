@@ -388,7 +388,7 @@ Release Date: Not Released
       -  Changed method ``valid_ip()`` to use PHP's native ``filter_var()`` function.
       -  Changed internal method ``_sanitize_globals()`` to skip enforcing reversal of *register_globals* in PHP 5.4+, where this functionality no longer exists.
       -  Changed methods ``get()``, ``post()``, ``get_post()``, ``cookie()``, ``server()``, ``user_agent()`` to return NULL instead of FALSE when no value is found.
-	  -  Changed method ``get_post()`` to check in GET then in POST. Added method ``post_get()`` which checks in POST then in GET, as ``get_post()`` was doing before.
+      -  Added method ``post_get()`` and changed ``get_post()`` to search in GET data first. Both methods' names now properly match their GET/POST data search priorities.
       -  Changed method ``_fetch_from_array()`` to parse array notation in field name.
 
    -  :doc:`Common functions <general/common_functions>` changes include:
