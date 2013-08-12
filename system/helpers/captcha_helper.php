@@ -220,7 +220,7 @@ if ( ! function_exists('create_captcha'))
 		$img = '<img src="'.$img_url.$img_name.'" style="width: '.$img_width.'; height: '.$img_height .'; border: 0;" alt=" " />';
 		ImageDestroy($im);
 
-		return array('word' => $word, 'time' => $now, 'image' => $img);
+		return array('word' => $word, 'time' => $now, 'image' => $img,'name'=>$img_name);
 	}
 }
 
