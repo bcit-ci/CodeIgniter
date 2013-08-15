@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -428,20 +428,6 @@ abstract class CI_DB_driver {
 			}
 		}
 
-		// ----------------------------------------------------------------
-
-		// Select the DB... assuming a database name is specified in the config file
-		if ($this->database !== '' && ! $this->db_select())
-		{
-			log_message('error', 'Unable to select database: '.$this->database);
-
-			if ($this->db_debug)
-			{
-				$this->display_error('db_unable_to_select', $this->database);
-			}
-			return FALSE;
-		}
-
 		// Now we set the character set and that's all
 		return $this->db_set_charset($this->char_set);
 	}
@@ -575,7 +561,6 @@ abstract class CI_DB_driver {
 		if ($sql === '')
 		{
 			log_message('error', 'Invalid query: '.$sql);
-
 			return ($this->db_debug) ? $this->display_error('db_invalid_query') : FALSE;
 		}
 		elseif ( ! is_bool($return_object))
@@ -639,7 +624,7 @@ abstract class CI_DB_driver {
 				// if transactions are enabled. If we don't call this here
 				// the error message will trigger an exit, causing the
 				// transactions to remain in limbo.
-				$this->trans_complete();
+				$this->_trans_depth > 0 && $this->trans_complete();
 
 				// Display errors
 				return $this->display_error(array('Error Number: '.$error['code'], $error['message'], $sql));
@@ -718,7 +703,7 @@ abstract class CI_DB_driver {
 	{
 		$driver = 'CI_DB_'.$this->dbdriver.'_result';
 
-		if ( ! class_exists($driver))
+		if ( ! class_exists($driver, FALSE))
 		{
 			include_once(BASEPATH.'database/DB_result.php');
 			include_once(BASEPATH.'database/drivers/'.$this->dbdriver.'/'.$this->dbdriver.'_result.php');
@@ -830,7 +815,7 @@ abstract class CI_DB_driver {
 		}
 
 		// The query() function will set this flag to FALSE in the event that a query failed
-		if ($this->_trans_status === FALSE)
+		if ($this->_trans_status === FALSE OR $this->_trans_failure === TRUE)
 		{
 			$this->trans_rollback();
 
@@ -993,9 +978,43 @@ abstract class CI_DB_driver {
 		{
 			return ($str === FALSE) ? 0 : 1;
 		}
-		elseif (is_null($str))
+		elseif ($str === NULL)
 		{
 			return 'NULL';
+		}
+
+		return $str;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Escape String
+	 *
+	 * @param	string	$str
+	 * @param	bool	$like	Whether or not the string will be used in a LIKE condition
+	 * @return	string
+	 */
+	public function escape_str($str, $like = FALSE)
+	{
+		if (is_array($str))
+		{
+			foreach ($str as $key => $val)
+			{
+				$str[$key] = $this->escape_str($val, $like);
+			}
+
+			return $str;
+		}
+
+		$str = $this->_escape_str($str);
+
+		// escape LIKE condition wildcards
+		if ($like === TRUE)
+		{
+			return str_replace(array($this->_like_escape_chr, '%', '_'),
+						array($this->_like_escape_chr.$this->_like_escape_chr, $this->_like_escape_chr.'%', $this->_like_escape_chr.'_'),
+						$str);
 		}
 
 		return $str;
@@ -1009,12 +1028,25 @@ abstract class CI_DB_driver {
 	 * Calls the individual driver for platform
 	 * specific escaping for LIKE conditions
 	 *
-	 * @param	string
+	 * @param	string|string[]
 	 * @return	mixed
 	 */
 	public function escape_like_str($str)
 	{
 		return $this->escape_str($str, TRUE);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Platform-dependant string escape
+	 *
+	 * @param	string
+	 * @return	string
+	 */
+	protected function _escape_str($str)
+	{
+		return str_replace("'", "''", remove_invisible_characters($str));
 	}
 
 	// --------------------------------------------------------------------
@@ -1175,13 +1207,8 @@ abstract class CI_DB_driver {
 				}
 				else
 				{
-					/* We have no other choice but to just get the first element's key.
-					 * Due to array_shift() accepting it's argument by reference, if
-					 * E_STRICT is on, this would trigger a warning. So we'll have to
-					 * assign it first.
-					 */
-					$key = array_keys($row);
-					$key = array_shift($key);
+					// We have no other choice but to just get the first element's key.
+					$key = key($row);
 				}
 			}
 
@@ -1348,7 +1375,9 @@ abstract class CI_DB_driver {
 			$fields[$this->protect_identifiers($key)] = $this->escape($val);
 		}
 
-		return $this->_update($this->protect_identifiers($table, TRUE, NULL, FALSE), $fields);
+		$sql = $this->_update($this->protect_identifiers($table, TRUE, NULL, FALSE), $fields);
+		$this->_reset_write();
+		return $sql;
 	}
 
 	// --------------------------------------------------------------------
@@ -1527,7 +1556,7 @@ abstract class CI_DB_driver {
 	 */
 	protected function _cache_init()
 	{
-		if (class_exists('CI_DB_Cache'))
+		if (class_exists('CI_DB_Cache', FALSE))
 		{
 			if (is_object($this->CACHE))
 			{
@@ -1581,7 +1610,7 @@ abstract class CI_DB_driver {
 	 * @param	string	the error message
 	 * @param	string	any "swap" values
 	 * @param	bool	whether to localize the message
-	 * @return	string	sends the application/error_db.php template
+	 * @return	string	sends the application/views/errors/error_db.php template
 	 */
 	public function display_error($error = '', $swap = '', $native = FALSE)
 	{
@@ -1625,7 +1654,7 @@ abstract class CI_DB_driver {
 
 		$error =& load_class('Exceptions', 'core');
 		echo $error->show_error($heading, $message, 'error_db');
-		exit;
+		exit(EXIT_DATABASE);
 	}
 
 	// --------------------------------------------------------------------
@@ -1678,7 +1707,10 @@ abstract class CI_DB_driver {
 		// If a parenthesis is found we know that we do not need to
 		// escape the data or add a prefix. There's probably a more graceful
 		// way to deal with this, but I'm not thinking of it -- Rick
-		if (strpos($item, '(') !== FALSE)
+		//
+		// Added exception for single quotes as well, we don't want to alter
+		// literal strings. -- Narf
+		if (strpos($item, '(') !== FALSE OR strpos($item, "'") !== FALSE)
 		{
 			return $item;
 		}

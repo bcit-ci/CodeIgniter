@@ -31,7 +31,7 @@ version of PHP is lower than the supplied version number.
 is_really_writable()
 ====================
 
-.. php:function:: is_really_writeable($file)
+.. php:function:: is_really_writable($file)
 
 	:param	string	$file: File path
 	:returns:	bool
@@ -68,10 +68,6 @@ accessing configuration information, however ``config_item()`` can be used
 to retrieve single keys. See :doc:`Config Library <../libraries/config>`
 documentation for more information.
 
-.. important:: This function only returns values set in your configuration
-	files. It does not take into account config values that are
-	dynamically set at runtime.
-
 show_error()
 ============
 
@@ -100,11 +96,11 @@ please see the :doc:`Error Handling <errors>` documentation.
 log_message()
 =============
 
-.. php:function:: log_message($level = 'error', $message, $php_error = FALSE)
+.. php:function:: log_message($level, $message, $php_error = FALSE)
 
-	:param	string	$level: Log level
+	:param	string	$level: Log level: 'error', 'debug' or 'info'
 	:param	string	$message: Message to log
-	:param	bool	$php_error: Whether we're loggin a native PHP error message
+	:param	bool	$php_error: Whether we're logging a native PHP error message
 	:returns:	void
 
 This function is an alias for ``CI_Log::write_log()``. For more info,

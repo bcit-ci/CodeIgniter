@@ -12,7 +12,7 @@ In some instances, however, you may want to remap this relationship so
 that a different class/method can be called instead of the one
 corresponding to the URL.
 
-For example, lets say you want your URLs to have this prototype::
+For example, let's say you want your URLs to have this prototype::
 
 	example.com/product/1/
 	example.com/product/2/
@@ -129,7 +129,7 @@ For those of you who don't know regular expressions and want to learn
 more about them, `regular-expressions.info <http://www.regular-expressions.info/>`
 might be a good starting point.
 
-..note:: You can also mix and match wildcards with regular expressions.
+.. note:: You can also mix and match wildcards with regular expressions.
 
 Callbacks
 =========
@@ -137,7 +137,7 @@ Callbacks
 If you are using PHP >= 5.3 you can use callbacks in place of the normal
 routing rules to process the back-references. Example::
 
-	$route['products/([a-z]+)/edit/(\d+)'] = function ($product_type, $id)
+	$route['products/([a-zA-Z]+)/edit/(\d+)'] = function ($product_type, $id)
 	{
 		return 'catalog/product_edit/' . strtolower($product_type) . '/' . $id;
 	};
@@ -145,7 +145,7 @@ routing rules to process the back-references. Example::
 Reserved Routes
 ===============
 
-There are two reserved routes::
+There are three reserved routes::
 
 	$route['default_controller'] = 'welcome';
 
@@ -163,7 +163,19 @@ This route indicates which controller class should be loaded if the
 requested controller is not found. It will override the default 404
 error page. It won't affect to the ``show_404()`` function, which will
 continue loading the default *error_404.php* file at
-*application/errors/error_404.php*.
+*application/views/errors/error_404.php*.
+
+
+::
+
+	$route['translate_uri_dashes'] = FALSE;
+
+As evident by the boolean value, this is not exactly a route. This
+option enables you to automatically replace dashes ('-') with
+underscores in the controller and method URI segments, thus saving you
+additional route entries if you need to do that.
+This is required, because the dash isn't a valid class or method name
+character and would cause a fatal error if you try to use it.
 
 .. important:: The reserved routes must come before any wildcard or
 	regular expression routes.

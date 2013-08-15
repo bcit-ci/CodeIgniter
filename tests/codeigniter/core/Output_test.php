@@ -3,12 +3,47 @@
 class Output_test extends CI_TestCase {
 
 	public $output;
+	protected $_output_data = <<<HTML
+<html>
+	<head>
+		<title>Basic HTML</title>
+	</head>
+	<body>
+		Test
+	</body>
+</html>
+HTML;
 
 	public function set_up()
 	{
 		$this->ci_set_config('charset', 'UTF-8');
 		$output = $this->ci_core_class('output');
 		$this->output = new $output();
+	}
+
+	// --------------------------------------------------------------------
+
+	public function test_set_get_append_output()
+	{
+		$append = "<!-- comment /-->\n";
+
+		$this->assertEquals(
+			$this->_output_data.$append,
+			$this->output
+				->set_output($this->_output_data)
+				->append_output("<!-- comment /-->\n")
+				->get_output()
+		);
+	}
+
+	// --------------------------------------------------------------------
+
+	public function test_minify()
+	{
+		$this->assertEquals(
+			str_replace(array("\t", "\n"), '', $this->_output_data),
+			$this->output->minify($this->_output_data)
+		);
 	}
 
 	// --------------------------------------------------------------------
@@ -29,8 +64,8 @@ class Output_test extends CI_TestCase {
 
 		$this->output->set_content_type('text/plain', 'WINDOWS-1251');
 		$this->assertEquals(
-			'text/plain; charset=windows-1251',		// Character set is converted to lowercase
-			$this->output->get_header('content-type')	// Case-insensitive comparison
+			'text/plain; charset=WINDOWS-1251',
+			$this->output->get_header('content-type')
 		);
 	}
 

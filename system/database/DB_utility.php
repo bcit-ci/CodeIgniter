@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -238,7 +238,7 @@ abstract class CI_DB_utility {
 			$out .= $enclosure.str_replace($enclosure, $enclosure.$enclosure, $name).$enclosure.$delim;
 		}
 
-		$out = rtrim($out).$newline;
+		$out = substr(rtrim($out), 0, -strlen($delim)).$newline;
 
 		// Next blast through the result array and build out the rows
 		while ($row = $query->unbuffered_row('array'))
@@ -247,7 +247,7 @@ abstract class CI_DB_utility {
 			{
 				$out .= $enclosure.str_replace($enclosure, $enclosure.$enclosure, $item).$enclosure.$delim;
 			}
-			$out = rtrim($out).$newline;
+			$out = substr(rtrim($out), 0, -strlen($delim)).$newline;
 		}
 
 		return $out;
@@ -320,14 +320,15 @@ abstract class CI_DB_utility {
 
 		// Set up our default preferences
 		$prefs = array(
-				'tables'		=> array(),
-				'ignore'		=> array(),
-				'filename'		=> '',
-				'format'		=> 'gzip', // gzip, zip, txt
-				'add_drop'		=> TRUE,
-				'add_insert'		=> TRUE,
-				'newline'		=> "\n"
-			);
+			'tables'		=> array(),
+			'ignore'		=> array(),
+			'filename'		=> '',
+			'format'		=> 'gzip', // gzip, zip, txt
+			'add_drop'		=> TRUE,
+			'add_insert'		=> TRUE,
+			'newline'		=> "\n",
+			'foreign_key_checks'	=> TRUE
+		);
 
 		// Did the user submit any preferences? If so set them....
 		if (count($params) > 0)

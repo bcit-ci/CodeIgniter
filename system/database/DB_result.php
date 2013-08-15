@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -354,7 +354,7 @@ class CI_DB_result {
 			return;
 		}
 
-		if ($key !== '' && ! is_null($value))
+		if ($key !== '' && $value !== NULL)
 		{
 			$this->row_data[$key] = $value;
 		}
@@ -478,12 +478,9 @@ class CI_DB_result {
 			return NULL;
 		}
 
-		if (isset($result[$this->current_row + 1]))
-		{
-			++$this->current_row;
-		}
-
-		return $result[$this->current_row];
+		return isset($result[$this->current_row + 1])
+			? $result[++$this->current_row]
+			: NULL;
 	}
 
 	// --------------------------------------------------------------------

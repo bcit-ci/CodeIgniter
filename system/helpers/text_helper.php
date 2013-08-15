@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -358,31 +358,38 @@ if ( ! function_exists('convert_accented_characters'))
 	/**
 	 * Convert Accented Foreign Characters to ASCII
 	 *
-	 * @param	string	the text string
+	 * @param	string	$str	Input string
 	 * @return	string
 	 */
 	function convert_accented_characters($str)
 	{
-		global $foreign_characters;
+		static $array_from, $array_to;
 
-		if ( ! isset($foreign_characters) OR ! is_array($foreign_characters))
+		if ( ! is_array($array_from))
 		{
-			if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php'))
-			{
-				include(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php');
-			}
-			elseif (is_file(APPPATH.'config/foreign_chars.php'))
+			if (file_exists(APPPATH.'config/foreign_chars.php'))
 			{
 				include(APPPATH.'config/foreign_chars.php');
 			}
 
-			if ( ! isset($foreign_characters) OR ! is_array($foreign_characters))
+			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php'))
 			{
+				include(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php');
+			}
+
+			if (empty($foreign_characters) OR ! is_array($foreign_characters))
+			{
+				$array_from = array();
+				$array_to = array();
+
 				return $str;
 			}
+
+			$array_from = array_keys($foreign_characters);
+			$array_to = array_values($foreign_characters);
 		}
 
-		return preg_replace(array_keys($foreign_characters), array_values($foreign_characters), $str);
+		return preg_replace($array_from, $array_to, $str);
 	}
 }
 

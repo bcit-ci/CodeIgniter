@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -58,7 +58,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  Load the framework constants
  * ------------------------------------------------------
  */
-	if (defined('ENVIRONMENT') && file_exists(APPPATH.'config/'.ENVIRONMENT.'/constants.php'))
+	if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/constants.php'))
 	{
 		require(APPPATH.'config/'.ENVIRONMENT.'/constants.php');
 	}
@@ -165,7 +165,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * ------------------------------------------------------
  */
 	$RTR =& load_class('Router', 'core');
-	$RTR->_set_routing();
 
 	// Set any routing overrides that may exist in the main index file
 	if (isset($routing))
@@ -241,12 +240,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	// Load the local application controller
 	// Note: The Router class automatically validates the controller path using the router->_validate_request().
 	// If this include fails it means that the default controller in the Routes.php file is not resolving to something valid.
-	if ( ! file_exists(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().'.php'))
+	$class = ucfirst($RTR->class);
+	if ( ! file_exists(APPPATH.'controllers/'.$RTR->directory.$class.'.php'))
 	{
 		show_error('Unable to load your default controller. Please make sure the controller specified in your Routes.php file is valid.');
 	}
 
-	include(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().'.php');
+	include(APPPATH.'controllers/'.$RTR->directory.$class.'.php');
 
 	// Set a mark point for benchmarking
 	$BM->mark('loading_time:_base_classes_end');
@@ -258,12 +258,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  *  None of the methods in the app controller or the
  *  loader class can be called via the URI, nor can
- *  controller functions that begin with an underscore.
+ *  controller methods that begin with an underscore.
  */
-	$class  = $RTR->fetch_class();
-	$method = $RTR->fetch_method();
+	$method	= $RTR->method;
 
-	if ( ! class_exists($class) OR $method[0] === '_' OR method_exists('CI_Controller', $method))
+	if ( ! class_exists($class, FALSE) OR $method[0] === '_' OR method_exists('CI_Controller', $method))
 	{
 		if ( ! empty($RTR->routes['404_override']))
 		{
@@ -272,7 +271,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$method = 'index';
 			}
 
-			if ( ! class_exists($class))
+			$class = ucfirst($class);
+
+			if ( ! class_exists($class, FALSE))
 			{
 				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
 				{
@@ -310,7 +311,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$method = 'index';
 			}
 
-			if ( ! class_exists($class))
+			$class = ucfirst($class);
+
+			if ( ! class_exists($class, FALSE))
 			{
 				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
 				{

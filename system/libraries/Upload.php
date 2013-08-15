@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -134,6 +134,13 @@ class CI_Upload {
 	 * @var	string
 	 */
 	public $file_ext		= '';
+
+	/**
+	 * Force filename extension to lowercase
+	 *
+	 * @var	string
+	 */
+	public $file_ext_tolower		= FALSE;
 
 	/**
 	 * Upload path
@@ -294,6 +301,7 @@ class CI_Upload {
 					'file_type'			=> '',
 					'file_size'			=> NULL,
 					'file_ext'			=> '',
+					'file_ext_tolower' => FALSE,
 					'upload_path'			=> '',
 					'overwrite'			=> FALSE,
 					'encrypt_name'			=> FALSE,
@@ -366,25 +374,25 @@ class CI_Upload {
 
 			switch ($error)
 			{
-				case 1:	// UPLOAD_ERR_INI_SIZE
+				case UPLOAD_ERR_INI_SIZE:
 					$this->set_error('upload_file_exceeds_limit');
 					break;
-				case 2: // UPLOAD_ERR_FORM_SIZE
+				case UPLOAD_ERR_FORM_SIZE:
 					$this->set_error('upload_file_exceeds_form_limit');
 					break;
-				case 3: // UPLOAD_ERR_PARTIAL
+				case UPLOAD_ERR_PARTIAL:
 					$this->set_error('upload_file_partial');
 					break;
-				case 4: // UPLOAD_ERR_NO_FILE
+				case UPLOAD_ERR_NO_FILE:
 					$this->set_error('upload_no_file_selected');
 					break;
-				case 6: // UPLOAD_ERR_NO_TMP_DIR
+				case UPLOAD_ERR_NO_TMP_DIR:
 					$this->set_error('upload_no_temp_directory');
 					break;
-				case 7: // UPLOAD_ERR_CANT_WRITE
+				case UPLOAD_ERR_CANT_WRITE:
 					$this->set_error('upload_unable_to_write_file');
 					break;
-				case 8: // UPLOAD_ERR_EXTENSION
+				case UPLOAD_ERR_EXTENSION:
 					$this->set_error('upload_stopped_by_extension');
 					break;
 				default:
@@ -430,7 +438,7 @@ class CI_Upload {
 			}
 			else
 			{
-				// An extension was provided, lets have it!
+				// An extension was provided, let's have it!
 				$this->file_ext	= $this->get_extension($this->_file_name_override);
 			}
 
@@ -455,7 +463,7 @@ class CI_Upload {
 		}
 
 		// Are the image dimensions within the allowed size?
-		// Note: This can fail if the server has an open_basdir restriction.
+		// Note: This can fail if the server has an open_basedir restriction.
 		if ( ! $this->is_allowed_dimensions())
 		{
 			$this->set_error('upload_invalid_dimensions');
@@ -463,7 +471,8 @@ class CI_Upload {
 		}
 
 		// Sanitize the file name for security
-		$this->file_name = $this->clean_file_name($this->file_name);
+		$CI =& get_instance();
+		$this->file_name = $CI->security->sanitize_filename($this->file_name);
 
 		// Truncate the file name if it's too long
 		if ($this->max_filename > 0)
@@ -603,7 +612,6 @@ class CI_Upload {
 	{
 		if ($this->encrypt_name === TRUE)
 		{
-			mt_srand();
 			$filename = md5(uniqid(mt_rand())).$this->file_ext;
 		}
 
@@ -965,47 +973,14 @@ class CI_Upload {
 	public function get_extension($filename)
 	{
 		$x = explode('.', $filename);
-		return (count($x) !== 1) ? '.'.end($x) : '';
-	}
 
-	// --------------------------------------------------------------------
+		if (count($x) === 1)
+		{
+		    return '';
+		}
 
-	/**
-	 * Clean the file name for security
-	 *
-	 * @param	string	$filename
-	 * @return	string
-	 */
-	public function clean_file_name($filename)
-	{
-		$bad = array(
-				'<!--', '-->',
-				"'", '"',
-				'<', '>',
-				'&', '$',
-				'=',
-				';',
-				'?',
-				'/',
-				'!',
-				'#',
-				'%20',
-				'%22',
-				'%3c',		// <
-				'%253c',	// <
-				'%3e',		// >
-				'%0e',		// >
-				'%28',		// (
-				'%29',		// )
-				'%2528',	// (
-				'%26',		// &
-				'%24',		// $
-				'%3f',		// ?
-				'%3b',		// ;
-				'%3d'		// =
-			);
-
-		return stripslashes(str_replace($bad, '', $filename));
+		$ext = ($this->file_ext_tolower) ? strtolower(end($x)) : end($x);
+		return '.'.$ext;
 	}
 
 	// --------------------------------------------------------------------
@@ -1089,7 +1064,7 @@ class CI_Upload {
 			// <a, <body, <head, <html, <img, <plaintext, <pre, <script, <table, <title
 			// title is basically just in SVG, but we filter it anyhow
 
-			// if its an image or no "triggers" detected in the first 256 bytes - we're good
+			// if it's an image or no "triggers" detected in the first 256 bytes - we're good
 			return ! preg_match('/<(a|body|head|html|img|plaintext|pre|script|table|title)[\s>]/i', $opening_bytes);
 		}
 
@@ -1115,18 +1090,14 @@ class CI_Upload {
 		$CI =& get_instance();
 		$CI->lang->load('upload');
 
-		if (is_array($msg))
+		if ( ! is_array($msg))
 		{
-			foreach ($msg as $val)
-			{
-				$msg = ($CI->lang->line($val) === FALSE) ? $val : $CI->lang->line($val);
-				$this->error_msg[] = $msg;
-				log_message('error', $msg);
-			}
+			$msg = array($msg);
 		}
-		else
+
+		foreach ($msg as $val)
 		{
-			$msg = ($CI->lang->line($msg) === FALSE) ? $msg : $CI->lang->line($msg);
+			$msg = ($CI->lang->line($val) === FALSE) ? $val : $CI->lang->line($val);
 			$this->error_msg[] = $msg;
 			log_message('error', $msg);
 		}
@@ -1251,7 +1222,7 @@ class CI_Upload {
 		 * Notes:
 		 *	- the DIRECTORY_SEPARATOR comparison ensures that we're not on a Windows system
 		 *	- many system admins would disable the exec(), shell_exec(), popen() and similar functions
-		 *	  due to security concerns, hence the function_exists() checks
+		 *	  due to security concerns, hence the function_usable() checks
 		 */
 		if (DIRECTORY_SEPARATOR !== '\\')
 		{
@@ -1262,7 +1233,7 @@ class CI_Upload {
 			if (function_usable('exec'))
 			{
 				/* This might look confusing, as $mime is being populated with all of the output when set in the second parameter.
-				 * However, we only neeed the last line, which is the actual return value of exec(), and as such - it overwrites
+				 * However, we only need the last line, which is the actual return value of exec(), and as such - it overwrites
 				 * anything that could already be set for $mime previously. This effectively makes the second parameter a dummy
 				 * value, which is only put to allow us to get the return status code.
 				 */

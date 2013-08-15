@@ -1,5 +1,5 @@
 #############################
-Upgrading from 2.1.2 to 3.0.0
+Upgrading from 2.1.4 to 3.0.0
 #############################
 
 .. note:: These upgrade notes are for a version that is yet to be released.
@@ -17,22 +17,63 @@ they will need to be made fresh in this new one.
 .. note:: If you have any custom developed files in these folders please
 	make copies of them first.
 
+**************************************
+Step 2: Update your classes file names
+**************************************
+
+Starting with CodeIgniter 3.0, all class filenames (libraries, drivers, controllers
+and models) must be named in a Ucfirst-like manner or in other words - they must
+start with a capital letter.
+
+For example, if you have the following library file:
+
+	application/libraries/mylibrary.php
+
+... then you'll have to rename it to:
+
+	application/libraries/Mylibrary.php
+
+The same goes for driver libraries and extensions and/or overrides of CodeIgniter's
+own libraries and core classes.
+
+	application/libraries/MY_email.php
+	application/core/MY_log.php
+
+The above files should respectively be renamed to the following:
+
+	application/libraries/MY_Email.php
+	application/core/MY_Log.php
+
+Controllers:
+
+	application/controllers/welcome.php	->	application/controllers/Welcome.php
+
+Models:
+
+	application/models/misc_model.php	->	application/models/Misc_model.php
+
+Please note that this DOES NOT affect directories, configuration files, views,
+helpers, hooks and anything else - it is only applied to classes.
+
+You must now follow just one simple rule - class names in Ucfirst and everything else
+in lowercase.
+
 ********************************
-Step 2: Replace config/mimes.php
+Step 3: Replace config/mimes.php
 ********************************
 
 This config file has been updated to contain more user mime-types, please copy
 it to _application/config/mimes.php*.
 
 **************************************************************
-Step 3: Remove $autoload['core'] from your config/autoload.php
+Step 4: Remove $autoload['core'] from your config/autoload.php
 **************************************************************
 
 Use of the ``$autoload['core']`` config array has been deprecated as of CodeIgniter 1.4.1 and is now removed.
 Move any entries that you might have listed there to ``$autoload['libraries']`` instead.
 
 ***************************************************
-Step 4: Move your Log class overrides or extensions
+Step 5: Move your Log class overrides or extensions
 ***************************************************
 
 The Log Class is considered as a "core" class and is now located in the
@@ -40,10 +81,10 @@ The Log Class is considered as a "core" class and is now located in the
 or extensions to work, you need to move them to **application/core/**::
 
 	application/libraries/Log.php -> application/core/Log.php
-	application/libraries/MY_Log.php -> application/core/MY_log.php
+	application/libraries/MY_Log.php -> application/core/MY_Log.php
 
 *********************************************************
-Step 5: Convert your Session usage from library to driver
+Step 6: Convert your Session usage from library to driver
 *********************************************************
 
 When you load (or autoload) the Session library, you must now load it as a driver instead of a library. This means
@@ -67,7 +108,7 @@ standard for Drivers. Also beware that some functions which are not part of the 
 the drivers, so your extension may have to be broken down into separate library and driver class extensions.
 
 ***************************************
-Step 6: Update your config/database.php
+Step 7: Update your config/database.php
 ***************************************
 
 Due to 3.0.0's renaming of Active Record to Query Builder, inside your `config/database.php`, you will
@@ -78,14 +119,14 @@ need to rename the `$active_record` variable to `$query_builder`
 	// $active_record = TRUE;
 	$query_builder = TRUE;
 
-*******************************
-Step 7: Move your errors folder
-*******************************
+*******************************************
+Step 8: Move your error templates directory
+*******************************************
 
 In version 3.0.0, the errors folder has been moved from _application/errors* to _application/views/errors*.
 
 *******************************************************
-Step 8: Update your config/routes.php containing (:any)
+Step 9: Update your config/routes.php containing (:any)
 *******************************************************
 
 Historically, CodeIgniter has always provided the **:any** wildcard in routing,
@@ -104,16 +145,62 @@ regular expression::
 	(.+)	// matches ANYTHING
 	(:any)	// matches any character, except for '/'
 
+*************************************************************************
+Step 10: Many functions now return NULL instead of FALSE on missing items
+*************************************************************************
 
-****************************************************************************
-Step 9: Check the calls to Array Helper's element() and elements() functions
-****************************************************************************
+Many methods and functions now return NULL instead of FALSE when the required items don't exist:
 
-The default return value of these functions, when the required elements
-don't exist, has been changed from FALSE to NULL.
+ - :doc:`Config Class <../libraries/config>`
+
+   - config->item()
+   - config->slash_item()
+
+ - :doc:`Input Class <../libraries/input>`
+
+   - input->get()
+   - input->post()
+   - input->get_post()
+   - input->cookie()
+   - input->server()
+   - input->input_stream()
+   - input->get_request_header()
+
+ - :doc:`Session Class <../libraries/sessions>`
+
+   - session->userdata()
+   - session->flashdata()
+
+ - :doc:`URI Class <../libraries/uri>`
+
+   - uri->segment()
+   - uri->rsegment()
+
+ - :doc:`Array Helper <../helpers/array_helper>`
+
+   - element()
+   - elements()
+
+********************************************************
+Step 11: Update usage of Input Class's get_post() method
+********************************************************
+
+Previously, the :doc:`Input Class <../libraries/input>` method ``get_post()``
+was searching first in POST data, then in GET data. This method has been
+modified so that it searches in GET then in POST, as its name suggests.
+
+A method has been added, ``post_get()``, which searches in POST then in GET, as
+``get_post()`` was doing before.
+
+***********************************************************************
+Step 12: Update usage of Directory Helper's directory_map() function
+***********************************************************************
+
+In the resulting array, directories now end with a trailing directory
+separator (i.e. a slash, usually).
 
 *************************************************************
-Step 10: Update usage of Database Forge's drop_table() method
+Step 13: Update usage of Database Forge's drop_table() method
 *************************************************************
 
 Up until now, ``drop_table()`` added an IF EXISTS clause by default or it didn't work
@@ -131,11 +218,11 @@ If your application relies on IF EXISTS, you'll have to change its usage.
 	// Produces DROP TABLE IF EXISTS `table_name`
 	$this->dbforge->drop_table('table_name', TRUE);
 
-.. note:: The given example users MySQL-specific syntax, but it should work across
+.. note:: The given example uses MySQL-specific syntax, but it should work across
 	all drivers with the exception of ODBC.
 
 ***********************************************************
-Step 11: Change usage of Email library with multiple emails
+Step 14: Change usage of Email library with multiple emails
 ***********************************************************
 
 The :doc:`Email Library <../libraries/email>` will automatically clear the
@@ -150,7 +237,7 @@ pass FALSE as the first parameter in the ``send()`` method:
  	}
 
 ***************************************************
-Step 12: Update your Form_validation language lines
+Step 15: Update your Form_validation language lines
 ***************************************************
 
 Two improvements have been made to the :doc:`Form Validation Library
@@ -181,7 +268,7 @@ files and error messages format:
 	later.
 
 ****************************************************************
-Step 13: Remove usage of (previously) deprecated functionalities
+Step 16: Remove usage of (previously) deprecated functionalities
 ****************************************************************
 
 In addition to the ``$autoload['core']`` configuration setting, there's a
@@ -214,7 +301,7 @@ Security helper do_hash()
 :doc:`Security Helper <../helpers/security_helper>` function ``do_hash()`` is now just an alias for
 PHP's native ``hash()`` function. It is deprecated and scheduled for removal in CodeIgniter 3.1+.
 
-.. note:: This function is still available, but you're strongly encouraged to remove it's usage sooner
+.. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
 	rather than later.
 
 File helper read_file()
@@ -224,7 +311,7 @@ File helper read_file()
 PHP's native ``file_get_contents()`` function. It is deprecated and scheduled for removal in
 CodeIgniter 3.1+.
 
-.. note:: This function is still available, but you're strongly encouraged to remove it's usage sooner
+.. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
 	rather than later.
 
 String helper repeater()
@@ -233,7 +320,7 @@ String helper repeater()
 :doc:`String Helper <../helpers/string_helper>` function :php:func:`repeater()` is now just an alias for
 PHP's native ``str_repeat()`` function. It is deprecated and scheduled for removal in CodeIgniter 3.1+.
 
-.. note:: This function is still available, but you're strongly encouraged to remove it's usage sooner
+.. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
 	rather than later.
 
 String helper trim_slashes()
@@ -243,7 +330,7 @@ String helper trim_slashes()
 for PHP's native ``trim()`` function (with a slash passed as its second argument). It is deprecated and
 scheduled for removal in CodeIgniter 3.1+.
 
-.. note:: This function is still available, but you're strongly encouraged to remove it's usage sooner
+.. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
 	rather than later.
 
 Email helper functions
@@ -268,7 +355,7 @@ Date helper standard_date()
 to the availability of native PHP `constants <http://www.php.net/manual/en/class.datetime.php#datetime.constants.types>`_,
 which when combined with ``date()`` provide the same functionality. Furthermore, they have the
 exact same names as the ones supported by ``standard_date()``. Here are examples of how to replace
-it's usage:
+its usage:
 
 ::
 
@@ -284,7 +371,7 @@ it's usage:
 	// Replacement
 	date(DATE_ATOM, $time);
 
-.. note:: This function is still available, but you're strongly encouraged to remove its' usage sooner
+.. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
 	rather than later as it is scheduled for removal in CodeIgniter 3.1+.
 
 Pagination library 'anchor_class' setting
@@ -296,13 +383,13 @@ attribute to your anchors via the 'attributes' configuration setting. This inclu
 As a result of that, the 'anchor_class' setting is now deprecated and scheduled for removal in
 CodeIgniter 3.1+.
 
-.. note:: This setting is still available, but you're strongly encouraged to remove its' usage sooner
+.. note:: This setting is still available, but you're strongly encouraged to remove its usage sooner
 	rather than later.
 
 String helper random_string() types 'unique' and 'encrypt'
 ==========================================================
 
-When using the :doc:`String Helper <helpers/string_helper>` function :php:func:`random_string()`,
+When using the :doc:`String Helper <../helpers/string_helper>` function :php:func:`random_string()`,
 you should no longer pass the **unique** and **encrypt** randomization types. They are only
 aliases for **md5** and **sha1** respectively and are now deprecated and scheduled for removal
 in CodeIgniter 3.1+.
@@ -313,7 +400,7 @@ in CodeIgniter 3.1+.
 URL helper url_title() separators 'dash' and 'underscore'
 =========================================================
 
-When using the :doc:`URL Helper <helpers/url_helper>` function :php:func:`url_title()`, you
+When using the :doc:`URL Helper <../helpers/url_helper>` function :php:func:`url_title()`, you
 should no longer pass **dash** or **underscore** as the word separator. This function will
 now accept any character and you should just pass the chosen character directly, so you
 should write '-' instead of 'dash' and '_' instead of 'underscore'.
@@ -327,7 +414,7 @@ in CodeIgniter 3.1+.
 Database Forge method add_column() with an AFTER clause
 =======================================================
 
-If you have used the **third parameter** for :doc:`Database Forge <database/forge>` method
+If you have used the **third parameter** for :doc:`Database Forge <../database/forge>` method
 ``add_column()`` to add a field for an AFTER clause, then you should change its usage.
 
 That third parameter has been deprecated and scheduled for removal in CodeIgniter 3.1+.
@@ -353,3 +440,21 @@ You should now put AFTER clause field names in the field definition array instea
 
 .. note:: This is for MySQL and CUBRID databases only! Other drivers don't support this
 	clause and will silently ignore it.
+
+URI Routing methods fetch_directory(), fetch_class(), fetch_method()
+====================================================================
+
+With properties ``CI_Router::$directory``, ``CI_Router::$class`` and ``CI_Router::$method``
+being public and their respective ``fetch_*()`` no longer doing anything else to just return
+the properties - it doesn't make sense to keep them.
+
+Those are all internal, undocumented methods, but we've opted to deprecate them for now
+in order to maintain backwards-compatibility just in case. If some of you have utilized them,
+then you can now just access the properties instead::
+
+	$this->router->directory;
+	$this->router->class;
+	$this->router->method;
+
+.. note:: Those methods are still available, but you're strongly encouraged to remove their usage
+	sooner rather than later.

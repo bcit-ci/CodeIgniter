@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -213,16 +213,30 @@ if ( ! function_exists('_get_smiley_array'))
 	 */
 	function _get_smiley_array()
 	{
-		if (defined('ENVIRONMENT') && file_exists(APPPATH.'config/'.ENVIRONMENT.'/smileys.php'))
+		static $_smileys;
+
+		if ( ! is_array($smileys))
 		{
-			include(APPPATH.'config/'.ENVIRONMENT.'/smileys.php');
-		}
-		elseif (file_exists(APPPATH.'config/smileys.php'))
-		{
-			include(APPPATH.'config/smileys.php');
+			if (file_exists(APPPATH.'config/smileys.php'))
+			{
+				include(APPPATH.'config/smileys.php');
+			}
+
+			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/smileys.php'))
+			{
+				include(APPPATH.'config/'.ENVIRONMENT.'/smileys.php');
+			}
+
+			if (empty($smileys) OR ! is_array($smileys))
+			{
+				$_smileys = array();
+				return FALSE;
+			}
+
+			$_smileys = $smileys;
 		}
 
-		return (isset($smileys) && is_array($smileys)) ? $smileys : FALSE;
+		return $_smileys;
 	}
 }
 

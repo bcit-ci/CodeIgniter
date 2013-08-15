@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2006 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2006 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -80,8 +80,7 @@ class CI_Driver_Library {
 	public function load_driver($child)
 	{
 		// Get CodeIgniter instance and subclass prefix
-		$CI = get_instance();
-		$prefix = (string) $CI->config->item('subclass_prefix');
+		$prefix = config_item('subclass_prefix');
 
 		if ( ! isset($this->lib_name))
 		{
@@ -102,11 +101,12 @@ class CI_Driver_Library {
 		}
 
 		// Get package paths and filename case variations to search
+		$CI = get_instance();
 		$paths = $CI->load->get_package_paths(TRUE);
 
 		// Is there an extension?
 		$class_name = $prefix.$child_name;
-		$found = class_exists($class_name);
+		$found = class_exists($class_name, FALSE);
 		if ( ! $found)
 		{
 			// Check for subclass file
@@ -126,8 +126,8 @@ class CI_Driver_Library {
 					}
 
 					// Include both sources and mark found
-					include($basepath);
-					include($file);
+					include_once($basepath);
+					include_once($file);
 					$found = TRUE;
 					break;
 				}
@@ -139,8 +139,7 @@ class CI_Driver_Library {
 		{
 			// Use standard class name
 			$class_name = 'CI_'.$child_name;
-			$found = class_exists($class_name);
-			if ( ! $found)
+			if ( ! class_exists($class_name, FALSE))
 			{
 				// Check package paths
 				foreach ($paths as $path)
@@ -150,7 +149,7 @@ class CI_Driver_Library {
 					if (file_exists($file))
 					{
 						// Include source
-						include($file);
+						include_once($file);
 						break;
 					}
 				}
@@ -158,9 +157,9 @@ class CI_Driver_Library {
 		}
 
 		// Did we finally find the class?
-		if ( ! class_exists($class_name))
+		if ( ! class_exists($class_name, FALSE))
 		{
-			if (class_exists($child_name))
+			if (class_exists($child_name, FALSE))
 			{
 				$class_name = $child_name;
 			}
@@ -291,7 +290,7 @@ class CI_Driver {
 
 		$trace = debug_backtrace();
 		_exception_handler(E_ERROR, "No such method '{$method}'", $trace[1]['file'], $trace[1]['line']);
-		exit;
+		exit(EXIT_UNKNOWN_METHOD);
 	}
 
 	// --------------------------------------------------------------------

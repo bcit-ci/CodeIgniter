@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -211,8 +211,7 @@ class CI_Trackback {
 	 */
 	public function send_error($message = 'Incomplete Information')
 	{
-		echo '<?xml version="1.0" encoding="utf-8"?'.">\n<response>\n<error>1</error>\n<message>".$message."</message>\n</response>";
-		exit;
+		exit('<?xml version="1.0" encoding="utf-8"?'.">\n<response>\n<error>1</error>\n<message>".$message."</message>\n</response>");
 	}
 
 	// --------------------------------------------------------------------
@@ -227,8 +226,7 @@ class CI_Trackback {
 	 */
 	public function send_success()
 	{
-		echo '<?xml version="1.0" encoding="utf-8"?'.">\n<response>\n<error>0</error>\n</response>";
-		exit;
+		exit('<?xml version="1.0" encoding="utf-8"?'.">\n<response>\n<error>0</error>\n</response>");
 	}
 
 	// --------------------------------------------------------------------
@@ -268,9 +266,8 @@ class CI_Trackback {
 		}
 
 		// Build the path
-		$ppath = isset($target['path']) ? $target['path'] : $url;
-
-		$path = empty($target['query']) ? $ppath : $ppath.'?'.$target['query'];
+		$path = isset($target['path']) ? $target['path'] : $url;
+		empty($target['query']) OR $path .= '?'.$target['query'];
 
 		// Add the Trackback ID to the data string
 		if ($id = $this->get_id($url))

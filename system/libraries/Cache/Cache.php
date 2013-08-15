@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 2.0
@@ -106,7 +106,7 @@ class CI_Cache extends CI_Driver_Library {
 
 		isset($config['key_prefix']) && $this->key_prefix = $config['key_prefix'];
 
-		if (isset($config['backup']) && in_array('cache_'.$config['backup'], $this->valid_drivers))
+		if (isset($config['backup']) && in_array($config['backup'], $this->valid_drivers))
 		{
 			$this->_backup_driver = $config['backup'];
 		}
@@ -123,6 +123,7 @@ class CI_Cache extends CI_Driver_Library {
 			else
 			{
 				// Backup is supported. Set it to primary.
+				log_message('debug', 'Cache adapter "'.$this->_adapter.'" is unavailable. Falling back to "'.$this->_backup_driver.'" backup adapter.');
 				$this->_adapter = $this->_backup_driver;
 			}
 		}

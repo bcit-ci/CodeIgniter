@@ -15,7 +15,7 @@ The following items can be loaded automatically:
 -  Language files found in the *system/language/* directory
 -  Models found in the *models/* folder
 
-To autoload resources, open the *application/config/autoload.php*
+To autoload resources, open the **application/config/autoload.php**
 file and add the item you want loaded to the autoload array. You'll
 find instructions in that file corresponding to each type of item.
 

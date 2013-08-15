@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -38,14 +38,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CI_Parser {
 
 	/**
-	 * Left delimeter character for psuedo vars
+	 * Left delimiter character for pseudo vars
 	 *
 	 * @var string
 	 */
 	public $l_delim = '{';
 
 	/**
-	 * Right delimeter character for psuedo vars
+	 * Right delimiter character for pseudo vars
 	 *
 	 * @var string
 	 */

@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -46,13 +46,20 @@ if ( ! function_exists('site_url'))
 	 * Create a local URL based on your basepath. Segments can be passed via the
 	 * first parameter either as a string or an array.
 	 *
-	 * @param	string
+	 * @param	string	$uri
+	 * @param	string	$protocol
 	 * @return	string
 	 */
-	function site_url($uri = '')
+	function site_url($uri = '', $protocol = NULL)
 	{
-		$CI =& get_instance();
-		return $CI->config->site_url($uri);
+		$uri = get_instance()->config->site_url($uri);
+
+		if (isset($protocol))
+		{
+			return $protocol.substr($uri, strpos($uri, '://'));
+		}
+
+		return $uri;
 	}
 }
 
@@ -67,13 +74,20 @@ if ( ! function_exists('base_url'))
 	 * Segments can be passed in as a string or an array, same as site_url
 	 * or a URL to a file can be passed in, e.g. to an image file.
 	 *
-	 * @param	string
+	 * @param	string	$uri
+	 * @param	string	$protocol
 	 * @return	string
 	 */
-	function base_url($uri = '')
+	function base_url($uri = '', $protocol = NULL)
 	{
-		$CI =& get_instance();
-		return $CI->config->base_url($uri);
+		$uri = get_instance()->config->base_url($uri);
+
+		if (isset($protocol))
+		{
+			return $protocol.substr($uri, strpos($uri, '://'));
+		}
+
+		return $uri;
 	}
 }
 
@@ -383,48 +397,35 @@ if ( ! function_exists('auto_link'))
 	 */
 	function auto_link($str, $type = 'both', $popup = FALSE)
 	{
-		if ($type !== 'email' && preg_match_all('#(^|\s|\(|\b)((http(s?)://)|(www\.))(\w+[^\s\)\<]+)#i', $str, $matches))
+		// Find and replace any URLs.
+		if ($type !== 'email' && preg_match_all('#(\w*://|www\.)[^\s()<>;]+\w#i', $str, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER))
 		{
-			$pop = ($popup) ? ' target="_blank" ' : '';
+			// Set our target HTML if using popup links.
+			$target = ($popup) ? ' target="_blank"' : '';
 
-			for ($i = 0, $c = count($matches[0]); $i < $c; $i++)
+			// We process the links in reverse order (last -> first) so that
+			// the returned string offsets from preg_match_all() are not
+			// moved as we add more HTML.
+			foreach (array_reverse($matches) as $match)
 			{
-				if (preg_match('/(\.|\,)$/i', $matches[6][$i], $m))
-				{
-					$punct = $m[1];
-					$matches[6][$i] = substr($matches[6][$i], 0, -1);
-				}
-				else
-				{
-					$punct = '';
-				}
-
-				$str = str_replace($matches[0][$i],
-							$matches[1][$i].'<a href="http'.$matches[4][$i].'://'
-								.$matches[5][$i].$matches[6][$i].'"'.$pop.'>http'
-								.$matches[4][$i].'://'.$matches[5][$i]
-								.$matches[6][$i].'</a>'.$punct,
-							$str);
+				// $match[0] is the matched string/link
+				// $match[1] is either a protocol prefix or 'www.'
+				//
+				// With PREG_OFFSET_CAPTURE, both of the above is an array,
+				// where the actual value is held in [0] and its offset at the [1] index.
+				$a = '<a href="'.(strpos($match[1][0], '/') ? '' : 'http://').$match[0][0].'"'.$target.'>'.$match[0][0].'</a>';
+				$str = substr_replace($str, $a, $match[0][1], strlen($match[0][0]));
 			}
 		}
 
-		if ($type !== 'url' && preg_match_all('/([a-zA-Z0-9_\.\-\+]+)@([a-zA-Z0-9\-]+)\.([a-zA-Z0-9\-\.]+)/i', $str, $matches))
+		// Find and replace any emails.
+		if ($type !== 'url' && preg_match_all('#([\w\.\-\+]+@[a-z0-9\-]+\.[a-z0-9\-\.]+[^[:punct:]\s])#i', $str, $matches, PREG_OFFSET_CAPTURE))
 		{
-			for ($i = 0, $c = count($matches); $i < $c; $i++)
+			foreach (array_reverse($matches[0]) as $match)
 			{
-				if (preg_match('/(\.|\,)$/i', $matches[3][$i], $m))
+				if (filter_var($match[0], FILTER_VALIDATE_EMAIL) !== FALSE)
 				{
-					$punct = $m[1];
-					$matches[3][$i] = substr($matches[3][$i], 0, -1);
-				}
-				else
-				{
-					$punct = '';
-				}
-
-				if (filter_var(($m = $matches[1][$i].'@'.$matches[2][$i].'.'.$matches[3][$i]), FILTER_VALIDATE_EMAIL) !== FALSE)
-				{
-					$str = str_replace($matches[0][$i], safe_mailto($m).$punct, $str);
+					$str = substr_replace($str, safe_mailto($match[0]), $match[1], strlen($match[0]));
 				}
 			}
 		}

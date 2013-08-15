@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -149,7 +149,7 @@ class CI_Form_validation {
 	 * @param	mixed	$field
 	 * @param	string	$label
 	 * @param	mixed	$rules
-	 * @return	object
+	 * @return	CI_Form_validation
 	 */
 	public function set_rules($field, $label = '', $rules = '')
 	{
@@ -266,7 +266,7 @@ class CI_Form_validation {
 	 *
 	 * @param	array
 	 * @param	string
-	 * @return	object
+	 * @return	CI_Form_validation
 	 */
 	public function set_message($lang, $val = '')
 	{
@@ -288,7 +288,7 @@ class CI_Form_validation {
 	 *
 	 * @param	string
 	 * @param	string
-	 * @return	object
+	 * @return	CI_Form_validation
 	 */
 	public function set_error_delimiters($prefix = '<p>', $suffix = '</p>')
 	{
@@ -356,7 +356,7 @@ class CI_Form_validation {
 	 */
 	public function error_string($prefix = '', $suffix = '')
 	{
-		// No errrors, validation passes!
+		// No errors, validation passes!
 		if (count($this->_error_array) === 0)
 		{
 			return '';
@@ -511,13 +511,13 @@ class CI_Form_validation {
 	{
 		foreach ($this->_field_data as $field => $row)
 		{
-			if ( ! is_null($row['postdata']))
+			if ($row['postdata'] !== NULL)
 			{
 				if ($row['is_array'] === FALSE)
 				{
 					if (isset($_POST[$row['field']]))
 					{
-						$_POST[$row['field']] = $this->prep_for_form($row['postdata']);
+						$_POST[$row['field']] = $row['postdata'];
 					}
 				}
 				else
@@ -543,14 +543,14 @@ class CI_Form_validation {
 						$array = array();
 						foreach ($row['postdata'] as $k => $v)
 						{
-							$array[$k] = $this->prep_for_form($v);
+							$array[$k] = $v;
 						}
 
 						$post_ref = $array;
 					}
 					else
 					{
-						$post_ref = $this->prep_for_form($row['postdata']);
+						$post_ref = $row['postdata'];
 					}
 				}
 			}
@@ -583,7 +583,7 @@ class CI_Form_validation {
 
 		// If the field is blank, but NOT required, no further tests are necessary
 		$callback = FALSE;
-		if ( ! in_array('required', $rules) && is_null($postdata))
+		if ( ! in_array('required', $rules) && ($postdata === NULL OR $postdata === ''))
 		{
 			// Before we bail out, does the rule contain a callback?
 			if (preg_match('/(callback_\w+(\[.*?\])?)/', implode(' ', $rules), $match))
@@ -598,7 +598,7 @@ class CI_Form_validation {
 		}
 
 		// Isset Test. Typically this rule will only apply to checkboxes.
-		if (is_null($postdata) && $callback === FALSE)
+		if (($postdata === NULL OR $postdata === '') && $callback === FALSE)
 		{
 			if (in_array('isset', $rules, TRUE) OR in_array('required', $rules))
 			{
@@ -829,8 +829,23 @@ class CI_Form_validation {
 		{
 			return sprintf($line, $field, $param);
 		}
-		
+
 		return str_replace(array('{field}', '{param}'), array($field, $param), $line);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Checks if the rule is present within the validator
+	 *
+	 * Permits you to check if a rule is present within the validator
+	 *
+	 * @param	string	the field name
+	 * @return	bool
+	 */
+	public function has_rule($field)
+	{
+		return isset($this->_field_data[$field]);
 	}
 
 	// --------------------------------------------------------------------
@@ -1232,6 +1247,19 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Alpha-numeric w/ spaces
+	 *
+	 * @param	string
+	 * @return	bool
+	 */
+	public function alpha_numeric_spaces($str)
+	{
+		return (bool) preg_match('/^[A-Z0-9 ]+$/i', $str);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Alpha-numeric with underscores and dashes
 	 *
 	 * @param	string
@@ -1377,7 +1405,7 @@ class CI_Form_validation {
 	 */
 	public function valid_base64($str)
 	{
-		return ! preg_match('/[^a-zA-Z0-9\/\+=]/', $str);
+		return (base64_encode(base64_decode($str)) === $str);
 	}
 
 	// --------------------------------------------------------------------

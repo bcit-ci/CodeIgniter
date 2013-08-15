@@ -10,7 +10,7 @@ need to be run against the production machines next time you deploy.
 
 The database table **migration** tracks which migrations have already been 
 run so all you have to do is update your application files and 
-call **$this->migrate->current()** to work out which migrations should be run. 
+call **$this->migration->current()** to work out which migrations should be run. 
 The current version is found in **config/migration.php**.
 
 ********************
@@ -86,7 +86,7 @@ Then in **application/config/migration.php** set **$config['migration_version'] 
 Usage Example
 *************
 
-In this example some simple code is placed in **application/controllers/migrate.php** 
+In this example some simple code is placed in **application/controllers/Migrate.php** 
 to update the schema.::
 
 	<?php
@@ -158,6 +158,6 @@ Preference                 Default                Options                    Des
                                                                              version number.
 **migration_auto_latest**  FALSE                  TRUE / FALSE               Enable or disable automatically 
                                                                              running migrations.
-**migration_type**        'timestamp'            'timestamp' / 'sequential' The type of numeric identifier used to name
+**migration_type**         'timestamp'            'timestamp' / 'sequential' The type of numeric identifier used to name
                                                                              migration files.
 ========================== ====================== ========================== =============================================

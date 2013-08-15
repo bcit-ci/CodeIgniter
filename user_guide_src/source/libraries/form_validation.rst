@@ -479,7 +479,7 @@ Message is the text you would like displayed.
 
 If you'd like to include a field's "human" name, or the optional 
 parameter some rules allow for (such as max_length), you can add the 
-**{field}** and **{param}** tags to your message, respectively.
+**{field}** and **{param}** tags to your message, respectively::
 
 	$this->form_validation->set_message('min_length', '{field} must have at least {param} characters.');
 
@@ -491,7 +491,7 @@ error would display: "Username must have at least 5 characters."
 	use one or the other.
 
 In the callback rule example above, the error message was set by passing
-the name of the method (without the "callback_" prefix)::
+the name of the method (without the "callback\_" prefix)::
 
 	$this->form_validation->set_message('username_check')
 
@@ -877,7 +877,9 @@ Rule                      Parameter  Description                                
 **less_than_equal_to**    Yes        Returns FALSE if the form element is greater than the parameter value,                        less_than_equal_to[8]
                                      or not numeric.
 **alpha**                 No         Returns FALSE if the form element contains anything other than alphabetical characters.                              
-**alpha_numeric**         No         Returns FALSE if the form element contains anything other than alpha-numeric characters.                             
+**alpha_numeric**         No         Returns FALSE if the form element contains anything other than alpha-numeric characters.
+**alpha_numeric_spaces**  No         Returns FALSE if the form element contains anything other than alpha-numeric characters
+                                     or spaces.  Should be used after trim to avoid spaces at the beginning or end.                             
 **alpha_dash**            No         Returns FALSE if the form element contains anything other than alpha-numeric characters,                             
                                      underscores or dashes.                                                                                               
 **numeric**               No         Returns FALSE if the form element contains anything other than numeric characters.                                   
@@ -911,15 +913,15 @@ Prepping Reference
 The following is a list of all the prepping methods that are available
 to use:
 
-==================== ========= ===================================================================================================
+==================== ========= =======================================================================================================
 Name                 Parameter Description
-==================== ========= ===================================================================================================
-**xss_clean**        No        Runs the data through the XSS filtering method, described in the :doc:`Input Class <input>` page.
+==================== ========= =======================================================================================================
+**xss_clean**        No        Runs the data through the XSS filtering method, described in the :doc:`Security Class <security>` page.
 **prep_for_form**    No        Converts special characters so that HTML data can be shown in a form field without breaking it.
 **prep_url**         No        Adds "\http://" to URLs if missing.
 **strip_image_tags** No        Strips the HTML from image tags leaving the raw URL.
 **encode_php_tags**  No        Converts PHP tags to entities.
-==================== ========= ===================================================================================================
+==================== ========= =======================================================================================================
 
 .. note:: You can also use any native PHP functions that permits one
 	parameter, like ``trim()``, ``htmlspecialchars()``, ``urldecode()``,

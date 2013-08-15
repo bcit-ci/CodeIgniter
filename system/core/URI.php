@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -94,7 +94,9 @@ class CI_URI {
 	 */
 	public function _fetch_uri_string()
 	{
-		if (strtoupper($this->config->item('uri_protocol')) === 'AUTO')
+		$protocol = strtoupper($this->config->item('uri_protocol'));
+
+		if ($protocol === 'AUTO')
 		{
 			// Is the request coming from the command line?
 			if ($this->_is_cli_request())
@@ -124,7 +126,7 @@ class CI_URI {
 				return;
 			}
 
-			// As a last ditch effort lets try using the $_GET array
+			// As a last ditch effort let's try using the $_GET array
 			if (is_array($_GET) && count($_GET) === 1 && trim(key($_GET), '/') !== '')
 			{
 				$this->_set_uri_string(key($_GET));
@@ -136,20 +138,18 @@ class CI_URI {
 			return;
 		}
 
-		$uri = strtoupper($this->config->item('uri_protocol'));
-
-		if ($uri === 'CLI')
+		if ($protocol === 'CLI')
 		{
 			$this->_set_uri_string($this->_parse_argv());
 			return;
 		}
-		elseif (method_exists($this, ($method = '_parse_'.strtolower($uri))))
+		elseif (method_exists($this, ($method = '_parse_'.strtolower($protocol))))
 		{
 			$this->_set_uri_string($this->$method());
 			return;
 		}
 
-		$uri = isset($_SERVER[$uri]) ? $_SERVER[$uri] : @getenv($uri);
+		$uri = isset($_SERVER[$protocol]) ? $_SERVER[$protocol] : @getenv($protocol);
 		$this->_set_uri_string($uri);
 	}
 
@@ -291,7 +291,7 @@ class CI_URI {
 	 */
 	protected function _is_cli_request()
 	{
-		return (php_sapi_name() === 'cli') OR defined('STDIN');
+		return (PHP_SAPI === 'cli') OR defined('STDIN');
 	}
 
 	// --------------------------------------------------------------------
@@ -353,9 +353,16 @@ class CI_URI {
 	{
 		$suffix = (string) $this->config->item('url_suffix');
 
-		if ($suffix !== '' && ($offset = strrpos($this->uri_string, $suffix)) !== FALSE)
+		if ($suffix === '')
 		{
-			$this->uri_string = substr_replace($this->uri_string, '', $offset, strlen($suffix));
+			return;
+		}
+
+		$slen = strlen($suffix);
+
+		if (substr($this->uri_string, -$slen) === $suffix)
+		{
+			$this->uri_string = substr($this->uri_string, 0, -$slen);
 		}
 	}
 
@@ -506,23 +513,13 @@ class CI_URI {
 			return $default;
 		}
 
-		in_array($which, array('segment', 'rsegment'), TRUE) OR $which = 'segment';
-
 		if (isset($this->keyval[$which], $this->keyval[$which][$n]))
 		{
 			return $this->keyval[$which][$n];
 		}
 
-		if ($which === 'segment')
-		{
-			$total_segments = 'total_segments';
-			$segment_array = 'segment_array';
-		}
-		else
-		{
-			$total_segments = 'total_rsegments';
-			$segment_array = 'rsegment_array';
-		}
+		$total_segments = "total_{$which}s";
+		$segment_array = "{$which}_array";
 
 		if ($this->$total_segments() < $n)
 		{
@@ -723,7 +720,7 @@ class CI_URI {
 	{
 		global $RTR;
 
-		if (($dir = $RTR->fetch_directory()) === '/')
+		if (($dir = $RTR->directory) === '/')
 		{
 			$dir = '';
 		}

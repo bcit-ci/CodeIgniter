@@ -22,7 +22,7 @@ form_open()
 .. php:function:: form_open($action = '', $attributes = '', $hidden = array())
 
 	:param	string	$action: Form action/target URI string
-	:param	string	$attributes: HTML attributes
+	:param	array	$attributes: HTML attributes
 	:param	array	$hidden: An array of hidden fields' definitions
 	:returns:	string
 
@@ -41,7 +41,7 @@ Here's a simple example::
 The above example would create a form that points to your base URL plus the
 "email/send" URI segments, like this::
 
-	<form method="post" accept-charset="utf-8" action="http://example.com/index.php/email/send" />
+	<form method="post" accept-charset="utf-8" action="http://example.com/index.php/email/send">
 
 Adding Attributes
 ^^^^^^^^^^^^^^^^^
@@ -52,9 +52,13 @@ parameter, like this::
 	$attributes = array('class' => 'email', 'id' => 'myform');
 	echo form_open('email/send', $attributes);
 
-The above example would create a form similar to this::
+Alternatively, you can specify the second parameter as a string::
 
-	<form method="post" accept-charset="utf-8" action="http://example.com/index.php/email/send" class="email" id="myform" />
+	echo form_open('email/send', 'class="email" id="myform"');
+
+The above examples would create a form similar to this::
+
+	<form method="post" accept-charset="utf-8" action="http://example.com/index.php/email/send" class="email" id="myform">
 
 Adding Hidden Input Fields
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -64,6 +68,8 @@ third parameter, like this::
 
 	$hidden = array('username' => 'Joe', 'member_id' => '234');
 	echo form_open('email/send', '', $hidden);
+
+You can skip the second parameter by passing any falsy value to it.
 
 The above example would create a form similar to this::
 
@@ -77,7 +83,7 @@ form_open_multipart()
 .. php:function:: form_open_multipart($action = '', $attributes = array(), $hidden = array())
 
 	:param	string	$action: Form action/target URI string
-	:param	string	$attributes: HTML attributes
+	:param	array	$attributes: HTML attributes
 	:param	array	$hidden: An array of hidden fields' definitions
 	:returns:	string
 
@@ -258,10 +264,10 @@ multiple select for you.
 Example::
 
 	$options = array(
-		'small'  => 'Small Shirt',
-		'med'    => 'Medium Shirt',
-		'large'  => 'Large Shirt',
-		'xlarge' => 'Extra Large Shirt',
+		'small'		=> 'Small Shirt',
+		'med'		=> 'Medium Shirt',
+		'large'		=> 'Large Shirt',
+		'xlarge'	=> 'Extra Large Shirt',
 	);
 
 	$shirts_on_sale = array('small', 'large');
@@ -407,16 +413,14 @@ The third parameter contains a boolean TRUE/FALSE to determine whether
 the box should be checked or not.
 
 Similar to the other form functions in this helper, you can also pass an
-array of attributes to the function
-
-::
+array of attributes to the function::
 
 	$data = array(
-		'name'    => 'newsletter',
-		'id'      => 'newsletter',
-		'value'   => 'accept',
-		'checked' => TRUE,
-		'style'   => 'margin:10px'
+		'name'		=> 'newsletter',
+		'id'		=> 'newsletter',
+		'value'		=> 'accept',
+		'checked'	=> TRUE,
+		'style'		=> 'margin:10px'
 	);
 
 	echo form_checkbox($data);
@@ -523,11 +527,11 @@ Or you can pass an associative array containing any data you wish your
 form to contain::
 
 	$data = array(
-		'name'    => 'button',
-		'id'      => 'button',
-		'value'   => 'true',
-		'type'    => 'reset',
-		'content' => 'Reset'
+		'name'		=> 'button',
+		'id'		=> 'button',
+		'value'		=> 'true',
+		'type'		=> 'reset',
+		'content'	=> 'Reset'
 	);
 
 	echo form_button($data);

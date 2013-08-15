@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -229,7 +229,7 @@ abstract class CI_DB_forge {
 	 *
 	 * @param	string	$key
 	 * @param	bool	$primary
-	 * @return	object
+	 * @return	CI_DB_forge
 	 */
 	public function add_key($key = '', $primary = FALSE)
 	{
@@ -266,7 +266,7 @@ abstract class CI_DB_forge {
 	 * Add Field
 	 *
 	 * @param	array	$field
-	 * @return	object
+	 * @return	CI_DB_forge
 	 */
 	public function add_field($field = '')
 	{
@@ -680,8 +680,12 @@ abstract class CI_DB_forge {
 			return $sql.'DROP COLUMN '.$this->db->escape_identifiers($field);
 		}
 
+		$sql .= ($alter_type === 'ADD')
+			? 'ADD '
+			: $alter_type.' COLUMN ';
+
 		$sqls = array();
-		for ($i = 0, $c = count($field), $sql .= $alter_type.' COLUMN '; $i < $c; $i++)
+		for ($i = 0, $c = count($field); $i < $c; $i++)
 		{
 			$sqls[] = $sql
 				.($field[$i]['_literal'] !== FALSE ? $field[$i]['_literal'] : $this->_process_column($field[$i]));

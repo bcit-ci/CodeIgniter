@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -133,7 +133,7 @@ class CI_Pagination {
 	 *
 	 * @var	int
 	 */
-	protected $uri_segment		= 3;
+	protected $uri_segment		= 0;
 
 	/**
 	 * Full tag open
@@ -318,11 +318,9 @@ class CI_Pagination {
 	 */
 	public function initialize($params = array())
 	{
-		$attributes = array();
-
 		if (isset($params['attributes']) && is_array($params['attributes']))
 		{
-			$attributes = $params['attributes'];
+			$this->_parse_attributes($params['attributes']);
 			unset($params['attributes']);
 		}
 
@@ -333,8 +331,6 @@ class CI_Pagination {
 			empty($params['anchor_class']) OR $attributes['class'] = $params['anchor_class'];
 			unset($params['anchor_class']);
 		}
-
-		$this->_parse_attributes($attributes);
 
 		if (count($params) > 0)
 		{
@@ -372,36 +368,7 @@ class CI_Pagination {
 			return '';
 		}
 
-		// Set the base page index for starting page number
-		$base_page = ($this->use_page_numbers) ? 1 : 0;
-
-		// Determine the current page number.
-		$CI =& get_instance();
-
-		// See if we are using a prefix or suffix on links
-		if ($this->prefix !== '' OR $this->suffix !== '')
-		{
-			$this->cur_page = (int) str_replace(array($this->prefix, $this->suffix), '', $CI->uri->rsegment($this->uri_segment));
-		}
-
-		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
-		{
-			if ($CI->input->get($this->query_string_segment) != $base_page)
-			{
-				$this->cur_page = (int) $CI->input->get($this->query_string_segment);
-			}
-		}
-		elseif ( ! $this->cur_page && $CI->uri->segment($this->uri_segment) !== $base_page)
-		{
-			$this->cur_page = (int) $CI->uri->rsegment($this->uri_segment);
-		}
-
-		// Set current page to 1 if it's not valid or if using page numbers instead of offset
-		if ( ! is_numeric($this->cur_page) OR ($this->use_page_numbers && $this->cur_page === 0))
-		{
-			$this->cur_page = $base_page;
-		}
-
+		// Check the user defined number of links.
 		$this->num_links = (int) $this->num_links;
 
 		if ($this->num_links < 1)
@@ -409,8 +376,111 @@ class CI_Pagination {
 			show_error('Your number of links must be a positive number.');
 		}
 
+		$CI =& get_instance();
+
+		// Keep any existing query string items.
+		// Note: Has nothing to do with any other query string option.
+		if ($this->reuse_query_string === TRUE)
+		{
+			$get = $CI->input->get();
+
+			// Unset the controll, method, old-school routing options
+			unset($get['c'], $get['m'], $get[$this->query_string_segment]);
+		}
+		else
+		{
+			$get = array();
+		}
+
+		// Put together our base and first URLs.
+		$this->base_url = trim($this->base_url);
+
+		$query_string = '';
+		$query_string_sep = (strpos($this->base_url, '?') === FALSE) ? '?' : '&amp;';
+
+		// Are we using query strings?
+		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
+		{
+			// If a custom first_url hasn't been specified, we'll create one from
+			// the base_url, but without the page item.
+			if ($this->first_url === '')
+			{
+				$this->first_url = $this->base_url;
+
+				// If we saved any GET items earlier, make sure they're appended.
+				if ( ! empty($get))
+				{
+					$this->first_url .= $query_string_sep.http_build_query($get);
+				}
+			}
+
+			// Add the page segment to the end of the query string, where the
+			// page number will be appended.
+			$this->base_url .= $query_string_sep.http_build_query(array_merge($get, array($this->query_string_segment => '')));
+		}
+		else
+		{
+			// Standard segment mode.
+			// Generate our saved query string to append later after the page number.
+			if ( ! empty($get))
+			{
+				$query_string = $query_string_sep.http_build_query($get);
+				$this->suffix .= $query_string;
+			}
+
+			// Does the base_url have the query string in it?
+			// If we're supposed to save it, remove it so we can append it later.
+			if ($this->reuse_query_string === TRUE && ($base_query_pos = strpos($this->base_url, '?')) !== FALSE)
+			{
+				$this->base_url = substr($this->base_url, 0, $base_query_pos);
+			}
+
+			if ($this->first_url === '')
+			{
+				$this->first_url = $this->base_url.$query_string;
+			}
+
+			$this->base_url = rtrim($this->base_url, '/').'/';
+		}
+
+		// Determine the current page number.
+		$base_page = ($this->use_page_numbers) ? 1 : 0;
+
+		// Are we using query strings?
+		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
+		{
+			$this->cur_page = $CI->input->get($this->query_string_segment);
+		}
+		else
+		{
+			// Default to the last segment number if one hasn't been defined.
+			if ($this->uri_segment === 0)
+			{
+				$this->uri_segment = count($CI->uri->segment_array());
+			}
+
+			$this->cur_page = $CI->uri->segment($this->uri_segment);
+
+			// Remove any specified prefix/suffix from the segment.
+			if ($this->prefix !== '' OR $this->suffix !== '')
+			{
+				$this->cur_page = str_replace(array($this->prefix, $this->suffix), '', $this->cur_page);
+			}
+		}
+
+		// If something isn't quite right, back to the default base page.
+		if ( ! ctype_digit($this->cur_page) OR ($this->use_page_numbers && (int) $this->cur_page === 0))
+		{
+			$this->cur_page = $base_page;
+		}
+		else
+		{
+			// Make sure we're using integers for comparisons later.
+			$this->cur_page = (int) $this->cur_page;
+		}
+
 		// Is the page number beyond the result range?
-		// If so we show the last page
+		// If so, we show the last page.
 		if ($this->use_page_numbers)
 		{
 			if ($this->cur_page > $num_pages)
@@ -425,80 +495,47 @@ class CI_Pagination {
 
 		$uri_page_number = $this->cur_page;
 
+		// If we're using offset instead of page numbers, convert it
+		// to a page number, so we can generate the surrounding number links.
 		if ( ! $this->use_page_numbers)
 		{
 			$this->cur_page = (int) floor(($this->cur_page/$this->per_page) + 1);
 		}
 
 		// Calculate the start and end numbers. These determine
-		// which number to start and end the digit links with
+		// which number to start and end the digit links with.
 		$start	= (($this->cur_page - $this->num_links) > 0) ? $this->cur_page - ($this->num_links - 1) : 1;
 		$end	= (($this->cur_page + $this->num_links) < $num_pages) ? $this->cur_page + $this->num_links : $num_pages;
 
-		// Is pagination being used over GET or POST? If get, add a per_page query
-		// string. If post, add a trailing slash to the base URL if needed
-		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
-		{
-			$segment = (strpos($this->base_url, '?')) ? '&amp;' : '?';
-			$this->base_url = rtrim($this->base_url).$segment.$this->query_string_segment.'=';
-		}
-		else
-		{
-			$this->base_url = rtrim($this->base_url, '/') .'/';
-		}
-
 		// And here we go...
 		$output = '';
-		$query_string = '';
 
-		// Add anything in the query string back to the links
-		// Note: Nothing to do with query_string_segment or any other query string options
-		if ($this->reuse_query_string === TRUE)
-		{
-			$get = $CI->input->get();
-
-			// Unset the controll, method, old-school routing options
-			unset($get['c'], $get['m'], $get[$this->query_string_segment]);
-
-			if ( ! empty($get))
-			{
-				// Put everything else onto the end
-				$query_string = (strpos($this->base_url, '?') !== FALSE ? '&amp;' : '?')
-						.http_build_query($get, '', '&amp;');
-
-				// Add this after the suffix to put it into more links easily
-				$this->suffix .= $query_string;
-			}
-		}
-
-		// Render the "First" link
+		// Render the "First" link.
 		if ($this->first_link !== FALSE && $this->cur_page > ($this->num_links + 1))
 		{
-			$first_url = ($this->first_url === '') ? $this->base_url : $this->first_url;
-
-			// Take the general parameters, and squeeze this pagination-page attr in there for JS fw's
+			// Take the general parameters, and squeeze this pagination-page attr in for JS frameworks.
 			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, 1);
 
-			$output .= $this->first_tag_open.'<a href="'.$first_url.'"'.$attributes.$this->_attr_rel('start').'>'
+			$output .= $this->first_tag_open.'<a href="'.$this->first_url.'"'.$attributes.$this->_attr_rel('start').'>'
 				.$this->first_link.'</a>'.$this->first_tag_close;
 		}
 
-		// Render the "previous" link
+		// Render the "Previous" link.
 		if ($this->prev_link !== FALSE && $this->cur_page !== 1)
 		{
 			$i = ($this->use_page_numbers) ? $uri_page_number - 1 : $uri_page_number - $this->per_page;
 
-			// Take the general parameters, and squeeze this pagination-page attr in there for JS fw's
 			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, (int) $i);
 
-			if ($i === $base_page && $this->first_url !== '')
+			if ($i === $base_page)
 			{
-				$output .= $this->prev_tag_open.'<a href="'.$this->first_url.$query_string.'"'.$attributes.$this->_attr_rel('prev').'>'
+				// First page
+				$output .= $this->prev_tag_open.'<a href="'.$this->first_url.'"'.$attributes.$this->_attr_rel('prev').'>'
 					.$this->prev_link.'</a>'.$this->prev_tag_close;
 			}
 			else
 			{
-				$append = ($i === $base_page) ? $query_string : $this->prefix.$i.$this->suffix;
+				$append = $this->prefix.$i.$this->suffix;
 				$output .= $this->prev_tag_open.'<a href="'.$this->base_url.$append.'"'.$attributes.$this->_attr_rel('prev').'>'
 					.$this->prev_link.'</a>'.$this->prev_tag_close;
 			}
@@ -513,29 +550,26 @@ class CI_Pagination {
 			{
 				$i = ($this->use_page_numbers) ? $loop : ($loop * $this->per_page) - $this->per_page;
 
-				// Take the general parameters, and squeeze this pagination-page attr in there for JS fw's
 				$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, (int) $i);
 
 				if ($i >= $base_page)
 				{
 					if ($this->cur_page === $loop)
 					{
-						$output .= $this->cur_tag_open.$loop.$this->cur_tag_close; // Current page
+						// Current page
+						$output .= $this->cur_tag_open.$loop.$this->cur_tag_close;
+					}
+					elseif ($i === $base_page)
+					{
+						// First page
+						$output .= $this->num_tag_open.'<a href="'.$this->first_url.'"'.$attributes.$this->_attr_rel('start').'>'
+							.$loop.'</a>'.$this->num_tag_close;
 					}
 					else
 					{
-						$n = ($i === $base_page) ? '' : $i;
-						if ($n === '' && ! empty($this->first_url))
-						{
-							$output .= $this->num_tag_open.'<a href="'.$this->first_url.$query_string.'"'.$attributes.$this->_attr_rel('start').'>'
-								.$loop.'</a>'.$this->num_tag_close;
-						}
-						else
-						{
-							$append = ($n === '') ? $query_string : $this->prefix.$n.$this->suffix;
-							$output .= $this->num_tag_open.'<a href="'.$this->base_url.$append.'"'.$attributes.$this->_attr_rel('start').'>'
-								.$loop.'</a>'.$this->num_tag_close;
-						}
+						$append = $this->prefix.$i.$this->suffix;
+						$output .= $this->num_tag_open.'<a href="'.$this->base_url.$append.'"'.$attributes.$this->_attr_rel('start').'>'
+							.$loop.'</a>'.$this->num_tag_close;
 					}
 				}
 			}
@@ -546,7 +580,6 @@ class CI_Pagination {
 		{
 			$i = ($this->use_page_numbers) ? $this->cur_page + 1 : $this->cur_page * $this->per_page;
 
-			// Take the general parameters, and squeeze this pagination-page attr in there for JS fw's
 			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, (int) $i);
 
 			$output .= $this->next_tag_open.'<a href="'.$this->base_url.$this->prefix.$i.$this->suffix.'"'.$attributes
@@ -558,7 +591,6 @@ class CI_Pagination {
 		{
 			$i = ($this->use_page_numbers) ? $num_pages : ($num_pages * $this->per_page) - $this->per_page;
 
-			// Take the general parameters, and squeeze this pagination-page attr in there for JS fw's
 			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, (int) $i);
 
 			$output .= $this->last_tag_open.'<a href="'.$this->base_url.$this->prefix.$i.$this->suffix.'"'.$attributes.'>'

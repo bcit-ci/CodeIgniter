@@ -20,7 +20,7 @@ match:
 As URL schemes become more complex, this may change. But for now, this
 is all we will need to know.
 
-Create a file at application/controllers/pages.php with the following
+Create a file at application/controllers/Pages.php with the following
 code.
 
 ::
@@ -58,11 +58,11 @@ following code.
 
     <html>
         <head>
-            <title>CodeIgniter 2 Tutorial</title>
+            <title>CodeIgniter Tutorial</title>
         </head>
         <body>
 
-            <h1>CodeIgniter 2 Tutorial</h1>
+            <h1>CodeIgniter Tutorial</h1>
 
 The header contains the basic HTML code that you'll want to display
 before loading the main view, together with a heading. It will also
@@ -72,7 +72,7 @@ includes the following code:
 
 ::
 
-            <em>&copy; 2012</em>
+            <em>&copy; 2013</em>
         </body>
     <html>
 

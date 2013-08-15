@@ -42,8 +42,7 @@ Naming Conventions
 The Class File
 ==============
 
-Classes should have this basic prototype (Note: We are using the name
-Someclass purely as an example)::
+Classes should have this basic prototype::
 
 	<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
 
@@ -55,6 +54,8 @@ Someclass purely as an example)::
 	}
 
 	/* End of file Someclass.php */
+
+.. note:: We are using the name Someclass purely as an example.
 
 Using Your Class
 ================
@@ -81,7 +82,7 @@ constructor::
 
 	$params = array('type' => 'large', 'color' => 'red');
 
-	$this->load->library('Someclass', $params);
+	$this->load->library('someclass', $params);
 
 If you use this feature you must set up your class constructor to expect
 data::
@@ -148,30 +149,30 @@ take full advantage of the OOP principles. So, in order to
 be able to use the CodeIgniter super-object in all of the class
 methods, you're encouraged to assign it to a property instead::
 
-class Example_library {
+	class Example_library {
 
-	protected $CI;
+		protected $CI;
 
-	// We'll use a constructor, as you can't directly call a function
-	// from a property definition.
-	public function __construct()
-	{
-		// Assign the CodeIgniter super-object
-		$this->CI =& get_instance();
+		// We'll use a constructor, as you can't directly call a function
+		// from a property definition.
+		public function __construct()
+		{
+			// Assign the CodeIgniter super-object
+			$this->CI =& get_instance();
+		}
+
+		public function foo()
+		{
+			$this->CI->load->helper('url');
+			redirect();
+		}
+
+		public function bar()
+		{
+			echo $this->CI->config_item('base_url');
+		}
+
 	}
-
-	public function foo()
-	{
-		$this->CI->load->helper('url');
-		redirect();
-	}
-
-	public function bar()
-	{
-		echo $this->CI->config_item('base_url');
-	}
-
-}
 
 Replacing Native Libraries with Your Versions
 =============================================

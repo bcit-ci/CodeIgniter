@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -69,7 +69,7 @@ class CI_Javascript {
 		$this->CI =& get_instance();
 
 		// load the requested js library
-		$this->CI->load->library('javascript/'.$js_library_driver, array('autoload' => $autoload));
+		$this->CI->load->library('Javascript/'.$js_library_driver, array('autoload' => $autoload));
 		// make js to refer to current library
 		$this->js =& $this->CI->$js_library_driver;
 
@@ -172,7 +172,7 @@ class CI_Javascript {
 	 */
 	public function focus($element = 'this', $js = '')
 	{
-		return $this->js->__add_event($focus, $js);
+		return $this->js->_focus($element, $js);
 	}
 
 	// --------------------------------------------------------------------
@@ -187,9 +187,9 @@ class CI_Javascript {
 	 * @param	string	- Javascript code for mouse out
 	 * @return	string
 	 */
-	public function hover($element = 'this', $over, $out)
+	public function hover($element = 'this', $over = '', $out = '')
 	{
-		return $this->js->__hover($element, $over, $out);
+		return $this->js->_hover($element, $over, $out);
 	}
 
 	// --------------------------------------------------------------------
@@ -737,7 +737,7 @@ class CI_Javascript {
 	{
 		// JSON data can optionally be passed to this function
 		// either as a database result object or an array, or a user supplied array
-		if ( ! is_null($result))
+		if ($result !== NULL)
 		{
 			if (is_object($result))
 			{
@@ -823,7 +823,7 @@ class CI_Javascript {
 	 */
 	protected function _prep_args($result, $is_key = FALSE)
 	{
-		if (is_null($result))
+		if ($result === NULL)
 		{
 			return 'null';
 		}

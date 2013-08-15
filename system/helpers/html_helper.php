@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -109,7 +109,7 @@ if ( ! function_exists('_list'))
 	 * @param	int
 	 * @return	string
 	 */
-	function _list($type = 'ul', $list, $attributes = '', $depth = 0)
+	function _list($type = 'ul', $list = array(), $attributes = '', $depth = 0)
 	{
 		// If an array wasn't submitted there's nothing to do...
 		if ( ! is_array($list))
@@ -238,26 +238,30 @@ if ( ! function_exists('doctype'))
 	 */
 	function doctype($type = 'xhtml1-strict')
 	{
-		global $_doctypes;
+		static $doctypes;
 
-		if ( ! is_array($_doctypes))
+		if ( ! is_array($doctypes))
 		{
-			if (defined('ENVIRONMENT') && is_file(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php'))
-			{
-				include(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php');
-			}
-			elseif (is_file(APPPATH.'config/doctypes.php'))
+			if (file_exists(APPPATH.'config/doctypes.php'))
 			{
 				include(APPPATH.'config/doctypes.php');
 			}
 
-			if ( ! is_array($_doctypes))
+			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php'))
 			{
+				include(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php');
+			}
+
+			if (empty($_doctypes) OR ! is_array($_doctypes))
+			{
+				$doctypes = array();
 				return FALSE;
 			}
+
+			$doctypes = $_doctypes;
 		}
 
-		return isset($_doctypes[$type]) ? $_doctypes[$type] : FALSE;
+		return isset($doctypes[$type]) ? $doctypes[$type] : FALSE;
 	}
 }
 

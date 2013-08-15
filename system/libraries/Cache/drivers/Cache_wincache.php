@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 3.0
@@ -150,7 +150,7 @@ class CI_Cache_wincache extends CI_Driver {
 	{
 		if ( ! extension_loaded('wincache'))
 		{
-			log_message('error', 'The Wincache PHP extension must be loaded to use Wincache Cache.');
+			log_message('debug', 'The Wincache PHP extension must be loaded to use Wincache Cache.');
 			return FALSE;
 		}
 

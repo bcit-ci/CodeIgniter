@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 2.1.0
@@ -103,7 +103,7 @@ class CI_DB_pdo_4d_forge extends CI_DB_4d_forge {
 	{
 		if (in_array($alter_type, array('ADD', 'DROP'), TRUE))
 		{
-			return parent::_alter_table($alter_table, $table, $field);
+			return parent::_alter_table($alter_type, $table, $field);
 		}
 
 		// No method of modifying columns is supported

@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -43,7 +43,7 @@ function &DB($params = '', $query_builder_override = NULL)
 	if (is_string($params) && strpos($params, '://') === FALSE)
 	{
 		// Is the config file in the environment folder?
-		if (( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php'))
+		if ( ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php')
 			&& ! file_exists($file_path = APPPATH.'config/database.php'))
 		{
 			show_error('The configuration file database.php does not exist.');
@@ -76,9 +76,13 @@ function &DB($params = '', $query_builder_override = NULL)
 			$active_group = $params;
 		}
 
-		if ( ! isset($active_group) OR ! isset($db[$active_group]))
+		if ( ! isset($active_group))
 		{
-			show_error('You have specified an invalid database connection group.');
+			show_error('You have not specified a database connection group via $active_group in your config/database.php file.');
+		}
+		elseif ( ! isset($db[$active_group]))
+		{
+			show_error('You have specified an invalid database connection group ('.$active_group.') in your config/database.php file.');
 		}
 
 		$params = $db[$active_group];
@@ -149,7 +153,7 @@ function &DB($params = '', $query_builder_override = NULL)
 	if ( ! isset($query_builder) OR $query_builder === TRUE)
 	{
 		require_once(BASEPATH.'database/DB_query_builder.php');
-		if ( ! class_exists('CI_DB'))
+		if ( ! class_exists('CI_DB', FALSE))
 		{
 			/**
 			 * CI_DB
@@ -162,7 +166,7 @@ function &DB($params = '', $query_builder_override = NULL)
 			class CI_DB extends CI_DB_query_builder { }
 		}
 	}
-	elseif ( ! class_exists('CI_DB'))
+	elseif ( ! class_exists('CI_DB', FALSE))
 	{
 		/**
 	 	 * @ignore
