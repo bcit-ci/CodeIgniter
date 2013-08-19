@@ -224,7 +224,7 @@ if ( ! function_exists('get_config'))
 	 * @param	array
 	 * @return	array
 	 */
-	function &get_config($replace = array())
+	function &get_config(array $replace = array())
 	{
 		static $_config;
 
@@ -266,14 +266,11 @@ if ( ! function_exists('get_config'))
 		}
 
 		// Are any values being dynamically replaced?
-		if (!empty($replace))
+		foreach ($replace as $key => $val)
 		{
-			foreach ($replace as $key => $val)
+			if (isset($config[$key]))
 			{
-				if (isset($config[$key]))
-				{
-					$config[$key] = $val;
-				}
+				$config[$key] = $val;
 			}
 		}
 
