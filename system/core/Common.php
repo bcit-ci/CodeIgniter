@@ -265,13 +265,10 @@ if ( ! function_exists('get_config'))
 			$_config[0] =& $config;
 		}
 
-		// Are any values being dynamically replaced?
+		// Are any values being dynamically added or replaced?
 		foreach ($replace as $key => $val)
 		{
-			if (isset($config[$key]))
-			{
-				$config[$key] = $val;
-			}
+			$config[$key] = $val;
 		}
 
 		return $config;
