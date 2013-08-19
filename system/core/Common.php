@@ -224,7 +224,7 @@ if ( ! function_exists('get_config'))
 	 * @param	array
 	 * @return	array
 	 */
-	function &get_config(array $replace = array())
+	function &get_config(Array $replace = array())
 	{
 		static $_config;
 
@@ -436,7 +436,7 @@ if ( ! function_exists('log_message'))
 	{
 		static $_log;
 
-		if (empty($_log))
+		if ($_log === NULL)
 		{
 			// references cannot be directly assigned to static variables, so we use an array
 			$_log[0] =& load_class('Log', 'core');
