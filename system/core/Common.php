@@ -228,11 +228,7 @@ if ( ! function_exists('get_config'))
 	{
 		static $_config;
 
-		if (isset($_config))
-		{
-			$config =& $_config[0];
-		}
-		else
+		if (empty($_config))
 		{
 			$file_path = APPPATH.'config/config.php';
 			$found = FALSE;
@@ -262,16 +258,17 @@ if ( ! function_exists('get_config'))
 				exit(EXIT_CONFIG);
 			}
 
+			// references cannot be directly assigned to static variables, so we use an array
 			$_config[0] =& $config;
 		}
 
 		// Are any values being dynamically added or replaced?
 		foreach ($replace as $key => $val)
 		{
-			$config[$key] = $val;
+			$_config[0][$key] = $val;
 		}
 
-		return $config;
+		return $_config[0];
 	}
 }
 
@@ -439,7 +436,7 @@ if ( ! function_exists('log_message'))
 	{
 		static $_log;
 
-		if ($_log === NULL)
+		if (empty($_log))
 		{
 			// references cannot be directly assigned to static variables, so we use an array
 			$_log[0] =& load_class('Log', 'core');
