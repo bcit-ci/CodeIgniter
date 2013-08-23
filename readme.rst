@@ -14,7 +14,7 @@ for a given task.
 Release Information
 *******************
 
-This repo contains in development code for future releases. To download the
+This repo contains in-development code for future releases. To download the
 latest stable release please visit the `CodeIgniter Downloads
 <http://codeigniter.com/downloads/>`_ page.
 
