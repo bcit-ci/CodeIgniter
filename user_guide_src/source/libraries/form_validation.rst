@@ -431,7 +431,7 @@ Here's how your controller should now look::
 			}
 		}
 
-		protected function username_check($str)
+		public function username_check($str)
 		{
 			if ($str == 'test')
 			{
