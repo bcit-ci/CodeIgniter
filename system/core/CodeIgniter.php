@@ -46,6 +46,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 	define('CI_VERSION', '3.0-dev');
 
+	/* if these optional suffixes aren't set then set them to something so no errors are thrown */
+	if (!defined('CONTROLLER_SUFFIX'))
+	{
+		define('CONTROLLER_SUFFIX','');
+	}
+	if (!defined('METHOD_SUFFIX'))
+	{
+		define('METHOD_SUFFIX','');
+	}
+	
 /*
  * ------------------------------------------------------
  *  Load the global functions
@@ -240,7 +250,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	// Load the local application controller
 	// Note: The Router class automatically validates the controller path using the router->_validate_request().
 	// If this include fails it means that the default controller in the Routes.php file is not resolving to something valid.
-	$class = ucfirst($RTR->class);
+	$class = ucfirst($RTR->class).CONTROLLER_SUFFIX;
 	if ( ! file_exists(APPPATH.'controllers/'.$RTR->directory.$class.'.php'))
 	{
 		show_error('Unable to load your default controller. Please make sure the controller specified in your Routes.php file is valid.');
@@ -260,7 +270,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  loader class can be called via the URI, nor can
  *  controller methods that begin with an underscore.
  */
-	$method	= $RTR->method;
+	$method	= $RTR->method.METHOD_SUFFIX;
 
 	if ( ! class_exists($class, FALSE) OR $method[0] === '_' OR method_exists('CI_Controller', $method))
 	{
@@ -268,7 +278,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		{
 			if (sscanf($RTR->routes['404_override'], '%[^/]/%s', $class, $method) !== 2)
 			{
-				$method = 'index';
+				$method = 'index'.METHOD_SUFFIX;
 			}
 
 			$class = ucfirst($class);
@@ -308,7 +318,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			}
 			elseif (sscanf($RTR->routes['404_override'], '%[^/]/%s', $class, $method) !== 2)
 			{
-				$method = 'index';
+				$method = 'index'.METHOD_SUFFIX;
 			}
 
 			$class = ucfirst($class);
