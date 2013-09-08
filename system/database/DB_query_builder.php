@@ -1152,7 +1152,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 			// Do we have a seed value?
 			$orderby = ctype_digit((string) $orderby)
-				? $orderby = sprintf($this->_random_keyword[1], $orderby)
+				? sprintf($this->_random_keyword[1], $orderby)
 				: $this->_random_keyword[0];
 		}
 		elseif (empty($orderby))
