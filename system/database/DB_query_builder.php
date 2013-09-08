@@ -1138,7 +1138,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * ORDER BY
 	 *
 	 * @param	string	$orderby
-	 * @param	string	$direction	ASC or DESC
+	 * @param	string	$direction	ASC, DESC or RANDOM
 	 * @param	bool	$escape
 	 * @return	CI_DB_query_builder
 	 */
