@@ -155,6 +155,7 @@ Release Date: Not Released
    -  Added support for SQLite3 database driver.
    -  Added Interbase/Firebird database support via the *ibase* driver.
    -  Added ODBC support for ``create_database()``, ``drop_database()`` and ``drop_table()`` in :doc:`Database Forge <database/forge>`.
+   -  Improved functionality of PostgreSQL queries to support RETURNING values in an UPDATE statement
 
    -  :doc:`Query Builder <database/query_builder>` changes include:
 
