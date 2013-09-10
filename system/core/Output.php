@@ -842,7 +842,7 @@ class CI_Output {
 
 			// Remove closing tag and save it for later
 			$pos = strrpos($output, '</');
-			$closing_tag = substr($output, $pos, strlen($output));
+			$closing_tag = substr($output, $pos);
 			$output = substr_replace($output, '', $pos);
 		}
 
