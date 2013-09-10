@@ -841,7 +841,7 @@ class CI_Output {
 			$output = substr_replace($output, '', 0, $pos);
 
 			// Remove closing tag and save it for later
-			$pos = strpos($output, '</');
+			$pos = strrpos($output, '</');
 			$closing_tag = substr($output, $pos, strlen($output));
 			$output = substr_replace($output, '', $pos);
 		}
