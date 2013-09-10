@@ -849,6 +849,26 @@ class CI_Output {
 		// Remove CSS comments
 		$output = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!i', '', $output);
 
+		// Remove Javascript inline comments
+		if ($has_tags === TRUE && strpos(strtolower($open_tag), 'script') !== FALSE) {
+			$lines = preg_split('/((\r?\n)|(\n?\r))/',$output);
+			foreach ($lines as &$line){
+				$in_string = $in_dstring = FALSE;
+				$len = strlen($line);
+				for ($i=0; $i<$len; $i++){
+					if ( !$in_string && !$in_dstring && substr($line,$i,2)==='//'){
+						$line = substr($line,0,$i);
+						break;
+					}
+					if ( $line[$i]==='"' )
+						$in_dstring = ! $in_dstring;
+					if ( $line[$i]==="'" )
+						$in_string = ! $in_string;
+				}
+			}
+			$output = implode("\n",$lines);
+		}
+
 		// Remove spaces around curly brackets, colons,
 		// semi-colons, parenthesis, commas
 		$chunks = preg_split('/([\'|"]).+(?![^\\\]\\1)\\1/iU', $output, -1, PREG_SPLIT_OFFSET_CAPTURE);
@@ -899,11 +919,11 @@ class CI_Output {
 				}
 			}
 
-			if ($value === "'")
+			if ($value === "'" && ! $in_dstring)
 			{
 				$in_string = ! $in_string;
 			}
-			elseif ($value === '"')
+			elseif ($value === '"' && ! $in_string)
 			{
 				$in_dstring = ! $in_dstring;
 			}
