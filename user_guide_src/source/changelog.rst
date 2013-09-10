@@ -609,6 +609,7 @@ Bug fixes for 3.0
 -  Fixed an edge case (#2583) in the :doc:`Email Library <libraries/email>` where `Suhosin <http://www.hardened-php.net/suhosin/>` blocked messages sent via ``mail()`` due to trailing newspaces in headers.
 -  Fixed a bug (#2590) - :php:func:`log_message()` didn't actually cache the ``CI_Log`` class instance.
 -  Fixed a bug (#2609) - :php:func:`get_config()` optional argument was only effective on first function call. Also, it can now add items, in addition to updating existing items.
+-  Fixed a bug (#2629) - :doc:`Database driver <database>` PostgreSQL: UPDATE queryies with RETURNING do return a result object.
 
 Version 2.1.4
 =============
