@@ -372,6 +372,136 @@ if ( ! function_exists('form_dropdown'))
 	}
 }
 
+
+// --------------------------------------------------------------------
+
+/**
+ * Drop-down Menu Generator
+ *
+ * @access	public
+ * @param	string
+ * @param	array
+ * @param	array
+ * @param	string
+ * @return	array
+ */
+if (!function_exists('ddgen')) {
+
+    function ddgen($table = NULL, $structure = FALSE, $statements = FALSE, $order_by = FALSE, $direct = FALSE, $first_input = NULL) {
+        $data["items"] = array();
+        $CI = & get_instance();
+
+        if (!$structure) {
+            $items = $CI->db->query("SHOW COLUMNS FROM $table")->result();
+            foreach ($items as $item) {
+                if ($item->Key == 'PRI')
+                    $key = $item->Field;
+
+                if (!isset($value)) {
+                    if (strpos($item->Field, "name") !== FALSE or strpos($item->Field, "title") !== FALSE)
+                        $value = $item->Field;
+                }
+                else
+                    $value = $key;
+                if (isset($key) && isset($value))
+                    break;
+            }
+            $structure = array($key, $value);
+        }
+
+        if ($structure && !is_array($structure))
+            return array('Invalid Structure');
+
+        if (!$table)
+            return array('Invalid Table');
+
+        if( ! $first_input)
+            $first_input = "Select from the menu";
+        
+        if ( ! $direct)
+            $data['items'] = array('' => $first_input);
+
+        $key = $structure['0'];
+        if (isset($structure['1']))
+            $value = $structure['1'];
+        // TODO MUHAMMAD
+        if (is_array($statements))
+            foreach ($statements as $statementKey => $statementValue)
+                $CI->db->where($statementKey, $statementValue);
+
+        if ($order_by && is_array($order_by))
+            $CI->db->order_by($order_by[0], $order_by[1]);
+
+        $CI->db->select(implode(', ', $structure));
+        $items = $CI->db->get($table)->result();
+        foreach ($items as $item) {
+            $data['items'][$item->$key] = $item->$value;
+        }
+        return $data['items'];
+    }
+
+}
+
+
+// --------------------------------------------------------------------
+
+/**
+ * Drop-down Menu Generator
+ *
+ * @access	public
+ * @param	string
+ * @param	array
+ * @param	array
+ * @param	string
+ * @return	array
+ */
+if (!function_exists('ddquery')) {
+
+    function ddquery($query = FALSE, $structure = FALSE, $direct = FALSE, $first_input = NULL) {
+        $data["items"] = array();
+        $CI = & get_instance();
+
+        if (!$structure) {
+            $items = $CI->db->query("SHOW COLUMNS FROM $table")->result();
+            foreach ($items as $item) {
+                if ($item->Key == 'PRI')
+                    $key = $item->Field;
+
+                if (!isset($value)) {
+                    if (strpos($item->Field, "name") !== FALSE or strpos($item->Field, "title") !== FALSE)
+                        $value = $item->Field;
+                }
+                else
+                    $value = $key;
+                if (isset($key) && isset($value))
+                    break;
+            }
+            $structure = array($key, $value);
+        }
+
+        if ($structure && !is_array($structure))
+            return array('Invalid Structure');
+
+        if( ! $first_input)
+            $first_input = "Select from the menu";
+        
+        if ( ! $direct)
+            $data['items'] = array('' => $first_input);
+
+        $key = $structure['0'];
+        if (isset($structure['1']))
+            $value = $structure['1'];
+        // TODO MUHAMMAD
+
+        $items = $CI->db->query($query)->result();
+        foreach ($items as $item) {
+            $data['items'][$item->$key] = $item->$value;
+        }
+        return $data['items'];
+    }
+
+}
+
 // ------------------------------------------------------------------------
 
 if ( ! function_exists('form_checkbox'))
