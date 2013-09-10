@@ -166,7 +166,7 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	 * ORDER BY
 	 *
 	 * @param	string	$orderby
-	 * @param	string	$direction	ASC or DESC
+	 * @param	string	$direction	ASC, DESC or RANDOM
 	 * @param	bool	$escape
 	 * @return	object
 	 */

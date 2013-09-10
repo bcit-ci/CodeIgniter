@@ -512,7 +512,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 * ORDER BY
 	 *
 	 * @param	string	$orderby
-	 * @param	string	$direction	ASC or DESC
+	 * @param	string	$direction	ASC, DESC or RANDOM
 	 * @param	bool	$escape
 	 * @return	object
 	 */

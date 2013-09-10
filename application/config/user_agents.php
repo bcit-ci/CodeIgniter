@@ -50,6 +50,7 @@ $platforms = array(
 	'win98'				=> 'Windows 98',
 	'windows 95'		=> 'Windows 95',
 	'win95'				=> 'Windows 95',
+	'windows phone'			=> 'Windows Phone',
 	'windows'			=> 'Unknown Windows OS',
 	'android'			=> 'Android',
 	'blackberry'		=> 'BlackBerry',
