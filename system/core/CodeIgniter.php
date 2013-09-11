@@ -73,6 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * ------------------------------------------------------
  */
 	set_error_handler('_exception_handler');
+	register_shutdown_function('_shutdown_handler');
 
 	if ( ! is_php('5.4'))
 	{

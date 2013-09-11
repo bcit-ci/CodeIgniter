@@ -196,6 +196,18 @@ switch (ENVIRONMENT)
 	}
 
 /*
+ *---------------------------------------------------------------
+ * WORKING DIRECTORY FOR SHUTDOWN HANDLER
+ *---------------------------------------------------------------
+ *
+ * CI assumes the directory containing index.php, while shutdown
+ * handlers execute in process's initial working directory. To make
+ * logging work, we need to change directory in the shutdown handler.
+ * 
+ */
+	define('CIPATH', getcwd());
+
+/*
  * -------------------------------------------------------------------
  *  Now that we know the path, set the main path constants
  * -------------------------------------------------------------------
