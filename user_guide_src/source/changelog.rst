@@ -198,6 +198,7 @@ Release Date: Not Released
       - Removed ``limit()`` and ``order_by()`` support for *UPDATE* and *DELETE* queries as PostgreSQL does not support those features.
       - Added a work-around for dead persistent connections to be re-created after a database restart.
       - Changed ``db_connect()`` to include the (new) **schema** value into Postgre's **search_path** session variable.
+      - Added functionality to support the PostgreSQL specific, *COPY* statement using functions like ``start_copy()``, ``put_line()``, ``put_line_array()``, ``end_copy()``
 
    -  Improved support of the CUBRID driver, including:
 
