@@ -634,6 +634,120 @@ class CI_DB_postgre_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Starts a copy statement, to copy data between file and table
+	 * More details: http://www.postgresql.org/docs/9.1/static/sql-copy.html
+	 *
+	 * @access	public
+	 * @param	string	name of the table
+	 * @param	array	a list of columns
+	 * @param	string	defines the direction of the transmission of data (FROM/TO)
+	 * @param	string	form of target stdin/out or file
+	 * @param	array	contains options for the statement
+	 * @return	bool
+	 */
+	public function start_copy( $table_name, $cols = NULL, $indicator = 'FROM', $target = 'STDIN', array $options = array() )
+	{
+		$sql = 'COPY ' . $table_name;
+
+		if( $cols !== NULL && sizeof($cols) )
+		{
+			$sql .= ' (';
+			$sql .= rtrim(implode(',', $cols), ',');
+			$sql .= ')';
+		}
+
+		// Append indicator and target to the query string
+		if( $indicator !== NULL && $target !== NULL )
+		{
+			$indicator = strtoupper($indicator);
+			$sql .= ' '.$indicator.' ';
+
+			$sql .= ( (bool) preg_match('/^((?!STDIN|STDOUT).)*$/i', $target)) ? '\''.$target.'\'' : $target;
+		}
+
+		// Append options to the query string
+		foreach( $options as $option )
+		{
+			list( $param, $val, $quote ) = $option;
+
+			( $quote === TRUE ) && $val = '\''.$val.'\''; // put value in quotes
+
+			( $param !== NULL ) && $sql .= strtoupper($param).' '; // define param
+			( $val !== NULL ) && $sql .= $val.' '; // define value
+		}
+
+		// Remove spaces from both ends of the query string
+		$sql = trim($sql);
+
+		$query = $this->query($sql);
+
+		if( $query )
+		{
+			return TRUE;
+		}
+
+		return FALSE;
+
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Writes a line to stdin
+	 *
+	 * @param	string	contains a tab-separated line
+	 * @param	bool	escape the line, if lines contain escaped characters
+	 * @return	bool
+	 */
+	public function put_line($line, $escape = FALSE)
+	{
+		( $escape === TRUE) && $line = "E'{$line}'";
+
+		$line .= "\n";
+
+		return @pg_put_line($this->conn_id, $line);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Converts an array to a string and writes it to stdin
+	 *
+	 * @param	array	contains field values for a row
+	 * @param	bool	escape the line 
+	 * @return	bool
+	 */
+	public function put_line_array( array $lines, $escape = FALSE )
+	{
+		$line = '';
+
+		foreach( $lines as $_line )
+		{
+			$line .= str_replace("\t", '\t', $_line);
+			$line .= "\t";
+		}
+
+		return $this->put_line( $line, $escape );
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Closes the COPY statement
+	 *
+	 * @param	bool	determines if the copy process should be ended automatically
+	 * @return	bool
+	 */
+	public function end_copy( $insert_ending = FALSE )
+	{
+		( $insert_ending === TRUE ) && $this->put_line('\,');
+
+		return @pg_end_copy($this->conn_id);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Close DB Connection
 	 *
 	 * @return	void
