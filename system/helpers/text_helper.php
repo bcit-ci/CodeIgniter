@@ -536,5 +536,103 @@ if ( ! function_exists('ellipsize'))
 	}
 }
 
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('friendly_text'))
+{
+	/**
+	 * Friendly Text
+	 *
+	 * This function will take a string and convert it from being quite dry 
+	 * and unexciting into a form that is as friendly as possible.
+	 *
+	 * @param	string	string to convert
+	 * @param	bool	if TRUE underline all modifications
+	 * @return	string	converted string
+	 */
+	 function friendly_text($str, $emphasis = FALSE)
+	 {
+	 	$misc = array("let us", "let's", "i\.e\.", "for example",
+	 		"e\.g\.", "for example", "cannot", "can't", "can not",
+	 		"can't", "shall not", "shan't", "will not", "won't");
+	 	$nots = array("are", "could", "did", "do", "does", "is",
+	 		"had", "has", "have", "might", "must", "should", "was",
+	 		"were", "would");
+	 	$haves = array("could", "might", "must", "should", "would");
+	 	$who = array("he", "here", "how", "I", "it", "she", "that",
+	 		"there", "they", "we", "who", "what", "when", "where",
+	 		"why", "you");
+	 	$what = array("am", "are", "had", "has", "have", "shall",
+	 		"will", "would");
+	 	$contractions = array("m", "re", "d", "s", "ve", "ll", "ll", "d");
+
+	 	for ($i = 0; $i < sizeof($misc); $i += 2)
+	 	{
+	 		$from = ucfirst($misc[$i]);
+	 		$to = ucfirst($misc[$i + 1]);
+
+	 		if ($emphasis) 
+	 		{
+	 			$to = "<u>$to</u>";
+	 		}
+
+	 		$text = preg_replace("/([^\w]+)$from([^\w]+/", "$1$to$2", $str);
+	 	}
+
+	 	for ($i = 0; $i < sizeof($nots); ++$i)
+	 	{
+	 		$from = ucfirst($nots[$i] . " not");
+	 		$to = ucfirst($nots[$i] . "n't");
+
+	 		if ($emphasis)
+	 		{
+	 			$to = "<u>$to</u>";
+	 		}
+
+	 		$text =  = preg_replace("/([^\w]+)$from([^\w]+/", "$1$to$2", $str);
+	 	}
+
+	 	for ($i = 0; $i < sizeof($haves); ++$i)
+	 	{
+	 		$from = ucfirst($haves[$i] . " have");
+	 		$to = ucfirst($haves[$i] . "'ve");
+
+	 		if ($emphasis)
+	 		{
+	 			$to = "<u>$to</u>";
+	 		}
+
+	 		$text =  = preg_replace("/([^\w]+)$from([^\w]+/", "$1$to$2", $str);
+	 	}
+
+	 	for ($i = 0; $i < sizeof($who); ++$i)
+	 	{
+	 		for ($j = 0; $j < sizeof($what); ++$j)
+		 	{
+		 		$from = ucfirst("$who[$i] $what[$j]");
+		 		$to = ucfirst("$who[$i]'$contractions[$j]");
+
+		 		if ($emphasis)
+		 		{
+		 			$to = "<u>$to</u>";
+		 		}
+
+		 		$text =  = preg_replace("/([^\w]+)$from([^\w]+/", "$1$to$2", $str);
+		 	}
+	 	}
+
+	 	$to = "'s";
+	 	$u1 = $u2 = "";
+
+	 	if ($emphasis)
+	 	{
+	 		$u1 = "<u>";
+	 		$u2 = "</u>";
+	 	}
+
+	 	return preg_replace("/([\w]*) is([^\w]+)/", "$u1$1$to$u2$2", $text);
+	 }
+}
+
 /* End of file text_helper.php */
 /* Location: ./system/helpers/text_helper.php */
