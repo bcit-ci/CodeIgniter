@@ -277,7 +277,7 @@ class CI_Output {
 	{
 		// Combine headers already sent with our batched headers
 		$headers = array_merge(
-			// We only need [x][0] from our multi-dimensional array
+		// We only need [x][0] from our multi-dimensional array
 			array_map('array_shift', $this->headers),
 			headers_list()
 		);
@@ -531,8 +531,8 @@ class CI_Output {
 		}
 
 		$uri =	$CI->config->item('base_url').
-				$CI->config->item('index_page').
-				$CI->uri->uri_string();
+			$CI->config->item('index_page').
+			$CI->uri->uri_string();
 
 		$cache_path .= md5($uri);
 
@@ -789,7 +789,7 @@ class CI_Output {
 
 				log_message('debug', 'Minifier shaved '.($size_removed / 1000).'KB ('.$savings_percent.'%) off final HTML output.');
 
-			break;
+				break;
 
 			case 'text/css':
 			case 'text/javascript':
@@ -798,7 +798,7 @@ class CI_Output {
 
 				$output = $this->_minify_script_style($output);
 
-			break;
+				break;
 
 			default: break;
 		}
@@ -846,73 +846,76 @@ class CI_Output {
 			$output = substr_replace($output, '', $pos);
 		}
 
-		// Remove Javascript inline comments
-		if ($has_tags === TRUE && strpos(strtolower($open_tag), 'script') !== FALSE)
+		// Remove Comments (Both inline and multi-line)
+		$lines = preg_split('/\r?\n|\n?\r/', $output);
+		$in_string = $in_dstring = $in_comment = FALSE;
+		$comment_start_line = 0;
+		$comment_start_position = 0;
+		foreach ($lines as $line_number => &$line)
 		{
-			$lines = preg_split('/\r?\n|\n?\r/', $output);
-			foreach ($lines as &$line)
+			for ($i = 0, $len = strlen($line); $i < $len; $i += $inc)
 			{
-				$in_string = $in_dstring = FALSE;
-				for ($i = 0, $len = strlen($line); $i < $len; $i++)
+				$inc = 1;
+
+				if ( ! $in_comment && ! $in_dstring && $line[$i] === "'" )
 				{
-					if ( ! $in_string && ! $in_dstring && substr($line, $i, 2) === '//')
+					$in_string = ! $in_string;
+				}
+				elseif ( ! $in_comment && ! $in_string && $line[$i] === '"' )
+				{
+					$in_dstring = ! $in_dstring;
+				}
+
+				if ( ! $in_string && ! $in_dstring && ! $in_comment && substr($line, $i, 2) === '//' )
+				{
+					if ($has_tags === TRUE && strpos(strtolower($open_tag), 'script') !== FALSE)
 					{
+						// Remove JavaScript Inline Comment
 						$line = substr($line, 0, $i);
 						break;
 					}
-
-					if ($line[$i] === "'" && ! $in_dstring)
-					{
-						$in_string = ! $in_string;
-					}
-					elseif ($line[$i] === '"' && ! $in_string)
-					{
-						$in_dstring = ! $in_dstring;
-					}
 				}
-			}
 
-			$output = implode("\n", $lines);
-		}
-
-		// Remove CSS comments and Javascript multi-line comments
-		$in_string = $in_dstring = $in_comment = FALSE;
-		$comment_start = 0;
-		for ($i = 0, $len = strlen($output); $i < $len; $i += $inc)
-		{
-			$inc = 1;
-
-			if ( ! $in_string && ! $in_dstring)
-			{
-				if (substr($output, $i, 2) === '/*' && ! $in_comment)
+				if ( ! $in_string && ! $in_dstring)
 				{
-					$in_comment = TRUE;
-					$comment_start = $i;
-					$inc = 2;
-				}
-				elseif (substr($output, $i, 2) === '*/')
-				{
-					if ($in_comment)
+					if (substr($line, $i, 2) === '/*' && ! $in_comment)
 					{
-						$comment_length = $i + 2 - $comment_start;
-						$output = substr_replace($output, '', $comment_start, $comment_length);
-						$len -= $comment_length;
-						$i = $comment_start;
+						$inc = 2;
+						$in_comment = TRUE;
+						$comment_start_line = $line_number;
+						$comment_start_position = $i;
 					}
-					$in_comment = FALSE;
-					$inc = 2;
+					elseif (substr($line, $i, 2) === '*/')
+					{
+						$inc = 2;
+						if ($in_comment)
+						{
+							// Remove Multi-line Comment
+							if ($comment_start_line === $line_number){
+								$comment_length = $i + 2 - $comment_start_position;
+								$line = substr_replace($line, '', $comment_start_position, $comment_length);
+								$len -= $comment_length;
+								$i = $comment_start_position;
+							}
+							else
+							{
+								$lines[$comment_start_line] = substr($lines[$comment_start_line], 0, $comment_start_position);
+								for ($j = $comment_start_line + 1; $j < $line_number; $j++)
+								{
+									$lines[$j] = '';
+								}
+								$lines[$line_number] = substr($lines[$line_number], $i + 2);
+								$len -= $i + 2;
+								$i = 0;
+							}
+							$inc = 0;
+						}
+						$in_comment = FALSE;
+					}
 				}
-			}
-
-			if ( ! $in_comment && ! $in_dstring && $output[$i] === "'" )
-			{
-				$in_string = ! $in_string;
-			}
-			elseif ( ! $in_comment && ! $in_string && $output[$i] === '"' )
-			{
-				$in_dstring = ! $in_dstring;
 			}
 		}
+		$output = implode("\n", $lines);
 
 		// Remove spaces around curly brackets, colons,
 		// semi-colons, parenthesis, commas
