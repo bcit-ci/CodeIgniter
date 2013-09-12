@@ -841,13 +841,42 @@ class CI_Output {
 			$output = substr_replace($output, '', 0, $pos);
 
 			// Remove closing tag and save it for later
-			$pos = strpos($output, '</');
-			$closing_tag = substr($output, $pos, strlen($output));
+			$pos = strrpos($output, '</');
+			$closing_tag = substr($output, $pos);
 			$output = substr_replace($output, '', $pos);
 		}
 
 		// Remove CSS comments
 		$output = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!i', '', $output);
+
+		// Remove Javascript inline comments
+		if ($has_tags === TRUE && strpos(strtolower($open_tag), 'script') !== FALSE)
+		{
+			$lines = preg_split('/\r?\n|\n?\r/', $output);
+			foreach ($lines as &$line)
+			{
+				$in_string = $in_dstring = FALSE;
+				for ($i = 0, $len = strlen($line); $i < $len; $i++)
+				{
+					if ( ! $in_string && ! $in_dstring && substr($line, $i, 2) === '//')
+					{
+						$line = substr($line, 0, $i);
+						break;
+					}
+
+					if ($line[$i] === "'" && ! $in_dstring)
+					{
+						$in_string = ! $in_string;
+					}
+					elseif ($line[$i] === '"' && ! $in_string)
+					{
+						$in_dstring = ! $in_dstring;
+					}
+				}
+			}
+
+			$output = implode("\n", $lines);
+		}
 
 		// Remove spaces around curly brackets, colons,
 		// semi-colons, parenthesis, commas
@@ -899,11 +928,11 @@ class CI_Output {
 				}
 			}
 
-			if ($value === "'")
+			if ($value === "'" && ! $in_dstring)
 			{
 				$in_string = ! $in_string;
 			}
-			elseif ($value === '"')
+			elseif ($value === '"' && ! $in_string)
 			{
 				$in_dstring = ! $in_dstring;
 			}
