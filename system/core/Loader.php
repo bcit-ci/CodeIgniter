@@ -222,7 +222,7 @@ class CI_Loader {
 		{
 			foreach ($model as $key => $value)
 			{
-				$this->model(is_int($key) ? $value : $key, $value);
+				is_int($key) ? $this->model($value, '', $db_conn) : $this->model($key, $value, $db_conn);
 			}
 			return;
 		}
