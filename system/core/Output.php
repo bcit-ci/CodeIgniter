@@ -852,24 +852,29 @@ class CI_Output {
 		// Remove Javascript inline comments
 		if ($has_tags === TRUE && strpos(strtolower($open_tag), 'script') !== FALSE)
 		{
-			$lines = preg_split('/((\r?\n)|(\n?\r))/', $output);
+			$lines = preg_split('/\r?\n|\n?\r/', $output);
 			foreach ($lines as &$line)
 			{
 				$in_string = $in_dstring = FALSE;
-				$len = strlen($line);
-				for ($i=0; $i<$len; $i++)
+				for ($i = 0, $len = strlen($line); $i < $len; $i++)
 				{
 					if ( ! $in_string && ! $in_dstring && substr($line, $i, 2) === '//')
 					{
 						$line = substr($line, 0, $i);
 						break;
 					}
+
 					if ($line[$i] === "'" && ! $in_dstring)
+					{
 						$in_string = ! $in_string;
+					}
 					elseif ($line[$i] === '"' && ! $in_string)
+					{
 						$in_dstring = ! $in_dstring;
+					}
 				}
 			}
+
 			$output = implode("\n", $lines);
 		}
 
