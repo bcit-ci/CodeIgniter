@@ -277,7 +277,7 @@ class CI_Output {
 	{
 		// Combine headers already sent with our batched headers
 		$headers = array_merge(
-		// We only need [x][0] from our multi-dimensional array
+			// We only need [x][0] from our multi-dimensional array
 			array_map('array_shift', $this->headers),
 			headers_list()
 		);
@@ -531,8 +531,8 @@ class CI_Output {
 		}
 
 		$uri =	$CI->config->item('base_url').
-			$CI->config->item('index_page').
-			$CI->uri->uri_string();
+				$CI->config->item('index_page').
+				$CI->uri->uri_string();
 
 		$cache_path .= md5($uri);
 
@@ -789,7 +789,7 @@ class CI_Output {
 
 				log_message('debug', 'Minifier shaved '.($size_removed / 1000).'KB ('.$savings_percent.'%) off final HTML output.');
 
-				break;
+			break;
 
 			case 'text/css':
 			case 'text/javascript':
@@ -798,7 +798,7 @@ class CI_Output {
 
 				$output = $this->_minify_script_style($output);
 
-				break;
+			break;
 
 			default: break;
 		}
