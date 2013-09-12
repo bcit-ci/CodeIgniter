@@ -846,9 +846,6 @@ class CI_Output {
 			$output = substr_replace($output, '', $pos);
 		}
 
-		// Remove CSS comments
-		$output = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!i', '', $output);
-
 		// Remove Javascript inline comments
 		if ($has_tags === TRUE && strpos(strtolower($open_tag), 'script') !== FALSE)
 		{
@@ -876,6 +873,45 @@ class CI_Output {
 			}
 
 			$output = implode("\n", $lines);
+		}
+
+		// Remove CSS comments and Javascript multi-line comments
+		$in_string = $in_dstring = $in_comment = FALSE;
+		$comment_start = 0;
+		for ($i = 0, $len = strlen($output); $i < $len; $i += $inc)
+		{
+			$inc = 1;
+
+			if ( ! $in_string && ! $in_dstring)
+			{
+				if (substr($output, $i, 2) === '/*' && ! $in_comment)
+				{
+					$in_comment = TRUE;
+					$comment_start = $i;
+					$inc = 2;
+				}
+				elseif (substr($output, $i, 2) === '*/')
+				{
+					if ($in_comment)
+					{
+						$comment_length = $i + 2 - $comment_start;
+						$output = substr_replace($output, '', $comment_start, $comment_length);
+						$len -= $comment_length;
+						$i = $comment_start;
+					}
+					$in_comment = FALSE;
+					$inc = 2;
+				}
+			}
+
+			if ( ! $in_comment && ! $in_dstring && $output[$i] === "'" )
+			{
+				$in_string = ! $in_string;
+			}
+			elseif ( ! $in_comment && ! $in_string && $output[$i] === '"' )
+			{
+				$in_dstring = ! $in_dstring;
+			}
 		}
 
 		// Remove spaces around curly brackets, colons,
