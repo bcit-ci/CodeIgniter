@@ -887,7 +887,7 @@ class CI_Output {
 					}
 					elseif (substr($line, $i, 2) === '*/')
 					{
-						$inc = 2;
+						$inc = 1;
 						if ($in_comment)
 						{
 							// Remove Multi-line Comment
