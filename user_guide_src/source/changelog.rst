@@ -436,7 +436,7 @@ Release Date: Not Released
    -  Added support for HTTP-Only cookies with new config option *cookie_httponly* (default FALSE).
    -  Renamed method ``_call_hook()`` to ``call_hook()`` in the :doc:`Hooks Library <general/hooks>`.
    -  ``$config['time_reference']`` now supports all timezone strings supported by PHP.
-   -  Made the exception handler complete by registering a shutdown handler to redirect critical events such as PHP parse errors to it, so that they can be displayed and logged without the help of the standard PHP error handler.
+   -  Fatal PHP errors are now also passed to ``_exception_handler()``, so they can be logged.
 
 
 Bug fixes for 3.0
