@@ -181,7 +181,7 @@ Release Date: Not Released
       - Server version checking is now done via ``mysqli::$server_info`` instead of running an SQL query.
       - Added persistent connections support for PHP >= 5.3.
       - Added support for ``backup()`` in :doc:`Database Utilities <database/utilities>`.
-      - Changed methods ``trans_being()``, ``trans_commit()`` and ``trans_rollback()`` to use the PHP API instead of sending queries.	
+      - Changed methods ``trans_begin()``, ``trans_commit()`` and ``trans_rollback()`` to use the PHP API instead of sending queries.	
 
    -  Improved support of the PDO driver, including:
 
