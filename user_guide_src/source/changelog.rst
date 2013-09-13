@@ -199,6 +199,7 @@ Release Date: Not Released
       - Removed ``limit()`` and ``order_by()`` support for *UPDATE* and *DELETE* queries as PostgreSQL does not support those features.
       - Added a work-around for dead persistent connections to be re-created after a database restart.
       - Changed ``db_connect()`` to include the (new) **schema** value into Postgre's **search_path** session variable.
+      - ``pg_escape_literal()`` is now used for escaping strings, if available.
 
    -  Improved support of the CUBRID driver, including:
 
@@ -612,6 +613,7 @@ Bug fixes for 3.0
 -  Fixed an edge case (#2583) in the :doc:`Email Library <libraries/email>` where `Suhosin <http://www.hardened-php.net/suhosin/>` blocked messages sent via ``mail()`` due to trailing newspaces in headers.
 -  Fixed a bug (#2590) - :php:func:`log_message()` didn't actually cache the ``CI_Log`` class instance.
 -  Fixed a bug (#2609) - :php:func:`get_config()` optional argument was only effective on first function call. Also, it can now add items, in addition to updating existing items.
+-  Fixed a bug in the 'postgre' :doc:`database <database/index>` driver where the connection ID wasn't passed to ``pg_escape_string()``.
 
 Version 2.1.4
 =============

@@ -331,7 +331,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	protected function _escape_str($str)
 	{
-		return pg_escape_string($str);
+		return pg_escape_string($this->conn_id, $str);
 	}
 
 	// --------------------------------------------------------------------
@@ -346,7 +346,11 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function escape($str)
 	{
-		if (is_bool($str))
+		if (is_php('5.4.4') && (is_string($str) OR (is_object($str) && method_exists($str, '__toString'))))
+		{
+			return pg_escape_literal($this->conn_id, $str);
+		}
+		elseif (is_bool($str))
 		{
 			return ($str) ? 'TRUE' : 'FALSE';
 		}
