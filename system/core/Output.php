@@ -891,7 +891,8 @@ class CI_Output {
 						if ($in_comment)
 						{
 							// Remove Multi-line Comment
-							if ($comment_start_line === $line_number){
+							if ($comment_start_line === $line_number)
+							{
 								$comment_length = $i + 2 - $comment_start_position;
 								$line = substr_replace($line, '', $comment_start_position, $comment_length);
 								$len -= $comment_length;
