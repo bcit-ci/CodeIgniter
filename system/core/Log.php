@@ -143,7 +143,7 @@ class CI_Log {
 	 * @param	bool	whether the error is a native PHP error
 	 * @return	bool
 	 */
-	public function write_log($level, $msg, $php_error = FALSE)
+	public function write_log($level, $msg)
 	{
 		if ($this->_enabled === FALSE)
 		{

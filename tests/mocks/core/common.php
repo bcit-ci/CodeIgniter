@@ -178,7 +178,7 @@ if ( ! function_exists('is_loaded'))
 
 if ( ! function_exists('log_message'))
 {
-	function log_message($level, $message, $php_error = FALSE)
+	function log_message($level, $message)
 	{
 		return TRUE;
 	}

@@ -432,7 +432,7 @@ if ( ! function_exists('log_message'))
 	 * @param	bool	whether the error is a native PHP error
 	 * @return	void
 	 */
-	function log_message($level, $message, $php_error = FALSE)
+	function log_message($level, $message)
 	{
 		static $_log;
 
@@ -442,7 +442,7 @@ if ( ! function_exists('log_message'))
 			$_log[0] =& load_class('Log', 'core');
 		}
 
-		$_log[0]->write_log($level, $message, $php_error);
+		$_log[0]->write_log($level, $message);
 	}
 }
 
