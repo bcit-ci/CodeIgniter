@@ -685,8 +685,12 @@ if ( ! function_exists('set_select'))
 		{
 			return ($default === TRUE) ? ' selected="selected"' : '';
 		}
+		elseif (is_array($input) && in_array($value, $input, TRUE))
+		{
+			return ' selected="selected"';
+		}
 
-		return ($input === $value) ? ' checked="selected"' : '';
+		return ($input === $value) ? ' selected="selected"' : '';
 	}
 }
 
