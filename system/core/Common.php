@@ -82,7 +82,7 @@ if ( ! function_exists('is_really_writable'))
 	function is_really_writable($file)
 	{
 		// If we're on a Unix server with safe_mode off we call is_writable
-		if (DIRECTORY_SEPARATOR === '/' && (bool) @ini_get('safe_mode') === FALSE)
+		if (DIRECTORY_SEPARATOR === '/' && (is_php('5.4') OR (bool) @ini_get('safe_mode') === FALSE))
 		{
 			return is_writable($file);
 		}

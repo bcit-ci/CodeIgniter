@@ -1245,7 +1245,7 @@ class CI_Upload {
 				}
 			}
 
-			if ( (bool) @ini_get('safe_mode') === FALSE && function_usable('shell_exec'))
+			if ((bool) @ini_get('safe_mode') === FALSE && function_usable('shell_exec'))
 			{
 				$mime = @shell_exec($cmd);
 				if (strlen($mime) > 0)

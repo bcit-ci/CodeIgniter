@@ -399,9 +399,9 @@ class CI_Email {
 		else
 		{
 			$this->_smtp_auth = ! ($this->smtp_user === '' && $this->smtp_pass === '');
-			$this->_safe_mode = (bool) @ini_get('safe_mode');
 		}
 
+		$this->_safe_mode = ( ! is_php('5.4') && (bool) @ini_get('safe_mode'));
 		$this->charset = strtoupper($this->charset);
 
 		log_message('debug', 'Email Class Initialized');
@@ -451,7 +451,6 @@ class CI_Email {
 		$this->clear();
 
 		$this->_smtp_auth = ! ($this->smtp_user === '' && $this->smtp_pass === '');
-		$this->_safe_mode = (bool) @ini_get('safe_mode');
 
 		return $this;
 	}
