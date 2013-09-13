@@ -468,7 +468,7 @@ Bug fixes for 3.0
 -  Fixed a possible bug in ``CI_Input::is_ajax_request()`` where some clients might not send the X-Requested-With HTTP header value exactly as 'XmlHttpRequest'.
 -  Fixed a bug (#1039) - MySQL's _backup() method failed due to a table name not being escaped.
 -  Fixed a bug (#1070) - CI_DB_driver::initialize() didn't set a character set if a database is not selected.
--  Fixed a bug (#177) - CI_Form_validation::set_value() didn't set the default value if POST data is NULL.
+-  Fixed a bug (#177) - ``CI_Form_validation::set_value()`` didn't set the default value if POST data is NULL.
 -  Fixed a bug (#68, #414) - Oracle's escape_str() didn't properly escape LIKE wild characters.
 -  Fixed a bug (#81) - ODBC's list_fields() and field_data() methods skipped the first column due to odbc_field_*() functions' index starting at 1 instead of 0.
 -  Fixed a bug (#129) - ODBC's num_rows() returned -1 in some cases, due to not all subdrivers supporting the odbc_num_rows() function.
@@ -614,6 +614,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#2590) - :php:func:`log_message()` didn't actually cache the ``CI_Log`` class instance.
 -  Fixed a bug (#2609) - :php:func:`get_config()` optional argument was only effective on first function call. Also, it can now add items, in addition to updating existing items.
 -  Fixed a bug in the 'postgre' :doc:`database <database/index>` driver where the connection ID wasn't passed to ``pg_escape_string()``.
+-  Fixed a bug (#2639) - :doc:`Form Helper <helpers/form_helper>` functions :php:func:`set_radio()` and :php:func:`set_checkbox()` didn't parse array notation for keys if the rule was not present in the :doc:`Form Validation Library <libraries/form_validation>`.
 
 Version 2.1.4
 =============

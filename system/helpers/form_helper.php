@@ -726,37 +726,18 @@ if ( ! function_exists('set_checkbox'))
 	 */
 	function set_checkbox($field = '', $value = '', $default = FALSE)
 	{
-		$OBJ =& _get_validation_object();
+		$CI =& get_instance();
 
-		if ($OBJ === FALSE)
+		if (isset($CI->form_validation) && is_object($CI->form_validation) && $CI->form_validation->has_rule($field))
 		{
-			if ( ! isset($_POST[$field]))
-			{
-				if (count($_POST) === 0 && $default === TRUE)
-				{
-					return ' checked="checked"';
-				}
-				return '';
-			}
-
-			$field = $_POST[$field];
-
-			if (is_array($field))
-			{
-				if ( ! in_array($value, $field))
-				{
-					return '';
-				}
-			}
-			elseif (($field == '' OR $value == '') OR $field !== $value)
-			{
-				return '';
-			}
-
-			return ' checked="checked"';
+			return $CI->form_validation->set_checkbox($field, $value, $default);
+		}
+		elseif (($input = $CI->input->post($field, FALSE)) === NULL)
+		{
+			return ($default === TRUE) ? ' checked="checked"' : '';
 		}
 
-		return $OBJ->set_checkbox($field, $value, $default);
+		return ($input === $value) ? ' checked="checked"' : '';
 	}
 }
 
@@ -770,47 +751,25 @@ if ( ! function_exists('set_radio'))
 	 * Let's you set the selected value of a radio field via info in the POST array.
 	 * If Form Validation is active it retrieves the info from the validation class
 	 *
-	 * @param	string
-	 * @param	string
-	 * @param	bool
+	 * @param	string	$field
+	 * @param	string	$value
+	 * @param	bool	$default
 	 * @return	string
 	 */
 	function set_radio($field = '', $value = '', $default = FALSE)
 	{
-		$OBJ =& _get_validation_object();
+		$CI =& get_instance();
 
-		if ($OBJ === FALSE)
+		if (isset($CI->form_validation) && is_object($CI->form_validation) && $CI->form_validation->has_rule($field))
 		{
-			if ( ! isset($_POST[$field]))
-			{
-				if (count($_POST) === 0 && $default === TRUE)
-				{
-					return ' checked="checked"';
-				}
-				return '';
-			}
-
-			$field = $_POST[$field];
-
-			if (is_array($field))
-			{
-				if ( ! in_array($value, $field))
-				{
-					return '';
-				}
-			}
-			else
-			{
-				if (($field == '' OR $value == '') OR $field !== $value)
-				{
-					return '';
-				}
-			}
-
-			return ' checked="checked"';
+			return $CI->form_validation->set_radio($field, $value, $default);
+		}
+		elseif (($input = $CI->input->post($field, FALSE)) === NULL)
+		{
+			return ($default === TRUE) ? ' checked="checked"' : '';
 		}
 
-		return $OBJ->set_radio($field, $value, $default);
+		return ($input === $value) ? ' checked="checked"' : '';
 	}
 }
 
