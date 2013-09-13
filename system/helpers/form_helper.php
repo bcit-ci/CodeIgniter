@@ -675,37 +675,18 @@ if ( ! function_exists('set_select'))
 	 */
 	function set_select($field = '', $value = '', $default = FALSE)
 	{
-		$OBJ =& _get_validation_object();
+		$CI =& get_instance();
 
-		if ($OBJ === FALSE)
+		if (isset($CI->form_validation) && is_object($CI->form_validation) && $CI->form_validation->has_rule($field))
 		{
-			if ( ! isset($_POST[$field]))
-			{
-				if (count($_POST) === 0 && $default === TRUE)
-				{
-					return ' selected="selected"';
-				}
-				return '';
-			}
-
-			$field = $_POST[$field];
-
-			if (is_array($field))
-			{
-				if ( ! in_array($value, $field))
-				{
-					return '';
-				}
-			}
-			elseif (($field == '' OR $value == '') OR $field !== $value)
-			{
-				return '';
-			}
-
-			return ' selected="selected"';
+			return $CI->form_validation->set_select($field, $value, $default);
+		}
+		elseif (($input = $CI->input->post($field, FALSE)) === NULL)
+		{
+			return ($default === TRUE) ? ' selected="selected"' : '';
 		}
 
-		return $OBJ->set_select($field, $value, $default);
+		return ($input === $value) ? ' checked="selected"' : '';
 	}
 }
 

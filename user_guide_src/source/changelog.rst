@@ -596,7 +596,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#2239) - :doc:`Email Library <libraries/email>` improperly handled the Subject when used with ``bcc_batch_mode`` resulting in E_WARNING messages and an empty Subject.
 -  Fixed a bug (#2234) - :doc:`Query Builder <database/query_builder>` didn't reset JOIN cache for write-type queries.
 -  Fixed a bug (#2298) - :doc:`Database Results <database/results>` method ``next_row()`` kept returning the last row, allowing for infinite loops.
--  Fixed a bug (#2236) - :doc:`Form Helper <helpers/form_helper>` function ``set_value()`` didn't parse array notation for keys if the rule was not present in the :doc:`Form Validation Library <libraries/form_validation>`.
+-  Fixed a bug (#2236, #2639) - :doc:`Form Helper <helpers/form_helper>` functions :func:`set_value()`, :func:`set_select()`, :func:`set_radio()`, :func:`set_checkbox()` didn't parse array notation for keys if the rule was not present in the :doc:`Form Validation Library <libraries/form_validation>`.
 -  Fixed a bug (#2353) - :doc:`Query Builder <database/query_builder>` erroneously prefixed literal strings with **dbprefix**.
 -  Fixed a bug (#78) - :doc:`Cart Library <libraries/cart>` didn't allow non-English letters in product names.
 -  Fixed a bug (#77) - :doc:`Database Class <database/index>` didn't properly handle the transaction "test mode" flag.
@@ -614,7 +614,6 @@ Bug fixes for 3.0
 -  Fixed a bug (#2590) - :php:func:`log_message()` didn't actually cache the ``CI_Log`` class instance.
 -  Fixed a bug (#2609) - :php:func:`get_config()` optional argument was only effective on first function call. Also, it can now add items, in addition to updating existing items.
 -  Fixed a bug in the 'postgre' :doc:`database <database/index>` driver where the connection ID wasn't passed to ``pg_escape_string()``.
--  Fixed a bug (#2639) - :doc:`Form Helper <helpers/form_helper>` functions :php:func:`set_radio()` and :php:func:`set_checkbox()` didn't parse array notation for keys if the rule was not present in the :doc:`Form Validation Library <libraries/form_validation>`.
 
 Version 2.1.4
 =============
