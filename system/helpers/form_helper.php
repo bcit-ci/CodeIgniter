@@ -717,6 +717,10 @@ if ( ! function_exists('set_checkbox'))
 		{
 			return ($default === TRUE) ? ' checked="checked"' : '';
 		}
+		elseif (is_array($input) && in_array($value, $input, TRUE))
+		{
+			return ' checked="checked"';
+		}
 
 		return ($input === $value) ? ' checked="checked"' : '';
 	}
