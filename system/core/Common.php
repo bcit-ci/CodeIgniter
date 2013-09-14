@@ -429,7 +429,6 @@ if ( ! function_exists('log_message'))
 	 *
 	 * @param	string	the error level: 'error', 'debug' or 'info'
 	 * @param	string	the error message
-	 * @param	bool	whether the error is a native PHP error
 	 * @return	void
 	 */
 	function log_message($level, $message)
@@ -588,7 +587,7 @@ if ( ! function_exists('_shutdown_handler'))
 	 * of CodeIgniter.php. The main reason we use this is to simulate
 	 * a complete custom exception handler.
 	 *
-	 * E_STRICT is purposivly neglected because such events may have 
+	 * E_STRICT is purposivly neglected because such events may have
 	 * been caught. Duplication or none? None is preferred for now.
 	 *
 	 * @link	http://insomanic.me.uk/post/229851073/php-trick-catching-fatal-errors-e-error-with-a
