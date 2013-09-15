@@ -866,6 +866,7 @@ Rule                      Parameter  Description                                
 **is_unique**             Yes        Returns FALSE if the form element is not unique to the table and field name in the            is_unique[table.field] 
                                      parameter. Note: This rule requires :doc:`Query Builder <../database/query_builder>` to be                             
                                      enabled in order to work.
+**min_length**            Yes        Returns FALSE if the form element is shorter then the parameter value.                        min_length[3]         
 **max_length**            Yes        Returns FALSE if the form element is longer then the parameter value.                         max_length[12]         
 **exact_length**          Yes        Returns FALSE if the form element is not exactly the parameter value.                         exact_length[8]        
 **greater_than**          Yes        Returns FALSE if the form element is less than or equal to the parameter value or not         greater_than[8]
