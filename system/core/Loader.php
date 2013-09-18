@@ -416,6 +416,9 @@ class CI_Loader {
 	 */
 	public function view($view, $vars = array(), $return = FALSE)
 	{
+		if ( ! $return) {
+			$GLOBALS['_view_already_sent'] = true;
+		}
 		return $this->_ci_load(array('_ci_view' => $view, '_ci_vars' => $this->_ci_object_to_array($vars), '_ci_return' => $return));
 	}
 

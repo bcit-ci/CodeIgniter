@@ -356,7 +356,29 @@
 
 		// Call the requested method.
 		// Any URI segments present (besides the class/function) will be passed to the method for convenience
-		call_user_func_array(array(&$CI, $method), array_slice($URI->rsegments, 2));
+		$vars = call_user_func_array(array(&$CI, $method), array_slice($URI->rsegments, 2));
+		if (is_array($vars)) {
+			if ( !empty($vars['__ajax']) || strpos($method, 'ajax_') === 0 ) {
+				header("Content-type: application/json");
+				echo(json_encode($vars));
+			}
+			else {
+				if (empty($GLOBALS['_view_already_sent']) && file_exists(APPPATH."views/{$CI->router->class}/{$method}".EXT)) {
+					if (is_array($CI->TEMPLATE_DEFAULTS)) {
+						$vars = array_merge($CI->TEMPLATE_DEFAULTS, $vars);
+					}
+					$the_view = "{$CI->router->class}/{$method}";
+					$vars['view_name'] = $the_view;
+					if (isset($vars['layout'])) {
+						$vars['yield'] = $CI->load->view($the_view, $vars, true);
+						$CI->load->view("layouts/{$vars['layout']}", $vars);
+					}
+					else {
+						$CI->load->view($the_view, $vars);
+					}
+				}
+			}
+		}
 	}
 
 
