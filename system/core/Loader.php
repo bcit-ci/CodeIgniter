@@ -820,6 +820,10 @@ class CI_Loader {
 		 */
 		ob_start();
 
+		if (ENVIRONMENT == 'development') {
+			echo "\n<!--[if !IE]> BEGIN OF VIEW: ".realpath($_ci_path)." <![endif]-->\n";
+		}
+
 		// If the PHP installation does not support short tags we'll
 		// do a little string replacement, changing the short tags
 		// to standard PHP echo statements.
@@ -840,7 +844,12 @@ class CI_Loader {
 		{
 			$buffer = ob_get_contents();
 			@ob_end_clean();
-			return $buffer;
+			if (ENVIRONMENT == 'development') {
+				return $buffer . "\n<!--[if !IE]> END OF VIEW: ".realpath($_ci_path)." <![endif]-->\n";
+			}
+			else {
+				return $buffer;
+			}
 		}
 
 		/*
@@ -853,6 +862,11 @@ class CI_Loader {
 		 * template and any subsequent ones. Oy!
 		 *
 		 */
+
+		if (ENVIRONMENT == 'development') {
+			echo "\n<!--[if !IE]> END OF VIEW: ".realpath($_ci_path)." <![endif]-->\n";
+		}
+
 		if (ob_get_level() > $this->_ci_ob_level + 1)
 		{
 			ob_end_flush();
