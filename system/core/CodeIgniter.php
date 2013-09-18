@@ -364,6 +364,9 @@
 			}
 			else {
 				if (empty($GLOBALS['_view_already_sent']) && file_exists(APPPATH."views/{$CI->router->class}/{$method}".EXT)) {
+					if (is_array($CI->TEMPLATE_DEFAULTS)) {
+						$vars = array_merge($CI->TEMPLATE_DEFAULTS, $vars);
+					}
 					$the_view = "{$CI->router->class}/{$method}";
 					$vars['view_name'] = $the_view;
 					$CI->load->view($the_view, $vars);
