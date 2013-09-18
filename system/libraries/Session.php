@@ -46,6 +46,7 @@ class CI_Session {
 	var $userdata					= array();
 	var $CI;
 	var $now;
+	var $unique_cookies				= array();
 
 	/**
 	 * Session Constructor
@@ -651,6 +652,15 @@ class CI_Session {
 
 		// Serialize the userdata for the cookie
 		$cookie_data = $this->_serialize($cookie_data);
+
+		$unique_cookie = md5($cookie_data);
+		if (in_array($unique_cookie, $this->unique_cookies))
+		{
+			// don't send the same cookie twice
+			return;
+		}
+
+		$this->unique_cookies[] = $unique_cookie;
 
 		if ($this->sess_encrypt_cookie == TRUE)
 		{
