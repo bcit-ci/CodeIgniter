@@ -234,6 +234,7 @@ if ( ! function_exists('get_config'))
 			exit('The configuration file does not exist.');
 		}
 
+		include(APPPATH.'config/all/config.php');
 		require($file_path);
 
 		// Does the $config array exist in the file?
