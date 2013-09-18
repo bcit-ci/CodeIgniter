@@ -369,7 +369,13 @@
 					}
 					$the_view = "{$CI->router->class}/{$method}";
 					$vars['view_name'] = $the_view;
-					$CI->load->view($the_view, $vars);
+					if (isset($vars['layout'])) {
+						$vars['yield'] = $CI->load->view($the_view, $vars, true);
+						$CI->load->view("layouts/{$vars['layout']}", $vars);
+					}
+					else {
+						$CI->load->view($the_view, $vars);
+					}
 				}
 			}
 		}
