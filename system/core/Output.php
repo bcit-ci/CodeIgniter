@@ -846,37 +846,77 @@ class CI_Output {
 			$output = substr_replace($output, '', $pos);
 		}
 
-		// Remove CSS comments
-		$output = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!i', '', $output);
-
-		// Remove Javascript inline comments
-		if ($has_tags === TRUE && strpos(strtolower($open_tag), 'script') !== FALSE)
+		// Remove Comments (Both inline and multi-line)
+		$lines = preg_split('/\r?\n|\n?\r/', $output);
+		$in_string = $in_dstring = $in_comment = FALSE;
+		$comment_start_line = 0;
+		$comment_start_position = 0;
+		foreach ($lines as $line_number => &$line)
 		{
-			$lines = preg_split('/\r?\n|\n?\r/', $output);
-			foreach ($lines as &$line)
+			for ($i = 0, $len = strlen($line); $i < $len; $i += $inc)
 			{
-				$in_string = $in_dstring = FALSE;
-				for ($i = 0, $len = strlen($line); $i < $len; $i++)
+				$inc = 1;
+
+				if ( ! $in_comment && ! $in_dstring && $line[$i] === "'" )
 				{
-					if ( ! $in_string && ! $in_dstring && substr($line, $i, 2) === '//')
+					$in_string = ! $in_string;
+				}
+				elseif ( ! $in_comment && ! $in_string && $line[$i] === '"' )
+				{
+					$in_dstring = ! $in_dstring;
+				}
+
+				if ( ! $in_string && ! $in_dstring && ! $in_comment && substr($line, $i, 2) === '//' )
+				{
+					if ($has_tags === TRUE && strpos(strtolower($open_tag), 'script') !== FALSE)
 					{
+						// Remove JavaScript Inline Comment
 						$line = substr($line, 0, $i);
 						break;
 					}
+				}
 
-					if ($line[$i] === "'" && ! $in_dstring)
+				if ( ! $in_string && ! $in_dstring)
+				{
+					if (substr($line, $i, 2) === '/*' && ! $in_comment)
 					{
-						$in_string = ! $in_string;
+						$inc = 2;
+						$in_comment = TRUE;
+						$comment_start_line = $line_number;
+						$comment_start_position = $i;
 					}
-					elseif ($line[$i] === '"' && ! $in_string)
+					elseif (substr($line, $i, 2) === '*/')
 					{
-						$in_dstring = ! $in_dstring;
+						$inc = 1;
+						if ($in_comment)
+						{
+							// Remove Multi-line Comment
+							if ($comment_start_line === $line_number)
+							{
+								$comment_length = $i + 2 - $comment_start_position;
+								$line = substr_replace($line, '', $comment_start_position, $comment_length);
+								$len -= $comment_length;
+								$i = $comment_start_position;
+							}
+							else
+							{
+								$lines[$comment_start_line] = substr($lines[$comment_start_line], 0, $comment_start_position);
+								for ($j = $comment_start_line + 1; $j < $line_number; $j++)
+								{
+									$lines[$j] = '';
+								}
+								$lines[$line_number] = substr($lines[$line_number], $i + 2);
+								$len -= $i + 2;
+								$i = 0;
+							}
+							$inc = 0;
+						}
+						$in_comment = FALSE;
 					}
 				}
 			}
-
-			$output = implode("\n", $lines);
 		}
+		$output = implode("\n", $lines);
 
 		// Remove spaces around curly brackets, colons,
 		// semi-colons, parenthesis, commas
