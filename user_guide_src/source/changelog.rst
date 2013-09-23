@@ -392,6 +392,7 @@ Release Date: Not Released
       -  Changed methods ``get()``, ``post()``, ``get_post()``, ``cookie()``, ``server()``, ``user_agent()`` to return NULL instead of FALSE when no value is found.
       -  Added method ``post_get()`` and changed ``get_post()`` to search in GET data first. Both methods' names now properly match their GET/POST data search priorities.
       -  Changed method ``_fetch_from_array()`` to parse array notation in field name.
+      -  Added an option for ``_clean_input_keys()`` to return FALSE instead of terminating the whole script.
 
    -  :doc:`Common functions <general/common_functions>` changes include:
 
@@ -614,6 +615,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#2590) - :php:func:`log_message()` didn't actually cache the ``CI_Log`` class instance.
 -  Fixed a bug (#2609) - :php:func:`get_config()` optional argument was only effective on first function call. Also, it can now add items, in addition to updating existing items.
 -  Fixed a bug in the 'postgre' :doc:`database <database/index>` driver where the connection ID wasn't passed to ``pg_escape_string()``.
+-  Fixed a bug (#33) - Script execution was terminated when an invalid cookie key was encountered.
 
 Version 2.1.4
 =============

@@ -693,7 +693,14 @@ class CI_Input {
 
 			foreach ($_COOKIE as $key => $val)
 			{
-				$_COOKIE[$this->_clean_input_keys($key)] = $this->_clean_input_data($val);
+				if (($cookie_key = $this->_clean_input_keys($key)) !== FALSE)
+				{
+					$_COOKIE[$cookie_key] = $this->_clean_input_data($val);
+				}
+				else
+				{
+					unset($_COOKIE[$key]);
+				}
 			}
 		}
 
@@ -706,7 +713,7 @@ class CI_Input {
 			$this->security->csrf_verify();
 		}
 
-		log_message('debug', 'Global POST and COOKIE data sanitized');
+		log_message('debug', 'Global POST, GET and COOKIE data sanitized');
 	}
 
 	// --------------------------------------------------------------------
@@ -776,15 +783,25 @@ class CI_Input {
 	 * only named with alpha-numeric text and a few other items.
 	 *
 	 * @param	string	$str	Input string
-	 * @return	string
+	 * @param	string	$fatal	Whether to terminate script exection
+	 *				or to return FALSE if an invalid
+	 *				key is encountered
+	 * @return	string|bool
 	 */
-	protected function _clean_input_keys($str)
+	protected function _clean_input_keys($str, $fatal = TRUE)
 	{
 		if ( ! preg_match('/^[a-z0-9:_\/|-]+$/i', $str))
 		{
-			set_status_header(503);
-			echo 'Disallowed Key Characters.';
-			exit(EXIT_USER_INPUT);
+			if ($fatal === TRUE)
+			{
+				return FALSE;
+			}
+			else
+			{
+				set_status_header(503);
+				echo 'Disallowed Key Characters.';
+				exit(EXIT_USER_INPUT);
+			}
 		}
 
 		// Clean UTF-8 if supported
