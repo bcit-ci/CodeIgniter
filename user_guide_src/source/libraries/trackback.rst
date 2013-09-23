@@ -8,16 +8,28 @@ receive Trackback data.
 If you are not familiar with Trackbacks you'll find more information
 `here <http://en.wikipedia.org/wiki/Trackback>`_.
 
+.. content::
+	:local:
+
+.. raw:: html
+
+	<div class="custom-index container"></div>
+
+*************************
+Using the Trackback Class
+*************************
+
 Initializing the Class
 ======================
 
 Like most other classes in CodeIgniter, the Trackback class is
-initialized in your controller using the $this->load->library function::
+initialized in your controller using the ``$this->load->library()`` method::
 
 	$this->load->library('trackback');
 
-Once loaded, the Trackback library object will be available using:
-$this->trackback
+Once loaded, the Trackback library object will be available using::
+
+	$this->trackback
 
 Sending Trackbacks
 ==================
@@ -28,38 +40,36 @@ similar to this example::
 	$this->load->library('trackback');
 
 	$tb_data = array(
-	                'ping_url'  => 'http://example.com/trackback/456',
-	                'url'       => 'http://www.my-example.com/blog/entry/123',
-	                'title'     => 'The Title of My Entry',
-	                'excerpt'   => 'The entry content.',
-	                'blog_name' => 'My Blog Name',
-	                'charset'   => 'utf-8'
-	                );
+		'ping_url'  => 'http://example.com/trackback/456',
+		'url'       => 'http://www.my-example.com/blog/entry/123',
+		'title'     => 'The Title of My Entry',
+		'excerpt'   => 'The entry content.',
+		'blog_name' => 'My Blog Name',
+		'charset'   => 'utf-8'
+	);
 
 	if ( ! $this->trackback->send($tb_data))
 	{
-	     echo $this->trackback->display_errors();
+		echo $this->trackback->display_errors();
 	}
 	else
 	{
-	     echo 'Trackback was sent!';
+		echo 'Trackback was sent!';
 	}
 
 Description of array data:
 
 -  **ping_url** - The URL of the site you are sending the Trackback to.
-   You can send Trackbacks to multiple URLs by separating each URL with
-   a comma.
+   You can send Trackbacks to multiple URLs by separating each URL with a comma.
 -  **url** - The URL to YOUR site where the weblog entry can be seen.
 -  **title** - The title of your weblog entry.
--  **excerpt** - The content of your weblog entry. Note: the Trackback
-   class will automatically send only the first 500 characters of your
-   entry. It will also strip all HTML.
+-  **excerpt** - The content of your weblog entry.
+   .. note:: the Trackback class will automatically send only the first 500 characters of your
+  	entry. It will also strip all HTML.
 -  **blog_name** - The name of your weblog.
--  **charset** - The character encoding your weblog is written in. If
-   omitted, UTF-8 will be used.
+-  **charset** - The character encoding your weblog is written in. If omitted, UTF-8 will be used.
 
-The Trackback sending function returns TRUE/FALSE (boolean) on success
+The Trackback sending method returns TRUE/FALSE (boolean) on success
 or failure. If it fails, you can retrieve the error message using::
 
 	$this->trackback->display_errors();
@@ -107,16 +117,16 @@ Before you can receive Trackbacks you must create a table in which to
 store them. Here is a basic prototype for such a table::
 
 	CREATE TABLE trackbacks (
-	 tb_id int(10) unsigned NOT NULL auto_increment,
-	 entry_id int(10) unsigned NOT NULL default 0,
-	 url varchar(200) NOT NULL,
-	 title varchar(100) NOT NULL,
-	 excerpt text NOT NULL,
-	 blog_name varchar(100) NOT NULL,
-	 tb_date int(10) NOT NULL,
-	 ip_address varchar(45) NOT NULL,
-	 PRIMARY KEY `tb_id` (`tb_id`),
-	 KEY `entry_id` (`entry_id`)
+		tb_id int(10) unsigned NOT NULL auto_increment,
+		entry_id int(10) unsigned NOT NULL default 0,
+		url varchar(200) NOT NULL,
+		title varchar(100) NOT NULL,
+		excerpt text NOT NULL,
+		blog_name varchar(100) NOT NULL,
+		tb_date int(10) NOT NULL,
+		ip_address varchar(45) NOT NULL,
+		PRIMARY KEY `tb_id` (`tb_id`),
+		KEY `entry_id` (`entry_id`)
 	);
 
 The Trackback specification only requires four pieces of information to
@@ -129,33 +139,31 @@ Processing a Trackback
 
 Here is an example showing how you will receive and process a Trackback.
 The following code is intended for use within the controller function
-where you expect to receive Trackbacks.
-
-::
+where you expect to receive Trackbacks.::
 
 	$this->load->library('trackback');
 	$this->load->database();
 
 	if ($this->uri->segment(3) == FALSE)
 	{
-	    $this->trackback->send_error("Unable to determine the entry ID");
+		$this->trackback->send_error('Unable to determine the entry ID');
 	}
 
 	if ( ! $this->trackback->receive())
 	{
-	    $this->trackback->send_error("The Trackback did not contain valid data");
+		$this->trackback->send_error('The Trackback did not contain valid data');
 	}
 
 	$data = array(
-	                'tb_id'      => '',
-	                'entry_id'   => $this->uri->segment(3),
-	                'url'        => $this->trackback->data('url'),
-	                'title'      => $this->trackback->data('title'),
-	                'excerpt'    => $this->trackback->data('excerpt'),
-	                'blog_name'  => $this->trackback->data('blog_name'),
-	                'tb_date'    => time(),
-	                'ip_address' => $this->input->ip_address()
-	                );
+		'tb_id'      => '',
+		'entry_id'   => $this->uri->segment(3),
+		'url'        => $this->trackback->data('url'),
+		'title'      => $this->trackback->data('title'),
+		'excerpt'    => $this->trackback->data('excerpt'),
+		'blog_name'  => $this->trackback->data('blog_name'),
+		'tb_date'    => time(),
+		'ip_address' => $this->input->ip_address()
+	);
 
 	$sql = $this->db->insert_string('trackbacks', $data);
 	$this->db->query($sql);
@@ -199,3 +207,122 @@ message using::
 
 .. note:: The above code contains no data validation, which you are
 	encouraged to add.
+
+***************
+Class Reference
+***************
+
+.. class:: CI_Trackback
+
+	.. attribute:: $data = array('url' => '', 'title' => '', 'excerpt' => '', 'blog_name' => '', 'charset' => '')
+
+		Trackback data array.
+
+	.. attribute:: $convert_ascii = TRUE
+
+		Whether to convert high ASCII and MS Word characters to HTML entities.
+
+	.. method:: send($tb_data)
+
+		:param array $tb_data: trackback data
+		:returns: bool
+
+		Send trackback.
+
+	.. method:: receive()
+
+		:returns: bool
+
+		This method simply validates the incoming TB data, returning TRUE on success and FALSE on failure.
+		If the data is valid it is set to the ``$this->data`` array so that it can be inserted into a database.
+
+	.. method:: send_error([$message = 'Incomplete information')
+
+		:param string $message: error message
+		:returns: void
+
+		Responses to a trackback request with an error message.
+
+		.. note:: This method will terminate script execution.
+
+	.. method:: send_success()
+
+		:returns: void
+
+		Responses to a trackback request with a success message.
+
+		.. note:: This method will terminate script execution.
+
+	.. method:: data($item)
+
+		:param string $item: data key
+		:returns: string
+
+		Returns a single item from the reponse data array.
+
+	.. method:: process($url, $data)
+
+		:param string $url: target url
+		:param string $data: raw post data
+		:returns: bool
+
+		Opens a socket connection and passes the data to the server, returning TRUE on success and FALSE on failure.
+
+	.. method:: extract_urls($urls)
+
+		:param string $urls: comma-separated url list
+		:returns: string
+
+		This method lets multiple trackbacks to be sent. It takes a string of URLs (separated by comma or space) and puts each URL into an array.
+
+	.. method:: validate_url(&$url)
+
+		:param string $url: trackback url
+		:returns: void
+
+		Simply adds the *http://* prefix it it's not already present in the URL.
+
+	.. method:: get_id($url)
+
+		:param string $url: trackback url
+		:returns: string
+
+		Find and return a trackback URL's ID or FALSE on failure.
+
+	.. method:: convert_xml($str)
+
+		:param string $str: input string
+		:returns: string
+
+		Converts reserved XML characters to entities.
+
+	.. method:: limit_characters($str[, $n = 500[, $end_char = '&#8230;']])
+
+		:param string $str: input string
+		:param int $n: max characters number
+		:param string $end_char: character to put at end of string
+		:returns: string
+
+		Limits the string based on the character count. Will preserve complete words.
+
+	.. method:: convert_ascii($str)
+
+		:param string $str: input string
+		:returns: string
+
+		Converts high ASCII text and MS Word special characterss to HTML entities.
+
+	.. method:: set_error($msg)
+
+		:param string $msg: error message
+		:returns: void
+
+		Set an log an error message.
+
+	.. method:: display_errors([$open = '<p>'[, $close = '</p>']])
+
+		:param string $open: open tag
+		:param string $close: close tag
+		:returns: string
+
+		Returns error messages formatted in HTML or an empty string if there are no errors.
