@@ -145,7 +145,7 @@ class CI_Config {
 			{
 				if (isset($this->config[$file]))
 				{
-					$this->config[$file] = array_merge($this->config[$file], $config);
+					$this->config[$file] = array_merge_recursive($this->config[$file], $config);
 				}
 				else
 				{
@@ -154,7 +154,7 @@ class CI_Config {
 			}
 			else
 			{
-				$this->config = array_merge($this->config, $config);
+				$this->config = array_merge_recursive($this->config, $config);
 			}
 
 			$this->is_loaded[] = $file_path;
