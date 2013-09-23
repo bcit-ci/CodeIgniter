@@ -7,6 +7,17 @@ about the browser, mobile device, or robot visiting your site. In
 addition you can get referrer information as well as language and
 supported character-set information.
 
+.. contents::
+	:local:
+
+.. raw:: html
+
+	<div class="custom-index container"></div>
+
+**************************
+Using the User Agent Class
+**************************
+
 Initializing the Class
 ======================
 
@@ -15,7 +26,7 @@ initialized in your controller using the $this->load->library function::
 
 	$this->load->library('user_agent');
 
-Once loaded, the object will be available using: $this->agent
+Once loaded, the object will be available using: ``$this->agent``
 
 User Agent Definitions
 ======================
@@ -38,163 +49,178 @@ is available.
 
 	if ($this->agent->is_browser())
 	{
-	    $agent = $this->agent->browser().' '.$this->agent->version();
+		$agent = $this->agent->browser().' '.$this->agent->version();
 	}
 	elseif ($this->agent->is_robot())
 	{
-	    $agent = $this->agent->robot();
+		$agent = $this->agent->robot();
 	}
 	elseif ($this->agent->is_mobile())
 	{
-	    $agent = $this->agent->mobile();
+		$agent = $this->agent->mobile();
 	}
 	else
 	{
-	    $agent = 'Unidentified User Agent';
+		$agent = 'Unidentified User Agent';
 	}
 
 	echo $agent;
 
 	echo $this->agent->platform(); // Platform info (Windows, Linux, Mac, etc.)
 
-******************
-Function Reference
-******************
+***************
+Class Reference
+***************
 
-$this->agent->is_browser()
-===========================
+.. class: CI_User_agent
 
-Returns TRUE/FALSE (boolean) if the user agent is a known web browser.
+	.. method:: is_browser([$key = NULL])
 
-::
+		:param string $key: optional browser name
+		:returns: bool
 
-	if ($this->agent->is_browser('Safari'))
-	{
-	    echo 'You are using Safari.';
-	}
-	elseif ($this->agent->is_browser())
-	{
-	    echo 'You are using a browser.';
-	}
-	
+		Returns TRUE/FALSE (boolean) if the user agent is a known web browser.
+		::
 
-.. note:: The string "Safari" in this example is an array key in the
-	list of browser definitions. You can find this list in
-	application/config/user_agents.php if you want to add new browsers or
-	change the stings.
+			if ($this->agent->is_browser('Safari'))
+			{
+				echo 'You are using Safari.';
+			}
+			elseif ($this->agent->is_browser())
+			{
+				echo 'You are using a browser.';
+			}
 
-$this->agent->is_mobile()
-==========================
+		.. note:: The string "Safari" in this example is an array key in the list of browser definitions.
+			You can find this list in **application/config/user_agents.php** if you want to add new
+			browsers or change the stings.
 
-Returns TRUE/FALSE (boolean) if the user agent is a known mobile device.
+	.. method:: is_mobile([$key = NULL])
 
-::
+		:param string $key: optional mobile device name
+		:returns: bool
 
-	if ($this->agent->is_mobile('iphone'))
-	{
-	    $this->load->view('iphone/home');
-	}
-	elseif ($this->agent->is_mobile())
-	{
-	    $this->load->view('mobile/home');
-	}
-	else
-	{
-	    $this->load->view('web/home');
-	}
-	
+		Returns TRUE/FALSE (boolean) if the user agent is a known mobile device.
+		::
 
-$this->agent->is_robot()
-=========================
+			if ($this->agent->is_mobile('iphone'))
+			{
+				$this->load->view('iphone/home');
+			}
+			elseif ($this->agent->is_mobile())
+			{
+				$this->load->view('mobile/home');
+			}
+			else
+			{
+				$this->load->view('web/home');
+			}
 
-Returns TRUE/FALSE (boolean) if the user agent is a known robot.
+	.. method:: is_robot([$key = NULL])
 
-.. note:: The user agent library only contains the most common robot
-	definitions. It is not a complete list of bots. There are hundreds of
-	them so searching for each one would not be very efficient. If you find
-	that some bots that commonly visit your site are missing from the list
-	you can add them to your application/config/user_agents.php file.
+		:param string $key: optional robot name
+		:returns: bool
 
-$this->agent->is_referral()
-============================
+		Returns TRUE/FALSE (boolean) if the user agent is a known robot.
 
-Returns TRUE/FALSE (boolean) if the user agent was referred from another
-site.
+		.. note:: The user agent library only contains the most common robot definitions. It is not a complete list of bots.
+			There are hundreds of them so searching for each one would not be very efficient. If you find that some bots
+			that commonly visit your site are missing from the list you can add them to your
+			**application/config/user_agents.php** file.
 
-$this->agent->browser()
-=======================
+	.. method:: is_referral()
 
-Returns a string containing the name of the web browser viewing your
-site.
+		:returns: bool
 
-$this->agent->version()
-=======================
+		Returns TRUE/FALSE (boolean) if the user agent was referred from another site.
 
-Returns a string containing the version number of the web browser
-viewing your site.
+	.. method:: browser()
 
-$this->agent->mobile()
-======================
+		:returns: string
 
-Returns a string containing the name of the mobile device viewing your
-site.
+		Returns a string containing the name of the web browser viewing your site.
 
-$this->agent->robot()
-=====================
+	.. method:: version()
 
-Returns a string containing the name of the robot viewing your site.
+		:returns: string
 
-$this->agent->platform()
-========================
+		Returns a string containing the version number of the web browser viewing your site.
 
-Returns a string containing the platform viewing your site (Linux,
-Windows, OS X, etc.).
+	.. method:: mobile()
 
-$this->agent->referrer()
-========================
+		:returns: string
 
-The referrer, if the user agent was referred from another site.
-Typically you'll test for this as follows::
+		Returns a string containing the name of the mobile device viewing your site.
 
-	if ($this->agent->is_referral())
-	{
-	    echo $this->agent->referrer();
-	}
+	.. method:: robot()
 
-$this->agent->agent_string()
-=============================
+		:returns: string
 
-Returns a string containing the full user agent string. Typically it
-will be something like this::
+		Returns a string containing the name of the robot viewing your site.
 
-	Mozilla/5.0 (Macintosh; U; Intel Mac OS X; en-US; rv:1.8.0.4) Gecko/20060613 Camino/1.0.2
+	.. method:: platform()
 
-$this->agent->accept_lang()
-============================
+		:returns: string
 
-Lets you determine if the user agent accepts a particular language.
-Example::
+		Returns a string containing the platform viewing your site (Linux, Windows, OS X, etc.).
 
-	if ($this->agent->accept_lang('en'))
-	{
-	    echo 'You accept English!';
-	}
+	.. method:: referrer()
 
-.. note:: This function is not typically very reliable since some
-	browsers do not provide language info, and even among those that do, it
-	is not always accurate.
+		:returns: string
 
-$this->agent->accept_charset()
-===============================
+		The referrer, if the user agent was referred from another site. Typically you'll test for this as follows::
 
-Lets you determine if the user agent accepts a particular character set.
-Example::
+			if ($this->agent->is_referral())
+			{
+				echo $this->agent->referrer();
+			}
 
-	if ($this->agent->accept_charset('utf-8'))
-	{
-	    echo 'You browser supports UTF-8!';
-	}
+	.. method:: agent_string()
 
-.. note:: This function is not typically very reliable since some
-	browsers do not provide character-set info, and even among those that
-	do, it is not always accurate.
+		:returns: string
+
+		Returns a string containing the full user agent string. Typically it will be something like this::
+
+			Mozilla/5.0 (Macintosh; U; Intel Mac OS X; en-US; rv:1.8.0.4) Gecko/20060613 Camino/1.0.2
+
+	.. method:: accept_lang([$lang = 'en'])
+
+		:param string $lang: language key
+		:returns: bool
+
+		Lets you determine if the user agent accepts a particular language. Example::
+
+			if ($this->agent->accept_lang('en'))
+			{
+				echo 'You accept English!';
+			}
+
+		.. note:: This method is not typically very reliable since some	browsers do not provide language info,
+			and even among those that do, it is not always accurate.
+
+	.. method:: languages()
+
+		:returns: array
+
+		Returns an array of languages supported by the user agent.
+
+	.. method:: accept_charset([$charset = 'utf-8'])
+
+		:param string $charset: character set
+		:returns: bool
+
+		Lets you determine if the user agent accepts a particular character set. Example::
+
+			if ($this->agent->accept_charset('utf-8'))
+			{
+				echo 'You browser supports UTF-8!';
+			}
+
+		.. note:: This method is not typically very reliable since some browsers do not provide character-set info,
+			and even among those that do, it is not always accurate.
+
+	.. method:: charsets()
+
+		:returns: array
+
+		Returns an array of character sets accepted by the user agent.
