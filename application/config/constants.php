@@ -81,11 +81,11 @@ define('SHOW_DEBUG_BACKTRACE', TRUE);
 | Used to indicate the conditions under which the script is exit()ing.
 | While there is no universal standard for error codes, there are some
 | broad conventions.  Three such conventions are mentioned below, for
-| those who wish to make use of them.  The CodeIgniter defaults were 
+| those who wish to make use of them.  The CodeIgniter defaults were
 | chosen for the least overlap with these conventions, while still
 | leaving room for others to be defined in future versions and user
 | applications.
-| 
+|
 | The three main conventions used for determining exit status codes
 | are as follows:
 |
@@ -108,7 +108,6 @@ define('EXIT_USER_INPUT', 7); // invalid user input
 define('EXIT_DATABASE', 8); // database error
 define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
- 
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
