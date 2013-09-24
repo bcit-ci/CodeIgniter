@@ -546,10 +546,11 @@ abstract class CI_DB_driver {
 	 * Execute the query
 	 *
 	 * Accepts an SQL string as input and returns a result object upon
-	 * successful execution of a "read" type query. Returns boolean TRUE
-	 * upon successful execution of a "write" type query. Returns boolean
-	 * FALSE upon failure, and if the $db_debug variable is set to TRUE
-	 * will raise an error.
+	 * successful execution of a "read" type query, and "write" type query
+	 * with 'RETURNING' sub clause.  Returns boolean TRUE upon successful 
+	 * execution of a "write" type query (except with 'RETURNING'). 
+	 * Returns boolean FALSE upon failure, and if the $db_debug variable 
+	 * is set to TRUE will raise an error.
 	 *
 	 * @param	string	$sql
 	 * @param	array	$binds = FALSE		An array of binding data
@@ -568,6 +569,9 @@ abstract class CI_DB_driver {
 			$return_object = ! $this->is_write_type($sql);
 		}
 
+		// Verify whether write type with 'RETURNING', eg. "INSERT INTO ... RETURNING *"
+		$return_by_write = $return_object ? TRUE : ($this->platform() === 'postgre' && $this->is_write_return_type($sql));
+
 		// Verify table prefix and replace if necessary
 		if ($this->dbprefix !== '' && $this->swap_pre !== '' && $this->dbprefix !== $this->swap_pre)
 		{
@@ -583,7 +587,7 @@ abstract class CI_DB_driver {
 		// Is query caching enabled? If the query is a "read type"
 		// we will load the caching class and return the previously
 		// cached query if it exists
-		if ($this->cache_on === TRUE && $return_object === TRUE && $this->_cache_init())
+		if ($this->cache_on === TRUE && $return_object === TRUE &&  ! $return_by_write && $this->_cache_init())
 		{
 			$this->load_rdriver();
 			if (FALSE !== ($cache = $this->CACHE->read($sql)))
@@ -654,11 +658,14 @@ abstract class CI_DB_driver {
 				$this->CACHE->delete();
 			}
 
-			return TRUE;
+			if ( ! $return_by_write)
+			{
+				return TRUE;
+			}
 		}
 
 		// Return TRUE if we don't need to create a result object
-		if ($return_object !== TRUE)
+		if ($return_object !== TRUE && ! $return_by_write)
 		{
 			return TRUE;
 		}
