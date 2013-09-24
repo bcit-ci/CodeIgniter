@@ -237,17 +237,18 @@ class CI_DB_driver {
 	 * Execute the query
 	 *
 	 * Accepts an SQL string as input and returns a result object upon
-	 * successful execution of a "read" type query.  Returns boolean TRUE
-	 * upon successful execution of a "write" type query. Returns boolean
-	 * FALSE upon failure, and if the $db_debug variable is set to TRUE
-	 * will raise an error.
+	 * successful execution of a "read" type query, and "write" type query
+	 * with 'RETURNING' sub clause.  Returns boolean TRUE upon successful 
+	 * execution of a "write" type query (except with 'RETURNING'). 
+	 * Returns boolean FALSE upon failure, and if the $db_debug variable 
+	 * is set to TRUE will raise an error.
 	 *
 	 * @access	public
 	 * @param	string	An SQL query string
 	 * @param	array	An array of binding data
 	 * @return	mixed
 	 */
-	function query($sql, $binds = FALSE, $return_object = TRUE)
+	function query($sql, $binds = FALSE, $return_object = NULL)
 	{
 		if ($sql == '')
 		{
@@ -258,6 +259,10 @@ class CI_DB_driver {
 			}
 			return FALSE;
 		}
+
+		is_bool($return_object) OR $return_object = ! $this->is_write_type($sql);
+		// Verify whether write type with 'RETURNING', eg. "INSERT INTO ... RETURNING *"
+		$return_by_write = $return_object ? TRUE : $this->is_write_return_type($sql);
 
 		// Verify table prefix and replace if necessary
 		if ( ($this->dbprefix != '' AND $this->swap_pre != '') AND ($this->dbprefix != $this->swap_pre) )
@@ -347,7 +352,7 @@ class CI_DB_driver {
 
 		// Was the query a "write" type?
 		// If so we'll simply return true
-		if ($this->is_write_type($sql) === TRUE)
+		if ($return_object === FALSE)
 		{
 			// If caching is enabled we'll auto-cleanup any
 			// existing files related to this particular URI
@@ -356,13 +361,16 @@ class CI_DB_driver {
 				$this->CACHE->delete();
 			}
 
-			return TRUE;
+			if ( ! $return_by_write)
+			{
+				return TRUE;
+			}
 		}
 
 		// Return TRUE if we don't need to create a result object
 		// Currently only the Oracle driver uses this when stored
 		// procedures are used
-		if ($return_object !== TRUE)
+		if ($return_object !== TRUE && ! $return_by_write)
 		{
 			return TRUE;
 		}
