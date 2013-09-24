@@ -65,6 +65,15 @@ class CI_DB_postgre_driver extends CI_DB {
 	protected $_random_keyword = array('RANDOM()', 'RANDOM()');
 
 	// --------------------------------------------------------------------
+	
+	/**
+	 * ESCAPE character
+	 *
+	 * @var	string
+	 */
+	protected $_like_escape_chr = "\\";
+	
+	// --------------------------------------------------------------------
 
 	/**
 	 * Class constructor
