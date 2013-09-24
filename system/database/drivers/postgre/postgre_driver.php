@@ -505,11 +505,32 @@ class CI_DB_postgre_driver extends CI_DB {
 
 		if (strpos($item, '.') !== FALSE)
 		{
-			$str = $this->_escape_char.str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item).$this->_escape_char;
+			$tarr = explode('.', $item);
+			foreach ($tarr as & $v)
+			{
+				$v = trim($v);
+				if (preg_match('/\b[\<\>\=\!]/', $v))
+				{
+					$v = preg_replace('#(\w*)(\b[\<\>\=\!]\w*)#', $this->_escape_char. '$1'. $this->_escape_char. '$2', $v);
+				}
+				else
+				{
+					$v = $this->_escape_char. str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $v). $this->_escape_char;
+				}
+			}
+			$str = implode('.', $tarr);
+			unset($tarr, $v);
 		}
 		else
 		{
-			$str = $this->_escape_char.$item.$this->_escape_char;
+			if (preg_match('/\b[\<\>\=\!]/', $item))
+			{
+				$str = preg_replace('#(.*)(\b[\<\>\=\!]\w*)#', $this->_escape_char. '$1'. $this->_escape_char. '$2', $item);
+			}
+			else
+			{
+				$str = $this->_escape_char.$item.$this->_escape_char;
+			}
 		}
 
 		// remove duplicates if the user already included the escape
