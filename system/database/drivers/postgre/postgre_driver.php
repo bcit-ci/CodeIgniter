@@ -67,7 +67,7 @@ class CI_DB_postgre_driver extends CI_DB {
 		{
 			if (isset($this->$key) && $this->$key != '')
 			{
-				$connect_string .= " $val=".$this->$key;
+				$connect_string .= " $val='". $this->$key. "'";
 			}
 		}
 		return trim($connect_string);
