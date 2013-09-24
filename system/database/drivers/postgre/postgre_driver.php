@@ -488,6 +488,10 @@ class CI_DB_postgre_driver extends CI_DB {
 			return $item;
 		}
 
+		if (is_numeric($item) && $item == (int) $item)
+		{
+			return $item;
+		}
 		foreach ($this->_reserved_identifiers as $id)
 		{
 			if (strpos($item, '.'.$id) !== FALSE)
