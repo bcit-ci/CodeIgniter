@@ -807,7 +807,7 @@ class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Fetch MySQL Field Names
+	 * Fetch MySQL/postgres Field Names
 	 *
 	 * @access	public
 	 * @param	string	the table name
@@ -830,7 +830,19 @@ class CI_DB_driver {
 			return FALSE;
 		}
 
-		if (FALSE === ($sql = $this->_list_columns($table)))
+		$colname = 'COLUMN_NAME';
+
+		if ($this->platform() === 'postgre')
+		{
+			$sql = " SELECT a.attname, *
+				  FROM pg_class c, pg_attribute a, pg_type t
+				 WHERE c.relname = '$table'
+				   AND a.attnum > 0
+				   AND a.attrelid = c.oid
+				   AND a.atttypid = t.oid";
+			$colname = 'attname';
+		}
+		elseif (FALSE === ($sql = $this->_list_columns($table)))
 		{
 			if ($this->db_debug)
 			{
@@ -844,9 +856,9 @@ class CI_DB_driver {
 		$retval = array();
 		foreach ($query->result_array() as $row)
 		{
-			if (isset($row['COLUMN_NAME']))
+			if (isset($row[$colname]))
 			{
-				$retval[] = $row['COLUMN_NAME'];
+				$retval[] = $row[$colname];
 			}
 			else
 			{
