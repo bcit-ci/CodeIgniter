@@ -1430,6 +1430,27 @@ class CI_DB_driver {
 		}
 		return (bool) ($this->platform() === 'postgre' && preg_match('/\sRETURNING\s+\w+?/i', $sql));
 	}
+
+	// --------------------------------------------------------------------
+
+
+	/**
+	 * Insert with returning  column or all columns of inserted record
+	 * only for Postgres
+	 *
+	 * @access	public
+	 * @author	waiting@xiaozhong.biz
+	 *
+	 * @param	string	the table upon which the query will be performed
+	 * @param	array	an associative array data of key/values
+	 * @param	string[option=*]	the output_column or output_expression
+	 * @return	PDO statement
+	 */
+	function insert_returning($table, $data, $returning = '*')
+	{
+		$str = $this->insert_string($table, $data);
+		return $this->query($str. " RETURNING $returning");
+	}
 }
 
 /* End of file DB_driver.php */
