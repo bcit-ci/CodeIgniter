@@ -36,7 +36,7 @@ class CI_DB_postgre_driver extends CI_DB {
 
 	// clause and character used for LIKE escape sequences
 	var $_like_escape_str = " ESCAPE '%s' ";
-	var $_like_escape_chr = '!';
+	var $_like_escape_chr = "\\";
 
 	/**
 	 * The syntax to count rows is slightly different across different
