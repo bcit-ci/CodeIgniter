@@ -1191,7 +1191,19 @@ abstract class CI_DB_driver {
 			return ($this->db_debug) ? $this->display_error('db_field_param_missing') : FALSE;
 		}
 
-		if (FALSE === ($sql = $this->_list_columns($table)))
+		$colname = 'COLUMN_NAME';
+
+		if ($this->platform() === 'postgre')
+		{
+			$sql = " SELECT a.attname, *
+				  FROM pg_class c, pg_attribute a, pg_type t
+				 WHERE c.relname = '$table'
+				   AND a.attnum > 0
+				   AND a.attrelid = c.oid
+				   AND a.atttypid = t.oid";
+			$colname = 'attname';
+		}
+		elseif (FALSE === ($sql = $this->_list_columns($table)))
 		{
 			return ($this->db_debug) ? $this->display_error('db_unsupported_function') : FALSE;
 		}
@@ -1204,13 +1216,13 @@ abstract class CI_DB_driver {
 			// Do we know from where to get the column's name?
 			if ( ! isset($key))
 			{
-				if (isset($row['column_name']))
+				if (isset($row[$colname]))
 				{
-					$key = 'column_name';
+					$key = $colname;
 				}
-				elseif (isset($row['COLUMN_NAME']))
+				elseif (isset(strtoupper($row[$colname])))
 				{
-					$key = 'COLUMN_NAME';
+					$key = strtoupper($colname);
 				}
 				else
 				{
