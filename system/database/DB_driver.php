@@ -1404,6 +1404,24 @@ class CI_DB_driver {
 	{
 	}
 
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Determines if a query is a "write" type with RETURNING colums values (postgres)
+	 * @author	waiting@xiaozhong.biz
+	 *
+	 * @access	public
+	 * @param	string	An SQL query string
+	 * @return	boolean
+	 */
+	function is_write_return_type($sql)
+	{
+		if ( ! preg_match('/^\s*"?(INSERT|UPDATE|DELETE)\s+?/i', $sql))
+		{
+			return FALSE;
+		}
+		return (bool) ($this->platform() === 'postgre' && preg_match('/\sRETURNING\s+\w+?/i', $sql));
+	}
 }
 
 /* End of file DB_driver.php */
