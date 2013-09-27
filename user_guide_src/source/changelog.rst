@@ -501,6 +501,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#2380) - :doc:`URI Routing <general/routing>` method ``fetch_method()`` returned 'index' if the requested method name matches its controller name.
 -  Fixed a bug (#2388) - :doc:`Email Library <libraries/email>` used to ignore attachment errors, resulting in broken emails being sent.
 -  Fixed a bug (#2498) - :doc:`Form Validation Library <libraries/form_validation>` rule **valid_base64** only checked characters instead of actual validity.
+-  Fixed a bug (#2515) - The script now halts when a fatal error occurs, instead of continuing.
 
 Version 2.1.3
 =============
