@@ -328,11 +328,8 @@ if ( ! function_exists('form_dropdown'))
 		{
 			$selected = array($_POST[$name]);
 		}
-
-		if ($extra != '')
-		{
-			$extra = ' '.$extra;
-		}
+		
+		$extra = _attributes_to_string($extra);
 
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
 
