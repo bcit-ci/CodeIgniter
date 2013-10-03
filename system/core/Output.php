@@ -847,7 +847,7 @@ class CI_Output {
 		}
 
 		// Remove CSS comments
-		$output = preg_replace('!/\*([^/][^*]*\*)*/(?!.+?["\'])!i', '', $output);
+		$output = preg_replace('@/\*([^/][^*]*\*)*/(?!.+?["\'])@i', '', $output);
 
 		// Remove Javascript inline comments
 		if ($has_tags === TRUE && strpos(strtolower($open_tag), 'script') !== FALSE)
