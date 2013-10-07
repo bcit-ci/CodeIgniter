@@ -3,34 +3,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CI_Repository extends CI_Model{
     protected $tableName;
     public function __construct($tableName=''){
-		parent::__construct(); $this->tableName = $tableName; 
+		parent::__construct(); 
+		$this->tableName = $tableName; 
 	}
-    public function GetAll(){ 
-		return $this->db->query("Select * from $this->tableName")->result(); 
+    public function GetAll($fields='*', $limit='',$offset=''){ 
+		$this->db->select($fields)->from($this->tableName)->where('id', $id)->limit($limit,$offset);
+		return $this->db->get()->result(); 
 	}
     public function GetById($id, $toArray=false){
-        $entity = $this->db->query("Select * from $this->tableName where id=?", array($id))->result();
+        $entity = $this->db->get_where($this->tableName, array('id'=>$id))->result();
         if($toArray){ 
 			$entity = get_object_vars($entity[0]); 
 		}
         return $entity;
     }
     public function Remove($id){ 
-		$this->db->query("Delete from $this->tableName where id=?", array($id)); 
+		$this->db->delete($this->tableName, array('id' => $id)); 
 	}
     public function Add($entity){
-        if(is_object ($entity)){ 
-			$entity = $this->objectToArray($entity); 
-		}
-        $query = "INSERT INTO $this->tableName";
-        $values = array();
-        $questionMarks = "";
-        $keys = "" ;
-        foreach($entity as $key=>$value){ $keys .='`'.$key.'`,'; $questionMarks .= '?,'; $values[]=$value; }
-        $keys = rtrim($keys,',');
-        $questionMarks = rtrim($questionMarks,',');
-        $query.=' ('.$keys.') VALUES ('.$questionMarks.')';
-        $this->db->query($query , $values);
+		$this->db->insert($this->tableName, $entity); 
         return $this->db->insert_id();
     }
     public function Update($entity){
