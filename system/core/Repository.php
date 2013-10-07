@@ -10,12 +10,10 @@ class CI_Repository extends CI_Model{
 		$this->db->select($fields)->from($this->tableName)->limit($limit,$offset);
 		return $this->db->get()->result(); 
 	}
-    public function GetById($id, $toArray=false){
+    public function GetById($id){
         $entity = $this->db->get_where($this->tableName, array('id'=>$id))->result();
-        if($toArray){ 
-			$entity = get_object_vars($entity[0]); 
-		}
-        return $entity;
+        if($entity) return $entity[0];
+		return false;
     }
     public function Remove($id){ 
 		$this->db->delete($this->tableName, array('id' => $id)); 
