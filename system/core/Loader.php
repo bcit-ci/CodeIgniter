@@ -269,6 +269,10 @@ class CI_Loader {
 		{
 			load_class('Model', 'core');
 		}
+		if ( ! class_exists('CI_Repository', FALSE))
+		{
+			load_class('Repository', 'core');
+		}
 
 		$model = ucfirst(strtolower($model));
 

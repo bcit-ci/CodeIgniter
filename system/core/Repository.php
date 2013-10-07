@@ -1,19 +1,27 @@
 <?php 
-
-//require_once('Model.php');
 defined('BASEPATH') OR exit('No direct script access allowed');
 class CI_Repository extends CI_Model{
     protected $tableName;
-    public function __construct($tableName){ parent::__construct(); $this->tableName = $tableName; }
-    public function GetAll(){ return $this->db->query("Select * from $this->tableName")->result(); }
+    public function __construct($tableName=''){
+		parent::__construct(); $this->tableName = $tableName; 
+	}
+    public function GetAll(){ 
+		return $this->db->query("Select * from $this->tableName")->result(); 
+	}
     public function GetById($id, $toArray=false){
         $entity = $this->db->query("Select * from $this->tableName where id=?", array($id))->result();
-        if($toArray){ $entity = get_object_vars($entity[0]); }
+        if($toArray){ 
+			$entity = get_object_vars($entity[0]); 
+		}
         return $entity;
     }
-    public function Remove($id){ $this->db->query("Delete from $this->tableName where id=?", array($id)); }
+    public function Remove($id){ 
+		$this->db->query("Delete from $this->tableName where id=?", array($id)); 
+	}
     public function Add($entity){
-        if(is_object ($entity)){ $entity = $this->objectToArray($entity); }
+        if(is_object ($entity)){ 
+			$entity = $this->objectToArray($entity); 
+		}
         $query = "INSERT INTO $this->tableName";
         $values = array();
         $questionMarks = "";
