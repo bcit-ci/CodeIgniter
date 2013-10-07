@@ -36,3 +36,6 @@ class CI_Repository extends CI_Model{
         else {  return $d; }
     }
 }
+
+/* End of file Repository.php */
+/* Location: ./system/core/Repository.php */
