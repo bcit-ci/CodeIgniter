@@ -7,7 +7,7 @@ class CI_Repository extends CI_Model{
 		$this->tableName = $tableName; 
 	}
     public function GetAll($fields='*', $limit='',$offset=''){ 
-		$this->db->select($fields)->from($this->tableName)->where('id', $id)->limit($limit,$offset);
+		$this->db->select($fields)->from($this->tableName)->limit($limit,$offset);
 		return $this->db->get()->result(); 
 	}
     public function GetById($id, $toArray=false){
