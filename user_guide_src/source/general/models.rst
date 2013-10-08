@@ -181,3 +181,33 @@ database. The following options for connecting are available to you:
 	$config['db_debug'] = TRUE;
 
 	$this->load->model('model_name', '', $config);
+
+The Repository Class
+====================
+
+This class extends from CI_Model and provides the same advantages and
+defines some basic operations right away. To take advantage of this class
+you have to make sure your tables follow the convention of having an Id field
+
+The operations defined are:
+
+-  **add($row):** Where $row is an array or an object from which properties will be
+   matched against the table. This method inserts a new row.
+-  **update($row):** Updates a given row. It filters it by the Id field of the row.
+-  **delete($id):** Deletes the row with the given id
+-  **get_all($fields, $limit, $offset):** Get all rows from the table limited by
+   the $limit and $offset parameters. The $fields parameter is a string that specify
+   which fields to return from each row, if left blank it will return all fields.
+-  **get_by_id($id):** Get the specific row filtered by the Id column.
+
+The basic prototype for a repository class is this::
+
+	class Model_name extends CI_Repository {
+
+		public function __construct('Model_table')
+		{
+			parent::__construct();
+		}
+	}
+
+The same rules from the models apply to this class.
