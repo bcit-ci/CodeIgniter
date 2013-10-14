@@ -139,6 +139,13 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	protected $qb_set			= array();
 
 	/**
+	 * QB RETURNING data
+	 *
+	 * @var	array
+	 */
+	protected $qb_returning			= array();
+
+	/**
 	 * QB aliased tables list
 	 *
 	 * @var	array
@@ -1891,7 +1898,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		$this->where($index.' IN('.implode(',', $ids).')', NULL, FALSE);
 
-		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2).$this->_compile_wh('qb_where');
+		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2).$this->_compile_wh('qb_where').$this->_compile_returning();
 	}
 
 	// --------------------------------------------------------------------
@@ -2118,7 +2125,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	protected function _delete($table)
 	{
 		return 'DELETE FROM '.$table.$this->_compile_wh('qb_where')
-			.($this->qb_limit ? ' LIMIT '.$this->qb_limit : '');
+			.($this->qb_limit ? ' LIMIT '.$this->qb_limit : '').$this->_compile_returning();
 	}
 
 	// --------------------------------------------------------------------
@@ -2646,6 +2653,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 					'qb_groupby'		=> array(),
 					'qb_having'		=> array(),
 					'qb_orderby'		=> array(),
+					'qb_returning'	=> array(),
 					'qb_aliased_tables'	=> array(),
 					'qb_no_escape'		=> array(),
 					'qb_distinct'		=> FALSE,
@@ -2672,10 +2680,41 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			'qb_join'	=> array(),
 			'qb_where'	=> array(),
 			'qb_orderby'	=> array(),
+			'qb_returning'	=> array(),
 			'qb_keys'	=> array(),
 			'qb_limit'	=> FALSE
 			)
 		);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Compile RETURNING
+	 *
+	 * Escapes identifiers in RETURNING statements at execution time.
+	 *
+	 * @return	string	SQL statement
+	 */
+	protected function _compile_returning()
+	{
+		if (is_array($this->qb_returning) && count($this->qb_returning))
+		{
+			foreach ($this->qb_returning as &$row)
+			{
+				$row = ($row['escape'] === FALSE OR $this->_is_literal($row['field']))
+					? $row['field']
+					: $this->protect_identifiers($row['field']);
+			}
+
+			return $this->qb_returning = "\nRETURNING ".implode(', ', $this->qb_returning);
+		}
+		elseif (is_string($this->qb_returning))
+		{
+			return $this->qb_returning;
+		}
+
+		return '';
 	}
 
 }
