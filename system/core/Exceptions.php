@@ -148,10 +148,7 @@ class CI_Exceptions {
 		ob_start();
 		include(VIEWPATH.'errors/'.$template.'.php');
 		$buffer = ob_get_contents();
-		if (ob_get_length() > 0) 
-		{
-			ob_end_clean();
-		}
+		@ob_end_clean();
 		return $buffer;
 	}
 
@@ -185,10 +182,7 @@ class CI_Exceptions {
 		ob_start();
 		include(VIEWPATH.'errors/error_php.php');
 		$buffer = ob_get_contents();
-		if (ob_get_length() > 0) 
-		{
-			ob_end_clean();
-		}
+		@ob_end_clean();
 		echo $buffer;
 	}
 
