@@ -318,7 +318,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function is_write_type($sql)
 	{
-		return (bool) preg_match('/^\s*"?(SET|INSERT(?![^\)]+\)\s+RETURNING)|UPDATE(?!.*\sRETURNING)|DELETE|CREATE|DROP|TRUNCATE|LOAD|COPY|ALTER|RENAME|GRANT|REVOKE|LOCK|UNLOCK|REINDEX)\s+/i', str_replace(array("\r\n", "\r", "\n"), ' ', $sql));
+		return (bool) preg_match('/^\s*"?(SET(?![^\)]+\)\s+RETURNING\s)|(INSERT|UPDATE|DELETE)(?!.*\sRETURNING\s)|CREATE|DROP|TRUNCATE|LOAD|COPY|ALTER|RENAME|GRANT|REVOKE|LOCK|UNLOCK|REINDEX)\s+/i', str_replace(array("\r\n", "\r", "\n"), ' ', $sql));
 	}
 
 	// --------------------------------------------------------------------
@@ -601,7 +601,7 @@ class CI_DB_postgre_driver extends CI_DB {
 
 		$this->where($index.' IN('.implode(',', $ids).')', NULL, FALSE);
 
-		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2).$this->_compile_wh('qb_where');
+		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2).$this->_compile_wh('qb_where').$this->_compile_returning();
 	}
 
 	// --------------------------------------------------------------------
@@ -645,6 +645,42 @@ class CI_DB_postgre_driver extends CI_DB {
 	protected function _close()
 	{
 		@pg_close($this->conn_id);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * RETURNING
+	 * postgres and oracle support RETURNING columns or any other expression
+	 * by UPDATE, INSERT, DELETE
+	 *
+	 * @param	string|array	$cols RETURNING columns or expression
+	 * @param	bool	$escape
+	 * @return	object	this
+	 */
+	public function returning($cols, $escape = NULL)
+	{
+		is_bool($escape) OR $escape = $this->_protect_identifiers;
+
+		if (is_string($cols))
+		{
+			$cols = ($escape === TRUE)
+				? explode(',', $cols)
+				: array($cols);
+		}
+
+		foreach ($cols as $val)
+		{
+			$val = trim($val);
+
+			if ($val !== '')
+			{
+				$val = array('field' => $val, 'escape' => $escape);
+				$this->qb_returning[] = $val;
+			}
+		}
+
+		return $this;
 	}
 
 }
