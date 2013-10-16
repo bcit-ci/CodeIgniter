@@ -351,6 +351,7 @@ Release Date: Not Released
       -  Database object names are now being displayed.
       -  The sum of all queries running times in seconds is now being displayed.
       -  Added support for displaying the HTTP DNT ("Do Not Track") header.
+      -  Added support for displaying $_FILES.
 
    -  :doc:`Migration Library <libraries/migration>` changes include:
 
