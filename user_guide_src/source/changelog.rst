@@ -57,7 +57,6 @@ Release Date: Not Released
    -  Removed *cheatsheets* and *quick_reference* PDFs from the documentation.
    -  Added availability checks where usage of dangerous functions like ``eval()`` and ``exec()`` is required.
    -  Added support for changing the file extension of log files using ``$config['log_file_extension']``.
-   -  Added possibility clear out the cached variables from the Loader.
 
 -  Helpers
 
@@ -382,6 +381,7 @@ Release Date: Not Released
       -  Added support for model aliasing on autoload.
       -  Changed method ``is_loaded()`` to ask for the (case sensitive) library name instead of its instance name.
       -  Removed ``$_base_classes`` property and unified all class data in ``$_ci_classes`` instead.
+      -  Added method ``clear_vars()`` to allow clearing the cached variables for views.
 
    -  :doc:`Input Library <libraries/input>` changes include:
 

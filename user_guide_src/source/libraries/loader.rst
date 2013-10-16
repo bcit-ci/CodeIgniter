@@ -234,6 +234,11 @@ $this->load->get_vars()
 
 This method retrieves all variables available to your views.
 
+$this->load->clear_vars()
+=========================
+
+Clears cached view variables.
+
 $this->load->helper('file_name')
 ================================
 
