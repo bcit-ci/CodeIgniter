@@ -307,10 +307,7 @@ class CI_Profiler {
 
 			foreach ($_GET as $key => $val)
 			{
-				if ( ! is_numeric($key))
-				{
-					$key = "'".$key."'";
-				}
+				is_int($key) OR $key = "'".$key."'";
 
 				$output .= '<tr><td style="width:50%;color:#000;background-color:#ddd;padding:5px;">&#36;_GET['
 					.$key.']&nbsp;&nbsp; </td><td style="width:50%;padding:5px;color:#cd6e00;font-weight:normal;background-color:#ddd;">'
@@ -338,7 +335,7 @@ class CI_Profiler {
 			."\n"
 			.'<legend style="color:#009900;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_post_data')."&nbsp;&nbsp;</legend>\n";
 
-		if (count($_POST) === 0 AND count($_FILES) === 0)
+		if (count($_POST) === 0 && count($_FILES) === 0)
 		{
 			$output .= '<div style="color:#009900;font-weight:normal;padding:4px 0 4px 0;">'.$this->CI->lang->line('profiler_no_post').'</div>';
 		}
@@ -348,10 +345,7 @@ class CI_Profiler {
 
 			foreach ($_POST as $key => $val)
 			{
-				if ( ! is_numeric($key))
-				{
-					$key = "'".$key."'";
-				}
+				is_int($key) OR $key = "'".$key."'";
 
 				$output .= '<tr><td style="width:50%;padding:5px;color:#000;background-color:#ddd;">&#36;_POST['
 					.$key.']&nbsp;&nbsp; </td><td style="width:50%;padding:5px;color:#009900;font-weight:normal;background-color:#ddd;">';
@@ -370,10 +364,7 @@ class CI_Profiler {
 
 			foreach ($_FILES as $key => $val)
 			{
-				if ( ! is_numeric($key))
-				{
-					$key = "'".$key."'";
-				}
+				is_int($key) OR $key = "'".$key."'";
 
 				$output .= '<tr><td style="width:50%;padding:5px;color:#000;background-color:#ddd;">&#36;_FILES['
 					.$key.']&nbsp;&nbsp; </td><td style="width:50%;padding:5px;color:#009900;font-weight:normal;background-color:#ddd;">';
@@ -388,8 +379,6 @@ class CI_Profiler {
 
 			$output .= "</table>\n";
 		}
-
-
 
 		return $output.'</fieldset>';
 	}
