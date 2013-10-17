@@ -884,7 +884,7 @@ class CI_Security {
 	{
 		if ($this->_csrf_hash === '')
 		{
-			// If the cookie exists we will use it's value.
+			// If the cookie exists we will use its value.
 			// We don't necessarily want to regenerate it with
 			// each page load since a page could contain embedded
 			// sub-pages causing this feature to fail
@@ -894,7 +894,7 @@ class CI_Security {
 				return $this->_csrf_hash = $_COOKIE[$this->_csrf_cookie_name];
 			}
 
-			$this->_csrf_hash = md5(uniqid(rand(), TRUE));
+			$this->_csrf_hash = md5(uniqid(mt_rand(), TRUE));
 			$this->csrf_set_cookie();
 		}
 
