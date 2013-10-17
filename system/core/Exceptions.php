@@ -148,7 +148,7 @@ class CI_Exceptions {
 		ob_start();
 		include(VIEWPATH.'errors/'.$template.'.php');
 		$buffer = ob_get_contents();
-		@ob_end_clean();
+		$this->_end_output_buffer();		
 		return $buffer;
 	}
 
@@ -182,8 +182,35 @@ class CI_Exceptions {
 		ob_start();
 		include(VIEWPATH.'errors/error_php.php');
 		$buffer = ob_get_contents();
-		@ob_end_clean();
+		$this->_end_output_buffer();		
 		echo $buffer;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * End Output Buffer
+	 *
+	 * Checks if there is an empty buffer (or not) and ends using one of
+	 * the ob_end_<something>() functions.
+	 * 
+	 * @return	void
+	 */
+	protected function _end_output_buffer()
+	{
+		// We need to check if there is anything to discard when ending the
+		// buffer or an E_NOTICE will trigger. If there is a non-empty buffer
+		// then end buffer and discard contents with ob_end_clean() else if
+		// there is an empty buffer, still we need to turn off the buffer but
+		// using ob_end_flush() will not trigger an E_NOTICE if empty
+		if (ob_get_length() > 0)
+		{
+			ob_end_clean();
+		}
+		else
+		{
+			ob_end_flush();
+		}		
 	}
 
 }
