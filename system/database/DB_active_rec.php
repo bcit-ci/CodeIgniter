@@ -337,11 +337,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		}
 
 		// Assemble the JOIN statement: only use ON if a condition was passed
-		$join = $type.'JOIN '.$this->_protect_identifiers($table, TRUE, NULL, FALSE);
-    if ($cond)
-    {
-      $join .= ' ON '.$cond;
-    }
+		$join = $type.'JOIN '.$this->_protect_identifiers($table, TRUE, NULL, FALSE).' ON '.$cond;
 
 		$this->ar_join[] = $join;
 		if ($this->ar_caching === TRUE)
