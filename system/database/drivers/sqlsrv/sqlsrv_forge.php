@@ -60,7 +60,14 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 	 */
 	function _drop_table($table)
 	{
-		return "DROP TABLE ".$this->db->_escape_identifiers($table);
+		$sql = '';
+                $sql = "IF (EXISTS (SELECT * 
+                                FROM INFORMATION_SCHEMA.TABLES 
+                                WHERE TABLE_SCHEMA = 'dbo' 
+                                AND  TABLE_NAME = '";
+                $sql .= $this->db->_escape_identifiers($table)."')) DROP TABLE [dbo].[";
+                $sql .= $this->db->_escape_identifiers($table).']';
+		return $sql;
 	}
 
 	// --------------------------------------------------------------------
