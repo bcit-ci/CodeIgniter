@@ -60,13 +60,10 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 	 */
 	function _drop_table($table)
 	{
-    $sql = "IF (EXISTS (SELECT * 
+    return = "IF (EXISTS (SELECT * 
             FROM INFORMATION_SCHEMA.TABLES 
             WHERE TABLE_SCHEMA = 'dbo' 
-            AND  TABLE_NAME = '";
-    $sql .= $this->db->_escape_identifiers($table)."')) DROP TABLE [dbo].[";
-    $sql .= $this->db->_escape_identifiers($table).']';
-		return $sql;
+            AND  TABLE_NAME = '".$table."')) DROP TABLE [dbo].[".$table."]";
 	}
 
 	// --------------------------------------------------------------------
@@ -84,14 +81,15 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 	 */
 	function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
-		$sql = 'CREATE TABLE ';
-
+    $sql = '';
 		if ($if_not_exists === TRUE)
 		{
-			$sql .= 'IF NOT EXISTS ';
+			$sql = "IF (NOT EXISTS (SELECT * 
+              FROM INFORMATION_SCHEMA.TABLES 
+              WHERE TABLE_SCHEMA = 'dbo' 
+              AND  TABLE_NAME = ";
 		}
-
-		$sql .= $this->db->_escape_identifiers($table)." (";
+		$sql .= $this->db->_escape_identifiers($table).")) CREATE TABLE ".$this->db->_escape_identifiers($table)." (";
 		$current_field_count = 0;
 
 		foreach ($fields as $field=>$attributes)
@@ -137,7 +135,7 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 
 				if (array_key_exists('AUTO_INCREMENT', $attributes) && $attributes['AUTO_INCREMENT'] === TRUE)
 				{
-					$sql .= ' AUTO_INCREMENT';
+					$sql .= ' IDENTITY(1,1)';
 				}
 			}
 
