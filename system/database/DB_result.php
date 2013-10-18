@@ -158,6 +158,39 @@ class CI_DB_result {
 
 	// --------------------------------------------------------------------
 
+         /**
+        * Fetches both assoc and numeric array data from the db (sqlsrv_fetch_array default)
+        *
+        * @access	public
+        * @return	array
+        */
+        public function result_array_both()
+        {
+                if (count($this->result_array) > 0)
+                {
+                        return $this->result_array;
+                }
+
+                // In the event that query caching is on the result_id variable
+                // will return FALSE since there isn't a valid SQL resource so
+                // we'll simply return an empty array.
+                if ($this->result_id === FALSE OR $this->num_rows() == 0)
+                {
+                        return array();
+                }
+
+                $this->_data_seek(0);
+                while ($row = $this->_fetch_both())
+                {
+                        $this->result_array[] = $row;
+                }
+
+                return $this->result_array;
+        }
+    
+        // --------------------------------------------------------------------
+         
+         
 	/**
 	 * Query result.  Acts as a wrapper function for the following functions.
 	 *
@@ -401,6 +434,7 @@ class CI_DB_result {
 	public function free_result() { return TRUE; }
 	protected function _data_seek() { return TRUE; }
 	protected function _fetch_assoc() { return array(); }
+        protected function _fetch_both() { return array(); }
 	protected function _fetch_object() { return array(); }
 
 }

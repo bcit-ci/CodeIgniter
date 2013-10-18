@@ -156,6 +156,29 @@ class CI_DB_odbc_result extends CI_DB_result {
 
 	// --------------------------------------------------------------------
 
+        /**
+        * Result - associative array and numeric array
+        * 
+        * Returns the result set as an array of assoc and numeric data
+        * No default support to fecth both, so return the assoc array instead
+        *
+        * @access	private
+        * @return	array
+        */
+        function _fetch_both()
+        {
+                if (function_exists('odbc_fetch_array'))
+		{
+			return odbc_fetch_array($this->result_id);
+		}
+		else
+		{
+			return $this->_odbc_fetch_array($this->result_id);
+		}
+        } 
+        
+        // --------------------------------------------------------------------
+        
 	/**
 	 * Result - object
 	 *

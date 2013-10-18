@@ -149,6 +149,21 @@ class CI_DB_postgre_result extends CI_DB_result {
 
 	// --------------------------------------------------------------------
 
+        /**
+        * Result - associative array and numeric array
+        *
+        * Returns the result set as an array of assoc and numeric data
+        *
+        * @access	private
+        * @return	array
+        */
+        function _fetch_both()
+        {
+                return pg_fetch_array($this->result_id, NULL, PGSQL_BOTH);
+        } 
+   
+        // --------------------------------------------------------------------
+        
 	/**
 	 * Result - object
 	 *

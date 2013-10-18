@@ -155,6 +155,22 @@ class CI_DB_oci8_result extends CI_DB_result {
 
 	// --------------------------------------------------------------------
 
+        /**
+        * Result - associative array and numeric array
+        *
+        * Returns the result set as an array of assoc and numeric data
+        *
+        * @access	private
+        * @return	array
+        */
+        function _fetch_both()
+        {
+                $id = ($this->curs_id) ? $this->curs_id : $this->stmt_id;
+                return oci_fetch_array($id, OCI_BOTH);
+        } 
+        
+        // --------------------------------------------------------------------
+        
 	/**
 	 * Result - object
 	 *
