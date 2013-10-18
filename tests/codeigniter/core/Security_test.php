@@ -87,10 +87,10 @@ class Security_test extends CI_TestCase {
 
 	public function test_entity_decode()
 	{
-		$encoded = '&lt;div&gt;Hello &lt;b&gt;Booya&lt;/b&gt;&lt;/div&gt;';
+		$encoded = '&lt;div&gt;Hello &lt;b&gt;Booya&lt;/b&gt;&lt;/div&gt;&#33';
 		$decoded = $this->security->entity_decode($encoded);
 
-		$this->assertEquals('<div>Hello <b>Booya</b></div>', $decoded);
+		$this->assertEquals('<div>Hello <b>Booya</b></div>!', $decoded);
 	}
 
 	// --------------------------------------------------------------------
