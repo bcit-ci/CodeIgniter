@@ -536,7 +536,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	function _truncate($table)
 	{
-		return "TRUNCATE ".$table;
+		return "TRUNCATE TABLE ".$table;
 	}
 
 	// --------------------------------------------------------------------
@@ -571,11 +571,73 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * @return	string
 	 */
 	function _limit($sql, $limit, $offset)
-	{
-		$i = $limit + $offset;
-	
-		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$i.' ', $sql);		
-	}
+        {           
+            if($offset === FALSE || $offset == 0) 
+            {
+             // Do simple limit if no offset
+             $i = $limit + $offset;
+             return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$i.' ', $sql);
+            }
+            else
+            {
+             // As of SQL Server 2012 (11.0.*) OFFSET is supported
+             if (version_compare($this->version(), '11', '>='))
+             {
+                    return $sql.' OFFSET '.(int) $offset.' ROWS FETCH NEXT '.$limit.' ROWS ONLY';
+             }
+                   
+             if(!$this->ar_orderby)
+             {
+              // We do not have an orderBy column set and do not have the tableName
+              // here, so grab the table name from the $sql statement by regex and 
+              // then grab the first column of the tableName in the $sql statement
+              // from the schema and let that be the orderBy column. Phew.
+              $match_pattern = '/(.*FROM )/s';
+              $match_replacement = '';
+              $table = preg_replace($match_pattern, $match_replacement, $sql);
+              $orderBy  = "ORDER BY (SELECT [COLUMN_NAME] FROM [information_schema].[columns] WHERE [TABLE_NAME] = '".$table."' AND [ORDINAL_POSITION] = 1)";
+             }
+             else
+             {
+              $orderBy  = "ORDER BY ";
+              $orderBy .= implode(', ', $this->ar_orderby);
+             }
+             
+             if ($this->ar_join && !$this->ar_select) {
+                 //get all table names
+                 preg_match_all('/(from|into|update|table|join) (`?\w+`?)\s/i', $sql, $matches);
+                 $ci = & get_instance();
+                 $allfields = array();
+                 $sel_string = array();
+                 foreach ($matches[2] as $tablename) {
+                     $columnnames = $ci->db->list_fields($tablename);
+                     foreach ($columnnames as $columnname) {
+                         if (! isset($allfields[$columnname])) {
+                             $allfields[$columnname] = $columnname;
+                             $sel_string[] = $tablename . '.' . $columnname;
+                         }
+                     }
+                 }
+                 $unique_string = implode(',', $sel_string);
+                 $sql = str_replace('*', $unique_string, $sql);
+             }
+             
+             
+             if ($this->ar_order !== FALSE)
+             {
+              $orderBy .= ($this->ar_order == 'desc') ? ' DESC' : ' ASC';
+             }
+             //$sql = preg_replace('/(\\'. $orderBy .'\n?)/i','', $sql);
+             $sql = str_replace($orderBy,'', $sql);
+             $sql = preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 row_number() OVER ('.$orderBy.') AS CI_offset_row_number, ', $sql);
+                         
+             $columns = '*';
+             
+             $newSQL = "SELECT " . $columns . " \nFROM (\n" . $sql . ") AS A \nWHERE A.CI_offset_row_number BETWEEN (" .($offset + 1) . ") AND (".($offset + $limit).")";
+             return $newSQL;
+            }
+
+        }
 
 	// --------------------------------------------------------------------
 

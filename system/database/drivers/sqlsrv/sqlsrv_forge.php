@@ -60,7 +60,14 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 	 */
 	function _drop_table($table)
 	{
-		return "DROP TABLE ".$this->db->_escape_identifiers($table);
+		$sql = '';
+                $sql = "IF (EXISTS (SELECT * 
+                                FROM INFORMATION_SCHEMA.TABLES 
+                                WHERE TABLE_SCHEMA = 'dbo' 
+                                AND  TABLE_NAME = '";
+                $sql .= $this->db->_escape_identifiers($table)."')) DROP TABLE [dbo].[";
+                $sql .= $this->db->_escape_identifiers($table).']';
+		return $sql;
 	}
 
 	// --------------------------------------------------------------------
@@ -78,14 +85,18 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 	 */
 	function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
-		$sql = 'CREATE TABLE ';
-
+		$sql = '';
 		if ($if_not_exists === TRUE)
 		{
-			$sql .= 'IF NOT EXISTS ';
+			//$sql .= 'IF NOT EXISTS ';
+                        $sql = "IF (NOT EXISTS (SELECT * 
+                                FROM INFORMATION_SCHEMA.TABLES 
+                                WHERE TABLE_SCHEMA = 'dbo' 
+                                AND  TABLE_NAME = '";
 		}
 
-		$sql .= $this->db->_escape_identifiers($table)." (";
+		$sql .= $this->db->_escape_identifiers($table)."')) CREATE TABLE ";
+                $sql .= $this->db->_escape_identifiers($table).' (';
 		$current_field_count = 0;
 
 		foreach ($fields as $field=>$attributes)
@@ -131,7 +142,7 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 
 				if (array_key_exists('AUTO_INCREMENT', $attributes) && $attributes['AUTO_INCREMENT'] === TRUE)
 				{
-					$sql .= ' AUTO_INCREMENT';
+					$sql .= ' IDENTITY(1,1)';
 				}
 			}
 
@@ -237,8 +248,8 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 	 */
 	function _rename_table($table_name, $new_table_name)
 	{
-		// I think this syntax will work, but can find little documentation on renaming tables in MSSQL
-		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table_name)." RENAME TO ".$this->db->_protect_identifiers($new_table_name);
+		// RENAME TO doesn't work with sql server, use sp_rename instead...
+		$sql = 'EXEC sp_rename '.$this->db->_protect_identifiers($table_name).", ".$this->db->_protect_identifiers($new_table_name);
 		return $sql;
 	}
 

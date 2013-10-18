@@ -140,11 +140,26 @@ class CI_DB_sqlite_result extends CI_DB_result {
 	 */
 	function _fetch_assoc()
 	{
-		return sqlite_fetch_array($this->result_id);
+		return sqlite_fetch_array($this->result_id, SQLITE_ASSOC);
 	}
 
 	// --------------------------------------------------------------------
 
+        /**
+        * Result - associative array and numeric array
+        *
+        * Returns the result set as an array of assoc and numeric data
+        *
+        * @access	private
+        * @return	array
+        */
+        function _fetch_both()
+        {
+                return sqlite_fetch_array($this->result_id, SQLITE_BOTH);
+        } 
+   
+        // --------------------------------------------------------------------
+        
 	/**
 	 * Result - object
 	 *

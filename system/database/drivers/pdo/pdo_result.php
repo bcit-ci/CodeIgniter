@@ -163,6 +163,21 @@ class CI_DB_pdo_result extends CI_DB_result {
 
 	// --------------------------------------------------------------------
 
+        /**
+        * Result - associative array and numeric array
+        *
+        * Returns the result set as an array of assoc and numeric data
+        *
+        * @access	private
+        * @return	array
+        */
+        function _fetch_both()
+        {
+                return $this->result_id->fetch(PDO::FETCH_BOTH);
+        } 
+   
+        // --------------------------------------------------------------------
+        
 	/**
 	 * Result - object
 	 *
