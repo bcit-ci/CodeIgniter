@@ -536,7 +536,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	function _truncate($table)
 	{
-		return "TRUNCATE ".$table;
+		return "TRUNCATE TABLE ".$table;
 	}
 
 	// --------------------------------------------------------------------
