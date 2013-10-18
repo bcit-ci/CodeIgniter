@@ -241,12 +241,10 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 	 */
 	function _rename_table($table_name, $new_table_name)
 	{
-		// I think this syntax will work, but can find little documentation on renaming tables in MSSQL
-		$sql = 'ALTER TABLE '.$this->db->_protect_identifiers($table_name)." RENAME TO ".$this->db->_protect_identifiers($new_table_name);
-		return $sql;
+		return 'EXEC sp_rename '.$this->db->_protect_identifiers($table_name).", ".$this->db->_protect_identifiers($new_table_name);
 	}
 
 }
 
-/* End of file mssql_forge.php */
-/* Location: ./system/database/drivers/mssql/mssql_forge.php */
+/* End of file sqlsrv_forge.php */
+/* Location: ./system/database/drivers/sqlsrv/sqlsrv_forge.php */
