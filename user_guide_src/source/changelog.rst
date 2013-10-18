@@ -618,6 +618,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#2609) - :php:func:`get_config()` optional argument was only effective on first function call. Also, it can now add items, in addition to updating existing items.
 -  Fixed a bug in the 'postgre' :doc:`database <database/index>` driver where the connection ID wasn't passed to ``pg_escape_string()``.
 -  Fixed a bug (#33) - Script execution was terminated when an invalid cookie key was encountered.
+-  Fixed a bug (#2681) - `CI_Security::entity_decode()` used the `PREG_REPLACE_EVAL` flag, which is deprecated since PHP 5.5.
 
 Version 2.1.4
 =============
