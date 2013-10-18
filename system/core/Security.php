@@ -554,8 +554,8 @@ class CI_Security {
 			$matches = $matches1 = 0;
 
 			$str = html_entity_decode($str, ENT_COMPAT, $charset);
-			$str = preg_replace_callback('~&#x(0*[0-9a-f]{2,5})~i', create_function('$m', 'return chr(hexdec($m[0]));'), $str, -1, $matches);
-			$str = preg_replace_callback('~&#([0-9]{2,4})~', create_function('$m', 'return chr($m[0]);'), $str, -1, $matches1);
+			$str = preg_replace_callback('~&#x(0*[0-9a-f]{2,5})~i', create_function('$m', 'return chr(hexdec($m[1]));'), $str, -1, $matches);
+			$str = preg_replace_callback('~&#([0-9]{2,4})~', create_function('$m', 'return chr($m[1]);'), $str, -1, $matches1);
 		}
 		while ($matches OR $matches1);
 
