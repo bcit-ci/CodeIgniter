@@ -553,8 +553,8 @@ class CI_Security {
 		{
 			$matches = $matches1 = 0;
 
-			$str = preg_replace('~(&#x0*[0-9a-f]{2,5});?~iS', $str, -1, $matches);
-			$str = preg_replace('~(&#\d{2,4});?~S', $str, -1, $matches1);
+			$str = preg_replace('~(&#x0*[0-9a-f]{2,5});?~iS', '$1;', $str, -1, $matches);
+			$str = preg_replace('~(&#\d{2,4});?~S', '$1;', $str, -1, $matches1);
 			$str = html_entity_decode($str, ENT_COMPAT, $charset);
 		}
 		while ($matches OR $matches1);
