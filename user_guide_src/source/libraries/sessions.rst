@@ -21,11 +21,12 @@ initializing the class will cause it to read, create, and update
 sessions.
 
 To initialize the Session class manually in your controller constructor,
-use the $this->load->driver function::
+use the ``$this->load->driver`` function::
 
 	$this->load->driver('session');
 
-Once loaded, the Sessions library object will be available using:
+Once loaded, the Sessions library object will be available using::
+
 $this->session
 
 How do Sessions work?
@@ -62,10 +63,10 @@ prototype::
 
 	[array]
 	(
-	     'session_id'    => random hash,
-	     'ip_address'    => 'string - user IP address',
-	     'user_agent'    => 'string - user agent data',
-	     'last_activity' => timestamp
+		'session_id'    => random hash,
+		'ip_address'    => 'string - user IP address',
+		'user_agent'    => 'string - user agent data',
+		'last_activity' => timestamp
 	)
 
 .. note:: Sessions are only updated every five minutes by default to
@@ -112,21 +113,21 @@ Where $array is an associative array containing your new data. Here's an
 example::
 
 	$newdata = array(
-	                   'username'  => 'johndoe',
-	                   'email'     => 'johndoe@some-site.com',
-	                   'logged_in' => TRUE
-	               );
+		'username'  => 'johndoe',
+		'email'     => 'johndoe@some-site.com',
+		'logged_in' => TRUE
+	);
 
 	$this->session->set_userdata($newdata);
 
-If you want to add userdata one value at a time, set_userdata() also
+If you want to add userdata one value at a time, ``set_userdata()`` also
 supports this syntax.
 
 ::
 
 	$this->session->set_userdata('some_name', 'some_value');
 
-If you want to verify that a userdata value exists, call has_userdata().
+If you want to verify that a userdata value exists, call ``has_userdata()``.
 
 ::
 
@@ -143,10 +144,10 @@ And returns an associative array like the following::
 
 	Array
 	(
-	    [session_id] => 4a5a5dca22728fb0a84364eeb405b601
-	    [ip_address] => 127.0.0.1
-	    [user_agent] => Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7;
-	    [last_activity] => 1303142623
+		[session_id] => 4a5a5dca22728fb0a84364eeb405b601
+		[ip_address] => 127.0.0.1
+		[user_agent] => Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7;
+		[last_activity] => 1303142623
 	)
 
 Removing Session Data
@@ -185,8 +186,8 @@ To add flashdata::
 	$this->session->set_flashdata('item', 'value');
 
 
-You can also pass an array to set_flashdata(), in the same manner as
-set_userdata().
+You can also pass an array to ``set_flashdata()``, in the same manner as
+``set_userdata()``.
 
 To read a flashdata variable::
 
@@ -198,13 +199,15 @@ An array of all flashdata can be retrieved as follows::
 
 
 If you find that you need to preserve a flashdata variable through an
-additional request, you can do so using the keep_flashdata() function.
+additional request, you can do so using the ``keep_flashdata()`` function.
 You can either pass a single item or an array of flashdata items to keep.
 
 ::
 
 	$this->session->keep_flashdata('item');
 	$this->session->keep_flashdata(array('item1', 'item2', 'item3'));
+
+.. note:: The function will return NULL if the item cannot be found.
 
 Tempdata
 ========
@@ -219,7 +222,7 @@ To add tempdata::
 
 	$this->session->set_tempdata('item', 'value', $expire);
 
-You can also pass an array to set_tempdata()::
+You can also pass an array to ``set_tempdata()``::
 
 	$tempdata = array('newuser' => TRUE, 'message' => 'Thanks for joining!');
 
@@ -233,7 +236,7 @@ To read a tempdata variable::
 	$this->session->tempdata('item');
 
 If you need to remove a tempdata value before it expires,
-use unset_tempdata()::
+use ``unset_tempdata()``::
 
 	$this->session->unset_tempdata('item');
 
@@ -246,7 +249,7 @@ To clear the current session::
 
 .. note:: This function should be the last one called, and even flash
 	variables will no longer be available. If you only want some items
-	destroyed and not all, use unset_userdata().
+	destroyed and not all, use ``unset_userdata()``.
 
 Session Preferences
 ===================
@@ -303,7 +306,7 @@ installed, and `Custom Drivers`_ may also be installed by the user.
 Typically, only one driver will be used at a time, but CodeIgniter does
 support loading multiple drivers. If a specific valid driver is called, it
 will be automatically loaded. Or, an additional driver may be explicitly
-loaded by calling load_driver()::
+loaded by ``calling load_driver()``::
 
 	$this->session->load_driver('native');
 
@@ -328,7 +331,7 @@ the call to unset the *native* 'foo' value. The drivers maintain independent
 sets of values, regardless of key names.
 
 A specific driver may also be explicitly selected for use by pursuant
-methods with the select_driver() call::
+methods with the ``select_driver()`` call::
 
 	$this->session->select_driver('native');
 
@@ -422,7 +425,7 @@ You may also :doc:`create your own <../general/creating_drivers>` custom
 session drivers. A session driver basically manages an array of name/value
 pairs with some sort of storage mechanism.
 
-To make a new driver, extend CI_Session_driver. Overload the initialize()
+To make a new driver, extend CI_Session_driver. Overload the ``initialize()``
 method and read or create session data. Then implement a save handler to
 write changed data to storage (sess_save), a destroy handler to remove
 deleted data (sess_destroy), a regenerate handler to make a new session ID
@@ -456,13 +459,13 @@ Your initial class might look like::
 		}
 	}
 
-Notice that get_userdata() returns a reference so the parent library is
+Notice that ``get_userdata()`` returns a reference so the parent library is
 accessing the same array the driver object is using. This saves memory
 and avoids synchronization issues during usage.
 
 Put your driver in the libraries/Session/drivers folder anywhere in your
 package paths. This includes the application directory, the system directory,
-or any path you add with $CI->load->add_package_path(). Your driver must be
+or any path you add with ``$CI->load->add_package_path()``. Your driver must be
 named CI_Session_<name>, and your filename must be Session_<name>.php,
 preferably also capitalized, such as::
 
@@ -483,3 +486,165 @@ without making it the initially loaded driver, set 'sess_valid_drivers' in
 your config.php file to an array including your driver name::
 
 	$config['sess_valid_drivers'] = array('sess_driver');
+
+
+
+***************
+Class Reference
+***************
+
+.. class:: CI_Session
+
+	.. method:: load_driver($driver)
+
+		:param string $driver: Driver name
+		:returns: object Loaded driver object
+
+		Loads a session storage driver
+
+	.. method:: select_driver($driver)
+
+		:param string $driver: Driver name
+		:returns: void
+
+		Selects default session storage driver.
+
+	.. method:: sess_destroy()
+
+		Destroys current session
+		.. note:: This function should be the last one called, and even flash variables will no longer be available.
+		 If you only want some items destroyed and not all, use ``unset_userdata()``.
+
+	.. method:: sess_regenerate($destroy)
+
+		:param bool $destroy: Destroy session data flag (default: false)
+		:returns: void
+
+		Regenerate the current session data
+
+	.. method:: userdata($item)
+
+		:param string $item: name of session item
+		:returns: string
+
+		Returns a string containing the value of the passed item or NULL if the item is not found. Example::
+
+			$this->session->userdata('user');
+			//returns example@example.com considering the set_userdata example.
+
+	.. method:: all_userdata()
+
+		:returns: array
+
+		Retruns array of userdata session items
+
+	.. method:: all_flashdata()
+
+		:returns: array
+
+		Retruns array of flashdata session items
+
+	.. method:: set_userdata($newdata = array(), $newval)
+
+		:param mixed $newdata: Item name or array of items
+		:param mixed $newval: Item value or empty string (not required if $newdata is array)
+		:returns: void
+
+		Sets items into session example usages::
+
+			$this->session->set_userdata('user', 'example@example.com');
+			// adds item user with value example@example.com to the session
+
+			$this->session->set_userdata(array('user'=>'example@example.com'));
+			// does the same as the above example - adds item user with value example@example.com to the session
+
+	.. method:: unset_userdata($item)
+
+		:param mixed $item: name of item or array of items
+		:returns: void
+
+		Unsets previously setted items from the session. Example::
+
+			$this->session->unset_userdata('user');
+			//unsets 'user' from session data.
+
+			$this->session->unset_userdata(array('user', 'useremail'));
+			//unsets both 'user' and 'useremail' from the session data.
+
+	.. method:: has_userdata($item)
+
+		:param string $item: name of item
+		:returns: bool
+
+		Checks if an item exists in the session.
+
+	.. method:: set_flashdata($newdata = array(), $newval)
+
+		:param mixed $newdata: Item name or array of items
+		:param mixed $newval: Item value or empty string (not required if $newdata is array)
+		:returns: void
+
+		Sets items into session flashdata example usages::
+
+			$this->session->set_flashdata('message', 'Test message.');
+			// adds item 'message' with value 'Test message.' to the session flashdata
+
+			$this->session->set_flashdata(array('message'=>'Test message.'));
+			// does the same as the above example - adds item 'message' with value 'Test message.'
+			 to the session flashdata
+
+	.. method:: keep_flashdata($item)
+
+		:param mixed $item: name of item or array of flashdata items
+		:returns: void
+
+		Keeps items into flashdata for one more request
+
+	.. method:: flashdata($item)
+
+		:param string $item: name of session item
+		:returns: string
+
+		Returns a string containing the value of the passed item or NULL if the item is not found. Example::
+
+			$this->session->flashdata('message');
+			//returns 'Test message.' considering the set_flashdata example.
+
+	.. method:: set_tempdata($newdata = array(), $newval, $expires)
+
+		:param mixed $newdata: Item name or array of items
+		:param string $newval: Item value or empty string (not required if $newdata is array)
+		:param int $expires: lifetime in seconds (0 for default)
+		:returns: void
+
+		Sets items into session tempdata example::
+
+			$this->session->set_tempdata('message', 'Test message.', '60');
+			// adds item 'message' with value 'Test message.' to the session tempdata for 60 seconds
+
+			$this->session->set_tempdata(array('message'=>'Test message.'));
+			// does the same as the above example - adds item 'message' with value 'Test message.' 
+			to the session tempdata for the default value of
+
+	.. method:: unset_tempdata($item)
+
+		:param mixed $item: name of item or array of items
+		:returns: void
+
+		Unsets previously setted items from the tempdata. Example::
+
+			$this->session->unset_tempdata('user');
+			//unsets 'user' from tempdata.
+
+			$this->session->unset_tempdata(array('user', 'useremail'));
+			//unsets both 'user' and 'useremail' from the tempdata.
+
+	.. method:: tempdata($item)
+
+		:param string $item: name of tempdata item
+		:returns: string
+
+		Returns a string containing the value of the passed item or NULL if the item is not found. Example::
+
+			$this->session->tempdata('message');
+			//returns 'Test message.' considering the set_tempdata example.
