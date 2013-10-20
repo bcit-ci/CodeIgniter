@@ -495,8 +495,54 @@ Class Reference
 
 .. class:: CI_Session
 
-Userdata
---------
+	.. method:: load_driver($driver)
+
+		:param string $driver: Driver name
+		:returns: object Loaded driver object
+
+		Loads a session storage driver
+
+	.. method:: select_driver($driver)
+
+		:param string $driver: Driver name
+		:returns: void
+
+		Selects default session storage driver.
+
+	.. method:: sess_destroy()
+
+		Destroys current session
+		.. note:: This function should be the last one called, and even flash variables will no longer be available.
+		 If you only want some items destroyed and not all, use ``unset_userdata()``.
+
+	.. method:: sess_regenerate($destroy)
+
+		:param bool $destroy: Destroy session data flag (default: false)
+		:returns: void
+
+		Regenerate the current session data
+
+	.. method:: userdata($item)
+
+		:param string $item: name of session item
+		:returns: string
+
+		Returns a string containing the value of the passed item or NULL if the item is not found. Example::
+
+			$this->session->userdata('user');
+			//returns example@example.com considering the set_userdata example.
+
+	.. method:: all_userdata()
+
+		:returns: array
+
+		Retruns array of userdata session items
+
+	.. method:: all_flashdata()
+
+		:returns: array
+
+		Retruns array of flashdata session items
 
 	.. method:: set_userdata($newdata = array(), $newval)
 
@@ -512,16 +558,6 @@ Userdata
 			$this->session->set_userdata(array('user'=>'example@example.com'));
 			// does the same as the above example - adds item user with value example@example.com to the session
 
-	.. method:: userdata($item)
-
-		:param string $item: name of session item
-		:returns: string
-
-		Returns a string containing the value of the passed item or NULL if the item is not found. Example::
-
-			$this->session->userdata('user');
-			//returns example@example.com considering the set_userdata example.
-
 	.. method:: unset_userdata($item)
 
 		:param mixed $item: name of item or array of items
@@ -533,7 +569,7 @@ Userdata
 			//unsets 'user' from session data.
 
 			$this->session->unset_userdata(array('user', 'useremail'));
-			//unsets both 'user' nad 'useremail' from the session data.
+			//unsets both 'user' and 'useremail' from the session data.
 
 	.. method:: has_userdata($item)
 
@@ -541,18 +577,6 @@ Userdata
 		:returns: bool
 
 		Checks if an item exists in the session.
-
-	.. method:: all_userdata()
-
-		:returns: array
-
-		Retruns array of userdata session items
-
-
-
-Flashdata
----------
-.. note:: the flashdata items are available only one server request
 
 	.. method:: set_flashdata($newdata = array(), $newval)
 
@@ -569,6 +593,13 @@ Flashdata
 			// does the same as the above example - adds item 'message' with value 'Test message.'
 			 to the session flashdata
 
+	.. method:: keep_flashdata($item)
+
+		:param mixed $item: name of item or array of flashdata items
+		:returns: void
+
+		Keeps items into flashdata for one more request
+
 	.. method:: flashdata($item)
 
 		:param string $item: name of session item
@@ -578,30 +609,6 @@ Flashdata
 
 			$this->session->flashdata('message');
 			//returns 'Test message.' considering the set_flashdata example.
-
-	.. method:: has_flashdata($item)
-
-		:param string $item: name of item
-		:returns: bool
-
-		Checks if an item exists in the session flashdata.
-
-	.. method:: all_flashdata()
-
-		:returns: array
-
-		Retruns array of flashdata session items
-
-	.. method:: keep_flashdata($item)
-
-		:param mixed $item: name of item or array of flashdata items
-		:returns: void
-
-		Keeps items into flashdata for one more request
-
-
-Tempdata
---------
 
 	.. method:: set_tempdata($newdata = array(), $newval, $expires)
 
@@ -619,16 +626,6 @@ Tempdata
 			// does the same as the above example - adds item 'message' with value 'Test message.' 
 			to the session tempdata for the default value of
 
-	.. method:: tempdata($item)
-
-		:param string $item: name of tempdata item
-		:returns: string
-
-		Returns a string containing the value of the passed item or NULL if the item is not found. Example::
-
-			$this->session->tempdata('message');
-			//returns 'Test message.' considering the set_tempdata example.
-
 	.. method:: unset_tempdata($item)
 
 		:param mixed $item: name of item or array of items
@@ -640,34 +637,14 @@ Tempdata
 			//unsets 'user' from tempdata.
 
 			$this->session->unset_tempdata(array('user', 'useremail'));
-			//unsets both 'user' nad 'useremail' from the tempdata.
+			//unsets both 'user' and 'useremail' from the tempdata.
 
-Session
--------
+	.. method:: tempdata($item)
 
-	.. method:: sess_destroy()
+		:param string $item: name of tempdata item
+		:returns: string
 
-		Destroys current session
-		.. note:: This function should be the last one called, and even flash variables will no longer be available.
-		 If you only want some items destroyed and not all, use ``unset_userdata()``.
+		Returns a string containing the value of the passed item or NULL if the item is not found. Example::
 
-	.. method:: sess_regenerate($destroy)
-
-		:param bool $destroy: Destroy session data flag (default: false)
-		:returns: void
-
-		Regenerate the current session data
-
-	.. method:: load_driver($driver)
-
-		:param string $driver: Driver name
-		:returns: object Loaded driver object
-
-		Loads a session storage driver
-
-	.. method:: select_driver($driver)
-
-		:param string $driver: Driver name
-		:returns: void
-
-		Selects default session storage driver.
+			$this->session->tempdata('message');
+			//returns 'Test message.' considering the set_tempdata example.
