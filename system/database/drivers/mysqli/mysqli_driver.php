@@ -47,6 +47,14 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 * @var	string
 	 */
 	public $dbdriver = 'mysqli';
+	
+	
+	/**
+	 * Connection link 
+	 * 
+	 * 
+	 * /
+	 public $connection = NULL;
 
 	/**
 	 * Compression flag
@@ -93,8 +101,10 @@ class CI_DB_mysqli_driver extends CI_DB {
 		$client_flags = ($this->compress === TRUE) ? MYSQLI_CLIENT_COMPRESS : 0;
 		$mysqli = mysqli_init();
 
-		return @$mysqli->real_connect($hostname, $this->username, $this->password, $this->database, $port, NULL, $client_flags)
+		$this->connection = @$mysqli->real_connect($hostname, $this->username, $this->password, $this->database, $port, NULL, $client_flags)
 			? $mysqli : FALSE;
+			
+		return $this->connection;
 	}
 
 	// --------------------------------------------------------------------
