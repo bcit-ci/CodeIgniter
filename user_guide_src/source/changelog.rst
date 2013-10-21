@@ -274,6 +274,7 @@ Release Date: Not Released
       -  Added the **min_width** and **min_height** options for images.
       -  Removed method ``clean_file_name()`` and its usage in favor of :doc:`Security Library <libraries/security>`'s ``sanitize_filename()``.
       -  Added **file_ext_tolower** config setting.
+      -  Added **mod_mime_fix** option to disable suffixing multiple file extensions with an underscore.
 
    -  :doc:`Cart library <libraries/cart>` changes include:
 

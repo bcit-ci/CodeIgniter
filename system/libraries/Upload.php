@@ -234,6 +234,13 @@ class CI_Upload {
 	public $xss_clean		= FALSE;
 
 	/**
+	 * Apache mod_mime fix flag
+	 *
+	 * @var	bool
+	 */
+	public $mod_mime_fix		= TRUE;
+
+	/**
 	 * Temporary filename prefix
 	 *
 	 * @var	string
@@ -314,6 +321,7 @@ class CI_Upload {
 					'remove_spaces'			=> TRUE,
 					'detect_mime'			=> TRUE,
 					'xss_clean'			=> FALSE,
+					'mod_mime_fix'			=> TRUE,
 					'temp_prefix'			=> 'temp_file_',
 					'client_name'			=> ''
 				);
@@ -1148,7 +1156,7 @@ class CI_Upload {
 	 */
 	protected function _prep_filename($filename)
 	{
-		if (strpos($filename, '.') === FALSE OR $this->allowed_types === '*')
+		if ($this->mod_mime_fix === FALSE OR $this->allowed_types === '*' OR strpos($filename, '.') === FALSE)
 		{
 			return $filename;
 		}
