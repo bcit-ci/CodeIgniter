@@ -26,7 +26,7 @@ create_captcha()
 	:param	string	$img_path: Path to create the image in
 	:param	string	$img_url: URL to the CAPTCHA image folder
 	:param	string	$font_path: Server path to font
-	:returns:	array('word' => $word, 'time' => $now, 'image' => $img)
+	:returns:	array
 
 Takes an array of information to generate the CAPTCHA as input and
 creates the image to your specifications, returning an array of
@@ -35,9 +35,10 @@ associative data about the image.
 ::
 
 	array(
-		'image'	=> IMAGE TAG
-		'time'	=> TIMESTAMP (in microtime)
-		'word'	=> CAPTCHA WORD
+		'word'     => CAPTCHA WORD,
+		'time'     => TIMESTAMP (in microtime),
+		'image'    => IMAGE TAG,
+		'filename' => IMAGE FILE NAME
 	)
 
 The **image** is the actual image tag::
