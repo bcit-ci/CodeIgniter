@@ -48,12 +48,11 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	public $dbdriver = 'mysqli';
 	
-	
 	/**
 	 * Connection link 
-	 * 
-	 * 
-	 * /
+	 *
+	 * @var	string
+	 */
 	 public $connection = NULL;
 
 	/**
