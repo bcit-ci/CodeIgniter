@@ -624,7 +624,14 @@ abstract class CI_DB_driver {
 				// if transactions are enabled. If we don't call this here
 				// the error message will trigger an exit, causing the
 				// transactions to remain in limbo.
-				$this->_trans_depth > 0 && $this->trans_complete();
+				if ($this->_trans_depth !== 0)
+				{
+					do
+					{
+						$this->trans_complete();
+					}
+					while ($this->_trans_depth !== 0);
+				}
 
 				// Display errors
 				return $this->display_error(array('Error Number: '.$error['code'], $error['message'], $sql));
