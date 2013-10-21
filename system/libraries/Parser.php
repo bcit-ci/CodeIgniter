@@ -130,9 +130,17 @@ class CI_Parser {
 
 		foreach ($data as $key => $val)
 		{
-			$template = is_array($val)
-					? $this->_parse_pair($key, $val, $template)
-					: $template = $this->_parse_single($key, (string) $val, $template);
+			if (is_object($val))
+			{
+				$template = $this->_parse_object($key, $val, $template);
+			}else if (is_array($val))
+			{
+				$template = $this->_parse_pair($key, $val, $template);
+			}
+			else
+			{
+				$template = $this->_parse_single($key, (string)$val, $template);
+			}
 		}
 
 		if ($return === FALSE)
@@ -208,6 +216,41 @@ class CI_Parser {
 
 		return str_replace($match[0], $str, $string);
 	}
+
+	/**
+	*  Parse an Object-Method-Call
+	*
+	* Sample:  {object:method}
+	*
+	* @access  private
+	* @param   string
+	* @param   object
+	* @param   string
+	* @return  string
+	*/
+	function _parse_object($key, $val, $template)
+	{
+		preg_match_all("|" . preg_quote($this->l_delim) . $key . ":" . "(.+?)" . preg_quote($this->r_delim) . "|", $template, $match);
+	
+		$i = -1;
+		while( ++$i < count($match[0]) )
+		{
+		    $key    = $match[0][$i];
+		    $source = $match[1][$i];
+		
+		    if( method_exists($val, $source) )
+		    {
+		        $template = str_replace($key, $val->$source(), $template);
+		    }
+		    else if( property_exists($val, $source) )
+		    {
+		        $template = str_replace($key, $val->$source, $template);
+		    }
+		}
+		
+		return $template;
+	}
+
 
 	// --------------------------------------------------------------------
 
