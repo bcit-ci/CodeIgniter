@@ -549,14 +549,27 @@ if ( ! function_exists('_exception_handler'))
 	 * to display errors based on the current error_reporting level.
 	 * We do that with the use of a PHP error template.
 	 *
-	 * @param	int
-	 * @param	string
-	 * @param	string
-	 * @param	int
+	 * @param	int	$severity
+	 * @param	string	$message
+	 * @param	string	$filepath
+	 * @param	int	$line
 	 * @return	void
 	 */
 	function _exception_handler($severity, $message, $filepath, $line)
 	{
+		$is_error = (((E_ERROR | E_COMPILE_ERROR | E_CORE_ERROR | E_USER_ERROR) & $severity) === $severity);
+
+		// When an error occurred, set the status header to '500 Internal Server Error'
+		// to indicate to the client something went wrong.
+		// This can't be done within the $_error->show_php_error method because
+		// it is only called when the display_errors flag is set (which isn't usually
+		// the case in a production environment) or when errors are ignored because
+		// they are above the error_reporting threshold.
+		if ($is_error)
+		{
+			set_status_header(500);
+		}
+
 		$_error =& load_class('Exceptions', 'core');
 
 		// Should we ignore the error? We'll get the current error_reporting
@@ -573,6 +586,14 @@ if ( ! function_exists('_exception_handler'))
 		}
 
 		$_error->log_exception($severity, $message, $filepath, $line);
+
+		// If the error is fatal, the execution of the script should be stopped because
+		// errors can't be recovered from. Halting the script conforms with PHP's
+		// default error handling. See http://www.php.net/manual/en/errorfunc.constants.php
+		if ($is_error)
+		{
+			exit(EXIT_ERROR);
+		}
 	}
 }
 
