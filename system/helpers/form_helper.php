@@ -316,7 +316,7 @@ if ( ! function_exists('form_dropdown'))
 		{
 			isset($name['options']) OR $name['options'] = array();
 			isset($name['selected']) OR $name['selected'] = array();
-			isset($name['extra']) OR $name['extra'] = array();
+			isset($name['extra']) OR $name['extra'] = '';
 
 			return form_dropdown($name['name'], $name['options'], $name['selected'], $name['extra']);
 		}
@@ -328,7 +328,7 @@ if ( ! function_exists('form_dropdown'))
 		{
 			$selected = array($_POST[$name]);
 		}
-		
+
 		$extra = _attributes_to_string($extra);
 
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
