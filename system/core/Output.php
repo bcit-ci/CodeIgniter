@@ -909,12 +909,12 @@ class CI_Output {
 					$next = $array_output[$key + 1];
 
 					// Strip spaces preceded/followed by a non-ASCII character
-					// or not preceded/followed by an alphanumeric
-					// or not preceded/followed \ $ and _
+					// that are not preceded/followed by an alphanumeric character,
+					// '\', '$', '_', '.' and '#'
 					if ((preg_match('/^[\x20-\x7f]*$/D', $next) OR preg_match('/^[\x20-\x7f]*$/D', $prev))
 						&& ( ! ctype_alnum($next) OR ! ctype_alnum($prev))
-						&& ! in_array($next, array('\\', '_', '$'), TRUE)
-						&& ! in_array($prev, array('\\', '_', '$'), TRUE)
+						&& ! in_array($next, array('\\', '_', '$', '.', '#'), TRUE)
+						&& ! in_array($prev, array('\\', '_', '$', '.', '#'), TRUE)
 					)
 					{
 						unset($array_output[$key]);
