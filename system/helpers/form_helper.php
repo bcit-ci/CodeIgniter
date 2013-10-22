@@ -316,9 +316,8 @@ if ( ! function_exists('form_dropdown'))
 		{
 			isset($name['options']) OR $name['options'] = array();
 			isset($name['selected']) OR $name['selected'] = array();
-			isset($name['extra']) OR $name['extra'] = array();
 
-			return form_dropdown($name['name'], $name['options'], $name['selected'], $name['extra']);
+			return form_dropdown($name['name'], $name['options'], $name['selected'], $extra);
 		}
 
 		is_array($selected) OR $selected = array($selected);
