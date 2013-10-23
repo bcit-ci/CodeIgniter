@@ -2583,14 +2583,14 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		$result_array = array();
 		foreach ($arr_a as $k=>$av)
 		{
-			if (is_array($av) && !empty($av))
+			if (is_array($av) && ! empty($av))
 			{
-				$av = (string)reset($av); // get the first element from array (it is usually the string value itself)
+				$av = (string)reset($av); // the first element in array ['condition'] is the query condition value 
 			}
 			$exist = FALSE;
 			foreach ($arr_b as $bv)
 			{
-				if (is_array($bv)&&!empty($bv))
+				if (is_array($bv) && ! empty($bv))
 				{
 					$bv = (string)reset($bv);
 				}
