@@ -112,7 +112,7 @@ object:
 
 Also, the two database resources (result_id and conn_id) are not
 available when caching, since result resources only pertain to run-time
-operations. This means that query results can not be returned as a custom class objects.
+operations.
 
 ******************
 Function Reference
