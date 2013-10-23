@@ -898,12 +898,19 @@ class CI_Form_validation {
 		}
 
 		$field = $this->_field_data[$field]['postdata'];
+		$value = (string) $value;
 		if (is_array($field))
 		{
-			if ( ! in_array($value, $field))
+			// Note: in_array('', array(0)) returns TRUE, do not use it
+			foreach ($field as &$v)
 			{
-				return '';
+				if ($value === $v)
+				{
+					return ' selected="selected"';
+				}
 			}
+
+			return '';
 		}
 		elseif (($field === '' OR $value === '') OR ($field !== $value))
 		{
@@ -934,12 +941,19 @@ class CI_Form_validation {
 		}
 
 		$field = $this->_field_data[$field]['postdata'];
+		$value = (string) $value;
 		if (is_array($field))
 		{
-			if ( ! in_array($value, $field))
+			// Note: in_array('', array(0)) returns TRUE, do not use it
+			foreach ($field as &$v)
 			{
-				return '';
+				if ($value === $v)
+				{
+					return ' checked="checked"';
+				}
 			}
+
+			return '';
 		}
 		elseif (($field === '' OR $value === '') OR ($field !== $value))
 		{
