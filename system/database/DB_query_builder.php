@@ -2578,36 +2578,36 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	  *
 	  * @return array array with values from $arr_a that are not present in $arr_b
 	  */
-	  protected function _array_diff($arr_a, $arr_b)
-	  {
-	  	  $result_array = array();
-		  foreach ($arr_a as $k=>$av)
-		  {
-			  if (is_array($av)&&!empty($av))
-			  {
-				  $av = (string)reset($av); // get the first element from array (it is usually the string value itself)
-			  }
-			  $exist = FALSE;
-			  foreach ($arr_b as $bv)
-			  {
-			      if (is_array($bv)&&!empty($bv))
-				  {
-					  $bv = (string)reset($bv);
-				  }
-				  
-				  if ($av === $bv)
-				  {
-					  $exist = TRUE;
-				  }
-			  }
-			  if (!$exist)
-			  {
-				  $result_array[] = $arr_a[$k];
-			  }
-		  }
-		  
-		  return $result_array;
-	  }
+	protected function _array_diff($arr_a, $arr_b)
+	{
+		$result_array = array();
+		foreach ($arr_a as $k=>$av)
+		{
+			if (is_array($av) && !empty($av))
+			{
+				$av = (string)reset($av); // get the first element from array (it is usually the string value itself)
+			}
+			$exist = FALSE;
+			foreach ($arr_b as $bv)
+			{
+				if (is_array($bv)&&!empty($bv))
+				{
+					$bv = (string)reset($bv);
+				}
+				
+				if ($av === $bv)
+				{
+					$exist = TRUE;
+				}
+			}
+			if ( ! $exist)
+			{
+				$result_array[] = $arr_a[$k];
+			}
+		}
+		
+		return $result_array;
+	}
 
 	// --------------------------------------------------------------------
 
