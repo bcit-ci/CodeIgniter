@@ -228,13 +228,21 @@ class CI_Config {
 	 * @uses	CI_Config::_uri_string()
 	 *
 	 * @param	string|string[]	$uri	URI string or an array of segments
+	 * @param	string	$protocol
 	 * @return	string
 	 */
-	public function site_url($uri = '')
+	public function site_url($uri = '', $protocol = NULL)
 	{
+		$base_url = $this->slash_item('base_url');
+
+		if (isset($protocol))
+		{
+			$base_url = $protocol.substr($base_url, strpos($base_url, '://'));
+		}
+
 		if (empty($uri))
 		{
-			return $this->slash_item('base_url').$this->item('index_page');
+			return $base_url.$this->item('index_page');
 		}
 
 		$uri = $this->_uri_string($uri);
@@ -255,14 +263,14 @@ class CI_Config {
 				}
 			}
 
-			return $this->slash_item('base_url').$this->slash_item('index_page').$uri;
+			return $base_url.$this->slash_item('index_page').$uri;
 		}
 		elseif (strpos($uri, '?') === FALSE)
 		{
 			$uri = '?'.$uri;
 		}
 
-		return $this->slash_item('base_url').$this->item('index_page').$uri;
+		return $base_url.$this->item('index_page').$uri;
 	}
 
 	// -------------------------------------------------------------
@@ -275,11 +283,19 @@ class CI_Config {
 	 * @uses	CI_Config::_uri_string()
 	 *
 	 * @param	string|string[]	$uri	URI string or an array of segments
+	 * @param	string	$protocol
 	 * @return	string
 	 */
-	public function base_url($uri = '')
+	public function base_url($uri = '', $protocol = NULL)
 	{
-		return $this->slash_item('base_url').ltrim($this->_uri_string($uri), '/');
+		$base_url = $this->slash_item('base_url');
+
+		if (isset($protocol))
+		{
+			$base_url = $protocol.substr($base_url, strpos($base_url, '://'));
+		}
+
+		return $base_url.ltrim($this->_uri_string($uri), '/');
 	}
 
 	// -------------------------------------------------------------
