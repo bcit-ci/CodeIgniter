@@ -2555,7 +2555,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			{
 				continue;
 			}
-			$this->$qb_variable = array_merge($this->$qb_variable, array_diff($this->$qb_cache_var, $this->$qb_variable));
+			$this->$qb_variable = array_merge($this->$qb_variable, $this->_array_diff($this->$qb_cache_var, $this->$qb_variable));
 		}
 
 		// If we are "protecting identifiers" we need to examine the "from"
@@ -2566,6 +2566,47 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		$this->qb_no_escape = array_merge($this->qb_no_escape, array_diff($this->qb_cache_no_escape, $this->qb_no_escape));
+	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	  * Find array's diff for cache more precisely that array_diff().
+	  *
+	  * @param array $arr_a Array to search in for values that are not present in $arr_b
+	  * @param array $arr_b Array with values to compare to
+	  *
+	  * @return array array with values from $arr_a that are not present in $arr_b
+	  */
+	protected function _array_diff($arr_a, $arr_b)
+	{
+		$result_array = array();
+		foreach ($arr_a as $k=>$av)
+		{
+			if (is_array($av) && ! empty($av))
+			{
+				$av = (string)reset($av); // the first element in array ['condition'] is the query condition value 
+			}
+			$exist = FALSE;
+			foreach ($arr_b as $bv)
+			{
+				if (is_array($bv) && ! empty($bv))
+				{
+					$bv = (string)reset($bv);
+				}
+				
+				if ($av === $bv)
+				{
+					$exist = TRUE;
+				}
+			}
+			if ( ! $exist)
+			{
+				$result_array[] = $arr_a[$k];
+			}
+		}
+		
+		return $result_array;
 	}
 
 	// --------------------------------------------------------------------
