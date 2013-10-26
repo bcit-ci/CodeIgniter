@@ -77,7 +77,6 @@ Release Date: Not Released
       - Added support (auto-detection) for HTTP/1.1 response code 303 in :php:func:`redirect()`.
       - Changed :php:func:`redirect()` to choose the **refresh** method only on IIS servers, instead of all servers on Windows (when **auto** is used).
       - Changed :php:func:`anchor()`, :php:func:`anchor_popup()`, and :php:func:`redirect()` to support protocol-relative URLs (e.g. *//ellislab.com/codeigniter*).
-      - Added an optional second parameter to both :php:func:`base_url()` and :php:func:`site_url()` that allows enforcing of a protocol different than the one in the *base_url* configuration setting.
 
    -  :doc:`HTML Helper <helpers/html_helper>` changes include:
 
@@ -419,6 +418,7 @@ Release Date: Not Released
       -  Changed ``site_url()`` method  to accept an array as well.
       -  Removed internal method ``_assign_to_config()`` and moved its implementation to *CodeIgniter.php* instead.
       -  ``item()`` now returns NULL instead of FALSE when the required config item doesn't exist.
+      -  Added an optional second parameter to both ``base_url()`` and ``site_url()`` that allows enforcing of a protocol different than the one in the *base_url* configuration setting.
 
    -  :doc:`Security Library <libraries/security>` changes include:
 

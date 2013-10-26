@@ -52,14 +52,7 @@ if ( ! function_exists('site_url'))
 	 */
 	function site_url($uri = '', $protocol = NULL)
 	{
-		$uri = get_instance()->config->site_url($uri);
-
-		if (isset($protocol))
-		{
-			return $protocol.substr($uri, strpos($uri, '://'));
-		}
-
-		return $uri;
+		return get_instance()->config->site_url($uri, $protocol);
 	}
 }
 
@@ -80,14 +73,7 @@ if ( ! function_exists('base_url'))
 	 */
 	function base_url($uri = '', $protocol = NULL)
 	{
-		$uri = get_instance()->config->base_url($uri);
-
-		if (isset($protocol))
-		{
-			return $protocol.substr($uri, strpos($uri, '://'));
-		}
-
-		return $uri;
+		return get_instance()->config->base_url($uri, $protocol);
 	}
 }
 
