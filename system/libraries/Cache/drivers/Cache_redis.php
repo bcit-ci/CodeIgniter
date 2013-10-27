@@ -44,6 +44,7 @@ class CI_Cache_redis extends CI_Driver
 	 * @var	array
 	 */
 	protected static $_default_config = array(
+		'socket_type' => 'tcp',
 		'host' => '127.0.0.1',
 		'password' => NULL,
 		'port' => 6379,
@@ -200,7 +201,13 @@ class CI_Cache_redis extends CI_Driver
 
 		try
 		{
-			$this->_redis->connect($config['host'], $config['port'], $config['timeout']);
+			if ($config['socket_type'] === 'unix')
+			{
+				$v = $this->_redis->connect($config['socket']);
+			} else // tcp socket
+			{
+				$this->_redis->connect($config['host'], $config['port'], $config['timeout']);
+			}
 		}
 		catch (RedisException $e)
 		{
