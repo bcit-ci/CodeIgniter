@@ -744,7 +744,7 @@ abstract class CI_DB_forge {
 			{
 				if (isset($attributes['AFTER']))
 				{
-					$field['after'] = $attributes['after'];
+					$field['after'] = $attributes['AFTER'];
 				}
 				elseif (isset($attributes['FIRST']))
 				{
