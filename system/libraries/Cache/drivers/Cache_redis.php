@@ -211,13 +211,13 @@ class CI_Cache_redis extends CI_Driver
 			
 			if ( ! $success)
 			{
-				log_message('debug','Redis connection refused. Check the config.');
+				log_message('debug', 'Cache: Redis connection refused. Check the config.');
 				return FALSE;
 			}
 		}
 		catch (RedisException $e)
 		{
-			log_message('debug','Cache: Redis connection refused ('.$e->getMessage().')');
+			log_message('debug', 'Cache: Redis connection refused ('.$e->getMessage().')');
 			return FALSE;
 		}
 
