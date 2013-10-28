@@ -239,17 +239,28 @@ For more information on WinCache, please see
 Redis Caching
 =============
 
+Redis is an in-memory key-value store which can operate in LRU cache mode. 
+To use it, you need Redis server and any Redis PHP extension, e.g. this one
+`https://github.com/nicolasff/phpredis <https://github.com/nicolasff/phpredis>`_.
+
+Config options to connect to redis server must be stored in the application/config/redis.php file.
+Available options are::
+	
+	$config['socket_type'] = 'tcp'; //`tcp` or `unix`
+	$config['socket'] = '/var/run/redis.sock'; // in case of `unix` socket type
+	$config['host'] = '127.0.0.1';
+	$config['password'] = NULL;
+	$config['port'] = 6379;
+	$config['timeout'] = 0;
+
 All of the methods listed above can be accessed without passing a
 specific adapter to the driver loader as follows::
 
 	$this->load->driver('cache');
 	$this->cache->redis->save('foo', 'bar', 10);
 
-.. important:: Redis may require one or more of the following options:
-	**host**, **post**, **timeout**, **password**.
-
-The Redis PHP extension repository is located at
-`https://github.com/nicolasff/phpredis <https://github.com/nicolasff/phpredis>`_.
+For more information on Redis, please see
+`http://redis.io <http://redis.io>`_.
 
 Dummy Cache
 ===========

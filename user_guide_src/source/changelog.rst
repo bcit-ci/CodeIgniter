@@ -623,6 +623,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#2681) - ``CI_Security::entity_decode()`` used the `PREG_REPLACE_EVAL` flag, which is deprecated since PHP 5.5.
 -  Fixed a bug (#2691) - nested transactions could end in a deadlock when an error is encountered with *db_debug* set to TRUE.
 -  Fixed a bug (#2515) - ``_exception_handler()`` used to send the 200 "OK" HTTP status code and didn't stop script exection even on fatal errors.
+-  Fixed a bug - `redis` :doc:`Caching <libraries/caching>` driver didn't handle connection failure properly.
 
 Version 2.1.4
 =============
