@@ -740,13 +740,13 @@ class CI_Output {
 				preg_match_all('{<style.+</style>}msU', $output, $style_clean);
 				foreach ($style_clean[0] as $s)
 				{
-					$output = str_replace($s, $this->_minify_script_style($s, TRUE), $output);
+					$output = str_replace($s, $this->_minify_js_css($s, 'css', TRUE), $output);
 				}
 
 				// Minify the javascript in <script> tags.
 				foreach ($javascript_clean[0] as $s)
 				{
-					$javascript_mini[] = $this->_minify_script_style($s, TRUE);
+					$javascript_mini[] = $this->_minify_js_css($s, 'js', TRUE);
 				}
 
 				// Replace multiple spaces with a single space.
@@ -792,18 +792,110 @@ class CI_Output {
 			break;
 
 			case 'text/css':
+
+				return $this->_minify_js_css($output, 'css');
+
 			case 'text/javascript':
 			case 'application/javascript':
 			case 'application/x-javascript':
 
-				$output = $this->_minify_script_style($output);
-
-			break;
+				return $this->_minify_js_css($output, 'js');
 
 			default: break;
 		}
 
 		return $output;
+	}
+
+	// --------------------------------------------------------------------
+
+	protected function _minify_js_css($output, $type, $tags = FALSE)
+	{
+		if ($tags === TRUE)
+		{
+			$tags = array('close' => strrchr($output, '<'));
+
+			$open_length = strpos($output, '>') + 1;
+			$tags['open'] = substr($output, 0, $open_length);
+
+			$output = substr($output, $open_length, -strlen($tags['close']));
+
+			// Strip spaces from the tags
+			$tags = preg_replace('#\s{2,}#', ' ', $tags);
+		}
+
+		$output = trim($output);
+
+		if ($type === 'js')
+		{
+			// Catch all string literals and comment blocks
+			if (preg_match_all('#((?:((?<!\\\)\'|")|/\*).*(?(2)(?<!\\\)\2|\*/))#msuUS', $output, $match, PREG_OFFSET_CAPTURE))
+			{
+				$js_literals = $js_code = array();
+				for ($match = $match[0], $c = count($match), $i = $pos = $offset = 0; $i < $c; $i++)
+				{
+					$js_code[$pos++] = substr($output, $offset, $match[$i][1] - $offset);
+					$offset = $match[$i][1] + strlen($match[$i][0]);
+
+					// Save only if we haven't matched a comment block
+					if ($match[$i][0][0] !== '/')
+					{
+						$js_literals[$pos++] = array_shift($match[$i]);
+					}
+				}
+				$js_code[$pos] = substr($output, $offset);
+
+				// $match might be quite large, so free it up together with other vars that we no longer need
+				unset($match, $offset, $pos);
+			}
+			else
+			{
+				$js_code = array($output);
+				$js_literals = array();
+			}
+
+			$varname = 'js_code';
+		}
+		else
+		{
+			$varname = 'output';
+		}
+
+		// Standartize new lines
+		$$varname = str_replace(array("\r\n", "\r"), "\n", $$varname);
+
+		if ($type === 'js')
+		{
+			$patterns = array(
+				'#\n?//[^\n]*#'					=> '',		// Remove // line comments
+				'#\s*([!#%&()*+,\-./:;<=>?@\[\]^`{|}~])\s*#'	=> '$1',	// Remove spaces following and preceeding JS-wise non-special & non-word characters
+				'#\s{2,}#'					=> ' '		// Reduce the remaining multiple whitespace characters to a single space
+			);
+		}
+		else
+		{
+			$patterns = array(
+				'#/\*.*(?=\*/)\*/#s'	=> '',		// Remove /* block comments */
+				'#\n?//[^\n]*#'		=> '',		// Remove // line comments
+				'#\s*([^\w.#%)\s*#U'	=> '$1',	// Remove spaces following and preceeding non-word characters, excluding dots, hashes and the percent sign
+				'#\s{2,}#'		=> ' '		// Reduce the remaining multiple space characters to a single space
+			);
+		}
+
+		$$varname = preg_replace(array_keys($patterns), array_values($patterns), $$varname);
+
+		// Glue back JS quoted strings
+		if ($type === 'js')
+		{
+			$js_code += $js_literals;
+			ksort($js_code);
+			$output = implode($js_code);
+			unset($js_code, $js_literals, $varname, $patterns);
+		}
+
+		return is_array($tags)
+			? $tags['open'].$output.$tags['close']
+			: $output;
 	}
 
 	// --------------------------------------------------------------------
