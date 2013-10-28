@@ -2551,11 +2551,13 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$qb_variable	= 'qb_'.$val;
 			$qb_cache_var	= 'qb_cache_'.$val;
 
-			if (count($this->$qb_cache_var) === 0)
+			if (count($this->$qb_cache_var) > 0)
 			{
-				continue;
+				foreach ($this->$qb_cache_var as &$cache_var)
+				{
+					in_array($cache_var, $this->$qb_variable, TRUE) OR $this->$qb_variable[] = $cache_var;
+				}
 			}
-			$this->$qb_variable = array_merge($this->$qb_variable, array_diff($this->$qb_cache_var, $this->$qb_variable));
 		}
 
 		// If we are "protecting identifiers" we need to examine the "from"
