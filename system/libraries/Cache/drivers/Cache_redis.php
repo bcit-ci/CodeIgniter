@@ -164,8 +164,7 @@ class CI_Cache_redis extends CI_Driver
 	{
 		if (extension_loaded('redis'))
 		{
-			$this->_setup_redis();
-			return TRUE;
+			return $this->_setup_redis();
 		}
 		else
 		{
@@ -206,18 +205,26 @@ class CI_Cache_redis extends CI_Driver
 				$v = $this->_redis->connect($config['socket']);
 			} else // tcp socket
 			{
-				$this->_redis->connect($config['host'], $config['port'], $config['timeout']);
+				$v = $this->_redis->connect($config['host'], $config['port'], $config['timeout']);
+			}
+			if (!$v)
+			{
+				log_message('debug','Redis connection refused. Check the config.');
+				return FALSE;
 			}
 		}
 		catch (RedisException $e)
 		{
-			show_error('Redis connection refused. ' . $e->getMessage());
+			log_message('debug','Redis connection refused. ' . $e->getMessage());
+			return FALSE;
 		}
 
 		if (isset($config['password']))
 		{
 			$this->_redis->auth($config['password']);
 		}
+		
+		return TRUE;
 	}
 
 	// ------------------------------------------------------------------------
