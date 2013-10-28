@@ -202,12 +202,12 @@ class CI_Cache_redis extends CI_Driver
 		{
 			if ($config['socket_type'] === 'unix')
 			{
-				$v = $this->_redis->connect($config['socket']);
+				$success = $this->_redis->connect($config['socket']);
 			} else // tcp socket
 			{
-				$v = $this->_redis->connect($config['host'], $config['port'], $config['timeout']);
+				$success = $this->_redis->connect($config['host'], $config['port'], $config['timeout']);
 			}
-			if (!$v)
+			if ( ! $success)
 			{
 				log_message('debug','Redis connection refused. Check the config.');
 				return FALSE;
