@@ -49,9 +49,9 @@ agreement <http://codeigniter.com/user_guide/license.html>`_
 Resources
 *********
 
--  `User Guide <http://codeigniter.com/user_guide/>`_
--  `Community Forums <http://codeigniter.com/forums/>`_
--  `Community Wiki <http://codeigniter.com/wiki/>`_
+-  `User Guide <http://ellislab.com/codeigniter/user_guide/>`_
+-  `Community Forums <http://ellislab.com/codeigniter/forums/>`_
+-  `Community Wiki <http://ellislab.com/codeigniter/wiki/>`_
 -  `Community IRC <http://ellislab.com/codeigniter/irc>`_
 
 ***************
