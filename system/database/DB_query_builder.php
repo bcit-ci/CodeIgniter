@@ -2291,7 +2291,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			for ($i = 0, $c = count($this->$qb_key); $i < $c; $i++)
 			{
-				if ($this->{$qb_key}[$i]['escape'] === FALSE)
+				// Is this condition already compiled?
+				if (is_string($this->{$qb_key}[$i]))
+				{
+					continue;
+				}
+				elseif ($this->{$qb_key}[$i]['escape'] === FALSE)
 				{
 					$this->{$qb_key}[$i] = $this->{$qb_key}[$i]['condition'];
 					continue;
@@ -2361,6 +2366,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			for ($i = 0, $c = count($this->qb_groupby); $i < $c; $i++)
 			{
+				// Is it already compiled?
+				if (is_string($this->qb_groupby))
+				{
+					continue;
+				}
+
 				$this->qb_groupby[$i] = ($this->qb_groupby[$i]['escape'] === FALSE OR $this->_is_literal($this->qb_groupby[$i]['field']))
 					? $this->qb_groupby[$i]['field']
 					: $this->protect_identifiers($this->qb_groupby[$i]['field']);
