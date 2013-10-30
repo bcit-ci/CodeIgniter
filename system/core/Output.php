@@ -868,7 +868,7 @@ class CI_Output {
 		{
 			$patterns = array(
 				'#\n?//[^\n]*#'					=> '',		// Remove // line comments
-				'#\s*([!#%&()*+,\-./:;<=>?@\[\]^`{|}~])\s*#'	=> '$1',	// Remove spaces following and preceeding JS-wise non-special & non-word characters
+				'#\s*([!\#%&()*+,\-./:;<=>?@\[\]^`{|}~])\s*#'	=> '$1',	// Remove spaces following and preceeding JS-wise non-special & non-word characters
 				'#\s{2,}#'					=> ' '		// Reduce the remaining multiple whitespace characters to a single space
 			);
 		}
@@ -877,7 +877,7 @@ class CI_Output {
 			$patterns = array(
 				'#/\*.*(?=\*/)\*/#s'	=> '',		// Remove /* block comments */
 				'#\n?//[^\n]*#'		=> '',		// Remove // line comments
-				'#\s*([^\w.#%)\s*#U'	=> '$1',	// Remove spaces following and preceeding non-word characters, excluding dots, hashes and the percent sign
+				'#\s*([^\w.\#%])\s*#U'	=> '$1',	// Remove spaces following and preceeding non-word characters, excluding dots, hashes and the percent sign
 				'#\s{2,}#'		=> ' '		// Reduce the remaining multiple space characters to a single space
 			);
 		}
