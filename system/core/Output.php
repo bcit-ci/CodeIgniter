@@ -809,6 +809,16 @@ class CI_Output {
 
 	// --------------------------------------------------------------------
 
+	/**
+	 * Minify JavaScript and CSS code
+	 *
+	 * Strips comments and excessive whitespace characters
+	 *
+	 * @param	string	$output
+	 * @param	string	$type	'js' or 'css'
+	 * @param	bool	$tags	Whether $output contains the 'script' or 'style' tag
+	 * @return	string
+	 */
 	protected function _minify_js_css($output, $type, $tags = FALSE)
 	{
 		if ($tags === TRUE)
@@ -834,7 +844,7 @@ class CI_Output {
 				$js_literals = $js_code = array();
 				for ($match = $match[0], $c = count($match), $i = $pos = $offset = 0; $i < $c; $i++)
 				{
-					$js_code[$pos++] = substr($output, $offset, $match[$i][1] - $offset);
+					$js_code[$pos++] = trim(substr($output, $offset, $match[$i][1] - $offset));
 					$offset = $match[$i][1] + strlen($match[$i][0]);
 
 					// Save only if we haven't matched a comment block
@@ -895,169 +905,6 @@ class CI_Output {
 
 		return is_array($tags)
 			? $tags['open'].$output.$tags['close']
-			: $output;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Minify Style and Script
-	 *
-	 * Reduce excessive size of CSS/JavaScript content.  To remove spaces this
-	 * script walks the string as an array and determines if the pointer is inside
-	 * a string created by single quotes or double quotes.  spaces inside those
-	 * strings are not stripped.  Opening and closing tags are severed from
-	 * the string initially and saved without stripping whitespace to preserve
-	 * the tags and any associated properties if tags are present
-	 *
-	 * Minification logic/workflow is similar to methods used by Douglas Crockford
-	 * in JSMIN. http://www.crockford.com/javascript/jsmin.html
-	 *
-	 * KNOWN ISSUE: ending a line with a closing parenthesis ')' and no semicolon
-	 * where there should be one will break the Javascript. New lines after a
-	 * closing parenthesis are not recognized by the script. For best results
-	 * be sure to terminate lines with a semicolon when appropriate.
-	 *
-	 * @param	string	$output		Output to minify
-	 * @param	bool	$has_tags	Specify if the output has style or script tags
-	 * @return	string	Minified output
-	 */
-	protected function _minify_script_style($output, $has_tags = FALSE)
-	{
-		// We only need this if there are tags in the file
-		if ($has_tags === TRUE)
-		{
-			// Remove opening tag and save for later
-			$pos = strpos($output, '>') + 1;
-			$open_tag = substr($output, 0, $pos);
-			$output = substr_replace($output, '', 0, $pos);
-
-			// Remove closing tag and save it for later
-			$pos = strrpos($output, '</');
-			$closing_tag = substr($output, $pos);
-			$output = substr_replace($output, '', $pos);
-		}
-
-		// Remove CSS comments
-		$output = preg_replace('@/\*([^/][^*]*\*)*/(?!.+?["\'])@i', '', $output);
-
-		// Remove Javascript inline comments
-		if ($has_tags === TRUE && strpos(strtolower($open_tag), 'script') !== FALSE)
-		{
-			$lines = preg_split('/\r?\n|\n?\r/', $output);
-			foreach ($lines as &$line)
-			{
-				$in_string = $in_dstring = FALSE;
-				for ($i = 0, $len = strlen($line); $i < $len; $i++)
-				{
-					if ( ! $in_string && ! $in_dstring && substr($line, $i, 2) === '//')
-					{
-						$line = substr($line, 0, $i);
-						break;
-					}
-
-					if ($line[$i] === "'" && ! $in_dstring)
-					{
-						$in_string = ! $in_string;
-					}
-					elseif ($line[$i] === '"' && ! $in_string)
-					{
-						$in_dstring = ! $in_dstring;
-					}
-				}
-			}
-
-			$output = implode("\n", $lines);
-		}
-
-		// Remove spaces around curly brackets, colons,
-		// semi-colons, parenthesis, commas
-		$chunks = preg_split('/([\'|"]).+(?![^\\\]\\1)\\1/iU', $output, -1, PREG_SPLIT_OFFSET_CAPTURE);
-		for ($i = count($chunks) - 1; $i >= 0; $i--)
-		{
-			$output = substr_replace(
-				$output,
-				preg_replace('/\s*(:|;|,|}|{|\(|\))\s*/i', '$1', $chunks[$i][0]),
-				$chunks[$i][1],
-				strlen($chunks[$i][0])
-			);
-		}
-
-		// Replace tabs with spaces
-		// Replace carriage returns & multiple new lines with single new line
-		// and trim any leading or trailing whitespace
-		$output = trim(preg_replace(array('/\t+/', '/\r/', '/\n+/'), array(' ', "\n", "\n"), $output));
-
-		// Remove spaces when safe to do so.
-		$in_string = $in_dstring = $prev = FALSE;
-		$array_output = str_split($output);
-		foreach ($array_output as $key => $value)
-		{
-			if ($in_string === FALSE && $in_dstring === FALSE)
-			{
-				if ($value === ' ')
-				{
-					// Get the next element in the array for comparisons
-					$next = $array_output[$key + 1];
-
-					// Strip spaces preceded/followed by a non-ASCII character
-					// that are not preceded/followed by an alphanumeric character,
-					// '\', '$', '_', '.' and '#'
-					if ((preg_match('/^[\x20-\x7f]*$/D', $next) OR preg_match('/^[\x20-\x7f]*$/D', $prev))
-						&& ( ! ctype_alnum($next) OR ! ctype_alnum($prev))
-						&& ! in_array($next, array('\\', '_', '$', '.', '#'), TRUE)
-						&& ! in_array($prev, array('\\', '_', '$', '.', '#'), TRUE)
-					)
-					{
-						unset($array_output[$key]);
-					}
-				}
-				else
-				{
-					// Save this value as previous for the next iteration
-					// if it is not a blank space
-					$prev = $value;
-				}
-			}
-
-			if ($value === "'" && ! $in_dstring)
-			{
-				$in_string = ! $in_string;
-			}
-			elseif ($value === '"' && ! $in_string)
-			{
-				$in_dstring = ! $in_dstring;
-			}
-		}
-
-		// Put the string back together after spaces have been stripped
-		$output = implode($array_output);
-
-		// Remove new line characters unless previous or next character is
-		// printable or Non-ASCII
-		preg_match_all('/[\n]/', $output, $lf, PREG_OFFSET_CAPTURE);
-		$removed_lf = 0;
-		foreach ($lf as $feed_position)
-		{
-			foreach ($feed_position as $position)
-			{
-				$position = $position[1] - $removed_lf;
-				$next = $output[$position + 1];
-				$prev = $output[$position - 1];
-				if ( ! ctype_print($next) && ! ctype_print($prev)
-					&& ! preg_match('/^[\x20-\x7f]*$/D', $next)
-					&& ! preg_match('/^[\x20-\x7f]*$/D', $prev)
-				)
-				{
-					$output = substr_replace($output, '', $position, 1);
-					$removed_lf++;
-				}
-			}
-		}
-
-		// Put the opening and closing tags back if applicable
-		return isset($open_tag)
-			? $open_tag.$output.$closing_tag
 			: $output;
 	}
 
