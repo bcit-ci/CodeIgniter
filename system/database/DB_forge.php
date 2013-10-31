@@ -740,6 +740,18 @@ abstract class CI_DB_forge {
 					'_literal'		=> FALSE
 			);
 
+			if ($create_table === FALSE)
+			{
+				if (isset($attributes['AFTER']))
+				{
+					$field['after'] = $attributes['AFTER'];
+				}
+				elseif (isset($attributes['FIRST']))
+				{
+					$field['first'] = (bool) $attributes['FIRST'];
+				}
+			}
+
 			$this->_attr_default($attributes, $field);
 
 			if (isset($attributes['NULL']))
@@ -748,10 +760,14 @@ abstract class CI_DB_forge {
 				{
 					$field['null'] = empty($this->_null) ? '' : ' '.$this->_null;
 				}
-				elseif ($create_table === TRUE)
+				else
 				{
 					$field['null'] = ' NOT NULL';
 				}
+			}
+			elseif ($create_table === TRUE)
+			{
+				$field['null'] = ' NOT NULL';
 			}
 
 			$this->_attr_auto_increment($attributes, $field);
