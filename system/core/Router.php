@@ -345,8 +345,20 @@ class CI_Router {
 		// Turn the segment array into a URI string
 		$uri = implode('/', $this->uri->segments);
 
+		// Get HTTP verb
+		$http_verb = strtolower($_SERVER['REQUEST_METHOD']);
+
 		// Is there a literal match?  If so we're done
-		if (isset($this->routes[$uri]) && is_string($this->routes[$uri]))
+		if (isset($this->routes[$uri][$http_verb]))
+		{
+			return $this->_set_request(explode('/', $this->routes[$uri][$http_verb]));
+		}
+		else if (isset($this->routes[$uri]['(:any)']))
+		{
+			return $this->_set_request(explode('/', $this->routes[$uri]['(:any)']));
+		}
+		// Fallback to default routing
+		else if (isset($this->routes[$uri]) && is_string($this->routes[$uri]))
 		{
 			return $this->_set_request(explode('/', $this->routes[$uri]));
 		}
@@ -354,6 +366,25 @@ class CI_Router {
 		// Loop through the route array looking for wildcards
 		foreach ($this->routes as $key => $val)
 		{
+			// Check if HTTP Verb is exist
+			if (is_array($val))
+			{
+				// HTTP verb included in routes
+				if (isset($val[$http_verb]))
+				{
+					$val = $val[$http_verb];
+				}
+				else if (isset($val['(:any)']))
+				{
+					$val = $val['(:any)'];
+				}
+				else
+				{
+					// HTTP Verb not found
+					continue;
+				}
+			}
+
 			// Convert wildcards to RegEx
 			$key = str_replace(array(':any', ':num'), array('[^/]+', '[0-9]+'), $key);
 
