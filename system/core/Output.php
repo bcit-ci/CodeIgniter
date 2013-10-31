@@ -839,7 +839,7 @@ class CI_Output {
 		if ($type === 'js')
 		{
 			// Catch all string literals and comment blocks
-			if (preg_match_all('#((?:((?<!\\\)\'|")|/\*).*(?(2)(?<!\\\)\2|\*/))#msuUS', $output, $match, PREG_OFFSET_CAPTURE))
+			if (preg_match_all('#((?:((?<!\\\)\'|")|(/\*)|(//)).*(?(2)(?<!\\\)\2|(?(3)\*/|\n)))#msuUS', $output, $match, PREG_OFFSET_CAPTURE))
 			{
 				$js_literals = $js_code = array();
 				for ($match = $match[0], $c = count($match), $i = $pos = $offset = 0; $i < $c; $i++)
@@ -877,7 +877,6 @@ class CI_Output {
 		if ($type === 'js')
 		{
 			$patterns = array(
-				'#\n?//[^\n]*#'					=> '',		// Remove // line comments
 				'#\s*([!\#%&()*+,\-./:;<=>?@\[\]^`{|}~])\s*#'	=> '$1',	// Remove spaces following and preceeding JS-wise non-special & non-word characters
 				'#\s{2,}#'					=> ' '		// Reduce the remaining multiple whitespace characters to a single space
 			);
