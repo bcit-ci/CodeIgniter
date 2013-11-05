@@ -420,6 +420,7 @@ Release Date: Not Released
 
    -  :doc:`URI Routing <general/routing>` changes include:
 
+      -  Added possibility to route requests using HTTP Verb
       -  Added possibility to route requests using callbacks.
       -  Added a new reserved route (*translate_uri_dashes*) to allow usage of dashes in the controller and method URI segments.
       -  Deprecated methods ``fetch_directory()``, ``fetch_class()`` and ``fetch_method()`` in favor of their respective public properties.

@@ -349,38 +349,34 @@ class CI_Router {
 		$http_verb = strtolower($_SERVER['REQUEST_METHOD']);
 
 		// Is there a literal match?  If so we're done
-		if (isset($this->routes[$uri][$http_verb]))
+		if (isset($this->routes[$uri]))
 		{
-			return $this->_set_request(explode('/', $this->routes[$uri][$http_verb]));
-		}
-		else if (isset($this->routes[$uri]['(:any)']))
-		{
-			return $this->_set_request(explode('/', $this->routes[$uri]['(:any)']));
-		}
-		// Fallback to default routing
-		else if (isset($this->routes[$uri]) && is_string($this->routes[$uri]))
-		{
-			return $this->_set_request(explode('/', $this->routes[$uri]));
+			// Check default routes format
+			if (is_string($this->routes[$uri]))
+			{
+				return $this->_set_request(explode('/', $this->routes[$uri]));
+			}
+			// Is there any matching http verb?
+			elseif (is_array($this->routes[$uri]) && isset($this->routes[$uri][$http_verb]))
+			{
+				return $this->_set_request(explode('/', $this->routes[$uri][$http_verb]));
+			}
 		}
 
 		// Loop through the route array looking for wildcards
 		foreach ($this->routes as $key => $val)
 		{
-			// Check if HTTP Verb is exist
+			// Check if route format is using http verb
 			if (is_array($val))
 			{
-				// HTTP verb included in routes
+				// Does the http verb match?
 				if (isset($val[$http_verb]))
 				{
 					$val = $val[$http_verb];
 				}
-				else if (isset($val['(:any)']))
-				{
-					$val = $val['(:any)'];
-				}
+				// No match, skip to next rule
 				else
 				{
-					// HTTP Verb not found
 					continue;
 				}
 			}
