@@ -345,15 +345,40 @@ class CI_Router {
 		// Turn the segment array into a URI string
 		$uri = implode('/', $this->uri->segments);
 
+		// Get HTTP verb
+		$http_verb = isset($_SERVER['REQUEST_METHOD']) ? strtolower($_SERVER['REQUEST_METHOD']) : 'cli';
+
 		// Is there a literal match?  If so we're done
-		if (isset($this->routes[$uri]) && is_string($this->routes[$uri]))
+		if (isset($this->routes[$uri]))
 		{
-			return $this->_set_request(explode('/', $this->routes[$uri]));
+			// Check default routes format
+			if (is_string($this->routes[$uri]))
+			{
+				return $this->_set_request(explode('/', $this->routes[$uri]));
+			}
+			// Is there a matching http verb?
+			elseif (is_array($this->routes[$uri]) && isset($this->routes[$uri][$http_verb]))
+			{
+				return $this->_set_request(explode('/', $this->routes[$uri][$http_verb]));
+			}
 		}
 
 		// Loop through the route array looking for wildcards
 		foreach ($this->routes as $key => $val)
 		{
+			// Check if route format is using http verb
+			if (is_array($val))
+			{
+				if (isset($val[$http_verb]))
+				{
+					$val = $val[$http_verb];
+				}
+				else
+				{
+					continue;
+				}
+			}
+
 			// Convert wildcards to RegEx
 			$key = str_replace(array(':any', ':num'), array('[^/]+', '[0-9]+'), $key);
 
