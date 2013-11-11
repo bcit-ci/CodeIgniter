@@ -142,41 +142,28 @@ routing rules to process the back-references. Example::
 		return 'catalog/product_edit/' . strtolower($product_type) . '/' . $id;
 	};
 
-Using HTTP Verb in Routes
-=========================
+Using HTTP verbs in routes
+==========================
 
-If you prefer you can use HTTP Verb (or method) to define your routing rules.
-This is particularly useful when building RESTful application. You can use standard HTTP
-Verb (GET, PUT, POST, DELETE) or custom HTTP Verb (e.g: PURGE). HTTP Verb rule is case 
-insensitive. All you need to do is add array index using HTTP Verb rule. Example::
+It is possible to use HTTP verbs (request method) to define your routing rules.
+This is particularly useful when building RESTful applications. You can use standard HTTP
+verbs (GET, PUT, POST, DELETE, PATCH) or a custom one such (e.g. PURGE). HTTP verb rules
+are case-insensitive. All you need to do is to add the verb as an array key to your route.
+Example::
 
 	$route['products']['put'] = 'product/insert';
 
-In the above example, a PUT request to URI "products" would call the "product" controller
-class and "insert" method
+In the above example, a PUT request to URI "products" would call the ``Product::insert()``
+controller method.
 
 ::
 
 	$route['products/(:num)']['DELETE'] = 'product/delete/$1';
 
-A DELETE request to URL with "products" as first segment and a number in the second will be
-remapped to the "product" class and "delete" method passing in the match as a variable to
-the method.
+A DELETE request to URL with "products" as first the segment and a number in the second will be
+mapped to the ``Product::delete()`` method, passing the numeric value as the first parameter.
 
-::
-
-	$route['products/([a-z]+)/(\d+)']['get'] = 'product/$1/$2';
-
-A GET request to a URI similar to products/shirts/123 would call the "product" controller
-class and "shirt" method with number as method parameter
-
-Using HTTP Verb is optional, so if you want any HTTP Verb to be handled in one rule
-You could just write your routing rule without HTTP Verb. Example::
-
-	$route['product'] = 'product';
-
-This way, all incoming request using any HTTP method containing the word "product"
-in the first segment will be remapped to "product" class
+Using HTTP verbs is of course, optional.
 
 Reserved Routes
 ===============

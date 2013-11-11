@@ -346,7 +346,7 @@ class CI_Router {
 		$uri = implode('/', $this->uri->segments);
 
 		// Get HTTP verb
-		$http_verb = strtolower($_SERVER['REQUEST_METHOD']);
+		$http_verb = isset($_SERVER['REQUEST_METHOD']) ? strtolower($_SERVER['REQUEST_METHOD']) : 'cli';
 
 		// Is there a literal match?  If so we're done
 		if (isset($this->routes[$uri]))
@@ -356,7 +356,7 @@ class CI_Router {
 			{
 				return $this->_set_request(explode('/', $this->routes[$uri]));
 			}
-			// Is there any matching http verb?
+			// Is there a matching http verb?
 			elseif (is_array($this->routes[$uri]) && isset($this->routes[$uri][$http_verb]))
 			{
 				return $this->_set_request(explode('/', $this->routes[$uri][$http_verb]));
@@ -369,12 +369,10 @@ class CI_Router {
 			// Check if route format is using http verb
 			if (is_array($val))
 			{
-				// Does the http verb match?
 				if (isset($val[$http_verb]))
 				{
 					$val = $val[$http_verb];
 				}
-				// No match, skip to next rule
 				else
 				{
 					continue;
