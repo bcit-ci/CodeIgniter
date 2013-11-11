@@ -104,7 +104,8 @@ $browsers = array(
 	'hotjava'		=> 'HotJava',
 	'amaya'			=> 'Amaya',
 	'IBrowse'		=> 'IBrowse',
-	'Maxthon'		=> 'Maxthon'
+	'Maxthon'		=> 'Maxthon',
+	'Ubuntu'		=> 'Ubuntu Web Browser'
 );
 
 $mobiles = array(
