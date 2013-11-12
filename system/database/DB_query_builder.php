@@ -2561,14 +2561,13 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			$qb_variable	= 'qb_'.$val;
 			$qb_cache_var	= 'qb_cache_'.$val;
-
-			$qb_new = $this->$qb_cache_var;
+			$qb_new 	= $this->$qb_cache_var;
 
 			foreach ($this->$qb_variable as &$qb_var)
 			{
 			 	in_array($qb_var, $qb_new, TRUE) OR $qb_new[] = $qb_var;
 			}
-			
+
 			$this->$qb_variable = $qb_new;
 		}
 
