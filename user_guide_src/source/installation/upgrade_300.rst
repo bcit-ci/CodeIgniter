@@ -458,3 +458,27 @@ then you can now just access the properties instead::
 
 .. note:: Those methods are still available, but you're strongly encouraged to remove their usage
 	sooner rather than later.
+
+Input library method is_cli_request()
+=====================================
+
+Calls to the ``CI_Input::is_cli_request()`` method are necessary at many places
+in the CodeIgniter internals and this is often before the :doc:`Input Library
+<../libraries/input>` is loaded. Because of that, it is being replaced by a common
+function named :php:func:`is_cli()` and this method is now just an alias.
+
+The new function is both available at all times for you to use and shorter to type.
+
+::
+
+	// Old
+	$this->input->is_cli_request();
+
+	// New
+	is_cli();
+
+``CI_Input::is_cli_request()`` is now now deprecated and scheduled for removal in
+CodeIgniter 3.1+.
+
+.. note:: This method is still available, but you're strongly encouraged to remove its usage
+	sooner rather than later.

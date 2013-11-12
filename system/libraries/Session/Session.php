@@ -102,10 +102,10 @@ class CI_Session extends CI_Driver_Library {
 	 */
 	public function __construct(array $params = array())
 	{
-		$CI =& get_instance();
+		$_config =& get_instance()->config;
 
 		// No sessions under CLI
-		if ($CI->input->is_cli_request())
+		if (is_cli())
 		{
 			return;
 		}
@@ -113,7 +113,7 @@ class CI_Session extends CI_Driver_Library {
 		log_message('debug', 'CI_Session Class Initialized');
 
 		// Add possible extra entries to our valid drivers list
-		$drivers = isset($params['sess_valid_drivers']) ? $params['sess_valid_drivers'] : $CI->config->item('sess_valid_drivers');
+		$drivers = isset($params['sess_valid_drivers']) ? $params['sess_valid_drivers'] : $_config->item('sess_valid_drivers');
 		if ( ! empty($drivers))
 		{
 			$drivers = array_map('strtolower', (array) $drivers);
@@ -121,7 +121,7 @@ class CI_Session extends CI_Driver_Library {
 		}
 
 		// Get driver to load
-		$driver = isset($params['sess_driver']) ? $params['sess_driver'] : $CI->config->item('sess_driver');
+		$driver = isset($params['sess_driver']) ? $params['sess_driver'] : $_config->item('sess_driver');
 		if ( ! $driver)
 		{
 			log_message('debug', "Session: No driver name is configured, defaulting to 'cookie'.");

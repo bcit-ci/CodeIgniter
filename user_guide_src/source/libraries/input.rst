@@ -315,6 +315,9 @@ see if PHP is being run on the command line.
 
 	$this->input->is_cli_request()
 
+.. note:: This method is DEPRECATED and is now just an alias for the
+	:php:func:`is_cli()` function.
+
 $this->input->method()
 ======================
 

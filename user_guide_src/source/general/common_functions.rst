@@ -173,6 +173,19 @@ is_https()
 Returns TRUE if a secure (HTTPS) connection is used and FALSE
 in any other case (including non-HTTP requests).
 
+is_cli()
+========
+
+.. php:function:: is_cli()
+
+	:returns:	bool
+
+Returns TRUE if the application is run through the command line
+and FALSE if not.
+
+.. note:: This function checks both if the ``PHP_SAPI`` value is 'cli'
+	or if the ``STDIN`` constant is defined.
+
 function_usable()
 =================
 

@@ -191,3 +191,12 @@ if ( ! function_exists('set_status_header'))
 		return TRUE;
 	}
 }
+
+if ( ! function_exists('is_cli'))
+{
+	// In order to test HTTP functionality, we need to lie about this
+	function is_cli()
+	{
+		return FALSE;
+	}
+}

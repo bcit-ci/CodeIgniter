@@ -99,7 +99,7 @@ class CI_URI {
 		if ($protocol === 'AUTO')
 		{
 			// Is the request coming from the command line?
-			if ($this->_is_cli_request())
+			if (is_cli())
 			{
 				$this->_set_uri_string($this->_parse_argv());
 				return;
@@ -275,23 +275,6 @@ class CI_URI {
 		parse_str($_SERVER['QUERY_STRING'], $_GET);
 
 		return $this->_remove_relative_directory($uri);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Is CLI Request?
-	 *
-	 * Duplicate of method from the Input class to test to see if
-	 * a request was made from the command line.
-	 *
-	 * @see		CI_Input::is_cli_request()
-	 * @used-by	CI_URI::_fetch_uri_string()
-	 * @return 	bool
-	 */
-	protected function _is_cli_request()
-	{
-		return (PHP_SAPI === 'cli') OR defined('STDIN');
 	}
 
 	// --------------------------------------------------------------------

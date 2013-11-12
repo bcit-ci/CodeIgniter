@@ -396,6 +396,7 @@ Release Date: Not Released
       -  Added method ``post_get()`` and changed ``get_post()`` to search in GET data first. Both methods' names now properly match their GET/POST data search priorities.
       -  Changed method ``_fetch_from_array()`` to parse array notation in field name.
       -  Added an option for ``_clean_input_keys()`` to return FALSE instead of terminating the whole script.
+      -  Deprecated the ``is_cli_request()`` method, it is now an alias for the new :php:func:`is_cli()` common function.
 
    -  :doc:`Common functions <general/common_functions>` changes include:
 
@@ -404,6 +405,7 @@ Release Date: Not Released
       -  Removed redundant conditional to determine HTTP server protocol in :php:func:`set_status_header()`.
       -  Changed ``_exception_handler()`` to respect php.ini *display_errors* setting.
       -  Added function :php:func:`is_https()` to check if a secure connection is used.
+      -  Added function :php:func:`is_cli()` to replace the ``CI_Input::is_cli_request()`` method.
       -  Added function :php:func:`function_usable()` to check if a function exists and is not disabled by `Suhosin <http://www.hardened-php.net/suhosin/>`.
       -  Removed the third (`$php_error`) from function :php:func:`log_message()`.
 

@@ -708,7 +708,7 @@ class CI_Input {
 		$_SERVER['PHP_SELF'] = strip_tags($_SERVER['PHP_SELF']);
 
 		// CSRF Protection check
-		if ($this->_enable_csrf === TRUE && ! $this->is_cli_request())
+		if ($this->_enable_csrf === TRUE && ! is_cli())
 		{
 			$this->security->csrf_verify();
 		}
@@ -901,11 +901,12 @@ class CI_Input {
 	 *
 	 * Test to see if a request was made from the command line.
 	 *
-	 * @return 	bool
+	 * @deprecated	3.0.0	Use is_cli() instead
+	 * @return      bool
 	 */
 	public function is_cli_request()
 	{
-		return (PHP_SAPI === 'cli' OR defined('STDIN'));
+		return is_cli();
 	}
 
 	// --------------------------------------------------------------------
