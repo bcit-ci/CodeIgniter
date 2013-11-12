@@ -2557,18 +2557,19 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			return;
 		}
 
-		foreach ($this->qb_cache_exists as $val)
+		foreach (array_unique($this->qb_cache_exists) as $val) // select, from, etc.
 		{
 			$qb_variable	= 'qb_'.$val;
 			$qb_cache_var	= 'qb_cache_'.$val;
 
-			if (count($this->$qb_cache_var) > 0)
+			$qb_new = $this->$qb_cache_var;
+
+			foreach ($this->$qb_variable as &$qb_var)
 			{
-				foreach ($this->$qb_cache_var as &$cache_var)
-				{
-					in_array($cache_var, $this->$qb_variable, TRUE) OR $this->{$qb_variable}[] = $cache_var;
-				}
+			 	in_array($qb_var, $qb_new, TRUE) OR $qb_new[] = $qb_var;
 			}
+			
+			$this->$qb_variable = $qb_new;
 		}
 
 		// If we are "protecting identifiers" we need to examine the "from"
