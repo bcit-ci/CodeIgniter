@@ -522,6 +522,13 @@ if ( ! function_exists('redirect'))
 	 */
 	function redirect($uri = '', $method = 'auto', $code = NULL)
 	{
+        // Check for a named route.
+        if ($named = get_instance()->router->named($uri))
+        {
+            $uri = empty($named) ? $uri : $named;
+            unset($named);
+        }
+
 		if ( ! preg_match('#^(\w+:)?//#i', $uri))
 		{
 			$uri = site_url($uri);
