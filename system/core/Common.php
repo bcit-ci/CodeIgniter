@@ -634,7 +634,7 @@ if ( ! function_exists('_shutdown_handler'))
 	 */
 	function _shutdown_handler()
 	{
-		$last_error = function_exists('error_get_last') ? error_get_last() : NULL;
+		$last_error = error_get_last();
 		if (isset($last_error) &&
 			($last_error['type'] & (E_ERROR | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING)))
 		{
