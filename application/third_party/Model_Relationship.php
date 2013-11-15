@@ -38,12 +38,12 @@ class Model_Relationship
 		return '';
 	}
 	
-	public static function left_model()
+	public static function model_left()
 	{
 		return '';
 	}
 	
-	public static function right_model()
+	public static function model_right()
 	{
 		return '';
 	}
@@ -115,27 +115,27 @@ class Model_Relationship
 	}
 	
 	public static function count_related($left_object, $filters = NULL, $modified_since = NULL, $exclude_deleted = TRUE){
-		return static::get($left_object, $filters, $modified_since, $exclude_deleted, TRUE);
+		return static::get_related($left_object, $filters, $modified_since, $exclude_deleted, TRUE);
 	}
 	
 	public static function get_related($left_object, $filters = NULL, $modified_since = NULL, $exclude_deleted = TRUE, $count_only = FALSE)
 	{
 		$CI =& get_instance();
 			
-		$CI->load->model(static::left_model());	
-		$CI->load->model(static::right_model());
+		$CI->load->model(static::model_left());	
+		$CI->load->model(static::model_right());
 		
-		$model_left = static::left_model();
-		$model_right = static::right_model();
+		$model_left = static::model_left();
+		$model_right = static::model_right();
 		
-		$left_table = $model_left::GetDatabaseTableName();
-		$center_table = static::GetDatabaseTableName();
-		$right_table = $model_right::GetDatabaseTableName();
+		$left_table = $model_left::database_table_name();
+		$center_table = static::database_table_name();
+		$right_table = $model_right::database_table_name();
 		
 		$database_key_left_to_center = static::database_key_left_to_center();
 		$left_key = $left_object->$database_key_left_to_center;
 		
-		foreach($model_right::GetDatabaseKeys() as $key)
+		foreach($model_right::database_keys() as $key)
 		{
 			$CI->db->select($right_table.'.'.$key);
 		}
@@ -165,7 +165,7 @@ class Model_Relationship
 		
 		if(!$count_only)
 		{
-			if($this->to_many)
+			if(static::to_many())
 			{
 				$q = $CI->db->get();
 				$results = array();

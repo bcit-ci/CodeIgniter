@@ -64,7 +64,7 @@ class MY_Model extends CI_Model
 			{
 				$CI->db->select('deleted');
 			}
-			$CI->db->from($CI->database_table_name);
+			$CI->db->from(static::database_table_name());
 			foreach($filters as $value)
 			{
 				$CI->db->where($value);
@@ -197,42 +197,44 @@ class MY_Model extends CI_Model
 	public function create_relationship($relationship_key, $object)
 	{
 		if(isset($this->relationships[$relationship_key])){
-			$relationship_model = static::_relationship_class($this, $this->relationships[$relationship_key]);
-			$this->load->model($relationship_model);
-			$relationship_model::create($this, $object);
+			$relationship_class = static::_relationship_class($this, $this->relationships[$relationship_key]);
+			$relationship_path = static::_relationship_path($this, $this->relationships[$relationship_key]);
+			$this->load->model($relationship_path);
+			$relationship_class::create($this, $object);
 		}
 	}
 	
 	public function remove_relationship($relationship_key, $object)
 	{
 		if(isset($this->relationships[$relationship_key])){
-			$relationship_model = static::_relationship_class($this, $this->relationships[$relationship_key]);
-			$this->load->model($relationship_model);
-			$relationship_model::delete($this, $object);
+			$relationship_class = static::_relationship_class($this, $this->relationships[$relationship_key]);
+			$relationship_path = static::_relationship_path($this, $this->relationships[$relationship_key]);
+			$this->load->model($relationship_path);
+			$relationship_class::delete($this, $object);
 		}
 	}
 	
-	public function get_related($key)
+	public function get_related($key, $filters = NULL, $modified_since = NULL, $exclude_deleted = TRUE)
 	{
 		$relationship_key = $key;
 		$is_count = FALSE;
-		if (strpos($str, "count_") === 0)
+		if (strpos($key, "count_") === 0)
 		{
-			$relationship_key = substr($str, strlen('count_'));
+			$relationship_key = substr($key, strlen('count_'));
 			$is_count = TRUE;
 		}
-		
-		if(in_array($relationship_key, $this->relationships))
+		if(isset($relationship_key, $this->relationships))
 		{
-			$relationship_model = static::_relationship_class($this, $this->relationships[$relationship_key]);
-			$this->load->model($relationship_model);
+			$relationship_class = static::_relationship_class($this, $this->relationships[$relationship_key]);
+			$relationship_path = static::_relationship_path($this, $this->relationships[$relationship_key]);
+			$this->load->model($relationship_path);
 			if(!$is_count)
 			{
-				$this->$key = $relationship_model::get_related($this, $filters, $modified_since, $exclude_deleted);
+				$this->$key = $relationship_class::get_related($this, $filters, $modified_since, $exclude_deleted);
 			}
 			else
 			{
-				$this->$key = $relationship_model::count_related($this, $filters, $modified_since, $exclude_deleted);
+				$this->$key = $relationship_class::count_related($this, $filters, $modified_since, $exclude_deleted);
 			}
 			return $this->$key;
 		}
@@ -251,6 +253,11 @@ class MY_Model extends CI_Model
 	
 	private static function _relationship_class($left, $right)
 	{
-		return 'relationships/' . tolower(get_class($left)) . tolower($right);
+		return strtolower(get_class($left)) . strtolower($right);
+	}
+	
+	private static function _relationship_path($left, $right)
+	{
+		return 'relationships/' . static::_relationship_class($left, $right);
 	}
 }
