@@ -41,7 +41,7 @@ $hook['pre_system'] = array(
 	'function' => 'register',
 	'filename' => 'MY_Autoloader.php',
 	'filepath' => 'hooks',
-	'params'   => array(APPPATH.'base/')
+	'params'   => array(APPPATH.'third_party/')
 );
 
 /* End of file hooks.php */

@@ -1,6 +1,6 @@
 <?php
 
-class MY_Model_Relationship 
+class Model_Relationship 
 {
 	protected $database_table_name;
 	protected $database_key_left_to_center;
