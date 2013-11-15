@@ -350,7 +350,7 @@ function build_string($str = "")
 
 		</div>
 
-
+s
 		<h2><a name="debugging_code"></a>Debugging Code</h2>
 		<div class="guidelineDetails">
 			<p>No debugging code can be left in place for submitted add-ons unless it is commented out, i.e. no var_dump(), print_r(), die(), and exit() calls that were used while creating the add-on, unless they are commented out.</p>
@@ -587,6 +587,9 @@ _convert_text()		// private method</code>
 
 <strong>CORRECT</strong>:
 &lt;?php echo $foo; ?&gt;</code>
+
+<p>But since PHP 5.4 (<a href="http://www.php.net/manual/en/ini.core.php#ini.short-open-tag" target="_blank">http://www.php.net/manual/en/ini.core.php#ini.short-open-tag</a>) <b>&lt;?=</b> is always available regarding server settings.</p>
+
 		</div>
 
 
