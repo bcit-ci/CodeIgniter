@@ -15,8 +15,6 @@ class MY_Model extends CI_Model
 	public function __construct(){
 		parent::__construct();
 		
-		$this->load->model('my_model_relationship');
-		
 		$this->database_table_name = static::database_table_name();
 		$this->database_keys = static::database_keys();
 		
@@ -201,7 +199,7 @@ class MY_Model extends CI_Model
 		if(isset($this->relationships[$relationship_key])){
 			$relationship_model = static::_relationship_class($this, $this->relationships[$relationship_key]);
 			$this->load->model($relationship_model);
-			$relationship::create($this, $object);
+			$relationship_model::create($this, $object);
 		}
 	}
 	
@@ -210,22 +208,11 @@ class MY_Model extends CI_Model
 		if(isset($this->relationships[$relationship_key])){
 			$relationship_model = static::_relationship_class($this, $this->relationships[$relationship_key]);
 			$this->load->model($relationship_model);
-			$relationship::delete($this, $object);
+			$relationship_model::delete($this, $object);
 		}
 	}
 	
-	public function hide_properties()
-	{
-		foreach ($this->hidden_properties as $property)
-		{
-			if(isset($this->$property))
-			{
-				unset($this->$property);
-			}
-		}
-	}
-	
-	function __get($key)
+	public function get_related($key)
 	{
 		$relationship_key = $key;
 		$is_count = FALSE;
@@ -241,17 +228,24 @@ class MY_Model extends CI_Model
 			$this->load->model($relationship_model);
 			if(!$is_count)
 			{
-				$this->$key = $relationship::get_related($this, $filters, $modified_since, $exclude_deleted);
+				$this->$key = $relationship_model::get_related($this, $filters, $modified_since, $exclude_deleted);
 			}
 			else
 			{
-				$this->$key = $relationship::count_related($this, $filters, $modified_since, $exclude_deleted);
+				$this->$key = $relationship_model::count_related($this, $filters, $modified_since, $exclude_deleted);
 			}
 			return $this->$key;
 		}
-		else 
+	}
+	
+	public function hide_properties()
+	{
+		foreach ($this->hidden_properties as $property)
 		{
-			parent::__get($key);
+			if(isset($this->$property))
+			{
+				unset($this->$property);
+			}
 		}
 	}
 	
