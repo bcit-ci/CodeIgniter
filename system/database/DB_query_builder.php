@@ -1338,7 +1338,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * returned by an Query Builder query.
 	 *
 	 * @param	string
-	 * @return	string
+	 * @return	int
 	 */
 	public function count_all_results($table = '')
 	{
