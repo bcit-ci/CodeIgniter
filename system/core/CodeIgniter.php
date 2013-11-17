@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  */
 	define('CI_VERSION', '3.0-dev');
-	
+
 /*
  * ------------------------------------------------------
  *  Load the framework constants
@@ -55,10 +55,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	{
 		require(APPPATH.'config/'.ENVIRONMENT.'/constants.php');
 	}
-	else
-	{
-		require(APPPATH.'config/constants.php');
-	}
+
+	require(APPPATH.'config/constants.php');
 
 /*
  * ------------------------------------------------------
