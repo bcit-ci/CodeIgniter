@@ -45,14 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  */
 	define('CI_VERSION', '3.0-dev');
-
-/*
- * ------------------------------------------------------
- *  Load the global functions
- * ------------------------------------------------------
- */
-	require_once(BASEPATH.'core/Common.php');
-
+	
 /*
  * ------------------------------------------------------
  *  Load the framework constants
@@ -66,6 +59,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	{
 		require(APPPATH.'config/constants.php');
 	}
+
+/*
+ * ------------------------------------------------------
+ *  Load the global functions
+ * ------------------------------------------------------
+ */
+	require_once(BASEPATH.'core/Common.php');
 
 /*
  * ------------------------------------------------------
