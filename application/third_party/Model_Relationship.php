@@ -151,7 +151,7 @@ class Model_Relationship
 		if($filters)
 		{
 			foreach($filters as $value){
-				$this->db->where($value);
+				$CI->db->where($value);
 			}
 		}
 		if($exclude_deleted)
