@@ -339,7 +339,7 @@ class CI_Encrypt {
 	 */
 	protected function _xor_encode($string, $key)
 	{
-		show_error("Encryption is falling back to XOR because neither mcrypt nor openssl are available to PHP.", E_USER_NOTICE);
+		show_error("Encryption is falling back to XOR because neither mcrypt nor openssl are available to PHP.");
 		$rand = '';
 		do
 		{
