@@ -221,7 +221,7 @@ class CI_Encrypt {
 			$method = ($this->_mcrypt_exists === TRUE) ? 'mcrypt_encode' : 'openssl_encode';
 			$cipher = $this->$method($string, $this->get_key($key));
 			$hmac = $this->hmac($cipher, $this->get_hmac_key($key));
-			return base64_encode($cipher):$hmac;
+			return base64_encode($cipher).':'.$hmac;
 		}	
 		else
 		{
