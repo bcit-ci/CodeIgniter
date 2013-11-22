@@ -144,7 +144,7 @@ class CI_Encrypt {
 				show_error('In order to use the encryption class requires that you set an encryption key in your config file.');
 			}
 		}
-		if($legacy)
+		if ($legacy)
 		{
 			return md5($key); // EVIL
 		}
@@ -180,7 +180,7 @@ class CI_Encrypt {
 		}
 		// Return the last 32 bytes of a raw SHA-512 hash.
 		// Different from the encryption hey, but derived from the same input
-		return substr(hash('sha512', $key, true), 32);
+		return substr( hash('sha512', $key, true), 32);
 	}
 
 	// --------------------------------------------------------------------
@@ -216,7 +216,7 @@ class CI_Encrypt {
 	 */
 	public function encode($string, $key = '')
 	{
-		if($this->_mcrypt_exists || $this->_openssl_exists )
+		if ($this->_mcrypt_exists || $this->_openssl_exists )
 		{
 			$method = ($this->_mcrypt_exists === TRUE) ? 'mcrypt_encode' : 'openssl_encode';
 			$cipher = $this->$method($string, $this->get_key($key));
@@ -244,10 +244,10 @@ class CI_Encrypt {
 	 */
 	public function decode($string, $key = '')
 	{
-		if($this->_mcrypt_exists || $this->_openssl_exists )
+		if ($this->_mcrypt_exists || $this->_openssl_exists )
 		{
 			// 
-			if (!preg_match('/^([a-zA-Z0-9\/\+]+={0,3}):?([0-9a-f]{32,})?$/', $string, $m) )
+			if ( ! preg_match('/^([a-zA-Z0-9\/\+]+={0,3}):?([0-9a-f]{32,})?$/', $string, $m) )
 			{
 				return FALSE;
 			}
@@ -256,7 +256,7 @@ class CI_Encrypt {
 			{
 				$ciphertext = base64_decode($m[1]);
 				$calculated = $this->hmac($ciphertext, $this->get_hmac_key($key));
-				if (!$this->_slow_equals($calculated, $hmac))
+				if ( ! $this->_slow_equals($calculated, $m[2]))
 				{
 					show_error("HMAC validation failed!");
 					return FALSE;
@@ -427,7 +427,7 @@ class CI_Encrypt {
 		{
 			$init_vect = mcrypt_create_iv($init_size, MCRYPT_RAND);
 		}
-		if($legacy)
+		if ($legacy)
 		{
 			return $this->_add_cipher_noise($init_vect.mcrypt_encrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), $key);
 		}
