@@ -46,7 +46,7 @@ class Encrypt_test extends CI_TestCase {
 			return;
 		}
 
-		$this->assertEquals('rijndael-256', $this->encrypt->get_cipher());
+		$this->assertEquals('rijndael-128', $this->encrypt->get_cipher());
 	}
 
 	// --------------------------------------------------------------------
