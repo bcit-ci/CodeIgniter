@@ -255,7 +255,7 @@ class CI_Encrypt {
 			if (count($m) > 2)
 			{
 				$ciphertext = base64_decode($m[1]);
-				$calculated = $this->hmac($data, $this->get_hmac_key($key));
+				$calculated = $this->hmac($ciphertext, $this->get_hmac_key($key));
 				if (!$this->_slow_equals($calculated, $hmac))
 				{
 					show_error("HMAC validation failed!");
