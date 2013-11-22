@@ -45,6 +45,13 @@ class CI_Encrypt {
 	 * @var string
 	 */
 	public $encryption_key		= '';
+	
+	/**
+	 * Used to authenticate the ciphertext
+	 *
+	 * @var string
+	 */
+	public $authentication_key	= '';
 
 	/**
 	 * Type of hash operation
@@ -107,6 +114,7 @@ class CI_Encrypt {
 	 */
 	public function __sleep() {
 		$this->encryption_key = null;
+		$this->authentication_key = null;
 	}
 
 	// --------------------------------------------------------------------
@@ -114,7 +122,7 @@ class CI_Encrypt {
 	/**
 	 * Fetch the encryption key
 	 *
-	 * Returns it as MD5 in order to have an exact-length 128 bit key.
+	 * Returns it as raw SHA-256 (legacy: MD5) so the key length is 256 bits
 	 * Mcrypt is sensitive to keys that are not the correct length
 	 *
 	 * @param	string
@@ -141,6 +149,38 @@ class CI_Encrypt {
 			return md5($key); // EVIL
 		}
 		return hash('sha256', $key, true);
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Fetch the authenticatioion key
+	 *
+	 * Returns it as MD5 in order to have an exact-length 128 bit key.
+	 * Mcrypt is sensitive to keys that are not the correct length
+	 *
+	 * @param	string
+	 * @return	string
+	 */
+	public function get_hmac_key($key = '')
+	{
+		if ($key === '')
+		{
+			if ($this->authentication_key !== '')
+			{
+				return $this->authentication_key;
+			}
+
+			$key = config_item('encryption_key');
+
+			if ($key === FALSE)
+			{
+				show_error('In order to use the encryption class requires that you set an encryption key in your config file.');
+			}
+		}
+		// Return the last 32 bytes of a raw SHA-512 hash.
+		// Different from the encryption hey, but derived from the same input
+		return substr(hash('sha512', $key, true), 32);
 	}
 
 	// --------------------------------------------------------------------
@@ -179,11 +219,13 @@ class CI_Encrypt {
 		if($this->_mcrypt_exists || $this->_openssl_exists )
 		{
 			$method = ($this->_mcrypt_exists === TRUE) ? 'mcrypt_encode' : 'openssl_encode';
-			return base64_encode($this->$method($string, $this->get_key($key)));
+			$cipher = $this->$method($string, $this->get_key($key));
+			$hmac = $this->hmac($cipher, $this->get_hmac_key($key));
+			return base64_encode($cipher):$hmac;
 		}	
 		else
 		{
-			trigger_error("Please install mcrypt or upgrade PHP to 5.3.0 or newer", E_USER_NOTICE);
+			show_error("Please install mcrypt or upgrade PHP to 5.3.0 or newer", E_USER_NOTICE);
 			$method = '_xor_encode';
 			return base64_encode($this->$method($string, $this->get_key($key, true)));
 		}
@@ -204,23 +246,31 @@ class CI_Encrypt {
 	{
 		if($this->_mcrypt_exists || $this->_openssl_exists )
 		{
-			// Why decode then re-encode if it's invalid. There should be no
-			// more than 3 = at the end of a string and none anywhere in the
-			// middle...
 			// 
-			// This should be faster too...
-			if (!preg_match('/^[a-zA-Z0-9\/\+]+={0,3}$/', $string) )
+			if (!preg_match('/^([a-zA-Z0-9\/\+]+={0,3}):?([0-9a-f]{32,})?$/', $string, $m) )
 			{
 				return FALSE;
 			}
 			$method = ($this->_mcrypt_exists === TRUE) ? 'mcrypt_decode' : 'openssl_decode';
-			return $this->$method(base64_decode($string), $this->get_key($key));
+			if (count($m) > 2)
+			{
+				$ciphertext = base64_decode($m[1]);
+				$calculated = $this->hmac($data, $this->get_hmac_key($key));
+				if (!$this->_slow_equals($calculated, $hmac))
+				{
+					show_error("HMAC validation failed!");
+					return FALSE;
+				}
+				return $this->$method($ciphertext, $this->get_key($key));
+			}
+			// Before the days of HMAC... legacy mode
+			return $this->$method(base64_decode($m[1]), $this->get_key($key), true);
 		}
 		else
 		{
-			trigger_error("Please install mcrypt or upgrade PHP to 5.3.0 or newer", E_USER_NOTICE);
+			show_error("Please install mcrypt or upgrade PHP to 5.3.0 or newer");
 			$method = '_xor_encode';
-			return $this->$method(base64_decode($string), $this->get_key($key, true));
+			return $this->$method(base64_decode($string), $this->get_key($key, true), true);
 		}
 	}
 	// --------------------------------------------------------------------
@@ -289,7 +339,7 @@ class CI_Encrypt {
 	 */
 	protected function _xor_encode($string, $key)
 	{
-		trigger_error("Encryption is falling back to XOR because neither mcrypt nor openssl are available to PHP.", E_USER_NOTICE);
+		show_error("Encryption is falling back to XOR because neither mcrypt nor openssl are available to PHP.", E_USER_NOTICE);
 		$rand = '';
 		do
 		{
@@ -365,7 +415,7 @@ class CI_Encrypt {
 	 * @param	string
 	 * @return	string
 	 */
-	public function mcrypt_encode($data, $key)
+	public function mcrypt_encode($data, $key, $legacy = false)
 	{
 		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
 		if (defined('MCRYPT_DEV_URANDOM'))
@@ -377,7 +427,12 @@ class CI_Encrypt {
 		{
 			$init_vect = mcrypt_create_iv($init_size, MCRYPT_RAND);
 		}
-		return $this->_add_cipher_noise($init_vect.mcrypt_encrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), $key);
+		if($legacy)
+		{
+			return $this->_add_cipher_noise($init_vect.mcrypt_encrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), $key);
+		}
+		// Get ciphertext; we will HMAC it in ::encode()
+		return $init_vect.mcrypt_encrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect);
 	}
 
 
@@ -407,9 +462,13 @@ class CI_Encrypt {
 	 * @param	string
 	 * @return	string
 	 */
-	public function mcrypt_decode($data, $key)
+	public function mcrypt_decode($data, $key, $legacy = false)
 	{
-		$data = $this->_remove_cipher_noise($data, $key);
+		
+		if ($legacy)
+		{
+			$data = $this->_remove_cipher_noise($data, $key);
+		}
 		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
 
 		if ($init_size > strlen($data))
@@ -506,6 +565,30 @@ class CI_Encrypt {
 
 		return $str;
 	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Constant time comparison function to prevent timing attacks
+	 *
+	 * Function description
+	 *
+	 * @param	string	$a
+	 * @param	string	$b
+	 * @return	boolean
+	 * 
+	 * From https://defuse.ca/secure-php-encryption.htm
+	 */
+	
+	protected static function _slow_equals($a, $b)
+	{
+		$diff = strlen($a) ^ strlen($b);
+		for($i = 0; $i < strlen($a) && $i < strlen($b); $i++)
+		{
+			$diff |= ord($a[$i]) ^ ord($b[$i]);
+		}
+		return $diff === 0;
+	}
 
 	// --------------------------------------------------------------------
 
@@ -577,7 +660,9 @@ class CI_Encrypt {
 	{
 		if ($this->_mcrypt_cipher === NULL)
 		{
-			return $this->_mcrypt_cipher = MCRYPT_RIJNDAEL_256;
+			return $this->_mcrypt_cipher = MCRYPT_RIJNDAEL_128;
+			// MCRYPT_RIJNDAEL_128 is AES; if you give it a 32-byte string
+			// you will get AES-256; Rijndael 256 is not AES
 		}
 
 		return $this->_mcrypt_cipher;
@@ -634,9 +719,25 @@ class CI_Encrypt {
 	 */
 	public function hmac($str, $key = NULL, $algo = NULL, $raw = false)
 	{
-		// Default: Use encryption key
-		if($key === NULL) {
-			$key = $this->encryption_key;
+		// We may need stricter rules for this.
+		
+		if($key === NULL)
+		{
+			if($this->authentication_key !== NULL)
+			{
+				$key = $this->authentication_key;
+			}
+			else
+			{
+				
+				$key = $this->encryption_key;
+			}
+		}
+		if($key === NULL)
+		{
+			// It's still undefined? Kill it with fire
+			show_error("Danger: Undefined authentication key!");
+			return;
 		}
 		// Can pass the algorithm or just use the same as the hash type
 		if($algo === NULL)
