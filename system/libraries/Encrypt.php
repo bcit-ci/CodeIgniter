@@ -225,9 +225,9 @@ class CI_Encrypt {
 		}	
 		else
 		{
-			show_error("Please install mcrypt or upgrade PHP to 5.3.0 or newer", E_USER_NOTICE);
-			$method = '_xor_encode';
-			return base64_encode($this->$method($string, $this->get_key($key, true)));
+			show_error("Please install mcrypt or upgrade PHP to 5.3.0 or newer");
+			// FAIL HARD: You shouldn't be using XOR anymore
+			return FALSE;
 		}
 	}
 
