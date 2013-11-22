@@ -35,6 +35,7 @@ class CI_Form_validation {
 	protected $_error_suffix		= '</p>';
 	protected $error_string			= '';
 	protected $_safe_form_data		= FALSE;
+	protected $_data_to_validate    = array();
 
 	/**
 	 * Constructor
@@ -54,12 +55,39 @@ class CI_Form_validation {
 		{
 			mb_internal_encoding($this->CI->config->item('charset'));
 		}
+		
+		$this->set_data_source();
 
 		log_message('debug', "Form Validation Class Initialized");
 	}
 
 	// --------------------------------------------------------------------
-
+    
+    /**
+	 * Set Data Source
+	 *
+	 * This function stores the array of data to be validated. Usually 
+	 * CodeIgniter will use $_POST superglobal as the data source, but
+	 * there are times where the data may be stored elsewhere. 
+	 *
+	 * @access	public
+	 * @param	array
+	 * @return	void
+	 */
+    public function set_data_source($source = NULL)
+    {
+        if(is_array($source))
+        {
+            $this->_data_to_validate = $source;
+        }
+        else 
+        {
+            $this->_data_to_validate = $_POST;
+        }
+        
+        return $this;
+    }
+    
 	/**
 	 * Set Rules
 	 *
@@ -73,8 +101,8 @@ class CI_Form_validation {
 	 */
 	public function set_rules($field, $label = '', $rules = '')
 	{
-		// No reason to set rules if we have no POST data
-		if (count($_POST) == 0)
+		// No reason to set rules if we have no data to validate
+		if (count($this->_data_to_validate) == 0)
 		{
 			return $this;
 		}
@@ -280,8 +308,10 @@ class CI_Form_validation {
 	 */
 	public function run($group = '')
 	{
+	    var_export($this->_data_to_validate);
+	
 		// Do we even have any data to process?  Mm?
-		if (count($_POST) == 0)
+		if (count($this->_data_to_validate) == 0)
 		{
 			return FALSE;
 		}
@@ -320,21 +350,21 @@ class CI_Form_validation {
 		$this->CI->lang->load('form_validation');
 
 		// Cycle through the rules for each field, match the
-		// corresponding $_POST item and test for errors
+		// corresponding source data item and test for errors
 		foreach ($this->_field_data as $field => $row)
 		{
-			// Fetch the data from the corresponding $_POST array and cache it in the _field_data array.
+			// Fetch the data from the corresponding source data array and cache it in the _field_data array.
 			// Depending on whether the field name is an array or a string will determine where we get it from.
 
 			if ($row['is_array'] == TRUE)
 			{
-				$this->_field_data[$field]['postdata'] = $this->_reduce_array($_POST, $row['keys']);
+				$this->_field_data[$field]['postdata'] = $this->_reduce_array($this->_data_to_validate, $row['keys']);
 			}
 			else
 			{
-				if (isset($_POST[$field]) AND $_POST[$field] != "")
+				if (isset($this->_data_to_validate[$field]) AND $this->_data_to_validate[$field] != "")
 				{
-					$this->_field_data[$field]['postdata'] = $_POST[$field];
+					$this->_field_data[$field]['postdata'] = $this->_data_to_validate[$field];
 				}
 			}
 
@@ -365,7 +395,7 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Traverse a multidimensional $_POST array index until the data is found
+	 * Traverse a multidimensional array index until the data is found
 	 *
 	 * @access	private
 	 * @param	array
@@ -413,15 +443,15 @@ class CI_Form_validation {
 			{
 				if ($row['is_array'] == FALSE)
 				{
-					if (isset($_POST[$row['field']]))
+					if (isset($this->_data_to_validate[$row['field']]))
 					{
-						$_POST[$row['field']] = $this->prep_for_form($row['postdata']);
+						$this->_data_to_validate[$row['field']] = $this->prep_for_form($row['postdata']);
 					}
 				}
 				else
 				{
 					// start with a reference
-					$post_ref =& $_POST;
+					$post_ref =& $this->_data_to_validate;
 
 					// before we assign values, make a reference to the right POST key
 					if (count($row['keys']) == 1)
@@ -469,7 +499,7 @@ class CI_Form_validation {
 	 */
 	protected function _execute($row, $rules, $postdata = NULL, $cycles = 0)
 	{
-		// If the $_POST data is an array we will run a recursive call
+		// If the source data is an array we will run a recursive call
 		if (is_array($postdata))
 		{
 			foreach ($postdata as $key => $val)
@@ -928,12 +958,12 @@ class CI_Form_validation {
 	 */
 	public function matches($str, $field)
 	{
-		if ( ! isset($_POST[$field]))
+		if ( ! isset($this->_data_to_validate[$field]))
 		{
 			return FALSE;
 		}
 
-		$field = $_POST[$field];
+		$field = $this->_data_to_validate[$field];
 
 		return ($str !== $field) ? FALSE : TRUE;
 	}
