@@ -55,21 +55,14 @@ if ( ! function_exists('title'))
 		$CI =& get_instance();
 		$application_name = $CI->config->item('application_name');
 
-		if($application_name != '' && $title != NULL){
-
-			return $application_name.' '.$separator.' '.$title;
-
-		}else if($application_name != '' && $title == NULL){
+		if($title == NULL){
 
 			return $application_name;
 
-		}else if($application_name == '' && $title == NULL){
+		}else{
 
-			return '';
+			return  ($application_name != '') ? ($application_name.' '.$separator.' '.$title) : $title;;
 
-		}else if($application_name == '' && $title != NULL){
-
-			return $title;
 		}
 
 	}
