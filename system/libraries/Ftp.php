@@ -392,7 +392,7 @@ class CI_FTP {
 		{
 			if ($this->debug === TRUE)
 			{
-				$this->_error('ftp_unable_to_' . ($move === FALSE ? 'rename' : 'move'));
+				$this->_error('ftp_unable_to_'.($move === FALSE ? 'rename' : 'move'));
 			}
 			return FALSE;
 		}

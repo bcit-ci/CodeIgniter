@@ -344,7 +344,7 @@ class CI_DB_oci8_driver extends CI_DB {
 				$have_cursor = TRUE;
 			}
 		}
-		$sql = trim($sql, ',') . '); END;';
+		$sql = trim($sql, ',').'); END;';
 
 		$this->stmt_id = FALSE;
 		$this->_set_stmt_id($sql);
