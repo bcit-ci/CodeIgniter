@@ -9,16 +9,16 @@ class View_helper_test extends CI_TestCase {
 
 	// ------------------------------------------------------------------------
 
-	public function test_element_with_existing_item()
+	public function test_title()
 	{
-		$CI =& get_instance();
-		$CI->config->set_item('application_name', 'My Application');
+		$application_name = 'My Application';
+		$this->ci_set_config('application_name', $application_name);
 
 		$this->assertEquals('My Application | Home', title('Home'));
 		$this->assertEquals('My Application - Home', title('Home','-'));
 		$this->assertEquals('My Application', title());
 
-		$CI->config->set_item('application_name', '');
+		$this->ci_set_config('application_name', '');
 		$this->assertEquals('', title());
 		$this->assertEquals('Home', title('Home'));
 
