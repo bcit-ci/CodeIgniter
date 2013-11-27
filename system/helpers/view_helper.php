@@ -61,7 +61,7 @@ if ( ! function_exists('title'))
 
 		}else{
 
-			return  ($application_name != '') ? ($application_name.' '.$separator.' '.$title) : $title;;
+			return  ($application_name != '') ? ($application_name.' '.$separator.' '.$title) : $title;
 
 		}
 
