@@ -60,6 +60,8 @@ class CI_DB_result {
 	 * Custom query result.
 	 *
 	 * @param class_name A string that represents the type of object you want back
+	 * @param	int	start index for return array or object
+	 * @param	int	hom many elements to return
 	 * @return array of objects
 	 */
 	public function custom_result_object($class_name, $iStart = 0, $iCount = null  )
@@ -103,6 +105,8 @@ class CI_DB_result {
 	 * Query result.  "object" version.
 	 *
 	 * @access	public
+	 * @param	int	start index for return array or object
+	 * @param	int	hom many elements to return
 	 * @return	object
 	 */
 	public function result_object( $iStart = 0, $iCount = null )
@@ -138,6 +142,8 @@ class CI_DB_result {
 	 * Query result.  "array" version.
 	 *
 	 * @access	public
+	 * @param	int	start index for return array or object
+	 * @param	int	hom many elements to return 
 	 * @return	array
 	 */
 	public function result_array( $iStart = 0, $iCount = null )
