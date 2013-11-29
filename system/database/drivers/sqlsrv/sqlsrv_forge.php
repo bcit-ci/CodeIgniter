@@ -60,7 +60,7 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 	 */
 	function _drop_table($table)
 	{
-    return = "IF (EXISTS (SELECT * 
+    return "IF (EXISTS (SELECT * 
             FROM INFORMATION_SCHEMA.TABLES 
             WHERE TABLE_SCHEMA = 'dbo' 
             AND  TABLE_NAME = '".$table."')) DROP TABLE [dbo].[".$table."]";
