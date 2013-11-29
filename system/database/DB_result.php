@@ -43,9 +43,11 @@ class CI_DB_result {
 	 *
 	 * @access	public
 	 * @param	string	can be "object" or "array"
+	 * @param	int	start index for return array or object
+	 * @param	int	hom many elements to return
 	 * @return	mixed	either a result object or array
 	 */
-	public function result($type = 'object')
+	public function result($type = 'object', $iStart = 0, $iCount = null )
 	{
 		if ($type == 'array') return $this->result_array();
 		else if ($type == 'object') return $this->result_object();
@@ -60,7 +62,7 @@ class CI_DB_result {
 	 * @param class_name A string that represents the type of object you want back
 	 * @return array of objects
 	 */
-	public function custom_result_object($class_name)
+	public function custom_result_object($class_name, $iStart = 0, $iCount = null  )
 	{
 		if (array_key_exists($class_name, $this->custom_result_object))
 		{
@@ -73,10 +75,13 @@ class CI_DB_result {
 		}
 
 		// add the data to the object
-		$this->_data_seek(0);
+		$this->_data_seek( $iStart );
 		$result_object = array();
 
-		while ($row = $this->_fetch_object())
+		if( $iCount == null )
+			$iCount = $this->num_rows();
+			
+		while ( ( $row = $this->_fetch_object() ) && --$iCount >= 0 )
 		{
 			$object = new $class_name();
 
@@ -100,7 +105,7 @@ class CI_DB_result {
 	 * @access	public
 	 * @return	object
 	 */
-	public function result_object()
+	public function result_object( $iStart = 0, $iCount = null )
 	{
 		if (count($this->result_object) > 0)
 		{
@@ -115,8 +120,11 @@ class CI_DB_result {
 			return array();
 		}
 
-		$this->_data_seek(0);
-		while ($row = $this->_fetch_object())
+		if( $iCount == null )
+			$iCount = $this->num_rows();
+		
+		$this->_data_seek( $iStart );
+		while ( ( $row = $this->_fetch_object() ) && --$iCount >= 0 )
 		{
 			$this->result_object[] = $row;
 		}
@@ -132,7 +140,7 @@ class CI_DB_result {
 	 * @access	public
 	 * @return	array
 	 */
-	public function result_array()
+	public function result_array( $iStart = 0, $iCount = null )
 	{
 		if (count($this->result_array) > 0)
 		{
@@ -147,8 +155,12 @@ class CI_DB_result {
 			return array();
 		}
 
-		$this->_data_seek(0);
-		while ($row = $this->_fetch_assoc())
+		$this->_data_seek( $iStart );
+		
+		if( $iCount == null )
+			$iCount = $this->num_rows();
+		
+		while ( ($row = $this->_fetch_assoc()) && --$iCount >= 0 )
 		{
 			$this->result_array[] = $row;
 		}
