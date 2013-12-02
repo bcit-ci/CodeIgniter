@@ -417,7 +417,7 @@ class CI_Pagination {
 
 			// Add the page segment to the end of the query string, where the
 			// page number will be appended.
-			$this->base_url .= $query_string_sep.http_build_query(array_merge($get, array($this->query_string_segment => '')));
+			$this->base_url .= $query_string_sep.http_build_query(array_merge(($get === FALSE) ? array_merge(array($this->query_string_segment => '')) : $get, array($this->query_string_segment => '')));
 		}
 		else
 		{
