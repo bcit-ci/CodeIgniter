@@ -264,7 +264,7 @@ class CI_Profiler {
 				foreach ($db->queries as $key => $val)
 				{
 					$time = number_format($db->query_times[$key], 4);
-					$val = highlight_code($val, ENT_QUOTES);
+					$val = highlight_code($val);
 
 					foreach ($highlight as $bold)
 					{
@@ -307,10 +307,7 @@ class CI_Profiler {
 
 			foreach ($_GET as $key => $val)
 			{
-				if ( ! is_numeric($key))
-				{
-					$key = "'".$key."'";
-				}
+				is_int($key) OR $key = "'".$key."'";
 
 				$output .= '<tr><td style="width:50%;color:#000;background-color:#ddd;padding:5px;">&#36;_GET['
 					.$key.']&nbsp;&nbsp; </td><td style="width:50%;padding:5px;color:#cd6e00;font-weight:normal;background-color:#ddd;">'
@@ -338,7 +335,7 @@ class CI_Profiler {
 			."\n"
 			.'<legend style="color:#009900;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_post_data')."&nbsp;&nbsp;</legend>\n";
 
-		if (count($_POST) === 0)
+		if (count($_POST) === 0 && count($_FILES) === 0)
 		{
 			$output .= '<div style="color:#009900;font-weight:normal;padding:4px 0 4px 0;">'.$this->CI->lang->line('profiler_no_post').'</div>';
 		}
@@ -348,10 +345,7 @@ class CI_Profiler {
 
 			foreach ($_POST as $key => $val)
 			{
-				if ( ! is_numeric($key))
-				{
-					$key = "'".$key."'";
-				}
+				is_int($key) OR $key = "'".$key."'";
 
 				$output .= '<tr><td style="width:50%;padding:5px;color:#000;background-color:#ddd;">&#36;_POST['
 					.$key.']&nbsp;&nbsp; </td><td style="width:50%;padding:5px;color:#009900;font-weight:normal;background-color:#ddd;">';
@@ -363,6 +357,21 @@ class CI_Profiler {
 				else
 				{
 					$output .= htmlspecialchars(stripslashes($val));
+				}
+
+				$output .= "</td></tr>\n";
+			}
+
+			foreach ($_FILES as $key => $val)
+			{
+				is_int($key) OR $key = "'".$key."'";
+
+				$output .= '<tr><td style="width:50%;padding:5px;color:#000;background-color:#ddd;">&#36;_FILES['
+					.$key.']&nbsp;&nbsp; </td><td style="width:50%;padding:5px;color:#009900;font-weight:normal;background-color:#ddd;">';
+
+				if (is_array($val) OR is_object($val))
+				{
+					$output .= '<pre>'.htmlspecialchars(stripslashes(print_r($val, TRUE))).'</pre>';
 				}
 
 				$output .= "</td></tr>\n";
@@ -447,7 +456,7 @@ class CI_Profiler {
 			.'&nbsp;&nbsp;(<span style="cursor: pointer;" onclick="var s=document.getElementById(\'ci_profiler_httpheaders_table\').style;s.display=s.display==\'none\'?\'\':\'none\';this.innerHTML=this.innerHTML==\''.$this->CI->lang->line('profiler_section_show').'\'?\''.$this->CI->lang->line('profiler_section_hide').'\':\''.$this->CI->lang->line('profiler_section_show').'\';">'.$this->CI->lang->line('profiler_section_show')."</span>)</legend>\n\n\n"
 			.'<table style="width:100%;display:none;" id="ci_profiler_httpheaders_table">'."\n";
 
-		foreach (array('HTTP_ACCEPT', 'HTTP_USER_AGENT', 'HTTP_CONNECTION', 'SERVER_PORT', 'SERVER_NAME', 'REMOTE_ADDR', 'SERVER_SOFTWARE', 'HTTP_ACCEPT_LANGUAGE', 'SCRIPT_NAME', 'REQUEST_METHOD',' HTTP_HOST', 'REMOTE_HOST', 'CONTENT_TYPE', 'SERVER_PROTOCOL', 'QUERY_STRING', 'HTTP_ACCEPT_ENCODING', 'HTTP_X_FORWARDED_FOR') as $header)
+		foreach (array('HTTP_ACCEPT', 'HTTP_USER_AGENT', 'HTTP_CONNECTION', 'SERVER_PORT', 'SERVER_NAME', 'REMOTE_ADDR', 'SERVER_SOFTWARE', 'HTTP_ACCEPT_LANGUAGE', 'SCRIPT_NAME', 'REQUEST_METHOD',' HTTP_HOST', 'REMOTE_HOST', 'CONTENT_TYPE', 'SERVER_PROTOCOL', 'QUERY_STRING', 'HTTP_ACCEPT_ENCODING', 'HTTP_X_FORWARDED_FOR', 'HTTP_DNT') as $header)
 		{
 			$val = isset($_SERVER[$header]) ? $_SERVER[$header] : '';
 			$output .= '<tr><td style="vertical-align:top;width:50%;padding:5px;color:#900;background-color:#ddd;">'

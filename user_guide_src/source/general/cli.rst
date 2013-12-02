@@ -23,7 +23,7 @@ but they are not always obvious.
 
 -  Run your cron-jobs without needing to use *wget* or *curl*
 -  Make your cron-jobs inaccessible from being loaded in the URL by
-   checking for ``$this->input->is_cli_request()``
+   checking the return value of :func:`is_cli()`.
 -  Make interactive "tasks" that can do things like set permissions,
    prune cache folders, run backups, etc.
 -  Integrate with other applications in other languages. For example, a
@@ -33,7 +33,7 @@ Let's try it: Hello World!
 ==========================
 
 Let's create a simple controller so you can see it in action. Using your
-text editor, create a file called tools.php, and put the following code
+text editor, create a file called Tools.php, and put the following code
 in it::
 
 	<?php

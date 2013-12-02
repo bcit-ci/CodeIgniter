@@ -91,7 +91,7 @@ class CI_Exceptions {
 	public function log_exception($severity, $message, $filepath, $line)
 	{
 		$severity = isset($this->levels[$severity]) ? $this->levels[$severity] : $severity;
-		log_message('error', 'Severity: '.$severity.'  --> '.$message. ' '.$filepath.' '.$line, TRUE);
+		log_message('error', 'Severity: '.$severity.' --> '.$message.' '.$filepath.' '.$line);
 	}
 
 	// --------------------------------------------------------------------
@@ -107,13 +107,21 @@ class CI_Exceptions {
 	 */
 	public function show_404($page = '', $log_error = TRUE)
 	{
-		$heading = '404 Page Not Found';
-		$message = 'The page you requested was not found.';
+		if (is_cli())
+		{
+			$heading = 'Not Found';
+			$message = 'The controller/method pair you requested was not found.';
+		}
+		else
+		{
+			$heading = '404 Page Not Found';
+			$message = 'The page you requested was not found.';
+		}
 
 		// By default we log this, but allow a dev to skip it
 		if ($log_error)
 		{
-			log_message('error', '404 Page Not Found --> '.$page);
+			log_message('error', $heading.': '.$page);
 		}
 
 		echo $this->show_error($heading, $message, 'error_404', 404);
@@ -137,16 +145,24 @@ class CI_Exceptions {
 	 */
 	public function show_error($heading, $message, $template = 'error_general', $status_code = 500)
 	{
-		set_status_header($status_code);
-
-		$message = '<p>'.implode('</p><p>', is_array($message) ? $message : array($message)).'</p>';
+		if (is_cli())
+		{
+			$message = "\t".(is_array($message) ? implode("\n\t", $message) : $message);
+			$template = 'cli'.DIRECTORY_SEPARATOR.$template;
+		}
+		else
+		{
+			set_status_header($status_code);
+			$message = '<p>'.(is_array($message) ? implode('</p><p>', $message) : $message).'</p>';
+			$template = 'html'.DIRECTORY_SEPARATOR.$template;
+		}
 
 		if (ob_get_level() > $this->ob_level + 1)
 		{
 			ob_end_flush();
 		}
 		ob_start();
-		include(VIEWPATH.'errors/'.$template.'.php');
+		include(VIEWPATH.'errors'.DIRECTORY_SEPARATOR.$template.'.php');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		return $buffer;
@@ -166,13 +182,22 @@ class CI_Exceptions {
 	public function show_php_error($severity, $message, $filepath, $line)
 	{
 		$severity = isset($this->levels[$severity]) ? $this->levels[$severity] : $severity;
-		$filepath = str_replace('\\', '/', $filepath);
 
-		// For safety reasons we do not show the full file path
-		if (FALSE !== strpos($filepath, '/'))
+		// For safety reasons we don't show the full file path in non-CLI requests
+		if ( ! is_cli())
 		{
-			$x = explode('/', $filepath);
-			$filepath = $x[count($x)-2].'/'.end($x);
+			$filepath = str_replace('\\', '/', $filepath);
+			if (FALSE !== strpos($filepath, '/'))
+			{
+				$x = explode('/', $filepath);
+				$filepath = $x[count($x)-2].'/'.end($x);
+			}
+
+			$template = 'html'.DIRECTORY_SEPARATOR.'error_php';
+		}
+		else
+		{
+			$template = 'cli'.DIRECTORY_SEPARATOR.'error_php';
 		}
 
 		if (ob_get_level() > $this->ob_level + 1)
@@ -180,7 +205,7 @@ class CI_Exceptions {
 			ob_end_flush();
 		}
 		ob_start();
-		include(VIEWPATH.'errors/error_php.php');
+		include(VIEWPATH.'errors'.DIRECTORY_SEPARATOR.$template.'.php');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		echo $buffer;

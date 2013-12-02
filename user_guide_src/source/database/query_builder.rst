@@ -68,7 +68,7 @@ Example::
 	// Produces string: SELECT * FROM mytable
 
 The second parameter enables you to set whether or not the query builder query
-will be reset (by default it will be&mdash;just like `$this->db->get()`)::
+will be reset (by default it will be reset, just like when using `$this->db->get()`)::
 
 	echo $this->db->limit(10,20)->get_compiled_select('mytable', FALSE);
 	// Produces string: SELECT * FROM mytable LIMIT 20, 10
@@ -76,7 +76,7 @@ will be reset (by default it will be&mdash;just like `$this->db->get()`)::
 
 	echo $this->db->select('title, content, date')->get_compiled_select();
 
-	// Produces string: SELECT title, content, date FROM mytable
+	// Produces string: SELECT title, content, date FROM mytable LIMIT 20, 10
 
 The key thing to notice in the above example is that the second query did not
 utilize `$this->db->from()`_ and did not pass a table name into the first

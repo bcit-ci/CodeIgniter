@@ -241,9 +241,10 @@ class CI_DB_mysqli_driver extends CI_DB {
 		// even if the queries produce a successful result.
 		$this->_trans_failure = ($test_mode === TRUE);
 
-		$this->simple_query('SET AUTOCOMMIT=0');
-		$this->simple_query('START TRANSACTION'); // can also be BEGIN or BEGIN WORK
-		return TRUE;
+		$this->conn_id->autocommit(FALSE);
+		return is_php('5.5')
+			? $this->conn_id->begin_transaction()
+			: $this->simple_query('START TRANSACTION'); // can also be BEGIN or BEGIN WORK
 	}
 
 	// --------------------------------------------------------------------
@@ -261,9 +262,13 @@ class CI_DB_mysqli_driver extends CI_DB {
 			return TRUE;
 		}
 
-		$this->simple_query('COMMIT');
-		$this->simple_query('SET AUTOCOMMIT=1');
-		return TRUE;
+		if ($this->conn_id->commit())
+		{
+			$this->conn_id->autocommit(TRUE);
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -281,9 +286,13 @@ class CI_DB_mysqli_driver extends CI_DB {
 			return TRUE;
 		}
 
-		$this->simple_query('ROLLBACK');
-		$this->simple_query('SET AUTOCOMMIT=1');
-		return TRUE;
+		if ($this->conn_id->rollback())
+		{
+			$this->conn_id->autocommit(TRUE);
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------

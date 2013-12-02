@@ -50,6 +50,7 @@ $platforms = array(
 	'win98'				=> 'Windows 98',
 	'windows 95'		=> 'Windows 95',
 	'win95'				=> 'Windows 95',
+	'windows phone'			=> 'Windows Phone',
 	'windows'			=> 'Unknown Windows OS',
 	'android'			=> 'Android',
 	'blackberry'		=> 'BlackBerry',
@@ -80,6 +81,7 @@ $platforms = array(
 // The order of this array should NOT be changed. Many browsers return
 // multiple browser types so we want to identify the sub-type first.
 $browsers = array(
+	'OPR'			=> 'Opera',
 	'Flock'			=> 'Flock',
 	'Chrome'		=> 'Chrome',
 	'Opera'			=> 'Opera',
@@ -102,7 +104,8 @@ $browsers = array(
 	'hotjava'		=> 'HotJava',
 	'amaya'			=> 'Amaya',
 	'IBrowse'		=> 'IBrowse',
-	'Maxthon'		=> 'Maxthon'
+	'Maxthon'		=> 'Maxthon',
+	'Ubuntu'		=> 'Ubuntu Web Browser'
 );
 
 $mobiles = array(
@@ -149,6 +152,7 @@ $mobiles = array(
 	'mot-'			=> 'Motorola',
 	'playstation portable'	=> 'PlayStation Portable',
 	'playstation 3'		=> 'PlayStation 3',
+	'playstation vita'  	=> 'PlayStation Vita',
 	'hiptop'		=> 'Danger Hiptop',
 	'nec-'			=> 'NEC',
 	'panasonic'		=> 'Panasonic',
@@ -181,7 +185,7 @@ $mobiles = array(
 	'operamini'		=> 'Opera Mini',
 	'opera mini'	=> 'Opera Mini',
 	'opera mobi'	=> 'Opera Mobile',
-	'fennec'	=> 'Firefox Mobile',
+	'fennec'		=> 'Firefox Mobile',
 
 	// Other
 	'digital paths'	=> 'Digital Paths',

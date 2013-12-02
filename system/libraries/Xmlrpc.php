@@ -446,7 +446,7 @@ class CI_Xmlrpc {
 				{
 					while (list($k) = each($value[0]))
 					{
-						$value[0][$k] = $this->values_parsing($value[0][$k], TRUE);
+						$value[0][$k] = $this->values_parsing($value[0][$k]);
 					}
 				}
 
@@ -1684,7 +1684,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 	{
 		if ($this->mytype !== 0)
 		{
-			echo '<strong>XML_RPC_Values</strong>: already initialized as a [' . $this->kindOf() . ']<br />';
+			echo '<strong>XML_RPC_Values</strong>: already initialized as a ['.$this->kindOf().']<br />';
 			return 0;
 		}
 
@@ -1705,7 +1705,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 	{
 		if ($this->mytype !== 0)
 		{
-			echo '<strong>XML_RPC_Values</strong>: already initialized as a [' . $this->kindOf() . ']<br />';
+			echo '<strong>XML_RPC_Values</strong>: already initialized as a ['.$this->kindOf().']<br />';
 			return 0;
 		}
 		$this->mytype = $this->xmlrpcTypes['struct'];

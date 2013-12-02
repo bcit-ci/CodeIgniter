@@ -583,7 +583,7 @@ class CI_Form_validation {
 
 		// If the field is blank, but NOT required, no further tests are necessary
 		$callback = FALSE;
-		if ( ! in_array('required', $rules) && $postdata === NULL)
+		if ( ! in_array('required', $rules) && ($postdata === NULL OR $postdata === ''))
 		{
 			// Before we bail out, does the rule contain a callback?
 			if (preg_match('/(callback_\w+(\[.*?\])?)/', implode(' ', $rules), $match))
@@ -598,7 +598,7 @@ class CI_Form_validation {
 		}
 
 		// Isset Test. Typically this rule will only apply to checkboxes.
-		if ($postdata === NULL && $callback === FALSE)
+		if (($postdata === NULL OR $postdata === '') && $callback === FALSE)
 		{
 			if (in_array('isset', $rules, TRUE) OR in_array('required', $rules))
 			{
@@ -898,12 +898,19 @@ class CI_Form_validation {
 		}
 
 		$field = $this->_field_data[$field]['postdata'];
+		$value = (string) $value;
 		if (is_array($field))
 		{
-			if ( ! in_array($value, $field))
+			// Note: in_array('', array(0)) returns TRUE, do not use it
+			foreach ($field as &$v)
 			{
-				return '';
+				if ($value === $v)
+				{
+					return ' selected="selected"';
+				}
 			}
+
+			return '';
 		}
 		elseif (($field === '' OR $value === '') OR ($field !== $value))
 		{
@@ -934,12 +941,19 @@ class CI_Form_validation {
 		}
 
 		$field = $this->_field_data[$field]['postdata'];
+		$value = (string) $value;
 		if (is_array($field))
 		{
-			if ( ! in_array($value, $field))
+			// Note: in_array('', array(0)) returns TRUE, do not use it
+			foreach ($field as &$v)
 			{
-				return '';
+				if ($value === $v)
+				{
+					return ' checked="checked"';
+				}
 			}
+
+			return '';
 		}
 		elseif (($field === '' OR $value === '') OR ($field !== $value))
 		{
@@ -1405,7 +1419,7 @@ class CI_Form_validation {
 	 */
 	public function valid_base64($str)
 	{
-		return ! preg_match('/[^a-zA-Z0-9\/\+=]/', $str);
+		return (base64_encode(base64_decode($str)) === $str);
 	}
 
 	// --------------------------------------------------------------------

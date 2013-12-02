@@ -46,13 +46,13 @@ if ( ! function_exists('site_url'))
 	 * Create a local URL based on your basepath. Segments can be passed via the
 	 * first parameter either as a string or an array.
 	 *
-	 * @param	string
+	 * @param	string	$uri
+	 * @param	string	$protocol
 	 * @return	string
 	 */
-	function site_url($uri = '')
+	function site_url($uri = '', $protocol = NULL)
 	{
-		$CI =& get_instance();
-		return $CI->config->site_url($uri);
+		return get_instance()->config->site_url($uri, $protocol);
 	}
 }
 
@@ -67,13 +67,13 @@ if ( ! function_exists('base_url'))
 	 * Segments can be passed in as a string or an array, same as site_url
 	 * or a URL to a file can be passed in, e.g. to an image file.
 	 *
-	 * @param	string
+	 * @param	string	$uri
+	 * @param	string	$protocol
 	 * @return	string
 	 */
-	function base_url($uri = '')
+	function base_url($uri = '', $protocol = NULL)
 	{
-		$CI =& get_instance();
-		return $CI->config->base_url($uri);
+		return get_instance()->config->base_url($uri, $protocol);
 	}
 }
 

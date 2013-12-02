@@ -76,13 +76,6 @@ class CI_Loader {
 	protected $_ci_helper_paths =	array(APPPATH, BASEPATH);
 
 	/**
-	 * List of loaded base classes
-	 *
-	 * @var	array
-	 */
-	protected $_base_classes =	array(); // Set by the controller class
-
-	/**
 	 * List of cached variables
 	 *
 	 * @var	array
@@ -120,6 +113,8 @@ class CI_Loader {
 		'user_agent' => 'agent'
 	);
 
+	// --------------------------------------------------------------------
+
 	/**
 	 * Class constructor
 	 *
@@ -129,7 +124,8 @@ class CI_Loader {
 	 */
 	public function __construct()
 	{
-		$this->_ci_ob_level  = ob_get_level();
+		$this->_ci_ob_level = ob_get_level();
+		$this->_ci_classes =& is_loaded();
 
 		log_message('debug', 'Loader Class Initialized');
 	}
@@ -147,7 +143,6 @@ class CI_Loader {
 	 */
 	public function initialize()
 	{
-		$this->_base_classes =& is_loaded();
 		$this->_ci_autoloader();
 	}
 
@@ -165,7 +160,7 @@ class CI_Loader {
 	 */
 	public function is_loaded($class)
 	{
-		return isset($this->_ci_classes[$class]) ? $this->_ci_classes[$class] : FALSE;
+		return array_search(ucfirst($class), $this->_ci_classes, TRUE);
 	}
 
 	// --------------------------------------------------------------------
@@ -183,18 +178,17 @@ class CI_Loader {
 	 */
 	public function library($library = '', $params = NULL, $object_name = NULL)
 	{
-		if (is_array($library))
+		if (empty($library))
+		{
+			return;
+		}
+		elseif (is_array($library))
 		{
 			foreach ($library as $class)
 			{
 				$this->library($class, $params);
 			}
 
-			return;
-		}
-
-		if ($library === '' OR isset($this->_base_classes[$library]))
-		{
 			return;
 		}
 
@@ -228,7 +222,7 @@ class CI_Loader {
 		{
 			foreach ($model as $key => $value)
 			{
-				$this->model(is_int($key) ? $value : $key, $value);
+				is_int($key) ? $this->model($value, '', $db_conn) : $this->model($key, $value, $db_conn);
 			}
 			return;
 		}
@@ -261,7 +255,22 @@ class CI_Loader {
 			show_error('The model name you are loading is the name of a resource that is already being used: '.$name);
 		}
 
-		$model = strtolower($model);
+		if ($db_conn !== FALSE && ! class_exists('CI_DB', FALSE))
+		{
+			if ($db_conn === TRUE)
+			{
+				$db_conn = '';
+			}
+
+			$CI->load->database($db_conn, FALSE, TRUE);
+		}
+
+		if ( ! class_exists('CI_Model', FALSE))
+		{
+			load_class('Model', 'core');
+		}
+
+		$model = ucfirst(strtolower($model));
 
 		foreach ($this->_ci_model_paths as $mod_path)
 		{
@@ -270,24 +279,8 @@ class CI_Loader {
 				continue;
 			}
 
-			if ($db_conn !== FALSE && ! class_exists('CI_DB', FALSE))
-			{
-				if ($db_conn === TRUE)
-				{
-					$db_conn = '';
-				}
-
-				$CI->load->database($db_conn, FALSE, TRUE);
-			}
-
-			if ( ! class_exists('CI_Model', FALSE))
-			{
-				load_class('Model', 'core');
-			}
-
 			require_once($mod_path.'models/'.$path.$model.'.php');
 
-			$model = ucfirst($model);
 			$CI->$name = new $model();
 			$this->_ci_models[] = $name;
 			return;
@@ -422,7 +415,7 @@ class CI_Loader {
 	 *				to be extracted for use in the view
 	 * @param	bool	$return	Whether to return the view output
 	 *				or leave it to the Output class
-	 * @return	void
+	 * @return	void|string
 	 */
 	public function view($view, $vars = array(), $return = FALSE)
 	{
@@ -475,6 +468,20 @@ class CI_Loader {
 		}
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Clear Cached Variables
+	 * 
+	 * Clears the cached variables.
+	 * 
+	 * @return  void
+	 */
+	public function clear_vars()
+	{
+		$this->_ci_cached_vars = array();
+	}
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -658,7 +665,7 @@ class CI_Loader {
 			return FALSE;
 		}
 
-		if ( ! class_exists('CI_Driver_Library'))
+		if ( ! class_exists('CI_Driver_Library', FALSE))
 		{
 			// We aren't instantiating an object here, just making the base class available
 			require BASEPATH.'libraries/Driver.php';
@@ -713,7 +720,7 @@ class CI_Loader {
 	 *
 	 * Return a list of all package paths.
 	 *
-	 * @param	bool	$include_base	Whether to include BASEPATH (default: TRUE)
+	 * @param	bool	$include_base	Whether to include BASEPATH (default: FALSE)
 	 * @return	array
 	 */
 	public function get_package_paths($include_base = FALSE)
@@ -955,7 +962,7 @@ class CI_Loader {
 		// Is this a class extension request?
 		if (file_exists($subclass))
 		{
-			$baseclass = BASEPATH.'libraries/'.$class.'.php';
+			$baseclass = BASEPATH.'libraries/'.$subdir.$class.'.php';
 
 			if ( ! file_exists($baseclass))
 			{
@@ -1118,30 +1125,35 @@ class CI_Loader {
 
 		// Set the variable name we will assign the class to
 		// Was a custom class name supplied? If so we'll use it
-		$class = strtolower($class);
-
-		if ($object_name === NULL)
+		if (empty($object_name))
 		{
-			$classvar = isset($this->_ci_varmap[$class]) ? $this->_ci_varmap[$class] : $class;
+			$object_name = strtolower($class);
+			if (isset($this->_ci_varmap[$object_name]))
+			{
+				$object_name = $this->_ci_varmap[$object_name];
+			}
 		}
-		else
+
+		// Don't overwrite existing properties
+		$CI =& get_instance();
+		if (isset($CI->$object_name))
 		{
-			$classvar = $object_name;
+			if ($CI->$object_name instanceof $name)
+			{
+				log_message('debug', $class." has already been instantiated as '".$object_name."'. Second attempt aborted.");
+				return;
+			}
+
+			show_error("Resource '".$object_name."' already exists and is not a ".$class." instance.");
 		}
 
 		// Save the class name and object name
-		$this->_ci_classes[$class] = $classvar;
+		$this->_ci_classes[$object_name] = $class;
 
 		// Instantiate the class
-		$CI =& get_instance();
-		if ($config !== NULL)
-		{
-			$CI->$classvar = new $name($config);
-		}
-		else
-		{
-			$CI->$classvar = new $name();
-		}
+		$CI->$object_name = isset($config)
+			? new $name($config)
+			: new $name();
 	}
 
 	// --------------------------------------------------------------------
@@ -1198,6 +1210,15 @@ class CI_Loader {
 			}
 		}
 
+		// Autoload drivers
+		if (isset($autoload['drivers']))
+		{
+			foreach ($autoload['drivers'] as $item)
+			{
+				$this->driver($item);
+			}
+		}
+
 		// Load libraries
 		if (isset($autoload['libraries']) && count($autoload['libraries']) > 0)
 		{
@@ -1212,15 +1233,6 @@ class CI_Loader {
 			foreach ($autoload['libraries'] as $item)
 			{
 				$this->library($item);
-			}
-		}
-
-		// Autoload drivers
-		if (isset($autoload['drivers']))
-		{
-			foreach ($autoload['drivers'] as $item)
-			{
-				$this->driver($item);
 			}
 		}
 

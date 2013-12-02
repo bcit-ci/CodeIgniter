@@ -399,9 +399,9 @@ class CI_Email {
 		else
 		{
 			$this->_smtp_auth = ! ($this->smtp_user === '' && $this->smtp_pass === '');
-			$this->_safe_mode = (bool) @ini_get('safe_mode');
 		}
 
+		$this->_safe_mode = ( ! is_php('5.4') && (bool) @ini_get('safe_mode'));
 		$this->charset = strtoupper($this->charset);
 
 		log_message('debug', 'Email Class Initialized');
@@ -451,7 +451,6 @@ class CI_Email {
 		$this->clear();
 
 		$this->_smtp_auth = ! ($this->smtp_user === '' && $this->smtp_pass === '');
-		$this->_safe_mode = (bool) @ini_get('safe_mode');
 
 		return $this;
 	}
@@ -739,7 +738,7 @@ class CI_Email {
 	 */
 	public function set_header($header, $value)
 	{
-		$this->_headers[$header] = $value;
+		$this->_headers[$header] = str_replace(array("\n", "\r"), '', $value);
 	}
 
 	// --------------------------------------------------------------------
@@ -1236,7 +1235,7 @@ class CI_Email {
 	/**
 	 * Build Final Body and attachments
 	 *
-	 * @return	void
+	 * @return	bool
 	 */
 	protected function _build_message()
 	{
@@ -1265,7 +1264,7 @@ class CI_Email {
 				}
 				else
 				{
-					$this->_finalbody = $hdr . $this->newline . $this->newline . $this->_body;
+					$this->_finalbody = $hdr.$this->newline.$this->newline.$this->_body;
 				}
 
 				return;
@@ -1279,7 +1278,7 @@ class CI_Email {
 				}
 				else
 				{
-					$hdr .= 'Content-Type: multipart/alternative; boundary="'.$this->_alt_boundary.'"'.$this->newline.$this->newline;
+					$hdr .= 'Content-Type: multipart/alternative; boundary="'.$this->_alt_boundary.'"';
 
 					$body .= $this->_get_mime_message().$this->newline.$this->newline
 						.'--'.$this->_alt_boundary.$this->newline
@@ -1300,7 +1299,7 @@ class CI_Email {
 				}
 				else
 				{
-					$this->_finalbody = $hdr.$this->_finalbody;
+					$this->_finalbody = $hdr.$this->newline.$this->newline.$this->_finalbody;
 				}
 
 				if ($this->send_multipart !== FALSE)
@@ -1312,25 +1311,25 @@ class CI_Email {
 
 			case 'plain-attach' :
 
-				$hdr .= 'Content-Type: multipart/'.$this->multipart.'; boundary="'.$this->_atc_boundary.'"'.$this->newline.$this->newline;
+				$hdr .= 'Content-Type: multipart/'.$this->multipart.'; boundary="'.$this->_atc_boundary.'"';
 
 				if ($this->_get_protocol() === 'mail')
 				{
 					$this->_header_str .= $hdr;
 				}
 
-				$body .= $this->_get_mime_message().$this->newline.$this->newline
+				$body .= $this->_get_mime_message().$this->newline
+					.$this->newline
 					.'--'.$this->_atc_boundary.$this->newline
-
 					.'Content-Type: text/plain; charset='.$this->charset.$this->newline
-					.'Content-Transfer-Encoding: '.$this->_get_encoding().$this->newline.$this->newline
-
+					.'Content-Transfer-Encoding: '.$this->_get_encoding().$this->newline
+					.$this->newline
 					.$this->_body.$this->newline.$this->newline;
 
 			break;
 			case 'html-attach' :
 
-				$hdr .= 'Content-Type: multipart/'.$this->multipart.'; boundary="'.$this->_atc_boundary.'"'.$this->newline.$this->newline;
+				$hdr .= 'Content-Type: multipart/'.$this->multipart.'; boundary="'.$this->_atc_boundary.'"';
 
 				if ($this->_get_protocol() === 'mail')
 				{
@@ -1400,8 +1399,10 @@ class CI_Email {
 		}
 
 		$body .= implode($this->newline, $attachment).$this->newline.'--'.$this->_atc_boundary.'--';
-		$this->_finalbody = ($this->_get_protocol() === 'mail') ? $body : $hdr.$body;
-		return;
+		$this->_finalbody = ($this->_get_protocol() === 'mail')
+			? $body
+			: $hdr.$this->newline.$this->newline.$body;
+		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -1606,7 +1607,11 @@ class CI_Email {
 			return $result;
 		}
 
-		$this->_build_message();
+		if ($this->_build_message() === FALSE)
+		{
+			return FALSE;
+		}
+
 		$result = $this->_spool_email();
 
 		if ($result && $auto_clear)
@@ -1665,7 +1670,11 @@ class CI_Email {
 				$this->_bcc_array = $bcc;
 			}
 
-			$this->_build_message();
+			if ($this->_build_message() === FALSE)
+			{
+				return FALSE;
+			}
+
 			$this->_spool_email();
 		}
 	}
@@ -2132,7 +2141,7 @@ class CI_Email {
 
 		if (in_array('headers', $include, TRUE))
 		{
-			$raw_data = $this->_header_str."\n";
+			$raw_data = htmlspecialchars($this->_header_str)."\n";
 		}
 
 		if (in_array('subject', $include, TRUE))

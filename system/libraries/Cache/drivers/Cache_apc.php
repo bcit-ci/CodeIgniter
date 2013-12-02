@@ -150,7 +150,7 @@ class CI_Cache_apc extends CI_Driver {
 	{
 		if ( ! extension_loaded('apc') OR ! (bool) @ini_get('apc.enabled'))
 		{
-			log_message('error', 'The APC PHP extension must be loaded to use APC Cache.');
+			log_message('debug', 'The APC PHP extension must be loaded to use APC Cache.');
 			return FALSE;
 		}
 

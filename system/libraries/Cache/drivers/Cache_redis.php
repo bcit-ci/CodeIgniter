@@ -44,6 +44,7 @@ class CI_Cache_redis extends CI_Driver
 	 * @var	array
 	 */
 	protected static $_default_config = array(
+		'socket_type' => 'tcp',
 		'host' => '127.0.0.1',
 		'password' => NULL,
 		'port' => 6379,
@@ -163,12 +164,11 @@ class CI_Cache_redis extends CI_Driver
 	{
 		if (extension_loaded('redis'))
 		{
-			$this->_setup_redis();
-			return TRUE;
+			return $this->_setup_redis();
 		}
 		else
 		{
-			log_message('error', 'The Redis extension must be loaded to use Redis cache.');
+			log_message('debug', 'The Redis extension must be loaded to use Redis cache.');
 			return FALSE;
 		}
 	}
@@ -200,17 +200,33 @@ class CI_Cache_redis extends CI_Driver
 
 		try
 		{
-			$this->_redis->connect($config['host'], $config['port'], $config['timeout']);
+			if ($config['socket_type'] === 'unix')
+			{
+				$success = $this->_redis->connect($config['socket']);
+			}
+			else // tcp socket
+			{
+				$success = $this->_redis->connect($config['host'], $config['port'], $config['timeout']);
+			}
+			
+			if ( ! $success)
+			{
+				log_message('debug', 'Cache: Redis connection refused. Check the config.');
+				return FALSE;
+			}
 		}
 		catch (RedisException $e)
 		{
-			show_error('Redis connection refused. ' . $e->getMessage());
+			log_message('debug', 'Cache: Redis connection refused ('.$e->getMessage().')');
+			return FALSE;
 		}
 
 		if (isset($config['password']))
 		{
 			$this->_redis->auth($config['password']);
 		}
+		
+		return TRUE;
 	}
 
 	// ------------------------------------------------------------------------

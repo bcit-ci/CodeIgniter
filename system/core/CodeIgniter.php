@@ -48,13 +48,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
  * ------------------------------------------------------
- *  Load the global functions
- * ------------------------------------------------------
- */
-	require_once(BASEPATH.'core/Common.php');
-
-/*
- * ------------------------------------------------------
  *  Load the framework constants
  * ------------------------------------------------------
  */
@@ -62,10 +55,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	{
 		require(APPPATH.'config/'.ENVIRONMENT.'/constants.php');
 	}
-	else
-	{
-		require(APPPATH.'config/constants.php');
-	}
+
+	require(APPPATH.'config/constants.php');
+
+/*
+ * ------------------------------------------------------
+ *  Load the global functions
+ * ------------------------------------------------------
+ */
+	require_once(BASEPATH.'core/Common.php');
 
 /*
  * ------------------------------------------------------
@@ -73,11 +71,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * ------------------------------------------------------
  */
 	set_error_handler('_exception_handler');
+	register_shutdown_function('_shutdown_handler');
 
-	if ( ! is_php('5.4'))
-	{
-		@ini_set('magic_quotes_runtime', 0); // Kill magic quotes
-	}
+	// Kill magic quotes
+	is_php('5.4') OR @ini_set('magic_quotes_runtime', 0);
 
 /*
  * ------------------------------------------------------
@@ -88,7 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * The subclass prefix allows CI to know if a core class is
  * being extended via a library in the local application
  * "libraries" folder. Since CI allows config items to be
- * overriden via data set in the main index. php file,
+ * overriden via data set in the main index.php file,
  * before proceeding we need to know if a subclass_prefix
  * override exists. If so, we will set this value now,
  * before any classes are loaded
@@ -165,7 +162,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * ------------------------------------------------------
  */
 	$RTR =& load_class('Router', 'core');
-	$RTR->_set_routing();
 
 	// Set any routing overrides that may exist in the main index file
 	if (isset($routing))
@@ -241,12 +237,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	// Load the local application controller
 	// Note: The Router class automatically validates the controller path using the router->_validate_request().
 	// If this include fails it means that the default controller in the Routes.php file is not resolving to something valid.
-	if ( ! file_exists(APPPATH.'controllers/'.$RTR->directory.$RTR->class.'.php'))
+	$class = ucfirst($RTR->class);
+	if ( ! file_exists(APPPATH.'controllers/'.$RTR->directory.$class.'.php'))
 	{
 		show_error('Unable to load your default controller. Please make sure the controller specified in your Routes.php file is valid.');
 	}
 
-	include(APPPATH.'controllers/'.$RTR->directory.$RTR->class.'.php');
+	include(APPPATH.'controllers/'.$RTR->directory.$class.'.php');
 
 	// Set a mark point for benchmarking
 	$BM->mark('loading_time:_base_classes_end');
@@ -258,9 +255,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  *  None of the methods in the app controller or the
  *  loader class can be called via the URI, nor can
- *  controller functions that begin with an underscore.
+ *  controller methods that begin with an underscore.
  */
-	$class	= $RTR->class;
 	$method	= $RTR->method;
 
 	if ( ! class_exists($class, FALSE) OR $method[0] === '_' OR method_exists('CI_Controller', $method))
@@ -271,6 +267,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			{
 				$method = 'index';
 			}
+
+			$class = ucfirst($class);
 
 			if ( ! class_exists($class, FALSE))
 			{
@@ -309,6 +307,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			{
 				$method = 'index';
 			}
+
+			$class = ucfirst($class);
 
 			if ( ! class_exists($class, FALSE))
 			{

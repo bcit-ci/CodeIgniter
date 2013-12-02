@@ -18,7 +18,7 @@ Consider this URI::
 	example.com/index.php/blog/
 
 In the above example, CodeIgniter would attempt to find a controller
-named blog.php and load it.
+named Blog.php and load it.
 
 **When a controller's name matches the first segment of a URI, it will
 be loaded.**
@@ -27,7 +27,7 @@ Let's try it: Hello World!
 ==========================
 
 Let's create a simple controller so you can see it in action. Using your
-text editor, create a file called blog.php, and put the following code
+text editor, create a file called Blog.php, and put the following code
 in it::
 
 	<?php
@@ -40,6 +40,8 @@ in it::
 	}
 
 Then save the file to your *application/controllers/* directory.
+
+.. important:: The file must be called 'Blog.php', with a capital 'B'.
 
 Now visit the your site using a URL similar to this::
 
@@ -136,7 +138,7 @@ present, as will be the case when only your site root URL is requested.
 To specify a default controller, open your **application/config/routes.php**
 file and set this variable::
 
-	$route['default_controller'] = 'blog';
+	$route['default_controller'] = 'Blog';
 
 Where Blog is the name of the controller class you want used. If you now
 load your main index.php file without specifying any URI segments you'll
@@ -214,7 +216,9 @@ Here is an example::
 		echo $output;
 	}
 
-.. note:: Please note that your ``_output()`` method will receive the
+.. note::
+
+	Please note that your ``_output()`` method will receive the
 	data in its finalized state. Benchmark and memory usage data
 	will be rendered, cache files written (if you have caching
 	enabled), and headers will be sent (if you use that
@@ -270,7 +274,7 @@ and place your controller classes within them.
 	specify the folder. For example, let's say you have a controller located
 	here::
 
-		application/controllers/products/shoes.php
+		application/controllers/products/Shoes.php
 
 	To call the above controller your URI will look something like this::
 

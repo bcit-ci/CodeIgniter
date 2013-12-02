@@ -82,6 +82,18 @@ class CI_Router {
 	public $default_controller;
 
 	/**
+	 * Translate URI dashes
+	 *
+	 * Determines whether dashes in controller & method segments
+	 * should be automatically replaced by underscores.
+	 *
+	 * @var	bool
+	 */
+	public $translate_uri_dashes = FALSE;
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Class constructor
 	 *
 	 * Runs the route mapping function.
@@ -92,6 +104,7 @@ class CI_Router {
 	{
 		$this->config =& load_class('Config', 'core');
 		$this->uri =& load_class('URI', 'core');
+		$this->_set_routing();
 		log_message('debug', 'Router Class Initialized');
 	}
 
@@ -105,7 +118,7 @@ class CI_Router {
 	 *
 	 * @return	void
 	 */
-	public function _set_routing()
+	protected function _set_routing()
 	{
 		// Are query strings enabled in the config file? Normally CI doesn't utilize query strings
 		// since URI segments are more search-engine friendly, but they can optionally be used.
@@ -143,12 +156,14 @@ class CI_Router {
 			include(APPPATH.'config/'.ENVIRONMENT.'/routes.php');
 		}
 
-		$this->routes = (empty($route) OR ! is_array($route)) ? array() : $route;
-		unset($route);
-
-		// Set the default controller so we can display it in the event
-		// the URI doesn't correlated to a valid controller.
-		$this->default_controller = empty($this->routes['default_controller']) ? FALSE : $this->routes['default_controller'];
+		// Validate & get reserved routes
+		if (isset($route) && is_array($route))
+		{
+			isset($route['default_controller']) && $this->default_controller = $route['default_controller'];
+			isset($route['translate_uri_dashes']) && $this->translate_uri_dashes = $route['translate_uri_dashes'];
+			unset($route['default_controller'], $route['translate_uri_dashes']);
+			$this->routes = $route;
+		}
 
 		// Were there any query string segments? If so, we'll validate them and bail out since we're done.
 		if (count($segments) > 0)
@@ -191,8 +206,6 @@ class CI_Router {
 			$method = 'index';
 		}
 
-		$this->set_class($class);
-		$this->set_method($method);
 		$this->_set_request(array($class, $method));
 
 		// re-index the routed segments array so it starts with 1 rather than 0
@@ -221,8 +234,16 @@ class CI_Router {
 			return $this->_set_default_controller();
 		}
 
-		$this->set_class($segments[0]);
+		if ($this->translate_uri_dashes === TRUE)
+		{
+			$segments[0] = str_replace('-', '_', $segments[0]);
+			if (isset($segments[1]))
+			{
+				$segments[1] = str_replace('-', '_', $segments[1]);
+			}
+		}
 
+		$this->set_class($segments[0]);
 		isset($segments[1]) OR $segments[1] = 'index';
 		$this->set_method($segments[1]);
 
@@ -249,13 +270,11 @@ class CI_Router {
 			return $segments;
 		}
 
-		$temp = str_replace('-', '_', $segments[0]);
+		$test = ucfirst($this->translate_uri_dashes === TRUE ? str_replace('-', '_', $segments[0]) : $segments[0]);
 
 		// Does the requested controller exist in the root folder?
-		if (file_exists(APPPATH.'controllers/'.$temp.'.php'))
+		if (file_exists(APPPATH.'controllers/'.$test.'.php'))
 		{
-			$segments[0] = $temp;
-			empty($segments[1]) OR $segments[1] = str_replace('-', '_', $segments[1]);
 			return $segments;
 		}
 
@@ -266,11 +285,10 @@ class CI_Router {
 			$this->set_directory(array_shift($segments));
 			if (count($segments) > 0)
 			{
-				$segments[0] = str_replace('-', '_', $segments[0]);
-				empty($segments[1]) OR $segments[1] = str_replace('-', '_', $segments[1]);
+				$test = ucfirst($this->translate_uri_dashes === TRUE ? str_replace('-', '_', $segments[0]) : $segments[0]);
 
-				// Does the requested controller exist in the sub-folder?
-				if ( ! file_exists(APPPATH.'controllers/'.$this->directory.$segments[0].'.php'))
+				// Does the requested controller exist in the sub-directory?
+				if ( ! file_exists(APPPATH.'controllers/'.$this->directory.$test.'.php'))
 				{
 					if ( ! empty($this->routes['404_override']))
 					{
@@ -287,7 +305,7 @@ class CI_Router {
 			{
 				// Is the method being specified in the route?
 				$segments = explode('/', $this->default_controller);
-				if ( ! file_exists(APPPATH.'controllers/'.$this->directory.$segments[0].'.php'))
+				if ( ! file_exists(APPPATH.'controllers/'.$this->directory.ucfirst($segments[0]).'.php'))
 				{
 					$this->directory = '';
 				}
@@ -327,16 +345,41 @@ class CI_Router {
 		// Turn the segment array into a URI string
 		$uri = implode('/', $this->uri->segments);
 
+		// Get HTTP verb
+		$http_verb = isset($_SERVER['REQUEST_METHOD']) ? strtolower($_SERVER['REQUEST_METHOD']) : 'cli';
+
 		// Is there a literal match?  If so we're done
-		if (isset($this->routes[$uri]) && is_string($this->routes[$uri]))
+		if (isset($this->routes[$uri]))
 		{
-			return $this->_set_request(explode('/', $this->routes[$uri]));
+			// Check default routes format
+			if (is_string($this->routes[$uri]))
+			{
+				return $this->_set_request(explode('/', $this->routes[$uri]));
+			}
+			// Is there a matching http verb?
+			elseif (is_array($this->routes[$uri]) && isset($this->routes[$uri][$http_verb]))
+			{
+				return $this->_set_request(explode('/', $this->routes[$uri][$http_verb]));
+			}
 		}
 
-		// Loop through the route array looking for wild-cards
+		// Loop through the route array looking for wildcards
 		foreach ($this->routes as $key => $val)
 		{
-			// Convert wild-cards to RegEx
+			// Check if route format is using http verb
+			if (is_array($val))
+			{
+				if (isset($val[$http_verb]))
+				{
+					$val = $val[$http_verb];
+				}
+				else
+				{
+					continue;
+				}
+			}
+
+			// Convert wildcards to RegEx
 			$key = str_replace(array(':any', ':num'), array('[^/]+', '[0-9]+'), $key);
 
 			// Does the RegEx match?

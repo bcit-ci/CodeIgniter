@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright   Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -327,12 +327,8 @@ class CI_DB_oci8_driver extends CI_DB {
 	{
 		if ($package === '' OR $procedure === '' OR ! is_array($params))
 		{
-			if ($this->db_debug)
-			{
-				log_message('error', 'Invalid query: '.$package.'.'.$procedure);
-				return $this->display_error('db_invalid_query');
-			}
-			return FALSE;
+			log_message('error', 'Invalid query: '.$package.'.'.$procedure);
+			return ($this->db_debug) ? $this->display_error('db_invalid_query') : FALSE;
 		}
 
 		// build the query string
@@ -348,7 +344,7 @@ class CI_DB_oci8_driver extends CI_DB {
 				$have_cursor = TRUE;
 			}
 		}
-		$sql = trim($sql, ',') . '); END;';
+		$sql = trim($sql, ',').'); END;';
 
 		$this->stmt_id = FALSE;
 		$this->_set_stmt_id($sql);
