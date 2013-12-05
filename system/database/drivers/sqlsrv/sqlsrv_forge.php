@@ -60,10 +60,8 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 	 */
 	function _drop_table($table)
 	{
-    return = "IF (EXISTS (SELECT * 
-            FROM INFORMATION_SCHEMA.TABLES 
-            WHERE TABLE_SCHEMA = 'dbo' 
-            AND  TABLE_NAME = '".$table."')) DROP TABLE [dbo].[".$table."]";
+		return "IF (EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  TABLE_NAME = '"
+			.$table."')) DROP TABLE [dbo].[".$table."]";
 	}
 
 	// --------------------------------------------------------------------
@@ -81,13 +79,10 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 	 */
 	function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
-    $sql = '';
+		$sql = '';
 		if ($if_not_exists === TRUE)
 		{
-			$sql = "IF (NOT EXISTS (SELECT * 
-              FROM INFORMATION_SCHEMA.TABLES 
-              WHERE TABLE_SCHEMA = 'dbo' 
-              AND  TABLE_NAME = ";
+			$sql = "IF (NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  TABLE_NAME = ";
 		}
 		$sql .= $this->db->_escape_identifiers($table).")) CREATE TABLE ".$this->db->_escape_identifiers($table)." (";
 		$current_field_count = 0;
