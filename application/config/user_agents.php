@@ -36,6 +36,7 @@
 */
 
 $platforms = array(
+	'windows nt 6.3'	=> 'Windows 8.1',
 	'windows nt 6.2'	=> 'Windows 8',
 	'windows nt 6.1'	=> 'Windows 7',
 	'windows nt 6.0'	=> 'Windows Vista',
