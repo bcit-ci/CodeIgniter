@@ -197,7 +197,7 @@ class CI_Parser {
 		
 		foreach ($matches as $match)
 		{
-                        $str = '';
+			$str = '';
 			foreach ($data as $row)
 			{
 				$temp = $match[1];
@@ -210,7 +210,7 @@ class CI_Parser {
 	
 				$str .= $temp;
 			}
-			$search[] = $match['0'];
+			$search[] = $match[0];
 			$replace[] = $str;
 		}
 
