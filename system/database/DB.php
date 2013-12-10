@@ -206,7 +206,7 @@ function &DB($params = '', $query_builder_override = NULL)
 		$DB->initialize();
 	}
 
-	if ( ! empty($params['stricton']))
+	if ( ! empty($params['stricton']) && $params['dbdriver'] !== 'postgre')
 	{
 		$DB->query('SET SESSION sql_mode="STRICT_ALL_TABLES"');
 	}
