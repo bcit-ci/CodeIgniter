@@ -628,6 +628,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#2691) - nested transactions could end in a deadlock when an error is encountered with *db_debug* set to TRUE.
 -  Fixed a bug (#2515) - ``_exception_handler()`` used to send the 200 "OK" HTTP status code and didn't stop script exection even on fatal errors.
 -  Fixed a bug - Redis :doc:`Caching <libraries/caching>` driver didn't handle connection failures properly.
+-  Fixed a bug (#2756) - :doc:`Database Class <database/index>` executed the MySQL-specific `SET SESSION sql_mode` query for all drivers when the 'stricton' option is set.
 
 Version 2.1.4
 =============

@@ -66,6 +66,15 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	public $delete_hack = TRUE;
 
+	/**
+	 * Strict ON flag
+	 *
+	 * Whether we're running in strict SQL mode.
+	 *
+	 * @var	bool
+	 */
+	public $stricton = FALSE;
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -92,6 +101,11 @@ class CI_DB_mysqli_driver extends CI_DB {
 		$port = empty($this->port) ? NULL : $this->port;
 		$client_flags = ($this->compress === TRUE) ? MYSQLI_CLIENT_COMPRESS : 0;
 		$mysqli = mysqli_init();
+
+		if ($this->stricton)
+		{
+			$mysqli->options(MYSQLI_INIT_COMMAND, 'SET SESSION sql_mode="STRICT_ALL_TABLES"');
+		}
 
 		return @$mysqli->real_connect($hostname, $this->username, $this->password, $this->database, $port, NULL, $client_flags)
 			? $mysqli : FALSE;

@@ -206,11 +206,6 @@ function &DB($params = '', $query_builder_override = NULL)
 		$DB->initialize();
 	}
 
-	if ( ! empty($params['stricton']))
-	{
-		$DB->query('SET SESSION sql_mode="STRICT_ALL_TABLES"');
-	}
-
 	return $DB;
 }
 

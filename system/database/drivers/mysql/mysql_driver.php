@@ -66,6 +66,15 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	public $delete_hack = TRUE;
 
+	/**
+	 * Strict ON flag
+	 *
+	 * Whether we're running in strict SQL mode.
+	 *
+	 * @var	bool
+	 */
+	public $stricton = FALSE;
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -124,6 +133,11 @@ class CI_DB_mysql_driver extends CI_DB {
 			return ($this->db_debug === TRUE)
 				? $this->display_error('db_unable_to_select', $this->database)
 				: FALSE;
+		}
+
+		if ($this->stricton && is_resource($this->conn_id))
+		{
+			$this->simple_query('SET SESSION sql_mode="STRICT_ALL_TABLES"');
 		}
 
 		return $this->conn_id;
