@@ -841,7 +841,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		$probability = ini_get('session.gc_probability');
 		$divisor = ini_get('session.gc_divisor');
 
-		if ((mt_rand(0, $divisor) / $divisor) < $probability)
+		if (mt_rand(1, $divisor) <= $probability)
 		{
 			$expire = $this->now - $this->sess_expiration;
 			$this->CI->db->delete($this->sess_table_name, 'last_activity < '.$expire);
