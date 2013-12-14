@@ -1483,7 +1483,7 @@ abstract class CI_DB_driver {
 		}
 
 		return (func_num_args() > 1)
-			? call_user_func_array($function, array_splice(func_get_args(), 1))
+			? call_user_func_array($function, array_slice(func_get_args(), 1))
 			: call_user_func($function);
 	}
 
