@@ -278,6 +278,7 @@ class CI_Profiler {
 			}
 
 			$output .= "</table>\n</fieldset>";
+			$count++;
 		}
 
 		return $output;
