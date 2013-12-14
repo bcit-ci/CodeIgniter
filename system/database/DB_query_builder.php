@@ -1541,7 +1541,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->protect_identifiers(
 				$this->qb_from[0], TRUE, NULL, FALSE
 			),
-			array_keys($this->qb_set),
+			empty($this->qb_keys) ? array_keys($this->qb_set) : $this->qb_keys,
 			array_values($this->qb_set)
 		);
 
