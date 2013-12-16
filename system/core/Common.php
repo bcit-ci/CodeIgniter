@@ -592,7 +592,7 @@ if ( ! function_exists('_exception_handler'))
 
 		// Should we ignore the error? We'll get the current error_reporting
 		// level and add its bits with the severity bits to find out.
-		if (($severity & error_reporting()) !== $severity)
+		if ( error_reporting() == 0 Or ($severity & error_reporting()) !== $severity)
 		{
 			return;
 		}
