@@ -91,7 +91,7 @@ abstract class CI_DB_forge {
 	 *
 	 * @var	string
 	 */
-	protected $_create_table	= "%s %s (%s\n)";
+	protected $_create_table	= "%s %s (%s\n) %s";
 
 	/**
 	 * CREATE TABLE IF statement
@@ -312,11 +312,12 @@ abstract class CI_DB_forge {
 	/**
 	 * Create Table
 	 *
-	 * @param	string	$table		Table name
+	 * @param	string	$table			Table name
 	 * @param	bool	$if_not_exists	Whether to add IF NOT EXISTS condition
+	 * @param   array   $attributes		Additional attributes
 	 * @return	bool
 	 */
-	public function create_table($table = '', $if_not_exists = FALSE)
+	public function create_table($table = '', $if_not_exists = FALSE, array $attributes = array())
 	{
 		if ($table === '')
 		{
@@ -332,7 +333,7 @@ abstract class CI_DB_forge {
 			show_error('Field information is required.');
 		}
 
-		$sql = $this->_create_table($table, $if_not_exists);
+		$sql = $this->_create_table($table, $if_not_exists, $attributes);
 
 		if (is_bool($sql))
 		{
@@ -364,13 +365,27 @@ abstract class CI_DB_forge {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Build an SQL string for additional parameters for the Create Table query
+	 *
+	 * @param   array   $attributes		Additional attributes
+	 * @return	string  Resulting SQL string of parameters
+	 */
+	protected function _build_create_table_attributes(array $attributes)
+	{
+		return '';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Create Table
 	 *
 	 * @param	string	$table		Table name
 	 * @param	bool	$if_not_exists	Whether to add 'IF NOT EXISTS' condition
+	 * @param   array   $attributes		Additional attributes.
 	 * @return	mixed
 	 */
-	protected function _create_table($table, $if_not_exists)
+	protected function _create_table($table, $if_not_exists, array $attributes = array())
 	{
 		if ($if_not_exists === TRUE && $this->_create_table_if === FALSE)
 		{
@@ -409,7 +424,8 @@ abstract class CI_DB_forge {
 		$sql = sprintf($this->_create_table.';',
 			$sql,
 			$this->db->escape_identifiers($table),
-			$columns
+			$columns,
+			$this->_build_create_table_attributes($attributes)
 		);
 
 		return $sql;
