@@ -984,7 +984,6 @@ abstract class CI_DB_forge {
 	 */
 	protected function _process_indexes($table)
 	{
-		$table = $this->db->escape_identifiers($table);
 		$sqls = array();
 
 		for ($i = 0, $c = count($this->keys); $i < $c; $i++)
