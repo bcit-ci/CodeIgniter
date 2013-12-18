@@ -984,7 +984,6 @@ abstract class CI_DB_forge {
 	 */
 	protected function _process_indexes($table)
 	{
-		$table = $this->db->escape_identifiers($table);
 		$sqls = array();
 
 		for ($i = 0, $c = count($this->keys); $i < $c; $i++)
@@ -1008,8 +1007,8 @@ abstract class CI_DB_forge {
 
 			is_array($this->keys[$i]) OR $this->keys[$i] = array($this->keys[$i]);
 
-			$sqls[] = 'CREATE INDEX '.$this->db->escape_identifiers(implode('_', $this->keys[$i]))
-				.' ON '.$table
+			$sqls[] = 'CREATE INDEX '.$this->db->escape_identifiers($table.'_'.implode('_', $this->keys[$i]))
+				.' ON '.$this->db->escape_identifiers($table)
 				.' ('.implode(', ', $this->db->escape_identifiers($this->keys[$i])).');';
 		}
 
