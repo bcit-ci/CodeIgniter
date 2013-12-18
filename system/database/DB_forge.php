@@ -1009,7 +1009,7 @@ abstract class CI_DB_forge {
 			is_array($this->keys[$i]) OR $this->keys[$i] = array($this->keys[$i]);
 
 			$sqls[] = 'CREATE INDEX '.$this->db->escape_identifiers(implode('_', $this->keys[$i]))
-				.' ON '.$this->db->escape_identifiers($table)
+				.' ON '.$table
 				.' ('.implode(', ', $this->db->escape_identifiers($this->keys[$i])).');';
 		}
 
