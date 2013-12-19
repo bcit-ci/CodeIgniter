@@ -137,6 +137,7 @@ Release Date: Not Released
 
 -  Database
 
+   -  Added EXISTS / NOT EXISTS support to DB_Driver class.
    -  Added **dsn** configuration setting for drivers that support DSN strings (PDO, PostgreSQL, Oracle, ODBC, CUBRID).
    -  Added **schema** configuration setting (defaults to *public*) for drivers that might need it (currently used by PostgreSQL and ODBC).
    -  Added subdrivers support (currently only used by PDO).
