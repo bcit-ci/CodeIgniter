@@ -1421,7 +1421,7 @@ abstract class CI_DB_driver {
 	 */
 	protected function _has_operator($str)
 	{
-		return (bool) preg_match('/(<|>|!|=|\sIS NULL|\sIS NOT NULL|\sBETWEEN|\sLIKE|\sIN\s*\(|\s)/i', trim($str));
+		return (bool) preg_match('/(<|>|!|=|\sIS NULL|\sIS NOT NULL|EXISTS|\sBETWEEN|\sLIKE|\sIN\s*\(|\s)/i', trim($str));
 	}
 
 	// --------------------------------------------------------------------
@@ -1446,7 +1446,9 @@ abstract class CI_DB_driver {
 				'\s*<>?\s*',			// <, <>
 				'\s*>\s*',			// >
 				'\s+IS NULL',			// IS NULL
-				'\s+IS NOT NULL',		// IS NOT NULL
+                '\s+IS NOT NULL',        // IS NOT NULL
+                '\s+EXISTS',        // EXISTS
+				'\s+NOT EXISTS',		// NOT EXISTS
 				'\s+BETWEEN\s+\S+\s+AND\s+\S+',	// BETWEEN value AND value
 				'\s+IN\s*\([^\)]+\)',		// IN(list)
 				'\s+NOT IN\s*\([^\)]+\)',	// NOT IN (list)
