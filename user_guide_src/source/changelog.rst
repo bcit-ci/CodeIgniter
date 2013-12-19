@@ -439,7 +439,7 @@ Release Date: Not Released
 
    -  :doc:`Language Library <libraries/language>` changes include:
 
-      -  Changed method ``load()`` to filter the language name with ``ctype_digit()``.
+      -  Changed method ``load()`` to filter the language name with ``ctype_alpha()``.
       -  Added an optional second parameter to method ``line()`` to disable error login for line keys that were not found.
       -  Language files are now loaded in a cascading style with the one in **system/** always loaded and overriden afterwards, if another one is found.
 
