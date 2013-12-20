@@ -137,7 +137,6 @@ Release Date: Not Released
 
 -  Database
 
-   -  Added EXISTS / NOT EXISTS support to DB_Driver class.
    -  Added **dsn** configuration setting for drivers that support DSN strings (PDO, PostgreSQL, Oracle, ODBC, CUBRID).
    -  Added **schema** configuration setting (defaults to *public*) for drivers that might need it (currently used by PostgreSQL and ODBC).
    -  Added subdrivers support (currently only used by PDO).
@@ -166,6 +165,7 @@ Release Date: Not Released
       - Added an optional parameter that allows to disable escaping (useful for custom fields) for methods ``join()``, ``order_by()``, ``where_in()``, ``or_where_in()``, ``where_not_in()``, ``or_where_not_in()``, ``insert()``, ``insert_batch()``.
       - Added support for ``join()`` with multiple conditions.
       - Added support for *USING* in ``join()``.
+      - Added support for *EXISTS* in ``where()``.
       - Added seed values support for random ordering with ``order_by(seed, 'RANDOM')``.
       - Changed ``limit()`` to ignore NULL values instead of always casting to integer.
       - Changed ``offset()`` to ignore empty values instead of always casting to integer.
