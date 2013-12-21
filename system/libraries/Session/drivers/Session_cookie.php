@@ -786,7 +786,7 @@ class CI_Session_cookie extends CI_Session_driver {
 	 * This function unserializes a data string, then converts any
 	 * temporary slash markers back to actual slashes
 	 *
-	 * @param	mixed	Data to unserialize
+	 * @param	string	Data to unserialize
 	 * @return	mixed	Unserialized data
 	 */
 	protected function _unserialize($data)
