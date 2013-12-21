@@ -739,43 +739,14 @@ class CI_Session_cookie extends CI_Session_driver {
 	/**
 	 * Serialize an array
 	 *
-	 * This function first converts any slashes found in the array to a temporary
-	 * marker, so when it gets unserialized the slashes will be preserved
+	 * This function serializes an array
 	 *
 	 * @param	mixed	Data to serialize
 	 * @return	string	Serialized data
 	 */
 	protected function _serialize($data)
 	{
-		if (is_array($data))
-		{
-			array_walk_recursive($data, array(&$this, '_escape_slashes'));
-		}
-		elseif (is_string($data))
-		{
-			$data = str_replace('\\', '{{slash}}', $data);
-		}
-
 		return serialize($data);
-	}
-
-	// ------------------------------------------------------------------------
-
-	/**
-	 * Escape slashes
-	 *
-	 * This function converts any slashes found into a temporary marker
-	 *
-	 * @param	string	Value
-	 * @param	string	Key
-	 * @return	void
-	 */
-	protected function _escape_slashes(&$val, $key)
-	{
-		if (is_string($val))
-		{
-			$val = str_replace('\\', '{{slash}}', $val);
-		}
 	}
 
 	// ------------------------------------------------------------------------
@@ -783,42 +754,14 @@ class CI_Session_cookie extends CI_Session_driver {
 	/**
 	 * Unserialize
 	 *
-	 * This function unserializes a data string, then converts any
-	 * temporary slash markers back to actual slashes
+	 * This function unserializes a data string
 	 *
 	 * @param	mixed	Data to unserialize
 	 * @return	mixed	Unserialized data
 	 */
 	protected function _unserialize($data)
 	{
-		$data = @unserialize(trim($data));
-
-		if (is_array($data))
-		{
-			array_walk_recursive($data, array(&$this, '_unescape_slashes'));
-			return $data;
-		}
-
-		return is_string($data) ? str_replace('{{slash}}', '\\', $data) : $data;
-	}
-
-	// ------------------------------------------------------------------------
-
-	/**
-	 * Unescape slashes
-	 *
-	 * This function converts any slash markers back into actual slashes
-	 *
-	 * @param	string	Value
-	 * @param	string	Key
-	 * @return	void
-	 */
-	protected function _unescape_slashes(&$val, $key)
-	{
-		if (is_string($val))
-		{
-	 		$val = str_replace('{{slash}}', '\\', $val);
-		}
+		return @unserialize(trim($data));
 	}
 
 	// ------------------------------------------------------------------------
