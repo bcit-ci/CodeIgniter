@@ -207,7 +207,10 @@ class Date_helper_test extends CI_TestCase {
 
 	public function test_gmt_to_local()
 	{
-		$this->assertEquals(1140128493, gmt_to_local(strtotime(gmdate('Y-m-d H:i:s', '1140128493')), 'UM8', TRUE));
+		$this->assertEquals(
+			1140128493, 
+			gmt_to_local(strtotime(gmdate('Y-m-d H:i:s', '1140128493')), 'UM8', TRUE)
+		);
 	}
 
 	// ------------------------------------------------------------------------
