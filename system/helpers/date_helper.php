@@ -342,17 +342,37 @@ if ( ! function_exists('gmt_to_local'))
 	 */
 	function gmt_to_local($time = '', $timezone = 'UTC', $dst = FALSE)
 	{
-		if ($time === '')
+		if ($time == '')
 		{
 			return now();
 		}
 
-		if ($dst === TRUE && date('I', $time))
+		$offset = timezones($timezone) * 3600;
+
+		if($dst === TRUE)
 		{
-			$time += 3600;
+			$old_timezone = date_default_timezone_get();
+
+			$timezone_abbreviations = DateTimeZone::listAbbreviations();
+
+			foreach($timezone_abbreviations['acst'] as $timezone_abbr)
+			{
+				if($timezone_abbr['dst'] == TRUE && $timezone_abbr['offset'] == $offset)
+				{
+					date_default_timezone_set($timezone_abbr['timezone_id']);
+					break;
+				}
+			}
+
+			if (date('I', $time))
+			{
+				$time += 3600;
+			}
+
+			date_default_timezone_set($old_timezone);
 		}
 
-		$time += timezones($timezone) * 3600;
+		$time += $offset;
 
 		return $time;
 	}
