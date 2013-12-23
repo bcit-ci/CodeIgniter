@@ -397,7 +397,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		}
 
 		// Unserialize the session array
-		$session = $this->_unserialize($session);
+		$session = @unserialize($session);
 
 		// Is the session data we unserialized an array with the correct format?
 		if ( ! is_array($session) OR ! isset($session['session_id'], $session['ip_address'], $session['user_agent'], $session['last_activity']))
@@ -472,7 +472,7 @@ class CI_Session_cookie extends CI_Session_driver {
 			$row = $query->row();
 			if ( ! empty($row->user_data))
 			{
-				$custom_data = $this->_unserialize($row->user_data);
+				$custom_data = unserialize(trim($row->user_data));
 
 				if (is_array($custom_data))
 				{
@@ -608,7 +608,7 @@ class CI_Session_cookie extends CI_Session_driver {
 			if ( ! empty($userdata))
 			{
 				// Serialize the custom data array so we can store it
-				$set['user_data'] = $this->_serialize($userdata);
+				$set['user_data'] = serialize($userdata);
 			}
 
 			// Reset query builder values.
@@ -696,7 +696,7 @@ class CI_Session_cookie extends CI_Session_driver {
 				: $this->userdata;
 
 		// Serialize the userdata for the cookie
-		$cookie_data = $this->_serialize($cookie_data);
+		$cookie_data = serialize($cookie_data);
 
 		if ($this->sess_encrypt_cookie === TRUE)
 		{
@@ -732,36 +732,6 @@ class CI_Session_cookie extends CI_Session_driver {
 	protected function _setcookie($name, $value = '', $expire = 0, $path = '', $domain = '', $secure = FALSE, $httponly = FALSE)
 	{
 		setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
-	}
-
-	// ------------------------------------------------------------------------
-
-	/**
-	 * Serialize an array
-	 *
-	 * This function serializes an array
-	 *
-	 * @param	mixed	Data to serialize
-	 * @return	string	Serialized data
-	 */
-	protected function _serialize($data)
-	{
-		return serialize($data);
-	}
-
-	// ------------------------------------------------------------------------
-
-	/**
-	 * Unserialize
-	 *
-	 * This function unserializes a data string
-	 *
-	 * @param	mixed	Data to unserialize
-	 * @return	mixed	Unserialized data
-	 */
-	protected function _unserialize($data)
-	{
-		return @unserialize(trim($data));
 	}
 
 	// ------------------------------------------------------------------------
