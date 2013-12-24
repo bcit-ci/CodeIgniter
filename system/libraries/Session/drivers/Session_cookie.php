@@ -397,7 +397,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		}
 
 		// Unserialize the session array
-		$session = $this->_unserialize($session);
+		$session = @unserialize($session);
 
 		// Is the session data we unserialized an array with the correct format?
 		if ( ! is_array($session) OR ! isset($session['session_id'], $session['ip_address'], $session['user_agent'], $session['last_activity']))
@@ -472,7 +472,7 @@ class CI_Session_cookie extends CI_Session_driver {
 			$row = $query->row();
 			if ( ! empty($row->user_data))
 			{
-				$custom_data = $this->_unserialize($row->user_data);
+				$custom_data = unserialize(trim($row->user_data));
 
 				if (is_array($custom_data))
 				{
@@ -608,7 +608,7 @@ class CI_Session_cookie extends CI_Session_driver {
 			if ( ! empty($userdata))
 			{
 				// Serialize the custom data array so we can store it
-				$set['user_data'] = $this->_serialize($userdata);
+				$set['user_data'] = serialize($userdata);
 			}
 
 			// Reset query builder values.
@@ -696,7 +696,7 @@ class CI_Session_cookie extends CI_Session_driver {
 				: $this->userdata;
 
 		// Serialize the userdata for the cookie
-		$cookie_data = $this->_serialize($cookie_data);
+		$cookie_data = serialize($cookie_data);
 
 		if ($this->sess_encrypt_cookie === TRUE)
 		{
@@ -732,93 +732,6 @@ class CI_Session_cookie extends CI_Session_driver {
 	protected function _setcookie($name, $value = '', $expire = 0, $path = '', $domain = '', $secure = FALSE, $httponly = FALSE)
 	{
 		setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
-	}
-
-	// ------------------------------------------------------------------------
-
-	/**
-	 * Serialize an array
-	 *
-	 * This function first converts any slashes found in the array to a temporary
-	 * marker, so when it gets unserialized the slashes will be preserved
-	 *
-	 * @param	mixed	Data to serialize
-	 * @return	string	Serialized data
-	 */
-	protected function _serialize($data)
-	{
-		if (is_array($data))
-		{
-			array_walk_recursive($data, array(&$this, '_escape_slashes'));
-		}
-		elseif (is_string($data))
-		{
-			$data = str_replace('\\', '{{slash}}', $data);
-		}
-
-		return serialize($data);
-	}
-
-	// ------------------------------------------------------------------------
-
-	/**
-	 * Escape slashes
-	 *
-	 * This function converts any slashes found into a temporary marker
-	 *
-	 * @param	string	Value
-	 * @param	string	Key
-	 * @return	void
-	 */
-	protected function _escape_slashes(&$val, $key)
-	{
-		if (is_string($val))
-		{
-			$val = str_replace('\\', '{{slash}}', $val);
-		}
-	}
-
-	// ------------------------------------------------------------------------
-
-	/**
-	 * Unserialize
-	 *
-	 * This function unserializes a data string, then converts any
-	 * temporary slash markers back to actual slashes
-	 *
-	 * @param	mixed	Data to unserialize
-	 * @return	mixed	Unserialized data
-	 */
-	protected function _unserialize($data)
-	{
-		$data = @unserialize(trim($data));
-
-		if (is_array($data))
-		{
-			array_walk_recursive($data, array(&$this, '_unescape_slashes'));
-			return $data;
-		}
-
-		return is_string($data) ? str_replace('{{slash}}', '\\', $data) : $data;
-	}
-
-	// ------------------------------------------------------------------------
-
-	/**
-	 * Unescape slashes
-	 *
-	 * This function converts any slash markers back into actual slashes
-	 *
-	 * @param	string	Value
-	 * @param	string	Key
-	 * @return	void
-	 */
-	protected function _unescape_slashes(&$val, $key)
-	{
-		if (is_string($val))
-		{
-	 		$val = str_replace('{{slash}}', '\\', $val);
-		}
 	}
 
 	// ------------------------------------------------------------------------
