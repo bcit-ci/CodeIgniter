@@ -50,8 +50,8 @@ Resources
 *********
 
 -  `User Guide <http://ellislab.com/codeigniter/user_guide/>`_
--  `Community Forums <http://ellislab.com/codeigniter/forums/>`_
--  `Community Wiki <http://ellislab.com/codeigniter/wiki/>`_
+-  `Community Forums <http://ellislab.com/forums/>`_
+-  `Community Wiki <https://github.com/EllisLab/CodeIgniter/wiki/>`_
 -  `Community IRC <http://ellislab.com/codeigniter/irc>`_
 
 ***************
