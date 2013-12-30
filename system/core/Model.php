@@ -54,6 +54,8 @@ class CI_Model {
 	 *
 	 * Allows models to access CI's loaded classes using the same
 	 * syntax as controllers.
+	 * 
+	 * See documentation on PHP Overloading: http://php.net/__callstatic
 	 *
 	 * @param	string	$key
 	 */
