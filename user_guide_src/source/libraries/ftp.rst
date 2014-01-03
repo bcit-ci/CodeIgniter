@@ -273,6 +273,17 @@ Class Reference
 			// Chmod "bar" to 777
 			$this->ftp->chmod('/public_html/foo/bar/', DIR_WRITE_MODE);
 
+	.. method:: changedir($path[, $suppress_debug = FALSE])
+
+		:param string $path: Directory path
+		:param bool $suppress_debug: Whether to turn off debug messages for this command
+		:returns: bool
+
+		Changes the current working directory to the specified path.
+
+		The ``$suppress_debug`` parameter is useful in case you want to use this method
+		as an ``is_dir()`` alternative for FTP.
+
 	.. method:: close()
 
 		:returns: bool
