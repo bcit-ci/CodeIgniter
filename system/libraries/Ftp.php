@@ -247,7 +247,7 @@ class CI_FTP {
 	 * @param	int	$permissions
 	 * @return	bool
 	 */
-	public function mkdir($path = '', $permissions = NULL)
+	public function mkdir($path, $permissions = NULL)
 	{
 		if ($path === '' OR ! $this->_is_conn())
 		{
