@@ -472,16 +472,16 @@ class CI_Loader {
 
 	/**
 	 * Clear Cached Variables
-	 * 
+	 *
 	 * Clears the cached variables.
-	 * 
+	 *
 	 * @return  void
 	 */
 	public function clear_vars()
 	{
 		$this->_ci_cached_vars = array();
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
