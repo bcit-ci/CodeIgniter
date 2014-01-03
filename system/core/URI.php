@@ -703,12 +703,7 @@ class CI_URI {
 	{
 		global $RTR;
 
-		if (($dir = $RTR->directory) === '/')
-		{
-			$dir = '';
-		}
-
-		return $dir.implode('/', $this->rsegment_array());
+		return ltrim($RTR->directory, '/').implode('/', $this->rsegment_array());
 	}
 
 }
