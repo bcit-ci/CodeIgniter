@@ -2,187 +2,212 @@
 URI Class
 #########
 
-The URI Class provides functions that help you retrieve information from
+The URI Class provides methods that help you retrieve information from
 your URI strings. If you use URI routing, you can also retrieve
 information about the re-routed segments.
 
 .. note:: This class is initialized automatically by the system so there
 	is no need to do it manually.
 
-$this->uri->segment(n)
-======================
+***************
+Class Reference
+***************
 
-Permits you to retrieve a specific segment. Where n is the segment
-number you wish to retrieve. Segments are numbered from left to right.
-For example, if your full URL is this::
+.. class:: CI_URI
 
-	http://example.com/index.php/news/local/metro/crime_is_up
+	.. method:: segment($n[, $no_result = NULL])
 
-The segment numbers would be this:
+		:param int $n: Segment index number
+		:param mixed $no_result: What to return if the searched segment is not found
+		:returns: mixed
 
-#. news
-#. local
-#. metro
-#. crime_is_up
+		Permits you to retrieve a specific segment. Where n is the segment
+		number you wish to retrieve. Segments are numbered from left to right.
+		For example, if your full URL is this::
 
-By default the function returns NULL if the segment does not
-exist. There is an optional second parameter that permits you to set
-your own default value if the segment is missing. For example, this
-would tell the function to return the number zero in the event of
-failure::
+			http://example.com/index.php/news/local/metro/crime_is_up
 
-	$product_id = $this->uri->segment(3, 0);
+		The segment numbers would be this:
 
-It helps avoid having to write code like this::
+		#. news
+		#. local
+		#. metro
+		#. crime_is_up
 
-	if ($this->uri->segment(3) === FALSE)
-	{
-	    $product_id = 0;
-	}
-	else
-	{
-	    $product_id = $this->uri->segment(3);
-	}
+		The optional second parameter defaults to NULL and allows you to set the return value
+		of this method when the requested URI segment is missing.
+		For example, this would tell the method to return the number zero in the event of failure::
 
-$this->uri->rsegment(n)
-=======================
+			$product_id = $this->uri->segment(3, 0);
 
-This function is identical to the previous one, except that it lets you
-retrieve a specific segment from your re-routed URI in the event you are
-using CodeIgniter's :doc:`URI Routing <../general/routing>` feature.
+		It helps avoid having to write code like this::
 
-$this->uri->slash_segment(n)
-=============================
+			if ($this->uri->segment(3) === FALSE)
+			{
+				$product_id = 0;
+			}
+			else
+			{
+				$product_id = $this->uri->segment(3);
+			}
 
-This function is almost identical to $this->uri->segment(), except it
-adds a trailing and/or leading slash based on the second parameter. If
-the parameter is not used, a trailing slash added. Examples::
+	.. method:: rsegment($n[, $no_result = NULL])
 
-	$this->uri->slash_segment(3);
-	$this->uri->slash_segment(3, 'leading');
-	$this->uri->slash_segment(3, 'both');
+		:param int $n: Segment index number
+		:param mixed $no_result: What to return if the searched segment is not found
+		:returns: mixed
 
-Returns:
+		This method is identical to ``segment()``, except that it lets you retrieve
+		a specific segment from your re-routed URI in the event you are
+		using CodeIgniter's :doc:`URI Routing <../general/routing>` feature.
 
-#. segment/
-#. /segment
-#. /segment/
+	.. method:: slash_segment($n[, $where = 'trailing'])
 
-$this->uri->slash_rsegment(n)
-==============================
+		:param int $n: Segment index number
+		:param string $where: Where to add the slash ('trailing' or 'leading')
+		:returns: string
 
-This function is identical to the previous one, except that it lets you
-add slashes a specific segment from your re-routed URI in the event you
-are using CodeIgniter's :doc:`URI Routing <../general/routing>`
-feature.
+		This method is almost identical to ``segment()``, except it
+		adds a trailing and/or leading slash based on the second parameter.
+		If the parameter is not used, a trailing slash added. Examples::
 
-$this->uri->uri_to_assoc(n)
-=============================
+			$this->uri->slash_segment(3);
+			$this->uri->slash_segment(3, 'leading');
+			$this->uri->slash_segment(3, 'both');
 
-This function lets you turn URI segments into and associative array of
-key/value pairs. Consider this URI::
+		Returns:
 
-	index.php/user/search/name/joe/location/UK/gender/male
+		#. segment/
+		#. /segment
+		#. /segment/
 
-Using this function you can turn the URI into an associative array with
-this prototype::
+	.. method:: slash_rsegment($n[, $where = 'trailing'])
 
-	[array]
-	(
-	    'name' => 'joe'
-	    'location'	=> 'UK'
-	    'gender'	=> 'male'
-	)
+		:param int $n: Segment index number
+		:param string $where: Where to add the slash ('trailing' or 'leading')
+		:returns: string
 
-The first parameter of the function lets you set an offset. By default
-it is set to 3 since your URI will normally contain a
-controller/function in the first and second segments. Example::
+		This method is identical to ``slash_segment()``, except that it lets you
+		add slashes a specific segment from your re-routed URI in the event you
+		are using CodeIgniter's :doc:`URI Routing <../general/routing>`
+		feature.
 
-	$array = $this->uri->uri_to_assoc(3);
+	.. method:: uri_to_assoc([$n = 3[, $default = array()]])
 
-	echo $array['name'];
+		:param int $n: Segment index number
+		:param array $default: Default values
+		:returns: array
 
-The second parameter lets you set default key names, so that the array
-returned by the function will always contain expected indexes, even if
-missing from the URI. Example::
+		This method lets you turn URI segments into and associative array of
+		key/value pairs. Consider this URI::
 
-	$default = array('name', 'gender', 'location', 'type', 'sort');
+			index.php/user/search/name/joe/location/UK/gender/male
 
-	$array = $this->uri->uri_to_assoc(3, $default);
+		Using this method you can turn the URI into an associative array with
+		this prototype::
 
-If the URI does not contain a value in your default, an array index will
-be set to that name, with a value of FALSE.
+			[array]
+			(
+				'name'		=> 'joe'
+				'location'	=> 'UK'
+				'gender'	=> 'male'
+			)
 
-Lastly, if a corresponding value is not found for a given key (if there
-is an odd number of URI segments) the value will be set to FALSE
-(boolean).
+		The first parameter lets you set an offset, which defaults to 3 since your
+		URI will normally contain a controller/method pair in the first and second segments.
+		Example::
 
-$this->uri->ruri_to_assoc(n)
-==============================
+			$array = $this->uri->uri_to_assoc(3);
+			echo $array['name'];
 
-This function is identical to the previous one, except that it creates
-an associative array using the re-routed URI in the event you are using
-CodeIgniter's :doc:`URI Routing <../general/routing>` feature.
+		The second parameter lets you set default key names, so that the array
+		returned will always contain expected indexes, even if missing from the URI.
+		Example::
 
-$this->uri->assoc_to_uri()
-============================
+			$default = array('name', 'gender', 'location', 'type', 'sort');
+			$array = $this->uri->uri_to_assoc(3, $default);
 
-Takes an associative array as input and generates a URI string from it.
-The array keys will be included in the string. Example::
+		If the URI does not contain a value in your default, an array index will
+		be set to that name, with a value of NULL.
 
-	$array = array('product' => 'shoes', 'size' => 'large', 'color' => 'red');
+		Lastly, if a corresponding value is not found for a given key (if there
+		is an odd number of URI segments) the value will be set to NULL.
 
-	$str = $this->uri->assoc_to_uri($array);
+	.. method:: ruri_to_assoc([$n = 3[, $default = array()]])
 
-	// Produces: product/shoes/size/large/color/red
+		:param int $n: Segment index number
+		:param array $default: Default values
+		:returns: array
 
-$this->uri->uri_string()
-=========================
+		This method is identical to ``uri_to_assoc()``, except that it creates
+		an associative array using the re-routed URI in the event you are using
+		CodeIgniter's :doc:`URI Routing <../general/routing>` feature.
 
-Returns a string with the complete URI. For example, if this is your
-full URL::
+	.. method:: assoc_to_uri($array)
 
-	http://example.com/index.php/news/local/345
+		:param array $array: Input array of key/value pairs
+		:returns: string
 
-The function would return this::
+		Takes an associative array as input and generates a URI string from it.
+		The array keys will be included in the string. Example::
 
-	news/local/345
+			$array = array('product' => 'shoes', 'size' => 'large', 'color' => 'red');
+			$str = $this->uri->assoc_to_uri($array);
 
-$this->uri->ruri_string()
-==========================
+			// Produces: product/shoes/size/large/color/red
 
-This function is identical to the previous one, except that it returns
-the re-routed URI in the event you are using CodeIgniter's :doc:`URI
-Routing <../general/routing>` feature.
+	.. method:: uri_string()
 
-$this->uri->total_segments()
-=============================
+		:returns: string
 
-Returns the total number of segments.
+		Returns a string with the complete URI. For example, if this is your full URL::
 
-$this->uri->total_rsegments()
-==============================
+			http://example.com/index.php/news/local/345
 
-This function is identical to the previous one, except that it returns
-the total number of segments in your re-routed URI in the event you are
-using CodeIgniter's :doc:`URI Routing <../general/routing>` feature.
+		The method would return this::
 
-$this->uri->segment_array()
-============================
+			news/local/345
 
-Returns an array containing the URI segments. For example::
+	.. method:: ruri_string()
 
-	$segs = $this->uri->segment_array();
+		:returns: string
 
-	foreach ($segs as $segment)
-	{
-	    echo $segment;
-	    echo '<br />';
-	}
+		This method is identical to ``uri_string()``, except that it returns
+		the re-routed URI in the event you are using CodeIgniter's :doc:`URI
+		Routing <../general/routing>` feature.
 
-$this->uri->rsegment_array()
-=============================
+	.. method:: total_segments()
 
-This function is identical to the previous one, except that it returns
-the array of segments in your re-routed URI in the event you are using
-CodeIgniter's :doc:`URI Routing <../general/routing>` feature.
+		:returns: int
+
+		Returns the total number of segments.
+
+	.. method:: total_rsegments()
+
+		:returns: int
+
+		This method is identical to ``total_segments()``, except that it returns
+		the total number of segments in your re-routed URI in the event you are
+		using CodeIgniter's :doc:`URI Routing <../general/routing>` feature.
+
+	.. method:: segment_array()
+
+		:returns: array
+
+		Returns an array containing the URI segments. For example::
+
+			$segs = $this->uri->segment_array();
+
+			foreach ($segs as $segment)
+			{
+				echo $segment;
+				echo '<br />';
+			}
+
+	.. method:: rsegment_array()
+
+		:returns: array
+
+		This method is identical to ``segment_array()``, except that it returns
+		the array of segments in your re-routed URI in the event you are using
+		CodeIgniter's :doc:`URI Routing <../general/routing>` feature.
