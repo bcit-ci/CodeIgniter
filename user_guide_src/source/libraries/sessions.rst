@@ -433,6 +433,7 @@ deleted data (sess_destroy), a regenerate handler to make a new session ID
 Your initial class might look like::
 
 	class CI_Session_custom extends CI_Session_driver {
+
 		protected function initialize()
 		{
 			// Read existing session data or create a new one
@@ -457,6 +458,7 @@ Your initial class might look like::
 		{
 			// Return a reference to your userdata array
 		}
+
 	}
 
 Notice that ``get_userdata()`` returns a reference so the parent library is
@@ -486,7 +488,6 @@ without making it the initially loaded driver, set 'sess_valid_drivers' in
 your config.php file to an array including your driver name::
 
 	$config['sess_valid_drivers'] = array('sess_driver');
-
 
 
 ***************
