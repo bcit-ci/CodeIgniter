@@ -110,10 +110,10 @@ class CI_Unit_test {
 	 *
 	 * Runs the supplied tests
 	 *
-	 * @param	array
+	 * @param	array	$items
 	 * @return	void
 	 */
-	public function set_test_items($items = array())
+	public function set_test_items($items)
 	{
 		if ( ! empty($items) && is_array($items))
 		{
