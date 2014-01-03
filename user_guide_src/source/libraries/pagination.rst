@@ -5,6 +5,13 @@ Pagination Class
 CodeIgniter's Pagination class is very easy to use, and it is 100%
 customizable, either dynamically or via stored preferences.
 
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
+
 If you are not familiar with the term "pagination", it refers to links
 that allows you to navigate from page to page, like this::
 

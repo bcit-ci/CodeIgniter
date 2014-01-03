@@ -9,6 +9,13 @@ which supports usage of the native PHP Session mechanism. In addition,
 you may create your own `Custom Drivers`_ to store session data however
 you wish, while still taking advantage of the features of the Session class.
 
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
+
 Initializing a Session
 ======================
 
@@ -27,7 +34,7 @@ use the ``$this->load->driver`` function::
 
 Once loaded, the Sessions library object will be available using::
 
-$this->session
+	$this->session
 
 How do Sessions work?
 =====================

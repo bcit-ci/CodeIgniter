@@ -7,11 +7,11 @@ archives. Archives can be downloaded to your desktop or saved to a
 directory.
 
 .. contents::
-	:local:
+  :local:
 
 .. raw:: html
 
-	 <div class="custom-index container"></div>
+  <div class="custom-index container"></div>
 
 ****************************
 Using the Zip Encoding Class

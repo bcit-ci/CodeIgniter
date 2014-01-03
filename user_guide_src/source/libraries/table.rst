@@ -5,12 +5,12 @@ HTML Table Class
 The Table Class provides functions that enable you to auto-generate HTML
 tables from arrays or database result sets.
 
-.. content::
-	:local:
+.. contents::
+  :local:
 
 .. raw:: html
 
-	<div class="custom-index container"></div>
+  <div class="custom-index container"></div>
 
 *********************
 Using the Table Class

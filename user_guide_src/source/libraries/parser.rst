@@ -35,6 +35,13 @@ representations that allow you to eliminate PHP from your templates
 	template parsing solution. We've kept it very lean on purpose in order
 	to maintain maximum performance.
 
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
+
 Initializing the Class
 ======================
 

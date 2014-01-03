@@ -18,6 +18,13 @@ automatically by CodeIgniter at the end of system execution. It is
 possible, however, for you to manually intervene with the output if you
 need to.
 
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
+
 ***************
 Class Reference
 ***************

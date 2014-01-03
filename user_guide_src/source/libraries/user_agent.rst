@@ -8,11 +8,11 @@ addition you can get referrer information as well as language and
 supported character-set information.
 
 .. contents::
-	:local:
+  :local:
 
 .. raw:: html
 
-	<div class="custom-index container"></div>
+  <div class="custom-index container"></div>
 
 **************************
 Using the User Agent Class

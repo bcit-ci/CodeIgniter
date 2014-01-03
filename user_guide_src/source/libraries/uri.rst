@@ -9,6 +9,13 @@ information about the re-routed segments.
 .. note:: This class is initialized automatically by the system so there
 	is no need to do it manually.
 
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
+
 ***************
 Class Reference
 ***************

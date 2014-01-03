@@ -13,6 +13,13 @@ run so all you have to do is update your application files and
 call ``$this->migration->current()`` to work out which migrations should be run. 
 The current version is found in **application/config/migration.php**.
 
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
+
 ********************
 Migration file names
 ********************

@@ -5,11 +5,11 @@ Typography Class
 The Typography Class provides methods that help you format text.
 
 .. content::
-	:local:
+  :local:
 
 .. raw:: html
 
-	<div class="custom-index container"></div>
+  <div class="custom-index container"></div>
 
 **************************
 Using the Typography Class

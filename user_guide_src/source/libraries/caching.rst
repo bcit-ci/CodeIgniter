@@ -54,17 +54,15 @@ Class Reference
 
 .. class:: CI_Cache
 
-	.. method:: is_supported ( $driver )
+	.. method:: is_supported($driver)
 
 		:param string $driver: the name of the caching driver
 		:returns: TRUE if supported, FALSE if not
-		:rtype: Boolean
 
 		This method is automatically called when accessing drivers via
-		$this->cache->get(). However, if the individual drivers are used, make
-		sure to call this method to ensure the driver is supported in the
+		``$this->cache->get()``. However, if the individual drivers are used,
+		make sure to call this method to ensure the driver is supported in the
 		hosting environment.
-
 		::
 
 			if ($this->cache->apc->is_supported()
@@ -75,71 +73,56 @@ Class Reference
 				}
 			}
 
-
-	.. method:: get ( $id )
+	.. method:: get($id)
 
 		:param string $id: name of cached item
 		:returns: The item if it exists, FALSE if it does not
-		:rtype: Mixed
 
 		This method will attempt to fetch an item from the cache store. If the
 		item does not exist, the method will return FALSE.
-
 		::
 
 			$foo = $this->cache->get('my_cached_item');
 
-
-	.. method:: save ( $id , $data [, $ttl = 60])
+	.. method:: save($id, $data[, $ttl = 60])
 
 		:param string $id: name of the cached item
 		:param mixed $data: the data to save
 		:param int $ttl: Time To Live, in seconds (default 60)
 		:returns: TRUE on success, FALSE on failure
-		:rtype: Boolean
 
 		This method will save an item to the cache store. If saving fails, the
 		method will return FALSE.
-
 		::
 
 			$this->cache->save('cache_item_id', 'data_to_cache');
 
-
-	.. method:: delete ( $id )
+	.. method:: delete($id)
 
 		:param string $id: name of cached item
 		:returns: TRUE if deleted, FALSE if the deletion fails
-		:rtype: Boolean
 
 		This method will delete a specific item from the cache store. If item
 		deletion fails, the method will return FALSE.
-
 		::
 
 			$this->cache->delete('cache_item_id');
 
-
-	.. method:: clean ( )
+	.. method:: clean()
 
 		:returns: TRUE if deleted, FALSE if the deletion fails
-		:rtype: Boolean
 
 		This method will 'clean' the entire cache. If the deletion of the
 		cache files fails, the method will return FALSE.
-
 		::
 
 			$this->cache->clean();
 
-
-	.. method:: cache_info ( )
+	.. method:: cache_info()
 
 		:returns: information on the entire cache
-		:rtype: Mixed
 
 		This method will return information on the entire cache.
-
 		::
 
 			var_dump($this->cache->cache_info());
@@ -147,16 +130,13 @@ Class Reference
 		.. note:: The information returned and the structure of the data is dependent
 			on which adapter is being used.
 
-
-	.. method:: get_metadata ( $id )
+	.. method:: get_metadata($id)
 
 		:param string $id: name of cached item
 		:returns: metadadta for the cached item
-		:rtype: Mixed
 
 		This method will return detailed information on a specific item in the
 		cache.
-
 		::
 
 			var_dump($this->cache->get_metadata('my_cached_item'));

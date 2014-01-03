@@ -9,11 +9,11 @@ If you are not familiar with Trackbacks you'll find more information
 `here <http://en.wikipedia.org/wiki/Trackback>`_.
 
 .. content::
-	:local:
+  :local:
 
 .. raw:: html
 
-	<div class="custom-index container"></div>
+  <div class="custom-index container"></div>
 
 *************************
 Using the Trackback Class

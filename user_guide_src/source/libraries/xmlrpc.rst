@@ -6,11 +6,11 @@ CodeIgniter's XML-RPC classes permit you to send requests to another
 server, or set up your own XML-RPC server to receive requests.
 
 .. contents::
-	:local:
+  :local:
 
 .. raw:: html
 
-	<div class="custom-index container"></div>
+  <div class="custom-index container"></div>
 
 ****************
 What is XML-RPC?

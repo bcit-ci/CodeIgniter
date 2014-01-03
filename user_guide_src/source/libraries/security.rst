@@ -5,6 +5,13 @@ Security Class
 The Security Class contains methods that help you create a secure
 application, processing input data for security.
 
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
+
 XSS Filtering
 =============
 
