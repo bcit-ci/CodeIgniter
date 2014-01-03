@@ -214,10 +214,10 @@ class CI_FTP {
 	 * Internally, this parameter is only used by the "mirror" function below.
 	 *
 	 * @param	string	$path
-	 * @param	bool	$supress_debug
+	 * @param	bool	$suppress_debug
 	 * @return	bool
 	 */
-	public function changedir($path = '', $supress_debug = FALSE)
+	public function changedir($path, $suppress_debug = FALSE)
 	{
 		if ($path === '' OR ! $this->_is_conn())
 		{
@@ -228,7 +228,7 @@ class CI_FTP {
 
 		if ($result === FALSE)
 		{
-			if ($this->debug === TRUE && $supress_debug === FALSE)
+			if ($this->debug === TRUE && $suppress_debug === FALSE)
 			{
 				$this->_error('ftp_unable_to_changedir');
 			}
@@ -260,7 +260,7 @@ class CI_FTP {
 		{
 			if ($this->debug === TRUE)
 			{
-				$this->_error('ftp_unable_to_makdir');
+				$this->_error('ftp_unable_to_mkdir');
 			}
 			return FALSE;
 		}
