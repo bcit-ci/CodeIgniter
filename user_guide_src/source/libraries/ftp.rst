@@ -37,7 +37,6 @@ Usage Examples
 In this example a connection is opened to the FTP server, and a local
 file is read and uploaded in ASCII mode. The file permissions are set to
 755.
-
 ::
 
 	$this->load->library('ftp');
@@ -54,7 +53,6 @@ file is read and uploaded in ASCII mode. The file permissions are set to
 	$this->ftp->close();
 
 In this example a list of files is retrieved from the server.
-
 ::
 
 	$this->load->library('ftp');
@@ -73,7 +71,6 @@ In this example a list of files is retrieved from the server.
 	$this->ftp->close();
 
 In this example a local directory is mirrored on the server.
-
 ::
 
 	$this->load->library('ftp');
@@ -121,140 +118,164 @@ Class Reference
 
 		If you prefer you can store your FTP preferences in a config file.
 		Simply create a new file called the ftp.php, add the $config array in
-		that file. Then save the file at config/ftp.php and it will be used
-		automatically.
+		that file. Then save the file at *application/config/ftp.php* and it
+		will be used automatically.
 
 		**Available connection options**
 
 		==================		===================================
-		Option Name						Description
+		Option Name			Description
 		==================		===================================
-		**hostname**					the FTP hostname. Usually something like: ftp.example.com
-		**username**					the FTP username
-		**password**					the FTP password
-		**port**							The port number. Set to 21 by default.
-		**debug**							TRUE/FALSE (boolean). Whether to enable debugging to display error messages.
-		**passive**						TRUE/FALSE (boolean). Whether to use passive mode. Passive is set automatically by default.
+		**hostname**			the FTP hostname. Usually something like: ftp.example.com
+		**username**			the FTP username
+		**password**			the FTP password
+		**port**			The port number. Set to 21 by default.
+		**debug**			TRUE/FALSE (boolean). Whether to enable debugging to display error messages.
+		**passive**			TRUE/FALSE (boolean). Whether to use passive mode. Passive is set automatically by default.
 		==================		===================================
 
+	.. method:: upload($locpath, $rempath[, $mode = 'auto'[, $permissions = NULL]])
 
-Uploads a file to your server. You must supply the local path and the
-remote path, and you can optionally set the mode and permissions.
-Example::
+		:param string $locpath: Local file path
+		:param string $rempath: Remote file path
+		:param string $mode: FTP mode, defaults to 'auto' (options are: 'auto', 'binary', 'ascii')
+		:param int $permissions: File permissions (octal)
+		:returns: bool
 
-	$this->ftp->upload('/local/path/to/myfile.html', '/public_html/myfile.html', 'ascii', 0775);
+		Uploads a file to your server. You must supply the local path and the
+		remote path, and you can optionally set the mode and permissions.
+		Example::
 
-**Mode options are:** ascii, binary, and auto (the default). If auto is
-used it will base the mode on the file extension of the source file.
+			$this->ftp->upload('/local/path/to/myfile.html', '/public_html/myfile.html', 'ascii', 0775);
 
-If set, permissions have to be passed as an octal value.
+		If 'auto' mode is used it will base the mode on the file extension of the source file.
 
-$this->ftp->download()
-======================
+		If set, permissions have to be passed as an octal value.
 
-Downloads a file from your server. You must supply the remote path and
-the local path, and you can optionally set the mode. Example::
+	.. method:: download($rempath, $locpath[, $mode = 'auto'])
 
-	$this->ftp->download('/public_html/myfile.html', '/local/path/to/myfile.html', 'ascii');
+		:param string $rempath: Remote file path
+		:param string $locpath: Local file path
+		:param string $mode: FTP mode, defaults to 'auto' (options are: 'auto', 'binary', 'ascii')
+		:returns: bool
 
-**Mode options are:** ascii, binary, and auto (the default). If auto is
-used it will base the mode on the file extension of the source file.
+		Downloads a file from your server. You must supply the remote path and
+		the local path, and you can optionally set the mode. Example::
 
-Returns FALSE if the download does not execute successfully (including
-if PHP does not have permission to write the local file)
+			$this->ftp->download('/public_html/myfile.html', '/local/path/to/myfile.html', 'ascii');
 
-$this->ftp->rename()
-====================
+		If 'auto' mode is used it will base the mode on the file extension of the source file.
 
-Permits you to rename a file. Supply the source file name/path and the
-new file name/path.
+		Returns FALSE if the download does not execute successfully (including if PHP does not have permission to write the local file).
 
-::
+	.. method:: rename($old_file, $new_file, $move = FALSE)
 
-	// Renames green.html to blue.html
-	$this->ftp->rename('/public_html/foo/green.html', '/public_html/foo/blue.html');
+		:param string $old_file: Old file name
+		:param string $new_file: New file name
+		:param bool $move: Whether a move is being performed
+		:returns: bool
 
-$this->ftp->move()
-==================
+		Permits you to rename a file. Supply the source file name/path and the new file name/path.
+		::
 
-Lets you move a file. Supply the source and destination paths::
+			// Renames green.html to blue.html
+			$this->ftp->rename('/public_html/foo/green.html', '/public_html/foo/blue.html');
 
-	// Moves blog.html from "joe" to "fred"
-	$this->ftp->move('/public_html/joe/blog.html', '/public_html/fred/blog.html');
+	.. method:: move($old_file, $new_file)
 
-Note: if the destination file name is different the file will be
-renamed.
+		:param string $old_file: Old file name
+		:param string $new_file: New file name
+		:returns: bool
 
-$this->ftp->delete_file()
-==========================
+		Lets you move a file. Supply the source and destination paths::
 
-Lets you delete a file. Supply the source path with the file name.
+			// Moves blog.html from "joe" to "fred"
+			$this->ftp->move('/public_html/joe/blog.html', '/public_html/fred/blog.html');
 
-::
+		.. note:: If the destination file name is different the file will be renamed.
 
-	 $this->ftp->delete_file('/public_html/joe/blog.html');
+	.. method:: delete_file($filepath)
 
-$this->ftp->delete_dir()
-=========================
+		:param string $filepath: Path to file to delete
+		:returns: bool
 
-Lets you delete a directory and everything it contains. Supply the
-source path to the directory with a trailing slash.
+		Lets you delete a file. Supply the source path with the file name.
+		::
 
-**Important** Be VERY careful with this function. It will recursively
-delete **everything** within the supplied path, including sub-folders
-and all files. Make absolutely sure your path is correct. Try using the
-list_files() function first to verify that your path is correct.
+			 $this->ftp->delete_file('/public_html/joe/blog.html');
 
-::
+	.. method:: delete_dir($filepath)
 
-	 $this->ftp->delete_dir('/public_html/path/to/folder/');
+		:param string $filepath: Path to directory to delete
+		:returns: bool
 
-$this->ftp->list_files()
-=========================
+		Lets you delete a directory and everything it contains. Supply the
+		source path to the directory with a trailing slash.
 
-Permits you to retrieve a list of files on your server returned as an
-array. You must supply the path to the desired directory.
+		.. important:: Be VERY careful with this method!
+			It will recursively delete **everything** within the supplied path,
+			including sub-folders and all files. Make absolutely sure your path
+			is correct. Try using ``list_files()`` first to verify that your path is correct.
 
-::
+		::
 
-	$list = $this->ftp->list_files('/public_html/');
+			 $this->ftp->delete_dir('/public_html/path/to/folder/');
 
-	print_r($list);
+	.. method:: list_files([$path = '.'])
 
-$this->ftp->mirror()
-====================
+		:param string $path: Directory path
+		:returns: array or FALSE on failure
 
-Recursively reads a local folder and everything it contains (including
-sub-folders) and creates a mirror via FTP based on it. Whatever the
-directory structure of the original file path will be recreated on the
-server. You must supply a source path and a destination path::
+		Permits you to retrieve a list of files on your server returned as an
+		array. You must supply the path to the desired directory.
+		::
 
-	 $this->ftp->mirror('/path/to/myfolder/', '/public_html/myfolder/');
+			$list = $this->ftp->list_files('/public_html/');
+			print_r($list);
 
-$this->ftp->mkdir()
-===================
+	.. method:: mirror($locpath, $rempath)
 
-Lets you create a directory on your server. Supply the path ending in
-the folder name you wish to create, with a trailing slash. Permissions
-can be set by passed an octal value in the second parameter (if you are
-running PHP 5).
+		:param string $locpath: Local path
+		:param string $rempath: Remote path
+		:returns: bool
 
-::
+		Recursively reads a local folder and everything it contains (including
+		sub-folders) and creates a mirror via FTP based on it. Whatever the
+		directory structure of the original file path will be recreated on the
+		server. You must supply a source path and a destination path::
 
-	// Creates a folder named "bar"
-	$this->ftp->mkdir('/public_html/foo/bar/', DIR_WRITE_MODE);
+			 $this->ftp->mirror('/path/to/myfolder/', '/public_html/myfolder/');
 
-$this->ftp->chmod()
-===================
+	.. method:: mkdir($path[, $permissions = NULL])
 
-Permits you to set file permissions. Supply the path to the file or
-folder you wish to alter permissions on::
+		:param string $path: Path to directory to create
+		:param int $permissions: Permissions (octal)
+		:returns: bool
 
-	// Chmod "bar" to 777
-	$this->ftp->chmod('/public_html/foo/bar/', DIR_WRITE_MODE);
+		Lets you create a directory on your server. Supply the path ending in
+		the folder name you wish to create, with a trailing slash.
 
-$this->ftp->close();
-====================
+		Permissions can be set by passing an octal value in the second parameter.
+		::
 
-Closes the connection to your server. It's recommended that you use this
-when you are finished uploading.
+			// Creates a folder named "bar"
+			$this->ftp->mkdir('/public_html/foo/bar/', DIR_WRITE_MODE);
+
+	.. method:: chmod($path, $perm)
+
+		:param string $path: Path to alter permissions for
+		:param int $perm: Permissions (octal)
+		:returns: bool
+
+		Permits you to set file permissions. Supply the path to the file or
+		directory you wish to alter permissions on::
+
+			// Chmod "bar" to 777
+			$this->ftp->chmod('/public_html/foo/bar/', DIR_WRITE_MODE);
+
+	.. method:: close()
+
+		:returns: bool
+
+		Closes the connection to your server. It's recommended that you use this
+		when you are finished uploading.
