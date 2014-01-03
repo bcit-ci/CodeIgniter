@@ -133,7 +133,7 @@ a:visited{ color: #1A5B8D; }
 a:hover,
 a:active{ color: #742CAC; }
 
-a.headerlink{ visibility: hidden; margin-left: 0.4em }
+a.headerlink{ visibility: hidden; margin-left: 0.4em; }
 
 	:hover > a.headerlink { visibility: visible; }
 
