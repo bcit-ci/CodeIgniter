@@ -19,11 +19,18 @@ your **application/language/** directory.
 .. note:: Each language should be stored in its own folder. For example,
 	the English files are located at: system/language/english
 
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
+
 Creating Language Files
 =======================
 
-Language files must be named with **_lang.php** as the file extension. For
-example, let's say you want to create a file containing error messages.
+Language files must be named with **_lang.php** as the filename extension.
+For example, let's say you want to create a file containing error messages.
 You might name it: error_lang.php
 
 Within the file you will assign each line of text to an array called
@@ -90,3 +97,29 @@ application, you can tell CodeIgniter to :doc:`auto-load
 <../general/autoloader>` it during system initialization. This is done
 by opening the **application/config/autoload.php** file and adding the
 language(s) to the autoload array.
+
+***************
+Class Reference
+***************
+
+.. class:: CI_Lang
+
+	.. method:: load($langfile[, $idiom = ''[, $return = FALSE[, $add_suffix = TRUE[, $alt_path = '']]]])
+
+		:param string $langfile: Language file to load
+		:param string $idiom: Language name (i.e. 'english')
+		:param bool $return: Whether to return the loaded array of translations
+		:param bool $add_suffix: Whether to add the '_lang' suffix to the language file name
+		:param string $alt_path: An alternative path to look in for the language file
+		:returns: void or array if the third parameter is set to TRUE
+
+		Loads a language file.
+
+	.. method:: line($line[, $log_errors = TRUE])
+
+		:param string $line: Language line key name
+		:param bool $log_errors: Whether to log an error if the line isn't found
+		:returns: string or FALSE on failure
+
+		Fetches a single translation line from the already loaded language files,
+		based on the line's name.
