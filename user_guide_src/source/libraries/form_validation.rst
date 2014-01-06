@@ -340,10 +340,10 @@ commonly is::
 	set_value('field name')
 
 Open your myform.php view file and update the **value** in each field
-using the ``set_value()`` function:
+using the :func:`set_value()` function:
 
-**Don't forget to include each field name in the ``set_value()``
-functions!**
+**Don't forget to include each field name in the :func:`set_value()`
+function calls!**
 
 ::
 
@@ -380,11 +380,11 @@ Now reload your page and submit the form so that it triggers an error.
 Your form fields should now be re-populated
 
 .. note:: The :ref:`class-reference` section below
-	contains functions that permit you to re-populate <select> menus,
+	contains methods that permit you to re-populate <select> menus,
 	radio buttons, and checkboxes.
 
-**Important Note:** If you use an array as the name of a form field, you
-must supply it as an array to the function. Example::
+.. important:: If you use an array as the name of a form field, you
+	must supply it as an array to the function. Example::
 
 	<input type="text" name="colors[]" value="<?php echo set_value('colors[]'); ?>" size="50" />
 
@@ -559,7 +559,7 @@ Showing Errors Individually
 ===========================
 
 If you prefer to show an error message next to each form field, rather
-than as a list, you can use the ``form_error()`` function.
+than as a list, you can use the :func:`form_error()` function.
 
 Try it! Change your form so that it looks like this::
 
@@ -933,75 +933,92 @@ Name                 Parameter Description
 Class Reference
 ***************
 
-.. class:: Form_validation
+.. class:: CI_Form_validation
 
-The following methods are intended for use in your controller.
-
-$this->form_validation->set_rules()
-===================================
-
-	.. method:: set_rules ($field, $label = '', $rules = '')
+	.. method:: set_rules($field[, $label = ''[, $rules = '']])
 
 		:param string $field: The field name
 		:param string $label: The field label
 		:param mixed $rules: The rules, as a string with rules separated by a pipe "|", or an array or rules.
-		:rtype: Object
+		:returns: object
 
 		Permits you to set validation rules, as described in the tutorial
 		sections above:
 
-	-  :ref:`setting-validation-rules`
-	-  :ref:`saving-groups`
+		-  :ref:`setting-validation-rules`
+		-  :ref:`saving-groups`
 
-$this->form_validation->run()
-=============================
-
-	.. method:: run ($group = '')
+	.. method:: run([$group = ''])
 
 		:param string $group: The name of the validation group to run
-		:rtype: Boolean
+		:returns: bool
 
 		Runs the validation routines. Returns boolean TRUE on success and FALSE
 		on failure. You can optionally pass the name of the validation group via
 		the method, as described in: :ref:`saving-groups`
 
-$this->form_validation->set_message()
-=====================================
-
-	.. method:: set_message ($lang, $val = '')
+	.. method:: set_message($lang[, $val = ''])
 
 		:param string $lang: The rule the message is for
 		:param string $val: The message
-		:rtype: Object
+		:returns: object
 
 		Permits you to set custom error messages. See :ref:`setting-error-messages`
 
-$this->form_validation->set_data()
-==================================
+	.. method:: set_error_delimiters([$prefix = '<p>'[, $suffix = '</p>']])
 
-	.. method:: set_data ($data = '')
+		:param string $prefix: Error message prefix
+		:param string $suffix: Error message suffix
+		:returns: object
+
+		Sets the default prefix and suffix for error messages.
+
+	.. method:: set_data($data)
 
 		:param array $data: The data to validate
+		:returns: void
 
 		Permits you to set an array for validation, instead of using the default
-		$_POST array.
+		``$_POST`` array.
 
-$this->form_validation->reset_validation()
-==========================================
+	.. method:: reset_validation()
 
-	.. method:: reset_validation ()
+		:returns: void
 
 		Permits you to reset the validation when you validate more than one array.
 		This method should be called before validating each new array.
 
-$this->form_validation->error_array()
-=====================================
+	.. method:: error_array()
 
-	.. method:: error_array ()
-
-		:rtype: Array
+		:returns: array
 
 		Returns the error messages as an array.
+
+	.. method:: error_string([$prefix = ''[, $suffix = '']])
+
+		:param string $prefix: Error message prefix
+		:param string $suffix: Error message suffix
+		:returns: string
+
+		Returns all error messages (as returned from error_array()) formatted as a
+		string and separated by a newline character.
+
+	.. method:: error($field[, $prefix = ''[, $suffix = '']])
+
+		:param string $field: Field name
+		:param string $prefix: Optional prefix
+		:param string $suffix: Optional suffix
+		:returns: string
+
+		Returns the error message for a specific field, optionally adding a
+		prefix and/or suffix to it (usually HTML tags).
+
+	.. method:: has_rule($field)
+
+		:param string $field: Field name
+		:returns: bool
+
+		Checks to see if there is a rule set for the specified field.
 
 .. _helper-functions:
 
@@ -1009,78 +1026,15 @@ $this->form_validation->error_array()
 Helper Reference
 ****************
 
-The following helper functions are available for use in the view files
-containing your forms. Note that these are procedural functions, so they
-**do not** require you to prepend them with $this->form_validation.
+Please refer to the :doc:`Form Helper <../helpers/form_helper>` manual for
+the following functions:
 
-form_error()
-============
+-  :func:`form_error()`
+-  :func:`validation_errors()`
+-  :func:`set_value()`
+-  :func:`set_select()`
+-  :func:`set_checkbox()`
+-  :func:`set_radio()`
 
-Shows an individual error message associated with the field name
-supplied to the function. Example::
-
-	<?php echo form_error('username'); ?>
-
-The error delimiters can be optionally specified. See the
-:ref:`changing-delimiters` section above.
-
-validation_errors()
-===================
-
-Shows all error messages as a string: Example::
-
-	<?php echo validation_errors(); ?>
-
-The error delimiters can be optionally specified. See the
-:ref:`changing-delimiters` section above.
-
-set_value()
-===========
-
-Permits you to set the value of an input form or textarea. You must
-supply the field name via the first parameter of the function. The
-second (optional) parameter allows you to set a default value for the
-form. Example::
-
-	<input type="text" name="quantity" value="<?php echo set_value('quantity', '0'); ?>" size="50" />
-
-The above form will show "0" when loaded for the first time.
-
-set_select()
-============
-
-If you use a <select> menu, this function permits you to display the
-menu item that was selected. The first parameter must contain the name
-of the select menu, the second parameter must contain the value of each
-item, and the third (optional) parameter lets you set an item as the
-default (use boolean TRUE/FALSE).
-
-Example::
-
-	<select name="myselect">
-	<option value="one" <?php echo set_select('myselect', 'one', TRUE); ?> >One</option>
-	<option value="two" <?php echo set_select('myselect', 'two'); ?> >Two</option>
-	<option value="three" <?php echo set_select('myselect', 'three'); ?> >Three</option>
-	</select>
-
-set_checkbox()
-==============
-
-Permits you to display a checkbox in the state it was submitted. The
-first parameter must contain the name of the checkbox, the second
-parameter must contain its value, and the third (optional) parameter
-lets you set an item as the default (use boolean TRUE/FALSE). Example::
-
-	<input type="checkbox" name="mycheck[]" value="1" <?php echo set_checkbox('mycheck[]', '1'); ?> />
-	<input type="checkbox" name="mycheck[]" value="2" <?php echo set_checkbox('mycheck[]', '2'); ?> />
-
-set_radio()
-===========
-
-Permits you to display radio buttons in the state they were submitted.
-This function is identical to the **set_checkbox()** function above.
-
-::
-
-	<input type="radio" name="myradio" value="1" <?php echo set_radio('myradio', '1', TRUE); ?> />
-	<input type="radio" name="myradio" value="2" <?php echo set_radio('myradio', '2'); ?> />
+Note that these are procedural functions, so they **do not** require you
+to prepend them with ``$this->form_validation``.
