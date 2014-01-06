@@ -288,7 +288,7 @@ class CI_Session extends CI_Driver_Library {
 	 * @param	string	Item value or empty string
 	 * @return	void
 	 */
-	public function set_userdata($newdata = array(), $newval = '')
+	public function set_userdata($newdata, $newval = '')
 	{
 		// Wrap params as array if singular
 		if (is_string($newdata))
@@ -317,7 +317,7 @@ class CI_Session extends CI_Driver_Library {
 	 * @param	mixed	Item name or array of item names
 	 * @return	void
 	 */
-	public function unset_userdata($newdata = array())
+	public function unset_userdata($newdata)
 	{
 		// Wrap single name as array
 		if (is_string($newdata))
@@ -360,7 +360,7 @@ class CI_Session extends CI_Driver_Library {
 	 * @param	string	Item value or empty string
 	 * @return	void
 	 */
-	public function set_flashdata($newdata = array(), $newval = '')
+	public function set_flashdata($newdata, $newval = '')
 	{
 		// Wrap item as array if singular
 		if (is_string($newdata))
@@ -434,7 +434,7 @@ class CI_Session extends CI_Driver_Library {
 	 * @param	int	Item lifetime in seconds or 0 for default
 	 * @return	void
 	 */
-	public function set_tempdata($newdata = array(), $newval = '', $expire = 0)
+	public function set_tempdata($newdata, $newval = '', $expire = 0)
 	{
 		// Set expiration time
 		$expire = time() + ($expire ? $expire : self::TEMP_EXP_DEF);
@@ -475,7 +475,7 @@ class CI_Session extends CI_Driver_Library {
 	 * @param	mixed	Item name or array of item names
 	 * @return	void
 	 */
-	public function unset_tempdata($newdata = array())
+	public function unset_tempdata($newdata)
 	{
 		// Get expirations list
 		$expirations = $this->userdata(self::EXPIRATION_KEY);
