@@ -306,7 +306,7 @@ class CI_Form_validation {
 	 *
 	 * @param	string	$field	Field name
 	 * @param	string	$prefix	HTML start tag
-	 * @param 	strign	$suffix	HTML end tag
+	 * @param 	string	$suffix	HTML end tag
 	 * @return	string
 	 */
 	public function error($field, $prefix = '', $suffix = '')
