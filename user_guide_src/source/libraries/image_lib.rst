@@ -29,7 +29,7 @@ in your controller using the $this->load->library function::
 	$this->load->library('image_lib');
 
 Once the library is loaded it will be ready for use. The image library
-object you will use to call all functions is: $this->image_lib
+object you will use to call all functions is: ``$this->image_lib``
 
 Processing an Image
 ===================
@@ -67,18 +67,17 @@ ratio. The thumbnail will be called *mypic_thumb.jpg*
 	while processing images you may need to limit their maximum size, and/or
 	adjust PHP memory limits.
 
-Processing Functions
-====================
+Processing Methods
+==================
 
-There are four available processing functions:
+There are four available processing methods:
 
 -  $this->image_lib->resize()
 -  $this->image_lib->crop()
 -  $this->image_lib->rotate()
 -  $this->image_lib->watermark()
--  $this->image_lib->clear()
 
-These functions return boolean TRUE upon success and FALSE for failure.
+These methods return boolean TRUE upon success and FALSE for failure.
 If they fail you can retrieve the error message using this function::
 
 	echo $this->image_lib->display_errors();
@@ -88,7 +87,7 @@ error upon failure, like this::
 
 	if ( ! $this->image_lib->resize())
 	{
-	    echo $this->image_lib->display_errors();
+		echo $this->image_lib->display_errors();
 	}
 
 .. note:: You can optionally specify the HTML formatting to be applied to
@@ -96,6 +95,8 @@ error upon failure, like this::
 	like this::
 
 	$this->image_lib->display_errors('<p>', '</p>');
+
+.. _processing-preferences:
 
 Preferences
 ===========
@@ -162,133 +163,9 @@ Setting preferences in a config file
 If you prefer not to set preferences using the above method, you can
 instead put them into a config file. Simply create a new file called
 image_lib.php, add the $config array in that file. Then save the file
-in: config/image_lib.php and it will be used automatically. You will
-NOT need to use the $this->image_lib->initialize function if you save
+in *config/image_lib.php* and it will be used automatically. You will
+NOT need to use the ``$this->image_lib->initialize()``method if you save
 your preferences in a config file.
-
-$this->image_lib->resize()
-===========================
-
-The image resizing function lets you resize the original image, create a
-copy (with or without resizing), or create a thumbnail image.
-
-For practical purposes there is no difference between creating a copy
-and creating a thumbnail except a thumb will have the thumbnail marker
-as part of the name (ie, mypic_thumb.jpg).
-
-All preferences listed in the table above are available for this
-function except these three: rotation_angle, x_axis, and y_axis.
-
-Creating a Thumbnail
---------------------
-
-The resizing function will create a thumbnail file (and preserve the
-original) if you set this preference to TRUE::
-
-	$config['create_thumb'] = TRUE;
-
-This single preference determines whether a thumbnail is created or not.
-
-Creating a Copy
----------------
-
-The resizing function will create a copy of the image file (and preserve
-the original) if you set a path and/or a new filename using this
-preference::
-
-	$config['new_image'] = '/path/to/new_image.jpg';
-
-Notes regarding this preference:
-
--  If only the new image name is specified it will be placed in the same
-   folder as the original
--  If only the path is specified, the new image will be placed in the
-   destination with the same name as the original.
--  If both the path and image name are specified it will placed in its
-   own destination and given the new name.
-
-Resizing the Original Image
----------------------------
-
-If neither of the two preferences listed above (create_thumb, and
-new_image) are used, the resizing function will instead target the
-original image for processing.
-
-$this->image_lib->crop()
-=========================
-
-The cropping function works nearly identically to the resizing function
-except it requires that you set preferences for the X and Y axis (in
-pixels) specifying where to crop, like this::
-
-	$config['x_axis'] = '100';
-	$config['y_axis'] = '40';
-
-All preferences listed in the table above are available for this
-function except these: rotation_angle, create_thumb, new_image.
-
-Here's an example showing how you might crop an image::
-
-	$config['image_library'] = 'imagemagick';
-	$config['library_path'] = '/usr/X11R6/bin/';
-	$config['source_image']	= '/path/to/image/mypic.jpg';
-	$config['x_axis'] = '100';
-	$config['y_axis'] = '60';
-
-	$this->image_lib->initialize($config); 
-
-	if ( ! $this->image_lib->crop())
-	{
-	    echo $this->image_lib->display_errors();
-	}
-
-.. note:: Without a visual interface it is difficult to crop images, so this
-	function is not very useful unless you intend to build such an
-	interface. That's exactly what we did using for the photo gallery module
-	in ExpressionEngine, the CMS we develop. We added a JavaScript UI that
-	lets the cropping area be selected.
-
-$this->image_lib->rotate()
-===========================
-
-The image rotation function requires that the angle of rotation be set
-via its preference::
-
-	$config['rotation_angle'] = '90';
-
-There are 5 rotation options:
-
-#. 90 - rotates counter-clockwise by 90 degrees.
-#. 180 - rotates counter-clockwise by 180 degrees.
-#. 270 - rotates counter-clockwise by 270 degrees.
-#. hor - flips the image horizontally.
-#. vrt - flips the image vertically.
-
-Here's an example showing how you might rotate an image::
-
-	$config['image_library'] = 'netpbm';
-	$config['library_path'] = '/usr/bin/';
-	$config['source_image']	= '/path/to/image/mypic.jpg';
-	$config['rotation_angle'] = 'hor';
-
-	$this->image_lib->initialize($config); 
-
-	if ( ! $this->image_lib->rotate())
-	{
-	    echo $this->image_lib->display_errors();
-	}
-
-$this->image_lib->clear()
-==========================
-
-The clear function resets all of the values used when processing an
-image. You will want to call this if you are processing images in a
-loop.
-
-::
-
-	$this->image_lib->clear();
-
 
 ******************
 Image Watermarking
@@ -310,10 +187,12 @@ There are two types of watermarking that you can use:
    image (usually a transparent PNG or GIF) containing your watermark
    over the source image.
 
+.. _watermarking:
+
 Watermarking an Image
 =====================
 
-Just as with the other functions (resizing, cropping, and rotating) the
+Just as with the other methods (resizing, cropping, and rotating) the
 general process for watermarking involves setting the preferences
 corresponding to the action you intend to perform, then calling the
 watermark function. Here is an example::
@@ -423,3 +302,161 @@ Preference              Default Value       Options             Description
                                                                 coordinate to a pixel representative of the color you want to be
                                                                 transparent.
 ======================= =================== =================== ==========================================================================
+
+***************
+Class Reference
+***************
+
+.. class:: CI_Image_lib
+
+	.. method:: initialize([$props = array()])
+
+		:param array $props: Image processing preferences
+		:returns: void
+
+		Initializes the class for processing an image.
+
+	.. method:: resize()
+
+		:returns: bool
+
+		The image resizing method lets you resize the original image, create a
+		copy (with or without resizing), or create a thumbnail image.
+
+		For practical purposes there is no difference between creating a copy
+		and creating a thumbnail except a thumb will have the thumbnail marker
+		as part of the name (i.e. mypic_thumb.jpg).
+
+		All preferences listed in the :ref:`processing-preferences` table are available for this
+		method except these three: *rotation_angle*, *x_axis* and *y_axis*.
+
+		Creating a Thumbnail
+		--------------------
+
+		The resizing method will create a thumbnail file (and preserve the
+		original) if you set this preference to TRUE::
+
+			$config['create_thumb'] = TRUE;
+
+		This single preference determines whether a thumbnail is created or not.
+
+		Creating a Copy
+		---------------
+
+		The resizing method will create a copy of the image file (and preserve
+		the original) if you set a path and/or a new filename using this
+		preference::
+
+			$config['new_image'] = '/path/to/new_image.jpg';
+
+		Notes regarding this preference:
+
+		-  If only the new image name is specified it will be placed in the same
+		   folder as the original
+		-  If only the path is specified, the new image will be placed in the
+		   destination with the same name as the original.
+		-  If both the path and image name are specified it will placed in its
+		   own destination and given the new name.
+
+		Resizing the Original Image
+		---------------------------
+
+		If neither of the two preferences listed above (create_thumb, and
+		new_image) are used, the resizing method will instead target the
+		original image for processing.
+
+	.. method:: crop()
+
+		:returns: bool
+
+		The cropping method works nearly identically to the resizing function
+		except it requires that you set preferences for the X and Y axis (in
+		pixels) specifying where to crop, like this::
+
+			$config['x_axis'] = '100';
+			$config['y_axis'] = '40';
+
+		All preferences listed in the :ref:`processing-preferences` table are available for this
+		method except these: *rotation_angle*, *create_thumb* and *new_image*.
+
+		Here's an example showing how you might crop an image::
+
+			$config['image_library'] = 'imagemagick';
+			$config['library_path'] = '/usr/X11R6/bin/';
+			$config['source_image']	= '/path/to/image/mypic.jpg';
+			$config['x_axis'] = '100';
+			$config['y_axis'] = '60';
+
+			$this->image_lib->initialize($config); 
+
+			if ( ! $this->image_lib->crop())
+			{
+				echo $this->image_lib->display_errors();
+			}
+
+		.. note:: Without a visual interface it is difficult to crop images, so this
+			method is not very useful unless you intend to build such an
+			interface. That's exactly what we did using for the photo gallery module
+			in ExpressionEngine, the CMS we develop. We added a JavaScript UI that
+			lets the cropping area be selected.
+
+	.. method:: rotate()
+
+		:returns: bool
+
+		The image rotation method requires that the angle of rotation be set
+		via its preference::
+
+			$config['rotation_angle'] = '90';
+
+		There are 5 rotation options:
+
+		#. 90 - rotates counter-clockwise by 90 degrees.
+		#. 180 - rotates counter-clockwise by 180 degrees.
+		#. 270 - rotates counter-clockwise by 270 degrees.
+		#. hor - flips the image horizontally.
+		#. vrt - flips the image vertically.
+
+		Here's an example showing how you might rotate an image::
+
+			$config['image_library'] = 'netpbm';
+			$config['library_path'] = '/usr/bin/';
+			$config['source_image']	= '/path/to/image/mypic.jpg';
+			$config['rotation_angle'] = 'hor';
+
+			$this->image_lib->initialize($config); 
+
+			if ( ! $this->image_lib->rotate())
+			{
+				echo $this->image_lib->display_errors();
+			}
+
+	.. method:: watermark()
+
+		:returns: bool
+
+		Creates a watermark over an image, please refer to the :ref:`watermarking`
+		section for more info.		
+
+	.. method:: clear()
+
+		:returns: void
+
+		The clear method resets all of the values used when processing an
+		image. You will want to call this if you are processing images in a
+		loop.
+
+		::
+
+			$this->image_lib->clear();
+
+	.. method:: display_errors([$open = '<p>[, $close = '</p>']])
+
+		:param string $open: Error message opening tag
+		:param string $close: Error message closing tag
+		:returns: string
+
+		Returns all detected errors formatted as a string.
+		::
+
+			echo $this->image_lib->diplay_errors();
