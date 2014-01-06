@@ -176,7 +176,7 @@ class CI_Loader {
 	 * @param	string	$object_name	An optional object name to assign to
 	 * @return	void
 	 */
-	public function library($library = '', $params = NULL, $object_name = NULL)
+	public function library($library, $params = NULL, $object_name = NULL)
 	{
 		if (empty($library))
 		{
@@ -335,7 +335,7 @@ class CI_Loader {
 	 * Load the Database Utilities Class
 	 *
 	 * @param	object	$db	Database object
-	 * @param	bool	$return	Whether to return the DB Forge class object or not
+	 * @param	bool	$return	Whether to return the DB Utilities class object or not
 	 * @return	void|object
 	 */
 	public function dbutil($db = NULL, $return = FALSE)
@@ -450,7 +450,7 @@ class CI_Loader {
 	 * @param 	string	$val	Value to set, only used if $vars is a string
 	 * @return	void
 	 */
-	public function vars($vars = array(), $val = '')
+	public function vars($vars, $val = '')
 	{
 		if (is_string($vars))
 		{
@@ -604,7 +604,7 @@ class CI_Loader {
 	 * @param	string		Language name
 	 * @return	void
 	 */
-	public function language($files = array(), $lang = '')
+	public function language($files, $lang = '')
 	{
 		$CI =& get_instance();
 
@@ -629,7 +629,7 @@ class CI_Loader {
 	 * @param	bool	$fail_gracefully	Whether to just return FALSE or display an error message
 	 * @return	bool	TRUE if the file was loaded correctly or FALSE on failure
 	 */
-	public function config($file = '', $use_sections = FALSE, $fail_gracefully = FALSE)
+	public function config($file, $use_sections = FALSE, $fail_gracefully = FALSE)
 	{
 		$CI =& get_instance();
 		return $CI->config->load($file, $use_sections, $fail_gracefully);
@@ -649,7 +649,7 @@ class CI_Loader {
 	 * @return	void|object|bool	Object or FALSE on failure if $library is a string
 	 *					and $object_name is set. void otherwise.
 	 */
-	public function driver($library = '', $params = NULL, $object_name = NULL)
+	public function driver($library, $params = NULL, $object_name = NULL)
 	{
 		if (is_array($library))
 		{
