@@ -219,7 +219,7 @@ class CI_FTP {
 	 */
 	public function changedir($path, $suppress_debug = FALSE)
 	{
-		if ($path === '' OR ! $this->_is_conn())
+		if ( ! $this->_is_conn())
 		{
 			return FALSE;
 		}
