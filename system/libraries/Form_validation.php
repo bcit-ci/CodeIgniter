@@ -248,9 +248,9 @@ class CI_Form_validation {
 	 * @param	array	$data
 	 * @return	void
 	 */
-	public function set_data($data = '')
+	public function set_data(array $data)
 	{
-		if ( ! empty($data) && is_array($data))
+		if ( ! empty($data))
 		{
 			$this->validation_data = $data;
 		}
@@ -304,12 +304,12 @@ class CI_Form_validation {
 	 *
 	 * Gets the error message associated with a particular field
 	 *
-	 * @param	string	the field name
-	 * @param	string	the html start tag
-	 * @param 	strign	the html end tag
+	 * @param	string	$field	Field name
+	 * @param	string	$prefix	HTML start tag
+	 * @param 	strign	$suffix	HTML end tag
 	 * @return	string
 	 */
-	public function error($field = '', $prefix = '', $suffix = '')
+	public function error($field, $prefix = '', $suffix = '')
 	{
 		if (empty($this->_field_data[$field]['error']))
 		{
