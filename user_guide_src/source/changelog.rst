@@ -631,6 +631,7 @@ Bug fixes for 3.0
 -  Fixed a bug - Redis :doc:`Caching <libraries/caching>` driver didn't handle connection failures properly.
 -  Fixed a bug (#2756) - :doc:`Database Class <database/index>` executed the MySQL-specific `SET SESSION sql_mode` query for all drivers when the 'stricton' option is set.
 -  Fixed a bug (#2579) - :doc:`Query Builder <database/query_builder>`s "no escape" functionality didn't work properly with query cache.
+-  Fixed a bug (#2237) - :doc:`Parser Library <libraries/parser>` failed if the same tag pair is used more than once within a template.
 
 Version 2.1.4
 =============
