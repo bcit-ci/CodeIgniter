@@ -355,7 +355,16 @@ class CI_Xmlrpc {
 			$path .= '?'.$parts['query'];
 		}
 
-		$this->client = new XML_RPC_Client($path, $parts['host'], $port, $proxy, $proxy_port);
+                if (isset($parts['user']) and isset($parts['pass']))
+		{
+            	    $connect_url = $parts['user'].":".$parts['pass']."@".$parts['host'];
+                }
+                else
+		{
+                    $connect_url = $parts['host'];
+                }
+
+		$this->client = new XML_RPC_Client($path, $connect_url, $port, $proxy, $proxy_port);
 	}
 
 	// --------------------------------------------------------------------
@@ -662,6 +671,12 @@ class XML_RPC_Client extends CI_Xmlrpc
 	 */
 	public function sendPayload($msg)
 	{
+
+                $url = parse_url("http://".$this->server);
+                $user = $url["user"];
+                $pass = $url["pass"];
+                $this->server = $url["host"];
+
 		if ($this->proxy === FALSE)
 		{
 			$server = $this->server;
@@ -690,8 +705,12 @@ class XML_RPC_Client extends CI_Xmlrpc
 		$r = "\r\n";
 		$op = 'POST '.$this->path.' HTTP/1.0'.$r
 			.'Host: '.$this->server.$r
-			.'Content-Type: text/xml'.$r
-			.'User-Agent: '.$this->xmlrpcName.$r
+			.'Content-Type: text/xml'.$r;
+		if ($user and $pass)
+		{
+			$op .= "Authorization: Basic ".base64_encode("$user:$pass").$r;
+		}
+		$op .= 'User-Agent: '.$this->xmlrpcName.$r
 			.'Content-Length: '.strlen($msg->payload).$r.$r
 			.$msg->payload;
 
