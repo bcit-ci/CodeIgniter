@@ -506,7 +506,7 @@ Class Reference
 	.. method:: load_driver($driver)
 
 		:param string $driver: Driver name
-		:returns: object Loaded driver object
+		:returns: object
 
 		Loads a session storage driver
 
@@ -520,22 +520,26 @@ Class Reference
 	.. method:: sess_destroy()
 
 		Destroys current session
-		.. note:: This function should be the last one called, and even flash variables will no longer be available.
-		 If you only want some items destroyed and not all, use ``unset_userdata()``.
 
-	.. method:: sess_regenerate($destroy)
+		.. note:: This method should be the last one called, and even flash
+			variables will no longer be available after it is used.
+			 If you only want some items destroyed and not all, use
+			``unset_userdata()``.
 
-		:param bool $destroy: Destroy session data flag (default: false)
+	.. method:: sess_regenerate([$destroy = FALSE])
+
+		:param bool $destroy: Whether to destroy session data
 		:returns: void
 
-		Regenerate the current session data
+		Regenerate the current session data.
 
 	.. method:: userdata($item)
 
-		:param string $item: name of session item
+		:param string $item: Session item name
 		:returns: string
 
-		Returns a string containing the value of the passed item or NULL if the item is not found. Example::
+		Returns a string containing the value of the passed item or NULL if the item is not found.
+		Example::
 
 			$this->session->userdata('user');
 			//returns example@example.com considering the set_userdata example.
@@ -544,15 +548,15 @@ Class Reference
 
 		:returns: array
 
-		Retruns array of userdata session items
+		Retruns an array with all of the session userdata items.
 
 	.. method:: all_flashdata()
 
 		:returns: array
 
-		Retruns array of flashdata session items
+		Retruns an array with all of the session flashdata items.
 
-	.. method:: set_userdata($newdata = array(), $newval)
+	.. method:: set_userdata($newdata[, $newval = ''])
 
 		:param mixed $newdata: Item name or array of items
 		:param mixed $newval: Item value or empty string (not required if $newdata is array)
@@ -568,10 +572,10 @@ Class Reference
 
 	.. method:: unset_userdata($item)
 
-		:param mixed $item: name of item or array of items
+		:param mixed $item: Item name or an array containing multiple items
 		:returns: void
 
-		Unsets previously setted items from the session. Example::
+		Unsets previously set items from the session. Example::
 
 			$this->session->unset_userdata('user');
 			//unsets 'user' from session data.
@@ -581,14 +585,14 @@ Class Reference
 
 	.. method:: has_userdata($item)
 
-		:param string $item: name of item
+		:param string $item: Item name
 		:returns: bool
 
 		Checks if an item exists in the session.
 
-	.. method:: set_flashdata($newdata = array(), $newval)
+	.. method:: set_flashdata($newdata[, $newval = ''])
 
-		:param mixed $newdata: Item name or array of items
+		:param mixed $newdata: Item name or an array of items
 		:param mixed $newval: Item value or empty string (not required if $newdata is array)
 		:returns: void
 
@@ -603,26 +607,27 @@ Class Reference
 
 	.. method:: keep_flashdata($item)
 
-		:param mixed $item: name of item or array of flashdata items
+		:param mixed $item: Item name or an array containing multiple flashdata items
 		:returns: void
 
-		Keeps items into flashdata for one more request
+		Keeps items into flashdata for one more request.
 
 	.. method:: flashdata($item)
 
-		:param string $item: name of session item
+		:param string $item: Flashdata item name
 		:returns: string
 
-		Returns a string containing the value of the passed item or NULL if the item is not found. Example::
+		Returns a string containing the value of the passed item or NULL if the item is not found.
+		Example::
 
 			$this->session->flashdata('message');
 			//returns 'Test message.' considering the set_flashdata example.
 
-	.. method:: set_tempdata($newdata = array(), $newval, $expires)
+	.. method:: set_tempdata($newdata[, $newval = ''[, $expire = 0]])
 
-		:param mixed $newdata: Item name or array of items
+		:param mixed $newdata: Item name or array containing multiple items
 		:param string $newval: Item value or empty string (not required if $newdata is array)
-		:param int $expires: lifetime in seconds (0 for default)
+		:param int $expire: Lifetime in seconds (0 for default)
 		:returns: void
 
 		Sets items into session tempdata example::
@@ -636,10 +641,10 @@ Class Reference
 
 	.. method:: unset_tempdata($item)
 
-		:param mixed $item: name of item or array of items
+		:param mixed $item: Item name or an array containing multiple items
 		:returns: void
 
-		Unsets previously setted items from the tempdata. Example::
+		Unsets previously set items from tempdata. Example::
 
 			$this->session->unset_tempdata('user');
 			//unsets 'user' from tempdata.
@@ -649,10 +654,11 @@ Class Reference
 
 	.. method:: tempdata($item)
 
-		:param string $item: name of tempdata item
+		:param string $item: Tempdata item name
 		:returns: string
 
-		Returns a string containing the value of the passed item or NULL if the item is not found. Example::
+		Returns a string containing the value of the passed item or NULL if the item is not found.
+		Example::
 
 			$this->session->tempdata('message');
 			//returns 'Test message.' considering the set_tempdata example.
