@@ -2556,6 +2556,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			return;
 		}
+		elseif (in_array('select', $this->qb_cache_exists, TRUE))
+		{
+			$qb_no_escape = $this->qb_cache_no_escape;
+		}
 
 		foreach (array_unique($this->qb_cache_exists) as $val) // select, from, etc.
 		{
@@ -2563,12 +2567,23 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$qb_cache_var	= 'qb_cache_'.$val;
 			$qb_new 	= $this->$qb_cache_var;
 
-			foreach ($this->$qb_variable as &$qb_var)
+			for ($i = 0, $c = count($this->$qb_variable); $i < $c; $i++)
 			{
-			 	in_array($qb_var, $qb_new, TRUE) OR $qb_new[] = $qb_var;
+				if ( ! in_array($this->{$qb_variable}[$i], $qb_new, TRUE))
+				{
+					$qb_new[] = $this->{$qb_variable}[$i];
+					if ($val === 'select')
+					{
+						$qb_no_escape[] = $this->qb_no_escape[$i];
+					}
+				}
 			}
 
 			$this->$qb_variable = $qb_new;
+			if ($val === 'select')
+			{
+				$this->qb_no_escape = $qb_no_escape;
+			}
 		}
 
 		// If we are "protecting identifiers" we need to examine the "from"
@@ -2577,8 +2592,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			$this->_track_aliases($this->qb_from);
 		}
-
-		$this->qb_no_escape = array_merge($this->qb_no_escape, array_diff($this->qb_cache_no_escape, $this->qb_no_escape));
 	}
 
 	// --------------------------------------------------------------------
