@@ -56,7 +56,7 @@ if ( ! function_exists('set_cookie'))
 	 * @param	bool	true makes the cookie accessible via http(s) only (no javascript)
 	 * @return	void
 	 */
-	function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE, $httponly = FALSE)
+	function set_cookie($name, $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE, $httponly = FALSE)
 	{
 		// Set the config file options
 		$CI =& get_instance();
@@ -75,7 +75,7 @@ if ( ! function_exists('get_cookie'))
 	 * @param	bool
 	 * @return	mixed
 	 */
-	function get_cookie($index = '', $xss_clean = FALSE)
+	function get_cookie($index, $xss_clean = FALSE)
 	{
 		$CI =& get_instance();
 		$prefix = isset($_COOKIE[$index]) ? '' : config_item('cookie_prefix');
@@ -96,7 +96,7 @@ if ( ! function_exists('delete_cookie'))
 	 * @param	string	the cookie prefix
 	 * @return	void
 	 */
-	function delete_cookie($name = '', $domain = '', $path = '/', $prefix = '')
+	function delete_cookie($name, $domain = '', $path = '/', $prefix = '')
 	{
 		set_cookie($name, '', '', $domain, $path, $prefix);
 	}
