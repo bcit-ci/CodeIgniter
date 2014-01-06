@@ -35,9 +35,6 @@ class Loader_test extends CI_TestCase {
 		$this->assertTrue(class_exists($class), $class.' does not exist');
 		$this->assertAttributeInstanceOf($class, $lib, $this->ci_obj);
 
-		// Test no lib given
-		$this->assertNull($this->load->library());
-
 		// Test a string given to params
 		$this->assertNull($this->load->library($lib, ' '));
 
@@ -166,9 +163,6 @@ class Loader_test extends CI_TestCase {
 		$obj = 'testdrive';
 		$this->assertNull($this->load->library($driver, NULL, $obj));
 		$this->assertAttributeInstanceOf($class, $obj, $this->ci_obj);
-
-		// Test no driver given
-		$this->assertFalse($this->load->driver());
 
 		// Test a string given to params
 		$this->assertNull($this->load->driver($driver, ' '));
