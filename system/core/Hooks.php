@@ -184,7 +184,7 @@ class CI_Hooks {
 		$function	= empty($data['function']) ? FALSE : $data['function'];
 		$params		= isset($data['params']) ? $data['params'] : '';
 
-		if ($class === FALSE && $function === FALSE)
+		if (empty($function))
 		{
 			return FALSE;
 		}
@@ -195,9 +195,11 @@ class CI_Hooks {
 		// Call the requested class and/or function
 		if ($class !== FALSE)
 		{
-			if ( ! class_exists($class, FALSE))
+			class_exists($class, FALSE) OR require_once($filepath);
+
+			if ( ! class_exists($class, FALSE) OR ! method_exists($class, $function))
 			{
-				require($filepath);
+				return $this->_in_progress = FALSE;
 			}
 
 			$HOOK = new $class();
@@ -205,9 +207,11 @@ class CI_Hooks {
 		}
 		else
 		{
+			function_exists($function) OR require_once($filepath);
+
 			if ( ! function_exists($function))
 			{
-				require($filepath);
+				return $this->_in_progress = FALSE;
 			}
 
 			$function($params);
