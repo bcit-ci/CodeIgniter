@@ -118,10 +118,10 @@ class CI_Security {
 		'.parentNode'		=> '[removed]',
 		'.innerHTML'		=> '[removed]',
 		'-moz-binding'		=> '[removed]',
-		'<!--'				=> '&lt;!--',
-		'-->'				=> '--&gt;',
-		'<![CDATA['			=> '&lt;![CDATA[',
-		'<comment>'			=> '&lt;comment&gt;'
+		'<!--'			=> '&lt;!--',
+		'-->'			=> '--&gt;',
+		'<![CDATA['		=> '&lt;![CDATA[',
+		'<comment>'		=> '&lt;comment&gt;'
 	);
 
 	/**
