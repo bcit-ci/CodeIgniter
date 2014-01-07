@@ -489,3 +489,21 @@ CodeIgniter 3.1+.
 
 .. note:: This method is still available, but you're strongly encouraged to remove its usage
 	sooner rather than later.
+
+***********************************************************
+Step 17: Check your usage of Text helper highlight_phrase()
+***********************************************************
+
+The default HTML tag used by :doc:`Text Helper <../helpers/text_helper>` function
+:func:`highlight_phrase()` has been changed from ``<strong>`` to the new HTML5
+tag ``<mark>``.
+
+Unless you've used your own highlighting tags, this might cause trouble
+for your visitors who use older web browsers such as Internet Explorer 8.
+We therefore suggest that you add the following code to your CSS files
+in order to avoid backwards compatibility with old browsers::
+
+	mark {
+		background: #ff0;
+		color: #000;
+	};
