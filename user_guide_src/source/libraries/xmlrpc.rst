@@ -476,6 +476,10 @@ Class Reference
 
 			$this->xmlrpc->server('http://www.sometimes.com/pings.php', 80);
 
+		Basic HTTP authentication is also supported, simply add it to the server URL::
+
+			$this->xmlrpc->server('http://user:pass@localhost/', 80);
+
 	.. method:: timeout($seconds = 5)
 
 		:param int $seconds: timeout in seconds
