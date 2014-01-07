@@ -400,11 +400,24 @@ session class::
 		KEY `last_activity_idx` (`last_activity`)
 	);
 
+Or if you're using PostgreSQL::
+
+	CREATE TABLE  ci_sessions (
+		session_id varchar(40) DEFAULT '0' NOT NULL,
+		ip_address varchar(45) DEFAULT '0' NOT NULL,
+		user_agent varchar(120) NOT NULL,
+		last_activity bigint DEFAULT 0 NOT NULL,
+		user_data text NOT NULL,
+		PRIMARY KEY (session_id)
+	);
+
+	CREATE INDEX last_activity_idx ON ci_sessions(last_activity);
+
 .. note:: By default the table is called ci_sessions, but you can name
 	it anything you want as long as you update the
-	application/config/config.php file so that it contains the name you have
-	chosen. Once you have created your database table you can enable the
-	database option in your config.php file as follows::
+	*application/config/config.php* file so that it contains the name
+	you have chosen. Once you have created your database table you
+	can enable the database option in your config.php file as follows::
 
 		$config['sess_use_database'] = TRUE;
 
