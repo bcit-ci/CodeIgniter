@@ -381,6 +381,7 @@ Release Date: Not Released
 
    -  :doc:`Loader Library <libraries/loader>` changes include:
 
+      -  Added method chaining support.
       -  Added method ``get_vars()`` to the Loader to retrieve all variables loaded with ``$this->load->vars()``.
       -  ``_ci_autoloader()`` is now a protected method.
       -  Added autoloading of drivers with ``$autoload['drivers']``.

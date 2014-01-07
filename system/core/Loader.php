@@ -174,13 +174,13 @@ class CI_Loader {
 	 * @param	string	$library	Library name
 	 * @param	array	$params		Optional parameters to pass to the library class constructor
 	 * @param	string	$object_name	An optional object name to assign to
-	 * @return	void
+	 * @return	object
 	 */
 	public function library($library, $params = NULL, $object_name = NULL)
 	{
 		if (empty($library))
 		{
-			return;
+			return $this;
 		}
 		elseif (is_array($library))
 		{
@@ -189,7 +189,7 @@ class CI_Loader {
 				$this->library($class, $params);
 			}
 
-			return;
+			return $this;
 		}
 
 		if ($params !== NULL && ! is_array($params))
@@ -198,6 +198,7 @@ class CI_Loader {
 		}
 
 		$this->_ci_load_class($library, $params, $object_name);
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -210,13 +211,13 @@ class CI_Loader {
 	 * @param	string	$model		Model name
 	 * @param	string	$name		An optional object name to assign to
 	 * @param	bool	$db_conn	An optional database connection configuration to initialize
-	 * @return	void
+	 * @return	object
 	 */
 	public function model($model, $name = '', $db_conn = FALSE)
 	{
 		if (empty($model))
 		{
-			return;
+			return $this;
 		}
 		elseif (is_array($model))
 		{
@@ -224,7 +225,8 @@ class CI_Loader {
 			{
 				is_int($key) ? $this->model($value, '', $db_conn) : $this->model($key, $value, $db_conn);
 			}
-			return;
+
+			return $this;
 		}
 
 		$path = '';
@@ -246,7 +248,7 @@ class CI_Loader {
 
 		if (in_array($name, $this->_ci_models, TRUE))
 		{
-			return;
+			return $this;
 		}
 
 		$CI =& get_instance();
@@ -283,7 +285,7 @@ class CI_Loader {
 
 			$CI->$name = new $model();
 			$this->_ci_models[] = $name;
-			return;
+			return $this;
 		}
 
 		// couldn't find the model
@@ -300,8 +302,8 @@ class CI_Loader {
 	 * @param	bool	$query_builder	Whether to enable Query Builder
 	 *					(overrides the configuration setting)
 	 *
-	 * @return	void|object|bool	Database object if $return is set to TRUE,
-	 *					FALSE on failure, void in any other case
+	 * @return	object|bool	Database object if $return is set to TRUE,
+	 *					FALSE on failure, CI_Loader instance in any other case
 	 */
 	public function database($params = '', $return = FALSE, $query_builder = NULL)
 	{
@@ -327,6 +329,7 @@ class CI_Loader {
 
 		// Load the DB class
 		$CI->db =& DB($params, $query_builder);
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -336,7 +339,7 @@ class CI_Loader {
 	 *
 	 * @param	object	$db	Database object
 	 * @param	bool	$return	Whether to return the DB Utilities class object or not
-	 * @return	void|object
+	 * @return	object
 	 */
 	public function dbutil($db = NULL, $return = FALSE)
 	{
@@ -358,6 +361,7 @@ class CI_Loader {
 		}
 
 		$CI->dbutil = new $class($db);
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -367,7 +371,7 @@ class CI_Loader {
 	 *
 	 * @param	object	$db	Database object
 	 * @param	bool	$return	Whether to return the DB Forge class object or not
-	 * @return	void|object
+	 * @return	object
 	 */
 	public function dbforge($db = NULL, $return = FALSE)
 	{
@@ -401,6 +405,7 @@ class CI_Loader {
 		}
 
 		$CI->dbforge = new $class($db);
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -415,7 +420,7 @@ class CI_Loader {
 	 *				to be extracted for use in the view
 	 * @param	bool	$return	Whether to return the view output
 	 *				or leave it to the Output class
-	 * @return	void|string
+	 * @return	object|string
 	 */
 	public function view($view, $vars = array(), $return = FALSE)
 	{
@@ -429,7 +434,7 @@ class CI_Loader {
 	 *
 	 * @param	string	$path	File path
 	 * @param	bool	$return	Whether to return the file output
-	 * @return	void|string
+	 * @return	object|string
 	 */
 	public function file($path, $return = FALSE)
 	{
@@ -448,7 +453,7 @@ class CI_Loader {
 	 *					An associative array or object containing values
 	 *					to be set, or a value's name if string
 	 * @param 	string	$val	Value to set, only used if $vars is a string
-	 * @return	void
+	 * @return	object
 	 */
 	public function vars($vars, $val = '')
 	{
@@ -466,6 +471,8 @@ class CI_Loader {
 				$this->_ci_cached_vars[$key] = $val;
 			}
 		}
+
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -475,11 +482,12 @@ class CI_Loader {
 	 *
 	 * Clears the cached variables.
 	 *
-	 * @return  void
+	 * @return  object
 	 */
 	public function clear_vars()
 	{
 		$this->_ci_cached_vars = array();
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -517,7 +525,7 @@ class CI_Loader {
 	 * Helper Loader
 	 *
 	 * @param	string|string[]	$helpers	Helper name(s)
-	 * @return	void
+	 * @return	object
 	 */
 	public function helper($helpers = array())
 	{
@@ -574,6 +582,8 @@ class CI_Loader {
 				show_error('Unable to load the requested file: helpers/'.$helper.'.php');
 			}
 		}
+
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -586,11 +596,11 @@ class CI_Loader {
 	 *
 	 * @uses	CI_Loader::helper()
 	 * @param	string|string[]	$helpers	Helper name(s)
-	 * @return	void
+	 * @return	object
 	 */
 	public function helpers($helpers = array())
 	{
-		$this->helper($helpers);
+		return $this->helper($helpers);
 	}
 
 	// --------------------------------------------------------------------
@@ -602,18 +612,19 @@ class CI_Loader {
 	 *
 	 * @param	string|string[]	$files	List of language file names to load
 	 * @param	string		Language name
-	 * @return	void
+	 * @return	object
 	 */
 	public function language($files, $lang = '')
 	{
 		$CI =& get_instance();
-
 		is_array($files) OR $files = array($files);
 
 		foreach ($files as $langfile)
 		{
 			$CI->lang->load($langfile, $lang);
 		}
+
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -646,8 +657,8 @@ class CI_Loader {
 	 * @param	array		$params		Optional parameters to pass to the driver
 	 * @param	string		$object_name	An optional object name to assign to
 	 *
-	 * @return	void|object|bool	Object or FALSE on failure if $library is a string
-	 *					and $object_name is set. void otherwise.
+	 * @return	object|bool	Object or FALSE on failure if $library is a string
+	 *				and $object_name is set. CI_Loader instance otherwise.
 	 */
 	public function driver($library, $params = NULL, $object_name = NULL)
 	{
@@ -657,10 +668,10 @@ class CI_Loader {
 			{
 				$this->driver($driver);
 			}
-			return;
-		}
 
-		if ($library === '')
+			return $this;
+		}
+		elseif (empty($library))
 		{
 			return FALSE;
 		}
@@ -696,7 +707,7 @@ class CI_Loader {
 	 *
 	 * @param	string	$path		Path to add
 	 * @param 	bool	$view_cascade	(default: TRUE)
-	 * @return	void
+	 * @return	object
 	 */
 	public function add_package_path($path, $view_cascade = TRUE)
 	{
@@ -711,6 +722,8 @@ class CI_Loader {
 		// Add config file path
 		$config =& $this->_ci_get_component('config');
 		$config->_config_paths[] = $path;
+
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -738,7 +751,7 @@ class CI_Loader {
 	 * added path will be removed removed.
 	 *
 	 * @param	string	$path	Path to remove
-	 * @return	void
+	 * @return	object
 	 */
 	public function remove_package_path($path = '')
 	{
@@ -780,6 +793,8 @@ class CI_Loader {
 		$this->_ci_model_paths = array_unique(array_merge($this->_ci_model_paths, array(APPPATH)));
 		$this->_ci_view_paths = array_merge($this->_ci_view_paths, array(APPPATH.'views/' => TRUE));
 		$config->_config_paths = array_unique(array_merge($config->_config_paths, array(APPPATH)));
+
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -795,7 +810,7 @@ class CI_Loader {
 	 * @used-by	CI_Loader::view()
 	 * @used-by	CI_Loader::file()
 	 * @param	array	$_ci_data	Data to load
-	 * @return	void
+	 * @return	object
 	 */
 	protected function _ci_load($_ci_data)
 	{
@@ -919,6 +934,8 @@ class CI_Loader {
 			$_ci_CI->output->append_output(ob_get_contents());
 			@ob_end_clean();
 		}
+
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
