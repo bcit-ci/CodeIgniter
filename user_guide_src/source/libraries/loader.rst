@@ -83,7 +83,7 @@ Class Reference
 		:param mixed $library: Library name as a string or an array with multiple libraries
 		:param array $params: Optional array of parameters to pass to the loaded library's constructor
 		:param string $object_name: Optional object name to assign the library to
-		:returns: void
+		:returns: object
 
 		This method is used to load core classes.
 
@@ -161,7 +161,7 @@ Class Reference
 		:param mixed $library: Library name as a string or an array with multiple libraries
 		:param array $params: Optional array of parameters to pass to the loaded library's constructor
 		:param string $object_name: Optional object name to assign the library to
-		:returns: void
+		:returns: object
 
 		This method is used to load driver libraries, acts very much like the
 		``library()`` method.
@@ -255,7 +255,7 @@ Class Reference
 
 		:param mixed $vars: An array of variables or a single variable name
 		:param mixed $val: Optional variable value
-		:returns: void
+		:returns: object
 
 		This method takes an associative array as input and generates
 		variables using the PHP `extract() <http://www.php.net/extract>`_
@@ -287,7 +287,7 @@ Class Reference
 		:param mixed $model: Model name or an array containing multiple models
 		:param string $name: Optional object name to assign the model to
 		:param string $db_conn: Optional database configuration group to load
-		:returns: void
+		:returns: object
 
 		::
 
@@ -338,7 +338,7 @@ Class Reference
 	.. method:: helper($helpers)
 
 		:param mixed $helpers: Helper name as a string or an array containing multiple helpers
-		:returns: void
+		:returns: object
 
 		This method loads helper files, where file_name is the name of the
 		file, without the _helper.php extension.
@@ -359,7 +359,7 @@ Class Reference
 
 		:param mixed $files: Language file name or an array of multiple language files
 		:param string $lang: Language name
-		:returns: void
+		:returns: object
 
 		This method is an alias of the :doc:`language loading
 		method <language>`: ``$this->lang->load()``.
@@ -378,20 +378,20 @@ Class Reference
 
 		:param string $path: Path to add
 		:param bool $view_cascade: Whether to use cascading views
-		:returns: void
+		:returns: object
 
 		Adding a package path instructs the Loader class to prepend a given path
 		for subsequent requests for resources. As an example, the "Foo Bar"
 		application package above has a library named Foo_bar.php. In our
 		controller, we'd do the following::
 
-			$this->load->add_package_path(APPPATH.'third_party/foo_bar/');
-			$this->load->library('foo_bar');
+			$this->load->add_package_path(APPPATH.'third_party/foo_bar/')
+				->library('foo_bar');
 
 	.. method:: remove_package_path([$path = ''])
 
 		:param string $path: Path to remove
-		:returns: void
+		:returns: object
 
 		When your controller is finished using resources from an application
 		package, and particularly if you have other application packages you
