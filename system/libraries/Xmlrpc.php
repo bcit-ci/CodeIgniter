@@ -348,6 +348,11 @@ class CI_Xmlrpc {
 
 		$parts = parse_url($url);
 
+		if (isset($parts['user'], $parts['pass']))
+		{
+			$parts['host'] = $parts['user'].':'.$parts['pass'].'@'.$parts['host'];
+		}
+
 		$path = isset($parts['path']) ? $parts['path'] : '/';
 
 		if ( ! empty($parts['query']))
@@ -569,6 +574,21 @@ class XML_RPC_Client extends CI_Xmlrpc
 	public $port			= 80;
 
 	/**
+	 *
+	 * Server username
+	 *
+	 * @var	string
+	 */
+	public $username;
+
+	/**
+	 * Server password
+	 *
+	 * @var	string
+	 */
+	public $password;
+
+	/**
 	 * Proxy hostname
 	 *
 	 * @var	string
@@ -626,8 +646,16 @@ class XML_RPC_Client extends CI_Xmlrpc
 	{
 		parent::__construct();
 
+		$url = parse_url('http://'.$server);
+
+		if (isset($url['user'], $url['pass']))
+		{
+			$this->username = $url['user'];
+			$this->password = $url['pass'];
+		}
+
 		$this->port = $port;
-		$this->server = $server;
+		$this->server = $url['host'];
 		$this->path = $path;
 		$this->proxy = $proxy;
 		$this->proxy_port = $proxy_port;
@@ -691,6 +719,7 @@ class XML_RPC_Client extends CI_Xmlrpc
 		$op = 'POST '.$this->path.' HTTP/1.0'.$r
 			.'Host: '.$this->server.$r
 			.'Content-Type: text/xml'.$r
+			.(isset($this->username, $this->password) ? 'Authorization: Basic '.base64_encode($this->username.':'.$this->password).$r : '')
 			.'User-Agent: '.$this->xmlrpcName.$r
 			.'Content-Length: '.strlen($msg->payload).$r.$r
 			.$msg->payload;

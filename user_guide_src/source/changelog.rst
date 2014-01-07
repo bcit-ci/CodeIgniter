@@ -342,7 +342,6 @@ Release Date: Not Released
       -  Deprecated usage of the "anchor_class" setting (use the new "attributes" setting instead).
       -  Added $config['reuse_query_string'] to allow automatic repopulation of query string arguments, combined with normal URI segments.
       -  Removed the default ``&nbsp;`` from a number of the configuration variables.
-      -  Added the ability to use a proxy with the :doc:`XML-RPC Library <libraries/xmlrpc>`.
 
    -  :doc:`Encryption Library <libraries/encryption>` changes include:
 
@@ -354,12 +353,17 @@ Release Date: Not Released
       -  Database object names are now being displayed.
       -  The sum of all queries running times in seconds is now being displayed.
       -  Added support for displaying the HTTP DNT ("Do Not Track") header.
-      -  Added support for displaying $_FILES.
+      -  Added support for displaying ``$_FILES``.
 
    -  :doc:`Migration Library <libraries/migration>` changes include:
 
       -  Added support for timestamp-based migrations (enabled by default).
       -  Added ``$config['migration_type']`` to allow switching between *sequential* and *timestamp* migrations.
+
+   -  :doc:`XML-RPC Library <libraries/xmlrpc>` changes include:
+
+      -  Added the ability to use a proxy.
+      -  Added Basic HTTP authentication support.
 
    -  :doc:`User Agent Library <libraries/user_agent>` will now check if robots are pretending to be mobile clients (helps with e.g. Google indexing mobile website versions).
    -  Added support for setting :doc:`Table <libraries/table>` class defaults in a config file.
