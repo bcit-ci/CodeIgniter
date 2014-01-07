@@ -98,10 +98,10 @@ Class Reference
 
 			$this->zip->add_dir('myfolder'); // Creates a directory called "myfolder"
 
-	.. method:: read_file($path[, $preserve_filepath = FALSE])
+	.. method:: read_file($path[, $archive_filepath = FALSE])
 
-		:param string $path: path to file
-		:param bool $preserve_filepath: whether to maintain the original filepath
+		:param string $path: Path to file
+		:param mixed $archive_filepath: New file name/path (string) or (boolean) whether to maintain the original filepath
 		:returns: bool
 
 		Permits you to compress a file that already exists somewhere on your server.
@@ -125,6 +125,16 @@ Class Reference
 			$this->zip->download('my_backup.zip');
 
 		In the above example, photo.jpg will be placed into the *path/to/* directory.
+
+		You can also specify a new name (path included) for the added file on the fly::
+
+			$path = '/path/to/photo.jpg';
+			$new_path = '/new/path/some_photo.jpg';
+
+			$this->zip->read_file($path, $new_path);
+
+			// Download ZIP archive containing /new/path/some_photo.jpg
+			$this->zip->download('my_archive.zip');
 
 	.. method:: read_dir($path[, $preserve_filepath = TRUE[, $root_path = NULL]])
 
