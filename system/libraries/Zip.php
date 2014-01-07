@@ -279,22 +279,25 @@ class CI_Zip {
 	 * Read the contents of a file and add it to the zip
 	 *
 	 * @param	string	$path
-	 * @param	bool	$preserve_filepath
+	 * @param	bool	$archive_filepath
 	 * @return	bool
 	 */
-	public function read_file($path, $preserve_filepath = FALSE)
+	public function read_file($path, $archive_filepath = FALSE)
 	{
-		if ( ! file_exists($path))
+		if (file_exists($path) && FALSE !== ($data = file_get_contents($path)))
 		{
-			return FALSE;
-		}
-
-		if (FALSE !== ($data = file_get_contents($path)))
-		{
-			$name = str_replace('\\', '/', $path);
-			if ($preserve_filepath === FALSE)
+			if (is_string($archive_filepath))
 			{
-				$name = preg_replace('|.*/(.+)|', '\\1', $name);
+				$name = str_replace('\\', '/', $archive_filepath);
+			}
+			else
+			{
+				$name = str_replace('\\', '/', $path);
+
+				if ($preserve_filepath === FALSE)
+				{
+					$name = preg_replace('|.*/(.+)|', '\\1', $name);
+				}
 			}
 
 			$this->add_data($name, $data);

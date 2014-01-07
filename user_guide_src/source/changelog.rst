@@ -367,6 +367,7 @@ Release Date: Not Released
 
    -  :doc:`User Agent Library <libraries/user_agent>` will now check if robots are pretending to be mobile clients (helps with e.g. Google indexing mobile website versions).
    -  Added support for setting :doc:`Table <libraries/table>` class defaults in a config file.
+   -  :doc:`Zip Library <libraries/zip>` method ``read_file()`` can now also alter the original file path/name while adding files to an archive.
 
 -  Core
 
