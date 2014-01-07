@@ -117,7 +117,6 @@ class CI_Security {
 		'document.write'	=> '[removed]',
 		'.parentNode'		=> '[removed]',
 		'.innerHTML'		=> '[removed]',
-		'window.location'	=> '[removed]',
 		'-moz-binding'		=> '[removed]',
 		'<!--'				=> '&lt;!--',
 		'-->'				=> '--&gt;',
@@ -132,6 +131,7 @@ class CI_Security {
 	 */
 	protected $_never_allowed_regex = array(
 		'javascript\s*:',
+		'(document|(document\.)?window)\.(location|on\w*)',
 		'expression\s*(\(|&\#40;)', // CSS and IE
 		'vbscript\s*:', // IE, surprise!
 		'Redirect\s+302',
@@ -648,8 +648,8 @@ class CI_Security {
 	 */
 	protected function _remove_evil_attributes($str, $is_image)
 	{
-		// All javascript event handlers (e.g. onload, onclick, onmouseover), style, and xmlns
-		$evil_attributes = array('on\w*', 'style', 'xmlns', 'formaction');
+		// Formaction, style, and xmlns
+		$evil_attributes = array('style', 'xmlns', 'formaction');
 
 		if ($is_image === TRUE)
 		{
