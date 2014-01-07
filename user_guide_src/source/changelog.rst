@@ -638,6 +638,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#2579) - :doc:`Query Builder <database/query_builder>`s "no escape" functionality didn't work properly with query cache.
 -  Fixed a bug (#2237) - :doc:`Parser Library <libraries/parser>` failed if the same tag pair is used more than once within a template.
 -  Fixed a bug (#2268) - :doc:`Security Library <libraries/security>` didn't properly match JavaScript events.
+-  Fixed a bug (#2143) - :doc:`Form Validation Library <libraries/form_validation>` didn't check for rule groups named in a *controller/method* manner when trying to load from a config file.
 
 Version 2.1.4
 =============

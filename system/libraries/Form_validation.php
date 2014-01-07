@@ -414,17 +414,14 @@ class CI_Form_validation {
 				return FALSE;
 			}
 
-			// Is there a validation rule for the particular URI being accessed?
-			$uri = ($group === '') ? trim($this->CI->uri->ruri_string(), '/') : $group;
+			if (empty($group))
+			{
+				// Is there a validation rule for the particular URI being accessed?
+				$group = trim($this->CI->uri->ruri_string(), '/');
+				isset($this->_config_rules[$group]) OR $group = $this->CI->router->class.'/'.$this->CI->router->method;
+			}
 
-			if ($uri !== '' && isset($this->_config_rules[$uri]))
-			{
-				$this->set_rules($this->_config_rules[$uri]);
-			}
-			else
-			{
-				$this->set_rules($this->_config_rules);
-			}
+			$this->set_rules(isset($this->_config_rules[$group]) ? $this->_config_rules[$group] : $this->_config_rules);
 
 			// Were we able to set the rules correctly?
 			if (count($this->_field_data) === 0)
