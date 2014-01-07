@@ -2704,6 +2704,21 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		);
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get LIKE ESCAPE statement 
+	 * some platforms require an escape sequence definition for LIKE wildcards
+	 *
+	 * @access	public
+	 * @return	string
+	 */
+	public function get_like_escape_str()
+	{
+		return $this->_like_escape_str && $this->_like_escape_chr ? sprintf($this->_like_escape_str, $this->_like_escape_chr) : '';
+	}
+
+
 }
 
 /* End of file DB_query_builder.php */
