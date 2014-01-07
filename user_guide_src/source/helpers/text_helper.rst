@@ -35,7 +35,7 @@ The following functions are available:
 
 		$string = "Here is a nice text string consisting of eleven words.";
 		$string = word_limiter($string, 4);
-		// Returns:  Here is a nice…
+		// Returns:  Here is a nice
 
 	The third parameter is an optional suffix added to the string. By
 	default it adds an ellipsis.
@@ -56,7 +56,7 @@ The following functions are available:
 
 		$string = "Here is a nice text string consisting of eleven words.";
 		$string = character_limiter($string, 20);
-		// Returns:  Here is a nice text string…
+		// Returns:  Here is a nice text string
 
 	The third parameter is an optional suffix added to the string, if
 	undeclared this helper uses an ellipsis.
@@ -143,7 +143,7 @@ The following functions are available:
 	colors used are the ones specified in your php.ini file.
 
 
-.. function:: highlight_phrase($str, $phrase[, $tag_open = '<strong>'[, $tag_close = '</strong>']])
+.. function:: highlight_phrase($str, $phrase[, $tag_open = '<mark>'[, $tag_close = '</mark>']])
 
 	:param	string	$str: Input string
 	:param	string	$phrase: Phrase to highlight
@@ -164,6 +164,16 @@ The following functions are available:
 	The above code prints::
 
 		Here is a <span style="color:#990000;">nice text</span> string about nothing in particular.
+
+	.. note:: This function used to use the ``<strong>`` tag by default. Older browsers
+		might not support the new HTML5 mark tag, so it is recommended that you
+		insert the following CSS code into your stylesheet if you need to support
+		such browsers::
+
+			mark {
+				background: #ff0;
+				color: #000;
+			};
 
 
 .. function:: word_wrap($str[, $charlim = 76])
