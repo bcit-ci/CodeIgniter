@@ -179,6 +179,8 @@ class CI_Hooks {
 			return FALSE;
 		}
 
+		require_once ($filepath);
+		
 		// Determine and class and/or function names
 		$class		= empty($data['class']) ? FALSE : $data['class'];
 		$function	= empty($data['function']) ? FALSE : $data['function'];
@@ -189,33 +191,28 @@ class CI_Hooks {
 			return FALSE;
 		}
 
-		// Set the _in_progress flag
-		$this->_in_progress = TRUE;
-
-		// Call the requested class and/or function
-		if ($class !== FALSE)
-		{
-			if ( ! class_exists($class, FALSE))
-			{
-				require($filepath);
-			}
-
-			$HOOK = new $class();
-			$HOOK->$function($params);
+		// Call the requested class and/or function and set the in_progress flag
+	        if ($class !== FALSE) {
+	            if (!class_exists($class)  || !method_exists($class, $function)) {
+	                return FALSE;
+	            }
+	
+	            $this->in_progress = TRUE;
+	
+	            $HOOK = new $class;
+	            $HOOK->$function($params);
+	        } else {
+	            if (!function_exists($function)) {
+	                return FALSE;
+	            }
+	
+	            $this->in_progress = TRUE;
+	            $function($params);
+	        }
+	
+			$this->_in_progress = FALSE;
+			return TRUE;
 		}
-		else
-		{
-			if ( ! function_exists($function))
-			{
-				require($filepath);
-			}
-
-			$function($params);
-		}
-
-		$this->_in_progress = FALSE;
-		return TRUE;
-	}
 
 }
 
