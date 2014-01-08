@@ -43,7 +43,7 @@ The following functions are available:
 	``CI_Input::set_cookie()``.
 
 
-.. function:: get_cookie($index[, $xss_clean = FALSE]])
+.. function:: get_cookie($index[, $xss_clean = NULL]])
 
 	:param string $index: Cookie name
 	:param bool $xss_clean: Whether to apply XSS filtering to the returned value

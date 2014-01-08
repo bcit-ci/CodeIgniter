@@ -105,7 +105,7 @@ Class Reference
 
 .. class:: CI_Input
 
-	.. method:: post([$index = NULL[, $xss_clean = FALSE]])
+	.. method:: post([$index = NULL[, $xss_clean = NULL]])
 
 		:param string $index: POST parameter name
 		:param bool $xss_clean: Whether to apply XSS filtering
@@ -120,7 +120,8 @@ Class Reference
 		does not exist.
 
 		The second optional parameter lets you run the data through the XSS
-		filter. It's enabled by setting the second parameter to boolean TRUE.
+		filter. It's enabled by setting the second parameter to boolean TRUE
+		or by setting your ``$config['global_xss_filtering']`` to TRUE.
 		::
 
 			$this->input->post('some_data', TRUE);
@@ -132,9 +133,9 @@ Class Reference
 		::
 
 			$this->input->post(NULL, TRUE); // returns all POST items with XSS filter
-			$this->input->post(); // returns all POST items without XSS filter
+			$this->input->post(NULL, FALSE); // returns all POST items without XSS filter
 
-	.. method:: get([$index = NULL[, $xss_clean = FALSE]])
+	.. method:: get([$index = NULL[, $xss_clean = NULL]])
 
 		:param string $index: GET parameter name
 		:param bool $xss_clean: Whether to apply XSS filtering
@@ -152,9 +153,9 @@ Class Reference
 		::
 
 			$this->input->get(NULL, TRUE); // returns all GET items with XSS filter
-			$this->input->get(); // returns all GET items without XSS filtering
+			$this->input->get(NULL, FALSE); // returns all GET items without XSS filtering
 
-	.. method:: get_post([$index = ''[, $xss_clean = FALSE]])
+	.. method:: get_post([$index = ''[, $xss_clean = NULL]])
 
 		:param string $index: GET/POST parameter name
 		:param bool $xss_clean: Whether to apply XSS filtering
@@ -166,7 +167,7 @@ Class Reference
 
 			$this->input->get_post('some_data', TRUE);
 
-	.. method:: cookie([$index = ''[, $xss_clean = FALSE]])
+	.. method:: cookie([$index = ''[, $xss_clean = NULL]])
 
 		:param string $index: COOKIE parameter name
 		:param bool $xss_clean: Whether to apply XSS filtering
@@ -178,7 +179,7 @@ Class Reference
 			$this->input->cookie('some_cookie');
 			$this->input->cookie('some_cookie, TRUE); // with XSS filter
 
-	.. method:: server([$index = ''[, $xss_clean = FALSE]])
+	.. method:: server([$index = ''[, $xss_clean = NULL]])
 
 		:param string $index: Value name
 		:param bool $xss_clean: Whether to apply XSS filtering
@@ -189,7 +190,7 @@ Class Reference
 
 			$this->input->server('some_data');
 
-	.. method:: input_stream([$index = ''[, $xss_clean = FALSE]])
+	.. method:: input_stream([$index = ''[, $xss_clean = NULL]])
 
 		:param string $index: Key name
 		:param bool $xss_clean: Whether to apply XSS filtering
