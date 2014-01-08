@@ -687,9 +687,11 @@ class CI_Input {
 			// but that when present will trip our 'Disallowed Key Characters' alarm
 			// http://www.ietf.org/rfc/rfc2109.txt
 			// note that the key names below are single quoted strings, and are not PHP variables
-			unset($_COOKIE['$Version']);
-			unset($_COOKIE['$Path']);
-			unset($_COOKIE['$Domain']);
+			unset(
+				$_COOKIE['$Version'],
+				$_COOKIE['$Path'],
+				$_COOKIE['$Domain']
+			);
 
 			foreach ($_COOKIE as $key => $val)
 			{
@@ -756,7 +758,7 @@ class CI_Input {
 		}
 
 		// Remove control characters
-		$str = remove_invisible_characters($str);
+		$str = remove_invisible_characters($str, FALSE);
 
 		// Should we filter the input data?
 		if ($this->_enable_xss === TRUE)
