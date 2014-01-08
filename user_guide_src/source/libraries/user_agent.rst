@@ -224,3 +224,10 @@ Class Reference
 		:returns: array
 
 		Returns an array of character sets accepted by the user agent.
+
+	.. method:: parse($string)
+
+		:param string $string: A custom user-agent string
+		:returns: void
+
+		Parses a custom user-agent string, different from the one reported by the current visitor.
