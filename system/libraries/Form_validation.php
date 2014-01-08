@@ -144,14 +144,16 @@ class CI_Form_validation {
 	 * Set Rules
 	 *
 	 * This function takes an array of field names and validation
-	 * rules as input, validates the info, and stores it
+	 * rules as input, any custom error messages, validates the info, 
+	 * and stores it
 	 *
 	 * @param	mixed	$field
 	 * @param	string	$label
 	 * @param	mixed	$rules
+	 * @param	array	$error_msg
 	 * @return	CI_Form_validation
 	 */
-	public function set_rules($field, $label = '', $rules = '')
+	public function set_rules($field, $label = '', $rules = '', $error_msg = array())
 	{
 		// No reason to set rules if we have no POST data
 		// or a validation array has not been specified
@@ -174,6 +176,9 @@ class CI_Form_validation {
 
 				// If the field label wasn't passed we use the field name
 				$label = isset($row['label']) ? $row['label'] : $row['field'];
+
+				// Add the custom error message array
+				$error_msg = (isset($row['error_msg']) && is_array($row['error_msg']) ) ? $row['error_msg'] : array();
 
 				// Here we go!
 				$this->set_rules($row['field'], $label, $row['rules']);
@@ -224,6 +229,7 @@ class CI_Form_validation {
 			'field'		=> $field,
 			'label'		=> $label,
 			'rules'		=> $rules,
+			'error_msg' => $error_msg,
 			'is_array'	=> $is_array,
 			'keys'		=> $indexes,
 			'postdata'	=> NULL,
@@ -602,7 +608,12 @@ class CI_Form_validation {
 				// Set the message type
 				$type = in_array('required', $rules) ? 'required' : 'isset';
 
-				if (isset($this->_error_messages[$type]))
+				// Check if a custom message defined, else use default one
+				if (isset($this->_field_data[$row['field']]['error_msg'][$type]))
+				{
+					$line = $this->_field_data[$row['field']]['error_msg'][$type];
+				}
+				elseif (isset($this->_error_messages[$type]))
 				{
 					$line = $this->_error_messages[$type];
 				}
@@ -746,7 +757,12 @@ class CI_Form_validation {
 			// Did the rule test negatively? If so, grab the error.
 			if ($result === FALSE)
 			{
-				if ( ! isset($this->_error_messages[$rule]))
+				// Check if a custom message defined, else use default one
+				if(isset($this->_field_data[$row['field']]['error_msg'][$rule]))
+				{
+					$line = $this->_field_data[$row['field']]['error_msg'][$rule];
+				}
+				elseif ( ! isset($this->_error_messages[$rule]))
 				{
 					if (FALSE === ($line = $this->CI->lang->line('form_validation_'.$rule))
 						// DEPRECATED support for non-prefixed keys
