@@ -91,7 +91,8 @@ if ( ! function_exists('current_url'))
 	 */
 	function current_url()
 	{
-		return get_instance()->config->site_url($CI->uri->uri_string());
+		$CI =& get_instance();
+		return $CI->config->site_url($CI->uri->uri_string());
 	}
 }
 
