@@ -151,8 +151,10 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	protected function _fetch_from_array(&$array, $index = '', $xss_clean = FALSE)
+	protected function _fetch_from_array(&$array, $index = '', $xss_clean = NULL)
 	{
+		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
+
 		if (isset($array[$index]))
 		{
 			$value = $array[$index];
@@ -197,8 +199,10 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function get($index = NULL, $xss_clean = FALSE)
+	public function get($index = NULL, $xss_clean = NULL)
 	{
+		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
+
 		// Check if a field has been provided
 		if ($index === NULL)
 		{
@@ -229,8 +233,10 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function post($index = NULL, $xss_clean = FALSE)
+	public function post($index = NULL, $xss_clean = NULL)
 	{
+		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
+
 		// Check if a field has been provided
 		if ($index === NULL)
 		{
@@ -261,8 +267,10 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function post_get($index = '', $xss_clean = FALSE)
+	public function post_get($index = '', $xss_clean = NULL)
 	{
+		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
+
 		return isset($_POST[$index])
 			? $this->post($index, $xss_clean)
 			: $this->get($index, $xss_clean);
@@ -277,8 +285,10 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function get_post($index = '', $xss_clean = FALSE)
+	public function get_post($index = '', $xss_clean = NULL)
 	{
+		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
+
 		return isset($_GET[$index])
 			? $this->get($index, $xss_clean)
 			: $this->post($index, $xss_clean);
@@ -293,8 +303,10 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function cookie($index = '', $xss_clean = FALSE)
+	public function cookie($index = '', $xss_clean = NULL)
 	{
+		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
+
 		return $this->_fetch_from_array($_COOKIE, $index, $xss_clean);
 	}
 
@@ -307,8 +319,10 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function server($index = '', $xss_clean = FALSE)
+	public function server($index = '', $xss_clean = NULL)
 	{
+		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
+
 		return $this->_fetch_from_array($_SERVER, $index, $xss_clean);
 	}
 
@@ -323,8 +337,10 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function input_stream($index = '', $xss_clean = FALSE)
+	public function input_stream($index = '', $xss_clean = NULL)
 	{
+		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
+
 		// The input stream can only be read once, so we'll need to check
 		// if we have already done that first.
 		if (is_array($this->_input_stream))
@@ -759,12 +775,6 @@ class CI_Input {
 
 		// Remove control characters
 		$str = remove_invisible_characters($str, FALSE);
-
-		// Should we filter the input data?
-		if ($this->_enable_xss === TRUE)
-		{
-			$str = $this->security->xss_clean($str);
-		}
 
 		// Standardize newlines if needed
 		if ($this->_standardize_newlines === TRUE)
