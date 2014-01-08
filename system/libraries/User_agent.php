@@ -634,6 +634,34 @@ class CI_User_agent {
 		return in_array(strtolower($charset), $this->charsets(), TRUE);
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Parse a custom user-agent string
+	 *
+	 * @param	string	$string
+	 * @return	void
+	 */
+	public function parse($string)
+	{
+		// Reset values
+		$this->is_browser = FALSE;
+		$this->is_robot = FALSE;
+		$this->is_mobile = FALSE;
+		$this->browser = '';
+		$this->version = '';
+		$this->mobile = '';
+		$this->robot = '';
+
+		// Set the new user-agent string and parse it, unless empty
+		$this->agent = $string;
+
+		if ( ! empty($string))
+		{
+			$this->_compile_data();
+		}
+	}
+
 }
 
 /* End of file User_agent.php */
