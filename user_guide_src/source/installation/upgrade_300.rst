@@ -333,6 +333,26 @@ Smiley helper js_insert_smiley()
 :doc:`Smiley Helper <../helpers/smiley_helper>` function ``js_insert_smiley()`` has been deprecated
 since CodeIgniter 1.7.2 and is now removed. You'll need to switch to ``smiley_js()`` instead.
 
+Database drivers 'mysql', 'sqlite', 'mssql', 'pdo/dblib'
+========================================================
+
+The **mysql** driver utilizes the old 'mysql' PHP extension, known for its aging code base and
+many low-level problems. The extension is deprecated as of PHP 5.5 and CodeIgniter deprecates
+it in version 3.0, switching the default configured MySQL driver to **mysqli**.
+
+Please use either the 'mysqli' or 'pdo/mysql' drivers for MySQL. The old 'mysql' driver will be
+removed at some point in the future.
+
+The **sqlite**, **mssql** and **pdo/dblib** (also known as pdo/mssql or pdo/sybase) drivers
+all depend on PHP extensions that for different reasons no longer exist since PHP 5.3.
+
+Therefore we are now deprecating these drivers as we will have to remove them in one of the next
+CodeIgniter versions. You should use the more advanced, **sqlite3**, **sqlsrv** or **pdo/sqlsrv**
+drivers respectively.
+
+.. note:: These drivers are still available, but you're strongly encouraged to switch to other ones
+	sooner rather than later.
+
 Security helper do_hash()
 =========================
 
