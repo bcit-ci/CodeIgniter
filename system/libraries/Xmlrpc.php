@@ -884,10 +884,10 @@ class XML_RPC_Response
 	/**
 	 * Decode
 	 *
-	 * @param	mixed
+	 * @param	mixed	$array
 	 * @return	array
 	 */
-	public function decode($array = FALSE)
+	public function decode($array = NULL)
 	{
 		$CI =& get_instance();
 
@@ -899,9 +899,9 @@ class XML_RPC_Response
 				{
 					$array[$key] = $this->decode($array[$key]);
 				}
-				else
+				elseif ($this->xss_clean)
 				{
-					$array[$key] = ($this->xss_clean) ? $CI->security->xss_clean($array[$key]) : $array[$key];
+					$array[$key] = $CI->security->xss_clean($array[$key]);
 				}
 			}
 
@@ -914,9 +914,9 @@ class XML_RPC_Response
 		{
 			$result = $this->decode($result);
 		}
-		else
+		elseif ($this->xss_clean)
 		{
-			$result = ($this->xss_clean) ? $CI->security->xss_clean($result) : $result;
+			$result = $CI->security->xss_clean($result);
 		}
 
 		return $result;
@@ -1509,14 +1509,14 @@ class XML_RPC_Message extends CI_Xmlrpc
 	/**
 	 * Output parameters
 	 *
-	 * @param	array
+	 * @param	array	$array
 	 * @return	array
 	 */
-	public function output_parameters($array = FALSE)
+	public function output_parameters(array $array = array())
 	{
 		$CI =& get_instance();
 
-		if (is_array($array))
+		if ( ! empty($array))
 		{
 			while (list($key) = each($array))
 			{
@@ -1524,11 +1524,11 @@ class XML_RPC_Message extends CI_Xmlrpc
 				{
 					$array[$key] = $this->output_parameters($array[$key]);
 				}
-				else
+				elseif ($key !== 'bits' && $this->xss_clean)
 				{
 					// 'bits' is for the MetaWeblog API image bits
 					// @todo - this needs to be made more general purpose
-					$array[$key] = ($key === 'bits' OR $this->xss_clean === FALSE) ? $array[$key] : $CI->security->xss_clean($array[$key]);
+					$array[$key] = $CI->security->xss_clean($array[$key]);
 				}
 			}
 
