@@ -1081,8 +1081,7 @@ class CI_Upload {
 			return FALSE;
 		}
 
-		$CI =& get_instance();
-		return $CI->security->xss_clean($data, TRUE);
+		return get_instance()->security->xss_clean($data, TRUE);
 	}
 
 	// --------------------------------------------------------------------
