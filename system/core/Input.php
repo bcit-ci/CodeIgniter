@@ -63,7 +63,7 @@ class CI_Input {
 	protected $_allow_get_array = TRUE;
 
 	/**
-	 * Standartize new lines flag
+	 * Standardize new lines flag
 	 *
 	 * If set to TRUE, then newlines are standardized.
 	 *
@@ -121,9 +121,10 @@ class CI_Input {
 	{
 		log_message('debug', 'Input Class Initialized');
 
-		$this->_allow_get_array	= (config_item('allow_get_array') === TRUE);
-		$this->_enable_xss	= (config_item('global_xss_filtering') === TRUE);
-		$this->_enable_csrf	= (config_item('csrf_protection') === TRUE);
+		$this->_allow_get_array		= (config_item('allow_get_array') === TRUE);
+		$this->_enable_xss		= (config_item('global_xss_filtering') === TRUE);
+		$this->_enable_csrf		= (config_item('csrf_protection') === TRUE);
+		$this->_sandardize_newlines	= (bool) config_item('standardize_newlines');
 
 		global $SEC;
 		$this->security =& $SEC;

@@ -165,6 +165,8 @@ class CI_Session_cookie extends CI_Session_driver {
 	 */
 	public $now;
 
+	// ------------------------------------------------------------------------
+
 	/**
 	 * Default userdata keys
 	 *
@@ -183,6 +185,15 @@ class CI_Session_cookie extends CI_Session_driver {
 	 * @var	bool
 	 */
 	protected $data_dirty = FALSE;
+
+	/**
+	 * Standardize newlines flag
+	 *
+	 * @var	bool
+	 */
+	protected $_standardize_newlines;
+
+	// ------------------------------------------------------------------------
 
 	/**
 	 * Initialize session driver object
@@ -209,8 +220,10 @@ class CI_Session_cookie extends CI_Session_driver {
 			'sess_time_to_update',
 			'time_reference',
 			'cookie_prefix',
-			'encryption_key'
+			'encryption_key',
 		);
+
+		$this->_standardize_newlines = (bool) $config['standardize_newlines'];
 
 		foreach ($prefs as $key)
 		{
@@ -694,6 +707,16 @@ class CI_Session_cookie extends CI_Session_driver {
 		$cookie_data = ($this->sess_use_database === TRUE)
 				? array_intersect_key($this->userdata, $this->defaults)
 				: $this->userdata;
+
+		// The Input class will do this and since we use HMAC verification,
+		// unless we standardize here as well, the hash won't match.
+		if ($this->_standardize_newlines)
+		{
+			foreach (array_keys($this->userdata) as $key)
+			{
+				$this->userdata[$key] = preg_replace('/(?:\r\n|[\r\n])/', PHP_EOL, $this->userdata[$key]);
+			}
+		}
 
 		// Serialize the userdata for the cookie
 		$cookie_data = serialize($cookie_data);

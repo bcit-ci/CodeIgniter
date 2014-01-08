@@ -327,6 +327,20 @@ $config['cookie_httponly'] 	= FALSE;
 
 /*
 |--------------------------------------------------------------------------
+| Standardize newlines
+|--------------------------------------------------------------------------
+|
+| Determines whether to standardize newline characters in input data,
+| meaning to replace \r\n, \r, \n occurences with the PHP_EOL value.
+|
+| This is particularly useful for portability between UNIX-based OSes,
+| (usually \n) and Windows (\r\n).
+|
+*/
+$config['standardize_newlines'] = TRUE;
+
+/*
+|--------------------------------------------------------------------------
 | Global XSS Filtering
 |--------------------------------------------------------------------------
 |

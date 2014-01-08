@@ -58,6 +58,7 @@ Release Date: Not Released
    -  Added support non-HTML error templates for CLI applications.
    -  Added availability checks where usage of dangerous functions like ``eval()`` and ``exec()`` is required.
    -  Added support for changing the file extension of log files using ``$config['log_file_extension']``.
+   -  Added support for turning newline standardization on/off via ``$config['standardize_newlines']``.
 
 -  Helpers
 

@@ -25,7 +25,8 @@ following:
    (and a few other) characters.
 -  Provides XSS (Cross-site Scripting Hacks) filtering. This can be
    enabled globally, or upon request.
--  Standardizes newline characters to \\n(In Windows \\r\\n)
+-  Standardizes newline characters to ``PHP_EOL`` (\\n in UNIX-based OSes,
+   \\r\\n under Windows). This is configurable.
 
 XSS Filtering
 =============
