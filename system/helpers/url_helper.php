@@ -91,8 +91,7 @@ if ( ! function_exists('current_url'))
 	 */
 	function current_url()
 	{
-		$CI =& get_instance();
-		return $CI->config->site_url($CI->uri->uri_string());
+		return get_instance()->config->site_url($CI->uri->uri_string());
 	}
 }
 
@@ -109,8 +108,7 @@ if ( ! function_exists('uri_string'))
 	 */
 	function uri_string()
 	{
-		$CI =& get_instance();
-		return $CI->uri->uri_string();
+		return get_instance()->uri->uri_string();
 	}
 }
 
@@ -127,8 +125,7 @@ if ( ! function_exists('index_page'))
 	 */
 	function index_page()
 	{
-		$CI =& get_instance();
-		return $CI->config->item('index_page');
+		return get_instance()->config->item('index_page');
 	}
 }
 

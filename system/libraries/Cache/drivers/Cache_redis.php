@@ -208,7 +208,7 @@ class CI_Cache_redis extends CI_Driver
 			{
 				$success = $this->_redis->connect($config['host'], $config['port'], $config['timeout']);
 			}
-			
+
 			if ( ! $success)
 			{
 				log_message('debug', 'Cache: Redis connection refused. Check the config.');
@@ -225,7 +225,7 @@ class CI_Cache_redis extends CI_Driver
 		{
 			$this->_redis->auth($config['password']);
 		}
-		
+
 		return TRUE;
 	}
 

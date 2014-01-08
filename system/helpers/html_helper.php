@@ -199,15 +199,13 @@ if ( ! function_exists('img'))
 		{
 			if ($k === 'src' && strpos($v, '://') === FALSE)
 			{
-				$CI =& get_instance();
-
 				if ($index_page === TRUE)
 				{
-					$img .= ' src="'.$CI->config->site_url($v).'"';
+					$img .= ' src="'.get_instance()->config->site_url($v).'"';
 				}
 				else
 				{
-					$img .= ' src="'.$CI->config->slash_item('base_url').$v.'"';
+					$img .= ' src="'.get_instance()->config->slash_item('base_url').$v.'"';
 				}
 			}
 			else
