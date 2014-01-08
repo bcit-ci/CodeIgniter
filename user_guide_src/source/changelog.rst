@@ -645,7 +645,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#2268) - :doc:`Security Library <libraries/security>` didn't properly match JavaScript events.
 -  Fixed a bug (#2143) - :doc:`Form Validation Library <libraries/form_validation>` didn't check for rule groups named in a *controller/method* manner when trying to load from a config file.
 -  Fixed a bug (#2762) - :doc:`Hooks Class <general/hooks>` didn't properly check if the called class/function exists.
--  Fixed a bug (#346) - while sanitizing input data, ``CI_Input::_clean_input_data()`` assumed that it is URL-encoded, stripping certain character sequences from it.
+-  Fixed a bug (#148) - while sanitizing input data, ``CI_Input::_clean_input_data()`` assumed that it is URL-encoded, stripping certain character sequences from it.
 
 Version 2.1.4
 =============
