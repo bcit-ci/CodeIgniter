@@ -48,6 +48,11 @@ class CI_DB_mysql_result extends CI_DB_result {
 	{
 		parent::__construct($driver_object);
 
+		$res_type = (is_resource($this->result_id) ? get_resource_type($this->result_id) : gettype($this->result_id));
+		if (strpos($res_type, 'mysql') === FALSE)
+		{
+			return 0;
+		}
 		// Required, due to mysql_data_seek() causing nightmares
 		// with empty result sets
 		$this->num_rows = @mysql_num_rows($this->result_id);
