@@ -662,6 +662,40 @@ class CI_User_agent {
 		}
 	}
 
+	/**
+	 * Parse a User Agent string that is not the current users
+	 * Note: is_referral() and referrer() methods will not work
+	 * 
+	 * @param string $agent_string User Agent string to parse,
+	 *        eg 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
+	 */
+	public function parse_agent_string($agent_string = '')
+	{
+		//reset everything
+		$this->is_browser	= FALSE;
+		$this->is_robot		= FALSE;
+		$this->is_mobile	= FALSE;
+		$this->languages	= array();
+		$this->charsets		= array();
+		$this->platforms	= array();
+		$this->browsers		= array();
+		$this->mobiles		= array();
+		$this->robots		= array();
+		$this->platform		= '';
+		$this->browser		= '';
+		$this->version		= '';
+		$this->mobile		= '';
+		$this->robot		= '';
+		
+		//set the new agent string to parse
+		$this->agent = $agent_string;
+		
+		//do it!
+		if ($agent_string !== '' && $this->_load_agent_file())
+		{
+			$this->_compile_data();
+		}
+	}
 }
 
 /* End of file User_agent.php */
