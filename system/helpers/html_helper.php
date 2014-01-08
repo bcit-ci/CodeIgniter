@@ -340,6 +340,70 @@ if ( ! function_exists('link_tag'))
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('script_tag'))
+{
+	/**
+	 * Script
+	 *
+	 * Generates script tag point to a script file with options for async 
+	 * or defered script loading to speed up DOM rendering.
+	 *
+	 * @param	mixed	script src or an array of src's
+	 * @param	string	MIME type of file(s)
+	 * @param	bool	async option
+	 * @param	bool	defer option
+	 * @return	string
+	 */
+	function script_tag($src, $type = 'application/javascript', $async = FALSE, $defer = FALSE)
+	{
+		$CI = &get_instance();
+		$script = '<script ';
+		
+		if (!is_array($src))
+		{
+			$src = array($src);
+		}
+
+		foreach ($src as $key => $value)
+		{
+			if (empty($value))
+			{
+				continue;
+			}
+			
+			// If not the first script tag, close tag and open new tag
+			if ($script != '<script ')
+			{
+				$script .= '</script>'.PHP_EOL.'<script ';
+			}
+			
+			// If $value is not FQDN, use the application's base url as root
+			if (strpos($value, '://') === FALSE)
+			{
+				$value = $CI->config->base_url($value);
+			}
+			
+			$script .= 'src="'.$value.'" type="'.$type.'"';
+			
+			// Sets defer tag or async tag
+			if ($defer === TRUE)
+			{
+				$script .= ' defer="defer"';
+			}
+			elseif ($async === TRUE)
+			{
+				$script .= ' async="async"';
+			}
+			
+			$script .= '>';
+		}
+
+		return $script."</script>".PHP_EOL;
+	}
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('meta'))
 {
 	/**

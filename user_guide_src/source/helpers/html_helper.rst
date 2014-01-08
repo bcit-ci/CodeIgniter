@@ -145,6 +145,63 @@ for complete control over all attributes and values::
 	echo link_tag($link);
 	// <link href="http://site.com/css/printer.css" rel="stylesheet" type="text/css" media="print" />
 
+script_tag()
+==========
+
+.. php:function:: script_tag($src, $type = 'application/javascript', $async = FALSE, $defer = FALSE)
+
+	:param	mixed	$src: Single string, or array of strings to linking script files
+	:param	string	$type: MIME type of related document(s)
+	:param	bool	$async: Where to include the async attribute
+	:param	bool	$defer: Where to include the defer attribute
+	:returns: 		String of script tags seperated by EOL characters
+	:rtype: string
+
+Lets you create HTML <script /> tags with options for setting parsing behavior.
+The parameters are *src*, with optional *type*, *async*, and *defer*.
+
+*async* is a boolean value that specifies whether the async attribute should be added
+to the script tag. Async option will allow multiple scripts to load without causing the
+browser to wait on the full script files to load before continuing with DOM rendering.
+Each file will be ran as soon as available, so scripts dependent on external script 
+files should not use async. This option is best for stand along script files which can
+run on DOMContentLoaded event.
+
+*defer* is a boolean value that specifies whether the defer attribute should be added
+to the script tag. Defer option will allow multiple scripts to load without causing the
+browser to wait on the full script files to load before continuing with DOM rendering.
+Files are executed in the order in which they appear, so scripts will not execute until
+all previous scripts have been loaded and executed.  This option is best for scrips which 
+rely on libraries such as jQuery or YUI.
+
+Example::
+
+	echo script_tag('/assets/myscript.js');
+	// gives <script src="http://site.com/assets/myscript.js" type="application/javascript"></script>
+
+
+Further examples::
+
+	echo script_tag('/assets/myscript.js', 'application/x-javascript', TRUE);
+	// gives <script src="http://site.com/assets/myscript.js" type="application/x-javascript" async="async"></script>
+
+	echo script_tag('/assets/myscript.js', 'text/javascript', FALSE, TRUE);
+	// gives <script src="http://site.com/assets/myscript.js" type="text/javascript" defer="defer"></script>
+
+Additionally, an array can be passed to the ``script_tag()`` function
+to list a series of script tags::
+
+	$scripts = array(               
+		'http://some.cdn.com/jquery.js',
+		'/assets/myscript.js',
+		'http://some.analytics.com/a.js'
+	);
+
+	echo script_tag($scripts);
+	// gives <script src="http://some.cdn.com/jquery.js" type="application/javascript"></script>
+	<script src="http://site.com/assets/myscript.js" type="application/javascript"></script>
+	<script src="http://some.analytics.com/a.js" type="application/javascript"></script>
+	
 nbs()
 =====
 
