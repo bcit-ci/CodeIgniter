@@ -58,7 +58,7 @@ class CI_Hooks {
 	 *
 	 * @var array
 	 */
-	public $class = array();
+	protected $_objects = array();
 
 	/**
 	 * In progress flag
@@ -203,31 +203,29 @@ class CI_Hooks {
 		if ($class !== FALSE)
 		{
 			// The object is stored?
-			if (isset($this->class[$class]) && method_exists($this->class[$class], $function))
+			if (isset($this->_objects[$class]))
 			{
-				$this->class[$class]->$function($params);
+				if (method_exists($this->_objects[$class], $function))
+				{
+					$this->_objects[$class]->$function($params);
+				}
+				else
+				{
+					return $this->_in_progress = FALSE;
+				}
 			}
 			else
-			{	
+			{
 				class_exists($class, FALSE) OR require_once($filepath);
 
 				if ( ! class_exists($class, FALSE) OR ! method_exists($class, $function))
 				{
 					return $this->_in_progress = FALSE;
 				}
-				
-				// If the developer wants the object to be stored
-				if (isset($data['store_object']) && $data['store_object'] === TRUE)
-				{
-					$this->class[$class] = new $class();
-					$HOOK =& $this->class[$class];
-				}
-				else
-				{
-					$HOOK = new $class();
-				}
-				
-				$HOOK->$function($params);
+
+				// Store the object and execute the method
+				$this->_objects[$class] = new $class();
+				$this->_objects[$class]->$function($params);
 			}
 		}
 		else
