@@ -451,10 +451,13 @@ Release Date: Not Released
       -  Added an optional second parameter to method ``line()`` to disable error login for line keys that were not found.
       -  Language files are now loaded in a cascading style with the one in **system/** always loaded and overriden afterwards, if another one is found.
 
+   -  :doc:`Hooks Library <general/hooks>` changes include:
+      -  Renamed method ``_call_hook()`` to ``call_hook()``.
+      -  Class instances are now stored in order to maintain their state.
+
    -  Removed ``CI_CORE`` boolean constant from *CodeIgniter.php* (no longer Reactor and Core versions).
    -  Log Library will now try to create the **log_path** directory if it doesn't exist.
    -  Added support for HTTP-Only cookies with new config option *cookie_httponly* (default FALSE).
-   -  Renamed method ``_call_hook()`` to ``call_hook()`` in the :doc:`Hooks Library <general/hooks>`.
    -  ``$config['time_reference']`` now supports all timezone strings supported by PHP.
    -  Fatal PHP errors are now also passed to ``_exception_handler()``, so they can be logged.
 
