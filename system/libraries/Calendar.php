@@ -156,7 +156,7 @@ class CI_Calendar {
 		{
 			if (empty($this->next_prev_url))
 			{
-				$this->next_prev_url = rtrim($this->CI->config->site_url($this->CI->router->class . '/' . $this->CI->router->method), '/') . '/';
+				$this->next_prev_url = rtrim($this->CI->config->site_url($this->CI->router->class.'/'.$this->CI->router->method), '/').'/';
 			}
 		}
 	}
@@ -298,32 +298,29 @@ class CI_Calendar {
 
 					$out .= ($is_current_month === TRUE && $day == $cur_day) ? $this->temp['cal_cell_end_today'] : $this->temp['cal_cell_end'];
 				}
-				else
+				elseif ($this->show_other_days === TRUE)
 				{
-					if ($this->show_other_days === TRUE)
+					$out .= $this->temp['cal_cell_start_other'];
+
+					if ($day <= 0)
 					{
-						$out .= $this->temp['cal_cell_start_other'];
-
-						if ($day <= 0)
-						{
-							// Day of previous month
-							$prev_month = $this->adjust_date(((int) $month) - 1, $year);
-							$prev_month_days = $this->get_total_days($prev_month['month'], $prev_month['year']);
-							$out .= str_replace('{day}', $prev_month_days + $day, $this->temp['cal_cell_other']);
-						}
-						else
-						{
-							// Day of next month
-							$out .= str_replace('{day}', $day - $total_days, $this->temp['cal_cell_other']);
-						}
-
-						$out .= $this->temp['cal_cell_end_other'];
+						// Day of previous month
+						$prev_month = $this->adjust_date(((int) $month) - 1, $year);
+						$prev_month_days = $this->get_total_days($prev_month['month'], $prev_month['year']);
+						$out .= str_replace('{day}', $prev_month_days + $day, $this->temp['cal_cell_other']);
 					}
 					else
 					{
-						// Blank cells
-						$out .= $this->temp['cal_cell_start'] . $this->temp['cal_cell_blank'] . $this->temp['cal_cell_end'];
+						// Day of next month
+						$out .= str_replace('{day}', $day - $total_days, $this->temp['cal_cell_other']);
 					}
+
+					$out .= $this->temp['cal_cell_end_other'];
+				}
+				else
+				{
+					// Blank cells
+					$out .= $this->temp['cal_cell_start'].$this->temp['cal_cell_blank'].$this->temp['cal_cell_end'];
 				}
 
 				$day++;

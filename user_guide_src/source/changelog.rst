@@ -280,8 +280,8 @@ Release Date: Not Released
 
    -  :doc:`Calendar library <libraries/calendar>` changes include:
 
-      -  Add configuration to generate days of other months instead of blank cells
-      -  Auto set the *next_prev_url* if is empty and the *show_prev_next* is set to TRUE
+      -  Added configuration to generate days of other months instead of blank cells.
+      -  Auto set *next_prev_url* if it is empty and *show_prev_next* is set to TRUE.
 
    -  :doc:`Cart library <libraries/cart>` changes include:
 
