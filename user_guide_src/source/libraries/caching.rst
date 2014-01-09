@@ -84,11 +84,12 @@ Class Reference
 
 			$foo = $this->cache->get('my_cached_item');
 
-	.. method:: save($id, $data[, $ttl = 60])
+	.. method:: save($id, $data[, $ttl = 60[, $raw = FALSE]])
 
 		:param string $id: name of the cached item
 		:param mixed $data: the data to save
 		:param int $ttl: Time To Live, in seconds (default 60)
+		:param bool $raw: Whether to store the raw value
 		:returns: TRUE on success, FALSE on failure
 
 		This method will save an item to the cache store. If saving fails, the
@@ -96,6 +97,9 @@ Class Reference
 		::
 
 			$this->cache->save('cache_item_id', 'data_to_cache');
+
+		.. note:: The ``$raw`` parameter is only utilized by APC and Memcache,
+			in order to allow usage of ``increment()`` and ``decrement()``.
 
 	.. method:: delete($id)
 
@@ -107,6 +111,36 @@ Class Reference
 		::
 
 			$this->cache->delete('cache_item_id');
+
+	.. method:: increment($id[, $offset = 1])
+
+		:param string $id: Cache ID
+		:param int $offset: Step/value to add
+		:returns: New value on success, FALSE on failure
+
+		Performs atomic incrementation of a raw stored value.
+		::
+
+			// 'iterator' has a value of 2
+
+			$this->cache->increment('iterator'); // 'iterator' is now 3
+
+			$this->cache->increment('iterator', 3); // 'iterator' is now 6
+
+	.. method:: decrement($id[, $offset = 1])
+
+		:param string $id: Cache ID
+		:param int $offset: Step/value to reduce by
+		:returns: New value on success, FALSE on failure
+
+		Performs atomic decrementation of a raw stored value.
+		::
+
+			// 'iterator' has a value of 6
+
+			$this->cache->decrement('iterator'); // 'iterator' is now 5
+
+			$this->cache->decrement('iterator', 2); // 'iterator' is now 3
 
 	.. method:: clean()
 
