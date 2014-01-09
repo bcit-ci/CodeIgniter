@@ -608,7 +608,7 @@ class CI_Form_validation {
 				// Set the message type
 				$type = in_array('required', $rules) ? 'required' : 'isset';
 
-				// Check if a custom message defined, else use default one
+				// Check if a custom message defined
 				if (isset($this->_field_data[$row['field']]['error_msg'][$type]))
 				{
 					$line = $this->_field_data[$row['field']]['error_msg'][$type];
@@ -757,7 +757,7 @@ class CI_Form_validation {
 			// Did the rule test negatively? If so, grab the error.
 			if ($result === FALSE)
 			{
-				// Check if a custom message defined, else use default one
+				// Check if a custom message defined
 				if(isset($this->_field_data[$row['field']]['error_msg'][$rule]))
 				{
 					$line = $this->_field_data[$row['field']]['error_msg'][$rule];
