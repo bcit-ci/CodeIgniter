@@ -223,7 +223,7 @@ class CI_Session_cookie extends CI_Session_driver {
 			'encryption_key',
 		);
 
-		$this->_standardize_newlines = (bool) $config['standardize_newlines'];
+		$this->_standardize_newlines = (bool) config_item('standardize_newlines');
 
 		foreach ($prefs as $key)
 		{

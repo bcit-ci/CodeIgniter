@@ -370,7 +370,11 @@ Release Date: Not Released
       -  Added the ability to use a proxy.
       -  Added Basic HTTP authentication support.
 
-   -  :doc:`User Agent Library <libraries/user_agent>` will now check if robots are pretending to be mobile clients (helps with e.g. Google indexing mobile website versions).
+   -  :doc:`User Agent Library <libraries/user_agent>` changes include:
+
+      - Added check to detect if robots are pretending to be mobile clients (helps with e.g. Google indexing mobile website versions).
+      - Added method ``parse()`` to allow parsing a custom user-agent string, different from the current visitor's.
+
    -  Added support for setting :doc:`Table <libraries/table>` class defaults in a config file.
    -  :doc:`Zip Library <libraries/zip>` method ``read_file()`` can now also alter the original file path/name while adding files to an archive.
 
@@ -652,6 +656,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#2762) - :doc:`Hooks Class <general/hooks>` didn't properly check if the called class/function exists.
 -  Fixed a bug (#148) - while sanitizing input data, ``CI_Input::_clean_input_data()`` assumed that it is URL-encoded, stripping certain character sequences from it.
 -  Fixed a bug (#346) - with ``$config['global_xss_filtering']`` turned on, the ``$_GET``, ``$_POST``, ``$_COOKIE`` and ``$_SERVER`` superglobals were overwritten during initialization time, resulting in XSS filtering being either performed twice or there was no possible way to get the original data, even though options for this do exist.
+-  Fixed an edge case (#555) - incorrect browser version was reported for Opera 10+ due to a non-standard user-agent string.
 
 Version 2.1.4
 =============
