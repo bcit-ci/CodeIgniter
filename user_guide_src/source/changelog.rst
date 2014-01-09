@@ -187,7 +187,7 @@ Release Date: Not Released
       - Server version checking is now done via ``mysqli::$server_info`` instead of running an SQL query.
       - Added persistent connections support for PHP >= 5.3.
       - Added support for ``backup()`` in :doc:`Database Utilities <database/utilities>`.
-      - Changed methods ``trans_begin()``, ``trans_commit()`` and ``trans_rollback()`` to use the PHP API instead of sending queries.	
+      - Changed methods ``trans_begin()``, ``trans_commit()`` and ``trans_rollback()`` to use the PHP API instead of sending queries.
 
    -  Improved support of the PDO driver, including:
 
@@ -280,6 +280,11 @@ Release Date: Not Released
       -  Removed method ``clean_file_name()`` and its usage in favor of :doc:`Security Library <libraries/security>`'s ``sanitize_filename()``.
       -  Added **file_ext_tolower** config setting.
       -  Added **mod_mime_fix** option to disable suffixing multiple file extensions with an underscore.
+
+   -  :doc:`Calendar library <libraries/calendar>` changes include:
+
+      -  Added configuration to generate days of other months instead of blank cells.
+      -  Auto set *next_prev_url* if it is empty and *show_prev_next* is set to TRUE.
 
    -  :doc:`Cart library <libraries/cart>` changes include:
 
