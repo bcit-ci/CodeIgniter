@@ -314,7 +314,7 @@ Release Date: Not Released
       -  Added support for named parameters in error messages.
       -  :doc:`Language <libraries/language>` line keys must now be prefixed with **form_validation_**.
       -  Added rule **alpha_numeric_spaces**.
-      -  Added **support** for custom error messages **per field rule**.
+      -  Added support for custom error messages per field rule.
 
    -  :doc:`Caching Library <libraries/caching>` changes include:
 
