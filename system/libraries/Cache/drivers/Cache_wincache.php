@@ -46,8 +46,8 @@ class CI_Cache_wincache extends CI_Driver {
 	 * Look for a value in the cache. If it exists, return the data,
 	 * if not, return FALSE
 	 *
-	 * @param	string
-	 * @return	mixed	value that is stored/FALSE on failure
+	 * @param	string	$id	Cache Ide
+	 * @return	mixed	Value that is stored/FALSE on failure
 	 */
 	public function get($id)
 	{
@@ -63,12 +63,13 @@ class CI_Cache_wincache extends CI_Driver {
 	/**
 	 * Cache Save
 	 *
-	 * @param	string	Unique Key
-	 * @param	mixed	Data to store
-	 * @param	int	Length of time (in seconds) to cache the data
+	 * @param	string	$id	Cache ID
+	 * @param	mixed	$data	Data to store
+	 * @param	int	$ttl	Time to live (in seconds)
+	 * @param	bool	$raw	Whether to store the raw value (unused)
 	 * @return	bool	true on success/false on failure
 	 */
-	public function save($id, $data, $ttl = 60)
+	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
 		return wincache_ucache_set($id, $data, $ttl);
 	}
@@ -84,6 +85,40 @@ class CI_Cache_wincache extends CI_Driver {
 	public function delete($id)
 	{
 		return wincache_ucache_delete($id);
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Increment a raw value
+	 *
+	 * @param	string	$id	Cache ID
+	 * @param	int	$offset	Step/value to add
+	 * @return	mixed	New value on success or FALSE on failure
+	 */
+	public function increment($id, $offset = 1)
+	{
+		$success = FALSE;
+		$value = wincache_ucache_inc($id, $offset, $success);
+
+		return ($success === TRUE) ? $value : FALSE;
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Decrement a raw value
+	 *
+	 * @param	string	$id	Cache ID
+	 * @param	int	$offset	Step/value to reduce by
+	 * @return	mixed	New value on success or FALSE on failure
+	 */
+	public function decrement($id, $offset = 1)
+	{
+		$success = FALSE;
+		$value = wincache_ucache_dec($id, $offset, $success);
+
+		return ($success === TRUE) ? $value : FALSE;
 	}
 
 	// ------------------------------------------------------------------------

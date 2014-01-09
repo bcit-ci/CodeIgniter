@@ -281,12 +281,12 @@ Release Date: Not Released
       -  Added **file_ext_tolower** config setting.
       -  Added **mod_mime_fix** option to disable suffixing multiple file extensions with an underscore.
 
-   -  :doc:`Calendar library <libraries/calendar>` changes include:
+   -  :doc:`Calendar Library <libraries/calendar>` changes include:
 
       -  Added configuration to generate days of other months instead of blank cells.
       -  Auto set *next_prev_url* if it is empty and *show_prev_next* is set to TRUE.
 
-   -  :doc:`Cart library <libraries/cart>` changes include:
+   -  :doc:`Cart Library <libraries/cart>` changes include:
 
       -  ``insert()`` now auto-increments quantity for an item when inserted twice instead of resetting it, this is the default behaviour of large e-commerce sites.
       -  *Product Name* strictness can be disabled by switching the ``$product_name_safe`` property to FALSE.
@@ -294,7 +294,7 @@ Release Date: Not Released
       -  Added method ``get_item()`` to enable retrieving data for a single cart item.
       -  Added unicode support for product names.
 
-   -  :doc:`Image Manipulation library <libraries/image_lib>` changes include:
+   -  :doc:`Image Manipulation Library <libraries/image_lib>` changes include:
 
       -  The ``initialize()`` method now only sets existing class properties.
       -  Added support for 3-length hex color values for *wm_font_color* and *wm_shadow_color* properties, as well as validation for them.
@@ -303,7 +303,7 @@ Release Date: Not Released
       -  Property *maintain_ratio* is now taken into account when resizing images using ImageMagick library.
       -  Added support for maintaining transparency for PNG images in method ``text_watermark()``.
 
-   -  :doc:`Form Validation library <libraries/form_validation>` changes include:
+   -  :doc:`Form Validation Library <libraries/form_validation>` changes include:
 
       -  Added method ``error_array()`` to return all error messages as an array.
       -  Added method ``set_data()`` to set an alternative data array to be validated instead of the default ``$_POST``.
@@ -327,8 +327,10 @@ Release Date: Not Released
       -  Added Redis driver.
       -  Added a *key_prefix* option for cache IDs.
       -  Updated driver ``is_supported()`` methods to log at the "debug" level.
+      -  Added option to store raw values instead of CI-formatted ones (APC, Memcache).
+      -  Added atomic increment/decrement feature via ``increment()``, ``decrement()``.
 
-   -  :doc:`Email library <libraries/email>` changes include:
+   -  :doc:`Email Library <libraries/email>` changes include:
 
       -  Added custom filename to ``Email::attach()`` as ``$this->email->attach($filename, $disposition, $newname)``.
       -  Added possibility to send attachment as buffer string in ``Email::attach()`` as ``$this->email->attach($buffer, $disposition, $newname, $mime)``.

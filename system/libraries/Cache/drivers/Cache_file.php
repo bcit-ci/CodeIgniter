@@ -62,25 +62,13 @@ class CI_Cache_file extends CI_Driver {
 	/**
 	 * Fetch from cache
 	 *
-	 * @param	mixed	unique key id
-	 * @return	mixed	data on success/false on failure
+	 * @param	string	$id	Cache ID
+	 * @return	mixed	Data on success, FALSE on failure
 	 */
 	public function get($id)
 	{
-		if ( ! file_exists($this->_cache_path.$id))
-		{
-			return FALSE;
-		}
-
-		$data = unserialize(file_get_contents($this->_cache_path.$id));
-
-		if ($data['ttl'] > 0 && time() > $data['time'] + $data['ttl'])
-		{
-			unlink($this->_cache_path.$id);
-			return FALSE;
-		}
-
-		return $data['data'];
+		$data = $this->_get($id);
+		return is_array($data) ? $data['data'] : FALSE;
 	}
 
 	// ------------------------------------------------------------------------
@@ -88,13 +76,13 @@ class CI_Cache_file extends CI_Driver {
 	/**
 	 * Save into cache
 	 *
-	 * @param	string	unique key
-	 * @param	mixed	data to store
-	 * @param	int	length of time (in seconds) the cache is valid
-	 *				- Default is 60 seconds
-	 * @return	bool	true on success/false on failure
+	 * @param	string	$id	Cache ID
+	 * @param	mixed	$data	Data to store
+	 * @param	int	$ttl	Time to live in seconds
+	 * @param	bool	$raw	Whether to store the raw value (unused)
+	 * @return	bool	TRUE on success, FALSE on failure
 	 */
-	public function save($id, $data, $ttl = 60)
+	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
 		$contents = array(
 			'time'		=> time(),
@@ -122,6 +110,54 @@ class CI_Cache_file extends CI_Driver {
 	public function delete($id)
 	{
 		return file_exists($this->_cache_path.$id) ? unlink($this->_cache_path.$id) : FALSE;
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Increment a raw value
+	 *
+	 * @param	string	$id	Cache ID
+	 * @param	int	$offset	Step/value to add
+	 * @return	New value on success, FALSE on failure
+	 */
+	public function increment($id, $offset = 1)
+	{
+		$data = $this->_get($id);
+
+		if ($data === FALSE OR ! is_int($data['data']))
+		{
+			return FALSE;
+		}
+
+		$new_value = $data['data'] + $offset;
+		return $this->save($id, $new_value, $data['ttl'])
+			? $new_value
+			: FALSE;
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Decrement a raw value
+	 *
+	 * @param	string	$id	Cache ID
+	 * @param	int	$offset	Step/value to reduce by
+	 * @return	New value on success, FALSE on failure
+	 */
+	public function decrement($id, $offset = 1)
+	{
+		$data = $this->_get($id);
+
+		if ($data === FALSE OR ! is_int($data['data']))
+		{
+			return FALSE;
+		}
+
+		$new_value = $data['data'] - $offset;
+		return $this->save($id, $new_value, $data['ttl'])
+			? $new_value
+			: FALSE;
 	}
 
 	// ------------------------------------------------------------------------
@@ -198,6 +234,34 @@ class CI_Cache_file extends CI_Driver {
 	public function is_supported()
 	{
 		return is_really_writable($this->_cache_path);
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Get all data
+	 *
+	 * Internal method to get all the relevant data about a cache item
+	 *
+	 * @param	string	$id	Cache ID
+	 * @return	mixed	Data array on success or FALSE on failure
+	 */
+	protected function _get($id)
+	{
+		if ( ! file_exists($this->_cache_path.$id))
+		{
+			return FALSE;
+		}
+
+		$data = unserialize(file_get_contents($this->_cache_path.$id));
+
+		if ($data['ttl'] > 0 && time() > $data['time'] + $data['ttl'])
+		{
+			unlink($this->_cache_path.$id);
+			return FALSE;
+		}
+
+		return $data;
 	}
 
 }

@@ -63,7 +63,7 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Get cache
 	 *
-	 * @param	string	Cache key identifier
+	 * @param	string	Cache ID
 	 * @return	mixed
 	 */
 	public function get($key)
@@ -76,16 +76,17 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Save cache
 	 *
-	 * @param	string	Cache key identifier
-	 * @param	mixed	Data to save
-	 * @param	int	Time to live
-	 * @return	bool
+	 * @param	string	$id	Cache ID
+	 * @param	mixed	$data	Data to save
+	 * @param	int	$ttl	Time to live in seconds
+	 * @param	bool	$raw	Whether to store the raw value (unused)
+	 * @return	bool	TRUE on success, FALSE on failure
 	 */
-	public function save($key, $value, $ttl = NULL)
+	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
 		return ($ttl)
-			? $this->_redis->setex($key, $ttl, $value)
-			: $this->_redis->set($key, $value);
+			? $this->_redis->setex($id, $ttl, $data)
+			: $this->_redis->set($id, $data);
 	}
 
 	// ------------------------------------------------------------------------
@@ -99,6 +100,38 @@ class CI_Cache_redis extends CI_Driver
 	public function delete($key)
 	{
 		return ($this->_redis->delete($key) === 1);
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Increment a raw value
+	 *
+	 * @param	string	$id	Cache ID
+	 * @param	int	$offset	Step/value to add
+	 * @return	mixed	New value on success or FALSE on failure
+	 */
+	public function increment($id, $offset = 1)
+	{
+		return $this->_redis->exists($id)
+			? $this->_redis->incr($id, $offset)
+			: FALSE;
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Decrement a raw value
+	 *
+	 * @param	string	$id	Cache ID
+	 * @param	int	$offset	Step/value to reduce by
+	 * @return	mixed	New value on success or FALSE on failure
+	 */
+	public function decrement($id, $offset = 1)
+	{
+		return $this->_redis->exists($id)
+			? $this->_redis->decr($id, $offset)
+			: FALSE;
 	}
 
 	// ------------------------------------------------------------------------

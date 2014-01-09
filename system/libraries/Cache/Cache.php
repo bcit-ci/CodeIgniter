@@ -150,14 +150,15 @@ class CI_Cache extends CI_Driver_Library {
 	/**
 	 * Cache Save
 	 *
-	 * @param	string	$id		Cache ID
-	 * @param	mixed	$data		Data to store
-	 * @param	int	$ttl = 60	Cache TTL (in seconds)
+	 * @param	string	$id	Cache ID
+	 * @param	mixed	$data	Data to store
+	 * @param	int	$ttl	Cache TTL (in seconds)
+	 * @param	bool	$raw	Whether to store the raw value
 	 * @return	bool	TRUE on success, FALSE on failure
 	 */
-	public function save($id, $data, $ttl = 60)
+	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
-		return $this->{$this->_adapter}->save($this->key_prefix.$id, $data, $ttl);
+		return $this->{$this->_adapter}->save($this->key_prefix.$id, $data, $ttl, $raw);
 	}
 
 	// ------------------------------------------------------------------------
@@ -171,6 +172,34 @@ class CI_Cache extends CI_Driver_Library {
 	public function delete($id)
 	{
 		return $this->{$this->_adapter}->delete($this->key_prefix.$id);
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Increment a raw value
+	 *
+	 * @param	string	$id	Cache ID
+	 * @param	int	$offset	Step/value to add
+	 * @return	mixed	New value on success or FALSE on failure
+	 */
+	public function increment($id, $offset = 1)
+	{
+		return $this->{$this->_adapter}->increment($id, $offset);
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Decrement a raw value
+	 *
+	 * @param	string	$id	Cache ID
+	 * @param	int	$offset	Step/value to reduce by
+	 * @return	mixed	New value on success or FALSE on failure
+	 */
+	public function decrement($id, $offset = 1)
+	{
+		return $this->{$this->_adapter}->decrement($id, $offset);
 	}
 
 	// ------------------------------------------------------------------------
