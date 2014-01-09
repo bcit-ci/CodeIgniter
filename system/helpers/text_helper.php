@@ -127,7 +127,7 @@ if ( ! function_exists('ascii_to_entities'))
 	function ascii_to_entities($str)
 	{
 		$out = '';
-		for ($i = 0, $s = strlen($str), $count = 1, $temp = array(); $i < $s; $i++)
+		for ($i = 0, $s = strlen($str) - 1, $count = 1, $temp = array(); $i <= $s; $i++)
 		{
 			$ordinal = ord($str[$i]);
 
@@ -163,6 +163,11 @@ if ( ! function_exists('ascii_to_entities'))
 					$out .= '&#'.$number.';';
 					$count = 1;
 					$temp = array();
+				}
+				// If this is the last iteration, just output whatever we have
+				elseif ($i === $s)
+				{
+					$out .= '&#'.implode(';', $temp).';';
 				}
 			}
 		}
