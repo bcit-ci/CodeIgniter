@@ -302,7 +302,7 @@ class CI_Calendar {
 					if ($day <= 0)
 					{
 						// Day of previous month
-						$prev_month = $this->adjust_date(((int) $month) - 1, $year);
+						$prev_month = $this->adjust_date($month - 1, $year);
 						$prev_month_days = $this->get_total_days($prev_month['month'], $prev_month['year']);
 						$out .= str_replace('{day}', $prev_month_days + $day, $this->temp['cal_cell_other']);
 					}

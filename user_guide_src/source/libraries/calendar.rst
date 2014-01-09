@@ -86,23 +86,23 @@ The above code would start the calendar on saturday, use the "long"
 month heading, and the "short" day names. More information regarding
 preferences below.
 
-======================  ==============  ===============================================  ===================================================================
-Preference              Default         Options                                          Description
-======================  ==============  ===============================================  ===================================================================
-**template**           	None            None                                             A string containing your calendar template.
+======================  =================  ===============================================  ===================================================================
+Preference              Default            Options                                          Description
+======================  =================  ===============================================  ===================================================================
+**template**           	None               None                                             A string containing your calendar template.
                                                                                          See the template section below.
-**local_time**        	time()          None                                             A Unix timestamp corresponding to the current time.
-**start_day**           sunday          Any week day (sunday, monday, tuesday, etc.)     Sets the day of the week the calendar should start on.
-**month_type**          long            long, short                                      Determines what version of the month name to use in the header.
+**local_time**        	time()             None                                             A Unix timestamp corresponding to the current time.
+**start_day**           sunday             Any week day (sunday, monday, tuesday, etc.)     Sets the day of the week the calendar should start on.
+**month_type**          long               long, short                                      Determines what version of the month name to use in the header.
                                                                                          long = January, short = Jan.
-**day_type**            abr             long, short, abr                                 Determines what version of the weekday names to use in
+**day_type**            abr                long, short, abr                                 Determines what version of the weekday names to use in
                                                                                          the column headers. long = Sunday, short = Sun, abr = Su.
-**show_next_prev**      FALSE           TRUE/FALSE (boolean)                             Determines whether to display links allowing you to toggle
+**show_next_prev**      FALSE              TRUE/FALSE (boolean)                             Determines whether to display links allowing you to toggle
                                                                                          to next/previous months. See information on this feature below.
-**next_prev_url**       Controller URL  A URL                                            Sets the basepath used in the next/previous calendar links.
-**show_other_days**     FALSE           TRUE/FALSE (boolean)                             Determines whether to display days of other months that shares the
+**next_prev_url**       controller/method  A URL                                            Sets the basepath used in the next/previous calendar links.
+**show_other_days**     FALSE              TRUE/FALSE (boolean)                             Determines whether to display days of other months that share the
                                                                                          first or last week of the calendar month.
-======================  ==============  ===============================================  ===================================================================
+======================  =================  ===============================================  ===================================================================
 
 
 Showing Next/Previous Month Links
@@ -125,8 +125,8 @@ You'll notice a few things about the above example:
 
 -  You must set the "show_next_prev" to TRUE.
 -  You must supply the URL to the controller containing your calendar in
-   the "next_prev_url" preference. The Code Igniter will try to guess
-   the link for the current controller/method if you don't supply.
+   the "next_prev_url" preference. If you don't, it will be set to the current
+   *controller/method*.
 -  You must supply the "year" and "month" to the calendar generating
    function via the URI segments where they appear (Note: The calendar
    class automatically adds the year/month to the base URL you
