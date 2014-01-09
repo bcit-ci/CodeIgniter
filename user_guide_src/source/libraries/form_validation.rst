@@ -226,9 +226,9 @@ Your controller should now look like this::
 			$this->load->library('form_validation');
 
 			$this->form_validation->set_rules('username', 'Username', 'required');
-			$this->form_validation->set_rules('password', 'Password', 'required',array(
-				'required'=>'You must provide a %s.'
-			));
+			$this->form_validation->set_rules('password', 'Password', 'required',
+				array('required'=>'You must provide a %s.')
+			);
 			$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required');
 			$this->form_validation->set_rules('email', 'Email', 'required');
 
@@ -291,10 +291,14 @@ Cascading Rules
 CodeIgniter lets you pipe multiple rules together. Let's try it. Change
 your rules in the third parameter of rule setting method, like this::
 
-	$this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[12]|is_unique[users.username]',array(
-		'required' => 'You have not provided %s.',
-		'is_unique' => 'The %s is unavailable.',
-	));
+	$this->form_validation->set_rules(
+		'username', 'Username',
+		'required|min_length[5]|max_length[12]|is_unique[users.username]',
+		array(
+			'required'    => 'You have not provided %s.',
+			'is_unique'  => 'This %s already exists.'
+		)
+	);
 	$this->form_validation->set_rules('password', 'Password', 'required');
 	$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[password]');
 	$this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
@@ -484,11 +488,11 @@ edit that file, or use the following method::
 	$this->form_validation->set_message('rule', 'Error Message');
 
 If you need to set a custom error message for a particular field on 
-some particular rule, use the set_rules() methos::
+some particular rule, use the set_rules() method::
 
-	$this->form_validation->set_rules('field_name','Field Label','rule1|rule2|rule3',array(
-		'rule2'	=> 'Error Message on rule2 for this field_name'
-	));
+	$this->form_validation->set_rules('field_name', 'Field Label', 'rule1|rule2|rule3',
+		array('rule2'	=> 'Error Message on rule2 for this field_name')
+	);
 
 Where rule corresponds to the name of a particular rule, and Error
 Message is the text you would like displayed.
@@ -962,7 +966,7 @@ $this->form_validation->set_rules()
 		:param string $field: The field name
 		:param string $label: The field label
 		:param mixed $rules: The rules, as a string with rules separated by a pipe "|", or an array or rules.
-		:param array $errors: Custom error message
+		:param array $errors: Custom error messages
 		:rtype: Object
 
 		Permits you to set validation rules, as described in the tutorial
