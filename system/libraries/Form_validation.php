@@ -178,7 +178,7 @@ class CI_Form_validation {
 				$label = isset($row['label']) ? $row['label'] : $row['field'];
 
 				// Add the custom error message array
-				$errors = (isset($row['error_msg']) && is_array($row['error_msg']) ) ? $row['error_msg'] : array();
+				$errors = (isset($row['error_msg']) && is_array($row['error_msg'])) ? $row['error_msg'] : array();
 
 				// Here we go!
 				$this->set_rules($row['field'], $label, $row['rules'], $errors);
