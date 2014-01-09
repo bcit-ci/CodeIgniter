@@ -77,7 +77,7 @@ Release Date: Not Released
       - :php:func:`url_title()` will now trim extra dashes from beginning and end.
       - :php:func:`anchor_popup()` will now fill the *href* attribute with the URL and its JS code will return FALSE instead.
       - Added JS window name support to the :php:func:`anchor_popup()` function.
-      - Added support (auto-detection) for HTTP/1.1 response code 303 in :php:func:`redirect()`.
+      - Added support (auto-detection) for HTTP/1.1 response codes 303, 307 in :php:func:`redirect()`.
       - Changed :php:func:`redirect()` to choose the **refresh** method only on IIS servers, instead of all servers on Windows (when **auto** is used).
       - Changed :php:func:`anchor()`, :php:func:`anchor_popup()`, and :php:func:`redirect()` to support protocol-relative URLs (e.g. *//ellislab.com/codeigniter*).
 
