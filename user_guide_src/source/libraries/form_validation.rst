@@ -200,6 +200,7 @@ The above method takes **three** parameters as input:
    message. For example, if your field is named "user" you might give it
    a human name of "Username".
 #. The validation rules for this form field.
+#. (optional) Set custom error messages on any rules given for current field. If not provided will use the default one.
 
 .. note:: If you would like the field name to be stored in a language
 	file, please see :ref:`translating-field-names`.
@@ -225,7 +226,9 @@ Your controller should now look like this::
 			$this->load->library('form_validation');
 
 			$this->form_validation->set_rules('username', 'Username', 'required');
-			$this->form_validation->set_rules('password', 'Password', 'required');
+			$this->form_validation->set_rules('password', 'Password', 'required',
+				array('required' => 'You must provide a %s.')
+			);
 			$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required');
 			$this->form_validation->set_rules('email', 'Email', 'required');
 
@@ -263,7 +266,10 @@ you use this approach, you must name your array keys as indicated::
 		array(
 			'field' => 'password',
 			'label' => 'Password',
-			'rules' => 'required'
+			'rules' => 'required',
+			'errors' => array(
+				'required' => 'You must provide a %s.',
+			),
 		),
 		array(
 			'field' => 'passconf',
@@ -285,7 +291,14 @@ Cascading Rules
 CodeIgniter lets you pipe multiple rules together. Let's try it. Change
 your rules in the third parameter of rule setting method, like this::
 
-	$this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[12]|is_unique[users.username]');
+	$this->form_validation->set_rules(
+		'username', 'Username',
+		'required|min_length[5]|max_length[12]|is_unique[users.username]',
+		array(
+			'required'	=> 'You have not provided %s.',
+			'is_unique'	=> 'This %s already exists.'
+		)
+	);
 	$this->form_validation->set_rules('password', 'Password', 'required');
 	$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[password]');
 	$this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
@@ -469,10 +482,17 @@ Setting Error Messages
 All of the native error messages are located in the following language
 file: **system/language/english/form_validation_lang.php**
 
-To set your own custom message you can either edit that file, or use the
-following method::
+To set your own global custom message for a rule, you can either 
+edit that file, or use the following method::
 
 	$this->form_validation->set_message('rule', 'Error Message');
+
+If you need to set a custom error message for a particular field on 
+some particular rule, use the set_rules() method::
+
+	$this->form_validation->set_rules('field_name', 'Field Label', 'rule1|rule2|rule3',
+		array('rule2'	=> 'Error Message on rule2 for this field_name')
+	);
 
 Where rule corresponds to the name of a particular rule, and Error
 Message is the text you would like displayed.
@@ -941,11 +961,12 @@ The following methods are intended for use in your controller.
 $this->form_validation->set_rules()
 ===================================
 
-	.. php:method:: set_rules ($field, $label = '', $rules = '')
+	.. php:method:: set_rules ($field, $label = '', $rules = '', $errors = array())
 
 		:param string $field: The field name
 		:param string $label: The field label
 		:param mixed $rules: The rules, as a string with rules separated by a pipe "|", or an array or rules.
+		:param array $errors: Custom error messages
 		:rtype: Object
 
 		Permits you to set validation rules, as described in the tutorial
