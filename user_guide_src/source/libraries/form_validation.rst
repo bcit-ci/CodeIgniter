@@ -227,7 +227,7 @@ Your controller should now look like this::
 
 			$this->form_validation->set_rules('username', 'Username', 'required');
 			$this->form_validation->set_rules('password', 'Password', 'required',
-				array('required'=>'You must provide a %s.')
+				array('required' => 'You must provide a %s.')
 			);
 			$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required');
 			$this->form_validation->set_rules('email', 'Email', 'required');
@@ -295,8 +295,8 @@ your rules in the third parameter of rule setting method, like this::
 		'username', 'Username',
 		'required|min_length[5]|max_length[12]|is_unique[users.username]',
 		array(
-			'required'    => 'You have not provided %s.',
-			'is_unique'  => 'This %s already exists.'
+			'required'	=> 'You have not provided %s.',
+			'is_unique'	=> 'This %s already exists.'
 		)
 	);
 	$this->form_validation->set_rules('password', 'Password', 'required');
