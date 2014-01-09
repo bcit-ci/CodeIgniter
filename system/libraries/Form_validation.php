@@ -178,7 +178,7 @@ class CI_Form_validation {
 				$label = isset($row['label']) ? $row['label'] : $row['field'];
 
 				// Add the custom error message array
-				$errors = (isset($row['error_msg']) && is_array($row['error_msg'])) ? $row['error_msg'] : array();
+				$errors = (isset($row['errors']) && is_array($row['errors'])) ? $row['errors'] : array();
 
 				// Here we go!
 				$this->set_rules($row['field'], $label, $row['rules'], $errors);
@@ -229,7 +229,7 @@ class CI_Form_validation {
 			'field'		=> $field,
 			'label'		=> $label,
 			'rules'		=> $rules,
-			'error_msg' => $errors,
+			'errors' => $errors,
 			'is_array'	=> $is_array,
 			'keys'		=> $indexes,
 			'postdata'	=> NULL,
@@ -609,9 +609,9 @@ class CI_Form_validation {
 				$type = in_array('required', $rules) ? 'required' : 'isset';
 
 				// Check if a custom message is defined
-				if (isset($this->_field_data[$row['field']]['error_msg'][$type]))
+				if (isset($this->_field_data[$row['field']]['errors'][$type]))
 				{
-					$line = $this->_field_data[$row['field']]['error_msg'][$type];
+					$line = $this->_field_data[$row['field']]['errors'][$type];
 				}
 				elseif (isset($this->_error_messages[$type]))
 				{
@@ -758,9 +758,9 @@ class CI_Form_validation {
 			if ($result === FALSE)
 			{
 				// Check if a custom message defined
-				if(isset($this->_field_data[$row['field']]['error_msg'][$rule]))
+				if(isset($this->_field_data[$row['field']]['errors'][$rule]))
 				{
-					$line = $this->_field_data[$row['field']]['error_msg'][$rule];
+					$line = $this->_field_data[$row['field']]['errors'][$rule];
 				}
 				elseif ( ! isset($this->_error_messages[$rule]))
 				{

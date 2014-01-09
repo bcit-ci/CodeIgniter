@@ -267,7 +267,7 @@ you use this approach, you must name your array keys as indicated::
 			'field' => 'password',
 			'label' => 'Password',
 			'rules' => 'required',
-			'error_msg' => array(
+			'errors' => array(
 				'required' => 'You must provide a %s.',
 			),
 		),
