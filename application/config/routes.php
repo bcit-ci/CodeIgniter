@@ -77,5 +77,22 @@ $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
+
+/*
+| -------------------------------------------------------------------------
+| NAMED ROUTES
+| -------------------------------------------------------------------------
+|
+| Named routes allow you to reference URI locations throughout your code
+| by a name, instead of the actual route. This allows you to quickly
+| rearrange the structure of your application on the URI level by
+| only making changes in this routes file.
+|
+|   $named['profile'] = 'users/profile';
+|   $this->route->named('profile');         // Returns 'users/profile'.
+|
+*/
+
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

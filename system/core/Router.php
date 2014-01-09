@@ -51,7 +51,14 @@ class CI_Router {
 	 *
 	 * @var	array
 	 */
-	public $routes =	array();
+	public $routes          = array();
+
+    /**
+     * List of Named Routes
+     *
+     * @var array
+     */
+    public $named_routes    = array();
 
 	/**
 	 * Current class name
@@ -164,6 +171,13 @@ class CI_Router {
 			unset($route['default_controller'], $route['translate_uri_dashes']);
 			$this->routes = $route;
 		}
+
+        // Validate and get any named routes
+        if (isset($named) && is_array($named))
+        {
+            $this->named_routes = $named;
+            unset($named);
+        }
 
 		// Were there any query string segments? If so, we'll validate them and bail out since we're done.
 		if (count($segments) > 0)
@@ -550,6 +564,26 @@ class CI_Router {
 			$this->set_method($routing['function']);
 		}
 	}
+
+    // --------------------------------------------------------------------
+
+    /**
+     * Retrieve a route by name.
+     *
+     * @param string    $name   The named route to retrieve
+     * @return string
+     */
+    public function named($name)
+    {
+        if ( ! isset($this->named_routes[$name]))
+        {
+            return NULL;
+        }
+
+        return $this->named_routes[$name];
+    }
+
+    // --------------------------------------------------------------------
 
 }
 

@@ -165,6 +165,29 @@ mapped to the ``Product::delete()`` method, passing the numeric value as the fir
 
 Using HTTP verbs is of course, optional.
 
+Named Routes
+============
+
+At times, the structure of your application can change in mid-development, forcing you to rework
+the routing of large portions of your app. Using named routes, you can ease the pain of this
+re-shuffling by saving a reference to the route as a simple name.
+
+::
+
+    $named['user_gallery'] = 'members/photos';
+
+In your controllers or views, you can retrieve the actual URI to route to with the ``named()`` method.
+
+::
+
+    $gallery_url = $this->router->named('user_gallery');
+
+Named routes will automatically be used within the ``redirect()`` function.
+
+::
+
+    redirect('user_gallery');
+
 Reserved Routes
 ===============
 
