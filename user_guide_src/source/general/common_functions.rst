@@ -71,7 +71,7 @@ documentation for more information.
 show_error()
 ============
 
-.. php:function:: show_error($message, $status_code, $heading = 'An Error Was Encountered')
+.. php:function:: show_error($message, $status_code, $heading = 'An Error Was Encountered') :noindex:
 
 	:param	mixed	$message: Error message
 	:param	int	$status_code: HTTP Response status code
@@ -84,7 +84,7 @@ please see the :doc:`Error Handling <errors>` documentation.
 show_404()
 ==========
 
-.. php:function:: show_404($page = '', $log_error = TRUE)
+.. php:function:: show_404($page = '', $log_error = TRUE) :noindex:
 
 	:param	string	$page: URI string
 	:param	bool	$log_error: Whether to log the error
@@ -96,7 +96,7 @@ please see the :doc:`Error Handling <errors>` documentation.
 log_message()
 =============
 
-.. php:function:: log_message($level, $message)
+.. php:function:: log_message($level, $message) :noindex:
 
 	:param	string	$level: Log level: 'error', 'debug' or 'info'
 	:param	string	$message: Message to log

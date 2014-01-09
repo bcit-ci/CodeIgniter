@@ -90,18 +90,18 @@ preferences below.
 Preference              Default            Options                                          Description
 ======================  =================  ===============================================  ===================================================================
 **template**           	None               None                                             A string containing your calendar template.
-                                                                                         See the template section below.
+											      See the template section below.
 **local_time**        	time()             None                                             A Unix timestamp corresponding to the current time.
 **start_day**           sunday             Any week day (sunday, monday, tuesday, etc.)     Sets the day of the week the calendar should start on.
 **month_type**          long               long, short                                      Determines what version of the month name to use in the header.
-                                                                                         long = January, short = Jan.
+											      long = January, short = Jan.
 **day_type**            abr                long, short, abr                                 Determines what version of the weekday names to use in
-                                                                                         the column headers. long = Sunday, short = Sun, abr = Su.
+											      the column headers. long = Sunday, short = Sun, abr = Su.
 **show_next_prev**      FALSE              TRUE/FALSE (boolean)                             Determines whether to display links allowing you to toggle
-                                                                                         to next/previous months. See information on this feature below.
+											      to next/previous months. See information on this feature below.
 **next_prev_url**       controller/method  A URL                                            Sets the basepath used in the next/previous calendar links.
 **show_other_days**     FALSE              TRUE/FALSE (boolean)                             Determines whether to display days of other months that share the
-                                                                                         first or last week of the calendar month.
+											      first or last week of the calendar month.
 ======================  =================  ===============================================  ===================================================================
 
 
