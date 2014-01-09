@@ -957,12 +957,12 @@ The following methods are intended for use in your controller.
 $this->form_validation->set_rules()
 ===================================
 
-	.. php:method:: set_rules ($field, $label = '', $rules = '')
+	.. php:method:: set_rules ($field, $label = '', $rules = '', $errors = array())
 
 		:param string $field: The field name
 		:param string $label: The field label
 		:param mixed $rules: The rules, as a string with rules separated by a pipe "|", or an array or rules.
-		:param array $error_msg: Custom error message on any rules for the current field only. (optional)
+		:param array $errors: Custom error message
 		:rtype: Object
 
 		Permits you to set validation rules, as described in the tutorial

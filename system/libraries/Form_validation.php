@@ -150,10 +150,10 @@ class CI_Form_validation {
 	 * @param	mixed	$field
 	 * @param	string	$label
 	 * @param	mixed	$rules
-	 * @param	array	$error_msg
+	 * @param	array	$errors
 	 * @return	CI_Form_validation
 	 */
-	public function set_rules($field, $label = '', $rules = '', $error_msg = array())
+	public function set_rules($field, $label = '', $rules = '', $errors = array())
 	{
 		// No reason to set rules if we have no POST data
 		// or a validation array has not been specified
@@ -178,7 +178,7 @@ class CI_Form_validation {
 				$label = isset($row['label']) ? $row['label'] : $row['field'];
 
 				// Add the custom error message array
-				$error_msg = (isset($row['error_msg']) && is_array($row['error_msg']) ) ? $row['error_msg'] : array();
+				$errors = (isset($row['error_msg']) && is_array($row['error_msg']) ) ? $row['error_msg'] : array();
 
 				// Here we go!
 				$this->set_rules($row['field'], $label, $row['rules']);
@@ -229,7 +229,7 @@ class CI_Form_validation {
 			'field'		=> $field,
 			'label'		=> $label,
 			'rules'		=> $rules,
-			'error_msg' => $error_msg,
+			'error_msg' => $errors,
 			'is_array'	=> $is_array,
 			'keys'		=> $indexes,
 			'postdata'	=> NULL,
