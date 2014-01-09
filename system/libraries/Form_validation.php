@@ -758,7 +758,7 @@ class CI_Form_validation {
 			if ($result === FALSE)
 			{
 				// Check if a custom message defined
-				if(isset($this->_field_data[$row['field']]['errors'][$rule]))
+				if (isset($this->_field_data[$row['field']]['errors'][$rule]))
 				{
 					$line = $this->_field_data[$row['field']]['errors'][$rule];
 				}
