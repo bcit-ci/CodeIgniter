@@ -102,9 +102,32 @@ class CI_Router {
 	 */
 	public function __construct()
 	{
+		global $routing;
+
 		$this->config =& load_class('Config', 'core');
 		$this->uri =& load_class('URI', 'core');
 		$this->_set_routing();
+
+		// Set any routing overrides that may exist in the main index file
+		if (isset($routing) && is_array($routing))
+		{
+			if (isset($routing['directory']))
+			{
+				$this->set_directory($routing['directory']);
+			}
+
+			if ( ! empty($routing['controller']))
+			{
+				$this->set_class($routing['controller']);
+			}
+
+			if (isset($routing['function']))
+			{
+				$routing['function'] = empty($routing['function']) ? 'index' : $routing['function'];
+				$this->set_method($routing['function']);
+			}
+		}
+
 		log_message('debug', 'Router Class Initialized');
 	}
 
@@ -517,38 +540,6 @@ class CI_Router {
 	public function fetch_directory()
 	{
 		return $this->directory;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Set controller overrides
-	 *
-	 * @param	array	$routing	Route overrides
-	 * @return	void
-	 */
-	public function _set_overrides($routing)
-	{
-		if ( ! is_array($routing))
-		{
-			return;
-		}
-
-		if (isset($routing['directory']))
-		{
-			$this->set_directory($routing['directory']);
-		}
-
-		if ( ! empty($routing['controller']))
-		{
-			$this->set_class($routing['controller']);
-		}
-
-		if (isset($routing['function']))
-		{
-			$routing['function'] = empty($routing['function']) ? 'index' : $routing['function'];
-			$this->set_method($routing['function']);
-		}
 	}
 
 }

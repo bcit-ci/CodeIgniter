@@ -461,6 +461,7 @@ Release Date: Not Released
       -  Added possibility to route requests using callbacks.
       -  Added a new reserved route (*translate_uri_dashes*) to allow usage of dashes in the controller and method URI segments.
       -  Deprecated methods ``fetch_directory()``, ``fetch_class()`` and ``fetch_method()`` in favor of their respective public properties.
+      -  Removed method ``_set_overrides()`` and moved its logic to the class constructor.
 
    -  :doc:`Language Library <libraries/language>` changes include:
 
