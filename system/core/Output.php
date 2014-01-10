@@ -120,12 +120,10 @@ class CI_Output {
 	 */
 	public function __construct()
 	{
-		global $CFG;
-
 		$this->_zlib_oc = (bool) @ini_get('zlib.output_compression');
 		$this->_compress_output = (
 			$this->_zlib_oc === FALSE
-			&& $CFG->item('compress_output') === TRUE
+			&& config_item('compress_output') === TRUE
 			&& extension_loaded('zlib')
 		);
 
