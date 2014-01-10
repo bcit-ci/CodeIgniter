@@ -247,8 +247,8 @@ $this->email->attach()
 ----------------------
 
 Enables you to send an attachment. Put the file path/name in the first
-parameter. Note: Use a file path, not a URL. For multiple attachments
-use the method multiple times. For example::
+parameter. For multiple attachments use the method multiple times.
+For example::
 
 	$this->email->attach('/path/to/photo1.jpg');
 	$this->email->attach('/path/to/photo2.jpg');
@@ -268,6 +268,26 @@ use the first parameter as buffer, the third parameter as file name and the four
 parameter as mime-type::
 
 	$this->email->attach($buffer, 'attachment', 'report.pdf', 'application/pdf');
+
+$this->email->attach_cid()
+ --------------------------
+ 
+ Returns CID which enables to embed an attachment to html. First parameter 
+ must be attached file.
+ 
+ ::
+ 
+   $filename = '/img/photo1.jpg';
+   $this->email->attach($filename);
+   foreach ($list as $address)
+   {
+     $this->email->to($address);
+     $cid = $this->email->attach_cid($filename);
+     $this->email->message('<img src='cid:". $cid ."' alt="photo1" />');
+     $this->email->send();
+   }
+ 
+ CID for each Email have to be create again to be unique.
 
 $this->email->print_debugger()
 ------------------------------

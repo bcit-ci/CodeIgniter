@@ -718,13 +718,62 @@ class CI_Email {
 	 */
 	public function attach($filename, $disposition = '', $newname = NULL, $mime = '')
 	{
+		if ($mime === '')
+		{
+			if ( ! file_exists($filename))
+			{
+				$this->_set_error_message('lang:email_attachment_missing', $filename);
+				return FALSE;
+			}
+			
+			if ( ! $fp = fopen($filename, FOPEN_READ))
+			{
+				$this->_set_error_message('lang:email_attachment_unreadable', $filename);
+				return FALSE;
+			}
+			$file_content = stream_get_contents($fp);
+			$mime = $this->_mime_types(pathinfo($filename, PATHINFO_EXTENSION));
+		}
+		else
+		{
+			$file_content =& $filename; // buffered file
+		}
+		
 		$this->_attachments[] = array(
 			'name'		=> array($filename, $newname),
 			'disposition'	=> empty($disposition) ? 'attachment' : $disposition,  // Can also be 'inline'  Not sure if it matters
-			'type' 		=> $mime
+			'type'		=> $mime,
+			'content'	=> chunk_split(base64_encode($file_content))
 		);
-
+		
+		fclose($fp);
+		
 		return $this;
+	}
+	
+	// --------------------------------------------------------------------
+        
+	/**
+	 * Sets and return id of attachment (useful for attached inline pictures)
+	 *
+	 * @param string
+	 * @return string
+	 */
+	public function attach_cid($filename)
+	{
+		if($this->multipart != 'related')
+		{
+			$this->multipart = 'related'; // Thunderbird need this for inline images
+		}
+		foreach($this->_attachments as $ind => $attach)
+		{
+			if($attach['name'][0] == $filename)
+			{
+				$this->_attachments[$ind]['cid'] = uniqid(basename($this->_attachments[$ind]['name'][0]) . "@");
+				return $this->_attachments[$ind]['cid'];
+			}
+		}
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -1361,41 +1410,15 @@ class CI_Email {
 			$filename = $this->_attachments[$i]['name'][0];
 			$basename = ($this->_attachments[$i]['name'][1] === NULL)
 				? basename($filename) : $this->_attachments[$i]['name'][1];
-			$ctype = $this->_attachments[$i]['type'];
-			$file_content = '';
-
-			if ($ctype === '')
-			{
-				if ( ! file_exists($filename))
-				{
-					$this->_set_error_message('lang:email_attachment_missing', $filename);
-					return FALSE;
-				}
-
-				$file = filesize($filename) +1;
-
-				if ( ! $fp = fopen($filename, FOPEN_READ))
-				{
-					$this->_set_error_message('lang:email_attachment_unreadable', $filename);
-					return FALSE;
-				}
-
-				$ctype = $this->_mime_types(pathinfo($filename, PATHINFO_EXTENSION));
-				$file_content = fread($fp, $file);
-				fclose($fp);
-			}
-			else
-			{
-				$file_content =& $this->_attachments[$i]['name'][0];
-			}
 
 			$attachment[$z++] = '--'.$this->_atc_boundary.$this->newline
-				.'Content-type: '.$ctype.'; '
+				.'Content-type: '.$this->_attachments[$i]['type'].'; '
 				.'name="'.$basename.'"'.$this->newline
 				.'Content-Disposition: '.$this->_attachments[$i]['disposition'].';'.$this->newline
-				.'Content-Transfer-Encoding: base64'.$this->newline;
+				.'Content-Transfer-Encoding: base64'.$this->newline
+				.(!empty($this->_attachments[$i]['cid']) ? "Content-ID: <".$this->_attachments[$i]['cid'].">".$this->newline : '');
 
-			$attachment[$z++] = chunk_split(base64_encode($file_content));
+			$attachment[$z++] = $this->_attachments[$i]['content'];
 		}
 
 		$body .= implode($this->newline, $attachment).$this->newline.'--'.$this->_atc_boundary.'--';
