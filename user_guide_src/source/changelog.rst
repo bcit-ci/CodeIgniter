@@ -334,6 +334,7 @@ Release Date: Not Released
 
       -  Added custom filename to ``Email::attach()`` as ``$this->email->attach($filename, $disposition, $newname)``.
       -  Added possibility to send attachment as buffer string in ``Email::attach()`` as ``$this->email->attach($buffer, $disposition, $newname, $mime)``.
+      -  Added method ``Email::attach_cid()`` returning CID which enables to embed an attachment to html.
       -  Added dsn (delivery status notification) option.
       -  Renamed method _set_header() to set_header() and made it public to enable adding custom headers in the :doc:`Email Library <libraries/email>`.
       -  Successfully sent emails will automatically clear the parameters.
