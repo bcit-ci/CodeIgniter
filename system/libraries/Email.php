@@ -731,8 +731,10 @@ class CI_Email {
 				$this->_set_error_message('lang:email_attachment_unreadable', $filename);
 				return FALSE;
 			}
+			
 			$file_content = stream_get_contents($fp);
 			$mime = $this->_mime_types(pathinfo($filename, PATHINFO_EXTENSION));
+			fclose($fp);
 		}
 		else
 		{
@@ -746,7 +748,7 @@ class CI_Email {
 			'content'	=> chunk_split(base64_encode($file_content))
 		);
 		
-		fclose($fp);
+		
 		
 		return $this;
 	}
@@ -754,25 +756,29 @@ class CI_Email {
 	// --------------------------------------------------------------------
         
 	/**
-	 * Sets and return id of attachment (useful for attached inline pictures)
+	 * Set and return id of attachment 
+	 * 
+	 * useful for attached inline pictures
 	 *
-	 * @param string
-	 * @return string
+	 * @param	string	$filename
+	 * @return	string
 	 */
 	public function attach_cid($filename)
 	{
-		if($this->multipart != 'related')
+		if ($this->multipart !== 'related')
 		{
 			$this->multipart = 'related'; // Thunderbird need this for inline images
 		}
-		foreach($this->_attachments as $ind => $attach)
+		
+		for ($i = 0, $c = count($this->_attachments); $i < $c; $i++)
 		{
-			if($attach['name'][0] == $filename)
+			if ($attach['name'][0] === $filename)
 			{
-				$this->_attachments[$ind]['cid'] = uniqid(basename($this->_attachments[$ind]['name'][0]) . "@");
-				return $this->_attachments[$ind]['cid'];
+				$this->_attachments[$ind]['cid'] = uniqid(basename($this->_attachments[$i]['name'][0]).'@');
+				return $this->_attachments[$i]['cid'];
 			}
 		}
+		
 		return FALSE;
 	}
 
@@ -1416,7 +1422,7 @@ class CI_Email {
 				.'name="'.$basename.'"'.$this->newline
 				.'Content-Disposition: '.$this->_attachments[$i]['disposition'].';'.$this->newline
 				.'Content-Transfer-Encoding: base64'.$this->newline
-				.(!empty($this->_attachments[$i]['cid']) ? "Content-ID: <".$this->_attachments[$i]['cid'].">".$this->newline : '');
+				.(empty($this->_attachments[$i]['cid']) ? '' : 'Content-ID: <'.$this->_attachments[$i]['cid'].'>'.$this->newline);
 
 			$attachment[$z++] = $this->_attachments[$i]['content'];
 		}

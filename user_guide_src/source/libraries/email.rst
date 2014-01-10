@@ -277,15 +277,15 @@ $this->email->attach_cid()
  
  ::
  
-   $filename = '/img/photo1.jpg';
-   $this->email->attach($filename);
-   foreach ($list as $address)
-   {
-     $this->email->to($address);
-     $cid = $this->email->attach_cid($filename);
-     $this->email->message('<img src='cid:". $cid ."' alt="photo1" />');
-     $this->email->send();
-   }
+	$filename = '/img/photo1.jpg';
+	$this->email->attach($filename);
+	foreach ($list as $address)
+	{
+		$this->email->to($address);
+		$cid = $this->email->attach_cid($filename);
+		$this->email->message('<img src='cid:". $cid ."' alt="photo1" />');
+		$this->email->send();
+	}
  
  CID for each Email have to be create again to be unique.
 
