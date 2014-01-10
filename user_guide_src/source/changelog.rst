@@ -334,6 +334,7 @@ Release Date: Not Released
 
       -  Added a custom filename parameter to ``attach()`` as ``$this->email->attach($filename, $disposition, $newname)``.
       -  Added possibility to send attachment as buffer string in ``attach()`` as ``$this->email->attach($buffer, $disposition, $newname, $mime)``.
+      -  Added possibility attach remote file by absolute url
       -  Added method ``attachment_cid()`` to enable embedding inline attachments into HTML.
       -  Added dsn (delivery status notification) option.
       -  Renamed method ``_set_header()`` to ``set_header()`` and made it public to enable adding custom headers.

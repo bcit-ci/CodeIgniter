@@ -259,6 +259,10 @@ otherwise use a custom disposition::
 
 	$this->email->attach('image.jpg', 'inline');
 
+You can use absolute url::
+
+	$this->email->attach('http://example.com/filename.pdf');
+
 If you'd like to use a custom file name, you can use the third paramater::
 
 	$this->email->attach('filename.pdf', 'attachment', 'report.pdf');
