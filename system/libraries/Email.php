@@ -710,7 +710,7 @@ class CI_Email {
 	/**
 	 * Assign file attachments
 	 *
-	 * @param	string	$file	can be path, url or buffered content
+	 * @param	string	$file	Can be local path, URL or buffered content
 	 * @param	string	$disposition = 'attachment'
 	 * @param	string	$newname = NULL
 	 * @param	string	$mime = ''
@@ -720,7 +720,7 @@ class CI_Email {
 	{
 		if ($mime === '')
 		{
-			if (strpos($file,'http://')!==0 && ! file_exists($file) )
+			if (strpos($file, '://') === FALSE && ! file_exists($file))
 			{
 				$this->_set_error_message('lang:email_attachment_missing', $file);
 				return FALSE;
@@ -731,7 +731,7 @@ class CI_Email {
 				$this->_set_error_message('lang:email_attachment_unreadable', $file);
 				return FALSE;
 			}
-			
+
 			$file_content = stream_get_contents($fp);
 			$mime = $this->_mime_types(pathinfo($file, PATHINFO_EXTENSION));
 			fclose($fp);
