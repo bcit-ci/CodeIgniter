@@ -710,39 +710,39 @@ class CI_Email {
 	/**
 	 * Assign file attachments
 	 *
-	 * @param	string	$src	can be path, url or buffered content
+	 * @param	string	$file	can be path, url or buffered content
 	 * @param	string	$disposition = 'attachment'
 	 * @param	string	$newname = NULL
 	 * @param	string	$mime = ''
 	 * @return	CI_Email
 	 */
-	public function attach($src, $disposition = '', $newname = NULL, $mime = '')
+	public function attach($file, $disposition = '', $newname = NULL, $mime = '')
 	{
 		if ($mime === '')
 		{
-			if (strpos($src,'http://')!==0 && ! file_exists($src) )
+			if (strpos($file,'http://')!==0 && ! file_exists($file) )
 			{
-				$this->_set_error_message('lang:email_attachment_missing', $src);
+				$this->_set_error_message('lang:email_attachment_missing', $file);
 				return FALSE;
 			}
 
-			if ( ! $fp = @fopen($src, FOPEN_READ))
+			if ( ! $fp = @fopen($file, FOPEN_READ))
 			{
-				$this->_set_error_message('lang:email_attachment_unreadable', $src);
+				$this->_set_error_message('lang:email_attachment_unreadable', $file);
 				return FALSE;
 			}
 			
 			$file_content = stream_get_contents($fp);
-			$mime = $this->_mime_types(pathinfo($src, PATHINFO_EXTENSION));
+			$mime = $this->_mime_types(pathinfo($file, PATHINFO_EXTENSION));
 			fclose($fp);
 		}
 		else
 		{
-			$file_content =& $src; // buffered file
+			$file_content =& $file; // buffered file
 		}
 
 		$this->_attachments[] = array(
-			'name'		=> array($src, $newname),
+			'name'		=> array($file, $newname),
 			'disposition'	=> empty($disposition) ? 'attachment' : $disposition,  // Can also be 'inline'  Not sure if it matters
 			'type'		=> $mime,
 			'content'	=> chunk_split(base64_encode($file_content))
