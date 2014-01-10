@@ -269,13 +269,13 @@ parameter as mime-type::
 
 	$this->email->attach($buffer, 'attachment', 'report.pdf', 'application/pdf');
 
-$this->email->attach_cid()
- --------------------------
+$this->email->attachment_cid()
+------------------------------
  
- Returns CID which enables to embed an attachment to html. First parameter 
- must be attached file.
+Sets and returns an attachment's Content-ID, which enables your to embed an inline
+(picture) attachment into HTML. First parameter must be attached file.
  
- ::
+::
  
 	$filename = '/img/photo1.jpg';
 	$this->email->attach($filename);
@@ -286,8 +286,8 @@ $this->email->attach_cid()
 		$this->email->message('<img src='cid:". $cid ."' alt="photo1" />');
 		$this->email->send();
 	}
- 
- CID for each Email have to be create again to be unique.
+
+CID for each Email have to be create again to be unique.
 
 $this->email->print_debugger()
 ------------------------------

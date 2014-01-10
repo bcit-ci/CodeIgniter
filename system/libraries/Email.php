@@ -725,13 +725,13 @@ class CI_Email {
 				$this->_set_error_message('lang:email_attachment_missing', $filename);
 				return FALSE;
 			}
-			
+
 			if ( ! $fp = fopen($filename, FOPEN_READ))
 			{
 				$this->_set_error_message('lang:email_attachment_unreadable', $filename);
 				return FALSE;
 			}
-			
+
 			$file_content = stream_get_contents($fp);
 			$mime = $this->_mime_types(pathinfo($filename, PATHINFO_EXTENSION));
 			fclose($fp);
@@ -740,7 +740,7 @@ class CI_Email {
 		{
 			$file_content =& $filename; // buffered file
 		}
-		
+
 		$this->_attachments[] = array(
 			'name'		=> array($filename, $newname),
 			'disposition'	=> empty($disposition) ? 'attachment' : $disposition,  // Can also be 'inline'  Not sure if it matters
@@ -750,24 +750,24 @@ class CI_Email {
 
 		return $this;
 	}
-	
+
 	// --------------------------------------------------------------------
-        
+
 	/**
-	 * Set and return id of attachment 
-	 * 
-	 * useful for attached inline pictures
+	 * Set and return attachment Content-ID
+	 *
+	 * Useful for attached inline pictures
 	 *
 	 * @param	string	$filename
 	 * @return	string
 	 */
-	public function attach_cid($filename)
+	public function attachment_cid($filename)
 	{
 		if ($this->multipart !== 'related')
 		{
 			$this->multipart = 'related'; // Thunderbird need this for inline images
 		}
-		
+
 		for ($i = 0, $c = count($this->_attachments); $i < $c; $i++)
 		{
 			if ($this->_attachments[$i]['name'][0] === $filename)
@@ -776,7 +776,7 @@ class CI_Email {
 				return $this->_attachments[$i]['cid'];
 			}
 		}
-		
+
 		return FALSE;
 	}
 
@@ -1429,6 +1429,7 @@ class CI_Email {
 		$this->_finalbody = ($this->_get_protocol() === 'mail')
 			? $body
 			: $hdr.$this->newline.$this->newline.$body;
+
 		return TRUE;
 	}
 

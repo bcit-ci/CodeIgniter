@@ -332,11 +332,11 @@ Release Date: Not Released
 
    -  :doc:`Email Library <libraries/email>` changes include:
 
-      -  Added custom filename to ``Email::attach()`` as ``$this->email->attach($filename, $disposition, $newname)``.
-      -  Added possibility to send attachment as buffer string in ``Email::attach()`` as ``$this->email->attach($buffer, $disposition, $newname, $mime)``.
-      -  Added method ``Email::attach_cid()`` returning CID which enables to embed an attachment to html.
+      -  Added a custom filename parameter to ``attach()`` as ``$this->email->attach($filename, $disposition, $newname)``.
+      -  Added possibility to send attachment as buffer string in ``attach()`` as ``$this->email->attach($buffer, $disposition, $newname, $mime)``.
+      -  Added method ``attachment_cid()`` to enable embedding inline attachments into HTML.
       -  Added dsn (delivery status notification) option.
-      -  Renamed method _set_header() to set_header() and made it public to enable adding custom headers in the :doc:`Email Library <libraries/email>`.
+      -  Renamed method ``_set_header()`` to ``set_header()`` and made it public to enable adding custom headers.
       -  Successfully sent emails will automatically clear the parameters.
       -  Added a *return_path* parameter to the ``from()`` method.
       -  Removed the second parameter (character limit) from internal method ``_prep_quoted_printable()`` as it is never used.
@@ -345,7 +345,7 @@ Release Date: Not Released
       -  Removed unused protected method ``_get_ip()`` (:doc:`Input Library <libraries/input>`'s ``ip_address()`` should be used anyway).
       -  Internal method ``_prep_q_encoding()`` now utilizes PHP's *mbstring* and *iconv* extensions (when available) and no longer has a second (``$from``) argument.
       -  Added an optional parameter to ``print_debugger()`` to allow specifying which parts of the message should be printed ('headers', 'subject', 'body').
-      -  Added SMTP keepalive option to avoid opening the connection for each ``Email::send()``. Accessible as ``$smtp_keepalive``.
+      -  Added SMTP keepalive option to avoid opening the connection for each ``send()`` call. Accessible as ``$smtp_keepalive``.
       -  Public method ``set_header()`` now filters the input by removing all "\\r" and "\\n" characters.
 
    -  :doc:`Pagination Library <libraries/pagination>` changes include:
