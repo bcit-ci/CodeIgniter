@@ -439,6 +439,7 @@ Release Date: Not Released
       -  Added a second argument to method ``set_content_type()`` that allows setting the document charset as well.
       -  Added methods ``get_content_type()`` and ``get_header()``.
       -  Added method ``delete_cache()``.
+      -  Changed caching behavior to compress the output before storing it, if ``$config['compress_output']`` is enabled.
 
    -  :doc:`Config Library <libraries/config>` changes include:
 

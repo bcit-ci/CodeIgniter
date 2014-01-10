@@ -381,6 +381,9 @@ $config['csrf_exclude_uris'] = array();
 | Even if it does, however, not all browsers support compression
 | so enable only if you are reasonably sure your visitors can handle it.
 |
+| Only used if zlib.output_compression is turned off in your php.ini.
+| Please do not use it together with httpd-level output compression.
+|
 | VERY IMPORTANT:  If you are getting a blank page when compression is enabled it
 | means you are prematurely outputting something to your browser. It could
 | even be a line of whitespace at the end of one of your scripts.  For

@@ -45,6 +45,9 @@ you. Once the tag is in place, your pages will begin being cached.
 	caching will only work if you are generating display for your
 	controller with a :doc:`view <./views>`.
 
+.. important:: If you change configuration options that might affect
+	your output, you have to manually delete your cache files.
+
 .. note:: Before the cache files can be written you must set the file
 	permissions on your *application/cache/* directory such that
 	it is writable.

@@ -58,21 +58,21 @@ class CI_Output {
 	 *
 	 * @var	array
 	 */
-	public $headers =	array();
+	public $headers = array();
 
 	/**
 	 * List of mime types
 	 *
 	 * @var	array
 	 */
-	public $mimes =		array();
+	public $mimes =	array();
 
 	/**
 	 * Mime-type for the current page
 	 *
 	 * @var	string
 	 */
-	protected $mime_type	= 'text/html';
+	protected $mime_type = 'text/html';
 
 	/**
 	 * Enable Profiler flag
@@ -82,11 +82,18 @@ class CI_Output {
 	public $enable_profiler = FALSE;
 
 	/**
-	 * zLib output compression flag
+	 * php.ini zlib.output_compression flag
 	 *
 	 * @var	bool
 	 */
-	protected $_zlib_oc =		FALSE;
+	protected $_zlib_oc = FALSE;
+
+	/**
+	 * CI output compression flag
+	 *
+	 * @var	bool
+	 */
+	protected $_compress_output = FALSE;
 
 	/**
 	 * List of profiler sections
@@ -102,7 +109,7 @@ class CI_Output {
 	 *
 	 * @var	bool
 	 */
-	public $parse_exec_vars =	TRUE;
+	public $parse_exec_vars = TRUE;
 
 	/**
 	 * Class constructor
@@ -113,7 +120,14 @@ class CI_Output {
 	 */
 	public function __construct()
 	{
+		global $CFG;
+
 		$this->_zlib_oc = (bool) @ini_get('zlib.output_compression');
+		$this->_compress_output = (
+			$this->_zlib_oc === FALSE
+			&& $CFG->item('compress_output') === TRUE
+			&& extension_loaded('zlib')
+		);
 
 		// Get mime types for later
 		$this->mimes =& get_mimes();
@@ -436,15 +450,14 @@ class CI_Output {
 		if ($this->parse_exec_vars === TRUE)
 		{
 			$memory	= round(memory_get_usage() / 1024 / 1024, 2).'MB';
-
 			$output = str_replace(array('{elapsed_time}', '{memory_usage}'), array($elapsed, $memory), $output);
 		}
 
 		// --------------------------------------------------------------------
 
 		// Is compression requested?
-		if ($CFG->item('compress_output') === TRUE && $this->_zlib_oc === FALSE
-			&& extension_loaded('zlib')
+		if (isset($CI) // This means that we're not serving a cache file, if we were, it would already be compressed
+			&& $this->_compress_output === TRUE
 			&& isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE)
 		{
 			ob_start('ob_gzhandler');
@@ -468,6 +481,21 @@ class CI_Output {
 		// simply echo out the data and exit.
 		if ( ! isset($CI))
 		{
+			if ($this->_compress_output === TRUE)
+			{
+				if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE)
+				{
+					header('Content-Encoding: gzip');
+					header('Content-Length: '.strlen($output));
+				}
+				else
+				{
+					// User agent doesn't support gzip compression,
+					// so we'll have to decompress our cache
+					$output = gzinflate(substr($output, 10, -8));
+				}
+			}
+
 			echo $output;
 			log_message('debug', 'Final output sent to browser');
 			log_message('debug', 'Total execution time: '.$elapsed);
@@ -530,9 +558,9 @@ class CI_Output {
 			return;
 		}
 
-		$uri =	$CI->config->item('base_url').
-				$CI->config->item('index_page').
-				$CI->uri->uri_string();
+		$uri = $CI->config->item('base_url')
+			.$CI->config->item('index_page')
+			.$CI->uri->uri_string();
 
 		$cache_path .= md5($uri);
 
@@ -542,16 +570,29 @@ class CI_Output {
 			return;
 		}
 
-		$expire = time() + ($this->cache_expiration * 60);
-
-		// Put together our serialized info.
-		$cache_info = serialize(array(
-			'expire'	=> $expire,
-			'headers'	=> $this->headers
-		));
-
 		if (flock($fp, LOCK_EX))
 		{
+			// If output compression is enabled, compress the cache
+			// itself, so that we don't have to do that each time
+			// we're serving it
+			if ($this->_compress_output === TRUE)
+			{
+				$output = gzencode($output);
+
+				if ($this->get_header('content-type') === NULL)
+				{
+					$this->set_content_type($this->mime_type);
+				}
+			}
+
+			$expire = time() + ($this->cache_expiration * 60);
+
+			// Put together our serialized info.
+			$cache_info = serialize(array(
+				'expire'	=> $expire,
+				'headers'	=> $this->headers
+			));
+
 			fwrite($fp, $cache_info.'ENDCI--->'.$output);
 			flock($fp, LOCK_UN);
 		}
@@ -560,6 +601,7 @@ class CI_Output {
 			log_message('error', 'Unable to secure a file lock for file at: '.$cache_path);
 			return;
 		}
+
 		fclose($fp);
 		@chmod($cache_path, FILE_WRITE_MODE);
 
