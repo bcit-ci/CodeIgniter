@@ -748,8 +748,6 @@ class CI_Email {
 			'content'	=> chunk_split(base64_encode($file_content))
 		);
 		
-		
-		
 		return $this;
 	}
 	
@@ -774,7 +772,7 @@ class CI_Email {
 		{
 			if ($attach['name'][0] === $filename)
 			{
-				$this->_attachments[$ind]['cid'] = uniqid(basename($this->_attachments[$i]['name'][0]).'@');
+				$this->_attachments[$i]['cid'] = uniqid(basename($this->_attachments[$i]['name'][0]).'@');
 				return $this->_attachments[$i]['cid'];
 			}
 		}
