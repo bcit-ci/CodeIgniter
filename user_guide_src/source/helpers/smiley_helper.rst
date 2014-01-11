@@ -17,11 +17,7 @@ This helper is loaded using the following code::
 Overview
 ========
 
-<<<<<<< develop
-The Smiley helper has a renderer that takes plain text simileys, like
-=======
 The Smiley helper has a renderer that takes plain text smileys, like
->>>>>>> local
 :-) and turns them into a image representation, like |smile!|
 
 It also lets you display a set of smiley images that when clicked will
@@ -39,11 +35,7 @@ download and install the smiley images, then create a controller and the
 View as described.
 
 .. important:: Before you begin, please `download the smiley images
-<<<<<<< develop
-	<http://codeigniter.com/download_files/smileys.zip>`_
-=======
 	<http://ellislab.com/asset/ci_download_files/smileys.zip>`_
->>>>>>> local
 	and put them in a publicly accessible place on your server.
 	This helper also assumes you have the smiley replacement array
 	located at `application/config/smileys.php`
@@ -51,13 +43,8 @@ View as described.
 The Controller
 --------------
 
-<<<<<<< develop
-In your `application/controllers/` folder, create a file called
-smileys.php and place the code below in it.
-=======
 In your **application/controllers/** directory, create a file called
 Smileys.php and place the code below in it.
->>>>>>> local
 
 .. important:: Change the URL in the :php:func:`get_clickable_smileys()`
 	function below so that it points to your smiley folder.
@@ -83,11 +70,7 @@ the :doc:`Table Class <../libraries/table>`::
 
 	}
 
-<<<<<<< develop
-In your `application/views/` folder, create a file called `smiley_view.php`
-=======
 In your **application/views/** folder, create a file called **smiley_view.php**
->>>>>>> local
 and place this code in it::
 
 	<html>
@@ -173,11 +156,7 @@ string, the second must contain the URL to your smiley folder
 
 Example::
 
-<<<<<<< develop
-	$str = 'Here are some simileys: :-)  ;-)';
-=======
 	$str = 'Here are some smileys: :-)  ;-)';
->>>>>>> local
 	$str = parse_smileys($str, "http://example.com/images/smileys/");
 	echo $str;
 

@@ -55,8 +55,6 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 	 */
 	public $compress = FALSE;
 
-<<<<<<< develop
-=======
 	/**
 	 * Strict ON flag
 	 *
@@ -66,7 +64,6 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 	 */
 	public $stricton = FALSE;
 
->>>>>>> local
 	// --------------------------------------------------------------------
 
 	/**
@@ -126,8 +123,6 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 				.(empty($this->dbcollat) ? '' : ' COLLATE '.$this->dbcollat);
 		}
 
-<<<<<<< develop
-=======
 		if ($this->stricton)
 		{
 			if (empty($this->options[PDO::MYSQL_ATTR_INIT_COMMAND]))
@@ -140,7 +135,6 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 			}
 		}
 
->>>>>>> local
 		if ($this->compress === TRUE)
 		{
 			$this->options[PDO::MYSQL_ATTR_COMPRESS] = TRUE;
@@ -228,50 +222,6 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
-<<<<<<< develop
-	 * Update_Batch statement
-	 *
-	 * Generates a platform-specific batch update string from the supplied data
-	 *
-	 * @param	string	$table	Table name
-	 * @param	array	$values	Update data
-	 * @param	string	$index	UPDATE key
-	 * @return	string
-	 */
-	protected function _update_batch($table, $values, $index)
-	{
-		$ids = array();
-		foreach ($values as $key => $val)
-		{
-			$ids[] = $val[$index];
-
-			foreach (array_keys($val) as $field)
-			{
-				if ($field !== $index)
-				{
-					$final[$field][] = 'WHEN '.$index.' = '.$val[$index].' THEN '.$val[$field];
-				}
-			}
-		}
-
-		$cases = '';
-		foreach ($final as $k => $v)
-		{
-			$cases .= $k." = CASE \n"
-				.implode("\n", $v)."\n"
-				.'ELSE '.$k.' END), ';
-		}
-
-		$this->where($index.' IN('.implode(',', $ids).')', NULL, FALSE);
-
-		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2).$this->_compile_wh('qb_where');
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-=======
->>>>>>> local
 	 * Truncate statement
 	 *
 	 * Generates a platform-specific truncate string from the supplied data

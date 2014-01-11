@@ -150,10 +150,7 @@ class CI_Form_validation {
 	 * @param	mixed	$field
 	 * @param	string	$label
 	 * @param	mixed	$rules
-<<<<<<< develop
-=======
 	 * @param	array	$errors
->>>>>>> local
 	 * @return	CI_Form_validation
 	 */
 	public function set_rules($field, $label = '', $rules = '', $errors = array())
@@ -179,12 +176,9 @@ class CI_Form_validation {
 
 				// If the field label wasn't passed we use the field name
 				$label = isset($row['label']) ? $row['label'] : $row['field'];
-<<<<<<< develop
-=======
 
 				// Add the custom error message array
 				$errors = (isset($row['errors']) && is_array($row['errors'])) ? $row['errors'] : array();
->>>>>>> local
 
 				// Here we go!
 				$this->set_rules($row['field'], $label, $row['rules'], $errors);
@@ -235,10 +229,7 @@ class CI_Form_validation {
 			'field'		=> $field,
 			'label'		=> $label,
 			'rules'		=> $rules,
-<<<<<<< develop
-=======
 			'errors'	=> $errors,
->>>>>>> local
 			'is_array'	=> $is_array,
 			'keys'		=> $indexes,
 			'postdata'	=> NULL,
@@ -263,15 +254,9 @@ class CI_Form_validation {
 	 * @param	array	$data
 	 * @return	void
 	 */
-<<<<<<< develop
-	public function set_data($data = '')
-	{
-		if ( ! empty($data) && is_array($data))
-=======
 	public function set_data(array $data)
 	{
 		if ( ! empty($data))
->>>>>>> local
 		{
 			$this->validation_data = $data;
 		}
@@ -325,15 +310,9 @@ class CI_Form_validation {
 	 *
 	 * Gets the error message associated with a particular field
 	 *
-<<<<<<< develop
-	 * @param	string	the field name
-	 * @param	string	the html start tag
-	 * @param 	strign	the html end tag
-=======
 	 * @param	string	$field	Field name
 	 * @param	string	$prefix	HTML start tag
 	 * @param 	string	$suffix	HTML end tag
->>>>>>> local
 	 * @return	string
 	 */
 	public function error($field, $prefix = '', $suffix = '')
@@ -441,25 +420,15 @@ class CI_Form_validation {
 				return FALSE;
 			}
 
-<<<<<<< develop
-			// Is there a validation rule for the particular URI being accessed?
-			$uri = ($group === '') ? trim($this->CI->uri->ruri_string(), '/') : $group;
-
-			if ($uri !== '' && isset($this->_config_rules[$uri]))
-=======
 			if (empty($group))
->>>>>>> local
 			{
 				// Is there a validation rule for the particular URI being accessed?
 				$group = trim($this->CI->uri->ruri_string(), '/');
 				isset($this->_config_rules[$group]) OR $group = $this->CI->router->class.'/'.$this->CI->router->method;
 			}
 
-<<<<<<< develop
-=======
 			$this->set_rules(isset($this->_config_rules[$group]) ? $this->_config_rules[$group] : $this->_config_rules);
 
->>>>>>> local
 			// Were we able to set the rules correctly?
 			if (count($this->_field_data) === 0)
 			{
@@ -617,11 +586,7 @@ class CI_Form_validation {
 
 		// If the field is blank, but NOT required, no further tests are necessary
 		$callback = FALSE;
-<<<<<<< develop
-		if ( ! in_array('required', $rules) && $postdata === NULL)
-=======
 		if ( ! in_array('required', $rules) && ($postdata === NULL OR $postdata === ''))
->>>>>>> local
 		{
 			// Before we bail out, does the rule contain a callback?
 			if (preg_match('/(callback_\w+(\[.*?\])?)/', implode(' ', $rules), $match))
@@ -636,35 +601,21 @@ class CI_Form_validation {
 		}
 
 		// Isset Test. Typically this rule will only apply to checkboxes.
-<<<<<<< develop
-		if ($postdata === NULL && $callback === FALSE)
-=======
 		if (($postdata === NULL OR $postdata === '') && $callback === FALSE)
->>>>>>> local
 		{
 			if (in_array('isset', $rules, TRUE) OR in_array('required', $rules))
 			{
 				// Set the message type
 				$type = in_array('required', $rules) ? 'required' : 'isset';
 
-<<<<<<< develop
-				if (isset($this->_error_messages[$type]))
-				{
-					$line = $this->_error_messages[$type];
-				}
-				elseif (FALSE === ($line = $this->CI->lang->line('form_validation_'.$type))
-					// DEPRECATED support for non-prefixed keys
-					&& FALSE === ($line = $this->CI->lang->line($type, FALSE)))
-=======
 				// Check if a custom message is defined
 				if (isset($this->_field_data[$row['field']]['errors'][$type]))
 				{
 					$line = $this->_field_data[$row['field']]['errors'][$type];
 				}
 				elseif (isset($this->_error_messages[$type]))
->>>>>>> local
 				{
-					$line = 'The field was not set';
+					$line = $this->_error_messages[$type];
 				}
 				elseif (FALSE === ($line = $this->CI->lang->line('form_validation_'.$type))
 					// DEPRECATED support for non-prefixed keys
@@ -898,8 +849,6 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
-<<<<<<< develop
-=======
 	 * Checks if the rule is present within the validator
 	 *
 	 * Permits you to check if a rule is present within the validator
@@ -915,7 +864,6 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
->>>>>>> local
 	 * Get the value from a form
 	 *
 	 * Permits you to repopulate a form field with the value it was submitted
@@ -963,10 +911,7 @@ class CI_Form_validation {
 		}
 
 		$field = $this->_field_data[$field]['postdata'];
-<<<<<<< develop
-=======
 		$value = (string) $value;
->>>>>>> local
 		if (is_array($field))
 		{
 			// Note: in_array('', array(0)) returns TRUE, do not use it
@@ -1009,10 +954,7 @@ class CI_Form_validation {
 		}
 
 		$field = $this->_field_data[$field]['postdata'];
-<<<<<<< develop
-=======
 		$value = (string) $value;
->>>>>>> local
 		if (is_array($field))
 		{
 			// Note: in_array('', array(0)) returns TRUE, do not use it
@@ -1195,7 +1137,6 @@ class CI_Form_validation {
 	public function exact_length($str, $val)
 	{
 		if ( ! is_numeric($val))
-<<<<<<< develop
 		{
 			return FALSE;
 		}
@@ -1223,35 +1164,6 @@ class CI_Form_validation {
 		{
 			return FALSE;
 		}
-=======
-		{
-			return FALSE;
-		}
-		else
-		{
-			$val = (int) $val;
-		}
-
-		return (MB_ENABLED === TRUE)
-			? (mb_strlen($str) === $val)
-			: (strlen($str) === $val);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Valid URL
-	 *
-	 * @param	string	$str
-	 * @return	bool
-	 */
-	public function valid_url($str)
-	{
-		if (empty($str))
-		{
-			return FALSE;
-		}
->>>>>>> local
 		elseif (preg_match('/^(?:([^:]*)\:)?\/\/(.+)$/', $str, $matches))
 		{
 			if (empty($matches[2]))
@@ -1325,18 +1237,8 @@ class CI_Form_validation {
 	 * Validate IP Address
 	 *
 	 * @param	string
-<<<<<<< develop
 	 * @param	string	'ipv4' or 'ipv6' to validate a specific IP format
 	 * @return	bool
-=======
-<<<<<<< HEAD
-	 * @param	string "ipv4" or "ipv6" to validate a specific ip format
-	 * @return	string
-=======
-	 * @param	string	'ipv4' or 'ipv6' to validate a specific IP format
-	 * @return	bool
->>>>>>> upstream/develop
->>>>>>> local
 	 */
 	public function valid_ip($ip, $which = '')
 	{
@@ -1530,11 +1432,7 @@ class CI_Form_validation {
 	 */
 	public function valid_base64($str)
 	{
-<<<<<<< develop
-		return ! preg_match('/[^a-zA-Z0-9\/\+=]/', $str);
-=======
 		return (base64_encode(base64_decode($str)) === $str);
->>>>>>> local
 	}
 
 	// --------------------------------------------------------------------

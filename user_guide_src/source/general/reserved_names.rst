@@ -25,31 +25,21 @@ your controller any of these:
 Functions
 ---------
 
-<<<<<<< develop
--  :php:func:`is_really_writable()`
--  ``load_class()``
-=======
 -  :php:func:`is_php()`
 -  :php:func:`is_really_writable()`
 -  ``load_class()``
 -  ``is_loaded()``
->>>>>>> local
 -  ``get_config()``
 -  :php:func:`config_item()`
 -  :php:func:`show_error()`
 -  :php:func:`show_404()`
 -  :php:func:`log_message()`
-<<<<<<< develop
--  :php:func:`get_mimes()`
--  :php:func:`html_escape()`
-=======
 -  :php:func:`set_status_header()`
 -  :php:func:`get_mimes()`
 -  :php:func:`html_escape()`
 -  :php:func:`remove_invisible_characters()`
 -  :php:func:`is_https()`
 -  :php:func:`function_usable()`
->>>>>>> local
 -  :php:func:`get_instance()`
 -  ``_exception_handler()``
 -  ``_stringify_attributes()``
@@ -82,9 +72,6 @@ Constants
 -  FOPEN_WRITE_CREATE
 -  FOPEN_READ_WRITE_CREATE
 -  FOPEN_WRITE_CREATE_STRICT
-<<<<<<< develop
--  FOPEN_READ_WRITE_CREATE_STRICT
-=======
 -  FOPEN_READ_WRITE_CREATE_STRICT
 -  EXIT_SUCCESS
 -  EXIT_ERROR
@@ -96,4 +83,3 @@ Constants
 -  EXIT_DATABASE
 -  EXIT__AUTO_MIN
 -  EXIT__AUTO_MAX
->>>>>>> local

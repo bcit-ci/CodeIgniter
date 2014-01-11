@@ -95,21 +95,6 @@ class CI_Cache extends CI_Driver_Library {
 		);
 
 		foreach ($default_config as $key)
-<<<<<<< develop
-		{
-			if (isset($config[$key]))
-			{
-				$param = '_'.$key;
-
-				$this->{$param} = $config[$key];
-			}
-		}
-
-		isset($config['key_prefix']) && $this->key_prefix = $config['key_prefix'];
-
-		if (isset($config['backup']) && in_array('cache_'.$config['backup'], $this->valid_drivers))
-		{
-=======
 		{
 			if (isset($config[$key]))
 			{
@@ -123,7 +108,6 @@ class CI_Cache extends CI_Driver_Library {
 
 		if (isset($config['backup']) && in_array($config['backup'], $this->valid_drivers))
 		{
->>>>>>> local
 			$this->_backup_driver = $config['backup'];
 		}
 
@@ -139,10 +123,7 @@ class CI_Cache extends CI_Driver_Library {
 			else
 			{
 				// Backup is supported. Set it to primary.
-<<<<<<< develop
-=======
 				log_message('debug', 'Cache adapter "'.$this->_adapter.'" is unavailable. Falling back to "'.$this->_backup_driver.'" backup adapter.');
->>>>>>> local
 				$this->_adapter = $this->_backup_driver;
 			}
 		}
@@ -169,25 +150,15 @@ class CI_Cache extends CI_Driver_Library {
 	/**
 	 * Cache Save
 	 *
-<<<<<<< develop
-	 * @param	string	$id		Cache ID
-	 * @param	mixed	$data		Data to store
-	 * @param	int	$ttl = 60	Cache TTL (in seconds)
-=======
 	 * @param	string	$id	Cache ID
 	 * @param	mixed	$data	Data to store
 	 * @param	int	$ttl	Cache TTL (in seconds)
 	 * @param	bool	$raw	Whether to store the raw value
->>>>>>> local
 	 * @return	bool	TRUE on success, FALSE on failure
 	 */
 	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
-<<<<<<< develop
-		return $this->{$this->_adapter}->save($this->key_prefix.$id, $data, $ttl);
-=======
 		return $this->{$this->_adapter}->save($this->key_prefix.$id, $data, $ttl, $raw);
->>>>>>> local
 	}
 
 	// ------------------------------------------------------------------------
@@ -208,13 +179,9 @@ class CI_Cache extends CI_Driver_Library {
 	/**
 	 * Increment a raw value
 	 *
-<<<<<<< develop
-	 * @return	bool	TRUE on success, FALSE on failure
-=======
 	 * @param	string	$id	Cache ID
 	 * @param	int	$offset	Step/value to add
 	 * @return	mixed	New value on success or FALSE on failure
->>>>>>> local
 	 */
 	public function increment($id, $offset = 1)
 	{
@@ -226,14 +193,9 @@ class CI_Cache extends CI_Driver_Library {
 	/**
 	 * Decrement a raw value
 	 *
-<<<<<<< develop
-	 * @param	string	$type = 'user'	user/filehits
-	 * @return	mixed	array containing cache info on success OR FALSE on failure
-=======
 	 * @param	string	$id	Cache ID
 	 * @param	int	$offset	Step/value to reduce by
 	 * @return	mixed	New value on success or FALSE on failure
->>>>>>> local
 	 */
 	public function decrement($id, $offset = 1)
 	{
@@ -245,17 +207,10 @@ class CI_Cache extends CI_Driver_Library {
 	/**
 	 * Clean the cache
 	 *
-<<<<<<< develop
-	 * @param	string	$id	key to get cache metadata on
-	 * @return	mixed	cache item metadata
-=======
 	 * @return	bool	TRUE on success, FALSE on failure
->>>>>>> local
 	 */
 	public function clean()
 	{
-<<<<<<< develop
-=======
 		return $this->{$this->_adapter}->clean();
 	}
 
@@ -282,7 +237,6 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	public function get_metadata($id)
 	{
->>>>>>> local
 		return $this->{$this->_adapter}->get_metadata($this->key_prefix.$id);
 	}
 

@@ -60,21 +60,6 @@ define('FOPEN_WRITE_CREATE', 'ab');
 define('FOPEN_READ_WRITE_CREATE', 'a+b');
 define('FOPEN_WRITE_CREATE_STRICT', 'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT', 'x+b');
-<<<<<<< develop
-
-/*
-|--------------------------------------------------------------------------
-| Display Debug backtrace
-|--------------------------------------------------------------------------
-|
-| If set to TRUE, a backtrace will be displayed along with php errors. If
-| error_reporting is disabled, the backtrace will not display, regardless
-| of this setting
-|
-*/
-define('SHOW_DEBUG_BACKTRACE', TRUE);
-=======
->>>>>>> local
 
 /*
 |--------------------------------------------------------------------------

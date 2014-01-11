@@ -18,8 +18,6 @@ procedural interfaces that are available globally throughout the
 application. This approach permits error messages to get triggered
 without having to worry about class/function scoping.
 
-<<<<<<< develop
-=======
 CodeIgniter also returns a status code whenever a portion of the core
 calls ``exit()``. This exit status code is separate from the HTTP status
 code, and serves as a notice to other processes that may be watching of
@@ -29,7 +27,6 @@ defined in *application/config/constants.php*. While exit status codes
 are most useful in CLI settings, returning the proper code helps server
 software keep track of your scripts and the health of your application.
 
->>>>>>> local
 The following functions let you generate errors:
 
 show_error()
@@ -45,12 +42,6 @@ show_error()
 This function will display the error message supplied to it using the
 following error template::
 
-<<<<<<< develop
-	application/errors/error_general.php
-
-The optional parameter ``$status_code`` determines what HTTP status
-code should be sent with the error.
-=======
 	application/views/errors/error_general.php
 
 The optional parameter ``$status_code`` determines what HTTP status
@@ -60,7 +51,6 @@ be set to ``$status_code + EXIT__AUTO_MIN``. If that value is larger than
 ``EXIT__AUTO_MAX``, or if ``$status_code`` is 100 or higher, the exit
 status code will be set to ``EXIT_ERROR``. You can check in 
 *application/config/constants.php* for more detail.
->>>>>>> local
 
 show_404()
 ==========
@@ -74,20 +64,12 @@ show_404()
 This function will display the 404 error message supplied to it using
 the following error template::
 
-<<<<<<< develop
-	application/errors/error_404.php
-
-The function expects the string passed to it to be the file path to the
-page that isn't found. Note that CodeIgniter automatically shows 404
-messages if controllers are not found.
-=======
 	application/views/errors/error_404.php
 
 The function expects the string passed to it to be the file path to the
 page that isn't found. The exit status code will be set to ``EXIT_UNKNOWN_FILE``.
 Note that CodeIgniter automatically shows 404 messages if controllers are
 not found.
->>>>>>> local
 
 CodeIgniter automatically logs any ``show_404()`` calls. Setting the
 optional second parameter to FALSE will skip logging.
@@ -95,19 +77,11 @@ optional second parameter to FALSE will skip logging.
 log_message()
 =============
 
-<<<<<<< develop
-.. php:function:: log_message($level = 'error', $message, $php_error = FALSE)
-
-	:param	string	$level: Log level
-	:param	string	$message: Message to log
-	:param	bool	$php_error: Whether we're loggin a native PHP error message
-=======
 .. php:function:: log_message($level, $message, $php_error = FALSE)
 
 	:param	string	$level: Log level: 'error', 'debug' or 'info'
 	:param	string	$message: Message to log
 	:param	bool	$php_error: Whether we're logging a native PHP error message
->>>>>>> local
 	:returns:	void
 
 This function lets you write messages to your log files. You must supply

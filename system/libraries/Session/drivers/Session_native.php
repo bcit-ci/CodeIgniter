@@ -117,30 +117,21 @@ class CI_Session_native extends CI_Session_driver {
 		if (isset($_SESSION['last_activity']) && (($_SESSION['last_activity'] + $expire) < $now OR $_SESSION['last_activity'] > $now))
 		{
 			// Expired - destroy
-<<<<<<< develop
-=======
 			log_message('debug', 'Session: Expired');
->>>>>>> local
 			$destroy = TRUE;
 		}
 		elseif ($config['sess_match_ip'] === TRUE && isset($_SESSION['ip_address'])
 			&& $_SESSION['ip_address'] !== $this->CI->input->ip_address())
 		{
 			// IP doesn't match - destroy
-<<<<<<< develop
-=======
 			log_message('debug', 'Session: IP address mismatch');
->>>>>>> local
 			$destroy = TRUE;
 		}
 		elseif ($config['sess_match_useragent'] === TRUE && isset($_SESSION['user_agent'])
 			&& $_SESSION['user_agent'] !== trim(substr($this->CI->input->user_agent(), 0, 50)))
 		{
 			// Agent doesn't match - destroy
-<<<<<<< develop
-=======
 			log_message('debug', 'Session: User Agent string mismatch');
->>>>>>> local
 			$destroy = TRUE;
 		}
 
@@ -157,16 +148,10 @@ class CI_Session_native extends CI_Session_driver {
 			&& ($_SESSION['last_activity'] + $config['sess_time_to_update']) < $now)
 		{
 			// Changing the session ID amidst a series of AJAX calls causes problems
-<<<<<<< develop
-			if( ! $this->CI->input->is_ajax_request())
-			{
-				// Regenerate ID, but don't destroy session
-=======
 			if ( ! $this->CI->input->is_ajax_request())
 			{
 				// Regenerate ID, but don't destroy session
 				log_message('debug', 'Session: Regenerate ID');
->>>>>>> local
 				$this->sess_regenerate(FALSE);
 			}
 		}

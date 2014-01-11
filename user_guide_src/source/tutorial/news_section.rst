@@ -16,11 +16,7 @@ are the place where you retrieve, insert, and update information in your
 database or other data stores. They represent your data.
 
 Open up the application/models directory and create a new file called
-<<<<<<< develop
-news_model.php and add the following code. Make sure you've configured
-=======
 News_model.php and add the following code. Make sure you've configured
->>>>>>> local
 your database properly as described
 `here <../database/configuration.html>`_.
 
@@ -89,11 +85,7 @@ Now that the queries are written, the model should be tied to the views
 that are going to display the news items to the user. This could be done
 in our pages controller created earlier, but for the sake of clarity, a
 new "news" controller is defined. Create the new controller at
-<<<<<<< develop
-application/controllers/news.php.
-=======
 application/controllers/News.php.
->>>>>>> local
 
 ::
 
@@ -135,11 +127,7 @@ the views.
 
 	public function index()
 	{
-<<<<<<< develop
-		data['news'] = $this->news_model->get_news();
-=======
 		$data['news'] = $this->news_model->get_news();
->>>>>>> local
 		$data['title'] = 'News archive';
 
 		$this->load->view('templates/header', $data);
@@ -174,11 +162,7 @@ The news overview page is now done, but a page to display individual
 news items is still absent. The model created earlier is made in such
 way that it can easily be used for this functionality. You only need to
 add some code to the controller and create a new view. Go back to the
-<<<<<<< develop
-news controller and add the following lines to the file.
-=======
 news controller and update ``view()`` with the following:
->>>>>>> local
 
 ::
 
@@ -227,8 +211,4 @@ a slug to the view method in the news controller.
 	$route['default_controller'] = 'pages/view';
 
 Point your browser to your document root, followed by index.php/news and
-<<<<<<< develop
 watch your news page.
-=======
-watch your news page.
->>>>>>> local

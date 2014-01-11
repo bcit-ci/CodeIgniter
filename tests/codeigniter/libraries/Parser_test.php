@@ -76,15 +76,9 @@ class Parser_test extends CI_TestCase {
 			)
 		);
 
-<<<<<<< develop
-		$template = "{title}\n{powers}{invisibility}\n{flying}{/powers}";
-
-		$this->assertEquals("Super Heroes\nyes\nno", $this->parser->parse_string($template, $data, TRUE));
-=======
 		$template = "{title}\n{powers}{invisibility}\n{flying}{/powers}\nsecond:{powers} {invisibility} {flying}{/powers}";
 
 		$this->assertEquals("Super Heroes\nyes\nno\nsecond: yes no", $this->parser->parse_string($template, $data, TRUE));
->>>>>>> local
 	}
 
 	// --------------------------------------------------------------------

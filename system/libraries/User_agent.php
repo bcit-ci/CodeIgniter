@@ -282,11 +282,7 @@ class CI_User_agent {
 		{
 			foreach ($this->browsers as $key => $val)
 			{
-<<<<<<< develop
-				if (preg_match('|'.preg_quote($key).'.*?([0-9\.]+)|i', $this->agent, $match))
-=======
 				if (preg_match('|'.$key.'.*?([0-9\.]+)|i', $this->agent, $match))
->>>>>>> local
 				{
 					$this->is_browser = TRUE;
 					$this->version = $match[1];
@@ -475,13 +471,9 @@ class CI_User_agent {
 	 */
 	public function is_referral()
 	{
-<<<<<<< develop
-		if (empty($_SERVER['HTTP_REFERER']))
-=======
 		static $result;
 
 		if ( ! isset($result))
->>>>>>> local
 		{
 			if (empty($_SERVER['HTTP_REFERER']))
 			{
@@ -496,12 +488,7 @@ class CI_User_agent {
 			}
 		}
 
-<<<<<<< develop
-		$referer = parse_url($_SERVER['HTTP_REFERER']);
-		return ! (empty($referer['host']) && strpos(config_item('base_url'), $referer['host']) !== FALSE);
-=======
 		return $result;
->>>>>>> local
 	}
 
 	// --------------------------------------------------------------------
@@ -675,10 +662,7 @@ class CI_User_agent {
 		}
 	}
 
-<<<<<<< develop
-=======
 }
 
->>>>>>> local
 /* End of file User_agent.php */
 /* Location: ./system/libraries/User_agent.php */

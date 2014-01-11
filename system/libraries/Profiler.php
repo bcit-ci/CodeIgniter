@@ -264,11 +264,7 @@ class CI_Profiler {
 				foreach ($db->queries as $key => $val)
 				{
 					$time = number_format($db->query_times[$key], 4);
-<<<<<<< develop
-					$val = highlight_code($val, ENT_QUOTES);
-=======
 					$val = highlight_code($val);
->>>>>>> local
 
 					foreach ($highlight as $bold)
 					{
@@ -282,10 +278,7 @@ class CI_Profiler {
 			}
 
 			$output .= "</table>\n</fieldset>";
-<<<<<<< develop
-=======
 			$count++;
->>>>>>> local
 		}
 
 		return $output;
@@ -343,11 +336,7 @@ class CI_Profiler {
 			."\n"
 			.'<legend style="color:#009900;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_post_data')."&nbsp;&nbsp;</legend>\n";
 
-<<<<<<< develop
-		if (count($_POST) === 0)
-=======
 		if (count($_POST) === 0 && count($_FILES) === 0)
->>>>>>> local
 		{
 			$output .= '<div style="color:#009900;font-weight:normal;padding:4px 0 4px 0;">'.$this->CI->lang->line('profiler_no_post').'</div>';
 		}
@@ -362,12 +351,6 @@ class CI_Profiler {
 				$output .= '<tr><td style="width:50%;padding:5px;color:#000;background-color:#ddd;">&#36;_POST['
 					.$key.']&nbsp;&nbsp; </td><td style="width:50%;padding:5px;color:#009900;font-weight:normal;background-color:#ddd;">';
 
-<<<<<<< develop
-				$output .= '<tr><td style="width:50%;padding:5px;color:#000;background-color:#ddd;">&#36;_POST['
-					.$key.']&nbsp;&nbsp; </td><td style="width:50%;padding:5px;color:#009900;font-weight:normal;background-color:#ddd;">';
-
-=======
->>>>>>> local
 				if (is_array($val) OR is_object($val))
 				{
 					$output .= '<pre>'.htmlspecialchars(stripslashes(print_r($val, TRUE))).'</pre>';
@@ -377,8 +360,6 @@ class CI_Profiler {
 					$output .= htmlspecialchars(stripslashes($val));
 				}
 
-<<<<<<< develop
-=======
 				$output .= "</td></tr>\n";
 			}
 
@@ -394,7 +375,6 @@ class CI_Profiler {
 					$output .= '<pre>'.htmlspecialchars(stripslashes(print_r($val, TRUE))).'</pre>';
 				}
 
->>>>>>> local
 				$output .= "</td></tr>\n";
 			}
 
@@ -435,11 +415,7 @@ class CI_Profiler {
 			.'<fieldset id="ci_profiler_controller_info" style="border:1px solid #995300;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee;">'
 			."\n"
 			.'<legend style="color:#995300;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_controller_info')."&nbsp;&nbsp;</legend>\n"
-<<<<<<< develop
-			.'<div style="color:#995300;font-weight:normal;padding:4px 0 4px 0;">'.$this->CI->router->fetch_class().'/'.$this->CI->router->fetch_method()
-=======
 			.'<div style="color:#995300;font-weight:normal;padding:4px 0 4px 0;">'.$this->CI->router->class.'/'.$this->CI->router->method
->>>>>>> local
 			.'</div></fieldset>';
 	}
 
@@ -481,11 +457,7 @@ class CI_Profiler {
 			.'&nbsp;&nbsp;(<span style="cursor: pointer;" onclick="var s=document.getElementById(\'ci_profiler_httpheaders_table\').style;s.display=s.display==\'none\'?\'\':\'none\';this.innerHTML=this.innerHTML==\''.$this->CI->lang->line('profiler_section_show').'\'?\''.$this->CI->lang->line('profiler_section_hide').'\':\''.$this->CI->lang->line('profiler_section_show').'\';">'.$this->CI->lang->line('profiler_section_show')."</span>)</legend>\n\n\n"
 			.'<table style="width:100%;display:none;" id="ci_profiler_httpheaders_table">'."\n";
 
-<<<<<<< develop
-		foreach (array('HTTP_ACCEPT', 'HTTP_USER_AGENT', 'HTTP_CONNECTION', 'SERVER_PORT', 'SERVER_NAME', 'REMOTE_ADDR', 'SERVER_SOFTWARE', 'HTTP_ACCEPT_LANGUAGE', 'SCRIPT_NAME', 'REQUEST_METHOD',' HTTP_HOST', 'REMOTE_HOST', 'CONTENT_TYPE', 'SERVER_PROTOCOL', 'QUERY_STRING', 'HTTP_ACCEPT_ENCODING', 'HTTP_X_FORWARDED_FOR') as $header)
-=======
 		foreach (array('HTTP_ACCEPT', 'HTTP_USER_AGENT', 'HTTP_CONNECTION', 'SERVER_PORT', 'SERVER_NAME', 'REMOTE_ADDR', 'SERVER_SOFTWARE', 'HTTP_ACCEPT_LANGUAGE', 'SCRIPT_NAME', 'REQUEST_METHOD',' HTTP_HOST', 'REMOTE_HOST', 'CONTENT_TYPE', 'SERVER_PROTOCOL', 'QUERY_STRING', 'HTTP_ACCEPT_ENCODING', 'HTTP_X_FORWARDED_FOR', 'HTTP_DNT') as $header)
->>>>>>> local
 		{
 			$val = isset($_SERVER[$header]) ? $_SERVER[$header] : '';
 			$output .= '<tr><td style="vertical-align:top;width:50%;padding:5px;color:#900;background-color:#ddd;">'

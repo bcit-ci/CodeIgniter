@@ -44,10 +44,7 @@ class CI_Cache_redis extends CI_Driver
 	 * @var	array
 	 */
 	protected static $_default_config = array(
-<<<<<<< develop
-=======
 		'socket_type' => 'tcp',
->>>>>>> local
 		'host' => '127.0.0.1',
 		'password' => NULL,
 		'port' => 6379,
@@ -66,11 +63,7 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Get cache
 	 *
-<<<<<<< develop
-	 * @param	string	Cache key identifier
-=======
 	 * @param	string	Cache ID
->>>>>>> local
 	 * @return	mixed
 	 */
 	public function get($key)
@@ -83,18 +76,6 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Save cache
 	 *
-<<<<<<< develop
-	 * @param	string	Cache key identifier
-	 * @param	mixed	Data to save
-	 * @param	int	Time to live
-	 * @return	bool
-	 */
-	public function save($key, $value, $ttl = NULL)
-	{
-		return ($ttl)
-			? $this->_redis->setex($key, $ttl, $value)
-			: $this->_redis->set($key, $value);
-=======
 	 * @param	string	$id	Cache ID
 	 * @param	mixed	$data	Data to save
 	 * @param	int	$ttl	Time to live in seconds
@@ -106,7 +87,6 @@ class CI_Cache_redis extends CI_Driver
 		return ($ttl)
 			? $this->_redis->setex($id, $ttl, $data)
 			: $this->_redis->set($id, $data);
->>>>>>> local
 	}
 
 	// ------------------------------------------------------------------------
@@ -125,8 +105,6 @@ class CI_Cache_redis extends CI_Driver
 	// ------------------------------------------------------------------------
 
 	/**
-<<<<<<< develop
-=======
 	 * Increment a raw value
 	 *
 	 * @param	string	$id	Cache ID
@@ -159,7 +137,6 @@ class CI_Cache_redis extends CI_Driver
 	// ------------------------------------------------------------------------
 
 	/**
->>>>>>> local
 	 * Clean cache
 	 *
 	 * @return	bool
@@ -220,20 +197,11 @@ class CI_Cache_redis extends CI_Driver
 	{
 		if (extension_loaded('redis'))
 		{
-<<<<<<< develop
-			$this->_setup_redis();
-			return TRUE;
-		}
-		else
-		{
-			log_message('error', 'The Redis extension must be loaded to use Redis cache.');
-=======
 			return $this->_setup_redis();
 		}
 		else
 		{
 			log_message('debug', 'The Redis extension must be loaded to use Redis cache.');
->>>>>>> local
 			return FALSE;
 		}
 	}
@@ -265,13 +233,6 @@ class CI_Cache_redis extends CI_Driver
 
 		try
 		{
-<<<<<<< develop
-			$this->_redis->connect($config['host'], $config['port'], $config['timeout']);
-		}
-		catch (RedisException $e)
-		{
-			show_error('Redis connection refused. ' . $e->getMessage());
-=======
 			if ($config['socket_type'] === 'unix')
 			{
 				$success = $this->_redis->connect($config['socket']);
@@ -291,18 +252,14 @@ class CI_Cache_redis extends CI_Driver
 		{
 			log_message('debug', 'Cache: Redis connection refused ('.$e->getMessage().')');
 			return FALSE;
->>>>>>> local
 		}
 
 		if (isset($config['password']))
 		{
 			$this->_redis->auth($config['password']);
 		}
-<<<<<<< develop
-=======
 
 		return TRUE;
->>>>>>> local
 	}
 
 	// ------------------------------------------------------------------------

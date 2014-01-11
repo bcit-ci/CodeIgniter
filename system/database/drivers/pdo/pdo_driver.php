@@ -58,13 +58,6 @@ class CI_DB_pdo_driver extends CI_DB {
 	public $dbdriver = 'pdo';
 
 	/**
-	 * Transaction enabled flag
-	 *
-	 * @var	bool
-	 */
-	public $trans_enabled = FALSE;
-
-	/**
 	 * PDO Options
 	 *
 	 * @var	array
@@ -85,7 +78,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		parent::__construct($params);
 
-		if (preg_match('/([^;]+):/', $this->dsn, $match) && count($match) === 2)
+		if (preg_match('/([^:]+):/', $this->dsn, $match) && count($match) === 2)
 		{
 			// If there is a minimum valid dsn string pattern found, we're done
 			// This is for general PDO users, who tend to have a full DSN string.
@@ -93,7 +86,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			return;
 		}
 		// Legacy support for DSN specified in the hostname field
-		elseif (preg_match('/([^;]+):/', $this->hostname, $match) && count($match) === 2)
+		elseif (preg_match('/([^:]+):/', $this->hostname, $match) && count($match) === 2)
 		{
 			$this->dsn = $this->hostname;
 			$this->hostname = NULL;

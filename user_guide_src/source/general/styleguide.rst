@@ -3,15 +3,10 @@ PHP Style Guide
 ###############
 
 
-<<<<<<< develop
-The following page describes the use of coding rules adhered to when
-developing CodeIgniter.
-=======
 The following page describes the coding styles adhered to when
 contributing to the development of CodeIgniter. There is no requirement
 to use these styles in your own CodeIgniter application, though they
 are recommended.
->>>>>>> local
 
 .. contents:: Table of Contents
 
@@ -76,11 +71,6 @@ identify a file as being complete and not truncated.
 
 	echo "Here's my code!";
 
-<<<<<<< develop
-	/* End of file myfile.php */
-	/* Location: ./system/modules/mymodule/myfile.php */
-
-=======
 	/* End of file Myfile.php */
 	/* Location: ./system/modules/mymodule/myfile.php */
 
@@ -117,19 +107,11 @@ Furthermore, class file names should match the name of the class itself.
 For example, if you have a class named `Myclass`, then its filename must
 be **Myclass.php**.
 
->>>>>>> local
 Class and Method Naming
 =======================
 
 Class names should always start with an uppercase letter. Multiple words
-<<<<<<< develop
-should be separated with an underscore, and not CamelCased. All other
-class methods should be entirely lowercased and named to clearly
-indicate their function, preferably including a verb. Try to avoid
-overly long and verbose names.
-=======
 should be separated with an underscore, and not CamelCased.
->>>>>>> local
 
 **INCORRECT**::
 
@@ -150,14 +132,10 @@ should be separated with an underscore, and not CamelCased.
 		}
 	}
 
-<<<<<<< develop
-Examples of improper and proper method naming:
-=======
 Class methods should be entirely lowercased and named to clearly
 indicate their function, preferably including a verb. Try to avoid
 overly long and verbose names. Multiple words should be separated
 with an underscore.
->>>>>>> local
 
 **INCORRECT**::
 
@@ -174,13 +152,8 @@ with an underscore.
 Variable Names
 ==============
 
-<<<<<<< develop
-The guidelines for variable naming is very similar to that used for
-class methods. Namely, variables should contain only lowercase letters,
-=======
 The guidelines for variable naming are very similar to those used for
 class methods. Variables should contain only lowercase letters,
->>>>>>> local
 use underscore separators, and be reasonably named to indicate their
 purpose and contents. Very short, non-word variables should only be used
 as iterators in for() loops.
@@ -304,17 +277,10 @@ uppercase.
 Logical Operators
 =================
 
-<<<<<<< develop
-Use of **\|\|** is discouraged as its clarity on some output devices is
-low (looking like the number 11 for instance). **&&** is preferred over
-**AND** but either are acceptable, and a space should always precede and
-follow **!**.
-=======
 Use of the ``||`` "or" comparison operator is discouraged, as its clarity
 on some output devices is low (looking like the number 11, for instance).
 ``&&`` is preferred over ``AND`` but either are acceptable, and a space should
 always precede and follow ``!``.
->>>>>>> local
 
 **INCORRECT**::
 
@@ -387,20 +353,9 @@ other numbers) become strings of digits, and boolean TRUE becomes "1"::
 Debugging Code
 ==============
 
-<<<<<<< develop
-No debugging code can be left in place for submitted add-ons unless it
-is commented out, i.e. no var_dump(), print_r(), die(), and exit()
-calls that were used while creating the add-on, unless they are
-commented out.
-
-::
-
-	// print_r($foo);
-=======
 Do not leave debugging code in your submissions, even when commented out.
 Things such as ``var_dump()``, ``print_r()``, ``die()``/``exit()`` should not be included
 in your code unless it serves a specific purpose other than debugging.
->>>>>>> local
 
 Whitespace in Files
 ===================
@@ -408,70 +363,11 @@ Whitespace in Files
 No whitespace can precede the opening PHP tag or follow the closing PHP
 tag. Output is buffered, so whitespace in your files can cause output to
 begin before CodeIgniter outputs its content, leading to errors and an
-<<<<<<< develop
-inability for CodeIgniter to send proper headers. In the examples below,
-select the text with your mouse to reveal the incorrect whitespace.
-=======
 inability for CodeIgniter to send proper headers.
->>>>>>> local
 
 Compatibility
 =============
 
-<<<<<<< develop
-Unless specifically mentioned in your add-on's documentation, all code
-must be compatible with PHP version 5.1+. Additionally, do not use PHP
-functions that require non-default libraries to be installed unless your
-code contains an alternative method when the function is not available,
-or you implicitly document that your add-on requires said PHP libraries.
-
-Class and File Names using Common Words
-=======================================
-
-When your class or filename is a common word, or might quite likely be
-identically named in another PHP script, provide a unique prefix to help
-prevent collision. Always realize that your end users may be running
-other add-ons or third party PHP scripts. Choose a prefix that is unique
-to your identity as a developer or company.
-
-**INCORRECT**::
-
-	class Email		pi.email.php
-	class Xml		ext.xml.php
-	class Import	mod.import.php
-
-**CORRECT**::
-
-	class Pre_email		pi.pre_email.php
-	class Pre_xml		ext.pre_xml.php
-	class Pre_import	mod.pre_import.php
-
-Database Table Names
-====================
-
-Any tables that your add-on might use must use the 'exp\_' prefix,
-followed by a prefix uniquely identifying you as the developer or
-company, and then a short descriptive table name. You do not need to be
-concerned about the database prefix being used on the user's
-installation, as CodeIgniter's database class will automatically convert
-'exp\_' to what is actually being used.
-
-**INCORRECT**::
-
-	email_addresses		// missing both prefixes
-	pre_email_addresses	// missing exp_ prefix
-	exp_email_addresses	// missing unique prefix
-
-**CORRECT**::
-
-	exp_pre_email_addresses
-
-.. note:: Be mindful that MySQL has a limit of 64 characters for table
-	names. This should not be an issue as table names that would exceed this
-	would likely have unreasonable names. For instance, the following table
-	name exceeds this limitation by one character. Silly, no?
-	**exp_pre_email_addresses_of_registered_users_in_seattle_washington**
-=======
 CodeIgniter requires a minimum PHP version of 5.2.4. Your code must either
 be compatible with this minimum requirement, provide a suitable fallback,
 or be an optional feature that dies quietly without affecting a user's
@@ -480,22 +376,13 @@ application.
 Additionally, do not use PHP functions that require non-default libraries
 to be installed unless your code contains an alternative method when the
 function is not available.
->>>>>>> local
 
 One File per Class
 ==================
 
-<<<<<<< develop
-Use separate files for each class your add-on uses, unless the classes
-are *closely related*. An example of CodeIgniter files that contains
-multiple classes is the Database class file, which contains both the DB
-class and the DB_Cache class, and the Magpie plugin, which contains
-both the Magpie and Snoopy classes.
-=======
 Use separate files for each class, unless the classes are *closely related*.
 An example of a CodeIgniter file that contains multiple classes is the 
 Xmlrpc library file.
->>>>>>> local
 
 Whitespace
 ==========
@@ -632,13 +519,8 @@ functions and increase readability.
 Localized Text
 ==============
 
-<<<<<<< develop
-Any text that is output in the control panel should use language
-variables in your lang file to allow localization.
-=======
 CodeIgniter libraries should take advantage of corresponding language files
 whenever possible.
->>>>>>> local
 
 **INCORRECT**::
 
@@ -651,11 +533,7 @@ whenever possible.
 Private Methods and Variables
 =============================
 
-<<<<<<< develop
-Methods and variables that are only accessed internally by your class,
-=======
 Methods and variables that are only accessed internally,
->>>>>>> local
 such as utility and helper functions that your public methods use for
 code abstraction, should be prefixed with an underscore.
 
@@ -672,11 +550,7 @@ hidden to meet this requirement. For instance, never access a variable
 that you did not set yourself (such as ``$_POST`` array keys) without first
 checking to see that it ``isset()``.
 
-<<<<<<< develop
-Make sure that while developing your add-on, error reporting is enabled
-=======
 Make sure that your dev environment has error reporting enabled
->>>>>>> local
 for ALL users, and that display_errors is enabled in the PHP
 environment. You can check this setting with::
 

@@ -18,11 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
-<<<<<<< develop
- * @copyright   Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
-=======
  * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
->>>>>>> local
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -348,11 +344,7 @@ class CI_DB_oci8_driver extends CI_DB {
 				$have_cursor = TRUE;
 			}
 		}
-<<<<<<< develop
-		$sql = trim($sql, ',') . '); END;';
-=======
 		$sql = trim($sql, ',').'); END;';
->>>>>>> local
 
 		$this->stmt_id = FALSE;
 		$this->_set_stmt_id($sql);

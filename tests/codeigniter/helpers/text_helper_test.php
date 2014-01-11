@@ -106,30 +106,19 @@ class Text_helper_test extends CI_TestCase {
 	public function test_highlight_phrase()
 	{
 		$strs = array(
-<<<<<<< develop
-			'this is a phrase'			=> '<strong>this is</strong> a phrase',
-			'this is another'			=> '<strong>this is</strong> another',
-			'Gimme a test, Sally'		=> 'Gimme a test, Sally',
-			'Or tell me what this is'	=> 'Or tell me what <strong>this is</strong>',
-			''							=> ''
-=======
 			'this is a phrase'          => '<mark>this is</mark> a phrase',
 			'this is another'           => '<mark>this is</mark> another',
 			'Gimme a test, Sally'       => 'Gimme a test, Sally',
 			'Or tell me what this is'   => 'Or tell me what <mark>this is</mark>',
 			''                          => ''
->>>>>>> local
 		);
 
 		foreach ($strs as $str => $expect)
 		{
 			$this->assertEquals($expect, highlight_phrase($str, 'this is'));
 		}
-<<<<<<< develop
-=======
 
 		$this->assertEquals('<strong>this is</strong> a strong test', highlight_phrase('this is a strong test', 'this is', '<strong>', '</strong>'));
->>>>>>> local
 	}
 
 	// ------------------------------------------------------------------------

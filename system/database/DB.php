@@ -153,11 +153,7 @@ function &DB($params = '', $query_builder_override = NULL)
 	if ( ! isset($query_builder) OR $query_builder === TRUE)
 	{
 		require_once(BASEPATH.'database/DB_query_builder.php');
-<<<<<<< develop
-		if ( ! class_exists('CI_DB'))
-=======
 		if ( ! class_exists('CI_DB', FALSE))
->>>>>>> local
 		{
 			/**
 			 * CI_DB
@@ -170,11 +166,7 @@ function &DB($params = '', $query_builder_override = NULL)
 			class CI_DB extends CI_DB_query_builder { }
 		}
 	}
-<<<<<<< develop
-	elseif ( ! class_exists('CI_DB'))
-=======
 	elseif ( ! class_exists('CI_DB', FALSE))
->>>>>>> local
 	{
 		/**
 	 	 * @ignore
@@ -198,7 +190,6 @@ function &DB($params = '', $query_builder_override = NULL)
 
 	// Check for a subdriver
 	if ( ! empty($DB->subdriver))
-<<<<<<< develop
 	{
 		$driver_file = BASEPATH.'database/drivers/'.$DB->dbdriver.'/subdrivers/'.$DB->dbdriver.'_'.$DB->subdriver.'_driver.php';
 
@@ -211,24 +202,6 @@ function &DB($params = '', $query_builder_override = NULL)
 	}
 
 	if ($DB->autoinit === TRUE)
-=======
->>>>>>> local
-	{
-		$driver_file = BASEPATH.'database/drivers/'.$DB->dbdriver.'/subdrivers/'.$DB->dbdriver.'_'.$DB->subdriver.'_driver.php';
-
-		if (file_exists($driver_file))
-		{
-			require_once($driver_file);
-			$driver = 'CI_DB_'.$DB->dbdriver.'_'.$DB->subdriver.'_driver';
-			$DB = new $driver($params);
-		}
-	}
-
-<<<<<<< develop
-	if ( ! empty($params['stricton']))
-=======
-	if ($DB->autoinit === TRUE)
->>>>>>> local
 	{
 		$DB->initialize();
 	}

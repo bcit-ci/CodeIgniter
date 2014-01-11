@@ -109,11 +109,7 @@ if ( ! function_exists('_list'))
 	 * @param	int
 	 * @return	string
 	 */
-<<<<<<< develop
-	function _list($type = 'ul', $list, $attributes = '', $depth = 0)
-=======
 	function _list($type = 'ul', $list = array(), $attributes = '', $depth = 0)
->>>>>>> local
 	{
 		// If an array wasn't submitted there's nothing to do...
 		if ( ! is_array($list))

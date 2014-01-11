@@ -64,7 +64,6 @@ class CI_FTP {
 	 * @var	int
 	 */
 	public $port		= 21;
-<<<<<<< develop
 
 	/**
 	 * Passive mode flag
@@ -94,37 +93,6 @@ class CI_FTP {
 	/**
 	 * Constructor
 	 *
-=======
-
-	/**
-	 * Passive mode flag
-	 *
-	 * @var	bool
-	 */
-	public $passive		= TRUE;
-
-	/**
-	 * Debug flag
-	 *
-	 * Specifies whether to display error messages.
-	 *
-	 * @var	bool
-	 */
-	public $debug		= FALSE;
-
-	/**
-	 * Connection
-	 *
-	 * @var	resource
-	 */
-	public $conn_id		= FALSE;
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Constructor
-	 *
->>>>>>> local
 	 * @param	array	$config
 	 * @return	void
 	 */
@@ -246,21 +214,12 @@ class CI_FTP {
 	 * Internally, this parameter is only used by the "mirror" function below.
 	 *
 	 * @param	string	$path
-<<<<<<< develop
-	 * @param	bool	$supress_debug
-	 * @return	bool
-	 */
-	public function changedir($path = '', $supress_debug = FALSE)
-	{
-		if ($path === '' OR ! $this->_is_conn())
-=======
 	 * @param	bool	$suppress_debug
 	 * @return	bool
 	 */
 	public function changedir($path, $suppress_debug = FALSE)
 	{
 		if ( ! $this->_is_conn())
->>>>>>> local
 		{
 			return FALSE;
 		}
@@ -269,11 +228,7 @@ class CI_FTP {
 
 		if ($result === FALSE)
 		{
-<<<<<<< develop
-			if ($this->debug === TRUE && $supress_debug === FALSE)
-=======
 			if ($this->debug === TRUE && $suppress_debug === FALSE)
->>>>>>> local
 			{
 				$this->_error('ftp_unable_to_changedir');
 			}
@@ -292,11 +247,7 @@ class CI_FTP {
 	 * @param	int	$permissions
 	 * @return	bool
 	 */
-<<<<<<< develop
-	public function mkdir($path = '', $permissions = NULL)
-=======
 	public function mkdir($path, $permissions = NULL)
->>>>>>> local
 	{
 		if ($path === '' OR ! $this->_is_conn())
 		{
@@ -441,11 +392,7 @@ class CI_FTP {
 		{
 			if ($this->debug === TRUE)
 			{
-<<<<<<< develop
-				$this->_error('ftp_unable_to_' . ($move === FALSE ? 'rename' : 'move'));
-=======
 				$this->_error('ftp_unable_to_'.($move === FALSE ? 'rename' : 'move'));
->>>>>>> local
 			}
 			return FALSE;
 		}

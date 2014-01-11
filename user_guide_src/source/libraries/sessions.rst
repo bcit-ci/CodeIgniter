@@ -252,11 +252,7 @@ Session Preferences
 ===================
 
 You'll find the following Session related preferences in your
-<<<<<<< develop
-application/config/config.php file:
-=======
 *application/config/config.php* file:
->>>>>>> local
 
 =========================== =============== =========================== ==========================================================================
 Preference                  Default         Options                     Description
@@ -275,12 +271,8 @@ Preference                  Default         Options                     Descript
                                                                         table before enabling this option (Cookie driver only).
 **sess_table_name**         ci_sessions     Any valid SQL table name    The name of the session database table (Cookie driver only).
 **sess_time_to_update**     300             Time in seconds             This options controls how often the session class will regenerate itself
-<<<<<<< develop
-                                                                        and create a new session id.
-=======
                                                                         and create a new session ID. Setting it to 0 will disable session
                                                                         ID regeneartion.
->>>>>>> local
 **sess_match_ip**           FALSE           TRUE/FALSE (boolean)        Whether to match the user's IP address when reading the session data.
                                                                         Note that some ISPs dynamically changes the IP, so if you want a
                                                                         non-expiring session you will likely set this to FALSE.

@@ -52,8 +52,6 @@ class CI_Hooks {
 	 * @var	array
 	 */
 	public $hooks =	array();
-<<<<<<< develop
-=======
 
 	/**
 	 * Array with class objects to use hooks methods
@@ -61,7 +59,6 @@ class CI_Hooks {
 	 * @var array
 	 */
 	protected $_objects = array();
->>>>>>> local
 
 	/**
 	 * In progress flag
@@ -194,11 +191,7 @@ class CI_Hooks {
 		$function	= empty($data['function']) ? FALSE : $data['function'];
 		$params		= isset($data['params']) ? $data['params'] : '';
 
-<<<<<<< develop
-		if ($class === FALSE && $function === FALSE)
-=======
 		if (empty($function))
->>>>>>> local
 		{
 			return FALSE;
 		}
@@ -230,15 +223,10 @@ class CI_Hooks {
 					return $this->_in_progress = FALSE;
 				}
 
-<<<<<<< develop
-			$HOOK = new $class();
-			$HOOK->$function($params);
-=======
 				// Store the object and execute the method
 				$this->_objects[$class] = new $class();
 				$this->_objects[$class]->$function($params);
 			}
->>>>>>> local
 		}
 		else
 		{

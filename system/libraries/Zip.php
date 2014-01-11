@@ -56,7 +56,6 @@ class CI_Zip {
 	 * @var string
 	 */
 	public $directory	= '';
-<<<<<<< develop
 
 	/**
 	 * Number of files/folder in zip file
@@ -87,38 +86,6 @@ class CI_Zip {
 	public $now;
 
 	/**
-=======
-
-	/**
-	 * Number of files/folder in zip file
-	 *
-	 * @var int
-	 */
-	public $entries		= 0;
-
-	/**
-	 * Number of files in zip
-	 *
-	 * @var int
-	 */
-	public $file_num	= 0;
-
-	/**
-	 * relative offset of local header
-	 *
-	 * @var int
-	 */
-	public $offset		= 0;
-
-	/**
-	 * Reference to time at init
-	 *
-	 * @var int
-	 */
-	public $now;
-
-	/**
->>>>>>> local
 	 * Initialize zip compression class
 	 *
 	 * @return	void
@@ -136,20 +103,12 @@ class CI_Zip {
 	 *
 	 * Lets you add a virtual directory into which you can place files.
 	 *
-<<<<<<< develop
-	 * @param	mixed	the directory name. Can be string or array
-=======
 	 * @param	mixed	$directory	the directory name. Can be string or array
->>>>>>> local
 	 * @return	void
 	 */
 	public function add_dir($directory)
 	{
-<<<<<<< develop
-		foreach ( (array) $directory as $dir)
-=======
 		foreach ((array) $directory as $dir)
->>>>>>> local
 		{
 			if ( ! preg_match('|.+/$|', $dir))
 			{
@@ -168,11 +127,7 @@ class CI_Zip {
 	 *
 	 * If this is a newly created file/dir, we will set the time to 'now'
 	 *
-<<<<<<< develop
-	 * @param	string	path to file
-=======
 	 * @param	string	$dir	path to file
->>>>>>> local
 	 * @return	array	filemtime/filemdate
 	 */
 	protected function _get_mod_time($dir)
@@ -191,15 +146,9 @@ class CI_Zip {
 	/**
 	 * Add Directory
 	 *
-<<<<<<< develop
-	 * @param	string	the directory name
-	 * @param	int
-	 * @param	int
-=======
 	 * @param	string	$dir	the directory name
 	 * @param	int	$file_mtime
 	 * @param	int	$file_mdate
->>>>>>> local
 	 * @return	void
 	 */
 	protected function _add_dir($dir, $file_mtime, $file_mdate)
@@ -250,13 +199,8 @@ class CI_Zip {
 	 * in the filename it will be placed within a directory. Make
 	 * sure you use add_dir() first to create the folder.
 	 *
-<<<<<<< develop
-	 * @param	mixed
-	 * @param	string
-=======
 	 * @param	mixed	$filepath	A single filepath or an array of file => data pairs
 	 * @param	string	$data		Single file contents
->>>>>>> local
 	 * @return	void
 	 */
 	public function add_data($filepath, $data = NULL)
@@ -281,17 +225,10 @@ class CI_Zip {
 	/**
 	 * Add Data to Zip
 	 *
-<<<<<<< develop
-	 * @param	string	the file name/path
-	 * @param	string	the data to be encoded
-	 * @param	int
-	 * @param	int
-=======
 	 * @param	string	$filepath	the file name/path
 	 * @param	string	$data	the data to be encoded
 	 * @param	int	$file_mtime
 	 * @param	int	$file_mdate
->>>>>>> local
 	 * @return	void
 	 */
 	protected function _add_data($filepath, $data, $file_mtime, $file_mdate)
@@ -341,33 +278,14 @@ class CI_Zip {
 	/**
 	 * Read the contents of a file and add it to the zip
 	 *
-<<<<<<< develop
-	 * @param	string
-	 * @param	bool
-	 * @return	bool
-	 */
-	public function read_file($path, $preserve_filepath = FALSE)
-=======
 	 * @param	string	$path
 	 * @param	bool	$archive_filepath
 	 * @return	bool
 	 */
 	public function read_file($path, $archive_filepath = FALSE)
->>>>>>> local
 	{
 		if (file_exists($path) && FALSE !== ($data = file_get_contents($path)))
 		{
-<<<<<<< develop
-			return FALSE;
-		}
-
-		if (FALSE !== ($data = file_get_contents($path)))
-		{
-			$name = str_replace('\\', '/', $path);
-			if ($preserve_filepath === FALSE)
-			{
-				$name = preg_replace('|.*/(.+)|', '\\1', $name);
-=======
 			if (is_string($archive_filepath))
 			{
 				$name = str_replace('\\', '/', $archive_filepath);
@@ -380,7 +298,6 @@ class CI_Zip {
 				{
 					$name = preg_replace('|.*/(.+)|', '\\1', $name);
 				}
->>>>>>> local
 			}
 
 			$this->add_data($name, $data);
@@ -399,15 +316,9 @@ class CI_Zip {
 	 * sub-folders) and creates a zip based on it. Whatever directory structure
 	 * is in the original file path will be recreated in the zip file.
 	 *
-<<<<<<< develop
-	 * @param	string	path to source
-	 * @param	bool
-	 * @param	bool
-=======
 	 * @param	string	$path	path to source directory
 	 * @param	bool	$preserve_filepath
 	 * @param	string	$root_path
->>>>>>> local
 	 * @return	bool
 	 */
 	public function read_dir($path, $preserve_filepath = TRUE, $root_path = NULL)
@@ -481,11 +392,7 @@ class CI_Zip {
 	 *
 	 * Lets you write a file
 	 *
-<<<<<<< develop
-	 * @param	string	the file name
-=======
 	 * @param	string	$filepath	the file name
->>>>>>> local
 	 * @return	bool
 	 */
 	public function archive($filepath)
@@ -508,11 +415,7 @@ class CI_Zip {
 	/**
 	 * Download
 	 *
-<<<<<<< develop
-	 * @param	string	the file name
-=======
 	 * @param	string	$filename	the file name
->>>>>>> local
 	 * @return	void
 	 */
 	public function download($filename = 'backup.zip')
@@ -522,12 +425,7 @@ class CI_Zip {
 			$filename .= '.zip';
 		}
 
-<<<<<<< develop
-		$CI =& get_instance();
-		$CI->load->helper('download');
-=======
 		get_instance()->load->helper('download');
->>>>>>> local
 		$get_zip = $this->get_zip();
 		$zip_content =& $get_zip;
 

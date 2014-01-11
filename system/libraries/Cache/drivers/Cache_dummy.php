@@ -58,10 +58,7 @@ class CI_Cache_dummy extends CI_Driver {
 	 * @param	string	Unique Key
 	 * @param	mixed	Data to store
 	 * @param	int	Length of time (in seconds) to cache the data
-<<<<<<< develop
-=======
 	 * @param	bool	Whether to store the raw value
->>>>>>> local
 	 * @return	bool	TRUE, Simulating success
 	 */
 	public function save($id, $data, $ttl = 60, $raw = FALSE)

@@ -61,22 +61,14 @@ switch (ENVIRONMENT)
 
 	case 'testing':
 	case 'production':
-<<<<<<< develop
-		error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_STRICT);
-=======
 		error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
->>>>>>> local
 		ini_set('display_errors', 0);
 	break;
 
 	default:
 		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
-<<<<<<< develop
-		exit('The application environment is not set correctly.');
-=======
 		echo 'The application environment is not set correctly.';
 		exit(1); // EXIT_* constants not yet defined; 1 is EXIT_ERROR, a generic error.
->>>>>>> local
 }
 
 /*
@@ -199,12 +191,8 @@ switch (ENVIRONMENT)
 	if ( ! is_dir($system_path))
 	{
 		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
-<<<<<<< develop
-		exit('Your system folder path does not appear to be set correctly. Please open the following file and correct this: '.pathinfo(__FILE__, PATHINFO_BASENAME));
-=======
 		echo 'Your system folder path does not appear to be set correctly. Please open the following file and correct this: '.pathinfo(__FILE__, PATHINFO_BASENAME);
 		exit(3); // EXIT_* constants not yet defined; 3 is EXIT_CONFIG.
->>>>>>> local
 	}
 
 /*
@@ -232,11 +220,7 @@ switch (ENVIRONMENT)
 			$application_folder = $_temp;
 		}
 
-<<<<<<< develop
-		define('APPPATH', $application_folder.'/');
-=======
 		define('APPPATH', $application_folder.DIRECTORY_SEPARATOR);
->>>>>>> local
 	}
 	else
 	{
@@ -260,12 +244,8 @@ switch (ENVIRONMENT)
 		elseif ( ! is_dir(APPPATH.'views'.DIRECTORY_SEPARATOR))
 		{
 			header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
-<<<<<<< develop
-			exit('Your application folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF);
-=======
 			echo 'Your view folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF;
 			exit(3); // EXIT_* constants not yet defined; 3 is EXIT_CONFIG.
->>>>>>> local
 		}
 		else
 		{
@@ -282,36 +262,6 @@ switch (ENVIRONMENT)
 		$view_folder = rtrim($view_folder, '/\\').DIRECTORY_SEPARATOR;
 	}
 
-<<<<<<< develop
-	// The path to the "views" folder
-	if ( ! is_dir($view_folder))
-	{
-		if ( ! empty($view_folder) && is_dir(APPPATH.$view_folder.'/'))
-		{
-			$view_folder = APPPATH.$view_folder;
-		}
-		elseif ( ! is_dir(APPPATH.'views/'))
-		{
-			header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
-			exit('Your view folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF);
-		}
-		else
-		{
-			$view_folder = APPPATH.'views';
-		}
-	}
-
-	if (($_temp = realpath($view_folder)) !== FALSE)
-	{
-		$view_folder = realpath($view_folder).'/';
-	}
-	else
-	{
-		$view_folder = rtrim($view_folder, '/').'/';
-	}
-
-=======
->>>>>>> local
 	define('VIEWPATH', $view_folder);
 
 /*

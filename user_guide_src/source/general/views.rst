@@ -45,11 +45,7 @@ Where name is the name of your view file.
 .. note:: The .php file extension does not need to be specified
 	unless you use something other than .php.
 
-<<<<<<< develop
-Now, open the controller file you made earlier called blog.php, and
-=======
 Now, open the controller file you made earlier called Blog.php, and
->>>>>>> local
 replace the echo statement with the view loading method::
 
 	<?php

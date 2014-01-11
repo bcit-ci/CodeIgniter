@@ -105,12 +105,7 @@ if ( ! function_exists('strip_image_tags'))
 	 */
 	function strip_image_tags($str)
 	{
-<<<<<<< develop
-		$CI =& get_instance();
-		return $CI->security->strip_image_tags($str);
-=======
 		return get_instance()->security->strip_image_tags($str);
->>>>>>> local
 	}
 }
 

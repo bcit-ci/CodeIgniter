@@ -91,11 +91,7 @@ class CI_Exceptions {
 	public function log_exception($severity, $message, $filepath, $line)
 	{
 		$severity = isset($this->levels[$severity]) ? $this->levels[$severity] : $severity;
-<<<<<<< develop
-		log_message('error', 'Severity: '.$severity.'  --> '.$message. ' '.$filepath.' '.$line, TRUE);
-=======
 		log_message('error', 'Severity: '.$severity.' --> '.$message.' '.$filepath.' '.$line);
->>>>>>> local
 	}
 
 	// --------------------------------------------------------------------
@@ -111,10 +107,6 @@ class CI_Exceptions {
 	 */
 	public function show_404($page = '', $log_error = TRUE)
 	{
-<<<<<<< develop
-		$heading = '404 Page Not Found';
-		$message = 'The page you requested was not found.';
-=======
 		if (is_cli())
 		{
 			$heading = 'Not Found';
@@ -125,7 +117,6 @@ class CI_Exceptions {
 			$heading = '404 Page Not Found';
 			$message = 'The page you requested was not found.';
 		}
->>>>>>> local
 
 		// By default we log this, but allow a dev to skip it
 		if ($log_error)
@@ -154,11 +145,6 @@ class CI_Exceptions {
 	 */
 	public function show_error($heading, $message, $template = 'error_general', $status_code = 500)
 	{
-<<<<<<< develop
-		set_status_header($status_code);
-
-		$message = '<p>'.implode('</p><p>', is_array($message) ? $message : array($message)).'</p>';
-=======
 		if (is_cli())
 		{
 			$message = "\t".(is_array($message) ? implode("\n\t", $message) : $message);
@@ -170,18 +156,13 @@ class CI_Exceptions {
 			$message = '<p>'.(is_array($message) ? implode('</p><p>', $message) : $message).'</p>';
 			$template = 'html'.DIRECTORY_SEPARATOR.$template;
 		}
->>>>>>> local
 
 		if (ob_get_level() > $this->ob_level + 1)
 		{
 			ob_end_flush();
 		}
 		ob_start();
-<<<<<<< develop
-		include(VIEWPATH.'errors/'.$template.'.php');
-=======
 		include(VIEWPATH.'errors'.DIRECTORY_SEPARATOR.$template.'.php');
->>>>>>> local
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		return $buffer;
@@ -201,10 +182,6 @@ class CI_Exceptions {
 	public function show_php_error($severity, $message, $filepath, $line)
 	{
 		$severity = isset($this->levels[$severity]) ? $this->levels[$severity] : $severity;
-<<<<<<< develop
-		$filepath = str_replace('\\', '/', $filepath);
-=======
->>>>>>> local
 
 		// For safety reasons we don't show the full file path in non-CLI requests
 		if ( ! is_cli())
@@ -228,11 +205,7 @@ class CI_Exceptions {
 			ob_end_flush();
 		}
 		ob_start();
-<<<<<<< develop
-		include(VIEWPATH.'errors/error_php.php');
-=======
 		include(VIEWPATH.'errors'.DIRECTORY_SEPARATOR.$template.'.php');
->>>>>>> local
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		echo $buffer;

@@ -24,30 +24,18 @@ class Config_test extends CI_TestCase {
 		$this->assertEquals($this->cfg['base_url'], $this->config->item('base_url'));
 
 		// Bad Config value
-<<<<<<< develop
-		$this->assertFalse($this->config->item('no_good_item'));
-
-		// Index
-		$this->assertFalse($this->config->item('no_good_item', 'bad_index'));
-		$this->assertFalse($this->config->item('no_good_item', 'default'));
-=======
 		$this->assertNull($this->config->item('no_good_item'));
 
 		// Index
 		$this->assertNull($this->config->item('no_good_item', 'bad_index'));
 		$this->assertNull($this->config->item('no_good_item', 'default'));
->>>>>>> local
 	}
 
 	// --------------------------------------------------------------------
 
 	public function test_set_item()
 	{
-<<<<<<< develop
-		$this->assertFalse($this->config->item('not_yet_set'));
-=======
 		$this->assertNull($this->config->item('not_yet_set'));
->>>>>>> local
 
 		$this->config->set_item('not_yet_set', 'is set');
 		$this->assertEquals('is set', $this->config->item('not_yet_set'));
@@ -58,11 +46,7 @@ class Config_test extends CI_TestCase {
 	public function test_slash_item()
 	{
 		// Bad Config value
-<<<<<<< develop
-		$this->assertFalse($this->config->slash_item('no_good_item'));
-=======
 		$this->assertNull($this->config->slash_item('no_good_item'));
->>>>>>> local
 
 		$this->assertEquals($this->cfg['base_url'], $this->config->slash_item('base_url'));
 		$this->assertEquals($this->cfg['subclass_prefix'].'/', $this->config->slash_item('subclass_prefix'));

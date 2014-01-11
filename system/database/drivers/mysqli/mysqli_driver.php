@@ -63,10 +63,6 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 * adding a bit more processing to all queries.
 	 *
 	 * @var	bool
-<<<<<<< develop
-	 */
-	public $delete_hack = TRUE;
-=======
 	 */
 	public $delete_hack = TRUE;
 
@@ -87,37 +83,10 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 * @var	string
 	 */
 	protected $_escape_char = '`';
->>>>>>> local
 
 	// --------------------------------------------------------------------
 
 	/**
-<<<<<<< develop
-	 * Identifier escape character
-	 *
-	 * @var	string
-	 */
-	protected $_escape_char = '`';
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Database connection
-	 *
-	 * @param	bool	$persistent
-	 * @return	object
-	 * @todo	SSL support
-	 */
-	public function db_connect($persistent = FALSE)
-	{
-		// Persistent connection support was added in PHP 5.3.0
-		$hostname = ($persistent === TRUE && is_php('5.3'))
-			? 'p:'.$this->hostname : $this->hostname;
-		$port = empty($this->port) ? NULL : $this->port;
-		$client_flags = ($this->compress === TRUE) ? MYSQLI_CLIENT_COMPRESS : 0;
-		$mysqli = mysqli_init();
-
-=======
 	 * Database connection
 	 *
 	 * @param	bool	$persistent
@@ -138,7 +107,6 @@ class CI_DB_mysqli_driver extends CI_DB {
 			$mysqli->options(MYSQLI_INIT_COMMAND, 'SET SESSION sql_mode="STRICT_ALL_TABLES"');
 		}
 
->>>>>>> local
 		return @$mysqli->real_connect($hostname, $this->username, $this->password, $this->database, $port, NULL, $client_flags)
 			? $mysqli : FALSE;
 	}
@@ -304,14 +272,11 @@ class CI_DB_mysqli_driver extends CI_DB {
 	{
 		// When transactions are nested we only begin/commit/rollback the outermost ones
 		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
-<<<<<<< develop
-=======
 		{
 			return TRUE;
 		}
 
 		if ($this->conn_id->commit())
->>>>>>> local
 		{
 			$this->conn_id->autocommit(TRUE);
 			return TRUE;
@@ -331,14 +296,11 @@ class CI_DB_mysqli_driver extends CI_DB {
 	{
 		// When transactions are nested we only begin/commit/rollback the outermost ones
 		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
-<<<<<<< develop
-=======
 		{
 			return TRUE;
 		}
 
 		if ($this->conn_id->rollback())
->>>>>>> local
 		{
 			$this->conn_id->autocommit(TRUE);
 			return TRUE;
@@ -434,7 +396,6 @@ class CI_DB_mysqli_driver extends CI_DB {
 	public function field_data($table = '')
 	{
 		if ($table === '')
-<<<<<<< develop
 		{
 			return ($this->db_debug) ? $this->display_error('db_field_param_missing') : FALSE;
 		}
@@ -481,102 +442,9 @@ class CI_DB_mysqli_driver extends CI_DB {
 				'code' => $this->conn_id->connect_errno,
 				'message' => is_php('5.2.9') ? $this->conn_id->connect_error : mysqli_connect_error()
 			);
-=======
-		{
-			return ($this->db_debug) ? $this->display_error('db_field_param_missing') : FALSE;
-		}
-
-		if (($query = $this->query('SHOW COLUMNS FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE))) === FALSE)
-		{
-			return FALSE;
->>>>>>> local
-		}
-		$query = $query->result_object();
-
-<<<<<<< develop
-		return array('code' => $this->conn_id->errno, 'message' => $this->conn_id->error);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Update_Batch statement
-	 *
-	 * Generates a platform-specific batch update string from the supplied data
-	 *
-	 * @param	string	$table	Table name
-	 * @param	array	$values	Update data
-	 * @param	string	$index	WHERE key
-	 * @return	string
-	 */
-	protected function _update_batch($table, $values, $index)
-	{
-		$ids = array();
-		foreach ($values as $key => $val)
-		{
-			$ids[] = $val[$index];
-
-			foreach (array_keys($val) as $field)
-			{
-				if ($field !== $index)
-				{
-					$final[$field][] = 'WHEN '.$index.' = '.$val[$index].' THEN '.$val[$field];
-				}
-			}
-		}
-
-		$cases = '';
-		foreach ($final as $k => $v)
-		{
-			$cases .= $k.' = CASE '."\n"
-				.implode("\n", $v)."\n"
-				.'ELSE '.$k.' END, ';
-		}
-
-		$this->where($index.' IN('.implode(',', $ids).')', NULL, FALSE);
-
-		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2).$this->_compile_wh('qb_where');
-=======
-		$retval = array();
-		for ($i = 0, $c = count($query); $i < $c; $i++)
-		{
-			$retval[$i]			= new stdClass();
-			$retval[$i]->name		= $query[$i]->Field;
-
-			sscanf($query[$i]->Type, '%[a-z](%d)',
-				$retval[$i]->type,
-				$retval[$i]->max_length
-			);
-
-			$retval[$i]->default		= $query[$i]->Default;
-			$retval[$i]->primary_key	= (int) ($query[$i]->Key === 'PRI');
-		}
-
-		return $retval;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Error
-	 *
-	 * Returns an array containing code and message of the last
-	 * database error that has occured.
-	 *
-	 * @return	array
-	 */
-	public function error()
-	{
-		if ( ! empty($this->conn_id->connect_errno))
-		{
-			return array(
-				'code' => $this->conn_id->connect_errno,
-				'message' => is_php('5.2.9') ? $this->conn_id->connect_error : mysqli_connect_error()
-			);
 		}
 
 		return array('code' => $this->conn_id->errno, 'message' => $this->conn_id->error);
->>>>>>> local
 	}
 
 	// --------------------------------------------------------------------

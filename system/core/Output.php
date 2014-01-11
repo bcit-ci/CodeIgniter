@@ -64,7 +64,6 @@ class CI_Output {
 	 * List of mime types
 	 *
 	 * @var	array
-<<<<<<< develop
 	 */
 	public $mimes =		array();
 
@@ -87,30 +86,6 @@ class CI_Output {
 	 *
 	 * @var	bool
 	 */
-=======
-	 */
-	public $mimes =		array();
-
-	/**
-	 * Mime-type for the current page
-	 *
-	 * @var	string
-	 */
-	protected $mime_type	= 'text/html';
-
-	/**
-	 * Enable Profiler flag
-	 *
-	 * @var	bool
-	 */
-	public $enable_profiler = FALSE;
-
-	/**
-	 * zLib output compression flag
-	 *
-	 * @var	bool
-	 */
->>>>>>> local
 	protected $_zlib_oc =		FALSE;
 
 	/**
@@ -122,30 +97,18 @@ class CI_Output {
 
 	/**
 	 * Parse markers flag
-<<<<<<< develop
 	 *
 	 * Whether or not to parse variables like {elapsed_time} and {memory_usage}.
 	 *
-=======
-	 *
-	 * Whether or not to parse variables like {elapsed_time} and {memory_usage}.
-	 *
->>>>>>> local
 	 * @var	bool
 	 */
 	public $parse_exec_vars =	TRUE;
 
 	/**
 	 * Class constructor
-<<<<<<< develop
 	 *
 	 * Determines whether zLib output compression will be used.
 	 *
-=======
-	 *
-	 * Determines whether zLib output compression will be used.
-	 *
->>>>>>> local
 	 * @return	void
 	 */
 	public function __construct()
@@ -274,17 +237,10 @@ class CI_Output {
 		{
 			$charset = config_item('charset');
 		}
-<<<<<<< develop
 
 		$header = 'Content-Type: '.$mime_type
 			.(empty($charset) ? NULL : '; charset='.$charset);
 
-=======
-
-		$header = 'Content-Type: '.$mime_type
-			.(empty($charset) ? NULL : '; charset='.$charset);
-
->>>>>>> local
 		$this->headers[] = array($header, TRUE);
 		return $this;
 	}
@@ -423,17 +379,10 @@ class CI_Output {
 	 * Processes sends the sends finalized output data to the browser along
 	 * with any server headers and profile data. It also stops benchmark
 	 * timers so the page rendering speed and memory usage can be shown.
-<<<<<<< develop
 	 *
 	 * Note: All "view" data is automatically put into $this->final_output
 	 *	 by controller class.
 	 *
-=======
-	 *
-	 * Note: All "view" data is automatically put into $this->final_output
-	 *	 by controller class.
-	 *
->>>>>>> local
 	 * @uses	CI_Output::$final_output
 	 * @param	string	$output	Output data override
 	 * @return	void
@@ -665,7 +614,6 @@ class CI_Output {
 
 		// Has the file expired?
 		if ($_SERVER['REQUEST_TIME'] >= $expire && is_really_writable($cache_path))
-<<<<<<< develop
 		{
 			// If so we'll delete it.
 			@unlink($filepath);
@@ -674,16 +622,6 @@ class CI_Output {
 		}
 		else
 		{
-=======
-		{
-			// If so we'll delete it.
-			@unlink($filepath);
-			log_message('debug', 'Cache file has expired. File deleted.');
-			return FALSE;
-		}
-		else
-		{
->>>>>>> local
 			// Or else send the HTTP cache control headers.
 			$this->set_cache_header($last_modified, $expire);
 		}
@@ -693,7 +631,6 @@ class CI_Output {
 		{
 			$this->set_header($header[0], $header[1]);
 		}
-<<<<<<< develop
 
 		// Display the cache
 		$this->_display(substr($cache, strlen($match[0])));
@@ -701,15 +638,6 @@ class CI_Output {
 		return TRUE;
 	}
 
-=======
-
-		// Display the cache
-		$this->_display(substr($cache, strlen($match[0])));
-		log_message('debug', 'Cache file is current. Sending it to browser.');
-		return TRUE;
-	}
-
->>>>>>> local
 	// --------------------------------------------------------------------
 
 	/**
@@ -773,11 +701,7 @@ class CI_Output {
 		else
 		{
 			header('Pragma: public');
-<<<<<<< develop
-			header('Cache-Control: max-age=' . $max_age . ', public');
-=======
 			header('Cache-Control: max-age='.$max_age.', public');
->>>>>>> local
 			header('Expires: '.gmdate('D, d M Y H:i:s', $expiration).' GMT');
 			header('Last-modified: '.gmdate('D, d M Y H:i:s', $last_modified).' GMT');
 		}
@@ -816,21 +740,13 @@ class CI_Output {
 				preg_match_all('{<style.+</style>}msU', $output, $style_clean);
 				foreach ($style_clean[0] as $s)
 				{
-<<<<<<< develop
-					$output = str_replace($s, $this->_minify_script_style($s, TRUE), $output);
-=======
 					$output = str_replace($s, $this->_minify_js_css($s, 'css', TRUE), $output);
->>>>>>> local
 				}
 
 				// Minify the javascript in <script> tags.
 				foreach ($javascript_clean[0] as $s)
 				{
-<<<<<<< develop
-					$javascript_mini[] = $this->_minify_script_style($s, TRUE);
-=======
 					$javascript_mini[] = $this->_minify_js_css($s, 'js', TRUE);
->>>>>>> local
 				}
 
 				// Replace multiple spaces with a single space.
@@ -876,13 +792,6 @@ class CI_Output {
 			break;
 
 			case 'text/css':
-<<<<<<< develop
-			case 'text/javascript':
-
-				$output = $this->_minify_script_style($output);
-
-			break;
-=======
 
 				return $this->_minify_js_css($output, 'css');
 
@@ -891,7 +800,6 @@ class CI_Output {
 			case 'application/x-javascript':
 
 				return $this->_minify_js_css($output, 'js');
->>>>>>> local
 
 			default: break;
 		}
@@ -902,128 +810,6 @@ class CI_Output {
 	// --------------------------------------------------------------------
 
 	/**
-<<<<<<< develop
-	 * Minify Style and Script
-	 *
-	 * Reduce excessive size of CSS/JavaScript content.  To remove spaces this
-	 * script walks the string as an array and determines if the pointer is inside
-	 * a string created by single quotes or double quotes.  spaces inside those
-	 * strings are not stripped.  Opening and closing tags are severed from
-	 * the string initially and saved without stripping whitespace to preserve
-	 * the tags and any associated properties if tags are present
-	 *
-	 * Minification logic/workflow is similar to methods used by Douglas Crockford
-	 * in JSMIN. http://www.crockford.com/javascript/jsmin.html
-	 *
-	 * KNOWN ISSUE: ending a line with a closing parenthesis ')' and no semicolon
-	 * where there should be one will break the Javascript. New lines after a
-	 * closing parenthesis are not recognized by the script. For best results
-	 * be sure to terminate lines with a semicolon when appropriate.
-	 *
-	 * @param	string	$output		Output to minify
-	 * @param	bool	$has_tags	Specify if the output has style or script tags
-	 * @return	string	Minified output
-	 */
-	protected function _minify_script_style($output, $has_tags = FALSE)
-	{
-		// We only need this if there are tags in the file
-		if ($has_tags === TRUE)
-		{
-			// Remove opening tag and save for later
-			$pos = strpos($output, '>') + 1;
-			$open_tag = substr($output, 0, $pos);
-			$output = substr_replace($output, '', 0, $pos);
-
-			// Remove closing tag and save it for later
-			$end_pos = strlen($output);
-			$pos = strpos($output, '</');
-			$closing_tag = substr($output, $pos, $end_pos);
-			$output = substr_replace($output, '', $pos);
-		}
-
-		// Remove CSS comments
-		$output = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!i', '', $output);
-
-		// Remove spaces around curly brackets, colons,
-		// semi-colons, parenthesis, commas
-		$output = preg_replace('!\s*(:|;|,|}|{|\(|\))\s*!i', '$1', $output);
-
-		// Replace tabs with spaces
-		// Replace carriage returns & multiple new lines with single new line
-		// and trim any leading or trailing whitespace
-		$output = trim(preg_replace(array('/\t+/', '/\r/', '/\n+/'), array(' ', "\n", "\n"), $output));
-
-		// Remove spaces when safe to do so.
-		$in_string = $in_dstring = $prev = FALSE;
-		$array_output = str_split($output);
-		foreach ($array_output as $key => $value)
-		{
-			if ($in_string === FALSE && $in_dstring === FALSE)
-			{
-				if ($value === ' ')
-				{
-					// Get the next element in the array for comparisons
-					$next = $array_output[$key + 1];
-
-					// Strip spaces preceded/followed by a non-ASCII character
-					// or not preceded/followed by an alphanumeric
-					// or not preceded/followed \ $ and _
-					if ((preg_match('/^[\x20-\x7f]*$/D', $next) OR preg_match('/^[\x20-\x7f]*$/D', $prev))
-						&& ( ! ctype_alnum($next) OR ! ctype_alnum($prev))
-						&& ! in_array($next, array('\\', '_', '$'), TRUE)
-						&& ! in_array($prev, array('\\', '_', '$'), TRUE)
-					)
-					{
-						unset($array_output[$key]);
-					}
-				}
-				else
-				{
-					// Save this value as previous for the next iteration
-					// if it is not a blank space
-					$prev = $value;
-				}
-			}
-
-			if ($value === "'")
-			{
-				$in_string = ! $in_string;
-			}
-			elseif ($value === '"')
-			{
-				$in_dstring = ! $in_dstring;
-			}
-		}
-
-		// Put the string back together after spaces have been stripped
-		$output = implode($array_output);
-
-		// Remove new line characters unless previous or next character is
-		// printable or Non-ASCII
-		preg_match_all('/[\n]/', $output, $lf, PREG_OFFSET_CAPTURE);
-		$removed_lf = 0;
-		foreach ($lf as $feed_position)
-		{
-			foreach ($feed_position as $position)
-			{
-				$position = $position[1] - $removed_lf;
-				$next = $output[$position + 1];
-				$prev = $output[$position - 1];
-				if ( ! ctype_print($next) && ! ctype_print($prev)
-					&& ! preg_match('/^[\x20-\x7f]*$/D', $next)
-					&& ! preg_match('/^[\x20-\x7f]*$/D', $prev)
-				)
-				{
-					$output = substr_replace($output, '', $position, 1);
-					$removed_lf++;
-				}
-			}
-		}
-
-		// Put the opening and closing tags back if applicable
-		return isset($open_tag)
-			? $open_tag.$output.$closing_tag
-=======
 	 * Minify JavaScript and CSS code
 	 *
 	 * Strips comments and excessive whitespace characters
@@ -1118,7 +904,6 @@ class CI_Output {
 
 		return is_array($tags)
 			? $tags['open'].$output.$tags['close']
->>>>>>> local
 			: $output;
 	}
 

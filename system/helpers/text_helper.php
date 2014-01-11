@@ -127,11 +127,7 @@ if ( ! function_exists('ascii_to_entities'))
 	function ascii_to_entities($str)
 	{
 		$out = '';
-<<<<<<< develop
-		for ($i = 0, $s = strlen($str), $count = 1, $temp = array(); $i < $s; $i++)
-=======
 		for ($i = 0, $s = strlen($str) - 1, $count = 1, $temp = array(); $i <= $s; $i++)
->>>>>>> local
 		{
 			$ordinal = ord($str[$i]);
 
@@ -338,27 +334,6 @@ if ( ! function_exists('highlight_phrase'))
 	 *
 	 * Highlights a phrase within a text string
 	 *
-<<<<<<< develop
-	 * @param	string	the text string
-	 * @param	string	the phrase you'd like to highlight
-	 * @param	string	the openging tag to precede the phrase with
-	 * @param	string	the closing tag to end the phrase with
-	 * @return	string
-	 */
-	function highlight_phrase($str, $phrase, $tag_open = '<strong>', $tag_close = '</strong>')
-	{
-		if ($str === '')
-		{
-			return '';
-		}
-
-		if ($phrase !== '')
-		{
-			return preg_replace('/('.preg_quote($phrase, '/').')/i', $tag_open.'\\1'.$tag_close, $str);
-		}
-
-		return $str;
-=======
 	 * @param	string	$str		the text string
 	 * @param	string	$phrase		the phrase you'd like to highlight
 	 * @param	string	$tag_open	the openging tag to precede the phrase with
@@ -370,7 +345,6 @@ if ( ! function_exists('highlight_phrase'))
 		return ($str !== '' && $phrase !== '')
 			? preg_replace('/('.preg_quote($phrase, '/').')/i', $tag_open.'\\1'.$tag_close, $str)
 			: $str;
->>>>>>> local
 	}
 }
 
@@ -386,15 +360,9 @@ if ( ! function_exists('convert_accented_characters'))
 	 */
 	function convert_accented_characters($str)
 	{
-<<<<<<< develop
-		static $_foreign_characters;
-
-		if ( ! is_array($_foreign_characters))
-=======
 		static $array_from, $array_to;
 
 		if ( ! is_array($array_from))
->>>>>>> local
 		{
 			if (file_exists(APPPATH.'config/foreign_chars.php'))
 			{
@@ -408,16 +376,6 @@ if ( ! function_exists('convert_accented_characters'))
 
 			if (empty($foreign_characters) OR ! is_array($foreign_characters))
 			{
-<<<<<<< develop
-				$_foreign_characters = array();
-				return $str;
-			}
-
-			$_foreign_characters = $foreign_characters;
-		}
-
-		return preg_replace(array_keys($_foreign_characters), array_values($_foreign_characters), $str);
-=======
 				$array_from = array();
 				$array_to = array();
 
@@ -429,7 +387,6 @@ if ( ! function_exists('convert_accented_characters'))
 		}
 
 		return preg_replace($array_from, $array_to, $str);
->>>>>>> local
 	}
 }
 

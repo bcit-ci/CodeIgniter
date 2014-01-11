@@ -15,19 +15,12 @@ the following:
 
 -  Alpha-numeric text (latin characters only)
 -  Tilde: ~
-<<<<<<< develop
-=======
 -  Percent sign: %
->>>>>>> local
 -  Period: .
 -  Colon: :
 -  Underscore: \_
 -  Dash: -
-<<<<<<< develop
--  Pipe: |
-=======
 -  Space
->>>>>>> local
 
 Register_globals
 =================

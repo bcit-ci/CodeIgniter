@@ -2,64 +2,6 @@
 Downloading CodeIgniter
 #######################
 
-<<<<<<< develop
--  `CodeIgniter V 3.0.0 (Current
-   version) <http://codeigniter.com/downloads/>`_
--  `CodeIgniter V
-   2.1.2 <http://codeigniter.com/download_files/reactor/CodeIgniter_2.1.2.zip>`_
--  `CodeIgniter V
-   2.1.1 <http://codeigniter.com/download_files/reactor/CodeIgniter_2.1.1.zip>`_
--  `CodeIgniter V
-   2.1.0 <http://codeigniter.com/download_files/reactor/CodeIgniter_2.1.0.zip>`_
--  `CodeIgniter V
-   2.0.3 <http://codeigniter.com/download_files/reactor/CodeIgniter_2.0.3.zip>`_
--  `CodeIgniter V
-   2.0.2 <http://codeigniter.com/download_files/reactor/CodeIgniter_2.0.2.zip>`_
--  `CodeIgniter V
-   2.0.1 <http://codeigniter.com/download_files/reactor/CodeIgniter_2.0.1.zip>`_
--  `CodeIgniter V
-   2.0.0 <http://codeigniter.com/download_files/reactor/CodeIgniter_2.0.0.zip>`_
--  `CodeIgniter V
-   1.7.3 <http://codeigniter.com/download_files/CodeIgniter_1.7.3.zip>`_
--  `CodeIgniter V
-   1.7.2 <http://codeigniter.com/download_files/CodeIgniter_1.7.2.zip>`_
--  `CodeIgniter V
-   1.7.1 <http://codeigniter.com/download_files/CodeIgniter_1.7.1.zip>`_
--  `CodeIgniter V
-   1.7.0 <http://codeigniter.com/download_files/CodeIgniter_1.7.0.zip>`_
--  `CodeIgniter V
-   1.6.3 <http://codeigniter.com/download_files/CodeIgniter_1.6.3.zip>`_
--  `CodeIgniter V
-   1.6.2 <http://codeigniter.com/download_files/CodeIgniter_1.6.2.zip>`_
--  `CodeIgniter V
-   1.6.1 <http://codeigniter.com/download_files/CodeIgniter_1.6.1.zip>`_
--  `CodeIgniter V
-   1.6.0 <http://codeigniter.com/download_files/CodeIgniter_1.6.0.zip>`_
--  `CodeIgniter V
-   1.5.4 <http://codeigniter.com/download_files/CodeIgniter_1.5.4.zip>`_
--  `CodeIgniter V
-   1.5.3 <http://codeigniter.com/download_files/CodeIgniter_1.5.3.zip>`_
--  `CodeIgniter V
-   1.5.2 <http://codeigniter.com/download_files/CodeIgniter_1.5.2.zip>`_
--  `CodeIgniter V
-   1.5.1 <http://codeigniter.com/download_files/CodeIgniter_1.5.1.zip>`_
--  `CodeIgniter V
-   1.4.1 <http://codeigniter.com/download_files/CodeIgniter_1.4.1.zip>`_
--  `CodeIgniter V
-   1.3.3 <http://codeigniter.com/download_files/CodeIgniter_1.3.3.zip>`_
--  `CodeIgniter V
-   1.3.2 <http://codeigniter.com/download_files/CodeIgniter_1.3.2.zip>`_
--  `CodeIgniter V
-   1.3.1 <http://codeigniter.com/download_files/CodeIgniter_1.3.1.zip>`_
--  `CodeIgniter V
-   1.3 <http://codeigniter.com/download_files/CodeIgniter_1.3.zip>`_
--  `CodeIgniter V
-   1.2 <http://codeigniter.com/download_files/CodeIgniter_1.2.zip>`_
--  `CodeIgniter V
-   1.1 <http://codeigniter.com/download_files/CodeIgniter_1.1b.zip>`_
--  `CodeIgniter V
-   1.0 <http://codeigniter.com/download_files/CodeIgniter_1.0b.zip>`_
-=======
 -  `CodeIgniter v3.0.0 (Current version) <http://ellislab.com/codeigniter/download>`_
 -  `CodeIgniter v2.1.4 <http://ellislab.com/asset/ci_download_files/CodeIgniter_2.1.4.zip>`_ (MD5 Checksum: e74a296c1d412a855c025b9cd468a513)
 -  `CodeIgniter v2.1.3 <http://ellislab.com/asset/ci_download_files/CodeIgniter_2.1.3.zip>`_ (MD5 Checksum: 781d06be06eaa36f10759ef82c8594d5)
@@ -92,7 +34,6 @@ Downloading CodeIgniter
 -  `CodeIgniter v1.2 <http://ellislab.com/asset/ci_download_files/CodeIgniter_1.2.zip>`_ (MD5 Checksum: f9289814fabe102bc35beb791d0c0f62)
 -  `CodeIgniter v1.1 <http://ellislab.com/asset/ci_download_files/CodeIgniter_1.1b.zip>`_ (MD5 Checksum: bf4cabb6a3ea3122a974270b8044befb)
 -  `CodeIgniter v1.0 <http://ellislab.com/asset/ci_download_files/CodeIgniter_1.0b.zip>`_ (MD5 Checksum: 427ca4255e2bdaacee976de1aa143ea0)
->>>>>>> local
 
 
 ******
@@ -106,9 +47,4 @@ Please note that while every effort is made to keep this code base
 functional, we cannot guarantee the functionality of code taken from
 the develop branch.
 
-<<<<<<< develop
-Beginning with version 2.0.3, stable tags are also available via GitHub,
-simply select the version from the Tags dropdown.
-=======
 Beginning with version 2.0.3, stable versions are also available via `GitHub Releases <https://github.com/EllisLab/CodeIgniter/releases>`_.
->>>>>>> local

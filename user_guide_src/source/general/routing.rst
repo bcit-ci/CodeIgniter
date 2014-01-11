@@ -142,12 +142,6 @@ routing rules to process the back-references. Example::
 		return 'catalog/product_edit/' . strtolower($product_type) . '/' . $id;
 	};
 
-<<<<<<< develop
-Reserved Routes
-===============
-
-There are two reserved routes::
-=======
 Using HTTP verbs in routes
 ==========================
 
@@ -175,7 +169,6 @@ Reserved Routes
 ===============
 
 There are three reserved routes::
->>>>>>> local
 
 	$route['default_controller'] = 'welcome';
 
@@ -193,9 +186,6 @@ This route indicates which controller class should be loaded if the
 requested controller is not found. It will override the default 404
 error page. It won't affect to the ``show_404()`` function, which will
 continue loading the default *error_404.php* file at
-<<<<<<< develop
-*application/errors/error_404.php*.
-=======
 *application/views/errors/error_404.php*.
 
 
@@ -209,7 +199,6 @@ underscores in the controller and method URI segments, thus saving you
 additional route entries if you need to do that.
 This is required, because the dash isn't a valid class or method name
 character and would cause a fatal error if you try to use it.
->>>>>>> local
 
 .. important:: The reserved routes must come before any wildcard or
 	regular expression routes.

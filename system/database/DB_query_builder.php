@@ -385,11 +385,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$alias = $this->_create_alias_from_table(trim($select));
 		}
 
-<<<<<<< develop
-		$sql = $this->protect_identifiers($type.'('.trim($select).')').' AS '.$this->escape_identifiers(trim($alias));
-=======
 		$sql = $type.'('.$this->protect_identifiers(trim($select)).') AS '.$this->escape_identifiers(trim($alias));
->>>>>>> local
 
 		$this->qb_select[] = $sql;
 		$this->qb_no_escape[] = NULL;
@@ -1142,11 +1138,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * ORDER BY
 	 *
 	 * @param	string	$orderby
-<<<<<<< develop
-	 * @param	string	$direction	ASC or DESC
-=======
 	 * @param	string	$direction	ASC, DESC or RANDOM
->>>>>>> local
 	 * @param	bool	$escape
 	 * @return	CI_DB_query_builder
 	 */
@@ -1160,11 +1152,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 			// Do we have a seed value?
 			$orderby = ctype_digit((string) $orderby)
-<<<<<<< develop
-				? $orderby = sprintf($this->_random_keyword[1], $orderby)
-=======
 				? sprintf($this->_random_keyword[1], $orderby)
->>>>>>> local
 				: $this->_random_keyword[0];
 		}
 		elseif (empty($orderby))
@@ -1350,11 +1338,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * returned by an Query Builder query.
 	 *
 	 * @param	string
-<<<<<<< develop
-	 * @return	string
-=======
 	 * @return	int
->>>>>>> local
 	 */
 	public function count_all_results($table = '')
 	{
@@ -1862,10 +1846,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			$this->query($this->_update_batch($this->protect_identifiers($table, TRUE, NULL, FALSE), array_slice($this->qb_set, $i, 100), $this->protect_identifiers($index)));
 			$affected_rows += $this->affected_rows();
-<<<<<<< develop
-=======
 			$this->qb_where = array();
->>>>>>> local
 		}
 
 		$this->_reset_write();
@@ -1875,8 +1856,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-<<<<<<< develop
-=======
 	 * Update_Batch statement
 	 *
 	 * Generates a platform-specific batch update string from the supplied data
@@ -1918,7 +1897,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
->>>>>>> local
 	 * The "set_update_batch" function.  Allows key/value pairs to be set for batch updating
 	 *
 	 * @param	array
@@ -2313,16 +2291,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			for ($i = 0, $c = count($this->$qb_key); $i < $c; $i++)
 			{
-<<<<<<< develop
-				if ($this->{$qb_key}[$i]['escape'] === FALSE)
-=======
 				// Is this condition already compiled?
 				if (is_string($this->{$qb_key}[$i]))
 				{
 					continue;
 				}
 				elseif ($this->{$qb_key}[$i]['escape'] === FALSE)
->>>>>>> local
 				{
 					$this->{$qb_key}[$i] = $this->{$qb_key}[$i]['condition'];
 					continue;
@@ -2392,15 +2366,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			for ($i = 0, $c = count($this->qb_groupby); $i < $c; $i++)
 			{
-<<<<<<< develop
-=======
 				// Is it already compiled?
 				if (is_string($this->qb_groupby))
 				{
 					continue;
 				}
 
->>>>>>> local
 				$this->qb_groupby[$i] = ($this->qb_groupby[$i]['escape'] === FALSE OR $this->_is_literal($this->qb_groupby[$i]['field']))
 					? $this->qb_groupby[$i]['field']
 					: $this->protect_identifiers($this->qb_groupby[$i]['field']);
@@ -2585,19 +2556,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			return;
 		}
-<<<<<<< develop
-
-		foreach ($this->qb_cache_exists as $val)
-		{
-			$qb_variable	= 'qb_'.$val;
-			$qb_cache_var	= 'qb_cache_'.$val;
-
-			if (count($this->$qb_cache_var) === 0)
-			{
-				continue;
-			}
-			$this->$qb_variable = array_merge($this->$qb_variable, array_diff($this->$qb_cache_var, $this->$qb_variable));
-=======
 		elseif (in_array('select', $this->qb_cache_exists, TRUE))
 		{
 			$qb_no_escape = $this->qb_cache_no_escape;
@@ -2626,7 +2584,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			{
 				$this->qb_no_escape = $qb_no_escape;
 			}
->>>>>>> local
 		}
 
 		// If we are "protecting identifiers" we need to examine the "from"
@@ -2635,11 +2592,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			$this->_track_aliases($this->qb_from);
 		}
-<<<<<<< develop
-
-		$this->qb_no_escape = array_merge($this->qb_no_escape, array_diff($this->qb_cache_no_escape, $this->qb_no_escape));
-=======
->>>>>>> local
 	}
 
 	// --------------------------------------------------------------------
@@ -2743,10 +2695,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		$this->_reset_run(array(
 			'qb_set'	=> array(),
 			'qb_from'	=> array(),
-<<<<<<< develop
-=======
 			'qb_join'	=> array(),
->>>>>>> local
 			'qb_where'	=> array(),
 			'qb_orderby'	=> array(),
 			'qb_keys'	=> array(),

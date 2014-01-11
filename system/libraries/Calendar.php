@@ -80,28 +80,6 @@ class CI_Calendar {
 	 * @var string
 	 */
 	public $day_type		= 'abr';
-<<<<<<< develop
-
-	/**
-	 * Whether to show next/prev month links
-	 *
-	 * @var bool
-	 */
-	public $show_next_prev		= FALSE;
-
-	/**
-	 * Url base to use for next/prev month links
-	 *
-	 * @var bool
-	 */
-	public $next_prev_url		= '';
-
-	/**
-	 * Class constructor
-	 *
-	 * Loads the calendar language file and sets the default time reference.
-	 *
-=======
 
 	/**
 	 * Whether to show next/prev month links
@@ -129,7 +107,6 @@ class CI_Calendar {
 	 *
 	 * Loads the calendar language file and sets the default time reference.
 	 *
->>>>>>> local
 	 * @uses	CI_Lang::$is_loaded
 	 *
 	 * @param	array	$config	Calendar options
@@ -297,11 +274,6 @@ class CI_Calendar {
 
 			for ($i = 0; $i < 7; $i++)
 			{
-<<<<<<< develop
-				$out .= ($is_current_month === TRUE && $day == $cur_day) ? $this->temp['cal_cell_start_today'] : $this->temp['cal_cell_start'];
-
-=======
->>>>>>> local
 				if ($day > 0 && $day <= $total_days)
 				{
 					$out .= ($is_current_month === TRUE && $day == $cur_day) ? $this->temp['cal_cell_start_today'] : $this->temp['cal_cell_start'];
@@ -348,10 +320,6 @@ class CI_Calendar {
 					$out .= $this->temp['cal_cell_start'].$this->temp['cal_cell_blank'].$this->temp['cal_cell_end'];
 				}
 
-<<<<<<< develop
-				$out .= ($is_current_month === TRUE && $day == $cur_day) ? $this->temp['cal_cell_end_today'] : $this->temp['cal_cell_end'];
-=======
->>>>>>> local
 				$day++;
 			}
 
@@ -522,24 +490,16 @@ class CI_Calendar {
 			'cal_row_start'				=> '<tr>',
 			'cal_cell_start'			=> '<td>',
 			'cal_cell_start_today'		=> '<td>',
-<<<<<<< develop
-=======
 			'cal_cell_start_other'		=> '<td style="color: #666;">',
->>>>>>> local
 			'cal_cell_content'			=> '<a href="{content}">{day}</a>',
 			'cal_cell_content_today'	=> '<a href="{content}"><strong>{day}</strong></a>',
 			'cal_cell_no_content'		=> '{day}',
 			'cal_cell_no_content_today'	=> '<strong>{day}</strong>',
 			'cal_cell_blank'			=> '&nbsp;',
-<<<<<<< develop
-			'cal_cell_end'				=> '</td>',
-			'cal_cell_end_today'		=> '</td>',
-=======
 			'cal_cell_other'			=> '{day}',
 			'cal_cell_end'				=> '</td>',
 			'cal_cell_end_today'		=> '</td>',
 			'cal_cell_end_other'		=> '</td>',
->>>>>>> local
 			'cal_row_end'				=> '</tr>',
 			'table_close'				=> '</table>'
 		);
@@ -566,11 +526,7 @@ class CI_Calendar {
 
 		$today = array('cal_cell_start_today', 'cal_cell_content_today', 'cal_cell_no_content_today', 'cal_cell_end_today');
 
-<<<<<<< develop
-		foreach (array('table_open', 'table_close', 'heading_row_start', 'heading_previous_cell', 'heading_title_cell', 'heading_next_cell', 'heading_row_end', 'week_row_start', 'week_day_cell', 'week_row_end', 'cal_row_start', 'cal_cell_start', 'cal_cell_content', 'cal_cell_no_content', 'cal_cell_blank', 'cal_cell_end', 'cal_row_end', 'cal_cell_start_today', 'cal_cell_content_today', 'cal_cell_no_content_today', 'cal_cell_end_today') as $val)
-=======
 		foreach (array('table_open', 'table_close', 'heading_row_start', 'heading_previous_cell', 'heading_title_cell', 'heading_next_cell', 'heading_row_end', 'week_row_start', 'week_day_cell', 'week_row_end', 'cal_row_start', 'cal_cell_start', 'cal_cell_content', 'cal_cell_no_content', 'cal_cell_blank', 'cal_cell_end', 'cal_row_end', 'cal_cell_start_today', 'cal_cell_content_today', 'cal_cell_no_content_today', 'cal_cell_end_today', 'cal_cell_start_other', 'cal_cell_other', 'cal_cell_end_other') as $val)
->>>>>>> local
 		{
 			if (preg_match('/\{'.$val.'\}(.*?)\{\/'.$val.'\}/si', $this->template, $match))
 			{

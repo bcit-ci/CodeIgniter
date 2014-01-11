@@ -1,9 +1,5 @@
 #############################
-<<<<<<< develop
-Upgrading from 2.1.3 to 3.0.0
-=======
 Upgrading from 2.1.4 to 3.0.0
->>>>>>> local
 #############################
 
 .. note:: These upgrade notes are for a version that is yet to be released.
@@ -21,10 +17,6 @@ they will need to be made fresh in this new one.
 .. note:: If you have any custom developed files in these folders please
 	make copies of them first.
 
-<<<<<<< develop
-********************************
-Step 2: Replace config/mimes.php
-=======
 **************************************
 Step 2: Update your classes file names
 **************************************
@@ -68,29 +60,20 @@ in lowercase.
 
 ********************************
 Step 3: Replace config/mimes.php
->>>>>>> local
 ********************************
 
 This config file has been updated to contain more user mime-types, please copy
 it to _application/config/mimes.php*.
 
 **************************************************************
-<<<<<<< develop
-Step 3: Remove $autoload['core'] from your config/autoload.php
-=======
 Step 4: Remove $autoload['core'] from your config/autoload.php
->>>>>>> local
 **************************************************************
 
 Use of the ``$autoload['core']`` config array has been deprecated as of CodeIgniter 1.4.1 and is now removed.
 Move any entries that you might have listed there to ``$autoload['libraries']`` instead.
 
 ***************************************************
-<<<<<<< develop
-Step 4: Move your Log class overrides or extensions
-=======
 Step 5: Move your Log class overrides or extensions
->>>>>>> local
 ***************************************************
 
 The Log Class is considered as a "core" class and is now located in the
@@ -98,17 +81,10 @@ The Log Class is considered as a "core" class and is now located in the
 or extensions to work, you need to move them to **application/core/**::
 
 	application/libraries/Log.php -> application/core/Log.php
-<<<<<<< develop
-	application/libraries/MY_Log.php -> application/core/MY_log.php
-
-*********************************************************
-Step 5: Convert your Session usage from library to driver
-=======
 	application/libraries/MY_Log.php -> application/core/MY_Log.php
 
 *********************************************************
 Step 6: Convert your Session usage from library to driver
->>>>>>> local
 *********************************************************
 
 When you load (or autoload) the Session library, you must now load it as a driver instead of a library. This means
@@ -132,11 +108,7 @@ standard for Drivers. Also beware that some functions which are not part of the 
 the drivers, so your extension may have to be broken down into separate library and driver class extensions.
 
 ***************************************
-<<<<<<< develop
-Step 6: Update your config/database.php
-=======
 Step 7: Update your config/database.php
->>>>>>> local
 ***************************************
 
 Due to 3.0.0's renaming of Active Record to Query Builder, inside your `config/database.php`, you will
@@ -147,16 +119,6 @@ need to rename the `$active_record` variable to `$query_builder`
 	// $active_record = TRUE;
 	$query_builder = TRUE;
 
-<<<<<<< develop
-*******************************
-Step 7: Move your errors folder
-*******************************
-
-In version 3.0.0, the errors folder has been moved from _application/errors* to _application/views/errors*.
-
-*******************************************************
-Step 8: Update your config/routes.php containing (:any)
-=======
 ************************************
 Step 8: Replace your error templates
 ************************************
@@ -172,7 +134,6 @@ but you'll have to copy the new _application/views/errors/cli* directory from th
 
 *******************************************************
 Step 9: Update your config/routes.php containing (:any)
->>>>>>> local
 *******************************************************
 
 Historically, CodeIgniter has always provided the **:any** wildcard in routing,
@@ -191,42 +152,6 @@ regular expression::
 	(.+)	// matches ANYTHING
 	(:any)	// matches any character, except for '/'
 
-<<<<<<< develop
-*****************************************
-Step 9: Update your libraries' file names
-*****************************************
-
-CodeIgniter 3.0 only allows library file names to be named in a *ucfirst* manner
-(meaning that the first letter of the class name must be a capital). For example,
-if you have the following library file:
-
-	application/libraries/mylibrary.php
-
-... then you'll have to rename it to:
-
-	application/libraries/Mylibrary.php
-
-The same goes for driver libraries and extensions and/or overrides of CodeIgniter's
-own libraries and core classes.
-
-	application/libraries/MY_email.php
-	application/core/MY_log.php
-
-The above files should respectively be renamed to the following:
-
-	application/libraries/MY_Email.php
-	application/core/MY_Log.php
-
-*****************************************************************************
-Step 10: Check the calls to Array Helper's element() and elements() functions
-*****************************************************************************
-
-The default return value of these functions, when the required elements
-don't exist, has been changed from FALSE to NULL.
-
-***********************************************************************
-Step 11: Check the calls to Directory Helper's directory_map() function
-=======
 *************************************************************************
 Step 10: Many functions now return NULL instead of FALSE on missing items
 *************************************************************************
@@ -307,18 +232,13 @@ A method has been added, ``post_get()``, which searches in POST then in GET, as
 
 ***********************************************************************
 Step 13: Update usage of Directory Helper's directory_map() function
->>>>>>> local
 ***********************************************************************
 
 In the resulting array, directories now end with a trailing directory
 separator (i.e. a slash, usually).
 
 *************************************************************
-<<<<<<< develop
-Step 12: Update usage of Database Forge's drop_table() method
-=======
 Step 14: Update usage of Database Forge's drop_table() method
->>>>>>> local
 *************************************************************
 
 Up until now, ``drop_table()`` added an IF EXISTS clause by default or it didn't work
@@ -336,19 +256,11 @@ If your application relies on IF EXISTS, you'll have to change its usage.
 	// Produces DROP TABLE IF EXISTS `table_name`
 	$this->dbforge->drop_table('table_name', TRUE);
 
-<<<<<<< develop
-.. note:: The given example users MySQL-specific syntax, but it should work across
-	all drivers with the exception of ODBC.
-
-***********************************************************
-Step 13: Change usage of Email library with multiple emails
-=======
 .. note:: The given example uses MySQL-specific syntax, but it should work across
 	all drivers with the exception of ODBC.
 
 ***********************************************************
 Step 15: Change usage of Email library with multiple emails
->>>>>>> local
 ***********************************************************
 
 The :doc:`Email Library <../libraries/email>` will automatically clear the
@@ -363,11 +275,7 @@ pass FALSE as the first parameter in the ``send()`` method:
  	}
 
 ***************************************************
-<<<<<<< develop
-Step 14: Update your Form_validation language lines
-=======
 Step 16: Update your Form_validation language lines
->>>>>>> local
 ***************************************************
 
 Two improvements have been made to the :doc:`Form Validation Library
@@ -398,11 +306,7 @@ files and error messages format:
 	later.
 
 ****************************************************************
-<<<<<<< develop
-Step 15: Remove usage of (previously) deprecated functionalities
-=======
 Step 17: Remove usage of (previously) deprecated functionalities
->>>>>>> local
 ****************************************************************
 
 In addition to the ``$autoload['core']`` configuration setting, there's a
@@ -429,8 +333,6 @@ Smiley helper js_insert_smiley()
 :doc:`Smiley Helper <../helpers/smiley_helper>` function ``js_insert_smiley()`` has been deprecated
 since CodeIgniter 1.7.2 and is now removed. You'll need to switch to ``smiley_js()`` instead.
 
-<<<<<<< develop
-=======
 Database drivers 'mysql', 'sqlite', 'mssql', 'pdo/dblib'
 ========================================================
 
@@ -451,7 +353,6 @@ drivers respectively.
 .. note:: These drivers are still available, but you're strongly encouraged to switch to other ones
 	sooner rather than later.
 
->>>>>>> local
 Security helper do_hash()
 =========================
 
@@ -596,9 +497,6 @@ You should now put AFTER clause field names in the field definition array instea
 	sooner rather than later.
 
 .. note:: This is for MySQL and CUBRID databases only! Other drivers don't support this
-<<<<<<< develop
-	clause and will silently ignore it.
-=======
 	clause and will silently ignore it.
 
 URI Routing methods fetch_directory(), fetch_class(), fetch_method()
@@ -660,4 +558,3 @@ in order to avoid backwards compatibility with old browsers::
 		background: #ff0;
 		color: #000;
 	};
->>>>>>> local

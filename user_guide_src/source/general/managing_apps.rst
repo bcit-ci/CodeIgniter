@@ -21,11 +21,7 @@ Relocating your Application Directory
 =====================================
 
 It is possible to move your application directory to a different
-<<<<<<< develop
-location on your server than your system directory. To do so open
-=======
 location on your server than your web root. To do so open
->>>>>>> local
 your main index.php and set a *full server path* in the
 ``$application_folder`` variable::
 

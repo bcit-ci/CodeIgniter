@@ -130,8 +130,6 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
-<<<<<<< develop
-=======
 	 * Determines if a query is a "write" type.
 	 *
 	 * @param	string	An SQL query string
@@ -145,7 +143,6 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
->>>>>>> local
 	 * "Smart" Escape String
 	 *
 	 * Escapes data based on type
@@ -169,11 +166,7 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	 * ORDER BY
 	 *
 	 * @param	string	$orderby
-<<<<<<< develop
-	 * @param	string	$direction	ASC or DESC
-=======
 	 * @param	string	$direction	ASC, DESC or RANDOM
->>>>>>> local
 	 * @param	bool	$escape
 	 * @return	object
 	 */

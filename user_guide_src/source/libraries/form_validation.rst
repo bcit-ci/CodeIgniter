@@ -200,10 +200,7 @@ The above method takes **three** parameters as input:
    message. For example, if your field is named "user" you might give it
    a human name of "Username".
 #. The validation rules for this form field.
-<<<<<<< develop
-=======
 #. (optional) Set custom error messages on any rules given for current field. If not provided will use the default one.
->>>>>>> local
 
 .. note:: If you would like the field name to be stored in a language
 	file, please see :ref:`translating-field-names`.
@@ -229,13 +226,9 @@ Your controller should now look like this::
 			$this->load->library('form_validation');
 
 			$this->form_validation->set_rules('username', 'Username', 'required');
-<<<<<<< develop
-			$this->form_validation->set_rules('password', 'Password', 'required');
-=======
 			$this->form_validation->set_rules('password', 'Password', 'required',
 				array('required' => 'You must provide a %s.')
 			);
->>>>>>> local
 			$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required');
 			$this->form_validation->set_rules('email', 'Email', 'required');
 
@@ -273,14 +266,10 @@ you use this approach, you must name your array keys as indicated::
 		array(
 			'field' => 'password',
 			'label' => 'Password',
-<<<<<<< develop
-			'rules' => 'required'
-=======
 			'rules' => 'required',
 			'errors' => array(
 				'required' => 'You must provide a %s.',
 			),
->>>>>>> local
 		),
 		array(
 			'field' => 'passconf',
@@ -302,9 +291,6 @@ Cascading Rules
 CodeIgniter lets you pipe multiple rules together. Let's try it. Change
 your rules in the third parameter of rule setting method, like this::
 
-<<<<<<< develop
-	$this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[12]|is_unique[users.username]');
-=======
 	$this->form_validation->set_rules(
 		'username', 'Username',
 		'required|min_length[5]|max_length[12]|is_unique[users.username]',
@@ -313,7 +299,6 @@ your rules in the third parameter of rule setting method, like this::
 			'is_unique'	=> 'This %s already exists.'
 		)
 	);
->>>>>>> local
 	$this->form_validation->set_rules('password', 'Password', 'required');
 	$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[password]');
 	$this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
@@ -459,11 +444,7 @@ Here's how your controller should now look::
 			}
 		}
 
-<<<<<<< develop
-		protected function username_check($str)
-=======
 		public function username_check($str)
->>>>>>> local
 		{
 			if ($str == 'test')
 			{
@@ -501,13 +482,6 @@ Setting Error Messages
 All of the native error messages are located in the following language
 file: **system/language/english/form_validation_lang.php**
 
-<<<<<<< develop
-To set your own custom message you can either edit that file, or use the
-following method::
-
-	$this->form_validation->set_message('rule', 'Error Message');
-
-=======
 To set your own global custom message for a rule, you can either 
 edit that file, or use the following method::
 
@@ -520,7 +494,6 @@ some particular rule, use the set_rules() method::
 		array('rule2'	=> 'Error Message on rule2 for this field_name')
 	);
 
->>>>>>> local
 Where rule corresponds to the name of a particular rule, and Error
 Message is the text you would like displayed.
 
@@ -913,10 +886,7 @@ Rule                      Parameter  Description                                
 **is_unique**             Yes        Returns FALSE if the form element is not unique to the table and field name in the            is_unique[table.field] 
                                      parameter. Note: This rule requires :doc:`Query Builder <../database/query_builder>` to be                             
                                      enabled in order to work.
-<<<<<<< develop
-=======
 **min_length**            Yes        Returns FALSE if the form element is shorter then the parameter value.                        min_length[3]         
->>>>>>> local
 **max_length**            Yes        Returns FALSE if the form element is longer then the parameter value.                         max_length[12]         
 **exact_length**          Yes        Returns FALSE if the form element is not exactly the parameter value.                         exact_length[8]        
 **greater_than**          Yes        Returns FALSE if the form element is less than or equal to the parameter value or not         greater_than[8]
@@ -991,19 +961,12 @@ The following methods are intended for use in your controller.
 $this->form_validation->set_rules()
 ===================================
 
-<<<<<<< develop
-	.. php:method:: set_rules ($field, $label = '', $rules = '')
-=======
 	.. php:method:: set_rules ($field, $label = '', $rules = '', $errors = array())
->>>>>>> local
 
 		:param string $field: The field name
 		:param string $label: The field label
 		:param mixed $rules: The rules, as a string with rules separated by a pipe "|", or an array or rules.
-<<<<<<< develop
-=======
 		:param array $errors: Custom error messages
->>>>>>> local
 		:rtype: Object
 
 		Permits you to set validation rules, as described in the tutorial

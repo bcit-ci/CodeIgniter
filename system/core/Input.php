@@ -47,11 +47,7 @@ class CI_Input {
 	public $ip_address = FALSE;
 
 	/**
-<<<<<<< develop
-	 * User agent strin
-=======
 	 * User agent string
->>>>>>> local
 	 *
 	 * @var	string
 	 */
@@ -59,50 +55,29 @@ class CI_Input {
 
 	/**
 	 * Allow GET array flag
-<<<<<<< develop
 	 *
 	 * If set to FALSE, then $_GET will be set to an empty array.
 	 *
-=======
-	 *
-	 * If set to FALSE, then $_GET will be set to an empty array.
-	 *
->>>>>>> local
 	 * @var	bool
 	 */
 	protected $_allow_get_array = TRUE;
 
 	/**
-<<<<<<< develop
-	 * Standartize new lines flag
-	 *
-	 * If set to TRUE, then newlines are standardized.
-	 *
-=======
 	 * Standardize new lines flag
 	 *
 	 * If set to TRUE, then newlines are standardized.
 	 *
->>>>>>> local
 	 * @var	bool
 	 */
 	protected $_standardize_newlines = TRUE;
 
 	/**
 	 * Enable XSS flag
-<<<<<<< develop
 	 *
 	 * Determines whether the XSS filter is always active when
 	 * GET, POST or COOKIE data is encountered.
 	 * Set automatically based on config setting.
 	 *
-=======
-	 *
-	 * Determines whether the XSS filter is always active when
-	 * GET, POST or COOKIE data is encountered.
-	 * Set automatically based on config setting.
-	 *
->>>>>>> local
 	 * @var	bool
 	 */
 	protected $_enable_xss = FALSE;
@@ -124,8 +99,6 @@ class CI_Input {
 	 */
 	protected $headers = array();
 
-<<<<<<< HEAD
-=======
 	/**
 	 * Input stream data
 	 *
@@ -136,10 +109,6 @@ class CI_Input {
 	 */
 	protected $_input_stream = NULL;
 
-<<<<<<< develop
-=======
->>>>>>> upstream/develop
->>>>>>> local
 	/**
 	 * Class constructor
 	 *
@@ -152,16 +121,10 @@ class CI_Input {
 	{
 		log_message('debug', 'Input Class Initialized');
 
-<<<<<<< develop
-		$this->_allow_get_array	= (config_item('allow_get_array') === TRUE);
-		$this->_enable_xss	= (config_item('global_xss_filtering') === TRUE);
-		$this->_enable_csrf	= (config_item('csrf_protection') === TRUE);
-=======
 		$this->_allow_get_array		= (config_item('allow_get_array') === TRUE);
 		$this->_enable_xss		= (config_item('global_xss_filtering') === TRUE);
 		$this->_enable_csrf		= (config_item('csrf_protection') === TRUE);
 		$this->_sandardize_newlines	= (bool) config_item('standardize_newlines');
->>>>>>> local
 
 		global $SEC;
 		$this->security =& $SEC;
@@ -189,21 +152,13 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-<<<<<<< develop
-	protected function _fetch_from_array(&$array, $index = '', $xss_clean = FALSE)
-=======
 	protected function _fetch_from_array(&$array, $index = '', $xss_clean = NULL)
->>>>>>> local
 	{
 		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
 
 		if (isset($array[$index]))
 		{
-<<<<<<< develop
-			return NULL;
-=======
 			$value = $array[$index];
->>>>>>> local
 		}
 		elseif (($count = preg_match_all('/(?:^[^\[]+)|\[[^]]*\]/', $index, $matches)) > 1) // Does the index contain array notation
 		{
@@ -245,11 +200,7 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-<<<<<<< develop
-	public function get($index = NULL, $xss_clean = FALSE)
-=======
 	public function get($index = NULL, $xss_clean = NULL)
->>>>>>> local
 	{
 		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
 
@@ -283,11 +234,7 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-<<<<<<< develop
-	public function post($index = NULL, $xss_clean = FALSE)
-=======
 	public function post($index = NULL, $xss_clean = NULL)
->>>>>>> local
 	{
 		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
 
@@ -312,22 +259,6 @@ class CI_Input {
 		return $this->_fetch_from_array($_POST, $index, $xss_clean);
 	}
 
-<<<<<<< develop
-	// --------------------------------------------------------------------
-
-	/**
-	 * Fetch an item from POST data with fallback to GET
-	 *
-	 * @param	string	$index		Index for item to be fetched from $_POST or $_GET
-	 * @param	bool	$xss_clean	Whether to apply XSS filtering
-	 * @return	mixed
-	 */
-	public function get_post($index = '', $xss_clean = FALSE)
-	{
-		return isset($_POST[$index])
-			? $this->post($index, $xss_clean)
-			: $this->get($index, $xss_clean);
-=======
 	// --------------------------------------------------------------------
 
 	/**
@@ -362,7 +293,6 @@ class CI_Input {
 		return isset($_GET[$index])
 			? $this->get($index, $xss_clean)
 			: $this->post($index, $xss_clean);
->>>>>>> local
 	}
 
 	// --------------------------------------------------------------------
@@ -374,11 +304,7 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-<<<<<<< develop
-	public function cookie($index = '', $xss_clean = FALSE)
-=======
 	public function cookie($index = '', $xss_clean = NULL)
->>>>>>> local
 	{
 		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
 
@@ -394,15 +320,10 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-<<<<<<< develop
-	public function server($index = '', $xss_clean = FALSE)
-	{
-=======
 	public function server($index = '', $xss_clean = NULL)
 	{
 		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
 
->>>>>>> local
 		return $this->_fetch_from_array($_SERVER, $index, $xss_clean);
 	}
 
@@ -417,15 +338,10 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-<<<<<<< develop
-	public function input_stream($index = '', $xss_clean = FALSE)
-	{
-=======
 	public function input_stream($index = '', $xss_clean = NULL)
 	{
 		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
 
->>>>>>> local
 		// The input stream can only be read once, so we'll need to check
 		// if we have already done that first.
 		if (is_array($this->_input_stream))
@@ -462,11 +378,7 @@ class CI_Input {
 	 * @param	bool		$httponly	Whether to only makes the cookie accessible via HTTP (no javascript)
 	 * @return	void
 	 */
-<<<<<<< develop
-	public function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE, $httponly = FALSE)
-=======
 	public function set_cookie($name, $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE, $httponly = FALSE)
->>>>>>> local
 	{
 		if (is_array($name))
 		{
@@ -515,48 +427,17 @@ class CI_Input {
 		}
 
 		setcookie($prefix.$name, $value, $expire, $path, $domain, $secure, $httponly);
-<<<<<<< develop
-=======
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-<<<<<<< HEAD
-	* Fetch an item from the SERVER array
-	*
-	* @access	public
-	* @param	string
-	* @param	bool
-	* @return	string
-	*/
-	function server($index = '', $xss_clean = FALSE)
-	{
-		return $this->_fetch_from_array($_SERVER, $index, $xss_clean);
->>>>>>> local
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-<<<<<<< develop
-=======
-	* Fetch the IP Address
-	*
-	* @return	string
-	*/
-=======
->>>>>>> local
 	 * Fetch the IP Address
 	 *
 	 * Determines and validates the visitor's IP address.
 	 *
 	 * @return	string	IP address
 	 */
-<<<<<<< develop
-=======
->>>>>>> upstream/develop
->>>>>>> local
 	public function ip_address()
 	{
 		if ($this->ip_address !== FALSE)
@@ -565,103 +446,6 @@ class CI_Input {
 		}
 
 		$proxy_ips = config_item('proxy_ips');
-<<<<<<< develop
-		if ( ! empty($proxy_ips) && ! is_array($proxy_ips))
-=======
-<<<<<<< HEAD
-		if ( ! empty($proxy_ips))
->>>>>>> local
-		{
-			$proxy_ips = explode(',', str_replace(' ', '', $proxy_ips));
-		}
-
-		$this->ip_address = $this->server('REMOTE_ADDR');
-
-		if ($proxy_ips)
-		{
-			foreach (array('HTTP_X_FORWARDED_FOR', 'HTTP_CLIENT_IP', 'HTTP_X_CLIENT_IP', 'HTTP_X_CLUSTER_CLIENT_IP') as $header)
-			{
-				if (($spoof = $this->server($header)) !== NULL)
-				{
-					// Some proxies typically list the whole chain of IP
-					// addresses through which the client has reached us.
-					// e.g. client_ip, proxy_ip1, proxy_ip2, etc.
-					sscanf($spoof, '%[^,]', $spoof);
-
-					if ( ! $this->valid_ip($spoof))
-					{
-						$spoof = NULL;
-					}
-					else
-					{
-						break;
-					}
-				}
-			}
-
-			if ($spoof)
-			{
-				for ($i = 0, $c = count($proxy_ips); $i < $c; $i++)
-				{
-					// Check if we have an IP address or a subnet
-					if (strpos($proxy_ips[$i], '/') === FALSE)
-					{
-						// An IP address (and not a subnet) is specified.
-						// We can compare right away.
-						if ($proxy_ips[$i] === $this->ip_address)
-						{
-							$this->ip_address = $spoof;
-							break;
-						}
-
-						continue;
-					}
-
-					// We have a subnet ... now the heavy lifting begins
-					isset($separator) OR $separator = $this->valid_ip($this->ip_address, 'ipv6') ? ':' : '.';
-
-					// If the proxy entry doesn't match the IP protocol - skip it
-					if (strpos($proxy_ips[$i], $separator) === FALSE)
-					{
-						continue;
-					}
-
-					// Convert the REMOTE_ADDR IP address to binary, if needed
-					if ( ! isset($ip, $sprintf))
-					{
-						if ($separator === ':')
-						{
-							// Make sure we're have the "full" IPv6 format
-							$ip = explode(':',
-								str_replace('::',
-									str_repeat(':', 9 - substr_count($this->ip_address, ':')),
-									$this->ip_address
-								)
-							);
-
-							for ($i = 0; $i < 8; $i++)
-							{
-								$ip[$i] = intval($ip[$i], 16);
-							}
-
-							$sprintf = '%016b%016b%016b%016b%016b%016b%016b%016b';
-						}
-						else
-						{
-							$ip = explode('.', $this->ip_address);
-							$sprintf = '%08b%08b%08b%08b';
-						}
-
-						$ip = vsprintf($sprintf, $ip);
-					}
-
-					// Split the netmask length off the network address
-					sscanf($proxy_ips[$i], '%[^/]/%d', $netaddr, $masklen);
-
-<<<<<<< develop
-=======
-			return (bool) filter_var($ip, FILTER_VALIDATE_IP, $flag);
-=======
 		if ( ! empty($proxy_ips) && ! is_array($proxy_ips))
 		{
 			$proxy_ips = explode(',', str_replace(' ', '', $proxy_ips));
@@ -750,7 +534,6 @@ class CI_Input {
 					// Split the netmask length off the network address
 					sscanf($proxy_ips[$i], '%[^/]/%d', $netaddr, $masklen);
 
->>>>>>> local
 					// Again, an IPv6 address is most likely in a compressed form
 					if ($separator === ':')
 					{
@@ -764,16 +547,6 @@ class CI_Input {
 					{
 						$netaddr = explode('.', $netaddr);
 					}
-<<<<<<< develop
-
-					// Convert to binary and finally compare
-					if (strncmp($ip, vsprintf($sprintf, $netaddr), $masklen) === 0)
-					{
-						$this->ip_address = $spoof;
-						break;
-					}
-				}
-=======
 
 					// Convert to binary and finally compare
 					if (strncmp($ip, vsprintf($sprintf, $netaddr), $masklen) === 0)
@@ -783,108 +556,19 @@ class CI_Input {
 					}
 				}
 			}
->>>>>>> upstream/develop
 		}
 
-		if ($which !== 'ipv6' && $which !== 'ipv4')
-		{
-<<<<<<< HEAD
-			if (strpos($ip, ':') !== FALSE)
-			{
-				$which = 'ipv6';
-			}
-			elseif (strpos($ip, '.') !== FALSE)
-			{
-				$which = 'ipv4';
-			}
-			else
-			{
-				return FALSE;
->>>>>>> local
-			}
-=======
-			return $this->ip_address = '0.0.0.0';
->>>>>>> upstream/develop
-		}
-
-<<<<<<< develop
 		if ( ! $this->valid_ip($this->ip_address))
-=======
-		$func = '_valid_'.$which;
-		return $this->$func($ip);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-<<<<<<< HEAD
-	* Validate IPv4 Address
-	*
-	* Updated version suggested by Geert De Deckere
-	*
-	* @access	protected
-	* @param	string
-	* @return	bool
-	*/
-	protected function _valid_ipv4($ip)
-	{
-		$ip_segments = explode('.', $ip);
-
-		// Always 4 segments needed
-		if (count($ip_segments) !== 4)
-		{
-			return FALSE;
-		}
-		// IP can not start with 0
-		if ($ip_segments[0][0] == '0')
->>>>>>> local
 		{
 			return $this->ip_address = '0.0.0.0';
 		}
 
-<<<<<<< develop
 		return $this->ip_address;
-=======
-		// Check each segment
-		foreach ($ip_segments as $segment)
-		{
-			// IP segments must be digits and can not be
-			// longer than 3 digits or greater then 255
-			if ($segment == '' OR preg_match("/[^0-9]/", $segment) OR $segment > 255 OR strlen($segment) > 3)
-			{
-				return FALSE;
-			}
-=======
-	 * Validate IP Address
-	 *
-	 * @param	string	$ip	IP address
-	 * @param	string	$which	IP protocol: 'ipv4' or 'ipv6'
-	 * @return	bool
-	 */
-	public function valid_ip($ip, $which = '')
-	{
-		switch (strtolower($which))
-		{
-			case 'ipv4':
-				$which = FILTER_FLAG_IPV4;
-				break;
-			case 'ipv6':
-				$which = FILTER_FLAG_IPV6;
-				break;
-			default:
-				$which = NULL;
-				break;
->>>>>>> upstream/develop
-		}
-
-		return (bool) filter_var($ip, FILTER_VALIDATE_IP, $which);
->>>>>>> local
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-<<<<<<< develop
 	 * Validate IP Address
 	 *
 	 * @param	string	$ip	IP address
@@ -892,16 +576,6 @@ class CI_Input {
 	 * @return	bool
 	 */
 	public function valid_ip($ip, $which = '')
-=======
-<<<<<<< HEAD
-	* Validate IPv6 Address
-	*
-	* @access	protected
-	* @param	string
-	* @return	bool
-	*/
-	protected function _valid_ipv6($str)
->>>>>>> local
 	{
 		switch (strtolower($which))
 		{
@@ -922,25 +596,11 @@ class CI_Input {
 	// --------------------------------------------------------------------
 
 	/**
-<<<<<<< develop
-=======
-	* User Agent
-	*
-	* @access	public
-	* @return	string
-	*/
-	function user_agent()
-=======
->>>>>>> local
 	 * Fetch User Agent string
 	 *
 	 * @return	string|null	User Agent string or NULL if it doesn't exist
 	 */
 	public function user_agent()
-<<<<<<< develop
-=======
->>>>>>> upstream/develop
->>>>>>> local
 	{
 		if ($this->user_agent !== FALSE)
 		{
@@ -1066,28 +726,13 @@ class CI_Input {
 		// Sanitize PHP_SELF
 		$_SERVER['PHP_SELF'] = strip_tags($_SERVER['PHP_SELF']);
 
-<<<<<<< develop
-		// CSRF Protection check
-		if ($this->_enable_csrf === TRUE && ! $this->is_cli_request())
-=======
-<<<<<<< HEAD
-
-		// CSRF Protection check on HTTP requests
-		if ($this->_enable_csrf == TRUE && ! $this->is_cli_request())
-=======
 		// CSRF Protection check
 		if ($this->_enable_csrf === TRUE && ! is_cli())
->>>>>>> upstream/develop
->>>>>>> local
 		{
 			$this->security->csrf_verify();
 		}
 
-<<<<<<< develop
-		log_message('debug', 'Global POST and COOKIE data sanitized');
-=======
 		log_message('debug', 'Global POST, GET and COOKIE data sanitized');
->>>>>>> local
 	}
 
 	// --------------------------------------------------------------------
@@ -1151,16 +796,6 @@ class CI_Input {
 	 * only named with alpha-numeric text and a few other items.
 	 *
 	 * @param	string	$str	Input string
-<<<<<<< develop
-	 * @return	string
-	 */
-	protected function _clean_input_keys($str)
-	{
-		if ( ! preg_match('/^[a-z0-9:_\/|-]+$/i', $str))
-		{
-			set_status_header(503);
-			exit('Disallowed Key Characters.');
-=======
 	 * @param	string	$fatal	Whether to terminate script exection
 	 *				or to return FALSE if an invalid
 	 *				key is encountered
@@ -1180,7 +815,6 @@ class CI_Input {
 				echo 'Disallowed Key Characters.';
 				exit(EXIT_USER_INPUT);
 			}
->>>>>>> local
 		}
 
 		// Clean UTF-8 if supported
@@ -1202,51 +836,27 @@ class CI_Input {
 	 */
 	public function request_headers($xss_clean = FALSE)
 	{
-<<<<<<< develop
-		// In Apache, you can simply call apache_request_headers()
-		if (function_exists('apache_request_headers'))
-=======
 		// If header is already defined, return it immediately
 		if ( ! empty($this->headers))
->>>>>>> local
 		{
 			return $this->headers;
 		}
-<<<<<<< develop
-		else
-		{
-			$headers['Content-Type'] = isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : @getenv('CONTENT_TYPE');
-
-			foreach ($_SERVER as $key => $val)
-			{
-				if (sscanf($key, 'HTTP_%s', $header) === 1)
-				{
-					$headers[$header] = $this->_fetch_from_array($_SERVER, $key, $xss_clean);
-				}
-			}
-=======
 
 		// In Apache, you can simply call apache_request_headers()
 		if (function_exists('apache_request_headers'))
 		{
 			return $this->headers = apache_request_headers();
->>>>>>> local
 		}
 
 		$this->headers['Content-Type'] = isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : @getenv('CONTENT_TYPE');
 
 		foreach ($_SERVER as $key => $val)
 		{
-<<<<<<< develop
-			$key = str_replace(array('_', '-'), ' ', strtolower($key));
-			$key = str_replace(' ', '-', ucwords($key));
-=======
 			if (sscanf($key, 'HTTP_%s', $header) === 1)
 			{
 				// take SOME_HEADER and turn it into Some-Header
 				$header = str_replace('_', ' ', strtolower($header));
 				$header = str_replace(' ', '-', ucwords($header));
->>>>>>> local
 
 				$this->headers[$header] = $this->_fetch_from_array($_SERVER, $key, $xss_clean);
 			}
@@ -1304,38 +914,12 @@ class CI_Input {
 	 *
 	 * Test to see if a request was made from the command line.
 	 *
-<<<<<<< HEAD
-	 * @return 	bool
-	 */
-	public function is_cli_request()
-	{
-		return (php_sapi_name() === 'cli' OR defined('STDIN'));
-=======
 	 * @deprecated	3.0.0	Use is_cli() instead
 	 * @return      bool
 	 */
 	public function is_cli_request()
 	{
 		return is_cli();
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Get Request Method
-	 *
-	 * Return the request method
-	 *
-	 * @param	bool	$upper	Whether to return in upper or lower case
-	 *				(default: FALSE)
-	 * @return 	string
-	 */
-	public function method($upper = FALSE)
-	{
-		return ($upper)
-			? strtoupper($this->server('REQUEST_METHOD'))
-			: strtolower($this->server('REQUEST_METHOD'));
->>>>>>> upstream/develop
 	}
 
 	// --------------------------------------------------------------------

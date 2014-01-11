@@ -43,11 +43,7 @@ This example assumes you are sending the email from one of your
 Setting Email Preferences
 =========================
 
-<<<<<<< develop
-There are 17 different preferences available to tailor how your email
-=======
 There are 21 different preferences available to tailor how your email
->>>>>>> local
 messages are sent. You can either set them manually as described here,
 or automatically via preferences stored in your config file, described
 below:
@@ -251,13 +247,8 @@ $this->email->attach()
 ----------------------
 
 Enables you to send an attachment. Put the file path/name in the first
-<<<<<<< develop
-parameter. Note: Use a file path, not a URL. For multiple attachments
-use the method multiple times. For example::
-=======
 parameter. For multiple attachments use the method multiple times.
 For example::
->>>>>>> local
 
 	$this->email->attach('/path/to/photo1.jpg');
 	$this->email->attach('/path/to/photo2.jpg');
@@ -278,8 +269,6 @@ parameter as mime-type::
 
 	$this->email->attach($buffer, 'attachment', 'report.pdf', 'application/pdf');
 
-<<<<<<< develop
-=======
 $this->email->attachment_cid()
 ------------------------------
  
@@ -300,7 +289,6 @@ Sets and returns an attachment's Content-ID, which enables your to embed an inli
 
 CID for each Email have to be create again to be unique.
 
->>>>>>> local
 $this->email->print_debugger()
 ------------------------------
 

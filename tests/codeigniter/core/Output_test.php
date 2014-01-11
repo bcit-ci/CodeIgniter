@@ -3,8 +3,6 @@
 class Output_test extends CI_TestCase {
 
 	public $output;
-<<<<<<< develop
-=======
 	protected $_output_data = <<<HTML
 <html>
 	<head>
@@ -15,7 +13,6 @@ class Output_test extends CI_TestCase {
 	</body>
 </html>
 HTML;
->>>>>>> local
 
 	public function set_up()
 	{
@@ -26,8 +23,6 @@ HTML;
 
 	// --------------------------------------------------------------------
 
-<<<<<<< develop
-=======
 	public function test_set_get_append_output()
 	{
 		$append = "<!-- comment /-->\n";
@@ -53,7 +48,6 @@ HTML;
 
 	// --------------------------------------------------------------------
 
->>>>>>> local
 	public function test_get_content_type()
 	{
 		$this->assertEquals('text/html', $this->output->get_content_type());

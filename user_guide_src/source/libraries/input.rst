@@ -25,12 +25,8 @@ following:
    (and a few other) characters.
 -  Provides XSS (Cross-site Scripting Hacks) filtering. This can be
    enabled globally, or upon request.
-<<<<<<< develop
--  Standardizes newline characters to \\n(In Windows \\r\\n)
-=======
 -  Standardizes newline characters to ``PHP_EOL`` (\\n in UNIX-based OSes,
    \\r\\n under Windows). This is configurable.
->>>>>>> local
 
 XSS Filtering
 =============
@@ -103,11 +99,7 @@ The method returns NULL if there are no items in the POST.
 $this->input->get()
 ===================
 
-<<<<<<< develop
-This method is identical to the post method, only it fetches get data
-=======
 This method is identical to the POST method, only it fetches GET data
->>>>>>> local
 ::
 
 	$this->input->get('some_data', TRUE);
@@ -125,13 +117,6 @@ The method returns NULL if there are no items in the GET.
 	$this->input->get(); // returns all GET items without XSS filtering
 
 
-<<<<<<< develop
-$this->input->get_post()
-========================
-
-This method will search through both the post and get streams for
-data, looking first in post, and then in get::
-=======
 $this->input->post_get()
 ========================
 
@@ -145,18 +130,13 @@ $this->input->get_post()
 
 This method will search through both the POST and GET streams for
 data, looking first in GET, and then in POST::
->>>>>>> local
 
 	$this->input->get_post('some_data', TRUE);
 
 $this->input->cookie()
 ======================
 
-<<<<<<< develop
-This method is identical to the post method, only it fetches cookie data
-=======
 This method is identical to the POST method, only it fetches cookie data
->>>>>>> local
 ::
 
 	$this->input->cookie('some_cookie');
@@ -336,12 +316,9 @@ see if PHP is being run on the command line.
 
 	$this->input->is_cli_request()
 
-<<<<<<< develop
-=======
 .. note:: This method is DEPRECATED and is now just an alias for the
 	:php:func:`is_cli()` function.
 
->>>>>>> local
 $this->input->method()
 ======================
 

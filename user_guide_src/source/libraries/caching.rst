@@ -239,8 +239,6 @@ For more information on WinCache, please see
 Redis Caching
 =============
 
-<<<<<<< develop
-=======
 Redis is an in-memory key-value store which can operate in LRU cache mode. 
 To use it, you need Redis server and phpredis PHP extension 
 `https://github.com/nicolasff/phpredis <https://github.com/nicolasff/phpredis>`_.
@@ -255,23 +253,14 @@ Available options are::
 	$config['port'] = 6379;
 	$config['timeout'] = 0;
 
->>>>>>> local
 All of the methods listed above can be accessed without passing a
 specific adapter to the driver loader as follows::
 
 	$this->load->driver('cache');
 	$this->cache->redis->save('foo', 'bar', 10);
 
-<<<<<<< develop
-.. important:: Redis may require one or more of the following options:
-	**host**, **post**, **timeout**, **password**.
-
-The Redis PHP extension repository is located at
-`https://github.com/nicolasff/phpredis <https://github.com/nicolasff/phpredis>`_.
-=======
 For more information on Redis, please see
 `http://redis.io <http://redis.io>`_.
->>>>>>> local
 
 Dummy Cache
 ===========

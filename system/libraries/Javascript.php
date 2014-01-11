@@ -187,11 +187,7 @@ class CI_Javascript {
 	 * @param	string	- Javascript code for mouse out
 	 * @return	string
 	 */
-<<<<<<< develop
-	public function hover($element = 'this', $over, $out)
-=======
 	public function hover($element = 'this', $over = '', $out = '')
->>>>>>> local
 	{
 		return $this->js->_hover($element, $over, $out);
 	}

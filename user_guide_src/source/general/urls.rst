@@ -32,27 +32,6 @@ The :doc:`URI Library <../libraries/uri>` and the :doc:`URL Helper
 with your URI data. In addition, your URLs can be remapped using the
 :doc:`URI Routing <routing>` feature for more flexibility.
 
-<<<<<<< develop
-Friendly URLs
-=============
-
-As you might guess, since there's a straight relationship between
-URI segments and the controller/method pair that's being called,
-those two determining segments must represent a valid class and
-method name.
-You may however also use dashes in the class/method-representing
-segments, and they will automatically be translated to underscores
-in order to be valid routed segments.
-
-For example::
-
-	example.com/my-settings/change-password/
-
-The above example will route to the ``My_settings`` controller and
-its method ``change_password()``.
-
-=======
->>>>>>> local
 Removing the index.php file
 ===========================
 

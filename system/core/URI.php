@@ -62,15 +62,9 @@ class CI_URI {
 
 	/**
 	 * Re-indexed list of URI segments
-<<<<<<< develop
 	 *
 	 * Starts at 1 instead of 0.
 	 *
-=======
-	 *
-	 * Starts at 1 instead of 0.
-	 *
->>>>>>> local
 	 * @var	array
 	 */
 	public $rsegments =	array();
@@ -105,11 +99,7 @@ class CI_URI {
 		if ($protocol === 'AUTO')
 		{
 			// Is the request coming from the command line?
-<<<<<<< develop
-			if ($this->_is_cli_request())
-=======
 			if (is_cli())
->>>>>>> local
 			{
 				$this->_set_uri_string($this->_parse_argv());
 				return;
@@ -290,26 +280,6 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-<<<<<<< develop
-	 * Is CLI Request?
-	 *
-	 * Duplicate of method from the Input class to test to see if
-	 * a request was made from the command line.
-	 *
-	 * @see		CI_Input::is_cli_request()
-	 * @used-by	CI_URI::_fetch_uri_string()
-	 * @return 	bool
-	 */
-	protected function _is_cli_request()
-	{
-		return (PHP_SAPI === 'cli') OR defined('STDIN');
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-=======
->>>>>>> local
 	 * Parse CLI arguments
 	 *
 	 * Take each command line argument and assume it is a URI segment.
@@ -356,15 +326,9 @@ class CI_URI {
 
 	/**
 	 * Remove URL suffix
-<<<<<<< develop
 	 *
 	 * Removes the suffix from the URL if needed.
 	 *
-=======
-	 *
-	 * Removes the suffix from the URL if needed.
-	 *
->>>>>>> local
 	 * @used-by	CI_Router
 	 * @return	void
 	 */
@@ -373,7 +337,6 @@ class CI_URI {
 		$suffix = (string) $this->config->item('url_suffix');
 
 		if ($suffix === '')
-<<<<<<< develop
 		{
 			return;
 		}
@@ -382,16 +345,6 @@ class CI_URI {
 
 		if (substr($this->uri_string, -$slen) === $suffix)
 		{
-=======
-		{
-			return;
-		}
-
-		$slen = strlen($suffix);
-
-		if (substr($this->uri_string, -$slen) === $suffix)
-		{
->>>>>>> local
 			$this->uri_string = substr($this->uri_string, 0, -$slen);
 		}
 	}
@@ -400,15 +353,9 @@ class CI_URI {
 
 	/**
 	 * Explode URI segments
-<<<<<<< develop
 	 *
 	 * The individual segments will be stored in the $this->segments array.
 	 *
-=======
-	 *
-	 * The individual segments will be stored in the $this->segments array.
-	 *
->>>>>>> local
 	 * @see		CI_URI::$segments
 	 * @used-by	CI_Router
 	 * @return	void
@@ -658,15 +605,9 @@ class CI_URI {
 
 	/**
 	 * Internal Slash segment
-<<<<<<< develop
 	 *
 	 * Fetches an URI Segment and adds a slash to it.
 	 *
-=======
-	 *
-	 * Fetches an URI Segment and adds a slash to it.
-	 *
->>>>>>> local
 	 * @used-by	CI_URI::slash_segment()
 	 * @used-by	CI_URI::slash_rsegment()
 	 *
@@ -762,16 +703,7 @@ class CI_URI {
 	{
 		global $RTR;
 
-<<<<<<< develop
-		if (($dir = $RTR->fetch_directory()) === '/')
-		{
-			$dir = '';
-		}
-
-		return $dir.implode('/', $this->rsegment_array());
-=======
 		return ltrim($RTR->directory, '/').implode('/', $this->rsegment_array());
->>>>>>> local
 	}
 
 }

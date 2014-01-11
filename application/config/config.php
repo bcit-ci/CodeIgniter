@@ -282,11 +282,7 @@ $config['encryption_key'] = '';
 | 'sess_driver'				= the driver to load: cookie (Classic), native (PHP sessions),
 |	or your custom driver name
 | 'sess_valid_drivers'		= additional valid drivers which may be loaded
-<<<<<<< develop
-| 'sess_cookie_name'		= the name you want for the cookie
-=======
 | 'sess_cookie_name'		= the name you want for the cookie, must contain only [0-9a-z_-] characters
->>>>>>> local
 | 'sess_expiration'			= the number of SECONDS you want the session to last.
 |   by default sessions last 7200 seconds (two hours).  Set to zero for no expiration.
 | 'sess_expire_on_close'	= Whether to cause the session to expire automatically
@@ -328,8 +324,6 @@ $config['cookie_domain']	= '';
 $config['cookie_path']		= '/';
 $config['cookie_secure']	= FALSE;
 $config['cookie_httponly'] 	= FALSE;
-<<<<<<< develop
-=======
 
 /*
 |--------------------------------------------------------------------------
@@ -344,7 +338,6 @@ $config['cookie_httponly'] 	= FALSE;
 |
 */
 $config['standardize_newlines'] = TRUE;
->>>>>>> local
 
 /*
 |--------------------------------------------------------------------------

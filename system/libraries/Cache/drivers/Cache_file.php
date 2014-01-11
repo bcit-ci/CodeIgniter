@@ -62,27 +62,6 @@ class CI_Cache_file extends CI_Driver {
 	/**
 	 * Fetch from cache
 	 *
-<<<<<<< develop
-	 * @param	mixed	unique key id
-	 * @return	mixed	data on success/false on failure
-	 */
-	public function get($id)
-	{
-		if ( ! file_exists($this->_cache_path.$id))
-		{
-			return FALSE;
-		}
-
-		$data = unserialize(file_get_contents($this->_cache_path.$id));
-
-		if ($data['ttl'] > 0 && time() > $data['time'] + $data['ttl'])
-		{
-			unlink($this->_cache_path.$id);
-			return FALSE;
-		}
-
-		return $data['data'];
-=======
 	 * @param	string	$id	Cache ID
 	 * @return	mixed	Data on success, FALSE on failure
 	 */
@@ -90,7 +69,6 @@ class CI_Cache_file extends CI_Driver {
 	{
 		$data = $this->_get($id);
 		return is_array($data) ? $data['data'] : FALSE;
->>>>>>> local
 	}
 
 	// ------------------------------------------------------------------------
@@ -98,15 +76,6 @@ class CI_Cache_file extends CI_Driver {
 	/**
 	 * Save into cache
 	 *
-<<<<<<< develop
-	 * @param	string	unique key
-	 * @param	mixed	data to store
-	 * @param	int	length of time (in seconds) the cache is valid
-	 *				- Default is 60 seconds
-	 * @return	bool	true on success/false on failure
-	 */
-	public function save($id, $data, $ttl = 60)
-=======
 	 * @param	string	$id	Cache ID
 	 * @param	mixed	$data	Data to store
 	 * @param	int	$ttl	Time to live in seconds
@@ -114,7 +83,6 @@ class CI_Cache_file extends CI_Driver {
 	 * @return	bool	TRUE on success, FALSE on failure
 	 */
 	public function save($id, $data, $ttl = 60, $raw = FALSE)
->>>>>>> local
 	{
 		$contents = array(
 			'time'		=> time(),
@@ -142,8 +110,6 @@ class CI_Cache_file extends CI_Driver {
 	public function delete($id)
 	{
 		return file_exists($this->_cache_path.$id) ? unlink($this->_cache_path.$id) : FALSE;
-<<<<<<< develop
-=======
 	}
 
 	// ------------------------------------------------------------------------
@@ -192,7 +158,6 @@ class CI_Cache_file extends CI_Driver {
 		return $this->save($id, $new_value, $data['ttl'])
 			? $new_value
 			: FALSE;
->>>>>>> local
 	}
 
 	// ------------------------------------------------------------------------
@@ -237,16 +202,7 @@ class CI_Cache_file extends CI_Driver {
 			return FALSE;
 		}
 
-<<<<<<< develop
 		$data = unserialize(file_get_contents($this->_cache_path.$id));
-=======
-<<<<<<< HEAD
-		$data = read_file($this->_cache_path.$id);
-		$data = unserialize($data);
-=======
-		$data = unserialize(file_get_contents($this->_cache_path.$id));
->>>>>>> upstream/develop
->>>>>>> local
 
 		if (is_array($data))
 		{
@@ -258,18 +214,8 @@ class CI_Cache_file extends CI_Driver {
 			}
 
 			return array(
-<<<<<<< develop
 				'expire' => $mtime + $data['ttl'],
 				'mtime'	 => $mtime
-=======
-<<<<<<< HEAD
-				'expire'	=> $mtime + $data['ttl'],
-				'mtime'		=> $mtime
-=======
-				'expire' => $mtime + $data['ttl'],
-				'mtime'	 => $mtime
->>>>>>> upstream/develop
->>>>>>> local
 			);
 		}
 
@@ -290,8 +236,6 @@ class CI_Cache_file extends CI_Driver {
 		return is_really_writable($this->_cache_path);
 	}
 
-<<<<<<< develop
-=======
 	// ------------------------------------------------------------------------
 
 	/**
@@ -320,7 +264,6 @@ class CI_Cache_file extends CI_Driver {
 		return $data;
 	}
 
->>>>>>> local
 }
 
 /* End of file Cache_file.php */
