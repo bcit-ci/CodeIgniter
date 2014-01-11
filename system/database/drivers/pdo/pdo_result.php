@@ -21,7 +21,15 @@
  * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
+<<<<<<< develop
  * @since		Version 1.0
+=======
+<<<<<<< HEAD
+ * @since		Version 2.1.2
+=======
+ * @since		Version 1.0
+>>>>>>> upstream/develop
+>>>>>>> local
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -46,6 +54,30 @@ class CI_DB_pdo_result extends CI_DB_result {
 	public function num_rows()
 	{
 		if (is_int($this->num_rows))
+<<<<<<< HEAD
+		{
+			return $this->num_rows;
+		}
+		elseif (count($this->result_array) > 0)
+		{
+			return $this->num_rows = count($this->result_array);
+		}
+		elseif (count($this->result_object) > 0)
+		{
+			return $this->num_rows = count($this->result_object);
+		}
+		elseif (($num_rows = $this->result_id->rowCount()) > 0)
+		{
+			return $this->num_rows = $num_rows;
+		}
+
+<<<<<<< develop
+		return $this->num_rows = count($this->result_array());
+=======
+		$this->num_rows = count($this->result_id->fetchAll());
+		$this->result_id->execute();
+		return $this->num_rows;
+=======
 		{
 			return $this->num_rows;
 		}
@@ -63,6 +95,8 @@ class CI_DB_pdo_result extends CI_DB_result {
 		}
 
 		return $this->num_rows = count($this->result_array());
+>>>>>>> upstream/develop
+>>>>>>> local
 	}
 
 	// --------------------------------------------------------------------

@@ -40,6 +40,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_Driver_Library {
 
+<<<<<<< develop
+	/**
+	 * Array of drivers that are available to use with the driver class
+	 *
+	 * @var array
+	 */
+	protected $valid_drivers = array();
+
+	/**
+	 * Name of the current class - usually the driver class
+	 *
+	 * @var string
+	 */
+=======
+<<<<<<< HEAD
+	protected $valid_drivers	= array();
+>>>>>>> local
+	protected $lib_name;
+=======
 	/**
 	 * Array of drivers that are available to use with the driver class
 	 *
@@ -64,6 +83,7 @@ class CI_Driver_Library {
 	 * @return	object	Child class
 	 */
 	public function __get($child)
+<<<<<<< develop
 	{
 		// Try to load the driver
 		return $this->load_driver($child);
@@ -79,6 +99,24 @@ class CI_Driver_Library {
 	 */
 	public function load_driver($child)
 	{
+=======
+	{
+		// Try to load the driver
+		return $this->load_driver($child);
+	}
+>>>>>>> upstream/develop
+
+	/**
+	 * Load driver
+	 *
+	 * Separate load_driver call to support explicit driver load by library or user
+	 *
+	 * @param	string	Driver name (w/o parent prefix)
+	 * @return	object	Child class
+	 */
+	public function load_driver($child)
+	{
+>>>>>>> local
 		// Get CodeIgniter instance and subclass prefix
 		$prefix = config_item('subclass_prefix');
 

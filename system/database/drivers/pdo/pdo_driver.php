@@ -21,7 +21,15 @@
  * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
+<<<<<<< develop
  * @since		Version 2.1.0
+=======
+<<<<<<< HEAD
+ * @since		Version 2.1.2
+=======
+ * @since		Version 2.1.0
+>>>>>>> upstream/develop
+>>>>>>> local
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -41,6 +49,70 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_DB_pdo_driver extends CI_DB {
 
+<<<<<<< develop
+	/**
+	 * Database driver
+	 *
+	 * @var	string
+	 */
+	public $dbdriver = 'pdo';
+
+	/**
+	 * PDO Options
+	 *
+	 * @var	array
+	 */
+	public $options = array();
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Class constructor
+	 *
+	 * Validates the DSN string and/or detects the subdriver.
+	 *
+	 * @param	array	$params
+	 * @return	void
+	 */
+	public function __construct($params)
+	{
+		parent::__construct($params);
+
+		if (preg_match('/([^:]+):/', $this->dsn, $match) && count($match) === 2)
+		{
+			// If there is a minimum valid dsn string pattern found, we're done
+			// This is for general PDO users, who tend to have a full DSN string.
+			$this->subdriver = $match[1];
+			return;
+		}
+		// Legacy support for DSN specified in the hostname field
+		elseif (preg_match('/([^:]+):/', $this->hostname, $match) && count($match) === 2)
+		{
+			$this->dsn = $this->hostname;
+			$this->hostname = NULL;
+			$this->subdriver = $match[1];
+			return;
+		}
+		elseif (in_array($this->subdriver, array('mssql', 'sybase'), TRUE))
+		{
+			$this->subdriver = 'dblib';
+		}
+		elseif ($this->subdriver === '4D')
+		{
+			$this->subdriver = '4d';
+		}
+		elseif ( ! in_array($this->subdriver, array('4d', 'cubrid', 'dblib', 'firebird', 'ibm', 'informix', 'mysql', 'oci', 'odbc', 'sqlite', 'sqlsrv'), TRUE))
+		{
+			log_message('error', 'PDO: Invalid or non-existent subdriver');
+
+			if ($this->db_debug)
+			{
+				show_error('Invalid or non-existent PDO subdriver');
+			}
+		}
+
+		$this->dsn = NULL;
+=======
 	/**
 	 * Database driver
 	 *
@@ -131,11 +203,51 @@ class CI_DB_pdo_driver extends CI_DB {
 
 			return FALSE;
 		}
+>>>>>>> local
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
+<<<<<<< develop
+	 * Database connection
+	 *
+	 * @param	bool	$persistent
+	 * @return	object
+	 */
+	public function db_connect($persistent = FALSE)
+	{
+		$this->options[PDO::ATTR_PERSISTENT] = $persistent;
+
+		// Connecting...
+		try
+		{
+			return @new PDO($this->dsn, $this->username, $this->password, $this->options);
+		}
+		catch (PDOException $e)
+		{
+			if ($this->db_debug && empty($this->failover))
+			{
+				$this->display_error($e->getMessage(), '', TRUE);
+			}
+
+			return FALSE;
+		}
+=======
+	 * Persistent database connection
+	 *
+	 * @return	object
+	 */
+	public function db_pconnect()
+	{
+		return $this->db_connect(TRUE);
+>>>>>>> local
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+<<<<<<< develop
 	 * Persistent database connection
 	 *
 	 * @return	object
@@ -170,6 +282,30 @@ class CI_DB_pdo_driver extends CI_DB {
 		}
 		catch (PDOException $e)
 		{
+=======
+	 * Database version number
+	 *
+	 * @return	string
+	 */
+	public function version()
+	{
+		if (isset($this->data_cache['version']))
+		{
+			return $this->data_cache['version'];
+		}
+		elseif ( ! $this->conn_id)
+		{
+			$this->initialize();
+		}
+
+		// Not all subdrivers support the getAttribute() method
+		try
+		{
+			return $this->data_cache['version'] = $this->conn_id->getAttribute(PDO::ATTR_SERVER_VERSION);
+		}
+		catch (PDOException $e)
+		{
+>>>>>>> local
 			return parent::version();
 		}
 	}
