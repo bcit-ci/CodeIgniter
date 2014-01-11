@@ -41,23 +41,49 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * CodeIgniter Version
  *
+<<<<<<< develop
  * @var	string
+=======
+<<<<<<< HEAD
+ * @var string
+ *
+ */
+	define('CI_VERSION', '2.1.4');
+
+/**
+ * CodeIgniter Branch (Core = TRUE, Reactor = FALSE)
+ *
+ * @var boolean
+=======
+ * @var	string
+>>>>>>> upstream/develop
+>>>>>>> local
  *
  */
 	define('CI_VERSION', '3.0-dev');
 
 /*
  * ------------------------------------------------------
- *  Load the global functions
- * ------------------------------------------------------
- */
-	require_once(BASEPATH.'core/Common.php');
-
-/*
- * ------------------------------------------------------
  *  Load the framework constants
  * ------------------------------------------------------
  */
+<<<<<<< develop
+	require_once(BASEPATH.'core/Common.php');
+=======
+	if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/constants.php'))
+	{
+		require(APPPATH.'config/'.ENVIRONMENT.'/constants.php');
+	}
+
+	require(APPPATH.'config/constants.php');
+>>>>>>> local
+
+/*
+ * ------------------------------------------------------
+ *  Load the global functions
+ * ------------------------------------------------------
+ */
+<<<<<<< develop
 	if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/constants.php'))
 	{
 		require(APPPATH.'config/'.ENVIRONMENT.'/constants.php');
@@ -66,6 +92,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	{
 		require(APPPATH.'config/constants.php');
 	}
+=======
+	require_once(BASEPATH.'core/Common.php');
+>>>>>>> local
 
 /*
  * ------------------------------------------------------
@@ -73,11 +102,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * ------------------------------------------------------
  */
 	set_error_handler('_exception_handler');
+	register_shutdown_function('_shutdown_handler');
 
+<<<<<<< develop
 	if ( ! is_php('5.4'))
 	{
 		@ini_set('magic_quotes_runtime', 0); // Kill magic quotes
 	}
+=======
+	// Kill magic quotes
+	is_php('5.4') OR @ini_set('magic_quotes_runtime', 0);
+>>>>>>> local
 
 /*
  * ------------------------------------------------------
@@ -88,7 +123,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * The subclass prefix allows CI to know if a core class is
  * being extended via a library in the local application
  * "libraries" folder. Since CI allows config items to be
- * overriden via data set in the main index. php file,
+ * overriden via data set in the main index.php file,
  * before proceeding we need to know if a subclass_prefix
  * override exists. If so, we will set this value now,
  * before any classes are loaded
@@ -165,13 +200,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * ------------------------------------------------------
  */
 	$RTR =& load_class('Router', 'core');
-	$RTR->_set_routing();
-
-	// Set any routing overrides that may exist in the main index file
-	if (isset($routing))
-	{
-		$RTR->_set_overrides($routing);
-	}
 
 /*
  * ------------------------------------------------------
@@ -241,12 +269,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	// Load the local application controller
 	// Note: The Router class automatically validates the controller path using the router->_validate_request().
 	// If this include fails it means that the default controller in the Routes.php file is not resolving to something valid.
-	if ( ! file_exists(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().'.php'))
+	$class = ucfirst($RTR->class);
+	if ( ! file_exists(APPPATH.'controllers/'.$RTR->directory.$class.'.php'))
 	{
 		show_error('Unable to load your default controller. Please make sure the controller specified in your Routes.php file is valid.');
 	}
 
-	include(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().'.php');
+	include(APPPATH.'controllers/'.$RTR->directory.$class.'.php');
 
 	// Set a mark point for benchmarking
 	$BM->mark('loading_time:_base_classes_end');
@@ -258,12 +287,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  *  None of the methods in the app controller or the
  *  loader class can be called via the URI, nor can
+<<<<<<< develop
  *  controller functions that begin with an underscore.
+=======
+ *  controller methods that begin with an underscore.
+>>>>>>> local
  */
-	$class  = $RTR->fetch_class();
-	$method = $RTR->fetch_method();
+	$method	= $RTR->method;
 
+<<<<<<< develop
 	if ( ! class_exists($class) OR $method[0] === '_' OR method_exists('CI_Controller', $method))
+=======
+	if ( ! class_exists($class, FALSE) OR $method[0] === '_' OR method_exists('CI_Controller', $method))
+>>>>>>> local
 	{
 		if ( ! empty($RTR->routes['404_override']))
 		{
@@ -272,7 +308,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$method = 'index';
 			}
 
+<<<<<<< develop
 			if ( ! class_exists($class))
+=======
+			$class = ucfirst($class);
+
+			if ( ! class_exists($class, FALSE))
+>>>>>>> local
 			{
 				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
 				{
@@ -285,6 +327,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		else
 		{
 			show_404($class.'/'.$method);
+<<<<<<< develop
 		}
 	}
 
@@ -311,6 +354,46 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			}
 
 			if ( ! class_exists($class))
+			{
+				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
+				{
+					show_404($class.'/'.$method);
+				}
+
+				include_once(APPPATH.'controllers/'.$class.'.php');
+			}
+=======
+>>>>>>> local
+		}
+
+		$params = array_slice($URI->rsegments, 2);
+	}
+
+	if (method_exists($class, '_remap'))
+	{
+		$params = array($method, array_slice($URI->rsegments, 2));
+		$method = '_remap';
+	}
+	else
+	{
+		// WARNING: It appears that there are issues with is_callable() even in PHP 5.2!
+		// Furthermore, there are bug reports and feature/change requests related to it
+		// that make it unreliable to use in this context. Please, DO NOT change this
+		// work-around until a better alternative is available.
+		if ( ! in_array(strtolower($method), array_map('strtolower', get_class_methods($class)), TRUE))
+		{
+			if (empty($RTR->routes['404_override']))
+			{
+				show_404($class.'/'.$method);
+			}
+			elseif (sscanf($RTR->routes['404_override'], '%[^/]/%s', $class, $method) !== 2)
+			{
+				$method = 'index';
+			}
+
+			$class = ucfirst($class);
+
+			if ( ! class_exists($class, FALSE))
 			{
 				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
 				{

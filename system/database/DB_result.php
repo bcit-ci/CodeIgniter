@@ -52,6 +52,7 @@ class CI_DB_result {
 	 * @var	resource|object
 	 */
 	public $result_id;
+<<<<<<< develop
 
 	/**
 	 * Result Array
@@ -114,6 +115,70 @@ class CI_DB_result {
 	/**
 	 * Number of rows in the result set
 	 *
+=======
+
+	/**
+	 * Result Array
+	 *
+	 * @var	array[]
+	 */
+	public $result_array			= array();
+
+	/**
+	 * Result Object
+	 *
+	 * @var	object[]
+	 */
+	public $result_object			= array();
+
+	/**
+	 * Custom Result Object
+	 *
+	 * @var	object[]
+	 */
+	public $custom_result_object		= array();
+
+	/**
+	 * Current Row index
+	 *
+	 * @var	int
+	 */
+	public $current_row			= 0;
+
+	/**
+	 * Number of rows
+	 *
+	 * @var	int
+	 */
+	public $num_rows;
+
+	/**
+	 * Row data
+	 *
+	 * @var	array
+	 */
+	public $row_data;
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Constructor
+	 *
+	 * @param	object	$driver_object
+	 * @return	void
+	 */
+	public function __construct(&$driver_object)
+	{
+		$this->conn_id = $driver_object->conn_id;
+		$this->result_id = $driver_object->result_id;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Number of rows in the result set
+	 *
+>>>>>>> local
 	 * @return	int
 	 */
 	public function num_rows()
@@ -180,11 +245,19 @@ class CI_DB_result {
 		// Don't fetch the result set again if we already have it
 		$_data = NULL;
 		if (($c = count($this->result_array)) > 0)
+<<<<<<< develop
 		{
 			$_data = 'result_array';
 		}
 		elseif (($c = count($this->result_object)) > 0)
 		{
+=======
+		{
+			$_data = 'result_array';
+		}
+		elseif (($c = count($this->result_object)) > 0)
+		{
+>>>>>>> local
 			$_data = 'result_object';
 		}
 
@@ -201,6 +274,7 @@ class CI_DB_result {
 			}
 
 			return $this->custom_result_object[$class_name];
+<<<<<<< develop
 		}
 
 		$this->data_seek(0);
@@ -211,6 +285,18 @@ class CI_DB_result {
 			$this->custom_result_object[$class_name][] = $row;
 		}
 
+=======
+		}
+
+		$this->data_seek(0);
+		$this->custom_result_object[$class_name] = array();
+
+		while ($row = $this->_fetch_object($class_name))
+		{
+			$this->custom_result_object[$class_name][] = $row;
+		}
+
+>>>>>>> local
 		return $this->custom_result_object[$class_name];
 	}
 
@@ -300,9 +386,15 @@ class CI_DB_result {
 
 	/**
 	 * Row
+<<<<<<< develop
 	 *
 	 * A wrapper method.
 	 *
+=======
+	 *
+	 * A wrapper method.
+	 *
+>>>>>>> local
 	 * @param	mixed	$n
 	 * @param	string	$type	'object' or 'array'
 	 * @return	mixed
@@ -478,12 +570,9 @@ class CI_DB_result {
 			return NULL;
 		}
 
-		if (isset($result[$this->current_row + 1]))
-		{
-			++$this->current_row;
-		}
-
-		return $result[$this->current_row];
+		return isset($result[$this->current_row + 1])
+			? $result[++$this->current_row]
+			: NULL;
 	}
 
 	// --------------------------------------------------------------------

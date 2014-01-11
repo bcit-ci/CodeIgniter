@@ -55,6 +55,18 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 	 */
 	public $compress = FALSE;
 
+<<<<<<< develop
+=======
+	/**
+	 * Strict ON flag
+	 *
+	 * Whether we're running in strict SQL mode.
+	 *
+	 * @var	bool
+	 */
+	public $stricton = FALSE;
+
+>>>>>>> local
 	// --------------------------------------------------------------------
 
 	/**
@@ -114,6 +126,21 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 				.(empty($this->dbcollat) ? '' : ' COLLATE '.$this->dbcollat);
 		}
 
+<<<<<<< develop
+=======
+		if ($this->stricton)
+		{
+			if (empty($this->options[PDO::MYSQL_ATTR_INIT_COMMAND]))
+			{
+				$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET SESSION sql_mode="STRICT_ALL_TABLES"';
+			}
+			else
+			{
+				$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] .= ', @@session.sql_mode = "STRICT_ALL_TABLES"';
+			}
+		}
+
+>>>>>>> local
 		if ($this->compress === TRUE)
 		{
 			$this->options[PDO::MYSQL_ATTR_COMPRESS] = TRUE;
@@ -201,6 +228,7 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
+<<<<<<< develop
 	 * Update_Batch statement
 	 *
 	 * Generates a platform-specific batch update string from the supplied data
@@ -242,6 +270,8 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
+=======
+>>>>>>> local
 	 * Truncate statement
 	 *
 	 * Generates a platform-specific truncate string from the supplied data

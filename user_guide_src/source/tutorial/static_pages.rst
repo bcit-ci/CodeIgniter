@@ -20,7 +20,11 @@ match:
 As URL schemes become more complex, this may change. But for now, this
 is all we will need to know.
 
+<<<<<<< develop
 Create a file at application/controllers/pages.php with the following
+=======
+Create a file at application/controllers/Pages.php with the following
+>>>>>>> local
 code.
 
 ::

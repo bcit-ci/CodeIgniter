@@ -49,7 +49,11 @@
 | RESERVED ROUTES
 | -------------------------------------------------------------------------
 |
+<<<<<<< develop
 | There are two reserved routes:
+=======
+| There are three reserved routes:
+>>>>>>> local
 |
 |	$route['default_controller'] = 'welcome';
 |
@@ -61,11 +65,30 @@
 |
 | This route will tell the Router which controller/method to use if those
 | provided in the URL cannot be matched to a valid route.
+<<<<<<< develop
+=======
 |
+|	$route['translate_uri_dashes'] = FALSE;
+|
+| This is not exactly a route, but allows you to automatically route
+| controller and method names that contain dashes. '-' isn't a valid
+| class or method name character, so it requires translation.
+| When you set this option to TRUE, it will replace ALL dashes in the
+| controller and method URI segments.
+>>>>>>> local
+|
+| Examples:	my-controller/index	-> my_controller/index
+|		my-controller/my-method	-> my_controller/my_method
 */
+<<<<<<< develop
 
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
+=======
+$route['default_controller'] = 'welcome';
+$route['404_override'] = '';
+$route['translate_uri_dashes'] = FALSE;
+>>>>>>> local
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

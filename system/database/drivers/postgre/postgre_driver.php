@@ -86,6 +86,7 @@ class CI_DB_postgre_driver extends CI_DB {
 		$this->dsn === '' OR $this->dsn = '';
 
 		if (strpos($this->hostname, '/') !== FALSE)
+<<<<<<< develop
 		{
 			// If UNIX sockets are used, we shouldn't set a port
 			$this->port = '';
@@ -100,6 +101,22 @@ class CI_DB_postgre_driver extends CI_DB {
 
 		if ($this->username !== '')
 		{
+=======
+		{
+			// If UNIX sockets are used, we shouldn't set a port
+			$this->port = '';
+		}
+
+		$this->hostname === '' OR $this->dsn = 'host='.$this->hostname.' ';
+
+		if ( ! empty($this->port) && ctype_digit($this->port))
+		{
+			$this->dsn .= 'port='.$this->port.' ';
+		}
+
+		if ($this->username !== '')
+		{
+>>>>>>> local
 			$this->dsn .= 'user='.$this->username.' ';
 
 			/* An empty password is valid!
@@ -306,6 +323,22 @@ class CI_DB_postgre_driver extends CI_DB {
 		}
 
 		return (bool) @pg_query($this->conn_id, 'ROLLBACK');
+<<<<<<< develop
+=======
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Determines if a query is a "write" type.
+	 *
+	 * @param	string	An SQL query string
+	 * @return	bool
+	 */
+	public function is_write_type($sql)
+	{
+		return (bool) preg_match('/^\s*"?(SET|INSERT(?![^\)]+\)\s+RETURNING)|UPDATE(?!.*\sRETURNING)|DELETE|CREATE|DROP|TRUNCATE|LOAD|COPY|ALTER|RENAME|GRANT|REVOKE|LOCK|UNLOCK|REINDEX)\s/i', str_replace(array("\r\n", "\r", "\n"), ' ', $sql));
+>>>>>>> local
 	}
 
 	// --------------------------------------------------------------------
@@ -318,7 +351,11 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	protected function _escape_str($str)
 	{
+<<<<<<< develop
 		return pg_escape_string($str);
+=======
+		return pg_escape_string($this->conn_id, $str);
+>>>>>>> local
 	}
 
 	// --------------------------------------------------------------------
@@ -333,7 +370,15 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function escape($str)
 	{
+<<<<<<< develop
 		if (is_bool($str))
+=======
+		if (is_php('5.4.4') && (is_string($str) OR (is_object($str) && method_exists($str, '__toString'))))
+		{
+			return pg_escape_literal($this->conn_id, $str);
+		}
+		elseif (is_bool($str))
+>>>>>>> local
 		{
 			return ($str) ? 'TRUE' : 'FALSE';
 		}
@@ -432,6 +477,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 *
 	 * @param	string	$table
 	 * @return	string
+<<<<<<< develop
 	 */
 	protected function _list_columns($table = '')
 	{
@@ -450,6 +496,26 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function field_data($table = '')
 	{
+=======
+	 */
+	protected function _list_columns($table = '')
+	{
+		return 'SELECT "column_name"
+			FROM "information_schema"."columns"
+			WHERE LOWER("table_name") = '.$this->escape(strtolower($table));
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Returns an object with field data
+	 *
+	 * @param	string	$table
+	 * @return	array
+	 */
+	public function field_data($table = '')
+	{
+>>>>>>> local
 		if ($table === '')
 		{
 			return ($this->db_debug) ? $this->display_error('db_field_param_missing') : FALSE;
@@ -499,7 +565,11 @@ class CI_DB_postgre_driver extends CI_DB {
 	 * ORDER BY
 	 *
 	 * @param	string	$orderby
+<<<<<<< develop
 	 * @param	string	$direction	ASC or DESC
+=======
+	 * @param	string	$direction	ASC, DESC or RANDOM
+>>>>>>> local
 	 * @param	bool	$escape
 	 * @return	object
 	 */

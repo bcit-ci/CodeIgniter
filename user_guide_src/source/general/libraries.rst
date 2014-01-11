@@ -29,4 +29,8 @@ Creating Your Own Libraries
 ===========================
 
 Please read the section of the user guide that discusses how to
+<<<<<<< develop
 :doc:`create your own libraries <creating_libraries>`.
+=======
+:doc:`create your own libraries <creating_libraries>`.
+>>>>>>> local

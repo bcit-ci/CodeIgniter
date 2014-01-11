@@ -26,7 +26,11 @@ create_captcha()
 	:param	string	$img_path: Path to create the image in
 	:param	string	$img_url: URL to the CAPTCHA image folder
 	:param	string	$font_path: Server path to font
+<<<<<<< develop
 	:returns:	array('word' => $word, 'time' => $now, 'image' => $img)
+=======
+	:returns:	array
+>>>>>>> local
 
 Takes an array of information to generate the CAPTCHA as input and
 creates the image to your specifications, returning an array of
@@ -35,9 +39,16 @@ associative data about the image.
 ::
 
 	array(
+<<<<<<< develop
 		'image'	=> IMAGE TAG
 		'time'	=> TIMESTAMP (in microtime)
 		'word'	=> CAPTCHA WORD
+=======
+		'word'     => CAPTCHA WORD,
+		'time'     => TIMESTAMP (in microtime),
+		'image'    => IMAGE TAG,
+		'filename' => IMAGE FILE NAME
+>>>>>>> local
 	)
 
 The **image** is the actual image tag::
@@ -62,7 +73,21 @@ Once loaded you can generate a captcha like this::
 		'font_path'	=> './path/to/fonts/texb.ttf',
 		'img_width'	=> '150',
 		'img_height'	=> 30,
+<<<<<<< develop
 		'expiration'	=> 7200
+=======
+		'expiration'	=> 7200,
+		'word_length'	=> 8,
+		'pool'		=> '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+
+		// White background and border, black text and red grid
+		'colors'	=> array(
+			'background' => array(255, 255, 255),
+			'border' => array(255, 255, 255),
+			'text' => array(0, 0, 0),
+			'grid' => array(255, 40, 40)
+		)
+>>>>>>> local
 	);
 
 	$cap = create_captcha($vals);
@@ -79,6 +104,11 @@ Once loaded you can generate a captcha like this::
 -  The **expiration** (in seconds) signifies how long an image will remain
    in the captcha folder before it will be deleted. The default is two
    hours.
+<<<<<<< develop
+=======
+-  **word_length** defaults to 8, **pool** defaults to '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+-  If any of the **colors** values is missing, it will be replaced by the default.
+>>>>>>> local
 
 Adding a Database
 -----------------

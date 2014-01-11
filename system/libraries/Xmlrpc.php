@@ -348,6 +348,14 @@ class CI_Xmlrpc {
 
 		$parts = parse_url($url);
 
+<<<<<<< develop
+=======
+		if (isset($parts['user'], $parts['pass']))
+		{
+			$parts['host'] = $parts['user'].':'.$parts['pass'].'@'.$parts['host'];
+		}
+
+>>>>>>> local
 		$path = isset($parts['path']) ? $parts['path'] : '/';
 
 		if ( ! empty($parts['query']))
@@ -410,9 +418,15 @@ class CI_Xmlrpc {
 			$this->data[$key] = $this->values_parsing($value);
 		}
 	}
+<<<<<<< develop
 
 	// --------------------------------------------------------------------
 
+=======
+
+	// --------------------------------------------------------------------
+
+>>>>>>> local
 	/**
 	 * Set Debug
 	 *
@@ -446,7 +460,11 @@ class CI_Xmlrpc {
 				{
 					while (list($k) = each($value[0]))
 					{
+<<<<<<< develop
 						$value[0][$k] = $this->values_parsing($value[0][$k], TRUE);
+=======
+						$value[0][$k] = $this->values_parsing($value[0][$k]);
+>>>>>>> local
 					}
 				}
 
@@ -460,9 +478,15 @@ class CI_Xmlrpc {
 
 		return $temp;
 	}
+<<<<<<< develop
 
 	// --------------------------------------------------------------------
 
+=======
+
+	// --------------------------------------------------------------------
+
+>>>>>>> local
 	/**
 	 * Sends XML-RPC Request
 	 *
@@ -569,6 +593,24 @@ class XML_RPC_Client extends CI_Xmlrpc
 	public $port			= 80;
 
 	/**
+<<<<<<< develop
+=======
+	 *
+	 * Server username
+	 *
+	 * @var	string
+	 */
+	public $username;
+
+	/**
+	 * Server password
+	 *
+	 * @var	string
+	 */
+	public $password;
+
+	/**
+>>>>>>> local
 	 * Proxy hostname
 	 *
 	 * @var	string
@@ -626,8 +668,16 @@ class XML_RPC_Client extends CI_Xmlrpc
 	{
 		parent::__construct();
 
+		$url = parse_url('http://'.$server);
+
+		if (isset($url['user'], $url['pass']))
+		{
+			$this->username = $url['user'];
+			$this->password = $url['pass'];
+		}
+
 		$this->port = $port;
-		$this->server = $server;
+		$this->server = $url['host'];
 		$this->path = $path;
 		$this->proxy = $proxy;
 		$this->proxy_port = $proxy_port;
@@ -691,6 +741,10 @@ class XML_RPC_Client extends CI_Xmlrpc
 		$op = 'POST '.$this->path.' HTTP/1.0'.$r
 			.'Host: '.$this->server.$r
 			.'Content-Type: text/xml'.$r
+<<<<<<< develop
+=======
+			.(isset($this->username, $this->password) ? 'Authorization: Basic '.base64_encode($this->username.':'.$this->password).$r : '')
+>>>>>>> local
 			.'User-Agent: '.$this->xmlrpcName.$r
 			.'Content-Length: '.strlen($msg->payload).$r.$r
 			.$msg->payload;
@@ -855,10 +909,17 @@ class XML_RPC_Response
 	/**
 	 * Decode
 	 *
+<<<<<<< develop
 	 * @param	mixed
 	 * @return	array
 	 */
 	public function decode($array = FALSE)
+=======
+	 * @param	mixed	$array
+	 * @return	array
+	 */
+	public function decode($array = NULL)
+>>>>>>> local
 	{
 		$CI =& get_instance();
 
@@ -870,13 +931,14 @@ class XML_RPC_Response
 				{
 					$array[$key] = $this->decode($array[$key]);
 				}
-				else
+				elseif ($this->xss_clean)
 				{
-					$array[$key] = ($this->xss_clean) ? $CI->security->xss_clean($array[$key]) : $array[$key];
+					$array[$key] = $CI->security->xss_clean($array[$key]);
 				}
 			}
 
 			return $array;
+<<<<<<< develop
 		}
 
 		$result = $this->xmlrpc_decoder($this->val);
@@ -888,6 +950,19 @@ class XML_RPC_Response
 		else
 		{
 			$result = ($this->xss_clean) ? $CI->security->xss_clean($result) : $result;
+=======
+		}
+
+		$result = $this->xmlrpc_decoder($this->val);
+
+		if (is_array($result))
+		{
+			$result = $this->decode($result);
+		}
+		elseif ($this->xss_clean)
+		{
+			$result = $CI->security->xss_clean($result);
+>>>>>>> local
 		}
 
 		return $result;
@@ -1463,6 +1538,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 	}
 
 	// --------------------------------------------------------------------
+<<<<<<< develop
 
 	/**
 	 * Add parameter
@@ -1475,11 +1551,26 @@ class XML_RPC_Message extends CI_Xmlrpc
 		$this->params[] = $par;
 	}
 
+=======
+
+	/**
+	 * Add parameter
+	 *
+	 * @param	mixed
+	 * @return	void
+	 */
+	public function addParam($par)
+	{
+		$this->params[] = $par;
+	}
+
+>>>>>>> local
 	// --------------------------------------------------------------------
 
 	/**
 	 * Output parameters
 	 *
+<<<<<<< develop
 	 * @param	array
 	 * @return	array
 	 */
@@ -1488,6 +1579,16 @@ class XML_RPC_Message extends CI_Xmlrpc
 		$CI =& get_instance();
 
 		if (is_array($array))
+=======
+	 * @param	array	$array
+	 * @return	array
+	 */
+	public function output_parameters(array $array = array())
+	{
+		$CI =& get_instance();
+
+		if ( ! empty($array))
+>>>>>>> local
 		{
 			while (list($key) = each($array))
 			{
@@ -1495,11 +1596,15 @@ class XML_RPC_Message extends CI_Xmlrpc
 				{
 					$array[$key] = $this->output_parameters($array[$key]);
 				}
-				else
+				elseif ($key !== 'bits' && $this->xss_clean)
 				{
 					// 'bits' is for the MetaWeblog API image bits
 					// @todo - this needs to be made more general purpose
+<<<<<<< develop
 					$array[$key] = ($key === 'bits' OR $this->xss_clean === FALSE) ? $array[$key] : $CI->security->xss_clean($array[$key]);
+=======
+					$array[$key] = $CI->security->xss_clean($array[$key]);
+>>>>>>> local
 				}
 			}
 
@@ -1684,7 +1789,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 	{
 		if ($this->mytype !== 0)
 		{
-			echo '<strong>XML_RPC_Values</strong>: already initialized as a [' . $this->kindOf() . ']<br />';
+			echo '<strong>XML_RPC_Values</strong>: already initialized as a ['.$this->kindOf().']<br />';
 			return 0;
 		}
 
@@ -1705,7 +1810,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 	{
 		if ($this->mytype !== 0)
 		{
-			echo '<strong>XML_RPC_Values</strong>: already initialized as a [' . $this->kindOf() . ']<br />';
+			echo '<strong>XML_RPC_Values</strong>: already initialized as a ['.$this->kindOf().']<br />';
 			return 0;
 		}
 		$this->mytype = $this->xmlrpcTypes['struct'];

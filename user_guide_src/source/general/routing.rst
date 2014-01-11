@@ -142,10 +142,40 @@ routing rules to process the back-references. Example::
 		return 'catalog/product_edit/' . strtolower($product_type) . '/' . $id;
 	};
 
+<<<<<<< develop
 Reserved Routes
 ===============
 
 There are two reserved routes::
+=======
+Using HTTP verbs in routes
+==========================
+
+It is possible to use HTTP verbs (request method) to define your routing rules.
+This is particularly useful when building RESTful applications. You can use standard HTTP
+verbs (GET, PUT, POST, DELETE, PATCH) or a custom one such (e.g. PURGE). HTTP verb rules
+are case-insensitive. All you need to do is to add the verb as an array key to your route.
+Example::
+
+	$route['products']['put'] = 'product/insert';
+
+In the above example, a PUT request to URI "products" would call the ``Product::insert()``
+controller method.
+
+::
+
+	$route['products/(:num)']['DELETE'] = 'product/delete/$1';
+
+A DELETE request to URL with "products" as first the segment and a number in the second will be
+mapped to the ``Product::delete()`` method, passing the numeric value as the first parameter.
+
+Using HTTP verbs is of course, optional.
+
+Reserved Routes
+===============
+
+There are three reserved routes::
+>>>>>>> local
 
 	$route['default_controller'] = 'welcome';
 
@@ -163,7 +193,23 @@ This route indicates which controller class should be loaded if the
 requested controller is not found. It will override the default 404
 error page. It won't affect to the ``show_404()`` function, which will
 continue loading the default *error_404.php* file at
+<<<<<<< develop
 *application/errors/error_404.php*.
+=======
+*application/views/errors/error_404.php*.
+
+
+::
+
+	$route['translate_uri_dashes'] = FALSE;
+
+As evident by the boolean value, this is not exactly a route. This
+option enables you to automatically replace dashes ('-') with
+underscores in the controller and method URI segments, thus saving you
+additional route entries if you need to do that.
+This is required, because the dash isn't a valid class or method name
+character and would cause a fatal error if you try to use it.
+>>>>>>> local
 
 .. important:: The reserved routes must come before any wildcard or
 	regular expression routes.

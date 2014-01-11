@@ -31,7 +31,7 @@ if ( ! function_exists('xml_parser_create'))
 	show_error('Your PHP installation does not support XML');
 }
 
-if ( ! class_exists('CI_Xmlrpc'))
+if ( ! class_exists('CI_Xmlrpc', FALSE))
 {
 	show_error('You must load the Xmlrpc class before loading the Xmlrpcs class in order to create a server.');
 }
@@ -55,6 +55,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 	 * @var array
 	 */
 	public $methods = array();
+<<<<<<< develop
 
 	/**
 	 * Debug Message
@@ -83,6 +84,36 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 	 * @param	array	$config
 	 * @return	void
 	 */
+=======
+
+	/**
+	 * Debug Message
+	 *
+	 * @var string
+	 */
+	public $debug_msg = '';
+
+	/**
+	 * XML RPC Server methods
+	 *
+	 * @var array
+	 */
+	public $system_methods	= array();
+
+	/**
+	 * Configuration object
+	 *
+	 * @var object
+	 */
+	public $object = FALSE;
+
+	/**
+	 * Initialize XMLRPC class
+	 *
+	 * @param	array	$config
+	 * @return	void
+	 */
+>>>>>>> local
 	public function __construct($config = array())
 	{
 		parent::__construct();
@@ -384,8 +415,13 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 			{
 				return call_user_func(array($this, $method_parts[1]), $m);
 			}
+			elseif ($this->object === FALSE)
+			{
+				return get_instance()->$method_parts[1]($m);
+			}
 			else
 			{
+<<<<<<< develop
 				if ($this->object === FALSE)
 				{
 					$CI =& get_instance();
@@ -395,6 +431,9 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 				{
 					return $this->object->$method_parts[1]($m);
 				}
+=======
+				return $this->object->$method_parts[1]($m);
+>>>>>>> local
 			}
 		}
 		else

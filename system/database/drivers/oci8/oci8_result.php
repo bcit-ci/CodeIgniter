@@ -18,7 +18,11 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
+<<<<<<< develop
  * @copyright   Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+=======
+ * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+>>>>>>> local
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -38,14 +42,55 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_DB_oci8_result extends CI_DB_result {
 
+<<<<<<< develop
+	/**
+	 * Statement ID
+	 *
+	 * @var	resource
+	 */
+=======
+<<<<<<< HEAD
+>>>>>>> local
+	public $stmt_id;
+
+	/**
+	 * Cursor ID
+	 *
+	 * @var	resource
+	 */
+	public $curs_id;
+
+	/**
+	 * Limit used flag
+	 *
+	 * @var	bool
+	 */
+	public $limit_used;
+=======
 	/**
 	 * Statement ID
 	 *
 	 * @var	resource
 	 */
 	public $stmt_id;
+>>>>>>> upstream/develop
 
 	/**
+<<<<<<< develop
+	 * Commit mode flag
+	 *
+	 * @var	int
+	 */
+	public $commit_mode;
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Class constructor
+	 *
+	 * @param	object	&$driver_object
+	 * @return	void
+=======
 	 * Cursor ID
 	 *
 	 * @var	resource
@@ -62,6 +107,9 @@ class CI_DB_oci8_result extends CI_DB_result {
 	/**
 	 * Commit mode flag
 	 *
+<<<<<<< HEAD
+	 * @return  integer
+=======
 	 * @var	int
 	 */
 	public $commit_mode;
@@ -73,16 +121,34 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 *
 	 * @param	object	&$driver_object
 	 * @return	void
+>>>>>>> upstream/develop
+>>>>>>> local
 	 */
 	public function __construct(&$driver_object)
 	{
 		parent::__construct($driver_object);
 
+<<<<<<< develop
+=======
+<<<<<<< HEAD
+			if ($this->curs_id)
+			{
+				@oci_execute($this->curs_id);
+			}
+		}
+
+		return $this->num_rows;
+=======
+>>>>>>> local
 		$this->stmt_id = $driver_object->stmt_id;
 		$this->curs_id = $driver_object->curs_id;
 		$this->limit_used = $driver_object->limit_used;
 		$this->commit_mode =& $driver_object->commit_mode;
 		$driver_object->stmt_id = FALSE;
+<<<<<<< develop
+=======
+>>>>>>> upstream/develop
+>>>>>>> local
 	}
 
 	// --------------------------------------------------------------------

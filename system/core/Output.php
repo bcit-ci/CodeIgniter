@@ -64,6 +64,7 @@ class CI_Output {
 	 * List of mime types
 	 *
 	 * @var	array
+<<<<<<< develop
 	 */
 	public $mimes =		array();
 
@@ -86,6 +87,30 @@ class CI_Output {
 	 *
 	 * @var	bool
 	 */
+=======
+	 */
+	public $mimes =		array();
+
+	/**
+	 * Mime-type for the current page
+	 *
+	 * @var	string
+	 */
+	protected $mime_type	= 'text/html';
+
+	/**
+	 * Enable Profiler flag
+	 *
+	 * @var	bool
+	 */
+	public $enable_profiler = FALSE;
+
+	/**
+	 * zLib output compression flag
+	 *
+	 * @var	bool
+	 */
+>>>>>>> local
 	protected $_zlib_oc =		FALSE;
 
 	/**
@@ -97,18 +122,30 @@ class CI_Output {
 
 	/**
 	 * Parse markers flag
+<<<<<<< develop
 	 *
 	 * Whether or not to parse variables like {elapsed_time} and {memory_usage}.
 	 *
+=======
+	 *
+	 * Whether or not to parse variables like {elapsed_time} and {memory_usage}.
+	 *
+>>>>>>> local
 	 * @var	bool
 	 */
 	public $parse_exec_vars =	TRUE;
 
 	/**
 	 * Class constructor
+<<<<<<< develop
 	 *
 	 * Determines whether zLib output compression will be used.
 	 *
+=======
+	 *
+	 * Determines whether zLib output compression will be used.
+	 *
+>>>>>>> local
 	 * @return	void
 	 */
 	public function __construct()
@@ -237,10 +274,17 @@ class CI_Output {
 		{
 			$charset = config_item('charset');
 		}
+<<<<<<< develop
 
 		$header = 'Content-Type: '.$mime_type
 			.(empty($charset) ? NULL : '; charset='.$charset);
 
+=======
+
+		$header = 'Content-Type: '.$mime_type
+			.(empty($charset) ? NULL : '; charset='.$charset);
+
+>>>>>>> local
 		$this->headers[] = array($header, TRUE);
 		return $this;
 	}
@@ -379,10 +423,17 @@ class CI_Output {
 	 * Processes sends the sends finalized output data to the browser along
 	 * with any server headers and profile data. It also stops benchmark
 	 * timers so the page rendering speed and memory usage can be shown.
+<<<<<<< develop
 	 *
 	 * Note: All "view" data is automatically put into $this->final_output
 	 *	 by controller class.
 	 *
+=======
+	 *
+	 * Note: All "view" data is automatically put into $this->final_output
+	 *	 by controller class.
+	 *
+>>>>>>> local
 	 * @uses	CI_Output::$final_output
 	 * @param	string	$output	Output data override
 	 * @return	void
@@ -395,7 +446,7 @@ class CI_Output {
 		global $BM, $CFG;
 
 		// Grab the super object if we can.
-		if (class_exists('CI_Controller'))
+		if (class_exists('CI_Controller', FALSE))
 		{
 			$CI =& get_instance();
 		}
@@ -614,6 +665,7 @@ class CI_Output {
 
 		// Has the file expired?
 		if ($_SERVER['REQUEST_TIME'] >= $expire && is_really_writable($cache_path))
+<<<<<<< develop
 		{
 			// If so we'll delete it.
 			@unlink($filepath);
@@ -622,6 +674,16 @@ class CI_Output {
 		}
 		else
 		{
+=======
+		{
+			// If so we'll delete it.
+			@unlink($filepath);
+			log_message('debug', 'Cache file has expired. File deleted.');
+			return FALSE;
+		}
+		else
+		{
+>>>>>>> local
 			// Or else send the HTTP cache control headers.
 			$this->set_cache_header($last_modified, $expire);
 		}
@@ -631,6 +693,7 @@ class CI_Output {
 		{
 			$this->set_header($header[0], $header[1]);
 		}
+<<<<<<< develop
 
 		// Display the cache
 		$this->_display(substr($cache, strlen($match[0])));
@@ -638,6 +701,15 @@ class CI_Output {
 		return TRUE;
 	}
 
+=======
+
+		// Display the cache
+		$this->_display(substr($cache, strlen($match[0])));
+		log_message('debug', 'Cache file is current. Sending it to browser.');
+		return TRUE;
+	}
+
+>>>>>>> local
 	// --------------------------------------------------------------------
 
 	/**
@@ -701,7 +773,11 @@ class CI_Output {
 		else
 		{
 			header('Pragma: public');
+<<<<<<< develop
 			header('Cache-Control: max-age=' . $max_age . ', public');
+=======
+			header('Cache-Control: max-age='.$max_age.', public');
+>>>>>>> local
 			header('Expires: '.gmdate('D, d M Y H:i:s', $expiration).' GMT');
 			header('Last-modified: '.gmdate('D, d M Y H:i:s', $last_modified).' GMT');
 		}
@@ -740,13 +816,21 @@ class CI_Output {
 				preg_match_all('{<style.+</style>}msU', $output, $style_clean);
 				foreach ($style_clean[0] as $s)
 				{
+<<<<<<< develop
 					$output = str_replace($s, $this->_minify_script_style($s, TRUE), $output);
+=======
+					$output = str_replace($s, $this->_minify_js_css($s, 'css', TRUE), $output);
+>>>>>>> local
 				}
 
 				// Minify the javascript in <script> tags.
 				foreach ($javascript_clean[0] as $s)
 				{
+<<<<<<< develop
 					$javascript_mini[] = $this->_minify_script_style($s, TRUE);
+=======
+					$javascript_mini[] = $this->_minify_js_css($s, 'js', TRUE);
+>>>>>>> local
 				}
 
 				// Replace multiple spaces with a single space.
@@ -792,11 +876,22 @@ class CI_Output {
 			break;
 
 			case 'text/css':
+<<<<<<< develop
 			case 'text/javascript':
 
 				$output = $this->_minify_script_style($output);
 
 			break;
+=======
+
+				return $this->_minify_js_css($output, 'css');
+
+			case 'text/javascript':
+			case 'application/javascript':
+			case 'application/x-javascript':
+
+				return $this->_minify_js_css($output, 'js');
+>>>>>>> local
 
 			default: break;
 		}
@@ -807,6 +902,7 @@ class CI_Output {
 	// --------------------------------------------------------------------
 
 	/**
+<<<<<<< develop
 	 * Minify Style and Script
 	 *
 	 * Reduce excessive size of CSS/JavaScript content.  To remove spaces this
@@ -927,6 +1023,102 @@ class CI_Output {
 		// Put the opening and closing tags back if applicable
 		return isset($open_tag)
 			? $open_tag.$output.$closing_tag
+=======
+	 * Minify JavaScript and CSS code
+	 *
+	 * Strips comments and excessive whitespace characters
+	 *
+	 * @param	string	$output
+	 * @param	string	$type	'js' or 'css'
+	 * @param	bool	$tags	Whether $output contains the 'script' or 'style' tag
+	 * @return	string
+	 */
+	protected function _minify_js_css($output, $type, $tags = FALSE)
+	{
+		if ($tags === TRUE)
+		{
+			$tags = array('close' => strrchr($output, '<'));
+
+			$open_length = strpos($output, '>') + 1;
+			$tags['open'] = substr($output, 0, $open_length);
+
+			$output = substr($output, $open_length, -strlen($tags['close']));
+
+			// Strip spaces from the tags
+			$tags = preg_replace('#\s{2,}#', ' ', $tags);
+		}
+
+		$output = trim($output);
+
+		if ($type === 'js')
+		{
+			// Catch all string literals and comment blocks
+			if (preg_match_all('#((?:((?<!\\\)\'|")|(/\*)|(//)).*(?(2)(?<!\\\)\2|(?(3)\*/|\n)))#msuUS', $output, $match, PREG_OFFSET_CAPTURE))
+			{
+				$js_literals = $js_code = array();
+				for ($match = $match[0], $c = count($match), $i = $pos = $offset = 0; $i < $c; $i++)
+				{
+					$js_code[$pos++] = trim(substr($output, $offset, $match[$i][1] - $offset));
+					$offset = $match[$i][1] + strlen($match[$i][0]);
+
+					// Save only if we haven't matched a comment block
+					if ($match[$i][0][0] !== '/')
+					{
+						$js_literals[$pos++] = array_shift($match[$i]);
+					}
+				}
+				$js_code[$pos] = substr($output, $offset);
+
+				// $match might be quite large, so free it up together with other vars that we no longer need
+				unset($match, $offset, $pos);
+			}
+			else
+			{
+				$js_code = array($output);
+				$js_literals = array();
+			}
+
+			$varname = 'js_code';
+		}
+		else
+		{
+			$varname = 'output';
+		}
+
+		// Standartize new lines
+		$$varname = str_replace(array("\r\n", "\r"), "\n", $$varname);
+
+		if ($type === 'js')
+		{
+			$patterns = array(
+				'#\s*([!\#%&()*+,\-./:;<=>?@\[\]^`{|}~])\s*#'	=> '$1',	// Remove spaces following and preceeding JS-wise non-special & non-word characters
+				'#\s{2,}#'					=> ' '		// Reduce the remaining multiple whitespace characters to a single space
+			);
+		}
+		else
+		{
+			$patterns = array(
+				'#/\*.*(?=\*/)\*/#s'	=> '',		// Remove /* block comments */
+				'#\n?//[^\n]*#'		=> '',		// Remove // line comments
+				'#\s*([^\w.\#%])\s*#U'	=> '$1',	// Remove spaces following and preceeding non-word characters, excluding dots, hashes and the percent sign
+				'#\s{2,}#'		=> ' '		// Reduce the remaining multiple space characters to a single space
+			);
+		}
+
+		$$varname = preg_replace(array_keys($patterns), array_values($patterns), $$varname);
+
+		// Glue back JS quoted strings
+		if ($type === 'js')
+		{
+			$js_code += $js_literals;
+			ksort($js_code);
+			$output = implode($js_code);
+			unset($js_code, $js_literals, $varname, $patterns);
+		}
+
+		return is_array($tags)
+			? $tags['open'].$output.$tags['close']
+>>>>>>> local
 			: $output;
 	}
 

@@ -33,4 +33,10 @@ class Mock_Libraries_Session_cookie extends CI_Session_cookie {
 			$_COOKIE[$name] = $value;
 		}
 	}
+<<<<<<< develop
 }
+=======
+}
+
+class Mock_Libraries_Session_native extends CI_Session_native {}
+>>>>>>> local

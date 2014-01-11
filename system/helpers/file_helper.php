@@ -275,7 +275,7 @@ if ( ! function_exists('get_file_info'))
 			switch ($key)
 			{
 				case 'name':
-					$fileinfo['name'] = substr(strrchr($file, DIRECTORY_SEPARATOR), 1);
+					$fileinfo['name'] = basename($file);
 					break;
 				case 'server_path':
 					$fileinfo['server_path'] = $file;

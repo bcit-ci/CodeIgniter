@@ -282,7 +282,11 @@ class CI_User_agent {
 		{
 			foreach ($this->browsers as $key => $val)
 			{
+<<<<<<< develop
 				if (preg_match('|'.preg_quote($key).'.*?([0-9\.]+)|i', $this->agent, $match))
+=======
+				if (preg_match('|'.$key.'.*?([0-9\.]+)|i', $this->agent, $match))
+>>>>>>> local
 				{
 					$this->is_browser = TRUE;
 					$this->version = $match[1];
@@ -471,13 +475,33 @@ class CI_User_agent {
 	 */
 	public function is_referral()
 	{
+<<<<<<< develop
 		if (empty($_SERVER['HTTP_REFERER']))
+=======
+		static $result;
+
+		if ( ! isset($result))
+>>>>>>> local
 		{
-			return FALSE;
+			if (empty($_SERVER['HTTP_REFERER']))
+			{
+				$result = FALSE;
+			}
+			else
+			{
+				$referer_host = @parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
+				$own_host = parse_url(config_item('base_url'), PHP_URL_HOST);
+
+				$result = ($referer_host && $referer_host !== $own_host);
+			}
 		}
 
+<<<<<<< develop
 		$referer = parse_url($_SERVER['HTTP_REFERER']);
 		return ! (empty($referer['host']) && strpos(config_item('base_url'), $referer['host']) !== FALSE);
+=======
+		return $result;
+>>>>>>> local
 	}
 
 	// --------------------------------------------------------------------
@@ -623,7 +647,38 @@ class CI_User_agent {
 		return in_array(strtolower($charset), $this->charsets(), TRUE);
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Parse a custom user-agent string
+	 *
+	 * @param	string	$string
+	 * @return	void
+	 */
+	public function parse($string)
+	{
+		// Reset values
+		$this->is_browser = FALSE;
+		$this->is_robot = FALSE;
+		$this->is_mobile = FALSE;
+		$this->browser = '';
+		$this->version = '';
+		$this->mobile = '';
+		$this->robot = '';
+
+		// Set the new user-agent string and parse it, unless empty
+		$this->agent = $string;
+
+		if ( ! empty($string))
+		{
+			$this->_compile_data();
+		}
+	}
+
+<<<<<<< develop
+=======
 }
 
+>>>>>>> local
 /* End of file User_agent.php */
 /* Location: ./system/libraries/User_agent.php */

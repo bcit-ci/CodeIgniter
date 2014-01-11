@@ -42,8 +42,12 @@ Naming Conventions
 The Class File
 ==============
 
+<<<<<<< develop
 Classes should have this basic prototype (Note: We are using the name
 Someclass purely as an example)::
+=======
+Classes should have this basic prototype::
+>>>>>>> local
 
 	<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
 
@@ -56,6 +60,11 @@ Someclass purely as an example)::
 
 	/* End of file Someclass.php */
 
+<<<<<<< develop
+=======
+.. note:: We are using the name Someclass purely as an example.
+
+>>>>>>> local
 Using Your Class
 ================
 
@@ -81,7 +90,11 @@ constructor::
 
 	$params = array('type' => 'large', 'color' => 'red');
 
+<<<<<<< develop
 	$this->load->library('Someclass', $params);
+=======
+	$this->load->library('someclass', $params);
+>>>>>>> local
 
 If you use this feature you must set up your class constructor to expect
 data::

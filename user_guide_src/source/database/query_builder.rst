@@ -68,7 +68,11 @@ Example::
 	// Produces string: SELECT * FROM mytable
 
 The second parameter enables you to set whether or not the query builder query
+<<<<<<< develop
 will be reset (by default it will be&mdash;just like `$this->db->get()`)::
+=======
+will be reset (by default it will be reset, just like when using `$this->db->get()`)::
+>>>>>>> local
 
 	echo $this->db->limit(10,20)->get_compiled_select('mytable', FALSE);
 	// Produces string: SELECT * FROM mytable LIMIT 20, 10
@@ -76,7 +80,11 @@ will be reset (by default it will be&mdash;just like `$this->db->get()`)::
 
 	echo $this->db->select('title, content, date')->get_compiled_select();
 
+<<<<<<< develop
 	// Produces string: SELECT title, content, date FROM mytable
+=======
+	// Produces string: SELECT title, content, date FROM mytable LIMIT 20, 10
+>>>>>>> local
 
 The key thing to notice in the above example is that the second query did not
 utilize `$this->db->from()`_ and did not pass a table name into the first
@@ -665,10 +673,19 @@ will be reset (by default it will be--just like `$this->db->insert()`_)::
 	// Produces string: INSERT INTO mytable (title, content) VALUES ('My Title', 'My Content')
 
 The key thing to notice in the above example is that the second query did not
+<<<<<<< develop
 utlize `$this->db->from()`_ nor did it pass a table name into the first
 parameter. The reason this worked is because the query has not been executed
 using `$this->db->insert()`_ which resets values or reset directly using
 `$this->db->reset_query()`_.
+=======
+utlize `$this->db->from()` nor did it pass a table name into the first
+parameter. The reason this worked is because the query has not been executed
+using `$this->db->insert()` which resets values or reset directly using
+`$this->db->reset_query()`.
+
+.. note:: This method doesn't work for batched inserts.
+>>>>>>> local
 
 $this->db->insert_batch()
 =========================
@@ -886,8 +903,14 @@ $this->db->get_compiled_update()
 This works exactly the same way as ``$this->db->get_compiled_insert()`` except
 that it produces an UPDATE SQL string instead of an INSERT SQL string.
 
+<<<<<<< develop
 For more information view documentation for `$this->db->get_compiled_insert()`_.
 
+=======
+For more information view documentation for `$this->db->get_compiled_insert()`.
+
+.. note:: This method doesn't work for batched updates.
+>>>>>>> local
 
 *************
 Deleting Data
@@ -1055,4 +1078,13 @@ run the query::
 	$data = $this->db->get()->result_array();
 
 	// Would execute and return an array of results of the following query:
+<<<<<<< develop
 	// SELECT field1, field1 from mytable where field3 = 5;
+=======
+	// SELECT field1, field1 from mytable where field3 = 5;
+
+.. note:: Double calls to ``get_compiled_select()`` while you're using the
+	Query Builder Caching functionality and NOT resetting your queries
+	will results in the cache being merged twice. That in turn will
+	i.e. if you're caching a ``select()`` - select the same field twice.
+>>>>>>> local

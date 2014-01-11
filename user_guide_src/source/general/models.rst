@@ -84,8 +84,12 @@ Where **Model_name** is the name of your class. Class names **must** have
 the first letter capitalized with the rest of the name lowercase. Make
 sure your class extends the base Model class.
 
+<<<<<<< develop
 The file name will be a lower case version of your class name. For
 example, if your class is this::
+=======
+The file name must match the class name. For example, if this is your class::
+>>>>>>> local
 
 	class User_model extends CI_Model {
 
@@ -98,7 +102,11 @@ example, if your class is this::
 
 Your file will be this::
 
+<<<<<<< develop
 	application/models/user_model.php
+=======
+	application/models/User_model.php
+>>>>>>> local
 
 Loading a Model
 ===============
@@ -111,7 +119,11 @@ the following method::
 
 If your model is located in a sub-directory, include the relative path
 from your models directory. For example, if you have a model located at
+<<<<<<< develop
 *application/models/blog/queries.php* you'll load it using::
+=======
+*application/models/blog/Queries.php* you'll load it using::
+>>>>>>> local
 
 	$this->load->model('blog/queries');
 
@@ -181,4 +193,8 @@ database. The following options for connecting are available to you:
 	$config['pconnect'] = FALSE;
 	$config['db_debug'] = TRUE;
 
+<<<<<<< develop
 	$this->load->model('Model_name', '', $config);
+=======
+	$this->load->model('model_name', '', $config);
+>>>>>>> local

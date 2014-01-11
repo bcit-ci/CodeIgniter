@@ -59,8 +59,7 @@ class CI_Model {
 	 */
 	public function __get($key)
 	{
-		$CI =& get_instance();
-		return $CI->$key;
+		return get_instance()->$key;
 	}
 
 }

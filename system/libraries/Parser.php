@@ -38,14 +38,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CI_Parser {
 
 	/**
+<<<<<<< develop
 	 * Left delimeter character for psuedo vars
+=======
+	 * Left delimiter character for pseudo vars
+>>>>>>> local
 	 *
 	 * @var string
 	 */
 	public $l_delim = '{';
 
 	/**
+<<<<<<< develop
 	 * Right delimeter character for psuedo vars
+=======
+	 * Right delimiter character for pseudo vars
+>>>>>>> local
 	 *
 	 * @var string
 	 */
@@ -59,6 +67,7 @@ class CI_Parser {
 	protected $CI;
 
 	// --------------------------------------------------------------------
+<<<<<<< develop
 
 	/**
 	 * Class constructor
@@ -73,6 +82,22 @@ class CI_Parser {
 	// --------------------------------------------------------------------
 
 	/**
+=======
+
+	/**
+	 * Class constructor
+	 *
+	 * @return	void
+	 */
+	public function __construct()
+	{
+		$this->CI =& get_instance();
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+>>>>>>> local
 	 * Parse a template
 	 *
 	 * Parses pseudo-variables contained in the specified template view,
@@ -187,26 +212,47 @@ class CI_Parser {
 	 */
 	protected function _parse_pair($variable, $data, $string)
 	{
-		if (FALSE === ($match = $this->_match_pair($string, $variable)))
+		if (FALSE === ($matches = $this->_match_pair($string, $variable)))
 		{
 			return $string;
 		}
 
 		$str = '';
-		foreach ($data as $row)
+		$search = $replace = array();
+		foreach ($matches as $match)
 		{
+<<<<<<< develop
 			$temp = $match[1];
 			foreach ($row as $key => $val)
 			{
 				$temp = is_array($val)
 						? $this->_parse_pair($key, $val, $temp)
 						: $this->_parse_single($key, $val, $temp);
+=======
+			$str = '';
+			foreach ($data as $row)
+			{
+				$temp = $match[1];
+				foreach ($row as $key => $val)
+				{
+					$temp = is_array($val)
+						? $this->_parse_pair($key, $val, $temp)
+						: $this->_parse_single($key, $val, $temp);
+				}
+
+				$str .= $temp;
+>>>>>>> local
 			}
 
-			$str .= $temp;
+			$search[] = $match[0];
+			$replace[] = $str;
 		}
 
+<<<<<<< develop
 		return str_replace($match[0], $str, $string);
+=======
+		return str_replace($search, $replace, $string);
+>>>>>>> local
 	}
 
 	// --------------------------------------------------------------------
@@ -214,14 +260,24 @@ class CI_Parser {
 	/**
 	 * Matches a variable pair
 	 *
+<<<<<<< develop
 	 * @param	string
 	 * @param	string
+=======
+	 * @param	string	$string
+	 * @param	string	$variable
+>>>>>>> local
 	 * @return	mixed
 	 */
 	protected function _match_pair($string, $variable)
 	{
+<<<<<<< develop
 		return preg_match('|'.preg_quote($this->l_delim).$variable.preg_quote($this->r_delim).'(.+?)'.preg_quote($this->l_delim).'/'.$variable.preg_quote($this->r_delim).'|s',
 					$string, $match)
+=======
+		return preg_match_all('|'.preg_quote($this->l_delim).$variable.preg_quote($this->r_delim).'(.+?)'.preg_quote($this->l_delim).'/'.$variable.preg_quote($this->r_delim).'|s',
+					$string, $match, PREG_SET_ORDER)
+>>>>>>> local
 			? $match : FALSE;
 	}
 

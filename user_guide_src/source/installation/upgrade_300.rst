@@ -1,5 +1,9 @@
 #############################
+<<<<<<< develop
 Upgrading from 2.1.3 to 3.0.0
+=======
+Upgrading from 2.1.4 to 3.0.0
+>>>>>>> local
 #############################
 
 .. note:: These upgrade notes are for a version that is yet to be released.
@@ -17,22 +21,76 @@ they will need to be made fresh in this new one.
 .. note:: If you have any custom developed files in these folders please
 	make copies of them first.
 
+<<<<<<< develop
 ********************************
 Step 2: Replace config/mimes.php
+=======
+**************************************
+Step 2: Update your classes file names
+**************************************
+
+Starting with CodeIgniter 3.0, all class filenames (libraries, drivers, controllers
+and models) must be named in a Ucfirst-like manner or in other words - they must
+start with a capital letter.
+
+For example, if you have the following library file:
+
+	application/libraries/mylibrary.php
+
+... then you'll have to rename it to:
+
+	application/libraries/Mylibrary.php
+
+The same goes for driver libraries and extensions and/or overrides of CodeIgniter's
+own libraries and core classes.
+
+	application/libraries/MY_email.php
+	application/core/MY_log.php
+
+The above files should respectively be renamed to the following:
+
+	application/libraries/MY_Email.php
+	application/core/MY_Log.php
+
+Controllers:
+
+	application/controllers/welcome.php	->	application/controllers/Welcome.php
+
+Models:
+
+	application/models/misc_model.php	->	application/models/Misc_model.php
+
+Please note that this DOES NOT affect directories, configuration files, views,
+helpers, hooks and anything else - it is only applied to classes.
+
+You must now follow just one simple rule - class names in Ucfirst and everything else
+in lowercase.
+
+********************************
+Step 3: Replace config/mimes.php
+>>>>>>> local
 ********************************
 
 This config file has been updated to contain more user mime-types, please copy
 it to _application/config/mimes.php*.
 
 **************************************************************
+<<<<<<< develop
 Step 3: Remove $autoload['core'] from your config/autoload.php
+=======
+Step 4: Remove $autoload['core'] from your config/autoload.php
+>>>>>>> local
 **************************************************************
 
 Use of the ``$autoload['core']`` config array has been deprecated as of CodeIgniter 1.4.1 and is now removed.
 Move any entries that you might have listed there to ``$autoload['libraries']`` instead.
 
 ***************************************************
+<<<<<<< develop
 Step 4: Move your Log class overrides or extensions
+=======
+Step 5: Move your Log class overrides or extensions
+>>>>>>> local
 ***************************************************
 
 The Log Class is considered as a "core" class and is now located in the
@@ -40,10 +98,17 @@ The Log Class is considered as a "core" class and is now located in the
 or extensions to work, you need to move them to **application/core/**::
 
 	application/libraries/Log.php -> application/core/Log.php
+<<<<<<< develop
 	application/libraries/MY_Log.php -> application/core/MY_log.php
 
 *********************************************************
 Step 5: Convert your Session usage from library to driver
+=======
+	application/libraries/MY_Log.php -> application/core/MY_Log.php
+
+*********************************************************
+Step 6: Convert your Session usage from library to driver
+>>>>>>> local
 *********************************************************
 
 When you load (or autoload) the Session library, you must now load it as a driver instead of a library. This means
@@ -67,7 +132,11 @@ standard for Drivers. Also beware that some functions which are not part of the 
 the drivers, so your extension may have to be broken down into separate library and driver class extensions.
 
 ***************************************
+<<<<<<< develop
 Step 6: Update your config/database.php
+=======
+Step 7: Update your config/database.php
+>>>>>>> local
 ***************************************
 
 Due to 3.0.0's renaming of Active Record to Query Builder, inside your `config/database.php`, you will
@@ -78,6 +147,7 @@ need to rename the `$active_record` variable to `$query_builder`
 	// $active_record = TRUE;
 	$query_builder = TRUE;
 
+<<<<<<< develop
 *******************************
 Step 7: Move your errors folder
 *******************************
@@ -86,6 +156,23 @@ In version 3.0.0, the errors folder has been moved from _application/errors* to 
 
 *******************************************************
 Step 8: Update your config/routes.php containing (:any)
+=======
+************************************
+Step 8: Replace your error templates
+************************************
+
+In CodeIgniter 3.0, the error templates are now considered as views and have been moved to the
+_application/views/errors* directory.
+
+Furthermore, we've added support for CLI error templates in plain-text format that unlike HTML,
+is suitable for the command line. This of course requires another level of separation.
+
+It is safe to move your old templates from _application/errors* to _application/views/errors/html*,
+but you'll have to copy the new _application/views/errors/cli* directory from the CodeIgniter archive.
+
+*******************************************************
+Step 9: Update your config/routes.php containing (:any)
+>>>>>>> local
 *******************************************************
 
 Historically, CodeIgniter has always provided the **:any** wildcard in routing,
@@ -104,6 +191,7 @@ regular expression::
 	(.+)	// matches ANYTHING
 	(:any)	// matches any character, except for '/'
 
+<<<<<<< develop
 *****************************************
 Step 9: Update your libraries' file names
 *****************************************
@@ -138,13 +226,99 @@ don't exist, has been changed from FALSE to NULL.
 
 ***********************************************************************
 Step 11: Check the calls to Directory Helper's directory_map() function
+=======
+*************************************************************************
+Step 10: Many functions now return NULL instead of FALSE on missing items
+*************************************************************************
+
+Many methods and functions now return NULL instead of FALSE when the required items don't exist:
+
+ - :doc:`Config Class <../libraries/config>`
+
+   - config->item()
+   - config->slash_item()
+
+ - :doc:`Input Class <../libraries/input>`
+
+   - input->get()
+   - input->post()
+   - input->get_post()
+   - input->cookie()
+   - input->server()
+   - input->input_stream()
+   - input->get_request_header()
+
+ - :doc:`Session Class <../libraries/sessions>`
+
+   - session->userdata()
+   - session->flashdata()
+
+ - :doc:`URI Class <../libraries/uri>`
+
+   - uri->segment()
+   - uri->rsegment()
+
+ - :doc:`Array Helper <../helpers/array_helper>`
+
+   - element()
+   - elements()
+
+*******************************
+Step 11: Usage of XSS filtering
+*******************************
+
+Many functions in CodeIgniter allow you to use its XSS filtering feature
+on demand by passing a boolean parameter. The default value of that
+parameter used to be boolean FALSE, but it is now changed to NULL and it
+will be dynamically determined by your ``$config['global_xss_filtering']``
+value.
+
+If you used to manually pass a boolean value for the ``$xss_filter``
+parameter or if you've always had ``$config['global_xss_filtering']`` set
+to FALSE, then this change doesn't concern you.
+
+Otherwise however, please review your usage of the following functions:
+
+ - :doc:`Input Library <../libraries/input>`
+
+   - input->get()
+   - input->post()
+   - input->get_post()
+   - input->cookie()
+   - input->server()
+   - input->input_stream()
+
+ - :doc:`Cookie Helper <../helpers/cookie_helper>` :func:`get_cookie()`
+
+.. important:: Another related change is that the ``$_GET``, ``$_POST``,
+	``$_COOKIE`` and ``$_SERVER`` superglobals are no longer
+	automatically overwritten when global XSS filtering is turned on.
+
+********************************************************
+Step 12: Update usage of Input Class's get_post() method
+********************************************************
+
+Previously, the :doc:`Input Class <../libraries/input>` method ``get_post()``
+was searching first in POST data, then in GET data. This method has been
+modified so that it searches in GET then in POST, as its name suggests.
+
+A method has been added, ``post_get()``, which searches in POST then in GET, as
+``get_post()`` was doing before.
+
+***********************************************************************
+Step 13: Update usage of Directory Helper's directory_map() function
+>>>>>>> local
 ***********************************************************************
 
 In the resulting array, directories now end with a trailing directory
 separator (i.e. a slash, usually).
 
 *************************************************************
+<<<<<<< develop
 Step 12: Update usage of Database Forge's drop_table() method
+=======
+Step 14: Update usage of Database Forge's drop_table() method
+>>>>>>> local
 *************************************************************
 
 Up until now, ``drop_table()`` added an IF EXISTS clause by default or it didn't work
@@ -162,11 +336,19 @@ If your application relies on IF EXISTS, you'll have to change its usage.
 	// Produces DROP TABLE IF EXISTS `table_name`
 	$this->dbforge->drop_table('table_name', TRUE);
 
+<<<<<<< develop
 .. note:: The given example users MySQL-specific syntax, but it should work across
 	all drivers with the exception of ODBC.
 
 ***********************************************************
 Step 13: Change usage of Email library with multiple emails
+=======
+.. note:: The given example uses MySQL-specific syntax, but it should work across
+	all drivers with the exception of ODBC.
+
+***********************************************************
+Step 15: Change usage of Email library with multiple emails
+>>>>>>> local
 ***********************************************************
 
 The :doc:`Email Library <../libraries/email>` will automatically clear the
@@ -181,7 +363,11 @@ pass FALSE as the first parameter in the ``send()`` method:
  	}
 
 ***************************************************
+<<<<<<< develop
 Step 14: Update your Form_validation language lines
+=======
+Step 16: Update your Form_validation language lines
+>>>>>>> local
 ***************************************************
 
 Two improvements have been made to the :doc:`Form Validation Library
@@ -212,7 +398,11 @@ files and error messages format:
 	later.
 
 ****************************************************************
+<<<<<<< develop
 Step 15: Remove usage of (previously) deprecated functionalities
+=======
+Step 17: Remove usage of (previously) deprecated functionalities
+>>>>>>> local
 ****************************************************************
 
 In addition to the ``$autoload['core']`` configuration setting, there's a
@@ -239,6 +429,29 @@ Smiley helper js_insert_smiley()
 :doc:`Smiley Helper <../helpers/smiley_helper>` function ``js_insert_smiley()`` has been deprecated
 since CodeIgniter 1.7.2 and is now removed. You'll need to switch to ``smiley_js()`` instead.
 
+<<<<<<< develop
+=======
+Database drivers 'mysql', 'sqlite', 'mssql', 'pdo/dblib'
+========================================================
+
+The **mysql** driver utilizes the old 'mysql' PHP extension, known for its aging code base and
+many low-level problems. The extension is deprecated as of PHP 5.5 and CodeIgniter deprecates
+it in version 3.0, switching the default configured MySQL driver to **mysqli**.
+
+Please use either the 'mysqli' or 'pdo/mysql' drivers for MySQL. The old 'mysql' driver will be
+removed at some point in the future.
+
+The **sqlite**, **mssql** and **pdo/dblib** (also known as pdo/mssql or pdo/sybase) drivers
+all depend on PHP extensions that for different reasons no longer exist since PHP 5.3.
+
+Therefore we are now deprecating these drivers as we will have to remove them in one of the next
+CodeIgniter versions. You should use the more advanced, **sqlite3**, **sqlsrv** or **pdo/sqlsrv**
+drivers respectively.
+
+.. note:: These drivers are still available, but you're strongly encouraged to switch to other ones
+	sooner rather than later.
+
+>>>>>>> local
 Security helper do_hash()
 =========================
 
@@ -383,4 +596,68 @@ You should now put AFTER clause field names in the field definition array instea
 	sooner rather than later.
 
 .. note:: This is for MySQL and CUBRID databases only! Other drivers don't support this
+<<<<<<< develop
 	clause and will silently ignore it.
+=======
+	clause and will silently ignore it.
+
+URI Routing methods fetch_directory(), fetch_class(), fetch_method()
+====================================================================
+
+With properties ``CI_Router::$directory``, ``CI_Router::$class`` and ``CI_Router::$method``
+being public and their respective ``fetch_*()`` no longer doing anything else to just return
+the properties - it doesn't make sense to keep them.
+
+Those are all internal, undocumented methods, but we've opted to deprecate them for now
+in order to maintain backwards-compatibility just in case. If some of you have utilized them,
+then you can now just access the properties instead::
+
+	$this->router->directory;
+	$this->router->class;
+	$this->router->method;
+
+.. note:: Those methods are still available, but you're strongly encouraged to remove their usage
+	sooner rather than later.
+
+Input library method is_cli_request()
+=====================================
+
+Calls to the ``CI_Input::is_cli_request()`` method are necessary at many places
+in the CodeIgniter internals and this is often before the :doc:`Input Library
+<../libraries/input>` is loaded. Because of that, it is being replaced by a common
+function named :php:func:`is_cli()` and this method is now just an alias.
+
+The new function is both available at all times for you to use and shorter to type.
+
+::
+
+	// Old
+	$this->input->is_cli_request();
+
+	// New
+	is_cli();
+
+``CI_Input::is_cli_request()`` is now now deprecated and scheduled for removal in
+CodeIgniter 3.1+.
+
+.. note:: This method is still available, but you're strongly encouraged to remove its usage
+	sooner rather than later.
+
+***********************************************************
+Step 18: Check your usage of Text helper highlight_phrase()
+***********************************************************
+
+The default HTML tag used by :doc:`Text Helper <../helpers/text_helper>` function
+:func:`highlight_phrase()` has been changed from ``<strong>`` to the new HTML5
+tag ``<mark>``.
+
+Unless you've used your own highlighting tags, this might cause trouble
+for your visitors who use older web browsers such as Internet Explorer 8.
+We therefore suggest that you add the following code to your CSS files
+in order to avoid backwards compatibility with old browsers::
+
+	mark {
+		background: #ff0;
+		color: #000;
+	};
+>>>>>>> local

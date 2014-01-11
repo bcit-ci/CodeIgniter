@@ -3,6 +3,19 @@
 class Output_test extends CI_TestCase {
 
 	public $output;
+<<<<<<< develop
+=======
+	protected $_output_data = <<<HTML
+<html>
+	<head>
+		<title>Basic HTML</title>
+	</head>
+	<body>
+		Test
+	</body>
+</html>
+HTML;
+>>>>>>> local
 
 	public function set_up()
 	{
@@ -13,6 +26,34 @@ class Output_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
+<<<<<<< develop
+=======
+	public function test_set_get_append_output()
+	{
+		$append = "<!-- comment /-->\n";
+
+		$this->assertEquals(
+			$this->_output_data.$append,
+			$this->output
+				->set_output($this->_output_data)
+				->append_output("<!-- comment /-->\n")
+				->get_output()
+		);
+	}
+
+	// --------------------------------------------------------------------
+
+	public function test_minify()
+	{
+		$this->assertEquals(
+			str_replace(array("\t", "\n"), '', $this->_output_data),
+			$this->output->minify($this->_output_data)
+		);
+	}
+
+	// --------------------------------------------------------------------
+
+>>>>>>> local
 	public function test_get_content_type()
 	{
 		$this->assertEquals('text/html', $this->output->get_content_type());

@@ -124,7 +124,15 @@ class CI_Migration {
 		}
 
 		// If not set, set it
+<<<<<<< develop
 		$this->_migration_path !== '' OR $this->_migration_path = APPPATH.'migrations/';
+=======
+<<<<<<< HEAD
+		$this->_migration_path == '' AND $this->_migration_path = APPPATH . 'migrations/';
+=======
+		$this->_migration_path !== '' OR $this->_migration_path = APPPATH.'migrations/';
+>>>>>>> upstream/develop
+>>>>>>> local
 
 		// Add trailing slash if not set
 		$this->_migration_path = rtrim($this->_migration_path, '/').'/';
@@ -179,7 +187,15 @@ class CI_Migration {
 	 * Calls each migration step required to get to the schema version of
 	 * choice
 	 *
+<<<<<<< develop
 	 * @param	int	$target_version	Target schema version
+=======
+<<<<<<< HEAD
+	 * @param	int	Target schema version
+=======
+	 * @param	int	$target_version	Target schema version
+>>>>>>> upstream/develop
+>>>>>>> local
 	 * @return	mixed	TRUE if already latest, FALSE if failed, int if upgraded
 	 */
 	public function version($target_version)
@@ -206,14 +222,29 @@ class CI_Migration {
 			$method = 'down';
 			krsort($migrations);
 		}
+<<<<<<< HEAD
 
+<<<<<<< develop
+=======
+		$method = ($step === 1) ? 'up' : 'down';
+		$migrations = array();
+=======
+>>>>>>> upstream/develop
+
+>>>>>>> local
 		if (empty($migrations))
 		{
 			return TRUE;
 		}
+<<<<<<< develop
 
 		$previous = FALSE;
 
+=======
+
+		$previous = FALSE;
+
+>>>>>>> local
 		// Validate all available migrations, and run the ones within our target range
 		foreach ($migrations as $number => $file)
 		{
@@ -228,7 +259,11 @@ class CI_Migration {
 			$class = 'Migration_'.ucfirst(strtolower($this->_get_migration_name(basename($file, '.php'))));
 
 			// Validate the migration file structure
+<<<<<<< develop
 			if ( ! class_exists($class))
+=======
+			if ( ! class_exists($class, FALSE))
+>>>>>>> local
 			{
 				$this->_error_string = sprintf($this->lang->line('migration_class_doesnt_exist'), $class);
 				return FALSE;
@@ -274,7 +309,15 @@ class CI_Migration {
 	/**
 	 * Set's the schema to the latest migration
 	 *
+<<<<<<< develop
 	 * @return	mixed	TRUE if already latest, FALSE if failed, int if upgraded
+=======
+<<<<<<< HEAD
+	 * @return	mixed	true if already latest, false if failed, int if upgraded
+=======
+	 * @return	mixed	TRUE if already latest, FALSE if failed, int if upgraded
+>>>>>>> upstream/develop
+>>>>>>> local
 	 */
 	public function latest()
 	{
@@ -283,7 +326,15 @@ class CI_Migration {
 		if (empty($migrations))
 		{
 			$this->_error_string = $this->lang->line('migration_none_found');
+<<<<<<< develop
 			return FALSE;
+=======
+<<<<<<< HEAD
+			return false;
+=======
+			return FALSE;
+>>>>>>> upstream/develop
+>>>>>>> local
 		}
 
 		$last_migration = basename(end($migrations));
@@ -298,7 +349,15 @@ class CI_Migration {
 	/**
 	 * Set's the schema to the migration version set in config
 	 *
+<<<<<<< develop
 	 * @return	mixed	TRUE if already current, FALSE if failed, int if upgraded
+=======
+<<<<<<< HEAD
+	 * @return	mixed	true if already current, false if failed, int if upgraded
+=======
+	 * @return	mixed	TRUE if already current, FALSE if failed, int if upgraded
+>>>>>>> upstream/develop
+>>>>>>> local
 	 */
 	public function current()
 	{
@@ -322,14 +381,35 @@ class CI_Migration {
 	/**
 	 * Retrieves list of available migration scripts
 	 *
+<<<<<<< develop
 	 * @return	array	list of migration file paths sorted by version
+=======
+<<<<<<< HEAD
+	 * @return	mixed	true if already latest, false if failed, int if upgraded
+=======
+	 * @return	array	list of migration file paths sorted by version
+>>>>>>> upstream/develop
+>>>>>>> local
 	 */
 	public function find_migrations()
 	{
 		$migrations = array();
+<<<<<<< develop
 
 		// Load all *_*.php files in the migrations path
 		foreach (glob($this->_migration_path.'*_*.php') as $file)
+=======
+
+		// Load all *_*.php files in the migrations path
+<<<<<<< HEAD
+		$files = glob($this->_migration_path . '*_*.php');
+		$file_count = count($files);
+
+		for ($i = 0; $i < $file_count; $i++)
+=======
+		foreach (glob($this->_migration_path.'*_*.php') as $file)
+>>>>>>> upstream/develop
+>>>>>>> local
 		{
 			$name = basename($file, '.php');
 
@@ -349,6 +429,13 @@ class CI_Migration {
 			}
 		}
 
+<<<<<<< develop
+=======
+<<<<<<< HEAD
+		sort($files);
+		return $files;
+=======
+>>>>>>> local
 		ksort($migrations);
 		return $migrations;
 	}
@@ -380,6 +467,10 @@ class CI_Migration {
 		$parts = explode('_', $migration);
 		array_shift($parts);
 		return implode('_', $parts);
+<<<<<<< develop
+=======
+>>>>>>> upstream/develop
+>>>>>>> local
 	}
 
 	// --------------------------------------------------------------------
@@ -400,8 +491,18 @@ class CI_Migration {
 	/**
 	 * Stores the current schema version
 	 *
+<<<<<<< develop
 	 * @param	int	$migration	Migration reached
 	 * @return	void	Outputs a report of the migration
+=======
+<<<<<<< HEAD
+	 * @param	int	Migration reached
+	 * @return	bool
+=======
+	 * @param	int	$migration	Migration reached
+	 * @return	void	Outputs a report of the migration
+>>>>>>> upstream/develop
+>>>>>>> local
 	 */
 	protected function _update_version($migration)
 	{
@@ -415,7 +516,15 @@ class CI_Migration {
 	/**
 	 * Enable the use of CI super-global
 	 *
+<<<<<<< develop
 	 * @param	string	$var
+=======
+<<<<<<< HEAD
+	 * @param	mixed	$var
+=======
+	 * @param	string	$var
+>>>>>>> upstream/develop
+>>>>>>> local
 	 * @return	mixed
 	 */
 	public function __get($var)

@@ -103,7 +103,11 @@ class CI_DB_pdo_4d_forge extends CI_DB_4d_forge {
 	{
 		if (in_array($alter_type, array('ADD', 'DROP'), TRUE))
 		{
+<<<<<<< develop
 			return parent::_alter_table($alter_table, $table, $field);
+=======
+			return parent::_alter_table($alter_type, $table, $field);
+>>>>>>> local
 		}
 
 		// No method of modifying columns is supported

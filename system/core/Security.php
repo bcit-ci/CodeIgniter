@@ -1,4 +1,12 @@
+<<<<<<< develop
 <?php
+=======
+<<<<<<< HEAD
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+=======
+<?php
+>>>>>>> upstream/develop
+>>>>>>> local
 /**
  * CodeIgniter
  *
@@ -38,6 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CI_Security {
 
 	/**
+<<<<<<< develop
 	 * XSS Hash
 	 *
 	 * Random Hash for protecting URLs.
@@ -53,14 +62,62 @@ class CI_Security {
 	 *
 	 * @var	string
 	 */
+=======
+	 * List of sanitize filename strings
+	 *
+	 * @var	array
+	 */
+	public $filename_bad_chars =	array(
+		'../', '<!--', '-->', '<', '>',
+		"'", '"', '&', '$', '#',
+		'{', '}', '[', ']', '=',
+		';', '?', '%20', '%22',
+		'%3c',		// <
+		'%253c',	// <
+		'%3e',		// >
+		'%0e',		// >
+		'%28',		// (
+		'%29',		// )
+		'%2528',	// (
+		'%26',		// &
+		'%24',		// $
+		'%3f',		// ?
+		'%3b',		// ;
+		'%3d'		// =
+	);
+
+	/**
+	 * XSS Hash
+	 *
+	 * Random Hash for protecting URLs.
+	 *
+	 * @var	string
+	 */
+	protected $_xss_hash =	'';
+
+	/**
+	 * CSRF Hash
+	 *
+	 * Random hash for Cross Site Request Forgery protection cookie
+	 *
+	 * @var	string
+	 */
+>>>>>>> local
 	protected $_csrf_hash =	'';
 
 	/**
 	 * CSRF Expire time
+<<<<<<< develop
 	 *
 	 * Expiration time for Cross Site Request Forgery protection cookie.
 	 * Defaults to two hours (in seconds).
 	 *
+=======
+	 *
+	 * Expiration time for Cross Site Request Forgery protection cookie.
+	 * Defaults to two hours (in seconds).
+	 *
+>>>>>>> local
 	 * @var	int
 	 */
 	protected $_csrf_expire =	7200;
@@ -76,9 +133,15 @@ class CI_Security {
 
 	/**
 	 * CSRF Cookie name
+<<<<<<< develop
 	 *
 	 * Cookie name for Cross Site Request Forgery protection cookie.
 	 *
+=======
+	 *
+	 * Cookie name for Cross Site Request Forgery protection cookie.
+	 *
+>>>>>>> local
 	 * @var	string
 	 */
 	protected $_csrf_cookie_name =	'ci_csrf_token';
@@ -88,12 +151,23 @@ class CI_Security {
 	 *
 	 * @var	array
 	 */
+<<<<<<< develop
 	protected $_never_allowed_str =	array(
+=======
+<<<<<<< HEAD
+	protected $_never_allowed_str = array(
+=======
+	protected $_never_allowed_str =	array(
+>>>>>>> upstream/develop
+>>>>>>> local
 		'document.cookie'	=> '[removed]',
 		'document.write'	=> '[removed]',
 		'.parentNode'		=> '[removed]',
 		'.innerHTML'		=> '[removed]',
+<<<<<<< HEAD
 		'window.location'	=> '[removed]',
+=======
+>>>>>>> upstream/develop
 		'-moz-binding'		=> '[removed]',
 		'<!--'				=> '&lt;!--',
 		'-->'				=> '--&gt;',
@@ -108,6 +182,10 @@ class CI_Security {
 	 */
 	protected $_never_allowed_regex = array(
 		'javascript\s*:',
+<<<<<<< HEAD
+=======
+		'(document|(document\.)?window)\.(location|on\w*)',
+>>>>>>> upstream/develop
 		'expression\s*(\(|&\#40;)', // CSS and IE
 		'vbscript\s*:', // IE, surprise!
 		'Redirect\s+302',
@@ -115,7 +193,15 @@ class CI_Security {
 	);
 
 	/**
+<<<<<<< develop
 	 * Class constructor
+=======
+<<<<<<< HEAD
+	 * Constructor
+=======
+	 * Class constructor
+>>>>>>> upstream/develop
+>>>>>>> local
 	 *
 	 * @return	void
 	 */
@@ -161,8 +247,18 @@ class CI_Security {
 			return $this->csrf_set_cookie();
 		}
 
+<<<<<<< develop
 		// Check if URI has been whitelisted from CSRF checks
 		if ($exclude_uris = config_item('csrf_exclude_uris'))
+=======
+<<<<<<< HEAD
+		// Do the tokens exist in both the _POST and _COOKIE arrays?
+		if ( ! isset($_POST[$this->_csrf_token_name], $_COOKIE[$this->_csrf_cookie_name]))
+=======
+		// Check if URI has been whitelisted from CSRF checks
+		if ($exclude_uris = config_item('csrf_exclude_uris'))
+>>>>>>> upstream/develop
+>>>>>>> local
 		{
 			$uri = load_class('URI', 'core');
 			if (in_array($uri->uri_string(), $exclude_uris))
@@ -193,6 +289,13 @@ class CI_Security {
 		$this->csrf_set_cookie();
 
 		log_message('debug', 'CSRF token verified');
+<<<<<<< develop
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> upstream/develop
+>>>>>>> local
 		return $this;
 	}
 
@@ -209,7 +312,15 @@ class CI_Security {
 		$expire = time() + $this->_csrf_expire;
 		$secure_cookie = (bool) config_item('cookie_secure');
 
+<<<<<<< develop
 		if ($secure_cookie && ! is_https())
+=======
+<<<<<<< HEAD
+		if ($secure_cookie && (empty($_SERVER['HTTPS']) OR strtolower($_SERVER['HTTPS']) === 'off'))
+=======
+		if ($secure_cookie && ! is_https())
+>>>>>>> upstream/develop
+>>>>>>> local
 		{
 			return FALSE;
 		}
@@ -488,8 +599,7 @@ class CI_Security {
 	{
 		if ($this->_xss_hash === '')
 		{
-			mt_srand();
-			$this->_xss_hash = md5(time() + mt_rand(0, 1999999999));
+			$this->_xss_hash = md5(uniqid(mt_rand()));
 		}
 
 		return $this->_xss_hash;
@@ -530,9 +640,15 @@ class CI_Security {
 		{
 			$matches = $matches1 = 0;
 
+<<<<<<< develop
 			$str = html_entity_decode($str, ENT_COMPAT, $charset);
 			$str = preg_replace('~&#x(0*[0-9a-f]{2,5})~ei', 'chr(hexdec("\\1"))', $str, -1, $matches);
 			$str = preg_replace('~&#([0-9]{2,4})~e', 'chr(\\1)', $str, -1, $matches1);
+=======
+			$str = preg_replace('~(&#x0*[0-9a-f]{2,5});?~iS', '$1;', $str, -1, $matches);
+			$str = preg_replace('~(&#\d{2,4});?~S', '$1;', $str, -1, $matches1);
+			$str = html_entity_decode($str, ENT_COMPAT, $charset);
+>>>>>>> local
 		}
 		while ($matches OR $matches1);
 
@@ -550,6 +666,7 @@ class CI_Security {
 	 */
 	public function sanitize_filename($str, $relative_path = FALSE)
 	{
+<<<<<<< HEAD
 		$bad = array(
 			'../', '<!--', '-->', '<', '>',
 			"'", '"', '&', '$', '#',
@@ -568,6 +685,9 @@ class CI_Security {
 			'%3b',		// ;
 			'%3d'		// =
 		);
+=======
+		$bad = $this->filename_bad_chars;
+>>>>>>> upstream/develop
 
 		if ( ! $relative_path)
 		{
@@ -597,7 +717,11 @@ class CI_Security {
 	 */
 	public function strip_image_tags($str)
 	{
+<<<<<<< develop
 		return preg_replace(array('#<img\s+.*?src\s*=\s*["\'](.+?)["\'].*?\>#', '#<img\s+.*?src\s*=\s*(.+?).*?\>#'), '\\1', $str);
+=======
+		return preg_replace(array('#<img[\s/]+.*?src\s*=\s*["\'](.+?)["\'].*?\>#', '#<img[\s/]+.*?src\s*=\s*(.+?).*?\>#'), '\\1', $str);
+>>>>>>> local
 	}
 
 	// ----------------------------------------------------------------
@@ -642,8 +766,8 @@ class CI_Security {
 	 */
 	protected function _remove_evil_attributes($str, $is_image)
 	{
-		// All javascript event handlers (e.g. onload, onclick, onmouseover), style, and xmlns
-		$evil_attributes = array('on\w*', 'style', 'xmlns', 'formaction');
+		// Formaction, style, and xmlns
+		$evil_attributes = array('style', 'xmlns', 'formaction');
 
 		if ($is_image === TRUE)
 		{
@@ -679,8 +803,18 @@ class CI_Security {
 			{
 				$str = preg_replace('/(<?)(\/?[^><]+?)([^A-Za-z<>\-])(.*?)('.implode('|', $attribs).')(.*?)([\s><]?)([><]*)/i', '$1$2 $4$6$7$8', $str, -1, $count);
 			}
+<<<<<<< develop
 		}
 		while ($count);
+=======
+<<<<<<< HEAD
+
+		} while ($count);
+=======
+		}
+		while ($count);
+>>>>>>> upstream/develop
+>>>>>>> local
 
 		return $str;
 	}
@@ -720,12 +854,30 @@ class CI_Security {
 	 */
 	protected function _js_link_removal($match)
 	{
+<<<<<<< develop
+=======
+<<<<<<< HEAD
+		return str_replace(
+			$match[1],
+			preg_replace(
+				'#href=.*?(alert\(|alert&\#40;|javascript\:|livescript\:|mocha\:|charset\=|window\.|document\.|\.cookie|<script|<xss|data\s*:)#si',
+				'',
+				$this->_filter_attributes(str_replace(array('<', '>'), '', $match[1]))
+			),
+			$match[0]
+		);
+=======
+>>>>>>> local
 		return str_replace($match[1],
 					preg_replace('#href=.*?(?:alert\(|alert&\#40;|javascript:|livescript:|mocha:|charset=|window\.|document\.|\.cookie|<script|<xss|data\s*:)#si',
 							'',
 							$this->_filter_attributes(str_replace(array('<', '>'), '', $match[1]))
 					),
 					$match[0]);
+<<<<<<< develop
+=======
+>>>>>>> upstream/develop
+>>>>>>> local
 	}
 
 	// --------------------------------------------------------------------
@@ -745,12 +897,30 @@ class CI_Security {
 	 */
 	protected function _js_img_removal($match)
 	{
+<<<<<<< develop
+=======
+<<<<<<< HEAD
+		return str_replace(
+			$match[1],
+			preg_replace(
+				'#src=.*?(alert\(|alert&\#40;|javascript\:|livescript\:|mocha\:|charset\=|window\.|document\.|\.cookie|<script|<xss|base64\s*,)#si',
+				'',
+				$this->_filter_attributes(str_replace(array('<', '>'), '', $match[1]))
+			),
+			$match[0]
+		);
+=======
+>>>>>>> local
 		return str_replace($match[1],
 					preg_replace('#src=.*?(?:alert\(|alert&\#40;|javascript:|livescript:|mocha:|charset=|window\.|document\.|\.cookie|<script|<xss|base64\s*,)#si',
 							'',
 							$this->_filter_attributes(str_replace(array('<', '>'), '', $match[1]))
 					),
 					$match[0]);
+<<<<<<< develop
+=======
+>>>>>>> upstream/develop
+>>>>>>> local
 	}
 
 	// --------------------------------------------------------------------
@@ -878,7 +1048,7 @@ class CI_Security {
 	{
 		if ($this->_csrf_hash === '')
 		{
-			// If the cookie exists we will use it's value.
+			// If the cookie exists we will use its value.
 			// We don't necessarily want to regenerate it with
 			// each page load since a page could contain embedded
 			// sub-pages causing this feature to fail
@@ -888,7 +1058,11 @@ class CI_Security {
 				return $this->_csrf_hash = $_COOKIE[$this->_csrf_cookie_name];
 			}
 
+<<<<<<< develop
 			$this->_csrf_hash = md5(uniqid(rand(), TRUE));
+=======
+			$this->_csrf_hash = md5(uniqid(mt_rand(), TRUE));
+>>>>>>> local
 			$this->csrf_set_cookie();
 		}
 
@@ -898,4 +1072,8 @@ class CI_Security {
 }
 
 /* End of file Security.php */
+<<<<<<< develop
 /* Location: ./system/core/Security.php */
+=======
+/* Location: ./system/core/Security.php */
+>>>>>>> local

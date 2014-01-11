@@ -225,7 +225,11 @@ class CI_Jquery extends CI_Javascript {
 	 * @param	string	- Javascript code for mouse out
 	 * @return	string
 	 */
+<<<<<<< develop:system/libraries/Javascript/Jquery.php
 	protected function _hover($element = 'this', $over, $out)
+=======
+	protected function _hover($element = 'this', $over = '', $out = '')
+>>>>>>> local:system/libraries/Javascript/Jquery.php
 	{
 		$event = "\n\t$(".$this->_prep_element($element).").hover(\n\t\tfunction()\n\t\t{\n\t\t\t{$over}\n\t\t}, \n\t\tfunction()\n\t\t{\n\t\t\t{$out}\n\t\t});\n";
 
@@ -715,7 +719,11 @@ class CI_Jquery extends CI_Javascript {
 	 * @return	string
 	 */
 
+<<<<<<< develop:system/libraries/Javascript/Jquery.php
 	protected function _updater($container = 'this', $controller, $options = '')
+=======
+	protected function _updater($container = 'this', $controller = '', $options = '')
+>>>>>>> local:system/libraries/Javascript/Jquery.php
 	{
 		$container = $this->_prep_element($container);
 		$controller = (strpos('://', $controller) === FALSE) ? $controller : $this->CI->config->site_url($controller);
@@ -923,7 +931,6 @@ class CI_Jquery extends CI_Javascript {
 		if (is_array($js))
 		{
 			$js = implode("\n\t\t", $js);
-
 		}
 
 		$event = "\n\t$(".$this->_prep_element($element).').'.$event."(function(){\n\t\t{$js}\n\t});\n";
@@ -937,7 +944,7 @@ class CI_Jquery extends CI_Javascript {
 	 * Compile
 	 *
 	 * As events are specified, they are stored in an array
-	 * This funciton compiles them all for output on a page
+	 * This function compiles them all for output on a page
 	 *
 	 * @param	string	$view_var
 	 * @param	bool	$script_tags

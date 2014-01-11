@@ -136,6 +136,16 @@ class CI_Upload {
 	public $file_ext		= '';
 
 	/**
+<<<<<<< develop
+=======
+	 * Force filename extension to lowercase
+	 *
+	 * @var	string
+	 */
+	public $file_ext_tolower		= FALSE;
+
+	/**
+>>>>>>> local
 	 * Upload path
 	 *
 	 * @var	string
@@ -218,6 +228,7 @@ class CI_Upload {
 	 * @var	bool
 	 */
 	public $detect_mime		= TRUE;
+<<<<<<< develop
 
 	/**
 	 * XSS filter flag
@@ -240,6 +251,37 @@ class CI_Upload {
 	 */
 	public $client_name		= '';
 
+=======
+
+	/**
+	 * XSS filter flag
+	 *
+	 * @var	bool
+	 */
+	public $xss_clean		= FALSE;
+
+	/**
+	 * Apache mod_mime fix flag
+	 *
+	 * @var	bool
+	 */
+	public $mod_mime_fix		= TRUE;
+
+	/**
+	 * Temporary filename prefix
+	 *
+	 * @var	string
+	 */
+	public $temp_prefix		= 'temp_file_';
+
+	/**
+	 * Filename sent by the client
+	 *
+	 * @var	bool
+	 */
+	public $client_name		= '';
+
+>>>>>>> local
 	// --------------------------------------------------------------------
 
 	/**
@@ -248,6 +290,15 @@ class CI_Upload {
 	 * @var	string
 	 */
 	protected $_file_name_override	= '';
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * CI Singleton
+	 *
+	 * @var	object
+	 */
+	protected $CI;
 
 	// --------------------------------------------------------------------
 
@@ -265,6 +316,10 @@ class CI_Upload {
 		}
 
 		$this->mimes =& get_mimes();
+<<<<<<< develop
+=======
+		$this->CI =& get_instance();
+>>>>>>> local
 
 		log_message('debug', 'Upload Class Initialized');
 	}
@@ -294,6 +349,10 @@ class CI_Upload {
 					'file_type'			=> '',
 					'file_size'			=> NULL,
 					'file_ext'			=> '',
+<<<<<<< develop
+=======
+					'file_ext_tolower' => FALSE,
+>>>>>>> local
 					'upload_path'			=> '',
 					'overwrite'			=> FALSE,
 					'encrypt_name'			=> FALSE,
@@ -306,6 +365,10 @@ class CI_Upload {
 					'remove_spaces'			=> TRUE,
 					'detect_mime'			=> TRUE,
 					'xss_clean'			=> FALSE,
+<<<<<<< develop
+=======
+					'mod_mime_fix'			=> TRUE,
+>>>>>>> local
 					'temp_prefix'			=> 'temp_file_',
 					'client_name'			=> ''
 				);
@@ -366,25 +429,25 @@ class CI_Upload {
 
 			switch ($error)
 			{
-				case 1:	// UPLOAD_ERR_INI_SIZE
+				case UPLOAD_ERR_INI_SIZE:
 					$this->set_error('upload_file_exceeds_limit');
 					break;
-				case 2: // UPLOAD_ERR_FORM_SIZE
+				case UPLOAD_ERR_FORM_SIZE:
 					$this->set_error('upload_file_exceeds_form_limit');
 					break;
-				case 3: // UPLOAD_ERR_PARTIAL
+				case UPLOAD_ERR_PARTIAL:
 					$this->set_error('upload_file_partial');
 					break;
-				case 4: // UPLOAD_ERR_NO_FILE
+				case UPLOAD_ERR_NO_FILE:
 					$this->set_error('upload_no_file_selected');
 					break;
-				case 6: // UPLOAD_ERR_NO_TMP_DIR
+				case UPLOAD_ERR_NO_TMP_DIR:
 					$this->set_error('upload_no_temp_directory');
 					break;
-				case 7: // UPLOAD_ERR_CANT_WRITE
+				case UPLOAD_ERR_CANT_WRITE:
 					$this->set_error('upload_unable_to_write_file');
 					break;
-				case 8: // UPLOAD_ERR_EXTENSION
+				case UPLOAD_ERR_EXTENSION:
 					$this->set_error('upload_stopped_by_extension');
 					break;
 				default:
@@ -455,7 +518,7 @@ class CI_Upload {
 		}
 
 		// Are the image dimensions within the allowed size?
-		// Note: This can fail if the server has an open_basdir restriction.
+		// Note: This can fail if the server has an open_basedir restriction.
 		if ( ! $this->is_allowed_dimensions())
 		{
 			$this->set_error('upload_invalid_dimensions');
@@ -463,8 +526,12 @@ class CI_Upload {
 		}
 
 		// Sanitize the file name for security
+<<<<<<< develop
 		$CI =& get_instance();
 		$this->file_name = $CI->security->sanitize_filename($this->file_name);
+=======
+		$this->file_name = $this->CI->security->sanitize_filename($this->file_name);
+>>>>>>> local
 
 		// Truncate the file name if it's too long
 		if ($this->max_filename > 0)
@@ -604,7 +671,6 @@ class CI_Upload {
 	{
 		if ($this->encrypt_name === TRUE)
 		{
-			mt_srand();
 			$filename = md5(uniqid(mt_rand())).$this->file_ext;
 		}
 
@@ -966,7 +1032,18 @@ class CI_Upload {
 	public function get_extension($filename)
 	{
 		$x = explode('.', $filename);
+<<<<<<< develop
 		return (count($x) !== 1) ? '.'.end($x) : '';
+=======
+
+		if (count($x) === 1)
+		{
+		    return '';
+		}
+
+		$ext = ($this->file_ext_tolower) ? strtolower(end($x)) : end($x);
+		return '.'.$ext;
+>>>>>>> local
 	}
 
 	// --------------------------------------------------------------------
@@ -1059,8 +1136,7 @@ class CI_Upload {
 			return FALSE;
 		}
 
-		$CI =& get_instance();
-		return $CI->security->xss_clean($data, TRUE);
+		return $this->CI->security->xss_clean($data, TRUE);
 	}
 
 	// --------------------------------------------------------------------
@@ -1073,9 +1149,9 @@ class CI_Upload {
 	 */
 	public function set_error($msg)
 	{
-		$CI =& get_instance();
-		$CI->lang->load('upload');
+		$this->CI->lang->load('upload');
 
+<<<<<<< develop
 		if (is_array($msg))
 		{
 			foreach ($msg as $val)
@@ -1088,6 +1164,13 @@ class CI_Upload {
 		else
 		{
 			$msg = ($CI->lang->line($msg) === FALSE) ? $msg : $CI->lang->line($msg);
+=======
+		is_array($msg) OR $msg = array($msg);
+
+		foreach ($msg as $val)
+		{
+			$msg = ($this->CI->lang->line($val) === FALSE) ? $val : $this->CI->lang->line($val);
+>>>>>>> local
 			$this->error_msg[] = $msg;
 			log_message('error', $msg);
 		}
@@ -1138,7 +1221,11 @@ class CI_Upload {
 	 */
 	protected function _prep_filename($filename)
 	{
+<<<<<<< develop
 		if (strpos($filename, '.') === FALSE OR $this->allowed_types === '*')
+=======
+		if ($this->mod_mime_fix === FALSE OR $this->allowed_types === '*' OR strpos($filename, '.') === FALSE)
+>>>>>>> local
 		{
 			return $filename;
 		}
@@ -1235,7 +1322,11 @@ class CI_Upload {
 				}
 			}
 
+<<<<<<< develop
 			if ( (bool) @ini_get('safe_mode') === FALSE && function_usable('shell_exec'))
+=======
+			if ((bool) @ini_get('safe_mode') === FALSE && function_usable('shell_exec'))
+>>>>>>> local
 			{
 				$mime = @shell_exec($cmd);
 				if (strlen($mime) > 0)

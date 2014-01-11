@@ -32,6 +32,7 @@ The :doc:`URI Library <../libraries/uri>` and the :doc:`URL Helper
 with your URI data. In addition, your URLs can be remapped using the
 :doc:`URI Routing <routing>` feature for more flexibility.
 
+<<<<<<< develop
 Friendly URLs
 =============
 
@@ -50,6 +51,8 @@ For example::
 The above example will route to the ``My_settings`` controller and
 its method ``change_password()``.
 
+=======
+>>>>>>> local
 Removing the index.php file
 ===========================
 

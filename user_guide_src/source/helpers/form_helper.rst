@@ -22,7 +22,11 @@ form_open()
 .. php:function:: form_open($action = '', $attributes = '', $hidden = array())
 
 	:param	string	$action: Form action/target URI string
+<<<<<<< develop
 	:param	string	$attributes: HTML attributes
+=======
+	:param	array	$attributes: HTML attributes
+>>>>>>> local
 	:param	array	$hidden: An array of hidden fields' definitions
 	:returns:	string
 
@@ -41,7 +45,11 @@ Here's a simple example::
 The above example would create a form that points to your base URL plus the
 "email/send" URI segments, like this::
 
+<<<<<<< develop
 	<form method="post" accept-charset="utf-8" action="http://example.com/index.php/email/send" />
+=======
+	<form method="post" accept-charset="utf-8" action="http://example.com/index.php/email/send">
+>>>>>>> local
 
 Adding Attributes
 ^^^^^^^^^^^^^^^^^
@@ -52,9 +60,19 @@ parameter, like this::
 	$attributes = array('class' => 'email', 'id' => 'myform');
 	echo form_open('email/send', $attributes);
 
+<<<<<<< develop
 The above example would create a form similar to this::
 
 	<form method="post" accept-charset="utf-8" action="http://example.com/index.php/email/send" class="email" id="myform" />
+=======
+Alternatively, you can specify the second parameter as a string::
+
+	echo form_open('email/send', 'class="email" id="myform"');
+
+The above examples would create a form similar to this::
+
+	<form method="post" accept-charset="utf-8" action="http://example.com/index.php/email/send" class="email" id="myform">
+>>>>>>> local
 
 Adding Hidden Input Fields
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -65,6 +83,11 @@ third parameter, like this::
 	$hidden = array('username' => 'Joe', 'member_id' => '234');
 	echo form_open('email/send', '', $hidden);
 
+<<<<<<< develop
+=======
+You can skip the second parameter by passing any falsy value to it.
+
+>>>>>>> local
 The above example would create a form similar to this::
 
 	<form method="post" accept-charset="utf-8" action="http://example.com/index.php/email/send">
@@ -77,7 +100,11 @@ form_open_multipart()
 .. php:function:: form_open_multipart($action = '', $attributes = array(), $hidden = array())
 
 	:param	string	$action: Form action/target URI string
+<<<<<<< develop
 	:param	string	$attributes: HTML attributes
+=======
+	:param	array	$attributes: HTML attributes
+>>>>>>> local
 	:param	array	$hidden: An array of hidden fields' definitions
 	:returns:	string
 
@@ -258,10 +285,17 @@ multiple select for you.
 Example::
 
 	$options = array(
+<<<<<<< develop
 		'small'  => 'Small Shirt',
 		'med'    => 'Medium Shirt',
 		'large'  => 'Large Shirt',
 		'xlarge' => 'Extra Large Shirt',
+=======
+		'small'		=> 'Small Shirt',
+		'med'		=> 'Medium Shirt',
+		'large'		=> 'Large Shirt',
+		'xlarge'	=> 'Extra Large Shirt',
+>>>>>>> local
 	);
 
 	$shirts_on_sale = array('small', 'large');
@@ -407,6 +441,7 @@ The third parameter contains a boolean TRUE/FALSE to determine whether
 the box should be checked or not.
 
 Similar to the other form functions in this helper, you can also pass an
+<<<<<<< develop
 array of attributes to the function
 
 ::
@@ -417,6 +452,16 @@ array of attributes to the function
 		'value'   => 'accept',
 		'checked' => TRUE,
 		'style'   => 'margin:10px'
+=======
+array of attributes to the function::
+
+	$data = array(
+		'name'		=> 'newsletter',
+		'id'		=> 'newsletter',
+		'value'		=> 'accept',
+		'checked'	=> TRUE,
+		'style'		=> 'margin:10px'
+>>>>>>> local
 	);
 
 	echo form_checkbox($data);
@@ -523,11 +568,19 @@ Or you can pass an associative array containing any data you wish your
 form to contain::
 
 	$data = array(
+<<<<<<< develop
 		'name'    => 'button',
 		'id'      => 'button',
 		'value'   => 'true',
 		'type'    => 'reset',
 		'content' => 'Reset'
+=======
+		'name'		=> 'button',
+		'id'		=> 'button',
+		'value'		=> 'true',
+		'type'		=> 'reset',
+		'content'	=> 'Reset'
+>>>>>>> local
 	);
 
 	echo form_button($data);

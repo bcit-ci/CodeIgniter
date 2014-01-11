@@ -561,7 +561,10 @@ abstract class CI_DB_driver {
 		if ($sql === '')
 		{
 			log_message('error', 'Invalid query: '.$sql);
+<<<<<<< develop
 
+=======
+>>>>>>> local
 			return ($this->db_debug) ? $this->display_error('db_invalid_query') : FALSE;
 		}
 		elseif ( ! is_bool($return_object))
@@ -625,7 +628,18 @@ abstract class CI_DB_driver {
 				// if transactions are enabled. If we don't call this here
 				// the error message will trigger an exit, causing the
 				// transactions to remain in limbo.
+<<<<<<< develop
 				$this->trans_complete();
+=======
+				if ($this->_trans_depth !== 0)
+				{
+					do
+					{
+						$this->trans_complete();
+					}
+					while ($this->_trans_depth !== 0);
+				}
+>>>>>>> local
 
 				// Display errors
 				return $this->display_error(array('Error Number: '.$error['code'], $error['message'], $sql));
@@ -704,7 +718,7 @@ abstract class CI_DB_driver {
 	{
 		$driver = 'CI_DB_'.$this->dbdriver.'_result';
 
-		if ( ! class_exists($driver))
+		if ( ! class_exists($driver, FALSE))
 		{
 			include_once(BASEPATH.'database/DB_result.php');
 			include_once(BASEPATH.'database/drivers/'.$this->dbdriver.'/'.$this->dbdriver.'_result.php');
@@ -816,7 +830,7 @@ abstract class CI_DB_driver {
 		}
 
 		// The query() function will set this flag to FALSE in the event that a query failed
-		if ($this->_trans_status === FALSE)
+		if ($this->_trans_status === FALSE OR $this->_trans_failure === TRUE)
 		{
 			$this->trans_rollback();
 
@@ -864,6 +878,7 @@ abstract class CI_DB_driver {
 			return $sql;
 		}
 		elseif ( ! is_array($binds))
+<<<<<<< develop
 		{
 			$binds = array($binds);
 			$bind_count = 1;
@@ -893,6 +908,37 @@ abstract class CI_DB_driver {
 				return $sql;
 			}
 		}
+=======
+		{
+			$binds = array($binds);
+			$bind_count = 1;
+		}
+		else
+		{
+			// Make sure we're using numeric keys
+			$binds = array_values($binds);
+			$bind_count = count($binds);
+		}
+
+		// We'll need the marker length later
+		$ml = strlen($this->bind_marker);
+
+		// Make sure not to replace a chunk inside a string that happens to match the bind marker
+		if ($c = preg_match_all("/'[^']*'/i", $sql, $matches))
+		{
+			$c = preg_match_all('/'.preg_quote($this->bind_marker, '/').'/i',
+				str_replace($matches[0],
+					str_replace($this->bind_marker, str_repeat(' ', $ml), $matches[0]),
+					$sql, $c),
+				$matches, PREG_OFFSET_CAPTURE);
+
+			// Bind values' count must match the count of markers in the query
+			if ($bind_count !== $c)
+			{
+				return $sql;
+			}
+		}
+>>>>>>> local
 		elseif (($c = preg_match_all('/'.preg_quote($this->bind_marker, '/').'/i', $sql, $matches, PREG_OFFSET_CAPTURE)) !== $bind_count)
 		{
 			return $sql;
@@ -918,7 +964,11 @@ abstract class CI_DB_driver {
 	 */
 	public function is_write_type($sql)
 	{
+<<<<<<< develop
 		return (bool) preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|TRUNCATE|LOAD|COPY|ALTER|RENAME|GRANT|REVOKE|LOCK|UNLOCK|REINDEX)\s+/i', $sql);
+=======
+		return (bool) preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|TRUNCATE|LOAD|COPY|ALTER|RENAME|GRANT|REVOKE|LOCK|UNLOCK|REINDEX)\s/i', $sql);
+>>>>>>> local
 	}
 
 	// --------------------------------------------------------------------
@@ -1066,6 +1116,7 @@ abstract class CI_DB_driver {
 		$fields = $this->list_fields($table);
 		return is_array($fields) ? current($fields) : FALSE;
 	}
+<<<<<<< develop
 
 	// --------------------------------------------------------------------
 
@@ -1089,6 +1140,31 @@ abstract class CI_DB_driver {
 		if ($query->num_rows() === 0)
 		{
 			return 0;
+=======
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * "Count All" query
+	 *
+	 * Generates a platform-specific query string that counts all records in
+	 * the specified database
+	 *
+	 * @param	string
+	 * @return	int
+	 */
+	public function count_all($table = '')
+	{
+		if ($table === '')
+		{
+			return 0;
+		}
+
+		$query = $this->query($this->_count_string.$this->escape_identifiers('numrows').' FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE));
+		if ($query->num_rows() === 0)
+		{
+			return 0;
+>>>>>>> local
 		}
 
 		$query = $query->row();
@@ -1126,17 +1202,29 @@ abstract class CI_DB_driver {
 			if ( ! isset($key))
 			{
 				if (isset($row['table_name']))
+<<<<<<< develop
 				{
 					$key = 'table_name';
 				}
 				elseif (isset($row['TABLE_NAME']))
 				{
+=======
+				{
+					$key = 'table_name';
+				}
+				elseif (isset($row['TABLE_NAME']))
+				{
+>>>>>>> local
 					$key = 'TABLE_NAME';
 				}
 				else
 				{
 					/* We have no other choice but to just get the first element's key.
+<<<<<<< develop
 					 * Due to array_shift() accepting it's argument by reference, if
+=======
+					 * Due to array_shift() accepting its argument by reference, if
+>>>>>>> local
 					 * E_STRICT is on, this would trigger a warning. So we'll have to
 					 * assign it first.
 					 */
@@ -1208,6 +1296,7 @@ abstract class CI_DB_driver {
 				}
 				else
 				{
+<<<<<<< develop
 					/* We have no other choice but to just get the first element's key.
 					 * Due to array_shift() accepting it's argument by reference, if
 					 * E_STRICT is on, this would trigger a warning. So we'll have to
@@ -1215,6 +1304,10 @@ abstract class CI_DB_driver {
 					 */
 					$key = array_keys($row);
 					$key = array_shift($key);
+=======
+					// We have no other choice but to just get the first element's key.
+					$key = key($row);
+>>>>>>> local
 				}
 			}
 
@@ -1381,7 +1474,13 @@ abstract class CI_DB_driver {
 			$fields[$this->protect_identifiers($key)] = $this->escape($val);
 		}
 
+<<<<<<< develop
 		return $this->_update($this->protect_identifiers($table, TRUE, NULL, FALSE), $fields);
+=======
+		$sql = $this->_update($this->protect_identifiers($table, TRUE, NULL, FALSE), $fields);
+		$this->_reset_write();
+		return $sql;
+>>>>>>> local
 	}
 
 	// --------------------------------------------------------------------
@@ -1418,7 +1517,11 @@ abstract class CI_DB_driver {
 	 */
 	protected function _has_operator($str)
 	{
+<<<<<<< develop
 		return (bool) preg_match('/(<|>|!|=|\sIS NULL|\sIS NOT NULL|\sBETWEEN|\sLIKE|\sIN\s*\(|\s)/i', trim($str));
+=======
+		return (bool) preg_match('/(<|>|!|=|\sIS NULL|\sIS NOT NULL|\sEXISTS|\sBETWEEN|\sLIKE|\sIN\s*\(|\s)/i', trim($str));
+>>>>>>> local
 	}
 
 	// --------------------------------------------------------------------
@@ -1444,6 +1547,11 @@ abstract class CI_DB_driver {
 				'\s*>\s*',			// >
 				'\s+IS NULL',			// IS NULL
 				'\s+IS NOT NULL',		// IS NOT NULL
+<<<<<<< develop
+=======
+				'\s+EXISTS\s*\([^\)]+\)',	// EXISTS(sql)
+				'\s+NOT EXISTS\s*\([^\)]+\)',	// NOT EXISTS(sql)
+>>>>>>> local
 				'\s+BETWEEN\s+\S+\s+AND\s+\S+',	// BETWEEN value AND value
 				'\s+IN\s*\([^\)]+\)',		// IN(list)
 				'\s+NOT IN\s*\([^\)]+\)',	// NOT IN (list)
@@ -1480,7 +1588,11 @@ abstract class CI_DB_driver {
 		}
 
 		return (func_num_args() > 1)
+<<<<<<< develop
 			? call_user_func_array($function, array_splice(func_get_args(), 1))
+=======
+			? call_user_func_array($function, array_slice(func_get_args(), 1))
+>>>>>>> local
 			: call_user_func($function);
 	}
 
@@ -1560,7 +1672,11 @@ abstract class CI_DB_driver {
 	 */
 	protected function _cache_init()
 	{
+<<<<<<< develop
 		if (class_exists('CI_DB_Cache'))
+=======
+		if (class_exists('CI_DB_Cache', FALSE))
+>>>>>>> local
 		{
 			if (is_object($this->CACHE))
 			{
@@ -1614,7 +1730,11 @@ abstract class CI_DB_driver {
 	 * @param	string	the error message
 	 * @param	string	any "swap" values
 	 * @param	bool	whether to localize the message
+<<<<<<< develop
 	 * @return	string	sends the application/error_db.php template
+=======
+	 * @return	string	sends the application/views/errors/error_db.php template
+>>>>>>> local
 	 */
 	public function display_error($error = '', $swap = '', $native = FALSE)
 	{
@@ -1658,7 +1778,11 @@ abstract class CI_DB_driver {
 
 		$error =& load_class('Exceptions', 'core');
 		echo $error->show_error($heading, $message, 'error_db');
+<<<<<<< develop
 		exit;
+=======
+		exit(EXIT_DATABASE);
+>>>>>>> local
 	}
 
 	// --------------------------------------------------------------------
@@ -1711,7 +1835,14 @@ abstract class CI_DB_driver {
 		// If a parenthesis is found we know that we do not need to
 		// escape the data or add a prefix. There's probably a more graceful
 		// way to deal with this, but I'm not thinking of it -- Rick
+<<<<<<< develop
 		if (strpos($item, '(') !== FALSE)
+=======
+		//
+		// Added exception for single quotes as well, we don't want to alter
+		// literal strings. -- Narf
+		if (strpos($item, '(') !== FALSE OR strpos($item, "'") !== FALSE)
+>>>>>>> local
 		{
 			return $item;
 		}
@@ -1720,8 +1851,14 @@ abstract class CI_DB_driver {
 		$item = preg_replace('/\s+/', ' ', $item);
 
 		// If the item has an alias declaration we remove it and set it aside.
+<<<<<<< develop
 		// Note: strripos() is used in order to support spaces in table names
 		if ($offset = strripos($item, ' AS '))
+=======
+<<<<<<< HEAD
+		// Basically we remove everything to the right of the first space
+		if (strpos($item, ' ') !== FALSE)
+>>>>>>> local
 		{
 			$alias = ($protect_identifiers)
 					? substr($item, $offset, 4).$this->escape_identifiers(substr($item, $offset + 4))
@@ -1735,8 +1872,36 @@ abstract class CI_DB_driver {
 					: substr($item, $offset);
 			$item = substr($item, 0, $offset);
 		}
+<<<<<<< develop
 		else
 		{
+=======
+
+		// This is basically a bug fix for queries that use MAX, MIN, etc.
+		// If a parenthesis is found we know that we do not need to
+		// escape the data or add a prefix.  There's probably a more graceful
+		// way to deal with this, but I'm not thinking of it -- Rick
+		if (strpos($item, '(') !== FALSE)
+=======
+		// Note: strripos() is used in order to support spaces in table names
+		if ($offset = strripos($item, ' AS '))
+		{
+			$alias = ($protect_identifiers)
+					? substr($item, $offset, 4).$this->escape_identifiers(substr($item, $offset + 4))
+					: substr($item, $offset);
+			$item = substr($item, 0, $offset);
+		}
+		elseif ($offset = strrpos($item, ' '))
+>>>>>>> upstream/develop
+		{
+			$alias = ($protect_identifiers)
+					? ' '.$this->escape_identifiers(substr($item, $offset + 1))
+					: substr($item, $offset);
+			$item = substr($item, 0, $offset);
+		}
+		else
+		{
+>>>>>>> local
 			$alias = '';
 		}
 
@@ -1849,7 +2014,15 @@ abstract class CI_DB_driver {
 	/**
 	 * Dummy method that allows Query Builder class to be disabled
 	 * and keep count_all() working.
+<<<<<<< develop
+=======
 	 *
+<<<<<<< HEAD
+	 * This function is used extensively by every db driver.
+>>>>>>> local
+	 *
+=======
+>>>>>>> upstream/develop
 	 * @return	void
 	 */
 	protected function _reset_select()

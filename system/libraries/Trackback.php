@@ -211,8 +211,12 @@ class CI_Trackback {
 	 */
 	public function send_error($message = 'Incomplete Information')
 	{
+<<<<<<< develop
 		echo '<?xml version="1.0" encoding="utf-8"?'.">\n<response>\n<error>1</error>\n<message>".$message."</message>\n</response>";
 		exit;
+=======
+		exit('<?xml version="1.0" encoding="utf-8"?'.">\n<response>\n<error>1</error>\n<message>".$message."</message>\n</response>");
+>>>>>>> local
 	}
 
 	// --------------------------------------------------------------------
@@ -227,8 +231,12 @@ class CI_Trackback {
 	 */
 	public function send_success()
 	{
+<<<<<<< develop
 		echo '<?xml version="1.0" encoding="utf-8"?'.">\n<response>\n<error>0</error>\n</response>";
 		exit;
+=======
+		exit('<?xml version="1.0" encoding="utf-8"?'.">\n<response>\n<error>0</error>\n</response>");
+>>>>>>> local
 	}
 
 	// --------------------------------------------------------------------

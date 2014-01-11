@@ -36,6 +36,10 @@
 */
 
 $platforms = array(
+<<<<<<< develop
+=======
+	'windows nt 6.3'	=> 'Windows 8.1',
+>>>>>>> local
 	'windows nt 6.2'	=> 'Windows 8',
 	'windows nt 6.1'	=> 'Windows 7',
 	'windows nt 6.0'	=> 'Windows Vista',
@@ -50,6 +54,10 @@ $platforms = array(
 	'win98'				=> 'Windows 98',
 	'windows 95'		=> 'Windows 95',
 	'win95'				=> 'Windows 95',
+<<<<<<< develop
+=======
+	'windows phone'			=> 'Windows Phone',
+>>>>>>> local
 	'windows'			=> 'Unknown Windows OS',
 	'android'			=> 'Android',
 	'blackberry'		=> 'BlackBerry',
@@ -80,8 +88,16 @@ $platforms = array(
 // The order of this array should NOT be changed. Many browsers return
 // multiple browser types so we want to identify the sub-type first.
 $browsers = array(
+<<<<<<< develop
 	'Flock'			=> 'Flock',
 	'Chrome'		=> 'Chrome',
+=======
+	'OPR'			=> 'Opera',
+	'Flock'			=> 'Flock',
+	'Chrome'		=> 'Chrome',
+	// Opera 10+ always reports Opera/9.80 and appends Version/<real version> to the user agent string
+	'Opera.*?Version'	=> 'Opera',
+>>>>>>> local
 	'Opera'			=> 'Opera',
 	'MSIE'			=> 'Internet Explorer',
 	'Internet Explorer'	=> 'Internet Explorer',
@@ -102,7 +118,12 @@ $browsers = array(
 	'hotjava'		=> 'HotJava',
 	'amaya'			=> 'Amaya',
 	'IBrowse'		=> 'IBrowse',
+<<<<<<< develop
 	'Maxthon'		=> 'Maxthon'
+=======
+	'Maxthon'		=> 'Maxthon',
+	'Ubuntu'		=> 'Ubuntu Web Browser'
+>>>>>>> local
 );
 
 $mobiles = array(
@@ -149,6 +170,10 @@ $mobiles = array(
 	'mot-'			=> 'Motorola',
 	'playstation portable'	=> 'PlayStation Portable',
 	'playstation 3'		=> 'PlayStation 3',
+<<<<<<< develop
+=======
+	'playstation vita'  	=> 'PlayStation Vita',
+>>>>>>> local
 	'hiptop'		=> 'Danger Hiptop',
 	'nec-'			=> 'NEC',
 	'panasonic'		=> 'Panasonic',
@@ -181,7 +206,11 @@ $mobiles = array(
 	'operamini'		=> 'Opera Mini',
 	'opera mini'	=> 'Opera Mini',
 	'opera mobi'	=> 'Opera Mobile',
+<<<<<<< develop
 	'fennec'	=> 'Firefox Mobile',
+=======
+	'fennec'		=> 'Firefox Mobile',
+>>>>>>> local
 
 	// Other
 	'digital paths'	=> 'Digital Paths',
@@ -208,13 +237,22 @@ $mobiles = array(
 $robots = array(
 	'googlebot'		=> 'Googlebot',
 	'msnbot'		=> 'MSNBot',
+<<<<<<< develop
+=======
+	'baiduspider'	=> 'Baiduspider',
+>>>>>>> local
 	'bingbot'		=> 'Bing',
 	'slurp'			=> 'Inktomi Slurp',
 	'yahoo'			=> 'Yahoo',
 	'askjeeves'		=> 'AskJeeves',
 	'fastcrawler'	=> 'FastCrawler',
 	'infoseek'		=> 'InfoSeek Robot 1.0',
+<<<<<<< develop
 	'lycos'			=> 'Lycos'
+=======
+	'lycos'			=> 'Lycos',
+	'yandex'		=> 'YandexBot'
+>>>>>>> local
 );
 
 /* End of file user_agents.php */

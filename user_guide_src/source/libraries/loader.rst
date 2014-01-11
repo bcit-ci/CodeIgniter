@@ -192,7 +192,11 @@ $this->load->model('model_name');
 
 If your model is located in a subdirectory, include the relative path
 from your models directory. For example, if you have a model located at
+<<<<<<< develop
 application/models/blog/queries.php you'll load it using::
+=======
+application/models/blog/Queries.php you'll load it using::
+>>>>>>> local
 
 	$this->load->model('blog/queries');
 
@@ -234,6 +238,14 @@ $this->load->get_vars()
 
 This method retrieves all variables available to your views.
 
+<<<<<<< develop
+=======
+$this->load->clear_vars()
+=========================
+
+Clears cached view variables.
+
+>>>>>>> local
 $this->load->helper('file_name')
 ================================
 
@@ -261,6 +273,35 @@ $this->load->config('file_name')
 This method is an alias of the :doc:`config file loading
 method <config>`: ``$this->config->load()``
 
+<<<<<<< develop
+=======
+$this->load->is_loaded('library_name')
+======================================
+
+The ``is_loaded()`` method allows you to check if a class has already
+been loaded or not.
+
+.. note:: The word "class" here refers to libraries and drivers.
+
+If the requested class has been loaded, the method returns its assigned
+name in the CI Super-object and FALSE if it's not::
+
+	$this->load->library('form_validation');
+	$this->load->is_loaded('Form_validation');	// returns 'form_validation'
+
+	$this->load->is_loaded('Nonexistent_library');	// returns FALSE
+
+.. important:: If you have more than one instance of a class (assigned to
+	different properties), then the first one will be returned.
+
+::
+
+	$this->load->library('form_validation', $config, 'fv');
+	$this->load->library('form_validation');
+
+	$this->load->is_loaded('Form_validation');	// returns 'fv'
+
+>>>>>>> local
 Application "Packages"
 ======================
 

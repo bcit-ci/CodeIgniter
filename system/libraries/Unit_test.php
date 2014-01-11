@@ -45,6 +45,7 @@ class CI_Unit_test {
 	 * @var	bool
 	 */
 	public $active			= TRUE;
+<<<<<<< develop
 
 	/**
 	 * Test results
@@ -63,6 +64,26 @@ class CI_Unit_test {
 	public $strict			= FALSE;
 
 	/**
+=======
+
+	/**
+	 * Test results
+	 *
+	 * @var	array
+	 */
+	public $results			= array();
+
+	/**
+	 * Strict comparison flag
+	 *
+	 * Whether to use === or == when comparing
+	 *
+	 * @var	bool
+	 */
+	public $strict			= FALSE;
+
+	/**
+>>>>>>> local
 	 * Template
 	 *
 	 * @var	string
@@ -81,7 +102,19 @@ class CI_Unit_test {
 	 *
 	 * @var	array
 	 */
+<<<<<<< develop
 	protected $_test_items_visible	= array();
+=======
+	protected $_test_items_visible	= array(
+			'test_name',
+			'test_datatype',
+			'res_datatype',
+			'result',
+			'file',
+			'line',
+			'notes'
+	);
+>>>>>>> local
 
 	// --------------------------------------------------------------------
 
@@ -92,6 +125,7 @@ class CI_Unit_test {
 	 */
 	public function __construct()
 	{
+<<<<<<< develop
 		// These are the default items visible when a test is run.
 		$this->_test_items_visible = array (
 							'test_name',
@@ -103,6 +137,8 @@ class CI_Unit_test {
 							'notes'
 						);
 
+=======
+>>>>>>> local
 		log_message('debug', 'Unit Testing Class Initialized');
 	}
 
@@ -113,10 +149,17 @@ class CI_Unit_test {
 	 *
 	 * Runs the supplied tests
 	 *
+<<<<<<< develop
 	 * @param	array
 	 * @return	void
 	 */
 	public function set_test_items($items = array())
+=======
+	 * @param	array	$items
+	 * @return	void
+	 */
+	public function set_test_items($items)
+>>>>>>> local
 	{
 		if ( ! empty($items) && is_array($items))
 		{
@@ -230,7 +273,11 @@ class CI_Unit_test {
 	 *
 	 * Causes the evaluation to use === rather than ==
 	 *
+<<<<<<< develop
 	 * @param	bool
+=======
+	 * @param	bool	$state
+>>>>>>> local
 	 * @return	void
 	 */
 	public function use_strict($state = TRUE)
@@ -288,6 +335,10 @@ class CI_Unit_test {
 				{
 					$val = $line;
 				}
+<<<<<<< develop
+=======
+
+>>>>>>> local
 				$temp[$CI->lang->line('ut_'.$key, FALSE)] = $val;
 			}
 

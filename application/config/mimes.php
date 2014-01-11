@@ -49,7 +49,11 @@ return array(
 	'sea'	=>	'application/octet-stream',
 	'dll'	=>	'application/octet-stream',
 	'oda'	=>	'application/oda',
+<<<<<<< develop
 	'pdf'	=>	array('application/pdf', 'application/x-download', 'binary/octet-stream'),
+=======
+	'pdf'	=>	array('application/pdf', 'application/force-download', 'application/x-download', 'binary/octet-stream'),
+>>>>>>> local
 	'ai'	=>	array('application/pdf', 'application/postscript'),
 	'eps'	=>	'application/postscript',
 	'ps'	=>	'application/postscript',
@@ -58,7 +62,11 @@ return array(
 	'mif'	=>	'application/vnd.mif',
 	'xls'	=>	array('application/vnd.ms-excel', 'application/msexcel', 'application/x-msexcel', 'application/x-ms-excel', 'application/x-excel', 'application/x-dos_ms_excel', 'application/xls', 'application/x-xls', 'application/excel', 'application/download', 'application/vnd.ms-office', 'application/msword'),
 	'ppt'	=>	array('application/powerpoint', 'application/vnd.ms-powerpoint'),
+<<<<<<< develop
 	'pptx'	=> 	'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+=======
+	'pptx'	=> 	array('application/vnd.openxmlformats-officedocument.presentationml.presentation', 'application/x-zip', 'application/zip'),
+>>>>>>> local
 	'wbxml'	=>	'application/wbxml',
 	'wmlc'	=>	'application/wmlc',
 	'dcr'	=>	'application/x-director',
@@ -78,6 +86,10 @@ return array(
 	'sit'	=>	'application/x-stuffit',
 	'tar'	=>	'application/x-tar',
 	'tgz'	=>	array('application/x-tar', 'application/x-gzip-compressed'),
+<<<<<<< develop
+=======
+	'z'	=>	'application/x-compress',
+>>>>>>> local
 	'xhtml'	=>	'application/xhtml+xml',
 	'xht'	=>	'application/xhtml+xml',
 	'zip'	=>	array('application/x-zip', 'application/zip', 'application/x-zip-compressed', 'application/s-compressed', 'multipart/x-zip'),
@@ -96,7 +108,11 @@ return array(
 	'ra'	=>	'audio/x-realaudio',
 	'rv'	=>	'video/vnd.rn-realvideo',
 	'wav'	=>	array('audio/x-wav', 'audio/wave', 'audio/wav'),
+<<<<<<< develop
 	'bmp'	=>	array('image/bmp', 'image/x-windows-bmp'),
+=======
+	'bmp'	=>	array('image/bmp', 'image/x-bmp', 'image/x-bitmap', 'image/x-xbitmap', 'image/x-win-bitmap', 'image/x-windows-bmp', 'image/ms-bmp', 'image/x-ms-bmp', 'application/bmp', 'application/x-bmp', 'application/x-win-bitmap'),
+>>>>>>> local
 	'gif'	=>	'image/gif',
 	'jpeg'	=>	array('image/jpeg', 'image/pjpeg'),
 	'jpg'	=>	array('image/jpeg', 'image/pjpeg'),
@@ -126,7 +142,11 @@ return array(
 	'docx'	=>	array('application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/zip', 'application/msword', 'application/x-zip'),
 	'dot'	=>	array('application/msword', 'application/vnd.ms-office'),
 	'dotx'	=>	array('application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/zip', 'application/msword'),
+<<<<<<< develop
 	'xlsx'	=>	array('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/zip', 'application/vnd.ms-excel', 'application/msword'),
+=======
+	'xlsx'	=>	array('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/zip', 'application/vnd.ms-excel', 'application/msword', 'application/x-zip'),
+>>>>>>> local
 	'word'	=>	array('application/msword', 'application/octet-stream'),
 	'xl'	=>	'application/excel',
 	'eml'	=>	'message/rfc822',

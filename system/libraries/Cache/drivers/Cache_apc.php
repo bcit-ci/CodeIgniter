@@ -51,8 +51,19 @@ class CI_Cache_apc extends CI_Driver {
 		$success = FALSE;
 		$data = apc_fetch($id, $success);
 
+<<<<<<< develop
 		return ($success === TRUE && is_array($data))
 			? unserialize($data[0]) : FALSE;
+=======
+		if ($success === TRUE)
+		{
+			return is_array($data)
+				? unserialize($data[0])
+				: $data;
+		}
+
+		return FALSE;
+>>>>>>> local
 	}
 
 	// ------------------------------------------------------------------------
@@ -60,16 +71,33 @@ class CI_Cache_apc extends CI_Driver {
 	/**
 	 * Cache Save
 	 *
+<<<<<<< develop
 	 * @param	string	Unique Key
 	 * @param	mixed	Data to store
 	 * @param	int	Length of time (in seconds) to cache the data
 	 *
 	 * @return	bool	true on success/false on failure
+=======
+	 * @param	string	$id	Cache ID
+	 * @param	mixed	$data	Data to store
+	 * @param	int	$ttol	Length of time (in seconds) to cache the data
+	 * @param	bool	$raw	Whether to store the raw value
+	 * @return	bool	TRUE on success, FALSE on failure
+>>>>>>> local
 	 */
-	public function save($id, $data, $ttl = 60)
+	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
 		$ttl = (int) $ttl;
+<<<<<<< develop
 		return apc_store($id, array(serialize($data), time(), $ttl), $ttl);
+=======
+
+		return apc_store(
+			$id,
+			($raw === TRUE ? $data : array(serialize($data), time(), $ttl)),
+			$ttl
+		);
+>>>>>>> local
 	}
 
 	// ------------------------------------------------------------------------
@@ -83,6 +111,34 @@ class CI_Cache_apc extends CI_Driver {
 	public function delete($id)
 	{
 		return apc_delete($id);
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Increment a raw value
+	 *
+	 * @param	string	$id	Cache ID
+	 * @param	int	$offset	Step/value to add
+	 * @return	mixed	New value on success or FALSE on failure
+	 */
+	public function increment($id, $offset = 1)
+	{
+		return apc_inc($id, $offset);
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Decrement a raw value
+	 *
+	 * @param	string	$id	Cache ID
+	 * @param	int	$offset	Step/value to reduce by
+	 * @return	mixed	New value on success or FALSE on failure
+	 */
+	public function decrement($id, $offset = 1)
+	{
+		return apc_dec($id, $offset);
 	}
 
 	// ------------------------------------------------------------------------
@@ -150,7 +206,7 @@ class CI_Cache_apc extends CI_Driver {
 	{
 		if ( ! extension_loaded('apc') OR ! (bool) @ini_get('apc.enabled'))
 		{
-			log_message('error', 'The APC PHP extension must be loaded to use APC Cache.');
+			log_message('debug', 'The APC PHP extension must be loaded to use APC Cache.');
 			return FALSE;
 		}
 

@@ -1,3 +1,9 @@
+<<<<<<< develop
+=======
+<<<<<<< HEAD
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+=======
+>>>>>>> local
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
@@ -25,18 +31,38 @@
  * @filesource
  */
 
+<<<<<<< develop
+=======
+>>>>>>> upstream/develop
+>>>>>>> local
 /*
 |--------------------------------------------------------------------------
 | Enable/Disable Migrations
 |--------------------------------------------------------------------------
 |
+<<<<<<< develop
 | Migrations are disabled by default for security reasons.
 | You should enable migrations whenever you intend to do a schema migration
 | and disable it back when you're done.
+=======
+<<<<<<< HEAD
+| Migrations are disabled by default but should be enabled 
+| whenever you intend to do a schema migration.
+=======
+| Migrations are disabled by default for security reasons.
+| You should enable migrations whenever you intend to do a schema migration
+| and disable it back when you're done.
+>>>>>>> upstream/develop
+>>>>>>> local
 |
 */
 $config['migration_enabled'] = FALSE;
 
+<<<<<<< develop
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> local
 /*
 |--------------------------------------------------------------------------
 | Migration Type
@@ -82,6 +108,10 @@ $config['migration_table'] = 'migrations';
 |
 */
 $config['migration_auto_latest'] = FALSE;
+<<<<<<< develop
+=======
+>>>>>>> upstream/develop
+>>>>>>> local
 
 /*
 |--------------------------------------------------------------------------
@@ -89,12 +119,27 @@ $config['migration_auto_latest'] = FALSE;
 |--------------------------------------------------------------------------
 |
 | This is used to set migration version that the file system should be on.
+<<<<<<< develop
 | If you run $this->migration->current() this is the version that schema will
+=======
+<<<<<<< HEAD
+| If you run $this->migration->latest() this is the version that schema will
+=======
+| If you run $this->migration->current() this is the version that schema will
+>>>>>>> upstream/develop
+>>>>>>> local
 | be upgraded / downgraded to.
 |
 */
 $config['migration_version'] = 0;
 
+<<<<<<< develop
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> upstream/develop
+>>>>>>> local
 /*
 |--------------------------------------------------------------------------
 | Migrations Path
@@ -105,7 +150,15 @@ $config['migration_version'] = 0;
 | Also, writing permission is required within the migrations path.
 |
 */
+<<<<<<< HEAD
 $config['migration_path'] = APPPATH . 'migrations/';
 
+<<<<<<< develop
+=======
+=======
+$config['migration_path'] = APPPATH.'migrations/';
+>>>>>>> upstream/develop
+
+>>>>>>> local
 /* End of file migration.php */
 /* Location: ./application/config/migration.php */

@@ -87,8 +87,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	#container {
 		margin: 10px;
 		border: 1px solid #D0D0D0;
+<<<<<<< develop
 		-moz-box-shadow: 0 0 8px #D0D0D0;
 		-webkit-box-shadow: 0 0 8px #D0D0D0;
+=======
+		box-shadow: 0 0 8px #D0D0D0;
+>>>>>>> local
 	}
 	</style>
 </head>
@@ -104,7 +108,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<code>application/views/welcome_message.php</code>
 
 		<p>The corresponding controller for this page is found at:</p>
-		<code>application/controllers/welcome.php</code>
+		<code>application/controllers/Welcome.php</code>
 
 		<p>If you are exploring CodeIgniter for the very first time, you should start by reading the <a href="user_guide/">User Guide</a>.</p>
 	</div>

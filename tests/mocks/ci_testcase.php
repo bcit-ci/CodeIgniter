@@ -27,7 +27,11 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 	public function __construct()
 	{
 		parent::__construct();
+<<<<<<< develop
 		$this->ci_instance = new StdClass();
+=======
+		$this->ci_instance = new stdClass();
+>>>>>>> local
 	}
 
 	// --------------------------------------------------------------------

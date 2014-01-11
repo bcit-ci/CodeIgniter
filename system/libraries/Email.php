@@ -105,9 +105,15 @@ class CI_Email {
 	/**
 	 * SMTP Encryption
 	 *
+<<<<<<< develop
 	 * @var	string	NULL, 'tls' or 'ssl'
 	 */
 	public $smtp_crypto	= NULL;
+=======
+	 * @var	string	empty, 'tls' or 'ssl'
+	 */
+	public $smtp_crypto	= '';
+>>>>>>> local
 
 	/**
 	 * Whether to apply word-wrapping to the message body.
@@ -174,6 +180,7 @@ class CI_Email {
 	 * @var	string	"\r\n" or "\n"
 	 */
 	public $newline		= "\n";			// Default newline. "\r\n" or "\n" (Use "\r\n" to comply with RFC 822)
+<<<<<<< develop
 
 	/**
 	 * CRLF character sequence
@@ -342,6 +349,176 @@ class CI_Email {
 	protected $_attachments		= array();
 
 	/**
+=======
+
+	/**
+	 * CRLF character sequence
+	 *
+	 * RFC 2045 specifies that for 'quoted-printable' encoding,
+	 * "\r\n" must be used. However, it appears that some servers
+	 * (even on the receiving end) don't handle it properly and
+	 * switching to "\n", while improper, is the only solution
+	 * that seems to work for all environments.
+	 *
+	 * @link	http://www.ietf.org/rfc/rfc822.txt
+	 * @var	string
+	 */
+	public $crlf		= "\n";
+
+	/**
+	 * Whether to use Delivery Status Notification.
+	 *
+	 * @var	bool
+	 */
+	public $dsn		= FALSE;
+
+	/**
+	 * Whether to send multipart alternatives.
+	 * Yahoo! doesn't seem to like these.
+	 *
+	 * @var	bool
+	 */
+	public $send_multipart	= TRUE;
+
+	/**
+	 * Whether to send messages to BCC recipients in batches.
+	 *
+	 * @var	bool
+	 */
+	public $bcc_batch_mode	= FALSE;
+
+	/**
+	 * BCC Batch max number size.
+	 *
+	 * @see	CI_Email::$bcc_batch_mode
+	 * @var	int
+	 */
+	public $bcc_batch_size	= 200;
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Whether PHP is running in safe mode. Initialized by the class constructor.
+	 *
+	 * @var	bool
+	 */
+	protected $_safe_mode		= FALSE;
+
+	/**
+	 * Subject header
+	 *
+	 * @var	string
+	 */
+	protected $_subject		= '';
+
+	/**
+	 * Message body
+	 *
+	 * @var	string
+	 */
+	protected $_body		= '';
+
+	/**
+	 * Final message body to be sent.
+	 *
+	 * @var	string
+	 */
+	protected $_finalbody		= '';
+
+	/**
+	 * multipart/alternative boundary
+	 *
+	 * @var	string
+	 */
+	protected $_alt_boundary	= '';
+
+	/**
+	 * Attachment boundary
+	 *
+	 * @var	string
+	 */
+	protected $_atc_boundary	= '';
+
+	/**
+	 * Final headers to send
+	 *
+	 * @var	string
+	 */
+	protected $_header_str		= '';
+
+	/**
+	 * SMTP Connection socket placeholder
+	 *
+	 * @var	resource
+	 */
+	protected $_smtp_connect	= '';
+
+	/**
+	 * Mail encoding
+	 *
+	 * @var	string	'8bit' or '7bit'
+	 */
+	protected $_encoding		= '8bit';
+
+	/**
+	 * Whether to perform SMTP authentication
+	 *
+	 * @var	bool
+	 */
+	protected $_smtp_auth		= FALSE;
+
+	/**
+	 * Whether to send a Reply-To header
+	 *
+	 * @var	bool
+	 */
+	protected $_replyto_flag	= FALSE;
+
+	/**
+	 * Debug messages
+	 *
+	 * @see	CI_Email::print_debugger()
+	 * @var	string
+	 */
+	protected $_debug_msg		= array();
+
+	/**
+	 * Recipients
+	 *
+	 * @var	string[]
+	 */
+	protected $_recipients		= array();
+
+	/**
+	 * CC Recipients
+	 *
+	 * @var	string[]
+	 */
+	protected $_cc_array		= array();
+
+	/**
+	 * BCC Recipients
+	 *
+	 * @var	string[]
+	 */
+	protected $_bcc_array		= array();
+
+	/**
+	 * Message headers
+	 *
+	 * @var	string[]
+	 */
+	protected $_headers		= array();
+
+	/**
+	 * Attachment data
+	 *
+	 * @var	array
+	 */
+	protected $_attachments		= array();
+
+	/**
+>>>>>>> local
 	 * Valid $protocol values
 	 *
 	 * @see	CI_Email::$protocol
@@ -399,9 +576,15 @@ class CI_Email {
 		else
 		{
 			$this->_smtp_auth = ! ($this->smtp_user === '' && $this->smtp_pass === '');
+<<<<<<< develop
 			$this->_safe_mode = (bool) @ini_get('safe_mode');
 		}
 
+=======
+		}
+
+		$this->_safe_mode = ( ! is_php('5.4') && (bool) @ini_get('safe_mode'));
+>>>>>>> local
 		$this->charset = strtoupper($this->charset);
 
 		log_message('debug', 'Email Class Initialized');
@@ -451,7 +634,10 @@ class CI_Email {
 		$this->clear();
 
 		$this->_smtp_auth = ! ($this->smtp_user === '' && $this->smtp_pass === '');
+<<<<<<< develop
 		$this->_safe_mode = (bool) @ini_get('safe_mode');
+=======
+>>>>>>> local
 
 		return $this;
 	}
@@ -719,13 +905,73 @@ class CI_Email {
 	 */
 	public function attach($filename, $disposition = '', $newname = NULL, $mime = '')
 	{
+<<<<<<< develop
 		$this->_attachments[] = array(
 			'name'		=> array($filename, $newname),
 			'disposition'	=> empty($disposition) ? 'attachment' : $disposition,  // Can also be 'inline'  Not sure if it matters
 			'type' 		=> $mime
+=======
+		if ($mime === '')
+		{
+			if ( ! file_exists($filename))
+			{
+				$this->_set_error_message('lang:email_attachment_missing', $filename);
+				return FALSE;
+			}
+
+			if ( ! $fp = fopen($filename, FOPEN_READ))
+			{
+				$this->_set_error_message('lang:email_attachment_unreadable', $filename);
+				return FALSE;
+			}
+
+			$file_content = stream_get_contents($fp);
+			$mime = $this->_mime_types(pathinfo($filename, PATHINFO_EXTENSION));
+			fclose($fp);
+		}
+		else
+		{
+			$file_content =& $filename; // buffered file
+		}
+
+		$this->_attachments[] = array(
+			'name'		=> array($filename, $newname),
+			'disposition'	=> empty($disposition) ? 'attachment' : $disposition,  // Can also be 'inline'  Not sure if it matters
+			'type'		=> $mime,
+			'content'	=> chunk_split(base64_encode($file_content))
+>>>>>>> local
 		);
 
 		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set and return attachment Content-ID
+	 *
+	 * Useful for attached inline pictures
+	 *
+	 * @param	string	$filename
+	 * @return	string
+	 */
+	public function attachment_cid($filename)
+	{
+		if ($this->multipart !== 'related')
+		{
+			$this->multipart = 'related'; // Thunderbird need this for inline images
+		}
+
+		for ($i = 0, $c = count($this->_attachments); $i < $c; $i++)
+		{
+			if ($this->_attachments[$i]['name'][0] === $filename)
+			{
+				$this->_attachments[$i]['cid'] = uniqid(basename($this->_attachments[$i]['name'][0]).'@');
+				return $this->_attachments[$i]['cid'];
+			}
+		}
+
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -739,7 +985,7 @@ class CI_Email {
 	 */
 	public function set_header($header, $value)
 	{
-		$this->_headers[$header] = $value;
+		$this->_headers[$header] = str_replace(array("\n", "\r"), '', $value);
 	}
 
 	// --------------------------------------------------------------------
@@ -1236,7 +1482,11 @@ class CI_Email {
 	/**
 	 * Build Final Body and attachments
 	 *
+<<<<<<< develop
 	 * @return	void
+=======
+	 * @return	bool
+>>>>>>> local
 	 */
 	protected function _build_message()
 	{
@@ -1265,7 +1515,7 @@ class CI_Email {
 				}
 				else
 				{
-					$this->_finalbody = $hdr . $this->newline . $this->newline . $this->_body;
+					$this->_finalbody = $hdr.$this->newline.$this->newline.$this->_body;
 				}
 
 				return;
@@ -1279,7 +1529,11 @@ class CI_Email {
 				}
 				else
 				{
+<<<<<<< develop
 					$hdr .= 'Content-Type: multipart/alternative; boundary="'.$this->_alt_boundary.'"'.$this->newline.$this->newline;
+=======
+					$hdr .= 'Content-Type: multipart/alternative; boundary="'.$this->_alt_boundary.'"';
+>>>>>>> local
 
 					$body .= $this->_get_mime_message().$this->newline.$this->newline
 						.'--'.$this->_alt_boundary.$this->newline
@@ -1300,7 +1554,11 @@ class CI_Email {
 				}
 				else
 				{
+<<<<<<< develop
 					$this->_finalbody = $hdr.$this->_finalbody;
+=======
+					$this->_finalbody = $hdr.$this->newline.$this->newline.$this->_finalbody;
+>>>>>>> local
 				}
 
 				if ($this->send_multipart !== FALSE)
@@ -1312,25 +1570,42 @@ class CI_Email {
 
 			case 'plain-attach' :
 
+<<<<<<< develop
 				$hdr .= 'Content-Type: multipart/'.$this->multipart.'; boundary="'.$this->_atc_boundary.'"'.$this->newline.$this->newline;
+=======
+				$hdr .= 'Content-Type: multipart/'.$this->multipart.'; boundary="'.$this->_atc_boundary.'"';
+>>>>>>> local
 
 				if ($this->_get_protocol() === 'mail')
 				{
 					$this->_header_str .= $hdr;
 				}
 
+<<<<<<< develop
 				$body .= $this->_get_mime_message().$this->newline.$this->newline
 					.'--'.$this->_atc_boundary.$this->newline
 
 					.'Content-Type: text/plain; charset='.$this->charset.$this->newline
 					.'Content-Transfer-Encoding: '.$this->_get_encoding().$this->newline.$this->newline
 
+=======
+				$body .= $this->_get_mime_message().$this->newline
+					.$this->newline
+					.'--'.$this->_atc_boundary.$this->newline
+					.'Content-Type: text/plain; charset='.$this->charset.$this->newline
+					.'Content-Transfer-Encoding: '.$this->_get_encoding().$this->newline
+					.$this->newline
+>>>>>>> local
 					.$this->_body.$this->newline.$this->newline;
 
 			break;
 			case 'html-attach' :
 
+<<<<<<< develop
 				$hdr .= 'Content-Type: multipart/'.$this->multipart.'; boundary="'.$this->_atc_boundary.'"'.$this->newline.$this->newline;
+=======
+				$hdr .= 'Content-Type: multipart/'.$this->multipart.'; boundary="'.$this->_atc_boundary.'"';
+>>>>>>> local
 
 				if ($this->_get_protocol() === 'mail')
 				{
@@ -1362,6 +1637,7 @@ class CI_Email {
 			$filename = $this->_attachments[$i]['name'][0];
 			$basename = ($this->_attachments[$i]['name'][1] === NULL)
 				? basename($filename) : $this->_attachments[$i]['name'][1];
+<<<<<<< develop
 			$ctype = $this->_attachments[$i]['type'];
 			$file_content = '';
 
@@ -1402,6 +1678,25 @@ class CI_Email {
 		$body .= implode($this->newline, $attachment).$this->newline.'--'.$this->_atc_boundary.'--';
 		$this->_finalbody = ($this->_get_protocol() === 'mail') ? $body : $hdr.$body;
 		return;
+=======
+
+			$attachment[$z++] = '--'.$this->_atc_boundary.$this->newline
+				.'Content-type: '.$this->_attachments[$i]['type'].'; '
+				.'name="'.$basename.'"'.$this->newline
+				.'Content-Disposition: '.$this->_attachments[$i]['disposition'].';'.$this->newline
+				.'Content-Transfer-Encoding: base64'.$this->newline
+				.(empty($this->_attachments[$i]['cid']) ? '' : 'Content-ID: <'.$this->_attachments[$i]['cid'].'>'.$this->newline);
+
+			$attachment[$z++] = $this->_attachments[$i]['content'];
+		}
+
+		$body .= implode($this->newline, $attachment).$this->newline.'--'.$this->_atc_boundary.'--';
+		$this->_finalbody = ($this->_get_protocol() === 'mail')
+			? $body
+			: $hdr.$this->newline.$this->newline.$body;
+
+		return TRUE;
+>>>>>>> local
 	}
 
 	// --------------------------------------------------------------------
@@ -1602,6 +1897,7 @@ class CI_Email {
 			{
 				$this->clear();
 			}
+<<<<<<< develop
 
 			return $result;
 		}
@@ -1611,6 +1907,21 @@ class CI_Email {
 
 		if ($result && $auto_clear)
 		{
+=======
+
+			return $result;
+		}
+
+		if ($this->_build_message() === FALSE)
+		{
+			return FALSE;
+		}
+
+		$result = $this->_spool_email();
+
+		if ($result && $auto_clear)
+		{
+>>>>>>> local
 			$this->clear();
 		}
 
@@ -1665,7 +1976,11 @@ class CI_Email {
 				$this->_bcc_array = $bcc;
 			}
 
-			$this->_build_message();
+			if ($this->_build_message() === FALSE)
+			{
+				return FALSE;
+			}
+
 			$this->_spool_email();
 		}
 	}
@@ -1875,7 +2190,11 @@ class CI_Email {
 			return TRUE;
 		}
 
+<<<<<<< develop
 		$ssl = ($this->smtp_crypto === 'ssl') ? 'ssl://' : NULL;
+=======
+		$ssl = ($this->smtp_crypto === 'ssl') ? 'ssl://' : '';
+>>>>>>> local
 
 		$this->_smtp_connect = fsockopen($ssl.$this->smtp_host,
 							$this->smtp_port,
@@ -2017,12 +2336,20 @@ class CI_Email {
 
 		$reply = $this->_get_smtp_data();
 
+<<<<<<< develop
 		if (strpos($reply, '503') !== 0)	// Already authenticated
 		{
 			return TRUE;
 		}
 
 		if (strpos($reply, '334') !== 0)
+=======
+		if (strpos($reply, '503') === 0)	// Already authenticated
+		{
+			return TRUE;
+		}
+		elseif (strpos($reply, '334') !== 0)
+>>>>>>> local
 		{
 			$this->_set_error_message('lang:email_failed_smtp_login', $reply);
 			return FALSE;
@@ -2133,7 +2460,11 @@ class CI_Email {
 
 		if (in_array('headers', $include, TRUE))
 		{
+<<<<<<< develop
 			$raw_data = $this->_header_str."\n";
+=======
+			$raw_data = htmlspecialchars($this->_header_str)."\n";
+>>>>>>> local
 		}
 
 		if (in_array('subject', $include, TRUE))
@@ -2146,7 +2477,16 @@ class CI_Email {
 			$raw_data .= htmlspecialchars($this->_finalbody);
 		}
 
+<<<<<<< develop
 		return $msg.($raw_data === '' ? '' : '<pre>'.$raw_data.'</pre>');
+=======
+<<<<<<< HEAD
+		$msg .= "<pre>".htmlspecialchars($this->_header_str)."\n".htmlspecialchars($this->_subject)."\n".htmlspecialchars($this->_finalbody).'</pre>';
+		return $msg;
+=======
+		return $msg.($raw_data === '' ? '' : '<pre>'.$raw_data.'</pre>');
+>>>>>>> upstream/develop
+>>>>>>> local
 	}
 
 	// --------------------------------------------------------------------

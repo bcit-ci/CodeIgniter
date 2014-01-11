@@ -65,10 +65,35 @@ class CI_DB_mysql_driver extends CI_DB {
 	 * @var	bool
 	 */
 	public $delete_hack = TRUE;
+<<<<<<< develop
 
 	// --------------------------------------------------------------------
 
 	/**
+	 * Identifier escape character
+	 *
+	 * @var	string
+	 */
+	protected $_escape_char = '`';
+=======
+
+	/**
+	 * Strict ON flag
+	 *
+	 * Whether we're running in strict SQL mode.
+	 *
+	 * @var	bool
+	 */
+	public $stricton = FALSE;
+>>>>>>> local
+
+	// --------------------------------------------------------------------
+
+	/**
+<<<<<<< develop
+	 * Class constructor
+	 *
+=======
 	 * Identifier escape character
 	 *
 	 * @var	string
@@ -80,6 +105,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	/**
 	 * Class constructor
 	 *
+>>>>>>> local
 	 * @param	array	$params
 	 * @return	void
 	 */
@@ -126,6 +152,14 @@ class CI_DB_mysql_driver extends CI_DB {
 				: FALSE;
 		}
 
+<<<<<<< develop
+=======
+		if ($this->stricton && is_resource($this->conn_id))
+		{
+			$this->simple_query('SET SESSION sql_mode="STRICT_ALL_TABLES"');
+		}
+
+>>>>>>> local
 		return $this->conn_id;
 	}
 
@@ -425,22 +459,50 @@ class CI_DB_mysql_driver extends CI_DB {
 		{
 			$retval[$i]			= new stdClass();
 			$retval[$i]->name		= $query[$i]->Field;
+<<<<<<< develop
 
 			sscanf($query[$i]->Type, '%[a-z](%d)',
 				$retval[$i]->type,
 				$retval[$i]->max_length
 			);
 
+=======
+
+			sscanf($query[$i]->Type, '%[a-z](%d)',
+				$retval[$i]->type,
+				$retval[$i]->max_length
+			);
+
+>>>>>>> local
 			$retval[$i]->default		= $query[$i]->Default;
 			$retval[$i]->primary_key	= (int) ($query[$i]->Key === 'PRI');
 		}
 
 		return $retval;
+<<<<<<< develop
+=======
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
+	 * Error
+	 *
+	 * Returns an array containing code and message of the last
+	 * database error that has occured.
+	 *
+	 * @return	array
+	 */
+	public function error()
+	{
+		return array('code' => mysql_errno($this->conn_id), 'message' => mysql_error($this->conn_id));
+>>>>>>> local
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+<<<<<<< develop
 	 * Error
 	 *
 	 * Returns an array containing code and message of the last
@@ -506,6 +568,17 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	protected function _from_tables()
 	{
+=======
+	 * FROM tables
+	 *
+	 * Groups tables in FROM clauses if needed, so there is no confusion
+	 * about operator precedence.
+	 *
+	 * @return	string
+	 */
+	protected function _from_tables()
+	{
+>>>>>>> local
 		if ( ! empty($this->qb_join) && count($this->qb_from) > 1)
 		{
 			return '('.implode(', ', $this->qb_from).')';

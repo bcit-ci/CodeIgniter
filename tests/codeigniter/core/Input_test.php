@@ -82,11 +82,28 @@ class Input_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
+<<<<<<< develop
 	public function test_get_post()
+=======
+	public function test_post_get()
+>>>>>>> local
 	{
 		$_SERVER['REQUEST_METHOD'] = 'POST';
 		$_POST['foo'] = 'bar';
 
+<<<<<<< develop
+=======
+		$this->assertEquals('bar', $this->input->post_get('foo'));
+	}
+
+	// --------------------------------------------------------------------
+
+	public function test_get_post()
+	{
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+		$_GET['foo'] = 'bar';
+
+>>>>>>> local
 		$this->assertEquals('bar', $this->input->get_post('foo'));
 	}
 
@@ -95,8 +112,13 @@ class Input_test extends CI_TestCase {
 	public function test_cookie()
 	{
 		$_COOKIE['foo'] = 'bar';
+<<<<<<< develop
 
 		$this->assertEquals('bar', $this->input->cookie('foo'));
+=======
+		$this->assertEquals('bar', $this->input->cookie('foo'));
+		$this->assertNull($this->input->cookie('bar'));
+>>>>>>> local
 	}
 
 	// --------------------------------------------------------------------
@@ -138,4 +160,30 @@ class Input_test extends CI_TestCase {
 		}
 	}
 
+<<<<<<< develop
+=======
+	// --------------------------------------------------------------------
+
+	public function test_method()
+	{
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+		$this->assertEquals('get', $this->input->method());
+		$this->assertEquals('GET', $this->input->method(TRUE));
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+		$this->assertEquals('post', $this->input->method());
+		$this->assertEquals('POST', $this->input->method(TRUE));
+	}
+
+	// --------------------------------------------------------------------
+
+	public function test_is_ajax_request()
+	{
+		$this->assertFalse($this->input->is_ajax_request());
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'test';
+		$this->assertFalse($this->input->is_ajax_request());
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+		$this->assertTrue($this->input->is_ajax_request());
+	}
+
+>>>>>>> local
 }

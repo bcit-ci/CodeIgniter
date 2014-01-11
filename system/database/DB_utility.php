@@ -90,8 +90,17 @@ abstract class CI_DB_utility {
 	{
 		// Is there a cached result?
 		if (isset($this->db->data_cache['db_names']))
+<<<<<<< develop
 		{
 			return $this->db->data_cache['db_names'];
+		}
+		elseif ($this->_list_databases === FALSE)
+		{
+			return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
+=======
+		{
+			return $this->db->data_cache['db_names'];
+>>>>>>> local
 		}
 		elseif ($this->_list_databases === FALSE)
 		{
@@ -100,6 +109,11 @@ abstract class CI_DB_utility {
 
 		$this->db->data_cache['db_names'] = array();
 
+<<<<<<< develop
+		$this->db->data_cache['db_names'] = array();
+
+=======
+>>>>>>> local
 		$query = $this->db->query($this->_list_databases);
 		if ($query === FALSE)
 		{
@@ -238,7 +252,11 @@ abstract class CI_DB_utility {
 			$out .= $enclosure.str_replace($enclosure, $enclosure.$enclosure, $name).$enclosure.$delim;
 		}
 
+<<<<<<< develop
 		$out = rtrim($out).$newline;
+=======
+		$out = substr(rtrim($out), 0, -strlen($delim)).$newline;
+>>>>>>> local
 
 		// Next blast through the result array and build out the rows
 		while ($row = $query->unbuffered_row('array'))
@@ -247,7 +265,11 @@ abstract class CI_DB_utility {
 			{
 				$out .= $enclosure.str_replace($enclosure, $enclosure.$enclosure, $item).$enclosure.$delim;
 			}
+<<<<<<< develop
 			$out = rtrim($out).$newline;
+=======
+			$out = substr(rtrim($out), 0, -strlen($delim)).$newline;
+>>>>>>> local
 		}
 
 		return $out;
@@ -282,8 +304,7 @@ abstract class CI_DB_utility {
 		extract($params);
 
 		// Load the xml helper
-		$CI =& get_instance();
-		$CI->load->helper('xml');
+		get_instance()->load->helper('xml');
 
 		// Generate the result
 		$xml = '<'.$root.'>'.$newline;

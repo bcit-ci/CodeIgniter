@@ -52,6 +52,16 @@ class CI_Hooks {
 	 * @var	array
 	 */
 	public $hooks =	array();
+<<<<<<< develop
+=======
+
+	/**
+	 * Array with class objects to use hooks methods
+	 *
+	 * @var array
+	 */
+	protected $_objects = array();
+>>>>>>> local
 
 	/**
 	 * In progress flag
@@ -184,7 +194,11 @@ class CI_Hooks {
 		$function	= empty($data['function']) ? FALSE : $data['function'];
 		$params		= isset($data['params']) ? $data['params'] : '';
 
+<<<<<<< develop
 		if ($class === FALSE && $function === FALSE)
+=======
+		if (empty($function))
+>>>>>>> local
 		{
 			return FALSE;
 		}
@@ -195,19 +209,44 @@ class CI_Hooks {
 		// Call the requested class and/or function
 		if ($class !== FALSE)
 		{
-			if ( ! class_exists($class))
+			// The object is stored?
+			if (isset($this->_objects[$class]))
 			{
-				require($filepath);
+				if (method_exists($this->_objects[$class], $function))
+				{
+					$this->_objects[$class]->$function($params);
+				}
+				else
+				{
+					return $this->_in_progress = FALSE;
+				}
 			}
+			else
+			{
+				class_exists($class, FALSE) OR require_once($filepath);
 
+				if ( ! class_exists($class, FALSE) OR ! method_exists($class, $function))
+				{
+					return $this->_in_progress = FALSE;
+				}
+
+<<<<<<< develop
 			$HOOK = new $class();
 			$HOOK->$function($params);
+=======
+				// Store the object and execute the method
+				$this->_objects[$class] = new $class();
+				$this->_objects[$class]->$function($params);
+			}
+>>>>>>> local
 		}
 		else
 		{
+			function_exists($function) OR require_once($filepath);
+
 			if ( ! function_exists($function))
 			{
-				require($filepath);
+				return $this->_in_progress = FALSE;
 			}
 
 			$function($params);

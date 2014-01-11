@@ -83,7 +83,11 @@ place this code and save it to your **application/views/** directory::
 The Controller
 ==============
 
+<<<<<<< develop
 Using a text editor, create a controller called upload.php. In it, place
+=======
+Using a text editor, create a controller called Upload.php. In it, place
+>>>>>>> local
 this code and save it to your **application/controllers/** directory::
 
 	<?php
@@ -198,6 +202,10 @@ Preference                   Default Value     Options                 Descripti
 **file_name**                None              Desired file name       If set CodeIgniter will rename the uploaded file to this name. The
                                                                        extension provided in the file name must also be an allowed file type.
                                                                        If no extension is provided in the original file_name will be used.
+<<<<<<< develop
+=======
+**file_ext_tolower**         FALSE             TRUE/FALSE (boolean)    If set to TRUE, the file extension will be forced to lower case
+>>>>>>> local
 **overwrite**                FALSE             TRUE/FALSE (boolean)    If set to true, if a file with the same name as the one you are
                                                                        uploading exists, it will be overwritten. If set to false, a number will
                                                                        be appended to the filename if another with the same name exists.
@@ -223,6 +231,14 @@ Preference                   Default Value     Options                 Descripti
 **detect_mime**              TRUE              TRUE/FALSE (boolean)    If set to TRUE, a server side detection of the file type will be
                                                                        performed to avoid code injection attacks. DO NOT disable this option
                                                                        unless you have no other option as that would cause a security risk.
+<<<<<<< develop
+=======
+**mod_mime_fix**             TRUE              TRUE/FALSE (boolean)    If set to TRUE, multiple filename extensions will be suffixed with an
+                                                                       underscore in order to avoid triggering `Apache mod_mime
+                                                                       <http://httpd.apache.org/docs/2.0/mod/mod_mime.html#multipleext>`_.
+                                                                       DO NOT turn off this option if your upload directory is public, as this
+                                                                       is a security risk.
+>>>>>>> local
 ============================ ================= ======================= ======================================================================
 
 Setting preferences in a config file

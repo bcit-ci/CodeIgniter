@@ -56,11 +56,18 @@ if ( ! function_exists('set_cookie'))
 	 * @param	bool	true makes the cookie accessible via http(s) only (no javascript)
 	 * @return	void
 	 */
+<<<<<<< develop
 	function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE, $httponly = FALSE)
 	{
 		// Set the config file options
 		$CI =& get_instance();
 		$CI->input->set_cookie($name, $value, $expire, $domain, $path, $prefix, $secure, $httponly);
+=======
+	function set_cookie($name, $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE, $httponly = FALSE)
+	{
+		// Set the config file options
+		get_instance()->input->set_cookie($name, $value, $expire, $domain, $path, $prefix, $secure, $httponly);
+>>>>>>> local
 	}
 }
 
@@ -75,11 +82,19 @@ if ( ! function_exists('get_cookie'))
 	 * @param	bool
 	 * @return	mixed
 	 */
+<<<<<<< develop
 	function get_cookie($index = '', $xss_clean = FALSE)
 	{
 		$CI =& get_instance();
 		$prefix = isset($_COOKIE[$index]) ? '' : config_item('cookie_prefix');
 		return $CI->input->cookie($prefix.$index, $xss_clean);
+=======
+	function get_cookie($index, $xss_clean = NULL)
+	{
+		is_bool($xss_clean) OR $xss_clean = (config_item('global_xss_filtering') === TRUE);
+		$prefix = isset($_COOKIE[$index]) ? '' : config_item('cookie_prefix');
+		return get_instance()->input->cookie($prefix.$index, $xss_clean);
+>>>>>>> local
 	}
 }
 
@@ -96,7 +111,11 @@ if ( ! function_exists('delete_cookie'))
 	 * @param	string	the cookie prefix
 	 * @return	void
 	 */
+<<<<<<< develop
 	function delete_cookie($name = '', $domain = '', $path = '/', $prefix = '')
+=======
+	function delete_cookie($name, $domain = '', $path = '/', $prefix = '')
+>>>>>>> local
 	{
 		set_cookie($name, '', '', $domain, $path, $prefix);
 	}

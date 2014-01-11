@@ -10,7 +10,11 @@ need to be run against the production machines next time you deploy.
 
 The database table **migration** tracks which migrations have already been 
 run so all you have to do is update your application files and 
+<<<<<<< develop
 call **$this->migrate->current()** to work out which migrations should be run. 
+=======
+call **$this->migration->current()** to work out which migrations should be run. 
+>>>>>>> local
 The current version is found in **config/migration.php**.
 
 ********************
@@ -86,7 +90,11 @@ Then in **application/config/migration.php** set **$config['migration_version'] 
 Usage Example
 *************
 
+<<<<<<< develop
 In this example some simple code is placed in **application/controllers/migrate.php** 
+=======
+In this example some simple code is placed in **application/controllers/Migrate.php** 
+>>>>>>> local
 to update the schema.::
 
 	<?php

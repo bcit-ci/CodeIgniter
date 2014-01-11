@@ -165,6 +165,11 @@ class CI_Session_cookie extends CI_Session_driver {
 	 */
 	public $now;
 
+<<<<<<< develop
+=======
+	// ------------------------------------------------------------------------
+
+>>>>>>> local
 	/**
 	 * Default userdata keys
 	 *
@@ -185,6 +190,18 @@ class CI_Session_cookie extends CI_Session_driver {
 	protected $data_dirty = FALSE;
 
 	/**
+<<<<<<< develop
+=======
+	 * Standardize newlines flag
+	 *
+	 * @var	bool
+	 */
+	protected $_standardize_newlines;
+
+	// ------------------------------------------------------------------------
+
+	/**
+>>>>>>> local
 	 * Initialize session driver object
 	 *
 	 * @return	void
@@ -209,9 +226,17 @@ class CI_Session_cookie extends CI_Session_driver {
 			'sess_time_to_update',
 			'time_reference',
 			'cookie_prefix',
+<<<<<<< develop
 			'encryption_key'
 		);
 
+=======
+			'encryption_key',
+		);
+
+		$this->_standardize_newlines = (bool) config_item('standardize_newlines');
+
+>>>>>>> local
 		foreach ($prefs as $key)
 		{
 			$this->$key = isset($this->_parent->params[$key])
@@ -397,11 +422,19 @@ class CI_Session_cookie extends CI_Session_driver {
 		}
 
 		// Unserialize the session array
+<<<<<<< develop
 		$session = $this->_unserialize($session);
+=======
+		$session = @unserialize($session);
+>>>>>>> local
 
 		// Is the session data we unserialized an array with the correct format?
 		if ( ! is_array($session) OR ! isset($session['session_id'], $session['ip_address'], $session['user_agent'], $session['last_activity']))
 		{
+<<<<<<< develop
+=======
+			log_message('debug', 'Session: Wrong cookie data format');
+>>>>>>> local
 			$this->sess_destroy();
 			return FALSE;
 		}
@@ -409,6 +442,10 @@ class CI_Session_cookie extends CI_Session_driver {
 		// Is the session current?
 		if (($session['last_activity'] + $this->sess_expiration) < $this->now OR $session['last_activity'] > $this->now)
 		{
+<<<<<<< develop
+=======
+			log_message('debug', 'Session: Expired');
+>>>>>>> local
 			$this->sess_destroy();
 			return FALSE;
 		}
@@ -416,6 +453,10 @@ class CI_Session_cookie extends CI_Session_driver {
 		// Does the IP match?
 		if ($this->sess_match_ip === TRUE && $session['ip_address'] !== $this->CI->input->ip_address())
 		{
+<<<<<<< develop
+=======
+			log_message('debug', 'Session: IP address mismatch');
+>>>>>>> local
 			$this->sess_destroy();
 			return FALSE;
 		}
@@ -424,6 +465,10 @@ class CI_Session_cookie extends CI_Session_driver {
 		if ($this->sess_match_useragent === TRUE &&
 			trim($session['user_agent']) !== trim(substr($this->CI->input->user_agent(), 0, 120)))
 		{
+<<<<<<< develop
+=======
+			log_message('debug', 'Session: User Agent string mismatch');
+>>>>>>> local
 			$this->sess_destroy();
 			return FALSE;
 		}
@@ -459,6 +504,10 @@ class CI_Session_cookie extends CI_Session_driver {
 			// No result? Kill it!
 			if (empty($query) OR $query->num_rows() === 0)
 			{
+<<<<<<< develop
+=======
+				log_message('debug', 'Session: No match found in our database');
+>>>>>>> local
 				$this->sess_destroy();
 				return FALSE;
 			}
@@ -467,7 +516,11 @@ class CI_Session_cookie extends CI_Session_driver {
 			$row = $query->row();
 			if ( ! empty($row->user_data))
 			{
+<<<<<<< develop
 				$custom_data = $this->_unserialize($row->user_data);
+=======
+				$custom_data = unserialize(trim($row->user_data));
+>>>>>>> local
 
 				if (is_array($custom_data))
 				{
@@ -494,10 +547,19 @@ class CI_Session_cookie extends CI_Session_driver {
 		$this->userdata = array(
 			'session_id'	=> $this->_make_sess_id(),
 			'ip_address'	=> $this->CI->input->ip_address(),
+<<<<<<< develop
 			'user_agent'	=> substr($this->CI->input->user_agent(), 0, 120),
 			'last_activity'	=> $this->now,
 		);
 
+=======
+			'user_agent'	=> trim(substr($this->CI->input->user_agent(), 0, 120)),
+			'last_activity'	=> $this->now,
+		);
+
+		log_message('debug', 'Session: Creating new session ('.$this->userdata['session_id'].')');
+
+>>>>>>> local
 		// Check for database
 		if ($this->sess_use_database === TRUE)
 		{
@@ -536,6 +598,11 @@ class CI_Session_cookie extends CI_Session_driver {
 		{
 			// Get new id
 			$this->userdata['session_id'] = $this->_make_sess_id();
+<<<<<<< develop
+=======
+
+			log_message('debug', 'Session: Regenerate ID');
+>>>>>>> local
 		}
 
 		// Check for database
@@ -599,9 +666,18 @@ class CI_Session_cookie extends CI_Session_driver {
 			if ( ! empty($userdata))
 			{
 				// Serialize the custom data array so we can store it
+<<<<<<< develop
 				$set['user_data'] = $this->_serialize($userdata);
 			}
 
+=======
+				$set['user_data'] = serialize($userdata);
+			}
+
+			// Reset query builder values.
+			$this->CI->db->reset_query();
+
+>>>>>>> local
 			// Run the update query
 			// Any time we change the session id, it gets updated immediately,
 			// so our where clause below is always safe
@@ -638,7 +714,11 @@ class CI_Session_cookie extends CI_Session_driver {
 		$new_sessid = '';
 		do
 		{
+<<<<<<< develop
 			$new_sessid .= mt_rand(0, mt_getrandmax());
+=======
+			$new_sessid .= mt_rand();
+>>>>>>> local
 		}
 		while (strlen($new_sessid) < 32);
 
@@ -683,8 +763,23 @@ class CI_Session_cookie extends CI_Session_driver {
 				? array_intersect_key($this->userdata, $this->defaults)
 				: $this->userdata;
 
+<<<<<<< develop
 		// Serialize the userdata for the cookie
 		$cookie_data = $this->_serialize($cookie_data);
+=======
+		// The Input class will do this and since we use HMAC verification,
+		// unless we standardize here as well, the hash won't match.
+		if ($this->_standardize_newlines)
+		{
+			foreach (array_keys($this->userdata) as $key)
+			{
+				$this->userdata[$key] = preg_replace('/(?:\r\n|[\r\n])/', PHP_EOL, $this->userdata[$key]);
+			}
+		}
+
+		// Serialize the userdata for the cookie
+		$cookie_data = serialize($cookie_data);
+>>>>>>> local
 
 		if ($this->sess_encrypt_cookie === TRUE)
 		{
@@ -725,6 +820,7 @@ class CI_Session_cookie extends CI_Session_driver {
 	// ------------------------------------------------------------------------
 
 	/**
+<<<<<<< develop
 	 * Serialize an array
 	 *
 	 * This function first converts any slashes found in the array to a temporary
@@ -812,6 +908,8 @@ class CI_Session_cookie extends CI_Session_driver {
 	// ------------------------------------------------------------------------
 
 	/**
+=======
+>>>>>>> local
 	 * Garbage collection
 	 *
 	 * This deletes expired session rows from database
@@ -829,8 +927,12 @@ class CI_Session_cookie extends CI_Session_driver {
 		$probability = ini_get('session.gc_probability');
 		$divisor = ini_get('session.gc_divisor');
 
+<<<<<<< develop
 		srand(time());
 		if ((mt_rand(0, $divisor) / $divisor) < $probability)
+=======
+		if (mt_rand(1, $divisor) <= $probability)
+>>>>>>> local
 		{
 			$expire = $this->now - $this->sess_expiration;
 			$this->CI->db->delete($this->sess_table_name, 'last_activity < '.$expire);

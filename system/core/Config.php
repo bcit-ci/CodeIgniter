@@ -105,10 +105,25 @@ class CI_Config {
 	{
 		$file = ($file === '') ? 'config' : str_replace('.php', '', $file);
 		$found = $loaded = FALSE;
+<<<<<<< develop
 
 		foreach ($this->_config_paths as $path)
 		{
 			foreach (array(ENVIRONMENT.'/'.$file, $file) as $location)
+=======
+
+		$check_locations = defined('ENVIRONMENT')
+			? array(ENVIRONMENT.'/'.$file, $file)
+			: array($file);
+
+		foreach ($this->_config_paths as $path)
+		{
+<<<<<<< HEAD
+			foreach ($check_locations as $location)
+=======
+			foreach (array(ENVIRONMENT.'/'.$file, $file) as $location)
+>>>>>>> upstream/develop
+>>>>>>> local
 			{
 				$file_path = $path.'config/'.$location.'.php';
 
@@ -184,16 +199,27 @@ class CI_Config {
 	 *
 	 * @param	string	$item	Config item name
 	 * @param	string	$index	Index name
+<<<<<<< develop
 	 * @return	string|bool	The configuration item or FALSE on failure
+=======
+	 * @return	string|null	The configuration item or NULL if the item doesn't exist
+>>>>>>> local
 	 */
 	public function item($item, $index = '')
 	{
 		if ($index == '')
 		{
+<<<<<<< develop
 			return isset($this->config[$item]) ? $this->config[$item] : FALSE;
 		}
 
 		return isset($this->config[$index], $this->config[$index][$item]) ? $this->config[$index][$item] : FALSE;
+=======
+			return isset($this->config[$item]) ? $this->config[$item] : NULL;
+		}
+
+		return isset($this->config[$index], $this->config[$index][$item]) ? $this->config[$index][$item] : NULL;
+>>>>>>> local
 	}
 
 	// --------------------------------------------------------------------
@@ -202,13 +228,17 @@ class CI_Config {
 	 * Fetch a config file item with slash appended (if not empty)
 	 *
 	 * @param	string		$item	Config item name
+<<<<<<< develop
 	 * @return	string|bool	The configuration item or FALSE on failure
+=======
+	 * @return	string|null	The configuration item or NULL if the item doesn't exist
+>>>>>>> local
 	 */
 	public function slash_item($item)
 	{
 		if ( ! isset($this->config[$item]))
 		{
-			return FALSE;
+			return NULL;
 		}
 		elseif (trim($this->config[$item]) === '')
 		{
@@ -228,15 +258,27 @@ class CI_Config {
 	 * @uses	CI_Config::_uri_string()
 	 *
 	 * @param	string|string[]	$uri	URI string or an array of segments
+<<<<<<< develop
 	 * @return	string
 	 */
 	public function site_url($uri = '')
 	{
 		if (empty($uri))
+=======
+	 * @param	string	$protocol
+	 * @return	string
+	 */
+	public function site_url($uri = '', $protocol = NULL)
+	{
+		$base_url = $this->slash_item('base_url');
+
+		if (isset($protocol))
+>>>>>>> local
 		{
-			return $this->slash_item('base_url').$this->item('index_page');
+			$base_url = $protocol.substr($base_url, strpos($base_url, '://'));
 		}
 
+<<<<<<< develop
 		$uri = $this->_uri_string($uri);
 
 		if ($this->item('enable_query_strings') === FALSE)
@@ -263,6 +305,39 @@ class CI_Config {
 		}
 
 		return $this->slash_item('base_url').$this->item('index_page').$uri;
+=======
+		if (empty($uri))
+		{
+			return $base_url.$this->item('index_page');
+		}
+
+		$uri = $this->_uri_string($uri);
+
+		if ($this->item('enable_query_strings') === FALSE)
+		{
+			$suffix = isset($this->config['url_suffix']) ? $this->config['url_suffix'] : '';
+
+			if ($suffix !== '')
+			{
+				if (($offset = strpos($uri, '?')) !== FALSE)
+				{
+					$uri = substr($uri, 0, $offset).$suffix.substr($uri, $offset);
+				}
+				else
+				{
+					$uri .= $suffix;
+				}
+			}
+
+			return $base_url.$this->slash_item('index_page').$uri;
+		}
+		elseif (strpos($uri, '?') === FALSE)
+		{
+			$uri = '?'.$uri;
+		}
+
+		return $base_url.$this->item('index_page').$uri;
+>>>>>>> local
 	}
 
 	// -------------------------------------------------------------
@@ -275,21 +350,46 @@ class CI_Config {
 	 * @uses	CI_Config::_uri_string()
 	 *
 	 * @param	string|string[]	$uri	URI string or an array of segments
+<<<<<<< develop
 	 * @return	string
 	 */
 	public function base_url($uri = '')
+=======
+	 * @param	string	$protocol
+	 * @return	string
+	 */
+	public function base_url($uri = '', $protocol = NULL)
+>>>>>>> local
 	{
+<<<<<<< HEAD
 		return $this->slash_item('base_url').ltrim($this->_uri_string($uri), '/');
+=======
+		$base_url = $this->slash_item('base_url');
+
+		if (isset($protocol))
+		{
+			$base_url = $protocol.substr($base_url, strpos($base_url, '://'));
+		}
+
+		return $base_url.ltrim($this->_uri_string($uri), '/');
+>>>>>>> upstream/develop
 	}
 
 	// -------------------------------------------------------------
 
 	/**
 	 * Build URI string
+<<<<<<< develop
 	 *
 	 * @used-by	CI_Config::site_url()
 	 * @used-by	CI_Config::base_url()
 	 *
+=======
+	 *
+	 * @used-by	CI_Config::site_url()
+	 * @used-by	CI_Config::base_url()
+	 *
+>>>>>>> local
 	 * @param	string|string[]	$uri	URI string or an array of segments
 	 * @return	string
 	 */

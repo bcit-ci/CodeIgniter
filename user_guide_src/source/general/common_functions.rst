@@ -31,7 +31,11 @@ version of PHP is lower than the supplied version number.
 is_really_writable()
 ====================
 
+<<<<<<< develop
 .. php:function:: is_really_writeable($file)
+=======
+.. php:function:: is_really_writable($file)
+>>>>>>> local
 
 	:param	string	$file: File path
 	:returns:	bool
@@ -68,6 +72,7 @@ accessing configuration information, however ``config_item()`` can be used
 to retrieve single keys. See :doc:`Config Library <../libraries/config>`
 documentation for more information.
 
+<<<<<<< develop
 .. important:: This function only returns values set in your configuration
 	files. It does not take into account config values that are
 	dynamically set at runtime.
@@ -76,6 +81,12 @@ show_error()
 ============
 
 .. php:function:: show_error($message, $status_code, $heading = 'An Error Was Encountered')
+=======
+show_error()
+============
+
+.. :noindex: php:function:: show_error($message, $status_code, $heading = 'An Error Was Encountered')
+>>>>>>> local
 
 	:param	mixed	$message: Error message
 	:param	int	$status_code: HTTP Response status code
@@ -88,7 +99,11 @@ please see the :doc:`Error Handling <errors>` documentation.
 show_404()
 ==========
 
+<<<<<<< develop
 .. php:function:: show_404($page = '', $log_error = TRUE)
+=======
+.. :noindex: php:function:: show_404($page = '', $log_error = TRUE)
+>>>>>>> local
 
 	:param	string	$page: URI string
 	:param	bool	$log_error: Whether to log the error
@@ -100,11 +115,18 @@ please see the :doc:`Error Handling <errors>` documentation.
 log_message()
 =============
 
+<<<<<<< develop
 .. php:function:: log_message($level = 'error', $message, $php_error = FALSE)
 
 	:param	string	$level: Log level
 	:param	string	$message: Message to log
 	:param	bool	$php_error: Whether we're loggin a native PHP error message
+=======
+.. :noindex: php:function:: log_message($level, $message)
+
+	:param	string	$level: Log level: 'error', 'debug' or 'info'
+	:param	string	$message: Message to log
+>>>>>>> local
 	:returns:	void
 
 This function is an alias for ``CI_Log::write_log()``. For more info,
@@ -178,6 +200,22 @@ is_https()
 Returns TRUE if a secure (HTTPS) connection is used and FALSE
 in any other case (including non-HTTP requests).
 
+<<<<<<< develop
+=======
+is_cli()
+========
+
+.. php:function:: is_cli()
+
+	:returns:	bool
+
+Returns TRUE if the application is run through the command line
+and FALSE if not.
+
+.. note:: This function checks both if the ``PHP_SAPI`` value is 'cli'
+	or if the ``STDIN`` constant is defined.
+
+>>>>>>> local
 function_usable()
 =================
 
