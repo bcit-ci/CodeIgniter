@@ -4,7 +4,7 @@ Typography Class
 
 The Typography Class provides methods that help you format text.
 
-.. content::
+.. contents::
   :local:
 
 .. raw:: html
@@ -35,7 +35,7 @@ Class Reference
 
 	.. attribute:: $protect_braced_quotes = FALSE
 
-		When using the Typography library in conjunction with the :doc:`Template Parser library <../parser>`
+		When using the Typography library in conjunction with the :doc:`Template Parser library <parser>`
 		it can often be desirable to protect single and double quotes within curly braces.
 		To enable this, set the ``protect_braced_quotes`` class property to TRUE.
 

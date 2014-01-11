@@ -241,11 +241,11 @@ Class Reference
 		Permits you to set your template. You can submit a full or partial template.
 		::
 
-		$template = array(
-			'table_open'  => '<table border="1" cellpadding="2" cellspacing="1" class="mytable">'
-		);
-
-		$this->table->set_template($template);
+			$template = array(
+				'table_open'  => '<table border="1" cellpadding="2" cellspacing="1" class="mytable">'
+			);
+		
+			$this->table->set_template($template);
 
 	.. method:: set_empty($value)
 

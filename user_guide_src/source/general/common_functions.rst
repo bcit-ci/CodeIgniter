@@ -66,7 +66,7 @@ loading any libraries or helpers.
 	to retrieve single keys. See :doc:`Config Library <../libraries/config>`
 	documentation for more information.
 
-.. function:: show_error($message, $status_code, $heading = 'An Error Was Encountered')
+.. :noindex: function:: show_error($message, $status_code, $heading = 'An Error Was Encountered')
 
 	:param	mixed	$message: Error message
 	:param	int	$status_code: HTTP Response status code
@@ -76,7 +76,7 @@ loading any libraries or helpers.
 	This function calls ``CI_Exception::show_error()``. For more info,
 	please see the :doc:`Error Handling <errors>` documentation.
 
-.. function:: show_404($page = '', $log_error = TRUE)
+.. :noindex: function:: show_404($page = '', $log_error = TRUE)
 
 	:param	string	$page: URI string
 	:param	bool	$log_error: Whether to log the error
@@ -85,7 +85,7 @@ loading any libraries or helpers.
 	This function calls ``CI_Exception::show_404()``. For more info,
 	please see the :doc:`Error Handling <errors>` documentation.
 
-.. function:: log_message($level, $message, $php_error = FALSE)
+.. :noindex: function:: log_message($level, $message, $php_error = FALSE)
 
 	:param	string	$level: Log level: 'error', 'debug' or 'info'
 	:param	string	$message: Message to log
