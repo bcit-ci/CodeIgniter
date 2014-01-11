@@ -152,8 +152,14 @@ $config['subclass_prefix'] = 'MY_';
 |
 | DO NOT CHANGE THIS UNLESS YOU FULLY UNDERSTAND THE REPERCUSSIONS!!
 |
+| You can also set a handler if the user submitted an disallowed URL. Check
+| the user guide for more help:
+|
+| http://codeigniter.com/user_guide/general/invalid_requests.html
+|
 */
 $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
+$config['invalid_uri_handler'] = FALSE;
 
 
 /*
