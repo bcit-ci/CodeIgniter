@@ -215,8 +215,7 @@ Class Reference
 		pass information to this method so that a cookie can be set: Array
 		Method, and Discrete Parameters:
 
-		Array Method
-		^^^^^^^^^^^^
+		**Array Method**
 
 		Using this method, an associative array is passed to the first
 		parameter::
@@ -255,8 +254,7 @@ Class Reference
 		The secure boolean is only needed if you want to make it a secure cookie
 		by setting it to TRUE.
 
-		Discrete Parameters
-		^^^^^^^^^^^^^^^^^^^
+		**Discrete Parameters**
 
 		If you prefer, you can set the cookie by passing data using individual
 		parameters::

@@ -509,7 +509,6 @@ your config.php file to an array including your driver name::
 
 	$config['sess_valid_drivers'] = array('sess_driver');
 
-
 ***************
 Class Reference
 ***************
@@ -536,7 +535,7 @@ Class Reference
 
 		.. note:: This method should be the last one called, and even flash
 			variables will no longer be available after it is used.
-			 If you only want some items destroyed and not all, use
+			If you only want some items destroyed and not all, use
 			``unset_userdata()``.
 
 	.. method:: sess_regenerate([$destroy = FALSE])

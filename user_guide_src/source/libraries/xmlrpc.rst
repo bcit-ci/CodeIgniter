@@ -551,7 +551,7 @@ Class Reference
 		First parameter is the error number while the second parameter is the error message.
 		::
 
-		return $this->xmlrpc->send_error_message(123, 'Requested data not available');
+			return $this->xmlrpc->send_error_message(123, 'Requested data not available');
 
 	.. method send_response($response)
 

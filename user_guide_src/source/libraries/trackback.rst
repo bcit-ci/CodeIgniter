@@ -8,7 +8,7 @@ receive Trackback data.
 If you are not familiar with Trackbacks you'll find more information
 `here <http://en.wikipedia.org/wiki/Trackback>`_.
 
-.. content::
+.. contents::
   :local:
 
 .. raw:: html
@@ -64,10 +64,11 @@ Description of array data:
 -  **url** - The URL to YOUR site where the weblog entry can be seen.
 -  **title** - The title of your weblog entry.
 -  **excerpt** - The content of your weblog entry.
-   .. note:: the Trackback class will automatically send only the first 500 characters of your
-  	entry. It will also strip all HTML.
 -  **blog_name** - The name of your weblog.
 -  **charset** - The character encoding your weblog is written in. If omitted, UTF-8 will be used.
+
+.. note:: the Trackback class will automatically send only the first 500 characters of your 
+	entry. It will also strip all HTML.
 
 The Trackback sending method returns TRUE/FALSE (boolean) on success
 or failure. If it fails, you can retrieve the error message using::

@@ -116,8 +116,7 @@ Class Reference
 
 			$this->load->library(array('email', 'table'));
 
-		Setting options
-		---------------
+		**Setting options**
 
 		The second (optional) parameter allows you to optionally pass
 		configuration setting. You will typically pass these as an array::
@@ -137,8 +136,7 @@ Class Reference
 		Please take note, when multiple libraries are supplied in an array for
 		the first parameter, each will receive the same parameter information.
 
-		Assigning a Library to a different object name
-		----------------------------------------------
+		**Assigning a Library to a different object name**
 
 		If the third (optional) parameter is blank, the library will usually be
 		assigned to an object with the same name as the library. For example, if
@@ -184,8 +182,7 @@ Class Reference
 
 			$this->load->driver(array('session', 'cache'));
 
-		Setting options
-		---------------
+		**Setting options**
 
 		The second (optional) parameter allows you to optionally pass
 		configuration settings. You will typically pass these as an array::
@@ -202,8 +199,7 @@ Class Reference
 		is explained in detail in its own page, so please read the information
 		regarding each one you would like to use.
 
-		Assigning a Driver to a different object name
-		---------------------------------------------
+		**Assigning a Driver to a different object name**
 
 		If the third (optional) parameter is blank, the library will be assigned
 		to an object with the same name as the parent class. For example, if

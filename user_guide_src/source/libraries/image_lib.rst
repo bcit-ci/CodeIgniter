@@ -164,7 +164,7 @@ If you prefer not to set preferences using the above method, you can
 instead put them into a config file. Simply create a new file called
 image_lib.php, add the $config array in that file. Then save the file
 in *config/image_lib.php* and it will be used automatically. You will
-NOT need to use the ``$this->image_lib->initialize()``method if you save
+NOT need to use the ``$this->image_lib->initialize()`` method if you save
 your preferences in a config file.
 
 ******************
@@ -330,8 +330,7 @@ Class Reference
 		All preferences listed in the :ref:`processing-preferences` table are available for this
 		method except these three: *rotation_angle*, *x_axis* and *y_axis*.
 
-		Creating a Thumbnail
-		--------------------
+		**Creating a Thumbnail**
 
 		The resizing method will create a thumbnail file (and preserve the
 		original) if you set this preference to TRUE::
@@ -340,8 +339,7 @@ Class Reference
 
 		This single preference determines whether a thumbnail is created or not.
 
-		Creating a Copy
-		---------------
+		**Creating a Copy**
 
 		The resizing method will create a copy of the image file (and preserve
 		the original) if you set a path and/or a new filename using this
@@ -358,8 +356,7 @@ Class Reference
 		-  If both the path and image name are specified it will placed in its
 		   own destination and given the new name.
 
-		Resizing the Original Image
-		---------------------------
+		**Resizing the Original Image**
 
 		If neither of the two preferences listed above (create_thumb, and
 		new_image) are used, the resizing method will instead target the
