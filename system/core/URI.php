@@ -311,65 +311,7 @@ class CI_URI {
 			// compatibility as many are unaware of how characters in the permitted_uri_chars will be parsed as a regex pattern
 			if ( ! preg_match('|^['.str_replace(array('\\-', '\-'), '-', preg_quote($this->config->item('permitted_uri_chars'), '-')).']+$|i', $str))
 			{
-				$error_handler = $this->config->item('invalid_uri_handler');
-				if (isset($error_handler['function']))
-				{
-					if (isset($error_handler['filename'], $error_handler['filepath']))
-					{
-						$file = APPPATH.$error_handler['filepath'].'/'.$error_handler['filename'];
-						if ( ! is_file($file))
-						{
-							$file = '';
-						}
-					}
-					else
-					{
-						$file = '';
-					}
-
-					if (isset($error_handler['class']))
-					{
-						list($class, $method) = array($error_handler['class'], $error_handler['function']);
-
-						// Handler is a method
-						if ( ! class_exists($class) && $file != '')
-						{
-							require_once $file;
-						}
-
-						if (class_exists($class) && method_exists($class, $method))
-						{
-							$handler = new $class();
-							$handler->$method();
-							exit;
-						}
-					}
-					else
-					{
-						$function = $error_handler['function'];
-
-						// Handler is a function
-						if ( ! function_exists($function) && $file != '')
-						{
-							require_once $file;
-						}
-
-						if (function_exists($function))
-						{
-							$function();
-							exit;
-						}
-					}
-				}
-
-				if (ENVIRONMENT === 'production')
-				{
-					show_404();
-				}
-				else
-				{
-					show_error('The URI you submitted has disallowed characters.', 400);
-				}
+				$this->disallowed_uri_error();
 			}
 		}
 
@@ -378,6 +320,23 @@ class CI_URI {
 					array('$',     '(',     ')',     '%28',   '%29'), // Bad
 					array('&#36;', '&#40;', '&#41;', '&#40;', '&#41;'), // Good
 					$str);
+	}
+
+	/**
+	 * Show Disallowed URI Error
+	 *
+	 * @return	void
+	 */
+	function disallowed_uri_error()
+	{
+		if (ENVIRONMENT === 'production')
+		{
+			show_404();
+		}
+		else
+		{
+			show_error('The URI you submitted has disallowed characters.', 400);
+		}
 	}
 
 	// --------------------------------------------------------------------

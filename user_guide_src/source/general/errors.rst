@@ -21,8 +21,8 @@ without having to worry about class/function scoping.
 CodeIgniter also returns a status code whenever a portion of the core
 calls ``exit()``. This exit status code is separate from the HTTP status
 code, and serves as a notice to other processes that may be watching of
-whether the script completed successfully, or if not, what kind of 
-problem it encountered that caused it to abort. These values are 
+whether the script completed successfully, or if not, what kind of
+problem it encountered that caused it to abort. These values are
 defined in *application/config/constants.php*. While exit status codes
 are most useful in CLI settings, returning the proper code helps server
 software keep track of your scripts and the health of your application.
@@ -49,7 +49,7 @@ code should be sent with the error. If ``$status_code`` is less than 100,
 the HTTP status code will be set to 500, and the exit status code will
 be set to ``$status_code + EXIT__AUTO_MIN``. If that value is larger than
 ``EXIT__AUTO_MAX``, or if ``$status_code`` is 100 or higher, the exit
-status code will be set to ``EXIT_ERROR``. You can check in 
+status code will be set to ``EXIT_ERROR``. You can check in
 *application/config/constants.php* for more detail.
 
 show_404()
@@ -119,3 +119,28 @@ There are three message types:
 	for logging in *application/config/config.php*. You might, for example,
 	only want error messages to be logged, and not the other two types.
 	If you set it to zero logging will be disabled.
+
+
+Invalid Requests
+================
+
+Users can generate invalid requests, like disallowed URIs and invalids
+CSRF tokens. By default, the CodeIgniter will show an error for this
+message, but you can set your own handler by extending some CodeIgniter
+class.
+
+Disallowed URI
+--------------
+You can config the permitted URI characters in the *application/config/config.php*.
+If someone submit an URI with disalloweds characters, the 404 message will be show
+in production environment, and an error message in the other environment. To set your
+own error handler, :doc:`extend the URI core class <general/core_classes>` and define
+the method ``disallowed_uri_error()``
+
+CSRF Verify
+-----------
+When the CSRF post/cookie tokens doesn't match, the CodeIgniter will show an error.
+To set your own error handler, :doc:`extend the Security core class <general/core_classes>` and define
+the method ``csrf_show_error()``
+
+.. note:: Remember to stop the PHP script with ``exit()``
