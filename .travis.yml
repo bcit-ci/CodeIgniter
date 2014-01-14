@@ -23,6 +23,10 @@ before_script:
 
 script: phpunit --coverage-text --configuration tests/travis/$DB.phpunit.xml
 
+matrix:
+  allow_failures:
+    - php: hhvm
+
 branches:
   only:
     - develop
