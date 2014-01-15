@@ -154,16 +154,16 @@ class CI_Router {
 		{
 			if (isset($_GET[$this->config->item('directory_trigger')]) && is_string($_GET[$this->config->item('directory_trigger')]))
 			{
-				$this->set_directory(trim($this->uri->_filter_uri($_GET[$this->config->item('directory_trigger')])));
+				$this->set_directory(trim($this->uri->filter_uri($_GET[$this->config->item('directory_trigger')])));
 				$segments[] = $this->directory;
 			}
 
-			$this->set_class(trim($this->uri->_filter_uri($_GET[$this->config->item('controller_trigger')])));
+			$this->set_class(trim($this->uri->filter_uri($_GET[$this->config->item('controller_trigger')])));
 			$segments[] = $this->class;
 
 			if ( ! empty($_GET[$this->config->item('function_trigger')]) && is_string($_GET[$this->config->item('function_trigger')]))
 			{
-				$this->set_method(trim($this->uri->_filter_uri($_GET[$this->config->item('function_trigger')])));
+				$this->set_method(trim($this->uri->filter_uri($_GET[$this->config->item('function_trigger')])));
 				$segments[] = $this->method;
 			}
 		}
