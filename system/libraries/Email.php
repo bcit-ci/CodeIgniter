@@ -2097,7 +2097,16 @@ class CI_Email {
 	 */
 	protected function _send_data($data)
 	{
-		if (fwrite($this->_smtp_connect, $data.$this->newline) === FALSE)
+		$data .= $this->newline;
+		for ($written = 0, $length = strlen($data); $written < $length; $written += $result)
+		{
+			if (($result = fwrite($this->_smtp_connect, substr($data, $written))) === FALSE)
+			{
+				break;
+			}
+		}
+
+		if ($result === FALSE)
 		{
 			$this->_set_error_message('lang:email_smtp_data_failure', $data);
 			return FALSE;

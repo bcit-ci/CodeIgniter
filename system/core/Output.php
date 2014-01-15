@@ -542,17 +542,26 @@ class CI_Output {
 			return;
 		}
 
-		$expire = time() + ($this->cache_expiration * 60);
-
-		// Put together our serialized info.
-		$cache_info = serialize(array(
-			'expire'	=> $expire,
-			'headers'	=> $this->headers
-		));
-
 		if (flock($fp, LOCK_EX))
 		{
-			fwrite($fp, $cache_info.'ENDCI--->'.$output);
+			$expire = time() + ($this->cache_expiration * 60);
+
+			// Put together our serialized info.
+			$cache_info = serialize(array(
+				'expire'	=> $expire,
+				'headers'	=> $this->headers
+			));
+
+			$output = $cache_info.'ENDCI--->'.$output;
+
+			for ($written = 0, $length = strlen($output); $written < $length; $written += $result)
+			{
+				if (($result = fwrite($fp, substr($output, $written))) === FALSE)
+				{
+					break;
+				}
+			}
+
 			flock($fp, LOCK_UN);
 		}
 		else
@@ -560,13 +569,22 @@ class CI_Output {
 			log_message('error', 'Unable to secure a file lock for file at: '.$cache_path);
 			return;
 		}
+
 		fclose($fp);
-		@chmod($cache_path, FILE_WRITE_MODE);
 
-		log_message('debug', 'Cache file written: '.$cache_path);
+		if (is_int($result))
+		{
+			@chmod($cache_path, FILE_WRITE_MODE);
+			log_message('debug', 'Cache file written: '.$cache_path);
 
-		// Send HTTP cache-control headers to browser to match file cache settings.
-		$this->set_cache_header($_SERVER['REQUEST_TIME'], $expire);
+			// Send HTTP cache-control headers to browser to match file cache settings.
+			$this->set_cache_header($_SERVER['REQUEST_TIME'], $expire);
+		}
+		else
+		{
+			@unlink($cache_path);
+			log_message('error', 'Unable to write the complete cache content at: '.$cache_path);
+		}
 	}
 
 	// --------------------------------------------------------------------
