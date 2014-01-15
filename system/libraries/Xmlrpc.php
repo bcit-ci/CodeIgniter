@@ -724,7 +724,15 @@ class XML_RPC_Client extends CI_Xmlrpc
 			.'Content-Length: '.strlen($msg->payload).$r.$r
 			.$msg->payload;
 
-		if ( ! fwrite($fp, $op, strlen($op)))
+		for ($written = 0, $length = strlen($op); $written < $length; $written += $result)
+		{
+			if (($result = fwrite($fp, substr($op, $written))) === FALSE)
+			{
+				break;
+			}
+		}
+
+		if ($result === FALSE)
 		{
 			error_log($this->xmlrpcstr['http_error']);
 			return new XML_RPC_Response(0, $this->xmlrpcerr['http_error'], $this->xmlrpcstr['http_error']);

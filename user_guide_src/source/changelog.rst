@@ -332,10 +332,12 @@ Release Date: Not Released
 
    -  :doc:`Email Library <libraries/email>` changes include:
 
-      -  Added custom filename to ``Email::attach()`` as ``$this->email->attach($filename, $disposition, $newname)``.
-      -  Added possibility to send attachment as buffer string in ``Email::attach()`` as ``$this->email->attach($buffer, $disposition, $newname, $mime)``.
+      -  Added a custom filename parameter to ``attach()`` as ``$this->email->attach($filename, $disposition, $newname)``.
+      -  Added possibility to send attachment as buffer string in ``attach()`` as ``$this->email->attach($buffer, $disposition, $newname, $mime)``.
+      -  Added possibility to attach remote files by passing a URL.
+      -  Added method ``attachment_cid()`` to enable embedding inline attachments into HTML.
       -  Added dsn (delivery status notification) option.
-      -  Renamed method _set_header() to set_header() and made it public to enable adding custom headers in the :doc:`Email Library <libraries/email>`.
+      -  Renamed method ``_set_header()`` to ``set_header()`` and made it public to enable adding custom headers.
       -  Successfully sent emails will automatically clear the parameters.
       -  Added a *return_path* parameter to the ``from()`` method.
       -  Removed the second parameter (character limit) from internal method ``_prep_quoted_printable()`` as it is never used.
@@ -344,7 +346,7 @@ Release Date: Not Released
       -  Removed unused protected method ``_get_ip()`` (:doc:`Input Library <libraries/input>`'s ``ip_address()`` should be used anyway).
       -  Internal method ``_prep_q_encoding()`` now utilizes PHP's *mbstring* and *iconv* extensions (when available) and no longer has a second (``$from``) argument.
       -  Added an optional parameter to ``print_debugger()`` to allow specifying which parts of the message should be printed ('headers', 'subject', 'body').
-      -  Added SMTP keepalive option to avoid opening the connection for each ``Email::send()``. Accessible as ``$smtp_keepalive``.
+      -  Added SMTP keepalive option to avoid opening the connection for each ``send()`` call. Accessible as ``$smtp_keepalive``.
       -  Public method ``set_header()`` now filters the input by removing all "\\r" and "\\n" characters.
 
    -  :doc:`Pagination Library <libraries/pagination>` changes include:
@@ -389,6 +391,7 @@ Release Date: Not Released
 
    -  :doc:`URI Library <libraries/uri>` changes include:
 
+      -  Renamed method ``_filter_uri()`` to ``filter_uri()`` and removed the ``preg_quote()`` call from it.
       -  Changed private methods to protected so that MY_URI can override them.
       -  Renamed internal method ``_parse_cli_args()`` to ``_parse_argv()``.
       -  Renamed internal method ``_detect_uri()`` to ``_parse_request_uri()``.
@@ -461,6 +464,7 @@ Release Date: Not Released
       -  Added possibility to route requests using callbacks.
       -  Added a new reserved route (*translate_uri_dashes*) to allow usage of dashes in the controller and method URI segments.
       -  Deprecated methods ``fetch_directory()``, ``fetch_class()`` and ``fetch_method()`` in favor of their respective public properties.
+      -  Removed method ``_set_overrides()`` and moved its logic to the class constructor.
 
    -  :doc:`Language Library <libraries/language>` changes include:
 
@@ -666,6 +670,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#346) - with ``$config['global_xss_filtering']`` turned on, the ``$_GET``, ``$_POST``, ``$_COOKIE`` and ``$_SERVER`` superglobals were overwritten during initialization time, resulting in XSS filtering being either performed twice or there was no possible way to get the original data, even though options for this do exist.
 -  Fixed an edge case (#555) - incorrect browser version was reported for Opera 10+ due to a non-standard user-agent string.
 -  Fixed a bug (#133) - :doc:`Text Helper <helpers/text_helper>` :func:`ascii_to_entities()` stripped the last character if it happens to be in the extended ASCII group.
+-  Fixed a bug (#2822) - ``fwrite()`` was used incorrectly throughout the whole framework, allowing incomplete writes when writing to a network stream and possibly a few other edge cases.
 
 Version 2.1.4
 =============

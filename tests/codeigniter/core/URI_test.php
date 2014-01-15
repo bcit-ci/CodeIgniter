@@ -112,11 +112,10 @@ class URI_test extends CI_TestCase {
 
 	public function test_filter_uri()
 	{
-		$this->uri->config->set_item('enable_query_strings', FALSE);
-		$this->uri->config->set_item('permitted_uri_chars', 'a-z 0-9~%.:_\-');
+		$this->uri->_set_permitted_uri_chars('a-z 0-9~%.:_\-');
 
 		$str_in = 'abc01239~%.:_-';
-		$str = $this->uri->_filter_uri($str_in);
+		$str = $this->uri->filter_uri($str_in);
 
 		$this->assertEquals($str, $str_in);
 	}
@@ -126,11 +125,9 @@ class URI_test extends CI_TestCase {
 	public function test_filter_uri_escaping()
 	{
 		// ensure escaping even if dodgey characters are permitted
+		$this->uri->_set_permitted_uri_chars('a-z 0-9~%.:_\-()$');
 
-		$this->uri->config->set_item('enable_query_strings', FALSE);
-		$this->uri->config->set_item('permitted_uri_chars', 'a-z 0-9~%.:_\-()$');
-
-		$str = $this->uri->_filter_uri('$destroy_app(foo)');
+		$str = $this->uri->filter_uri('$destroy_app(foo)');
 
 		$this->assertEquals($str, '&#36;destroy_app&#40;foo&#41;');
 	}
@@ -142,8 +139,8 @@ class URI_test extends CI_TestCase {
 		$this->setExpectedException('RuntimeException');
 
 		$this->uri->config->set_item('enable_query_strings', FALSE);
-		$this->uri->config->set_item('permitted_uri_chars', 'a-z 0-9~%.:_\-');
-		$this->uri->_filter_uri('$this()');
+		$this->uri->_set_permitted_uri_chars('a-z 0-9~%.:_\-');
+		$this->uri->filter_uri('$this()');
 	}
 
 	// --------------------------------------------------------------------

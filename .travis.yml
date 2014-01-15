@@ -4,6 +4,7 @@ php:
   - 5.3
   - 5.4
   - 5.5
+  - hhvm
   
 env:
   - DB=mysql
@@ -21,6 +22,10 @@ before_script:
   - sh -c "if [ '$DB' = 'mysql' ] || [ '$DB' = 'mysqli' ] || [ '$DB' = 'pdo/mysql' ]; then mysql -e 'create database IF NOT EXISTS ci_test;'; fi"
 
 script: phpunit --coverage-text --configuration tests/travis/$DB.phpunit.xml
+
+matrix:
+  allow_failures:
+    - php: hhvm
 
 branches:
   only:

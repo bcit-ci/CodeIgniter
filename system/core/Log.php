@@ -175,10 +175,18 @@ class CI_Log {
 			return FALSE;
 		}
 
-		$message .= $level.' '.($level === 'INFO' ? ' -' : '-').' '.date($this->_date_fmt).' --> '.$msg."\n";
+		$message .= $level.' - '.date($this->_date_fmt).' --> '.$msg."\n";
 
 		flock($fp, LOCK_EX);
-		fwrite($fp, $message);
+
+		for ($written = 0, $length = strlen($message); $written < $length; $written += $result)
+		{
+			if (($result = fwrite($fp, substr($message, $written))) === FALSE)
+			{
+				break;
+			}
+		}
+
 		flock($fp, LOCK_UN);
 		fclose($fp);
 
@@ -187,7 +195,7 @@ class CI_Log {
 			@chmod($filepath, FILE_WRITE_MODE);
 		}
 
-		return TRUE;
+		return is_int($result);
 	}
 
 }

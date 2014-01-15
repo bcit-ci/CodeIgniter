@@ -163,12 +163,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 	$RTR =& load_class('Router', 'core');
 
-	// Set any routing overrides that may exist in the main index file
-	if (isset($routing))
-	{
-		$RTR->_set_overrides($routing);
-	}
-
 /*
  * ------------------------------------------------------
  *  Instantiate the output class

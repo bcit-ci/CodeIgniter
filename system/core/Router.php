@@ -102,9 +102,32 @@ class CI_Router {
 	 */
 	public function __construct()
 	{
+		global $routing;
+
 		$this->config =& load_class('Config', 'core');
 		$this->uri =& load_class('URI', 'core');
 		$this->_set_routing();
+
+		// Set any routing overrides that may exist in the main index file
+		if (isset($routing) && is_array($routing))
+		{
+			if (isset($routing['directory']))
+			{
+				$this->set_directory($routing['directory']);
+			}
+
+			if ( ! empty($routing['controller']))
+			{
+				$this->set_class($routing['controller']);
+			}
+
+			if (isset($routing['function']))
+			{
+				$routing['function'] = empty($routing['function']) ? 'index' : $routing['function'];
+				$this->set_method($routing['function']);
+			}
+		}
+
 		log_message('debug', 'Router Class Initialized');
 	}
 
@@ -131,16 +154,16 @@ class CI_Router {
 		{
 			if (isset($_GET[$this->config->item('directory_trigger')]) && is_string($_GET[$this->config->item('directory_trigger')]))
 			{
-				$this->set_directory(trim($this->uri->_filter_uri($_GET[$this->config->item('directory_trigger')])));
+				$this->set_directory(trim($this->uri->filter_uri($_GET[$this->config->item('directory_trigger')])));
 				$segments[] = $this->directory;
 			}
 
-			$this->set_class(trim($this->uri->_filter_uri($_GET[$this->config->item('controller_trigger')])));
+			$this->set_class(trim($this->uri->filter_uri($_GET[$this->config->item('controller_trigger')])));
 			$segments[] = $this->class;
 
 			if ( ! empty($_GET[$this->config->item('function_trigger')]) && is_string($_GET[$this->config->item('function_trigger')]))
 			{
-				$this->set_method(trim($this->uri->_filter_uri($_GET[$this->config->item('function_trigger')])));
+				$this->set_method(trim($this->uri->filter_uri($_GET[$this->config->item('function_trigger')])));
 				$segments[] = $this->method;
 			}
 		}
@@ -517,38 +540,6 @@ class CI_Router {
 	public function fetch_directory()
 	{
 		return $this->directory;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Set controller overrides
-	 *
-	 * @param	array	$routing	Route overrides
-	 * @return	void
-	 */
-	public function _set_overrides($routing)
-	{
-		if ( ! is_array($routing))
-		{
-			return;
-		}
-
-		if (isset($routing['directory']))
-		{
-			$this->set_directory($routing['directory']);
-		}
-
-		if ( ! empty($routing['controller']))
-		{
-			$this->set_class($routing['controller']);
-		}
-
-		if (isset($routing['function']))
-		{
-			$routing['function'] = empty($routing['function']) ? 'index' : $routing['function'];
-			$this->set_method($routing['function']);
-		}
 	}
 
 }

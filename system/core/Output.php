@@ -591,7 +591,16 @@ class CI_Output {
 				'headers'	=> $this->headers
 			));
 
-			fwrite($fp, $cache_info.'ENDCI--->'.$output);
+			$output = $cache_info.'ENDCI--->'.$output;
+
+			for ($written = 0, $length = strlen($output); $written < $length; $written += $result)
+			{
+				if (($result = fwrite($fp, substr($output, $written))) === FALSE)
+				{
+					break;
+				}
+			}
+
 			flock($fp, LOCK_UN);
 		}
 		else
@@ -601,12 +610,20 @@ class CI_Output {
 		}
 
 		fclose($fp);
-		@chmod($cache_path, FILE_WRITE_MODE);
 
-		log_message('debug', 'Cache file written: '.$cache_path);
+		if (is_int($result))
+		{
+			@chmod($cache_path, FILE_WRITE_MODE);
+			log_message('debug', 'Cache file written: '.$cache_path);
 
-		// Send HTTP cache-control headers to browser to match file cache settings.
-		$this->set_cache_header($_SERVER['REQUEST_TIME'], $expire);
+			// Send HTTP cache-control headers to browser to match file cache settings.
+			$this->set_cache_header($_SERVER['REQUEST_TIME'], $expire);
+		}
+		else
+		{
+			@unlink($cache_path);
+			log_message('error', 'Unable to write the complete cache content at: '.$cache_path);
+		}
 	}
 
 	// --------------------------------------------------------------------
