@@ -391,7 +391,8 @@ Release Date: Not Released
 
    -  :doc:`URI Library <libraries/uri>` changes include:
 
-      -  Renamed method ``_filter_uri()`` to ``filter_uri()`` and removed the ``preg_quote()`` call from it.
+      -  Added conditional PCRE UTF-8 support to the "invalid URI characters" check and removed the ``preg_quote()`` call from it to allow more flexibility.
+      -  Renamed method ``_filter_uri()`` to ``filter_uri()``.
       -  Changed private methods to protected so that MY_URI can override them.
       -  Renamed internal method ``_parse_cli_args()`` to ``_parse_argv()``.
       -  Renamed internal method ``_detect_uri()`` to ``_parse_request_uri()``.
