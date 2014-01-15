@@ -2097,7 +2097,7 @@ class CI_Email {
 	 */
 	protected function _send_data($data)
 	{
-		if ( ! fwrite($this->_smtp_connect, $data.$this->newline))
+		if (fwrite($this->_smtp_connect, $data.$this->newline) === FALSE)
 		{
 			$this->_set_error_message('lang:email_smtp_data_failure', $data);
 			return FALSE;
