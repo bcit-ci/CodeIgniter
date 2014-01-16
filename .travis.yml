@@ -26,6 +26,11 @@ script: phpunit --coverage-text --configuration tests/travis/$DB.phpunit.xml
 matrix:
   allow_failures:
     - php: hhvm
+  exclude:
+    - php: hhvm
+      env: DB=mysqli
+      env: DB=pgsql
+      env: DB=pdo/pgsql
 
 branches:
   only:
