@@ -44,21 +44,21 @@ class CI_URI {
 	 *
 	 * @var	array
 	 */
-	public $keyval =	array();
+	public $keyval = array();
 
 	/**
 	 * Current URI string
 	 *
 	 * @var	string
 	 */
-	public $uri_string;
+	public $uri_string = '';
 
 	/**
 	 * List of URI segments
 	 *
 	 * @var	array
 	 */
-	public $segments =	array();
+	public $segments = array();
 
 	/**
 	 * Re-indexed list of URI segments
@@ -67,7 +67,7 @@ class CI_URI {
 	 *
 	 * @var	array
 	 */
-	public $rsegments =	array();
+	public $rsegments = array();
 
 	/**
 	 * Permitted URI chars
@@ -81,91 +81,53 @@ class CI_URI {
 	/**
 	 * Class constructor
 	 *
-	 * Simply globalizes the $RTR object. The front
-	 * loads the Router class early on so it's not available
-	 * normally as other classes are.
-	 *
 	 * @return	void
 	 */
 	public function __construct()
 	{
 		$this->config =& load_class('Config', 'core');
 
-		if ($this->config->item('enable_query_strings') !== TRUE OR is_cli())
+		// If query strings are enabled, we don't need to parse any segments.
+		// However, they don't make sense under CLI.
+		if (is_cli() OR $this->config->item('enable_query_strings') !== TRUE)
 		{
 			$this->_permitted_uri_chars = $this->config->item('permitted_uri_chars');
+
+			// If it's a CLI request, ignore the configuration
+			if (is_cli() OR ($protocol = strtoupper($this->config->item('uri_protocol')) === 'CLI'))
+			{
+				$this->_set_uri_string($this->_parse_argv());
+			}
+			elseif ($protocol === 'AUTO')
+			{
+				// Is there a PATH_INFO variable? This should be the easiest solution.
+				if (isset($_SERVER['PATH_INFO']))
+				{
+					$this->_set_uri_string($_SERVER['PATH_INFO']);
+				}
+				// No PATH_INFO? Let's try REQUST_URI or QUERY_STRING then
+				elseif (($uri = $this->_parse_request_uri()) !== '' OR ($uri = $this->_parse_query_string()) !== '')
+				{
+					$this->_set_uri_string($uri);
+				}
+				// As a last ditch effor, let's try using the $_GET array
+				elseif (is_array($_GET) && count($_GET) === 1 && trim(key($_GET), '/') !== '')
+				{
+					$this->_set_uri_string(key($_GET));
+				}
+			}
+			elseif (method_exists($this, ($method = '_parse_'.strtolower($protocol))))
+			{
+				$this->_set_uri_string($this->$method());
+			}
+			else
+			{
+				$uri = isset($_SERVER[$protocol]) ? $_SERVER[$protocol] : @getenv($protocol);
+				$this->_set_uri_string($uri);
+			}
 		}
 
 		log_message('debug', 'URI Class Initialized');
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Fetch URI String
-	 *
-	 * @used-by	CI_Router
-	 * @return	void
-	 */
-	public function _fetch_uri_string()
-	{
-		$protocol = strtoupper($this->config->item('uri_protocol'));
-
-		if ($protocol === 'AUTO')
-		{
-			// Is the request coming from the command line?
-			if (is_cli())
-			{
-				$this->_set_uri_string($this->_parse_argv());
-				return;
-			}
-
-			// Is there a PATH_INFO variable? This should be the easiest solution.
-			if (isset($_SERVER['PATH_INFO']))
-			{
-				$this->_set_uri_string($_SERVER['PATH_INFO']);
-				return;
-			}
-
-			// Let's try REQUEST_URI then, this will work in most situations
-			if (($uri = $this->_parse_request_uri()) !== '')
-			{
-				$this->_set_uri_string($uri);
-				return;
-			}
-
-			// No REQUEST_URI either?... What about QUERY_STRING?
-			if (($uri = $this->_parse_query_string()) !== '')
-			{
-				$this->_set_uri_string($uri);
-				return;
-			}
-
-			// As a last ditch effort let's try using the $_GET array
-			if (is_array($_GET) && count($_GET) === 1 && trim(key($_GET), '/') !== '')
-			{
-				$this->_set_uri_string(key($_GET));
-				return;
-			}
-
-			// We've exhausted all our options...
-			$this->uri_string = '';
-			return;
-		}
-
-		if ($protocol === 'CLI')
-		{
-			$this->_set_uri_string($this->_parse_argv());
-			return;
-		}
-		elseif (method_exists($this, ($method = '_parse_'.strtolower($protocol))))
-		{
-			$this->_set_uri_string($this->$method());
-			return;
-		}
-
-		$uri = isset($_SERVER[$protocol]) ? $_SERVER[$protocol] : @getenv($protocol);
-		$this->_set_uri_string($uri);
 	}
 
 	// --------------------------------------------------------------------
@@ -180,6 +142,32 @@ class CI_URI {
 	{
 		// Filter out control characters and trim slashes
 		$this->uri_string = trim(remove_invisible_characters($str, FALSE), '/');
+
+		if ($this->uri_string !== '')
+		{
+			// Remove the URL suffix, if present
+			if (($suffix = (string) $this->config->item('url_suffix')) !== '')
+			{
+				$slen = strlen($suffix);
+
+				if (substr($this->uri_string, -$slen) === $suffix)
+				{
+					$this->uri_string = substr($this->uri_string, 0, -$slen);
+				}
+			}
+
+			// Populate the segments array
+			foreach (explode('/', preg_replace('|/*(.+?)/*$|', '\\1', $this->uri_string)) as $val)
+			{
+				// Filter segments for security
+				$val = trim($this->filter_uri($val));
+
+				if ($val !== '')
+				{
+					$this->segments[] = $val;
+				}
+			}
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -240,36 +228,10 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Remove relative directory (../) and multi slashes (///)
-	 *
-	 * Do some final cleaning of the URI and return it, currently only used in self::_parse_request_uri()
-	 *
-	 * @param	string	$url
-	 * @return	string
-	 */
-	protected function _remove_relative_directory($uri)
-	{
-		$uris = array();
-		$tok = strtok($uri, '/');
-		while ($tok !== FALSE)
-		{
-			if (( ! empty($tok) OR $tok === '0') && $tok !== '..')
-			{
-				$uris[] = $tok;
-			}
-			$tok = strtok('/');
-		}
-		return implode('/', $uris);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Parse QUERY_STRING
 	 *
 	 * Will parse QUERY_STRING and automatically detect the URI from it.
 	 *
-	 * @used-by	CI_URI::_fetch_uri_string()
 	 * @return	string
 	 */
 	protected function _parse_query_string()
@@ -310,11 +272,36 @@ class CI_URI {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Remove relative directory (../) and multi slashes (///)
+	 *
+	 * Do some final cleaning of the URI and return it, currently only used in self::_parse_request_uri()
+	 *
+	 * @param	string	$url
+	 * @return	string
+	 */
+	protected function _remove_relative_directory($uri)
+	{
+		$uris = array();
+		$tok = strtok($uri, '/');
+		while ($tok !== FALSE)
+		{
+			if (( ! empty($tok) OR $tok === '0') && $tok !== '..')
+			{
+				$uris[] = $tok;
+			}
+			$tok = strtok('/');
+		}
+
+		return implode('/', $uris);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Filter URI
 	 *
 	 * Filters segments for malicious characters.
 	 *
-	 * @used-by	CI_Router
 	 * @param	string	$str
 	 * @return	string
 	 */
@@ -331,79 +318,6 @@ class CI_URI {
 			array('&#36;', '&#40;', '&#41;', '&#40;', '&#41;'),	// Good
 			$str
 		);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Remove URL suffix
-	 *
-	 * Removes the suffix from the URL if needed.
-	 *
-	 * @used-by	CI_Router
-	 * @return	void
-	 */
-	public function _remove_url_suffix()
-	{
-		$suffix = (string) $this->config->item('url_suffix');
-
-		if ($suffix === '')
-		{
-			return;
-		}
-
-		$slen = strlen($suffix);
-
-		if (substr($this->uri_string, -$slen) === $suffix)
-		{
-			$this->uri_string = substr($this->uri_string, 0, -$slen);
-		}
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Explode URI segments
-	 *
-	 * The individual segments will be stored in the $this->segments array.
-	 *
-	 * @see		CI_URI::$segments
-	 * @used-by	CI_Router
-	 * @return	void
-	 */
-	public function _explode_segments()
-	{
-		foreach (explode('/', preg_replace('|/*(.+?)/*$|', '\\1', $this->uri_string)) as $val)
-		{
-			// Filter segments for security
-			$val = trim($this->filter_uri($val));
-
-			if ($val !== '')
-			{
-				$this->segments[] = $val;
-			}
-		}
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Re-index Segments
-	 *
-	 * Re-indexes the CI_URI::$segment array so that it starts at 1 rather
-	 * than 0. Doing so makes it simpler to use methods like
-	 * CI_URI::segment(n) since there is a 1:1 relationship between the
-	 * segment array and the actual segments.
-	 *
-	 * @used-by	CI_Router
-	 * @return	void
-	 */
-	public function _reindex_segments()
-	{
-		array_unshift($this->segments, NULL);
-		array_unshift($this->rsegments, NULL);
-		unset($this->segments[0]);
-		unset($this->rsegments[0]);
 	}
 
 	// --------------------------------------------------------------------
@@ -714,7 +628,7 @@ class CI_URI {
 	{
 		global $RTR;
 
-		return ltrim($RTR->directory, '/').implode('/', $this->rsegment_array());
+		return ltrim($RTR->directory, '/').implode('/', $this->rsegments);
 	}
 
 }
