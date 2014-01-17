@@ -408,7 +408,7 @@ Release Date: Not Released
       -  Added autoloading of drivers with ``$autoload['drivers']``.
       -  ``$config['rewrite_short_tags']`` now has no effect when using PHP 5.4 as ``<?=`` will always be available.
       -  Changed method ``config()`` to return whatever ``CI_Config::load()`` returns instead of always being void.
-      -  Added support for model aliasing on autoload.
+      -  Added support for library and model aliasing on autoload.
       -  Changed method ``is_loaded()`` to ask for the (case sensitive) library name instead of its instance name.
       -  Removed ``$_base_classes`` property and unified all class data in ``$_ci_classes`` instead.
       -  Added method ``clear_vars()`` to allow clearing the cached variables for views.
