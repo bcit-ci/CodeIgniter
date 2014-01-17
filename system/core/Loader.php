@@ -1248,7 +1248,10 @@ class CI_Loader {
 			// Load all other libraries
 			foreach ($autoload['libraries'] as $item)
 			{
-				$this->library($item);
+				$items_pieces = explode(" as ", $item);
+				$item_name = $items_pieces['0'];
+				$item_alia = isset($items_pieces['1']) ? $items_pieces['1'] : NULL;
+				$this->library(trim($item_name), NULL, trim($item_alia));
 			}
 		}
 
