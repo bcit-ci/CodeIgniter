@@ -671,6 +671,7 @@ Bug fixes for 3.0
 -  Fixed an edge case (#555) - incorrect browser version was reported for Opera 10+ due to a non-standard user-agent string.
 -  Fixed a bug (#133) - :doc:`Text Helper <helpers/text_helper>` :func:`ascii_to_entities()` stripped the last character if it happens to be in the extended ASCII group.
 -  Fixed a bug (#2822) - ``fwrite()`` was used incorrectly throughout the whole framework, allowing incomplete writes when writing to a network stream and possibly a few other edge cases.
+-  Fixed a bug where :doc:`User Agent Library <libraries/user_agent>` methods ``accept_charset()`` and ``accept_lang()`` didn't properly parse HTTP headers that contain spaces.
 
 Version 2.1.4
 =============

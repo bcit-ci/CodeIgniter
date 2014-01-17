@@ -11,9 +11,7 @@ class UserAgent_test extends CI_TestCase {
 		$_SERVER['HTTP_USER_AGENT'] = $this->_user_agent;
 
 		$this->ci_vfs_clone('application/config/user_agents.php');
-
 		$this->agent = new Mock_Libraries_UserAgent();
-
 		$this->ci_instance_var('agent', $this->agent);
 	}
 
@@ -40,12 +38,27 @@ class UserAgent_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
-	public function test_util_is_functions()
+	public function test_is_functions()
 	{
 		$this->assertTrue($this->agent->is_browser());
+		$this->assertTrue($this->agent->is_browser('Safari'));
+		$this->assertFalse($this->agent->is_browser('Firefox'));
 		$this->assertFalse($this->agent->is_robot());
 		$this->assertFalse($this->agent->is_mobile());
+	}
+
+	// --------------------------------------------------------------------
+
+	public function test_referrer()
+	{
+		$_SERVER['HTTP_REFERER'] = 'http://codeigniter.com/user_guide/';
+		$this->assertTrue($this->agent->is_referral());
+		$this->assertEquals('http://codeigniter.com/user_guide/', $this->agent->referrer());
+
+		$this->agent->referer = NULL;
+		unset($_SERVER['HTTP_REFERER']);
 		$this->assertFalse($this->agent->is_referral());
+		$this->assertEquals('', $this->agent->referrer());
 	}
 
 	// --------------------------------------------------------------------
@@ -63,7 +76,6 @@ class UserAgent_test extends CI_TestCase {
 		$this->assertEquals('Safari', $this->agent->browser());
 		$this->assertEquals('533.20.27', $this->agent->version());
 		$this->assertEquals('', $this->agent->robot());
-		$this->assertEquals('', $this->agent->referrer());
 	}
 
 	// --------------------------------------------------------------------
@@ -71,14 +83,43 @@ class UserAgent_test extends CI_TestCase {
 	public function test_charsets()
 	{
 		$_SERVER['HTTP_ACCEPT_CHARSET'] = 'utf8';
+		$this->agent->charsets = array();
+		$this->agent->charsets();
+		$this->assertTrue($this->agent->accept_charset('utf8'));
+		$this->assertFalse($this->agent->accept_charset('foo'));
+		$this->assertEquals('utf8', $this->agent->charsets[0]);
 
-		$charsets = $this->agent->charsets();
+		$_SERVER['HTTP_ACCEPT_CHARSET'] = '';
+		$this->agent->charsets = array();
+		$this->assertFalse($this->agent->accept_charset());
+		$this->assertEquals('Undefined', $this->agent->charsets[0]);
 
-		$this->assertEquals('utf8', $charsets[0]);
+		$_SERVER['HTTP_ACCEPT_CHARSET'] = 'iso-8859-5, unicode-1-1; q=0.8';
+		$this->agent->charsets = array();
+		$this->assertTrue($this->agent->accept_charset('iso-8859-5'));
+		$this->assertTrue($this->agent->accept_charset('unicode-1-1'));
+		$this->assertFalse($this->agent->accept_charset('foo'));
+		$this->assertEquals('iso-8859-5', $this->agent->charsets[0]);
+		$this->assertEquals('unicode-1-1', $this->agent->charsets[1]);
 
 		unset($_SERVER['HTTP_ACCEPT_CHARSET']);
+	}
 
-		$this->assertFalse($this->agent->accept_charset());
+	public function test_parse()
+	{
+		$new_agent = 'Mozilla/5.0 (Android; Mobile; rv:13.0) Gecko/13.0 Firefox/13.0';
+		$this->agent->parse($new_agent);
+
+		$this->assertEquals('Android', $this->agent->platform());
+		$this->assertEquals('Firefox', $this->agent->browser());
+		$this->assertEquals('13.0', $this->agent->version());
+		$this->assertEquals('', $this->agent->robot());
+		$this->assertEquals('Android', $this->agent->mobile());
+		$this->assertEquals($new_agent, $this->agent->agent_string());
+		$this->assertTrue($this->agent->is_browser());
+		$this->assertFalse($this->agent->is_robot());
+		$this->assertTrue($this->agent->is_mobile());
+		$this->assertTrue($this->agent->is_mobile('android'));
 	}
 
 }

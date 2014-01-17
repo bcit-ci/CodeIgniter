@@ -33,7 +33,7 @@ class Parser_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
-	public function test_parse_simple_string()
+	public function test_parse_string()
 	{
 		$data = array(
 			'title' => 'Page Title',
@@ -69,11 +69,7 @@ class Parser_test extends CI_TestCase {
 	{
 		$data = array(
 			'title'		=> 'Super Heroes',
-			'powers'	=> array(
-					array(
-						'invisibility'	=> 'yes',
-						'flying'		=> 'no'),
-			)
+			'powers'	=> array(array('invisibility' => 'yes', 'flying' => 'no'))
 		);
 
 		$template = "{title}\n{powers}{invisibility}\n{flying}{/powers}\nsecond:{powers} {invisibility} {flying}{/powers}";
@@ -87,11 +83,7 @@ class Parser_test extends CI_TestCase {
 	{
 		$data = array(
 			'title'		=> 'Super Heroes',
-			'powers'	=> array(
-					array(
-						'invisibility'	=> 'yes',
-						'flying'		=> 'no'),
-			)
+			'powers'	=> array(array('invisibility' => 'yes', 'flying' => 'no'))
 		);
 
 		$template = "{title}\n{powers}{invisibility}\n{flying}";

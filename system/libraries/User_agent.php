@@ -145,6 +145,15 @@ class CI_User_agent {
 	public $robot = '';
 
 	/**
+	 * HTTP Referer
+	 *
+	 * @var	mixed
+	 */
+	public $referer;
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Constructor
 	 *
 	 * Sets the User Agent and runs the compilation routine
@@ -358,7 +367,7 @@ class CI_User_agent {
 	{
 		if ((count($this->languages) === 0) && ! empty($_SERVER['HTTP_ACCEPT_LANGUAGE']))
 		{
-			$this->languages = explode(',', preg_replace('/(;q=[0-9\.]+)/i', '', strtolower(trim($_SERVER['HTTP_ACCEPT_LANGUAGE']))));
+			$this->languages = explode(',', preg_replace('/(;\s?q=[0-9\.]+)|\s/i', '', strtolower(trim($_SERVER['HTTP_ACCEPT_LANGUAGE']))));
 		}
 
 		if (count($this->languages) === 0)
@@ -378,7 +387,7 @@ class CI_User_agent {
 	{
 		if ((count($this->charsets) === 0) && ! empty($_SERVER['HTTP_ACCEPT_CHARSET']))
 		{
-			$this->charsets = explode(',', preg_replace('/(;q=.+)/i', '', strtolower(trim($_SERVER['HTTP_ACCEPT_CHARSET']))));
+			$this->charsets = explode(',', preg_replace('/(;\s?q=.+)|\s/i', '', strtolower(trim($_SERVER['HTTP_ACCEPT_CHARSET']))));
 		}
 
 		if (count($this->charsets) === 0)
@@ -471,24 +480,22 @@ class CI_User_agent {
 	 */
 	public function is_referral()
 	{
-		static $result;
-
-		if ( ! isset($result))
+		if ( ! isset($this->referer))
 		{
 			if (empty($_SERVER['HTTP_REFERER']))
 			{
-				$result = FALSE;
+				$this->referer = FALSE;
 			}
 			else
 			{
 				$referer_host = @parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
 				$own_host = parse_url(config_item('base_url'), PHP_URL_HOST);
 
-				$result = ($referer_host && $referer_host !== $own_host);
+				$this->referer = ($referer_host && $referer_host !== $own_host);
 			}
 		}
 
-		return $result;
+		return $this->referer;
 	}
 
 	// --------------------------------------------------------------------
