@@ -85,7 +85,7 @@ class CI_Cache_memcached extends CI_Driver {
 	{
 		if ($raw !== TRUE)
 		{
-			$data = array($data, time, $ttl);
+			$data = array($data, time(), $ttl);
 		}
 
 		if (get_class($this->_memcached) === 'Memcached')

@@ -53,10 +53,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 	if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/constants.php'))
 	{
-		require(APPPATH.'config/'.ENVIRONMENT.'/constants.php');
+		require_once(APPPATH.'config/'.ENVIRONMENT.'/constants.php');
 	}
 
-	require(APPPATH.'config/constants.php');
+	require_once(APPPATH.'config/constants.php');
 
 /*
  * ------------------------------------------------------
@@ -209,7 +209,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  */
 	// Load the base controller class
-	require BASEPATH.'core/Controller.php';
+	require_once BASEPATH.'core/Controller.php';
 
 	/**
 	 * Reference to the CI_Controller method.
@@ -225,96 +225,117 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	if (file_exists(APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php'))
 	{
-		require APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php';
+		require_once APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php';
 	}
-
-	// Load the local application controller
-	// Note: The Router class automatically validates the controller path using the router->_validate_request().
-	// If this include fails it means that the default controller in the Routes.php file is not resolving to something valid.
-	$class = ucfirst($RTR->class);
-	if ( ! file_exists(APPPATH.'controllers/'.$RTR->directory.$class.'.php'))
-	{
-		show_error('Unable to load your default controller. Please make sure the controller specified in your Routes.php file is valid.');
-	}
-
-	include(APPPATH.'controllers/'.$RTR->directory.$class.'.php');
 
 	// Set a mark point for benchmarking
 	$BM->mark('loading_time:_base_classes_end');
 
 /*
  * ------------------------------------------------------
- *  Security check
+ *  Sanity checks
  * ------------------------------------------------------
  *
- *  None of the methods in the app controller or the
- *  loader class can be called via the URI, nor can
+ *  The Router class has already validated the request,
+ *  leaving us with 3 options here:
+ *
+ *	1) an empty class name, if we reached the default
+ *	   controller, but it didn't exist;
+ *	2) a query string which doesn't go through a
+ *	   file_exists() check
+ *	3) a regular request for a non-existing page
+ *
+ *  We handle all of these as a 404 error.
+ *
+ *  Furthermore, none of the methods in the app controller
+ *  or the loader class can be called via the URI, nor can
  *  controller methods that begin with an underscore.
  */
-	$method	= $RTR->method;
 
-	if ( ! class_exists($class, FALSE) OR $method[0] === '_' OR method_exists('CI_Controller', $method))
+	$e404 = FALSE;
+	$class = ucfirst($RTR->class);
+	$method = $RTR->method;
+
+	if (empty($class) OR ! file_exists(APPPATH.'controllers/'.$RTR->directory.$class.'.php'))
 	{
-		if ( ! empty($RTR->routes['404_override']))
-		{
-			if (sscanf($RTR->routes['404_override'], '%[^/]/%s', $class, $method) !== 2)
-			{
-				$method = 'index';
-			}
-
-			$class = ucfirst($class);
-
-			if ( ! class_exists($class, FALSE))
-			{
-				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
-				{
-					show_404($class.'/'.$method);
-				}
-
-				include_once(APPPATH.'controllers/'.$class.'.php');
-			}
-		}
-		else
-		{
-			show_404($class.'/'.$method);
-		}
-	}
-
-	if (method_exists($class, '_remap'))
-	{
-		$params = array($method, array_slice($URI->rsegments, 2));
-		$method = '_remap';
+		$e404 = TRUE;
 	}
 	else
 	{
+		require_once(APPPATH.'controllers/'.$RTR->directory.$class.'.php');
+
+		if ( ! class_exists($class, FALSE) OR $method[0] === '_' OR method_exists('CI_Controller', $method))
+		{
+			$e404 = TRUE;
+		}
+		elseif (method_exists($class, '_remap'))
+		{
+			$params = array($method, array_slice($URI->rsegments, 2));
+			$method = '_remap';
+		}
 		// WARNING: It appears that there are issues with is_callable() even in PHP 5.2!
 		// Furthermore, there are bug reports and feature/change requests related to it
 		// that make it unreliable to use in this context. Please, DO NOT change this
 		// work-around until a better alternative is available.
-		if ( ! in_array(strtolower($method), array_map('strtolower', get_class_methods($class)), TRUE))
+		elseif ( ! in_array(strtolower($method), array_map('strtolower', get_class_methods($class)), TRUE))
 		{
-			if (empty($RTR->routes['404_override']))
+			$e404 = TRUE;
+		}
+	}
+
+	if ($e404)
+	{
+		if ( ! empty($RTR->routes['404_override']))
+		{
+			if (sscanf($RTR->routes['404_override'], '%[^/]/%s', $error_class, $error_method) !== 2)
 			{
-				show_404($class.'/'.$method);
-			}
-			elseif (sscanf($RTR->routes['404_override'], '%[^/]/%s', $class, $method) !== 2)
-			{
-				$method = 'index';
+				$error_method = 'index';
 			}
 
-			$class = ucfirst($class);
+			$error_class = ucfirst($error_class);
 
-			if ( ! class_exists($class, FALSE))
+			if ( ! class_exists($error_class, FALSE))
 			{
-				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
+				if (file_exists(APPPATH.'controllers/'.$RTR->directory.$error_class.'.php'))
 				{
-					show_404($class.'/'.$method);
+					require_once(APPPATH.'controllers/'.$RTR->directory.$error_class.'.php');
+					$e404 = ! class_exists($error_class, FALSE);
 				}
-
-				include_once(APPPATH.'controllers/'.$class.'.php');
+				// Were we in a directory? If so, check for a global override
+				elseif ( ! empty($RTR->directory) && file_exists(APPPATH.'controllers/'.$error_class.'.php'))
+				{
+					require_once(APPPATH.'controllers/'.$error_class.'.php');
+					if (($e404 = ! class_exists($error_class, FALSE)) === FALSE)
+					{
+						$RTR->directory = '';
+					}
+				}
+			}
+			else
+			{
+				$e404 = FALSE;
 			}
 		}
 
+		// Did we reset the $e404 flag? If so, set the rsegments, starting from index 1
+		if ( ! $e404)
+		{
+			$class = $error_class;
+			$method = $error_method;
+
+			$URI->rsegments = array(
+				1 => $class,
+				2 => $method
+			);
+		}
+		else
+		{
+			show_404($RTR->directory.$class.'/'.$method);
+		}
+	}
+
+	if ($method !== '_remap')
+	{
 		$params = array_slice($URI->rsegments, 2);
 	}
 

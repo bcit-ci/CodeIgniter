@@ -184,9 +184,16 @@ class CI_Loader {
 		}
 		elseif (is_array($library))
 		{
-			foreach ($library as $class)
+			foreach ($library as $key => $value)
 			{
-				$this->library($class, $params);
+				if (is_int($key))
+				{
+					$this->library($value, $params);
+				}
+				else
+				{
+					$this->library($key, $params, $value);
+				}
 			}
 
 			return $this;

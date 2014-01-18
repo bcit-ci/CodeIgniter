@@ -389,15 +389,29 @@ Release Date: Not Released
 
 -  Core
 
+   -  :doc:`Routing <general/routing>` changes include:
+
+      -  Added support for multiple levels of controller directories.
+      -  Added support for per-directory *default_controller* and *404_override* classes.
+      -  Added possibility to route requests using HTTP verbs.
+      -  Added possibility to route requests using callbacks.
+      -  Added a new reserved route (*translate_uri_dashes*) to allow usage of dashes in the controller and method URI segments.
+      -  Deprecated methods ``fetch_directory()``, ``fetch_class()`` and ``fetch_method()`` in favor of their respective public properties.
+      -  Removed method ``_set_overrides()`` and moved its logic to the class constructor.
+
    -  :doc:`URI Library <libraries/uri>` changes include:
 
-      -  Renamed method ``_filter_uri()`` to ``filter_uri()`` and removed the ``preg_quote()`` call from it.
+      -  Added conditional PCRE UTF-8 support to the "invalid URI characters" check and removed the ``preg_quote()`` call from it to allow more flexibility.
+      -  Renamed method ``_filter_uri()`` to ``filter_uri()``.
       -  Changed private methods to protected so that MY_URI can override them.
       -  Renamed internal method ``_parse_cli_args()`` to ``_parse_argv()``.
       -  Renamed internal method ``_detect_uri()`` to ``_parse_request_uri()``.
       -  Changed ``_parse_request_uri()`` to accept absolute URIs for compatibility with HTTP/1.1 as per `RFC2616 <http://www.ietf.org/rfc/rfc2616.txt>`.
       -  Added protected method ``_parse_query_string()`` to URI paths in the the **QUERY_STRING** value, like ``_parse_request_uri()`` does.
       -  Changed ``_fetch_uri_string()`` to try the **PATH_INFO** variable first when auto-detecting.
+      -  Removed methods ``_remove_url_suffix()``, ``_explode_segments()`` and moved their logic into ``_set_uri_string()``.
+      -  Removed method ``_fetch_uri_string()`` and moved its logic into the class constructor.
+      -  Removed method ``_reindex_segments()``.
 
    -  :doc:`Loader Library <libraries/loader>` changes include:
 
@@ -407,7 +421,7 @@ Release Date: Not Released
       -  Added autoloading of drivers with ``$autoload['drivers']``.
       -  ``$config['rewrite_short_tags']`` now has no effect when using PHP 5.4 as ``<?=`` will always be available.
       -  Changed method ``config()`` to return whatever ``CI_Config::load()`` returns instead of always being void.
-      -  Added support for model aliasing on autoload.
+      -  Added support for library and model aliasing on autoload.
       -  Changed method ``is_loaded()`` to ask for the (case sensitive) library name instead of its instance name.
       -  Removed ``$_base_classes`` property and unified all class data in ``$_ci_classes`` instead.
       -  Added method ``clear_vars()`` to allow clearing the cached variables for views.
@@ -457,14 +471,6 @@ Release Date: Not Released
       -  Added ``$config['csrf_regeneration']``, which makes token regeneration optional.
       -  Added ``$config['csrf_exclude_uris']``, which allows you list URIs which will not have the CSRF validation methods run.
       -  Modified method ``sanitize_filename()`` to read a public ``$filename_bad_chars`` property for getting the invalid characters list.
-
-   -  :doc:`URI Routing <general/routing>` changes include:
-
-      -  Added possibility to route requests using HTTP verbs.
-      -  Added possibility to route requests using callbacks.
-      -  Added a new reserved route (*translate_uri_dashes*) to allow usage of dashes in the controller and method URI segments.
-      -  Deprecated methods ``fetch_directory()``, ``fetch_class()`` and ``fetch_method()`` in favor of their respective public properties.
-      -  Removed method ``_set_overrides()`` and moved its logic to the class constructor.
 
    -  :doc:`Language Library <libraries/language>` changes include:
 
@@ -671,6 +677,8 @@ Bug fixes for 3.0
 -  Fixed an edge case (#555) - incorrect browser version was reported for Opera 10+ due to a non-standard user-agent string.
 -  Fixed a bug (#133) - :doc:`Text Helper <helpers/text_helper>` :func:`ascii_to_entities()` stripped the last character if it happens to be in the extended ASCII group.
 -  Fixed a bug (#2822) - ``fwrite()`` was used incorrectly throughout the whole framework, allowing incomplete writes when writing to a network stream and possibly a few other edge cases.
+-  Fixed a bug where :doc:`User Agent Library <libraries/user_agent>` methods ``accept_charset()`` and ``accept_lang()`` didn't properly parse HTTP headers that contain spaces.
+-  Fixed a bug where *default_controller* was called instad of triggering a 404 error if the current route is in a controller directory.
 
 Version 2.1.4
 =============
