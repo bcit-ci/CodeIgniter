@@ -94,7 +94,7 @@ class CI_URI {
 			$this->_permitted_uri_chars = $this->config->item('permitted_uri_chars');
 
 			// If it's a CLI request, ignore the configuration
-			if (is_cli() OR ($protocol = strtoupper($this->config->item('uri_protocol')) === 'CLI'))
+			if (is_cli() OR ($protocol = strtoupper($this->config->item('uri_protocol'))) === 'CLI')
 			{
 				$this->_set_uri_string($this->_parse_argv());
 			}
