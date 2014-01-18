@@ -156,6 +156,7 @@ class CI_URI {
 				}
 			}
 
+			$this->segments[0] = NULL;
 			// Populate the segments array
 			foreach (explode('/', preg_replace('|/*(.+?)/*$|', '\\1', $this->uri_string)) as $val)
 			{
@@ -167,6 +168,8 @@ class CI_URI {
 					$this->segments[] = $val;
 				}
 			}
+
+			unset($this->segments[0]);
 		}
 	}
 
