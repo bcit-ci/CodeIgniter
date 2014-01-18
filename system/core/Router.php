@@ -446,7 +446,7 @@ class CI_Router {
 
 		// If we got this far it means we didn't encounter a
 		// matching route so we'll set the site default route
-		$this->_set_request($this->uri->segments);
+		$this->_set_request(array_values($this->uri->segments));
 	}
 
 	// --------------------------------------------------------------------
