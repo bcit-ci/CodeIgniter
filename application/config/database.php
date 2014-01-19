@@ -68,7 +68,7 @@
 |	['save_queries'] TRUE/FALSE	- save all executed queries.
 |				Note: Useful for development when using with profiler. However,
 |				when too many queries run, it leads to memory exhaust. So for production
-|               mode it is better to set it FALSE. Also, if set to FALSE, the
+|				mode it is better to set it FALSE. Also, if set to FALSE, the
 |				$this->db->last_query() will return FALSE. This setting can
 |				also be changed during runtime by using 
 |				$this->db->save_queries = TRUE|FALSE;
