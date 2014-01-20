@@ -107,7 +107,7 @@ You should see your new message.
 Passing URI Segments to your methods
 ====================================
 
-If your URI contains more then two segments they will be passed to your
+If your URI contains more than two segments they will be passed to your
 method as parameters.
 
 For example, let's say you have a URI like this::

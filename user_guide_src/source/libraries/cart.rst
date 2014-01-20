@@ -245,7 +245,7 @@ the product ID and any options associated with it.
 
 In nearly all cases, updating the cart will be something the user does
 via the "view cart" page, so as a developer, it is unlikely that you
-will ever have to concern yourself with the "row ID", other then making
+will ever have to concern yourself with the "row ID", other than making
 sure your "view cart" page contains this information in a hidden form
 field, and making sure it gets passed to the update function when the
 update form is submitted. Please examine the construction of the "view

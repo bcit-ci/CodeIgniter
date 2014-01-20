@@ -147,7 +147,7 @@ Preference              Default Value           Options                         
                                                                                 pixels. If the source image size does not allow perfect resizing to
                                                                                 those dimensions, this setting determines which axis should be used as
                                                                                 the hard value. "auto" sets the axis automatically based on whether the
-                                                                                image is taller then wider, or vice versa.
+                                                                                image is taller than wider, or vice versa.
 **rotation_angle**      None                    90, 180, 270, vrt, hor          Specifies the angle of rotation when rotating images. Note that PHP         X
                                                                                 rotates counter-clockwise, so a 90 degree rotation to the right must be
                                                                                 specified as 270.

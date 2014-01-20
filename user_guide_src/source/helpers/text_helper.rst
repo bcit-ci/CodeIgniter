@@ -50,7 +50,7 @@ The following functions are available:
 
 	Truncates a string to the number of *characters* specified. It
 	maintains the integrity of words so the character count may be slightly
-	more or less then what you specify.
+	more or less than what you specify.
 
 	Example::
 

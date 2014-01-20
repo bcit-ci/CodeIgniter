@@ -2252,7 +2252,7 @@ Bug fixes for Version 1.6.0
 -  Fixed a bug (#3003) in the Encryption Library to support modes other
    than MCRYPT_MODE_ECB
 -  Fixed a bug (#3015) in the :doc:`User Agent
-   library <./libraries/user_agent>` where more then 2 languages
+   library <./libraries/user_agent>` where more than 2 languages
    where not reported with languages().
 -  Fixed a bug (#3017) in the :doc:`Email <./libraries/email>` library
    where some timezones were calculated incorrectly.

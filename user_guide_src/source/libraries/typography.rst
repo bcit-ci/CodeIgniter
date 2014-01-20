@@ -66,7 +66,7 @@ Class Reference
 
 			$string = $this->typography->auto_typography($string);
 
-		There is one optional parameter that determines whether the parser should reduce more then two consecutive line breaks down to two.
+		There is one optional parameter that determines whether the parser should reduce more than two consecutive line breaks down to two.
 		Pass boolean TRUE to enable reducing line breaks::
 
 			$string = $this->typography->auto_typography($string, TRUE);
