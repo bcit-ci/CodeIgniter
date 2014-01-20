@@ -65,16 +65,16 @@
 |	['autoinit'] Whether or not to automatically initialize the database.
 |	['encrypt']  Whether or not to use an encrypted connection.
 |	['compress'] Whether or not to use client compression (MySQL only)
-|	['save_queries'] TRUE/FALSE	- save all executed queries.
-|				Note: Useful for development when using with profiler. However,
-|				when too many queries run, it leads to memory exhaust. So for production
-|				mode it is better to set it FALSE. Also, if set to FALSE, the
-|				$this->db->last_query() will return FALSE. This setting can
-|				also be changed during runtime by using 
-|				$this->db->save_queries = TRUE|FALSE;
 |	['stricton'] TRUE/FALSE - forces 'Strict Mode' connections
 |							- good for ensuring strict SQL while developing
 |	['failover'] array - A array with 0 or more data for connections if the main should fail.
+|	['save_queries'] TRUE/FALSE - Whether to "save" all executed queries.
+| 				NOTE: Disabling this will also effectively disable both
+| 				$this->db->last_query() and profiling of DB queries.
+| 				When you run a query, with this setting set to TRUE (default),
+| 				CodeIgniter will store the SQL statement for debugging purposes.
+| 				However, this may cause high memory usage, especially if you run
+| 				a lot of SQL queries ... disable this to avoid that problem.
 |
 | The $active_group variable lets you choose which connection group to
 | make active.  By default there is only one group (the 'default' group).
@@ -104,9 +104,9 @@ $db['default'] = array(
 	'autoinit' => TRUE,
 	'encrypt' => FALSE,
 	'compress' => FALSE,
-	'save_queries' => TRUE,
 	'stricton' => FALSE,
-	'failover' => array()
+	'failover' => array(),
+	'save_queries' => TRUE
 );
 
 /* End of file database.php */
