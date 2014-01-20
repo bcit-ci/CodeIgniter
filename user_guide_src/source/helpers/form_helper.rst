@@ -28,7 +28,7 @@ The following functions are available:
 .. function:: form_open([$action = ''[, $attributes = ''[, $hidden = array()]]])
 
 	:param	string	$action: Form action/target URI string
-	:param	string	$attributes: HTML attributes
+	:param	array	$attributes: HTML attributes
 	:param	array	$hidden: An array of hidden fields' definitions
 	:returns:	string
 
@@ -85,7 +85,7 @@ The following functions are available:
 .. function:: form_open_multipart([$action = ''[, $attributes = array()[, $hidden = array()]])
 
 	:param	string	$action: Form action/target URI string
-	:param	string	$attributes: HTML attributes
+	:param	array	$attributes: HTML attributes
 	:param	array	$hidden: An array of hidden fields' definitions
 	:returns:	string
 

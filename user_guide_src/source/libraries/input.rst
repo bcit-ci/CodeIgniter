@@ -32,7 +32,8 @@ following:
    (and a few other) characters.
 -  Provides XSS (Cross-site Scripting Hacks) filtering. This can be
    enabled globally, or upon request.
--  Standardizes newline characters to \\n(In Windows \\r\\n)
+-  Standardizes newline characters to ``PHP_EOL`` (\\n in UNIX-based OSes,
+   \\r\\n under Windows). This is configurable.
 
 XSS Filtering
 =============
@@ -155,17 +156,31 @@ Class Reference
 			$this->input->get(NULL, TRUE); // returns all GET items with XSS filter
 			$this->input->get(NULL, FALSE); // returns all GET items without XSS filtering
 
+	.. method:: post_get([$index = ''[, $xss_clean = NULL]])
+
+		:param string $index: POST/GET parameter name
+		:param bool $xss_clean: Whether to apply XSS filtering
+		:returns: mixed
+
+		This method works the same way as ``post()`` and ``get()``, only combined.
+		It will search through both POST and GET streams for data, looking in POST
+		first, and then in GET::
+
+			$this->input->post_get('some_data', TRUE);
+
 	.. method:: get_post([$index = ''[, $xss_clean = NULL]])
 
 		:param string $index: GET/POST parameter name
 		:param bool $xss_clean: Whether to apply XSS filtering
 		:returns: mixed
 
-		This method works the same way as ``post()`` and ``get()``, only combined.
-		It will search through both POST and GET streams for data, looking first
-		in POST, and then in GET::
+		This method works the same way as ``post_get()`` only it looks for GET
+		data first.
 
 			$this->input->get_post('some_data', TRUE);
+
+		.. note:: This method used to act EXACTLY like ``post_get()``, but it's
+			behavior has changed in CodeIgniter 3.0.
 
 	.. method:: cookie([$index = ''[, $xss_clean = NULL]])
 
@@ -361,6 +376,9 @@ Class Reference
 		::
 
 			$this->input->is_cli_request()
+
+		.. note:: This method is DEPRECATED and is now just an alias for the
+			:func:`is_cli()` function.
 
 	.. method:: method([$upper = FALSE])
 

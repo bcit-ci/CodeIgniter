@@ -36,6 +36,7 @@
 */
 
 $platforms = array(
+	'windows nt 6.3'	=> 'Windows 8.1',
 	'windows nt 6.2'	=> 'Windows 8',
 	'windows nt 6.1'	=> 'Windows 7',
 	'windows nt 6.0'	=> 'Windows Vista',
@@ -50,6 +51,7 @@ $platforms = array(
 	'win98'				=> 'Windows 98',
 	'windows 95'		=> 'Windows 95',
 	'win95'				=> 'Windows 95',
+	'windows phone'			=> 'Windows Phone',
 	'windows'			=> 'Unknown Windows OS',
 	'android'			=> 'Android',
 	'blackberry'		=> 'BlackBerry',
@@ -80,11 +82,15 @@ $platforms = array(
 // The order of this array should NOT be changed. Many browsers return
 // multiple browser types so we want to identify the sub-type first.
 $browsers = array(
+	'OPR'			=> 'Opera',
 	'Flock'			=> 'Flock',
 	'Chrome'		=> 'Chrome',
+	// Opera 10+ always reports Opera/9.80 and appends Version/<real version> to the user agent string
+	'Opera.*?Version'	=> 'Opera',
 	'Opera'			=> 'Opera',
 	'MSIE'			=> 'Internet Explorer',
 	'Internet Explorer'	=> 'Internet Explorer',
+	'Trident.* rv'	=> 'Internet Explorer',
 	'Shiira'		=> 'Shiira',
 	'Firefox'		=> 'Firefox',
 	'Chimera'		=> 'Chimera',
@@ -102,7 +108,8 @@ $browsers = array(
 	'hotjava'		=> 'HotJava',
 	'amaya'			=> 'Amaya',
 	'IBrowse'		=> 'IBrowse',
-	'Maxthon'		=> 'Maxthon'
+	'Maxthon'		=> 'Maxthon',
+	'Ubuntu'		=> 'Ubuntu Web Browser'
 );
 
 $mobiles = array(
@@ -182,7 +189,7 @@ $mobiles = array(
 	'operamini'		=> 'Opera Mini',
 	'opera mini'	=> 'Opera Mini',
 	'opera mobi'	=> 'Opera Mobile',
-	'fennec'	=> 'Firefox Mobile',
+	'fennec'		=> 'Firefox Mobile',
 
 	// Other
 	'digital paths'	=> 'Digital Paths',

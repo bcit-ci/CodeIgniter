@@ -14,7 +14,7 @@ for a given task.
 Release Information
 *******************
 
-This repo contains in development code for future releases. To download the
+This repo contains in-development code for future releases. To download the
 latest stable release please visit the `CodeIgniter Downloads
 <http://codeigniter.com/downloads/>`_ page.
 
@@ -49,9 +49,9 @@ agreement <http://codeigniter.com/user_guide/license.html>`_
 Resources
 *********
 
--  `User Guide <http://codeigniter.com/user_guide/>`_
--  `Community Forums <http://codeigniter.com/forums/>`_
--  `Community Wiki <http://codeigniter.com/wiki/>`_
+-  `User Guide <http://ellislab.com/codeigniter/user_guide/>`_
+-  `Community Forums <http://ellislab.com/forums/>`_
+-  `Community Wiki <https://github.com/EllisLab/CodeIgniter/wiki/>`_
 -  `Community IRC <http://ellislab.com/codeigniter/irc>`_
 
 ***************

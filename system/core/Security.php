@@ -38,6 +38,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CI_Security {
 
 	/**
+	 * List of sanitize filename strings
+	 *
+	 * @var	array
+	 */
+	public $filename_bad_chars =	array(
+		'../', '<!--', '-->', '<', '>',
+		"'", '"', '&', '$', '#',
+		'{', '}', '[', ']', '=',
+		';', '?', '%20', '%22',
+		'%3c',		// <
+		'%253c',	// <
+		'%3e',		// >
+		'%0e',		// >
+		'%28',		// (
+		'%29',		// )
+		'%2528',	// (
+		'%26',		// &
+		'%24',		// $
+		'%3f',		// ?
+		'%3b',		// ;
+		'%3d'		// =
+	);
+
+	/**
 	 * XSS Hash
 	 *
 	 * Random Hash for protecting URLs.
@@ -93,7 +117,6 @@ class CI_Security {
 		'document.write'	=> '[removed]',
 		'.parentNode'		=> '[removed]',
 		'.innerHTML'		=> '[removed]',
-		'window.location'	=> '[removed]',
 		'-moz-binding'		=> '[removed]',
 		'<!--'				=> '&lt;!--',
 		'-->'				=> '--&gt;',
@@ -108,6 +131,7 @@ class CI_Security {
 	 */
 	protected $_never_allowed_regex = array(
 		'javascript\s*:',
+		'(document|(document\.)?window)\.(location|on\w*)',
 		'expression\s*(\(|&\#40;)', // CSS and IE
 		'vbscript\s*:', // IE, surprise!
 		'Redirect\s+302',
@@ -527,13 +551,13 @@ class CI_Security {
 
 		do
 		{
-			$matches = $matches1 = 0;
+			$m1 = $m2 = 0;
 
+			$str = preg_replace('/(&#x0*[0-9a-f]{2,5})(?![0-9a-f;])/iS', '$1;', $str, -1, $m1);
+			$str = preg_replace('/(&#\d{2,4})(?![0-9;])/S', '$1;', $str, -1, $m2);
 			$str = html_entity_decode($str, ENT_COMPAT, $charset);
-			$str = preg_replace('~&#x(0*[0-9a-f]{2,5})~ei', 'chr(hexdec("\\1"))', $str, -1, $matches);
-			$str = preg_replace('~&#([0-9]{2,4})~e', 'chr(\\1)', $str, -1, $matches1);
 		}
-		while ($matches OR $matches1);
+		while ($m1 OR $m2);
 
 		return $str;
 	}
@@ -549,24 +573,7 @@ class CI_Security {
 	 */
 	public function sanitize_filename($str, $relative_path = FALSE)
 	{
-		$bad = array(
-			'../', '<!--', '-->', '<', '>',
-			"'", '"', '&', '$', '#',
-			'{', '}', '[', ']', '=',
-			';', '?', '%20', '%22',
-			'%3c',		// <
-			'%253c',	// <
-			'%3e',		// >
-			'%0e',		// >
-			'%28',		// (
-			'%29',		// )
-			'%2528',	// (
-			'%26',		// &
-			'%24',		// $
-			'%3f',		// ?
-			'%3b',		// ;
-			'%3d'		// =
-		);
+		$bad = $this->filename_bad_chars;
 
 		if ( ! $relative_path)
 		{
@@ -596,7 +603,7 @@ class CI_Security {
 	 */
 	public function strip_image_tags($str)
 	{
-		return preg_replace(array('#<img\s+.*?src\s*=\s*["\'](.+?)["\'].*?\>#', '#<img\s+.*?src\s*=\s*(.+?).*?\>#'), '\\1', $str);
+		return preg_replace(array('#<img[\s/]+.*?src\s*=\s*["\'](.+?)["\'].*?\>#', '#<img[\s/]+.*?src\s*=\s*(.+?).*?\>#'), '\\1', $str);
 	}
 
 	// ----------------------------------------------------------------
@@ -641,8 +648,8 @@ class CI_Security {
 	 */
 	protected function _remove_evil_attributes($str, $is_image)
 	{
-		// All javascript event handlers (e.g. onload, onclick, onmouseover), style, and xmlns
-		$evil_attributes = array('on\w*', 'style', 'xmlns', 'formaction');
+		// Formaction, style, and xmlns
+		$evil_attributes = array('style', 'xmlns', 'formaction');
 
 		if ($is_image === TRUE)
 		{
@@ -830,14 +837,15 @@ class CI_Security {
 		 * Add a semicolon if missing.  We do this to enable
 		 * the conversion of entities to ASCII later.
 		 */
-		$str = preg_replace('#(&\#?[0-9a-z]{2,})([\x00-\x20])*;?#i', '\\1;\\2', $str);
+		$str = preg_replace('/(&#\d{2,4})(?![0-9;])/', '$1;', $str);
+		$str = preg_replace('/(&[a-z]{2,})(?![a-z;])/i', '$1;', $str);
 
 		/*
 		 * Validate UTF16 two byte encoding (x00)
 		 *
 		 * Just as above, adds a semicolon if missing.
 		 */
-		$str = preg_replace('#(&\#x?)([0-9A-F]+);?#i', '\\1\\2;', $str);
+		$str = preg_replace('/(&#x0*[0-9a-f]{2,5})(?![0-9a-f;])/i', '$1;', $str);
 
 		/*
 		 * Un-Protect GET variables in URLs
@@ -877,7 +885,7 @@ class CI_Security {
 	{
 		if ($this->_csrf_hash === '')
 		{
-			// If the cookie exists we will use it's value.
+			// If the cookie exists we will use its value.
 			// We don't necessarily want to regenerate it with
 			// each page load since a page could contain embedded
 			// sub-pages causing this feature to fail
@@ -887,7 +895,7 @@ class CI_Security {
 				return $this->_csrf_hash = $_COOKIE[$this->_csrf_cookie_name];
 			}
 
-			$this->_csrf_hash = md5(uniqid(rand(), TRUE));
+			$this->_csrf_hash = md5(uniqid(mt_rand(), TRUE));
 			$this->csrf_set_cookie();
 		}
 

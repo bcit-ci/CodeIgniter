@@ -13,7 +13,7 @@ loading any libraries or helpers.
 
   <div class="custom-index container"></div>
 
-.. function:: is_php($version = '5.3.0')
+.. function:: is_php([$version = '5.3.0'])
 
 	:param	string	$version: Version number
 	:returns:	bool
@@ -66,7 +66,7 @@ loading any libraries or helpers.
 	to retrieve single keys. See :doc:`Config Library <../libraries/config>`
 	documentation for more information.
 
-.. :noindex: function:: show_error($message, $status_code, $heading = 'An Error Was Encountered')
+.. :noindex: function:: show_error($message, $status_code[, $heading = 'An Error Was Encountered'])
 
 	:param	mixed	$message: Error message
 	:param	int	$status_code: HTTP Response status code
@@ -76,7 +76,7 @@ loading any libraries or helpers.
 	This function calls ``CI_Exception::show_error()``. For more info,
 	please see the :doc:`Error Handling <errors>` documentation.
 
-.. :noindex: function:: show_404($page = '', $log_error = TRUE)
+.. :noindex: function:: show_404([$page = ''[, $log_error = TRUE]])
 
 	:param	string	$page: URI string
 	:param	bool	$log_error: Whether to log the error
@@ -85,17 +85,16 @@ loading any libraries or helpers.
 	This function calls ``CI_Exception::show_404()``. For more info,
 	please see the :doc:`Error Handling <errors>` documentation.
 
-.. :noindex: function:: log_message($level, $message, $php_error = FALSE)
+.. :noindex: function:: log_message($level, $message)
 
 	:param	string	$level: Log level: 'error', 'debug' or 'info'
 	:param	string	$message: Message to log
-	:param	bool	$php_error: Whether we're logging a native PHP error message
 	:returns:	void
 
 	This function is an alias for ``CI_Log::write_log()``. For more info,
 	please see the :doc:`Error Handling <errors>` documentation.
 
-.. function:: set_status_header($code, $text = '')
+.. function:: set_status_header($code[, $text = ''])
 
 	:param	int	$code: HTTP Reponse status code
 	:param	string	$text: A custom message to set with the status code
@@ -109,7 +108,7 @@ loading any libraries or helpers.
 	`See here <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html>`_ for
 	a full list of headers.
 
-.. function:: remove_invisible_characters($str, $url_encoded = TRUE)
+.. function:: remove_invisible_characters($str[, $url_encoded = TRUE])
 
 	:param	string	$str: Input string
 	:param	bool	$url_encoded: Whether to remove URL-encoded characters as well
@@ -147,8 +146,15 @@ loading any libraries or helpers.
 	Returns TRUE if a secure (HTTPS) connection is used and FALSE
 	in any other case (including non-HTTP requests).
 
-function_usable()
-=================
+.. function:: is_cli()
+
+	:returns:	bool
+
+	Returns TRUE if the application is run through the command line
+	and FALSE if not.
+
+	.. note:: This function checks both if the ``PHP_SAPI`` value is 'cli'
+		or if the ``STDIN`` constant is defined.
 
 .. function:: function_usable($function_name)
 

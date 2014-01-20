@@ -145,6 +145,15 @@ class CI_User_agent {
 	public $robot = '';
 
 	/**
+	 * HTTP Referer
+	 *
+	 * @var	mixed
+	 */
+	public $referer;
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Constructor
 	 *
 	 * Sets the User Agent and runs the compilation routine
@@ -282,7 +291,7 @@ class CI_User_agent {
 		{
 			foreach ($this->browsers as $key => $val)
 			{
-				if (preg_match('|'.preg_quote($key).'.*?([0-9\.]+)|i', $this->agent, $match))
+				if (preg_match('|'.$key.'.*?([0-9\.]+)|i', $this->agent, $match))
 				{
 					$this->is_browser = TRUE;
 					$this->version = $match[1];
@@ -358,7 +367,7 @@ class CI_User_agent {
 	{
 		if ((count($this->languages) === 0) && ! empty($_SERVER['HTTP_ACCEPT_LANGUAGE']))
 		{
-			$this->languages = explode(',', preg_replace('/(;q=[0-9\.]+)/i', '', strtolower(trim($_SERVER['HTTP_ACCEPT_LANGUAGE']))));
+			$this->languages = explode(',', preg_replace('/(;\s?q=[0-9\.]+)|\s/i', '', strtolower(trim($_SERVER['HTTP_ACCEPT_LANGUAGE']))));
 		}
 
 		if (count($this->languages) === 0)
@@ -378,7 +387,7 @@ class CI_User_agent {
 	{
 		if ((count($this->charsets) === 0) && ! empty($_SERVER['HTTP_ACCEPT_CHARSET']))
 		{
-			$this->charsets = explode(',', preg_replace('/(;q=.+)/i', '', strtolower(trim($_SERVER['HTTP_ACCEPT_CHARSET']))));
+			$this->charsets = explode(',', preg_replace('/(;\s?q=.+)|\s/i', '', strtolower(trim($_SERVER['HTTP_ACCEPT_CHARSET']))));
 		}
 
 		if (count($this->charsets) === 0)
@@ -471,13 +480,22 @@ class CI_User_agent {
 	 */
 	public function is_referral()
 	{
-		if (empty($_SERVER['HTTP_REFERER']))
+		if ( ! isset($this->referer))
 		{
-			return FALSE;
+			if (empty($_SERVER['HTTP_REFERER']))
+			{
+				$this->referer = FALSE;
+			}
+			else
+			{
+				$referer_host = @parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
+				$own_host = parse_url(config_item('base_url'), PHP_URL_HOST);
+
+				$this->referer = ($referer_host && $referer_host !== $own_host);
+			}
 		}
 
-		$referer = parse_url($_SERVER['HTTP_REFERER']);
-		return ! (empty($referer['host']) && strpos(config_item('base_url'), $referer['host']) !== FALSE);
+		return $this->referer;
 	}
 
 	// --------------------------------------------------------------------
@@ -621,6 +639,34 @@ class CI_User_agent {
 	public function accept_charset($charset = 'utf-8')
 	{
 		return in_array(strtolower($charset), $this->charsets(), TRUE);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Parse a custom user-agent string
+	 *
+	 * @param	string	$string
+	 * @return	void
+	 */
+	public function parse($string)
+	{
+		// Reset values
+		$this->is_browser = FALSE;
+		$this->is_robot = FALSE;
+		$this->is_mobile = FALSE;
+		$this->browser = '';
+		$this->version = '';
+		$this->mobile = '';
+		$this->robot = '';
+
+		// Set the new user-agent string and parse it, unless empty
+		$this->agent = $string;
+
+		if ( ! empty($string))
+		{
+			$this->_compile_data();
+		}
 	}
 
 }

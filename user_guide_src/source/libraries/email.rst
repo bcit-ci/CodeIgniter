@@ -254,7 +254,6 @@ Class Reference
 		message CodeIgniter will extract the message from your HTML email
 		and strip the tags.
 
-
 	.. method:: set_header($header, $value)
 
 		:param string $header: header name
@@ -330,8 +329,8 @@ Class Reference
 		:returns: CI_Email object for method chaining
 
 		Enables you to send an attachment. Put the file path/name in the first
-		parameter. Note: Use a file path, not a URL. For multiple attachments
-		use the method multiple times. For example::
+		parameter. For multiple attachments use the method multiple times.
+		For example::
 
 			$this->email->attach('/path/to/photo1.jpg');
 			$this->email->attach('/path/to/photo2.jpg');
@@ -341,6 +340,10 @@ Class Reference
 		otherwise use a custom disposition::
 
 			$this->email->attach('image.jpg', 'inline');
+
+		You can also use a URL::
+
+			$this->email->attach('http://example.com/filename.pdf');
 
 		If you'd like to use a custom file name, you can use the third paramater::
 
@@ -352,6 +355,26 @@ Class Reference
 
 			$this->email->attach($buffer, 'attachment', 'report.pdf', 'application/pdf');
 
+	.. method:: attachment_cid($filename)
+
+		:param string $filename: Existing attachment filename
+		:returns: string
+ 
+		Sets and returns an attachment's Content-ID, which enables your to embed an inline
+		(picture) attachment into HTML. First parameter must be the already attached file name.
+		::
+ 
+			$filename = '/img/photo1.jpg';
+			$this->email->attach($filename);
+			foreach ($list as $address)
+			{
+				$this->email->to($address);
+				$cid = $this->email->attach_cid($filename);
+				$this->email->message('<img src='cid:". $cid ."' alt="photo1" />');
+				$this->email->send();
+			}
+
+		.. note:: Content-ID for each e-mail must be re-created for it to be unique.
 
 	.. method:: print_debugger([$include = array('headers', 'subject', 'body')])
 

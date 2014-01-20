@@ -60,11 +60,18 @@ class CI_Session extends CI_Driver_Library {
 	public $params = array();
 
 	/**
+	 * Valid drivers list
+	 *
+	 * @var	array
+	 */
+	public $valid_drivers = array('native',	'cookie');
+
+	/**
 	 * Current driver in use
 	 *
 	 * @var	string
 	 */
-	protected $current = NULL;
+	public $current = NULL;
 
 	/**
 	 * User data
@@ -95,46 +102,36 @@ class CI_Session extends CI_Driver_Library {
 	 */
 	public function __construct(array $params = array())
 	{
-		$CI =& get_instance();
+		$_config =& get_instance()->config;
 
 		// No sessions under CLI
-		if ($CI->input->is_cli_request())
+		if (is_cli())
 		{
 			return;
 		}
 
 		log_message('debug', 'CI_Session Class Initialized');
 
-		// Get valid drivers list
-		$this->valid_drivers = array(
-			'native',
-			'cookie'
-		);
-		$key = 'sess_valid_drivers';
-		$drivers = isset($params[$key]) ? $params[$key] : $CI->config->item($key);
-		if ($drivers)
+		// Add possible extra entries to our valid drivers list
+		$drivers = isset($params['sess_valid_drivers']) ? $params['sess_valid_drivers'] : $_config->item('sess_valid_drivers');
+		if ( ! empty($drivers))
 		{
-			// Add driver names to valid list
-			foreach ((array) $drivers as $driver)
-			{
-				if ( ! in_array(strtolower($driver), array_map('strtolower', $this->valid_drivers)))
-				{
-					$this->valid_drivers[] = $driver;
-				}
-			}
+			$drivers = array_map('strtolower', (array) $drivers);
+			$this->valid_drivers = array_merge($this->valid_drivers, array_diff($drivers, $this->valid_drivers));
 		}
 
 		// Get driver to load
-		$key = 'sess_driver';
-		$driver = isset($params[$key]) ? $params[$key] : $CI->config->item($key);
+		$driver = isset($params['sess_driver']) ? $params['sess_driver'] : $_config->item('sess_driver');
 		if ( ! $driver)
 		{
+			log_message('debug', "Session: No driver name is configured, defaulting to 'cookie'.");
 			$driver = 'cookie';
 		}
 
-		if ( ! in_array(strtolower($driver), array_map('strtolower', $this->valid_drivers)))
+		if ( ! in_array($driver, $this->valid_drivers))
 		{
-			$this->valid_drivers[] = $driver;
+			log_message('error', 'Session: Configured driver name is not valid, aborting.');
+			return;
 		}
 
 		// Save a copy of parameters in case drivers need access
@@ -291,7 +288,7 @@ class CI_Session extends CI_Driver_Library {
 	 * @param	string	Item value or empty string
 	 * @return	void
 	 */
-	public function set_userdata($newdata = array(), $newval = '')
+	public function set_userdata($newdata, $newval = '')
 	{
 		// Wrap params as array if singular
 		if (is_string($newdata))
@@ -320,7 +317,7 @@ class CI_Session extends CI_Driver_Library {
 	 * @param	mixed	Item name or array of item names
 	 * @return	void
 	 */
-	public function unset_userdata($newdata = array())
+	public function unset_userdata($newdata)
 	{
 		// Wrap single name as array
 		if (is_string($newdata))
@@ -363,7 +360,7 @@ class CI_Session extends CI_Driver_Library {
 	 * @param	string	Item value or empty string
 	 * @return	void
 	 */
-	public function set_flashdata($newdata = array(), $newval = '')
+	public function set_flashdata($newdata, $newval = '')
 	{
 		// Wrap item as array if singular
 		if (is_string($newdata))
@@ -437,7 +434,7 @@ class CI_Session extends CI_Driver_Library {
 	 * @param	int	Item lifetime in seconds or 0 for default
 	 * @return	void
 	 */
-	public function set_tempdata($newdata = array(), $newval = '', $expire = 0)
+	public function set_tempdata($newdata, $newval = '', $expire = 0)
 	{
 		// Set expiration time
 		$expire = time() + ($expire ? $expire : self::TEMP_EXP_DEF);
@@ -478,7 +475,7 @@ class CI_Session extends CI_Driver_Library {
 	 * @param	mixed	Item name or array of item names
 	 * @return	void
 	 */
-	public function unset_tempdata($newdata = array())
+	public function unset_tempdata($newdata)
 	{
 		// Get expirations list
 		$expirations = $this->userdata(self::EXPIRATION_KEY);

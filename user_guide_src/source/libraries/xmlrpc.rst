@@ -307,7 +307,7 @@ Client to send a request to the Server and receive a response.
 The Client
 ----------
 
-Using a text editor, create a controller called xmlrpc_client.php. In
+Using a text editor, create a controller called Xmlrpc_client.php. In
 it, place this code and save it to your application/controllers/
 folder::
 
@@ -348,7 +348,7 @@ folder::
 The Server
 ----------
 
-Using a text editor, create a controller called xmlrpc_server.php. In
+Using a text editor, create a controller called Xmlrpc_server.php. In
 it, place this code and save it to your application/controllers/
 folder::
 

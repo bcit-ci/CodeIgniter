@@ -165,6 +165,8 @@ class CI_Session_cookie extends CI_Session_driver {
 	 */
 	public $now;
 
+	// ------------------------------------------------------------------------
+
 	/**
 	 * Default userdata keys
 	 *
@@ -183,6 +185,15 @@ class CI_Session_cookie extends CI_Session_driver {
 	 * @var	bool
 	 */
 	protected $data_dirty = FALSE;
+
+	/**
+	 * Standardize newlines flag
+	 *
+	 * @var	bool
+	 */
+	protected $_standardize_newlines;
+
+	// ------------------------------------------------------------------------
 
 	/**
 	 * Initialize session driver object
@@ -209,8 +220,10 @@ class CI_Session_cookie extends CI_Session_driver {
 			'sess_time_to_update',
 			'time_reference',
 			'cookie_prefix',
-			'encryption_key'
+			'encryption_key',
 		);
+
+		$this->_standardize_newlines = (bool) config_item('standardize_newlines');
 
 		foreach ($prefs as $key)
 		{
@@ -397,7 +410,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		}
 
 		// Unserialize the session array
-		$session = $this->_unserialize($session);
+		$session = @unserialize($session);
 
 		// Is the session data we unserialized an array with the correct format?
 		if ( ! is_array($session) OR ! isset($session['session_id'], $session['ip_address'], $session['user_agent'], $session['last_activity']))
@@ -472,7 +485,7 @@ class CI_Session_cookie extends CI_Session_driver {
 			$row = $query->row();
 			if ( ! empty($row->user_data))
 			{
-				$custom_data = $this->_unserialize($row->user_data);
+				$custom_data = unserialize(trim($row->user_data));
 
 				if (is_array($custom_data))
 				{
@@ -608,7 +621,7 @@ class CI_Session_cookie extends CI_Session_driver {
 			if ( ! empty($userdata))
 			{
 				// Serialize the custom data array so we can store it
-				$set['user_data'] = $this->_serialize($userdata);
+				$set['user_data'] = serialize($userdata);
 			}
 
 			// Reset query builder values.
@@ -695,8 +708,18 @@ class CI_Session_cookie extends CI_Session_driver {
 				? array_intersect_key($this->userdata, $this->defaults)
 				: $this->userdata;
 
+		// The Input class will do this and since we use HMAC verification,
+		// unless we standardize here as well, the hash won't match.
+		if ($this->_standardize_newlines)
+		{
+			foreach (array_keys($this->userdata) as $key)
+			{
+				$this->userdata[$key] = preg_replace('/(?:\r\n|[\r\n])/', PHP_EOL, $this->userdata[$key]);
+			}
+		}
+
 		// Serialize the userdata for the cookie
-		$cookie_data = $this->_serialize($cookie_data);
+		$cookie_data = serialize($cookie_data);
 
 		if ($this->sess_encrypt_cookie === TRUE)
 		{
@@ -737,93 +760,6 @@ class CI_Session_cookie extends CI_Session_driver {
 	// ------------------------------------------------------------------------
 
 	/**
-	 * Serialize an array
-	 *
-	 * This function first converts any slashes found in the array to a temporary
-	 * marker, so when it gets unserialized the slashes will be preserved
-	 *
-	 * @param	mixed	Data to serialize
-	 * @return	string	Serialized data
-	 */
-	protected function _serialize($data)
-	{
-		if (is_array($data))
-		{
-			array_walk_recursive($data, array(&$this, '_escape_slashes'));
-		}
-		elseif (is_string($data))
-		{
-			$data = str_replace('\\', '{{slash}}', $data);
-		}
-
-		return serialize($data);
-	}
-
-	// ------------------------------------------------------------------------
-
-	/**
-	 * Escape slashes
-	 *
-	 * This function converts any slashes found into a temporary marker
-	 *
-	 * @param	string	Value
-	 * @param	string	Key
-	 * @return	void
-	 */
-	protected function _escape_slashes(&$val, $key)
-	{
-		if (is_string($val))
-		{
-			$val = str_replace('\\', '{{slash}}', $val);
-		}
-	}
-
-	// ------------------------------------------------------------------------
-
-	/**
-	 * Unserialize
-	 *
-	 * This function unserializes a data string, then converts any
-	 * temporary slash markers back to actual slashes
-	 *
-	 * @param	mixed	Data to unserialize
-	 * @return	mixed	Unserialized data
-	 */
-	protected function _unserialize($data)
-	{
-		$data = @unserialize(trim($data));
-
-		if (is_array($data))
-		{
-			array_walk_recursive($data, array(&$this, '_unescape_slashes'));
-			return $data;
-		}
-
-		return is_string($data) ? str_replace('{{slash}}', '\\', $data) : $data;
-	}
-
-	// ------------------------------------------------------------------------
-
-	/**
-	 * Unescape slashes
-	 *
-	 * This function converts any slash markers back into actual slashes
-	 *
-	 * @param	string	Value
-	 * @param	string	Key
-	 * @return	void
-	 */
-	protected function _unescape_slashes(&$val, $key)
-	{
-		if (is_string($val))
-		{
-	 		$val = str_replace('{{slash}}', '\\', $val);
-		}
-	}
-
-	// ------------------------------------------------------------------------
-
-	/**
 	 * Garbage collection
 	 *
 	 * This deletes expired session rows from database
@@ -841,7 +777,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		$probability = ini_get('session.gc_probability');
 		$divisor = ini_get('session.gc_divisor');
 
-		if ((mt_rand(0, $divisor) / $divisor) < $probability)
+		if (mt_rand(1, $divisor) <= $probability)
 		{
 			$expire = $this->now - $this->sess_expiration;
 			$this->CI->db->delete($this->sess_table_name, 'last_activity < '.$expire);

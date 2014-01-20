@@ -81,7 +81,15 @@ class CI_Unit_test {
 	 *
 	 * @var	array
 	 */
-	protected $_test_items_visible	= array();
+	protected $_test_items_visible	= array(
+			'test_name',
+			'test_datatype',
+			'res_datatype',
+			'result',
+			'file',
+			'line',
+			'notes'
+	);
 
 	// --------------------------------------------------------------------
 
@@ -92,17 +100,6 @@ class CI_Unit_test {
 	 */
 	public function __construct()
 	{
-		// These are the default items visible when a test is run.
-		$this->_test_items_visible = array (
-							'test_name',
-							'test_datatype',
-							'res_datatype',
-							'result',
-							'file',
-							'line',
-							'notes'
-						);
-
 		log_message('debug', 'Unit Testing Class Initialized');
 	}
 
@@ -113,10 +110,10 @@ class CI_Unit_test {
 	 *
 	 * Runs the supplied tests
 	 *
-	 * @param	array
+	 * @param	array	$items
 	 * @return	void
 	 */
-	public function set_test_items($items = array())
+	public function set_test_items($items)
 	{
 		if ( ! empty($items) && is_array($items))
 		{
@@ -230,7 +227,7 @@ class CI_Unit_test {
 	 *
 	 * Causes the evaluation to use === rather than ==
 	 *
-	 * @param	bool
+	 * @param	bool	$state
 	 * @return	void
 	 */
 	public function use_strict($state = TRUE)
@@ -288,6 +285,7 @@ class CI_Unit_test {
 				{
 					$val = $line;
 				}
+
 				$temp[$CI->lang->line('ut_'.$key, FALSE)] = $val;
 			}
 

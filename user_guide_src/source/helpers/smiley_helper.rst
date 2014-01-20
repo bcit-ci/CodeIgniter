@@ -158,8 +158,7 @@ Available Functions
 	Example::
 
 		$str = 'Here are some smileys: :-)  ;-)';
-		$str = parse_smileys($str, "http://example.com/images/smileys/");
+		$str = parse_smileys($str, 'http://example.com/images/smileys/');
 		echo $str;
-
 
 .. |smile!| image:: ../images/smile.gif

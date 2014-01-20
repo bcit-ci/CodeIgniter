@@ -67,12 +67,13 @@ file in the following way::
 
 If you use the :doc:`form helper <../helpers/form_helper>`, then
 :func:`form_open()` will automatically insert a hidden csrf field in
-your forms. If not, then you can use ``csrf_get_token_name()`` and ``csrf_get_hash()``
+your forms. If not, then you can use ``get_csrf_token_name()``
+and ``get_csrf_hash()``
 ::
 
 	$csrf = array(
-		'name' => $this->security->csrf_get_token_name(),
-		'hash' => $this->security->csrf_get_hash()
+		'name' => $this->security->get_csrf_token_name(),
+		'hash' => $this->security->get_csrf_hash()
 	);
 
 	...

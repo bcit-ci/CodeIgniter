@@ -47,7 +47,7 @@ class CI_Input {
 	public $ip_address = FALSE;
 
 	/**
-	 * User agent strin
+	 * User agent string
 	 *
 	 * @var	string
 	 */
@@ -63,7 +63,7 @@ class CI_Input {
 	protected $_allow_get_array = TRUE;
 
 	/**
-	 * Standartize new lines flag
+	 * Standardize new lines flag
 	 *
 	 * If set to TRUE, then newlines are standardized.
 	 *
@@ -121,9 +121,10 @@ class CI_Input {
 	{
 		log_message('debug', 'Input Class Initialized');
 
-		$this->_allow_get_array	= (config_item('allow_get_array') === TRUE);
-		$this->_enable_xss	= (config_item('global_xss_filtering') === TRUE);
-		$this->_enable_csrf	= (config_item('csrf_protection') === TRUE);
+		$this->_allow_get_array		= (config_item('allow_get_array') === TRUE);
+		$this->_enable_xss		= (config_item('global_xss_filtering') === TRUE);
+		$this->_enable_csrf		= (config_item('csrf_protection') === TRUE);
+		$this->_sandardize_newlines	= (bool) config_item('standardize_newlines');
 
 		global $SEC;
 		$this->security =& $SEC;
@@ -151,8 +152,10 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	protected function _fetch_from_array(&$array, $index = '', $xss_clean = FALSE)
+	protected function _fetch_from_array(&$array, $index = '', $xss_clean = NULL)
 	{
+		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
+
 		if (isset($array[$index]))
 		{
 			$value = $array[$index];
@@ -197,8 +200,10 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function get($index = NULL, $xss_clean = FALSE)
+	public function get($index = NULL, $xss_clean = NULL)
 	{
+		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
+
 		// Check if a field has been provided
 		if ($index === NULL)
 		{
@@ -229,8 +234,10 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function post($index = NULL, $xss_clean = FALSE)
+	public function post($index = NULL, $xss_clean = NULL)
 	{
+		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
+
 		// Check if a field has been provided
 		if ($index === NULL)
 		{
@@ -261,11 +268,31 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function get_post($index = '', $xss_clean = FALSE)
+	public function post_get($index = '', $xss_clean = NULL)
 	{
+		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
+
 		return isset($_POST[$index])
 			? $this->post($index, $xss_clean)
 			: $this->get($index, $xss_clean);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Fetch an item from GET data with fallback to POST
+	 *
+	 * @param	string	$index		Index for item to be fetched from $_GET or $_POST
+	 * @param	bool	$xss_clean	Whether to apply XSS filtering
+	 * @return	mixed
+	 */
+	public function get_post($index = '', $xss_clean = NULL)
+	{
+		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
+
+		return isset($_GET[$index])
+			? $this->get($index, $xss_clean)
+			: $this->post($index, $xss_clean);
 	}
 
 	// --------------------------------------------------------------------
@@ -277,8 +304,10 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function cookie($index = '', $xss_clean = FALSE)
+	public function cookie($index = '', $xss_clean = NULL)
 	{
+		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
+
 		return $this->_fetch_from_array($_COOKIE, $index, $xss_clean);
 	}
 
@@ -291,8 +320,10 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function server($index = '', $xss_clean = FALSE)
+	public function server($index = '', $xss_clean = NULL)
 	{
+		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
+
 		return $this->_fetch_from_array($_SERVER, $index, $xss_clean);
 	}
 
@@ -307,8 +338,10 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function input_stream($index = '', $xss_clean = FALSE)
+	public function input_stream($index = '', $xss_clean = NULL)
 	{
+		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
+
 		// The input stream can only be read once, so we'll need to check
 		// if we have already done that first.
 		if (is_array($this->_input_stream))
@@ -345,7 +378,7 @@ class CI_Input {
 	 * @param	bool		$httponly	Whether to only makes the cookie accessible via HTTP (no javascript)
 	 * @return	void
 	 */
-	public function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE, $httponly = FALSE)
+	public function set_cookie($name, $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE, $httponly = FALSE)
 	{
 		if (is_array($name))
 		{
@@ -671,13 +704,22 @@ class CI_Input {
 			// but that when present will trip our 'Disallowed Key Characters' alarm
 			// http://www.ietf.org/rfc/rfc2109.txt
 			// note that the key names below are single quoted strings, and are not PHP variables
-			unset($_COOKIE['$Version']);
-			unset($_COOKIE['$Path']);
-			unset($_COOKIE['$Domain']);
+			unset(
+				$_COOKIE['$Version'],
+				$_COOKIE['$Path'],
+				$_COOKIE['$Domain']
+			);
 
 			foreach ($_COOKIE as $key => $val)
 			{
-				$_COOKIE[$this->_clean_input_keys($key)] = $this->_clean_input_data($val);
+				if (($cookie_key = $this->_clean_input_keys($key)) !== FALSE)
+				{
+					$_COOKIE[$cookie_key] = $this->_clean_input_data($val);
+				}
+				else
+				{
+					unset($_COOKIE[$key]);
+				}
 			}
 		}
 
@@ -685,12 +727,12 @@ class CI_Input {
 		$_SERVER['PHP_SELF'] = strip_tags($_SERVER['PHP_SELF']);
 
 		// CSRF Protection check
-		if ($this->_enable_csrf === TRUE && ! $this->is_cli_request())
+		if ($this->_enable_csrf === TRUE && ! is_cli())
 		{
 			$this->security->csrf_verify();
 		}
 
-		log_message('debug', 'Global POST and COOKIE data sanitized');
+		log_message('debug', 'Global POST, GET and COOKIE data sanitized');
 	}
 
 	// --------------------------------------------------------------------
@@ -733,13 +775,7 @@ class CI_Input {
 		}
 
 		// Remove control characters
-		$str = remove_invisible_characters($str);
-
-		// Should we filter the input data?
-		if ($this->_enable_xss === TRUE)
-		{
-			$str = $this->security->xss_clean($str);
-		}
+		$str = remove_invisible_characters($str, FALSE);
 
 		// Standardize newlines if needed
 		if ($this->_standardize_newlines === TRUE)
@@ -760,15 +796,25 @@ class CI_Input {
 	 * only named with alpha-numeric text and a few other items.
 	 *
 	 * @param	string	$str	Input string
-	 * @return	string
+	 * @param	string	$fatal	Whether to terminate script exection
+	 *				or to return FALSE if an invalid
+	 *				key is encountered
+	 * @return	string|bool
 	 */
-	protected function _clean_input_keys($str)
+	protected function _clean_input_keys($str, $fatal = TRUE)
 	{
 		if ( ! preg_match('/^[a-z0-9:_\/|-]+$/i', $str))
 		{
-			set_status_header(503);
-			echo 'Disallowed Key Characters.';
-			exit(EXIT_USER_INPUT);
+			if ($fatal === TRUE)
+			{
+				return FALSE;
+			}
+			else
+			{
+				set_status_header(503);
+				echo 'Disallowed Key Characters.';
+				exit(EXIT_USER_INPUT);
+			}
 		}
 
 		// Clean UTF-8 if supported
@@ -868,11 +914,12 @@ class CI_Input {
 	 *
 	 * Test to see if a request was made from the command line.
 	 *
-	 * @return 	bool
+	 * @deprecated	3.0.0	Use is_cli() instead
+	 * @return      bool
 	 */
 	public function is_cli_request()
 	{
-		return (php_sapi_name() === 'cli' OR defined('STDIN'));
+		return is_cli();
 	}
 
 	// --------------------------------------------------------------------

@@ -137,7 +137,7 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	 */
 	public function is_write_type($sql)
 	{
-		return (bool) preg_match('/^\s*"?(SET|INSERT(?![^\)]+\)\s+RETURNING)|UPDATE|DELETE|REPLACE|CREATE|DROP|TRUNCATE|LOAD|COPY|ALTER|RENAME|GRANT|REVOKE|LOCK|UNLOCK|REINDEX)\s+/i', $sql);
+		return (bool) preg_match('/^\s*"?(SET|INSERT(?![^\)]+\)\s+RETURNING)|UPDATE(?!.*\sRETURNING)|DELETE|CREATE|DROP|TRUNCATE|LOAD|COPY|ALTER|RENAME|GRANT|REVOKE|LOCK|UNLOCK|REINDEX)\s/i', str_replace(array("\r\n", "\r", "\n"), ' ', $sql));
 	}
 
 	// --------------------------------------------------------------------
@@ -166,7 +166,7 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	 * ORDER BY
 	 *
 	 * @param	string	$orderby
-	 * @param	string	$direction	ASC or DESC
+	 * @param	string	$direction	ASC, DESC or RANDOM
 	 * @param	bool	$escape
 	 * @return	object
 	 */

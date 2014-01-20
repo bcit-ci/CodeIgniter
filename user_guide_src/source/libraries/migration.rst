@@ -94,7 +94,7 @@ Then in **application/config/migration.php** set ``$config['migration_version'] 
 Usage Example
 *************
 
-In this example some simple code is placed in **application/controllers/migrate.php** 
+In this example some simple code is placed in **application/controllers/Migrate.php** 
 to update the schema.::
 
 	<?php

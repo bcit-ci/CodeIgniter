@@ -99,7 +99,7 @@ example, to fetch your language choice you'll do this::
 
 	$lang = $this->config->item('language');
 
-The function returns FALSE (boolean) if the item you are trying to fetch
+The function returns NULL if the item you are trying to fetch
 does not exist.
 
 If you are using the second parameter of the $this->config->load

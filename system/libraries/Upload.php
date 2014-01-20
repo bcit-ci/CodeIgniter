@@ -234,6 +234,13 @@ class CI_Upload {
 	public $xss_clean		= FALSE;
 
 	/**
+	 * Apache mod_mime fix flag
+	 *
+	 * @var	bool
+	 */
+	public $mod_mime_fix		= TRUE;
+
+	/**
 	 * Temporary filename prefix
 	 *
 	 * @var	string
@@ -256,6 +263,13 @@ class CI_Upload {
 	 */
 	protected $_file_name_override	= '';
 
+	/**
+	 * CI Singleton
+	 *
+	 * @var	object
+	 */
+	protected $CI;
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -272,6 +286,7 @@ class CI_Upload {
 		}
 
 		$this->mimes =& get_mimes();
+		$this->CI =& get_instance();
 
 		log_message('debug', 'Upload Class Initialized');
 	}
@@ -314,6 +329,7 @@ class CI_Upload {
 					'remove_spaces'			=> TRUE,
 					'detect_mime'			=> TRUE,
 					'xss_clean'			=> FALSE,
+					'mod_mime_fix'			=> TRUE,
 					'temp_prefix'			=> 'temp_file_',
 					'client_name'			=> ''
 				);
@@ -463,7 +479,7 @@ class CI_Upload {
 		}
 
 		// Are the image dimensions within the allowed size?
-		// Note: This can fail if the server has an open_basdir restriction.
+		// Note: This can fail if the server has an open_basedir restriction.
 		if ( ! $this->is_allowed_dimensions())
 		{
 			$this->set_error('upload_invalid_dimensions');
@@ -471,8 +487,7 @@ class CI_Upload {
 		}
 
 		// Sanitize the file name for security
-		$CI =& get_instance();
-		$this->file_name = $CI->security->sanitize_filename($this->file_name);
+		$this->file_name = $this->CI->security->sanitize_filename($this->file_name);
 
 		// Truncate the file name if it's too long
 		if ($this->max_filename > 0)
@@ -1073,8 +1088,7 @@ class CI_Upload {
 			return FALSE;
 		}
 
-		$CI =& get_instance();
-		return $CI->security->xss_clean($data, TRUE);
+		return $this->CI->security->xss_clean($data, TRUE);
 	}
 
 	// --------------------------------------------------------------------
@@ -1087,17 +1101,13 @@ class CI_Upload {
 	 */
 	public function set_error($msg)
 	{
-		$CI =& get_instance();
-		$CI->lang->load('upload');
+		$this->CI->lang->load('upload');
 
-		if ( ! is_array($msg))
-		{
-			$msg = array($msg);
-		}
+		is_array($msg) OR $msg = array($msg);
 
 		foreach ($msg as $val)
 		{
-			$msg = ($CI->lang->line($val) === FALSE) ? $val : $CI->lang->line($val);
+			$msg = ($this->CI->lang->line($val) === FALSE) ? $val : $this->CI->lang->line($val);
 			$this->error_msg[] = $msg;
 			log_message('error', $msg);
 		}
@@ -1148,7 +1158,7 @@ class CI_Upload {
 	 */
 	protected function _prep_filename($filename)
 	{
-		if (strpos($filename, '.') === FALSE OR $this->allowed_types === '*')
+		if ($this->mod_mime_fix === FALSE OR $this->allowed_types === '*' OR strpos($filename, '.') === FALSE)
 		{
 			return $filename;
 		}
@@ -1245,7 +1255,7 @@ class CI_Upload {
 				}
 			}
 
-			if ( (bool) @ini_get('safe_mode') === FALSE && function_usable('shell_exec'))
+			if ((bool) @ini_get('safe_mode') === FALSE && function_usable('shell_exec'))
 			{
 				$mime = @shell_exec($cmd);
 				if (strlen($mime) > 0)

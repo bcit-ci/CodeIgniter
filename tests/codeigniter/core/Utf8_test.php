@@ -11,10 +11,15 @@ class Utf8_test extends CI_TestCase {
 
 	public function test_convert_to_utf8()
 	{
-		$this->assertEquals(
-			$this->utf8->convert_to_utf8('тест', 'WINDOWS-1251'),
-			'С‚РµСЃС‚'
-		);
+		$this->assertEquals('С‚РµСЃС‚', $this->utf8->convert_to_utf8('тест', 'WINDOWS-1251'));
+	}
+
+	// --------------------------------------------------------------------
+
+	public function test_is_ascii()
+	{
+		$this->assertTrue($this->utf8->is_ascii_test('foo bar'));
+		$this->assertFalse($this->utf8->is_ascii_test('С‚РµСЃС‚'));
 	}
 
 }

@@ -66,6 +66,15 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	public $delete_hack = TRUE;
 
+	/**
+	 * Strict ON flag
+	 *
+	 * Whether we're running in strict SQL mode.
+	 *
+	 * @var	bool
+	 */
+	public $stricton = FALSE;
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -92,6 +101,11 @@ class CI_DB_mysqli_driver extends CI_DB {
 		$port = empty($this->port) ? NULL : $this->port;
 		$client_flags = ($this->compress === TRUE) ? MYSQLI_CLIENT_COMPRESS : 0;
 		$mysqli = mysqli_init();
+
+		if ($this->stricton)
+		{
+			$mysqli->options(MYSQLI_INIT_COMMAND, 'SET SESSION sql_mode="STRICT_ALL_TABLES"');
+		}
 
 		return @$mysqli->real_connect($hostname, $this->username, $this->password, $this->database, $port, NULL, $client_flags)
 			? $mysqli : FALSE;
@@ -241,9 +255,10 @@ class CI_DB_mysqli_driver extends CI_DB {
 		// even if the queries produce a successful result.
 		$this->_trans_failure = ($test_mode === TRUE);
 
-		$this->simple_query('SET AUTOCOMMIT=0');
-		$this->simple_query('START TRANSACTION'); // can also be BEGIN or BEGIN WORK
-		return TRUE;
+		$this->conn_id->autocommit(FALSE);
+		return is_php('5.5')
+			? $this->conn_id->begin_transaction()
+			: $this->simple_query('START TRANSACTION'); // can also be BEGIN or BEGIN WORK
 	}
 
 	// --------------------------------------------------------------------
@@ -261,9 +276,13 @@ class CI_DB_mysqli_driver extends CI_DB {
 			return TRUE;
 		}
 
-		$this->simple_query('COMMIT');
-		$this->simple_query('SET AUTOCOMMIT=1');
-		return TRUE;
+		if ($this->conn_id->commit())
+		{
+			$this->conn_id->autocommit(TRUE);
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -281,9 +300,13 @@ class CI_DB_mysqli_driver extends CI_DB {
 			return TRUE;
 		}
 
-		$this->simple_query('ROLLBACK');
-		$this->simple_query('SET AUTOCOMMIT=1');
-		return TRUE;
+		if ($this->conn_id->rollback())
+		{
+			$this->conn_id->autocommit(TRUE);
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------

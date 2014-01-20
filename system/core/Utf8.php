@@ -66,7 +66,7 @@ class CI_Utf8 {
 		}
 
 		if (
-			@preg_match('/./u', 'é') === 1	// PCRE must support UTF-8
+			defined('PREG_BAD_UTF8_ERROR')	// PCRE must support UTF-8
 			&& function_exists('iconv')	// iconv must be installed
 			&& MB_ENABLED === TRUE		// mbstring must be enabled
 			&& $charset === 'UTF-8'		// Application charset must be UTF-8

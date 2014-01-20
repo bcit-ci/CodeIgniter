@@ -178,7 +178,7 @@ if ( ! function_exists('is_loaded'))
 
 if ( ! function_exists('log_message'))
 {
-	function log_message($level, $message, $php_error = FALSE)
+	function log_message($level, $message)
 	{
 		return TRUE;
 	}
@@ -189,5 +189,14 @@ if ( ! function_exists('set_status_header'))
 	function set_status_header($code = 200, $text = '')
 	{
 		return TRUE;
+	}
+}
+
+if ( ! function_exists('is_cli'))
+{
+	// In order to test HTTP functionality, we need to lie about this
+	function is_cli()
+	{
+		return FALSE;
 	}
 }

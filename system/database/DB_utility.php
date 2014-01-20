@@ -282,8 +282,7 @@ abstract class CI_DB_utility {
 		extract($params);
 
 		// Load the xml helper
-		$CI =& get_instance();
-		$CI->load->helper('xml');
+		get_instance()->load->helper('xml');
 
 		// Generate the result
 		$xml = '<'.$root.'>'.$newline;
