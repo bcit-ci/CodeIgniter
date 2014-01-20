@@ -65,6 +65,13 @@
 |	['autoinit'] Whether or not to automatically initialize the database.
 |	['encrypt']  Whether or not to use an encrypted connection.
 |	['compress'] Whether or not to use client compression (MySQL only)
+|	['save_queries'] TRUE/FALSE	- save all executed queries.
+|				Note: Useful for development when using with profiler. However,
+|				when too many queries run, it leads to memory exhaust. So for production
+|				mode it is better to set it FALSE. Also, if set to FALSE, the
+|				$this->db->last_query() will return FALSE. This setting can
+|				also be changed during runtime by using 
+|				$this->db->save_queries = TRUE|FALSE;
 |	['stricton'] TRUE/FALSE - forces 'Strict Mode' connections
 |							- good for ensuring strict SQL while developing
 |	['failover'] array - A array with 0 or more data for connections if the main should fail.
@@ -97,6 +104,7 @@ $db['default'] = array(
 	'autoinit' => TRUE,
 	'encrypt' => FALSE,
 	'compress' => FALSE,
+	'save_queries' => TRUE,
 	'stricton' => FALSE,
 	'failover' => array()
 );
