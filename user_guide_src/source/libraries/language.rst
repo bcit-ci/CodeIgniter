@@ -26,6 +26,10 @@ your **application/language/** directory.
 
   <div class="custom-index container"></div>
 
+************************
+Using the Language Class
+************************
+
 Creating Language Files
 =======================
 

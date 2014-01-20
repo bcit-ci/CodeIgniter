@@ -16,6 +16,10 @@ you wish, while still taking advantage of the features of the Session class.
 
   <div class="custom-index container"></div>
 
+***********************
+Using the Session Class
+***********************
+
 Initializing a Session
 ======================
 
