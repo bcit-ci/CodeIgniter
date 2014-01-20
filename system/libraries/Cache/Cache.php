@@ -259,6 +259,27 @@ class CI_Cache extends CI_Driver_Library {
 
 		return $support[$driver];
 	}
+	
+	/**
+	* __get()
+	*  
+	*  loading error for get error
+	*  @modify  kevin 
+	* 
+	* @param 	child
+	* @return 	object	* 
+	*/
+	public function __get($child)
+	{
+		$obj = parent::__get($child);
+		
+		if ( ! $this->is_supported($child))
+		{
+			$this->_adapter = $this->_backup_driver;
+		}
+		
+		return $obj;
+	}
 
 }
 
