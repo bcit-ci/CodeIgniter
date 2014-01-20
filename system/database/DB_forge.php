@@ -314,9 +314,10 @@ abstract class CI_DB_forge {
 	 *
 	 * @param	string	$table		Table name
 	 * @param	bool	$if_not_exists	Whether to add IF NOT EXISTS condition
+	 * @param	array	$attributes	Associative array of table attributes
 	 * @return	bool
 	 */
-	public function create_table($table = '', $if_not_exists = FALSE)
+	public function create_table($table = '', $if_not_exists = FALSE, array $attributes = array())
 	{
 		if ($table === '')
 		{
@@ -332,7 +333,7 @@ abstract class CI_DB_forge {
 			show_error('Field information is required.');
 		}
 
-		$sql = $this->_create_table($table, $if_not_exists);
+		$sql = $this->_create_table($table, $if_not_exists, $attributes);
 
 		if (is_bool($sql))
 		{
@@ -368,9 +369,10 @@ abstract class CI_DB_forge {
 	 *
 	 * @param	string	$table		Table name
 	 * @param	bool	$if_not_exists	Whether to add 'IF NOT EXISTS' condition
+	 * @param	array	$attributes	Associative array of table attributes
 	 * @return	mixed
 	 */
-	protected function _create_table($table, $if_not_exists)
+	protected function _create_table($table, $if_not_exists, $attributes)
 	{
 		if ($if_not_exists === TRUE && $this->_create_table_if === FALSE)
 		{
@@ -406,11 +408,35 @@ abstract class CI_DB_forge {
 		}
 
 		// _create_table will usually have the following format: "%s %s (%s\n)"
-		$sql = sprintf($this->_create_table.';',
+		$sql = sprintf($this->_create_table.'%s;',
 			$sql,
 			$this->db->escape_identifiers($table),
-			$columns
+			$columns,
+			$this->_create_table_attr($attributes)
 		);
+
+		return $sql;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * CREATE TABLE attributes
+	 *
+	 * @param	array	$attributes	Associative array of table attributes
+	 * @return	string
+	 */
+	protected function _create_table_attr($attributes)
+	{
+		$sql = '';
+
+		foreach (array_keys($attributes) as $key)
+		{
+			if (is_string($key))
+			{
+				$sql .= ' '.strtoupper($key).' '.$attributes[$key];
+			}
+		}
 
 		return $sql;
 	}
