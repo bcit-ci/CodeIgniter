@@ -479,6 +479,26 @@ class CI_DB_mysqli_driver extends CI_DB {
 		$this->conn_id->close();
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Build an SQL string for additional parameters for the Create Table query
+	 * List of supported attributes:
+	 *   engine - table engine
+	 *
+	 * {@inheritdoc}
+	 */
+	protected function _build_create_table_attributes(array $attributes)
+	{
+		$sql = parent::_build_create_table_attributes($attributes);
+		if (isset($attributes['engine']))
+		{
+			$sql .= 'ENGINE=' . $attributes['engine'];
+		}
+
+		return $sql;
+	}
+
 }
 
 /* End of file mysqli_driver.php */

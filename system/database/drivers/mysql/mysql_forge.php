@@ -97,6 +97,26 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Build an SQL string for additional parameters for the Create Table query
+	 * List of supported attributes:
+	 *   engine - table engine
+	 *
+	 * {@inheritdoc}
+	 */
+	protected function _build_create_table_attributes(array $attributes)
+	{
+		$sql = parent::_build_create_table_attributes($attributes);
+		if (isset($attributes['engine']))
+		{
+			$sql .= 'ENGINE=' . $attributes['engine'];
+		}
+
+		return $sql;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * ALTER TABLE
 	 *
 	 * @param	string	$alter_type	ALTER type
