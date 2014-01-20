@@ -837,14 +837,15 @@ class CI_Security {
 		 * Add a semicolon if missing.  We do this to enable
 		 * the conversion of entities to ASCII later.
 		 */
-		$str = preg_replace('#(&\#?[0-9a-z]{2,})([\x00-\x20])*;?#i', '\\1;\\2', $str);
+		$str = preg_replace('/(&#\d{2,4})(?![0-9;])/', '$1;', $str);
+		$str = preg_replace('/(&[a-z]{2,})(?![a-z;])/i', '$1;', $str);
 
 		/*
 		 * Validate UTF16 two byte encoding (x00)
 		 *
 		 * Just as above, adds a semicolon if missing.
 		 */
-		$str = preg_replace('#(&\#x?)([0-9A-F]+);?#i', '\\1\\2;', $str);
+		$str = preg_replace('/(&#x0*[0-9a-f]{2,5})(?![0-9a-f;])/i', '$1;', $str);
 
 		/*
 		 * Un-Protect GET variables in URLs
