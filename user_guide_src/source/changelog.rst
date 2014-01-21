@@ -222,6 +222,9 @@ Release Date: Not Released
       - Added port handling support for UNIX-based systems (MSSQL driver).
       - Added *OFFSET* support for SQL Server 2005 and above.
       - Added ``db_set_charset()`` support (MSSQL driver).
+      - Added a *scrollable* property to enable configuration of the cursor to use (SQLSRV driver).
+      - Added support and auto-detection for the ``SQLSRV_CURSOR_CLIENT_BUFFERED`` scrollable cursor flag (SQLSRV driver).
+      - Changed default behavior to not use ``SQLSRV_CURSOR_STATIC`` due to performance issues (SQLSRV driver).
 
    -  Improved support of the Oracle (OCI8) driver, including:
 
