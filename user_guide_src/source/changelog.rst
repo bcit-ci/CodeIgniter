@@ -243,8 +243,9 @@ Release Date: Not Released
 
       - Added an optional second parameter to ``drop_table()`` that allows adding the **IF EXISTS** condition, which is no longer the default.
       - Added support for passing a custom database object to the loader.
-      - Deprecated ``add_column()``'s third method. *AFTER* clause should now be added to the field definition array instead.
+      - Added support for passing custom table attributes (such as ``ENGINE`` for MySQL) to ``create_table()``.
       - Added support for usage of the *FIRST* clause in ``add_column()`` for MySQL and CUBRID.
+      - Deprecated ``add_column()``'s third method. *AFTER* clause should now be added to the field definition array instead.
       - Overall improved support for all of the drivers.
 
    -  :doc:`Database Utility <database/utilities>` changes include:
