@@ -62,6 +62,17 @@ class CI_Security {
 	);
 
 	/**
+	 * HTML5 entities
+	 *
+	 * @var	array
+	 */
+	public $html5_entities = array(
+		'&colon;'	=> ':',
+		'&lpar;'	=> '(',
+		'&rpar;'	=> ')'
+	);
+
+	/**
 	 * XSS Hash
 	 *
 	 * Random Hash for protecting URLs.
@@ -810,7 +821,14 @@ class CI_Security {
 	 */
 	protected function _decode_entity($match)
 	{
-		return $this->entity_decode($match[0], strtoupper(config_item('charset')));
+		// entity_decode() won't convert dangerous HTML5 entities
+		// (it could, but ENT_HTML5 is only available since PHP 5.4),
+		// so we'll do that here
+		return str_ireplace(
+			array_keys($this->html5_entities),
+			array_values($this->html5_entities),
+			$this->entity_decode($match[0], strtoupper(config_item('charset')))
+		);
 	}
 
 	// --------------------------------------------------------------------
