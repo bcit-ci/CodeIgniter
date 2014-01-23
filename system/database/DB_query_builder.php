@@ -2367,7 +2367,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			for ($i = 0, $c = count($this->qb_groupby); $i < $c; $i++)
 			{
 				// Is it already compiled?
-				if (is_string($this->qb_groupby))
+				if (is_string($this->qb_groupby[$i]))
 				{
 					continue;
 				}
