@@ -565,7 +565,7 @@ the ability to change this in the php.ini, you can often enable it with::
 	ini_set('display_errors', 1);
 
 .. note:: Setting the `display_errors
-	<http://php.net/manual/en/ref.errorfunc.php#ini.display-errors>`_
+	<http://php.net/manual/en/function.ini-set.php>`_
 	setting with ``ini_set()`` at runtime is not identical to having
 	it enabled in the PHP environment. Namely, it will not have any
 	effect if the script has fatal errors.
