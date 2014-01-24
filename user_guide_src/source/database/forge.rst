@@ -201,6 +201,15 @@ into the definition
 	$this->dbforge->create_table('table_name', TRUE);
 	// gives CREATE TABLE IF NOT EXISTS table_name
 
+You could also pass optional table attributes, such as MySQL's ``ENGINE``::
+
+	$attributes = array('ENGINE' => 'InnoDB');
+	$this->dbforge->create_table('table_name', FALSE, $attributes);
+	// produces: CREATE TABLE `table_name` (...) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci
+
+.. note:: Unless you specify the ``CHARACTER SET`` and/or ``COLLATE`` attributes,
+	``create_table()`` will always add them with your configured *char_set*
+	and *dbcollat* values, as long as they are not empty (MySQL only).
 
 Dropping a table
 ================

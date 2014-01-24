@@ -469,6 +469,21 @@ in CodeIgniter 3.1+.
 .. note:: These options are still available, but you're strongly encouraged to remove their usage
 	sooner rather than later.
 
+Session Library method all_userdata()
+=====================================
+
+As seen in the :doc:`Change Log <../changelog>`, :doc:`Session Library <libraries/sessions>`
+method ``userdata()`` now allows you to fetch all userdata by simply omitting its parameter::
+
+	$this->session->userdata();
+
+This makes the ``all_userdata()`` method redudant and therefore it is now just an alias for
+``userdata()`` with the above shown usage and is being deprecated and scheduled for removal
+in CodeIgniter 3.1+.
+
+.. note:: This method is still available, but you're strongly encouraged to remove its usage
+	sooner rather than later.
+
 Database Forge method add_column() with an AFTER clause
 =======================================================
 

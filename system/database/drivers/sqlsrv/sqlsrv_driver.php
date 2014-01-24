@@ -48,6 +48,18 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public $dbdriver = 'sqlsrv';
 
+	/**
+	 * Scrollable flag
+	 *
+	 * Determines what cursor type to use when executing queries.
+	 *
+	 * FALSE or SQLSRV_CURSOR_FORWARD would increase performance,
+	 * but would disable num_rows() (and possibly insert_id())
+	 *
+	 * @var	mixed
+	 */
+	public $scrollable;
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -66,6 +78,27 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * @var	bool
 	 */
 	protected $_quoted_identifier = TRUE;
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Class constructor
+	 *
+	 * @param	array	$params
+	 * @return	void
+	 */
+	public function __construct($params)
+	{
+		parent::__construct($params);
+
+		// This is only supported as of SQLSRV 3.0
+		if ($this->scrollable === NULL)
+		{
+			$this->scrollable = defined('SQLSRV_CURSOR_CLIENT_BUFFERED')
+				? SQLSRV_CURSOR_CLIENT_BUFFERED
+				: FALSE;
+		}
+	}
 
 	// --------------------------------------------------------------------
 
@@ -154,9 +187,9 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return ($this->is_write_type($sql) && stripos($sql, 'INSERT') === FALSE)
+		return ($this->scrollable === FALSE OR $this->is_write_type($sql))
 			? sqlsrv_query($this->conn_id, $sql)
-			: sqlsrv_query($this->conn_id, $sql, NULL, array('Scrollable' => SQLSRV_CURSOR_STATIC));
+			: sqlsrv_query($this->conn_id, $sql, NULL, array('Scrollable' => $this->scrollable));
 	}
 
 	// --------------------------------------------------------------------

@@ -62,6 +62,17 @@ class CI_Security {
 	);
 
 	/**
+	 * HTML5 entities
+	 *
+	 * @var	array
+	 */
+	public $html5_entities = array(
+		'&colon;'	=> ':',
+		'&lpar;'	=> '(',
+		'&rpar;'	=> ')'
+	);
+
+	/**
 	 * XSS Hash
 	 *
 	 * Random Hash for protecting URLs.
@@ -134,7 +145,7 @@ class CI_Security {
 		'(document|(document\.)?window)\.(location|on\w*)',
 		'expression\s*(\(|&\#40;)', // CSS and IE
 		'vbscript\s*:', // IE, surprise!
-		'Redirect\s+302',
+		'Redirect\s+30\d',
 		"([\"'])?data\s*:[^\\1]*?base64[^\\1]*?,[^\\1]*?\\1?"
 	);
 
@@ -456,7 +467,7 @@ class CI_Security {
 		 * So this: <blink>
 		 * Becomes: &lt;blink&gt;
 		 */
-		$naughty = 'alert|applet|audio|basefont|base|behavior|bgsound|blink|body|embed|expression|form|frameset|frame|head|html|ilayer|iframe|input|isindex|layer|link|meta|object|plaintext|style|script|textarea|title|video|xml|xss';
+		$naughty = 'alert|applet|audio|basefont|base|behavior|bgsound|blink|body|embed|expression|form|frameset|frame|head|html|ilayer|iframe|input|button|isindex|layer|link|meta|object|plaintext|style|script|textarea|title|video|xml|xss';
 		$str = preg_replace_callback('#<(/*\s*)('.$naughty.')([^><]*)([><]*)#is', array($this, '_sanitize_naughty_html'), $str);
 
 		/*
@@ -810,7 +821,14 @@ class CI_Security {
 	 */
 	protected function _decode_entity($match)
 	{
-		return $this->entity_decode($match[0], strtoupper(config_item('charset')));
+		// entity_decode() won't convert dangerous HTML5 entities
+		// (it could, but ENT_HTML5 is only available since PHP 5.4),
+		// so we'll do that here
+		return str_ireplace(
+			array_keys($this->html5_entities),
+			array_values($this->html5_entities),
+			$this->entity_decode($match[0], strtoupper(config_item('charset')))
+		);
 	}
 
 	// --------------------------------------------------------------------

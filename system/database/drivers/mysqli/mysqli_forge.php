@@ -82,16 +82,34 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Class constructor
+	 * CREATE TABLE attributes
 	 *
-	 * @param	object	&$db	Database object
-	 * @return	void
+	 * @param	array	$attributes	Associative array of table attributes
+	 * @return	string
 	 */
-	public function __construct(&$db)
+	protected function _create_table_attr($attributes)
 	{
-		parent::__construct($db);
+		$sql = '';
 
-		$this->_create_table .= ' DEFAULT CHARSET '.$this->db->char_set.' COLLATE '.$this->db->dbcollat;
+		foreach (array_keys($attributes) as $key)
+		{
+			if (is_string($key))
+			{
+				$sql .= ' '.strtoupper($key).' = '.$attributes[$key];
+			}
+		}
+
+		if ( ! empty($this->db->char_set) && ! strpos($sql, 'CHARACTER SET') && ! strpos($sql, 'CHARSET'))
+		{
+			$sql .= ' DEFAULT CHARACTER SET = '.$this->db->char_set;
+		}
+
+		if ( ! empty($this->db->dbcollat) && ! strpos($sql, 'COLLATE'))
+		{
+			$sql .= ' COLLATE = '.$this->db->dbcollat;
+		}
+
+		return $sql;
 	}
 
 	// --------------------------------------------------------------------
