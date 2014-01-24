@@ -472,7 +472,7 @@ in CodeIgniter 3.1+.
 Session Library method all_userdata()
 =====================================
 
-As seen in the :doc:`Change Log <../changelog>`, :doc:`Session Library <libraries/sessions>`
+As seen in the :doc:`Change Log <../changelog>`, :doc:`Session Library <../libraries/sessions>`
 method ``userdata()`` now allows you to fetch all userdata by simply omitting its parameter::
 
 	$this->session->userdata();
