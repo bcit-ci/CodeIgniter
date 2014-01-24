@@ -469,7 +469,7 @@ class CI_Security {
 		 * So this: <blink>
 		 * Becomes: &lt;blink&gt;
 		 */
-		$naughty = 'alert|applet|audio|basefont|base|behavior|bgsound|blink|body|embed|expression|form|frameset|frame|head|html|ilayer|iframe|input|button|isindex|layer|link|meta|object|plaintext|style|script|textarea|title|video|xml|xss';
+		$naughty = 'alert|applet|audio|basefont|base|behavior|bgsound|blink|body|embed|expression|form|frameset|frame|head|html|ilayer|iframe|input|button|select|isindex|layer|link|meta|keygen|object|plaintext|style|script|textarea|title|video|xml|xss';
 		$str = preg_replace_callback('#<(/*\s*)('.$naughty.')([^><]*)([><]*)#is', array($this, '_sanitize_naughty_html'), $str);
 
 		/*
