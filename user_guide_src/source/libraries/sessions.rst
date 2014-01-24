@@ -137,7 +137,7 @@ Retrieving All Session Data
 
 An array of all userdata can be retrieved as follows::
 
-	$this->session->all_userdata()
+	$this->session->userdata()
 
 And returns an associative array like the following::
 
@@ -194,7 +194,7 @@ To read a flashdata variable::
 
 An array of all flashdata can be retrieved as follows::
 
-	$this->session->all_flashdata();
+	$this->session->flashdata();
 
 
 If you find that you need to preserve a flashdata variable through an

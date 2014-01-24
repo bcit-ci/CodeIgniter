@@ -259,22 +259,18 @@ Release Date: Not Released
 
    -  :doc:`Session Library <libraries/sessions>` changes include:
 
-      -  Library changed to :doc:`Driver <general/drivers>` with classic Cookie driver as default.
-      -  Added Native PHP Session driver to work with ``$_SESSION``.
-      -  Custom drivers can be added anywhere in package paths and be loaded with the library.
-      -  Drivers interchangeable on the fly.
-      -  New **tempdata** feature allows setting user data items with an expiration time.
-      -  Added default ``$config['sess_driver']`` and ``$config['sess_valid_drivers']`` items to *config.php* file.
-      -  Cookie driver now respects php.ini's *session.gc_probability* and *session.gc_divisor* settings.
-      -  Cookie driver now uses HMAC authentication instead of the simple md5 checksum.
-      -  The Cookie driver now also checks authentication on encrypted session data.
-      -  Changed the Cookie driver to select only one row when using database sessions.
-      -  Cookie driver now only writes to database at end of request when using database.
-      -  Cookie driver now uses PHP functions for faster array manipulation when using database.
-      -  Added ``all_flashdata()`` method to session class. Returns an associative array of only flashdata.
-      -  Added ``has_userdata()`` method to verify existence of userdata item.
-      -  Added ``tempdata()``, ``set_tempdata()``, and ``unset_tempdata()`` methods for manipulating tempdata.
-      -  ``keep_flashdata()`` now accepts an array of keys.
+      -  Library changed to :doc:`Driver <general/drivers>` with classic 'cookie' driver as the default.
+      -  Added a 'native' PHP Session driver to work with ``$_SESSION``.
+      -  Added a new **tempdata** feature that allows setting userdata items with expiration time (``tempdata()``, ``set_tempdata()``, ``unset_tempdata()``). 
+      -  Added default ``$config['sess_driver']`` and ``$config['sess_valid_drivers']`` items to *application/config.php* file.
+      -  Changed 'cookie' driver to respect php.ini's *session.gc_probability* and *session.gc_divisor* settings.
+      -  Changed 'cookie' driver to use HMAC authentication instead of a simple md5 checksum.
+      -  Changed 'cookie' driver to select only one row when using database sessions.
+      -  Changed 'cookie' driver to write to only write to the database at end of page execution.
+      -  Changed method ``keep_flashdata()`` to also accept an array of keys.
+      -  Changed methods ``userdata()``, ``flashdata()`` to return an array of all userdata/flashdata when no parameter is passed.
+      -  Deprecated method ``all_userdata()`` - it is now just an alias for ``userdata()`` with no parameters.
+      -  Added method ``has_userdata()`` that verifies the existence of a userdata item.
       -  Added *debug* level log messages for key events in the session validation process.
 
    -  :doc:`File Uploading Library <libraries/file_uploading>` changes include:
@@ -687,6 +683,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#2737) - :doc:`XML-RPC Library <libraries/xmlrpc>` used objects as array keys, which triggered E_NOTICE messages.
 -  Fixed a bug (#2729) - ``CI_Security::_validate_entities()`` used overly-intrusive ``preg_replace()`` patterns that produced false-positives.
 -  Fixed a bug (#2771) - ``CI_Security::xss_clean()`` didn't take into account HTML5 entities.
+-  Fixed a bug in the :doc:`Session Library <libraries/sessions>` 'cookie' driver where authentication was not performed for encrypted cookies.
 
 Version 2.1.4
 =============
