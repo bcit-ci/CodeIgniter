@@ -69,7 +69,9 @@ class CI_Security {
 	public $html5_entities = array(
 		'&colon;'	=> ':',
 		'&lpar;'	=> '(',
-		'&rpar;'	=> ')'
+		'&rpar;'	=> ')',
+		'&newline;',	=> "\n",
+		'&tab;',	=> "\t"
 	);
 
 	/**
