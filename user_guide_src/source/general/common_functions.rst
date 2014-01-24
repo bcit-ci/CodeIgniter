@@ -32,10 +32,10 @@ loading any libraries or helpers.
 	greater than the supplied version number. Returns FALSE if the installed
 	version of PHP is lower than the supplied version number.
 
-	.. function:: is_really_writable($file)
+.. function:: is_really_writable($file)
 
-		:param	string	$file: File path
-		:returns:	bool
+	:param	string	$file: File path
+	:returns:	bool
 
 	``is_writable()`` returns TRUE on Windows servers when you really can't
 	write to the file as the OS reports to PHP as FALSE only if the
@@ -55,6 +55,8 @@ loading any libraries or helpers.
 		{
 			echo "File is not writable";
 		}
+
+	.. note:: See also `PHP bug #54709 <https://bugs.php.net/bug.php?id=54709>`_ for more info.
 
 .. function:: config_item($key)
 
