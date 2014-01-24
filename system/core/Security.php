@@ -69,7 +69,9 @@ class CI_Security {
 	public $html5_entities = array(
 		'&colon;'	=> ':',
 		'&lpar;'	=> '(',
-		'&rpar;'	=> ')'
+		'&rpar;'	=> ')',
+		'&newline;'	=> "\n",
+		'&tab;'		=> "\t"
 	);
 
 	/**
@@ -467,7 +469,7 @@ class CI_Security {
 		 * So this: <blink>
 		 * Becomes: &lt;blink&gt;
 		 */
-		$naughty = 'alert|applet|audio|basefont|base|behavior|bgsound|blink|body|embed|expression|form|frameset|frame|head|html|ilayer|iframe|input|button|isindex|layer|link|meta|object|plaintext|style|script|textarea|title|video|xml|xss';
+		$naughty = 'alert|applet|audio|basefont|base|behavior|bgsound|blink|body|embed|expression|form|frameset|frame|head|html|ilayer|iframe|input|button|select|isindex|layer|link|meta|keygen|object|plaintext|style|script|textarea|title|video|svg|xml|xss';
 		$str = preg_replace_callback('#<(/*\s*)('.$naughty.')([^><]*)([><]*)#is', array($this, '_sanitize_naughty_html'), $str);
 
 		/*
@@ -660,7 +662,7 @@ class CI_Security {
 	protected function _remove_evil_attributes($str, $is_image)
 	{
 		// Formaction, style, and xmlns
-		$evil_attributes = array('style', 'xmlns', 'formaction');
+		$evil_attributes = array('style', 'xmlns', 'formaction', 'form', 'xlink:href');
 
 		if ($is_image === TRUE)
 		{

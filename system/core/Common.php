@@ -76,6 +76,7 @@ if ( ! function_exists('is_really_writable'))
 	 * the file, based on the read-only attribute. is_writable() is also unreliable
 	 * on Unix servers if safe_mode is on.
 	 *
+	 * @link	https://bugs.php.net/bug.php?id=54709
 	 * @param	string
 	 * @return	void
 	 */
