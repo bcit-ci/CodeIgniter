@@ -70,8 +70,8 @@ class CI_Security {
 		'&colon;'	=> ':',
 		'&lpar;'	=> '(',
 		'&rpar;'	=> ')',
-		'&newline;',	=> "\n",
-		'&tab;',	=> "\t"
+		'&newline;'	=> "\n",
+		'&tab;'		=> "\t"
 	);
 
 	/**
