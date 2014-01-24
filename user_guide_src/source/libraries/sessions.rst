@@ -103,6 +103,23 @@ fetch. For example, to fetch the session ID you will do this::
 .. note:: The function returns NULL if the item you are
 	trying to access does not exist.
 
+If you want to retrieve all of the existing userdata, you can simply
+omit the item key parameter::
+
+	$this->session->userdata();
+
+	/**
+	 * Produces something similar to:
+	 *
+	 *	Array
+	 *	(
+	 *		[session_id] => 4a5a5dca22728fb0a84364eeb405b601
+	 *		[ip_address] => 127.0.0.1
+	 *		[user_agent] => Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7;
+	 *		[last_activity] => 1303142623
+	 *	)
+	 */
+
 Adding Custom Session Data
 ==========================
 
@@ -143,23 +160,6 @@ If you want to verify that a userdata value exists, call ``has_userdata()``.
 ::
 
 	$this->session->has_userdata('some_name');
-
-Retrieving All Session Data
-===========================
-
-An array of all userdata can be retrieved as follows::
-
-	$this->session->userdata()
-
-And returns an associative array like the following::
-
-	Array
-	(
-		[session_id] => 4a5a5dca22728fb0a84364eeb405b601
-		[ip_address] => 127.0.0.1
-		[user_agent] => Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7;
-		[last_activity] => 1303142623
-	)
 
 Removing Session Data
 =====================
@@ -245,6 +245,10 @@ You can also pass an array to ``set_tempdata()``::
 To read a tempdata variable::
 
 	$this->session->tempdata('item');
+
+And of course, if you want to retrieve all existing tempdata::
+
+	$this->session->tempdata();
 
 If you need to remove a tempdata value before it expires,
 use ``unset_tempdata()``::
@@ -550,12 +554,14 @@ Class Reference
 
 		Regenerate the current session data.
 
-	.. method:: userdata($item)
+	.. method:: userdata([$item = NULL])
 
 		:param string $item: Session item name
-		:returns: string
+		:returns: mixed
 
-		Returns a string containing the value of the passed item or NULL if the item is not found.
+		If no parameter is passed, it will return an associative array of all existing userdata.
+
+		Otherwise returns a string containing the value of the passed item or NULL if the item is not found.
 		Example::
 
 			$this->session->userdata('user');
@@ -565,13 +571,15 @@ Class Reference
 
 		:returns: array
 
-		Retruns an array with all of the session userdata items.
+		Returns an array with all of the session userdata items.
 
-	.. method:: all_flashdata()
+		.. note:: This method is DEPRECATED. Use ``userdata()`` with no parameters instead.
+
+	.. method:: &get_userdata()
 
 		:returns: array
 
-		Retruns an array with all of the session flashdata items.
+		Returns a reference to the userdata array.
 
 	.. method:: set_userdata($newdata[, $newval = ''])
 
@@ -607,6 +615,19 @@ Class Reference
 
 		Checks if an item exists in the session.
 
+	.. method:: flashdata([$item = NULL])
+
+		:param string $item: Flashdata item name
+		:returns: mixed
+
+		If no parameter is passed, it will return an associative array of all existing flashdata.
+
+		Otherwise returns a string containing the value of the passed item or NULL if the item is not found.
+		Example::
+
+			$this->session->flashdata('message');
+			//returns 'Test message.' considering the set_flashdata example.
+
 	.. method:: set_flashdata($newdata[, $newval = ''])
 
 		:param mixed $newdata: Item name or an array of items
@@ -629,16 +650,18 @@ Class Reference
 
 		Keeps items into flashdata for one more request.
 
-	.. method:: flashdata($item)
+	.. method:: tempdata([$item = NULL])
 
-		:param string $item: Flashdata item name
-		:returns: string
+		:param string $item: Tempdata item name
+		:returns: mixed
 
-		Returns a string containing the value of the passed item or NULL if the item is not found.
+		If no parameter is passed, it will return an associative array of all existing tempdata.
+
+		Otherwise returns a string containing the value of the passed item or NULL if the item is not found.
 		Example::
 
-			$this->session->flashdata('message');
-			//returns 'Test message.' considering the set_flashdata example.
+			$this->session->tempdata('message');
+			//returns 'Test message.' considering the set_tempdata example.
 
 	.. method:: set_tempdata($newdata[, $newval = ''[, $expire = 0]])
 
@@ -668,14 +691,3 @@ Class Reference
 
 			$this->session->unset_tempdata(array('user', 'useremail'));
 			//unsets both 'user' and 'useremail' from the tempdata.
-
-	.. method:: tempdata($item)
-
-		:param string $item: Tempdata item name
-		:returns: string
-
-		Returns a string containing the value of the passed item or NULL if the item is not found.
-		Example::
-
-			$this->session->tempdata('message');
-			//returns 'Test message.' considering the set_tempdata example.

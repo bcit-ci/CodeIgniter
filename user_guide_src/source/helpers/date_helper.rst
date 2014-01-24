@@ -82,7 +82,7 @@ The following functions are available:
 		$time = time();
 		echo standard_date($format, $time);
 
-	.. note:: This function is DEPRECATED.Use the native ``date()`` combined with
+	.. note:: This function is DEPRECATED. Use the native ``date()`` combined with
 		`DateTime's format constants
 		<http://www.php.net/manual/en/class.datetime.php#datetime.constants.types>`_
 		instead::
