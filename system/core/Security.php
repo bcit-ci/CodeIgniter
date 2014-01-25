@@ -667,8 +667,7 @@ class CI_Security {
 	 */
 	protected function _remove_evil_attributes($str, $is_image)
 	{
-		// Formaction, style, and xmlns
-		$evil_attributes = array('style', 'xmlns', 'formaction', 'form', 'xlink:href');
+		$evil_attributes = array('on\w*', 'style', 'xmlns', 'formaction', 'form', 'xlink:href');
 
 		if ($is_image === TRUE)
 		{
