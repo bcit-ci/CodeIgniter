@@ -55,6 +55,15 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 	 */
 	public $compress = FALSE;
 
+	/**
+	 * Strict ON flag
+	 *
+	 * Whether we're running in strict SQL mode.
+	 *
+	 * @var	bool
+	 */
+	public $stricton = FALSE;
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -112,6 +121,18 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 		{
 			$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES '.$this->char_set
 				.(empty($this->dbcollat) ? '' : ' COLLATE '.$this->dbcollat);
+		}
+
+		if ($this->stricton)
+		{
+			if (empty($this->options[PDO::MYSQL_ATTR_INIT_COMMAND]))
+			{
+				$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET SESSION sql_mode="STRICT_ALL_TABLES"';
+			}
+			else
+			{
+				$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] .= ', @@session.sql_mode = "STRICT_ALL_TABLES"';
+			}
 		}
 
 		if ($this->compress === TRUE)

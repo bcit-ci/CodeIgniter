@@ -79,11 +79,19 @@ if ( ! function_exists('write_file'))
 		}
 
 		flock($fp, LOCK_EX);
-		fwrite($fp, $data);
+
+		for ($written = 0, $length = strlen($data); $written < $length; $written += $result)
+		{
+			if (($result = fwrite($fp, substr($data, $written))) === FALSE)
+			{
+				break;
+			}
+		}
+
 		flock($fp, LOCK_UN);
 		fclose($fp);
 
-		return TRUE;
+		return is_int($result);
 	}
 }
 
@@ -275,7 +283,7 @@ if ( ! function_exists('get_file_info'))
 			switch ($key)
 			{
 				case 'name':
-					$fileinfo['name'] = substr(strrchr($file, DIRECTORY_SEPARATOR), 1);
+					$fileinfo['name'] = basename($file);
 					break;
 				case 'server_path':
 					$fileinfo['server_path'] = $file;

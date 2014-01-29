@@ -23,4 +23,9 @@ class Mock_Core_Utf8 extends CI_Utf8 {
 		}
 	}
 
+	public function is_ascii_test($str)
+	{
+		return $this->_is_ascii($str);
+	}
+
 }

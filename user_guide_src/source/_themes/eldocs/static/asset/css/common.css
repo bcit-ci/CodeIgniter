@@ -133,7 +133,7 @@ a:visited{ color: #1A5B8D; }
 a:hover,
 a:active{ color: #742CAC; }
 
-a.headerlink{ visibility: hidden; }
+a.headerlink{ visibility: hidden; margin-left: 0.4em; }
 
 	:hover > a.headerlink { visibility: visible; }
 
@@ -261,12 +261,12 @@ fieldset{ border: 0; }
 	#header form{ float: right; overflow: hidden; }
 	
 	#header input{ float: left; }
-	
+
 	#header input[type="text"]{
 		background-color: #FFFFFF;
 		border: 1px solid;
 		border-color: #033861 #13598F #13598F #033861;
-		font-size: inherit;
+		font: inherit;
 		margin-right: 5px;
 		padding: 5px;
 		width: 175px;
@@ -279,8 +279,9 @@ fieldset{ border: 0; }
 		border: 1px solid #033861;
 		color: #094776;
 		cursor: pointer;
+		font: inherit;
 		font-weight: bold;
-		padding: 5px 10px 4px;
+		padding: 5px 10px;
 		text-transform: uppercase;
 	}
 	
@@ -349,6 +350,4 @@ fieldset{ border: 0; }
 	h3,h4,h5,h6{ font-size: 14px; }
 }
 
-@media screen and (-webkit-min-device-pixel-ratio:0){
-	#header input[type="submit"]{ padding-bottom: 7px; }
-}
+#header input[type="submit"], x:-moz-any-link{ padding: 4px 10px; }

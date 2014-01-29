@@ -46,13 +46,13 @@ if ( ! function_exists('site_url'))
 	 * Create a local URL based on your basepath. Segments can be passed via the
 	 * first parameter either as a string or an array.
 	 *
-	 * @param	string
+	 * @param	string	$uri
+	 * @param	string	$protocol
 	 * @return	string
 	 */
-	function site_url($uri = '')
+	function site_url($uri = '', $protocol = NULL)
 	{
-		$CI =& get_instance();
-		return $CI->config->site_url($uri);
+		return get_instance()->config->site_url($uri, $protocol);
 	}
 }
 
@@ -67,13 +67,13 @@ if ( ! function_exists('base_url'))
 	 * Segments can be passed in as a string or an array, same as site_url
 	 * or a URL to a file can be passed in, e.g. to an image file.
 	 *
-	 * @param	string
+	 * @param	string	$uri
+	 * @param	string	$protocol
 	 * @return	string
 	 */
-	function base_url($uri = '')
+	function base_url($uri = '', $protocol = NULL)
 	{
-		$CI =& get_instance();
-		return $CI->config->base_url($uri);
+		return get_instance()->config->base_url($uri, $protocol);
 	}
 }
 
@@ -109,8 +109,7 @@ if ( ! function_exists('uri_string'))
 	 */
 	function uri_string()
 	{
-		$CI =& get_instance();
-		return $CI->uri->uri_string();
+		return get_instance()->uri->uri_string();
 	}
 }
 
@@ -127,8 +126,7 @@ if ( ! function_exists('index_page'))
 	 */
 	function index_page()
 	{
-		$CI =& get_instance();
-		return $CI->config->item('index_page');
+		return get_instance()->config->item('index_page');
 	}
 }
 
@@ -534,11 +532,16 @@ if ( ! function_exists('redirect'))
 		}
 		elseif ($method !== 'refresh' && (empty($code) OR ! is_numeric($code)))
 		{
-			// Reference: http://en.wikipedia.org/wiki/Post/Redirect/Get
-			$code = (isset($_SERVER['REQUEST_METHOD'], $_SERVER['SERVER_PROTOCOL'])
-					&& $_SERVER['REQUEST_METHOD'] === 'POST'
-					&& $_SERVER['SERVER_PROTOCOL'] === 'HTTP/1.1')
-				? 303 : 302;
+			if (isset($_SERVER['SERVER_PROTOCOL'], $_SERVER['REQUEST_METHOD']) && $_SERVER['SERVER_PROTOCOL'] === 'HTTP/1.1')
+			{
+				$code = ($_SERVER['REQUEST_METHOD'] !== 'GET')
+					? 303	// reference: http://en.wikipedia.org/wiki/Post/Redirect/Get
+					: 307;
+			}
+			else
+			{
+				$code = 302;
+			}
 		}
 
 		switch ($method)

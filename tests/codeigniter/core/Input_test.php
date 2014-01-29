@@ -82,10 +82,20 @@ class Input_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
-	public function test_get_post()
+	public function test_post_get()
 	{
 		$_SERVER['REQUEST_METHOD'] = 'POST';
 		$_POST['foo'] = 'bar';
+
+		$this->assertEquals('bar', $this->input->post_get('foo'));
+	}
+
+	// --------------------------------------------------------------------
+
+	public function test_get_post()
+	{
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+		$_GET['foo'] = 'bar';
 
 		$this->assertEquals('bar', $this->input->get_post('foo'));
 	}
@@ -128,13 +138,24 @@ class Input_test extends CI_TestCase {
 
 	public function test_valid_ip()
 	{
-		$ip_v4 = '192.18.0.1';
-		$this->assertTrue($this->input->valid_ip($ip_v4));
+		$this->assertTrue($this->input->valid_ip('192.18.0.1'));
+		$this->assertTrue($this->input->valid_ip('192.18.0.1', 'ipv4'));
+		$this->assertFalse($this->input->valid_ip('555.0.0.0'));
+		$this->assertFalse($this->input->valid_ip('2001:db8:0:85a3::ac1f:8001', 'ipv4'));
 
-		$ip_v6 = array('2001:0db8:0000:85a3:0000:0000:ac1f:8001', '2001:db8:0:85a3:0:0:ac1f:8001', '2001:db8:0:85a3::ac1f:8001');
+		// v6 tests
+		$this->assertFalse($this->input->valid_ip('192.18.0.1', 'ipv6'));
+
+		$ip_v6 = array(
+			'2001:0db8:0000:85a3:0000:0000:ac1f:8001',
+			'2001:db8:0:85a3:0:0:ac1f:8001',
+			'2001:db8:0:85a3::ac1f:8001'
+		);
+
 		foreach ($ip_v6 as $ip)
 		{
 			$this->assertTrue($this->input->valid_ip($ip));
+			$this->assertTrue($this->input->valid_ip($ip, 'ipv6'));
 		}
 	}
 
@@ -159,6 +180,36 @@ class Input_test extends CI_TestCase {
 		$this->assertFalse($this->input->is_ajax_request());
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 		$this->assertTrue($this->input->is_ajax_request());
+	}
+
+	// --------------------------------------------------------------------
+
+	public function test_input_stream()
+	{
+		$this->markTestSkipped('TODO: Find a way to test input://');
+	}
+
+	// --------------------------------------------------------------------
+
+	public function test_set_cookie()
+	{
+		$this->markTestSkipped('TODO: Find a way to test HTTP headers');
+	}
+
+	public function test_ip_address()
+	{
+		// 127.0.0.1 is set in our Bootstrap file
+		$this->assertEquals('127.0.0.1', $this->input->ip_address());
+
+		// Invalid
+		$_SERVER['REMOTE_ADDR'] = 'invalid_ip_address';
+		$this->input->ip_address = FALSE; // reset cached value
+		$this->assertEquals('0.0.0.0', $this->input->ip_address());
+
+		// TODO: Add proxy_ips tests
+
+		// Back to reality
+		$_SERVER['REMOTE_ADDR'] = '127.0.0.1'; // back to reality
 	}
 
 }

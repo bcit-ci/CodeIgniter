@@ -39,15 +39,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CI_DB_sqlsrv_result extends CI_DB_result {
 
 	/**
+	 * Scrollable flag
+	 *
+	 * @var	mixed
+	 */
+	public $scrollable;
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Constructor
+	 *
+	 * @param	object	$driver_object
+	 * @return	void
+	 */
+	public function __construct(&$driver_object)
+	{
+		parent::__construct($driver_object);
+
+		$this->scrollable = $driver_object->scrollable;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Number of rows in the result set
 	 *
 	 * @return	int
 	 */
 	public function num_rows()
 	{
+		// sqlsrv_num_rows() doesn't work with the FORWARD and DYNAMIC cursors (FALSE is the same as FORWARD)
+		if ( ! in_array($this->scrollable, array(FALSE, SQLSRV_CURSOR_FORWARD, SQLSRV_CURSOR_DYNAMIC), TRUE))
+		{
+			return parent::num_rows();
+		}
+
 		return is_int($this->num_rows)
 			? $this->num_rows
-			: $this->num_rows = @sqlsrv_num_rows($this->result_id);
+			: $this->num_rows = sqlsrv_num_rows($this->result_id);
 	}
 
 	// --------------------------------------------------------------------

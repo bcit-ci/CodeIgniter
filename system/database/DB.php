@@ -76,9 +76,13 @@ function &DB($params = '', $query_builder_override = NULL)
 			$active_group = $params;
 		}
 
-		if ( ! isset($active_group) OR ! isset($db[$active_group]))
+		if ( ! isset($active_group))
 		{
-			show_error('You have specified an invalid database connection group.');
+			show_error('You have not specified a database connection group via $active_group in your config/database.php file.');
+		}
+		elseif ( ! isset($db[$active_group]))
+		{
+			show_error('You have specified an invalid database connection group ('.$active_group.') in your config/database.php file.');
 		}
 
 		$params = $db[$active_group];
@@ -200,11 +204,6 @@ function &DB($params = '', $query_builder_override = NULL)
 	if ($DB->autoinit === TRUE)
 	{
 		$DB->initialize();
-	}
-
-	if ( ! empty($params['stricton']))
-	{
-		$DB->query('SET SESSION sql_mode="STRICT_ALL_TABLES"');
 	}
 
 	return $DB;

@@ -16,7 +16,7 @@ are the place where you retrieve, insert, and update information in your
 database or other data stores. They represent your data.
 
 Open up the application/models directory and create a new file called
-news_model.php and add the following code. Make sure you've configured
+News_model.php and add the following code. Make sure you've configured
 your database properly as described
 `here <../database/configuration.html>`_.
 
@@ -85,7 +85,7 @@ Now that the queries are written, the model should be tied to the views
 that are going to display the news items to the user. This could be done
 in our pages controller created earlier, but for the sake of clarity, a
 new "news" controller is defined. Create the new controller at
-application/controllers/news.php.
+application/controllers/News.php.
 
 ::
 
@@ -127,7 +127,7 @@ the views.
 
 	public function index()
 	{
-		data['news'] = $this->news_model->get_news();
+		$data['news'] = $this->news_model->get_news();
 		$data['title'] = 'News archive';
 
 		$this->load->view('templates/header', $data);

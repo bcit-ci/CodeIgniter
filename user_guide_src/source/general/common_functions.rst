@@ -68,14 +68,10 @@ accessing configuration information, however ``config_item()`` can be used
 to retrieve single keys. See :doc:`Config Library <../libraries/config>`
 documentation for more information.
 
-.. important:: This function only returns values set in your configuration
-	files. It does not take into account config values that are
-	dynamically set at runtime.
-
 show_error()
 ============
 
-.. php:function:: show_error($message, $status_code, $heading = 'An Error Was Encountered')
+.. :noindex: php:function:: show_error($message, $status_code, $heading = 'An Error Was Encountered')
 
 	:param	mixed	$message: Error message
 	:param	int	$status_code: HTTP Response status code
@@ -88,7 +84,7 @@ please see the :doc:`Error Handling <errors>` documentation.
 show_404()
 ==========
 
-.. php:function:: show_404($page = '', $log_error = TRUE)
+.. :noindex: php:function:: show_404($page = '', $log_error = TRUE)
 
 	:param	string	$page: URI string
 	:param	bool	$log_error: Whether to log the error
@@ -100,11 +96,10 @@ please see the :doc:`Error Handling <errors>` documentation.
 log_message()
 =============
 
-.. php:function:: log_message($level = 'error', $message, $php_error = FALSE)
+.. :noindex: php:function:: log_message($level, $message)
 
-	:param	string	$level: Log level
+	:param	string	$level: Log level: 'error', 'debug' or 'info'
 	:param	string	$message: Message to log
-	:param	bool	$php_error: Whether we're loggin a native PHP error message
 	:returns:	void
 
 This function is an alias for ``CI_Log::write_log()``. For more info,
@@ -177,6 +172,19 @@ is_https()
 
 Returns TRUE if a secure (HTTPS) connection is used and FALSE
 in any other case (including non-HTTP requests).
+
+is_cli()
+========
+
+.. php:function:: is_cli()
+
+	:returns:	bool
+
+Returns TRUE if the application is run through the command line
+and FALSE if not.
+
+.. note:: This function checks both if the ``PHP_SAPI`` value is 'cli'
+	or if the ``STDIN`` constant is defined.
 
 function_usable()
 =================

@@ -399,9 +399,9 @@ class CI_Email {
 		else
 		{
 			$this->_smtp_auth = ! ($this->smtp_user === '' && $this->smtp_pass === '');
-			$this->_safe_mode = (bool) @ini_get('safe_mode');
 		}
 
+		$this->_safe_mode = ( ! is_php('5.4') && (bool) @ini_get('safe_mode'));
 		$this->charset = strtoupper($this->charset);
 
 		log_message('debug', 'Email Class Initialized');
@@ -451,7 +451,6 @@ class CI_Email {
 		$this->clear();
 
 		$this->_smtp_auth = ! ($this->smtp_user === '' && $this->smtp_pass === '');
-		$this->_safe_mode = (bool) @ini_get('safe_mode');
 
 		return $this;
 	}
@@ -711,21 +710,74 @@ class CI_Email {
 	/**
 	 * Assign file attachments
 	 *
-	 * @param	string	$filename
+	 * @param	string	$file	Can be local path, URL or buffered content
 	 * @param	string	$disposition = 'attachment'
 	 * @param	string	$newname = NULL
 	 * @param	string	$mime = ''
 	 * @return	CI_Email
 	 */
-	public function attach($filename, $disposition = '', $newname = NULL, $mime = '')
+	public function attach($file, $disposition = '', $newname = NULL, $mime = '')
 	{
+		if ($mime === '')
+		{
+			if (strpos($file, '://') === FALSE && ! file_exists($file))
+			{
+				$this->_set_error_message('lang:email_attachment_missing', $file);
+				return FALSE;
+			}
+
+			if ( ! $fp = @fopen($file, FOPEN_READ))
+			{
+				$this->_set_error_message('lang:email_attachment_unreadable', $file);
+				return FALSE;
+			}
+
+			$file_content = stream_get_contents($fp);
+			$mime = $this->_mime_types(pathinfo($file, PATHINFO_EXTENSION));
+			fclose($fp);
+		}
+		else
+		{
+			$file_content =& $file; // buffered file
+		}
+
 		$this->_attachments[] = array(
-			'name'		=> array($filename, $newname),
+			'name'		=> array($file, $newname),
 			'disposition'	=> empty($disposition) ? 'attachment' : $disposition,  // Can also be 'inline'  Not sure if it matters
-			'type' 		=> $mime
+			'type'		=> $mime,
+			'content'	=> chunk_split(base64_encode($file_content))
 		);
 
 		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set and return attachment Content-ID
+	 *
+	 * Useful for attached inline pictures
+	 *
+	 * @param	string	$filename
+	 * @return	string
+	 */
+	public function attachment_cid($filename)
+	{
+		if ($this->multipart !== 'related')
+		{
+			$this->multipart = 'related'; // Thunderbird need this for inline images
+		}
+
+		for ($i = 0, $c = count($this->_attachments); $i < $c; $i++)
+		{
+			if ($this->_attachments[$i]['name'][0] === $filename)
+			{
+				$this->_attachments[$i]['cid'] = uniqid(basename($this->_attachments[$i]['name'][0]).'@');
+				return $this->_attachments[$i]['cid'];
+			}
+		}
+
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -739,7 +791,7 @@ class CI_Email {
 	 */
 	public function set_header($header, $value)
 	{
-		$this->_headers[$header] = $value;
+		$this->_headers[$header] = str_replace(array("\n", "\r"), '', $value);
 	}
 
 	// --------------------------------------------------------------------
@@ -1265,7 +1317,7 @@ class CI_Email {
 				}
 				else
 				{
-					$this->_finalbody = $hdr . $this->newline . $this->newline . $this->_body;
+					$this->_finalbody = $hdr.$this->newline.$this->newline.$this->_body;
 				}
 
 				return;
@@ -1279,7 +1331,7 @@ class CI_Email {
 				}
 				else
 				{
-					$hdr .= 'Content-Type: multipart/alternative; boundary="'.$this->_alt_boundary.'"'.$this->newline.$this->newline;
+					$hdr .= 'Content-Type: multipart/alternative; boundary="'.$this->_alt_boundary.'"';
 
 					$body .= $this->_get_mime_message().$this->newline.$this->newline
 						.'--'.$this->_alt_boundary.$this->newline
@@ -1300,7 +1352,7 @@ class CI_Email {
 				}
 				else
 				{
-					$this->_finalbody = $hdr.$this->_finalbody;
+					$this->_finalbody = $hdr.$this->newline.$this->newline.$this->_finalbody;
 				}
 
 				if ($this->send_multipart !== FALSE)
@@ -1312,25 +1364,25 @@ class CI_Email {
 
 			case 'plain-attach' :
 
-				$hdr .= 'Content-Type: multipart/'.$this->multipart.'; boundary="'.$this->_atc_boundary.'"'.$this->newline.$this->newline;
+				$hdr .= 'Content-Type: multipart/'.$this->multipart.'; boundary="'.$this->_atc_boundary.'"';
 
 				if ($this->_get_protocol() === 'mail')
 				{
 					$this->_header_str .= $hdr;
 				}
 
-				$body .= $this->_get_mime_message().$this->newline.$this->newline
+				$body .= $this->_get_mime_message().$this->newline
+					.$this->newline
 					.'--'.$this->_atc_boundary.$this->newline
-
 					.'Content-Type: text/plain; charset='.$this->charset.$this->newline
-					.'Content-Transfer-Encoding: '.$this->_get_encoding().$this->newline.$this->newline
-
+					.'Content-Transfer-Encoding: '.$this->_get_encoding().$this->newline
+					.$this->newline
 					.$this->_body.$this->newline.$this->newline;
 
 			break;
 			case 'html-attach' :
 
-				$hdr .= 'Content-Type: multipart/'.$this->multipart.'; boundary="'.$this->_atc_boundary.'"'.$this->newline.$this->newline;
+				$hdr .= 'Content-Type: multipart/'.$this->multipart.'; boundary="'.$this->_atc_boundary.'"';
 
 				if ($this->_get_protocol() === 'mail')
 				{
@@ -1362,45 +1414,22 @@ class CI_Email {
 			$filename = $this->_attachments[$i]['name'][0];
 			$basename = ($this->_attachments[$i]['name'][1] === NULL)
 				? basename($filename) : $this->_attachments[$i]['name'][1];
-			$ctype = $this->_attachments[$i]['type'];
-			$file_content = '';
-
-			if ($ctype === '')
-			{
-				if ( ! file_exists($filename))
-				{
-					$this->_set_error_message('lang:email_attachment_missing', $filename);
-					return FALSE;
-				}
-
-				$file = filesize($filename) +1;
-
-				if ( ! $fp = fopen($filename, FOPEN_READ))
-				{
-					$this->_set_error_message('lang:email_attachment_unreadable', $filename);
-					return FALSE;
-				}
-
-				$ctype = $this->_mime_types(pathinfo($filename, PATHINFO_EXTENSION));
-				$file_content = fread($fp, $file);
-				fclose($fp);
-			}
-			else
-			{
-				$file_content =& $this->_attachments[$i]['name'][0];
-			}
 
 			$attachment[$z++] = '--'.$this->_atc_boundary.$this->newline
-				.'Content-type: '.$ctype.'; '
+				.'Content-type: '.$this->_attachments[$i]['type'].'; '
 				.'name="'.$basename.'"'.$this->newline
 				.'Content-Disposition: '.$this->_attachments[$i]['disposition'].';'.$this->newline
-				.'Content-Transfer-Encoding: base64'.$this->newline;
+				.'Content-Transfer-Encoding: base64'.$this->newline
+				.(empty($this->_attachments[$i]['cid']) ? '' : 'Content-ID: <'.$this->_attachments[$i]['cid'].'>'.$this->newline);
 
-			$attachment[$z++] = chunk_split(base64_encode($file_content));
+			$attachment[$z++] = $this->_attachments[$i]['content'];
 		}
 
 		$body .= implode($this->newline, $attachment).$this->newline.'--'.$this->_atc_boundary.'--';
-		$this->_finalbody = ($this->_get_protocol() === 'mail') ? $body : $hdr.$body;
+		$this->_finalbody = ($this->_get_protocol() === 'mail')
+			? $body
+			: $hdr.$this->newline.$this->newline.$body;
+
 		return TRUE;
 	}
 
@@ -2068,7 +2097,16 @@ class CI_Email {
 	 */
 	protected function _send_data($data)
 	{
-		if ( ! fwrite($this->_smtp_connect, $data.$this->newline))
+		$data .= $this->newline;
+		for ($written = 0, $length = strlen($data); $written < $length; $written += $result)
+		{
+			if (($result = fwrite($this->_smtp_connect, substr($data, $written))) === FALSE)
+			{
+				break;
+			}
+		}
+
+		if ($result === FALSE)
 		{
 			$this->_set_error_message('lang:email_smtp_data_failure', $data);
 			return FALSE;
@@ -2140,7 +2178,7 @@ class CI_Email {
 
 		if (in_array('headers', $include, TRUE))
 		{
-			$raw_data = $this->_header_str."\n";
+			$raw_data = htmlspecialchars($this->_header_str)."\n";
 		}
 
 		if (in_array('subject', $include, TRUE))

@@ -18,9 +18,10 @@ The following functions are available:
 site_url()
 ==========
 
-.. php:function:: site_url($uri = '')
+.. php:function:: site_url($uri = '', $protocol = NULL)
 
 	:param	string	$uri: URI string
+	:param	string	$protocol: Protocol, e.g. 'http' or 'https'
 	:returns:	string
 
 Returns your site URL, as specified in your config file. The index.php
@@ -51,9 +52,10 @@ please see the :doc:`Config Library <../libraries/config>` documentation.
 base_url()
 ===========
 
-.. php:function:: base_url($uri = '')
+.. php:function:: base_url($uri = '', $protocol = NULL)
 
 	:param	string	$uri: URI string
+	:param	string	$protocol: Protocol, e.g. 'http' or 'https'
 	:returns:	string
 
 Returns your site base URL, as specified in your config file. Example::
