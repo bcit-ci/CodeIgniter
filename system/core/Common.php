@@ -598,13 +598,13 @@ if ( ! function_exists('_exception_handler'))
 			return;
 		}
 
+		$_error->log_exception($severity, $message, $filepath, $line);
+
 		// Should we display the error?
 		if ((bool) ini_get('display_errors') === TRUE)
 		{
 			$_error->show_php_error($severity, $message, $filepath, $line);
 		}
-
-		$_error->log_exception($severity, $message, $filepath, $line);
 
 		// If the error is fatal, the execution of the script should be stopped because
 		// errors can't be recovered from. Halting the script conforms with PHP's
