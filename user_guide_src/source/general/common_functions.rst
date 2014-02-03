@@ -203,3 +203,8 @@ checks if it doesn't disable the function being checked.
 It is useful if you want to check for the availability of functions
 such as ``eval()`` and ``exec()``, which are dangerous and might be
 disabled on servers with highly restrictive security policies.
+
+.. note:: This function was introduced because Suhosin terminated
+	script execution, but this turned out to be a bug. A fix
+	has been available for some time (version 0.9.34), but is
+	unfortunately not released yet.

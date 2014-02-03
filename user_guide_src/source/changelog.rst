@@ -449,7 +449,7 @@ Release Date: Not Released
       -  Changed ``_exception_handler()`` to respect php.ini *display_errors* setting.
       -  Added function :php:func:`is_https()` to check if a secure connection is used.
       -  Added function :php:func:`is_cli()` to replace the ``CI_Input::is_cli_request()`` method.
-      -  Added function :php:func:`function_usable()` to check if a function exists and is not disabled by `Suhosin <http://www.hardened-php.net/suhosin/>`.
+      -  Added function :php:func:`function_usable()` to work around a bug in `Suhosin <http://www.hardened-php.net/suhosin/>`.
       -  Removed the third (`$php_error`) from function :php:func:`log_message()`.
 
    -  :doc:`Output Library <libraries/output>` changes include:
