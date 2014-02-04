@@ -37,129 +37,120 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/utf8.html
  */
-class CI_Utf8 {
+class CI_Utf8
+{
+    /**
+     * Class constructor
+     *
+     * Determines if UTF-8 support is to be enabled.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        log_message('debug', 'Utf8 Class Initialized');
 
-	/**
-	 * Class constructor
-	 *
-	 * Determines if UTF-8 support is to be enabled.
-	 *
-	 * @return	void
-	 */
-	public function __construct()
-	{
-		log_message('debug', 'Utf8 Class Initialized');
+        $charset = strtoupper(config_item('charset'));
 
-		$charset = strtoupper(config_item('charset'));
+        // set internal encoding for multibyte string functions if necessary
+        // and set a flag so we don't have to repeatedly use extension_loaded()
+        // or function_exists()
+        if (extension_loaded('mbstring')) {
+            define('MB_ENABLED', TRUE);
+            mb_internal_encoding($charset);
+        } else {
+            define('MB_ENABLED', FALSE);
+        }
 
-		// set internal encoding for multibyte string functions if necessary
-		// and set a flag so we don't have to repeatedly use extension_loaded()
-		// or function_exists()
-		if (extension_loaded('mbstring'))
-		{
-			define('MB_ENABLED', TRUE);
-			mb_internal_encoding($charset);
-		}
-		else
-		{
-			define('MB_ENABLED', FALSE);
-		}
+        if (
+            defined('PREG_BAD_UTF8_ERROR')	// PCRE must support UTF-8
+            && function_exists('iconv')	// iconv must be installed
+            && MB_ENABLED === TRUE		// mbstring must be enabled
+            && $charset === 'UTF-8'		// Application charset must be UTF-8
+            )
+        {
+            define('UTF8_ENABLED', TRUE);
+            log_message('debug', 'UTF-8 Support Enabled');
+        } else {
+            define('UTF8_ENABLED', FALSE);
+            log_message('debug', 'UTF-8 Support Disabled');
+        }
+    }
 
-		if (
-			defined('PREG_BAD_UTF8_ERROR')	// PCRE must support UTF-8
-			&& function_exists('iconv')	// iconv must be installed
-			&& MB_ENABLED === TRUE		// mbstring must be enabled
-			&& $charset === 'UTF-8'		// Application charset must be UTF-8
-			)
-		{
-			define('UTF8_ENABLED', TRUE);
-			log_message('debug', 'UTF-8 Support Enabled');
-		}
-		else
-		{
-			define('UTF8_ENABLED', FALSE);
-			log_message('debug', 'UTF-8 Support Disabled');
-		}
-	}
+    // --------------------------------------------------------------------
 
-	// --------------------------------------------------------------------
+    /**
+     * Clean UTF-8 strings
+     *
+     * Ensures strings contain only valid UTF-8 characters.
+     *
+     * @uses	CI_Utf8::_is_ascii()	Decide whether a conversion is needed
+     *
+     * @param  string $str String to clean
+     * @return string
+     */
+    public function clean_string($str)
+    {
+        if ($this->_is_ascii($str) === FALSE) {
+            $str = @iconv('UTF-8', 'UTF-8//IGNORE', $str);
+        }
 
-	/**
-	 * Clean UTF-8 strings
-	 *
-	 * Ensures strings contain only valid UTF-8 characters.
-	 *
-	 * @uses	CI_Utf8::_is_ascii()	Decide whether a conversion is needed
-	 *
-	 * @param	string	$str	String to clean
-	 * @return	string
-	 */
-	public function clean_string($str)
-	{
-		if ($this->_is_ascii($str) === FALSE)
-		{
-			$str = @iconv('UTF-8', 'UTF-8//IGNORE', $str);
-		}
+        return $str;
+    }
 
-		return $str;
-	}
+    // --------------------------------------------------------------------
 
-	// --------------------------------------------------------------------
+    /**
+     * Remove ASCII control characters
+     *
+     * Removes all ASCII control characters except horizontal tabs,
+     * line feeds, and carriage returns, as all others can cause
+     * problems in XML.
+     *
+     * @param  string $str String to clean
+     * @return string
+     */
+    public function safe_ascii_for_xml($str)
+    {
+        return remove_invisible_characters($str, FALSE);
+    }
 
-	/**
-	 * Remove ASCII control characters
-	 *
-	 * Removes all ASCII control characters except horizontal tabs,
-	 * line feeds, and carriage returns, as all others can cause
-	 * problems in XML.
-	 *
-	 * @param	string	$str	String to clean
-	 * @return	string
-	 */
-	public function safe_ascii_for_xml($str)
-	{
-		return remove_invisible_characters($str, FALSE);
-	}
+    // --------------------------------------------------------------------
 
-	// --------------------------------------------------------------------
+    /**
+     * Convert to UTF-8
+     *
+     * Attempts to convert a string to UTF-8.
+     *
+     * @param  string $str      Input string
+     * @param  string $encoding Input encoding
+     * @return string $str encoded in UTF-8 or FALSE on failure
+     */
+    public function convert_to_utf8($str, $encoding)
+    {
+        if (function_exists('iconv')) {
+            return @iconv($encoding, 'UTF-8', $str);
+        } elseif (MB_ENABLED === TRUE) {
+            return @mb_convert_encoding($str, 'UTF-8', $encoding);
+        }
 
-	/**
-	 * Convert to UTF-8
-	 *
-	 * Attempts to convert a string to UTF-8.
-	 *
-	 * @param	string	$str		Input string
-	 * @param	string	$encoding	Input encoding
-	 * @return	string	$str encoded in UTF-8 or FALSE on failure
-	 */
-	public function convert_to_utf8($str, $encoding)
-	{
-		if (function_exists('iconv'))
-		{
-			return @iconv($encoding, 'UTF-8', $str);
-		}
-		elseif (MB_ENABLED === TRUE)
-		{
-			return @mb_convert_encoding($str, 'UTF-8', $encoding);
-		}
+        return FALSE;
+    }
 
-		return FALSE;
-	}
+    // --------------------------------------------------------------------
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Is ASCII?
-	 *
-	 * Tests if a string is standard 7-bit ASCII or not.
-	 *
-	 * @param	string	$str	String to check
-	 * @return	bool
-	 */
-	protected function _is_ascii($str)
-	{
-		return (preg_match('/[^\x00-\x7F]/S', $str) === 0);
-	}
+    /**
+     * Is ASCII?
+     *
+     * Tests if a string is standard 7-bit ASCII or not.
+     *
+     * @param  string $str String to check
+     * @return bool
+     */
+    protected function _is_ascii($str)
+    {
+        return (preg_match('/[^\x00-\x7F]/S', $str) === 0);
+    }
 
 }
 

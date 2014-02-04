@@ -115,7 +115,7 @@ $config['charset'] = 'UTF-8';
 |--------------------------------------------------------------------------
 |
 | If you would like to use the 'hooks' feature you must enable it by
-| setting this variable to TRUE (boolean).  See the user guide for details.
+| setting this variable to TRUE (boolean) .  See the user guide for details.
 |
 */
 $config['enable_hooks'] = FALSE;
@@ -157,7 +157,6 @@ $config['subclass_prefix'] = 'MY_';
 |
 */
 $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
-
 
 /*
 |--------------------------------------------------------------------------
@@ -421,7 +420,6 @@ $config['minify_output'] = FALSE;
 */
 $config['time_reference'] = 'local';
 
-
 /*
 |--------------------------------------------------------------------------
 | Rewrite PHP Short Tags
@@ -433,7 +431,6 @@ $config['time_reference'] = 'local';
 |
 */
 $config['rewrite_short_tags'] = FALSE;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -452,7 +449,6 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
-
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */
