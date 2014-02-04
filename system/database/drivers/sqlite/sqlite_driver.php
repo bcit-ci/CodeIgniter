@@ -39,342 +39,334 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_sqlite_driver extends CI_DB {
+class CI_DB_sqlite_driver extends CI_DB
+{
+    /**
+     * Database driver
+     *
+     * @var	string
+     */
+    public $dbdriver = 'sqlite';
 
-	/**
-	 * Database driver
-	 *
-	 * @var	string
-	 */
-	public $dbdriver = 'sqlite';
+    // --------------------------------------------------------------------
 
-	// --------------------------------------------------------------------
+    /**
+     * ORDER BY random keyword
+     *
+     * @var	array
+     */
+    protected $_random_keyword = array('RANDOM()', 'RANDOM()');
 
-	/**
-	 * ORDER BY random keyword
-	 *
-	 * @var	array
-	 */
-	protected $_random_keyword = array('RANDOM()', 'RANDOM()');
+    // --------------------------------------------------------------------
 
-	// --------------------------------------------------------------------
+    /**
+     * Non-persistent database connection
+     *
+     * @return resource
+     */
+    public function db_connect()
+    {
+        if ( ! $conn_id = @sqlite_open($this->database, FILE_WRITE_MODE, $error)) {
+            log_message('error', $error);
 
-	/**
-	 * Non-persistent database connection
-	 *
-	 * @return	resource
-	 */
-	public function db_connect()
-	{
-		if ( ! $conn_id = @sqlite_open($this->database, FILE_WRITE_MODE, $error))
-		{
-			log_message('error', $error);
+            if ($this->db_debug) {
+                $this->display_error($error, '', TRUE);
+            }
 
-			if ($this->db_debug)
-			{
-				$this->display_error($error, '', TRUE);
-			}
+            return FALSE;
+        }
 
-			return FALSE;
-		}
+        return $conn_id;
+    }
 
-		return $conn_id;
-	}
+    // --------------------------------------------------------------------
 
-	// --------------------------------------------------------------------
+    /**
+     * Persistent database connection
+     *
+     * @return resource
+     */
+    public function db_pconnect()
+    {
+        if ( ! $conn_id = @sqlite_popen($this->database, FILE_WRITE_MODE, $error)) {
+            log_message('error', $error);
 
-	/**
-	 * Persistent database connection
-	 *
-	 * @return	resource
-	 */
-	public function db_pconnect()
-	{
-		if ( ! $conn_id = @sqlite_popen($this->database, FILE_WRITE_MODE, $error))
-		{
-			log_message('error', $error);
+            if ($this->db_debug) {
+                $this->display_error($error, '', TRUE);
+            }
 
-			if ($this->db_debug)
-			{
-				$this->display_error($error, '', TRUE);
-			}
+            return FALSE;
+        }
 
-			return FALSE;
-		}
+        return $conn_id;
+    }
 
-		return $conn_id;
-	}
+    // --------------------------------------------------------------------
 
-	// --------------------------------------------------------------------
+    /**
+     * Database version number
+     *
+     * @return string
+     */
+    public function version()
+    {
+        return isset($this->data_cache['version'])
+            ? $this->data_cache['version']
+            : $this->data_cache['version'] = sqlite_libversion();
+    }
 
-	/**
-	 * Database version number
-	 *
-	 * @return	string
-	 */
-	public function version()
-	{
-		return isset($this->data_cache['version'])
-			? $this->data_cache['version']
-			: $this->data_cache['version'] = sqlite_libversion();
-	}
+    // --------------------------------------------------------------------
 
-	// --------------------------------------------------------------------
+    /**
+     * Execute the query
+     *
+     * @param  string   $sql an SQL query
+     * @return resource
+     */
+    protected function _execute($sql)
+    {
+        return $this->is_write_type($sql)
+            ? @sqlite_exec($this->conn_id, $sql)
+            : @sqlite_query($this->conn_id, $sql);
+    }
 
-	/**
-	 * Execute the query
-	 *
-	 * @param	string	$sql	an SQL query
-	 * @return	resource
-	 */
-	protected function _execute($sql)
-	{
-		return $this->is_write_type($sql)
-			? @sqlite_exec($this->conn_id, $sql)
-			: @sqlite_query($this->conn_id, $sql);
-	}
+    // --------------------------------------------------------------------
 
-	// --------------------------------------------------------------------
+    /**
+     * Begin Transaction
+     *
+     * @param  bool $test_mode
+     * @return bool
+     */
+    public function trans_begin($test_mode = FALSE)
+    {
+        // When transactions are nested we only begin/commit/rollback the outermost ones
+        if (! $this->trans_enabled OR $this->_trans_depth > 0) {
+            return TRUE;
+        }
 
-	/**
-	 * Begin Transaction
-	 *
-	 * @param	bool	$test_mode
-	 * @return	bool
-	 */
-	public function trans_begin($test_mode = FALSE)
-	{
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
-		{
-			return TRUE;
-		}
+        // Reset the transaction failure flag.
+        // If the $test_mode flag is set to TRUE transactions will be rolled back
+        // even if the queries produce a successful result.
+        $this->_trans_failure = ($test_mode === TRUE);
 
-		// Reset the transaction failure flag.
-		// If the $test_mode flag is set to TRUE transactions will be rolled back
-		// even if the queries produce a successful result.
-		$this->_trans_failure = ($test_mode === TRUE);
+        $this->simple_query('BEGIN TRANSACTION');
 
-		$this->simple_query('BEGIN TRANSACTION');
-		return TRUE;
-	}
+        return TRUE;
+    }
 
-	// --------------------------------------------------------------------
+    // --------------------------------------------------------------------
 
-	/**
-	 * Commit Transaction
-	 *
-	 * @return	bool
-	 */
-	public function trans_commit()
-	{
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
-		{
-			return TRUE;
-		}
+    /**
+     * Commit Transaction
+     *
+     * @return bool
+     */
+    public function trans_commit()
+    {
+        // When transactions are nested we only begin/commit/rollback the outermost ones
+        if (! $this->trans_enabled OR $this->_trans_depth > 0) {
+            return TRUE;
+        }
 
-		$this->simple_query('COMMIT');
-		return TRUE;
-	}
+        $this->simple_query('COMMIT');
 
-	// --------------------------------------------------------------------
+        return TRUE;
+    }
 
-	/**
-	 * Rollback Transaction
-	 *
-	 * @return	bool
-	 */
-	public function trans_rollback()
-	{
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
-		{
-			return TRUE;
-		}
+    // --------------------------------------------------------------------
 
-		$this->simple_query('ROLLBACK');
-		return TRUE;
-	}
+    /**
+     * Rollback Transaction
+     *
+     * @return bool
+     */
+    public function trans_rollback()
+    {
+        // When transactions are nested we only begin/commit/rollback the outermost ones
+        if (! $this->trans_enabled OR $this->_trans_depth > 0) {
+            return TRUE;
+        }
 
-	// --------------------------------------------------------------------
+        $this->simple_query('ROLLBACK');
 
-	/**
-	 * Platform-dependant string escape
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	protected function _escape_str($str)
-	{
-		return sqlite_escape_string($str);
-	}
+        return TRUE;
+    }
 
-	// --------------------------------------------------------------------
+    // --------------------------------------------------------------------
 
-	/**
-	 * Affected Rows
-	 *
-	 * @return	int
-	 */
-	public function affected_rows()
-	{
-		return sqlite_changes($this->conn_id);
-	}
+    /**
+     * Platform-dependant string escape
+     *
+     * @param	string
+     * @return string
+     */
+    protected function _escape_str($str)
+    {
+        return sqlite_escape_string($str);
+    }
 
-	// --------------------------------------------------------------------
+    // --------------------------------------------------------------------
 
-	/**
-	 * Insert ID
-	 *
-	 * @return	int
-	 */
-	public function insert_id()
-	{
-		return @sqlite_last_insert_rowid($this->conn_id);
-	}
+    /**
+     * Affected Rows
+     *
+     * @return int
+     */
+    public function affected_rows()
+    {
+        return sqlite_changes($this->conn_id);
+    }
 
-	// --------------------------------------------------------------------
+    // --------------------------------------------------------------------
 
-	/**
-	 * List table query
-	 *
-	 * Generates a platform-specific query string so that the table names can be fetched
-	 *
-	 * @param	bool	$prefix_limit
-	 * @return	string
-	 */
-	protected function _list_tables($prefix_limit = FALSE)
-	{
-		$sql = "SELECT name FROM sqlite_master WHERE type='table'";
+    /**
+     * Insert ID
+     *
+     * @return int
+     */
+    public function insert_id()
+    {
+        return @sqlite_last_insert_rowid($this->conn_id);
+    }
 
-		if ($prefix_limit !== FALSE && $this->dbprefix != '')
-		{
-			return $sql." AND 'name' LIKE '".$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
-		}
+    // --------------------------------------------------------------------
 
-		return $sql;
-	}
+    /**
+     * List table query
+     *
+     * Generates a platform-specific query string so that the table names can be fetched
+     *
+     * @param  bool   $prefix_limit
+     * @return string
+     */
+    protected function _list_tables($prefix_limit = FALSE)
+    {
+        $sql = "SELECT name FROM sqlite_master WHERE type='table'";
 
-	// --------------------------------------------------------------------
+        if ($prefix_limit !== FALSE && $this->dbprefix != '') {
+            return $sql." AND 'name' LIKE '".$this->escape_like_str($this->dbprefix)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_chr);
+        }
 
-	/**
-	 * Show column query
-	 *
-	 * Generates a platform-specific query string so that the column names can be fetched
-	 *
-	 * @param	string	$table
-	 * @return	bool
-	 */
-	protected function _list_columns($table = '')
-	{
-		// Not supported
-		return FALSE;
-	}
+        return $sql;
+    }
 
-	// --------------------------------------------------------------------
+    // --------------------------------------------------------------------
 
-	/**
-	 * Returns an object with field data
-	 *
-	 * @param	string	$table
-	 * @return	array
-	 */
-	public function field_data($table = '')
-	{
-		if ($table === '')
-		{
-			return ($this->db_debug) ? $this->display_error('db_field_param_missing') : FALSE;
-		}
+    /**
+     * Show column query
+     *
+     * Generates a platform-specific query string so that the column names can be fetched
+     *
+     * @param  string $table
+     * @return bool
+     */
+    protected function _list_columns($table = '')
+    {
+        // Not supported
+        return FALSE;
+    }
 
-		if (($query = $this->query('PRAGMA TABLE_INFO('.$this->protect_identifiers($table, TRUE, NULL, FALSE).')')) === FALSE)
-		{
-			return FALSE;
-		}
+    // --------------------------------------------------------------------
 
-		$query = $query->result_array();
-		if (empty($query))
-		{
-			return FALSE;
-		}
+    /**
+     * Returns an object with field data
+     *
+     * @param  string $table
+     * @return array
+     */
+    public function field_data($table = '')
+    {
+        if ($table === '') {
+            return ($this->db_debug) ? $this->display_error('db_field_param_missing') : FALSE;
+        }
 
-		$retval = array();
-		for ($i = 0, $c = count($query); $i < $c; $i++)
-		{
-			$retval[$i]			= new stdClass();
-			$retval[$i]->name		= $query[$i]['name'];
-			$retval[$i]->type		= $query[$i]['type'];
-			$retval[$i]->max_length		= NULL;
-			$retval[$i]->default		= $query[$i]['dflt_value'];
-			$retval[$i]->primary_key	= isset($query[$i]['pk']) ? (int) $query[$i]['pk'] : 0;
-		}
+        if (($query = $this->query('PRAGMA TABLE_INFO('.$this->protect_identifiers($table, TRUE, NULL, FALSE).')')) === FALSE) {
+            return FALSE;
+        }
 
-		return $retval;
-	}
+        $query = $query->result_array();
+        if (empty($query)) {
+            return FALSE;
+        }
 
-	// --------------------------------------------------------------------
+        $retval = array();
+        for ($i = 0, $c = count($query); $i < $c; $i++) {
+            $retval[$i]			= new stdClass();
+            $retval[$i]->name		= $query[$i]['name'];
+            $retval[$i]->type		= $query[$i]['type'];
+            $retval[$i]->max_length		= NULL;
+            $retval[$i]->default		= $query[$i]['dflt_value'];
+            $retval[$i]->primary_key	= isset($query[$i]['pk']) ? (int) $query[$i]['pk'] : 0;
+        }
 
-	/**
-	 * Error
-	 *
-	 * Returns an array containing code and message of the last
-	 * database error that has occured.
-	 *
-	 * @return	array
-	 */
-	public function error()
-	{
-		$error = array('code' => sqlite_last_error($this->conn_id));
-		$error['message'] = sqlite_error_string($error['code']);
-		return $error;
-	}
+        return $retval;
+    }
 
-	// --------------------------------------------------------------------
+    // --------------------------------------------------------------------
 
-	/**
-	 * Replace statement
-	 *
-	 * Generates a platform-specific replace string from the supplied data
-	 *
-	 * @param	string	$table	Table name
-	 * @param	array	$keys	INSERT keys
-	 * @param	array	$values	INSERT values
-	 * @return	string
-	 */
-	protected function _replace($table, $keys, $values)
-	{
-		return 'INSERT OR '.parent::_replace($table, $keys, $values);
-	}
+    /**
+     * Error
+     *
+     * Returns an array containing code and message of the last
+     * database error that has occured.
+     *
+     * @return array
+     */
+    public function error()
+    {
+        $error = array('code' => sqlite_last_error($this->conn_id));
+        $error['message'] = sqlite_error_string($error['code']);
 
-	// --------------------------------------------------------------------
+        return $error;
+    }
 
-	/**
-	 * Truncate statement
-	 *
-	 * Generates a platform-specific truncate string from the supplied data
-	 *
-	 * If the database does not support the TRUNCATE statement,
-	 * then this function maps to 'DELETE FROM table'
-	 *
-	 * @param	string	$table
-	 * @return	string
-	 */
-	protected function _truncate($table)
-	{
-		return 'DELETE FROM '.$table;
-	}
+    // --------------------------------------------------------------------
 
-	// --------------------------------------------------------------------
+    /**
+     * Replace statement
+     *
+     * Generates a platform-specific replace string from the supplied data
+     *
+     * @param  string $table  Table name
+     * @param  array  $keys   INSERT keys
+     * @param  array  $values INSERT values
+     * @return string
+     */
+    protected function _replace($table, $keys, $values)
+    {
+        return 'INSERT OR '.parent::_replace($table, $keys, $values);
+    }
 
-	/**
-	 * Close DB Connection
-	 *
-	 * @return	void
-	 */
-	protected function _close()
-	{
-		@sqlite_close($this->conn_id);
-	}
+    // --------------------------------------------------------------------
+
+    /**
+     * Truncate statement
+     *
+     * Generates a platform-specific truncate string from the supplied data
+     *
+     * If the database does not support the TRUNCATE statement,
+     * then this function maps to 'DELETE FROM table'
+     *
+     * @param  string $table
+     * @return string
+     */
+    protected function _truncate($table)
+    {
+        return 'DELETE FROM '.$table;
+    }
+
+    // --------------------------------------------------------------------
+
+    /**
+     * Close DB Connection
+     *
+     * @return void
+     */
+    protected function _close()
+    {
+        @sqlite_close($this->conn_id);
+    }
 
 }
 

@@ -66,7 +66,6 @@
 
 $autoload['packages'] = array();
 
-
 /*
 | -------------------------------------------------------------------
 |  Auto-load Libraries
@@ -86,7 +85,6 @@ $autoload['packages'] = array();
 
 $autoload['libraries'] = array();
 
-
 /*
 | -------------------------------------------------------------------
 |  Auto-load Drivers
@@ -102,7 +100,6 @@ $autoload['libraries'] = array();
 
 $autoload['drivers'] = array();
 
-
 /*
 | -------------------------------------------------------------------
 |  Auto-load Helper Files
@@ -113,7 +110,6 @@ $autoload['drivers'] = array();
 */
 
 $autoload['helper'] = array();
-
 
 /*
 | -------------------------------------------------------------------
@@ -130,7 +126,6 @@ $autoload['helper'] = array();
 
 $autoload['config'] = array();
 
-
 /*
 | -------------------------------------------------------------------
 |  Auto-load Language files
@@ -145,7 +140,6 @@ $autoload['config'] = array();
 */
 
 $autoload['language'] = array();
-
 
 /*
 | -------------------------------------------------------------------
@@ -162,7 +156,6 @@ $autoload['language'] = array();
 */
 
 $autoload['model'] = array();
-
 
 /* End of file autoload.php */
 /* Location: ./application/config/autoload.php */
