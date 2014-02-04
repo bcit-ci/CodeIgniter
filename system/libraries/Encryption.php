@@ -148,7 +148,7 @@ class CI_Encryption {
 		{
 			if (isset($this->_drivers[$params['driver']]))
 			{
-				if ($this->_driver[$params['driver']])
+				if ($this->_drivers[$params['driver']])
 				{
 					$this->_driver = $params['driver'];
 				}
@@ -264,7 +264,7 @@ class CI_Encryption {
 				? $this->_cipher
 				: $this->_cipher.'-'.$this->_mode;
 
-			if ( ! in_array($handle, openssl_get_cipher_methods, TRUE))
+			if ( ! in_array($handle, openssl_get_cipher_methods(), TRUE))
 			{
 				$this->_handle = NULL;
 				log_message('error', 'Encryption: Unable to initialize OpenSSL with method '.strtoupper($handle).'.');
@@ -364,7 +364,7 @@ class CI_Encryption {
 		mcrypt_generic_deinit($params['handle']);
 		if ($params['handle'] !== $this->_handle)
 		{
-			mcrypt_module_close($handle);
+			mcrypt_module_close($params['handle']);
 		}
 
 		return $data;
@@ -452,7 +452,8 @@ class CI_Encryption {
 
 		if ( ! isset($params['iv']))
 		{
-			if ($iv_size)
+			$iv_size = $this->{'_'.$this->_driver.'_get_iv_size'}($params['handle']);
+			if ($iv_size = $this->{'_'.$this->_driver.'_get_iv_size'}($params['handle']))
 			{
 				$params['iv'] = substr($data, 0, $iv_size);
 				$data = substr($data, $iv_size);
@@ -500,7 +501,7 @@ class CI_Encryption {
 		mcrypt_generic_deinit($params['handle']);
 		if ($params['handle'] !== $this->_handle)
 		{
-			mcrypt_module_close($handle);
+			mcrypt_module_close($params['handle']);
 		}
 
 		// Remove PKCS#7 padding
@@ -607,7 +608,7 @@ class CI_Encryption {
 	{
 		if (empty($params))
 		{
-			return isset($this->_cipher, $this->_mode, $params->_key, $this->_handle)
+			return isset($this->_cipher, $this->_mode, $this->_key, $this->_handle)
 				? array(
 					'handle' => $this->_handle,
 					'cipher' => $this->_cipher,
@@ -714,14 +715,16 @@ class CI_Encryption {
 		{
 			$dictionary = array(
 				'mcrypt' => array(
-					'rijndael-128',
-					'tripledes',
-					'arcfour'
+					'aes-128' => 'rijndael-128',
+					'aes-192' => 'rijndael-128',
+					'aes-256' => 'rijndael-128',
+					'des3-ede3' => 'tripledes',
+					'rc4-40' => 'arcfour'
 				),
 				'openssl' => array(
-					'aes-128',
-					'des-ede3',
-					'rc4-40'
+					'rijndael-128' => 'aes-128',
+					'tripledes' => 'des-ede3',
+					'arcfour' => 'rc4-40'
 				)
 			);
 
@@ -746,12 +749,9 @@ class CI_Encryption {
 			// All compatibility tests were done in CBC mode.
 		}
 
-		$dialect = ($this->_driver === 'mcrypt')
-			? 'openssl'
-			: 'mcrypt';
-		if (($index = array_search($cipher, $dictionary[$dialect], TRUE)) !== FALSE)
+		if (isset($dictionary[$this->_driver][$cipher]))
 		{
-			$cipher = $dictionary[$this->_driver][$index];
+			$cipher = $dictionary[$this->_driver][$cipher];
 		}
 	}
 

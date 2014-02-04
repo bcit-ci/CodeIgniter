@@ -4,9 +4,58 @@ class Encryption_test extends CI_TestCase {
 
 	public function set_up()
 	{
-		$this->ci_set_config('encryption_key', "Encryptin'glike@boss!");
+		$this->ci_set_config('encryption_key', "\xd0\xc9\x08\xc4\xde\x52\x12\x6e\xf8\xcc\xdb\x03\xea\xa0\x3a\x5c");
 		$this->encryption = new CI_Encryption();
 		$this->ci_instance_var('encryption', $this->encryption);
+	}
+
+	// --------------------------------------------------------------------
+
+	public function test_portability()
+	{
+		if ( ! $this->encryption->drivers['mcrypt'] OR ! $this->encryption->drivers['openssl'])
+		{
+			$this->markTestAsSkipped('Both MCrypt and OpenSSL support are required for portability tests.');
+			return;
+		}
+
+		$message = 'This is a message encrypted via MCrypt and decrypted via OpenSSL, or vice-versa.';
+
+		// As it turns out, only ciphers that happened to be a US standard have a
+		// somewhat consistent implementation between MCrypt and OpenSSL, so
+		// we can only test AES, DES and TripleDES.
+		//
+		// Format is: <MCrypt cipher name>, <OpenSSL cipher name>, <key size>
+		$portable = array(
+			array('rijndael-128', 'aes-128', 16),
+			array('rijndael-128', 'aes-192', 24),
+			array('rijndael-128', 'aes-256', 32),
+			array('des', 'des', 7),
+			array('tripledes', 'des-ede3', 7),
+			array('tripledes', 'des-ede3', 14),
+			array('tripledes', 'des-ede3', 21)
+		);
+		$driver_index = array('mcrypt', 'openssl');
+
+		foreach ($portable as &$test)
+		{
+			// Add some randomness to the selected driver
+			$driver = mt_rand(0,1);
+			$params = array(
+				'cipher' => $test[$driver],
+				'mode' => 'cbc',
+				'key' => openssl_random_pseudo_bytes($test[2])
+			);
+
+			$this->encryption->initialize(array('driver' => $driver_index[$driver]));
+			$ciphertext = $this->encryption->encrypt($message, $params);
+
+			$driver = (int) ! $driver;
+			$params['cipher'] = $test[$driver];
+
+			$this->encryption->initialize(array('driver' => $driver_index[$driver]));
+			$this->assertEquals($message, $this->encryption->decrypt($ciphertext, $params));
+		}
 	}
 
 	// --------------------------------------------------------------------
