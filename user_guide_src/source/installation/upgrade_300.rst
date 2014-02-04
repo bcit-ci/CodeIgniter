@@ -318,7 +318,7 @@ The SHA1 library
 The previously deprecated SHA1 library has been removed, alter your code to use PHP's native
 ``sha1()`` function to generate a SHA1 hash.
 
-Additionally, the ``sha1()`` method in the :doc:`Encryption Library <../libraries/encryption>` has been removed.
+Additionally, the ``sha1()`` method in the :doc:`Encrypt Library <../libraries/encrypt>` has been removed.
 
 The EXT constant
 ================
@@ -332,6 +332,23 @@ Smiley helper js_insert_smiley()
 
 :doc:`Smiley Helper <../helpers/smiley_helper>` function ``js_insert_smiley()`` has been deprecated
 since CodeIgniter 1.7.2 and is now removed. You'll need to switch to ``smiley_js()`` instead.
+
+The Encrypt library
+===================
+
+Following numerous vulnerability reports, the :doc:`Encrypt Library <../libraries/encrypt>` has
+been deprecated and a new, :doc:`Encryption Library <../libraries/encryption>` is added to take
+its place.
+
+The new library requires either the `MCrypt extension <http://php.net/mcrypt>`_ or PHP 5.3.3 and
+the `OpenSSL extension <http://php.net/openssl>`_. While this might be rather inconvenient, it is
+a requirement that allows us to have properly implemented cryptographic functions.
+
+.. note:: The :doc:`Encrypt Library <../libraries/encrypt>` is still available for the purpose
+	of keeping backwards compatibility.
+
+.. important:: You are strongly encouraged to switch to the new :doc:`Encryption Library
+	<../libraries/encryption>` as soon as possible!
 
 Database drivers 'mysql', 'sqlite', 'mssql', 'pdo/dblib'
 ========================================================

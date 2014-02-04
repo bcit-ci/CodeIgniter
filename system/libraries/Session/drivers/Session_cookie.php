@@ -240,7 +240,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		// Do we need encryption? If so, load the encryption class
 		if ($this->sess_encrypt_cookie === TRUE)
 		{
-			$this->CI->load->library('encrypt');
+			$this->CI->load->library('encryption');
 		}
 
 		// Check for database
@@ -383,30 +383,33 @@ class CI_Session_cookie extends CI_Session_driver {
 			return FALSE;
 		}
 
-		$len = strlen($session) - 40;
-
-		if ($len < 0)
-		{
-			log_message('debug', 'The session cookie was not signed.');
-			return FALSE;
-		}
-
-		// Check cookie authentication
-		$hmac	 = substr($session, $len);
-		$session = substr($session, 0, $len);
-
-		if ($hmac !== hash_hmac('sha1', $session, $this->encryption_key))
-		{
-			log_message('error', 'The session cookie data did not match what was expected.');
-			$this->sess_destroy();
-			return FALSE;
-		}
-
-		// Check for encryption
 		if ($this->sess_encrypt_cookie === TRUE)
 		{
-			// Decrypt the cookie data
-			$session = $this->CI->encrypt->decode($session);
+			$session = $this->CI->encryption->decrypt($session);
+			if ($session === FALSE)
+			{
+				log_message('error', 'Session: Unable to decrypt the session cookie, possibly due to a HMAC mismatch.');
+				return FALSE;
+			}
+		}
+		else
+		{
+			if (($len = strlen($session) - 40) <= 0)
+			{
+				log_message('error', 'Session: The session cookie was not signed.');
+				return FALSE;
+			}
+
+			// Check cookie authentication
+			$hmac = substr($session, $len);
+			$session = substr($session, 0, $len);
+
+			if ($hmac !== hash_hmac('sha1', $session, $this->encryption_key))
+			{
+				log_message('error', 'Session: HMAC mismatch. The session cookie data did not match what was expected.');
+				$this->sess_destroy();
+				return FALSE;
+			}
 		}
 
 		// Unserialize the session array
@@ -723,11 +726,13 @@ class CI_Session_cookie extends CI_Session_driver {
 
 		if ($this->sess_encrypt_cookie === TRUE)
 		{
-			$cookie_data = $this->CI->encrypt->encode($cookie_data);
+			$cookie_data = $this->CI->encryption->encrypt($cookie_data);
 		}
-
-		// Require message authentication
-		$cookie_data .= hash_hmac('sha1', $cookie_data, $this->encryption_key);
+		else
+		{
+			// Require message authentication
+			$cookie_data .= hash_hmac('sha1', $cookie_data, $this->encryption_key);
+		}
 
 		$expire = ($this->sess_expire_on_close === TRUE) ? 0 : $this->sess_expiration + time();
 
