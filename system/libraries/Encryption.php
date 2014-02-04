@@ -322,7 +322,7 @@ class CI_Encryption {
 				);
 			}
 
-			return hash_hmac($params['hmac']['digest'], $data, $params['hmac']['key'], $params['base64']).$data;
+			return hash_hmac($params['hmac']['digest'], $data, $params['hmac']['key'], ! $params['base64']).$data;
 		}
 
 		return $data;
@@ -432,14 +432,14 @@ class CI_Encryption {
 			}
 
 			// This might look illogical, but it is done during encryption as well ...
-			// The 'base64' value is effectively a "raw data" parameter
+			// The 'base64' value is effectively an inverted "raw data" parameter
 			$digest_size = ($params['base64'])
 				? $this->_digests[$params['hmac']['digest']] * 2
 				: $this->_digests[$params['hmac']['digest']];
 			$hmac = substr($data, 0, $digest_size);
 			$data = substr($data, $digest_size);
 
-			if ($hmac !== hash_hmac($params['hmac']['digest'], $data, $params['hmac']['key'], $params['base64']))
+			if ($hmac !== hash_hmac($params['hmac']['digest'], $data, $params['hmac']['key'], ! $params['base64']))
 			{
 				return FALSE;
 			}
