@@ -125,15 +125,6 @@ class CI_Encryption {
 
 		$this->initialize($params);
 
-		if (empty($this->_driver))
-		{
-			$this->_driver = ($this->_drivers['mcrypt'] === TRUE)
-				? 'mcrypt'
-				: 'openssl';
-
-			log_message('debug', "Encryption: Auto-configured driver '".$params['driver']."'.");
-		}
-
 		isset($this->_key) OR $this->_key = config_item('encryption_key');
 		if (empty($this->_key))
 		{
@@ -170,6 +161,15 @@ class CI_Encryption {
 			{
 				log_message('error', "Encryption: Unknown driver '".$params['driver']."' cannot be configured.");
 			}
+		}
+
+		if (empty($this->_driver))
+		{
+			$this->_driver = ($this->_drivers['mcrypt'] === TRUE)
+				? 'mcrypt'
+				: 'openssl';
+
+			log_message('debug', "Encryption: Auto-configured driver '".$this->_driver."'.");
 		}
 
 		empty($params['key']) OR $this->_key = $params['key'];
@@ -807,7 +807,7 @@ class CI_Encryption {
 	 */
 	public function __get($key)
 	{
-		return in_array($key, array('cipher', 'mode', 'driver', 'drivers'), TRUE)
+		return in_array($key, array('cipher', 'mode', 'driver', 'drivers', 'digests'), TRUE)
 			? $this->{'_'.$key}
 			: NULL;
 	}
