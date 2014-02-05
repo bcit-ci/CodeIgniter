@@ -74,18 +74,20 @@ class Encryption_test extends CI_TestCase {
 			// Add some randomness to the selected driver
 			$driver = mt_rand(0,1);
 			$params = array(
+				'driver' => $driver_index[$driver],
 				'cipher' => $test[0],
 				'mode' => $test[1],
 				'key' => openssl_random_pseudo_bytes($test[2])
 			);
 
-			$this->encryption->initialize(array('driver' => $driver_index[$driver]));
-			$ciphertext = $this->encryption->encrypt($message, $params);
+			$this->encryption->initialize($params);
+			$ciphertext = $this->encryption->encrypt($message);
 
 			$driver = (int) ! $driver;
+			$params['driver'] = $driver_index[$driver];
 
-			$this->encryption->initialize(array('driver' => $driver_index[$driver]));
-			$this->assertEquals($message, $this->encryption->decrypt($ciphertext, $params));
+			$this->encryption->initialize($params);
+			$this->assertEquals($message, $this->encryption->decrypt($ciphertext));
 		}
 	}
 

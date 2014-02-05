@@ -324,31 +324,27 @@ class CI_Encryption {
 		{
 			return FALSE;
 		}
+		elseif ( ! isset($params['key']))
+		{
+			if ( ! isset($this->_key))
+			{
+				return show_error('Encryption: You are required to set an encryption key in your configuration.');
+			}
+
+			$params['key'] = $this->hkdf($this->_key, 'sha512', NULL, strlen($this->_key), 'encryption');
+		}
 
 		if (($data = $this->{'_'.$this->_driver.'_encrypt'}($data, $params)) === FALSE)
 		{
 			return FALSE;
 		}
 
-		if ($params['base64'])
-		{
-			$data = base64_encode($data);
-		}
+		$params['base64'] && $data = base64_encode($data);
 
-		if ($params['hmac'] !== FALSE)
+		if (isset($params['hmac_digest']))
 		{
-			if ( ! isset($params['hmac']['key']))
-			{
-				$params['hmac']['key'] = $this->hkdf(
-					$params['key'],
-					$params['hmac']['digest'],
-					NULL,
-					NULL,
-					'authentication'
-				);
-			}
-
-			return hash_hmac($params['hmac']['digest'], $data, $params['hmac']['key'], ! $params['base64']).$data;
+			isset($params['hmac_key']) OR $params['hmac_key'] = $this->hkdf($this->_key, 'sha512', NULL, NULL, 'authentication');
+			return hash_hmac($params['hmac_digest'], $data, $params['hmac_key'], ! $params['base64']).$data;
 		}
 
 		return $data;
@@ -473,29 +469,29 @@ class CI_Encryption {
 		{
 			return FALSE;
 		}
-
-		if ($params['hmac'] !== FALSE)
+		elseif ( ! isset($params['key']))
 		{
-			if ( ! isset($params['hmac']['key']))
+			if ( ! isset($this->_key))
 			{
-				$params['hmac']['key'] = $this->hkdf(
-					$params['key'],
-					$params['hmac']['digest'],
-					NULL,
-					NULL,
-					'authentication'
-				);
+				return show_error('Encryption: You are required to set an encryption key in your configuration.');
 			}
+
+			$params['key'] = $this->hkdf($this->_key, 'sha512', NULL, strlen($this->_key), 'encryption');
+		}
+
+		if (isset($params['hmac_digest']))
+		{
+			isset($params['hmac_key']) OR $params['hmac_key'] = $this->hkdf($this->_key, 'sha512', NULL, NULL, 'authentication');
 
 			// This might look illogical, but it is done during encryption as well ...
 			// The 'base64' value is effectively an inverted "raw data" parameter
 			$digest_size = ($params['base64'])
-				? $this->_digests[$params['hmac']['digest']] * 2
-				: $this->_digests[$params['hmac']['digest']];
+				? $this->_digests[$params['hmac_digest']] * 2
+				: $this->_digests[$params['hmac_digest']];
 			$hmac = substr($data, 0, $digest_size);
 			$data = substr($data, $digest_size);
 
-			if ($hmac !== hash_hmac($params['hmac']['digest'], $data, $params['hmac']['key'], ! $params['base64']))
+			if ($hmac !== hash_hmac($params['hmac_digest'], $data, $params['hmac_key'], ! $params['base64']))
 			{
 				return FALSE;
 			}
@@ -628,39 +624,16 @@ class CI_Encryption {
 					'handle' => $this->_handle,
 					'cipher' => $this->_cipher,
 					'mode' => $this->_mode,
-					'key' => $this->_key,
+					'key' => NULL,
 					'base64' => TRUE,
-					'hmac' => $this->_mode === 'gcm' ? FALSE : array('digest' => 'sha512',	'key' => NULL)
+					'hmac_digest' => ($this->_mode !== 'gcm' ? 'sha512' : NULL),
+					'hmac_key' => NULL
 				)
 				: FALSE;
 		}
 		elseif ( ! isset($params['cipher'], $params['mode'], $params['key']))
 		{
 			return FALSE;
-		}
-
-		if ($params['mode'] === 'gcm')
-		{
-			$params['hmac'] = FALSE;
-		}
-		elseif ( ! isset($params['hmac']) OR ( ! is_array($params['hmac']) && $params['hmac'] !== FALSE))
-		{
-			$params['hmac'] = array(
-				'digest' => 'sha512',
-				'key' => NULL
-			);
-		}
-		elseif (is_array($params['hmac']))
-		{
-			if (isset($params['hmac']['digest']) && ! isset($this->_digests[$params['hmac']['digest']]))
-			{
-				return FALSE;
-			}
-
-			$params['hmac'] = array(
-				'digest' => isset($params['hmac']['digest']) ? $params['hmac']['digest'] : 'sha512',
-				'key' => isset($params['hmac']['key']) ? $params['hmac']['key'] : NULL
-			);
 		}
 
 		if (isset($params['mode']))
@@ -676,14 +649,39 @@ class CI_Encryption {
 			}
 		}
 
+		if ($params['mode'] === 'gcm' OR isset($params['hmac']) && $params['hmac'] === FALSE)
+		{
+			$params['hmac_digest'] = $params['hmac_key'] = NULL;
+		}
+		else
+		{
+			if ( ! isset($params['hmac_key']))
+			{
+				return FALSE;
+			}
+			elseif (isset($params['hmac_digest']))
+			{
+				$params['hmac_digest'] = strtolower($params['hmac_digest']);
+				if ( ! isset($this->_digests[$params['hmac_digest']]))
+				{
+					return FALSE;
+				}
+			}
+			else
+			{
+				$params['hmac_digest'] = 'sha512';
+			}
+		}
+
 		$params = array(
 			'handle' => NULL,
-			'cipher' => isset($params['cipher']) ? $params['cipher'] : $this->_cipher,
-			'mode' => isset($params['mode']) ? $params['mode'] : $this->_mode,
-			'key' => isset($params['key']) ? $params['key'] : $this->_key,
+			'cipher' => $params['cipher'],
+			'mode' => $params['mode'],
+			'key' => $params['key'],
 			'iv' => isset($params['iv']) ? $params['iv'] : NULL,
 			'base64' => isset($params['base64']) ? $params['base64'] : TRUE,
-			'hmac' => $params['hmac']
+			'hmac_digest' => $params['hmac_digest'],
+			'hmac_key' => $params['hmac_key']
 		);
 
 		$this->_cipher_alias($params['cipher']);
