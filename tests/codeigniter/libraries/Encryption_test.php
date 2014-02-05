@@ -21,10 +21,6 @@ class Encryption_test extends CI_TestCase {
 
 		$message = 'This is a message encrypted via MCrypt and decrypted via OpenSSL, or vice-versa.';
 
-		// As it turns out, only ciphers that happened to be a US standard have a
-		// somewhat consistent implementation between MCrypt and OpenSSL, so
-		// we can only test AES, DES and TripleDES.
-		//
 		// Format is: <MCrypt cipher name>, <OpenSSL cipher name>, <key size>
 		$portable = array(
 			array('rijndael-128', 'aes-128', 16),
@@ -33,7 +29,9 @@ class Encryption_test extends CI_TestCase {
 			array('des', 'des', 7),
 			array('tripledes', 'des-ede3', 7),
 			array('tripledes', 'des-ede3', 14),
-			array('tripledes', 'des-ede3', 21)
+			array('tripledes', 'des-ede3', 21),
+			array('blowfish', 'bf', 16),
+			array('blowfish', 'bf', 56)
 		);
 		$driver_index = array('mcrypt', 'openssl');
 

@@ -734,21 +734,25 @@ class CI_Encryption {
 					'aes-128' => 'rijndael-128',
 					'aes-192' => 'rijndael-128',
 					'aes-256' => 'rijndael-128',
-					'des3-ede3' => 'tripledes'
+					'des3-ede3' => 'tripledes',
+					'bf' => 'blowfish',
 				),
 				'openssl' => array(
 					'rijndael-128' => 'aes-128',
-					'tripledes' => 'des-ede3'
+					'tripledes' => 'des-ede3',
+					'blowfish' => 'bf'
 				)
 			);
 
-			// Notes regarding other seemingly matching ciphers between
-			// MCrypt and OpenSSL:
+			// Notes:
+			//
+			// - Blowfish is said to be supporting key sizes between
+			//   4 and 56 bytes, but it appears that between MCrypt and
+			//   OpenSSL, only those of 16 and more bytes are compatible.
+			//
+			// Other seemingly matching ciphers between MCrypt, OpenSSL:
 			//
 			// - DES is compatible, but doesn't need an alias
-			// - Blowfish is NOT compatible
-			//	mcrypt: 'blowfish', 'blowfish-compat'
-			//	openssl: 'bf'
 			// - CAST-128/CAST5 is NOT compatible
 			//	mcrypt: 'cast-128'
 			//	openssl: 'cast5'
