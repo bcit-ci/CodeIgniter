@@ -135,7 +135,7 @@ class CI_Encryption {
 	public function __construct(array $params = array())
 	{
 		$this->_drivers = array(
-			'mcrypt' => extension_loaded('mcrypt'),
+			'mcrypt' => defined('MCRYPT_DEV_URANDOM'),
 			// While OpenSSL is available for PHP 5.3.0, an IV parameter
 			// for the encrypt/decrypt functions is only available since 5.3.3
 			'openssl' => (is_php('5.3.3') && extension_loaded('openssl'))
@@ -188,9 +188,9 @@ class CI_Encryption {
 
 		if (empty($this->_driver))
 		{
-			$this->_driver = ($this->_drivers['mcrypt'] === TRUE)
-				? 'mcrypt'
-				: 'openssl';
+			$this->_driver = ($this->_drivers['openssl'] === TRUE)
+				? 'openssl'
+				: 'mcrypt';
 
 			log_message('debug', "Encryption: Auto-configured driver '".$this->_driver."'.");
 		}
@@ -372,7 +372,7 @@ class CI_Encryption {
 		elseif ( ! isset($params['iv']))
 		{
 			$params['iv'] = ($iv_size = mcrypt_enc_get_iv_size($params['handle']))
-				? $this->_mcrypt_get_iv($iv_size)
+				? mcrypt_create_iv($iv_size, MCRYPT_DEV_URANDOM)
 				: NULL;
 		}
 
@@ -438,7 +438,7 @@ class CI_Encryption {
 		elseif ( ! isset($params['iv']))
 		{
 			$params['iv'] = ($iv_size = openssl_cipher_iv_length($params['handle']))
-				? $this->_openssl_get_iv($iv_size)
+				? openssl_random_pseudo_bytes($iv_size)
 				: NULL;
 		}
 
@@ -609,46 +609,6 @@ class CI_Encryption {
 				1, // DO NOT TOUCH!
 				$params['iv']
 			);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Get IV via MCrypt
-	 *
-	 * @param	int	$size
-	 * @return	int
-	 */
-	protected function _mcrypt_get_iv($size)
-	{
-		// If /dev/urandom is available - use it, otherwise there's
-		// also /dev/random, but it is highly unlikely that it would
-		// be available while /dev/urandom is not and it is known to be
-		// blocking anyway.
-		if (defined(MCRYPT_DEV_URANDOM))
-		{
-			$source = MCRYPT_DEV_URANDOM;
-		}
-		else
-		{
-			$source = MCRYPT_RAND;
-			is_php('5.3') OR srand(microtime(TRUE));
-		}
-
-		return mcrypt_create_iv($size, $source);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Get IV via OpenSSL
-	 *
-	 * @param	int	$size	IV size
-	 * @return	int
-	 */
-	protected function _openssl_get_iv($size)
-	{
-		return openssl_random_pseudo_bytes($size);
 	}
 
 	// --------------------------------------------------------------------

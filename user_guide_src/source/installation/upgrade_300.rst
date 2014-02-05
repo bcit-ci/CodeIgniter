@@ -340,9 +340,10 @@ Following numerous vulnerability reports, the :doc:`Encrypt Library <../librarie
 been deprecated and a new, :doc:`Encryption Library <../libraries/encryption>` is added to take
 its place.
 
-The new library requires either the `MCrypt extension <http://php.net/mcrypt>`_ or PHP 5.3.3 and
-the `OpenSSL extension <http://php.net/openssl>`_. While this might be rather inconvenient, it is
-a requirement that allows us to have properly implemented cryptographic functions.
+The new library requires either the `MCrypt extension <http://php.net/mcrypt>`_ (and /dev/urandom
+availability) or PHP 5.3.3 and the `OpenSSL extension <http://php.net/openssl>`_.
+While this might be rather inconvenient, it is a requirement that allows us to have properly
+implemented cryptographic functions.
 
 .. note:: The :doc:`Encrypt Library <../libraries/encrypt>` is still available for the purpose
 	of keeping backwards compatibility.
