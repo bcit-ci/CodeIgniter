@@ -207,7 +207,7 @@ if ( ! function_exists('humanize'))
 	 */
 	function humanize($str, $separator = '_')
 	{
-		return ucwords(preg_replace('/['.$separator.']+/', ' ', strtolower(trim($str))));
+		return ucwords(preg_replace('/['.$separator.']+/', ' ', mb_strtolower(trim($str))));
 	}
 }
 
