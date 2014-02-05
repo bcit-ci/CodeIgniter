@@ -292,12 +292,6 @@ class CI_Encryption {
 		{
 			return FALSE;
 		}
-		elseif ( ! isset($params['iv']))
-		{
-			$params['iv'] = ($iv_size = $this->{'_'.$this->_driver.'_get_iv_size'}($params['handle']))
-				? $this->{'_'.$this->_driver.'_get_iv'}($iv_size)
-				: NULL;
-		}
 
 		if (($data = $this->{'_'.$this->_driver.'_encrypt'}($data, $params)) === FALSE)
 		{
@@ -343,7 +337,15 @@ class CI_Encryption {
 		{
 			return FALSE;
 		}
-		elseif (mcrypt_generic_init($params['handle'], $params['key'], $params['iv']) < 0)
+		elseif ( ! isset($params['iv']))
+		{
+			$params['iv'] = ($iv_size = mcrypt_enc_get_iv_size($params['handle']))
+				? $this->_mcrypt_get_iv($iv_size)
+				: NULL;
+		}
+
+
+		if (mcrypt_generic_init($params['handle'], $params['key'], $params['iv']) < 0)
 		{
 			if ($params['handle'] !== $this->_handle)
 			{
@@ -359,7 +361,20 @@ class CI_Encryption {
 		$pad = $block_size - (strlen($data) % $block_size);
 		$data .= str_repeat(chr($pad), $pad);
 
-		$data = $params['iv'].mcrypt_generic($params['handle'], $data);
+		// Work-around for yet another strange behavior in MCrypt.
+		//
+		// When encrypting in ECB mode, the IV is ignored. Yet
+		// mcrypt_enc_get_iv_size() returns a value larger than 0
+		// even if ECB is used AND mcrypt_generic_init() complains
+		// if you don't pass an IV with length equal to the said
+		// return value.
+		//
+		// This probably would've been fine (even though still wasteful),
+		// but OpenSSL isn't that dumb and we need to make the process
+		// portable, so ...
+		$data = (mcrypt_enc_get_modes_name($params['handle']) !== 'ECB')
+			? $params['iv'].mcrypt_generic($params['handle'], $data)
+			: mcrypt_generic($params['handle'], $data);
 
 		mcrypt_generic_deinit($params['handle']);
 		if ($params['handle'] !== $this->_handle)
@@ -384,6 +399,12 @@ class CI_Encryption {
 		if (empty($params['handle']))
 		{
 			return FALSE;
+		}
+		elseif ( ! isset($params['iv']))
+		{
+			$params['iv'] = ($iv_size = openssl_cipher_iv_length($params['handle']))
+				? $this->_openssl_get_iv($iv_size)
+				: NULL;
 		}
 
 		$data = openssl_encrypt(
@@ -450,20 +471,7 @@ class CI_Encryption {
 			$data = base64_decode($data);
 		}
 
-		if ( ! isset($params['iv']))
-		{
-			$iv_size = $this->{'_'.$this->_driver.'_get_iv_size'}($params['handle']);
-			if ($iv_size = $this->{'_'.$this->_driver.'_get_iv_size'}($params['handle']))
-			{
-				$params['iv'] = substr($data, 0, $iv_size);
-				$data = substr($data, $iv_size);
-			}
-			else
-			{
-				$params['iv'] = NULL;
-			}
-		}
-		elseif (strncmp($params['iv'], $data, $iv_size = strlen($params['iv'])) === 0)
+		if (isset($params['iv']) && strncmp($params['iv'], $data, $iv_size = strlen($params['iv'])) === 0)
 		{
 			$data = substr($data, $iv_size);
 		}
@@ -486,7 +494,28 @@ class CI_Encryption {
 		{
 			return FALSE;
 		}
-		elseif (mcrypt_generic_init($params['handle'], $params['key'], $params['iv']) < 0)
+		elseif ( ! isset($params['iv']))
+		{
+			if ($iv_size = mcrypt_enc_get_iv_size($params['handle']))
+			{
+				if (mcrypt_enc_get_modes_name($params['handle']) !== 'ECB')
+				{
+					$params['iv'] = substr($data, 0, $iv_size);
+					$data = substr($data, $iv_size);
+				}
+				else
+				{
+					// MCrypt is dumb and this is ignored, only size matters
+					$params['iv'] = str_repeat("\x0", $iv_size);
+				}
+			}
+			else
+			{
+				$params['iv'] = NULL;
+			}
+		}
+
+		if (mcrypt_generic_init($params['handle'], $params['key'], $params['iv']) < 0)
 		{
 			if ($params['handle'] !== $this->_handle)
 			{
@@ -519,6 +548,19 @@ class CI_Encryption {
 	 */
 	protected function _openssl_decrypt($data, $params)
 	{
+		if ( ! isset($params['iv']))
+		{
+			if ($iv_size = openssl_cipher_iv_length($params['handle']))
+			{
+				$params['iv'] = substr($data, 0, $iv_size);
+				$data = substr($data, $iv_size);
+			}
+			else
+			{
+				$params['iv'] = NULL;
+			}
+		}
+
 		return empty($params['handle'])
 			? FALSE
 			: openssl_decrypt(
@@ -528,32 +570,6 @@ class CI_Encryption {
 				1, // DO NOT TOUCH!
 				$params['iv']
 			);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Get IV size via MCrypt
-	 *
-	 * @param	resource	$handle	MCrypt module resource
-	 * @return	int
-	 */
-	protected function _mcrypt_get_iv_size($handle)
-	{
-		return mcrypt_enc_get_iv_size($handle);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Get IV size via OpenSSL
-	 *
-	 * @param	string	$handle	OpenSSL cipher method
-	 * @return	int
-	 */
-	protected function _openssl_get_iv_size($handle)
-	{
-		return openssl_cipher_iv_length($handle);
 	}
 
 	// --------------------------------------------------------------------
