@@ -82,6 +82,35 @@ class CI_Encryption {
 	protected $_drivers = array();
 
 	/**
+	 * List of available modes
+	 *
+	 * @var	array
+	 */
+	protected $_modes = array(
+		'mcrypt' => array(
+			'cbc' => 'cbc',
+			'ecb' => 'ecb',
+			'ofb' => 'nofb',
+			'ofb8' => 'ofb',
+			'cfb' => 'ncfb',
+			'cfb8' => 'cfb',
+			'ctr' => 'ctr',
+			'stream' => 'stream'
+		),
+		'openssl' => array(
+			'cbc' => 'cbc',
+			'ecb' => 'ecb',
+			'ofb' => 'ofb',
+			'cfb' => 'cfb',
+			'cfb8' => 'cfb8',
+			'ctr' => 'ctr',
+			'stream' => '',
+			'gcm' => 'gcm',
+			'xts' => 'xts'
+		)
+	);
+
+	/**
 	 * List of supported HMAC algorightms
 	 *
 	 * name => digest size pairs
@@ -115,12 +144,6 @@ class CI_Encryption {
 		if ( ! $this->_drivers['mcrypt'] && ! $this->_drivers['openssl'])
 		{
 			return show_error('Encryption: Unable to find an available encryption driver.');
-		}
-		// Our configuration validates against the existence of MCRYPT_MODE_* constants,
-		// but MCrypt supports CTR mode without actually having a constant for it, so ...
-		elseif ($this->_drivers['mcrypt'] && ! defined('MCRYPT_MODE_CTR'))
-		{
-			define('MCRYPT_MODE_CTR', 'ctr');
 		}
 
 		$this->initialize($params);
@@ -204,13 +227,14 @@ class CI_Encryption {
 
 		if ( ! empty($params['mode']))
 		{
-			if ( ! defined('MCRYPT_MODE_'.$params['mode']))
+			$params['mode'] = strtolower($params['mode']);
+			if ( ! isset($this->_modes['mcrypt'][$params['mode']]))
 			{
 				log_message('error', 'Encryption: MCrypt mode '.strtotupper($params['mode']).' is not available.');
 			}
 			else
 			{
-				$this->_mode = constant('MCRYPT_MODE_'.$params['mode']);
+				$this->_mode = $this->_modes['mcrypt'][$params['mode']];
 			}
 		}
 
@@ -254,13 +278,21 @@ class CI_Encryption {
 
 		if ( ! empty($params['mode']))
 		{
-			$this->_mode = strtolower($params['mode']);
+			$params['mode'] = strtolower($params['mode']);
+			if ( ! isset($this->_modes['openssl'][$params['mode']]))
+			{
+				log_message('error', 'Encryption: OpenSSL mode '.strtotupper($params['mode']).' is not available.');
+			}
+			else
+			{
+				$this->_mode = $this->_modes['openssl'][$params['mode']];
+			}
 		}
 
 		if (isset($this->_cipher, $this->_mode))
 		{
-			// OpenSSL methods aren't suffixed with '-stream' for this mode
-			$handle = ($this->_mode === 'stream')
+			// This is mostly for the stream mode, which doesn't get suffixed in OpenSSL
+			$handle = empty($this->_mode)
 				? $this->_cipher
 				: $this->_cipher.'-'.$this->_mode;
 
@@ -356,10 +388,13 @@ class CI_Encryption {
 		}
 
 		// Use PKCS#7 padding in order to ensure compatibility with OpenSSL
-		// and other implementations outside of PHP
-		$block_size = mcrypt_enc_get_block_size($params['handle']);
-		$pad = $block_size - (strlen($data) % $block_size);
-		$data .= str_repeat(chr($pad), $pad);
+		// and other implementations outside of PHP.
+		if (in_array(strtolower(mcrypt_enc_get_modes_name($params['handle'])), array('cbc', 'ecb'), TRUE))
+		{
+			$block_size = mcrypt_enc_get_block_size($params['handle']);
+			$pad = $block_size - (strlen($data) % $block_size);
+			$data .= str_repeat(chr($pad), $pad);
+		}
 
 		// Work-around for yet another strange behavior in MCrypt.
 		//
@@ -526,6 +561,11 @@ class CI_Encryption {
 		}
 
 		$data = mdecrypt_generic($params['handle'], $data);
+		// Remove PKCS#7 padding, if necessary
+		if (in_array(strtolower(mcrypt_enc_get_modes_name($params['handle'])), array('cbc', 'ecb'), TRUE))
+		{
+			$data = substr($data, 0, -ord($data[strlen($data)-1]));
+		}
 
 		mcrypt_generic_deinit($params['handle']);
 		if ($params['handle'] !== $this->_handle)
@@ -533,8 +573,7 @@ class CI_Encryption {
 			mcrypt_module_close($params['handle']);
 		}
 
-		// Remove PKCS#7 padding
-		return substr($data, 0, -ord($data[strlen($data)-1]));
+		return $data;
 	}
 
 	// --------------------------------------------------------------------
@@ -662,6 +701,19 @@ class CI_Encryption {
 				'digest' => isset($params['hmac']['digest']) ? $params['hmac']['digest'] : 'sha512',
 				'key' => isset($params['hmac']['key']) ? $params['hmac']['key'] : NULL
 			);
+		}
+
+		if (isset($params['mode']))
+		{
+			$params['mode'] = strtolower($params['mode']);
+			if ( ! isset($this->_modes[$this->_driver][$params['mode']]))
+			{
+				return FALSE;
+			}
+			else
+			{
+				$params['mode'] = $this->_modes[$this->_driver][$params['mode']];
+			}
 		}
 
 		$params = array(

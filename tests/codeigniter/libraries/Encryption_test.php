@@ -21,17 +21,51 @@ class Encryption_test extends CI_TestCase {
 
 		$message = 'This is a message encrypted via MCrypt and decrypted via OpenSSL, or vice-versa.';
 
-		// Format is: <MCrypt cipher name>, <OpenSSL cipher name>, <key size>
+		// Format is: <Cipher name>, <Cipher mode>, <Key size>
 		$portable = array(
-			array('rijndael-128', 'aes-128', 16),
-			array('rijndael-128', 'aes-192', 24),
-			array('rijndael-128', 'aes-256', 32),
-			array('des', 'des', 7),
-			array('tripledes', 'des-ede3', 7),
-			array('tripledes', 'des-ede3', 14),
-			array('tripledes', 'des-ede3', 21),
-			array('blowfish', 'bf', 16),
-			array('blowfish', 'bf', 56)
+			array('aes-128', 'cbc', 16),
+			array('aes-128', 'cfb', 16),
+			array('aes-128', 'cfb8', 16),
+			array('aes-128', 'ofb', 16),
+			array('aes-128', 'ecb', 16),
+			array('aes-128', 'ctr', 16),
+			array('aes-192', 'cbc', 24),
+			array('aes-192', 'cfb', 24),
+			array('aes-192', 'cfb8', 24),
+			array('aes-192', 'ofb', 24),
+			array('aes-192', 'ecb', 24),
+			array('aes-192', 'ctr', 24),
+			array('aes-256', 'cbc', 32),
+			array('aes-256', 'cfb', 32),
+			array('aes-256', 'cfb8', 32),
+			array('aes-256', 'ofb', 32),
+			array('aes-256', 'ecb', 32),
+			array('aes-256', 'ctr', 32),
+			array('des', 'cbc', 7),
+			array('des', 'cfb', 7),
+			array('des', 'cfb8', 7),
+			array('des', 'ofb', 7),
+			array('des', 'ecb', 7),
+			array('tripledes', 'cbc', 7),
+			array('tripledes', 'cfb', 7),
+			array('tripledes', 'cfb8', 7),
+			array('tripledes', 'ofb', 7),
+			array('tripledes', 'cbc', 14),
+			array('tripledes', 'cfb', 14),
+			array('tripledes', 'cfb8', 14),
+			array('tripledes', 'ofb', 14),
+			array('tripledes', 'cbc', 21),
+			array('tripledes', 'cfb', 21),
+			array('tripledes', 'cfb8', 21),
+			array('tripledes', 'ofb', 21),
+			array('blowfish', 'cbc', 16),
+			array('blowfish', 'cfb', 16),
+			array('blowfish', 'ofb', 16),
+			array('blowfish', 'ecb', 16),
+			array('blowfish', 'cbc', 56),
+			array('blowfish', 'cfb', 56),
+			array('blowfish', 'ofb', 56),
+			array('blowfish', 'ecb', 56),
 		);
 		$driver_index = array('mcrypt', 'openssl');
 
@@ -40,8 +74,8 @@ class Encryption_test extends CI_TestCase {
 			// Add some randomness to the selected driver
 			$driver = mt_rand(0,1);
 			$params = array(
-				'cipher' => $test[$driver],
-				'mode' => 'cbc',
+				'cipher' => $test[0],
+				'mode' => $test[1],
 				'key' => openssl_random_pseudo_bytes($test[2])
 			);
 
@@ -49,7 +83,6 @@ class Encryption_test extends CI_TestCase {
 			$ciphertext = $this->encryption->encrypt($message, $params);
 
 			$driver = (int) ! $driver;
-			$params['cipher'] = $test[$driver];
 
 			$this->encryption->initialize(array('driver' => $driver_index[$driver]));
 			$this->assertEquals($message, $this->encryption->decrypt($ciphertext, $params));
