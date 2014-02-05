@@ -222,7 +222,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	 */
 	public function affected_rows()
 	{
-		return @odbc_num_rows($this->conn_id);
+		return @odbc_num_rows($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
