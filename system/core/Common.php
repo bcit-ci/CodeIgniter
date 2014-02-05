@@ -756,6 +756,11 @@ if ( ! function_exists('function_usable'))
 	 * *suhosin.executor.disable_eval*. These settings will just
 	 * terminate script execution if a disabled function is executed.
 	 *
+	 * The above described behavior turned out to be a bug in Suhosin,
+	 * but even though a fix was commited for 0.9.34 on 2012-02-12,
+	 * that version is yet to be released. This function will therefore
+	 * be just temporary, but would probably be kept for a few years.
+	 *
 	 * @link	http://www.hardened-php.net/suhosin/
 	 * @param	string	$function_name	Function to check for
 	 * @return	bool	TRUE if the function exists and is safe to call,
