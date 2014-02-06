@@ -481,17 +481,31 @@ class CI_Encryption {
 
 		if (isset($params['hmac_digest']))
 		{
-			isset($params['hmac_key']) OR $params['hmac_key'] = $this->hkdf($this->_key, 'sha512', NULL, NULL, 'authentication');
-
 			// This might look illogical, but it is done during encryption as well ...
 			// The 'base64' value is effectively an inverted "raw data" parameter
 			$digest_size = ($params['base64'])
 				? $this->_digests[$params['hmac_digest']] * 2
 				: $this->_digests[$params['hmac_digest']];
-			$hmac = substr($data, 0, $digest_size);
+
+			if (strlen($data) <= $digest_size)
+			{
+				return FALSE;
+			}
+
+			$hmac_input = substr($data, 0, $digest_size);
 			$data = substr($data, $digest_size);
 
-			if ($hmac !== hash_hmac($params['hmac_digest'], $data, $params['hmac_key'], ! $params['base64']))
+			isset($params['hmac_key']) OR $params['hmac_key'] = $this->hkdf($this->_key, 'sha512', NULL, NULL, 'authentication');
+			$hmac_check = hash_hmac($params['hmac_digest'], $data, $params['hmac_key'], ! $params['base64']);
+
+			// Time-attack-safe comparison
+			$diff = 0;
+			for ($i = 0; $i < $digest_size; $i++)
+			{
+				$diff |= ord($hmac_input[$i]) ^ ord($hmac_check[$i]);
+			}
+
+			if ($diff !== 0)
 			{
 				return FALSE;
 			}
