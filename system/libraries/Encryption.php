@@ -367,11 +367,21 @@ class CI_Encryption {
 		}
 		elseif ( ! isset($params['iv']))
 		{
-			$params['iv'] = ($iv_size = mcrypt_enc_get_iv_size($params['handle']))
+			// The greater-than-1 comparison is mostly a work-around for a bug,
+			// where 1 is returned for ARCFour instead of 0.
+			$params['iv'] = (($iv_size = mcrypt_enc_get_iv_size($params['handle'])) > 1)
 				? mcrypt_create_iv($iv_size, MCRYPT_DEV_URANDOM)
 				: NULL;
 		}
 
+		// CAST-128 compatibility (http://tools.ietf.org/rfc/rfc2144.txt)
+		//
+		// RFC2144 says that keys shorter than 16 bytes are to be padded with
+		// zero bytes to 16 bytes, but (surprise) MCrypt doesn't do that.
+		if ($params['cipher'] === 'cast-128' && ($kl = strlen($params['key'])) < 16)
+		{
+			$params['key'] .= str_repeat("\x0", 16 - $kl);
+		}
 
 		if (mcrypt_generic_init($params['handle'], $params['key'], $params['iv']) < 0)
 		{
@@ -541,7 +551,9 @@ class CI_Encryption {
 		}
 		elseif ( ! isset($params['iv']))
 		{
-			if ($iv_size = mcrypt_enc_get_iv_size($params['handle']))
+			// The greater-than-1 comparison is mostly a work-around for a bug,
+			// where 1 is returned for ARCFour instead of 0.
+			if (($iv_size = mcrypt_enc_get_iv_size($params['handle'])) > 1)
 			{
 				if (mcrypt_enc_get_modes_name($params['handle']) !== 'ECB')
 				{
@@ -558,6 +570,15 @@ class CI_Encryption {
 			{
 				$params['iv'] = NULL;
 			}
+		}
+
+		// CAST-128 compatibility (http://tools.ietf.org/rfc/rfc2144.txt)
+		//
+		// RFC2144 says that keys shorter than 16 bytes are to be padded with
+		// zero bytes to 16 bytes, but (surprise) MCrypt doesn't do that.
+		if ($params['cipher'] === 'cast-128' && ($kl = strlen($params['key'])) < 16)
+		{
+			$params['key'] .= str_repeat("\x0", 16 - $kl);
 		}
 
 		if (mcrypt_generic_init($params['handle'], $params['key'], $params['iv']) < 0)
@@ -760,35 +781,49 @@ class CI_Encryption {
 					'aes-256' => 'rijndael-128',
 					'des3-ede3' => 'tripledes',
 					'bf' => 'blowfish',
+					'cast5' => 'cast-128',
+					'rc4' => 'arcfour',
+					'rc4-40' => 'arcfour'
 				),
 				'openssl' => array(
 					'rijndael-128' => 'aes-128',
 					'tripledes' => 'des-ede3',
-					'blowfish' => 'bf'
+					'blowfish' => 'bf',
+					'cast-128' => 'cast5',
+					'arcfour' => 'rc4-40',
+					'rc4' => 'rc4-40'
 				)
 			);
 
 			// Notes:
 			//
+			// - Rijndael-128 is, at the same time all three of AES-128,
+			//   AES-192 and AES-256. The only difference between them is
+			//   the key size. Rijndael-192, Rijndael-256 on the other hand
+			//   also have different block sizes and are NOT AES-compatible.
+			//
 			// - Blowfish is said to be supporting key sizes between
 			//   4 and 56 bytes, but it appears that between MCrypt and
 			//   OpenSSL, only those of 16 and more bytes are compatible.
+			//   Also, don't know what MCrypt's 'blowfish-compat' is.
+			//
+			// - CAST-128/CAST5 produces a longer cipher when encrypted via
+			//   OpenSSL, but (strangely enough) can be decrypted by either
+			//   extension anyway.
+			//   Also, RFC2144 says that the cipher supports key sizes
+			//   between 5 and 16 bytes by the implementation actually
+			//   zero-padding them to 16 bytes, but MCrypt doesn't do that.
+			//
+			// - RC4 (ARCFour) has a strange implementation under OpenSSL.
+			//   Its 'rc4-40' cipher method seems to work flawlessly, yet
+			//   there's another one, 'rc4' that only works with a 16-byte key.
+			//
+			// - DES is compatible, but doesn't need an alias.
 			//
 			// Other seemingly matching ciphers between MCrypt, OpenSSL:
 			//
-			// - DES is compatible, but doesn't need an alias
-			// - CAST-128/CAST5 is NOT compatible
-			//	mcrypt: 'cast-128'
-			//	openssl: 'cast5'
-			// - RC2 is NOT compatible
-			//	mcrypt: 'rc2'
-			//	openssl: 'rc2', 'rc2-40', 'rc2-64'
-			//
-			// To avoid any other confusion due to a popular (but incorrect)
-			// belief, it should also be noted that Rijndael-192/256 are NOT
-			// the same ciphers as AES-192/256 like Rijndael-128 and AES-256 is.
-			//
-			// All compatibility tests were done in CBC mode.
+			// - RC2 is NOT compatible and only an obscure forum post
+			//   confirms that it is MCrypt's fault.
 		}
 
 		if (isset($dictionary[$this->_driver][$cipher]))
