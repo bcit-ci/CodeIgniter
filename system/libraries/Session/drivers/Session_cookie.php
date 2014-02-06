@@ -404,7 +404,15 @@ class CI_Session_cookie extends CI_Session_driver {
 			$hmac = substr($session, $len);
 			$session = substr($session, 0, $len);
 
-			if ($hmac !== hash_hmac('sha1', $session, $this->encryption_key))
+			// Time-attack-safe comparison
+			$hmac_check = hash_hmac('sha1', $session, $this->encryption_key);
+			$diff = 0;
+			for ($i = 0; $i < 40; $i++)
+			{
+				$diff |= ord($hmac[$i]) ^ ord($hmac_check[$i]);
+			}
+
+			if ($diff !== 0)
 			{
 				log_message('error', 'Session: HMAC mismatch. The session cookie data did not match what was expected.');
 				$this->sess_destroy();
