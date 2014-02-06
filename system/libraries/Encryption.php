@@ -44,7 +44,7 @@ class CI_Encryption {
 	 *
 	 * @var	string
 	 */
-	protected $_cipher = 'rijndael-128';
+	protected $_cipher = 'aes-128';
 
 	/**
 	 * Cipher mode
@@ -147,11 +147,9 @@ class CI_Encryption {
 		}
 
 		$this->initialize($params);
-
-		isset($this->_key) OR $this->_key = config_item('encryption_key');
-		if (empty($this->_key))
+		if ( ! isset($this->_key) && strlen($key = config_item('encryption_key')) > 0)
 		{
-			return show_error('Encryption: You are required to set an encryption key in your configuration.');
+			$this->_key = $key;
 		}
 
 		log_message('debug', 'Encryption Class Initialized');
@@ -324,15 +322,8 @@ class CI_Encryption {
 		{
 			return FALSE;
 		}
-		elseif ( ! isset($params['key']))
-		{
-			if ( ! isset($this->_key))
-			{
-				return show_error('Encryption: You are required to set an encryption key in your configuration.');
-			}
 
-			$params['key'] = $this->hkdf($this->_key, 'sha512', NULL, strlen($this->_key), 'encryption');
-		}
+		isset($params['key']) OR $params['key'] = $this->hkdf($this->_key, 'sha512', NULL, strlen($this->_key), 'encryption');
 
 		if (($data = $this->{'_'.$this->_driver.'_encrypt'}($data, $params)) === FALSE)
 		{
@@ -479,15 +470,6 @@ class CI_Encryption {
 		{
 			return FALSE;
 		}
-		elseif ( ! isset($params['key']))
-		{
-			if ( ! isset($this->_key))
-			{
-				return show_error('Encryption: You are required to set an encryption key in your configuration.');
-			}
-
-			$params['key'] = $this->hkdf($this->_key, 'sha512', NULL, strlen($this->_key), 'encryption');
-		}
 
 		if (isset($params['hmac_digest']))
 		{
@@ -530,6 +512,8 @@ class CI_Encryption {
 		{
 			$data = substr($data, $iv_size);
 		}
+
+		isset($params['key']) OR $params['key'] = $this->hkdf($this->_key, 'sha512', NULL, strlen($this->_key), 'encryption');
 
 		return $this->{'_'.$this->_driver.'_decrypt'}($data, $params);
 	}
@@ -684,7 +668,7 @@ class CI_Encryption {
 			}
 		}
 
-		if ($params['mode'] === 'gcm' OR isset($params['hmac']) && $params['hmac'] === FALSE)
+		if ($params['mode'] === 'gcm' OR (isset($params['hmac']) && $params['hmac'] === FALSE))
 		{
 			$params['hmac_digest'] = $params['hmac_key'] = NULL;
 		}
@@ -884,9 +868,17 @@ class CI_Encryption {
 	 */
 	public function __get($key)
 	{
-		return in_array($key, array('cipher', 'mode', 'driver', 'drivers', 'digests'), TRUE)
-			? $this->{'_'.$key}
-			: NULL;
+		// Because aliases
+		if ($key === 'mode')
+		{
+			return array_search($this->_mode, $this->_modes[$this->_driver], TRUE);
+		}
+		elseif (in_array($key, array('cipher', 'driver', 'drivers', 'digests'), TRUE))
+		{
+			return $this->{'_'.$key};
+		}
+
+		return NULL;
 	}
 
 }
