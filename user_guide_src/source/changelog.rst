@@ -133,7 +133,7 @@ Release Date: Not Released
       - Added *filename* to the returned array elements.
 
    -  :doc:`Directory Helper <helpers/directory_helper>` :func:`directory_map()` will now append ``DIRECTORY_SEPARATOR`` to directory names in the returned array.
-   -  :doc:`Array Helper <helpers/array_helper>` :func:`element()` and :php:func:`elements()` now return NULL instead of FALSE when the required elements don't exist.
+   -  :doc:`Array Helper <helpers/array_helper>` :func:`element()` and :func:`elements()` now return NULL instead of FALSE when the required elements don't exist.
    -  :doc:`Language Helper <helpers/language_helper>` :func:`lang()` now accepts an optional list of additional HTML attributes.
    -  Changed the default tag for use in :doc:`Text Helper <helpers/text_helper>` :func:`highlight_phrase()` to ``<mark>`` (formerly ``<strong>``).
    -  Deprecated the :doc:`Email Helper <helpers/email_helper>` as its ``valid_email()``, ``send_email()`` functions are now only aliases for PHP native functions ``filter_var()`` and ``mail()`` respectively.
@@ -439,7 +439,7 @@ Release Date: Not Released
       -  Added method ``post_get()`` and changed ``get_post()`` to search in GET data first. Both methods' names now properly match their GET/POST data search priorities.
       -  Changed method ``_fetch_from_array()`` to parse array notation in field name.
       -  Added an option for ``_clean_input_keys()`` to return FALSE instead of terminating the whole script.
-      -  Deprecated the ``is_cli_request()`` method, it is now an alias for the new :php:func:`is_cli()` common function.
+      -  Deprecated the ``is_cli_request()`` method, it is now an alias for the new :func:`is_cli()` common function.
 
    -  :doc:`Common functions <general/common_functions>` changes include:
 
@@ -656,11 +656,11 @@ Bug fixes for 3.0
 -  Fixed a bug (#249) - :doc:`Cache Library <libraries/caching>` didn't properly handle Memcache(d) configurations with missing options.
 -  Fixed a bug (#180) - :func:`config_item()` didn't take into account run-time configuration changes.
 -  Fixed a bug (#2551) - :doc:`Loader Library <libraries/loader>` method ``library()`` didn't properly check if a class that is being loaded already exists.
--  Fixed a bug (#2560) - :doc:`Form Helper <helpers/form_helper>` function :php:func:`form_open()` set the 'method="post"' attribute only if the passed attributes equaled an empty string.
+-  Fixed a bug (#2560) - :doc:`Form Helper <helpers/form_helper>` function :func:`form_open()` set the 'method="post"' attribute only if the passed attributes equaled an empty string.
 -  Fixed a bug (#2585) - :doc:`Query Builder <database/query_builder>` methods ``min()``, ``max()``, ``avg()``, ``sum()`` didn't escape field names.
 -  Fixed an edge case (#2583) in the :doc:`Email Library <libraries/email>` where `Suhosin <http://www.hardened-php.net/suhosin/>` blocked messages sent via ``mail()`` due to trailing newspaces in headers.
--  Fixed a bug (#2590) - :php:func:`log_message()` didn't actually cache the ``CI_Log`` class instance.
--  Fixed a bug (#2609) - :php:func:`get_config()` optional argument was only effective on first function call. Also, it can now add items, in addition to updating existing items.
+-  Fixed a bug (#2590) - :func:`log_message()` didn't actually cache the ``CI_Log`` class instance.
+-  Fixed a bug (#2609) - :func:`get_config()` optional argument was only effective on first function call. Also, it can now add items, in addition to updating existing items.
 -  Fixed a bug in the 'postgre' :doc:`database <database/index>` driver where the connection ID wasn't passed to ``pg_escape_string()``.
 -  Fixed a bug (#33) - Script execution was terminated when an invalid cookie key was encountered.
 -  Fixed a bug (#2681) - ``CI_Security::entity_decode()`` used the `PREG_REPLACE_EVAL` flag, which is deprecated since PHP 5.5.

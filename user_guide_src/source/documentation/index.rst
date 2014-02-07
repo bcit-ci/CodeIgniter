@@ -127,7 +127,7 @@ ReST:
 			:param mixed $bar: A data array that must contain aa something and something else
 			:param bool $bat: whether or not to do something
 			:returns: FALSE on failure, TRUE if successful
-			:rtype: Boolean
+			:rtype: bool
 
 			::
 
@@ -148,13 +148,13 @@ ReST:
 			.. note:: Here is something that you should be aware of when using some_method().
 					For real.
 
-			See also :php:meth:`Some_class::should_do_something`
+			See also :meth:`Some_class::should_do_something`
 
 
 		.. method:: should_do_something()
 
-			:returns: whether or something should be done or not
-			:rtype: Boolean
+			:returns: Whether or something should be done or not
+			:rtype: bool
 
 
 It creates the following display:
@@ -172,7 +172,7 @@ It creates the following display:
 		:param mixed $bar: A data array that must contain aa something and something else
 		:param bool $bat: whether or not to do something
 		:returns: FALSE on failure, TRUE if successful
-		:rtype: Boolean
+		:rtype: bool
 
 		::
 
@@ -193,10 +193,10 @@ It creates the following display:
 		.. note:: Here is something that you should be aware of when using some_method().
 				For real.
 
-		See also :php:meth:`Some_class::should_do_something`
+		See also :meth:`Some_class::should_do_something`
 
 
 	.. method:: should_do_something()
 
-		:returns: whether or something should be done or not
-		:rtype: Boolean
+		:returns: Whether or something should be done or not
+		:rtype: bool
