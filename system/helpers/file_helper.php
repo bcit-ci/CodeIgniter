@@ -298,8 +298,7 @@ if ( ! function_exists('get_file_info'))
 					$fileinfo['readable'] = is_readable($file);
 					break;
 				case 'writable':
-					// There are known problems using is_weritable on IIS.  It may not be reliable - consider fileperms()
-					$fileinfo['writable'] = is_writable($file);
+					$fileinfo['writable'] = is_really_writable($file);
 					break;
 				case 'executable':
 					$fileinfo['executable'] = is_executable($file);
