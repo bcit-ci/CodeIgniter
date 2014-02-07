@@ -29,15 +29,12 @@ software keep track of your scripts and the health of your application.
 
 The following functions let you generate errors:
 
-show_error()
-============
-
 .. function:: show_error($message, $status_code, $heading = 'An Error Was Encountered')
 
 	:param	mixed	$message: Error message
 	:param	int	$status_code: HTTP Response status code
 	:param	string	$heading: Error page heading
-	:returns:	void
+	:rtype:	void
 
 This function will display the error message supplied to it using the
 following error template::
@@ -52,14 +49,11 @@ be set to ``$status_code + EXIT__AUTO_MIN``. If that value is larger than
 status code will be set to ``EXIT_ERROR``. You can check in
 *application/config/constants.php* for more detail.
 
-show_404()
-==========
-
 .. function:: show_404($page = '', $log_error = TRUE)
 
 	:param	string	$page: URI string
 	:param	bool	$log_error: Whether to log the error
-	:returns:	void
+	:rtype:	void
 
 This function will display the 404 error message supplied to it using
 the following error template::
@@ -74,15 +68,12 @@ not found.
 CodeIgniter automatically logs any ``show_404()`` calls. Setting the
 optional second parameter to FALSE will skip logging.
 
-log_message()
-=============
-
 .. function:: log_message($level, $message, $php_error = FALSE)
 
 	:param	string	$level: Log level: 'error', 'debug' or 'info'
 	:param	string	$message: Message to log
 	:param	bool	$php_error: Whether we're logging a native PHP error message
-	:returns:	void
+	:rtype:	void
 
 This function lets you write messages to your log files. You must supply
 one of three "levels" in the first parameter, indicating what type of

@@ -16,7 +16,8 @@ loading any libraries or helpers.
 .. function:: is_php([$version = '5.3.0'])
 
 	:param	string	$version: Version number
-	:returns:	bool
+	:returns:	TRUE if the running PHP version is at least the one specified or FALSE if not
+	:rtype:	bool
 
 	Determines of the PHP version being used is greater than the
 	supplied version number.
@@ -35,7 +36,8 @@ loading any libraries or helpers.
 .. function:: is_really_writable($file)
 
 	:param	string	$file: File path
-	:returns:	bool
+	:returns:	TRUE if the path is writable, FALSE if not
+	:rtype:	bool
 
 	``is_writable()`` returns TRUE on Windows servers when you really can't
 	write to the file as the OS reports to PHP as FALSE only if the
@@ -61,7 +63,8 @@ loading any libraries or helpers.
 .. function:: config_item($key)
 
 	:param	string	$key: Config item key
-	:returns:	mixed
+	:returns:	Configuration key value or FALSE if not found
+	:rtype:	mixed
 
 	The :doc:`Config Library <../libraries/config>` is the preferred way of
 	accessing configuration information, however ``config_item()`` can be used
@@ -73,7 +76,7 @@ loading any libraries or helpers.
 	:param	mixed	$message: Error message
 	:param	int	$status_code: HTTP Response status code
 	:param	string	$heading: Error page heading
-	:returns:	void
+	:rtype:	void
 
 	This function calls ``CI_Exception::show_error()``. For more info,
 	please see the :doc:`Error Handling <errors>` documentation.
@@ -82,7 +85,7 @@ loading any libraries or helpers.
 
 	:param	string	$page: URI string
 	:param	bool	$log_error: Whether to log the error
-	:returns:	void
+	:rtype:	void
 
 	This function calls ``CI_Exception::show_404()``. For more info,
 	please see the :doc:`Error Handling <errors>` documentation.
@@ -91,7 +94,7 @@ loading any libraries or helpers.
 
 	:param	string	$level: Log level: 'error', 'debug' or 'info'
 	:param	string	$message: Message to log
-	:returns:	void
+	:rtype:	void
 
 	This function is an alias for ``CI_Log::write_log()``. For more info,
 	please see the :doc:`Error Handling <errors>` documentation.
@@ -100,7 +103,7 @@ loading any libraries or helpers.
 
 	:param	int	$code: HTTP Reponse status code
 	:param	string	$text: A custom message to set with the status code
-	:returns:	void
+	:rtype:	void
 
 	Permits you to manually set a server status header. Example::
 
@@ -114,7 +117,8 @@ loading any libraries or helpers.
 
 	:param	string	$str: Input string
 	:param	bool	$url_encoded: Whether to remove URL-encoded characters as well
-	:returns:	string
+	:returns:	Sanitized string
+	:rtype:	string
 
 	This function prevents inserting NULL characters between ASCII
 	characters, like Java\\0script.
@@ -127,7 +131,8 @@ loading any libraries or helpers.
 .. function:: html_escape($var)
 
 	:param	mixed	$var: Variable to escape (string or array)
-	:returns:	mixed
+	:returns:	HTML escaped string(s)
+	:rtype:	mixed
 
 	This function acts as an alias for PHP's native ``htmlspecialchars()``
 	function, with the advantage of being able to accept an array of strings.
@@ -136,21 +141,24 @@ loading any libraries or helpers.
 
 .. function:: get_mimes()
 
-	:returns:	array
+	:returns:	An associative array of file types
+	:rtype:	array
 
 	This function returns a *reference* to the MIMEs array from
 	*application/config/mimes.php*.
 
 .. function:: is_https()
 
-	:returns:	bool
+	:returns:	TRUE if currently using HTTP-over-SSL, FALSE if not
+	:rtype:	bool
 
 	Returns TRUE if a secure (HTTPS) connection is used and FALSE
 	in any other case (including non-HTTP requests).
 
 .. function:: is_cli()
 
-	:returns:	bool
+	:returns:	TRUE if currently running under CLI, FALSE otherwise
+	:rtype:	bool
 
 	Returns TRUE if the application is run through the command line
 	and FALSE if not.
@@ -161,7 +169,8 @@ loading any libraries or helpers.
 .. function:: function_usable($function_name)
 
 	:param	string	$function_name: Function name
-	:returns:	bool
+	:returns:	TRUE if the function can be used, FALSE if not
+	:rtype:	bool
 
 	Returns TRUE if a function exists and is usable, FALSE otherwise.
 
