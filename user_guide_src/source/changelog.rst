@@ -516,7 +516,7 @@ Bug fixes for 3.0
 -  Fixed a possible bug in :doc:`Input Libary <libraries/input>` method ``is_ajax_request()`` where some clients might not send the X-Requested-With HTTP header value exactly as 'XmlHttpRequest'.
 -  Fixed a bug (#1039) - :doc:`Database Utilities <database/utilities>` internal method ``_backup()`` method failed for the 'mysql' driver due to a table name not being escaped.
 -  Fixed a bug (#1070) - ``CI_DB_driver::initialize()`` didn't set a character set if a database is not selected.
--  Fixed a bug (#177) - :doc:`Form Validation Library <libraries/form_validation>`` method ``set_value()`` didn't set the default value if POST data is NULL.
+-  Fixed a bug (#177) - :doc:`Form Validation Library <libraries/form_validation>` method ``set_value()`` didn't set the default value if POST data is NULL.
 -  Fixed a bug (#68, #414) - :Oracle's ``escape_str()`` didn't properly escape LIKE wild characters.
 -  Fixed a bug (#81) - ODBC's ``list_fields()`` and ``field_data()`` methods skipped the first column due to ``odbc_field_*()`` functions' index starting at 1 instead of 0.
 -  Fixed a bug (#129) - ODBC's ``num_rows()`` method returned -1 in some cases, due to not all subdrivers supporting the ``odbc_num_rows()`` function.
