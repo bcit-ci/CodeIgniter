@@ -147,7 +147,7 @@ function::
 Class Reference
 ***************
 
-.. class: CI_Parser
+.. class:: CI_Parser
 
 	.. method:: parse($template, $data[, $return = FALSE])
 

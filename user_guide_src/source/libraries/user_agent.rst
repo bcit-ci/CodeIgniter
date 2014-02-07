@@ -72,7 +72,7 @@ is available.
 Class Reference
 ***************
 
-.. class: CI_User_agent
+.. class:: CI_User_agent
 
 	.. method:: is_browser([$key = NULL])
 

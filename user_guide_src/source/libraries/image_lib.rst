@@ -19,6 +19,13 @@ ImageMagick
 	order for the script to calculate the image properties. The image
 	processing, however, will be performed with the library you specify.
 
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
+
 **********************
 Initializing the Class
 **********************
