@@ -294,7 +294,7 @@ class CI_Zip {
 			{
 				$name = str_replace('\\', '/', $path);
 
-				if ($preserve_filepath === FALSE)
+				if ($archive_filepath === FALSE)
 				{
 					$name = preg_replace('|.*/(.+)|', '\\1', $name);
 				}
