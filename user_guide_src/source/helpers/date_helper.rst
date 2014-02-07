@@ -27,7 +27,8 @@ The following functions are available:
 .. function:: now([$timezone = NULL])
 
 	:param	string	$timezone: Timezone
-	:returns:	int
+	:returns:	UNIX timestamp
+	:rtype:	int
 
 	Returns the current time as a UNIX timestamp, referenced either to your server's
 	local time or any PHP suported timezone, based on the "time reference" setting
@@ -35,7 +36,6 @@ The following functions are available:
 	any other PHP supported timezone (which you'll typically do if you run a site
 	that lets each user set their own timezone settings) there is no benefit to using
 	this function over PHP's ``time()`` function.
-
 	::
 
 		echo now('Australia/Victoria');
@@ -43,12 +43,12 @@ The following functions are available:
 	If a timezone is not provided, it will return ``time()`` based on the
 	**time_reference** setting.
 
-
 .. function:: mdate([$datestr = ''[, $time = '']])
 
-	:param	string 	$datestr: Date string
-	:param	int 	$time: UNIX timestamp
-	:returns:	int
+	:param	string	$datestr: Date string
+	:param	int	$time: UNIX timestamp
+	:returns:	MySQL-formatted date
+	:rtype:	string
 
 	This function is identical to PHP's `date() <http://www.php.net/date>`_
 	function, except that it lets you use MySQL style date codes, where each
@@ -67,12 +67,12 @@ The following functions are available:
 	If a timestamp is not included in the second parameter the current time
 	will be used.
 
-
 .. function:: standard_date([$fmt = 'DATE_RFC822'[, $time = NULL]])
 
 	:param	string	$fmt: Date format
-	:param	int 	$time: UNIX timestamp
-	:returns:	string
+	:param	int	$time: UNIX timestamp
+	:returns:	Formatted date or FALSE on invalid format
+	:rtype:	string
 
 	Lets you generate a date string in one of several standardized formats.
 
@@ -92,25 +92,25 @@ The following functions are available:
 	**Supported formats:**
 
 	===============	=======================	======================================
-	Constant		Description				Example
+	Constant        Description             Example
 	===============	=======================	======================================
-	DATE_ATOM	Atom			2005-08-15T16:13:03+0000
-	DATE_COOKIE	HTTP Cookies		Sun, 14 Aug 2005 16:13:03 UTC
-	DATE_ISO8601   	ISO-8601		2005-08-14T16:13:03+00:00
-	DATE_RFC822	RFC 822			Sun, 14 Aug 05 16:13:03 UTC
-	DATE_RFC850	RFC 850			Sunday, 14-Aug-05 16:13:03 UTC
-	DATE_RFC1036	RFC 1036		Sunday, 14-Aug-05 16:13:03 UTC
-	DATE_RFC1123	RFC 1123		Sun, 14 Aug 2005 16:13:03 UTC
-	DATE_RFC2822 	RFC 2822		Sun, 14 Aug 2005 16:13:03 +0000
-	DATE_RSS	RSS			Sun, 14 Aug 2005 16:13:03 UTC
-	DATE_W3C	W3C			2005-08-14T16:13:03+0000
+	DATE_ATOM       Atom                    2005-08-15T16:13:03+0000
+	DATE_COOKIE     HTTP Cookies            Sun, 14 Aug 2005 16:13:03 UTC
+	DATE_ISO8601    ISO-8601                2005-08-14T16:13:03+00:00
+	DATE_RFC822     RFC 822                 Sun, 14 Aug 05 16:13:03 UTC
+	DATE_RFC850     RFC 850                 Sunday, 14-Aug-05 16:13:03 UTC
+	DATE_RFC1036    RFC 1036                Sunday, 14-Aug-05 16:13:03 UTC
+	DATE_RFC1123    RFC 1123                Sun, 14 Aug 2005 16:13:03 UTC
+	DATE_RFC2822    RFC 2822                Sun, 14 Aug 2005 16:13:03 +0000
+	DATE_RSS        RSS                     Sun, 14 Aug 2005 16:13:03 UTC
+	DATE_W3C        W3C                     2005-08-14T16:13:03+0000
 	===============	=======================	======================================
-
 
 .. function:: local_to_gmt([$time = ''])
 
 	:param	int	$time: UNIX timestamp
-	:returns:	string
+	:returns:	UNIX timestamp
+	:rtype:	int
 
 	Takes a UNIX timestamp as input and returns it as GMT.
 
@@ -118,13 +118,13 @@ The following functions are available:
 
 		$gmt = local_to_gmt(time());
 
-
 .. function:: gmt_to_local([$time = ''[, $timezone = 'UTC'[, $dst = FALSE]]])
 
-	:param	int 	$time: UNIX timestamp
+	:param	int	$time: UNIX timestamp
 	:param	string	$timezone: Timezone
-	:param	bool 	$dst: Whether DST is active
-	:returns:	int
+	:param	bool	$dst: Whether DST is active
+	:returns:	UNIX timestamp
+	:rtype:	int
 
 	Takes a UNIX timestamp (referenced to GMT) as input, and converts it to
 	a localized timestamp based on the timezone and Daylight Saving Time
@@ -140,11 +140,11 @@ The following functions are available:
 
 	.. note:: For a list of timezones see the reference at the bottom of this page.
 
-
 .. function:: mysql_to_unix([$time = ''])
 
-	:param	int 	$time: UNIX timestamp
-	:returns:	int
+	:param	string	$time: MySQL timestamp
+	:returns:	UNIX timestamp
+	:rtype:	int
 
 	Takes a MySQL Timestamp as input and returns it as a UNIX timestamp.
 
@@ -152,13 +152,13 @@ The following functions are available:
 
 		$unix = mysql_to_unix('20061124092345');
 
-
 .. function:: unix_to_human([$time = ''[, $seconds = FALSE[, $fmt = 'us']]])
 
 	:param	int	$time: UNIX timestamp
 	:param	bool	$seconds: Whether to show seconds
 	:param	string	$fmt: format (us or euro)
-	:returns: integer
+	:returns:	Formatted date
+	:rtype:	string
 
 	Takes a UNIX timestamp as input and returns it in a human readable
 	format with this prototype::
@@ -179,11 +179,11 @@ The following functions are available:
 		echo unix_to_human($now, TRUE, 'us'); // U.S. time with seconds
 		echo unix_to_human($now, TRUE, 'eu'); // Euro time with seconds
 
-
 .. function:: human_to_unix([$datestr = ''])
 
-	:param	int 	$datestr: Date string
-	:returns:	int UNIX timestamp or FALSE on failure
+	:param	int	$datestr: Date string
+	:returns:	UNIX timestamp or FALSE on failure
+	:rtype:	int
 
 	The opposite of the :func:`unix_to_time()` function. Takes a "human"
 	time as input and returns it as a UNIX timestamp. This is useful if you
@@ -196,12 +196,12 @@ The following functions are available:
 		$human = unix_to_human($now);
 		$unix = human_to_unix($human);
 
-
 .. function:: nice_date([$bad_date = ''[, $format = FALSE]])
 
 	:param	int	$bad_date: The terribly formatted date-like string
 	:param	string	$format: Date format to return (same as PHP's ``date()`` function)
-	:returns:	string
+	:returns:	Formatted date
+	:rtype:	string
 
 	This function can take a number poorly-formed date formats and convert
 	them into something useful. It also accepts well-formed dates.
@@ -220,13 +220,13 @@ The following functions are available:
 		// Should Produce: 2001-09-11
 		$better_date = nice_date($bad_date, 'Y-m-d');
 
-
 .. function:: timespan([$seconds = 1[, $time = ''[, $units = '']]])
 
 	:param	int	$seconds: Number of seconds
 	:param	string	$time: UNIX timestamp
 	:param	int	$units: Number of time units to display
-	:returns:	string
+	:returns:	Formatted time difference
+	:rtype:	string
 
 	Formats a UNIX timestamp so that is appears similar to this::
 
@@ -252,12 +252,12 @@ The following functions are available:
 	.. note:: The text generated by this function is found in the following language
 		file: `language/<your_lang>/date_lang.php`
 
-
 .. function:: days_in_month([$month = 0[, $year = '']])
 
 	:param	int	$month: a numeric month
 	:param	int	$year: a numeric year
-	:returns:	int
+	:returns:	Count of days in the specified month
+	:rtype:	int
 
 	Returns the number of days in a given month/year. Takes leap years into
 	account.
@@ -268,14 +268,14 @@ The following functions are available:
 
 	If the second parameter is empty, the current year will be used.
 
-
 .. function:: date_range([$unix_start = ''[, $mixed = ''[, $is_unix = TRUE[, $format = 'Y-m-d']]]])
 
 	:param	int	$unix_start: UNIX timestamp of the range start date
 	:param	int	$mixed: UNIX timestamp of the range end date or interval in days
 	:param	bool	$is_unix: set to FALSE if $mixed is not a timestamp
 	:param	string	$format: Output date format, same as in ``date()``
-	:returns:	array
+	:returns:	An array of dates
+	:rtype:	array
 
 	Returns a list of dates within a specified period.
 
@@ -288,11 +288,11 @@ The following functions are available:
 			echo $date."\n";
 		}
 
-
 .. function:: timezones([$tz = ''])
 
-	:param	string	$tz: a numeric timezone
-	:returns:	string
+	:param	string	$tz: A numeric timezone
+	:returns:	Hour difference from UTC
+	:rtype:	int
 
 	Takes a timezone reference (for a list of valid timezones, see the
 	"Timezone Reference" below) and returns the number of hours offset from
@@ -305,14 +305,14 @@ The following functions are available:
 
 	This function is useful when used with :func:`timezone_menu()`.
 
-
 .. function:: timezone_menu([$default = 'UTC'[, $class = ''[, $name = 'timezones'[, $attributes = '']]]])
 
 	:param	string	$default: Timezone
 	:param	string	$class: Class name
 	:param	string	$name: Menu name
 	:param	mixed	$attributes: HTML attributes
-	:returns:	string
+	:returns:	HTML drop down menu with time zones
+	:rtype:	string
 
 	Generates a pull-down menu of timezones, like this one:
 
@@ -381,7 +381,6 @@ The following functions are available:
 	.. note:: The text contained in the menu is found in the following
 		language file: `language/<your_lang>/date_lang.php`
 
-
 Timezone Reference
 ==================
 
@@ -389,47 +388,47 @@ The following table indicates each timezone and its location.
 
 Note some of the location lists have been abridged for clarity and formatting.
 
-===========	=====================================================================
-Time Zone	Location
-===========	=====================================================================
-UM12		(UTC - 12:00) Baker/Howland Island
-UM11		(UTC - 11:00) Samoa Time Zone, Niue
-UM10		(UTC - 10:00) Hawaii-Aleutian Standard Time, Cook Islands
-UM95		(UTC - 09:30) Marquesas Islands
-UM9		(UTC - 09:00) Alaska Standard Time, Gambier Islands
-UM8		(UTC - 08:00) Pacific Standard Time, Clipperton Island
-UM7		(UTC - 11:00) Mountain Standard Time
-UM6		(UTC - 06:00) Central Standard Time
-UM5		(UTC - 05:00) Eastern Standard Time, Western Caribbean
-UM45		(UTC - 04:30) Venezuelan Standard Time
-UM4		(UTC - 04:00) Atlantic Standard Time, Eastern Caribbean
-UM35		(UTC - 03:30) Newfoundland Standard Time
-UM3		(UTC - 03:00) Argentina, Brazil, French Guiana, Uruguay
-UM2		(UTC - 02:00) South Georgia/South Sandwich Islands
-UM1		(UTC -1:00) Azores, Cape Verde Islands
-UTC		(UTC) Greenwich Mean Time, Western European Time
-UP1		(UTC +1:00) Central European Time, West Africa Time
-UP2		(UTC +2:00) Central Africa Time, Eastern European Time
-UP3		(UTC +3:00) Moscow Time, East Africa Time
-UP35		(UTC +3:30) Iran Standard Time
-UP4		(UTC +4:00) Azerbaijan Standard Time, Samara Time
-UP45		(UTC +4:30) Afghanistan
-UP5		(UTC +5:00) Pakistan Standard Time, Yekaterinburg Time
-UP55		(UTC +5:30) Indian Standard Time, Sri Lanka Time
-UP575		(UTC +5:45) Nepal Time
-UP6		(UTC +6:00) Bangladesh Standard Time, Bhutan Time, Omsk Time
-UP65		(UTC +6:30) Cocos Islands, Myanmar
-UP7		(UTC +7:00) Krasnoyarsk Time, Cambodia, Laos, Thailand, Vietnam
-UP8		(UTC +8:00) Australian Western Standard Time, Beijing Time
-UP875		(UTC +8:45) Australian Central Western Standard Time
-UP9		(UTC +9:00) Japan Standard Time, Korea Standard Time, Yakutsk
-UP95		(UTC +9:30) Australian Central Standard Time
-UP10		(UTC +10:00) Australian Eastern Standard Time, Vladivostok Time
-UP105		(UTC +10:30) Lord Howe Island
-UP11		(UTC +11:00) Magadan Time, Solomon Islands, Vanuatu
-UP115		(UTC +11:30) Norfolk Island
-UP12		(UTC +12:00) Fiji, Gilbert Islands, Kamchatka, New Zealand
-UP1275		(UTC +12:45) Chatham Islands Standard Time
-UP13		(UTC +13:00) Phoenix Islands Time, Tonga
-UP14		(UTC +14:00) Line Islands
+===========     =====================================================================
+Time Zone       Location
+===========     =====================================================================
+UM12            (UTC - 12:00) Baker/Howland Island
+UM11            (UTC - 11:00) Samoa Time Zone, Niue
+UM10            (UTC - 10:00) Hawaii-Aleutian Standard Time, Cook Islands
+UM95            (UTC - 09:30) Marquesas Islands
+UM9             (UTC - 09:00) Alaska Standard Time, Gambier Islands
+UM8             (UTC - 08:00) Pacific Standard Time, Clipperton Island
+UM7             (UTC - 11:00) Mountain Standard Time
+UM6             (UTC - 06:00) Central Standard Time
+UM5             (UTC - 05:00) Eastern Standard Time, Western Caribbean
+UM45            (UTC - 04:30) Venezuelan Standard Time
+UM4             (UTC - 04:00) Atlantic Standard Time, Eastern Caribbean
+UM35            (UTC - 03:30) Newfoundland Standard Time
+UM3             (UTC - 03:00) Argentina, Brazil, French Guiana, Uruguay
+UM2             (UTC - 02:00) South Georgia/South Sandwich Islands
+UM1             (UTC -1:00) Azores, Cape Verde Islands
+UTC             (UTC) Greenwich Mean Time, Western European Time
+UP1             (UTC +1:00) Central European Time, West Africa Time
+UP2             (UTC +2:00) Central Africa Time, Eastern European Time
+UP3             (UTC +3:00) Moscow Time, East Africa Time
+UP35            (UTC +3:30) Iran Standard Time
+UP4             (UTC +4:00) Azerbaijan Standard Time, Samara Time
+UP45            (UTC +4:30) Afghanistan
+UP5             (UTC +5:00) Pakistan Standard Time, Yekaterinburg Time
+UP55            (UTC +5:30) Indian Standard Time, Sri Lanka Time
+UP575           (UTC +5:45) Nepal Time
+UP6             (UTC +6:00) Bangladesh Standard Time, Bhutan Time, Omsk Time
+UP65            (UTC +6:30) Cocos Islands, Myanmar
+UP7             (UTC +7:00) Krasnoyarsk Time, Cambodia, Laos, Thailand, Vietnam
+UP8             (UTC +8:00) Australian Western Standard Time, Beijing Time
+UP875           (UTC +8:45) Australian Central Western Standard Time
+UP9             (UTC +9:00) Japan Standard Time, Korea Standard Time, Yakutsk
+UP95            (UTC +9:30) Australian Central Standard Time
+UP10            (UTC +10:00) Australian Eastern Standard Time, Vladivostok Time
+UP105           (UTC +10:30) Lord Howe Island
+UP11            (UTC +11:00) Magadan Time, Solomon Islands, Vanuatu
+UP115           (UTC +11:30) Norfolk Island
+UP12            (UTC +12:00) Fiji, Gilbert Islands, Kamchatka, New Zealand
+UP1275          (UTC +12:45) Chatham Islands Standard Time
+UP13            (UTC +13:00) Phoenix Islands Time, Tonga
+UP14            (UTC +14:00) Line Islands
 ===========	=====================================================================

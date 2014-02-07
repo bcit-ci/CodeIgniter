@@ -29,7 +29,7 @@ The following functions are available:
 	:param	string	$filename: Filename
 	:param	mixed	$data: File contents
 	:param	bool	$set_mime: Whether to try to send the actual MIME type
-	:returns:	void
+	:rtype:	void
 
 	Generates server headers which force data to be downloaded to your
 	desktop. Useful with file downloads. The first parameter is the **name

@@ -29,7 +29,8 @@ The following functions are available:
 
 	:param	string	$str: Input string
 	:param	bool	$reduce_linebreaks: Whether to reduce multiple instances of double newlines to two
-	:returns:	string
+	:returns:	HTML-formatted typography-safe string
+	:rtype: string
 
 	Formats text so that it is semantically and typographically correct
 	HTML.
@@ -51,7 +52,8 @@ The following functions are available:
 .. function:: nl2br_except_pre($str)
 
 	:param	string	$str: Input string
-	:returns:	string
+	:returns:	String with HTML-formatted line breaks
+	:rtype:	string
 
 	Converts newlines to <br /> tags unless they appear within <pre> tags.
 	This function is identical to the native PHP ``nl2br()`` function,
@@ -61,12 +63,12 @@ The following functions are available:
 
 		$string = nl2br_except_pre($string);
 
-
 .. function:: entity_decode($str, $charset = NULL)
 
 	:param	string	$str: Input string
 	:param	string	$charset: Character set
-	:returns:	string
+	:returns:	String with decoded HTML entities
+	:rtype:	string
 
 	This function is an alias for ``CI_Security::entity_decode()``.
 	Fore more info, please see the :doc:`Security Library

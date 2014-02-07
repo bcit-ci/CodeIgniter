@@ -29,7 +29,8 @@ The following functions are available:
 
 	:param	string	$path: Path
 	:param	bool	$check_existance: Whether to check if the path actually exists
-	:returns:	string
+	:returns:	An absolute path
+	:rtype:	string
 
 	This function will return a server path without symbolic links or
 	relative directory structures. An optional second argument will

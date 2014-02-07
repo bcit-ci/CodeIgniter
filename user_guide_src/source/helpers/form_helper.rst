@@ -30,7 +30,8 @@ The following functions are available:
 	:param	string	$action: Form action/target URI string
 	:param	array	$attributes: HTML attributes
 	:param	array	$hidden: An array of hidden fields' definitions
-	:returns:	string
+	:returns:	An HTML form opening tag
+	:rtype:	string
 
 	Creates an opening form tag with a base URL **built from your config preferences**.
 	It will optionally let you add form attributes and hidden input fields, and
@@ -87,7 +88,8 @@ The following functions are available:
 	:param	string	$action: Form action/target URI string
 	:param	array	$attributes: HTML attributes
 	:param	array	$hidden: An array of hidden fields' definitions
-	:returns:	string
+	:returns:	An HTML multipart form opening tag
+	:rtype:	string
 
 	This function is absolutely identical to :func:`form_open()` above,
 	except that it adds a *multipart* attribute, which is necessary if you
@@ -98,7 +100,8 @@ The following functions are available:
 
 	:param	string	$name: Field name
 	:param	string	$value: Field value
-	:returns:	string
+	:returns:	An HTML hidden input field tag
+	:rtype:	string
 
 	Lets you generate hidden input fields. You can either submit a
 	name/value string to create one field::
@@ -159,13 +162,13 @@ The following functions are available:
 			<input type="hidden" name="email" value="john@example.com" id="hiddenemail" class="hiddenemail" />
 		*/
 
-
 .. function:: form_input([$data = ''[, $value = ''[, $extra = '']])
 
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
 	:param	string	$extra: Extra attributes to be added to the tag *as is*
-	:returns:	string
+	:returns:	An HTML text input field tag
+	:rtype:	string
 
 	Lets you generate a standard text input field. You can minimally pass
 	the field name and value in the first and second parameter::
@@ -198,13 +201,13 @@ The following functions are available:
 		$js = 'onClick="some_function()"';
 		echo form_input('username', 'johndoe', $js);
 
-
 .. function:: form_password([$data = ''[, $value = ''[, $extra = '']]])
 
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
 	:param	string	$extra: Extra attributes to be added to the tag *as is*
-	:returns:	string
+	:returns:	An HTML password input field tag
+	:rtype:	string
 
 	This function is identical in all respects to the :func:`form_input()`
 	function above except that it uses the "password" input type.
@@ -215,7 +218,8 @@ The following functions are available:
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
 	:param	string	$extra: Extra attributes to be added to the tag *as is*
-	:returns:	string
+	:returns:	An HTML file upload input field tag
+	:rtype:	string
 
 	This function is identical in all respects to the :func:`form_input()`
 	function above except that it uses the "file" input type, allowing it to
@@ -227,7 +231,8 @@ The following functions are available:
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
 	:param	string	$extra: Extra attributes to be added to the tag *as is*
-	:returns:	string
+	:returns:	An HTML textarea tag
+	:rtype:	string
 
 	This function is identical in all respects to the :func:`form_input()`
 	function above except that it generates a "textarea" type.
@@ -235,14 +240,14 @@ The following functions are available:
 	.. note:: Instead of the *maxlength* and *size* attributes in the above example,
 		you will instead specify *rows* and *cols*.
 
-
 .. function:: form_dropdown([$name = ''[, $options = array()[, $selected = array()[, $extra = '']]]])
 
 	:param	string	$name: Field name
 	:param	array	$options: An associative array of options to be listed
 	:param	array	$selected: List of fields to mark with the *selected* attribute
 	:param	string	$extra: Extra attributes to be added to the tag *as is*
-	:returns:	string
+	:returns:	An HTML dropdown select field tag
+	:rtype:	string
 
 	Lets you create a standard drop-down field. The first parameter will
 	contain the name of the field, the second parameter will contain an
@@ -305,7 +310,8 @@ The following functions are available:
 	:param	array	$options: An associative array of options to be listed
 	:param	array	$selected: List of fields to mark with the *selected* attribute
 	:param	string	$extra: Extra attributes to be added to the tag *as is*
-	:returns:	string
+	:returns:	An HTML dropdown multiselect field tag
+	:rtype:	string
 
 	Lets you create a standard multiselect field. The first parameter will
 	contain the name of the field, the second parameter will contain an
@@ -321,7 +327,8 @@ The following functions are available:
 
 	:param	string	$legend_text: Text to put in the <legend> tag
 	:param	array	$attributes: Attributes to be set on the <fieldset> tag
-	:returns:	string
+	:returns:	An HTML fieldset opening tag
+	:rtype:	string
 
 	Lets you generate fieldset/legend fields.
 
@@ -365,7 +372,9 @@ The following functions are available:
 .. function:: form_fieldset_close([$extra = ''])
 
 	:param	string	$extra: Anything to append after the closing tag, *as is*
-	:returns:	string
+	:returns:	An HTML fieldset closing tag
+	:rtype:	string
+	
 
 	Produces a closing </fieldset> tag. The only advantage to using this
 	function is it permits you to pass data to it which will be added below
@@ -384,7 +393,8 @@ The following functions are available:
 	:param	string	$value: Field value
 	:param	bool	$checked: Whether to mark the checkbox as being *checked*
 	:param	string	$extra: Extra attributes to be added to the tag *as is*
-	:returns:	string
+	:returns:	An HTML checkbox input tag
+	:rtype:	string
 
 	Lets you generate a checkbox field. Simple example::
 
@@ -422,7 +432,8 @@ The following functions are available:
 	:param	string	$value: Field value
 	:param	bool	$checked: Whether to mark the radio button as being *checked*
 	:param	string	$extra: Extra attributes to be added to the tag *as is*
-	:returns:	string
+	:returns:	An HTML radio input tag
+	:rtype:	string
 
 	This function is identical in all respects to the :func:`form_checkbox()`
 	function above except that it uses the "radio" input type.
@@ -433,7 +444,8 @@ The following functions are available:
 	:param	string	$label_text: Text to put in the <label> tag
 	:param	string	$id: ID of the form element that we're making a label for
 	:param	string	$attributes: HTML attributes
-	:returns:	string
+	:returns:	An HTML field label tag
+	:rtype:	string
 
 	Lets you generate a <label>. Simple example::
 
@@ -459,7 +471,8 @@ The following functions are available:
 	:param	string	$data: Button name
 	:param	string	$value: Button value
 	:param	string	$extra: Extra attributes to be added to the tag *as is*
-	:returns:	string
+	:returns:	An HTML input submit tag
+	:rtype:	string
 
 	Lets you generate a standard submit button. Simple example::
 
@@ -476,7 +489,8 @@ The following functions are available:
 	:param	string	$data: Button name
 	:param	string	$value: Button value
 	:param	string	$extra: Extra attributes to be added to the tag *as is*
-	:returns:	string
+	:returns:	An HTML input reset button tag
+	:rtype:	string
 
 	Lets you generate a standard reset button. Use is identical to
 	:func:`form_submit()`.
@@ -487,7 +501,8 @@ The following functions are available:
 	:param	string	$data: Button name
 	:param	string	$content: Button label
 	:param	string	$extra: Extra attributes to be added to the tag *as is*
-	:returns:	string
+	:returns:	An HTML button tag
+	:rtype:	string
 
 	Lets you generate a standard button element. You can minimally pass the
 	button name and content in the first and second parameter::
@@ -519,7 +534,8 @@ The following functions are available:
 .. function:: form_close([$extra = ''])
 
 	:param	string	$extra: Anything to append after the closing tag, *as is*
-	:returns:	string
+	:returns:	An HTML form closing tag
+	:rtype:	string
 
 	Produces a closing </form> tag. The only advantage to using this
 	function is it permits you to pass data to it which will be added below
@@ -534,7 +550,8 @@ The following functions are available:
 
 	:param	string	$str: Value to escape
 	:param	bool	$is_textarea: Whether we're preparing for <textarea> or a regular input tag
-	:returns:	string
+	:returns:	Escaped value
+	:rtype:	string
 
 	Allows you to safely use HTML and characters such as quotes within form
 	elements without breaking out of the form.
@@ -560,7 +577,8 @@ The following functions are available:
 	:param	string	$field: Field name
 	:param	string	$default: Default value
 	:param	bool	$is_textarea: Whether we're setting <textarea> content
-	:returns:	string
+	:returns:	Field value
+	:rtype:	string
 
 	Permits you to set the value of an input form or textarea. You must
 	supply the field name via the first parameter of the function. The
@@ -579,7 +597,8 @@ The following functions are available:
 	:param	string	$field: Field name
 	:param	string	$value: Value to check for
 	:param	string	$default: Whether the value is also a default one
-	:returns:	string
+	:returns:	'selected' attribute or an empty string
+	:rtype:	string
 
 	If you use a <select> menu, this function permits you to display the
 	menu item that was selected.
@@ -596,13 +615,13 @@ The following functions are available:
 			<option value="three" <?php echo  set_select('myselect', 'three'); ?> >Three</option>
 		</select>
 
-
 .. function:: set_checkbox([$field = ''[, $value = ''[, $default = FALSE]]])
 
 	:param	string	$field: Field name
 	:param	string	$value: Value to check for
 	:param	string	$default: Whether the value is also a default one
-	:returns:	string
+	:returns:	'checked' attribute or an empty string
+	:rtype:	string
 
 	Permits you to display a checkbox in the state it was submitted.
 
@@ -615,13 +634,13 @@ The following functions are available:
 		<input type="checkbox" name="mycheck" value="1" <?php echo set_checkbox('mycheck', '1'); ?> />
 		<input type="checkbox" name="mycheck" value="2" <?php echo set_checkbox('mycheck', '2'); ?> />
 
-
 .. function:: set_radio([$field = ''[, $value = ''[, $default = FALSE]]])
 
 	:param	string	$field: Field name
 	:param	string	$value: Value to check for
 	:param	string	$default: Whether the value is also a default one
-	:returns:	string
+	:returns:	'checked' attribute or an empty string
+	:rtype:	string
 
 	Permits you to display radio buttons in the state they were submitted.
 	This function is identical to the :func:`set_checkbox()` function above.
@@ -637,13 +656,13 @@ The following functions are available:
 		defined, the control for ``set_*()`` is handed over to a method of the
 		class instead of the generic helper function.
 
-
 .. function:: form_error([$field = ''[, $prefix = ''[, $suffix = '']]])
 
 	:param	string	$field:	Field name
 	:param	string	$prefix: Error opening tag
 	:param	string	$suffix: Error closing tag
-	:returns:	string
+	:returns:	HTML-formatted form validation error message(s)
+	:rtype:	string
 
 	Returns a validation error message from the :doc:`Form Validation Library
 	<../libraries/form_validation>`, associated with the specified field name.
@@ -662,7 +681,8 @@ The following functions are available:
 
 	:param	string	$prefix: Error opening tag
 	:param	string	$suffix: Error closing tag
-	:returns:	string
+	:returns:	HTML-formatted form validation error message(s)
+	:rtype:	string
 
 	Similarly to the :func:`form_error()` function, returns all validation
 	error messages produced by the :doc:`Form Validation Library

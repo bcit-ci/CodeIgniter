@@ -29,7 +29,8 @@ The following functions are available:
 
 	:param	string	$type: Randomization type
 	:param	int	$len: Output string length
-	:returns:	string
+	:returns:	A random string
+	:rtype:	string
 
 	Generates a random string based on the type and length you specify.
 	Useful for creating passwords or generating random hashes.
@@ -52,13 +53,13 @@ The following functions are available:
 	.. note:: Usage of the *unique* and *encrypt* types is DEPRECATED. They
 		are just aliases for *md5* and *sha1* respectively.
 
-
 .. function:: increment_string($str[, $separator = '_'[, $first = 1]])
 
 	:param	string	$str: Input string
 	:param	string	$separator: Separator to append a duplicate number with
 	:param	int	$first: Starting number
-	:returns:	string
+	:returns:	An incremented string
+	:rtype:	string
 
 	Increments a string by appending a number to it or increasing the
 	number. Useful for creating "copies" or a file or duplicating database
@@ -74,7 +75,8 @@ The following functions are available:
 .. function:: alternator($args)
 
 	:param	mixed	$args: A variable number of arguments
-	:returns:	mixed
+	:returns:	Alternated string(s)
+	:rtype:	mixed
 
 	Allows two or more items to be alternated between, when cycling through
 	a loop. Example::
@@ -97,12 +99,12 @@ The following functions are available:
 	.. note:: To use multiple separate calls to this function simply call the
 		function with no arguments to re-initialize.
 
-
 .. function:: repeater($data[, $num = 1])
 
 	:param	string	$data: Input
 	:param	int	$num: Number of times to repeat
-	:returns:	string
+	:returns:	Repeated string
+	:rtype:	string
 
 	Generates repeating copies of the data you submit. Example::
 
@@ -118,7 +120,8 @@ The following functions are available:
 .. function:: reduce_double_slashes($str)
 
 	:param	string	$str: Input string
-	:returns:	string
+	:returns:	A string with normalized slashes
+	:rtype:	string
 
 	Converts double slashes in a string to a single slash, except those
 	found in URL protocol prefixes (e.g. http://).
@@ -131,10 +134,11 @@ The following functions are available:
 
 .. function:: strip_slashes($data)
 
-	:param	array	$data: Input
-	:returns:	array
+	:param	mixed	$data: Input string or an array of strings
+	:returns:	String(s) with stripped slashes
+	:rtype:	mixed
 
-Removes any slashes from an array of strings.
+	Removes any slashes from an array of strings.
 
 	Example::
 
@@ -156,11 +160,11 @@ Removes any slashes from an array of strings.
 		and handle string inputs. This however makes it just an
 		alias for ``stripslashes()``.
 
-
 .. function:: trim_slashes($str)
 
 	:param	string	$str: Input string
-	:returns:	string
+	:returns:	Slash-trimmed string
+	:rtype:	string
 
 	Removes any leading/trailing slashes from a string. Example::
 
@@ -171,13 +175,13 @@ Removes any slashes from an array of strings.
 		|
 		| trim($str, '/');
 
-
 .. function:: reduce_multiples($str[, $character = ''[, $trim = FALSE]])
 
 	:param	string	$str: Text to search in
 	:param	string	$character: Character to reduce
 	:param	bool	$trim: Whether to also trim the specified character
-	:returns:	string
+	:returns:	Reduced string
+	:rtype:	string
 
 	Reduces multiple instances of a particular character occuring directly
 	after each other. Example::
@@ -191,11 +195,11 @@ Removes any slashes from an array of strings.
 		$string = ",Fred, Bill,, Joe, Jimmy,";
 		$string = reduce_multiples($string, ", ", TRUE); //results in "Fred, Bill, Joe, Jimmy"
 
-
 .. function:: quotes_to_entities($str)
 
 	:param	string	$str: Input string
-	:returns:	string
+	:returns:	String with quotes converted to HTML entities
+	:rtype:	string
 
 	Converts single and double quotes in a string to the corresponding HTML
 	entities. Example::
@@ -207,7 +211,8 @@ Removes any slashes from an array of strings.
 .. function:: strip_quotes($str)
 
 	:param	string	$str: Input string
-	:returns:	string
+	:returns:	String with quotes stripped
+	:rtype:	string
 
 	Removes single and double quotes from a string. Example::
 

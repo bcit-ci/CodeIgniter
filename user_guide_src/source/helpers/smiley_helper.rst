@@ -116,7 +116,8 @@ Available Functions
 
 	:param	string	$image_url: URL path to the smileys directory
 	:param	string	$alias: Field alias
-	:returns:	array
+	:returns:	An array of ready to use smileys
+	:rtype:	array
 
 	Returns an array containing your smiley images wrapped in a clickable
 	link. You must supply the URL to your smiley folder and a field id or
@@ -124,14 +125,15 @@ Available Functions
 
 	Example::
 
-		$image_array = get_smiley_links("http://example.com/images/smileys/", "comment");
-
+		$image_array = get_clickable_smileys('http://example.com/images/smileys/', 'comment');
 
 .. function:: smiley_js([$alias = ''[, $field_id = ''[, $inline = TRUE]]])
 
 	:param	string	$alias: Field alias
 	:param	string	$field_id: Field ID
 	:param	bool	$inline: Whether we're inserting an inline smiley
+	:returns:	Smiley-enabling JavaScript code
+	:rtype:	string
 
 	Generates the JavaScript that allows the images to be clicked and
 	inserted into a form field. If you supplied an alias instead of an id
@@ -143,13 +145,13 @@ Available Functions
 
 		<?php echo smiley_js(); ?>
 
-
 .. function:: parse_smileys([$str = ''[, $image_url = ''[, $smileys = NULL]]])
 
 	:param	string	$str: Text containing smiley codes
 	:param	string	$image_url: URL path to the smileys directory
 	:param	array	$smileys: An array of smileys
-	:returns:	string
+	:returns:	Parsed smileys
+	:rtype:	string
 
 	Takes a string of text as input and replaces any contained plain text
 	smileys into the image equivalent. The first parameter must contain your

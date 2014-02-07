@@ -30,8 +30,9 @@ The following functions are available:
 
 .. function:: valid_email($email)
 
-	:param	string	$email: Email address
-	:returns:	bool
+	:param	string	$email: E-mail address
+	:returns:	TRUE if a valid email is supplied, FALSE otherwise
+	:rtype:	bool
 
 	Checks if the input is a correctly formatted e-mail address. Note that is
 	doesn't actually prove that the address will be able recieve mail, but
@@ -52,13 +53,13 @@ The following functions are available:
 
 		(bool) filter_var($email, FILTER_VALIDATE_EMAIL);
 
-
 .. function:: send_email($recipient, $subject, $message)
 
 	:param	string	$recipient: E-mail address
 	:param	string	$subject: Mail subject
 	:param	string	$message: Message body
-	:returns:	bool
+	:returns:	TRUE if the mail was successfully sent, FALSE in case of an error
+	:rtype:	bool
 
 	Sends an email using PHP's native `mail() <http://www.php.net/function.mail>`_
 	function.

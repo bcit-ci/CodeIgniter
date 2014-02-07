@@ -28,18 +28,19 @@ The following functions are available:
 
 	:param	string	$str: Input data
 	:param	bool	$is_image: Whether we're dealing with an image
-	:returns:	string
+	:returns:	XSS-clean string
+	:rtype:	string
 
 	Provides Cross Site Script Hack filtering.
 
 	This function is an alias for ``CI_Input::xss_clean()``. For more info,
 	please see the :doc:`Input Library <../libraries/input>` documentation.
 
-
 .. function:: sanitize_filename($filename)
 
 	:param	string	$filename: Filename
-	:returns:	string
+	:returns:	Sanitized file name
+	:rtype:	string
 
 	Provides protection against directory traversal.
 
@@ -52,7 +53,8 @@ The following functions are available:
 
 	:param	string	$str: Input
 	:param	string	$type: Algorithm
-	:returns:	string
+	:returns:	Hex-formatted hash
+	:rtype:	string
 
 	Permits you to create one way hashes suitable for encrypting
 	passwords. Will use SHA1 by default.
@@ -73,8 +75,9 @@ The following functions are available:
 
 .. function:: strip_image_tags($str)
 
-	:param	string	$str: Input
-	:returns:	string
+	:param	string	$str: Input string
+	:returns:	The input string with no image tags
+	:rtype:	string
 
 	This is a security function that will strip image tags from a string.
 	It leaves the image URL as plain text.
@@ -90,8 +93,9 @@ The following functions are available:
 
 .. function:: encode_php_tags($str)
 
-	:param	string	$str: Input
-	:returns:	string
+	:param	string	$str: Input string
+	:returns:	Safely formatted string
+	:rtype:	string
 
 	This is a security function that converts PHP tags to entities.
 

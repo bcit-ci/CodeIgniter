@@ -30,7 +30,8 @@ The following functions are available:
 
 	:param string $str: the text string to convert
 	:param bool $protect_all: Whether to protect all content that looks like a potential entity instead of just numbered entities, e.g. &foo;
-	:returns: string
+	:returns: XML-converted string
+	:rtype:	string
 
 	Takes a string as input and converts the following reserved XML
 	characters to entities:

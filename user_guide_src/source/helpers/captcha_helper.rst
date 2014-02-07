@@ -135,6 +135,7 @@ The following functions are available:
 	:param	string	$img_url: URL to the CAPTCHA image folder
 	:param	string	$font_path: Server path to font
 	:returns:	array('word' => $word, 'time' => $now, 'image' => $img)
+	:rtype:	array
 
 	Takes an array of information to generate the CAPTCHA as input and
 	creates the image to your specifications, returning an array of

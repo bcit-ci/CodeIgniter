@@ -29,7 +29,8 @@ The following functions are available:
 	:param	string	$str: Input string
 	:param	int	$limit: Limit
 	:param	string	$end_char: End character (usually an ellipsis)
-	:returns:	string
+	:returns:	Word-limited string
+	:rtype:	string
 
 	Truncates a string to the number of *words* specified. Example::
 
@@ -46,7 +47,8 @@ The following functions are available:
 	:param	string	$str: Input string
 	:param	int	$n: Number of characters
 	:param	string	$end_char: End character (usually an ellipsis)
-	:returns:	string
+	:returns:	Character-limited string
+	:rtype:	string
 
 	Truncates a string to the number of *characters* specified. It
 	maintains the integrity of words so the character count may be slightly
@@ -64,11 +66,11 @@ The following functions are available:
 	.. note:: If you need to truncate to an exact number of characters please
 		see the :func:`ellipsize()` function below.
 
-
 .. function:: ascii_to_entities($str)
 
 	:param	string	$str: Input string
-	:returns:	string
+	:returns:	A string with ASCII values converted to entities
+	:rtype:	string
 
 	Converts ASCII values to character entities, including high ASCII and MS
 	Word characters that can cause problems when used in a web page, so that
@@ -82,21 +84,21 @@ The following functions are available:
 
 		$string = ascii_to_entities($string);
 
-
 .. function::entities_to_ascii($str[, $all = TRUE])
 
 	:param	string	$str: Input string
 	:param	bool	$all: Whether to convert unsafe entities as well
-	:returns:	string
+	:returns:	A string with HTML entities converted to ASCII characters
+	:rtype:	string
 
 	This function does the opposite of :func:`ascii_to_entities()`.
 	It turns character entities back into ASCII.
 
-
 .. function:: convert_accented_characters($str)
 
 	:param	string	$str: Input string
-	:returns:	string
+	:returns:	A string with accented characters converted
+	:rtype:	string
 
 	Transliterates high ASCII characters to low ASCII equivalents. Useful
 	when non-English characters need to be used where only standard ASCII
@@ -110,13 +112,13 @@ The following functions are available:
 		`application/config/foreign_chars.php` to define the to and
 		from array for transliteration.
 
-
 .. function:: word_censor($str, $censored[, $replacement = ''])
 
 	:param	string	$str: Input string
 	:param	array	$censored: List of bad words to censor
 	:param	string	$replacement: What to replace bad words with
-	:returns:	string
+	:returns:	Censored string
+	:rtype:	string
 
 	Enables you to censor words within a text string. The first parameter
 	will contain the original string. The second will contain an array of
@@ -129,11 +131,11 @@ The following functions are available:
 		$disallowed = array('darn', 'shucks', 'golly', 'phooey');
 		$string = word_censor($string, $disallowed, 'Beep!');
 
-
 .. function:: highlight_code($str)
 
 	:param	string	$str: Input string
-	:returns:	string
+	:returns:	String with code highlighted via HTML
+	:rtype:	string
 
 	Colorizes a string of code (PHP, HTML, etc.). Example::
 
@@ -149,7 +151,8 @@ The following functions are available:
 	:param	string	$phrase: Phrase to highlight
 	:param	string	$tag_open: Opening tag used for the highlight
 	:param	string	$tag_close: Closing tag for the highlight
-	:returns:	string
+	:returns:	String with a phrase highlighted via HTML
+	:rtype:	string
 
 	Will highlight a phrase within a text string. The first parameter will
 	contain the original string, the second will contain the phrase you wish
@@ -175,12 +178,12 @@ The following functions are available:
 				color: #000;
 			};
 
-
 .. function:: word_wrap($str[, $charlim = 76])
 
 	:param	string	$str: Input string
 	:param	int	$charlim: Character limit
-	:returns:	string
+	:returns:	Word-wrapped string
+	:rtype:	string
 
 	Wraps text at the specified *character* count while maintaining
 	complete words.
@@ -192,15 +195,14 @@ The following functions are available:
 
 		// Would produce:  Here is a simple string of text that will help us demonstrate this function
 
-
 .. function:: ellipsize($str, $max_length[, $position = 1[, $ellipsis = '&hellip;']])
 
 	:param	string	$str: Input string
 	:param	int	$max_length: String length limit
-	:param	mixed	$position: Position to split at
-			(int or float)
+	:param	mixed	$position: Position to split at (int or float)
 	:param	string	$ellipsis: What to use as the ellipsis character
-	:returns:	string
+	:returns:	Ellipsized string
+	:rtype:	string
 
 	This function will strip tags from a string, split it at a defined
 	maximum length, and insert an ellipsis.

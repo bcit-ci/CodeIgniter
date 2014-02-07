@@ -29,11 +29,11 @@ The following functions are available:
 
 .. function:: directory_map($source_dir[, $directory_depth = 0[, $hidden = FALSE]])
 
-	:param string	$source_dir: path to the ource directory
-	:param integer	$directory_depth: depth of directories to traverse (0 =
-		fully recursive, 1 = current dir, etc)
-	:param boolean	$hidden: whether to include hidden directories
-	:returns: array
+	:param	string	$source_dir: Path to the ource directory
+	:param	int	$directory_depth: Depth of directories to traverse (0 = fully recursive, 1 = current dir, etc)
+	:param	bool	$hidden: Whether to include hidden directories
+	:returns:	An array of files
+	:rtype:	array
 
 	Examples::
 

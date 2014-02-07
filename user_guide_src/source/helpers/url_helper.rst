@@ -27,7 +27,8 @@ Available Functions
 
 	:param	string	$uri: URI string
 	:param	string	$protocol: Protocol, e.g. 'http' or 'https'
-	:returns:	string
+	:returns:	Site URL
+	:rtype:	string
 
 	Returns your site URL, as specified in your config file. The index.php
 	file (or whatever you have set as your site **index_page** in your config
@@ -54,13 +55,12 @@ Available Functions
 	This function is an alias for ``CI_Config::site_url()``. For more info,
 	please see the :doc:`Config Library <../libraries/config>` documentation.
 
-
-
 .. function:: base_url($uri = '', $protocol = NULL)
 
 	:param	string	$uri: URI string
 	:param	string	$protocol: Protocol, e.g. 'http' or 'https'
-	:returns:	string
+	:returns:	Base URL
+	:rtype:	string
 
 	Returns your site base URL, as specified in your config file. Example::
 
@@ -88,10 +88,10 @@ Available Functions
 	This function is an alias for ``CI_Config::base_url()``. For more info,
 	please see the :doc:`Config Library <../libraries/config>` documentation.
 
-
 .. function:: current_url()
 
-	:returns:	string
+	:returns:	The current URL
+	:rtype:	string
 
 	Returns the full URL (including segments) of the page being currently
 	viewed.
@@ -103,7 +103,8 @@ Available Functions
 
 .. function:: uri_string()
 
-	:returns:	string
+	:returns:	An URI string
+	:rtype:	string
 
 	Returns the URI segments of any page that contains this function.
 	For example, if your URL was this::
@@ -120,20 +121,21 @@ Available Functions
 
 .. function:: index_page()
 
-	:returns:	string
+	:returns:	'index_page' value
+	:rtype:	mixed
 
 	Returns your site **index_page**, as specified in your config file.
 	Example::
 
 		echo index_page();
 
-
 .. function:: anchor($uri = '', $title = '', $attributes = '')
 
 	:param	string	$uri: URI string
 	:param	string	$title: Anchor title
 	:param	mixed	$attributes: HTML attributes
-	:returns:	string
+	:returns:	HTML hyperlink (anchor tag)
+	:rtype:	string
 
 	Creates a standard HTML anchor link based on your local site URL.
 
@@ -170,7 +172,8 @@ Available Functions
 	:param	string	$uri: URI string
 	:param	string	$title: Anchor title
 	:param	mixed	$attributes: HTML attributes
-	:returns:	string
+	:returns:	Pop-up hyperlink
+	:rtype:	string
 
 	Nearly identical to the :func:`anchor()` function except that it
 	opens the URL in a new window. You can specify JavaScript window
@@ -213,7 +216,8 @@ Available Functions
 	:param	string	$email: E-mail address
 	:param	string	$title: Anchor title
 	:param	mixed	$attributes: HTML attributes
-	:returns:	string
+	:returns:	A "mail to" hyperlink
+	:rtype:	string
 
 	Creates a standard HTML e-mail link. Usage example::
 
@@ -225,25 +229,25 @@ Available Functions
 		$attributes = array('title' => 'Mail me');
 		echo mailto('me@my-site.com', 'Contact Me', $attributes);
 
-
 .. function:: safe_mailto($email, $title = '', $attributes = '')
 
 	:param	string	$email: E-mail address
 	:param	string	$title: Anchor title
 	:param	mixed	$attributes: HTML attributes
-	:returns:	string
+	:returns:	A spam-safe "mail to" hyperlink
+	:rtype:	string
 
 	Identical to the :func:`mailto()` function except it writes an obfuscated
 	version of the *mailto* tag using ordinal numbers written with JavaScript to
 	help prevent the e-mail address from being harvested by spam bots.
-
 
 .. function:: auto_link($str, $type = 'both', $popup = FALSE)
 
 	:param	string	$str: Input string
 	:param	string	$type: Link type ('email', 'url' or 'both')
 	:param	bool	$popup: Whether to create popup links
-	:returns:	string
+	:returns:	Linkified string
+	:rtype:	string
 
 	Automatically turns URLs and e-mail addresses contained in a string into
 	links. Example::
@@ -274,7 +278,8 @@ Available Functions
 	:param	string	$str: Input string
 	:param	string	$separator: Word separator
 	:param	string	$lowercase: Whether to transform the output string to lower-case
-	:returns:	string
+	:returns:	URL-formatted string
+	:rtype:	string
 
 	Takes a string as input and creates a human-friendly URL string. This is
 	useful if, for example, you have a blog in which you'd like to use the
@@ -309,7 +314,8 @@ Available Functions
 .. function:: prep_url($str = '')
 
 	:param	string	$str: URL string
-	:returns:	string
+	:returns:	Protocol-prefixed URL string
+	:rtype:	string
 
 	This function will add http:// in the event that a protocol prefix
 	is missing from a URL.
@@ -324,7 +330,7 @@ Available Functions
 	:param	string	$uri: URI string
 	:param	string	$method: Redirect method ('auto', 'location' or 'refresh')
 	:param	string	$code: HTTP Response code (usually 302 or 303)
-	:returns:	void
+	:rtype:	void
 
 	Does a "header redirect" to the URI specified. If you specify the full
 	site URL that link will be built, but for local links simply providing

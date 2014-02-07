@@ -32,6 +32,7 @@ The following functions are available:
 	:param	array	$array: Input array
 	:param	bool	$default: What to return if the array isn't valid
 	:returns:	NULL on failure or the array item.
+	:rtype:	mixed
 
 	Lets you fetch an item from an array. The function tests whether the
 	array index is set and whether it has a value. If a value exists it is
@@ -56,6 +57,7 @@ The following functions are available:
 	:param	array	$array: Input array
 	:param	bool	$default: What to return if the array isn't valid
 	:returns:	NULL on failure or the array item.
+	:rtype:	mixed
 
 	Lets you fetch a number of items from an array. The function tests
 	whether each of the array indices is set. If an index does not exist it
@@ -112,7 +114,8 @@ The following functions are available:
 .. function:: random_element($array)
 
 	:param	array	$array: Input array
-	:returns:	string (a random element from the array)
+	:returns:	A random element from the array
+	:rtype:	mixed
 
 	Takes an array as input and returns a random element from it.
 

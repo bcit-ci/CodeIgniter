@@ -27,7 +27,8 @@ The following functions are available:
 .. function:: read_file($file)
 
 	:param	string	$file: File path
-	:returns:	string or FALSE on failure
+	:returns:	File contents or FALSE on failure
+	:rtype:	string
 
 	Returns the data contained in the file specified in the path.
 
@@ -48,13 +49,13 @@ The following functions are available:
 		function might not work if you are trying to access a file above the
 		calling script.
 
-
 .. function:: write_file($path, $data[, $mode = 'wb'])
 
 	:param	string	$path: File path
 	:param	string	$data: Data to write to file
 	:param	string	$mode: ``fopen()`` mode
-	:returns:	bool
+	:returns:	TRUE if the write was successful, FALSE in case of an error
+	:rtype:	bool
 
 	Writes data to the file specified in the path. If the file does not exist then the
 	function will create it.
@@ -88,13 +89,13 @@ The following functions are available:
 
 	.. note:: This function acquires an exclusive lock on the file while writing to it.
 
-
 .. function:: delete_files($path[, $del_dir = FALSE[, $htdocs = FALSE]])
 
 	:param	string	$path: Directory path
 	:param	bool	$del_dir: Whether to also delete directories
 	:param	bool	$htdocs: Whether to skip deleting .htaccess and index page files
-	:returns:	bool
+	:returns:	TRUE on success, FALSE in case of an error
+	:rtype:	bool
 
 	Deletes ALL files contained in the supplied path.
 
@@ -111,12 +112,12 @@ The following functions are available:
 
 	.. note:: The files must be writable or owned by the system in order to be deleted.
 
-
 .. function:: get_filenames($source_dir[, $include_path = FALSE])
 
 	:param	string	$source_dir: Directory path
 	:param	bool	$include_path: Whether to include the path as part of the filenames
-	:returns:	array
+	:returns:	An array of file names
+	:rtype:	array
 
 	Takes a server path as input and returns an array containing the names of all files
 	contained within it. The file path can optionally be added to the file names by setting
@@ -126,13 +127,12 @@ The following functions are available:
 
 		$controllers = get_filenames(APPPATH.'controllers/');
 
-
 .. function:: get_dir_file_info($source_dir, $top_level_only)
 
 	:param	string	$source_dir: Directory path
-	:param	bool	$top_level_only: Whether to look only at the specified directory
-			(excluding sub-directories)
-	:returns:	array
+	:param	bool	$top_level_only: Whether to look only at the specified directory (excluding sub-directories)
+	:returns:	An array containing info on the supplied directory's contents
+	:rtype:	array
 
 	Reads the specified directory and builds an array containing the filenames, filesize,
 	dates, and permissions. Sub-folders contained within the specified path are only read
@@ -143,12 +143,12 @@ The following functions are available:
 
 		$models_info = get_dir_file_info(APPPATH.'models/');
 
-
 .. function:: get_file_info($file[, $returned_values = array('name', 'server_path', 'size', 'date')])
 
 	:param	string	$file: File path
 	:param	array	$returned_values: What type of info to return
-	:returns:	array or FALSE on failure
+	:returns:	An array containing info on the specified file or FALSE on failure
+	:rtype:	array
 
 	Given a file and path, returns (optionally) the *name*, *path*, *size* and *date modified*
 	information attributes for a file. Second parameter allows you to explicitly declare what
@@ -157,14 +157,11 @@ The following functions are available:
 	Valid ``$returned_values`` options are: `name`, `size`, `date`, `readable`, `writeable`,
 	`executable` and `fileperms`.
 
-	.. note:: The *writable* attribute is checked via PHP's ``is_writeable()`` function, which
-		known to have issues on the IIS webserver. Consider using *fileperms* instead,
-		which returns information from PHP's ``fileperms()`` function.
-
 .. function:: get_mime_by_extension($filename)
 
 	:param	string	$filename: File name
-	:returns:	string or FALSE on failure
+	:returns:	MIME type string or FALSE on failure
+	:rtype:	string
 
 	Translates a filename extension into a MIME type based on *config/mimes.php*.
 	Returns FALSE if it can't determine the type, or read the MIME config file.
@@ -178,11 +175,11 @@ The following functions are available:
 		is here strictly for convenience. It should not be used for security
 		purposes.
 
-
 .. function:: symbolic_permissions($perms)
 
 	:param	int	$perms: Permissions
-	:returns:	string
+	:returns:	Symbolic permissions string
+	:rtype:	string
 
 	Takes numeric permissions (such as is returned by ``fileperms()``) and returns
 	standard symbolic notation of file permissions.
@@ -191,11 +188,11 @@ The following functions are available:
 
 		echo symbolic_permissions(fileperms('./index.php'));  // -rw-r--r--
 
-
 .. function:: octal_permissions($perms)
 
 	:param	int	$perms: Permissions
-	:returns:	string
+	:returns:	Octal permissions string
+	:rtype:	string
 
 	Takes numeric permissions (such as is returned by ``fileperms()``) and returns
 	a three character octal notation of file permissions.

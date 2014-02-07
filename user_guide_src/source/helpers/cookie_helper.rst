@@ -27,15 +27,15 @@ The following functions are available:
 
 .. function:: set_cookie($name[, $value = ''[, $expire = ''[, $domain = ''[, $path = '/'[, $prefix = ''[, $secure = FALSE[, $httponly = FALSE]]]]]]]])
 
-	:param mixed $name: Cookie name *or* associative array of all of the parameters available to this function
-	:param string $value: Cookie value
-	:param int $expire: Number of seconds until expiration
-	:param string $domain: Cookie domain (usually: .yourdomain.com)
-	:param string $path: Cookie path
-	:param string $prefix: Cookie name prefix
-	:param bool $secure: Whether to only send the cookie through HTTPS
-	:param bool $httponly: Whether to hide the cookie from JavaScript
-	:returns: void
+	:param	mixed	$name: Cookie name *or* associative array of all of the parameters available to this function
+	:param	string	$value: Cookie value
+	:param	int	$expire: Number of seconds until expiration
+	:param	string	$domain: Cookie domain (usually: .yourdomain.com)
+	:param	string	$path: Cookie path
+	:param	string	$prefix: Cookie name prefix
+	:param	bool	$secure: Whether to only send the cookie through HTTPS
+	:param	bool	$httponly: Whether to hide the cookie from JavaScript
+	:rtype:	void
 
 	This helper function gives you view file friendly syntax to set browser
 	cookies. Refer to the :doc:`Input Library <../libraries/input>` for a
@@ -45,9 +45,10 @@ The following functions are available:
 
 .. function:: get_cookie($index[, $xss_clean = NULL]])
 
-	:param string $index: Cookie name
-	:param bool $xss_clean: Whether to apply XSS filtering to the returned value
-	:returns: mixed
+	:param	string	$index: Cookie name
+	:param	bool	$xss_clean: Whether to apply XSS filtering to the returned value
+	:returns:	The cookie value or NULL if not found
+	:rtype:	mixed
 
 	This helper function gives you view file friendly syntax to get browser
 	cookies. Refer to the :doc:`Input Library <../libraries/input>` for a
@@ -56,11 +57,11 @@ The following functions are available:
 
 .. function:: delete_cookie($name[, $domain = ''[, $path = '/'[, $prefix = '']]]])
 
-	:param string $name: Cookie name
-	:param string $domain: Cookie domain (usually: .yourdomain.com)
-	:param string $path: Cookie path
-	:param string $prefix: Cookie name prefix
-	:returns: void
+	:param	string	$name: Cookie name
+	:param	string	$domain: Cookie domain (usually: .yourdomain.com)
+	:param	string	$path: Cookie path
+	:param	string	$prefix: Cookie name prefix
+	:rtype:	void
 
 	Lets you delete a cookie. Unless you've set a custom path or other
 	values, only the name of the cookie is needed.
