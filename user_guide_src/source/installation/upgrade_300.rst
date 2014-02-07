@@ -96,7 +96,7 @@ With the change from a single Session Library to the new Session Driver, two new
    -  ``$config['sess_driver']`` selects which driver to initially load. Options are:
        -  'cookie' (the default) for classic CodeIgniter cookie-based sessions
        -  'native' for native PHP Session support
-       -  the name of a custom driver you have provided (see :doc:`Session Driver <../libraries/sessions>` for more info)
+       -  the name of a custom driver you have provided (see :doc:`Session Driver <../libraries/session>` for more info)
    -  ``$config['sess_valid_drivers']`` provides an array of additional custom drivers to make available for loading
 
 As the new Session Driver library loads the classic Cookie driver by default and always makes 'cookie' and 'native'
