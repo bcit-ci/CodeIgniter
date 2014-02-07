@@ -82,7 +82,7 @@ if ( ! function_exists('create_captcha'))
 		}
 
 		if ($img_path === '' OR $img_url === ''
-			OR ! @is_dir($img_path) OR ! is_writeable($img_path)
+			OR ! @is_dir($img_path) OR ! is_really_writable($img_path)
 			OR ! extension_loaded('gd'))
 		{
 			return FALSE;

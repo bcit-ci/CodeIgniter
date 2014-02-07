@@ -263,7 +263,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$select = explode(',', $select);
 		}
 
-		// If the escape value was not set will will base it on the global setting
+		// If the escape value was not set, we will base it on the global setting
 		is_bool($escape) OR $escape = $this->_protect_identifiers;
 
 		foreach ($select as $val)
