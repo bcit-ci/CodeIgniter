@@ -556,6 +556,19 @@ CodeIgniter 3.1+.
 .. note:: This method is still available, but you're strongly encouraged to remove its usage
 	sooner rather than later.
 
+Config library method system_url()
+==================================
+
+Usage of ``CI_Config::system_url()`` encourages insecure coding practices.
+Namely, your CodeIgniter *system/* directory shouldn't be publicly accessible
+from a security point of view.
+
+Because of this, this method is now deprecated and scheduled for removal in
+CodeIgniter 3.1+.
+
+.. note:: This method is still available, but you're strongly encouraged to remove its usage
+	sooner rather than later.
+
 ***********************************************************
 Step 18: Check your usage of Text helper highlight_phrase()
 ***********************************************************
