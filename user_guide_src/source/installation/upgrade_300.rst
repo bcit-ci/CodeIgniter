@@ -375,7 +375,7 @@ CodeIgniter 3.1+.
 String helper repeater()
 ========================
 
-:doc:`String Helper <../helpers/string_helper>` function :php:func:`repeater()` is now just an alias for
+:doc:`String Helper <../helpers/string_helper>` function :func:`repeater()` is now just an alias for
 PHP's native ``str_repeat()`` function. It is deprecated and scheduled for removal in CodeIgniter 3.1+.
 
 .. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
@@ -384,7 +384,7 @@ PHP's native ``str_repeat()`` function. It is deprecated and scheduled for remov
 String helper trim_slashes()
 ============================
 
-:doc:`String Helper <../helpers/string_helper>` function :php:func:`trim_slashes()` is now just an alias
+:doc:`String Helper <../helpers/string_helper>` function :func:`trim_slashes()` is now just an alias
 for PHP's native ``trim()`` function (with a slash passed as its second argument). It is deprecated and
 scheduled for removal in CodeIgniter 3.1+.
 
@@ -396,8 +396,8 @@ Email helper functions
 
 :doc:`Email Helper <../helpers/email_helper>` only has two functions
 
- - :php:func:`valid_email()`
- - :php:func:`send_email()`
+ - :func:`valid_email()`
+ - :func:`send_email()`
 
 Both of them are now aliases for PHP's native ``filter_var()`` and ``mail()`` functions, respectively.
 Therefore the :doc:`Email Helper <../helpers/email_helper>` altogether is being deprecated and
@@ -447,7 +447,7 @@ CodeIgniter 3.1+.
 String helper random_string() types 'unique' and 'encrypt'
 ==========================================================
 
-When using the :doc:`String Helper <../helpers/string_helper>` function :php:func:`random_string()`,
+When using the :doc:`String Helper <../helpers/string_helper>` function :func:`random_string()`,
 you should no longer pass the **unique** and **encrypt** randomization types. They are only
 aliases for **md5** and **sha1** respectively and are now deprecated and scheduled for removal
 in CodeIgniter 3.1+.
@@ -458,7 +458,7 @@ in CodeIgniter 3.1+.
 URL helper url_title() separators 'dash' and 'underscore'
 =========================================================
 
-When using the :doc:`URL Helper <../helpers/url_helper>` function :php:func:`url_title()`, you
+When using the :doc:`URL Helper <../helpers/url_helper>` function :func:`url_title()`, you
 should no longer pass **dash** or **underscore** as the word separator. This function will
 now accept any character and you should just pass the chosen character directly, so you
 should write '-' instead of 'dash' and '_' instead of 'underscore'.
@@ -538,7 +538,7 @@ Input library method is_cli_request()
 Calls to the ``CI_Input::is_cli_request()`` method are necessary at many places
 in the CodeIgniter internals and this is often before the :doc:`Input Library
 <../libraries/input>` is loaded. Because of that, it is being replaced by a common
-function named :php:func:`is_cli()` and this method is now just an alias.
+function named :func:`is_cli()` and this method is now just an alias.
 
 The new function is both available at all times for you to use and shorter to type.
 

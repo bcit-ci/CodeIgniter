@@ -35,6 +35,13 @@ representations that allow you to eliminate PHP from your templates
 	template parsing solution. We've kept it very lean on purpose in order
 	to maintain maximum performance.
 
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
+
 Initializing the Class
 ======================
 
@@ -46,15 +53,10 @@ in your controller using the $this->load->library function::
 Once loaded, the Parser library object will be available using:
 $this->parser
 
-The following functions are available in this library:
+Parsing templates
+=================
 
-$this->parser->parse()
-======================
-
-This method accepts a template name and data array as input, and it
-generates a parsed version. Example::
-
-	$this->load->library('parser');
+You can use the ``parse()`` method to parse (or render) simple templates, like this::
 
 	$data = array(
 	            'blog_title' => 'My Blog Title',
@@ -76,12 +78,6 @@ instead of sent to the output class you can pass TRUE (boolean) to the
 third parameter::
 
 	$string = $this->parser->parse('blog_template', $data, TRUE);
-
-$this->parser->parse_string()
-==============================
-
-This method works exactly like parse(), only accepts a string as the
-first parameter in place of a view file.
 
 Variable Pairs
 ==============
@@ -147,3 +143,37 @@ function::
 
 	$this->parser->parse('blog_template', $data);
 
+***************
+Class Reference
+***************
+
+.. class:: CI_Parser
+
+	.. method:: parse($template, $data[, $return = FALSE])
+
+		:param	string	$template: Path to view file
+		:param	array	$data: Variable data
+		:param	bool	$return: Whether to only return the parsed template
+		:returns:	Parsed template string
+		:rtype:	string
+
+		Parses a template from the provided path and variables.
+
+	.. method:: parse_string($template, $data[, $return = FALSE])
+
+		:param	string	$template: Path to view file
+		:param	array	$data: Variable data
+		:param	bool	$return: Whether to only return the parsed template
+		:returns:	Parsed template string
+		:rtype:	string
+
+		This method works exactly like ``parse()``, only it accepts the template as a
+		string instead of loading a view file.
+
+	.. method:: set_delimiters([$l = '{'[, $r = '}']])
+
+		:param	string	$l: Left delimiter
+		:param	string	$r: Right delimiter
+		:rtype: void
+
+		Sets the delimiters (opening and closing) for a value "tag" in a template.

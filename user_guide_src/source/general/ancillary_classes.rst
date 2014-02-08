@@ -9,7 +9,7 @@ resources. This is easily possible as you'll see.
 get_instance()
 ==============
 
-.. php:function:: get_instance()
+.. function:: get_instance()
 
 	:returns:	object of class CI_Controller
 
@@ -48,7 +48,7 @@ Once you've assigned the object to a variable, you'll use that variable
 	passed by reference::
 
 		$CI =& get_instance();
-	
+
 	This is very important. Assigning by reference allows you to use the
 	original CodeIgniter object rather than creating a copy of it.
 
