@@ -8,7 +8,7 @@ class Session_test extends CI_TestCase {
 	protected $settings = array(
 		'use_cookies' => 0,
 		'use_only_cookies' => 0,
-		'cache_limiter' => false
+		'cache_limiter' => FALSE
 	);
 	protected $setting_vals = array();
 	protected $cookie_vals;
