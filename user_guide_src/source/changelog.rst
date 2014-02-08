@@ -331,7 +331,7 @@ Release Date: Not Released
       -  Added option to store raw values instead of CI-formatted ones (APC, Memcache).
       -  Added atomic increment/decrement feature via ``increment()``, ``decrement()``.
 
-   -  :doc:`Email Library <libraries/email>` changes include:
+   -  :doc:`E-mail Library <libraries/email>` changes include:
 
       -  Added a custom filename parameter to ``attach()`` as ``$this->email->attach($filename, $disposition, $newname)``.
       -  Added possibility to send attachment as buffer string in ``attach()`` as ``$this->email->attach($buffer, $disposition, $newname, $mime)``.

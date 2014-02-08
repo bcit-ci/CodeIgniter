@@ -238,7 +238,7 @@ Class Reference
 
 			$this->email->message('This is my message');
 
-	.. method:: set_alt_message([$str = ''])
+	.. method:: set_alt_message($str)
 
 		:param	string	$str: Alternative e-mail message body
 		:returns:	CI_Email instance (method chaining)
