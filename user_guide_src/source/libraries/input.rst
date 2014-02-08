@@ -158,20 +158,20 @@ Class Reference
 			$this->input->get(NULL, TRUE); // returns all GET items with XSS filter
 			$this->input->get(NULL, FALSE); // returns all GET items without XSS filtering
 
-	.. method:: post_get([$index = ''[, $xss_clean = NULL]])
+	.. method:: post_get($index[, $xss_clean = NULL])
 
 		:param	string	$index: POST/GET parameter name
 		:param	bool	$xss_clean: Whether to apply XSS filtering
 		:returns:	POST/GET value if found, NULL if not
 		:rtype:	mixed
 
-		This method works the same way as ``post()`` and ``get()``, only combined.
-		It will search through both POST and GET streams for data, looking in POST
-		first, and then in GET::
+		This method works pretty much the same way as ``post()`` and ``get()``,
+		only combined. It will search through both POST and GET streams for data,
+		looking in POST first, and then in GET::
 
 			$this->input->post_get('some_data', TRUE);
 
-	.. method:: get_post([$index = ''[, $xss_clean = NULL]])
+	.. method:: get_post($index[, $xss_clean = NULL])
 
 		:param	string	$index: GET/POST parameter name
 		:param	bool	$xss_clean: Whether to apply XSS filtering
@@ -186,7 +186,7 @@ Class Reference
 		.. note:: This method used to act EXACTLY like ``post_get()``, but it's
 			behavior has changed in CodeIgniter 3.0.
 
-	.. method:: cookie([$index = ''[, $xss_clean = NULL]])
+	.. method:: cookie([$index = NULL[, $xss_clean = NULL]])
 
 		:param	string	$index: COOKIE parameter name
 		:param	bool	$xss_clean: Whether to apply XSS filtering
@@ -199,19 +199,19 @@ Class Reference
 			$this->input->cookie('some_cookie');
 			$this->input->cookie('some_cookie, TRUE); // with XSS filter
 
-	.. method:: server([$index = ''[, $xss_clean = NULL]])
+	.. method:: server($index[, $xss_clean = NULL])
 
 		:param	string	$index: Value name
 		:param	bool	$xss_clean: Whether to apply XSS filtering
 		:returns:	$_SERVER item value if found, NULL if not
 		:rtype:	mixed
 
-		This method is identical to the ``post()``, ``get()`` and ``cookie()`` methods,
-		only it fetches server data (``$_SERVER``)::
+		This method is identical to the ``post()``, ``get()`` and ``cookie()``
+		methods, only it fetches server data (``$_SERVER``)::
 
 			$this->input->server('some_data');
 
-	.. method:: input_stream([$index = ''[, $xss_clean = NULL]])
+	.. method:: input_stream([$index = NULL[, $xss_clean = NULL]])
 
 		:param	string	$index: Key name
 		:param	bool	$xss_clean: Whether to apply XSS filtering
