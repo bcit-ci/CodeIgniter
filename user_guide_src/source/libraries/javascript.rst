@@ -2,8 +2,9 @@
 Javascript Class
 ################
 
-.. note:: This driver is experimental. Its feature set and
-	implementation may change in future releases.
+.. note:: This library is DEPRECATED and should not be used. It has always
+	been with an 'experimental' status and is now no longer supported.
+	Currently only kept for backwards compatibility.
 
 CodeIgniter provides a library to help you with certain common functions
 that you may want to use with Javascript. Please note that CodeIgniter

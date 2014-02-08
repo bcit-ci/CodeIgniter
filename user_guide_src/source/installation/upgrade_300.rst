@@ -569,6 +569,18 @@ CodeIgniter 3.1+.
 .. note:: This method is still available, but you're strongly encouraged to remove its usage
 	sooner rather than later.
 
+======================
+The Javascript library
+======================
+
+The :doc:`Javascript Library <../libraries/javascript>` has always had an
+'experimental' status and was never really useful, nor a proper solution.
+
+It is now deprecated and scheduled for removal in CodeIgniter 3.1+.
+
+.. note:: This library is still available, but you're strongly encouraged to remove its usage
+	sooner rather than later.
+
 ***********************************************************
 Step 18: Check your usage of Text helper highlight_phrase()
 ***********************************************************
