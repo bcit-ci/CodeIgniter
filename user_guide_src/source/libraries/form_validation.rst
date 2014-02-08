@@ -1001,14 +1001,16 @@ Class Reference
 	.. method:: set_data($data)
 
 		:param	array	$data: Array of data validate
-		:rtype:	void
+		:returns:	CI_Form_validation instance (method chaining)
+		:rtype:	CI_Form_validation
 
 		Permits you to set an array for validation, instead of using the default
 		``$_POST`` array.
 
 	.. method:: reset_validation()
 
-		:rtype: void
+		:returns:	CI_Form_validation instance (method chaining)
+		:rtype:	CI_Form_validation
 
 		Permits you to reset the validation when you validate more than one array.
 		This method should be called before validating each new array.
