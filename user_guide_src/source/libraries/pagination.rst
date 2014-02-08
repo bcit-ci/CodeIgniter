@@ -308,7 +308,8 @@ Class Reference
 	.. method:: initialize([$params = array()])
 
 		:param	array	$params: Configuration parameters
-		:rtype:	void
+		:returns:	CI_Pagination instance (method chaining)
+		:rtype:	CI_Pagination
 
 		Initializes the Pagination class with your preferred options.
 

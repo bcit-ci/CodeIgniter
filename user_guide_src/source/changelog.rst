@@ -284,6 +284,7 @@ Release Date: Not Released
 
    -  :doc:`Calendar Library <libraries/calendar>` changes include:
 
+      -  Added method chaining support.
       -  Added configuration to generate days of other months instead of blank cells.
       -  Auto set *next_prev_url* if it is empty and *show_prev_next* is set to TRUE.
 
@@ -352,6 +353,7 @@ Release Date: Not Released
 
    -  :doc:`Pagination Library <libraries/pagination>` changes include:
 
+      -  Added method chaining support to ``initialize()`` method.
       -  Added support for the anchor "rel" attribute.
       -  Added support for setting custom attributes.
       -  Deprecated usage of the "anchor_class" setting (use the new "attributes" setting instead).

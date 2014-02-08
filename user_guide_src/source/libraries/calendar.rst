@@ -202,7 +202,8 @@ Class Reference
 	.. method:: initialize([$config = array()])
 
 		:param	array	$config: Configuration parameters
-		:rtype:	void
+		:returns:	CI_Calendar instance (method chaining)
+		:rtype:	CI_Calendar
 
 		Initializes the Calendaring preferences. Accepts an associative array as input, containing display preferences.
 
@@ -280,7 +281,8 @@ Class Reference
 
 	.. method:: parse_template()
 
-		:rtype:	void
+		:returns:	CI_Calendar instance (method chaining)
+		:rtype:	CI_Calendar
 
 		Harvests the data within the template ``{pseudo-variables}`` used to
 		display the calendar.

@@ -139,7 +139,7 @@ class CI_Calendar {
 	 * Accepts an associative array as input, containing display preferences
 	 *
 	 * @param	array	config preferences
-	 * @return	void
+	 * @return	CI_Calendar
 	 */
 	public function initialize($config = array())
 	{
@@ -156,6 +156,8 @@ class CI_Calendar {
 		{
 			$this->next_prev_url = $this->CI->config->site_url($this->CI->router->class.'/'.$this->CI->router->method);
 		}
+
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -513,7 +515,7 @@ class CI_Calendar {
 	 * Harvests the data within the template {pseudo-variables}
 	 * used to display the calendar
 	 *
-	 * @return	void
+	 * @return	CI_Calendar
 	 */
 	public function parse_template()
 	{
@@ -521,7 +523,7 @@ class CI_Calendar {
 
 		if ($this->template === '')
 		{
-			return;
+			return $this;
 		}
 
 		$today = array('cal_cell_start_today', 'cal_cell_content_today', 'cal_cell_no_content_today', 'cal_cell_end_today');
@@ -537,6 +539,8 @@ class CI_Calendar {
 				$this->temp[$val] = $this->temp[substr($val, 0, -6)];
 			}
 		}
+
+		return $this;
 	}
 
 }
