@@ -167,7 +167,8 @@ Class Reference
 	.. method:: set_caption($caption)
 
 		:param	string	$caption: Table caption
-		:rtype:	void
+		:returns:	CI_Table instance (method chaining)
+		:rtype:	CI_Table
 
 		Permits you to add a caption to the table.
 		::
@@ -177,7 +178,8 @@ Class Reference
 	.. method:: set_heading([$args = array()[, ...]])
 
 		:param	mixed	$args: An array or multiple strings containing the table column titles
-		:rtype:	void
+		:returns:	CI_Table instance (method chaining)
+		:rtype:	CI_Table
 
 		Permits you to set the table heading. You can submit an array or discrete params::
 
@@ -188,7 +190,8 @@ Class Reference
 	.. method:: add_row([$args = array()[, ...]])
 
 		:param	mixed	$args: An array or multiple strings containing the row values
-		:rtype:	void
+		:returns:	CI_Table instance (method chaining)
+		:rtype:	CI_Table
 
 		Permits you to add a row to your table. You can submit an array or discrete params::
 
@@ -253,7 +256,8 @@ Class Reference
 	.. method:: set_empty($value)
 
 		:param	mixed	$value: Value to put in empty cells
-		:rtype:	void
+		:returns:	CI_Table instance (method chaining)
+		:rtype:	CI_Table
 
 		Lets you set a default value for use in any table cells that are empty.
 		You might, for example, set a non-breaking space::
@@ -262,7 +266,8 @@ Class Reference
 
 	.. method:: clear()
 
-		:rtype:	void
+		:returns:	CI_Table instance (method chaining)
+		:rtype:	CI_Table
 
 		Lets you clear the table heading and row data. If you need to show multiple tables with different data you should to call this method
 		after each table has been generated to clear the previous table information. Example::
