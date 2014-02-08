@@ -24,9 +24,10 @@ Class Reference
 
 	.. method:: segment($n[, $no_result = NULL])
 
-		:param int $n: Segment index number
-		:param mixed $no_result: What to return if the searched segment is not found
-		:returns: mixed
+		:param	int	$n: Segment index number
+		:param	mixed	$no_result: What to return if the searched segment is not found
+		:returns:	Segment value or $no_result value if not found
+		:rtype:	mixed
 
 		Permits you to retrieve a specific segment. Where n is the segment
 		number you wish to retrieve. Segments are numbered from left to right.
@@ -60,9 +61,10 @@ Class Reference
 
 	.. method:: rsegment($n[, $no_result = NULL])
 
-		:param int $n: Segment index number
-		:param mixed $no_result: What to return if the searched segment is not found
-		:returns: mixed
+		:param	int	$n: Segment index number
+		:param	mixed	$no_result: What to return if the searched segment is not found
+		:returns:	Routed segment value or $no_result value if not found
+		:rtype:	mixed
 
 		This method is identical to ``segment()``, except that it lets you retrieve
 		a specific segment from your re-routed URI in the event you are
@@ -70,9 +72,10 @@ Class Reference
 
 	.. method:: slash_segment($n[, $where = 'trailing'])
 
-		:param int $n: Segment index number
-		:param string $where: Where to add the slash ('trailing' or 'leading')
-		:returns: string
+		:param	int	$n: Segment index number
+		:param	string	$where: Where to add the slash ('trailing' or 'leading')
+		:returns:	Segment value, prepended/suffixed with a forward slash, or a slash if not found
+		:rtype:	string
 
 		This method is almost identical to ``segment()``, except it
 		adds a trailing and/or leading slash based on the second parameter.
@@ -90,9 +93,10 @@ Class Reference
 
 	.. method:: slash_rsegment($n[, $where = 'trailing'])
 
-		:param int $n: Segment index number
-		:param string $where: Where to add the slash ('trailing' or 'leading')
-		:returns: string
+		:param	int	$n: Segment index number
+		:param	string	$where: Where to add the slash ('trailing' or 'leading')
+		:returns:	Routed segment value, prepended/suffixed with a forward slash, or a slash if not found
+		:rtype:	string
 
 		This method is identical to ``slash_segment()``, except that it lets you
 		add slashes a specific segment from your re-routed URI in the event you
@@ -101,9 +105,10 @@ Class Reference
 
 	.. method:: uri_to_assoc([$n = 3[, $default = array()]])
 
-		:param int $n: Segment index number
-		:param array $default: Default values
-		:returns: array
+		:param	int	$n: Segment index number
+		:param	array	$default: Default values
+		:returns:	Associative URI segments array
+		:rtype:	array
 
 		This method lets you turn URI segments into and associative array of
 		key/value pairs. Consider this URI::
@@ -142,9 +147,10 @@ Class Reference
 
 	.. method:: ruri_to_assoc([$n = 3[, $default = array()]])
 
-		:param int $n: Segment index number
-		:param array $default: Default values
-		:returns: array
+		:param	int	$n: Segment index number
+		:param	array	$default: Default values
+		:returns:	Associative routed URI segments array
+		:rtype:	array
 
 		This method is identical to ``uri_to_assoc()``, except that it creates
 		an associative array using the re-routed URI in the event you are using
@@ -152,8 +158,9 @@ Class Reference
 
 	.. method:: assoc_to_uri($array)
 
-		:param array $array: Input array of key/value pairs
-		:returns: string
+		:param	array	$array: Input array of key/value pairs
+		:returns:	URI string
+		:rtype:	string
 
 		Takes an associative array as input and generates a URI string from it.
 		The array keys will be included in the string. Example::
@@ -165,7 +172,8 @@ Class Reference
 
 	.. method:: uri_string()
 
-		:returns: string
+		:returns:	URI string
+		:rtype:	string
 
 		Returns a string with the complete URI. For example, if this is your full URL::
 
@@ -177,7 +185,8 @@ Class Reference
 
 	.. method:: ruri_string()
 
-		:returns: string
+		:returns:	Routed URI string
+		:rtype:	string
 
 		This method is identical to ``uri_string()``, except that it returns
 		the re-routed URI in the event you are using CodeIgniter's :doc:`URI
@@ -185,13 +194,15 @@ Class Reference
 
 	.. method:: total_segments()
 
-		:returns: int
+		:returns:	Count of URI segments
+		:rtype:	int
 
 		Returns the total number of segments.
 
 	.. method:: total_rsegments()
 
-		:returns: int
+		:returns:	Count of routed URI segments
+		:rtype:	int
 
 		This method is identical to ``total_segments()``, except that it returns
 		the total number of segments in your re-routed URI in the event you are
@@ -199,7 +210,8 @@ Class Reference
 
 	.. method:: segment_array()
 
-		:returns: array
+		:returns:	URI segments array
+		:rtype:	array
 
 		Returns an array containing the URI segments. For example::
 
@@ -213,7 +225,8 @@ Class Reference
 
 	.. method:: rsegment_array()
 
-		:returns: array
+		:returns:	Routed URI segments array
+		:rtype:	array
 
 		This method is identical to ``segment_array()``, except that it returns
 		the array of segments in your re-routed URI in the event you are using

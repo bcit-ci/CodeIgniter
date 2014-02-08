@@ -94,8 +94,9 @@ Class Reference
 
 	.. method:: connect([$config = array()])
 
-		:param array $config: Connection values
-		:returns: bool
+		:param	array	$config: Connection values
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Connects and logs into to the FTP server. Connection preferences are set
 		by passing an array to the function, or you can store them in a config
@@ -123,24 +124,25 @@ Class Reference
 
 		**Available connection options**
 
-		==================		===================================
-		Option Name			Description
-		==================		===================================
-		**hostname**			the FTP hostname. Usually something like: ftp.example.com
-		**username**			the FTP username
-		**password**			the FTP password
-		**port**			The port number. Set to 21 by default.
-		**debug**			TRUE/FALSE (boolean). Whether to enable debugging to display error messages.
-		**passive**			TRUE/FALSE (boolean). Whether to use passive mode. Passive is set automatically by default.
-		==================		===================================
+		============== =============== =============================================================================
+		Option name    Default value   Description
+		============== =============== =============================================================================
+		**hostname**   n/a             FTP hostname (usually something like: ftp.example.com)
+		**username**   n/a             FTP username
+		**password**   n/a             FTP password
+		**port**       21              FTP server port number
+		**debug**      FALSE           TRUE/FALSE (boolean): Whether to enable debugging to display error messages
+		**passive**    TRUE            TRUE/FALSE (boolean): Whether to use passive mode
+		============== =============== =============================================================================
 
 	.. method:: upload($locpath, $rempath[, $mode = 'auto'[, $permissions = NULL]])
 
-		:param string $locpath: Local file path
-		:param string $rempath: Remote file path
-		:param string $mode: FTP mode, defaults to 'auto' (options are: 'auto', 'binary', 'ascii')
-		:param int $permissions: File permissions (octal)
-		:returns: bool
+		:param	string	$locpath: Local file path
+		:param	string	$rempath: Remote file path
+		:param	string	$mode: FTP mode, defaults to 'auto' (options are: 'auto', 'binary', 'ascii')
+		:param	int	$permissions: File permissions (octal)
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Uploads a file to your server. You must supply the local path and the
 		remote path, and you can optionally set the mode and permissions.
@@ -154,10 +156,11 @@ Class Reference
 
 	.. method:: download($rempath, $locpath[, $mode = 'auto'])
 
-		:param string $rempath: Remote file path
-		:param string $locpath: Local file path
-		:param string $mode: FTP mode, defaults to 'auto' (options are: 'auto', 'binary', 'ascii')
-		:returns: bool
+		:param	string	$rempath: Remote file path
+		:param	string	$locpath: Local file path
+		:param	string	$mode: FTP mode, defaults to 'auto' (options are: 'auto', 'binary', 'ascii')
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Downloads a file from your server. You must supply the remote path and
 		the local path, and you can optionally set the mode. Example::
@@ -166,14 +169,16 @@ Class Reference
 
 		If 'auto' mode is used it will base the mode on the file extension of the source file.
 
-		Returns FALSE if the download does not execute successfully (including if PHP does not have permission to write the local file).
+		Returns FALSE if the download does not execute successfully
+		(including if PHP does not have permission to write the local file).
 
-	.. method:: rename($old_file, $new_file, $move = FALSE)
+	.. method:: rename($old_file, $new_file[, $move = FALSE])
 
-		:param string $old_file: Old file name
-		:param string $new_file: New file name
-		:param bool $move: Whether a move is being performed
-		:returns: bool
+		:param	string	$old_file: Old file name
+		:param	string	$new_file: New file name
+		:param	bool	$move: Whether a move is being performed
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Permits you to rename a file. Supply the source file name/path and the new file name/path.
 		::
@@ -183,9 +188,10 @@ Class Reference
 
 	.. method:: move($old_file, $new_file)
 
-		:param string $old_file: Old file name
-		:param string $new_file: New file name
-		:returns: bool
+		:param	string	$old_file: Old file name
+		:param	string	$new_file: New file name
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Lets you move a file. Supply the source and destination paths::
 
@@ -196,8 +202,9 @@ Class Reference
 
 	.. method:: delete_file($filepath)
 
-		:param string $filepath: Path to file to delete
-		:returns: bool
+		:param	string	$filepath: Path to file to delete
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Lets you delete a file. Supply the source path with the file name.
 		::
@@ -206,8 +213,9 @@ Class Reference
 
 	.. method:: delete_dir($filepath)
 
-		:param string $filepath: Path to directory to delete
-		:returns: bool
+		:param	string	$filepath: Path to directory to delete
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Lets you delete a directory and everything it contains. Supply the
 		source path to the directory with a trailing slash.
@@ -223,8 +231,9 @@ Class Reference
 
 	.. method:: list_files([$path = '.'])
 
-		:param string $path: Directory path
-		:returns: array or FALSE on failure
+		:param	string	$path: Directory path
+		:returns:	An array list of files or FALSE on failure
+		:rtype:	array
 
 		Permits you to retrieve a list of files on your server returned as an
 		array. You must supply the path to the desired directory.
@@ -235,9 +244,10 @@ Class Reference
 
 	.. method:: mirror($locpath, $rempath)
 
-		:param string $locpath: Local path
-		:param string $rempath: Remote path
-		:returns: bool
+		:param	string	$locpath: Local path
+		:param	string	$rempath: Remote path
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Recursively reads a local folder and everything it contains (including
 		sub-folders) and creates a mirror via FTP based on it. Whatever the
@@ -248,9 +258,10 @@ Class Reference
 
 	.. method:: mkdir($path[, $permissions = NULL])
 
-		:param string $path: Path to directory to create
-		:param int $permissions: Permissions (octal)
-		:returns: bool
+		:param	string	$path: Path to directory to create
+		:param	int	$permissions: Permissions (octal)
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Lets you create a directory on your server. Supply the path ending in
 		the folder name you wish to create, with a trailing slash.
@@ -263,9 +274,10 @@ Class Reference
 
 	.. method:: chmod($path, $perm)
 
-		:param string $path: Path to alter permissions for
-		:param int $perm: Permissions (octal)
-		:returns: bool
+		:param	string	$path: Path to alter permissions for
+		:param	int	$perm: Permissions (octal)
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Permits you to set file permissions. Supply the path to the file or
 		directory you wish to alter permissions on::
@@ -275,9 +287,10 @@ Class Reference
 
 	.. method:: changedir($path[, $suppress_debug = FALSE])
 
-		:param string $path: Directory path
-		:param bool $suppress_debug: Whether to turn off debug messages for this command
-		:returns: bool
+		:param	string	$path: Directory path
+		:param	bool	$suppress_debug: Whether to turn off debug messages for this command
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Changes the current working directory to the specified path.
 
@@ -286,7 +299,8 @@ Class Reference
 
 	.. method:: close()
 
-		:returns: bool
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Closes the connection to your server. It's recommended that you use this
 		when you are finished uploading.

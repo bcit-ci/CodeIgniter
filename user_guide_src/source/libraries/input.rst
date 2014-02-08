@@ -68,10 +68,10 @@ With CodeIgniter's built in methods you can simply do this::
 
 The main methods are:
 
--  $this->input->post()
--  $this->input->get()
--  $this->input->cookie()
--  $this->input->server()
+-  ``$this->input->post()``
+-  ``$this->input->get()``
+-  ``$this->input->cookie()``
+-  ``$this->input->server()``
 
 Using the php://input stream
 ============================
@@ -108,9 +108,10 @@ Class Reference
 
 	.. method:: post([$index = NULL[, $xss_clean = NULL]])
 
-		:param string $index: POST parameter name
-		:param bool $xss_clean: Whether to apply XSS filtering
-		:returns: mixed
+		:param	string	$index: POST parameter name
+		:param	bool	$xss_clean: Whether to apply XSS filtering
+		:returns:	$_POST if no parameters supplied, otherwise the POST value if found or NULL if not
+		:rtype:	mixed
 
 		The first parameter will contain the name of the POST item you are
 		looking for::
@@ -138,9 +139,10 @@ Class Reference
 
 	.. method:: get([$index = NULL[, $xss_clean = NULL]])
 
-		:param string $index: GET parameter name
-		:param bool $xss_clean: Whether to apply XSS filtering
-		:returns: mixed
+		:param	string	$index: GET parameter name
+		:param	bool	$xss_clean: Whether to apply XSS filtering
+		:returns:	$_GET if no parameters supplied, otherwise the GET value if found or NULL if not
+		:rtype:	mixed
 
 		This method is identical to ``post()``, only it fetches GET data.
 		::
@@ -158,9 +160,10 @@ Class Reference
 
 	.. method:: post_get([$index = ''[, $xss_clean = NULL]])
 
-		:param string $index: POST/GET parameter name
-		:param bool $xss_clean: Whether to apply XSS filtering
-		:returns: mixed
+		:param	string	$index: POST/GET parameter name
+		:param	bool	$xss_clean: Whether to apply XSS filtering
+		:returns:	POST/GET value if found, NULL if not
+		:rtype:	mixed
 
 		This method works the same way as ``post()`` and ``get()``, only combined.
 		It will search through both POST and GET streams for data, looking in POST
@@ -170,9 +173,10 @@ Class Reference
 
 	.. method:: get_post([$index = ''[, $xss_clean = NULL]])
 
-		:param string $index: GET/POST parameter name
-		:param bool $xss_clean: Whether to apply XSS filtering
-		:returns: mixed
+		:param	string	$index: GET/POST parameter name
+		:param	bool	$xss_clean: Whether to apply XSS filtering
+		:returns:	GET/POST value if found, NULL if not
+		:rtype:	mixed
 
 		This method works the same way as ``post_get()`` only it looks for GET
 		data first.
@@ -184,9 +188,10 @@ Class Reference
 
 	.. method:: cookie([$index = ''[, $xss_clean = NULL]])
 
-		:param string $index: COOKIE parameter name
-		:param bool $xss_clean: Whether to apply XSS filtering
-		:returns: mixed
+		:param	string	$index: COOKIE parameter name
+		:param	bool	$xss_clean: Whether to apply XSS filtering
+		:returns:	$_COOKIE if no parameters supplied, otherwise the COOKIE value if found or NULL if not
+		:rtype:	mixed
 
 		This method is identical to ``post()`` and ``get()``, only it fetches cookie
 		data::
@@ -196,9 +201,10 @@ Class Reference
 
 	.. method:: server([$index = ''[, $xss_clean = NULL]])
 
-		:param string $index: Value name
-		:param bool $xss_clean: Whether to apply XSS filtering
-		:returns: mixed
+		:param	string	$index: Value name
+		:param	bool	$xss_clean: Whether to apply XSS filtering
+		:returns:	$_SERVER item value if found, NULL if not
+		:rtype:	mixed
 
 		This method is identical to the ``post()``, ``get()`` and ``cookie()`` methods,
 		only it fetches server data (``$_SERVER``)::
@@ -207,24 +213,26 @@ Class Reference
 
 	.. method:: input_stream([$index = ''[, $xss_clean = NULL]])
 
-		:param string $index: Key name
-		:param bool $xss_clean: Whether to apply XSS filtering
-		:returns: mixed
+		:param	string	$index: Key name
+		:param	bool	$xss_clean: Whether to apply XSS filtering
+		:returns:	Input stream array if no parameters supplied, otherwise the specified value if found or NULL if not
+		:rtype:	mixed
 
 		This method is identical to ``get()``, ``post()`` and ``cookie()``,
 		only it fetches the *php://input* stream data.
 
 	.. method:: set_cookie($name = ''[, $value = ''[, $expire = ''[, $domain = ''[, $path = '/'[, $prefix = ''[, $secure = FALSE[, $httponly = FALSE]]]]]]])
 
-		:param mixed $name: Cookie name or an array of parameters
-		:param string $value: Cookie value
-		:param int $expire: Cookie expiration time in seconds
-		:param string $domain: Cookie domain
-		:param string $path: Cookie path
-		:param string $prefix: Cookie name prefix
-		:param bool $secure: Whether to only transfer the cookie through HTTPS
-		:param bool $httponly: Whether to only make the cookie accessible for HTTP requests (no JavaScript)
-		:returns: void
+		:param	mixed	$name: Cookie name or an array of parameters
+		:param	string	$value: Cookie value
+		:param	int	$expire: Cookie expiration time in seconds
+		:param	string	$domain: Cookie domain
+		:param	string	$path: Cookie path
+		:param	string	$prefix: Cookie name prefix
+		:param	bool	$secure: Whether to only transfer the cookie through HTTPS
+		:param	bool	$httponly: Whether to only make the cookie accessible for HTTP requests (no JavaScript)
+		:rtype:	void
+
 
 		Sets a cookie containing the values you specify. There are two ways to
 		pass information to this method so that a cookie can be set: Array
@@ -247,7 +255,7 @@ Class Reference
 
 			$this->input->set_cookie($cookie);
 
-		**Notes:**
+		**Notes**
 
 		Only the name and value are required. To delete a cookie set it with the
 		expiration blank.
@@ -276,10 +284,10 @@ Class Reference
 
 			$this->input->set_cookie($name, $value, $expire, $domain, $path, $prefix, $secure);
 
-
 	.. method:: ip_address()
 
-		:returns: string
+		:returns:	Visitor's IP address or '0.0.0.0' if not valid
+		:rtype:	string
 
 		Returns the IP address for the current user. If the IP address is not
 		valid, the method will return '0.0.0.0'::
@@ -293,9 +301,10 @@ Class Reference
 
 	.. method:: valid_ip($ip[, $which = ''])
 
-		:param string $ip: IP address
-		:param string $which: IP protocol ('ipv4' or 'ipv6')
-		:returns: bool
+		:param	string	$ip: IP address
+		:param	string	$which: IP protocol ('ipv4' or 'ipv6')
+		:returns:	TRUE if the address is valid, FALSE if not
+		:rtype:	bool
 
 		Takes an IP address as input and returns TRUE or FALSE (boolean) depending
 		on whether it is valid or not.
@@ -319,7 +328,8 @@ Class Reference
 
 	.. method:: user_agent()
 
-		:returns: string
+		:returns:	User agent string or NULL if not set
+		:rtype:	mixed
 
 		Returns the user agent string (web browser) being used by the current user,
 		or NULL if it's not available.
@@ -332,8 +342,9 @@ Class Reference
 
 	.. method:: request_headers([$xss_clean = FALSE])
 
-		:param bool $xss_clean: Whether to apply XSS filtering
-		:returns: array
+		:param	bool	$xss_clean: Whether to apply XSS filtering
+		:returns:	An array of HTTP request headers
+		:rtype:	array
 
 		Returns an array of HTTP request headers.
 		Useful if running in a non-Apache environment where
@@ -345,9 +356,10 @@ Class Reference
 
 	.. method:: get_request_header($index[, $xss_clean = FALSE])
 
-		:param string $index: HTTP request header name
-		:param bool $xss_clean: Whether to apply XSS filtering
-		:returns: string
+		:param	string	$index: HTTP request header name
+		:param	bool	$xss_clean: Whether to apply XSS filtering
+		:returns:	An HTTP request header or NULL if not found
+		:rtype:	string
 
 		Returns a single member of the request headers array or NULL
 		if the searched header is not found.
@@ -357,14 +369,16 @@ Class Reference
 
 	.. method:: is_ajax_request()
 
-		:returns: bool
+		:returns:	TRUE if it is an Ajax request, FALSE if not
+		:rtype:	bool
 
 		Checks to see if the HTTP_X_REQUESTED_WITH server header has been
 		set, and returns boolean TRUE if it is or FALSE if not.
 
 	.. method:: is_cli_request()
 
-		:returns: bool
+		:returns:	TRUE if it is a CLI request, FALSE if not
+		:rtype:	bool
 
 		Checks to see if the application was run from the command-line
 		interface.
@@ -382,8 +396,9 @@ Class Reference
 
 	.. method:: method([$upper = FALSE])
 
-		:param bool $upper: Whether to return the request method name in upper or lower case
-		:returns: string
+		:param	bool	$upper: Whether to return the request method name in upper or lower case
+		:returns:	HTTP request method
+		:rtype:	string
 
 		Returns the ``$_SERVER['REQUEST_METHOD']``, with the option to set it
 		in uppercase or lowercase.

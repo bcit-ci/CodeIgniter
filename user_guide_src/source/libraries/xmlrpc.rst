@@ -459,18 +459,18 @@ Class Reference
 
 	.. method:: initialize([$config = array()])
 
-		:param array $config: configuration data
-		:returns: void
+		:param	array	$config: Configuration data
+		:rtype:	void
 
 		Initializes the XML-RPC library. Accepts an associative array containing your settings.
 
 	.. method:: server($url[, $port = 80[, $proxy = FALSE[, $proxy_port = 8080]]])
 
-		:param string $url: XML-RPC server URL
-		:param int $port: server port
-		:param string $proxy: optional proxy
-		:param int $proxy_port: proxy listening port
-		:returns: void
+		:param	string	$url: XML-RPC server URL
+		:param	int	$port: Server port
+		:param	string	$proxy: Optional proxy
+		:param	int	$proxy_port: Proxy listening port
+		:rtype:	void
 
 		Sets the URL and port number of the server to which a request is to be sent::
 
@@ -482,8 +482,8 @@ Class Reference
 
 	.. method:: timeout($seconds = 5)
 
-		:param int $seconds: timeout in seconds
-		:returns: void
+		:param	int	$seconds: Timeout in seconds
+		:rtype:	void
 
 		Set a time out period (in seconds) after which the request will be canceled::
 
@@ -491,8 +491,8 @@ Class Reference
 
 	.. method:: method($function)
 
-		:param string $function: method name
-		:returns: void
+		:param	string	$function: Method name
+		:rtype:	void
 
 		Sets the method that will be requested from the XML-RPC server::
 
@@ -502,8 +502,8 @@ Class Reference
 
 	.. method:: request($incoming)
 
-		:param array $incoming: request data
-		:returns: void
+		:param	array	$incoming: Request data
+		:rtype:	void
 
 		Takes an array of data and builds request to be sent to XML-RPC server::
 
@@ -512,20 +512,22 @@ Class Reference
 
 	.. method:: send_request()
 
-		:returns: bool
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		The request sending method. Returns boolean TRUE or FALSE based on success for failure, enabling it to be used conditionally.
 
 	.. method set_debug($flag = TRUE)
 
-		:param bool $flag: debug status flag
-		:returns: void
+		:param	bool	$flag: Debug status flag
+		:rtype:	void
 
 	Enables or disables debugging, which will display a variety of information and error data helpful during development.
 
 	.. method:: display_error()
 
-		:returns: string
+		:returns:	Error message string
+		:rtype:	string
 
 		Returns an error message as a string if your request failed for some reason.
 		::
@@ -534,7 +536,8 @@ Class Reference
 
 	.. method:: display_response()
 
-		:returns: mixed
+		:returns:	Response
+		:rtype:	mixed
 
 		Returns the response from the remote server once request is received. The response will typically be an associative array.
 		::
@@ -543,9 +546,10 @@ Class Reference
 
 	.. method:: send_error_message($number, $message)
 
-		:param int $number: error number
-		:param string $message: error message
-		:returns: object
+		:param	int	$number: Error number
+		:param	string	$message: Error message
+		:returns:	XML_RPC_Response instance
+		:rtype:	XML_RPC_Response
 
 		This method lets you send an error message from your server to the client.
 		First parameter is the error number while the second parameter is the error message.
@@ -555,8 +559,9 @@ Class Reference
 
 	.. method send_response($response)
 
-		:param array $response: response data
-		:returns: object
+		:param	array	$response: Response data
+		:returns:	XML_RPC_Response instance
+		:rtype:	XML_RPC_Response
 
 		Lets you send the response from your server to the client. An array of valid data values must be sent with this method.
 		::

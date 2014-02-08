@@ -145,10 +145,11 @@ Class Reference
 
 	.. method:: from($from[, $name = ''[, $return_path = NULL]])
 
-		:param string $from: "From" email address
-		:param string $name: "From" display name
-		:param string $return_path: optional email address to redirect undelivered email
-		:returns: CI_Email object for method chaining
+		:param	string	$from: "From" e-mail address
+		:param	string	$name: "From" display name
+		:param	string	$return_path: Optional email address to redirect undelivered e-mail to
+		:returns:	CI_Email instance (method chaining)
+		:rtype:	CI_Email
 
 		Sets the email address and name of the person sending the email::
 
@@ -161,26 +162,26 @@ Class Reference
 		.. note:: Return-Path can't be used if you've configured 'smtp' as
 			your protocol.
 
-
 	.. method:: reply_to($replyto[, $name = ''])
 
-		:param string $replyto: email address for replies
-		:param string $name: display name for reply email address
-		:returns: CI_Email object for method chaining
+		:param	string	$replyto: E-mail address for replies
+		:param	string	$name: Display name for the reply-to e-mail address
+		:returns:	CI_Email instance (method chaining)
+		:rtype:	CI_Email
 
 		Sets the reply-to address. If the information is not provided the
 		information in the :meth:from method is used. Example::
 
 			$this->email->reply_to('you@example.com', 'Your Name');
 
-
 	.. method:: to($to)
 
-		:param mixed $to: comma delimited string or array of email addresses
-		:returns: CI_Email object for method chaining
+		:param	mixed	$to: Comma-delimited string or an array of e-mail addresses
+		:returns:	CI_Email instance (method chaining)
+		:rtype:	CI_Email
 
-		Sets the email address(s) of the recipient(s). Can be a single email
-		, a comma-delimited list or an array::
+		Sets the email address(s) of the recipient(s). Can be a single e-mail,
+		a comma-delimited list or an array::
 
 			$this->email->to('someone@example.com');
 
@@ -190,60 +191,60 @@ Class Reference
 
 		::
 
-			$list = array('one@example.com', 'two@example.com', 'three@example.com');
-
-			$this->email->to($list);
-
+			$this->email->to(
+				array('one@example.com', 'two@example.com', 'three@example.com')
+			);
 
 	.. method:: cc($cc)
 
-		:param mixed $cc: comma delimited string or array of email addresses
-		:returns: CI_Email object for method chaining
+		:param	mixed	$cc: Comma-delimited string or an array of e-mail addresses
+		:returns:	CI_Email instance (method chaining)
+		:rtype:	CI_Email
 
-		Sets the CC email address(s). Just like the "to", can be a single
-		email, a comma-delimited list or an array.
+		Sets the CC email address(s). Just like the "to", can be a single e-mail,
+		a comma-delimited list or an array.
 
+	.. method:: bcc($bcc[, $limit = ''])
 
-	.. method:: bcc($bcc, $limit = '')
+		:param	mixed	$bcc: Comma-delimited string or an array of e-mail addresses
+		:param	int	$limit: Maximum number of e-mails to send per batch
+		:returns:	CI_Email instance (method chaining)
+		:rtype:	CI_Email
 
-		:param mixed $bcc: comma delimited string or array of email addresses
-		:param int $limit: Maximum number of emails to send per batch
-		:returns: CI_Email object for method chaining
-
-		Sets the BCC email address(s). Just like the "to", can be a single
-		email, a comma-delimited list or an array.
+		Sets the BCC email address(s). Just like the ``to()`` method, can be a single
+		e-mail, a comma-delimited list or an array.
 
 		If ``$limit`` is set, "batch mode" will be enabled, which will send
 		the emails to batches, with each batch not exceeding the specified
 		``$limit``.
 
-
 	.. method:: subject($subject)
 
-		:param string $subject: email subject line
-		:returns: CI_Email object for method chaining
+		:param	string	$subject: E-mail subject line
+		:returns:	CI_Email instance (method chaining)
+		:rtype:	CI_Email
 
 		Sets the email subject::
 
 			$this->email->subject('This is my subject');
 
-
 	.. method:: message($body)
 
-		:param string $body: email body
-		:returns: CI_Email object for method chaining
+		:param	string	$body: E-mail message body
+		:returns:	CI_Email instance (method chaining)
+		:rtype:	CI_Email
 
-		Sets the email message body::
+		Sets the e-mail message body::
 
 			$this->email->message('This is my message');
 
-
 	.. method:: set_alt_message([$str = ''])
 
-		:param string $str: alternate email body
-		:returns: CI_Email object for method chaining
+		:param	string	$str: Alternative e-mail message body
+		:returns:	CI_Email instance (method chaining)
+		:rtype:	CI_Email
 
-		Sets the alternative email message body::
+		Sets the alternative e-mail message body::
 
 			$this->email->set_alt_message('This is the alternative message');
 
@@ -256,19 +257,21 @@ Class Reference
 
 	.. method:: set_header($header, $value)
 
-		:param string $header: header name
-		:param string $value: header value
-		:returns: void
+		:param	string	$header: Header name
+		:param	string	$value: Header value
+		:returns:	CI_Email instance (method chaining)
+		:rtype: CI_Email
 
 		Appends additional headers to the e-mail::
 
 			$this->email->set_header('Header1', 'Value1');
 			$this->email->set_header('Header2', 'Value2');
 
-
 	.. method:: clear([$clear_attachments = FALSE])
 
-		:param bool $clear_attachments: whether or not to clear attachments
+		:param	bool	$clear_attachments: Whether or not to clear attachments
+		:returns:	CI_Email instance (method chaining)
+		:rtype: CI_Email
 
 		Initializes all the email variables to an empty state. This method
 		is intended for use if you run the email sending method in a loop,
@@ -292,13 +295,13 @@ Class Reference
 
 			$this->email->clear(TRUE);
 
-
 	.. method:: send([$auto_clear = TRUE])
 
-		:param bool $auto_clear: Whether to :meth:clear automatically
-		:returns: bool
+		:param	bool	$auto_clear: Whether to clear message data automatically
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
-		The Email sending method. Returns boolean TRUE or FALSE based on
+		The e-mail sending method. Returns boolean TRUE or FALSE based on
 		success or failure, enabling it to be used conditionally::
 
 			if ( ! $this->email->send())
@@ -317,16 +320,16 @@ Class Reference
 		.. note:: In order to use the ``print_debugger()`` method, you need
 			to avoid clearing the email parameters.
 
-
 	.. method:: attach($filename[, $disposition = ''[, $newname = NULL[, $mime = '']]])
 
-		:param string $filename: name of the file
-		:param string $disposition: 'disposition' of the attachment. Most
+		:param	string	$filename: File name
+		:param	string	$disposition: 'disposition' of the attachment. Most
 			email clients make their own decision regardless of the MIME
 			specification used here. https://www.iana.org/assignments/cont-disp/cont-disp.xhtml
-		:param string $newname: custom name to use for the file in the email
-		:param string $mime: MIME type to use (useful for buffered data)
-		:returns: CI_Email object for method chaining
+		:param	string	$newname: Custom file name to use in the e-mail
+		:param	string	$mime: MIME type to use (useful for buffered data)
+		:returns:	CI_Email instance (method chaining)
+		:rtype:	CI_Email
 
 		Enables you to send an attachment. Put the file path/name in the first
 		parameter. For multiple attachments use the method multiple times.
@@ -357,8 +360,9 @@ Class Reference
 
 	.. method:: attachment_cid($filename)
 
-		:param string $filename: Existing attachment filename
-		:returns: string
+		:param	string	$filename: Existing attachment filename
+		:returns:	Attachment Content-ID or FALSE if not found
+		:rtype:	string
  
 		Sets and returns an attachment's Content-ID, which enables your to embed an inline
 		(picture) attachment into HTML. First parameter must be the already attached file name.
@@ -378,8 +382,9 @@ Class Reference
 
 	.. method:: print_debugger([$include = array('headers', 'subject', 'body')])
 
-		:param array $include: Which parts of the message to print out
-		:returns: string
+		:param	array	$include: Which parts of the message to print out
+		:returns:	Formatted debug data
+		:rtype:	string
 
 		Returns a string containing any server messages, the email headers, and
 		the email messsage. Useful for debugging.

@@ -142,25 +142,30 @@ Class Reference
 
 	.. method:: current()
 
-		:returns: mixed
+		:returns:	TRUE if no migrations are found, current version string on success, FALSE on failure
+		:rtype:	mixed
 
-		Migrates up to the current version (whatever is set for ``$config['migration_version']`` in *application/config/migration.php*).
+		Migrates up to the current version (whatever is set for
+		``$config['migration_version']`` in *application/config/migration.php*).
 
 	.. method:: error_string()
 
-		:returns: string
+		:returns:	Error messages
+		:rtype:	string
 
 		This returns a string of errors that were detected while performing a migration.
 
 	.. method:: find_migrations()
 
-		:returns: array
+		:returns:	An array of migration files
+		:rtype:	array
 
 		An array of migration filenames are returned that are found in the **migration_path** property.
 
 	.. method:: latest()
 
-		:returns: mixed
+		:returns:	TRUE if no migrations are found, current version string on success, FALSE on failure
+		:rtype:	mixed
 
 		This works much the same way as ``current()`` but instead of looking for 
 		the ``$config['migration_version']`` the Migration class will use the very 
@@ -168,8 +173,9 @@ Class Reference
 
 	.. method:: version($target_version)
 
-		:param mixed $target_version: Migration version to process
-		:returns: mixed
+		:param	mixed	$target_version: Migration version to process
+		:returns:	TRUE if no migrations are found, current version string on success, FALSE on failure
+		:rtype:	mixed
 
 		Version can be used to roll back changes or step forwards programmatically to 
 		specific versions. It works just like ``current()`` but ignores ``$config['migration_version']``.

@@ -46,9 +46,10 @@ Class Reference
 
 	.. method auto_typography($str[, $reduce_linebreaks = FALSE])
 
-		:param string $str: input string
-		:param bool $reduce_linebreaks: whether to reduce consequitive linebreaks
-		:returns: string
+		:param	string	$str: Input string
+		:param	bool	$reduce_linebreaks: Whether to reduce consequitive linebreaks
+		:returns:	HTML typography-safe string
+		:rtype:	string
 
 		Formats text so that it is semantically and typographically correct HTML.
 		Takes a string as input and returns it with the following formatting:
@@ -76,8 +77,9 @@ Class Reference
 
 	.. method:: format_characters($str)
 
-		:param string $str: input string
-		:returns: string
+		:param	string	$str: Input string
+		:returns:	Formatted string
+		:rtype:	string
 
 		This method is similar to ``auto_typography()`` above, except that it only does character conversion:
 
@@ -93,8 +95,9 @@ Class Reference
 
 	.. method:: nl2br_except_pre($str)
 
-		:param string $str: input string
-		:returns: string
+		:param	string	$str: Input string
+		:returns:	Formatted string
+		:rtype:	string
 
 		Converts newlines to <br /> tags unless they appear within <pre> tags.
 		This method is identical to the native PHP :php:func:`nl2br()` function, except that it ignores <pre> tags.

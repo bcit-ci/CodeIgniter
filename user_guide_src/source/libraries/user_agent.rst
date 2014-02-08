@@ -76,8 +76,9 @@ Class Reference
 
 	.. method:: is_browser([$key = NULL])
 
-		:param string $key: optional browser name
-		:returns: bool
+		:param	string	$key: Optional browser name
+		:returns:	TRUE if the user agent is a (specified) browser, FALSE if not
+		:rtype:	bool
 
 		Returns TRUE/FALSE (boolean) if the user agent is a known web browser.
 		::
@@ -97,8 +98,9 @@ Class Reference
 
 	.. method:: is_mobile([$key = NULL])
 
-		:param string $key: optional mobile device name
-		:returns: bool
+		:param	string	$key: Optional mobile device name
+		:returns:	TRUE if the user agent is a (specified) mobile device, FALSE if not
+		:rtype:	bool
 
 		Returns TRUE/FALSE (boolean) if the user agent is a known mobile device.
 		::
@@ -118,8 +120,9 @@ Class Reference
 
 	.. method:: is_robot([$key = NULL])
 
-		:param string $key: optional robot name
-		:returns: bool
+		:param	string	$key: Optional robot name
+		:returns:	TRUE if the user agent is a (specified) robot, FALSE if not
+		:rtype:	bool
 
 		Returns TRUE/FALSE (boolean) if the user agent is a known robot.
 
@@ -130,43 +133,50 @@ Class Reference
 
 	.. method:: is_referral()
 
-		:returns: bool
+		:returns:	TRUE if the user agent is a referral, FALSE if not
+		:rtype:	bool
 
 		Returns TRUE/FALSE (boolean) if the user agent was referred from another site.
 
 	.. method:: browser()
 
-		:returns: string
+		:returns:	Detected browser or an empty string
+		:rtype:	string
 
 		Returns a string containing the name of the web browser viewing your site.
 
 	.. method:: version()
 
-		:returns: string
+		:returns:	Detected browser version or an empty string
+		:rtype:	string
 
 		Returns a string containing the version number of the web browser viewing your site.
 
 	.. method:: mobile()
 
-		:returns: string
+		:returns:	Detected mobile device brand or an empty string
+		:rtype:	string
 
 		Returns a string containing the name of the mobile device viewing your site.
 
 	.. method:: robot()
 
-		:returns: string
+		:returns:	Detected robot name or an empty string
+		:rtype:	string
 
 		Returns a string containing the name of the robot viewing your site.
 
 	.. method:: platform()
 
-		:returns: string
+		:returns:	Detected operating system or an empty string
+		:rtype:	string
 
 		Returns a string containing the platform viewing your site (Linux, Windows, OS X, etc.).
 
 	.. method:: referrer()
 
-		:returns: string
+		:returns:	Detected referrer or an empty string
+		:rtype:	string
 
 		The referrer, if the user agent was referred from another site. Typically you'll test for this as follows::
 
@@ -177,7 +187,8 @@ Class Reference
 
 	.. method:: agent_string()
 
-		:returns: string
+		:returns:	Full user agent string or an empty string
+		:rtype:	string
 
 		Returns a string containing the full user agent string. Typically it will be something like this::
 
@@ -185,8 +196,9 @@ Class Reference
 
 	.. method:: accept_lang([$lang = 'en'])
 
-		:param string $lang: language key
-		:returns: bool
+		:param	string	$lang: Language key
+		:returns:	TRUE if provided language is accepted, FALSE if not
+		:rtype:	bool
 
 		Lets you determine if the user agent accepts a particular language. Example::
 
@@ -200,14 +212,16 @@ Class Reference
 
 	.. method:: languages()
 
-		:returns: array
+		:returns:	An array list of accepted languages
+		:rtype:	array
 
 		Returns an array of languages supported by the user agent.
 
 	.. method:: accept_charset([$charset = 'utf-8'])
 
-		:param string $charset: character set
-		:returns: bool
+		:param	string	$charset: Character set
+		:returns:	TRUE if the character set is accepted, FALSE if not
+		:rtype:	bool
 
 		Lets you determine if the user agent accepts a particular character set. Example::
 
@@ -221,13 +235,14 @@ Class Reference
 
 	.. method:: charsets()
 
-		:returns: array
+		:returns:	An array list of accepted character sets
+		:rtype:	array
 
 		Returns an array of character sets accepted by the user agent.
 
 	.. method:: parse($string)
 
-		:param string $string: A custom user-agent string
-		:returns: void
+		:param	string	$string: A custom user-agent string
+		:rtype:	void
 
 		Parses a custom user-agent string, different from the one reported by the current visitor.

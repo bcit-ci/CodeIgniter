@@ -958,10 +958,11 @@ Class Reference
 
 	.. method:: set_rules($field[, $label = ''[, $rules = '']])
 
-		:param string $field: The field name
-		:param string $label: The field label
-		:param mixed $rules: The rules, as a string with rules separated by a pipe "|", or an array or rules.
-		:returns: object
+		:param	string	$field: Field name
+		:param	string	$label: Field label
+		:param	mixed	$rules: Validation rules, as a string list separated by a pipe "|", or as an array or rules
+		:returns:	CI_Form_validation instance (method chaining)
+		:rtype:	CI_Form_validation
 
 		Permits you to set validation rules, as described in the tutorial
 		sections above:
@@ -971,8 +972,9 @@ Class Reference
 
 	.. method:: run([$group = ''])
 
-		:param string $group: The name of the validation group to run
-		:returns: bool
+		:param	string	$group: The name of the validation group to run
+		:returns:	TRUE on success, FALSE if validation failed
+		:rtype:	bool
 
 		Runs the validation routines. Returns boolean TRUE on success and FALSE
 		on failure. You can optionally pass the name of the validation group via
@@ -980,64 +982,70 @@ Class Reference
 
 	.. method:: set_message($lang[, $val = ''])
 
-		:param string $lang: The rule the message is for
-		:param string $val: The message
-		:returns: object
+		:param	string	$lang: The rule the message is for
+		:param	string	$val: The message
+		:returns:	CI_Form_validation instance (method chaining)
+		:rtype:	CI_Form_validation
 
 		Permits you to set custom error messages. See :ref:`setting-error-messages`
 
 	.. method:: set_error_delimiters([$prefix = '<p>'[, $suffix = '</p>']])
 
-		:param string $prefix: Error message prefix
-		:param string $suffix: Error message suffix
-		:returns: object
+		:param	string	$prefix: Error message prefix
+		:param	string	$suffix: Error message suffix
+		:returns:	CI_Form_validation instance (method chaining)
+		:rtype:	CI_Form_validation
 
 		Sets the default prefix and suffix for error messages.
 
 	.. method:: set_data($data)
 
-		:param array $data: The data to validate
-		:returns: void
+		:param	array	$data: Array of data validate
+		:rtype:	void
 
 		Permits you to set an array for validation, instead of using the default
 		``$_POST`` array.
 
 	.. method:: reset_validation()
 
-		:returns: void
+		:rtype: void
 
 		Permits you to reset the validation when you validate more than one array.
 		This method should be called before validating each new array.
 
 	.. method:: error_array()
 
-		:returns: array
+		:returns:	Array of error messages
+		:rtype:	array
 
 		Returns the error messages as an array.
 
 	.. method:: error_string([$prefix = ''[, $suffix = '']])
 
-		:param string $prefix: Error message prefix
-		:param string $suffix: Error message suffix
-		:returns: string
+		:param	string	$prefix: Error message prefix
+		:param	string	$suffix: Error message suffix
+		:returns:	Error messages as a string
+		:rtype:	string
 
 		Returns all error messages (as returned from error_array()) formatted as a
 		string and separated by a newline character.
 
 	.. method:: error($field[, $prefix = ''[, $suffix = '']])
 
-		:param string $field: Field name
-		:param string $prefix: Optional prefix
-		:param string $suffix: Optional suffix
-		:returns: string
+		:param	string $field: Field name
+		:param	string $prefix: Optional prefix
+		:param	string $suffix: Optional suffix
+		:returns:	Error message string
+		:rtype:	string
 
 		Returns the error message for a specific field, optionally adding a
 		prefix and/or suffix to it (usually HTML tags).
 
 	.. method:: has_rule($field)
 
-		:param string $field: Field name
-		:returns: bool
+		:param	string	$field: Field name
+		:returns:	TRUE if the field has rules set, FALSE if not
+		:rtype:	bool
 
 		Checks to see if there is a rule set for the specified field.
 

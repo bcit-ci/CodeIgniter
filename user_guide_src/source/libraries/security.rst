@@ -105,17 +105,19 @@ Class Reference
 
 	.. method:: xss_clean($str[, $is_image = FALSE])
 
-		:param string $str: Input string
-		:returns: mixed
+		:param	mixed	$str: Input string or an array of strings
+		:returns:	XSS-clean data
+		:rtype:	mixed
 
 		Tries to remove XSS exploits from the input data and returns the cleaned string.
 		If the optional second parameter is set to true, it will return boolean TRUE if the image is safe to use and FALSE if malicious data was detected in it.
 
 	.. method:: sanitize_filename($str[, $relative_path = FALSE])
 
-		:param string $str: File name/path
-		:param bool $relative_path: Whether to preserve any directories in the file path
-		:returns: string
+		:param	string	$str: File name/path
+		:param	bool	$relative_path: Whether to preserve any directories in the file path
+		:returns:	Sanitized file name/path
+		:rtype:	string
 
 		Tries to sanitize filenames in order to prevent directory traversal attempts
 		and other security threats, which is particularly useful for files that were supplied via user input.
@@ -131,21 +133,25 @@ Class Reference
 
 	.. method:: get_csrf_token_name()
 
-		:returns: string
+		:returns:	CSRF token name
+		:rtype:	string
 
 		Returns the CSRF token name (the ``$config['csrf_token_name']`` value).
 
 	.. method:: get_csrf_hash()
 
-		:returns: string
+		:returns:	CSRF hash
+		:rtype:	string
 
 		Returns the CSRF hash value. Useful in combination with ``get_csrf_token_name()``
 		for manually building forms or sending valid AJAX POST requests.
 
 	.. method:: entity_decode($str[, $charset = NULL])
 
-		:param string $str: Input string
-		:param string $charset: Character set of the input string
+		:param	string	$str: Input string
+		:param	string	$charset: Character set of the input string
+		:returns:	Entity-decoded string
+		:rtype:	string
 
 		This method acts a lot like PHP's own native ``html_entity_decode()`` function in ENT_COMPAT mode, only
 		it tries to detect HTML entities that don't end in a semicolon because some browsers allow that.

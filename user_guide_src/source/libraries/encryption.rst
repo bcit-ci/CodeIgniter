@@ -81,11 +81,12 @@ Class Reference
 
 .. class:: CI_Encrypt
 
-	.. method:: encode($string, $key = '')
+	.. method:: encode($string[, $key = ''])
 
-		:param string $string: contents to be encrypted
-		:param string $key: encryption key
-		:returns: string
+		:param	string	$string: Data to encrypt
+		:param	string	$key: Encryption key
+		:returns:	Encrypted string
+		:rtype:	string
 
 		Performs the data encryption and returns it as a string. Example::
 
@@ -101,12 +102,12 @@ Class Reference
 
 			$encrypted_string = $this->encrypt->encode($msg, $key);
 
+	.. method:: decode($string[, $key = ''])
 
-	.. method:: decode($string, $key = '')
-
-		:param string $string: contents to be decrypted
-		:param string $key: encryption key
-		:returns: string
+		:param	string	$string: String to decrypt
+		:param	string	$key: Encryption key
+		:returns:	Plain-text string
+		:rtype:	string
 
 		Decrypts an encoded string. Example::
 
@@ -122,46 +123,44 @@ Class Reference
 
 			$encrypted_string = $this->encrypt->decode($msg, $key);
 
-
 	.. method:: set_cipher($cipher)
 
-		:param int $cipher: valid PHP Mcrypt cypher constant
-		:returns: CI_Encrypt object for method chaining
+		:param	int	$cipher: Valid PHP MCrypt cypher constant
+		:returns:	CI_Encrypt instance (method chaining)
+		:rtype:	CI_Encrypt
 
 		Permits you to set an Mcrypt cipher. By default it uses
-		**MCRYPT_RIJNDAEL_256**. Example::
+		``MCRYPT_RIJNDAEL_256``. Example::
 
 			$this->encrypt->set_cipher(MCRYPT_BLOWFISH);
 
-		Please visit php.net for a list of `available
-		ciphers <http://php.net/mcrypt>`_.
+		Please visit php.net for a list of `available ciphers <http://php.net/mcrypt>`_.
 
-		If you'd like to manually test whether your server supports Mcrypt you
+		If you'd like to manually test whether your server supports MCrypt you
 		can use::
 
-			echo ( ! function_exists('mcrypt_encrypt')) ? 'Nope' : 'Yup';
-
+			echo extension_loaded('mcrypt') ? 'Yup' : 'Nope';
 
 	.. method:: set_mode($mode)
 
-		:param int $mode: valid PHP Mcrypt mode constant
-		:returns: CI_Encrypt object for method chaining
+		:param	int	$mode: Valid PHP MCrypt mode constant
+		:returns:	CI_Encrypt instance (method chaining)
+		:rtype:	CI_Encrypt
 
 		Permits you to set an Mcrypt mode. By default it uses **MCRYPT_MODE_CBC**.
 		Example::
 
 			$this->encrypt->set_mode(MCRYPT_MODE_CFB);
 
-		Please visit php.net for a list of `available
-		modes <http://php.net/mcrypt>`_.
-
+		Please visit php.net for a list of `available modes <http://php.net/mcrypt>`_.
 
 	.. method:: encode_from_legacy($string[, $legacy_mode = MCRYPT_MODE_ECB[, $key = '']])
 
-		:param string $string: contents to be encrypted
-		:param int $legacy_mode: valid PHP Mcrypt cypher constant
-		:param string $key: encryption key
-		:returns: string
+		:param	string	$string: String to encrypt
+		:param	int	$legacy_mode: Valid PHP MCrypt cipher constant
+		:param	string	$key: Encryption key
+		:returns:	Newly encrypted string
+		:rtype:	string
 
 		Enables you to re-encode data that was originally encrypted with
 		CodeIgniter 1.x to be compatible with the Encryption library in

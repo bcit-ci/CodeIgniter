@@ -110,20 +110,22 @@ Class Reference
 
 	.. method:: load($langfile[, $idiom = ''[, $return = FALSE[, $add_suffix = TRUE[, $alt_path = '']]]])
 
-		:param string $langfile: Language file to load
-		:param string $idiom: Language name (i.e. 'english')
-		:param bool $return: Whether to return the loaded array of translations
-		:param bool $add_suffix: Whether to add the '_lang' suffix to the language file name
-		:param string $alt_path: An alternative path to look in for the language file
-		:returns: void or array if the third parameter is set to TRUE
+		:param	string	$langfile: Language file to load
+		:param	string	$idiom: Language name (i.e. 'english')
+		:param	bool	$return: Whether to return the loaded array of translations
+		:param	bool	$add_suffix: Whether to add the '_lang' suffix to the language file name
+		:param	string	$alt_path: An alternative path to look in for the language file
+		:returns:	Array of language lines if $return is set to TRUE, otherwise void
+		:rtype:	mixed
 
 		Loads a language file.
 
 	.. method:: line($line[, $log_errors = TRUE])
 
-		:param string $line: Language line key name
-		:param bool $log_errors: Whether to log an error if the line isn't found
-		:returns: string or FALSE on failure
+		:param	string	$line: Language line key name
+		:param	bool	$log_errors: Whether to log an error if the line isn't found
+		:returns:	Language line string or FALSE on failure
+		:rtype:	string
 
 		Fetches a single translation line from the already loaded language files,
 		based on the line's name.

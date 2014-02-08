@@ -318,14 +318,16 @@ Class Reference
 
 	.. method:: initialize([$props = array()])
 
-		:param array $props: Image processing preferences
-		:returns: void
+		:param	array	$props: Image processing preferences
+		:returns:	TRUE on success, FALSE in case of invalid settings
+		:rtype:	bool
 
 		Initializes the class for processing an image.
 
 	.. method:: resize()
 
-		:returns: bool
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		The image resizing method lets you resize the original image, create a
 		copy (with or without resizing), or create a thumbnail image.
@@ -371,14 +373,15 @@ Class Reference
 
 	.. method:: crop()
 
-		:returns: bool
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		The cropping method works nearly identically to the resizing function
 		except it requires that you set preferences for the X and Y axis (in
 		pixels) specifying where to crop, like this::
 
-			$config['x_axis'] = '100';
-			$config['y_axis'] = '40';
+			$config['x_axis'] = 100;
+			$config['y_axis'] = 40;
 
 		All preferences listed in the :ref:`processing-preferences` table are available for this
 		method except these: *rotation_angle*, *create_thumb* and *new_image*.
@@ -388,8 +391,8 @@ Class Reference
 			$config['image_library'] = 'imagemagick';
 			$config['library_path'] = '/usr/X11R6/bin/';
 			$config['source_image']	= '/path/to/image/mypic.jpg';
-			$config['x_axis'] = '100';
-			$config['y_axis'] = '60';
+			$config['x_axis'] = 100;
+			$config['y_axis'] = 60;
 
 			$this->image_lib->initialize($config); 
 
@@ -406,7 +409,8 @@ Class Reference
 
 	.. method:: rotate()
 
-		:returns: bool
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		The image rotation method requires that the angle of rotation be set
 		via its preference::
@@ -437,14 +441,15 @@ Class Reference
 
 	.. method:: watermark()
 
-		:returns: bool
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Creates a watermark over an image, please refer to the :ref:`watermarking`
 		section for more info.		
 
 	.. method:: clear()
 
-		:returns: void
+		:rtype:	void
 
 		The clear method resets all of the values used when processing an
 		image. You will want to call this if you are processing images in a
@@ -456,9 +461,10 @@ Class Reference
 
 	.. method:: display_errors([$open = '<p>[, $close = '</p>']])
 
-		:param string $open: Error message opening tag
-		:param string $close: Error message closing tag
-		:returns: string
+		:param	string	$open: Error message opening tag
+		:param	string	$close: Error message closing tag
+		:returns:	Error messages
+		:rtype:	string
 
 		Returns all detected errors formatted as a string.
 		::

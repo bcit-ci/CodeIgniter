@@ -56,8 +56,9 @@ Class Reference
 
 	.. method:: is_supported($driver)
 
-		:param string $driver: the name of the caching driver
-		:returns: TRUE if supported, FALSE if not
+		:param	string	$driver: the name of the caching driver
+		:returns:	TRUE if supported, FALSE if not
+		:rtype:	bool
 
 		This method is automatically called when accessing drivers via
 		``$this->cache->get()``. However, if the individual drivers are used,
@@ -75,8 +76,9 @@ Class Reference
 
 	.. method:: get($id)
 
-		:param string $id: name of cached item
-		:returns: The item if it exists, FALSE if it does not
+		:param	string	$id: Cache item name
+		:returns:	Item value or FALSE if not found
+		:rtype:	mixed
 
 		This method will attempt to fetch an item from the cache store. If the
 		item does not exist, the method will return FALSE.
@@ -86,11 +88,12 @@ Class Reference
 
 	.. method:: save($id, $data[, $ttl = 60[, $raw = FALSE]])
 
-		:param string $id: name of the cached item
-		:param mixed $data: the data to save
-		:param int $ttl: Time To Live, in seconds (default 60)
-		:param bool $raw: Whether to store the raw value
-		:returns: TRUE on success, FALSE on failure
+		:param	string	$id: Cache item name
+		:param	mixed	$data: the data to save
+		:param	int	$ttl: Time To Live, in seconds (default 60)
+		:param	bool	$raw: Whether to store the raw value
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	string
 
 		This method will save an item to the cache store. If saving fails, the
 		method will return FALSE.
@@ -103,8 +106,9 @@ Class Reference
 
 	.. method:: delete($id)
 
-		:param string $id: name of cached item
-		:returns: TRUE if deleted, FALSE if the deletion fails
+		:param	string	$id: name of cached item
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		This method will delete a specific item from the cache store. If item
 		deletion fails, the method will return FALSE.
@@ -114,9 +118,10 @@ Class Reference
 
 	.. method:: increment($id[, $offset = 1])
 
-		:param string $id: Cache ID
-		:param int $offset: Step/value to add
-		:returns: New value on success, FALSE on failure
+		:param	string	$id: Cache ID
+		:param	int	$offset: Step/value to add
+		:returns:	New value on success, FALSE on failure
+		:rtype:	mixed
 
 		Performs atomic incrementation of a raw stored value.
 		::
@@ -129,9 +134,10 @@ Class Reference
 
 	.. method:: decrement($id[, $offset = 1])
 
-		:param string $id: Cache ID
-		:param int $offset: Step/value to reduce by
-		:returns: New value on success, FALSE on failure
+		:param	string	$id: Cache ID
+		:param	int	$offset: Step/value to reduce by
+		:returns:	New value on success, FALSE on failure
+		:rtype:	mixed
 
 		Performs atomic decrementation of a raw stored value.
 		::
@@ -144,7 +150,8 @@ Class Reference
 
 	.. method:: clean()
 
-		:returns: TRUE if deleted, FALSE if the deletion fails
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		This method will 'clean' the entire cache. If the deletion of the
 		cache files fails, the method will return FALSE.
@@ -154,7 +161,8 @@ Class Reference
 
 	.. method:: cache_info()
 
-		:returns: information on the entire cache
+		:returns:	Information on the entire cache database
+		:rtype:	mixed
 
 		This method will return information on the entire cache.
 		::
@@ -166,8 +174,9 @@ Class Reference
 
 	.. method:: get_metadata($id)
 
-		:param string $id: name of cached item
-		:returns: metadadta for the cached item
+		:param	string	$id: Cache item name
+		:returns:	Metadata for the cached item
+		:rtype:	mixed
 
 		This method will return detailed information on a specific item in the
 		cache.

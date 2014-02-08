@@ -43,8 +43,9 @@ Class Reference
 
 	.. method:: set_output($output)
 
-		:param string $output: String to set the output to
-		:returns: object
+		:param	string	$output: String to set the output to
+		:returns:	CI_Output instance (method chaining)
+		:rtype:	CI_Output
 
 		Permits you to manually set the final output string. Usage example::
 
@@ -52,13 +53,14 @@ Class Reference
 
 		.. important:: If you do set your output manually, it must be the last thing done
 			in the function you call it from. For example, if you build a page in one
-			of your controller functions, don't set the output until the end.
+			of your controller methods, don't set the output until the end.
 
 	.. method:: set_content_type($mime_type[, $charset = NULL])
 
-		:param string $mime_type: MIME Type idenitifer string
-		:param string $charset: Character set
-		:returns: object
+		:param	string	$mime_type: MIME Type idenitifer string
+		:param	string	$charset: Character set
+		:returns:	CI_Output instance (method chaining)
+		:rtype:	CI_Output
 
 		Permits you to set the mime-type of your page so you can serve JSON data, JPEG's, XML, etc easily.
 		::
@@ -80,7 +82,8 @@ Class Reference
 
 	.. method:: get_content_type()
 
-		:returns: string
+		:returns:	Content-Type string
+		:rtype:	string
 
 		Returns the Content-Type HTTP header that's currently in use, excluding the character set value.
 		::
@@ -91,8 +94,9 @@ Class Reference
 
 	.. method:: get_header($header)
 
-		:param string $header: HTTP header name
-		:returns: string
+		:param	string	$header: HTTP header name
+		:returns:	HTTP response header or NULL if not found
+		:rtype:	mixed
 
 		Returns the requested HTTP header value, or NULL if the requested header is not set.
 		Example::
@@ -107,7 +111,8 @@ Class Reference
 
 	.. method:: get_output()
 
-		:returns: string
+		:returns:	Output string
+		:rtype:	string
 
 		Permits you to manually retrieve any output that has been sent for
 		storage in the output class. Usage example::
@@ -120,8 +125,9 @@ Class Reference
 
 	.. method:: append_output($output)
 
-		:param string $output: Additional output data to append
-		:returns: object
+		:param	string	$output: Additional output data to append
+		:returns:	CI_Output instance (method chaining)
+		:rtype:	CI_Output
 
 		Appends data onto the output string.
 		::
@@ -130,9 +136,10 @@ Class Reference
 
 	.. method:: set_header($header[, $replace = TRUE])
 
-		:param string $header: HTTP Header
-		:param bool $replace: Whether to replace the old header value, if it is already set
-		:returns: object
+		:param	string	$header: HTTP response header
+		:param	bool	$replace: Whether to replace the old header value, if it is already set
+		:returns:	CI_Output instance (method chaining)
+		:rtype:	CI_Output
 
 		Permits you to manually set server headers, which the output class will
 		send for you when outputting the final rendered display. Example::
@@ -146,9 +153,10 @@ Class Reference
 
 	.. method:: set_status_header([$code = 200[, $text = '']])
 
-		:param int $code: HTTP status code
-		:param string $text: Optional message
-		:returns: object
+		:param	int	$code: HTTP status code
+		:param	string	$text: Optional message
+		:returns:	CI_Output instance (method chaining)
+		:rtype:	CI_Output
 
 		Permits you to manually set a server status header. Example::
 
@@ -162,8 +170,9 @@ Class Reference
 
 	.. method:: enable_profiler([$val = TRUE])
 
-		:param bool $val: Whether to enable or disable the Profiler
-		:returns: object
+		:param	bool	$val: Whether to enable or disable the Profiler
+		:returns:	CI_Output instance (method chaining)
+		:rtype:	CI_Output
 
 		Permits you to enable/disable the :doc:`Profiler <../general/profiling>`, which will display benchmark
 		and other data at the bottom of your pages for debugging and optimization purposes.
@@ -181,16 +190,18 @@ Class Reference
 
 	.. method:: set_profiler_sections($sections)
 
-		:param array $sections: Profiler sections
-		:returns: object
+		:param	array	$sections: Profiler sections
+		:returns:	CI_Output instance (method chaining)
+		:rtype:	CI_Output
 
 		Permits you to enable/disable specific sections of the Profiler when it is enabled.
 		Please refer to the :doc:`Profiler <../general/profiling>` documentation for further information.
 
 	.. method:: cache($time)
 
-		:param int $time: Cache expiration time in seconds
-		:returns: object
+		:param	int	$time: Cache expiration time in seconds
+		:returns:	CI_Output instance (method chaining)
+		:rtype:	CI_Output
 
 		Caches the current page for the specified amount of seconds.
 

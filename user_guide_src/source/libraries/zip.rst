@@ -54,9 +54,9 @@ Class Reference
 
 	.. method:: add_data($filepath[, $data = NULL])
 
-		:param mixed $filepath: a single file path or an array of file => data pairs
-		:param array $data: single file contents
-		:returns: void
+		:param	mixed	$filepath: A single file path or an array of file => data pairs
+		:param	array	$data: File contents (ignored if $filepath is an array)
+		:rtype:	void
 
 		Adds data to the Zip archive. Can work both in single and multiple files mode.
 
@@ -90,8 +90,8 @@ Class Reference
 
 	.. method:: add_dir($directory)
 
-		:param mixed $directory: string directory name or an array of multiple directories
-		:returns: void
+		:param	mixed	$directory: Directory name string or an array of multiple directories
+		:rtype:	void
 
 		Permits you to add a directory. Usually this method is unnecessary since you can place your data into directories when using
 		``$this->zip->add_data()``, but if you would like to create an empty directory you can do so::
@@ -100,9 +100,10 @@ Class Reference
 
 	.. method:: read_file($path[, $archive_filepath = FALSE])
 
-		:param string $path: Path to file
-		:param mixed $archive_filepath: New file name/path (string) or (boolean) whether to maintain the original filepath
-		:returns: bool
+		:param	string	$path: Path to file
+		:param	mixed	$archive_filepath: New file name/path (string) or (boolean) whether to maintain the original filepath
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Permits you to compress a file that already exists somewhere on your server.
 		Supply a file path and the zip class will read it and add it to the archive::
@@ -138,10 +139,11 @@ Class Reference
 
 	.. method:: read_dir($path[, $preserve_filepath = TRUE[, $root_path = NULL]])
 
-		:param string $path: path to directory
-		:param bool $preserve_filepath: whether to maintain the original path
-		:param string $root_path: part of the path to exclude from the archive directory
-		:returns: bool
+		:param	string	$path: Path to directory
+		:param	bool	$preserve_filepath: Whether to maintain the original path
+		:param	string	$root_path: Part of the path to exclude from the archive directory
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Permits you to compress a directory (and its contents) that already exists somewhere on your server.
 		Supply a path to the directory and the zip class will recursively read and recreate it as a Zip archive.
@@ -166,8 +168,9 @@ Class Reference
 
 	.. method:: archive($filepath)
 
-		:param string $filepath: path to target zip archive
-		:returns: bool
+		:param	string	$filepath: Path to target zip archive
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Writes the Zip-encoded file to a directory on your server. Submit a valid server path ending in the file name.
 		Make sure the directory is writable (660 or 666 is usually OK). Example::
@@ -176,8 +179,8 @@ Class Reference
 
 	.. method:: download($filename = 'backup.zip')
 
-		:param string $filename: the archive file name
-		:returns: void
+		:param	string	$filename: Archive file name
+		:rtype:	void
 
 		Causes the Zip file to be downloaded from your server. You must pass the name you would like the zip file called. Example::
 
@@ -189,7 +192,8 @@ Class Reference
 
 	.. method:: get_zip()
 
-		:returns: string
+		:returns:	Zip file content
+		:rtype:	string
 
 		Returns the Zip-compressed file data. Generally you will not need this method unless you want to do something unique with the data. Example::
 
@@ -202,7 +206,7 @@ Class Reference
 
 	.. method:: clear_data()
 
-		:returns: void
+		:rtype:	void
 
 		The Zip class caches your zip data so that it doesn't need to recompile the Zip archive for each method you use above.
 		If, however, you need to create multiple Zip archives, each with different data, you can clear the cache between calls. Example::

@@ -526,19 +526,22 @@ Class Reference
 
 	.. method:: load_driver($driver)
 
-		:param string $driver: Driver name
-		:returns: object
+		:param	string	$driver: Driver name
+		:returns:	Instance of currently loaded session driver
+		:rtype:	mixed
 
 		Loads a session storage driver
 
 	.. method:: select_driver($driver)
 
-		:param string $driver: Driver name
-		:returns: void
+		:param	string	$driver: Driver name
+		:rtype:	void
 
 		Selects default session storage driver.
 
 	.. method:: sess_destroy()
+
+		:rtype:	void
 
 		Destroys current session
 
@@ -549,15 +552,16 @@ Class Reference
 
 	.. method:: sess_regenerate([$destroy = FALSE])
 
-		:param bool $destroy: Whether to destroy session data
-		:returns: void
+		:param	bool	$destroy: Whether to destroy session data
+		:rtype:	void
 
 		Regenerate the current session data.
 
 	.. method:: userdata([$item = NULL])
 
-		:param string $item: Session item name
-		:returns: mixed
+		:param	string	$item: Session item name
+		:returns:	Item value if found, NULL if not or an array of all userdata if $item parameter is not used
+		:rtype:	mixed
 
 		If no parameter is passed, it will return an associative array of all existing userdata.
 
@@ -569,7 +573,8 @@ Class Reference
 
 	.. method:: all_userdata()
 
-		:returns: array
+		:returns:	An array of all userdata
+		:rtype:	array
 
 		Returns an array with all of the session userdata items.
 
@@ -577,15 +582,16 @@ Class Reference
 
 	.. method:: &get_userdata()
 
-		:returns: array
+		:returns:	A reference to the userdata array
+		:rtype:	&array
 
 		Returns a reference to the userdata array.
 
 	.. method:: set_userdata($newdata[, $newval = ''])
 
-		:param mixed $newdata: Item name or array of items
-		:param mixed $newval: Item value or empty string (not required if $newdata is array)
-		:returns: void
+		:param	mixed	$newdata: Item name or array of items
+		:param	mixed	$newval: Item value or empty string (not required if $newdata is array)
+		:rtype:	void
 
 		Sets items into session example usages::
 
@@ -597,8 +603,8 @@ Class Reference
 
 	.. method:: unset_userdata($item)
 
-		:param mixed $item: Item name or an array containing multiple items
-		:returns: void
+		:param	mixed	$item: Item name or an array containing multiple items
+		:rtype:	void
 
 		Unsets previously set items from the session. Example::
 
@@ -610,15 +616,17 @@ Class Reference
 
 	.. method:: has_userdata($item)
 
-		:param string $item: Item name
-		:returns: bool
+		:param	string	$item: Item name
+		:returns:	TRUE if item exists, FALSE if not
+		:rtype:	bool
 
 		Checks if an item exists in the session.
 
 	.. method:: flashdata([$item = NULL])
 
-		:param string $item: Flashdata item name
-		:returns: mixed
+		:param	string	$item: Flashdata item name
+		:returns:	Item value if found, NULL if not or an array of all flashdata if $item parameter is not used
+		:rtype:	mixed
 
 		If no parameter is passed, it will return an associative array of all existing flashdata.
 
@@ -630,9 +638,9 @@ Class Reference
 
 	.. method:: set_flashdata($newdata[, $newval = ''])
 
-		:param mixed $newdata: Item name or an array of items
-		:param mixed $newval: Item value or empty string (not required if $newdata is array)
-		:returns: void
+		:param	mixed	$newdata: Item name or an array of items
+		:param	mixed	$newval: Item value or empty string (not required if $newdata is array)
+		:rtype: void
 
 		Sets items into session flashdata example usages::
 
@@ -645,15 +653,16 @@ Class Reference
 
 	.. method:: keep_flashdata($item)
 
-		:param mixed $item: Item name or an array containing multiple flashdata items
-		:returns: void
+		:param	mixed	$item: Item name or an array containing multiple flashdata items
+		:rtype:	void
 
 		Keeps items into flashdata for one more request.
 
 	.. method:: tempdata([$item = NULL])
 
-		:param string $item: Tempdata item name
-		:returns: mixed
+		:param	string	$item: Tempdata item name
+		:returns:	Item value if found, NULL if not or an array of all tempdata if $item parameter is not used
+		:rtype:	mixed
 
 		If no parameter is passed, it will return an associative array of all existing tempdata.
 
@@ -665,10 +674,10 @@ Class Reference
 
 	.. method:: set_tempdata($newdata[, $newval = ''[, $expire = 0]])
 
-		:param mixed $newdata: Item name or array containing multiple items
-		:param string $newval: Item value or empty string (not required if $newdata is array)
-		:param int $expire: Lifetime in seconds (0 for default)
-		:returns: void
+		:param	mixed	$newdata: Item name or array containing multiple items
+		:param	string	$newval: Item value or empty string (not required if $newdata is array)
+		:param	int	$expire: Lifetime in seconds (0 for default)
+		:rtype:	void
 
 		Sets items into session tempdata example::
 
@@ -681,8 +690,8 @@ Class Reference
 
 	.. method:: unset_tempdata($item)
 
-		:param mixed $item: Item name or an array containing multiple items
-		:returns: void
+		:param	mixed	$item: Item name or an array containing multiple items
+		:rtype:	void
 
 		Unsets previously set items from tempdata. Example::
 

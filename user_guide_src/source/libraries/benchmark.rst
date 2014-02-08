@@ -135,18 +135,18 @@ Class Reference
 
 	.. method:: mark($name)
 
-		:param string $name: the name you wish to assign to your marker
-		:returns: void
+		:param	string	$name: the name you wish to assign to your marker
+		:rtype:	void
 
 		Sets a benchmark marker.
 
-
 	.. method:: elapsed_time([$point1 = ''[, $point2 = ''[, $decimals = 4]]])
 
-		:param string $point1: a particular marked point
-		:param string $point2: a particular marked point
-		:param int $decimals: number of decimal places for precision
-		:returns: string
+		:param	string	$point1: a particular marked point
+		:param	string	$point2: a particular marked point
+		:param	int	$decimals: number of decimal places for precision
+		:returns:	Elapsed time
+		:rtype:	string
 
 		Calculates and returns the time difference between two marked points.
 
@@ -158,7 +158,8 @@ Class Reference
 
 	.. method:: memory_usage()
 
-		:returns: string
+		:returns:	Memory usage info
+		:rtype:	string
 
 		Simply returns the ``{memory_usage}`` marker.
 

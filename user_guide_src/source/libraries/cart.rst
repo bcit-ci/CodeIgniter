@@ -275,8 +275,9 @@ Class Reference
 
 	.. method:: insert([$items = array()])
 
-		:param array $items: the items to insert into the cart
-		:returns: bool
+		:param	array	$items: Items to insert into the cart
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Insert items into the cart and save it to the session table. Returns TRUE
 		on success and FALSE on failure.
@@ -284,83 +285,85 @@ Class Reference
 
 	.. method:: update([$items = array()])
 
-		:param array $items: the items to update in the cart
-		:returns: bool
+		:param	array	$items: Items to update in the cart
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		This method permits the quantity of a given item to be changed.
 		Typically it is called from the "view cart" page if a user makes changes
 		to the quantity before checkout. That array must contain the product ID
 		and quantity for each item.
 
-
 	.. method:: remove($rowid)
 
-		:param int $rowid: the ID of the item to remove from the cart
-		:returns: bool
+		:param	int	$rowid: ID of the item to remove from the cart
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Allows you to remove an item from the shopping cart by passing it the
 		``$rowid``.
 
-
 	.. method:: total()
 
-		:returns: int
+		:returns:	Total amount
+		:rtype:	int
 
 		Displays the total amount in the cart.
 
 
 	.. method:: total_items()
 
-		:returns: int
+		:returns:	Total amount of items in the cart
+		:rtype:	int
 
 		Displays the total number of items in the cart.
 
 
 	.. method:: contents([$newest_first = FALSE])
 
-		:param bool $newest_first: order the array with newest first?
-		:returns: array
+		:param	bool	$newest_first: Whether to order the array with newest items first
+		:returns:	An array of cart contents
+		:rtype:	array
 
 		Returns an array containing everything in the cart. You can sort the
 		order by which the array is returned by passing it TRUE where the contents
 		will be sorted from newest to oldest, otherwise it is sorted from oldest
 		to newest.
 
-
 	.. method:: get_item($row_id)
 
-		:param int $row_id: the row ID to retrieve
-		:returns: array
+		:param	int	$row_id: Row ID to retrieve
+		:returns:	Array of item data
+		:rtype:	array
 
 		Returns an array containing data for the item matching the specified row
 		ID, or FALSE if no such item exists.
 
-
 	.. method:: has_options($row_id = '')
 
-		:param int $row_id: the row ID to inspect
-		:returns: bool
+		:param	int	$row_id: Row ID to inspect
+		:returns:	TRUE if options exist, FALSE otherwise
+		:rtype:	bool
 
 		Returns TRUE (boolean) if a particular row in the cart contains options.
-		This method is designed to be used in a loop with :meth:contents:, since
+		This method is designed to be used in a loop with ``contents()``, since
 		you must pass the rowid to this function, as shown in the Displaying
 		the Cart example above.
 
-
 	.. method:: product_options([$row_id = ''])
 
-		:param int $row_id: the row ID
-		:returns: array
+		:param	int	$row_id: Row ID
+		:returns:	Array of product options
+		:rtype:	array
 
 		Returns an array of options for a particular product. This method is
-		designed to be used in a loop with :meth:contents:, since you
+		designed to be used in a loop with ``contents()``, since you
 		must pass the rowid to this method, as shown in the Displaying the
 		Cart example above.
 
-
 	.. method:: destroy()
 
-		:returns: void
+		:rtype: void
 
 		Permits you to destroy the cart. This method will likely be called
 		when you are finished processing the customer's order.

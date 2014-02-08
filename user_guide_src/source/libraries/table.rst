@@ -158,15 +158,16 @@ Class Reference
 
 	.. method:: generate([$table_data = NULL])
 
-		:param mixed $table_data: data to populate the table rows with
-		:returns: string
+		:param	mixed	$table_data: Data to populate the table rows with
+		:returns:	HTML table
+		:rtype:	string
 
 		Returns a string containing the generated table. Accepts an optional parameter which can be an array or a database result object.
 
 	.. method:: set_caption($caption)
 
-		:param string $caption: table caption
-		:returns: void
+		:param	string	$caption: Table caption
+		:rtype:	void
 
 		Permits you to add a caption to the table.
 		::
@@ -175,8 +176,8 @@ Class Reference
 
 	.. method:: set_heading([$args = array()[, ...]])
 
-		:param mixed $args: an array or multiple strings containing the table column titles
-		:returns: void
+		:param	mixed	$args: An array or multiple strings containing the table column titles
+		:rtype:	void
 
 		Permits you to set the table heading. You can submit an array or discrete params::
 
@@ -186,8 +187,8 @@ Class Reference
 
 	.. method:: add_row([$args = array()[, ...]])
 
-		:param mixed $args: an array or multiple strings containing the row values
-		:returns: void
+		:param	mixed	$args: An array or multiple strings containing the row values
+		:rtype:	void
 
 		Permits you to add a row to your table. You can submit an array or discrete params::
 
@@ -206,9 +207,10 @@ Class Reference
 
 	.. method:: make_columns([$array = array()[, $col_limit = 0]])
 
-		:param array $array: an array containing multiple rows' data
-		:param int $col_limit: count of columns in the table
-		:returns: array
+		:param	array	$array: An array containing multiple rows' data
+		:param	int	$col_limit: Count of columns in the table
+		:returns:	An array of HTML table columns
+		:rtype:	array
 
 		This method takes a one-dimensional array as input and creates a multi-dimensional array with a depth equal to the number of columns desired.
 		This allows a single array with many elements to be displayed in a table that has a fixed column count. Consider this example::
@@ -235,8 +237,9 @@ Class Reference
 
 	.. method:: set_template($template)
 
-		:param array $template: associative array containing template values
-		:returns: bool
+		:param	array	$template: An associative array containing template values
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Permits you to set your template. You can submit a full or partial template.
 		::
@@ -249,8 +252,8 @@ Class Reference
 
 	.. method:: set_empty($value)
 
-		:param mixed $value: value to put in empty cells
-		:returns: void
+		:param	mixed	$value: Value to put in empty cells
+		:rtype:	void
 
 		Lets you set a default value for use in any table cells that are empty.
 		You might, for example, set a non-breaking space::
@@ -259,7 +262,7 @@ Class Reference
 
 	.. method:: clear()
 
-		:returns: void
+		:rtype:	void
 
 		Lets you clear the table heading and row data. If you need to show multiple tables with different data you should to call this method
 		after each table has been generated to clear the previous table information. Example::

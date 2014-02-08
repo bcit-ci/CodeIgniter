@@ -193,45 +193,48 @@ Class Reference
 
 	.. method:: run($test[, $expected = TRUE[, $test_name = 'undefined'[, $notes = '']]])
 
-		:param mixed $test: Test data
-		:param mixed $expected: Expected result
-		:param string $test_name: Test name
-		:param string $notes: Any notes to be attached to the test
-		:returns: string
+		:param	mixed	$test: Test data
+		:param	mixed	$expected: Expected result
+		:param	string	$test_name: Test name
+		:param	string	$notes: Any notes to be attached to the test
+		:returns:	Test report
+		:rtype:	string
 
 		Runs unit tests.
 
 	.. method:: report([$result = array()])
 
-		:param array $result: Array containing tests results
-		:returns: string
+		:param	array	$result: Array containing tests results
+		:returns:	Test report
+		:rtype:	string
 
 		Generates a report about already complete tests.
 
 	.. method:: use_strict([$state = TRUE])
 
-		:param bool $state: Strict state flag
-		:returns: void
+		:param	bool	$state: Strict state flag
+		:rtype:	void
 
 		Enables/disables strict type comparison in tests.
 
 	.. method:: active([$state = TRUE])
 
-		:param bool $state: Whether to enable testing
-		:returns: void
+		:param	bool	$state: Whether to enable testing
+		:rtype:	void
 
 		Enables/disables unit testing.
 
 	.. method:: result([$results = array()])
 
-		:param array $results: Tests results list
-		:returns: array
+		:param	array	$results: Tests results list
+		:returns:	Array of raw result data
+		:rtype:	array
 
 		Returns raw tests results data.
 
 	.. method:: set_template($template)
 
-		:param string $template: Test result template
-		:returns: void
+		:param	string	$template: Test result template
+		:rtype:	void
 
 		Sets the template for displaying tests results.

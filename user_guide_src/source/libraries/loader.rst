@@ -80,10 +80,11 @@ Class Reference
 
 	.. method:: library($library[, $params = NULL[, $object_name = NULL]])
 
-		:param mixed $library: Library name as a string or an array with multiple libraries
-		:param array $params: Optional array of parameters to pass to the loaded library's constructor
-		:param string $object_name: Optional object name to assign the library to
-		:returns: object
+		:param	mixed	$library: Library name as a string or an array with multiple libraries
+		:param	array	$params: Optional array of parameters to pass to the loaded library's constructor
+		:param	string	$object_name: Optional object name to assign the library to
+		:returns:	CI_Loader instance (method chaining)
+		:rtype:	CI_Loader
 
 		This method is used to load core classes.
 
@@ -156,10 +157,11 @@ Class Reference
 
 	.. method:: driver($library[, $params = NULL[, $object_name]])
 
-		:param mixed $library: Library name as a string or an array with multiple libraries
-		:param array $params: Optional array of parameters to pass to the loaded library's constructor
-		:param string $object_name: Optional object name to assign the library to
-		:returns: object
+		:param	mixed	$library: Library name as a string or an array with multiple libraries
+		:param	array	$params: Optional array of parameters to pass to the loaded library's constructor
+		:param	string	$object_name: Optional object name to assign the library to
+		:returns:	CI_Loader instance (method chaining)
+		:rtype:	CI_Loader
 
 		This method is used to load driver libraries, acts very much like the
 		``library()`` method.
@@ -216,10 +218,11 @@ Class Reference
 
 	.. method:: view($view[, $vars = array()[, return = FALSE]])
 
-		:param string $view: View name
-		:param array $vars: An associative array of variables
-		:param bool $return: Whether to return the loaded view
-		:returns: mixed
+		:param	string	$view: View name
+		:param	array	$vars: An associative array of variables
+		:param	bool	$return: Whether to return the loaded view
+		:returns:	View content string if $return is set to TRUE, otherwise CI_Loader instance (method chaining)
+		:rtype:	mixed
 
 		This method is used to load your View files. If you haven't read the
 		:doc:`Views <../general/views>` section of the user guide it is
@@ -249,9 +252,10 @@ Class Reference
 
 	.. method:: vars($vars[, $val = ''])
 
-		:param mixed $vars: An array of variables or a single variable name
-		:param mixed $val: Optional variable value
-		:returns: object
+		:param	mixed	$vars: An array of variables or a single variable name
+		:param	mixed	$val: Optional variable value
+		:returns:	CI_Loader instance (method chaining)
+		:rtype:	CI_Loader
 
 		This method takes an associative array as input and generates
 		variables using the PHP `extract() <http://www.php.net/extract>`_
@@ -265,8 +269,9 @@ Class Reference
 
 	.. method:: get_var($key)
 
-		:param string $key: Variable name key
-		:returns: mixed
+		:param	string	$key: Variable name key
+		:returns:	Value if key is found, NULL if not
+		:rtype:	mixed
 
 		This method checks the associative array of variables available to
 		your views. This is useful if for any reason a var is set in a library
@@ -274,22 +279,25 @@ Class Reference
 
 	.. method:: get_vars()
 
-		:returns: array
+		:returns:	An array of all assigned view variables
+		:rtype:	array
 
 		This method retrieves all variables available to your views.
 
 	.. method:: clear_vars()
 
-		:returns: object
+		:returns:	CI_Loader instance (method chaining)
+		:rtype:	CI_Loader
 
 		Clears cached view variables.
 
 	.. method:: model($model[, $name = ''[, $db_conn = FALSE]])
 
-		:param mixed $model: Model name or an array containing multiple models
-		:param string $name: Optional object name to assign the model to
-		:param string $db_conn: Optional database configuration group to load
-		:returns: object
+		:param	mixed	$model: Model name or an array containing multiple models
+		:param	string	$name: Optional object name to assign the model to
+		:param	string	$db_conn: Optional database configuration group to load
+		:returns:	CI_Loader instance (method chaining)
+		:rtype:	CI_Loader
 
 		::
 
@@ -310,10 +318,11 @@ Class Reference
 
 	.. method:: database([$params = ''[, $return = FALSE[, $query_builder = NULL]]])
 
-		:param mixed $params: Database group name or configuration options
-		:param bool $return: Whether to return the loaded database object
-		:param bool $query_builder: Whether to load the Query Builder
-		:returns: mixed
+		:param	mixed	$params: Database group name or configuration options
+		:param	bool	$return: Whether to return the loaded database object
+		:param	bool	$query_builder: Whether to load the Query Builder
+		:returns:	Loaded CI_DB instance or FALSE on failure if $return is set to TRUE, otherwise CI_Loader instance (method chaining)
+		:rtype:	mixed
 
 		This method lets you load the database class. The two parameters are
 		**optional**. Please see the :doc:`database <../database/index>`
@@ -321,35 +330,39 @@ Class Reference
 
 	.. method:: dbforge([$db = NULL[, $return = FALSE]])
 
-		:param object $db: Database object
-		:param bool $return: Whether to return the Database Forge instance
-		:returns: mixed
+		:param	object	$db: Database object
+		:param	bool	$return: Whether to return the Database Forge instance
+		:returns:	Loaded CI_DB_forge instance if $return is set to TRUE, otherwise CI_Loader instance (method chaining)
+		:rtype:	mixed
 
 		Loads the :doc:`Database Forge <../database/forge>` class, please refer
 		to that manual for more info.
 
 	.. method:: dbutil([$db = NULL[, $return = FALSE]])
 
-		:param object $db: Database object
-		:param bool $return: Whether to return the Database Utilities instance
-		:returns: mixed
+		:param	object	$db: Database object
+		:param	bool	$return: Whether to return the Database Utilities instance
+		:returns:	Loaded CI_DB_utility instance if $return is set to TRUE, otherwise CI_Loader instance (method chaining)
+		:rtype:	mixed
 
 		Loads the :doc:`Database Utilities <../database/utilities>` class, please
 		refer to that manual for more info.
 
 	.. method:: helper($helpers)
 
-		:param mixed $helpers: Helper name as a string or an array containing multiple helpers
-		:returns: object
+		:param	mixed	$helpers: Helper name as a string or an array containing multiple helpers
+		:returns:	CI_Loader instance (method chaining)
+		:rtype:	CI_Loader
 
 		This method loads helper files, where file_name is the name of the
 		file, without the _helper.php extension.
 
 	.. method:: file($path[, $return = FALSE])
 
-		:param string $path: File path
-		:param bool $return: Whether to return the loaded file
-		:returns: mixed
+		:param	string	$path: File path
+		:param	bool	$return: Whether to return the loaded file
+		:returns:	File contents if $return is set to TRUE, otherwise CI_Loader instance (method chaining)
+		:rtype:	mixed
 
 		This is a generic file loading method. Supply the filepath and name in
 		the first parameter and it will open and read the file. By default the
@@ -359,27 +372,30 @@ Class Reference
 
 	.. method:: language($files[, $lang = ''])
 
-		:param mixed $files: Language file name or an array of multiple language files
-		:param string $lang: Language name
-		:returns: object
+		:param	mixed	$files: Language file name or an array of multiple language files
+		:param	string	$lang: Language name
+		:returns:	CI_Loader instance (method chaining)
+		:rtype:	CI_Loader
 
 		This method is an alias of the :doc:`language loading
 		method <language>`: ``$this->lang->load()``.
 
 	.. method:: config($file[, $use_sections = FALSE[, $fail_gracefully = FALSE]])
 
-		:param string $file: Configuration file name
-		:param bool $use_sections: Whether configuration values should be loaded into their own section
-		:param bool $fail_gracefully: Whether to just return FALSE in case of failure
-		:returns: bool
+		:param	string	$file: Configuration file name
+		:param	bool	$use_sections: Whether configuration values should be loaded into their own section
+		:param	bool	$fail_gracefully: Whether to just return FALSE in case of failure
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		This method is an alias of the :doc:`config file loading
 		method <config>`: ``$this->config->load()``
 
 	.. method:: is_loaded($class)
 
-		:param string $class: Class name
-		:returns: mixed
+		:param	string	$class: Class name
+		:returns:	Singleton property name if found, FALSE if not
+		:rtype:	mixed
 
 		Allows you to check if a class has already been loaded or not.
 
@@ -405,9 +421,10 @@ Class Reference
 
 	.. method:: add_package_path($path[, $view_cascade = TRUE])
 
-		:param string $path: Path to add
-		:param bool $view_cascade: Whether to use cascading views
-		:returns: object
+		:param	string	$path: Path to add
+		:param	bool	$view_cascade: Whether to use cascading views
+		:returns:	CI_Loader instance (method chaining)
+		:rtype:	CI_Loader
 
 		Adding a package path instructs the Loader class to prepend a given path
 		for subsequent requests for resources. As an example, the "Foo Bar"
@@ -419,8 +436,9 @@ Class Reference
 
 	.. method:: remove_package_path([$path = ''])
 
-		:param string $path: Path to remove
-		:returns: object
+		:param	string	$path: Path to remove
+		:returns:	CI_Loader instance (method chaining)
+		:rtype:	CI_Loader
 
 		When your controller is finished using resources from an application
 		package, and particularly if you have other application packages you
@@ -435,7 +453,8 @@ Class Reference
 
 	.. method:: get_package_paths([$include_base = TRUE])
 
-		:param bool $include_base: Whether to include BASEPATH
-		:returns: array
+		:param	bool	$include_base: Whether to include BASEPATH
+		:returns:	An array of package paths
+		:rtype:	array
 
 		Returns all currently available package paths.

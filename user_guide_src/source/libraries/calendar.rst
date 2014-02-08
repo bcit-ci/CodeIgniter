@@ -201,48 +201,49 @@ Class Reference
 
 	.. method:: initialize([$config = array()])
 
-		:param array $config: config preferences
-		:returns: void
+		:param	array	$config: Configuration parameters
+		:rtype:	void
 
 		Initializes the Calendaring preferences. Accepts an associative array as input, containing display preferences.
 
-
 	.. method:: generate([$year = ''[, $month = ''[, $data = array()]]])
 
-		:param int $year: the year
-		:param int $month: the month
-		:param array $data: the data to be shown in the calendar cells
-		:returns: string
+		:param	int	$year: Year
+		:param	int	$month: Month
+		:param	array	$data: Data to be shown in the calendar cells
+		:returns:	HTML-formatted calendar
+		:rtype:	string
 
 		Generate the calendar.
 
 
 	.. method:: get_month_name($month)
 
-		:param int $month: the numeric month
-		:returns: string
+		:param	int	$month: Month
+		:returns:	Month name
+		:rtype:	string
 
 		Generates a textual month name based on the numeric month provided.
 
-
 	.. method:: get_day_names($day_type = '')
 
-		:param string $day_type: one of 'long', 'short', or 'abr'
-		:returns: array
+		:param	string	$day_type: 'long', 'short', or 'abr'
+		:returns:	Array of day names
+		:rtype:	array
 
 		Returns an array of day names (Sunday, Monday, etc.) based on the type
 		provided. Options: long, short, abr. If no ``$day_type`` is provided (or
 		if an invalid type is provided) this method will return the "abbreviated"
 		style.
 
-
 	.. method:: adjust_date($month, $year)
 
-		:param int $month: the month
-		:param int $year: the year
-		:returns: array
+		:param	int	$month: Month
+		:param	int	$year: Year
+		:returns:	An associative array containing month and year
+		:rtype:	array
 
-		This method makes usre that you have a valid month/year. For example, if
+		This method makes sure that you have a valid month/year. For example, if
 		you submit 13 as the month, the year will increment and the month will
 		become January::
 
@@ -256,22 +257,22 @@ Class Reference
 				[year] => '2014'
 			)
 
-
 	.. method:: get_total_days($month, $year)
 
-		:param int $month: the month
-		:param int $year: the year
-		:returns: int
+		:param	int	$month: Month
+		:param	int	$year: Year
+		:returns:	Count of days in the specified month
+		:rtype:	int
 
 		Total days in a given month::
 
 			echo $this->calendar->get_total_days(2, 2012);
 			// 29
 
-
 	.. method:: default_template()
 
-		:returns: array
+		:returns:	An array of template values
+		:rtype:	array
 
 		Sets the default template. This method is used when you have not created
 		your own template.
@@ -279,7 +280,7 @@ Class Reference
 
 	.. method:: parse_template()
 
-		:returns: void
+		:rtype:	void
 
 		Harvests the data within the template ``{pseudo-variables}`` used to
 		display the calendar.

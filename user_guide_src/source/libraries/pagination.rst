@@ -307,13 +307,14 @@ Class Reference
 
 	.. method:: initialize([$params = array()])
 
-		:param array $params: Configuration parameters
-		:returns: void
+		:param	array	$params: Configuration parameters
+		:rtype:	void
 
 		Initializes the Pagination class with your preferred options.
 
 	.. method:: create_links()
 
-		:returns: string
+		:returns:	HTML-formatted pagination
+		:rtype:	string
 
 		Returns a "pagination" bar, containing the generated links or an empty string if there's just a single page.

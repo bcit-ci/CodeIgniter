@@ -256,8 +256,9 @@ Class Reference
 
 	.. method:: do_upload([$field = 'userfile'])
 
-		:param string $field: name of the form field
-		:returns: bool
+		:param	string	$field: Name of the form field
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Performs the upload based on the preferences you've set.
 
@@ -275,12 +276,12 @@ Class Reference
 			$field_name = "some_field_name";
 			$this->upload->do_upload($field_name);
 
-
 	.. method:: display_errors([$open = '<p>'[, $close = '</p>']])
 
-		:param string $open: Opening markup
-		:param string $close: Closing markup
-		:returns: string
+		:param	string	$open: Opening markup
+		:param	string	$close: Closing markup
+		:returns:	Formatted error message(s)
+		:rtype:	string
 
 		Retrieves any error messages if the ``do_upload()`` method returned
 		false. The method does not echo automatically, it returns the data so
@@ -296,8 +297,9 @@ Class Reference
 
 	.. method:: data([$index = NULL])
 
-		:param string $data: element to return instead of the full array
-		:returns: mixed
+		:param	string	$data: Element to return instead of the full array
+		:returns:	Information about the uploaded file
+		:rtype:	mixed
 
 		This is a helper method that returns an array containing all of the
 		data related to the file you uploaded. Here is the array prototype::
@@ -324,25 +326,23 @@ Class Reference
 
 			$this->upload->data('file_name');	// Returns: mypic.jpg
 
-		**Explanation**
+		Here's a table explaining the above-displayed array items:
 
-			Here is an explanation of the above array items.
-
-			================	================================================
-			Item							Description
-			================	================================================
-			file_name					The name of the file that was uploaded including the file extension.
-			file_type					The file's Mime type
-			file_path					The absolute server path to the file
-			full_path					The absolute server path including the file name
-			raw_name					The file name without the extension
-			orig_name					The original file name. This is only useful if you use the encrypted name option.
-			client_name				The file name as supplied by the client user agent, prior to any file name preparation or incrementing.
-			file_ext					The file extension with period
-			file_size					The file size in kilobytes
-			is_image					Whether the file is an image or not. 1 = image. 0 = not.
-			image_width				Image width.
-			image_height			Image height
-			image_type				Image type. Typically the file extension without the period.
-			image_size_str		A string containing the width and height. Useful to put into an image tag.
-			================	================================================
+		================ ====================================================================================================
+		Item             Description
+		================ ====================================================================================================
+		file_name        Name of the file that was uploaded, including the filename extension
+		file_type        File MIME type identifier
+		file_path        Absolute server path to the file
+		full_path        Absolute server path, including the file name
+		raw_name         File name, without the extension
+		orig_name        Original file name. This is only useful if you use the encrypted name option.
+		client_name      File name as supplied by the client user agent, prior to any file name preparation or incrementing
+		file_ext         Filename extension, period included
+		file_size        File size in kilobytes
+		is_image         Whether the file is an image or not. 1 = image. 0 = not.
+		image_width      Image width
+		image_height     Image height
+		image_type       Image type (usually the file name extension without the period)
+		image_size_str   A string containing the width and height (useful to put into an image tag)
+		================ ====================================================================================================

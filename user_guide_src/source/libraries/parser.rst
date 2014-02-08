@@ -151,27 +151,29 @@ Class Reference
 
 	.. method:: parse($template, $data[, $return = FALSE])
 
-		:param string $template: Path to view file
-		:param array $data: Variable data
-		:param bool $return: Whether to return the parsed template
-		:returns: mixed
+		:param	string	$template: Path to view file
+		:param	array	$data: Variable data
+		:param	bool	$return: Whether to only return the parsed template
+		:returns:	Parsed template string
+		:rtype:	string
 
 		Parses a template from the provided path and variables.
 
 	.. method:: parse_string($template, $data[, $return = FALSE])
 
-		:param string $template: Path to view file
-		:param array $data: Variable data
-		:param bool $return: Whether to return the parsed template
-		:returns: mixed
+		:param	string	$template: Path to view file
+		:param	array	$data: Variable data
+		:param	bool	$return: Whether to only return the parsed template
+		:returns:	Parsed template string
+		:rtype:	string
 
 		This method works exactly like ``parse()``, only it accepts the template as a
 		string instead of loading a view file.
 
 	.. method:: set_delimiters([$l = '{'[, $r = '}']])
 
-		:param string $l: Left delimiter
-		:param string $r: Right delimiter
-		:returns: void
+		:param	string	$l: Left delimiter
+		:param	string	$r: Right delimiter
+		:rtype: void
 
 		Sets the delimiters (opening and closing) for a value "tag" in a template.
