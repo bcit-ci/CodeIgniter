@@ -311,7 +311,7 @@ class CI_DB_mssql_driver extends CI_DB {
 			.' FROM '.$this->escape_identifiers('sysobjects')
 			.' WHERE '.$this->escape_identifiers('type')." = 'U'";
 
-		if ($prefix_limit !== FALSE AND $this->dbprefix !== '')
+		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{
 			$sql .= ' AND '.$this->escape_identifiers('name')." LIKE '".$this->escape_like_str($this->dbprefix)."%' "
 				.sprintf($this->_like_escape_str, $this->_like_escape_chr);
