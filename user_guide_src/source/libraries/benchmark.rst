@@ -13,10 +13,16 @@ invoked, and ended by the output class right before sending the final
 view to the browser, enabling a very accurate timing of the entire
 system execution to be shown.
 
-.. contents:: Table of Contents
+.. contents::
+  :local:
 
+.. raw:: html
+
+  <div class="custom-index container"></div>
+
+*************************
 Using the Benchmark Class
-=========================
+*************************
 
 The Benchmark class can be used within your
 :doc:`controllers </general/controllers>`,
@@ -68,7 +74,7 @@ _end. Each pair of points must otherwise be named identically. Example::
 
 	// Some code happens here...
 
-	$this->benchmark->mark('my_mark_end'); 
+	$this->benchmark->mark('my_mark_end');
 
 	$this->benchmark->mark('another_mark_start');
 
@@ -120,3 +126,43 @@ this pseudo-variable, if you prefer not to use the pure PHP::
 
 	{memory_usage}
 
+
+***************
+Class Reference
+***************
+
+.. class:: CI_Benchmark
+
+	.. method:: mark($name)
+
+		:param	string	$name: the name you wish to assign to your marker
+		:rtype:	void
+
+		Sets a benchmark marker.
+
+	.. method:: elapsed_time([$point1 = ''[, $point2 = ''[, $decimals = 4]]])
+
+		:param	string	$point1: a particular marked point
+		:param	string	$point2: a particular marked point
+		:param	int	$decimals: number of decimal places for precision
+		:returns:	Elapsed time
+		:rtype:	string
+
+		Calculates and returns the time difference between two marked points.
+
+		If the first parameter is empty this function instead returns the
+		``{elapsed_time}`` pseudo-variable. This permits the full system
+		execution time to be shown in a template. The output class will
+		swap the real value for this variable.
+
+
+	.. method:: memory_usage()
+
+		:returns:	Memory usage info
+		:rtype:	string
+
+		Simply returns the ``{memory_usage}`` marker.
+
+		This permits it to be put it anywhere in a template without the memory
+		being calculated until the end. The :doc:`Output Class <output>` will
+		swap the real value for this variable.

@@ -332,6 +332,7 @@ class CI_Config {
 	/**
 	 * System URL
 	 *
+	 * @deprecated	3.0.0	Encourages insecure practices
 	 * @return	string
 	 */
 	public function system_url()

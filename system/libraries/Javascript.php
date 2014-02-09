@@ -34,6 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @category	Javascript
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/javascript.html
+ * @deprecated	3.0.0	This was never a good idea in the first place.
  */
 class CI_Javascript {
 

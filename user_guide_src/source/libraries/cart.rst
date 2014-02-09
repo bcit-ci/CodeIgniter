@@ -11,7 +11,16 @@ Please note that the Cart Class ONLY provides the core "cart"
 functionality. It does not provide shipping, credit card authorization,
 or other processing components.
 
-.. contents:: Page Contents
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
+
+********************
+Using the Cart Class
+********************
 
 Initializing the Shopping Cart Class
 ====================================
@@ -29,7 +38,7 @@ use the $this->load->library function::
 	$this->load->library('cart');
 
 Once loaded, the Cart object will be available using::
- 	
+
 	$this->cart
 
 .. note:: The Cart Class will load and initialize the Session Class
@@ -179,7 +188,7 @@ helper </helpers/form_helper>`.
 	</table>
 
 	<p><?php echo form_submit('', 'Update your Cart'); ?></p>
-	
+
 Updating The Cart
 =================
 
@@ -197,7 +206,7 @@ function:
 	               'qty'   => 3
 	            );
 
-	$this->cart->update($data); 
+	$this->cart->update($data);
 
 	// Or a multi-dimensional array
 
@@ -236,73 +245,125 @@ the product ID and any options associated with it.
 
 In nearly all cases, updating the cart will be something the user does
 via the "view cart" page, so as a developer, it is unlikely that you
-will ever have to concern yourself with the "row ID", other then making
+will ever have to concern yourself with the "row ID", other than making
 sure your "view cart" page contains this information in a hidden form
 field, and making sure it gets passed to the update function when the
 update form is submitted. Please examine the construction of the "view
 cart" page above for more information.
 
 
-Function Reference
-==================
+***************
+Class Reference
+***************
 
-$this->cart->insert();
-**********************
+.. class:: CI_Cart
 
-Permits you to add items to the shopping cart, as outlined above.
+	.. attribute:: $product_id_rules = '\.a-z0-9_-'
 
-$this->cart->update();
-**********************
+		These are the regular expression rules that we use to validate the product
+		ID - alpha-numeric, dashes, underscores, or periods by default
 
-Permits you to update items in the shopping cart, as outlined above.
+	.. attribute:: $product_name_rules	= '\w \-\.\:'
 
-$this->cart->remove(rowid);
-***************************
+		These are the regular expression rules that we use to validate the product ID and product name - alpha-numeric, dashes, underscores, colons or periods by
+		default
 
-Allows you to remove an item from the shopping cart by passing it the rowid.
+	.. attribute:: $product_name_safe = TRUE
 
-$this->cart->total();
-*********************
+		Whether or not to only allow safe product names. Default TRUE.
 
-Displays the total amount in the cart.
 
-$this->cart->total_items();
-***************************
+	.. method:: insert([$items = array()])
 
-Displays the total number of items in the cart.
+		:param	array	$items: Items to insert into the cart
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
-$this->cart->contents(boolean);
-*******************************
+		Insert items into the cart and save it to the session table. Returns TRUE
+		on success and FALSE on failure.
 
-Returns an array containing everything in the cart. You can sort the order,
-by which this is returned by passing it "true" where the contents will be sorted
-from newest to oldest, by leaving this function blank, you'll automatically just get
-first added to the basket to last added to the basket.
 
-$this->cart->get_item($row_id);
-*******************************
+	.. method:: update([$items = array()])
 
-Returns an array containing data for the item matching the specified row ID,
-or FALSE if no such item exists.
+		:param	array	$items: Items to update in the cart
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
-$this->cart->has_options($row_id);
-**********************************
+		This method permits the quantity of a given item to be changed.
+		Typically it is called from the "view cart" page if a user makes changes
+		to the quantity before checkout. That array must contain the product ID
+		and quantity for each item.
 
-Returns TRUE (boolean) if a particular row in the cart contains options.
-This function is designed to be used in a loop with
-$this->cart->contents(), since you must pass the rowid to this function,
-as shown in the Displaying the Cart example above.
+	.. method:: remove($rowid)
 
-$this->cart->product_options($row_id);
-**************************************
+		:param	int	$rowid: ID of the item to remove from the cart
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
-Returns an array of options for a particular product. This function is
-designed to be used in a loop with $this->cart->contents(), since you
-must pass the rowid to this function, as shown in the Displaying the
-Cart example above.
+		Allows you to remove an item from the shopping cart by passing it the
+		``$rowid``.
 
-$this->cart->destroy();
-***********************
+	.. method:: total()
 
-Permits you to destroy the cart. This function will likely be called
-when you are finished processing the customer's order.
+		:returns:	Total amount
+		:rtype:	int
+
+		Displays the total amount in the cart.
+
+
+	.. method:: total_items()
+
+		:returns:	Total amount of items in the cart
+		:rtype:	int
+
+		Displays the total number of items in the cart.
+
+
+	.. method:: contents([$newest_first = FALSE])
+
+		:param	bool	$newest_first: Whether to order the array with newest items first
+		:returns:	An array of cart contents
+		:rtype:	array
+
+		Returns an array containing everything in the cart. You can sort the
+		order by which the array is returned by passing it TRUE where the contents
+		will be sorted from newest to oldest, otherwise it is sorted from oldest
+		to newest.
+
+	.. method:: get_item($row_id)
+
+		:param	int	$row_id: Row ID to retrieve
+		:returns:	Array of item data
+		:rtype:	array
+
+		Returns an array containing data for the item matching the specified row
+		ID, or FALSE if no such item exists.
+
+	.. method:: has_options($row_id = '')
+
+		:param	int	$row_id: Row ID to inspect
+		:returns:	TRUE if options exist, FALSE otherwise
+		:rtype:	bool
+
+		Returns TRUE (boolean) if a particular row in the cart contains options.
+		This method is designed to be used in a loop with ``contents()``, since
+		you must pass the rowid to this function, as shown in the Displaying
+		the Cart example above.
+
+	.. method:: product_options([$row_id = ''])
+
+		:param	int	$row_id: Row ID
+		:returns:	Array of product options
+		:rtype:	array
+
+		Returns an array of options for a particular product. This method is
+		designed to be used in a loop with ``contents()``, since you
+		must pass the rowid to this method, as shown in the Displaying the
+		Cart example above.
+
+	.. method:: destroy()
+
+		:rtype: void
+
+		Permits you to destroy the cart. This method will likely be called
+		when you are finished processing the customer's order.
