@@ -56,7 +56,7 @@ class CI_Calendar {
 	/**
 	 * Calendar layout template
 	 *
-	 * @var string|array
+	 * @var mixed
 	 */
 	public $template = '';
 	
@@ -528,12 +528,12 @@ class CI_Calendar {
 	{
 		$this->replacements = $this->default_template();
 
-		if (!$this->template)
+		if (empty($this->template))
 		{
 			return $this;
 		}
 		
-		if(is_string($this->template))
+		if (is_string($this->template))
 		{
 			$today = array('cal_cell_start_today', 'cal_cell_content_today', 'cal_cell_no_content_today', 'cal_cell_end_today');
 	
@@ -551,11 +551,12 @@ class CI_Calendar {
 	
 			return $this;
 		}
-		
-		elseif(is_array($this->template))
+		elseif (is_array($this->template))
 		{
 			$this->replacements = array_merge($this->replacements, $this->template);
 		}
+		
+		return $this;
 	}
 
 }
