@@ -1,14 +1,18 @@
-################
-Encryption Class
-################
+#############
+Encrypt Class
+#############
 
-The Encryption Class provides two-way data encryption. It uses a scheme
+The Encrypt Class provides two-way data encryption. It uses a scheme
 that either compiles the message using a randomly hashed bitwise XOR
 encoding scheme, or is encrypted using the Mcrypt library. If Mcrypt is
 not available on your server the encoded message will still provide a
 reasonable degree of security for encrypted sessions or other such
 "light" purposes. If Mcrypt is available, you'll be provided with a high
 degree of security appropriate for storage.
+
+.. important:: This library has been DEPRECATED and is only kept for
+	backwards compatibility. Please use the new :doc:`Encryption Library
+	<encryption>`.
 
 .. contents::
   :local:
@@ -17,9 +21,9 @@ degree of security appropriate for storage.
 
   <div class="custom-index container"></div>
 
-****************************
-Using the Encryption Library
-****************************
+*************************
+Using the Encrypt Library
+*************************
 
 Setting your Key
 ================
@@ -67,13 +71,15 @@ information.
 Initializing the Class
 ======================
 
-Like most other classes in CodeIgniter, the Encryption class is
-initialized in your controller using the **$this->load->library** function::
+Like most other classes in CodeIgniter, the Encrypt class is
+initialized in your controller using the ``$this->load->library()``
+method::
 
 	$this->load->library('encrypt');
 
-Once loaded, the Encrypt library object will be available using
-``$this->encrypt``
+Once loaded, the Encrypt library object will be available using::
+
+	$this->encrypt
 
 ***************
 Class Reference
@@ -163,7 +169,7 @@ Class Reference
 		:rtype:	string
 
 		Enables you to re-encode data that was originally encrypted with
-		CodeIgniter 1.x to be compatible with the Encryption library in
+		CodeIgniter 1.x to be compatible with the Encrypt library in
 		CodeIgniter 2.x. It is only necessary to use this method if you have
 		encrypted data stored permanently such as in a file or database and are
 		on a server that supports Mcrypt. "Light" use encryption such as
@@ -174,7 +180,7 @@ Class Reference
 		.. important::
 			**Why only a method to re-encode the data instead of maintaining legacy
 			methods for both encoding and decoding?** The algorithms in the
-			Encryption library have improved in CodeIgniter 2.x both for performance
+			Encrypt library have improved in CodeIgniter 2.x both for performance
 			and security, and we do not wish to encourage continued use of the older
 			methods. You can of course extend the Encryption library if you wish and
 			replace the new methods with the old and retain seamless compatibility
