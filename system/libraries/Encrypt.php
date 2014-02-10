@@ -54,6 +54,13 @@ class CI_Encrypt {
 	protected $_hash_type		= 'sha1';
 
 	/**
+	 * Byte length of selected hash output
+	 *
+	 * @var int
+	 */
+	protected $_hmac_len;
+
+	/**
 	 * Flag for the existance of mcrypt
 	 *
 	 * @var bool
@@ -306,6 +313,39 @@ class CI_Encrypt {
 
 		return $str;
 	}
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get hash algorithm.
+	 *
+	 * @access	private
+	 * @return	string
+	 */
+
+	function _get_hash()
+	{
+		return $this->_hash_type;
+	}
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get HMAC length for currently selected hash algorithm.
+	 *
+	 * @access	private
+	 * @return	integer
+	 */
+
+	function _get_hmac_len()
+	{
+		if($this->_hmac_len == '')
+		{
+			// this will actually calculate HMAC for a dummy data in hex format
+			$this->_hmac_len = strlen(hash_hmac($this->_get_hash(), 'dummy', 'dummy', FALSE));
+		}
+
+		// as we use hex the binary length will be half of it
+		return $this->_hmac_len / 2;
+	}
 
 	// --------------------------------------------------------------------
 
@@ -319,8 +359,18 @@ class CI_Encrypt {
 	public function mcrypt_encode($data, $key)
 	{
 		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
+
+		// PKCS#7 padding
+		$block_size = mcrypt_get_block_size($this->_get_cipher(), $this->_get_mode());
+		$pad = $block_size - (strlen($data) % $block_size);
+		$data .= str_repeat(chr($pad), $pad);
+
 		$init_vect = mcrypt_create_iv($init_size, MCRYPT_RAND);
-		return $this->_add_cipher_noise($init_vect.mcrypt_encrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), $key);
+		$ciphertext = mcrypt_encrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect);
+		// calculate binary HMAC for ciphertext plus IV
+		$mac = hash_hmac($this->_get_hash(), $init_vect.$ciphertext, $key, TRUE);
+
+		return $mac.$init_vect.$ciphertext;
 	}
 
 	// --------------------------------------------------------------------
@@ -334,7 +384,6 @@ class CI_Encrypt {
 	 */
 	public function mcrypt_decode($data, $key)
 	{
-		$data = $this->_remove_cipher_noise($data, $key);
 		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
 
 		if ($init_size > strlen($data))
@@ -342,75 +391,26 @@ class CI_Encrypt {
 			return FALSE;
 		}
 
-		$init_vect = substr($data, 0, $init_size);
-		$data = substr($data, $init_size);
-		return rtrim(mcrypt_decrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), "\0");
-	}
+		$mac = substr($data, 0, $this->_get_hmac_len());
+		$init_vect = substr($data, $this->_get_hmac_len(), $init_size);
+		$data = substr($data, $this->_get_hmac_len() + $init_size);
 
-	// --------------------------------------------------------------------
+		$calculated_mac = hash_hmac($this->_get_hash(), $init_vect.$data, $key, TRUE);
 
-	/**
-	 * Adds permuted noise to the IV + encrypted data to protect
-	 * against Man-in-the-middle attacks on CBC mode ciphers
-	 * http://www.ciphersbyritter.com/GLOSSARY.HTM#IV
-	 *
-	 * @param	string
-	 * @param	string
-	 * @return	string
-	 */
-	protected function _add_cipher_noise($data, $key)
-	{
-		$key = $this->hash($key);
-		$str = '';
-
-		for ($i = 0, $j = 0, $ld = strlen($data), $lk = strlen($key); $i < $ld; ++$i, ++$j)
+		if ($calculated_mac != $mac) 
 		{
-			if ($j >= $lk)
-			{
-				$j = 0;
-			}
-
-			$str .= chr((ord($data[$i]) + ord($key[$j])) % 256);
+			log_message('error', 'Data was tampered with - HMAC verification failed');
+			return FALSE;
 		}
 
-		return $str;
-	}
+		$plaintext = mcrypt_decrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect);
+		// PKCS#7 padding removal
+		$block_size = mcrypt_get_block_size($this->_get_cipher(), $this->_get_mode());
+		$pad = ord($plaintext[($len = strlen($plaintext)) - 1]);
 
-	// --------------------------------------------------------------------
+		$plaintext = substr($plaintext, 0, strlen($plaintext) - $pad);
 
-	/**
-	 * Removes permuted noise from the IV + encrypted data, reversing
-	 * _add_cipher_noise()
-	 *
-	 * Function description
-	 *
-	 * @param	string	$data
-	 * @param	string	$key
-	 * @return	string
-	 */
-	protected function _remove_cipher_noise($data, $key)
-	{
-		$key = $this->hash($key);
-		$str = '';
-
-		for ($i = 0, $j = 0, $ld = strlen($data), $lk = strlen($key); $i < $ld; ++$i, ++$j)
-		{
-			if ($j >= $lk)
-			{
-				$j = 0;
-			}
-
-			$temp = ord($data[$i]) - ord($key[$j]);
-
-			if ($temp < 0)
-			{
-				$temp += 256;
-			}
-
-			$str .= chr($temp);
-		}
-
-		return $str;
+		return $plaintext;
 	}
 
 	// --------------------------------------------------------------------
