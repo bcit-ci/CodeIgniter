@@ -148,7 +148,7 @@ class CI_Security {
 		'expression\s*(\(|&\#40;)', // CSS and IE
 		'vbscript\s*:', // IE, surprise!
 		'wscript\s*:', // IE
-		'jcript\s*:', // IE
+		'jscript\s*:', // IE
 		'vbs\s*:', // IE
 		'Redirect\s+30\d',
 		"([\"'])?data\s*:[^\\1]*?base64[^\\1]*?,[^\\1]*?\\1?"
