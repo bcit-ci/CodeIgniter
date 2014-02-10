@@ -359,7 +359,11 @@ class CI_Security {
 		 *
 		 * Note: Use rawurldecode() so it does not remove plus signs
 		 */
-		$str = rawurldecode($str);
+		do
+		{
+			$str = rawurldecode($str);
+		}
+		while (preg_match('/%[0-9a-f]{2,}/i', $str));
 
 		/*
 		 * Convert character entities to ASCII
