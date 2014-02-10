@@ -151,20 +151,22 @@ class Encryption_test extends CI_TestCase {
 			'mode' => 'cbc',
 			'key' => str_repeat("\x0", 16),
 			'iv' => str_repeat("\x0", 16),
-			'base64' => FALSE,
+			'raw_data' => TRUE,
 			'hmac_key' => str_repeat("\x0", 16),
 			'hmac_digest' => 'sha256'
 		);
 
 		$output = $this->encryption->__get_params($params);
-		unset($output['handle']);
+		unset($output['handle'], $params['raw_data']);
+		$params['base64'] = FALSE;
 		$this->assertEquals($params, $output);
 
 		// HMAC disabled
 		unset($params['hmac_key'], $params['hmac_digest']);
-		$params['hmac'] = FALSE;
+		$params['hmac'] = $params['raw_data'] = FALSE;
 		$output = $this->encryption->__get_params($params);
-		unset($output['handle'], $params['hmac']);
+		unset($output['handle'], $params['hmac'], $params['raw_data']);
+		$params['base64'] = TRUE;
 		$params['hmac_digest'] = $params['hmac_key'] = NULL;
 		$this->assertEquals($params, $output);
 	}

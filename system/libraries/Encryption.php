@@ -698,7 +698,7 @@ class CI_Encryption {
 			'mode' => $params['mode'],
 			'key' => $params['key'],
 			'iv' => isset($params['iv']) ? $params['iv'] : NULL,
-			'base64' => isset($params['base64']) ? $params['base64'] : TRUE,
+			'base64' => isset($params['raw_data']) ? ! $params['raw_data'] : FALSE,
 			'hmac_digest' => $params['hmac_digest'],
 			'hmac_key' => $params['hmac_key']
 		);
@@ -825,8 +825,8 @@ class CI_Encryption {
 	 * @param	$key	Input key
 	 * @param	$digest	A SHA-2 hashing algorithm
 	 * @param	$salt	Optional salt
-	 * @param	$info	Optional context/application-specific info
 	 * @param	$length	Output length (defaults to the selected digest size)
+	 * @param	$info	Optional context/application-specific info
 	 * @return	string	A pseudo-random key
 	 */
 	public function hkdf($key, $digest = 'sha512', $salt = NULL, $length = NULL, $info = '')
