@@ -450,12 +450,12 @@ class CI_Security {
 
 			if (preg_match('/<a/i', $str))
 			{
-				$str = preg_replace_callback('#<a[\s\d"\'`;/=,\(]+([^>]*?)(?:>|$)#si', array($this, '_js_link_removal'), $str);
+				$str = preg_replace_callback('#<a[\s\d"\'`;/=,\(\\\\]+([^>]*?)(?:>|$)#si', array($this, '_js_link_removal'), $str);
 			}
 
 			if (preg_match('/<img/i', $str))
 			{
-				$str = preg_replace_callback('#<img[\s\d"\'`;/=,\(]+([^>]*?)(?:\s?/?>|$)#si', array($this, '_js_img_removal'), $str);
+				$str = preg_replace_callback('#<img[\s\d"\'`;/=,\(\\\\]+([^>]*?)(?:\s?/?>|$)#si', array($this, '_js_img_removal'), $str);
 			}
 
 			if (preg_match('/script|xss/i', $str))
