@@ -324,12 +324,12 @@ class Loader_test extends CI_TestCase {
 		// Create helper in VFS
 		$helper = 'test';
 		$func = '_my_helper_test_func';
-		$content = '<?php function '.$func.'() { return true; } ';
+		$content = '<?php function '.$func.'() { return TRUE; } ';
 		$this->ci_vfs_create($helper.'_helper', $content, $this->ci_base_root, 'helpers');
 
 		// Create helper extension
 		$exfunc = '_my_extension_func';
-		$content = '<?php function '.$exfunc.'() { return true; } ';
+		$content = '<?php function '.$exfunc.'() { return TRUE; } ';
 		$this->ci_vfs_create($this->prefix.$helper.'_helper', $content, $this->ci_app_root, 'helpers');
 
 		// Load helper
@@ -373,7 +373,7 @@ class Loader_test extends CI_TestCase {
 			$helpers[] = $helper;
 			$func = '_my_helper_test_func'.$i;
 			$funcs[] = $func;
-			$files[$helper.'_helper'] = '<?php function '.$func.'() { return true; } ';
+			$files[$helper.'_helper'] = '<?php function '.$func.'() { return TRUE; } ';
 		}
 		$this->ci_vfs_create($files, NULL, $this->ci_base_root, 'helpers');
 
@@ -457,7 +457,7 @@ class Loader_test extends CI_TestCase {
 		// Create helper in VFS
 		$helper = 'autohelp';
 		$hlp_func = '_autohelp_test_func';
-		$content = '<?php function '.$hlp_func.'() { return true; }';
+		$content = '<?php function '.$hlp_func.'() { return TRUE; }';
 		$this->ci_vfs_create($helper.'_helper', $content, $this->ci_app_root, 'helpers');
 
 		// Create library in VFS
