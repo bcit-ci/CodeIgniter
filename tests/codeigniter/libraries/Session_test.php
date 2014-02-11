@@ -91,7 +91,7 @@ class Session_test extends CI_TestCase {
 		$cmsg1 = 'Some test data';
 		$cmsg2 = 42;
 		$nmsg1 = 'Other test data';
-		$nmsg2 = true;
+		$nmsg2 = TRUE;
 		$this->session->cookie->set_userdata($key1, $cmsg1);
 		$this->session->set_userdata($ckey2, $cmsg2);
 		$this->session->native->set_userdata($key1, $nmsg1);
