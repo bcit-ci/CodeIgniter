@@ -138,13 +138,12 @@ class CI_Table {
 	 *
 	 * Can be passed as an array or discreet params
 	 *
-	 * @param	mixed	$array
+	 * @param	mixed
 	 * @return	CI_Table
 	 */
-	public function set_heading($args = array(), $attributes = array())
+	public function set_heading($args = array())
 	{
-		$args = func_get_args();
-		$this->heading = $this->_prep_args($args);
+		$this->heading = $this->_prep_args(func_get_args());
 		return $this;
 	}
 
@@ -224,8 +223,7 @@ class CI_Table {
 	 */
 	public function add_row($args = array())
 	{
-		$args = func_get_args();
-		$this->rows[] = $this->_prep_args($args);
+		$this->rows[] = $this->_prep_args(func_get_args());
 		return $this;
 	}
 
