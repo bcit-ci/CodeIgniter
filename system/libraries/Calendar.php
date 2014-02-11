@@ -548,8 +548,6 @@ class CI_Calendar {
 					$this->replacements[$val] = $this->replacements[substr($val, 0, -6)];
 				}
 			}
-	
-			return $this;
 		}
 		elseif (is_array($this->template))
 		{
