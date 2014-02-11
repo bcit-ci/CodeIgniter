@@ -16,10 +16,21 @@ class Mock_Core_Utf8 extends CI_Utf8 {
 		{
 			defined('MB_ENABLED') OR define('MB_ENABLED', TRUE);
 			mb_internal_encoding('UTF-8');
+			ini_set('mbstring.substitute_character', 'none');
 		}
 		else
 		{
 			defined('MB_ENABLED') OR define('MB_ENABLED', FALSE);
+		}
+
+		if (extension_loaded('iconv'))
+		{
+			defined('ICONV_ENABLED') OR define('ICONV_ENABLED', TRUE);
+			iconv_set_encoding('internal_encoding', 'UTF-8');
+		}
+		else
+		{
+			defined('ICONV_ENABLED') OR define('ICONV_ENABLED', FALSE);
 		}
 	}
 

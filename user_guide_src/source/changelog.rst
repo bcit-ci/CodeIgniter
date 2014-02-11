@@ -396,6 +396,7 @@ Release Date: Not Released
       - Added support for setting table class defaults in a config file.
 
    -  :doc:`Zip Library <libraries/zip>` method ``read_file()`` can now also alter the original file path/name while adding files to an archive.
+   -  :doc:`Trackback Library <libraries/trackback>` method ``receive()`` will now utilize ``iconv()`` if it is available but ``mb_convert_encoding()`` is not.
 
 -  Core
 
@@ -489,8 +490,14 @@ Release Date: Not Released
       -  Language files are now loaded in a cascading style with the one in **system/** always loaded and overriden afterwards, if another one is found.
 
    -  :doc:`Hooks Library <general/hooks>` changes include:
+
       -  Renamed method ``_call_hook()`` to ``call_hook()``.
       -  Class instances are now stored in order to maintain their state.
+
+   -  UTF-8 Library changes include:
+
+      -  ``UTF8_ENABLED`` now requires only one of `Multibyte String <http://php.net/mbstring>`_ or `iconv <http://php.net/iconv>`_ to be available instead of both.
+      -  Changed method ``clean_string()`` to utilize ``mb_convert_encoding()`` if it is available but ``iconv()`` is not.
 
    -  Removed ``CI_CORE`` boolean constant from *CodeIgniter.php* (no longer Reactor and Core versions).
    -  Log Library will now try to create the **log_path** directory if it doesn't exist.

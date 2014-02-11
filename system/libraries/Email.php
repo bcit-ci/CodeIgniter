@@ -1544,7 +1544,7 @@ class CI_Email {
 			{
 				return mb_encode_mimeheader($str, $this->charset, 'Q', $this->crlf);
 			}
-			elseif (extension_loaded('iconv'))
+			elseif (ICONV_ENABLED === TRUE)
 			{
 				$output = @iconv_mime_encode('', $str,
 					array(
@@ -1573,9 +1573,9 @@ class CI_Email {
 		isset($chars) OR $chars = strlen($str);
 
 		$output = '=?'.$this->charset.'?Q?';
-		for ($i = 0, $length = strlen($output), $iconv = extension_loaded('iconv'); $i < $chars; $i++)
+		for ($i = 0, $length = strlen($output); $i < $chars; $i++)
 		{
-			$chr = ($this->charset === 'UTF-8' && $iconv === TRUE)
+			$chr = ($this->charset === 'UTF-8' && ICONV_ENABLED === TRUE)
 				? '='.implode('=', str_split(strtoupper(bin2hex(iconv_substr($str, $i, 1, $this->charset))), 2))
 				: '='.strtoupper(bin2hex($str[$i]));
 

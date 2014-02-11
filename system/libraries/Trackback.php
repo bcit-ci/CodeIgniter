@@ -181,7 +181,14 @@ class CI_Trackback {
 
 			if ($val !== 'url' && MB_ENABLED === TRUE)
 			{
-				$_POST[$val] = mb_convert_encoding($_POST[$val], $this->charset, $this->data['charset']);
+				if (MB_ENABLED === TRUE)
+				{
+					$_POST[$val] = mb_convert_encoding($_POST[$val], $this->charset, $this->data['charset']);
+				}
+				elseif (ICONV_ENABLED === TRUE)
+				{
+					$_POST[$val] = @iconv($this->data['charset'], $this->charset.'//IGNORE', $_POST[$val]);
+				}
 			}
 
 			$_POST[$val] = ($val !== 'url') ? $this->convert_xml(strip_tags($_POST[$val])) : strip_tags($_POST[$val]);

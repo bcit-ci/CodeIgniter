@@ -59,17 +59,31 @@ class CI_Utf8 {
 		{
 			define('MB_ENABLED', TRUE);
 			mb_internal_encoding($charset);
+			// This is required for mb_convert_encoding() to strip invalid characters
+			ini_set('mbstring.substitute_character', 'none');
 		}
 		else
 		{
 			define('MB_ENABLED', FALSE);
 		}
 
+		// Do the same for iconv, which actually has more easy to remember
+		// predefined constants (such as ICONV_IMPL), but the iconv PHP
+		// manual page says that using them is "strongly discouraged".
+		if (extension_loaded('iconv'))
+		{
+			define('ICONV_ENABLED', TRUE);
+			iconv_set_encoding('internal_encoding', $charset);
+		}
+		else
+		{
+			define('ICONV_ENABLED', FALSE);
+		}
+
 		if (
-			defined('PREG_BAD_UTF8_ERROR')	// PCRE must support UTF-8
-			&& function_exists('iconv')	// iconv must be installed
-			&& MB_ENABLED === TRUE		// mbstring must be enabled
-			&& $charset === 'UTF-8'		// Application charset must be UTF-8
+			defined('PREG_BAD_UTF8_ERROR')				// PCRE must support UTF-8
+			&& (ICONV_ENABLED === TRUE OR MB_ENABLED === TRUE)	// iconv or mbstring must be installed
+			&& $charset === 'UTF-8'					// Application charset must be UTF-8
 			)
 		{
 			define('UTF8_ENABLED', TRUE);
@@ -98,7 +112,14 @@ class CI_Utf8 {
 	{
 		if ($this->_is_ascii($str) === FALSE)
 		{
-			$str = @iconv('UTF-8', 'UTF-8//IGNORE', $str);
+			if (ICONV_ENABLED)
+			{
+				$str = @iconv('UTF-8', 'UTF-8//IGNORE', $str);
+			}
+			elseif (MB_ENABLED)
+			{
+				$str = mb_convert_encoding($str, 'UTF-8', 'UTF-8');
+			}
 		}
 
 		return $str;
@@ -134,7 +155,7 @@ class CI_Utf8 {
 	 */
 	public function convert_to_utf8($str, $encoding)
 	{
-		if (function_exists('iconv'))
+		if (ICONV_ENABLED)
 		{
 			return @iconv($encoding, 'UTF-8', $str);
 		}
