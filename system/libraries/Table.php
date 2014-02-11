@@ -245,7 +245,12 @@ class CI_Table {
 		if (isset($args[0]) && count($args) === 1 && is_array($args[0]))
 		{
 			// args sent as indexed array
-			if ( ! isset($args[0]['data']))
+			if (isset($args[0]['data']))
+			{
+				$args=$args[0];
+			}
+			// args sent as indexed array
+			elseif ( ! isset($args[0]['data']))
 			{
 				foreach ($args[0] as $key => $val)
 				{
@@ -368,7 +373,35 @@ class CI_Table {
 				// We use modulus to alternate the row colors
 				$name = fmod($i++, 2) ? '' : 'alt_';
 
-				$out .= $this->template['row_'.$name.'start'].$this->newline;
+				$temp= $this->template['row_'.$name.'start'];
+
+				//check to see if the row overwrites the default template
+				if(isset($row['data']))
+				{
+					//reassign the row elements to a temporary array
+					$row_temporary = $row;
+
+					//assign the data to the row var to work normally
+					$row = $row['data'];
+					$row = $this->_prep_args($row);
+
+					foreach ($row_temporary as $key => $val)
+					{
+						if ($key != 'data')
+						{
+							if(is_array($val))
+							{
+								$temp = str_replace('<tr', "<tr $key='{$val['data']}'", $temp);
+							}
+							else
+							{
+								$temp = str_replace('<tr', "<tr $key='{$val}'", $temp);
+							}
+						}
+					}
+				}
+
+				$out .= $temp.$this->newline;
 
 				foreach ($row as $cell)
 				{
