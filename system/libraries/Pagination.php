@@ -314,7 +314,7 @@ class CI_Pagination {
 	 * Initialize Preferences
 	 *
 	 * @param	array	$params	Initialization parameters
-	 * @return	void
+	 * @return	CI_Pagination
 	 */
 	public function initialize($params = array())
 	{
@@ -342,6 +342,8 @@ class CI_Pagination {
 				}
 			}
 		}
+
+		return $this;
 	}
 
 	// --------------------------------------------------------------------

@@ -117,7 +117,7 @@ class CI_Table {
 	/**
 	 * Set the template
 	 *
-	 * @param	array
+	 * @param	array	$template
 	 * @return	bool
 	 */
 	public function set_template($template)
@@ -139,12 +139,13 @@ class CI_Table {
 	 * Can be passed as an array or discreet params
 	 *
 	 * @param	mixed
-	 * @return	void
+	 * @return	CI_Table
 	 */
 	public function set_heading($args = array())
 	{
 		$args = func_get_args();
 		$this->heading = $this->_prep_args($args);
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -155,9 +156,9 @@ class CI_Table {
 	 * columns. This allows a single array with many elements to be
 	 * displayed in a table that has a fixed column count.
 	 *
-	 * @param	array
-	 * @param	int
-	 * @return	void
+	 * @param	array	$array
+	 * @param	int	$col_limit
+	 * @return	array
 	 */
 	public function make_columns($array = array(), $col_limit = 0)
 	{
@@ -202,12 +203,13 @@ class CI_Table {
 	 *
 	 * Can be passed as an array or discreet params
 	 *
-	 * @param	mixed
-	 * @return	void
+	 * @param	mixed	$value
+	 * @return	CI_Table
 	 */
 	public function set_empty($value)
 	{
 		$this->empty_cells = $value;
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -218,12 +220,13 @@ class CI_Table {
 	 * Can be passed as an array or discreet params
 	 *
 	 * @param	mixed
-	 * @return	void
+	 * @return	CI_Table
 	 */
 	public function add_row($args = array())
 	{
 		$args = func_get_args();
 		$this->rows[] = $this->_prep_args($args);
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -271,8 +274,8 @@ class CI_Table {
 	/**
 	 * Add a table caption
 	 *
-	 * @param	string
-	 * @return	void
+	 * @param	string	$caption
+	 * @return	CI_Table
 	 */
 	public function set_caption($caption)
 	{
@@ -284,7 +287,7 @@ class CI_Table {
 	/**
 	 * Generate the table
 	 *
-	 * @param	mixed
+	 * @param	mixed	$table_data
 	 * @return	string
 	 */
 	public function generate($table_data = NULL)
@@ -417,13 +420,14 @@ class CI_Table {
 	/**
 	 * Clears the table arrays.  Useful if multiple tables are being generated
 	 *
-	 * @return	void
+	 * @return	CI_Table
 	 */
 	public function clear()
 	{
-		$this->rows		= array();
-		$this->heading		= array();
-		$this->auto_heading	= TRUE;
+		$this->rows = array();
+		$this->heading = array();
+		$this->auto_heading = TRUE;
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -528,31 +532,31 @@ class CI_Table {
 	protected function _default_template()
 	{
 		return array(
-				'table_open'		=> '<table border="0" cellpadding="4" cellspacing="0">',
+			'table_open'		=> '<table border="0" cellpadding="4" cellspacing="0">',
 
-				'thead_open'		=> '<thead>',
-				'thead_close'		=> '</thead>',
+			'thead_open'		=> '<thead>',
+			'thead_close'		=> '</thead>',
 
-				'heading_row_start'	=> '<tr>',
-				'heading_row_end'	=> '</tr>',
-				'heading_cell_start'	=> '<th>',
-				'heading_cell_end'	=> '</th>',
+			'heading_row_start'	=> '<tr>',
+			'heading_row_end'	=> '</tr>',
+			'heading_cell_start'	=> '<th>',
+			'heading_cell_end'	=> '</th>',
 
-				'tbody_open'		=> '<tbody>',
-				'tbody_close'		=> '</tbody>',
+			'tbody_open'		=> '<tbody>',
+			'tbody_close'		=> '</tbody>',
 
-				'row_start'		=> '<tr>',
-				'row_end'		=> '</tr>',
-				'cell_start'		=> '<td>',
-				'cell_end'		=> '</td>',
+			'row_start'		=> '<tr>',
+			'row_end'		=> '</tr>',
+			'cell_start'		=> '<td>',
+			'cell_end'		=> '</td>',
 
-				'row_alt_start'		=> '<tr>',
-				'row_alt_end'		=> '</tr>',
-				'cell_alt_start'	=> '<td>',
-				'cell_alt_end'		=> '</td>',
+			'row_alt_start'		=> '<tr>',
+			'row_alt_end'		=> '</tr>',
+			'cell_alt_start'	=> '<td>',
+			'cell_alt_end'		=> '</td>',
 
-				'table_close'		=> '</table>'
-			);
+			'table_close'		=> '</table>'
+		);
 	}
 
 }

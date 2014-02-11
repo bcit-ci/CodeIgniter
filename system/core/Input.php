@@ -152,8 +152,20 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	protected function _fetch_from_array(&$array, $index = '', $xss_clean = NULL)
+	protected function _fetch_from_array(&$array, $index = NULL, $xss_clean = NULL)
 	{
+		// If $index is NULL, it means that the whole $array is requested
+		if ($index === NULL)
+		{
+			$output = array();
+			foreach (array_keys($array) as $key)
+			{
+				$output[$key] = $this->_fetch_from_array($array, $key, $xss_clean);
+			}
+
+			return $output;
+		}
+
 		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
 
 		if (isset($array[$index]))
@@ -202,26 +214,6 @@ class CI_Input {
 	 */
 	public function get($index = NULL, $xss_clean = NULL)
 	{
-		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
-
-		// Check if a field has been provided
-		if ($index === NULL)
-		{
-			if (empty($_GET))
-			{
-				return array();
-			}
-
-			$get = array();
-
-			// loop through the full _GET array
-			foreach (array_keys($_GET) as $key)
-			{
-				$get[$key] = $this->_fetch_from_array($_GET, $key, $xss_clean);
-			}
-			return $get;
-		}
-
 		return $this->_fetch_from_array($_GET, $index, $xss_clean);
 	}
 
@@ -236,26 +228,6 @@ class CI_Input {
 	 */
 	public function post($index = NULL, $xss_clean = NULL)
 	{
-		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
-
-		// Check if a field has been provided
-		if ($index === NULL)
-		{
-			if (empty($_POST))
-			{
-				return array();
-			}
-
-			$post = array();
-
-			// Loop through the full _POST array and return it
-			foreach (array_keys($_POST) as $key)
-			{
-				$post[$key] = $this->_fetch_from_array($_POST, $key, $xss_clean);
-			}
-			return $post;
-		}
-
 		return $this->_fetch_from_array($_POST, $index, $xss_clean);
 	}
 
@@ -268,10 +240,8 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function post_get($index = '', $xss_clean = NULL)
+	public function post_get($index, $xss_clean = NULL)
 	{
-		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
-
 		return isset($_POST[$index])
 			? $this->post($index, $xss_clean)
 			: $this->get($index, $xss_clean);
@@ -286,10 +256,8 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function get_post($index = '', $xss_clean = NULL)
+	public function get_post($index, $xss_clean = NULL)
 	{
-		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
-
 		return isset($_GET[$index])
 			? $this->get($index, $xss_clean)
 			: $this->post($index, $xss_clean);
@@ -304,10 +272,8 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function cookie($index = '', $xss_clean = NULL)
+	public function cookie($index = NULL, $xss_clean = NULL)
 	{
-		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
-
 		return $this->_fetch_from_array($_COOKIE, $index, $xss_clean);
 	}
 
@@ -320,10 +286,8 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function server($index = '', $xss_clean = NULL)
+	public function server($index, $xss_clean = NULL)
 	{
-		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
-
 		return $this->_fetch_from_array($_SERVER, $index, $xss_clean);
 	}
 
@@ -338,23 +302,14 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function input_stream($index = '', $xss_clean = NULL)
+	public function input_stream($index = NULL, $xss_clean = NULL)
 	{
-		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
-
 		// The input stream can only be read once, so we'll need to check
 		// if we have already done that first.
-		if (is_array($this->_input_stream))
-		{
-			return $this->_fetch_from_array($this->_input_stream, $index, $xss_clean);
-		}
-
-		// Parse the input stream in our cache var
-		parse_str(file_get_contents('php://input'), $this->_input_stream);
 		if ( ! is_array($this->_input_stream))
 		{
-			$this->_input_stream = array();
-			return NULL;
+			parse_str(file_get_contents('php://input'), $this->_input_stream);
+			is_array($this->_input_stream) OR $this->_input_stream = array();
 		}
 
 		return $this->_fetch_from_array($this->_input_stream, $index, $xss_clean);

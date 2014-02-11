@@ -21,23 +21,20 @@ without having to worry about class/function scoping.
 CodeIgniter also returns a status code whenever a portion of the core
 calls ``exit()``. This exit status code is separate from the HTTP status
 code, and serves as a notice to other processes that may be watching of
-whether the script completed successfully, or if not, what kind of 
-problem it encountered that caused it to abort. These values are 
+whether the script completed successfully, or if not, what kind of
+problem it encountered that caused it to abort. These values are
 defined in *application/config/constants.php*. While exit status codes
 are most useful in CLI settings, returning the proper code helps server
 software keep track of your scripts and the health of your application.
 
 The following functions let you generate errors:
 
-show_error()
-============
-
-.. php:function:: show_error($message, $status_code, $heading = 'An Error Was Encountered')
+.. function:: show_error($message, $status_code, $heading = 'An Error Was Encountered')
 
 	:param	mixed	$message: Error message
 	:param	int	$status_code: HTTP Response status code
 	:param	string	$heading: Error page heading
-	:returns:	void
+	:rtype:	void
 
 This function will display the error message supplied to it using the
 following error template::
@@ -49,17 +46,14 @@ code should be sent with the error. If ``$status_code`` is less than 100,
 the HTTP status code will be set to 500, and the exit status code will
 be set to ``$status_code + EXIT__AUTO_MIN``. If that value is larger than
 ``EXIT__AUTO_MAX``, or if ``$status_code`` is 100 or higher, the exit
-status code will be set to ``EXIT_ERROR``. You can check in 
+status code will be set to ``EXIT_ERROR``. You can check in
 *application/config/constants.php* for more detail.
 
-show_404()
-==========
-
-.. php:function:: show_404($page = '', $log_error = TRUE)
+.. function:: show_404($page = '', $log_error = TRUE)
 
 	:param	string	$page: URI string
 	:param	bool	$log_error: Whether to log the error
-	:returns:	void
+	:rtype:	void
 
 This function will display the 404 error message supplied to it using
 the following error template::
@@ -74,15 +68,12 @@ not found.
 CodeIgniter automatically logs any ``show_404()`` calls. Setting the
 optional second parameter to FALSE will skip logging.
 
-log_message()
-=============
-
-.. php:function:: log_message($level, $message, $php_error = FALSE)
+.. function:: log_message($level, $message, $php_error = FALSE)
 
 	:param	string	$level: Log level: 'error', 'debug' or 'info'
 	:param	string	$message: Message to log
 	:param	bool	$php_error: Whether we're logging a native PHP error message
-	:returns:	void
+	:rtype:	void
 
 This function lets you write messages to your log files. You must supply
 one of three "levels" in the first parameter, indicating what type of

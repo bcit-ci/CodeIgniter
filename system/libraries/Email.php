@@ -822,7 +822,7 @@ class CI_Email {
 	 * @param	string
 	 * @return	CI_Email
 	 */
-	public function set_alt_message($str = '')
+	public function set_alt_message($str)
 	{
 		$this->alt_message = (string) $str;
 		return $this;
