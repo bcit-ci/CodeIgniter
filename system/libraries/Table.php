@@ -242,26 +242,14 @@ class CI_Table {
 		// If there is no $args[0], skip this and treat as an associative array
 		// This can happen if there is only a single key, for example this is passed to table->generate
 		// array(array('foo'=>'bar'))
-		if (isset($args[0]) && count($args) === 1 && is_array($args[0]))
+		if (isset($args[0]) && count($args) === 1 && is_array($args[0]) && ! isset($args[0]['data']))
 		{
-			// args sent as indexed array
-			if ( ! isset($args[0]['data']))
-			{
-				foreach ($args[0] as $key => $val)
-				{
-					$args[$key] = (is_array($val) && isset($val['data'])) ? $val : array('data' => $val);
-				}
-			}
+			$args = $args[0];
 		}
-		else
+
+		foreach ($args as $key => $val)
 		{
-			foreach ($args as $key => $val)
-			{
-				if ( ! is_array($val))
-				{
-					$args[$key] = array('data' => $val);
-				}
-			}
+			is_array($val) OR $args[$key] = array('data' => $val);
 		}
 
 		return $args;
