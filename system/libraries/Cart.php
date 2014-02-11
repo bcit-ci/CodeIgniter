@@ -350,7 +350,11 @@ class CI_Cart {
 		}
 		else
 		{
-			$this->_cart_contents[$items['rowid']]['qty'] = $items['qty'];
+			// find updatable keys
+			$keys = array_intersect(array_keys($this->_cart_contents[$items['rowid']]), array_keys($items));
+			foreach ( $keys as $key ) {
+				$this->_cart_contents[$items['rowid']][$key] = $items[$key];
+			}
 		}
 
 		return TRUE;
