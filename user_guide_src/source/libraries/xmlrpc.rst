@@ -223,17 +223,17 @@ email address, etc.). Here is how the processing function might look::
 
 	        $parameters = $request->output_parameters();
 
-	        if ($parameters['1'] != $username AND $parameters['2'] != $password)
+	        if ($parameters['1'] != $username && $parameters['2'] != $password)
 	        {
 	            return $this->xmlrpc->send_error_message('100', 'Invalid Access');
 	        }
 
-	        $response = array(array('nickname'  => array('Smitty','string'),
-	                                'userid'    => array('99','string'),
-	                                'url'       => array('http://yoursite.com','string'),
-	                                'email'     => array('jsmith@yoursite.com','string'),
-	                                'lastname'  => array('Smith','string'),
-	                                'firstname' => array('John','string')
+	        $response = array(array('nickname'  => array('Smitty', 'string'),
+	                                'userid'    => array('99', 'string'),
+	                                'url'       => array('http://yoursite.com', 'string'),
+	                                'email'     => array('jsmith@yoursite.com', 'string'),
+	                                'lastname'  => array('Smith', 'string'),
+	                                'firstname' => array('John', 'string')
 	                                ),
 	                         'struct');
 
