@@ -41,7 +41,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'CodeIgniter'
-copyright = u'2013, EllisLab, Inc.'
+copyright = u'2014, EllisLab, Inc.'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -224,7 +224,7 @@ man_pages = [
 epub_title = u'CodeIgniter'
 epub_author = u'EllisLab, Inc.'
 epub_publisher = u'EllisLab, Inc.'
-epub_copyright = u'2013, EllisLab, Inc.'
+epub_copyright = u'2014, EllisLab, Inc.'
 
 # The language of the text. It defaults to the language option
 # or en if the language is not set.
