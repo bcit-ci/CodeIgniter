@@ -93,7 +93,7 @@ class CI_Table {
 	 *
 	 * @var function
 	 */
-	public $function	= FALSE;
+	public $function	= NULL;
 
 	/**
 	 * Set the template from the table config file if it exists
@@ -138,10 +138,10 @@ class CI_Table {
 	 *
 	 * Can be passed as an array or discreet params
 	 *
-	 * @param	mixed
+	 * @param	mixed	$array
 	 * @return	CI_Table
 	 */
-	public function set_heading($args = array())
+	public function set_heading($args = array(), $attributes = array())
 	{
 		$args = func_get_args();
 		$this->heading = $this->_prep_args($args);
@@ -316,9 +316,9 @@ class CI_Table {
 		$this->_compile_template();
 
 		// Validate a possibly existing custom cell manipulation function
-		if ($this->function !== FALSE && ! is_callable($this->function))
+		if (isset($this->function) && ! is_callable($this->function))
 		{
-			$this->function = FALSE;
+			$this->function = NULL;
 		}
 
 		// Build the table!
@@ -391,7 +391,7 @@ class CI_Table {
 					{
 						$out .= $this->empty_cells;
 					}
-					elseif ($this->function !== FALSE)
+					elseif (isset($this->function))
 					{
 						$out .= call_user_func($this->function, $cell);
 					}

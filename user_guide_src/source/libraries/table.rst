@@ -139,7 +139,7 @@ Class Reference
 
 .. class:: CI_Table
 
-	.. attribute:: $function = FALSE
+	.. attribute:: $function = NULL
 
 		Allows you to specify a native PHP function or a valid function array object to be applied to all cell data.
 		::
