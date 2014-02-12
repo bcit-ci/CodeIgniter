@@ -124,6 +124,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * ------------------------------------------------------
  *  Instantiate the config class
  * ------------------------------------------------------
+ *
+ * Note: It is important that Config is loaded first as
+ * most other classes depend on it either directly or by
+ * depending on another class that uses it.
+ *
  */
 	$CFG =& load_class('Config', 'core');
 
@@ -138,14 +143,49 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
  * ------------------------------------------------------
- *  Instantiate the UTF-8 class
+ * Important charset-related stuff
  * ------------------------------------------------------
  *
- * Note: Order here is rather important as the UTF-8
- * class needs to be used very early on, but it cannot
- * properly determine if UTF-8 can be supported until
- * after the Config class is instantiated.
+ * Configure mbstring and/or iconv if they are enabled
+ * and set MB_ENABLED and ICONV_ENABLED constants, so
+ * that we don't repeatedly do extension_loaded() or
+ * function_exists() calls.
  *
+ * Note: UTF-8 class depends on this. It used to be done
+ * in it's constructor, but it's _not_ class-specific.
+ *
+ */
+	$charset = strtoupper(config_item('charset'));
+
+	if (extension_loaded('mbstring'))
+	{
+		define('MB_ENABLED', TRUE);
+		mb_internal_encoding($charset);
+		// This is required for mb_convert_encoding() to strip invalid characters.
+		// That's utilized by CI_Utf8, but it's also done for consistency with iconv.
+		mb_substitute_character('none');
+	}
+	else
+	{
+		define('MB_ENABLED', FALSE);
+	}
+
+	// There's an ICONV_IMPL constant, but the PHP manual says that using
+	// iconv's predefined constants is "strongly discouraged".
+	if (extension_loaded('iconv'))
+	{
+		define('ICONV_ENABLED', TRUE);
+		iconv_set_encoding('internal_encoding', $charset);
+	}
+	else
+	{
+		define('ICONV_ENABLED', FALSE);
+	}
+
+/*
+ * ------------------------------------------------------
+ *  Instantiate the UTF-8 class
+ * ------------------------------------------------------
  */
 	$UNI =& load_class('Utf8', 'core');
 

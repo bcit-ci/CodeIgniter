@@ -40,6 +40,29 @@ isset($_SERVER['REMOTE_ADDR']) OR $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 // Prep our test environment
 include_once $dir.'/mocks/core/common.php';
 include_once SYSTEM_PATH.'core/Common.php';
+
+
+if (extension_loaded('mbstring'))
+{
+	defined('MB_ENABLED') OR define('MB_ENABLED', TRUE);
+	mb_internal_encoding('UTF-8');
+	mb_substitute_character('none');
+}
+else
+{
+	defined('MB_ENABLED') OR define('MB_ENABLED', FALSE);
+}
+
+if (extension_loaded('iconv'))
+{
+	defined('ICONV_ENABLED') OR define('ICONV_ENABLED', TRUE);
+	iconv_set_encoding('internal_encoding', 'UTF-8');
+}
+else
+{
+	defined('ICONV_ENABLED') OR define('ICONV_ENABLED', FALSE);
+}
+
 include_once $dir.'/mocks/autoloader.php';
 spl_autoload_register('autoload');
 
