@@ -323,10 +323,10 @@ class CI_Cart {
 	/**
 	 * Update the cart
 	 *
-	 * This function permits the quantity of a given item to be changed.
+	 * This function permits changing item properties.
 	 * Typically it is called from the "view cart" page if a user makes
 	 * changes to the quantity before checkout. That array must contain the
-	 * product ID and quantity for each item.
+	 * rowid and qty for each item.
 	 *
 	 * @param	array
 	 * @return	bool
@@ -352,7 +352,18 @@ class CI_Cart {
 		{
 			// find updatable keys
 			$keys = array_intersect(array_keys($this->_cart_contents[$items['rowid']]), array_keys($items));
-			foreach ( $keys as $key ) {
+			// if a price was passed, make sure it contains valid data
+			if (isset($keys['price']))
+			{
+				$keys['price'] = (float) $keys['price'];
+			}
+			
+			// product name & id shouldn't be changed
+			unset($keys['name']);
+			unset($keys['id']);
+			
+			foreach ($keys as $key) 
+			{
 				$this->_cart_contents[$items['rowid']][$key] = $items[$key];
 			}
 		}
