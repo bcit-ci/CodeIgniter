@@ -34,7 +34,7 @@ class Table_test extends CI_TestCase {
 	}
 
 	/*
-	 * @depends testPrepArgs
+	 * @depends	test_prep_args
 	 */
 	public function test_set_heading()
 	{
@@ -55,7 +55,7 @@ class Table_test extends CI_TestCase {
 	}
 
 	/*
-	 * @depends testPrepArgs
+	 * @depends	test_prep_args
 	 */
 	public function test_add_row()
 	{
