@@ -353,14 +353,13 @@ class CI_Cart {
 			// find updatable keys
 			$keys = array_intersect(array_keys($this->_cart_contents[$items['rowid']]), array_keys($items));
 			// if a price was passed, make sure it contains valid data
-			if (isset($keys['price']))
+			if (isset($items['price']))
 			{
-				$keys['price'] = (float) $keys['price'];
+				$items['price'] = (float) $items['price'];
 			}
 			
 			// product name & id shouldn't be changed
-			unset($keys['name']);
-			unset($keys['id']);
+			$keys = array_diff($keys, array('id', 'name'));			
 			
 			foreach ($keys as $key) 
 			{
