@@ -358,10 +358,8 @@ class CI_Cart {
 				$items['price'] = (float) $items['price'];
 			}
 			
-			// product name & id shouldn't be changed
-			$keys = array_diff($keys, array('id', 'name'));			
-			
-			foreach ($keys as $key) 
+			// product id & name shouldn't be changed			
+			foreach (array_diff($keys, array('id', 'name')) as $key) 
 			{
 				$this->_cart_contents[$items['rowid']][$key] = $items[$key];
 			}

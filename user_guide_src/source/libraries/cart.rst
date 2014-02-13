@@ -88,6 +88,18 @@ array will be stored in the session. However, it is best to standardize
 your data among all your products in order to make displaying the
 information in a table easier.
 
+::
+
+	$data = array(
+	               'id'      => 'sku_123ABC',
+	               'qty'     => 1,
+	               'price'   => 39.95,
+	               'name'    => 'T-Shirt',
+	               'coupon'	 => 'XMAS-50OFF'
+	            );
+
+	$this->cart->insert($data);
+
 The insert() method will return the $rowid if you successfully insert a
 single item.
 
@@ -195,8 +207,8 @@ Updating The Cart
 To update the information in your cart, you must pass an array
 containing the Row ID and quantity to the $this->cart->update()
 function, you may also update any property you have previously 
-defined when inserting the item such like (options, price 
-or other custom fields you defined).
+defined when inserting the item such as options, price 
+or other custom fields you defined.
 
 .. note:: If the quantity is set to zero, the item will be removed from
 	the cart.
@@ -205,6 +217,7 @@ or other custom fields you defined).
 
 	$data = array(
 	               'rowid' => 'b99ccdf16028f015540f341130b6d8ec',
+	               'price' => 10,
 	               'qty'   => 3
 	            );
 

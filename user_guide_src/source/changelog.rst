@@ -303,6 +303,7 @@ Release Date: Not Released
       -  Added method ``remove()`` to remove a cart item, updating with quantity of 0 seemed like a hack but has remained to retain compatibility.
       -  Added method ``get_item()`` to enable retrieving data for a single cart item.
       -  Added unicode support for product names.
+      -	 ``update()`` now supports updating all properties attached to an item.
 
    -  :doc:`Image Manipulation Library <libraries/image_lib>` changes include:
 
