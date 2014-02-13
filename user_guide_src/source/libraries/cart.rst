@@ -244,6 +244,7 @@ defined when inserting the item such as options, price
 or other custom fields you defined.
 
 ::
+
 	$data = array(
 		       'rowid'	 => 'b99ccdf16028f015540f341130b6d8ec',
 	               'qty'     => 1,
