@@ -22,7 +22,7 @@ before_script:
   - sh -c "if [ '$DB' = 'pgsql' ] || [ '$DB' = 'pdo/pgsql' ]; then psql -c 'create database ci_test;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'mysql' ] || [ '$DB' = 'mysqli' ] || [ '$DB' = 'pdo/mysql' ]; then mysql -e 'create database IF NOT EXISTS ci_test;'; fi"
 
-script: phpunit --coverage-text --configuration tests/travis/$DB.phpunit.xml
+script: phpunit -d zend.enable_gc=0 --coverage-text --configuration tests/travis/$DB.phpunit.xml
 
 matrix:
   allow_failures:
