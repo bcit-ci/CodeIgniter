@@ -100,6 +100,8 @@ $db['default'] = array(
 	'db_debug' => TRUE,
 	'cache_on' => FALSE,
 	'cachedir' => '',
+	'cache_encrypt_cipher' => FALSE,
+        'cache_encryption_key' => 'your-secret-key',
 	'char_set' => 'utf8',
 	'dbcollat' => 'utf8_general_ci',
 	'swap_pre' => '',
@@ -113,3 +115,4 @@ $db['default'] = array(
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */
+

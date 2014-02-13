@@ -282,6 +282,27 @@ abstract class CI_DB_driver {
 	public $cache_autodel		= FALSE;
 
 	/**
+	 * Cache encryption cipher algorithm
+	 *
+	 * @var string|bool
+	 */         
+	public $cache_encrypt_cipher    = FALSE;
+
+	/**
+	 * Cache encryption flag
+	 *
+	 * @var bool
+	 */
+	public $cache_encrypt           = FALSE;
+
+	/**
+	 * Cache encryption key
+	 *
+	 * @var string
+	 */
+	public $cache_encryption_key    = 'your-secret-key'; 
+
+	/**
 	 * DB Cache object
 	 *
 	 * @see	CI_DB_cache
@@ -360,7 +381,7 @@ abstract class CI_DB_driver {
 				$this->$key = $val;
 			}
 		}
-
+		$this->cache_encrypt = ($this->cache_encrypt_cipher !== FALSE) && extension_loaded('mcrypt');
 		log_message('debug', 'Database Driver Class Initialized');
 	}
 
