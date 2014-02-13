@@ -114,26 +114,26 @@ same page.
 ::
 
 	$data = array(
-	               array(
-	                       'id'      => 'sku_123ABC',
-	                       'qty'     => 1,
-	                       'price'   => 39.95,
-	                       'name'    => 'T-Shirt',
-	                       'options' => array('Size' => 'L', 'Color' => 'Red')
-	                    ),
-	               array(
-	                       'id'      => 'sku_567ZYX',
-	                       'qty'     => 1,
-	                       'price'   => 9.95,
-	                       'name'    => 'Coffee Mug'
-	                    ),
-	               array(
-	                       'id'      => 'sku_965QRS',
-	                       'qty'     => 1,
-	                       'price'   => 29.95,
-	                       'name'    => 'Shot Glass'
-	                    )
-	            );
+		array(
+			'id'      => 'sku_123ABC',
+			'qty'     => 1,
+			'price'   => 39.95,
+			'name'    => 'T-Shirt',
+			'options' => array('Size' => 'L', 'Color' => 'Red')
+		),
+		array(
+			'id'      => 'sku_567ZYX',
+			'qty'     => 1,
+			'price'   => 9.95,
+			'name'    => 'Coffee Mug'
+		),
+		array(
+			'id'      => 'sku_965QRS',
+			'qty'     => 1,
+			'price'   => 29.95,
+			'name'    => 'Shot Glass'
+		)
+	);
 
 	$this->cart->insert($data);
 
@@ -206,7 +206,7 @@ Updating The Cart
 
 To update the information in your cart, you must pass an array
 containing the Row ID and quantity to the ``$this->cart->update()``
-method::
+method.
 
 .. note:: If the quantity is set to zero, the item will be removed from
 	the cart.

@@ -506,7 +506,7 @@ Release Date: Not Released
       -  ``UTF8_ENABLED`` now requires only one of `Multibyte String <http://php.net/mbstring>`_ or `iconv <http://php.net/iconv>`_ to be available instead of both.
       -  Changed method ``clean_string()`` to utilize ``mb_convert_encoding()`` if it is available but ``iconv()`` is not.
 
-   -  Added compatibility layers for PHP's `mbstring <http://php.net/mbstring>`_ (limited support) and `password <http://php.net/password>`_ extensions.
+   -  Added `compatibility layers <general/compatibility_functions>` for PHP's `mbstring <http://php.net/mbstring>`_ (limited support) and `password <http://php.net/password>`_ extensions.
    -  Removed ``CI_CORE`` boolean constant from *CodeIgniter.php* (no longer Reactor and Core versions).
    -  Log Library will now try to create the **log_path** directory if it doesn't exist.
    -  Added support for HTTP-Only cookies with new config option *cookie_httponly* (default FALSE).
