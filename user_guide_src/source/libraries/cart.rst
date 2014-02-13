@@ -88,6 +88,18 @@ array will be stored in the session. However, it is best to standardize
 your data among all your products in order to make displaying the
 information in a table easier.
 
+::
+
+	$data = array(
+	               'id'      => 'sku_123ABC',
+	               'qty'     => 1,
+	               'price'   => 39.95,
+	               'name'    => 'T-Shirt',
+	               'coupon'	 => 'XMAS-50OFF'
+	            );
+
+	$this->cart->insert($data);
+
 The insert() method will return the $rowid if you successfully insert a
 single item.
 
@@ -194,7 +206,7 @@ Updating The Cart
 
 To update the information in your cart, you must pass an array
 containing the Row ID and quantity to the $this->cart->update()
-function:
+function.
 
 .. note:: If the quantity is set to zero, the item will be removed from
 	the cart.
@@ -223,6 +235,21 @@ function:
 	                       'rowid'   => 'fh4kdkkkaoe30njgoe92rkdkkobec333',
 	                       'qty'     => 2
 	                    )
+	            );
+
+	$this->cart->update($data);
+
+You may also update any property you have previously 
+defined when inserting the item such as options, price 
+or other custom fields you defined.
+
+::
+
+	$data = array(
+		       'rowid'	 => 'b99ccdf16028f015540f341130b6d8ec',
+	               'qty'     => 1,
+		       'price'	 => 49.95,
+	               'coupon'	 => NULL
 	            );
 
 	$this->cart->update($data);
@@ -289,10 +316,10 @@ Class Reference
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
 
-		This method permits the quantity of a given item to be changed.
+		This method permits changing the properties of a given item.
 		Typically it is called from the "view cart" page if a user makes changes
-		to the quantity before checkout. That array must contain the product ID
-		and quantity for each item.
+		to the quantity before checkout. That array must contain the rowid
+		and qty for each item.
 
 	.. method:: remove($rowid)
 
