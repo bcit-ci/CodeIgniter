@@ -85,7 +85,7 @@ if ( ! function_exists('character_limiter'))
 	 */
 	function character_limiter($str, $n = 500, $end_char = '&#8230;')
 	{
-		if (strlen($str) < $n)
+		if (mb_strlen($str) < $n)
 		{
 			return $str;
 		}
@@ -93,7 +93,7 @@ if ( ! function_exists('character_limiter'))
 		// a bit complicated, but faster than preg_replace with \s+
 		$str = preg_replace('/ {2,}/', ' ', str_replace(array("\r", "\n", "\t", "\x0B", "\x0C"), ' ', $str));
 
-		if (strlen($str) <= $n)
+		if (mb_strlen($str) <= $n)
 		{
 			return $str;
 		}
@@ -103,10 +103,10 @@ if ( ! function_exists('character_limiter'))
 		{
 			$out .= $val.' ';
 
-			if (strlen($out) >= $n)
+			if (mb_strlen($out) >= $n)
 			{
 				$out = trim($out);
-				return (strlen($out) === strlen($str)) ? $out : $out.$end_char;
+				return (mb_strlen($out) === mb_strlen($str)) ? $out : $out.$end_char;
 			}
 		}
 	}
