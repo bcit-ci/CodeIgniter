@@ -61,8 +61,6 @@ class CI_Cart {
 	public $product_name_safe	= TRUE;
 
 	// --------------------------------------------------------------------------
-	// Protected variables. Do not change!
-	// --------------------------------------------------------------------------
 
 	/**
 	 * Reference to CodeIgniter instance
@@ -357,9 +355,9 @@ class CI_Cart {
 			{
 				$items['price'] = (float) $items['price'];
 			}
-			
-			// product id & name shouldn't be changed			
-			foreach (array_diff($keys, array('id', 'name')) as $key) 
+
+			// product id & name shouldn't be changed
+			foreach (array_diff($keys, array('id', 'name')) as $key)
 			{
 				$this->_cart_contents[$items['rowid']][$key] = $items[$key];
 			}

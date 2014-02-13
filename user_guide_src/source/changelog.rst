@@ -303,12 +303,12 @@ Release Date: Not Released
 
    -  :doc:`Cart Library <libraries/cart>` changes include:
 
-      -  ``insert()`` now auto-increments quantity for an item when inserted twice instead of resetting it, this is the default behaviour of large e-commerce sites.
-      -  *Product Name* strictness can be disabled by switching the ``$product_name_safe`` property to FALSE.
       -  Added method ``remove()`` to remove a cart item, updating with quantity of 0 seemed like a hack but has remained to retain compatibility.
       -  Added method ``get_item()`` to enable retrieving data for a single cart item.
       -  Added unicode support for product names.
-      -	 ``update()`` now supports updating all properties attached to an item.
+      -  Added support for disabling product name strictness via the ``$product_name_safe`` property.
+      -  Changed ``insert()`` method to auto-increment quantity for an item when inserted twice instead of resetting it.
+      -	 Changed ``update()`` method to support updating all properties attached to an item.
 
    -  :doc:`Image Manipulation Library <libraries/image_lib>` changes include:
 
