@@ -206,9 +206,7 @@ Updating The Cart
 
 To update the information in your cart, you must pass an array
 containing the Row ID and quantity to the $this->cart->update()
-function, you may also update any property you have previously 
-defined when inserting the item such as options, price 
-or other custom fields you defined.
+function.
 
 .. note:: If the quantity is set to zero, the item will be removed from
 	the cart.
@@ -217,7 +215,6 @@ or other custom fields you defined.
 
 	$data = array(
 	               'rowid' => 'b99ccdf16028f015540f341130b6d8ec',
-	               'price' => 10,
 	               'qty'   => 3
 	            );
 
@@ -238,6 +235,20 @@ or other custom fields you defined.
 	                       'rowid'   => 'fh4kdkkkaoe30njgoe92rkdkkobec333',
 	                       'qty'     => 2
 	                    )
+	            );
+
+	$this->cart->update($data);
+
+You may also update any property you have previously 
+defined when inserting the item such as options, price 
+or other custom fields you defined.
+
+::
+	$data = array(
+		       'rowid'	 => 'b99ccdf16028f015540f341130b6d8ec',
+	               'qty'     => 1,
+		       'price'	 => 49.95,
+	               'coupon'	 => NULL
 	            );
 
 	$this->cart->update($data);

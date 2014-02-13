@@ -326,7 +326,7 @@ class CI_Cart {
 	 * This function permits changing item properties.
 	 * Typically it is called from the "view cart" page if a user makes
 	 * changes to the quantity before checkout. That array must contain the
-	 * rowid and qty for each item.
+	 * rowid and quantity for each item.
 	 *
 	 * @param	array
 	 * @return	bool
