@@ -63,6 +63,9 @@ else
 	defined('ICONV_ENABLED') OR define('ICONV_ENABLED', FALSE);
 }
 
+include_once SYSTEM_PATH.'core/compat/mbstring.php';
+include_once SYSTEM_PATH.'core/compat/password.php';
+
 include_once $dir.'/mocks/autoloader.php';
 spl_autoload_register('autoload');
 
