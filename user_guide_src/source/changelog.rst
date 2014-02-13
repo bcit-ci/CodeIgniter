@@ -367,11 +367,12 @@ Release Date: Not Released
 
    -  :doc:`Pagination Library <libraries/pagination>` changes include:
 
+      -  Deprecated usage of the "anchor_class" setting (use the new "attributes" setting instead).
       -  Added method chaining support to ``initialize()`` method.
       -  Added support for the anchor "rel" attribute.
       -  Added support for setting custom attributes.
-      -  Deprecated usage of the "anchor_class" setting (use the new "attributes" setting instead).
-      -  Added $config['reuse_query_string'] to allow automatic repopulation of query string arguments, combined with normal URI segments.
+      -  Added support for language translations of the *first_link*, *next_link*, *prev_link* and *last_link* values.
+      -  Added ``$config['reuse_query_string']`` to allow automatic repopulation of query string arguments, combined with normal URI segments.
       -  Removed the default ``&nbsp;`` from a number of the configuration variables.
 
    -  :doc:`Profiler Library <general/profiling>` changes include:

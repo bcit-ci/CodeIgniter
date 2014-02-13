@@ -304,6 +304,16 @@ class CI_Pagination {
 	 */
 	public function __construct($params = array())
 	{
+		$CI =& get_instance();
+		$CI->load->language('paginaton');
+		foreach (array('first_link', 'next_link', 'prev_link', 'last_link') as $key)
+		{
+			if (($val = $CI->lang->line('pagination_'.$key)) !== FALSE)
+			{
+				$this->$key = $val;
+			}
+		}
+
 		$this->initialize($params);
 		log_message('debug', 'Pagination Class Initialized');
 	}
@@ -316,7 +326,7 @@ class CI_Pagination {
 	 * @param	array	$params	Initialization parameters
 	 * @return	CI_Pagination
 	 */
-	public function initialize($params = array())
+	public function initialize(array $params = array())
 	{
 		if (isset($params['attributes']) && is_array($params['attributes']))
 		{
@@ -332,14 +342,11 @@ class CI_Pagination {
 			unset($params['anchor_class']);
 		}
 
-		if (count($params) > 0)
+		foreach ($params as $key => $val)
 		{
-			foreach ($params as $key => $val)
+			if (property_exists($this, $this->$key))
 			{
-				if (isset($this->$key))
-				{
-					$this->$key = $val;
-				}
+				$this->$key = $val;
 			}
 		}
 
