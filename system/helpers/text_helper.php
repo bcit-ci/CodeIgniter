@@ -445,14 +445,14 @@ if ( ! function_exists('word_wrap'))
 		{
 			// Is the line within the allowed character count?
 			// If so we'll join it to the output and continue
-			if (strlen($line) <= $charlim)
+			if (mb_strlen($line) <= $charlim)
 			{
 				$output .= $line."\n";
 				continue;
 			}
 
 			$temp = '';
-			while ((strlen($line)) > $charlim)
+			while (mb_strlen($line) > $charlim)
 			{
 				// If the over-length word is a URL we won't wrap it
 				if (preg_match('!\[url.+\]|://|wwww.!', $line))
@@ -461,8 +461,8 @@ if ( ! function_exists('word_wrap'))
 				}
 
 				// Trim the word down
-				$temp .= substr($line, 0, $charlim - 1);
-				$line = substr($line, $charlim - 1);
+				$temp .= mb_substr($line, 0, $charlim - 1);
+				$line = mb_substr($line, $charlim - 1);
 			}
 
 			// If $temp contains data it means we had to split up an over-length
@@ -512,21 +512,21 @@ if ( ! function_exists('ellipsize'))
 		$str = trim(strip_tags($str));
 
 		// Is the string long enough to ellipsize?
-		if (strlen($str) <= $max_length)
+		if (mb_strlen($str) <= $max_length)
 		{
 			return $str;
 		}
 
-		$beg = substr($str, 0, floor($max_length * $position));
+		$beg = mb_substr($str, 0, floor($max_length * $position));
 		$position = ($position > 1) ? 1 : $position;
 
 		if ($position === 1)
 		{
-			$end = substr($str, 0, -($max_length - strlen($beg)));
+			$end = mb_substr($str, 0, -($max_length - mb_strlen($beg)));
 		}
 		else
 		{
-			$end = substr($str, -($max_length - strlen($beg)));
+			$end = mb_substr($str, -($max_length - mb_strlen($beg)));
 		}
 
 		return $beg.$ellipsis.$end;

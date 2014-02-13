@@ -188,7 +188,7 @@ if ( ! function_exists('underscore'))
 	 */
 	function underscore($str)
 	{
-		return preg_replace('/[\s]+/', '_', strtolower(trim($str)));
+		return preg_replace('/[\s]+/', '_', trim(MB_ENABLED ? mb_strtolower($str) : strtolower($str)));
 	}
 }
 
@@ -207,7 +207,7 @@ if ( ! function_exists('humanize'))
 	 */
 	function humanize($str, $separator = '_')
 	{
-		return ucwords(preg_replace('/['.$separator.']+/', ' ', strtolower(trim($str))));
+		return ucwords(preg_replace('/['.$separator.']+/', ' ', trim(MB_ENABLED ? mb_strtolower($str) : strtolower($str))));
 	}
 }
 
@@ -223,12 +223,13 @@ if ( ! function_exists('is_countable'))
 	 */
 	function is_countable($word)
 	{
-		return ! in_array(strtolower($word),
-					array(
-						'equipment', 'information', 'rice', 'money',
-						'species', 'series', 'fish', 'meta'
-					)
-			);
+		return ! in_array(
+			strtolower($word),
+			array(
+				'equipment', 'information', 'rice', 'money',
+				'species', 'series', 'fish', 'meta'
+			)
+		);
 	}
 }
 

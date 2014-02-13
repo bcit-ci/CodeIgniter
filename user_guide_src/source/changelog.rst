@@ -90,7 +90,8 @@ Release Date: Not Released
    -  :doc:`Inflector Helper <helpers/inflector_helper>` changes include:
 
       - Changed :func:`humanize()` to allow passing an input separator as its second parameter.
-      - Refactored :func:`plural()` and :func:`singular()` to avoid double pluralization and support more words.
+      - Changed :func:`humanize()` and :func:`underscore()` to utilize `mbstring <http://php.net/mbstring>`_, if available.
+      - Changed :func:`plural()` and :func:`singular()` to avoid double pluralization and support more words.
 
    -  :doc:`Download Helper <helpers/download_helper>` changes include:
 
@@ -132,10 +133,14 @@ Release Date: Not Released
       - Added *colors* configuration to allow customization for the *background*, *border*, *text* and *grid* colors.
       - Added *filename* to the returned array elements.
 
+   -  :doc:`Text Helper <helpers/text_helper>` changes include:
+
+      - Changed the default tag for use in :func:`highlight_phrase()` to ``<mark>`` (formerly ``<strong>``).
+      - Changed :func:`character_limiter()`, :func:`word_wrap()` and :func:`ellipsize()` to utilize `mbstring <http://php.net/mbstring>`_ or `iconv <http://php.net/iconv>`_, if available.
+
    -  :doc:`Directory Helper <helpers/directory_helper>` :func:`directory_map()` will now append ``DIRECTORY_SEPARATOR`` to directory names in the returned array.
    -  :doc:`Array Helper <helpers/array_helper>` :func:`element()` and :func:`elements()` now return NULL instead of FALSE when the required elements don't exist.
    -  :doc:`Language Helper <helpers/language_helper>` :func:`lang()` now accepts an optional list of additional HTML attributes.
-   -  Changed the default tag for use in :doc:`Text Helper <helpers/text_helper>` :func:`highlight_phrase()` to ``<mark>`` (formerly ``<strong>``).
    -  Deprecated the :doc:`Email Helper <helpers/email_helper>` as its ``valid_email()``, ``send_email()`` functions are now only aliases for PHP native functions ``filter_var()`` and ``mail()`` respectively.
 
 -  Database
@@ -499,7 +504,7 @@ Release Date: Not Released
       -  ``UTF8_ENABLED`` now requires only one of `Multibyte String <http://php.net/mbstring>`_ or `iconv <http://php.net/iconv>`_ to be available instead of both.
       -  Changed method ``clean_string()`` to utilize ``mb_convert_encoding()`` if it is available but ``iconv()`` is not.
 
-   -  Added compatibility layers for PHP's `Multibyte string <http://php.net/mbstring>`_ (limited support) and `Password Hashing <http://php.net/password>` extensions.
+   -  Added compatibility layers for PHP's `mbstring <http://php.net/mbstring>`_ (limited support) and `password <http://php.net/password>`_ extensions.
    -  Removed ``CI_CORE`` boolean constant from *CodeIgniter.php* (no longer Reactor and Core versions).
    -  Log Library will now try to create the **log_path** directory if it doesn't exist.
    -  Added support for HTTP-Only cookies with new config option *cookie_httponly* (default FALSE).
