@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -282,8 +282,7 @@ abstract class CI_DB_utility {
 		extract($params);
 
 		// Load the xml helper
-		$CI =& get_instance();
-		$CI->load->helper('xml');
+		get_instance()->load->helper('xml');
 
 		// Generate the result
 		$xml = '<'.$root.'>'.$newline;

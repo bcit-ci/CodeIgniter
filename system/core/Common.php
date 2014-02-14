@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -76,6 +76,7 @@ if ( ! function_exists('is_really_writable'))
 	 * the file, based on the read-only attribute. is_writable() is also unreliable
 	 * on Unix servers if safe_mode is on.
 	 *
+	 * @link	https://bugs.php.net/bug.php?id=54709
 	 * @param	string
 	 * @return	void
 	 */
@@ -355,6 +356,24 @@ if ( ! function_exists('is_https'))
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('is_cli'))
+{
+
+	/**
+	 * Is CLI?
+	 *
+	 * Test to see if a request was made from the command line.
+	 *
+	 * @return 	bool
+	 */
+	function is_cli()
+	{
+		return (PHP_SAPI === 'cli' OR defined('STDIN'));
+	}
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('show_error'))
 {
 	/**
@@ -429,7 +448,6 @@ if ( ! function_exists('log_message'))
 	 *
 	 * @param	string	the error level: 'error', 'debug' or 'info'
 	 * @param	string	the error message
-	 * @param	bool	whether the error is a native PHP error
 	 * @return	void
 	 */
 	function log_message($level, $message)
@@ -550,14 +568,27 @@ if ( ! function_exists('_exception_handler'))
 	 * to display errors based on the current error_reporting level.
 	 * We do that with the use of a PHP error template.
 	 *
-	 * @param	int
-	 * @param	string
-	 * @param	string
-	 * @param	int
+	 * @param	int	$severity
+	 * @param	string	$message
+	 * @param	string	$filepath
+	 * @param	int	$line
 	 * @return	void
 	 */
 	function _exception_handler($severity, $message, $filepath, $line)
 	{
+		$is_error = (((E_ERROR | E_COMPILE_ERROR | E_CORE_ERROR | E_USER_ERROR) & $severity) === $severity);
+
+		// When an error occurred, set the status header to '500 Internal Server Error'
+		// to indicate to the client something went wrong.
+		// This can't be done within the $_error->show_php_error method because
+		// it is only called when the display_errors flag is set (which isn't usually
+		// the case in a production environment) or when errors are ignored because
+		// they are above the error_reporting threshold.
+		if ($is_error)
+		{
+			set_status_header(500);
+		}
+
 		$_error =& load_class('Exceptions', 'core');
 
 		// Should we ignore the error? We'll get the current error_reporting
@@ -567,13 +598,21 @@ if ( ! function_exists('_exception_handler'))
 			return;
 		}
 
+		$_error->log_exception($severity, $message, $filepath, $line);
+
 		// Should we display the error?
 		if ((bool) ini_get('display_errors') === TRUE)
 		{
 			$_error->show_php_error($severity, $message, $filepath, $line);
 		}
 
-		$_error->log_exception($severity, $message, $filepath, $line);
+		// If the error is fatal, the execution of the script should be stopped because
+		// errors can't be recovered from. Halting the script conforms with PHP's
+		// default error handling. See http://www.php.net/manual/en/errorfunc.constants.php
+		if ($is_error)
+		{
+			exit(EXIT_ERROR);
+		}
 	}
 }
 
@@ -588,7 +627,7 @@ if ( ! function_exists('_shutdown_handler'))
 	 * of CodeIgniter.php. The main reason we use this is to simulate
 	 * a complete custom exception handler.
 	 *
-	 * E_STRICT is purposivly neglected because such events may have 
+	 * E_STRICT is purposivly neglected because such events may have
 	 * been caught. Duplication or none? None is preferred for now.
 	 *
 	 * @link	http://insomanic.me.uk/post/229851073/php-trick-catching-fatal-errors-e-error-with-a
@@ -596,7 +635,7 @@ if ( ! function_exists('_shutdown_handler'))
 	 */
 	function _shutdown_handler()
 	{
-		$last_error = function_exists('error_get_last') ? error_get_last() : NULL;
+		$last_error = error_get_last();
 		if (isset($last_error) &&
 			($last_error['type'] & (E_ERROR | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING)))
 		{
@@ -716,6 +755,11 @@ if ( ! function_exists('function_usable'))
 	 * setting, but not for *suhosin.executor.func.blacklist* and
 	 * *suhosin.executor.disable_eval*. These settings will just
 	 * terminate script execution if a disabled function is executed.
+	 *
+	 * The above described behavior turned out to be a bug in Suhosin,
+	 * but even though a fix was commited for 0.9.34 on 2012-02-12,
+	 * that version is yet to be released. This function will therefore
+	 * be just temporary, but would probably be kept for a few years.
 	 *
 	 * @link	http://www.hardened-php.net/suhosin/
 	 * @param	string	$function_name	Function to check for

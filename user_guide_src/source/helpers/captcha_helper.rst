@@ -5,55 +5,24 @@ CAPTCHA Helper
 The CAPTCHA Helper file contains functions that assist in creating
 CAPTCHA images.
 
-.. contents:: Page Contents
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
 
 Loading this Helper
 ===================
 
-This helper is loaded using the following code
-::
+This helper is loaded using the following code::
 
 	$this->load->helper('captcha');
 
-The following functions are available:
-
-create_captcha()
-================
-
-.. php:function:: function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = '')
-
-	:param	array	$data: Array of data for the CAPTCHA
-	:param	string	$img_path: Path to create the image in
-	:param	string	$img_url: URL to the CAPTCHA image folder
-	:param	string	$font_path: Server path to font
-	:returns:	array('word' => $word, 'time' => $now, 'image' => $img)
-
-Takes an array of information to generate the CAPTCHA as input and
-creates the image to your specifications, returning an array of
-associative data about the image.
-
-::
-
-	array(
-		'image'	=> IMAGE TAG
-		'time'	=> TIMESTAMP (in microtime)
-		'word'	=> CAPTCHA WORD
-	)
-
-The **image** is the actual image tag::
-
-	<img src="http://example.com/captcha/12345.jpg" width="140" height="50" />
-
-The **time** is the micro timestamp used as the image name without the
-file extension. It will be a number like this: 1139612155.3422
-
-The **word** is the word that appears in the captcha image, which if not
-supplied to the function, will be a random string.
-
 Using the CAPTCHA helper
-------------------------
+========================
 
-Once loaded you can generate a captcha like this::
+Once loaded you can generate a CAPTCHA like this::
 
 	$vals = array(
 		'word'		=> 'Random word',
@@ -132,7 +101,7 @@ CAPTCHA will be shown you'll have something like this::
 	$this->db->query($query);
 
 	echo 'Submit the word you see below:';
-	echo $cap['image']; 
+	echo $cap['image'];
 	echo '<input type="text" name="captcha" value="" />';
 
 Then, on the page that accepts the submission you'll have something like
@@ -153,3 +122,39 @@ this::
 	{     
 		echo 'You must submit the word that appears in the image.';
 	}
+
+Available Functions
+===================
+
+The following functions are available:
+
+.. function:: create_captcha([$data = ''[, $img_path = ''[, $img_url = ''[, $font_path = '']]]])
+
+	:param	array	$data: Array of data for the CAPTCHA
+	:param	string	$img_path: Path to create the image in
+	:param	string	$img_url: URL to the CAPTCHA image folder
+	:param	string	$font_path: Server path to font
+	:returns:	array('word' => $word, 'time' => $now, 'image' => $img)
+	:rtype:	array
+
+	Takes an array of information to generate the CAPTCHA as input and
+	creates the image to your specifications, returning an array of
+	associative data about the image.
+
+	::
+
+		array(
+			'image'	=> IMAGE TAG
+			'time'	=> TIMESTAMP (in microtime)
+			'word'	=> CAPTCHA WORD
+		)
+
+	The **image** is the actual image tag::
+
+		<img src="http://example.com/captcha/12345.jpg" width="140" height="50" />
+
+	The **time** is the micro timestamp used as the image name without the
+	file extension. It will be a number like this: 1139612155.3422
+
+	The **word** is the word that appears in the captcha image, which if not
+	supplied to the function, will be a random string.

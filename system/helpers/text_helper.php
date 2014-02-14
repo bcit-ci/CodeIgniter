@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -85,7 +85,7 @@ if ( ! function_exists('character_limiter'))
 	 */
 	function character_limiter($str, $n = 500, $end_char = '&#8230;')
 	{
-		if (strlen($str) < $n)
+		if (mb_strlen($str) < $n)
 		{
 			return $str;
 		}
@@ -93,7 +93,7 @@ if ( ! function_exists('character_limiter'))
 		// a bit complicated, but faster than preg_replace with \s+
 		$str = preg_replace('/ {2,}/', ' ', str_replace(array("\r", "\n", "\t", "\x0B", "\x0C"), ' ', $str));
 
-		if (strlen($str) <= $n)
+		if (mb_strlen($str) <= $n)
 		{
 			return $str;
 		}
@@ -103,10 +103,10 @@ if ( ! function_exists('character_limiter'))
 		{
 			$out .= $val.' ';
 
-			if (strlen($out) >= $n)
+			if (mb_strlen($out) >= $n)
 			{
 				$out = trim($out);
-				return (strlen($out) === strlen($str)) ? $out : $out.$end_char;
+				return (mb_strlen($out) === mb_strlen($str)) ? $out : $out.$end_char;
 			}
 		}
 	}
@@ -127,7 +127,7 @@ if ( ! function_exists('ascii_to_entities'))
 	function ascii_to_entities($str)
 	{
 		$out = '';
-		for ($i = 0, $s = strlen($str), $count = 1, $temp = array(); $i < $s; $i++)
+		for ($i = 0, $s = strlen($str) - 1, $count = 1, $temp = array(); $i <= $s; $i++)
 		{
 			$ordinal = ord($str[$i]);
 
@@ -163,6 +163,11 @@ if ( ! function_exists('ascii_to_entities'))
 					$out .= '&#'.$number.';';
 					$count = 1;
 					$temp = array();
+				}
+				// If this is the last iteration, just output whatever we have
+				elseif ($i === $s)
+				{
+					$out .= '&#'.implode(';', $temp).';';
 				}
 			}
 		}
@@ -329,25 +334,17 @@ if ( ! function_exists('highlight_phrase'))
 	 *
 	 * Highlights a phrase within a text string
 	 *
-	 * @param	string	the text string
-	 * @param	string	the phrase you'd like to highlight
-	 * @param	string	the openging tag to precede the phrase with
-	 * @param	string	the closing tag to end the phrase with
+	 * @param	string	$str		the text string
+	 * @param	string	$phrase		the phrase you'd like to highlight
+	 * @param	string	$tag_open	the openging tag to precede the phrase with
+	 * @param	string	$tag_close	the closing tag to end the phrase with
 	 * @return	string
 	 */
-	function highlight_phrase($str, $phrase, $tag_open = '<strong>', $tag_close = '</strong>')
+	function highlight_phrase($str, $phrase, $tag_open = '<mark>', $tag_close = '</mark>')
 	{
-		if ($str === '')
-		{
-			return '';
-		}
-
-		if ($phrase !== '')
-		{
-			return preg_replace('/('.preg_quote($phrase, '/').')/i', $tag_open.'\\1'.$tag_close, $str);
-		}
-
-		return $str;
+		return ($str !== '' && $phrase !== '')
+			? preg_replace('/('.preg_quote($phrase, '/').')/i', $tag_open.'\\1'.$tag_close, $str)
+			: $str;
 	}
 }
 
@@ -448,14 +445,14 @@ if ( ! function_exists('word_wrap'))
 		{
 			// Is the line within the allowed character count?
 			// If so we'll join it to the output and continue
-			if (strlen($line) <= $charlim)
+			if (mb_strlen($line) <= $charlim)
 			{
 				$output .= $line."\n";
 				continue;
 			}
 
 			$temp = '';
-			while ((strlen($line)) > $charlim)
+			while (mb_strlen($line) > $charlim)
 			{
 				// If the over-length word is a URL we won't wrap it
 				if (preg_match('!\[url.+\]|://|wwww.!', $line))
@@ -464,8 +461,8 @@ if ( ! function_exists('word_wrap'))
 				}
 
 				// Trim the word down
-				$temp .= substr($line, 0, $charlim - 1);
-				$line = substr($line, $charlim - 1);
+				$temp .= mb_substr($line, 0, $charlim - 1);
+				$line = mb_substr($line, $charlim - 1);
 			}
 
 			// If $temp contains data it means we had to split up an over-length
@@ -515,21 +512,21 @@ if ( ! function_exists('ellipsize'))
 		$str = trim(strip_tags($str));
 
 		// Is the string long enough to ellipsize?
-		if (strlen($str) <= $max_length)
+		if (mb_strlen($str) <= $max_length)
 		{
 			return $str;
 		}
 
-		$beg = substr($str, 0, floor($max_length * $position));
+		$beg = mb_substr($str, 0, floor($max_length * $position));
 		$position = ($position > 1) ? 1 : $position;
 
 		if ($position === 1)
 		{
-			$end = substr($str, 0, -($max_length - strlen($beg)));
+			$end = mb_substr($str, 0, -($max_length - mb_strlen($beg)));
 		}
 		else
 		{
-			$end = substr($str, -($max_length - strlen($beg)));
+			$end = mb_substr($str, -($max_length - mb_strlen($beg)));
 		}
 
 		return $beg.$ellipsis.$end;

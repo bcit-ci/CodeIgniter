@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -624,7 +624,14 @@ abstract class CI_DB_driver {
 				// if transactions are enabled. If we don't call this here
 				// the error message will trigger an exit, causing the
 				// transactions to remain in limbo.
-				$this->_trans_depth > 0 && $this->trans_complete();
+				if ($this->_trans_depth !== 0)
+				{
+					do
+					{
+						$this->trans_complete();
+					}
+					while ($this->_trans_depth !== 0);
+				}
 
 				// Display errors
 				return $this->display_error(array('Error Number: '.$error['code'], $error['message'], $sql));
@@ -917,7 +924,7 @@ abstract class CI_DB_driver {
 	 */
 	public function is_write_type($sql)
 	{
-		return (bool) preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|TRUNCATE|LOAD|COPY|ALTER|RENAME|GRANT|REVOKE|LOCK|UNLOCK|REINDEX)\s+/i', $sql);
+		return (bool) preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|TRUNCATE|LOAD|COPY|ALTER|RENAME|GRANT|REVOKE|LOCK|UNLOCK|REINDEX)\s/i', $sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -1135,7 +1142,7 @@ abstract class CI_DB_driver {
 				else
 				{
 					/* We have no other choice but to just get the first element's key.
-					 * Due to array_shift() accepting it's argument by reference, if
+					 * Due to array_shift() accepting its argument by reference, if
 					 * E_STRICT is on, this would trigger a warning. So we'll have to
 					 * assign it first.
 					 */
@@ -1414,7 +1421,7 @@ abstract class CI_DB_driver {
 	 */
 	protected function _has_operator($str)
 	{
-		return (bool) preg_match('/(<|>|!|=|\sIS NULL|\sIS NOT NULL|\sBETWEEN|\sLIKE|\sIN\s*\(|\s)/i', trim($str));
+		return (bool) preg_match('/(<|>|!|=|\sIS NULL|\sIS NOT NULL|\sEXISTS|\sBETWEEN|\sLIKE|\sIN\s*\(|\s)/i', trim($str));
 	}
 
 	// --------------------------------------------------------------------
@@ -1440,6 +1447,8 @@ abstract class CI_DB_driver {
 				'\s*>\s*',			// >
 				'\s+IS NULL',			// IS NULL
 				'\s+IS NOT NULL',		// IS NOT NULL
+				'\s+EXISTS\s*\([^\)]+\)',	// EXISTS(sql)
+				'\s+NOT EXISTS\s*\([^\)]+\)',	// NOT EXISTS(sql)
 				'\s+BETWEEN\s+\S+\s+AND\s+\S+',	// BETWEEN value AND value
 				'\s+IN\s*\([^\)]+\)',		// IN(list)
 				'\s+NOT IN\s*\([^\)]+\)',	// NOT IN (list)
@@ -1476,7 +1485,7 @@ abstract class CI_DB_driver {
 		}
 
 		return (func_num_args() > 1)
-			? call_user_func_array($function, array_splice(func_get_args(), 1))
+			? call_user_func_array($function, array_slice(func_get_args(), 1))
 			: call_user_func($function);
 	}
 

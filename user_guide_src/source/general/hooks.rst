@@ -59,7 +59,7 @@ defined in your associative hook array:
 Multiple Calls to the Same Hook
 ===============================
 
-If want to use the same hook point with more then one script, simply
+If want to use the same hook point with more than one script, simply
 make your array declaration multi-dimensional, like this::
 
 	$hook['pre_controller'][] = array(

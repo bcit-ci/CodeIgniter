@@ -33,7 +33,7 @@ PHP Style
 =========
 
 All code must meet the `Style Guide
-<http://codeigniter.com/user_guide/general/styleguide.html>`_, which is
+<http://ellislab.com/codeigniter/user-guide/general/styleguide.html>`_, which is
 essentially the `Allman indent style
 <http://en.wikipedia.org/wiki/Indent_style#Allman_style>`_, underscores and
 readable operators. This makes certain that all code is the same format as the

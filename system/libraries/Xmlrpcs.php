@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -384,17 +384,13 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 			{
 				return call_user_func(array($this, $method_parts[1]), $m);
 			}
+			elseif ($this->object === FALSE)
+			{
+				return get_instance()->$method_parts[1]($m);
+			}
 			else
 			{
-				if ($this->object === FALSE)
-				{
-					$CI =& get_instance();
-					return $CI->$method_parts[1]($m);
-				}
-				else
-				{
-					return $this->object->$method_parts[1]($m);
-				}
+				return $this->object->$method_parts[1]($m);
 			}
 		}
 		else

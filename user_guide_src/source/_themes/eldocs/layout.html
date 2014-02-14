@@ -31,7 +31,7 @@
 	    {%- for cssfile in css_files %}
 	    <link rel="stylesheet" href="{{ pathto(cssfile, 1) }}" type="text/css" />
 	    {%- endfor %}
-	
+
     {%- if not embedded %}
 	    <script type="text/javascript">
 	      var DOCUMENTATION_OPTIONS = {
@@ -46,11 +46,13 @@
 	    <script type="text/javascript" src="{{ pathto(scriptfile, 1) }}"></script>
 	    {%- endfor %}
 
+	    <script type="text/javascript" src="{{ pathto('_static/asset/js/method-toc.js', 1) }}"></script>
+
 	    {%- if favicon %}
 	    <link rel="shortcut icon" href="{{ pathto('_static/' + favicon, 1) }}"/>
 	    {%- endif %}
 	{%- endif %}
-	
+
 	{%- block linktags %}
 	    {%- if hasdoc('about') %}
 	    <link rel="author" title="{{ _('About these documents') }}" href="{{ pathto('about') }}" />
@@ -96,7 +98,7 @@
 				{%- block rootrellink %}
 				<li><a href="{{ pathto(master_doc) }}">User Guide Home</a>{%- if pagename != 'index' %}&nbsp;&nbsp;{{ reldelim1 }}{%- endif %}</li>
 				{%- endblock %}
-				
+
 				{%- for parent in parents %}
 				<li><a href="{{ parent.link|e }}" {% if loop.last %}{{ accesskey("U") }}{% endif %}>{{ parent.title }}</a>&nbsp;&nbsp; {{ reldelim1 }}</li>
 		        {%- endfor %}
@@ -117,8 +119,8 @@
 		{% if pagename not in exclude_comments -%}
 		<!-- {user_guide_comments} -->
 		{% endif %}
-	
-	{%- block footer %}			
+
+	{%- block footer %}
 		<div id="footer">
 			<p class="top"><a href="#header" title="Return to top">Return to top</a></p>
 			<p><a href="http://{{ project_domain }}/">{{ project }}</a> &ndash; Copyright &copy; {{ copyright }}</a></p>

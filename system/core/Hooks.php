@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -52,6 +52,13 @@ class CI_Hooks {
 	 * @var	array
 	 */
 	public $hooks =	array();
+
+	/**
+	 * Array with class objects to use hooks methods
+	 *
+	 * @var array
+	 */
+	protected $_objects = array();
 
 	/**
 	 * In progress flag
@@ -184,7 +191,7 @@ class CI_Hooks {
 		$function	= empty($data['function']) ? FALSE : $data['function'];
 		$params		= isset($data['params']) ? $data['params'] : '';
 
-		if ($class === FALSE && $function === FALSE)
+		if (empty($function))
 		{
 			return FALSE;
 		}
@@ -195,19 +202,39 @@ class CI_Hooks {
 		// Call the requested class and/or function
 		if ($class !== FALSE)
 		{
-			if ( ! class_exists($class, FALSE))
+			// The object is stored?
+			if (isset($this->_objects[$class]))
 			{
-				require($filepath);
+				if (method_exists($this->_objects[$class], $function))
+				{
+					$this->_objects[$class]->$function($params);
+				}
+				else
+				{
+					return $this->_in_progress = FALSE;
+				}
 			}
+			else
+			{
+				class_exists($class, FALSE) OR require_once($filepath);
 
-			$HOOK = new $class();
-			$HOOK->$function($params);
+				if ( ! class_exists($class, FALSE) OR ! method_exists($class, $function))
+				{
+					return $this->_in_progress = FALSE;
+				}
+
+				// Store the object and execute the method
+				$this->_objects[$class] = new $class();
+				$this->_objects[$class]->$function($params);
+			}
 		}
 		else
 		{
+			function_exists($function) OR require_once($filepath);
+
 			if ( ! function_exists($function))
 			{
-				require($filepath);
+				return $this->_in_progress = FALSE;
 			}
 
 			$function($params);

@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 2.0
@@ -48,28 +48,10 @@ class CI_Utf8 {
 	 */
 	public function __construct()
 	{
-		log_message('debug', 'Utf8 Class Initialized');
-
-		$charset = strtoupper(config_item('charset'));
-
-		// set internal encoding for multibyte string functions if necessary
-		// and set a flag so we don't have to repeatedly use extension_loaded()
-		// or function_exists()
-		if (extension_loaded('mbstring'))
-		{
-			define('MB_ENABLED', TRUE);
-			mb_internal_encoding($charset);
-		}
-		else
-		{
-			define('MB_ENABLED', FALSE);
-		}
-
 		if (
-			@preg_match('/./u', 'é') === 1	// PCRE must support UTF-8
-			&& function_exists('iconv')	// iconv must be installed
-			&& MB_ENABLED === TRUE		// mbstring must be enabled
-			&& $charset === 'UTF-8'		// Application charset must be UTF-8
+			defined('PREG_BAD_UTF8_ERROR')				// PCRE must support UTF-8
+			&& (ICONV_ENABLED === TRUE OR MB_ENABLED === TRUE)	// iconv or mbstring must be installed
+			&& strnatcasecmp(config_item('charset'), 'UTF-8') === 0	// Application charset must be UTF-8
 			)
 		{
 			define('UTF8_ENABLED', TRUE);
@@ -80,6 +62,8 @@ class CI_Utf8 {
 			define('UTF8_ENABLED', FALSE);
 			log_message('debug', 'UTF-8 Support Disabled');
 		}
+
+		log_message('debug', 'Utf8 Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -98,7 +82,14 @@ class CI_Utf8 {
 	{
 		if ($this->_is_ascii($str) === FALSE)
 		{
-			$str = @iconv('UTF-8', 'UTF-8//IGNORE', $str);
+			if (ICONV_ENABLED)
+			{
+				$str = @iconv('UTF-8', 'UTF-8//IGNORE', $str);
+			}
+			elseif (MB_ENABLED)
+			{
+				$str = mb_convert_encoding($str, 'UTF-8', 'UTF-8');
+			}
 		}
 
 		return $str;
@@ -134,7 +125,7 @@ class CI_Utf8 {
 	 */
 	public function convert_to_utf8($str, $encoding)
 	{
-		if (function_exists('iconv'))
+		if (ICONV_ENABLED)
 		{
 			return @iconv($encoding, 'UTF-8', $str);
 		}

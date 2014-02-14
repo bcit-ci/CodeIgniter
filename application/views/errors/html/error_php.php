@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/AFL-3.0 Academic Free License (AFL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -38,11 +38,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === TRUE): ?>
 
-	<p>Backtrace: </p>
-	<?php foreach(debug_backtrace() as $error): ?>
+	<p>Backtrace:</p>
+	<?php foreach (debug_backtrace() as $error): ?>
 
-		<?php if(isset($error['file']) &&
-		         strpos($error['file'], realpath(BASEPATH)) !== 0): ?>
+		<?php if (isset($error['file']) && strpos($error['file'], realpath(BASEPATH)) !== 0): ?>
 
 			<p style="margin-left:10px">
 			File: <?php echo $error['file'] ?><br />

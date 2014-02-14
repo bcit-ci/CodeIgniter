@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -82,7 +82,7 @@ if ( ! function_exists('create_captcha'))
 		}
 
 		if ($img_path === '' OR $img_url === ''
-			OR ! @is_dir($img_path) OR ! is_writeable($img_path)
+			OR ! @is_dir($img_path) OR ! is_really_writable($img_path)
 			OR ! extension_loaded('gd'))
 		{
 			return FALSE;
@@ -126,9 +126,9 @@ if ( ! function_exists('create_captcha'))
 		// Determine angle and position
 		// -----------------------------------
 		$length	= strlen($word);
-		$angle	= ($length >= 6) ? rand(-($length-6), ($length-6)) : 0;
-		$x_axis	= rand(6, (360/$length)-16);
-		$y_axis = ($angle >= 0) ? rand($img_height, $img_width) : rand(6, $img_height);
+		$angle	= ($length >= 6) ? mt_rand(-($length-6), ($length-6)) : 0;
+		$x_axis	= mt_rand(6, (360/$length)-16);
+		$y_axis = ($angle >= 0) ? mt_rand($img_height, $img_width) : mt_rand(6, $img_height);
 
 		// Create image
 		// PHP.net recommends imagecreatetruecolor(), but it isn't always available
@@ -183,13 +183,13 @@ if ( ! function_exists('create_captcha'))
 		if ($use_font === FALSE)
 		{
 			$font_size = 5;
-			$x = rand(0, $img_width / ($length / 3));
+			$x = mt_rand(0, $img_width / ($length / 3));
 			$y = 0;
 		}
 		else
 		{
 			$font_size = 16;
-			$x = rand(0, $img_width / ($length / 1.5));
+			$x = mt_rand(0, $img_width / ($length / 1.5));
 			$y = $font_size + 2;
 		}
 
@@ -197,13 +197,13 @@ if ( ! function_exists('create_captcha'))
 		{
 			if ($use_font === FALSE)
 			{
-				$y = rand(0 , $img_height / 2);
+				$y = mt_rand(0 , $img_height / 2);
 				imagestring($im, $font_size, $x, $y, $word[$i], $colors['text']);
 				$x += ($font_size * 2);
 			}
 			else
 			{
-				$y = rand($img_height / 2, $img_height - 3);
+				$y = mt_rand($img_height / 2, $img_height - 3);
 				imagettftext($im, $font_size, $angle, $x, $y, $colors['text'], $font_path, $word[$i]);
 				$x += $font_size;
 			}
@@ -215,12 +215,12 @@ if ( ! function_exists('create_captcha'))
 		// -----------------------------------
 		//  Generate the image
 		// -----------------------------------
-		$img_name = $now.'.jpg';
-		ImageJPEG($im, $img_path.$img_name);
-		$img = '<img src="'.$img_url.$img_name.'" style="width: '.$img_width.'; height: '.$img_height .'; border: 0;" alt=" " />';
+		$img_filename = $now.'.jpg';
+		ImageJPEG($im, $img_path.$img_filename);
+		$img = '<img src="'.$img_url.$img_filename.'" style="width: '.$img_width.'; height: '.$img_height .'; border: 0;" alt=" " />';
 		ImageDestroy($im);
 
-		return array('word' => $word, 'time' => $now, 'image' => $img);
+		return array('word' => $word, 'time' => $now, 'image' => $img, 'filename' => $img_filename);
 	}
 }
 

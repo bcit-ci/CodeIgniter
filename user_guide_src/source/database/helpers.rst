@@ -3,7 +3,7 @@ Query Helper Functions
 ######################
 
 $this->db->insert_id()
-=======================
+======================
 
 The insert ID number when performing database inserts.
 
@@ -12,7 +12,7 @@ The insert ID number when performing database inserts.
 	appropriate sequence to check for the insert id.
 
 $this->db->affected_rows()
-===========================
+==========================
 
 Displays the number of affected rows, when doing "write" type queries
 (insert, update, etc.).
@@ -22,8 +22,8 @@ Displays the number of affected rows, when doing "write" type queries
 	affected rows. By default this hack is enabled but it can be turned off
 	in the database driver file.
 
-$this->db->count_all();
-========================
+$this->db->count_all()
+======================
 
 Permits you to determine the number of rows in a particular table.
 Submit the table name in the first parameter. Example::
@@ -47,8 +47,8 @@ Outputs the database version you are running::
 
 	echo $this->db->version();
 
-$this->db->last_query();
-=========================
+$this->db->last_query()
+=======================
 
 Returns the last query that was run (the query string, not the result).
 Example::
@@ -57,11 +57,12 @@ Example::
 	
 	// Produces:  SELECT * FROM sometable....
 
-The following two functions help simplify the process of writing
-database INSERTs and UPDATEs.
 
-$this->db->insert_string();
-============================
+.. note:: Disabling the **save_queries** setting in your database
+	configuration will render this function useless.
+
+$this->db->insert_string()
+==========================
 
 This function simplifies the process of writing database inserts. It
 returns a correctly formatted SQL insert string. Example::
@@ -77,8 +78,8 @@ array with the data to be inserted. The above example produces::
 
 .. note:: Values are automatically escaped, producing safer queries.
 
-$this->db->update_string();
-============================
+$this->db->update_string()
+==========================
 
 This function simplifies the process of writing database updates. It
 returns a correctly formatted SQL update string. Example::

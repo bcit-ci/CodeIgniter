@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -65,6 +65,15 @@ class CI_DB_mysql_driver extends CI_DB {
 	 * @var	bool
 	 */
 	public $delete_hack = TRUE;
+
+	/**
+	 * Strict ON flag
+	 *
+	 * Whether we're running in strict SQL mode.
+	 *
+	 * @var	bool
+	 */
+	public $stricton = FALSE;
 
 	// --------------------------------------------------------------------
 
@@ -124,6 +133,11 @@ class CI_DB_mysql_driver extends CI_DB {
 			return ($this->db_debug === TRUE)
 				? $this->display_error('db_unable_to_select', $this->database)
 				: FALSE;
+		}
+
+		if ($this->stricton && is_resource($this->conn_id))
+		{
+			$this->simple_query('SET SESSION sql_mode="STRICT_ALL_TABLES"');
 		}
 
 		return $this->conn_id;

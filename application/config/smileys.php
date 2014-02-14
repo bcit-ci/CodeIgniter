@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/AFL-3.0 Academic Free License (AFL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------
@@ -83,7 +84,7 @@ $smileys = array(
 	':coolcheese:'	=>	array('shade_cheese.gif',	'19',	'19',	'cool cheese'),
 	':vampire:'		=>	array('vampire.gif',		'19',	'19',	'vampire'),
 	':snake:'		=>	array('snake.gif',			'19',	'19',	'snake'),
-	':exclaim:'		=>	array('exclaim.gif',		'19',	'19',	'excaim'),
+	':exclaim:'		=>	array('exclaim.gif',		'19',	'19',	'exclaim'),
 	':question:'	=>	array('question.gif',		'19',	'19',	'question')
 
 );

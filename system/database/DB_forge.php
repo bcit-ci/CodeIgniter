@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -314,9 +314,10 @@ abstract class CI_DB_forge {
 	 *
 	 * @param	string	$table		Table name
 	 * @param	bool	$if_not_exists	Whether to add IF NOT EXISTS condition
+	 * @param	array	$attributes	Associative array of table attributes
 	 * @return	bool
 	 */
-	public function create_table($table = '', $if_not_exists = FALSE)
+	public function create_table($table = '', $if_not_exists = FALSE, array $attributes = array())
 	{
 		if ($table === '')
 		{
@@ -332,7 +333,7 @@ abstract class CI_DB_forge {
 			show_error('Field information is required.');
 		}
 
-		$sql = $this->_create_table($table, $if_not_exists);
+		$sql = $this->_create_table($table, $if_not_exists, $attributes);
 
 		if (is_bool($sql))
 		{
@@ -368,9 +369,10 @@ abstract class CI_DB_forge {
 	 *
 	 * @param	string	$table		Table name
 	 * @param	bool	$if_not_exists	Whether to add 'IF NOT EXISTS' condition
+	 * @param	array	$attributes	Associative array of table attributes
 	 * @return	mixed
 	 */
-	protected function _create_table($table, $if_not_exists)
+	protected function _create_table($table, $if_not_exists, $attributes)
 	{
 		if ($if_not_exists === TRUE && $this->_create_table_if === FALSE)
 		{
@@ -406,11 +408,35 @@ abstract class CI_DB_forge {
 		}
 
 		// _create_table will usually have the following format: "%s %s (%s\n)"
-		$sql = sprintf($this->_create_table.';',
+		$sql = sprintf($this->_create_table.'%s;',
 			$sql,
 			$this->db->escape_identifiers($table),
-			$columns
+			$columns,
+			$this->_create_table_attr($attributes)
 		);
+
+		return $sql;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * CREATE TABLE attributes
+	 *
+	 * @param	array	$attributes	Associative array of table attributes
+	 * @return	string
+	 */
+	protected function _create_table_attr($attributes)
+	{
+		$sql = '';
+
+		foreach (array_keys($attributes) as $key)
+		{
+			if (is_string($key))
+			{
+				$sql .= ' '.strtoupper($key).' '.$attributes[$key];
+			}
+		}
 
 		return $sql;
 	}
@@ -740,6 +766,18 @@ abstract class CI_DB_forge {
 					'_literal'		=> FALSE
 			);
 
+			if ($create_table === FALSE)
+			{
+				if (isset($attributes['AFTER']))
+				{
+					$field['after'] = $attributes['AFTER'];
+				}
+				elseif (isset($attributes['FIRST']))
+				{
+					$field['first'] = (bool) $attributes['FIRST'];
+				}
+			}
+
 			$this->_attr_default($attributes, $field);
 
 			if (isset($attributes['NULL']))
@@ -748,10 +786,14 @@ abstract class CI_DB_forge {
 				{
 					$field['null'] = empty($this->_null) ? '' : ' '.$this->_null;
 				}
-				elseif ($create_table === TRUE)
+				else
 				{
 					$field['null'] = ' NOT NULL';
 				}
+			}
+			elseif ($create_table === TRUE)
+			{
+				$field['null'] = ' NOT NULL';
 			}
 
 			$this->_attr_auto_increment($attributes, $field);
@@ -968,7 +1010,6 @@ abstract class CI_DB_forge {
 	 */
 	protected function _process_indexes($table)
 	{
-		$table = $this->db->escape_identifiers($table);
 		$sqls = array();
 
 		for ($i = 0, $c = count($this->keys); $i < $c; $i++)
@@ -992,7 +1033,7 @@ abstract class CI_DB_forge {
 
 			is_array($this->keys[$i]) OR $this->keys[$i] = array($this->keys[$i]);
 
-			$sqls[] = 'CREATE INDEX '.$this->db->escape_identifiers(implode('_', $this->keys[$i]))
+			$sqls[] = 'CREATE INDEX '.$this->db->escape_identifiers($table.'_'.implode('_', $this->keys[$i]))
 				.' ON '.$this->db->escape_identifiers($table)
 				.' ('.implode(', ', $this->db->escape_identifiers($this->keys[$i])).');';
 		}

@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -144,14 +144,16 @@ class CI_Form_validation {
 	 * Set Rules
 	 *
 	 * This function takes an array of field names and validation
-	 * rules as input, validates the info, and stores it
+	 * rules as input, any custom error messages, validates the info, 
+	 * and stores it
 	 *
 	 * @param	mixed	$field
 	 * @param	string	$label
 	 * @param	mixed	$rules
+	 * @param	array	$errors
 	 * @return	CI_Form_validation
 	 */
-	public function set_rules($field, $label = '', $rules = '')
+	public function set_rules($field, $label = '', $rules = '', $errors = array())
 	{
 		// No reason to set rules if we have no POST data
 		// or a validation array has not been specified
@@ -175,8 +177,11 @@ class CI_Form_validation {
 				// If the field label wasn't passed we use the field name
 				$label = isset($row['label']) ? $row['label'] : $row['field'];
 
+				// Add the custom error message array
+				$errors = (isset($row['errors']) && is_array($row['errors'])) ? $row['errors'] : array();
+
 				// Here we go!
-				$this->set_rules($row['field'], $label, $row['rules']);
+				$this->set_rules($row['field'], $label, $row['rules'], $errors);
 			}
 
 			return $this;
@@ -224,6 +229,7 @@ class CI_Form_validation {
 			'field'		=> $field,
 			'label'		=> $label,
 			'rules'		=> $rules,
+			'errors'	=> $errors,
 			'is_array'	=> $is_array,
 			'keys'		=> $indexes,
 			'postdata'	=> NULL,
@@ -246,14 +252,16 @@ class CI_Form_validation {
 	 * each array due to the limitations of CI's singleton
 	 *
 	 * @param	array	$data
-	 * @return	void
+	 * @return	CI_Form_validation
 	 */
-	public function set_data($data = '')
+	public function set_data(array $data)
 	{
-		if ( ! empty($data) && is_array($data))
+		if ( ! empty($data))
 		{
 			$this->validation_data = $data;
 		}
+
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -304,12 +312,12 @@ class CI_Form_validation {
 	 *
 	 * Gets the error message associated with a particular field
 	 *
-	 * @param	string	the field name
-	 * @param	string	the html start tag
-	 * @param 	strign	the html end tag
+	 * @param	string	$field	Field name
+	 * @param	string	$prefix	HTML start tag
+	 * @param 	string	$suffix	HTML end tag
 	 * @return	string
 	 */
-	public function error($field = '', $prefix = '', $suffix = '')
+	public function error($field, $prefix = '', $suffix = '')
 	{
 		if (empty($this->_field_data[$field]['error']))
 		{
@@ -414,17 +422,14 @@ class CI_Form_validation {
 				return FALSE;
 			}
 
-			// Is there a validation rule for the particular URI being accessed?
-			$uri = ($group === '') ? trim($this->CI->uri->ruri_string(), '/') : $group;
+			if (empty($group))
+			{
+				// Is there a validation rule for the particular URI being accessed?
+				$group = trim($this->CI->uri->ruri_string(), '/');
+				isset($this->_config_rules[$group]) OR $group = $this->CI->router->class.'/'.$this->CI->router->method;
+			}
 
-			if ($uri !== '' && isset($this->_config_rules[$uri]))
-			{
-				$this->set_rules($this->_config_rules[$uri]);
-			}
-			else
-			{
-				$this->set_rules($this->_config_rules);
-			}
+			$this->set_rules(isset($this->_config_rules[$group]) ? $this->_config_rules[$group] : $this->_config_rules);
 
 			// Were we able to set the rules correctly?
 			if (count($this->_field_data) === 0)
@@ -605,7 +610,12 @@ class CI_Form_validation {
 				// Set the message type
 				$type = in_array('required', $rules) ? 'required' : 'isset';
 
-				if (isset($this->_error_messages[$type]))
+				// Check if a custom message is defined
+				if (isset($this->_field_data[$row['field']]['errors'][$type]))
+				{
+					$line = $this->_field_data[$row['field']]['errors'][$type];
+				}
+				elseif (isset($this->_error_messages[$type]))
 				{
 					$line = $this->_error_messages[$type];
 				}
@@ -749,7 +759,12 @@ class CI_Form_validation {
 			// Did the rule test negatively? If so, grab the error.
 			if ($result === FALSE)
 			{
-				if ( ! isset($this->_error_messages[$rule]))
+				// Check if a custom message is defined
+				if (isset($this->_field_data[$row['field']]['errors'][$rule]))
+				{
+					$line = $this->_field_data[$row['field']]['errors'][$rule];
+				}
+				elseif ( ! isset($this->_error_messages[$rule]))
 				{
 					if (FALSE === ($line = $this->CI->lang->line('form_validation_'.$rule))
 						// DEPRECATED support for non-prefixed keys
@@ -898,12 +913,19 @@ class CI_Form_validation {
 		}
 
 		$field = $this->_field_data[$field]['postdata'];
+		$value = (string) $value;
 		if (is_array($field))
 		{
-			if ( ! in_array($value, $field))
+			// Note: in_array('', array(0)) returns TRUE, do not use it
+			foreach ($field as &$v)
 			{
-				return '';
+				if ($value === $v)
+				{
+					return ' selected="selected"';
+				}
 			}
+
+			return '';
 		}
 		elseif (($field === '' OR $value === '') OR ($field !== $value))
 		{
@@ -934,12 +956,19 @@ class CI_Form_validation {
 		}
 
 		$field = $this->_field_data[$field]['postdata'];
+		$value = (string) $value;
 		if (is_array($field))
 		{
-			if ( ! in_array($value, $field))
+			// Note: in_array('', array(0)) returns TRUE, do not use it
+			foreach ($field as &$v)
 			{
-				return '';
+				if ($value === $v)
+				{
+					return ' checked="checked"';
+				}
 			}
+
+			return '';
 		}
 		elseif (($field === '' OR $value === '') OR ($field !== $value))
 		{
@@ -1509,7 +1538,7 @@ class CI_Form_validation {
 	 * Prevents subsequent validation routines from being affected by the
 	 * results of any previous validation routine due to the CI singleton.
 	 *
-	 * @return	void
+	 * @return	CI_Form_validation
 	 */
 	public function reset_validation()
 	{
@@ -1518,6 +1547,7 @@ class CI_Form_validation {
 		$this->_error_array = array();
 		$this->_error_messages = array();
 		$this->error_string = '';
+		return $this;
 	}
 
 }

@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -199,15 +199,13 @@ if ( ! function_exists('img'))
 		{
 			if ($k === 'src' && strpos($v, '://') === FALSE)
 			{
-				$CI =& get_instance();
-
 				if ($index_page === TRUE)
 				{
-					$img .= ' src="'.$CI->config->site_url($v).'"';
+					$img .= ' src="'.get_instance()->config->site_url($v).'"';
 				}
 				else
 				{
-					$img .= ' src="'.$CI->config->slash_item('base_url').$v.'"';
+					$img .= ' src="'.get_instance()->config->slash_item('base_url').$v.'"';
 				}
 			}
 			else

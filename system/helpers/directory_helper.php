@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -69,7 +69,7 @@ if ( ! function_exists('directory_map'))
 					continue;
 				}
 
-				@is_dir($source_dir.$file) AND $file .= DIRECTORY_SEPARATOR;
+				@is_dir($source_dir.$file) && $file .= DIRECTORY_SEPARATOR;
 
 				if (($directory_depth < 1 OR $new_depth > 0) && @is_dir($source_dir.$file))
 				{
