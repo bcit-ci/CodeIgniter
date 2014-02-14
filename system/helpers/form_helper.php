@@ -314,7 +314,7 @@ if ( ! function_exists('form_dropdown'))
 		$name = ! is_array($data) ? $data : '';
 		$defaults = array('name' => ( $name));
             
-		if ( is_array($data) && isset($data['selected']))
+		if ( is_array($data) AND isset($data['selected']) AND $data['selected'] !== NULL)
 		{
 			$selected = $data['selected'];
 			unset($data['selected']); // selects don't have a selected attribute
