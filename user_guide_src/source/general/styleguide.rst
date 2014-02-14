@@ -126,8 +126,7 @@ should be separated with an underscore, and not CamelCased.
 
 	class Super_class {
 
-		public function __construct()
-		{
+		public function __construct() {
 
 		}
 	}
@@ -332,10 +331,8 @@ Use **===** and **!==** as necessary.
 
 **CORRECT**::
 
-	function build_string($str = "")
-	{
-		if ($str === "")
-		{
+	function build_string($str = "") {
+		if ($str === "") {
 
 		}
 	}
@@ -410,11 +407,13 @@ same level as the control statement that "owns" them.
 
 **INCORRECT**::
 
-	function foo($bar) {
+	function foo($bar) 
+	{
 		// ...
 	}
 
-	foreach ($arr as $key => $val) {
+	foreach ($arr as $key => $val) 
+	{
 		// ...
 	}
 
@@ -432,48 +431,41 @@ same level as the control statement that "owns" them.
 			}
 		}
 		
-	try {
+	try 
+	{
 		// ...
 	}
-	catch() {
+	catch() 
+	{
 		// ...
 	}
 
 **CORRECT**::
 
-	function foo($bar)
-	{
+	function foo($bar) {
 		// ...
 	}
 
-	foreach ($arr as $key => $val)
-	{
+	foreach ($arr as $key => $val) {
 		// ...
 	}
 
-	if ($foo == $bar)
-	{
+	if ($foo == $bar) {
 		// ...
-	}
-	else
-	{
+	}else{
 		// ...
 	}
 
-	for ($i = 0; $i < 10; $i++)
-	{
-		for ($j = 0; $j < 10; $j++)
-		{
+	for ($i = 0; $i < 10; $i++) {
+		for ($j = 0; $j < 10; $j++){
 			// ...
 		}
 	}
 	
-	try 
-	{
+	try {
 		// ...
 	}
-	catch()
-	{
+	catch() {
 		// ...
 	}
 
@@ -502,9 +494,8 @@ functions and increase readability.
 	}
 
 **CORRECT**::
-
-	function foo($bar) // no spaces around parenthesis in function declarations
-	{
+	// no spaces around parenthesis in function declarations
+	function foo($bar) {
 
 	}
 
@@ -554,8 +545,7 @@ Make sure that your dev environment has error reporting enabled
 for ALL users, and that display_errors is enabled in the PHP
 environment. You can check this setting with::
 
-	if (ini_get('display_errors') == 1)
-	{
+	if (ini_get('display_errors') == 1) {
 		exit "Enabled";
 	}
 
