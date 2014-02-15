@@ -13,9 +13,4 @@ class Mock_Core_Utf8 extends CI_Utf8 {
 		defined('UTF8_ENABLED') OR define('UTF8_ENABLED', TRUE);
 	}
 
-	public function is_ascii_test($str)
-	{
-		return $this->_is_ascii($str);
-	}
-
 }
