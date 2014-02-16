@@ -287,6 +287,8 @@ if ( ! function_exists('form_multiselect'))
 	 */
 	function form_multiselect($name = '', $options = array(), $selected = array(), $extra = '')
 	{
+                $extra = _attributes_to_string($extra);
+                
 		if ( ! strpos($extra, 'multiple'))
 		{
 			$extra .= ' multiple="multiple"';
@@ -333,10 +335,14 @@ if ( ! function_exists('form_dropdown'))
 			$options = $data['options'];
 			unset($data['options']); // selects don't use an options attribute
 		}
+
+		is_array($options) OR $options = array($options);
+                
+                $extra = _attributes_to_string($extra);
             
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
  
-		$form = '<select '.rtrim(_parse_form_attributes($data, $defaults).$extra.$multiple).">\n";
+		$form = '<select '.trim(_parse_form_attributes($data, $defaults)).$extra.$multiple.">\n";
             
 		foreach ($options as $key => $val)
 		{
@@ -925,7 +931,7 @@ if ( ! function_exists('_attributes_to_string'))
 
 		if (is_string($attributes))
 		{
-			return ' '.$attributes;
+			return $attributes;
 		}
 
 		return FALSE;
