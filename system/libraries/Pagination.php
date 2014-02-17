@@ -344,7 +344,7 @@ class CI_Pagination {
 
 		foreach ($params as $key => $val)
 		{
-			if (property_exists($this, $this->$key))
+			if (property_exists($this, $key))
 			{
 				$this->$key = $val;
 			}
