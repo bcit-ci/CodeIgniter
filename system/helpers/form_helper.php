@@ -313,8 +313,8 @@ if ( ! function_exists('form_dropdown'))
 	{
 		$name = ! is_array($data) ? $data : '';
 		$defaults = array('name' => $name);
-            
-		if (is_array($data) && isset($data['selected']) && $data['selected'] !== NULL)
+
+		if (is_array($data) && isset($data['selected']))
 		{
 			$selected = $data['selected'];
 			unset($data['selected']); // selects don't have a selected attribute
@@ -327,7 +327,7 @@ if ( ! function_exists('form_dropdown'))
 		{
 			$selected = array($_POST[$name]);
 		}
-            
+
 		if (is_array($data) && isset($data['options']))
 		{
 			$options = $data['options'];
@@ -335,13 +335,13 @@ if ( ! function_exists('form_dropdown'))
 		}
 
 		is_array($options) OR $options = array($options);
-                
+
                 $extra = _attributes_to_string($extra);
-            
+
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
- 
+
 		$form = '<select '.trim(_parse_form_attributes($data, $defaults)).$extra.$multiple.">\n";
-            
+
 		foreach ($options as $key => $val)
 		{
 			$key = (string) $key;
@@ -359,7 +359,7 @@ if ( ! function_exists('form_dropdown'))
 				{
 					$sel = in_array($optgroup_key, $selected) ? ' selected="selected"' : '';
 					$form .= '<option value="'.form_prep($optgroup_key).'"'.$sel.'>'
-                                            .(string) $optgroup_val."</option>\n";
+						.(string) $optgroup_val."</option>\n";
 				}
 
 				$form .= "</optgroup>\n";
@@ -367,11 +367,11 @@ if ( ! function_exists('form_dropdown'))
 			else
 			{
 				$form .= '<option value="'.form_prep($key).'"'
-                                    .(in_array($key, $selected) ? ' selected="selected"' : '').'>'
-                                    .(string) $val."</option>\n";
+					.(in_array($key, $selected) ? ' selected="selected"' : '').'>'
+					.(string) $val."</option>\n";
 			}
 		}
-            
+
 		return $form."</select>\n";
 	}
 }
