@@ -294,6 +294,13 @@ class CI_Pagination {
 	 */
 	protected $data_page_attr	= 'data-ci-pagination-page';
 
+	/**
+	 * CI Singleton
+	 *
+	 * @var	object
+	 */
+	protected $CI;
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -304,11 +311,11 @@ class CI_Pagination {
 	 */
 	public function __construct($params = array())
 	{
-		$CI =& get_instance();
-		$CI->load->language('pagination');
+		$this->CI =& get_instance();
+		$this->CI->load->language('pagination');
 		foreach (array('first_link', 'next_link', 'prev_link', 'last_link') as $key)
 		{
-			if (($val = $CI->lang->line('pagination_'.$key)) !== FALSE)
+			if (($val = $this->CI->lang->line('pagination_'.$key)) !== FALSE)
 			{
 				$this->$key = $val;
 			}
@@ -350,6 +357,11 @@ class CI_Pagination {
 			}
 		}
 
+		if ($this->CI->config->item('enable_query_strings') === TRUE)
+		{
+			$this->page_query_string = TRUE;
+		}
+
 		return $this;
 	}
 
@@ -386,13 +398,11 @@ class CI_Pagination {
 			show_error('Your number of links must be a positive number.');
 		}
 
-		$CI =& get_instance();
-
 		// Keep any existing query string items.
 		// Note: Has nothing to do with any other query string option.
 		if ($this->reuse_query_string === TRUE)
 		{
-			$get = $CI->input->get();
+			$get = $this->CI->input->get();
 
 			// Unset the controll, method, old-school routing options
 			unset($get['c'], $get['m'], $get[$this->query_string_segment]);
@@ -411,7 +421,7 @@ class CI_Pagination {
 		$query_string_sep = (strpos($base_url, '?') === FALSE) ? '?' : '&amp;';
 
 		// Are we using query strings?
-		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
+		if ($this->page_query_string === TRUE)
 		{
 			// If a custom first_url hasn't been specified, we'll create one from
 			// the base_url, but without the page item.
@@ -459,19 +469,19 @@ class CI_Pagination {
 		$base_page = ($this->use_page_numbers) ? 1 : 0;
 
 		// Are we using query strings?
-		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
+		if ($this->page_query_string === TRUE)
 		{
-			$this->cur_page = $CI->input->get($this->query_string_segment);
+			$this->cur_page = $this->CI->input->get($this->query_string_segment);
 		}
 		else
 		{
 			// Default to the last segment number if one hasn't been defined.
 			if ($this->uri_segment === 0)
 			{
-				$this->uri_segment = count($CI->uri->segment_array());
+				$this->uri_segment = count($this->CI->uri->segment_array());
 			}
 
-			$this->cur_page = $CI->uri->segment($this->uri_segment);
+			$this->cur_page = $this->CI->uri->segment($this->uri_segment);
 
 			// Remove any specified prefix/suffix from the segment.
 			if ($this->prefix !== '' OR $this->suffix !== '')
@@ -629,8 +639,8 @@ class CI_Pagination {
 	{
 		isset($attributes['rel']) OR $attributes['rel'] = TRUE;
 		$this->_link_types = ($attributes['rel'])
-					? array('start' => 'start', 'prev' => 'prev', 'next' => 'next')
-					: array();
+			? array('start' => 'start', 'prev' => 'prev', 'next' => 'next')
+			: array();
 		unset($attributes['rel']);
 
 		$this->_attributes = '';
