@@ -311,8 +311,7 @@ if ( ! function_exists('form_dropdown'))
 	 */
 	function form_dropdown($data = '', $options = array(), $selected = array(), $extra = '')
 	{
-		$name = ! is_array($data) ? $data : '';
-		$defaults = array('name' => $name);
+		$defaults = array('name' => is_array($data) ? '' : $data);
 
 		if (is_array($data) && isset($data['selected']))
 		{
@@ -336,11 +335,11 @@ if ( ! function_exists('form_dropdown'))
 
 		is_array($options) OR $options = array($options);
 
-                $extra = _attributes_to_string($extra);
+		$extra = _attributes_to_string($extra);
 
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
 
-		$form = '<select '.trim(_parse_form_attributes($data, $defaults)).$extra.$multiple.">\n";
+		$form = '<select '.rtrim(_parse_form_attributes($data, $defaults)).$extra.$multiple.">\n";
 
 		foreach ($options as $key => $val)
 		{
