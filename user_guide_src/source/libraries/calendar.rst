@@ -100,7 +100,7 @@ preferences below.
 ======================  =================  ============================================  ===================================================================
 Preference              Default            Options                                       Description
 ======================  =================  ============================================  ===================================================================
-**template**           	None               None                                          A string containing your calendar template.
+**template**           	None               None                                          A string or array containing your calendar template.
 											   See the template section below.
 **local_time**        	time()             None                                          A Unix timestamp corresponding to the current time.
 **start_day**           sunday             Any week day (sunday, monday, tuesday, etc.)  Sets the day of the week the calendar should start on.
@@ -147,7 +147,7 @@ Creating a Calendar Template
 ============================
 
 By creating a calendar template you have 100% control over the design of
-your calendar. Each component of your calendar will be placed within a
+your calendar. Using the string method, each component of your calendar will be placed within a
 pair of pseudo-variables as shown here::
 
 	$prefs['template'] = '
@@ -192,6 +192,18 @@ pair of pseudo-variables as shown here::
 	$this->load->library('calendar', $prefs);
 
 	echo $this->calendar->generate();
+
+Using the array method, you will pass `key => value` pairs. You can pass as many or as few values as you'd like. Omitted keys will use the default values inherit in the calendar class. 
+
+    $prefs['template'] = array(
+    	'table_open' => '<table class="calendar">',
+    	'cal_cell_start' => '<td class="day">',
+    	'cal_cell_start_today' => '<td class="today">',
+    );
+    
+    $this->load->library('calendar', $prefs);
+    
+    echo $this->calendar->generate();
 
 ***************
 Class Reference
