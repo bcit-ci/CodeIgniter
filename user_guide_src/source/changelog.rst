@@ -300,6 +300,7 @@ Release Date: Not Released
       -  Added method chaining support.
       -  Added configuration to generate days of other months instead of blank cells.
       -  Auto set *next_prev_url* if it is empty and *show_prev_next* is set to TRUE.
+      -  The template now accepts an array in addition to the encoded string.
 
    -  :doc:`Cart Library <libraries/cart>` changes include:
 
