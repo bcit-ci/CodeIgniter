@@ -33,7 +33,7 @@ Initializing the Shopping Cart Class
 	utilize a database.
 
 To initialize the Shopping Cart Class in your controller constructor,
-use the $this->load->library function::
+use the ``$this->load->library()`` method::
 
 	$this->load->library('cart');
 
@@ -49,16 +49,16 @@ Adding an Item to The Cart
 ==========================
 
 To add an item to the shopping cart, simply pass an array with the
-product information to the $this->cart->insert() function, as shown
+product information to the ``$this->cart->insert()`` method, as shown
 below::
 
 	$data = array(
-	               'id'      => 'sku_123ABC',
-	               'qty'     => 1,
-	               'price'   => 39.95,
-	               'name'    => 'T-Shirt',
-	               'options' => array('Size' => 'L', 'Color' => 'Red')
-	            );
+		'id'      => 'sku_123ABC',
+		'qty'     => 1,
+		'price'   => 39.95,
+		'name'    => 'T-Shirt',
+		'options' => array('Size' => 'L', 'Color' => 'Red')
+	);
 
 	$this->cart->insert($data);
 
@@ -88,7 +88,19 @@ array will be stored in the session. However, it is best to standardize
 your data among all your products in order to make displaying the
 information in a table easier.
 
-The insert() method will return the $rowid if you successfully insert a
+::
+
+	$data = array(
+		'id'      => 'sku_123ABC',
+		'qty'     => 1,
+		'price'   => 39.95,
+		'name'    => 'T-Shirt',
+		'coupon'	 => 'XMAS-50OFF'
+	);
+
+	$this->cart->insert($data);
+
+The ``insert()`` method will return the $rowid if you successfully insert a
 single item.
 
 Adding Multiple Items to The Cart
@@ -102,26 +114,26 @@ same page.
 ::
 
 	$data = array(
-	               array(
-	                       'id'      => 'sku_123ABC',
-	                       'qty'     => 1,
-	                       'price'   => 39.95,
-	                       'name'    => 'T-Shirt',
-	                       'options' => array('Size' => 'L', 'Color' => 'Red')
-	                    ),
-	               array(
-	                       'id'      => 'sku_567ZYX',
-	                       'qty'     => 1,
-	                       'price'   => 9.95,
-	                       'name'    => 'Coffee Mug'
-	                    ),
-	               array(
-	                       'id'      => 'sku_965QRS',
-	                       'qty'     => 1,
-	                       'price'   => 29.95,
-	                       'name'    => 'Shot Glass'
-	                    )
-	            );
+		array(
+			'id'      => 'sku_123ABC',
+			'qty'     => 1,
+			'price'   => 39.95,
+			'name'    => 'T-Shirt',
+			'options' => array('Size' => 'L', 'Color' => 'Red')
+		),
+		array(
+			'id'      => 'sku_567ZYX',
+			'qty'     => 1,
+			'price'   => 9.95,
+			'name'    => 'Coffee Mug'
+		),
+		array(
+			'id'      => 'sku_965QRS',
+			'qty'     => 1,
+			'price'   => 29.95,
+			'name'    => 'Shot Glass'
+		)
+	);
 
 	$this->cart->insert($data);
 
@@ -136,15 +148,15 @@ helper </helpers/form_helper>`.
 
 ::
 
-	<?php echo form_open('path/to/controller/update/function'); ?>
+	<?php echo form_open('path/to/controller/update/method'); ?>
 
 	<table cellpadding="6" cellspacing="1" style="width:100%" border="0">
 
 	<tr>
-	  <th>QTY</th>
-	  <th>Item Description</th>
-	  <th style="text-align:right">Item Price</th>
-	  <th style="text-align:right">Sub-Total</th>
+		<th>QTY</th>
+		<th>Item Description</th>
+		<th style="text-align:right">Item Price</th>
+		<th style="text-align:right">Sub-Total</th>
 	</tr>
 
 	<?php $i = 1; ?>
@@ -154,9 +166,9 @@ helper </helpers/form_helper>`.
 		<?php echo form_hidden($i.'[rowid]', $items['rowid']); ?>
 
 		<tr>
-		  <td><?php echo form_input(array('name' => $i.'[qty]', 'value' => $items['qty'], 'maxlength' => '3', 'size' => '5')); ?></td>
-		  <td>
-			<?php echo $items['name']; ?>
+			<td><?php echo form_input(array('name' => $i.'[qty]', 'value' => $items['qty'], 'maxlength' => '3', 'size' => '5')); ?></td>
+			<td>
+				<?php echo $items['name']; ?>
 
 				<?php if ($this->cart->has_options($items['rowid']) == TRUE): ?>
 
@@ -170,9 +182,9 @@ helper </helpers/form_helper>`.
 
 				<?php endif; ?>
 
-		  </td>
-		  <td style="text-align:right"><?php echo $this->cart->format_number($items['price']); ?></td>
-		  <td style="text-align:right">$<?php echo $this->cart->format_number($items['subtotal']); ?></td>
+			</td>
+			<td style="text-align:right"><?php echo $this->cart->format_number($items['price']); ?></td>
+			<td style="text-align:right">$<?php echo $this->cart->format_number($items['subtotal']); ?></td>
 		</tr>
 
 	<?php $i++; ?>
@@ -180,9 +192,9 @@ helper </helpers/form_helper>`.
 	<?php endforeach; ?>
 
 	<tr>
-	  <td colspan="2"> </td>
-	  <td class="right"><strong>Total</strong></td>
-	  <td class="right">$<?php echo $this->cart->format_number($this->cart->total()); ?></td>
+		<td colspan="2"> </td>
+		<td class="right"><strong>Total</strong></td>
+		<td class="right">$<?php echo $this->cart->format_number($this->cart->total()); ?></td>
 	</tr>
 
 	</table>
@@ -193,8 +205,8 @@ Updating The Cart
 =================
 
 To update the information in your cart, you must pass an array
-containing the Row ID and quantity to the $this->cart->update()
-function:
+containing the Row ID and quantity to the ``$this->cart->update()``
+method.
 
 .. note:: If the quantity is set to zero, the item will be removed from
 	the cart.
@@ -202,38 +214,52 @@ function:
 ::
 
 	$data = array(
-	               'rowid' => 'b99ccdf16028f015540f341130b6d8ec',
-	               'qty'   => 3
-	            );
+		'rowid' => 'b99ccdf16028f015540f341130b6d8ec',
+		'qty'   => 3
+	);
 
 	$this->cart->update($data);
 
 	// Or a multi-dimensional array
 
 	$data = array(
-	               array(
-	                       'rowid'   => 'b99ccdf16028f015540f341130b6d8ec',
-	                       'qty'     => 3
-	                    ),
-	               array(
-	                       'rowid'   => 'xw82g9q3r495893iajdh473990rikw23',
-	                       'qty'     => 4
-	                    ),
-	               array(
-	                       'rowid'   => 'fh4kdkkkaoe30njgoe92rkdkkobec333',
-	                       'qty'     => 2
-	                    )
-	            );
+		array(
+			'rowid'   => 'b99ccdf16028f015540f341130b6d8ec',
+			'qty'     => 3
+		),
+		array(
+			'rowid'   => 'xw82g9q3r495893iajdh473990rikw23',
+			'qty'     => 4
+		),
+		array(
+			'rowid'   => 'fh4kdkkkaoe30njgoe92rkdkkobec333',
+			'qty'     => 2
+		)
+	);
+
+	$this->cart->update($data);
+
+You may also update any property you have previously defined when
+inserting the item such as options, price or other custom fields.
+
+::
+
+	$data = array(
+		'rowid'  => 'b99ccdf16028f015540f341130b6d8ec',
+		'qty'    => 1,
+		'price'	 => 49.95,
+		'coupon' => NULL
+	);
 
 	$this->cart->update($data);
 
 What is a Row ID?
 *****************
 
-The row ID is a unique identifier that is
-generated by the cart code when an item is added to the cart. The reason
-a unique ID is created is so that identical products with different
-options can be managed by the cart.
+The row ID is a unique identifier that is generated by the cart code
+when an item is added to the cart. The reason a unique ID is created
+is so that identical products with different options can be managed
+by the cart.
 
 For example, let's say someone buys two identical t-shirts (same product
 ID), but in different sizes. The product ID (and other attributes) will
@@ -247,9 +273,9 @@ In nearly all cases, updating the cart will be something the user does
 via the "view cart" page, so as a developer, it is unlikely that you
 will ever have to concern yourself with the "row ID", other than making
 sure your "view cart" page contains this information in a hidden form
-field, and making sure it gets passed to the update function when the
-update form is submitted. Please examine the construction of the "view
-cart" page above for more information.
+field, and making sure it gets passed to the ``update()`` method when
+the update form is submitted. Please examine the construction of the
+"view cart" page above for more information.
 
 
 ***************
@@ -289,10 +315,10 @@ Class Reference
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
 
-		This method permits the quantity of a given item to be changed.
+		This method permits changing the properties of a given item.
 		Typically it is called from the "view cart" page if a user makes changes
-		to the quantity before checkout. That array must contain the product ID
-		and quantity for each item.
+		to the quantity before checkout. That array must contain the rowid
+		and qty for each item.
 
 	.. method:: remove($rowid)
 
@@ -347,7 +373,7 @@ Class Reference
 
 		Returns TRUE (boolean) if a particular row in the cart contains options.
 		This method is designed to be used in a loop with ``contents()``, since
-		you must pass the rowid to this function, as shown in the Displaying
+		you must pass the rowid to this method, as shown in the Displaying
 		the Cart example above.
 
 	.. method:: product_options([$row_id = ''])

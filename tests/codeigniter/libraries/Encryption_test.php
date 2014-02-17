@@ -179,6 +179,9 @@ class Encryption_test extends CI_TestCase {
 	 * Testing the three methods separately is not realistic as they are
 	 * designed to work together. A more thorough test for initialize()
 	 * though is the OpenSSL/MCrypt compatibility test.
+	 *
+	 * @depends	test_hkdf
+	 * @depends	test__get_params
 	 */
 	public function test_initialize_encrypt_decrypt()
 	{
@@ -202,6 +205,8 @@ class Encryption_test extends CI_TestCase {
 
 	/**
 	 * encrypt(), decrypt test with custom parameters
+	 *
+	 * @depends	test___get_params
 	 */
 	public function test_encrypt_decrypt_custom()
 	{
@@ -239,7 +244,7 @@ class Encryption_test extends CI_TestCase {
 	{
 		if ($this->encryption->drivers['mcrypt'] === FALSE)
 		{
-			return $this->markTestAsSkipped('Cannot test MCrypt because it is not available.');
+			return $this->markTestSkipped('Cannot test MCrypt because it is not available.');
 		}
 
 		$this->assertTrue(is_resource($this->encryption->__driver_get_handle('mcrypt', 'rijndael-128', 'cbc')));
@@ -254,7 +259,7 @@ class Encryption_test extends CI_TestCase {
 	{
 		if ($this->encryption->drivers['openssl'] === FALSE)
 		{
-			return $this->markTestAsSkipped('Cannot test OpenSSL because it is not available.');
+			return $this->markTestSkipped('Cannot test OpenSSL because it is not available.');
 		}
 
 		$this->assertEquals('aes-128-cbc', $this->encryption->__driver_get_handle('openssl', 'aes-128', 'cbc'));
@@ -272,7 +277,7 @@ class Encryption_test extends CI_TestCase {
 	{
 		if ( ! $this->encryption->drivers['mcrypt'] OR ! $this->encryption->drivers['openssl'])
 		{
-			$this->markTestAsSkipped('Both MCrypt and OpenSSL support are required for portability tests.');
+			$this->markTestSkipped('Both MCrypt and OpenSSL support are required for portability tests.');
 			return;
 		}
 

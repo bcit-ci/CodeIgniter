@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.3.1
@@ -93,7 +93,7 @@ class CI_Table {
 	 *
 	 * @var function
 	 */
-	public $function	= FALSE;
+	public $function	= NULL;
 
 	/**
 	 * Set the template from the table config file if it exists
@@ -143,8 +143,7 @@ class CI_Table {
 	 */
 	public function set_heading($args = array())
 	{
-		$args = func_get_args();
-		$this->heading = $this->_prep_args($args);
+		$this->heading = $this->_prep_args(func_get_args());
 		return $this;
 	}
 
@@ -224,8 +223,7 @@ class CI_Table {
 	 */
 	public function add_row($args = array())
 	{
-		$args = func_get_args();
-		$this->rows[] = $this->_prep_args($args);
+		$this->rows[] = $this->_prep_args(func_get_args());
 		return $this;
 	}
 
@@ -244,26 +242,14 @@ class CI_Table {
 		// If there is no $args[0], skip this and treat as an associative array
 		// This can happen if there is only a single key, for example this is passed to table->generate
 		// array(array('foo'=>'bar'))
-		if (isset($args[0]) && count($args) === 1 && is_array($args[0]))
+		if (isset($args[0]) && count($args) === 1 && is_array($args[0]) && ! isset($args[0]['data']))
 		{
-			// args sent as indexed array
-			if ( ! isset($args[0]['data']))
-			{
-				foreach ($args[0] as $key => $val)
-				{
-					$args[$key] = (is_array($val) && isset($val['data'])) ? $val : array('data' => $val);
-				}
-			}
+			$args = $args[0];
 		}
-		else
+
+		foreach ($args as $key => $val)
 		{
-			foreach ($args as $key => $val)
-			{
-				if ( ! is_array($val))
-				{
-					$args[$key] = array('data' => $val);
-				}
-			}
+			is_array($val) OR $args[$key] = array('data' => $val);
 		}
 
 		return $args;
@@ -294,21 +280,20 @@ class CI_Table {
 	{
 		// The table data can optionally be passed to this function
 		// either as a database result object or an array
-		if ($table_data !== NULL)
+		if ( ! empty($table_data))
 		{
-			if (is_object($table_data))
+			if ($table_data instanceof CI_DB_result)
 			{
-				$this->_set_from_object($table_data);
+				$this->_set_from_db_result($table_data);
 			}
 			elseif (is_array($table_data))
 			{
-				$set_heading = (count($this->heading) !== 0 OR $this->auto_heading !== FALSE);
-				$this->_set_from_array($table_data, $set_heading);
+				$this->_set_from_array($table_data);
 			}
 		}
 
 		// Is there anything to display? No? Smite them!
-		if (count($this->heading) === 0 && count($this->rows) === 0)
+		if (empty($this->heading) && empty($this->rows))
 		{
 			return 'Undefined table data';
 		}
@@ -316,8 +301,11 @@ class CI_Table {
 		// Compile and validate the template date
 		$this->_compile_template();
 
-		// set a custom cell manipulation function to a locally scoped variable so its callable
-		$function = $this->function;
+		// Validate a possibly existing custom cell manipulation function
+		if (isset($this->function) && ! is_callable($this->function))
+		{
+			$this->function = NULL;
+		}
 
 		// Build the table!
 
@@ -326,11 +314,11 @@ class CI_Table {
 		// Add any caption here
 		if ($this->caption)
 		{
-			$out .= $this->newline.'<caption>'.$this->caption.'</caption>'.$this->newline;
+			$out .= '<caption>'.$this->caption.'</caption>'.$this->newline;
 		}
 
 		// Is there a table heading to display?
-		if (count($this->heading) > 0)
+		if ( ! empty($this->heading))
 		{
 			$out .= $this->template['thead_open'].$this->newline.$this->template['heading_row_start'].$this->newline;
 
@@ -353,7 +341,7 @@ class CI_Table {
 		}
 
 		// Build the table rows
-		if (count($this->rows) > 0)
+		if ( ! empty($this->rows))
 		{
 			$out .= $this->template['tbody_open'].$this->newline;
 
@@ -389,9 +377,9 @@ class CI_Table {
 					{
 						$out .= $this->empty_cells;
 					}
-					elseif ($function !== FALSE && is_callable($function))
+					elseif (isset($this->function))
 					{
-						$out .= call_user_func($function, $cell);
+						$out .= call_user_func($this->function, $cell);
 					}
 					else
 					{
@@ -435,34 +423,20 @@ class CI_Table {
 	/**
 	 * Set table data from a database result object
 	 *
-	 * @param	object
+	 * @param	CI_DB_result	$db_result	Database result object
 	 * @return	void
 	 */
-	protected function _set_from_object($query)
+	protected function _set_from_db_result($object)
 	{
-		if ( ! is_object($query))
-		{
-			return;
-		}
-
 		// First generate the headings from the table column names
-		if (count($this->heading) === 0)
+		if ($this->auto_heading === TRUE && empty($this->heading))
 		{
-			if ( ! is_callable(array($query, 'list_fields')))
-			{
-				return;
-			}
-
-			$this->heading = $this->_prep_args($query->list_fields());
+			$this->heading = $this->_prep_args($object->list_fields());
 		}
 
-		// Next blast through the result array and build out the rows
-		if ($query->num_rows() > 0)
+		foreach ($object->result_array() as $row)
 		{
-			foreach ($query->result_array() as $row)
-			{
-				$this->rows[] = $this->_prep_args($row);
-			}
+			$this->rows[] = $this->_prep_args($row);
 		}
 	}
 
@@ -471,29 +445,19 @@ class CI_Table {
 	/**
 	 * Set table data from an array
 	 *
-	 * @param	array
-	 * @param	bool
+	 * @param	array	$data
 	 * @return	void
 	 */
-	protected function _set_from_array($data, $set_heading = TRUE)
+	protected function _set_from_array($data)
 	{
-		if ( ! is_array($data) OR count($data) === 0)
+		if ($this->auto_heading === TRUE && empty($this->heading))
 		{
-			return FALSE;
+			$this->heading = $this->_prep_args(array_shift($data));
 		}
 
-		$i = 0;
-		foreach ($data as $row)
+		foreach ($data as &$row)
 		{
-			// If a heading hasn't already been set we'll use the first row of the array as the heading
-			if ($i++ === 0 && count($data) > 1 && count($this->heading) === 0 && $set_heading === TRUE)
-			{
-				$this->heading = $this->_prep_args($row);
-			}
-			else
-			{
-				$this->rows[] = $this->_prep_args($row);
-			}
+			$this->rows[] = $this->_prep_args($row);
 		}
 	}
 

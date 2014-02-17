@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -342,23 +342,24 @@ if ( ! function_exists('safe_mailto'))
 		$x[] = '<'; $x[] = '/'; $x[] = 'a'; $x[] = '>';
 
 		$x = array_reverse($x);
-		ob_start();
 
-	?><script type="text/javascript">
-	//<![CDATA[
-	var l=new Array();
-	<?php
-	for ($i = 0, $c = count($x); $i < $c; $i++) { ?>l[<?php echo $i; ?>]='<?php echo $x[$i]; ?>';<?php } ?>
+		$output = "<script type=\"text/javascript\">\n"
+			."\t//<![CDATA[\n"
+			."\tvar l=new Array();\n";
 
-	for (var i = l.length-1; i >= 0; i=i-1){
-	if (l[i].substring(0, 1) === '|') document.write("&#"+unescape(l[i].substring(1))+";");
-	else document.write(unescape(l[i]));}
-	//]]>
-	</script><?php
+		for ($i = 0, $c = count($x); $i < $c; $i++)
+		{
+			$output .= "\tl[".$i."] = '".$x[$i]."';\n";
+		}
 
-		$buffer = ob_get_contents();
-		ob_end_clean();
-		return $buffer;
+		$output .= "\n\tfor (var i = l.length-1; i >= 0; i=i-1) {\n"
+			."\t\tif (l[i].substring(0, 1) === '|') document.write(\"&#\"+unescape(l[i].substring(1))+\";\");\n"
+			."\t\telse document.write(unescape(l[i]));\n"
+			."\t}\n"
+			."\t//]]>\n"
+			.'</script>';
+
+		return $output;
 	}
 }
 

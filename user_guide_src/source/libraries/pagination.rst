@@ -165,6 +165,8 @@ $config['first_link'] = 'First';
 The text you would like shown in the "first" link on the left. If you do
 not want this link rendered, you can set its value to FALSE.
 
+.. note:: This value can also be translated via a language file.
+
 $config['first_tag_open'] = '<div>';
 ====================================
 
@@ -184,6 +186,8 @@ $config['last_link'] = 'Last';
 
 The text you would like shown in the "last" link on the right. If you do
 not want this link rendered, you can set its value to FALSE.
+
+.. note:: This value can also be translated via a language file.
 
 $config['last_tag_open'] = '<div>';
 ===================================
@@ -205,6 +209,8 @@ $config['next_link'] = '&gt;';
 The text you would like shown in the "next" page link. If you do not
 want this link rendered, you can set its value to FALSE.
 
+.. note:: This value can also be translated via a language file.
+
 $config['next_tag_open'] = '<div>';
 ===================================
 
@@ -224,6 +230,8 @@ $config['prev_link'] = '&lt;';
 
 The text you would like shown in the "previous" page link. If you do not
 want this link rendered, you can set its value to FALSE.
+
+.. note:: This value can also be translated via a language file.
 
 $config['prev_tag_open'] = '<div>';
 ===================================

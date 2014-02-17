@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -85,7 +85,7 @@ if ( ! function_exists('character_limiter'))
 	 */
 	function character_limiter($str, $n = 500, $end_char = '&#8230;')
 	{
-		if (strlen($str) < $n)
+		if (mb_strlen($str) < $n)
 		{
 			return $str;
 		}
@@ -93,7 +93,7 @@ if ( ! function_exists('character_limiter'))
 		// a bit complicated, but faster than preg_replace with \s+
 		$str = preg_replace('/ {2,}/', ' ', str_replace(array("\r", "\n", "\t", "\x0B", "\x0C"), ' ', $str));
 
-		if (strlen($str) <= $n)
+		if (mb_strlen($str) <= $n)
 		{
 			return $str;
 		}
@@ -103,10 +103,10 @@ if ( ! function_exists('character_limiter'))
 		{
 			$out .= $val.' ';
 
-			if (strlen($out) >= $n)
+			if (mb_strlen($out) >= $n)
 			{
 				$out = trim($out);
-				return (strlen($out) === strlen($str)) ? $out : $out.$end_char;
+				return (mb_strlen($out) === mb_strlen($str)) ? $out : $out.$end_char;
 			}
 		}
 	}
@@ -445,14 +445,14 @@ if ( ! function_exists('word_wrap'))
 		{
 			// Is the line within the allowed character count?
 			// If so we'll join it to the output and continue
-			if (strlen($line) <= $charlim)
+			if (mb_strlen($line) <= $charlim)
 			{
 				$output .= $line."\n";
 				continue;
 			}
 
 			$temp = '';
-			while ((strlen($line)) > $charlim)
+			while (mb_strlen($line) > $charlim)
 			{
 				// If the over-length word is a URL we won't wrap it
 				if (preg_match('!\[url.+\]|://|wwww.!', $line))
@@ -461,8 +461,8 @@ if ( ! function_exists('word_wrap'))
 				}
 
 				// Trim the word down
-				$temp .= substr($line, 0, $charlim - 1);
-				$line = substr($line, $charlim - 1);
+				$temp .= mb_substr($line, 0, $charlim - 1);
+				$line = mb_substr($line, $charlim - 1);
 			}
 
 			// If $temp contains data it means we had to split up an over-length
@@ -512,21 +512,21 @@ if ( ! function_exists('ellipsize'))
 		$str = trim(strip_tags($str));
 
 		// Is the string long enough to ellipsize?
-		if (strlen($str) <= $max_length)
+		if (mb_strlen($str) <= $max_length)
 		{
 			return $str;
 		}
 
-		$beg = substr($str, 0, floor($max_length * $position));
+		$beg = mb_substr($str, 0, floor($max_length * $position));
 		$position = ($position > 1) ? 1 : $position;
 
 		if ($position === 1)
 		{
-			$end = substr($str, 0, -($max_length - strlen($beg)));
+			$end = mb_substr($str, 0, -($max_length - mb_strlen($beg)));
 		}
 		else
 		{
-			$end = substr($str, -($max_length - strlen($beg)));
+			$end = mb_substr($str, -($max_length - mb_strlen($beg)));
 		}
 
 		return $beg.$ellipsis.$end;

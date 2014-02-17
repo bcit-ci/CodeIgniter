@@ -248,14 +248,14 @@ Class Reference
 		you submit 13 as the month, the year will increment and the month will
 		become January::
 
-			print_r($this->calendar->adjust_date(13, 2013));
+			print_r($this->calendar->adjust_date(13, 2014));
 
 		outputs::
 
 			Array
 			(    
 				[month] => '01'
-				[year] => '2014'
+				[year] => '2015'
 			)
 
 	.. method:: get_total_days($month, $year)

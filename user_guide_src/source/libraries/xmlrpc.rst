@@ -123,12 +123,12 @@ If you use data types other than strings, or if you have several
 different data types, you will place each parameter into its own array,
 with the data type in the second position::
 
-	$request = array (
-	                   array('John', 'string'),
-	                   array('Doe', 'string'),
-	                   array(FALSE, 'boolean'),
-	                   array(12345, 'int')
-	                 ); 
+	$request = array(
+		array('John', 'string'),
+		array('Doe', 'string'),
+		array(FALSE, 'boolean'),
+		array(12345, 'int')
+	); 
 	$this->xmlrpc->request($request);
 
 The `Data Types <#datatypes>`_ section below has a full list of data
@@ -171,7 +171,7 @@ not part of the CodeIgniter super object.
 In other words, if an XML-RPC Client sends a request for the new_post
 method, your server will load the My_blog class and call the new_entry
 function. If the request is for the update_post method, your server
-will load the My_blog class and call the update_entry function.
+will load the My_blog class and call the ``update_entry()`` method.
 
 The function names in the above example are arbitrary. You'll decide
 what they should be called on your server, or if you are using
@@ -181,7 +181,7 @@ function names.
 There are two additional configuration keys you may make use of when
 initializing the server class: debug can be set to TRUE in order to
 enable debugging, and xss_clean may be set to FALSE to prevent sending
-data through the Security library's xss_clean function.
+data through the Security library's ``xss_clean()`` method.
 
 Processing Server Requests
 ==========================
@@ -207,49 +207,52 @@ have access to the *request parameters* enabling you to process the
 request. When you are done you will send a Response back to the Client.
 
 Below is a real-world example, using the Blogger API. One of the methods
-in the Blogger API is getUserInfo(). Using this method, an XML-RPC
+in the Blogger API is ``getUserInfo()``. Using this method, an XML-RPC
 Client can send the Server a username and password, in return the Server
 sends back information about that particular user (nickname, user ID,
 email address, etc.). Here is how the processing function might look::
 
 	class My_blog extends CI_Controller {
 
-	    function getUserInfo($request)
-	    {
-	        $username = 'smitty';
-	        $password = 'secretsmittypass';
+		public function getUserInfo($request)
+		{
+			$username = 'smitty';
+			$password = 'secretsmittypass';
 
-	        $this->load->library('xmlrpc');
+			$this->load->library('xmlrpc');
 
-	        $parameters = $request->output_parameters();
+			$parameters = $request->output_parameters();
 
-	        if ($parameters['1'] != $username AND $parameters['2'] != $password)
-	        {
-	            return $this->xmlrpc->send_error_message('100', 'Invalid Access');
-	        }
+			if ($parameters[1] != $username && $parameters[2] != $password)
+			{
+				return $this->xmlrpc->send_error_message('100', 'Invalid Access');
+			}
 
-	        $response = array(array('nickname'  => array('Smitty','string'),
-	                                'userid'    => array('99','string'),
-	                                'url'       => array('http://yoursite.com','string'),
-	                                'email'     => array('jsmith@yoursite.com','string'),
-	                                'lastname'  => array('Smith','string'),
-	                                'firstname' => array('John','string')
-	                                ),
-	                         'struct');
+			$response = array(
+				array(
+					'nickname'  => array('Smitty', 'string'),
+					'userid'    => array('99', 'string'),
+					'url'       => array('http://yoursite.com', 'string'),
+					'email'     => array('jsmith@yoursite.com', 'string'),
+					'lastname'  => array('Smith', 'string'),
+					'firstname' => array('John', 'string')
+				),
+	                         'struct'
+			);
 
-	        return $this->xmlrpc->send_response($response);
-	    }
+			return $this->xmlrpc->send_response($response);
+		}
 	}
 
 Notes:
 ------
 
-The output_parameters() function retrieves an indexed array
+The ``output_parameters()`` method retrieves an indexed array
 corresponding to the request parameters sent by the client. In the above
 example, the output parameters will be the username and password.
 
 If the username and password sent by the client were not valid, and
-error message is returned using send_error_message().
+error message is returned using ``send_error_message()``.
 
 If the operation was successful, the client will be sent back a response
 array containing the user's info.
@@ -263,22 +266,22 @@ single item**. This item can be an array with several additional arrays,
 but there can be only one primary array index. In other words, the basic
 prototype is this::
 
-	$response = array('Response data',  'array');
+	$response = array('Response data', 'array');
 
 Responses, however, usually contain multiple pieces of information. In
 order to accomplish this we must put the response into its own array so
 that the primary array continues to contain a single piece of data.
 Here's an example showing how this might be accomplished::
 
-	$response = array (
-	                   array(
-	                         'first_name' => array('John', 'string'),
-	                         'last_name' => array('Doe', 'string'),
-	                         'member_id' => array(123435, 'int'),
-	                         'todo_list' => array(array('clean house', 'call mom', 'water plants'), 'array'),
-	                        ),
-	                 'struct'
-	                 );
+	$response = array(
+		array(
+			'first_name' => array('John', 'string'),
+			'last_name' => array('Doe', 'string'),
+			'member_id' => array(123435, 'int'),
+			'todo_list' => array(array('clean house', 'call mom', 'water plants'), 'array'),
+		),
+		'struct'
+	);
 
 Notice that the above array is formatted as a struct. This is the most
 common data type for responses.
@@ -373,17 +376,16 @@ folder::
 			$parameters = $request->output_parameters();
 
 			$response = array(
-						array(
-							'you_said'  => $parameters[0],
-							'i_respond' => 'Not bad at all.'
-						),
-						'struct'
-					);
+				array(
+					'you_said'  => $parameters[0],
+					'i_respond' => 'Not bad at all.'
+				),
+				'struct'
+			);
 
 			return $this->xmlrpc->send_response($response);
 		}
 	}
-	?>
 
 
 Try it!
@@ -398,7 +400,7 @@ back to you.
 
 The client you created sends a message ("How's is going?") to the
 server, along with a request for the "Greetings" method. The Server
-receives the request and maps it to the "process" function, where a
+receives the request and maps it to the ``process()`` method, where a
 response is sent back.
 
 Using Associative Arrays In a Request Parameter
@@ -408,22 +410,21 @@ If you wish to use an associative array in your method parameters you
 will need to use a struct datatype::
 
 	$request = array(
-	                 array(
-	                       // Param 0
-	                       array(
-	                             'name'=>'John'
-	                            	),
-	                             'struct'
-	                       ),
-	                       array(
-	                             // Param 1
-	                             array(
-	                                  	'size'=>'large',
-	                                   'shape'=>'round'
-	                                  	),
-	                             'struct'
-	                       )
-	                 );
+		array(
+			// Param 0
+			array('name' => 'John'),
+			'struct'
+		),
+		array(
+			// Param 1
+			array(
+				'size' => 'large',
+				'shape'=>'round'
+			),
+			'struct'
+		)
+	);
+
 	$this->xmlrpc->request($request);
 
 You can retrieve the associative array when processing the request in

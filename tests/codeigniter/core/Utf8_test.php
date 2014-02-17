@@ -18,8 +18,8 @@ class Utf8_test extends CI_TestCase {
 
 	public function test_is_ascii()
 	{
-		$this->assertTrue($this->utf8->is_ascii_test('foo bar'));
-		$this->assertFalse($this->utf8->is_ascii_test('тест'));
+		$this->assertTrue($this->utf8->is_ascii('foo bar'));
+		$this->assertFalse($this->utf8->is_ascii('тест'));
 	}
 
 }
