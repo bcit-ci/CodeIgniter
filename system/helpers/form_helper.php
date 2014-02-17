@@ -303,22 +303,20 @@ if ( ! function_exists('form_dropdown'))
 	/**
 	 * Drop-down Menu
 	 *
-	 * @param	mixed	$name
+	 * @param	mixed	$data
 	 * @param	mixed	$options
 	 * @param	mixed	$selected
 	 * @param	mixed	$extra
 	 * @return	string
 	 */
-	function form_dropdown($name = '', $options = array(), $selected = array(), $extra = '')
+	function form_dropdown($data = '', $options = array(), $selected = array(), $extra = '')
 	{
-		// If name is really an array then we'll call the function again using the array
-		if (is_array($name) && isset($name['name']))
-		{
-			isset($name['options']) OR $name['options'] = array();
-			isset($name['selected']) OR $name['selected'] = array();
-			isset($name['extra']) OR $name['extra'] = '';
+		$defaults = array('name' => is_array($data) ? '' : $data);
 
-			return form_dropdown($name['name'], $name['options'], $name['selected'], $name['extra']);
+		if (is_array($data) && isset($data['selected']))
+		{
+			$selected = $data['selected'];
+			unset($data['selected']); // selects don't have a selected attribute
 		}
 
 		is_array($selected) OR $selected = array($selected);
@@ -329,11 +327,19 @@ if ( ! function_exists('form_dropdown'))
 			$selected = array($_POST[$name]);
 		}
 
+		if (is_array($data) && isset($data['options']))
+		{
+			$options = $data['options'];
+			unset($data['options']); // selects don't use an options attribute
+		}
+
+		is_array($options) OR $options = array($options);
+
 		$extra = _attributes_to_string($extra);
 
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
 
-		$form = '<select name="'.$name.'"'.$extra.$multiple.">\n";
+		$form = '<select '.rtrim(_parse_form_attributes($data, $defaults)).$extra.$multiple.">\n";
 
 		foreach ($options as $key => $val)
 		{
