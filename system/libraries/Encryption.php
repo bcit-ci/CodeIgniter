@@ -845,7 +845,7 @@ class CI_Encryption {
 			return FALSE;
 		}
 
-		isset($salt) OR $salt = str_repeat("\0", $this->_digests[$digest]);
+		strlen($salt) OR $salt = str_repeat("\0", $this->_digests[$digest]);
 
 		$prk = hash_hmac($digest, $key, $salt, TRUE);
 		$key = '';
