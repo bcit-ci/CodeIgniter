@@ -189,6 +189,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 
 	require_once(BASEPATH.'core/compat/mbstring.php');
+	require_once(BASEPATH.'core/compat/hash.php');
 	require_once(BASEPATH.'core/compat/password.php');
 
 /*
