@@ -59,7 +59,7 @@ class CI_Calendar {
 	 * @var mixed
 	 */
 	public $template = '';
-	
+
 	/**
 	 * Replacements array for template
 	 *
@@ -532,11 +532,11 @@ class CI_Calendar {
 		{
 			return $this;
 		}
-		
+
 		if (is_string($this->template))
 		{
 			$today = array('cal_cell_start_today', 'cal_cell_content_today', 'cal_cell_no_content_today', 'cal_cell_end_today');
-	
+
 			foreach (array('table_open', 'table_close', 'heading_row_start', 'heading_previous_cell', 'heading_title_cell', 'heading_next_cell', 'heading_row_end', 'week_row_start', 'week_day_cell', 'week_row_end', 'cal_row_start', 'cal_cell_start', 'cal_cell_content', 'cal_cell_no_content', 'cal_cell_blank', 'cal_cell_end', 'cal_row_end', 'cal_cell_start_today', 'cal_cell_content_today', 'cal_cell_no_content_today', 'cal_cell_end_today', 'cal_cell_start_other', 'cal_cell_other', 'cal_cell_end_other') as $val)
 			{
 				if (preg_match('/\{'.$val.'\}(.*?)\{\/'.$val.'\}/si', $this->template, $match))
@@ -553,7 +553,7 @@ class CI_Calendar {
 		{
 			$this->replacements = array_merge($this->replacements, $this->template);
 		}
-		
+
 		return $this;
 	}
 
