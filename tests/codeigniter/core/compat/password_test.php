@@ -13,6 +13,12 @@ class password_test extends CI_TestCase {
 			$this->assertFalse(defined('PASSWORD_BCRYPT'));
 			return $this->markTestSkipped("PHP versions prior to 5.3.7 don't have the '2y' Blowfish version");
 		}
+		// defined as of HHVM 2.3.0, which is also when they introduce password_*() as well
+		// Note: Do NOT move this after the CRYPT_BLOWFISH check
+		elseif (defined('HHVM_VERSION'))
+		{
+			$this->markTestSkipped('HHVM 2.3.0+ already has it');
+		}
 		elseif ( ! defined('CRYPT_BLOWFISH') OR CRYPT_BLOWFISH !== 1)
 		{
 			$this->assertFalse(defined('PASSWORD_BCRYPT'));
