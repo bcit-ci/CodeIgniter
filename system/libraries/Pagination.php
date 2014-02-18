@@ -539,7 +539,7 @@ class CI_Pagination {
 			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, 1);
 
 			$output .= $this->first_tag_open.'<a href="'.$first_url.'"'.$attributes.$this->_attr_rel('start').'>'
-				.$first_link.'</a>'.$this->first_tag_close;
+				.$this->first_link.'</a>'.$this->first_tag_close;
 		}
 
 		// Render the "Previous" link.
