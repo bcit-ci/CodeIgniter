@@ -15,7 +15,7 @@ directories.
 Loading this Helper
 ===================
 
-This helper is loaded using the following code
+This helper is loaded using the following code:
 
 ::
 
@@ -29,7 +29,7 @@ The following functions are available:
 
 .. function:: directory_map($source_dir[, $directory_depth = 0[, $hidden = FALSE]])
 
-	:param	string	$source_dir: Path to the ource directory
+	:param	string	$source_dir: Path to the source directory
 	:param	int	$directory_depth: Depth of directories to traverse (0 = fully recursive, 1 = current dir, etc)
 	:param	bool	$hidden: Whether to include hidden directories
 	:returns:	An array of files
@@ -56,28 +56,28 @@ The following functions are available:
 	Each folder name will be an array index, while its contained files will
 	be numerically indexed. Here is an example of a typical array::
 
-		Array (    
-			[libraries] => Array    
-				(        
-					[0] => benchmark.html        
-					[1] => config.html        
+		Array (
+			[libraries] => Array
+				(
+					[0] => benchmark.html
+					[1] => config.html
 					["database/"] => Array
-						(              
-							[0] => query_builder.html              
-							[1] => binds.html              
+						(
+							[0] => query_builder.html
+							[1] => binds.html
 							[2] => configuration.html
-							[3] => connecting.html              
-							[4] => examples.html              
-							[5] => fields.html              
+							[3] => connecting.html
+							[4] => examples.html
+							[5] => fields.html
 							[6] => index.html
 							[7] => queries.html
-						)        
-					[2] => email.html        
-					[3] => file_uploading.html        
-					[4] => image_lib.html        
-					[5] => input.html        
-					[6] => language.html        
-					[7] => loader.html        
-					[8] => pagination.html        
+						)
+					[2] => email.html
+					[3] => file_uploading.html
+					[4] => image_lib.html
+					[5] => input.html
+					[6] => language.html
+					[7] => loader.html
+					[8] => pagination.html
 					[9] => uri.html
 				)
