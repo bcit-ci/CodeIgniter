@@ -184,3 +184,53 @@ Function reference
 
 	For more information, please refer to the `PHP manual for
 	mb_substr() <http://php.net/mb_substr>`_.
+
+***************
+Array Functions
+***************
+
+This set of compatibility functions offers support for a few
+standard `Array Functions <http://php.net/book.array>`_ in PHP
+that otherwise require a newer PHP version.
+
+Dependancies
+============
+
+- None
+
+Function reference
+==================
+
+.. function:: array_column(array $array, $column_key[, $index_key = NULL])
+
+	:param	array	$array: Array to fetch results from
+	:param	mixed	$column_key: Key of the column to return values from
+	:param	mixed	$index_key: Key to use for the returned values
+	:returns:	An array of values representing a single column from the input array
+	:rtype:	array
+
+	For more information, please refer to the `PHP manual for
+	array_column() <http://php.net/array_column>`_.
+
+.. function:: array_replace(array $array1[, ...])
+
+	:param	array	$array1: Array in which to replace elements
+	:param	array	...: Array (or multiple ones) from which to extract elements
+	:returns:	Modified array
+	:rtype:	array
+
+	For more information, please refer to the `PHP manual for
+	array_replace() <http://php.net/array_replace>`_.
+
+.. function:: array_replace_recursive(array $array1[, ...])
+
+	:param	array	$array1: Array in which to replace elements
+	:param	array	...: Array (or multiple ones) from which to extract elements
+	:returns:	Modified array
+	:rtype:	array
+
+	For more information, please refer to the `PHP manual for
+	array_replace_recursive() <http://php.net/array_replace_recursive>`_.
+
+	.. important:: Only PHP's native function can detect endless recursion.
+		Unless you are running PHP 5.3+, be careful with references!

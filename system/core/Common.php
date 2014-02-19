@@ -587,7 +587,7 @@ if ( ! function_exists('_exception_handler'))
 		if ($is_error)
 		{
 			set_status_header(500);
-		}		
+		}
 
 		// Should we ignore the error? We'll get the current error_reporting
 		// level and add its bits with the severity bits to find out.
