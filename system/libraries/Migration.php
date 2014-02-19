@@ -272,7 +272,7 @@ class CI_Migration {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set's the schema to the latest migration
+	 * Sets the schema to the latest migration
 	 *
 	 * @return	mixed	TRUE if already latest, FALSE if failed, int if upgraded
 	 */
@@ -296,7 +296,7 @@ class CI_Migration {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set's the schema to the migration version set in config
+	 * Sets the schema to the migration version set in config
 	 *
 	 * @return	mixed	TRUE if already current, FALSE if failed, int if upgraded
 	 */
