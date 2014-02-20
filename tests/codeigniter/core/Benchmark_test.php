@@ -4,7 +4,7 @@ class Benchmark_test extends CI_TestCase {
 
 	public function set_up()
 	{
-		$this->benchmark = new Mock_Core_Benchmark();
+		$this->benchmark = new CI_Benchmark();
 	}
 
 	// --------------------------------------------------------------------

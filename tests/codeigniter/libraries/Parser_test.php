@@ -4,7 +4,7 @@ class Parser_test extends CI_TestCase {
 
 	public function set_up()
 	{
-		$this->parser = new Mock_Libraries_Parser();
+		$this->parser = new CI_Parser();
 		$this->ci_instance_var('parser', $this->parser);
 	}
 
