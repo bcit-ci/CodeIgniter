@@ -280,7 +280,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	protected function _db_set_charset($charset)
 	{
-		return (@ini_set('mssql.charset', $charset) !== FALSE);
+		return (ini_set('mssql.charset', $charset) !== FALSE);
 	}
 
 	// --------------------------------------------------------------------
