@@ -7,6 +7,8 @@ class Encryption_test extends CI_TestCase {
 		$this->encryption = new Mock_Libraries_Encryption();
 	}
 
+	// --------------------------------------------------------------------
+
 	/**
 	 * __construct test
 	 *

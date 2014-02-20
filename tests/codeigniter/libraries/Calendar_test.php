@@ -2,15 +2,21 @@
 
 class Calendar_test extends CI_TestCase {
 
-	function set_up()
+	public function set_up()
 	{
+		// Required for get_total_days()
+		$this->ci_instance_var('load', $this->getMock('CI_Loader', array('helper')));
+
 		$lang = $this->getMock('CI_Lang', array('load', 'line'));
 		$lang->expects($this->any())->method('line')->will($this->returnValue(FALSE));
 		$this->ci_instance_var('lang', $lang);
+
 		$this->calendar = new CI_Calendar();
 	}
 
-	function test_initialize()
+	// --------------------------------------------------------------------
+
+	public function test_initialize()
 	{
 		$this->calendar->initialize(array(
 			'month_type'	=>	'short',
@@ -20,7 +26,9 @@ class Calendar_test extends CI_TestCase {
 		$this->assertEquals('monday', $this->calendar->start_day);
 	}
 
-	function test_generate()
+	// --------------------------------------------------------------------
+
+	public function test_generate()
 	{
 		$no_events = '<table border="0" cellpadding="4" cellspacing="0">
 
@@ -100,7 +108,9 @@ class Calendar_test extends CI_TestCase {
 		$this->assertEquals($events, $this->calendar->generate(2011, 9, $data));
 	}
 
-	function test_get_month_name()
+	// --------------------------------------------------------------------
+
+	public function test_get_month_name()
 	{
 		$this->calendar->month_type = NULL;
 		$this->assertEquals('January', $this->calendar->get_month_name('01'));
@@ -109,7 +119,9 @@ class Calendar_test extends CI_TestCase {
 		$this->assertEquals('Jan', $this->calendar->get_month_name('01'));
 	}
 
-	function test_get_day_names()
+	// --------------------------------------------------------------------
+
+	public function test_get_day_names()
 	{
 		$this->assertEquals(array(
 			'Sunday',
@@ -144,13 +156,17 @@ class Calendar_test extends CI_TestCase {
 		), $this->calendar->get_day_names());
 	}
 
-	function test_adjust_date()
+	// --------------------------------------------------------------------
+
+	public function test_adjust_date()
 	{
 		$this->assertEquals(array('month' => 8, 'year' => 2012), $this->calendar->adjust_date(8, 2012));
 		$this->assertEquals(array('month' => 1, 'year' => 2013), $this->calendar->adjust_date(13, 2012));
 	}
 
-	function test_get_total_days()
+	// --------------------------------------------------------------------
+
+	public function test_get_total_days()
 	{
 		$this->assertEquals(0, $this->calendar->get_total_days(13, 2012));
 
@@ -168,6 +184,8 @@ class Calendar_test extends CI_TestCase {
 		$this->assertEquals(30, $this->calendar->get_total_days(11, 2012));
 		$this->assertEquals(31, $this->calendar->get_total_days(12, 2012));
 	}
+
+	// --------------------------------------------------------------------
 
 	public function test_default_template()
 	{
