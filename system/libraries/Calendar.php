@@ -456,7 +456,7 @@ class CI_Calendar {
 	 */
 	public function get_total_days($month, $year)
 	{
-		$this->load->helper('date');
+		$this->CI->load->helper('date');
 		return days_in_month($month, $year);
 	}
 
