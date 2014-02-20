@@ -80,13 +80,13 @@ class CI_Utf8 {
 	{
 		if ($this->is_ascii($str) === FALSE)
 		{
-			if (ICONV_ENABLED)
-			{
-				$str = @iconv('UTF-8', 'UTF-8//IGNORE', $str);
-			}
-			elseif (MB_ENABLED)
+			if (MB_ENABLED)
 			{
 				$str = mb_convert_encoding($str, 'UTF-8', 'UTF-8');
+			}
+			elseif (ICONV_ENABLED)
+			{
+				$str = @iconv('UTF-8', 'UTF-8//IGNORE', $str);
 			}
 		}
 
@@ -123,13 +123,13 @@ class CI_Utf8 {
 	 */
 	public function convert_to_utf8($str, $encoding)
 	{
-		if (ICONV_ENABLED)
+		if (MB_ENABLED)
+		{
+			return mb_convert_encoding($str, 'UTF-8', $encoding);
+		}
+		elseif (ICONV_ENABLED)
 		{
 			return @iconv($encoding, 'UTF-8', $str);
-		}
-		elseif (MB_ENABLED === TRUE)
-		{
-			return @mb_convert_encoding($str, 'UTF-8', $encoding);
 		}
 
 		return FALSE;

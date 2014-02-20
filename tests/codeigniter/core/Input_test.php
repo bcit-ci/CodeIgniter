@@ -13,6 +13,8 @@ class Input_test extends CI_TestCase {
 		$this->ci_set_config('csrf_protection', FALSE);
 
 		$security = new Mock_Core_Security();
+
+		$this->ci_set_config('charset', 'UTF-8');
 		$utf8 = new Mock_Core_Utf8();
 
 		$this->input = new Mock_Core_Input($security, $utf8);
