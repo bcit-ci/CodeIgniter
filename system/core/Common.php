@@ -83,7 +83,7 @@ if ( ! function_exists('is_really_writable'))
 	function is_really_writable($file)
 	{
 		// If we're on a Unix server with safe_mode off we call is_writable
-		if (DIRECTORY_SEPARATOR === '/' && (is_php('5.4') OR (bool) @ini_get('safe_mode') === FALSE))
+		if (DIRECTORY_SEPARATOR === '/' && (is_php('5.4') OR ! ini_get('safe_mode')))
 		{
 			return is_writable($file);
 		}
@@ -600,7 +600,7 @@ if ( ! function_exists('_exception_handler'))
 		$_error->log_exception($severity, $message, $filepath, $line);
 
 		// Should we display the error?
-		if ((bool) ini_get('display_errors') === TRUE)
+		if (ini_get('display_errors'))
 		{
 			$_error->show_php_error($severity, $message, $filepath, $line);
 		}
@@ -775,9 +775,9 @@ if ( ! function_exists('function_usable'))
 			{
 				if (extension_loaded('suhosin'))
 				{
-					$_suhosin_func_blacklist = explode(',', trim(@ini_get('suhosin.executor.func.blacklist')));
+					$_suhosin_func_blacklist = explode(',', trim(ini_get('suhosin.executor.func.blacklist')));
 
-					if ( ! in_array('eval', $_suhosin_func_blacklist, TRUE) && @ini_get('suhosin.executor.disable_eval'))
+					if ( ! in_array('eval', $_suhosin_func_blacklist, TRUE) && ini_get('suhosin.executor.disable_eval'))
 					{
 						$_suhosin_func_blacklist[] = 'eval';
 					}

@@ -401,7 +401,7 @@ class CI_Email {
 			$this->_smtp_auth = ! ($this->smtp_user === '' && $this->smtp_pass === '');
 		}
 
-		$this->_safe_mode = ( ! is_php('5.4') && (bool) @ini_get('safe_mode'));
+		$this->_safe_mode = ( ! is_php('5.4') && ini_get('safe_mode'));
 		$this->charset = strtoupper($this->charset);
 
 		log_message('debug', 'Email Class Initialized');
