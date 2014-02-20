@@ -181,7 +181,6 @@ class CI_URI {
 	 * Will parse REQUEST_URI and automatically detect the URI from it,
 	 * while fixing the query string if necessary.
 	 *
-	 * @used-by	CI_URI::_fetch_uri_string()
 	 * @return	string
 	 */
 	protected function _parse_request_uri()
