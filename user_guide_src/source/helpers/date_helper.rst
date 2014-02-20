@@ -268,6 +268,9 @@ The following functions are available:
 
 	If the second parameter is empty, the current year will be used.
 
+	.. note:: This function will alias the native ``cal_days_in_month()``, if
+		it is available.
+
 .. function:: date_range([$unix_start = ''[, $mixed = ''[, $is_unix = TRUE[, $format = 'Y-m-d']]]])
 
 	:param	int	$unix_start: UNIX timestamp of the range start date

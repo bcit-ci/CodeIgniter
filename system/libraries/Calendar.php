@@ -456,23 +456,8 @@ class CI_Calendar {
 	 */
 	public function get_total_days($month, $year)
 	{
-		$days_in_month	= array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
-
-		if ($month < 1 OR $month > 12)
-		{
-			return 0;
-		}
-
-		// Is the year a leap year?
-		if ($month == 2)
-		{
-			if ($year % 400 === 0 OR ($year % 4 === 0 && $year % 100 !== 0))
-			{
-				return 29;
-			}
-		}
-
-		return $days_in_month[$month - 1];
+		$this->load->helper('date');
+		return days_in_month($month, $year);
 	}
 
 	// --------------------------------------------------------------------

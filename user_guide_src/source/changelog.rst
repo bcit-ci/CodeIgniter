@@ -65,11 +65,12 @@ Release Date: Not Released
 
    -  :doc:`Date Helper <helpers/date_helper>` changes include:
 
-      - :func:`now()` now works with all timezone strings supported by PHP.
       - Added an optional third parameter to :func:`timespan()` that constrains the number of time units displayed.
       - Added an optional parameter to :func:`timezone_menu()` that allows more attributes to be added to the generated select tag.
-      - Deprecated ``standard_date()``, which now just uses the native ``date()`` with `DateTime constants <http://www.php.net/manual/en/class.datetime.php#datetime.constants.types>`_.
       - Added function :func:`date_range()` that generates a list of dates between a specified period.
+      - Deprecated ``standard_date()``, which now just uses the native ``date()`` with `DateTime constants <http://www.php.net/manual/en/class.datetime.php#datetime.constants.types>`_.
+      - Changed :func:`now()` to work with all timezone strings supported by PHP.
+      - Changed :func:`days_in_month()` to use the native ``cal_days_in_month()`` PHP function, if available.
 
    -  :doc:`URL Helper <helpers/url_helper>` changes include:
 
@@ -301,6 +302,7 @@ Release Date: Not Released
       -  Added configuration to generate days of other months instead of blank cells.
       -  Added auto-configuration for *next_prev_url* if it is empty and *show_prev_next* is set to TRUE.
       -  Added support for templating via an array in addition to the encoded string.
+      -  Changed method ``get_total_days()`` to be an alias for :doc:`Date Helper <helpers/date_helper>` :func:`days_in_month()`.
 
    -  :doc:`Cart Library <libraries/cart>` changes include:
 

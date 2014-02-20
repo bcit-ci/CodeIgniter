@@ -278,6 +278,11 @@ if ( ! function_exists('days_in_month'))
 			$year = date('Y');
 		}
 
+		if (defined('CAL_GREGORIAN'))
+		{
+			return cal_days_in_month(CAL_GREGORIAN, $month, $year);
+		}
+
 		if ($year >= 1970)
 		{
 			return (int) date('t', mktime(12, 0, 0, $month, 1, $year));

@@ -286,6 +286,9 @@ Class Reference
 			echo $this->calendar->get_total_days(2, 2012);
 			// 29
 
+		.. note:: This method is an alias for :doc:`Date Helper
+			<../helpers/date_helper>` function :func:`days_in_month()`.
+
 	.. method:: default_template()
 
 		:returns:	An array of template values
