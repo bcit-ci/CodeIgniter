@@ -978,43 +978,49 @@ class CI_Loader {
 		}
 
 		$class = ucfirst($class);
-		$subclass = APPPATH.'libraries/'.$subdir.config_item('subclass_prefix').$class.'.php';
-
+		
 		// Is this a class extension request?
-		if (file_exists($subclass))
+		// check in all library paths not just the main one
+		foreach ($this->_ci_library_paths as $path)
 		{
-			$baseclass = BASEPATH.'libraries/'.$subdir.$class.'.php';
+			$subclass = $path.'libraries/'.$subdir.config_item('subclass_prefix').$class.'.php';
 
-			if ( ! file_exists($baseclass))
+			if (file_exists($subclass))
 			{
-				log_message('error', 'Unable to load the requested class: '.$class);
-				show_error('Unable to load the requested class: '.$class);
-			}
+				$baseclass = BASEPATH.'libraries/'.$subdir.$class.'.php';
 
-			// Safety: Was the class already loaded by a previous call?
-			if (class_exists(config_item('subclass_prefix').$class, FALSE))
-			{
-				// Before we deem this to be a duplicate request, let's see
-				// if a custom object name is being supplied. If so, we'll
-				// return a new instance of the object
-				if ($object_name !== NULL)
+				if ( ! file_exists($baseclass))
 				{
-					$CI =& get_instance();
-					if ( ! isset($CI->$object_name))
-					{
-						return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);
-					}
+					log_message('error', 'Unable to load the requested class: '.$class);
+					show_error('Unable to load the requested class: '.$class);
 				}
 
-				log_message('debug', $class.' class already loaded. Second attempt ignored.');
-				return;
+				// Safety: Was the class already loaded by a previous call?
+				if (class_exists(config_item('subclass_prefix').$class, FALSE))
+				{
+					// Before we deem this to be a duplicate request, let's see
+					// if a custom object name is being supplied. If so, we'll
+					// return a new instance of the object
+					if ($object_name !== NULL)
+					{
+						$CI =& get_instance();
+						if ( ! isset($CI->$object_name))
+						{
+							return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);
+						}
+					}
+
+					log_message('debug', $class.' class already loaded. Second attempt ignored.');
+					return;
+				}
+
+				include_once($baseclass);
+				include_once($subclass);
+
+				return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);
 			}
-
-			include_once($baseclass);
-			include_once($subclass);
-
-			return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);
 		}
+		
 
 		// Let's search for the requested library file and load it.
 		foreach ($this->_ci_library_paths as $path)
