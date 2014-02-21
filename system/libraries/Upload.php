@@ -741,7 +741,7 @@ class CI_Upload {
 	/**
 	 * Set Allowed File Types
 	 *
-	 * @param	string	$types
+	 * @param	mixed	$types
 	 * @return	CI_Upload
 	 */
 	public function set_allowed_types($types)
