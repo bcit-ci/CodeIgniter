@@ -201,7 +201,7 @@ Preference                   Default Value     Options                 Descripti
                                                                        directory must be writable and the path can be absolute or relative.
 **allowed_types**            None              None                    The mime types corresponding to the types of files you allow to be
                                                                        uploaded. Usually the file extension can be used as the mime type.
-                                                                       Separate multiple types with a pipe.
+                                                                       Can be either an array or a pipe-separated string.
 **file_name**                None              Desired file name       If set CodeIgniter will rename the uploaded file to this name. The
                                                                        extension provided in the file name must also be an allowed file type.
                                                                        If no extension is provided in the original file_name will be used.
@@ -253,6 +253,13 @@ Class Reference
 ***************
 
 .. class:: CI_Upload
+
+	.. method:: initialize([array $config = array()[, $reset = TRUE]])
+
+		:param	array	$config: Preferences
+		:param	bool	$reset: Whether to reset preferences (that are not provided in $config) to their defaults
+		:returns:	CI_Upload instance (method chaining)
+		:rtype:	CI_Upload
 
 	.. method:: do_upload([$field = 'userfile'])
 

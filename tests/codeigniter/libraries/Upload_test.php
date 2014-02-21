@@ -259,10 +259,4 @@ class Upload_test extends CI_TestCase {
 		$this->assertEquals('<p>Error test</p>', $this->upload->display_errors());
 	}
 
-	function test_mimes_types()
-	{
-		$this->assertEquals('text/plain', $this->upload->mimes_types('txt'));
-		$this->assertFalse($this->upload->mimes_types('foobar'));
-	}
-
 }

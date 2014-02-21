@@ -289,12 +289,15 @@ Release Date: Not Released
 
    -  :doc:`File Uploading Library <libraries/file_uploading>` changes include:
 
-      -  Added **max_filename_increment** config setting.
-      -  Added an **index** parameter to the ``data()`` method.
-      -  Added the **min_width** and **min_height** options for images.
+      -  Added method chaining support.
+      -  Added **max_filename_increment** and **file_ext_tolower** configuration settings.
+      -  Added **min_width** and **min_height** configuration settings for images.
+      -  Added **mod_mime_fix** configuration setting to disable suffixing multiple file extensions with an underscore.
+      -  Added the possibility pass **allowed_types** as an array.
+      -  Added an ``$index`` parameter to the method ``data()``.
+      -  Added a ``$reset`` parameter to method ``initialize()``.
       -  Removed method ``clean_file_name()`` and its usage in favor of :doc:`Security Library <libraries/security>`'s ``sanitize_filename()``.
-      -  Added **file_ext_tolower** config setting.
-      -  Added **mod_mime_fix** option to disable suffixing multiple file extensions with an underscore.
+      -  Removed method ``mimes_types()``.
 
    -  :doc:`Calendar Library <libraries/calendar>` changes include:
 
