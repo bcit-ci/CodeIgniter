@@ -2,7 +2,7 @@
 
 class Upload_test extends CI_TestCase {
 
-	function set_up()
+	public function set_up()
 	{
 		$ci = $this->ci_instance();
 		$ci->upload = new CI_Upload();
@@ -12,10 +12,51 @@ class Upload_test extends CI_TestCase {
 		$this->upload = $ci->upload;
 	}
 
-	function test_do_upload()
+	// --------------------------------------------------------------------
+
+	public function test___construct_initialize()
 	{
-		$this->markTestSkipped('We can\'t really test this at the moment because of the call to `is_uploaded_file` in do_upload which isn\'t supported by vfsStream');
+		// via __construct
+
+		$upload = new CI_Upload(
+			array(
+				'file_name' => 'foo',
+				'file_ext_tolower' => TRUE
+			)
+		);
+
+		// ReflectionProperty::setAccessible() is not available in PHP 5.2.x
+		if (is_php('5.3'))
+		{
+			$reflection = new ReflectionClass($upload);
+			$reflection = $reflection->getProperty('_file_name_override');
+			$reflection->setAccessible(TRUE);
+			$this->assertEquals('foo', $reflection->getValue($upload));
+		}
+
+		$this->assertTrue($upload->file_ext_tolower);
+
+		// reset (defaults to true)
+
+		$upload->initialize(array('file_name' => 'bar'));
+		$this->assertEquals('bar', $upload->file_name);
+		$this->assertFalse($upload->file_ext_tolower);
+
+		// no reset
+
+		$upload->initialize(array('file_ext_tolower' => TRUE), FALSE);
+		$this->assertTrue($upload->file_ext_tolower);
+		$this->assertEquals('bar', $upload->file_name);
 	}
+
+	// --------------------------------------------------------------------
+
+	public function test_do_upload()
+	{
+		$this->markTestSkipped("We can't test this at the moment because of the call to is_uploaded_file() in do_upload() which isn't supported by vfsStream.");
+	}
+
+	// --------------------------------------------------------------------
 
 	function test_data()
 	{
