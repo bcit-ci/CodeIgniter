@@ -40,33 +40,6 @@ class Lang_test extends CI_TestCase {
 			'CI Error: Unable to load the requested language file: language/english/nonexistent_lang.php'
 		);
 		$this->lang->load('nonexistent');
-
-		// File with no language content
-		$this->ci_vfs_create('foo_lang.php', '<?php $foo = 0;', $this->ci_app_root, 'language/english');
-		$this->assertNull($this->lang->load('foo'));
-
-		// Non-array $lang
-		$this->ci_vfs_create('bar_lang.php', '<?php $lang = FALSE;', $this->ci_app_root, 'language/english');
-		$this->assertNull($this->lang->load('bar'));
-
-		// Non-array / no content, with return = TRUE
-		$this->assertEquals(array(), $this->lang->load('bar'));
-
-		// With an alt_path, return = TRUE & suffix included
-		$this->ci_vfs_mkdir('fubar/language/english', $this->ci_app_root);
-		$this->ci_vfs_create('fubar_lang.php', '<?php $lang = array(\'fubar_test\' => \'Test\');', $this->ci_app_root.'/fubar/language/english');
-		$this->assertEquals(
-			array('fubar_test' => 'Test'),
-			$this->lang->load('fubar_lang', 'english', TRUE, TRUE, $this->ci_app_root.'fubar')
-		);
-		$this->assertEquals(
-			array('fubar_test' => 'Test'),
-			$this->lang->load('fubar_lang', 'english', TRUE, FALSE, $this->ci_app_root.'fubar')
-		);
-		$this->assertEquals(
-			array('fubar_test' => 'Test'),
-			$this->lang->load('fubar_lang.php', 'english', TRUE, FALSE, $this->ci_app_root.'fubar')
-		);
 	}
 
 	// --------------------------------------------------------------------
