@@ -66,7 +66,7 @@ class CI_DB_Cache {
 		$this->CI =& get_instance();
 		$this->db =& $db;
 		$this->CI->load->helper('file');
-
+		$this->CI->load->driver('cache',array('adapter'=>'memcached'));		
 		$this->check_path();
 	}
 
@@ -80,6 +80,11 @@ class CI_DB_Cache {
 	 */
 	public function check_path($path = '')
 	{
+		if($this->db->cache_mc AND $this->CI->cache->memcached->is_supported())
+		{
+			return TRUE;
+		}
+		
 		if ($path === '')
 		{
 			if ($this->db->cachedir === '')
@@ -130,7 +135,14 @@ class CI_DB_Cache {
 	{
 		$segment_one = ($this->CI->uri->segment(1) == FALSE) ? 'default' : $this->CI->uri->segment(1);
 		$segment_two = ($this->CI->uri->segment(2) == FALSE) ? 'index' : $this->CI->uri->segment(2);
-		$filepath = $this->db->cachedir.$segment_one.'+'.$segment_two.'/'.md5($sql);
+		$ckey = md5($sql);		
+		$filepath = $this->db->cachedir.$segment_one.'+'.$segment_two.'/'.$ckey;
+
+		if($this->db->cache_mc)
+		{
+			$cachedata = $this->CI->cache->memcached->get($ckey);						
+			return $cachedata ? unserialize($cachedata) : FALSE;								
+		}
 
 		if (FALSE === ($cachedata = @file_get_contents($filepath)))
 		{
@@ -154,8 +166,13 @@ class CI_DB_Cache {
 		$segment_one = ($this->CI->uri->segment(1) == FALSE) ? 'default' : $this->CI->uri->segment(1);
 		$segment_two = ($this->CI->uri->segment(2) == FALSE) ? 'index' : $this->CI->uri->segment(2);
 		$dir_path = $this->db->cachedir.$segment_one.'+'.$segment_two.'/';
-		$filename = md5($sql);
+		$filename_ckey = md5($sql);		
 
+		if($this->db->cache_mc)
+		{
+			return $this->CI->cache->memcached->save($filename_ckey,serialize($object),$this->db->cache_mc_time_sec);			
+		}
+		
 		if ( ! @is_dir($dir_path))
 		{
 			if ( ! @mkdir($dir_path, DIR_WRITE_MODE))
@@ -166,12 +183,12 @@ class CI_DB_Cache {
 			@chmod($dir_path, DIR_WRITE_MODE);
 		}
 
-		if (write_file($dir_path.$filename, serialize($object)) === FALSE)
+		if (write_file($dir_path.$filename_ckey, serialize($object)) === FALSE)
 		{
 			return FALSE;
 		}
 
-		@chmod($dir_path.$filename, FILE_WRITE_MODE);
+		@chmod($dir_path.$filename_ckey, FILE_WRITE_MODE);
 		return TRUE;
 	}
 

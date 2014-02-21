@@ -342,6 +342,18 @@ abstract class CI_DB_driver {
 	 * @var	string
 	 */
 	protected $_count_string = 'SELECT COUNT(*) AS ';
+	
+	/**
+	 * Flag to make use of Memcached in db-queries
+	 * @var bool
+	 */
+	public $cache_mc	= FALSE;
+	
+	/**
+	 * Lifetime of memcached db queries in seconds
+	 * @var int
+	 */	
+	public $cache_mc_time_sec	= 10;
 
 	// --------------------------------------------------------------------
 
