@@ -42,35 +42,35 @@ class CI_FTP {
 	 *
 	 * @var	string
 	 */
-	public $hostname	= '';
+	public $hostname = '';
 
 	/**
 	 * FTP Username
 	 *
 	 * @var	string
 	 */
-	public $username	= '';
+	public $username = '';
 
 	/**
 	 * FTP Password
 	 *
 	 * @var	string
 	 */
-	public $password	= '';
+	public $password = '';
 
 	/**
 	 * FTP Server port
 	 *
 	 * @var	int
 	 */
-	public $port		= 21;
+	public $port = 21;
 
 	/**
 	 * Passive mode flag
 	 *
 	 * @var	bool
 	 */
-	public $passive		= TRUE;
+	public $passive = TRUE;
 
 	/**
 	 * Debug flag
@@ -79,14 +79,16 @@ class CI_FTP {
 	 *
 	 * @var	bool
 	 */
-	public $debug		= FALSE;
+	public $debug = FALSE;
+
+	// --------------------------------------------------------------------
 
 	/**
-	 * Connection
+	 * Connection ID
 	 *
 	 * @var	resource
 	 */
-	public $conn_id		= FALSE;
+	protected $conn_id;
 
 	// --------------------------------------------------------------------
 
@@ -98,11 +100,7 @@ class CI_FTP {
 	 */
 	public function __construct($config = array())
 	{
-		if (count($config) > 0)
-		{
-			$this->initialize($config);
-		}
-
+		empty($config) OR $this->initialize($config);
 		log_message('debug', 'FTP Class Initialized');
 	}
 
@@ -197,8 +195,10 @@ class CI_FTP {
 			{
 				$this->_error('ftp_no_connection');
 			}
+
 			return FALSE;
 		}
+
 		return TRUE;
 	}
 
@@ -232,6 +232,7 @@ class CI_FTP {
 			{
 				$this->_error('ftp_unable_to_changedir');
 			}
+
 			return FALSE;
 		}
 
@@ -262,6 +263,7 @@ class CI_FTP {
 			{
 				$this->_error('ftp_unable_to_mkdir');
 			}
+
 			return FALSE;
 		}
 
@@ -316,6 +318,7 @@ class CI_FTP {
 			{
 				$this->_error('ftp_unable_to_upload');
 			}
+
 			return FALSE;
 		}
 
@@ -363,6 +366,7 @@ class CI_FTP {
 			{
 				$this->_error('ftp_unable_to_download');
 			}
+
 			return FALSE;
 		}
 
@@ -394,6 +398,7 @@ class CI_FTP {
 			{
 				$this->_error('ftp_unable_to_'.($move === FALSE ? 'rename' : 'move'));
 			}
+
 			return FALSE;
 		}
 
@@ -437,6 +442,7 @@ class CI_FTP {
 			{
 				$this->_error('ftp_unable_to_delete');
 			}
+
 			return FALSE;
 		}
 
@@ -596,12 +602,9 @@ class CI_FTP {
 	 */
 	protected function _getext($filename)
 	{
-		if (($dot = strrpos($filename, '.')) === FALSE)
-		{
-			return 'txt';
-		}
-
-		return substr($filename, $dot + 1);
+		return (($dot = strrpos($filename, '.')) === FALSE)
+			? 'txt'
+			: substr($filename, $dot + 1);
 	}
 
 	// --------------------------------------------------------------------
@@ -614,23 +617,9 @@ class CI_FTP {
 	 */
 	protected function _settype($ext)
 	{
-		$text_types = array(
-			'txt',
-			'text',
-			'php',
-			'phps',
-			'php4',
-			'js',
-			'css',
-			'htm',
-			'html',
-			'phtml',
-			'shtml',
-			'log',
-			'xml'
-		);
-
-		return in_array($ext, $text_types) ? 'ascii' : 'binary';
+		return in_array($ext, array('txt', 'text', 'php', 'phps', 'php4', 'js', 'css', 'htm', 'html', 'phtml', 'shtml', 'log', 'xml'), TRUE)
+			? 'ascii'
+			: 'binary';
 	}
 
 	// ------------------------------------------------------------------------
