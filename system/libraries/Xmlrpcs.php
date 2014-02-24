@@ -203,15 +203,17 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 	 */
 	public function parseRequest($data = '')
 	{
-		global $HTTP_RAW_POST_DATA;
-
 		//-------------------------------------
 		//  Get Data
 		//-------------------------------------
 
 		if ($data === '')
 		{
-			$data = $HTTP_RAW_POST_DATA;
+			$CI =& get_instance();
+			if ($CI->input->method() === 'post')
+			{
+				$data = http_build_query($CI->input->input_stream(NULL, FALSE));
+			}
 		}
 
 		//-------------------------------------
@@ -222,13 +224,13 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 		$parser_object = new XML_RPC_Message('filler');
 
 		$parser_object->xh[$parser] = array(
-							'isf' =>	0,
-							'isf_reason' =>	'',
-							'params' =>	array(),
-							'stack' =>	array(),
-							'valuestack' =>	array(),
-							'method' =>	''
-						);
+			'isf' =>	0,
+			'isf_reason' =>	'',
+			'params' =>	array(),
+			'stack' =>	array(),
+			'valuestack' =>	array(),
+			'method' =>	''
+		);
 
 		xml_set_object($parser, $parser_object);
 		xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, TRUE);

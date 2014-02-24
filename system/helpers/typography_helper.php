@@ -88,8 +88,7 @@ if ( ! function_exists('entity_decode'))
 	 */
 	function entity_decode($str, $charset = NULL)
 	{
-		global $SEC;
-		return $SEC->entity_decode($str, $charset);
+		return get_instance()->security->entity_decode($str, $charset);
 	}
 }
 
