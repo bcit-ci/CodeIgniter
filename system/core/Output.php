@@ -175,15 +175,7 @@ class CI_Output {
 	 */
 	public function append_output($output)
 	{
-		if (empty($this->final_output))
-		{
-			$this->final_output = $output;
-		}
-		else
-		{
-			$this->final_output .= $output;
-		}
-
+		$this->final_output .= $output;
 		return $this;
 	}
 
