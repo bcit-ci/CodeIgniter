@@ -212,7 +212,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  Instantiate the routing class and set the routing
  * ------------------------------------------------------
  */
-	$RTR =& load_class('Router', 'core');
+	$RTR =& load_class('Router', 'core', isset($routing) ? $routing : NULL);
 
 /*
  * ------------------------------------------------------
@@ -226,8 +226,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *	Is there a valid cache file? If so, we're done...
  * ------------------------------------------------------
  */
-	if ($EXT->call_hook('cache_override') === FALSE
-		&& $OUT->_display_cache($CFG, $URI) === TRUE)
+	if ($EXT->call_hook('cache_override') === FALSE && $OUT->_display_cache($CFG, $URI) === TRUE)
 	{
 		exit;
 	}

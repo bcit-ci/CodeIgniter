@@ -65,6 +65,7 @@ if ( ! function_exists('get_mimes'))
 
 // --------------------------------------------------------------------
 
+/*
 if ( ! function_exists('load_class'))
 {
 	function load_class($class, $directory = 'libraries', $prefix = 'CI_')
@@ -86,6 +87,7 @@ if ( ! function_exists('load_class'))
 		return $obj;
 	}
 }
+*/
 
 // Clean up error messages
 // --------------------------------------------------------------------

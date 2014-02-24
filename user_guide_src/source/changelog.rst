@@ -474,6 +474,7 @@ Release Date: Not Released
       -  Added function :func:`is_cli()` to replace the ``CI_Input::is_cli_request()`` method.
       -  Added function :func:`function_usable()` to work around a bug in `Suhosin <http://www.hardened-php.net/suhosin/>`.
       -  Removed the third (`$php_error`) argument from function :func:`log_message()`.
+      -  Changed internal function ``load_class()`` to accept a constructor parameter instead of (previously unused) class name prefix.
 
    -  :doc:`Output Library <libraries/output>` changes include:
 
