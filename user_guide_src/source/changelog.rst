@@ -290,6 +290,7 @@ Release Date: Not Released
    -  :doc:`File Uploading Library <libraries/file_uploading>` changes include:
 
       -  Added method chaining support.
+      -  Added support for using array notation in file field names.
       -  Added **max_filename_increment** and **file_ext_tolower** configuration settings.
       -  Added **min_width** and **min_height** configuration settings for images.
       -  Added **mod_mime_fix** configuration setting to disable suffixing multiple file extensions with an underscore.
