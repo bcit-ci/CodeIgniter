@@ -114,18 +114,6 @@ class CI_DB_mysqli_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Persistent database connection
-	 *
-	 * @return	object
-	 */
-	public function db_pconnect()
-	{
-		return $this->db_connect(TRUE);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Reconnect
 	 *
 	 * Keep / reestablish the db connection if no queries have been

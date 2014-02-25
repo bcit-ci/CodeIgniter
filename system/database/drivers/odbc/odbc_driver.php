@@ -104,23 +104,14 @@ class CI_DB_odbc_driver extends CI_DB {
 	/**
 	 * Non-persistent database connection
 	 *
+	 * @param	bool	$persistent
 	 * @return	resource
 	 */
-	public function db_connect()
+	public function db_connect($persistent = FALSE)
 	{
-		return @odbc_connect($this->dsn, $this->username, $this->password);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Persistent database connection
-	 *
-	 * @return	resource
-	 */
-	public function db_pconnect()
-	{
-		return @odbc_pconnect($this->dsn, $this->username, $this->password);
+		return ($persistent === TRUE)
+			? odbc_pconnect($this->dsn, $this->username, $this->password)
+			: odbc_connect($this->dsn, $this->username, $this->password);
 	}
 
 	// --------------------------------------------------------------------

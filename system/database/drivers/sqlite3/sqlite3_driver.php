@@ -63,10 +63,16 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	/**
 	 * Non-persistent database connection
 	 *
-	 * @return	object	type SQLite3
+	 * @param	bool	$persistent
+	 * @return	SQLite3
 	 */
-	public function db_connect()
+	public function db_connect($persistent = FALSE)
 	{
+		if ($persistent)
+		{
+			log_message('debug', 'SQLite3 doesn\'t support persistent connections');
+		}
+
 		try
 		{
 			return ( ! $this->password)
@@ -77,19 +83,6 @@ class CI_DB_sqlite3_driver extends CI_DB {
 		{
 			return FALSE;
 		}
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Persistent database connection
-	 *
-	 * @return  object	type SQLite3
-	 */
-	public function db_pconnect()
-	{
-		log_message('debug', 'SQLite3 doesn\'t support persistent connections');
-		return $this->db_connect();
 	}
 
 	// --------------------------------------------------------------------

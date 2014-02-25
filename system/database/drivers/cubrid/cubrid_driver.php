@@ -102,61 +102,23 @@ class CI_DB_cubrid_driver extends CI_DB {
 	/**
 	 * Non-persistent database connection
 	 *
-	 * @return	resource
-	 */
-	public function db_connect()
-	{
-		return $this->_cubrid_connect();
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Persistent database connection
-	 *
-	 * In CUBRID persistent DB connection is supported natively in CUBRID
-	 * engine which can be configured in the CUBRID Broker configuration
-	 * file by setting the CCI_PCONNECT parameter to ON. In that case, all
-	 * connections established between the client application and the
-	 * server will become persistent.
-	 *
-	 * @return	resource
-	 */
-	public function db_pconnect()
-	{
-		return $this->_cubrid_connect(TRUE);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * CUBRID connection
-	 *
-	 * A CUBRID-specific method to create a connection to the database.
-	 * Except for determining if a persistent connection should be used,
-	 * the rest of the logic is the same for db_connect() and db_pconnect().
-	 *
 	 * @param	bool	$persistent
 	 * @return	resource
 	 */
-	protected function _cubrid_connect($persistent = FALSE)
+	public function db_connect($persistent = FALSE)
 	{
 		if (preg_match('/^CUBRID:[^:]+(:[0-9][1-9]{0,4})?:[^:]+:([^:]*):([^:]*):(\?.+)?$/', $this->dsn, $matches))
 		{
-			$_temp = ($persistent !== TRUE) ? 'cubrid_connect_with_url' : 'cubrid_pconnect_with_url';
-			$conn_id = ($matches[2] === '' && $matches[3] === '' && $this->username !== '' && $this->password !== '')
-					? $_temp($this->dsn, $this->username, $this->password)
-					: $_temp($this->dsn);
-		}
-		else
-		{
-			$_temp = ($persistent !== TRUE) ? 'cubrid_connect' : 'cubrid_pconnect';
-			$conn_id = ($this->username !== '')
-					? $_temp($this->hostname, $this->port, $this->database, $this->username, $this->password)
-					: $_temp($this->hostname, $this->port, $this->database);
+			$func = ($persistent !== TRUE) ? 'cubrid_connect_with_url' : 'cubrid_pconnect_with_url';
+			return ($matches[2] === '' && $matches[3] === '' && $this->username !== '' && $this->password !== '')
+				? $func($this->dsn, $this->username, $this->password)
+				: $func($this->dsn);
 		}
 
-		return $conn_id;
+		$func = ($persistent !== TRUE) ? 'cubrid_connect' : 'cubrid_pconnect';
+		return ($this->username !== '')
+			? $func($this->hostname, $this->port, $this->database, $this->username, $this->password)
+			: $func($this->hostname, $this->port, $this->database);
 	}
 
 	// --------------------------------------------------------------------
