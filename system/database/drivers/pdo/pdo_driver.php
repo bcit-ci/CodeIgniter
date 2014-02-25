@@ -119,7 +119,7 @@ class CI_DB_pdo_driver extends CI_DB {
 
 		try
 		{
-			return @new PDO($this->dsn, $this->username, $this->password, $this->options);
+			return new PDO($this->dsn, $this->username, $this->password, $this->options);
 		}
 		catch (PDOException $e)
 		{
