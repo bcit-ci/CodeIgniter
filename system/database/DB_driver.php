@@ -1577,16 +1577,13 @@ abstract class CI_DB_driver {
 	 */
 	protected function _cache_init()
 	{
-		if (class_exists('CI_DB_Cache', FALSE))
+		if ( ! class_exists('CI_DB_Cache', FALSE))
 		{
-			if (is_object($this->CACHE))
-			{
-				return TRUE;
-			}
+			require_once(BASEPATH.'database/DB_cache.php');
 		}
-		elseif ( ! @include_once(BASEPATH.'database/DB_cache.php'))
+		elseif (is_object($this->CACHE))
 		{
-			return $this->cache_off();
+			return TRUE;
 		}
 
 		$this->CACHE = new CI_DB_Cache($this); // pass db object to support multiple db connections and returned db objects
