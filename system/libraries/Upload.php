@@ -967,7 +967,7 @@ class CI_Upload {
 			return FALSE;
 		}
 
-		if (@realpath($this->upload_path) !== FALSE)
+		if (realpath($this->upload_path) !== FALSE)
 		{
 			$this->upload_path = str_replace('\\', '/', realpath($this->upload_path));
 		}

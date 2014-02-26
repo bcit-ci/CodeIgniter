@@ -493,9 +493,9 @@ class CI_Image_lib {
 		 * Either way, we'll try use realpath to generate the
 		 * full server path in order to more reliably read it.
 		 */
-		if (function_exists('realpath') && @realpath($this->source_image) !== FALSE)
+		if (($full_source_path = realpath($this->source_image)) !== FALSE)
 		{
-			$full_source_path = str_replace('\\', '/', realpath($this->source_image));
+			$full_source_path = str_replace('\\', '/', $full_source_path);
 		}
 		else
 		{

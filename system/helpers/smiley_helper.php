@@ -114,7 +114,9 @@ EOF;
 			}
 		}
 
-		return ($inline) ? '<script type="text/javascript" charset="utf-8">/*<![CDATA[ */'.$r.'// ]]></script>' : $r;
+		return ($inline)
+			? '<script type="text/javascript" charset="utf-8">/*<![CDATA[ */'.$r.'// ]]></script>'
+			: $r;
 	}
 }
 

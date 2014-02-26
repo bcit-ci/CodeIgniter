@@ -137,14 +137,12 @@ if ( ! function_exists('delete_files'))
 				}
 			}
 		}
-		@closedir($current_dir);
 
-		if ($del_dir === TRUE && $_level > 0)
-		{
-			return @rmdir($path);
-		}
+		closedir($current_dir);
 
-		return TRUE;
+		return ($del_dir === TRUE && $_level > 0)
+			? @rmdir($path)
+			: TRUE;
 	}
 }
 
@@ -178,7 +176,7 @@ if ( ! function_exists('get_filenames'))
 
 			while (FALSE !== ($file = readdir($fp)))
 			{
-				if (@is_dir($source_dir.$file) && $file[0] !== '.')
+				if (is_dir($source_dir.$file) && $file[0] !== '.')
 				{
 					get_filenames($source_dir.$file.DIRECTORY_SEPARATOR, $include_path, TRUE);
 				}
@@ -187,8 +185,8 @@ if ( ! function_exists('get_filenames'))
 					$_filedata[] = ($include_path === TRUE) ? $source_dir.$file : $file;
 				}
 			}
-			closedir($fp);
 
+			closedir($fp);
 			return $_filedata;
 		}
 
@@ -230,7 +228,7 @@ if ( ! function_exists('get_dir_file_info'))
 			// foreach (scandir($source_dir, 1) as $file) // In addition to being PHP5+, scandir() is simply not as fast
 			while (FALSE !== ($file = readdir($fp)))
 			{
-				if (@is_dir($source_dir.$file) && $file[0] !== '.' && $top_level_only === FALSE)
+				if (is_dir($source_dir.$file) && $file[0] !== '.' && $top_level_only === FALSE)
 				{
 					get_dir_file_info($source_dir.$file.DIRECTORY_SEPARATOR, $top_level_only, TRUE);
 				}
@@ -240,8 +238,8 @@ if ( ! function_exists('get_dir_file_info'))
 					$_filedata[$file]['relative_path'] = $relative_path;
 				}
 			}
-			closedir($fp);
 
+			closedir($fp);
 			return $_filedata;
 		}
 
@@ -330,8 +328,6 @@ if ( ! function_exists('get_mime_by_extension'))
 	 */
 	function get_mime_by_extension($filename)
 	{
-		$extension = strtolower(substr(strrchr($filename, '.'), 1));
-
 		static $mimes;
 
 		if ( ! is_array($mimes))
@@ -343,6 +339,8 @@ if ( ! function_exists('get_mime_by_extension'))
 				return FALSE;
 			}
 		}
+
+		$extension = strtolower(substr(strrchr($filename, '.'), 1));
 
 		if (isset($mimes[$extension]))
 		{
@@ -405,18 +403,18 @@ if ( ! function_exists('symbolic_permissions'))
 
 		// Owner
 		$symbolic .= (($perms & 0x0100) ? 'r' : '-')
-			. (($perms & 0x0080) ? 'w' : '-')
-			. (($perms & 0x0040) ? (($perms & 0x0800) ? 's' : 'x' ) : (($perms & 0x0800) ? 'S' : '-'));
+			.(($perms & 0x0080) ? 'w' : '-')
+			.(($perms & 0x0040) ? (($perms & 0x0800) ? 's' : 'x' ) : (($perms & 0x0800) ? 'S' : '-'));
 
 		// Group
 		$symbolic .= (($perms & 0x0020) ? 'r' : '-')
-			. (($perms & 0x0010) ? 'w' : '-')
-			. (($perms & 0x0008) ? (($perms & 0x0400) ? 's' : 'x' ) : (($perms & 0x0400) ? 'S' : '-'));
+			.(($perms & 0x0010) ? 'w' : '-')
+			.(($perms & 0x0008) ? (($perms & 0x0400) ? 's' : 'x' ) : (($perms & 0x0400) ? 'S' : '-'));
 
 		// World
 		$symbolic .= (($perms & 0x0004) ? 'r' : '-')
-			. (($perms & 0x0002) ? 'w' : '-')
-			. (($perms & 0x0001) ? (($perms & 0x0200) ? 't' : 'x' ) : (($perms & 0x0200) ? 'T' : '-'));
+			.(($perms & 0x0002) ? 'w' : '-')
+			.(($perms & 0x0001) ? (($perms & 0x0200) ? 't' : 'x' ) : (($perms & 0x0200) ? 'T' : '-'));
 
 		return $symbolic;
 	}

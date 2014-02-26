@@ -56,7 +56,7 @@ if ( ! function_exists('set_realpath'))
 		}
 
 		// Resolve the path
-		if (@realpath($path) !== FALSE)
+		if (realpath($path) !== FALSE)
 		{
 			$path = realpath($path);
 		}
