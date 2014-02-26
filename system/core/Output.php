@@ -639,7 +639,7 @@ class CI_Output {
 		$uri =	$CFG->item('base_url').$CFG->item('index_page').$URI->uri_string;
 		$filepath = $cache_path.md5($uri);
 
-		if ( ! @file_exists($filepath) OR ! $fp = @fopen($filepath, FOPEN_READ))
+		if ( ! file_exists($filepath) OR ! $fp = @fopen($filepath, FOPEN_READ))
 		{
 			return FALSE;
 		}

@@ -147,6 +147,7 @@ class CI_FTP {
 			{
 				$this->_error('ftp_unable_to_connect');
 			}
+
 			return FALSE;
 		}
 
@@ -156,6 +157,7 @@ class CI_FTP {
 			{
 				$this->_error('ftp_unable_to_login');
 			}
+
 			return FALSE;
 		}
 
@@ -572,7 +574,7 @@ class CI_FTP {
 			// Recursively read the local directory
 			while (FALSE !== ($file = readdir($fp)))
 			{
-				if (@is_dir($locpath.$file) && $file[0] !== '.')
+				if (is_dir($locpath.$file) && $file[0] !== '.')
 				{
 					$this->mirror($locpath.$file.'/', $rempath.$file.'/');
 				}

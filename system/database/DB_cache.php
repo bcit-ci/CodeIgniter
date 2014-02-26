@@ -156,7 +156,7 @@ class CI_DB_Cache {
 		$dir_path = $this->db->cachedir.$segment_one.'+'.$segment_two.'/';
 		$filename = md5($sql);
 
-		if ( ! @is_dir($dir_path))
+		if ( ! is_dir($dir_path))
 		{
 			if ( ! @mkdir($dir_path, DIR_WRITE_MODE))
 			{

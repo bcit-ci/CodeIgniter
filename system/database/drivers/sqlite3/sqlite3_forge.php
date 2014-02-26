@@ -93,7 +93,7 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 	public function drop_database($db_name = '')
 	{
 		// In SQLite, a database is dropped when we delete a file
-		if (@file_exists($this->db->database))
+		if (file_exists($this->db->database))
 		{
 			// We need to close the pseudo-connection first
 			$this->db->close();

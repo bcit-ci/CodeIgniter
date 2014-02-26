@@ -133,12 +133,12 @@ class CI_Zip {
 	protected function _get_mod_time($dir)
 	{
 		// filemtime() may return false, but raises an error for non-existing files
-		$date = file_exists($dir) ? @filemtime($dir) : getdate($this->now);
+		$date = file_exists($dir) ? filemtime($dir) : getdate($this->now);
 
 		return array(
-				'file_mtime' => ($date['hours'] << 11) + ($date['minutes'] << 5) + $date['seconds'] / 2,
-				'file_mdate' => (($date['year'] - 1980) << 9) + ($date['mon'] << 5) + $date['mday']
-			);
+			'file_mtime' => ($date['hours'] << 11) + ($date['minutes'] << 5) + $date['seconds'] / 2,
+			'file_mdate' => (($date['year'] - 1980) << 9) + ($date['mon'] << 5) + $date['mday']
+		);
 	}
 
 	// --------------------------------------------------------------------
@@ -342,7 +342,7 @@ class CI_Zip {
 				continue;
 			}
 
-			if (@is_dir($path.$file))
+			if (is_dir($path.$file))
 			{
 				$this->read_dir($path.$file.DIRECTORY_SEPARATOR, $preserve_filepath, $root_path);
 			}
@@ -353,6 +353,7 @@ class CI_Zip {
 				{
 					$name = str_replace($root_path, '', $name);
 				}
+
 				$this->add_data($name.$file, $data);
 			}
 		}
