@@ -86,7 +86,8 @@ Release Date: Not Released
 
       - Added more doctypes.
       - Changed application and environment config files to be loaded in a cascade-like manner.
-      - The doctypes array is now cached and loaded only once.
+      - Changed :func:`doctype()` to cache and only load once the doctypes array.
+      - Deprecated functions ``nbs()`` and ``br()``, which are just aliases for the native ``str_repeat()`` with ``&nbsp;`` and ``<br />`` respectively.
 
    -  :doc:`Inflector Helper <helpers/inflector_helper>` changes include:
 

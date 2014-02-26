@@ -371,6 +371,7 @@ if ( ! function_exists('br'))
 	/**
 	 * Generates HTML BR tags based on number supplied
 	 *
+	 * @deprecated	3.0.0	Use str_repeat() instead
 	 * @param	int	$count	Number of times to repeat the tag
 	 * @return	string
 	 */
@@ -387,6 +388,7 @@ if ( ! function_exists('nbs'))
 	/**
 	 * Generates non-breaking space entities based on number supplied
 	 *
+	 * @deprecated	3.0.0	Use str_repeat() instead
 	 * @param	int
 	 * @return	string
 	 */

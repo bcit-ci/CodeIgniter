@@ -450,6 +450,18 @@ its usage:
 .. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
 	rather than later as it is scheduled for removal in CodeIgniter 3.1+.
 
+HTML helpers nbs(), br()
+========================
+
+:doc:`HTML Helper <../helpers/html_helper>` functions ``nbs()`` and ``br()`` are just aliases
+for the native ``str_repeat()`` function used with ``&nbsp;`` and ``<br >`` respectively.
+
+Because there's no point in just aliasing native PHP functions, they are now deprecated and
+scheduled for removal in CodeIgniter 3.1+.
+
+.. note:: These functions are still available, but you're strongly encouraged to remove their usage
+	sooner rather than later.
+
 Pagination library 'anchor_class' setting
 =========================================
 

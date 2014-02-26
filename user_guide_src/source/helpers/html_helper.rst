@@ -25,23 +25,6 @@ Available Functions
 The following functions are available:
 
 
-.. function:: br([$count = 1])
-
-	:param	int	$count: Number of times to repeat the tag
-	:returns:	HTML line break tag
-	:rtype:	string
-
-	Generates line break tags (<br />) based on the number you submit.
-	Example::
-
-		echo br(3);
-
-	The above would produce:
-
-	.. code-block:: html
-
-		<br /><br /><br />
-
 .. function:: heading([$data = ''[, $h = '1'[, $attributes = '']]])
 
 	:param	string	$data: Content
@@ -150,23 +133,6 @@ The following functions are available:
 
 		echo link_tag($link);
 		// <link href="http://site.com/css/printer.css" rel="stylesheet" type="text/css" media="print" />
-
-.. function:: nbs([$num = 1])
-
-	:param	int	$num: Number of space entities to produce
-	:returns:	A sequence of non-breaking space HTML entities
-	:rtype:	string
-
-	Generates non-breaking spaces (&nbsp;) based on the number you submit.
-	Example::
-
-		echo nbs(3);
-
-	The above would produce:
-
-	.. code-block:: html
-
-		&nbsp;&nbsp;&nbsp;
 
 
 .. function:: ul($list[, $attributes = ''])
@@ -396,3 +362,43 @@ The following functions are available:
 	XHTML+RDFa 1.0                  xhtml-rdfa-1        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
 	XHTML+RDFa 1.1                  xhtml-rdfa-2        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.1//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-2.dtd">
 	=============================== =================== ==================================================================================================================================================
+
+.. function:: br([$count = 1])
+
+	:param	int	$count: Number of times to repeat the tag
+	:returns:	HTML line break tag
+	:rtype:	string
+
+	Generates line break tags (<br />) based on the number you submit.
+	Example::
+
+		echo br(3);
+
+	The above would produce:
+
+	.. code-block:: html
+
+		<br /><br /><br />
+
+	.. note:: This function is DEPRECATED. Use the native ``str_repeat()``
+		in combination with ``<br />`` instead.
+
+.. function:: nbs([$num = 1])
+
+	:param	int	$num: Number of space entities to produce
+	:returns:	A sequence of non-breaking space HTML entities
+	:rtype:	string
+
+	Generates non-breaking spaces (&nbsp;) based on the number you submit.
+	Example::
+
+		echo nbs(3);
+
+	The above would produce:
+
+	.. code-block:: html
+
+		&nbsp;&nbsp;&nbsp;
+
+	.. note:: This function is DEPRECATED. Use the native ``str_repeat()``
+		in combination with ``&nbsp;`` instead.
