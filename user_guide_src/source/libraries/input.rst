@@ -326,9 +326,10 @@ Class Reference
 		Accepts an optional second string parameter of 'ipv4' or 'ipv6' to specify
 		an IP format. The default checks for both formats.
 
-	.. method:: user_agent()
+	.. method:: user_agent([$xss_clean = NULL])
 
 		:returns:	User agent string or NULL if not set
+		:param	bool	$xss_clean: Whether to apply XSS filtering
 		:rtype:	mixed
 
 		Returns the user agent string (web browser) being used by the current user,
