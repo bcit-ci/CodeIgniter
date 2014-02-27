@@ -387,7 +387,7 @@ abstract class CI_DB_driver {
 		// ----------------------------------------------------------------
 
 		// Connect to the database and set the connection ID
-		$this->conn_id = ($this->pconnect === FALSE) ? $this->db_connect() : $this->db_pconnect();
+		$this->conn_id = $this->db_connect($this->pconnect);
 
 		// No connection resource? Check if there is a failover else throw an error
 		if ( ! $this->conn_id)
@@ -405,7 +405,7 @@ abstract class CI_DB_driver {
 					}
 
 					// Try to connect
-					$this->conn_id = ($this->pconnect === FALSE) ? $this->db_connect() : $this->db_pconnect();
+					$this->conn_id = $this->db_connect($this->pconnect);
 
 					// If a connection is made break the foreach loop
 					if ($this->conn_id)
@@ -424,6 +424,7 @@ abstract class CI_DB_driver {
 				{
 					$this->display_error('db_unable_to_connect');
 				}
+
 				return FALSE;
 			}
 		}
@@ -535,8 +536,7 @@ abstract class CI_DB_driver {
 			return ($this->db_debug) ? $this->display_error('db_unsupported_function') : FALSE;
 		}
 
-		$query = $this->query($sql);
-		$query = $query->row();
+		$query = $this->query($sql)->row();
 		return $this->data_cache['version'] = $query->ver;
 	}
 
@@ -724,8 +724,8 @@ abstract class CI_DB_driver {
 
 		if ( ! class_exists($driver, FALSE))
 		{
-			include_once(BASEPATH.'database/DB_result.php');
-			include_once(BASEPATH.'database/drivers/'.$this->dbdriver.'/'.$this->dbdriver.'_result.php');
+			require_once(BASEPATH.'database/DB_result.php');
+			require_once(BASEPATH.'database/drivers/'.$this->dbdriver.'/'.$this->dbdriver.'_result.php');
 		}
 
 		return $driver;
@@ -1031,9 +1031,11 @@ abstract class CI_DB_driver {
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
 		{
-			return str_replace(array($this->_like_escape_chr, '%', '_'),
-						array($this->_like_escape_chr.$this->_like_escape_chr, $this->_like_escape_chr.'%', $this->_like_escape_chr.'_'),
-						$str);
+			return str_replace(
+				array($this->_like_escape_chr, '%', '_'),
+				array($this->_like_escape_chr.$this->_like_escape_chr, $this->_like_escape_chr.'%', $this->_like_escape_chr.'_'),
+				$str
+			);
 		}
 
 		return $str;
@@ -1308,9 +1310,11 @@ abstract class CI_DB_driver {
 			if (is_array($this->_escape_char))
 			{
 				$preg_ec = array(
-						preg_quote($this->_escape_char[0], '/'), preg_quote($this->_escape_char[1], '/'),
-						$this->_escape_char[0], $this->_escape_char[1]
-						);
+					preg_quote($this->_escape_char[0], '/'),
+					preg_quote($this->_escape_char[1], '/'),
+					$this->_escape_char[0],
+					$this->_escape_char[1]
+				);
 			}
 			else
 			{
@@ -1549,7 +1553,7 @@ abstract class CI_DB_driver {
 	 */
 	public function cache_delete($segment_one = '', $segment_two = '')
 	{
-		return ($this->_cache_init())
+		return $this->_cache_init()
 			? $this->CACHE->delete($segment_one, $segment_two)
 			: FALSE;
 	}
@@ -1563,7 +1567,7 @@ abstract class CI_DB_driver {
 	 */
 	public function cache_delete_all()
 	{
-		return ($this->_cache_init())
+		return $this->_cache_init()
 			? $this->CACHE->delete_all()
 			: FALSE;
 	}
@@ -1741,15 +1745,15 @@ abstract class CI_DB_driver {
 		if ($offset = strripos($item, ' AS '))
 		{
 			$alias = ($protect_identifiers)
-					? substr($item, $offset, 4).$this->escape_identifiers(substr($item, $offset + 4))
-					: substr($item, $offset);
+				? substr($item, $offset, 4).$this->escape_identifiers(substr($item, $offset + 4))
+				: substr($item, $offset);
 			$item = substr($item, 0, $offset);
 		}
 		elseif ($offset = strrpos($item, ' '))
 		{
 			$alias = ($protect_identifiers)
-					? ' '.$this->escape_identifiers(substr($item, $offset + 1))
-					: substr($item, $offset);
+				? ' '.$this->escape_identifiers(substr($item, $offset + 1))
+				: substr($item, $offset);
 			$item = substr($item, 0, $offset);
 		}
 		else
