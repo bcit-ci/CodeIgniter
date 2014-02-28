@@ -474,6 +474,14 @@ then it will be passed as the second argument of your callback method.
 	boolean TRUE/FALSE it is assumed that the data is your newly processed
 	form data.
 
+Custom callback object
+======================
+
+In order to call a callback function in an custom object outside
+of the controller, the object needs to be set::
+
+    $this->form_validation->callback_ref = $object;
+
 .. _setting-error-messages:
 
 Setting Error Messages

@@ -108,6 +108,13 @@ class CI_Form_validation {
 	public $validation_data	= array();
 
 	/**
+	 * Callback reference object
+	 *
+	 * @var object
+	 */
+	public $callback_ref = null;
+
+	/**
 	 * Initialize Form_Validation class
 	 *
 	 * @param	array	$rules
@@ -694,8 +701,15 @@ class CI_Form_validation {
 			{
 				if ( ! method_exists($this->CI, $rule))
 				{
-					log_message('debug', 'Unable to find callback validation rule: '.$rule);
-					$result = FALSE;
+					if ($this->callback_ref !== null && method_exists($this->callback_ref, $rule))
+					{
+						$result = $this->callback_ref->$rule($postdata, $param);
+					}
+				   	else
+					{
+						log_message('debug', 'Unable to find callback validation rule: '.$rule);
+						$result = FALSE;
+					}
 				}
 				else
 				{
@@ -1547,6 +1561,7 @@ class CI_Form_validation {
 		$this->_error_array = array();
 		$this->_error_messages = array();
 		$this->error_string = '';
+		$this->callback_ref = "";
 		return $this;
 	}
 
