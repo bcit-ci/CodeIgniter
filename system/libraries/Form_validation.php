@@ -108,6 +108,13 @@ class CI_Form_validation {
 	public $validation_data	= array();
 
 	/**
+	 * Callback reference object
+	 *
+	 * @var object
+	 */
+	public $callback_ref = null;
+
+	/**
 	 * Initialize Form_Validation class
 	 *
 	 * @param	array	$rules
@@ -1554,6 +1561,7 @@ class CI_Form_validation {
 		$this->_error_array = array();
 		$this->_error_messages = array();
 		$this->error_string = '';
+		$this->callback_ref = "";
 		return $this;
 	}
 
