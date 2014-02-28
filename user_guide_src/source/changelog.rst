@@ -345,6 +345,7 @@ Release Date: Not Released
       -  :doc:`Language <libraries/language>` line keys must now be prefixed with **form_validation_**.
       -  Added rule **alpha_numeric_spaces**.
       -  Added support for custom error messages per field rule.
+      -  Added option to support custom callback objects.
 
    -  :doc:`Caching Library <libraries/caching>` changes include:
 
