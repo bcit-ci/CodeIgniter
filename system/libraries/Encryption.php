@@ -365,15 +365,6 @@ class CI_Encryption {
 				: NULL;
 		}
 
-		// CAST-128 compatibility (http://tools.ietf.org/rfc/rfc2144.txt)
-		//
-		// RFC2144 says that keys shorter than 16 bytes are to be padded with
-		// zero bytes to 16 bytes, but (surprise) MCrypt doesn't do that.
-		if ($params['cipher'] === 'cast-128' && ($kl = strlen($params['key'])) < 16)
-		{
-			$params['key'] .= str_repeat("\x0", 16 - $kl);
-		}
-
 		if (mcrypt_generic_init($params['handle'], $params['key'], $params['iv']) < 0)
 		{
 			if ($params['handle'] !== $this->_handle)
@@ -554,15 +545,6 @@ class CI_Encryption {
 			{
 				$params['iv'] = NULL;
 			}
-		}
-
-		// CAST-128 compatibility (http://tools.ietf.org/rfc/rfc2144.txt)
-		//
-		// RFC2144 says that keys shorter than 16 bytes are to be padded with
-		// zero bytes to 16 bytes, but (surprise) MCrypt doesn't do that.
-		if ($params['cipher'] === 'cast-128' && ($kl = strlen($params['key'])) < 16)
-		{
-			$params['key'] .= str_repeat("\x0", 16 - $kl);
 		}
 
 		if (mcrypt_generic_init($params['handle'], $params['key'], $params['iv']) < 0)
@@ -794,9 +776,10 @@ class CI_Encryption {
 			// - CAST-128/CAST5 produces a longer cipher when encrypted via
 			//   OpenSSL, but (strangely enough) can be decrypted by either
 			//   extension anyway.
-			//   Also, RFC2144 says that the cipher supports key sizes
-			//   between 5 and 16 bytes by the implementation actually
-			//   zero-padding them to 16 bytes, but MCrypt doesn't do that.
+			//   Also, it appears that OpenSSL uses 16 rounds regardless of
+			//   the key size, while RFC2144 says that for key sizes lower
+			//   than 11 bytes, only 12 rounds should be used. This makes
+			//   it portable only with keys of between 11 and 16 bytes.
 			//
 			// - RC4 (ARCFour) has a strange implementation under OpenSSL.
 			//   Its 'rc4-40' cipher method seems to work flawlessly, yet

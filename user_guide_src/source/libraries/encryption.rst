@@ -133,7 +133,7 @@ AES-256                  aes-256            256 / 32                     CBC, CT
 DES                      des                56 / 7                       CBC, CFB, CFB8, OFB, ECB
 TripleDES                tripledes          56 / 7, 112 / 14, 168 / 21   CBC, CFB, CFB8, OFB
 Blowfish                 blowfish           128-448 / 16-56              CBC, CFB, OFB, ECB
-CAST5 / CAST-128         cast5              40-128 / 5-16                CBC, CFB, OFB, ECB
+CAST5 / CAST-128         cast5              88-128 / 11-16               CBC, CFB, OFB, ECB
 RC4 / ARCFour            rc4                40-2048 / 5-256              Stream
 ======================== ================== ============================ ===============================
 
@@ -176,6 +176,7 @@ Rijndael-192   MCrypt    128 / 16, 192 / 24, 256 / 32   CBC, CTR, CFB, CFB8, OFB
 Rijndael-256   MCrypt    128 / 16, 192 / 24, 256 / 32   CBC, CTR, CFB, CFB8, OFB, OFB8, ECB
 GOST           MCrypt    256 / 32                       CBC, CTR, CFB, CFB8, OFB, OFB8, ECB
 Twofish        MCrypt    128 / 16, 192 / 24, 256 / 32   CBC, CTR, CFB, CFB8, OFB, OFB8, ECB
+CAST-128       MCrypt    40-128 / 5-16                  CBC, CTR, CFB, CFB8, OFB, OFB8, ECB
 CAST-256       MCrypt    128 / 16, 192 / 24, 256 / 32   CBC, CTR, CFB, CFB8, OFB, OFB8, ECB
 Loki97         MCrypt    128 / 16, 192 / 24, 256 / 32   CBC, CTR, CFB, CFB8, OFB, OFB8, ECB
 SaferPlus      MCrypt    128 / 16, 192 / 24, 256 / 32   CBC, CTR, CFB, CFB8, OFB, OFB8, ECB
@@ -197,6 +198,11 @@ Seed           OpenSSL   128 / 16                       CBC, CFB, OFB, ECB
 	drivers support different modes for these ciphers. Also, it is
 	important to note that AES-128 and Rijndael-128 are actually
 	the same cipher, but **only** when used with a 128-bit key.
+
+.. note:: CAST-128 / CAST-5 is also listed in both the portable and
+	driver-specific ciphers list. This is because OpenSSL's
+	implementation doesn't appear to be working correctly with
+	key sizes of 80 bits and lower.
 
 .. note:: RC2 is listed as supported by both MCrypt and OpenSSL.
 	However, both drivers implement them differently and they
