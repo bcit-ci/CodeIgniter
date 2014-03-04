@@ -85,9 +85,12 @@ if ( ! function_exists('form_open'))
 			$hidden[$CI->security->get_csrf_token_name()] = $CI->security->get_csrf_hash();
 		}
 
-		if (is_array($hidden) && count($hidden) > 0)
+		if (is_array($hidden))
 		{
-			$form .= '<div style="display:none;">'.form_hidden($hidden).'</div>';
+			foreach ($hidden as $name => $value)
+			{
+				$form .= '<input type="hidden" name="'.$name.'" value="'.form_prep($value).'" style="display:none;" />'."\n";
+			}
 		}
 
 		return $form;
