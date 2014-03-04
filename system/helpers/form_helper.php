@@ -87,7 +87,7 @@ if ( ! function_exists('form_open'))
 
 		if (is_array($hidden) && count($hidden) > 0)
 		{
-			$form .= '<div style="display:none;">'.form_hidden($hidden).'</div>';
+			$form .= form_hidden($hidden);
 		}
 
 		return $form;
