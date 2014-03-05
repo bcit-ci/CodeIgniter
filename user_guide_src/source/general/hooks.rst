@@ -23,7 +23,7 @@ following item in the **application/config/config.php** file::
 Defining a Hook
 ===============
 
-Hooks are defined in **application/config/hooks.php** file.
+Hooks are defined in the **application/config/hooks.php** file.
 Each hook is specified as an array with this prototype::
 
 	$hook['pre_controller'] = array(
@@ -55,6 +55,14 @@ defined in your associative hook array:
    filepath. No trailing slash.
 -  **params** Any parameters you wish to pass to your script. This item
    is optional.
+
+If you're running PHP 5.3+, you can also use lambda/anoymous functions
+(or closures) as hooks, with a simpler syntax::
+
+	$hook['post_controller'] = function()
+	{
+		/* do something here */
+	};
 
 Multiple Calls to the Same Hook
 ===============================

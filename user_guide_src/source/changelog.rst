@@ -509,6 +509,7 @@ Release Date: Not Released
 
    -  :doc:`Hooks Library <general/hooks>` changes include:
 
+      -  Added support for closure hooks (or anything that ``is_callable()`` returns TRUE for).
       -  Renamed method ``_call_hook()`` to ``call_hook()``.
       -  Class instances are now stored in order to maintain their state.
 
