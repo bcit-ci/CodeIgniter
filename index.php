@@ -271,7 +271,14 @@ switch (ENVIRONMENT)
  *
  * And away we go...
  */
-require_once BASEPATH.'core/CodeIgniter.php';
+if (file_exists(APPPATH.'core'.DIRECTORY_SEPARATOR.'CodeIgniter.php'))
+{
+	require_once APPPATH.'core'.DIRECTORY_SEPARATOR.'CodeIgniter.php';
+}
+else
+{
+	require_once BASEPATH.'core/CodeIgniter.php';
+}
 
 /* End of file index.php */
 /* Location: ./index.php */
