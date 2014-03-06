@@ -6,7 +6,7 @@ class hash_test extends CI_TestCase {
 	{
 		if (is_php('5.5'))
 		{
-			return $this->markTestSkipped('ext/standard/password is available on PHP 5.5');
+			return $this->markTestSkipped('ext/hash is available on PHP 5.5');
 		}
 
 		$this->assertTrue(function_exists('hash_pbkdf2'));
