@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Trackbacks
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/trackback.html
+ * @link		http://ellislab.com/codeigniter/user_guide/libraries/trackback.html
  */
 class CI_Trackback {
 

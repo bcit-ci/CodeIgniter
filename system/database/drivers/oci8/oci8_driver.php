@@ -37,7 +37,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage  Drivers
  * @category	Database
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @link		http://ellislab.com/codeigniter/user_guide/database/
  */
 
 /**

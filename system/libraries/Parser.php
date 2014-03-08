@@ -33,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Parser
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/parser.html
+ * @link		http://ellislab.com/codeigniter/user_guide/libraries/parser.html
  */
 class CI_Parser {
 

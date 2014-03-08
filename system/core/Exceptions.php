@@ -33,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Exceptions
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/exceptions.html
+ * @link		http://ellislab.com/codeigniter/user_guide/libraries/exceptions.html
  */
 class CI_Exceptions {
 
