@@ -15,7 +15,7 @@
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
- *// Did the rule test negatively? If so, grab the error.
+ *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
@@ -765,7 +765,7 @@ class CI_Form_validation {
 			// Did the rule test negatively? If so, grab the error.
 			if ($result === FALSE)
 			{
-				//SIDE EFFECT.. tested and valid
+				//SIDE EFFECT.. incase user dont want to set error msg in function !
                 		if(strpos($rule,'.'))$rule=explode('.',$rule)[1];
 				
 				// Check if a custom message is defined
