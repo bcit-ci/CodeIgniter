@@ -694,8 +694,14 @@ class CI_Form_validation {
 			{
 				if ( ! method_exists($this->CI, $rule))
 				{
+					//the fix !
+					$modelRuleArr=explode('.',$rule);
+					if(count($modelRuleArr)==2 && method_exists($this->CI->$modelRuleArr[0], $modelRuleArr[1])){
+                        			$result = $this->CI->$modelRuleArr[0]->$modelRuleArr[1]($postdata, $param);
+					}else{
 					log_message('debug', 'Unable to find callback validation rule: '.$rule);
 					$result = FALSE;
+					}
 				}
 				else
 				{
@@ -759,6 +765,9 @@ class CI_Form_validation {
 			// Did the rule test negatively? If so, grab the error.
 			if ($result === FALSE)
 			{
+				//SIDE EFFECT.. incase user dont want to set error msg in function !
+                		if(strpos($rule,'.'))$rule=explode('.',$rule)[1];
+				
 				// Check if a custom message is defined
 				if (isset($this->_field_data[$row['field']]['errors'][$rule]))
 				{
