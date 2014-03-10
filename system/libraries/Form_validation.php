@@ -208,11 +208,12 @@ class CI_Form_validation {
 		// If the field label wasn't passed we use the field name
 		$label = ($label === '') ? $field : $label;
 
+		$indexes = array();
+
 		// Is the field name an array? If it is an array, we break it apart
 		// into its components so that we can fetch the corresponding POST data later
 		if (($is_array = (bool) preg_match_all('/\[(.*?)\]/', $field, $matches)) === TRUE)
 		{
-			$indexes = array();
 			sscanf($field, '%[^[][', $indexes[0]);
 
 			for ($i = 0, $c = count($matches[0]); $i < $c; $i++)

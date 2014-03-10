@@ -809,6 +809,7 @@ abstract class CI_DB_forge {
 						$field['length'] = is_array($attributes['CONSTRAINT'])
 							? "('".implode("','", $attributes['CONSTRAINT'])."')"
 							: '('.$attributes['CONSTRAINT'].')';
+						break;
 					default:
 						$field['length'] = is_array($attributes['CONSTRAINT'])
 							? '('.implode(',', $attributes['CONSTRAINT']).')'
