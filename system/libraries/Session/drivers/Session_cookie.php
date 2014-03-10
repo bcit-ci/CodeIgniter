@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Sessions
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/sessions.html
+ * @link		http://ellislab.com/codeigniter/user_guide/libraries/sessions.html
  */
 class CI_Session_cookie extends CI_Session_driver {
 

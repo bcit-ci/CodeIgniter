@@ -33,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Image_lib
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/image_lib.html
+ * @link		http://ellislab.com/codeigniter/user_guide/libraries/image_lib.html
  */
 class CI_Image_lib {
 

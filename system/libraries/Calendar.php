@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Libraries
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/calendar.html
+ * @link		http://ellislab.com/codeigniter/user_guide/libraries/calendar.html
  */
 class CI_Calendar {
 
