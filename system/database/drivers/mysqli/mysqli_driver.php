@@ -163,7 +163,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	protected function _db_set_charset($charset)
 	{
-		return @$this->conn_id->set_charset($charset);
+		return $this->conn_id->set_charset($charset);
 	}
 
 	// --------------------------------------------------------------------
