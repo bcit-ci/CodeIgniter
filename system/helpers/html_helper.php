@@ -181,7 +181,7 @@ if ( ! function_exists('img'))
 
 		foreach ($src as $k => $v)
 		{
-			if ($k === 'src' && strpos($v, '://') === FALSE)
+			if ($k === 'src' && !preg_match('/^https?:\/\//i', $v))
 			{
 				if ($index_page === TRUE)
 				{
