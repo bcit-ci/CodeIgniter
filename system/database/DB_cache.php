@@ -158,12 +158,12 @@ class CI_DB_Cache {
 
 		if ( ! is_dir($dir_path))
 		{
-			if ( ! @mkdir($dir_path, DIR_WRITE_MODE))
+			if ( ! @mkdir($dir_path, 0777))
 			{
 				return FALSE;
 			}
 
-			@chmod($dir_path, DIR_WRITE_MODE);
+			@chmod($dir_path, 0777);
 		}
 
 		if (write_file($dir_path.$filename, serialize($object)) === FALSE)
@@ -171,7 +171,7 @@ class CI_DB_Cache {
 			return FALSE;
 		}
 
-		@chmod($dir_path.$filename, FILE_WRITE_MODE);
+		@chmod($dir_path.$filename, 0666);
 		return TRUE;
 	}
 

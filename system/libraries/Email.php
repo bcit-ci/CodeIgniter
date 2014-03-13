@@ -732,7 +732,7 @@ class CI_Email {
 				return FALSE;
 			}
 
-			if ( ! $fp = @fopen($file, FOPEN_READ))
+			if ( ! $fp = @fopen($file, 'rb'))
 			{
 				$this->_set_error_message('lang:email_attachment_unreadable', $file);
 				return FALSE;

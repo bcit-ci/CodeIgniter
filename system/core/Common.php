@@ -94,17 +94,17 @@ if ( ! function_exists('is_really_writable'))
 		if (is_dir($file))
 		{
 			$file = rtrim($file, '/').'/'.md5(mt_rand());
-			if (($fp = @fopen($file, FOPEN_WRITE_CREATE)) === FALSE)
+			if (($fp = @fopen($file, 'ab')) === FALSE)
 			{
 				return FALSE;
 			}
 
 			fclose($fp);
-			@chmod($file, DIR_WRITE_MODE);
+			@chmod($file, 0777);
 			@unlink($file);
 			return TRUE;
 		}
-		elseif ( ! is_file($file) OR ($fp = @fopen($file, FOPEN_WRITE_CREATE)) === FALSE)
+		elseif ( ! is_file($file) OR ($fp = @fopen($file, 'ab')) === FALSE)
 		{
 			return FALSE;
 		}
@@ -177,7 +177,7 @@ if ( ! function_exists('load_class'))
 			// self-referencing loop with the Exceptions class
 			set_status_header(503);
 			echo 'Unable to locate the specified class: '.$class.'.php';
-			exit(EXIT_UNKNOWN_CLASS);
+			exit(5); // EXIT_UNK_CLASS
 		}
 
 		// Keep track of what we just loaded
@@ -250,7 +250,7 @@ if ( ! function_exists('get_config'))
 			{
 				set_status_header(503);
 				echo 'The configuration file does not exist.';
-				exit(EXIT_CONFIG);
+				exit(3); // EXIT_CONFIG
 			}
 
 			// Does the $config array exist in the file?
@@ -258,7 +258,7 @@ if ( ! function_exists('get_config'))
 			{
 				set_status_header(503);
 				echo 'Your config file does not appear to be formatted correctly.';
-				exit(EXIT_CONFIG);
+				exit(3); // EXIT_CONFIG
 			}
 
 			// references cannot be directly assigned to static variables, so we use an array
@@ -397,16 +397,17 @@ if ( ! function_exists('show_error'))
 		$status_code = abs($status_code);
 		if ($status_code < 100)
 		{
-			$exit_status = $status_code + EXIT__AUTO_MIN;
-			if ($exit_status > EXIT__AUTO_MAX)
+			$exit_status = $status_code + 9; // 9 is EXIT__AUTO_MIN
+			if ($exit_status > 125) // 125 is EXIT__AUTO_MAX
 			{
-				$exit_status = EXIT_ERROR;
+				$exit_status = 1; // EXIT_ERROR
 			}
+
 			$status_code = 500;
 		}
 		else
 		{
-			$exit_status = EXIT_ERROR;
+			$exit_status = 1; // EXIT_ERROR
 		}
 
 		$_error =& load_class('Exceptions', 'core');
@@ -434,7 +435,7 @@ if ( ! function_exists('show_404'))
 	{
 		$_error =& load_class('Exceptions', 'core');
 		$_error->show_404($page, $log_error);
-		exit(EXIT_UNKNOWN_FILE);
+		exit(4); // EXIT_UNKNOWN_FILE
 	}
 }
 
@@ -612,7 +613,7 @@ if ( ! function_exists('_exception_handler'))
 		// default error handling. See http://www.php.net/manual/en/errorfunc.constants.php
 		if ($is_error)
 		{
-			exit(EXIT_ERROR);
+			exit(1); // EXIT_ERROR
 		}
 	}
 }

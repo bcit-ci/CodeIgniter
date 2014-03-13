@@ -108,7 +108,7 @@ class CI_Log {
 		$this->_file_ext = (isset($config['log_file_extension']) && $config['log_file_extension'] !== '')
 			? ltrim($config['log_file_extension'], '.') : 'php';
 
-		file_exists($this->_log_path) OR mkdir($this->_log_path, DIR_WRITE_MODE, TRUE);
+		file_exists($this->_log_path) OR mkdir($this->_log_path, 0777, TRUE);
 
 		if ( ! is_dir($this->_log_path) OR ! is_really_writable($this->_log_path))
 		{
@@ -170,7 +170,7 @@ class CI_Log {
 			}
 		}
 
-		if ( ! $fp = @fopen($filepath, FOPEN_WRITE_CREATE))
+		if ( ! $fp = @fopen($filepath, 'ab'))
 		{
 			return FALSE;
 		}
@@ -192,7 +192,7 @@ class CI_Log {
 
 		if (isset($newfile) && $newfile === TRUE)
 		{
-			@chmod($filepath, FILE_WRITE_MODE);
+			@chmod($filepath, 0666);
 		}
 
 		return is_int($result);

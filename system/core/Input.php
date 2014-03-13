@@ -754,7 +754,7 @@ class CI_Input {
 			{
 				set_status_header(503);
 				echo 'Disallowed Key Characters.';
-				exit(EXIT_USER_INPUT);
+				exit(7); // EXIT_USER_INPUT
 			}
 		}
 

@@ -290,7 +290,7 @@ class CI_Driver {
 
 		$trace = debug_backtrace();
 		_exception_handler(E_ERROR, "No such method '{$method}'", $trace[1]['file'], $trace[1]['line']);
-		exit(EXIT_UNKNOWN_METHOD);
+		exit(6); // EXIT_UNKNOWN_METHOD
 	}
 
 	// --------------------------------------------------------------------
