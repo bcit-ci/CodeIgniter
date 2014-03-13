@@ -880,7 +880,7 @@ class CI_Image_lib {
 			return FALSE;
 		}
 
-		// Set the file to 777
+		// Set the file to 666
 		@chmod($this->full_dst_path, 0666);
 
 		return TRUE;
@@ -1013,7 +1013,7 @@ class CI_Image_lib {
 		imagedestroy($dst_img);
 		imagedestroy($src_img);
 
-		// Set the file to 777
+		// Set the file to 666
 		@chmod($this->full_dst_path, 0666);
 
 		return TRUE;
@@ -1086,7 +1086,7 @@ class CI_Image_lib {
 		// Kill the file handles
 		imagedestroy($src_img);
 
-		// Set the file to 777
+		// Set the file to 666
 		@chmod($this->full_dst_path, 0666);
 
 		return TRUE;
