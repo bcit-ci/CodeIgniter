@@ -346,7 +346,7 @@ class CI_Cart {
 			if ($items['qty'] == 0)
 			{
 				unset($this->_cart_contents[$items['rowid']]);
-				return TRUE
+				return TRUE;
 			}
 		}		
 		
