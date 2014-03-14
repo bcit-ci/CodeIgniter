@@ -205,8 +205,8 @@ Updating The Cart
 =================
 
 To update the information in your cart, you must pass an array
-containing the Row ID and one or more pre-defined properties to the ``$this->cart->update()``
-method.
+containing the Row ID and one or more pre-defined properties to the 
+``$this->cart->update()`` method.
 
 .. note:: If the quantity is set to zero, the item will be removed from
 	the cart.

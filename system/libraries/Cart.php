@@ -338,7 +338,7 @@ class CI_Cart {
 		}
 
 		// Prep the quantity
-		if ( isset($items['qty']) )
+		if (isset($items['qty']))
 		{
 			$items['qty'] = (float) $items['qty'];
 			// Is the quantity zero?  If so we will remove the item from the cart.
