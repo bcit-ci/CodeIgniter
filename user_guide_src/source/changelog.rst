@@ -318,6 +318,7 @@ Release Date: Not Released
       -  Added support for disabling product name strictness via the ``$product_name_safe`` property.
       -  Changed ``insert()`` method to auto-increment quantity for an item when inserted twice instead of resetting it.
       -	 Changed ``update()`` method to support updating all properties attached to an item.
+      -  Removed the requirment of quantity to trigger ``update()``.            
 
    -  :doc:`Image Manipulation Library <libraries/image_lib>` changes include:
 
