@@ -1730,6 +1730,11 @@ abstract class CI_DB_driver {
 		// escape the data or add a prefix. There's probably a more graceful
 		// way to deal with this, but I'm not thinking of it -- Rick
 		//
+		// This doesn't works with methods with seperators like CONCAT_WS and 
+		// generates Syntax errors.
+		// Below is a fix for the items let through with the ending parenthesis. 
+		// -- Timmiedinnie
+		//
 		// Added exception for single quotes as well, we don't want to alter
 		// literal strings. -- Narf
 		if (strpos($item, '(') !== FALSE OR strpos($item, "'") !== FALSE)
@@ -1760,7 +1765,17 @@ abstract class CI_DB_driver {
 		{
 			$alias = '';
 		}
-
+		
+		// This is another bug fix for queries that use CONCAT, CONCAT_WS, etc. (Methods with seperators)
+		// it needs to break free the last parenthesis (When a space is used i.e. CONCAT(a, b, c)
+		// The above alias will move the parenthesis to the alias. which correctly paste it behind 
+		// the item again. -- Timmiedinnie
+		if ($offset = strrpos($item, ')'))
+		{
+			$alias = substr($item, $offset).$alias;
+			$item = substr($item, 0, $offset);
+		}
+		
 		// Break the string apart if it contains periods, then insert the table prefix
 		// in the correct location, assuming the period doesn't indicate that we're dealing
 		// with an alias. While we're at it, we will escape the components
