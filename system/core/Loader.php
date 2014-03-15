@@ -290,8 +290,12 @@ class CI_Loader {
 
 			require_once($mod_path.'models/'.$path.$model.'.php');
 
-			$CI->$name = new $model();
-			$this->_ci_models[] = $name;
+			if (class_exists($model)) {
+				$CI->$name = new $model();
+				$this->_ci_models[] = $name;
+			}else{
+				log_message('Error', 'Model Attachment to CI failed: '.$model);
+			}
 			return $this;
 		}
 
