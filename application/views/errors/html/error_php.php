@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		<?php endif ?>
 
-	<?php endforeach ?></p>
+	<?php endforeach ?>
 
 <?php endif ?>
 
