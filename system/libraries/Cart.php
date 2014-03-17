@@ -348,8 +348,8 @@ class CI_Cart {
 				unset($this->_cart_contents[$items['rowid']]);
 				return TRUE;
 			}
-		}		
-		
+		}
+
 		// find updatable keys
 		$keys = array_intersect(array_keys($this->_cart_contents[$items['rowid']]), array_keys($items));
 		// if a price was passed, make sure it contains valid data
@@ -362,7 +362,7 @@ class CI_Cart {
 		foreach (array_diff($keys, array('id', 'name')) as $key)
 		{
 			$this->_cart_contents[$items['rowid']][$key] = $items[$key];
-		}		
+		}
 
 		return TRUE;
 	}
