@@ -747,24 +747,22 @@ abstract class CI_DB_forge {
 				continue;
 			}
 
-			if (isset($attributes['TYPE']))
-			{
-				$this->_attr_type($attributes);
-				$this->_attr_unsigned($attributes, $field);
-			}
+			isset($attributes['TYPE']) && $this->_attr_type($attributes);
 
 			$field = array(
-					'name'			=> $key,
-					'new_name'		=> isset($attributes['NAME']) ? $attributes['NAME'] : NULL,
-					'type'			=> isset($attributes['TYPE']) ? $attributes['TYPE'] : NULL,
-					'length'		=> '',
-					'unsigned'		=> '',
-					'null'			=> '',
-					'unique'		=> '',
-					'default'		=> '',
-					'auto_increment'	=> '',
-					'_literal'		=> FALSE
+				'name'			=> $key,
+				'new_name'		=> isset($attributes['NAME']) ? $attributes['NAME'] : NULL,
+				'type'			=> isset($attributes['TYPE']) ? $attributes['TYPE'] : NULL,
+				'length'		=> '',
+				'unsigned'		=> '',
+				'null'			=> '',
+				'unique'		=> '',
+				'default'		=> '',
+				'auto_increment'	=> '',
+				'_literal'		=> FALSE
 			);
+
+			isset($attributes['TYPE']) && $this->_attr_unsigned($attributes, $field);
 
 			if ($create_table === FALSE)
 			{
