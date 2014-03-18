@@ -454,7 +454,7 @@ class CI_Security {
 
 			if (preg_match('/<a/i', $str))
 			{
-				$str = preg_replace_callback('#<a[^a-z0-9]+([^>]*?)(?:>|$)#si', array($this, '_js_link_removal'), $str);
+				$str = preg_replace_callback('#<a[^a-z0-9>]+([^>]*?)(?:>|$)#si', array($this, '_js_link_removal'), $str);
 			}
 
 			if (preg_match('/<img/i', $str))
@@ -581,7 +581,7 @@ class CI_Security {
 			$str_compare = $str;
 
 			$str = preg_replace('/(&#x0*[0-9a-f]{2,5})(?![0-9a-f;])/iS', '$1;', $str);
-			$str = preg_replace('/(&#\d{2,4})(?![0-9;])/S', '$1;', $str);
+			$str = preg_replace('/(&#0*\d{2,4})(?![0-9;])/S', '$1;', $str);
 			$str = html_entity_decode($str, ENT_COMPAT, $charset);
 		}
 		while ($str_compare !== $str);
