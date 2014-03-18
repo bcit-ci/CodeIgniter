@@ -578,13 +578,13 @@ class CI_Security {
 
 		do
 		{
-			$m1 = $m2 = 0;
+			$str_compare = $str;
 
-			$str = preg_replace('/(&#x0*[0-9a-f]{2,5})(?![0-9a-f;])/iS', '$1;', $str, -1, $m1);
-			$str = preg_replace('/(&#\d{2,4})(?![0-9;])/S', '$1;', $str, -1, $m2);
+			$str = preg_replace('/(&#x0*[0-9a-f]{2,5})(?![0-9a-f;])/iS', '$1;', $str);
+			$str = preg_replace('/(&#\d{2,4})(?![0-9;])/S', '$1;', $str);
 			$str = html_entity_decode($str, ENT_COMPAT, $charset);
 		}
-		while ($m1 OR $m2);
+		while ($str_compare !== $str);
 
 		return $str;
 	}
