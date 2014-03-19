@@ -460,9 +460,10 @@ if ( ! function_exists('url_title'))
 	 * @param	string	$separator	Word separator
 	 *			(usually '-' or '_')
 	 * @param	bool	$lowercase	Wether to transform the output string to lowercase
+	 * @param	bool	$lower_ascii	Wether to apply the convert_accented_characters() to the url
 	 * @return	string
 	 */
-	function url_title($str, $separator = '-', $lowercase = FALSE)
+	function url_title($str, $separator = '-', $lowercase = FALSE, $lower_ascii = FALSE)
 	{
 		if ($separator === 'dash')
 		{
@@ -483,6 +484,12 @@ if ( ! function_exists('url_title'))
 		);
 
 		$str = strip_tags($str);
+		if($lower_ascii===TRUE)
+		{
+			$CI =& get_instance();
+			$CI->load->helper('text');
+			$str = convert_accented_characters($str);
+		}
 		foreach ($trans as $key => $val)
 		{
 			$str = preg_replace('#'.$key.'#i', $val, $str);
