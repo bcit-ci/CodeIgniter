@@ -192,6 +192,25 @@ if ( ! function_exists('underscore'))
 	}
 }
 
+//--------------------------------------------------------------------
+if( ! function_exists('hyphen'))
+{
+	/**
+	 * Hyphen
+	 * 
+	 * Takes nultiple words seperated by spaces and hypens them
+	 * 
+	 * @param	string $str	Input string
+	 * @return	string
+	 * 
+	 * Exact copy of underscore function however just replace spaces with hyphens 
+	 */
+	 function hyphen($str)
+	 {
+	 	return preg_replace('/[\s]+/', '-', trim(MB_ENABLED ? mb_strtolower($str) : strtolower($str)));
+	 }
+}
+
 // --------------------------------------------------------------------
 
 if ( ! function_exists('humanize'))
