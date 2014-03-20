@@ -2072,7 +2072,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			foreach ($table as $single_table)
 			{
-				$this->delete($single_table, $where, $limit, $reset_data, $this->ar_join);
+				$this->delete($single_table, $where, $limit, $reset_data);
 			}
 			return;
 		}
@@ -2145,6 +2145,13 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			.($this->qb_limit ? ' LIMIT '.$this->qb_limit : '');
 	}
 
+	/**
+	 * Grep array condition with regexp.
+	 * 
+	 * @param  string regexp expresssion
+	 * @param  array array to compare
+	 * @return array an array with matches
+	 */
 	private function _preg_grep_join($regex, $arr)
 	{
 		$matches = array();
