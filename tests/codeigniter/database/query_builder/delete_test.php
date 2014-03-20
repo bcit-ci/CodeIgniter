@@ -45,7 +45,7 @@ class Delete_test extends CI_TestCase {
 		->join('job', 'job.id = user.id')
 		->delete('user');
 
-		$politician = $this->db->where('id', 2);
+		$politician = $this->db->where('id', 2)->get('user');
 		$this->assertEmpty($politician->result_array());
 	}
 
