@@ -39,7 +39,8 @@ class Delete_test extends CI_TestCase {
 	/**
 	 * @see ./mocks/schema/skeleton.php
 	 */
-	public function test_delete_join(){
+	public function test_delete_join()
+	{
 		// Dummy join to delete politicians :D
 		$this->db->where('job.name', 'Politician')
 		->join('job', 'job.id = user.id')
