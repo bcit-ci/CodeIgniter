@@ -213,7 +213,7 @@ class CI_Loader {
 	/**
 	 * Model Loader
 	 *
-	 * Loads and instantiates libraries.
+	 * Loads and instantiates models.
 	 *
 	 * @param	string	$model		Model name
 	 * @param	string	$name		An optional object name to assign to
