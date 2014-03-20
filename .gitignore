@@ -4,12 +4,27 @@ application/cache/*
 !application/cache/index.html
 !application/cache/.htaccess
 
+application/controllers/*
+application/config/*
 application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
+
+application/models/*
+!application/models/index.html
+
+application/views/*
+!application/views/index.html
+!application/views/welcome_message.php
+
+
+
+htdocs/*
 
 user_guide_src/build/*
 user_guide_src/cilexer/build/*
 user_guide_src/cilexer/dist/*
 user_guide_src/cilexer/pycilexer.egg-info/*
 /vendor/
+
+tests/codeigniter/database/phpunit.xml

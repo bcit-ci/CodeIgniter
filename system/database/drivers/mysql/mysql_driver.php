@@ -440,6 +440,22 @@ class CI_DB_mysql_driver extends CI_DB {
 		return $retval;
 	}
 
+	/**
+	 * Delete statement
+	 *
+	 * Generates a platform-specific delete string from the supplied data
+	 *
+	 * @param	string	$table
+	 * @return	string
+	 */
+	protected function _delete($table)
+	{		
+		return 'DELETE '. $table .' FROM '.$table
+			.($this->qb_join > 0 ? "\n".implode("\n", $this->qb_join) : '')
+			.$this->_compile_wh('qb_where')
+			.($this->qb_limit ? ' LIMIT '.$this->qb_limit : '');
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
