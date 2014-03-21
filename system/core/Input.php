@@ -117,7 +117,7 @@ class CI_Input {
 		$this->_allow_get_array		= (config_item('allow_get_array') === TRUE);
 		$this->_enable_xss		= (config_item('global_xss_filtering') === TRUE);
 		$this->_enable_csrf		= (config_item('csrf_protection') === TRUE);
-		$this->_sandardize_newlines	= (bool) config_item('standardize_newlines');
+		$this->_standardize_newlines	= (bool) config_item('standardize_newlines');
 
 		$this->security =& load_class('Security', 'core');
 
