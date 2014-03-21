@@ -2132,7 +2132,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				if (count($this->qb_where) > 0)
 				{
 					$this->qb_joinwhere = $this->_preg_grep_join('/' . trim($matches[1],'"\'` ') . '\..+/', $this->qb_where);					
-					$this->qb_where = array_diff($this->qb_where, $this->qb_joinwhere);					
+					$this->qb_where = array_diff_key($this->qb_where, $this->qb_joinwhere);
 					$joins .= $this->_compile_wh('qb_joinwhere') . ")";
 				}
 			}
@@ -2159,7 +2159,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			if (preg_match($regex, $value['condition']) === 1)
 			{
-				$matches[] = $value;
+				// preserve key values to do array_diff on keys...
+				$matches[$key] = $value;
 			}
 		}
 		
