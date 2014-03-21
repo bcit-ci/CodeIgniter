@@ -42,12 +42,10 @@ class Delete_test extends CI_TestCase {
 	public function test_delete_join()
 	{
 		// Dummy join to delete politicians :D
-		$this->db->where('job.name', 'Politician')
-		->join('job', 'job.id = user.id')
-		->delete('user');
+		$this->db->where('job.name', 'Politician')->join('job', 'job.id = user.id')->delete('user');
 
-		$politician = $this->db->where('id', 2)->get('user');
-		$this->assertEmpty($politician->result_array());
+		$politicians = $this->db->where('id', 2)->get('user')->num_rows();
+		$this->assertEquals($politicians, 0);
 	}
 
 	// ------------------------------------------------------------------------
