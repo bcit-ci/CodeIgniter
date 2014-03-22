@@ -2118,6 +2118,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	protected function _delete($table)
 	{	
 		$joins = array();
+		$join ='';
 		if (count($this->qb_join) > 0)
 		{
 			foreach ($this->qb_join as $deljoin) 

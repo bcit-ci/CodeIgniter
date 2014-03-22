@@ -42,34 +42,26 @@ class Delete_test extends CI_TestCase {
 	public function test_delete_join()
 	{
 		// Dummy join to delete politicians :D
-		$this->db->where('job.name', 'Politician')
-		->join('job', 'job.userId = user.id')
-		->delete('user');
+		$this->db->where('job.name', 'Politician')->join('job', 'job.userId = user.id')->delete('user');
 
 		$politicians = $this->db->where('id', 2)->get('user')->result_array();
 		$this->assertEmpty($politicians);
 	}
 
 	public function test_delete_join_where(){		
-		$this->db->join('job', 'job.userId = user.id')
-		->where('job.name', 'Politician');
+		$this->db->join('job', 'job.userId = user.id')->where('job.name', 'Politician');
 
-		$this->db->join('misc', 'misc.userId = user.id')		
-		->where('misc.value', 'join1');
+		$this->db->join('misc', 'misc.userId = user.id')->where('misc.value', 'join1');
 
-		$this->db->where('user.email', 'richard@world.com')
-		->delete('user');
+		$this->db->where('user.email', 'richard@world.com')->delete('user');
 		
 		$politician = $this->db->where('id', 2)->get('user');
 		$this->assertNotEmpty($politician->result_array());
 
 
-		$this->db->join('job', 'job.userId = user.id')
-		->where('job.name', 'Politician');
+		$this->db->join('job', 'job.userId = user.id')->where('job.name', 'Politician');
 		
-		$this->db->join('misc', 'misc.userId = user.id')
-		->where('misc.value', 'join1')
-		->delete('user');
+		$this->db->join('misc', 'misc.userId = user.id')->where('misc.value', 'join1')->delete('user');
 
 		$politician = $this->db->where('id', 2)->get('user');
 		$this->assertEmpty($politician->result_array());
