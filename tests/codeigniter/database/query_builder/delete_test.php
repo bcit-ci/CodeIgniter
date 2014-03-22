@@ -57,17 +57,17 @@ class Delete_test extends CI_TestCase {
 		$this->db->join('misc', 'misc.userId = user.id')		
 		->where('misc.value', 'join1');
 
-		$this->where('user.email', 'richard@world.com')
+		$this->db->where('user.email', 'richard@world.com')
 		->delete('user');
 		
 		$politician = $this->db->where('id', 2)->get('user');
 		$this->assertNotEmpty($politician->result_array());
 
-		
+
 		$this->db->join('job', 'job.userId = user.id')
 		->where('job.name', 'Politician');
 		
-		$this->db->join('misc', 'misc.userId = user.id')		
+		$this->db->join('misc', 'misc.userId = user.id')
 		->where('misc.value', 'join1')
 		->delete('user');
 
