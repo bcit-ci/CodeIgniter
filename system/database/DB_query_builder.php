@@ -2117,7 +2117,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	protected function _delete($table)
 	{	
-		$joins = '';
+		$joins = array();
 		if (count($this->qb_join) > 0)
 		{
 			foreach ($this->qb_join as $deljoin) 
@@ -2125,14 +2125,14 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				// Get join table and columns.
 				if(preg_match('/JOIN\s(.+)\sON\s(.+)=(.+)/', $deljoin, $matches) == 1)
 				{					
-					$joins .= "\nWHERE " . $matches[3] . " IN (SELECT " . $matches[2] . " FROM " . $matches[1]. "\n";
+					$join .= $matches[3] . " IN (SELECT " . $matches[2] . " FROM " . $matches[1]. "\n";
 				}
 				
 				// Parse join conditions if any.
 				if (count($this->qb_where) > 0)
 				{
 					$this->qb_joinwhere = $this->_preg_grep_join('/' . trim($matches[1],'"\'` ') . '\..+/', $this->qb_where);					
-					$this->qb_where = array_diff($this->qb_where, $this->qb_joinwhere);					
+					$this->qb_where = array_diff($this->qb_where, $this->qb_joinwhere);
 					$joins .= $this->_compile_wh('qb_joinwhere') . ")";
 				}
 			}
@@ -2140,8 +2140,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			unset($this->qb_joinwhere);
 		}
 
-		return 'DELETE FROM '.$table.$joins
-			.$this->_compile_wh('qb_where')
+		return 'DELETE FROM '.$table.
+			.count($this->qb_where) > 0 ? $this->_compile_wh('qb_where') : "\nWHERE "
+			.$joins
 			.($this->qb_limit ? ' LIMIT '.$this->qb_limit : '');
 	}
 
