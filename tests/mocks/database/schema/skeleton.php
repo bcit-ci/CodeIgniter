@@ -140,7 +140,7 @@ class Mock_Database_Schema_Skeleton {
 				array('id' => 2, 'key' => '\\%foo456', 'value' => 'Entry with \\%', 'userId' => 3),
 				array('id' => 3, 'key' => 'spaces and tabs', 'value' => ' One  two   three	tab', 'userId' => 2),
 				array('id' => 4, 'key' => 'dummy key 1', 'value' => 'join1', 'userId' => 2),
-				array('id' => 5, 'key' => '\\%foo456', 'value' => 'join1', 'userId' => 4),
+				array('id' => 5, 'key' => 'dummy key 2', 'value' => 'join1', 'userId' => 4),
 			)
 		);
 
