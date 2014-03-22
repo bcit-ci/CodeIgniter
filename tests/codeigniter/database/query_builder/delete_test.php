@@ -53,7 +53,7 @@ class Delete_test extends CI_TestCase {
 
 	public function test_delete_join_where(){		
 		$this->db->join('job', 'job.userId = user.id')
-		->joing('misc', 'misc.userId = user.id')
+		->join('misc', 'misc.userId = user.id')
 		->where('job.name', 'Politician')
 		->where('misc.value', 'join1')
 		->where('user.email', 'richard@world.com')
@@ -63,7 +63,7 @@ class Delete_test extends CI_TestCase {
 		$this->assertNotEmpty($politician->result_array());
 
 		$this->db->join('job', 'job.userId = user.id')
-		->joing('misc', 'misc.userId = user.id')
+		->join('misc', 'misc.userId = user.id')
 		->where('job.name', 'Politician')
 		->where('misc.value', 'join1')
 		->delete('user');
