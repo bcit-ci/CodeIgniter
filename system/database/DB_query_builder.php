@@ -2142,8 +2142,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		return 'DELETE FROM '.$table.
-			.count($this->qb_where) > 0 ? $this->_compile_wh('qb_where') . "\nAND " : "\nWHERE "
-			.implode("\nAND ",$joins)
+			.(count($this->qb_where) > 0 ? $this->_compile_wh('qb_where').'\nAND ' : '\nWHERE ')
+			.implode("\nAND ", $joins)
 			.($this->qb_limit ? ' LIMIT '.$this->qb_limit : '');
 	}
 
