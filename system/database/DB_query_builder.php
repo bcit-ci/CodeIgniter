@@ -2118,7 +2118,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	protected function _delete($table)
 	{	
 		$joins = array();
-		$join ='';
+		
 		if (count($this->qb_join) > 0)
 		{
 			foreach ($this->qb_join as $deljoin) 
@@ -2126,26 +2126,33 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				// Get join table and columns.
 				if(preg_match('/JOIN\s(.+)\sON\s(.+)=(.+)/', $deljoin, $matches) == 1)
 				{					
-					$join .= $matches[3] . " IN (SELECT " . $matches[2] . " FROM " . $matches[1]. "\n";
+					$join = $matches[3] . " IN (SELECT " . $matches[2] . " FROM " . $matches[1]. "\n";
 				}
-				
+					
 				// Parse join conditions if any.
 				if (count($this->qb_where) > 0)
-				{
-					$this->qb_joinwhere = $this->_preg_grep_join('/' . trim($matches[1],'"\'` ') . '\..+/', $this->qb_where);					
+				{					
+					$this->qb_joinwhere = $this->_preg_grep_join('/' . trim($matches[1],'"\'` ') . '\..+/', $this->qb_where);										;
 					$this->qb_where = array_diff_key($this->qb_where, $this->qb_joinwhere);
-					$join .= $this->_compile_wh('qb_joinwhere') . ")";
+					$this->qb_joinwhere = array_values($this->qb_joinwhere);
+					$join .= $this->_compile_wh('qb_joinwhere') . ")";				
 				}
+				
 				$joins[] = $join;
+				// Clear joinwhere			
+				unset($this->qb_joinwhere);
 			}
-			// Clear joinwhere			
-			unset($this->qb_joinwhere);
+			
+			if(count($this->qb_where) > 0){
+				$this->qb_where = array_values($this->qb_where);
+				$this->qb_where[0]['condition'] = preg_replace("/(AND|OR)\s?(.+)/", '\2', $this->qb_where[0]['condition']);	
+			}
 		}
-
+		
 		return 'DELETE FROM '.$table
-			.(count($this->qb_where) > 0 ? $this->_compile_wh('qb_where').'\nAND ' : '\nWHERE ')
+			.(count($this->qb_where) > 0 ? $this->_compile_wh('qb_where') .' AND ' : "\nWHERE ")
 			.implode("\nAND ", $joins)
-			.($this->qb_limit ? ' LIMIT '.$this->qb_limit : '');
+			.($this->qb_limit ? ' LIMIT '.$this->qb_limit : '');;
 	}
 
 	/**
@@ -2167,6 +2174,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			}
 		}
 		
+		$revert = array_keys($matches);
+		$key = reset($revert);		
+		$matches[$key]['condition'] = preg_replace("/(AND|OR)\s?(.+)/", '\2', $matches[$key]['condition']);	
+
 		return $matches;
 	}
 
