@@ -39,19 +39,29 @@ class Delete_test extends CI_TestCase {
 	/**
 	 * @see ./mocks/schema/skeleton.php
 	 */
-	public function test_delete_join_simple()
+	public function test_delete_join()
 	{
 		// Dummy join to delete politicians :D
 		$this->db->where('job.name', 'Politician')
 		->join('job', 'job.userId = user.id')
 		->delete('user');
+		$this->db->where('job.name', 'Politician')->join('job', 'job.id = user.id')->delete('user');
 
-		$politician = $this->db->where('id', 2)->get('user');
-		$this->assertEmpty($politician->result_array());
+		$politicians = $this->db->where('id', 2)->get('user')->result_array();
+		$this->assertEmpty($politicians);
 	}
 
-	public function test_delete_join_where(){
-		// Dummy join to delete politicians :D
+	public function test_delete_join_where(){		
+		$this->db->join('job', 'job.userId = user.id')
+		->joing('misc', 'misc.userId = user.id')
+		->where('job.name', 'Politician')
+		->where('misc.value', 'join1')
+		->where('user.email', 'richard@world.com')
+		->delete('user');
+		
+		$politician = $this->db->where('id', 2)->get('user');
+		$this->assertNotEmpty($politician->result_array());
+
 		$this->db->join('job', 'job.userId = user.id')
 		->joing('misc', 'misc.userId = user.id')
 		->where('job.name', 'Politician')
