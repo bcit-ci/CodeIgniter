@@ -129,11 +129,11 @@ class CI_DB_oci8_driver extends CI_DB {
 		parent::__construct($params);
 
 		$valid_dsns = array(
-					'tns'	=> '/^\(DESCRIPTION=(\(.+\)){2,}\)$/', // TNS
-					// Easy Connect string (Oracle 10g+)
-					'ec'	=> '/^(\/\/)?[a-z0-9.:_-]+(:[1-9][0-9]{0,4})?(\/[a-z0-9$_]+)?(:[^\/])?(\/[a-z0-9$_]+)?$/i',
-					'in'	=> '/^[a-z0-9$_]+$/i' // Instance name (defined in tnsnames.ora)
-				);
+			'tns'	=> '/^\(DESCRIPTION=(\(.+\)){2,}\)$/', // TNS
+			// Easy Connect string (Oracle 10g+)
+			'ec'	=> '/^(\/\/)?[a-z0-9.:_-]+(:[1-9][0-9]{0,4})?(\/[a-z0-9$_]+)?(:[^\/])?(\/[a-z0-9$_]+)?$/i',
+			'in'	=> '/^[a-z0-9$_]+$/i' // Instance name (defined in tnsnames.ora)
+		);
 
 		/* Space characters don't have any effect when actually
 		 * connecting, but can be a hassle while validating the DSN.
@@ -169,8 +169,8 @@ class CI_DB_oci8_driver extends CI_DB {
 			 * that the database field is a service name.
 			 */
 			$this->dsn = $this->hostname
-					.(( ! empty($this->port) && ctype_digit($this->port)) ? ':'.$this->port : '')
-					.($this->database !== '' ? '/'.ltrim($this->database, '/') : '');
+				.(( ! empty($this->port) && ctype_digit($this->port)) ? ':'.$this->port : '')
+				.($this->database !== '' ? '/'.ltrim($this->database, '/') : '');
 
 			if (preg_match($valid_dsns['ec'], $this->dsn))
 			{
@@ -393,9 +393,9 @@ class CI_DB_oci8_driver extends CI_DB {
 		// Reset the transaction failure flag.
 		// If the $test_mode flag is set to TRUE transactions will be rolled back
 		// even if the queries produce a successful result.
-		$this->_trans_failure = ($test_mode === TRUE) ? TRUE : FALSE;
+		$this->_trans_failure = ($test_mode === TRUE);
 
-		$this->commit_mode = (is_php('5.3.2')) ? OCI_NO_AUTO_COMMIT : OCI_DEFAULT;
+		$this->commit_mode = is_php('5.3.2') ? OCI_NO_AUTO_COMMIT : OCI_DEFAULT;
 		return TRUE;
 	}
 
@@ -685,7 +685,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	{
 		$this->limit_used = TRUE;
 		return 'SELECT * FROM (SELECT inner_query.*, rownum rnum FROM ('.$sql.') inner_query WHERE rownum < '.($this->qb_offset + $this->qb_limit + 1).')'
-			.($this->qb_offset ? ' WHERE rnum >= '.($this->qb_offset + 1): '');
+			.($this->qb_offset ? ' WHERE rnum >= '.($this->qb_offset + 1) : '');
 	}
 
 	// --------------------------------------------------------------------
