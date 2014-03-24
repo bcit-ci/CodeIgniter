@@ -127,7 +127,7 @@ class Mock_Database_Schema_Skeleton {
 				array('id' => 1, 'name' => 'Derek Jones', 'email' => 'derek@world.com', 'country' => 'US', 'jobId' => 1),
 				array('id' => 2, 'name' => 'Ahmadinejad', 'email' => 'ahmadinejad@world.com', 'country' => 'Iran', 'jobId' => 2),
 				array('id' => 3, 'name' => 'Richard A Causey', 'email' => 'richard@world.com', 'country' => 'US', 'jobId' => 3),
-				array('id' => 4, 'name' => 'Chris Martin', 'email' => 'chris@world.com', 'country' => 'UK', 'jobId' => 4 )
+				array('id' => 4, 'name' => 'Chris Martin', 'email' => 'chris@world.com', 'country' => 'UK', 'jobId' => 4 ),
 				array('id' => 5, 'name' => 'Donald Duck', 'email' => 'dduck@world.com', 'country' => 'UK', 'jobId' => 2 )
 			),
 			'job' => array(
