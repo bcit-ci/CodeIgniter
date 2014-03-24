@@ -271,7 +271,7 @@ class CI_Loader {
 				$db_conn = '';
 			}
 
-			$CI->load->database($db_conn, FALSE, TRUE);
+			$this->database($db_conn, FALSE, TRUE);
 		}
 
 		if ( ! class_exists('CI_Model', FALSE))
@@ -623,12 +623,12 @@ class CI_Loader {
 	 */
 	public function language($files, $lang = '')
 	{
-		$CI =& get_instance();
+		$LNG =& get_instance()->lang;
 		is_array($files) OR $files = array($files);
 
 		foreach ($files as $langfile)
 		{
-			$CI->lang->load($langfile, $lang);
+			$LNG->load($langfile, $lang);
 		}
 
 		return $this;
