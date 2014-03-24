@@ -1215,10 +1215,9 @@ class CI_Loader {
 		// Load any custom config file
 		if (count($autoload['config']) > 0)
 		{
-			$CFG =& get_instance()->config;
 			foreach ($autoload['config'] as $val)
 			{
-				$CFG->load($val);
+				$this->config($val);
 			}
 		}
 
