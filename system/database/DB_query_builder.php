@@ -2148,11 +2148,17 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				$this->qb_where[0]['condition'] = preg_replace("/(AND|OR)\s?(.+)/", '\2', $this->qb_where[0]['condition']);	
 			}
 		}
+
+		if (count($joins) > 0){
+			'DELETE FROM '.$table
+                        .$this->_compile_wh('qb_where')
+						.(count($this->qb_where) > 0 ? ' AND '.implode("\nAND ", $joins) : "\nWHERE ".implode("\nAND ", $joins))
+						.($this->qb_limit ? ' LIMIT '.$this->qb_limit : '');
+		}
 		
 		return 'DELETE FROM '.$table
-                        .$this->_compile_wh('qb_where')
-			.(count($this->qb_where) > 0 ? ' AND '.implode("\nAND ", $joins): "\nWHERE ".implode("\nAND ", $joins))
-			.($this->qb_limit ? ' LIMIT '.$this->qb_limit : '');;
+                        .$this->_compile_wh('qb_where')						
+						.($this->qb_limit ? ' LIMIT '.$this->qb_limit : '');
 	}
 
 	/**
