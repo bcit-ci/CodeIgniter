@@ -66,6 +66,10 @@ class Mock_Database_Schema_Skeleton {
 			'country' => array(
 				'type' => 'VARCHAR',
 				'constraint' => 40
+			),
+			'jobId' => array(
+				'type' => 'INTEGER',
+				'constraint' => 3
 			)
 		));
 		static::$forge->add_key('id', TRUE);
@@ -83,10 +87,6 @@ class Mock_Database_Schema_Skeleton {
 			),
 			'description' => array(
 				'type' => 'TEXT'
-			),
-			'userId' => array(
-				'type' => 'INTEGER',
-				'constraint' => 3
 			)
 		));
 		static::$forge->add_key('id', TRUE);
@@ -124,23 +124,24 @@ class Mock_Database_Schema_Skeleton {
 		// Job Data
 		$data = array(
 			'user' => array(
-				array('id' => 1, 'name' => 'Derek Jones', 'email' => 'derek@world.com', 'country' => 'US'),
-				array('id' => 2, 'name' => 'Ahmadinejad', 'email' => 'ahmadinejad@world.com', 'country' => 'Iran'),
-				array('id' => 3, 'name' => 'Richard A Causey', 'email' => 'richard@world.com', 'country' => 'US'),
-				array('id' => 4, 'name' => 'Chris Martin', 'email' => 'chris@world.com', 'country' => 'UK')
+				array('id' => 1, 'name' => 'Derek Jones', 'email' => 'derek@world.com', 'country' => 'US', 'jobId' => 1),
+				array('id' => 2, 'name' => 'Ahmadinejad', 'email' => 'ahmadinejad@world.com', 'country' => 'Iran', 'jobId' => 2),
+				array('id' => 3, 'name' => 'Richard A Causey', 'email' => 'richard@world.com', 'country' => 'US', 'jobId' => 3),
+				array('id' => 4, 'name' => 'Chris Martin', 'email' => 'chris@world.com', 'country' => 'UK', 'jobId' => 4 )
+				array('id' => 5, 'name' => 'Donald Duck', 'email' => 'dduck@world.com', 'country' => 'UK', 'jobId' => 2 )
 			),
 			'job' => array(
-				array('id' => 1, 'name' => 'Developer', 'description' => 'Awesome job, but sometimes makes you bored', 'userId' => 1),
-				array('id' => 2, 'name' => 'Politician', 'description' => 'This is not really a job', 'userId' => 2),
-    		array('id' => 3, 'name' => 'Accountant', 'description' => 'Boring job, but you will get free snack at lunch', 'userId' => 3),
-				array('id' => 4, 'name' => 'Musician', 'description' => 'Only Coldplay can actually called Musician', 'userId' => 4)
+				array('id' => 1, 'name' => 'Developer', 'description' => 'Awesome job, but sometimes makes you bored'),
+				array('id' => 2, 'name' => 'Politician', 'description' => 'This is not really a job'),
+    			array('id' => 3, 'name' => 'Accountant', 'description' => 'Boring job, but you will get free snack at lunch'),
+				array('id' => 4, 'name' => 'Musician', 'description' => 'Only Coldplay can actually called Musician')
 			),
 			'misc' => array(
 				array('id' => 1, 'key' => '\\xxxfoo456', 'value' => 'Entry with \\xxx', 'userId' => 1),
 				array('id' => 2, 'key' => '\\%foo456', 'value' => 'Entry with \\%', 'userId' => 3),
 				array('id' => 3, 'key' => 'spaces and tabs', 'value' => ' One  two   three	tab', 'userId' => 2),
 				array('id' => 4, 'key' => 'dummy key 1', 'value' => 'join1', 'userId' => 2),
-				array('id' => 5, 'key' => 'dummy key 2', 'value' => 'join1', 'userId' => 4),
+				array('id' => 5, 'key' => 'dummy key 2', 'value' => 'join1', 'userId' => 5),
 			)
 		);
 
