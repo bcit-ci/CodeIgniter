@@ -66,10 +66,6 @@ class Mock_Database_Schema_Skeleton {
 			'country' => array(
 				'type' => 'VARCHAR',
 				'constraint' => 40
-			),
-			'jobId' => array(
-				'type' => 'INTEGER',
-				'constraint' => 3
 			)
 		));
 		static::$forge->add_key('id', TRUE);
@@ -104,6 +100,24 @@ class Mock_Database_Schema_Skeleton {
 			),
 			'value' => array(
 				'type' => 'TEXT'
+			)
+		));
+		static::$forge->add_key('id', TRUE);
+		static::$forge->create_table('misc', TRUE);
+
+		// Devices Table
+		static::$forge->add_field(array(
+			'id' => array(
+				'type' => 'INTEGER',
+				'constraint' => 3
+			),
+			'uuid' => array(
+				'type' => 'VARCHAR',
+				'constraint' => 50
+			),
+			'name' => array(
+				'type' => 'VARCHAR',
+				'constraint' => 20
 			),
 			'userId' => array(
 				'type' => 'INTEGER',
@@ -111,7 +125,7 @@ class Mock_Database_Schema_Skeleton {
 			)
 		));
 		static::$forge->add_key('id', TRUE);
-		static::$forge->create_table('misc', TRUE);
+		static::$forge->create_table('device', TRUE);
 	}
 
 	/**
@@ -124,24 +138,26 @@ class Mock_Database_Schema_Skeleton {
 		// Job Data
 		$data = array(
 			'user' => array(
-				array('id' => 1, 'name' => 'Derek Jones', 'email' => 'derek@world.com', 'country' => 'US', 'jobId' => 1),
-				array('id' => 2, 'name' => 'Ahmadinejad', 'email' => 'ahmadinejad@world.com', 'country' => 'Iran', 'jobId' => 2),
-				array('id' => 3, 'name' => 'Richard A Causey', 'email' => 'richard@world.com', 'country' => 'US', 'jobId' => 3),
-				array('id' => 4, 'name' => 'Chris Martin', 'email' => 'chris@world.com', 'country' => 'UK', 'jobId' => 4 ),
-				array('id' => 5, 'name' => 'Donald Duck', 'email' => 'dduck@world.com', 'country' => 'UK', 'jobId' => 2 )
+				array('id' => 1, 'name' => 'Derek Jones', 'email' => 'derek@world.com', 'country' => 'US'),
+				array('id' => 2, 'name' => 'Ahmadinejad', 'email' => 'ahmadinejad@world.com', 'country' => 'Iran'),
+				array('id' => 3, 'name' => 'Richard A Causey', 'email' => 'richard@world.com', 'country' => 'US'),
+				array('id' => 4, 'name' => 'Chris Martin', 'email' => 'chris@world.com', 'country' => 'UK')
 			),
 			'job' => array(
 				array('id' => 1, 'name' => 'Developer', 'description' => 'Awesome job, but sometimes makes you bored'),
 				array('id' => 2, 'name' => 'Politician', 'description' => 'This is not really a job'),
-    			array('id' => 3, 'name' => 'Accountant', 'description' => 'Boring job, but you will get free snack at lunch'),
+    				array('id' => 3, 'name' => 'Accountant', 'description' => 'Boring job, but you will get free snack at lunch'),
 				array('id' => 4, 'name' => 'Musician', 'description' => 'Only Coldplay can actually called Musician')
 			),
 			'misc' => array(
-				array('id' => 1, 'key' => '\\xxxfoo456', 'value' => 'Entry with \\xxx', 'userId' => 1),
-				array('id' => 2, 'key' => '\\%foo456', 'value' => 'Entry with \\%', 'userId' => 3),
-				array('id' => 3, 'key' => 'spaces and tabs', 'value' => ' One  two   three	tab', 'userId' => 2),
-				array('id' => 4, 'key' => 'dummy key 1', 'value' => 'join1', 'userId' => 2),
-				array('id' => 5, 'key' => 'dummy key 2', 'value' => 'join1', 'userId' => 5),
+				array('id' => 1, 'key' => '\\xxxfoo456', 'value' => 'Entry with \\xxx'),
+				array('id' => 2, 'key' => '\\%foo456', 'value' => 'Entry with \\%'),
+				array('id' => 3, 'key' => 'spaces and tabs', 'value' => ' One  two   three	tab')
+			),
+			'device' => array(
+				array('id' => 1, 'uuid' => 'e0101010d38bde8e6740011221af335301010333', 'name' => 'iPhone 5', 'userId' => 1),
+				array('id' => 2, 'uuid' => 'e0101111d38bde8e6740011221af335301010333', 'name' => 'nexus one', 'userId' => 2),
+				array('id' => 2, 'uuid' => 'e0101111d38bde8e6740011221af335301010553', 'name' => 'nexus one', 'userId' => 1),
 			)
 		);
 

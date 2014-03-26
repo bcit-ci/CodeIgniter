@@ -36,38 +36,18 @@ class Delete_test extends CI_TestCase {
 		$this->assertEmpty($job1->result_array());
 	}
 
-	/**
-	 * @see ./mocks/schema/skeleton.php
-	 */
-	public function test_delete_join()
-	{
-		// Dummy join to delete politicians :D
-		$this->db->where('job.name', 'Politician')->join('job', 'job.userId = user.id')->delete('user');
-
-		$politicians = $this->db->where('id', 2)->get('user')->result_array();
-		$this->assertEmpty($politicians);
-	}
-
-	public function test_delete_join_where(){		
-		$this->db->join('job', 'job.id = user.jobId')->where('job.name', 'Politician');
-
-		$this->db->join('misc', 'misc.userId = user.id')->where('misc.value', 'join1');
-
-		$this->db->where('user.email', 'richard@world.com')->delete('user');
+	public function test_delete_join(){		
+		$this->db->join('user', 'user.id = device.userId')->where('user.name', 'Derek Jones');
+		$this->db->where('device.uuid', 'e0101111d38bde8e6740011221af335301010333')->delete('device');
 		
-		$politician = $this->db->where('id', 2)->get('user');
-		$this->assertNotEmpty($politician->result_array());
+		$device = $this->db->where('uuid', 'e0101111d38bde8e6740011221af335301010333')->get('device');
+		$this->assertNotEmpty($device->result_array());
 
-
-		$this->db->join('job', 'job.id = user.jobId')->where('job.name', 'Politician');
+		$this->db->join('user', 'user.id = device.userId')->where('user.name', 'Derek Jones');
+		$this->db->where('device.name', 'iPhone 5')->delete('device');
 		
-		$this->db->join('misc', 'misc.userId = user.id')->where('misc.value', 'join1')->delete('user');
-
-		$politician = $this->db->where('id', 5)->get('user');
-		$this->assertEmpty($politician->result_array());
-
-		$politician = $this->db->where('id', 2)->get('user');
-		$this->assertNotEmpty($politician->result_array());
+		$device = $this->db->where('userId', 1)->get('device');
+		$this->assertEquals(count($device->result_array()), 1);
 	}
 
 	// ------------------------------------------------------------------------
