@@ -2117,47 +2117,57 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	protected function _delete($table)
 	{	
-		$joins = array();
-		
 		if (count($this->qb_join) > 0)
 		{
-			foreach ($this->qb_join as $deljoin) 
-			{
-				// Get join table and columns.
-				if(preg_match('/JOIN\s(.+)\sON\s(.+)=(.+)/', $deljoin, $matches) == 1)
-				{					
-					$join = $matches[3] . " IN (SELECT " . $matches[2] . " FROM " . $matches[1]. "\n";
-				}
-					
-				// Parse join conditions if any.
-				if (count($this->qb_where) > 0)
-				{					
-					$this->qb_joinwhere = $this->_preg_grep_join('/' . trim($matches[1],'"\'` ') . '\..+/', $this->qb_where);										;
-					$this->qb_where = array_diff_key($this->qb_where, $this->qb_joinwhere);
-					$this->qb_joinwhere = array_values($this->qb_joinwhere);
-					$join .= $this->_compile_wh('qb_joinwhere') . ")";				
-				}
-				
-				$joins[] = $join;
-				// Clear joinwhere			
-				unset($this->qb_joinwhere);
-			}
-			
-			if(count($this->qb_where) > 0){
-				$this->qb_where = array_values($this->qb_where);
-				$this->qb_where[0]['condition'] = preg_replace("/(AND|OR)\s?(.+)/", '\2', $this->qb_where[0]['condition']);	
-			}
-		}
-
-		if (count($joins) > 0){
-			return 'DELETE FROM '.$table
-                        .$this->_compile_wh('qb_where')
-						.(count($this->qb_where) > 0 ? ' AND '.implode("\nAND ", $joins) : "\nWHERE ".implode("\nAND ", $joins))
-						.($this->qb_limit ? ' LIMIT '.$this->qb_limit : '');
+			return $this->_delete_join($table);
 		}
 		
 		return 'DELETE FROM '.$table
                         .$this->_compile_wh('qb_where')						
+						.($this->qb_limit ? ' LIMIT '.$this->qb_limit : '');
+	}
+
+	/**
+	 * Delete join statement
+	 *
+	 * Generates a platform-specific delete join string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @return	string
+	 */
+	private function _delete_join($table){
+		$joins = array();
+				
+		foreach ($this->qb_join as $deljoin) 
+		{
+			// Get join table and columns.
+			if(preg_match('/JOIN\s(.+)\sON\s(.+)=(.+)/', $deljoin, $matches) == 1)
+			{					
+				$join = $matches[3] . " IN (SELECT " . $matches[2] . " FROM " . $matches[1]. "\n";
+			}
+				
+			// Parse join conditions if any.
+			if (count($this->qb_where) > 0)
+			{					
+				$this->qb_joinwhere = $this->_preg_grep_join('/' . trim($matches[1],'"\'` ') . '\..+/', $this->qb_where);										;
+				$this->qb_where = array_diff_key($this->qb_where, $this->qb_joinwhere);
+				$this->qb_joinwhere = array_values($this->qb_joinwhere);
+				$join .= $this->_compile_wh('qb_joinwhere') . ")";				
+			}
+			
+			$joins[] = $join;
+			// Clear joinwhere			
+			unset($this->qb_joinwhere);
+		}
+		
+		if(count($this->qb_where) > 0){
+			$this->qb_where = array_values($this->qb_where);
+			$this->qb_where[0]['condition'] = preg_replace("/(AND|OR)\s?(.+)/", '\2', $this->qb_where[0]['condition']);	
+		}
+
+		return 'DELETE FROM '.$table
+                        .$this->_compile_wh('qb_where')
+						.(count($this->qb_where) > 0 ? ' AND '.implode("\nAND ", $joins) : "\nWHERE ".implode("\nAND ", $joins))
 						.($this->qb_limit ? ' LIMIT '.$this->qb_limit : '');
 	}
 
