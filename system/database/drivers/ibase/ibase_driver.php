@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 3.0
@@ -69,23 +69,14 @@ class CI_DB_ibase_driver extends CI_DB {
 	/**
 	 * Non-persistent database connection
 	 *
+	 * @param	bool	$persistent
 	 * @return	resource
 	 */
-	public function db_connect()
+	public function db_connect($persistent = FALSE)
 	{
-		return @ibase_connect($this->hostname.':'.$this->database, $this->username, $this->password, $this->char_set);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Persistent database connection
-	 *
-	 * @return	resource
-	 */
-	public function db_pconnect()
-	{
-		return @ibase_pconnect($this->hostname.':'.$this->database, $this->username, $this->password, $this->char_set);
+		return ($persistent === TRUE)
+			? ibase_pconnect($this->hostname.':'.$this->database, $this->username, $this->password, $this->char_set)
+			: ibase_connect($this->hostname.':'.$this->database, $this->username, $this->password, $this->char_set);
 	}
 
 	// --------------------------------------------------------------------

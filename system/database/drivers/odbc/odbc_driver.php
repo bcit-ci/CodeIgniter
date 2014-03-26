@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -104,23 +104,14 @@ class CI_DB_odbc_driver extends CI_DB {
 	/**
 	 * Non-persistent database connection
 	 *
+	 * @param	bool	$persistent
 	 * @return	resource
 	 */
-	public function db_connect()
+	public function db_connect($persistent = FALSE)
 	{
-		return @odbc_connect($this->dsn, $this->username, $this->password);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Persistent database connection
-	 *
-	 * @return	resource
-	 */
-	public function db_pconnect()
-	{
-		return @odbc_pconnect($this->dsn, $this->username, $this->password);
+		return ($persistent === TRUE)
+			? odbc_pconnect($this->dsn, $this->username, $this->password)
+			: odbc_connect($this->dsn, $this->username, $this->password);
 	}
 
 	// --------------------------------------------------------------------
@@ -222,7 +213,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	 */
 	public function affected_rows()
 	{
-		return @odbc_num_rows($this->conn_id);
+		return @odbc_num_rows($this->result_id);
 	}
 
 	// --------------------------------------------------------------------

@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -60,9 +60,11 @@ if ( ! function_exists('xml_convert'))
 			$str = preg_replace('/&(\w+);/', $temp.'\\1;', $str);
 		}
 
-		$str = str_replace(array('&', '<', '>', '"', "'", '-'),
-					array('&amp;', '&lt;', '&gt;', '&quot;', '&apos;', '&#45;'),
-					$str);
+		$str = str_replace(
+			array('&', '<', '>', '"', "'", '-'),
+			array('&amp;', '&lt;', '&gt;', '&quot;', '&apos;', '&#45;'),
+			$str
+		);
 
 		// Decode the temp markers back to entities
 		$str = preg_replace('/'.$temp.'(\d+);/', '&#\\1;', $str);

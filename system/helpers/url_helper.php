@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -109,8 +109,7 @@ if ( ! function_exists('uri_string'))
 	 */
 	function uri_string()
 	{
-		$CI =& get_instance();
-		return $CI->uri->uri_string();
+		return get_instance()->uri->uri_string();
 	}
 }
 
@@ -127,8 +126,7 @@ if ( ! function_exists('index_page'))
 	 */
 	function index_page()
 	{
-		$CI =& get_instance();
-		return $CI->config->item('index_page');
+		return get_instance()->config->item('index_page');
 	}
 }
 
@@ -150,14 +148,9 @@ if ( ! function_exists('anchor'))
 	{
 		$title = (string) $title;
 
-		if ( ! is_array($uri))
-		{
-			$site_url = preg_match('#^(\w+:)?//#i', $uri) ? $uri : site_url($uri);
-		}
-		else
-		{
-			$site_url = site_url($uri);
-		}
+		$site_url = is_array($uri)
+			? site_url($uri)
+			: preg_match('#^(\w+:)?//#i', $uri) ? $uri : site_url($uri);
 
 		if ($title === '')
 		{
@@ -344,23 +337,24 @@ if ( ! function_exists('safe_mailto'))
 		$x[] = '<'; $x[] = '/'; $x[] = 'a'; $x[] = '>';
 
 		$x = array_reverse($x);
-		ob_start();
 
-	?><script type="text/javascript">
-	//<![CDATA[
-	var l=new Array();
-	<?php
-	for ($i = 0, $c = count($x); $i < $c; $i++) { ?>l[<?php echo $i; ?>]='<?php echo $x[$i]; ?>';<?php } ?>
+		$output = "<script type=\"text/javascript\">\n"
+			."\t//<![CDATA[\n"
+			."\tvar l=new Array();\n";
 
-	for (var i = l.length-1; i >= 0; i=i-1){
-	if (l[i].substring(0, 1) === '|') document.write("&#"+unescape(l[i].substring(1))+";");
-	else document.write(unescape(l[i]));}
-	//]]>
-	</script><?php
+		for ($i = 0, $c = count($x); $i < $c; $i++)
+		{
+			$output .= "\tl[".$i."] = '".$x[$i]."';\n";
+		}
 
-		$buffer = ob_get_contents();
-		ob_end_clean();
-		return $buffer;
+		$output .= "\n\tfor (var i = l.length-1; i >= 0; i=i-1) {\n"
+			."\t\tif (l[i].substring(0, 1) === '|') document.write(\"&#\"+unescape(l[i].substring(1))+\";\");\n"
+			."\t\telse document.write(unescape(l[i]));\n"
+			."\t}\n"
+			."\t//]]>\n"
+			.'</script>';
+
+		return $output;
 	}
 }
 
@@ -482,11 +476,11 @@ if ( ! function_exists('url_title'))
 		$q_separator = preg_quote($separator, '#');
 
 		$trans = array(
-				'&.+?;'			=> '',
-				'[^a-z0-9 _-]'		=> '',
-				'\s+'			=> $separator,
-				'('.$q_separator.')+'	=> $separator
-			);
+			'&.+?;'			=> '',
+			'[^a-z0-9 _-]'		=> '',
+			'\s+'			=> $separator,
+			'('.$q_separator.')+'	=> $separator
+		);
 
 		$str = strip_tags($str);
 		foreach ($trans as $key => $val)
@@ -534,11 +528,16 @@ if ( ! function_exists('redirect'))
 		}
 		elseif ($method !== 'refresh' && (empty($code) OR ! is_numeric($code)))
 		{
-			// Reference: http://en.wikipedia.org/wiki/Post/Redirect/Get
-			$code = (isset($_SERVER['REQUEST_METHOD'], $_SERVER['SERVER_PROTOCOL'])
-					&& $_SERVER['REQUEST_METHOD'] === 'POST'
-					&& $_SERVER['SERVER_PROTOCOL'] === 'HTTP/1.1')
-				? 303 : 302;
+			if (isset($_SERVER['SERVER_PROTOCOL'], $_SERVER['REQUEST_METHOD']) && $_SERVER['SERVER_PROTOCOL'] === 'HTTP/1.1')
+			{
+				$code = ($_SERVER['REQUEST_METHOD'] !== 'GET')
+					? 303	// reference: http://en.wikipedia.org/wiki/Post/Redirect/Get
+					: 307;
+			}
+			else
+			{
+				$code = 302;
+			}
 		}
 
 		switch ($method)

@@ -5,6 +5,13 @@ File Uploading Class
 CodeIgniter's File Uploading Class permits files to be uploaded. You can
 set various preferences, restricting the type and size of the files.
 
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
+
 ***********
 The Process
 ***********
@@ -194,7 +201,7 @@ Preference                   Default Value     Options                 Descripti
                                                                        directory must be writable and the path can be absolute or relative.
 **allowed_types**            None              None                    The mime types corresponding to the types of files you allow to be
                                                                        uploaded. Usually the file extension can be used as the mime type.
-                                                                       Separate multiple types with a pipe.
+                                                                       Can be either an array or a pipe-separated string.
 **file_name**                None              Desired file name       If set CodeIgniter will rename the uploaded file to this name. The
                                                                        extension provided in the file name must also be an allowed file type.
                                                                        If no extension is provided in the original file_name will be used.
@@ -245,105 +252,104 @@ preferences in a config file.
 Class Reference
 ***************
 
-The following methods are available:
+.. class:: CI_Upload
 
-$this->upload->do_upload()
-==========================
+	.. method:: initialize([array $config = array()[, $reset = TRUE]])
 
-Performs the upload based on the preferences you've set.
+		:param	array	$config: Preferences
+		:param	bool	$reset: Whether to reset preferences (that are not provided in $config) to their defaults
+		:returns:	CI_Upload instance (method chaining)
+		:rtype:	CI_Upload
 
-.. note:: By default the upload routine expects the file to come from
-	a form field called userfile, and the form must be of type
-	"multipart".
+	.. method:: do_upload([$field = 'userfile'])
 
-::
+		:param	string	$field: Name of the form field
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
-	<form method="post" action="some_action" enctype="multipart/form-data" />
+		Performs the upload based on the preferences you've set.
 
-If you would like to set your own field name simply pass its value to
-the ``do_upload()`` method::
+		.. note:: By default the upload routine expects the file to come from
+			a form field called userfile, and the form must be of type
+			"multipart".
 
-	$field_name = "some_field_name";
-	$this->upload->do_upload($field_name);
+		::
 
-$this->upload->display_errors()
-===============================
+			<form method="post" action="some_action" enctype="multipart/form-data" />
 
-Retrieves any error messages if the ``do_upload()`` method returned
-false. The method does not echo automatically, it returns the data so
-you can assign it however you need.
+		If you would like to set your own field name simply pass its value to
+		the ``do_upload()`` method::
 
-Formatting Errors
-*****************
+			$field_name = "some_field_name";
+			$this->upload->do_upload($field_name);
 
-By default the above method wraps any errors within <p> tags. You can
-set your own delimiters like this::
+	.. method:: display_errors([$open = '<p>'[, $close = '</p>']])
 
-	$this->upload->display_errors('<p>', '</p>');
+		:param	string	$open: Opening markup
+		:param	string	$close: Closing markup
+		:returns:	Formatted error message(s)
+		:rtype:	string
 
-$this->upload->data()
-=====================
+		Retrieves any error messages if the ``do_upload()`` method returned
+		false. The method does not echo automatically, it returns the data so
+		you can assign it however you need.
 
-This is a helper method that returns an array containing all of the
-data related to the file you uploaded. Here is the array prototype::
+		**Formatting Errors**
 
-	Array
-	(
-		[file_name]	=> mypic.jpg
-		[file_type]	=> image/jpeg
-		[file_path]	=> /path/to/your/upload/
-		[full_path]	=> /path/to/your/upload/jpg.jpg
-		[raw_name]	=> mypic
-		[orig_name]	=> mypic.jpg
-		[client_name]	=> mypic.jpg
-		[file_ext]	=> .jpg
-		[file_size]	=> 22.2
-		[is_image]	=> 1
-		[image_width]	=> 800
-		[image_height]	=> 600
-		[image_type]	=> jpeg
-		[image_size_str] => width="800" height="200"
-	)
+			By default the above method wraps any errors within <p> tags. You can
+			set your own delimiters like this::
 
-To return one element from the array::
+				$this->upload->display_errors('<p>', '</p>');
 
-	$this->upload->data('file_name');	// Returns: mypic.jpg
 
-Explanation
-***********
+	.. method:: data([$index = NULL])
 
-Here is an explanation of the above array items.
+		:param	string	$data: Element to return instead of the full array
+		:returns:	Information about the uploaded file
+		:rtype:	mixed
 
-Item
-Description
-**file_name**
-The name of the file that was uploaded including the file extension.
-**file_type**
-The file's Mime type
-**file_path**
-The absolute server path to the file
-**full_path**
-The absolute server path including the file name
-**raw_name**
-The file name without the extension
-**orig_name**
-The original file name. This is only useful if you use the encrypted
-name option.
-**client_name**
-The file name as supplied by the client user agent, prior to any file
-name preparation or incrementing.
-**file_ext**
-The file extension with period
-**file_size**
-The file size in kilobytes
-**is_image**
-Whether the file is an image or not. 1 = image. 0 = not.
-**image_width**
-Image width.
-**image_height**
-Image height
-**image_type**
-Image type. Typically the file extension without the period.
-**image_size_str**
-A string containing the width and height. Useful to put into an image
-tag.
+		This is a helper method that returns an array containing all of the
+		data related to the file you uploaded. Here is the array prototype::
+
+			Array
+			(
+				[file_name]	=> mypic.jpg
+				[file_type]	=> image/jpeg
+				[file_path]	=> /path/to/your/upload/
+				[full_path]	=> /path/to/your/upload/jpg.jpg
+				[raw_name]	=> mypic
+				[orig_name]	=> mypic.jpg
+				[client_name]	=> mypic.jpg
+				[file_ext]	=> .jpg
+				[file_size]	=> 22.2
+				[is_image]	=> 1
+				[image_width]	=> 800
+				[image_height]	=> 600
+				[image_type]	=> jpeg
+				[image_size_str] => width="800" height="200"
+			)
+
+		To return one element from the array::
+
+			$this->upload->data('file_name');	// Returns: mypic.jpg
+
+		Here's a table explaining the above-displayed array items:
+
+		================ ====================================================================================================
+		Item             Description
+		================ ====================================================================================================
+		file_name        Name of the file that was uploaded, including the filename extension
+		file_type        File MIME type identifier
+		file_path        Absolute server path to the file
+		full_path        Absolute server path, including the file name
+		raw_name         File name, without the extension
+		orig_name        Original file name. This is only useful if you use the encrypted name option.
+		client_name      File name as supplied by the client user agent, prior to any file name preparation or incrementing
+		file_ext         Filename extension, period included
+		file_size        File size in kilobytes
+		is_image         Whether the file is an image or not. 1 = image. 0 = not.
+		image_width      Image width
+		image_height     Image height
+		image_type       Image type (usually the file name extension without the period)
+		image_size_str   A string containing the width and height (useful to put into an image tag)
+		================ ====================================================================================================

@@ -7,7 +7,12 @@ fast and dynamic caching. All but file-based caching require specific
 server requirements, and a Fatal Exception will be thrown if server
 requirements are not met.
 
-.. contents:: Table of Contents
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
 
 *************
 Example Usage
@@ -20,16 +25,16 @@ available in the hosting environment.
 ::
 
 	$this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-	
+
 	if ( ! $foo = $this->cache->get('foo'))
 	{
 		echo 'Saving to the cache!<br />';
 		$foo = 'foobarbaz!';
-		
+
 		// Save into the cache for 5 minutes
 		$this->cache->save('foo', $foo, 300);
 	}
-	
+
 	echo $foo;
 
 You can also prefix cache item names via the **key_prefix** setting, which is useful
@@ -43,28 +48,24 @@ to avoid collisions when you're running multiple applications on the same enviro
 
 	$this->cache->get('foo'); // Will get the cache entry named 'my_foo'
 
-******************
-Function Reference
-******************
+***************
+Class Reference
+***************
 
-.. php:class:: CI_Cache
+.. class:: CI_Cache
 
-is_supported()
-==============
+	.. method:: is_supported($driver)
 
-	.. php:method:: is_supported ( $driver )
+		:param	string	$driver: the name of the caching driver
+		:returns:	TRUE if supported, FALSE if not
+		:rtype:	bool
 
-		This function is automatically called when accessing drivers via
-		$this->cache->get(). However, if the individual drivers are used, make
-		sure to call this function to ensure the driver is supported in the
+		This method is automatically called when accessing drivers via
+		``$this->cache->get()``. However, if the individual drivers are used,
+		make sure to call this method to ensure the driver is supported in the
 		hosting environment.
-		
-		:param string $driver: the name of the caching driver
-		:returns: TRUE if supported, FALSE if not
-		:rtype: Boolean
-		
 		::
-				
+
 			if ($this->cache->apc->is_supported()
 			{
 				if ($data = $this->cache->apc->get('my_cache'))
@@ -73,103 +74,112 @@ is_supported()
 				}
 			}
 
+	.. method:: get($id)
 
-get()
-=====
+		:param	string	$id: Cache item name
+		:returns:	Item value or FALSE if not found
+		:rtype:	mixed
 
-	.. php:method:: get ( $id )
-	
-		This function will attempt to fetch an item from the cache store. If the
-		item does not exist, the function will return FALSE.
-
-		:param string $id: name of cached item
-		:returns: The item if it exists, FALSE if it does not
-		:rtype: Mixed
-		
+		This method will attempt to fetch an item from the cache store. If the
+		item does not exist, the method will return FALSE.
 		::
 
 			$foo = $this->cache->get('my_cached_item');
 
+	.. method:: save($id, $data[, $ttl = 60[, $raw = FALSE]])
 
-save()
-======
+		:param	string	$id: Cache item name
+		:param	mixed	$data: the data to save
+		:param	int	$ttl: Time To Live, in seconds (default 60)
+		:param	bool	$raw: Whether to store the raw value
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	string
 
-	.. php:method:: save ( $id , $data [, $ttl])
-	
-		This function will save an item to the cache store. If saving fails, the
-		function will return FALSE.
-
-		:param string $id: name of the cached item
-		:param mixed $data: the data to save
-		:param int $ttl: Time To Live, in seconds (default 60)
-		:returns: TRUE on success, FALSE on failure
-		:rtype: Boolean
-
+		This method will save an item to the cache store. If saving fails, the
+		method will return FALSE.
 		::
 
 			$this->cache->save('cache_item_id', 'data_to_cache');
-	
-delete()
-========
 
-	.. php:method:: delete ( $id )
-	
-		This function will delete a specific item from the cache store. If item
-		deletion fails, the function will return FALSE.
+		.. note:: The ``$raw`` parameter is only utilized by APC and Memcache,
+			in order to allow usage of ``increment()`` and ``decrement()``.
 
-		:param string $id: name of cached item
-		:returns: TRUE if deleted, FALSE if the deletion fails
-		:rtype: Boolean
-		
+	.. method:: delete($id)
+
+		:param	string	$id: name of cached item
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
+
+		This method will delete a specific item from the cache store. If item
+		deletion fails, the method will return FALSE.
 		::
 
 			$this->cache->delete('cache_item_id');
 
-clean()
-=======
+	.. method:: increment($id[, $offset = 1])
 
-	.. php:method:: clean ( )
-	
-		This function will 'clean' the entire cache. If the deletion of the
-		cache files fails, the function will return FALSE.
+		:param	string	$id: Cache ID
+		:param	int	$offset: Step/value to add
+		:returns:	New value on success, FALSE on failure
+		:rtype:	mixed
 
-		:returns: TRUE if deleted, FALSE if the deletion fails
-		:rtype: Boolean
-		
+		Performs atomic incrementation of a raw stored value.
+		::
+
+			// 'iterator' has a value of 2
+
+			$this->cache->increment('iterator'); // 'iterator' is now 3
+
+			$this->cache->increment('iterator', 3); // 'iterator' is now 6
+
+	.. method:: decrement($id[, $offset = 1])
+
+		:param	string	$id: Cache ID
+		:param	int	$offset: Step/value to reduce by
+		:returns:	New value on success, FALSE on failure
+		:rtype:	mixed
+
+		Performs atomic decrementation of a raw stored value.
+		::
+
+			// 'iterator' has a value of 6
+
+			$this->cache->decrement('iterator'); // 'iterator' is now 5
+
+			$this->cache->decrement('iterator', 2); // 'iterator' is now 3
+
+	.. method:: clean()
+
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
+
+		This method will 'clean' the entire cache. If the deletion of the
+		cache files fails, the method will return FALSE.
 		::
 
 			$this->cache->clean();
 
-cache_info()
-============
+	.. method:: cache_info()
 
-	.. php:method:: cache_info ( )
+		:returns:	Information on the entire cache database
+		:rtype:	mixed
 
-		This function will return information on the entire cache.
-
-		:returns: information on the entire cache
-		:rtype: Mixed
-		
+		This method will return information on the entire cache.
 		::
 
 			var_dump($this->cache->cache_info());
-		
+
 		.. note:: The information returned and the structure of the data is dependent
 			on which adapter is being used.
-	
 
-get_metadata()
-==============
+	.. method:: get_metadata($id)
 
-	.. php:method:: get_metadata ( $id )
-	
-		This function will return detailed information on a specific item in the
+		:param	string	$id: Cache item name
+		:returns:	Metadata for the cached item
+		:rtype:	mixed
+
+		This method will return detailed information on a specific item in the
 		cache.
-		
-		:param string $id: name of cached item
-		:returns: metadadta for the cached item
-		:rtype: Mixed
-		
 		::
 
 			var_dump($this->cache->get_metadata('my_cached_item'));
@@ -184,7 +194,7 @@ Drivers
 Alternative PHP Cache (APC) Caching
 ===================================
 
-All of the functions listed above can be accessed without passing a
+All of the methods listed above can be accessed without passing a
 specific adapter to the driver loader as follows::
 
 	$this->load->driver('cache');
@@ -201,7 +211,7 @@ allows for pieces of view files to be cached. Use this with care, and
 make sure to benchmark your application, as a point can come where disk
 I/O will negate positive gains by caching.
 
-All of the functions listed above can be accessed without passing a
+All of the methods listed above can be accessed without passing a
 specific adapter to the driver loader as follows::
 
 	$this->load->driver('cache');
@@ -227,7 +237,7 @@ WinCache Caching
 
 Under Windows, you can also utilize the WinCache driver.
 
-All of the functions listed above can be accessed without passing a
+All of the methods listed above can be accessed without passing a
 specific adapter to the driver loader as follows::
 
 	$this->load->driver('cache');

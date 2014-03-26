@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -47,13 +47,6 @@ class CI_Input {
 	public $ip_address = FALSE;
 
 	/**
-	 * User agent string
-	 *
-	 * @var	string
-	 */
-	public $user_agent = FALSE;
-
-	/**
 	 * Allow GET array flag
 	 *
 	 * If set to FALSE, then $_GET will be set to an empty array.
@@ -63,7 +56,7 @@ class CI_Input {
 	protected $_allow_get_array = TRUE;
 
 	/**
-	 * Standartize new lines flag
+	 * Standardize new lines flag
 	 *
 	 * If set to TRUE, then newlines are standardized.
 	 *
@@ -121,18 +114,17 @@ class CI_Input {
 	{
 		log_message('debug', 'Input Class Initialized');
 
-		$this->_allow_get_array	= (config_item('allow_get_array') === TRUE);
-		$this->_enable_xss	= (config_item('global_xss_filtering') === TRUE);
-		$this->_enable_csrf	= (config_item('csrf_protection') === TRUE);
+		$this->_allow_get_array		= (config_item('allow_get_array') === TRUE);
+		$this->_enable_xss		= (config_item('global_xss_filtering') === TRUE);
+		$this->_enable_csrf		= (config_item('csrf_protection') === TRUE);
+		$this->_standardize_newlines	= (bool) config_item('standardize_newlines');
 
-		global $SEC;
-		$this->security =& $SEC;
+		$this->security =& load_class('Security', 'core');
 
 		// Do we need the UTF-8 class?
 		if (UTF8_ENABLED === TRUE)
 		{
-			global $UNI;
-			$this->uni =& $UNI;
+			$this->uni =& load_class('Utf8', 'core');
 		}
 
 		// Sanitize global arrays
@@ -151,8 +143,22 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	protected function _fetch_from_array(&$array, $index = '', $xss_clean = FALSE)
+	protected function _fetch_from_array(&$array, $index = NULL, $xss_clean = NULL)
 	{
+		// If $index is NULL, it means that the whole $array is requested
+		if ($index === NULL)
+		{
+			$output = array();
+			foreach (array_keys($array) as $key)
+			{
+				$output[$key] = $this->_fetch_from_array($array, $key, $xss_clean);
+			}
+
+			return $output;
+		}
+
+		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
+
 		if (isset($array[$index]))
 		{
 			$value = $array[$index];
@@ -197,26 +203,8 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function get($index = NULL, $xss_clean = FALSE)
+	public function get($index = NULL, $xss_clean = NULL)
 	{
-		// Check if a field has been provided
-		if ($index === NULL)
-		{
-			if (empty($_GET))
-			{
-				return array();
-			}
-
-			$get = array();
-
-			// loop through the full _GET array
-			foreach (array_keys($_GET) as $key)
-			{
-				$get[$key] = $this->_fetch_from_array($_GET, $key, $xss_clean);
-			}
-			return $get;
-		}
-
 		return $this->_fetch_from_array($_GET, $index, $xss_clean);
 	}
 
@@ -229,26 +217,8 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function post($index = NULL, $xss_clean = FALSE)
+	public function post($index = NULL, $xss_clean = NULL)
 	{
-		// Check if a field has been provided
-		if ($index === NULL)
-		{
-			if (empty($_POST))
-			{
-				return array();
-			}
-
-			$post = array();
-
-			// Loop through the full _POST array and return it
-			foreach (array_keys($_POST) as $key)
-			{
-				$post[$key] = $this->_fetch_from_array($_POST, $key, $xss_clean);
-			}
-			return $post;
-		}
-
 		return $this->_fetch_from_array($_POST, $index, $xss_clean);
 	}
 
@@ -261,7 +231,7 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function post_get($index = '', $xss_clean = FALSE)
+	public function post_get($index, $xss_clean = NULL)
 	{
 		return isset($_POST[$index])
 			? $this->post($index, $xss_clean)
@@ -277,7 +247,7 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function get_post($index = '', $xss_clean = FALSE)
+	public function get_post($index, $xss_clean = NULL)
 	{
 		return isset($_GET[$index])
 			? $this->get($index, $xss_clean)
@@ -293,7 +263,7 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function cookie($index = '', $xss_clean = FALSE)
+	public function cookie($index = NULL, $xss_clean = NULL)
 	{
 		return $this->_fetch_from_array($_COOKIE, $index, $xss_clean);
 	}
@@ -307,7 +277,7 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function server($index = '', $xss_clean = FALSE)
+	public function server($index, $xss_clean = NULL)
 	{
 		return $this->_fetch_from_array($_SERVER, $index, $xss_clean);
 	}
@@ -323,21 +293,14 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function input_stream($index = '', $xss_clean = FALSE)
+	public function input_stream($index = NULL, $xss_clean = NULL)
 	{
 		// The input stream can only be read once, so we'll need to check
 		// if we have already done that first.
-		if (is_array($this->_input_stream))
-		{
-			return $this->_fetch_from_array($this->_input_stream, $index, $xss_clean);
-		}
-
-		// Parse the input stream in our cache var
-		parse_str(file_get_contents('php://input'), $this->_input_stream);
 		if ( ! is_array($this->_input_stream))
 		{
-			$this->_input_stream = array();
-			return NULL;
+			parse_str(file_get_contents('php://input'), $this->_input_stream);
+			is_array($this->_input_stream) OR $this->_input_stream = array();
 		}
 
 		return $this->_fetch_from_array($this->_input_stream, $index, $xss_clean);
@@ -361,7 +324,7 @@ class CI_Input {
 	 * @param	bool		$httponly	Whether to only makes the cookie accessible via HTTP (no javascript)
 	 * @return	void
 	 */
-	public function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE, $httponly = FALSE)
+	public function set_cookie($name, $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE, $httponly = FALSE)
 	{
 		if (is_array($name))
 		{
@@ -583,14 +546,9 @@ class CI_Input {
 	 *
 	 * @return	string|null	User Agent string or NULL if it doesn't exist
 	 */
-	public function user_agent()
+	public function user_agent($xss_clean = NULL)
 	{
-		if ($this->user_agent !== FALSE)
-		{
-			return $this->user_agent;
-		}
-
-		return $this->user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : NULL;
+		return $this->_fetch_from_array($_SERVER, 'HTTP_USER_AGENT', $xss_clean);
 	}
 
 	// --------------------------------------------------------------------
@@ -687,9 +645,11 @@ class CI_Input {
 			// but that when present will trip our 'Disallowed Key Characters' alarm
 			// http://www.ietf.org/rfc/rfc2109.txt
 			// note that the key names below are single quoted strings, and are not PHP variables
-			unset($_COOKIE['$Version']);
-			unset($_COOKIE['$Path']);
-			unset($_COOKIE['$Domain']);
+			unset(
+				$_COOKIE['$Version'],
+				$_COOKIE['$Path'],
+				$_COOKIE['$Domain']
+			);
 
 			foreach ($_COOKIE as $key => $val)
 			{
@@ -756,13 +716,7 @@ class CI_Input {
 		}
 
 		// Remove control characters
-		$str = remove_invisible_characters($str);
-
-		// Should we filter the input data?
-		if ($this->_enable_xss === TRUE)
-		{
-			$str = $this->security->xss_clean($str);
-		}
+		$str = remove_invisible_characters($str, FALSE);
 
 		// Standardize newlines if needed
 		if ($this->_standardize_newlines === TRUE)
@@ -800,7 +754,7 @@ class CI_Input {
 			{
 				set_status_header(503);
 				echo 'Disallowed Key Characters.';
-				exit(EXIT_USER_INPUT);
+				exit(7); // EXIT_USER_INPUT
 			}
 		}
 

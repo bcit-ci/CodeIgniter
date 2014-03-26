@@ -39,7 +39,7 @@ form_open() function and the validation_errors() function.
 
 The first function is provided by the `form
 helper <../helpers/form_helper.html>`_ and renders the form element and
-adds extra functionality, like adding a hidden `CSFR prevention
+adds extra functionality, like adding a hidden `CSRF prevention
 field <../libraries/security.html>`_. The latter is used to report
 errors related to form validation.
 

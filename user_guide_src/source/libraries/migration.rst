@@ -10,8 +10,15 @@ need to be run against the production machines next time you deploy.
 
 The database table **migration** tracks which migrations have already been 
 run so all you have to do is update your application files and 
-call **$this->migration->current()** to work out which migrations should be run. 
-The current version is found in **config/migration.php**.
+call ``$this->migration->current()`` to work out which migrations should be run. 
+The current version is found in **application/config/migration.php**.
+
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
 
 ********************
 Migration file names
@@ -28,23 +35,24 @@ method taken. Two numbering styles are available:
   helps prevent numbering conflicts when working in a team environment, and is
   the preferred scheme in CodeIgniter 3.0 and later.
 
-The desired style may be selected using the **$config['migration_type']**
-setting in your **migration.php** config file.
+The desired style may be selected using the ``$config['migration_type']``
+setting in your *application/config/migration.php* file.
 
 Regardless of which numbering style you choose to use, prefix your migration
 files with the migration number followed by an underscore and a descriptive
 name for the migration. For example:
 
-* **001_add_blog.php** (sequential numbering)
-* **20121031100537_add_blog.php** (timestamp numbering)
+* 001_add_blog.php (sequential numbering)
+* 20121031100537_add_blog.php (timestamp numbering)
 
 ******************
 Create a Migration
 ******************
 	
 This will be the first migration for a new site which has a blog. All 
-migrations go in the folder **application/migrations/** and have names such 
-as **20121031100537_add_blog.php**.::
+migrations go in the **application/migrations/** directory and have names such 
+as *20121031100537_add_blog.php*.
+::
 
 	<?php
 
@@ -80,7 +88,7 @@ as **20121031100537_add_blog.php**.::
 		}
 	}
 
-Then in **application/config/migration.php** set **$config['migration_version'] = 1;**.
+Then in **application/config/migration.php** set ``$config['migration_version'] = 1;``.
 
 *************
 Usage Example
@@ -93,54 +101,18 @@ to update the schema.::
 	
 	class Migrate extends CI_Controller
 	{
-	    public function index()
-	    {
-	    	$this->load->library('migration');
-	    	
-	    	if ($this->migration->current() === FALSE)
-	    	{
-	    		show_error($this->migration->error_string());
-	    	}
-	    }
+
+		public function index()
+		{
+			$this->load->library('migration');
+
+			if ($this->migration->current() === FALSE)
+			{
+				show_error($this->migration->error_string());
+			}
+		}
+
 	}
-
-******************
-Function Reference
-******************
-
-$this->migration->current()
-============================
-
-The current migration is whatever is set for **$config['migration_version']** in 
-**application/config/migration.php**.
-
-$this->migration->error_string()
-=================================
-
-This returns a string of errors while performing a migration.
-
-$this->migration->find_migrations()
-====================================
-
-An array of migration filenames are returned that are found in the **migration_path** 
-property.
-
-$this->migration->latest()
-===========================
-
-This works much the same way as current() but instead of looking for 
-the **$config['migration_version']** the Migration class will use the very 
-newest migration found in the filesystem.
-
-$this->migration->version()
-============================
-
-Version can be used to roll back changes or step forwards programmatically to 
-specific versions. It works just like current but ignores **$config['migration_version']**.::
-
-	$this->load->library('migration');
-
-	$this->migration->version(5);
 
 *********************
 Migration Preferences
@@ -161,3 +133,52 @@ Preference                 Default                Options                    Des
 **migration_type**         'timestamp'            'timestamp' / 'sequential' The type of numeric identifier used to name
                                                                              migration files.
 ========================== ====================== ========================== =============================================
+
+***************
+Class Reference
+***************
+
+.. class:: CI_Migration
+
+	.. method:: current()
+
+		:returns:	TRUE if no migrations are found, current version string on success, FALSE on failure
+		:rtype:	mixed
+
+		Migrates up to the current version (whatever is set for
+		``$config['migration_version']`` in *application/config/migration.php*).
+
+	.. method:: error_string()
+
+		:returns:	Error messages
+		:rtype:	string
+
+		This returns a string of errors that were detected while performing a migration.
+
+	.. method:: find_migrations()
+
+		:returns:	An array of migration files
+		:rtype:	array
+
+		An array of migration filenames are returned that are found in the **migration_path** property.
+
+	.. method:: latest()
+
+		:returns:	TRUE if no migrations are found, current version string on success, FALSE on failure
+		:rtype:	mixed
+
+		This works much the same way as ``current()`` but instead of looking for 
+		the ``$config['migration_version']`` the Migration class will use the very 
+		newest migration found in the filesystem.
+
+	.. method:: version($target_version)
+
+		:param	mixed	$target_version: Migration version to process
+		:returns:	TRUE if no migrations are found, current version string on success, FALSE on failure
+		:rtype:	mixed
+
+		Version can be used to roll back changes or step forwards programmatically to 
+		specific versions. It works just like ``current()`` but ignores ``$config['migration_version']``.
+		::
+
+			$this->migration->version(5);

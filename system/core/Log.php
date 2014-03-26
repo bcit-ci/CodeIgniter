@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -108,7 +108,7 @@ class CI_Log {
 		$this->_file_ext = (isset($config['log_file_extension']) && $config['log_file_extension'] !== '')
 			? ltrim($config['log_file_extension'], '.') : 'php';
 
-		file_exists($this->_log_path) OR mkdir($this->_log_path, DIR_WRITE_MODE, TRUE);
+		file_exists($this->_log_path) OR mkdir($this->_log_path, 0777, TRUE);
 
 		if ( ! is_dir($this->_log_path) OR ! is_really_writable($this->_log_path))
 		{
@@ -170,24 +170,32 @@ class CI_Log {
 			}
 		}
 
-		if ( ! $fp = @fopen($filepath, FOPEN_WRITE_CREATE))
+		if ( ! $fp = @fopen($filepath, 'ab'))
 		{
 			return FALSE;
 		}
 
-		$message .= $level.' '.($level === 'INFO' ? ' -' : '-').' '.date($this->_date_fmt).' --> '.$msg."\n";
+		$message .= $level.' - '.date($this->_date_fmt).' --> '.$msg."\n";
 
 		flock($fp, LOCK_EX);
-		fwrite($fp, $message);
+
+		for ($written = 0, $length = strlen($message); $written < $length; $written += $result)
+		{
+			if (($result = fwrite($fp, substr($message, $written))) === FALSE)
+			{
+				break;
+			}
+		}
+
 		flock($fp, LOCK_UN);
 		fclose($fp);
 
 		if (isset($newfile) && $newfile === TRUE)
 		{
-			@chmod($filepath, FILE_WRITE_MODE);
+			@chmod($filepath, 0666);
 		}
 
-		return TRUE;
+		return is_int($result);
 	}
 
 }

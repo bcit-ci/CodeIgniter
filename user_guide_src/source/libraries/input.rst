@@ -10,6 +10,13 @@ The Input Class serves two purposes:
 .. note:: This class is initialized automatically by the system so there
 	is no need to do it manually.
 
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
+
 Security Filtering
 ==================
 
@@ -17,7 +24,7 @@ The security filtering method is called automatically when a new
 :doc:`controller <../general/controllers>` is invoked. It does the
 following:
 
--  If $config['allow_get_array'] is FALSE (default is TRUE), destroys
+-  If ``$config['allow_get_array']`` is FALSE (default is TRUE), destroys
    the global GET array.
 -  Destroys all global variables in the event register_globals is
    turned on.
@@ -25,7 +32,8 @@ following:
    (and a few other) characters.
 -  Provides XSS (Cross-site Scripting Hacks) filtering. This can be
    enabled globally, or upon request.
--  Standardizes newline characters to \\n(In Windows \\r\\n)
+-  Standardizes newline characters to ``PHP_EOL`` (\\n in UNIX-based OSes,
+   \\r\\n under Windows). This is configurable.
 
 XSS Filtering
 =============
@@ -33,7 +41,7 @@ XSS Filtering
 The Input class has the ability to filter input automatically to prevent
 cross-site scripting attacks. If you want the filter to run
 automatically every time it encounters POST or COOKIE data you can
-enable it by opening your application/config/config.php file and setting
+enable it by opening your *application/config/config.php* file and setting
 this::
 
 	$config['global_xss_filtering'] = TRUE;
@@ -44,7 +52,7 @@ information on using XSS Filtering in your application.
 Using POST, GET, COOKIE, or SERVER Data
 =======================================
 
-CodeIgniter comes with four helper methods that let you fetch POST, GET,
+CodeIgniter comes with helper methods that let you fetch POST, GET,
 COOKIE or SERVER items. The main advantage of using the provided
 methods rather than fetching an item directly (``$_POST['something']``)
 is that the methods will check to see if the item is set and return
@@ -58,97 +66,12 @@ With CodeIgniter's built in methods you can simply do this::
 
 	$something = $this->input->post('something');
 
-The four methods are:
+The main methods are:
 
--  $this->input->post()
--  $this->input->get()
--  $this->input->cookie()
--  $this->input->server()
-
-$this->input->post()
-====================
-
-The first parameter will contain the name of the POST item you are
-looking for::
-
-	$this->input->post('some_data');
-
-The method returns NULL if the item you are attempting to retrieve
-does not exist.
-
-The second optional parameter lets you run the data through the XSS
-filter. It's enabled by setting the second parameter to boolean TRUE;
-
-::
-
-	$this->input->post('some_data', TRUE);
-
-To return an array of all POST items call without any parameters.
-
-To return all POST items and pass them through the XSS filter set the
-first parameter NULL while setting the second parameter to boolean;
-
-The method returns NULL if there are no items in the POST.
-
-::
-
-	$this->input->post(NULL, TRUE); // returns all POST items with XSS filter
-	$this->input->post(); // returns all POST items without XSS filter
-
-$this->input->get()
-===================
-
-This method is identical to the POST method, only it fetches GET data
-::
-
-	$this->input->get('some_data', TRUE);
-
-To return an array of all GET items call without any parameters.
-
-To return all GET items and pass them through the XSS filter set the
-first parameter NULL while setting the second parameter to boolean;
-
-The method returns NULL if there are no items in the GET.
-
-::
-
-	$this->input->get(NULL, TRUE); // returns all GET items with XSS filter
-	$this->input->get(); // returns all GET items without XSS filtering
-
-
-$this->input->post_get()
-========================
-
-This method will search through both the POST and GET streams for
-data, looking first in POST, and then in GET::
-
-	$this->input->post_get('some_data', TRUE);
-
-$this->input->get_post()
-========================
-
-This method will search through both the POST and GET streams for
-data, looking first in GET, and then in POST::
-
-	$this->input->get_post('some_data', TRUE);
-
-$this->input->cookie()
-======================
-
-This method is identical to the POST method, only it fetches cookie data
-::
-
-	$this->input->cookie('some_cookie');
-	$this->input->cookie('some_cookie, TRUE); // with XSS filter
-
-
-$this->input->server()
-======================
-
-This method is identical to the above methods, only it fetches server
-server data::
-
-	$this->input->server('some_data');
+-  ``$this->input->post()``
+-  ``$this->input->get()``
+-  ``$this->input->cookie()``
+-  ``$this->input->server()``
 
 Using the php://input stream
 ============================
@@ -166,165 +89,322 @@ from the **php://input** stream at any time, just by calling the
 
 	$this->input->input_stream('key');
 
-Similar to the methods above, if the requested data is not found, it
-will return NULL and you can also decide whether to run the data
-through ``xss_clean()`` by passing a boolean value as the second
-parameter::
+Similar to other methods such as ``get()`` and ``post()``, if the
+requested data is not found, it will return NULL and you can also
+decide whether to run the data through ``xss_clean()`` by passing
+a boolean value as the second parameter::
 
 	$this->input->input_stream('key', TRUE); // XSS Clean
 	$this->input->input_stream('key', FALSE); // No XSS filter
 
-.. note:: You can utilize method() in order to know if you're reading
+.. note:: You can utilize ``method()`` in order to know if you're reading
 	PUT, DELETE or PATCH data.
 
-$this->input->set_cookie()
-==========================
+***************
+Class Reference
+***************
 
-Sets a cookie containing the values you specify. There are two ways to
-pass information to this method so that a cookie can be set: Array
-Method, and Discrete Parameters:
+.. class:: CI_Input
 
-Array Method
-^^^^^^^^^^^^
+	.. method:: post([$index = NULL[, $xss_clean = NULL]])
 
-Using this method, an associative array is passed to the first
-parameter::
+		:param	string	$index: POST parameter name
+		:param	bool	$xss_clean: Whether to apply XSS filtering
+		:returns:	$_POST if no parameters supplied, otherwise the POST value if found or NULL if not
+		:rtype:	mixed
 
-	$cookie = array(
-	    'name'   => 'The Cookie Name',
-	    'value'  => 'The Value',
-	    'expire' => '86500',
-	    'domain' => '.some-domain.com',
-	    'path'   => '/',
-	    'prefix' => 'myprefix_',
-	    'secure' => TRUE
-	);
+		The first parameter will contain the name of the POST item you are
+		looking for::
 
-	$this->input->set_cookie($cookie);
+			$this->input->post('some_data');
 
-**Notes:**
+		The method returns NULL if the item you are attempting to retrieve
+		does not exist.
 
-Only the name and value are required. To delete a cookie set it with the
-expiration blank.
+		The second optional parameter lets you run the data through the XSS
+		filter. It's enabled by setting the second parameter to boolean TRUE
+		or by setting your ``$config['global_xss_filtering']`` to TRUE.
+		::
 
-The expiration is set in **seconds**, which will be added to the current
-time. Do not include the time, but rather only the number of seconds
-from *now* that you wish the cookie to be valid. If the expiration is
-set to zero the cookie will only last as long as the browser is open.
+			$this->input->post('some_data', TRUE);
 
-For site-wide cookies regardless of how your site is requested, add your
-URL to the **domain** starting with a period, like this:
-.your-domain.com
+		To return an array of all POST items call without any parameters.
 
-The path is usually not needed since the method sets a root path.
+		To return all POST items and pass them through the XSS filter set the
+		first parameter NULL while setting the second parameter to boolean TRUE.
+		::
 
-The prefix is only needed if you need to avoid name collisions with
-other identically named cookies for your server.
+			$this->input->post(NULL, TRUE); // returns all POST items with XSS filter
+			$this->input->post(NULL, FALSE); // returns all POST items without XSS filter
 
-The secure boolean is only needed if you want to make it a secure cookie
-by setting it to TRUE.
+	.. method:: get([$index = NULL[, $xss_clean = NULL]])
 
-Discrete Parameters
-^^^^^^^^^^^^^^^^^^^
+		:param	string	$index: GET parameter name
+		:param	bool	$xss_clean: Whether to apply XSS filtering
+		:returns:	$_GET if no parameters supplied, otherwise the GET value if found or NULL if not
+		:rtype:	mixed
 
-If you prefer, you can set the cookie by passing data using individual
-parameters::
+		This method is identical to ``post()``, only it fetches GET data.
+		::
 
-	$this->input->set_cookie($name, $value, $expire, $domain, $path, $prefix, $secure);
+			$this->input->get('some_data', TRUE);
+
+		To return an array of all GET items call without any parameters.
+
+		To return all GET items and pass them through the XSS filter set the
+		first parameter NULL while setting the second parameter to boolean TRUE.
+		::
+
+			$this->input->get(NULL, TRUE); // returns all GET items with XSS filter
+			$this->input->get(NULL, FALSE); // returns all GET items without XSS filtering
+
+	.. method:: post_get($index[, $xss_clean = NULL])
+
+		:param	string	$index: POST/GET parameter name
+		:param	bool	$xss_clean: Whether to apply XSS filtering
+		:returns:	POST/GET value if found, NULL if not
+		:rtype:	mixed
+
+		This method works pretty much the same way as ``post()`` and ``get()``,
+		only combined. It will search through both POST and GET streams for data,
+		looking in POST first, and then in GET::
+
+			$this->input->post_get('some_data', TRUE);
+
+	.. method:: get_post($index[, $xss_clean = NULL])
+
+		:param	string	$index: GET/POST parameter name
+		:param	bool	$xss_clean: Whether to apply XSS filtering
+		:returns:	GET/POST value if found, NULL if not
+		:rtype:	mixed
+
+		This method works the same way as ``post_get()`` only it looks for GET
+		data first.
+
+			$this->input->get_post('some_data', TRUE);
+
+		.. note:: This method used to act EXACTLY like ``post_get()``, but it's
+			behavior has changed in CodeIgniter 3.0.
+
+	.. method:: cookie([$index = NULL[, $xss_clean = NULL]])
+
+		:param	string	$index: COOKIE parameter name
+		:param	bool	$xss_clean: Whether to apply XSS filtering
+		:returns:	$_COOKIE if no parameters supplied, otherwise the COOKIE value if found or NULL if not
+		:rtype:	mixed
+
+		This method is identical to ``post()`` and ``get()``, only it fetches cookie
+		data::
+
+			$this->input->cookie('some_cookie');
+			$this->input->cookie('some_cookie, TRUE); // with XSS filter
+
+	.. method:: server($index[, $xss_clean = NULL])
+
+		:param	string	$index: Value name
+		:param	bool	$xss_clean: Whether to apply XSS filtering
+		:returns:	$_SERVER item value if found, NULL if not
+		:rtype:	mixed
+
+		This method is identical to the ``post()``, ``get()`` and ``cookie()``
+		methods, only it fetches server data (``$_SERVER``)::
+
+			$this->input->server('some_data');
+
+	.. method:: input_stream([$index = NULL[, $xss_clean = NULL]])
+
+		:param	string	$index: Key name
+		:param	bool	$xss_clean: Whether to apply XSS filtering
+		:returns:	Input stream array if no parameters supplied, otherwise the specified value if found or NULL if not
+		:rtype:	mixed
+
+		This method is identical to ``get()``, ``post()`` and ``cookie()``,
+		only it fetches the *php://input* stream data.
+
+	.. method:: set_cookie($name = ''[, $value = ''[, $expire = ''[, $domain = ''[, $path = '/'[, $prefix = ''[, $secure = FALSE[, $httponly = FALSE]]]]]]])
+
+		:param	mixed	$name: Cookie name or an array of parameters
+		:param	string	$value: Cookie value
+		:param	int	$expire: Cookie expiration time in seconds
+		:param	string	$domain: Cookie domain
+		:param	string	$path: Cookie path
+		:param	string	$prefix: Cookie name prefix
+		:param	bool	$secure: Whether to only transfer the cookie through HTTPS
+		:param	bool	$httponly: Whether to only make the cookie accessible for HTTP requests (no JavaScript)
+		:rtype:	void
 
 
-$this->input->ip_address()
-==========================
+		Sets a cookie containing the values you specify. There are two ways to
+		pass information to this method so that a cookie can be set: Array
+		Method, and Discrete Parameters:
 
-Returns the IP address for the current user. If the IP address is not
-valid, the method will return an IP of: 0.0.0.0
+		**Array Method**
 
-::
+		Using this method, an associative array is passed to the first
+		parameter::
 
-	echo $this->input->ip_address();
+			$cookie = array(
+				'name'   => 'The Cookie Name',
+				'value'  => 'The Value',
+				'expire' => '86500',
+				'domain' => '.some-domain.com',
+				'path'   => '/',
+				'prefix' => 'myprefix_',
+				'secure' => TRUE
+			);
 
-$this->input->valid_ip($ip)
-===========================
+			$this->input->set_cookie($cookie);
 
-Takes an IP address as input and returns TRUE or FALSE (boolean) if it
-is valid or not.
+		**Notes**
 
-.. note:: The $this->input->ip_address() method above automatically
-	validates the IP address.
+		Only the name and value are required. To delete a cookie set it with the
+		expiration blank.
 
-::
+		The expiration is set in **seconds**, which will be added to the current
+		time. Do not include the time, but rather only the number of seconds
+		from *now* that you wish the cookie to be valid. If the expiration is
+		set to zero the cookie will only last as long as the browser is open.
 
-	if ( ! $this->input->valid_ip($ip))
-	{
-	     echo 'Not Valid';
-	}
-	else
-	{
-	     echo 'Valid';
-	}
+		For site-wide cookies regardless of how your site is requested, add your
+		URL to the **domain** starting with a period, like this:
+		.your-domain.com
 
-Accepts an optional second string parameter of 'ipv4' or 'ipv6' to specify
-an IP format. The default checks for both formats.
+		The path is usually not needed since the method sets a root path.
 
-$this->input->user_agent()
-==========================
+		The prefix is only needed if you need to avoid name collisions with
+		other identically named cookies for your server.
 
-Returns the user agent (web browser) being used by the current user.
-Returns FALSE if it's not available.
+		The secure boolean is only needed if you want to make it a secure cookie
+		by setting it to TRUE.
 
-::
+		**Discrete Parameters**
 
-	echo $this->input->user_agent();
+		If you prefer, you can set the cookie by passing data using individual
+		parameters::
 
-See the :doc:`User Agent Class <user_agent>` for methods which extract
-information from the user agent string.
+			$this->input->set_cookie($name, $value, $expire, $domain, $path, $prefix, $secure);
 
-$this->input->request_headers()
-===============================
+	.. method:: ip_address()
 
-Useful if running in a non-Apache environment where
-`apache_request_headers() <http://php.net/apache_request_headers>`_
-will not be supported. Returns an array of headers.
+		:returns:	Visitor's IP address or '0.0.0.0' if not valid
+		:rtype:	string
 
-::
+		Returns the IP address for the current user. If the IP address is not
+		valid, the method will return '0.0.0.0'::
 
-	$headers = $this->input->request_headers();
+			echo $this->input->ip_address();
 
-$this->input->get_request_header()
-==================================
+		.. important:: This method takes into account the ``$config['proxy_ips']``
+			setting and will return the reported HTTP_X_FORWARDED_FOR,
+			HTTP_CLIENT_IP, HTTP_X_CLIENT_IP or HTTP_X_CLUSTER_CLIENT_IP
+			address for the allowed IP addresses.
 
-Returns a single member of the request headers array.
+	.. method:: valid_ip($ip[, $which = ''])
 
-::
+		:param	string	$ip: IP address
+		:param	string	$which: IP protocol ('ipv4' or 'ipv6')
+		:returns:	TRUE if the address is valid, FALSE if not
+		:rtype:	bool
 
-	$this->input->get_request_header('some-header', TRUE);
+		Takes an IP address as input and returns TRUE or FALSE (boolean) depending
+		on whether it is valid or not.
 
-$this->input->is_ajax_request()
-===============================
+		.. note:: The $this->input->ip_address() method above automatically
+			validates the IP address.
 
-Checks to see if the HTTP_X_REQUESTED_WITH server header has been
-set, and returns a boolean response.
+		::
 
-$this->input->is_cli_request()
-==============================
+			if ( ! $this->input->valid_ip($ip))
+			{
+				echo 'Not Valid';
+			}
+			else
+			{
+				echo 'Valid';
+			}
 
-Checks to see if the STDIN constant is set, which is a failsafe way to
-see if PHP is being run on the command line.
+		Accepts an optional second string parameter of 'ipv4' or 'ipv6' to specify
+		an IP format. The default checks for both formats.
 
-::
+	.. method:: user_agent([$xss_clean = NULL])
 
-	$this->input->is_cli_request()
+		:returns:	User agent string or NULL if not set
+		:param	bool	$xss_clean: Whether to apply XSS filtering
+		:rtype:	mixed
 
-.. note:: This method is DEPRECATED and is now just an alias for the
-	:php:func:`is_cli()` function.
+		Returns the user agent string (web browser) being used by the current user,
+		or NULL if it's not available.
+		::
 
-$this->input->method()
-======================
+			echo $this->input->user_agent();
 
-Returns the $_SERVER['REQUEST_METHOD'], optional set uppercase or lowercase (default lowercase).
+		See the :doc:`User Agent Class <user_agent>` for methods which extract
+		information from the user agent string.
 
-::
+	.. method:: request_headers([$xss_clean = FALSE])
 
-	echo $this->input->method(TRUE); // Outputs: POST
-	echo $this->input->method(FALSE); // Outputs: post
-	echo $this->input->method(); // Outputs: post
+		:param	bool	$xss_clean: Whether to apply XSS filtering
+		:returns:	An array of HTTP request headers
+		:rtype:	array
+
+		Returns an array of HTTP request headers.
+		Useful if running in a non-Apache environment where
+		`apache_request_headers() <http://php.net/apache_request_headers>`_
+		will not be supported.
+		::
+
+			$headers = $this->input->request_headers();
+
+	.. method:: get_request_header($index[, $xss_clean = FALSE])
+
+		:param	string	$index: HTTP request header name
+		:param	bool	$xss_clean: Whether to apply XSS filtering
+		:returns:	An HTTP request header or NULL if not found
+		:rtype:	string
+
+		Returns a single member of the request headers array or NULL
+		if the searched header is not found.
+		::
+
+			$this->input->get_request_header('some-header', TRUE);
+
+	.. method:: is_ajax_request()
+
+		:returns:	TRUE if it is an Ajax request, FALSE if not
+		:rtype:	bool
+
+		Checks to see if the HTTP_X_REQUESTED_WITH server header has been
+		set, and returns boolean TRUE if it is or FALSE if not.
+
+	.. method:: is_cli_request()
+
+		:returns:	TRUE if it is a CLI request, FALSE if not
+		:rtype:	bool
+
+		Checks to see if the application was run from the command-line
+		interface.
+
+		.. note:: This method checks both the PHP SAPI name currently in use
+			and if the ``STDIN`` constant is defined, which is usually a
+			failsafe way to see if PHP is being run via the command line.
+
+		::
+
+			$this->input->is_cli_request()
+
+		.. note:: This method is DEPRECATED and is now just an alias for the
+			:func:`is_cli()` function.
+
+	.. method:: method([$upper = FALSE])
+
+		:param	bool	$upper: Whether to return the request method name in upper or lower case
+		:returns:	HTTP request method
+		:rtype:	string
+
+		Returns the ``$_SERVER['REQUEST_METHOD']``, with the option to set it
+		in uppercase or lowercase.
+		::
+
+			echo $this->input->method(TRUE); // Outputs: POST
+			echo $this->input->method(FALSE); // Outputs: post
+			echo $this->input->method(); // Outputs: post

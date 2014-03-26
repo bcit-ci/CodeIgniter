@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
@@ -18,12 +18,13 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/AFL-3.0 Academic Free License (AFL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------
@@ -36,6 +37,7 @@
 */
 
 $platforms = array(
+	'windows nt 6.3'	=> 'Windows 8.1',
 	'windows nt 6.2'	=> 'Windows 8',
 	'windows nt 6.1'	=> 'Windows 7',
 	'windows nt 6.0'	=> 'Windows Vista',
@@ -84,9 +86,12 @@ $browsers = array(
 	'OPR'			=> 'Opera',
 	'Flock'			=> 'Flock',
 	'Chrome'		=> 'Chrome',
+	// Opera 10+ always reports Opera/9.80 and appends Version/<real version> to the user agent string
+	'Opera.*?Version'	=> 'Opera',
 	'Opera'			=> 'Opera',
 	'MSIE'			=> 'Internet Explorer',
 	'Internet Explorer'	=> 'Internet Explorer',
+	'Trident.* rv'	=> 'Internet Explorer',
 	'Shiira'		=> 'Shiira',
 	'Firefox'		=> 'Firefox',
 	'Chimera'		=> 'Chimera',

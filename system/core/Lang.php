@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -166,9 +166,9 @@ class CI_Lang {
 	 * @param	bool	$log_errors	Whether to log an error message if the line is not found
 	 * @return	string	Translation
 	 */
-	public function line($line = '', $log_errors = TRUE)
+	public function line($line, $log_errors = TRUE)
 	{
-		$value = ($line === '' OR ! isset($this->language[$line])) ? FALSE : $this->language[$line];
+		$value = isset($this->language[$line]) ? $this->language[$line] : FALSE;
 
 		// Because killer robots like unicorns!
 		if ($value === FALSE && $log_errors === TRUE)

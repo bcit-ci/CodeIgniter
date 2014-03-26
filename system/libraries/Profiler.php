@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -153,7 +153,7 @@ class CI_Profiler {
 		{
 			// We match the "end" marker so that the list ends
 			// up in the order that it was defined
-			if (preg_match('/(.+?)_end/i', $key, $match)
+			if (preg_match('/(.+?)_end$/i', $key, $match)
 				&& isset($this->CI->benchmark->marker[$match[1].'_end'], $this->CI->benchmark->marker[$match[1].'_start']))
 			{
 				$profile[$match[1]] = $this->CI->benchmark->elapsed_time($match[1].'_start', $key);
@@ -278,6 +278,7 @@ class CI_Profiler {
 			}
 
 			$output .= "</table>\n</fieldset>";
+			$count++;
 		}
 
 		return $output;
@@ -515,7 +516,7 @@ class CI_Profiler {
 			.'<legend style="color:#000;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_session_data').'&nbsp;&nbsp;(<span style="cursor: pointer;" onclick="var s=document.getElementById(\'ci_profiler_session_data\').style;s.display=s.display==\'none\'?\'\':\'none\';this.innerHTML=this.innerHTML==\''.$this->CI->lang->line('profiler_section_show').'\'?\''.$this->CI->lang->line('profiler_section_hide').'\':\''.$this->CI->lang->line('profiler_section_show').'\';">'.$this->CI->lang->line('profiler_section_show').'</span>)</legend>'
 			.'<table style="width:100%;display:none;" id="ci_profiler_session_data">';
 
-		foreach ($this->CI->session->all_userdata() as $key => $val)
+		foreach ($this->CI->session->userdata() as $key => $val)
 		{
 			if (is_array($val) OR is_object($val))
 			{

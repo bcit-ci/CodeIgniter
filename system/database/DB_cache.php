@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -156,14 +156,14 @@ class CI_DB_Cache {
 		$dir_path = $this->db->cachedir.$segment_one.'+'.$segment_two.'/';
 		$filename = md5($sql);
 
-		if ( ! @is_dir($dir_path))
+		if ( ! is_dir($dir_path))
 		{
-			if ( ! @mkdir($dir_path, DIR_WRITE_MODE))
+			if ( ! @mkdir($dir_path, 0777))
 			{
 				return FALSE;
 			}
 
-			@chmod($dir_path, DIR_WRITE_MODE);
+			@chmod($dir_path, 0777);
 		}
 
 		if (write_file($dir_path.$filename, serialize($object)) === FALSE)
@@ -171,7 +171,7 @@ class CI_DB_Cache {
 			return FALSE;
 		}
 
-		@chmod($dir_path.$filename, FILE_WRITE_MODE);
+		@chmod($dir_path.$filename, 0666);
 		return TRUE;
 	}
 

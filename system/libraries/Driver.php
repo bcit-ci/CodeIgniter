@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2006 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2006 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -290,7 +290,7 @@ class CI_Driver {
 
 		$trace = debug_backtrace();
 		_exception_handler(E_ERROR, "No such method '{$method}'", $trace[1]['file'], $trace[1]['line']);
-		exit(EXIT_UNKNOWN_METHOD);
+		exit(6); // EXIT_UNKNOWN_METHOD
 	}
 
 	// --------------------------------------------------------------------

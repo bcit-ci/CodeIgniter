@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2006 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2006 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 3.0
@@ -179,13 +179,14 @@ class CI_Migration {
 	 * Calls each migration step required to get to the schema version of
 	 * choice
 	 *
-	 * @param	int	$target_version	Target schema version
-	 * @return	mixed	TRUE if already latest, FALSE if failed, int if upgraded
+	 * @param	string	$target_version	Target schema version
+	 * @return	mixed	TRUE if already latest, FALSE if failed, string if upgraded
 	 */
 	public function version($target_version)
 	{
-		$current_version = (int) $this->_get_version();
-		$target_version = (int) $target_version;
+		// Note: We use strings, so that timestamp versions work on 32-bit systems
+		$current_version = $this->_get_version();
+		$target_version = (string) $target_version;
 
 		$migrations = $this->find_migrations();
 
@@ -224,7 +225,7 @@ class CI_Migration {
 				return FALSE;
 			}
 
-			include_once $file;
+			include_once($file);
 			$class = 'Migration_'.ucfirst(strtolower($this->_get_migration_name(basename($file, '.php'))));
 
 			// Validate the migration file structure
@@ -272,9 +273,9 @@ class CI_Migration {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set's the schema to the latest migration
+	 * Sets the schema to the latest migration
 	 *
-	 * @return	mixed	TRUE if already latest, FALSE if failed, int if upgraded
+	 * @return	mixed	TRUE if already latest, FALSE if failed, string if upgraded
 	 */
 	public function latest()
 	{
@@ -289,16 +290,16 @@ class CI_Migration {
 		$last_migration = basename(end($migrations));
 
 		// Calculate the last migration step from existing migration
-		// filenames and procceed to the standard version migration
+		// filenames and proceed to the standard version migration
 		return $this->version($this->_get_migration_number($last_migration));
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set's the schema to the migration version set in config
+	 * Sets the schema to the migration version set in config
 	 *
-	 * @return	mixed	TRUE if already current, FALSE if failed, int if upgraded
+	 * @return	mixed	TRUE if already current, FALSE if failed, string if upgraded
 	 */
 	public function current()
 	{
@@ -359,12 +360,12 @@ class CI_Migration {
 	 * Extracts the migration number from a filename
 	 *
 	 * @param	string	$migration
-	 * @return	int	Numeric portion of a migration filename
+	 * @return	string	Numeric portion of a migration filename
 	 */
 	protected function _get_migration_number($migration)
 	{
-		return sscanf($migration, '%d', $number)
-			? $number : 0;
+		return sscanf($migration, '%[0-9]+', $number)
+			? $number : '0';
 	}
 
 	// --------------------------------------------------------------------
@@ -387,12 +388,12 @@ class CI_Migration {
 	/**
 	 * Retrieves current schema version
 	 *
-	 * @return	int	Current Migration
+	 * @return	string	Current migration version
 	 */
 	protected function _get_version()
 	{
 		$row = $this->db->select('version')->get($this->_migration_table)->row();
-		return $row ? $row->version : 0;
+		return $row ? $row->version : '0';
 	}
 
 	// --------------------------------------------------------------------
@@ -400,7 +401,7 @@ class CI_Migration {
 	/**
 	 * Stores the current schema version
 	 *
-	 * @param	int	$migration	Migration reached
+	 * @param	string	$migration	Migration reached
 	 * @return	void	Outputs a report of the migration
 	 */
 	protected function _update_version($migration)

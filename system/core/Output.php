@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -58,21 +58,21 @@ class CI_Output {
 	 *
 	 * @var	array
 	 */
-	public $headers =	array();
+	public $headers = array();
 
 	/**
 	 * List of mime types
 	 *
 	 * @var	array
 	 */
-	public $mimes =		array();
+	public $mimes =	array();
 
 	/**
 	 * Mime-type for the current page
 	 *
 	 * @var	string
 	 */
-	protected $mime_type	= 'text/html';
+	protected $mime_type = 'text/html';
 
 	/**
 	 * Enable Profiler flag
@@ -82,11 +82,18 @@ class CI_Output {
 	public $enable_profiler = FALSE;
 
 	/**
-	 * zLib output compression flag
+	 * php.ini zlib.output_compression flag
 	 *
 	 * @var	bool
 	 */
-	protected $_zlib_oc =		FALSE;
+	protected $_zlib_oc = FALSE;
+
+	/**
+	 * CI output compression flag
+	 *
+	 * @var	bool
+	 */
+	protected $_compress_output = FALSE;
 
 	/**
 	 * List of profiler sections
@@ -102,7 +109,7 @@ class CI_Output {
 	 *
 	 * @var	bool
 	 */
-	public $parse_exec_vars =	TRUE;
+	public $parse_exec_vars = TRUE;
 
 	/**
 	 * Class constructor
@@ -113,7 +120,12 @@ class CI_Output {
 	 */
 	public function __construct()
 	{
-		$this->_zlib_oc = (bool) @ini_get('zlib.output_compression');
+		$this->_zlib_oc = (bool) ini_get('zlib.output_compression');
+		$this->_compress_output = (
+			$this->_zlib_oc === FALSE
+			&& config_item('compress_output') === TRUE
+			&& extension_loaded('zlib')
+		);
 
 		// Get mime types for later
 		$this->mimes =& get_mimes();
@@ -163,15 +175,7 @@ class CI_Output {
 	 */
 	public function append_output($output)
 	{
-		if (empty($this->final_output))
-		{
-			$this->final_output = $output;
-		}
-		else
-		{
-			$this->final_output .= $output;
-		}
-
+		$this->final_output .= $output;
 		return $this;
 	}
 
@@ -389,10 +393,11 @@ class CI_Output {
 	 */
 	public function _display($output = '')
 	{
-		// Note:  We use globals because we can't use $CI =& get_instance()
+		// Note:  We use load_class() because we can't use $CI =& get_instance()
 		// since this function is sometimes called by the caching mechanism,
 		// which happens before the CI super object is available.
-		global $BM, $CFG;
+		$BM =& load_class('Benchmark', 'core');
+		$CFG =& load_class('Config', 'core');
 
 		// Grab the super object if we can.
 		if (class_exists('CI_Controller', FALSE))
@@ -436,15 +441,14 @@ class CI_Output {
 		if ($this->parse_exec_vars === TRUE)
 		{
 			$memory	= round(memory_get_usage() / 1024 / 1024, 2).'MB';
-
 			$output = str_replace(array('{elapsed_time}', '{memory_usage}'), array($elapsed, $memory), $output);
 		}
 
 		// --------------------------------------------------------------------
 
 		// Is compression requested?
-		if ($CFG->item('compress_output') === TRUE && $this->_zlib_oc === FALSE
-			&& extension_loaded('zlib')
+		if (isset($CI) // This means that we're not serving a cache file, if we were, it would already be compressed
+			&& $this->_compress_output === TRUE
 			&& isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE)
 		{
 			ob_start('ob_gzhandler');
@@ -468,6 +472,21 @@ class CI_Output {
 		// simply echo out the data and exit.
 		if ( ! isset($CI))
 		{
+			if ($this->_compress_output === TRUE)
+			{
+				if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE)
+				{
+					header('Content-Encoding: gzip');
+					header('Content-Length: '.strlen($output));
+				}
+				else
+				{
+					// User agent doesn't support gzip compression,
+					// so we'll have to decompress our cache
+					$output = gzinflate(substr($output, 10, -8));
+				}
+			}
+
 			echo $output;
 			log_message('debug', 'Final output sent to browser');
 			log_message('debug', 'Total execution time: '.$elapsed);
@@ -530,29 +549,51 @@ class CI_Output {
 			return;
 		}
 
-		$uri =	$CI->config->item('base_url').
-				$CI->config->item('index_page').
-				$CI->uri->uri_string();
+		$uri = $CI->config->item('base_url')
+			.$CI->config->item('index_page')
+			.$CI->uri->uri_string();
 
 		$cache_path .= md5($uri);
 
-		if ( ! $fp = @fopen($cache_path, FOPEN_WRITE_CREATE_DESTRUCTIVE))
+		if ( ! $fp = @fopen($cache_path, 'w+b'))
 		{
 			log_message('error', 'Unable to write cache file: '.$cache_path);
 			return;
 		}
 
-		$expire = time() + ($this->cache_expiration * 60);
-
-		// Put together our serialized info.
-		$cache_info = serialize(array(
-			'expire'	=> $expire,
-			'headers'	=> $this->headers
-		));
-
 		if (flock($fp, LOCK_EX))
 		{
-			fwrite($fp, $cache_info.'ENDCI--->'.$output);
+			// If output compression is enabled, compress the cache
+			// itself, so that we don't have to do that each time
+			// we're serving it
+			if ($this->_compress_output === TRUE)
+			{
+				$output = gzencode($output);
+
+				if ($this->get_header('content-type') === NULL)
+				{
+					$this->set_content_type($this->mime_type);
+				}
+			}
+
+			$expire = time() + ($this->cache_expiration * 60);
+
+			// Put together our serialized info.
+			$cache_info = serialize(array(
+				'expire'	=> $expire,
+				'headers'	=> $this->headers
+			));
+
+			$output = $cache_info.'ENDCI--->'.$output;
+
+			for ($written = 0, $length = strlen($output); $written < $length; $written += $result)
+			{
+				if (($result = fwrite($fp, substr($output, $written))) === FALSE)
+				{
+					break;
+				}
+			}
+
 			flock($fp, LOCK_UN);
 		}
 		else
@@ -560,13 +601,22 @@ class CI_Output {
 			log_message('error', 'Unable to secure a file lock for file at: '.$cache_path);
 			return;
 		}
+
 		fclose($fp);
-		@chmod($cache_path, FILE_WRITE_MODE);
 
-		log_message('debug', 'Cache file written: '.$cache_path);
+		if (is_int($result))
+		{
+			@chmod($cache_path, 0666);
+			log_message('debug', 'Cache file written: '.$cache_path);
 
-		// Send HTTP cache-control headers to browser to match file cache settings.
-		$this->set_cache_header($_SERVER['REQUEST_TIME'], $expire);
+			// Send HTTP cache-control headers to browser to match file cache settings.
+			$this->set_cache_header($_SERVER['REQUEST_TIME'], $expire);
+		}
+		else
+		{
+			@unlink($cache_path);
+			log_message('error', 'Unable to write the complete cache content at: '.$cache_path);
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -589,7 +639,7 @@ class CI_Output {
 		$uri =	$CFG->item('base_url').$CFG->item('index_page').$URI->uri_string;
 		$filepath = $cache_path.md5($uri);
 
-		if ( ! @file_exists($filepath) OR ! $fp = @fopen($filepath, FOPEN_READ))
+		if ( ! file_exists($filepath) OR ! $fp = @fopen($filepath, 'rb'))
 		{
 			return FALSE;
 		}

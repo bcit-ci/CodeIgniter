@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -203,15 +203,17 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 	 */
 	public function parseRequest($data = '')
 	{
-		global $HTTP_RAW_POST_DATA;
-
 		//-------------------------------------
 		//  Get Data
 		//-------------------------------------
 
 		if ($data === '')
 		{
-			$data = $HTTP_RAW_POST_DATA;
+			$CI =& get_instance();
+			if ($CI->input->method() === 'post')
+			{
+				$data = http_build_query($CI->input->input_stream(NULL, FALSE));
+			}
 		}
 
 		//-------------------------------------
@@ -222,13 +224,13 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 		$parser_object = new XML_RPC_Message('filler');
 
 		$parser_object->xh[$parser] = array(
-							'isf' =>	0,
-							'isf_reason' =>	'',
-							'params' =>	array(),
-							'stack' =>	array(),
-							'valuestack' =>	array(),
-							'method' =>	''
-						);
+			'isf' =>	0,
+			'isf_reason' =>	'',
+			'params' =>	array(),
+			'stack' =>	array(),
+			'valuestack' =>	array(),
+			'method' =>	''
+		);
 
 		xml_set_object($parser, $parser_object);
 		xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, TRUE);
@@ -384,17 +386,13 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 			{
 				return call_user_func(array($this, $method_parts[1]), $m);
 			}
+			elseif ($this->object === FALSE)
+			{
+				return get_instance()->$method_parts[1]($m);
+			}
 			else
 			{
-				if ($this->object === FALSE)
-				{
-					$CI =& get_instance();
-					return $CI->$method_parts[1]($m);
-				}
-				else
-				{
-					return $this->object->$method_parts[1]($m);
-				}
+				return $this->object->$method_parts[1]($m);
 			}
 		}
 		else

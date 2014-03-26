@@ -72,7 +72,7 @@ includes the following code:
 
 ::
 
-            <em>&copy; 2013</em>
+            <em>&copy; 2014</em>
         </body>
     <html>
 

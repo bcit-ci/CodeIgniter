@@ -81,3 +81,7 @@ Key                     Description                                             
 **query_toggle_count**  The number of queries after which the query block will default to   25
                         hidden.
 ======================= =================================================================== ========
+
+.. note:: Disabling the **save_queries** setting in your database configuration
+	will also effectively disable profiling for database queries and render
+	the 'queries' setting above useless.

@@ -2,16 +2,16 @@
 
 class Array_helper_test extends CI_TestCase {
 
+	public $my_array = array(
+		'foo'    => 'bar',
+		'sally'  => 'jim',
+		'maggie' => 'bessie',
+		'herb'   => 'cook'
+	);
+
 	public function set_up()
 	{
 		$this->helper('array');
-
-		$this->my_array = array(
-			'foo'		=> 'bar',
-			'sally'		=> 'jim',
-			'maggie'	=> 'bessie',
-			'herb'		=> 'cook'
-		);
 	}
 
 	// ------------------------------------------------------------------------
@@ -19,9 +19,7 @@ class Array_helper_test extends CI_TestCase {
 	public function test_element_with_existing_item()
 	{
 		$this->assertEquals(FALSE, element('testing', $this->my_array));
-
 		$this->assertEquals('not set', element('testing', $this->my_array, 'not set'));
-
 		$this->assertEquals('bar', element('foo', $this->my_array));
 	}
 

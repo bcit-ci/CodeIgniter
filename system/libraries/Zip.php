@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -133,12 +133,12 @@ class CI_Zip {
 	protected function _get_mod_time($dir)
 	{
 		// filemtime() may return false, but raises an error for non-existing files
-		$date = file_exists($dir) ? @filemtime($dir) : getdate($this->now);
+		$date = file_exists($dir) ? getdate(filemtime($dir)) : getdate($this->now);
 
 		return array(
-				'file_mtime' => ($date['hours'] << 11) + ($date['minutes'] << 5) + $date['seconds'] / 2,
-				'file_mdate' => (($date['year'] - 1980) << 9) + ($date['mon'] << 5) + $date['mday']
-			);
+			'file_mtime' => ($date['hours'] << 11) + ($date['minutes'] << 5) + $date['seconds'] / 2,
+			'file_mdate' => (($date['year'] - 1980) << 9) + ($date['mon'] << 5) + $date['mday']
+		);
 	}
 
 	// --------------------------------------------------------------------
@@ -279,22 +279,25 @@ class CI_Zip {
 	 * Read the contents of a file and add it to the zip
 	 *
 	 * @param	string	$path
-	 * @param	bool	$preserve_filepath
+	 * @param	bool	$archive_filepath
 	 * @return	bool
 	 */
-	public function read_file($path, $preserve_filepath = FALSE)
+	public function read_file($path, $archive_filepath = FALSE)
 	{
-		if ( ! file_exists($path))
+		if (file_exists($path) && FALSE !== ($data = file_get_contents($path)))
 		{
-			return FALSE;
-		}
-
-		if (FALSE !== ($data = file_get_contents($path)))
-		{
-			$name = str_replace('\\', '/', $path);
-			if ($preserve_filepath === FALSE)
+			if (is_string($archive_filepath))
 			{
-				$name = preg_replace('|.*/(.+)|', '\\1', $name);
+				$name = str_replace('\\', '/', $archive_filepath);
+			}
+			else
+			{
+				$name = str_replace('\\', '/', $path);
+
+				if ($archive_filepath === FALSE)
+				{
+					$name = preg_replace('|.*/(.+)|', '\\1', $name);
+				}
 			}
 
 			$this->add_data($name, $data);
@@ -339,7 +342,7 @@ class CI_Zip {
 				continue;
 			}
 
-			if (@is_dir($path.$file))
+			if (is_dir($path.$file))
 			{
 				$this->read_dir($path.$file.DIRECTORY_SEPARATOR, $preserve_filepath, $root_path);
 			}
@@ -350,6 +353,7 @@ class CI_Zip {
 				{
 					$name = str_replace($root_path, '', $name);
 				}
+
 				$this->add_data($name.$file, $data);
 			}
 		}
@@ -394,17 +398,25 @@ class CI_Zip {
 	 */
 	public function archive($filepath)
 	{
-		if ( ! ($fp = @fopen($filepath, FOPEN_WRITE_CREATE_DESTRUCTIVE)))
+		if ( ! ($fp = @fopen($filepath, 'w+b')))
 		{
 			return FALSE;
 		}
 
 		flock($fp, LOCK_EX);
-		fwrite($fp, $this->get_zip());
+
+		for ($written = 0, $data = $this->get_zip(), $length = strlen($data); $written < $length; $written += $result)
+		{
+			if (($result = fwrite($fp, substr($data, $written))) === FALSE)
+			{
+				break;
+			}
+		}
+
 		flock($fp, LOCK_UN);
 		fclose($fp);
 
-		return TRUE;
+		return is_int($result);
 	}
 
 	// --------------------------------------------------------------------
@@ -422,8 +434,7 @@ class CI_Zip {
 			$filename .= '.zip';
 		}
 
-		$CI =& get_instance();
-		$CI->load->helper('download');
+		get_instance()->load->helper('download');
 		$get_zip = $this->get_zip();
 		$zip_content =& $get_zip;
 

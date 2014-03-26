@@ -188,8 +188,39 @@ Many methods and functions now return NULL instead of FALSE when the required it
    - element()
    - elements()
 
+*******************************
+Step 11: Usage of XSS filtering
+*******************************
+
+Many functions in CodeIgniter allow you to use its XSS filtering feature
+on demand by passing a boolean parameter. The default value of that
+parameter used to be boolean FALSE, but it is now changed to NULL and it
+will be dynamically determined by your ``$config['global_xss_filtering']``
+value.
+
+If you used to manually pass a boolean value for the ``$xss_filter``
+parameter or if you've always had ``$config['global_xss_filtering']`` set
+to FALSE, then this change doesn't concern you.
+
+Otherwise however, please review your usage of the following functions:
+
+ - :doc:`Input Library <../libraries/input>`
+
+   - input->get()
+   - input->post()
+   - input->get_post()
+   - input->cookie()
+   - input->server()
+   - input->input_stream()
+
+ - :doc:`Cookie Helper <../helpers/cookie_helper>` :func:`get_cookie()`
+
+.. important:: Another related change is that the ``$_GET``, ``$_POST``,
+	``$_COOKIE`` and ``$_SERVER`` superglobals are no longer
+	automatically overwritten when global XSS filtering is turned on.
+
 ********************************************************
-Step 11: Update usage of Input Class's get_post() method
+Step 12: Update usage of Input Class's get_post() method
 ********************************************************
 
 Previously, the :doc:`Input Class <../libraries/input>` method ``get_post()``
@@ -200,14 +231,14 @@ A method has been added, ``post_get()``, which searches in POST then in GET, as
 ``get_post()`` was doing before.
 
 ***********************************************************************
-Step 12: Update usage of Directory Helper's directory_map() function
+Step 13: Update usage of Directory Helper's directory_map() function
 ***********************************************************************
 
 In the resulting array, directories now end with a trailing directory
 separator (i.e. a slash, usually).
 
 *************************************************************
-Step 13: Update usage of Database Forge's drop_table() method
+Step 14: Update usage of Database Forge's drop_table() method
 *************************************************************
 
 Up until now, ``drop_table()`` added an IF EXISTS clause by default or it didn't work
@@ -229,7 +260,7 @@ If your application relies on IF EXISTS, you'll have to change its usage.
 	all drivers with the exception of ODBC.
 
 ***********************************************************
-Step 14: Change usage of Email library with multiple emails
+Step 15: Change usage of Email library with multiple emails
 ***********************************************************
 
 The :doc:`Email Library <../libraries/email>` will automatically clear the
@@ -244,7 +275,7 @@ pass FALSE as the first parameter in the ``send()`` method:
  	}
 
 ***************************************************
-Step 15: Update your Form_validation language lines
+Step 16: Update your Form_validation language lines
 ***************************************************
 
 Two improvements have been made to the :doc:`Form Validation Library
@@ -275,7 +306,7 @@ files and error messages format:
 	later.
 
 ****************************************************************
-Step 16: Remove usage of (previously) deprecated functionalities
+Step 17: Remove usage of (previously) deprecated functionalities
 ****************************************************************
 
 In addition to the ``$autoload['core']`` configuration setting, there's a
@@ -287,7 +318,7 @@ The SHA1 library
 The previously deprecated SHA1 library has been removed, alter your code to use PHP's native
 ``sha1()`` function to generate a SHA1 hash.
 
-Additionally, the ``sha1()`` method in the :doc:`Encryption Library <../libraries/encryption>` has been removed.
+Additionally, the ``sha1()`` method in the :doc:`Encrypt Library <../libraries/encrypt>` has been removed.
 
 The EXT constant
 ================
@@ -301,6 +332,44 @@ Smiley helper js_insert_smiley()
 
 :doc:`Smiley Helper <../helpers/smiley_helper>` function ``js_insert_smiley()`` has been deprecated
 since CodeIgniter 1.7.2 and is now removed. You'll need to switch to ``smiley_js()`` instead.
+
+The Encrypt library
+===================
+
+Following numerous vulnerability reports, the :doc:`Encrypt Library <../libraries/encrypt>` has
+been deprecated and a new, :doc:`Encryption Library <../libraries/encryption>` is added to take
+its place.
+
+The new library requires either the `MCrypt extension <http://php.net/mcrypt>`_ (and /dev/urandom
+availability) or PHP 5.3.3 and the `OpenSSL extension <http://php.net/openssl>`_.
+While this might be rather inconvenient, it is a requirement that allows us to have properly
+implemented cryptographic functions.
+
+.. note:: The :doc:`Encrypt Library <../libraries/encrypt>` is still available for the purpose
+	of keeping backwards compatibility.
+
+.. important:: You are strongly encouraged to switch to the new :doc:`Encryption Library
+	<../libraries/encryption>` as soon as possible!
+
+Database drivers 'mysql', 'sqlite', 'mssql', 'pdo/dblib'
+========================================================
+
+The **mysql** driver utilizes the old 'mysql' PHP extension, known for its aging code base and
+many low-level problems. The extension is deprecated as of PHP 5.5 and CodeIgniter deprecates
+it in version 3.0, switching the default configured MySQL driver to **mysqli**.
+
+Please use either the 'mysqli' or 'pdo/mysql' drivers for MySQL. The old 'mysql' driver will be
+removed at some point in the future.
+
+The **sqlite**, **mssql** and **pdo/dblib** (also known as pdo/mssql or pdo/sybase) drivers
+all depend on PHP extensions that for different reasons no longer exist since PHP 5.3.
+
+Therefore we are now deprecating these drivers as we will have to remove them in one of the next
+CodeIgniter versions. You should use the more advanced, **sqlite3**, **sqlsrv** or **pdo/sqlsrv**
+drivers respectively.
+
+.. note:: These drivers are still available, but you're strongly encouraged to switch to other ones
+	sooner rather than later.
 
 Security helper do_hash()
 =========================
@@ -324,7 +393,7 @@ CodeIgniter 3.1+.
 String helper repeater()
 ========================
 
-:doc:`String Helper <../helpers/string_helper>` function :php:func:`repeater()` is now just an alias for
+:doc:`String Helper <../helpers/string_helper>` function :func:`repeater()` is now just an alias for
 PHP's native ``str_repeat()`` function. It is deprecated and scheduled for removal in CodeIgniter 3.1+.
 
 .. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
@@ -333,7 +402,7 @@ PHP's native ``str_repeat()`` function. It is deprecated and scheduled for remov
 String helper trim_slashes()
 ============================
 
-:doc:`String Helper <../helpers/string_helper>` function :php:func:`trim_slashes()` is now just an alias
+:doc:`String Helper <../helpers/string_helper>` function :func:`trim_slashes()` is now just an alias
 for PHP's native ``trim()`` function (with a slash passed as its second argument). It is deprecated and
 scheduled for removal in CodeIgniter 3.1+.
 
@@ -345,8 +414,8 @@ Email helper functions
 
 :doc:`Email Helper <../helpers/email_helper>` only has two functions
 
- - :php:func:`valid_email()`
- - :php:func:`send_email()`
+ - :func:`valid_email()`
+ - :func:`send_email()`
 
 Both of them are now aliases for PHP's native ``filter_var()`` and ``mail()`` functions, respectively.
 Therefore the :doc:`Email Helper <../helpers/email_helper>` altogether is being deprecated and
@@ -381,6 +450,18 @@ its usage:
 .. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
 	rather than later as it is scheduled for removal in CodeIgniter 3.1+.
 
+HTML helpers nbs(), br()
+========================
+
+:doc:`HTML Helper <../helpers/html_helper>` functions ``nbs()`` and ``br()`` are just aliases
+for the native ``str_repeat()`` function used with ``&nbsp;`` and ``<br >`` respectively.
+
+Because there's no point in just aliasing native PHP functions, they are now deprecated and
+scheduled for removal in CodeIgniter 3.1+.
+
+.. note:: These functions are still available, but you're strongly encouraged to remove their usage
+	sooner rather than later.
+
 Pagination library 'anchor_class' setting
 =========================================
 
@@ -396,7 +477,7 @@ CodeIgniter 3.1+.
 String helper random_string() types 'unique' and 'encrypt'
 ==========================================================
 
-When using the :doc:`String Helper <../helpers/string_helper>` function :php:func:`random_string()`,
+When using the :doc:`String Helper <../helpers/string_helper>` function :func:`random_string()`,
 you should no longer pass the **unique** and **encrypt** randomization types. They are only
 aliases for **md5** and **sha1** respectively and are now deprecated and scheduled for removal
 in CodeIgniter 3.1+.
@@ -407,7 +488,7 @@ in CodeIgniter 3.1+.
 URL helper url_title() separators 'dash' and 'underscore'
 =========================================================
 
-When using the :doc:`URL Helper <../helpers/url_helper>` function :php:func:`url_title()`, you
+When using the :doc:`URL Helper <../helpers/url_helper>` function :func:`url_title()`, you
 should no longer pass **dash** or **underscore** as the word separator. This function will
 now accept any character and you should just pass the chosen character directly, so you
 should write '-' instead of 'dash' and '_' instead of 'underscore'.
@@ -416,6 +497,21 @@ should write '-' instead of 'dash' and '_' instead of 'underscore'.
 in CodeIgniter 3.1+.
 
 .. note:: These options are still available, but you're strongly encouraged to remove their usage
+	sooner rather than later.
+
+Session Library method all_userdata()
+=====================================
+
+As seen in the :doc:`Change Log <../changelog>`, :doc:`Session Library <../libraries/sessions>`
+method ``userdata()`` now allows you to fetch all userdata by simply omitting its parameter::
+
+	$this->session->userdata();
+
+This makes the ``all_userdata()`` method redudant and therefore it is now just an alias for
+``userdata()`` with the above shown usage and is being deprecated and scheduled for removal
+in CodeIgniter 3.1+.
+
+.. note:: This method is still available, but you're strongly encouraged to remove its usage
 	sooner rather than later.
 
 Database Forge method add_column() with an AFTER clause
@@ -472,7 +568,7 @@ Input library method is_cli_request()
 Calls to the ``CI_Input::is_cli_request()`` method are necessary at many places
 in the CodeIgniter internals and this is often before the :doc:`Input Library
 <../libraries/input>` is loaded. Because of that, it is being replaced by a common
-function named :php:func:`is_cli()` and this method is now just an alias.
+function named :func:`is_cli()` and this method is now just an alias.
 
 The new function is both available at all times for you to use and shorter to type.
 
@@ -489,3 +585,46 @@ CodeIgniter 3.1+.
 
 .. note:: This method is still available, but you're strongly encouraged to remove its usage
 	sooner rather than later.
+
+Config library method system_url()
+==================================
+
+Usage of ``CI_Config::system_url()`` encourages insecure coding practices.
+Namely, your CodeIgniter *system/* directory shouldn't be publicly accessible
+from a security point of view.
+
+Because of this, this method is now deprecated and scheduled for removal in
+CodeIgniter 3.1+.
+
+.. note:: This method is still available, but you're strongly encouraged to remove its usage
+	sooner rather than later.
+
+======================
+The Javascript library
+======================
+
+The :doc:`Javascript Library <../libraries/javascript>` has always had an
+'experimental' status and was never really useful, nor a proper solution.
+
+It is now deprecated and scheduled for removal in CodeIgniter 3.1+.
+
+.. note:: This library is still available, but you're strongly encouraged to remove its usage
+	sooner rather than later.
+
+***********************************************************
+Step 18: Check your usage of Text helper highlight_phrase()
+***********************************************************
+
+The default HTML tag used by :doc:`Text Helper <../helpers/text_helper>` function
+:func:`highlight_phrase()` has been changed from ``<strong>`` to the new HTML5
+tag ``<mark>``.
+
+Unless you've used your own highlighting tags, this might cause trouble
+for your visitors who use older web browsers such as Internet Explorer 8.
+We therefore suggest that you add the following code to your CSS files
+in order to avoid backwards compatibility with old browsers::
+
+	mark {
+		background: #ff0;
+		color: #000;
+	};

@@ -50,11 +50,11 @@ to ::
 Step 4: Update stored encrypted data
 ====================================
 
-.. note:: If your application does not use the Encryption library, does
+.. note:: If your application does not use the Encrypt library, does
 	not store Encrypted data permanently, or is on an environment that does
 	not support Mcrypt, you may skip this step.
 
-The Encryption library has had a number of improvements, some for
+The Encrypt library has had a number of improvements, some for
 encryption strength and some for performance, that has an unavoidable
 consequence of making it no longer possible to decode encrypted data
 produced by the original version of this library. To help with the
@@ -65,7 +65,7 @@ replace stale encrypted data with fresh in your applications, either on
 the fly or en masse.
 
 Please read `how to use this
-method <../libraries/encryption.html#legacy>`_ in the Encryption library
+method <../libraries/encrypt.html#legacy>`_ in the Encrypt library
 documentation.
 
 Step 5: Remove loading calls for the compatibility helper.

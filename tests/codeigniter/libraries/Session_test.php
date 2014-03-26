@@ -8,7 +8,7 @@ class Session_test extends CI_TestCase {
 	protected $settings = array(
 		'use_cookies' => 0,
 		'use_only_cookies' => 0,
-		'cache_limiter' => false
+		'cache_limiter' => FALSE
 	);
 	protected $setting_vals = array();
 	protected $cookie_vals;
@@ -91,7 +91,7 @@ class Session_test extends CI_TestCase {
 		$cmsg1 = 'Some test data';
 		$cmsg2 = 42;
 		$nmsg1 = 'Other test data';
-		$nmsg2 = true;
+		$nmsg2 = TRUE;
 		$this->session->cookie->set_userdata($key1, $cmsg1);
 		$this->session->set_userdata($ckey2, $cmsg2);
 		$this->session->native->set_userdata($key1, $nmsg1);
@@ -156,11 +156,11 @@ class Session_test extends CI_TestCase {
 		$this->session->native->set_userdata($ndata);
 
 		// Make sure all values are present
-		$call = $this->session->cookie->all_userdata();
+		$call = $this->session->cookie->userdata();
 		foreach ($cdata as $key => $value) {
 			$this->assertEquals($value, $call[$key]);
 		}
-		$nall = $this->session->native->all_userdata();
+		$nall = $this->session->native->userdata();
 		foreach ($ndata as $key => $value) {
 			$this->assertEquals($value, $nall[$key]);
 		}
@@ -283,8 +283,8 @@ class Session_test extends CI_TestCase {
 		// Simulate page reload and verify independent messages
 		$this->session->cookie->reload();
 		$this->session->native->reload();
-		$this->assertEquals($cdata, $this->session->cookie->all_flashdata());
-		$this->assertEquals($ndata, $this->session->native->all_flashdata());
+		$this->assertEquals($cdata, $this->session->cookie->flashdata());
+		$this->assertEquals($ndata, $this->session->native->flashdata());
 
 		// Keep messages
 		$this->session->cookie->keep_flashdata($kdata);
@@ -293,14 +293,14 @@ class Session_test extends CI_TestCase {
 		// Simulate next page reload and verify message persistence
 		$this->session->cookie->reload();
 		$this->session->native->reload();
-		$this->assertEquals($cdata, $this->session->cookie->all_flashdata());
-		$this->assertEquals($ndata, $this->session->native->all_flashdata());
+		$this->assertEquals($cdata, $this->session->cookie->flashdata());
+		$this->assertEquals($ndata, $this->session->native->flashdata());
 
 		// Simulate next page reload and verify absence of messages
 		$this->session->cookie->reload();
 		$this->session->native->reload();
-		$this->assertEmpty($this->session->cookie->all_flashdata());
-		$this->assertEmpty($this->session->native->all_flashdata());
+		$this->assertEmpty($this->session->cookie->flashdata());
+		$this->assertEmpty($this->session->native->flashdata());
 	}
 
 	/**
@@ -329,8 +329,8 @@ class Session_test extends CI_TestCase {
 		// Simulate page reload and make sure all values are present
 		$this->session->cookie->reload();
 		$this->session->native->reload();
-		$this->assertEquals($cdata, $this->session->cookie->all_flashdata());
-		$this->assertEquals($ndata, $this->session->native->all_flashdata());
+		$this->assertEquals($cdata, $this->session->cookie->flashdata());
+		$this->assertEquals($ndata, $this->session->native->flashdata());
 	}
 
 	/**

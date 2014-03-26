@@ -31,7 +31,7 @@ class Directory_helper_test extends CI_TestCase {
 		// is_dir(), opendir(), etc. seem to fail on Windows + vfsStream when there are trailing backslashes in directory names
 		if ( ! is_dir(vfsStream::url('testDir').DIRECTORY_SEPARATOR))
 		{
-			$this->markTestSkipped();
+			$this->markTestSkipped("Can't test this under Windows");
 			return;
 		}
 

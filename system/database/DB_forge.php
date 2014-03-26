@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -314,9 +314,10 @@ abstract class CI_DB_forge {
 	 *
 	 * @param	string	$table		Table name
 	 * @param	bool	$if_not_exists	Whether to add IF NOT EXISTS condition
+	 * @param	array	$attributes	Associative array of table attributes
 	 * @return	bool
 	 */
-	public function create_table($table = '', $if_not_exists = FALSE)
+	public function create_table($table = '', $if_not_exists = FALSE, array $attributes = array())
 	{
 		if ($table === '')
 		{
@@ -332,7 +333,7 @@ abstract class CI_DB_forge {
 			show_error('Field information is required.');
 		}
 
-		$sql = $this->_create_table($table, $if_not_exists);
+		$sql = $this->_create_table($table, $if_not_exists, $attributes);
 
 		if (is_bool($sql))
 		{
@@ -368,9 +369,10 @@ abstract class CI_DB_forge {
 	 *
 	 * @param	string	$table		Table name
 	 * @param	bool	$if_not_exists	Whether to add 'IF NOT EXISTS' condition
+	 * @param	array	$attributes	Associative array of table attributes
 	 * @return	mixed
 	 */
-	protected function _create_table($table, $if_not_exists)
+	protected function _create_table($table, $if_not_exists, $attributes)
 	{
 		if ($if_not_exists === TRUE && $this->_create_table_if === FALSE)
 		{
@@ -406,11 +408,35 @@ abstract class CI_DB_forge {
 		}
 
 		// _create_table will usually have the following format: "%s %s (%s\n)"
-		$sql = sprintf($this->_create_table.';',
+		$sql = sprintf($this->_create_table.'%s;',
 			$sql,
 			$this->db->escape_identifiers($table),
-			$columns
+			$columns,
+			$this->_create_table_attr($attributes)
 		);
+
+		return $sql;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * CREATE TABLE attributes
+	 *
+	 * @param	array	$attributes	Associative array of table attributes
+	 * @return	string
+	 */
+	protected function _create_table_attr($attributes)
+	{
+		$sql = '';
+
+		foreach (array_keys($attributes) as $key)
+		{
+			if (is_string($key))
+			{
+				$sql .= ' '.strtoupper($key).' '.$attributes[$key];
+			}
+		}
 
 		return $sql;
 	}
@@ -721,24 +747,22 @@ abstract class CI_DB_forge {
 				continue;
 			}
 
-			if (isset($attributes['TYPE']))
-			{
-				$this->_attr_type($attributes);
-				$this->_attr_unsigned($attributes, $field);
-			}
+			isset($attributes['TYPE']) && $this->_attr_type($attributes);
 
 			$field = array(
-					'name'			=> $key,
-					'new_name'		=> isset($attributes['NAME']) ? $attributes['NAME'] : NULL,
-					'type'			=> isset($attributes['TYPE']) ? $attributes['TYPE'] : NULL,
-					'length'		=> '',
-					'unsigned'		=> '',
-					'null'			=> '',
-					'unique'		=> '',
-					'default'		=> '',
-					'auto_increment'	=> '',
-					'_literal'		=> FALSE
+				'name'			=> $key,
+				'new_name'		=> isset($attributes['NAME']) ? $attributes['NAME'] : NULL,
+				'type'			=> isset($attributes['TYPE']) ? $attributes['TYPE'] : NULL,
+				'length'		=> '',
+				'unsigned'		=> '',
+				'null'			=> '',
+				'unique'		=> '',
+				'default'		=> '',
+				'auto_increment'	=> '',
+				'_literal'		=> FALSE
 			);
+
+			isset($attributes['TYPE']) && $this->_attr_unsigned($attributes, $field);
 
 			if ($create_table === FALSE)
 			{
@@ -780,10 +804,14 @@ abstract class CI_DB_forge {
 					case 'ENUM':
 					case 'SET':
 						$attributes['CONSTRAINT'] = $this->db->escape($attributes['CONSTRAINT']);
+						$field['length'] = is_array($attributes['CONSTRAINT'])
+							? "('".implode("','", $attributes['CONSTRAINT'])."')"
+							: '('.$attributes['CONSTRAINT'].')';
+						break;
 					default:
 						$field['length'] = is_array($attributes['CONSTRAINT'])
-								? "('".implode("','", $attributes['CONSTRAINT'])."')"
-								: '('.$attributes['CONSTRAINT'].')';
+							? '('.implode(',', $attributes['CONSTRAINT']).')'
+							: '('.$attributes['CONSTRAINT'].')';
 						break;
 				}
 			}
@@ -984,7 +1012,6 @@ abstract class CI_DB_forge {
 	 */
 	protected function _process_indexes($table)
 	{
-		$table = $this->db->escape_identifiers($table);
 		$sqls = array();
 
 		for ($i = 0, $c = count($this->keys); $i < $c; $i++)
@@ -1008,7 +1035,7 @@ abstract class CI_DB_forge {
 
 			is_array($this->keys[$i]) OR $this->keys[$i] = array($this->keys[$i]);
 
-			$sqls[] = 'CREATE INDEX '.$this->db->escape_identifiers(implode('_', $this->keys[$i]))
+			$sqls[] = 'CREATE INDEX '.$this->db->escape_identifiers($table.'_'.implode('_', $this->keys[$i]))
 				.' ON '.$this->db->escape_identifiers($table)
 				.' ('.implode(', ', $this->db->escape_identifiers($this->keys[$i])).');';
 		}

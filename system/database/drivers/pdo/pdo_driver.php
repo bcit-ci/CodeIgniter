@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 2.1.0
@@ -92,7 +92,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		{
 			$this->subdriver = '4d';
 		}
-		elseif ( ! in_array($this->subdriver, array('4d', 'cubrid', 'dblib', 'firebird', 'ibm', 'informix', 'mysql', 'oci', 'odbc', 'sqlite', 'sqlsrv'), TRUE))
+		elseif ( ! in_array($this->subdriver, array('4d', 'cubrid', 'dblib', 'firebird', 'ibm', 'informix', 'mysql', 'oci', 'odbc', 'pgsql', 'sqlite', 'sqlsrv'), TRUE))
 		{
 			log_message('error', 'PDO: Invalid or non-existent subdriver');
 
@@ -117,10 +117,9 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		$this->options[PDO::ATTR_PERSISTENT] = $persistent;
 
-		// Connecting...
 		try
 		{
-			return @new PDO($this->dsn, $this->username, $this->password, $this->options);
+			return new PDO($this->dsn, $this->username, $this->password, $this->options);
 		}
 		catch (PDOException $e)
 		{
@@ -131,18 +130,6 @@ class CI_DB_pdo_driver extends CI_DB {
 
 			return FALSE;
 		}
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Persistent database connection
-	 *
-	 * @return	object
-	 */
-	public function db_pconnect()
-	{
-		return $this->db_connect(TRUE);
 	}
 
 	// --------------------------------------------------------------------

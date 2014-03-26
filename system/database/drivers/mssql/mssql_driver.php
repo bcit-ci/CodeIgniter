@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -98,8 +98,8 @@ class CI_DB_mssql_driver extends CI_DB {
 	public function db_connect($persistent = FALSE)
 	{
 		$this->conn_id = ($persistent)
-				? @mssql_pconnect($this->hostname, $this->username, $this->password)
-				: @mssql_connect($this->hostname, $this->username, $this->password);
+				? mssql_pconnect($this->hostname, $this->username, $this->password)
+				: mssql_connect($this->hostname, $this->username, $this->password);
 
 		if ( ! $this->conn_id)
 		{
@@ -125,18 +125,6 @@ class CI_DB_mssql_driver extends CI_DB {
 		$this->_escape_char = ($this->_quoted_identifier) ? '"' : array('[', ']');
 
 		return $this->conn_id;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Persistent database connection
-	 *
-	 * @return	resource
-	 */
-	public function db_pconnect()
-	{
-		return $this->db_connect(TRUE);
 	}
 
 	// --------------------------------------------------------------------
@@ -280,7 +268,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	protected function _db_set_charset($charset)
 	{
-		return (@ini_set('mssql.charset', $charset) !== FALSE);
+		return (ini_set('mssql.charset', $charset) !== FALSE);
 	}
 
 	// --------------------------------------------------------------------
@@ -311,7 +299,7 @@ class CI_DB_mssql_driver extends CI_DB {
 			.' FROM '.$this->escape_identifiers('sysobjects')
 			.' WHERE '.$this->escape_identifiers('type')." = 'U'";
 
-		if ($prefix_limit !== FALSE AND $this->dbprefix !== '')
+		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{
 			$sql .= ' AND '.$this->escape_identifiers('name')." LIKE '".$this->escape_like_str($this->dbprefix)."%' "
 				.sprintf($this->_like_escape_str, $this->_like_escape_chr);

@@ -25,22 +25,22 @@ your controller any of these:
 Functions
 ---------
 
--  :php:func:`is_php()`
--  :php:func:`is_really_writable()`
+-  :func:`is_php()`
+-  :func:`is_really_writable()`
 -  ``load_class()``
 -  ``is_loaded()``
 -  ``get_config()``
--  :php:func:`config_item()`
--  :php:func:`show_error()`
--  :php:func:`show_404()`
--  :php:func:`log_message()`
--  :php:func:`set_status_header()`
--  :php:func:`get_mimes()`
--  :php:func:`html_escape()`
--  :php:func:`remove_invisible_characters()`
--  :php:func:`is_https()`
--  :php:func:`function_usable()`
--  :php:func:`get_instance()`
+-  :func:`config_item()`
+-  :func:`show_error()`
+-  :func:`show_404()`
+-  :func:`log_message()`
+-  :func:`set_status_header()`
+-  :func:`get_mimes()`
+-  :func:`html_escape()`
+-  :func:`remove_invisible_characters()`
+-  :func:`is_https()`
+-  :func:`function_usable()`
+-  :func:`get_instance()`
 -  ``_exception_handler()``
 -  ``_stringify_attributes()``
 
@@ -61,6 +61,9 @@ Constants
 -  APPPATH
 -  VIEWPATH
 -  CI_VERSION
+-  MB_ENABLED
+-  ICONV_ENABLED
+-  UTF8_ENABLED
 -  FILE_READ_MODE
 -  FILE_WRITE_MODE
 -  DIR_READ_MODE

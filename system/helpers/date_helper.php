@@ -18,7 +18,7 @@
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -276,6 +276,11 @@ if ( ! function_exists('days_in_month'))
 		elseif ( ! is_numeric($year) OR strlen($year) !== 4)
 		{
 			$year = date('Y');
+		}
+
+		if (defined('CAL_GREGORIAN'))
+		{
+			return cal_days_in_month(CAL_GREGORIAN, $month, $year);
 		}
 
 		if ($year >= 1970)

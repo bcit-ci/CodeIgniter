@@ -35,7 +35,7 @@ Server Requirements
 Installation
 ************
 
-Please see the `installation section <http://codeigniter.com/user_guide/installation/index.html>`_
+Please see the `installation section <http://ellislab.com/codeigniter/user-guide/installation/index.html>`_
 of the CodeIgniter User Guide.
 
 *******
@@ -43,15 +43,15 @@ License
 *******
 
 Please see the `license
-agreement <http://codeigniter.com/user_guide/license.html>`_
+agreement <http://ellislab.com/codeigniter/user-guide/license.html>`_
 
 *********
 Resources
 *********
 
 -  `User Guide <http://ellislab.com/codeigniter/user_guide/>`_
--  `Community Forums <http://ellislab.com/codeigniter/forums/>`_
--  `Community Wiki <http://ellislab.com/codeigniter/wiki/>`_
+-  `Community Forums <http://ellislab.com/forums/>`_
+-  `Community Wiki <https://github.com/EllisLab/CodeIgniter/wiki/>`_
 -  `Community IRC <http://ellislab.com/codeigniter/irc>`_
 
 ***************

@@ -2,20 +2,61 @@
 
 class Upload_test extends CI_TestCase {
 
-	function set_up()
+	public function set_up()
 	{
 		$ci = $this->ci_instance();
-		$ci->upload = new Mock_Libraries_Upload();
+		$ci->upload = new CI_Upload();
 		$ci->security = new Mock_Core_Security();
 		$ci->lang = $this->getMock('CI_Lang', array('load', 'line'));
 		$ci->lang->expects($this->any())->method('line')->will($this->returnValue(FALSE));
 		$this->upload = $ci->upload;
 	}
 
-	function test_do_upload()
+	// --------------------------------------------------------------------
+
+	public function test___construct_initialize()
 	{
-		$this->markTestSkipped('We can\'t really test this at the moment because of the call to `is_uploaded_file` in do_upload which isn\'t supported by vfsStream');
+		// via __construct
+
+		$upload = new CI_Upload(
+			array(
+				'file_name' => 'foo',
+				'file_ext_tolower' => TRUE
+			)
+		);
+
+		// ReflectionProperty::setAccessible() is not available in PHP 5.2.x
+		if (is_php('5.3'))
+		{
+			$reflection = new ReflectionClass($upload);
+			$reflection = $reflection->getProperty('_file_name_override');
+			$reflection->setAccessible(TRUE);
+			$this->assertEquals('foo', $reflection->getValue($upload));
+		}
+
+		$this->assertTrue($upload->file_ext_tolower);
+
+		// reset (defaults to true)
+
+		$upload->initialize(array('file_name' => 'bar'));
+		$this->assertEquals('bar', $upload->file_name);
+		$this->assertFalse($upload->file_ext_tolower);
+
+		// no reset
+
+		$upload->initialize(array('file_ext_tolower' => TRUE), FALSE);
+		$this->assertTrue($upload->file_ext_tolower);
+		$this->assertEquals('bar', $upload->file_name);
 	}
+
+	// --------------------------------------------------------------------
+
+	public function test_do_upload()
+	{
+		$this->markTestSkipped("We can't test this at the moment because of the call to is_uploaded_file() in do_upload() which isn't supported by vfsStream.");
+	}
+
+	// --------------------------------------------------------------------
 
 	function test_data()
 	{
@@ -257,12 +298,6 @@ class Upload_test extends CI_TestCase {
 	{
 		$this->upload->error_msg[] = 'Error test';
 		$this->assertEquals('<p>Error test</p>', $this->upload->display_errors());
-	}
-
-	function test_mimes_types()
-	{
-		$this->assertEquals('text/plain', $this->upload->mimes_types('txt'));
-		$this->assertFalse($this->upload->mimes_types('foobar'));
 	}
 
 }
