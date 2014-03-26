@@ -157,7 +157,7 @@ class Mock_Database_Schema_Skeleton {
 			'device' => array(
 				array('id' => 1, 'uuid' => 'e0101010d38bde8e6740011221af335301010333', 'name' => 'iPhone 5', 'userId' => 1),
 				array('id' => 2, 'uuid' => 'e0101111d38bde8e6740011221af335301010333', 'name' => 'nexus one', 'userId' => 2),
-				array('id' => 2, 'uuid' => 'e0101111d38bde8e6740011221af335301010553', 'name' => 'nexus one', 'userId' => 1),
+				array('id' => 3, 'uuid' => 'e0101111d38bde8e6740011221af335301010553', 'name' => 'nexus one', 'userId' => 1),
 			)
 		);
 
