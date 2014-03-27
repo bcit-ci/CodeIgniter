@@ -33,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * @category	Database
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @link		http://ellislab.com/codeigniter/user-guide/database/
  * @since	1.3
  */
 class CI_DB_postgre_result extends CI_DB_result {

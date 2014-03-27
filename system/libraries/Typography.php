@@ -33,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Helpers
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/typography.html
+ * @link		http://ellislab.com/codeigniter/user-guide/libraries/typography.html
  */
 class CI_Typography {
 

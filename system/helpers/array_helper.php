@@ -33,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Helpers
  * @category	Helpers
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/helpers/array_helper.html
+ * @link		http://ellislab.com/codeigniter/user-guide/helpers/array_helper.html
  */
 
 // ------------------------------------------------------------------------

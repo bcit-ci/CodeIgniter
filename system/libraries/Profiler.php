@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Libraries
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/general/profiling.html
+ * @link		http://ellislab.com/codeigniter/user-guide/general/profiling.html
  */
 class CI_Profiler {
 
