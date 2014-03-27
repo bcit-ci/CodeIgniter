@@ -2116,15 +2116,16 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @return	string
 	 */
 	protected function _delete($table)
-	{	
+	{
 		if (count($this->qb_join) > 0)
 		{
-			return $this->_delete_join($table);
+			// We need to run it here to alter qb_where before.
+			$joins = $this->_compile_join($table);
 		}
-		
+
 		return 'DELETE FROM '.$table
-                        .$this->_compile_wh('qb_where')						
-						.($this->qb_limit ? ' LIMIT '.$this->qb_limit : '');
+                        .$this->_compile_wh('qb_where')
+						.(count($this->qb_where) > 0 ? ' AND '.$joins : ' WHERE'.$joins);
 	}
 
 	/**
@@ -2135,40 +2136,49 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	string	the table name
 	 * @return	string
 	 */
-	private function _delete_join($table){
+	protected function _compile_join($table)
+	{
 		$joins = array();
-				
-		foreach ($this->qb_join as $deljoin) 
+		foreach ($this->qb_join as $deljoin)
 		{
 			// Get join table and columns.
-			if(preg_match('/JOIN\s(.+)\sON\s(.+)=(.+)/', $deljoin, $matches) == 1)
-			{					
-				$join = $matches[3] . " IN (SELECT " . $matches[2] . " FROM " . $matches[1]. "\n";
+			if (preg_match('/JOIN\s(.+)\sON\s(.+)=(.+)/', $deljoin, $matches) == 1)
+			{		
+				// REVIEW: Maybe we want to use NOT IN for outer join?
+				$join = $matches[3] . ' IN (SELECT ' . $matches[2] . ' FROM ' . $matches[1]. "\n";
 			}
 				
 			// Parse join conditions if any.
 			if (count($this->qb_where) > 0)
-			{					
-				$this->qb_joinwhere = $this->_preg_grep_join('/' . trim($matches[1],'"\'` ') . '\..+/', $this->qb_where);										;
-				$this->qb_where = array_diff_key($this->qb_where, $this->qb_joinwhere);
-				$this->qb_joinwhere = array_values($this->qb_joinwhere);
-				$join .= $this->_compile_wh('qb_joinwhere') . ")";				
+			{
+				$joinwhere = $this->_preg_grep_join('/' . trim($matches[1],'"\'` ') . '\..+/', $this->qb_where);										;
+				$this->qb_where = array_diff_key($this->qb_where, $joinwhere);
+				if (count($joinwhere) > 0)
+				{
+					$join .= 'WHERE '.$this->_implode(' ', $joinwhere,'condition').')';
+				}
 			}
-			
 			$joins[] = $join;
-			// Clear joinwhere			
-			unset($this->qb_joinwhere);
-		}
-		
-		if(count($this->qb_where) > 0){
-			$this->qb_where = array_values($this->qb_where);
-			$this->qb_where[0]['condition'] = preg_replace("/(AND|OR)\s?(.+)/", '\2', $this->qb_where[0]['condition']);	
 		}
 
-		return 'DELETE FROM '.$table
-                        .$this->_compile_wh('qb_where')
-						.(count($this->qb_where) > 0 ? ' AND '.implode("\nAND ", $joins) : "\nWHERE ".implode("\nAND ", $joins))
-						.($this->qb_limit ? ' LIMIT '.$this->qb_limit : '');
+		if (count($this->qb_where) > 0)
+		{
+			$this->qb_where = array_values($this->qb_where);
+			$this->qb_where[0]['condition'] = preg_replace("/(AND|OR)\s?(.+)/", '\2', $this->qb_where[0]['condition']);
+		}
+		return implode("\nAND ", $joins);
+	}
+
+	protected function _implode($glue, $arr, $dkey)
+	{
+		$first = array_shift($arr);
+		$res = $first[$dkey];
+		foreach ($arr as $key => $value)
+		{
+			$res.= $glue . $value[$dkey];
+		}
+
+		return $res;
 	}
 
 	/**
@@ -2178,7 +2188,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param  array array to compare
 	 * @return array an array with matches
 	 */
-	private function _preg_grep_join($regex, $arr)
+	protected function _preg_grep_join($regex, $arr)
 	{
 		$matches = array();
 		foreach ($arr as $key => $value)
@@ -2192,8 +2202,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		
 		$revert = array_keys($matches);
 		$key = reset($revert);		
-		$matches[$key]['condition'] = preg_replace("/(AND|OR)\s?(.+)/", '\2', $matches[$key]['condition']);	
-
+		$matches[$key]['condition'] = preg_replace("/(AND|OR)\s?(.+)/", '\2', $matches[$key]['condition']);
 		return $matches;
 	}
 
