@@ -2122,9 +2122,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			// We need to run it here to alter qb_where before.
 			$joins = $this->_compile_join($table);
 		}
-		var_dump('DELETE FROM '.$table
-                        .$this->_compile_wh('qb_where')
-						.(isset($joins) ? (count($this->qb_where) > 0 ? ' AND '.$joins : ' WHERE'.$joins) : ''));
+		
 		return 'DELETE FROM '.$table
                         .$this->_compile_wh('qb_where')
 						.(isset($joins) ? (count($this->qb_where) > 0 ? ' AND '.$joins : ' WHERE'.$joins) : '');
