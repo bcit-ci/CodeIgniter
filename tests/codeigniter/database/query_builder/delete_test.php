@@ -36,6 +36,20 @@ class Delete_test extends CI_TestCase {
 		$this->assertEmpty($job1->result_array());
 	}
 
+	public function test_delete_join(){		
+		$this->db->join('user', 'user.id = device.userId')->where('user.name', 'Derek Jones');
+		$this->db->where('device.uuid', 'e0101111d38bde8e6740011221af335301010333')->delete('device');
+		
+		$device = $this->db->where('uuid', 'e0101111d38bde8e6740011221af335301010333')->get('device');
+		$this->assertNotEmpty($device->result_array());
+
+		$this->db->join('user', 'user.id = device.userId')->where('user.name', 'Derek Jones');
+		$this->db->where('device.name', 'iPhone 5')->delete('device');
+		
+		$device = $this->db->where('userId', 1)->get('device');
+		$this->assertEquals(count($device->result_array()), 1);
+	}
+
 	// ------------------------------------------------------------------------
 
 	/**

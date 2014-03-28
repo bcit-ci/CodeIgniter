@@ -2117,8 +2117,81 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	protected function _delete($table)
 	{
-		return 'DELETE FROM '.$table.$this->_compile_wh('qb_where')
-			.($this->qb_limit ? ' LIMIT '.$this->qb_limit : '');
+		if (count($this->qb_join) > 0)
+		{
+			// We need to run it here to alter qb_where before.
+			$joins = $this->_compile_join($table);
+		}
+		
+		return 'DELETE FROM '.$table
+                        .$this->_compile_wh('qb_where')
+						.(isset($joins) ? (count($this->qb_where) > 0 ? ' AND '.$joins : ' WHERE'.$joins) : '');
+	}
+
+	/**
+	 * Delete join statement
+	 *
+	 * Generates a platform-specific delete join string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @return	string
+	 */
+	protected function _compile_join($table)
+	{
+		$joins = array();
+		foreach ($this->qb_join as $deljoin)
+		{
+			// Get join table and columns.
+			if (preg_match('/JOIN\s(.+)\sON\s(.+)=(.+)/', $deljoin, $matches) == 1)
+			{		
+				// REVIEW: Maybe we want to use NOT IN for outer join?
+				$join = $matches[3] . ' IN (SELECT ' . $matches[2] . ' FROM ' . $matches[1]. "\n";
+			}
+				
+			// Parse join conditions if any.
+			if (count($this->qb_where) > 0)
+			{
+				$this->qb_joinwhere = $this->_preg_grep_join('/' . trim($matches[1],'"\'` ') . '\..+/', $this->qb_where);										;
+				$this->qb_where = array_diff_key($this->qb_where, $this->qb_joinwhere);
+				if (count($this->qb_joinwhere) > 0)
+				{
+					$join .= $this->_compile_wh("qb_joinwhere").')';
+				}
+			}
+			$joins[] = $join;
+		}
+
+		if (count($this->qb_where) > 0)
+		{
+			$this->qb_where = array_values($this->qb_where);
+			$this->qb_where[0]['condition'] = preg_replace("/(AND|OR)\s?(.+)/", '\2', $this->qb_where[0]['condition']);
+		}
+		return implode("\nAND ", $joins);
+	}
+
+	/**
+	 * Grep array condition with regexp.
+	 * 
+	 * @param  string regexp expresssion
+	 * @param  array array to compare
+	 * @return array an array with matches
+	 */
+	protected function _preg_grep_join($regex, $arr)
+	{
+		$matches = array();
+		foreach ($arr as $key => $value)
+		{
+			if (preg_match($regex, $value['condition']) === 1)
+			{
+				// preserve key values to do array_diff on keys...
+				$matches[$key] = $value;
+			}
+		}
+		
+		$revert = array_keys($matches);
+		$key = reset($revert);		
+		$matches[$key]['condition'] = preg_replace("/(AND|OR)\s?(.+)/", '\2', $matches[$key]['condition']);
+		return $matches;
 	}
 
 	// --------------------------------------------------------------------
@@ -2699,7 +2772,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			'qb_where'	=> array(),
 			'qb_orderby'	=> array(),
 			'qb_keys'	=> array(),
-			'qb_limit'	=> FALSE
+			'qb_limit'	=> FALSE,			
 			)
 		);
 	}

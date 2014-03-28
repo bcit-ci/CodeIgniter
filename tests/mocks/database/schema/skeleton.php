@@ -104,6 +104,28 @@ class Mock_Database_Schema_Skeleton {
 		));
 		static::$forge->add_key('id', TRUE);
 		static::$forge->create_table('misc', TRUE);
+
+		// Devices Table
+		static::$forge->add_field(array(
+			'id' => array(
+				'type' => 'INTEGER',
+				'constraint' => 3
+			),
+			'uuid' => array(
+				'type' => 'VARCHAR',
+				'constraint' => 50
+			),
+			'name' => array(
+				'type' => 'VARCHAR',
+				'constraint' => 20
+			),
+			'userId' => array(
+				'type' => 'INTEGER',
+				'constraint' => 3
+			)
+		));
+		static::$forge->add_key('id', TRUE);
+		static::$forge->create_table('device', TRUE);
 	}
 
 	/**
@@ -131,6 +153,11 @@ class Mock_Database_Schema_Skeleton {
 				array('id' => 1, 'key' => '\\xxxfoo456', 'value' => 'Entry with \\xxx'),
 				array('id' => 2, 'key' => '\\%foo456', 'value' => 'Entry with \\%'),
 				array('id' => 3, 'key' => 'spaces and tabs', 'value' => ' One  two   three	tab')
+			),
+			'device' => array(
+				array('id' => 1, 'uuid' => 'e0101010d38bde8e6740011221af335301010333', 'name' => 'iPhone 5', 'userId' => 1),
+				array('id' => 2, 'uuid' => 'e0101111d38bde8e6740011221af335301010333', 'name' => 'nexus one', 'userId' => 2),
+				array('id' => 3, 'uuid' => 'e0101111d38bde8e6740011221af335301010553', 'name' => 'nexus one', 'userId' => 1),
 			)
 		);
 

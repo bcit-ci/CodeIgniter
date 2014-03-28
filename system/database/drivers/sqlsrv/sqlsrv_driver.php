@@ -462,10 +462,14 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	{
 		if ($this->qb_limit)
 		{
-			return 'WITH ci_delete AS (SELECT TOP '.$this->qb_limit.' * FROM '.$table.$this->_compile_wh('qb_where').') DELETE FROM ci_delete';
+			return 'WITH ci_delete AS (SELECT TOP '.$this->qb_limit.' * FROM '.$table
+				.($this->qb_join > 0 ? "\n".implode("\n", $this->qb_join) : '')
+				.$this->_compile_wh('qb_where').') DELETE FROM ci_delete';
 		}
 
-		return parent::_delete($table);
+		return 'DELETE '. $table .' FROM '.$table
+			.($this->qb_join > 0 ? "\n".implode("\n", $this->qb_join) : '')
+			.$this->_compile_wh('qb_where');
 	}
 
 	// --------------------------------------------------------------------
