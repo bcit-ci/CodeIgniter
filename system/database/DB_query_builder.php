@@ -2171,18 +2171,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		return implode("\nAND ", $joins);
 	}
 
-	protected function _implode($glue, $arr, $dkey)
-	{
-		$first = array_shift($arr);
-		$res = $first[$dkey];
-		foreach ($arr as $key => $value)
-		{
-			$res.= $glue . $value[$dkey];
-		}
-
-		return $res;
-	}
-
 	/**
 	 * Grep array condition with regexp.
 	 * 
