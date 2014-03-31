@@ -725,9 +725,24 @@ class CI_Session_cookie extends CI_Session_driver {
 		{
 			foreach (array_keys($this->userdata) as $key)
 			{
-				$this->userdata[$key] = preg_replace('/(?:\r\n|[\r\n])/', PHP_EOL, $this->userdata[$key]);
+                                if(is_array($this->userdata[$key]))
+                                {
+                                  foreach($this->userdata[$key] as $key2 => $val2)
+                                  {
+                                    if(is_array($val2))
+                                    {
+                                      foreach($val2 as $key3 => $val3)
+                                      {
+                                        $this->userdata[$key2][$key3] = preg_replace('/(?:\r\n|[\r\n])/', PHP_EOL, $this->userdata[$key2][$key3]);
+                                      }
+                                    }
+                                  }
+                                }else{
+                                
+				    $this->userdata[$key] = preg_replace('/(?:\r\n|[\r\n])/', PHP_EOL, $this->userdata[$key]);
+                                }
 			}
-		}
+                }
 
 		// Serialize the userdata for the cookie
 		$cookie_data = serialize($cookie_data);
