@@ -67,13 +67,6 @@ class Config_test extends CI_TestCase {
 		// Clear base_url
 		$this->ci_set_config('base_url', '');
 
-		// Rerun constructor
-		$cls =& $this->ci_core_class('cfg');
-		$this->config = new $cls;
-
-		// Test default base
-		$this->assertEquals('http://localhost/', $this->config->base_url());
-
 		// Capture server vars
 		$old_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : NULL;
 		$old_script = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : NULL;
@@ -87,6 +80,7 @@ class Config_test extends CI_TestCase {
 		$_SERVER['SCRIPT_NAME'] = $path.$script;
 
 		// Rerun constructor
+		$cls =& $this->ci_core_class('cfg');
 		$this->config = new $cls;
 
 		// Test plain detected
