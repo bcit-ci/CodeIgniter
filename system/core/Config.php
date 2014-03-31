@@ -83,9 +83,9 @@ class CI_Config {
 				$script_dir .= '/';
 			}
 
-			$base_url = (is_https() ? 'https' : 'http') . '://'
-				. (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost')
-				. $script_dir;
+			$base_url = (is_https() ? 'https' : 'http').'://'
+				.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost')
+				.$script_dir;
 
 			$this->set_item('base_url', $base_url);
 		}
