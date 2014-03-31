@@ -74,7 +74,7 @@ class Config_test extends CI_TestCase {
 
 		// Setup server vars for detection
 		$host = 'test.com';
-		$path = '/path/';
+		$path = '/';
 		$script = 'base_test.php';
 		$_SERVER['HTTP_HOST'] = $host;
 		$_SERVER['SCRIPT_NAME'] = $path.$script;
@@ -83,7 +83,15 @@ class Config_test extends CI_TestCase {
 		$cls =& $this->ci_core_class('cfg');
 		$this->config = new $cls;
 
-		// Test plain detected
+		// Test plain detected (root)
+		$this->assertEquals('http://'.$host.$path, $this->config->base_url());
+
+		// Rerun constructor
+		$path = '/path/';
+		$_SERVER['SCRIPT_NAME'] = $path.$script;
+		$this->config = new $cls;
+
+		// Test plain detected (subfolder)
 		$this->assertEquals('http://'.$host.$path, $this->config->base_url());
 
 		// Rerun constructor
