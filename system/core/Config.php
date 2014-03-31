@@ -76,16 +76,9 @@ class CI_Config {
 		// Set the base_url automatically if none was provided
 		if (empty($this->config['base_url']))
 		{
-			$script_dir = strtr(dirname($_SERVER['SCRIPT_NAME']), '\\', '/');
-
-			if ($script_dir !== '/')
-			{
-				$script_dir .= '/';
-			}
-
 			$base_url = (is_https() ? 'https' : 'http').'://'
 				.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost')
-				.$script_dir;
+				.substr($_SERVER['SCRIPT_NAME'], 0, -strlen(basename($_SERVER['SCRIPT_NAME'])));
 
 			$this->set_item('base_url', $base_url);
 		}
