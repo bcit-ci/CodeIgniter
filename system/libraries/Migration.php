@@ -185,12 +185,15 @@ class CI_Migration {
 	public function version($target_version)
 	{
 		// Note: We use strings, so that timestamp versions work on 32-bit systems
-		$current_version = $this->_get_version();
-		$target_version = (string) $target_version;		
+		$current_version = $this->_get_version();		
 		
-		if ($this->_migration_type == 'sequential')
+		if ($this->_migration_type === 'sequential')
 		{
 			$target_version = str_pad($target_version, 3, '0', STR_PAD_LEFT);			
+		}
+		else
+		{
+			$target_version = (string) $target_version;
 		}
 
 		$migrations = $this->find_migrations();
