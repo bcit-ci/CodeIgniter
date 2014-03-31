@@ -283,7 +283,20 @@ class CI_Session extends CI_Driver_Library {
 		{
 			foreach ($newdata as $key => $val)
 			{
-				$this->userdata[$key] = $val;
+                          foreach($val as $key2 => $val2)
+                          {
+                            if(is_array($val2))
+                            {
+                              foreach($val2 as $arrkey => $arrval)
+                              {
+									$this->userdata[$key2][$arrkey] = $arrval;
+                              } 
+                            }
+                            else
+                            {
+								$this->userdata[$key] = $val;
+                            }
+                          }
 			}
 		}
 
