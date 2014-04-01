@@ -189,7 +189,7 @@ class CI_Migration {
 
 		if ($this->_migration_type === 'sequential')
 		{
-			$target_version = str_pad($target_version, 3, '0', STR_PAD_LEFT);
+			$target_version = sprintf('%03d', $target_version);
 		}
 		else
 		{
