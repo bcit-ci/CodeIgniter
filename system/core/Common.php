@@ -91,7 +91,10 @@ if ( ! function_exists('is_really_writable'))
 		/* For Windows servers and safe_mode "on" installations we'll actually
 		 * write a file then read it. Bah...
 		 */
-		if (is_dir($file))
+		if( ! is_dir($file) && ! is_file($file) ) {
+			return FALSE;
+		}
+		elseif (is_dir($file))
 		{
 			$file = rtrim($file, '/').'/'.md5(mt_rand());
 			if (($fp = @fopen($file, 'ab')) === FALSE)
@@ -104,7 +107,7 @@ if ( ! function_exists('is_really_writable'))
 			@unlink($file);
 			return TRUE;
 		}
-		elseif ( ! is_file($file) OR ($fp = @fopen($file, 'ab')) === FALSE)
+		elseif ( is_file($file) && ($fp = @fopen($file, 'ab')) === FALSE)
 		{
 			return FALSE;
 		}
