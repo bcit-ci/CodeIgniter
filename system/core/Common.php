@@ -91,7 +91,8 @@ if ( ! function_exists('is_really_writable'))
 		/* For Windows servers and safe_mode "on" installations we'll actually
 		 * write a file then read it. Bah...
 		 */
-		if( ! is_dir($file) && ! is_file($file) ) {
+		if ( ! is_dir($file) && ! is_file($file) )
+		{
 			return FALSE;
 		}
 		elseif (is_dir($file))
