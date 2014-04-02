@@ -95,6 +95,23 @@ if ( ! function_exists('do_hash'))
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('generate_hashed_string'))
+{
+	/**
+	 * Generates a hash, based on four different hash algos, with random length
+	 *
+	 * @param	string	required
+	 * @param	string	a salt string for the hashed string
+	 * @return	string
+	 */
+	function generate_hashed_string( $primary_string = "", $support_string = "salt" )
+	{
+		return get_instance()->security->generate_hashed_string($primary_string, $support_string);
+	}
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('strip_image_tags'))
 {
 	/**
