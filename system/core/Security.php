@@ -548,6 +548,49 @@ class CI_Security {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Generate hash with random length
+	 *
+	 * A replacement for html_entity_decode()
+	 *
+	 * To help people leave bad practice like storing md5-hashed strings
+	 * as passwords etc, we should provide a simple function for generating
+	 * a slightly better hashed string with random storage length to make it 
+	 * slightly harder to bruteforce.
+	 *
+	 * @param	string	$primary_string		Input
+	 * @param	string	$support_string		Input
+	 * @return	string
+	 */
+
+	public function generate_hashed_string( $primary_string = "", $support_string = "" )
+	{
+		$returnation_string = "";
+		$algorithms = array('sha512', 'haval256,5', 'snefru256', 'tiger192,4');
+		if ( strlen( $primary_string ) < 15 )
+		{
+			$substrlen = substr( str_replace( 0, '', strlen( $primary_string ) * ( strlen( $primary_string ) * 2 ) ), 0, 2 );
+		} else {
+			$substrlen = substr( str_replace( 0, '', strlen( $primary_string ) * 2), 0, 2 );
+		}
+		if ( strlen( $substrlen ) < 2 )
+		{
+			$substrlen = $substrlen . 0;
+		}
+		for ( $i=0;$i<strlen($primary_string);$i++ )
+		{
+			$based = base64_encode($primary_string[$i]);
+			for ( $s=0;$s<strlen($based);$s++ )
+			{
+				$returnation_string .= substr( hash( $algorithms[$s], $based[$s] . $support_string ), $substrlen, $substrlen );
+			}
+		}
+		return substr( $returnation_string, $substrlen, $substrlen );
+	}
+
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * HTML Entities Decode
 	 *
 	 * A replacement for html_entity_decode()
