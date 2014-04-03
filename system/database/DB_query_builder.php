@@ -532,9 +532,18 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			{
 				$temp = substr($cond, $s, ($m[0][$i][1] - $s));
 
-				$newcond .= preg_match("/([\[\]\w\.'-]+)(\s*[^\"\[`'\w]+\s*)(.+)/i", $temp, $match)
-						? $this->protect_identifiers($match[1]).$match[2].$this->protect_identifiers($match[3])
-						: $temp;
+				if(preg_match("/([\[\]\w\.'-]+)(\s*[^\"\[`'\w]+\s*)(.+)/i", $temp, $match))
+                                {
+                            		// Dont escape if the RHS parameter is already inside single/double quotes or if only numeric.
+                            		$rhsParam = (preg_match('/^([\'"][^\'"]*[\'"]|[0-9]+)$/', $match[3])) 
+                            				? $match[3] 
+                    					: $this->protect_identifiers($match[3]);
+                                    	$newcond .= $this->protect_identifiers($match[1]).$match[2].$rhsParam;
+                                }
+                                else
+                                {
+                                    	$newcond .= $temp;
+                                }
 
 				$newcond .= $m[0][$i][0];
 			}
