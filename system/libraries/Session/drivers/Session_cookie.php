@@ -723,9 +723,17 @@ class CI_Session_cookie extends CI_Session_driver {
 		// unless we standardize here as well, the hash won't match.
 		if ($this->_standardize_newlines)
 		{
+			$replacement_pattern = '/(?:\r\n|[\r\n])/';
 			foreach (array_keys($this->userdata) as $key)
 			{
-				$this->userdata[$key] = preg_replace('/(?:\r\n|[\r\n])/', PHP_EOL, $this->userdata[$key]);
+				if (is_array($this->userdata[$key])) {
+					foreach ($this->userdata[$key] as $k => $v) {
+						$this->userdata[$key][$k] = preg_replace($replacement_pattern, PHP_EOL, $v);
+					}
+				}
+				else {
+					$this->userdata[$key] = preg_replace($replacement_pattern, PHP_EOL, $this->userdata[$key]);
+				}
 			}
 		}
 
