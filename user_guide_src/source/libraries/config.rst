@@ -128,6 +128,11 @@ one, you can do so using::
 Where item_name is the $config array index you want to change, and
 item_value is its value.
 
+	$this->config->set_item('item_name', 'item_value', 'item_index');
+
+Where item_index is the $config item array index of where the item_name exists
+where you want to change, and item_value is its value.
+
 .. _config-environments:
 
 Environments
