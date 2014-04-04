@@ -138,6 +138,11 @@ $config['suffix'] = '';
 A custom suffix added to the path. The sufix value will be right after
 the offset segment.
 
+$config['first_url'] = '';
+=======================
+
+A custom first_url added to the path. First link in pagination normally refer to base url of pagination, we can customize it using this setting. 
+
 ***********************
 Adding Enclosing Markup
 ***********************
