@@ -13,13 +13,13 @@ loading any libraries or helpers.
 
   <div class="custom-index container"></div>
 
-.. function:: is_php([$version = '5.3.0'])
+.. function:: is_php($version)
 
 	:param	string	$version: Version number
 	:returns:	TRUE if the running PHP version is at least the one specified or FALSE if not
 	:rtype:	bool
 
-	Determines of the PHP version being used is greater than the
+	Determines if the PHP version being used is greater than the
 	supplied version number.
 
 	Example::
