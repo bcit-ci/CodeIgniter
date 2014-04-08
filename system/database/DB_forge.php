@@ -408,7 +408,7 @@ abstract class CI_DB_forge {
 		}
 
 		// _create_table will usually have the following format: "%s %s (%s\n)"
-		$sql = sprintf($this->_create_table.'%s;',
+		$sql = sprintf($this->_create_table.'%s',
 			$sql,
 			$this->db->escape_identifiers($table),
 			$columns,

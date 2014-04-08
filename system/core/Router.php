@@ -258,6 +258,10 @@ class CI_Router {
 		{
 			$this->set_method($segments[1]);
 		}
+		else
+		{
+			$segments[1] = 'index';
+		}
 
 		array_unshift($segments, NULL);
 		unset($segments[0]);

@@ -480,6 +480,7 @@ Release Date: Not Released
       -  Added function :func:`function_usable()` to work around a bug in `Suhosin <http://www.hardened-php.net/suhosin/>`.
       -  Removed the third (`$php_error`) argument from function :func:`log_message()`.
       -  Changed internal function ``load_class()`` to accept a constructor parameter instead of (previously unused) class name prefix.
+      -  Removed default parameter value of :func:`is_php()`.
 
    -  :doc:`Output Library <libraries/output>` changes include:
 
