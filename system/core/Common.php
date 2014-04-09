@@ -45,9 +45,6 @@ if ( ! function_exists('is_php'))
 	/**
 	 * Determines if the current version of PHP is greater then the supplied value
 	 *
-	 * Since there are a few places where we conditionally test for PHP > 5.3
-	 * we'll set a static variable.
-	 *
 	 * @param	string
 	 * @return	bool	TRUE if the current version is $version or higher
 	 */
