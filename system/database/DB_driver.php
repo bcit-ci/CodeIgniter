@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * CodeIgniter
  *
@@ -673,12 +673,6 @@ abstract class CI_DB_driver {
 				$this->CACHE->delete();
 			}
 
-			return TRUE;
-		}
-
-		// Return TRUE if we don't need to create a result object
-		if ($return_object !== TRUE)
-		{
 			return TRUE;
 		}
 
