@@ -479,7 +479,11 @@ class CI_FTP {
 				// so we'll recursively call delete_dir()
 				if ( ! in_array($list[$i], array('.', '..'), TRUE) && ! @ftp_delete($this->conn_id, $list[$i]))
 				{
-					$this->delete_dir($list[$i]);
+					// don't recurse into current of parent directory
+					if ( ! preg_match('/\/\.\.|\/\.$/', $list[$i]))
+					{
+						$this->delete_dir($list[$i]);
+					}
 				}
 			}
 		}
