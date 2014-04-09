@@ -676,12 +676,6 @@ abstract class CI_DB_driver {
 			return TRUE;
 		}
 
-		// Return TRUE if we don't need to create a result object
-		if ($return_object !== TRUE)
-		{
-			return TRUE;
-		}
-
 		// Load and instantiate the result driver
 		$driver		= $this->load_rdriver();
 		$RES		= new $driver($this);
