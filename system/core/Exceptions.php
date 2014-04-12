@@ -45,6 +45,13 @@ class CI_Exceptions {
 	public $ob_level;
 
 	/**
+	 * Path to the error templates
+	 *
+	 * @var	string
+	 */
+	protected $_templates_path;
+
+	/**
 	 * List if available error levels
 	 *
 	 * @var	array
@@ -73,6 +80,12 @@ class CI_Exceptions {
 	{
 		$this->ob_level = ob_get_level();
 		// Note: Do not log messages from this constructor.
+
+		$config =& get_config();
+
+		$this->_templates_path = (isset($config['error_templates_path']) && $config['error_templates_path'] !== '')
+			? $config['error_templates_path']
+			: VIEWPATH.'errors'.DIRECTORY_SEPARATOR;
 	}
 
 	// --------------------------------------------------------------------
@@ -162,7 +175,7 @@ class CI_Exceptions {
 			ob_end_flush();
 		}
 		ob_start();
-		include(VIEWPATH.'errors'.DIRECTORY_SEPARATOR.$template.'.php');
+		include($this->_templates_path.$template.'.php');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		return $buffer;
@@ -205,7 +218,7 @@ class CI_Exceptions {
 			ob_end_flush();
 		}
 		ob_start();
-		include(VIEWPATH.'errors'.DIRECTORY_SEPARATOR.$template.'.php');
+		include($this->_templates_path.$template.'.php');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		echo $buffer;
