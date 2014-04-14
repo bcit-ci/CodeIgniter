@@ -49,7 +49,7 @@ Release Date: Not Released
    -  Updated all classes to be written in PHP 5 style, with visibility declarations and no ``var`` usage for properties.
    -  Moved error templates to *application/views/errors/*.
    -  Added support non-HTML error templates for CLI applications.
-   -  Made error templates path configurable using ``$config['error_templates_path']``.
+   -  Made error templates path configurable using ``$config['error_views_path']``.
    -  Moved the Log class to *application/core/*
    -  Global config files are loaded first, then environment ones. Environment config keys overwrite base ones, allowing to only set the keys we want changed per environment.
    -  Changed detection of ``$view_folder`` so that if it's not found in the current path, it will now also be searched for under the application folder.

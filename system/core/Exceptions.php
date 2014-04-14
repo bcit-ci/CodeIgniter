@@ -83,8 +83,8 @@ class CI_Exceptions {
 
 		$config =& get_config();
 
-		$this->_templates_path = (isset($config['error_templates_path']) && $config['error_templates_path'] !== '')
-			? $config['error_templates_path']
+		$this->_templates_path = (isset($config['error_views_path']) && $config['error_views_path'] !== '')
+			? $config['error_views_path']
 			: VIEWPATH.'errors'.DIRECTORY_SEPARATOR;
 	}
 
