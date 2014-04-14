@@ -40,14 +40,12 @@ and "bar". You could structure your application directories like this::
 	applications/foo/
 	applications/foo/config/
 	applications/foo/controllers/
-	applications/foo/errors/
 	applications/foo/libraries/
 	applications/foo/models/
 	applications/foo/views/
 	applications/bar/
 	applications/bar/config/
 	applications/bar/controllers/
-	applications/bar/errors/
 	applications/bar/libraries/
 	applications/bar/models/
 	applications/bar/views/
