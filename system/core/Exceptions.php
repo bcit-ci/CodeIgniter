@@ -45,13 +45,6 @@ class CI_Exceptions {
 	public $ob_level;
 
 	/**
-	 * Path to the error templates
-	 *
-	 * @var	string
-	 */
-	protected $_templates_path;
-
-	/**
 	 * List if available error levels
 	 *
 	 * @var	array
@@ -80,12 +73,6 @@ class CI_Exceptions {
 	{
 		$this->ob_level = ob_get_level();
 		// Note: Do not log messages from this constructor.
-
-		$config =& get_config();
-
-		$this->_templates_path = (isset($config['error_views_path']) && $config['error_views_path'] !== '')
-			? $config['error_views_path']
-			: VIEWPATH.'errors'.DIRECTORY_SEPARATOR;
 	}
 
 	// --------------------------------------------------------------------
@@ -158,6 +145,10 @@ class CI_Exceptions {
 	 */
 	public function show_error($heading, $message, $template = 'error_general', $status_code = 500)
 	{
+		$templates_path = config_item('error_views_path')
+			? config_item('error_views_path')
+			: VIEWPATH.'errors'.DIRECTORY_SEPARATOR;
+
 		if (is_cli())
 		{
 			$message = "\t".(is_array($message) ? implode("\n\t", $message) : $message);
@@ -175,7 +166,7 @@ class CI_Exceptions {
 			ob_end_flush();
 		}
 		ob_start();
-		include($this->_templates_path.$template.'.php');
+		include($templates_path.$template.'.php');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		return $buffer;
@@ -194,6 +185,10 @@ class CI_Exceptions {
 	 */
 	public function show_php_error($severity, $message, $filepath, $line)
 	{
+		$templates_path = config_item('error_views_path')
+			? config_item('error_views_path')
+			: VIEWPATH.'errors'.DIRECTORY_SEPARATOR;
+
 		$severity = isset($this->levels[$severity]) ? $this->levels[$severity] : $severity;
 
 		// For safety reasons we don't show the full file path in non-CLI requests
@@ -218,7 +213,7 @@ class CI_Exceptions {
 			ob_end_flush();
 		}
 		ob_start();
-		include($this->_templates_path.$template.'.php');
+		include($templates_path.$template.'.php');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		echo $buffer;
