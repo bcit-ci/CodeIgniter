@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CI_Lang {
 
 	/**
-	 * List of translations
+	 * List of loaded translated strings
 	 *
 	 * @var	array
 	 */
@@ -52,12 +52,110 @@ class CI_Lang {
 	public $is_loaded =	array();
 
 	/**
+	 * The code of the currently loaded language
+	 *
+	 * @var string
+	 */
+	protected $_current_language =	NULL;
+
+	/**
+	 * The supported language codes
+	 *
+	 * @var array
+	 */
+	protected $_supported_languages =	NULL;
+
+	/**
+	 * The directory name of the currently loaded language.
+	 * If NULL, defaults to $_current_language.
+	 *
+	 * @var string
+	 */
+	protected $_language_folder =	NULL;
+
+	/**
+	 * The key used to keep track of the current language in Session or in $_GET
+	 *
+	 * @var string
+	 */
+	protected $_language_key;
+
+	/**
+	 * The list of supported languages.
+	 *
+	 * @return array
+	 */
+	public function supported()
+	{
+		return $this->_supported_languages;
+	}
+
+	/**
+	 * The language code currently in use.
+	 *
+	 * @return string
+	 */
+	public function current()
+	{
+		if ($this->_current_language)
+		{
+			return $this->_current_language;
+		}
+
+		$CI = &get_instance();
+
+		// First check POST, GET, then the session
+		$user_lang = $CI->input->post_get($this->_language_key);
+		$session_lang = $CI->session->userdata($this->_language_key);
+
+		$lang = $user_lang ? $user_lang : $session_lang;
+
+		// Try to auto-detect from the browser's settings
+		if (!$lang)
+		{
+			$lang = $this->_detect_language();
+		}
+
+		$lang = strtolower($lang);
+
+		if ( ! $lang || ! in_array($lang, $this->_supported_languages))
+		{
+			// No appropriate language was detected, default to the first one
+			// in our supported language list.
+			$first = array_slice($this->_supported_languages, 0, 1, TRUE);
+			$first_key = key($first);
+			if (is_int($first_key)) {
+				$this->_current_language = $this->_supported_languages[0];
+			} else {
+				$this->_current_language = $first_key;
+				$this->_language_folder = $this->_supported_languages[$first_key];
+			}
+		}
+		else {
+			$this->_current_language = $lang;
+			$this->_language_folder = isset($this->_supported_languages[$lang]) ? $this->_supported_languages[$lang] : NULL;
+		}
+
+		// Store the detected language in the session
+		if ($CI->session->userdata($this->_language_key) != $lang)
+		{
+			$CI->session->set_userdata($this->_language_key, $lang);
+		}
+
+		return $this->_current_language;
+	}
+
+	/**
 	 * Class constructor
 	 *
 	 * @return	void
 	 */
 	public function __construct()
 	{
+		$config = &get_config();
+		$this->_supported_languages = $config['language'];
+		$this->_language_key = $config['language_key'];
+
 		log_message('debug', 'Language Class Initialized');
 	}
 
@@ -67,10 +165,10 @@ class CI_Lang {
 	 * Load a language file
 	 *
 	 * @param	mixed	$langfile	Language file name
-	 * @param	string	$idiom		Language name (english, etc.)
+	 * @param	string	$idiom		Language code (en-US, etc.)
 	 * @param	bool	$return		Whether to return the loaded array of translations
-	 * @param 	bool	$add_suffix	Whether to add suffix to $langfile
-	 * @param 	string	$alt_path	Alternative path to look for the language file
+	 * @param	bool	$add_suffix	Whether to add suffix to $langfile
+	 * @param	string	$alt_path	Alternative path to look for the language file
 	 *
 	 * @return	void|string[]	Array containing translations, if $return is set to TRUE
 	 */
@@ -88,7 +186,7 @@ class CI_Lang {
 		if (empty($idiom) OR ! ctype_alpha($idiom))
 		{
 			$config =& get_config();
-			$idiom = empty($config['language']) ? 'english' : $config['language'];
+			$idiom = $this->current();
 		}
 
 		if ($return === FALSE && isset($this->is_loaded[$langfile]) && $this->is_loaded[$langfile] === $idiom)
@@ -179,6 +277,54 @@ class CI_Lang {
 		return $value;
 	}
 
+	/**
+	 * Detect the language which best suits the client
+	 */
+	private function _detect_language()
+	{
+		$lang = NULL;
+		foreach ($this->_accepted_languages() as $browser_lang => $order)
+		{
+			if (array_key_exists($browser_lang, $this->_supported_languages))
+			{
+				$lang = $browser_lang;
+				break;
+			}
+		}
+
+		$lang = strtolower($lang);
+
+		log_message('debug', "Client supports languages : " . implode(", ", array_keys($this->_accepted_languages())));
+		log_message('debug', "Selected language '{$lang}' from browser");
+
+		return $lang;
+	}
+
+	/**
+	 * Parse and sort the client's accepted languages
+	 */
+	private function _accepted_languages()
+	{
+		$locales = NULL;
+		if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
+		{
+			// Client sent us an HTTP header, extract its data
+			preg_match_all('/([a-z]{1,8}(-[a-z]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?/i', $_SERVER['HTTP_ACCEPT_LANGUAGE'], $lang_parse);
+			if (count($lang_parse[1]) !== 0)
+			{
+				$locales = array_combine($lang_parse[1], $lang_parse[4]);
+				foreach ($locales as $lang => $val)
+				{
+					$locales[$lang] = ($val === '' ? 1.0 : floatval($locales[$lang]));
+				}
+
+				// Sort our locales by their preferred rank
+				arsort($locales, SORT_NUMERIC);
+			}
+		}
+
+		return $locales;
+	}
 }
 
 /* End of file Lang.php */

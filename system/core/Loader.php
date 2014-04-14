@@ -1221,12 +1221,12 @@ class CI_Loader {
 			}
 		}
 
-		// Autoload helpers and languages
-		foreach (array('helper', 'language') as $type)
+		// Autoload helpers
+		if (count($autoload['helper']) > 0)
 		{
-			if (isset($autoload[$type]) && count($autoload[$type]) > 0)
+			foreach ($autoload['helper'] as $item)
 			{
-				$this->$type($autoload[$type]);
+				$this->helper($item);
 			}
 		}
 
@@ -1253,6 +1253,15 @@ class CI_Loader {
 			foreach ($autoload['libraries'] as $item)
 			{
 				$this->library($item);
+			}
+		}
+
+		// Autoload language files
+		if (count($autoload['language']) > 0)
+		{
+			foreach ($autoload['language'] as $item)
+			{
+				$this->language($item);
 			}
 		}
 
