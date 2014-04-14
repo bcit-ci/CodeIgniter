@@ -75,7 +75,7 @@ the :doc:`Table Class <../libraries/table>`::
 
 	}
 
-In your **application/views/** folder, create a file called **smiley_view.php**
+In your **application/views/** directory, create a file called **smiley_view.php**
 and place this code in it::
 
 	<html>
