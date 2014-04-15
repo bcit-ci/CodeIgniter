@@ -130,11 +130,8 @@ class CI_Router {
 				$this->set_class($routing['controller']);
 			}
 
-			if (isset($routing['function']))
-			{
-				$routing['function'] = empty($routing['function']) ? 'index' : $routing['function'];
-				$this->set_method($routing['function']);
-			}
+			$routing['function'] = empty($routing['function']) ?  ( empty($this->uri->segments) ? 'index' : $this->uri->segments[1] ) : $routing['function'];
+			$this->set_method($routing['function']);
 		}
 
 		log_message('debug', 'Router Class Initialized');
