@@ -130,9 +130,8 @@ class CI_Router {
 				$this->set_class($routing['controller']);
 			}
 
-			if (isset($routing['function']))
+			if ( ! empty($routing['function']))
 			{
-				$routing['function'] = empty($routing['function']) ? 'index' : $routing['function'];
 				$this->set_method($routing['function']);
 			}
 		}
