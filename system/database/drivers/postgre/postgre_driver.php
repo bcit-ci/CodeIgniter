@@ -319,6 +319,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	protected function _escape_str($str)
 	{
+		$this->conn_id OR $this->initialize();
 		return pg_escape_string($this->conn_id, $str);
 	}
 
