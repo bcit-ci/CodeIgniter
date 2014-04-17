@@ -1,0 +1,51 @@
+<?php
+ 
+include_once APPPATH . 'libraries/facebook-php-sdk/facebook.php';
+ 
+class Test extends Controller
+{
+    private $facebook;
+ 
+    public function __construct()
+    {
+        parent::__construct();
+        parse_str($_SERVER['QUERY_STRING'], $_GET);
+        session_start();
+    }
+ 
+    public function index()
+    {
+        $this->facebook = new Facebook(array(
+            'appId'  => $this->config->item('facebook_app_id'),
+            'secret' => $this->config->item('facebook_secret_key'),
+            'cookie' => true,
+            'domain' => 'phpfour.com'
+        ));
+ 
+        $session = $this->facebook->getSession();
+ 
+        if (!$session) {
+ 
+            $url = $this->facebook->getLoginUrl(array('canvas' => 1, 'fbconnect' => 0));
+            echo "<script" . " type='text/javascript'" . ">top.location.href = '$url';</script>";
+ 
+        } else {
+ 
+            try {
+ 
+                $uid = $this->facebook->getUser();
+                $me = $this->facebook->api('/me');
+ 
+                $updated = date("l, F j, Y", strtotime($me['updated_time']));
+ 
+                echo "Hello " . $me['name'] . "<br />";
+                echo "You last updated your profile on " . $updated;
+ 
+            } catch (FacebookApiException $e) {
+ 
+                echo "Error:" . print_r($e, true);
+ 
+            }
+        }
+    }
+}
