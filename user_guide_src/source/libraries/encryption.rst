@@ -33,11 +33,11 @@ Like most other classes in CodeIgniter, the Encryption library is
 initialized in your controller using the ``$this->load->library()``
 method::
 
-	$this->load->library('encrypt');
+	$this->load->library('encryption');
 
 Once loaded, the Encryption library object will be available using::
 
-	$this->encrypt
+	$this->encryption
 
 Default behavior
 ================
