@@ -60,6 +60,7 @@ if ( ! function_exists('create_captcha'))
 			'font_path'	=> '',
 			'expiration'	=> 7200,
 			'word_length'	=> 8,
+			'base64' 	=> FALSE,
 			'pool'		=> '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
 			'colors'	=> array(
 				'background'	=> array(255,255,255),
@@ -215,9 +216,22 @@ if ( ! function_exists('create_captcha'))
 		// -----------------------------------
 		//  Generate the image
 		// -----------------------------------
-		$img_filename = $now.'.jpg';
-		ImageJPEG($im, $img_path.$img_filename);
-		$img = '<img src="'.$img_url.$img_filename.'" style="width: '.$img_width.'; height: '.$img_height .'; border: 0;" alt=" " />';
+		
+		if ($base64 == TRUE) 
+		{
+			ob_start();
+			imagepng($im);
+			$image_data = base64_encode($ob_get_contents());
+			ob_end_clean();
+			$img = '<img src="data:image/png;base64,'.$image_data.'" width="'.$img_width.'" height="'.$img_height.'" style="border:0;" alt=" " />';
+		} 
+		else
+		{
+			$img_filename = $now.'.jpg';
+			ImageJPEG($im, $img_path.$img_filename);
+			$img = '<img src="'.$img_url.$img_filename.'" style="width: '.$img_width.'; height: '.$img_height .'; border: 0;" alt=" " />';
+		}
+
 		ImageDestroy($im);
 
 		return array('word' => $word, 'time' => $now, 'image' => $img, 'filename' => $img_filename);
