@@ -32,7 +32,7 @@ class CI_DB_pdo_driver extends CI_DB {
 
 	var $dbdriver = 'pdo';
 
-	// the character used to excape - not necessary for PDO
+	// the character used to excape - not necessary for PDO, But MySQL is necessary
 	var $_escape_char = '';
 	var $_like_escape_str;
 	var $_like_escape_chr;
@@ -57,6 +57,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		{
 			$this->_like_escape_str = '';
 			$this->_like_escape_chr = '';
+			$this->_escape_char = '`';
 
 			//Prior to this version, the charset can't be set in the dsn
 			if(is_php('5.3.6'))
