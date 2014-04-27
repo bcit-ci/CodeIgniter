@@ -45,7 +45,7 @@ class CI_Exceptions {
 	public $ob_level;
 
 	/**
-	 * List if available error levels
+	 * List of available error levels
 	 *
 	 * @var	array
 	 */
