@@ -163,7 +163,7 @@ if ( ! function_exists('array_replace'))
 		$array = array_shift($arrays);
 		$c--;
 
-		for ($i = 0, $c = count($arrays); $i < $c; $i++)
+		for ($i = 0; $i < $c; $i++)
 		{
 			if ( ! is_array($arrays[$i]))
 			{
@@ -218,7 +218,7 @@ if ( ! function_exists('array_replace_recursive'))
 		$array = array_shift($arrays);
 		$c--;
 
-		for ($i = 0, $c = count($arrays); $i < $c; $i++)
+		for ($i = 0; $i < $c; $i++)
 		{
 			if ( ! is_array($arrays[$i]))
 			{
