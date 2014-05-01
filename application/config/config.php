@@ -87,15 +87,39 @@ $config['url_suffix'] = '';
 
 /*
 |--------------------------------------------------------------------------
-| Default Language
+| Supported Languages
 |--------------------------------------------------------------------------
 |
-| This determines which set of language files should be used. Make sure
-| there is an available translation if you intend to use something other
-| than english.
+| This determines which languages are supported. The first one in the list
+| will be used by default.
+| Note that the automatic detection mechanism need those to be IETF
+| Language Tags (RFC 5646) (e.g. 'en-US'), but you can provide an alternate
+| language directory name if they don't match (see below).
 |
+| Make sure CodeIgniter's system translations are available if you intend
+| to use something other than english.
+|
+| Recognized syntaxes:
+| $config['language']	= 'english'; // Compat-only, prefer IETF tags
+| $config['language']	= array(
+|   'en-us' => 'english',
+|   'fr-fr',
+| );
 */
-$config['language']	= 'english';
+$config['language'] = 'english';
+
+/*
+|--------------------------------------------------------------------------
+| Language Storage
+|--------------------------------------------------------------------------
+|
+| This determines the field name that CodeIgniter will use to find the
+| user's selected language. The default order is $_POST, $_GET, $_SESSION,
+| and ultimately the client's HTTP Accept-Language header.
+| The selected language code will be stored back in the session under that
+| key.
+*/
+$config['language_key'] = 'lang';
 
 /*
 |--------------------------------------------------------------------------
