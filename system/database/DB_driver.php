@@ -261,6 +261,15 @@ abstract class CI_DB_driver {
 	protected $_trans_status	= TRUE;
 
 	/**
+	 * Transaction failure flag
+	 *
+	 * Used with transactions to determine if a transaction has failed.
+	 *
+	 * @var	bool
+	 */
+	protected $_trans_failure	= FALSE;
+
+	/**
 	 * Cache On flag
 	 *
 	 * @var	bool
