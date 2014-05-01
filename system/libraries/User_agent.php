@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	User Agent
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/user_agent.html
+ * @link		http://ellislab.com/codeigniter/user-guide/libraries/user_agent.html
  */
 class CI_User_agent {
 
