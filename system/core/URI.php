@@ -160,7 +160,7 @@ class CI_URI {
 
 			$this->segments[0] = NULL;
 			// Populate the segments array
-			foreach (explode('/', preg_replace('|/*(.+?)/*$|', '\\1', $this->uri_string)) as $val)
+			foreach (explode('/', trim($this->uri->string, '/')) as $val)
 			{
 				// Filter segments for security
 				$val = trim($this->filter_uri($val));
