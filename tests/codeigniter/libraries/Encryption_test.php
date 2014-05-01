@@ -108,8 +108,6 @@ class Encryption_test extends CI_TestCase {
 
 	/**
 	 * _get_params() test
-	 *
-	 * @uses	Mock_Libraries_Encryption::__get_params()
 	 */
 	public function test__get_params()
 	{
