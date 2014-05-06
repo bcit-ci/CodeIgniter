@@ -793,7 +793,7 @@ class CI_Security {
 
 		 // 901119URL5918AMP18930PROTECT8198
 
-		$str = preg_replace('|\&([a-z\_0-9\-]+)\=([a-z\_0-9\-]+)|i', $this->xss_hash()."\\1=\\2", $str);
+		$str = preg_replace('|\&([a-z\_0-9\-]+)\=([a-z\_0-9\-\/]+)|i', $this->xss_hash()."\\1=\\2", $str);
 
 		/*
 		 * Validate standard character entities
