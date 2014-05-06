@@ -152,7 +152,7 @@ Here is an example to illustrate::
 	$this->load->library('xmlrpc');
 	$this->load->library('xmlrpcs');
 
-	$config['functions']['new_post'] = array('function' => 'My_blog.new_entry'),
+	$config['functions']['new_post'] = array('function' => 'My_blog.new_entry');
 	$config['functions']['update_post'] = array('function' => 'My_blog.update_entry');
 	$config['object'] = $this;
 
