@@ -295,8 +295,8 @@ class CI_Input {
 	 */
 	public function input_stream($index = NULL, $xss_clean = NULL)
 	{
-		// The input stream can only be read once, so we'll need to check
-		// if we have already done that first.
+		// Prior to PHP 5.6, the input stream can only be read once,
+		// so we'll need to check if we have already done that first.
 		if ( ! is_array($this->_input_stream))
 		{
 			parse_str(file_get_contents('php://input'), $this->_input_stream);
