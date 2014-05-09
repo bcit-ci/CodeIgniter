@@ -41,11 +41,12 @@ isset($_SERVER['REMOTE_ADDR']) OR $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 include_once $dir.'/mocks/core/common.php';
 include_once SYSTEM_PATH.'core/Common.php';
 
+ini_set('default_charset', 'UTF-8');
 
 if (extension_loaded('mbstring'))
 {
 	defined('MB_ENABLED') OR define('MB_ENABLED', TRUE);
-	mb_internal_encoding('UTF-8');
+	ini_set('mbstring.internal_encoding', 'UTF-8');
 	mb_substitute_character('none');
 }
 else
@@ -56,12 +57,14 @@ else
 if (extension_loaded('iconv'))
 {
 	defined('ICONV_ENABLED') OR define('ICONV_ENABLED', TRUE);
-	iconv_set_encoding('internal_encoding', 'UTF-8');
+	@ini_set('iconv.internal_encoding', 'UTF-8');
 }
 else
 {
 	defined('ICONV_ENABLED') OR define('ICONV_ENABLED', FALSE);
 }
+
+is_php('5.6') && ini_set('php.internal_encoding', 'UTF-8');
 
 include_once SYSTEM_PATH.'core/compat/mbstring.php';
 include_once SYSTEM_PATH.'core/compat/hash.php';
