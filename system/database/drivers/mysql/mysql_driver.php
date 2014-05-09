@@ -119,6 +119,7 @@ class CI_DB_mysql_driver extends CI_DB {
 			$client_flags = $client_flags | MYSQL_CLIENT_SSL;
 		}
 
+		// Error suppression is necessary mostly due to PHP 5.5+ issuing E_DEPRECATED messages
 		$this->conn_id = ($persistent === TRUE)
 			? @mysql_pconnect($this->hostname, $this->username, $this->password, $client_flags)
 			: @mysql_connect($this->hostname, $this->username, $this->password, TRUE, $client_flags);
@@ -176,7 +177,7 @@ class CI_DB_mysql_driver extends CI_DB {
 			$database = $this->database;
 		}
 
-		if (@mysql_select_db($database, $this->conn_id))
+		if (mysql_select_db($database, $this->conn_id))
 		{
 			$this->database = $database;
 			return TRUE;
@@ -195,7 +196,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	protected function _db_set_charset($charset)
 	{
-		return @mysql_set_charset($charset, $this->conn_id);
+		return mysql_set_charset($charset, $this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -216,7 +217,7 @@ class CI_DB_mysql_driver extends CI_DB {
 			$this->initialize();
 		}
 
-		if ( ! $this->conn_id OR ($version = @mysql_get_server_info($this->conn_id)) === FALSE)
+		if ( ! $this->conn_id OR ($version = mysql_get_server_info($this->conn_id)) === FALSE)
 		{
 			return FALSE;
 		}
@@ -234,7 +235,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return @mysql_query($this->_prep_query($sql), $this->conn_id);
+		return mysql_query($this->_prep_query($sql), $this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -349,7 +350,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	public function affected_rows()
 	{
-		return @mysql_affected_rows($this->conn_id);
+		return mysql_affected_rows($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -361,7 +362,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	public function insert_id()
 	{
-		return @mysql_insert_id($this->conn_id);
+		return mysql_insert_id($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -484,6 +485,8 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	protected function _close()
 	{
+		// Error suppression to avoid annoying E_WARNINGs in cases
+		// where the connection has already been closed for some reason.
 		@mysql_close($this->conn_id);
 	}
 

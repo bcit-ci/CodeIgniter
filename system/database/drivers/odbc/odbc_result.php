@@ -49,7 +49,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 		{
 			return $this->num_rows;
 		}
-		elseif (($this->num_rows = @odbc_num_rows($this->result_id)) !== -1)
+		elseif (($this->num_rows = odbc_num_rows($this->result_id)) !== -1)
 		{
 			return $this->num_rows;
 		}
@@ -76,7 +76,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 */
 	public function num_fields()
 	{
-		return @odbc_num_fields($this->result_id);
+		return odbc_num_fields($this->result_id);
 	}
 
 	// --------------------------------------------------------------------

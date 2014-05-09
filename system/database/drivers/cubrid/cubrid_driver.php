@@ -172,7 +172,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return @cubrid_query($sql, $this->conn_id);
+		return cubrid_query($sql, $this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -283,7 +283,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	public function affected_rows()
 	{
-		return @cubrid_affected_rows();
+		return cubrid_affected_rows();
 	}
 
 	// --------------------------------------------------------------------
@@ -295,7 +295,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	public function insert_id()
 	{
-		return @cubrid_insert_id($this->conn_id);
+		return cubrid_insert_id($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -418,7 +418,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	protected function _close()
 	{
-		@cubrid_close($this->conn_id);
+		cubrid_close($this->conn_id);
 	}
 
 }

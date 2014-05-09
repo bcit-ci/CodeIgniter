@@ -124,7 +124,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return @odbc_exec($this->conn_id, $sql);
+		return odbc_exec($this->conn_id, $sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -213,7 +213,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	 */
 	public function affected_rows()
 	{
-		return @odbc_num_rows($this->result_id);
+		return odbc_num_rows($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -357,7 +357,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	 */
 	protected function _close()
 	{
-		@odbc_close($this->conn_id);
+		odbc_close($this->conn_id);
 	}
 
 }

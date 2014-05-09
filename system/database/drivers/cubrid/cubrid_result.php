@@ -47,7 +47,7 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	{
 		return is_int($this->num_rows)
 			? $this->num_rows
-			: $this->num_rows = @cubrid_num_rows($this->result_id);
+			: $this->num_rows = cubrid_num_rows($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -59,7 +59,7 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	 */
 	public function num_fields()
 	{
-		return @cubrid_num_fields($this->result_id);
+		return cubrid_num_fields($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
