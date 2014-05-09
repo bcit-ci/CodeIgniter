@@ -574,4 +574,5 @@ Class Reference
 				),
 				'struct'
 			);
-		return $this->xmlrpc->send_response($response);
+		
+			return $this->xmlrpc->send_response($response);
