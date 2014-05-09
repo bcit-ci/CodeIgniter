@@ -97,8 +97,9 @@ Function reference
 Hash (Message Digest)
 *********************
 
-This compatibility layer contains only a single function at
-this time - ``hash_pbkdf2()``, which otherwise requires PHP 5.5.
+This compatibility layer contains backports for the ``hash_equals()``
+and ``hash_pbkdf2()`` functions, which otherwise require PHP 5.6 and/or
+PHP 5.5 respectively.
 
 Dependancies
 ============
@@ -107,6 +108,16 @@ Dependancies
 
 Function reference
 ==================
+
+.. function:: hash_equals($known_string, $user_string)
+
+	:param	string	$known_string: Known string
+	:param	string	$user_string: User-supplied string
+	:returns:	TRUE if the strings match, FALSE otherwise
+	:rtype:	string
+
+	For more information, please refer to the `PHP manual for
+	hash_equals() <http://php.net/hash_equals>`_.
 
 .. function:: hash_pbkdf2($algo, $password, $salt, $iterations[, $length = 0[, $raw_output = FALSE]])
 
