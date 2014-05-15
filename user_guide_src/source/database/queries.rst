@@ -83,7 +83,7 @@ identifier you can use::
 
 This function will also add a table prefix to your table, assuming you
 have a prefix specified in your database config file. To enable the
-prefixing set TRUE (boolen) via the second parameter::
+prefixing set TRUE (boolean) via the second parameter::
 
 	$this->db->protect_identifiers('table_name', TRUE);
 
