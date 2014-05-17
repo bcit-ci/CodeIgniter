@@ -292,7 +292,7 @@ if ( ! function_exists('link_tag'))
 		}
 		else
 		{
-			if ( ! preg_match('#^([a-z]+:)?//#i', $href))
+			if (preg_match('#^([a-z]+:)?//#i', $href))
 			{
 				$link .= 'href="'.$href.'" ';
 			}
