@@ -2234,17 +2234,9 @@ class CI_Email {
 	 */
 	protected function _mime_types($ext = '')
 	{
-		static $_mimes;
-
 		$ext = strtolower($ext);
 
-		if (empty($_mimes))
-		{
-			// references cannot be directly assigned to static variables, so we use an array
-			$_mimes[0] =& get_mimes();
-		}
-
-		$mimes =& $_mimes[0];
+		$mimes =& get_mimes();
 
 		if (isset($mimes[$ext]))
 		{
