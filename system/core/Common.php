@@ -304,15 +304,22 @@ if ( ! function_exists('get_mimes'))
 	 */
 	function &get_mimes()
 	{
-		static $_mimes = array();
+		static $_mimes;
 
-		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+		if (empty($_mimes))
 		{
-			$_mimes = include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
-		}
-		elseif (file_exists(APPPATH.'config/mimes.php'))
-		{
-			$_mimes = include(APPPATH.'config/mimes.php');
+			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+			{
+				$_mimes = include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
+			}
+			elseif (file_exists(APPPATH.'config/mimes.php'))
+			{
+				$_mimes = include(APPPATH.'config/mimes.php');
+			}
+			else
+			{
+				$_mimes = array();
+			}
 		}
 
 		return $_mimes;

@@ -2234,14 +2234,9 @@ class CI_Email {
 	 */
 	protected function _mime_types($ext = '')
 	{
-		static $mimes;
-
 		$ext = strtolower($ext);
 
-		if ( ! is_array($mimes))
-		{
-			$mimes =& get_mimes();
-		}
+		$mimes =& get_mimes();
 
 		if (isset($mimes[$ext]))
 		{
