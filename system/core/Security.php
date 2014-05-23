@@ -62,17 +62,13 @@ class CI_Security {
 	);
 
 	/**
-	 * HTML5 entities
+	 * Character set
 	 *
-	 * @var	array
+	 * Will be overriden by the constructor.
+	 *
+	 * @var	string
 	 */
-	public $html5_entities = array(
-		'&colon;'	=> ':',
-		'&lpar;'	=> '(',
-		'&rpar;'	=> ')',
-		'&newline;'	=> "\n",
-		'&tab;'		=> "\t"
-	);
+	public $charset = 'UTF-8';
 
 	/**
 	 * XSS Hash
@@ -182,6 +178,8 @@ class CI_Security {
 			// Set the CSRF hash
 			$this->_csrf_set_hash();
 		}
+
+		$this->charset = strtoupper(config_item('charset'));
 
 		log_message('debug', 'Security Class Initialized');
 	}
@@ -347,8 +345,8 @@ class CI_Security {
 			return $str;
 		}
 
-		// Remove Invisible Characters and validate entities in URLs
-		$str = $this->_validate_entities(remove_invisible_characters($str));
+		// Remove Invisible Characters
+		$str = remove_invisible_characters($str);
 
 		/*
 		 * URL Decode
@@ -571,21 +569,57 @@ class CI_Security {
 			return $str;
 		}
 
-		if (empty($charset))
-		{
-			$charset = config_item('charset');
-		}
+		static $_entities;
+
+		isset($charset) OR $charset = $this->charset;
+		$flag = is_php('5.4')
+			? ENT_COMPAT | ENT_HTML5
+			: ENT_COMPAT;
 
 		do
 		{
 			$str_compare = $str;
 
-			$str = preg_replace('/(&#x0*[0-9a-f]{2,5})(?![0-9a-f;])/iS', '$1;', $str);
-			$str = preg_replace('/(&#0*\d{2,4})(?![0-9;])/S', '$1;', $str);
-			$str = html_entity_decode($str, ENT_COMPAT, $charset);
+			// Decode standard entities, avoiding false positives
+			if ($c = preg_match_all('/&[a-z]{2,}(?![a-z;])/i', $str, $matches))
+			{
+				if ( ! isset($_entities))
+				{
+					$_entities = array_map('strtolower', get_html_translation_table(HTML_ENTITIES, $flag, $charset));
+
+					// If we're not on PHP 5.4+, add the possibly dangerous HTML 5
+					// entities to the array manually
+					if ($flag === ENT_COMPAT)
+					{
+						$_entities[':'] = '&colon;';
+						$_entities['('] = '&lpar;';
+						$_entities[')'] = '&rpar';
+						$_entities["\n"] = '&newline;';
+						$_entities["\t"] = '&tab;';
+					}
+				}
+
+				$replace = array();
+				$matches = array_unique(array_map('strtolower', $matches[0]));
+				for ($i = 0; $i < $c; $i++)
+				{
+					if (($char = array_search($matches[$i].';', $_entities, TRUE)) !== FALSE)
+					{
+						$replace[$matches[$i]] = $character;
+					}
+				}
+
+				$str = str_ireplace(array_keys($replace), array_values($replace), $str);
+			}
+
+			// Decode numeric & UTF16 two byte entities
+			$str = html_entity_decode(
+				preg_replace('/(&#(?:x0*[0-9a-f]{2,5}(?![0-9a-f;]))|(?:0*\d{2,4}(?![0-9;])))/iS', '$1;', $str),
+				$flag,
+				$charset
+			);
 		}
 		while ($str_compare !== $str);
-
 		return $str;
 	}
 
@@ -836,57 +870,19 @@ class CI_Security {
 	 */
 	protected function _decode_entity($match)
 	{
-		// entity_decode() won't convert dangerous HTML5 entities
-		// (it could, but ENT_HTML5 is only available since PHP 5.4),
-		// so we'll do that here
-		return str_ireplace(
-			array_keys($this->html5_entities),
-			array_values($this->html5_entities),
-			$this->entity_decode($match[0], strtoupper(config_item('charset')))
+		// Protect GET variables in URLs
+		// 901119URL5918AMP18930PROTECT8198
+		$match = preg_replace('|\&([a-z\_0-9\-]+)\=([a-z\_0-9\-/]+)|i', $this->xss_hash().'\\1=\\2', $match[0]);
+
+		// Decode, then un-protect URL GET vars
+		return str_replace(
+			$this->xss_hash(),
+			'&',
+			$this->entity_decode($match, $this->charset)
 		);
 	}
 
 	// --------------------------------------------------------------------
-
-	/**
-	 * Validate URL entities
-	 *
-	 * @used-by	CI_Security::xss_clean()
-	 * @param 	string	$str
-	 * @return 	string
-	 */
-	protected function _validate_entities($str)
-	{
-		/*
-		 * Protect GET variables in URLs
-		 */
-
-		// 901119URL5918AMP18930PROTECT8198
-		$str = preg_replace('|\&([a-z\_0-9\-]+)\=([a-z\_0-9\-/]+)|i', $this->xss_hash().'\\1=\\2', $str);
-
-		/*
-		 * Validate standard character entities
-		 *
-		 * Add a semicolon if missing.  We do this to enable
-		 * the conversion of entities to ASCII later.
-		 */
-		$str = preg_replace('/(&#\d{2,4})(?![0-9;])/', '$1;', $str);
-		$str = preg_replace('/(&[a-z]{2,})(?![a-z;])/i', '$1;', $str);
-
-		/*
-		 * Validate UTF16 two byte encoding (x00)
-		 *
-		 * Just as above, adds a semicolon if missing.
-		 */
-		$str = preg_replace('/(&#x0*[0-9a-f]{2,5})(?![0-9a-f;])/i', '$1;', $str);
-
-		/*
-		 * Un-Protect GET variables in URLs
-		 */
-		return str_replace($this->xss_hash(), '&', $str);
-	}
-
-	// ----------------------------------------------------------------------
 
 	/**
 	 * Do Never Allowed

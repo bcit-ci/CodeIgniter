@@ -97,6 +97,12 @@ class Security_test extends CI_TestCase {
 		$decoded = $this->security->entity_decode($encoded);
 
 		$this->assertEquals('<div>Hello <b>Booya</b></div>', $decoded);
+
+		// Issue #3057 (https://github.com/EllisLab/CodeIgniter/issues/3057)
+		$this->assertEquals(
+			'&foo should not include a semicolon',
+			$this->security->entity_decode('&foo should not include a semicolon')
+		);
 	}
 
 	// --------------------------------------------------------------------
