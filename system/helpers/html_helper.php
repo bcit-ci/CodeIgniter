@@ -324,6 +324,74 @@ if ( ! function_exists('link_tag'))
 
 // ------------------------------------------------------------------------
 
+/**
+ * Script
+ *
+ * Generates script tag to link a javascript file
+ *
+ * @access	public
+ * @param	mixed	script sources or an array
+ * @param	string	type
+ * @param	boolean	should index_page be added to the css path
+ * @return	string
+ */
+if ( ! function_exists('script_tag'))
+{
+	function script_tag($src = '', $type = 'text/javascript', $index_page = FALSE)
+	{
+		$CI =& get_instance();
+
+		$script = '<script ';
+
+		if (is_array($src))
+		{
+			foreach ($src as $k=>$v)
+			{
+				if ($k == 'src' AND strpos($v, '://') === FALSE)
+				{
+					if ($index_page === TRUE)
+					{
+						$script .= 'src="'.$CI->config->site_url($v).'" ';
+					}
+					else
+					{
+						$src .= 'src="'.$CI->config->slash_item('base_url').$v.'" ';
+					}
+				}
+				else
+				{
+					$script .= "$k=\"$v\" ";
+				}
+			}
+
+			$script .= "/>";
+		}
+		else
+		{
+			if ( strpos($src, '://') !== FALSE)
+			{
+				$script .= 'src="'.$src.'" ';
+			}
+			elseif ($index_page === TRUE)
+			{
+				$script .= 'src="'.$CI->config->site_url($src).'" ';
+			}
+			else
+			{
+				$script .= 'src="'.$CI->config->slash_item('base_url').$src.'" ';
+			}
+
+			$script .= 'type="'.$type.'" ';
+
+			$script .= '/>';
+		}
+
+		return $script;
+	}
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('meta'))
 {
 	/**
