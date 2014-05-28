@@ -106,6 +106,7 @@ Release Date: Not Released
 
       - :func:`form_dropdown()` will now also take an array for unity with other form helpers.
       - :func:`form_prep()`'s second argument now only accepts a boolean value, which determines whether the value is escaped for a <textarea> or a regular <input> element.
+      - :func:`form_open()` will now always add the csrf token if the form's method attribute is not `get`.
 
    -  :doc:`Security Helper <helpers/security_helper>` changes include:
 
@@ -503,6 +504,7 @@ Release Date: Not Released
       -  Added ``$config['csrf_regeneration']``, which makes token regeneration optional.
       -  Added ``$config['csrf_exclude_uris']``, which allows you list URIs which will not have the CSRF validation methods run.
       -  Modified method ``sanitize_filename()`` to read a public ``$filename_bad_chars`` property for getting the invalid characters list.
+      -  Modified the ``__construct()``, as csrf token will now always be set on class load.
 
    -  :doc:`Language Library <libraries/language>` changes include:
 
