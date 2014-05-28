@@ -264,7 +264,7 @@
 	$class  = $RTR->fetch_class();
 	$method = $RTR->fetch_method();
 
-	if ( ! class_exists($class)
+	if ( ! class_exists($class, false)
 		OR strncmp($method, '_', 1) == 0
 		OR in_array(strtolower($method), array_map('strtolower', get_class_methods('CI_Controller')))
 		)
@@ -274,7 +274,7 @@
 			$x = explode('/', $RTR->routes['404_override']);
 			$class = $x[0];
 			$method = (isset($x[1]) ? $x[1] : 'index');
-			if ( ! class_exists($class))
+			if ( ! class_exists($class, false))
 			{
 				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
 				{
@@ -336,7 +336,7 @@
 				$x = explode('/', $RTR->routes['404_override']);
 				$class = $x[0];
 				$method = (isset($x[1]) ? $x[1] : 'index');
-				if ( ! class_exists($class))
+				if ( ! class_exists($class, false))
 				{
 					if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
 					{
@@ -392,7 +392,7 @@
  *  Close the DB connection if one exists
  * ------------------------------------------------------
  */
-	if (class_exists('CI_DB') AND isset($CI->db))
+	if (class_exists('CI_DB', false) AND isset($CI->db))
 	{
 		$CI->db->close();
 	}
