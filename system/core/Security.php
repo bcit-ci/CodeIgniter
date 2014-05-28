@@ -157,31 +157,33 @@ class CI_Security {
 	 */
 	public function __construct()
 	{
-		// Is CSRF protection enabled?
-		if (config_item('csrf_protection') === TRUE)
+		// CSRF config
+		foreach (array('csrf_expire', 'csrf_token_name', 'csrf_cookie_name') as $key)
 		{
-			// CSRF config
-			foreach (array('csrf_expire', 'csrf_token_name', 'csrf_cookie_name') as $key)
+			if (FALSE !== ($val = config_item($key)))
 			{
-				if (FALSE !== ($val = config_item($key)))
-				{
-					$this->{'_'.$key} = $val;
-				}
+				$this->{'_'.$key} = $val;
 			}
-
-			// Append application specific cookie prefix
-			if (config_item('cookie_prefix'))
-			{
-				$this->_csrf_cookie_name = config_item('cookie_prefix').$this->_csrf_cookie_name;
-			}
-
-			// Set the CSRF hash
-			$this->_csrf_set_hash();
 		}
+
+		// Append application specific cookie prefix
+		if (config_item('cookie_prefix'))
+		{
+			$this->_csrf_cookie_name = config_item('cookie_prefix').$this->_csrf_cookie_name;
+		}
+
+		// Set the CSRF hash
+		$this->_csrf_set_hash();
 
 		$this->charset = strtoupper(config_item('charset'));
 
 		log_message('debug', 'Security Class Initialized');
+
+		// Is CSRF protection enabled? Verify it
+		if (config_item('csrf_protection') === TRUE)
+		{
+			$this->csrf_verify();
+		}
 	}
 
 	// --------------------------------------------------------------------
