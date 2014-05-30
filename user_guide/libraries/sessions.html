@@ -71,6 +71,8 @@ generates its own session data, offering more flexibility for developers.</p>
 <p class="important"><strong>Note:</strong> Even if you are not using encrypted sessions, you must set
 an <a href="./encryption.html">encryption key</a> in your config file which is used to aid in preventing session data manipulation.</p>
 
+<p class="important"><strong>Note:</strong> The Session class relies on the Encryption class, so you must have Mcrypt extension installed</p>
+
 <h2>Initializing a Session</h2>
 
 <p>Sessions will typically run globally with each page load, so the session class must either be
