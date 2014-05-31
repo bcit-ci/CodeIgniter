@@ -63,7 +63,8 @@ Change Log
 <ul>
 	<li>General Changes
 		<ul>
-			<li><b>Security:</b> The <samp>xor_encode()</samp> method in the Encyption Class has been removed. The Encryption Class now requires the Mcrypt extension to be installed.</li>
+			<li><b>Security:</b> The <samp>xor_encode()</samp> method in the Encrypt Class has been removed. The Encrypt Class now requires the Mcrypt extension to be installed.</li>
+			<li><b>Security:</b> The <a href="libraries/sessions.html">Session Library</a> now uses HMAC authentication instead of a simple MD5 checksum.</li>
 		</ul>
 	</li>
 </ul>
@@ -74,6 +75,7 @@ Change Log
 	<li>Fixed a bug (#696) - make <samp>oci_execute()</samp> calls inside <samp>num_rows()</samp> non-committing, since they are only there to reset which row is next in line for oci_fetch calls and thus don't need to be committed.</li>
 	<li>Fixed a bug (#2689) - <a href="database/forge.html">Database Forge Class</a> methods <samp>create_table()</samp>, <samp>drop_table()</samp> and <samp>rename_table()</samp> produced broken SQL for tge 'sqlsrv' driver.</li>
 	<li>Fixed a bug (#2427) - PDO <a href="database/index.html">Database driver</a> didn't properly check for query failures.</li>
+	<li>Fixed a bug in the <a href="libraries/sessions.html">Session Library</a> where authentication was not performed for encrypted cookies.</li>
 </ul>
 
 <h2>Version 2.1.4</h2>
