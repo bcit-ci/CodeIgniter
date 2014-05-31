@@ -124,7 +124,11 @@ class CI_Migration {
 		}
 
 		// If not set, set it
+<<<<<<< HEAD
 		$this->_migration_path !== '' OR $this->_migration_path = APPPATH.'migrations/';
+=======
+		$this->_migration_path == '' AND $this->_migration_path = APPPATH . 'migrations/';
+>>>>>>> refs/remotes/origin/master
 
 		// Add trailing slash if not set
 		$this->_migration_path = rtrim($this->_migration_path, '/').'/';
@@ -179,7 +183,11 @@ class CI_Migration {
 	 * Calls each migration step required to get to the schema version of
 	 * choice
 	 *
+<<<<<<< HEAD
 	 * @param	int	$target_version	Target schema version
+=======
+	 * @param	int	Target schema version
+>>>>>>> refs/remotes/origin/master
 	 * @return	mixed	TRUE if already latest, FALSE if failed, int if upgraded
 	 */
 	public function version($target_version)
@@ -206,6 +214,12 @@ class CI_Migration {
 			$method = 'down';
 			krsort($migrations);
 		}
+<<<<<<< HEAD
+=======
+
+		$method = ($step === 1) ? 'up' : 'down';
+		$migrations = array();
+>>>>>>> refs/remotes/origin/master
 
 		if (empty($migrations))
 		{
@@ -272,7 +286,11 @@ class CI_Migration {
 	/**
 	 * Set's the schema to the latest migration
 	 *
+<<<<<<< HEAD
 	 * @return	mixed	TRUE if already latest, FALSE if failed, int if upgraded
+=======
+	 * @return	mixed	true if already latest, false if failed, int if upgraded
+>>>>>>> refs/remotes/origin/master
 	 */
 	public function latest()
 	{
@@ -296,7 +314,11 @@ class CI_Migration {
 	/**
 	 * Set's the schema to the migration version set in config
 	 *
+<<<<<<< HEAD
 	 * @return	mixed	TRUE if already current, FALSE if failed, int if upgraded
+=======
+	 * @return	mixed	true if already current, false if failed, int if upgraded
+>>>>>>> refs/remotes/origin/master
 	 */
 	public function current()
 	{
@@ -320,14 +342,25 @@ class CI_Migration {
 	/**
 	 * Retrieves list of available migration scripts
 	 *
+<<<<<<< HEAD
 	 * @return	array	list of migration file paths sorted by version
+=======
+	 * @return	mixed	true if already latest, false if failed, int if upgraded
+>>>>>>> refs/remotes/origin/master
 	 */
 	public function find_migrations()
 	{
 		$migrations = array();
 
 		// Load all *_*.php files in the migrations path
+<<<<<<< HEAD
 		foreach (glob($this->_migration_path.'*_*.php') as $file)
+=======
+		$files = glob($this->_migration_path . '*_*.php');
+		$file_count = count($files);
+
+		for ($i = 0; $i < $file_count; $i++)
+>>>>>>> refs/remotes/origin/master
 		{
 			$name = basename($file, '.php');
 
@@ -347,6 +380,7 @@ class CI_Migration {
 			}
 		}
 
+<<<<<<< HEAD
 		ksort($migrations);
 		return $migrations;
 	}
@@ -378,6 +412,10 @@ class CI_Migration {
 		$parts = explode('_', $migration);
 		array_shift($parts);
 		return implode('_', $parts);
+=======
+		sort($files);
+		return $files;
+>>>>>>> refs/remotes/origin/master
 	}
 
 	// --------------------------------------------------------------------
@@ -398,8 +436,13 @@ class CI_Migration {
 	/**
 	 * Stores the current schema version
 	 *
+<<<<<<< HEAD
 	 * @param	int	$migration	Migration reached
 	 * @return	void	Outputs a report of the migration
+=======
+	 * @param	int	Migration reached
+	 * @return	bool
+>>>>>>> refs/remotes/origin/master
 	 */
 	protected function _update_version($migration)
 	{
@@ -413,7 +456,11 @@ class CI_Migration {
 	/**
 	 * Enable the use of CI super-global
 	 *
+<<<<<<< HEAD
 	 * @param	string	$var
+=======
+	 * @param	mixed	$var
+>>>>>>> refs/remotes/origin/master
 	 * @return	mixed
 	 */
 	public function __get($var)

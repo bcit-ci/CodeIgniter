@@ -38,12 +38,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_DB_oci8_result extends CI_DB_result {
 
+<<<<<<< HEAD
 	/**
 	 * Statement ID
 	 *
 	 * @var	resource
 	 */
 	public $stmt_id;
+=======
+	public $stmt_id;
+	public $curs_id;
+	public $limit_used;
+>>>>>>> refs/remotes/origin/master
 
 	/**
 	 * Cursor ID
@@ -55,6 +61,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	/**
 	 * Limit used flag
 	 *
+<<<<<<< HEAD
 	 * @var	bool
 	 */
 	public $limit_used;
@@ -63,11 +70,15 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 * Commit mode flag
 	 *
 	 * @var	int
+=======
+	 * @return  integer
+>>>>>>> refs/remotes/origin/master
 	 */
 	public $commit_mode;
 
 	// --------------------------------------------------------------------
 
+<<<<<<< HEAD
 	/**
 	 * Class constructor
 	 *
@@ -83,6 +94,9 @@ class CI_DB_oci8_result extends CI_DB_result {
 		$this->limit_used = $driver_object->limit_used;
 		$this->commit_mode =& $driver_object->commit_mode;
 		$driver_object->stmt_id = FALSE;
+=======
+		return $this->num_rows;
+>>>>>>> refs/remotes/origin/master
 	}
 
 	// --------------------------------------------------------------------

@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Field Data : CodeIgniter User Guide</title>
+
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='CodeIgniter User Guide' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle_darker.jpg" width="154" height="43" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>CodeIgniter User Guide Version 2.1.3</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">Database Library</a> &nbsp;&#8250;&nbsp;
+Field Names
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+
+<h1>Field Data</h1>
+
+
+<h2>$this->db->list_fields()</h2>
+<p>Returns an array containing the field names. This query can be called two ways:</p>
+
+
+<p>1. You can supply the table name and call it from the <dfn>$this->db-></dfn> object:</p>
+
+<code>
+$fields = $this->db->list_fields('table_name');<br /><br />
+
+foreach ($fields as $field)<br />
+{<br />
+&nbsp;&nbsp;&nbsp;echo $field;<br />
+}
+</code>
+
+<p>2. You can gather the field names associated with any query you run by calling the function
+from your query result object:</p>
+
+<code>
+$query = $this->db->query('SELECT * FROM some_table');
+<br /><br />
+
+foreach ($query->list_fields() as $field)<br />
+{<br />
+&nbsp;&nbsp;&nbsp;echo $field;<br />
+}
+</code>
+
+
+<h2>$this->db->field_exists()</h2>
+
+<p>Sometimes it's helpful to know whether a particular field exists before performing an action.
+Returns a boolean TRUE/FALSE.  Usage example:</p>
+
+<code>
+if ($this->db->field_exists('field_name', 'table_name'))<br />
+{<br />
+&nbsp;&nbsp; // some code...<br />
+}
+</code>
+
+<p>Note:  Replace <em>field_name</em> with the name of the column you are looking for, and replace
+<em>table_name</em> with the name of the table you are looking for.</p>
+
+
+<h2>$this->db->field_data()</h2>
+<p>Returns an array of objects containing field information.</p>
+<p>Sometimes it's helpful to gather the field names or other metadata, like the column type, max length, etc.</p>
+
+
+<p class="important">Note: Not all databases provide meta-data.</p>
+
+<p>Usage example:</p>
+
+<code>
+$fields = $this->db->field_data('table_name');<br /><br />
+
+foreach ($fields as $field)<br />
+{<br />
+&nbsp;&nbsp;&nbsp;echo $field->name;<br />
+&nbsp;&nbsp;&nbsp;echo $field->type;<br />
+&nbsp;&nbsp;&nbsp;echo $field->max_length;<br />
+&nbsp;&nbsp;&nbsp;echo $field->primary_key;<br />
+}
+</code>
+
+<p>If you have run a query already you can use the result object instead of supplying the table name:</p>
+
+<code>
+$query = $this->db->query("YOUR QUERY");<br />
+$fields = $query->field_data();
+</code>
+
+
+<p>The following data is available from this function if supported by your database:</p>
+
+<ul>
+<li>name - column name</li>
+<li>max_length - maximum length of the column</li>
+<li>primary_key - 1 if the column is a primary key</li>
+<li>type - the type of the column</li>
+</ul>
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+Previous Topic:&nbsp;&nbsp;<a href="table_data.html"> Table Data</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Next Topic:&nbsp;&nbsp;<a href="call_function.html">Custom Function Calls</a>
+</p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
+</div>
+
+</body>
+</html>

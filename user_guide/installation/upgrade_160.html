@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Upgrading from 1.5.4 to 1.6.0 : CodeIgniter User Guide</title>
+
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='CodeIgniter User Guide' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle_darker.jpg" width="154" height="43" border="0" title="Toggle Table of Contents" alt="Toggle Table of Contents" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>CodeIgniter User Guide Version 2.1.3</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Upgrading from 1.5.4 to 1.6.0
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>Upgrading from 1.5.4 to 1.6.0</h1>
+
+<p>Before performing an update you should take your site offline by replacing the index.php file with a static one.</p>
+
+
+
+<h2>Step 1: Update your CodeIgniter files</h2>
+
+<p>Replace these files and directories in your "system" folder with the new versions:</p>
+
+<ul>
+
+<li><dfn>system/codeigniter</dfn></li>
+<li><dfn>system/database</dfn></li>
+<li><dfn>system/helpers</dfn></li>
+<li><dfn>system/libraries</dfn></li>
+<li><dfn>system/plugins</dfn></li>
+<li><dfn>system/language</dfn></li>
+</ul>
+
+<p class="important"><strong>Note:</strong> If you have any custom developed files in these folders please make copies of them first.</p>
+
+<h2>Step 2: Add time_to_update to your config.php </h2>
+<p>Add the following to application/config/config.php with the other session configuration options</p>
+<p><code>$config['sess_time_to_update']			= 300;</code></p>
+<h2>Step 3: Add $autoload['model']</h2>
+<p>Add the following to application/config/autoload.php</p>
+<p><code> /*<br />
+	| -------------------------------------------------------------------<br />
+	|  Auto-load Model files<br />
+	| -------------------------------------------------------------------<br />
+	| Prototype:<br />
+	|<br />
+	|  $autoload['model'] = array('my_model');<br />
+	|<br />
+	*/<br />
+	<br />
+	$autoload['model'] = array();</code></p>
+<h2>Step 4: Add  to your database.php </h2>
+<p>Make the following changes to your application/config/database.php file:</p>
+<p>Add the following variable above the database configuration options, with <dfn>$active_group</dfn></p>
+<p><code>$active_record = TRUE;</code></p>
+<p>Remove the following from your database configuration options</p>
+<p><code>$db['default']['active_r'] = TRUE;</code></p>
+<p>Add the following to your database configuration options</p>
+<p><code>$db['default']['char_set'] = &quot;utf8&quot;;<br />
+$db['default']['dbcollat'] = &quot;utf8_general_ci&quot;;</code></p>
+
+<h2>Step 5: Update your user guide</h2>
+<p>Please also replace your local copy of the user guide with the new version.</p>
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+Previous Topic:&nbsp;&nbsp;<a href="index.html">Installation Instructions</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Next Topic:&nbsp;&nbsp;<a href="troubleshooting.html">Troubleshooting</a>
+</p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
+</div>
+
+</body>
+</html>

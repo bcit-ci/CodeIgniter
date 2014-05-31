@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 language: php
 
 php:
@@ -26,3 +27,9 @@ branches:
   only:
     - develop
     - /^feature\/.+$/
+=======
+branches:
+  except:
+    - 2.1-stable
+    - master
+>>>>>>> refs/remotes/origin/master

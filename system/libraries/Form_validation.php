@@ -1168,8 +1168,13 @@ class CI_Form_validation {
 	 * Validate IP Address
 	 *
 	 * @param	string
+<<<<<<< HEAD
 	 * @param	string	'ipv4' or 'ipv6' to validate a specific IP format
 	 * @return	bool
+=======
+	 * @param	string "ipv4" or "ipv6" to validate a specific ip format
+	 * @return	string
+>>>>>>> refs/remotes/origin/master
 	 */
 	public function valid_ip($ip, $which = '')
 	{

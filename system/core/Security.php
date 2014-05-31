@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <?php
+=======
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+>>>>>>> refs/remotes/origin/master
 /**
  * CodeIgniter
  *
@@ -88,7 +92,11 @@ class CI_Security {
 	 *
 	 * @var	array
 	 */
+<<<<<<< HEAD
 	protected $_never_allowed_str =	array(
+=======
+	protected $_never_allowed_str = array(
+>>>>>>> refs/remotes/origin/master
 		'document.cookie'	=> '[removed]',
 		'document.write'	=> '[removed]',
 		'.parentNode'		=> '[removed]',
@@ -115,7 +123,11 @@ class CI_Security {
 	);
 
 	/**
+<<<<<<< HEAD
 	 * Class constructor
+=======
+	 * Constructor
+>>>>>>> refs/remotes/origin/master
 	 *
 	 * @return	void
 	 */
@@ -161,8 +173,13 @@ class CI_Security {
 			return $this->csrf_set_cookie();
 		}
 
+<<<<<<< HEAD
 		// Check if URI has been whitelisted from CSRF checks
 		if ($exclude_uris = config_item('csrf_exclude_uris'))
+=======
+		// Do the tokens exist in both the _POST and _COOKIE arrays?
+		if ( ! isset($_POST[$this->_csrf_token_name], $_COOKIE[$this->_csrf_cookie_name]))
+>>>>>>> refs/remotes/origin/master
 		{
 			$uri = load_class('URI', 'core');
 			if (in_array($uri->uri_string(), $exclude_uris))
@@ -193,6 +210,10 @@ class CI_Security {
 		$this->csrf_set_cookie();
 
 		log_message('debug', 'CSRF token verified');
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/remotes/origin/master
 		return $this;
 	}
 
@@ -209,7 +230,11 @@ class CI_Security {
 		$expire = time() + $this->_csrf_expire;
 		$secure_cookie = (bool) config_item('cookie_secure');
 
+<<<<<<< HEAD
 		if ($secure_cookie && ! is_https())
+=======
+		if ($secure_cookie && (empty($_SERVER['HTTPS']) OR strtolower($_SERVER['HTTPS']) === 'off'))
+>>>>>>> refs/remotes/origin/master
 		{
 			return FALSE;
 		}
@@ -381,7 +406,10 @@ class CI_Security {
 			'javascript', 'expression', 'vbscript', 'script', 'base64',
 			'applet', 'alert', 'document', 'write', 'cookie', 'window'
 		);
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/master
 
 		foreach ($words as $word)
 		{
@@ -544,6 +572,7 @@ class CI_Security {
 	public function sanitize_filename($str, $relative_path = FALSE)
 	{
 		$bad = array(
+<<<<<<< HEAD
 			'../', '<!--', '-->', '<', '>',
 			"'", '"', '&', '$', '#',
 			'{', '}', '[', ']', '=',
@@ -560,6 +589,39 @@ class CI_Security {
 			'%3f',		// ?
 			'%3b',		// ;
 			'%3d'		// =
+=======
+			"../",
+			"<!--",
+			"-->",
+			"<",
+			">",
+			"'",
+			'"',
+			'&',
+			'$',
+			'#',
+			'{',
+			'}',
+			'[',
+			']',
+			'=',
+			';',
+			'?',
+			"%20",
+			"%22",
+			"%3c",		// <
+			"%253c",	// <
+			"%3e",		// >
+			"%0e",		// >
+			"%28",		// (
+			"%29",		// )
+			"%2528",	// (
+			"%26",		// &
+			"%24",		// $
+			"%3f",		// ?
+			"%3b",		// ;
+			"%3d"		// =
+>>>>>>> refs/remotes/origin/master
 		);
 
 		if ( ! $relative_path)
@@ -663,7 +725,11 @@ class CI_Security {
 			// replace illegal attribute strings that are inside an html tag
 			if (count($attribs) > 0)
 			{
+<<<<<<< HEAD
 				$str = preg_replace('/<(\/?[^><]+?)([^A-Za-z<>\-])(.*?)('.implode('|', $attribs).')(.*?)([\s><])([><]*)/i', '<$1 $3$5$6$7', $str, -1, $count);
+=======
+				$str = preg_replace("/<(\/?[^><]+?)([^A-Za-z<>\-])(.*?)(".implode('|', $attribs).")(.*?)([\s><])([><]*)/i", '<$1 $3$5$6$7', $str, -1, $count);
+>>>>>>> refs/remotes/origin/master
 			}
 
 		} while ($count);
@@ -706,12 +772,24 @@ class CI_Security {
 	 */
 	protected function _js_link_removal($match)
 	{
+<<<<<<< HEAD
 		return str_replace($match[1],
 					preg_replace('#href=.*?(?:alert\(|alert&\#40;|javascript:|livescript:|mocha:|charset=|window\.|document\.|\.cookie|<script|<xss|data\s*:)#si',
 							'',
 							$this->_filter_attributes(str_replace(array('<', '>'), '', $match[1]))
 					),
 					$match[0]);
+=======
+		return str_replace(
+			$match[1],
+			preg_replace(
+				'#href=.*?(alert\(|alert&\#40;|javascript\:|livescript\:|mocha\:|charset\=|window\.|document\.|\.cookie|<script|<xss|data\s*:)#si',
+				'',
+				$this->_filter_attributes(str_replace(array('<', '>'), '', $match[1]))
+			),
+			$match[0]
+		);
+>>>>>>> refs/remotes/origin/master
 	}
 
 	// --------------------------------------------------------------------
@@ -731,12 +809,24 @@ class CI_Security {
 	 */
 	protected function _js_img_removal($match)
 	{
+<<<<<<< HEAD
 		return str_replace($match[1],
 					preg_replace('#src=.*?(?:alert\(|alert&\#40;|javascript:|livescript:|mocha:|charset=|window\.|document\.|\.cookie|<script|<xss|base64\s*,)#si',
 							'',
 							$this->_filter_attributes(str_replace(array('<', '>'), '', $match[1]))
 					),
 					$match[0]);
+=======
+		return str_replace(
+			$match[1],
+			preg_replace(
+				'#src=.*?(alert\(|alert&\#40;|javascript\:|livescript\:|mocha\:|charset\=|window\.|document\.|\.cookie|<script|<xss|base64\s*,)#si',
+				'',
+				$this->_filter_attributes(str_replace(array('<', '>'), '', $match[1]))
+			),
+			$match[0]
+		);
+>>>>>>> refs/remotes/origin/master
 	}
 
 	// --------------------------------------------------------------------
@@ -884,4 +974,8 @@ class CI_Security {
 }
 
 /* End of file Security.php */
+<<<<<<< HEAD
 /* Location: ./system/core/Security.php */
+=======
+/* Location: ./system/libraries/Security.php */
+>>>>>>> refs/remotes/origin/master

@@ -110,6 +110,10 @@ class CI_Config {
 			? array(ENVIRONMENT.'/'.$file, $file)
 			: array($file);
 
+		$check_locations = defined('ENVIRONMENT')
+			? array(ENVIRONMENT.'/'.$file, $file)
+			: array($file);
+
 		foreach ($this->_config_paths as $path)
 		{
 			foreach ($check_locations as $location)
