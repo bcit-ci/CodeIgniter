@@ -1,0 +1,364 @@
+/*
+CodeIgniter
+http://codeigniter.com
+
+An open source application development framework for PHP 5.2.4 or newer
+
+NOTICE OF LICENSE
+
+Licensed under the Open Software License version 3.0
+
+This source file is subject to the Open Software License (OSL 3.0) that is
+bundled with this package in the files license.txt / license.rst.  It is
+also available through the world wide web at this URL:
+http://opensource.org/licenses/OSL-3.0
+If you did not receive a copy of the license and are unable to obtain it
+through the world wide web, please send an email to
+licensing@ellislab.com so we can send you a copy immediately.
+
+Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
+http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+*/
+
+html, body,
+h1, h2, h3, h4, h5, h6,
+p, ul, ol, li, dl, dd, dt, pre, form, fieldset{ margin: 0; padding: 0; }
+
+body{ background-color: #F9F9F9; color: #444444; font: normal normal 14px "Helvetica", "Arial", Sans-Serif; }
+
+pre, kbd, var, samp, tt{ font-family: "Courier", Monospace; }
+
+pre,
+#header,
+#footer,
+#table-contents .toctree-wrapper{ font-size: 12px; }
+
+dfn, var,
+em.dfn, em.var{
+	background-color: #FFFDED;
+	color: #578236;
+	font-style: italic;
+	padding: 3px;
+}
+
+kbd, samp{ color: #B83044; }
+
+	kbd{ font-style: italic; }
+
+h1, h2, h3, h4, h5, h6, pre{ color: #094776; }
+
+h1{ font-size: 28px; }
+
+h2{ font-size: 24px; font-weight: normal; }
+
+h1, h2, h3, h4, h5, h6{ margin-bottom: 20px; }
+
+h2, h3{ border-bottom: 2px solid #EEEEEE; padding: 0 0 3px; }
+
+h3{ border-color: #E5E5E5; border-width: 1px; }
+
+h4{ background-color: #FFFDED; display: inline-block; font-size: 18px; margin: 0; padding: 5px; }
+
+	h1 a, h2 a{ font-weight: normal; }
+
+	h1 a, h2 a, h3 a{ text-decoration: none; }
+
+h3, h5, h6{ font-size: 18px; margin: 20px 0; }
+
+	h4, h5, h6{ font-size: 14px; }
+
+p, dl, ul, ol{ margin: 20px 0; }
+
+	p, dl, ul, ol, h3, h4, h5, h6{ margin-left: 20px; }
+
+	li > ul,
+	li > ol{ margin: 0; margin-left: 40px; }
+
+	dl > dd{ margin-left: 20px; }
+
+	li > p { margin: 0; }
+
+#expressionengine-user-guide li em { font-style: normal; }
+
+p, li, dd, dt, pre{ line-height: 1.5; }
+
+table{
+	background-color: #F5FBFF;
+	border: 1px solid #C8DEF0;
+	border-collapse: collapse;
+	margin-bottom: 20px;
+}
+
+	th, td{
+		border: 0;
+		border-bottom: 1px solid #C8DEF0;
+		padding: 8px;
+	}
+
+		th{
+			background-color: #326B95;
+			color: #FFFFFF;
+			text-align: left;
+		}
+
+		td{ font-size: 12px; }
+
+	.descname{ color: #000080; font-weight: bold; }
+	.descclassname{ color: #094776; }
+
+	.class .descname{ font-size: 18px; font-style: italic; }
+	.method .descname{ font-style: normal; }
+
+	.class .property{ color: #094776; }
+
+	.method big,
+	.method .optional
+	.function big,
+	.function .optional{ color: #094776; padding: 0 4px 0 6px; }
+
+	.class em,
+	.method em,
+	.function em{ color: #008080; }
+
+	.method dt,
+	.function dt{ margin: 20px 0; }
+
+	.method table,
+	.function table{ margin-bottom: 0; margin-left: 20px; }
+
+	.method th,
+	.method td,
+	.function th,
+	.function td{ padding: 10px; }
+
+	.method td > ul,
+	.function td > ul{ margin: 0; margin-left: 20px; }
+
+	.method td.field-body > p,
+	.function td.field-body > p { margin: 0; margin-left: 20px; }
+
+a:link,
+a:visited{ color: #1A5B8D; }
+
+a:hover,
+a:active{ color: #742CAC; }
+
+a.headerlink{ visibility: hidden; margin-left: 0.4em; }
+
+	:hover > a.headerlink { visibility: visible; }
+
+a img{
+	border: 0;
+	outline: 0;
+}
+
+img{ display: block; max-width: 100%; }
+
+fieldset{ border: 0; }
+
+.top{ float: right; }
+
+.highlight{ overflow-x: auto; }
+
+.admonition,
+.highlight-ee,
+.highlight-ci,
+.highlight-rst,
+.highlight-bash,
+.highlight-perl,
+.highlight-php,
+.highlight-html,
+.cp-path,
+.codeblock{
+	background-color: #F9FEFF;
+	border: 1px solid #C8DEF0;
+	-moz-box-shadow: 4px 4px 0 rgba(0,0,0,0.03);
+	-webkit-box-shadow: 4px 4px 0 rgba(0,0,0,0.03);
+	box-shadow: 4px 4px 0 rgba(0,0,0,0.03);
+	margin: 20px 0;
+	padding: 10px 10px 8px;
+}
+
+.highlight-ci{ background-color: #FEFEFE; border-color: #E5E5E5; }
+
+	.admonition p{ margin: 0; }
+
+	.codeblock{ margin: 10px 0; }
+
+	.cp-path{ background-color: #FAFFF6; border-color: #D1CDB0; }
+	.important, .note{ background-color: #FFFFF2; border-color: #C8C8A5; }
+
+.admonition-title{
+	float: left;
+	font-weight: bold;
+	padding-right: 4px;
+	text-transform: uppercase;
+}
+
+.admonition-title:after{ content: ':  '; }
+
+.highlighted{ background-color: #FFF09B; }
+
+#table-contents{
+	bottom: 0;
+	left: -520px;
+	position: fixed;
+	top: 0;
+}
+
+#table-contents .toctree-wrapper{
+	background-color: #444444;
+	background-color: rgba(0,0,0,0.9);
+	*+background-color: #444444;
+	bottom: 0;
+	left: 0;
+	overflow-y: auto;
+	padding: 20px 10px;
+	position: absolute;
+	top: 0;
+	width: 500px;
+}
+
+	#table-contents .toctree-wrapper ul{margin-bottom: 0; margin-top: 0; }
+
+		#table-contents .toctree-wrapper li{ color: #999999; line-height: 1.7; padding: 1px 0; }
+
+			#table-contents .toctree-l1{ list-style-type: none; }
+
+			#table-contents .toctree-l1 > a{
+				background: transparent url(../../asset/img/paper-ico.gif) no-repeat 0 0;
+				font-size: 14px;
+				font-weight: bold;
+				padding-left: 20px;
+			}
+
+	#header a:link,
+	#header a:visited,
+	#table-contents .toctree-wrapper a:link,
+	#table-contents .toctree-wrapper a:visited{ color: #FFFFFF; }
+
+	#header a:hover,
+	#header a:active,
+	#table-contents .toctree-wrapper a:hover,
+	#table-contents .toctree-wrapper a:active{ color: #FFF8C3; }
+
+#content{ background-color: #FFFFFF; padding: 40px 40px 20px; }
+
+#brand{
+	background-color: #F5F5F5;
+	color: #FFFFFF;
+	overflow: hidden;
+	padding: 10px 20px 13px;
+}
+
+	#brand > *{ float: left; }
+
+	#brand p{ font-size: 14px; margin: 2px 0 0 5px; }
+	#brand.ci p{ margin-top: 8px; }
+
+	#brand.ee{ background-color: #27343C; }
+	#brand.ci{ background-color: #4A0202; }
+	#brand.mm{ background-color: #222627; }
+	#brand.el{ background-color: #4A0202; }
+
+#header{
+	background-color: #3B7EB0;
+	border-top: 2px solid #539ECC;
+	color: #FFFFFF;
+	overflow: hidden;
+	padding: 15px 15px 16px 20px;
+}
+
+	#header form{ float: right; overflow: hidden; }
+
+	#header input{ float: left; }
+
+	#header input[type="text"]{
+		background-color: #FFFFFF;
+		border: 1px solid;
+		border-color: #033861 #13598F #13598F #033861;
+		font: inherit;
+		margin-right: 5px;
+		padding: 5px;
+		width: 175px;
+	}
+
+		#header input[type="text"]:focus{ background-color: #FFFDED; outline: 0; }
+
+	#header input[type="submit"]{
+		background: #F0F9FF url(../../asset/img/grades.gif) repeat-x 0 -58px;
+		border: 1px solid #033861;
+		color: #094776;
+		cursor: pointer;
+		font: inherit;
+		font-weight: bold;
+		padding: 5px 10px;
+		text-transform: uppercase;
+	}
+
+		#header input[type="submit"]:hover{ background-position: 0 -83px; }
+
+	#header ul{
+		float: left;
+		list-style-type: none;
+		margin: 0;
+		overflow: hidden;
+	}
+
+		#header li{ float: left; margin: 4px 5px 0 0; }
+
+#footer{ background-color: #F9F9F9; border-top: 1px solid #CCCCCC; padding: 20px; }
+
+	#footer p{ margin: 0; }
+
+#comments,
+#feedLink{ background: #FCFCFC; padding: 1px 40px 20px; }
+
+	#comments{ border-top: 1px solid #CCCCCC; }
+	#comments h3{ margin: 20px 0; }
+
+.comments td.avatar{ min-width: 100px; }
+
+.comments td.column1,
+.comments td.post{ background-color: #FFFFFF; padding: 10px; }
+
+.comments td.staffeven{ border-left: 10px solid #C8DEF0; }
+
+#comment_form p,
+.comments p{ margin: 0; }
+
+	.comments p{ margin-bottom: 10px; }
+
+#comment_form textarea{
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	margin-bottom: 10px;
+	resize: none;
+	width: 100%;
+}
+
+#comment_form input[type="submit"]{ margin-top: 10px; }
+
+	#comment_form textarea:focus{ background-color: #FFFFF2; border: 1px solid #666666; outline: 0; }
+
+	#commentFormInstructions{ font-size: 12px; margin: 20px 0; }
+
+	#feedLink a{ font-size: 16px; }
+
+	#feedLink a img{ float: left; margin-right: 5px; }
+
+@media (max-width:800px){
+	#footer .top,
+	#header form{ float: none; margin-bottom: 10px; }
+	#content{ padding: 20px; }
+}
+
+@media (max-width:340px){
+	body{ font-size: 12px; }
+	h1{ font-size: 18px; }
+	h2{ font-size: 16px; }
+	h3,h4,h5,h6{ font-size: 14px; }
+}
+
+#header input[type="submit"], x:-moz-any-link{ padding: 4px 10px; }
