@@ -5,7 +5,7 @@
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * @package		CodeIgniter
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc.
  * @license		http://codeigniter.com/user_guide/license.html
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com
@@ -36,7 +36,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	var $_escape_char = '';
 	var $_like_escape_str;
 	var $_like_escape_chr;
-	
+
 
 	/**
 	 * The syntax to count rows is slightly different across different
@@ -45,7 +45,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	var $_count_string = "SELECT COUNT(*) AS ";
 	var $_random_keyword;
-	
+
 	var $options = array();
 
 	function __construct($params)

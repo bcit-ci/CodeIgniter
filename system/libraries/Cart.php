@@ -6,7 +6,7 @@
  *
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2006 - 2012, EllisLab, Inc.
+ * @copyright	Copyright (c) 2006 - 2014, EllisLab, Inc.
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -546,7 +546,6 @@ class CI_Cart {
 
 
 }
-// END Cart Class
 
 /* End of file Cart.php */
 /* Location: ./system/libraries/Cart.php */
