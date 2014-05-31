@@ -81,7 +81,11 @@ class CI_Encrypt {
 	 */
 	public function __construct()
 	{
-		$this->_mcrypt_exists = function_exists('mcrypt_encrypt');
+		if (($this->_mcrypt_exists = function_exists('mcrypt_encrypt')) === FALSE)
+		{
+			show_error('The Encrypt library requires the Mcrypt extension.');
+		}
+
 		log_message('debug', 'Encrypt Class Initialized');
 	}
 
@@ -138,10 +142,10 @@ class CI_Encrypt {
 	 * Encodes the message string using bitwise XOR encoding.
 	 * The key is combined with a random hash, and then it
 	 * too gets converted using XOR. The whole thing is then run
-	 * through mcrypt (if supported) using the randomized key.
-	 * The end result is a double-encrypted message string
-	 * that is randomized with each call to this function,
-	 * even if the supplied message and key are the same.
+	 * through mcrypt using the randomized key. The end result
+	 * is a double-encrypted message string that is randomized
+	 * with each call to this function, even if the supplied
+	 * message and key are the same.
 	 *
 	 * @param	string	the string to encode
 	 * @param	string	the key
@@ -149,8 +153,7 @@ class CI_Encrypt {
 	 */
 	public function encode($string, $key = '')
 	{
-		$method = ($this->_mcrypt_exists === TRUE) ? 'mcrypt_encode' : '_xor_encode';
-		return base64_encode($this->$method($string, $this->get_key($key)));
+		return base64_encode($this->mcrypt_encode($string, $this->get_key($key)));
 	}
 
 	// --------------------------------------------------------------------
@@ -171,8 +174,7 @@ class CI_Encrypt {
 			return FALSE;
 		}
 
-		$method = ($this->_mcrypt_exists === TRUE) ? 'mcrypt_decode' : '_xor_decode';
-		return $this->$method(base64_decode($string), $this->get_key($key));
+		return $this->mcrypt_decode(base64_decode($string), $this->get_key($key));
 	}
 
 	// --------------------------------------------------------------------
@@ -194,12 +196,7 @@ class CI_Encrypt {
 	 */
 	public function encode_from_legacy($string, $legacy_mode = MCRYPT_MODE_ECB, $key = '')
 	{
-		if ($this->_mcrypt_exists === FALSE)
-		{
-			log_message('error', 'Encoding from legacy is available only when Mcrypt is in use.');
-			return FALSE;
-		}
-		elseif (preg_match('/[^a-zA-Z0-9\/\+=]/', $string))
+		if (preg_match('/[^a-zA-Z0-9\/\+=]/', $string))
 		{
 			return FALSE;
 		}
@@ -225,38 +222,6 @@ class CI_Encrypt {
 
 		// and re-encode
 		return base64_encode($this->mcrypt_encode($dec, $key));
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * XOR Encode
-	 *
-	 * Takes a plain-text string and key as input and generates an
-	 * encoded bit-string using XOR
-	 *
-	 * @param	string
-	 * @param	string
-	 * @return	string
-	 */
-	protected function _xor_encode($string, $key)
-	{
-		$rand = '';
-		do
-		{
-			$rand .= mt_rand();
-		}
-		while (strlen($rand) < 32);
-
-		$rand = $this->hash($rand);
-
-		$enc = '';
-		for ($i = 0, $ls = strlen($string), $lr = strlen($rand); $i < $ls; $i++)
-		{
-			$enc .= $rand[($i % $lr)].($rand[($i % $lr)] ^ $string[$i]);
-		}
-
-		return $this->_xor_merge($enc, $key);
 	}
 
 	// --------------------------------------------------------------------
