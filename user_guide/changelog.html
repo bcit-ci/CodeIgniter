@@ -70,10 +70,10 @@ Change Log
 
 <h3>Bug fixes for 2.2.0:</h3>
 <ul>
-	<li>Fixed an edge case (#2583) in the <a href="libraries/email.html">Email Library</a> where <a href="http://www.hardened-php.net/suhosin/>Suhosin</a> blocked messages sent via <samp>mail()</samp> due to trailing newspaces in headers.</li>
+	<li>Fixed an edge case (#2583) in the <a href="libraries/email.html">Email Library</a> where <a href="http://www.hardened-php.net/suhosin/">Suhosin</a> blocked messages sent via <samp>mail()</samp> due to trailing newspaces in headers.</li>
 	<li>Fixed a bug (#696) - make <samp>oci_execute()</samp> calls inside <samp>num_rows()</samp> non-committing, since they are only there to reset which row is next in line for oci_fetch calls and thus don't need to be committed.</li>
 	<li>Fixed a bug (#2689) - <a href="database/forge.html">Database Forge Class</a> methods <samp>create_table()</samp>, <samp>drop_table()</samp> and <samp>rename_table()</samp> produced broken SQL for tge 'sqlsrv' driver.</li>
-	<li>Fixed a bug (#2427) - PDO <a href="database/index.html>Database driver</a> didn't properly check for query failures.</li>
+	<li>Fixed a bug (#2427) - PDO <a href="database/index.html">Database driver</a> didn't properly check for query failures.</li>
 </ul>
 
 <h2>Version 2.1.4</h2>
