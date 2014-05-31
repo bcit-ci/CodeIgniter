@@ -1,8 +1,0 @@
-{
-    "require": {
-        "mikey179/vfsStream": "*"
-    },
-    "require-dev": {
-		"phpunit/phpunit": "*"
-	}
-}
