@@ -347,6 +347,7 @@ Release Date: Not Released
       -  Added rule **alpha_numeric_spaces**.
       -  Added support for custom error messages per field rule.
       -  Added support for callable rules when they are passed as an array.
+      -  Added support for non-ASCII domains in **valid_email** rule, depending on the Intl extension.
 
    -  :doc:`Caching Library <libraries/caching>` changes include:
 
@@ -375,6 +376,7 @@ Release Date: Not Released
       -  Added an optional parameter to ``print_debugger()`` to allow specifying which parts of the message should be printed ('headers', 'subject', 'body').
       -  Added SMTP keepalive option to avoid opening the connection for each ``send()`` call. Accessible as ``$smtp_keepalive``.
       -  Public method ``set_header()`` now filters the input by removing all "\\r" and "\\n" characters.
+      -  Added support for non-ASCII domains in ``valid_email()``, depending on the Intl extension.
 
    -  :doc:`Pagination Library <libraries/pagination>` changes include:
 

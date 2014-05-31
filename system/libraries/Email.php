@@ -1079,6 +1079,11 @@ class CI_Email {
 	 */
 	public function valid_email($email)
 	{
+		if (function_exists('idn_to_ascii') && $atpos = strpos($email, '@'))
+		{
+			$email = substr($email, 0, ++$atpos).idn_to_ascii(substr($email, $atpos));
+		}
+
 		return (bool) filter_var($email, FILTER_VALIDATE_EMAIL);
 	}
 
