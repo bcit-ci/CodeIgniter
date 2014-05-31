@@ -627,6 +627,11 @@ abstract class CI_DB_forge {
 			show_error('A column name is required for that operation.');
 		}
 
+        if ( ! is_array($column_name))
+        {
+            $column_name = array($column_name);
+        }
+
 		$sql = $this->_alter_table('DROP', $this->db->dbprefix.$table, $column_name);
 		if ($sql === FALSE)
 		{
@@ -703,7 +708,11 @@ abstract class CI_DB_forge {
 		// DROP has everything it needs now.
 		if ($alter_type === 'DROP')
 		{
-			return $sql.'DROP COLUMN '.$this->db->escape_identifiers($field);
+            foreach ($field as $column) {
+                $sql .= 'DROP COLUMN '.$this->db->escape_identifiers($column).', ';
+            }
+            $sql = rtrim($sql,', ');
+            return $sql;
 		}
 
 		$sql .= ($alter_type === 'ADD')
