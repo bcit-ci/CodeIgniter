@@ -49,7 +49,6 @@ class CI_Session {
 	 */
 	public function __construct(array $params = array())
 	{
-
 		// No sessions under CLI
 		if (is_cli())
 		{
@@ -65,6 +64,11 @@ class CI_Session {
 		{
 			$this->_driver = $params['driver'];
 			unset($params['driver']);
+		}
+		// Note: Make the autoloader pass sess_* params to this constructor
+		elseif (empty($params) && $driver = config_item('sess_driver'))
+		{
+			$this->_driver = $driver;
 		}
 
 		if (($class = $this->_ci_load_classes($this->_driver)) === FALSE)
