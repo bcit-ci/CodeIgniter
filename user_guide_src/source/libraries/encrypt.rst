@@ -2,13 +2,8 @@
 Encrypt Class
 #############
 
-The Encrypt Class provides two-way data encryption. It uses a scheme
-that either compiles the message using a randomly hashed bitwise XOR
-encoding scheme, or is encrypted using the Mcrypt library. If Mcrypt is
-not available on your server the encoded message will still provide a
-reasonable degree of security for encrypted sessions or other such
-"light" purposes. If Mcrypt is available, you'll be provided with a high
-degree of security appropriate for storage.
+The Encrypt Class provides two-way data encryption. It encrypted using
+the Mcrypt PHP extension, which is required for the Encrypt Class to run.
 
 .. important:: This library has been DEPRECATED and is only kept for
 	backwards compatibility. Please use the new :doc:`Encryption Library
