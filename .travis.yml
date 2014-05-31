@@ -31,5 +31,10 @@ branches:
 branches:
   except:
     - 2.1-stable
+<<<<<<< HEAD
     - master
 >>>>>>> refs/remotes/origin/master
+=======
+    - 2.2-stable
+    - master
+>>>>>>> refs/remotes/origin/2.2-stable

@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.1.3</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.2.0</h1></td>
 <td id="breadcrumb_right"><a href="./toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -44,7 +44,7 @@
 <a href="index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
 Change Log
 </td>
-<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="ellislab.com/codeigniter/user-guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
 </tr>
 </table>
 <!-- END BREADCRUMB -->
@@ -56,6 +56,47 @@ Change Log
 <div id="content">
 
 <h1>Change Log</h1>
+
+<h2>Version 2.2.0</h2>
+<p>Release Date: June 2, 2014</p>
+
+<ul>
+	<li>General Changes
+		<ul>
+			<li><b>Security:</b> The <samp>xor_encode()</samp> method in the Encrypt Class has been removed. The Encrypt Class now requires the Mcrypt extension to be installed.</li>
+			<li><b>Security:</b> The <a href="libraries/sessions.html">Session Library</a> now uses HMAC authentication instead of a simple MD5 checksum.</li>
+		</ul>
+	</li>
+</ul>
+
+<h3>Bug fixes for 2.2.0:</h3>
+<ul>
+	<li>Fixed an edge case (#2583) in the <a href="libraries/email.html">Email Library</a> where <a href="http://www.hardened-php.net/suhosin/">Suhosin</a> blocked messages sent via <samp>mail()</samp> due to trailing newspaces in headers.</li>
+	<li>Fixed a bug (#696) - make <samp>oci_execute()</samp> calls inside <samp>num_rows()</samp> non-committing, since they are only there to reset which row is next in line for oci_fetch calls and thus don't need to be committed.</li>
+	<li>Fixed a bug (#2689) - <a href="database/forge.html">Database Forge Class</a> methods <samp>create_table()</samp>, <samp>drop_table()</samp> and <samp>rename_table()</samp> produced broken SQL for tge 'sqlsrv' driver.</li>
+	<li>Fixed a bug (#2427) - PDO <a href="database/index.html">Database driver</a> didn't properly check for query failures.</li>
+	<li>Fixed a bug in the <a href="libraries/sessions.html">Session Library</a> where authentication was not performed for encrypted cookies.</li>
+</ul>
+
+<h2>Version 2.1.4</h2>
+<p>Release Date: July 8, 2013</p>
+
+<ul>
+	<li>General Changes
+		<ul>
+			<li>Improved security in <kbd>xss_clean()</kbd>.</li>
+		</ul>
+	</li>
+</ul>
+
+<h3>Bug fixes for 2.1.4:</h3>
+<ul>
+	<li>Fixed a bug (#1936) - <a href="libraries/migration.html">Migrations Library</a> method <samp>latest()</samp> had a typo when retrieving language values.</li>
+	<li>Fixed a bug (#2021) - <a href="libraries/migration.html">Migrations Library</a> configuration file was mistakenly using Windows style line feeds.</li>
+	<li>Fixed a bug (#1273) - <a href="database/active_record.html">Active Record</a> method <samp>set_update_batch()</samp> was using the incorrect variables and would cause an error.</li>
+	<li>Fixed a bug (#2337) - <a href="libraries/email.html">Email Library</a> method <samp>print_debugger()</samp> was not using <samp>htmlspecialchars()</samp> when being shown in the browser.</li>
+</ul>
+
 
 <h2>Version 2.1.3</h2>
 <p>Release Date: October 8, 2012</p>
@@ -1497,7 +1538,7 @@ Previous Topic:&nbsp;&nbsp;<a href="license.html">License Agreement</a>
 <a href="index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 Next Topic:&nbsp;&nbsp;<a href="./general/credits.html">Credits</a>
 </p>
-<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2014 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
 </div>
 
 </body>

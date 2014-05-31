@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.1.3</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.2.0</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -44,7 +44,7 @@
 <a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
 Features
 </td>
-<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="ellislab.com/codeigniter/user-guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
 </tr>
 </table>
 <!-- END BREADCRUMB -->
@@ -86,13 +86,13 @@ class Pages extends CI_Controller {
 </head>
 <body>
 	<h1>CodeIgniter 2 Tutorial</h1>
-	
+
 </textarea>
 
 <p>Our header doesn't do anything exciting. It contains the basic HTML code that we will want to display before loading the main view. You can also see that we echo the <var>$title</var> variable, which we didn't define. We will set this variable in the Pages controller a bit later. Let's go ahead and create a footer at <dfn>application/views/templates/footer.php</dfn> that includes the following code.</p>
-	
+
 <textarea class="textarea" style="width:100%" cols="50" rows="4">
-<strong>&copy; 2011</strong>	
+<strong>&copy; 2011</strong>
 </body>
 </html>
 </textarea>
@@ -106,36 +106,36 @@ class Pages extends CI_Controller {
 <textarea class="textarea" style="width:100%" cols="50" rows="16">
 public function view($page = 'home')
 {
-			
+
 	if ( ! file_exists('application/views/pages/' . $page . EXT))
 	{
 		show_404();
 	}
-	
+
 	$data['title'] = ucfirst($page);
-	
+
 	$this->load->view('templates/header', $data);
 	$this->load->view('pages/'.$page);
 	$this->load->view('templates/footer');
-}	
+}
 </textarea>
 
 <p>The first thing we do is checking whether the page we're looking for does actually exist. We use PHP's native file_exists() to do this check and pass the path where the file is supposed to be. Next is the function show_404(), a CodeIgniter function that renders the default error page and sets the appropriate HTTP headers.</p>
 
-<p>In the header template you saw we were using the <var>$title</var> variable to customize our page title. This is where we define the title, but instead of assigning the value to a variable, we assign it to the title element in the <var>$data</var> array. The last thing we need to do is loading the views in the order we want them to be displayed. We also pass the <var>$data</var> array to the header view to make its elements available in the header view file.<p> 
-	
+<p>In the header template you saw we were using the <var>$title</var> variable to customize our page title. This is where we define the title, but instead of assigning the value to a variable, we assign it to the title element in the <var>$data</var> array. The last thing we need to do is loading the views in the order we want them to be displayed. We also pass the <var>$data</var> array to the header view to make its elements available in the header view file.<p>
+
 <h2>Routing</h2>
 
 <p>Actually, our controller is already functioning. Point your browser to <dfn>index.php/pages/view</dfn> to see your homepage. When you visit <dfn>index.php/pages/view/about</dfn> you will see the about page, again including your header and footer. Now we're going to get rid of the pages/view part in our URI. As you may have seen, CodeIgniter does its routing by the class, method and parameter, separated by slashes.</p>
 
 <p>Open the routing file located at <dfn>application/config/routes.php</dfn> and add the following two lines. Remove all other code that sets any element in the <var>$route</var> array.</p>
-	
+
 <textarea class="textarea" style="width:100%" cols="50" rows="3">
 $route['(:any)'] = 'pages/view/$1';
 $route['default_controller'] = 'pages/view';
 </textarea>
 
-<p>CodeIgniter reads its routing rules from top to bottom and routes the request to the first matching rule. These routes are stored in the <var>$route</var> array where the keys represent the incoming request and the value the path to the method, as described above.</p> 
+<p>CodeIgniter reads its routing rules from top to bottom and routes the request to the first matching rule. These routes are stored in the <var>$route</var> array where the keys represent the incoming request and the value the path to the method, as described above.</p>
 
 <p>The first rule in our <var>$routes</var> array matches every request - using the wildcard operator <dfn>(:any)</dfn> - and passes the value to the view method of the pages class we created earlier. The default controller route makes sure every request to the root goes to the view method as well, which has the first parameter set to 'home' by default.</p>
 
@@ -151,7 +151,7 @@ Previous Topic:&nbsp;&nbsp;<a href="cheatsheets.html">CodeIgniter Cheatsheets</a
 <a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 Next Topic:&nbsp;&nbsp;<a href="appflow.html">Application Flow Chart</a>
 </p>
-<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2014 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
 </div>
 
 </body>

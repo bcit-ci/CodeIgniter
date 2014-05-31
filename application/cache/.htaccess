@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 <IfModule authz_core_module>
     Require all denied
 </IfModule>
 <IfModule !authz_core_module>
     Deny from all
 </IfModule>
+=======
+Deny from all
+>>>>>>> refs/remotes/origin/2.2-stable
