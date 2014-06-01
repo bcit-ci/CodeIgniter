@@ -216,8 +216,8 @@ Class Reference
 		Sends finalized output data to the browser along with any server headers. It also stops benchmark
 		timers.
 
-		.. note:: This method is called automatically at the end of script execution, you won't need to call it manually unless
-			you are aborting script execution using ``exit()`` or ``die()`` in your code.
+		.. note:: This method is called automatically at the end of script execution, you won't need to 
+			call it manually unless you are aborting script execution using ``exit()`` or ``die()`` in your code.
 		
 		Example::
 			$response = array('status' => 'OK');
