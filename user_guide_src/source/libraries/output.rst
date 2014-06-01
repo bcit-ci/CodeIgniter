@@ -207,30 +207,26 @@ Class Reference
 
 		For more information, please see the :doc:`caching documentation <../general/caching>`.
 
-	.. method:: _display([$output=''])
+	.. method:: _display([$output = ''])
 
 		:param	string	$output: Output data override
 		:returns:	void
 		:rtype:	void
 
-		sends finalized output data to the browser along with any server headers and profile data. It also stops benchmark
-		timers so the page rendering speed and memory usage can be shown.
-
-		::
-
-			$this->output->_display();
+		Sends finalized output data to the browser along with any server headers. It also stops benchmark
+		timers.
 
 		.. note:: This method is called automatically at the end of script execution, you won't need to call it manually unless
 			you are aborting script execution using ``exit()`` or ``die()`` in your code.
 		
-		::
+		Example::
 			$response = array('status' => 'OK');
 
 			$this->output
-			->set_status_header(200)
-			->set_content_type('application/json', 'utf-8')
-			->set_output(json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
-			->_display();
-			exit();
+				->set_status_header(200)
+				->set_content_type('application/json', 'utf-8')
+				->set_output(json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
+				->_display();
+			exit;
 
-		.. note:: Calling this method manually without aborting script execution will result in a duplicated output.
+		.. note:: Calling this method manually without aborting script execution will result in duplicated output.
