@@ -1225,9 +1225,9 @@ class CI_Form_validation {
 	 */
 	public function valid_email($str)
 	{
-		if (function_exists('idn_to_ascii') && $atpos = strpos($email, '@'))
+		if (function_exists('idn_to_ascii') && $atpos = strpos($str, '@'))
 		{
-			$email = substr($email, 0, ++$atpos).idn_to_ascii(substr($email, $atpos));
+			$str = substr($str, 0, ++$atpos).idn_to_ascii(substr($str, $atpos));
 		}
 
 		return (bool) filter_var($str, FILTER_VALIDATE_EMAIL);
