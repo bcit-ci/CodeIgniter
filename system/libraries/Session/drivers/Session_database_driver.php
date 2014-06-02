@@ -116,15 +116,15 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		$db_driver = $this->_db->dbdriver.(empty($this->_db->subdriver) ? '' : '_'.$this->_db->subdriver);
 		if (strpos($db_driver, 'mysql') !== FALSE)
 		{
-			$this->_lock_type = 'mysql';
+			$this->_lock_driver = 'mysql';
 		}
 		elseif (in_array($db_driver, array('postgre', 'pdo_pgsql'), TRUE))
 		{
-			$this->_lock_type = 'postgre';
+			$this->_lock_driver = 'postgre';
 		}
 		elseif (extension_loaded('sysvsem'))
 		{
-			$this->_lock_type = 'semaphore';
+			$this->_lock_driver = 'semaphore';
 		}
 
 		isset($this->_table) OR $this->_table = config_item('sess_table_name');
@@ -248,18 +248,20 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 	protected function _get_lock()
 	{
-		$arg = $this->_session_id
-			.($this->_match_ip ? '_'.$_SERVER['REMOTE_ADDR'] : '');
-
 		if ($this->_lock_driver === 'mysql')
 		{
+			$arg = $this->_session_id
+				.($this->_match_ip ? '_'.$_SERVER['REMOTE_ADDR'] : '');
 			return (bool) $this->_db
-				->query("SELECT GET_LOCK('".$session_id."', 10) AS ci_session_lock")
+				->query("SELECT GET_LOCK('".$arg."', 10) AS ci_session_lock")
 				->row()
 				->ci_session_lock;
 		}
 		elseif ($this->_lock_driver === 'postgre')
 		{
+			$arg = "hashtext('".$this->_session_id."')"
+				.($this->_match_ip ? ", hashtext('".$_SERVER['REMOTE_ADDR']."')" : '');
+
 			return (bool) $this->_db->simple_query('SELECT pg_advisory_lock('.$arg.')');
 		}
 		elseif ($this->_lock_driver === 'semaphore')
