@@ -70,6 +70,11 @@ class CI_Session {
 		{
 			$this->_driver = $driver;
 		}
+		// Note: BC workaround
+		elseif (config_item('sess_use_database'))
+		{
+			$this->_driver = 'database';
+		}
 
 		if (($class = $this->_ci_load_classes($this->_driver)) === FALSE)
 		{

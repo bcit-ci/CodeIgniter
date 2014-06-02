@@ -133,6 +133,12 @@ abstract class CI_Session_driver implements SessionHandlerInterface {
 		if ($this->_expiration)
 		{
 			ini_set('session.gc_maxlifetime', $this->_expiration);
+			ini_set('session.cookie_lifetime', $this->_expiration);
+		}
+		// BC workaround for setting cookie lifetime
+		elseif (config_item('sess_expire_on_close'))
+		{
+			ini_set('session.cookie_lifetime', 0);
 		}
 
 		// Security is king
