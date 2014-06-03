@@ -187,19 +187,22 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 			rewind($this->_file_handle);
 		}
 
-		for ($written = 0, $length = strlen($session_data); $written < $length; $written += $result)
+		if (($length = strlen($session_data)) > 0)
 		{
-			if (($result = fwrite($this->_file_handle, substr($session_data, $written))) === FALSE)
+			for ($written = 0; $written < $length; $written += $result)
 			{
-				break;
+				if (($result = fwrite($this->_file_handle, substr($session_data, $written))) === FALSE)
+				{
+					break;
+				}
 			}
-		}
 
-		if ( ! is_int($result))
-		{
-			$this->_fingerprint = md5(substr($session_data, 0, $written));
-			log_message('error', 'Session: Unable to write data.');
-			return FALSE;
+			if ( ! is_int($result))
+			{
+				$this->_fingerprint = md5(substr($session_data, 0, $written));
+				log_message('error', 'Session: Unable to write data.');
+				return FALSE;
+			}
 		}
 
 		$this->_fingerprint = md5($session_data);
