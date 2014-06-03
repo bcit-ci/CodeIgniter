@@ -779,6 +779,9 @@ class CI_Output {
 					return '';
 				}
 
+				// Fix utf-8 characters
+				$output = utf8_decode($output);
+
 				// Find all the <pre>,<code>,<textarea>, and <javascript> tags
 				// We'll want to return them to this unprocessed state later.
 				preg_match_all('{<pre.+</pre>}msU', $output, $pres_clean);
@@ -833,6 +836,9 @@ class CI_Output {
 					preg_match_all('{<script.+</script>}msU', $output, $javascript_messed);
 					$output = str_replace($javascript_messed[0], $javascript_mini, $output);
 				}
+
+				// Fix utf-8 characters
+				$output = utf8_encode($output);
 
 				$size_removed = $size_before - strlen($output);
 				$savings_percent = round(($size_removed / $size_before * 100));
