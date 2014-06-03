@@ -152,7 +152,7 @@ class CI_Session_native extends CI_Session_driver {
 			{
 				// Regenerate ID, but don't destroy session
 				log_message('debug', 'Session: Regenerate ID');
-				$this->sess_regenerate(FALSE);
+				$this->sess_regenerate();
 			}
 		}
 
