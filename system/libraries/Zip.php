@@ -405,7 +405,7 @@ class CI_Zip {
 
 		flock($fp, LOCK_EX);
 
-		for ($written = 0, $data = $this->get_zip(), $length = strlen($data); $written < $length; $written += $result)
+		for ($result = $written = 0, $data = $this->get_zip(), $length = strlen($data); $written < $length; $written += $result)
 		{
 			if (($result = fwrite($fp, substr($data, $written))) === FALSE)
 			{
