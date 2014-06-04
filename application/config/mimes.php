@@ -58,7 +58,7 @@ return array(
 	'smil'	=>	'application/smil',
 	'mif'	=>	'application/vnd.mif',
 	'xls'	=>	array('application/vnd.ms-excel', 'application/msexcel', 'application/x-msexcel', 'application/x-ms-excel', 'application/x-excel', 'application/x-dos_ms_excel', 'application/xls', 'application/x-xls', 'application/excel', 'application/download', 'application/vnd.ms-office', 'application/msword'),
-	'ppt'	=>	array('application/powerpoint', 'application/vnd.ms-powerpoint'),
+	'ppt'	=>	array('application/powerpoint', 'application/vnd.ms-powerpoint', 'application/vnd.ms-office', 'application/msword'),
 	'pptx'	=> 	array('application/vnd.openxmlformats-officedocument.presentationml.presentation', 'application/x-zip', 'application/zip'),
 	'wbxml'	=>	'application/wbxml',
 	'wmlc'	=>	'application/wmlc',
