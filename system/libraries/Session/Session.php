@@ -509,7 +509,7 @@ class CI_Session {
 
 		$userdata = array();
 		$_exclude = array_merge(
-			array('__ci_f', '__ci_t'),
+			array('__ci_vars'),
 			$this->get_flash_keys(),
 			$this->get_temp_keys()
 		);
@@ -619,18 +619,18 @@ class CI_Session {
 	{
 		if (isset($key))
 		{
-			return isset($_SESSION['__ci_f'], $_SESSION['__ci_f'][$key], $_SESSION[$key])
+			return (isset($_SESSION['__ci_vars'], $_SESSION['__ci_vars'][$key], $_SESSION[$key]) && ! is_int($_SESSION['__ci_vars'][$key]))
 				? $_SESSION[$key]
 				: NULL;
 		}
 
 		$flashdata = array();
 
-		if ( ! empty($_SESSION['__ci_f']))
+		if ( ! empty($_SESSION['__ci_vars']))
 		{
-			foreach (array_keys($_SESSION['__ci_f']) as $key)
+			foreach ($_SESSION['__ci_vars'] as $key => &$value)
 			{
-				$flashdata[$key] = $_SESSION[$key];
+				is_int($value) OR $flashdata[$key] = $_SESSION[$key];
 			}
 		}
 
@@ -683,18 +683,18 @@ class CI_Session {
 	{
 		if (isset($key))
 		{
-			return isset($_SESSION['__ci_t'], $_SESSION['__ci_t'][$key], $_SESSION[$key])
+			return (isset($_SESSION['__ci_vars'], $_SESSION['__ci_vars'][$key], $_SESSION[$key]) && is_int($_SESSION['__ci_vars'][$key]))
 				? $_SESSION[$key]
 				: NULL;
 		}
 
 		$tempdata = array();
 
-		if ( ! empty($_SESSION['__ci_t']))
+		if ( ! empty($_SESSION['__ci_vars']))
 		{
-			foreach (array_keys($_SESSION['__ci_t']) as $key)
+			foreach ($_SESSION['__ci_vars'] as $key => &$value)
 			{
-				$tempdata[$key] = $_SESSION[$key];
+				is_int($value) && $tempdata[$key] = $_SESSION[$key];
 			}
 		}
 
