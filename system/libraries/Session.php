@@ -145,7 +145,9 @@ class CI_Session {
 		}
 
 		// HMAC authentication
-		if (($len = strlen($session) - 40) <= 0)
+		$len = strlen($session) - 40;
+
+		if ($len <= 0)
 		{
 			log_message('error', 'Session: The session cookie was not signed.');
 			return FALSE;
@@ -158,9 +160,11 @@ class CI_Session {
 		// Time-attack-safe comparison
 		$hmac_check = hash_hmac('sha1', $session, $this->encryption_key);
 		$diff = 0;
+
 		for ($i = 0; $i < 40; $i++)
 		{
-			$diff |= ord($hmac[$i]) ^ ord($hmac_check[$i]);
+			$xor = ord($hmac[$i]) ^ ord($hmac_check[$i]);
+			$diff |= $xor;
 		}
 
 		if ($diff !== 0)
