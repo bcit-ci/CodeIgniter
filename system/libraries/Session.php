@@ -672,11 +672,8 @@ class CI_Session {
 		{
 			$cookie_data = $this->CI->encrypt->encode($cookie_data);
 		}
-		else
-		{
-			// if encryption is not used, we provide an md5 hash to prevent userside tampering
-			$cookie_data .= hash_hmac('sha1', $cookie_data, $this->encryption_key);
-		}
+
+		$cookie_data .= hash_hmac('sha1', $cookie_data, $this->encryption_key);
 
 		$expire = ($this->sess_expire_on_close === TRUE) ? 0 : $this->sess_expiration + time();
 
