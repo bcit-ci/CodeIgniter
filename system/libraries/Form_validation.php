@@ -792,26 +792,28 @@ class CI_Form_validation {
 			if ($result === FALSE)
 			{
 				// Callable rules don't have named error messages
-				if ( ! is_callable($rule))
+				if ( ! is_string($rule))
 				{
-					// Check if a custom message is defined
-					if (isset($this->_field_data[$row['field']]['errors'][$rule]))
+					return;
+				}
+
+				// Check if a custom message is defined
+				if (isset($this->_field_data[$row['field']]['errors'][$rule]))
+				{
+					$line = $this->_field_data[$row['field']]['errors'][$rule];
+				}
+				elseif ( ! isset($this->_error_messages[$rule]))
+				{
+					if (FALSE === ($line = $this->CI->lang->line('form_validation_'.$rule))
+						// DEPRECATED support for non-prefixed keys
+						&& FALSE === ($line = $this->CI->lang->line($rule, FALSE)))
 					{
-						$line = $this->_field_data[$row['field']]['errors'][$rule];
+						$line = 'Unable to access an error message corresponding to your field name.';
 					}
-					elseif ( ! isset($this->_error_messages[$rule]))
-					{
-						if (FALSE === ($line = $this->CI->lang->line('form_validation_'.$rule))
-							// DEPRECATED support for non-prefixed keys
-							&& FALSE === ($line = $this->CI->lang->line($rule, FALSE)))
-						{
-							$line = 'Unable to access an error message corresponding to your field name.';
-						}
-					}
-					else
-					{
-						$line = $this->_error_messages[$rule];
-					}
+				}
+				else
+				{
+					$line = $this->_error_messages[$rule];
 				}
 
 				// Is the parameter we are inserting into the error message the name
