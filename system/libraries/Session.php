@@ -144,40 +144,42 @@ class CI_Session {
 			return FALSE;
 		}
 
-		// HMAC authentication
-		$len = strlen($session) - 40;
-
-		if ($len <= 0)
-		{
-			log_message('error', 'Session: The session cookie was not signed.');
-			return FALSE;
-		}
-
-		// Check cookie authentication
-		$hmac = substr($session, $len);
-		$session = substr($session, 0, $len);
-
-		// Time-attack-safe comparison
-		$hmac_check = hash_hmac('sha1', $session, $this->encryption_key);
-		$diff = 0;
-
-		for ($i = 0; $i < 40; $i++)
-		{
-			$xor = ord($hmac[$i]) ^ ord($hmac_check[$i]);
-			$diff |= $xor;
-		}
-
-		if ($diff !== 0)
-		{
-			log_message('error', 'Session: HMAC mismatch. The session cookie data did not match what was expected.');
-			$this->sess_destroy();
-			return FALSE;
-		}
-
 		// Decrypt the cookie data
 		if ($this->sess_encrypt_cookie == TRUE)
 		{
 			$session = $this->CI->encrypt->decode($session);
+		}
+		else
+		{
+			// HMAC authentication
+			$len = strlen($session) - 40;
+
+			if ($len <= 0)
+			{
+				log_message('error', 'Session: The session cookie was not signed.');
+				return FALSE;
+			}
+
+			// Check cookie authentication
+			$hmac = substr($session, $len);
+			$session = substr($session, 0, $len);
+
+			// Time-attack-safe comparison
+			$hmac_check = hash_hmac('sha1', $session, $this->encryption_key);
+			$diff = 0;
+
+			for ($i = 0; $i < 40; $i++)
+			{
+				$xor = ord($hmac[$i]) ^ ord($hmac_check[$i]);
+				$diff |= $xor;
+			}
+
+			if ($diff !== 0)
+			{
+				log_message('error', 'Session: HMAC mismatch. The session cookie data did not match what was expected.');
+				$this->sess_destroy();
+				return FALSE;
+			}
 		}
 
 		// Unserialize the session array
