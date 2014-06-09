@@ -191,7 +191,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		$sql = $this->_prep_query($sql);
 		$result_id = $this->conn_id->prepare($sql);
 
-		if (is_object($result_id) && ($result = $result_id->execute()))
+		if (is_object($result_id) && $result_id->execute())
 		{
 			if (is_numeric(stripos($sql, 'SELECT')))
 			{
@@ -205,10 +205,10 @@ class CI_DB_pdo_driver extends CI_DB {
 		else
 		{
 			$this->affect_rows = 0;
-			$result = FALSE;
+			return FALSE;
 		}
 
-		return $result;
+		return $result_id;
 	}
 
 	// --------------------------------------------------------------------
