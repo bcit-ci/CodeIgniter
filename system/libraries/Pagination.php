@@ -393,9 +393,9 @@ class CI_Pagination {
 		// Check the user defined number of links.
 		$this->num_links = (int) $this->num_links;
 
-		if ($this->num_links < 1)
+		if ($this->num_links < 0)
 		{
-			show_error('Your number of links must be a positive number.');
+			show_error('Your number of links must be a non-negative number.');
 		}
 
 		// Keep any existing query string items.
@@ -535,11 +535,14 @@ class CI_Pagination {
 		// Render the "First" link.
 		if ($this->first_link !== FALSE && $this->cur_page > ($this->num_links + 1))
 		{
-			// Take the general parameters, and squeeze this pagination-page attr in for JS frameworks.
-			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, 1);
+			if (($this->num_links === 0 && $this->cur_page < 3) !== true)
+			{
+				// Take the general parameters, and squeeze this pagination-page attr in for JS frameworks.
+				$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, 1);
 
-			$output .= $this->first_tag_open.'<a href="'.$first_url.'"'.$attributes.$this->_attr_rel('start').'>'
+				$output .= $this->first_tag_open.'<a href="'.$first_url.'"'.$attributes.$this->_attr_rel('start').'>'
 				.$this->first_link.'</a>'.$this->first_tag_close;
+			}
 		}
 
 		// Render the "Previous" link.
@@ -611,12 +614,15 @@ class CI_Pagination {
 		// Render the "Last" link
 		if ($this->last_link !== FALSE && ($this->cur_page + $this->num_links) < $num_pages)
 		{
-			$i = ($this->use_page_numbers) ? $num_pages : ($num_pages * $this->per_page) - $this->per_page;
+			if (($this->num_links === 0 && ($this->cur_page + 1) >= $num_pages) !== true)
+			{
+				$i = ($this->use_page_numbers) ? $num_pages : ($num_pages * $this->per_page) - $this->per_page;
 
-			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, (int) $i);
+				$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, (int) $i);
 
-			$output .= $this->last_tag_open.'<a href="'.$base_url.$this->prefix.$i.$this->suffix.'"'.$attributes.'>'
-				.$this->last_link.'</a>'.$this->last_tag_close;
+				$output .= $this->last_tag_open.'<a href="'.$base_url.$this->prefix.$i.$this->suffix.'"'.$attributes.'>'
+					.$this->last_link.'</a>'.$this->last_tag_close;
+			}
 		}
 
 		// Kill double slashes. Note: Sometimes we can end up with a double slash
