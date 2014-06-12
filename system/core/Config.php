@@ -108,7 +108,7 @@ class CI_Config {
 
 		foreach ($this->_config_paths as $path)
 		{
-            $found = FALSE;
+			$found = FALSE;
 			foreach (array(ENVIRONMENT.'/'.$file, $file) as $location)
 			{
 				$file_path = $path.'config/'.$location.'.php';
