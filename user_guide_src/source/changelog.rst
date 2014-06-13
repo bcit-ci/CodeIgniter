@@ -387,7 +387,7 @@ Release Date: Not Released
       -  Added support for language translations of the *first_link*, *next_link*, *prev_link* and *last_link* values.
       -  Added ``$config['reuse_query_string']`` to allow automatic repopulation of query string arguments, combined with normal URI segments.
       -  Removed the default ``&nbsp;`` from a number of the configuration variables.
-      -  Added support ``$config['num_links'] = 0`` configuration to allow showing only the first/prev/next/last links + the current page number.
+      -  Added support ``$config['num_links'] = 0`` configuration.
 
    -  :doc:`Profiler Library <general/profiling>` changes include:
 
