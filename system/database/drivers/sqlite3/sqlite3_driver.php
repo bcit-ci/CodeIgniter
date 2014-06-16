@@ -37,7 +37,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Drivers
  * @category	Database
  * @author		Andrey Andreev
- * @link		http://codeigniter.com/user_guide/database/
+ * @link		http://ellislab.com/codeigniter/user-guide/database/
  * @since		Version 3.0
  */
 class CI_DB_sqlite3_driver extends CI_DB {

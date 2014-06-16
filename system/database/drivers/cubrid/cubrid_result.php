@@ -33,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * @category	Database
  * @author		Esen Sagynov
- * @link		http://codeigniter.com/user_guide/database/
+ * @link		http://ellislab.com/codeigniter/user-guide/database/
  * @since	2.1
  */
 class CI_DB_cubrid_result extends CI_DB_result {

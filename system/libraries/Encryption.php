@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Libraries
  * @author		Andrey Andreev
- * @link		http://codeigniter.com/user_guide/libraries/encryption.html
+ * @link		http://ellislab.com/codeigniter/user-guide/libraries/encryption.html
  */
 class CI_Encryption {
 

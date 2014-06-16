@@ -40,7 +40,7 @@ if ( ! function_exists('xml_parser_create'))
  * @subpackage	Libraries
  * @category	XML-RPC
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/xmlrpc.html
+ * @link		http://ellislab.com/codeigniter/user-guide/libraries/xmlrpc.html
  */
 class CI_Xmlrpc {
 
@@ -548,7 +548,7 @@ class CI_Xmlrpc {
  *
  * @category	XML-RPC
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/xmlrpc.html
+ * @link		http://ellislab.com/codeigniter/user-guide/libraries/xmlrpc.html
  */
 class XML_RPC_Client extends CI_Xmlrpc
 {
@@ -750,7 +750,7 @@ class XML_RPC_Client extends CI_Xmlrpc
  *
  * @category	XML-RPC
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/xmlrpc.html
+ * @link		http://ellislab.com/codeigniter/user-guide/libraries/xmlrpc.html
  */
 class XML_RPC_Response
 {
@@ -999,7 +999,7 @@ class XML_RPC_Response
  *
  * @category	XML-RPC
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/xmlrpc.html
+ * @link		http://ellislab.com/codeigniter/user-guide/libraries/xmlrpc.html
  */
 class XML_RPC_Message extends CI_Xmlrpc
 {
@@ -1618,7 +1618,7 @@ class XML_RPC_Message extends CI_Xmlrpc
  *
  * @category	XML-RPC
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/xmlrpc.html
+ * @link		http://ellislab.com/codeigniter/user-guide/libraries/xmlrpc.html
  */
 class XML_RPC_Values extends CI_Xmlrpc
 {
