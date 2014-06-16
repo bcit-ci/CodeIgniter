@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * @category	Database
  * @author	EllisLab Dev Team
- * @link	http://codeigniter.com/user_guide/database/
+ * @link	http://ellislab.com/codeigniter/user-guide/database/
  *
  * @param 	string|string[]	$params
  * @param 	bool		$query_builder_override

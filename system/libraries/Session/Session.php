@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Sessions
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/sessions.html
+ * @link		http://ellislab.com/codeigniter/user-guide/libraries/sessions.html
  */
 class CI_Session extends CI_Driver_Library {
 

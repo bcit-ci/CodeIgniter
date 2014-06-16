@@ -33,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Security
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/security.html
+ * @link		http://ellislab.com/codeigniter/user-guide/libraries/security.html
  */
 class CI_Security {
 

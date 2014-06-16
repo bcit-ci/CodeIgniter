@@ -33,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Uploads
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/file_uploading.html
+ * @link		http://ellislab.com/codeigniter/user-guide/libraries/file_uploading.html
  */
 class CI_Upload {
 

@@ -33,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Shopping Cart
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/cart.html
+ * @link		http://ellislab.com/codeigniter/user-guide/libraries/cart.html
  */
 class CI_Cart {
 

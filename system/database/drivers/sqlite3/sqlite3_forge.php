@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * @category	Database
  * @author	Andrey Andreev
- * @link	http://codeigniter.com/user_guide/database/
+ * @link	http://ellislab.com/codeigniter/user-guide/database/
  */
 class CI_DB_sqlite3_forge extends CI_DB_forge {
 
