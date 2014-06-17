@@ -1106,10 +1106,32 @@ class CI_Form_validation {
 	 */
 	public function is_unique($str, $field)
 	{
-		sscanf($field, '%[^.].%[^.]', $table, $field);
-		return isset($this->CI->db)
-			? ($this->CI->db->limit(1)->get_where($table, array($field => $str))->num_rows() === 0)
-			: FALSE;
+		if (!isset($this->CI->db))
+		{
+			return false;
+		}
+		$assigned = sscanf($field, '%[^.].%[^.].%[^.].%[^.]', $table, $field, $row_id, $row_id_field);
+
+		// table and field are needed
+		if ($assigned < 2)
+		{
+			return FALSE;
+		}
+
+		$rows = $this->CI->db->limit(2)->get_where($table, array($field => $str));
+		if ($rows->num_rows() === 0) {
+			return TRUE;
+		}
+
+		// There is one line in database, but $row_id was not passed
+		if ($rows->num_rows() > 1 || $assigned == 2)
+		{
+			return FALSE;
+		}
+
+		$row_id_field = $assigned == 4 ? $row_id_field: 'id';
+		$row = $rows->row_array();
+		return $row[$row_id_field] == $row_id;
 	}
 
 	// --------------------------------------------------------------------
