@@ -425,7 +425,6 @@ Option        Default value   Mandatory / Optional          Description
 cipher        N/A             Yes                           Encryption algorithm (see :ref:`ciphers-and-modes`).
 mode          N/A             Yes                           Encryption mode (see :ref:`encryption-modes`).
 key           N/A             Yes                           Encryption key.
-iv            N/A             No                            Initialization vector (IV).
                                                             If not provided it will be automatically generated
                                                             during encryption and looked for during decryption.
 hmac          TRUE            No                            Whether to use a HMAC.

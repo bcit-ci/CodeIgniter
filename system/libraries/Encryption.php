@@ -356,16 +356,14 @@ class CI_Encryption {
 		{
 			return FALSE;
 		}
-		elseif ( ! isset($params['iv']))
-		{
-			// The greater-than-1 comparison is mostly a work-around for a bug,
-			// where 1 is returned for ARCFour instead of 0.
-			$params['iv'] = (($iv_size = mcrypt_enc_get_iv_size($params['handle'])) > 1)
-				? mcrypt_create_iv($iv_size, MCRYPT_DEV_URANDOM)
-				: NULL;
-		}
 
-		if (mcrypt_generic_init($params['handle'], $params['key'], $params['iv']) < 0)
+		// The greater-than-1 comparison is mostly a work-around for a bug,
+		// where 1 is returned for ARCFour instead of 0.
+		$iv = (($iv_size = mcrypt_enc_get_iv_size($params['handle'])) > 1)
+			? mcrypt_create_iv($iv_size, MCRYPT_DEV_URANDOM)
+			: NULL;
+
+		if (mcrypt_generic_init($params['handle'], $params['key'], $iv) < 0)
 		{
 			if ($params['handle'] !== $this->_handle)
 			{
@@ -396,7 +394,7 @@ class CI_Encryption {
 		// but OpenSSL isn't that dumb and we need to make the process
 		// portable, so ...
 		$data = (mcrypt_enc_get_modes_name($params['handle']) !== 'ECB')
-			? $params['iv'].mcrypt_generic($params['handle'], $data)
+			? $iv.mcrypt_generic($params['handle'], $data)
 			: mcrypt_generic($params['handle'], $data);
 
 		mcrypt_generic_deinit($params['handle']);
@@ -423,19 +421,17 @@ class CI_Encryption {
 		{
 			return FALSE;
 		}
-		elseif ( ! isset($params['iv']))
-		{
-			$params['iv'] = ($iv_size = openssl_cipher_iv_length($params['handle']))
-				? openssl_random_pseudo_bytes($iv_size)
-				: NULL;
-		}
+
+		$iv = ($iv_size = openssl_cipher_iv_length($params['handle']))
+			? openssl_random_pseudo_bytes($iv_size)
+			: NULL;
 
 		$data = openssl_encrypt(
 			$data,
 			$params['handle'],
 			$params['key'],
 			1, // DO NOT TOUCH!
-			$params['iv']
+			$iv
 		);
 
 		if ($data === FALSE)
@@ -443,7 +439,7 @@ class CI_Encryption {
 			return FALSE;
 		}
 
-		return $params['iv'].$data;
+		return $iv.$data;
 	}
 
 	// --------------------------------------------------------------------
@@ -499,11 +495,6 @@ class CI_Encryption {
 			$data = base64_decode($data);
 		}
 
-		if (isset($params['iv']) && strncmp($params['iv'], $data, $iv_size = strlen($params['iv'])) === 0)
-		{
-			$data = substr($data, $iv_size);
-		}
-
 		isset($params['key']) OR $params['key'] = $this->hkdf($this->_key, 'sha512', NULL, strlen($this->_key), 'encryption');
 
 		return $this->{'_'.$this->_driver.'_decrypt'}($data, $params);
@@ -524,30 +515,28 @@ class CI_Encryption {
 		{
 			return FALSE;
 		}
-		elseif ( ! isset($params['iv']))
+
+		// The greater-than-1 comparison is mostly a work-around for a bug,
+		// where 1 is returned for ARCFour instead of 0.
+		if (($iv_size = mcrypt_enc_get_iv_size($params['handle'])) > 1)
 		{
-			// The greater-than-1 comparison is mostly a work-around for a bug,
-			// where 1 is returned for ARCFour instead of 0.
-			if (($iv_size = mcrypt_enc_get_iv_size($params['handle'])) > 1)
+			if (mcrypt_enc_get_modes_name($params['handle']) !== 'ECB')
 			{
-				if (mcrypt_enc_get_modes_name($params['handle']) !== 'ECB')
-				{
-					$params['iv'] = substr($data, 0, $iv_size);
-					$data = substr($data, $iv_size);
-				}
-				else
-				{
-					// MCrypt is dumb and this is ignored, only size matters
-					$params['iv'] = str_repeat("\x0", $iv_size);
-				}
+				$iv = substr($data, 0, $iv_size);
+				$data = substr($data, $iv_size);
 			}
 			else
 			{
-				$params['iv'] = NULL;
+				// MCrypt is dumb and this is ignored, only size matters
+				$iv = str_repeat("\x0", $iv_size);
 			}
 		}
+		else
+		{
+			$iv = NULL;
+		}
 
-		if (mcrypt_generic_init($params['handle'], $params['key'], $params['iv']) < 0)
+		if (mcrypt_generic_init($params['handle'], $params['key'], $iv) < 0)
 		{
 			if ($params['handle'] !== $this->_handle)
 			{
@@ -584,17 +573,14 @@ class CI_Encryption {
 	 */
 	protected function _openssl_decrypt($data, $params)
 	{
-		if ( ! isset($params['iv']))
+		if ($iv_size = openssl_cipher_iv_length($params['handle']))
 		{
-			if ($iv_size = openssl_cipher_iv_length($params['handle']))
-			{
-				$params['iv'] = substr($data, 0, $iv_size);
-				$data = substr($data, $iv_size);
-			}
-			else
-			{
-				$params['iv'] = NULL;
-			}
+			$iv = substr($data, 0, $iv_size);
+			$data = substr($data, $iv_size);
+		}
+		else
+		{
+			$iv = NULL;
 		}
 
 		return empty($params['handle'])
@@ -604,7 +590,7 @@ class CI_Encryption {
 				$params['handle'],
 				$params['key'],
 				1, // DO NOT TOUCH!
-				$params['iv']
+				$iv
 			);
 	}
 
@@ -679,7 +665,6 @@ class CI_Encryption {
 			'cipher' => $params['cipher'],
 			'mode' => $params['mode'],
 			'key' => $params['key'],
-			'iv' => isset($params['iv']) ? $params['iv'] : NULL,
 			'base64' => isset($params['raw_data']) ? ! $params['raw_data'] : FALSE,
 			'hmac_digest' => $params['hmac_digest'],
 			'hmac_key' => $params['hmac_key']
