@@ -310,6 +310,21 @@ class CI_Encryption {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Create a random key
+	 *
+	 * @param	int	$length	Output length
+	 * @return	string
+	 */
+	public function create_key($length)
+	{
+		return ($this->_driver === 'mcrypt')
+			? mcrypt_create_iv($length, MCRYPT_DEV_URANDOM)
+			: openssl_random_pseudo_bytes($length);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Encrypt
 	 *
 	 * @param	string	$data	Input data

@@ -84,13 +84,18 @@ your server is not totally under your control it's impossible to ensure
 key security so you may want to think carefully before using it for
 anything that requires high security, like storing credit card numbers.
 
-Your encryption key should be as long as the encyption algorithm in use
-allows. For AES-128, that's 128 bits or 16 bytes (charcters) long. The
-key should be as random as possible and it should **not** be a simple
-text string.
-
+Your encryption key **must** be as long as the encyption algorithm in use
+allows. For AES-128, that's 128 bits or 16 bytes (charcters) long.
 You will find a table below that shows the supported key lengths of
 different ciphers.
+
+The key should be as random as possible and it **must not** be a regular
+text string, nor the output of a hashing function, etc. In order to create
+a proper key, you must use the Encryption library's ``create_key()`` method
+::
+
+	// $key will be assigned a 16-byte (128-bit) random key
+	$key = $this->encryption->create_key(16);
 
 The key can be either stored in your *application/config/config.php*, or
 you can design your own storage mechanism and pass the key dynamically
