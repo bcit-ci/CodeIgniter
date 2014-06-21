@@ -145,7 +145,10 @@ if ( ! function_exists('password_hash'))
 		}
 
 		isset($options['cost']) OR $options['cost'] = 10;
-		return crypt($password, sprintf('$2y$%02d$%s', $options['cost'], $options['salt']));
+
+		return (strlen($password = crypt($password, sprintf('$2y$%02d$%s', $options['cost'], $options['salt']))) === 60)
+			? $password
+			: FALSE;
 	}
 }
 
