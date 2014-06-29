@@ -605,7 +605,7 @@ class CI_Security {
 				{
 					if (($char = array_search($matches[$i].';', $_entities, TRUE)) !== FALSE)
 					{
-						$replace[$matches[$i]] = $character;
+						$replace[$matches[$i]] = $char;
 					}
 				}
 
