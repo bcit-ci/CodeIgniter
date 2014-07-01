@@ -73,6 +73,11 @@ if ( ! function_exists('write_file'))
 	 */
 	function write_file($path, $data, $mode = 'wb')
 	{
+		if ( ! $data)
+		{
+			return FALSE;
+		}
+
 		if ( ! $fp = @fopen($path, $mode))
 		{
 			return FALSE;
@@ -306,7 +311,7 @@ if ( ! function_exists('get_file_info'))
 			}
 		}
 
-		return $fileinfo;
+		return isset($fileinfo) ? $fileinfo : FALSE;
 	}
 }
 
