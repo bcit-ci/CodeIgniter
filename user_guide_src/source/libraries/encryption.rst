@@ -173,9 +173,9 @@ but regardless, here's a list of most of them:
 ============== ========= ============================== =========================================
 Cipher name    Driver    Key lengths (bits / bytes)     Supported modes
 ============== ========= ============================== =========================================
-AES-128        OpenSSL   128 / 16                       CBC, CTR, CFB, CFB8, OFB, ECB, GCM, XTS
-AES-192        OpenSSL   192 / 24                       CBC, CTR, CFB, CFB8, OFB, ECB, GCM, XTS
-AES-256        OpenSSL   256 / 32                       CBC, CTR, CFB, CFB8, OFB, ECB, GCM, XTS
+AES-128        OpenSSL   128 / 16                       CBC, CTR, CFB, CFB8, OFB, ECB, XTS
+AES-192        OpenSSL   192 / 24                       CBC, CTR, CFB, CFB8, OFB, ECB, XTS
+AES-256        OpenSSL   256 / 32                       CBC, CTR, CFB, CFB8, OFB, ECB, XTS
 Rijndael-128   MCrypt    128 / 16, 192 / 24, 256 / 32   CBC, CTR, CFB, CFB8, OFB, OFB8, ECB
 Rijndael-192   MCrypt    128 / 16, 192 / 24, 256 / 32   CBC, CTR, CFB, CFB8, OFB, OFB8, ECB
 Rijndael-256   MCrypt    128 / 16, 192 / 24, 256 / 32   CBC, CTR, CFB, CFB8, OFB, OFB8, ECB
@@ -239,7 +239,6 @@ CFB8        cfb8               MCrypt, OpenSSL   Same as CFB, but operates in 8-
 OFB         ofb                MCrypt, OpenSSL   N/A
 OFB8        ofb8               MCrypt            Same as OFB, but operates in 8-bit mode (not recommended).
 ECB         ecb                MCrypt, OpenSSL   Ignores IV (not recommended).
-GCM         gcm                OpenSSL           Provides authentication and therefore doesn't need a HMAC.
 XTS         xts                OpenSSL           Usually used for encrypting random access data such as RAM or hard-disk storage.
 Stream      stream             MCrypt, OpenSSL   This is not actually a mode, it just says that a stream cipher is being used. Required because of the general cipher+mode initialization process.
 =========== ================== ================= ===================================================================================================================================================
@@ -251,10 +250,9 @@ It's probably important for you to know that an encrypted string is usually
 longer than the original, plain-text string (depending on the cipher).
 
 This is influenced by the cipher algorithm itself, the IV prepended to the
-cipher-text and (unless you are using GCM mode) the HMAC authentication
-message that is also prepended. Furthermore, the encrypted message is also
-Base64-encoded so that it is safe for storage and transmission, regardless
-of a possible character set in use.
+cipher-text and the HMAC authentication message that is also prepended.
+Furthermore, the encrypted message is also Base64-encoded so that it is safe
+for storage and transmission, regardless of a possible character set in use.
 
 Keep this information in mind when selecting your data storage mechanism.
 Cookies, for example, can only hold 4K of information.
@@ -445,9 +443,6 @@ raw_data      FALSE           No                            Whether the cipher-t
 	a mandatory parameter is not provided or if a provided
 	value is incorrect. This includes *hmac_key*, unless *hmac*
 	is set to FALSE.
-
-.. note:: If GCM mode is used, *hmac* will always be FALSE. This is
-	because GCM mode itself provides authentication.
 
 .. _digests:
 

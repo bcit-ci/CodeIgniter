@@ -105,7 +105,6 @@ class CI_Encryption {
 			'cfb8' => 'cfb8',
 			'ctr' => 'ctr',
 			'stream' => '',
-			'gcm' => 'gcm',
 			'xts' => 'xts'
 		)
 	);
@@ -628,7 +627,7 @@ class CI_Encryption {
 					'mode' => $this->_mode,
 					'key' => NULL,
 					'base64' => TRUE,
-					'hmac_digest' => ($this->_mode !== 'gcm' ? 'sha512' : NULL),
+					'hmac_digest' => 'sha512',
 					'hmac_key' => NULL
 				)
 				: FALSE;
@@ -651,7 +650,7 @@ class CI_Encryption {
 			}
 		}
 
-		if ($params['mode'] === 'gcm' OR (isset($params['hmac']) && $params['hmac'] === FALSE))
+		if (isset($params['hmac']) && $params['hmac'] === FALSE)
 		{
 			$params['hmac_digest'] = $params['hmac_key'] = NULL;
 		}
