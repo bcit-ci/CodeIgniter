@@ -93,7 +93,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 		{
 			// Might trigger an E_WARNING due to not all subdrivers
 			// supporting getColumnMeta()
-			$field_names[$i] = @$this->result_id->getColumnMeta();
+			$field_names[$i] = @$this->result_id->getColumnMeta($i);
 			$field_names[$i] = $field_names[$i]['name'];
 		}
 
