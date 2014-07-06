@@ -42,7 +42,13 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+	
+	/**
+	 *  Don't forget to add this line to you .htaccess
+	 *  SetEnv CI_ENV development
+	 */
+	$env = getenv(CI_ENV);
+	define('ENVIRONMENT', $env);
 
 /*
  *---------------------------------------------------------------
