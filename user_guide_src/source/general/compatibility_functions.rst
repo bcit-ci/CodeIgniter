@@ -7,12 +7,12 @@ you to use functions what are otherwise natively available in PHP,
 but only in higher versions or depending on a certain extension.
 
 Being custom implementations, these functions will also have some
-set of dependancies on their own, but are still useful if your
+set of dependencies on their own, but are still useful if your
 PHP setup doesn't offer them natively.
 
 .. note:: Much like the `common functions <common_functions>`, the
 	compatibility functions are always available, as long as
-	their dependancies are met.
+	their dependencies are met.
 
 .. contents::
   :local:
@@ -29,7 +29,7 @@ This set of compatibility functions offers a "backport" of PHP's
 standard `Password Hashing extension <http://php.net/password>`_
 that is otherwise available only since PHP 5.5.
 
-Dependancies
+Dependencies
 ============
 
 - PHP 5.3.7
@@ -65,7 +65,7 @@ Function reference
 	password_hash() <http://php.net/password_hash>`_.
 
 	.. note:: Unless you provide your own (and valid) salt, this function
-		has a further dependancy on an available CSPRNG source. Each
+		has a further dependency on an available CSPRNG source. Each
 		of the following would satisfy that:
 		- ``mcrypt_create_iv()`` with ``MCRYPT_DEV_URANDOM``
 		- ``openssl_random_pseudo_bytes()``
@@ -101,7 +101,7 @@ This compatibility layer contains backports for the ``hash_equals()``
 and ``hash_pbkdf2()`` functions, which otherwise require PHP 5.6 and/or
 PHP 5.5 respectively.
 
-Dependancies
+Dependencies
 ============
 
 - None
@@ -144,19 +144,19 @@ the limited alternative solutions, only a few functions are available.
 .. note:: When a character set parameter is ommited,
 	``$config['charset']`` will be used.
 
-Dependancies
+Dependencies
 ============
 
 - `iconv <http://php.net/iconv>`_ extension
 
-.. important:: This dependancy is optional and these functions will
+.. important:: This dependency is optional and these functions will
 	always be declared. If iconv is not available, they WILL
 	fall-back to their non-mbstring versions.
 
 .. important:: Where a character set is supplied, it must be
 	supported by iconv and in a format that it recognizes.
 
-.. note:: For you own dependancy check on the actual mbstring
+.. note:: For you own dependency check on the actual mbstring
 	extension, use the ``MB_ENABLED`` constant.
 
 Function reference
@@ -196,15 +196,14 @@ Function reference
 	For more information, please refer to the `PHP manual for
 	mb_substr() <http://php.net/mb_substr>`_.
 
-***************
-Array Functions
-***************
+******************
+Standard Functions
+******************
 
 This set of compatibility functions offers support for a few
-standard `Array Functions <http://php.net/book.array>`_ in PHP
-that otherwise require a newer PHP version.
+standard functions in PHP that otherwise require a newer PHP version.
 
-Dependancies
+Dependencies
 ============
 
 - None
@@ -245,3 +244,12 @@ Function reference
 
 	.. important:: Only PHP's native function can detect endless recursion.
 		Unless you are running PHP 5.3+, be careful with references!
+
+.. function:: hex2bin($data)
+
+	:param	array	$data: Hexadecimal representation of data
+	:returns:	Binary representation of the given data
+	:rtype:	string
+
+	For more information, please refer to the `PHP manual for hex2bin()
+	<http://php.net/hex2bin>`_.

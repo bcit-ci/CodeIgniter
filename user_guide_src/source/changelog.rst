@@ -530,7 +530,7 @@ Release Date: Not Released
       - `Multibyte String <http://php.net/mbstring>`_ (limited support).
       - `Hash <http://php.net/hash>`_ (``hash_equals()``, ``hash_pbkdf2()``).
       - `Password Hashing <http://php.net/password>`_.
-      - `Array Functions <http://php.net/book.array>`_ (``array_column()``, ``array_replace()``, ``array_replace_recursive()``).
+      - `Standard Functions ``array_column()``, ``array_replace()``, ``array_replace_recursive()``, ``hexbin()``.
 
    -  Removed ``CI_CORE`` boolean constant from *CodeIgniter.php* (no longer Reactor and Core versions).
    -  Log Library will now try to create the **log_path** directory if it doesn't exist.

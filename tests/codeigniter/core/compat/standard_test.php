@@ -1,6 +1,6 @@
 <?php
 
-class array_test extends CI_TestCase {
+class standard_test extends CI_TestCase {
 
 	public function test_bootstrap()
 	{
@@ -8,13 +8,19 @@ class array_test extends CI_TestCase {
 		{
 			return $this->markTestSkipped('All array functions are already available on PHP 5.5');
 		}
-		elseif ( ! is_php('5.3'))
+
+		$this->assertTrue(function_exists('array_column'));
+
+		if ( ! is_php('5.4'))
+		{
+			$this->assertTrue(function_exists('hex2bin'));
+		}
+
+		if ( ! is_php('5.3'))
 		{
 			$this->assertTrue(function_exists('array_replace'));
 			$this->assertTrue(function_exists('array_replace_recursive'));
 		}
-
-		$this->assertTrue(function_exists('array_column'));
 	}
 
 	// ------------------------------------------------------------------------
@@ -334,6 +340,25 @@ class array_test extends CI_TestCase {
 	// ------------------------------------------------------------------------
 
 	/**
+	 * hex2bin() tests
+	 *
+	 * @depends	test_bootstrap
+	 */
+	public function test_hex2bin()
+	{
+		if (is_php('5.4'))
+		{
+			return $this->markTestSkipped('hex2bin() is already available on PHP 5.4');
+		}
+
+		$this->assertEquals("\x03\x04", hex2bin("0304"));
+		$this->assertEquals('', hex2bin(''));
+		$this->assertEquals("\x01\x02\x03", hex2bin(new FooHex()));
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
 	 * array_replace(), array_replace_recursive() tests
 	 *
 	 * Borrowed from PHP's own tests
@@ -410,8 +435,6 @@ class array_test extends CI_TestCase {
 
 // ------------------------------------------------------------------------
 
-// These are necessary for the array_column() tests
-
 class Foo {
 
 	public function __toString()
@@ -426,4 +449,13 @@ class Bar {
 	{
 		return 'first_name';
 	}
+}
+
+class FooHex {
+
+	public function __toString()
+	{
+		return '010203';
+	}
+
 }

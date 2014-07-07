@@ -249,7 +249,7 @@ if ( ! is_php('5.4'))
 	require_once(BASEPATH.'core/compat/mbstring.php');
 	require_once(BASEPATH.'core/compat/hash.php');
 	require_once(BASEPATH.'core/compat/password.php');
-	require_once(BASEPATH.'core/compat/array.php');
+	require_once(BASEPATH.'core/compat/standard.php');
 
 /*
  * ------------------------------------------------------

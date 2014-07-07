@@ -5,13 +5,13 @@ Encryption Library
 The Encryption Library provides two-way data encryption. To do so in
 a cryptographically secure way, it utilizes PHP extensions that are
 unfortunately not always available on all systems.
-You must meet one of the following dependancies in order to use this
+You must meet one of the following dependencies in order to use this
 library:
 
 - `OpenSSL <http://php.net/openssl>`_ (and PHP 5.3.3)
 - `MCrypt <http://php.net/mcrypt>`_ (and `MCRYPT_DEV_URANDOM` availability)
 
-If neither of the above dependancies is met, we simply cannot offer
+If neither of the above dependencies is met, we simply cannot offer
 you a good enough implementation to meet the high standards required
 for proper cryptography.
 
