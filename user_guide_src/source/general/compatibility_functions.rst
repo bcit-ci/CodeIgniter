@@ -253,3 +253,12 @@ Function reference
 
 	For more information, please refer to the `PHP manual for hex2bin()
 	<http://php.net/hex2bin>`_.
+
+.. function:: quoted_printable_encode($str)
+
+	:param	string	$str: Input string
+	:returns:	8bit-encoded string
+	:rtype:	string
+
+	For more information, please refer to the `PHP manual for
+	quoted_printable_encode() <http://php.net/quoted_printable_encode>`_.

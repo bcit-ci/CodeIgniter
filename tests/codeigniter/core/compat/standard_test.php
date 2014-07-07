@@ -20,6 +20,7 @@ class standard_test extends CI_TestCase {
 		{
 			$this->assertTrue(function_exists('array_replace'));
 			$this->assertTrue(function_exists('array_replace_recursive'));
+			$this->assertTrue(function_exists('quoted_printable_encode'));
 		}
 	}
 
@@ -431,6 +432,113 @@ class standard_test extends CI_TestCase {
 			array_replace_recursive($array1, $array2)
 		);
 	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * quoted_printable_encode() tests
+	 *
+	 * Borrowed from PHP's own tests
+	 *
+	 * @depends	test_bootstrap
+	 */
+	public function test_quoted_printable_encode()
+	{
+		if (is_php('5.3'))
+		{
+			return $this->markTestSkipped('quoted_printable_encode() is already available on PHP 5.3');
+		}
+
+
+		// These are actually imap_8bit() tests:
+		$this->assertEquals("String with CRLF at end=20\r\n", quoted_printable_encode("String with CRLF at end \r\n"));
+		// ext/imap/tests/imap_8bit_basic.phpt says for this line:
+		// NB this appears to be a bug in cclient; a space at end of string should be encoded as =20
+		$this->assertEquals("String with space at end ", quoted_printable_encode("String with space at end "));
+		$this->assertEquals("String with tabs =09=09 in middle", quoted_printable_encode("String with tabs \t\t in middle"));
+		$this->assertEquals("String with tab at end =09", quoted_printable_encode("String with tab at end \t"));
+		$this->assertEquals("=00=01=02=03=04=FE=FF=0A=0D", quoted_printable_encode("\x00\x01\x02\x03\x04\xfe\xff\x0a\x0d"));
+
+		// And these are from ext/standard/tests/strings/quoted_printable_encode_002.phpt:
+		$this->assertEquals(
+			"=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=\r\n"
+			."=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=\r\n"
+			."=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=\r\n"
+			."=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=\r\n"
+			."=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=\r\n"
+			."=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=\r\n"
+			."=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=\r\n"
+			."=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00=00",
+			$d = quoted_printable_encode(str_repeat("\0", 200))
+		);
+		$this->assertEquals(str_repeat("\x0", 200), quoted_printable_decode($d));
+		$this->assertEquals(
+			"=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=\r\n"
+			."=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=\r\n"
+			."=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=\r\n"
+			."=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=\r\n"
+			."=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=\r\n"
+			."=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=\r\n"
+			."=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=\r\n"
+			."=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=\r\n"
+			."=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =\r\n"
+			."=D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=\r\n"
+			."=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=\r\n"
+			."=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=\r\n"
+			."=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=\r\n"
+			."=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=\r\n"
+			."=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=\r\n"
+			."=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=\r\n"
+			."=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=\r\n"
+			."=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=\r\n"
+			."=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=\r\n"
+			."=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =\r\n"
+			."=D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=\r\n"
+			."=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=\r\n"
+			."=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=\r\n"
+			."=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=\r\n"
+			."=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=\r\n"
+			."=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=\r\n"
+			."=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=\r\n"
+			."=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=\r\n"
+			."=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=\r\n"
+			."=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=\r\n"
+			."=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=\r\n"
+			."=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =\r\n"
+			."=D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=\r\n"
+			."=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=\r\n"
+			."=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=\r\n"
+			."=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=\r\n"
+			."=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=\r\n"
+			."=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=\r\n"
+			."=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=\r\n"
+			."=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=\r\n"
+			."=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=\r\n"
+			."=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=\r\n"
+			."=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =\r\n"
+			."=D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=\r\n"
+			."=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=\r\n"
+			."=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=\r\n"
+			."=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=\r\n"
+			."=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=\r\n"
+			."=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=\r\n"
+			."=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=\r\n"
+			."=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=\r\n"
+			."=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=\r\n"
+			."=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=\r\n"
+			."=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=\r\n"
+			."=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =\r\n"
+			."=D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=\r\n"
+			."=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=\r\n"
+			."=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=\r\n"
+			."=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=8E=D0=BD=D0=B8=\r\n"
+			."=D0=BA=D0=BE=D0=B4=D0=B5=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B0 =D0=B2 =D1=\r\n"
+			."=8E=D0=BD=D0=B8=D0=BA=D0=BE=D0=B4=D0=B5",
+			$d = quoted_printable_encode(str_repeat('строка в юникоде', 50))
+		);
+		$this->assertEquals(str_repeat('строка в юникоде', 50), quoted_printable_decode($d));
+		$this->assertEquals('this is a foo', quoted_printable_encode(new FooObject()));
+	}
 }
 
 // ------------------------------------------------------------------------
@@ -457,5 +565,12 @@ class FooHex {
 	{
 		return '010203';
 	}
+}
 
+class FooObject
+{
+	public function __toString()
+	{
+		return 'this is a foo';
+	}
 }
