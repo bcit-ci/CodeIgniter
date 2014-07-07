@@ -83,6 +83,9 @@ if ( ! function_exists('password_hash'))
 	 */
 	function password_hash($password, $algo, array $options = array())
 	{
+		static $func_override;
+		isset($func_override) OR $func_override = (extension_loaded('mbstring') && ini_get('mbstring.func_override'));
+
 		if ($algo !== 1)
 		{
 			trigger_error('password_hash(): Unknown hashing algorithm: '.(int) $algo, E_USER_WARNING);
@@ -95,9 +98,9 @@ if ( ! function_exists('password_hash'))
 			return NULL;
 		}
 
-		if (isset($options['salt']) && strlen($options['salt']) < 22)
+		if (isset($options['salt']) && ($saltlen = ($func_override ? mb_strlen($options['salt'], '8bit') : strlen($options['salt']))) < 22)
 		{
-			trigger_error('password_hash(): Provided salt is too short: '.strlen($options['salt']).' expecting 22', E_USER_WARNING);
+			trigger_error('password_hash(): Provided salt is too short: '.$saltlen.' expecting 22', E_USER_WARNING);
 			return NULL;
 		}
 		elseif ( ! isset($options['salt']))
@@ -119,7 +122,7 @@ if ( ! function_exists('password_hash'))
 				}
 
 				$options['salt'] = '';
-				for ($read = 0; $read < 16; $read = strlen($options['salt']))
+				for ($read = 0; $read < 16; $read = ($func_override) ? mb_strlen($options['salt'], '8bit') : strlen($options['salt']))
 				{
 					if (($read = fread($fp, 16 - $read)) === FALSE)
 					{

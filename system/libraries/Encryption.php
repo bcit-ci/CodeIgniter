@@ -123,6 +123,13 @@ class CI_Encryption {
 		'sha512' => 64
 	);
 
+	/**
+	 * mbstring.func_override flag
+	 *
+	 * @var	bool
+	 */
+	protected static $func_override;
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -145,8 +152,10 @@ class CI_Encryption {
 			return show_error('Encryption: Unable to find an available encryption driver.');
 		}
 
+		isset(self::$func_override) OR self::$func_override = (extension_loaded('mbstring') && ini_get('mbstring.func_override'));
 		$this->initialize($params);
-		if ( ! isset($this->_key) && strlen($key = config_item('encryption_key')) > 0)
+
+		if ( ! isset($this->_key) && self::strlen($key = config_item('encryption_key')) > 0)
 		{
 			$this->_key = $key;
 		}
@@ -337,7 +346,7 @@ class CI_Encryption {
 			return FALSE;
 		}
 
-		isset($params['key']) OR $params['key'] = $this->hkdf($this->_key, 'sha512', NULL, strlen($this->_key), 'encryption');
+		isset($params['key']) OR $params['key'] = $this->hkdf($this->_key, 'sha512', NULL, self::strlen($this->_key), 'encryption');
 
 		if (($data = $this->{'_'.$this->_driver.'_encrypt'}($data, $params)) === FALSE)
 		{
@@ -392,7 +401,7 @@ class CI_Encryption {
 		if (in_array(strtolower(mcrypt_enc_get_modes_name($params['handle'])), array('cbc', 'ecb'), TRUE))
 		{
 			$block_size = mcrypt_enc_get_block_size($params['handle']);
-			$pad = $block_size - (strlen($data) % $block_size);
+			$pad = $block_size - (self::strlen($data) % $block_size);
 			$data .= str_repeat(chr($pad), $pad);
 		}
 
@@ -480,7 +489,7 @@ class CI_Encryption {
 				? $this->_digests[$params['hmac_digest']] * 2
 				: $this->_digests[$params['hmac_digest']];
 
-			if (strlen($data) <= $digest_size)
+			if (self::strlen($data) <= $digest_size)
 			{
 				return FALSE;
 			}
@@ -509,7 +518,7 @@ class CI_Encryption {
 			$data = base64_decode($data);
 		}
 
-		isset($params['key']) OR $params['key'] = $this->hkdf($this->_key, 'sha512', NULL, strlen($this->_key), 'encryption');
+		isset($params['key']) OR $params['key'] = $this->hkdf($this->_key, 'sha512', NULL, self::strlen($this->_key), 'encryption');
 
 		return $this->{'_'.$this->_driver.'_decrypt'}($data, $params);
 	}
@@ -564,7 +573,7 @@ class CI_Encryption {
 		// Remove PKCS#7 padding, if necessary
 		if (in_array(strtolower(mcrypt_enc_get_modes_name($params['handle'])), array('cbc', 'ecb'), TRUE))
 		{
-			$data = substr($data, 0, -ord($data[strlen($data)-1]));
+			$data = substr($data, 0, -ord($data[self::strlen($data)-1]));
 		}
 
 		mcrypt_generic_deinit($params['handle']);
@@ -827,11 +836,11 @@ class CI_Encryption {
 			return FALSE;
 		}
 
-		strlen($salt) OR $salt = str_repeat("\0", $this->_digests[$digest]);
+		self::strlen($salt) OR $salt = str_repeat("\0", $this->_digests[$digest]);
 
 		$prk = hash_hmac($digest, $key, $salt, TRUE);
 		$key = '';
-		for ($key_block = '', $block_index = 1; strlen($key) < $length; $block_index++)
+		for ($key_block = '', $block_index = 1; self::strlen($key) < $length; $block_index++)
 		{
 			$key_block = hash_hmac($digest, $key_block.$info.chr($block_index), $prk, TRUE);
 			$key .= $key_block;
@@ -863,6 +872,42 @@ class CI_Encryption {
 		return NULL;
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Byte-safe strlen()
+	 *
+	 * @param	string	$str
+	 * @return	integer
+	 */
+	protected static function strlen($str)
+	{
+		return (self::$func_override)
+			? mb_strlen($str, '8bit')
+			: strlen($str);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Byte-safe substr()
+	 *
+	 * @param	string	$str
+	 * @param	int	$start
+	 * @param	int	$length
+	 * @return	string
+	 */
+	protected static function substr($str, $start, $length = null)
+	{
+		if (self::$func_override)
+		{
+			return mb_substr($str, $start, $length);
+		}
+
+		return isset($length)
+			? substr($str, $start, $length)
+			: substr($str, $start);
+	}
 }
 
 /* End of file Encryption.php */
