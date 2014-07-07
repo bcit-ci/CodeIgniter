@@ -494,8 +494,8 @@ class CI_Encryption {
 				return FALSE;
 			}
 
-			$hmac_input = substr($data, 0, $digest_size);
-			$data = substr($data, $digest_size);
+			$hmac_input = self::substr($data, 0, $digest_size);
+			$data = self::substr($data, $digest_size);
 
 			isset($params['hmac_key']) OR $params['hmac_key'] = $this->hkdf($this->_key, 'sha512', NULL, NULL, 'authentication');
 			$hmac_check = hash_hmac($params['hmac_digest'], $data, $params['hmac_key'], ! $params['base64']);
@@ -545,8 +545,8 @@ class CI_Encryption {
 		{
 			if (mcrypt_enc_get_modes_name($params['handle']) !== 'ECB')
 			{
-				$iv = substr($data, 0, $iv_size);
-				$data = substr($data, $iv_size);
+				$iv = self::substr($data, 0, $iv_size);
+				$data = self::substr($data, $iv_size);
 			}
 			else
 			{
@@ -573,7 +573,7 @@ class CI_Encryption {
 		// Remove PKCS#7 padding, if necessary
 		if (in_array(strtolower(mcrypt_enc_get_modes_name($params['handle'])), array('cbc', 'ecb'), TRUE))
 		{
-			$data = substr($data, 0, -ord($data[self::strlen($data)-1]));
+			$data = self::substr($data, 0, -ord($data[self::strlen($data)-1]));
 		}
 
 		mcrypt_generic_deinit($params['handle']);
@@ -598,8 +598,8 @@ class CI_Encryption {
 	{
 		if ($iv_size = openssl_cipher_iv_length($params['handle']))
 		{
-			$iv = substr($data, 0, $iv_size);
-			$data = substr($data, $iv_size);
+			$iv = self::substr($data, 0, $iv_size);
+			$data = self::substr($data, $iv_size);
 		}
 		else
 		{
@@ -846,7 +846,7 @@ class CI_Encryption {
 			$key .= $key_block;
 		}
 
-		return substr($key, 0, $length);
+		return self::substr($key, 0, $length);
 	}
 
 	// --------------------------------------------------------------------
