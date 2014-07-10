@@ -261,7 +261,7 @@ class CI_DB_oci8_driver extends CI_DB {
 		$this->stmt_id = FALSE;
 		$this->_set_stmt_id($sql);
 		oci_set_prefetch($this->stmt_id, 1000);
-		return @oci_execute($this->stmt_id, $this->commit_mode);
+		return oci_execute($this->stmt_id, $this->commit_mode);
 	}
 
 	// --------------------------------------------------------------------
@@ -451,7 +451,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	public function affected_rows()
 	{
-		return @oci_num_rows($this->stmt_id);
+		return oci_num_rows($this->stmt_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -697,7 +697,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	protected function _close()
 	{
-		@oci_close($this->conn_id);
+		oci_close($this->conn_id);
 	}
 
 }

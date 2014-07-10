@@ -223,8 +223,6 @@ class CI_Form_validation {
 					$indexes[] = $matches[1][$i];
 				}
 			}
-
-			$is_array = TRUE;
 		}
 
 		// Build our master array
@@ -793,6 +791,12 @@ class CI_Form_validation {
 			// Did the rule test negatively? If so, grab the error.
 			if ($result === FALSE)
 			{
+				// Callable rules don't have named error messages
+				if ( ! is_string($rule))
+				{
+					return;
+				}
+
 				// Check if a custom message is defined
 				if (isset($this->_field_data[$row['field']]['errors'][$rule]))
 				{
@@ -1096,19 +1100,16 @@ class CI_Form_validation {
 	 * Check if the input value doesn't already exist
 	 * in the specified database field.
 	 *
-	 * @param	string
-	 * @param	string	field
+	 * @param	string	$str
+	 * @param	string	$field
 	 * @return	bool
 	 */
 	public function is_unique($str, $field)
 	{
 		sscanf($field, '%[^.].%[^.]', $table, $field);
-		if (isset($this->CI->db))
-		{
-			$query = $this->CI->db->limit(1)->get_where($table, array($field => $str));
-			return $query->num_rows() === 0;
-		}
-		return FALSE;
+		return isset($this->CI->db)
+			? ($this->CI->db->limit(1)->get_where($table, array($field => $str))->num_rows() === 0)
+			: FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -1125,10 +1126,6 @@ class CI_Form_validation {
 		if ( ! is_numeric($val))
 		{
 			return FALSE;
-		}
-		else
-		{
-			$val = (int) $val;
 		}
 
 		return (MB_ENABLED === TRUE)
@@ -1151,10 +1148,6 @@ class CI_Form_validation {
 		{
 			return FALSE;
 		}
-		else
-		{
-			$val = (int) $val;
-		}
 
 		return (MB_ENABLED === TRUE)
 			? ($val >= mb_strlen($str))
@@ -1176,14 +1169,10 @@ class CI_Form_validation {
 		{
 			return FALSE;
 		}
-		else
-		{
-			$val = (int) $val;
-		}
 
 		return (MB_ENABLED === TRUE)
-			? (mb_strlen($str) === $val)
-			: (strlen($str) === $val);
+			? (mb_strlen($str) === (int) $val)
+			: (strlen($str) === (int) $val);
 	}
 
 	// --------------------------------------------------------------------
@@ -1219,7 +1208,7 @@ class CI_Form_validation {
 		// There's a bug affecting PHP 5.2.13, 5.3.2 that considers the
 		// underscore to be a valid hostname character instead of a dash.
 		// Reference: https://bugs.php.net/bug.php?id=51192
-		if (version_compare(PHP_VERSION, '5.2.13', '==') === 0 OR version_compare(PHP_VERSION, '5.3.2', '==') === 0)
+		if (version_compare(PHP_VERSION, '5.2.13', '==') OR version_compare(PHP_VERSION, '5.3.2', '=='))
 		{
 			sscanf($str, 'http://%[^/]', $host);
 			$str = substr_replace($str, strtr($host, array('_' => '-', '-' => '_')), 7, strlen($host));
@@ -1238,6 +1227,11 @@ class CI_Form_validation {
 	 */
 	public function valid_email($str)
 	{
+		if (function_exists('idn_to_ascii') && $atpos = strpos($str, '@'))
+		{
+			$str = substr($str, 0, ++$atpos).idn_to_ascii(substr($str, $atpos));
+		}
+
 		return (bool) filter_var($str, FILTER_VALIDATE_EMAIL);
 	}
 

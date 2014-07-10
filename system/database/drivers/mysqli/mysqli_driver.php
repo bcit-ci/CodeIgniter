@@ -144,7 +144,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 			$database = $this->database;
 		}
 
-		if (@$this->conn_id->select_db($database))
+		if ($this->conn_id->select_db($database))
 		{
 			$this->database = $database;
 			return TRUE;
@@ -197,7 +197,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return @$this->conn_id->query($this->_prep_query($sql));
+		return $this->conn_id->query($this->_prep_query($sql));
 	}
 
 	// --------------------------------------------------------------------
@@ -307,9 +307,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	protected function _escape_str($str)
 	{
-		return is_object($this->conn_id)
-			? $this->conn_id->real_escape_string($str)
-			: addslashes($str);
+		return $this->conn_id->real_escape_string($str);
 	}
 
 	// --------------------------------------------------------------------

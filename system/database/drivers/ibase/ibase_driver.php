@@ -115,7 +115,7 @@ class CI_DB_ibase_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return @ibase_query($this->conn_id, $sql);
+		return ibase_query($this->conn_id, $sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -139,7 +139,7 @@ class CI_DB_ibase_driver extends CI_DB {
 		// even if the queries produce a successful result.
 		$this->_trans_failure = ($test_mode === TRUE);
 
-		$this->_ibase_trans = @ibase_trans($this->conn_id);
+		$this->_ibase_trans = ibase_trans($this->conn_id);
 
 		return TRUE;
 	}
@@ -159,7 +159,7 @@ class CI_DB_ibase_driver extends CI_DB {
 			return TRUE;
 		}
 
-		return @ibase_commit($this->_ibase_trans);
+		return ibase_commit($this->_ibase_trans);
 	}
 
 	// --------------------------------------------------------------------
@@ -177,7 +177,7 @@ class CI_DB_ibase_driver extends CI_DB {
 			return TRUE;
 		}
 
-		return @ibase_rollback($this->_ibase_trans);
+		return ibase_rollback($this->_ibase_trans);
 	}
 
 	// --------------------------------------------------------------------
@@ -189,7 +189,7 @@ class CI_DB_ibase_driver extends CI_DB {
 	 */
 	public function affected_rows()
 	{
-		return @ibase_affected_rows($this->conn_id);
+		return ibase_affected_rows($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -392,7 +392,7 @@ class CI_DB_ibase_driver extends CI_DB {
 	 */
 	protected function _close()
 	{
-		@ibase_close($this->conn_id);
+		ibase_close($this->conn_id);
 	}
 
 }

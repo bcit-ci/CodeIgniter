@@ -102,8 +102,8 @@ class CI_DB_sqlite_driver extends CI_DB {
 	protected function _execute($sql)
 	{
 		return $this->is_write_type($sql)
-			? @sqlite_exec($this->conn_id, $sql)
-			: @sqlite_query($this->conn_id, $sql);
+			? sqlite_exec($this->conn_id, $sql)
+			: sqlite_query($this->conn_id, $sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -203,7 +203,7 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */
 	public function insert_id()
 	{
-		return @sqlite_last_insert_rowid($this->conn_id);
+		return sqlite_last_insert_rowid($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -345,7 +345,7 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */
 	protected function _close()
 	{
-		@sqlite_close($this->conn_id);
+		sqlite_close($this->conn_id);
 	}
 
 }

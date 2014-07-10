@@ -63,7 +63,7 @@ if ( ! function_exists('mb_strlen'))
 	{
 		if (ICONV_ENABLED === TRUE)
 		{
-			return iconv_strlen($str, isset($charset) ? $charset : config_item('charset'));
+			return iconv_strlen($str, isset($encoding) ? $encoding : config_item('charset'));
 		}
 
 		log_message('debug', 'Compatibility (mbstring): iconv_strlen() is not available, falling back to strlen().');

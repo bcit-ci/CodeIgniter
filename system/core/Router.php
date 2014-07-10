@@ -130,9 +130,8 @@ class CI_Router {
 				$this->set_class($routing['controller']);
 			}
 
-			if (isset($routing['function']))
+			if ( ! empty($routing['function']))
 			{
-				$routing['function'] = empty($routing['function']) ? 'index' : $routing['function'];
 				$this->set_method($routing['function']);
 			}
 		}
@@ -257,6 +256,10 @@ class CI_Router {
 		if (isset($segments[1]))
 		{
 			$this->set_method($segments[1]);
+		}
+		else
+		{
+			$segments[1] = 'index';
 		}
 
 		array_unshift($segments, NULL);

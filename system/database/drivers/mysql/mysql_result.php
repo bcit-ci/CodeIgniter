@@ -50,7 +50,7 @@ class CI_DB_mysql_result extends CI_DB_result {
 
 		// Required, due to mysql_data_seek() causing nightmares
 		// with empty result sets
-		$this->num_rows = @mysql_num_rows($this->result_id);
+		$this->num_rows = mysql_num_rows($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -74,7 +74,7 @@ class CI_DB_mysql_result extends CI_DB_result {
 	 */
 	public function num_fields()
 	{
-		return @mysql_num_fields($this->result_id);
+		return mysql_num_fields($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -153,7 +153,7 @@ class CI_DB_mysql_result extends CI_DB_result {
 	public function data_seek($n = 0)
 	{
 		return $this->num_rows
-			? @mysql_data_seek($this->result_id, $n)
+			? mysql_data_seek($this->result_id, $n)
 			: FALSE;
 	}
 

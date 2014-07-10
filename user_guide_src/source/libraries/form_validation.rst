@@ -497,7 +497,7 @@ The above code would use the ``valid_username()`` method from your
 This is just an example of course, and callbacks aren't limited to models.
 You can use any object/method that accepts the field value as its' first
 parameter. Or if you're running PHP 5.3+, you can also use an anonymous
-function:
+function::
 
 	$this->form_validation->set_rules(
 		'username', 'Username',

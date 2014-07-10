@@ -108,8 +108,6 @@ class Encryption_test extends CI_TestCase {
 
 	/**
 	 * _get_params() test
-	 *
-	 * @uses	Mock_Libraries_Encryption::__get_params()
 	 */
 	public function test__get_params()
 	{
@@ -143,7 +141,6 @@ class Encryption_test extends CI_TestCase {
 
 		$this->assertTrue(is_array($this->encryption->__get_params($params)));
 
-		$params['iv'] = NULL;
 		$params['base64'] = TRUE;
 		$params['hmac_digest'] = 'sha512';
 
@@ -152,7 +149,6 @@ class Encryption_test extends CI_TestCase {
 			'cipher' => 'aes-128',
 			'mode' => 'cbc',
 			'key' => str_repeat("\x0", 16),
-			'iv' => str_repeat("\x0", 16),
 			'raw_data' => TRUE,
 			'hmac_key' => str_repeat("\x0", 16),
 			'hmac_digest' => 'sha256'
@@ -218,22 +214,17 @@ class Encryption_test extends CI_TestCase {
 		$this->assertFalse($this->encryption->encrypt($message, array('foo')));
 		$this->assertFalse($this->encryption->decrypt($message, array('foo')));
 
-		// Custom IV (we'll check it), no HMAC, binary output
+		// No HMAC, binary output
 		$params = array(
 			'cipher' => 'tripledes',
 			'mode' => 'cfb',
 			'key' => str_repeat("\x1", 16),
-			'iv' => str_repeat("\x2", 8),
 			'base64' => FALSE,
 			'hmac' => FALSE
 		);
 
 		$ciphertext = $this->encryption->encrypt($message, $params);
-		$this->assertEquals(0, strncmp($params['iv'], $ciphertext, 8));
 
-		// IV should be found in the cipher-text, no matter if it was supplied or not
-		$this->assertEquals($message, $this->encryption->decrypt($ciphertext, $params));
-		unset($params['iv']);
 		$this->assertEquals($message, $this->encryption->decrypt($ciphertext, $params));
 	}
 

@@ -261,6 +261,15 @@ abstract class CI_DB_driver {
 	protected $_trans_status	= TRUE;
 
 	/**
+	 * Transaction failure flag
+	 *
+	 * Used with transactions to determine if a transaction has failed.
+	 *
+	 * @var	bool
+	 */
+	protected $_trans_failure	= FALSE;
+
+	/**
 	 * Cache On flag
 	 *
 	 * @var	bool
@@ -673,12 +682,6 @@ abstract class CI_DB_driver {
 				$this->CACHE->delete();
 			}
 
-			return TRUE;
-		}
-
-		// Return TRUE if we don't need to create a result object
-		if ($return_object !== TRUE)
-		{
 			return TRUE;
 		}
 

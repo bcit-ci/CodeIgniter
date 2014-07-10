@@ -62,7 +62,7 @@ class CI_Input {
 	 *
 	 * @var	bool
 	 */
-	protected $_standardize_newlines = TRUE;
+	protected $_standardize_newlines;
 
 	/**
 	 * Enable XSS flag
@@ -295,8 +295,8 @@ class CI_Input {
 	 */
 	public function input_stream($index = NULL, $xss_clean = NULL)
 	{
-		// The input stream can only be read once, so we'll need to check
-		// if we have already done that first.
+		// Prior to PHP 5.6, the input stream can only be read once,
+		// so we'll need to check if we have already done that first.
 		if ( ! is_array($this->_input_stream))
 		{
 			parse_str(file_get_contents('php://input'), $this->_input_stream);
@@ -558,8 +558,7 @@ class CI_Input {
 	 *
 	 * Internal method serving for the following purposes:
 	 *
-	 *	- Unsets $_GET data (if query strings are not enabled)
-	 *	- Unsets all globals if register_globals is enabled
+	 *	- Unsets $_GET data, if query strings are not enabled
 	 *	- Cleans POST, COOKIE and SERVER data
 	 * 	- Standardizes newline characters to PHP_EOL
 	 *
@@ -567,54 +566,6 @@ class CI_Input {
 	 */
 	protected function _sanitize_globals()
 	{
-		// It would be "wrong" to unset any of these GLOBALS.
-		$protected = array(
-			'_SERVER',
-			'_GET',
-			'_POST',
-			'_FILES',
-			'_REQUEST',
-			'_SESSION',
-			'_ENV',
-			'GLOBALS',
-			'HTTP_RAW_POST_DATA',
-			'system_folder',
-			'application_folder',
-			'BM',
-			'EXT',
-			'CFG',
-			'URI',
-			'RTR',
-			'OUT',
-			'IN'
-		);
-
-		// Unset globals for security.
-		// This is effectively the same as register_globals = off
-		// PHP 5.4 no longer has the register_globals functionality.
-		if ( ! is_php('5.4'))
-		{
-			foreach (array($_GET, $_POST, $_COOKIE) as $global)
-			{
-				if (is_array($global))
-				{
-					foreach ($global as $key => $val)
-					{
-						if ( ! in_array($key, $protected))
-						{
-							global $$key;
-							$$key = NULL;
-						}
-					}
-				}
-				elseif ( ! in_array($global, $protected))
-				{
-					global $$global;
-					$$global = NULL;
-				}
-			}
-		}
-
 		// Is $_GET data allowed? If not we'll set the $_GET to an empty array
 		if ($this->_allow_get_array === FALSE)
 		{

@@ -82,6 +82,8 @@ Key                     Description                                             
                         hidden.
 ======================= =================================================================== ========
 
-.. note:: Disabling the **save_queries** setting in your database configuration
+.. note:: Disabling the (save_queries)[http://ellislab.com/codeigniter/user-guide/database/configuration.html] setting in your database configuration
 	will also effectively disable profiling for database queries and render
-	the 'queries' setting above useless.
+	the 'queries' setting above useless. You can optionally override this
+	setting with `$this->db->save_queries = TRUE;`. Without this setting you
+	won't be able to view the queries or the (last_query)[http://ellislab.com/codeigniter/user-guide/database/helpers.html].

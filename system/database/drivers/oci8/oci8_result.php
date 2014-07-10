@@ -94,7 +94,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 */
 	public function num_fields()
 	{
-		$count = @oci_num_fields($this->stmt_id);
+		$count = oci_num_fields($this->stmt_id);
 
 		// if we used a limit we subtract it
 		return ($this->limit_used) ? $count - 1 : $count;
@@ -183,7 +183,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	protected function _fetch_assoc()
 	{
 		$id = ($this->curs_id) ? $this->curs_id : $this->stmt_id;
-		return @oci_fetch_assoc($id);
+		return oci_fetch_assoc($id);
 	}
 
 	// --------------------------------------------------------------------

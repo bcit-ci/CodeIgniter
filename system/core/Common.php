@@ -45,20 +45,17 @@ if ( ! function_exists('is_php'))
 	/**
 	 * Determines if the current version of PHP is greater then the supplied value
 	 *
-	 * Since there are a few places where we conditionally test for PHP > 5.3
-	 * we'll set a static variable.
-	 *
 	 * @param	string
 	 * @return	bool	TRUE if the current version is $version or higher
 	 */
-	function is_php($version = '5.3.0')
+	function is_php($version)
 	{
 		static $_is_php;
 		$version = (string) $version;
 
 		if ( ! isset($_is_php[$version]))
 		{
-			$_is_php[$version] = (version_compare(PHP_VERSION, $version) >= 0);
+			$_is_php[$version] = version_compare(PHP_VERSION, $version, '>=');
 		}
 
 		return $_is_php[$version];
@@ -127,7 +124,7 @@ if ( ! function_exists('load_class'))
 	 *
 	 * @param	string	the class name being requested
 	 * @param	string	the directory where the class should be found
-	 * @param	string	the class name prefix
+	 * @param	string	an optional argument to pass to the class constructor
 	 * @return	object
 	 */
 	function &load_class($class, $directory = 'libraries', $param = NULL)
@@ -229,9 +226,9 @@ if ( ! function_exists('get_config'))
 	 */
 	function &get_config(Array $replace = array())
 	{
-		static $_config;
+		static $config;
 
-		if (empty($_config))
+		if (empty($config))
 		{
 			$file_path = APPPATH.'config/config.php';
 			$found = FALSE;
@@ -260,18 +257,15 @@ if ( ! function_exists('get_config'))
 				echo 'Your config file does not appear to be formatted correctly.';
 				exit(3); // EXIT_CONFIG
 			}
-
-			// references cannot be directly assigned to static variables, so we use an array
-			$_config[0] =& $config;
 		}
 
 		// Are any values being dynamically added or replaced?
 		foreach ($replace as $key => $val)
 		{
-			$_config[0][$key] = $val;
+			$config[$key] = $val;
 		}
 
-		return $_config[0];
+		return $config;
 	}
 }
 
@@ -310,15 +304,22 @@ if ( ! function_exists('get_mimes'))
 	 */
 	function &get_mimes()
 	{
-		static $_mimes = array();
+		static $_mimes;
 
-		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+		if (empty($_mimes))
 		{
-			$_mimes = include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
-		}
-		elseif (file_exists(APPPATH.'config/mimes.php'))
-		{
-			$_mimes = include(APPPATH.'config/mimes.php');
+			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+			{
+				$_mimes = include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
+			}
+			elseif (file_exists(APPPATH.'config/mimes.php'))
+			{
+				$_mimes = include(APPPATH.'config/mimes.php');
+			}
+			else
+			{
+				$_mimes = array();
+			}
 		}
 
 		return $_mimes;

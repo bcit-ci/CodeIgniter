@@ -65,6 +65,57 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 	require_once(BASEPATH.'core/Common.php');
 
+
+/*
+ * ------------------------------------------------------
+ * Security procedures
+ * ------------------------------------------------------
+ */
+
+if ( ! is_php('5.4'))
+{
+	ini_set('magic_quotes_runtime', 0);
+
+	if ((bool) ini_get('register_globals'))
+	{
+		$_protected = array(
+			'_SERVER',
+			'_GET',
+			'_POST',
+			'_FILES',
+			'_REQUEST',
+			'_SESSION',
+			'_ENV',
+			'_COOKIE',
+			'GLOBALS',
+			'HTTP_RAW_POST_DATA',
+			'system_path',
+			'application_folder',
+			'view_folder',
+			'_protected',
+			'_registered'
+		);
+
+		$_registered = ini_get('variables_order');
+		foreach (array('E' => '_ENV', 'G' => '_GET', 'P' => '_POST', 'C' => '_COOKIE', 'S' => '_SERVER') as $key => $superglobal)
+		{
+			if (strpos($_registered, $key) === FALSE)
+			{
+				continue;
+			}
+
+			foreach (array_keys($$superglobal) as $var)
+			{
+				if (isset($GLOBALS[$var]) && ! in_array($var, $_protected, TRUE))
+				{
+					$GLOBALS[$var] = NULL;
+				}
+			}
+		}
+	}
+}
+
+
 /*
  * ------------------------------------------------------
  *  Define a custom error handler so we can log PHP errors
@@ -72,9 +123,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 	set_error_handler('_exception_handler');
 	register_shutdown_function('_shutdown_handler');
-
-	// Kill magic quotes
-	is_php('5.4') OR ini_set('magic_quotes_runtime', 0);
 
 /*
  * ------------------------------------------------------
@@ -156,11 +204,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  */
 	$charset = strtoupper(config_item('charset'));
+	ini_set('default_charset', $charset);
 
 	if (extension_loaded('mbstring'))
 	{
 		define('MB_ENABLED', TRUE);
-		mb_internal_encoding($charset);
+		// mbstring.internal_encoding is deprecated starting with PHP 5.6
+		// and it's usage triggers E_DEPRECATED messages.
+		@ini_set('mbstring.internal_encoding', $charset);
 		// This is required for mb_convert_encoding() to strip invalid characters.
 		// That's utilized by CI_Utf8, but it's also done for consistency with iconv.
 		mb_substitute_character('none');
@@ -175,11 +226,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	if (extension_loaded('iconv'))
 	{
 		define('ICONV_ENABLED', TRUE);
-		iconv_set_encoding('internal_encoding', $charset);
+		// iconv.internal_encoding is deprecated starting with PHP 5.6
+		// and it's usage triggers E_DEPRECATED messages.
+		@ini_set('iconv.internal_encoding', $charset);
 	}
 	else
 	{
 		define('ICONV_ENABLED', FALSE);
+	}
+
+	if (is_php('5.6'))
+	{
+		ini_set('php.internal_encoding', $charset);
 	}
 
 /*
@@ -191,7 +249,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	require_once(BASEPATH.'core/compat/mbstring.php');
 	require_once(BASEPATH.'core/compat/hash.php');
 	require_once(BASEPATH.'core/compat/password.php');
-	require_once(BASEPATH.'core/compat/array.php');
+	require_once(BASEPATH.'core/compat/standard.php');
 
 /*
  * ------------------------------------------------------

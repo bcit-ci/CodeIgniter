@@ -142,9 +142,9 @@ class CI_DB_mssql_driver extends CI_DB {
 			$database = $this->database;
 		}
 
-		// Note: The brackets are required in the event that the DB name
-		// contains reserved characters
-		if (@mssql_select_db($this->escape_identifiers($database), $this->conn_id))
+		// Note: Escaping is required in the event that the DB name
+		// contains reserved characters.
+		if (mssql_select_db('['.$database.']', $this->conn_id))
 		{
 			$this->database = $database;
 			return TRUE;
@@ -163,7 +163,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return @mssql_query($sql, $this->conn_id);
+		return mssql_query($sql, $this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -235,7 +235,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	public function affected_rows()
 	{
-		return @mssql_rows_affected($this->conn_id);
+		return mssql_rows_affected($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -519,7 +519,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	protected function _close()
 	{
-		@mssql_close($this->conn_id);
+		mssql_close($this->conn_id);
 	}
 
 }
