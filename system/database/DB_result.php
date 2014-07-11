@@ -434,6 +434,19 @@ class CI_DB_result {
 		return $result[$this->current_row];
 	}
 
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Returns the "first" field at first row
+	 *
+	 * @return	string
+	 */
+	public function first_field()
+	{
+		return current($this->first_row());
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
