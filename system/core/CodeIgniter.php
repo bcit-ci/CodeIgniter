@@ -449,6 +449,23 @@ if ( ! is_php('5.4'))
 
 /*
  * ------------------------------------------------------
+ *  Should we use a Composer autoloader?
+ * ------------------------------------------------------
+ */
+	if (($composer_autoload = config_item('composer_autoload')) !== FALSE)
+	{
+		if ($composer_autoload === TRUE && file_exists(APPPATH.'vendor/autoload.php'))
+		{
+			require_once(APPPATH.'vendor/autoload.php');
+		}
+		elseif (file_exists($composer_autoload))
+		{
+			require_once($composer_autoload);
+		}
+	}
+
+/*
+ * ------------------------------------------------------
  *  Is there a "pre_controller" hook?
  * ------------------------------------------------------
  */
