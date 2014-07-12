@@ -901,7 +901,7 @@ class CI_Encryption {
 	{
 		if (self::$func_override)
 		{
-			return mb_substr($str, $start, $length);
+			return mb_substr($str, $start, $length, '8bit');
 		}
 
 		return isset($length)
