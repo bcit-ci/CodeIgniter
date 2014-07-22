@@ -3,6 +3,7 @@ Downloading CodeIgniter
 #######################
 
 -  `CodeIgniter v3.0.0 (Current version) <http://ellislab.com/codeigniter/download>`_
+-  `CodeIgniter v2.2.0 <http://ellislab.com/asset/ci_download_files/CodeIgniter_2.2.0.zip>`_ (MD5 Checksum: e74a296c1d412a855c025b9cd468a513)
 -  `CodeIgniter v2.1.4 <http://ellislab.com/asset/ci_download_files/CodeIgniter_2.1.4.zip>`_ (MD5 Checksum: e74a296c1d412a855c025b9cd468a513)
 -  `CodeIgniter v2.1.3 <http://ellislab.com/asset/ci_download_files/CodeIgniter_2.1.3.zip>`_ (MD5 Checksum: 781d06be06eaa36f10759ef82c8594d5)
 -  `CodeIgniter v2.1.2 <http://ellislab.com/asset/ci_download_files/CodeIgniter_2.1.2.zip>`_ (MD5 Checksum: c7a2980dff2774c97bd38bfbf450d8d5)
