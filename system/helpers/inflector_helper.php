@@ -84,6 +84,7 @@ if ( ! function_exists('singular'))
 			'/(s)tatuses$/'		=> '\1\2tatus',
 			'/(c)hildren$/'		=> '\1\2hild',
 			'/(n)ews$/'		=> '\1\2ews',
+			'/(acc|succ)ess$'	=> '\1\2ess',
 			'/([^us])s$/'		=> '\1'
 		);
 
