@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.1.4</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.2.0</h1></td>
 <td id="breadcrumb_right"><a href="./toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -57,9 +57,29 @@ Change Log
 
 <h1>Change Log</h1>
 
+<h2>Version 2.2.0</h2>
+<p>Release Date: June 5, 2014</p>
+
+<ul>
+	<li>General Changes
+		<ul>
+			<li><b>Security:</b> The <samp>xor_encode()</samp> method in the Encrypt Class has been removed. The Encrypt Class now requires the Mcrypt extension to be installed.</li>
+			<li><b>Security:</b> The <a href="libraries/sessions.html">Session Library</a> now uses HMAC authentication instead of a simple MD5 checksum.</li>
+		</ul>
+	</li>
+</ul>
+
+<h3>Bug fixes for 2.2.0:</h3>
+<ul>
+	<li>Fixed an edge case (#2583) in the <a href="libraries/email.html">Email Library</a> where <a href="http://www.hardened-php.net/suhosin/">Suhosin</a> blocked messages sent via <samp>mail()</samp> due to trailing newspaces in headers.</li>
+	<li>Fixed a bug (#696) - make <samp>oci_execute()</samp> calls inside <samp>num_rows()</samp> non-committing, since they are only there to reset which row is next in line for oci_fetch calls and thus don't need to be committed.</li>
+	<li>Fixed a bug (#2689) - <a href="database/forge.html">Database Forge Class</a> methods <samp>create_table()</samp>, <samp>drop_table()</samp> and <samp>rename_table()</samp> produced broken SQL for tge 'sqlsrv' driver.</li>
+	<li>Fixed a bug (#2427) - PDO <a href="database/index.html">Database driver</a> didn't properly check for query failures.</li>
+	<li>Fixed a bug in the <a href="libraries/sessions.html">Session Library</a> where authentication was not performed for encrypted cookies.</li>
+</ul>
+
 <h2>Version 2.1.4</h2>
 <p>Release Date: July 8, 2013</p>
-
 
 <ul>
 	<li>General Changes
@@ -1518,7 +1538,7 @@ Previous Topic:&nbsp;&nbsp;<a href="license.html">License Agreement</a>
 <a href="index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 Next Topic:&nbsp;&nbsp;<a href="./general/credits.html">Credits</a>
 </p>
-<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2014 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
 </div>
 
 </body>
