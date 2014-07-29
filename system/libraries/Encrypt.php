@@ -328,14 +328,9 @@ class CI_Encrypt {
 		$key = $this->hash($key);
 		$str = '';
 
-		for ($i = 0, $j = 0, $ld = strlen($data), $lk = strlen($key); $i < $ld; ++$i, ++$j)
+		for ($i = 0, $j = 0, $ld = strlen($data), $lk = strlen($key); $i < $ld; ++$i)
 		{
-			if ($j >= $lk)
-			{
-				$j = 0;
-			}
-
-			$str .= chr((ord($data[$i]) + ord($key[$j])) % 256);
+			$str .= chr((ord($data[$i]) + ord($key[$j%$lk])) % 256);
 		}
 
 		return $str;
@@ -360,12 +355,7 @@ class CI_Encrypt {
 
 		for ($i = 0, $j = 0, $ld = strlen($data), $lk = strlen($key); $i < $ld; ++$i, ++$j)
 		{
-			if ($j >= $lk)
-			{
-				$j = 0;
-			}
-
-			$temp = ord($data[$i]) - ord($key[$j]);
+			$temp = ord($data[$i]) - ord($key[$j%$lk]);
 
 			if ($temp < 0)
 			{
