@@ -49,7 +49,7 @@ class CI_Cache_memcached extends CI_Driver {
 	 *
 	 * @var array
 	 */
-	protected $_memcache_conf	= array(
+	protected $_memcache_conf = array(
 		'default' => array(
 			'host'		=> '127.0.0.1',
 			'port'		=> 11211,
@@ -202,12 +202,12 @@ class CI_Cache_memcached extends CI_Driver {
 	{
 		// Try to load memcached server info from the config file.
 		$CI =& get_instance();
+		$defaults = $this->_memcache_conf['default'];
 
 		if ($CI->config->load('memcached', TRUE, TRUE))
 		{
 			if (is_array($CI->config->config['memcached']))
 			{
-				$defaults = $this->_memcache_conf['default'];
 				$this->_memcache_conf = array();
 
 				foreach ($CI->config->config['memcached'] as $name => $conf)
