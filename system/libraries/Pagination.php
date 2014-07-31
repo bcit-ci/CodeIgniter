@@ -670,6 +670,26 @@ class CI_Pagination {
 		return '';
 	}
 
+	/**
+	 * Get LIMIT offset for ActiveRecord use
+	 *
+	 * @access	public
+	 * @return	int
+	 */
+	public function get_limit_offset() {
+		return ($this->cur_page-1) * $this->per_page;
+	}
+
+	/**
+	 * Get LIMIT row count for ActiveRecord use
+	 *
+	 * @access	public
+	 * @return	int
+	 */
+	public function get_limit_count() {
+		return $this->per_page;
+	}
+
 }
 
 /* End of file Pagination.php */
