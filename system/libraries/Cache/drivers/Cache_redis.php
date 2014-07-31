@@ -113,9 +113,7 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function increment($id, $offset = 1)
 	{
-		return $this->_redis->exists($id)
-			? $this->_redis->incr($id, $offset)
-			: FALSE;
+		return $this->_redis->incr($id, $offset);
 	}
 
 	// ------------------------------------------------------------------------
@@ -129,9 +127,7 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function decrement($id, $offset = 1)
 	{
-		return $this->_redis->exists($id)
-			? $this->_redis->decr($id, $offset)
-			: FALSE;
+		return $this->_redis->decr($id, $offset);
 	}
 
 	// ------------------------------------------------------------------------
