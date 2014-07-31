@@ -80,6 +80,7 @@ Release Date: Not Released
       - :func:`url_title()` will now trim extra dashes from beginning and end.
       - :func:`anchor_popup()` will now fill the *href* attribute with the URL and its JS code will return FALSE instead.
       - Added JS window name support to the :func:`anchor_popup()` function.
+      - Added support for menubar attribute to the :func:`anchor_popup()` function.
       - Added support (auto-detection) for HTTP/1.1 response codes 303, 307 in :func:`redirect()`.
       - Changed :func:`redirect()` to choose the **refresh** method only on IIS servers, instead of all servers on Windows (when **auto** is used).
       - Changed :func:`anchor()`, :func:`anchor_popup()`, and :func:`redirect()` to support protocol-relative URLs (e.g. *//ellislab.com/codeigniter*).
