@@ -370,7 +370,7 @@ class CI_Security {
 		 * We only convert entities that are within tags since
 		 * these are the ones that will pose security problems.
 		 */
-		$str = preg_replace_callback("/[a-z]+=([\'\"]).*?\\1/si", array($this, '_convert_attribute'), $str);
+		$str = preg_replace_callback("/[^a-z0-9>]+[a-z0-9]+=([\'\"]).*?\\1/si", array($this, '_convert_attribute'), $str);
 		$str = preg_replace_callback('/<\w+.*/si', array($this, '_decode_entity'), $str);
 
 		// Remove Invisible Characters Again!
