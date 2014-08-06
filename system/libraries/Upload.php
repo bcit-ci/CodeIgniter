@@ -327,23 +327,26 @@ class CI_Upload {
 					$this->$key = $defaults[$key];
 				}
 			}
-
-			return $this;
+		
 		}
-
-		foreach ($config as $key => &$value)
+		else
 		{
-			if ($key[0] !== '_' && $reflection->hasProperty($key))
+			
+			foreach ($config as $key => &$value)
 			{
-				if ($reflection->hasMethod('set_'.$key))
+				if ($key[0] !== '_' && $reflection->hasProperty($key))
 				{
-					$this->{'set_'.$key}($value);
-				}
-				else
-				{
-					$this->$key = $value;
+					if ($reflection->hasMethod('set_'.$key))
+					{
+						$this->{'set_'.$key}($value);
+					}
+					else
+					{
+						$this->$key = $value;
+					}
 				}
 			}
+			
 		}
 
 		// if a file_name was provided in the config, use it instead of the user input
