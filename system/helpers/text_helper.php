@@ -351,7 +351,7 @@ if ( ! function_exists('highlight_phrase'))
 	function highlight_phrase($str, $phrase, $tag_open = '<mark>', $tag_close = '</mark>')
 	{
 		return ($str !== '' && $phrase !== '')
-			? preg_replace('/('.preg_quote($phrase, '/').')/i'.(UTF8_ENABLED ? 'u' : ''), $tag_open.'\\1'.$tag_close, $str)
+			? preg_replace('/('.preg_quote($phrase, '/').')/i'.(constant('UTF8_ENABLED') ? 'u' : ''), $tag_open.'\\1'.$tag_close, $str)
 			: $str;
 	}
 }
