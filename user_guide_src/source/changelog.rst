@@ -137,6 +137,7 @@ Release Date: Not Released
       - Added *word_length* and *pool* options to allow customization of the generated word.
       - Added *colors* configuration to allow customization for the *background*, *border*, *text* and *grid* colors.
       - Added *filename* to the returned array elements.
+      - Using ImagePNG function, if ImageJPEG not exists.
 
    -  :doc:`Text Helper <helpers/text_helper>` changes include:
 
