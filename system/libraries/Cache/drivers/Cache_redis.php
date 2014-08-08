@@ -68,7 +68,8 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function get($key)
 	{
-		return $this->_redis->get($key);
+		$data = $this->_redis->get($key); 
+		return unserialize($data);
 	}
 
 	// ------------------------------------------------------------------------
@@ -84,9 +85,10 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
+		$data_string = serialize($data);
 		return ($ttl)
-			? $this->_redis->setex($id, $ttl, $data)
-			: $this->_redis->set($id, $data);
+			? $this->_redis->setex($id, $ttl, $data_string)
+			: $this->_redis->set($id, $data_string);
 	}
 
 	// ------------------------------------------------------------------------
