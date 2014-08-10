@@ -216,8 +216,22 @@ if ( ! function_exists('create_captcha'))
 		//  Generate the image
 		// -----------------------------------
 		$img_url = rtrim($img_url, '/').'/';
-		$img_filename = $now.'.jpg';
-		ImageJPEG($im, $img_path.$img_filename);
+
+		if (function_exists('ImageJPEG'))
+		{
+			$img_filename = $now.'.jpg';
+			ImageJPEG($im, $img_path.$img_filename);
+		}
+		elseif (function_exists('ImagePNG'))
+		{
+			$img_filename = $now.'.png';
+			ImagePNG($im, $img_path.$img_filename);
+		}
+		else
+		{
+			return FALSE;
+		}
+
 		$img = '<img src="'.$img_url.$img_filename.'" style="width: '.$img_width.'; height: '.$img_height .'; border: 0;" alt=" " />';
 		ImageDestroy($im);
 
