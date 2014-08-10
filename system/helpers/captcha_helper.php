@@ -217,15 +217,15 @@ if ( ! function_exists('create_captcha'))
 		// -----------------------------------
 		$img_url = rtrim($img_url, '/').'/';
 
-		if (function_exists('ImageJPEG'))
+		if (function_exists('imagejpeg'))
 		{
 			$img_filename = $now.'.jpg';
-			ImageJPEG($im, $img_path.$img_filename);
+			imagejpeg($im, $img_path.$img_filename);
 		}
-		elseif (function_exists('ImagePNG'))
+		elseif (function_exists('imagepng'))
 		{
 			$img_filename = $now.'.png';
-			ImagePNG($im, $img_path.$img_filename);
+			imagepng($im, $img_path.$img_filename);
 		}
 		else
 		{
