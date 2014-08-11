@@ -97,6 +97,12 @@ by editing the 'csrf_exclude_uris' config parameter::
 
 	$config['csrf_exclude_uris'] = array('api/person/add');
 
+Optionally, you can use regular expressions as well as the ':any' and ':num'
+wildcards in the URIs::
+
+	$config['csrf_exclude_uris'] = array('api/record/:num','api/title/[a-zA-Z]+');
+	
+
 ***************
 Class Reference
 ***************
