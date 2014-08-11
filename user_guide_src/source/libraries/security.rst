@@ -97,6 +97,8 @@ by editing the 'csrf_exclude_uris' config parameter::
 
 	$config['csrf_exclude_uris'] = array('api/person/add');
 
+Whitelisted URIs can include regular expressions as well as the ':any' and ':num' wildcards. 
+
 ***************
 Class Reference
 ***************
