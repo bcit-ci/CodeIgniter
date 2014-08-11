@@ -97,9 +97,7 @@ by editing the 'csrf_exclude_uris' config parameter::
 
 	$config['csrf_exclude_uris'] = array('api/person/add');
 
-For better security, request URIs only match a whitelisted URI from position 0
-following the base URI. However, any valid uri character(s) (such as another segment
-or GET data) past a whitelisted URI will not prevent a match.
+Whitelisted URIs can include regular expressions as well as the ':any' and ':num' wildcards. 
 
 ***************
 Class Reference
