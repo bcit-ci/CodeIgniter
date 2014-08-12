@@ -5,6 +5,7 @@
 		"php": ">=5.2.4"
 	},
 	"require-dev": {
+		"ext-mcrypt": "*",
 		"mikey179/vfsStream": "1.1.*"
 	}
 }
