@@ -697,7 +697,7 @@ class CI_Form_validation {
 					$callback = TRUE;
 				}
 			}
-			elseif (is_callable($rule))
+			elseif (is_callable($rule) OR (is_array($rule) && is_callable($rule[1])))
 			{
 				$callable = TRUE;
 			}
@@ -729,9 +729,26 @@ class CI_Form_validation {
 				}
 				else
 				{
-					$result = is_array($rule)
-						? $rule[0]->{$rule[1]}($postdata, $param)
-						: $rule($postdata, $param);
+					// If rule is callable can still have a name in order
+					// to be able to use callables to validate fields
+
+					if(is_callable($rule))
+					{
+						$result = is_array($rule)
+							? $rule[0]->{$rule[1]}($postdata, $param)
+							: $rule($postdata, $param);
+					}
+					else
+					{
+						$rule_name 	= $rule[0];
+						$rule		= $rule[1];
+						
+						$result = is_array($rule)
+							? $rule[0]->{$rule[1]}($postdata, $param)
+							: $rule($postdata, $param);
+						
+						$rule = $rule_name;
+					}
 				}
 
 				// Re-assign the result to the master data array
