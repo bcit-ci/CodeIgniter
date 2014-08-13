@@ -72,7 +72,7 @@ class CI_Cache_redis extends CI_Driver
 	public function get($key)
 	{
 		$data = $this->_redis->get($key);
-		if(($data === FALSE)) {
+		if($data === FALSE) {
 			$data = $this->_redis->get($key.self::SERIALIZE_POSTFIX);
 			$data = ($data === FALSE)? FALSE : unserialize($data);
 		}
