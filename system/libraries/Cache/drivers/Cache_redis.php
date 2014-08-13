@@ -38,6 +38,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CI_Cache_redis extends CI_Driver
 {
 	/**
+	 * A key-suffix for distinguishing serialized values.
+	 */
+	const KEY_SUFFIX_FOR_SERIALIZATION = '_ci_driver_serialized';
+	
+	/**
 	 * Default config
 	 *
 	 * @static
@@ -68,7 +73,14 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function get($key)
 	{
-		return $this->_redis->get($key);
+		$value = $this->_redis->get($key);
+
+		if ($value === FALSE)
+		{
+			$value = $this->_redis->get($key.self::KEY_SUFFIX_FOR_SERIALIZATION);
+			$value = $value === FALSE ? FALSE : unserialize($value);
+		}
+		return $value;
 	}
 
 	// ------------------------------------------------------------------------
@@ -84,6 +96,12 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
+		if (is_array($data) || is_object($data))
+		{
+			$this->_redis->delete($id);
+			$data = serialize($data);
+			$id .= self::KEY_SUFFIX_FOR_SERIALIZATION;
+		}
 		return ($ttl)
 			? $this->_redis->setex($id, $ttl, $data)
 			: $this->_redis->set($id, $data);
@@ -99,7 +117,11 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function delete($key)
 	{
-		return ($this->_redis->delete($key) === 1);
+		if ($this->_redis->delete($key) === 1)
+		{
+			return TRUE;
+		}
+		return ($this->_redis->delete($key.self::KEY_SUFFIX_FOR_SERIALIZATION) === 1);
 	}
 
 	// ------------------------------------------------------------------------
@@ -113,6 +135,10 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function increment($id, $offset = 1)
 	{
+		if ($this->_redis->exists($id.self::KEY_SUFFIX_FOR_SERIALIZATION))
+		{
+			return FALSE;
+		}
 		return $this->_redis->incr($id, $offset);
 	}
 
@@ -127,6 +153,10 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function decrement($id, $offset = 1)
 	{
+		if ($this->_redis->exists($id.self::KEY_SUFFIX_FOR_SERIALIZATION))
+		{
+			return FALSE;
+		}
 		return $this->_redis->decr($id, $offset);
 	}
 
@@ -169,17 +199,25 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function get_metadata($key)
 	{
-		$value = $this->get($key);
+		$value = $this->_redis->get($key);
 
-		if ($value)
+		if ($value === FALSE)
 		{
-			return array(
-				'expire' => time() + $this->_redis->ttl($key),
-				'data' => $value
-			);
+			$key .= self::KEY_SUFFIX_FOR_SERIALIZATION;
+			$value = $this->_redis->get($key);
+
+			if ($value === FALSE)
+			{
+				return FALSE;
+			}
+			
+			$value = unserialize($value);
 		}
 
-		return FALSE;
+		return array(
+			'expire' => time() + $this->_redis->ttl($key),
+			'data' => $value
+		);
 	}
 
 	// ------------------------------------------------------------------------
@@ -261,7 +299,6 @@ class CI_Cache_redis extends CI_Driver
 	// ------------------------------------------------------------------------
 
 	/**
-
 	 * Class destructor
 	 *
 	 * Closes the connection to Redis if present.
