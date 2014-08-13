@@ -37,6 +37,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_Cache_redis extends CI_Driver
 {
+	/** const postfix for serialized data recognition */
+	const SERIALIZE_POSTFIX = '__serialized__';
+	
 	/**
 	 * Default config
 	 *
@@ -68,8 +71,12 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function get($key)
 	{
-		$data = $this->_redis->get($key); 
-		return json_decode($data, TRUE);
+		$data = $this->_redis->get($key);
+		if(($data === FALSE)) {
+			$data = $this->_redis->get($key.self::SERIALIZE_POSTFIX);
+			$data = ($data === FALSE)? FALSE : unserialize($data);
+		}
+		return $data;
 	}
 
 	// ------------------------------------------------------------------------
@@ -85,10 +92,16 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
-		$data_string = json_encode($data);
+		if(is_array($data) || is_object($data)) {
+			$this->_redis->delete($id);
+			$data = serialize($data);
+			$id .= self::SERIALIZE_POSTFIX;
+		} else {
+			$this->_redis->delete($id.self::SERIALIZE_POSTFIX);
+		}
 		return ($ttl)
-			? $this->_redis->setex($id, $ttl, $data_string)
-			: $this->_redis->set($id, $data_string);
+			? $this->_redis->setex($id, $ttl, $data)
+			: $this->_redis->set($id, $data);
 	}
 
 	// ------------------------------------------------------------------------
