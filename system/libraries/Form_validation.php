@@ -603,7 +603,7 @@ class CI_Form_validation {
 						break;
 					}
 				}
-				elseif (is_callable($rule))
+				elseif (is_callable($rule) OR (is_array($rule) && is_callable($rule[1])))
 				{
 					$callback = TRUE;
 					$rules = array(1 => $rule);
