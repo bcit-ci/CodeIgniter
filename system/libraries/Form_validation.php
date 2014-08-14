@@ -807,7 +807,7 @@ class CI_Form_validation {
 				// Callable rules don't have named error messages
 				if ( ! is_string($rule))
 				{
-					return;
+					continue;
 				}
 
 				// Check if a custom message is defined
