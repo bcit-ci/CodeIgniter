@@ -38,6 +38,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CI_Cache_redis extends CI_Driver
 {
 	/**
+	 * The name of the Redis set that is to store keys of serialized values.
+	 */
+	const KEY_SET_FOR_SERIALIZATION = '_ci_redis_serialization_set';
+
+	/**
 	 * Default config
 	 *
 	 * @static
@@ -58,6 +63,13 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	protected $_redis;
 
+	/**
+	 * An internal cache for storing keys of serialized values.
+	 *
+	 * @var	array
+	 */
+	protected $_serialized;
+
 	// ------------------------------------------------------------------------
 
 	/**
@@ -68,7 +80,14 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function get($key)
 	{
-		return $this->_redis->get($key);
+		$value = $this->_redis->get($key);
+
+		if ($value !== FALSE AND in_array($key, $this->_serialized))
+		{
+			return unserialize($value);
+		}
+
+		return $value;
 	}
 
 	// ------------------------------------------------------------------------
@@ -84,6 +103,27 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
+		if (is_array($data) OR is_object($data))
+		{
+			$data = serialize($data);
+
+			if (($index_key = array_search($id, $this->_serialized)) === FALSE)
+			{
+				$this->_serialized[] = $id;
+			}
+
+			$this->_redis->sAdd(self::KEY_SET_FOR_SERIALIZATION, $id);
+		}
+		else
+		{
+			if (($index_key = array_search($id, $this->_serialized)) !== FALSE)
+			{
+				unset($this->_serialized[$index_key]);
+			}
+
+			$this->_redis->sRemove(self::KEY_SET_FOR_SERIALIZATION, $id);
+		}
+
 		return ($ttl)
 			? $this->_redis->setex($id, $ttl, $data)
 			: $this->_redis->set($id, $data);
@@ -99,6 +139,13 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function delete($key)
 	{
+		if (($index_key = array_search($key, $this->_serialized)) !== FALSE)
+		{
+			unset($this->_serialized[$index_key]);
+		}
+
+		$this->_redis->sRemove(self::KEY_SET_FOR_SERIALIZATION, $key);
+
 		return ($this->_redis->delete($key) === 1);
 	}
 
@@ -255,13 +302,21 @@ class CI_Cache_redis extends CI_Driver
 			$this->_redis->auth($config['password']);
 		}
 
+		// Initialize the index of selialized values.
+		$this->_serialized = $this->_redis->sMembers(self::KEY_SET_FOR_SERIALIZATION);
+
+		if (empty($this->_serialized))
+		{
+			// On error FALSE is returned, ensure array type for empty index.
+			$this->_serialized = array();
+		}
+
 		return TRUE;
 	}
 
 	// ------------------------------------------------------------------------
 
 	/**
-
 	 * Class destructor
 	 *
 	 * Closes the connection to Redis if present.
