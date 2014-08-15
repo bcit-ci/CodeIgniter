@@ -929,7 +929,7 @@ abstract class CI_DB_forge {
 				$field['default'] = empty($this->_null) ? '' : $this->_default.$this->_null;
 
 				// Override the NULL attribute if that's our default
-				$attributes['NULL'] = NULL;
+				$attributes['NULL'] = TRUE;
 				$field['null'] = empty($this->_null) ? '' : ' '.$this->_null;
 			}
 			else
