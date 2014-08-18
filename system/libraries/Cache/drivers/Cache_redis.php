@@ -58,6 +58,13 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	protected $_redis;
 
+	/**
+	 * An internal cache for storing keys of serialized values.
+	 *
+	 * @var	array
+	 */
+	protected $_serialized;
+
 	// ------------------------------------------------------------------------
 
 	/**
@@ -68,7 +75,14 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function get($key)
 	{
-		return $this->_redis->get($key);
+		$value = $this->_redis->get($key);
+
+		if ($value !== FALSE && in_array($key, $this->_serialized, TRUE))
+		{
+			return unserialize($value);
+		}
+
+		return $value;
 	}
 
 	// ------------------------------------------------------------------------
@@ -84,6 +98,23 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
+		if (is_array($data) OR is_object($data))
+		{
+			$data = serialize($data);
+
+			if ( ! in_array($id, $this->_serialized, TRUE))
+			{
+				$this->_serialized[] = $id;
+			}
+
+			$this->_redis->sAdd('_ci_redis_serialized', $id);
+		}
+		elseif (($index_key = array_search($id, $this->_serialized, TRUE)) !== FALSE)
+		{
+			unset($this->_serialized[$index_key]);
+			$this->_redis->sRemove('_ci_redis_serialized', $id);
+		}
+
 		return ($ttl)
 			? $this->_redis->setex($id, $ttl, $data)
 			: $this->_redis->set($id, $data);
@@ -99,7 +130,13 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function delete($key)
 	{
-		return ($this->_redis->delete($key) === 1);
+		if ($this->_redis->delete($key) === 1 && in_array($key, $this->_serialized, TRUE))
+		{
+			$this->_redis->sRemove('_ci_redis_serialized', $key);
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	// ------------------------------------------------------------------------
@@ -255,13 +292,21 @@ class CI_Cache_redis extends CI_Driver
 			$this->_redis->auth($config['password']);
 		}
 
+		// Initialize the index of serialized values.
+		$this->_serialized = $this->_redis->sMembers('_ci_redis_serialized');
+
+		if (empty($this->_serialized))
+		{
+			// On error FALSE is returned, ensure array type for empty index.
+			$this->_serialized = array();
+		}
+
 		return TRUE;
 	}
 
 	// ------------------------------------------------------------------------
 
 	/**
-
 	 * Class destructor
 	 *
 	 * Closes the connection to Redis if present.
