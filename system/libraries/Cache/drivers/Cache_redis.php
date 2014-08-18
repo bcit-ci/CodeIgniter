@@ -102,7 +102,7 @@ class CI_Cache_redis extends CI_Driver
 		{
 			$data = serialize($data);
 
-			if (! in_array($id, $this->_serialized, TRUE))
+			if ( ! in_array($id, $this->_serialized, TRUE))
 			{
 				$this->_serialized[] = $id;
 			}
