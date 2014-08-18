@@ -63,7 +63,7 @@ class CI_Cache_redis extends CI_Driver
 	 *
 	 * @var	array
 	 */
-	protected $_serialized;
+	protected $_serialized = array();
 
 	// ------------------------------------------------------------------------
 
@@ -77,7 +77,7 @@ class CI_Cache_redis extends CI_Driver
 	{
 		$value = $this->_redis->get($key);
 
-		if ($value !== FALSE && in_array($key, $this->_serialized, TRUE))
+		if ($value !== FALSE && isset($this->_serialized[$key]))
 		{
 			return unserialize($value);
 		}
@@ -100,18 +100,17 @@ class CI_Cache_redis extends CI_Driver
 	{
 		if (is_array($data) OR is_object($data))
 		{
-			$data = serialize($data);
-
-			if ( ! in_array($id, $this->_serialized, TRUE))
+			if ( ! $this->_redis->sAdd('_ci_redis_serialized', $id))
 			{
-				$this->_serialized[] = $id;
+				return FALSE;
 			}
 
-			$this->_redis->sAdd('_ci_redis_serialized', $id);
+			isset($this->_serialized[$id]) OR $this->_serialized[$id] = TRUE;
+			$data = serialize($data);
 		}
-		elseif (($index_key = array_search($id, $this->_serialized, TRUE)) !== FALSE)
+		elseif (isset($this->_serialized[$id]))
 		{
-			unset($this->_serialized[$index_key]);
+			$this->_serialized[$id] = NULL;
 			$this->_redis->sRemove('_ci_redis_serialized', $id);
 		}
 
@@ -130,13 +129,18 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function delete($key)
 	{
-		if ($this->_redis->delete($key) === 1 && in_array($key, $this->_serialized, TRUE))
+		if ($this->_redis->delete($key) !== 1)
 		{
-			$this->_redis->sRemove('_ci_redis_serialized', $key);
-			return TRUE;
+			return FALSE;
 		}
 
-		return FALSE;
+		if (isset($this->_serialized[$key]))
+		{
+			$this->_serialized[$key] = NULL;
+			$this->_redis->sRemove('_ci_redis_serialized', $key);
+		}
+
+		return TRUE;
 	}
 
 	// ------------------------------------------------------------------------
@@ -293,12 +297,10 @@ class CI_Cache_redis extends CI_Driver
 		}
 
 		// Initialize the index of serialized values.
-		$this->_serialized = $this->_redis->sMembers('_ci_redis_serialized');
-
-		if (empty($this->_serialized))
+		$serialized = $this->_redis->sMembers('_ci_redis_serialized');
+		if ( ! empty($serialized))
 		{
-			// On error FALSE is returned, ensure array type for empty index.
-			$this->_serialized = array();
+			$this->_serialized = array_flip($this->_serialized);
 		}
 
 		return TRUE;
