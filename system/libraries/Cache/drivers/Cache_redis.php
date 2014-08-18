@@ -300,7 +300,7 @@ class CI_Cache_redis extends CI_Driver
 		$serialized = $this->_redis->sMembers('_ci_redis_serialized');
 		if ( ! empty($serialized))
 		{
-			$this->_serialized = array_flip($this->_serialized);
+			$this->_serialized = array_flip($serialized);
 		}
 
 		return TRUE;
