@@ -139,13 +139,6 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function delete($key)
 	{
-		if (($index_key = array_search($key, $this->_serialized, TRUE)) !== FALSE)
-		{
-			unset($this->_serialized[$index_key]);
-		}
-
-		$this->_redis->sRemove(self::KEY_SET_FOR_SERIALIZATION, $key);
-
 		return ($this->_redis->delete($key) === 1);
 	}
 
