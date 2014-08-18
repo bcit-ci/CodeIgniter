@@ -114,9 +114,8 @@ class CI_Cache_redis extends CI_Driver
 			if (($index_key = array_search($id, $this->_serialized, TRUE)) !== FALSE)
 			{
 				unset($this->_serialized[$index_key]);
+				$this->_redis->sRemove('_ci_redis_serialized', $id);
 			}
-
-			$this->_redis->sRemove('_ci_redis_serialized', $id);
 		}
 
 		return ($ttl)
