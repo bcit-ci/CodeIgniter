@@ -203,9 +203,9 @@ class CI_Security {
 		if ($exclude_uris = config_item('csrf_exclude_uris'))
 		{
 			$uri = load_class('URI', 'core');
-			foreach ($exclude_uris as $excluded) {
-                		$excluded = str_replace(array(':any', ':num'), array('[^/]+', '[0-9]+'), $excluded);
-                		if (preg_match('#^'.$excluded.'$#', $uri->uri_string()))
+			foreach ($exclude_uris as $excluded)
+			{
+                		if (preg_match('#^'.$excluded.'$#i'.(UTF8_ENABLED ? 'u' : ''), $uri->uri_string()))
                 		{
                     			return $this;
                 		}
