@@ -82,7 +82,7 @@ class CI_Cache_redis extends CI_Driver
 	{
 		$value = $this->_redis->get($key);
 
-		if ($value !== FALSE AND in_array($key, $this->_serialized))
+		if ($value !== FALSE && in_array($key, $this->_serialized, TRUE))
 		{
 			return unserialize($value);
 		}
