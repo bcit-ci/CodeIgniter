@@ -205,11 +205,11 @@ class CI_Security {
 			$uri = load_class('URI', 'core');
 			foreach ($exclude_uris as $excluded)
 			{
-                		if (preg_match('#^'.$excluded.'$#i'.(UTF8_ENABLED ? 'u' : ''), $uri->uri_string()))
-                		{
-                    			return $this;
-                		}
-            		}
+				if (preg_match('#^'.$excluded.'$#i'.(UTF8_ENABLED ? 'u' : ''), $uri->uri_string()))
+				{
+					return $this;
+				}
+			}
 		}
 
 		// Do the tokens exist in both the _POST and _COOKIE arrays?
