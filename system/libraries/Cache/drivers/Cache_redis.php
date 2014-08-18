@@ -107,7 +107,7 @@ class CI_Cache_redis extends CI_Driver
 		{
 			$data = serialize($data);
 
-			if (($index_key = array_search($id, $this->_serialized)) === FALSE)
+			if (($index_key = array_search($id, $this->_serialized, TRUE)) === FALSE)
 			{
 				$this->_serialized[] = $id;
 			}
@@ -116,7 +116,7 @@ class CI_Cache_redis extends CI_Driver
 		}
 		else
 		{
-			if (($index_key = array_search($id, $this->_serialized)) !== FALSE)
+			if (($index_key = array_search($id, $this->_serialized, TRUE)) !== FALSE)
 			{
 				unset($this->_serialized[$index_key]);
 			}
@@ -139,7 +139,7 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function delete($key)
 	{
-		if (($index_key = array_search($key, $this->_serialized)) !== FALSE)
+		if (($index_key = array_search($key, $this->_serialized, TRUE)) !== FALSE)
 		{
 			unset($this->_serialized[$index_key]);
 		}
