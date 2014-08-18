@@ -109,13 +109,10 @@ class CI_Cache_redis extends CI_Driver
 
 			$this->_redis->sAdd('_ci_redis_serialized', $id);
 		}
-		else
+		elseif (($index_key = array_search($id, $this->_serialized, TRUE)) !== FALSE)
 		{
-			if (($index_key = array_search($id, $this->_serialized, TRUE)) !== FALSE)
-			{
-				unset($this->_serialized[$index_key]);
-				$this->_redis->sRemove('_ci_redis_serialized', $id);
-			}
+			unset($this->_serialized[$index_key]);
+			$this->_redis->sRemove('_ci_redis_serialized', $id);
 		}
 
 		return ($ttl)
@@ -295,7 +292,7 @@ class CI_Cache_redis extends CI_Driver
 			$this->_redis->auth($config['password']);
 		}
 
-		// Initialize the index of selialized values.
+		// Initialize the index of serialized values.
 		$this->_serialized = $this->_redis->sMembers('_ci_redis_serialized');
 
 		if (empty($this->_serialized))
