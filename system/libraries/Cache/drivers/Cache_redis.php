@@ -133,13 +133,13 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function delete($key)
 	{
-		if ($result = ($this->_redis->delete($key) === 1))
+		if ($this->_redis->delete($key) === 1 && array_search($key, $this->_serialized, TRUE) !== FALSE)
 		{
-			// This is for not leaving garbage keys within the Redis auxilary set.
 			$this->_redis->sRemove('_ci_redis_serialized', $key);
+			return TRUE;
 		}
 
-		return $result;
+		return FALSE;
 	}
 
 	// ------------------------------------------------------------------------
