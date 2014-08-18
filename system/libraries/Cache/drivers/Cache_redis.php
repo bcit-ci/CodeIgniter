@@ -38,11 +38,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CI_Cache_redis extends CI_Driver
 {
 	/**
-	 * The name of the Redis set that is to store keys of serialized values.
-	 */
-	const KEY_SET_FOR_SERIALIZATION = '_ci_redis_serialization_set';
-
-	/**
 	 * Default config
 	 *
 	 * @static
@@ -112,7 +107,7 @@ class CI_Cache_redis extends CI_Driver
 				$this->_serialized[] = $id;
 			}
 
-			$this->_redis->sAdd(self::KEY_SET_FOR_SERIALIZATION, $id);
+			$this->_redis->sAdd('_ci_redis_serialized', $id);
 		}
 		else
 		{
@@ -121,7 +116,7 @@ class CI_Cache_redis extends CI_Driver
 				unset($this->_serialized[$index_key]);
 			}
 
-			$this->_redis->sRemove(self::KEY_SET_FOR_SERIALIZATION, $id);
+			$this->_redis->sRemove('_ci_redis_serialized', $id);
 		}
 
 		return ($ttl)
@@ -296,7 +291,7 @@ class CI_Cache_redis extends CI_Driver
 		}
 
 		// Initialize the index of selialized values.
-		$this->_serialized = $this->_redis->sMembers(self::KEY_SET_FOR_SERIALIZATION);
+		$this->_serialized = $this->_redis->sMembers('_ci_redis_serialized');
 
 		if (empty($this->_serialized))
 		{
