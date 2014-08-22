@@ -187,6 +187,7 @@ Release Date: Not Released
       - Changed ``limit()`` to ignore NULL values instead of always casting to integer.
       - Changed ``offset()`` to ignore empty values instead of always casting to integer.
       - Methods ``insert_batch()`` and ``update_batch()`` now return an integer representing the number of rows affected by them.
+      - Methods ``where()``, ``or_where()``, ``having()`` and ``or_having()`` now convert the operators *<>* and *!=* into *IS NOT NULL* when the supplied for comparison value is equal to *NULL*. 
 
    -  :doc:`Database Results <database/results>` changes include:
 
