@@ -665,7 +665,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			{
 				$operator = trim($this->_get_operator($k));
 
-				if ($operator == '<>' OR $operator == '!=')
+				if ($operator === '<>' OR $operator === '!=')
 				{
 					$k = str_replace($operator, ' IS NOT NULL', $k);
 				}
