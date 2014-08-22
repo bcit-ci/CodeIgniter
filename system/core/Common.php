@@ -559,12 +559,12 @@ if ( ! function_exists('set_status_header'))
 
 // --------------------------------------------------------------------
 
-if ( ! function_exists('_exception_handler'))
+if ( ! function_exists('_error_handler'))
 {
 	/**
-	 * Exception Handler
+	 * Error Handler
 	 *
-	 * This is the custom exception handler that is declared at the top
+	 * This is the custom error handler that is declared at the top
 	 * of CodeIgniter.php. The main reason we use this is to permit
 	 * PHP errors to be logged in our own log files since the user may
 	 * not have access to server logs. Since this function
@@ -578,7 +578,7 @@ if ( ! function_exists('_exception_handler'))
 	 * @param	int	$line
 	 * @return	void
 	 */
-	function _exception_handler($severity, $message, $filepath, $line)
+	function _error_handler($severity, $message, $filepath, $line)
 	{
 		$is_error = (((E_ERROR | E_COMPILE_ERROR | E_CORE_ERROR | E_USER_ERROR) & $severity) === $severity);
 
@@ -619,6 +619,27 @@ if ( ! function_exists('_exception_handler'))
 	}
 }
 
+// --------------------------------------------------------------------
+
+if ( ! function_exists('_exception_handler'))
+{
+	/**
+	 * Exception Handler
+	 *
+	 * This is the custom exception handler that is declared at the top
+	 * of CodeIgniter.php. The main reason we use this is to permit
+	 * PHP exceptions to be logged in our own log files since the user may
+	 * not have access to server logs.
+	 *
+	 * @param	Exception $e
+	 * @return	void
+	 */
+	function _exception_handler(Exception $e)
+	{
+		_error_handler(E_ERROR, $e->__toString(), $e->getFile(), $e->getLine());
+	}
+}
+
 // ------------------------------------------------------------------------
 
 if ( ! function_exists('_shutdown_handler'))
@@ -642,7 +663,7 @@ if ( ! function_exists('_shutdown_handler'))
 		if (isset($last_error) &&
 			($last_error['type'] & (E_ERROR | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING)))
 		{
-			_exception_handler($last_error['type'], $last_error['message'], $last_error['file'], $last_error['line']);
+			_error_handler($last_error['type'], $last_error['message'], $last_error['file'], $last_error['line']);
 		}
 	}
 }
