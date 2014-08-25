@@ -691,11 +691,10 @@ if ( ! function_exists('html_escape'))
 {
 	/**
 	 * Returns HTML escaped variable.
-	 * $double_encode set to FALSE prevents escaping twice.
 	 *
-	 * @param	mixed
-	 * @param	bool
-	 * @return	mixed
+	 * @param	mixed	$var		The input string or array of strings to be escaped.
+	 * @param	bool	$double_encode	$double_encode set to FALSE prevents escaping twice.
+	 * @return	mixed			The escaped string or array of strings as a result.
 	 */
 	function html_escape($var, $double_encode = TRUE)
 	{
