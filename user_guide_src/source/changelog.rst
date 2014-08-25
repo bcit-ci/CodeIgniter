@@ -489,6 +489,7 @@ Release Date: Not Released
       -  Removed the third (`$php_error`) argument from function :func:`log_message()`.
       -  Changed internal function ``load_class()`` to accept a constructor parameter instead of (previously unused) class name prefix.
       -  Removed default parameter value of :func:`is_php()`.
+      -  Added a second optional argument ``$double_encode`` to :func:`html_escape()`. When ``$double_encode`` is set to FALSE, escaping twice is prevented.
 
    -  :doc:`Output Library <libraries/output>` changes include:
 
