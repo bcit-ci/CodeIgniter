@@ -701,7 +701,9 @@ if ( ! function_exists('html_escape'))
 		$double_encode = (bool) $double_encode;
 
 		return is_array($var)
-			? ($double_encode === FALSE ? array_map('html_escape', $var, array_fill(0, count($var), FALSE)) : array_map('html_escape', $var))
+			? ($double_encode === FALSE
+				? array_map('html_escape', $var, array_fill(0, count($var), FALSE))
+				: array_map('html_escape', $var))
 			: htmlspecialchars($var, ENT_QUOTES, config_item('charset'), $double_encode);
 	}
 }
