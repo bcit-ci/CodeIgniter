@@ -1171,7 +1171,7 @@ class CI_Upload {
 		{
 			if ( ! in_array(strtolower($part), $this->allowed_types) OR ! isset($this->_mimes[strtolower($part)]))
 			{
-				$filename .= '.'.$part.'_';
+				$filename .= '_'.$part;
 			}
 			else
 			{
