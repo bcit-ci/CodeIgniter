@@ -606,7 +606,7 @@ class CI_Output {
 
 		if (is_int($result))
 		{
-			@chmod($cache_path, 0666);
+			chmod($cache_path, 0640);
 			log_message('debug', 'Cache file written: '.$cache_path);
 
 			// Send HTTP cache-control headers to browser to match file cache settings.

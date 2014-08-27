@@ -333,6 +333,7 @@ Release Date: Not Released
       -  If property *maintain_ratio* is set to TRUE, ``image_reproportion()`` now doesn't need both width and height to be specified.
       -  Property *maintain_ratio* is now taken into account when resizing images using ImageMagick library.
       -  Added support for maintaining transparency for PNG images in method ``text_watermark()``.
+      -  Added a **file_permissions** setting.
 
    -  :doc:`Form Validation Library <libraries/form_validation>` changes include:
 
@@ -533,6 +534,11 @@ Release Date: Not Released
       -  Changed method ``clean_string()`` to utilize ``mb_convert_encoding()`` if it is available.
       -  Renamed method ``_is_ascii()`` to ``is_ascii()`` and made it public.
 
+   -  Log Library changes include:
+
+      -  Added a ``$config['log_file_permissions']`` setting.
+      -  Changed the library constructor to try to create the **log_path** directory if it doesn't exist.
+
    -  Added `compatibility layers <general/compatibility_functions>` for:
 
       - `Multibyte String <http://php.net/mbstring>`_ (limited support).
@@ -541,7 +547,6 @@ Release Date: Not Released
       - `Standard Functions ``array_column()``, ``array_replace()``, ``array_replace_recursive()``, ``hex2bin()``, ``quoted_printable_encode()``.
 
    -  Removed ``CI_CORE`` boolean constant from *CodeIgniter.php* (no longer Reactor and Core versions).
-   -  Log Library will now try to create the **log_path** directory if it doesn't exist.
    -  Added support for HTTP-Only cookies with new config option *cookie_httponly* (default FALSE).
    -  ``$config['time_reference']`` now supports all timezone strings supported by PHP.
    -  Fatal PHP errors are now also passed to ``_exception_handler()``, so they can be logged.

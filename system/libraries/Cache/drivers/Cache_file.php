@@ -92,7 +92,7 @@ class CI_Cache_file extends CI_Driver {
 
 		if (write_file($this->_cache_path.$id, serialize($contents)))
 		{
-			@chmod($this->_cache_path.$id, 0660);
+			chmod($this->_cache_path.$id, 0640);
 			return TRUE;
 		}
 

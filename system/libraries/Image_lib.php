@@ -327,6 +327,13 @@ class CI_Image_lib {
 	public $full_dst_path		= '';
 
 	/**
+	 * File permissions
+	 *
+	 * @var	int
+	 */
+	public $file_permissions = 0644;
+
+	/**
 	 * Name of function to create image
 	 *
 	 * @var string
@@ -734,7 +741,7 @@ class CI_Image_lib {
 		{
 			if ($this->source_image !== $this->new_image && @copy($this->full_src_path, $this->full_dst_path))
 			{
-				@chmod($this->full_dst_path, 0666);
+				chmod($this->full_dst_path, $this->file_permissions);
 			}
 
 			return TRUE;
@@ -810,8 +817,7 @@ class CI_Image_lib {
 		imagedestroy($dst_img);
 		imagedestroy($src_img);
 
-		// Set the file to 666
-		@chmod($this->full_dst_path, 0666);
+		chmod($this->full_dst_path, $this->file_permissions);
 
 		return TRUE;
 	}
@@ -880,8 +886,7 @@ class CI_Image_lib {
 			return FALSE;
 		}
 
-		// Set the file to 666
-		@chmod($this->full_dst_path, 0666);
+		chmod($this->full_dst_path, $this->file_permissions);
 
 		return TRUE;
 	}
@@ -969,7 +974,7 @@ class CI_Image_lib {
 		// we have to rename the temp file.
 		copy($this->dest_folder.'netpbm.tmp', $this->full_dst_path);
 		unlink($this->dest_folder.'netpbm.tmp');
-		@chmod($this->full_dst_path, 0666);
+		chmod($this->full_dst_path, $this->file_permissions);
 
 		return TRUE;
 	}
@@ -1013,8 +1018,7 @@ class CI_Image_lib {
 		imagedestroy($dst_img);
 		imagedestroy($src_img);
 
-		// Set the file to 666
-		@chmod($this->full_dst_path, 0666);
+		chmod($this->full_dst_path, $this->file_permissions);
 
 		return TRUE;
 	}
@@ -1086,8 +1090,7 @@ class CI_Image_lib {
 		// Kill the file handles
 		imagedestroy($src_img);
 
-		// Set the file to 666
-		@chmod($this->full_dst_path, 0666);
+		chmod($this->full_dst_path, $this->file_permissions);
 
 		return TRUE;
 	}
