@@ -52,13 +52,6 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	protected $_table;
 
 	/**
-	 * Session ID
-	 *
-	 * @var	string
-	 */
-	protected $_session_id;
-
-	/**
 	 * Row exists flag
 	 *
 	 * @var	bool
@@ -70,23 +63,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	 *
 	 * @var	string
 	 */
-	protected $_lock_driver;
-
-	/**
-	 * Lock status flag
-	 *
-	 * @var	bool
-	 */
-	protected $_lock = FALSE;
-
-	/**
-	 * Semaphore ID
-	 *
-	 * Used for locking if the database doesn't support advisory locks
-	 *
-	 * @var	resource
-	 */
-	protected $_sem;
+	protected $_lock_driver = 'semaphore';
 
 	// ------------------------------------------------------------------------
 
@@ -122,10 +99,6 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		{
 			$this->_lock_driver = 'postgre';
 		}
-		elseif (extension_loaded('sysvsem'))
-		{
-			$this->_lock_driver = 'semaphore';
-		}
 
 		isset($this->_table) OR $this->_table = config_item('sess_table_name');
 	}
@@ -143,8 +116,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 	public function read($session_id)
 	{
-		$this->_session_id = $session_id;
-		if (($this->_lock = $this->_get_lock()) !== FALSE)
+		if ($this->_get_lock() !== FALSE)
 		{
 			$this->_db
 				->select('data')
@@ -246,71 +218,65 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 	// ------------------------------------------------------------------------
 
-	protected function _get_lock()
+	protected function _get_lock($session_id)
 	{
 		if ($this->_lock_driver === 'mysql')
 		{
-			$arg = $this->_session_id
-				.($this->_match_ip ? '_'.$_SERVER['REMOTE_ADDR'] : '');
-			return (bool) $this->_db
-				->query("SELECT GET_LOCK('".$arg."', 10) AS ci_session_lock")
-				->row()
-				->ci_session_lock;
+			$arg = $session_id.($this->_match_ip ? '_'.$_SERVER['REMOTE_ADDR'] : '');
+			if ($this->_db->query("SELECT GET_LOCK('".$arg."', 10) AS ci_session_lock")->row()->ci_session_lock)
+			{
+				$this->_lock = $arg;
+				return TRUE;
+			}
+
+			return FALSE;
 		}
 		elseif ($this->_lock_driver === 'postgre')
 		{
-			$arg = "hashtext('".$this->_session_id."')"
-				.($this->_match_ip ? ", hashtext('".$_SERVER['REMOTE_ADDR']."')" : '');
-
-			return (bool) $this->_db->simple_query('SELECT pg_advisory_lock('.$arg.')');
-		}
-		elseif ($this->_lock_driver === 'semaphore')
-		{
-			if (($this->_sem = sem_get($arg, 1, 0644)) === FALSE)
+			$arg = "hashtext('".$session_id."')".($this->_match_ip ? ", hashtext('".$_SERVER['REMOTE_ADDR']."')" : '');
+			if ($this->_db->simple_query('SELECT pg_advisory_lock('.$arg.')'))
 			{
-				return FALSE;
+				$this->_lock = $arg;
+				return TRUE;
 			}
 
-			if ( ! sem_acquire($this->_sem))
-			{
-				sem_remove($this->_sem);
-				return FALSE;
-			}
-
-			return TRUE;
+			return FALSE;
 		}
 
-		return TRUE;
+		return parent::_get_lock($session_id);
 	}
 
 	// ------------------------------------------------------------------------
 
 	protected function _release_lock()
 	{
+		if ( ! $this->_lock)
+		{
+			return TRUE;
+		}
+
 		if ($this->_lock_driver === 'mysql')
 		{
-			$arg = $this->_session_id
-				.($this->_match_ip ? '_'.$_SERVER['REMOTE_ADDR'] : '');
+			if ($this->_db->query("SELECT RELEASE_LOCK('".$this->_lock."') AS ci_session_lock")->row()->ci_session_lock)
+			{
+				$this->_lock = FALSE;
+				return TRUE;
+			}
 
-			return (bool) $this->_db
-				->query("SELECT RELEASE_LOCK('".$arg."') AS ci_session_lock")
-				->row()
-				->ci_session_lock;
+			return FALSE;
 		}
 		elseif ($this->_lock_driver === 'postgre')
 		{
-			$arg = "hashtext('".$this->_session_id."')"
-				.($this->_match_ip ? ", hashtext('".$_SERVER['REMOTE_ADDR']."')" : '');
+			if ($this->_db->simple_query('SELECT pg_advisory_unlock('.$this->_lock.')'))
+			{
+				$this->_lock = FALSE;
+				return TRUE;
+			}
 
-			return (bool) $this->_db->simple_query('SELECT pg_advisory_unlock('.$arg.')');
-		}
-		elseif ($this->_lock_driver === 'semaphore')
-		{
-			sem_release($this->_sem);
-			sem_remove($this->_sem);
+			return FALSE;
 		}
 
-		return TRUE;
+		return parent::_release_lock();
 	}
 
 }

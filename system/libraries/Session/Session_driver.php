@@ -90,11 +90,18 @@ abstract class CI_Session_driver implements SessionHandlerInterface {
 	protected $_match_ip;
 
 	/**
-	 * Data dash
+	 * Data fingerprint
 	 *
 	 * @var	bool
 	 */
 	protected $_fingerprint;
+
+	/**
+	 * Lock placeholder
+	 *
+	 * @var	mixed
+	 */
+	protected $_lock = FALSE;
 
 	// ------------------------------------------------------------------------
 
@@ -200,6 +207,61 @@ abstract class CI_Session_driver implements SessionHandlerInterface {
 			$this->_cookie_secure,
 			$this->_cookie_httponly
 		);
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Get lock
+	 *
+	 * A default locking mechanism via semaphores, if ext/sysvsem is available.
+	 *
+	 * Drivers will usually override this and only fallback to it if no other
+	 * locking mechanism is available.
+	 *
+	 * @param	string	$session_id
+	 * @return	bool
+	 */
+	protected function _get_lock($session_id)
+	{
+		if ( ! extension_loaded('sysvsem'))
+		{
+			$this->_lock = TRUE;
+			return TRUE;
+		}
+
+		if (($this->_lock = sem_get($session_id.($this->_match_ip ? '_'.$_SERVER['REMOTE_ADDR'] : ''), 1, 0644)) === FALSE)
+		{
+			return FALSE;
+		}
+
+		if ( ! sem_acquire($this->_lock))
+		{
+			sem_remove($this->_lock);
+			$this->_lock = FALSE;
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Release lock
+	 *
+	 * @return	bool
+	 */
+	protected function _release_lock()
+	{
+		if (extension_loaded('sysvsem') && $this->_lock)
+		{
+			sem_release($this->_lock);
+			sem_remove($this->_lock);
+			$this->_lock = FALSE;
+		}
+
+		return TRUE;
 	}
 
 }
