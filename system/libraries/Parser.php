@@ -128,12 +128,19 @@ class CI_Parser {
 			return FALSE;
 		}
 
+		$replace = array();
 		foreach ($data as $key => $val)
 		{
-			$template = is_array($val)
+			$replace = array_merge(
+				$replace,
+				is_array($val)
 					? $this->_parse_pair($key, $val, $template)
-					: $template = $this->_parse_single($key, (string) $val, $template);
+					: $this->_parse_single($key, (string) $val, $template)
+			);
 		}
+
+		unset($data);
+		$template = strtr($template, $replace);
 
 		if ($return === FALSE)
 		{
@@ -170,7 +177,7 @@ class CI_Parser {
 	 */
 	protected function _parse_single($key, $val, $string)
 	{
-		return str_replace($this->l_delim.$key.$this->r_delim, (string) $val, $string);
+		return array($this->l_delim.$key.$this->r_delim => (string) $val);
 	}
 
 	// --------------------------------------------------------------------
@@ -187,50 +194,43 @@ class CI_Parser {
 	 */
 	protected function _parse_pair($variable, $data, $string)
 	{
-		if (FALSE === ($matches = $this->_match_pair($string, $variable)))
-		{
-			return $string;
-		}
+		$replace = array();
+		preg_match_all(
+			'#'.preg_quote($this->l_delim.$variable.$this->r_delim).'(.+?)'.preg_quote($this->l_delim.'/'.$variable.$this->r_delim).'#s',
+			$string,
+			$matches,
+			PREG_SET_ORDER
+		);
 
-		$str = '';
-		$search = $replace = array();
 		foreach ($matches as $match)
 		{
 			$str = '';
 			foreach ($data as $row)
 			{
-				$temp = $match[1];
+				$temp = array();
 				foreach ($row as $key => $val)
 				{
-					$temp = is_array($val)
-						? $this->_parse_pair($key, $val, $temp)
-						: $this->_parse_single($key, $val, $temp);
+					if (is_array($val))
+					{
+						$pair = $this->_parse_pair($key, $val, $temp);
+						if ( ! empty($pair))
+						{
+							$temp = array_merge($temp, $pair);
+						}
+
+						continue;
+					}
+
+					$temp[$this->l_delim.$key.$this->r_delim] = $val;
 				}
 
-				$str .= $temp;
+				$str .= strtr($match[1], $temp);
 			}
 
-			$search[] = $match[0];
-			$replace[] = $str;
+			$replace[$match[0]] = $str;
 		}
 
-		return str_replace($search, $replace, $string);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Matches a variable pair
-	 *
-	 * @param	string	$string
-	 * @param	string	$variable
-	 * @return	mixed
-	 */
-	protected function _match_pair($string, $variable)
-	{
-		return preg_match_all('|'.preg_quote($this->l_delim).$variable.preg_quote($this->r_delim).'(.+?)'.preg_quote($this->l_delim).'/'.$variable.preg_quote($this->r_delim).'|s',
-					$string, $match, PREG_SET_ORDER)
-			? $match : FALSE;
+		return $replace;
 	}
 
 }
