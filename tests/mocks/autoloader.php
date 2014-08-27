@@ -45,6 +45,7 @@ function autoload($class)
 		'Migration',
 		'Pagination',
 		'Parser',
+		'Password_generator',
 		'Profiler',
 		'Table',
 		'Trackback',
