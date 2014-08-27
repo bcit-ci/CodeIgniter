@@ -153,7 +153,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	{
 		if (isset($this->_redis, $this->_lock_key))
 		{
-			$this->_redis->setTimeout($this->_lock_key, 10, time());
+			$this->_redis->setTimeout($this->_lock_key, 5);
 			if ($this->_fingerprint !== ($fingerprint = md5($session_data)))
 			{
 				if ($this->_redis->set($this->_key_prefix.$session_id, $session_data, $this->_expiration))
