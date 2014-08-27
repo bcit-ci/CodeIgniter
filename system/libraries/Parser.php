@@ -212,7 +212,7 @@ class CI_Parser {
 				{
 					if (is_array($val))
 					{
-						$pair = $this->_parse_pair($key, $val, $temp);
+						$pair = $this->_parse_pair($key, $val, $match[1]);
 						if ( ! empty($pair))
 						{
 							$temp = array_merge($temp, $pair);
