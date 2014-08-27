@@ -508,9 +508,10 @@ Release Date: Not Released
 
    -  :doc:`Security Library <libraries/security>` changes include:
 
-      -  Added method ``strip_image_tags()``.
       -  Added ``$config['csrf_regeneration']``, which makes CSRF token regeneration optional.
       -  Added ``$config['csrf_exclude_uris']``, allowing for exclusion of URIs from the CSRF protection (regular expressions are supported).
+      -  Added method ``strip_image_tags()``.
+      -  Added method ``get_random_bytes()`` and switched CSRF & XSS token generation to use it.
       -  Modified method ``sanitize_filename()`` to read a public ``$filename_bad_chars`` property for getting the invalid characters list.
       -  Return status code of 403 instead of a 500 if CSRF protection is enabled but a token is missing from a request.
 

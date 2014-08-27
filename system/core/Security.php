@@ -77,7 +77,7 @@ class CI_Security {
 	 *
 	 * @var	string
 	 */
-	protected $_xss_hash =	'';
+	protected $_xss_hash;
 
 	/**
 	 * CSRF Hash
@@ -86,7 +86,7 @@ class CI_Security {
 	 *
 	 * @var	string
 	 */
-	protected $_csrf_hash =	'';
+	protected $_csrf_hash;
 
 	/**
 	 * CSRF Expire time
@@ -227,7 +227,7 @@ class CI_Security {
 		{
 			// Nothing should last forever
 			unset($_COOKIE[$this->_csrf_cookie_name]);
-			$this->_csrf_hash = '';
+			$this->_csrf_hash = NULL;
 		}
 
 		$this->_csrf_set_hash();
@@ -538,12 +538,55 @@ class CI_Security {
 	 */
 	public function xss_hash()
 	{
-		if ($this->_xss_hash === '')
+		if ($this->_xss_hash === NULL)
 		{
-			$this->_xss_hash = md5(uniqid(mt_rand()));
+			$rand = $this->get_random_bytes(16);
+			$this->_xss_hash = ($rand === FALSE)
+				? md5(uniqid(mt_rand(), TRUE))
+				: bin2hex($rand);
 		}
 
 		return $this->_xss_hash;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get random bytes
+	 *
+	 * @param	int	$length	Output length
+	 * @return	string
+	 */
+	public function get_random_bytes($length)
+	{
+		if (empty($length) OR ! ctype_digit($length))
+		{
+			return FALSE;
+		}
+
+		// Unfortunately, none of the following PRNGs is guaranteed to exist ...
+		if (defined(MCRYPT_DEV_URANDOM) && ($output = mcrypt_create_iv($length, MCRYPT_DEV_URANDOM)) !== FALSE)
+		{
+			return $output;
+		}
+
+
+		if (is_readable('/dev/urandom') && ($fp = fopen('/dev/urandom', 'rb')) !== FALSE)
+		{
+			$output = fread($fp, $length);
+			fclose($fp);
+			if ($output !== FALSE)
+			{
+				return $output;
+			}
+		}
+
+		if (function_exists('openssl_random_pseudo_bytes'))
+		{
+			return openssl_random_pseudo_bytes($length);
+		}
+
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -915,7 +958,7 @@ class CI_Security {
 	 */
 	protected function _csrf_set_hash()
 	{
-		if ($this->_csrf_hash === '')
+		if ($this->_csrf_hash === NULL)
 		{
 			// If the cookie exists we will use its value.
 			// We don't necessarily want to regenerate it with
@@ -927,7 +970,11 @@ class CI_Security {
 				return $this->_csrf_hash = $_COOKIE[$this->_csrf_cookie_name];
 			}
 
-			$this->_csrf_hash = md5(uniqid(mt_rand(), TRUE));
+			$rand = $this->get_random_bytes(16);
+			$this->_csrf_hash = ($rand === FALSE)
+				? md5(uniqid(mt_rand(), TRUE))
+				: bin2hex($rand);
+
 			$this->csrf_set_cookie();
 		}
 
