@@ -559,7 +559,7 @@ class CI_Security {
 	 */
 	public function get_random_bytes($length)
 	{
-		if (empty($length) OR ! ctype_digit($length))
+		if (empty($length) OR ! ctype_digit((string) $length))
 		{
 			return FALSE;
 		}
