@@ -154,7 +154,7 @@ if ( ! function_exists('anchor'))
 
 		if ($title === '')
 		{
-			$title = $site_url;
+			$title = trim(substr(strstr($site_url, "/"), 2), '/');
 		}
 
 		if ($attributes !== '')
