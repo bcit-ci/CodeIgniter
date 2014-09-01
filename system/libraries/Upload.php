@@ -38,6 +38,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CI_Upload {
 
 	/**
+	 * File input field
+	 *
+	 * @var	string
+	 */
+	public $field			= '';
+
+	/**
 	 * Maximum file size
 	 *
 	 * @var	int
@@ -365,6 +372,8 @@ class CI_Upload {
 	 */
 	public function do_upload($field = 'userfile')
 	{
+		$field = ($this->field) ? $this->field : $field;
+		
 		// Is $_FILES[$field] set? If not, no reason to continue.
 		if (isset($_FILES[$field]))
 		{
