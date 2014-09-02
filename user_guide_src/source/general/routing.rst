@@ -116,14 +116,12 @@ call the "shirts" controller class and the "id_123" method.
 With regular expressions, you can also catch a segment containing a
 forward slash ('/'), which would usually represent the delimiter between
 multiple segments.
+
 For example, if a user accesses a password protected area of your web
 application and you wish to be able to redirect them back to the same
 page after they log in, you may find this example useful::
 
 	$route['login/(.+)'] = 'auth/login/$1';
-
-That will call the "auth" controller class and its ``login()`` method,
-passing everything contained in the URI after *login/* as a parameter.
 
 For those of you who don't know regular expressions and want to learn
 more about them, `regular-expressions.info <http://www.regular-expressions.info/>`

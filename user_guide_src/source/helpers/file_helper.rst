@@ -80,8 +80,8 @@ The following functions are available:
 	for mode options.
 
 	.. note: In order for this function to write data to a file, its permissions must
-		be set such that it is writable (666, 777, etc.). If the file does not
-		already exist, the directory containing it must be writable.
+		be set such that it is writable. If the file does not already exist,
+		then the directory containing it must be writable.
 
 	.. note:: The path is relative to your main site index.php file, NOT your
 		controller or view files. CodeIgniter uses a front controller so paths

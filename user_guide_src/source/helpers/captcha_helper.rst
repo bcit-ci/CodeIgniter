@@ -54,7 +54,7 @@ Once loaded you can generate a CAPTCHA like this::
    can draw randomly from.
 -  If you do not specify a path to a TRUE TYPE font, the native ugly GD
    font will be used.
--  The "captcha" folder must be writable (666, or 777)
+-  The "captcha" directory must be writable
 -  The **expiration** (in seconds) signifies how long an image will remain
    in the captcha folder before it will be deleted. The default is two
    hours.

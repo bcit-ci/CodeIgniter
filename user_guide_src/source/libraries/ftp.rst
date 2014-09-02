@@ -270,7 +270,7 @@ Class Reference
 		::
 
 			// Creates a folder named "bar"
-			$this->ftp->mkdir('/public_html/foo/bar/', DIR_WRITE_MODE);
+			$this->ftp->mkdir('/public_html/foo/bar/', 0755);
 
 	.. method:: chmod($path, $perm)
 
@@ -282,8 +282,8 @@ Class Reference
 		Permits you to set file permissions. Supply the path to the file or
 		directory you wish to alter permissions on::
 
-			// Chmod "bar" to 777
-			$this->ftp->chmod('/public_html/foo/bar/', DIR_WRITE_MODE);
+			// Chmod "bar" to 755
+			$this->ftp->chmod('/public_html/foo/bar/', 0755);
 
 	.. method:: changedir($path[, $suppress_debug = FALSE])
 

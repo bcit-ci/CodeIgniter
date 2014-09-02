@@ -137,6 +137,8 @@ Preference              Default Value           Options                         
                                                                                 image can be shown at a time, and it can't be positioned on the page. It
                                                                                 simply outputs the raw image dynamically to your browser, along with
                                                                                 image headers.
+**file_permissions**    0644                    (integer)                       File system permissions to apply on the resulting image file,               R, C, X, W
+                                                                                writing it to the disk. WARNING: Use octal integer notation!
 **quality**             90%                     1 - 100%                        Sets the quality of the image. The higher the quality the larger the        R, C, X, W
                                                                                 file size.
 **new_image**           None                    None                            Sets the destination image name/path. You'll use this preference when       R, C, X, W
