@@ -738,8 +738,8 @@ class CI_Form_validation {
 					}
 					
 					$result = is_array($rule)
-							? $rule[0]->{$rule[1]}($postdata, $param)
-							: $rule($postdata, $param);
+						? $rule[0]->{$rule[1]}($postdata, $param)
+						: $rule($postdata, $param);
 					
 					isset($rule_name) && $rule = $rule_name;
 				}
