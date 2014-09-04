@@ -555,12 +555,13 @@ And if you're running PHP 5.3+, you can also use anonymous functions::
 		)
 	);
 
-.. important:: If Callables doesn't have a defined rule name, the code inside them
-will be executed but it won't be used as a proper rule check, so even returning a
-FALSE won't trigger a validation error and the field data will be considered as valid.
-So you must define a rule name in order to be able to use the Callables as rule validators.
 
-.. _setting-error-messages:
+.. important:: If Callables doesn't have a defined rule name, the code inside them
+	will be executed but it won't be used as a proper rule check, so even returning a
+	FALSE won't trigger a validation error and the field data will be considered as valid.
+	So you must define a rule name in order to be able to use the Callables as rule validators.
+
+
 
 Setting Error Messages
 ======================
