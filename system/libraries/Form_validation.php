@@ -731,7 +731,7 @@ class CI_Form_validation {
 				{
 					// If rule is callable can still have a name in order
 					// to be able to use callables to validate fields
-					if(!is_callable($rule))
+					if ( ! is_callable($rule))
 					{
 						$rule_name 	= $rule[0];
 						$rule		= $rule[1];
@@ -741,10 +741,7 @@ class CI_Form_validation {
 							? $rule[0]->{$rule[1]}($postdata, $param)
 							: $rule($postdata, $param);
 					
-					if(isset($rule_name))
-					{
-						$rule = $rule_name;
-					}
+					isset($rule_name) && $rule = $rule_name;
 				}
 
 				// Re-assign the result to the master data array
