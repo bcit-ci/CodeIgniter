@@ -733,8 +733,8 @@ class CI_Form_validation {
 					// to be able to use callables to validate fields
 					if ( ! is_callable($rule))
 					{
-						$rule_name 	= $rule[0];
-						$rule		= $rule[1];
+						$rule_name = $rule[0];
+						$rule = $rule[1];
 					}
 					
 					$result = is_array($rule)

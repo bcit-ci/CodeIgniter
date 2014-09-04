@@ -510,6 +510,58 @@ function::
 		)
 	);
 
+There can also be added rule names into the Callables in order to use them
+literally as Callback methods; this lets you define manually error messages
+that will be shown in the form in case of a failure while validating the form.
+
+To implement this you have to make an array which will have as first element the
+name of the rule you want to define and, as second element, anything that 
+``is_callable()`` would return TRUE for.
+
+The rule name parameters should be defined as in the following examples::
+	
+	$this->form_validation->set_rules(
+		'username', 'Username',
+		array(
+			'required',
+			array(
+				'username_check',
+				array($this->users_model, 'valid_username')
+			)
+		)
+	);
+
+And if you're running PHP 5.3+, you can also use anonymous functions::
+
+	$this->form_validation->set_rules(
+		'username', 'Username',
+		array(
+			'required',
+			array(
+				'username_check',
+				function($str)
+				{
+					if ($str == 'test')
+					{
+						$this->form_validation->set_message('username_check', 'The {field} field can not be the word "test"');
+						return FALSE;
+					}
+					else
+					{
+						return TRUE;
+					}
+				}
+			)
+		)
+	);
+
+.. important:: If Callables doesn't have a defined rule name, the code
+inside them will be executed but it won't be used as a proper rule check, so
+even returning a FALSE won't trigger a validation error and the field  data
+will be considered valid. So you must define a rule name in order to use the 
+Callables as rule validators.
+	
+
 .. _setting-error-messages:
 
 Setting Error Messages
