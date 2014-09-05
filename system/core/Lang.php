@@ -162,13 +162,14 @@ class CI_Lang {
 	 *
 	 * Fetches a single line of text from the language array
 	 *
-	 * @param	string	$line		Language line key
-	 * @param	bool	$log_errors	Whether to log an error message if the line is not found
-	 * @return	string	Translation
+	 * @param	 string	$line				Language line key
+	 * @param  array 	$args 			Variables to be parsed within string
+	 * @param	 bool		$log_errors	Whether to log an error message if the line is not found
+	 * @return string							Translation
 	 */
-	public function line($line, $log_errors = TRUE)
+	public function line($line = '', $args = '', $log_errors = TRUE)
 	{
-		$value = isset($this->language[$line]) ? $this->language[$line] : FALSE;
+		$value = ($line === '' OR ! isset($this->language[$line])) ? FALSE : $this->language[$line];
 
 		// Because killer robots like unicorns!
 		if ($value === FALSE && $log_errors === TRUE)
@@ -176,9 +177,18 @@ class CI_Lang {
 			log_message('error', 'Could not find the language line "'.$line.'"');
 		}
 
+		if ($args != '')
+		{
+			if ( ! is_array($args))
+			{
+				$args = array($args);
+			}
+
+			return vsprintf($value, $args);
+		}
+
 		return $value;
 	}
-
 }
 
 /* End of file Lang.php */
