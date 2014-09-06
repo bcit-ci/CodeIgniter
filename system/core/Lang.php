@@ -163,7 +163,7 @@ class CI_Lang {
 	 * Fetches a single line of text from the language array
 	 *
 	 * @param	 string	$line				Language line key
-	 * @param  array 	$args 			Variables to be parsed within string
+	 * @param  mixed 	$args 			Variables to be parsed within string
 	 * @param	 bool		$log_errors	Whether to log an error message if the line is not found
 	 * @return string							Translation
 	 */
@@ -171,13 +171,19 @@ class CI_Lang {
 	{
 		$value = ($line === '' OR ! isset($this->language[$line])) ? FALSE : $this->language[$line];
 
+		// Backward compatibility prior to adding $args parameter
+		if (is_bool($args))
+		{
+			$log_errors = $args;
+		}
+
 		// Because killer robots like unicorns!
 		if ($value === FALSE && $log_errors === TRUE)
 		{
 			log_message('error', 'Could not find the language line "'.$line.'"');
 		}
 
-		if ($args != '')
+		if ( ! is_bool($args) && ! empty($args))
 		{
 			if ( ! is_array($args))
 			{
