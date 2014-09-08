@@ -701,6 +701,12 @@ class CI_Form_validation {
 			{
 				$callable = TRUE;
 			}
+			elseif (is_array($rule) && isset($rule[0], $rule[1]) && is_callable($rule[1]))
+			{
+				// We have a "named" callable, so save the name
+				$callable = $rule[0];
+				$rule = $rule[1];
+			}
 
 			// Strip the parameter (if exists) from the rule
 			// Rules can contain a parameter: max_length[5]
@@ -712,7 +718,7 @@ class CI_Form_validation {
 			}
 
 			// Call the function that corresponds to the rule
-			if ($callback OR $callable)
+			if ($callback OR $callable !== FALSE)
 			{
 				if ($callback)
 				{
@@ -730,8 +736,14 @@ class CI_Form_validation {
 				else
 				{
 					$result = is_array($rule)
-						? $rule[0]->{$rule[1]}($postdata, $param)
-						: $rule($postdata, $param);
+						? $rule[0]->{$rule[1]}($postdata)
+						: $rule($postdata);
+
+					// Is $callable set to a rule name?
+					if ($callable !== FALSE)
+					{
+						$rule = $callable;
+					}
 				}
 
 				// Re-assign the result to the master data array
@@ -791,7 +803,7 @@ class CI_Form_validation {
 			// Did the rule test negatively? If so, grab the error.
 			if ($result === FALSE)
 			{
-				// Callable rules don't have named error messages
+				// Callable rules might not have named error messages
 				if ( ! is_string($rule))
 				{
 					return;

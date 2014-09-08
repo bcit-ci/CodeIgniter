@@ -505,8 +505,37 @@ function::
 			'required',
 			function($value)
 			{
-				// Check $value and return TRUE/FALSE
+				// Check $value
 			}
+		)
+	);
+
+Of course, since a Callable rule by itself is not a string, it isn't
+a rule name either. That is a problem when you want to set error messages
+for them. In order to get around that problem, you can put such rules as
+the second element of an array, with the first one being the rule name::
+
+	$this->form_validation->set_rules(
+		'username', 'Username',
+		array(
+			'required',
+			array('username_callable', array($this->users_model', 'valid_username'))
+		)
+	);
+
+Anonymous function (PHP 5.3+) version::
+
+	$this->form_validation->set_rules(
+		'username', 'Username',
+		array(
+			'required',
+			array(
+				'username_callable',
+				function($str)
+				{
+					// Check validity of $str and return TRUE or FALSE
+				}
+			)
 		)
 	);
 
