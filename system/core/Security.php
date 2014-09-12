@@ -974,8 +974,6 @@ class CI_Security {
 			$this->_csrf_hash = ($rand === FALSE)
 				? md5(uniqid(mt_rand(), TRUE))
 				: bin2hex($rand);
-
-			$this->csrf_set_cookie();
 		}
 
 		return $this->_csrf_hash;
