@@ -635,7 +635,7 @@ class CI_Input {
 			//
 			// The session ID sanitizer doesn't check for the value type and blindly does
 			// an implicit cast to string, which triggers an 'Array to string' E_NOTICE.
-			$sess_cookie_name = config_item('sess_cookie_name');
+			$sess_cookie_name = config_item('cookie_prefix').config_item('sess_cookie_name');
 			if (isset($_COOKIE[$sess_cookie_name]) && ! is_string($_COOKIE[$sess_cookie_name]))
 			{
 				unset($_COOKIE[$sess_cookie_name]);
