@@ -48,7 +48,7 @@ class CI_Session {
 	 * @return	void
 	 */
 	public function __construct(array $params = array())
-	{
+	{	
 		// No sessions under CLI
 		if (is_cli())
 		{
@@ -60,15 +60,26 @@ class CI_Session {
 			log_message('error', 'Session: session.auto_start is enabled in php.ini. Aborting.');
 			return;
 		}
-		elseif ( ! empty($params['driver']))
+		
+		// Load session config items
+		$config_params = array();
+		
+		foreach (get_config() as $key => $value)
+		{
+			if (strncmp($key, 'sess_', 5) === 0)
+			{
+				$key = substr($key, 5);
+				$config_params[$key] = $value;
+			}
+		}
+		
+		$params = array_merge($config_params, $params);
+		unset($config_params);
+		
+		if ( ! empty($params['driver']))
 		{
 			$this->_driver = $params['driver'];
 			unset($params['driver']);
-		}
-		// Note: Make the autoloader pass sess_* params to this constructor
-		elseif (empty($params) && $driver = config_item('sess_driver'))
-		{
-			$this->_driver = $driver;
 		}
 		// Note: BC workaround
 		elseif (config_item('sess_use_database'))
