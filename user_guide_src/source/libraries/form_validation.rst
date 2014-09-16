@@ -519,7 +519,7 @@ the second element of an array, with the first one being the rule name::
 		'username', 'Username',
 		array(
 			'required',
-			array('username_callable', array($this->users_model', 'valid_username'))
+			array('username_callable', array($this->users_model, 'valid_username'))
 		)
 	);
 
