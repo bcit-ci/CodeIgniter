@@ -163,7 +163,16 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 			$this->_redis->setTimeout($this->_lock_key, 5);
 			if ($this->_fingerprint !== ($fingerprint = md5($session_data)))
 			{
-				if ($this->_redis->set($this->_key_prefix.$session_id, $session_data, $this->_expiration))
+				if ($this->_expiration > 0)
+				{
+					$result = $this->_redis->setex($this->_key_prefix.$session_id, $this->_expiration, $session_data);
+				}
+				else
+				{
+					$result = $this->_redis->set($this->_key_prefix.$session_id, $session_data);
+				}
+				
+				if ($result)
 				{
 					$this->_fingerprint = $fingerprint;
 					return TRUE;
@@ -171,8 +180,8 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 
 				return FALSE;
 			}
-
-			return $this->_redis->setTimeout($this->_key_prefix.$session_id, $this->_expiration);
+			
+			return $this->_expiration > 0 ? $this->_redis->setTimeout($this->_key_prefix.$session_id, $this->_expiration) : TRUE;
 		}
 
 		return FALSE;
