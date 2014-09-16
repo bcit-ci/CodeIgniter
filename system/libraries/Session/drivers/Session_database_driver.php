@@ -116,7 +116,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 	public function read($session_id)
 	{
-		if ($this->_get_lock() !== FALSE)
+		if ($this->_get_lock($session_id) !== FALSE)
 		{
 			$this->_db
 				->select('data')
