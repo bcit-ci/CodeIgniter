@@ -122,14 +122,6 @@ abstract class CI_Session_driver implements SessionHandlerInterface {
 			property_exists($this, $key) && $this->$key = $value;
 		}
 
-		isset($this->_expiration) OR $this->_expiration = (int) config_item('sess_expiration');
-		isset($this->_cookie_name) OR $this->_cookie_name = config_item('sess_cookie_name');
-		isset($this->_cookie_domain) OR $this->_cookie_domain = config_item('cookie_domain');
-		isset($this->_cookie_path) OR $this->_cookie_path = config_item('cookie_path');
-		isset($this->_cookie_secure) OR $this->_cookie_secure = config_item('cookie_secure');
-		isset($this->_cookie_httponly) OR $this->_cookie_httponly = config_item('cookie_httponly');
-		isset($this->_match_ip) OR $this->_match_ip = config_item('sess_match_ip');
-
 		// Pass our configuration to php.ini, when appropriate
 		ini_set('session.name', $this->_cookie_name);
 		isset($this->_cookie_domain) && ini_set('session.cookie_domain', $this->_cookie_domain);
