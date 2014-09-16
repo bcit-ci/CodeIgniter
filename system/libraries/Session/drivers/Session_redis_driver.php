@@ -86,12 +86,19 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 			$this->_save_path = array(
 				'host' => $matches[1],
 				'port' => empty($matches[2]) ? NULL : $matches[2],
-				'password' => preg_match('#auth=([^\s&]+)#', $matches[3], $match) ? $match[1] : NULL,
-				'database' => preg_match('#database=(\d+)#', $matches[3], $match) ? (int) $match[1] : NULL,
-				'timeout' => preg_match('#timeout=(\d+\.\d+)#', $matches[3], $match) ? (float) $match[1] : NULL
+				'timeout' => 0
 			);
-
-			preg_match('#prefix=([^\s&]+)#', $matches[3], $match) && $this->_key_prefix = $match[1];
+			
+			if ( ! empty($matches[3]))
+			{
+				$this->_save_path = array_merge($this->_save_path, array(
+					'password' => preg_match('#auth=([^\s&]+)#', $matches[3], $match) ? $match[1] : NULL,
+					'database' => preg_match('#database=(\d+)#', $matches[3], $match) ? (int) $match[1] : NULL,
+					'timeout' => preg_match('#timeout=(\d+\.\d+)#', $matches[3], $match) ? (float) $match[1] : NULL
+				));
+				
+				preg_match('#prefix=([^\s&]+)#', $matches[3], $match) && $this->_key_prefix = $match[1];
+			}
 		}
 		else
 		{
