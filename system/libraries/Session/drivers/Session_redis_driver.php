@@ -86,7 +86,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 			$this->_save_path = array(
 				'host' => $matches[1],
 				'port' => empty($matches[2]) ? NULL : $matches[2],
-				'timeout' => 0
+				'timeout' => NULL
 			);
 			
 			if ( ! empty($matches[3]))
