@@ -81,8 +81,9 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 		{
 			log_message('error', 'Session: No Redis save path configured.');
 		}
-		elseif (preg_match('#(?:tcp://)?([^:]+)(?:\:(\d+))?(\?.+)?#', $this->_save_path, $matches))
+		elseif (preg_match('#(?:tcp://)?([^:?]+)(?:\:(\d+))?(\?.+)?#', $this->_save_path, $matches))
 		{
+			isset($matches[3]) OR $matches[3] = ''; // Just to avoid undefined index notices below
 			$this->_save_path = array(
 				'host' => $matches[1],
 				'port' => empty($matches[2]) ? NULL : $matches[2],
