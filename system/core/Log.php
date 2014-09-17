@@ -137,7 +137,7 @@ class CI_Log {
 			$this->_date_fmt = $config['log_date_format'];
 		}
 
-		if (is_int($config['log_file_permissions']))
+		if ( ! empty($config['log_file_permissions']) && is_int($config['log_file_permissions']))
 		{
 			$this->_file_permissions = $config['log_file_permissions'];
 		}
