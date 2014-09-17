@@ -81,17 +81,24 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 		{
 			log_message('error', 'Session: No Redis save path configured.');
 		}
-		elseif (preg_match('#(?:tcp://)?([^:]+)(?:\:(\d+))?(\?.+)?#', $this->_save_path, $matches))
+		elseif (preg_match('#(?:tcp://)?([^:?&]+)(?:\:(\d+))?(\?.+)?#', $this->_save_path, $matches))
 		{
 			$this->_save_path = array(
 				'host' => $matches[1],
 				'port' => empty($matches[2]) ? NULL : $matches[2],
-				'password' => preg_match('#auth=([^\s&]+)#', $matches[3], $match) ? $match[1] : NULL,
-				'database' => preg_match('#database=(\d+)#', $matches[3], $match) ? (int) $match[1] : NULL,
-				'timeout' => preg_match('#timeout=(\d+\.\d+)#', $matches[3], $match) ? (float) $match[1] : NULL
+				'timeout' => NULL
 			);
-
-			preg_match('#prefix=([^\s&]+)#', $matches[3], $match) && $this->_key_prefix = $match[1];
+			
+			if ( ! empty($matches[3]))
+			{
+				$this->_save_path = array_merge($this->_save_path, array(
+					'password' => preg_match('#auth=([^\s&]+)#', $matches[3], $match) ? $match[1] : NULL,
+					'database' => preg_match('#database=(\d+)#', $matches[3], $match) ? (int) $match[1] : NULL,
+					'timeout' => preg_match('#timeout=(\d+\.\d+)#', $matches[3], $match) ? (float) $match[1] : NULL
+				));
+				
+				preg_match('#prefix=([^\s&]+)#', $matches[3], $match) && $this->_key_prefix = $match[1];
+			}
 		}
 		else
 		{
@@ -156,7 +163,16 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 			$this->_redis->setTimeout($this->_lock_key, 5);
 			if ($this->_fingerprint !== ($fingerprint = md5($session_data)))
 			{
-				if ($this->_redis->set($this->_key_prefix.$session_id, $session_data, $this->_expiration))
+				if ($this->_expiration > 0)
+				{
+					$result = $this->_redis->setex($this->_key_prefix.$session_id, $this->_expiration, $session_data);
+				}
+				else
+				{
+					$result = $this->_redis->set($this->_key_prefix.$session_id, $session_data);
+				}
+				
+				if ($result)
 				{
 					$this->_fingerprint = $fingerprint;
 					return TRUE;
@@ -164,8 +180,8 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 
 				return FALSE;
 			}
-
-			return $this->_redis->setTimeout($this->_key_prefix.$session_id, $this->_expiration);
+			
+			return $this->_expiration > 0 ? $this->_redis->setTimeout($this->_key_prefix.$session_id, $this->_expiration) : TRUE;
 		}
 
 		return FALSE;
