@@ -1231,6 +1231,29 @@ class CI_Form_validation {
 
 	// --------------------------------------------------------------------
 
+/**
+ * Valid facebook profile url
+ * 
+ * @param string
+ * @return bool
+ * 
+ * */
+
+	public function valid_facebook_url($str)
+	{
+		if (empty($str))
+		{
+			return FALSE;
+		}
+		else if(!preg_match('/^(http\:\/\/|https\:\/\/)?(?:www\.)?facebook\.com\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)/', $str))
+		{
+                       return FALSE;
+                }
+                else {
+                	return TRUE;
+                }
+	}
+	
 	/**
 	 * Valid Email
 	 *
