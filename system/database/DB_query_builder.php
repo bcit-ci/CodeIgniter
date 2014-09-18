@@ -664,7 +664,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			else
 			{
 				$operator = $this->_get_operator($k);
-				if (stripos($operator, 'NULL') === FALSE)
+				if (stripos($operator, 'NULL') === FALSE && strncasecmp(ltrim($operator), 'IN', 2) !== 0)
 				{
 					$op = strrpos($k, $operator);
 					if (strlen($k) === ($op + strlen($operator)))
