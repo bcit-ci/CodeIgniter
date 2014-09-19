@@ -289,7 +289,7 @@ if ( ! function_exists('config_item'))
 			$_config[0] =& get_config();
 		}
 
-		return isset($_config[0][$item]) ? $_config[0][$item] : FALSE;
+		return isset($_config[0][$item]) ? $_config[0][$item] : NULL;
 	}
 }
 

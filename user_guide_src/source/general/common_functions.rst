@@ -63,7 +63,7 @@ loading any libraries or helpers.
 .. function:: config_item($key)
 
 	:param	string	$key: Config item key
-	:returns:	Configuration key value or FALSE if not found
+	:returns:	Configuration key value or NULL if not found
 	:rtype:	mixed
 
 	The :doc:`Config Library <../libraries/config>` is the preferred way of
