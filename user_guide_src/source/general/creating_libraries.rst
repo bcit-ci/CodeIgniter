@@ -170,7 +170,7 @@ methods, you're encouraged to assign it to a property instead::
 
 		public function bar()
 		{
-			echo $this->CI->config_item('base_url');
+			echo $this->CI->config->item('base_url');
 		}
 
 	}

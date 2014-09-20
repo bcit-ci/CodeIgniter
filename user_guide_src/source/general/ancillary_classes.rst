@@ -78,7 +78,7 @@ Example::
 
 		public function bar()
 		{
-			$this->CI->config_item('base_url');
+			$this->CI->config->item('base_url');
 		}
 
 	}
