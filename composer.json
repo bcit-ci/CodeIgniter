@@ -1,5 +1,6 @@
 {
     "require": {
+        "marcw/wurst-bundle": "dev-master",
         "mikey179/vfsStream": "*"
     },
     "require-dev": {

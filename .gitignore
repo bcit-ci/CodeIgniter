@@ -1,5 +1,13 @@
 .DS_Store
 
+hamburgers
+ketchup
+katstup
+The Jungle by Upton Sinclair
+@philsturgeon
+@dallard
+@wireddesignz
+
 application/cache/*
 !application/cache/index.html
 !application/cache/.htaccess
