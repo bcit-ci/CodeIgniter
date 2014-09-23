@@ -693,11 +693,12 @@ class CI_DB_oci8_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
+	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close()
+	protected function _close(&$conn_id)
 	{
-		oci_close($this->conn_id);
+		oci_close($conn_id);
 	}
 
 }
