@@ -278,6 +278,11 @@ class CI_Loader {
 		{
 			load_class('Model', 'core');
 		}
+		
+		if(class_exists(strtolower($model))){
+			log_message('debug', $model.' has been loaded,no need to re-load.');
+			return $this;
+		}
 
 		$model = ucfirst(strtolower($model));
 
