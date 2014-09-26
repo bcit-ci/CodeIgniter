@@ -1,3 +1,5 @@
+[ ![Codeship Status for ganiutomo/CodeIgniter](https://www.codeship.io/projects/487739e0-279f-0132-b8ae-42ff703bcea0/status)](https://www.codeship.io/projects/37774)
+
 ###################
 What is CodeIgniter
 ###################
