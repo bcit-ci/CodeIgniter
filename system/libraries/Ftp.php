@@ -465,7 +465,6 @@ class CI_FTP {
 			return FALSE;
 		}
 
-		// Permissions can only be set when running PHP 5
 		if ( ! function_exists('ftp_chmod'))
 		{
 			if ($this->debug == TRUE)

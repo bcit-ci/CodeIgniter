@@ -299,15 +299,6 @@ if ( ! function_exists('highlight_code'))
 		// All the magic happens here, baby!
 		$str = highlight_string($str, TRUE);
 
-		// Prior to PHP 5, the highligh function used icky <font> tags
-		// so we'll replace them with <span> tags.
-
-		if (abs(PHP_VERSION) < 5)
-		{
-			$str = str_replace(array('<font ', '</font>'), array('<span ', '</span>'), $str);
-			$str = preg_replace('#color="(.*?)"#', 'style="color: \\1"', $str);
-		}
-
 		// Remove our artificially added PHP, and the syntax highlighting that came with it
 		$str = preg_replace('/<span style="color: #([A-Z0-9]+)">&lt;\?php(&nbsp;| )/i', '<span style="color: #$1">', $str);
 		$str = preg_replace('/(<span style="color: #[A-Z0-9]+">.*?)\?&gt;<\/span>\n<\/span>\n<\/code>/is', "$1</span>\n</span>\n</code>", $str);

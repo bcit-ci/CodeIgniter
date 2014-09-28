@@ -32,9 +32,6 @@
 /**
 * Determines if the current version of PHP is greater then the supplied value
 *
-* Since there are a few places where we conditionally test for PHP > 5
-* we'll set a static variable.
-*
 * @access	public
 * @param	string
 * @return	bool	TRUE if the current version is $version or higher
@@ -470,9 +467,6 @@ if ( ! function_exists('_exception_handler'))
 	{
 		 // We don't bother with "strict" notices since they tend to fill up
 		 // the log file with excess information that isn't normally very helpful.
-		 // For example, if you are running PHP 5 and you use version 4 style
-		 // class functions (without prefixes like "public", "private", etc.)
-		 // you'll get notices telling you that these have been deprecated.
 		if ($severity == E_STRICT)
 		{
 			return;
