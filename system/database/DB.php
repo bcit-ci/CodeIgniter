@@ -206,7 +206,7 @@ function &DB($params = '', $query_builder_override = NULL)
 		}
 	}
 
-	if ($DB->autoinit === TRUE)
+	if ($DB->autoinit === TRUE OR ! empty($query_builder))
 	{
 		$DB->initialize();
 	}

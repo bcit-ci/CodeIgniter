@@ -1879,6 +1879,30 @@ abstract class CI_DB_driver_single {
 	protected function _reset_select()
 	{
 	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Dummy method to allow smooth transition from master/slave to default database mode
+	 *
+	 * @param	string which database to use
+	 * @param	boolean toggle auto/manual database selection after the first query
+	 * @return	void
+	 */
+	public function db_force($database = 'master', $db_force_clr = TRUE)
+	{
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Dummy method to allow smooth transition from master/slave to default database mode
+	 *
+	 * @return	void
+	 */
+	public function db_force_clear()
+	{
+	}
 
 }
 

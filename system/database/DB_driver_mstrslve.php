@@ -231,6 +231,11 @@ abstract class CI_DB_driver_mstrslve extends CI_DB_driver_single {
 			log_message('error', 'slave ' . $sql);
 		}
 		
+		if ( ! $this->conn_id)
+		{
+			$this->initialize();
+		}
+		
 		// Clear database force if not explicitly set not to
 		if ($this->db_force_clr === TRUE)
 		{
@@ -250,11 +255,6 @@ abstract class CI_DB_driver_mstrslve extends CI_DB_driver_single {
 	public function simple_query($sql)
 	{
 		$this->_config_master_slave($sql);
-		
-		if ( ! $this->conn_id)
-		{
-			$this->initialize();
-		}
 
 		return $this->_execute($sql);
 	}
