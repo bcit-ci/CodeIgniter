@@ -67,14 +67,14 @@ abstract class CI_DB_driver_mstrslve extends CI_DB_driver_single {
 	 *
 	 * @var	object|resource
 	 */
-	public $conn_id_master	= FALSE;
+	public $conn_id_master		= FALSE;
 	
 	/**
 	 * Connection ID slave
 	 *
 	 * @var	object|resource
 	 */
-	public $conn_id_slave	= FALSE;
+	public $conn_id_slave		= FALSE;
 	
 	/**
 	 * Force usage of particular database in master/slave mode
