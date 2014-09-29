@@ -84,7 +84,7 @@ abstract class CI_DB_driver_mstrslve extends CI_DB_driver_single {
 	protected $db_force   	    = NULL;
 	
 	/**
-	 * Wheter to clear forced usage of particular database in master/slave mode
+	 * Whether to clear forced usage of particular database in master/slave mode
 	 * after each query
 	 *
 	 * @var	bool

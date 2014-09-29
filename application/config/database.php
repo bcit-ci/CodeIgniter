@@ -101,7 +101,6 @@ $db['default'] = array(
 	'mstrslve' => FALSE,
 	'db_deflt' => '',
 	'dbdriver' => 'mysqli',
-	'subdriver' => '',
 	'dbprefix' => '',
 	'pconnect' => TRUE,
 	'db_debug' => TRUE,
@@ -124,21 +123,18 @@ $db['master_slave'] = array(
 		'master' => array(
 			'hostname' => 'localhost',
 			'username' => '',
-			'password' => '',
-			//'database' => ''
+			'password' => ''
 		),
 		'slave' => array(
 			'hostname' => 'localhost',
 			'username' => '',
-			'password' => '',
-			//'database' => ''
+			'password' => ''
 		)
 	),
 	'database' => '',
 	'mstrslve' => TRUE,
 	'db_deflt' => 'slave',
 	'dbdriver' => 'mysqli',
-	'subdriver' => 'mysql',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
 	'db_debug' => TRUE,
