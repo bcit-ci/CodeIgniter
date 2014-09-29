@@ -661,19 +661,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				// value appears not to have been set, assign the test to IS NULL
 				$k .= ' IS NULL';
 			}
-			else
-			{
-				$operator = $this->_get_operator($k);
-				if (stripos($operator, 'NULL') === FALSE && strncasecmp(ltrim($operator), 'IN', 2) !== 0)
-				{
-					$op = strrpos($k, $operator);
-					if (strlen($k) === ($op + strlen($operator)))
-					{
-						$operator = strtr($operator, array('<>' => 'IS NOT', '!=' => 'IS NOT'));
-						$k = substr($k, 0, $op).rtrim($operator).' NULL';
-					}
-				}
-			}
 
 			$this->{$qb_key}[] = array('condition' => $prefix.$k.$v, 'escape' => $escape);
 			if ($this->qb_caching === TRUE)
