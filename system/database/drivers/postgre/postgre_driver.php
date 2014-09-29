@@ -628,11 +628,12 @@ class CI_DB_postgre_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
+	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close()
+	protected function _close(&$conn_id)
 	{
-		pg_close($this->conn_id);
+		pg_close($conn_id);
 	}
 
 }

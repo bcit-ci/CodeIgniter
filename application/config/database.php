@@ -44,6 +44,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |	['username'] The username used to connect to the database
 |	['password'] The password used to connect to the database
 |	['database'] The name of the database you want to connect to
+|	['cred'] 	 Database credentials in master/slave mode
+|				 Two sections: master, slave
+|	['mstrslve'] TRUE/FALSE - Whether to use a master/slave mode
+|	['db_deflt'] 'master'/'slave' - Default database in master/slave mode when autoinit is used
 |	['dbdriver'] The database driver. e.g.: mysqli.
 |			Currently supported:
 |				 cubrid, ibase, mssql, mysql, mysqli, oci8,
@@ -94,6 +98,8 @@ $db['default'] = array(
 	'username' => '',
 	'password' => '',
 	'database' => '',
+	'mstrslve' => FALSE,
+	'db_deflt' => '',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => TRUE,
@@ -104,7 +110,41 @@ $db['default'] = array(
 	'dbcollat' => 'utf8_general_ci',
 	'swap_pre' => '',
 	'autoinit' => TRUE,
-	'encrypt' => FALSE,
+	'encrypt'  => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);
+
+$db['master_slave'] = array(
+	'dsn'	=> '',
+	'cred'  => array(
+		'master' => array(
+			'hostname' => 'localhost',
+			'username' => '',
+			'password' => ''
+		),
+		'slave' => array(
+			'hostname' => 'localhost',
+			'username' => '',
+			'password' => ''
+		)
+	),
+	'database' => '',
+	'mstrslve' => TRUE,
+	'db_deflt' => 'slave',
+	'dbdriver' => 'mysqli',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => TRUE,
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'autoinit' => TRUE,
+	'encrypt'  => FALSE,
 	'compress' => FALSE,
 	'stricton' => FALSE,
 	'failover' => array(),

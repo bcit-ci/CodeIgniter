@@ -479,13 +479,14 @@ class CI_DB_mysql_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
+	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close()
+	protected function _close(&$conn_id)
 	{
 		// Error suppression to avoid annoying E_WARNINGs in cases
 		// where the connection has already been closed for some reason.
-		@mysql_close($this->conn_id);
+		@mysql_close($conn_id);
 	}
 
 }

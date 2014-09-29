@@ -27,7 +27,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Database Driver Class
+ * Database Driver Class for single mode
  *
  * This is the platform-independent base DB implementation class.
  * This class will not be called directly. Rather, the adapter
@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
-abstract class CI_DB_driver {
+abstract class CI_DB_driver_single {
 
 	/**
 	 * Data Source Name / Connect string
@@ -1607,7 +1607,7 @@ abstract class CI_DB_driver {
 	{
 		if ($this->conn_id)
 		{
-			$this->_close();
+			$this->_close($this->conn_id);
 			$this->conn_id = FALSE;
 		}
 	}
@@ -1619,11 +1619,12 @@ abstract class CI_DB_driver {
 	 *
 	 * This method would be overriden by most of the drivers.
 	 *
+	 * @param	resource
 	 * @return	void
 	 */
-	protected function _close()
+	protected function _close(&$conn_id)
 	{
-		$this->conn_id = FALSE;
+		$conn_id = FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -1878,8 +1879,32 @@ abstract class CI_DB_driver {
 	protected function _reset_select()
 	{
 	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Dummy method to allow smooth transition from master/slave to default database mode
+	 *
+	 * @param	string which database to use
+	 * @param	boolean toggle auto/manual database selection after the first query
+	 * @return	void
+	 */
+	public function db_force($database = 'master', $db_force_clr = TRUE)
+	{
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Dummy method to allow smooth transition from master/slave to default database mode
+	 *
+	 * @return	void
+	 */
+	public function db_force_clear()
+	{
+	}
 
 }
 
-/* End of file DB_driver.php */
-/* Location: ./system/database/DB_driver.php */
+/* End of file DB_driver_single.php */
+/* Location: ./system/database/DB_driver_single.php */
