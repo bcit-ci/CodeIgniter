@@ -121,7 +121,9 @@ if ( ! function_exists('password_hash'))
 					return FALSE;
 				}
 
-				stream_set_chunk_size($fp, 16);
+				// Try not to waste entropy ...
+				is_php('5.4') && stream_set_chunk_size($fp, 16);
+
 				$options['salt'] = '';
 				for ($read = 0; $read < 16; $read = ($func_override) ? mb_strlen($options['salt'], '8bit') : strlen($options['salt']))
 				{

@@ -573,7 +573,8 @@ class CI_Security {
 
 		if (is_readable('/dev/urandom') && ($fp = fopen('/dev/urandom', 'rb')) !== FALSE)
 		{
-			stream_set_chunk_size($fp, $length);
+			// Try not to waste entropy ...
+			is_php('5.4') && stream_set_chunk_size($fp, $length);
 			$output = fread($fp, $length);
 			fclose($fp);
 			if ($output !== FALSE)
