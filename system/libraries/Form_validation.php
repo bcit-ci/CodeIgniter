@@ -107,6 +107,9 @@ class CI_Form_validation {
 	 */
 	public $validation_data	= array();
 
+
+	protected $can_flash_input = false;
+
 	/**
 	 * Initialize Form_Validation class
 	 *
@@ -134,6 +137,12 @@ class CI_Form_validation {
 
 		// Automatically load the form helper
 		$this->CI->load->helper('form');
+
+		if($this->CI->config->item('sess_driver') != 'cookie'){
+			$this->CI->load->driver('Session');
+			$this->can_flash_input = true;
+		}
+
 
 		log_message('debug', 'Form Validation Class Initialized');
 	}
@@ -927,9 +936,24 @@ class CI_Form_validation {
 	 */
 	public function set_value($field = '', $default = '')
 	{
-		if ( ! isset($this->_field_data[$field], $this->_field_data[$field]['postdata']))
+		$old_input = array();
+		
+		if($this->can_flash_input)
 		{
-			return $default;
+			$old_input = $this->CI->session->flashdata('_old_input');
+		}
+
+		if ( ! isset($this->_field_data[$field], $this->_field_data[$field]['postdata']) )
+		{
+			if ( ! isset($old_input[$field] ) )
+				return $default;
+
+			if (is_array($old_input[$field]))
+			{
+				return array_shift($old_input[$field]);
+			}
+
+			return $old_input[$field];
 		}
 
 		// If the data is an array output them one at a time.
@@ -1590,6 +1614,28 @@ class CI_Form_validation {
 		return $this;
 	}
 
+	/**
+	 * Flash input to next request
+	 *
+	 * Allows to get data fom form_validation after a redirect()
+	 *
+	 * @return	CI_Form_validation
+	 */
+
+	public function flash_input()
+	{
+		if(!$this->can_flash_input)
+			throw new Exception('Cannot flash input through cookie session driver.');
+
+		$data = array();
+		foreach($this->_field_data as $row)
+		{
+			$data[$row['field']] = $row['postdata'];
+		}
+		$this->CI->session->set_flashdata('_old_input', $data);
+		unset($data);
+		return $this;
+	}
 }
 
 /* End of file Form_validation.php */

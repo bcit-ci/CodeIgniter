@@ -43,9 +43,20 @@ class Welcome extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
-	public function get_index()
+
+	function __construct() {
+		parent::__construct();
+		$this->load->library('form_validation');
+	}
+
+	public function index()
 	{
 		$this->load->view('welcome_message');
+	}
+
+	public function get_index()
+	{
+		echo "fallback";
 	}
 }
 
