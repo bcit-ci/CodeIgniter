@@ -121,7 +121,6 @@ $config['charset'] = 'UTF-8';
 */
 $config['enable_hooks'] = FALSE;
 
-
 /*
 |--------------------------------------------------------------------------
 | Class Extension Prefix
@@ -136,6 +135,27 @@ $config['enable_hooks'] = FALSE;
 */
 $config['subclass_prefix'] = 'MY_';
 
+/*
+|--------------------------------------------------------------------------
+| Composer auto-loading
+|--------------------------------------------------------------------------
+|
+| Enabling this setting will tell CodeIgniter to look for a Composer
+| package auto-loader script in application/vendor/autoload.php.
+|
+|	$config['composer_autoload'] = TRUE;
+|
+| Or if you have your vendor/ directory located somewhere else, you
+| can opt to set a specific path as well:
+|
+|	$config['composer_autoload'] = '/path/to/vendor/autoload.php';
+|
+| For more information about Composer, please visit http://getcomposer.org/
+|
+| Note: This will NOT disable or override the CodeIgniter-specific
+|	autoloading (application/config/autoload.php)
+*/
+$config['composer_autoload'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -241,6 +261,18 @@ $config['log_path'] = '';
 |
 */
 $config['log_file_extension'] = '';
+
+/*
+|--------------------------------------------------------------------------
+| Log File Permissions
+|--------------------------------------------------------------------------
+|
+| The file system permissions to be applied on newly created log files.
+|
+| IMPORTANT: This MUST be an integer (no quotes) and you MUST use octal
+|            integer notation (i.e. 0700, 0644, etc.)
+*/
+$config['log_file_permissions'] = 0644;
 
 /*
 |--------------------------------------------------------------------------

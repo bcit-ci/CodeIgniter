@@ -336,9 +336,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	protected function _escape_str($str)
 	{
-		return is_resource($this->conn_id)
-			? mysql_real_escape_string($str, $this->conn_id)
-			: addslashes($str);
+		return mysql_real_escape_string($str, $this->conn_id);
 	}
 
 	// --------------------------------------------------------------------

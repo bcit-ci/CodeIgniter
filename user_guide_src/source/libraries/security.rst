@@ -97,6 +97,13 @@ by editing the 'csrf_exclude_uris' config parameter::
 
 	$config['csrf_exclude_uris'] = array('api/person/add');
 
+Regular expressions are also supported (case-insensitive)::
+
+	$config['csrf_exclude_uris'] = array(
+		'api/record/[0-9]+',
+		'api/title/[a-z]+'
+	);
+
 ***************
 Class Reference
 ***************
@@ -157,3 +164,18 @@ Class Reference
 		it tries to detect HTML entities that don't end in a semicolon because some browsers allow that.
 
 		If the ``$charset`` parameter is left empty, then your configured ``$config['charset']`` value will be used.
+
+	.. method:: get_random_bytes($length)
+
+		:param	int	$length: Output length
+		:returns:	A binary stream of random bytes or FALSE on failure
+		:rtype:	string
+
+		A convenience method for getting proper random bytes via ``mcrypt_create_iv()``,
+		``/dev/urandom`` or ``openssl_random_pseudo_bytes()`` (in that order), if one
+		of them is available.
+
+		Used for generating CSRF and XSS tokens.
+
+		.. note:: The output is NOT guaranteed to be cryptographically secure,
+			just the best attempt at that.

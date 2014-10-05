@@ -127,7 +127,7 @@ class CI_Hooks {
 			return FALSE;
 		}
 
-		if (is_array($this->hooks[$which]))
+		if (is_array($this->hooks[$which]) && ! isset($this->hooks[$which]['function']))
 		{
 			foreach ($this->hooks[$which] as $val)
 			{

@@ -701,6 +701,12 @@ class CI_Form_validation {
 			{
 				$callable = TRUE;
 			}
+			elseif (is_array($rule) && isset($rule[0], $rule[1]) && is_callable($rule[1]))
+			{
+				// We have a "named" callable, so save the name
+				$callable = $rule[0];
+				$rule = $rule[1];
+			}
 
 			// Strip the parameter (if exists) from the rule
 			// Rules can contain a parameter: max_length[5]
@@ -712,7 +718,7 @@ class CI_Form_validation {
 			}
 
 			// Call the function that corresponds to the rule
-			if ($callback OR $callable)
+			if ($callback OR $callable !== FALSE)
 			{
 				if ($callback)
 				{
@@ -730,8 +736,14 @@ class CI_Form_validation {
 				else
 				{
 					$result = is_array($rule)
-						? $rule[0]->{$rule[1]}($postdata, $param)
-						: $rule($postdata, $param);
+						? $rule[0]->{$rule[1]}($postdata)
+						: $rule($postdata);
+
+					// Is $callable set to a rule name?
+					if ($callable !== FALSE)
+					{
+						$rule = $callable;
+					}
 				}
 
 				// Re-assign the result to the master data array
@@ -791,27 +803,29 @@ class CI_Form_validation {
 			// Did the rule test negatively? If so, grab the error.
 			if ($result === FALSE)
 			{
-				// Callable rules don't have named error messages
-				if ( ! is_callable($rule))
+				// Callable rules might not have named error messages
+				if ( ! is_string($rule))
 				{
-					// Check if a custom message is defined
-					if (isset($this->_field_data[$row['field']]['errors'][$rule]))
+					return;
+				}
+
+				// Check if a custom message is defined
+				if (isset($this->_field_data[$row['field']]['errors'][$rule]))
+				{
+					$line = $this->_field_data[$row['field']]['errors'][$rule];
+				}
+				elseif ( ! isset($this->_error_messages[$rule]))
+				{
+					if (FALSE === ($line = $this->CI->lang->line('form_validation_'.$rule))
+						// DEPRECATED support for non-prefixed keys
+						&& FALSE === ($line = $this->CI->lang->line($rule, FALSE)))
 					{
-						$line = $this->_field_data[$row['field']]['errors'][$rule];
+						$line = 'Unable to access an error message corresponding to your field name.';
 					}
-					elseif ( ! isset($this->_error_messages[$rule]))
-					{
-						if (FALSE === ($line = $this->CI->lang->line('form_validation_'.$rule))
-							// DEPRECATED support for non-prefixed keys
-							&& FALSE === ($line = $this->CI->lang->line($rule, FALSE)))
-						{
-							$line = 'Unable to access an error message corresponding to your field name.';
-						}
-					}
-					else
-					{
-						$line = $this->_error_messages[$rule];
-					}
+				}
+				else
+				{
+					$line = $this->_error_messages[$rule];
 				}
 
 				// Is the parameter we are inserting into the error message the name
@@ -1225,6 +1239,11 @@ class CI_Form_validation {
 	 */
 	public function valid_email($str)
 	{
+		if (function_exists('idn_to_ascii') && $atpos = strpos($str, '@'))
+		{
+			$str = substr($str, 0, ++$atpos).idn_to_ascii(substr($str, $atpos));
+		}
+
 		return (bool) filter_var($str, FILTER_VALIDATE_EMAIL);
 	}
 

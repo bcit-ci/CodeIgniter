@@ -77,7 +77,7 @@ class CI_Security {
 	 *
 	 * @var	string
 	 */
-	protected $_xss_hash =	'';
+	protected $_xss_hash;
 
 	/**
 	 * CSRF Hash
@@ -86,7 +86,7 @@ class CI_Security {
 	 *
 	 * @var	string
 	 */
-	protected $_csrf_hash =	'';
+	protected $_csrf_hash;
 
 	/**
 	 * CSRF Expire time
@@ -158,7 +158,7 @@ class CI_Security {
 	public function __construct()
 	{
 		// Is CSRF protection enabled?
-		if (config_item('csrf_protection') === TRUE)
+		if (config_item('csrf_protection'))
 		{
 			// CSRF config
 			foreach (array('csrf_expire', 'csrf_token_name', 'csrf_cookie_name') as $key)
@@ -170,9 +170,9 @@ class CI_Security {
 			}
 
 			// Append application specific cookie prefix
-			if (config_item('cookie_prefix'))
+			if ($cookie_prefix = config_item('cookie_prefix'))
 			{
-				$this->_csrf_cookie_name = config_item('cookie_prefix').$this->_csrf_cookie_name;
+				$this->_csrf_cookie_name = $cookie_prefix.$this->_csrf_cookie_name;
 			}
 
 			// Set the CSRF hash
@@ -203,9 +203,12 @@ class CI_Security {
 		if ($exclude_uris = config_item('csrf_exclude_uris'))
 		{
 			$uri = load_class('URI', 'core');
-			if (in_array($uri->uri_string(), $exclude_uris))
+			foreach ($exclude_uris as $excluded)
 			{
-				return $this;
+				if (preg_match('#^'.$excluded.'$#i'.(UTF8_ENABLED ? 'u' : ''), $uri->uri_string()))
+				{
+					return $this;
+				}
 			}
 		}
 
@@ -224,7 +227,7 @@ class CI_Security {
 		{
 			// Nothing should last forever
 			unset($_COOKIE[$this->_csrf_cookie_name]);
-			$this->_csrf_hash = '';
+			$this->_csrf_hash = NULL;
 		}
 
 		$this->_csrf_set_hash();
@@ -275,7 +278,7 @@ class CI_Security {
 	 */
 	public function csrf_show_error()
 	{
-		show_error('The action you have requested is not allowed.');
+		show_error('The action you have requested is not allowed.', 403);
 	}
 
 	// --------------------------------------------------------------------
@@ -370,7 +373,7 @@ class CI_Security {
 		 * We only convert entities that are within tags since
 		 * these are the ones that will pose security problems.
 		 */
-		$str = preg_replace_callback("/[a-z]+=([\'\"]).*?\\1/si", array($this, '_convert_attribute'), $str);
+		$str = preg_replace_callback("/[^a-z0-9>]+[a-z0-9]+=([\'\"]).*?\\1/si", array($this, '_convert_attribute'), $str);
 		$str = preg_replace_callback('/<\w+.*/si', array($this, '_decode_entity'), $str);
 
 		// Remove Invisible Characters Again!
@@ -436,7 +439,7 @@ class CI_Security {
 
 		/*
 		 * Remove disallowed Javascript in links or img tags
-		 * We used to do some version comparisons and use of stripos for PHP5,
+		 * We used to do some version comparisons and use of stripos(),
 		 * but it is dog slow compared to these simplified non-capturing
 		 * preg_match(), especially if the pattern exists in the string
 		 *
@@ -535,12 +538,57 @@ class CI_Security {
 	 */
 	public function xss_hash()
 	{
-		if ($this->_xss_hash === '')
+		if ($this->_xss_hash === NULL)
 		{
-			$this->_xss_hash = md5(uniqid(mt_rand()));
+			$rand = $this->get_random_bytes(16);
+			$this->_xss_hash = ($rand === FALSE)
+				? md5(uniqid(mt_rand(), TRUE))
+				: bin2hex($rand);
 		}
 
 		return $this->_xss_hash;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get random bytes
+	 *
+	 * @param	int	$length	Output length
+	 * @return	string
+	 */
+	public function get_random_bytes($length)
+	{
+		if (empty($length) OR ! ctype_digit((string) $length))
+		{
+			return FALSE;
+		}
+
+		// Unfortunately, none of the following PRNGs is guaranteed to exist ...
+		if (defined('MCRYPT_DEV_URANDOM') && ($output = mcrypt_create_iv($length, MCRYPT_DEV_URANDOM)) !== FALSE)
+		{
+			return $output;
+		}
+
+
+		if (is_readable('/dev/urandom') && ($fp = fopen('/dev/urandom', 'rb')) !== FALSE)
+		{
+			// Try not to waste entropy ...
+			is_php('5.4') && stream_set_chunk_size($fp, $length);
+			$output = fread($fp, $length);
+			fclose($fp);
+			if ($output !== FALSE)
+			{
+				return $output;
+			}
+		}
+
+		if (function_exists('openssl_random_pseudo_bytes'))
+		{
+			return openssl_random_pseudo_bytes($length);
+		}
+
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -605,7 +653,7 @@ class CI_Security {
 				{
 					if (($char = array_search($matches[$i].';', $_entities, TRUE)) !== FALSE)
 					{
-						$replace[$matches[$i]] = $character;
+						$replace[$matches[$i]] = $char;
 					}
 				}
 
@@ -912,7 +960,7 @@ class CI_Security {
 	 */
 	protected function _csrf_set_hash()
 	{
-		if ($this->_csrf_hash === '')
+		if ($this->_csrf_hash === NULL)
 		{
 			// If the cookie exists we will use its value.
 			// We don't necessarily want to regenerate it with
@@ -924,8 +972,10 @@ class CI_Security {
 				return $this->_csrf_hash = $_COOKIE[$this->_csrf_cookie_name];
 			}
 
-			$this->_csrf_hash = md5(uniqid(mt_rand(), TRUE));
-			$this->csrf_set_cookie();
+			$rand = $this->get_random_bytes(16);
+			$this->_csrf_hash = ($rand === FALSE)
+				? md5(uniqid(mt_rand(), TRUE))
+				: bin2hex($rand);
 		}
 
 		return $this->_csrf_hash;

@@ -51,28 +51,21 @@ class CI_Pagination {
 	 *
 	 * @var	string
 	 */
-	protected $prefix		= '';
+	protected $prefix = '';
 
 	/**
 	 * Suffix
 	 *
 	 * @var	string
 	 */
-	protected $suffix		= '';
+	protected $suffix = '';
 
 	/**
 	 * Total number of items
 	 *
 	 * @var	int
 	 */
-	protected $total_rows		= 0;
-
-	/**
-	 * Items per page
-	 *
-	 * @var	int
-	 */
-	protected $per_page		= 10;
+	protected $total_rows = 0;
 
 	/**
 	 * Number of links to show
@@ -82,14 +75,21 @@ class CI_Pagination {
 	 *
 	 * @var	int
 	 */
-	protected $num_links		= 2;
+	protected $num_links = 2;
+
+	/**
+	 * Items per page
+	 *
+	 * @var	int
+	 */
+	public $per_page = 10;
 
 	/**
 	 * Current page
 	 *
 	 * @var	int
 	 */
-	protected $cur_page		= 0;
+	public $cur_page = 0;
 
 	/**
 	 * Use page numbers flag
@@ -98,84 +98,84 @@ class CI_Pagination {
 	 *
 	 * @var	bool
 	 */
-	protected $use_page_numbers	= FALSE;
+	protected $use_page_numbers = FALSE;
 
 	/**
 	 * First link
 	 *
 	 * @var	string
 	 */
-	protected $first_link		= '&lsaquo; First';
+	protected $first_link = '&lsaquo; First';
 
 	/**
 	 * Next link
 	 *
 	 * @var	string
 	 */
-	protected $next_link		= '&gt;';
+	protected $next_link = '&gt;';
 
 	/**
 	 * Previous link
 	 *
 	 * @var	string
 	 */
-	protected $prev_link		= '&lt;';
+	protected $prev_link = '&lt;';
 
 	/**
 	 * Last link
 	 *
 	 * @var	string
 	 */
-	protected $last_link		= 'Last &rsaquo;';
+	protected $last_link = 'Last &rsaquo;';
 
 	/**
 	 * URI Segment
 	 *
 	 * @var	int
 	 */
-	protected $uri_segment		= 0;
+	protected $uri_segment = 0;
 
 	/**
 	 * Full tag open
 	 *
 	 * @var	string
 	 */
-	protected $full_tag_open	= '';
+	protected $full_tag_open = '';
 
 	/**
 	 * Full tag close
 	 *
 	 * @var	string
 	 */
-	protected $full_tag_close	= '';
+	protected $full_tag_close = '';
 
 	/**
 	 * First tag open
 	 *
 	 * @var	string
 	 */
-	protected $first_tag_open	= '';
+	protected $first_tag_open = '';
 
 	/**
 	 * First tag close
 	 *
 	 * @var	string
 	 */
-	protected $first_tag_close	= '';
+	protected $first_tag_close = '';
 
 	/**
 	 * Last tag open
 	 *
 	 * @var	string
 	 */
-	protected $last_tag_open	= '';
+	protected $last_tag_open = '';
 
 	/**
 	 * Last tag close
 	 *
 	 * @var	string
 	 */
-	protected $last_tag_close	= '';
+	protected $last_tag_close = '';
 
 	/**
 	 * First URL
@@ -184,70 +184,70 @@ class CI_Pagination {
 	 *
 	 * @var	string
 	 */
-	protected $first_url		= '';
+	protected $first_url = '';
 
 	/**
 	 * Current tag open
 	 *
 	 * @var	string
 	 */
-	protected $cur_tag_open		= '<strong>';
+	protected $cur_tag_open = '<strong>';
 
 	/**
 	 * Current tag close
 	 *
 	 * @var	string
 	 */
-	protected $cur_tag_close	= '</strong>';
+	protected $cur_tag_close = '</strong>';
 
 	/**
 	 * Next tag open
 	 *
 	 * @var	string
 	 */
-	protected $next_tag_open	= '';
+	protected $next_tag_open = '';
 
 	/**
 	 * Next tag close
 	 *
 	 * @var	string
 	 */
-	protected $next_tag_close	= '';
+	protected $next_tag_close = '';
 
 	/**
 	 * Previous tag open
 	 *
 	 * @var	string
 	 */
-	protected $prev_tag_open	= '';
+	protected $prev_tag_open = '';
 
 	/**
 	 * Previous tag close
 	 *
 	 * @var	string
 	 */
-	protected $prev_tag_close	= '';
+	protected $prev_tag_close = '';
 
 	/**
 	 * Number tag open
 	 *
 	 * @var	string
 	 */
-	protected $num_tag_open		= '';
+	protected $num_tag_open = '';
 
 	/**
 	 * Number tag close
 	 *
 	 * @var	string
 	 */
-	protected $num_tag_close	= '';
+	protected $num_tag_close = '';
 
 	/**
 	 * Page query string flag
 	 *
 	 * @var	bool
 	 */
-	protected $page_query_string	= FALSE;
+	protected $page_query_string = FALSE;
 
 	/**
 	 * Query string segment
@@ -261,14 +261,14 @@ class CI_Pagination {
 	 *
 	 * @var	bool
 	 */
-	protected $display_pages	= TRUE;
+	protected $display_pages = TRUE;
 
 	/**
 	 * Attributes
 	 *
 	 * @var	string
 	 */
-	protected $_attributes		= '';
+	protected $_attributes = '';
 
 	/**
 	 * Link types
@@ -278,21 +278,21 @@ class CI_Pagination {
 	 * @see	CI_Pagination::_attr_rel()
 	 * @var	array
 	 */
-	protected $_link_types		= array();
+	protected $_link_types = array();
 
 	/**
 	 * Reuse query string flag
 	 *
 	 * @var	bool
 	 */
-	protected $reuse_query_string   = FALSE;
+	protected $reuse_query_string = FALSE;
 
 	/**
 	 * Data page attribute
 	 *
 	 * @var	string
 	 */
-	protected $data_page_attr	= 'data-ci-pagination-page';
+	protected $data_page_attr = 'data-ci-pagination-page';
 
 	/**
 	 * CI Singleton
@@ -393,9 +393,9 @@ class CI_Pagination {
 		// Check the user defined number of links.
 		$this->num_links = (int) $this->num_links;
 
-		if ($this->num_links < 1)
+		if ($this->num_links < 0)
 		{
-			show_error('Your number of links must be a positive number.');
+			show_error('Your number of links must be a non-negative number.');
 		}
 
 		// Keep any existing query string items.
@@ -533,7 +533,7 @@ class CI_Pagination {
 		$output = '';
 
 		// Render the "First" link.
-		if ($this->first_link !== FALSE && $this->cur_page > ($this->num_links + 1))
+		if ($this->first_link !== FALSE && $this->cur_page > ($this->num_links + 1 + ! $this->num_links))
 		{
 			// Take the general parameters, and squeeze this pagination-page attr in for JS frameworks.
 			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, 1);
@@ -609,7 +609,7 @@ class CI_Pagination {
 		}
 
 		// Render the "Last" link
-		if ($this->last_link !== FALSE && ($this->cur_page + $this->num_links) < $num_pages)
+		if ($this->last_link !== FALSE && ($this->cur_page + $this->num_links + ! $this->num_links) < $num_pages)
 		{
 			$i = ($this->use_page_numbers) ? $num_pages : ($num_pages * $this->per_page) - $this->per_page;
 

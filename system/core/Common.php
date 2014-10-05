@@ -289,7 +289,7 @@ if ( ! function_exists('config_item'))
 			$_config[0] =& get_config();
 		}
 
-		return isset($_config[0][$item]) ? $_config[0][$item] : FALSE;
+		return isset($_config[0][$item]) ? $_config[0][$item] : NULL;
 	}
 }
 
@@ -690,16 +690,20 @@ if ( ! function_exists('remove_invisible_characters'))
 if ( ! function_exists('html_escape'))
 {
 	/**
-	 * Returns HTML escaped variable
+	 * Returns HTML escaped variable.
 	 *
-	 * @param	mixed
-	 * @return	mixed
+	 * @param	mixed	$var		The input string or array of strings to be escaped.
+	 * @param	bool	$double_encode	$double_encode set to FALSE prevents escaping twice.
+	 * @return	mixed			The escaped string or array of strings as a result.
 	 */
-	function html_escape($var)
+	function html_escape($var, $double_encode = TRUE)
 	{
-		return is_array($var)
-			? array_map('html_escape', $var)
-			: htmlspecialchars($var, ENT_QUOTES, config_item('charset'));
+		if (is_array($var))
+		{
+			return array_map('html_escape', $var, array_fill(0, count($var), $double_encode));
+		}
+
+		return htmlspecialchars($var, ENT_QUOTES, config_item('charset'), $double_encode);
 	}
 }
 

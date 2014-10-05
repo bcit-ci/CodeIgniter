@@ -27,14 +27,13 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * PHP ext/standard/array compatibility package
+ * PHP ext/standard compatibility package
  *
  * @package		CodeIgniter
  * @subpackage	CodeIgniter
  * @category	Compatibility
  * @author		Andrey Andreev
  * @link		http://codeigniter.com/user_guide/
- * @link		http://php.net/book.array
  */
 
 // ------------------------------------------------------------------------
@@ -120,6 +119,54 @@ if ( ! function_exists('array_column'))
 		}
 
 		return $result;
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if (is_php('5.4'))
+{
+	return;
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('hex2bin'))
+{
+	/**
+	 * hex2bin()
+	 *
+	 * @link	http://php.net/hex2bin
+	 * @param	string	$data
+	 * @return	string
+	 */
+	function hex2bin($data)
+	{
+		if (in_array($type = gettype($data), array('array', 'double', 'object'), TRUE))
+		{
+			if ($type === 'object' && method_exists($data, '__toString'))
+			{
+				$data = (string) $data;
+			}
+			else
+			{
+				trigger_error('hex2bin() expects parameter 1 to be string, '.$type.' given', E_USER_WARNING);
+				return NULL;
+			}
+		}
+
+		if (strlen($data) % 2 !== 0)
+		{
+			trigger_error('Hexadecimal input string must have an even length', E_USER_WARNING);
+			return FALSE;
+		}
+		elseif ( ! preg_match('/^[0-9a-f]*$/i', $data))
+		{
+			trigger_error('Input string must be hexadecimal string', E_USER_WARNING);
+			return FALSE;
+		}
+
+		return pack('H*', $data);
 	}
 }
 
@@ -242,5 +289,93 @@ if ( ! function_exists('array_replace_recursive'))
 	}
 }
 
-/* End of file array.php */
-/* Location: ./system/core/compat/array.php */
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('quoted_printable_encode'))
+{
+	/**
+	 * quoted_printable_encode()
+	 *
+	 * @link	http://php.net/quoted_printable_encode
+	 * @param	string	$str
+	 * @return	string
+	 */
+	function quoted_printable_encode($str)
+	{
+		if (strlen($str) === 0)
+		{
+			return '';
+		}
+		elseif (in_array($type = gettype($str), array('array', 'object'), TRUE))
+		{
+			if ($type === 'object' && method_exists($str, '__toString'))
+			{
+				$str = (string) $str;
+			}
+			else
+			{
+				trigger_error('quoted_printable_encode() expects parameter 1 to be string, '.$type.' given', E_USER_WARNING);
+				return NULL;
+			}
+		}
+
+		if (function_exists('imap_8bit'))
+		{
+			return imap_8bit($str);
+		}
+
+		$i = $lp = 0;
+		$output = '';
+		$hex = '0123456789ABCDEF';
+		$length = (extension_loaded('mbstring') && ini_get('mbstring.func_overload'))
+			? mb_strlen($str, '8bit')
+			: strlen($str);
+
+		while ($length--)
+		{
+			if ((($c = $str[$i++]) === "\015") && isset($str[$i]) && ($str[$i] === "\012") && $length > 0)
+			{
+				$output .= "\015".$str[$i++];
+				$length--;
+				$lp = 0;
+				continue;
+			}
+
+			if (
+				ctype_cntrl($c)
+				OR (ord($c) === 0x7f)
+				OR (ord($c) & 0x80)
+				OR ($c === '=')
+				OR ($c === ' ' && isset($str[$i]) && $str[$i] === "\015")
+			)
+			{
+				if (
+					(($lp += 3) > 75 && ord($c) <= 0x7f)
+					OR (ord($c) > 0x7f && ord($c) <= 0xdf && ($lp + 3) > 75)
+					OR (ord($c) > 0xdf && ord($c) <= 0xef && ($lp + 6) > 75)
+					OR (ord($c) > 0xef && ord($c) <= 0xf4 && ($lp + 9) > 75)
+				)
+				{
+					$output .= "=\015\012";
+					$lp = 3;
+				}
+
+				$output .= '='.$hex[ord($c) >> 4].$hex[ord($c) & 0xf];
+				continue;
+			}
+
+			if ((++$lp) > 75)
+			{
+				$output .= "=\015\012";
+				$lp = 1;
+			}
+
+			$output .= $c;
+		}
+
+		return $output;
+	}
+}
+
+/* End of file standard.php */
+/* Location: ./system/core/compat/standard.php */
