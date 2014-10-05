@@ -38,13 +38,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CI_Session_memcached_driver extends CI_Session_driver implements SessionHandlerInterface {
 
 	/**
-	 * Save path
-	 *
-	 * @var	string
-	 */
-	protected $_save_path;
-
-	/**
 	 * Memcached instance
 	 *
 	 * @var	Memcached
@@ -77,12 +70,12 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 	{
 		parent::__construct($params);
 
-		if (empty($this->_save_path))
+		if (empty($this->_config['save_path']))
 		{
 			log_message('error', 'Session: No Memcached save path configured.');
 		}
 
-		if ($this->_match_ip === TRUE)
+		if ($this->_config['match_ip'] === TRUE)
 		{
 			$this->_key_prefix .= $_SERVER['REMOTE_ADDR'].':';
 		}
@@ -99,10 +92,10 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 			$server_list[] = $server['host'].':'.$server['port'];
 		}
 
-		if ( ! preg_match_all('#,?([^,:]+)\:(\d{1,5})(?:\:(\d+))?#', $this->_save_path, $matches, PREG_SET_ORDER))
+		if ( ! preg_match_all('#,?([^,:]+)\:(\d{1,5})(?:\:(\d+))?#', $this->_config['save_path'], $matches, PREG_SET_ORDER))
 		{
 			$this->_memcached = NULL;
-			log_message('error', 'Session: Invalid Memcached save path format: '.$this->_save_path);
+			log_message('error', 'Session: Invalid Memcached save path format: '.$this->_config['save_path']);
 			return FALSE;
 		}
 
@@ -155,7 +148,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 			$this->_memcached->replace($this->_lock_key, time(), 5);
 			if ($this->_fingerprint !== ($fingerprint = md5($session_data)))
 			{
-				if ($this->_memcached->set($this->_key_prefix.$session_id, $session_data, $this->_expiration))
+				if ($this->_memcached->set($this->_key_prefix.$session_id, $session_data, $this->_config['expiration']))
 				{
 					$this->_fingerprint = $fingerprint;
 					return TRUE;
@@ -164,7 +157,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 				return FALSE;
 			}
 
-			return $this->_memcached->touch($this->_key_prefix.$session_id, $this->_expiration);
+			return $this->_memcached->touch($this->_key_prefix.$session_id, $this->_config['expiration']);
 		}
 
 		return FALSE;

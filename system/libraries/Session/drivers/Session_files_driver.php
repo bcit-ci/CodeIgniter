@@ -77,14 +77,14 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 	{
 		parent::__construct($params);
 
-		if (isset($this->_save_path))
+		if (isset($this->_config['save_path']))
 		{
-			$this->_save_path = rtrim($this->_save_path, '/\\');
-			ini_set('session.save_path', $this->_save_path);
+			$this->_config['save_path'] = rtrim($this->_config['save_path'], '/\\');
+			ini_set('session.save_path', $this->_config['save_path']);
 		}
 		else
 		{
-			$this->_save_path = rtrim(ini_get('session.save_path'), '/\\');
+			$this->_config['save_path'] = rtrim(ini_get('session.save_path'), '/\\');
 		}
 	}
 
@@ -94,14 +94,14 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 	{
 		if ( ! is_dir($save_path) && ! mkdir($save_path, 0700, TRUE))
 		{
-			log_message('error', "Session: Configured save path '".$this->_save_path."' is not a directory, doesn't exist or cannot be created.");
+			log_message('error', "Session: Configured save path '".$this->_config['save_path']."' is not a directory, doesn't exist or cannot be created.");
 			return FALSE;
 		}
 
-		$this->_save_path = $save_path;
-		$this->_file_path = $this->_save_path.DIRECTORY_SEPARATOR
+		$this->_config['save_path'] = $save_path;
+		$this->_file_path = $this->_config['save_path'].DIRECTORY_SEPARATOR
 			.$name // we'll use the session cookie name as a prefix to avoid collisions
-			.($this->_match_ip ? md5($_SERVER['REMOTE_ADDR']) : '');
+			.($this->_config['match_ip'] ? md5($_SERVER['REMOTE_ADDR']) : '');
 
 		return TRUE;
 	}
@@ -248,9 +248,9 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 
 	public function gc($maxlifetime)
 	{
-		if ( ! is_dir($this->_save_path) OR ($files = scandir($this->_save_path)) === FALSE)
+		if ( ! is_dir($this->_config['save_path']) OR ($files = scandir($this->_config['save_path'])) === FALSE)
 		{
-			log_message('debug', "Session: Garbage collector couldn't list files under directory '".$this->_save_path."'.");
+			log_message('debug', "Session: Garbage collector couldn't list files under directory '".$this->_config['save_path']."'.");
 			return FALSE;
 		}
 
@@ -260,14 +260,14 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 		{
 			// If the filename doesn't match this pattern, it's either not a session file or is not ours
 			if ( ! preg_match('/(?:[0-9a-f]{32})?[0-9a-f]{40}$/i', $file)
-				OR ! is_file($this->_save_path.DIRECTORY_SEPARATOR.$file)
-				OR ($mtime = filemtime($this->_save_path.DIRECTORY_SEPARATOR.$file)) === FALSE
+				OR ! is_file($this->_config['save_path'].DIRECTORY_SEPARATOR.$file)
+				OR ($mtime = filemtime($this->_config['save_path'].DIRECTORY_SEPARATOR.$file)) === FALSE
 				OR $mtime > $ts)
 			{
 				continue;
 			}
 
-			unlink($this->_save_path.DIRECTORY_SEPARATOR.$file);
+			unlink($this->_config['save_path'].DIRECTORY_SEPARATOR.$file);
 		}
 
 		return TRUE;

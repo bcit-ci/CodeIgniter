@@ -38,6 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CI_Session {
 
 	protected $_driver = 'files';
+	protected $_config;
 
 	// ------------------------------------------------------------------------
 
@@ -65,8 +66,7 @@ class CI_Session {
 			$this->_driver = $params['driver'];
 			unset($params['driver']);
 		}
-		// Note: Make the autoloader pass sess_* params to this constructor
-		elseif (empty($params) && $driver = config_item('sess_driver'))
+		elseif ($driver = config_item('sess_driver'))
 		{
 			$this->_driver = $driver;
 		}
@@ -81,7 +81,10 @@ class CI_Session {
 			return;
 		}
 
-		$class = new $class($params);
+		// Configuration ...
+		$this->_configure($params);
+
+		$class = new $class($this->_config);
 		if ($class instanceof SessionHandlerInterface)
 		{
 			if (is_php('5.4'))
@@ -108,8 +111,49 @@ class CI_Session {
 			return;
 		}
 
+		// Work-around for PHP bug #66827 (https://bugs.php.net/bug.php?id=66827)
+		//
+		// The session ID sanitizer doesn't check for the value type and blindly does
+		// an implicit cast to string, which triggers an 'Array to string' E_NOTICE.
+		if (isset($_COOKIE[$this->_cookie_name]) && ! is_string($_COOKIE[$this->_cookie_name]))
+		{
+			unset($_COOKIE[$this->_cookie_name]);
+		}
+
 		session_start();
+
+		// Another work-around ... PHP doesn't seem to send the session cookie
+		// unless it is being currently created or regenerated
+		if (isset($_COOKIE[$this->_config['cookie_name']]) && $_COOKIE[$this->_config['cookie_name']] === session_id())
+		{
+			setcookie(
+				$this->_config['cookie_name'],
+				session_id(),
+				(empty($this->_config['cookie_lifetime']) ? 0 : time() + $this->_config['cookie_lifetime']),
+				$this->_config['cookie_path'],
+				$this->_config['cookie_domain'],
+				$this->_config['cookie_secure'],
+				TRUE
+			);
+		}
+
 		$this->_ci_init_vars();
+
+/*
+		Need to test if this is necessary for a custom driver or if it's only
+		relevant to PHP's own files handler.
+
+		https://bugs.php.net/bug.php?id=65475
+		do this after session is started:
+		if (is_php('5.5.2') && ! is_php('5.5.4'))
+		{
+			$session_id = session_id();
+			if ($_COOKIE[$this->_cookie_name] !== $session_id && file_exists(teh file))
+			{
+				unlink(<teh file>);
+			}
+		}
+*/
 
 		log_message('debug', "Session: Class initialized using '".$this->_driver."' driver.");
 	}
@@ -166,6 +210,77 @@ class CI_Session {
 		}
 
 		return 'CI_'.$class;
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Configuration
+	 *
+	 * Handle input parameters and configuration defaults
+	 *
+	 * @param	array	&$params	Input parameters
+	 * @return	void
+	 */
+	protected function _configure(&$params)
+	{
+		$expiration = config_item('sess_expiration');
+
+		if (isset($params['cookie_lifetime']))
+		{
+			$params['cookie_lifetime'] = (int) $params['cookie_lifetime'];
+		}
+		else
+		{
+			$params['cookie_lifetime'] = ( ! isset($expiration) && config_item('sess_expire_on_close'))
+				? 0 : (int) $expiration;
+		}
+
+		isset($params['cookie_name']) OR $params['cookie_name'] = config_item('sess_cookie_name');
+		if (empty($params['cookie_name']))
+		{
+			$params['cookie_name'] = ini_get('session.name');
+		}
+		else
+		{
+			ini_set('session.name', $params['cookie_name']);
+		}
+
+		isset($params['cookie_path']) OR $params['cookie_path'] = config_item('cookie_path');
+		isset($params['cookie_domain']) OR $parrams['cookie_domain'] = config_item('cookie_domain');
+		isset($params['cookie_secure']) OR $params['cookie_secure'] = (bool) config_item('cookie_secure');
+
+		session_set_cookie_params(
+			$params['cookie_lifetime'],
+			$params['cookie_path'],
+			$params['cookie_domain'],
+			$params['cookie_secure'],
+			TRUE // HttpOnly; Yes, this is intentional and not configurable for security reasons
+		);
+
+		if (empty($expiration))
+		{
+			$params['expiration'] = (int) ini_get('session.gc_maxlifetime');
+		}
+		else
+		{
+			$params['expiration'] = (int) $expiration;
+			ini_set('session.gc_maxlifetime', $expiration);
+		}
+
+		$params['match_ip'] = (bool) (isset($params['match_ip']) ? $params['match_ip'] : config_item('sess_match_ip'));
+
+		isset($params['save_path']) OR $params['save_path'] = config_item('sess_save_path');
+
+		$this->_config = $params;
+
+		// Security is king
+		ini_set('session.use_trans_id', 0);
+		ini_set('session.use_strict_mode', 1);
+		ini_set('session.use_cookies', 1);
+		ini_set('session.use_only_cookies', 1);
+		ini_set('session.hash_function', 1);
+		ini_set('session.hash_bits_per_character', 4);
 	}
 
 	// ------------------------------------------------------------------------

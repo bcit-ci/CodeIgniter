@@ -45,13 +45,6 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	protected $_db;
 
 	/**
-	 * DB table
-	 *
-	 * @var	string
-	 */
-	protected $_table;
-
-	/**
 	 * Row exists flag
 	 *
 	 * @var	bool
@@ -100,7 +93,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 			$this->_lock_driver = 'postgre';
 		}
 
-		isset($this->_table) OR $this->_table = config_item('sess_table_name');
+		isset($this->_config['save_path']) OR $this->_config['save_path'] = config_item('sess_table_name');
 	}
 
 	// ------------------------------------------------------------------------
@@ -120,10 +113,10 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		{
 			$this->_db
 				->select('data')
-				->from($this->_table)
+				->from($this->_config['save_path'])
 				->where('id', $session_id);
 
-			if ($this->_match_ip)
+			if ($this->_config['match_ip'])
 			{
 				$this->_db->where('ip_address', $_SERVER['REMOTE_ADDR']);
 			}
@@ -152,7 +145,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 		if ($this->_row_exists === FALSE)
 		{
-			if ($this->_db->insert($this->_table, array('id' => $session_id, 'ip_address' => $_SERVER['REMOTE_ADDR'], 'timestamp' => time(), 'data' => $session_data)))
+			if ($this->_db->insert($this->_config['save_path'], array('id' => $session_id, 'ip_address' => $_SERVER['REMOTE_ADDR'], 'timestamp' => time(), 'data' => $session_data)))
 			{
 				$this->_fingerprint = md5($session_data);
 				return $this->_row_exists = TRUE;
@@ -162,7 +155,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		}
 
 		$this->_db->where('id', $session_id);
-		if ($this->_match_ip)
+		if ($this->_config['match_ip'])
 		{
 			$this->_db->where('ip_address', $_SERVER['REMOTE_ADDR']);
 		}
@@ -171,7 +164,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 			? array('timestamp' => time())
 			: array('timestamp' => time(), 'data' => $session_data);
 
-		if ($this->_db->update($this->_table, $update_data))
+		if ($this->_db->update($this->_config['save_path'], $update_data))
 		{
 			$this->_fingerprint = md5($session_data);
 			return TRUE;
@@ -196,12 +189,12 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		if ($this->_lock)
 		{
 			$this->_db->where('id', $session_id);
-			if ($this->_match_ip)
+			if ($this->_config['match_ip'])
 			{
 				$this->_db->where('ip_address', $_SERVER['REMOTE_ADDR']);
 			}
 
-			return $this->_db->delete($this->_table)
+			return $this->_db->delete($this->_config['save_path'])
 				? ($this->close() && $this->_cookie_destroy())
 				: FALSE;
 		}
@@ -213,7 +206,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 	public function gc($maxlifetime)
 	{
-		return $this->_db->delete($this->_table, 'timestamp < '.(time() - $maxlifetime));
+		return $this->_db->delete($this->_config['save_path'], 'timestamp < '.(time() - $maxlifetime));
 	}
 
 	// ------------------------------------------------------------------------
@@ -222,7 +215,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	{
 		if ($this->_lock_driver === 'mysql')
 		{
-			$arg = $session_id.($this->_match_ip ? '_'.$_SERVER['REMOTE_ADDR'] : '');
+			$arg = $session_id.($this->_config['match_ip'] ? '_'.$_SERVER['REMOTE_ADDR'] : '');
 			if ($this->_db->query("SELECT GET_LOCK('".$arg."', 10) AS ci_session_lock")->row()->ci_session_lock)
 			{
 				$this->_lock = $arg;
@@ -233,7 +226,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		}
 		elseif ($this->_lock_driver === 'postgre')
 		{
-			$arg = "hashtext('".$session_id."')".($this->_match_ip ? ", hashtext('".$_SERVER['REMOTE_ADDR']."')" : '');
+			$arg = "hashtext('".$session_id."')".($this->_config['match_ip'] ? ", hashtext('".$_SERVER['REMOTE_ADDR']."')" : '');
 			if ($this->_db->simple_query('SELECT pg_advisory_lock('.$arg.')'))
 			{
 				$this->_lock = $arg;
