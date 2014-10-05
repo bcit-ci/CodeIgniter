@@ -363,6 +363,7 @@ if ( ! is_php('5.4'))
 	$e404 = FALSE;
 	$class = ucfirst($RTR->class);
 	$method = $RTR->method;
+	$rest_method = strtolower($_SERVER['REQUEST_METHOD']).'_'.$RTR->method;
 
 	if (empty($class) OR ! file_exists(APPPATH.'controllers/'.$RTR->directory.$class.'.php'))
 	{
@@ -385,9 +386,15 @@ if ( ! is_php('5.4'))
 		// Furthermore, there are bug reports and feature/change requests related to it
 		// that make it unreliable to use in this context. Please, DO NOT change this
 		// work-around until a better alternative is available.
-		elseif ( ! in_array(strtolower($method), array_map('strtolower', get_class_methods($class)), TRUE))
+		elseif (! in_array(strtolower($method), array_map('strtolower', get_class_methods($class)), TRUE))
 		{
-			$e404 = TRUE;
+			if (! in_array(strtolower($rest_method), array_map('strtolower', get_class_methods($class)), TRUE))
+			{
+				$e405 = TRUE;
+			}else
+			{
+				$method = $rest_method;
+			}
 		}
 	}
 
@@ -492,7 +499,7 @@ if ( ! is_php('5.4'))
  * ------------------------------------------------------
  *  Call the requested method
  * ------------------------------------------------------
- */
+ */	
 	call_user_func_array(array(&$CI, $method), $params);
 
 	// Mark a benchmark end point
