@@ -158,7 +158,7 @@ class CI_Security {
 	public function __construct()
 	{
 		// Is CSRF protection enabled?
-		if (config_item('csrf_protection') === TRUE)
+		if (config_item('csrf_protection'))
 		{
 			// CSRF config
 			foreach (array('csrf_expire', 'csrf_token_name', 'csrf_cookie_name') as $key)
@@ -170,9 +170,9 @@ class CI_Security {
 			}
 
 			// Append application specific cookie prefix
-			if (config_item('cookie_prefix'))
+			if ($cookie_prefix = config_item('cookie_prefix'))
 			{
-				$this->_csrf_cookie_name = config_item('cookie_prefix').$this->_csrf_cookie_name;
+				$this->_csrf_cookie_name = $cookie_prefix.$this->_csrf_cookie_name;
 			}
 
 			// Set the CSRF hash

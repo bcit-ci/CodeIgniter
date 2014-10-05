@@ -492,6 +492,7 @@ Release Date: Not Released
       -  Changed internal function ``load_class()`` to accept a constructor parameter instead of (previously unused) class name prefix.
       -  Removed default parameter value of :func:`is_php()`.
       -  Added a second argument ``$double_encode`` to :func:`html_escape()`.
+      -  Changed function ``config_item()`` to return NULL instead of FALSE when no value is found.
 
    -  :doc:`Output Library <libraries/output>` changes include:
 

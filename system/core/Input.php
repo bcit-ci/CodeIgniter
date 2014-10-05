@@ -353,7 +353,7 @@ class CI_Input {
 			$path = config_item('cookie_path');
 		}
 
-		if ($secure === FALSE && config_item('cookie_secure') !== FALSE)
+		if ($secure === FALSE && config_item('cookie_secure') === TRUE)
 		{
 			$secure = config_item('cookie_secure');
 		}
