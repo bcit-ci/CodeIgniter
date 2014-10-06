@@ -163,7 +163,7 @@ class CI_Security {
 			// CSRF config
 			foreach (array('csrf_expire', 'csrf_token_name', 'csrf_cookie_name') as $key)
 			{
-				if (FALSE !== ($val = config_item($key)))
+				if (NULL !== ($val = config_item($key)))
 				{
 					$this->{'_'.$key} = $val;
 				}
