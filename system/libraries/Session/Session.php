@@ -247,7 +247,7 @@ class CI_Session {
 		}
 
 		isset($params['cookie_path']) OR $params['cookie_path'] = config_item('cookie_path');
-		isset($params['cookie_domain']) OR $parrams['cookie_domain'] = config_item('cookie_domain');
+		isset($params['cookie_domain']) OR $params['cookie_domain'] = config_item('cookie_domain');
 		isset($params['cookie_secure']) OR $params['cookie_secure'] = (bool) config_item('cookie_secure');
 
 		session_set_cookie_params(
