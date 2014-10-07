@@ -78,17 +78,17 @@ class CI_Config {
 		{
 			if (isset($_SERVER['HTTP_HOST']))
 			{
-                $script_name = "";
-                // if SCRIPT_NAME contains index.php, use it as a reference for base_url guess
-                if (strpos($_SERVER['SCRIPT_NAME']) !== false) {
-                    $script_name = substr($_SERVER['SCRIPT_NAME'], 0, strpos($_SERVER['SCRIPT_NAME'], "index.php"));
-                } else {
-                    // if not, use the old method
-                    $script_name = substr($_SERVER['SCRIPT_NAME'], 0, -strlen(basename($_SERVER['SCRIPT_NAME'])));
-                }
+				$script_name = "";
+				// if SCRIPT_NAME contains index.php, use it as a reference for base_url guess
+				if (strpos($_SERVER['SCRIPT_NAME']) !== false) {
+					$script_name = substr($_SERVER['SCRIPT_NAME'], 0, strpos($_SERVER['SCRIPT_NAME'], "index.php"));
+				} else {
+					// if not, use the old method
+					$script_name = substr($_SERVER['SCRIPT_NAME'], 0, -strlen(basename($_SERVER['SCRIPT_NAME'])));
+				}
 				$base_url = (is_https() ? 'https' : 'http')
-                    .'://'.$_SERVER['HTTP_HOST']
-                    .$script_name;
+				.'://'.$_SERVER['HTTP_HOST']
+				.$script_name;
 			}
 			else
 			{
