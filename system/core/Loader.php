@@ -1169,7 +1169,7 @@ class CI_Loader {
 		}
 
 		// Save the class name and object name
-		$this->_ci_classes[$object_name] = $class;
+		$this->_ci_classes[$object_name] = $object_name;
 
 		// Instantiate the class
 		$CI->$object_name = isset($config)
