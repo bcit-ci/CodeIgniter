@@ -80,7 +80,7 @@ class CI_Config {
 			{
 				$script_name = "";
 				// if SCRIPT_NAME contains index.php, use it as a reference for base_url guess
-				if (strpos($_SERVER['SCRIPT_NAME']) !== false) {
+				if (strpos($_SERVER['SCRIPT_NAME'], "index.php") !== false) {
 					$script_name = substr($_SERVER['SCRIPT_NAME'], 0, strpos($_SERVER['SCRIPT_NAME'], "index.php"));
 				} else {
 					// if not, use the old method
