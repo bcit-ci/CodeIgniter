@@ -78,9 +78,11 @@ class CI_Config {
 		{
 			if (isset($_SERVER['HTTP_HOST']))
 			{
-				$base_url = (is_https() ? 'https' : 'http')
-					.'://'.$_SERVER['HTTP_HOST']
-					.substr($_SERVER['SCRIPT_NAME'], 0, -strlen(basename($_SERVER['SCRIPT_NAME'])));
+				$base_url = (is_https() ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].'/';
+				if ( ! empty($_SERVER['DOCUMENT_ROOT']))
+				{
+					$base_url .= ltrim(str_replace('\\', '/', substr(FCPATH, strlen($_SERVER['DOCUMENT_ROOT']))), '/\\');
+				}
 			}
 			else
 			{
