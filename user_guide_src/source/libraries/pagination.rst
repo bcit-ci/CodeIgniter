@@ -177,6 +177,11 @@ $config['first_tag_close'] = '</div>';
 
 The closing tag for the "first" link.
 
+$config['first_url'] = '';
+==========================
+
+An alternative URL to use for the "first page" link.
+
 *************************
 Customizing the Last Link
 *************************

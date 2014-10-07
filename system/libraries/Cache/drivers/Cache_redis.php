@@ -58,6 +58,13 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	protected $_redis;
 
+	/**
+	 * An internal cache for storing keys of serialized values.
+	 *
+	 * @var	array
+	 */
+	protected $_serialized = array();
+
 	// ------------------------------------------------------------------------
 
 	/**
@@ -68,7 +75,14 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function get($key)
 	{
-		return $this->_redis->get($key);
+		$value = $this->_redis->get($key);
+
+		if ($value !== FALSE && isset($this->_serialized[$key]))
+		{
+			return unserialize($value);
+		}
+
+		return $value;
 	}
 
 	// ------------------------------------------------------------------------
@@ -84,6 +98,22 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
+		if (is_array($data) OR is_object($data))
+		{
+			if ( ! $this->_redis->sAdd('_ci_redis_serialized', $id))
+			{
+				return FALSE;
+			}
+
+			isset($this->_serialized[$id]) OR $this->_serialized[$id] = TRUE;
+			$data = serialize($data);
+		}
+		elseif (isset($this->_serialized[$id]))
+		{
+			$this->_serialized[$id] = NULL;
+			$this->_redis->sRemove('_ci_redis_serialized', $id);
+		}
+
 		return ($ttl)
 			? $this->_redis->setex($id, $ttl, $data)
 			: $this->_redis->set($id, $data);
@@ -99,7 +129,18 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function delete($key)
 	{
-		return ($this->_redis->delete($key) === 1);
+		if ($this->_redis->delete($key) !== 1)
+		{
+			return FALSE;
+		}
+
+		if (isset($this->_serialized[$key]))
+		{
+			$this->_serialized[$key] = NULL;
+			$this->_redis->sRemove('_ci_redis_serialized', $key);
+		}
+
+		return TRUE;
 	}
 
 	// ------------------------------------------------------------------------
@@ -113,9 +154,7 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function increment($id, $offset = 1)
 	{
-		return $this->_redis->exists($id)
-			? $this->_redis->incr($id, $offset)
-			: FALSE;
+		return $this->_redis->incr($id, $offset);
 	}
 
 	// ------------------------------------------------------------------------
@@ -129,9 +168,7 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function decrement($id, $offset = 1)
 	{
-		return $this->_redis->exists($id)
-			? $this->_redis->decr($id, $offset)
-			: FALSE;
+		return $this->_redis->decr($id, $offset);
 	}
 
 	// ------------------------------------------------------------------------
@@ -259,13 +296,19 @@ class CI_Cache_redis extends CI_Driver
 			$this->_redis->auth($config['password']);
 		}
 
+		// Initialize the index of serialized values.
+		$serialized = $this->_redis->sMembers('_ci_redis_serialized');
+		if ( ! empty($serialized))
+		{
+			$this->_serialized = array_flip($serialized);
+		}
+
 		return TRUE;
 	}
 
 	// ------------------------------------------------------------------------
 
 	/**
-
 	 * Class destructor
 	 *
 	 * Closes the connection to Redis if present.

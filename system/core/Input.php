@@ -62,7 +62,7 @@ class CI_Input {
 	 *
 	 * @var	bool
 	 */
-	protected $_standardize_newlines = TRUE;
+	protected $_standardize_newlines;
 
 	/**
 	 * Enable XSS flag
@@ -117,7 +117,7 @@ class CI_Input {
 		$this->_allow_get_array		= (config_item('allow_get_array') === TRUE);
 		$this->_enable_xss		= (config_item('global_xss_filtering') === TRUE);
 		$this->_enable_csrf		= (config_item('csrf_protection') === TRUE);
-		$this->_sandardize_newlines	= (bool) config_item('standardize_newlines');
+		$this->_standardize_newlines	= (bool) config_item('standardize_newlines');
 
 		$this->security =& load_class('Security', 'core');
 
@@ -295,8 +295,8 @@ class CI_Input {
 	 */
 	public function input_stream($index = NULL, $xss_clean = NULL)
 	{
-		// The input stream can only be read once, so we'll need to check
-		// if we have already done that first.
+		// Prior to PHP 5.6, the input stream can only be read once,
+		// so we'll need to check if we have already done that first.
 		if ( ! is_array($this->_input_stream))
 		{
 			parse_str(file_get_contents('php://input'), $this->_input_stream);
@@ -353,7 +353,7 @@ class CI_Input {
 			$path = config_item('cookie_path');
 		}
 
-		if ($secure === FALSE && config_item('cookie_secure') !== FALSE)
+		if ($secure === FALSE && config_item('cookie_secure') === TRUE)
 		{
 			$secure = config_item('cookie_secure');
 		}
@@ -558,8 +558,7 @@ class CI_Input {
 	 *
 	 * Internal method serving for the following purposes:
 	 *
-	 *	- Unsets $_GET data (if query strings are not enabled)
-	 *	- Unsets all globals if register_globals is enabled
+	 *	- Unsets $_GET data, if query strings are not enabled
 	 *	- Cleans POST, COOKIE and SERVER data
 	 * 	- Standardizes newline characters to PHP_EOL
 	 *
@@ -567,54 +566,6 @@ class CI_Input {
 	 */
 	protected function _sanitize_globals()
 	{
-		// It would be "wrong" to unset any of these GLOBALS.
-		$protected = array(
-			'_SERVER',
-			'_GET',
-			'_POST',
-			'_FILES',
-			'_REQUEST',
-			'_SESSION',
-			'_ENV',
-			'GLOBALS',
-			'HTTP_RAW_POST_DATA',
-			'system_folder',
-			'application_folder',
-			'BM',
-			'EXT',
-			'CFG',
-			'URI',
-			'RTR',
-			'OUT',
-			'IN'
-		);
-
-		// Unset globals for security.
-		// This is effectively the same as register_globals = off
-		// PHP 5.4 no longer has the register_globals functionality.
-		if ( ! is_php('5.4'))
-		{
-			foreach (array($_GET, $_POST, $_COOKIE) as $global)
-			{
-				if (is_array($global))
-				{
-					foreach ($global as $key => $val)
-					{
-						if ( ! in_array($key, $protected))
-						{
-							global $$key;
-							$$key = NULL;
-						}
-					}
-				}
-				elseif ( ! in_array($global, $protected))
-				{
-					global $$global;
-					$$global = NULL;
-				}
-			}
-		}
-
 		// Is $_GET data allowed? If not we'll set the $_GET to an empty array
 		if ($this->_allow_get_array === FALSE)
 		{
@@ -754,7 +705,7 @@ class CI_Input {
 			{
 				set_status_header(503);
 				echo 'Disallowed Key Characters.';
-				exit(EXIT_USER_INPUT);
+				exit(7); // EXIT_USER_INPUT
 			}
 		}
 
@@ -815,7 +766,7 @@ class CI_Input {
 	 *
 	 * @param	string		$index		Header name
 	 * @param	bool		$xss_clean	Whether to apply XSS filtering
-	 * @return	string|bool	The requested header on success or FALSE on failure
+	 * @return	string|null	The requested header on success or NULL on failure
 	 */
 	public function get_request_header($index, $xss_clean = FALSE)
 	{

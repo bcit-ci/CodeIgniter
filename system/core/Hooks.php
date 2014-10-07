@@ -127,7 +127,7 @@ class CI_Hooks {
 			return FALSE;
 		}
 
-		if (isset($this->hooks[$which][0]) && is_array($this->hooks[$which][0]))
+		if (is_array($this->hooks[$which]) && ! isset($this->hooks[$which]['function']))
 		{
 			foreach ($this->hooks[$which] as $val)
 			{
@@ -154,7 +154,16 @@ class CI_Hooks {
 	 */
 	protected function _run_hook($data)
 	{
-		if ( ! is_array($data))
+		// Closures/lambda functions and array($object, 'method') callables
+		if (is_callable($data))
+		{
+			is_array($data)
+				? $data[0]->{$data[1]}()
+				: $data();
+
+			return TRUE;
+		}
+		elseif ( ! is_array($data))
 		{
 			return FALSE;
 		}

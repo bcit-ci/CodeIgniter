@@ -13,13 +13,13 @@ loading any libraries or helpers.
 
   <div class="custom-index container"></div>
 
-.. function:: is_php([$version = '5.3.0'])
+.. function:: is_php($version)
 
 	:param	string	$version: Version number
 	:returns:	TRUE if the running PHP version is at least the one specified or FALSE if not
 	:rtype:	bool
 
-	Determines of the PHP version being used is greater than the
+	Determines if the PHP version being used is greater than the
 	supplied version number.
 
 	Example::
@@ -63,7 +63,7 @@ loading any libraries or helpers.
 .. function:: config_item($key)
 
 	:param	string	$key: Config item key
-	:returns:	Configuration key value or FALSE if not found
+	:returns:	Configuration key value or NULL if not found
 	:rtype:	mixed
 
 	The :doc:`Config Library <../libraries/config>` is the preferred way of

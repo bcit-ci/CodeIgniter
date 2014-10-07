@@ -474,13 +474,70 @@ then it will be passed as the second argument of your callback method.
 	boolean TRUE/FALSE it is assumed that the data is your newly processed
 	form data.
 
-Custom callback object
-======================
+Callable: Use anything as a rule
+================================
 
-In order to call a callback function in an custom object outside
-of the controller, the object needs to be set::
+If callback rules aren't good enough for you (for example, because they are
+limited to your controller), don't get disappointed, there's one more way
+to create custom rules: anything that ``is_callable()`` would return TRUE for.
 
-    $this->form_validation->callback_ref = $object;
+Consider the following example::
+
+	$this->form_validation->set_rules(
+		'username', 'Username',
+		array(
+			'required',
+			array($this->users_model, 'valid_username')
+		)
+	);
+
+The above code would use the ``valid_username()`` method from your
+``Users_model`` object.
+
+This is just an example of course, and callbacks aren't limited to models.
+You can use any object/method that accepts the field value as its' first
+parameter. Or if you're running PHP 5.3+, you can also use an anonymous
+function::
+
+	$this->form_validation->set_rules(
+		'username', 'Username',
+		array(
+			'required',
+			function($value)
+			{
+				// Check $value
+			}
+		)
+	);
+
+Of course, since a Callable rule by itself is not a string, it isn't
+a rule name either. That is a problem when you want to set error messages
+for them. In order to get around that problem, you can put such rules as
+the second element of an array, with the first one being the rule name::
+
+	$this->form_validation->set_rules(
+		'username', 'Username',
+		array(
+			'required',
+			array('username_callable', array($this->users_model, 'valid_username'))
+		)
+	);
+
+Anonymous function (PHP 5.3+) version::
+
+	$this->form_validation->set_rules(
+		'username', 'Username',
+		array(
+			'required',
+			array(
+				'username_callable',
+				function($str)
+				{
+					// Check validity of $str and return TRUE or FALSE
+				}
+			)
+		)
+	);
 
 .. _setting-error-messages:
 
@@ -499,7 +556,7 @@ If you need to set a custom error message for a particular field on
 some particular rule, use the set_rules() method::
 
 	$this->form_validation->set_rules('field_name', 'Field Label', 'rule1|rule2|rule3',
-		array('rule2'	=> 'Error Message on rule2 for this field_name')
+		array('rule2' => 'Error Message on rule2 for this field_name')
 	);
 
 Where rule corresponds to the name of a particular rule, and Error

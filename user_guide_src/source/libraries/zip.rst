@@ -173,7 +173,7 @@ Class Reference
 		:rtype:	bool
 
 		Writes the Zip-encoded file to a directory on your server. Submit a valid server path ending in the file name.
-		Make sure the directory is writable (660 or 666 is usually OK). Example::
+		Make sure the directory is writable (755 is usually OK). Example::
 
 			$this->zip->archive('/path/to/folder/myarchive.zip'); // Creates a file named myarchive.zip
 

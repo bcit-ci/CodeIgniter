@@ -85,9 +85,12 @@ if ( ! function_exists('form_open'))
 			$hidden[$CI->security->get_csrf_token_name()] = $CI->security->get_csrf_hash();
 		}
 
-		if (is_array($hidden) && count($hidden) > 0)
+		if (is_array($hidden))
 		{
-			$form .= '<div style="display:none;">'.form_hidden($hidden).'</div>';
+			foreach ($hidden as $name => $value)
+			{
+				$form .= '<input type="hidden" name="'.$name.'" value="'.form_prep($value).'" style="display:none;" />'."\n";
+			}
 		}
 
 		return $form;
@@ -316,29 +319,45 @@ if ( ! function_exists('form_dropdown'))
 	 */
 	function form_dropdown($data = '', $options = array(), $selected = array(), $extra = '')
 	{
-		$defaults = array('name' => is_array($data) ? '' : $data);
+		$defaults = array();
 
-		if (is_array($data) && isset($data['selected']))
+		if (is_array($data))
 		{
-			$selected = $data['selected'];
-			unset($data['selected']); // selects don't have a selected attribute
+			if (isset($data['selected']))
+			{
+				$selected = $data['selected'];
+				unset($data['selected']); // select tags don't have a selected attribute
+			}
+
+			if (isset($data['options']))
+			{
+				$options = $data['options'];
+				unset($data['options']); // select tags don't use an options attribute
+			}
+		}
+		else
+		{
+			$defaults = array('name' => $data);
 		}
 
 		is_array($selected) OR $selected = array($selected);
+		is_array($options) OR $options = array($options);
 
 		// If no selected state was submitted we will attempt to set it automatically
-		if (count($selected) === 0 && isset($_POST[$name]))
+		if (empty($selected))
 		{
-			$selected = array($_POST[$name]);
+			if (is_array($data))
+			{
+				if (isset($data['name'], $_POST[$data['name']]))
+				{
+					$selected = array($_POST[$data['name']]);
+				}
+			}
+			elseif (isset($_POST[$data]))
+			{
+				$selected = array($_POST[$data]);
+			}
 		}
-
-		if (is_array($data) && isset($data['options']))
-		{
-			$options = $data['options'];
-			unset($data['options']); // selects don't use an options attribute
-		}
-
-		is_array($options) OR $options = array($options);
 
 		$extra = _attributes_to_string($extra);
 

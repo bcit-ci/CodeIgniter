@@ -181,7 +181,7 @@ if ( ! function_exists('img'))
 
 		foreach ($src as $k => $v)
 		{
-			if ($k === 'src' && strpos($v, '://') === FALSE)
+			if ($k === 'src' && ! preg_match('#^([a-z]+:)?//#i', $v))
 			{
 				if ($index_page === TRUE)
 				{
@@ -273,7 +273,7 @@ if ( ! function_exists('link_tag'))
 		{
 			foreach ($href as $k => $v)
 			{
-				if ($k === 'href' && strpos($v, '://') === FALSE)
+				if ($k === 'href' && ! preg_match('#^([a-z]+:)?//#i', $v))
 				{
 					if ($index_page === TRUE)
 					{
@@ -292,7 +292,7 @@ if ( ! function_exists('link_tag'))
 		}
 		else
 		{
-			if (strpos($href, '://') !== FALSE)
+			if (preg_match('#^([a-z]+:)?//#i', $href))
 			{
 				$link .= 'href="'.$href.'" ';
 			}

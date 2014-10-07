@@ -732,7 +732,7 @@ class CI_Email {
 				return FALSE;
 			}
 
-			if ( ! $fp = @fopen($file, FOPEN_READ))
+			if ( ! $fp = @fopen($file, 'rb'))
 			{
 				$this->_set_error_message('lang:email_attachment_unreadable', $file);
 				return FALSE;
@@ -1079,6 +1079,11 @@ class CI_Email {
 	 */
 	public function valid_email($email)
 	{
+		if (function_exists('idn_to_ascii') && $atpos = strpos($email, '@'))
+		{
+			$email = substr($email, 0, ++$atpos).idn_to_ascii(substr($email, $atpos));
+		}
+
 		return (bool) filter_var($email, FILTER_VALIDATE_EMAIL);
 	}
 
@@ -1173,16 +1178,16 @@ class CI_Email {
 		// If the current word is surrounded by {unwrap} tags we'll
 		// strip the entire chunk and replace it with a marker.
 		$unwrap = array();
-		if (preg_match_all('|(\{unwrap\}.+?\{/unwrap\})|s', $str, $matches))
+		if (preg_match_all('|\{unwrap\}(.+?)\{/unwrap\}|s', $str, $matches))
 		{
 			for ($i = 0, $c = count($matches[0]); $i < $c; $i++)
 			{
 				$unwrap[] = $matches[1][$i];
-				$str = str_replace($matches[1][$i], '{{unwrapped'.$i.'}}', $str);
+				$str = str_replace($matches[0][$i], '{{unwrapped'.$i.'}}', $str);
 			}
 		}
 
-		// Use PHP's native public function to do the initial wordwrap.
+		// Use PHP's native function to do the initial wordwrap.
 		// We set the cut flag to FALSE so that any individual words that are
 		// too long get left alone. In the next step we'll deal with them.
 		$str = wordwrap($str, $charlim, "\n", FALSE);
@@ -1193,7 +1198,7 @@ class CI_Email {
 		{
 			// Is the line within the allowed character count?
 			// If so we'll join it to the output and continue
-			if (strlen($line) <= $charlim)
+			if (mb_strlen($line) <= $charlim)
 			{
 				$output .= $line.$this->newline;
 				continue;
@@ -1203,16 +1208,16 @@ class CI_Email {
 			do
 			{
 				// If the over-length word is a URL we won't wrap it
-				if (preg_match('!\[url.+\]|://|wwww.!', $line))
+				if (preg_match('!\[url.+\]|://|www\.!', $line))
 				{
 					break;
 				}
 
 				// Trim the word down
-				$temp .= substr($line, 0, $charlim-1);
-				$line = substr($line, $charlim-1);
+				$temp .= mb_substr($line, 0, $charlim - 1);
+				$line = mb_substr($line, $charlim - 1);
 			}
-			while (strlen($line) > $charlim);
+			while (mb_strlen($line) > $charlim);
 
 			// If $temp contains data it means we had to split up an over-length
 			// word into smaller chunks so we'll add it back to our current line
@@ -2234,14 +2239,9 @@ class CI_Email {
 	 */
 	protected function _mime_types($ext = '')
 	{
-		static $mimes;
-
 		$ext = strtolower($ext);
 
-		if ( ! is_array($mimes))
-		{
-			$mimes =& get_mimes();
-		}
+		$mimes =& get_mimes();
 
 		if (isset($mimes[$ext]))
 		{

@@ -56,12 +56,14 @@ class CI_URI {
 	/**
 	 * List of URI segments
 	 *
+	 * Starts at 1 instead of 0.
+	 *
 	 * @var	array
 	 */
 	public $segments = array();
 
 	/**
-	 * Re-indexed list of URI segments
+	 * List of routed URI segments
 	 *
 	 * Starts at 1 instead of 0.
 	 *
@@ -158,7 +160,7 @@ class CI_URI {
 
 			$this->segments[0] = NULL;
 			// Populate the segments array
-			foreach (explode('/', preg_replace('|/*(.+?)/*$|', '\\1', $this->uri_string)) as $val)
+			foreach (explode('/', trim($this->uri_string, '/')) as $val)
 			{
 				// Filter segments for security
 				$val = trim($this->filter_uri($val));

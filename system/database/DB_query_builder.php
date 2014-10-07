@@ -635,7 +635,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$key = array($key => $value);
 		}
 
-		// If the escape value was not set will will base it on the global setting
+		// If the escape value was not set will base it on the global setting
 		is_bool($escape) OR $escape = $this->_protect_identifiers;
 
 		foreach ($key as $k => $v)
@@ -660,6 +660,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			{
 				// value appears not to have been set, assign the test to IS NULL
 				$k .= ' IS NULL';
+			}
+			elseif (preg_match('/\s*(!?=|<>)\s*$/i', $k, $match, PREG_OFFSET_CAPTURE))
+			{
+				$k = substr($k, 0, $match[0][1]).($match[1][0] === '=' ? ' IS NULL' : ' IS NOT NULL');
 			}
 
 			$this->{$qb_key}[] = array('condition' => $prefix.$k.$v, 'escape' => $escape);

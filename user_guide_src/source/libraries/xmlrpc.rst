@@ -87,7 +87,7 @@ Here is a basic example that sends a simple Weblogs.com ping to the
 
 	if ( ! $this->xmlrpc->send_request())
 	{
-	    echo $this->xmlrpc->display_error();
+		echo $this->xmlrpc->display_error();
 	}
 
 Explanation
@@ -152,7 +152,7 @@ Here is an example to illustrate::
 	$this->load->library('xmlrpc');
 	$this->load->library('xmlrpcs');
 
-	$config['functions']['new_post'] = array('function' => 'My_blog.new_entry'),
+	$config['functions']['new_post'] = array('function' => 'My_blog.new_entry');
 	$config['functions']['update_post'] = array('function' => 'My_blog.update_entry');
 	$config['object'] = $this;
 
@@ -523,7 +523,7 @@ Class Reference
 		:param	bool	$flag: Debug status flag
 		:rtype:	void
 
-	Enables or disables debugging, which will display a variety of information and error data helpful during development.
+		Enables or disables debugging, which will display a variety of information and error data helpful during development.
 
 	.. method:: display_error()
 
@@ -575,4 +575,4 @@ Class Reference
 				'struct'
 			);
 
-		return $this->xmlrpc->send_response($response);
+			return $this->xmlrpc->send_response($response);

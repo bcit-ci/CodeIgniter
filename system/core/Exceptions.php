@@ -45,7 +45,7 @@ class CI_Exceptions {
 	public $ob_level;
 
 	/**
-	 * List if available error levels
+	 * List of available error levels
 	 *
 	 * @var	array
 	 */
@@ -125,7 +125,7 @@ class CI_Exceptions {
 		}
 
 		echo $this->show_error($heading, $message, 'error_404', 404);
-		exit(EXIT_UNKNOWN_FILE);
+		exit(4); // EXIT_UNKNOWN_FILE
 	}
 
 	// --------------------------------------------------------------------
@@ -145,6 +145,12 @@ class CI_Exceptions {
 	 */
 	public function show_error($heading, $message, $template = 'error_general', $status_code = 500)
 	{
+		$templates_path = config_item('error_views_path');
+		if (empty($templates_path))
+		{
+			$templates_path = VIEWPATH.'errors'.DIRECTORY_SEPARATOR;
+		}
+
 		if (is_cli())
 		{
 			$message = "\t".(is_array($message) ? implode("\n\t", $message) : $message);
@@ -162,7 +168,7 @@ class CI_Exceptions {
 			ob_end_flush();
 		}
 		ob_start();
-		include(VIEWPATH.'errors'.DIRECTORY_SEPARATOR.$template.'.php');
+		include($templates_path.$template.'.php');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		return $buffer;
@@ -181,6 +187,12 @@ class CI_Exceptions {
 	 */
 	public function show_php_error($severity, $message, $filepath, $line)
 	{
+		$templates_path = config_item('error_views_path');
+		if (empty($templates_path))
+		{
+			$templates_path = VIEWPATH.'errors'.DIRECTORY_SEPARATOR;
+		}
+
 		$severity = isset($this->levels[$severity]) ? $this->levels[$severity] : $severity;
 
 		// For safety reasons we don't show the full file path in non-CLI requests
@@ -205,7 +217,7 @@ class CI_Exceptions {
 			ob_end_flush();
 		}
 		ob_start();
-		include(VIEWPATH.'errors'.DIRECTORY_SEPARATOR.$template.'.php');
+		include($templates_path.$template.'.php');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		echo $buffer;

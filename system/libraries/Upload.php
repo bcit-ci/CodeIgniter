@@ -327,23 +327,26 @@ class CI_Upload {
 					$this->$key = $defaults[$key];
 				}
 			}
-
-			return $this;
+		
 		}
-
-		foreach ($config as $key => &$value)
+		else
 		{
-			if ($key[0] !== '_' && $reflection->hasProperty($key))
+			
+			foreach ($config as $key => &$value)
 			{
-				if ($reflection->hasMethod('set_'.$key))
+				if ($key[0] !== '_' && $reflection->hasProperty($key))
 				{
-					$this->{'set_'.$key}($value);
-				}
-				else
-				{
-					$this->$key = $value;
+					if ($reflection->hasMethod('set_'.$key))
+					{
+						$this->{'set_'.$key}($value);
+					}
+					else
+					{
+						$this->$key = $value;
+					}
 				}
 			}
+			
 		}
 
 		// if a file_name was provided in the config, use it instead of the user input
@@ -1155,28 +1158,14 @@ class CI_Upload {
 	 */
 	protected function _prep_filename($filename)
 	{
-		if ($this->mod_mime_fix === FALSE OR $this->allowed_types === '*' OR strpos($filename, '.') === FALSE)
+		if ($this->mod_mime_fix === FALSE OR $this->allowed_types === '*' OR ($ext_pos = strrpos($filename, '.')) === FALSE)
 		{
 			return $filename;
 		}
 
-		$parts		= explode('.', $filename);
-		$ext		= array_pop($parts);
-		$filename	= array_shift($parts);
-
-		foreach ($parts as $part)
-		{
-			if ( ! in_array(strtolower($part), $this->allowed_types) OR ! isset($this->_mimes[strtolower($part)]))
-			{
-				$filename .= '.'.$part.'_';
-			}
-			else
-			{
-				$filename .= '.'.$part;
-			}
-		}
-
-		return $filename.'.'.$ext;
+		$ext = substr($filename, $ext_pos);
+		$filename = substr($filename, 0, $ext_pos);
+		return str_replace('.', '_', $filename).$ext;
 	}
 
 	// --------------------------------------------------------------------

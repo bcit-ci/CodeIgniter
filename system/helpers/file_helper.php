@@ -80,7 +80,7 @@ if ( ! function_exists('write_file'))
 
 		flock($fp, LOCK_EX);
 
-		for ($written = 0, $length = strlen($data); $written < $length; $written += $result)
+		for ($result = $written = 0, $length = strlen($data); $written < $length; $written += $result)
 		{
 			if (($result = fwrite($fp, substr($data, $written))) === FALSE)
 			{
@@ -225,7 +225,7 @@ if ( ! function_exists('get_dir_file_info'))
 				$source_dir = rtrim(realpath($source_dir), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
 			}
 
-			// foreach (scandir($source_dir, 1) as $file) // In addition to being PHP5+, scandir() is simply not as fast
+			// Used to be foreach (scandir($source_dir, 1) as $file), but scandir() is simply not as fast
 			while (FALSE !== ($file = readdir($fp)))
 			{
 				if (is_dir($source_dir.$file) && $file[0] !== '.' && $top_level_only === FALSE)

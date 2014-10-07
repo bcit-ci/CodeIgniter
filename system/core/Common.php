@@ -45,20 +45,17 @@ if ( ! function_exists('is_php'))
 	/**
 	 * Determines if the current version of PHP is greater then the supplied value
 	 *
-	 * Since there are a few places where we conditionally test for PHP > 5.3
-	 * we'll set a static variable.
-	 *
 	 * @param	string
 	 * @return	bool	TRUE if the current version is $version or higher
 	 */
-	function is_php($version = '5.3.0')
+	function is_php($version)
 	{
 		static $_is_php;
 		$version = (string) $version;
 
 		if ( ! isset($_is_php[$version]))
 		{
-			$_is_php[$version] = (version_compare(PHP_VERSION, $version) >= 0);
+			$_is_php[$version] = version_compare(PHP_VERSION, $version, '>=');
 		}
 
 		return $_is_php[$version];
@@ -94,17 +91,17 @@ if ( ! function_exists('is_really_writable'))
 		if (is_dir($file))
 		{
 			$file = rtrim($file, '/').'/'.md5(mt_rand());
-			if (($fp = @fopen($file, FOPEN_WRITE_CREATE)) === FALSE)
+			if (($fp = @fopen($file, 'ab')) === FALSE)
 			{
 				return FALSE;
 			}
 
 			fclose($fp);
-			@chmod($file, DIR_WRITE_MODE);
+			@chmod($file, 0777);
 			@unlink($file);
 			return TRUE;
 		}
-		elseif ( ! is_file($file) OR ($fp = @fopen($file, FOPEN_WRITE_CREATE)) === FALSE)
+		elseif ( ! is_file($file) OR ($fp = @fopen($file, 'ab')) === FALSE)
 		{
 			return FALSE;
 		}
@@ -127,7 +124,7 @@ if ( ! function_exists('load_class'))
 	 *
 	 * @param	string	the class name being requested
 	 * @param	string	the directory where the class should be found
-	 * @param	string	the class name prefix
+	 * @param	string	an optional argument to pass to the class constructor
 	 * @return	object
 	 */
 	function &load_class($class, $directory = 'libraries', $param = NULL)
@@ -177,7 +174,7 @@ if ( ! function_exists('load_class'))
 			// self-referencing loop with the Exceptions class
 			set_status_header(503);
 			echo 'Unable to locate the specified class: '.$class.'.php';
-			exit(EXIT_UNKNOWN_CLASS);
+			exit(5); // EXIT_UNK_CLASS
 		}
 
 		// Keep track of what we just loaded
@@ -229,9 +226,9 @@ if ( ! function_exists('get_config'))
 	 */
 	function &get_config(Array $replace = array())
 	{
-		static $_config;
+		static $config;
 
-		if (empty($_config))
+		if (empty($config))
 		{
 			$file_path = APPPATH.'config/config.php';
 			$found = FALSE;
@@ -250,7 +247,7 @@ if ( ! function_exists('get_config'))
 			{
 				set_status_header(503);
 				echo 'The configuration file does not exist.';
-				exit(EXIT_CONFIG);
+				exit(3); // EXIT_CONFIG
 			}
 
 			// Does the $config array exist in the file?
@@ -258,20 +255,17 @@ if ( ! function_exists('get_config'))
 			{
 				set_status_header(503);
 				echo 'Your config file does not appear to be formatted correctly.';
-				exit(EXIT_CONFIG);
+				exit(3); // EXIT_CONFIG
 			}
-
-			// references cannot be directly assigned to static variables, so we use an array
-			$_config[0] =& $config;
 		}
 
 		// Are any values being dynamically added or replaced?
 		foreach ($replace as $key => $val)
 		{
-			$_config[0][$key] = $val;
+			$config[$key] = $val;
 		}
 
-		return $_config[0];
+		return $config;
 	}
 }
 
@@ -295,7 +289,7 @@ if ( ! function_exists('config_item'))
 			$_config[0] =& get_config();
 		}
 
-		return isset($_config[0][$item]) ? $_config[0][$item] : FALSE;
+		return isset($_config[0][$item]) ? $_config[0][$item] : NULL;
 	}
 }
 
@@ -310,15 +304,22 @@ if ( ! function_exists('get_mimes'))
 	 */
 	function &get_mimes()
 	{
-		static $_mimes = array();
+		static $_mimes;
 
-		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+		if (empty($_mimes))
 		{
-			$_mimes = include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
-		}
-		elseif (file_exists(APPPATH.'config/mimes.php'))
-		{
-			$_mimes = include(APPPATH.'config/mimes.php');
+			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+			{
+				$_mimes = include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
+			}
+			elseif (file_exists(APPPATH.'config/mimes.php'))
+			{
+				$_mimes = include(APPPATH.'config/mimes.php');
+			}
+			else
+			{
+				$_mimes = array();
+			}
 		}
 
 		return $_mimes;
@@ -397,16 +398,17 @@ if ( ! function_exists('show_error'))
 		$status_code = abs($status_code);
 		if ($status_code < 100)
 		{
-			$exit_status = $status_code + EXIT__AUTO_MIN;
-			if ($exit_status > EXIT__AUTO_MAX)
+			$exit_status = $status_code + 9; // 9 is EXIT__AUTO_MIN
+			if ($exit_status > 125) // 125 is EXIT__AUTO_MAX
 			{
-				$exit_status = EXIT_ERROR;
+				$exit_status = 1; // EXIT_ERROR
 			}
+
 			$status_code = 500;
 		}
 		else
 		{
-			$exit_status = EXIT_ERROR;
+			$exit_status = 1; // EXIT_ERROR
 		}
 
 		$_error =& load_class('Exceptions', 'core');
@@ -434,7 +436,7 @@ if ( ! function_exists('show_404'))
 	{
 		$_error =& load_class('Exceptions', 'core');
 		$_error->show_404($page, $log_error);
-		exit(EXIT_UNKNOWN_FILE);
+		exit(4); // EXIT_UNKNOWN_FILE
 	}
 }
 
@@ -612,7 +614,7 @@ if ( ! function_exists('_exception_handler'))
 		// default error handling. See http://www.php.net/manual/en/errorfunc.constants.php
 		if ($is_error)
 		{
-			exit(EXIT_ERROR);
+			exit(1); // EXIT_ERROR
 		}
 	}
 }
@@ -688,16 +690,20 @@ if ( ! function_exists('remove_invisible_characters'))
 if ( ! function_exists('html_escape'))
 {
 	/**
-	 * Returns HTML escaped variable
+	 * Returns HTML escaped variable.
 	 *
-	 * @param	mixed
-	 * @return	mixed
+	 * @param	mixed	$var		The input string or array of strings to be escaped.
+	 * @param	bool	$double_encode	$double_encode set to FALSE prevents escaping twice.
+	 * @return	mixed			The escaped string or array of strings as a result.
 	 */
-	function html_escape($var)
+	function html_escape($var, $double_encode = TRUE)
 	{
-		return is_array($var)
-			? array_map('html_escape', $var)
-			: htmlspecialchars($var, ENT_QUOTES, config_item('charset'));
+		if (is_array($var))
+		{
+			return array_map('html_escape', $var, array_fill(0, count($var), $double_encode));
+		}
+
+		return htmlspecialchars($var, ENT_QUOTES, config_item('charset'), $double_encode);
 	}
 }
 

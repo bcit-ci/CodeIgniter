@@ -92,7 +92,7 @@ class CI_Cache_file extends CI_Driver {
 
 		if (write_file($this->_cache_path.$id, serialize($contents)))
 		{
-			@chmod($this->_cache_path.$id, 0660);
+			chmod($this->_cache_path.$id, 0640);
 			return TRUE;
 		}
 
@@ -125,7 +125,11 @@ class CI_Cache_file extends CI_Driver {
 	{
 		$data = $this->_get($id);
 
-		if ($data === FALSE OR ! is_int($data['data']))
+		if ($data === FALSE)
+		{
+			$data = array('data' => 0, 'ttl' => 60);
+		}
+		elseif ( ! is_int($data['data']))
 		{
 			return FALSE;
 		}
@@ -149,7 +153,11 @@ class CI_Cache_file extends CI_Driver {
 	{
 		$data = $this->_get($id);
 
-		if ($data === FALSE OR ! is_int($data['data']))
+		if ($data === FALSE)
+		{
+			$data = array('data' => 0, 'ttl' => 60);
+		}
+		elseif ( ! is_int($data['data']))
 		{
 			return FALSE;
 		}

@@ -76,7 +76,8 @@ $platforms = array(
 	'bsdi'				=> 'BSDi',
 	'openbsd'			=> 'OpenBSD',
 	'gnu'				=> 'GNU/Linux',
-	'unix'				=> 'Unknown Unix OS'
+	'unix'				=> 'Unknown Unix OS',
+	'symbian' 			=> 'Symbian OS'
 );
 
 

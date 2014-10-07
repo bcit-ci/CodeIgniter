@@ -4,12 +4,33 @@ class hash_test extends CI_TestCase {
 
 	public function test_bootstrap()
 	{
-		if (is_php('5.5'))
+		if (is_php('5.6'))
 		{
-			return $this->markTestSkipped('ext/standard/password is available on PHP 5.5');
+			return $this->markTestSkipped('ext/hash is available on PHP 5.6');
 		}
 
-		$this->assertTrue(function_exists('hash_pbkdf2'));
+		$this->assertTrue(function_exists('hash_equals'));
+		is_php('5.5') OR $this->assertTrue(function_exists('hash_pbkdf2'));
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * hash_equals() test
+	 *
+	 * Borrowed from PHP's own tests
+	 *
+	 * @depends	test_bootstrap
+	 */
+	public function test_hash_equals()
+	{
+		$this->assertTrue(hash_equals('same', 'same'));
+		$this->assertFalse(hash_equals('not1same', 'not2same'));
+		$this->assertFalse(hash_equals('short', 'longer'));
+		$this->assertFalse(hash_equals('longer', 'short'));
+		$this->assertFalse(hash_equals('', 'notempty'));
+		$this->assertFalse(hash_equals('notempty', ''));
+		$this->assertTrue(hash_equals('', ''));
 	}
 
 	// ------------------------------------------------------------------------
@@ -23,6 +44,11 @@ class hash_test extends CI_TestCase {
 	 */
 	public function test_hash_pbkdf2()
 	{
+		if (is_php('5.5'))
+		{
+			return $this->markTestSkipped('hash_pbkdf2() is available on PHP 5.5');
+		}
+
 		$this->assertEquals('0c60c80f961f0e71f3a9', hash_pbkdf2('sha1', 'password', 'salt', 1, 20));
 		$this->assertEquals(
 			"\x0c\x60\xc8\x0f\x96\x1f\x0e\x71\xf3\xa9\xb5\x24\xaf\x60\x12\x06\x2f\xe0\x37\xa6",

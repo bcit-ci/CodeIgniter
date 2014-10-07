@@ -189,7 +189,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 */
 	protected function _escape_str($str)
 	{
-		return $this->conn_id->escapeString(remove_invisible_characters($str));
+		return $this->conn_id->escapeString($str);
 	}
 
 	// --------------------------------------------------------------------

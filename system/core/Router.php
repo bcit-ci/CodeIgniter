@@ -130,9 +130,8 @@ class CI_Router {
 				$this->set_class($routing['controller']);
 			}
 
-			if (isset($routing['function']))
+			if ( ! empty($routing['function']))
 			{
-				$routing['function'] = empty($routing['function']) ? 'index' : $routing['function'];
 				$this->set_method($routing['function']);
 			}
 		}
@@ -257,6 +256,10 @@ class CI_Router {
 		if (isset($segments[1]))
 		{
 			$this->set_method($segments[1]);
+		}
+		else
+		{
+			$segments[1] = 'index';
 		}
 
 		array_unshift($segments, NULL);
@@ -398,35 +401,6 @@ class CI_Router {
 				{
 					// Remove the original string from the matches array.
 					array_shift($matches);
-
-					// Get the match count.
-					$match_count = count($matches);
-
-					// Determine how many parameters the callback has.
-					$reflection = new ReflectionFunction($val);
-					$param_count = $reflection->getNumberOfParameters();
-
-					// Are there more parameters than matches?
-					if ($param_count > $match_count)
-					{
-						// Any params without matches will be set to an empty string.
-						$matches = array_merge($matches, array_fill($match_count, $param_count - $match_count, ''));
-
-						$match_count = $param_count;
-					}
-
-					// Get the parameters so we can use their default values.
-					$params = $reflection->getParameters();
-
-					for ($m = 0; $m < $match_count; $m++)
-					{
-						// Is the match empty and does a default value exist?
-						if (empty($matches[$m]) && $params[$m]->isDefaultValueAvailable())
-						{
-							// Substitute the empty match for the default value.
-							$matches[$m] = $params[$m]->getDefaultValue();
-						}
-					}
 
 					// Execute the callback using the values in matches as its parameters.
 					$val = call_user_func_array($val, $matches);

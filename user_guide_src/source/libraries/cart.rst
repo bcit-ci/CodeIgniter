@@ -205,8 +205,8 @@ Updating The Cart
 =================
 
 To update the information in your cart, you must pass an array
-containing the Row ID and quantity to the ``$this->cart->update()``
-method.
+containing the Row ID and one or more pre-defined properties to the 
+``$this->cart->update()`` method.
 
 .. note:: If the quantity is set to zero, the item will be removed from
 	the cart.
@@ -318,7 +318,7 @@ Class Reference
 		This method permits changing the properties of a given item.
 		Typically it is called from the "view cart" page if a user makes changes
 		to the quantity before checkout. That array must contain the rowid
-		and qty for each item.
+		for each item.
 
 	.. method:: remove($rowid)
 

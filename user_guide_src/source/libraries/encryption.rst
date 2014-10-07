@@ -5,13 +5,13 @@ Encryption Library
 The Encryption Library provides two-way data encryption. To do so in
 a cryptographically secure way, it utilizes PHP extensions that are
 unfortunately not always available on all systems.
-You must meet one of the following dependancies in order to use this
+You must meet one of the following dependencies in order to use this
 library:
 
 - `OpenSSL <http://php.net/openssl>`_ (and PHP 5.3.3)
 - `MCrypt <http://php.net/mcrypt>`_ (and `MCRYPT_DEV_URANDOM` availability)
 
-If neither of the above dependancies is met, we simply cannot offer
+If neither of the above dependencies is met, we simply cannot offer
 you a good enough implementation to meet the high standards required
 for proper cryptography.
 
@@ -33,11 +33,11 @@ Like most other classes in CodeIgniter, the Encryption library is
 initialized in your controller using the ``$this->load->library()``
 method::
 
-	$this->load->library('encrypt');
+	$this->load->library('encryption');
 
 Once loaded, the Encryption library object will be available using::
 
-	$this->encrypt
+	$this->encryption
 
 Default behavior
 ================
@@ -84,13 +84,18 @@ your server is not totally under your control it's impossible to ensure
 key security so you may want to think carefully before using it for
 anything that requires high security, like storing credit card numbers.
 
-Your encryption key should be as long as the encyption algorithm in use
-allows. For AES-128, that's 128 bits or 16 bytes (charcters) long. The
-key should be as random as possible and it should **not** be a simple
-text string.
-
+Your encryption key **must** be as long as the encyption algorithm in use
+allows. For AES-128, that's 128 bits or 16 bytes (charcters) long.
 You will find a table below that shows the supported key lengths of
 different ciphers.
+
+The key should be as random as possible and it **must not** be a regular
+text string, nor the output of a hashing function, etc. In order to create
+a proper key, you must use the Encryption library's ``create_key()`` method
+::
+
+	// $key will be assigned a 16-byte (128-bit) random key
+	$key = $this->encryption->create_key(16);
 
 The key can be either stored in your *application/config/config.php*, or
 you can design your own storage mechanism and pass the key dynamically
@@ -133,7 +138,7 @@ AES-256                  aes-256            256 / 32                     CBC, CT
 DES                      des                56 / 7                       CBC, CFB, CFB8, OFB, ECB
 TripleDES                tripledes          56 / 7, 112 / 14, 168 / 21   CBC, CFB, CFB8, OFB
 Blowfish                 blowfish           128-448 / 16-56              CBC, CFB, OFB, ECB
-CAST5 / CAST-128         cast5              40-128 / 5-16                CBC, CFB, OFB, ECB
+CAST5 / CAST-128         cast5              88-128 / 11-16               CBC, CFB, OFB, ECB
 RC4 / ARCFour            rc4                40-2048 / 5-256              Stream
 ======================== ================== ============================ ===============================
 
@@ -168,14 +173,15 @@ but regardless, here's a list of most of them:
 ============== ========= ============================== =========================================
 Cipher name    Driver    Key lengths (bits / bytes)     Supported modes
 ============== ========= ============================== =========================================
-AES-128        OpenSSL   128 / 16                       CBC, CTR, CFB, CFB8, OFB, ECB, GCM, XTS
-AES-192        OpenSSL   192 / 24                       CBC, CTR, CFB, CFB8, OFB, ECB, GCM, XTS
-AES-256        OpenSSL   256 / 32                       CBC, CTR, CFB, CFB8, OFB, ECB, GCM, XTS
+AES-128        OpenSSL   128 / 16                       CBC, CTR, CFB, CFB8, OFB, ECB, XTS
+AES-192        OpenSSL   192 / 24                       CBC, CTR, CFB, CFB8, OFB, ECB, XTS
+AES-256        OpenSSL   256 / 32                       CBC, CTR, CFB, CFB8, OFB, ECB, XTS
 Rijndael-128   MCrypt    128 / 16, 192 / 24, 256 / 32   CBC, CTR, CFB, CFB8, OFB, OFB8, ECB
 Rijndael-192   MCrypt    128 / 16, 192 / 24, 256 / 32   CBC, CTR, CFB, CFB8, OFB, OFB8, ECB
 Rijndael-256   MCrypt    128 / 16, 192 / 24, 256 / 32   CBC, CTR, CFB, CFB8, OFB, OFB8, ECB
 GOST           MCrypt    256 / 32                       CBC, CTR, CFB, CFB8, OFB, OFB8, ECB
 Twofish        MCrypt    128 / 16, 192 / 24, 256 / 32   CBC, CTR, CFB, CFB8, OFB, OFB8, ECB
+CAST-128       MCrypt    40-128 / 5-16                  CBC, CTR, CFB, CFB8, OFB, OFB8, ECB
 CAST-256       MCrypt    128 / 16, 192 / 24, 256 / 32   CBC, CTR, CFB, CFB8, OFB, OFB8, ECB
 Loki97         MCrypt    128 / 16, 192 / 24, 256 / 32   CBC, CTR, CFB, CFB8, OFB, OFB8, ECB
 SaferPlus      MCrypt    128 / 16, 192 / 24, 256 / 32   CBC, CTR, CFB, CFB8, OFB, OFB8, ECB
@@ -197,6 +203,11 @@ Seed           OpenSSL   128 / 16                       CBC, CFB, OFB, ECB
 	drivers support different modes for these ciphers. Also, it is
 	important to note that AES-128 and Rijndael-128 are actually
 	the same cipher, but **only** when used with a 128-bit key.
+
+.. note:: CAST-128 / CAST-5 is also listed in both the portable and
+	driver-specific ciphers list. This is because OpenSSL's
+	implementation doesn't appear to be working correctly with
+	key sizes of 80 bits and lower.
 
 .. note:: RC2 is listed as supported by both MCrypt and OpenSSL.
 	However, both drivers implement them differently and they
@@ -228,7 +239,6 @@ CFB8        cfb8               MCrypt, OpenSSL   Same as CFB, but operates in 8-
 OFB         ofb                MCrypt, OpenSSL   N/A
 OFB8        ofb8               MCrypt            Same as OFB, but operates in 8-bit mode (not recommended).
 ECB         ecb                MCrypt, OpenSSL   Ignores IV (not recommended).
-GCM         gcm                OpenSSL           Provides authentication and therefore doesn't need a HMAC.
 XTS         xts                OpenSSL           Usually used for encrypting random access data such as RAM or hard-disk storage.
 Stream      stream             MCrypt, OpenSSL   This is not actually a mode, it just says that a stream cipher is being used. Required because of the general cipher+mode initialization process.
 =========== ================== ================= ===================================================================================================================================================
@@ -240,10 +250,9 @@ It's probably important for you to know that an encrypted string is usually
 longer than the original, plain-text string (depending on the cipher).
 
 This is influenced by the cipher algorithm itself, the IV prepended to the
-cipher-text and (unless you are using GCM mode) the HMAC authentication
-message that is also prepended. Furthermore, the encrypted message is also
-Base64-encoded so that it is safe for storage and transmission, regardless
-of a possible character set in use.
+cipher-text and the HMAC authentication message that is also prepended.
+Furthermore, the encrypted message is also Base64-encoded so that it is safe
+for storage and transmission, regardless of a possible character set in use.
 
 Keep this information in mind when selecting your data storage mechanism.
 Cookies, for example, can only hold 4K of information.
@@ -419,9 +428,6 @@ Option        Default value   Mandatory / Optional          Description
 cipher        N/A             Yes                           Encryption algorithm (see :ref:`ciphers-and-modes`).
 mode          N/A             Yes                           Encryption mode (see :ref:`encryption-modes`).
 key           N/A             Yes                           Encryption key.
-iv            N/A             No                            Initialization vector (IV).
-                                                            If not provided it will be automatically generated
-                                                            during encryption and looked for during decryption.
 hmac          TRUE            No                            Whether to use a HMAC.
                                                             Boolean. If set to FALSE, then *hmac_digest* and
                                                             *hmac_key* will be ignored.
@@ -437,9 +443,6 @@ raw_data      FALSE           No                            Whether the cipher-t
 	a mandatory parameter is not provided or if a provided
 	value is incorrect. This includes *hmac_key*, unless *hmac*
 	is set to FALSE.
-
-.. note:: If GCM mode is used, *hmac* will always be FALSE. This is
-	because GCM mode itself provides authentication.
 
 .. _digests:
 

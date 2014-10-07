@@ -133,7 +133,7 @@ class CI_Zip {
 	protected function _get_mod_time($dir)
 	{
 		// filemtime() may return false, but raises an error for non-existing files
-		$date = file_exists($dir) ? filemtime($dir) : getdate($this->now);
+		$date = file_exists($dir) ? getdate(filemtime($dir)) : getdate($this->now);
 
 		return array(
 			'file_mtime' => ($date['hours'] << 11) + ($date['minutes'] << 5) + $date['seconds'] / 2,
@@ -398,14 +398,14 @@ class CI_Zip {
 	 */
 	public function archive($filepath)
 	{
-		if ( ! ($fp = @fopen($filepath, FOPEN_WRITE_CREATE_DESTRUCTIVE)))
+		if ( ! ($fp = @fopen($filepath, 'w+b')))
 		{
 			return FALSE;
 		}
 
 		flock($fp, LOCK_EX);
 
-		for ($written = 0, $data = $this->get_zip(), $length = strlen($data); $written < $length; $written += $result)
+		for ($result = $written = 0, $data = $this->get_zip(), $length = strlen($data); $written < $length; $written += $result)
 		{
 			if (($result = fwrite($fp, substr($data, $written))) === FALSE)
 			{

@@ -172,7 +172,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return @cubrid_query($sql, $this->conn_id);
+		return cubrid_query($sql, $this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -264,14 +264,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	protected function _escape_str($str)
 	{
-		if (function_exists('cubrid_real_escape_string') &&
-			(is_resource($this->conn_id)
-				OR (get_resource_type($this->conn_id) === 'Unknown' && preg_match('/Resource id #/', strval($this->conn_id)))))
-		{
-			return cubrid_real_escape_string($str, $this->conn_id);
-		}
-
-		return addslashes($str);
+		return cubrid_real_escape_string($str, $this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -283,7 +276,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	public function affected_rows()
 	{
-		return @cubrid_affected_rows();
+		return cubrid_affected_rows();
 	}
 
 	// --------------------------------------------------------------------
@@ -295,7 +288,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	public function insert_id()
 	{
-		return @cubrid_insert_id($this->conn_id);
+		return cubrid_insert_id($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -418,7 +411,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	protected function _close()
 	{
-		@cubrid_close($this->conn_id);
+		cubrid_close($this->conn_id);
 	}
 
 }

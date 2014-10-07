@@ -80,7 +80,7 @@ class CI_Lang {
 
 		if ($add_suffix === TRUE)
 		{
-			$langfile = str_replace('_lang', '', $langfile).'_lang';
+			$langfile = preg_replace('/_lang$/', '', $langfile).'_lang';
 		}
 
 		$langfile .= '.php';

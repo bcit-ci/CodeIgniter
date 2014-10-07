@@ -233,7 +233,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return @pg_query($this->conn_id, $sql);
+		return pg_query($this->conn_id, $sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -257,7 +257,7 @@ class CI_DB_postgre_driver extends CI_DB {
 		// even if the queries produce a successful result.
 		$this->_trans_failure = ($test_mode === TRUE);
 
-		return (bool) @pg_query($this->conn_id, 'BEGIN');
+		return (bool) pg_query($this->conn_id, 'BEGIN');
 	}
 
 	// --------------------------------------------------------------------
@@ -275,7 +275,7 @@ class CI_DB_postgre_driver extends CI_DB {
 			return TRUE;
 		}
 
-		return (bool) @pg_query($this->conn_id, 'COMMIT');
+		return (bool) pg_query($this->conn_id, 'COMMIT');
 	}
 
 	// --------------------------------------------------------------------
@@ -293,7 +293,7 @@ class CI_DB_postgre_driver extends CI_DB {
 			return TRUE;
 		}
 
-		return (bool) @pg_query($this->conn_id, 'ROLLBACK');
+		return (bool) pg_query($this->conn_id, 'ROLLBACK');
 	}
 
 	// --------------------------------------------------------------------
@@ -355,7 +355,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function affected_rows()
 	{
-		return @pg_affected_rows($this->result_id);
+		return pg_affected_rows($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -632,7 +632,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	protected function _close()
 	{
-		@pg_close($this->conn_id);
+		pg_close($this->conn_id);
 	}
 
 }

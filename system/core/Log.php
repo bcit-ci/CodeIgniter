@@ -45,32 +45,39 @@ class CI_Log {
 	protected $_log_path;
 
 	/**
+	 * File permissions
+	 *
+	 * @var	int
+	 */
+	protected $_file_permissions = 0644;
+
+	/**
 	 * Level of logging
 	 *
 	 * @var int
 	 */
-	protected $_threshold		= 1;
+	protected $_threshold = 1;
 
 	/**
 	 * Highest level of logging
 	 *
 	 * @var int
 	 */
-	protected $_threshold_max	= 0;
+	protected $_threshold_max = 0;
 
 	/**
 	 * Array of threshold levels to log
 	 *
 	 * @var array
 	 */
-	protected $_threshold_array	= array();
+	protected $_threshold_array = array();
 
 	/**
 	 * Format of timestamp for log files
 	 *
 	 * @var string
 	 */
-	protected $_date_fmt		= 'Y-m-d H:i:s';
+	protected $_date_fmt = 'Y-m-d H:i:s';
 
 	/**
 	 * Filename extension
@@ -84,14 +91,14 @@ class CI_Log {
 	 *
 	 * @var bool
 	 */
-	protected $_enabled		= TRUE;
+	protected $_enabled = TRUE;
 
 	/**
 	 * Predefined logging levels
 	 *
 	 * @var array
 	 */
-	protected $_levels		= array('ERROR' => 1, 'DEBUG' => 2, 'INFO' => 3, 'ALL' => 4);
+	protected $_levels = array('ERROR' => 1, 'DEBUG' => 2, 'INFO' => 3, 'ALL' => 4);
 
 	// --------------------------------------------------------------------
 
@@ -108,7 +115,7 @@ class CI_Log {
 		$this->_file_ext = (isset($config['log_file_extension']) && $config['log_file_extension'] !== '')
 			? ltrim($config['log_file_extension'], '.') : 'php';
 
-		file_exists($this->_log_path) OR mkdir($this->_log_path, DIR_WRITE_MODE, TRUE);
+		file_exists($this->_log_path) OR mkdir($this->_log_path, 0755, TRUE);
 
 		if ( ! is_dir($this->_log_path) OR ! is_really_writable($this->_log_path))
 		{
@@ -125,9 +132,14 @@ class CI_Log {
 			$this->_threshold_array = array_flip($config['log_threshold']);
 		}
 
-		if ($config['log_date_format'] !== '')
+		if ( ! empty($config['log_date_format']))
 		{
 			$this->_date_fmt = $config['log_date_format'];
+		}
+
+		if ( ! empty($config['log_file_permissions']) && is_int($config['log_file_permissions']))
+		{
+			$this->_file_permissions = $config['log_file_permissions'];
 		}
 	}
 
@@ -170,7 +182,7 @@ class CI_Log {
 			}
 		}
 
-		if ( ! $fp = @fopen($filepath, FOPEN_WRITE_CREATE))
+		if ( ! $fp = @fopen($filepath, 'ab'))
 		{
 			return FALSE;
 		}
@@ -192,7 +204,7 @@ class CI_Log {
 
 		if (isset($newfile) && $newfile === TRUE)
 		{
-			@chmod($filepath, FILE_WRITE_MODE);
+			chmod($filepath, $this->_file_permissions);
 		}
 
 		return is_int($result);
