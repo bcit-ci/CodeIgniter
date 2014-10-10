@@ -522,6 +522,7 @@ Release Date: Not Released
       -  Changed method ``load()`` to filter the language name with ``ctype_alpha()``.
       -  Added an optional second parameter to method ``line()`` to disable error logging for line keys that were not found.
       -  Language files are now loaded in a cascading style with the one in **system/** always loaded and overriden afterwards, if another one is found.
+      -  Added is new second parameter in method ``line()`` for variables which will be parsed within line string.
 
    -  :doc:`Hooks Library <general/hooks>` changes include:
 
