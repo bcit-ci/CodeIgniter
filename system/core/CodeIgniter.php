@@ -330,10 +330,14 @@ if ( ! is_php('5.4'))
 	{
 		return CI_Controller::get_instance();
 	}
-
-	if (file_exists(APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php'))
-	{
-		require_once APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php';
+	
+	
+	function __autoload($class_name) {
+	global $CFG;
+		if((strpos($class_name, 'CI_') === false) && (strpos($class_name, $CFG->config['subclass_prefix']) === 0) && (file_exists(APPPATH.'core/'.$class_name.EXT))) {
+		require_once( APPPATH . 'core/'. $class_name.'php' );
+		}
+		
 	}
 
 	// Set a mark point for benchmarking
