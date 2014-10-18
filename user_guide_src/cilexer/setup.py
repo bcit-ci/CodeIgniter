@@ -13,7 +13,7 @@ setup(
     name='pycilexer',
     version='0.1',
     description=__doc__,
-    author="EllisLab, Inc.",
+    author="BCIT",
     packages=['cilexer'],
     install_requires=(
         'sphinx >= 1.0.7',

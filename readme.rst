@@ -15,15 +15,15 @@ Release Information
 *******************
 
 This repo contains in-development code for future releases. To download the
-latest stable release please visit the `CodeIgniter Downloads
-<http://codeigniter.com/downloads/>`_ page.
+latest stable release please visit the `CodeIgniter Download
+<http://codeigniter.com/download/>`_ page.
 
 **************************
 Changelog and New Features
 **************************
 
 You can find a list of all changes for each release in the `user
-guide change log <https://github.com/EllisLab/CodeIgniter/blob/develop/user_guide_src/source/changelog.rst>`_.
+guide change log <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/changelog.rst>`_.
 
 *******************
 Server Requirements
@@ -35,7 +35,7 @@ Server Requirements
 Installation
 ************
 
-Please see the `installation section <http://ellislab.com/codeigniter/user-guide/installation/index.html>`_
+Please see the `installation section <http://codeigniter.com/userguide3/installation/index.html>`_
 of the CodeIgniter User Guide.
 
 *******
@@ -43,20 +43,20 @@ License
 *******
 
 Please see the `license
-agreement <http://ellislab.com/codeigniter/user-guide/license.html>`_
+agreement <http://codeigniter.com/userguide3/license.html>`_
 
 *********
 Resources
 *********
 
--  `User Guide <http://ellislab.com/codeigniter/user_guide/>`_
--  `Community Forums <http://ellislab.com/forums/>`_
--  `Community Wiki <https://github.com/EllisLab/CodeIgniter/wiki/>`_
--  `Community IRC <http://ellislab.com/codeigniter/irc>`_
+-  `User Guide <http://codeigniter.com/userguide3/>`_
+-  `Community Forums <https://forum.codeigniter.com/>`_
+-  `Community Wiki <https://github.com/bcit-ci/CodeIgniter/wiki/>`_
+-  `Community IRC <http://codeigniter.com/irc>`_
 
 ***************
 Acknowledgement
 ***************
 
-The EllisLab team and The Reactor Engineers would like to thank all the
-contributors to the CodeIgniter project and you, the CodeIgniter user.
+The CodeIgniter Project would like to thank the Reactor Engineers, EllisLab, all the
+contributors to the CodeIgniter project, and you, the CodeIgniter user.

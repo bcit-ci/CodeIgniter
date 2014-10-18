@@ -749,7 +749,7 @@ Bug fixes for 3.0
 -  Partially fixed a bug (#261) - UTF-8 class method ``clean_string()`` generating log messages and/or not producing the desired result due to an upstream bug in iconv.
 -  Fixed a bug where ``CI_Xmlrpcs::parseRequest()`` could fail if ``$HTTP_RAW_POST_DATA`` is not populated.
 -  Fixed a bug in :doc:`Zip Library <libraries/zip>` internal method ``_get_mod_time()`` where it was not parsing result returned by ``filemtime()``.
--  Fixed a bug (#3161) - :doc:`Cache Library <libraries/cache>` methods `increment()`, `decrement()` didn't auto-create non-existent items when using redis and/or file storage.
+-  Fixed a bug (#3161) - :doc:`Cache Library <libraries/caching>` methods `increment()`, `decrement()` didn't auto-create non-existent items when using redis and/or file storage.
 -  Fixed a bug (#3189) - :doc:`Parser Library <libraries/parser>` used double replacement on ``key->value`` pairs, exposing a potential template injection vulnerability.
 
 Version 2.2.0
@@ -1021,8 +1021,7 @@ Bug fixes for 2.0.3
    needless file stats if no packages exist or if the developer does not
    load any other packages by default.
 -  Fixed a bug (Reactor #231) where Sessions Library database table
-   example SQL did not contain an index on last_activity. See :doc:`Upgrade
-   Notes <installation/upgrade_203>`.
+   example SQL did not contain an index on last_activity. 
 -  Fixed a bug (Reactor #229) where the Sessions Library example SQL in
    the documentation contained incorrect SQL.
 -  Fixed a bug (Core #340) where when passing in the second parameter to
@@ -1269,8 +1268,6 @@ Hg Tag: v2.0.0
       CBC.
    -  Added an encode_from_legacy() method to provide a way to
       transition encrypted data from CodeIgniter 1.x to CodeIgniter 2.x.
-      Please see the :doc:`upgrade
-      instructions <./installation/upgrade_200>` for details.
    -  Altered Form_Validation library to allow for method chaining on
       set_rules(), set_message() and set_error_delimiters()
       functions.
