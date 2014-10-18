@@ -992,7 +992,12 @@ abstract class CI_DB_driver {
 	 */
 	public function escape($str)
 	{
-		if (is_string($str) OR (is_object($str) && method_exists($str, '__toString')))
+		if (is_array($str))
+		{
+			$str = array_map(array(&$this, 'escape'), $str);
+			return '('.implode(',', $str).')';
+		}
+		elseif (is_string($str) OR (is_object($str) && method_exists($str, '__toString')))
 		{
 			return "'".$this->escape_str($str)."'";
 		}
