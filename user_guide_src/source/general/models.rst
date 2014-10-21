@@ -122,7 +122,7 @@ same name as your class::
 	$this->model_name->method();
 
 If you would like your model assigned to a different object name you can
-specify it via the second parameter of the loading method::
+specify it via the second parameter of the loading method:
 
 	$this->load->model('model_name', 'foobar');
 
@@ -137,7 +137,7 @@ view::
 		{
 			$this->load->model('blog');
 
-			$data['query'] = $this->Blog->get_last_ten_entries();
+			$data['query'] = $this->blog->get_last_ten_entries();
 
 			$this->load->view('blog', $data);
 		}
