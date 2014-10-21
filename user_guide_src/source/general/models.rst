@@ -179,5 +179,4 @@ database. The following options for connecting are available to you:
 	$config['dbprefix'] = '';
 	$config['pconnect'] = FALSE;
 	$config['db_debug'] = TRUE;
-
 	$this->load->model('model_name', '', $config);
