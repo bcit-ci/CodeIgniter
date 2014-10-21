@@ -173,6 +173,7 @@ Release Date: Not Released
    -  Added Interbase/Firebird database support via the *ibase* driver.
    -  Added ODBC support for ``create_database()``, ``drop_database()`` and ``drop_table()`` in :doc:`Database Forge <database/forge>`.
    -  Added **save_queries** configuration setting to *application/config/database.php* (defaults to ``TRUE``).
+   -  Added support for escaping arrays sent as binding values to ``query()``
 
    -  :doc:`Query Builder <database/query_builder>` changes include:
 
