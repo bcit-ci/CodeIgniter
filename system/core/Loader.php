@@ -290,8 +290,8 @@ class CI_Loader {
 
 			require_once($mod_path.'models/'.$path.$model.'.php');
 
-			$CI->$name = new $model();
 			$this->_ci_models[] = $name;
+			$CI->$name = new $model();
 			return $this;
 		}
 

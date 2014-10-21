@@ -145,9 +145,11 @@ class CI_Exceptions {
 	 */
 	public function show_error($heading, $message, $template = 'error_general', $status_code = 500)
 	{
-		$templates_path = config_item('error_views_path')
-			? config_item('error_views_path')
-			: VIEWPATH.'errors'.DIRECTORY_SEPARATOR;
+		$templates_path = config_item('error_views_path');
+		if (empty($templates_path))
+		{
+			$templates_path = VIEWPATH.'errors'.DIRECTORY_SEPARATOR;
+		}
 
 		if (is_cli())
 		{
@@ -185,9 +187,11 @@ class CI_Exceptions {
 	 */
 	public function show_php_error($severity, $message, $filepath, $line)
 	{
-		$templates_path = config_item('error_views_path')
-			? config_item('error_views_path')
-			: VIEWPATH.'errors'.DIRECTORY_SEPARATOR;
+		$templates_path = config_item('error_views_path');
+		if (empty($templates_path))
+		{
+			$templates_path = VIEWPATH.'errors'.DIRECTORY_SEPARATOR;
+		}
 
 		$severity = isset($this->levels[$severity]) ? $this->levels[$severity] : $severity;
 

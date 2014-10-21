@@ -158,6 +158,10 @@ Step 10: Many functions now return NULL instead of FALSE on missing items
 
 Many methods and functions now return NULL instead of FALSE when the required items don't exist:
 
+ - :doc:`Common functions <../general/common_functions>`
+
+   - config_item()
+
  - :doc:`Config Class <../libraries/config>`
 
    - config->item()

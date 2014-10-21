@@ -187,7 +187,7 @@ Release Date: Not Released
       - Changed ``limit()`` to ignore NULL values instead of always casting to integer.
       - Changed ``offset()`` to ignore empty values instead of always casting to integer.
       - Methods ``insert_batch()`` and ``update_batch()`` now return an integer representing the number of rows affected by them.
-      - Methods ``where()``, ``or_where()``, ``having()`` and ``or_having()`` now convert the operators *<>* and *!=* into *IS NOT NULL* when the supplied for comparison value is equal to *NULL*. 
+      - Methods ``where()``, ``or_where()``, ``having()`` and ``or_having()`` now convert trailing  ``=`` and ``<>``,  ``!=`` SQL operators to ``IS NULL`` and ``IS NOT NULL`` respectively when the supplied comparison value is ``NULL``.
 
    -  :doc:`Database Results <database/results>` changes include:
 
@@ -492,6 +492,7 @@ Release Date: Not Released
       -  Changed internal function ``load_class()`` to accept a constructor parameter instead of (previously unused) class name prefix.
       -  Removed default parameter value of :func:`is_php()`.
       -  Added a second argument ``$double_encode`` to :func:`html_escape()`.
+      -  Changed function ``config_item()`` to return NULL instead of FALSE when no value is found.
 
    -  :doc:`Output Library <libraries/output>` changes include:
 
@@ -807,7 +808,7 @@ Bug fixes for 2.1.3
 -  Fixed a bug (#227) - :doc:`Input Library <libraries/input>` allowed unconditional spoofing of HTTP clients' IP addresses through the *HTTP_CLIENT_IP* header.
 -  Fixed a bug (#907) - :doc:`Input Library <libraries/input>` ignored *HTTP_X_CLUSTER_CLIENT_IP* and *HTTP_X_CLIENT_IP* headers when checking for proxies.
 -  Fixed a bug (#940) - ``csrf_verify()`` used to set the CSRF cookie while processing a POST request with no actual POST data, which resulted in validating a request that should be considered invalid.
--  Fixed a bug (#499) - :doc:`Security Library <libraries/security>` where a CSRF cookie was created even if ``$config['csrf_protection']`` is set tot FALSE.
+-  Fixed a bug (#499) - :doc:`Security Library <libraries/security>` where a CSRF cookie was created even if ``$config['csrf_protection']`` is set to FALSE.
 -  Fixed a bug (#1715) - :doc:`Input Library <libraries/input>` triggered ``csrf_verify()`` on CLI requests.
 -  Fixed a bug (#751) - :doc:`Query Builder <database/query_builder>` didn't properly handle cached field escaping overrides.
 -  Fixed a bug (#2004) - :doc:`Query Builder <database/query_builder>` didn't properly merge cached calls with non-cache ones.

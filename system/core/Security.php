@@ -158,21 +158,21 @@ class CI_Security {
 	public function __construct()
 	{
 		// Is CSRF protection enabled?
-		if (config_item('csrf_protection') === TRUE)
+		if (config_item('csrf_protection'))
 		{
 			// CSRF config
 			foreach (array('csrf_expire', 'csrf_token_name', 'csrf_cookie_name') as $key)
 			{
-				if (FALSE !== ($val = config_item($key)))
+				if (NULL !== ($val = config_item($key)))
 				{
 					$this->{'_'.$key} = $val;
 				}
 			}
 
 			// Append application specific cookie prefix
-			if (config_item('cookie_prefix'))
+			if ($cookie_prefix = config_item('cookie_prefix'))
 			{
-				$this->_csrf_cookie_name = config_item('cookie_prefix').$this->_csrf_cookie_name;
+				$this->_csrf_cookie_name = $cookie_prefix.$this->_csrf_cookie_name;
 			}
 
 			// Set the CSRF hash
@@ -439,7 +439,7 @@ class CI_Security {
 
 		/*
 		 * Remove disallowed Javascript in links or img tags
-		 * We used to do some version comparisons and use of stripos for PHP5,
+		 * We used to do some version comparisons and use of stripos(),
 		 * but it is dog slow compared to these simplified non-capturing
 		 * preg_match(), especially if the pattern exists in the string
 		 *
@@ -573,6 +573,8 @@ class CI_Security {
 
 		if (is_readable('/dev/urandom') && ($fp = fopen('/dev/urandom', 'rb')) !== FALSE)
 		{
+			// Try not to waste entropy ...
+			is_php('5.4') && stream_set_chunk_size($fp, $length);
 			$output = fread($fp, $length);
 			fclose($fp);
 			if ($output !== FALSE)
