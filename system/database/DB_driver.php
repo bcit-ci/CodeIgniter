@@ -922,7 +922,12 @@ abstract class CI_DB_driver {
 		do
 		{
 			$c--;
-			$sql = substr_replace($sql, $this->escape($binds[$c]), $matches[0][$c][1], $ml);
+			$escaped_value = $this->escape($binds[$c]);
+			if (is_array($escaped_value))
+			{
+				$escaped_value = '('.implode(',', $escaped_value).')';
+			}
+			$sql = substr_replace($sql, $escaped_value, $matches[0][$c][1], $ml);
 		}
 		while ($c !== 0);
 
@@ -992,7 +997,12 @@ abstract class CI_DB_driver {
 	 */
 	public function escape($str)
 	{
-		if (is_string($str) OR (is_object($str) && method_exists($str, '__toString')))
+		if (is_array($str))
+		{
+			$str = array_map(array(&$this, 'escape'), $str);
+			return $str;
+		}
+		elseif (is_string($str) OR (is_object($str) && method_exists($str, '__toString')))
 		{
 			return "'".$this->escape_str($str)."'";
 		}

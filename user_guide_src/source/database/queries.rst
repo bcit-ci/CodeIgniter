@@ -132,6 +132,15 @@ put the queries together for you. Consider the following example::
 The question marks in the query are automatically replaced with the
 values in the array in the second parameter of the query function.
 
+Binding also work with arrays, which will be transformed to IN sets::
+
+	$sql = "SELECT * FROM some_table WHERE id IN ? AND status = ? AND author = ?";
+	$this->db->query($sql, array(array(3, 6), 'live', 'Rick'));
+
+The resulting query will be::
+
+	SELECT * FROM some_table WHERE id IN (3,6) AND status = 'live' AND author = 'Rick'
+
 The secondary benefit of using binds is that the values are
 automatically escaped, producing safer queries. You don't have to
 remember to manually escape data; the engine does it automatically for
