@@ -11,7 +11,7 @@ class URI_test extends CI_TestCase {
 
 	/* As of the following commit, _set_uri_string() is a protected method:
 
-		https://github.com/EllisLab/CodeIgniter/commit/d461934184d95b0cfb2feec93f27b621ef72a5c2
+		https://github.com/bcit-ci/CodeIgniter/commit/d461934184d95b0cfb2feec93f27b621ef72a5c2
 
 	public function test_set_uri_string()
 	{
