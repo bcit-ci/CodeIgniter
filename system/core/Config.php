@@ -68,7 +68,7 @@ class CI_Config {
 		{
 			if (isset($_SERVER['HTTP_HOST']))
 			{
-				$base_url = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
+				$base_url = (empty($_SERVER['HTTPS']) OR strtolower($_SERVER['HTTPS']) === 'off') ? 'http' : 'https';
 				$base_url .= '://'. $_SERVER['HTTP_HOST'];
 				$base_url .= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
 			}
