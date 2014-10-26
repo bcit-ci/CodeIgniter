@@ -17,7 +17,7 @@
  * licensing@ellislab.com so we can send you a copy immediately.
  *
  * @package		CodeIgniter
- * @author		EllisLab Dev Team
+ * @author		CodeIgniter Community
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
@@ -36,7 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @package		CodeIgniter
  * @subpackage	Drivers
  * @category	Database
- * @author		EllisLab Dev Team
+ * @author		CodeIgniter Community
  * @link		http://codeigniter.com/user_guide/database/
  */
 class CI_DB_pdo_4d_driver extends CI_DB_pdo_driver {

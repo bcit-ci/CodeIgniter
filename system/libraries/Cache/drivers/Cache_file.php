@@ -17,7 +17,7 @@
  * licensing@ellislab.com so we can send you a copy immediately.
  *
  * @package		CodeIgniter
- * @author		EllisLab Dev Team
+ * @author		CodeIgniter Community
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
@@ -32,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Core
- * @author		EllisLab Dev Team
+ * @author		CodeIgniter Community
  * @link
  */
 class CI_Cache_file extends CI_Driver {

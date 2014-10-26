@@ -17,11 +17,11 @@
  * licensing@ellislab.com so we can send you a copy immediately.
  *
  * @package		CodeIgniter
- * @author		EllisLab Dev Team
+ * @author		CodeIgniter Community
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @since		Version 3.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -39,7 +39,7 @@ if ( ! function_exists('xml_parser_create'))
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	XML-RPC
- * @author		EllisLab Dev Team
+ * @author		CodeIgniter Community
  * @link		http://codeigniter.com/user_guide/libraries/xmlrpc.html
  */
 class CI_Xmlrpc {
@@ -547,7 +547,7 @@ class CI_Xmlrpc {
  * XML-RPC Client class
  *
  * @category	XML-RPC
- * @author		EllisLab Dev Team
+ * @author		CodeIgniter Community
  * @link		http://codeigniter.com/user_guide/libraries/xmlrpc.html
  */
 class XML_RPC_Client extends CI_Xmlrpc
@@ -749,7 +749,7 @@ class XML_RPC_Client extends CI_Xmlrpc
  * XML-RPC Response class
  *
  * @category	XML-RPC
- * @author		EllisLab Dev Team
+ * @author		CodeIgniter Community
  * @link		http://codeigniter.com/user_guide/libraries/xmlrpc.html
  */
 class XML_RPC_Response
@@ -998,7 +998,7 @@ class XML_RPC_Response
  * XML-RPC Message class
  *
  * @category	XML-RPC
- * @author		EllisLab Dev Team
+ * @author		CodeIgniter Community
  * @link		http://codeigniter.com/user_guide/libraries/xmlrpc.html
  */
 class XML_RPC_Message extends CI_Xmlrpc
@@ -1617,7 +1617,7 @@ class XML_RPC_Message extends CI_Xmlrpc
  * XML-RPC Values class
  *
  * @category	XML-RPC
- * @author		EllisLab Dev Team
+ * @author		CodeIgniter Community
  * @link		http://codeigniter.com/user_guide/libraries/xmlrpc.html
  */
 class XML_RPC_Values extends CI_Xmlrpc
