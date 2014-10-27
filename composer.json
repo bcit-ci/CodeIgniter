@@ -1,6 +1,7 @@
 {
-	"description" : "Dependencies for CodeIgniter's testing environment",
-	"name" : "ellislab/codeigniter",
+	"description" : "The CodeIgniter framework",
+	"name" : "codeigniter/framework",
+	"license": "MIT",
 	"require": {
 		"php": ">=5.2.4"
 	},
