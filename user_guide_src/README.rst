@@ -23,7 +23,7 @@ Installation
 ============
 
 1. Install `easy_install <http://peak.telecommunity.com/DevCenter/EasyInstall#installing-easy-install>`_
-2. ``easy_install "sphinx==1.2.3"``
+2. ``easy_install sphinx``
 3. ``easy_install sphinxcontrib-phpdomain``
 4. Install the CI Lexer which allows PHP, HTML, CSS, and JavaScript syntax highlighting in code examples (see *cilexer/README*)
 5. ``cd user_guide_src``
