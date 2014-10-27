@@ -9,12 +9,7 @@ Release Date: Not Released
 
 -  License
 
-   -  CodeIgniter has been relicensed with the Open Software License (3.0), eliminating its old proprietary licensing.
-
-      -  All system files are licensed with OSL 3.0.
-      -  Config, error, and sample files shipped in the application folder are
-         licensed with the Academic Free License (3.0) to allow you to retain
-         all licensing authority over your own application code.
+   -  CodeIgniter has been relicensed with the `MIT License <http://opensource.org/licenses/MIT>`_, eliminating its old proprietary licensing.
 
 -  General Changes
 
