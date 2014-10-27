@@ -43,7 +43,7 @@ License
 *******
 
 Please see the `license
-agreement <http://www.codeigniter.com/user_guide/license.html>`_
+agreement <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/license.rst>`_.
 
 *********
 Resources
