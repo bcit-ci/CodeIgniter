@@ -570,17 +570,17 @@ if ( ! function_exists('set_status_header'))
 
 // --------------------------------------------------------------------
 
-if ( ! function_exists('_exception_handler'))
+if ( ! function_exists('_error_handler'))
 {
 	/**
-	 * Exception Handler
+	 * Error Handler
 	 *
-	 * This is the custom exception handler that is declared at the top
-	 * of CodeIgniter.php. The main reason we use this is to permit
+	 * This is the custom error handler that is declared at the (relative)
+	 * top of CodeIgniter.php. The main reason we use this is to permit
 	 * PHP errors to be logged in our own log files since the user may
-	 * not have access to server logs. Since this function
-	 * effectively intercepts PHP errors, however, we also need
-	 * to display errors based on the current error_reporting level.
+	 * not have access to server logs. Since this function effectively
+	 * intercepts PHP errors, however, we also need to display errors
+	 * based on the current error_reporting level.
 	 * We do that with the use of a PHP error template.
 	 *
 	 * @param	int	$severity
@@ -589,7 +589,7 @@ if ( ! function_exists('_exception_handler'))
 	 * @param	int	$line
 	 * @return	void
 	 */
-	function _exception_handler($severity, $message, $filepath, $line)
+	function _error_handler($severity, $message, $filepath, $line)
 	{
 		$is_error = (((E_ERROR | E_COMPILE_ERROR | E_CORE_ERROR | E_USER_ERROR) & $severity) === $severity);
 
@@ -627,6 +627,35 @@ if ( ! function_exists('_exception_handler'))
 		{
 			exit(1); // EXIT_ERROR
 		}
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('_exception_handler'))
+{
+	/**
+	 * Exception Handler
+	 *
+	 * Sends uncaught exceptions to the logger and displays them
+	 * only if display_errors is On so that they don't show up in
+	 * production environments.
+	 *
+	 * @param	Exception	$exception
+	 * @return	void
+	 */
+	function _exception_handler($exception)
+	{
+		$_error =& load_class('Exceptions', 'core');
+		$_error->log_exception('error', 'Exception: '.$exception->getMessage(), $exception->getFile(), $exception->getLine());
+
+		// Should we display the error?
+		if (ini_get('display_errors'))
+		{
+			$_error->show_exception($exception);
+		}
+
+		exit(1); // EXIT_ERROR
 	}
 }
 

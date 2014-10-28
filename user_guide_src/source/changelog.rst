@@ -42,9 +42,9 @@ Release Date: Not Released
       Only entries in ``$autoload['libraries']`` are auto-loaded now.
    -  Removed previously deprecated EXT constant.
    -  Updated all classes to be written in PHP 5 style, with visibility declarations and no ``var`` usage for properties.
-   -  Moved error templates to *application/views/errors/*.
+   -  Added an Exception handler.
+   -  Moved error templates to *application/views/errors/* and made the path configurable via ``$config['error_views_path']``.
    -  Added support non-HTML error templates for CLI applications.
-   -  Made error templates path configurable using ``$config['error_views_path']``.
    -  Moved the Log class to *application/core/*
    -  Global config files are loaded first, then environment ones. Environment config keys overwrite base ones, allowing to only set the keys we want changed per environment.
    -  Changed detection of ``$view_folder`` so that if it's not found in the current path, it will now also be searched for under the application folder.
@@ -480,7 +480,8 @@ Release Date: Not Released
       -  Added function :func:`get_mimes()` to return the *application/config/mimes.php* array.
       -  Added support for HTTP code 303 ("See Other") in :func:`set_status_header()`.
       -  Removed redundant conditional to determine HTTP server protocol in :func:`set_status_header()`.
-      -  Changed ``_exception_handler()`` to respect php.ini *display_errors* setting.
+      -  Renamed ``_exception_handler()`` to ``_error_handler()`` and replaced it with a real exception handler.
+      -  Changed ``_error_handler()`` to respect php.ini *display_errors* setting.
       -  Added function :func:`is_https()` to check if a secure connection is used.
       -  Added function :func:`is_cli()` to replace the ``CI_Input::is_cli_request()`` method.
       -  Added function :func:`function_usable()` to work around a bug in `Suhosin <http://www.hardened-php.net/suhosin/>`.
@@ -547,7 +548,7 @@ Release Date: Not Released
    -  Removed ``CI_CORE`` boolean constant from *CodeIgniter.php* (no longer Reactor and Core versions).
    -  Added support for HTTP-Only cookies with new config option *cookie_httponly* (default FALSE).
    -  ``$config['time_reference']`` now supports all timezone strings supported by PHP.
-   -  Fatal PHP errors are now also passed to ``_exception_handler()``, so they can be logged.
+   -  Fatal PHP errors are now also passed to ``_error_handler()``, so they can be logged.
 
 
 Bug fixes for 3.0
