@@ -40,7 +40,7 @@ download and install the smiley images, then create a controller and the
 View as described.
 
 .. important:: Before you begin, please `download the smiley images
-	<http://ellislab.com/asset/ci_download_files/smileys.zip>`_
+	<http://codeigniter.com/data/smileys.zip>`_
 	and put them in a publicly accessible place on your server.
 	This helper also assumes you have the smiley replacement array
 	located at `application/config/smileys.php`
