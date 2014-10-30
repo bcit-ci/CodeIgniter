@@ -290,6 +290,7 @@ class CI_Input {
 	 */
 	public function server($index, $xss_clean = NULL)
 	{
+		$index = strtoupper($index);
 		return $this->_fetch_from_array($_SERVER, $index, $xss_clean);
 	}
 
