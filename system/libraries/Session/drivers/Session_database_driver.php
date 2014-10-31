@@ -111,6 +111,9 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	{
 		if ($this->_get_lock($session_id) !== FALSE)
 		{
+			// Needed by write() to detect session_regenerate_id() calls
+			$this->_session_id = $session_id;
+
 			$this->_db
 				->select('data')
 				->from($this->_config['save_path'])
@@ -141,6 +144,17 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		if ($this->_lock === FALSE)
 		{
 			return FALSE;
+		}
+		// Was the ID regenerated?
+		elseif ($session_id !== $this->_session_id)
+		{
+			if ( ! $this->_release_lock() OR ! $this->_get_lock($session_id))
+			{
+				return FALSE;
+			}
+
+			$this->_row_exists = FALSE;
+			$this->_session_id = $session_id;
 		}
 
 		if ($this->_row_exists === FALSE)

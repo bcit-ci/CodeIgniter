@@ -114,36 +114,37 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 		// which re-reads session data
 		if ($this->_file_handle === NULL)
 		{
-			$this->_file_path .= $session_id;
-
 			// Just using fopen() with 'c+b' mode would be perfect, but it is only
 			// available since PHP 5.2.6 and we have to set permissions for new files,
 			// so we'd have to hack around this ...
-			if (($this->_file_new = ! file_exists($this->_file_path)) === TRUE)
+			if (($this->_file_new = ! file_exists($this->_file_path.$session_id)) === TRUE)
 			{
-				if (($this->_file_handle = fopen($this->_file_path, 'w+b')) === FALSE)
+				if (($this->_file_handle = fopen($this->_file_path.$session_id, 'w+b')) === FALSE)
 				{
-					log_message('error', "Session: File '".$this->_file_path."' doesn't exist and cannot be created.");
+					log_message('error', "Session: File '".$this->_file_path.$session_id."' doesn't exist and cannot be created.");
 					return FALSE;
 				}
 			}
-			elseif (($this->_file_handle = fopen($this->_file_path, 'r+b')) === FALSE)
+			elseif (($this->_file_handle = fopen($this->_file_path.$session_id, 'r+b')) === FALSE)
 			{
-				log_message('error', "Session: Unable to open file '".$this->_file_path."'.");
+				log_message('error', "Session: Unable to open file '".$this->_file_path.$session_id."'.");
 				return FALSE;
 			}
 
 			if (flock($this->_file_handle, LOCK_EX) === FALSE)
 			{
-				log_message('error', "Session: Unable to obtain lock for file '".$this->_file_path."'.");
+				log_message('error', "Session: Unable to obtain lock for file '".$this->_file_path.$session_id."'.");
 				fclose($this->_file_handle);
 				$this->_file_handle = NULL;
 				return FALSE;
 			}
 
+			// Needed by write() to detect session_regenerate_id() calls
+			$this->_session_id = $session_id;
+
 			if ($this->_file_new)
 			{
-				chmod($this->_file_path, 0600);
+				chmod($this->_file_path.$session_id, 0600);
 				$this->_fingerprint = md5('');
 				return '';
 			}
@@ -154,7 +155,7 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 		}
 
 		$session_data = '';
-		for ($read = 0, $length = filesize($this->_file_path); $read < $length; $read += strlen($buffer))
+		for ($read = 0, $length = filesize($this->_file_path.$session_id); $read < $length; $read += strlen($buffer))
 		{
 			if (($buffer = fread($this->_file_handle, $length - $read)) === FALSE)
 			{
@@ -170,6 +171,13 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 
 	public function write($session_id, $session_data)
 	{
+		// If the two IDs don't match, we have a session_regenerate_id() call
+		// and we need to close the old handle and open a new one
+		if ($session_id !== $this->_session_id && ( ! $this->close() OR $this->read($session_id) === FALSE))
+		{
+			return FALSE;
+		}
+
 		if ( ! is_resource($this->_file_handle))
 		{
 			return FALSE;
@@ -178,7 +186,7 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 		{
 			return ($this->_file_new)
 				? TRUE
-				: touch($this->_file_path);
+				: touch($this->_file_path.$session_id);
 		}
 
 		if ( ! $this->_file_new)
@@ -218,11 +226,11 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 			flock($this->_file_handle, LOCK_UN);
 			fclose($this->_file_handle);
 
-			$this->_file_handle = $this->_file_new = NULL;
+			$this->_file_handle = $this->_file_new = $this->_session_id = NULL;
 			return TRUE;
 		}
 
-		return FALSE;
+		return TRUE;
 	}
 
 	// ------------------------------------------------------------------------
@@ -231,13 +239,13 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 	{
 		if ($this->close())
 		{
-			return unlink($this->_file_path) && $this->_cookie_destroy();
+			return unlink($this->_file_path.$session_id) && $this->_cookie_destroy();
 		}
 		elseif ($this->_file_path !== NULL)
 		{
 			clearstatcache();
-			return file_exists($this->_file_path)
-				? (unlink($this->_file_path) && $this->_cookie_destroy())
+			return file_exists($this->_file_path.$session_id)
+				? (unlink($this->_file_path.$session_id) && $this->_cookie_destroy())
 				: TRUE;
 		}
 

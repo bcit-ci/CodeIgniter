@@ -133,6 +133,9 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 	{
 		if (isset($this->_memcached) && $this->_get_lock($session_id))
 		{
+			// Needed by write() to detect session_regenerate_id() calls
+			$this->_session_id = $session_id;
+
 			$session_data = (string) $this->_memcached->get($this->_key_prefix.$session_id);
 			$this->_fingerprint = md5($session_data);
 			return $session_data;
@@ -143,7 +146,23 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 
 	public function write($session_id, $session_data)
 	{
-		if (isset($this->_memcached, $this->_lock_key))
+		if ( ! isset($this->_memcached))
+		{
+			return FALSE;
+		}
+		// Was the ID regenerated?
+		elseif ($session_id !== $this->_session_id)
+		{
+			if ( ! $this->_release_lock() OR ! $this->_get_lock($session_id))
+			{
+				return FALSE;
+			}
+
+			$this->_fingerprint = md5('');
+			$this->_session_id = $session_id;
+		}
+
+		if (isset($this->_lock_key))
 		{
 			$this->_memcached->replace($this->_lock_key, time(), 5);
 			if ($this->_fingerprint !== ($fingerprint = md5($session_data)))
@@ -189,16 +208,17 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 		if (isset($this->_memcached, $this->_lock_key))
 		{
 			$this->_memcached->delete($this->_key_prefix.$session_id);
-			return ($this->_cookie_destroy() && $this->close());
+			return $this->_cookie_destroy();
 		}
 
-		return $this->close();
+		return FALSE;
 	}
 
 	// ------------------------------------------------------------------------
 
 	public function gc($maxlifetime)
 	{
+		// Not necessary, Memcached takes care of that.
 		return TRUE;
 	}
 
