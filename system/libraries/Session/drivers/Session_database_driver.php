@@ -141,12 +141,8 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 	public function write($session_id, $session_data)
 	{
-		if ($this->_lock === FALSE)
-		{
-			return FALSE;
-		}
 		// Was the ID regenerated?
-		elseif ($session_id !== $this->_session_id)
+		if ($session_id !== $this->_session_id)
 		{
 			if ( ! $this->_release_lock() OR ! $this->_get_lock($session_id))
 			{
@@ -155,6 +151,10 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 			$this->_row_exists = FALSE;
 			$this->_session_id = $session_id;
+		}
+		elseif ($this->_lock === FALSE)
+		{
+			return FALSE;
 		}
 
 		if ($this->_row_exists === FALSE)
