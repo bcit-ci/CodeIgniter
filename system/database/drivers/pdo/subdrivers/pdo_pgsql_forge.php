@@ -75,7 +75,7 @@ class CI_DB_pdo_pgsql_forge extends CI_DB_pdo_forge {
 	 *
 	 * @var	string
 	 */
-	protected $_null		= 'NULL';
+	protected $_null = 'NULL';
 
 	// --------------------------------------------------------------------
 
@@ -144,6 +144,13 @@ class CI_DB_pdo_pgsql_forge extends CI_DB_pdo_forge {
 				$sqls[] = $sql.' RENAME COLUMN '.$this->db->escape_identifiers($field[$i]['name'])
 					.' TO '.$this->db->escape_identifiers($field[$i]['new_name']);
 			}
+
+			if ( ! empty($field[$i]['comment']))
+			{
+				$sqls[] = 'COMMENT ON COLUMN '
+					.$this->db->escape_identifiers($table).'.'.$this->db->escape_identifiers($field[$i]['name'])
+					.' IS '.$field[$i]['comment'];
+			}
 		}
 
 		return $sqls;
@@ -195,8 +202,8 @@ class CI_DB_pdo_pgsql_forge extends CI_DB_pdo_forge {
 		if ( ! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === TRUE)
 		{
 			$field['type'] = ($field['type'] === 'NUMERIC')
-						? 'BIGSERIAL'
-						: 'SERIAL';
+				? 'BIGSERIAL'
+				: 'SERIAL';
 		}
 	}
 

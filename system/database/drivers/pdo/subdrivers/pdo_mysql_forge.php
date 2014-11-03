@@ -102,7 +102,7 @@ class CI_DB_pdo_mysql_forge extends CI_DB_pdo_forge {
 	 *
 	 * @var	string
 	 */
-	protected $_null		= 'NULL';
+	protected $_null = 'NULL';
 
 	// --------------------------------------------------------------------
 
@@ -209,7 +209,7 @@ class CI_DB_pdo_mysql_forge extends CI_DB_pdo_forge {
 			.$field['default']
 			.$field['auto_increment']
 			.$field['unique']
-			.$comment_clause
+			.(empty($field['comment']) ? '' : ' COMMENT '.$field['comment'])
 			.$extra_clause;
 	}
 
