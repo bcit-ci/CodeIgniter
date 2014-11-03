@@ -92,13 +92,6 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 		'REAL'		=> 'DOUBLE'
 	);
 
-	/**
-	 * COMMENT value representation in CREATE/ALTER TABLE statements
-	 *
-	 * @var	string
-	 */
-	protected $_comment			= FALSE;
-
 	// --------------------------------------------------------------------
 
 	/**

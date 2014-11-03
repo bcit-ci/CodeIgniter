@@ -74,13 +74,6 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 		'REAL'		=> 'FLOAT'
 	);
 
-	/**
-	 * COMMENT value representation in CREATE/ALTER TABLE statements
-	 *
-	 * @var	string
-	 */
-	protected $_comment			= FALSE;
-
 	// --------------------------------------------------------------------
 
 	/**
