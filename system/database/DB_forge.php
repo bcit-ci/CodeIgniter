@@ -814,8 +814,8 @@ abstract class CI_DB_forge {
 			}
 
 			$this->_attr_auto_increment($attributes, $field);
-			$this->_attr_comment($attributes, $field);
 			$this->_attr_unique($attributes, $field);
+			$this->_attr_comment($attributes, $field);
 
 			if (isset($attributes['TYPE']) && ! empty($attributes['CONSTRAINT']))
 			{
@@ -858,8 +858,8 @@ abstract class CI_DB_forge {
 			.$field['default']
 			.$field['null']
 			.$field['auto_increment']
-			.$field['comment']
-			.$field['unique'];
+			.$field['unique']
+			.$field['comment'];
 	}
 
 	// --------------------------------------------------------------------

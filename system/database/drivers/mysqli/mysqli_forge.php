@@ -194,8 +194,8 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 			.$field['null']
 			.$field['default']
 			.$field['auto_increment']
-			.$field['comment']
 			.$field['unique']
+			.$field['comment']
 			.$extra_clause;
 	}
 
