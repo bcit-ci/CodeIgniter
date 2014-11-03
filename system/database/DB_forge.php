@@ -808,6 +808,11 @@ abstract class CI_DB_forge {
 			$this->_attr_auto_increment($attributes, $field);
 			$this->_attr_unique($attributes, $field);
 
+			if (isset($attributes['COMMENT']))
+			{
+				$field['comment'] = $this->db->escape($attributes['COMMENT']);
+			}
+
 			if (isset($attributes['TYPE']) && ! empty($attributes['CONSTRAINT']))
 			{
 				switch (strtoupper($attributes['TYPE']))

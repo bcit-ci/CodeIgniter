@@ -187,6 +187,8 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 			$extra_clause = ' FIRST';
 		}
 
+		$comment_clause = isset($field['comment']) ? ' COMMENT ' . $field['comment'] : '';
+
 		return $this->db->escape_identifiers($field['name'])
 			.(empty($field['new_name']) ? '' : ' '.$this->db->escape_identifiers($field['new_name']))
 			.' '.$field['type'].$field['length']
@@ -195,6 +197,7 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 			.$field['default']
 			.$field['auto_increment']
 			.$field['unique']
+			.$comment_clause
 			.$extra_clause;
 	}
 
