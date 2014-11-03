@@ -156,13 +156,6 @@ abstract class CI_DB_forge {
 	 */
 	protected $_default		= ' DEFAULT ';
 
-	/**
-	 * COMMENT value representation in CREATE/ALTER TABLE statements
-	 *
-	 * @var	string
-	 */
-	protected $_comment		= ' COMMENT ';
-
 	// --------------------------------------------------------------------
 
 	/**
@@ -777,7 +770,6 @@ abstract class CI_DB_forge {
 				'unique'		=> '',
 				'default'		=> '',
 				'auto_increment'	=> '',
-				'comment'		=> '',
 				'_literal'		=> FALSE
 			);
 
@@ -815,7 +807,11 @@ abstract class CI_DB_forge {
 
 			$this->_attr_auto_increment($attributes, $field);
 			$this->_attr_unique($attributes, $field);
-			$this->_attr_comment($attributes, $field);
+
+			if (isset($attributes['COMMENT']))
+			{
+				$field['comment'] = $this->db->escape($attributes['COMMENT']);
+			}
 
 			if (isset($attributes['TYPE']) && ! empty($attributes['CONSTRAINT']))
 			{
@@ -858,8 +854,7 @@ abstract class CI_DB_forge {
 			.$field['default']
 			.$field['null']
 			.$field['auto_increment']
-			.$field['unique']
-			.$field['comment'];
+			.$field['unique'];
 	}
 
 	// --------------------------------------------------------------------
@@ -991,28 +986,6 @@ abstract class CI_DB_forge {
 		if ( ! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === TRUE && stripos($field['type'], 'int') !== FALSE)
 		{
 			$field['auto_increment'] = ' AUTO_INCREMENT';
-		}
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Field attribute COMMENT
-	 *
-	 * @param	array	&$attributes
-	 * @param	array	&$field
-	 * @return	void
-	 */
-	protected function _attr_comment(&$attributes, &$field)
-	{
-		if ($this->_comment === FALSE)
-		{
-			return;
-		}
-
-		if (!empty($attributes['COMMENT']))
-		{	
-			$field['comment'] = $this->_default.$this->db->escape($attributes['COMMENT']);
 		}
 	}
 
