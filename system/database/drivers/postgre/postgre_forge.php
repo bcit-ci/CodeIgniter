@@ -72,6 +72,13 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 */
 	protected $_null		= 'NULL';
 
+	/**
+	 * COMMENT value representation in CREATE/ALTER TABLE statements
+	 *
+	 * @var	string
+	 */
+	protected $_comment			= FALSE;
+
 	// --------------------------------------------------------------------
 
 	/**

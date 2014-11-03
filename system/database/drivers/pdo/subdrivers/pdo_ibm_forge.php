@@ -71,6 +71,13 @@ class CI_DB_pdo_ibm_forge extends CI_DB_pdo_forge {
 	 */
 	protected $_default		= FALSE;
 
+	/**
+	 * COMMENT value representation in CREATE/ALTER TABLE statements
+	 *
+	 * @var	string
+	 */
+	protected $_comment			= FALSE;
+
 	// --------------------------------------------------------------------
 
 	/**
