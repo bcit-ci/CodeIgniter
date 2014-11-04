@@ -123,8 +123,7 @@ class CI_Session {
 		session_start();
 
 		// Is session ID auto-regeneration configured? (ignoring ajax requests)
-		if ( ! empty($_SERVER['HTTP_X_REQUESTED_WITH'])
-			&& strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest'
+		if (get_instance()->input->is_ajax_request()
 			&& ($regenerate_time = config_item('sess_time_to_update')) > 0
 		)
 		{
