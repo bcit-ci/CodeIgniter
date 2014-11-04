@@ -300,7 +300,6 @@ class CI_Driver {
 		}
 
 		throw new BadMethodCallException('No such method: '.$method.'()');
-		exit(6); // EXIT_UNKNOWN_METHOD
 	}
 
 	// --------------------------------------------------------------------
