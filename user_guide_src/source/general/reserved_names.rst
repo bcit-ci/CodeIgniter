@@ -41,6 +41,7 @@ Functions
 -  :func:`is_https()`
 -  :func:`function_usable()`
 -  :func:`get_instance()`
+-  ``_error_handler()``
 -  ``_exception_handler()``
 -  ``_stringify_attributes()``
 

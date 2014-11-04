@@ -299,8 +299,7 @@ class CI_Driver {
 			return call_user_func_array(array($this->_parent, $method), $args);
 		}
 
-		$trace = debug_backtrace();
-		_exception_handler(E_ERROR, "No such method '{$method}'", $trace[1]['file'], $trace[1]['line']);
+		throw new BadMethodCallException('No such method: '.$method.'()');
 		exit(6); // EXIT_UNKNOWN_METHOD
 	}
 
