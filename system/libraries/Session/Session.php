@@ -125,7 +125,7 @@ class CI_Session {
 		// Is session ID auto-regeneration configured? (ignoring ajax requests)
 		if ( ! empty($_SERVER['HTTP_X_REQUESTED_WITH'])
 			&& strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest'
-			&& $regenerate_time = config_item('sess_time_to_update')) > 0
+			&& ($regenerate_time = config_item('sess_time_to_update')) > 0
 		)
 		{
 			if ( ! isset($_SESSION['__ci_last_regenerate']))
