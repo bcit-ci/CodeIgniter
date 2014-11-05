@@ -60,10 +60,21 @@ Change Log
 <h2>Future version</h2>
 <p>Release Date: Unknown</p>
 
+<ul>
+	<li>General Changes
+		<ul>
+			<li>Remove references to PHP 5 implying that CodeIgniter would support PHP 4 (PHP 4 support was removed in version 2.0.0).</li>
+		</ul>
+	</li>
+</ul>
+
 <h3>Bug fixes:</h3>
 <ul>
+	<li>Fixed a bug (#3095) - <samp>CI_DB_pdo_driver::_execute()</samp> throws fatal error.</li>
+	<li>Fixed a bug (#3146) - <samp>download_helper::force_download</samp> Content-Type http header with improper quotes.</li>
 	<li>Fixed a bug (#3094) - <samp>CI_Input::_clean_input_data()</samp> breaks encrypted session cookies.</li>
-	<li>Fixed a bug (#2508) - <a href="libraries/config.html>Config Library</a> didn't properly detect if the current request is via HTTPS.</li>
+	<li>Fixed a bug (#2508) - <a href="libraries/config.html">Config Library</a> didn't properly detect if the current request is via HTTPS.</li>
+	<li>Fixed a bug (#3302) - <samp>Common::get_config()</samp> throws error in PHP 5.6 about only variable references should be returned by reference.</li>
 </ul>
 
 <h2>Version 2.2.0</h2>
