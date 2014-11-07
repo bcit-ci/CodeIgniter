@@ -212,6 +212,7 @@ class CI_Encryption {
 			log_message('debug', "Encryption: Auto-configured driver '".$this->_driver."'.");
 		}
 
+		empty($params['cipher']) && $params['cipher'] = $this->_cipher;
 		empty($params['key']) OR $this->_key = $params['key'];
 		$this->{'_'.$this->_driver.'_initialize'}($params);
 		return $this;
