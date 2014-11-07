@@ -115,7 +115,7 @@ Class Reference
 
 	.. method:: load($langfile[, $idiom = ''[, $return = FALSE[, $add_suffix = TRUE[, $alt_path = '']]]])
 
-		:param	mixed	$langfile: Language file to load as an string or an array with multiple files
+		:param	mixed	$langfile: Language file to load or array with multiple files
 		:param	string	$idiom: Language name (i.e. 'english')
 		:param	bool	$return: Whether to return the loaded array of translations
 		:param	bool	$add_suffix: Whether to add the '_lang' suffix to the language file name
