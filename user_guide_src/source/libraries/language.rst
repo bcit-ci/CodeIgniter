@@ -66,6 +66,11 @@ file extension), and language is the language set containing it (ie,
 english). If the second parameter is missing, the default language set
 in your **application/config/config.php** file will be used.
 
+You can also load multiple language files at the same time by passing an array of language files as first parameter.
+::
+
+	$this->lang->load(array('filename1', 'filename2'));
+
 .. note:: The *language* parameter can only consist of letters.
 
 Fetching a Line of Text
@@ -110,7 +115,7 @@ Class Reference
 
 	.. method:: load($langfile[, $idiom = ''[, $return = FALSE[, $add_suffix = TRUE[, $alt_path = '']]]])
 
-		:param	string	$langfile: Language file to load
+		:param	mixed	$langfile: Language file to load or array with multiple files
 		:param	string	$idiom: Language name (i.e. 'english')
 		:param	bool	$return: Whether to return the loaded array of translations
 		:param	bool	$add_suffix: Whether to add the '_lang' suffix to the language file name
