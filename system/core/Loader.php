@@ -634,14 +634,7 @@ class CI_Loader {
 	 */
 	public function language($files, $lang = '')
 	{
-		$LNG =& get_instance()->lang;
-		is_array($files) OR $files = array($files);
-
-		foreach ($files as $langfile)
-		{
-			$LNG->load($langfile, $lang);
-		}
-
+		get_instance()->lang->load($files, $lang);
 		return $this;
 	}
 
