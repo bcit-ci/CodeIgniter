@@ -93,6 +93,8 @@ class CI_Lang {
 			{
 				$this->load($value, $idiom, $return, $add_suffix, $alt_path);
 			}
+
+			return;
 		}
 
 		$langfile = str_replace('.php', '', $langfile);
