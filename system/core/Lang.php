@@ -91,7 +91,7 @@ class CI_Lang {
 		{
 			foreach ($langfile as $value)
 			{
-				return $this->load($value, $idiom, $return, $add_suffix, $alt_path);
+				$this->load($value, $idiom, $return, $add_suffix, $alt_path);
 			}
 		}
 
