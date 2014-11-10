@@ -114,7 +114,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 			}
 			else
 			{
-				$server_list[] = $server['host'].':'.$server['port'];
+				$server_list[] = $match[1].':'.$match[2];
 			}
 		}
 

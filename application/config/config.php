@@ -328,7 +328,7 @@ $config['encryption_key'] = '';
 |
 | 'sess_driver'
 |
-|	The storage driver to use: files, database, redis, memcache
+|	The storage driver to use: files, database, redis, memcached
 |
 | 'sess_cookie_name'
 |
