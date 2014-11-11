@@ -9,12 +9,7 @@ Release Date: Not Released
 
 -  License
 
-   -  CodeIgniter has been relicensed with the Open Software License (3.0), eliminating its old proprietary licensing.
-
-      -  All system files are licensed with OSL 3.0.
-      -  Config, error, and sample files shipped in the application folder are
-         licensed with the Academic Free License (3.0) to allow you to retain
-         all licensing authority over your own application code.
+   -  CodeIgniter has been relicensed with the `MIT License <http://opensource.org/licenses/MIT>`_, eliminating its old proprietary licensing.
 
 -  General Changes
 
@@ -47,9 +42,9 @@ Release Date: Not Released
       Only entries in ``$autoload['libraries']`` are auto-loaded now.
    -  Removed previously deprecated EXT constant.
    -  Updated all classes to be written in PHP 5 style, with visibility declarations and no ``var`` usage for properties.
-   -  Moved error templates to *application/views/errors/*.
+   -  Added an Exception handler.
+   -  Moved error templates to *application/views/errors/* and made the path configurable via ``$config['error_views_path']``.
    -  Added support non-HTML error templates for CLI applications.
-   -  Made error templates path configurable using ``$config['error_views_path']``.
    -  Moved the Log class to *application/core/*
    -  Global config files are loaded first, then environment ones. Environment config keys overwrite base ones, allowing to only set the keys we want changed per environment.
    -  Changed detection of ``$view_folder`` so that if it's not found in the current path, it will now also be searched for under the application folder.
@@ -173,6 +168,7 @@ Release Date: Not Released
    -  Added Interbase/Firebird database support via the *ibase* driver.
    -  Added ODBC support for ``create_database()``, ``drop_database()`` and ``drop_table()`` in :doc:`Database Forge <database/forge>`.
    -  Added **save_queries** configuration setting to *application/config/database.php* (defaults to ``TRUE``).
+   -  Added support to binding arrays as ``IN()`` sets in ``query()``.
 
    -  :doc:`Query Builder <database/query_builder>` changes include:
 
@@ -258,6 +254,7 @@ Release Date: Not Released
       - Added support for passing a custom database object to the loader.
       - Added support for passing custom table attributes (such as ``ENGINE`` for MySQL) to ``create_table()``.
       - Added support for usage of the *FIRST* clause in ``add_column()`` for MySQL and CUBRID.
+      - Added partial support for field comments (MySQL, PostgreSQL, Oracle).
       - Deprecated ``add_column()``'s third method. *AFTER* clause should now be added to the field definition array instead.
       - Overall improved support for all of the drivers.
 
@@ -484,7 +481,8 @@ Release Date: Not Released
       -  Added function :func:`get_mimes()` to return the *application/config/mimes.php* array.
       -  Added support for HTTP code 303 ("See Other") in :func:`set_status_header()`.
       -  Removed redundant conditional to determine HTTP server protocol in :func:`set_status_header()`.
-      -  Changed ``_exception_handler()`` to respect php.ini *display_errors* setting.
+      -  Renamed ``_exception_handler()`` to ``_error_handler()`` and replaced it with a real exception handler.
+      -  Changed ``_error_handler()`` to respect php.ini *display_errors* setting.
       -  Added function :func:`is_https()` to check if a secure connection is used.
       -  Added function :func:`is_cli()` to replace the ``CI_Input::is_cli_request()`` method.
       -  Added function :func:`function_usable()` to work around a bug in `Suhosin <http://www.hardened-php.net/suhosin/>`.
@@ -507,6 +505,7 @@ Release Date: Not Released
       -  Removed internal method ``_assign_to_config()`` and moved its implementation to *CodeIgniter.php* instead.
       -  ``item()`` now returns NULL instead of FALSE when the required config item doesn't exist.
       -  Added an optional second parameter to both ``base_url()`` and ``site_url()`` that allows enforcing of a protocol different than the one in the *base_url* configuration setting.
+      -  Added HTTP "Host" header character validation to prevent cache poisoning attacks when ``base_url`` auto-detection is used.
 
    -  :doc:`Security Library <libraries/security>` changes include:
 
@@ -520,6 +519,7 @@ Release Date: Not Released
    -  :doc:`Language Library <libraries/language>` changes include:
 
       -  Changed method ``load()`` to filter the language name with ``ctype_alpha()``.
+      -  Changed method ``load()`` to also accept an array of language files.
       -  Added an optional second parameter to method ``line()`` to disable error logging for line keys that were not found.
       -  Language files are now loaded in a cascading style with the one in **system/** always loaded and overriden afterwards, if another one is found.
 
@@ -550,7 +550,7 @@ Release Date: Not Released
    -  Removed ``CI_CORE`` boolean constant from *CodeIgniter.php* (no longer Reactor and Core versions).
    -  Added support for HTTP-Only cookies with new config option *cookie_httponly* (default FALSE).
    -  ``$config['time_reference']`` now supports all timezone strings supported by PHP.
-   -  Fatal PHP errors are now also passed to ``_exception_handler()``, so they can be logged.
+   -  Fatal PHP errors are now also passed to ``_error_handler()``, so they can be logged.
 
 
 Bug fixes for 3.0
@@ -750,7 +750,7 @@ Bug fixes for 3.0
 -  Partially fixed a bug (#261) - UTF-8 class method ``clean_string()`` generating log messages and/or not producing the desired result due to an upstream bug in iconv.
 -  Fixed a bug where ``CI_Xmlrpcs::parseRequest()`` could fail if ``$HTTP_RAW_POST_DATA`` is not populated.
 -  Fixed a bug in :doc:`Zip Library <libraries/zip>` internal method ``_get_mod_time()`` where it was not parsing result returned by ``filemtime()``.
--  Fixed a bug (#3161) - :doc:`Cache Library <libraries/cache>` methods `increment()`, `decrement()` didn't auto-create non-existent items when using redis and/or file storage.
+-  Fixed a bug (#3161) - :doc:`Cache Library <libraries/caching>` methods `increment()`, `decrement()` didn't auto-create non-existent items when using redis and/or file storage.
 -  Fixed a bug (#3189) - :doc:`Parser Library <libraries/parser>` used double replacement on ``key->value`` pairs, exposing a potential template injection vulnerability.
 
 Version 2.2.0

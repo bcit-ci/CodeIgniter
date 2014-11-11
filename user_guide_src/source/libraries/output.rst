@@ -220,6 +220,7 @@ Class Reference
 			call it manually unless you are aborting script execution using ``exit()`` or ``die()`` in your code.
 		
 		Example::
+
 			$response = array('status' => 'OK');
 
 			$this->output

@@ -32,54 +32,30 @@
  * @copyright	Copyright (c) 2014, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	http://codeigniter.com
- * @since	Version 1.0.0
+ * @since	Version 3.0.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
+?>
 
-/**
- * CodeIgniter Path Helpers
- *
- * @package		CodeIgniter
- * @subpackage	Helpers
- * @category	Helpers
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/helpers/path_helper.html
- */
+An uncaught Exception was encountered
 
-// ------------------------------------------------------------------------
+Type: <?php echo get_class($exception); ?>
+Message: <?php echo $message; ?>
+Filename: <?php echo $exception->getFile(); ?>
+Line Number: <?php echo $exception->getLine(); ?>
 
-if ( ! function_exists('set_realpath'))
-{
-	/**
-	 * Set Realpath
-	 *
-	 * @param	string
-	 * @param	bool	checks to see if the path exists
-	 * @return	string
-	 */
-	function set_realpath($path, $check_existance = FALSE)
-	{
-		// Security check to make sure the path is NOT a URL. No remote file inclusion!
-		if (preg_match('#^(http:\/\/|https:\/\/|www\.|ftp|[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})#i', $path))
-		{
-			show_error('The path you submitted must be a local server path, not a URL');
-		}
+<?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === TRUE): ?>
 
-		// Resolve the path
-		if (realpath($path) !== FALSE)
-		{
-			$path = realpath($path);
-		}
-		elseif ($check_existance && ! is_dir($path) && ! is_file($path))
-		{
-			show_error('Not a valid path: '.$path);
-		}
+Backtrace:
+	<?php foreach ($exception->getTrace() as $error): ?>
+		<?php if (isset($error['file']) && strpos($error['file'], realpath(BASEPATH)) !== 0): ?>
 
-		// Add a trailing slash, if this is a directory
-		return is_dir($path) ? rtrim($path, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR : $path;
-	}
-}
+	File: <?php echo $error['file']; ?>
+	Line: <?php echo $error['line']; ?>
+	Function: <?php echo $error['function']; ?>
 
-/* End of file path_helper.php */
-/* Location: ./system/helpers/path_helper.php */
+		<?php endif ?>
+
+	<?php endforeach ?>
+<?php endif ?>

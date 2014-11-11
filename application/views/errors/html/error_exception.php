@@ -36,50 +36,33 @@
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
+?>
 
-/**
- * CodeIgniter Path Helpers
- *
- * @package		CodeIgniter
- * @subpackage	Helpers
- * @category	Helpers
- * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/helpers/path_helper.html
- */
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
 
-// ------------------------------------------------------------------------
+<h4>An uncaught Exception was encountered</h4>
 
-if ( ! function_exists('set_realpath'))
-{
-	/**
-	 * Set Realpath
-	 *
-	 * @param	string
-	 * @param	bool	checks to see if the path exists
-	 * @return	string
-	 */
-	function set_realpath($path, $check_existance = FALSE)
-	{
-		// Security check to make sure the path is NOT a URL. No remote file inclusion!
-		if (preg_match('#^(http:\/\/|https:\/\/|www\.|ftp|[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})#i', $path))
-		{
-			show_error('The path you submitted must be a local server path, not a URL');
-		}
+<p>Type: <?php echo get_class($exception); ?></p>
+<p>Message: <?php echo $message; ?></p>
+<p>Filename: <?php echo $exception->getFile(); ?></p>
+<p>Line Number: <?php echo $exception->getLine(); ?></p>
 
-		// Resolve the path
-		if (realpath($path) !== FALSE)
-		{
-			$path = realpath($path);
-		}
-		elseif ($check_existance && ! is_dir($path) && ! is_file($path))
-		{
-			show_error('Not a valid path: '.$path);
-		}
+<?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === TRUE): ?>
 
-		// Add a trailing slash, if this is a directory
-		return is_dir($path) ? rtrim($path, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR : $path;
-	}
-}
+	<p>Backtrace:</p>
+	<?php foreach ($exception->getTrace() as $error): ?>
 
-/* End of file path_helper.php */
-/* Location: ./system/helpers/path_helper.php */
+		<?php if (isset($error['file']) && strpos($error['file'], realpath(BASEPATH)) !== 0): ?>
+
+			<p style="margin-left:10px">
+			File: <?php echo $error['file']; ?><br />
+			Line: <?php echo $error['line']; ?><br />
+			Function: <?php echo $error['function']; ?>
+			</p>
+		<?php endif ?>
+
+	<?php endforeach ?>
+
+<?php endif ?>
+
+</div>

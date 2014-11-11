@@ -3,6 +3,7 @@ Downloading CodeIgniter
 #######################
 
 -  `CodeIgniter v3.0.0 (Current version) <http://ellislab.com/codeigniter/download>`_
+-  `CodeIgniter v2.2.0 <http://ellislab.com/asset/ci_download_files/CodeIgniter_2.2.0.zip>`_ (MD5 Checksum: dbfddde4ec0b12027aee5156fbdd634b)
 -  `CodeIgniter v2.1.4 <http://ellislab.com/asset/ci_download_files/CodeIgniter_2.1.4.zip>`_ (MD5 Checksum: e74a296c1d412a855c025b9cd468a513)
 -  `CodeIgniter v2.1.3 <http://ellislab.com/asset/ci_download_files/CodeIgniter_2.1.3.zip>`_ (MD5 Checksum: 781d06be06eaa36f10759ef82c8594d5)
 -  `CodeIgniter v2.1.2 <http://ellislab.com/asset/ci_download_files/CodeIgniter_2.1.2.zip>`_ (MD5 Checksum: c7a2980dff2774c97bd38bfbf450d8d5)
@@ -42,9 +43,9 @@ GitHub
 
 `Git <http://git-scm.com/about>`_ is a distributed version control system.
 
-Public Git access is available at `GitHub <https://github.com/EllisLab/CodeIgniter>`_.
+Public Git access is available at `GitHub <https://github.com/bcit-ci/CodeIgniter>`_.
 Please note that while every effort is made to keep this code base
 functional, we cannot guarantee the functionality of code taken from
 the develop branch.
 
-Beginning with version 2.0.3, stable versions are also available via `GitHub Releases <https://github.com/EllisLab/CodeIgniter/releases>`_.
+Beginning with version 2.0.3, stable versions are also available via `GitHub Releases <https://github.com/bcit-ci/CodeIgniter/releases>`_.

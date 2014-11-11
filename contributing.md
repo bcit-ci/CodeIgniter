@@ -1,7 +1,7 @@
 # Contributing to CodeIgniter
 
 
-CodeIgniter is a community driven project and accepts contributions of code and documentation from the community. These contributions are made in the form of Issues or [Pull Requests](http://help.github.com/send-pull-requests/) on the [EllisLab CodeIgniter repository](https://github.com/EllisLab/CodeIgniter>) on GitHub.
+CodeIgniter is a community driven project and accepts contributions of code and documentation from the community. These contributions are made in the form of Issues or [Pull Requests](http://help.github.com/send-pull-requests/) on the [CodeIgniter repository](https://github.com/bcit-ci/CodeIgniter>) on GitHub.
 
 Issues are a quick way to point out a bug. If you find a bug or documentation error in CodeIgniter then please check a few things first:
 
@@ -20,7 +20,7 @@ for us to maintain quality of the code-base.
 
 ### PHP Style
 
-All code must meet the [Style Guide](http://ellislab.com/codeigniter/user-guide/general/styleguide.html), which is
+All code must meet the [Style Guide](http://codeigniter.com/user_guide/general/styleguide.html), which is
 essentially the [Allman indent style](http://en.wikipedia.org/wiki/Indent_style#Allman_style), underscores and readable operators. This makes certain that all code is the same format as the existing code and means it will be as readable as possible.
 
 ### Documentation
@@ -79,13 +79,13 @@ Hard way The best way to contribute is to "clone" your fork of CodeIgniter to yo
 
 The Reactor Engineers will now be alerted about the change and at least one of the team will respond. If your change fails to meet the guidelines it will be bounced, or feedback will be provided to help you improve it.
 
-Once the Reactor Engineer handling your pull request is happy with it they will post it to the internal EllisLab discussion area to be double checked by the other Engineers and EllisLab developers. If nobody has a problem with the change then it will be merged into develop and will be part of the next release. Keeping your fork up-to-date
+Once the Reactor Engineer handling your pull request is happy with it they will merge it into develop and your patch will be part of the next release. Keeping your fork up-to-date
 
-Unlike systems like Subversion, Git can have multiple remotes. A remote is the name for a URL of a Git repository. By default your fork will have a remote named "origin" which points to your fork, but you can add another remote named "codeigniter" which points to `git://github.com/EllisLab/CodeIgniter.git`. This is a read-only remote but you can pull from this develop branch to update your own.
+Unlike systems like Subversion, Git can have multiple remotes. A remote is the name for a URL of a Git repository. By default your fork will have a remote named "origin" which points to your fork, but you can add another remote named "codeigniter" which points to `git://github.com/bcit-ci/CodeIgniter.git`. This is a read-only remote but you can pull from this develop branch to update your own.
 
 If you are using command-line you can do the following:
 
-1. `git remote add codeigniter git://github.com/EllisLab/CodeIgniter.git`
+1. `git remote add codeigniter git://github.com/bcit-ci/CodeIgniter.git`
 2. `git pull codeigniter develop`
 3. `git push origin develop`
 

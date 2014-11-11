@@ -42,7 +42,7 @@ Pygments, so that code blocks can be properly highlighted.
 
 .. code-block:: bash
 
-	easy_install sphinx
+	easy_install "sphinx==1.2.3"
 	easy_install sphinxcontrib-phpdomain
 
 Then follow the directions in the README file in the :samp:`cilexer` folder

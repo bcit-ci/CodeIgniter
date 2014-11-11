@@ -4,24 +4,35 @@
  *
  * An open source application development framework for PHP 5.2.4 or newer
  *
- * NOTICE OF LICENSE
+ * This content is released under the MIT License (MIT)
  *
- * Licensed under the Open Software License version 3.0
+ * Copyright (c) 2014, British Columbia Institute of Technology
  *
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @copyright	Copyright (c) 2014, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	http://codeigniter.com
+ * @since	Version 1.0.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -559,17 +570,17 @@ if ( ! function_exists('set_status_header'))
 
 // --------------------------------------------------------------------
 
-if ( ! function_exists('_exception_handler'))
+if ( ! function_exists('_error_handler'))
 {
 	/**
-	 * Exception Handler
+	 * Error Handler
 	 *
-	 * This is the custom exception handler that is declared at the top
-	 * of CodeIgniter.php. The main reason we use this is to permit
+	 * This is the custom error handler that is declared at the (relative)
+	 * top of CodeIgniter.php. The main reason we use this is to permit
 	 * PHP errors to be logged in our own log files since the user may
-	 * not have access to server logs. Since this function
-	 * effectively intercepts PHP errors, however, we also need
-	 * to display errors based on the current error_reporting level.
+	 * not have access to server logs. Since this function effectively
+	 * intercepts PHP errors, however, we also need to display errors
+	 * based on the current error_reporting level.
 	 * We do that with the use of a PHP error template.
 	 *
 	 * @param	int	$severity
@@ -578,7 +589,7 @@ if ( ! function_exists('_exception_handler'))
 	 * @param	int	$line
 	 * @return	void
 	 */
-	function _exception_handler($severity, $message, $filepath, $line)
+	function _error_handler($severity, $message, $filepath, $line)
 	{
 		$is_error = (((E_ERROR | E_COMPILE_ERROR | E_CORE_ERROR | E_USER_ERROR) & $severity) === $severity);
 
@@ -621,6 +632,35 @@ if ( ! function_exists('_exception_handler'))
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('_exception_handler'))
+{
+	/**
+	 * Exception Handler
+	 *
+	 * Sends uncaught exceptions to the logger and displays them
+	 * only if display_errors is On so that they don't show up in
+	 * production environments.
+	 *
+	 * @param	Exception	$exception
+	 * @return	void
+	 */
+	function _exception_handler($exception)
+	{
+		$_error =& load_class('Exceptions', 'core');
+		$_error->log_exception('error', 'Exception: '.$exception->getMessage(), $exception->getFile(), $exception->getLine());
+
+		// Should we display the error?
+		if (ini_get('display_errors'))
+		{
+			$_error->show_exception($exception);
+		}
+
+		exit(1); // EXIT_ERROR
+	}
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('_shutdown_handler'))
 {
 	/**
@@ -642,7 +682,7 @@ if ( ! function_exists('_shutdown_handler'))
 		if (isset($last_error) &&
 			($last_error['type'] & (E_ERROR | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING)))
 		{
-			_exception_handler($last_error['type'], $last_error['message'], $last_error['file'], $last_error['line']);
+			_error_handler($last_error['type'], $last_error['message'], $last_error['file'], $last_error['line']);
 		}
 	}
 }

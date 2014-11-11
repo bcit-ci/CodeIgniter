@@ -155,15 +155,16 @@ class Encryption_test extends CI_TestCase {
 		);
 
 		$output = $this->encryption->__get_params($params);
-		unset($output['handle'], $params['raw_data']);
+		unset($output['handle'], $output['cipher'], $params['raw_data'], $params['cipher']);
 		$params['base64'] = FALSE;
 		$this->assertEquals($params, $output);
 
 		// HMAC disabled
 		unset($params['hmac_key'], $params['hmac_digest']);
 		$params['hmac'] = $params['raw_data'] = FALSE;
+		$params['cipher'] = 'aes-128';
 		$output = $this->encryption->__get_params($params);
-		unset($output['handle'], $params['hmac'], $params['raw_data']);
+		unset($output['handle'], $output['cipher'], $params['hmac'], $params['raw_data'], $params['cipher']);
 		$params['base64'] = TRUE;
 		$params['hmac_digest'] = $params['hmac_key'] = NULL;
 		$this->assertEquals($params, $output);
@@ -195,7 +196,7 @@ class Encryption_test extends CI_TestCase {
 		$this->assertEquals($message, $this->encryption->decrypt($this->encryption->encrypt($message)));
 
 		// Try DES in ECB mode, just for the sake of changing stuff
-		$this->encryption->initialize(array('cipher' => 'des', 'mode' => 'ecb'));
+		$this->encryption->initialize(array('cipher' => 'des', 'mode' => 'ecb', 'key' => substr($key, 0, 8)));
 		$this->assertEquals($message, $this->encryption->decrypt($this->encryption->encrypt($message)));
 	}
 
