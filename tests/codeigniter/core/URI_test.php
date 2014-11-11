@@ -138,7 +138,7 @@ class URI_test extends CI_TestCase {
 
 		$str = $this->uri->filter_uri('$destroy_app(foo)');
 
-		$this->assertEquals($str, '&#36;destroy_app&#40;foo&#41;');
+		$this->assertEquals($str, '$destroy_app(foo)');
 	}
 
 	// --------------------------------------------------------------------
