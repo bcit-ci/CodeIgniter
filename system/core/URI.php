@@ -326,6 +326,8 @@ class CI_URI {
 		{
 			show_error('The URI you submitted has disallowed characters.', 400);
 		}
+
+		return $str;
 	}
 
 	// --------------------------------------------------------------------
