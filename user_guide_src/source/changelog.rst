@@ -133,6 +133,7 @@ Release Date: Not Released
       - Added *colors* configuration to allow customization for the *background*, *border*, *text* and *grid* colors.
       - Added *filename* to the returned array elements.
       - Updated to use `imagepng()` in case that `imagejpeg()` isn't available.
+      - Added **font_size** option to allow customization of font size.
 
    -  :doc:`Text Helper <helpers/text_helper>` changes include:
 
