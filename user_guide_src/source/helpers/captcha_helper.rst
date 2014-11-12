@@ -63,7 +63,6 @@ Once loaded you can generate a CAPTCHA like this::
 -  **font_size** defaults to 16, the native GD font has a size limit. Specify a TRUE TYPE font for bigger sizes. 
 -  If any of the **colors** values is missing, it will be replaced by the default.
 
-
 Adding a Database
 -----------------
 
