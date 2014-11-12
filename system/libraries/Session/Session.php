@@ -122,13 +122,15 @@ class CI_Session {
 			return;
 		}
 
-		// Work-around for PHP bug #66827 (https://bugs.php.net/bug.php?id=66827)
-		//
-		// The session ID sanitizer doesn't check for the value type and blindly does
-		// an implicit cast to string, which triggers an 'Array to string' E_NOTICE.
-		if (isset($_COOKIE[$this->_cookie_name]) && ! is_string($_COOKIE[$this->_cookie_name]))
+		// Sanitize the cookie, because apparently PHP doesn't do that for userspace handlers
+		if (isset($_COOKIE[$this->_config['cookie_name']])
+			&& (
+				! is_string($_COOKIE[$this->_config['cookie_name']])
+				OR ! preg_match('/^[0-9a-f]{40}$/', $_COOKIE[$this->_config['cookie_name']])
+			)
+		)
 		{
-			unset($_COOKIE[$this->_cookie_name]);
+			unset($_COOKIE[$this->_config['cookie_name']]);
 		}
 
 		session_start();
@@ -164,21 +166,6 @@ class CI_Session {
 		}
 
 		$this->_ci_init_vars();
-/*
-		Need to test if this is necessary for a custom driver or if it's only
-		relevant to PHP's own files handler.
-
-		https://bugs.php.net/bug.php?id=65475
-		do this after session is started:
-		if (is_php('5.5.2') && ! is_php('5.5.4'))
-		{
-			$session_id = session_id();
-			if ($_COOKIE[$this->_cookie_name] !== $session_id && file_exists(teh file))
-			{
-				unlink(<teh file>);
-			}
-		}
-*/
 
 		log_message('debug', "Session: Class initialized using '".$this->_driver."' driver.");
 	}
