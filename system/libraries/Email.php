@@ -1630,6 +1630,12 @@ class CI_Email {
 	 */
 	public function send($auto_clear = TRUE)
 	{
+		if ( ! isset($this->_headers['From']))
+		{
+			$this->_set_error_message('lang:email_no_from');
+			return FALSE;
+		}
+
 		if ($this->_replyto_flag === FALSE)
 		{
 			$this->reply_to($this->_headers['From']);
