@@ -494,7 +494,8 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		// As of SQL Server 2012 (11.0.*) OFFSET is supported
 		if (version_compare($this->version(), '11', '>='))
 		{
-			return $sql.' OFFSET '.(int) $this->qb_offset.' ROWS FETCH NEXT '.$this->qb_limit.' ROWS ONLY';
+		if($this->qb_orderby===array())$sql.=' ORDER BY 1 ASC ';
+		return $sql.' OFFSET '.(int) $this->qb_offset.' ROWS FETCH NEXT '.$this->qb_limit.' ROWS ONLY';
 		}
 
 		$limit = $this->qb_offset + $this->qb_limit;
