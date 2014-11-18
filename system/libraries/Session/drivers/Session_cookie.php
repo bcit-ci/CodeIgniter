@@ -486,7 +486,7 @@ class CI_Session_cookie extends CI_Session_driver {
 			$db_cache = $this->CI->db->cache_on;
 			$this->CI->db->cache_off();
 
-			$query = $this->CI->db->limit(1)->get($this->sess_table_name);
+			$query = $this->CI->db->get($this->sess_table_name);
 
 			// Was caching in effect?
 			if ($db_cache)
