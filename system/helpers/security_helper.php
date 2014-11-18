@@ -136,5 +136,23 @@ if ( ! function_exists('encode_php_tags'))
 	}
 }
 
+// ------------------------------------------------------------------------
+
+/**
+ * Strip Link Tags
+ *
+ * @access	public
+ * @param	string
+ * @return	string
+ */
+if ( ! function_exists('strip_link_tags'))
+{
+	function strip_link_tags($str)
+	{
+	$str=preg_replace("/<a[^>]*href=[^>]*>|<\/[^a]*a[^>]*>/i","\\2",$str);
+	return $str;
+	}
+}
+
 /* End of file security_helper.php */
 /* Location: ./system/helpers/security_helper.php */
