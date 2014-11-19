@@ -73,7 +73,7 @@ $config['index_page'] = 'index.php';
 | -------------------------------------------------------------------------
 |
 | This item determines which server global should be used to retrieve the
-| URI string.  The default setting of 'AUTO' works for most servers.
+| URI string. The default setting of 'AUTO' works for most servers.
 | If your links do not seem to work, try one of the other delicious flavors:
 |
 | 'AUTO'		Default - auto detects
