@@ -46,7 +46,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | mobile device data. The array keys are used to identify the device
 | and the array values are used to set the actual name of the item.
 */
-
 $platforms = array(
 	'windows nt 6.3'	=> 'Windows 8.1',
 	'windows nt 6.2'	=> 'Windows 8',
@@ -90,7 +89,6 @@ $platforms = array(
 	'unix'				=> 'Unknown Unix OS',
 	'symbian' 			=> 'Symbian OS'
 );
-
 
 // The order of this array should NOT be changed. Many browsers return
 // multiple browser types so we want to identify the sub-type first.

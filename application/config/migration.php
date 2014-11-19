@@ -38,9 +38,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
-|--------------------------------------------------------------------------
+| -------------------------------------------------------------------------
 | Enable/Disable Migrations
-|--------------------------------------------------------------------------
+| -------------------------------------------------------------------------
 |
 | Migrations are disabled by default for security reasons.
 | You should enable migrations whenever you intend to do a schema migration
@@ -50,16 +50,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $config['migration_enabled'] = FALSE;
 
 /*
-|--------------------------------------------------------------------------
+| -------------------------------------------------------------------------
 | Migration Type
-|--------------------------------------------------------------------------
+| -------------------------------------------------------------------------
 |
 | Migration file names may be based on a sequential identifier or on
 | a timestamp. Options are:
 |
-|   'sequential' = Default migration naming (001_add_blog.php)
-|   'timestamp'  = Timestamp migration naming (20121031104401_add_blog.php)
-|                  Use timestamp format YYYYMMDDHHIISS.
+|	'sequential'	= Default migration naming (001_add_blog.php)
+|	'timestamp'		= Timestamp migration naming (20121031104401_add_blog.php)
+|					Use timestamp format YYYYMMDDHHIISS.
 |
 | If this configuration value is missing the Migration library defaults
 | to 'sequential' for backward compatibility.
@@ -68,9 +68,9 @@ $config['migration_enabled'] = FALSE;
 $config['migration_type'] = 'timestamp';
 
 /*
-|--------------------------------------------------------------------------
-| Migrations table
-|--------------------------------------------------------------------------
+| -------------------------------------------------------------------------
+| Migrations Table
+| -------------------------------------------------------------------------
 |
 | This is the name of the table that will store the current migrations state.
 | When migrations runs it will store in a database table which migration
@@ -82,9 +82,9 @@ $config['migration_type'] = 'timestamp';
 $config['migration_table'] = 'migrations';
 
 /*
-|--------------------------------------------------------------------------
+| -------------------------------------------------------------------------
 | Auto Migrate To Latest
-|--------------------------------------------------------------------------
+| -------------------------------------------------------------------------
 |
 | If this is set to TRUE when you load the migrations class and have
 | $config['migration_enabled'] set to TRUE the system will auto migrate
@@ -96,9 +96,9 @@ $config['migration_table'] = 'migrations';
 $config['migration_auto_latest'] = FALSE;
 
 /*
-|--------------------------------------------------------------------------
-| Migrations version
-|--------------------------------------------------------------------------
+| -------------------------------------------------------------------------
+| Migrations Version
+| -------------------------------------------------------------------------
 |
 | This is used to set migration version that the file system should be on.
 | If you run $this->migration->current() this is the version that schema will
@@ -108,9 +108,9 @@ $config['migration_auto_latest'] = FALSE;
 $config['migration_version'] = 0;
 
 /*
-|--------------------------------------------------------------------------
+| -------------------------------------------------------------------------
 | Migrations Path
-|--------------------------------------------------------------------------
+| -------------------------------------------------------------------------
 |
 | Path to your migrations folder.
 | Typically, it will be within your application path.
