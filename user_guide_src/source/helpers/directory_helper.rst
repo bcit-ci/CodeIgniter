@@ -27,11 +27,12 @@ Available Functions
 The following functions are available:
 
 
-.. function:: directory_map($source_dir[, $directory_depth = 0[, $hidden = FALSE]])
+.. function:: directory_map($source_dir[, $directory_depth = 0[, $hidden = FALSE[, $get_file_info = FALSE]]])
 
 	:param	string	$source_dir: Path to the source directory
 	:param	int	$directory_depth: Depth of directories to traverse (0 = fully recursive, 1 = current dir, etc)
 	:param	bool	$hidden: Whether to include hidden directories
+	:param	mixed	$get_file_info: Whether to get file info, or an array (or string) to specify the returned file info (see :doc:`file helper <file_helper>`'s :func:`get_file_info()` function for options)
 	:returns:	An array of files
 	:rtype:	array
 
@@ -81,3 +82,10 @@ The following functions are available:
 					[8] => pagination.html
 					[9] => uri.html
 				)
+		)
+
+	If the optional 4th parameter *$get_file_info* is TRUE, an array, or a 
+	string, each file name becomes an array index containing the appropriate 
+	output from the :doc:`file helper <file_helper>`'s :func:`get_file_info()` 
+	function. If this parameter is not TRUE or FALSE, it should be an array or
+	string matching the expected input for that function's second parameter.
