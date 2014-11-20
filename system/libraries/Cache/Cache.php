@@ -203,6 +203,7 @@ class CI_Cache extends CI_Driver_Library {
 		if ( ! $this->is_supported($child))
 		{
 			$this->_adapter = $this->_backup_driver;
+			$obj = parent::__get($this->_adapter);
 		}
 
 		return $obj;
