@@ -304,6 +304,9 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
 		// As of SQL Server 2012 (11.0.*) OFFSET is supported
 		if (version_compare($this->version(), '11', '>='))
 		{
+			// SQL Server OFFSET-FETCH can be used only with the ORDER BY clause
+			empty($this->qb_orderby) && $sql .= ' ORDER BY 1';
+
 			return $sql.' OFFSET '.(int) $this->qb_offset.' ROWS FETCH NEXT '.$this->qb_limit.' ROWS ONLY';
 		}
 
