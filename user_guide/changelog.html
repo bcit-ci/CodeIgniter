@@ -65,6 +65,7 @@ Change Log
 	<li>Fixed a bug (#3094) - <samp>CI_Input::_clean_input_data()</samp> breaks encrypted session cookies.</li>
 	<li>Fixed a bug (#2508) - <a href="libraries/config.html">Config Library</a> didn't properly detect if the current request is via HTTPS.</li>
 	<li>Fixed a bug (#3314) - SQLSRV <a href="database/index.html">Database driver</a>'s method <samp>count_all()</samp> didn't escape the supplied table name.</li>
+	<li>Fixed a bug (#3309) - <samp>CI_Security::xss_clean()</samp> used an overly-invasive pattern to strip JS event handlers.</li>
 </ul>
 
 <h2>Version 2.2.0</h2>
