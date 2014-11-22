@@ -139,7 +139,7 @@ variable located in the config file::
 Query Builder
 -------------
 
-The :doc:`Query Builder Class <query_builder>` is globally enabled or
+The :doc:`Query Builder Class <../query_builder/index>` is globally enabled or
 disabled by setting the $query_builder variable in the database
 configuration file to TRUE/FALSE (boolean). If you are not using the
 query builder class, setting it to FALSE will utilize fewer resources
