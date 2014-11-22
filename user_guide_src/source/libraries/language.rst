@@ -82,7 +82,7 @@ Example of switching languages
 
 ::
 
-        $idiom = $this->session->get('language');
+        $idiom = $this->session->get_userdata('language');
         $this->lang->load('error_messages',$idiom);
         $oops = $this->lang->line('nessage_key');
 
