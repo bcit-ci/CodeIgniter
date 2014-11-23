@@ -56,21 +56,17 @@ Tutorial
 General Topics
 **************
 
-.. toctree::
-	:glob:
-	:titlesonly:
-	
-	general/index
+This section describes the basic techniques for using CodeIgniter.
+
+:doc:`general/index`
 
 *****************
 Library Reference
 *****************
 
-.. toctree::
-	:glob:
-	:titlesonly:
-	
-	libraries/index
+This section describes all of the classes built into CodeIgniter.
+
+:doc:`libraries/index`
 
 ****************
 Driver Reference
@@ -78,6 +74,7 @@ Driver Reference
 
 - :doc:`libraries/caching`
 - :doc:`database/index`
+- :doc:`query_builder/index`
 - :doc:`libraries/javascript`
 - :doc:`libraries/sessions`
 
@@ -85,11 +82,9 @@ Driver Reference
 Helper Reference
 ****************
 
-.. toctree::
-	:glob:
-	:titlesonly:
-	
-	helpers/index
+This section describes all of the helper functions built into CodeIgniter.
+
+:doc:`helpers/index`
 
 ***************************
 Contributing to CodeIgniter
