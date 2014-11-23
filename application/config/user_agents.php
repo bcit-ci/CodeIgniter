@@ -238,6 +238,11 @@ $robots = array(
 	'infoseek'		=> 'InfoSeek Robot 1.0',
 	'lycos'			=> 'Lycos',
 	'yandex'		=> 'YandexBot'
+	'mediapartners-google'	=> 'MediaPartners Google',
+	'CRAZYWEBCRAWLER'	=> 'Crazy Webcrawler',
+	'adsbot-google'		=> 'AdsBot Google',
+	'feedfetcher-google'	=> 'Feedfetcher Google',
+	'curious george'	=> 'Curious George'
 );
 
 /* End of file user_agents.php */
