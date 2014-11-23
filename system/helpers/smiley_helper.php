@@ -228,7 +228,7 @@ if ( ! function_exists('_get_smiley_array'))
 	{
 		static $_smileys;
 
-		if ( ! is_array($smileys))
+		if ( ! isset($_smileys))
 		{
 			if (file_exists(APPPATH.'config/smileys.php'))
 			{
@@ -242,11 +242,12 @@ if ( ! function_exists('_get_smiley_array'))
 
 			if (empty($smileys) OR ! is_array($smileys))
 			{
-				$_smileys = array();
-				return FALSE;
+				$_smileys = FALSE;
 			}
-
-			$_smileys = $smileys;
+			else
+			{
+				$_smileys = $smileys;
+			}
 		}
 
 		return $_smileys;
