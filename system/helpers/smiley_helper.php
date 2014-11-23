@@ -228,7 +228,7 @@ if ( ! function_exists('_get_smiley_array'))
 	{
 		static $_smileys;
 
-		if ( ! is_array($smileys))
+		if ( ! is_array($_smileys))
 		{
 			if (file_exists(APPPATH.'config/smileys.php'))
 			{
