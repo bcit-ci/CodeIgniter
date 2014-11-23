@@ -171,7 +171,7 @@ Release Date: Not Released
    -  Added **save_queries** configuration setting to *application/config/database.php* (defaults to ``TRUE``).
    -  Added support to binding arrays as ``IN()`` sets in ``query()``.
 
-   -  :doc:`Query Builder <database/query_builder>` changes include:
+   -  :doc:`Query Builder <query_builder/index>` changes include:
 
       - Renamed the Active Record class to Query Builder to remove confusion with the Active Record design pattern.
       - Added the ability to insert objects with ``insert_batch()``.
@@ -246,7 +246,7 @@ Release Date: Not Released
 
    -  Improved support of the SQLite driver, including:
 
-      - Added support for ``replace()`` in :doc:`Query Builder <database/query_builder>`.
+      - Added support for ``replace()`` in :doc:`Query Builder <query_builder/index>`.
       - Added support for ``drop_table()`` in :doc:`Database Forge <database/forge>`.
 
    -  :doc:`Database Forge <database/forge>` changes include:
@@ -559,7 +559,7 @@ Bug fixes for 3.0
 
 -  Fixed a bug where ``unlink()`` raised an error if cache file did not exist when you try to delete it.
 -  Fixed a bug (#181) - a typo in the form validation language file.
--  Fixed a bug (#159, #163) - :doc:`Query Builder <database/query_builder>` nested transactions didn't work properly due to ``$_trans_depth`` not being incremented.
+-  Fixed a bug (#159, #163) - :doc:`Query Builder <query_builder/index>` nested transactions didn't work properly due to ``$_trans_depth`` not being incremented.
 -  Fixed a bug (#737, #75) - :doc:`Pagination <libraries/pagination>` anchor class was not set properly when using initialize method.
 -  Fixed a bug (#419) - :doc:`URL Helper <helpers/url_helper>` :func:`auto_link()` didn't recognize URLs that come after a word boundary.
 -  Fixed a bug (#724) - :doc:`Form Validation Library <libraries/form_validation>` rule **is_unique** didn't check if a database connection exists.
@@ -611,13 +611,13 @@ Bug fixes for 3.0
 -  Fixed a bug (#306) - ODBC driver didn't have an ``_insert_batch()`` method, which resulted in fatal error being triggered when ``insert_batch()`` is used with it.
 -  Fixed a bug in MSSQL and SQLSrv's ``_truncate()`` where the TABLE keyword was missing.
 -  Fixed a bug in PDO's ``trans_commit()`` method where it failed due to an erroneous property name.
--  Fixed a bug (#798) - :doc:`Query Builder <database/query_builder>` method ``update()`` used to ignore LIKE conditions that were set with ``like()``.
+-  Fixed a bug (#798) - :doc:`Query Builder <query_builder/index>` method ``update()`` used to ignore LIKE conditions that were set with ``like()``.
 -  Fixed a bug in Oracle's and MSSQL's ``delete()`` methods where an erroneous SQL statement was generated when used with ``limit()``.
 -  Fixed a bug in SQLSRV's ``delete()`` method where ``like()`` and ``limit()`` conditions were ignored.
 -  Fixed a bug (#1265) - Database connections were always closed, regardless of the 'pconnect' option value.
 -  Fixed a bug (#128) - :doc:`Language Library <libraries/language>` did not correctly keep track of loaded language files.
 -  Fixed a bug (#1349) - :doc:`File Uploading Library <libraries/file_uploading>` method ``get_extension()`` returned the original filename when it didn't have an actual extension.
--  Fixed a bug (#1273) - :doc:`Query Builder <database/query_builder>` method ``set_update_batch()`` generated an E_NOTICE message.
+-  Fixed a bug (#1273) - :doc:`Query Builder <query_builder/index>` method ``set_update_batch()`` generated an E_NOTICE message.
 -  Fixed a bug (#44, #110) - :doc:`File Uploading Library <libraries/file_uploading>` method ``clean_file_name()`` didn't clear '!' and '#' characters.
 -  Fixed a bug (#121) - :doc:`Database Results <database/results>` method ``row()`` returned an array when there's no actual result to be returned.
 -  Fixed a bug (#319) - SQLSRV's ``affected_rows()`` method failed due to a scrollable cursor being created for write-type queries.
@@ -629,18 +629,18 @@ Bug fixes for 3.0
 -  Fixed a bug (#666) - :doc:`Output Library <libraries/output>` method ``set_content_type()`` didn't set the document charset.
 -  Fixed a bug (#784, #861) - :doc:`Database Forge <database/forge>` method ``create_table()`` used to accept constraints for MSSQL/SQLSRV integer-type columns.
 -  Fixed a bug (#706) - SQLSRV/MSSSQL :doc:`Database <database/index>` drivers didn't escape field names.
--  Fixed a bug (#1452) - :doc:`Query Builder <database/query_builder>` method ``protect_identifiers()`` didn't properly detect identifiers with spaces in their names.
--  Fixed a bug where :doc:`Query Builder <database/query_builder>` method ``protect_identifiers()`` ignored its extra arguments when the value passed to it is an array.
--  Fixed a bug where :doc:`Query Builder <database/query_builder>` internal method ``_has_operator()`` didn't detect BETWEEN.
--  Fixed a bug where :doc:`Query Builder <database/query_builder>` method ``join()`` failed with identifiers containing dashes.
+-  Fixed a bug (#1452) - :doc:`Query Builder <query_builder/index>` method ``protect_identifiers()`` didn't properly detect identifiers with spaces in their names.
+-  Fixed a bug where :doc:`Query Builder <query_builder/index>` method ``protect_identifiers()`` ignored its extra arguments when the value passed to it is an array.
+-  Fixed a bug where :doc:`Query Builder <query_builder/index>` internal method ``_has_operator()`` didn't detect BETWEEN.
+-  Fixed a bug where :doc:`Query Builder <query_builder/index>` method ``join()`` failed with identifiers containing dashes.
 -  Fixed a bug (#1264) - :doc:`Database Forge <database/forge>` and :doc:`Database Utilities <database/utilities>` didn't update/reset the databases and tables list cache when a table or a database is created, dropped or renamed.
--  Fixed a bug (#7) - :doc:`Query Builder <database/query_builder>` method ``join()`` only escaped one set of conditions.
+-  Fixed a bug (#7) - :doc:`Query Builder <query_builder/index>` method ``join()`` only escaped one set of conditions.
 -  Fixed a bug (#1321) - ``CI_Exceptions`` couldn't find the *errors/* directory in some cases.
 -  Fixed a bug (#1202) - :doc:`Encrypt Library <libraries/encrypt>` ``encode_from_legacy()`` didn't set back the encrypt mode on failure.
 -  Fixed a bug (#145) - :doc:`Database Class <database/index>` method ``compile_binds()`` failed when the bind marker was present in a literal string within the query.
--  Fixed a bug in :doc:`Query Builder <database/query_builder>` method ``protect_identifiers()`` where if passed along with the field names, operators got escaped as well.
+-  Fixed a bug in :doc:`Query Builder <query_builder/index>` method ``protect_identifiers()`` where if passed along with the field names, operators got escaped as well.
 -  Fixed a bug (#10) - :doc:`URI Library <libraries/uri>` internal method ``_detect_uri()`` failed with paths containing a colon.
--  Fixed a bug (#1387) - :doc:`Query Builder <database/query_builder>` method ``from()`` didn't escape table aliases.
+-  Fixed a bug (#1387) - :doc:`Query Builder <query_builder/index>` method ``from()`` didn't escape table aliases.
 -  Fixed a bug (#520) - :doc:`Date Helper <helpers/date_helper>` function :func:``nice_date()`` failed when the optional second parameter is not passed.
 -  Fixed a bug (#167) - ``$config['permitted_uri_chars']`` didn't affect URL-encoded characters.
 -  Fixed a bug (#318) - :doc:`Profiling Library <general/profiling>` setting *query_toggle_count* was not settable as described in the manual.
@@ -650,9 +650,9 @@ Bug fixes for 3.0
 -  Fixed a bug (#1328) - :doc:`Form Validation Library <libraries/form_validation>` didn't properly check the type of the form fields before processing them.
 -  Fixed a bug (#79) - :doc:`Form Validation Library <libraries/form_validation>` didn't properly validate array fields that use associative keys or have custom indexes.
 -  Fixed a bug (#427) - :doc:`Form Validation Library <libraries/form_validation>` method ``strip_image_tags()`` was an alias to a non-existent method.
--  Fixed a bug (#1545) - :doc:`Query Builder <database/query_builder>` method ``limit()`` wasn't executed properly under Oracle.
+-  Fixed a bug (#1545) - :doc:`Query Builder <query_builder/index>` method ``limit()`` wasn't executed properly under Oracle.
 -  Fixed a bug (#1551) - :doc:`Date Helper <helpers/date_helper>` function :func:`standard_date()` didn't properly format *W3C* and *ATOM* standard dates.
--  Fixed a bug where :doc:`Query Builder <database/query_builder>` method ``join()`` escaped literal values as if they were fields.
+-  Fixed a bug where :doc:`Query Builder <query_builder/index>` method ``join()`` escaped literal values as if they were fields.
 -  Fixed a bug (#135) - PHP Error logging was impossible without the errors being displayed.
 -  Fixed a bug (#1613) - :doc:`Form Helper <helpers/form_helper>` functions :func:`form_multiselect()`, :func:`form_dropdown()` didn't properly handle empty array option groups.
 -  Fixed a bug (#1605) - :doc:`Pagination Library <libraries/pagination>` produced incorrect *previous* and *next* link values.
@@ -664,7 +664,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1692) - :doc:`Database Class <database/index>` method ``display_error()`` didn't properly trace the possible error source on Windows systems.
 -  Fixed a bug (#1745) - :doc:`Database Class <database/index>` method ``is_write_type()`` didn't return TRUE for LOAD queries.
 -  Fixed a bug (#1765) - :doc:`Database Class <database/index>` didn't properly detect connection errors for the 'mysqli' driver.
--  Fixed a bug (#1257) - :doc:`Query Builder <database/query_builder>` used to (unnecessarily) group FROM clause contents, which breaks certain queries and is invalid for some databases.
+-  Fixed a bug (#1257) - :doc:`Query Builder <query_builder/index>` used to (unnecessarily) group FROM clause contents, which breaks certain queries and is invalid for some databases.
 -  Fixed a bug (#1709) - :doc:`Email <libraries/email>` headers were broken when using long email subjects and \r\n as CRLF.
 -  Fixed a bug where ``MB_ENABLED`` constant was only declared if ``UTF8_ENABLED`` was set to TRUE.
 -  Fixed a bug where the :doc:`Session Library <libraries/sessions>` accepted cookies with *last_activity* values being in the future.
@@ -672,7 +672,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1409) - :doc:`Email Library <libraries/email>` didn't properly handle multibyte characters when applying Q-encoding to headers.
 -  Fixed a bug where :doc:`Email Library <libraries/email>` ignored its *wordwrap* setting while handling alternative messages.
 -  Fixed a bug (#1476, #1909) - :doc:`Pagination Library <libraries/pagination>` didn't take into account actual routing when determining the current page.
--  Fixed a bug (#1766) - :doc:`Query Builder <database/query_builder>` didn't always take into account the *dbprefix* setting.
+-  Fixed a bug (#1766) - :doc:`Query Builder <query_builder/index>` didn't always take into account the *dbprefix* setting.
 -  Fixed a bug (#779) - :doc:`URI Class <libraries/uri>` didn't always trim slashes from the *uri_string* as shown in the documentation.
 -  Fixed a bug (#134) - :doc:`Database Caching <database/caching>` method ``delete_cache()`` didn't work in some cases due to *cachedir* not being initialized properly.
 -  Fixed a bug (#191) - :doc:`Loader Library <libraries/loader>` ignored attempts for (re)loading databases to ``get_instance()->db`` even when the old database connection is dead.
@@ -680,7 +680,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1146) - :doc:`Download Helper <helpers/download_helper>` function :func:`force_download()` incorrectly sent *Cache-Control* directives *pre-check* and *post-check* to Internet Explorer.
 -  Fixed a bug (#1811) - :doc:`URI Library <libraries/uri>` didn't properly cache segments for ``uri_to_assoc()`` and ``ruri_to_assoc()``.
 -  Fixed a bug (#1506) - :doc:`Form Helpers <helpers/form_helper>` set empty *name* attributes.
--  Fixed a bug (#59) - :doc:`Query Builder <database/query_builder>` method ``count_all_results()`` ignored the DISTINCT clause.
+-  Fixed a bug (#59) - :doc:`Query Builder <query_builder/index>` method ``count_all_results()`` ignored the DISTINCT clause.
 -  Fixed a bug (#1624) - :doc:`Form Validation Library <libraries/form_validation>` rule **matches** didn't property handle array field names.
 -  Fixed a bug (#1630) - :doc:`Form Helper <helpers/form_helper>` function :func:`set_value()` didn't escape HTML entities.
 -  Fixed a bug (#142) - :doc:`Form Helper <helpers/form_helper>` function :func:`form_dropdown()` didn't escape HTML entities in option values.
@@ -704,10 +704,10 @@ Bug fixes for 3.0
 -  Fixed a bug (#2211) - :doc:`Migration Library <libraries/migration>` extensions couldn't execute ``CI_Migration::__construct()``.
 -  Fixed a bug (#2255) - :doc:`Email Library <libraries/email>` didn't apply *smtp_timeout* to socket reads and writes.
 -  Fixed a bug (#2239) - :doc:`Email Library <libraries/email>` improperly handled the Subject when used with *bcc_batch_mode* resulting in E_WARNING messages and an empty Subject.
--  Fixed a bug (#2234) - :doc:`Query Builder <database/query_builder>` didn't reset JOIN cache for write-type queries.
+-  Fixed a bug (#2234) - :doc:`Query Builder <query_builder/index>` didn't reset JOIN cache for write-type queries.
 -  Fixed a bug (#2298) - :doc:`Database Results <database/results>` method ``next_row()`` kept returning the last row, allowing for infinite loops.
 -  Fixed a bug (#2236, #2639) - :doc:`Form Helper <helpers/form_helper>` functions :func:`set_value()`, :func:`set_select()`, :func:`set_radio()`, :func:`set_checkbox()` didn't parse array notation for keys if the rule was not present in the :doc:`Form Validation Library <libraries/form_validation>`.
--  Fixed a bug (#2353) - :doc:`Query Builder <database/query_builder>` erroneously prefixed literal strings with **dbprefix**.
+-  Fixed a bug (#2353) - :doc:`Query Builder <query_builder/index>` erroneously prefixed literal strings with **dbprefix**.
 -  Fixed a bug (#78) - :doc:`Cart Library <libraries/cart>` didn't allow non-English letters in product names.
 -  Fixed a bug (#77) - :doc:`Database Class <database/index>` didn't properly handle the transaction "test mode" flag.
 -  Fixed a bug (#2380) - :doc:`URI Routing <general/routing>` method ``fetch_method()`` returned 'index' if the requested method name matches its controller name.
@@ -719,7 +719,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#180) - :func:`config_item()` didn't take into account run-time configuration changes.
 -  Fixed a bug (#2551) - :doc:`Loader Library <libraries/loader>` method ``library()`` didn't properly check if a class that is being loaded already exists.
 -  Fixed a bug (#2560) - :doc:`Form Helper <helpers/form_helper>` function :func:`form_open()` set the 'method="post"' attribute only if the passed attributes equaled an empty string.
--  Fixed a bug (#2585) - :doc:`Query Builder <database/query_builder>` methods ``min()``, ``max()``, ``avg()``, ``sum()`` didn't escape field names.
+-  Fixed a bug (#2585) - :doc:`Query Builder <query_builder/index>` methods ``min()``, ``max()``, ``avg()``, ``sum()`` didn't escape field names.
 -  Fixed a bug (#2590) - :doc:`Common function <general/common_functions>` :func:`log_message()` didn't actually cache the ``CI_Log`` class instance.
 -  Fixed a bug (#2609) - :doc:`Common function <general/common_functions>` :func:`get_config()` optional argument was only effective on first function call. Also, it can now add items, in addition to updating existing items.
 -  Fixed a bug in the 'postgre' :doc:`database <database/index>` driver where the connection ID wasn't passed to ``pg_escape_string()``.
@@ -729,7 +729,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#2515) - ``_exception_handler()`` used to send the 200 "OK" HTTP status code and didn't stop script exection even on fatal errors.
 -  Fixed a bug - Redis :doc:`Caching <libraries/caching>` driver didn't handle connection failures properly.
 -  Fixed a bug (#2756) - :doc:`Database Class <database/index>` executed the MySQL-specific `SET SESSION sql_mode` query for all drivers when the 'stricton' option is set.
--  Fixed a bug (#2579) - :doc:`Query Builder <database/query_builder>` "no escape" functionality didn't work properly with query cache.
+-  Fixed a bug (#2579) - :doc:`Query Builder <query_builder/index>` "no escape" functionality didn't work properly with query cache.
 -  Fixed a bug (#2237) - :doc:`Parser Library <libraries/parser>` failed if the same tag pair is used more than once within a template.
 -  Fixed a bug (#2268) - :doc:`Security Library <libraries/security>` didn't properly match JavaScript events.
 -  Fixed a bug (#2143) - :doc:`Form Validation Library <libraries/form_validation>` didn't check for rule groups named in a *controller/method* manner when trying to load from a config file.
@@ -787,7 +787,7 @@ Bug fixes for 2.1.4
 
 -  Fixed a bug (#1936) - :doc:`Migration Library <libraries/migration>` method ``latest()`` had a typo when retrieving language values.
 -  Fixed a bug (#2021) - :doc:`Migration Library <libraries/migration>` configuration file was mistakenly using Windows style line feeds.
--  Fixed a bug (#1273) - ``E_NOTICE`` being generated by :doc:`Query Builder <database/query_builder>`'s ``set_update_batch()`` method.
+-  Fixed a bug (#1273) - ``E_NOTICE`` being generated by :doc:`Query Builder <query_builder/index>`'s ``set_update_batch()`` method.
 -  Fixed a bug (#2337) - :doc:`Email Library <libraries/email>` method ``print_debugger()`` didn't apply ``htmlspecialchars()`` to headers.
 
 Version 2.1.3
@@ -811,8 +811,8 @@ Bug fixes for 2.1.3
 -  Fixed a bug (#940) - ``csrf_verify()`` used to set the CSRF cookie while processing a POST request with no actual POST data, which resulted in validating a request that should be considered invalid.
 -  Fixed a bug (#499) - :doc:`Security Library <libraries/security>` where a CSRF cookie was created even if ``$config['csrf_protection']`` is set to FALSE.
 -  Fixed a bug (#1715) - :doc:`Input Library <libraries/input>` triggered ``csrf_verify()`` on CLI requests.
--  Fixed a bug (#751) - :doc:`Query Builder <database/query_builder>` didn't properly handle cached field escaping overrides.
--  Fixed a bug (#2004) - :doc:`Query Builder <database/query_builder>` didn't properly merge cached calls with non-cache ones.
+-  Fixed a bug (#751) - :doc:`Query Builder <query_builder/index>` didn't properly handle cached field escaping overrides.
+-  Fixed a bug (#2004) - :doc:`Query Builder <query_builder/index>` didn't properly merge cached calls with non-cache ones.
 
 Version 2.1.2
 =============
@@ -889,7 +889,7 @@ Release Date: November 14, 2011
       injection.
    -  Added additional option 'none' for the optional third argument for
       $this->db->like() in the :doc:`Database
-      Driver <database/query_builder>`.
+      Driver <query_builder/index>`.
    -  Added $this->db->insert_batch() support to the OCI8 (Oracle) driver.
    -  Added failover if the main connections in the config should fail
 
