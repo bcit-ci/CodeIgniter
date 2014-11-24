@@ -53,6 +53,7 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
+ 	if(!defined('DS')){ define('DS', DIRECTORY_SEPARATOR); }
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
 /*
@@ -238,24 +239,24 @@ switch (ENVIRONMENT)
 			$application_folder = $_temp;
 		}
 
-		define('APPPATH', $application_folder.DIRECTORY_SEPARATOR);
+		define('APPPATH', $application_folder.DS);
 	}
 	else
 	{
-		if ( ! is_dir(BASEPATH.$application_folder.DIRECTORY_SEPARATOR))
+		if ( ! is_dir(BASEPATH.$application_folder.DS))
 		{
 			header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
 			echo 'Your application folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF;
 			exit(3); // EXIT_CONFIG
 		}
 
-		define('APPPATH', BASEPATH.$application_folder.DIRECTORY_SEPARATOR);
+		define('APPPATH', BASEPATH.$application_folder.DS);
 	}
 
 	// The path to the "views" folder
 	if ( ! is_dir($view_folder))
 	{
-		if ( ! empty($view_folder) && is_dir(APPPATH.$view_folder.DIRECTORY_SEPARATOR))
+		if ( ! empty($view_folder) && is_dir(APPPATH.$view_folder.DS))
 		{
 			$view_folder = APPPATH.$view_folder;
 		}
@@ -273,11 +274,11 @@ switch (ENVIRONMENT)
 
 	if (($_temp = realpath($view_folder)) !== FALSE)
 	{
-		$view_folder = $_temp.DIRECTORY_SEPARATOR;
+		$view_folder = $_temp.DS;
 	}
 	else
 	{
-		$view_folder = rtrim($view_folder, '/\\').DIRECTORY_SEPARATOR;
+		$view_folder = rtrim($view_folder, '/\\').DS;
 	}
 
 	define('VIEWPATH', $view_folder);
