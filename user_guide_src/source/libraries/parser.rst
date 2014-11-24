@@ -2,26 +2,26 @@
 Template Parser Class
 #####################
 
-The Template Parser Class can perform simple text substitution for pseudo-variables
-contained within your view files. It can parse simple variables or
-variable tag pairs. 
+The Template Parser Class can perform simple text substitution for 
+pseudo-variables contained within your view files. 
+It can parse simple variables or variable tag pairs. 
 
 If you've never used a template engine,
 pseudo-variable names are enclosed in braces, like this::
 
 	<html>
-	  <head>
-	    <title>{blog_title}</title>
-	  </head>
-	  <body>
+            <head>
+                <title>{blog_title}</title>
+            </head>
+            <body>
 
-	    <h3>{blog_heading}</h3>
+                <h3>{blog_heading}</h3>
 
-	    {blog_entries}
-	      <h5>{title}</h5>
-	      <p>{body}</p>
-	    {/blog_entries}
-	  </body>
+                {blog_entries}
+                    <h5>{title}</h5>
+                    <p>{body}</p>
+                {/blog_entries}
+            </body>
 	</html>
 
 These variables are not actual PHP variables, but rather plain text
@@ -30,8 +30,9 @@ representations that allow you to eliminate PHP from your templates
 
 .. note:: CodeIgniter does **not** require you to use this class since
 	using pure PHP in your view pages lets them run a little faster.
-	However, some developers prefer to use a template engine if they work
-	with designers who they feel would find some confusion working with PHP.
+	However, some developers prefer to use a template engine if 
+        they work with designers who they feel would find some 
+        confusion working with PHP.
 
 .. important:: The Template Parser Class is **not** a full-blown
 	template parsing solution. We've kept it very lean on purpose in order
@@ -60,12 +61,13 @@ $this->parser
 Parsing templates
 *****************
 
-You can use the ``parse()`` method to parse (or render) simple templates, like this::
+You can use the ``parse()`` method to parse (or render) simple templates, 
+like this::
 
 	$data = array(
-	            'blog_title' => 'My Blog Title',
-	            'blog_heading' => 'My Blog Heading'
-	            );
+	    'blog_title' => 'My Blog Title',
+	    'blog_heading' => 'My Blog Heading'
+	);
 
 	$this->parser->parse('blog_template', $data);
 
@@ -93,18 +95,18 @@ iteration containing new values? Consider the template example we showed
 at the top of the page::
 
 	<html>
-	  <head>
-	    <title>{blog_title}</title>
-	  </head>
-	  <body>
+            <head>
+                <title>{blog_title}</title>
+            </head>
+            <body>
 
-	    <h3>{blog_heading}</h3>
+                <h3>{blog_heading}</h3>
 
-	    {blog_entries}
-	      <h5>{title}</h5>
-	      <p>{body}</p>
-	    {/blog_entries}
-	  </body>
+                {blog_entries}
+                    <h5>{title}</h5>
+                    <p>{body}</p>
+                {/blog_entries}
+            </body>
 	</html>
 
 In the above code you'll notice a pair of variables: {blog_entries}
@@ -119,16 +121,16 @@ corresponding to your variable pair data. Consider this example::
 	$this->load->library('parser');
 
 	$data = array(
-	              'blog_title'   => 'My Blog Title',
-	              'blog_heading' => 'My Blog Heading',
-	              'blog_entries' => array(
-	                                      array('title' => 'Title 1', 'body' => 'Body 1'),
-	                                      array('title' => 'Title 2', 'body' => 'Body 2'),
-	                                      array('title' => 'Title 3', 'body' => 'Body 3'),
-	                                      array('title' => 'Title 4', 'body' => 'Body 4'),
-	                                      array('title' => 'Title 5', 'body' => 'Body 5')
-	                                      )
-	            );
+            'blog_title'   => 'My Blog Title',
+            'blog_heading' => 'My Blog Heading',
+            'blog_entries' => array(
+                array('title' => 'Title 1', 'body' => 'Body 1'),
+                array('title' => 'Title 2', 'body' => 'Body 2'),
+                array('title' => 'Title 3', 'body' => 'Body 3'),
+                array('title' => 'Title 4', 'body' => 'Body 4'),
+                array('title' => 'Title 5', 'body' => 'Body 5')
+	    )
+	);
 
 	$this->parser->parse('blog_template', $data);
 
@@ -141,10 +143,10 @@ function::
 	$this->load->library('parser');
 
 	$data = array(
-	              'blog_title'   => 'My Blog Title',
-	              'blog_heading' => 'My Blog Heading',
-	              'blog_entries' => $query->result_array()
-	            );
+            'blog_title'   => 'My Blog Title',
+            'blog_heading' => 'My Blog Heading',
+            'blog_entries' => $query->result_array()
+	);
 
 	$this->parser->parse('blog_template', $data);
 
@@ -152,7 +154,8 @@ function::
 Template Parser Usage Notes
 ***************************
 
-If you include substitution parameters that are not referenced in your template, they are ignored::
+If you include substitution parameters that are not referenced in your 
+template, they are ignored::
 
 	$template = 'Hello, {firstname} {lastname}';
 	$data = array(
@@ -164,8 +167,8 @@ If you include substitution parameters that are not referenced in your template,
 
         Result: Hello, John Doe  
 
-If you do not include a substitution parameter that is referenced in your template, the original
-pseudo-variable is shown in the result::
+If you do not include a substitution parameter that is referenced in your 
+template, the original pseudo-variable is shown in the result::
 
 	$template = 'Hello, {firstname} {initials} {lastname}';
 	$data = array(
@@ -177,9 +180,9 @@ pseudo-variable is shown in the result::
 
         Result: Hello, John {initials} Doe  
 
-If you provide a string substitution parameter when an array is expected, i.e. for a variable pair,
-the substitution is done for the opening variable pair tag, but the closing variable pair
-tag is not rendered properly::
+If you provide a string substitution parameter when an array is expected, 
+i.e. for a variable pair, the substitution is done for the opening variable
+pair tag, but the closing variable pair tag is not rendered properly::
 
 	$template = 'Hello, {firstname} {lastname} ({degrees}{degree} {/degrees})';
 	$data = array(
@@ -196,7 +199,8 @@ tag is not rendered properly::
 
         Result: Hello, John Doe (Mr{degree} {/degrees}) 
 
-If you name one of your individual substitution parameters the same as one used inside a variable pair, the results
+If you name one of your individual substitution parameters the same as one 
+used inside a variable pair, the results
 may not be as expected::
 
 	$template = 'Hello, {firstname} {lastname} ({degrees}{degree} {/degrees})';
@@ -218,13 +222,16 @@ may not be as expected::
 View Fragments
 **************
 
-You do not have to use variable pairs to get the effect of iteration in your views.
-It is possible to use a view fragment for what would be inside a variable pair, and to
-control the iteration in your controller instead of in the view.
+You do not have to use variable pairs to get the effect of iteration in 
+your views. It is possible to use a view fragment for what would be inside 
+a variable pair, and to control the iteration in your controller instead 
+of in the view.
 
 An example with the iteration controlled in the view::
 
-	$template = '<ul>{menuitems}<li><a href="{link}">{title}</a></li>{/menuitems}</ul>';
+	$template = '<ul>{menuitems}
+                <li><a href="{link}">{title}</a></li>
+            {/menuitems}</ul>';
 	$data = array(
 	    'menuitems' => array(
 		array('title' => 'First Link', 'link' => '/first'),
@@ -237,21 +244,22 @@ An example with the iteration controlled in the view::
             - First Link
             - Second Link
 
-An example with the iteration controlled in the controller, using a view fragment::
+An example with the iteration controlled in the controller, 
+using a view fragment::
 
-	$temp_result = '';
+	$temp = '';
 	$template1 = '<li><a href="{link}">{title}</a></li>';
 	$data1 = array(
 		array('title' => 'First Link', 'link' => '/first'),
 		array('title' => 'Second Link', 'link' => '/second'),
 	);
 	foreach ($data1 as $menuitem) {
-	    $temp_result .= $this->parser->parse_string($template1, $menuitem, TRUE);
+	    $temp .= $this->parser->parse_string($template1, $menuitem, TRUE);
 	}
 
 	$template = '<ul>{menuitems}</ul>';
 	$data = array(
-	    'menuitems' => $temp_result
+	    'menuitems' => $temp
 	);
 	$this->parser->parse_string($template, $data);
 
@@ -283,8 +291,8 @@ Class Reference
 		:returns:	Parsed template string
 		:rtype:	string
 
-		This method works exactly like ``parse()``, only it accepts the template as a
-		string instead of loading a view file.
+		This method works exactly like ``parse()``, only it accepts 
+                the template as a string instead of loading a view file.
 
 	.. method:: set_delimiters([$l = '{'[, $r = '}']])
 
@@ -292,4 +300,5 @@ Class Reference
 		:param	string	$r: Right delimiter
 		:rtype: void
 
-		Sets the delimiters (opening and closing) for a pseudo-variable "tag" in a template.
+		Sets the delimiters (opening and closing) for a 
+                pseudo-variable "tag" in a template.
