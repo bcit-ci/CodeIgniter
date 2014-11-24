@@ -72,14 +72,15 @@ Library Reference
 	
 	libraries/index
 
-****************
-Driver Reference
-****************
+******************
+Database Reference
+******************
 
-- :doc:`libraries/caching`
-- :doc:`database/index`
-- :doc:`libraries/javascript`
-- :doc:`libraries/sessions`
+.. toctree::
+	:glob:
+	:titlesonly:
+	
+	database/index
 
 ****************
 Helper Reference
