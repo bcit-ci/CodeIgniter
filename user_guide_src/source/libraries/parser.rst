@@ -1,9 +1,43 @@
-#####################
-Template Parser Class
-#####################
+######################
+Template Parser Driver
+######################
 
-The Template Parser Class enables you to parse pseudo-variables
-contained within your view files. It can parse simple variables or
+The Template Parser Driver enables you to parse pseudo-variables
+contained within your view files. CodeIgniter offers one driver
+out of the box called `Simple Driver`_ which is the same as the
+Parser class in older versions of CodeIgniter.
+
+.. note:: CodeIgniter does **not** require you to use this class since
+	using pure PHP in your view pages lets them run a little faster.
+	However, some developers prefer to use a template engine if they work
+	with designers who they feel would find some confusion working with PHP.
+
+.. important:: The Template Parser Class is **not** a full-blown
+	template parsing solution. We've kept it very lean on purpose in order
+	to maintain maximum performance.
+
+
+Initializing the Class
+======================
+
+Like most other drivers in CodeIgniter, the Parser class is initialized
+in your controller using the $this->load->driver function::
+
+	$this->load->driver('parser');
+
+Once loaded, the Parser driver object will be available using:
+$this->parser
+
+Parser Drivers
+==============
+
+The only driver available through CodeIgniter is the `Simple Driver`_. However, adding
+drivers is a relatively easy and is explained further down on this page.
+
+Simple Driver
+-------------
+
+The simple parser can parse simple variables or
 variable tag pairs. If you've never used a template engine,
 pseudo-variables look like this::
 
@@ -79,8 +113,14 @@ third parameter::
 
 	$string = $this->parser->parse('blog_template', $data, TRUE);
 
+$this->parser->parse_string()
+-----------------------------
+
+This method works exactly like parse(), only accepts a string as the
+first parameter in place of a view file.
+
 Variable Pairs
-==============
+--------------
 
 The above example code allows simple variables to be replaced. What if
 you would like an entire block of variables to be repeated, with each
@@ -177,3 +217,62 @@ Class Reference
 		:rtype: void
 
 		Sets the delimiters (opening and closing) for a value "tag" in a template.
+
+Custom Drivers
+==============
+
+You may also :doc:`create your own <../general/creating_drivers>` custom
+parser drivers. A parser driver is basically just a template engine like: smarty, dwoo,
+raintpl, and mustache.
+
+To make a new driver, extend CI_Parser_driver. Overload the initialize()
+method (instead of using a constructor) and be able to parse templates.
+Each driver needs to be able to parse a template file and parse a template string.
+
+Your initial class might look like::
+
+	class CI_Parser_custom extends CI_Parser_driver {
+		// optional
+		protected function initialize()
+		{
+			// Initialize variables from $this->_parent->params
+			// create a reference to the template engine object
+			// etc...
+		}
+
+		// required
+		public function parse($template, $data = array(), $return = FALSE)
+		{
+			// parse a template file
+		}
+
+		// required
+		public function parse_string($template, $data = array(), $return = FALSE)
+		{
+			// parse a string
+		}
+	}
+
+Put your driver in the libraries/Parser/drivers folder anywhere in your
+package paths. This includes the application directory, the system directory,
+or any path you add with $CI->load->add_package_path(). Your driver must be
+named CI_Parser_<name>, and your filename must be Parser_<name>.php,
+preferably also capitalized, such as::
+
+	CI_Parser_foo in libraries/Parser/drivers/Parser_foo.php
+
+Then specify the driver by setting 'parser_driver' in your config.php file or as a
+parameter when loading the CI_Parser object::
+
+	$config['parser_driver'] = 'foo';
+
+OR::
+
+	$CI->load->driver('parser', array('parser_driver' => 'foo'));
+
+The driver specified by 'parser_driver' is automatically included as a valid
+driver. However, if you want to make a custom driver available as an option
+without making it the initially loaded driver, set 'parser_valid_drivers' in
+your config.php file to an array including your driver name::
+
+	$config['parser_valid_drivers'] = array('parser_driver');

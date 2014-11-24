@@ -423,6 +423,11 @@ Release Date: Not Released
    -  :doc:`Zip Library <libraries/zip>` method ``read_file()`` can now also alter the original file path/name while adding files to an archive.
    -  :doc:`Trackback Library <libraries/trackback>` method ``receive()`` will now utilize ``iconv()`` if it is available but ``mb_convert_encoding()`` is not.
 
+   -  :doc:`Parser Library <libraries/parsers>` changes include:
+	 -  Library changed to :doc:`Driver <general/drivers>` with classic Simple driver as default.
+	 -  Added default ``$config['parser_driver']`` and ``$config['parser_valid_drivers']`` items to *config.php* file.
+	 -  Added ability for any undefined method/property called to parser to run to the parser driver
+
 -  Core
 
    -  :doc:`Routing <general/routing>` changes include:
