@@ -31,9 +31,9 @@ If you are having trouble using a feature of CodeIgniter, ask for help on the fo
 If you are wondering if you are using 
 something correctly or if you have found a bug, ask on the forum first.
 
-***************************
+****************************
 Tips for a Good Issue Report
-***************************
+****************************
 
 Use a descriptive subject line (eg parser library chokes on commas) rather than a vague one (eg. your code broke).
 
