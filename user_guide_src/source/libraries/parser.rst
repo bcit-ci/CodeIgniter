@@ -45,9 +45,12 @@ representations that allow you to eliminate PHP from your templates
 
   <div class="custom-index container"></div>
 
-**********************
+*******************************
+Using the Template Parser Class
+*******************************
+
 Initializing the Class
-**********************
+======================
 
 Like most other classes in CodeIgniter, the Parser class is initialized
 in your controller using the $this->load->library function::
@@ -57,9 +60,8 @@ in your controller using the $this->load->library function::
 Once loaded, the Parser library object will be available using:
 $this->parser
 
-*****************
 Parsing templates
-*****************
+=================
 
 You can use the ``parse()`` method to parse (or render) simple templates, 
 like this::
@@ -85,9 +87,8 @@ third parameter::
 
 	$string = $this->parser->parse('blog_template', $data, TRUE);
 
-**************
 Variable Pairs
-**************
+==============
 
 The above example code allows simple variables to be replaced. What if
 you would like an entire block of variables to be repeated, with each
@@ -150,9 +151,8 @@ function::
 
 	$this->parser->parse('blog_template', $data);
 
-***************************
-Template Parser Usage Notes
-***************************
+Usage Notes
+===========
 
 If you include substitution parameters that are not referenced in your 
 template, they are ignored::
@@ -218,9 +218,8 @@ may not be as expected::
 
         Result: Hello, John Doe (Mr Mr ) 
 
-**************
 View Fragments
-**************
+==============
 
 You do not have to use variable pairs to get the effect of iteration in 
 your views. It is possible to use a view fragment for what would be inside 
