@@ -144,7 +144,8 @@ parameter:
 	| **$row = $query->next_row('array')**
 	| **$row = $query->previous_row('array')**
 
-.. note:: all the methods above will load the whole result into memory (prefetching) use unbuffered_row() for processing large result sets.
+.. note:: all the methods above will load the whole result into memory 
+    (prefetching) use unbuffered_row() for processing large result sets.
 
 unbuffered_row()
 ================
