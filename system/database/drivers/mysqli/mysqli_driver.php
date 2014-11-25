@@ -102,7 +102,6 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 *
 	 * @param	bool	$persistent
 	 * @return	object
-	 * @todo	SSL support
 	 */
 	public function db_connect($persistent = FALSE)
 	{
@@ -116,6 +115,11 @@ class CI_DB_mysqli_driver extends CI_DB {
 		if ($this->stricton)
 		{
 			$mysqli->options(MYSQLI_INIT_COMMAND, 'SET SESSION sql_mode="STRICT_ALL_TABLES"');
+		}
+		
+		if ($this->encrypt)
+		{
+			$client_flags = $client_flags | MYSQL_CLIENT_SSL;
 		}
 
 		return $mysqli->real_connect($hostname, $this->username, $this->password, $this->database, $port, NULL, $client_flags)
