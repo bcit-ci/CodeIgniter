@@ -1,9 +1,58 @@
-##########
-Field Data
-##########
+#################
+Database Metadata
+#################
 
-$this->db->list_fields()
-=========================
+**********
+Table Data
+**********
+
+These functions let you fetch table information.
+
+List the Tables in Your Database
+================================
+
+**$this->db->list_tables();**
+
+Returns an array containing the names of all the tables in the database
+you are currently connected to. Example::
+
+	$tables = $this->db->list_tables();
+	
+	foreach ($tables as $table)
+	{
+		echo $table;
+	}
+
+:returns:   Array with your table names
+:rtype:     string[]
+
+Determine If a Table Exists
+===========================
+
+**$this->db->table_exists();**
+
+Sometimes it's helpful to know whether a particular table exists before
+running an operation on it. Returns a boolean TRUE/FALSE. Usage example::
+
+	if ($this->db->table_exists('table_name'))
+	{
+		// some code...
+	}
+
+.. note:: Replace *table_name* with the name of the table you are looking for.
+
+:returns:   Array with your field names
+:rtype:     string[]
+
+
+**********
+Field Data
+**********
+
+List the Fields in a Table
+==========================
+
+**$this->db->list_fields()**
 
 Returns an array containing the field names. This query can be called
 two ways:
@@ -28,8 +77,13 @@ calling the function from your query result object::
 		echo $field;
 	}
 
-$this->db->field_exists()
-==========================
+:returns:   An array of field names from your table or query
+:rtype:     string[]
+
+Determine If a Field is Present in a Table
+==========================================
+
+**$this->db->field_exists()**
 
 Sometimes it's helpful to know whether a particular field exists before
 performing an action. Returns a boolean TRUE/FALSE. Usage example::
@@ -43,8 +97,12 @@ performing an action. Returns a boolean TRUE/FALSE. Usage example::
 	for, and replace *table_name* with the name of the table you are
 	looking for.
 
-$this->db->field_data()
-========================
+:returns:   TRUE if the field is in the table, FALSE otherwise
+
+Retrieve Field Metadata
+=======================
+
+**$this->db->field_data()**
 
 Returns an array of objects containing field information.
 
@@ -78,3 +136,6 @@ database:
 -  max_length - maximum length of the column
 -  primary_key - 1 if the column is a primary key
 -  type - the type of the column
+
+:returns:   Array of associative arrays with field metadata
+:rtype:     string[][]
