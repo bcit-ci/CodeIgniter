@@ -4,10 +4,14 @@ Generating Query Results
 
 There are several ways to generate query results:
 
+*************
+Result Arrays
+*************
+
 result()
 ========
 
-This function returns the query result as an array of **objects**, or
+This method returns the query result as an array of **objects**, or
 **an empty array** on failure. Typically you'll use this in a foreach
 loop, like this::
 
@@ -20,7 +24,7 @@ loop, like this::
 		echo $row->body;
 	}
 
-The above function is an alias of result_object().
+The above method is an alias of result_object().
 
 If you run queries that might **not** produce a result, you are
 encouraged to test the result first::
@@ -53,7 +57,7 @@ instantiate for each result object (note: this class must be loaded)
 result_array()
 ===============
 
-This function returns the query result as a pure array, or an empty
+This method returns the query result as a pure array, or an empty
 array when no result is produced. Typically you'll use this in a foreach
 loop, like this::
 
@@ -66,10 +70,14 @@ loop, like this::
 		echo $row['body'];
 	}
 
+***********
+Result Rows
+***********
+
 row()
 =====
 
-This function returns a single result row. If your query has more than
+This method returns a single result row. If your query has more than
 one row, it returns only the first row. The result is returned as an
 **object**. Here's a usage example::
 
@@ -101,7 +109,7 @@ to instantiate the row with::
 row_array()
 ===========
 
-Identical to the above row() function, except it returns an array.
+Identical to the above row() method, except it returns an array.
 Example::
 
 	$query = $this->db->query("YOUR QUERY");
@@ -136,7 +144,8 @@ parameter:
 	| **$row = $query->next_row('array')**
 	| **$row = $query->previous_row('array')**
 
-.. note:: all the functions above will load the whole result into memory (prefetching) use unbuffered_row() for processing large result sets.
+.. note:: all the methods above will load the whole result into memory 
+    (prefetching) use unbuffered_row() for processing large result sets.
 
 unbuffered_row()
 ================
@@ -163,12 +172,11 @@ the returned value's type::
 	$query->unbuffered_row('object');	// object
 	$query->unbuffered_row('array');	// associative array
 
-***********************
-Result Helper Functions
-***********************
+*********************
+Result Helper Methods
+*********************
 
-$query->num_rows()
-==================
+**$query->num_rows()**
 
 The number of rows returned by the query. Note: In this example, $query
 is the variable that the query result object is assigned to::
@@ -181,20 +189,18 @@ is the variable that the query result object is assigned to::
 	Not all database drivers have a native way of getting the total
 	number of rows for a result set. When this is the case, all of
 	the data is prefetched and count() is manually called on the
-	resulting array in order to achieve the same functionality.
+	resulting array in order to achieve the same methodality.
 	
-$query->num_fields()
-====================
+**$query->num_fields()**
 
 The number of FIELDS (columns) returned by the query. Make sure to call
-the function using your query result object::
+the method using your query result object::
 
 	$query = $this->db->query('SELECT * FROM my_table');
 	
 	echo $query->num_fields();
 
-$query->free_result()
-=====================
+**$query->free_result()**
 
 It frees the memory associated with the result and deletes the result
 resource ID. Normally PHP frees its memory automatically at the end of
@@ -217,8 +223,7 @@ Example::
 	echo $row->name;
 	$query2->free_result(); // The $query2 result object will no longer be available
 
-data_seek()
-===========
+**data_seek()**
 
 This method sets the internal pointer for the next result row to be
 fetched. It is only useful in combination with ``unbuffered_row()``.

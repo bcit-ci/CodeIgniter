@@ -1,5 +1,5 @@
 ##################
-The Database Class
+Database Reference
 ##################
 
 CodeIgniter comes with a full-featured and very fast abstracted database
