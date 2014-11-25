@@ -121,7 +121,9 @@ this:
 
 ::
 
-	$search = '20% raise'; $sql = "SELECT id FROM table WHERE column LIKE '%".$this->db->escape_like_str($search)."%'";
+        $search = '20% raise'; 
+        $sql = "SELECT id FROM table WHERE column LIKE '%" .
+            $this->db->escape_like_str($search)."%'";
 
 
 **************
