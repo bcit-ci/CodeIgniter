@@ -2,10 +2,14 @@
 Queries
 #######
 
-$this->db->query();
-===================
+************
+Query Basics
+************
 
-To submit a query, use the following function::
+Regular Queries
+===============
+
+To submit a query, use the **query** function::
 
 	$this->db->query('YOUR QUERY HERE');
 
@@ -18,10 +22,11 @@ this::
 
 	$query = $this->db->query('YOUR QUERY HERE');
 
-$this->db->simple_query();
-==========================
+Simplified Queries
+==================
 
-This is a simplified version of the $this->db->query() method. It DOES
+The **simple_query** method is a simplified version of the 
+$this->db->query() method. It DOES
 NOT return a database result set, nor does it set the query timer, or
 compile bind data, or store your query for debugging. It simply lets you
 submit a query. Most users will rarely use this function.
@@ -150,8 +155,7 @@ you.
 Handling Errors
 ***************
 
-$this->db->error();
-===================
+**$this->db->error();**
 
 If you need to get the last error that has occured, the error() method
 will return an array containing its code and message. Here's a quick
