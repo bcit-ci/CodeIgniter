@@ -4,6 +4,10 @@ Generating Query Results
 
 There are several ways to generate query results:
 
+*************
+Result Arrays
+*************
+
 result()
 ========
 
@@ -65,6 +69,10 @@ loop, like this::
 		echo $row['name'];
 		echo $row['body'];
 	}
+
+***********
+Result Rows
+***********
 
 row()
 =====
