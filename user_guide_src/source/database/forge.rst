@@ -6,6 +6,7 @@ The Database Forge Class contains methods that help you manage your
 database.
 
 .. contents:: Table of Contents
+    :depth: 3
 
 ****************************
 Initializing the Forge Class
@@ -35,8 +36,11 @@ object::
 
 	$this->dbforge->some_method();
 
-$this->dbforge->create_database('db_name')
-==========================================
+*******************************
+Creating and Dropping Databases
+*******************************
+
+**$this->dbforge->create_database('db_name')**
 
 Permits you to create the database specified in the first parameter.
 Returns TRUE/FALSE based on success or failure::
@@ -46,8 +50,7 @@ Returns TRUE/FALSE based on success or failure::
 		echo 'Database created!';
 	}
 
-$this->dbforge->drop_database('db_name')
-==========================================
+**$this->dbforge->drop_database('db_name')**
 
 Permits you to drop the database specified in the first parameter.
 Returns TRUE/FALSE based on success or failure::
@@ -56,6 +59,8 @@ Returns TRUE/FALSE based on success or failure::
 	{
 		echo 'Database deleted!';
 	}
+
+:returns:   TRUE on success, FALSE on failure.
 
 ****************************
 Creating and Dropping Tables
@@ -123,10 +128,11 @@ After the fields have been defined, they can be added using
 ``$this->dbforge->add_field($fields);`` followed by a call to the
 ``create_table()`` method.
 
-$this->dbforge->add_field()
----------------------------
+**$this->dbforge->add_field()**
 
 The add fields method will accept the above array.
+
+:returns:   The DB_forge object
 
 Passing strings as fields
 -------------------------
@@ -180,6 +186,8 @@ below is for MySQL.
 	$this->dbforge->add_key(array('blog_name', 'blog_label'));
 	// gives KEY `blog_name_blog_label` (`blog_name`, `blog_label`)
 
+:returns:   The DB_forge object
+
 
 Creating a table
 ================
@@ -211,6 +219,8 @@ You could also pass optional table attributes, such as MySQL's ``ENGINE``::
 	``create_table()`` will always add them with your configured *char_set*
 	and *dbcollat* values, as long as they are not empty (MySQL only).
 
+:returns:   TRUE on success, FALSE on failure.
+
 Dropping a table
 ================
 
@@ -224,6 +234,8 @@ Execute a DROP TABLE statement and optionally add an IF EXISTS clause.
 	// Produces: DROP TABLE IF EXISTS table_name
 	$this->dbforge->drop_table('table_name');
 
+:returns:   TRUE on success, FALSE on failure.
+
 Renaming a table
 ================
 
@@ -234,13 +246,17 @@ Executes a TABLE rename
 	$this->dbforge->rename_table('old_table_name', 'new_table_name');
 	// gives ALTER TABLE old_table_name RENAME TO new_table_name
 
+:returns:   TRUE on success, FALSE on failure.
+
 
 ****************
 Modifying Tables
 ****************
 
-$this->dbforge->add_column()
-============================
+Adding a Column to a Table
+==========================
+
+**$this->dbforge->add_column()**
 
 The ``add_column()`` method is used to modify an existing table. It
 accepts the same field array as above, and can be used for an unlimited
@@ -269,8 +285,12 @@ Examples::
 		'preferences' => array('type' => 'TEXT', 'first' => TRUE)
 	);
 
-$this->dbforge->drop_column()
-=============================
+:returns:   TRUE on success, FALSE on failure.
+
+Dropping a Column From a Table
+==============================
+
+**$this->dbforge->drop_column()**
 
 Used to remove a column from a table.
 
@@ -279,8 +299,12 @@ Used to remove a column from a table.
 	$this->dbforge->drop_column('table_name', 'column_to_drop');
 
 
-$this->dbforge->modify_column()
-===============================
+:returns:   TRUE on success, FALSE on failure.
+
+Modifying a Column in a Table
+=============================
+
+**$this->dbforge->modify_column()**
 
 The usage of this method is identical to ``add_column()``, except it
 alters an existing column rather than adding a new one. In order to
@@ -296,3 +320,6 @@ change the name you can add a "name" key into the field defining array.
 	);
 	$this->dbforge->modify_column('table_name', $fields);
 	// gives ALTER TABLE table_name CHANGE old_name new_name TEXT
+
+:returns:   TRUE on success, FALSE on failure.
+
