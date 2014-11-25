@@ -101,6 +101,7 @@ Contributing to CodeIgniter
 	:titlesonly:
 	
 	contributing/index
+	documentation/index
 	DCO
 
 .. toctree::
@@ -117,6 +118,5 @@ Contributing to CodeIgniter
 	libraries/index
 	helpers/index
 	database/index
-	documentation/index
 	tutorial/index
 	general/credits
