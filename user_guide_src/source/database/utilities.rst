@@ -253,7 +253,8 @@ Class Reference
 	.. method:: backup($params)
 
 		:param	array	$params: associative array of backup preferences
-		:rtype:	void
+		:returns:	void
+                :rtype:         void
 
 		Perform a database backup, per user preferences
 
@@ -264,11 +265,13 @@ Class Reference
                 :param  string  $newline:    Character to use for newlines, default is "\n"
                 :param  string  $enclosure:  Delimiter used for enclosure, default is '"'
                 :returns:   The generated CSV file as a string
+                :rtype:     string
 
 	.. method:: database_exists($database_name)
 
 		:param	string	$database_name: name of the database to check for
 		:returns:	TRUE if the database exists, FALSE otherwise
+                :rtype:         boolean
 
 		Perform a database backup, per user preferences
 
@@ -276,18 +279,21 @@ Class Reference
 
 		:param	string	$database_name: name of the database to check for
 		:returns:	TRUE if the database exists, FALSE otherwise
+                :rtype:         boolean
 
 		Check for the existence of a database
 
 	.. method:: list_databases()
 
 		:returns:	Array of database names found
+                :rtype:         array
 
 		Retrieve all the database names
 
 	.. method:: optimize_database()
 
 		:returns:	Array of optimization messages, FALSE on failure
+                :rtype:         array
 
 		Optimizes a database
 
@@ -295,6 +301,7 @@ Class Reference
 
                 :param  string  $table_name:    Name of the table to optimize
 		:returns:	Array of optimization messages, FALSE on failure
+                :rtype:         array
 
 		Optimizes a database table
 
@@ -302,6 +309,7 @@ Class Reference
 
                 :param  string  $table_name:    Name of the table to repair
 		:returns:	Array of repair messages, FALSE on failure
+                :rtype:         array
 
 		Repairs a database table
 
@@ -310,3 +318,4 @@ Class Reference
                 :param  object  $query:   DB_result with data to backup
                 :param  array  $params:  Associative array of preferences
                 :returns:   The generated XML document as a string
+                :rtype:         string
