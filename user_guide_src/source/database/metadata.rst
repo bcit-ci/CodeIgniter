@@ -2,9 +2,9 @@
 Database Metadata
 #################
 
-**********
-Table Data
-**********
+**************
+Table MetaData
+**************
 
 These functions let you fetch table information.
 
@@ -23,8 +23,6 @@ you are currently connected to. Example::
 		echo $table;
 	}
 
-:returns:   Array with your table names
-:rtype:     string[]
 
 Determine If a Table Exists
 ===========================
@@ -41,13 +39,10 @@ running an operation on it. Returns a boolean TRUE/FALSE. Usage example::
 
 .. note:: Replace *table_name* with the name of the table you are looking for.
 
-:returns:   Array with your field names
-:rtype:     string[]
 
-
-**********
-Field Data
-**********
+**************
+Field MetaData
+**************
 
 List the Fields in a Table
 ==========================
@@ -77,8 +72,6 @@ calling the function from your query result object::
 		echo $field;
 	}
 
-:returns:   An array of field names from your table or query
-:rtype:     string[]
 
 Determine If a Field is Present in a Table
 ==========================================
@@ -97,7 +90,6 @@ performing an action. Returns a boolean TRUE/FALSE. Usage example::
 	for, and replace *table_name* with the name of the table you are
 	looking for.
 
-:returns:   TRUE if the field is in the table, FALSE otherwise
 
 Retrieve Field Metadata
 =======================
@@ -136,6 +128,3 @@ database:
 -  max_length - maximum length of the column
 -  primary_key - 1 if the column is a primary key
 -  type - the type of the column
-
-:returns:   Array of associative arrays with field metadata
-:rtype:     string[][]
