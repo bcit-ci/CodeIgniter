@@ -235,3 +235,50 @@ Preference              Default Value           Options                 Descript
 **newline**              "\\n"                   "\\n", "\\r", "\\r\\n"  Type of newline to use in your SQL export file.
 **foreign_key_checks**   TRUE                    TRUE/FALSE              Whether output should keep foreign key checks enabled.
 ======================= ======================= ======================= ========================================================================
+
+$this->dbutil->restore();
+========================
+
+Permits you to restore your active database or individual tables.
+
+The function works keeping in mind the output generated from the backup function.
+
+.. note:: The function uses CodeIgniter's file helper. So, the file you are pointing to must exist in your working directory.
+
+.. note:: You will need to use the sql file or txt file instead of a gzip or zip format.
+
+Usage Example
+-------------
+
+::
+
+	// Load the DB utility class
+	$this->load->dbutil();
+
+	// Restores database from the provided filepath
+	$this->dbutil->restore('./path/to/file');
+
+Setting Restore Preferences
+---------------------------
+
+Restore preferences are set by submitting an array of values to the first
+parameter of the ``restore()`` method. Example::
+
+	$prefs = array(
+		'filepath'						=> './path/to/file',
+		'delete_after_upload'	=> TRUE,
+		'delimiter'						=> ';'
+	);
+
+	$this->dbutil->restore($prefs);
+
+Description of Restore Preferences
+---------------------------------
+
+======================= ======================= ======================= ========================================================================
+Preference              Default Value           Options                 Description
+======================= ======================= ======================= ========================================================================
+**filepath**             ""                      None                    The path of the file from where you want to backup
+**delete_after_upload**  FALSE                   TRUE/FALSE              Whether to delete the file after completion of the restore
+**delimiter**						 ";"										 Any delimiter value 		 Enter the delimiter you are using in your backup file
+======================= ======================= ======================= ========================================================================

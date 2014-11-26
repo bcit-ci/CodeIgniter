@@ -420,6 +420,77 @@ abstract class CI_DB_utility {
 		return;
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Database Restore
+	 *
+	 * @param	array	$params
+	 * @return	bool
+	 */
+	public function restore($params = array())
+	{
+		// If the parameters have not been submitted as an
+		// array then we know that it is simply the filepath,
+		// which is a valid short cut.
+		if (is_string($params))
+		{
+			$params = array('filepath' => $params);
+		}
+
+		// Set up our default preferences
+		$prefs = array(
+			'filepath'						=> '',
+			'delete_after_upload'	=> FALSE,
+			'delimiter'						=> ';'
+		);
+
+		// Did the user submit any preferences? If so set them....
+		foreach ($prefs as $key => $val)
+		{
+			if (isset($params[$key]))
+			{
+				$prefs[$key] = $params[$key];
+			}
+		}
+
+		// Check if given filepath is not empty
+		if (empty($prefs['filepath']))
+		{
+			show_error('Parameter filepath is not set. Please specify a filepath.');
+			return FALSE;
+		}
+		$string = file_get_contents($prefs['filepath']);
+		$queries = explode($prefs['delimiter'], $string);
+
+		if ($string)
+		{
+			foreach ($queries as $query)
+			{
+		    if ( ! empty($query) && ! $this->db->simple_query($query))
+		    {
+	        return FALSE;
+		    }
+			}
+
+			if ($prefs['delete_after_upload'] === TRUE)
+			{
+		    unlink($prefs['filepath']);
+			}
+			else
+			{
+				return FALSE;
+			}
+		}
+
+		if ($this->db->db_debug)
+		{
+	    show_error($prefs['filepath']." could not be read. Please make sure it's accessible.");
+		}
+
+		return TRUE;
+	}
+
 }
 
 /* End of file DB_utility.php */
