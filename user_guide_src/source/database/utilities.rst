@@ -5,7 +5,9 @@ Database Utility Class
 The Database Utility Class contains methods that help you manage your
 database.
 
-.. contents:: Table of Contents
+.. contents::
+    :local:
+    :depth: 2
 
 
 ******************************
