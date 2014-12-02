@@ -208,7 +208,7 @@ Class Reference
 
 	.. method:: cookie([$index = NULL[, $xss_clean = NULL]])
 
-		:param	mixed	$index: COOKIE parameter name
+		:param	mixed	$index: COOKIE name
 		:param	bool	$xss_clean: Whether to apply XSS filtering
 		:returns:	$_COOKIE if no parameters supplied, otherwise the COOKIE value if found or NULL if not
 		:rtype:	mixed
@@ -219,7 +219,7 @@ Class Reference
 			$this->input->cookie('some_cookie');
 			$this->input->cookie('some_cookie, TRUE); // with XSS filter
 		
-		To return an array of multiple cookie parameters, pass all the required keys
+		To return an array of multiple cookie values, pass all the required keys
 		as an array.
 		::
 			$this->input->cookie(array('some_cookie', 'some_cookie2'));
@@ -236,7 +236,7 @@ Class Reference
 
 			$this->input->server('some_data');
 
-		To return an array of multiple server parameters, pass all the required keys
+		To return an array of multiple ``$_SERVER`` values, pass all the required keys
 		as an array.
 		::
 			$this->input->server(array('SERVER_PROTOCOL', 'REQUEST_URI'));		

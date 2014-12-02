@@ -156,8 +156,13 @@ class CI_Input {
 	 */
 	protected function _fetch_from_array(&$array, $index = NULL, $xss_clean = NULL)
 	{
+		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
+
 		// If $index is NULL, it means that the whole $array is requested
-		if ($index === NULL)
+		isset($index) OR $index = array_keys($array);
+
+		// allow fetching multiple keys at once
+		if (is_array($index))
 		{
 			$output = array();
 			foreach (array_keys($array) as $key)
@@ -167,20 +172,6 @@ class CI_Input {
 
 			return $output;
 		}
-
-		// allow fetching multiple keys at once
-		if (is_array($index))
-		{
-			$output = array();
-			foreach ($index as $var)
-			{
-				$output[$var] = $this->_fetch_from_array($array, $var, $xss_clean);
-			}
-
-			return $output;
-		}
-
-		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
 
 		if (isset($array[$index]))
 		{
