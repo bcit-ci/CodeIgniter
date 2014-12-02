@@ -165,7 +165,7 @@ class CI_Input {
 		if (is_array($index))
 		{
 			$output = array();
-			foreach (array_keys($array) as $key)
+			foreach ($index as $key)
 			{
 				$output[$key] = $this->_fetch_from_array($array, $key, $xss_clean);
 			}
