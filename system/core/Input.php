@@ -168,6 +168,18 @@ class CI_Input {
 			return $output;
 		}
 
+		// allow fetching multiple keys at once
+		if (is_array($index))
+		{
+			$output = array();
+			foreach($index as $var)
+			{
+				$output[$var] = $this->_fetch_from_array($array, $var, $xss_clean);
+			}
+
+			return $output;
+		}
+
 		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
 
 		if (isset($array[$index]))
