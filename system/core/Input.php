@@ -150,7 +150,7 @@ class CI_Input {
 	 * Internal method used to retrieve values from global arrays.
 	 *
 	 * @param	array	&$array		$_GET, $_POST, $_COOKIE, $_SERVER, etc.
-	 * @param	string	$index		Index for item to be fetched from $array
+	 * @param	mixed	$index		Index for item to be fetched from $array
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
@@ -172,7 +172,7 @@ class CI_Input {
 		if (is_array($index))
 		{
 			$output = array();
-			foreach($index as $var)
+			foreach ($index as $var)
 			{
 				$output[$var] = $this->_fetch_from_array($array, $var, $xss_clean);
 			}
@@ -222,7 +222,7 @@ class CI_Input {
 	/**
 	 * Fetch an item from the GET array
 	 *
-	 * @param	string	$index		Index for item to be fetched from $_GET
+	 * @param	mixed	$index		Index for item to be fetched from $_GET
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
@@ -236,7 +236,7 @@ class CI_Input {
 	/**
 	 * Fetch an item from the POST array
 	 *
-	 * @param	string	$index		Index for item to be fetched from $_POST
+	 * @param	mixed	$index		Index for item to be fetched from $_POST
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
@@ -282,7 +282,7 @@ class CI_Input {
 	/**
 	 * Fetch an item from the COOKIE array
 	 *
-	 * @param	string	$index		Index for item to be fetched from $_COOKIE
+	 * @param	mixed	$index		Index for item to be fetched from $_COOKIE
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
@@ -296,7 +296,7 @@ class CI_Input {
 	/**
 	 * Fetch an item from the SERVER array
 	 *
-	 * @param	string	$index		Index for item to be fetched from $_SERVER
+	 * @param	mixed	$index		Index for item to be fetched from $_SERVER
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
