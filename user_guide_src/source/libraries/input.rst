@@ -108,7 +108,7 @@ Class Reference
 
 	.. method:: post([$index = NULL[, $xss_clean = NULL]])
 
-		:param	string	$index: POST parameter name
+		:param	mixed	$index: POST parameter name
 		:param	bool	$xss_clean: Whether to apply XSS filtering
 		:returns:	$_POST if no parameters supplied, otherwise the POST value if found or NULL if not
 		:rtype:	mixed
@@ -136,10 +136,20 @@ Class Reference
 
 			$this->input->post(NULL, TRUE); // returns all POST items with XSS filter
 			$this->input->post(NULL, FALSE); // returns all POST items without XSS filter
+		
+		To return an array of multiple POST parameters, pass all the required keys
+		as an array.
+		::
+			$this->input->post(array('field1', 'field2'));
+		
+		Same rule applied here, to retrive the parameters with XSS filtering enabled, set the
+		second parameter to boolean TRUE.
+		::
+			$this->input->post(array('field1', 'field2'), TRUE);
 
 	.. method:: get([$index = NULL[, $xss_clean = NULL]])
 
-		:param	string	$index: GET parameter name
+		:param	mixed	$index: GET parameter name
 		:param	bool	$xss_clean: Whether to apply XSS filtering
 		:returns:	$_GET if no parameters supplied, otherwise the GET value if found or NULL if not
 		:rtype:	mixed
@@ -157,6 +167,16 @@ Class Reference
 
 			$this->input->get(NULL, TRUE); // returns all GET items with XSS filter
 			$this->input->get(NULL, FALSE); // returns all GET items without XSS filtering
+		
+		To return an array of multiple GET parameters, pass all the required keys
+		as an array.
+		::
+			$this->input->get(array('field1', 'field2'));
+		
+		Same rule applied here, to retrive the parameters with XSS filtering enabled, set the
+		second parameter to boolean TRUE.
+		::
+			$this->input->get(array('field1', 'field2'), TRUE);
 
 	.. method:: post_get($index[, $xss_clean = NULL])
 
@@ -188,7 +208,7 @@ Class Reference
 
 	.. method:: cookie([$index = NULL[, $xss_clean = NULL]])
 
-		:param	string	$index: COOKIE parameter name
+		:param	mixed	$index: COOKIE name
 		:param	bool	$xss_clean: Whether to apply XSS filtering
 		:returns:	$_COOKIE if no parameters supplied, otherwise the COOKIE value if found or NULL if not
 		:rtype:	mixed
@@ -198,10 +218,15 @@ Class Reference
 
 			$this->input->cookie('some_cookie');
 			$this->input->cookie('some_cookie, TRUE); // with XSS filter
+		
+		To return an array of multiple cookie values, pass all the required keys
+		as an array.
+		::
+			$this->input->cookie(array('some_cookie', 'some_cookie2'));
 
 	.. method:: server($index[, $xss_clean = NULL])
 
-		:param	string	$index: Value name
+		:param	mixed	$index: Value name
 		:param	bool	$xss_clean: Whether to apply XSS filtering
 		:returns:	$_SERVER item value if found, NULL if not
 		:rtype:	mixed
@@ -211,9 +236,14 @@ Class Reference
 
 			$this->input->server('some_data');
 
+		To return an array of multiple ``$_SERVER`` values, pass all the required keys
+		as an array.
+		::
+			$this->input->server(array('SERVER_PROTOCOL', 'REQUEST_URI'));		
+
 	.. method:: input_stream([$index = NULL[, $xss_clean = NULL]])
 
-		:param	string	$index: Key name
+		:param	mixed	$index: Key name
 		:param	bool	$xss_clean: Whether to apply XSS filtering
 		:returns:	Input stream array if no parameters supplied, otherwise the specified value if found or NULL if not
 		:rtype:	mixed
