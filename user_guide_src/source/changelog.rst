@@ -500,7 +500,7 @@ Release Date: Not Released
       -  Added methods ``get_content_type()`` and ``get_header()``.
       -  Added method ``delete_cache()``.
       -  Changed caching behavior to compress the output before storing it, if ``$config['compress_output']`` is enabled.
-      -  Added querystring to page caching.
+      -  Changed caching to take the query string into account.
 
    -  :doc:`Config Library <libraries/config>` changes include:
 
