@@ -60,7 +60,6 @@ Returns TRUE/FALSE based on success or failure::
 		echo 'Database deleted!';
 	}
 
-:returns:   TRUE on success, FALSE on failure.
 
 ****************************
 Creating and Dropping Tables
@@ -132,7 +131,6 @@ After the fields have been defined, they can be added using
 
 The add fields method will accept the above array.
 
-:returns:   The DB_forge object
 
 Passing strings as fields
 -------------------------
@@ -186,7 +184,6 @@ below is for MySQL.
 	$this->dbforge->add_key(array('blog_name', 'blog_label'));
 	// gives KEY `blog_name_blog_label` (`blog_name`, `blog_label`)
 
-:returns:   The DB_forge object
 
 
 Creating a table
@@ -219,7 +216,6 @@ You could also pass optional table attributes, such as MySQL's ``ENGINE``::
 	``create_table()`` will always add them with your configured *char_set*
 	and *dbcollat* values, as long as they are not empty (MySQL only).
 
-:returns:   TRUE on success, FALSE on failure.
 
 Dropping a table
 ================
@@ -234,7 +230,6 @@ Execute a DROP TABLE statement and optionally add an IF EXISTS clause.
 	// Produces: DROP TABLE IF EXISTS table_name
 	$this->dbforge->drop_table('table_name');
 
-:returns:   TRUE on success, FALSE on failure.
 
 Renaming a table
 ================
@@ -246,7 +241,6 @@ Executes a TABLE rename
 	$this->dbforge->rename_table('old_table_name', 'new_table_name');
 	// gives ALTER TABLE old_table_name RENAME TO new_table_name
 
-:returns:   TRUE on success, FALSE on failure.
 
 
 ****************
@@ -285,7 +279,6 @@ Examples::
 		'preferences' => array('type' => 'TEXT', 'first' => TRUE)
 	);
 
-:returns:   TRUE on success, FALSE on failure.
 
 Dropping a Column From a Table
 ==============================
@@ -299,7 +292,6 @@ Used to remove a column from a table.
 	$this->dbforge->drop_column('table_name', 'column_to_drop');
 
 
-:returns:   TRUE on success, FALSE on failure.
 
 Modifying a Column in a Table
 =============================
@@ -321,5 +313,109 @@ change the name you can add a "name" key into the field defining array.
 	$this->dbforge->modify_column('table_name', $fields);
 	// gives ALTER TABLE table_name CHANGE old_name new_name TEXT
 
-:returns:   TRUE on success, FALSE on failure.
+
+***************
+Class Reference
+***************
+
+.. class:: DB_forge
+
+	.. method:: __construct(&$db)
+
+		:param	object	$db: Database object
+		:returns:	DB_forge object for the specified database
+		:rtype:	DB_forge
+
+		Initializes a database forge.
+
+	.. method:: add_column($table = '', $field = array(), $_after = NULL)
+
+		:param	string	$table: Table name
+		:param	array	$field: Column definitions
+		:param	string	$_after: Column for AFTER clause (deprecated)
+                :returns:   TRUE on success, FALSE on failure
+		:rtype:	boolean
+
+                Add a column to a table. Usage:  See `Adding a Column to a Table`_.
+
+	.. method:: add_field($field = '')
+
+		:param	array	$field: Field to add
+                :returns:   DB_forge instance
+		:rtype:	object
+
+                Add a field to the set that will be used to create a table. Usage:  See `Adding fields`_.
+
+	.. method:: add_key($key = '', $primary = FALSE)
+
+		:param	array	$key: Name of a key field
+                :param  boolean $primary:   TRUE if this key is to be a primary key
+                :returns:   DB_forge instance
+		:rtype:	object
+
+                Specify a key field to be used to create a table. Usage:  See `Adding Keys`_.
+
+	.. method:: create_database($db_name)
+
+		:param	string	$db_name: Name of the database to create
+                :returns:   TRUE on success, FALSE on failure
+		:rtype:	boolean
+
+                Create a new database. Usage:  See `Creating and Dropping Databases`_.
+
+	.. method:: create_table($table = '', $if_not_exists = FALSE, array $attributes = array())
+
+		:param	string	$table: Name of the table to create
+		:param	string	$if_not_exists: TRUE to add an 'IF NOT EXISTS' clause
+		:param	string	$attributes: Associative array of table attributes
+                :returns:   DB_driver on success, FALSE on failure
+		:rtype:	mixed
+
+                Create a new table. Usage:  See `Creating a table`_.
+
+	.. method:: drop_column($table = '', $column_name = '')
+
+		:param	string	$table: Table name
+		:param	array	$column_name: Column to drop
+                :returns:   DB_driver on success, FALSE on failure
+		:rtype:	mixed
+
+                Drop a column from a table. Usage:  See `Dropping a Column From a Table`_.
+
+	.. method:: drop_database($db_name)
+
+		:param	string	$db_name: Name of the database to drop
+                :returns:   TRUE on success, FALSE on failure
+		:rtype:	boolean
+
+                Drop a database. Usage:  See `Creating and Dropping Databases`_.
+
+	.. method:: drop_table($table_name, $if_exists = FALSE)
+
+		:param	string	$table: Name of the table to create
+		:param	string	$if_exists: TRUE to add an 'IF EXISTS' clause
+                :returns:   DB_driver on success, FALSE on failure
+		:rtype:	mixed
+
+                Drop a table. Usage:  See `Dropping a table`_.
+
+	.. method:: modify_column($table = '', $field = array())
+
+		:param	string	$table: Table name
+		:param	array	$field: Column definitions
+		:returns:   TRUE on success, FALSE on failure
+		:rtype:	boolean
+
+                Modify a column in a table. Usage:  See `Modifying a Column in a Table`_.
+
+	.. method:: rename_table($table_name, $new_table_name)
+
+		:param	string	$table: Name of the table
+		:param	string	$new_table_name: New name of the table
+                :returns:   DB_driver on success, FALSE on failure
+		:rtype:	mixed
+
+                Rename a table. Usage:  See `Renaming a table`_.
+
+
 
