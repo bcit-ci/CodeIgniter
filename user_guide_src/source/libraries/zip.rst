@@ -88,6 +88,11 @@ Class Reference
 
 		The above example will place my_bio.txt inside a folder called personal.
 
+		You can change the level of compression and encoding that is used by the gzcompress function during compression::
+
+			$this->zip->compression_level = 0; // Disable compression
+			$this->zip->compression_encoding = ZLIB_ENCODING_GZIP;
+
 	.. method:: add_dir($directory)
 
 		:param	mixed	$directory: Directory name string or an array of multiple directories
