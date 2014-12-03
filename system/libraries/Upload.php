@@ -258,6 +258,13 @@ class CI_Upload {
 	 */
 	public $client_name = '';
 
+    /**
+     * Errors Language
+     *
+     * @var string
+     */
+    public $language = "english";
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -1126,7 +1133,7 @@ class CI_Upload {
 	 */
 	public function set_error($msg)
 	{
-		$this->_CI->lang->load('upload');
+		$this->_CI->lang->load('upload', $this->language);
 
 		is_array($msg) OR $msg = array($msg);
 
