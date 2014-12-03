@@ -273,14 +273,6 @@ Class Reference
 		:returns:	TRUE if the database exists, FALSE otherwise
                 :rtype:         boolean
 
-		Perform a database backup, per user preferences
-
-	.. method:: database_exists($database_name)
-
-		:param	string	$database_name: name of the database to check for
-		:returns:	TRUE if the database exists, FALSE otherwise
-                :rtype:         boolean
-
 		Check for the existence of a database
 
 	.. method:: list_databases()
