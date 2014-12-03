@@ -16,6 +16,8 @@ env:
   - DB=pdo/pgsql
   - DB=pdo/sqlite
 
+sudo: false
+
 before_script:
   - composer install --dev --no-progress
   - sh -c "if [ '$DB' = 'pgsql' ] || [ '$DB' = 'pdo/pgsql' ]; then psql -c 'DROP DATABASE IF EXISTS ci_test;' -U postgres; fi"
