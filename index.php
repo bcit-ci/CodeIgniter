@@ -38,6 +38,39 @@
 
 /*
  *---------------------------------------------------------------
+ * ENVIRONMENT FILE
+ *---------------------------------------------------------------
+ *
+ * This function looks for the .env.php file, which is unique to
+ * each machine/environment, and sets up sensitive constants and
+ * environment variables in a secure way.
+ *
+ */
+function fetch_environment_settings() {
+
+	$fetch_environment_file = function () {
+		return is_readable( '.env.php' ) ?
+			include( '.env.php' ) : [
+				'constants'             => [ ],
+				'environment_variables' => [ ]
+			];
+	};
+
+	$env = $fetch_environment_file();
+
+	foreach ( $env['constants'] as $constant => $value ) {
+		define( $constant, $value );
+	}
+
+	foreach ( $env['environment_variables'] as $environment_variable => $value ) {
+		$_ENV[ $environment_variable ] = $value;
+	}
+}
+
+fetch_environment_settings();
+
+/*
+ *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
  *---------------------------------------------------------------
  *
@@ -53,7 +86,9 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+if ( !defined('ENVIRONMENT') ) {
+	define( 'ENVIRONMENT', isset( $_SERVER['CI_ENV'] ) ? $_SERVER['CI_ENV'] : 'development' );
+}
 
 /*
  *---------------------------------------------------------------
