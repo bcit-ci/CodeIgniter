@@ -111,6 +111,7 @@ Release Date: Not Released
 
    -  :doc:`Smiley Helper <helpers/smiley_helper>` changes include:
 
+      - Deprecated the whole helper as too specific for CodeIgniter.
       - Removed previously deprecated function ``js_insert_smiley()``.
       - Changed application and environment config files to be loaded in a cascade-like manner.
       - The smileys array is now cached and loaded only once.
@@ -316,6 +317,7 @@ Release Date: Not Released
 
    -  :doc:`Cart Library <libraries/cart>` changes include:
 
+      -  Deprecated the library as too specific for CodeIgniter.
       -  Added method ``remove()`` to remove a cart item, updating with quantity of 0 seemed like a hack but has remained to retain compatibility.
       -  Added method ``get_item()`` to enable retrieving data for a single cart item.
       -  Added unicode support for product names.
