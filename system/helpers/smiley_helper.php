@@ -44,8 +44,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Helpers
  * @category	Helpers
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/helpers/smilclass does not fit CI
- * @deprecated	3.0.0	This class does not fit CI.
+ * @link		http://codeigniter.com/user_guide/helpers/smiley_helper.html
+ * @deprecated	3.0.0	This helper is too specific for CI.
  */
 
 // ------------------------------------------------------------------------

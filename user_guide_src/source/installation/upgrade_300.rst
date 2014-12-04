@@ -331,11 +331,14 @@ Usage of the ``EXT`` constant has been deprecated since dropping support for PHP
 longer a need to maintain different filename extensions and in this new CodeIgniter version,
 the ``EXT`` constant has been removed. Use just '.php' instead.
 
-Smiley helper js_insert_smiley()
-================================
+Smiley helper
+=============
 
-:doc:`Smiley Helper <../helpers/smiley_helper>` function ``js_insert_smiley()`` has been deprecated
-since CodeIgniter 1.7.2 and is now removed. You'll need to switch to ``smiley_js()`` instead.
+The :doc:`Smiley Helper <../helpers/smiley_helper>` is a legacy feature from EllisLab's
+ExpressionEngine product. However, it is too specific for a general purpose framework like
+CodeIgniter and as such it is now deprecated.
+
+Also, the previously deprecated ``js_insert_smiley()`` (since version 1.7.2) is now removed.
 
 The Encrypt library
 ===================
@@ -354,6 +357,16 @@ implemented cryptographic functions.
 
 .. important:: You are strongly encouraged to switch to the new :doc:`Encryption Library
 	<../libraries/encryption>` as soon as possible!
+
+The Cart library
+================
+
+The :doc:`Cart Library <../libraries/cart>`, similarly to the :doc:`Smiley Helper
+<../helpers/smiley_helper>` is too specific for CodeIgniter. It is now deprecated
+and scheduled for removal in CodeIgniter 3.1+.
+
+.. note:: The library is still available, but you're strongly encouraged to remove its usage sooner
+	rather than later.
 
 Database drivers 'mysql', 'sqlite', 'mssql', 'pdo/dblib'
 ========================================================
