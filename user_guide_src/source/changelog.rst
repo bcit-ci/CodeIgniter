@@ -420,7 +420,11 @@ Release Date: Not Released
       - Added method chaining support.
       - Added support for setting table class defaults in a config file.
 
-   -  :doc:`Zip Library <libraries/zip>` method ``read_file()`` can now also alter the original file path/name while adding files to an archive.
+   -  :doc:`Zip Library <libraries/zip>` changes include:
+
+      - Method ``read_file()`` can now also alter the original file path/name while adding files to an archive.
+      - Added support for changing the compression level and encoding used by gzcompress.
+
    -  :doc:`Trackback Library <libraries/trackback>` method ``receive()`` will now utilize ``iconv()`` if it is available but ``mb_convert_encoding()`` is not.
 
 -  Core
