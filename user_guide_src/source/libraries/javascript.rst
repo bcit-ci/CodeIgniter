@@ -2,7 +2,7 @@
 Javascript Class
 ################
 
-.. note:: This library is DEPRECATED and should not be used. It has always
+.. important:: This library is DEPRECATED and should not be used. It has always
 	been with an 'experimental' status and is now no longer supported.
 	Currently only kept for backwards compatibility.
 

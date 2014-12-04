@@ -2,6 +2,10 @@
 Shopping Cart Class
 ###################
 
+.. important:: This library is DEPRECATED and should not be used. 
+        It is now no longer supported.
+	Currently only kept for backwards compatibility.
+
 The Cart Class permits items to be added to a session that stays active
 while a user is browsing your site. These items can be retrieved and
 displayed in a standard "shopping cart" format, allowing the user to
