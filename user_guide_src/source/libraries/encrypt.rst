@@ -5,7 +5,7 @@ Encrypt Class
 The Encrypt Class provides two-way data encryption. It encrypted using
 the Mcrypt PHP extension, which is required for the Encrypt Class to run.
 
-.. important:: This library has been DEPRECATED and is only kept for
+.. warning:: This library has been DEPRECATED and is only kept for
 	backwards compatibility. Please use the new :doc:`Encryption Library
 	<encryption>`.
 
