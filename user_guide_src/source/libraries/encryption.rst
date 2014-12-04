@@ -533,6 +533,7 @@ Class Reference
 		:param	int	$length: Optional output length
 		:param	string	$info: Optional context/application-specific info
 		:returns:	A pseudo-random key or FALSE on failure
+		:rtype:	string
 
 		Derives a key from another, presumably weaker key.
 

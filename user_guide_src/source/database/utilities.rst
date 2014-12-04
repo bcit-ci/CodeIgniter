@@ -9,7 +9,6 @@ database.
     :local:
     :depth: 2
 
-
 ******************************
 Initializing the Utility Class
 ******************************
@@ -248,66 +247,70 @@ Preference              Default Value           Options                 Descript
 Class Reference
 ***************
 
-.. class:: DB_utility
+.. class:: CI_DB_utility
 
-	.. method:: backup($params)
+	.. method:: backup([$params = array()])
 
-		:param	array	$params: associative array of backup preferences
+		:param	array	$params: An associative array of options
 		:returns:	void
-                :rtype:         void
+		:rtype:	void
 
-		Perform a database backup, per user preferences
-
-        .. method:: csv_from_results($query, $delim = ',', $newline = "\n", $enclosure = '"')
-
-                :param  object  $query:   DB_result with data to backup
-                :param  string  $delim:  Delimniter character for the CSV file, default is ','
-                :param  string  $newline:    Character to use for newlines, default is "\n"
-                :param  string  $enclosure:  Delimiter used for enclosure, default is '"'
-                :returns:   The generated CSV file as a string
-                :rtype:     string
+		Perform a database backup, per user preferences.
 
 	.. method:: database_exists($database_name)
 
-		:param	string	$database_name: name of the database to check for
+		:param	string	$database_name: Database name
 		:returns:	TRUE if the database exists, FALSE otherwise
-                :rtype:         boolean
+		:rtype:	bool
 
-		Check for the existence of a database
+		Check for the existence of a database.
 
 	.. method:: list_databases()
 
 		:returns:	Array of database names found
-                :rtype:         array
+		:rtype:	array
 
-		Retrieve all the database names
+		Retrieve a list of all the database names.
 
 	.. method:: optimize_database()
 
-		:returns:	Array of optimization messages, FALSE on failure
-                :rtype:         array
+		:returns:	Array of optimization messages or FALSE on failure
+		:rtype:	array
 
-		Optimizes a database
+		Optimizes the database.
 
 	.. method:: optimize_table($table_name)
 
-                :param  string  $table_name:    Name of the table to optimize
-		:returns:	Array of optimization messages, FALSE on failure
-                :rtype:         array
+		:param	string	$table_name:	Name of the table to optimize
+		:returns:	Array of optimization messages or FALSE on failure
+		:rtype:	array
 
-		Optimizes a database table
+		Optimizes a database table.
 
 	.. method:: repair_table($table_name)
 
-                :param  string  $table_name:    Name of the table to repair
-		:returns:	Array of repair messages, FALSE on failure
-                :rtype:         array
+		:param	string	$table_name:	Name of the table to repair
+		:returns:	Array of repair messages or FALSE on failure
+		:rtype:	array
 
-		Repairs a database table
+		Repairs a database table.
 
-        .. method:: xml_from_results($query, $params)
+	.. method:: csv_from_results($query[, $delim = ','[, $newline = "\n"[, $enclosure = '"']]])
 
-                :param  object  $query:   DB_result with data to backup
-                :param  array  $params:  Associative array of preferences
-                :returns:   The generated XML document as a string
-                :rtype:         string
+		:param	object	$query:	A database result object
+		:param	string	$delim: The CSV field delimiter to use
+		:param	string	$newline: The newline character to use
+		:param	string	$enclosure: The enclosure delimiter to use
+		:returns:	The generated CSV file as a string
+		:rtype:	string
+
+		Translates a database result object into a CSV document.
+
+	.. method:: xml_from_results($query[, $params = array()])
+
+		:param	object	$query: A database result object
+		:param	array	$params: An associative array of preferences
+		:returns:	The generated XML document as a string
+		:rtype:	string
+
+		Translates a database result object into an XML document.
