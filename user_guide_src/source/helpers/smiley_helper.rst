@@ -2,6 +2,10 @@
 Smiley Helper
 #############
 
+.. important:: This library is DEPRECATED and should not be used. 
+        It is now no longer supported.
+	Currently only kept for backwards compatibility.
+
 The Smiley Helper file contains functions that let you manage smileys
 (emoticons).
 
