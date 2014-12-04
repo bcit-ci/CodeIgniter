@@ -564,7 +564,10 @@ class CI_Output {
 			.$CI->config->item('index_page')
 			.$CI->uri->uri_string();
 
-		empty($_SERVER['QUERY_STRING']) OR $uri .= '?'.$_SERVER['QUERY_STRING'];
+		if ($CI->config->item('cache_query_string') && ! empty($_SERVER['QUERY_STRING']))
+		{
+			$uri .= '?'.$_SERVER['QUERY_STRING'];
+		}
 
 		$cache_path .= md5($uri);
 
@@ -650,7 +653,11 @@ class CI_Output {
 
 		// Build the file path. The file name is an MD5 hash of the full URI
 		$uri = $CFG->item('base_url').$CFG->item('index_page').$URI->uri_string;
-		empty($_SERVER['QUERY_STRING']) OR $uri .= '?'.$_SERVER['QUERY_STRING'];
+
+		if ($CFG->item('cache_query_string') && ! empty($_SERVER['QUERY_STRING']))
+		{
+			$uri .= '?'.$_SERVER['QUERY_STRING'];
+		}
 
 		$filepath = $cache_path.md5($uri);
 
@@ -729,7 +736,11 @@ class CI_Output {
 		if (empty($uri))
 		{
 			$uri = $CI->uri->uri_string();
-			empty($_SERVER['QUERY_STRING']) OR $uri .= '?'.$_SERVER['QUERY_STRING'];
+
+			if ($CI->config->item('cache_query_string') && ! empty($_SERVER['QUERY_STRING']))
+			{
+				$uri .= '?'.$_SERVER['QUERY_STRING'];
+			}
 		}
 
 		$cache_path .= md5($CI->config->item('base_url').$CI->config->item('index_page').$uri);
