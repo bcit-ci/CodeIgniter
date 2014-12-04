@@ -729,9 +729,8 @@ class CI_Output {
 		if (empty($uri))
 		{
 			$uri = $CI->uri->uri_string();
+			empty($_SERVER['QUERY_STRING']) OR $uri .= '?'.$_SERVER['QUERY_STRING'];
 		}
-
-		empty($_SERVER['QUERY_STRING']) OR $uri .= '?'.$_SERVER['QUERY_STRING'];
 
 		$cache_path .= md5($CI->config->item('base_url').$CI->config->item('index_page').$uri);
 
