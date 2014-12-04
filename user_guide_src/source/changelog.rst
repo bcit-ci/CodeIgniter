@@ -423,7 +423,7 @@ Release Date: Not Released
    -  :doc:`Zip Library <libraries/zip>` changes include:
 
       - Method ``read_file()`` can now also alter the original file path/name while adding files to an archive.
-      - Added support for changing the compression level and encoding used by gzcompress.
+      - Added support for changing the compression level.
 
    -  :doc:`Trackback Library <libraries/trackback>` method ``receive()`` will now utilize ``iconv()`` if it is available but ``mb_convert_encoding()`` is not.
 

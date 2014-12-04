@@ -95,19 +95,15 @@ class CI_Zip {
 	 * @var int
 	 */
 	public $now;
-        
-        /**
-         * The level of compression. 0 to 9, 9 being the highest level of
-         * compression.
-         * @var int
-         */
-        public $compression_level = 6;
-        
-        /**
-         * Which encoding to use. One of the ZLIB_ENCODING_* constants.
-         * @var int
-         */
-        public $compression_encoding = ZLIB_ENCODING_DEFLATE;
+
+	/**
+	 * The level of compression
+	 *
+	 * Ranges from 0 to 9, with 9 being the highest level.
+	 *
+	 * @var	int
+	 */
+	public $compression_level = 2;
 
 	/**
 	 * Initialize zip compression class
@@ -261,7 +257,7 @@ class CI_Zip {
 
 		$uncompressed_size = strlen($data);
 		$crc32  = crc32($data);
-		$gzdata = substr(gzcompress($data, $this->compression_level, $this->compression_encoding), 2, -4);
+		$gzdata = substr(gzcompress($data, $this->compression_level), 2, -4);
 		$compressed_size = strlen($gzdata);
 
 		$this->zipdata .=
