@@ -327,12 +327,7 @@ class CI_URI {
 			show_error('The URI you submitted has disallowed characters.', 400);
 		}
 
-		// Convert programatic characters to entities and return
-		return str_replace(
-			array('$',     '(',     ')',     '%28',   '%29'),	// Bad
-			array('&#36;', '&#40;', '&#41;', '&#40;', '&#41;'),	// Good
-			$str
-		);
+		return $str;
 	}
 
 	// --------------------------------------------------------------------
