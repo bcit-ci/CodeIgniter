@@ -223,8 +223,24 @@ Otherwise however, please review your usage of the following functions:
 	``$_COOKIE`` and ``$_SERVER`` superglobals are no longer
 	automatically overwritten when global XSS filtering is turned on.
 
+*************************************************
+Step 12: Check for potential XSS issues with URIs
+*************************************************
+
+The :doc:`URI Library <../libraries/uri>` used to automatically convert
+a certain set of "programmatic characters" to HTML entities when they
+are encountered in a URI segment.
+
+This was aimed at providing some automatic XSS prodection, in addition
+to the ``$config['permitted_uri_chars']`` setting, but has proven to be
+problematic and is now removed in CodeIgniter 3.0.
+
+If your application has relied on this feature, you should update it to
+filter URI segments through ``$this->security->xss_clean()`` whenever you
+output them.
+
 ********************************************************
-Step 12: Update usage of Input Class's get_post() method
+Step 13: Update usage of Input Class's get_post() method
 ********************************************************
 
 Previously, the :doc:`Input Class <../libraries/input>` method ``get_post()``
@@ -235,14 +251,14 @@ A method has been added, ``post_get()``, which searches in POST then in GET, as
 ``get_post()`` was doing before.
 
 ***********************************************************************
-Step 13: Update usage of Directory Helper's directory_map() function
+Step 14: Update usage of Directory Helper's directory_map() function
 ***********************************************************************
 
 In the resulting array, directories now end with a trailing directory
 separator (i.e. a slash, usually).
 
 *************************************************************
-Step 14: Update usage of Database Forge's drop_table() method
+Step 15: Update usage of Database Forge's drop_table() method
 *************************************************************
 
 Up until now, ``drop_table()`` added an IF EXISTS clause by default or it didn't work
@@ -264,7 +280,7 @@ If your application relies on IF EXISTS, you'll have to change its usage.
 	all drivers with the exception of ODBC.
 
 ***********************************************************
-Step 15: Change usage of Email library with multiple emails
+Step 16: Change usage of Email library with multiple emails
 ***********************************************************
 
 The :doc:`Email Library <../libraries/email>` will automatically clear the
@@ -279,7 +295,7 @@ pass FALSE as the first parameter in the ``send()`` method:
  	}
 
 ***************************************************
-Step 16: Update your Form_validation language lines
+Step 17: Update your Form_validation language lines
 ***************************************************
 
 Two improvements have been made to the :doc:`Form Validation Library
@@ -310,7 +326,7 @@ files and error messages format:
 	later.
 
 ****************************************************************
-Step 17: Remove usage of (previously) deprecated functionalities
+Step 18: Remove usage of (previously) deprecated functionalities
 ****************************************************************
 
 In addition to the ``$autoload['core']`` configuration setting, there's a
