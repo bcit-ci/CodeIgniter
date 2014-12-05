@@ -79,7 +79,9 @@ Hard way The best way to contribute is to "clone" your fork of CodeIgniter to yo
 
 The Reactor Engineers will now be alerted about the change and at least one of the team will respond. If your change fails to meet the guidelines it will be bounced, or feedback will be provided to help you improve it.
 
-Once the Reactor Engineer handling your pull request is happy with it they will merge it into develop and your patch will be part of the next release. Keeping your fork up-to-date
+Once the Reactor Engineer handling your pull request is happy with it they will merge it into develop and your patch will be part of the next release.
+
+### Keeping your fork up-to-date
 
 Unlike systems like Subversion, Git can have multiple remotes. A remote is the name for a URL of a Git repository. By default your fork will have a remote named "origin" which points to your fork, but you can add another remote named "codeigniter" which points to `git://github.com/bcit-ci/CodeIgniter.git`. This is a read-only remote but you can pull from this develop branch to update your own.
 
