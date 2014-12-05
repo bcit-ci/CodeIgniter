@@ -34,7 +34,7 @@ Once loaded you can generate a CAPTCHA like this::
 		'expiration'	=> 7200,
 		'word_length'	=> 8,
 		'font_size'	=> 16,
-		'img_id'	=> 'Image id',
+		'img_id'	=> 'Imageid',
 		'pool'		=> '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
 
 		// White background and border, black text and red grid

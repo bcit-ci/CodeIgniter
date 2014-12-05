@@ -136,7 +136,7 @@ Release Date: Not Released
       - Updated to use `imagepng()` in case that `imagejpeg()` isn't available.
       - Added **font_size** option to allow customization of font size.
       - Added **img_id** option to set id attribute of captcha image.
-      
+
    -  :doc:`Text Helper <helpers/text_helper>` changes include:
 
       - Changed the default tag for use in :func:`highlight_phrase()` to ``<mark>`` (formerly ``<strong>``).
