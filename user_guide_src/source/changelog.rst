@@ -135,7 +135,7 @@ Release Date: Not Released
       - Added *filename* to the returned array elements.
       - Updated to use `imagepng()` in case that `imagejpeg()` isn't available.
       - Added **font_size** option to allow customization of font size.
-      - Added **img_id** and **img_name** options to set id and name attributes of captcha image.
+      - Added **img_id** option to set id attribute of captcha image.
       
    -  :doc:`Text Helper <helpers/text_helper>` changes include:
 
