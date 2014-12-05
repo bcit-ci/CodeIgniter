@@ -135,7 +135,8 @@ class URI_test extends CI_TestCase {
 
 		$this->uri->config->set_item('enable_query_strings', FALSE);
 		$this->uri->_set_permitted_uri_chars('a-z 0-9~%.:_\-');
-		$this->uri->filter_uri('$this()');
+		$segment = '$this()'; // filter_uri() accepts by reference
+		$this->uri->filter_uri($segment);
 	}
 
 	// --------------------------------------------------------------------
