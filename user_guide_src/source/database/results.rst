@@ -250,6 +250,38 @@ Class Reference
 
 .. class:: CI_DB_result
 
+	.. attribute:: $conn_id
+
+		Connection ID
+
+	.. attribute:: $result_id
+
+		Result ID
+
+	.. attribute:: $result_array = array()
+
+		Result Array
+
+	.. attribute:: $result_object = array()
+
+		Result Object
+
+	.. attribute:: $custom_result_object = array()
+
+		Custom Result Object
+
+	.. attribute::  $current_row = 0
+
+		Current Row index
+
+	.. attribute:: $num_rows
+
+		Number of rows
+
+	.. attribute:: $row_data
+
+		Row data
+
 	.. method:: custom_result_object($class_name)
 
 		:param	string	$class_name: Class name for the results
