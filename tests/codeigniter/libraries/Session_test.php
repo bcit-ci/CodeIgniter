@@ -341,9 +341,11 @@ class Session_test extends CI_TestCase {
 		// Set tempdata message for each driver - 1 second timeout
 		$key = 'tmptest';
 		$cmsg = 'Some temp data';
-		$this->session->cookie->set_tempdata($key, $cmsg, 1);
+		// Set expiration time to 8 seconds to avoid issues caused
+		// by delay of time().
+		$this->session->cookie->set_tempdata($key, $cmsg, 8);
 		$nmsg = 'Other temp data';
-		$this->session->native->set_tempdata($key, $nmsg, 1);
+		$this->session->native->set_tempdata($key, $nmsg, 8);
 
 		// Simulate page reload and verify independent messages
 		$this->session->cookie->reload();
@@ -351,8 +353,8 @@ class Session_test extends CI_TestCase {
 		$this->assertEquals($cmsg, $this->session->cookie->tempdata($key));
 		$this->assertEquals($nmsg, $this->session->native->tempdata($key));
 
-		// Wait 2 seconds, simulate page reload and verify message absence
-		sleep(2);
+		// Wait 10 seconds, simulate page reload and verify message absence
+		sleep(10);
 		$this->session->cookie->reload();
 		$this->session->native->reload();
 		$this->assertNull($this->session->cookie->tempdata($key));
@@ -422,5 +424,4 @@ class Session_test extends CI_TestCase {
 		$this->session->native->sess_destroy();
 		$this->assertNull($this->session->native->userdata($key));
 	}
-
 }
