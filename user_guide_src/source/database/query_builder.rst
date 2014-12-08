@@ -29,8 +29,7 @@ Selecting Data
 
 The following functions allow you to build SQL **SELECT** statements.
 
-$this->db->get()
-----------------
+**$this->db->get()**
 
 Runs the selection query and returns the result. Can be used by itself
 to retrieve all records from a table::
@@ -57,11 +56,7 @@ $query, which can be used to show the results::
 Please visit the :doc:`result functions <results>` page for a full
 discussion regarding result generation.
 
-:returns:	DB_Result for a successful "read", 
-                TRUE for a successful "write", FALSE if an error
-
-$this->db->get_compiled_select()
---------------------------------
+**$this->db->get_compiled_select()**
 
 Compiles the selection query just like **$this->db->get()** but does not *run*
 the query. This method simply returns the SQL query as a string.
@@ -90,10 +85,7 @@ parameter. The reason for this outcome is because the query has not been
 executed using **$this->db->get()** which resets values or reset directly
 using **$this->db->reset_query()**.
 
-:returns:	The SQL select string
-
-$this->db->get_where()
-----------------------
+**$this->db->get_where()**
 
 Identical to the above function except that it permits you to add a
 "where" clause in the second parameter, instead of using the db->where()
@@ -105,11 +97,7 @@ Please read the about the where function below for more information.
 
 .. note:: get_where() was formerly known as getwhere(), which has been removed
 
-:returns:	DB_Result for a successful "read", 
-                TRUE for a successful "write", FALSE if an error
-
-$this->db->select()
--------------------
+**$this->db->select()**
 
 Permits you to write the SELECT portion of your query::
 
@@ -129,10 +117,7 @@ with backticks. This is useful if you need a compound select statement.
 	$this->db->select('(SELECT SUM(payments.amount) FROM payments WHERE payments.invoice_id=4') AS amount_paid', FALSE);
 	$query = $this->db->get('mytable');
 
-:returns:	The query builder object
-
-$this->db->select_max()
------------------------
+**$this->db->select_max()**
 
 Writes a "SELECT MAX(field)" portion for your query. You can optionally
 include a second parameter to rename the resulting field.
@@ -181,11 +166,7 @@ the resulting field.
 	$this->db->select_sum('age');
 	$query = $this->db->get('members'); // Produces: SELECT SUM(age) as age FROM members
 
-:returns:	The query builder object
-
-
-$this->db->from()
------------------
+**$this->db->from()**
 
 Permits you to write the FROM portion of your query::
 
@@ -196,10 +177,7 @@ Permits you to write the FROM portion of your query::
 .. note:: As shown earlier, the FROM portion of your query can be specified
 	in the $this->db->get() function, so use whichever method you prefer.
 
-:returns:	The query builder object
-
-$this->db->join()
------------------
+**$this->db->join()**
 
 Permits you to write the JOIN portion of your query::
 
@@ -223,14 +201,11 @@ outer, and right outer.
 	$this->db->join('comments', 'comments.id = blogs.id', 'left');
 	// Produces: LEFT JOIN comments ON comments.id = blogs.id
 
-:returns:	The query builder object
-
 *************************
 Looking for Specific Data
 *************************
 
-$this->db->where()
-------------------
+**$this->db->where()**
 
 This function enables you to set **WHERE** clauses using one of four
 methods:
@@ -306,10 +281,7 @@ instances are joined by OR::
 .. note:: or_where() was formerly known as orwhere(), which has been
 	removed.
 
-:returns:	The query builder object
-
-$this->db->where_in()
----------------------
+**$this->db->where_in()**
 
 Generates a WHERE field IN ('item', 'item') SQL query joined with AND if
 appropriate
@@ -332,10 +304,7 @@ appropriate
 	$this->db->or_where_in('username', $names);
 	// Produces: OR username IN ('Frank', 'Todd', 'James')
 
-:returns:	The query builder object
-
-$this->db->where_not_in()
--------------------------
+**$this->db->where_not_in()**
 
 Generates a WHERE field NOT IN ('item', 'item') SQL query joined with
 AND if appropriate
@@ -358,15 +327,11 @@ if appropriate
 	$this->db->or_where_not_in('username', $names);
 	// Produces: OR username NOT IN ('Frank', 'Todd', 'James')
 
-:returns:	The query builder object
-
-
 ************************
 Looking for Similar Data
 ************************
 
-$this->db->like()
------------------
+**$this->db->like()**
 
 This method enables you to generate **LIKE** clauses, useful for doing
 searches.
@@ -432,10 +397,7 @@ instances are joined by OR::
 	$this->db->or_not_like('body', 'match');
 	// WHERE `title` LIKE '%match% OR  `body` NOT LIKE '%match%' ESCAPE '!'
 
-:returns:	The query builder object
-
-$this->db->group_by()
----------------------
+**$this->db->group_by()**
 
 Permits you to write the GROUP BY portion of your query::
 
@@ -448,10 +410,7 @@ You can also pass an array of multiple values as well::
 .. note:: group_by() was formerly known as groupby(), which has been
 	removed.
 
-:returns:	The query builder object
-
-$this->db->distinct()
----------------------
+**$this->db->distinct()**
 
 Adds the "DISTINCT" keyword to a query
 
@@ -460,10 +419,7 @@ Adds the "DISTINCT" keyword to a query
 	$this->db->distinct();
 	$this->db->get('table'); // Produces: SELECT DISTINCT * FROM table
 
-:returns:	The query builder object
-
-$this->db->having()
--------------------
+**$this->db->having()**
 
 Permits you to write the HAVING portion of your query. There are 2
 possible syntaxes, 1 argument or 2::
@@ -491,14 +447,11 @@ setting it to FALSE.
 
 Identical to having(), only separates multiple clauses with "OR".
 
-:returns:	The query builder object
-
 ****************
 Ordering results
 ****************
 
-$this->db->order_by()
----------------------
+**$this->db->order_by()**
 
 Lets you set an ORDER BY clause.
 
@@ -542,14 +495,11 @@ be ignored, unless you specify a numeric seed value.
 .. note:: Random ordering is not currently supported in Oracle and
 	will default to ASC instead.
 
-:returns:	The query builder object
-
 ****************************
 Limiting or Counting Results
 ****************************
 
-$this->db->limit()
-------------------
+**$this->db->limit()**
 
 Lets you limit the number of rows you would like returned by the query::
 
@@ -561,10 +511,7 @@ The second parameter lets you set a result offset.
 
 	$this->db->limit(10, 20);  // Produces: LIMIT 20, 10 (in MySQL.  Other databases have slightly different syntax)
 
-:returns:	The query builder object
-
-$this->db->count_all_results()
-------------------------------
+**$this->db->count_all_results()**
 
 Permits you to determine the number of rows in a particular Active
 Record query. Queries will accept Query Builder restrictors such as
@@ -575,17 +522,12 @@ where(), or_where(), like(), or_like(), etc. Example::
 	$this->db->from('my_table');
 	echo $this->db->count_all_results(); // Produces an integer, like 17
 
-:returns:	Count of all the records returned by a query
-
-$this->db->count_all()
-----------------------
+**$this->db->count_all()**
 
 Permits you to determine the number of rows in a particular table.
 Submit the table name in the first parameter. Example::
 
 	echo $this->db->count_all('my_table');  // Produces an integer, like 25
-
-:returns:	Count of all the records in the specified table
 
 **************
 Query grouping
@@ -630,14 +572,11 @@ Starts a new group by adding an opening parenthesis to the WHERE clause of the q
 
 Ends the current group by adding an closing parenthesis to the WHERE clause of the query.
 
-:returns:	The query builder object
-
 **************
 Inserting Data
 **************
 
-$this->db->insert()
--------------------
+**$this->db->insert()**
 
 Generates an insert string based on the data you supply, and runs the
 query. You can either pass an **array** or an **object** to the
@@ -674,12 +613,9 @@ object.
 
 .. note:: All values are escaped automatically producing safer queries.
 
-:returns:	DB_Query on success, FALSE on failure
+**$this->db->get_compiled_insert()**
 
-$this->db->get_compiled_insert()
---------------------------------
-
-Compiles the insertion query just like `$this->db->insert()`_ but does not
+Compiles the insertion query just like $this->db->insert() but does not
 *run* the query. This method simply returns the SQL query as a string.
 
 Example::
@@ -696,7 +632,7 @@ Example::
 	// Produces string: INSERT INTO mytable (title, name, date) VALUES ('My title', 'My name', 'My date')
 
 The second parameter enables you to set whether or not the query builder query
-will be reset (by default it will be--just like `$this->db->insert()`_)::
+will be reset (by default it will be--just like $this->db->insert())::
 
 	echo $this->db->set('title', 'My Title')->get_compiled_insert('mytable', FALSE);
 
@@ -714,10 +650,7 @@ using `$this->db->insert()` which resets values or reset directly using
 
 .. note:: This method doesn't work for batched inserts.
 
-:returns:	The SQL insert string
-
-$this->db->insert_batch()
--------------------------
+**$this->db->insert_batch()**
 
 Generates an insert string based on the data you supply, and runs the
 query. You can either pass an **array** or an **object** to the
@@ -744,14 +677,11 @@ associative array of values.
 
 .. note:: All values are escaped automatically producing safer queries.
 
-:returns:	Count of the number of records inserted on success, FALSE on failure
-
 *************
 Updating Data
 *************
 
-$this->db->replace()
---------------------
+**$this->db->replace()**
 
 This method executes a REPLACE statement, which is basically the SQL
 standard for (optional) DELETE + INSERT, using *PRIMARY* and *UNIQUE*
@@ -779,10 +709,7 @@ will be deleted with our new row data replacing it.
 Usage of the ``set()`` method is also allowed and all fields are
 automatically escaped, just like with ``insert()``.
 
-:returns:	DB_query object on success, FALSE on failure
-
-$this->db->set()
-----------------
+**$this->db->set()**
 
 This function enables you to set values for inserts or updates.
 
@@ -840,10 +767,7 @@ Or an object::
 	$this->db->set($object);
 	$this->db->insert('mytable');
 
-:returns:	The query builder object
-
-$this->db->update()
--------------------
+**$this->db->update()**
 
 Generates an update string and runs the query based on the data you
 supply. You can pass an **array** or an **object** to the function. Here
@@ -889,10 +813,7 @@ Or as an array::
 You may also use the $this->db->set() function described above when
 performing updates.
 
-:returns:	DB_query object on success, FALSE on failure
-
-$this->db->update_batch()
--------------------------
+**$this->db->update_batch()**
 
 Generates an update string based on the data you supply, and runs the query.
 You can either pass an **array** or an **object** to the function.
@@ -933,10 +854,7 @@ array of values, the third parameter is the where key.
 	due to the very nature of how it works. Instead, ``update_batch()``
 	returns the number of rows affected.
 
-:returns:	Count of the number of records affected on success, FALSE on failure
-
-$this->db->get_compiled_update()
---------------------------------
+**$this->db->get_compiled_update()**
 
 This works exactly the same way as ``$this->db->get_compiled_insert()`` except
 that it produces an UPDATE SQL string instead of an INSERT SQL string.
@@ -945,14 +863,11 @@ For more information view documentation for `$this->db->get_compiled_insert()`.
 
 .. note:: This method doesn't work for batched updates.
 
-:returns:	The SQL update string
-
 *************
 Deleting Data
 *************
 
-$this->db->delete()
--------------------
+**$this->db->delete()**
 
 Generates a delete SQL string and runs the query.
 
@@ -985,21 +900,14 @@ delete data from more than 1 table.
 If you want to delete all data from a table, you can use the truncate()
 function, or empty_table().
 
-:returns:	DB_Query on success, FALSE on failure
-
-$this->db->empty_table()
-------------------------
+**$this->db->empty_table()**
 
 Generates a delete SQL string and runs the
 query.::
 
 	  $this->db->empty_table('mytable'); // Produces: DELETE FROM mytable
 
-:returns:	DB_Query on success, FALSE on failure
-
-
-$this->db->truncate()
----------------------
+**$this->db->truncate()**
 
 Generates a truncate SQL string and runs the query.
 
@@ -1018,19 +926,12 @@ Generates a truncate SQL string and runs the query.
 .. note:: If the TRUNCATE command isn't available, truncate() will
 	execute as "DELETE FROM table".
 
-:returns:	DB_Query on success, FALSE on failure
-
-$this->db->get_compiled_delete()
---------------------------------
+**$this->db->get_compiled_delete()**
 
 This works exactly the same way as ``$this->db->get_compiled_insert()`` except
 that it produces a DELETE SQL string instead of an INSERT SQL string.
 
-For more information view documentation for `$this->db->get_compiled_insert()`_.
-
-:returns:	The SQL delete string
-
-
+For more information view documentation for $this->db->get_compiled_insert().
 
 ***************
 Method Chaining
@@ -1074,8 +975,6 @@ This function can be called to stop caching.
 
 This function deletes all items from the Query Builder cache.
 
-:returns:	void
-
 An example of caching
 ---------------------
 
@@ -1105,8 +1004,7 @@ Here's a usage example::
 Resetting Query Builder
 ***********************
 
-$this->db->reset_query()
-------------------------
+**$this->db->reset_query()**
 
 Resetting Query Builder allows you to start fresh with your query without
 executing it first using a method like $this->db->get() or $this->db->insert().
@@ -1137,4 +1035,502 @@ run the query::
 	will results in the cache being merged twice. That in turn will
 	i.e. if you're caching a ``select()`` - select the same field twice.
 
-:returns:	void
+***************
+Class Reference
+***************
+
+.. class:: CI_DB_query_builder
+
+	.. method:: count_all_results([$table = ''])
+
+		:param	string	$table: Table name to query
+		:returns:	Number of rows in the query result
+		:rtype:	int
+
+		Generates a platform-specific query string that counts 
+                all records returned by an Query Builder query.
+
+	.. method:: dbprefix([$table = ''])
+
+		:param	string	$table: The table name to work with
+		:returns:	The modified table name
+		:rtype:	string
+
+		Prepends a database prefix if one exists in configuration
+
+	.. method:: delete([$table = ''[, $where = ''[, $limit = NULL[, $reset_data = TRUE]]]])
+
+		:param	mixed	$table: The table(s) to delete from; string or array
+		:param	string	$where: The where clause
+		:param	string	$limit: The limit clause
+		:param	boolean	$reset_data: TRUE to reset the query "write" clause
+		:returns:	DB_query_builder instance, FALSE on failure
+		:rtype:	mixed
+
+		Compiles a delete string and runs the query
+
+	.. method:: distinct([$val = TRUE])
+
+		:param	boolean	$val: Desired value of the "distinct" flag
+		:returns:	DB_query_driver instance
+		:rtype:	object
+
+		Sets a flag which tells the query string compiler to add DISTINCT
+
+	.. method:: empty_table([$table = ''])
+
+		:param	string	$table: Name of table to empty
+		:returns:	DB_driver instance
+		:rtype:	object
+
+		Compiles a delete string and runs "DELETE FROM table"
+
+	.. method:: flush_cache()
+
+		:rtype:	void
+
+		Empties the QB cache
+
+	.. method:: from($from)
+
+		:param	mixed	$from: Can be a string or array
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Generates the FROM portion of the query
+
+	.. method:: get([$table = ''[, $limit = NULL[, $offset = NULL]]])
+
+		:param	string	$table: The table to query
+		:param	string	$limit: The limit clause
+		:param	string	$offset: The offset clause
+		:returns:	DB_result
+		:rtype:	object
+
+		Compiles the select statement based on the other functions 
+                called and runs the query
+
+	.. method:: get_compiled_delete([$table = ''[, $reset = TRUE]])
+
+		:param	string	$table: Name of the table to delete from
+		:param	boolean	$reset: TRUE: reset QB values; FALSE: leave QB values alone
+		:returns:	The SQL string
+		:rtype:	string
+
+		Compiles a delete query string and returns the sql
+
+	.. method:: get_compiled_insert([$table = ''[, $reset = TRUE]])
+
+		:param	string	$table: Name of the table to insert into
+		:param	boolean	$reset: TRUE: reset QB values; FALSE: leave QB values alone
+		:returns:	The SQL string
+		:rtype:	string
+
+		Compiles an insert query string and returns the sql
+
+	.. method:: get_compiled_select([$table = ''[, $reset = TRUE]])
+
+		:param	string	$table: Name of the table to select from
+		:param	boolean	$reset: TRUE: reset QB values; FALSE: leave QB values alone
+		:returns:	The SQL string
+		:rtype:	string
+
+		Compiles a select query string and returns the sql
+
+	.. method:: get_compiled_update([$table = ''[, $reset = TRUE]])
+
+		:param	string	$table: Name of the table to update
+		:param	boolean	$reset: TRUE: reset QB values; FALSE: leave QB values alone
+		:returns:	The SQL string
+		:rtype:	string
+
+		Compiles an update query string and returns the sql
+
+	.. method:: get_where([$table = ''[, $where = NULL[, $limit = NULL[, $offset = NULL]]]])
+
+		:param	mixed	$table: The table(s) to delete from; string or array
+		:param	string	$where: The where clause
+		:param	int	$limit: Number of records to return
+		:param	int	$offset: Number of records to skip
+		:returns:	DB_result
+		:rtype:	object
+
+		Allows the where clause, limit and offset to be added directly
+
+	.. method:: group_by($by[, $escape = NULL])
+
+		:param	mixed	$by: Field(s) to group by; string or array
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Adds a GROUPBY clause to the query
+
+	.. method:: group_end()
+
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Ends a query group
+
+	.. method:: group_start([$not = ''[, $type = 'AND ']])
+
+		:param	string	$not: (Internal use only)
+		:param	string	$type: (Internal use only)
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Starts a query group.
+
+	.. method:: having($key[, $value = NULL[, $escape = NULL]])
+
+		:param	string	$key: Key (string) or associative array of values
+		:param	string	$value: Value sought if the key is a string
+		:param	string	$escape: TRUE to escape the content
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Separates multiple calls with 'AND'.
+
+	.. method:: insert([$table = ''[, $set = NULL[, $escape = NULL]]])
+
+		:param	string	$table: The table to insert data into
+		:param	array	$set: An associative array of insert values
+		:param	boolean	$table: Whether to escape values and identifiers
+		:returns:	DB_result
+		:rtype:	object
+
+		Compiles an insert string and runs the query
+
+	.. method:: insert_batch([$table = ''[, $set = NULL[, $escape = NULL]]])
+
+		:param	string	$table: The table to insert data into
+		:param	array	$set: An associative array of insert values
+		:param	boolean	$escape: Whether to escape values and identifiers
+		:returns:	Number of rows inserted or FALSE on failure
+		:rtype:	mixed
+
+		Compiles batch insert strings and runs the queries
+
+	.. method:: join($table, $cond[, $type = ''[, $escape = NULL]])
+
+		:param	string	$table: Name of the table being joined
+		:param	string	$cond: The JOIN condition
+		:param	string	$type: The JOIN type
+		:param	boolean	$escape: Whether to escape values and identifiers
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Generates the JOIN portion of the query
+
+	.. method:: like($field[, $match = ''[, $side = 'both'[, $escape = NULL]]])
+
+		:param	string	$field: Name of field to compare
+		:param	string	$match: Text portion to match
+		:param	string	$side: Position of a match
+		:param	boolean	$escape: Whether to escape values and identifiers
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Generates a %LIKE% portion of the query.
+                Separates multiple calls with 'AND'.
+
+	.. method:: limit($value[, $offset = FALSE])
+
+		:param	mixed	$value: Number of rows to limit the results to, NULL for no limit
+		:param	mixed	$offset: Number of rows to skip, FALSE if no offset used
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Specify a limit and offset for the query
+
+	.. method:: not_group_start()
+
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Starts a query group, but NOTs the group
+
+	.. method:: not_like($field[, $match = ''[, $side = 'both'[, $escape = NULL]]])
+
+		:param	string	$field: Name of field to compare
+		:param	string	$match: Text portion to match
+		:param	string	$side: Position of a match
+		:param	boolean	$escape: Whether to escape values and identifiers
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Generates a NOT LIKE portion of the query.
+                Separates multiple calls with 'AND'.
+
+	.. method:: offset($offset)
+
+		:param	int	$offset: Number of rows to skip in a query
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Sets the OFFSET value
+
+	.. method:: or_group_start()
+
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Starts a query group, but ORs the group
+
+	.. method:: or_having($key[, $value = NULL[, $escape = NULL]])
+
+		:param	string	$key: Key (string) or associative array of values
+		:param	string	$value: Value sought if the key is a string
+		:param	string	$escape: TRUE to escape the content
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Separates multiple calls with 'OR'.
+
+	.. method:: or_like($field[, $match = ''[, $side = 'both'[, $escape = NULL]]])
+
+		:param	string	$field: Name of field to compare
+		:param	string	$match: Text portion to match
+		:param	string	$side: Position of a match
+		:param	boolean	$escape: Whether to escape values and identifiers
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Generates a %LIKE% portion of the query.
+                Separates multiple calls with 'OR'.
+
+	.. method:: or_not_group_start()
+
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Starts a query group, but OR NOTs the group
+
+	.. method:: or_not_like($field[, $match = ''[, $side = 'both'[, $escape = NULL]]])
+
+		:param	string	$field: Name of field to compare
+		:param	string	$match: Text portion to match
+		:param	string	$side: Position of a match
+		:param	boolean	$escape: Whether to escape values and identifiers
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Generates a NOT LIKE portion of the query.
+                Separates multiple calls with 'OR'.
+
+	.. method:: or_where($key[, $value = NULL[, $escape = NULL]])
+
+		:param	mixed	$key: Name of field to compare, or associative array
+		:param	mixed	$value: If a single key, compared to this value
+		:param	boolean	$escape: Whether to escape values and identifiers
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Generates the WHERE portion of the query.
+                Separates multiple calls with 'OR'.
+
+	.. method:: or_where_in([$key = NULL[, $values = NULL[, $escape = NULL]]])
+
+		:param	string	$key: The field to search
+		:param	array	$values: The values searched on
+		:param	boolean	$escape: Whether to escape values and identifiers
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Generates a WHERE field IN('item', 'item') SQL query,
+                joined with 'OR' if appropriate.
+
+	.. method:: or_where_not_in([$key = NULL[, $values = NULL[, $escape = NULL]]])
+
+		:param	string	$key: The field to search
+		:param	array	$values: The values searched on
+		:param	boolean	$escape: Whether to escape values and identifiers
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Generates a WHERE field NOT IN('item', 'item') SQL query,
+                joined with 'OR' if appropriate.
+
+	.. method:: order_by($orderby[, $direction = ''[, $escape = NULL]])
+
+		:param	string	$orderby: The field to order by
+		:param	string	$direction: The order requested - asc, desc or random
+		:param	boolean	$escape: Whether to escape values and identifiers
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Generates an ORDER BY clause in the SQL query
+
+	.. method:: replace([$table = ''[, $set = NULL]])
+
+		:param	string	$table: The table to query
+		:param	array	$set: Associative array of insert values
+		:returns:	DB_result, FALSE on failure
+		:rtype:	mixed
+
+		Compiles an replace into string and runs the query
+
+	.. method:: reset_query()
+
+		:rtype:	void
+
+		Publicly-visible method to reset the QB values.
+
+	.. method:: select([$select = '*'[, $escape = NULL]])
+
+		:param	string	$select: Comma-separated list of fields to select
+		:param	boolean	$escape: Whether to escape values and identifiers
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Generates the SELECT portion of the query
+
+	.. method:: select_avg([$select = ''[, $alias = '']])
+
+		:param	string	$select: Field to compute the average of
+		:param	string	$alias: Alias for the resulting value
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Generates a SELECT AVG(field) portion of a query
+
+	.. method:: select_max([$select = ''[, $alias = '']])
+
+		:param	string	$select: Field to compute the maximum of
+		:param	string	$alias: Alias for the resulting value
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Generates a SELECT MAX(field) portion of a query
+
+	.. method:: select_min([$select = ''[, $alias = '']])
+
+		:param	string	$select: Field to compute the minimum of
+		:param	string	$alias: Alias for the resulting value
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Generates a SELECT MIN(field) portion of a query
+
+	.. method:: select_sum([$select = ''[, $alias = '']])
+
+		:param	string	$select: Field to compute the sum of
+		:param	string	$alias: Alias for the resulting value
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Generates a SELECT SUM(field) portion of a query
+
+	.. method:: set($key[, $value = ''[, $escape = NULL]])
+
+		:param	mixed	$key: The field to be set, or an array of key/value pairs
+		:param	string	$value: If a single key, its new value
+		:param	boolean	$escape: Whether to escape values and identifiers
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Allows key/value pairs to be set for inserting or updating
+
+	.. method:: set_dbprefix([$prefix = ''])
+
+		:param	string	$prefix: The new prefix to use
+		:returns:	The DB prefix in use
+		:rtype:	string
+
+		Set's the DB Prefix to something new without needing to reconnect
+
+	.. method:: set_insert_batch($key[, $value = ''[, $escape = NULL]])
+
+		:param	mixed	$key: The field to be set, or an array of key/value pairs
+		:param	string	$value: If a single key, its new value
+		:param	boolean	$escape: Whether to escape values and identifiers
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		The "set_insert_batch" function.  Allows key/value pairs to be set for batch inserts
+
+	.. method:: set_update_batch($key[, $value = ''[, $escape = NULL]])
+
+		:param	mixed	$key: The field to be set, or an array of key/value pairs
+		:param	string	$value: If a single key, its new value
+		:param	boolean	$escape: Whether to escape values and identifiers
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		The "set_batch_batch" function.  Allows key/value pairs to be set for batch batch
+
+	.. method:: start_cache()
+
+		:rtype:	void
+
+		Start DB caching
+
+	.. method:: stop_cache()
+
+		:rtype:	void
+
+		Stop DB caching
+
+	.. method:: truncate([$table = ''])
+
+		:param	string	$table: Name fo the table to truncate
+		:returns:	DB_result
+		:rtype:	object
+
+		Compiles a truncate string and runs the query.
+                If the database does not support the truncate() command
+                This function maps to "DELETE FROM table"
+
+	.. method:: update([$table = ''[, $set = NULL[, $where = NULL[, $limit = NULL]]]])
+
+		:param	string	$table: The table to insert data into
+		:param	array	$set: An associative array of insert values
+		:param	string	$where: WHERE clause to use
+		:param	string	$limit: LIMIT clause to use
+		:returns:	DB_result
+		:rtype:	object
+
+		Compiles an update string and runs the query.
+
+	.. method:: update_batch([$table = ''[, $set = NULL[, $value = NULL]]])
+
+		:param	string	$table: The table to update data in
+		:param	mixed	$set: The field to be set, or an array of key/value pairs
+		:param	string	$value: If a single key, its new value
+		:returns:	DB_result
+		:rtype:	object
+
+		Compiles an update string and runs the query.
+
+	.. method:: where($key[, $value = NULL[, $escape = NULL]])
+
+		:param	mixed	$key: Name of field to compare, or associative array
+		:param	mixed	$value: If a single key, compared to this value
+		:param	boolean	$escape: Whether to escape values and identifiers
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Generates the WHERE portion of the query.
+                Separates multiple calls with 'AND'.
+
+	.. method:: where_in([$key = NULL[, $values = NULL[, $escape = NULL]]])
+
+		:param	string	$key: Name of field to examine
+		:param	array	$values: Array of target values
+		:param	boolean	$escape: Whether to escape values and identifiers
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Generates a WHERE field IN('item', 'item') SQL query,
+                joined with 'AND' if appropriate.
+
+	.. method:: where_not_in([$key = NULL[, $values = NULL[, $escape = NULL]]])
+
+		:param	string	$key: Name of field to examine
+		:param	array	$values: Array of target values
+		:param	boolean	$escape: Whether to escape values and identifiers
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Generates a WHERE field NOT IN('item', 'item') SQL query,
+                joined with 'AND' if appropriate.
