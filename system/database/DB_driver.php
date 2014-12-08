@@ -634,7 +634,7 @@ abstract class CI_DB_driver {
 		$time_start = microtime(TRUE);
 
 		// Run the Query
-		if (FALSE === ($this->result_id = $this->simple_query($sql,$binds)))
+		if (FALSE === ($this->result_id = $this->simple_query($sql)))
 		{
 			if ($this->save_queries === TRUE)
 			{
@@ -756,14 +756,14 @@ abstract class CI_DB_driver {
 	 * @param	string	the sql query
 	 * @return	mixed
 	 */
-	public function simple_query($sql, $binds=FALSE)
+	public function simple_query($sql)
 	{
 		if ( ! $this->conn_id)
 		{
 			$this->initialize();
 		}
 
-		return $this->_execute($sql,$binds);
+		return $this->_execute($sql);
 	}
 
 	// --------------------------------------------------------------------
