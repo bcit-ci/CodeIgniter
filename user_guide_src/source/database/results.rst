@@ -250,38 +250,6 @@ Class Reference
 
 .. class:: CI_DB_result
 
-	.. attribute:: $conn_id
-
-		Connection ID
-
-	.. attribute:: $result_id
-
-		Result ID
-
-	.. attribute:: $result_array = array()
-
-		Result Array
-
-	.. attribute:: $result_object = array()
-
-		Result Object
-
-	.. attribute:: $custom_result_object = array()
-
-		Custom Result Object
-
-	.. attribute::  $current_row = 0
-
-		Current Row index
-
-	.. attribute:: $num_rows
-
-		Number of rows
-
-	.. attribute:: $row_data
-
-		Row data
-
 	.. method:: custom_result_object($class_name)
 
 		:param	string	$class_name: Class name for the results
@@ -300,7 +268,7 @@ Class Reference
 		Return a specific row from the query results as an object of 
                 the specified class.
 
-	.. method:: data_seek($n = 0)
+	.. method:: data_seek([$n = 0])
 
 		:param	int	$n: Index of the results row to be returned next
 		:returns:	TRUE on success, FALSE otherwise
@@ -316,7 +284,7 @@ Class Reference
 
 		Generates an array of objects containing field meta-data.
 
-	.. method:: first_row($type = 'object')
+	.. method:: first_row([$type = 'object'])
 
 		:param	string	$type: Type of result requested - array, object, or class name
 		:returns:	First row of result set
@@ -332,7 +300,7 @@ Class Reference
 		Free the result.
                 Usage: see `Result Helper Methods`_.
 
-	.. method:: last_row($type = 'object')
+	.. method:: last_row([$type = 'object'])
 
 		:param	string	$type: Type of result requested - array, object, or class name
 		:returns:	Last row of result set
@@ -348,7 +316,7 @@ Class Reference
 
 		Fetch Field Names
 
-	.. method:: next_row($type = 'object')
+	.. method:: next_row([$type = 'object'])
 
 		:param	string	$type: Type of result requested - array, object, or class name
 		:returns:	"Next" row of result set, NULL if there isn't one
@@ -373,7 +341,7 @@ Class Reference
 		Number of rows in the result set.
                 Usage: see `Result Helper Methods`_.
 
-	.. method:: previous_row($type = 'object')
+	.. method:: previous_row([$type = 'object'])
 
 		:param	string	$type: Type of result requested - array, object, or class name
 		:returns:	"Previous" row of result set, NULL if there isn't one
@@ -382,7 +350,7 @@ Class Reference
 		Returns the "previous" row, as an array, generic object, or 
                 object of a specific class
 
-	.. method:: result($type = 'object')
+	.. method:: result([$type = 'object'])
 
 		:param	string	$type: Type of result requested - array, object, or class name
 		:returns:	Query results as the specified type
@@ -409,7 +377,7 @@ Class Reference
 		Returns the query results as an array of rows, where each
                 row is an object
 
-	.. method:: row($n = 0, $type = 'object')
+	.. method:: row([$n = 0[, $type = 'object']])
 
 		:param	integer	$n: Index of the query results row to be returned
                 :param	string	$type: Type of result requested - array, object, or class name
@@ -420,7 +388,7 @@ Class Reference
                 custom_row_object.
                 Usage: see `Result Rows`_.
 
-	.. method:: row_array($n = 0)
+	.. method:: row_array([$n = 0])
 
 		:param	integer	$n: Index of the query results row to be returned
                 :returns:	Requested row of result set
@@ -429,7 +397,7 @@ Class Reference
 		Returns requested result row as an associative array.
                 Usage: see `Result Rows`_.
 
-	.. method:: row_object($n = 0)
+	.. method:: row_object([$n = 0])
 
 		:param	integer	$n: Index of the query results row to be returned
                 :returns:	Requested row of result set
@@ -437,7 +405,7 @@ Class Reference
 
 		Returns requested result row as an object
 
-	.. method:: set_row($key, $value = NULL)
+	.. method:: set_row($key[, $value = NULL])
 
 		:param	mixed	$key: Column index or array of key/value pairs
                 :param	mixed	$value: Result to assign to a column if the key is an index
@@ -445,7 +413,7 @@ Class Reference
 
 		Assigns an item into a particular column slot
 
-	.. method:: unbuffered_row($type = 'object')
+	.. method:: unbuffered_row([$type = 'object'])
 
 		:param	string	$type: Type of result requested - array, object, or class name
 		:returns:	Requested row of result set
