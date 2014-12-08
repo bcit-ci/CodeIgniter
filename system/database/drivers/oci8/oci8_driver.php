@@ -262,16 +262,28 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * Execute the query
 	 *
 	 * @param	string	$sql	an SQL query
+	 * @param 	array 	$binds 	an array of binds
 	 * @return	resource
 	 */
-	protected function _execute($sql)
+	protected function _execute($sql,&$binds)
 	{
+
+		if ( ! $this->conn_id)
+		{
+			$this->initialize();
+		}
+		
 		/* Oracle must parse the query before it is run. All of the actions with
 		 * the query are based on the statement id returned by oci_parse().
 		 */
 		$this->stmt_id = FALSE;
 		$this->_set_stmt_id($sql);
 		oci_set_prefetch($this->stmt_id, 1000);
+		if($binds != FALSE) {
+		  foreach($binds as $k => $bind) {
+			oci_bind_by_name($this->stmt_id, $k, $binds[$k],4000);
+		  }
+		}
 		return oci_execute($this->stmt_id, $this->commit_mode);
 	}
 
