@@ -319,7 +319,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 		}
 		elseif (function_exists('mysql_escape_string'))
 		{
-			$str = mysqli_escape_string($this->conn_id, $str);
+			$str = mysqli_escape_string($this->db_connect(), $str);
 		}
 		else
 		{
