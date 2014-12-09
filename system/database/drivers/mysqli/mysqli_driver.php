@@ -65,15 +65,17 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 * @access	private called by the base class
 	 * @return	resource
 	 */
-	function db_connect()
+        function db_connect()
 	{
 		if ($this->port != '')
 		{
-			return @mysqli_connect($this->hostname, $this->username, $this->password, $this->database, $this->port);
+		        @$link = mysqli_connect($this->hostname, $this->username, $this->password, $this->database, $this->port);
+                        return $link;
 		}
 		else
 		{
-			return @mysqli_connect($this->hostname, $this->username, $this->password, $this->database);
+			 @$link = mysqli_connect($this->hostname, $this->username, $this->password, $this->database);
+                        return $link;
 		}
 
 	}
@@ -317,7 +319,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 		}
 		elseif (function_exists('mysql_escape_string'))
 		{
-			$str = mysql_escape_string($str);
+			$str = mysqli_escape_string($this->conn_id, $str);
 		}
 		else
 		{
@@ -768,7 +770,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 		@mysqli_close($conn_id);
 	}
 
-
+p
 }
 
 
