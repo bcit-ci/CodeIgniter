@@ -194,6 +194,17 @@ class CI_Session {
 		}
 
 		$class = 'Session_'.$driver.'_driver';
+
+		// Allow custom drivers without the CI_ or MY_ prefix
+		if ( ! class_exists($class, FALSE) && file_exists($file_path = APPPATH.'libraries/Session/drivers/'.$class.'.php'))
+		{
+			require_once($file_path);
+			if (class_exists($class, FALSE))
+			{
+				return $class;
+			}
+		}
+
 		if ( ! class_exists('CI_'.$class, FALSE))
 		{
 			if (file_exists($file_path = APPPATH.'libraries/Session/drivers/'.$class.'.php') OR file_exists($file_path = BASEPATH.'libraries/Session/drivers/'.$class.'.php'))
@@ -201,7 +212,7 @@ class CI_Session {
 				require_once($file_path);
 			}
 
-			if ( ! class_exists('CI_'.$class, FALSE))
+			if ( ! class_exists('CI_'.$class, FALSE) && ! class_exists($class, FALSE))
 			{
 				log_message('error', "Session: Configured driver '".$driver."' was not found. Aborting.");
 				return FALSE;
