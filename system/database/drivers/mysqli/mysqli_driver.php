@@ -56,7 +56,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 
 	// whether SET NAMES must be used to set the character set
 	var $use_set_names;
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -311,18 +311,8 @@ class CI_DB_mysqli_driver extends CI_DB {
 			return $str;
 		}
 
-		if (function_exists('mysqli_real_escape_string') AND is_object($this->conn_id))
-		{
-			$str = mysqli_real_escape_string($this->conn_id, $str);
-		}
-		elseif (function_exists('mysql_escape_string'))
-		{
-			$str = mysql_escape_string($str);
-		}
-		else
-		{
-			$str = addslashes($str);
-		}
+
+		$str = mysqli_real_escape_string($this->conn_id, $str);
 
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
