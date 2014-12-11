@@ -334,7 +334,7 @@ class CI_DB_result {
 			return $this->row_data[$n];
 		}
 
-		if ($type === 'object') return $this->row_object($n);
+		if ($type === 'object') return (object) $this->row_object($n);
 		elseif ($type === 'array') return $this->row_array($n);
 		else return $this->custom_row_object($n, $type);
 	}
