@@ -2650,12 +2650,13 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Publicly-visible method to reset the QB values.
 	 *
-	 * @return	void
+	 * @return	CI_DB_query_builder
 	 */
 	public function reset_query()
 	{
 		$this->_reset_select();
 		$this->_reset_write();
+		return $this;
 	}
 
 	// --------------------------------------------------------------------

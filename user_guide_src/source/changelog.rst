@@ -188,7 +188,7 @@ Release Date: Not Released
       - Changed ``offset()`` to ignore empty values instead of always casting to integer.
       - Methods ``insert_batch()`` and ``update_batch()`` now return an integer representing the number of rows affected by them.
       - Methods ``where()``, ``or_where()``, ``having()`` and ``or_having()`` now convert trailing  ``=`` and ``<>``,  ``!=`` SQL operators to ``IS NULL`` and ``IS NOT NULL`` respectively when the supplied comparison value is ``NULL``.
-      - Added support for method chaining in query cache methods ``start_cache()``, ``stop_cache()``, ``flush_cache()``.
+      - Added method chaining support to ``reset_query()``, ``start_cache()``, ``stop_cache()`` and ``flush_cache()``.
 
    -  :doc:`Database Results <database/results>` changes include:
 
