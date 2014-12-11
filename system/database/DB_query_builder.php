@@ -1215,7 +1215,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	int	$offset	OFFSET value
 	 * @return	CI_DB_query_builder
 	 */
-	public function limit($value, $offset = FALSE)
+	public function limit($value, $offset = 0)
 	{
 		is_null($value) OR $this->qb_limit = (int) $value;
 		empty($offset) OR $this->qb_offset = (int) $offset;
@@ -2509,11 +2509,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Starts QB caching
 	 *
-	 * @return	void
+	 * @return	CI_DB_query_builder
 	 */
 	public function start_cache()
 	{
 		$this->qb_caching = TRUE;
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -2523,11 +2524,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Stops QB caching
 	 *
-	 * @return	void
+	 * @return	CI_DB_query_builder
 	 */
 	public function stop_cache()
 	{
 		$this->qb_caching = FALSE;
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -2537,7 +2539,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Empties the QB cache
 	 *
-	 * @return	void
+	 * @return	CI_DB_query_builder
 	 */
 	public function flush_cache()
 	{
@@ -2553,6 +2555,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			'qb_cache_exists'		=> array(),
 			'qb_cache_no_escape'	=> array()
 		));
+
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -2680,20 +2684,19 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	protected function _reset_select()
 	{
 		$this->_reset_run(array(
-					'qb_select'		=> array(),
-					'qb_from'		=> array(),
-					'qb_join'		=> array(),
-					'qb_where'		=> array(),
-					'qb_groupby'		=> array(),
-					'qb_having'		=> array(),
-					'qb_orderby'		=> array(),
-					'qb_aliased_tables'	=> array(),
-					'qb_no_escape'		=> array(),
-					'qb_distinct'		=> FALSE,
-					'qb_limit'		=> FALSE,
-					'qb_offset'		=> FALSE
-					)
-				);
+			'qb_select'		=> array(),
+			'qb_from'		=> array(),
+			'qb_join'		=> array(),
+			'qb_where'		=> array(),
+			'qb_groupby'		=> array(),
+			'qb_having'		=> array(),
+			'qb_orderby'		=> array(),
+			'qb_aliased_tables'	=> array(),
+			'qb_no_escape'		=> array(),
+			'qb_distinct'		=> FALSE,
+			'qb_limit'		=> FALSE,
+			'qb_offset'		=> FALSE
+		));
 	}
 
 	// --------------------------------------------------------------------
@@ -2715,8 +2718,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			'qb_orderby'	=> array(),
 			'qb_keys'	=> array(),
 			'qb_limit'	=> FALSE
-			)
-		);
+		));
 	}
 
 }
