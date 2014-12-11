@@ -40,8 +40,9 @@ The second and third parameters enable you to set a limit and offset
 clause::
 
 	$query = $this->db->get('mytable', 10, 20);
-	// Produces: SELECT * FROM mytable LIMIT 20, 10 
-        // (in MySQL. Other databases have slightly different syntax)
+
+	// Executes: SELECT * FROM mytable LIMIT 20, 10
+	// (in MySQL. Other databases have slightly different syntax)
 
 You'll notice that the above function is assigned to a variable named
 $query, which can be used to show the results::
@@ -66,18 +67,19 @@ Example::
 	$sql = $this->db->get_compiled_select('mytable');
 	echo $sql;
 
-	// Produces string: SELECT * FROM mytable
+	// Prints string: SELECT * FROM mytable
 
 The second parameter enables you to set whether or not the query builder query
 will be reset (by default it will be reset, just like when using `$this->db->get()`)::
 
 	echo $this->db->limit(10,20)->get_compiled_select('mytable', FALSE);
-	// Produces string: SELECT * FROM mytable LIMIT 20, 10
+
+	// Prints string: SELECT * FROM mytable LIMIT 20, 10
 	// (in MySQL. Other databases have slightly different syntax)
 
 	echo $this->db->select('title, content, date')->get_compiled_select();
 
-	// Produces string: SELECT title, content, date FROM mytable LIMIT 20, 10
+	// Prints string: SELECT title, content, date FROM mytable LIMIT 20, 10
 
 The key thing to notice in the above example is that the second query did not
 utilize **$this->db->from()** and did not pass a table name into the first
@@ -102,15 +104,18 @@ Please read the about the where function below for more information.
 Permits you to write the SELECT portion of your query::
 
 	$this->db->select('title, content, date');
-	$query = $this->db->get('mytable');  // Produces: SELECT title, content, date FROM mytable
+	$query = $this->db->get('mytable');
 
+	// Executes: SELECT title, content, date FROM mytable
 
 .. note:: If you are selecting all (\*) from a table you do not need to
-	use this function. When omitted, CodeIgniter assumes you wish to SELECT *
+	use this function. When omitted, CodeIgniter assumes that you wish
+	to select all fields and automatically adds 'SELECT *'.
 
-$this->db->select() accepts an optional second parameter. If you set it
-to FALSE, CodeIgniter will not try to protect your field or table names
-with backticks. This is useful if you need a compound select statement.
+``$this->db->select()`` accepts an optional second parameter. If you set it
+to FALSE, CodeIgniter will not try to protect your field or table names.  
+This is useful if you need a compound select statement where automatic
+escaping of fields may break them.
 
 ::
 
@@ -119,7 +124,7 @@ with backticks. This is useful if you need a compound select statement.
 
 **$this->db->select_max()**
 
-Writes a "SELECT MAX(field)" portion for your query. You can optionally
+Writes a ``SELECT MAX(field)`` portion for your query. You can optionally
 include a second parameter to rename the resulting field.
 
 ::
@@ -232,6 +237,7 @@ methods:
 		// WHERE name = 'Joe' AND title = 'boss' AND status = 'active'
 
 #. **Custom key/value method:**
+
 	You can include an operator in the first parameter in order to
 	control the comparison:
 
@@ -262,9 +268,8 @@ methods:
 		$this->db->where($where);
 
 
-$this->db->where() accepts an optional third parameter. If you set it to
-FALSE, CodeIgniter will not try to protect your field or table names
-with backticks.
+``$this->db->where()`` accepts an optional third parameter. If you set it to
+FALSE, CodeIgniter will not try to protect your field or table names.
 
 ::
 
@@ -1041,282 +1046,165 @@ Class Reference
 
 .. class:: CI_DB_query_builder
 
+	.. method:: reset_query()
+
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
+
+		Resets the current Query Builder state.  Useful when you want
+		to build a query that can be cancelled under certain conditions.
+
+	.. method:: start_cache()
+
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
+
+		Starts the Query Builder cache.
+
+	.. method:: stop_cache()
+
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
+
+		Stops the Query Builder cache.
+
+	.. method:: flush_cache()
+
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
+
+		Empties the Query Builder cache.
+
+	.. method:: set_dbprefix([$prefix = ''])
+
+		:param	string	$prefix: The new prefix to use
+		:returns:	The DB prefix in use
+		:rtype:	string
+
+		Sets the database prefix, without having to reconnect.
+
+	.. method:: dbprefix([$table = ''])
+
+		:param	string	$table: The table name to prefix
+		:returns:	The prefixed table name
+		:rtype:	string
+
+		Prepends a database prefix, if one exists in configuration.
+
 	.. method:: count_all_results([$table = ''])
 
-		:param	string	$table: Table name to query
+		:param	string	$table: Table name
 		:returns:	Number of rows in the query result
 		:rtype:	int
 
 		Generates a platform-specific query string that counts 
-                all records returned by an Query Builder query.
-
-	.. method:: dbprefix([$table = ''])
-
-		:param	string	$table: The table name to work with
-		:returns:	The modified table name
-		:rtype:	string
-
-		Prepends a database prefix if one exists in configuration
-
-	.. method:: delete([$table = ''[, $where = ''[, $limit = NULL[, $reset_data = TRUE]]]])
-
-		:param	mixed	$table: The table(s) to delete from; string or array
-		:param	string	$where: The where clause
-		:param	string	$limit: The limit clause
-		:param	boolean	$reset_data: TRUE to reset the query "write" clause
-		:returns:	DB_query_builder instance, FALSE on failure
-		:rtype:	mixed
-
-		Compiles a delete string and runs the query
-
-	.. method:: distinct([$val = TRUE])
-
-		:param	boolean	$val: Desired value of the "distinct" flag
-		:returns:	DB_query_driver instance
-		:rtype:	object
-
-		Sets a flag which tells the query string compiler to add DISTINCT
-
-	.. method:: empty_table([$table = ''])
-
-		:param	string	$table: Name of table to empty
-		:returns:	DB_driver instance
-		:rtype:	object
-
-		Compiles a delete string and runs "DELETE FROM table"
-
-	.. method:: flush_cache()
-
-		:rtype:	void
-
-		Empties the QB cache
-
-	.. method:: from($from)
-
-		:param	mixed	$from: Can be a string or array
-		:returns:	DB_query_builder instance
-		:rtype:	object
-
-		Generates the FROM portion of the query
+		all records returned by an Query Builder query.
 
 	.. method:: get([$table = ''[, $limit = NULL[, $offset = NULL]]])
 
 		:param	string	$table: The table to query
-		:param	string	$limit: The limit clause
-		:param	string	$offset: The offset clause
-		:returns:	DB_result
-		:rtype:	object
+		:param	int	$limit: The LIMIT clause
+		:param	int	$offset: The OFFSET clause
+		:returns:	CI_DB_result instance (method chaining)
+		:rtype:	CI_DB_result
 
-		Compiles the select statement based on the other functions 
-                called and runs the query
-
-	.. method:: get_compiled_delete([$table = ''[, $reset = TRUE]])
-
-		:param	string	$table: Name of the table to delete from
-		:param	boolean	$reset: TRUE: reset QB values; FALSE: leave QB values alone
-		:returns:	The SQL string
-		:rtype:	string
-
-		Compiles a delete query string and returns the sql
-
-	.. method:: get_compiled_insert([$table = ''[, $reset = TRUE]])
-
-		:param	string	$table: Name of the table to insert into
-		:param	boolean	$reset: TRUE: reset QB values; FALSE: leave QB values alone
-		:returns:	The SQL string
-		:rtype:	string
-
-		Compiles an insert query string and returns the sql
-
-	.. method:: get_compiled_select([$table = ''[, $reset = TRUE]])
-
-		:param	string	$table: Name of the table to select from
-		:param	boolean	$reset: TRUE: reset QB values; FALSE: leave QB values alone
-		:returns:	The SQL string
-		:rtype:	string
-
-		Compiles a select query string and returns the sql
-
-	.. method:: get_compiled_update([$table = ''[, $reset = TRUE]])
-
-		:param	string	$table: Name of the table to update
-		:param	boolean	$reset: TRUE: reset QB values; FALSE: leave QB values alone
-		:returns:	The SQL string
-		:rtype:	string
-
-		Compiles an update query string and returns the sql
+		Compiles and runs SELECT statement based on the already
+		called Query Builder methods.
 
 	.. method:: get_where([$table = ''[, $where = NULL[, $limit = NULL[, $offset = NULL]]]])
 
-		:param	mixed	$table: The table(s) to delete from; string or array
-		:param	string	$where: The where clause
-		:param	int	$limit: Number of records to return
-		:param	int	$offset: Number of records to skip
-		:returns:	DB_result
-		:rtype:	object
+		:param	mixed	$table: The table(s) to fetch data from; string or array
+		:param	string	$where: The WHERE clause
+		:param	int	$limit: The LIMIT clause
+		:param	int	$offset: The OFFSET clause
+		:returns:	CI_DB_result instance (method chaining)
+		:rtype:	CI_DB_result
 
-		Allows the where clause, limit and offset to be added directly
+		Same as ``get()``, but also allows the WHERE to be added directly.
 
-	.. method:: group_by($by[, $escape = NULL])
+	.. method:: select([$select = '*'[, $escape = NULL]])
 
-		:param	mixed	$by: Field(s) to group by; string or array
-		:returns:	DB_query_builder instance
-		:rtype:	object
+		:param	string	$select: The SELECT portion of a query
+		:param	bool	$escape: Whether to escape values and identifiers
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
 
-		Adds a GROUPBY clause to the query
+		Adds a SELECT clause to a query.
 
-	.. method:: group_end()
+	.. method:: select_avg([$select = ''[, $alias = '']])
 
-		:returns:	DB_query_builder instance
-		:rtype:	object
+		:param	string	$select: Field to compute the average of
+		:param	string	$alias: Alias for the resulting value name
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
 
-		Ends a query group
+		Adds a SELECT AVG(field) clause to a query.
 
-	.. method:: group_start([$not = ''[, $type = 'AND ']])
+	.. method:: select_max([$select = ''[, $alias = '']])
 
-		:param	string	$not: (Internal use only)
-		:param	string	$type: (Internal use only)
-		:returns:	DB_query_builder instance
-		:rtype:	object
+		:param	string	$select: Field to compute the maximum of
+		:param	string	$alias: Alias for the resulting value name
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
 
-		Starts a query group.
+		Adds a SELECT MAX(field) clause to a query.
 
-	.. method:: having($key[, $value = NULL[, $escape = NULL]])
+	.. method:: select_min([$select = ''[, $alias = '']])
 
-		:param	string	$key: Key (string) or associative array of values
-		:param	string	$value: Value sought if the key is a string
-		:param	string	$escape: TRUE to escape the content
-		:returns:	DB_query_builder instance
-		:rtype:	object
+		:param	string	$select: Field to compute the minimum of
+		:param	string	$alias: Alias for the resulting value name
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
 
-		Separates multiple calls with 'AND'.
+		Adds a SELECT MIN(field) clause to a query.
 
-	.. method:: insert([$table = ''[, $set = NULL[, $escape = NULL]]])
+	.. method:: select_sum([$select = ''[, $alias = '']])
 
-		:param	string	$table: The table to insert data into
-		:param	array	$set: An associative array of insert values
-		:param	boolean	$table: Whether to escape values and identifiers
-		:returns:	DB_result
-		:rtype:	object
+		:param	string	$select: Field to compute the sum of
+		:param	string	$alias: Alias for the resulting value name
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
 
-		Compiles an insert string and runs the query
+		Adds a SELECT SUM(field) clause to a query.
 
-	.. method:: insert_batch([$table = ''[, $set = NULL[, $escape = NULL]]])
+	.. method:: distinct([$val = TRUE])
 
-		:param	string	$table: The table to insert data into
-		:param	array	$set: An associative array of insert values
-		:param	boolean	$escape: Whether to escape values and identifiers
-		:returns:	Number of rows inserted or FALSE on failure
-		:rtype:	mixed
+		:param	bool	$val: Desired value of the "distinct" flag
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
 
-		Compiles batch insert strings and runs the queries
+		Sets a flag which tells the query builder to add
+		a DISTINCT clause to the SELECT portion of the query.
+
+	.. method:: from($from)
+
+		:param	mixed	$from: Table name(s); string or array
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
+
+		Specifies the FROM clause of a query.
 
 	.. method:: join($table, $cond[, $type = ''[, $escape = NULL]])
 
-		:param	string	$table: Name of the table being joined
-		:param	string	$cond: The JOIN condition
+		:param	string	$table: Table name to join
+		:param	string	$cond: The JOIN ON condition
 		:param	string	$type: The JOIN type
+		:param	bool	$escape: Whether to escape values and identifiers
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
+
+		Adds a JOIN clause to a query.
+
+	.. method:: where($key[, $value = NULL[, $escape = NULL]])
+
+		:param	mixed	$key: Name of field to compare, or associative array
+		:param	mixed	$value: If a single key, compared to this value
 		:param	boolean	$escape: Whether to escape values and identifiers
 		:returns:	DB_query_builder instance
 		:rtype:	object
 
-		Generates the JOIN portion of the query
-
-	.. method:: like($field[, $match = ''[, $side = 'both'[, $escape = NULL]]])
-
-		:param	string	$field: Name of field to compare
-		:param	string	$match: Text portion to match
-		:param	string	$side: Position of a match
-		:param	boolean	$escape: Whether to escape values and identifiers
-		:returns:	DB_query_builder instance
-		:rtype:	object
-
-		Generates a %LIKE% portion of the query.
+		Generates the WHERE portion of the query.
                 Separates multiple calls with 'AND'.
-
-	.. method:: limit($value[, $offset = FALSE])
-
-		:param	mixed	$value: Number of rows to limit the results to, NULL for no limit
-		:param	mixed	$offset: Number of rows to skip, FALSE if no offset used
-		:returns:	DB_query_builder instance
-		:rtype:	object
-
-		Specify a limit and offset for the query
-
-	.. method:: not_group_start()
-
-		:returns:	DB_query_builder instance
-		:rtype:	object
-
-		Starts a query group, but NOTs the group
-
-	.. method:: not_like($field[, $match = ''[, $side = 'both'[, $escape = NULL]]])
-
-		:param	string	$field: Name of field to compare
-		:param	string	$match: Text portion to match
-		:param	string	$side: Position of a match
-		:param	boolean	$escape: Whether to escape values and identifiers
-		:returns:	DB_query_builder instance
-		:rtype:	object
-
-		Generates a NOT LIKE portion of the query.
-                Separates multiple calls with 'AND'.
-
-	.. method:: offset($offset)
-
-		:param	int	$offset: Number of rows to skip in a query
-		:returns:	DB_query_builder instance
-		:rtype:	object
-
-		Sets the OFFSET value
-
-	.. method:: or_group_start()
-
-		:returns:	DB_query_builder instance
-		:rtype:	object
-
-		Starts a query group, but ORs the group
-
-	.. method:: or_having($key[, $value = NULL[, $escape = NULL]])
-
-		:param	string	$key: Key (string) or associative array of values
-		:param	string	$value: Value sought if the key is a string
-		:param	string	$escape: TRUE to escape the content
-		:returns:	DB_query_builder instance
-		:rtype:	object
-
-		Separates multiple calls with 'OR'.
-
-	.. method:: or_like($field[, $match = ''[, $side = 'both'[, $escape = NULL]]])
-
-		:param	string	$field: Name of field to compare
-		:param	string	$match: Text portion to match
-		:param	string	$side: Position of a match
-		:param	boolean	$escape: Whether to escape values and identifiers
-		:returns:	DB_query_builder instance
-		:rtype:	object
-
-		Generates a %LIKE% portion of the query.
-                Separates multiple calls with 'OR'.
-
-	.. method:: or_not_group_start()
-
-		:returns:	DB_query_builder instance
-		:rtype:	object
-
-		Starts a query group, but OR NOTs the group
-
-	.. method:: or_not_like($field[, $match = ''[, $side = 'both'[, $escape = NULL]]])
-
-		:param	string	$field: Name of field to compare
-		:param	string	$match: Text portion to match
-		:param	string	$side: Position of a match
-		:param	boolean	$escape: Whether to escape values and identifiers
-		:returns:	DB_query_builder instance
-		:rtype:	object
-
-		Generates a NOT LIKE portion of the query.
-                Separates multiple calls with 'OR'.
 
 	.. method:: or_where($key[, $value = NULL[, $escape = NULL]])
 
@@ -1351,168 +1239,6 @@ Class Reference
 		Generates a WHERE field NOT IN('item', 'item') SQL query,
                 joined with 'OR' if appropriate.
 
-	.. method:: order_by($orderby[, $direction = ''[, $escape = NULL]])
-
-		:param	string	$orderby: The field to order by
-		:param	string	$direction: The order requested - asc, desc or random
-		:param	boolean	$escape: Whether to escape values and identifiers
-		:returns:	DB_query_builder instance
-		:rtype:	object
-
-		Generates an ORDER BY clause in the SQL query
-
-	.. method:: replace([$table = ''[, $set = NULL]])
-
-		:param	string	$table: The table to query
-		:param	array	$set: Associative array of insert values
-		:returns:	DB_result, FALSE on failure
-		:rtype:	mixed
-
-		Compiles an replace into string and runs the query
-
-	.. method:: reset_query()
-
-		:rtype:	void
-
-		Publicly-visible method to reset the QB values.
-
-	.. method:: select([$select = '*'[, $escape = NULL]])
-
-		:param	string	$select: Comma-separated list of fields to select
-		:param	boolean	$escape: Whether to escape values and identifiers
-		:returns:	DB_query_builder instance
-		:rtype:	object
-
-		Generates the SELECT portion of the query
-
-	.. method:: select_avg([$select = ''[, $alias = '']])
-
-		:param	string	$select: Field to compute the average of
-		:param	string	$alias: Alias for the resulting value
-		:returns:	DB_query_builder instance
-		:rtype:	object
-
-		Generates a SELECT AVG(field) portion of a query
-
-	.. method:: select_max([$select = ''[, $alias = '']])
-
-		:param	string	$select: Field to compute the maximum of
-		:param	string	$alias: Alias for the resulting value
-		:returns:	DB_query_builder instance
-		:rtype:	object
-
-		Generates a SELECT MAX(field) portion of a query
-
-	.. method:: select_min([$select = ''[, $alias = '']])
-
-		:param	string	$select: Field to compute the minimum of
-		:param	string	$alias: Alias for the resulting value
-		:returns:	DB_query_builder instance
-		:rtype:	object
-
-		Generates a SELECT MIN(field) portion of a query
-
-	.. method:: select_sum([$select = ''[, $alias = '']])
-
-		:param	string	$select: Field to compute the sum of
-		:param	string	$alias: Alias for the resulting value
-		:returns:	DB_query_builder instance
-		:rtype:	object
-
-		Generates a SELECT SUM(field) portion of a query
-
-	.. method:: set($key[, $value = ''[, $escape = NULL]])
-
-		:param	mixed	$key: The field to be set, or an array of key/value pairs
-		:param	string	$value: If a single key, its new value
-		:param	boolean	$escape: Whether to escape values and identifiers
-		:returns:	DB_query_builder instance
-		:rtype:	object
-
-		Allows key/value pairs to be set for inserting or updating
-
-	.. method:: set_dbprefix([$prefix = ''])
-
-		:param	string	$prefix: The new prefix to use
-		:returns:	The DB prefix in use
-		:rtype:	string
-
-		Set's the DB Prefix to something new without needing to reconnect
-
-	.. method:: set_insert_batch($key[, $value = ''[, $escape = NULL]])
-
-		:param	mixed	$key: The field to be set, or an array of key/value pairs
-		:param	string	$value: If a single key, its new value
-		:param	boolean	$escape: Whether to escape values and identifiers
-		:returns:	DB_query_builder instance
-		:rtype:	object
-
-		The "set_insert_batch" function.  Allows key/value pairs to be set for batch inserts
-
-	.. method:: set_update_batch($key[, $value = ''[, $escape = NULL]])
-
-		:param	mixed	$key: The field to be set, or an array of key/value pairs
-		:param	string	$value: If a single key, its new value
-		:param	boolean	$escape: Whether to escape values and identifiers
-		:returns:	DB_query_builder instance
-		:rtype:	object
-
-		The "set_batch_batch" function.  Allows key/value pairs to be set for batch batch
-
-	.. method:: start_cache()
-
-		:rtype:	void
-
-		Start DB caching
-
-	.. method:: stop_cache()
-
-		:rtype:	void
-
-		Stop DB caching
-
-	.. method:: truncate([$table = ''])
-
-		:param	string	$table: Name fo the table to truncate
-		:returns:	DB_result
-		:rtype:	object
-
-		Compiles a truncate string and runs the query.
-                If the database does not support the truncate() command
-                This function maps to "DELETE FROM table"
-
-	.. method:: update([$table = ''[, $set = NULL[, $where = NULL[, $limit = NULL]]]])
-
-		:param	string	$table: The table to insert data into
-		:param	array	$set: An associative array of insert values
-		:param	string	$where: WHERE clause to use
-		:param	string	$limit: LIMIT clause to use
-		:returns:	DB_result
-		:rtype:	object
-
-		Compiles an update string and runs the query.
-
-	.. method:: update_batch([$table = ''[, $set = NULL[, $value = NULL]]])
-
-		:param	string	$table: The table to update data in
-		:param	mixed	$set: The field to be set, or an array of key/value pairs
-		:param	string	$value: If a single key, its new value
-		:returns:	DB_result
-		:rtype:	object
-
-		Compiles an update string and runs the query.
-
-	.. method:: where($key[, $value = NULL[, $escape = NULL]])
-
-		:param	mixed	$key: Name of field to compare, or associative array
-		:param	mixed	$value: If a single key, compared to this value
-		:param	boolean	$escape: Whether to escape values and identifiers
-		:returns:	DB_query_builder instance
-		:rtype:	object
-
-		Generates the WHERE portion of the query.
-                Separates multiple calls with 'AND'.
-
 	.. method:: where_in([$key = NULL[, $values = NULL[, $escape = NULL]]])
 
 		:param	string	$key: Name of field to examine
@@ -1534,3 +1260,284 @@ Class Reference
 
 		Generates a WHERE field NOT IN('item', 'item') SQL query,
                 joined with 'AND' if appropriate.
+
+	.. method:: group_start()
+
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
+
+		Starts a group expression, using ANDs for the conditions inside it.
+
+	.. method:: or_group_start()
+
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
+
+		Starts a group expression, using ORs for the conditions inside it.
+
+	.. method:: not_group_start()
+
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
+
+		Starts a group expression, using AND NOTs for the conditions inside it.
+
+	.. method:: or_not_group_start()
+
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
+
+		Starts a group expression, using OR NOTs for the conditions inside it.
+
+	.. method:: group_end()
+
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Ends a group expression.
+
+	.. method:: like($field[, $match = ''[, $side = 'both'[, $escape = NULL]]])
+
+		:param	string	$field: Field name
+		:param	string	$match: Text portion to match
+		:param	string	$side: Which side of the expression to put the '%' wildcard on
+		:param	bool	$escape: Whether to escape values and identifiers
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
+
+		Adds a LIKE clause to a query, separating multiple calls with AND.
+
+	.. method:: or_like($field[, $match = ''[, $side = 'both'[, $escape = NULL]]])
+
+		:param	string	$field: Field name
+		:param	string	$match: Text portion to match
+		:param	string	$side: Which side of the expression to put the '%' wildcard on
+		:param	bool	$escape: Whether to escape values and identifiers
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
+
+		Adds a LIKE clause to a query, separating multiple class with OR.
+
+	.. method:: not_like($field[, $match = ''[, $side = 'both'[, $escape = NULL]]])
+
+		:param	string	$field: Field name
+		:param	string	$match: Text portion to match
+		:param	string	$side: Which side of the expression to put the '%' wildcard on
+		:param	bool	$escape: Whether to escape values and identifiers
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
+
+		Adds a NOT LIKE clause to a query, separating multiple calls with AND.
+
+	.. method:: or_not_like($field[, $match = ''[, $side = 'both'[, $escape = NULL]]])
+
+		:param	string	$field: Field name
+		:param	string	$match: Text portion to match
+		:param	string	$side: Which side of the expression to put the '%' wildcard on
+		:param	bool	$escape: Whether to escape values and identifiers
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
+
+		Adds a NOT LIKE clause to a query, separating multiple calls with OR.
+
+	.. method:: having($key[, $value = NULL[, $escape = NULL]])
+
+		:param	mixed	$key: Identifier (string) or associative array of field/value pairs
+		:param	string	$value: Value sought if $key is an identifier
+		:param	string	$escape: Whether to escape values and identifiers
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
+
+		Adds a HAVING clause to a query, separating multiple calls with AND.
+
+	.. method:: or_having($key[, $value = NULL[, $escape = NULL]])
+
+		:param	mixed	$key: Identifier (string) or associative array of field/value pairs
+		:param	string	$value: Value sought if $key is an identifier
+		:param	string	$escape: Whether to escape values and identifiers
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
+
+		Adds a HAVING clause to a query, separating multiple calls with OR.
+
+	.. method:: group_by($by[, $escape = NULL])
+
+		:param	mixed	$by: Field(s) to group by; string or array
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
+
+		Adds a GROUP BY clause to a query.
+
+	.. method:: order_by($orderby[, $direction = ''[, $escape = NULL]])
+
+		:param	string	$orderby: Field to order by
+		:param	string	$direction: The order requested - ASC, DESC or random
+		:param	bool	$escape: Whether to escape values and identifiers
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
+
+		Adds an ORDER BY clause to a query.
+
+	.. method:: limit($value[, $offset = 0])
+
+		:param	int	$value: Number of rows to limit the results to
+		:param	int	$offset: Number of rows to skip
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
+
+		Adds LIMIT and OFFSET clauses to a query.
+
+	.. method:: offset($offset)
+
+		:param	int	$offset: Number of rows to skip
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
+
+		Adds an OFFSET clause to a query.
+
+	.. method:: set($key[, $value = ''[, $escape = NULL]])
+
+		:param	mixed	$key: Field name, or an array of field/value pairs
+		:param	string	$value: Field value, if $key is a single field
+		:param	bool	$escape: Whether to escape values and identifiers
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
+
+		Adds field/value pairs to be passed later to ``insert()``,
+		``update()`` or ``replace()``.
+
+	.. method:: insert([$table = ''[, $set = NULL[, $escape = NULL]]])
+
+		:param	string	$table: Table name
+		:param	array	$set: An associative array of field/value pairs
+		:param	bool	$escape: Whether to escape values and identifiers
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
+
+		Compiles and executes an INSERT statement.
+
+	.. method:: insert_batch([$table = ''[, $set = NULL[, $escape = NULL]]])
+
+		:param	string	$table: Table name
+		:param	array	$set: Data to insert
+		:param	bool	$escape: Whether to escape values and identifiers
+		:returns:	Number of rows inserted or FALSE on failure
+		:rtype:	mixed
+
+		Compiles and executes batch INSERT statements.
+
+	.. method:: set_insert_batch($key[, $value = ''[, $escape = NULL]])
+
+		:param	mixed	$key: Field name or an array of field/value pairs
+		:param	string	$value: Field value, if $key is a single field
+		:param	bool	$escape: Whether to escape values and identifiers
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
+
+		Adds field/value pairs to be inserted in a table later via ``insert_batch()``.
+
+	.. method:: update([$table = ''[, $set = NULL[, $where = NULL[, $limit = NULL]]]])
+
+		:param	string	$table: Table name
+		:param	array	$set: An associative array of field/value pairs
+		:param	string	$where: The WHERE clause
+		:param	int	$limit: The LIMIT clause
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
+
+		Compiles and executes an UPDATE statement.
+
+	.. method:: update_batch([$table = ''[, $set = NULL[, $value = NULL]]])
+
+		:param	string	$table: Table name
+		:param	array	$set: Field name, or an associative array of field/value pairs
+		:param	string	$value: Field value, if $set is a single field
+		:returns:	Number of rows updated or FALSE on failure
+		:rtype:	mixed
+
+		Compiles and executes batch UPDATE statements.
+
+	.. method:: set_update_batch($key[, $value = ''[, $escape = NULL]])
+
+		:param	mixed	$key: Field name or an array of field/value pairs
+		:param	string	$value: Field value, if $key is a single field
+		:param	bool	$escape: Whether to escape values and identifiers
+		:returns:	CI_DB_query_builder instance (method chaining)
+		:rtype:	CI_DB_query_builder
+
+		Adds field/value pairs to be updated in a table later via ``update_batch()``.
+
+	.. method:: replace([$table = ''[, $set = NULL]])
+
+		:param	string	$table: Table name
+		:param	array	$set: An associative array of field/value pairs
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
+
+		Compiles and executes a REPLACE statement.
+
+	.. method:: delete([$table = ''[, $where = ''[, $limit = NULL[, $reset_data = TRUE]]]])
+
+		:param	mixed	$table: The table(s) to delete from; string or array
+		:param	string	$where: The WHERE clause
+		:param	int	$limit: The LIMIT clause
+		:param	bool	$reset_data: TRUE to reset the query "write" clause
+		:returns:	CI_DB_query_builder instance (method chaining) or FALSE on failure
+		:rtype:	mixed
+
+		Compiles and executes a DELETE query.
+
+	.. method:: truncate([$table = ''])
+
+		:param	string	$table: Table name
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
+
+		Executes a TRUNCATE statement on a table.
+
+		.. note:: If the database platform in use doesn't support TRUNCATE,
+			a DELETE statement will be used instead.
+
+	.. method:: empty_table([$table = ''])
+
+		:param	string	$table: Table name
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
+
+		Deletes all records from a table via a DELETE statement.
+
+	.. method:: get_compiled_select([$table = ''[, $reset = TRUE]])
+
+		:param	string	$table: Table name
+		:param	bool	$reset: Whether to reset the current QB values or not
+		:returns:	The compiled SQL statement as a string
+		:rtype:	string
+
+		Compiles a SELECT statement and returns it as a string.
+
+	.. method:: get_compiled_insert([$table = ''[, $reset = TRUE]])
+
+		:param	string	$table: Table name
+		:param	bool	$reset: Whether to reset the current QB values or not
+		:returns:	The compiled SQL statement as a string
+		:rtype:	string
+
+		Compiles an INSERT statement and returns it as a string.
+
+	.. method:: get_compiled_update([$table = ''[, $reset = TRUE]])
+
+		:param	string	$table: Table name
+		:param	bool	$reset: Whether to reset the current QB values or not
+		:returns:	The compiled SQL statement as a string
+		:rtype:	string
+
+		Compiles an UPDATE statement and returns it as a string.
+
+	.. method:: get_compiled_delete([$table = ''[, $reset = TRUE]])
+
+		:param	string	$table: Table name
+		:param	bool	$reset: Whether to reset the current QB values or not
+		:returns:	The compiled SQL statement as a string
+		:rtype:	string
+
+		Compiles a DELETE statement and returns it as a string.
