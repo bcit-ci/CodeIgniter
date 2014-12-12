@@ -93,9 +93,7 @@ highlight_language = 'ci'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-# Reverting to default sphinx theme, to remove dependency on EllisLab corporate style
-#html_theme = 'eldocs'
-html_theme = 'default'
+html_theme = 'sphinx_rtd_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -103,10 +101,7 @@ html_theme = 'default'
 #
 # Specifying a few options; just a starting point & we can play with it.
 html_theme_options = {
-   "collapsiblesidebar" : "true",
-   "sidebarbgcolor" : "#4b7eb0",
-   "codebgcolor": "#fffded",
-   "headbgcolor": "#ffeebd"
+
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
