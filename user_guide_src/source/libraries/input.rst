@@ -136,15 +136,17 @@ Class Reference
 
 			$this->input->post(NULL, TRUE); // returns all POST items with XSS filter
 			$this->input->post(NULL, FALSE); // returns all POST items without XSS filter
-		
+
 		To return an array of multiple POST parameters, pass all the required keys
 		as an array.
 		::
+
 			$this->input->post(array('field1', 'field2'));
-		
+
 		Same rule applied here, to retrive the parameters with XSS filtering enabled, set the
 		second parameter to boolean TRUE.
 		::
+
 			$this->input->post(array('field1', 'field2'), TRUE);
 
 	.. method:: get([$index = NULL[, $xss_clean = NULL]])
@@ -167,15 +169,17 @@ Class Reference
 
 			$this->input->get(NULL, TRUE); // returns all GET items with XSS filter
 			$this->input->get(NULL, FALSE); // returns all GET items without XSS filtering
-		
+
 		To return an array of multiple GET parameters, pass all the required keys
 		as an array.
 		::
+
 			$this->input->get(array('field1', 'field2'));
-		
+
 		Same rule applied here, to retrive the parameters with XSS filtering enabled, set the
 		second parameter to boolean TRUE.
 		::
+
 			$this->input->get(array('field1', 'field2'), TRUE);
 
 	.. method:: post_get($index[, $xss_clean = NULL])
@@ -218,10 +222,11 @@ Class Reference
 
 			$this->input->cookie('some_cookie');
 			$this->input->cookie('some_cookie, TRUE); // with XSS filter
-		
+
 		To return an array of multiple cookie values, pass all the required keys
 		as an array.
 		::
+
 			$this->input->cookie(array('some_cookie', 'some_cookie2'));
 
 	.. method:: server($index[, $xss_clean = NULL])
@@ -239,7 +244,8 @@ Class Reference
 		To return an array of multiple ``$_SERVER`` values, pass all the required keys
 		as an array.
 		::
-			$this->input->server(array('SERVER_PROTOCOL', 'REQUEST_URI'));		
+
+			$this->input->server(array('SERVER_PROTOCOL', 'REQUEST_URI'));
 
 	.. method:: input_stream([$index = NULL[, $xss_clean = NULL]])
 

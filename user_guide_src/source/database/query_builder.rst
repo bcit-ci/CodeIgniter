@@ -2,8 +2,8 @@
 Query Builder Class
 ###################
 
-CodeIgniter gives you access to a Query Builder class. This pattern 
-allows information to be retrieved, inserted, and updated in your 
+CodeIgniter gives you access to a Query Builder class. This pattern
+allows information to be retrieved, inserted, and updated in your
 database with minimal scripting. In some cases only one or two lines
 of code are necessary to perform a database action.
 CodeIgniter does not require that each database table be its own class
@@ -110,10 +110,10 @@ Permits you to write the SELECT portion of your query::
 
 .. note:: If you are selecting all (\*) from a table you do not need to
 	use this function. When omitted, CodeIgniter assumes that you wish
-	to select all fields and automatically adds 'SELECT *'.
+	to select all fields and automatically adds 'SELECT \*'.
 
 ``$this->db->select()`` accepts an optional second parameter. If you set it
-to FALSE, CodeIgniter will not try to protect your field or table names.  
+to FALSE, CodeIgniter will not try to protect your field or table names.
 This is useful if you need a compound select statement where automatic
 escaping of fields may break them.
 
@@ -1097,7 +1097,7 @@ Class Reference
 		:returns:	Number of rows in the query result
 		:rtype:	int
 
-		Generates a platform-specific query string that counts 
+		Generates a platform-specific query string that counts
 		all records returned by an Query Builder query.
 
 	.. method:: get([$table = ''[, $limit = NULL[, $offset = NULL]]])
