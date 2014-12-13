@@ -29,7 +29,7 @@ guide change log <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide
 Server Requirements
 *******************
 
--  PHP version 5.2.4 or newer.
+-  PHP version 5.3 or newer.
 
 ************
 Installation
