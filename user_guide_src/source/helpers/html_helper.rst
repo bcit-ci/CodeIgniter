@@ -402,3 +402,20 @@ The following functions are available:
 
 	.. note:: This function is DEPRECATED. Use the native ``str_repeat()``
 		in combination with ``&nbsp;`` instead.
+
+.. function:: title([$data = ''])
+
+	:param	string	$data: Content
+	:returns:	HTML title tag
+	:rtype:	string
+
+	Lets you create HTML title tags. The parameter will contain the
+	data. Example::
+
+		echo title('My Website!');
+
+	The above code produces:
+
+	.. code-block:: html
+
+		<title>My Website!</title>

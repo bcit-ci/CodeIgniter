@@ -87,6 +87,7 @@ Release Date: Not Released
       - Changed application and environment config files to be loaded in a cascade-like manner.
       - Changed :func:`doctype()` to cache and only load once the doctypes array.
       - Deprecated functions ``nbs()`` and ``br()``, which are just aliases for the native ``str_repeat()`` with ``&nbsp;`` and ``<br />`` respectively.
+      - Added function ``title()`` to create a html title tag.
 
    -  :doc:`Inflector Helper <helpers/inflector_helper>` changes include:
 
