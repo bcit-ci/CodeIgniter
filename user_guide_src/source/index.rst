@@ -59,7 +59,7 @@ General Topics
 .. toctree::
 	:glob:
 	:titlesonly:
-
+	
 	general/index
 
 *****************
@@ -69,7 +69,7 @@ Library Reference
 .. toctree::
 	:glob:
 	:titlesonly:
-
+	
 	libraries/index
 
 ******************
@@ -79,7 +79,7 @@ Database Reference
 .. toctree::
 	:glob:
 	:titlesonly:
-
+	
 	database/index
 
 ****************
@@ -89,7 +89,7 @@ Helper Reference
 .. toctree::
 	:glob:
 	:titlesonly:
-
+	
 	helpers/index
 
 ***************************
@@ -99,8 +99,24 @@ Contributing to CodeIgniter
 .. toctree::
 	:glob:
 	:titlesonly:
-
+	
 	contributing/index
 	documentation/index
 	DCO
 
+.. toctree::
+	:glob:
+	:titlesonly:
+	:hidden:
+	
+	*
+	overview/index
+	general/requirements
+	general/welcome
+	installation/index
+	general/index
+	libraries/index
+	helpers/index
+	database/index
+	tutorial/index
+	general/credits
