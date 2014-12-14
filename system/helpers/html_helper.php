@@ -409,5 +409,24 @@ if ( ! function_exists('nbs'))
 	}
 }
 
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('title'))
+{
+	/**
+	 * Title
+	 *
+	 * Generates an HTML title tag.
+	 *
+	 * @param	string	content
+	 * @return	string
+	 */
+	function title($data = '')
+	{
+		return '<title>'.$data.'</title>';
+	}
+}
+
+
 /* End of file html_helper.php */
 /* Location: ./system/helpers/html_helper.php */
