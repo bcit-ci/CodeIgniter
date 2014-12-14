@@ -2608,7 +2608,7 @@ Release Date: October 30, 2006
    the Date Helper.
 -  Added :doc:`$query->free_result() <./database/results>` to database
    class.
--  Added :doc:`$query->list_fields() <./database/fields>` function to
+-  Added :doc:`$query->list_fields() <./database/metadata>` function to
    database class
 -  Added :doc:`$this->db->platform() <./database/helpers>` function
 -  Added new :doc:`File Helper <./helpers/file_helper>`:

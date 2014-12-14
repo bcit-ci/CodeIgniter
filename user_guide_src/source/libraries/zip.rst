@@ -43,7 +43,7 @@ your server, and download it to your desktop.
 	$this->zip->add_data($name, $data);
 
 	// Write the zip file to a folder on your server. Name it "my_backup.zip"
-	$this->zip->archive('/path/to/directory/my_backup.zip'); 
+	$this->zip->archive('/path/to/directory/my_backup.zip');
 
 	// Download the file to your desktop. Name it "my_backup.zip"
 	$this->zip->download('my_backup.zip');
@@ -80,7 +80,7 @@ Class Reference
 			$name = 'mydata2.txt';
 			$data = 'Another Data String!';
 			$this->zip->add_data($name, $data);
-			
+
 		When adding multiple files, the first parameter must contain *file => contents* pairs
 		and the second parameter is ignored::
 
@@ -124,7 +124,7 @@ Class Reference
 
 			$path = '/path/to/photo.jpg';
 
-			$this->zip->read_file($path); 
+			$this->zip->read_file($path);
 
 			// Download the file to your desktop. Name it "my_backup.zip"
 			$this->zip->download('my_backup.zip');
@@ -134,7 +134,7 @@ Class Reference
 
 			$path = '/path/to/photo.jpg';
 
-			$this->zip->read_file($path, TRUE); 
+			$this->zip->read_file($path, TRUE);
 
 			// Download the file to your desktop. Name it "my_backup.zip"
 			$this->zip->download('my_backup.zip');
@@ -165,14 +165,14 @@ Class Reference
 
 			$path = '/path/to/your/directory/';
 
-			$this->zip->read_dir($path); 
+			$this->zip->read_dir($path);
 
 			// Download the file to your desktop. Name it "my_backup.zip"
 			$this->zip->download('my_backup.zip');
 
 		By default the Zip archive will place all directories listed in the first parameter
 		inside the zip. If you want the tree preceding the target directory to be ignored,
-		 you can pass FALSE (boolean) in the second parameter. Example::
+		you can pass FALSE (boolean) in the second parameter. Example::
 
 			$path = '/path/to/your/directory/';
 
@@ -236,7 +236,7 @@ Class Reference
 			$this->zip->add_data($name, $data);
 			$zip_file = $this->zip->get_zip();
 
-			$this->zip->clear_data(); 
+			$this->zip->clear_data();
 
 			$name = 'photo.jpg';
 			$this->zip->read_file("/path/to/photo.jpg"); // Read the file's contents

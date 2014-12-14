@@ -47,8 +47,11 @@ Started <../overview/getting_started>` section of the User Guide
 to begin learning how to build dynamic PHP applications. Enjoy!
 
 .. toctree::
-	:glob:
 	:hidden:
 	:titlesonly:
-	
-	*
+
+	downloads
+	self
+	upgrading
+	troubleshooting
+
