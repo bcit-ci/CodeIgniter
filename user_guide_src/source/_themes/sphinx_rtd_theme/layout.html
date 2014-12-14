@@ -90,7 +90,7 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
         {% block menu %}
-          {% set toctree = toctree(maxdepth=2, collapse=False, includehidden=True) %}
+          {% set toctree = toctree(maxdepth=2, collapse=False, includehidden=False) %}
           {% if toctree %}
               {{ toctree }}
           {% else %}
