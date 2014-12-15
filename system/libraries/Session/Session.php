@@ -220,7 +220,7 @@ class CI_Session extends CI_Driver_Library {
 	 *
 	 * @return	void
 	 */
-	public function sess_destroy()
+	public function flush()
 	{
 		// Just call destroy on driver
 		$this->current->sess_destroy();
@@ -234,7 +234,7 @@ class CI_Session extends CI_Driver_Library {
 	 * @param	bool	Destroy session data flag (default: false)
 	 * @return	void
 	 */
-	public function sess_regenerate($destroy = FALSE)
+	public function regenerate($destroy = FALSE)
 	{
 		// Call regenerate on driver and resync userdata
 		$this->current->sess_regenerate($destroy);
@@ -249,11 +249,20 @@ class CI_Session extends CI_Driver_Library {
 	 * @param	string	Item key
 	 * @return	string	Item value or NULL if not found
 	 */
-	public function userdata($item = NULL)
+	public function get($item = NULL, $value = null )
 	{
 		if (isset($item))
 		{
 			return isset($this->userdata[$item]) ? $this->userdata[$item] : NULL;
+			if ( isset($this->userdata[$item])) {
+				return $this->userdata[$item];
+			} else {
+				if ( isset($value) ) {
+					return $value;
+				} else {
+					return null;
+				}
+			}
 		}
 
 		return isset($this->userdata) ? $this->userdata : array();
@@ -267,7 +276,7 @@ class CI_Session extends CI_Driver_Library {
 	 * @deprecated	3.0.0	Use userdata() with no parameters instead
 	 * @return	array	User data array
 	 */
-	public function all_userdata()
+	public function all()
 	{
 		return isset($this->userdata) ? $this->userdata : array();
 	}
@@ -281,7 +290,7 @@ class CI_Session extends CI_Driver_Library {
 	 * @param	string	Item value or empty string
 	 * @return	void
 	 */
-	public function set_userdata($newdata, $newval = '')
+	public function put($newdata, $newval = '')
 	{
 		// Wrap params as array if singular
 		if (is_string($newdata))
@@ -310,7 +319,7 @@ class CI_Session extends CI_Driver_Library {
 	 * @param	mixed	Item name or array of item names
 	 * @return	void
 	 */
-	public function unset_userdata($newdata)
+	public function forget($newdata)
 	{
 		// Wrap single name as array
 		if (is_string($newdata))
@@ -339,7 +348,7 @@ class CI_Session extends CI_Driver_Library {
 	 * @param	string	Item name
 	 * @return	bool
 	 */
-	public function has_userdata($item)
+	public function has($item)
 	{
 		return isset($this->userdata[$item]);
 	}
@@ -353,7 +362,7 @@ class CI_Session extends CI_Driver_Library {
 	 * @param	string	Item value or empty string
 	 * @return	void
 	 */
-	public function set_flashdata($newdata, $newval = '')
+	public function flash($newdata, $newval = '')
 	{
 		// Wrap item as array if singular
 		if (is_string($newdata))
@@ -367,7 +376,7 @@ class CI_Session extends CI_Driver_Library {
 			foreach ($newdata as $key => $val)
 			{
 				$flashdata_key = self::FLASHDATA_KEY.self::FLASHDATA_NEW.$key;
-				$this->set_userdata($flashdata_key, $val);
+				$this->put($flashdata_key, $val);
 			}
 		}
 	}
@@ -380,14 +389,14 @@ class CI_Session extends CI_Driver_Library {
 	 * @param	mixed	Item key(s)
 	 * @return	void
 	 */
-	public function keep_flashdata($key)
+	public function keep($key)
 	{
 
 		if (is_array($key))
 		{
 			foreach ($key as $k)
 			{
-				$this->keep_flashdata($k);
+				$this->keep($k);
 			}
 
 			return;
@@ -396,10 +405,10 @@ class CI_Session extends CI_Driver_Library {
 		// 'old' flashdata gets removed. Here we mark all flashdata as 'new' to preserve it from _flashdata_sweep()
 		// Note the function will return NULL if the $key provided cannot be found
 		$old_flashdata_key = self::FLASHDATA_KEY.self::FLASHDATA_OLD.$key;
-		$value = $this->userdata($old_flashdata_key);
+		$value = $this->get($old_flashdata_key);
 
 		$new_flashdata_key = self::FLASHDATA_KEY.self::FLASHDATA_NEW.$key;
-		$this->set_userdata($new_flashdata_key, $value);
+		$this->put($new_flashdata_key, $value);
 	}
 
 	// ------------------------------------------------------------------------
@@ -410,16 +419,16 @@ class CI_Session extends CI_Driver_Library {
 	 * @param	string	Item key
 	 * @return	string
 	 */
-	public function flashdata($key = NULL)
+	public function getFlash($key = NULL)
 	{
 		if (isset($key))
 		{
-			return $this->userdata(self::FLASHDATA_KEY.self::FLASHDATA_OLD.$key);
+			return $this->get(self::FLASHDATA_KEY.self::FLASHDATA_OLD.$key);
 		}
 
 		// Get our flashdata items from userdata
 		$out = array();
-		foreach ($this->userdata() as $key => $val)
+		foreach ($this->get() as $key => $val)
 		{
 			if (strpos($key, self::FLASHDATA_KEY.self::FLASHDATA_OLD) !== FALSE)
 			{
@@ -453,7 +462,7 @@ class CI_Session extends CI_Driver_Library {
 		}
 
 		// Get or create expiration list
-		$expirations = $this->userdata(self::EXPIRATION_KEY);
+		$expirations = $this->get(self::EXPIRATION_KEY);
 		if ( ! $expirations)
 		{
 			$expirations = array();
@@ -466,12 +475,12 @@ class CI_Session extends CI_Driver_Library {
 			{
 				$tempdata_key = self::FLASHDATA_KEY.self::FLASHDATA_EXP.$key;
 				$expirations[$tempdata_key] = $expire;
-				$this->set_userdata($tempdata_key, $val);
+				$this->put($tempdata_key, $val);
 			}
 		}
 
 		// Update expiration list
-		$this->set_userdata(self::EXPIRATION_KEY, $expirations);
+		$this->put(self::EXPIRATION_KEY, $expirations);
 	}
 
 	// ------------------------------------------------------------------------
@@ -485,7 +494,7 @@ class CI_Session extends CI_Driver_Library {
 	public function unset_tempdata($newdata)
 	{
 		// Get expirations list
-		$expirations = $this->userdata(self::EXPIRATION_KEY);
+		$expirations = $this->get(self::EXPIRATION_KEY);
 		if (empty($expirations))
 		{
 			// Nothing to do
@@ -505,12 +514,12 @@ class CI_Session extends CI_Driver_Library {
 			{
 				$tempdata_key = self::FLASHDATA_KEY.self::FLASHDATA_EXP.$key;
 				unset($expirations[$tempdata_key]);
-				$this->unset_userdata($tempdata_key);
+				$this->forget($tempdata_key);
 			}
 		}
 
 		// Update expiration list
-		$this->set_userdata(self::EXPIRATION_KEY, $expirations);
+		$this->put(self::EXPIRATION_KEY, $expirations);
 	}
 
 	// ------------------------------------------------------------------------
@@ -525,12 +534,12 @@ class CI_Session extends CI_Driver_Library {
 	{
 		if (isset($key))
 		{
-			return $this->userdata(self::FLASHDATA_KEY.self::FLASHDATA_EXP.$key);
+			return $this->get(self::FLASHDATA_KEY.self::FLASHDATA_EXP.$key);
 		}
 
 		// Get our tempdata items from userdata
 		$out = array();
-		foreach ($this->userdata() as $key => $val)
+		foreach ($this->get() as $key => $val)
 		{
 			if (strpos($key, self::FLASHDATA_KEY.self::FLASHDATA_EXP) !== FALSE)
 			{
@@ -552,13 +561,13 @@ class CI_Session extends CI_Driver_Library {
 	 */
 	protected function _flashdata_mark()
 	{
-		foreach ($this->userdata() as $name => $value)
+		foreach ($this->get() as $name => $value)
 		{
 			$parts = explode(self::FLASHDATA_NEW, $name);
 			if (count($parts) === 2)
 			{
-				$this->set_userdata(self::FLASHDATA_KEY.self::FLASHDATA_OLD.$parts[1], $value);
-				$this->unset_userdata($name);
+				$this->put(self::FLASHDATA_KEY.self::FLASHDATA_OLD.$parts[1], $value);
+				$this->forget($name);
 			}
 		}
 	}
@@ -572,12 +581,12 @@ class CI_Session extends CI_Driver_Library {
 	 */
 	protected function _flashdata_sweep()
 	{
-		$userdata = $this->userdata();
+		$userdata = $this->get();
 		foreach (array_keys($userdata) as $key)
 		{
 			if (strpos($key, self::FLASHDATA_OLD))
 			{
-				$this->unset_userdata($key);
+				$this->forget($key);
 			}
 		}
 	}
@@ -592,7 +601,7 @@ class CI_Session extends CI_Driver_Library {
 	protected function _tempdata_sweep()
 	{
 		// Get expirations list
-		$expirations = $this->userdata(self::EXPIRATION_KEY);
+		$expirations = $this->get(self::EXPIRATION_KEY);
 		if (empty($expirations))
 		{
 			// Nothing to do
@@ -601,18 +610,18 @@ class CI_Session extends CI_Driver_Library {
 
 		// Unset expired elements
 		$now = time();
-		$userdata = $this->userdata();
+		$userdata = $this->get();
 		foreach (array_keys($userdata) as $key)
 		{
 			if (strpos($key, self::FLASHDATA_EXP) && $expirations[$key] < $now)
 			{
 				unset($expirations[$key]);
-				$this->unset_userdata($key);
+				$this->forget($key);
 			}
 		}
 
 		// Update expiration list
-		$this->set_userdata(self::EXPIRATION_KEY, $expirations);
+		$this->put(self::EXPIRATION_KEY, $expirations);
 	}
 
 }
