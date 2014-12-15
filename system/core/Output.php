@@ -806,60 +806,7 @@ class CI_Output {
 					return '';
 				}
 
-				// Find all the <pre>,<code>,<textarea>, and <javascript> tags
-				// We'll want to return them to this unprocessed state later.
-				preg_match_all('{<pre.+</pre>}msU', $output, $pres_clean);
-				preg_match_all('{<code.+</code>}msU', $output, $codes_clean);
-				preg_match_all('{<textarea.+</textarea>}msU', $output, $textareas_clean);
-				preg_match_all('{<script.+</script>}msU', $output, $javascript_clean);
-
-				// Minify the CSS in all the <style> tags.
-				preg_match_all('{<style.+</style>}msU', $output, $style_clean);
-				foreach ($style_clean[0] as $s)
-				{
-					$output = str_replace($s, $this->_minify_js_css($s, 'css', TRUE), $output);
-				}
-
-				// Minify the javascript in <script> tags.
-				foreach ($javascript_clean[0] as $s)
-				{
-					$javascript_mini[] = $this->_minify_js_css($s, 'js', TRUE);
-				}
-
-				// Replace multiple spaces with a single space.
-				$output = preg_replace('!\s{2,}!', ' ', $output);
-
-				// Remove comments (non-MSIE conditionals)
-				$output = preg_replace('{\s*<!--[^\[<>].*(?<!!)-->\s*}msU', '', $output);
-
-				// Remove spaces around block-level elements.
-				$output = preg_replace('/\s*(<\/?(html|head|title|meta|script|link|style|body|table|thead|tbody|tfoot|tr|th|td|h[1-6]|div|p|br)[^>]*>)\s*/is', '$1', $output);
-
-				// Replace mangled <pre> etc. tags with unprocessed ones.
-
-				if ( ! empty($pres_clean))
-				{
-					preg_match_all('{<pre.+</pre>}msU', $output, $pres_messed);
-					$output = str_replace($pres_messed[0], $pres_clean[0], $output);
-				}
-
-				if ( ! empty($codes_clean))
-				{
-					preg_match_all('{<code.+</code>}msU', $output, $codes_messed);
-					$output = str_replace($codes_messed[0], $codes_clean[0], $output);
-				}
-
-				if ( ! empty($textareas_clean))
-				{
-					preg_match_all('{<textarea.+</textarea>}msU', $output, $textareas_messed);
-					$output = str_replace($textareas_messed[0], $textareas_clean[0], $output);
-				}
-
-				if (isset($javascript_mini))
-				{
-					preg_match_all('{<script.+</script>}msU', $output, $javascript_messed);
-					$output = str_replace($javascript_messed[0], $javascript_mini, $output);
-				}
+				$output = $this->_minify_html($output);
 
 				$size_removed = $size_before - strlen($output);
 				$savings_percent = round(($size_removed / $size_before * 100));
@@ -884,6 +831,123 @@ class CI_Output {
 		return $output;
 	}
 
+	protected function _minify_html($output)
+	{
+		if (($size = strlen($output)) === 0)
+		{
+			return '';
+		}
+
+		// Character to remove
+		$ignore_char = array(chr(13), chr(10), chr(9));
+		
+		// State
+		$last_space = false;
+		$in_tag = false;
+		$in_quote = '';
+		
+		// Compressing the output
+		$compress = '';
+		for($i = 0; $i < $size; $i++) {
+			$char = substr($output, $i, 1);
+			
+			if ((!$in_tag && $in_quote == '') && $char == ' ') 
+			{ // Removing the multiple space
+				if (!$last_space) {
+					$last_space = true;
+					$compress .= $char;
+					continue;
+				} else {
+					continue;
+				}
+			} 
+			elseif (in_array($char, $ignore_char)) 
+			{ // Removing new line and tab
+				$last_space = true;
+				continue;
+			} 
+			elseif ($char == '<')
+			{	// handle open tag and HTML comment
+				if (substr($output, $i, 4) == '<!--')
+				{
+					$is_comment = true;
+					
+					// skip until close comment
+					$close_comment_pos = strpos($output, '-->', $i);
+					$i = ($close_comment_pos === false)? $size-1 : $close_comment_pos + 3;
+					
+					continue;
+				}
+				
+				// trying to get the tag name
+				$tag_til_space = strpos($output, ' ', $i);
+				if ($tag_til_space === false) {
+					$tag_til_space = $size - 1;
+				}
+				$tag_til_close_tag = strpos($output, '>', $i);
+				if ($tag_til_close_tag === false) {
+					$tag_til_close_tag = $size - 1;
+				}
+				$tag_name = strtolower(substr($output, $i + 1, min($tag_til_space, $tag_til_close_tag) - $i - 1));
+				
+				if (in_array($tag_name, array('textarea', 'pre', 'style', 'script')))
+				{ // skip <textarea> and <pre> tag
+					$tag_close_pos = stripos($output, "</{$tag_name}", $i);
+					$new_i = ($tag_close_pos === false)? $size-1 : $tag_close_pos-1;
+					
+					if ($tag_name == 'style') 
+					{
+						$compress .= $this->_minify_js_css(substr($output, $i, $new_i - $i + 1), 'css', FALSE);
+					}
+					elseif ($tag_name == 'script') 
+					{
+						$compress .= $this->_minify_js_css(substr($output, $i, $new_i - $i + 1), 'js', FALSE);
+					}
+					else
+					{
+						$compress .= substr($output, $i, $new_i - $i + 1);
+					}
+					
+					$i = $new_i;
+					continue;
+				}
+				else 
+				{ // adjust pointer to skip the tag name
+					$in_tag = true;
+					$in_quote = '';
+					
+					$i += strlen($tag_name);
+					$compress .= $char . $tag_name;
+				}
+			}
+			elseif ($in_tag && in_array($char, array('"', "'"))) 
+			{
+				if ($in_quote == '') 
+				{
+					$in_quote = $char;
+				} 
+				elseif ($in_quote == $char)
+				{
+					$in_quote = '';
+				}
+				$compress .= $char;
+			}
+			elseif ($char == '>')
+			{	// handle close tag
+				$in_tag = false;
+				$compress .= $char;
+			}
+			else 
+			{	// Character that cannot be compressed
+				$compress .= $char;
+			}
+			
+			$last_space = false;
+		}
+		
+		return $compress;	
+	}
+	
 	// --------------------------------------------------------------------
 
 	/**
