@@ -105,6 +105,7 @@ $db['default'] = array(
 	'username' => '',
 	'password' => '',
 	'database' => '',
+	'socket'   => NULL,
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => TRUE,
