@@ -22,3 +22,4 @@ patterns. The database functions offer clear, simple syntax.
 	Query Caching <caching>
 	Database Manipulation with Database Forge <forge>
 	Database Utilities Class <utilities>
+	Database Driver Reference <db_driver_reference>
