@@ -231,7 +231,7 @@ The :doc:`URI Library <../libraries/uri>` used to automatically convert
 a certain set of "programmatic characters" to HTML entities when they
 are encountered in a URI segment.
 
-This was aimed at providing some automatic XSS prodection, in addition
+This was aimed at providing some automatic XSS protection, in addition
 to the ``$config['permitted_uri_chars']`` setting, but has proven to be
 problematic and is now removed in CodeIgniter 3.0.
 
