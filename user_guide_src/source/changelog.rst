@@ -198,9 +198,10 @@ Release Date: Not Released
 
    -  Improved support for the MySQLi driver, including:
 
-      - OOP style of the PHP extension is now used, instead of the procedural aliases.
+      - OOP style usage of the PHP extension is now used, instead of the procedural aliases.
       - Server version checking is now done via ``mysqli::$server_info`` instead of running an SQL query.
       - Added persistent connections support for PHP >= 5.3.
+      - Added support for configuring socket pipe connections.
       - Added support for ``backup()`` in :doc:`Database Utilities <database/utilities>`.
       - Changed methods ``trans_begin()``, ``trans_commit()`` and ``trans_rollback()`` to use the PHP API instead of sending queries.
 
