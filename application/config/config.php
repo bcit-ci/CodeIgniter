@@ -76,7 +76,7 @@ $config['index_page'] = 'index.php';
 | URI string.  The default setting of 'AUTO' works for most servers.
 | If your links do not seem to work, try one of the other delicious flavors:
 |
-| 'AUTO'		Default - auto detects
+| 'AUTO'		    Default - auto detects
 | 'CLI' or 'argv'	Uses $_SERVER['argv'] (for php-cli only)
 | 'PATH_INFO'		Uses $_SERVER['PATH_INFO']
 | 'REQUEST_URI'		Uses $_SERVER['REQUEST_URI']
@@ -429,18 +429,18 @@ $config['global_xss_filtering'] = FALSE;
 | checked on a submitted form. If you are accepting user data, it is strongly
 | recommended CSRF protection be enabled.
 |
-| 'csrf_token_name' = The token name
-| 'csrf_cookie_name' = The cookie name
-| 'csrf_expire' = The number in seconds the token should expire.
-| 'csrf_regenerate' = Regenerate token on every submission
-| 'csrf_exclude_uris' = Array of URIs which ignore CSRF checks
+| 'csrf_token_name'     = The token name
+| 'csrf_cookie_name'    = The cookie name
+| 'csrf_expire'         = The number in seconds the token should expire.
+| 'csrf_regenerate'     = Regenerate token on every submission
+| 'csrf_exclude_uris'   = Array of URIs which ignore CSRF checks
 */
-$config['csrf_protection'] = FALSE;
-$config['csrf_token_name'] = 'csrf_test_name';
-$config['csrf_cookie_name'] = 'csrf_cookie_name';
-$config['csrf_expire'] = 7200;
-$config['csrf_regenerate'] = TRUE;
-$config['csrf_exclude_uris'] = array();
+$config['csrf_protection']      = FALSE;
+$config['csrf_token_name']      = 'csrf_test_name';
+$config['csrf_cookie_name']     = 'csrf_cookie_name';
+$config['csrf_expire']          = 7200;
+$config['csrf_regenerate']      = TRUE;
+$config['csrf_exclude_uris']    = array();
 
 /*
 |--------------------------------------------------------------------------
