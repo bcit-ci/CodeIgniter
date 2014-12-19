@@ -198,7 +198,12 @@ class CI_Log {
 			return FALSE;
 		}
 
-		$message .= $level.' - '.date($this->_date_fmt).' --> '.$msg."\n";
+		// Instantiate DateTime with microseconds accuracy to allow proper use of "u" character in date format
+		$t = microtime(true);
+		$micro = sprintf("%06d",($t - floor($t)) * 1000000);
+		$date = new DateTime(date('Y-m-d H:i:s.'.$micro, $t));
+
+		$message .= $level.' - '.$date->format($this->_date_fmt).' --> '.$msg."\n";
 
 		flock($fp, LOCK_EX);
 
