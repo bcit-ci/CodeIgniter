@@ -18,8 +18,9 @@ can be libraries (classes) :doc:`View files <../general/views>`,
 
   <div class="custom-index container"></div>
 
+**********************
 Application "Packages"
-======================
+**********************
 
 An application package allows for the easy distribution of complete sets
 of resources in a single directory, complete with its own libraries,
