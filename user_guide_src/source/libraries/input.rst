@@ -17,6 +17,10 @@ The Input Class serves two purposes:
 
   <div class="custom-index container"></div>
 
+***************
+Input Filtering
+***************
+
 Security Filtering
 ==================
 
@@ -48,6 +52,10 @@ this::
 
 Please refer to the :doc:`Security class <security>` documentation for
 information on using XSS Filtering in your application.
+
+*******************
+Accessing form data
+*******************
 
 Using POST, GET, COOKIE, or SERVER Data
 =======================================
