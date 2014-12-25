@@ -198,7 +198,7 @@ The only things left to do is create the corresponding view at
 Routing
 -------
 
-Because of the wildcard routing rule created earlier, you need need an
+Because of the wildcard routing rule created earlier, you need an
 extra route to view the controller that you just made. Modify your
 routing file (application/config/routes.php) so it looks as follows.
 This makes sure the requests reaches the news controller instead of
