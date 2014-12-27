@@ -55,42 +55,42 @@ class CI_Table {
 	 *
 	 * @var array
 	 */
-	public $rows		= array();
+	public $rows = array();
 
 	/**
 	 * Data for table heading
 	 *
 	 * @var array
 	 */
-	public $heading		= array();
+	public $heading	= array();
 
 	/**
 	 * Whether or not to automatically create the table header
 	 *
 	 * @var bool
 	 */
-	public $auto_heading	= TRUE;
+	public $auto_heading = TRUE;
 
 	/**
 	 * Table caption
 	 *
 	 * @var string
 	 */
-	public $caption		= NULL;
+	public $caption	= NULL;
 
 	/**
 	 * Table layout template
 	 *
 	 * @var array
 	 */
-	public $template	= NULL;
+	public $template = NULL;
 
 	/**
 	 * Newline setting
 	 *
 	 * @var string
 	 */
-	public $newline		= "\n";
+	public $newline	= "\n";
 
 	/**
 	 * Contents of empty cells
