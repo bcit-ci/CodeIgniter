@@ -491,10 +491,20 @@ if ( ! function_exists('url_title'))
 		$q_separator = preg_quote($separator, '#');
 
 		$trans = array(
-			'&.+?;'			=> '',
-			'[^a-z0-9 _-]'		=> '',
-			'\s+'			=> $separator,
-			'('.$q_separator.')+'	=> $separator
+			'&.+?;'                 	=> '',
+			'(â|ã|ä|å)'			=> 'a',
+			'(æ)'				=> 'ae',
+			'(ç)'				=> 'c',
+			'(è|é|ê|ë)'			=> 'e',
+			'(ì|í|î|ï)'			=> 'i',
+			'(ð|ò|ó|ô|õ|ø)'			=> 'o',
+			'(ñ)'				=> 'u',
+			'(ñ)'				=> 'u',
+			'(ù|ú|û|ü)'			=> 'n',
+			'(ý|þ|ÿ)'			=> 'y',
+			'[^a-z0-9 _-]'			=> '',
+			'\s+'                   	=> $separator,
+			'('.$q_separator.')+'   	=> $separator
 		);
 
 		$str = strip_tags($str);
