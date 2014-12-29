@@ -171,18 +171,21 @@ class CI_Router {
 			$_d = isset($_GET[$_d]) ? trim($_GET[$_d], " \t\n\r\0\x0B/") : '';
 			if ($_d !== '')
 			{
-				$this->set_directory($this->uri->filter_uri($_d));
+				$this->uri->filter_uri($_d);
+				$this->set_directory($_d);
 			}
 
-			$_c = $this->config->item('controller_trigger');
+			$_c = trim($this->config->item('controller_trigger'));
 			if ( ! empty($_GET[$_c]))
 			{
-				$this->set_class(trim($this->uri->filter_uri(trim($_GET[$_c]))));
+				$this->uri->filter_uri($_GET[$_c]);
+				$this->set_class($_GET[$_c]);
 
-				$_f = $this->config->item('function_trigger');
+				$_f = trim($this->config->item('function_trigger'));
 				if ( ! empty($_GET[$_f]))
 				{
-					$this->set_method(trim($this->uri->filter_uri($_GET[$_f])));
+					$this->uri->filter_uri($_GET[$_f]);
+					$this->set_method($_GET[$_f]);
 				}
 
 				$this->uri->rsegments = array(

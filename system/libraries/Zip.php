@@ -97,6 +97,15 @@ class CI_Zip {
 	public $now;
 
 	/**
+	 * The level of compression
+	 *
+	 * Ranges from 0 to 9, with 9 being the highest level.
+	 *
+	 * @var	int
+	 */
+	public $compression_level = 2;
+
+	/**
 	 * Initialize zip compression class
 	 *
 	 * @return	void
@@ -248,7 +257,7 @@ class CI_Zip {
 
 		$uncompressed_size = strlen($data);
 		$crc32  = crc32($data);
-		$gzdata = substr(gzcompress($data), 2, -4);
+		$gzdata = substr(gzcompress($data, $this->compression_level), 2, -4);
 		$compressed_size = strlen($gzdata);
 
 		$this->zipdata .=

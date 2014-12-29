@@ -141,7 +141,8 @@ Query Builder
 
 The :doc:`Query Builder Class <query_builder>` is globally enabled or
 disabled by setting the $query_builder variable in the database
-configuration file to TRUE/FALSE (boolean). If you are not using the
+configuration file to TRUE/FALSE (boolean). The default setting is TRUE.
+If you are not using the
 query builder class, setting it to FALSE will utilize fewer resources
 when the database classes are initialized.
 

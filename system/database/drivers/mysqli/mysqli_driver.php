@@ -106,10 +106,22 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	public function db_connect($persistent = FALSE)
 	{
-		// Persistent connection support was added in PHP 5.3.0
-		$hostname = ($persistent === TRUE && is_php('5.3'))
-			? 'p:'.$this->hostname : $this->hostname;
-		$port = empty($this->port) ? NULL : $this->port;
+		// Do we have a socket path?
+		if ($this->hostname[0] === '/')
+		{
+			$hostname = NULL;
+			$port = NULL;
+			$socket = $this->hostname;
+		}
+		else
+		{
+			// Persistent connection support was added in PHP 5.3.0
+			$hostname = ($persistent === TRUE && is_php('5.3'))
+				? 'p:'.$this->hostname : $this->hostname;
+			$port = empty($this->port) ? NULL : $this->port;
+			$socket = NULL;
+		}
+
 		$client_flags = ($this->compress === TRUE) ? MYSQLI_CLIENT_COMPRESS : 0;
 		$mysqli = mysqli_init();
 
@@ -118,7 +130,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 			$mysqli->options(MYSQLI_INIT_COMMAND, 'SET SESSION sql_mode="STRICT_ALL_TABLES"');
 		}
 
-		return $mysqli->real_connect($hostname, $this->username, $this->password, $this->database, $port, NULL, $client_flags)
+		return $mysqli->real_connect($hostname, $this->username, $this->password, $this->database, $port, $socket, $client_flags)
 			? $mysqli : FALSE;
 	}
 

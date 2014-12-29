@@ -322,6 +322,17 @@ $config['cache_path'] = '';
 
 /*
 |--------------------------------------------------------------------------
+| Cache Include Query String
+|--------------------------------------------------------------------------
+|
+| Set this to TRUE if you want to use different cache files depending on the
+| URL query string.  Please be aware this might result in numerous cache files.
+|
+*/
+$config['cache_query_string'] = FALSE;
+
+/*
+|--------------------------------------------------------------------------
 | Encryption Key
 |--------------------------------------------------------------------------
 |
@@ -455,18 +466,6 @@ $config['compress_output'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
-| Minify
-|--------------------------------------------------------------------------
-|
-| Removes extra characters (usually unnecessary spaces) from your
-| output for faster page load speeds.  Makes your outputted HTML source
-| code less readable.
-|
-*/
-$config['minify_output'] = FALSE;
-
-/*
-|--------------------------------------------------------------------------
 | Master Time Reference
 |--------------------------------------------------------------------------
 |
@@ -477,7 +476,6 @@ $config['minify_output'] = FALSE;
 |
 */
 $config['time_reference'] = 'local';
-
 
 /*
 |--------------------------------------------------------------------------

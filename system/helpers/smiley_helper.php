@@ -45,6 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @category	Helpers
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/helpers/smiley_helper.html
+ * @deprecated	3.0.0	This helper is too specific for CI.
  */
 
 // ------------------------------------------------------------------------
@@ -228,7 +229,7 @@ if ( ! function_exists('_get_smiley_array'))
 	{
 		static $_smileys;
 
-		if ( ! is_array($smileys))
+		if ( ! is_array($_smileys))
 		{
 			if (file_exists(APPPATH.'config/smileys.php'))
 			{

@@ -2,15 +2,15 @@
 Javascript Class
 ################
 
-.. note:: This library is DEPRECATED and should not be used. It has always
-	been with an 'experimental' status and is now no longer supported.
-	Currently only kept for backwards compatibility.
-
 CodeIgniter provides a library to help you with certain common functions
 that you may want to use with Javascript. Please note that CodeIgniter
 does not require the jQuery library to run, and that any scripting
 library will work equally well. The jQuery library is simply presented
 as a convenience if you choose to use it.
+
+.. important:: This library is DEPRECATED and should not be used. It has always
+	been with an 'experimental' status and is now no longer supported.
+	Currently only kept for backwards compatibility.
 
 .. contents::
   :local:

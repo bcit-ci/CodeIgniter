@@ -173,8 +173,9 @@ class CI_URI {
 			// Populate the segments array
 			foreach (explode('/', trim($this->uri_string, '/')) as $val)
 			{
+				$val = trim($val);
 				// Filter segments for security
-				$val = trim($this->filter_uri($val));
+				$this->filter_uri($val);
 
 				if ($val !== '')
 				{
@@ -318,21 +319,14 @@ class CI_URI {
 	 * Filters segments for malicious characters.
 	 *
 	 * @param	string	$str
-	 * @return	string
+	 * @return	void
 	 */
-	public function filter_uri($str)
+	public function filter_uri(&$str)
 	{
 		if ( ! empty($str) && ! empty($this->_permitted_uri_chars) && ! preg_match('/^['.$this->_permitted_uri_chars.']+$/i'.(UTF8_ENABLED ? 'u' : ''), $str))
 		{
 			show_error('The URI you submitted has disallowed characters.', 400);
 		}
-
-		// Convert programatic characters to entities and return
-		return str_replace(
-			array('$',     '(',     ')',     '%28',   '%29'),	// Bad
-			array('&#36;', '&#40;', '&#41;', '&#40;', '&#41;'),	// Good
-			$str
-		);
 	}
 
 	// --------------------------------------------------------------------

@@ -2,6 +2,12 @@
 Contributing to CodeIgniter
 ###########################
 
+.. toctree::
+	:titlesonly:
+
+	../documentation/index
+	../DCO
+
 CodeIgniter is a community driven project and accepts contributions of code
 and documentation from the community. These contributions are made in the form
 of Issues or `Pull Requests <http://help.github.com/send-pull-requests/>`_ on
@@ -28,12 +34,12 @@ Note that GitHub is not for general support questions!
 
 If you are having trouble using a feature of CodeIgniter, ask for help on the forum.
 
-If you are wondering if you are using 
+If you are wondering if you are using
 something correctly or if you have found a bug, ask on the forum first.
 
-***************************
+****************************
 Tips for a Good Issue Report
-***************************
+****************************
 
 Use a descriptive subject line (eg parser library chokes on commas) rather than a vague one (eg. your code broke).
 
@@ -132,10 +138,10 @@ This will sign your commits with the information setup in your git config, e.g.
 
 	Signed-off-by: John Q Public <john.public@example.com>
 
-If you are using Tower there is a "Sign-Off" checkbox in the commit window. You 
-could even alias git commit to use the -s flag so you don’t have to think about 
+If you are using Tower there is a "Sign-Off" checkbox in the commit window. You
+could even alias git commit to use the -s flag so you don’t have to think about
 it.
 
-By signing your work in this manner, you certify to a "Developer's Certificate 
+By signing your work in this manner, you certify to a "Developer's Certificate
 or Origin". The current version of this certificate is in the :doc:`/DCO` file
 in the root of this documentation.
