@@ -29,7 +29,10 @@ guide change log <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide
 Server Requirements
 *******************
 
--  PHP version 5.2.4 or newer.
+-  PHP version 5.3.3 at minimum, but 5.3.23 or newer is recommended.
+
+CodeIgniter is tested on PHP 5.4, 5.5, 5.6 and the latest version of HHVM. Use the latest stable version
+you can for drastically increased performance and security.
 
 ************
 Installation

@@ -368,7 +368,7 @@ inability for CodeIgniter to send proper headers.
 Compatibility
 =============
 
-CodeIgniter requires a minimum PHP version of 5.2.4. Your code must either
+CodeIgniter requires a minimum PHP version of 5.3.3. Your code must either
 be compatible with this minimum requirement, provide a suitable fallback,
 or be an optional feature that dies quietly without affecting a user's
 application.

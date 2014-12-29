@@ -13,7 +13,7 @@ Release Date: Not Released
 
 -  General Changes
 
-   -  PHP 5.1.6 is no longer supported. CodeIgniter now requires PHP 5.2.4.
+   -  PHP 5.1.6 is no longer supported. CodeIgniter now requires PHP 5.3.3.
    -  Changed filenaming convention (class file names now must be Ucfirst and everything else in lowercase).
    -  Changed the default database driver to 'mysqli' (the old 'mysql' driver is DEPRECATED).
    -  ``$_SERVER['CI_ENV']`` can now be set to control the ``ENVIRONMENT`` constant.
