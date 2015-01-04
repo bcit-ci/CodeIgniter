@@ -245,7 +245,7 @@ class CI_Cache_memcached extends CI_Driver {
 		foreach ($this->_memcache_conf as $cache_server)
 		{
 			isset($cache_server['hostname']) OR $cache_server['hostname'] = $defaults['host'];
-			isset($cache_server['port']) OR $cache_server['port'] = $defaults['host'];
+			isset($cache_server['port']) OR $cache_server['port'] = $defaults['port'];
 			isset($cache_server['weight']) OR $cache_server['weight'] = $defaults['weight'];
 
 			if (get_class($this->_memcached) === 'Memcache')
