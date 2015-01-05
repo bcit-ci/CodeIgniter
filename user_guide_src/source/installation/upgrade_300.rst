@@ -247,7 +247,7 @@ A largely unknown rule about XSS cleaning is that it should *only be
 applied to output*, as opposed to input data.
 
 We've made that mistake ourselves with our automatic and global XSS cleaning
-feature (see step 13 above), so now in an effort to discourage that
+feature (see previous step about XSS above), so now in an effort to discourage that
 practice, we're also removing 'xss_clean' from the officially supported
 list of :doc:`form validation <../libraries/form_validation>` rules.
 
