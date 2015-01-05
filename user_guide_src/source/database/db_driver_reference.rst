@@ -9,129 +9,140 @@ class for the specific database will extend and instantiate it.
 The how-to material for this has been split over several articles.
 This article is intended to be a reference for them.
 
+.. important:: Not all methods are supported by all database drivers,
+	some of them may fail (and return FALSE) if the underlying
+	driver does not support them.
+
 .. class:: CI_DB_driver
 
 	.. method:: initialize()
 
 		:returns:	TRUE on success, FALSE on failure
-		:rtype:	boolean
+		:rtype:	bool
 
-		Initialize Database Settings; 
-                establish a connection to the database.
+		Initialize database settings, establish a connection to
+		the database.
+
+	.. method:: db_connect($persistent = TRUE)
+
+		:param	bool	$persistent: Whether to establish a persistent connection or a regular one
+		:returns:	Database connection resource/object or FALSE on failure
+		:rtype:	mixed
+
+		Establish a connection with the database.
+
+		.. note:: The returned value depends on the underlying
+			driver in use. For example, a ``mysqli`` instance
+			will be returned with the 'mysqli' driver.
 
 	.. method:: db_pconnect()
 
-		:returns:	TRUE on success, FALSE on failure
-		:rtype:	boolean
+		:returns:	Database connection resource/object or FALSE on failure
+		:rtype:	mixed
 
-		Establish a persistent database connection
+		Establish a persistent connection with the database.
+
+		.. note:: This method is just an alias for ``db_connect(TRUE)``.
 
 	.. method:: reconnect()
 
 		:returns:	TRUE on success, FALSE on failure
-		:rtype:	boolean
+		:rtype:	bool
 
-		Keep / reestablish the db connection if no queries have been
-                sent for a length of time exceeding the server's idle timeout.
+		Keep / reestablish the database connection if no queries
+		have been sent for a length of time exceeding the
+		server's idle timeout.
 
-                This is only available in drivers that support it.
+	.. method:: db_select([$database = ''])
 
-	.. method:: db_select()
-
+		:param	string	$database: Database name
 		:returns:	TRUE on success, FALSE on failure
-		:rtype:	boolean
+		:rtype:	bool
 
-		Select database
+		Select / switch the current database.
 
 	.. method:: db_set_charset($charset)
 
 		:param	string	$charset: Character set name
 		:returns:	TRUE on success, FALSE on failure
-		:rtype:	boolean
+		:rtype:	bool
 
-		Set client character set
+		Set client character set.
 
 	.. method:: platform()
 
 		:returns:	Platform name
 		:rtype:	string
 
-		The name of the platform in use (mysql, mssql, etc...)
+		The name of the platform in use (mysql, mssql, etc...).
 
 	.. method:: version()
 
-		:returns:	The version of the database being used.
+		:returns:	The version of the database being used
 		:rtype:	string
 
-		Database version number
+		Database version number.
 
 	.. method:: query($sql[, $binds = FALSE[, $return_object = NULL]]])
 
 		:param	string	$sql: The SQL statement to execute
 		:param	array	$binds: An array of binding data
-		:param	bool	$return_object: Character set name
-		:returns:	True on "update" success, DB_result object on "query" success, FALSE on failure
+		:param	bool	$return_object: Whether to return a result object or not
+		:returns:	TRUE for successful "write-type" queries, CI_DB_result instance (method chaining) on "query" success, FALSE on failure
 		:rtype:	mixed
 
-		Execute the query
+		Execute an SQL query.
 
-                Accepts an SQL string as input and returns a result object 
-                upon
-                successful execution of a "read" type query. Returns boolean 
-                TRUE
-                upon successful execution of a "write" type query. 
-                Returns boolean
-                FALSE upon failure, and if the $db_debug variable is set 
-                to TRUE
-                will raise an error.
+		Accepts an SQL string as input and returns a result object
+		upon successful execution of a "read" type query.
 
-	.. method:: load_rdriver()
+		Returns:
 
-		:returns:	The DB_result object appropriate for the driver in use
-		:rtype:	DB_result
+		   - Boolean TRUE upon successful execution of a "write type" queries
+		   - Boolean FALSE upon failure
+		   - ``CI_DB_result`` object for "read type" queries
 
-		Load the result drivers
+		.. note: If 'db_debug' setting is set to TRUE, an error
+			page will be displayed instead of returning FALSE
+			on failures and script execution will stop.
 
 	.. method:: simple_query($sql)
 
 		:param	string	$sql: The SQL statement to execute
-		:returns:	True on "update" success, DB_result object on "query" success, FALSE on failure
+		:returns:	Whatever the underlying driver's "query" function returns
 		:rtype:	mixed
 
-		Simple Query
+		A simplified version of the ``query()`` method, appropriate
+		for use when you don't need to get a result object or to
+		just send a query to the database and not care for the result.
 
-                This is a simplified version of the query() function. Internally
-                we only use it when running transaction commands since they do
-                not require all the features of the main query() function.
+	.. method:: trans_strict([$mode = TRUE])
+
+		:param	bool	$mode: Strict mode flag
+		:rtype:	void
+
+		Enable/disable transaction "strict" mode.
+
+		When strict mode is enabled, if you are running multiple
+		groups of transactions and one group fails, all groups
+		will be rolled back.
+
+		If strict mode is disabled, each group is treated
+		autonomously, meaning a failure of one group will not
+		affect any others.
 
 	.. method:: trans_off()
 
 		:rtype:	void
 
-		Disable Transactions.
+		Disables transactions at run-time.
 
-                This permits transactions to be disabled at run-time.
+	.. method:: trans_start([$test_mode = FALSE])
 
-	.. method:: trans_strict([$mode = TRUE])
-
-		:param	boolean	$mode: TRUE for strict mode
+		:param	bool	$test_mode: Test mode flag
 		:rtype:	void
 
-		Enable/disable Transaction Strict Mode.
-
-                When strict mode is enabled, if you are running multiple 
-                groups of
-                transactions, if one group fails all groups will be rolled back.
-                If strict mode is disabled, each group is treated autonomously, 
-                meaning
-                a failure of one group will not affect any others.
-
-	.. method:: trans_start([$test_mode = FALSE[)
-
-		:param	boolean	$test_mode: TRUE for testing mode
-		:rtype:	void
-
-		Start Transaction.
+		Start a transaction.
 
 	.. method:: trans_complete()
 
@@ -141,11 +152,11 @@ This article is intended to be a reference for them.
 
 	.. method:: trans_status()
 
-                :returns:   TRUE if the transaction succeeded, FALSE if it failed
-		:rtype:	boolean
+                :returns:	TRUE if the transaction succeeded, FALSE if it failed
+		:rtype:	bool
 
-		Lets you retrieve the transaction flag to determine if it
-                has failed.
+		Lets you retrieve the transaction status flag to
+		determine if it has failed.
 
 	.. method:: compile_binds($sql, $binds)
 
@@ -154,15 +165,16 @@ This article is intended to be a reference for them.
 		:returns:	The updated SQL statement
 		:rtype:	string
 
-		Compile Bindings
+		Compiles an SQL query with the bind values passed for it.
 
 	.. method:: is_write_type($sql)
 
 		:param	string	$sql: The SQL statement 
-		:returns:	TRUE if the SQL statement is a "write" type of statement
-		:rtype:	boolean
+		:returns:	TRUE if the SQL statement is of "write type", FALSE if not
+		:rtype:	bool
 
-		Determines if a query is a "write" type.
+		Determines if a query is of a "write" type (such as
+		INSERT, UPDATE, DELETE) or "read" type (i.e. SELECT).
 
 	.. method:: elapsed_time([$decimals = 6])
 
@@ -174,10 +186,11 @@ This article is intended to be a reference for them.
 
 	.. method:: total_queries()
 
-		:returns:	The total number of queries
+		:returns:	The total number of queries executed
 		:rtype:	int
 
-		Returns the total number of queries.
+		Returns the total number of queries that have been
+		executed so far.
 
 	.. method:: last_query()
 
@@ -188,220 +201,220 @@ This article is intended to be a reference for them.
 
 	.. method:: escape($str)
 
-		:param	string	$str: The string to work with
-		:returns:	The escaped string
+		:param	mixed	$str: The value to escape, or an array of multiple ones
+		:returns:	The escaped value(s)
 		:rtype:	mixed
 
-		"Smart" Escape String.
-
-                Escapes data based on type.
-                Sets boolean and null types
+		Escapes input data based on type, including boolean and
+		NULLs.
 
 	.. method:: escape_str($str[, $like = FALSE])
 
-		:param	mixed	$str: The string or array of strings to work with
-                :param	boolean	$like: Whether or not the string will be used in a LIKE condition
+		:param	mixed	$str: A string value or array of multiple ones
+		:param	bool	$like: Whether or not the string will be used in a LIKE condition
 		:returns:	The escaped string(s)
 		:rtype:	mixed
 
-		Escape String.
+		Escapes string values.
+
+		.. warning:: The returned strings do NOT include quotes
+			around them.
 
 	.. method:: escape_like_str($str)
 
-		:param	mixed	$str: The string or array of strings to work with
-                :returns:	The escaped string(s)
+		:param	mixed	$str: A string value or array of multiple ones
+		:returns:	The escaped string(s)
 		:rtype:	mixed
 
-		Escape LIKE String.
-                
-                Calls the individual driver for platform
-                specific escaping for LIKE conditions.
+		Escape LIKE strings.
 
-	.. method:: primary([$table = ''])
+		Similar to ``escape_str()``, but will also escape the ``%``
+		and ``_`` wildcard characters, so that they don't cause
+		false-positives in LIKE conditions.
 
-		:param	string	$table: The table name
-                :returns:	The primary key name, FALSE if none
-		:rtype:	mixed
+	.. method:: primary($table)
 
-		Primary.
-                
-                Retrieves the primary key. It assumes that the row in the first
-                position is the primary key.
+		:param	string	$table: Table name
+		:returns:	The primary key name, FALSE if none
+		:rtype:	string
+
+		Retrieves the primary key of a table.
+
+		.. note:: If the database platform does not support primary
+			key detection, the first column name may be assumed
+			as the primary key.
 
 	.. method:: count_all([$table = ''])
 
-		:param	string	$table: The table name
-                :returns:	Record count for specified table
+		:param	string	$table: Table name
+		:returns:	Row count for the specified table
 		:rtype:	int
 
-		"Count All" query.
-                
-                Generates a platform-specific query string that counts 
-                all records in
-                the specified database.
+		Returns the total number of rows in a table, or 0 if no
+		table was provided.
 
 	.. method:: list_tables([$constrain_by_prefix = FALSE])
 
-		:param	boolean	$constrain_by_prefix: TRUE to constrain the tables considered
-                :returns:	Array of table names, FALSE if the operation is unsupported
-		:rtype:	mixed
+		:param	bool	$constrain_by_prefix: TRUE to match table names by the configured dbprefix
+		:returns:	Array of table names or FALSE on failure
+		:rtype:	array
 
-		Returns an array of table names.
+		Gets a list of the tables in the current database.
 
 	.. method:: table_exists($table_name)
 
 		:param	string	$table_name: The table name
-                :returns:	TRUE if that table exists
-		:rtype:	boolean
+		:returns:	TRUE if that table exists, FALSE if not
+		:rtype:	bool
 
 		Determine if a particular table exists.
 
-	.. method:: list_fields([$table = ''])
+	.. method:: list_fields($table)
 
 		:param	string	$table: The table name
-                :returns:	Array of field names, FALSE if the table doesn't exist or the operation is un-supported
-		:rtype:	mixed
+		:returns:	Array of field names or FALSE on failure
+		:rtype:	array
 
-		Fetch Field Names.
+		Gets a list of the field names in a table.
 
 	.. method:: field_exists($field_name, $table_name)
 
 		:param	string	$table_name: The table name
-                :param	string	$field_name: The field name
-                :returns:	TRUE if that field exists in that table
-		:rtype:	boolean
+		:param	string	$field_name: The field name
+		:returns:	TRUE if that field exists in that table, FALSE if not
+		:rtype:	bool
 
 		Determine if a particular field exists.
 
-	.. method:: field_data([$table = ''])
+	.. method:: field_data($table)
 
 		:param	string	$table: The table name
-                :returns:	Object with field data, FALSE if no table given
-		:rtype:	mixed
+		:returns:	Array of field data items or FALSE on failure
+		:rtype:	array
 
-		Returns an object with field data.
+		Gets a list containing field data about a table.
 
 	.. method:: escape_identifiers($item)
 
 		:param	mixed	$item: The item or array of items to escape
-                :returns:	The item(s), escaped
+		:returns:	The input item(s), escaped
 		:rtype:	mixed
 
-		Escape the SQL Identifiers.
-                
-                This function escapes column and table names
+		Escape SQL identifiers, such as column, table and names.
 
 	.. method:: insert_string($table, $data)
 
-		:param	string	$table: The table upon which the query will be performed
-                :param	array	$data: an associative array of data key/values
-                :returns:	The SQL insert string
+		:param	string	$table: The target table
+		:param	array	$data: An associative array of key/value pairs
+		:returns:	The SQL INSERT statement, as a string
 		:rtype:	string
 
-		Generate an insert string.
+		Generate an INSERT statement string.
 
 	.. method:: update_string($table, $data, $where)
 
-		:param	string	$table: The table upon which the query will be performed
-                :param	array	$data: an associative array of data key/values
-                :param	mixed	$where: the "where" statement
-                :returns:	The SQL update string
+		:param	string	$table: The target table
+		:param	array	$data: An associative array of key/value pairs
+		:param	mixed	$where: The WHERE statement conditions
+		:returns:	The SQL UPDATE statement, as a string
 		:rtype:	string
 
-		Generate an update string.
+		Generate an UPDATE statement string.
 
 	.. method:: call_function($function)
 
 		:param	string	$function: Function name
-                :returns:	The function result
+		:returns:	The function result
 		:rtype:	string
 
-		Enables a native PHP function to be run, using a platform 
-                agnostic wrapper.
+		Runs a native PHP function , using a platform agnostic
+		wrapper.
 
 	.. method:: cache_set_path([$path = ''])
 
-		:param	string	$path: the path to the cache directory
-                :rtype:	void
+		:param	string	$path: Path to the cache directory
+		:rtype:	void
 
-		Set Cache Directory Path.
+		Sets the directory path to use for caching storage.
 
 	.. method:: cache_on()
 
-                :returns:	cache_on value
-                :rtype:	boolean
+		:returns:	TRUE if caching is on, FALSE if not
+		:rtype:	bool
 
-		Enable Query Caching.
+		Enable database results caching.
 
 	.. method:: cache_off()
 
-                :returns:	cache_on value
-                :rtype:	boolean
+		:returns:	TRUE if caching is on, FALSE if not
+		:rtype:	bool
 
-		Disable Query Caching.
+		Disable database results caching.
 
 	.. method:: cache_delete([$segment_one = ''[, $segment_two = '']])
 
-                :param	string	$segment_one: first URI segment
-                :param	string	$segment_two: second URI segment
-                :returns:	TRUE on success, FALSE on failure
-                :rtype:	boolean
+		:param	string	$segment_one: First URI segment
+		:param	string	$segment_two: Second URI segment
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
-		Delete the cache files associated with a particular URI
+		Delete the cache files associated with a particular URI.
 
 	.. method:: cache_delete_all()
 
-                :returns:	TRUE on success, FALSE on failure
-                :rtype:	boolean
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
-		Delete All cache files
+		Delete all cache files.
 
 	.. method:: close()
 
-                :rtype:	void
+		:rtype:	void
 
-		Close DB Connection
+		Close the DB Connection.
 
 	.. method:: display_error([$error = ''[, $swap = ''[, $native = FALSE]]])
 
-                :param	string	$error: the error message
-                :param	string	$swap: any "swap" values
-                :param	boolean	$native: whether to localize the message
-                :returns:   sends the application/views/errors/error_db.php template
+		:param	string	$error: The error message
+		:param	string	$swap: Any "swap" values
+		:param	bool	$native: Whether to localize the message
+		:rtype:	void
+
+		:returns:	Displays the DB error screensends the application/views/errors/error_db.php template
                 :rtype:	string
 
-		Display an error message
+		Display an error message and stop script execution.
+
+		The message is displayed using the
+		*application/views/errors/error_db.php* template.
 
 	.. method:: protect_identifiers($item[, $prefix_single = FALSE[, $protect_identifiers = NULL[, $field_exists = TRUE]]])
 
-                :param	string	$item: the item
-                :param	boolean	$prefix_single: whether to use a single prefix
-                :param	boolean	$protect_identifiers: whether to protect identifiers
-                :param	boolean	$field_exists: whether the supplied item does not contain a field name.
-                :returns:   the modified item
-                :rtype:	string
+		:param	string	$item: The item to work with
+		:param	bool	$prefix_single: Whether to apply the dbprefix even if the input item is a single identifier
+		:param	bool	$protect_identifiers: Whether to quote identifiers
+		:param	bool	$field_exists: Whether the supplied item contains a field name or not
+		:returns:	The modified item
+		:rtype:	string
 
-		Protect Identifiers.
-                
-                This function is used extensively by the Query Builder class, 
-                and by
-                a couple functions in this class.
-                It takes a column or table name (optionally with an alias) 
-                and inserts
-                the table prefix onto it. Some logic is necessary in order 
-                to deal with
-                column names that include the path. Consider a query like this::
-                
-                        SELECT * FROM hostname.database.table.column AS c FROM hostname.database.table
-                
-                Or a query with aliasing::
-                
-                        SELECT m.member_id, m.member_name FROM members AS m
-                
-                Since the column name can include up to four segments 
-                (host, DB, table, column)
-                or also have an alias prefix, we need to do a bit of work 
-                to figure this out and
-                insert the table prefix (if it exists) in the proper position, 
-                and escape only
-                the correct identifiers.
+		Takes a column or table name (optionally with an alias)
+		and applies the configured *dbprefix* to it.
+
+		Some logic is necessary in order to deal with
+		column names that include the path. 
+
+		Consider a query like this::
+
+			SELECT * FROM hostname.database.table.column AS c FROM hostname.database.table
+
+		Or a query with aliasing::
+
+			SELECT m.member_id, m.member_name FROM members AS m
+
+		Since the column name can include up to four segments
+		(host, DB, table, column) or also have an alias prefix,
+		we need to do a bit of work to figure this out and
+		insert the table prefix (if it exists) in the proper
+		position, and escape only the correct identifiers.
+
+		This method is used extensively by the Query Builder class.
