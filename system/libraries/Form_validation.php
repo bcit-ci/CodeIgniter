@@ -1558,19 +1558,6 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
-	 * XSS Clean
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	public function xss_clean($str)
-	{
-		return $this->CI->security->xss_clean($str);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Convert PHP tags to entities
 	 *
 	 * @param	string
