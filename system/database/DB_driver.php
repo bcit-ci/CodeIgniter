@@ -1230,7 +1230,7 @@ abstract class CI_DB_driver {
 	 * @param	string	the table name
 	 * @return	array
 	 */
-	public function list_fields()
+	public function list_fields($table)
 	{
 		// Is there a cached result?
 		if (isset($this->data_cache['field_names'][$table]))
