@@ -16,9 +16,7 @@ the ones used by that class, otherwise your local methods will
 override them. The following is a list of reserved names. Do not name
 your controller any of these:
 
--  Controller
--  CI_Base
--  _ci_initialize
+-  CI_Controller
 -  Default
 -  index
 
