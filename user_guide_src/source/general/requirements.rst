@@ -2,7 +2,7 @@
 Server Requirements
 ###################
 
-- `PHP <http://www.php.net/>`_ version 5.2.4 or newer.
+- `PHP <http://www.php.net/>`_ version 5.3.3 or newer.
 - A Database is required for most web application programming.
 
  Currently supported databases are:

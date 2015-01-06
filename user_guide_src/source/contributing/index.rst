@@ -92,9 +92,9 @@ must also be updated for every change. Also PHPDoc blocks must be maintained.
 Compatibility
 =============
 
-CodeIgniter is compatible with PHP 5.2.4 so all code supplied must stick to
-this requirement. If PHP 5.3 or 5.4 functions or features are used then there
-must be a fallback for PHP 5.2.4.
+CodeIgniter requires a minimum PHP version of 5.3.3. All code will either
+be compatible with this minimum requirement, provide a suitable fallback,
+or be an optional feature that does not affect a user's application.
 
 Branching
 =========
