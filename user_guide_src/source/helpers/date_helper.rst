@@ -357,7 +357,7 @@ The following functions are available:
 				<option value='UP95'>(UTC +9:30) Australian Central Standard Time</option>
 				<option value='UP10'>(UTC +10:00) Australian Eastern Standard Time, Vladivostok Time</option>
 				<option value='UP105'>(UTC +10:30) Lord Howe Island</option>
-				<option value='UP11'>(UTC +11:00) Magadan Time, Solomon Islands, Vanuatu</option>
+				<option value='UP11'>(UTC +11:00) Srednekolymsk Time, Solomon Islands, Vanuatu</option>
 				<option value='UP115'>(UTC +11:30) Norfolk Island</option>
 				<option value='UP12'>(UTC +12:00) Fiji, Gilbert Islands, Kamchatka Time, New Zealand Standard Time</option>
 				<option value='UP1275'>(UTC +12:45) Chatham Islands Standard Time</option>
@@ -428,7 +428,7 @@ UP9             (UTC +9:00) Japan Standard Time, Korea Standard Time, Yakutsk
 UP95            (UTC +9:30) Australian Central Standard Time
 UP10            (UTC +10:00) Australian Eastern Standard Time, Vladivostok Time
 UP105           (UTC +10:30) Lord Howe Island
-UP11            (UTC +11:00) Magadan Time, Solomon Islands, Vanuatu
+UP11            (UTC +11:00) Srednekolymsk Time, Solomon Islands, Vanuatu
 UP115           (UTC +11:30) Norfolk Island
 UP12            (UTC +12:00) Fiji, Gilbert Islands, Kamchatka, New Zealand
 UP1275          (UTC +12:45) Chatham Islands Standard Time
