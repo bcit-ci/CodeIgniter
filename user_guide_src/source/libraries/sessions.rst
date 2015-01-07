@@ -322,7 +322,7 @@ installed, and `Custom Drivers`_ may also be installed by the user.
 Typically, only one driver will be used at a time, but CodeIgniter does
 support loading multiple drivers. If a specific valid driver is called, it
 will be automatically loaded. Or, an additional driver may be explicitly
-loaded by ``calling load_driver()``::
+loaded by calling ``load_driver()``::
 
 	$this->session->load_driver('native');
 
