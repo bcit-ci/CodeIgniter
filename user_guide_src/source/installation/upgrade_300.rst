@@ -239,8 +239,29 @@ If your application has relied on this feature, you should update it to
 filter URI segments through ``$this->security->xss_clean()`` whenever you
 output them.
 
+****************************************************************
+Step 13: Check for usage of the 'xss_clean' Form validation rule
+****************************************************************
+
+A largely unknown rule about XSS cleaning is that it should *only be
+applied to output*, as opposed to input data.
+
+We've made that mistake ourselves with our automatic and global XSS cleaning
+feature (see previous step about XSS above), so now in an effort to discourage that
+practice, we're also removing 'xss_clean' from the officially supported
+list of :doc:`form validation <../libraries/form_validation>` rules.
+
+Because the :doc:`Form Validation library <../libraries/form_validation>`
+generally validates *input* data, the 'xss_clean' rule simply doesn't
+belong in it.
+
+If you really, really need to apply that rule, you should now also load the
+:doc:`Security Helper <../helpers/security_helper>`, which contains
+``xss_clean()`` as a regular function and therefore can be also used as
+a validation rule.
+
 ********************************************************
-Step 13: Update usage of Input Class's get_post() method
+Step 14: Update usage of Input Class's get_post() method
 ********************************************************
 
 Previously, the :doc:`Input Class <../libraries/input>` method ``get_post()``
@@ -250,15 +271,15 @@ modified so that it searches in GET then in POST, as its name suggests.
 A method has been added, ``post_get()``, which searches in POST then in GET, as
 ``get_post()`` was doing before.
 
-***********************************************************************
-Step 14: Update usage of Directory Helper's directory_map() function
-***********************************************************************
+********************************************************************
+Step 15: Update usage of Directory Helper's directory_map() function
+********************************************************************
 
 In the resulting array, directories now end with a trailing directory
 separator (i.e. a slash, usually).
 
 *************************************************************
-Step 15: Update usage of Database Forge's drop_table() method
+Step 16: Update usage of Database Forge's drop_table() method
 *************************************************************
 
 Up until now, ``drop_table()`` added an IF EXISTS clause by default or it didn't work
@@ -280,7 +301,7 @@ If your application relies on IF EXISTS, you'll have to change its usage.
 	all drivers with the exception of ODBC.
 
 ***********************************************************
-Step 16: Change usage of Email library with multiple emails
+Step 17: Change usage of Email library with multiple emails
 ***********************************************************
 
 The :doc:`Email Library <../libraries/email>` will automatically clear the
@@ -295,7 +316,7 @@ pass FALSE as the first parameter in the ``send()`` method:
  	}
 
 ***************************************************
-Step 17: Update your Form_validation language lines
+Step 18: Update your Form_validation language lines
 ***************************************************
 
 Two improvements have been made to the :doc:`Form Validation Library
@@ -326,7 +347,7 @@ files and error messages format:
 	later.
 
 ****************************************************************
-Step 18: Remove usage of (previously) deprecated functionalities
+Step 19: Remove usage of (previously) deprecated functionalities
 ****************************************************************
 
 In addition to the ``$autoload['core']`` configuration setting, there's a
