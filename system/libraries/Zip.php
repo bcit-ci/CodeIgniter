@@ -2,11 +2,11 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	http://codeigniter.com
  * @since	Version 1.0.0
@@ -59,35 +59,35 @@ class CI_Zip {
 	 *
 	 * @var string
 	 */
-	public $zipdata		= '';
+	public $zipdata = '';
 
 	/**
 	 * Zip data for a directory in string form
 	 *
 	 * @var string
 	 */
-	public $directory	= '';
+	public $directory = '';
 
 	/**
 	 * Number of files/folder in zip file
 	 *
 	 * @var int
 	 */
-	public $entries		= 0;
+	public $entries = 0;
 
 	/**
 	 * Number of files in zip
 	 *
 	 * @var int
 	 */
-	public $file_num	= 0;
+	public $file_num = 0;
 
 	/**
 	 * relative offset of local header
 	 *
 	 * @var int
 	 */
-	public $offset		= 0;
+	public $offset = 0;
 
 	/**
 	 * Reference to time at init
@@ -473,11 +473,11 @@ class CI_Zip {
 	 */
 	public function clear_data()
 	{
-		$this->zipdata		= '';
-		$this->directory	= '';
-		$this->entries		= 0;
-		$this->file_num		= 0;
-		$this->offset		= 0;
+		$this->zipdata = '';
+		$this->directory = '';
+		$this->entries = 0;
+		$this->file_num = 0;
+		$this->offset = 0;
 		return $this;
 	}
 
