@@ -7,7 +7,7 @@ while a user is browsing your site. These items can be retrieved and
 displayed in a standard "shopping cart" format, allowing the user to
 update the quantity or remove items from the cart.
 
-.. important:: The Card library is DEPRECATED and should not be used. 
+.. important:: The Cart library is DEPRECATED and should not be used. 
 	It is currently only kept for backwards compatibility.
 
 Please note that the Cart Class ONLY provides the core "cart"
