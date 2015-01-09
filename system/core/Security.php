@@ -644,7 +644,12 @@ class CI_Security {
 			{
 				if ( ! isset($_entities))
 				{
-					$_entities = array_map('strtolower', get_html_translation_table(HTML_ENTITIES, $flag, $charset));
+					$_entities = array_map(
+						'strtolower',
+						is_php('5.3.4')
+							? get_html_translation_table(HTML_ENTITIES, $flag, $charset)
+							: get_html_translation_table(HTML_ENTITIES, $flag)
+					);
 
 					// If we're not on PHP 5.4+, add the possibly dangerous HTML 5
 					// entities to the array manually
