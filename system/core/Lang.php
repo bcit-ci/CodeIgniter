@@ -106,7 +106,7 @@ class CI_Lang {
 
 		$langfile .= '.php';
 
-		if (empty($idiom) OR ! preg_match('/^[a-z_-]$/i', $idiom))
+		if (empty($idiom) OR ! preg_match('/^[a-z_-]+$/i', $idiom))
 		{
 			$config =& get_config();
 			$idiom = empty($config['language']) ? 'english' : $config['language'];
