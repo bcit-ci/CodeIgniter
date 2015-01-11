@@ -109,7 +109,6 @@ Please refer to the :ref:`2.0.0 Change Log <2.0.0-changelog>` for full
 details, but here are some of the larger changes that are more likely to
 impact your code:
 
-- CodeIgniter now requires PHP 5.2.4.
 - Scaffolding has been removed.
 - The CAPTCHA plugin in now a :doc:`helper </helpers/captcha_helper>`.
 - The JavaScript calendar plugin was removed.

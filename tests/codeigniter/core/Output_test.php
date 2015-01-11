@@ -38,16 +38,6 @@ HTML;
 
 	// --------------------------------------------------------------------
 
-	public function test_minify()
-	{
-		$this->assertEquals(
-			str_replace(array("\t", "\n"), '', $this->_output_data),
-			$this->output->minify($this->_output_data)
-		);
-	}
-
-	// --------------------------------------------------------------------
-
 	public function test_get_content_type()
 	{
 		$this->assertEquals('text/html', $this->output->get_content_type());

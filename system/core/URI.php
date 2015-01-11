@@ -2,11 +2,11 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	http://codeigniter.com
  * @since	Version 1.0.0
@@ -173,8 +173,9 @@ class CI_URI {
 			// Populate the segments array
 			foreach (explode('/', trim($this->uri_string, '/')) as $val)
 			{
+				$val = trim($val);
 				// Filter segments for security
-				$val = trim($this->filter_uri($val));
+				$this->filter_uri($val);
 
 				if ($val !== '')
 				{
@@ -318,21 +319,14 @@ class CI_URI {
 	 * Filters segments for malicious characters.
 	 *
 	 * @param	string	$str
-	 * @return	string
+	 * @return	void
 	 */
-	public function filter_uri($str)
+	public function filter_uri(&$str)
 	{
 		if ( ! empty($str) && ! empty($this->_permitted_uri_chars) && ! preg_match('/^['.$this->_permitted_uri_chars.']+$/i'.(UTF8_ENABLED ? 'u' : ''), $str))
 		{
 			show_error('The URI you submitted has disallowed characters.', 400);
 		}
-
-		// Convert programatic characters to entities and return
-		return str_replace(
-			array('$',     '(',     ')',     '%28',   '%29'),	// Bad
-			array('&#36;', '&#40;', '&#41;', '&#40;', '&#41;'),	// Good
-			$str
-		);
 	}
 
 	// --------------------------------------------------------------------

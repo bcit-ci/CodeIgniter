@@ -5,6 +5,9 @@ Smiley Helper
 The Smiley Helper file contains functions that let you manage smileys
 (emoticons).
 
+.. important:: The Smiley helper is DEPRECATED and should not be used.
+	It is currently only kept for backwards compatibility.
+
 .. contents::
   :local:
 

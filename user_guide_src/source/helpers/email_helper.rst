@@ -6,7 +6,8 @@ The Email Helper provides some assistive functions for working with
 Email. For a more robust email solution, see CodeIgniter's :doc:`Email
 Class <../libraries/email>`.
 
-.. important:: The Email helper is **deprecated**.
+.. important:: The Email helper is DEPRECATED and is currently
+	only kept for backwards compatibility.
 
 .. contents::
   :local:

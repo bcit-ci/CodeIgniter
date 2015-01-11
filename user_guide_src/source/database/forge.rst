@@ -185,7 +185,6 @@ below is for MySQL.
 	// gives KEY `blog_name_blog_label` (`blog_name`, `blog_label`)
 
 
-
 Creating a table
 ================
 
@@ -240,7 +239,6 @@ Executes a TABLE rename
 
 	$this->dbforge->rename_table('old_table_name', 'new_table_name');
 	// gives ALTER TABLE old_table_name RENAME TO new_table_name
-
 
 
 ****************
@@ -318,104 +316,93 @@ change the name you can add a "name" key into the field defining array.
 Class Reference
 ***************
 
-.. class:: DB_forge
+.. class:: CI_DB_forge
 
-	.. method:: __construct(&$db)
+	.. method:: add_column($table[, $field = array()[, $_after = NULL]])
 
-		:param	object	$db: Database object
-		:returns:	DB_forge object for the specified database
-		:rtype:	DB_forge
-
-		Initializes a database forge.
-
-	.. method:: add_column($table = '', $field = array(), $_after = NULL)
-
-		:param	string	$table: Table name
-		:param	array	$field: Column definitions
+		:param	string	$table: Table name to add the column to
+		:param	array	$field: Column definition(s)
 		:param	string	$_after: Column for AFTER clause (deprecated)
-                :returns:   TRUE on success, FALSE on failure
-		:rtype:	boolean
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
-                Add a column to a table. Usage:  See `Adding a Column to a Table`_.
+		Adds a column to a table. Usage:  See `Adding a Column to a Table`_.
 
-	.. method:: add_field($field = '')
+	.. method:: add_field($field)
 
-		:param	array	$field: Field to add
-                :returns:   DB_forge instance
-		:rtype:	object
+		:param	array	$field: Field definition to add
+		:returns:	CI_DB_forge instance (method chaining)
+		:rtype:	CI_DB_forge
 
-                Add a field to the set that will be used to create a table. Usage:  See `Adding fields`_.
+                Adds a field to the set that will be used to create a table. Usage:  See `Adding fields`_.
 
-	.. method:: add_key($key = '', $primary = FALSE)
+	.. method:: add_key($key[, $primary = FALSE])
 
 		:param	array	$key: Name of a key field
-                :param  boolean $primary:   TRUE if this key is to be a primary key
-                :returns:   DB_forge instance
-		:rtype:	object
+		:param	bool	$primary: Set to TRUE if it should be a primary key or a regular one
+		:returns:	CI_DB_forge instance (method chaining)
+		:rtype:	CI_DB_forge
 
-                Specify a key field to be used to create a table. Usage:  See `Adding Keys`_.
+		Adds a key to the set that will be used to create a table. Usage:  See `Adding Keys`_.
 
 	.. method:: create_database($db_name)
 
 		:param	string	$db_name: Name of the database to create
-                :returns:   TRUE on success, FALSE on failure
-		:rtype:	boolean
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
-                Create a new database. Usage:  See `Creating and Dropping Databases`_.
+		Creates a new database. Usage:  See `Creating and Dropping Databases`_.
 
-	.. method:: create_table($table = '', $if_not_exists = FALSE, array $attributes = array())
+	.. method:: create_table($table[, $if_not_exists = FALSE[, array $attributes = array()]])
 
 		:param	string	$table: Name of the table to create
-		:param	string	$if_not_exists: TRUE to add an 'IF NOT EXISTS' clause
-		:param	string	$attributes: Associative array of table attributes
-                :returns:   DB_driver on success, FALSE on failure
-		:rtype:	mixed
+		:param	string	$if_not_exists: Set to TRUE to add an 'IF NOT EXISTS' clause
+		:param	string	$attributes: An associative array of table attributes
+		:returns:  TRUE on success, FALSE on failure
+		:rtype:	bool
 
-                Create a new table. Usage:  See `Creating a table`_.
+		Creates a new table. Usage:  See `Creating a table`_.
 
-	.. method:: drop_column($table = '', $column_name = '')
+	.. method:: drop_column($table, $column_name)
 
 		:param	string	$table: Table name
-		:param	array	$column_name: Column to drop
-                :returns:   DB_driver on success, FALSE on failure
-		:rtype:	mixed
+		:param	array	$column_name: The column name to drop
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
-                Drop a column from a table. Usage:  See `Dropping a Column From a Table`_.
+		Drops a column from a table. Usage:  See `Dropping a Column From a Table`_.
 
 	.. method:: drop_database($db_name)
 
 		:param	string	$db_name: Name of the database to drop
-                :returns:   TRUE on success, FALSE on failure
-		:rtype:	boolean
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
-                Drop a database. Usage:  See `Creating and Dropping Databases`_.
+		Drops a database. Usage:  See `Creating and Dropping Databases`_.
 
-	.. method:: drop_table($table_name, $if_exists = FALSE)
+	.. method:: drop_table($table_name[, $if_exists = FALSE])
 
-		:param	string	$table: Name of the table to create
-		:param	string	$if_exists: TRUE to add an 'IF EXISTS' clause
-                :returns:   DB_driver on success, FALSE on failure
-		:rtype:	mixed
+		:param	string	$table: Name of the table to drop
+		:param	string	$if_exists: Set to TRUE to add an 'IF EXISTS' clause
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
-                Drop a table. Usage:  See `Dropping a table`_.
+		Drops a table. Usage:  See `Dropping a table`_.
 
-	.. method:: modify_column($table = '', $field = array())
+	.. method:: modify_column($table, $field)
 
 		:param	string	$table: Table name
-		:param	array	$field: Column definitions
-		:returns:   TRUE on success, FALSE on failure
-		:rtype:	boolean
+		:param	array	$field: Column definition(s)
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
-                Modify a column in a table. Usage:  See `Modifying a Column in a Table`_.
+		Modifies a table column. Usage:  See `Modifying a Column in a Table`_.
 
 	.. method:: rename_table($table_name, $new_table_name)
 
-		:param	string	$table: Name of the table
+		:param	string	$table: Current of the table
 		:param	string	$new_table_name: New name of the table
-                :returns:   DB_driver on success, FALSE on failure
-		:rtype:	mixed
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
-                Rename a table. Usage:  See `Renaming a table`_.
-
-
-
+		Renames a table. Usage:  See `Renaming a table`_.

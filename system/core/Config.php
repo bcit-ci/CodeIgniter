@@ -2,11 +2,11 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	http://codeigniter.com
  * @since	Version 1.0.0
@@ -120,74 +120,61 @@ class CI_Config {
 
 		foreach ($this->_config_paths as $path)
 		{
-			$found = FALSE;
-			foreach (array(ENVIRONMENT.'/'.$file, $file) as $location)
+			foreach (array($file, ENVIRONMENT.'/'.$file) as $location)
 			{
 				$file_path = $path.'config/'.$location.'.php';
 
 				if (in_array($file_path, $this->is_loaded, TRUE))
 				{
-					$loaded = TRUE;
-					continue 2;
+					return TRUE;
 				}
 
-				if (file_exists($file_path))
+				if ( ! file_exists($file_path))
 				{
-					$found = TRUE;
-					break;
+					continue;
 				}
-			}
 
-			if ($found === FALSE)
-			{
-				continue;
-			}
+				include($file_path);
 
-			include($file_path);
-
-			if ( ! isset($config) OR ! is_array($config))
-			{
-				if ($fail_gracefully === TRUE)
+				if ( ! isset($config) OR ! is_array($config))
 				{
-					return FALSE;
+					if ($fail_gracefully === TRUE)
+					{
+						return FALSE;
+					}
+
+					show_error('Your '.$file_path.' file does not appear to contain a valid configuration array.');
 				}
-				show_error('Your '.$file_path.' file does not appear to contain a valid configuration array.');
-			}
 
-			if ($use_sections === TRUE)
-			{
-				if (isset($this->config[$file]))
+				if ($use_sections === TRUE)
 				{
-					$this->config[$file] = array_merge($this->config[$file], $config);
+					$this->config[$file] = isset($this->config[$file])
+						? array_merge($this->config[$file], $config)
+						: $config;
 				}
 				else
 				{
-					$this->config[$file] = $config;
+					$this->config = array_merge($this->config, $config);
 				}
+
+				$this->is_loaded[] = $file_path;
+				$config = NULL;
+				$loaded = TRUE;
+				log_message('debug', 'Config file loaded: '.$file_path);
 			}
-			else
+
+			if ($loaded === TRUE)
 			{
-				$this->config = array_merge($this->config, $config);
+				return TRUE;
 			}
-
-			$this->is_loaded[] = $file_path;
-			unset($config);
-
-			$loaded = TRUE;
-			log_message('debug', 'Config file loaded: '.$file_path);
-			break;
 		}
 
-		if ($loaded === FALSE)
+		if ($fail_gracefully === TRUE)
 		{
-			if ($fail_gracefully === TRUE)
-			{
-				return FALSE;
-			}
-			show_error('The configuration file '.$file.'.php does not exist.');
+			return FALSE;
 		}
 
-		return TRUE;
+		show_error('The configuration file '.$file.'.php does not exist.');
 	}
 
 	// --------------------------------------------------------------------
