@@ -1212,6 +1212,13 @@ class CI_Image_lib {
 			imagecopymerge($src_img, $wm_img, $x_axis, $y_axis, 0, 0, $wm_width, $wm_height, $this->wm_opacity);
 		}
 
+ 		// We can preserve transparency for PNG images
+		if ($this->image_type === 3)
+		{
+			imagealphablending($src_img, FALSE);
+			imagesavealpha($src_img, TRUE);
+		}
+
 		// Output the image
 		if ($this->dynamic_output === TRUE)
 		{
