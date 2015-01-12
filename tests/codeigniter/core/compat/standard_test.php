@@ -449,7 +449,6 @@ class standard_test extends CI_TestCase {
 			return $this->markTestSkipped('quoted_printable_encode() is already available on PHP 5.3');
 		}
 
-
 		// These are actually imap_8bit() tests:
 		$this->assertEquals("String with CRLF at end=20\r\n", quoted_printable_encode("String with CRLF at end \r\n"));
 		// ext/imap/tests/imap_8bit_basic.phpt says for this line:
@@ -458,6 +457,11 @@ class standard_test extends CI_TestCase {
 		$this->assertEquals("String with tabs =09=09 in middle", quoted_printable_encode("String with tabs \t\t in middle"));
 		$this->assertEquals("String with tab at end =09", quoted_printable_encode("String with tab at end \t"));
 		$this->assertEquals("=00=01=02=03=04=FE=FF=0A=0D", quoted_printable_encode("\x00\x01\x02\x03\x04\xfe\xff\x0a\x0d"));
+
+		if (function_exists('imap_8bit'))
+		{
+			return $this->markTestIncomplete('imap_8bit() exists and is called as an alias for quoted_printable_encode()');
+		}
 
 		// And these are from ext/standard/tests/strings/quoted_printable_encode_002.phpt:
 		$this->assertEquals(
