@@ -615,7 +615,7 @@ if ( ! function_exists('_error_handler'))
 		$_error->log_exception($severity, $message, $filepath, $line);
 
 		// Should we display the error?
-		if (ini_get('display_errors'))
+		if (_get_display_errors())
 		{
 			$_error->show_php_error($severity, $message, $filepath, $line);
 		}
@@ -650,12 +650,42 @@ if ( ! function_exists('_exception_handler'))
 		$_error->log_exception('error', 'Exception: '.$exception->getMessage(), $exception->getFile(), $exception->getLine());
 
 		// Should we display the error?
-		if (ini_get('display_errors'))
+		if (_get_display_errors())
 		{
 			$_error->show_exception($exception);
 		}
 
 		exit(1); // EXIT_ERROR
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('_get_display_errors'))
+{
+	/**
+	 * display_errors ini setting
+	 *
+	 * Gets the real setting of the display_errors configuration variable.
+	 * parse_ini_string() is only available with PHP 5.3.0 or greater
+	 *
+	 * @return	boolean
+	 */
+	function _get_display_errors()
+	{
+		if (function_exists('parse_ini_string'))
+		{
+			$display_errors = parse_ini_string('display_errors = ' . ini_get('display_errors'));
+			return (bool)$display_errors['display_errors'];
+		}
+
+		$display_errors = strtolower(ini_get('display_errors'));
+		if (empty($display_errors) OR in_array($display_errors, array('null', 'off', 'no', 'false', '0')))
+		{
+			return FALSE;
+		}
+
+		return TRUE;
 	}
 }
 
