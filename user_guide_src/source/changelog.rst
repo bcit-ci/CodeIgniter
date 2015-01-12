@@ -336,7 +336,7 @@ Release Date: Not Released
       -  Class properties *wm_font_color*, *wm_shadow_color* and *wm_use_drop_shadow* are now protected, to avoid breaking the ``text_watermark()`` method if they are set manually after initialization.
       -  If property *maintain_ratio* is set to TRUE, ``image_reproportion()`` now doesn't need both width and height to be specified.
       -  Property *maintain_ratio* is now taken into account when resizing images using ImageMagick library.
-      -  Added support for maintaining transparency for PNG images in method ``text_watermark()``.
+      -  Added support for maintaining transparency for PNG images when watermarking.
       -  Added a **file_permissions** setting.
 
    -  :doc:`Form Validation Library <libraries/form_validation>` changes include:
