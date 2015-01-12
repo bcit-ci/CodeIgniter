@@ -184,13 +184,9 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 	 * @param	string	$table
 	 * @return	array
 	 */
-	public function field_data($table = '')
+	public function field_data($table)
 	{
-		if ($table === '')
-		{
-			return ($this->db_debug) ? $this->display_error('db_field_param_missing') : FALSE;
-		}
-		elseif (strpos($table, '.') !== FALSE)
+		if (strpos($table, '.') !== FALSE)
 		{
 			sscanf($table, '%[^.].%s', $owner, $table);
 		}

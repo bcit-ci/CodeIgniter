@@ -187,7 +187,7 @@ class CI_DB_pdo_informix_driver extends CI_DB_pdo_driver {
 	 * @param	string	$table
 	 * @return	array
 	 */
-	public function field_data($table = '')
+	public function field_data($table)
 	{
 		$sql = 'SELECT "syscolumns"."colname" AS "name",
 				CASE "syscolumns"."coltype"
