@@ -143,13 +143,15 @@ and add the next piece of code.
 
 ::
 
+	<h2><?php echo $title ?></h2>
+	
 	<?php foreach ($news as $news_item): ?>
 
-		<h2><?php echo $news_item['title'] ?></h2>
+		<h3><?php echo $news_item['title'] ?></h3>
 		<div class="main">
 			<?php echo $news_item['text'] ?>
 		</div>
-		<p><a href="<?php echo $news_item['slug'] ?>">View article</a></p>
+		<p><a href="news/<?php echo $news_item['slug'] ?>">View article</a></p>
 
 	<?php endforeach ?>
 
@@ -196,7 +198,7 @@ The only things left to do is create the corresponding view at
 Routing
 -------
 
-Because of the wildcard routing rule created earlier, you need need an
+Because of the wildcard routing rule created earlier, you need an
 extra route to view the controller that you just made. Modify your
 routing file (application/config/routes.php) so it looks as follows.
 This makes sure the requests reaches the news controller instead of

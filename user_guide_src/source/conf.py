@@ -41,7 +41,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'CodeIgniter'
-copyright = u'2014, British Columbia Institute of Technology'
+copyright = u'2014 - 2015, British Columbia Institute of Technology'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -93,9 +93,7 @@ highlight_language = 'ci'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-# Reverting to default sphinx theme, to remove dependency on EllisLab corporate style
-#html_theme = 'eldocs'
-html_theme = 'default'
+html_theme = 'sphinx_rtd_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -103,10 +101,7 @@ html_theme = 'default'
 #
 # Specifying a few options; just a starting point & we can play with it.
 html_theme_options = {
-   "collapsiblesidebar" : "true",
-   "sidebarbgcolor" : "#4b7eb0",
-   "codebgcolor": "#fffded",
-   "headbgcolor": "#ffeebd"
+
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
@@ -234,7 +229,7 @@ man_pages = [
 epub_title = u'CodeIgniter'
 epub_author = u'British Columbia Institute of Technology'
 epub_publisher = u'British Columbia Institute of Technology'
-epub_copyright = u'2014, British Columbia Institute of Technology'
+epub_copyright = u'2014 - 2015, British Columbia Institute of Technology'
 
 # The language of the text. It defaults to the language option
 # or en if the language is not set.

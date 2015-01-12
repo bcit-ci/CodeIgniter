@@ -2,11 +2,11 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	http://codeigniter.com
  * @since	Version 1.0.0
@@ -207,12 +207,7 @@ abstract class CI_DB_forge {
 	 */
 	public function drop_database($db_name)
 	{
-		if ($db_name === '')
-		{
-			show_error('A table name is required for that operation.');
-			return FALSE;
-		}
-		elseif ($this->_drop_database === FALSE)
+		if ($this->_drop_database === FALSE)
 		{
 			return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
 		}
@@ -242,13 +237,8 @@ abstract class CI_DB_forge {
 	 * @param	bool	$primary
 	 * @return	CI_DB_forge
 	 */
-	public function add_key($key = '', $primary = FALSE)
+	public function add_key($key, $primary = FALSE)
 	{
-		if (empty($key))
-		{
-			show_error('Key information is required for that operation.');
-		}
-
 		if ($primary === TRUE && is_array($key))
 		{
 			foreach ($key as $one)
@@ -279,13 +269,8 @@ abstract class CI_DB_forge {
 	 * @param	array	$field
 	 * @return	CI_DB_forge
 	 */
-	public function add_field($field = '')
+	public function add_field($field)
 	{
-		if (empty($field))
-		{
-			show_error('Field information is required.');
-		}
-
 		if (is_string($field))
 		{
 			if ($field === 'id')
@@ -328,7 +313,7 @@ abstract class CI_DB_forge {
 	 * @param	array	$attributes	Associative array of table attributes
 	 * @return	bool
 	 */
-	public function create_table($table = '', $if_not_exists = FALSE, array $attributes = array())
+	public function create_table($table, $if_not_exists = FALSE, array $attributes = array())
 	{
 		if ($table === '')
 		{
@@ -575,18 +560,10 @@ abstract class CI_DB_forge {
 	 * @param	string	$_after	Column for AFTER clause (deprecated)
 	 * @return	bool
 	 */
-	public function add_column($table = '', $field = array(), $_after = NULL)
+	public function add_column($table, $field, $_after = NULL)
 	{
-		if ($table === '')
-		{
-			show_error('A table name is required for that operation.');
-		}
-
 		// Work-around for literal column definitions
-		if ( ! is_array($field))
-		{
-			$field = array($field);
-		}
+		is_array($field) OR $field = array($field);
 
 		foreach (array_keys($field) as $k)
 		{
@@ -626,18 +603,8 @@ abstract class CI_DB_forge {
 	 * @param	string	$column_name	Column name
 	 * @return	bool
 	 */
-	public function drop_column($table = '', $column_name = '')
+	public function drop_column($table, $column_name)
 	{
-		if ($table === '')
-		{
-			show_error('A table name is required for that operation.');
-		}
-
-		if ($column_name === '')
-		{
-			show_error('A column name is required for that operation.');
-		}
-
 		$sql = $this->_alter_table('DROP', $this->db->dbprefix.$table, $column_name);
 		if ($sql === FALSE)
 		{
@@ -656,18 +623,10 @@ abstract class CI_DB_forge {
 	 * @param	string	$field	Column definition
 	 * @return	bool
 	 */
-	public function modify_column($table = '', $field = array())
+	public function modify_column($table, $field)
 	{
-		if ($table === '')
-		{
-			show_error('A table name is required for that operation.');
-		}
-
 		// Work-around for literal column definitions
-		if ( ! is_array($field))
-		{
-			$field = array($field);
-		}
+		is_array($field) OR $field = array($field);
 
 		foreach (array_keys($field) as $k)
 		{

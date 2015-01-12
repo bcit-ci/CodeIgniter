@@ -1,5 +1,5 @@
 #############################
-Upgrading from 2.1.4 to 3.0.0
+Upgrading from 2.2.0 to 3.0.0
 #############################
 
 .. note:: These upgrade notes are for a version that is yet to be released.
@@ -223,8 +223,45 @@ Otherwise however, please review your usage of the following functions:
 	``$_COOKIE`` and ``$_SERVER`` superglobals are no longer
 	automatically overwritten when global XSS filtering is turned on.
 
+*************************************************
+Step 12: Check for potential XSS issues with URIs
+*************************************************
+
+The :doc:`URI Library <../libraries/uri>` used to automatically convert
+a certain set of "programmatic characters" to HTML entities when they
+are encountered in a URI segment.
+
+This was aimed at providing some automatic XSS protection, in addition
+to the ``$config['permitted_uri_chars']`` setting, but has proven to be
+problematic and is now removed in CodeIgniter 3.0.
+
+If your application has relied on this feature, you should update it to
+filter URI segments through ``$this->security->xss_clean()`` whenever you
+output them.
+
+****************************************************************
+Step 13: Check for usage of the 'xss_clean' Form validation rule
+****************************************************************
+
+A largely unknown rule about XSS cleaning is that it should *only be
+applied to output*, as opposed to input data.
+
+We've made that mistake ourselves with our automatic and global XSS cleaning
+feature (see previous step about XSS above), so now in an effort to discourage that
+practice, we're also removing 'xss_clean' from the officially supported
+list of :doc:`form validation <../libraries/form_validation>` rules.
+
+Because the :doc:`Form Validation library <../libraries/form_validation>`
+generally validates *input* data, the 'xss_clean' rule simply doesn't
+belong in it.
+
+If you really, really need to apply that rule, you should now also load the
+:doc:`Security Helper <../helpers/security_helper>`, which contains
+``xss_clean()`` as a regular function and therefore can be also used as
+a validation rule.
+
 ********************************************************
-Step 12: Update usage of Input Class's get_post() method
+Step 14: Update usage of Input Class's get_post() method
 ********************************************************
 
 Previously, the :doc:`Input Class <../libraries/input>` method ``get_post()``
@@ -234,15 +271,15 @@ modified so that it searches in GET then in POST, as its name suggests.
 A method has been added, ``post_get()``, which searches in POST then in GET, as
 ``get_post()`` was doing before.
 
-***********************************************************************
-Step 13: Update usage of Directory Helper's directory_map() function
-***********************************************************************
+********************************************************************
+Step 15: Update usage of Directory Helper's directory_map() function
+********************************************************************
 
 In the resulting array, directories now end with a trailing directory
 separator (i.e. a slash, usually).
 
 *************************************************************
-Step 14: Update usage of Database Forge's drop_table() method
+Step 16: Update usage of Database Forge's drop_table() method
 *************************************************************
 
 Up until now, ``drop_table()`` added an IF EXISTS clause by default or it didn't work
@@ -264,7 +301,7 @@ If your application relies on IF EXISTS, you'll have to change its usage.
 	all drivers with the exception of ODBC.
 
 ***********************************************************
-Step 15: Change usage of Email library with multiple emails
+Step 17: Change usage of Email library with multiple emails
 ***********************************************************
 
 The :doc:`Email Library <../libraries/email>` will automatically clear the
@@ -279,7 +316,7 @@ pass FALSE as the first parameter in the ``send()`` method:
  	}
 
 ***************************************************
-Step 16: Update your Form_validation language lines
+Step 18: Update your Form_validation language lines
 ***************************************************
 
 Two improvements have been made to the :doc:`Form Validation Library
@@ -310,7 +347,7 @@ files and error messages format:
 	later.
 
 ****************************************************************
-Step 17: Remove usage of (previously) deprecated functionalities
+Step 19: Remove usage of (previously) deprecated functionalities
 ****************************************************************
 
 In addition to the ``$autoload['core']`` configuration setting, there's a
@@ -331,11 +368,14 @@ Usage of the ``EXT`` constant has been deprecated since dropping support for PHP
 longer a need to maintain different filename extensions and in this new CodeIgniter version,
 the ``EXT`` constant has been removed. Use just '.php' instead.
 
-Smiley helper js_insert_smiley()
-================================
+Smiley helper
+=============
 
-:doc:`Smiley Helper <../helpers/smiley_helper>` function ``js_insert_smiley()`` has been deprecated
-since CodeIgniter 1.7.2 and is now removed. You'll need to switch to ``smiley_js()`` instead.
+The :doc:`Smiley Helper <../helpers/smiley_helper>` is a legacy feature from EllisLab's
+ExpressionEngine product. However, it is too specific for a general purpose framework like
+CodeIgniter and as such it is now deprecated.
+
+Also, the previously deprecated ``js_insert_smiley()`` (since version 1.7.2) is now removed.
 
 The Encrypt library
 ===================
@@ -354,6 +394,16 @@ implemented cryptographic functions.
 
 .. important:: You are strongly encouraged to switch to the new :doc:`Encryption Library
 	<../libraries/encryption>` as soon as possible!
+
+The Cart library
+================
+
+The :doc:`Cart Library <../libraries/cart>`, similarly to the :doc:`Smiley Helper
+<../helpers/smiley_helper>` is too specific for CodeIgniter. It is now deprecated
+and scheduled for removal in CodeIgniter 3.1+.
+
+.. note:: The library is still available, but you're strongly encouraged to remove its usage sooner
+	rather than later.
 
 Database drivers 'mysql', 'sqlite', 'mssql', 'pdo/dblib'
 ========================================================

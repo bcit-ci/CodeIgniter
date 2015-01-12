@@ -3,19 +3,20 @@
 class Output_test extends CI_TestCase {
 
 	public $output;
-	protected $_output_data = <<<HTML
-<html>
-	<head>
-		<title>Basic HTML</title>
-	</head>
-	<body>
-		Test
-	</body>
-</html>
-HTML;
+	protected $_output_data = '';
 
 	public function set_up()
 	{
+		$this->_output_data =<<<HTML
+		<html>
+			<head>
+				<title>Basic HTML</title>
+			</head>
+			<body>
+				Test
+			</body>
+		</html>
+HTML;
 		$this->ci_set_config('charset', 'UTF-8');
 		$output = $this->ci_core_class('output');
 		$this->output = new $output();
@@ -33,16 +34,6 @@ HTML;
 				->set_output($this->_output_data)
 				->append_output("<!-- comment /-->\n")
 				->get_output()
-		);
-	}
-
-	// --------------------------------------------------------------------
-
-	public function test_minify()
-	{
-		$this->assertEquals(
-			str_replace(array("\t", "\n"), '', $this->_output_data),
-			$this->output->minify($this->_output_data)
 		);
 	}
 

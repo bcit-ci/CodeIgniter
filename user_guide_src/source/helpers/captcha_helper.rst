@@ -33,6 +33,8 @@ Once loaded you can generate a CAPTCHA like this::
 		'img_height'	=> 30,
 		'expiration'	=> 7200,
 		'word_length'	=> 8,
+		'font_size'	=> 16,
+		'img_id'	=> 'Imageid',
 		'pool'		=> '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
 
 		// White background and border, black text and red grid
@@ -59,6 +61,8 @@ Once loaded you can generate a CAPTCHA like this::
    in the captcha folder before it will be deleted. The default is two
    hours.
 -  **word_length** defaults to 8, **pool** defaults to '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+-  **font_size** defaults to 16, the native GD font has a size limit. Specify a "true type" font for bigger sizes.
+-  The **img_id** will be set as the "id" of the captcha image.
 -  If any of the **colors** values is missing, it will be replaced by the default.
 
 Adding a Database

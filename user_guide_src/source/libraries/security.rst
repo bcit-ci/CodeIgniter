@@ -12,8 +12,9 @@ application, processing input data for security.
 
   <div class="custom-index container"></div>
 
+*************
 XSS Filtering
-=============
+*************
 
 CodeIgniter comes with a Cross Site Scripting Hack prevention filter
 which can either run automatically to filter all POST and COOKIE data
@@ -57,8 +58,9 @@ browser may attempt to execute.
 		// file failed the XSS test
 	}
 
+*********************************
 Cross-site request forgery (CSRF)
-=================================
+*********************************
 
 You can enable CSRF protection by altering your **application/config/config.php**
 file in the following way::

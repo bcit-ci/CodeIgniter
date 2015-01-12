@@ -2,10 +2,15 @@
 Server Requirements
 ###################
 
-- `PHP <http://www.php.net/>`_ version 5.2.4 or newer.
-- A Database is required for most web application programming.
+`PHP <http://www.php.net/>`_ version 5.4 or newer is recommended.
 
- Currently supported databases are:
+It should work on 5.2.4 as well, but we strongly advise you NOT to run
+such old versions of PHP, because of potential security and performance
+issues, as well as missing features.
+
+A database is required for most web application programming.
+Currently supported databases are:
+
   - MySQL (5.1+) via the *mysql* (deprecated), *mysqli* and *pdo* drivers
   - Oracle via the *oci8* and *pdo* drivers
   - PostgreSQL via the *postgre* and *pdo* drivers

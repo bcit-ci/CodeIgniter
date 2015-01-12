@@ -2,11 +2,11 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	http://codeigniter.com
  * @since	Version 1.0.0
@@ -1090,31 +1090,38 @@ class CI_Loader {
 
 			if (is_array($config_component->_config_paths))
 			{
-				// Break on the first found file, thus package files
-				// are not overridden by default paths
+				$found = FALSE;
 				foreach ($config_component->_config_paths as $path)
 				{
 					// We test for both uppercase and lowercase, for servers that
-					// are case-sensitive with regard to file names. Check for environment
-					// first, global next
-					if (file_exists($path.'config/'.ENVIRONMENT.'/'.strtolower($class).'.php'))
-					{
-						include($path.'config/'.ENVIRONMENT.'/'.strtolower($class).'.php');
-						break;
-					}
-					elseif (file_exists($path.'config/'.ENVIRONMENT.'/'.ucfirst(strtolower($class)).'.php'))
-					{
-						include($path.'config/'.ENVIRONMENT.'/'.ucfirst(strtolower($class)).'.php');
-						break;
-					}
-					elseif (file_exists($path.'config/'.strtolower($class).'.php'))
+					// are case-sensitive with regard to file names. Load global first,
+					// override with environment next
+					if (file_exists($path.'config/'.strtolower($class).'.php'))
 					{
 						include($path.'config/'.strtolower($class).'.php');
-						break;
+						$found = TRUE;
 					}
 					elseif (file_exists($path.'config/'.ucfirst(strtolower($class)).'.php'))
 					{
 						include($path.'config/'.ucfirst(strtolower($class)).'.php');
+						$found = TRUE;
+					}
+
+					if (file_exists($path.'config/'.ENVIRONMENT.'/'.strtolower($class).'.php'))
+					{
+						include($path.'config/'.ENVIRONMENT.'/'.strtolower($class).'.php');
+						$found = TRUE;
+					}
+					elseif (file_exists($path.'config/'.ENVIRONMENT.'/'.ucfirst(strtolower($class)).'.php'))
+					{
+						include($path.'config/'.ENVIRONMENT.'/'.ucfirst(strtolower($class)).'.php');
+						$found = TRUE;
+					}
+
+					// Break on the first found configuration, thus package
+					// files are not overridden by default paths
+					if ($found === TRUE)
+					{
 						break;
 					}
 				}
@@ -1193,13 +1200,10 @@ class CI_Loader {
 	 */
 	protected function _ci_autoloader()
 	{
+		include(APPPATH.'config/autoload.php');
 		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/autoload.php'))
 		{
 			include(APPPATH.'config/'.ENVIRONMENT.'/autoload.php');
-		}
-		else
-		{
-			include(APPPATH.'config/autoload.php');
 		}
 
 		if ( ! isset($autoload))

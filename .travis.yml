@@ -1,7 +1,8 @@
 language: php
 
 php:
-  - 5.3
+  - 5.2
+  - 5.3.3
   - 5.4
   - 5.5
   - 5.6
@@ -16,8 +17,10 @@ env:
   - DB=pdo/pgsql
   - DB=pdo/sqlite
 
+sudo: false
+
 before_script:
-  - composer install --dev --no-progress
+  - sh -c "if [ '$TRAVIS_PHP_VERSION' = '5.2' ]; then pear channel-discover pear.bovigo.org && pear install bovigo/vfsStream-beta; else composer install --dev --no-progress; fi"
   - sh -c "if [ '$DB' = 'pgsql' ] || [ '$DB' = 'pdo/pgsql' ]; then psql -c 'DROP DATABASE IF EXISTS ci_test;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'pgsql' ] || [ '$DB' = 'pdo/pgsql' ]; then psql -c 'create database ci_test;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'mysql' ] || [ '$DB' = 'mysqli' ] || [ '$DB' = 'pdo/mysql' ]; then mysql -e 'create database IF NOT EXISTS ci_test;'; fi"
@@ -32,6 +35,10 @@ matrix:
       env: DB=pgsql
     - php: hhvm
       env: DB=pdo/pgsql
+    - php: 5.2
+      env: DB=sqlite
+    - php: 5.2
+      env: DB=pdo/sqlite
 
 branches:
   only:
