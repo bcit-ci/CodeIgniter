@@ -1,4 +1,5 @@
 <?php
+ini_set('memory_limit', '128M');
 
 // Errors on full!
 ini_set('display_errors', 1);
