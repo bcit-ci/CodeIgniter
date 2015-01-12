@@ -22,7 +22,7 @@ class Mock_Database_Schema_Skeleton {
 	 */
 	public static function init($driver)
 	{
-		if (empty(static::$db) && empty(static::$forge))
+		if (empty(self::$db) && empty(self::$forge))
 		{
 			$config = Mock_Database_DB::config($driver);
 			$connection = new Mock_Database_DB($config);
@@ -34,12 +34,12 @@ class Mock_Database_Schema_Skeleton {
 			$loader->dbforge();
 			$forge = CI_TestCase::instance()->ci_instance_var('dbforge');
 
-			static::$db = $db;
-			static::$forge = $forge;
-			static::$driver = $driver;
+			self::$db = $db;
+			self::$forge = $forge;
+			self::$driver = $driver;
 		}
 
-		return static::$db;
+		return self::$db;
 	}
 
 	/**
@@ -50,7 +50,7 @@ class Mock_Database_Schema_Skeleton {
 	public static function create_tables()
 	{
 		// User Table
-		static::$forge->add_field(array(
+		self::$forge->add_field(array(
 			'id' => array(
 				'type' => 'INTEGER',
 				'constraint' => 3
@@ -68,11 +68,11 @@ class Mock_Database_Schema_Skeleton {
 				'constraint' => 40
 			)
 		));
-		static::$forge->add_key('id', TRUE);
-		static::$forge->create_table('user', TRUE);
+		self::$forge->add_key('id', TRUE);
+		self::$forge->create_table('user', TRUE);
 
 		// Job Table
-		static::$forge->add_field(array(
+		self::$forge->add_field(array(
 			'id' => array(
 				'type' => 'INTEGER',
 				'constraint' => 3
@@ -85,11 +85,11 @@ class Mock_Database_Schema_Skeleton {
 				'type' => 'TEXT'
 			)
 		));
-		static::$forge->add_key('id', TRUE);
-		static::$forge->create_table('job', TRUE);
+		self::$forge->add_key('id', TRUE);
+		self::$forge->create_table('job', TRUE);
 
 		// Misc Table
-		static::$forge->add_field(array(
+		self::$forge->add_field(array(
 			'id' => array(
 				'type' => 'INTEGER',
 				'constraint' => 3
@@ -102,8 +102,8 @@ class Mock_Database_Schema_Skeleton {
 				'type' => 'TEXT'
 			)
 		));
-		static::$forge->add_key('id', TRUE);
-		static::$forge->create_table('misc', TRUE);
+		self::$forge->add_key('id', TRUE);
+		self::$forge->create_table('misc', TRUE);
 	}
 
 	/**
@@ -136,11 +136,11 @@ class Mock_Database_Schema_Skeleton {
 
 		foreach ($data as $table => $dummy_data)
 		{
-			static::$db->truncate($table);
+			self::$db->truncate($table);
 
 			foreach ($dummy_data as $single_dummy_data)
 			{
-				static::$db->insert($table, $single_dummy_data);
+				self::$db->insert($table, $single_dummy_data);
 			}
 		}
 	}
