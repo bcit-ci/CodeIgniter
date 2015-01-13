@@ -615,7 +615,7 @@ if ( ! function_exists('_error_handler'))
 		$_error->log_exception($severity, $message, $filepath, $line);
 
 		// Should we display the error?
-		if (ini_get('display_errors'))
+		if (str_ireplace(array('off', 'none', 'no', 'false', 'null'), '', ini_get('display_errors')))
 		{
 			$_error->show_php_error($severity, $message, $filepath, $line);
 		}
@@ -650,7 +650,7 @@ if ( ! function_exists('_exception_handler'))
 		$_error->log_exception('error', 'Exception: '.$exception->getMessage(), $exception->getFile(), $exception->getLine());
 
 		// Should we display the error?
-		if (ini_get('display_errors'))
+		if (str_ireplace(array('off', 'none', 'no', 'false', 'null'), '', ini_get('display_errors')))
 		{
 			$_error->show_exception($exception);
 		}
