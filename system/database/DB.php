@@ -130,7 +130,7 @@ function &DB($params = '', $query_builder_override = NULL)
 			{
 				if (is_string($val) && in_array(strtoupper($val), array('TRUE', 'FALSE', 'NULL')))
 				{
-					$val = var_export($val);
+					$val = var_export($val, TRUE);
 				}
 
 				$params[$key] = $val;
