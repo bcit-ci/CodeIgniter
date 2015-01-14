@@ -107,34 +107,16 @@ abstract class CI_Session_driver implements SessionHandlerInterface {
 	/**
 	 * Get lock
 	 *
-	 * A default locking mechanism via semaphores, if ext/sysvsem is available.
-	 *
-	 * Drivers will usually override this and only fallback to it if no other
-	 * locking mechanism is available.
+	 * A dummy method allowing drivers with no locking functionality
+	 * (databases other than PostgreSQL and MySQL) to act as if they
+	 * do acquire a lock.
 	 *
 	 * @param	string	$session_id
 	 * @return	bool
 	 */
 	protected function _get_lock($session_id)
 	{
-		if ( ! extension_loaded('sysvsem'))
-		{
-			$this->_lock = TRUE;
-			return TRUE;
-		}
-
-		if (($this->_lock = sem_get($session_id.($this->_config['match_ip'] ? '_'.$_SERVER['REMOTE_ADDR'] : ''), 1, 0644)) === FALSE)
-		{
-			return FALSE;
-		}
-
-		if ( ! sem_acquire($this->_lock))
-		{
-			sem_remove($this->_lock);
-			$this->_lock = FALSE;
-			return FALSE;
-		}
-
+		$this->_lock = TRUE;
 		return TRUE;
 	}
 
@@ -147,10 +129,8 @@ abstract class CI_Session_driver implements SessionHandlerInterface {
 	 */
 	protected function _release_lock()
 	{
-		if (extension_loaded('sysvsem') && $this->_lock)
+		if ($this->_lock)
 		{
-			sem_release($this->_lock);
-			sem_remove($this->_lock);
 			$this->_lock = FALSE;
 		}
 
