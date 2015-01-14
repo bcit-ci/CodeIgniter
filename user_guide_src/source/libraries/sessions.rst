@@ -288,9 +288,9 @@ Preference                  Default         Options                     Descript
 **sess_use_database**       FALSE           TRUE/FALSE (boolean)        Whether to save the session data to a database. You must create the
                                                                         table before enabling this option (Cookie driver only).
 **sess_table_name**         ci_sessions     Any valid SQL table name    The name of the session database table (Cookie driver only).
-**sess_time_to_update**     300             Time in seconds             This options controls how often the session class will regenerate itself
+**sess_time_to_update**     300             Time in seconds             This option controls how often the session class will regenerate itself
                                                                         and create a new session ID. Setting it to 0 will disable session
-                                                                        ID regeneartion.
+                                                                        ID regeneration.
 **sess_match_ip**           FALSE           TRUE/FALSE (boolean)        Whether to match the user's IP address when reading the session data.
                                                                         Note that some ISPs dynamically changes the IP, so if you want a
                                                                         non-expiring session you will likely set this to FALSE.
@@ -322,7 +322,7 @@ installed, and `Custom Drivers`_ may also be installed by the user.
 Typically, only one driver will be used at a time, but CodeIgniter does
 support loading multiple drivers. If a specific valid driver is called, it
 will be automatically loaded. Or, an additional driver may be explicitly
-loaded by ``calling load_driver()``::
+loaded by calling ``load_driver()``::
 
 	$this->session->load_driver('native');
 

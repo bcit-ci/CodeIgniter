@@ -67,7 +67,7 @@ Description of array data:
 -  **blog_name** - The name of your weblog.
 -  **charset** - The character encoding your weblog is written in. If omitted, UTF-8 will be used.
 
-.. note:: the Trackback class will automatically send only the first 500 characters of your 
+.. note:: The Trackback class will automatically send only the first 500 characters of your 
 	entry. It will also strip all HTML.
 
 The Trackback sending method returns TRUE/FALSE (boolean) on success

@@ -2,7 +2,7 @@
 Zip Encoding Class
 ##################
 
-CodeIgniter's Zip Encoding Class classes permit you to create Zip
+CodeIgniter's Zip Encoding Class permits you to create Zip
 archives. Archives can be downloaded to your desktop or saved to a
 directory.
 
