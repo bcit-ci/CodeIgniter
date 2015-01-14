@@ -362,6 +362,10 @@ class CI_Security {
 		// Remove Invisible Characters
 		$str = remove_invisible_characters($str);
 
+		// rawurldecode is not always returning a valid UTF-8 string
+		// http://php.net/manual/en/function.rawurldecode.php#114205
+		$str = utf8_decode($str);
+
 		/*
 		 * URL Decode
 		 *
@@ -376,6 +380,8 @@ class CI_Security {
 			$str = rawurldecode($str);
 		}
 		while (preg_match('/%[0-9a-f]{2,}/i', $str));
+
+		$str = utf8_encode($str);
 
 		/*
 		 * Convert character entities to ASCII
