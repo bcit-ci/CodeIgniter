@@ -151,7 +151,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 			$this->_fingerprint = md5($result);
 			$this->_row_exists = TRUE;
-			return $result->data;
+			return $result;
 		}
 
 		$this->_fingerprint = md5('');
