@@ -145,12 +145,11 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 			// PostgreSQL's variant of a BLOB datatype is Bytea, which is a
 			// PITA to work with, so we use base64-encoded data in a TEXT
 			// field instead.
-			if ($this->_platform === 'postgre')
-			{
-				$result = base64_decode(rtrim($result->data));
-			}
+			$result = ($this->_platform === 'postgre')
+				? base64_decode(rtrim($result->data))
+				: $result->data;
 
-			$this->_fingerprint = md5(rtrim($result));
+			$this->_fingerprint = md5($result);
 			$this->_row_exists = TRUE;
 			return $result->data;
 		}
