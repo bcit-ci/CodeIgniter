@@ -178,7 +178,14 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 		if ($this->_row_exists === FALSE)
 		{
-			if ($this->_db->insert($this->_config['save_path'], array('id' => $session_id, 'ip_address' => $_SERVER['REMOTE_ADDR'], 'timestamp' => time(), 'data' => base64_encode($session_data))))
+			$insert_data = array(
+				'id' => $session_id,
+				'ip_address' => $_SERVER['REMOTE_ADDR'],
+				'timestamp' => time(),
+				'data' => ($this->_platform === 'postgre' ? base64_encode($session_data) : $session_data)
+			);
+
+			if ($this->_db->insert($this->_config['save_path'], $insert_data))
 			{
 				$this->_fingerprint = md5($session_data);
 				return $this->_row_exists = TRUE;
@@ -193,9 +200,13 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 			$this->_db->where('ip_address', $_SERVER['REMOTE_ADDR']);
 		}
 
-		$update_data = ($this->_fingerprint === md5($session_data))
-			? array('timestamp' => time())
-			: array('timestamp' => time(), 'data' => base64_encode($session_data));
+		$update_data = array('timestamp' => $time);
+		if ($this->_fingerprint !== md5($session_data))
+		{
+			$update_data['data'] = ($this->_platform === 'postgre')
+				? base64_encode($session_data)
+				: $session_data;
+		}
 
 		if ($this->_db->update($this->_config['save_path'], $update_data))
 		{
