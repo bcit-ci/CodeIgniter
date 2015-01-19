@@ -283,19 +283,19 @@ Release Date: Not Released
 
    -  :doc:`Session Library <libraries/sessions>` changes include:
 
-      -  Library changed to :doc:`Driver <general/drivers>` with classic 'cookie' driver as the default.
-      -  Added a 'native' PHP Session driver to work with ``$_SESSION``.
-      -  Added a new **tempdata** feature that allows setting userdata items with expiration time (``tempdata()``, ``set_tempdata()``, ``unset_tempdata()``).
-      -  Added default ``$config['sess_driver']`` and ``$config['sess_valid_drivers']`` items to *application/config.php* file.
-      -  Changed 'cookie' driver to respect php.ini's *session.gc_probability* and *session.gc_divisor* settings.
-      -  Changed 'cookie' driver to use HMAC authentication instead of a simple md5 checksum.
-      -  Changed 'cookie' driver to select only one row when using database sessions.
-      -  Changed 'cookie' driver to write to only write to the database at end of page execution.
+      -  Completely re-written the library to use self-contained drivers via ``$config['sess_driver']``.
+      -  Added 'files', 'database', 'redis' and 'memcached' drivers (using 'files' by default).
+      -  Added ``$config['sess_save_path']`` setting to specify where the session data is stored, depending on the driver.
+      -  Dropped support for storing session data in cookies (which renders ``$config['sess_encrypt_cookie']`` useless and is therefore also removed).
+      -  Dropped official  support for storing session data in databases other than MySQL and PostgreSQL.
+      -  Changed table structure for the 'database' driver.
+      -  Added a new **tempdata** feature that allows setting userdata items with expiration time (``mark_as_temp()``, ``tempdata()``, ``set_tempdata()``, ``unset_tempdata()``).
       -  Changed method ``keep_flashdata()`` to also accept an array of keys.
       -  Changed methods ``userdata()``, ``flashdata()`` to return an array of all userdata/flashdata when no parameter is passed.
       -  Deprecated method ``all_userdata()`` - it is now just an alias for ``userdata()`` with no parameters.
       -  Added method ``has_userdata()`` that verifies the existence of a userdata item.
       -  Added *debug* level log messages for key events in the session validation process.
+      -  Dropped support for the *sess_match_useragent* option.
 
    -  :doc:`File Uploading Library <libraries/file_uploading>` changes include:
 
