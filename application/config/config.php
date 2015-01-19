@@ -336,8 +336,8 @@ $config['cache_query_string'] = FALSE;
 | Encryption Key
 |--------------------------------------------------------------------------
 |
-| If you use the Encryption class must set the an encryption key.
-| See the user guide for info.
+| If you use the Encryption class, you must set the an encryption key.
+| See the user guide for more info.
 |
 | http://codeigniter.com/user_guide/libraries/encryption.html
 |
