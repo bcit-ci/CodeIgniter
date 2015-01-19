@@ -110,6 +110,15 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 	// ------------------------------------------------------------------------
 
+	/**
+	 * Open
+	 *
+	 * Initializes the database connection
+	 *
+	 * @param	string	$save_path	Table name
+	 * @param	string	$name		Session cookie name, unused
+	 * @return	bool
+	 */
 	public function open($save_path, $name)
 	{
 		return empty($this->_db->conn_id)
@@ -119,6 +128,14 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 	// ------------------------------------------------------------------------
 
+	/**
+	 * Read
+	 *
+	 * Reads session data and acquires a lock
+	 *
+	 * @param	string	$session_id	Session ID
+	 * @return	string	Serialized session data
+	 */
 	public function read($session_id)
 	{
 		if ($this->_get_lock($session_id) !== FALSE)
@@ -158,6 +175,17 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		return '';
 	}
 
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Write
+	 *
+	 * Writes (create / update) session data
+	 *
+	 * @param	string	$session_id	Session ID
+	 * @param	string	$session_data	Serialized session data
+	 * @return	bool
+	 */
 	public function write($session_id, $session_data)
 	{
 		// Was the ID regenerated?
@@ -219,6 +247,13 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 	// ------------------------------------------------------------------------
 
+	/**
+	 * Close
+	 *
+	 * Releases locks
+	 *
+	 * @return	void
+	 */
 	public function close()
 	{
 		return ($this->_lock)
@@ -228,6 +263,14 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 	// ------------------------------------------------------------------------
 
+	/**
+	 * Destroy
+	 *
+	 * Destroys the current session.
+	 *
+	 * @param	string	$session_id	Session ID
+	 * @return	bool
+	 */
 	public function destroy($session_id)
 	{
 		if ($this->_lock)
@@ -248,6 +291,14 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 	// ------------------------------------------------------------------------
 
+	/**
+	 * Garbage Collector
+	 *
+	 * Deletes expired sessions
+	 *
+	 * @param	int 	$maxlifetime	Maximum lifetime of sessions
+	 * @return	bool
+	 */
 	public function gc($maxlifetime)
 	{
 		return $this->_db->delete($this->_config['save_path'], 'timestamp < '.(time() - $maxlifetime));
@@ -255,6 +306,14 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 	// ------------------------------------------------------------------------
 
+	/**
+	 * Get lock
+	 *
+	 * Acquires a lock, depending on the underlying platform.
+	 *
+	 * @param	string	$session_id	Session ID
+	 * @return	bool
+	 */
 	protected function _get_lock($session_id)
 	{
 		if ($this->_platform === 'mysql')
@@ -285,6 +344,13 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 	// ------------------------------------------------------------------------
 
+	/**
+	 * Release lock
+	 *
+	 * Releases a previously acquired lock
+	 *
+	 * @return	bool
+	 */
 	protected function _release_lock()
 	{
 		if ( ! $this->_lock)

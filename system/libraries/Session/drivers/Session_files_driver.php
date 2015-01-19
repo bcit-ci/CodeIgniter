@@ -101,6 +101,15 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 
 	// ------------------------------------------------------------------------
 
+	/**
+	 * Open
+	 *
+	 * Sanitizes the save_path directory.
+	 *
+	 * @param	string	$save_path	Path to session files' directory
+	 * @param	string	$name		Session cookie name, unused
+	 * @return	bool
+	 */
 	public function open($save_path, $name)
 	{
 		if ( ! is_dir($save_path) && ! mkdir($save_path, 0700, TRUE))
@@ -119,6 +128,14 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 
 	// ------------------------------------------------------------------------
 
+	/**
+	 * Read
+	 *
+	 * Reads session data and acquires a lock
+	 *
+	 * @param	string	$session_id	Session ID
+	 * @return	string	Serialized session data
+	 */
 	public function read($session_id)
 	{
 		// This might seem weird, but PHP 5.6 introduces session_reset(),
@@ -180,6 +197,17 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 		return $session_data;
 	}
 
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Write
+	 *
+	 * Writes (create / update) session data
+	 *
+	 * @param	string	$session_id	Session ID
+	 * @param	string	$session_data	Serialized session data
+	 * @return	bool
+	 */
 	public function write($session_id, $session_data)
 	{
 		// If the two IDs don't match, we have a session_regenerate_id() call
@@ -230,6 +258,13 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 
 	// ------------------------------------------------------------------------
 
+	/**
+	 * Close
+	 *
+	 * Releases locks and closes file descriptor.
+	 *
+	 * @return	void
+	 */
 	public function close()
 	{
 		if (is_resource($this->_file_handle))
@@ -246,6 +281,14 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 
 	// ------------------------------------------------------------------------
 
+	/**
+	 * Destroy
+	 *
+	 * Destroys the current session.
+	 *
+	 * @param	string	$session_id	Session ID
+	 * @return	bool
+	 */
 	public function destroy($session_id)
 	{
 		if ($this->close())
@@ -265,6 +308,14 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 
 	// ------------------------------------------------------------------------
 
+	/**
+	 * Garbage Collector
+	 *
+	 * Deletes expired sessions
+	 *
+	 * @param	int 	$maxlifetime	Maximum lifetime of sessions
+	 * @return	bool
+	 */
 	public function gc($maxlifetime)
 	{
 		if ( ! is_dir($this->_config['save_path']) OR ($files = scandir($this->_config['save_path'])) === FALSE)
