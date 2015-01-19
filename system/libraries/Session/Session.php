@@ -48,6 +48,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_Session {
 
+	/**
+	 * Userdata array
+	 *
+	 * Just a reference to $_SESSION, for BC purposes.
+	 */
+	public $userdata;
+
 	protected $_driver = 'files';
 	protected $_config;
 
@@ -341,6 +348,8 @@ class CI_Session {
 				unset($_SESSION['__ci_vars']);
 			}
 		}
+
+		$this->userdata =& $_SESSION;
 	}
 
 	// ------------------------------------------------------------------------
