@@ -581,10 +581,12 @@ also do the following, after creating the table::
 	ALTER TABLE ci_sessions ADD CONSTRAINT ci_sessions_id_ip UNIQUE (session_id, ip_address);
 
 .. important:: Only MySQL and PostgreSQL databases are officially
-	supported, due to lack of locking mechanisms on other platforms.
-	Using sessions without locks can cause all sorts of problems,
-	especially with heavy usage of AJAX, and we will not support
-	such cases.
+	supported, due to lack of advisory locking mechanisms on other
+	platforms. Using sessions without locks can cause all sorts of
+	problems, especially with heavy usage of AJAX, and we will not
+	support such cases. Use ``session_write_close()`` after you've
+	done processing session data if you're having performance
+	issues.
 
 Redis Driver
 ------------
