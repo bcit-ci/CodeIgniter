@@ -336,11 +336,10 @@ $config['cache_query_string'] = FALSE;
 | Encryption Key
 |--------------------------------------------------------------------------
 |
-| If you use the Encryption class or the Session class you
-| MUST set an encryption key.  See the user guide for info.
+| If you use the Encryption class must set the an encryption key.
+| See the user guide for info.
 |
 | http://codeigniter.com/user_guide/libraries/encryption.html
-| http://codeigniter.com/user_guide/libraries/sessions.html
 |
 */
 $config['encryption_key'] = '';
@@ -365,7 +364,11 @@ $config['encryption_key'] = '';
 |
 | 'sess_save_path'
 |
-|	The location to save sessions to, driver dependant.
+|	The location to save sessions to, driver dependant
+|
+|	For the 'files' driver, it's a path to a directory.
+|	For the 'database' driver, it's a table name.
+|	Please read up the manual for the format with other session drivers.
 |
 | 'sess_match_ip'
 |
@@ -376,7 +379,7 @@ $config['encryption_key'] = '';
 |	How many seconds between CI regenerating the session ID.
 |
 | Other session cookie settings are shared with the rest of the application,
-| except for 'cookie_prefix', which is ignored here.
+| except for 'cookie_prefix' and 'cookie_httponly', which are ignored here.
 |
 */
 $config['sess_driver'] = 'files';
@@ -391,11 +394,14 @@ $config['sess_time_to_update'] = 300;
 | Cookie Related Variables
 |--------------------------------------------------------------------------
 |
-| 'cookie_prefix' = Set a prefix if you need to avoid collisions
-| 'cookie_domain' = Set to .your-domain.com for site-wide cookies
-| 'cookie_path'   =  Typically will be a forward slash
-| 'cookie_secure' =  Cookies will only be set if a secure HTTPS connection exists.
+| 'cookie_prefix'   = Set a cookie name prefix if you need to avoid collisions
+| 'cookie_domain'   = Set to .your-domain.com for site-wide cookies
+| 'cookie_path'     = Typically will be a forward slash
+| 'cookie_secure'   = Cookie will only be set if a secure HTTPS connection exists.
 | 'cookie_httponly' = Cookie will only be accessible via HTTP(S) (no javascript)
+|
+| Note: These settings (with the exception of 'cookie_prefix' and
+|       'cookie_httponly') will also affect sessions.
 |
 */
 $config['cookie_prefix']	= '';
