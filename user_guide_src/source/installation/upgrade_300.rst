@@ -83,37 +83,101 @@ or extensions to work, you need to move them to **application/core/**::
 	application/libraries/Log.php -> application/core/Log.php
 	application/libraries/MY_Log.php -> application/core/MY_Log.php
 
-*********************************************************
-Step 6: Convert your Session usage from library to driver
-*********************************************************
+*****************************************
+Step 6: Update your Session library usage
+*****************************************
 
-When you load (or autoload) the Session library, you must now load it as a driver instead of a library. This means
-calling ``$this->load->driver('session')`` instead of ``$this->load->library('session')`` and/or listing 'session'
-in ``$autoload['drivers']`` instead of ``$autoload['libraries']``.
+The :doc:`Session Library </libraries/session>` has been completely
+re-written in CodeIgniter 3 and now comes with a bunch of new features,
+but that also means that there are changes that you should make ...
 
-With the change from a single Session Library to the new Session Driver, two new config items have been added:
+Most notably, - the library now uses separate storage drivers instead of
+always relying on (encrypted) cookies.
+In fact, cookies as storage have now been removed and you must always use
+some kind of server-side storage engine, with the file-system being the
+default option.
 
-   -  ``$config['sess_driver']`` selects which driver to initially load. Options are:
-       -  'cookie' (the default) for classic CodeIgniter cookie-based sessions
-       -  'native' for native PHP Session support
-       -  the name of a custom driver you have provided (see :doc:`Session Driver <../libraries/sessions>` for more info)
-   -  ``$config['sess_valid_drivers']`` provides an array of additional custom drivers to make available for loading
+The Session Class now utilizes PHP's own mechanisms for building custom
+session handlers, which also means that your session data is now
+accessible via the ``$_SESSION`` superglobal (though, we've kept the
+possibility to use it as "userdata", like you've done until now).
 
-As the new Session Driver library loads the classic Cookie driver by default and always makes 'cookie' and 'native'
-available as valid drivers, neither of these configuration items are required. However, it is recommended that you
-add them for clarity and ease of configuration in the future.
+A few configuration options have been removed and a few have been added.
+You should really read the whole :doc:`Session library manual
+</libraries/session>` for the details, but here's a short list of changes
+that you should make:
 
-If you have written a Session extension, you must move it into a 'Session' sub-directory of 'libraries', following the
-standard for Drivers. Also beware that some functions which are not part of the external Session API have moved into
-the drivers, so your extension may have to be broken down into separate library and driver class extensions.
+  - Set your ``$config['sess_driver']`` value
+
+    It will default to 'files', unles you've previously used
+    ``$config['sess_use_database']``, in which case it will be set to
+    'database'.
+
+  - Set a ``$config['sess_save_path']`` value
+
+    For the 'database' driver, a fallback to ``$config['sess_table_name']``
+    is in place, but otherwise requires you to read the manual for the
+    specific driver of your choice.
+
+  - Update your ``ci_sessions`` table ('database' driver only)
+
+    The table structure has changed a bit, and more specifically:
+
+      - ``user_agent`` field is dropped
+      - ``user_data`` field is renamed to ``data`` and under MySQL is now of type BLOB
+      - ``last_activity`` field is renamed to ``timestamp``
+
+    This is accompanied by a slight change in the table indexes too, so
+    please read the manual about the :doc:`Session Database Driver
+    </libraries/session#database-driver>` for more information.
+
+    .. important:: Only MySQL and PostgreSQL are officially supported
+    	now. Other databases may still work, but due to lack of advisory
+    	locking features, they are unsafe for concurrent requests and
+    	you should consider using another driver instead.
+
+  - Remove ``$config['sess_match_useragent']``
+
+    The user-agent string is input supplied by the user's browser, or in
+    other words: client side input. As such, it is an ineffective feature
+    and hence why it has been removed.
+
+  - Remove ``$config['sess_encrypt_cookie']``
+
+    As already noted, the library no longer uses cookies as a storage
+    mechanism, which renders this option useless.
+
+  - Remove ``$config['sess_expire_on_close']``
+
+    This option is still usable, but only for backwards compatibility
+    purposes and it should be otherwise removed. The same effect is
+    achieved by setting ``$config['sess_expiration']`` to 0.
+
+  - Check "flashdata" for collisions with "userdata"
+
+    Flashdata is now just regular "userdata", only marked for deletion on
+    the next request. In other words: you can't have both "userdata" and
+    "flashdata" with the same name, because it's the same thing.
+
+  - Check usage of session metadata
+
+    Previously, you could access the 'session_id', 'ip_address',
+    'user_agent' and 'last_activity' metadata items as userdata.
+    This is no longer possible, and you should read the notes about
+    :doc:`Session Metadata </libraries/session#session-metadata>` if your
+    application relies on those values.
+
+Finally, if you have written a Session extension, you must now move it to
+the *application/libraries/Session/* directory, although chances are that
+it will now also have to be re-factored.
 
 ***************************************
 Step 7: Update your config/database.php
 ***************************************
 
-Due to 3.0.0's renaming of Active Record to Query Builder, inside your `config/database.php`, you will
-need to rename the `$active_record` variable to `$query_builder`
-::
+Due to 3.0.0's renaming of Active Record to Query Builder, inside your
+**config/database.php**, you will need to rename the ``$active_record``
+variable to ``$query_builder``::
 
 	$active_group = 'default';
 	// $active_record = TRUE;
