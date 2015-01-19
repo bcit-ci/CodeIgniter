@@ -91,7 +91,7 @@ The :doc:`Session Library </libraries/session>` has been completely
 re-written in CodeIgniter 3 and now comes with a bunch of new features,
 but that also means that there are changes that you should make ...
 
-Most notably, - the library now uses separate storage drivers instead of
+Most notably, the library now uses separate storage drivers instead of
 always relying on (encrypted) cookies.
 In fact, cookies as storage have now been removed and you must always use
 some kind of server-side storage engine, with the file-system being the
@@ -164,8 +164,8 @@ that you should make:
     Previously, you could access the 'session_id', 'ip_address',
     'user_agent' and 'last_activity' metadata items as userdata.
     This is no longer possible, and you should read the notes about
-    :doc:`Session Metadata </libraries/session#session-metadata>` if your
-    application relies on those values.
+    :doc:`Session Metadata </libraries/session#accessing-session-metadata>`
+    if your application relies on those values.
 
 Finally, if you have written a Session extension, you must now move it to
 the *application/libraries/Session/* directory, although chances are that

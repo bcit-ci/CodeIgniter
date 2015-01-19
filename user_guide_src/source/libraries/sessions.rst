@@ -378,7 +378,7 @@ by default: 'session_id', 'ip_address', 'user_agent', 'last_activity'.
 This was due to the specifics of how sessions worked, but is now no longer
 necessary with our new implementation. However, it may happen that your
 application relied on these values, so here are alternative methods of
-accessing them::
+accessing them:
 
   - session_id: ``session_id()``
   - ip_address: ``$_SERVER['REMOTE_ADDR']``
