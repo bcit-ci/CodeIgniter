@@ -1,6 +1,6 @@
-##############
-Session Driver
-##############
+###############
+Session Library
+###############
 
 The Session class permits you maintain a user's "state" and track their
 activity while they browse your site.
