@@ -87,7 +87,7 @@ or extensions to work, you need to move them to **application/core/**::
 Step 6: Update your Session library usage
 *****************************************
 
-The :doc:`Session Library </libraries/session>` has been completely
+The :doc:`Session Library </libraries/sessions>` has been completely
 re-written in CodeIgniter 3 and now comes with a bunch of new features,
 but that also means that there are changes that you should make ...
 
@@ -104,7 +104,7 @@ possibility to use it as "userdata", like you've done until now).
 
 A few configuration options have been removed and a few have been added.
 You should really read the whole :doc:`Session library manual
-</libraries/session>` for the details, but here's a short list of changes
+</libraries/sessions>` for the details, but here's a short list of changes
 that you should make:
 
   - Set your ``$config['sess_driver']`` value
@@ -128,8 +128,8 @@ that you should make:
       - ``last_activity`` field is renamed to ``timestamp``
 
     This is accompanied by a slight change in the table indexes too, so
-    please read the manual about the :doc:`Session Database Driver
-    </libraries/session#database-driver>` for more information.
+    please read the manual about the `Session Database Driver
+    <../libraries/sessions.html#database-driver>`_ for more information.
 
     .. important:: Only MySQL and PostgreSQL are officially supported
     	now. Other databases may still work, but due to lack of advisory
@@ -164,7 +164,7 @@ that you should make:
     Previously, you could access the 'session_id', 'ip_address',
     'user_agent' and 'last_activity' metadata items as userdata.
     This is no longer possible, and you should read the notes about
-    :doc:`Session Metadata </libraries/session#accessing-session-metadata>`
+    `Session Metadata <../libraries/sessions.html#accessing-session-metadata>`_
     if your application relies on those values.
 
 Finally, if you have written a Session extension, you must now move it to
