@@ -554,18 +554,18 @@ And then of course, create the database table ...
 For MySQL::
 
 	CREATE TABLE IF NOT EXISTS `ci_sessions` (
-		`session_id` varchar(40) NOT NULL,
+		`id` varchar(40) NOT NULL,
 		`ip_address` varchar(45) NOT NULL,
 		`timestamp` int(10) unsigned DEFAULT 0 NOT NULL,
 		`data` blob DEFAULT '' NOT NULL,
-		PRIMARY KEY (session_id, ip_address),
+		PRIMARY KEY (id, ip_address),
 		KEY `ci_sessions_timestamp` (`timestamp`)
 	);
 
 For PostgreSQL::
 
 	CREATE TABLE "ci_sessions" (
-		"session_id" varchar(40) NOT NULL,
+		"id" varchar(40) NOT NULL,
 		"ip_address" varchar(45) NOT NULL,
 		"timestamp" bigint DEFAULT 0 NOT NULL,
 		"data" text DEFAULT '' NOT NULL,
@@ -578,7 +578,7 @@ However, if you want to turn on the *sess_match_ip* setting, you should
 also do the following, after creating the table::
 
 	// Works both on MySQL and PostgreSQL
-	ALTER TABLE ci_sessions ADD CONSTRAINT ci_sessions_id_ip UNIQUE (session_id, ip_address);
+	ALTER TABLE ci_sessions ADD CONSTRAINT ci_sessions_id_ip UNIQUE (id, ip_address);
 
 .. important:: Only MySQL and PostgreSQL databases are officially
 	supported, due to lack of advisory locking mechanisms on other

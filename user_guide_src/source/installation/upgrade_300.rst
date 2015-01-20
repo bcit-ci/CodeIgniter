@@ -123,6 +123,7 @@ that you should make:
 
     The table structure has changed a bit, and more specifically:
 
+      - ``session_id`` field is renamed to ``id``
       - ``user_agent`` field is dropped
       - ``user_data`` field is renamed to ``data`` and under MySQL is now of type BLOB
       - ``last_activity`` field is renamed to ``timestamp``
