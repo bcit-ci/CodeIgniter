@@ -63,6 +63,3 @@ class CI_DB_pdo_forge extends CI_DB_forge {
 	protected $_drop_table_if	= FALSE;
 
 }
-
-/* End of file pdo_forge.php */
-/* Location: ./system/database/drivers/pdo/pdo_forge.php */

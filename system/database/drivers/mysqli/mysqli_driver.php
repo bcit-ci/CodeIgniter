@@ -484,6 +484,3 @@ class CI_DB_mysqli_driver extends CI_DB {
 	}
 
 }
-
-/* End of file mysqli_driver.php */
-/* Location: ./system/database/drivers/mysqli/mysqli_driver.php */

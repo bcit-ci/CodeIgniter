@@ -554,6 +554,3 @@ class CI_Trackback {
 	}
 
 }
-
-/* End of file Trackback.php */
-/* Location: ./system/libraries/Trackback.php */

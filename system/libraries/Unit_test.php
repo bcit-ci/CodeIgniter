@@ -403,6 +403,3 @@ function is_false($test)
 {
 	return ($test === FALSE);
 }
-
-/* End of file Unit_test.php */
-/* Location: ./system/libraries/Unit_test.php */

@@ -196,6 +196,3 @@ class CI_DB_pdo_result extends CI_DB_result {
 	}
 
 }
-
-/* End of file pdo_result.php */
-/* Location: ./system/database/drivers/pdo/pdo_result.php */

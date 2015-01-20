@@ -777,6 +777,3 @@ class CI_Output {
 	}
 
 }
-
-/* End of file Output.php */
-/* Location: ./system/core/Output.php */

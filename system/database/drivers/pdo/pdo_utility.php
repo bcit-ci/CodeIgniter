@@ -61,6 +61,3 @@ class CI_DB_pdo_utility extends CI_DB_utility {
 	}
 
 }
-
-/* End of file pdo_utility.php */
-/* Location: ./system/database/drivers/pdo/pdo_utility.php */

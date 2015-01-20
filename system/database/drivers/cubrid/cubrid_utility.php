@@ -77,6 +77,3 @@ class CI_DB_cubrid_utility extends CI_DB_utility {
 		return $this->db->display_error('db_unsupported_feature');
 	}
 }
-
-/* End of file cubrid_utility.php */
-/* Location: ./system/database/drivers/cubrid/cubrid_utility.php */

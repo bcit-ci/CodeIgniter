@@ -159,6 +159,3 @@ class CI_DB_ibase_result extends CI_DB_result {
 	}
 
 }
-
-/* End of file ibase_result.php */
-/* Location: ./system/database/drivers/ibase/ibase_result.php */

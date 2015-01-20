@@ -1900,6 +1900,3 @@ class XML_RPC_Values extends CI_Xmlrpc
 	}
 
 } // END XML_RPC_Values Class
-
-/* End of file Xmlrpc.php */
-/* Location: ./system/libraries/Xmlrpc.php */

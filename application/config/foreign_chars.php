@@ -136,6 +136,3 @@ $foreign_characters = array(
 	'/Я/' => 'Ya',
 	'/я/' => 'ya'
 );
-
-/* End of file foreign_chars.php */
-/* Location: ./application/config/foreign_chars.php */

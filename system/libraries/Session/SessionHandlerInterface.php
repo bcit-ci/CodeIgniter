@@ -57,6 +57,3 @@ interface SessionHandlerInterface {
 	public function destroy($session_id);
 	public function gc($maxlifetime);
 }
-
-/* End of file SessionHandlerInterface.php */
-/* Location: ./system/libraries/Session/SessionHandlerInterface.php */

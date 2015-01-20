@@ -201,6 +201,3 @@ class CI_Lang {
 	}
 
 }
-
-/* End of file Lang.php */
-/* Location: ./system/core/Lang.php */

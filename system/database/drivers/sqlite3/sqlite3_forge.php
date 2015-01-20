@@ -222,6 +222,3 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 	}
 
 }
-
-/* End of file sqlite3_forge.php */
-/* Location: ./system/database/drivers/sqlite3/sqlite3_forge.php */

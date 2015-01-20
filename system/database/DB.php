@@ -215,6 +215,3 @@ function &DB($params = '', $query_builder_override = NULL)
 
 	return $DB;
 }
-
-/* End of file DB.php */
-/* Location: ./system/database/DB.php */
