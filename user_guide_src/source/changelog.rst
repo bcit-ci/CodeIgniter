@@ -553,6 +553,7 @@ Release Date: Not Released
 
       -  Added a ``$config['log_file_permissions']`` setting.
       -  Changed the library constructor to try to create the **log_path** directory if it doesn't exist.
+      -  Added support for microseconds ("u" date format character) in ``$config['log_date_format']``.
 
    -  Added `compatibility layers <general/compatibility_functions>` for:
 
