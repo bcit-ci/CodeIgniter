@@ -43,7 +43,7 @@ this code and save it to your **application/views/** directory::
 
 	<?php echo $error;?>
 
-	<?php echo form_open_multipart('upload/do_upload');?>
+	<?php echo form_open_multipart('uploader/do_upload');?>
 
 	<input type="file" name="userfile" size="20" />
 
@@ -82,7 +82,7 @@ place this code and save it to your **application/views/** directory::
 	<?php endforeach; ?>
 	</ul>
 
-	<p><?php echo anchor('upload', 'Upload Another File!'); ?></p>
+	<p><?php echo anchor('uploader', 'Upload Another File!'); ?></p>
 
 	</body>
 	</html>
@@ -90,12 +90,12 @@ place this code and save it to your **application/views/** directory::
 The Controller
 ==============
 
-Using a text editor, create a controller called Upload.php. In it, place
+Using a text editor, create a controller called Uploader.php. In it, place
 this code and save it to your **application/controllers/** directory::
 
 	<?php
 
-	class Upload extends CI_Controller {
+	class Uploader extends CI_Controller {
 
 		public function __construct()
 		{
@@ -146,7 +146,7 @@ Try it!
 
 To try your form, visit your site using a URL similar to this one::
 
-	example.com/index.php/upload/
+	example.com/index.php/uploader/
 
 You should see an upload form. Try uploading an image file (either a
 jpg, gif, or png). If the path in your controller is correct it should
