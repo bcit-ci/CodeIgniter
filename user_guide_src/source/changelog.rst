@@ -104,7 +104,7 @@ Release Date: Not Released
    -  :doc:`Form Helper <helpers/form_helper>` changes include:
 
       - :func:`form_dropdown()` will now also take an array for unity with other form helpers.
-      - :func:`form_prep()`'s second argument now only accepts a boolean value, which determines whether the value is escaped for a <textarea> or a regular <input> element.
+      - :func:`form_prep()` is now DEPRECATED and only acts as an alias for :doc:`common function <general/common_functions>` :func:`html_escape()`.
 
    -  :doc:`Security Helper <helpers/security_helper>` changes include:
 

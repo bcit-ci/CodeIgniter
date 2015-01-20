@@ -19,6 +19,31 @@ This helper is loaded using the following code::
 
 	$this->load->helper('form');
 
+Escaping field values
+=====================
+
+You may need to use HTML and characters such as quotes within your form
+elements. In order to do that safely, you'll need to use
+:doc:`common function <../general/common_functions>`
+:func:`html_escape()`.
+
+Consider the following example::
+
+	$string = 'Here is a string containing "quoted" text.';
+
+	<input type="text" name="myfield" value="<?php echo $string; ?>" />
+
+Since the above string contains a set of quotes, it will cause the form
+to break. The :func:`html_escape()` function converts HTML special
+characters so that it can be used safely::
+
+	<input type="text" name="myfield" value="<?php echo html_escape($string); ?>" />
+
+.. note:: If you use any of the form helper functions listed on this page,
+	the form values will be automatically escaped, so there is no need
+	to call this function. Use it only if you are creating your own
+	form elements.
+
 Available Functions
 ===================
 
@@ -546,37 +571,10 @@ The following functions are available:
 		// Would produce:  </form> </div></div>
 
 
-.. function:: form_prep([$str = ''[, $is_textarea = FALSE]])
-
-	:param	string	$str: Value to escape
-	:param	bool	$is_textarea: Whether we're preparing for <textarea> or a regular input tag
-	:returns:	Escaped value
-	:rtype:	string
-
-	Allows you to safely use HTML and characters such as quotes within form
-	elements without breaking out of the form.
-
-	Consider this example::
-
-		$string = 'Here is a string containing "quoted" text.';
-		<input type="text" name="myform" value="$string" />
-
-	Since the above string contains a set of quotes it will cause the form
-	to break. The ``form_prep()`` function converts HTML so that it can be used
-	safely::
-
-		<input type="text" name="myform" value="<?php echo form_prep($string); ?>" />
-
-	.. note:: If you use any of the form helper functions listed in this page the form
-		values will be prepped automatically, so there is no need to call this
-		function. Use it only if you are creating your own form elements.
-
-
-.. function:: set_value([$field = ''[, $default = ''[, $is_textarea = FALSE]]])
+.. function:: set_value($field[, $default = ''])
 
 	:param	string	$field: Field name
 	:param	string	$default: Default value
-	:param	bool	$is_textarea: Whether we're setting <textarea> content
 	:returns:	Field value
 	:rtype:	string
 
@@ -587,12 +585,16 @@ The following functions are available:
 
 	Example::
 
-		<input type="text" name="quantity" value="<?=set_value('quantity', '0');?>" size="50" />
+		<input type="text" name="quantity" value="<?php echo set_value('quantity', '0'); ?>" size="50" />
 
 	The above form will show "0" when loaded for the first time.
 
+	.. note:: Only use this function with raw HTML fields, as it
+		internally calls :func:`html_escape()` and combining its
+		usage with other form helper functions will result in
+		double HTML encoding!
 
-.. function:: set_select([$field = ''[, $value = ''[, $default = FALSE]]])
+.. function:: set_select($field[, $value = ''[, $default = FALSE]])
 
 	:param	string	$field: Field name
 	:param	string	$value: Value to check for
@@ -615,7 +617,7 @@ The following functions are available:
 			<option value="three" <?php echo  set_select('myselect', 'three'); ?> >Three</option>
 		</select>
 
-.. function:: set_checkbox([$field = ''[, $value = ''[, $default = FALSE]]])
+.. function:: set_checkbox($field[, $value = ''[, $default = FALSE]])
 
 	:param	string	$field: Field name
 	:param	string	$value: Value to check for
@@ -634,7 +636,7 @@ The following functions are available:
 		<input type="checkbox" name="mycheck" value="1" <?php echo set_checkbox('mycheck', '1'); ?> />
 		<input type="checkbox" name="mycheck" value="2" <?php echo set_checkbox('mycheck', '2'); ?> />
 
-.. function:: set_radio([$field = ''[, $value = ''[, $default = FALSE]]])
+.. function:: set_radio($field[, $value = ''[, $default = FALSE]])
 
 	:param	string	$field: Field name
 	:param	string	$value: Value to check for
@@ -700,3 +702,20 @@ The following functions are available:
 			<span class="error">The "password" field doesn't match the "repeat_password" field!</span>
 
 		 */
+
+.. function:: form_prep($str)
+
+	:param	string	$str: Value to escape
+	:returns:	Escaped value
+	:rtype:	string
+
+	Allows you to safely use HTML and characters such as quotes within form
+	elements without breaking out of the form.
+
+	.. note:: If you use any of the form helper functions listed in this page the form
+		values will be prepped automatically, so there is no need to call this
+		function. Use it only if you are creating your own form elements.
+
+	.. note:: This function is DEPRECATED and is just an alias for
+		:doc:`common function <../general/common_functions>`
+		:func:`html_escape()` - please use that instead.
