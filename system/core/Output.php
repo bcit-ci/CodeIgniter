@@ -141,7 +141,7 @@ class CI_Output {
 		// Get mime types for later
 		$this->mimes =& get_mimes();
 
-		log_message('debug', 'Output Class Initialized');
+		log_message('info', 'Output Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -491,7 +491,7 @@ class CI_Output {
 			}
 
 			echo $output;
-			log_message('debug', 'Final output sent to browser');
+			log_message('info', 'Final output sent to browser');
 			log_message('debug', 'Total execution time: '.$elapsed);
 			return;
 		}
@@ -528,7 +528,7 @@ class CI_Output {
 			echo $output; // Send it to the browser!
 		}
 
-		log_message('debug', 'Final output sent to browser');
+		log_message('info', 'Final output sent to browser');
 		log_message('debug', 'Total execution time: '.$elapsed);
 	}
 

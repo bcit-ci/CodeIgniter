@@ -72,6 +72,8 @@ class CI_Config {
 	 */
 	public $_config_paths =	array(APPPATH);
 
+	// --------------------------------------------------------------------
+
 	/**
 	 * Class constructor
 	 *
@@ -82,7 +84,6 @@ class CI_Config {
 	public function __construct()
 	{
 		$this->config =& get_config();
-		log_message('debug', 'Config Class Initialized');
 
 		// Set the base_url automatically if none was provided
 		if (empty($this->config['base_url']))
@@ -101,6 +102,8 @@ class CI_Config {
 
 			$this->set_item('base_url', $base_url);
 		}
+
+		log_message('info', 'Config Class Initialized');
 	}
 
 	// --------------------------------------------------------------------

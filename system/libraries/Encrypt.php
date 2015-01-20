@@ -97,7 +97,7 @@ class CI_Encrypt {
 			show_error('The Encrypt library requires the Mcrypt extension.');
 		}
 
-		log_message('debug', 'Encrypt Class Initialized');
+		log_message('info', 'Encrypt Class Initialized');
 	}
 
 	// --------------------------------------------------------------------

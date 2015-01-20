@@ -296,7 +296,7 @@ class CI_Upload {
 		$this->_mimes =& get_mimes();
 		$this->_CI =& get_instance();
 
-		log_message('debug', 'Upload Class Initialized');
+		log_message('info', 'Upload Class Initialized');
 	}
 
 	// --------------------------------------------------------------------

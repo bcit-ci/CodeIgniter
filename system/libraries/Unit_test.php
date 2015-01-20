@@ -111,7 +111,7 @@ class CI_Unit_test {
 	 */
 	public function __construct()
 	{
-		log_message('debug', 'Unit Testing Class Initialized');
+		log_message('info', 'Unit Testing Class Initialized');
 	}
 
 	// --------------------------------------------------------------------

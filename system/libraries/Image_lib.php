@@ -392,7 +392,7 @@ class CI_Image_lib {
 			$this->initialize($props);
 		}
 
-		log_message('debug', 'Image Lib Class Initialized');
+		log_message('info', 'Image Lib Class Initialized');
 	}
 
 	// --------------------------------------------------------------------

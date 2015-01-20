@@ -314,7 +314,7 @@ class CI_Xmlrpc {
 
 		$this->initialize($config);
 
-		log_message('debug', 'XML-RPC Class Initialized');
+		log_message('info', 'XML-RPC Class Initialized');
 	}
 
 	// --------------------------------------------------------------------

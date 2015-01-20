@@ -138,7 +138,7 @@ class CI_Loader {
 		$this->_ci_ob_level = ob_get_level();
 		$this->_ci_classes =& is_loaded();
 
-		log_message('debug', 'Loader Class Initialized');
+		log_message('info', 'Loader Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -577,7 +577,7 @@ class CI_Loader {
 
 				include_once($base_helper);
 				$this->_ci_helpers[$helper] = TRUE;
-				log_message('debug', 'Helper loaded: '.$helper);
+				log_message('info', 'Helper loaded: '.$helper);
 				continue;
 			}
 
@@ -589,7 +589,7 @@ class CI_Loader {
 					include_once($path.'helpers/'.$helper.'.php');
 
 					$this->_ci_helpers[$helper] = TRUE;
-					log_message('debug', 'Helper loaded: '.$helper);
+					log_message('info', 'Helper loaded: '.$helper);
 					break;
 				}
 			}
@@ -914,7 +914,7 @@ class CI_Loader {
 			include($_ci_path); // include() vs include_once() allows for multiple views with the same name
 		}
 
-		log_message('debug', 'File loaded: '.$_ci_path);
+		log_message('info', 'File loaded: '.$_ci_path);
 
 		// Return the file data if requested
 		if ($_ci_return === TRUE)

@@ -116,6 +116,7 @@ class CI_Profiler {
 		}
 
 		$this->set_sections($config);
+		log_message('info', 'Profiler Class Initialized');
 	}
 
 	// --------------------------------------------------------------------

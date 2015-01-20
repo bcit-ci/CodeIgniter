@@ -85,7 +85,7 @@ class CI_Javascript {
 		// make js to refer to current library
 		$this->js =& $this->CI->$js_library_driver;
 
-		log_message('debug', 'Javascript Class Initialized and loaded. Driver used: '.$js_library_driver);
+		log_message('info', 'Javascript Class Initialized and loaded. Driver used: '.$js_library_driver);
 	}
 
 	// --------------------------------------------------------------------

@@ -126,7 +126,7 @@ class CI_Migration {
 			$this->{'_'.$key} = $val;
 		}
 
-		log_message('debug', 'Migrations class initialized');
+		log_message('info', 'Migrations Class Initialized');
 
 		// Are they trying to use migrations while it is disabled?
 		if ($this->_migration_enabled !== TRUE)

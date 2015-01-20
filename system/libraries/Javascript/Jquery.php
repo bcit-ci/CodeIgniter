@@ -115,7 +115,7 @@ class CI_Jquery extends CI_Javascript {
 			$this->script();
 		}
 
-		log_message('debug', 'Jquery Class Initialized');
+		log_message('info', 'Jquery Class Initialized');
 	}
 
 	// --------------------------------------------------------------------

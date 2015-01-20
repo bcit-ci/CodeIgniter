@@ -101,9 +101,7 @@ There are three message types:
    example, if a class has been initialized, you could log this as
    debugging info.
 #. Informational Messages. These are the lowest priority messages,
-   simply giving information regarding some process. CodeIgniter doesn't
-   natively generate any info messages but you may want to in your
-   application.
+   simply giving information regarding some process.
 
 .. note:: In order for the log file to actually be written, the *logs*
 	directory must be writable. In addition, you must set the "threshold"

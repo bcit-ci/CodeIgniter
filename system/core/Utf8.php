@@ -74,7 +74,7 @@ class CI_Utf8 {
 			log_message('debug', 'UTF-8 Support Disabled');
 		}
 
-		log_message('debug', 'Utf8 Class Initialized');
+		log_message('info', 'Utf8 Class Initialized');
 	}
 
 	// --------------------------------------------------------------------

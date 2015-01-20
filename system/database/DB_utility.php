@@ -87,7 +87,7 @@ abstract class CI_DB_utility {
 	public function __construct(&$db)
 	{
 		$this->db =& $db;
-		log_message('debug', 'Database Utility Class Initialized');
+		log_message('info', 'Database Utility Class Initialized');
 	}
 
 	// --------------------------------------------------------------------

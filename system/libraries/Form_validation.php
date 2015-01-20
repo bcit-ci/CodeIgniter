@@ -146,7 +146,7 @@ class CI_Form_validation {
 		// Automatically load the form helper
 		$this->CI->load->helper('form');
 
-		log_message('debug', 'Form Validation Class Initialized');
+		log_message('info', 'Form Validation Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
