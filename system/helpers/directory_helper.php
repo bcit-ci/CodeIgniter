@@ -62,12 +62,33 @@ if ( ! function_exists('directory_map'))
 	 * @param	int	$directory_depth	Depth of directories to traverse
 	 *						(0 = fully recursive, 1 = current dir, etc)
 	 * @param	bool	$hidden			Whether to show hidden files
+	 * @param	mixed	$get_file_info		Whether to get file info, or an array (or 
+	 *						string) to specify the returned file info 
+	 *						(see {@link get_file_info()} for options)
 	 * @return	array
 	 */
-	function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE)
+	function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE, $get_file_info = FALSE)
 	{
 		if ($fp = @opendir($source_dir))
 		{
+			if ($get_file_info !== FALSE)
+			{
+				// If $get_file_info is not one of the permitted types, set it
+				// to the default value to indicate that the default functionality
+				// should be used. This reduces the need to perform more (or more
+				// complex) type checks inside the loop.
+
+				if ($get_file_info !== TRUE && ! is_array($get_file_info) && ! is_string($get_file_info))
+				{
+					$get_file_info = FALSE;
+				}
+				else
+				{
+					// Ensure the availability of get_file_info().
+					get_instance()->load->helper('file');
+				}
+			}
+
 			$filedata	= array();
 			$new_depth	= $directory_depth - 1;
 			$source_dir	= rtrim($source_dir, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
@@ -88,7 +109,18 @@ if ( ! function_exists('directory_map'))
 				}
 				else
 				{
+					if ($get_file_info === FALSE)
+					{
 					$filedata[] = $file;
+					}
+					elseif ($get_file_info === TRUE)
+					{
+						$filedata[$file] = get_file_info($file);
+					}
+					else
+					{
+						$filedata[$file] = get_file_info($file, $get_file_info);
+					}
 				}
 			}
 

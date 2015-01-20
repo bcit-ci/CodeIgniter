@@ -139,6 +139,12 @@ The following functions are available:
 	if forced by sending the second parameter to FALSE, as this can be an intensive
 	operation.
 
+	Note that the array keys returned by this function are the names of the files. This can be problematic
+	when ``$top_level_only`` is FALSE and files in multiple levels of the directory hierarchy use the same
+	file name. For these situations, it may be preferable to use the directory helper's ``directory_map()`` 
+	function with the optional 4th parameter set to TRUE (or a value accepted by ``get_file_info()``'s 
+	``$returned_values`` parameter).
+
 	Example::
 
 		$models_info = get_dir_file_info(APPPATH.'models/');

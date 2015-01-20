@@ -144,7 +144,11 @@ Release Date: Not Released
       - Changed the default tag for use in :func:`highlight_phrase()` to ``<mark>`` (formerly ``<strong>``).
       - Changed :func:`character_limiter()`, :func:`word_wrap()` and :func:`ellipsize()` to utilize `mbstring <http://php.net/mbstring>`_ or `iconv <http://php.net/iconv>`_, if available.
 
-   -  :doc:`Directory Helper <helpers/directory_helper>` :func:`directory_map()` will now append ``DIRECTORY_SEPARATOR`` to directory names in the returned array.
+   -  :doc:`Directory Helper <helpers/directory_helper>` changes include:
+   
+      - func:`directory_map()` will now append ``DIRECTORY_SEPARATOR`` to directory names in the returned array.
+      - func:`directory_map()` will now accept a 4th parameter to indicate whether each file in the map should be passed to func:`get_file_info()`. This parameter may also be an array or string to be passed as the second argument to func:`get_file_info()`, indicating what information should be returned.
+
    -  :doc:`Array Helper <helpers/array_helper>` :func:`element()` and :func:`elements()` now return NULL instead of FALSE when the required elements don't exist.
    -  :doc:`Language Helper <helpers/language_helper>` :func:`lang()` now accepts an optional list of additional HTML attributes.
    -  Deprecated the :doc:`Email Helper <helpers/email_helper>` as its ``valid_email()``, ``send_email()`` functions are now only aliases for PHP native functions ``filter_var()`` and ``mail()`` respectively.
