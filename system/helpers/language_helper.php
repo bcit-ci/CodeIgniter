@@ -73,6 +73,3 @@ if ( ! function_exists('lang'))
 		return $line;
 	}
 }
-
-/* End of file language_helper.php */
-/* Location: ./system/helpers/language_helper.php */

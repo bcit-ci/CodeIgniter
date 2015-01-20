@@ -244,6 +244,3 @@ $robots = array(
 	'feedfetcher-google'	=> 'Feedfetcher Google',
 	'curious george'	=> 'Curious George'
 );
-
-/* End of file user_agents.php */
-/* Location: ./application/config/user_agents.php */

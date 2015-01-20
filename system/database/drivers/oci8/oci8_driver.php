@@ -708,6 +708,3 @@ class CI_DB_oci8_driver extends CI_DB {
 	}
 
 }
-
-/* End of file oci8_driver.php */
-/* Location: ./system/database/drivers/oci8/oci8_driver.php */

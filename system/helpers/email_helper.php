@@ -82,6 +82,3 @@ if ( ! function_exists('send_email'))
 		return mail($recipient, $subject, $message);
 	}
 }
-
-/* End of file email_helper.php */
-/* Location: ./system/helpers/email_helper.php */

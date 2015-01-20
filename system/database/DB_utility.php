@@ -421,6 +421,3 @@ abstract class CI_DB_utility {
 	}
 
 }
-
-/* End of file DB_utility.php */
-/* Location: ./system/database/DB_utility.php */

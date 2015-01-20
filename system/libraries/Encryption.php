@@ -924,6 +924,3 @@ class CI_Encryption {
 			: substr($str, $start);
 	}
 }
-
-/* End of file Encryption.php */
-/* Location: ./system/libraries/Encryption.php */

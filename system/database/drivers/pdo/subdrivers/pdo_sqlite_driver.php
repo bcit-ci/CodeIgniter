@@ -203,6 +203,3 @@ class CI_DB_pdo_sqlite_driver extends CI_DB_pdo_driver {
 	}
 
 }
-
-/* End of file pdo_sqlite_driver.php */
-/* Location: ./system/database/drivers/pdo/subdrivers/pdo_sqlite_driver.php */

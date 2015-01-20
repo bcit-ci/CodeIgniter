@@ -355,6 +355,3 @@ class CI_DB_sqlite_driver extends CI_DB {
 	}
 
 }
-
-/* End of file sqlite_driver.php */
-/* Location: ./system/database/drivers/sqlite/sqlite_driver.php */

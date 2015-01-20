@@ -67,6 +67,3 @@ class CI_DB_ibase_utility extends CI_DB_utility {
 	}
 
 }
-
-/* End of file ibase_utility.php */
-/* Location: ./system/database/drivers/ibase/ibase_utility.php */

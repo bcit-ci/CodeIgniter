@@ -88,6 +88,3 @@ if ( ! function_exists('xml_convert'))
 		return $str;
 	}
 }
-
-/* End of file xml_helper.php */
-/* Location: ./system/helpers/xml_helper.php */

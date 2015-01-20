@@ -80,6 +80,3 @@ if ( ! function_exists('set_realpath'))
 		return is_dir($path) ? rtrim($path, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR : $path;
 	}
 }
-
-/* End of file path_helper.php */
-/* Location: ./system/helpers/path_helper.php */

@@ -192,6 +192,3 @@ class CI_DB_sqlite3_result extends CI_DB_result {
 	}
 
 }
-
-/* End of file sqlite3_result.php */
-/* Location: ./system/database/drivers/sqlite3/sqlite3_result.php */

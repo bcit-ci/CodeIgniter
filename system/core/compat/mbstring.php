@@ -147,6 +147,3 @@ if ( ! function_exists('mb_substr'))
 			: substr($str, $start);
 	}
 }
-
-/* End of file mbstring.php */
-/* Location: ./system/core/compat/mbstring.php */

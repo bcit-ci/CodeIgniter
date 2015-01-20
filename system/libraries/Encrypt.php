@@ -478,6 +478,3 @@ class CI_Encrypt {
 	}
 
 }
-
-/* End of file Encrypt.php */
-/* Location: ./system/libraries/Encrypt.php */

@@ -142,6 +142,3 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 	}
 
 }
-
-/* End of file sqlsrv_forge.php */
-/* Location: ./system/database/drivers/sqlsrv/sqlsrv_forge.php */

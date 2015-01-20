@@ -75,6 +75,3 @@ class CI_DB_sqlsrv_utility extends CI_DB_utility {
 	}
 
 }
-
-/* End of file sqlsrv_utility.php */
-/* Location: ./system/database/drivers/sqlsrv/sqlsrv_utility.php */

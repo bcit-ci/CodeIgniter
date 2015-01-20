@@ -383,6 +383,3 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	}
 
 }
-
-/* End of file Session_database_driver.php */
-/* Location: ./system/libraries/Session/drivers/Session_database_driver.php */

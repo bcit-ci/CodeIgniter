@@ -248,6 +248,3 @@ class CI_DB_pdo_cubrid_driver extends CI_DB_pdo_driver {
 	}
 
 }
-
-/* End of file pdo_cubrid_driver.php */
-/* Location: ./system/database/drivers/pdo/subdrivers/pdo_cubrid_driver.php */

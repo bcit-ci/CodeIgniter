@@ -256,6 +256,3 @@ class CI_DB_pdo_mysql_forge extends CI_DB_pdo_forge {
 	}
 
 }
-
-/* End of file pdo_mysql_forge.php */
-/* Location: ./system/database/drivers/pdo/subdrivers/pdo_mysql_forge.php */
