@@ -396,9 +396,10 @@ Release Date: Not Released
       -  Added support for the anchor "rel" attribute.
       -  Added support for setting custom attributes.
       -  Added support for language translations of the *first_link*, *next_link*, *prev_link* and *last_link* values.
-      -  Added ``$config['reuse_query_string']`` to allow automatic repopulation of query string arguments, combined with normal URI segments.
-      -  Removed the default ``&nbsp;`` from a number of the configuration variables.
       -  Added support for ``$config['num_links'] = 0`` configuration.
+      -  Added ``$config['reuse_query_string']`` to allow automatic repopulation of query string arguments, combined with normal URI segments.
+      -  Added ``$config['use_global_url_suffix']`` to allow overriding the library 'suffix' value with that of the global ``$config['url_suffix']`` setting.
+      -  Removed the default ``&nbsp;`` from a number of the configuration variables.
 
    -  :doc:`Profiler Library <general/profiling>` changes include:
 

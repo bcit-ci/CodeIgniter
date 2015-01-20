@@ -131,6 +131,12 @@ the offset segment.
 A custom suffix added to the path. The sufix value will be right after
 the offset segment.
 
+**$config['use_global_url_suffix'] = FALSE;**
+
+When set to TRUE, it will **override** the ``$config['suffix']`` value and
+instead set it to the one that you have in ``$config['url_suffix']`` in
+your **application/config/config.php** file.
+
 ***********************
 Adding Enclosing Markup
 ***********************
