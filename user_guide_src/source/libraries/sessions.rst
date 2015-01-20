@@ -47,7 +47,7 @@ Once loaded, the Sessions library object will be available using::
 
 	$this->session
 
-.. important:: Because the :doc:`Loader Class <../loader>` is instantiated
+.. important:: Because the :doc:`Loader Class </libraries/loader>` is instantiated
 	by CodeIgniter's base controller, make sure to call
 	``parent::__construct()`` before trying to load a library from
 	inside a controller constructor.
@@ -400,7 +400,7 @@ You'll find the following Session related preferences in your
 Preference               Default         Options                                  Description
 ======================== =============== ======================================== ============================================================================================
 **sess_driver**          files           files/database/redis/memcached/*custom*  The session storage driver to use.
-**sess_cookie_name**     ci_session      [A-Za-z_-] characters only               The name used for the session cookie.
+**sess_cookie_name**     ci_session      [A-Za-z\_-] characters only              The name used for the session cookie.
 **sess_expiration**      7200 (2 hours)  Time in seconds (integer)                The number of seconds you would like the session to last.
                                                                                   If you would like a non-expiring session (until browser is closed) set the value to zero: 0
 **sess_save_path**       NULL            None                                     Specifies the storage location, depends on the driver being used.
@@ -878,7 +878,7 @@ Class Reference
 	.. method:: keep_flashdata($key)
 
 		:param	mixed	$key: Flashdata key to keep, or an array of multiple keys
-		:returns	TRUE on success, FALSE on failure
+		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
 
 		Retains the specified session data key(s) as "flashdata"

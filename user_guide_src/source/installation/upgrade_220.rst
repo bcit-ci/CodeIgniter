@@ -2,7 +2,7 @@
 Upgrading from 2.1.4 to 2.2.0
 #############################
 
-.. note:: The :doc:`Encrypt Class <libraries/encrypt>` now requires the
+.. note:: The :doc:`Encrypt Class </libraries/encrypt>` now requires the
 	Mcrypt extension. If you were previously using the Encrypt Class
 	without Mcrypt, then this is a breaking change.  You must install
 	the Mcrypt extension in order to upgrade. For information on
