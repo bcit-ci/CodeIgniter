@@ -405,11 +405,18 @@ class Loader_test extends CI_TestCase {
 		// Create model in VFS package path
 		$dir = 'third-party';
 		$lib = 'unit_test_package';
-		$class = 'CI_'.ucfirst($lib);
+		$class = ucfirst($lib);
 		$this->ci_vfs_create(ucfirst($lib), '<?php class '.$class.' { }', $this->ci_app_root, array($dir, 'libraries'));
 
 		// Get paths
 		$paths = $this->load->get_package_paths(TRUE);
+
+		// Test failed load without path
+		$this->setExpectedException(
+			'RuntimeException',
+			'CI Error: Unable to load the requested class: '.ucfirst($lib)
+		);
+		$this->load->library($lib);
 
 		// Add path and verify
 		$path = APPPATH.$dir.'/';
@@ -432,13 +439,6 @@ class Loader_test extends CI_TestCase {
 		// Remove path and verify restored paths
 		$this->assertInstanceOf('CI_Loader', $this->load->remove_package_path($path));
 		$this->assertEquals($paths, $this->load->get_package_paths(TRUE));
-
-		// Test failed load without path
-		$this->setExpectedException(
-			'RuntimeException',
-			'CI Error: Unable to load the requested class: '.ucfirst($lib)
-		);
-		$this->load->library($lib);
 	}
 
 	// --------------------------------------------------------------------
