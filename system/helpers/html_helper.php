@@ -342,12 +342,12 @@ if ( ! function_exists('script_tag'))
 	 *
 	 * Generates link to a JavaScript file
 	 *
-	 * @param	mixed	stylesheet srcs or an array
+	 * @param	mixed  scripts srcs or an array
 	 * @param	bool   async
-   * @param	bool   defer
+	 * @param	bool   defer
 	 * @param	string type
 	 * @param	string charset
-	 * @param	bool	 should index_page be added to the css path
+	 * @param	bool   should index_page be added to the js path
 	 * @return	string
 	 */
 	function script_tag($src = '', $async = FALSE, $defer = FALSE, $type = 'text/javascript', $charset = '', $index_page = FALSE)
@@ -393,17 +393,17 @@ if ( ! function_exists('script_tag'))
 
 			$script .= 'type="'.$type.'" ';
       
-      if ($charset !== '')
+			if ($charset !== '')
 			{
 				$script .= 'charset="'.$charset.'" ';
 			}
       
-      if ($async === TRUE && $src !== '')
+			if ($async === TRUE && $src !== '')
 			{
 				$script .= 'async ';
 			}
       
-      if ($defer === TRUE && $src !== '')
+			if ($defer === TRUE && $src !== '')
 			{
 				$script .= 'defer ';
 			}
