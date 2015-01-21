@@ -191,6 +191,3 @@ class CI_DB_sqlsrv_result extends CI_DB_result {
 	}
 
 }
-
-/* End of file sqlsrv_result.php */
-/* Location: ./system/database/drivers/sqlsrv/sqlsrv_result.php */

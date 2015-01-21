@@ -264,6 +264,3 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 	}
 
 }
-
-/* End of file pdo_mysql_driver.php */
-/* Location: ./system/database/drivers/pdo/subdrivers/pdo_mysql_driver.php */

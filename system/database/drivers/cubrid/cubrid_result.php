@@ -175,6 +175,3 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	}
 
 }
-
-/* End of file cubrid_result.php */
-/* Location: ./system/database/drivers/cubrid/cubrid_result.php */

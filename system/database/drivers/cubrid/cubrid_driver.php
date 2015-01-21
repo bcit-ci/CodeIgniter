@@ -421,6 +421,3 @@ class CI_DB_cubrid_driver extends CI_DB {
 	}
 
 }
-
-/* End of file cubrid_driver.php */
-/* Location: ./system/database/drivers/cubrid/cubrid_driver.php */

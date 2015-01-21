@@ -131,6 +131,3 @@ class CI_Benchmark {
 	}
 
 }
-
-/* End of file Benchmark.php */
-/* Location: ./system/core/Benchmark.php */

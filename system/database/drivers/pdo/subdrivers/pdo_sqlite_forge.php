@@ -235,6 +235,3 @@ class CI_DB_pdo_sqlite_forge extends CI_DB_pdo_forge {
 	}
 
 }
-
-/* End of file pdo_sqlite_forge.php */
-/* Location: ./system/database/drivers/pdo/subdrivers/pdo_sqlite_forge.php */

@@ -161,6 +161,3 @@ class CI_DB_pdo_informix_forge extends CI_DB_pdo_forge {
 	}
 
 }
-
-/* End of file pdo_informix_forge.php */
-/* Location: ./system/database/drivers/pdo/subdrivers/pdo_informix_forge.php */

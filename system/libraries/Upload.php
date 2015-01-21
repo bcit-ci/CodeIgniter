@@ -1300,6 +1300,3 @@ class CI_Upload {
 	}
 
 }
-
-/* End of file Upload.php */
-/* Location: ./system/libraries/Upload.php */

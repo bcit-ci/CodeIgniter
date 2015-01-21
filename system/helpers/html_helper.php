@@ -408,6 +408,3 @@ if ( ! function_exists('nbs'))
 		return str_repeat('&nbsp;', $num);
 	}
 }
-
-/* End of file html_helper.php */
-/* Location: ./system/helpers/html_helper.php */

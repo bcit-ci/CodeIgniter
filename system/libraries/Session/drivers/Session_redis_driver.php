@@ -393,6 +393,3 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	}
 
 }
-
-/* End of file Session_redis_driver.php */
-/* Location: ./system/libraries/Session/drivers/Session_redis_driver.php */

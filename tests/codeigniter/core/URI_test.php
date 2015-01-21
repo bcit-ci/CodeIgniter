@@ -252,6 +252,3 @@ class URI_test extends CI_TestCase {
 	}
 
 }
-
-/* End of file URI_test.php */
-/* Location: ./tests/core/URI_test.php */

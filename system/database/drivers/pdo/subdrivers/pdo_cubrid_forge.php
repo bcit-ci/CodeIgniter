@@ -225,6 +225,3 @@ class CI_DB_pdo_cubrid_forge extends CI_DB_pdo_forge {
 	}
 
 }
-
-/* End of file pdo_cubrid_forge.php */
-/* Location: ./system/database/drivers/pdo/subdrivers/pdo_cubrid_forge.php */
