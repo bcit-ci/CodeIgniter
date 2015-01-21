@@ -146,7 +146,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 			$this->_db
 				->select('data')
 				->from($this->_config['save_path'])
-				->where('id', $session_id);
+				->where('session_id', $session_id);
 
 			if ($this->_config['match_ip'])
 			{
@@ -207,7 +207,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		if ($this->_row_exists === FALSE)
 		{
 			$insert_data = array(
-				'id' => $session_id,
+				'session_id' => $session_id,
 				'ip_address' => $_SERVER['REMOTE_ADDR'],
 				'timestamp' => time(),
 				'data' => ($this->_platform === 'postgre' ? base64_encode($session_data) : $session_data)
@@ -222,7 +222,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 			return FALSE;
 		}
 
-		$this->_db->where('id', $session_id);
+		$this->_db->where('session_id', $session_id);
 		if ($this->_config['match_ip'])
 		{
 			$this->_db->where('ip_address', $_SERVER['REMOTE_ADDR']);
@@ -275,7 +275,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	{
 		if ($this->_lock)
 		{
-			$this->_db->where('id', $session_id);
+			$this->_db->where('session_id', $session_id);
 			if ($this->_config['match_ip'])
 			{
 				$this->_db->where('ip_address', $_SERVER['REMOTE_ADDR']);
