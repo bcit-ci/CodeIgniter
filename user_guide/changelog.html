@@ -72,10 +72,15 @@ Change Log
 <h3>Bug fixes:</h3>
 <ul>
 	<li>Fixed a bug (#3094) - <samp>CI_Input::_clean_input_data()</samp> breaks encrypted session cookies.</li>
-	<li>Fixed a bug (#2508) - <a href="libraries/config.html">Config Library</a> didn't properly detect if the current request is via HTTPS.</li>
-	<li>Fixed a bug (#3314) - SQLSRV <a href="database/index.html">Database driver</a>'s method <samp>count_all()</samp> didn't escape the supplied table name.</li>
+	<li>Fixed a bug (#2268) - <samp>CI_Security::xss_clean()</samp> didn't properly match JavaScript events.</li>
 	<li>Fixed a bug (#3309) - <samp>CI_Security::xss_clean()</samp> used an overly-invasive pattern to strip JS event handlers.</li>
 	<li>Fixed a bug (#2771) - <samp>CI_Security::xss_clean()</samp> didn't take into account HTML5 entities.</li>
+	<li>Fixed a bug (#73) - <samp>CI_Security::sanitize_filename()</samp> could be tricked by an XSS attack.</li>
+	<li>Fixed a bug (#2681) - <samp>CI_Security::entity_decode()</samp> used the PREG_REPLACE_EVAL flag, which is deprecated since PHP 5.5.</li>
+	<li>Fixed a bug (#3302) - Internal function <samp>get_config()</samp> triggered an E_NOTICE message on PHP 5.6.</li>
+	<li>Fixed a bug (#2508) - <a href="libraries/config.html">Config Library</a> didn't properly detect if the current request is via HTTPS.</li>
+	<li>Fixed a bug (#3314) - SQLSRV <a href="database/index.html">Database driver</a>'s method <samp>count_all()</samp> didn't escape the supplied table name.</li>
+	<li>Fixed a bug (#3404) - MySQLi <a href="database/index.html">Database driver</a>'s method <samp>escape_str()</samp> had a wrong fallback to <samp>mysql_escape_string()</samp> when there was no active connection.</li>
 </ul>
 
 <h2>Version 2.2.0</h2>
