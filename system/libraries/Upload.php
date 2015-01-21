@@ -1053,7 +1053,7 @@ class CI_Upload {
 
 		/* This is an ugly hack, but UNIX-type systems provide a "native" way to detect the file type,
 		 * which is still more secure than depending on the value of $_FILES[$field]['type'], and as it
-		 * was reported in issue #750 (https://github.com/EllisLab/CodeIgniter/issues/750) - it's better
+		 * was reported in issue #750 (https://github.com/bcit-ci/CodeIgniter/issues/750) - it's better
 		 * than mime_content_type() as well, hence the attempts to try calling the command line with
 		 * three different functions.
 		 *
