@@ -135,6 +135,51 @@ The following functions are available:
 		// <link href="http://site.com/css/printer.css" rel="stylesheet" type="text/css" media="print" />
 
 
+.. function:: script_tag([$src = ''[, $async = FALSE[, $defer = FALSE[, $type = 'text/javascript'[, $charset = ''[, $index_page = FALSE]]]]]])
+
+	:param	string	$src: What are we linking to
+	:param	bool	$async: Specifies that the script is executed asynchronously
+	:param	boll	$defer: Specifies that the script is executed when the page has finished parsing
+	:param	string	$type: Type of the related document
+	:param	string	$charset: Specifies the character encoding used in an external script file
+	:param	bool	$index_page: Whether to treat $src as a routed URI string
+	:returns:	HTML script tag
+	:rtype:	string
+
+	Lets you create HTML <script><script/> tags. This is useful for JavaScript
+	links, as well as other links. The parameters are *src*, with optional *async*,
+	*defer*, *type*, *charset* and *index_page*.
+
+	*index_page* is a boolean value that specifies if the *href* should have
+	the page specified by ``$config['index_page']`` added to the address it creates.
+
+	Example::
+
+		echo script_tag('js/myscript.js');
+		// gives <script src="http://localhost/codeigniter/js/myscript.js" type="text/javascript"></script>
+
+	Further examples::
+
+		echo link_tag('favicon.ico', 'shortcut icon', 'image/ico');
+		// <link href="http://site.com/favicon.ico" rel="shortcut icon" type="image/ico" />
+
+		echo link_tag('feed', 'alternate', 'application/rss+xml', 'My RSS Feed');
+		// <link href="http://site.com/feed" rel="alternate" type="application/rss+xml" title="My RSS Feed" />
+
+	Additionally, an associative array can be passed to the ``link()`` function
+	for complete control over all attributes and values::
+
+		$link = array(
+			'href'	=> 'css/printer.css',
+			'rel'	=> 'stylesheet',
+			'type'	=> 'text/css',
+			'media'	=> 'print'
+		);
+
+		echo link_tag($link);
+		// <link href="http://site.com/css/printer.css" rel="stylesheet" type="text/css" media="print" />
+
+
 .. function:: ul($list[, $attributes = ''])
 
 	:param	array	$list: List entries
