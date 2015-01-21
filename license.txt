@@ -1,9 +1,11 @@
 Copyright (c) 2008 - 2014, EllisLab, Inc.
+Copyright (c) 2014 - 2015, British Columbia Institute of Technology
 All rights reserved.
 
-This license is a legal agreement between you and EllisLab Inc. for the use
-of CodeIgniter Software (the "Software").  By obtaining the Software you
-agree to comply with the terms and conditions of this license.
+This license is a legal agreement between you and the British Columbia
+Institute of Technology for the use of CodeIgniter Software (the
+"Software").  By obtaining the Software you agree to comply with the terms
+and conditions of this license.
 
 PERMITTED USE
 You are permitted to use, copy, modify, and distribute the Software and its
@@ -27,7 +29,7 @@ the following conditions are met:
 
 6. Products derived from the Software may not be called "CodeIgniter",
    nor may "CodeIgniter" appear in their name, without prior written
-   permission from EllisLab, Inc.
+   permission from British Columbia Institute of Technology.
 
 INDEMNITY
 You agree to indemnify and hold harmless the authors of the Software and
