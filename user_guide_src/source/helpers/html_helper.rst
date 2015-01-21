@@ -164,7 +164,7 @@ The following functions are available:
 		// <script src="http://localhost/codeigniter/js/myscripts.js" type="text/javascript" async ></script>
 
 		echo script_tag('js/myscripts.js', FALSE, TRUE, 'text/ecmascript', 'UTF-8');
-		<script src="http://localhost/codeigniter/js/myscripts.js" type="text/ecmascript" charset="UTF-8" defer></script>
+		// <script src="http://localhost/codeigniter/js/myscripts.js" type="text/ecmascript" charset="UTF-8" defer></script>
 
 	Additionally, an associative array can be passed to the ``script()`` function
 	for complete control over all attributes and values::
