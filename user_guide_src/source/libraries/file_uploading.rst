@@ -134,6 +134,10 @@ this code and save it to your **application/controllers/** directory::
 	}
 	?>
 
+.. note:: Since CodeIgniter 3.0 duplication of names is not allowed,
+  this implies that the controller must not be named with the same
+  name as the library upload.
+
 The Upload Directory
 ====================
 
