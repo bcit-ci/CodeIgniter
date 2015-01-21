@@ -360,7 +360,7 @@ class CI_Session {
 	function sess_update()
 	{
 		// We only update the session every five minutes by default
-		if (($this->userdata['last_activity'] + $this->sess_time_to_update) >= $this->now)
+		if ($this->CI->input->is_ajax_request() OR ($this->userdata['last_activity'] + $this->sess_time_to_update) >= $this->now)
 		{
 			return;
 		}
