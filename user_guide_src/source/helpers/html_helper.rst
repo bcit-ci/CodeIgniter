@@ -146,8 +146,8 @@ The following functions are available:
 	:returns:	HTML script tag
 	:rtype:	string
 
-	Lets you create HTML <script><script/> tags. This is useful for JavaScript
-	links, as well as other links. The parameters are *src*, with optional *async*,
+	Lets you create HTML <script><script/> tags. This is useful for script links,
+	as well as other links. The parameters are *src*, with optional *async*,
 	*defer*, *type*, *charset* and *index_page*.
 
 	*index_page* is a boolean value that specifies if the *href* should have
@@ -160,24 +160,25 @@ The following functions are available:
 
 	Further examples::
 
-		echo link_tag('favicon.ico', 'shortcut icon', 'image/ico');
-		// <link href="http://site.com/favicon.ico" rel="shortcut icon" type="image/ico" />
+		echo script_tag('js/myscripts.js', TRUE);
+		// <script src="http://localhost/codeigniter/js/myscripts.js" type="text/javascript" async ></script>
 
-		echo link_tag('feed', 'alternate', 'application/rss+xml', 'My RSS Feed');
-		// <link href="http://site.com/feed" rel="alternate" type="application/rss+xml" title="My RSS Feed" />
+		echo script_tag('js/myscripts.js', FALSE, TRUE, 'text/ecmascript', 'UTF-8');
+		<script src="http://localhost/codeigniter/js/myscripts.js" type="text/ecmascript" charset="UTF-8" defer></script>
 
-	Additionally, an associative array can be passed to the ``link()`` function
+	Additionally, an associative array can be passed to the ``script()`` function
 	for complete control over all attributes and values::
 
-		$link = array(
-			'href'	=> 'css/printer.css',
-			'rel'	=> 'stylesheet',
-			'type'	=> 'text/css',
-			'media'	=> 'print'
+		$script = array(
+			'src' => 'js/main.js',
+  			'type' => 'text/javascript',
+  			'async' => TRUE,
+  			'defer' => TRUE,
+  			'charset' => 'UTF-8'
 		);
 
-		echo link_tag($link);
-		// <link href="http://site.com/css/printer.css" rel="stylesheet" type="text/css" media="print" />
+		echo script_tag($script);
+		// <script src="http://localhost/codeigniter/js/main.js" type="text/javascript" async defer charset="UTF-8"></script>
 
 
 .. function:: ul($list[, $attributes = ''])
