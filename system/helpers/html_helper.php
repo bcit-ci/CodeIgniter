@@ -340,7 +340,7 @@ if ( ! function_exists('script_tag'))
 	/**
 	 * Script
 	 *
-	 * Generates link to a JavaScript file
+	 * Generates link to a Script file
 	 *
 	 * @param	mixed  scripts srcs or an array
 	 * @param	bool   async
@@ -370,6 +370,14 @@ if ( ! function_exists('script_tag'))
 						$script .= 'src="'.$CI->config->slash_item('base_url').$v.'" ';
 					}
 				}
+        elseif ($k === 'async' && $v === TRUE)
+        {
+          $script .= 'async ';
+        }
+        elseif ($k === 'defer' && $v === TRUE)
+        {
+          $script .= 'defer ';
+        }
 				else
 				{
 					$script .= $k.'="'.$v.'" ';
