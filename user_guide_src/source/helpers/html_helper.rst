@@ -135,6 +135,52 @@ The following functions are available:
 		// <link href="http://site.com/css/printer.css" rel="stylesheet" type="text/css" media="print" />
 
 
+.. function:: script_tag([$src = ''[, $async = FALSE[, $defer = FALSE[, $type = 'text/javascript'[, $charset = ''[, $index_page = FALSE]]]]]])
+
+	:param	string	$src: What are we linking to
+	:param	bool	$async: Specifies that the script is executed asynchronously
+	:param	boll	$defer: Specifies that the script is executed when the page has finished parsing
+	:param	string	$type: Type of the related document
+	:param	string	$charset: Specifies the character encoding used in an external script file
+	:param	bool	$index_page: Whether to treat $src as a routed URI string
+	:returns:	HTML script tag
+	:rtype:	string
+
+	Lets you create HTML <script><script/> tags. This is useful for script links,
+	as well as other links. The parameters are *src*, with optional *async*,
+	*defer*, *type*, *charset* and *index_page*.
+
+	*index_page* is a boolean value that specifies if the *href* should have
+	the page specified by ``$config['index_page']`` added to the address it creates.
+
+	Example::
+
+		echo script_tag('js/myscript.js');
+		// gives <script src="http://localhost/codeigniter/js/myscript.js" type="text/javascript"></script>
+
+	Further examples::
+
+		echo script_tag('js/myscripts.js', TRUE);
+		// <script src="http://localhost/codeigniter/js/myscripts.js" type="text/javascript" async ></script>
+
+		echo script_tag('js/myscripts.js', FALSE, TRUE, 'text/ecmascript', 'UTF-8');
+		// <script src="http://localhost/codeigniter/js/myscripts.js" type="text/ecmascript" charset="UTF-8" defer></script>
+
+	Additionally, an associative array can be passed to the ``script()`` function
+	for complete control over all attributes and values::
+
+		$script = array(
+			'src' => 'js/main.js',
+  			'type' => 'text/javascript',
+  			'async' => TRUE,
+  			'defer' => TRUE,
+  			'charset' => 'UTF-8'
+		);
+
+		echo script_tag($script);
+		// <script src="http://localhost/codeigniter/js/main.js" type="text/javascript" async defer charset="UTF-8"></script>
+
+
 .. function:: ul($list[, $attributes = ''])
 
 	:param	array	$list: List entries
