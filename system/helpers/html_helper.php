@@ -370,14 +370,14 @@ if ( ! function_exists('script_tag'))
 						$script .= 'src="'.$CI->config->slash_item('base_url').$v.'" ';
 					}
 				}
-        elseif ($k === 'async' && $v === TRUE)
-        {
-          $script .= 'async ';
-        }
-        elseif ($k === 'defer' && $v === TRUE)
-        {
-          $script .= 'defer ';
-        }
+			        elseif ($k === 'async' && $v === TRUE)
+			        {
+			          $script .= 'async ';
+			        }
+			        elseif ($k === 'defer' && $v === TRUE)
+			        {
+			          $script .= 'defer ';
+			        }
 				else
 				{
 					$script .= $k.'="'.$v.'" ';
