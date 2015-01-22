@@ -225,6 +225,3 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	}
 
 }
-
-/* End of file cubrid_forge.php */
-/* Location: ./system/database/drivers/cubrid/cubrid_forge.php */

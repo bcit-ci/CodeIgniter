@@ -235,6 +235,3 @@ class CI_Log {
 	}
 
 }
-
-/* End of file Log.php */
-/* Location: ./system/core/Log.php */

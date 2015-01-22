@@ -372,6 +372,3 @@ class CI_DB_odbc_driver extends CI_DB {
 	}
 
 }
-
-/* End of file odbc_driver.php */
-/* Location: ./system/database/drivers/odbc/odbc_driver.php */

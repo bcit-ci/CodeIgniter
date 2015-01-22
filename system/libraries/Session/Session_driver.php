@@ -146,6 +146,3 @@ abstract class CI_Session_driver implements SessionHandlerInterface {
 	}
 
 }
-
-/* End of file Session_driver.php */
-/* Location: ./system/libraries/Session/Session_driver.php */

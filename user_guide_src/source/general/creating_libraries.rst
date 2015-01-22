@@ -54,8 +54,6 @@ Classes should have this basic prototype::
 		}
 	}
 
-	/* End of file Someclass.php */
-
 .. note:: We are using the name Someclass purely as an example.
 
 Using Your Class

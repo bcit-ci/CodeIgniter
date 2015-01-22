@@ -78,6 +78,3 @@ class CI_Model {
 	}
 
 }
-
-/* End of file Model.php */
-/* Location: ./system/core/Model.php */

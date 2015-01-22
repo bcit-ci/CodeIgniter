@@ -303,6 +303,3 @@ if ( ! function_exists('repeater'))
 		return ($num > 0) ? str_repeat($data, $num) : '';
 	}
 }
-
-/* End of file string_helper.php */
-/* Location: ./system/helpers/string_helper.php */

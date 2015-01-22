@@ -272,6 +272,3 @@ class CI_Cache extends CI_Driver_Library {
 	}
 
 }
-
-/* End of file Cache.php */
-/* Location: ./system/libraries/Cache/Cache.php */

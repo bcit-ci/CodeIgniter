@@ -893,6 +893,3 @@ class CI_Session {
 	}
 
 }
-
-/* End of file Session.php */
-/* Location: ./system/libraries/Session/Session.php */

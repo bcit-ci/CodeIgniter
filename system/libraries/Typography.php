@@ -423,6 +423,3 @@ class CI_Typography {
 	}
 
 }
-
-/* End of file Typography.php */
-/* Location: ./system/libraries/Typography.php */

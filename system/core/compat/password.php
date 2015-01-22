@@ -231,6 +231,3 @@ if ( ! function_exists('password_verify'))
 		return ($compare === 0);
 	}
 }
-
-/* End of file password.php */
-/* Location: ./system/core/compat/password.php */

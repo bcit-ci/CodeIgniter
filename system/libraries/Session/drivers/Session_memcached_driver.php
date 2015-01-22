@@ -373,6 +373,3 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 	}
 
 }
-
-/* End of file Session_memcached_driver.php */
-/* Location: ./system/libraries/Session/drivers/Session_memcached_driver.php */

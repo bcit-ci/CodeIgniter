@@ -358,6 +358,3 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	}
 
 }
-
-/* End of file sqlite3_driver.php */
-/* Location: ./system/database/drivers/sqlite3/sqlite3_driver.php */

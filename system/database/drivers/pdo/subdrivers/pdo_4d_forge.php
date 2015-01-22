@@ -215,6 +215,3 @@ class CI_DB_pdo_4d_forge extends CI_DB_4d_forge {
 	}
 
 }
-
-/* End of file pdo_4d_forge.php */
-/* Location: ./system/database/drivers/pdo/subdrivers/pdo_4d_forge.php */

@@ -28,5 +28,3 @@ class Path_helper_test extends CI_TestCase {
 	}
 
 }
-
-/* End of file path_helper_test.php */
