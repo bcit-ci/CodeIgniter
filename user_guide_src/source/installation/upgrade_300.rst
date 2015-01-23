@@ -1,5 +1,5 @@
 #############################
-Upgrading from 2.2.0 to 3.0.0
+Upgrading from 2.2.1 to 3.0.0
 #############################
 
 .. note:: These upgrade notes are for a version that is yet to be released.
