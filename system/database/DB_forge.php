@@ -27,7 +27,7 @@
  * THE SOFTWARE.
  *
  * @package	CodeIgniter
- * @author	EllisLab Dev Team
+ * @author	CodeIgniter Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
@@ -41,7 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Database Forge Class
  *
  * @category	Database
- * @author		EllisLab Dev Team
+ * @author		CodeIgniter Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
 abstract class CI_DB_forge {
