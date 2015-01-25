@@ -52,7 +52,7 @@ Once you've assigned the object to a variable, you'll use that variable
 	This is very important. Assigning by reference allows you to use the
 	original CodeIgniter object rather than creating a copy of it.
 
-Furthermore, if you'll be using ``get_intance()`` inside anoter class,
+Furthermore, if you'll be using ``get_intance()`` inside another class,
 then it would be better if you assign it to a property. This way, you
 won't need to call ``get_instance()`` in every single method.
 
