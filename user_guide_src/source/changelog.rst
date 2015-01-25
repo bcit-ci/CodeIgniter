@@ -2279,7 +2279,7 @@ Release Date: January 30, 2008
    -  Added an "integer" rule into the Validation library.
    -  Added valid_base64() to the Validation library.
    -  Documented clear() in the :doc:`Image
-      Processing <../libraries/image_lib>` library.
+      Processing <./libraries/image_lib>` library.
    -  Changed the behaviour of custom callbacks so that they no longer
       trigger the "required" rule.
    -  Modified Upload class $_FILES error messages to be more precise.
