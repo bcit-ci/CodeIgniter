@@ -6,7 +6,7 @@ CodeIgniter has a config file that lets you store your database
 connection values (username, password, database name, etc.). The config
 file is located at application/config/database.php. You can also set
 database connection values for specific
-:doc:`environments <../libraries/config>` by placing **database.php**
+:doc:`environments </libraries/config>` by placing **database.php**
 it the respective environment config folder.
 
 The config settings are stored in a multi-dimensional array with this
@@ -139,7 +139,7 @@ variable located in the config file::
 Query Builder
 -------------
 
-The :doc:`Query Builder Class <query_builder>` is globally enabled or
+The :doc:`Query Builder Class </database/query_builder>` is globally enabled or
 disabled by setting the $query_builder variable in the database
 configuration file to TRUE/FALSE (boolean). The default setting is TRUE.
 If you are not using the
@@ -166,12 +166,12 @@ Explanation of Values:
 **database**		The name of the database you want to connect to.
 **dbdriver**		The database type. ie: mysqli, postgre, odbc, etc. Must be specified in lower case.
 **dbprefix**		An optional table prefix which will added to the table name when running
-			:doc:`Query Builder <query_builder>` queries. This permits multiple CodeIgniter
+			:doc:`Query Builder </database/query_builder>` queries. This permits multiple CodeIgniter
 			installations to share one database.
 **pconnect**		TRUE/FALSE (boolean) - Whether to use a persistent connection.
 **db_debug**		TRUE/FALSE (boolean) - Whether database errors should be displayed.
 **cache_on**		TRUE/FALSE (boolean) - Whether database query caching is enabled,
-			see also :doc:`Database Caching Class <caching>`.
+			see also :doc:`Database Caching Class </database/caching>`.
 **cachedir**		The absolute server path to your database query cache directory.
 **char_set**		The character set used in communicating with the database.
 **dbcollat**		The character collation used in communicating with the database

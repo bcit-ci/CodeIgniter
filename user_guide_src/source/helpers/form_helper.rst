@@ -24,7 +24,7 @@ Escaping field values
 
 You may need to use HTML and characters such as quotes within your form
 elements. In order to do that safely, you'll need to use
-:doc:`common function <../general/common_functions>`
+:doc:`common function </general/common_functions>`
 :func:`html_escape()`.
 
 Consider the following example::
@@ -667,7 +667,7 @@ The following functions are available:
 	:rtype:	string
 
 	Returns a validation error message from the :doc:`Form Validation Library
-	<../libraries/form_validation>`, associated with the specified field name.
+	</libraries/form_validation>`, associated with the specified field name.
 	You can optionally specify opening and closing tag(s) to put around the error
 	message.
 
@@ -688,7 +688,7 @@ The following functions are available:
 
 	Similarly to the :func:`form_error()` function, returns all validation
 	error messages produced by the :doc:`Form Validation Library
-	<../libraries/form_validation>`, with optional opening and closing tags
+	</libraries/form_validation>`, with optional opening and closing tags
 	around each of the messages.
 
 	Example::
@@ -717,5 +717,5 @@ The following functions are available:
 		function. Use it only if you are creating your own form elements.
 
 	.. note:: This function is DEPRECATED and is just an alias for
-		:doc:`common function <../general/common_functions>`
+		:doc:`common function </general/common_functions>`
 		:func:`html_escape()` - please use that instead.

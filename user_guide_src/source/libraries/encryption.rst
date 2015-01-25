@@ -263,7 +263,7 @@ Configuring the library
 =======================
 
 For usability, performance, but also historical reasons tied to our old
-:doc:`Encrypt Class <encrypt>`, the Encryption library is designed to
+:doc:`Encrypt Class </libraries/encrypt>`, the Encryption library is designed to
 use repeatedly the same driver, encryption cipher, mode and key.
 
 As noted in the "Default behavior" section above, this means using an

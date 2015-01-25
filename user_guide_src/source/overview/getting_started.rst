@@ -6,7 +6,7 @@ Any software application requires some effort to learn. We've done our
 best to minimize the learning curve while making the process as
 enjoyable as possible.
 
-The first step is to :doc:`install <../installation/index>`
+The first step is to :doc:`install </installation/index>`
 CodeIgniter, then read all the topics in the **Introduction** section of
 the Table of Contents.
 

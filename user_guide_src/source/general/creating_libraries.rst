@@ -59,7 +59,7 @@ Classes should have this basic prototype::
 Using Your Class
 ================
 
-From within any of your :doc:`Controller <controllers>` methods you
+From within any of your :doc:`Controller </general/controllers>` methods you
 can initialize your class using the standard::
 
 	$this->load->library('someclass');

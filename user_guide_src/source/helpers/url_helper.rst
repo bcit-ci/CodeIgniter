@@ -53,7 +53,7 @@ Available Functions
 		echo site_url($segments);
 
 	This function is an alias for ``CI_Config::site_url()``. For more info,
-	please see the :doc:`Config Library <../libraries/config>` documentation.
+	please see the :doc:`Config Library </libraries/config>` documentation.
 
 .. function:: base_url($uri = '', $protocol = NULL)
 
@@ -86,7 +86,7 @@ Available Functions
 	*http://example.com/images/icons/edit.png*
 
 	This function is an alias for ``CI_Config::base_url()``. For more info,
-	please see the :doc:`Config Library <../libraries/config>` documentation.
+	please see the :doc:`Config Library </libraries/config>` documentation.
 
 .. function:: current_url()
 
@@ -116,7 +116,7 @@ Available Functions
 		blog/comments/123
 
 	This function is an alias for ``CI_Config::uri_string()``. For more info,
-	please see the :doc:`Config Library <../libraries/config>` documentation.
+	please see the :doc:`Config Library </libraries/config>` documentation.
 
 
 .. function:: index_page()

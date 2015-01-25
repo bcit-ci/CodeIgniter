@@ -5,7 +5,7 @@ Hooks - Extending the Framework Core
 CodeIgniter's Hooks feature provides a means to tap into and modify the
 inner workings of the framework without hacking the core files. When
 CodeIgniter runs it follows a specific execution process, diagramed in
-the :doc:`Application Flow <../overview/appflow>` page. There may be
+the :doc:`Application Flow </overview/appflow>` page. There may be
 instances, however, where you'd like to cause some action to take place
 at a particular stage in the execution process. For example, you might
 want to run a script right before your controllers get loaded, or right
@@ -119,7 +119,7 @@ The following is a list of available hook points.
    ``$this->CI->output->get_output()``.
 -  **cache_override**
    Enables you to call your own method instead of the ``_display_cache()``
-   method in the :doc:`Output Library <../libraries/output>`. This permits
+   method in the :doc:`Output Library </libraries/output>`. This permits
    you to use your own cache display mechanism.
 -  **post_system**
    Called after the final rendered page is sent to the browser, at the

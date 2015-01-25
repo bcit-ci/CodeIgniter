@@ -72,7 +72,7 @@ values::
 	$this->load->database($config);
 
 For information on each of these values please see the :doc:`configuration
-page <configuration>`.
+page </database/configuration>`.
 
 .. note:: For the PDO driver, you should use the $config['dsn'] setting
 	instead of 'hostname' and 'database':

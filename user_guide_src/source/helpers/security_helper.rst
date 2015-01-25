@@ -34,7 +34,7 @@ The following functions are available:
 	Provides Cross Site Script Hack filtering.
 
 	This function is an alias for ``CI_Input::xss_clean()``. For more info,
-	please see the :doc:`Input Library <../libraries/input>` documentation.
+	please see the :doc:`Input Library </libraries/input>` documentation.
 
 .. function:: sanitize_filename($filename)
 
@@ -45,7 +45,7 @@ The following functions are available:
 	Provides protection against directory traversal.
 
 	This function is an alias for ``CI_Security::sanitize_filename()``.
-	For more info, please see the :doc:`Security Library <../libraries/security>`
+	For more info, please see the :doc:`Security Library </libraries/security>`
 	documentation.
 
 
@@ -87,7 +87,7 @@ The following functions are available:
 		$string = strip_image_tags($string);
 
 	This function is an alias for ``CI_Security::strip_image_tags()``. For
-	more info, please see the :doc:`Security Library <../libraries/security>`
+	more info, please see the :doc:`Security Library </libraries/security>`
 	documentation.
 
 

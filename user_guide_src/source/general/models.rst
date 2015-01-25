@@ -55,11 +55,11 @@ model class might look like::
 	}
 
 .. note:: The methods in the above example use the :doc:`Query Builder
-	<../database/query_builder>` database methods.
+	</database/query_builder>` database methods.
 
 .. note:: For the sake of simplicity in this example we're using ``$_POST``
 	directly. This is generally bad practice, and a more common approach
-	would be to use the :doc:`Input Library <../libraries/input>`
+	would be to use the :doc:`Input Library </libraries/input>`
 	``$this->input->post('title')``.
 
 Anatomy of a Model
@@ -103,7 +103,7 @@ Loading a Model
 ===============
 
 Your models will typically be loaded and called from within your
-:doc:`controller <controllers>` methods. To load a model you will use
+:doc:`controller </general/controllers>` methods. To load a model you will use
 the following method::
 
 	$this->load->model('model_name');
@@ -160,7 +160,7 @@ When a model is loaded it does **NOT** connect automatically to your
 database. The following options for connecting are available to you:
 
 -  You can connect using the standard database methods :doc:`described
-   here <../database/connecting>`, either from within your
+   here </database/connecting>`, either from within your
    Controller class or your Model class.
 -  You can tell the model loading method to auto-connect by passing
    TRUE (boolean) via the third parameter, and connectivity settings,

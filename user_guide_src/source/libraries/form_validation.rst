@@ -50,10 +50,10 @@ Validation.
 
 In order to implement form validation you'll need three things:
 
-#. A :doc:`View <../general/views>` file containing a form.
+#. A :doc:`View </general/views>` file containing a form.
 #. A View file containing a "success" message to be displayed upon
    successful submission.
-#. A :doc:`controller <../general/controllers>` method to receive and
+#. A :doc:`controller </general/controllers>` method to receive and
    process the submitted data.
 
 Let's create those three things, using a member sign-up form as the
@@ -603,7 +603,7 @@ prefix)::
 
 	$this->lang->load('file_name');
 
-See the :doc:`Language Class <language>` page for more info regarding
+See the :doc:`Language Class </libraries/language>` page for more info regarding
 language files.
 
 .. _changing-delimiters:
@@ -948,7 +948,7 @@ Rule                      Parameter  Description                                
 **matches**               Yes        Returns FALSE if the form element does not match the one in the parameter.                    matches[form_item]
 **differs**               Yes        Returns FALSE if the form element does not differ from the one in the parameter.              differs[form_item]
 **is_unique**             Yes        Returns FALSE if the form element is not unique to the table and field name in the            is_unique[table.field]
-                                     parameter. Note: This rule requires :doc:`Query Builder <../database/query_builder>` to be
+                                     parameter. Note: This rule requires :doc:`Query Builder </database/query_builder>` to be
                                      enabled in order to work.
 **min_length**            Yes        Returns FALSE if the form element is shorter than the parameter value.                        min_length[3]
 **max_length**            Yes        Returns FALSE if the form element is longer than the parameter value.                         max_length[12]
@@ -1120,7 +1120,7 @@ Class Reference
 Helper Reference
 ****************
 
-Please refer to the :doc:`Form Helper <../helpers/form_helper>` manual for
+Please refer to the :doc:`Form Helper </helpers/form_helper>` manual for
 the following functions:
 
 -  :func:`form_error()`

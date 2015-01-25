@@ -5,7 +5,7 @@ Using CodeIgniter Drivers
 Drivers are a special type of Library that has a parent class and any
 number of potential child classes. Child classes have access to the
 parent class, but not their siblings. Drivers provide an elegant syntax
-in your :doc:`controllers <controllers>` for libraries that benefit
+in your :doc:`controllers </general/controllers>` for libraries that benefit
 from or require being broken down into discrete classes.
 
 Drivers are found in the *system/libraries/* directory, in their own
@@ -37,4 +37,4 @@ Creating Your Own Drivers
 =========================
 
 Please read the section of the user guide that discusses how to :doc:`create
-your own drivers <creating_drivers>`.
+your own drivers </general/creating_drivers>`.

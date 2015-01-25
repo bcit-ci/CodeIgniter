@@ -126,7 +126,7 @@ Your method will be passed URI segments 3 and 4 ("sandals" and "123")::
 		}
 	}
 
-.. important:: If you are using the :doc:`URI Routing <routing>`
+.. important:: If you are using the :doc:`URI Routing </general/routing>`
 	feature, the segments passed to your method will be the re-routed
 	ones.
 
@@ -198,8 +198,8 @@ Processing Output
 
 CodeIgniter has an output class that takes care of sending your final
 rendered data to the web browser automatically. More information on this
-can be found in the :doc:`Views <views>` and :doc:`Output Class
-<../libraries/output>` pages. In some cases, however, you might want to
+can be found in the :doc:`Views </general/views>` and :doc:`Output Class
+</libraries/output>` pages. In some cases, however, you might want to
 post-process the finalized data in some way and send it to the browser
 yourself. CodeIgniter permits you to add a method named ``_output()``
 to your controller that will receive the finalized output data.
@@ -222,7 +222,7 @@ Here is an example::
 	data in its finalized state. Benchmark and memory usage data
 	will be rendered, cache files written (if you have caching
 	enabled), and headers will be sent (if you use that
-	:doc:`feature <../libraries/output>`) before it is handed off
+	:doc:`feature </libraries/output>`) before it is handed off
 	to the ``_output()`` method.
 	To have your controller's output cached properly, its
 	``_output()`` method can use::
@@ -237,7 +237,7 @@ Here is an example::
 	will not take into account any further processing you do.
 	For an alternate way to control output *before* any of the
 	final processing is done, please see the available methods
-	in the :doc:`Output Library <../libraries/output>`.
+	in the :doc:`Output Library </libraries/output>`.
 
 Private methods
 ===============
@@ -285,7 +285,7 @@ called if the URL contains only the sub-folder. Simply name your default
 controller as specified in your *application/config/routes.php* file.
 
 CodeIgniter also permits you to remap your URIs using its :doc:`URI
-Routing <routing>` feature.
+Routing </general/routing>` feature.
 
 Class Constructors
 ==================
@@ -321,7 +321,7 @@ Reserved method names
 Since your controller classes will extend the main application
 controller you must be careful not to name your methods identically to
 the ones used by that class, otherwise your local functions will
-override them. See :doc:`Reserved Names <reserved_names>` for a full
+override them. See :doc:`Reserved Names </general/reserved_names>` for a full
 list.
 
 .. important:: You should also never have a method named identically

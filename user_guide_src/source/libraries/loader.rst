@@ -3,10 +3,10 @@ Loader Class
 ############
 
 Loader, as the name suggests, is used to load elements. These elements
-can be libraries (classes) :doc:`View files <../general/views>`,
-:doc:`Drivers <../general/drivers>`,
-:doc:`Helpers <../general/helpers>`,
-:doc:`Models <../general/models>`, or your own files.
+can be libraries (classes) :doc:`View files </general/views>`,
+:doc:`Drivers </general/drivers>`,
+:doc:`Helpers </general/helpers>`,
+:doc:`Models </general/models>`, or your own files.
 
 .. note:: This class is initialized automatically by the system so there
 	is no need to do it manually.
@@ -177,7 +177,7 @@ Class Reference
 		Driver files must be stored in a subdirectory within the main
 		"libraries" directory, or within your personal *application/libraries*
 		directory. The subdirectory must match the parent class name. Read the
-		:doc:`Drivers <../general/drivers>` description for details.
+		:doc:`Drivers </general/drivers>` description for details.
 
 		Additionally, multiple driver libraries can be loaded at the same time by
 		passing an array of drivers to the load method.
@@ -226,7 +226,7 @@ Class Reference
 		:rtype:	mixed
 
 		This method is used to load your View files. If you haven't read the
-		:doc:`Views <../general/views>` section of the user guide it is
+		:doc:`Views </general/views>` section of the user guide it is
 		recommended that you do since it shows you how this method is
 		typically used.
 
@@ -240,7 +240,7 @@ Class Reference
 		object as input, which it runs through the PHP
 		`extract() <http://www.php.net/extract>`_ function to convert to variables
 		that can be used in your view files. Again, read the
-		:doc:`Views <../general/views>` page to learn how this might be useful.
+		:doc:`Views </general/views>` page to learn how this might be useful.
 
 		The third **optional** parameter lets you change the behavior of the
 		method so that it returns data as a string rather than sending it to
@@ -326,7 +326,7 @@ Class Reference
 		:rtype:	mixed
 
 		This method lets you load the database class. The two parameters are
-		**optional**. Please see the :doc:`database <../database/index>`
+		**optional**. Please see the :doc:`database </database/index>`
 		section for more info.
 
 	.. method:: dbforge([$db = NULL[, $return = FALSE]])
@@ -336,7 +336,7 @@ Class Reference
 		:returns:	Loaded CI_DB_forge instance if $return is set to TRUE, otherwise CI_Loader instance (method chaining)
 		:rtype:	mixed
 
-		Loads the :doc:`Database Forge <../database/forge>` class, please refer
+		Loads the :doc:`Database Forge </database/forge>` class, please refer
 		to that manual for more info.
 
 	.. method:: dbutil([$db = NULL[, $return = FALSE]])
@@ -346,7 +346,7 @@ Class Reference
 		:returns:	Loaded CI_DB_utility instance if $return is set to TRUE, otherwise CI_Loader instance (method chaining)
 		:rtype:	mixed
 
-		Loads the :doc:`Database Utilities <../database/utilities>` class, please
+		Loads the :doc:`Database Utilities </database/utilities>` class, please
 		refer to that manual for more info.
 
 	.. method:: helper($helpers)
@@ -379,7 +379,7 @@ Class Reference
 		:rtype:	CI_Loader
 
 		This method is an alias of the :doc:`language loading
-		method <language>`: ``$this->lang->load()``.
+		method </libraries/language>`: ``$this->lang->load()``.
 
 	.. method:: config($file[, $use_sections = FALSE[, $fail_gracefully = FALSE]])
 
@@ -390,7 +390,7 @@ Class Reference
 		:rtype:	bool
 
 		This method is an alias of the :doc:`config file loading
-		method <config>`: ``$this->config->load()``
+		method </libraries/config>`: ``$this->config->load()``
 
 	.. method:: is_loaded($class)
 

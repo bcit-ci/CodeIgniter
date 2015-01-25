@@ -4,7 +4,7 @@ Output Class
 
 The Output class is a core class with one main function: To send the
 finalized web page to the requesting browser. It is also responsible for
-:doc:`caching <../general/caching>` your web pages, if you use that
+:doc:`caching </general/caching>` your web pages, if you use that
 feature.
 
 .. note:: This class is initialized automatically by the system so there
@@ -12,7 +12,7 @@ feature.
 
 Under normal circumstances you won't even notice the Output class since
 it works transparently without your intervention. For example, when you
-use the :doc:`Loader <../libraries/loader>` class to load a view file,
+use the :doc:`Loader </libraries/loader>` class to load a view file,
 it's automatically passed to the Output class, which will be called
 automatically by CodeIgniter at the end of system execution. It is
 possible, however, for you to manually intervene with the output if you
@@ -165,7 +165,7 @@ Class Reference
 
 		`See here <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html>`_ for a full list of headers.
 
-		.. note:: This method is an alias for :doc:`Common function <../general/common_functions>`
+		.. note:: This method is an alias for :doc:`Common function </general/common_functions>`
 			:func:`set_status_header()`.
 
 	.. method:: enable_profiler([$val = TRUE])
@@ -174,11 +174,11 @@ Class Reference
 		:returns:	CI_Output instance (method chaining)
 		:rtype:	CI_Output
 
-		Permits you to enable/disable the :doc:`Profiler <../general/profiling>`, which will display benchmark
+		Permits you to enable/disable the :doc:`Profiler </general/profiling>`, which will display benchmark
 		and other data at the bottom of your pages for debugging and optimization purposes.
 
 		To enable the profiler place the following line anywhere within your
-		:doc:`Controller <../general/controllers>` methods::
+		:doc:`Controller </general/controllers>` methods::
 
 			$this->output->enable_profiler(TRUE);
 
@@ -195,7 +195,7 @@ Class Reference
 		:rtype:	CI_Output
 
 		Permits you to enable/disable specific sections of the Profiler when it is enabled.
-		Please refer to the :doc:`Profiler <../general/profiling>` documentation for further information.
+		Please refer to the :doc:`Profiler </general/profiling>` documentation for further information.
 
 	.. method:: cache($time)
 
@@ -205,7 +205,7 @@ Class Reference
 
 		Caches the current page for the specified amount of seconds.
 
-		For more information, please see the :doc:`caching documentation <../general/caching>`.
+		For more information, please see the :doc:`caching documentation </general/caching>`.
 
 	.. method:: _display([$output = ''])
 

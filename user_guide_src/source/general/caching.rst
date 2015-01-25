@@ -43,7 +43,7 @@ you. Once the tag is in place, your pages will begin being cached.
 
 .. important:: Because of the way CodeIgniter stores content for output,
 	caching will only work if you are generating display for your
-	controller with a :doc:`view <./views>`.
+	controller with a :doc:`view </general/views>`.
 
 .. important:: If you change configuration options that might affect
 	your output, you have to manually delete your cache files.

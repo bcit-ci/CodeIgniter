@@ -16,8 +16,8 @@ functions.
 
 CodeIgniter does not load Helper Files by default, so the first step in
 using a Helper is to load it. Once loaded, it becomes globally available
-in your :doc:`controller <../general/controllers>` and
-:doc:`views <../general/views>`.
+in your :doc:`controller </general/controllers>` and
+:doc:`views </general/views>`.
 
 Helpers are typically stored in your **system/helpers**, or
 **application/helpers directory**. CodeIgniter will look first in your

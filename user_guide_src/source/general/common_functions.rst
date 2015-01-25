@@ -66,9 +66,9 @@ loading any libraries or helpers.
 	:returns:	Configuration key value or NULL if not found
 	:rtype:	mixed
 
-	The :doc:`Config Library <../libraries/config>` is the preferred way of
+	The :doc:`Config Library </libraries/config>` is the preferred way of
 	accessing configuration information, however ``config_item()`` can be used
-	to retrieve single keys. See :doc:`Config Library <../libraries/config>`
+	to retrieve single keys. See :doc:`Config Library </libraries/config>`
 	documentation for more information.
 
 .. :noindex: function:: show_error($message, $status_code[, $heading = 'An Error Was Encountered'])
@@ -79,7 +79,7 @@ loading any libraries or helpers.
 	:rtype:	void
 
 	This function calls ``CI_Exception::show_error()``. For more info,
-	please see the :doc:`Error Handling <errors>` documentation.
+	please see the :doc:`Error Handling </general/errors>` documentation.
 
 .. :noindex: function:: show_404([$page = ''[, $log_error = TRUE]])
 
@@ -88,7 +88,7 @@ loading any libraries or helpers.
 	:rtype:	void
 
 	This function calls ``CI_Exception::show_404()``. For more info,
-	please see the :doc:`Error Handling <errors>` documentation.
+	please see the :doc:`Error Handling </general/errors>` documentation.
 
 .. :noindex: function:: log_message($level, $message)
 
@@ -97,7 +97,7 @@ loading any libraries or helpers.
 	:rtype:	void
 
 	This function is an alias for ``CI_Log::write_log()``. For more info,
-	please see the :doc:`Error Handling <errors>` documentation.
+	please see the :doc:`Error Handling </general/errors>` documentation.
 
 .. function:: set_status_header($code[, $text = ''])
 

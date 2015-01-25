@@ -35,7 +35,7 @@ Class Reference
 
 	.. attribute:: $protect_braced_quotes = FALSE
 
-		When using the Typography library in conjunction with the :doc:`Template Parser library <parser>`
+		When using the Typography library in conjunction with the :doc:`Template Parser library </libraries/parser>`
 		it can often be desirable to protect single and double quotes within curly braces.
 		To enable this, set the ``protect_braced_quotes`` class property to TRUE.
 
@@ -73,7 +73,7 @@ Class Reference
 			$string = $this->typography->auto_typography($string, TRUE);
 
 		.. note:: Typographic formatting can be processor intensive, particularly if you have a lot of content being formatted.
-			If you choose to use this method you may want to consider :doc:`caching <../general/caching>` your pages.
+			If you choose to use this method you may want to consider :doc:`caching </general/caching>` your pages.
 
 	.. method:: format_characters($str)
 

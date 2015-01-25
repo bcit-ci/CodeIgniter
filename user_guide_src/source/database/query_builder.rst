@@ -54,7 +54,7 @@ $query, which can be used to show the results::
 		echo $row->title;
 	}
 
-Please visit the :doc:`result functions <results>` page for a full
+Please visit the :doc:`result functions </database/results>` page for a full
 discussion regarding result generation.
 
 **$this->db->get_compiled_select()**

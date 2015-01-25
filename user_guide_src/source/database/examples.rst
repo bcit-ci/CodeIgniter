@@ -10,14 +10,14 @@ Initializing the Database Class
 ===============================
 
 The following code loads and initializes the database class based on
-your :doc:`configuration <configuration>` settings::
+your :doc:`configuration </database/configuration>` settings::
 
 	$this->load->database();
 
 Once loaded the class is ready to be used as described below.
 
 Note: If all your pages require database access you can connect
-automatically. See the :doc:`connecting <connecting>` page for details.
+automatically. See the :doc:`connecting </database/connecting>` page for details.
 
 Standard Query With Multiple Results (Object Version)
 =====================================================
@@ -107,7 +107,7 @@ Standard Insert
 Query Builder Query
 ===================
 
-The :doc:`Query Builder Pattern <query_builder>` gives you a simplified
+The :doc:`Query Builder Pattern </database/query_builder>` gives you a simplified
 means of retrieving data::
 
 	$query = $this->db->get('table_name');
@@ -118,7 +118,7 @@ means of retrieving data::
 	}
 
 The above get() function retrieves all the results from the supplied
-table. The :doc:`Query Builder <query_builder>` class contains a full
+table. The :doc:`Query Builder </database/query_builder>` class contains a full
 compliment of functions for working with data.
 
 Query Builder Insert
