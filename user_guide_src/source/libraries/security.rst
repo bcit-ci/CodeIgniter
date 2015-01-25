@@ -67,7 +67,7 @@ file in the following way::
 
 	$config['csrf_protection'] = TRUE;
 
-If you use the :doc:`form helper <../helpers/form_helper>`, then
+If you use the :doc:`form helper </helpers/form_helper>`, then
 :func:`form_open()` will automatically insert a hidden csrf field in
 your forms. If not, then you can use ``get_csrf_token_name()``
 and ``get_csrf_hash()``

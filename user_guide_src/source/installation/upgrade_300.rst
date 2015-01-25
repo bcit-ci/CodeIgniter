@@ -223,16 +223,16 @@ Step 10: Many functions now return NULL instead of FALSE on missing items
 
 Many methods and functions now return NULL instead of FALSE when the required items don't exist:
 
- - :doc:`Common functions <../general/common_functions>`
+ - :doc:`Common functions </general/common_functions>`
 
    - config_item()
 
- - :doc:`Config Class <../libraries/config>`
+ - :doc:`Config Class </libraries/config>`
 
    - config->item()
    - config->slash_item()
 
- - :doc:`Input Class <../libraries/input>`
+ - :doc:`Input Class </libraries/input>`
 
    - input->get()
    - input->post()
@@ -242,17 +242,17 @@ Many methods and functions now return NULL instead of FALSE when the required it
    - input->input_stream()
    - input->get_request_header()
 
- - :doc:`Session Class <../libraries/sessions>`
+ - :doc:`Session Class </libraries/sessions>`
 
    - session->userdata()
    - session->flashdata()
 
- - :doc:`URI Class <../libraries/uri>`
+ - :doc:`URI Class </libraries/uri>`
 
    - uri->segment()
    - uri->rsegment()
 
- - :doc:`Array Helper <../helpers/array_helper>`
+ - :doc:`Array Helper </helpers/array_helper>`
 
    - element()
    - elements()
@@ -273,7 +273,7 @@ to FALSE, then this change doesn't concern you.
 
 Otherwise however, please review your usage of the following functions:
 
- - :doc:`Input Library <../libraries/input>`
+ - :doc:`Input Library </libraries/input>`
 
    - input->get()
    - input->post()
@@ -282,7 +282,7 @@ Otherwise however, please review your usage of the following functions:
    - input->server()
    - input->input_stream()
 
- - :doc:`Cookie Helper <../helpers/cookie_helper>` :func:`get_cookie()`
+ - :doc:`Cookie Helper </helpers/cookie_helper>` :func:`get_cookie()`
 
 .. important:: Another related change is that the ``$_GET``, ``$_POST``,
 	``$_COOKIE`` and ``$_SERVER`` superglobals are no longer
@@ -292,7 +292,7 @@ Otherwise however, please review your usage of the following functions:
 Step 12: Check for potential XSS issues with URIs
 *************************************************
 
-The :doc:`URI Library <../libraries/uri>` used to automatically convert
+The :doc:`URI Library </libraries/uri>` used to automatically convert
 a certain set of "programmatic characters" to HTML entities when they
 are encountered in a URI segment.
 
@@ -314,14 +314,14 @@ applied to output*, as opposed to input data.
 We've made that mistake ourselves with our automatic and global XSS cleaning
 feature (see previous step about XSS above), so now in an effort to discourage that
 practice, we're also removing 'xss_clean' from the officially supported
-list of :doc:`form validation <../libraries/form_validation>` rules.
+list of :doc:`form validation </libraries/form_validation>` rules.
 
-Because the :doc:`Form Validation library <../libraries/form_validation>`
+Because the :doc:`Form Validation library </libraries/form_validation>`
 generally validates *input* data, the 'xss_clean' rule simply doesn't
 belong in it.
 
 If you really, really need to apply that rule, you should now also load the
-:doc:`Security Helper <../helpers/security_helper>`, which contains
+:doc:`Security Helper </helpers/security_helper>`, which contains
 ``xss_clean()`` as a regular function and therefore can be also used as
 a validation rule.
 
@@ -329,7 +329,7 @@ a validation rule.
 Step 14: Update usage of Input Class's get_post() method
 ********************************************************
 
-Previously, the :doc:`Input Class <../libraries/input>` method ``get_post()``
+Previously, the :doc:`Input Class </libraries/input>` method ``get_post()``
 was searching first in POST data, then in GET data. This method has been
 modified so that it searches in GET then in POST, as its name suggests.
 
@@ -369,7 +369,7 @@ If your application relies on IF EXISTS, you'll have to change its usage.
 Step 17: Change usage of Email library with multiple emails
 ***********************************************************
 
-The :doc:`Email Library <../libraries/email>` will automatically clear the
+The :doc:`Email Library </libraries/email>` will automatically clear the
 set parameters after successfully sending emails. To override this behaviour,
 pass FALSE as the first parameter in the ``send()`` method:
 
@@ -385,10 +385,10 @@ Step 18: Update your Form_validation language lines
 ***************************************************
 
 Two improvements have been made to the :doc:`Form Validation Library
-<../libraries/form_validation>`'s :doc:`language <../libraries/language>`
+</libraries/form_validation>`'s :doc:`language </libraries/language>`
 files and error messages format:
 
- - :doc:`Language Library <../libraries/language>` line keys now must be
+ - :doc:`Language Library </libraries/language>` line keys now must be
    prefixed with **form_validation_** in order to avoid collisions::
 
 	// Old
@@ -424,7 +424,7 @@ The SHA1 library
 The previously deprecated SHA1 library has been removed, alter your code to use PHP's native
 ``sha1()`` function to generate a SHA1 hash.
 
-Additionally, the ``sha1()`` method in the :doc:`Encrypt Library <../libraries/encrypt>` has been removed.
+Additionally, the ``sha1()`` method in the :doc:`Encrypt Library </libraries/encrypt>` has been removed.
 
 The EXT constant
 ================
@@ -436,7 +436,7 @@ the ``EXT`` constant has been removed. Use just '.php' instead.
 Smiley helper
 =============
 
-The :doc:`Smiley Helper <../helpers/smiley_helper>` is a legacy feature from EllisLab's
+The :doc:`Smiley Helper </helpers/smiley_helper>` is a legacy feature from EllisLab's
 ExpressionEngine product. However, it is too specific for a general purpose framework like
 CodeIgniter and as such it is now deprecated.
 
@@ -445,8 +445,8 @@ Also, the previously deprecated ``js_insert_smiley()`` (since version 1.7.2) is 
 The Encrypt library
 ===================
 
-Following numerous vulnerability reports, the :doc:`Encrypt Library <../libraries/encrypt>` has
-been deprecated and a new, :doc:`Encryption Library <../libraries/encryption>` is added to take
+Following numerous vulnerability reports, the :doc:`Encrypt Library </libraries/encrypt>` has
+been deprecated and a new, :doc:`Encryption Library </libraries/encryption>` is added to take
 its place.
 
 The new library requires either the `MCrypt extension <http://php.net/mcrypt>`_ (and /dev/urandom
@@ -454,17 +454,17 @@ availability) or PHP 5.3.3 and the `OpenSSL extension <http://php.net/openssl>`_
 While this might be rather inconvenient, it is a requirement that allows us to have properly
 implemented cryptographic functions.
 
-.. note:: The :doc:`Encrypt Library <../libraries/encrypt>` is still available for the purpose
+.. note:: The :doc:`Encrypt Library </libraries/encrypt>` is still available for the purpose
 	of keeping backwards compatibility.
 
 .. important:: You are strongly encouraged to switch to the new :doc:`Encryption Library
-	<../libraries/encryption>` as soon as possible!
+	</libraries/encryption>` as soon as possible!
 
 The Cart library
 ================
 
-The :doc:`Cart Library <../libraries/cart>`, similarly to the :doc:`Smiley Helper
-<../helpers/smiley_helper>` is too specific for CodeIgniter. It is now deprecated
+The :doc:`Cart Library </libraries/cart>`, similarly to the :doc:`Smiley Helper
+</helpers/smiley_helper>` is too specific for CodeIgniter. It is now deprecated
 and scheduled for removal in CodeIgniter 3.1+.
 
 .. note:: The library is still available, but you're strongly encouraged to remove its usage sooner
@@ -493,7 +493,7 @@ drivers respectively.
 Security helper do_hash()
 =========================
 
-:doc:`Security Helper <../helpers/security_helper>` function ``do_hash()`` is now just an alias for
+:doc:`Security Helper </helpers/security_helper>` function ``do_hash()`` is now just an alias for
 PHP's native ``hash()`` function. It is deprecated and scheduled for removal in CodeIgniter 3.1+.
 
 .. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
@@ -502,7 +502,7 @@ PHP's native ``hash()`` function. It is deprecated and scheduled for removal in 
 File helper read_file()
 =======================
 
-:doc:`File Helper <../helpers/file_helper>` function ``read_file()`` is now just an alias for
+:doc:`File Helper </helpers/file_helper>` function ``read_file()`` is now just an alias for
 PHP's native ``file_get_contents()`` function. It is deprecated and scheduled for removal in
 CodeIgniter 3.1+.
 
@@ -512,7 +512,7 @@ CodeIgniter 3.1+.
 String helper repeater()
 ========================
 
-:doc:`String Helper <../helpers/string_helper>` function :func:`repeater()` is now just an alias for
+:doc:`String Helper </helpers/string_helper>` function :func:`repeater()` is now just an alias for
 PHP's native ``str_repeat()`` function. It is deprecated and scheduled for removal in CodeIgniter 3.1+.
 
 .. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
@@ -521,7 +521,7 @@ PHP's native ``str_repeat()`` function. It is deprecated and scheduled for remov
 String helper trim_slashes()
 ============================
 
-:doc:`String Helper <../helpers/string_helper>` function :func:`trim_slashes()` is now just an alias
+:doc:`String Helper </helpers/string_helper>` function :func:`trim_slashes()` is now just an alias
 for PHP's native ``trim()`` function (with a slash passed as its second argument). It is deprecated and
 scheduled for removal in CodeIgniter 3.1+.
 
@@ -531,7 +531,7 @@ scheduled for removal in CodeIgniter 3.1+.
 Form helper form_prep()
 =======================
 
-:doc:`Form Helper <../helpers/form_helper>` function :func:`form_prep()`
+:doc:`Form Helper </helpers/form_helper>` function :func:`form_prep()`
 is now just an alias for :doc:`common function </general/common_functions>`
 :func:`html_escape()`. It is deprecated and will be removed in the future.
 
@@ -543,13 +543,13 @@ Please use :func:`html_escape()` instead.
 Email helper functions
 ======================
 
-:doc:`Email Helper <../helpers/email_helper>` only has two functions
+:doc:`Email Helper </helpers/email_helper>` only has two functions
 
  - :func:`valid_email()`
  - :func:`send_email()`
 
 Both of them are now aliases for PHP's native ``filter_var()`` and ``mail()`` functions, respectively.
-Therefore the :doc:`Email Helper <../helpers/email_helper>` altogether is being deprecated and
+Therefore the :doc:`Email Helper </helpers/email_helper>` altogether is being deprecated and
 is scheduled for removal in CodeIgniter 3.1+.
 
 .. note:: These functions are still available, but you're strongly encouraged to remove their usage
@@ -558,7 +558,7 @@ is scheduled for removal in CodeIgniter 3.1+.
 Date helper standard_date()
 ===========================
 
-:doc:`Date Helper <../helpers/date_helper>` function ``standard_date()`` is being deprecated due
+:doc:`Date Helper </helpers/date_helper>` function ``standard_date()`` is being deprecated due
 to the availability of native PHP `constants <http://www.php.net/manual/en/class.datetime.php#datetime.constants.types>`_,
 which when combined with ``date()`` provide the same functionality. Furthermore, they have the
 exact same names as the ones supported by ``standard_date()``. Here are examples of how to replace
@@ -584,7 +584,7 @@ its usage:
 HTML helpers nbs(), br()
 ========================
 
-:doc:`HTML Helper <../helpers/html_helper>` functions ``nbs()`` and ``br()`` are just aliases
+:doc:`HTML Helper </helpers/html_helper>` functions ``nbs()`` and ``br()`` are just aliases
 for the native ``str_repeat()`` function used with ``&nbsp;`` and ``<br >`` respectively.
 
 Because there's no point in just aliasing native PHP functions, they are now deprecated and
@@ -596,7 +596,7 @@ scheduled for removal in CodeIgniter 3.1+.
 Pagination library 'anchor_class' setting
 =========================================
 
-The :doc:`Pagination Library <../libraries/pagination>` now supports adding pretty much any HTML
+The :doc:`Pagination Library </libraries/pagination>` now supports adding pretty much any HTML
 attribute to your anchors via the 'attributes' configuration setting. This includes passing the
 'class' attribute and using the separate 'anchor_class' setting no longer makes sense.
 As a result of that, the 'anchor_class' setting is now deprecated and scheduled for removal in
@@ -608,7 +608,7 @@ CodeIgniter 3.1+.
 String helper random_string() types 'unique' and 'encrypt'
 ==========================================================
 
-When using the :doc:`String Helper <../helpers/string_helper>` function :func:`random_string()`,
+When using the :doc:`String Helper </helpers/string_helper>` function :func:`random_string()`,
 you should no longer pass the **unique** and **encrypt** randomization types. They are only
 aliases for **md5** and **sha1** respectively and are now deprecated and scheduled for removal
 in CodeIgniter 3.1+.
@@ -619,7 +619,7 @@ in CodeIgniter 3.1+.
 URL helper url_title() separators 'dash' and 'underscore'
 =========================================================
 
-When using the :doc:`URL Helper <../helpers/url_helper>` function :func:`url_title()`, you
+When using the :doc:`URL Helper </helpers/url_helper>` function :func:`url_title()`, you
 should no longer pass **dash** or **underscore** as the word separator. This function will
 now accept any character and you should just pass the chosen character directly, so you
 should write '-' instead of 'dash' and '_' instead of 'underscore'.
@@ -633,7 +633,7 @@ in CodeIgniter 3.1+.
 Session Library method all_userdata()
 =====================================
 
-As seen in the :doc:`Change Log <../changelog>`, :doc:`Session Library <../libraries/sessions>`
+As seen in the :doc:`Change Log </changelog>`, :doc:`Session Library </libraries/sessions>`
 method ``userdata()`` now allows you to fetch all userdata by simply omitting its parameter::
 
 	$this->session->userdata();
@@ -648,7 +648,7 @@ in CodeIgniter 3.1+.
 Database Forge method add_column() with an AFTER clause
 =======================================================
 
-If you have used the **third parameter** for :doc:`Database Forge <../database/forge>` method
+If you have used the **third parameter** for :doc:`Database Forge </database/forge>` method
 ``add_column()`` to add a field for an AFTER clause, then you should change its usage.
 
 That third parameter has been deprecated and scheduled for removal in CodeIgniter 3.1+.
@@ -698,7 +698,7 @@ Input library method is_cli_request()
 
 Calls to the ``CI_Input::is_cli_request()`` method are necessary at many places
 in the CodeIgniter internals and this is often before the :doc:`Input Library
-<../libraries/input>` is loaded. Because of that, it is being replaced by a common
+</libraries/input>` is loaded. Because of that, it is being replaced by a common
 function named :func:`is_cli()` and this method is now just an alias.
 
 The new function is both available at all times for you to use and shorter to type.
@@ -734,7 +734,7 @@ CodeIgniter 3.1+.
 The Javascript library
 ======================
 
-The :doc:`Javascript Library <../libraries/javascript>` has always had an
+The :doc:`Javascript Library </libraries/javascript>` has always had an
 'experimental' status and was never really useful, nor a proper solution.
 
 It is now deprecated and scheduled for removal in CodeIgniter 3.1+.
@@ -746,7 +746,7 @@ It is now deprecated and scheduled for removal in CodeIgniter 3.1+.
 Step 18: Check your usage of Text helper highlight_phrase()
 ***********************************************************
 
-The default HTML tag used by :doc:`Text Helper <../helpers/text_helper>` function
+The default HTML tag used by :doc:`Text Helper </helpers/text_helper>` function
 :func:`highlight_phrase()` has been changed from ``<strong>`` to the new HTML5
 tag ``<mark>``.
 

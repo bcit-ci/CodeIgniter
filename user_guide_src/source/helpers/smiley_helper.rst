@@ -58,7 +58,7 @@ Smileys.php and place the code below in it.
 	function below so that it points to your smiley folder.
 
 You'll notice that in addition to the smiley helper, we are also using
-the :doc:`Table Class <../libraries/table>`::
+the :doc:`Table Class </libraries/table>`::
 
 	<?php
 

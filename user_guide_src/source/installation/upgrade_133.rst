@@ -27,7 +27,7 @@ Step 2: Update your Models
 ==========================
 
 If you are **NOT** using CodeIgniter's
-:doc:`Models <../general/models>` feature disregard this step.
+:doc:`Models </general/models>` feature disregard this step.
 
 As of version 1.3.3, CodeIgniter does **not** connect automatically to
 your database when a model is loaded. This allows you greater
@@ -35,7 +35,7 @@ flexibility in determining which databases you would like used with your
 models. If your application is not connecting to your database prior to
 a model being loaded you will have to update your code. There are
 several options for connecting, :doc:`as described
-here <../general/models>`.
+here </general/models>`.
 
 Step 3: Update your user guide
 ==============================

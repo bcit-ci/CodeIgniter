@@ -7,14 +7,14 @@ sidebar, etc. In fact, views can flexibly be embedded within other views
 (within other views, etc., etc.) if you need this type of hierarchy.
 
 Views are never called directly, they must be loaded by a
-:doc:`controller <controllers>`. Remember that in an MVC framework, the
+:doc:`controller </general/controllers>`. Remember that in an MVC framework, the
 Controller acts as the traffic cop, so it is responsible for fetching a
 particular view. If you have not read the
-:doc:`Controllers <controllers>` page you should do so before
+:doc:`Controllers </general/controllers>` page you should do so before
 continuing.
 
 Using the example controller you created in the
-:doc:`controller <controllers>` page, let's add a view to it.
+:doc:`controller </general/controllers>` page, let's add a view to it.
 
 Creating a View
 ===============
@@ -198,7 +198,7 @@ Now open your view file and create a loop::
 
 .. note:: You'll notice that in the example above we are using PHP's
 	alternative syntax. If you are not familiar with it you can read about
-	it :doc:`here <alternative_php>`.
+	it :doc:`here </general/alternative_php>`.
 
 Returning views as data
 =======================

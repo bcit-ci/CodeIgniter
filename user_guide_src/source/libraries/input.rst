@@ -25,7 +25,7 @@ Security Filtering
 ==================
 
 The security filtering method is called automatically when a new
-:doc:`controller <../general/controllers>` is invoked. It does the
+:doc:`controller </general/controllers>` is invoked. It does the
 following:
 
 -  If ``$config['allow_get_array']`` is FALSE (default is TRUE), destroys
@@ -50,7 +50,7 @@ this::
 
 	$config['global_xss_filtering'] = TRUE;
 
-Please refer to the :doc:`Security class <security>` documentation for
+Please refer to the :doc:`Security class </libraries/security>` documentation for
 information on using XSS Filtering in your application.
 
 *******************
@@ -382,7 +382,7 @@ Class Reference
 
 			echo $this->input->user_agent();
 
-		See the :doc:`User Agent Class <user_agent>` for methods which extract
+		See the :doc:`User Agent Class </libraries/user_agent>` for methods which extract
 		information from the user agent string.
 
 	.. method:: request_headers([$xss_clean = FALSE])

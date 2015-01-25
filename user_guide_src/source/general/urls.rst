@@ -27,10 +27,10 @@ approach, usually represent::
 #. The third, and any additional segments, represent the ID and any
    variables that will be passed to the controller.
 
-The :doc:`URI Library <../libraries/uri>` and the :doc:`URL Helper
-<../helpers/url_helper>` contain functions that make it easy to work
+The :doc:`URI Library </libraries/uri>` and the :doc:`URL Helper
+</helpers/url_helper>` contain functions that make it easy to work
 with your URI data. In addition, your URLs can be remapped using the
-:doc:`URI Routing <routing>` feature for more flexibility.
+:doc:`URI Routing </general/routing>` feature for more flexibility.
 
 Removing the index.php file
 ===========================

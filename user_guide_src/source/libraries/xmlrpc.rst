@@ -346,7 +346,7 @@ folder::
 	?>
 
 .. note:: In the above code we are using a "url helper". You can find more
-	information in the :doc:`Helpers Functions <../general/helpers>` page.
+	information in the :doc:`Helpers Functions </general/helpers>` page.
 
 The Server
 ----------

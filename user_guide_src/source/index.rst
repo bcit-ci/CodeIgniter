@@ -2,8 +2,8 @@
 CodeIgniter User Guide
 ######################
 
-- :doc:`License Agreement <license>`
-- :doc:`Change Log <changelog>`
+- :doc:`License Agreement </license>`
+- :doc:`Change Log </changelog>`
 
 .. contents::
    :local:

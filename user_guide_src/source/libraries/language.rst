@@ -170,14 +170,14 @@ Using language lines as form labels
 
 This feature has been deprecated from the language library and moved to
 the :func:`lang()` function of the :doc:`Language Helper
-<../helpers/language_helper>`.
+</helpers/language_helper>`.
 
 Auto-loading Languages
 ======================
 
 If you find that you need a particular language globally throughout your
 application, you can tell CodeIgniter to :doc:`auto-load
-<../general/autoloader>` it during system initialization. This is done
+</general/autoloader>` it during system initialization. This is done
 by opening the **application/config/autoload.php** file and adding the
 language(s) to the autoload array.
 

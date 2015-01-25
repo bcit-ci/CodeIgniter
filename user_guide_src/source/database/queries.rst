@@ -15,7 +15,7 @@ To submit a query, use the **query** function::
 
 The query() function returns a database result **object** when "read"
 type queries are run, which you can use to :doc:`show your
-results <results>`. When "write" type queries are run it simply
+results </database/results>`. When "write" type queries are run it simply
 returns TRUE or FALSE depending on success or failure. When retrieving
 data you will typically assign the query to your own variable, like
 this::

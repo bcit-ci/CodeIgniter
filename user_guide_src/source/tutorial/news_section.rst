@@ -76,7 +76,7 @@ following code to your model.
 With this code you can perform two different queries. You can get all
 news records, or get a news item by its `slug <#>`_. You might have
 noticed that the $slug variable wasn't sanitized before running the
-query; :doc:`Query Builder <../database/query_builder>` does this for you.
+query; :doc:`Query Builder </database/query_builder>` does this for you.
 
 Display the news
 ----------------

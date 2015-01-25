@@ -22,7 +22,7 @@ Example
 *******
 
 Here is a simple example showing how to create pagination in one of your
-:doc:`controller <../general/controllers>` methods::
+:doc:`controller </general/controllers>` methods::
 
 	$this->load->library('pagination');
 
@@ -45,7 +45,7 @@ three shown. Here is a description of what those items represent:
 -  **base_url** This is the full URL to the controller class/function
    containing your pagination. In the example above, it is pointing to a
    controller called "Test" and a function called "page". Keep in mind
-   that you can :doc:`re-route your URI <../general/routing>` if you
+   that you can :doc:`re-route your URI </general/routing>` if you
    need a different structure.
 -  **total_rows** This number represents the total rows in the result
    set you are creating pagination for. Typically this number will be
@@ -94,7 +94,7 @@ set this to TRUE.
 **$config['page_query_string'] = TRUE;**
 
 By default, the pagination library assume you are using :doc:`URI
-Segments <../general/urls>`, and constructs your links something
+Segments </general/urls>`, and constructs your links something
 like::
 
 	http://example.com/index.php/test/page/20
@@ -118,7 +118,7 @@ URL after the URI segment and before the suffix.::
 
 	http://example.com/index.php/test/page/20?query=search%term
 
-This helps you mix together normal :doc:`URI Segments <../general/urls>`
+This helps you mix together normal :doc:`URI Segments </general/urls>`
 as well as query string arguments, which until 3.0 was not possible.
 
 **$config['prefix'] = '';**

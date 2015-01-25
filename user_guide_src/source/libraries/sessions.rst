@@ -32,8 +32,8 @@ Initializing a Session
 
 Sessions will typically run globally with each page load, so the Session
 class should either be initialized in your :doc:`controller
-<../general/controllers>` constructors, or it can be :doc:`auto-loaded
-<../general/autoloader>` by the system.
+</general/controllers>` constructors, or it can be :doc:`auto-loaded
+</general/autoloader>` by the system.
 For the most part the session class will run unattended in the background,
 so simply initializing the class will cause it to read, create, and update
 sessions when necessary.
@@ -419,8 +419,8 @@ Preference               Default         Options                                
 	everything properly.
 
 In addition to the values above, the cookie and native drivers apply the
-following configuration values shared by the :doc:`Input <input>` and
-:doc:`Security <security>` classes:
+following configuration values shared by the :doc:`Input </libraries/input>` and
+:doc:`Security </libraries/security>` classes:
 
 ================== =============== ===========================================================================
 Preference         Default         Description
@@ -678,7 +678,7 @@ warned.
 
 If you only want to add some extra functionality to your sessions, just
 extend the base Session class, which is a lot more easier. Read the
-:doc:`Creating Libraries <../general/creating_libraries>` article to
+:doc:`Creating Libraries </general/creating_libraries>` article to
 learn how to do that.
 
 Now, to the point - there are three general rules that you must follow

@@ -35,14 +35,14 @@ To add this column you will run a query similar to this::
 	ALTER TABLE `ci_sessions` ADD `user_data` text NOT NULL
 
 You'll find more information regarding the new Session functionality in
-the :doc:`Session class <../libraries/sessions>` page.
+the :doc:`Session class </libraries/sessions>` page.
 
 Step 3: Update your Validation Syntax
 =====================================
 
 This is an **optional**, but recommended step, for people currently
 using the Validation class. CI 1.7 introduces a new :doc:`Form Validation
-class <../libraries/form_validation>`, which deprecates the old
+class </libraries/form_validation>`, which deprecates the old
 Validation library. We have left the old one in place so that existing
 applications that use it will not break, but you are encouraged to
 migrate to the new version as soon as possible. Please read the user

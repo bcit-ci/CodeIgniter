@@ -287,7 +287,7 @@ Class Reference
 			// 29
 
 		.. note:: This method is an alias for :doc:`Date Helper
-			<../helpers/date_helper>` function :func:`days_in_month()`.
+			</helpers/date_helper>` function :func:`days_in_month()`.
 
 	.. method:: default_template()
 

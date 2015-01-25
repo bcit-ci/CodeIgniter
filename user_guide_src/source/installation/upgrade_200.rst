@@ -23,7 +23,7 @@ Step 2: Adjust get_dir_file_info() where necessary
 
 Version 2.0.0 brings a non-backwards compatible change to
 get_dir_file_info() in the :doc:`File
-Helper <../helpers/file_helper>`. Non-backwards compatible changes
+Helper </helpers/file_helper>`. Non-backwards compatible changes
 are extremely rare in CodeIgniter, but this one we feel was warranted
 due to how easy it was to create serious server performance issues. If
 you *need* recursiveness where you are using this helper function,

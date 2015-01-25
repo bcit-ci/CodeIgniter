@@ -37,7 +37,7 @@ The following functions are available:
 
 	This function is an alias for ``CI_Typography::auto_typography``.
 	For more info, please see the :doc:`Typography Library
-	<../libraries/typography>` documentation.
+	</libraries/typography>` documentation.
 
 	Usage example::
 
@@ -72,4 +72,4 @@ The following functions are available:
 
 	This function is an alias for ``CI_Security::entity_decode()``.
 	Fore more info, please see the :doc:`Security Library
-	<../libraries/security>` documentation.
+	</libraries/security>` documentation.

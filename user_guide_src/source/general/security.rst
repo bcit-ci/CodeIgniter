@@ -42,7 +42,7 @@ Setting CodeIgniter's **ENVIRONMENT** constant in index.php to a value of
 **\'production\'** will turn off these errors. In development mode, it is
 recommended that a value of 'development' is used. More information
 about differentiating between environments can be found on the
-:doc:`Handling Environments <environments>` page.
+:doc:`Handling Environments </general/environments>` page.
 
 magic_quotes_runtime
 ====================
@@ -76,7 +76,7 @@ CodeIgniter comes with a Cross Site Scripting filter. This filter
 looks for commonly used techniques to embed malicious JavaScript into
 your data, or other types of code that attempt to hijack cookies or
 do other malicious things. The XSS Filter is described
-:doc:`here <../libraries/security>`.
+:doc:`here </libraries/security>`.
 
 .. note:: XSS filtering should *only be performed on output*. Filtering
 	input data may modify the data in undesirable ways, including
@@ -92,7 +92,7 @@ attacker tricking their victim into unknowingly submitting a request.
 CodeIgniter provides CSRF protection out of the box, which will get
 automatically triggered for every non-GET HTTP request, but also needs
 you to create your submit forms in a certain way. This is explained in
-the :doc:`Security Library <../libraries/security>` documentation.
+the :doc:`Security Library </libraries/security>` documentation.
 
 Password handling
 =================
@@ -153,7 +153,7 @@ Validate input data
 ===================
 
 CodeIgniter has a :doc:`Form Validation Library
-<../libraries/form_validation>` that assists you in
+</libraries/form_validation>` that assists you in
 validating, filtering, and prepping your data.
 
 Even if that doesn't work for your use case however, be sure to always
@@ -172,7 +172,7 @@ Escape all data before database insertion
 
 Never insert information into your database without escaping it.
 Please see the section that discusses :doc:`database queries
-<../database/queries>` for more information.
+</database/queries>` for more information.
 
 Hide your files
 ===============

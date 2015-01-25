@@ -35,7 +35,7 @@ set your preferences in a config file.
 
 Here is a basic example demonstrating how you might send email. Note:
 This example assumes you are sending the email from one of your
-:doc:`controllers <../general/controllers>`.
+:doc:`controllers </general/controllers>`.
 
 ::
 

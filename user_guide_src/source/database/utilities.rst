@@ -140,7 +140,7 @@ is used as the enclosure. Example::
 
 .. important:: This method will NOT write the CSV file for you. It
 	simply creates the CSV layout. If you need to write the file
-	use the :doc:`File Helper <../helpers/file_helper>`.
+	use the :doc:`File Helper </helpers/file_helper>`.
 
 Export a Query Result as an XML Document
 ========================================
@@ -164,7 +164,7 @@ optional array of config parameters. Example::
 
 .. important:: This method will NOT write the XML file for you. It
 	simply creates the XML layout. If you need to write the file
-	use the :doc:`File Helper <../helpers/file_helper>`.
+	use the :doc:`File Helper </helpers/file_helper>`.
 
 ********************
 Backup Your Database

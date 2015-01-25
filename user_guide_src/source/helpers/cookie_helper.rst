@@ -38,7 +38,7 @@ The following functions are available:
 	:rtype:	void
 
 	This helper function gives you view file friendly syntax to set browser
-	cookies. Refer to the :doc:`Input Library <../libraries/input>` for a
+	cookies. Refer to the :doc:`Input Library </libraries/input>` for a
 	description of its use, as this function is an alias for
 	``CI_Input::set_cookie()``.
 
@@ -51,7 +51,7 @@ The following functions are available:
 	:rtype:	mixed
 
 	This helper function gives you view file friendly syntax to get browser
-	cookies. Refer to the :doc:`Input Library <../libraries/input>` for a
+	cookies. Refer to the :doc:`Input Library </libraries/input>` for a
 	description of its use, as this function is an alias for ``CI_Input::cookie()``.
 
 

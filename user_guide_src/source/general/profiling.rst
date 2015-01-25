@@ -11,14 +11,14 @@ Initializing the Class
 ======================
 
 .. important:: This class does NOT need to be initialized. It is loaded
-	automatically by the :doc:`Output Library <../libraries/output>`
+	automatically by the :doc:`Output Library </libraries/output>`
 	if profiling is enabled as shown below.
 
 Enabling the Profiler
 =====================
 
 To enable the profiler place the following line anywhere within your
-:doc:`Controller <controllers>` methods::
+:doc:`Controller </general/controllers>` methods::
 
 	$this->output->enable_profiler(TRUE);
 
@@ -36,7 +36,7 @@ In order for the Profiler to compile and display your benchmark data you
 must name your mark points using specific syntax.
 
 Please read the information on setting Benchmark points in the
-:doc:`Benchmark Library <../libraries/benchmark>` page.
+:doc:`Benchmark Library </libraries/benchmark>` page.
 
 Enabling and Disabling Profiler Sections
 ========================================
@@ -53,7 +53,7 @@ Example::
 
 In your controllers, you can override the defaults and config file
 values by calling the ``set_profiler_sections()`` method of the
-:doc:`Output Library <../libraries/output>`::
+:doc:`Output Library </libraries/output>`::
 
 	$sections = array(
 		'config'  => TRUE,

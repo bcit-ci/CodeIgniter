@@ -164,5 +164,5 @@ Class Reference
 		Simply returns the ``{memory_usage}`` marker.
 
 		This permits it to be put it anywhere in a template without the memory
-		being calculated until the end. The :doc:`Output Class <output>` will
+		being calculated until the end. The :doc:`Output Class </libraries/output>` will
 		swap the real value for this variable.

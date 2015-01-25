@@ -29,9 +29,9 @@ Initializing the Shopping Cart Class
 ====================================
 
 .. important:: The Cart class utilizes CodeIgniter's :doc:`Session
-	Class <sessions>` to save the cart information to a database, so
+	Class </libraries/sessions>` to save the cart information to a database, so
 	before using the Cart class you must set up a database table as
-	indicated in the :doc:`Session Documentation <sessions>`, and set the
+	indicated in the :doc:`Session Documentation </libraries/sessions>`, and set the
 	session preferences in your application/config/config.php file to
 	utilize a database.
 

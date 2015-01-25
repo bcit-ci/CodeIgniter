@@ -18,7 +18,7 @@ CodeIgniter is Free
 
 CodeIgniter is licensed under an Apache/BSD-style open source license so
 you can use it however you please. For more information please read the
-:doc:`license agreement <../license>`.
+:doc:`license agreement </license>`.
 
 CodeIgniter is Light Weight
 ===========================
