@@ -1,0 +1,2911 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Index &mdash; CodeIgniter 3.0-dev documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="_static/ci-icon.ico"/>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="CodeIgniter 3.0-dev documentation" href="index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="index.html" class="fa fa-home"> CodeIgniter</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="general/welcome.html">Welcome to CodeIgniter</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation/index.html">Installation Instructions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation/downloads.html">Downloading CodeIgniter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/index.html">Installation Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/upgrading.html">Upgrading From a Previous Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview/index.html">CodeIgniter Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/at_a_glance.html">CodeIgniter at a Glance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/features.html">Supported Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/appflow.html">Application Flow Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/mvc.html">Model-View-Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/goals.html">Architectural Goals</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/index.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/static_pages.html">Static pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/news_section.html">News section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/create_news_items.html">Create news items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/conclusion.html">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="general/index.html">General Topics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="general/urls.html">CodeIgniter URLs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/controllers.html">Controllers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/reserved_names.html">Reserved Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/views.html">Views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/libraries.html">Using CodeIgniter Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/creating_libraries.html">Creating Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/drivers.html">Using CodeIgniter Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/creating_drivers.html">Creating Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/core_classes.html">Creating Core System Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/ancillary_classes.html">Creating Ancillary Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/hooks.html">Hooks - Extending the Framework Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/autoloader.html">Auto-loading Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/common_functions.html">Common Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/compatibility_functions.html">Compatibility Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/routing.html">URI Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/errors.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/caching.html">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/profiling.html">Profiling Your Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/cli.html">Running via the CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/managing_apps.html">Managing your Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/environments.html">Handling Multiple Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/alternative_php.html">Alternate PHP Syntax for View Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/security.html">Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general/styleguide.html">PHP Style Guide</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="libraries/index.html">Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="libraries/benchmark.html">Benchmarking Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/caching.html">Caching Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/calendar.html">Calendaring Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/cart.html">Shopping Cart Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/config.html">Config Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/email.html">Email Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/encrypt.html">Encrypt Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/encryption.html">Encryption Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/file_uploading.html">File Uploading Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/form_validation.html">Form Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/ftp.html">FTP Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/image_lib.html">Image Manipulation Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/input.html">Input Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/javascript.html">Javascript Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/language.html">Language Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/loader.html">Loader Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/migration.html">Migrations Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/output.html">Output Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/pagination.html">Pagination Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/parser.html">Template Parser Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/security.html">Security Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/sessions.html">Session Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/table.html">HTML Table Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/trackback.html">Trackback Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/typography.html">Typography Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/unit_testing.html">Unit Testing Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/uri.html">URI Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/user_agent.html">User Agent Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/xmlrpc.html">XML-RPC and XML-RPC Server Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries/zip.html">Zip Encoding Class</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="database/index.html">Database Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="database/examples.html">Quick Start: Usage Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database/configuration.html">Database Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database/connecting.html">Connecting to a Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database/queries.html">Running Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database/results.html">Generating Query Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database/helpers.html">Query Helper Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database/query_builder.html">Query Builder Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database/transactions.html">Transactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database/metadata.html">Getting MetaData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database/call_function.html">Custom Function Calls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database/caching.html">Query Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database/forge.html">Database Manipulation with Database Forge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database/utilities.html">Database Utilities Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database/db_driver_reference.html">Database Driver Reference</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="helpers/index.html">Helpers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="helpers/array_helper.html">Array Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers/captcha_helper.html">CAPTCHA Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers/cookie_helper.html">Cookie Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers/date_helper.html">Date Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers/directory_helper.html">Directory Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers/download_helper.html">Download Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers/email_helper.html">Email Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers/file_helper.html">File Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers/form_helper.html">Form Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers/html_helper.html">HTML Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers/inflector_helper.html">Inflector Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers/language_helper.html">Language Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers/number_helper.html">Number Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers/path_helper.html">Path Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers/security_helper.html">Security Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers/smiley_helper.html">Smiley Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers/string_helper.html">String Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers/text_helper.html">Text Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers/typography_helper.html">Typography Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers/url_helper.html">URL Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers/xml_helper.html">XML Helper</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing/index.html">Contributing to CodeIgniter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="documentation/index.html">Writing CodeIgniter Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DCO.html">Developer&#8217;s Certificate of Origin 1.1</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">CodeIgniter</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li></li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+
+<h1 id="index">Index</h1>
+
+<div class="genindex-jumpbox">
+ <a href="#_"><strong>_</strong></a>
+ | <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#J"><strong>J</strong></a>
+ | <a href="#K"><strong>K</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#Q"><strong>Q</strong></a>
+ | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
+ | <a href="#W"><strong>W</strong></a>
+ | <a href="#X"><strong>X</strong></a>
+ 
+</div>
+<h2 id="_">_</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="libraries/sessions.html#CI_Session.__get">__get() (CI_Session method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/sessions.html#CI_Session.__set">__set() (CI_Session method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="libraries/output.html#CI_Output._display">_display() (CI_Output method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="libraries/user_agent.html#CI_User_agent.accept_charset">accept_charset() (CI_User_agent method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/user_agent.html#CI_User_agent.accept_lang">accept_lang() (CI_User_agent method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/unit_testing.html#CI_Unit_test.active">active() (CI_Unit_test method)</a>
+  </dt>
+
+      
+  <dt><a href="database/forge.html#CI_DB_forge.add_column">add_column() (CI_DB_forge method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/zip.html#CI_Zip.add_data">add_data() (CI_Zip method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/zip.html#CI_Zip.add_dir">add_dir() (CI_Zip method)</a>
+  </dt>
+
+      
+  <dt><a href="database/forge.html#CI_DB_forge.add_field">add_field() (CI_DB_forge method)</a>
+  </dt>
+
+      
+  <dt><a href="database/forge.html#CI_DB_forge.add_key">add_key() (CI_DB_forge method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/loader.html#CI_Loader.add_package_path">add_package_path() (CI_Loader method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/table.html#CI_Table.add_row">add_row() (CI_Table method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/calendar.html#CI_Calendar.adjust_date">adjust_date() (CI_Calendar method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/user_agent.html#CI_User_agent.agent_string">agent_string() (CI_User_agent method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/sessions.html#CI_Session.all_userdata">all_userdata() (CI_Session method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/string_helper.html#alternator">alternator() (built-in function)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers/url_helper.html#anchor">anchor() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/url_helper.html#anchor_popup">anchor_popup() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/output.html#CI_Output.append_output">append_output() (CI_Output method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/zip.html#CI_Zip.archive">archive() (CI_Zip method)</a>
+  </dt>
+
+      
+  <dt><a href="general/compatibility_functions.html#array_column">array_column() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="general/compatibility_functions.html#array_replace">array_replace() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="general/compatibility_functions.html#array_replace_recursive">array_replace_recursive() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/text_helper.html#ascii_to_entities">ascii_to_entities() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/uri.html#CI_URI.assoc_to_uri">assoc_to_uri() (CI_URI method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/email.html#CI_Email.attach">attach() (CI_Email method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/email.html#CI_Email.attachment_cid">attachment_cid() (CI_Email method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/url_helper.html#auto_link">auto_link() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/typography_helper.html#auto_typography">auto_typography() (built-in function)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="database/utilities.html#CI_DB_utility.backup">backup() (CI_DB_utility method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/url_helper.html#base_url">base_url() (built-in function)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/config.html#CI_Config.base_url">(CI_Config method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="libraries/email.html#CI_Email.bcc">bcc() (CI_Email method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers/html_helper.html#br">br() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/user_agent.html#CI_User_agent.browser">browser() (CI_User_agent method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/number_helper.html#byte_format">byte_format() (built-in function)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="libraries/output.html#CI_Output.cache">cache() (CI_Output method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.cache_delete">cache_delete() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.cache_delete_all">cache_delete_all() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/caching.html#CI_Cache.cache_info">cache_info() (CI_Cache method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.cache_off">cache_off() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.cache_on">cache_on() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.cache_set_path">cache_set_path() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.call_function">call_function() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/inflector_helper.html#camelize">camelize() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/email.html#CI_Email.cc">cc() (CI_Email method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/ftp.html#CI_FTP.changedir">changedir() (CI_FTP method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/text_helper.html#character_limiter">character_limiter() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/user_agent.html#CI_User_agent.charsets">charsets() (CI_User_agent method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/ftp.html#CI_FTP.chmod">chmod() (CI_FTP method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/benchmark.html#CI_Benchmark">CI_Benchmark (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/caching.html#CI_Cache">CI_Cache (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/calendar.html#CI_Calendar">CI_Calendar (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/cart.html#CI_Cart">CI_Cart (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/config.html#CI_Config">CI_Config (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver">CI_DB_driver (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="database/forge.html#CI_DB_forge">CI_DB_forge (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder">CI_DB_query_builder (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="database/results.html#CI_DB_result">CI_DB_result (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="database/utilities.html#CI_DB_utility">CI_DB_utility (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/email.html#CI_Email">CI_Email (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/encrypt.html#CI_Encrypt">CI_Encrypt (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/encryption.html#CI_Encryption">CI_Encryption (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/form_validation.html#CI_Form_validation">CI_Form_validation (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/ftp.html#CI_FTP">CI_FTP (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/image_lib.html#CI_Image_lib">CI_Image_lib (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/input.html#CI_Input">CI_Input (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/language.html#CI_Lang">CI_Lang (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/loader.html#CI_Loader">CI_Loader (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/migration.html#CI_Migration">CI_Migration (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/output.html#CI_Output">CI_Output (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/pagination.html#CI_Pagination">CI_Pagination (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/parser.html#CI_Parser">CI_Parser (built-in class)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="libraries/security.html#CI_Security">CI_Security (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/sessions.html#CI_Session">CI_Session (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/table.html#CI_Table">CI_Table (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/trackback.html#CI_Trackback">CI_Trackback (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/typography.html#CI_Typography">CI_Typography (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/unit_testing.html#CI_Unit_test">CI_Unit_test (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/file_uploading.html#CI_Upload">CI_Upload (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/uri.html#CI_URI">CI_URI (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/user_agent.html#CI_User_agent">CI_User_agent (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/xmlrpc.html#CI_Xmlrpc">CI_Xmlrpc (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/zip.html#CI_Zip">CI_Zip (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/caching.html#CI_Cache.clean">clean() (CI_Cache method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/email.html#CI_Email.clear">clear() (CI_Email method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/image_lib.html#CI_Image_lib.clear">(CI_Image_lib method)</a>
+  </dt>
+
+        
+  <dt><a href="libraries/table.html#CI_Table.clear">(CI_Table method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="libraries/zip.html#CI_Zip.clear_data">clear_data() (CI_Zip method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/loader.html#CI_Loader.clear_vars">clear_vars() (CI_Loader method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.close">close() (CI_DB_driver method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/ftp.html#CI_FTP.close">(CI_FTP method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.compile_binds">compile_binds() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/loader.html#CI_Loader.config">config() (CI_Loader method)</a>
+  </dt>
+
+      
+  <dt><a href="general/common_functions.html#config_item">config_item() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/ftp.html#CI_FTP.connect">connect() (CI_FTP method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/cart.html#CI_Cart.contents">contents() (CI_Cart method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/text_helper.html#convert_accented_characters">convert_accented_characters() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/trackback.html#CI_Trackback.convert_ascii">convert_ascii() (CI_Trackback method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/trackback.html#CI_Trackback.convert_xml">convert_xml() (CI_Trackback method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/input.html#CI_Input.cookie">cookie() (CI_Input method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.count_all">count_all() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.count_all_results">count_all_results() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/captcha_helper.html#create_captcha">create_captcha() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="database/forge.html#CI_DB_forge.create_database">create_database() (CI_DB_forge method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/pagination.html#CI_Pagination.create_links">create_links() (CI_Pagination method)</a>
+  </dt>
+
+      
+  <dt><a href="database/forge.html#CI_DB_forge.create_table">create_table() (CI_DB_forge method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/image_lib.html#CI_Image_lib.crop">crop() (CI_Image_lib method)</a>
+  </dt>
+
+      
+  <dt><a href="database/utilities.html#CI_DB_utility.csv_from_results">csv_from_results() (CI_DB_utility method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/migration.html#CI_Migration.current">current() (CI_Migration method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/url_helper.html#current_url">current_url() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="database/results.html#CI_DB_result.custom_result_object">custom_result_object() (CI_DB_result method)</a>
+  </dt>
+
+      
+  <dt><a href="database/results.html#CI_DB_result.custom_row_object">custom_row_object() (CI_DB_result method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="libraries/trackback.html#CI_Trackback.data">data() (CI_Trackback method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/file_uploading.html#CI_Upload.data">(CI_Upload method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="database/results.html#CI_DB_result.data_seek">data_seek() (CI_DB_result method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/loader.html#CI_Loader.database">database() (CI_Loader method)</a>
+  </dt>
+
+      
+  <dt><a href="database/utilities.html#CI_DB_utility.database_exists">database_exists() (CI_DB_utility method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/date_helper.html#date_range">date_range() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/date_helper.html#days_in_month">days_in_month() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.db_connect">db_connect() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.db_pconnect">db_pconnect() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.db_select">db_select() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.db_set_charset">db_set_charset() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/loader.html#CI_Loader.dbforge">dbforge() (CI_Loader method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.dbprefix">dbprefix() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/loader.html#CI_Loader.dbutil">dbutil() (CI_Loader method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/encrypt.html#CI_Encrypt.decode">decode() (CI_Encrypt method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/caching.html#CI_Cache.decrement">decrement() (CI_Cache method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/encryption.html#CI_Encryption.decrypt">decrypt() (CI_Encryption method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/calendar.html#CI_Calendar.default_template">default_template() (CI_Calendar method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/caching.html#CI_Cache.delete">delete() (CI_Cache method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.delete">(CI_DB_query_builder method)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers/cookie_helper.html#delete_cookie">delete_cookie() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/ftp.html#CI_FTP.delete_dir">delete_dir() (CI_FTP method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/ftp.html#CI_FTP.delete_file">delete_file() (CI_FTP method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/file_helper.html#delete_files">delete_files() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/cart.html#CI_Cart.destroy">destroy() (CI_Cart method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/directory_helper.html#directory_map">directory_map() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.display_error">display_error() (CI_DB_driver method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/xmlrpc.html#CI_Xmlrpc.display_error">(CI_Xmlrpc method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="libraries/image_lib.html#CI_Image_lib.display_errors">display_errors() (CI_Image_lib method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/trackback.html#CI_Trackback.display_errors">(CI_Trackback method)</a>
+  </dt>
+
+        
+  <dt><a href="libraries/file_uploading.html#CI_Upload.display_errors">(CI_Upload method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="libraries/xmlrpc.html#CI_Xmlrpc.display_response">display_response() (CI_Xmlrpc method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.distinct">distinct() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/security_helper.html#do_hash">do_hash() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/file_uploading.html#CI_Upload.do_upload">do_upload() (CI_Upload method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/html_helper.html#doctype">doctype() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/ftp.html#CI_FTP.download">download() (CI_FTP method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/zip.html#CI_Zip.download">(CI_Zip method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="libraries/loader.html#CI_Loader.driver">driver() (CI_Loader method)</a>
+  </dt>
+
+      
+  <dt><a href="database/forge.html#CI_DB_forge.drop_column">drop_column() (CI_DB_forge method)</a>
+  </dt>
+
+      
+  <dt><a href="database/forge.html#CI_DB_forge.drop_database">drop_database() (CI_DB_forge method)</a>
+  </dt>
+
+      
+  <dt><a href="database/forge.html#CI_DB_forge.drop_table">drop_table() (CI_DB_forge method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="libraries/benchmark.html#CI_Benchmark.elapsed_time">elapsed_time() (CI_Benchmark method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.elapsed_time">(CI_DB_driver method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="helpers/array_helper.html#element">element() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/array_helper.html#elements">elements() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/text_helper.html#ellipsize">ellipsize() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.empty_table">empty_table() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/output.html#CI_Output.enable_profiler">enable_profiler() (CI_Output method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/encrypt.html#CI_Encrypt.encode">encode() (CI_Encrypt method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/encrypt.html#CI_Encrypt.encode_from_legacy">encode_from_legacy() (CI_Encrypt method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/security_helper.html#encode_php_tags">encode_php_tags() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/encryption.html#CI_Encryption.encrypt">encrypt() (CI_Encryption method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers/typography_helper.html#entity_decode">entity_decode() (built-in function)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/security.html#CI_Security.entity_decode">(CI_Security method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="libraries/form_validation.html#CI_Form_validation.error">error() (CI_Form_validation method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/form_validation.html#CI_Form_validation.error_array">error_array() (CI_Form_validation method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/form_validation.html#CI_Form_validation.error_string">error_string() (CI_Form_validation method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/migration.html#CI_Migration.error_string">(CI_Migration method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.escape">escape() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.escape_identifiers">escape_identifiers() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.escape_like_str">escape_like_str() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.escape_str">escape_str() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/trackback.html#CI_Trackback.extract_urls">extract_urls() (CI_Trackback method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.field_data">field_data() (CI_DB_driver method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="database/results.html#CI_DB_result.field_data">(CI_DB_result method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.field_exists">field_exists() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/loader.html#CI_Loader.file">file() (CI_Loader method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/migration.html#CI_Migration.find_migrations">find_migrations() (CI_Migration method)</a>
+  </dt>
+
+      
+  <dt><a href="database/results.html#CI_DB_result.first_row">first_row() (CI_DB_result method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/sessions.html#CI_Session.flashdata">flashdata() (CI_Session method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.flush_cache">flush_cache() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/download_helper.html#force_download">force_download() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/form_helper.html#form_button">form_button() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/form_helper.html#form_checkbox">form_checkbox() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/form_helper.html#form_close">form_close() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/form_helper.html#form_dropdown">form_dropdown() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/form_helper.html#form_error">form_error() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/form_helper.html#form_fieldset">form_fieldset() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/form_helper.html#form_fieldset_close">form_fieldset_close() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/form_helper.html#form_hidden">form_hidden() (built-in function)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers/form_helper.html#form_input">form_input() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/form_helper.html#form_label">form_label() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/form_helper.html#form_multiselect">form_multiselect() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/form_helper.html#form_open">form_open() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/form_helper.html#form_open_multipart">form_open_multipart() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/form_helper.html#form_password">form_password() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/form_helper.html#form_prep">form_prep() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/form_helper.html#form_radio">form_radio() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/form_helper.html#form_reset">form_reset() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/form_helper.html#form_submit">form_submit() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/form_helper.html#form_textarea">form_textarea() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/form_helper.html#form_upload">form_upload() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/typography.html#CI_Typography.format_characters">format_characters() (CI_Typography method)</a>
+  </dt>
+
+      
+  <dt><a href="database/results.html#CI_DB_result.free_result">free_result() (CI_DB_result method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.from">from() (CI_DB_query_builder method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/email.html#CI_Email.from">(CI_Email method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="general/common_functions.html#function_usable">function_usable() (built-in function)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="libraries/calendar.html#CI_Calendar.generate">generate() (CI_Calendar method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/table.html#CI_Table.generate">(CI_Table method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="libraries/caching.html#CI_Cache.get">get() (CI_Cache method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.get">(CI_DB_query_builder method)</a>
+  </dt>
+
+        
+  <dt><a href="libraries/input.html#CI_Input.get">(CI_Input method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="helpers/smiley_helper.html#get_clickable_smileys">get_clickable_smileys() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.get_compiled_delete">get_compiled_delete() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.get_compiled_insert">get_compiled_insert() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.get_compiled_select">get_compiled_select() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.get_compiled_update">get_compiled_update() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/output.html#CI_Output.get_content_type">get_content_type() (CI_Output method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/cookie_helper.html#get_cookie">get_cookie() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/security.html#CI_Security.get_csrf_hash">get_csrf_hash() (CI_Security method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/security.html#CI_Security.get_csrf_token_name">get_csrf_token_name() (CI_Security method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/calendar.html#CI_Calendar.get_day_names">get_day_names() (CI_Calendar method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/file_helper.html#get_dir_file_info">get_dir_file_info() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/file_helper.html#get_file_info">get_file_info() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/file_helper.html#get_filenames">get_filenames() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/sessions.html#CI_Session.get_flash_keys">get_flash_keys() (CI_Session method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/output.html#CI_Output.get_header">get_header() (CI_Output method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/trackback.html#CI_Trackback.get_id">get_id() (CI_Trackback method)</a>
+  </dt>
+
+      
+  <dt><a href="general/ancillary_classes.html#get_instance">get_instance() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/cart.html#CI_Cart.get_item">get_item() (CI_Cart method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="libraries/caching.html#CI_Cache.get_metadata">get_metadata() (CI_Cache method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/file_helper.html#get_mime_by_extension">get_mime_by_extension() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="general/common_functions.html#get_mimes">get_mimes() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/calendar.html#CI_Calendar.get_month_name">get_month_name() (CI_Calendar method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/output.html#CI_Output.get_output">get_output() (CI_Output method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/loader.html#CI_Loader.get_package_paths">get_package_paths() (CI_Loader method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/input.html#CI_Input.get_post">get_post() (CI_Input method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/security.html#CI_Security.get_random_bytes">get_random_bytes() (CI_Security method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/input.html#CI_Input.get_request_header">get_request_header() (CI_Input method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/sessions.html#CI_Session.get_temp_keys">get_temp_keys() (CI_Session method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/calendar.html#CI_Calendar.get_total_days">get_total_days() (CI_Calendar method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/loader.html#CI_Loader.get_var">get_var() (CI_Loader method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/loader.html#CI_Loader.get_vars">get_vars() (CI_Loader method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.get_where">get_where() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/zip.html#CI_Zip.get_zip">get_zip() (CI_Zip method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/date_helper.html#gmt_to_local">gmt_to_local() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.group_by">group_by() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.group_end">group_end() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.group_start">group_start() (CI_DB_query_builder method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="libraries/cart.html#CI_Cart.has_options">has_options() (CI_Cart method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/form_validation.html#CI_Form_validation.has_rule">has_rule() (CI_Form_validation method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/sessions.html#CI_Session.has_userdata">has_userdata() (CI_Session method)</a>
+  </dt>
+
+      
+  <dt><a href="general/compatibility_functions.html#hash_equals">hash_equals() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="general/compatibility_functions.html#hash_pbkdf2">hash_pbkdf2() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.having">having() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/html_helper.html#heading">heading() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/loader.html#CI_Loader.helper">helper() (CI_Loader method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="general/compatibility_functions.html#hex2bin">hex2bin() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/text_helper.html#highlight_code">highlight_code() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/text_helper.html#highlight_phrase">highlight_phrase() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/encryption.html#CI_Encryption.hkdf">hkdf() (CI_Encryption method)</a>
+  </dt>
+
+      
+  <dt><a href="general/common_functions.html#html_escape">html_escape() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/date_helper.html#human_to_unix">human_to_unix() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/inflector_helper.html#humanize">humanize() (built-in function)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers/html_helper.html#img">img() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/caching.html#CI_Cache.increment">increment() (CI_Cache method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/string_helper.html#increment_string">increment_string() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/url_helper.html#index_page">index_page() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/calendar.html#CI_Calendar.initialize">initialize() (CI_Calendar method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.initialize">(CI_DB_driver method)</a>
+  </dt>
+
+        
+  <dt><a href="libraries/encryption.html#CI_Encryption.initialize">(CI_Encryption method)</a>
+  </dt>
+
+        
+  <dt><a href="libraries/image_lib.html#CI_Image_lib.initialize">(CI_Image_lib method)</a>
+  </dt>
+
+        
+  <dt><a href="libraries/pagination.html#CI_Pagination.initialize">(CI_Pagination method)</a>
+  </dt>
+
+        
+  <dt><a href="libraries/file_uploading.html#CI_Upload.initialize">(CI_Upload method)</a>
+  </dt>
+
+        
+  <dt><a href="libraries/xmlrpc.html#CI_Xmlrpc.initialize">(CI_Xmlrpc method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="libraries/input.html#CI_Input.input_stream">input_stream() (CI_Input method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/cart.html#CI_Cart.insert">insert() (CI_Cart method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.insert">(CI_DB_query_builder method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.insert_batch">insert_batch() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.insert_string">insert_string() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/input.html#CI_Input.ip_address">ip_address() (CI_Input method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/input.html#CI_Input.is_ajax_request">is_ajax_request() (CI_Input method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/user_agent.html#CI_User_agent.is_browser">is_browser() (CI_User_agent method)</a>
+  </dt>
+
+      
+  <dt><a href="general/common_functions.html#is_cli">is_cli() (built-in function)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="libraries/input.html#CI_Input.is_cli_request">is_cli_request() (CI_Input method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/inflector_helper.html#is_countable">is_countable() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="general/common_functions.html#is_https">is_https() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/loader.html#CI_Loader.is_loaded">is_loaded() (CI_Loader method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/user_agent.html#CI_User_agent.is_mobile">is_mobile() (CI_User_agent method)</a>
+  </dt>
+
+      
+  <dt><a href="general/common_functions.html#is_php">is_php() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="general/common_functions.html#is_really_writable">is_really_writable() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/user_agent.html#CI_User_agent.is_referral">is_referral() (CI_User_agent method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/user_agent.html#CI_User_agent.is_robot">is_robot() (CI_User_agent method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/caching.html#CI_Cache.is_supported">is_supported() (CI_Cache method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.is_write_type">is_write_type() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/config.html#CI_Config.item">item() (CI_Config method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="J">J</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.join">join() (CI_DB_query_builder method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="libraries/sessions.html#CI_Session.keep_flashdata">keep_flashdata() (CI_Session method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers/language_helper.html#lang">lang() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/loader.html#CI_Loader.language">language() (CI_Loader method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/user_agent.html#CI_User_agent.languages">languages() (CI_User_agent method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.last_query">last_query() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="database/results.html#CI_DB_result.last_row">last_row() (CI_DB_result method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/migration.html#CI_Migration.latest">latest() (CI_Migration method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/loader.html#CI_Loader.library">library() (CI_Loader method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.like">like() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.limit">limit() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/trackback.html#CI_Trackback.limit_characters">limit_characters() (CI_Trackback method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="libraries/language.html#CI_Lang.line">line() (CI_Lang method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/html_helper.html#link_tag">link_tag() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="database/utilities.html#CI_DB_utility.list_databases">list_databases() (CI_DB_utility method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.list_fields">list_fields() (CI_DB_driver method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="database/results.html#CI_DB_result.list_fields">(CI_DB_result method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="libraries/ftp.html#CI_FTP.list_files">list_files() (CI_FTP method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.list_tables">list_tables() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/config.html#CI_Config.load">load() (CI_Config method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/language.html#CI_Lang.load">(CI_Lang method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="helpers/date_helper.html#local_to_gmt">local_to_gmt() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="general/errors.html#log_message">log_message() (built-in function)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers/url_helper.html#mailto">mailto() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/table.html#CI_Table.make_columns">make_columns() (CI_Table method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/benchmark.html#CI_Benchmark.mark">mark() (CI_Benchmark method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/sessions.html#CI_Session.mark_as_flash">mark_as_flash() (CI_Session method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/sessions.html#CI_Session.mark_as_temp">mark_as_temp() (CI_Session method)</a>
+  </dt>
+
+      
+  <dt><a href="general/compatibility_functions.html#mb_strlen">mb_strlen() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="general/compatibility_functions.html#mb_strpos">mb_strpos() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="general/compatibility_functions.html#mb_substr">mb_substr() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/date_helper.html#mdate">mdate() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/benchmark.html#CI_Benchmark.memory_usage">memory_usage() (CI_Benchmark method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="libraries/email.html#CI_Email.message">message() (CI_Email method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/html_helper.html#meta">meta() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/input.html#CI_Input.method">method() (CI_Input method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/xmlrpc.html#CI_Xmlrpc.method">(CI_Xmlrpc method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="libraries/ftp.html#CI_FTP.mirror">mirror() (CI_FTP method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/ftp.html#CI_FTP.mkdir">mkdir() (CI_FTP method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/user_agent.html#CI_User_agent.mobile">mobile() (CI_User_agent method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/loader.html#CI_Loader.model">model() (CI_Loader method)</a>
+  </dt>
+
+      
+  <dt><a href="database/forge.html#CI_DB_forge.modify_column">modify_column() (CI_DB_forge method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/ftp.html#CI_FTP.move">move() (CI_FTP method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/date_helper.html#mysql_to_unix">mysql_to_unix() (built-in function)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers/html_helper.html#nbs">nbs() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="database/results.html#CI_DB_result.next_row">next_row() (CI_DB_result method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/date_helper.html#nice_date">nice_date() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/typography_helper.html#nl2br_except_pre">nl2br_except_pre() (built-in function)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/typography.html#CI_Typography.nl2br_except_pre">(CI_Typography method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.not_group_start">not_group_start() (CI_DB_query_builder method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.not_like">not_like() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/date_helper.html#now">now() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="database/results.html#CI_DB_result.num_fields">num_fields() (CI_DB_result method)</a>
+  </dt>
+
+      
+  <dt><a href="database/results.html#CI_DB_result.num_rows">num_rows() (CI_DB_result method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers/file_helper.html#octal_permissions">octal_permissions() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.offset">offset() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/html_helper.html#ol">ol() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="database/utilities.html#CI_DB_utility.optimize_database">optimize_database() (CI_DB_utility method)</a>
+  </dt>
+
+      
+  <dt><a href="database/utilities.html#CI_DB_utility.optimize_table">optimize_table() (CI_DB_utility method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.or_group_start">or_group_start() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.or_having">or_having() (CI_DB_query_builder method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.or_like">or_like() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.or_not_group_start">or_not_group_start() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.or_not_like">or_not_like() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.or_where">or_where() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.or_where_in">or_where_in() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.or_where_not_in">or_where_not_in() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.order_by">order_by() (CI_DB_query_builder method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="libraries/parser.html#CI_Parser.parse">parse() (CI_Parser method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/user_agent.html#CI_User_agent.parse">(CI_User_agent method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="helpers/smiley_helper.html#parse_smileys">parse_smileys() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/parser.html#CI_Parser.parse_string">parse_string() (CI_Parser method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/calendar.html#CI_Calendar.parse_template">parse_template() (CI_Calendar method)</a>
+  </dt>
+
+      
+  <dt><a href="general/compatibility_functions.html#password_get_info">password_get_info() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="general/compatibility_functions.html#password_hash">password_hash() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="general/compatibility_functions.html#password_needs_rehash">password_needs_rehash() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="general/compatibility_functions.html#password_verify">password_verify() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.platform">platform() (CI_DB_driver method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/user_agent.html#CI_User_agent.platform">(CI_User_agent method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="helpers/inflector_helper.html#plural">plural() (built-in function)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="libraries/input.html#CI_Input.post">post() (CI_Input method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/input.html#CI_Input.post_get">post_get() (CI_Input method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/url_helper.html#prep_url">prep_url() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="database/results.html#CI_DB_result.previous_row">previous_row() (CI_DB_result method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.primary">primary() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/email.html#CI_Email.print_debugger">print_debugger() (CI_Email method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/trackback.html#CI_Trackback.process">process() (CI_Trackback method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/cart.html#CI_Cart.product_options">product_options() (CI_Cart method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.protect_identifiers">protect_identifiers() (CI_DB_driver method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="Q">Q</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.query">query() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="general/compatibility_functions.html#quoted_printable_encode">quoted_printable_encode() (built-in function)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers/string_helper.html#quotes_to_entities">quotes_to_entities() (built-in function)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers/array_helper.html#random_element">random_element() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/string_helper.html#random_string">random_string() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/zip.html#CI_Zip.read_dir">read_dir() (CI_Zip method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/file_helper.html#read_file">read_file() (built-in function)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/zip.html#CI_Zip.read_file">(CI_Zip method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="libraries/trackback.html#CI_Trackback.receive">receive() (CI_Trackback method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.reconnect">reconnect() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/url_helper.html#redirect">redirect() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/string_helper.html#reduce_double_slashes">reduce_double_slashes() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/string_helper.html#reduce_multiples">reduce_multiples() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/user_agent.html#CI_User_agent.referrer">referrer() (CI_User_agent method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/cart.html#CI_Cart.remove">remove() (CI_Cart method)</a>
+  </dt>
+
+      
+  <dt><a href="general/common_functions.html#remove_invisible_characters">remove_invisible_characters() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/loader.html#CI_Loader.remove_package_path">remove_package_path() (CI_Loader method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/ftp.html#CI_FTP.rename">rename() (CI_FTP method)</a>
+  </dt>
+
+      
+  <dt><a href="database/forge.html#CI_DB_forge.rename_table">rename_table() (CI_DB_forge method)</a>
+  </dt>
+
+      
+  <dt><a href="database/utilities.html#CI_DB_utility.repair_table">repair_table() (CI_DB_utility method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/string_helper.html#repeater">repeater() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.replace">replace() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/email.html#CI_Email.reply_to">reply_to() (CI_Email method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="libraries/unit_testing.html#CI_Unit_test.report">report() (CI_Unit_test method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/xmlrpc.html#CI_Xmlrpc.request">request() (CI_Xmlrpc method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/input.html#CI_Input.request_headers">request_headers() (CI_Input method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.reset_query">reset_query() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/form_validation.html#CI_Form_validation.reset_validation">reset_validation() (CI_Form_validation method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/image_lib.html#CI_Image_lib.resize">resize() (CI_Image_lib method)</a>
+  </dt>
+
+      
+  <dt><a href="database/results.html#CI_DB_result.result">result() (CI_DB_result method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/unit_testing.html#CI_Unit_test.result">(CI_Unit_test method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="database/results.html#CI_DB_result.result_array">result_array() (CI_DB_result method)</a>
+  </dt>
+
+      
+  <dt><a href="database/results.html#CI_DB_result.result_object">result_object() (CI_DB_result method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/user_agent.html#CI_User_agent.robot">robot() (CI_User_agent method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/image_lib.html#CI_Image_lib.rotate">rotate() (CI_Image_lib method)</a>
+  </dt>
+
+      
+  <dt><a href="database/results.html#CI_DB_result.row">row() (CI_DB_result method)</a>
+  </dt>
+
+      
+  <dt><a href="database/results.html#CI_DB_result.row_array">row_array() (CI_DB_result method)</a>
+  </dt>
+
+      
+  <dt><a href="database/results.html#CI_DB_result.row_object">row_object() (CI_DB_result method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/uri.html#CI_URI.rsegment">rsegment() (CI_URI method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/uri.html#CI_URI.rsegment_array">rsegment_array() (CI_URI method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/form_validation.html#CI_Form_validation.run">run() (CI_Form_validation method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/unit_testing.html#CI_Unit_test.run">(CI_Unit_test method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="libraries/uri.html#CI_URI.ruri_string">ruri_string() (CI_URI method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/uri.html#CI_URI.ruri_to_assoc">ruri_to_assoc() (CI_URI method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers/url_helper.html#safe_mailto">safe_mailto() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/security_helper.html#sanitize_filename">sanitize_filename() (built-in function)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/security.html#CI_Security.sanitize_filename">(CI_Security method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="libraries/caching.html#CI_Cache.save">save() (CI_Cache method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/uri.html#CI_URI.segment">segment() (CI_URI method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/uri.html#CI_URI.segment_array">segment_array() (CI_URI method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.select">select() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.select_avg">select_avg() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.select_max">select_max() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.select_min">select_min() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.select_sum">select_sum() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/email.html#CI_Email.send">send() (CI_Email method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/trackback.html#CI_Trackback.send">(CI_Trackback method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="helpers/email_helper.html#send_email">send_email() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/trackback.html#CI_Trackback.send_error">send_error() (CI_Trackback method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/xmlrpc.html#CI_Xmlrpc.send_error_message">send_error_message() (CI_Xmlrpc method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/xmlrpc.html#CI_Xmlrpc.send_request">send_request() (CI_Xmlrpc method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/trackback.html#CI_Trackback.send_success">send_success() (CI_Trackback method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/input.html#CI_Input.server">server() (CI_Input method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/xmlrpc.html#CI_Xmlrpc.server">(CI_Xmlrpc method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="libraries/sessions.html#CI_Session.sess_destroy">sess_destroy() (CI_Session method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/sessions.html#CI_Session.sess_regenerate">sess_regenerate() (CI_Session method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.set">set() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/email.html#CI_Email.set_alt_message">set_alt_message() (CI_Email method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/table.html#CI_Table.set_caption">set_caption() (CI_Table method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/form_helper.html#set_checkbox">set_checkbox() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/encrypt.html#CI_Encrypt.set_cipher">set_cipher() (CI_Encrypt method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/output.html#CI_Output.set_content_type">set_content_type() (CI_Output method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/cookie_helper.html#set_cookie">set_cookie() (built-in function)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/input.html#CI_Input.set_cookie">(CI_Input method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="libraries/form_validation.html#CI_Form_validation.set_data">set_data() (CI_Form_validation method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.set_dbprefix">set_dbprefix() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/parser.html#CI_Parser.set_delimiters">set_delimiters() (CI_Parser method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/table.html#CI_Table.set_empty">set_empty() (CI_Table method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/trackback.html#CI_Trackback.set_error">set_error() (CI_Trackback method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/form_validation.html#CI_Form_validation.set_error_delimiters">set_error_delimiters() (CI_Form_validation method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/sessions.html#CI_Session.set_flashdata">set_flashdata() (CI_Session method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/email.html#CI_Email.set_header">set_header() (CI_Email method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/output.html#CI_Output.set_header">(CI_Output method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="libraries/table.html#CI_Table.set_heading">set_heading() (CI_Table method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.set_insert_batch">set_insert_batch() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/config.html#CI_Config.set_item">set_item() (CI_Config method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="libraries/form_validation.html#CI_Form_validation.set_message">set_message() (CI_Form_validation method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/encrypt.html#CI_Encrypt.set_mode">set_mode() (CI_Encrypt method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/output.html#CI_Output.set_output">set_output() (CI_Output method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/output.html#CI_Output.set_profiler_sections">set_profiler_sections() (CI_Output method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/form_helper.html#set_radio">set_radio() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/path_helper.html#set_realpath">set_realpath() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="database/results.html#CI_DB_result.set_row">set_row() (CI_DB_result method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/form_validation.html#CI_Form_validation.set_rules">set_rules() (CI_Form_validation method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/form_helper.html#set_select">set_select() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="general/common_functions.html#set_status_header">set_status_header() (built-in function)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/output.html#CI_Output.set_status_header">(CI_Output method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="libraries/sessions.html#CI_Session.set_tempdata">set_tempdata() (CI_Session method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/table.html#CI_Table.set_template">set_template() (CI_Table method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/unit_testing.html#CI_Unit_test.set_template">(CI_Unit_test method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="libraries/unit_testing.html#CI_Unit_test.set_test_items">set_test_items() (CI_Unit_test method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.set_update_batch">set_update_batch() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/sessions.html#CI_Session.set_userdata">set_userdata() (CI_Session method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/form_helper.html#set_value">set_value() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="documentation/index.html#Some_class.should_do_something">should_do_something() (Some_class method)</a>
+  </dt>
+
+      
+  <dt><a href="general/errors.html#show_404">show_404() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="general/errors.html#show_error">show_error() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.simple_query">simple_query() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/inflector_helper.html#singular">singular() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/url_helper.html#site_url">site_url() (built-in function)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/config.html#CI_Config.site_url">(CI_Config method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="libraries/config.html#CI_Config.slash_item">slash_item() (CI_Config method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/uri.html#CI_URI.slash_rsegment">slash_rsegment() (CI_URI method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/uri.html#CI_URI.slash_segment">slash_segment() (CI_URI method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/smiley_helper.html#smiley_js">smiley_js() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="documentation/index.html#Some_class">Some_class (built-in class)</a>
+  </dt>
+
+      
+  <dt><a href="documentation/index.html#Some_class.some_method">some_method() (Some_class method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/date_helper.html#standard_date">standard_date() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.start_cache">start_cache() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.stop_cache">stop_cache() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/security_helper.html#strip_image_tags">strip_image_tags() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/string_helper.html#strip_quotes">strip_quotes() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/string_helper.html#strip_slashes">strip_slashes() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/email.html#CI_Email.subject">subject() (CI_Email method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/file_helper.html#symbolic_permissions">symbolic_permissions() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/config.html#CI_Config.system_url">system_url() (CI_Config method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.table_exists">table_exists() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/sessions.html#CI_Session.tempdata">tempdata() (CI_Session method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/xmlrpc.html#CI_Xmlrpc.timeout">timeout() (CI_Xmlrpc method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/date_helper.html#timespan">timespan() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/date_helper.html#timezone_menu">timezone_menu() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/date_helper.html#timezones">timezones() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/email.html#CI_Email.to">to() (CI_Email method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/cart.html#CI_Cart.total">total() (CI_Cart method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/cart.html#CI_Cart.total_items">total_items() (CI_Cart method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.total_queries">total_queries() (CI_DB_driver method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="libraries/uri.html#CI_URI.total_rsegments">total_rsegments() (CI_URI method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/uri.html#CI_URI.total_segments">total_segments() (CI_URI method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.trans_complete">trans_complete() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.trans_off">trans_off() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.trans_start">trans_start() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.trans_status">trans_status() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.trans_strict">trans_strict() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/string_helper.html#trim_slashes">trim_slashes() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.truncate">truncate() (CI_DB_query_builder method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers/html_helper.html#ul">ul() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/sessions.html#CI_Session.umark_flash">umark_flash() (CI_Session method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/sessions.html#CI_Session.umark_temp">umark_temp() (CI_Session method)</a>
+  </dt>
+
+      
+  <dt><a href="database/results.html#CI_DB_result.unbuffered_row">unbuffered_row() (CI_DB_result method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/inflector_helper.html#underscore">underscore() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/date_helper.html#unix_to_human">unix_to_human() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/sessions.html#CI_Session.unset_userdata">unset_userdata() (CI_Session method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/cart.html#CI_Cart.update">update() (CI_Cart method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.update">(CI_DB_query_builder method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.update_batch">update_batch() (CI_DB_query_builder method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.update_string">update_string() (CI_DB_driver method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/ftp.html#CI_FTP.upload">upload() (CI_FTP method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/url_helper.html#uri_string">uri_string() (built-in function)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/uri.html#CI_URI.uri_string">(CI_URI method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="libraries/uri.html#CI_URI.uri_to_assoc">uri_to_assoc() (CI_URI method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/url_helper.html#url_title">url_title() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/unit_testing.html#CI_Unit_test.use_strict">use_strict() (CI_Unit_test method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/input.html#CI_Input.user_agent">user_agent() (CI_Input method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/sessions.html#CI_Session.userdata">userdata() (CI_Session method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers/email_helper.html#valid_email">valid_email() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/input.html#CI_Input.valid_ip">valid_ip() (CI_Input method)</a>
+  </dt>
+
+      
+  <dt><a href="libraries/trackback.html#CI_Trackback.validate_url">validate_url() (CI_Trackback method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/form_helper.html#validation_errors">validation_errors() (built-in function)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="libraries/loader.html#CI_Loader.vars">vars() (CI_Loader method)</a>
+  </dt>
+
+      
+  <dt><a href="database/db_driver_reference.html#CI_DB_driver.version">version() (CI_DB_driver method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/migration.html#CI_Migration.version">(CI_Migration method)</a>
+  </dt>
+
+        
+  <dt><a href="libraries/user_agent.html#CI_User_agent.version">(CI_User_agent method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="libraries/loader.html#CI_Loader.view">view() (CI_Loader method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="libraries/image_lib.html#CI_Image_lib.watermark">watermark() (CI_Image_lib method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.where">where() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.where_in">where_in() (CI_DB_query_builder method)</a>
+  </dt>
+
+      
+  <dt><a href="database/query_builder.html#CI_DB_query_builder.where_not_in">where_not_in() (CI_DB_query_builder method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers/text_helper.html#word_censor">word_censor() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/text_helper.html#word_limiter">word_limiter() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/text_helper.html#word_wrap">word_wrap() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="helpers/file_helper.html#write_file">write_file() (built-in function)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="X">X</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers/xml_helper.html#xml_convert">xml_convert() (built-in function)</a>
+  </dt>
+
+      
+  <dt><a href="database/utilities.html#CI_DB_utility.xml_from_results">xml_from_results() (CI_DB_utility method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers/security_helper.html#xss_clean">xss_clean() (built-in function)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="libraries/security.html#CI_Security.xss_clean">(CI_Security method)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+</tr></table>
+
+
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014 - 2015, British Columbia Institute of Technology.
+      Last updated on Jan 26, 2015.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'3.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
