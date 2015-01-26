@@ -964,6 +964,7 @@ Rule                      Parameter  Description                                
                                      or not numeric.
 **between**               Yes        Returns FALSE if the form element is not within the given range.                              between[10,20]
 **in**                    Yes        Returns FALSE if the form element is not within a predetermined list.                         in[red,blue,green]
+**date**                  No         Returns FALSE if the form element is not a proper date.
 **alpha**                 No         Returns FALSE if the form element contains anything other than alphabetical characters.
 **alpha_numeric**         No         Returns FALSE if the form element contains anything other than alpha-numeric characters.
 **alpha_numeric_spaces**  No         Returns FALSE if the form element contains anything other than alpha-numeric characters

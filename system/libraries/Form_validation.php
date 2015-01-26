@@ -1475,6 +1475,31 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Value should be a valid date
+	 *
+	 * @param	string
+	 * @return	bool
+	 */
+	public function date($date)
+	{
+		if (strtotime($date) === FALSE)
+		{
+			return FALSE;
+		}
+
+		if ($date instanceof DateTime)
+		{
+			return TRUE;	
+		}
+
+		$date = date_parse($date);
+
+		return checkdate($date['month'], $date['day'], $date['year']);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Is a Natural number  (0,1,2,3, etc.)
 	 *
 	 * @param	string
