@@ -126,7 +126,6 @@ class CI_DB_mysqli_driver extends CI_DB {
 		$mysqli = mysqli_init();
 
 		$mysqli->options(MYSQLI_OPT_CONNECT_TIMEOUT, 10);
-		$mysqli->options(MYSQLI_OPT_READ_TIMEOUT, 5);
 		$mysqli->options(MYSQLI_OPT_RECONNECT, 1);
 
 		if ($this->stricton)
