@@ -1438,6 +1438,27 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Between two numeric values
+	 *
+	 * @param	int
+	 * @param	string
+	 * @return	bool
+	 */
+	public function between($str, $range)
+	{
+		if ( ! preg_match('/^\s?(\d+)\s?,\s?(\d+)\s?$/', $range))
+		{
+			return FALSE;
+		}
+
+		list($range_start, $range_end) = array_map('intval', explode(',', $range));
+
+		return is_numeric($str) ? ($str >= $range_start && $str <= $range_end) : FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Is a Natural number  (0,1,2,3, etc.)
 	 *
 	 * @param	string
