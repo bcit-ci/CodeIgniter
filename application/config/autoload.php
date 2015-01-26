@@ -52,7 +52,7 @@ $autoload['packages'] = array();
 |
 | Prototype:
 |
-|	$autoload['libraries'] = array('database', 'email', 'xmlrpc');
+|	$autoload['libraries'] = array('database', 'email', 'session');
 |
 | You can also supply an alternative library name to be assigned
 | in the controller:
@@ -73,7 +73,7 @@ $autoload['libraries'] = array();
 |
 | Prototype:
 |
-|	$autoload['drivers'] = array('session', 'cache');
+|	$autoload['drivers'] = array('cache');
 */
 
 $autoload['drivers'] = array();
