@@ -12,7 +12,7 @@ It was, for years, developed and maintained by EllisLab, the ExpressionEngine
 Development Team and a group of community members called the Reactor Team.
 
 In 2014, CodeIgniter was acquired by the `British Columbia Institute of Technology
-<http://bcit.ca/>`_ and was then officially announced as a community-maintaned
+<http://bcit.ca/>`_ and was then officially announced as a community-maintained
 project.
 
 Bleeding edge development is spearheaded by the handpicked contributors
