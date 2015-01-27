@@ -1516,6 +1516,20 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Date should be lesser than $before_date
+	 *
+	 * @param	string
+	 * @param	string
+	 * @return	bool
+	 */
+	public function before_date($date, $before_date)
+	{
+		return (strtotime($date)!==FALSE && strtotime($before_date)!==FALSE) ? (strtotime($date) < strtotime($before_date)) : FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Is a Natural number  (0,1,2,3, etc.)
 	 *
 	 * @param	string
