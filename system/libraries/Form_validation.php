@@ -1475,6 +1475,22 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Value should not be within an array of values
+	 *
+	 * @param	string
+	 * @param	array
+	 * @return	bool
+	 */
+	public function not_in($value, $list)
+	{
+		$list = array_map('trim', explode(',', (string) $list));
+
+		return ! in_array((string) $value, $list);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Value should be a valid date
 	 *
 	 * @param	string

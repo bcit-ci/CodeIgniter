@@ -55,6 +55,7 @@ $lang['form_validation_greater_than']		= 'The {field} field must contain a numbe
 $lang['form_validation_greater_than_equal_to']	= 'The {field} field must contain a number greater than or equal to {param}.';
 $lang['form_validation_between']		= 'The {field} field must contain a number between {param}.';
 $lang['form_validation_in']		= 'The {field} field must be within a predetermined list: {param}.';
+$lang['form_validation_not_in']		= 'The {field} field must not be within: {param}.';
 $lang['form_validation_date']		= 'The {field} field must be a proper date.';
 
 /* End of file form_validation_lang.php */
