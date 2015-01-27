@@ -967,6 +967,7 @@ Rule                      Parameter  Description                                
 **not_in**                Yes        Returns FALSE if the form element is within a predetermined list.                             not_in[red,blue,green]
 **date**                  No         Returns FALSE if the form element is not a proper date.
 **before_date**           Yes        Returns FALSE if the form element is greater than a predetermined date.                       before_date[2015-01-27]
+**after_date**            Yes        Returns FALSE if the form element is less than a predetermined date.                          after_date[2015-01-27]
 **alpha**                 No         Returns FALSE if the form element contains anything other than alphabetical characters.
 **alpha_numeric**         No         Returns FALSE if the form element contains anything other than alpha-numeric characters.
 **alpha_numeric_spaces**  No         Returns FALSE if the form element contains anything other than alpha-numeric characters

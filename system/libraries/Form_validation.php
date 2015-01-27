@@ -1530,6 +1530,20 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Date should be greater than $after_date
+	 *
+	 * @param	string
+	 * @param	string
+	 * @return	bool
+	 */
+	public function after_date($date, $after_date)
+	{
+		return (strtotime($date)!==FALSE && strtotime($after_date)!==FALSE) ? (strtotime($date) > strtotime($after_date)) : FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Is a Natural number  (0,1,2,3, etc.)
 	 *
 	 * @param	string

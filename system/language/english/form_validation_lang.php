@@ -58,6 +58,7 @@ $lang['form_validation_in']		= 'The {field} field must be within a predetermined
 $lang['form_validation_not_in']		= 'The {field} field must not be within: {param}.';
 $lang['form_validation_date']		= 'The {field} field must be a proper date.';
 $lang['form_validation_before_date']		= 'The {field} field must be lesser than {param}.';
+$lang['form_validation_after_date']		= 'The {field} field must be greater than {param}.';
 
 /* End of file form_validation_lang.php */
 /* Location: ./system/language/english/form_validation_lang.php */
