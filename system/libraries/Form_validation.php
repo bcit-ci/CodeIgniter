@@ -1254,8 +1254,10 @@ class CI_Form_validation {
 		{
 			$str = substr($str, 0, ++$atpos).idn_to_ascii(substr($str, $atpos));
 		}
+		
+		if (filter_var($str, FILTER_VALIDATE_EMAIL)===FALSE) return FALSE;
 
-		return (bool) filter_var($str, FILTER_VALIDATE_EMAIL);
+		return (bool) (getmxrr(substr(strrchr($str, "@"), 1), $mx_records));
 	}
 
 	// --------------------------------------------------------------------
