@@ -167,6 +167,8 @@ abstract class CI_DB_forge {
 	public function __construct(&$db)
 	{
 		$this->db =& $db;
+                $this->CI = &get_instance();
+                $this->CI->lang-load('db');
 		log_message('info', 'Database Forge Class Initialized');
 	}
 
@@ -288,7 +290,7 @@ abstract class CI_DB_forge {
 			{
 				if (strpos($field, ' ') === FALSE)
 				{
-					show_error('Field information is required for that operation.');
+					show_error($this->CI->lang->line('db_filed_information_required'));
 				}
 
 				$this->fields[] = $field;
@@ -317,7 +319,7 @@ abstract class CI_DB_forge {
 	{
 		if ($table === '')
 		{
-			show_error('A table name is required for that operation.');
+			show_error($this->CI->lang->line('db_table_required'));
 		}
 		else
 		{
@@ -326,7 +328,7 @@ abstract class CI_DB_forge {
 
 		if (count($this->fields) === 0)
 		{
-			show_error('Field information is required.');
+			show_error($this->CI->lang->line('db_filed_information_required2'));
 		}
 
 		$sql = $this->_create_table($table, $if_not_exists, $attributes);
@@ -524,7 +526,7 @@ abstract class CI_DB_forge {
 	{
 		if ($table_name === '' OR $new_table_name === '')
 		{
-			show_error('A table name is required for that operation.');
+			show_error($this->CI->lang->line('db_table_required'));
 			return FALSE;
 		}
 		elseif ($this->_rename_table === FALSE)
@@ -635,7 +637,7 @@ abstract class CI_DB_forge {
 
 		if (count($this->fields) === 0)
 		{
-			show_error('Field information is required.');
+			show_error($this->CI->lang->line('db_filed_information_required2'));
 		}
 
 		$sqls = $this->_alter_table('CHANGE', $this->db->dbprefix.$table, $this->_process_fields());
