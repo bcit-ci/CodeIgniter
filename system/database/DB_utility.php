@@ -87,6 +87,8 @@ abstract class CI_DB_utility {
 	public function __construct(&$db)
 	{
 		$this->db =& $db;
+                $this->CI =&get_instance();
+                $this->CI->lang->load('db');
 		log_message('info', 'Database Utility Class Initialized');
 	}
 
@@ -239,7 +241,7 @@ abstract class CI_DB_utility {
 	{
 		if ( ! is_object($query) OR ! method_exists($query, 'list_fields'))
 		{
-			show_error('You must submit a valid result object');
+			show_error($this->CI->lang->line('db_must_submit_valid_result'));
 		}
 
 		$out = '';
@@ -277,7 +279,7 @@ abstract class CI_DB_utility {
 	{
 		if ( ! is_object($query) OR ! method_exists($query, 'list_fields'))
 		{
-			show_error('You must submit a valid result object');
+			show_error($this->CI->lang->line('db_must_submit_valid_result'));
 		}
 
 		// Set our default values
