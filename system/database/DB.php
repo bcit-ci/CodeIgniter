@@ -50,6 +50,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 function &DB($params = '', $query_builder_override = NULL)
 {
+        $LANG =& load_class('Lang', 'core');
+        $LANG->load('db');
+
 	// Load the DB config file if a DSN string wasn't passed
 	if (is_string($params) && strpos($params, '://') === FALSE)
 	{
@@ -57,7 +60,7 @@ function &DB($params = '', $query_builder_override = NULL)
 		if ( ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php')
 			&& ! file_exists($file_path = APPPATH.'config/database.php'))
 		{
-			show_error('The configuration file database.php does not exist.');
+			show_error($LANG->line('db_error_configuration'));
 		}
 
 		include($file_path);
@@ -79,7 +82,7 @@ function &DB($params = '', $query_builder_override = NULL)
 
 		if ( ! isset($db) OR count($db) === 0)
 		{
-			show_error('No database connection settings were found in the database config file.');
+			show_error($LANG->line('db_error_config_file'));
 		}
 
 		if ($params !== '')
@@ -89,11 +92,11 @@ function &DB($params = '', $query_builder_override = NULL)
 
 		if ( ! isset($active_group))
 		{
-			show_error('You have not specified a database connection group via $active_group in your config/database.php file.');
+			show_error($LANG->line('db_error_connection_active_group'));
 		}
 		elseif ( ! isset($db[$active_group]))
 		{
-			show_error('You have specified an invalid database connection group ('.$active_group.') in your config/database.php file.');
+			show_error(sprintf($LANG->line('db_invalid_connection_group'),$active_group));
 		}
 
 		$params = $db[$active_group];
@@ -109,7 +112,7 @@ function &DB($params = '', $query_builder_override = NULL)
 		 */
 		if (($dsn = @parse_url($params)) === FALSE)
 		{
-			show_error('Invalid DB Connection String');
+			show_error($LANG->line('db_invalid_connect'));
 		}
 
 		$params = array(
@@ -141,7 +144,7 @@ function &DB($params = '', $query_builder_override = NULL)
 	// No DB specified yet? Beat them senseless...
 	if (empty($params['dbdriver']))
 	{
-		show_error('You have not selected a database type to connect to.');
+		show_error($LANG->line('db_not_selected_database'));
 	}
 
 	// Load the DB classes. Note: Since the query builder class is optional
@@ -188,7 +191,7 @@ function &DB($params = '', $query_builder_override = NULL)
 	// Load the DB driver
 	$driver_file = BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver.php';
 
-	file_exists($driver_file) OR show_error('Invalid DB driver');
+	file_exists($driver_file) OR show_error($LANG->line('db_invalid_driver'));
 	require_once($driver_file);
 
 	// Instantiate the DB adapter
