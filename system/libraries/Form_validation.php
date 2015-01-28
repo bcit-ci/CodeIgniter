@@ -1449,6 +1449,20 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Value should be within an array of values
+	 *
+	 * @param	string
+	 * @param	array
+	 * @return	bool
+	 */
+	public function in($value, $list)
+	{
+		return in_array($value, explode(',', $list), TRUE);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Is a Natural number  (0,1,2,3, etc.)
 	 *
 	 * @param	string
