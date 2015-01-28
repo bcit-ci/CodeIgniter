@@ -961,7 +961,7 @@ Rule                      Parameter  Description                                
                                      not numeric.
 **less_than_equal_to**    Yes        Returns FALSE if the form element is greater than the parameter value,                        less_than_equal_to[8]
                                      or not numeric.
-**in**                    Yes        Returns FALSE if the form element is not within a predetermined list.                         in[red,blue,green]
+**in_list**               Yes        Returns FALSE if the form element is not within a predetermined list.                         in_list[red,blue,green]
 **alpha**                 No         Returns FALSE if the form element contains anything other than alphabetical characters.
 **alpha_numeric**         No         Returns FALSE if the form element contains anything other than alpha-numeric characters.
 **alpha_numeric_spaces**  No         Returns FALSE if the form element contains anything other than alpha-numeric characters

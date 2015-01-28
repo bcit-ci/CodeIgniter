@@ -1455,7 +1455,7 @@ class CI_Form_validation {
 	 * @param	array
 	 * @return	bool
 	 */
-	public function in($value, $list)
+	public function in_list($value, $list)
 	{
 		return in_array($value, explode(',', $list), TRUE);
 	}
