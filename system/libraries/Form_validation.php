@@ -1452,7 +1452,7 @@ class CI_Form_validation {
 	 * Value should be within an array of values
 	 *
 	 * @param	string
-	 * @param	array
+	 * @param	string
 	 * @return	bool
 	 */
 	public function in_list($value, $list)
