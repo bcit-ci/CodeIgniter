@@ -350,10 +350,10 @@ Release Date: Not Released
       -  Removed method ``is_numeric()`` as it exists as a native PHP function and ``_execute()`` will find and use that (the **is_numeric** rule itself is deprecated since 1.6.1).
       -  Native PHP functions used as rules can now accept an additional parameter, other than the data itself.
       -  Updated method ``set_rules()`` to accept an array of rules as well as a string.
-      -  Added support for ``in`` method that test if a given value is within a given list.
       -  Fields that have empty rules set no longer run through validation (and therefore are not considered erroneous).
       -  Added rule **differs** to check if the value of a field differs from the value of another field.
       -  Added rule **valid_url**.
+      -  Added rule **in_list** to check if the value of a field is within a given list.
       -  Added support for named parameters in error messages.
       -  :doc:`Language <libraries/language>` line keys must now be prefixed with **form_validation_**.
       -  Added rule **alpha_numeric_spaces**.
