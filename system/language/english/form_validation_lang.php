@@ -53,6 +53,7 @@ $lang['form_validation_less_than']		= 'The {field} field must contain a number l
 $lang['form_validation_less_than_equal_to']	= 'The {field} field must contain a number less than or equal to {param}.';
 $lang['form_validation_greater_than']		= 'The {field} field must contain a number greater than {param}.';
 $lang['form_validation_greater_than_equal_to']	= 'The {field} field must contain a number greater than or equal to {param}.';
+$lang['form_validation_in']		= 'The {field} field must be within a predetermined list: {param}.';
 
 /* End of file form_validation_lang.php */
 /* Location: ./system/language/english/form_validation_lang.php */
