@@ -388,7 +388,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		if ( ! in_array($type, array('MAX', 'MIN', 'AVG', 'SUM')))
 		{
-			show_error('Invalid function type: '.$type);
+                        $CI = &get_instance();
+                        $CI->lang->load('db');
+			show_error(sprintf($CI->lang->line('db_invalid_func'),$type));
 		}
 
 		if ($alias === '')
