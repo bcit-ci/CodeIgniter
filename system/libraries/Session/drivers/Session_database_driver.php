@@ -83,7 +83,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 		$CI =& get_instance();
 		isset($CI->db) OR $CI->load->database();
-		$this->_db =& $CI->db;
+		$this->_db = $CI->db;
 
 		if ( ! $this->_db instanceof CI_DB_query_builder)
 		{
