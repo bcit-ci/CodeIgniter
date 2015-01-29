@@ -75,7 +75,7 @@ class CI_Security {
 	/**
 	 * Character set
 	 *
-	 * Will be overriden by the constructor.
+	 * Will be overridden by the constructor.
 	 *
 	 * @var	string
 	 */
