@@ -22,8 +22,7 @@ This helper is loaded using the following code::
 Available Functions
 ===================
 
-The following functions are available:
-
+The following functions are available::
 
 .. function:: set_cookie($name[, $value = ''[, $expire = ''[, $domain = ''[, $path = '/'[, $prefix = ''[, $secure = FALSE[, $httponly = FALSE]]]]]]]])
 
@@ -51,8 +50,7 @@ The following functions are available:
 	:rtype:	mixed
 
 	This helper function gives you view file friendly syntax to get browser
-	cookies. Refer to the :doc:`Input Library <../libraries/input>` for a
-	description of its use, as this function is an alias for ``CI_Input::cookie()``.
+	cookies. It is similar to the :doc:`Input Library <../libraries/input>` ``CI_Input::cookie()`` function, except that ``get_cookie()`` will automatically prepend the cookie prefix you might have set in config.php.
 
 
 .. function:: delete_cookie($name[, $domain = ''[, $path = '/'[, $prefix = '']]]])
@@ -75,4 +73,4 @@ The following functions are available:
 	parameters.
 	::
 
-		delete_cookie($name, $domain, $path, $prefix)
+		delete_cookie($name, $domain, $path, $prefix);
