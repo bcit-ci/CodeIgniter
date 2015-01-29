@@ -81,6 +81,8 @@ The main methods are:
 -  ``$this->input->cookie()``
 -  ``$this->input->server()``
 
+Note that, unlike the get_cookie() function, ``$this->input->cookie()`` does not prepend the cookie prefix you might have set in config.php.
+
 Using the php://input stream
 ============================
 
