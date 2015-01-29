@@ -556,7 +556,7 @@ class CI_DB_result {
 	/**
 	 * Number of fields in the result set
 	 *
-	 * Overriden by driver result classes.
+	 * Overridden by driver result classes.
 	 *
 	 * @return	int
 	 */
@@ -572,7 +572,7 @@ class CI_DB_result {
 	 *
 	 * Generates an array of column names.
 	 *
-	 * Overriden by driver result classes.
+	 * Overridden by driver result classes.
 	 *
 	 * @return	array
 	 */
@@ -588,7 +588,7 @@ class CI_DB_result {
 	 *
 	 * Generates an array of objects containing field meta-data.
 	 *
-	 * Overriden by driver result classes.
+	 * Overridden by driver result classes.
 	 *
 	 * @return	array
 	 */
@@ -602,7 +602,7 @@ class CI_DB_result {
 	/**
 	 * Free the result
 	 *
-	 * Overriden by driver result classes.
+	 * Overridden by driver result classes.
 	 *
 	 * @return	void
 	 */
@@ -620,7 +620,7 @@ class CI_DB_result {
 	 * this internally before fetching results to make sure the
 	 * result set starts at zero.
 	 *
-	 * Overriden by driver result classes.
+	 * Overridden by driver result classes.
 	 *
 	 * @param	int	$n
 	 * @return	bool
@@ -637,7 +637,7 @@ class CI_DB_result {
 	 *
 	 * Returns the result set as an array.
 	 *
-	 * Overriden by driver result classes.
+	 * Overridden by driver result classes.
 	 *
 	 * @return	array
 	 */
@@ -653,7 +653,7 @@ class CI_DB_result {
 	 *
 	 * Returns the result set as an object.
 	 *
-	 * Overriden by driver result classes.
+	 * Overridden by driver result classes.
 	 *
 	 * @param	string	$class_name
 	 * @return	object
