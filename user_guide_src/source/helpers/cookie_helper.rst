@@ -37,11 +37,10 @@ The following functions are available:
 	:param	bool	$httponly: Whether to hide the cookie from JavaScript
 	:rtype:	void
 
-	This helper function gives you view file friendly syntax to set browser
-	cookies. Refer to the :doc:`Input Library <../libraries/input>` for a
-	description of its use, as this function is an alias for
+	This helper function gives you friendlier syntax to set browser
+	cookies. Refer to the :doc:`Input Library <../libraries/input>` for
+	a description of its use, as this function is an alias for
 	``CI_Input::set_cookie()``.
-
 
 .. function:: get_cookie($index[, $xss_clean = NULL]])
 
@@ -50,10 +49,12 @@ The following functions are available:
 	:returns:	The cookie value or NULL if not found
 	:rtype:	mixed
 
-	This helper function gives you view file friendly syntax to get browser
-	cookies. Refer to the :doc:`Input Library <../libraries/input>` for a
-	description of its use, as this function is an alias for ``CI_Input::cookie()``.
-
+	This helper function gives you friendlier syntax to get browser
+	cookies. Refer to the :doc:`Input Library <../libraries/input>` for
+	detailed description of its use, as this function acts very
+	similarly to ``CI_Input::cookie()``, except it will also prepend
+	the ``$config['cookie_prefix']`` that you might've set in your
+	*application/config/config.php* file.
 
 .. function:: delete_cookie($name[, $domain = ''[, $path = '/'[, $prefix = '']]]])
 
@@ -75,4 +76,4 @@ The following functions are available:
 	parameters.
 	::
 
-		delete_cookie($name, $domain, $path, $prefix)
+		delete_cookie($name, $domain, $path, $prefix);

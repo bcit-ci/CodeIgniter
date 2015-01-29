@@ -237,6 +237,10 @@ Class Reference
 
 			$this->input->cookie(array('some_cookie', 'some_cookie2'));
 
+		.. note:: Unlike the :doc:`Cookie Helper <../helpers/cookie_helper>`
+			function :func:`get_cookie()`, this method does NOT prepend
+			your configured ``$config['cookie_prefix']`` value.
+
 	.. method:: server($index[, $xss_clean = NULL])
 
 		:param	mixed	$index: Value name
