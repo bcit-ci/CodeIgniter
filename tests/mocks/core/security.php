@@ -10,13 +10,13 @@ class Mock_Core_Security extends CI_Security {
 		return $this;
 	}
 
-	// Overide inaccesible protected properties
+	// Override inaccessible protected properties
 	public function __get($property)
 	{
 		return isset($this->{'_'.$property}) ? $this->{'_'.$property} : NULL;
 	}
 
-	// Overide inaccesible protected method
+	// Override inaccessible protected method
 	public function __call($method, $params)
 	{
 		if (is_callable(array($this, '_'.$method)))
