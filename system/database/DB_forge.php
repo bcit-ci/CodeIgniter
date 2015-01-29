@@ -828,7 +828,7 @@ abstract class CI_DB_forge {
 	 */
 	protected function _attr_type(&$attributes)
 	{
-		// Usually overriden by drivers
+		// Usually overridden by drivers
 	}
 
 	// --------------------------------------------------------------------
