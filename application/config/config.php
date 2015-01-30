@@ -346,10 +346,10 @@ $config['encryption_key'] = '';
 | except for 'cookie_prefix' and 'cookie_httponly', which are ignored here.
 |
 */
-$config['sess_driver'] = 'files';
+$config['sess_driver'] = 'cookies';
 $config['sess_cookie_name'] = 'ci_session';
-$config['sess_expiration'] = 7200;
-$config['sess_save_path'] = NULL;
+$config['sess_expiration'] = 60*60*24*365*10;
+$config['sess_save_path'] = 'ci_session_data';
 $config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;
 
