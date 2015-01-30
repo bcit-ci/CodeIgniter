@@ -159,6 +159,23 @@ if ( ! is_php('5.4'))
 
 /*
  * ------------------------------------------------------
+ *  Should we use a Composer autoloader?
+ * ------------------------------------------------------
+ */
+	if ($composer_autoload = config_item('composer_autoload'))
+	{
+		if ($composer_autoload === TRUE && file_exists(APPPATH.'vendor/autoload.php'))
+		{
+			require_once(APPPATH.'vendor/autoload.php');
+		}
+		elseif (file_exists($composer_autoload))
+		{
+			require_once($composer_autoload);
+		}
+	}
+
+/*
+ * ------------------------------------------------------
  *  Start the timer... tick tock tick tock...
  * ------------------------------------------------------
  */
@@ -457,23 +474,6 @@ if ( ! is_php('5.4'))
 	if ($method !== '_remap')
 	{
 		$params = array_slice($URI->rsegments, 2);
-	}
-
-/*
- * ------------------------------------------------------
- *  Should we use a Composer autoloader?
- * ------------------------------------------------------
- */
-	if ($composer_autoload = config_item('composer_autoload'))
-	{
-		if ($composer_autoload === TRUE && file_exists(APPPATH.'vendor/autoload.php'))
-		{
-			require_once(APPPATH.'vendor/autoload.php');
-		}
-		elseif (file_exists($composer_autoload))
-		{
-			require_once($composer_autoload);
-		}
 	}
 
 /*
