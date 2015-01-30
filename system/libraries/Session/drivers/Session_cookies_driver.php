@@ -21,6 +21,10 @@ class CI_Session_cookies_driver extends CI_Session_driver implements SessionHand
 	public function __construct(&$params)
 	{
 		parent::__construct($params);
+		
+		// check save_path for valid cookie name
+		// store data in save_path cookie
+		// mechanism to upgrade for a separate data cookie (for OMG)
 	}
 
 	// ------------------------------------------------------------------------
