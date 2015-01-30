@@ -37,9 +37,10 @@ The following functions let you generate errors:
 	:rtype:	void
 
 This function will display the error message supplied to it using the
-following error template::
+error template appropriate to your execution::
 
-	application/views/errors/html/error_general.php
+	application/views/errors/html/error_general.php or
+	application/views/errors/cli/error_general.php
 
 The optional parameter ``$status_code`` determines what HTTP status
 code should be sent with the error. If ``$status_code`` is less than 100,
@@ -56,9 +57,10 @@ status code will be set to ``EXIT_ERROR``. You can check in
 	:rtype:	void
 
 This function will display the 404 error message supplied to it using
-the following error template::
+the error template appropriate to your execution::
 
-	application/views/errors/html/error_404.php
+	application/views/errors/html/error_404.php or
+	application/views/errors/cli/error_404.php
 
 The function expects the string passed to it to be the file path to the
 page that isn't found. The exit status code will be set to ``EXIT_UNKNOWN_FILE``.
@@ -108,7 +110,3 @@ There are three message types:
 	for logging in *application/config/config.php*. You might, for example,
 	only want error messages to be logged, and not the other two types.
 	If you set it to zero logging will be disabled.
-
-.. note:: If you run PHP from the command line, then the error templates mentioned
-        above will come from the "application/views/errors/cli" folder, instead 
-        of the "application/views/errors/html" one.
