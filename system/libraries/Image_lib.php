@@ -1372,6 +1372,46 @@ class CI_Image_lib {
 				imagealphablending($src_img, FALSE);
 				imagesavealpha($src_img, TRUE);
 			}
+		}else{
+
+			// Set horizontal alignment
+			if ($this->wm_hor_alignment === 'R')
+			{
+				$x_shad += $this->orig_width - ($fontwidth * strlen($this->wm_text));
+				$x_axis += $this->orig_width - ($fontwidth * strlen($this->wm_text));
+			}
+			elseif ($this->wm_hor_alignment === 'C')
+			{
+				$x_shad += floor(($this->orig_width - ($fontwidth * strlen($this->wm_text))) / 2);
+				$x_axis += floor(($this->orig_width - ($fontwidth * strlen($this->wm_text))) / 2);
+			}
+
+			/* Set RGB values for the text
+			 *
+			 * First character is #, so we don't really need it.
+			 * Get the rest of the string and split it into 2-length
+			 * hex values:
+			 */
+			$txt_color = str_split(substr($this->wm_font_color, 1, 6), 2);
+			$txt_color = imagecolorclosest($src_img, hexdec($txt_color[0]), hexdec($txt_color[1]), hexdec($txt_color[2]));
+
+			// Add the text to the source image
+			if ($this->wm_use_truetype)
+			{
+				imagettftext($src_img, $this->wm_font_size, 0, $x_axis, $y_axis, $txt_color, $this->wm_font_path, $this->wm_text);
+			}
+			else
+			{
+				imagestring($src_img, $this->wm_font_size, $x_axis, $y_axis, $this->wm_text, $txt_color);
+			}
+
+			// We can preserve transparency for PNG images
+			if ($this->image_type === 3)
+			{
+				imagealphablending($src_img, FALSE);
+				imagesavealpha($src_img, TRUE);
+			}
+
 		}
 
 		// Output the final image
