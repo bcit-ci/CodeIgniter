@@ -1372,7 +1372,9 @@ class CI_Image_lib {
 				imagealphablending($src_img, FALSE);
 				imagesavealpha($src_img, TRUE);
 			}
-		}else{
+		}
+		else
+		{
 
 			// Set horizontal alignment
 			if ($this->wm_hor_alignment === 'R')
