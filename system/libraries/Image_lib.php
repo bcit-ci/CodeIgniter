@@ -1331,7 +1331,7 @@ class CI_Image_lib {
 		// Set horizontal alignment
 		if ($this->wm_hor_alignment === 'R')
 		{
-			$x_axis += $this->orig_width - ($fontwidth * strlen($this->wm_text));
+			$x_axis += $this->orig_width - ($fontwidth * strlen($this->wm_text)) - $this->wm_shadow_distance;
 		}
 		elseif ($this->wm_hor_alignment === 'C')
 		{
