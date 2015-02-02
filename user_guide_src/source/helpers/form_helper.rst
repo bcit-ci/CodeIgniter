@@ -34,7 +34,7 @@ Consider the following example::
 	<input type="text" name="myfield" value="<?php echo $string; ?>" />
 
 Since the above string contains a set of quotes, it will cause the form
-to break. The :func:`html_escape()` function converts HTML special
+to break. The :php:func:`html_escape()` function converts HTML special
 characters so that it can be used safely::
 
 	<input type="text" name="myfield" value="<?php echo html_escape($string); ?>" />
@@ -50,7 +50,7 @@ Available Functions
 The following functions are available:
 
 
-.. function:: form_open([$action = ''[, $attributes = ''[, $hidden = array()]]])
+.. php:function:: form_open([$action = ''[, $attributes = ''[, $hidden = array()]]])
 
 	:param	string	$action: Form action/target URI string
 	:param	array	$attributes: HTML attributes
@@ -108,7 +108,7 @@ The following functions are available:
 				<input type="hidden" name="member_id" value="234" />
 
 
-.. function:: form_open_multipart([$action = ''[, $attributes = array()[, $hidden = array()]])
+.. php:function:: form_open_multipart([$action = ''[, $attributes = array()[, $hidden = array()]])
 
 	:param	string	$action: Form action/target URI string
 	:param	array	$attributes: HTML attributes
@@ -116,12 +116,12 @@ The following functions are available:
 	:returns:	An HTML multipart form opening tag
 	:rtype:	string
 
-	This function is absolutely identical to :func:`form_open()` above,
+	This function is absolutely identical to :php:func:`form_open()` above,
 	except that it adds a *multipart* attribute, which is necessary if you
 	would like to use the form to upload files with.
 
 
-.. function:: form_hidden($name[, $value = ''])
+.. php:function:: form_hidden($name[, $value = ''])
 
 	:param	string	$name: Field name
 	:param	string	$value: Field value
@@ -187,7 +187,7 @@ The following functions are available:
 			<input type="hidden" name="email" value="john@example.com" id="hiddenemail" class="hiddenemail" />
 		*/
 
-.. function:: form_input([$data = ''[, $value = ''[, $extra = '']])
+.. php:function:: form_input([$data = ''[, $value = ''[, $extra = '']])
 
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
@@ -226,7 +226,7 @@ The following functions are available:
 		$js = 'onClick="some_function()"';
 		echo form_input('username', 'johndoe', $js);
 
-.. function:: form_password([$data = ''[, $value = ''[, $extra = '']]])
+.. php:function:: form_password([$data = ''[, $value = ''[, $extra = '']]])
 
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
@@ -234,11 +234,11 @@ The following functions are available:
 	:returns:	An HTML password input field tag
 	:rtype:	string
 
-	This function is identical in all respects to the :func:`form_input()`
+	This function is identical in all respects to the :php:func:`form_input()`
 	function above except that it uses the "password" input type.
 
 
-.. function:: form_upload([$data = ''[, $value = ''[, $extra = '']]])
+.. php:function:: form_upload([$data = ''[, $value = ''[, $extra = '']]])
 
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
@@ -246,12 +246,12 @@ The following functions are available:
 	:returns:	An HTML file upload input field tag
 	:rtype:	string
 
-	This function is identical in all respects to the :func:`form_input()`
+	This function is identical in all respects to the :php:func:`form_input()`
 	function above except that it uses the "file" input type, allowing it to
 	be used to upload files.
 
 
-.. function:: form_textarea([$data = ''[, $value = ''[, $extra = '']]])
+.. php:function:: form_textarea([$data = ''[, $value = ''[, $extra = '']]])
 
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
@@ -259,13 +259,13 @@ The following functions are available:
 	:returns:	An HTML textarea tag
 	:rtype:	string
 
-	This function is identical in all respects to the :func:`form_input()`
+	This function is identical in all respects to the :php:func:`form_input()`
 	function above except that it generates a "textarea" type.
 
 	.. note:: Instead of the *maxlength* and *size* attributes in the above example,
 		you will instead specify *rows* and *cols*.
 
-.. function:: form_dropdown([$name = ''[, $options = array()[, $selected = array()[, $extra = '']]]])
+.. php:function:: form_dropdown([$name = ''[, $options = array()[, $selected = array()[, $extra = '']]]])
 
 	:param	string	$name: Field name
 	:param	array	$options: An associative array of options to be listed
@@ -329,7 +329,7 @@ The following functions are available:
 	label.
 
 
-.. function:: form_multiselect([$name = ''[, $options = array()[, $selected = array()[, $extra = '']]]])
+.. php:function:: form_multiselect([$name = ''[, $options = array()[, $selected = array()[, $extra = '']]]])
 
 	:param	string	$name: Field name
 	:param	array	$options: An associative array of options to be listed
@@ -343,12 +343,12 @@ The following functions are available:
 	associative array of options, and the third parameter will contain the
 	value or values you wish to be selected.
 
-	The parameter usage is identical to using :func:`form_dropdown()` above,
+	The parameter usage is identical to using :php:func:`form_dropdown()` above,
 	except of course that the name of the field will need to use POST array
 	syntax, e.g. foo[].
 
 
-.. function:: form_fieldset([$legend_text = ''[, $attributes = array()]])
+.. php:function:: form_fieldset([$legend_text = ''[, $attributes = array()]])
 
 	:param	string	$legend_text: Text to put in the <legend> tag
 	:param	array	$attributes: Attributes to be set on the <fieldset> tag
@@ -394,7 +394,7 @@ The following functions are available:
 		*/
 
 
-.. function:: form_fieldset_close([$extra = ''])
+.. php:function:: form_fieldset_close([$extra = ''])
 
 	:param	string	$extra: Anything to append after the closing tag, *as is*
 	:returns:	An HTML fieldset closing tag
@@ -412,7 +412,7 @@ The following functions are available:
 		// Would produce: </fieldset></div></div>
 
 
-.. function:: form_checkbox([$data = ''[, $value = ''[, $checked = FALSE[, $extra = '']]]])
+.. php:function:: form_checkbox([$data = ''[, $value = ''[, $checked = FALSE[, $extra = '']]]])
 
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
@@ -451,7 +451,7 @@ The following functions are available:
 		echo form_checkbox('newsletter', 'accept', TRUE, $js)
 
 
-.. function:: form_radio([$data = ''[, $value = ''[, $checked = FALSE[, $extra = '']]]])
+.. php:function:: form_radio([$data = ''[, $value = ''[, $checked = FALSE[, $extra = '']]]])
 
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
@@ -460,11 +460,11 @@ The following functions are available:
 	:returns:	An HTML radio input tag
 	:rtype:	string
 
-	This function is identical in all respects to the :func:`form_checkbox()`
+	This function is identical in all respects to the :php:func:`form_checkbox()`
 	function above except that it uses the "radio" input type.
 
 
-.. function:: form_label([$label_text = ''[, $id = ''[, $attributes = array()]]])
+.. php:function:: form_label([$label_text = ''[, $id = ''[, $attributes = array()]]])
 
 	:param	string	$label_text: Text to put in the <label> tag
 	:param	string	$id: ID of the form element that we're making a label for
@@ -491,7 +491,7 @@ The following functions are available:
 		// Would produce:  <label for="username" class="mycustomclass" style="color: #000;">What is your Name</label>
 
 
-.. function:: form_submit([$data = ''[, $value = ''[, $extra = '']]])
+.. php:function:: form_submit([$data = ''[, $value = ''[, $extra = '']]])
 
 	:param	string	$data: Button name
 	:param	string	$value: Button value
@@ -509,7 +509,7 @@ The following functions are available:
 	parameter lets you add extra data to your form, like JavaScript.
 
 
-.. function:: form_reset([$data = ''[, $value = ''[, $extra = '']]])
+.. php:function:: form_reset([$data = ''[, $value = ''[, $extra = '']]])
 
 	:param	string	$data: Button name
 	:param	string	$value: Button value
@@ -521,7 +521,7 @@ The following functions are available:
 	:func:`form_submit()`.
 
 
-.. function:: form_button([$data = ''[, $content = ''[, $extra = '']]])
+.. php:function:: form_button([$data = ''[, $content = ''[, $extra = '']]])
 
 	:param	string	$data: Button name
 	:param	string	$content: Button label
@@ -556,7 +556,7 @@ The following functions are available:
 		echo form_button('mybutton', 'Click Me', $js);
 
 
-.. function:: form_close([$extra = ''])
+.. php:function:: form_close([$extra = ''])
 
 	:param	string	$extra: Anything to append after the closing tag, *as is*
 	:returns:	An HTML form closing tag
@@ -571,7 +571,7 @@ The following functions are available:
 		// Would produce:  </form> </div></div>
 
 
-.. function:: set_value($field[, $default = ''])
+.. php:function:: set_value($field[, $default = ''])
 
 	:param	string	$field: Field name
 	:param	string	$default: Default value
@@ -590,11 +590,11 @@ The following functions are available:
 	The above form will show "0" when loaded for the first time.
 
 	.. note:: Only use this function with raw HTML fields, as it
-		internally calls :func:`html_escape()` and combining its
+		internally calls :php:func:`html_escape()` and combining its
 		usage with other form helper functions will result in
 		double HTML encoding!
 
-.. function:: set_select($field[, $value = ''[, $default = FALSE]])
+.. php:function:: set_select($field[, $value = ''[, $default = FALSE]])
 
 	:param	string	$field: Field name
 	:param	string	$value: Value to check for
@@ -617,7 +617,7 @@ The following functions are available:
 			<option value="three" <?php echo  set_select('myselect', 'three'); ?> >Three</option>
 		</select>
 
-.. function:: set_checkbox($field[, $value = ''[, $default = FALSE]])
+.. php:function:: set_checkbox($field[, $value = ''[, $default = FALSE]])
 
 	:param	string	$field: Field name
 	:param	string	$value: Value to check for
@@ -636,7 +636,7 @@ The following functions are available:
 		<input type="checkbox" name="mycheck" value="1" <?php echo set_checkbox('mycheck', '1'); ?> />
 		<input type="checkbox" name="mycheck" value="2" <?php echo set_checkbox('mycheck', '2'); ?> />
 
-.. function:: set_radio($field[, $value = ''[, $default = FALSE]])
+.. php:function:: set_radio($field[, $value = ''[, $default = FALSE]])
 
 	:param	string	$field: Field name
 	:param	string	$value: Value to check for
@@ -645,7 +645,7 @@ The following functions are available:
 	:rtype:	string
 
 	Permits you to display radio buttons in the state they were submitted.
-	This function is identical to the :func:`set_checkbox()` function above.
+	This function is identical to the :php:func:`set_checkbox()` function above.
 
 	Example::
 
@@ -658,7 +658,7 @@ The following functions are available:
 		defined, the control for ``set_*()`` is handed over to a method of the
 		class instead of the generic helper function.
 
-.. function:: form_error([$field = ''[, $prefix = ''[, $suffix = '']]])
+.. php:function:: form_error([$field = ''[, $prefix = ''[, $suffix = '']]])
 
 	:param	string	$field:	Field name
 	:param	string	$prefix: Error opening tag
@@ -679,14 +679,14 @@ The following functions are available:
 		// Would produce: <div class="error">Error message associated with the "username" field.</div>
 
 
-.. function:: validation_errors([$prefix = ''[, $suffix = '']])
+.. php:function:: validation_errors([$prefix = ''[, $suffix = '']])
 
 	:param	string	$prefix: Error opening tag
 	:param	string	$suffix: Error closing tag
 	:returns:	HTML-formatted form validation error message(s)
 	:rtype:	string
 
-	Similarly to the :func:`form_error()` function, returns all validation
+	Similarly to the :php:func:`form_error()` function, returns all validation
 	error messages produced by the :doc:`Form Validation Library
 	<../libraries/form_validation>`, with optional opening and closing tags
 	around each of the messages.
@@ -703,7 +703,7 @@ The following functions are available:
 
 		 */
 
-.. function:: form_prep($str)
+.. php:function:: form_prep($str)
 
 	:param	string	$str: Value to escape
 	:returns:	Escaped value

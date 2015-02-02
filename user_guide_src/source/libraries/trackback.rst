@@ -213,7 +213,7 @@ message using::
 Class Reference
 ***************
 
-.. class:: CI_Trackback
+.. php:class:: CI_Trackback
 
 	.. attribute:: $data = array('url' => '', 'title' => '', 'excerpt' => '', 'blog_name' => '', 'charset' => '')
 
@@ -223,7 +223,7 @@ Class Reference
 
 		Whether to convert high ASCII and MS Word characters to HTML entities.
 
-	.. method:: send($tb_data)
+	.. php:method:: send($tb_data)
 
 		:param	array	$tb_data: Trackback data
 		:returns:	TRUE on success, FALSE on failure
@@ -231,7 +231,7 @@ Class Reference
 
 		Send trackback.
 
-	.. method:: receive()
+	.. php:method:: receive()
 
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
@@ -239,7 +239,7 @@ Class Reference
 		This method simply validates the incoming TB data, returning TRUE on success and FALSE on failure.
 		If the data is valid it is set to the ``$this->data`` array so that it can be inserted into a database.
 
-	.. method:: send_error([$message = 'Incomplete information')
+	.. php:method:: send_error([$message = 'Incomplete information')
 
 		:param	string	$message: Error message
 		:rtype: void
@@ -248,7 +248,7 @@ Class Reference
 
 		.. note:: This method will terminate script execution.
 
-	.. method:: send_success()
+	.. php:method:: send_success()
 
 		:rtype:	void
 
@@ -256,7 +256,7 @@ Class Reference
 
 		.. note:: This method will terminate script execution.
 
-	.. method:: data($item)
+	.. php:method:: data($item)
 
 		:param	string	$item: Data key
 		:returns:	Data value or empty string if not found
@@ -264,7 +264,7 @@ Class Reference
 
 		Returns a single item from the reponse data array.
 
-	.. method:: process($url, $data)
+	.. php:method:: process($url, $data)
 
 		:param	string	$url: Target url
 		:param	string	$data: Raw POST data
@@ -273,7 +273,7 @@ Class Reference
 
 		Opens a socket connection and passes the data to the server, returning TRUE on success and FALSE on failure.
 
-	.. method:: extract_urls($urls)
+	.. php:method:: extract_urls($urls)
 
 		:param	string	$urls: Comma-separated URL list
 		:returns:	Array of URLs
@@ -281,14 +281,14 @@ Class Reference
 
 		This method lets multiple trackbacks to be sent. It takes a string of URLs (separated by comma or space) and puts each URL into an array.
 
-	.. method:: validate_url(&$url)
+	.. php:method:: validate_url(&$url)
 
 		:param	string	$url: Trackback URL
 		:rtype:	void
 
 		Simply adds the *http://* prefix it it's not already present in the URL.
 
-	.. method:: get_id($url)
+	.. php:method:: get_id($url)
 
 		:param	string	$url: Trackback URL
 		:returns:	URL ID or FALSE on failure
@@ -296,7 +296,7 @@ Class Reference
 
 		Find and return a trackback URL's ID or FALSE on failure.
 
-	.. method:: convert_xml($str)
+	.. php:method:: convert_xml($str)
 
 		:param	string	$str: Input string
 		:returns:	Converted string
@@ -304,7 +304,7 @@ Class Reference
 
 		Converts reserved XML characters to entities.
 
-	.. method:: limit_characters($str[, $n = 500[, $end_char = '&#8230;']])
+	.. php:method:: limit_characters($str[, $n = 500[, $end_char = '&#8230;']])
 
 		:param	string	$str: Input string
 		:param	int	$n: Max characters number
@@ -314,7 +314,7 @@ Class Reference
 
 		Limits the string based on the character count. Will preserve complete words.
 
-	.. method:: convert_ascii($str)
+	.. php:method:: convert_ascii($str)
 
 		:param	string	$str: Input string
 		:returns:	Converted string
@@ -322,14 +322,14 @@ Class Reference
 
 		Converts high ASCII text and MS Word special characterss to HTML entities.
 
-	.. method:: set_error($msg)
+	.. php:method:: set_error($msg)
 
 		:param	string	$msg: Error message
 		:rtype:	void
 
 		Set an log an error message.
 
-	.. method:: display_errors([$open = '<p>'[, $close = '</p>']])
+	.. php:method:: display_errors([$open = '<p>'[, $close = '</p>']])
 
 		:param	string	$open: Open tag
 		:param	string	$close: Close tag

@@ -27,7 +27,7 @@ Available Functions
 The following functions are available:
 
 
-.. function:: directory_map($source_dir[, $directory_depth = 0[, $hidden = FALSE]])
+.. php:function:: directory_map($source_dir[, $directory_depth = 0[, $hidden = FALSE]])
 
 	:param	string	$source_dir: Path to the source directory
 	:param	int	$directory_depth: Depth of directories to traverse (0 = fully recursive, 1 = current dir, etc)

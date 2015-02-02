@@ -9,7 +9,7 @@ resources. This is easily possible as you'll see.
 get_instance()
 ==============
 
-.. function:: get_instance()
+.. php:function:: get_instance()
 
 	:returns:	object of class CI_Controller
 

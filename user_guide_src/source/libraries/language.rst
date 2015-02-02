@@ -169,7 +169,7 @@ Using language lines as form labels
 -----------------------------------
 
 This feature has been deprecated from the language library and moved to
-the :func:`lang()` function of the :doc:`Language Helper
+the :php:func:`lang()` function of the :doc:`Language Helper
 <../helpers/language_helper>`.
 
 Auto-loading Languages
@@ -185,9 +185,9 @@ language(s) to the autoload array.
 Class Reference
 ***************
 
-.. class:: CI_Lang
+.. php:class:: CI_Lang
 
-	.. method:: load($langfile[, $idiom = ''[, $return = FALSE[, $add_suffix = TRUE[, $alt_path = '']]]])
+	.. php:method:: load($langfile[, $idiom = ''[, $return = FALSE[, $add_suffix = TRUE[, $alt_path = '']]]])
 
 		:param	mixed	$langfile: Language file to load or array with multiple files
 		:param	string	$idiom: Language name (i.e. 'english')
@@ -199,7 +199,7 @@ Class Reference
 
 		Loads a language file.
 
-	.. method:: line($line[, $log_errors = TRUE])
+	.. php:method:: line($line[, $log_errors = TRUE])
 
 		:param	string	$line: Language line key name
 		:param	bool	$log_errors: Whether to log an error if the line isn't found

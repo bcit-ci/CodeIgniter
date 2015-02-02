@@ -141,9 +141,9 @@ Place the item you do not want word-wrapped between: {unwrap} {/unwrap}
 Class Reference
 ***************
 
-.. class:: CI_Email
+.. php:class:: CI_Email
 
-	.. method:: from($from[, $name = ''[, $return_path = NULL]])
+	.. php:method:: from($from[, $name = ''[, $return_path = NULL]])
 
 		:param	string	$from: "From" e-mail address
 		:param	string	$name: "From" display name
@@ -162,7 +162,7 @@ Class Reference
 		.. note:: Return-Path can't be used if you've configured 'smtp' as
 			your protocol.
 
-	.. method:: reply_to($replyto[, $name = ''])
+	.. php:method:: reply_to($replyto[, $name = ''])
 
 		:param	string	$replyto: E-mail address for replies
 		:param	string	$name: Display name for the reply-to e-mail address
@@ -174,7 +174,7 @@ Class Reference
 
 			$this->email->reply_to('you@example.com', 'Your Name');
 
-	.. method:: to($to)
+	.. php:method:: to($to)
 
 		:param	mixed	$to: Comma-delimited string or an array of e-mail addresses
 		:returns:	CI_Email instance (method chaining)
@@ -195,7 +195,7 @@ Class Reference
 				array('one@example.com', 'two@example.com', 'three@example.com')
 			);
 
-	.. method:: cc($cc)
+	.. php:method:: cc($cc)
 
 		:param	mixed	$cc: Comma-delimited string or an array of e-mail addresses
 		:returns:	CI_Email instance (method chaining)
@@ -204,7 +204,7 @@ Class Reference
 		Sets the CC email address(s). Just like the "to", can be a single e-mail,
 		a comma-delimited list or an array.
 
-	.. method:: bcc($bcc[, $limit = ''])
+	.. php:method:: bcc($bcc[, $limit = ''])
 
 		:param	mixed	$bcc: Comma-delimited string or an array of e-mail addresses
 		:param	int	$limit: Maximum number of e-mails to send per batch
@@ -218,7 +218,7 @@ Class Reference
 		the emails to batches, with each batch not exceeding the specified
 		``$limit``.
 
-	.. method:: subject($subject)
+	.. php:method:: subject($subject)
 
 		:param	string	$subject: E-mail subject line
 		:returns:	CI_Email instance (method chaining)
@@ -228,7 +228,7 @@ Class Reference
 
 			$this->email->subject('This is my subject');
 
-	.. method:: message($body)
+	.. php:method:: message($body)
 
 		:param	string	$body: E-mail message body
 		:returns:	CI_Email instance (method chaining)
@@ -238,7 +238,7 @@ Class Reference
 
 			$this->email->message('This is my message');
 
-	.. method:: set_alt_message($str)
+	.. php:method:: set_alt_message($str)
 
 		:param	string	$str: Alternative e-mail message body
 		:returns:	CI_Email instance (method chaining)
@@ -255,7 +255,7 @@ Class Reference
 		message CodeIgniter will extract the message from your HTML email
 		and strip the tags.
 
-	.. method:: set_header($header, $value)
+	.. php:method:: set_header($header, $value)
 
 		:param	string	$header: Header name
 		:param	string	$value: Header value
@@ -267,7 +267,7 @@ Class Reference
 			$this->email->set_header('Header1', 'Value1');
 			$this->email->set_header('Header2', 'Value2');
 
-	.. method:: clear([$clear_attachments = FALSE])
+	.. php:method:: clear([$clear_attachments = FALSE])
 
 		:param	bool	$clear_attachments: Whether or not to clear attachments
 		:returns:	CI_Email instance (method chaining)
@@ -295,7 +295,7 @@ Class Reference
 
 			$this->email->clear(TRUE);
 
-	.. method:: send([$auto_clear = TRUE])
+	.. php:method:: send([$auto_clear = TRUE])
 
 		:param	bool	$auto_clear: Whether to clear message data automatically
 		:returns:	TRUE on success, FALSE on failure
@@ -320,7 +320,7 @@ Class Reference
 		.. note:: In order to use the ``print_debugger()`` method, you need
 			to avoid clearing the email parameters.
 
-	.. method:: attach($filename[, $disposition = ''[, $newname = NULL[, $mime = '']]])
+	.. php:method:: attach($filename[, $disposition = ''[, $newname = NULL[, $mime = '']]])
 
 		:param	string	$filename: File name
 		:param	string	$disposition: 'disposition' of the attachment. Most
@@ -358,7 +358,7 @@ Class Reference
 
 			$this->email->attach($buffer, 'attachment', 'report.pdf', 'application/pdf');
 
-	.. method:: attachment_cid($filename)
+	.. php:method:: attachment_cid($filename)
 
 		:param	string	$filename: Existing attachment filename
 		:returns:	Attachment Content-ID or FALSE if not found
@@ -380,7 +380,7 @@ Class Reference
 
 		.. note:: Content-ID for each e-mail must be re-created for it to be unique.
 
-	.. method:: print_debugger([$include = array('headers', 'subject', 'body')])
+	.. php:method:: print_debugger([$include = array('headers', 'subject', 'body')])
 
 		:param	array	$include: Which parts of the message to print out
 		:returns:	Formatted debug data
