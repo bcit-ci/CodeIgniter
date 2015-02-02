@@ -168,6 +168,21 @@ that you should make:
     `Session Metadata <../libraries/sessions.html#accessing-session-metadata>`_
     if your application relies on those values.
 
+  - Check ``unset_userdata()`` usage
+
+    Previously, this method used to accept an associative array of
+    ``'key' => 'dummy value'`` pairs for unsetting multiple keys. That
+    however makes no sense and you now have to pass *only* the keys, as
+    the elements of an array.
+
+    ::
+
+    	// Old
+    	$this->session->unset_userdata(array('item' => '', 'item2' => ''));
+
+    	// New
+    	$this->session->unset_userdata(array('item', 'item2'));
+
 Finally, if you have written a Session extension, you must now move it to
 the *application/libraries/Session/* directory, although chances are that
 it will now also have to be re-factored.

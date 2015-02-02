@@ -203,11 +203,15 @@ session data array::
 
 	$this->session->unset_userdata('some_name');
 
-This method also accepts an associative array of items to unset::
+This method also accepts an array of item keys to unset::
 
-	$array_items = array('username' => '', 'email' => '');
+	$array_items = array('username', 'email');
 
 	$this->session->unset_userdata($array_items);
+
+.. note:: In previous versions, the ``unset_userdata()`` method used
+	to accept an associative array of ``key => 'dummy value'``
+	pairs. This is no longer supported.
 
 Flashdata
 =========
