@@ -36,19 +36,23 @@ The following functions let you generate errors:
 	:param	string	$heading: Error page heading
 	:rtype:	void
 
-This function will display the error message supplied to it using the
-error template appropriate to your execution::
+	This function will display the error message supplied to it using
+	the error template appropriate to your execution::
 
-	application/views/errors/html/error_general.php or
-	application/views/errors/cli/error_general.php
+		application/views/errors/html/error_general.php
 
-The optional parameter ``$status_code`` determines what HTTP status
-code should be sent with the error. If ``$status_code`` is less than 100,
-the HTTP status code will be set to 500, and the exit status code will
-be set to ``$status_code + EXIT__AUTO_MIN``. If that value is larger than
-``EXIT__AUTO_MAX``, or if ``$status_code`` is 100 or higher, the exit
-status code will be set to ``EXIT_ERROR``. You can check in
-*application/config/constants.php* for more detail.
+	or:
+
+		application/views/errors/cli/error_general.php
+
+	The optional parameter ``$status_code`` determines what HTTP status
+	code should be sent with the error. If ``$status_code`` is less
+	than 100, the HTTP status code will be set to 500, and the exit
+	status code will be set to ``$status_code + EXIT__AUTO_MIN``.
+	If that value is larger than ``EXIT__AUTO_MAX``, or if
+	``$status_code`` is 100 or higher, the exit status code will be set
+	to ``EXIT_ERROR``.
+	You can check in *application/config/constants.php* for more detail.
 
 .. function:: show_404($page = '', $log_error = TRUE)
 
@@ -56,19 +60,23 @@ status code will be set to ``EXIT_ERROR``. You can check in
 	:param	bool	$log_error: Whether to log the error
 	:rtype:	void
 
-This function will display the 404 error message supplied to it using
-the error template appropriate to your execution::
+	This function will display the 404 error message supplied to it
+	using the error template appropriate to your execution::
 
-	application/views/errors/html/error_404.php or
-	application/views/errors/cli/error_404.php
+		application/views/errors/html/error_404.php
 
-The function expects the string passed to it to be the file path to the
-page that isn't found. The exit status code will be set to ``EXIT_UNKNOWN_FILE``.
-Note that CodeIgniter automatically shows 404 messages if controllers are
-not found.
+	or:
 
-CodeIgniter automatically logs any ``show_404()`` calls. Setting the
-optional second parameter to FALSE will skip logging.
+		application/views/errors/cli/error_404.php
+
+	The function expects the string passed to it to be the file path to
+	the page that isn't found. The exit status code will be set to
+	``EXIT_UNKNOWN_FILE``.
+	Note that CodeIgniter automatically shows 404 messages if
+	controllers are not found.
+
+	CodeIgniter automatically logs any ``show_404()`` calls. Setting the
+	optional second parameter to FALSE will skip logging.
 
 .. function:: log_message($level, $message, $php_error = FALSE)
 
@@ -77,36 +85,37 @@ optional second parameter to FALSE will skip logging.
 	:param	bool	$php_error: Whether we're logging a native PHP error message
 	:rtype:	void
 
-This function lets you write messages to your log files. You must supply
-one of three "levels" in the first parameter, indicating what type of
-message it is (debug, error, info), with the message itself in the
-second parameter.
+	This function lets you write messages to your log files. You must
+	supply one of three "levels" in the first parameter, indicating what
+	type of message it is (debug, error, info), with the message itself
+	in the second parameter.
 
-Example::
+	Example::
 
-	if ($some_var == '')
-	{
-		log_message('error', 'Some variable did not contain a value.');
-	}
-	else
-	{
-		log_message('debug', 'Some variable was correctly set');
-	}
+		if ($some_var == '')
+		{
+			log_message('error', 'Some variable did not contain a value.');
+		}
+		else
+		{
+			log_message('debug', 'Some variable was correctly set');
+		}
 
-	log_message('info', 'The purpose of some variable is to provide some value.');
+		log_message('info', 'The purpose of some variable is to provide some value.');
 
-There are three message types:
+	There are three message types:
 
-#. Error Messages. These are actual errors, such as PHP errors or user
-   errors.
-#. Debug Messages. These are messages that assist in debugging. For
-   example, if a class has been initialized, you could log this as
-   debugging info.
-#. Informational Messages. These are the lowest priority messages,
-   simply giving information regarding some process.
+	#. Error Messages. These are actual errors, such as PHP errors or
+	   user errors.
+	#. Debug Messages. These are messages that assist in debugging. For
+	   example, if a class has been initialized, you could log this as
+	   debugging info.
+	#. Informational Messages. These are the lowest priority messages,
+	   simply giving information regarding some process.
 
-.. note:: In order for the log file to actually be written, the *logs*
-	directory must be writable. In addition, you must set the "threshold"
-	for logging in *application/config/config.php*. You might, for example,
-	only want error messages to be logged, and not the other two types.
-	If you set it to zero logging will be disabled.
+	.. note:: In order for the log file to actually be written, the
+		*logs/* directory must be writable. In addition, you must
+		set the "threshold" for logging in
+		*application/config/config.php*. You might, for example,
+		only want error messages to be logged, and not the other
+		two types. If you set it to zero logging will be disabled.
