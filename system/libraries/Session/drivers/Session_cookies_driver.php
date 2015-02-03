@@ -11,7 +11,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link	http://codeigniter.com/user_guide/libraries/sessions.html
  */
 class CI_Session_cookies_driver extends CI_Session_driver implements SessionHandlerInterface {
-
+	
+	/*
+	 * Encryption key
+	 * 
+	 * @var string
+	 */
+	protected $_encryption_key;
+	
 	/**
 	 * Class constructor
 	 *
@@ -22,9 +29,17 @@ class CI_Session_cookies_driver extends CI_Session_driver implements SessionHand
 	{
 		parent::__construct($params);
 		
-		// check save_path for valid cookie name
-		// store data in save_path cookie
-		// mechanism to upgrade for a separate data cookie (for OMG)
+		// Sanitize session_data cookie name
+		if (isset($this->_config['save_path']))
+		{
+			$this->_config['save_path'] = preg_replace("/[^a-zA-Z0-9\_\-\.]+/", "", $this->_config['save_path']);
+		}
+		else
+		{
+			$this->_config['save_path'] = 'ci_session_data';
+		}
+		
+		$this->_encryption_key = $this->_config['encryption_key'];
 	}
 
 	// ------------------------------------------------------------------------
@@ -32,7 +47,7 @@ class CI_Session_cookies_driver extends CI_Session_driver implements SessionHand
 	/**
 	 * Open
 	 *
-	 * Cookies are already received
+	 * Cookies are already received, nothing to do here
 	 *
 	 * @param	string	$save_path	Path to session files' directory
 	 * @param	string	$name		Session cookie name, unused
@@ -50,31 +65,55 @@ class CI_Session_cookies_driver extends CI_Session_driver implements SessionHand
 	 *
 	 * Reads session data and acquires a lock
 	 *
-	 * @param	string	$session_id	Session ID
+	 * @param	string	$session_id	Session ID, unused
 	 * @return	string	Serialized session data
 	 */
 	public function read($session_id)
 	{
-		if (isset($this->_redis) && $this->_get_lock($session_id))
+		if (isset($_COOKIE[$this->_config['save_path']]))
 		{
 			// Needed by write() to detect session_regenerate_id() calls
 			$this->_session_id = $session_id;
-
-			$session_data = (string) $this->_redis->get($this->_key_prefix.$session_id);
+			
+			// Load session data from cookie
+			$session = $_COOKIE[$this->_config['save_path']];
+			
+			// HMAC authentication
+			$len = strlen($session) - 40;
+			if ($len <= 0)
+			{
+				log_message('error', 'Session: The session cookie was not signed.');
+				return FALSE;
+			}
+			// Check cookie authentication
+			$hmac = substr($session, $len);
+			$session = substr($session, 0, $len);
+			// Time-attack-safe comparison
+			$hmac_check = hash_hmac('sha1', $session, $this->_encryption_key);
+			$diff = 0;
+			for ($i = 0; $i < 40; $i++)
+			{
+				$xor = ord($hmac[$i]) ^ ord($hmac_check[$i]);
+				$diff |= $xor;
+			}
+			if ($diff !== 0)
+			{
+				log_message('error', 'Session: HMAC mismatch. The session cookie data did not match what was expected.');
+				return FALSE;
+			}
+									
+			$session_data = $this->_unserialize($session);
+			
+			// Does IP match?
+			if ($this->_config['match_ip'] && ( ! isset($session_data['ip_address']) OR $session_data['ip_address'] !== $_SERVER['REMOTE_ADDR']))
+				return FALSE;
+			
 			$this->_fingerprint = md5($session_data);
 			return $session_data;
 		}
 
 		return FALSE;
 		
-		// Fetch the cookie
-		$session = $_COOKIE[$this->_config['cookie_name']];
-		// No cookie?  Goodbye cruel world!...
-		if ($session === FALSE)
-		{
-			log_message('debug', 'A session cookie was not found.');
-			return FALSE;
-		}
 		// HMAC authentication
 		$len = strlen($session) - 40;
 		if ($len <= 0)
@@ -329,7 +368,7 @@ class CI_Session_cookies_driver extends CI_Session_driver implements SessionHand
 	 * @param	array
 	 * @return	string
 	 */
-	function _unserialize($data)
+	private function _unserialize($data)
 	{
 		$data = @unserialize(strip_slashes($data));
 		if (is_array($data))
