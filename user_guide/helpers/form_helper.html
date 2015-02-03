@@ -1,0 +1,1404 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Form Helper &mdash; CodeIgniter 3.0-dev documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/ci-icon.ico"/>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="CodeIgniter 3.0-dev documentation" href="../index.html"/>
+        <link rel="up" title="Helpers" href="index.html"/>
+        <link rel="next" title="HTML Helper" href="html_helper.html"/>
+        <link rel="prev" title="File Helper" href="file_helper.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../index.html" class="fa fa-home"> CodeIgniter</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/welcome.html">Welcome to CodeIgniter</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation Instructions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/downloads.html">Downloading CodeIgniter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/index.html">Installation Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/upgrading.html">Upgrading From a Previous Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/index.html">CodeIgniter Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/at_a_glance.html">CodeIgniter at a Glance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/features.html">Supported Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/appflow.html">Application Flow Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/mvc.html">Model-View-Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/goals.html">Architectural Goals</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/static_pages.html">Static pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/news_section.html">News section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/create_news_items.html">Create news items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/conclusion.html">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/index.html">General Topics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../general/urls.html">CodeIgniter URLs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/controllers.html">Controllers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/reserved_names.html">Reserved Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/views.html">Views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/libraries.html">Using CodeIgniter Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_libraries.html">Creating Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/drivers.html">Using CodeIgniter Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_drivers.html">Creating Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/core_classes.html">Creating Core System Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/ancillary_classes.html">Creating Ancillary Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/hooks.html">Hooks - Extending the Framework Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/autoloader.html">Auto-loading Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/common_functions.html">Common Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/compatibility_functions.html">Compatibility Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/routing.html">URI Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/errors.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/caching.html">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/profiling.html">Profiling Your Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/cli.html">Running via the CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/managing_apps.html">Managing your Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/environments.html">Handling Multiple Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/alternative_php.html">Alternate PHP Syntax for View Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/security.html">Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/styleguide.html">PHP Style Guide</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../libraries/index.html">Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/benchmark.html">Benchmarking Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/caching.html">Caching Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/calendar.html">Calendaring Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/cart.html">Shopping Cart Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/config.html">Config Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/email.html">Email Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/encrypt.html">Encrypt Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/encryption.html">Encryption Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/file_uploading.html">File Uploading Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/form_validation.html">Form Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/ftp.html">FTP Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/image_lib.html">Image Manipulation Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/input.html">Input Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/javascript.html">Javascript Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/language.html">Language Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/loader.html">Loader Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/migration.html">Migrations Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/output.html">Output Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/pagination.html">Pagination Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/parser.html">Template Parser Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/security.html">Security Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/sessions.html">Session Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/table.html">HTML Table Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/trackback.html">Trackback Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/typography.html">Typography Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/unit_testing.html">Unit Testing Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/uri.html">URI Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/user_agent.html">User Agent Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/xmlrpc.html">XML-RPC and XML-RPC Server Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/zip.html">Zip Encoding Class</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../database/examples.html">Quick Start: Usage Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/configuration.html">Database Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/connecting.html">Connecting to a Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/queries.html">Running Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/results.html">Generating Query Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/helpers.html">Query Helper Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/query_builder.html">Query Builder Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/transactions.html">Transactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/metadata.html">Getting MetaData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/call_function.html">Custom Function Calls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/caching.html">Query Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/forge.html">Database Manipulation with Database Forge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/utilities.html">Database Utilities Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/db_driver_reference.html">Database Driver Reference</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Helpers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="array_helper.html">Array Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="captcha_helper.html">CAPTCHA Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cookie_helper.html">Cookie Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="date_helper.html">Date Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="directory_helper.html">Directory Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="download_helper.html">Download Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email_helper.html">Email Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="file_helper.html">File Helper</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Form Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="html_helper.html">HTML Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inflector_helper.html">Inflector Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="language_helper.html">Language Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="number_helper.html">Number Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="path_helper.html">Path Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="security_helper.html">Security Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smiley_helper.html">Smiley Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="string_helper.html">String Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="text_helper.html">Text Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typography_helper.html">Typography Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="url_helper.html">URL Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xml_helper.html">XML Helper</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing to CodeIgniter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../documentation/index.html">Writing CodeIgniter Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../DCO.html">Developer&#8217;s Certificate of Origin 1.1</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">CodeIgniter</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Helpers</a> &raquo;</li>
+      
+    <li>Form Helper</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="form-helper">
+<h1>Form Helper<a class="headerlink" href="#form-helper" title="Permalink to this headline">¶</a></h1>
+<p>The Form Helper file contains functions that assist in working with
+forms.</p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#loading-this-helper" id="id1">Loading this Helper</a></li>
+<li><a class="reference internal" href="#escaping-field-values" id="id2">Escaping field values</a></li>
+<li><a class="reference internal" href="#available-functions" id="id3">Available Functions</a></li>
+</ul>
+</div>
+<div class="custom-index container"></div><div class="section" id="loading-this-helper">
+<h2><a class="toc-backref" href="#id1">Loading this Helper</a><a class="headerlink" href="#loading-this-helper" title="Permalink to this headline">¶</a></h2>
+<p>This helper is loaded using the following code:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">helper</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="escaping-field-values">
+<h2><a class="toc-backref" href="#id2">Escaping field values</a><a class="headerlink" href="#escaping-field-values" title="Permalink to this headline">¶</a></h2>
+<p>You may need to use HTML and characters such as quotes within your form
+elements. In order to do that safely, you&#8217;ll need to use
+<a class="reference internal" href="../general/common_functions.html"><em>common function</em></a>
+<tt class="xref py py-func docutils literal"><span class="pre">html_escape()</span></tt>.</p>
+<p>Consider the following example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$string</span> <span class="o">=</span> <span class="s1">&#39;Here is a string containing &quot;quoted&quot; text.&#39;</span><span class="p">;</span>
+
+<span class="o">&lt;</span><span class="nx">input</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span> <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;myfield&quot;</span> <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;&lt;?php echo </span><span class="si">$string</span><span class="s2">; ?&gt;&quot;</span> <span class="o">/&gt;</span>
+</pre></div>
+</div>
+<p>Since the above string contains a set of quotes, it will cause the form
+to break. The <a class="reference internal" href="../general/common_functions.html#html_escape" title="html_escape"><tt class="xref php php-func docutils literal"><span class="pre">html_escape()</span></tt></a> function converts HTML special
+characters so that it can be used safely:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="o">&lt;</span><span class="nx">input</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span> <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;myfield&quot;</span> <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;&lt;?php echo html_escape(</span><span class="si">$string</span><span class="s2">); ?&gt;&quot;</span> <span class="o">/&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you use any of the form helper functions listed on this page,
+the form values will be automatically escaped, so there is no need
+to call this function. Use it only if you are creating your own
+form elements.</p>
+</div>
+</div>
+<div class="section" id="available-functions">
+<h2><a class="toc-backref" href="#id3">Available Functions</a><a class="headerlink" href="#available-functions" title="Permalink to this headline">¶</a></h2>
+<p>The following functions are available:</p>
+<dl class="function">
+<dt id="form_open">
+<tt class="descname">form_open</tt><big>(</big><span class="optional">[</span><em>$action = ''</em><span class="optional">[</span>, <em>$attributes = ''</em><span class="optional">[</span>, <em>$hidden = array()</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#form_open" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$action</strong> (<em>string</em>) &#8211; Form action/target URI string</li>
+<li><strong>$attributes</strong> (<em>array</em>) &#8211; HTML attributes</li>
+<li><strong>$hidden</strong> (<em>array</em>) &#8211; An array of hidden fields&#8217; definitions</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An HTML form opening tag</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Creates an opening form tag with a base URL <strong>built from your config preferences</strong>.
+It will optionally let you add form attributes and hidden input fields, and
+will always add the <cite>accept-charset</cite> attribute based on the charset value in your
+config file.</p>
+<p>The main benefit of using this tag rather than hard coding your own HTML is that
+it permits your site to be more portable in the event your URLs ever change.</p>
+<p>Here&#8217;s a simple example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="k">echo</span> <span class="nx">form_open</span><span class="p">(</span><span class="s1">&#39;email/send&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The above example would create a form that points to your base URL plus the
+&#8220;email/send&#8221; URI segments, like this:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">method</span><span class="o">=</span><span class="s2">&quot;post&quot;</span> <span class="nx">accept</span><span class="o">-</span><span class="nx">charset</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span> <span class="nx">action</span><span class="o">=</span><span class="s2">&quot;http://example.com/index.php/email/send&quot;</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p><strong>Adding Attributes</strong></p>
+<blockquote>
+<div><p>Attributes can be added by passing an associative array to the second
+parameter, like this:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$attributes</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;myform&#39;</span><span class="p">);</span>
+<span class="k">echo</span> <span class="nx">form_open</span><span class="p">(</span><span class="s1">&#39;email/send&#39;</span><span class="p">,</span> <span class="nv">$attributes</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Alternatively, you can specify the second parameter as a string:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="k">echo</span> <span class="nx">form_open</span><span class="p">(</span><span class="s1">&#39;email/send&#39;</span><span class="p">,</span> <span class="s1">&#39;class=&quot;email&quot; id=&quot;myform&quot;&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The above examples would create a form similar to this:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">method</span><span class="o">=</span><span class="s2">&quot;post&quot;</span> <span class="nx">accept</span><span class="o">-</span><span class="nx">charset</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span> <span class="nx">action</span><span class="o">=</span><span class="s2">&quot;http://example.com/index.php/email/send&quot;</span> <span class="nx">class</span><span class="o">=</span><span class="s2">&quot;email&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;myform&quot;</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>Adding Hidden Input Fields</strong></p>
+<blockquote>
+<div><p>Hidden fields can be added by passing an associative array to the
+third parameter, like this:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$hidden</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;username&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Joe&#39;</span><span class="p">,</span> <span class="s1">&#39;member_id&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;234&#39;</span><span class="p">);</span>
+<span class="k">echo</span> <span class="nx">form_open</span><span class="p">(</span><span class="s1">&#39;email/send&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nv">$hidden</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>You can skip the second parameter by passing any falsy value to it.</p>
+<p>The above example would create a form similar to this:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">method</span><span class="o">=</span><span class="s2">&quot;post&quot;</span> <span class="nx">accept</span><span class="o">-</span><span class="nx">charset</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span> <span class="nx">action</span><span class="o">=</span><span class="s2">&quot;http://example.com/index.php/email/send&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">input</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;hidden&quot;</span> <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;username&quot;</span> <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;Joe&quot;</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="nx">input</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;hidden&quot;</span> <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;member_id&quot;</span> <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;234&quot;</span> <span class="o">/&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<tt class="descname">form_open_multipart([$action = ''[, $attributes = array()[, $hidden = array()]])</tt></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$action</strong> (<em>string</em>) &#8211; Form action/target URI string</li>
+<li><strong>$attributes</strong> (<em>array</em>) &#8211; HTML attributes</li>
+<li><strong>$hidden</strong> (<em>array</em>) &#8211; An array of hidden fields&#8217; definitions</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An HTML multipart form opening tag</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This function is absolutely identical to <a class="reference internal" href="#form_open" title="form_open"><tt class="xref php php-func docutils literal"><span class="pre">form_open()</span></tt></a> above,
+except that it adds a <em>multipart</em> attribute, which is necessary if you
+would like to use the form to upload files with.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="form_hidden">
+<tt class="descname">form_hidden</tt><big>(</big><em>$name</em><span class="optional">[</span>, <em>$value = ''</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#form_hidden" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$name</strong> (<em>string</em>) &#8211; Field name</li>
+<li><strong>$value</strong> (<em>string</em>) &#8211; Field value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An HTML hidden input field tag</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Lets you generate hidden input fields. You can either submit a
+name/value string to create one field:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nx">form_hidden</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;johndoe&#39;</span><span class="p">);</span>
+<span class="c1">// Would produce: &lt;input type=&quot;hidden&quot; name=&quot;username&quot; value=&quot;johndoe&quot; /&gt;</span>
+</pre></div>
+</div>
+<p>... or you can submit an associative array to create multiple fields:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;name&#39;</span>  <span class="o">=&gt;</span> <span class="s1">&#39;John Doe&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;email&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;john@example.com&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;url&#39;</span>   <span class="o">=&gt;</span> <span class="s1">&#39;http://example.com&#39;</span>
+<span class="p">);</span>
+
+<span class="k">echo</span> <span class="nx">form_hidden</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">        Would produce:</span>
+<span class="cm">        &lt;input type=&quot;hidden&quot; name=&quot;name&quot; value=&quot;John Doe&quot; /&gt;</span>
+<span class="cm">        &lt;input type=&quot;hidden&quot; name=&quot;email&quot; value=&quot;john@example.com&quot; /&gt;</span>
+<span class="cm">        &lt;input type=&quot;hidden&quot; name=&quot;url&quot; value=&quot;http://example.com&quot; /&gt;</span>
+<span class="cm">*/</span>
+</pre></div>
+</div>
+<p>You can also pass an associative array to the value field:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;name&#39;</span>  <span class="o">=&gt;</span> <span class="s1">&#39;John Doe&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;email&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;john@example.com&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;url&#39;</span>   <span class="o">=&gt;</span> <span class="s1">&#39;http://example.com&#39;</span>
+<span class="p">);</span>
+
+<span class="k">echo</span> <span class="nx">form_hidden</span><span class="p">(</span><span class="s1">&#39;my_array&#39;</span><span class="p">,</span> <span class="nv">$data</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">        Would produce:</span>
+
+<span class="cm">        &lt;input type=&quot;hidden&quot; name=&quot;my_array[name]&quot; value=&quot;John Doe&quot; /&gt;</span>
+<span class="cm">        &lt;input type=&quot;hidden&quot; name=&quot;my_array[email]&quot; value=&quot;john@example.com&quot; /&gt;</span>
+<span class="cm">        &lt;input type=&quot;hidden&quot; name=&quot;my_array[url]&quot; value=&quot;http://example.com&quot; /&gt;</span>
+<span class="cm">*/</span>
+</pre></div>
+</div>
+<p>If you want to create hidden input fields with extra attributes:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;type&#39;</span>  <span class="o">=&gt;</span> <span class="s1">&#39;hidden&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;name&#39;</span>  <span class="o">=&gt;</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;id&#39;</span>    <span class="o">=&gt;</span> <span class="s1">&#39;hiddenemail&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;value&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;john@example.com&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;hiddenemail&#39;</span>
+<span class="p">);</span>
+
+<span class="k">echo</span> <span class="nx">form_input</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">        Would produce:</span>
+
+<span class="cm">        &lt;input type=&quot;hidden&quot; name=&quot;email&quot; value=&quot;john@example.com&quot; id=&quot;hiddenemail&quot; class=&quot;hiddenemail&quot; /&gt;</span>
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<tt class="descname">form_input([$data = ''[, $value = ''[, $extra = '']])</tt></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$data</strong> (<em>array</em>) &#8211; Field attributes data</li>
+<li><strong>$value</strong> (<em>string</em>) &#8211; Field value</li>
+<li><strong>$extra</strong> (<em>string</em>) &#8211; Extra attributes to be added to the tag <em>as is</em></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An HTML text input field tag</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Lets you generate a standard text input field. You can minimally pass
+the field name and value in the first and second parameter:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="k">echo</span> <span class="nx">form_input</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;johndoe&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Or you can pass an associative array containing any data you wish your
+form to contain:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;name&#39;</span>          <span class="o">=&gt;</span> <span class="s1">&#39;username&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;id&#39;</span>            <span class="o">=&gt;</span> <span class="s1">&#39;username&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;value&#39;</span>         <span class="o">=&gt;</span> <span class="s1">&#39;johndoe&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;maxlength&#39;</span>     <span class="o">=&gt;</span> <span class="s1">&#39;100&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;size&#39;</span>          <span class="o">=&gt;</span> <span class="s1">&#39;50&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;style&#39;</span>         <span class="o">=&gt;</span> <span class="s1">&#39;width:50%&#39;</span>
+<span class="p">);</span>
+
+<span class="k">echo</span> <span class="nx">form_input</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">        Would produce:</span>
+
+<span class="cm">        &lt;input type=&quot;text&quot; name=&quot;username&quot; value=&quot;johndoe&quot; id=&quot;username&quot; maxlength=&quot;100&quot; size=&quot;50&quot; style=&quot;width:50%&quot;  /&gt;</span>
+<span class="cm">*/</span>
+</pre></div>
+</div>
+<p>If you would like your form to contain some additional data, like
+JavaScript, you can pass it as a string in the third parameter:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$js</span> <span class="o">=</span> <span class="s1">&#39;onClick=&quot;some_function()&quot;&#39;</span><span class="p">;</span>
+<span class="k">echo</span> <span class="nx">form_input</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;johndoe&#39;</span><span class="p">,</span> <span class="nv">$js</span><span class="p">);</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="form_password">
+<tt class="descname">form_password</tt><big>(</big><span class="optional">[</span><em>$data = ''</em><span class="optional">[</span>, <em>$value = ''</em><span class="optional">[</span>, <em>$extra = ''</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#form_password" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$data</strong> (<em>array</em>) &#8211; Field attributes data</li>
+<li><strong>$value</strong> (<em>string</em>) &#8211; Field value</li>
+<li><strong>$extra</strong> (<em>string</em>) &#8211; Extra attributes to be added to the tag <em>as is</em></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An HTML password input field tag</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This function is identical in all respects to the <tt class="xref php php-func docutils literal"><span class="pre">form_input()</span></tt>
+function above except that it uses the &#8220;password&#8221; input type.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="form_upload">
+<tt class="descname">form_upload</tt><big>(</big><span class="optional">[</span><em>$data = ''</em><span class="optional">[</span>, <em>$value = ''</em><span class="optional">[</span>, <em>$extra = ''</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#form_upload" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$data</strong> (<em>array</em>) &#8211; Field attributes data</li>
+<li><strong>$value</strong> (<em>string</em>) &#8211; Field value</li>
+<li><strong>$extra</strong> (<em>string</em>) &#8211; Extra attributes to be added to the tag <em>as is</em></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An HTML file upload input field tag</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This function is identical in all respects to the <tt class="xref php php-func docutils literal"><span class="pre">form_input()</span></tt>
+function above except that it uses the &#8220;file&#8221; input type, allowing it to
+be used to upload files.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="form_textarea">
+<tt class="descname">form_textarea</tt><big>(</big><span class="optional">[</span><em>$data = ''</em><span class="optional">[</span>, <em>$value = ''</em><span class="optional">[</span>, <em>$extra = ''</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#form_textarea" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$data</strong> (<em>array</em>) &#8211; Field attributes data</li>
+<li><strong>$value</strong> (<em>string</em>) &#8211; Field value</li>
+<li><strong>$extra</strong> (<em>string</em>) &#8211; Extra attributes to be added to the tag <em>as is</em></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An HTML textarea tag</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This function is identical in all respects to the <tt class="xref php php-func docutils literal"><span class="pre">form_input()</span></tt>
+function above except that it generates a &#8220;textarea&#8221; type.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Instead of the <em>maxlength</em> and <em>size</em> attributes in the above example,
+you will instead specify <em>rows</em> and <em>cols</em>.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="form_dropdown">
+<tt class="descname">form_dropdown</tt><big>(</big><span class="optional">[</span><em>$name = ''</em><span class="optional">[</span>, <em>$options = array()</em><span class="optional">[</span>, <em>$selected = array()</em><span class="optional">[</span>, <em>$extra = ''</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#form_dropdown" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$name</strong> (<em>string</em>) &#8211; Field name</li>
+<li><strong>$options</strong> (<em>array</em>) &#8211; An associative array of options to be listed</li>
+<li><strong>$selected</strong> (<em>array</em>) &#8211; List of fields to mark with the <em>selected</em> attribute</li>
+<li><strong>$extra</strong> (<em>string</em>) &#8211; Extra attributes to be added to the tag <em>as is</em></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An HTML dropdown select field tag</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Lets you create a standard drop-down field. The first parameter will
+contain the name of the field, the second parameter will contain an
+associative array of options, and the third parameter will contain the
+value you wish to be selected. You can also pass an array of multiple
+items through the third parameter, and CodeIgniter will create a
+multiple select for you.</p>
+<p>Example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$options</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;small&#39;</span>         <span class="o">=&gt;</span> <span class="s1">&#39;Small Shirt&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;med&#39;</span>           <span class="o">=&gt;</span> <span class="s1">&#39;Medium Shirt&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;large&#39;</span>         <span class="o">=&gt;</span> <span class="s1">&#39;Large Shirt&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;xlarge&#39;</span>        <span class="o">=&gt;</span> <span class="s1">&#39;Extra Large Shirt&#39;</span><span class="p">,</span>
+<span class="p">);</span>
+
+<span class="nv">$shirts_on_sale</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;small&#39;</span><span class="p">,</span> <span class="s1">&#39;large&#39;</span><span class="p">);</span>
+<span class="k">echo</span> <span class="nx">form_dropdown</span><span class="p">(</span><span class="s1">&#39;shirts&#39;</span><span class="p">,</span> <span class="nv">$options</span><span class="p">,</span> <span class="s1">&#39;large&#39;</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">        Would produce:</span>
+
+<span class="cm">        &lt;select name=&quot;shirts&quot;&gt;</span>
+<span class="cm">                &lt;option value=&quot;small&quot;&gt;Small Shirt&lt;/option&gt;</span>
+<span class="cm">                &lt;option value=&quot;med&quot;&gt;Medium  Shirt&lt;/option&gt;</span>
+<span class="cm">                &lt;option value=&quot;large&quot; selected=&quot;selected&quot;&gt;Large Shirt&lt;/option&gt;</span>
+<span class="cm">                &lt;option value=&quot;xlarge&quot;&gt;Extra Large Shirt&lt;/option&gt;</span>
+<span class="cm">        &lt;/select&gt;</span>
+<span class="cm">*/</span>
+
+<span class="k">echo</span> <span class="nx">form_dropdown</span><span class="p">(</span><span class="s1">&#39;shirts&#39;</span><span class="p">,</span> <span class="nv">$options</span><span class="p">,</span> <span class="nv">$shirts_on_sale</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">        Would produce:</span>
+
+<span class="cm">        &lt;select name=&quot;shirts&quot; multiple=&quot;multiple&quot;&gt;</span>
+<span class="cm">                &lt;option value=&quot;small&quot; selected=&quot;selected&quot;&gt;Small Shirt&lt;/option&gt;</span>
+<span class="cm">                &lt;option value=&quot;med&quot;&gt;Medium  Shirt&lt;/option&gt;</span>
+<span class="cm">                &lt;option value=&quot;large&quot; selected=&quot;selected&quot;&gt;Large Shirt&lt;/option&gt;</span>
+<span class="cm">                &lt;option value=&quot;xlarge&quot;&gt;Extra Large Shirt&lt;/option&gt;</span>
+<span class="cm">        &lt;/select&gt;</span>
+<span class="cm">*/</span>
+</pre></div>
+</div>
+<p>If you would like the opening &lt;select&gt; to contain additional data, like
+an id attribute or JavaScript, you can pass it as a string in the fourth
+parameter:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$js</span> <span class="o">=</span> <span class="s1">&#39;id=&quot;shirts&quot; onChange=&quot;some_function();&quot;&#39;</span><span class="p">;</span>
+<span class="k">echo</span> <span class="nx">form_dropdown</span><span class="p">(</span><span class="s1">&#39;shirts&#39;</span><span class="p">,</span> <span class="nv">$options</span><span class="p">,</span> <span class="s1">&#39;large&#39;</span><span class="p">,</span> <span class="nv">$js</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>If the array passed as <tt class="docutils literal"><span class="pre">$options</span></tt> is a multidimensional array, then
+<tt class="docutils literal"><span class="pre">form_dropdown()</span></tt> will produce an &lt;optgroup&gt; with the array key as the
+label.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="form_multiselect">
+<tt class="descname">form_multiselect</tt><big>(</big><span class="optional">[</span><em>$name = ''</em><span class="optional">[</span>, <em>$options = array()</em><span class="optional">[</span>, <em>$selected = array()</em><span class="optional">[</span>, <em>$extra = ''</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#form_multiselect" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$name</strong> (<em>string</em>) &#8211; Field name</li>
+<li><strong>$options</strong> (<em>array</em>) &#8211; An associative array of options to be listed</li>
+<li><strong>$selected</strong> (<em>array</em>) &#8211; List of fields to mark with the <em>selected</em> attribute</li>
+<li><strong>$extra</strong> (<em>string</em>) &#8211; Extra attributes to be added to the tag <em>as is</em></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An HTML dropdown multiselect field tag</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Lets you create a standard multiselect field. The first parameter will
+contain the name of the field, the second parameter will contain an
+associative array of options, and the third parameter will contain the
+value or values you wish to be selected.</p>
+<p>The parameter usage is identical to using <a class="reference internal" href="#form_dropdown" title="form_dropdown"><tt class="xref php php-func docutils literal"><span class="pre">form_dropdown()</span></tt></a> above,
+except of course that the name of the field will need to use POST array
+syntax, e.g. foo[].</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="form_fieldset">
+<tt class="descname">form_fieldset</tt><big>(</big><span class="optional">[</span><em>$legend_text = ''</em><span class="optional">[</span>, <em>$attributes = array()</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#form_fieldset" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$legend_text</strong> (<em>string</em>) &#8211; Text to put in the &lt;legend&gt; tag</li>
+<li><strong>$attributes</strong> (<em>array</em>) &#8211; Attributes to be set on the &lt;fieldset&gt; tag</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An HTML fieldset opening tag</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Lets you generate fieldset/legend fields.</p>
+<p>Example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="k">echo</span> <span class="nx">form_fieldset</span><span class="p">(</span><span class="s1">&#39;Address Information&#39;</span><span class="p">);</span>
+<span class="k">echo</span> <span class="s2">&quot;&lt;p&gt;fieldset content here&lt;/p&gt;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">;</span>
+<span class="k">echo</span> <span class="nx">form_fieldset_close</span><span class="p">();</span>
+
+<span class="cm">/*</span>
+<span class="cm">        Produces:</span>
+
+<span class="cm">                &lt;fieldset&gt;</span>
+<span class="cm">                        &lt;legend&gt;Address Information&lt;/legend&gt;</span>
+<span class="cm">                                &lt;p&gt;form content here&lt;/p&gt;</span>
+<span class="cm">                &lt;/fieldset&gt;</span>
+<span class="cm">*/</span>
+</pre></div>
+</div>
+<p>Similar to other functions, you can submit an associative array in the
+second parameter if you prefer to set additional attributes:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$attributes</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;id&#39;</span>    <span class="o">=&gt;</span> <span class="s1">&#39;address_info&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;address_info&#39;</span>
+<span class="p">);</span>
+
+<span class="k">echo</span> <span class="nx">form_fieldset</span><span class="p">(</span><span class="s1">&#39;Address Information&#39;</span><span class="p">,</span> <span class="nv">$attributes</span><span class="p">);</span>
+<span class="k">echo</span> <span class="s2">&quot;&lt;p&gt;fieldset content here&lt;/p&gt;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">;</span>
+<span class="k">echo</span> <span class="nx">form_fieldset_close</span><span class="p">();</span>
+
+<span class="cm">/*</span>
+<span class="cm">        Produces:</span>
+
+<span class="cm">        &lt;fieldset id=&quot;address_info&quot; class=&quot;address_info&quot;&gt;</span>
+<span class="cm">                &lt;legend&gt;Address Information&lt;/legend&gt;</span>
+<span class="cm">                &lt;p&gt;form content here&lt;/p&gt;</span>
+<span class="cm">        &lt;/fieldset&gt;</span>
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="form_fieldset_close">
+<tt class="descname">form_fieldset_close</tt><big>(</big><span class="optional">[</span><em>$extra = ''</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#form_fieldset_close" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$extra</strong> (<em>string</em>) &#8211; Anything to append after the closing tag, <em>as is</em></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An HTML fieldset closing tag</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Produces a closing &lt;/fieldset&gt; tag. The only advantage to using this
+function is it permits you to pass data to it which will be added below
+the tag. For example</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$string</span> <span class="o">=</span> <span class="s1">&#39;&lt;/div&gt;&lt;/div&gt;&#39;</span><span class="p">;</span>
+<span class="k">echo</span> <span class="nx">form_fieldset_close</span><span class="p">(</span><span class="nv">$string</span><span class="p">);</span>
+<span class="c1">// Would produce: &lt;/fieldset&gt;&lt;/div&gt;&lt;/div&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="form_checkbox">
+<tt class="descname">form_checkbox</tt><big>(</big><span class="optional">[</span><em>$data = ''</em><span class="optional">[</span>, <em>$value = ''</em><span class="optional">[</span>, <em>$checked = FALSE</em><span class="optional">[</span>, <em>$extra = ''</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#form_checkbox" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$data</strong> (<em>array</em>) &#8211; Field attributes data</li>
+<li><strong>$value</strong> (<em>string</em>) &#8211; Field value</li>
+<li><strong>$checked</strong> (<em>bool</em>) &#8211; Whether to mark the checkbox as being <em>checked</em></li>
+<li><strong>$extra</strong> (<em>string</em>) &#8211; Extra attributes to be added to the tag <em>as is</em></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An HTML checkbox input tag</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Lets you generate a checkbox field. Simple example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="k">echo</span> <span class="nx">form_checkbox</span><span class="p">(</span><span class="s1">&#39;newsletter&#39;</span><span class="p">,</span> <span class="s1">&#39;accept&#39;</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">);</span>
+<span class="c1">// Would produce:  &lt;input type=&quot;checkbox&quot; name=&quot;newsletter&quot; value=&quot;accept&quot; checked=&quot;checked&quot; /&gt;</span>
+</pre></div>
+</div>
+<p>The third parameter contains a boolean TRUE/FALSE to determine whether
+the box should be checked or not.</p>
+<p>Similar to the other form functions in this helper, you can also pass an
+array of attributes to the function:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;name&#39;</span>          <span class="o">=&gt;</span> <span class="s1">&#39;newsletter&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;id&#39;</span>            <span class="o">=&gt;</span> <span class="s1">&#39;newsletter&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;value&#39;</span>         <span class="o">=&gt;</span> <span class="s1">&#39;accept&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;checked&#39;</span>       <span class="o">=&gt;</span> <span class="k">TRUE</span><span class="p">,</span>
+        <span class="s1">&#39;style&#39;</span>         <span class="o">=&gt;</span> <span class="s1">&#39;margin:10px&#39;</span>
+<span class="p">);</span>
+
+<span class="k">echo</span> <span class="nx">form_checkbox</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+<span class="c1">// Would produce: &lt;input type=&quot;checkbox&quot; name=&quot;newsletter&quot; id=&quot;newsletter&quot; value=&quot;accept&quot; checked=&quot;checked&quot; style=&quot;margin:10px&quot; /&gt;</span>
+</pre></div>
+</div>
+<p>Also as with other functions, if you would like the tag to contain
+additional data like JavaScript, you can pass it as a string in the
+fourth parameter:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$js</span> <span class="o">=</span> <span class="s1">&#39;onClick=&quot;some_function()&quot;&#39;</span><span class="p">;</span>
+<span class="k">echo</span> <span class="nx">form_checkbox</span><span class="p">(</span><span class="s1">&#39;newsletter&#39;</span><span class="p">,</span> <span class="s1">&#39;accept&#39;</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">,</span> <span class="nv">$js</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="form_radio">
+<tt class="descname">form_radio</tt><big>(</big><span class="optional">[</span><em>$data = ''</em><span class="optional">[</span>, <em>$value = ''</em><span class="optional">[</span>, <em>$checked = FALSE</em><span class="optional">[</span>, <em>$extra = ''</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#form_radio" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$data</strong> (<em>array</em>) &#8211; Field attributes data</li>
+<li><strong>$value</strong> (<em>string</em>) &#8211; Field value</li>
+<li><strong>$checked</strong> (<em>bool</em>) &#8211; Whether to mark the radio button as being <em>checked</em></li>
+<li><strong>$extra</strong> (<em>string</em>) &#8211; Extra attributes to be added to the tag <em>as is</em></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An HTML radio input tag</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This function is identical in all respects to the <a class="reference internal" href="#form_checkbox" title="form_checkbox"><tt class="xref php php-func docutils literal"><span class="pre">form_checkbox()</span></tt></a>
+function above except that it uses the &#8220;radio&#8221; input type.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="form_label">
+<tt class="descname">form_label</tt><big>(</big><span class="optional">[</span><em>$label_text = ''</em><span class="optional">[</span>, <em>$id = ''</em><span class="optional">[</span>, <em>$attributes = array()</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#form_label" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$label_text</strong> (<em>string</em>) &#8211; Text to put in the &lt;label&gt; tag</li>
+<li><strong>$id</strong> (<em>string</em>) &#8211; ID of the form element that we&#8217;re making a label for</li>
+<li><strong>$attributes</strong> (<em>string</em>) &#8211; HTML attributes</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An HTML field label tag</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Lets you generate a &lt;label&gt;. Simple example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="k">echo</span> <span class="nx">form_label</span><span class="p">(</span><span class="s1">&#39;What is your Name&#39;</span><span class="p">,</span> <span class="s1">&#39;username&#39;</span><span class="p">);</span>
+<span class="c1">// Would produce:  &lt;label for=&quot;username&quot;&gt;What is your Name&lt;/label&gt;</span>
+</pre></div>
+</div>
+<p>Similar to other functions, you can submit an associative array in the
+third parameter if you prefer to set additional attributes.</p>
+<p>Example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$attributes</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;mycustomclass&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;style&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;color: #000;&#39;</span>
+<span class="p">);</span>
+
+<span class="k">echo</span> <span class="nx">form_label</span><span class="p">(</span><span class="s1">&#39;What is your Name&#39;</span><span class="p">,</span> <span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="nv">$attributes</span><span class="p">);</span>
+<span class="c1">// Would produce:  &lt;label for=&quot;username&quot; class=&quot;mycustomclass&quot; style=&quot;color: #000;&quot;&gt;What is your Name&lt;/label&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="form_submit">
+<tt class="descname">form_submit</tt><big>(</big><span class="optional">[</span><em>$data = ''</em><span class="optional">[</span>, <em>$value = ''</em><span class="optional">[</span>, <em>$extra = ''</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#form_submit" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$data</strong> (<em>string</em>) &#8211; Button name</li>
+<li><strong>$value</strong> (<em>string</em>) &#8211; Button value</li>
+<li><strong>$extra</strong> (<em>string</em>) &#8211; Extra attributes to be added to the tag <em>as is</em></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An HTML input submit tag</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Lets you generate a standard submit button. Simple example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="k">echo</span> <span class="nx">form_submit</span><span class="p">(</span><span class="s1">&#39;mysubmit&#39;</span><span class="p">,</span> <span class="s1">&#39;Submit Post!&#39;</span><span class="p">);</span>
+<span class="c1">// Would produce:  &lt;input type=&quot;submit&quot; name=&quot;mysubmit&quot; value=&quot;Submit Post!&quot; /&gt;</span>
+</pre></div>
+</div>
+<p>Similar to other functions, you can submit an associative array in the
+first parameter if you prefer to set your own attributes. The third
+parameter lets you add extra data to your form, like JavaScript.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="form_reset">
+<tt class="descname">form_reset</tt><big>(</big><span class="optional">[</span><em>$data = ''</em><span class="optional">[</span>, <em>$value = ''</em><span class="optional">[</span>, <em>$extra = ''</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#form_reset" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$data</strong> (<em>string</em>) &#8211; Button name</li>
+<li><strong>$value</strong> (<em>string</em>) &#8211; Button value</li>
+<li><strong>$extra</strong> (<em>string</em>) &#8211; Extra attributes to be added to the tag <em>as is</em></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An HTML input reset button tag</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Lets you generate a standard reset button. Use is identical to
+<tt class="xref py py-func docutils literal"><span class="pre">form_submit()</span></tt>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="form_button">
+<tt class="descname">form_button</tt><big>(</big><span class="optional">[</span><em>$data = ''</em><span class="optional">[</span>, <em>$content = ''</em><span class="optional">[</span>, <em>$extra = ''</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#form_button" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$data</strong> (<em>string</em>) &#8211; Button name</li>
+<li><strong>$content</strong> (<em>string</em>) &#8211; Button label</li>
+<li><strong>$extra</strong> (<em>string</em>) &#8211; Extra attributes to be added to the tag <em>as is</em></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An HTML button tag</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Lets you generate a standard button element. You can minimally pass the
+button name and content in the first and second parameter:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="k">echo</span> <span class="nx">form_button</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="s1">&#39;content&#39;</span><span class="p">);</span>
+<span class="c1">// Would produce: &lt;button name=&quot;name&quot; type=&quot;button&quot;&gt;Content&lt;/button&gt;</span>
+</pre></div>
+</div>
+<p>Or you can pass an associative array containing any data you wish your
+form to contain:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;name&#39;</span>          <span class="o">=&gt;</span> <span class="s1">&#39;button&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;id&#39;</span>            <span class="o">=&gt;</span> <span class="s1">&#39;button&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;value&#39;</span>         <span class="o">=&gt;</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;type&#39;</span>          <span class="o">=&gt;</span> <span class="s1">&#39;reset&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;content&#39;</span>       <span class="o">=&gt;</span> <span class="s1">&#39;Reset&#39;</span>
+<span class="p">);</span>
+
+<span class="k">echo</span> <span class="nx">form_button</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+<span class="c1">// Would produce: &lt;button name=&quot;button&quot; id=&quot;button&quot; value=&quot;true&quot; type=&quot;reset&quot;&gt;Reset&lt;/button&gt;</span>
+</pre></div>
+</div>
+<p>If you would like your form to contain some additional data, like
+JavaScript, you can pass it as a string in the third parameter:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$js</span> <span class="o">=</span> <span class="s1">&#39;onClick=&quot;some_function()&quot;&#39;</span><span class="p">;</span>
+<span class="k">echo</span> <span class="nx">form_button</span><span class="p">(</span><span class="s1">&#39;mybutton&#39;</span><span class="p">,</span> <span class="s1">&#39;Click Me&#39;</span><span class="p">,</span> <span class="nv">$js</span><span class="p">);</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="form_close">
+<tt class="descname">form_close</tt><big>(</big><span class="optional">[</span><em>$extra = ''</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#form_close" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$extra</strong> (<em>string</em>) &#8211; Anything to append after the closing tag, <em>as is</em></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An HTML form closing tag</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Produces a closing &lt;/form&gt; tag. The only advantage to using this
+function is it permits you to pass data to it which will be added below
+the tag. For example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$string</span> <span class="o">=</span> <span class="s1">&#39;&lt;/div&gt;&lt;/div&gt;&#39;</span><span class="p">;</span>
+<span class="k">echo</span> <span class="nx">form_close</span><span class="p">(</span><span class="nv">$string</span><span class="p">);</span>
+<span class="c1">// Would produce:  &lt;/form&gt; &lt;/div&gt;&lt;/div&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="set_value">
+<tt class="descname">set_value</tt><big>(</big><em>$field</em><span class="optional">[</span>, <em>$default = ''</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#set_value" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$field</strong> (<em>string</em>) &#8211; Field name</li>
+<li><strong>$default</strong> (<em>string</em>) &#8211; Default value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Field value</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Permits you to set the value of an input form or textarea. You must
+supply the field name via the first parameter of the function. The
+second (optional) parameter allows you to set a default value for the
+form.</p>
+<p>Example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="o">&lt;</span><span class="nx">input</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span> <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;quantity&quot;</span> <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;&lt;?php echo set_value(&#39;quantity&#39;, &#39;0&#39;); ?&gt;&quot;</span> <span class="nx">size</span><span class="o">=</span><span class="s2">&quot;50&quot;</span> <span class="o">/&gt;</span>
+</pre></div>
+</div>
+<p>The above form will show &#8220;0&#8221; when loaded for the first time.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Only use this function with raw HTML fields, as it
+internally calls <a class="reference internal" href="../general/common_functions.html#html_escape" title="html_escape"><tt class="xref php php-func docutils literal"><span class="pre">html_escape()</span></tt></a> and combining its
+usage with other form helper functions will result in
+double HTML encoding!</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="set_select">
+<tt class="descname">set_select</tt><big>(</big><em>$field</em><span class="optional">[</span>, <em>$value = ''</em><span class="optional">[</span>, <em>$default = FALSE</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#set_select" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$field</strong> (<em>string</em>) &#8211; Field name</li>
+<li><strong>$value</strong> (<em>string</em>) &#8211; Value to check for</li>
+<li><strong>$default</strong> (<em>string</em>) &#8211; Whether the value is also a default one</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">&#8216;selected&#8217; attribute or an empty string</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>If you use a &lt;select&gt; menu, this function permits you to display the
+menu item that was selected.</p>
+<p>The first parameter must contain the name of the select menu, the second
+parameter must contain the value of each item, and the third (optional)
+parameter lets you set an item as the default (use boolean TRUE/FALSE).</p>
+<p>Example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="o">&lt;</span><span class="nx">select</span> <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;myselect&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">option</span> <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;one&quot;</span> <span class="o">&lt;?</span><span class="nx">php</span> <span class="k">echo</span>  <span class="nx">set_select</span><span class="p">(</span><span class="s1">&#39;myselect&#39;</span><span class="p">,</span> <span class="s1">&#39;one&#39;</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">);</span> <span class="cp">?&gt;</span> &gt;One<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">&quot;two&quot;</span> <span class="cp">&lt;?php</span> <span class="k">echo</span>  <span class="nx">set_select</span><span class="p">(</span><span class="s1">&#39;myselect&#39;</span><span class="p">,</span> <span class="s1">&#39;two&#39;</span><span class="p">);</span> <span class="cp">?&gt;</span> <span class="nt">&gt;</span>Two<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">&quot;three&quot;</span> <span class="cp">&lt;?php</span> <span class="k">echo</span>  <span class="nx">set_select</span><span class="p">(</span><span class="s1">&#39;myselect&#39;</span><span class="p">,</span> <span class="s1">&#39;three&#39;</span><span class="p">);</span> <span class="cp">?&gt;</span> <span class="nt">&gt;</span>Three<span class="nt">&lt;/option&gt;</span>
+<span class="nt">&lt;/select&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="set_checkbox">
+<tt class="descname">set_checkbox</tt><big>(</big><em>$field</em><span class="optional">[</span>, <em>$value = ''</em><span class="optional">[</span>, <em>$default = FALSE</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#set_checkbox" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$field</strong> (<em>string</em>) &#8211; Field name</li>
+<li><strong>$value</strong> (<em>string</em>) &#8211; Value to check for</li>
+<li><strong>$default</strong> (<em>string</em>) &#8211; Whether the value is also a default one</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">&#8216;checked&#8217; attribute or an empty string</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Permits you to display a checkbox in the state it was submitted.</p>
+<p>The first parameter must contain the name of the checkbox, the second
+parameter must contain its value, and the third (optional) parameter
+lets you set an item as the default (use boolean TRUE/FALSE).</p>
+<p>Example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="o">&lt;</span><span class="nx">input</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;checkbox&quot;</span> <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;mycheck&quot;</span> <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;1&quot;</span> <span class="o">&lt;?</span><span class="nx">php</span> <span class="k">echo</span> <span class="nx">set_checkbox</span><span class="p">(</span><span class="s1">&#39;mycheck&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">);</span> <span class="cp">?&gt;</span> /&gt;
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;checkbox&quot;</span> <span class="na">name=</span><span class="s">&quot;mycheck&quot;</span> <span class="na">value=</span><span class="s">&quot;2&quot;</span> <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nx">set_checkbox</span><span class="p">(</span><span class="s1">&#39;mycheck&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">);</span> <span class="cp">?&gt;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="set_radio">
+<tt class="descname">set_radio</tt><big>(</big><em>$field</em><span class="optional">[</span>, <em>$value = ''</em><span class="optional">[</span>, <em>$default = FALSE</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#set_radio" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$field</strong> (<em>string</em>) &#8211; Field name</li>
+<li><strong>$value</strong> (<em>string</em>) &#8211; Value to check for</li>
+<li><strong>$default</strong> (<em>string</em>) &#8211; Whether the value is also a default one</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">&#8216;checked&#8217; attribute or an empty string</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Permits you to display radio buttons in the state they were submitted.
+This function is identical to the <a class="reference internal" href="#set_checkbox" title="set_checkbox"><tt class="xref php php-func docutils literal"><span class="pre">set_checkbox()</span></tt></a> function above.</p>
+<p>Example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="o">&lt;</span><span class="nx">input</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;radio&quot;</span> <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;myradio&quot;</span> <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;1&quot;</span> <span class="o">&lt;?</span><span class="nx">php</span> <span class="k">echo</span>  <span class="nx">set_radio</span><span class="p">(</span><span class="s1">&#39;myradio&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">);</span> <span class="cp">?&gt;</span> /&gt;
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;radio&quot;</span> <span class="na">name=</span><span class="s">&quot;myradio&quot;</span> <span class="na">value=</span><span class="s">&quot;2&quot;</span> <span class="cp">&lt;?php</span> <span class="k">echo</span>  <span class="nx">set_radio</span><span class="p">(</span><span class="s1">&#39;myradio&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">);</span> <span class="cp">?&gt;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you are using the Form Validation class, you must always specify
+a rule for your field, even if empty, in order for the <tt class="docutils literal"><span class="pre">set_*()</span></tt>
+functions to work. This is because if a Form Validation object is
+defined, the control for <tt class="docutils literal"><span class="pre">set_*()</span></tt> is handed over to a method of the
+class instead of the generic helper function.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="form_error">
+<tt class="descname">form_error</tt><big>(</big><span class="optional">[</span><em>$field = ''</em><span class="optional">[</span>, <em>$prefix = ''</em><span class="optional">[</span>, <em>$suffix = ''</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#form_error" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$field</strong> (<em>string</em>) &#8211; Field name</li>
+<li><strong>$prefix</strong> (<em>string</em>) &#8211; Error opening tag</li>
+<li><strong>$suffix</strong> (<em>string</em>) &#8211; Error closing tag</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">HTML-formatted form validation error message(s)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns a validation error message from the <a class="reference internal" href="../libraries/form_validation.html"><em>Form Validation Library</em></a>, associated with the specified field name.
+You can optionally specify opening and closing tag(s) to put around the error
+message.</p>
+<p>Example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="c1">// Assuming that the &#39;username&#39; field value was incorrect:</span>
+<span class="k">echo</span> <span class="nx">form_error</span><span class="p">(</span><span class="s1">&#39;myfield&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;div class=&quot;error&quot;&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;/div&gt;&#39;</span><span class="p">);</span>
+
+<span class="c1">// Would produce: &lt;div class=&quot;error&quot;&gt;Error message associated with the &quot;username&quot; field.&lt;/div&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="validation_errors">
+<tt class="descname">validation_errors</tt><big>(</big><span class="optional">[</span><em>$prefix = ''</em><span class="optional">[</span>, <em>$suffix = ''</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#validation_errors" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$prefix</strong> (<em>string</em>) &#8211; Error opening tag</li>
+<li><strong>$suffix</strong> (<em>string</em>) &#8211; Error closing tag</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">HTML-formatted form validation error message(s)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Similarly to the <a class="reference internal" href="#form_error" title="form_error"><tt class="xref php php-func docutils literal"><span class="pre">form_error()</span></tt></a> function, returns all validation
+error messages produced by the <a class="reference internal" href="../libraries/form_validation.html"><em>Form Validation Library</em></a>, with optional opening and closing tags
+around each of the messages.</p>
+<p>Example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="k">echo</span> <span class="nx">validation_errors</span><span class="p">(</span><span class="s1">&#39;&lt;span class=&quot;error&quot;&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;/span&gt;&#39;</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">        Would produce, e.g.:</span>
+
+<span class="cm">        &lt;span class=&quot;error&quot;&gt;The &quot;email&quot; field doesn&#39;t contain a valid e-mail address!&lt;/span&gt;</span>
+<span class="cm">        &lt;span class=&quot;error&quot;&gt;The &quot;password&quot; field doesn&#39;t match the &quot;repeat_password&quot; field!&lt;/span&gt;</span>
+
+<span class="cm"> */</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="form_prep">
+<tt class="descname">form_prep</tt><big>(</big><em>$str</em><big>)</big><a class="headerlink" href="#form_prep" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$str</strong> (<em>string</em>) &#8211; Value to escape</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Escaped value</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Allows you to safely use HTML and characters such as quotes within form
+elements without breaking out of the form.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you use any of the form helper functions listed in this page the form
+values will be prepped automatically, so there is no need to call this
+function. Use it only if you are creating your own form elements.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function is DEPRECATED and is just an alias for
+<a class="reference internal" href="../general/common_functions.html"><em>common function</em></a>
+<tt class="xref py py-func docutils literal"><span class="pre">html_escape()</span></tt> - please use that instead.</p>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="html_helper.html" class="btn btn-neutral float-right" title="HTML Helper">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="file_helper.html" class="btn btn-neutral" title="File Helper"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014 - 2015, British Columbia Institute of Technology.
+      Last updated on Feb 03, 2015.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,498 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>CAPTCHA Helper &mdash; CodeIgniter 3.0-dev documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/ci-icon.ico"/>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="CodeIgniter 3.0-dev documentation" href="../index.html"/>
+        <link rel="up" title="Helpers" href="index.html"/>
+        <link rel="next" title="Cookie Helper" href="cookie_helper.html"/>
+        <link rel="prev" title="Array Helper" href="array_helper.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../index.html" class="fa fa-home"> CodeIgniter</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/welcome.html">Welcome to CodeIgniter</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation Instructions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/downloads.html">Downloading CodeIgniter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/index.html">Installation Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/upgrading.html">Upgrading From a Previous Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/index.html">CodeIgniter Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/at_a_glance.html">CodeIgniter at a Glance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/features.html">Supported Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/appflow.html">Application Flow Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/mvc.html">Model-View-Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/goals.html">Architectural Goals</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/static_pages.html">Static pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/news_section.html">News section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/create_news_items.html">Create news items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/conclusion.html">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/index.html">General Topics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../general/urls.html">CodeIgniter URLs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/controllers.html">Controllers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/reserved_names.html">Reserved Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/views.html">Views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/libraries.html">Using CodeIgniter Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_libraries.html">Creating Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/drivers.html">Using CodeIgniter Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_drivers.html">Creating Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/core_classes.html">Creating Core System Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/ancillary_classes.html">Creating Ancillary Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/hooks.html">Hooks - Extending the Framework Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/autoloader.html">Auto-loading Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/common_functions.html">Common Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/compatibility_functions.html">Compatibility Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/routing.html">URI Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/errors.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/caching.html">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/profiling.html">Profiling Your Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/cli.html">Running via the CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/managing_apps.html">Managing your Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/environments.html">Handling Multiple Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/alternative_php.html">Alternate PHP Syntax for View Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/security.html">Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/styleguide.html">PHP Style Guide</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../libraries/index.html">Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/benchmark.html">Benchmarking Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/caching.html">Caching Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/calendar.html">Calendaring Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/cart.html">Shopping Cart Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/config.html">Config Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/email.html">Email Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/encrypt.html">Encrypt Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/encryption.html">Encryption Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/file_uploading.html">File Uploading Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/form_validation.html">Form Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/ftp.html">FTP Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/image_lib.html">Image Manipulation Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/input.html">Input Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/javascript.html">Javascript Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/language.html">Language Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/loader.html">Loader Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/migration.html">Migrations Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/output.html">Output Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/pagination.html">Pagination Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/parser.html">Template Parser Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/security.html">Security Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/sessions.html">Session Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/table.html">HTML Table Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/trackback.html">Trackback Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/typography.html">Typography Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/unit_testing.html">Unit Testing Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/uri.html">URI Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/user_agent.html">User Agent Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/xmlrpc.html">XML-RPC and XML-RPC Server Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/zip.html">Zip Encoding Class</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../database/examples.html">Quick Start: Usage Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/configuration.html">Database Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/connecting.html">Connecting to a Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/queries.html">Running Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/results.html">Generating Query Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/helpers.html">Query Helper Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/query_builder.html">Query Builder Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/transactions.html">Transactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/metadata.html">Getting MetaData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/call_function.html">Custom Function Calls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/caching.html">Query Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/forge.html">Database Manipulation with Database Forge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/utilities.html">Database Utilities Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/db_driver_reference.html">Database Driver Reference</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Helpers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="array_helper.html">Array Helper</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">CAPTCHA Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cookie_helper.html">Cookie Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="date_helper.html">Date Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="directory_helper.html">Directory Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="download_helper.html">Download Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email_helper.html">Email Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="file_helper.html">File Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="form_helper.html">Form Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="html_helper.html">HTML Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inflector_helper.html">Inflector Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="language_helper.html">Language Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="number_helper.html">Number Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="path_helper.html">Path Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="security_helper.html">Security Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smiley_helper.html">Smiley Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="string_helper.html">String Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="text_helper.html">Text Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typography_helper.html">Typography Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="url_helper.html">URL Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xml_helper.html">XML Helper</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing to CodeIgniter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../documentation/index.html">Writing CodeIgniter Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../DCO.html">Developer&#8217;s Certificate of Origin 1.1</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">CodeIgniter</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Helpers</a> &raquo;</li>
+      
+    <li>CAPTCHA Helper</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="captcha-helper">
+<h1>CAPTCHA Helper<a class="headerlink" href="#captcha-helper" title="Permalink to this headline">¶</a></h1>
+<p>The CAPTCHA Helper file contains functions that assist in creating
+CAPTCHA images.</p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#loading-this-helper" id="id1">Loading this Helper</a></li>
+<li><a class="reference internal" href="#using-the-captcha-helper" id="id2">Using the CAPTCHA helper</a><ul>
+<li><a class="reference internal" href="#adding-a-database" id="id3">Adding a Database</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#available-functions" id="id4">Available Functions</a></li>
+</ul>
+</div>
+<div class="custom-index container"></div><div class="section" id="loading-this-helper">
+<h2><a class="toc-backref" href="#id1">Loading this Helper</a><a class="headerlink" href="#loading-this-helper" title="Permalink to this headline">¶</a></h2>
+<p>This helper is loaded using the following code:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">helper</span><span class="p">(</span><span class="s1">&#39;captcha&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-the-captcha-helper">
+<h2><a class="toc-backref" href="#id2">Using the CAPTCHA helper</a><a class="headerlink" href="#using-the-captcha-helper" title="Permalink to this headline">¶</a></h2>
+<p>Once loaded you can generate a CAPTCHA like this:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$vals</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;word&#39;</span>          <span class="o">=&gt;</span> <span class="s1">&#39;Random word&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;img_path&#39;</span>      <span class="o">=&gt;</span> <span class="s1">&#39;./captcha/&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;img_url&#39;</span>       <span class="o">=&gt;</span> <span class="s1">&#39;http://example.com/captcha/&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;font_path&#39;</span>     <span class="o">=&gt;</span> <span class="s1">&#39;./path/to/fonts/texb.ttf&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;img_width&#39;</span>     <span class="o">=&gt;</span> <span class="s1">&#39;150&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;img_height&#39;</span>    <span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span>
+        <span class="s1">&#39;expiration&#39;</span>    <span class="o">=&gt;</span> <span class="mi">7200</span><span class="p">,</span>
+        <span class="s1">&#39;word_length&#39;</span>   <span class="o">=&gt;</span> <span class="mi">8</span><span class="p">,</span>
+        <span class="s1">&#39;font_size&#39;</span>     <span class="o">=&gt;</span> <span class="mi">16</span><span class="p">,</span>
+        <span class="s1">&#39;img_id&#39;</span>        <span class="o">=&gt;</span> <span class="s1">&#39;Imageid&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;pool&#39;</span>          <span class="o">=&gt;</span> <span class="s1">&#39;0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ&#39;</span><span class="p">,</span>
+
+        <span class="c1">// White background and border, black text and red grid</span>
+        <span class="s1">&#39;colors&#39;</span>        <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+                <span class="s1">&#39;background&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+                <span class="s1">&#39;border&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+                <span class="s1">&#39;text&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="s1">&#39;grid&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+        <span class="p">)</span>
+<span class="p">);</span>
+
+<span class="nv">$cap</span> <span class="o">=</span> <span class="nx">create_captcha</span><span class="p">(</span><span class="nv">$vals</span><span class="p">);</span>
+<span class="k">echo</span> <span class="nv">$cap</span><span class="p">[</span><span class="s1">&#39;image&#39;</span><span class="p">];</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>The captcha function requires the GD image library.</li>
+<li>Only the <strong>img_path</strong> and <strong>img_url</strong> are required.</li>
+<li>If a <strong>word</strong> is not supplied, the function will generate a random
+ASCII string. You might put together your own word library that you
+can draw randomly from.</li>
+<li>If you do not specify a path to a TRUE TYPE font, the native ugly GD
+font will be used.</li>
+<li>The &#8220;captcha&#8221; directory must be writable</li>
+<li>The <strong>expiration</strong> (in seconds) signifies how long an image will remain
+in the captcha folder before it will be deleted. The default is two
+hours.</li>
+<li><strong>word_length</strong> defaults to 8, <strong>pool</strong> defaults to &#8216;0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ&#8217;</li>
+<li><strong>font_size</strong> defaults to 16, the native GD font has a size limit. Specify a &#8220;true type&#8221; font for bigger sizes.</li>
+<li>The <strong>img_id</strong> will be set as the &#8220;id&#8221; of the captcha image.</li>
+<li>If any of the <strong>colors</strong> values is missing, it will be replaced by the default.</li>
+</ul>
+<div class="section" id="adding-a-database">
+<h3><a class="toc-backref" href="#id3">Adding a Database</a><a class="headerlink" href="#adding-a-database" title="Permalink to this headline">¶</a></h3>
+<p>In order for the captcha function to prevent someone from submitting,
+you will need to add the information returned from <tt class="docutils literal"><span class="pre">create_captcha()</span></tt>
+to your database. Then, when the data from the form is submitted by
+the user you will need to verify that the data exists in the database
+and has not expired.</p>
+<p>Here is a table prototype:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nx">CREATE</span> <span class="nx">TABLE</span> <span class="nx">captcha</span> <span class="p">(</span>
+        <span class="nx">captcha_id</span> <span class="nx">bigint</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span> <span class="nx">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="nx">auto_increment</span><span class="p">,</span>
+        <span class="nx">captcha_time</span> <span class="nx">int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="nx">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="nx">ip_address</span> <span class="nx">varchar</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="nx">word</span> <span class="nx">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="nx">PRIMARY</span> <span class="nx">KEY</span> <span class="sb">`captcha_id`</span> <span class="p">(</span><span class="sb">`captcha_id`</span><span class="p">),</span>
+        <span class="nx">KEY</span> <span class="sb">`word`</span> <span class="p">(</span><span class="sb">`word`</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>Here is an example of usage with a database. On the page where the
+CAPTCHA will be shown you&#8217;ll have something like this:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">helper</span><span class="p">(</span><span class="s1">&#39;captcha&#39;</span><span class="p">);</span>
+<span class="nv">$vals</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;img_path&#39;</span>      <span class="o">=&gt;</span> <span class="s1">&#39;./captcha/&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;img_url&#39;</span>       <span class="o">=&gt;</span> <span class="s1">&#39;http://example.com/captcha/&#39;</span>
+<span class="p">);</span>
+
+<span class="nv">$cap</span> <span class="o">=</span> <span class="nx">create_captcha</span><span class="p">(</span><span class="nv">$vals</span><span class="p">);</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;captcha_time&#39;</span>  <span class="o">=&gt;</span> <span class="nv">$cap</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;ip_address&#39;</span>    <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">ip_address</span><span class="p">(),</span>
+        <span class="s1">&#39;word&#39;</span>          <span class="o">=&gt;</span> <span class="nv">$cap</span><span class="p">[</span><span class="s1">&#39;word&#39;</span><span class="p">]</span>
+<span class="p">);</span>
+
+<span class="nv">$query</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">insert_string</span><span class="p">(</span><span class="s1">&#39;captcha&#39;</span><span class="p">,</span> <span class="nv">$data</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">query</span><span class="p">(</span><span class="nv">$query</span><span class="p">);</span>
+
+<span class="k">echo</span> <span class="s1">&#39;Submit the word you see below:&#39;</span><span class="p">;</span>
+<span class="k">echo</span> <span class="nv">$cap</span><span class="p">[</span><span class="s1">&#39;image&#39;</span><span class="p">];</span>
+<span class="k">echo</span> <span class="s1">&#39;&lt;input type=&quot;text&quot; name=&quot;captcha&quot; value=&quot;&quot; /&gt;&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Then, on the page that accepts the submission you&#8217;ll have something like
+this:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="c1">// First, delete old captchas</span>
+<span class="nv">$expiration</span> <span class="o">=</span> <span class="nb">time</span><span class="p">()</span> <span class="o">-</span> <span class="mi">7200</span><span class="p">;</span> <span class="c1">// Two hour limit</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;captcha_time &lt; &#39;</span><span class="p">,</span> <span class="nv">$expiration</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="na">delete</span><span class="p">(</span><span class="s1">&#39;captcha&#39;</span><span class="p">);</span>
+
+<span class="c1">// Then see if a captcha exists:</span>
+<span class="nv">$sql</span> <span class="o">=</span> <span class="s1">&#39;SELECT COUNT(*) AS count FROM captcha WHERE word = ? AND ip_address = ? AND captcha_time &gt; ?&#39;</span><span class="p">;</span>
+<span class="nv">$binds</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;captcha&#39;</span><span class="p">],</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">ip_address</span><span class="p">(),</span> <span class="nv">$expiration</span><span class="p">);</span>
+<span class="nv">$query</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">query</span><span class="p">(</span><span class="nv">$sql</span><span class="p">,</span> <span class="nv">$binds</span><span class="p">);</span>
+<span class="nv">$row</span> <span class="o">=</span> <span class="nv">$query</span><span class="o">-&gt;</span><span class="na">row</span><span class="p">();</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nv">$row</span><span class="o">-&gt;</span><span class="na">count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="p">{</span>
+        <span class="k">echo</span> <span class="s1">&#39;You must submit the word that appears in the image.&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="available-functions">
+<h2><a class="toc-backref" href="#id4">Available Functions</a><a class="headerlink" href="#available-functions" title="Permalink to this headline">¶</a></h2>
+<p>The following functions are available:</p>
+<dl class="function">
+<dt id="create_captcha">
+<tt class="descname">create_captcha</tt><big>(</big><span class="optional">[</span><em>$data = ''</em><span class="optional">[</span>, <em>$img_path = ''</em><span class="optional">[</span>, <em>$img_url = ''</em><span class="optional">[</span>, <em>$font_path = ''</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#create_captcha" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$data</strong> (<em>array</em>) &#8211; Array of data for the CAPTCHA</li>
+<li><strong>$img_path</strong> (<em>string</em>) &#8211; Path to create the image in</li>
+<li><strong>$img_url</strong> (<em>string</em>) &#8211; URL to the CAPTCHA image folder</li>
+<li><strong>$font_path</strong> (<em>string</em>) &#8211; Server path to font</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">array(&#8216;word&#8217; =&gt; $word, &#8216;time&#8217; =&gt; $now, &#8216;image&#8217; =&gt; $img)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Takes an array of information to generate the CAPTCHA as input and
+creates the image to your specifications, returning an array of
+associative data about the image.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;image&#39;</span> <span class="o">=&gt;</span> <span class="nx">IMAGE</span> <span class="nx">TAG</span>
+        <span class="s1">&#39;time&#39;</span>  <span class="o">=&gt;</span> <span class="nx">TIMESTAMP</span> <span class="p">(</span><span class="nx">in</span> <span class="nb">microtime</span><span class="p">)</span>
+        <span class="s1">&#39;word&#39;</span>  <span class="o">=&gt;</span> <span class="nx">CAPTCHA</span> <span class="nx">WORD</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>The <strong>image</strong> is the actual image tag:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="o">&lt;</span><span class="nx">img</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;http://example.com/captcha/12345.jpg&quot;</span> <span class="nx">width</span><span class="o">=</span><span class="s2">&quot;140&quot;</span> <span class="nx">height</span><span class="o">=</span><span class="s2">&quot;50&quot;</span> <span class="o">/&gt;</span>
+</pre></div>
+</div>
+<p>The <strong>time</strong> is the micro timestamp used as the image name without the
+file extension. It will be a number like this: 1139612155.3422</p>
+<p>The <strong>word</strong> is the word that appears in the captcha image, which if not
+supplied to the function, will be a random string.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cookie_helper.html" class="btn btn-neutral float-right" title="Cookie Helper">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="array_helper.html" class="btn btn-neutral" title="Array Helper"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014 - 2015, British Columbia Institute of Technology.
+      Last updated on Feb 03, 2015.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

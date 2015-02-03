@@ -1,0 +1,2510 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Query Builder Class &mdash; CodeIgniter 3.0-dev documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/ci-icon.ico"/>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="CodeIgniter 3.0-dev documentation" href="../index.html"/>
+        <link rel="up" title="Database Reference" href="index.html"/>
+        <link rel="next" title="Transactions" href="transactions.html"/>
+        <link rel="prev" title="Query Helper Methods" href="helpers.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../index.html" class="fa fa-home"> CodeIgniter</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/welcome.html">Welcome to CodeIgniter</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation Instructions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/downloads.html">Downloading CodeIgniter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/index.html">Installation Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/upgrading.html">Upgrading From a Previous Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/index.html">CodeIgniter Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/at_a_glance.html">CodeIgniter at a Glance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/features.html">Supported Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/appflow.html">Application Flow Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/mvc.html">Model-View-Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/goals.html">Architectural Goals</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/static_pages.html">Static pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/news_section.html">News section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/create_news_items.html">Create news items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/conclusion.html">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/index.html">General Topics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../general/urls.html">CodeIgniter URLs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/controllers.html">Controllers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/reserved_names.html">Reserved Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/views.html">Views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/libraries.html">Using CodeIgniter Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_libraries.html">Creating Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/drivers.html">Using CodeIgniter Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_drivers.html">Creating Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/core_classes.html">Creating Core System Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/ancillary_classes.html">Creating Ancillary Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/hooks.html">Hooks - Extending the Framework Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/autoloader.html">Auto-loading Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/common_functions.html">Common Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/compatibility_functions.html">Compatibility Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/routing.html">URI Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/errors.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/caching.html">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/profiling.html">Profiling Your Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/cli.html">Running via the CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/managing_apps.html">Managing your Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/environments.html">Handling Multiple Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/alternative_php.html">Alternate PHP Syntax for View Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/security.html">Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/styleguide.html">PHP Style Guide</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../libraries/index.html">Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/benchmark.html">Benchmarking Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/caching.html">Caching Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/calendar.html">Calendaring Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/cart.html">Shopping Cart Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/config.html">Config Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/email.html">Email Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/encrypt.html">Encrypt Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/encryption.html">Encryption Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/file_uploading.html">File Uploading Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/form_validation.html">Form Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/ftp.html">FTP Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/image_lib.html">Image Manipulation Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/input.html">Input Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/javascript.html">Javascript Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/language.html">Language Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/loader.html">Loader Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/migration.html">Migrations Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/output.html">Output Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/pagination.html">Pagination Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/parser.html">Template Parser Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/security.html">Security Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/sessions.html">Session Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/table.html">HTML Table Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/trackback.html">Trackback Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/typography.html">Typography Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/unit_testing.html">Unit Testing Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/uri.html">URI Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/user_agent.html">User Agent Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/xmlrpc.html">XML-RPC and XML-RPC Server Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/zip.html">Zip Encoding Class</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Database Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="examples.html">Quick Start: Usage Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html">Database Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="connecting.html">Connecting to a Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="queries.html">Running Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="results.html">Generating Query Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html">Query Helper Functions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Query Builder Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transactions.html">Transactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="metadata.html">Getting MetaData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="call_function.html">Custom Function Calls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caching.html">Query Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="forge.html">Database Manipulation with Database Forge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">Database Utilities Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="db_driver_reference.html">Database Driver Reference</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../helpers/index.html">Helpers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/array_helper.html">Array Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/captcha_helper.html">CAPTCHA Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/cookie_helper.html">Cookie Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/date_helper.html">Date Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/directory_helper.html">Directory Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/download_helper.html">Download Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/email_helper.html">Email Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/file_helper.html">File Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/form_helper.html">Form Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/html_helper.html">HTML Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/inflector_helper.html">Inflector Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/language_helper.html">Language Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/number_helper.html">Number Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/path_helper.html">Path Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/security_helper.html">Security Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/smiley_helper.html">Smiley Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/string_helper.html">String Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/text_helper.html">Text Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/typography_helper.html">Typography Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/url_helper.html">URL Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/xml_helper.html">XML Helper</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing to CodeIgniter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../documentation/index.html">Writing CodeIgniter Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../DCO.html">Developer&#8217;s Certificate of Origin 1.1</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">CodeIgniter</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Database Reference</a> &raquo;</li>
+      
+    <li>Query Builder Class</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="query-builder-class">
+<h1>Query Builder Class<a class="headerlink" href="#query-builder-class" title="Permalink to this headline">¶</a></h1>
+<p>CodeIgniter gives you access to a Query Builder class. This pattern
+allows information to be retrieved, inserted, and updated in your
+database with minimal scripting. In some cases only one or two lines
+of code are necessary to perform a database action.
+CodeIgniter does not require that each database table be its own class
+file. It instead provides a more simplified interface.</p>
+<p>Beyond simplicity, a major benefit to using the Query Builder features
+is that it allows you to create database independent applications, since
+the query syntax is generated by each database adapter. It also allows
+for safer queries, since the values are escaped automatically by the
+system.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you intend to write your own queries you can disable this
+class in your database config file, allowing the core database library
+and adapter to utilize fewer resources.</p>
+</div>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#selecting-data" id="id1">Selecting Data</a></li>
+<li><a class="reference internal" href="#looking-for-specific-data" id="id2">Looking for Specific Data</a></li>
+<li><a class="reference internal" href="#looking-for-similar-data" id="id3">Looking for Similar Data</a></li>
+<li><a class="reference internal" href="#ordering-results" id="id4">Ordering results</a></li>
+<li><a class="reference internal" href="#limiting-or-counting-results" id="id5">Limiting or Counting Results</a></li>
+<li><a class="reference internal" href="#query-grouping" id="id6">Query grouping</a></li>
+<li><a class="reference internal" href="#inserting-data" id="id7">Inserting Data</a></li>
+<li><a class="reference internal" href="#updating-data" id="id8">Updating Data</a></li>
+<li><a class="reference internal" href="#deleting-data" id="id9">Deleting Data</a></li>
+<li><a class="reference internal" href="#method-chaining" id="id10">Method Chaining</a></li>
+<li><a class="reference internal" href="#query-builder-caching" id="id11">Query Builder Caching</a></li>
+<li><a class="reference internal" href="#resetting-query-builder" id="id12">Resetting Query Builder</a></li>
+<li><a class="reference internal" href="#class-reference" id="id13">Class Reference</a></li>
+</ul>
+</div>
+<div class="section" id="selecting-data">
+<h2><a class="toc-backref" href="#id1">Selecting Data</a><a class="headerlink" href="#selecting-data" title="Permalink to this headline">¶</a></h2>
+<p>The following functions allow you to build SQL <strong>SELECT</strong> statements.</p>
+<p><strong>$this-&gt;db-&gt;get()</strong></p>
+<p>Runs the selection query and returns the result. Can be used by itself
+to retrieve all records from a table:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$query</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">);</span>  <span class="c1">// Produces: SELECT * FROM mytable</span>
+</pre></div>
+</div>
+<p>The second and third parameters enable you to set a limit and offset
+clause:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$query</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
+
+<span class="c1">// Executes: SELECT * FROM mytable LIMIT 20, 10</span>
+<span class="c1">// (in MySQL. Other databases have slightly different syntax)</span>
+</pre></div>
+</div>
+<p>You&#8217;ll notice that the above function is assigned to a variable named
+$query, which can be used to show the results:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$query</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">);</span>
+
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$query</span><span class="o">-&gt;</span><span class="na">result</span><span class="p">()</span> <span class="k">as</span> <span class="nv">$row</span><span class="p">)</span>
+<span class="p">{</span>
+        <span class="k">echo</span> <span class="nv">$row</span><span class="o">-&gt;</span><span class="na">title</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Please visit the <a class="reference internal" href="results.html"><em>result functions</em></a> page for a full
+discussion regarding result generation.</p>
+<p><strong>$this-&gt;db-&gt;get_compiled_select()</strong></p>
+<p>Compiles the selection query just like <strong>$this-&gt;db-&gt;get()</strong> but does not <em>run</em>
+the query. This method simply returns the SQL query as a string.</p>
+<p>Example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$sql</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">get_compiled_select</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">);</span>
+<span class="k">echo</span> <span class="nv">$sql</span><span class="p">;</span>
+
+<span class="c1">// Prints string: SELECT * FROM mytable</span>
+</pre></div>
+</div>
+<p>The second parameter enables you to set whether or not the query builder query
+will be reset (by default it will be reset, just like when using <cite>$this-&gt;db-&gt;get()</cite>):</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get_compiled_select</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">,</span> <span class="k">FALSE</span><span class="p">);</span>
+
+<span class="c1">// Prints string: SELECT * FROM mytable LIMIT 20, 10</span>
+<span class="c1">// (in MySQL. Other databases have slightly different syntax)</span>
+
+<span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">&#39;title, content, date&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get_compiled_select</span><span class="p">();</span>
+
+<span class="c1">// Prints string: SELECT title, content, date FROM mytable LIMIT 20, 10</span>
+</pre></div>
+</div>
+<p>The key thing to notice in the above example is that the second query did not
+utilize <strong>$this-&gt;db-&gt;from()</strong> and did not pass a table name into the first
+parameter. The reason for this outcome is because the query has not been
+executed using <strong>$this-&gt;db-&gt;get()</strong> which resets values or reset directly
+using <strong>$this-&gt;db-&gt;reset_query()</strong>.</p>
+<p><strong>$this-&gt;db-&gt;get_where()</strong></p>
+<p>Identical to the above function except that it permits you to add a
+&#8220;where&#8221; clause in the second parameter, instead of using the db-&gt;where()
+function:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$query</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">get_where</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;id&#39;</span> <span class="o">=&gt;</span> <span class="nv">$id</span><span class="p">),</span> <span class="nv">$limit</span><span class="p">,</span> <span class="nv">$offset</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Please read the about the where function below for more information.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">get_where() was formerly known as getwhere(), which has been removed</p>
+</div>
+<p><strong>$this-&gt;db-&gt;select()</strong></p>
+<p>Permits you to write the SELECT portion of your query:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">&#39;title, content, date&#39;</span><span class="p">);</span>
+<span class="nv">$query</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">);</span>
+
+<span class="c1">// Executes: SELECT title, content, date FROM mytable</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you are selecting all (*) from a table you do not need to
+use this function. When omitted, CodeIgniter assumes that you wish
+to select all fields and automatically adds &#8216;SELECT *&#8217;.</p>
+</div>
+<p><tt class="docutils literal"><span class="pre">$this-&gt;db-&gt;select()</span></tt> accepts an optional second parameter. If you set it
+to FALSE, CodeIgniter will not try to protect your field or table names.
+This is useful if you need a compound select statement where automatic
+escaping of fields may break them.</p>
+<div class="highlight-ci"><div class="highlight"><pre>$this-&gt;db-&gt;select(&#39;(SELECT SUM(payments.amount) FROM payments WHERE payments.invoice_id=4&#39;) AS amount_paid&#39;, FALSE);
+$query = $this-&gt;db-&gt;get(&#39;mytable&#39;);
+</pre></div>
+</div>
+<p><strong>$this-&gt;db-&gt;select_max()</strong></p>
+<p>Writes a <tt class="docutils literal"><span class="pre">SELECT</span> <span class="pre">MAX(field)</span></tt> portion for your query. You can optionally
+include a second parameter to rename the resulting field.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">select_max</span><span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">);</span>
+<span class="nv">$query</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;members&#39;</span><span class="p">);</span>  <span class="c1">// Produces: SELECT MAX(age) as age FROM members</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">select_max</span><span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;member_age&#39;</span><span class="p">);</span>
+<span class="nv">$query</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;members&#39;</span><span class="p">);</span> <span class="c1">// Produces: SELECT MAX(age) as member_age FROM members</span>
+</pre></div>
+</div>
+<p><strong>$this-&gt;db-&gt;select_min()</strong></p>
+<p>Writes a &#8220;SELECT MIN(field)&#8221; portion for your query. As with
+select_max(), You can optionally include a second parameter to rename
+the resulting field.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">select_min</span><span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">);</span>
+<span class="nv">$query</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;members&#39;</span><span class="p">);</span> <span class="c1">// Produces: SELECT MIN(age) as age FROM members</span>
+</pre></div>
+</div>
+<p><strong>$this-&gt;db-&gt;select_avg()</strong></p>
+<p>Writes a &#8220;SELECT AVG(field)&#8221; portion for your query. As with
+select_max(), You can optionally include a second parameter to rename
+the resulting field.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">select_avg</span><span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">);</span>
+<span class="nv">$query</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;members&#39;</span><span class="p">);</span> <span class="c1">// Produces: SELECT AVG(age) as age FROM members</span>
+</pre></div>
+</div>
+<p><strong>$this-&gt;db-&gt;select_sum()</strong></p>
+<p>Writes a &#8220;SELECT SUM(field)&#8221; portion for your query. As with
+select_max(), You can optionally include a second parameter to rename
+the resulting field.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">select_sum</span><span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">);</span>
+<span class="nv">$query</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;members&#39;</span><span class="p">);</span> <span class="c1">// Produces: SELECT SUM(age) as age FROM members</span>
+</pre></div>
+</div>
+<p><strong>$this-&gt;db-&gt;from()</strong></p>
+<p>Permits you to write the FROM portion of your query:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">&#39;title, content, date&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">from</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">);</span>
+<span class="nv">$query</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">();</span>  <span class="c1">// Produces: SELECT title, content, date FROM mytable</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">As shown earlier, the FROM portion of your query can be specified
+in the $this-&gt;db-&gt;get() function, so use whichever method you prefer.</p>
+</div>
+<p><strong>$this-&gt;db-&gt;join()</strong></p>
+<p>Permits you to write the JOIN portion of your query:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">from</span><span class="p">(</span><span class="s1">&#39;blogs&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">join</span><span class="p">(</span><span class="s1">&#39;comments&#39;</span><span class="p">,</span> <span class="s1">&#39;comments.id = blogs.id&#39;</span><span class="p">);</span>
+<span class="nv">$query</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">();</span>
+
+<span class="c1">// Produces:</span>
+<span class="c1">// SELECT * FROM blogs JOIN comments ON comments.id = blogs.id</span>
+</pre></div>
+</div>
+<p>Multiple function calls can be made if you need several joins in one
+query.</p>
+<p>If you need a specific type of JOIN you can specify it via the third
+parameter of the function. Options are: left, right, outer, inner, left
+outer, and right outer.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">join</span><span class="p">(</span><span class="s1">&#39;comments&#39;</span><span class="p">,</span> <span class="s1">&#39;comments.id = blogs.id&#39;</span><span class="p">,</span> <span class="s1">&#39;left&#39;</span><span class="p">);</span>
+<span class="c1">// Produces: LEFT JOIN comments ON comments.id = blogs.id</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="looking-for-specific-data">
+<h2><a class="toc-backref" href="#id2">Looking for Specific Data</a><a class="headerlink" href="#looking-for-specific-data" title="Permalink to this headline">¶</a></h2>
+<p><strong>$this-&gt;db-&gt;where()</strong></p>
+<p>This function enables you to set <strong>WHERE</strong> clauses using one of four
+methods:</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All values passed to this function are escaped automatically,
+producing safer queries.</p>
+</div>
+<ol class="arabic">
+<li><p class="first"><strong>Simple key/value method:</strong></p>
+<blockquote>
+<div><div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="nv">$name</span><span class="p">);</span> <span class="c1">// Produces: WHERE name = &#39;Joe&#39;</span>
+</pre></div>
+</div>
+<p>Notice that the equal sign is added for you.</p>
+<p>If you use multiple function calls they will be chained together with
+AND between them:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="nv">$name</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="nv">$title</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="nv">$status</span><span class="p">);</span>
+<span class="c1">// WHERE name = &#39;Joe&#39; AND title = &#39;boss&#39; AND status = &#39;active&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>Custom key/value method:</strong></p>
+<blockquote>
+<div><p>You can include an operator in the first parameter in order to
+control the comparison:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;name !=&#39;</span><span class="p">,</span> <span class="nv">$name</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;id &lt;&#39;</span><span class="p">,</span> <span class="nv">$id</span><span class="p">);</span> <span class="c1">// Produces: WHERE name != &#39;Joe&#39; AND id &lt; 45</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>Associative array method:</strong></p>
+<blockquote>
+<div><div class="highlight-ci"><div class="highlight"><pre><span class="nv">$array</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="nv">$name</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="nv">$title</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span> <span class="o">=&gt;</span> <span class="nv">$status</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="nv">$array</span><span class="p">);</span>
+<span class="c1">// Produces: WHERE name = &#39;Joe&#39; AND title = &#39;boss&#39; AND status = &#39;active&#39;</span>
+</pre></div>
+</div>
+<p>You can include your own operators using this method as well:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$array</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;name !=&#39;</span> <span class="o">=&gt;</span> <span class="nv">$name</span><span class="p">,</span> <span class="s1">&#39;id &lt;&#39;</span> <span class="o">=&gt;</span> <span class="nv">$id</span><span class="p">,</span> <span class="s1">&#39;date &gt;&#39;</span> <span class="o">=&gt;</span> <span class="nv">$date</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="nv">$array</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><dl class="first docutils">
+<dt><strong>Custom string:</strong></dt>
+<dd><p class="first">You can write your own clauses manually:</p>
+<div class="last highlight-ci"><div class="highlight"><pre><span class="nv">$where</span> <span class="o">=</span> <span class="s2">&quot;name=&#39;Joe&#39; AND status=&#39;boss&#39; OR status=&#39;active&#39;&quot;</span><span class="p">;</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="nv">$where</span><span class="p">);</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+</ol>
+<p><tt class="docutils literal"><span class="pre">$this-&gt;db-&gt;where()</span></tt> accepts an optional third parameter. If you set it to
+FALSE, CodeIgniter will not try to protect your field or table names.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;MATCH (field) AGAINST (&quot;value&quot;)&#39;</span><span class="p">,</span> <span class="k">NULL</span><span class="p">,</span> <span class="k">FALSE</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><strong>$this-&gt;db-&gt;or_where()</strong></p>
+<p>This function is identical to the one above, except that multiple
+instances are joined by OR:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;name !=&#39;</span><span class="p">,</span> <span class="nv">$name</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">or_where</span><span class="p">(</span><span class="s1">&#39;id &gt;&#39;</span><span class="p">,</span> <span class="nv">$id</span><span class="p">);</span>  <span class="c1">// Produces: WHERE name != &#39;Joe&#39; OR id &gt; 50</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">or_where() was formerly known as orwhere(), which has been
+removed.</p>
+</div>
+<p><strong>$this-&gt;db-&gt;where_in()</strong></p>
+<p>Generates a WHERE field IN (&#8216;item&#8217;, &#8216;item&#8217;) SQL query joined with AND if
+appropriate</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$names</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;Frank&#39;</span><span class="p">,</span> <span class="s1">&#39;Todd&#39;</span><span class="p">,</span> <span class="s1">&#39;James&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">where_in</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="nv">$names</span><span class="p">);</span>
+<span class="c1">// Produces: WHERE username IN (&#39;Frank&#39;, &#39;Todd&#39;, &#39;James&#39;)</span>
+</pre></div>
+</div>
+<p><strong>$this-&gt;db-&gt;or_where_in()</strong></p>
+<p>Generates a WHERE field IN (&#8216;item&#8217;, &#8216;item&#8217;) SQL query joined with OR if
+appropriate</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$names</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;Frank&#39;</span><span class="p">,</span> <span class="s1">&#39;Todd&#39;</span><span class="p">,</span> <span class="s1">&#39;James&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">or_where_in</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="nv">$names</span><span class="p">);</span>
+<span class="c1">// Produces: OR username IN (&#39;Frank&#39;, &#39;Todd&#39;, &#39;James&#39;)</span>
+</pre></div>
+</div>
+<p><strong>$this-&gt;db-&gt;where_not_in()</strong></p>
+<p>Generates a WHERE field NOT IN (&#8216;item&#8217;, &#8216;item&#8217;) SQL query joined with
+AND if appropriate</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$names</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;Frank&#39;</span><span class="p">,</span> <span class="s1">&#39;Todd&#39;</span><span class="p">,</span> <span class="s1">&#39;James&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">where_not_in</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="nv">$names</span><span class="p">);</span>
+<span class="c1">// Produces: WHERE username NOT IN (&#39;Frank&#39;, &#39;Todd&#39;, &#39;James&#39;)</span>
+</pre></div>
+</div>
+<p><strong>$this-&gt;db-&gt;or_where_not_in()</strong></p>
+<p>Generates a WHERE field NOT IN (&#8216;item&#8217;, &#8216;item&#8217;) SQL query joined with OR
+if appropriate</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$names</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;Frank&#39;</span><span class="p">,</span> <span class="s1">&#39;Todd&#39;</span><span class="p">,</span> <span class="s1">&#39;James&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">or_where_not_in</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="nv">$names</span><span class="p">);</span>
+<span class="c1">// Produces: OR username NOT IN (&#39;Frank&#39;, &#39;Todd&#39;, &#39;James&#39;)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="looking-for-similar-data">
+<h2><a class="toc-backref" href="#id3">Looking for Similar Data</a><a class="headerlink" href="#looking-for-similar-data" title="Permalink to this headline">¶</a></h2>
+<p><strong>$this-&gt;db-&gt;like()</strong></p>
+<p>This method enables you to generate <strong>LIKE</strong> clauses, useful for doing
+searches.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All values passed to this method are escaped automatically.</p>
+</div>
+<ol class="arabic">
+<li><p class="first"><strong>Simple key/value method:</strong></p>
+<blockquote>
+<div><div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">like</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;match&#39;</span><span class="p">);</span>
+<span class="c1">// Produces: WHERE `title` LIKE &#39;%match%&#39; ESCAPE &#39;!&#39;</span>
+</pre></div>
+</div>
+<p>If you use multiple method calls they will be chained together with
+AND between them:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">like</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;match&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">like</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="s1">&#39;match&#39;</span><span class="p">);</span>
+<span class="c1">// WHERE `title` LIKE &#39;%match%&#39; ESCAPE &#39;!&#39; AND  `body` LIKE &#39;%match% ESCAPE &#39;!&#39;</span>
+</pre></div>
+</div>
+<p>If you want to control where the wildcard (%) is placed, you can use
+an optional third argument. Your options are &#8216;before&#8217;, &#8216;after&#8217; and
+&#8216;both&#8217; (which is the default).</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">like</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;match&#39;</span><span class="p">,</span> <span class="s1">&#39;before&#39;</span><span class="p">);</span>    <span class="c1">// Produces: WHERE `title` LIKE &#39;%match&#39; ESCAPE &#39;!&#39;</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">like</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;match&#39;</span><span class="p">,</span> <span class="s1">&#39;after&#39;</span><span class="p">);</span>     <span class="c1">// Produces: WHERE `title` LIKE &#39;match%&#39; ESCAPE &#39;!&#39;</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">like</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;match&#39;</span><span class="p">,</span> <span class="s1">&#39;both&#39;</span><span class="p">);</span>      <span class="c1">// Produces: WHERE `title` LIKE &#39;%match%&#39; ESCAPE &#39;!&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>Associative array method:</strong></p>
+<blockquote>
+<div><div class="highlight-ci"><div class="highlight"><pre><span class="nv">$array</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="nv">$match</span><span class="p">,</span> <span class="s1">&#39;page1&#39;</span> <span class="o">=&gt;</span> <span class="nv">$match</span><span class="p">,</span> <span class="s1">&#39;page2&#39;</span> <span class="o">=&gt;</span> <span class="nv">$match</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">like</span><span class="p">(</span><span class="nv">$array</span><span class="p">);</span>
+<span class="c1">// WHERE `title` LIKE &#39;%match%&#39; ESCAPE &#39;!&#39; AND  `page1` LIKE &#39;%match%&#39; ESCAPE &#39;!&#39; AND  `page2` LIKE &#39;%match%&#39; ESCAPE &#39;!&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+<p><strong>$this-&gt;db-&gt;or_like()</strong></p>
+<p>This method is identical to the one above, except that multiple
+instances are joined by OR:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">like</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;match&#39;</span><span class="p">);</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">or_like</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="nv">$match</span><span class="p">);</span>
+<span class="c1">// WHERE `title` LIKE &#39;%match%&#39; ESCAPE &#39;!&#39; OR  `body` LIKE &#39;%match%&#39; ESCAPE &#39;!&#39;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><tt class="docutils literal"><span class="pre">or_like()</span></tt> was formerly known as <tt class="docutils literal"><span class="pre">orlike()</span></tt>, which has been removed.</p>
+</div>
+<p><strong>$this-&gt;db-&gt;not_like()</strong></p>
+<p>This method is identical to <tt class="docutils literal"><span class="pre">like()</span></tt>, except that it generates
+NOT LIKE statements:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">not_like</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;match&#39;</span><span class="p">);</span>  <span class="c1">// WHERE `title` NOT LIKE &#39;%match% ESCAPE &#39;!&#39;</span>
+</pre></div>
+</div>
+<p><strong>$this-&gt;db-&gt;or_not_like()</strong></p>
+<p>This method is identical to <tt class="docutils literal"><span class="pre">not_like()</span></tt>, except that multiple
+instances are joined by OR:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">like</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;match&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">or_not_like</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="s1">&#39;match&#39;</span><span class="p">);</span>
+<span class="c1">// WHERE `title` LIKE &#39;%match% OR  `body` NOT LIKE &#39;%match%&#39; ESCAPE &#39;!&#39;</span>
+</pre></div>
+</div>
+<p><strong>$this-&gt;db-&gt;group_by()</strong></p>
+<p>Permits you to write the GROUP BY portion of your query:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">group_by</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">);</span> <span class="c1">// Produces: GROUP BY title</span>
+</pre></div>
+</div>
+<p>You can also pass an array of multiple values as well:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">group_by</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;date&quot;</span><span class="p">));</span>  <span class="c1">// Produces: GROUP BY title, date</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">group_by() was formerly known as groupby(), which has been
+removed.</p>
+</div>
+<p><strong>$this-&gt;db-&gt;distinct()</strong></p>
+<p>Adds the &#8220;DISTINCT&#8221; keyword to a query</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">distinct</span><span class="p">();</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;table&#39;</span><span class="p">);</span> <span class="c1">// Produces: SELECT DISTINCT * FROM table</span>
+</pre></div>
+</div>
+<p><strong>$this-&gt;db-&gt;having()</strong></p>
+<p>Permits you to write the HAVING portion of your query. There are 2
+possible syntaxes, 1 argument or 2:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">having</span><span class="p">(</span><span class="s1">&#39;user_id = 45&#39;</span><span class="p">);</span>  <span class="c1">// Produces: HAVING user_id = 45</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">having</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">,</span>  <span class="mi">45</span><span class="p">);</span>  <span class="c1">// Produces: HAVING user_id = 45</span>
+</pre></div>
+</div>
+<p>You can also pass an array of multiple values as well:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">having</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;title =&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;My Title&#39;</span><span class="p">,</span> <span class="s1">&#39;id &lt;&#39;</span> <span class="o">=&gt;</span> <span class="nv">$id</span><span class="p">));</span>
+<span class="c1">// Produces: HAVING title = &#39;My Title&#39;, id &lt; 45</span>
+</pre></div>
+</div>
+<p>If you are using a database that CodeIgniter escapes queries for, you
+can prevent escaping content by passing an optional third argument, and
+setting it to FALSE.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">having</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">,</span>  <span class="mi">45</span><span class="p">);</span>  <span class="c1">// Produces: HAVING `user_id` = 45 in some databases such as MySQL</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">having</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">,</span>  <span class="mi">45</span><span class="p">,</span> <span class="k">FALSE</span><span class="p">);</span>  <span class="c1">// Produces: HAVING user_id = 45</span>
+</pre></div>
+</div>
+<p><strong>$this-&gt;db-&gt;or_having()</strong></p>
+<p>Identical to having(), only separates multiple clauses with &#8220;OR&#8221;.</p>
+</div>
+<div class="section" id="ordering-results">
+<h2><a class="toc-backref" href="#id4">Ordering results</a><a class="headerlink" href="#ordering-results" title="Permalink to this headline">¶</a></h2>
+<p><strong>$this-&gt;db-&gt;order_by()</strong></p>
+<p>Lets you set an ORDER BY clause.</p>
+<p>The first parameter contains the name of the column you would like to order by.</p>
+<p>The second parameter lets you set the direction of the result.
+Options are <strong>ASC</strong>, <strong>DESC</strong> AND <strong>RANDOM</strong>.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">order_by</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;DESC&#39;</span><span class="p">);</span>
+<span class="c1">// Produces: ORDER BY `title` DESC</span>
+</pre></div>
+</div>
+<p>You can also pass your own string in the first parameter:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">order_by</span><span class="p">(</span><span class="s1">&#39;title DESC, name ASC&#39;</span><span class="p">);</span>
+<span class="c1">// Produces: ORDER BY `title` DESC, `name` ASC</span>
+</pre></div>
+</div>
+<p>Or multiple function calls can be made if you need multiple fields.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">order_by</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;DESC&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">order_by</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;ASC&#39;</span><span class="p">);</span>
+<span class="c1">// Produces: ORDER BY `title` DESC, `name` ASC</span>
+</pre></div>
+</div>
+<p>If you choose the <strong>RANDOM</strong> direction option, then the first parameters will
+be ignored, unless you specify a numeric seed value.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">order_by</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;RANDOM&#39;</span><span class="p">);</span>
+<span class="c1">// Produces: ORDER BY RAND()</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">order_by</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="s1">&#39;RANDOM&#39;</span><span class="p">);</span>
+<span class="c1">// Produces: ORDER BY RAND(42)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">order_by() was formerly known as orderby(), which has been
+removed.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Random ordering is not currently supported in Oracle and
+will default to ASC instead.</p>
+</div>
+</div>
+<div class="section" id="limiting-or-counting-results">
+<h2><a class="toc-backref" href="#id5">Limiting or Counting Results</a><a class="headerlink" href="#limiting-or-counting-results" title="Permalink to this headline">¶</a></h2>
+<p><strong>$this-&gt;db-&gt;limit()</strong></p>
+<p>Lets you limit the number of rows you would like returned by the query:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>  <span class="c1">// Produces: LIMIT 10</span>
+</pre></div>
+</div>
+<p>The second parameter lets you set a result offset.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>  <span class="c1">// Produces: LIMIT 20, 10 (in MySQL.  Other databases have slightly different syntax)</span>
+</pre></div>
+</div>
+<p><strong>$this-&gt;db-&gt;count_all_results()</strong></p>
+<p>Permits you to determine the number of rows in a particular Active
+Record query. Queries will accept Query Builder restrictors such as
+where(), or_where(), like(), or_like(), etc. Example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">count_all_results</span><span class="p">(</span><span class="s1">&#39;my_table&#39;</span><span class="p">);</span>  <span class="c1">// Produces an integer, like 25</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">like</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;match&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">from</span><span class="p">(</span><span class="s1">&#39;my_table&#39;</span><span class="p">);</span>
+<span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">count_all_results</span><span class="p">();</span> <span class="c1">// Produces an integer, like 17</span>
+</pre></div>
+</div>
+<p><strong>$this-&gt;db-&gt;count_all()</strong></p>
+<p>Permits you to determine the number of rows in a particular table.
+Submit the table name in the first parameter. Example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">count_all</span><span class="p">(</span><span class="s1">&#39;my_table&#39;</span><span class="p">);</span>  <span class="c1">// Produces an integer, like 25</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="query-grouping">
+<h2><a class="toc-backref" href="#id6">Query grouping</a><a class="headerlink" href="#query-grouping" title="Permalink to this headline">¶</a></h2>
+<p>Query grouping allows you to create groups of WHERE clauses by enclosing them in parentheses. This will allow
+you to create queries with complex WHERE clauses. Nested groups are supported. Example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">from</span><span class="p">(</span><span class="s1">&#39;my_table&#39;</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="na">group_start</span><span class="p">()</span>
+                <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span>
+                <span class="o">-&gt;</span><span class="na">or_group_start</span><span class="p">()</span>
+                        <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">)</span>
+                        <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span>
+                <span class="o">-&gt;</span><span class="na">group_end</span><span class="p">()</span>
+        <span class="o">-&gt;</span><span class="na">group_end</span><span class="p">()</span>
+        <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">)</span>
+<span class="o">-&gt;</span><span class="na">get</span><span class="p">();</span>
+
+<span class="c1">// Generates:</span>
+<span class="c1">// SELECT * FROM (`my_table`) WHERE ( `a` = &#39;a&#39; OR ( `b` = &#39;b&#39; AND `c` = &#39;c&#39; ) ) AND `d` = &#39;d&#39;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">groups need to be balanced, make sure every group_start() is matched by a group_end().</p>
+</div>
+<p><strong>$this-&gt;db-&gt;group_start()</strong></p>
+<p>Starts a new group by adding an opening parenthesis to the WHERE clause of the query.</p>
+<p><strong>$this-&gt;db-&gt;or_group_start()</strong></p>
+<p>Starts a new group by adding an opening parenthesis to the WHERE clause of the query, prefixing it with &#8216;OR&#8217;.</p>
+<p><strong>$this-&gt;db-&gt;not_group_start()</strong></p>
+<p>Starts a new group by adding an opening parenthesis to the WHERE clause of the query, prefixing it with &#8216;NOT&#8217;.</p>
+<p><strong>$this-&gt;db-&gt;or_not_group_start()</strong></p>
+<p>Starts a new group by adding an opening parenthesis to the WHERE clause of the query, prefixing it with &#8216;OR NOT&#8217;.</p>
+<p><strong>$this-&gt;db-&gt;group_end()</strong></p>
+<p>Ends the current group by adding an closing parenthesis to the WHERE clause of the query.</p>
+</div>
+<div class="section" id="inserting-data">
+<h2><a class="toc-backref" href="#id7">Inserting Data</a><a class="headerlink" href="#inserting-data" title="Permalink to this headline">¶</a></h2>
+<p><strong>$this-&gt;db-&gt;insert()</strong></p>
+<p>Generates an insert string based on the data you supply, and runs the
+query. You can either pass an <strong>array</strong> or an <strong>object</strong> to the
+function. Here is an example using an array:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;My title&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;My Name&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;date&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;My date&#39;</span>
+<span class="p">);</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">insert</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">,</span> <span class="nv">$data</span><span class="p">);</span>
+<span class="c1">// Produces: INSERT INTO mytable (title, name, date) VALUES (&#39;My title&#39;, &#39;My name&#39;, &#39;My date&#39;)</span>
+</pre></div>
+</div>
+<p>The first parameter will contain the table name, the second is an
+associative array of values.</p>
+<p>Here is an example using an object:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="cm">/*</span>
+<span class="cm">class Myclass {</span>
+<span class="cm">        public $title = &#39;My Title&#39;;</span>
+<span class="cm">        public $content = &#39;My Content&#39;;</span>
+<span class="cm">        public $date = &#39;My Date&#39;;</span>
+<span class="cm">}</span>
+<span class="cm">*/</span>
+
+<span class="nv">$object</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Myclass</span><span class="p">;</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">insert</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">,</span> <span class="nv">$object</span><span class="p">);</span>
+<span class="c1">// Produces: INSERT INTO mytable (title, content, date) VALUES (&#39;My Title&#39;, &#39;My Content&#39;, &#39;My Date&#39;)</span>
+</pre></div>
+</div>
+<p>The first parameter will contain the table name, the second is an
+object.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All values are escaped automatically producing safer queries.</p>
+</div>
+<p><strong>$this-&gt;db-&gt;get_compiled_insert()</strong></p>
+<p>Compiles the insertion query just like $this-&gt;db-&gt;insert() but does not
+<em>run</em> the query. This method simply returns the SQL query as a string.</p>
+<p>Example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;My title&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;name&#39;</span>  <span class="o">=&gt;</span> <span class="s1">&#39;My Name&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;date&#39;</span>  <span class="o">=&gt;</span> <span class="s1">&#39;My date&#39;</span>
+<span class="p">);</span>
+
+<span class="nv">$sql</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="nv">$data</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get_compiled_insert</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">);</span>
+<span class="k">echo</span> <span class="nv">$sql</span><span class="p">;</span>
+
+<span class="c1">// Produces string: INSERT INTO mytable (title, name, date) VALUES (&#39;My title&#39;, &#39;My name&#39;, &#39;My date&#39;)</span>
+</pre></div>
+</div>
+<p>The second parameter enables you to set whether or not the query builder query
+will be reset (by default it will be&#8211;just like $this-&gt;db-&gt;insert()):</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;My Title&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get_compiled_insert</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">,</span> <span class="k">FALSE</span><span class="p">);</span>
+
+<span class="c1">// Produces string: INSERT INTO mytable (title) VALUES (&#39;My Title&#39;)</span>
+
+<span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">,</span> <span class="s1">&#39;My Content&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get_compiled_insert</span><span class="p">();</span>
+
+<span class="c1">// Produces string: INSERT INTO mytable (title, content) VALUES (&#39;My Title&#39;, &#39;My Content&#39;)</span>
+</pre></div>
+</div>
+<p>The key thing to notice in the above example is that the second query did not
+utlize <cite>$this-&gt;db-&gt;from()</cite> nor did it pass a table name into the first
+parameter. The reason this worked is because the query has not been executed
+using <cite>$this-&gt;db-&gt;insert()</cite> which resets values or reset directly using
+<cite>$this-&gt;db-&gt;reset_query()</cite>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method doesn&#8217;t work for batched inserts.</p>
+</div>
+<p><strong>$this-&gt;db-&gt;insert_batch()</strong></p>
+<p>Generates an insert string based on the data you supply, and runs the
+query. You can either pass an <strong>array</strong> or an <strong>object</strong> to the
+function. Here is an example using an array:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="k">array</span><span class="p">(</span>
+                <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;My title&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;My Name&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;date&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;My date&#39;</span>
+        <span class="p">),</span>
+        <span class="k">array</span><span class="p">(</span>
+                <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Another title&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Another Name&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;date&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Another date&#39;</span>
+        <span class="p">)</span>
+<span class="p">);</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">insert_batch</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">,</span> <span class="nv">$data</span><span class="p">);</span>
+<span class="c1">// Produces: INSERT INTO mytable (title, name, date) VALUES (&#39;My title&#39;, &#39;My name&#39;, &#39;My date&#39;),  (&#39;Another title&#39;, &#39;Another name&#39;, &#39;Another date&#39;)</span>
+</pre></div>
+</div>
+<p>The first parameter will contain the table name, the second is an
+associative array of values.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All values are escaped automatically producing safer queries.</p>
+</div>
+</div>
+<div class="section" id="updating-data">
+<h2><a class="toc-backref" href="#id8">Updating Data</a><a class="headerlink" href="#updating-data" title="Permalink to this headline">¶</a></h2>
+<p><strong>$this-&gt;db-&gt;replace()</strong></p>
+<p>This method executes a REPLACE statement, which is basically the SQL
+standard for (optional) DELETE + INSERT, using <em>PRIMARY</em> and <em>UNIQUE</em>
+keys as the determining factor.
+In our case, it will save you from the need to implement complex
+logics with different combinations of  <tt class="docutils literal"><span class="pre">select()</span></tt>, <tt class="docutils literal"><span class="pre">update()</span></tt>,
+<tt class="docutils literal"><span class="pre">delete()</span></tt> and <tt class="docutils literal"><span class="pre">insert()</span></tt> calls.</p>
+<p>Example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;My title&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;name&#39;</span>  <span class="o">=&gt;</span> <span class="s1">&#39;My Name&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;date&#39;</span>  <span class="o">=&gt;</span> <span class="s1">&#39;My date&#39;</span>
+<span class="p">);</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">replace</span><span class="p">(</span><span class="s1">&#39;table&#39;</span><span class="p">,</span> <span class="nv">$data</span><span class="p">);</span>
+
+<span class="c1">// Executes: REPLACE INTO mytable (title, name, date) VALUES (&#39;My title&#39;, &#39;My name&#39;, &#39;My date&#39;)</span>
+</pre></div>
+</div>
+<p>In the above example, if we assume that the <em>title</em> field is our primary
+key, then if a row containing &#8216;My title&#8217; as the <em>title</em> value, that row
+will be deleted with our new row data replacing it.</p>
+<p>Usage of the <tt class="docutils literal"><span class="pre">set()</span></tt> method is also allowed and all fields are
+automatically escaped, just like with <tt class="docutils literal"><span class="pre">insert()</span></tt>.</p>
+<p><strong>$this-&gt;db-&gt;set()</strong></p>
+<p>This function enables you to set values for inserts or updates.</p>
+<p><strong>It can be used instead of passing a data array directly to the insert
+or update functions:</strong></p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="nv">$name</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">insert</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">);</span>  <span class="c1">// Produces: INSERT INTO mytable (name) VALUES (&#39;{$name}&#39;)</span>
+</pre></div>
+</div>
+<p>If you use multiple function called they will be assembled properly
+based on whether you are doing an insert or an update:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="nv">$name</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="nv">$title</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="nv">$status</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">insert</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><strong>set()</strong> will also accept an optional third parameter ($escape), that
+will prevent data from being escaped if set to FALSE. To illustrate the
+difference, here is set() used both with and without the escape
+parameter.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;field&#39;</span><span class="p">,</span> <span class="s1">&#39;field+1&#39;</span><span class="p">,</span> <span class="k">FALSE</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">insert</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">);</span> <span class="c1">// gives INSERT INTO mytable (field) VALUES (field+1)</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;field&#39;</span><span class="p">,</span> <span class="s1">&#39;field+1&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">insert</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">);</span> <span class="c1">// gives INSERT INTO mytable (field) VALUES (&#39;field+1&#39;)</span>
+</pre></div>
+</div>
+<p>You can also pass an associative array to this function:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$array</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="nv">$name</span><span class="p">,</span>
+        <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="nv">$title</span><span class="p">,</span>
+        <span class="s1">&#39;status&#39;</span> <span class="o">=&gt;</span> <span class="nv">$status</span>
+<span class="p">);</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="nv">$array</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">insert</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Or an object:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="cm">/*</span>
+<span class="cm">class Myclass {</span>
+<span class="cm">        public $title = &#39;My Title&#39;;</span>
+<span class="cm">        public $content = &#39;My Content&#39;;</span>
+<span class="cm">        public $date = &#39;My Date&#39;;</span>
+<span class="cm">}</span>
+<span class="cm">*/</span>
+
+<span class="nv">$object</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Myclass</span><span class="p">;</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="nv">$object</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">insert</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><strong>$this-&gt;db-&gt;update()</strong></p>
+<p>Generates an update string and runs the query based on the data you
+supply. You can pass an <strong>array</strong> or an <strong>object</strong> to the function. Here
+is an example using an array:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="nv">$title</span><span class="p">,</span>
+        <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="nv">$name</span><span class="p">,</span>
+        <span class="s1">&#39;date&#39;</span> <span class="o">=&gt;</span> <span class="nv">$date</span>
+<span class="p">);</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="nv">$id</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">update</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">,</span> <span class="nv">$data</span><span class="p">);</span>
+<span class="c1">// Produces: // UPDATE mytable  // SET title = &#39;{$title}&#39;, name = &#39;{$name}&#39;, date = &#39;{$date}&#39; // WHERE id = $id</span>
+</pre></div>
+</div>
+<p>Or you can supply an object:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="cm">/*</span>
+<span class="cm">class Myclass {</span>
+<span class="cm">        public $title = &#39;My Title&#39;;</span>
+<span class="cm">        public $content = &#39;My Content&#39;;</span>
+<span class="cm">        public $date = &#39;My Date&#39;;</span>
+<span class="cm">}</span>
+<span class="cm">*/</span>
+
+<span class="nv">$object</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Myclass</span><span class="p">;</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="nv">$id</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">update</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">,</span> <span class="nv">$object</span><span class="p">);</span>
+<span class="c1">// Produces: // UPDATE mytable  // SET title = &#39;{$title}&#39;, name = &#39;{$name}&#39;, date = &#39;{$date}&#39; // WHERE id = $id</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All values are escaped automatically producing safer queries.</p>
+</div>
+<p>You&#8217;ll notice the use of the $this-&gt;db-&gt;where() function, enabling you
+to set the WHERE clause. You can optionally pass this information
+directly into the update function as a string:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">update</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">,</span> <span class="nv">$data</span><span class="p">,</span> <span class="s2">&quot;id = 4&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Or as an array:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">update</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">,</span> <span class="nv">$data</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;id&#39;</span> <span class="o">=&gt;</span> <span class="nv">$id</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>You may also use the $this-&gt;db-&gt;set() function described above when
+performing updates.</p>
+<p><strong>$this-&gt;db-&gt;update_batch()</strong></p>
+<p>Generates an update string based on the data you supply, and runs the query.
+You can either pass an <strong>array</strong> or an <strong>object</strong> to the function.
+Here is an example using an array:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+   <span class="k">array</span><span class="p">(</span>
+      <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;My title&#39;</span> <span class="p">,</span>
+      <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;My Name 2&#39;</span> <span class="p">,</span>
+      <span class="s1">&#39;date&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;My date 2&#39;</span>
+   <span class="p">),</span>
+   <span class="k">array</span><span class="p">(</span>
+      <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Another title&#39;</span> <span class="p">,</span>
+      <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Another Name 2&#39;</span> <span class="p">,</span>
+      <span class="s1">&#39;date&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Another date 2&#39;</span>
+   <span class="p">)</span>
+<span class="p">);</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">update_batch</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">,</span> <span class="nv">$data</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">);</span>
+
+<span class="c1">// Produces:</span>
+<span class="c1">// UPDATE `mytable` SET `name` = CASE</span>
+<span class="c1">// WHEN `title` = &#39;My title&#39; THEN &#39;My Name 2&#39;</span>
+<span class="c1">// WHEN `title` = &#39;Another title&#39; THEN &#39;Another Name 2&#39;</span>
+<span class="c1">// ELSE `name` END,</span>
+<span class="c1">// `date` = CASE</span>
+<span class="c1">// WHEN `title` = &#39;My title&#39; THEN &#39;My date 2&#39;</span>
+<span class="c1">// WHEN `title` = &#39;Another title&#39; THEN &#39;Another date 2&#39;</span>
+<span class="c1">// ELSE `date` END</span>
+<span class="c1">// WHERE `title` IN (&#39;My title&#39;,&#39;Another title&#39;)</span>
+</pre></div>
+</div>
+<p>The first parameter will contain the table name, the second is an associative
+array of values, the third parameter is the where key.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All values are escaped automatically producing safer queries.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><tt class="docutils literal"><span class="pre">affected_rows()</span></tt> won&#8217;t give you proper results with this method,
+due to the very nature of how it works. Instead, <tt class="docutils literal"><span class="pre">update_batch()</span></tt>
+returns the number of rows affected.</p>
+</div>
+<p><strong>$this-&gt;db-&gt;get_compiled_update()</strong></p>
+<p>This works exactly the same way as <tt class="docutils literal"><span class="pre">$this-&gt;db-&gt;get_compiled_insert()</span></tt> except
+that it produces an UPDATE SQL string instead of an INSERT SQL string.</p>
+<p>For more information view documentation for <cite>$this-&gt;db-&gt;get_compiled_insert()</cite>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method doesn&#8217;t work for batched updates.</p>
+</div>
+</div>
+<div class="section" id="deleting-data">
+<h2><a class="toc-backref" href="#id9">Deleting Data</a><a class="headerlink" href="#deleting-data" title="Permalink to this headline">¶</a></h2>
+<p><strong>$this-&gt;db-&gt;delete()</strong></p>
+<p>Generates a delete SQL string and runs the query.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;id&#39;</span> <span class="o">=&gt;</span> <span class="nv">$id</span><span class="p">));</span>  <span class="c1">// Produces: // DELETE FROM mytable  // WHERE id = $id</span>
+</pre></div>
+</div>
+<p>The first parameter is the table name, the second is the where clause.
+You can also use the where() or or_where() functions instead of passing
+the data to the second parameter of the function:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="nv">$id</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">);</span>
+
+<span class="c1">// Produces:</span>
+<span class="c1">// DELETE FROM mytable</span>
+<span class="c1">// WHERE id = $id</span>
+</pre></div>
+</div>
+<p>An array of table names can be passed into delete() if you would like to
+delete data from more than 1 table.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$tables</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;table1&#39;</span><span class="p">,</span> <span class="s1">&#39;table2&#39;</span><span class="p">,</span> <span class="s1">&#39;table3&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">(</span><span class="nv">$tables</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>If you want to delete all data from a table, you can use the truncate()
+function, or empty_table().</p>
+<p><strong>$this-&gt;db-&gt;empty_table()</strong></p>
+<p>Generates a delete SQL string and runs the
+query.:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">empty_table</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">);</span> <span class="c1">// Produces: DELETE FROM mytable</span>
+</pre></div>
+</div>
+<p><strong>$this-&gt;db-&gt;truncate()</strong></p>
+<p>Generates a truncate SQL string and runs the query.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">from</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">truncate</span><span class="p">();</span>
+
+<span class="c1">// or</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">truncate</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">);</span>
+
+<span class="c1">// Produce:</span>
+<span class="c1">// TRUNCATE mytable</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the TRUNCATE command isn&#8217;t available, truncate() will
+execute as &#8220;DELETE FROM table&#8221;.</p>
+</div>
+<p><strong>$this-&gt;db-&gt;get_compiled_delete()</strong></p>
+<p>This works exactly the same way as <tt class="docutils literal"><span class="pre">$this-&gt;db-&gt;get_compiled_insert()</span></tt> except
+that it produces a DELETE SQL string instead of an INSERT SQL string.</p>
+<p>For more information view documentation for $this-&gt;db-&gt;get_compiled_insert().</p>
+</div>
+<div class="section" id="method-chaining">
+<h2><a class="toc-backref" href="#id10">Method Chaining</a><a class="headerlink" href="#method-chaining" title="Permalink to this headline">¶</a></h2>
+<p>Method chaining allows you to simplify your syntax by connecting
+multiple functions. Consider this example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$query</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">)</span>
+                <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="nv">$id</span><span class="p">)</span>
+                <span class="o">-&gt;</span><span class="na">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+                <span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="query-builder-caching">
+<span id="ar-caching"></span><h2><a class="toc-backref" href="#id11">Query Builder Caching</a><a class="headerlink" href="#query-builder-caching" title="Permalink to this headline">¶</a></h2>
+<p>While not &#8220;true&#8221; caching, Query Builder enables you to save (or &#8220;cache&#8221;)
+certain parts of your queries for reuse at a later point in your
+script&#8217;s execution. Normally, when an Query Builder call is completed,
+all stored information is reset for the next call. With caching, you can
+prevent this reset, and reuse information easily.</p>
+<p>Cached calls are cumulative. If you make 2 cached select() calls, and
+then 2 uncached select() calls, this will result in 4 select() calls.
+There are three Caching functions available:</p>
+<p><strong>$this-&gt;db-&gt;start_cache()</strong></p>
+<p>This function must be called to begin caching. All Query Builder queries
+of the correct type (see below for supported queries) are stored for
+later use.</p>
+<p><strong>$this-&gt;db-&gt;stop_cache()</strong></p>
+<p>This function can be called to stop caching.</p>
+<p><strong>$this-&gt;db-&gt;flush_cache()</strong></p>
+<p>This function deletes all items from the Query Builder cache.</p>
+<div class="section" id="an-example-of-caching">
+<h3>An example of caching<a class="headerlink" href="#an-example-of-caching" title="Permalink to this headline">¶</a></h3>
+<p>Here&#8217;s a usage example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">start_cache</span><span class="p">();</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">&#39;field1&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">stop_cache</span><span class="p">();</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;tablename&#39;</span><span class="p">);</span>
+<span class="c1">//Generates: SELECT `field1` FROM (`tablename`)</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">&#39;field2&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;tablename&#39;</span><span class="p">);</span>
+<span class="c1">//Generates:  SELECT `field1`, `field2` FROM (`tablename`)</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">flush_cache</span><span class="p">();</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">&#39;field2&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;tablename&#39;</span><span class="p">);</span>
+<span class="c1">//Generates:  SELECT `field2` FROM (`tablename`)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The following statements can be cached: select, from, join,
+where, like, group_by, having, order_by, set</p>
+</div>
+</div>
+</div>
+<div class="section" id="resetting-query-builder">
+<h2><a class="toc-backref" href="#id12">Resetting Query Builder</a><a class="headerlink" href="#resetting-query-builder" title="Permalink to this headline">¶</a></h2>
+<p><strong>$this-&gt;db-&gt;reset_query()</strong></p>
+<p>Resetting Query Builder allows you to start fresh with your query without
+executing it first using a method like $this-&gt;db-&gt;get() or $this-&gt;db-&gt;insert().
+Just like the methods that execute a query, this will <em>not</em> reset items you&#8217;ve
+cached using <a class="reference internal" href="#query-builder-caching">Query Builder Caching</a>.</p>
+<p>This is useful in situations where you are using Query Builder to generate SQL
+(ex. <tt class="docutils literal"><span class="pre">$this-&gt;db-&gt;get_compiled_select()</span></tt>) but then choose to, for instance,
+run the query:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="c1">// Note that the second parameter of the get_compiled_select method is FALSE</span>
+<span class="nv">$sql</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;field1&#39;</span><span class="p">,</span><span class="s1">&#39;field2&#39;</span><span class="p">))</span>
+                                <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;field3&#39;</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+                                <span class="o">-&gt;</span><span class="na">get_compiled_select</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">,</span> <span class="k">FALSE</span><span class="p">);</span>
+
+<span class="c1">// ...</span>
+<span class="c1">// Do something crazy with the SQL code... like add it to a cron script for</span>
+<span class="c1">// later execution or something...</span>
+<span class="c1">// ...</span>
+
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">result_array</span><span class="p">();</span>
+
+<span class="c1">// Would execute and return an array of results of the following query:</span>
+<span class="c1">// SELECT field1, field1 from mytable where field3 = 5;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Double calls to <tt class="docutils literal"><span class="pre">get_compiled_select()</span></tt> while you&#8217;re using the
+Query Builder Caching functionality and NOT resetting your queries
+will results in the cache being merged twice. That in turn will
+i.e. if you&#8217;re caching a <tt class="docutils literal"><span class="pre">select()</span></tt> - select the same field twice.</p>
+</div>
+</div>
+<div class="section" id="class-reference">
+<h2><a class="toc-backref" href="#id13">Class Reference</a><a class="headerlink" href="#class-reference" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="CI_DB_query_builder">
+<em class="property">class </em><tt class="descname">CI_DB_query_builder</tt><a class="headerlink" href="#CI_DB_query_builder" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="CI_DB_query_builder::reset_query">
+<tt class="descname">reset_query</tt><big>(</big><big>)</big><a class="headerlink" href="#CI_DB_query_builder::reset_query" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">CI_DB_query_builder instance (method chaining)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">CI_DB_query_builder</td>
+</tr>
+</tbody>
+</table>
+<p>Resets the current Query Builder state.  Useful when you want
+to build a query that can be cancelled under certain conditions.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::start_cache">
+<tt class="descname">start_cache</tt><big>(</big><big>)</big><a class="headerlink" href="#CI_DB_query_builder::start_cache" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">CI_DB_query_builder instance (method chaining)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">CI_DB_query_builder</td>
+</tr>
+</tbody>
+</table>
+<p>Starts the Query Builder cache.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::stop_cache">
+<tt class="descname">stop_cache</tt><big>(</big><big>)</big><a class="headerlink" href="#CI_DB_query_builder::stop_cache" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">CI_DB_query_builder instance (method chaining)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">CI_DB_query_builder</td>
+</tr>
+</tbody>
+</table>
+<p>Stops the Query Builder cache.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::flush_cache">
+<tt class="descname">flush_cache</tt><big>(</big><big>)</big><a class="headerlink" href="#CI_DB_query_builder::flush_cache" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">CI_DB_query_builder instance (method chaining)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">CI_DB_query_builder</td>
+</tr>
+</tbody>
+</table>
+<p>Empties the Query Builder cache.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::set_dbprefix">
+<tt class="descname">set_dbprefix</tt><big>(</big><span class="optional">[</span><em>$prefix = ''</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::set_dbprefix" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$prefix</strong> (<em>string</em>) &#8211; The new prefix to use</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The DB prefix in use</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Sets the database prefix, without having to reconnect.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::dbprefix">
+<tt class="descname">dbprefix</tt><big>(</big><span class="optional">[</span><em>$table = ''</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::dbprefix" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$table</strong> (<em>string</em>) &#8211; The table name to prefix</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The prefixed table name</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Prepends a database prefix, if one exists in configuration.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::count_all_results">
+<tt class="descname">count_all_results</tt><big>(</big><span class="optional">[</span><em>$table = ''</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::count_all_results" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$table</strong> (<em>string</em>) &#8211; Table name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Number of rows in the query result</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Generates a platform-specific query string that counts
+all records returned by an Query Builder query.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::get">
+<tt class="descname">get</tt><big>(</big><span class="optional">[</span><em>$table = ''</em><span class="optional">[</span>, <em>$limit = NULL</em><span class="optional">[</span>, <em>$offset = NULL</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::get" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$table</strong> (<em>string</em>) &#8211; The table to query</li>
+<li><strong>$limit</strong> (<em>int</em>) &#8211; The LIMIT clause</li>
+<li><strong>$offset</strong> (<em>int</em>) &#8211; The OFFSET clause</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_DB_result instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_DB_result</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Compiles and runs SELECT statement based on the already
+called Query Builder methods.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::get_where">
+<tt class="descname">get_where</tt><big>(</big><span class="optional">[</span><em>$table = ''</em><span class="optional">[</span>, <em>$where = NULL</em><span class="optional">[</span>, <em>$limit = NULL</em><span class="optional">[</span>, <em>$offset = NULL</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::get_where" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$table</strong> (<em>mixed</em>) &#8211; The table(s) to fetch data from; string or array</li>
+<li><strong>$where</strong> (<em>string</em>) &#8211; The WHERE clause</li>
+<li><strong>$limit</strong> (<em>int</em>) &#8211; The LIMIT clause</li>
+<li><strong>$offset</strong> (<em>int</em>) &#8211; The OFFSET clause</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_DB_result instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_DB_result</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Same as <tt class="docutils literal"><span class="pre">get()</span></tt>, but also allows the WHERE to be added directly.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::select">
+<tt class="descname">select</tt><big>(</big><span class="optional">[</span><em>$select = '*'</em><span class="optional">[</span>, <em>$escape = NULL</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::select" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$select</strong> (<em>string</em>) &#8211; The SELECT portion of a query</li>
+<li><strong>$escape</strong> (<em>bool</em>) &#8211; Whether to escape values and identifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_DB_query_builder instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_DB_query_builder</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adds a SELECT clause to a query.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::select_avg">
+<tt class="descname">select_avg</tt><big>(</big><span class="optional">[</span><em>$select = ''</em><span class="optional">[</span>, <em>$alias = ''</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::select_avg" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$select</strong> (<em>string</em>) &#8211; Field to compute the average of</li>
+<li><strong>$alias</strong> (<em>string</em>) &#8211; Alias for the resulting value name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_DB_query_builder instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_DB_query_builder</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adds a SELECT AVG(field) clause to a query.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::select_max">
+<tt class="descname">select_max</tt><big>(</big><span class="optional">[</span><em>$select = ''</em><span class="optional">[</span>, <em>$alias = ''</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::select_max" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$select</strong> (<em>string</em>) &#8211; Field to compute the maximum of</li>
+<li><strong>$alias</strong> (<em>string</em>) &#8211; Alias for the resulting value name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_DB_query_builder instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_DB_query_builder</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adds a SELECT MAX(field) clause to a query.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::select_min">
+<tt class="descname">select_min</tt><big>(</big><span class="optional">[</span><em>$select = ''</em><span class="optional">[</span>, <em>$alias = ''</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::select_min" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$select</strong> (<em>string</em>) &#8211; Field to compute the minimum of</li>
+<li><strong>$alias</strong> (<em>string</em>) &#8211; Alias for the resulting value name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_DB_query_builder instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_DB_query_builder</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adds a SELECT MIN(field) clause to a query.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::select_sum">
+<tt class="descname">select_sum</tt><big>(</big><span class="optional">[</span><em>$select = ''</em><span class="optional">[</span>, <em>$alias = ''</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::select_sum" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$select</strong> (<em>string</em>) &#8211; Field to compute the sum of</li>
+<li><strong>$alias</strong> (<em>string</em>) &#8211; Alias for the resulting value name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_DB_query_builder instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_DB_query_builder</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adds a SELECT SUM(field) clause to a query.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::distinct">
+<tt class="descname">distinct</tt><big>(</big><span class="optional">[</span><em>$val = TRUE</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::distinct" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$val</strong> (<em>bool</em>) &#8211; Desired value of the &#8220;distinct&#8221; flag</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_DB_query_builder instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_DB_query_builder</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Sets a flag which tells the query builder to add
+a DISTINCT clause to the SELECT portion of the query.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::from">
+<tt class="descname">from</tt><big>(</big><em>$from</em><big>)</big><a class="headerlink" href="#CI_DB_query_builder::from" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$from</strong> (<em>mixed</em>) &#8211; Table name(s); string or array</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_DB_query_builder instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_DB_query_builder</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Specifies the FROM clause of a query.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::join">
+<tt class="descname">join</tt><big>(</big><em>$table</em>, <em>$cond</em><span class="optional">[</span>, <em>$type = ''</em><span class="optional">[</span>, <em>$escape = NULL</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::join" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$table</strong> (<em>string</em>) &#8211; Table name to join</li>
+<li><strong>$cond</strong> (<em>string</em>) &#8211; The JOIN ON condition</li>
+<li><strong>$type</strong> (<em>string</em>) &#8211; The JOIN type</li>
+<li><strong>$escape</strong> (<em>bool</em>) &#8211; Whether to escape values and identifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_DB_query_builder instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_DB_query_builder</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adds a JOIN clause to a query.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::where">
+<tt class="descname">where</tt><big>(</big><em>$key</em><span class="optional">[</span>, <em>$value = NULL</em><span class="optional">[</span>, <em>$escape = NULL</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::where" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>mixed</em>) &#8211; Name of field to compare, or associative array</li>
+<li><strong>$value</strong> (<em>mixed</em>) &#8211; If a single key, compared to this value</li>
+<li><strong>$escape</strong> (<em>boolean</em>) &#8211; Whether to escape values and identifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">DB_query_builder instance</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">object</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Generates the WHERE portion of the query.
+Separates multiple calls with &#8216;AND&#8217;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::or_where">
+<tt class="descname">or_where</tt><big>(</big><em>$key</em><span class="optional">[</span>, <em>$value = NULL</em><span class="optional">[</span>, <em>$escape = NULL</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::or_where" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>mixed</em>) &#8211; Name of field to compare, or associative array</li>
+<li><strong>$value</strong> (<em>mixed</em>) &#8211; If a single key, compared to this value</li>
+<li><strong>$escape</strong> (<em>boolean</em>) &#8211; Whether to escape values and identifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">DB_query_builder instance</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">object</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Generates the WHERE portion of the query.
+Separates multiple calls with &#8216;OR&#8217;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::or_where_in">
+<tt class="descname">or_where_in</tt><big>(</big><span class="optional">[</span><em>$key = NULL</em><span class="optional">[</span>, <em>$values = NULL</em><span class="optional">[</span>, <em>$escape = NULL</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::or_where_in" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>string</em>) &#8211; The field to search</li>
+<li><strong>$values</strong> (<em>array</em>) &#8211; The values searched on</li>
+<li><strong>$escape</strong> (<em>boolean</em>) &#8211; Whether to escape values and identifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">DB_query_builder instance</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">object</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Generates a WHERE field IN(&#8216;item&#8217;, &#8216;item&#8217;) SQL query,
+joined with &#8216;OR&#8217; if appropriate.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::or_where_not_in">
+<tt class="descname">or_where_not_in</tt><big>(</big><span class="optional">[</span><em>$key = NULL</em><span class="optional">[</span>, <em>$values = NULL</em><span class="optional">[</span>, <em>$escape = NULL</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::or_where_not_in" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>string</em>) &#8211; The field to search</li>
+<li><strong>$values</strong> (<em>array</em>) &#8211; The values searched on</li>
+<li><strong>$escape</strong> (<em>boolean</em>) &#8211; Whether to escape values and identifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">DB_query_builder instance</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">object</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Generates a WHERE field NOT IN(&#8216;item&#8217;, &#8216;item&#8217;) SQL query,
+joined with &#8216;OR&#8217; if appropriate.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::where_in">
+<tt class="descname">where_in</tt><big>(</big><span class="optional">[</span><em>$key = NULL</em><span class="optional">[</span>, <em>$values = NULL</em><span class="optional">[</span>, <em>$escape = NULL</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::where_in" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>string</em>) &#8211; Name of field to examine</li>
+<li><strong>$values</strong> (<em>array</em>) &#8211; Array of target values</li>
+<li><strong>$escape</strong> (<em>boolean</em>) &#8211; Whether to escape values and identifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">DB_query_builder instance</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">object</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Generates a WHERE field IN(&#8216;item&#8217;, &#8216;item&#8217;) SQL query,
+joined with &#8216;AND&#8217; if appropriate.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::where_not_in">
+<tt class="descname">where_not_in</tt><big>(</big><span class="optional">[</span><em>$key = NULL</em><span class="optional">[</span>, <em>$values = NULL</em><span class="optional">[</span>, <em>$escape = NULL</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::where_not_in" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>string</em>) &#8211; Name of field to examine</li>
+<li><strong>$values</strong> (<em>array</em>) &#8211; Array of target values</li>
+<li><strong>$escape</strong> (<em>boolean</em>) &#8211; Whether to escape values and identifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">DB_query_builder instance</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">object</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Generates a WHERE field NOT IN(&#8216;item&#8217;, &#8216;item&#8217;) SQL query,
+joined with &#8216;AND&#8217; if appropriate.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::group_start">
+<tt class="descname">group_start</tt><big>(</big><big>)</big><a class="headerlink" href="#CI_DB_query_builder::group_start" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">CI_DB_query_builder instance (method chaining)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">CI_DB_query_builder</td>
+</tr>
+</tbody>
+</table>
+<p>Starts a group expression, using ANDs for the conditions inside it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::or_group_start">
+<tt class="descname">or_group_start</tt><big>(</big><big>)</big><a class="headerlink" href="#CI_DB_query_builder::or_group_start" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">CI_DB_query_builder instance (method chaining)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">CI_DB_query_builder</td>
+</tr>
+</tbody>
+</table>
+<p>Starts a group expression, using ORs for the conditions inside it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::not_group_start">
+<tt class="descname">not_group_start</tt><big>(</big><big>)</big><a class="headerlink" href="#CI_DB_query_builder::not_group_start" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">CI_DB_query_builder instance (method chaining)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">CI_DB_query_builder</td>
+</tr>
+</tbody>
+</table>
+<p>Starts a group expression, using AND NOTs for the conditions inside it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::or_not_group_start">
+<tt class="descname">or_not_group_start</tt><big>(</big><big>)</big><a class="headerlink" href="#CI_DB_query_builder::or_not_group_start" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">CI_DB_query_builder instance (method chaining)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">CI_DB_query_builder</td>
+</tr>
+</tbody>
+</table>
+<p>Starts a group expression, using OR NOTs for the conditions inside it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::group_end">
+<tt class="descname">group_end</tt><big>(</big><big>)</big><a class="headerlink" href="#CI_DB_query_builder::group_end" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">DB_query_builder instance</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">object</td>
+</tr>
+</tbody>
+</table>
+<p>Ends a group expression.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::like">
+<tt class="descname">like</tt><big>(</big><em>$field</em><span class="optional">[</span>, <em>$match = ''</em><span class="optional">[</span>, <em>$side = 'both'</em><span class="optional">[</span>, <em>$escape = NULL</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::like" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$field</strong> (<em>string</em>) &#8211; Field name</li>
+<li><strong>$match</strong> (<em>string</em>) &#8211; Text portion to match</li>
+<li><strong>$side</strong> (<em>string</em>) &#8211; Which side of the expression to put the &#8216;%&#8217; wildcard on</li>
+<li><strong>$escape</strong> (<em>bool</em>) &#8211; Whether to escape values and identifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_DB_query_builder instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_DB_query_builder</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adds a LIKE clause to a query, separating multiple calls with AND.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::or_like">
+<tt class="descname">or_like</tt><big>(</big><em>$field</em><span class="optional">[</span>, <em>$match = ''</em><span class="optional">[</span>, <em>$side = 'both'</em><span class="optional">[</span>, <em>$escape = NULL</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::or_like" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$field</strong> (<em>string</em>) &#8211; Field name</li>
+<li><strong>$match</strong> (<em>string</em>) &#8211; Text portion to match</li>
+<li><strong>$side</strong> (<em>string</em>) &#8211; Which side of the expression to put the &#8216;%&#8217; wildcard on</li>
+<li><strong>$escape</strong> (<em>bool</em>) &#8211; Whether to escape values and identifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_DB_query_builder instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_DB_query_builder</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adds a LIKE clause to a query, separating multiple class with OR.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::not_like">
+<tt class="descname">not_like</tt><big>(</big><em>$field</em><span class="optional">[</span>, <em>$match = ''</em><span class="optional">[</span>, <em>$side = 'both'</em><span class="optional">[</span>, <em>$escape = NULL</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::not_like" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$field</strong> (<em>string</em>) &#8211; Field name</li>
+<li><strong>$match</strong> (<em>string</em>) &#8211; Text portion to match</li>
+<li><strong>$side</strong> (<em>string</em>) &#8211; Which side of the expression to put the &#8216;%&#8217; wildcard on</li>
+<li><strong>$escape</strong> (<em>bool</em>) &#8211; Whether to escape values and identifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_DB_query_builder instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_DB_query_builder</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adds a NOT LIKE clause to a query, separating multiple calls with AND.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::or_not_like">
+<tt class="descname">or_not_like</tt><big>(</big><em>$field</em><span class="optional">[</span>, <em>$match = ''</em><span class="optional">[</span>, <em>$side = 'both'</em><span class="optional">[</span>, <em>$escape = NULL</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::or_not_like" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$field</strong> (<em>string</em>) &#8211; Field name</li>
+<li><strong>$match</strong> (<em>string</em>) &#8211; Text portion to match</li>
+<li><strong>$side</strong> (<em>string</em>) &#8211; Which side of the expression to put the &#8216;%&#8217; wildcard on</li>
+<li><strong>$escape</strong> (<em>bool</em>) &#8211; Whether to escape values and identifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_DB_query_builder instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_DB_query_builder</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adds a NOT LIKE clause to a query, separating multiple calls with OR.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::having">
+<tt class="descname">having</tt><big>(</big><em>$key</em><span class="optional">[</span>, <em>$value = NULL</em><span class="optional">[</span>, <em>$escape = NULL</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::having" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>mixed</em>) &#8211; Identifier (string) or associative array of field/value pairs</li>
+<li><strong>$value</strong> (<em>string</em>) &#8211; Value sought if $key is an identifier</li>
+<li><strong>$escape</strong> (<em>string</em>) &#8211; Whether to escape values and identifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_DB_query_builder instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_DB_query_builder</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adds a HAVING clause to a query, separating multiple calls with AND.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::or_having">
+<tt class="descname">or_having</tt><big>(</big><em>$key</em><span class="optional">[</span>, <em>$value = NULL</em><span class="optional">[</span>, <em>$escape = NULL</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::or_having" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>mixed</em>) &#8211; Identifier (string) or associative array of field/value pairs</li>
+<li><strong>$value</strong> (<em>string</em>) &#8211; Value sought if $key is an identifier</li>
+<li><strong>$escape</strong> (<em>string</em>) &#8211; Whether to escape values and identifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_DB_query_builder instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_DB_query_builder</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adds a HAVING clause to a query, separating multiple calls with OR.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::group_by">
+<tt class="descname">group_by</tt><big>(</big><em>$by</em><span class="optional">[</span>, <em>$escape = NULL</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::group_by" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$by</strong> (<em>mixed</em>) &#8211; Field(s) to group by; string or array</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_DB_query_builder instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_DB_query_builder</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adds a GROUP BY clause to a query.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::order_by">
+<tt class="descname">order_by</tt><big>(</big><em>$orderby</em><span class="optional">[</span>, <em>$direction = ''</em><span class="optional">[</span>, <em>$escape = NULL</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::order_by" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$orderby</strong> (<em>string</em>) &#8211; Field to order by</li>
+<li><strong>$direction</strong> (<em>string</em>) &#8211; The order requested - ASC, DESC or random</li>
+<li><strong>$escape</strong> (<em>bool</em>) &#8211; Whether to escape values and identifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_DB_query_builder instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_DB_query_builder</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adds an ORDER BY clause to a query.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::limit">
+<tt class="descname">limit</tt><big>(</big><em>$value</em><span class="optional">[</span>, <em>$offset = 0</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::limit" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$value</strong> (<em>int</em>) &#8211; Number of rows to limit the results to</li>
+<li><strong>$offset</strong> (<em>int</em>) &#8211; Number of rows to skip</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_DB_query_builder instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_DB_query_builder</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adds LIMIT and OFFSET clauses to a query.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::offset">
+<tt class="descname">offset</tt><big>(</big><em>$offset</em><big>)</big><a class="headerlink" href="#CI_DB_query_builder::offset" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$offset</strong> (<em>int</em>) &#8211; Number of rows to skip</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_DB_query_builder instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_DB_query_builder</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adds an OFFSET clause to a query.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::set">
+<tt class="descname">set</tt><big>(</big><em>$key</em><span class="optional">[</span>, <em>$value = ''</em><span class="optional">[</span>, <em>$escape = NULL</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::set" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>mixed</em>) &#8211; Field name, or an array of field/value pairs</li>
+<li><strong>$value</strong> (<em>string</em>) &#8211; Field value, if $key is a single field</li>
+<li><strong>$escape</strong> (<em>bool</em>) &#8211; Whether to escape values and identifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_DB_query_builder instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_DB_query_builder</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adds field/value pairs to be passed later to <tt class="docutils literal"><span class="pre">insert()</span></tt>,
+<tt class="docutils literal"><span class="pre">update()</span></tt> or <tt class="docutils literal"><span class="pre">replace()</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::insert">
+<tt class="descname">insert</tt><big>(</big><span class="optional">[</span><em>$table = ''</em><span class="optional">[</span>, <em>$set = NULL</em><span class="optional">[</span>, <em>$escape = NULL</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::insert" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$table</strong> (<em>string</em>) &#8211; Table name</li>
+<li><strong>$set</strong> (<em>array</em>) &#8211; An associative array of field/value pairs</li>
+<li><strong>$escape</strong> (<em>bool</em>) &#8211; Whether to escape values and identifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">TRUE on success, FALSE on failure</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Compiles and executes an INSERT statement.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::insert_batch">
+<tt class="descname">insert_batch</tt><big>(</big><span class="optional">[</span><em>$table = ''</em><span class="optional">[</span>, <em>$set = NULL</em><span class="optional">[</span>, <em>$escape = NULL</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::insert_batch" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$table</strong> (<em>string</em>) &#8211; Table name</li>
+<li><strong>$set</strong> (<em>array</em>) &#8211; Data to insert</li>
+<li><strong>$escape</strong> (<em>bool</em>) &#8211; Whether to escape values and identifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Number of rows inserted or FALSE on failure</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Compiles and executes batch INSERT statements.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::set_insert_batch">
+<tt class="descname">set_insert_batch</tt><big>(</big><em>$key</em><span class="optional">[</span>, <em>$value = ''</em><span class="optional">[</span>, <em>$escape = NULL</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::set_insert_batch" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>mixed</em>) &#8211; Field name or an array of field/value pairs</li>
+<li><strong>$value</strong> (<em>string</em>) &#8211; Field value, if $key is a single field</li>
+<li><strong>$escape</strong> (<em>bool</em>) &#8211; Whether to escape values and identifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_DB_query_builder instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_DB_query_builder</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adds field/value pairs to be inserted in a table later via <tt class="docutils literal"><span class="pre">insert_batch()</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::update">
+<tt class="descname">update</tt><big>(</big><span class="optional">[</span><em>$table = ''</em><span class="optional">[</span>, <em>$set = NULL</em><span class="optional">[</span>, <em>$where = NULL</em><span class="optional">[</span>, <em>$limit = NULL</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::update" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$table</strong> (<em>string</em>) &#8211; Table name</li>
+<li><strong>$set</strong> (<em>array</em>) &#8211; An associative array of field/value pairs</li>
+<li><strong>$where</strong> (<em>string</em>) &#8211; The WHERE clause</li>
+<li><strong>$limit</strong> (<em>int</em>) &#8211; The LIMIT clause</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">TRUE on success, FALSE on failure</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Compiles and executes an UPDATE statement.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::update_batch">
+<tt class="descname">update_batch</tt><big>(</big><span class="optional">[</span><em>$table = ''</em><span class="optional">[</span>, <em>$set = NULL</em><span class="optional">[</span>, <em>$value = NULL</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::update_batch" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$table</strong> (<em>string</em>) &#8211; Table name</li>
+<li><strong>$set</strong> (<em>array</em>) &#8211; Field name, or an associative array of field/value pairs</li>
+<li><strong>$value</strong> (<em>string</em>) &#8211; Field value, if $set is a single field</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Number of rows updated or FALSE on failure</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Compiles and executes batch UPDATE statements.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::set_update_batch">
+<tt class="descname">set_update_batch</tt><big>(</big><em>$key</em><span class="optional">[</span>, <em>$value = ''</em><span class="optional">[</span>, <em>$escape = NULL</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::set_update_batch" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>mixed</em>) &#8211; Field name or an array of field/value pairs</li>
+<li><strong>$value</strong> (<em>string</em>) &#8211; Field value, if $key is a single field</li>
+<li><strong>$escape</strong> (<em>bool</em>) &#8211; Whether to escape values and identifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_DB_query_builder instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_DB_query_builder</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adds field/value pairs to be updated in a table later via <tt class="docutils literal"><span class="pre">update_batch()</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::replace">
+<tt class="descname">replace</tt><big>(</big><span class="optional">[</span><em>$table = ''</em><span class="optional">[</span>, <em>$set = NULL</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::replace" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$table</strong> (<em>string</em>) &#8211; Table name</li>
+<li><strong>$set</strong> (<em>array</em>) &#8211; An associative array of field/value pairs</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">TRUE on success, FALSE on failure</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Compiles and executes a REPLACE statement.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::delete">
+<tt class="descname">delete</tt><big>(</big><span class="optional">[</span><em>$table = ''</em><span class="optional">[</span>, <em>$where = ''</em><span class="optional">[</span>, <em>$limit = NULL</em><span class="optional">[</span>, <em>$reset_data = TRUE</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::delete" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$table</strong> (<em>mixed</em>) &#8211; The table(s) to delete from; string or array</li>
+<li><strong>$where</strong> (<em>string</em>) &#8211; The WHERE clause</li>
+<li><strong>$limit</strong> (<em>int</em>) &#8211; The LIMIT clause</li>
+<li><strong>$reset_data</strong> (<em>bool</em>) &#8211; TRUE to reset the query &#8220;write&#8221; clause</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_DB_query_builder instance (method chaining) or FALSE on failure</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Compiles and executes a DELETE query.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::truncate">
+<tt class="descname">truncate</tt><big>(</big><span class="optional">[</span><em>$table = ''</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::truncate" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$table</strong> (<em>string</em>) &#8211; Table name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">TRUE on success, FALSE on failure</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Executes a TRUNCATE statement on a table.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the database platform in use doesn&#8217;t support TRUNCATE,
+a DELETE statement will be used instead.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::empty_table">
+<tt class="descname">empty_table</tt><big>(</big><span class="optional">[</span><em>$table = ''</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::empty_table" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$table</strong> (<em>string</em>) &#8211; Table name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">TRUE on success, FALSE on failure</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Deletes all records from a table via a DELETE statement.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::get_compiled_select">
+<tt class="descname">get_compiled_select</tt><big>(</big><span class="optional">[</span><em>$table = ''</em><span class="optional">[</span>, <em>$reset = TRUE</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::get_compiled_select" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$table</strong> (<em>string</em>) &#8211; Table name</li>
+<li><strong>$reset</strong> (<em>bool</em>) &#8211; Whether to reset the current QB values or not</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The compiled SQL statement as a string</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Compiles a SELECT statement and returns it as a string.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::get_compiled_insert">
+<tt class="descname">get_compiled_insert</tt><big>(</big><span class="optional">[</span><em>$table = ''</em><span class="optional">[</span>, <em>$reset = TRUE</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::get_compiled_insert" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$table</strong> (<em>string</em>) &#8211; Table name</li>
+<li><strong>$reset</strong> (<em>bool</em>) &#8211; Whether to reset the current QB values or not</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The compiled SQL statement as a string</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Compiles an INSERT statement and returns it as a string.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::get_compiled_update">
+<tt class="descname">get_compiled_update</tt><big>(</big><span class="optional">[</span><em>$table = ''</em><span class="optional">[</span>, <em>$reset = TRUE</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::get_compiled_update" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$table</strong> (<em>string</em>) &#8211; Table name</li>
+<li><strong>$reset</strong> (<em>bool</em>) &#8211; Whether to reset the current QB values or not</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The compiled SQL statement as a string</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Compiles an UPDATE statement and returns it as a string.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_DB_query_builder::get_compiled_delete">
+<tt class="descname">get_compiled_delete</tt><big>(</big><span class="optional">[</span><em>$table = ''</em><span class="optional">[</span>, <em>$reset = TRUE</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_DB_query_builder::get_compiled_delete" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$table</strong> (<em>string</em>) &#8211; Table name</li>
+<li><strong>$reset</strong> (<em>bool</em>) &#8211; Whether to reset the current QB values or not</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The compiled SQL statement as a string</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Compiles a DELETE statement and returns it as a string.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="transactions.html" class="btn btn-neutral float-right" title="Transactions">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="helpers.html" class="btn btn-neutral" title="Query Helper Methods"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014 - 2015, British Columbia Institute of Technology.
+      Last updated on Feb 03, 2015.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
