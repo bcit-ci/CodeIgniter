@@ -391,7 +391,7 @@ class CI_Output {
 	/**
 	 * Display Output
 	 *
-	 * Processes sends the sends finalized output data to the browser along
+	 * Processes and sends finalized output data to the browser along
 	 * with any server headers and profile data. It also stops benchmark
 	 * timers so the page rendering speed and memory usage can be shown.
 	 *
