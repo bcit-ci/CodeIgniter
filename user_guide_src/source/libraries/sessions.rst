@@ -493,7 +493,7 @@ also steal any of the current sessions (also known as "session fixation"
 attack).
 
 On UNIX-like operating systems, this is usually achieved by setting the
-0600 mode permissions on that directory via the `chmod` command, which
+0700 mode permissions on that directory via the `chmod` command, which
 allows only the directory's owner to perform read and write operations on
 it. But be careful because the system user *running* the script is usually
 not your own, but something like 'www-data' instead, so only setting those
@@ -503,7 +503,7 @@ Instead, you should do something like this, depending on your environment
 ::
 
 	mkdir /<path to your application directory>/sessions/
-	chmod 0600 /<path to your application directory>/sessions/
+	chmod 0700 /<path to your application directory>/sessions/
 	chown www-data /<path to your application directory>/sessions/
 
 Bonus Tip
