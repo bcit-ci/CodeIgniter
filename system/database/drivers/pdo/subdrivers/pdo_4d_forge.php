@@ -164,7 +164,7 @@ class CI_DB_pdo_4d_forge extends CI_DB_pdo_forge {
 				$attributes['TYPE'] = 'INT';
 				return;
 			case 'BIGINT':
-				$attribites['TYPE'] = 'INT64';
+				$attributes['TYPE'] = 'INT64';
 				return;
 			default: return;
 		}
