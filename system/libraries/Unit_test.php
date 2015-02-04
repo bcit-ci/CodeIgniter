@@ -111,7 +111,7 @@ class CI_Unit_test {
 	 */
 	public function __construct()
 	{
-		log_message('debug', 'Unit Testing Class Initialized');
+		log_message('info', 'Unit Testing Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -403,6 +403,3 @@ function is_false($test)
 {
 	return ($test === FALSE);
 }
-
-/* End of file Unit_test.php */
-/* Location: ./system/libraries/Unit_test.php */

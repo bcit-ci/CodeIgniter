@@ -794,6 +794,3 @@ if ( ! function_exists('date_range'))
 		return $range;
 	}
 }
-
-/* End of file date_helper.php */
-/* Location: ./system/helpers/date_helper.php */

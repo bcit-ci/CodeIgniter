@@ -100,7 +100,7 @@ if ( ! function_exists('form_open'))
 		{
 			foreach ($hidden as $name => $value)
 			{
-				$form .= '<input type="hidden" name="'.$name.'" value="'.form_prep($value).'" style="display:none;" />'."\n";
+				$form .= '<input type="hidden" name="'.$name.'" value="'.html_escape($value).'" style="display:none;" />'."\n";
 			}
 		}
 
@@ -173,7 +173,7 @@ if ( ! function_exists('form_hidden'))
 
 		if ( ! is_array($value))
 		{
-			$form .= '<input type="hidden" name="'.$name.'" value="'.form_prep($value)."\" />\n";
+			$form .= '<input type="hidden" name="'.$name.'" value="'.html_escape($value)."\" />\n";
 		}
 		else
 		{
@@ -287,7 +287,7 @@ if ( ! function_exists('form_textarea'))
 			unset($data['value']); // textareas don't use the value attribute
 		}
 
-		return '<textarea '._parse_form_attributes($data, $defaults).$extra.'>'.form_prep($val, TRUE)."</textarea>\n";
+		return '<textarea '._parse_form_attributes($data, $defaults).$extra.'>'.html_escape($val)."</textarea>\n";
 	}
 }
 
@@ -392,7 +392,7 @@ if ( ! function_exists('form_dropdown'))
 				foreach ($val as $optgroup_key => $optgroup_val)
 				{
 					$sel = in_array($optgroup_key, $selected) ? ' selected="selected"' : '';
-					$form .= '<option value="'.form_prep($optgroup_key).'"'.$sel.'>'
+					$form .= '<option value="'.html_escape($optgroup_key).'"'.$sel.'>'
 						.(string) $optgroup_val."</option>\n";
 				}
 
@@ -400,7 +400,7 @@ if ( ! function_exists('form_dropdown'))
 			}
 			else
 			{
-				$form .= '<option value="'.form_prep($key).'"'
+				$form .= '<option value="'.html_escape($key).'"'
 					.(in_array($key, $selected) ? ' selected="selected"' : '').'>'
 					.(string) $val."</option>\n";
 			}
@@ -653,28 +653,13 @@ if ( ! function_exists('form_prep'))
 	 *
 	 * Formats text so that it can be safely placed in a form field in the event it has HTML tags.
 	 *
+	 * @deprecated	3.0.0	An alias for html_escape()
 	 * @param	string|string[]	$str		Value to escape
-	 * @param	bool		$is_textarea	Whether we're escaping for a textarea element
 	 * @return	string|string[]	Escaped values
 	 */
-	function form_prep($str = '', $is_textarea = FALSE)
+	function form_prep($str)
 	{
-		if (is_array($str))
-		{
-			foreach (array_keys($str) as $key)
-			{
-				$str[$key] = form_prep($str[$key], $is_textarea);
-			}
-
-			return $str;
-		}
-
-		if ($is_textarea === TRUE)
-		{
-			return str_replace(array('<', '>'), array('&lt;', '&gt;'), stripslashes($str));
-		}
-
-		return str_replace(array("'", '"'), array('&#39;', '&quot;'), stripslashes($str));
+		return html_escape($str, TRUE);
 	}
 }
 
@@ -691,10 +676,9 @@ if ( ! function_exists('set_value'))
 	 *
 	 * @param	string	$field		Field name
 	 * @param	string	$default	Default value
-	 * @param	bool	$is_textarea	Whether the field is a textarea element
 	 * @return	string
 	 */
-	function set_value($field = '', $default = '', $is_textarea = FALSE)
+	function set_value($field, $default = '')
 	{
 		$CI =& get_instance();
 
@@ -702,7 +686,7 @@ if ( ! function_exists('set_value'))
 			? $CI->form_validation->set_value($field, $default)
 			: $CI->input->post($field, FALSE);
 
-		return form_prep($value === NULL ? $default : $value, $is_textarea);
+		return html_escape($value === NULL ? $default : $value);
 	}
 }
 
@@ -721,7 +705,7 @@ if ( ! function_exists('set_select'))
 	 * @param	bool
 	 * @return	string
 	 */
-	function set_select($field = '', $value = '', $default = FALSE)
+	function set_select($field, $value = '', $default = FALSE)
 	{
 		$CI =& get_instance();
 
@@ -768,7 +752,7 @@ if ( ! function_exists('set_checkbox'))
 	 * @param	bool
 	 * @return	string
 	 */
-	function set_checkbox($field = '', $value = '', $default = FALSE)
+	function set_checkbox($field, $value = '', $default = FALSE)
 	{
 		$CI =& get_instance();
 
@@ -815,7 +799,7 @@ if ( ! function_exists('set_radio'))
 	 * @param	bool	$default
 	 * @return	string
 	 */
-	function set_radio($field = '', $value = '', $default = FALSE)
+	function set_radio($field, $value = '', $default = FALSE)
 	{
 		$CI =& get_instance();
 
@@ -921,7 +905,7 @@ if ( ! function_exists('_parse_form_attributes'))
 		{
 			if ($key === 'value')
 			{
-				$val = form_prep($val);
+				$val = html_escape($val);
 			}
 			elseif ($key === 'name' && ! strlen($default['name']))
 			{
@@ -1012,6 +996,3 @@ if ( ! function_exists('_get_validation_object'))
 		return $return;
 	}
 }
-
-/* End of file form_helper.php */
-/* Location: ./system/helpers/form_helper.php */

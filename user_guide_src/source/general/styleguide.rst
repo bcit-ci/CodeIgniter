@@ -52,31 +52,8 @@ The PHP closing tag on a PHP document **?>** is optional to the PHP
 parser. However, if used, any whitespace following the closing tag,
 whether introduced by the developer, user, or an FTP application, can
 cause unwanted output, PHP errors, or if the latter are suppressed,
-blank pages. For this reason, all PHP files should **OMIT** the closing
-PHP tag, and instead use a comment block to mark the end of file and
-its location relative to the application root. This allows you to still
-identify a file as being complete and not truncated.
-
-**INCORRECT**::
-
-	<?php
-
-	echo "Here's my code!";
-
-	?>
-
-**CORRECT**::
-
-	<?php
-
-	echo "Here's my code!";
-
-	/* End of file Myfile.php */
-	/* Location: ./system/modules/mymodule/myfile.php */
-
-.. note:: There should be no empty line or newline character(s) following
-	the closing comments. If you happen to see one when
-	submitting a pull request, please check your IDE settings and fix it.
+blank pages. For this reason, all PHP files MUST OMIT the PHP closing
+tag and end with a single empty line instead.
 
 File Naming
 ===========
@@ -368,10 +345,10 @@ inability for CodeIgniter to send proper headers.
 Compatibility
 =============
 
-CodeIgniter recommends PHP 5.4 or newer to be used, but the absolute
-minimum version required is 5.2.4. Your code must either be compatible
-with this minimum requirement, provide a suitable fallback, or be an
-optional feature that dies quietly without affecting a user's application.
+CodeIgniter recommends PHP 5.4 or newer to be used, but it should be
+compatible with PHP 5.2.4. Your code must either be compatible with this
+requirement, provide a suitable fallback, or be an optional feature that
+dies quietly without affecting a user's application.
 
 Additionally, do not use PHP functions that require non-default libraries
 to be installed unless your code contains an alternative method when the

@@ -132,7 +132,7 @@ Available Functions
 
 The following functions are available:
 
-.. function:: create_captcha([$data = ''[, $img_path = ''[, $img_url = ''[, $font_path = '']]]])
+.. php:function:: create_captcha([$data = ''[, $img_path = ''[, $img_url = ''[, $font_path = '']]]])
 
 	:param	array	$data: Array of data for the CAPTCHA
 	:param	string	$img_path: Path to create the image in

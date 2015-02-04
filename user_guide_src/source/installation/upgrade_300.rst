@@ -1,5 +1,5 @@
 #############################
-Upgrading from 2.2.0 to 3.0.0
+Upgrading from 2.2.1 to 3.0.0
 #############################
 
 .. note:: These upgrade notes are for a version that is yet to be released.
@@ -83,37 +83,117 @@ or extensions to work, you need to move them to **application/core/**::
 	application/libraries/Log.php -> application/core/Log.php
 	application/libraries/MY_Log.php -> application/core/MY_Log.php
 
-*********************************************************
-Step 6: Convert your Session usage from library to driver
-*********************************************************
+*****************************************
+Step 6: Update your Session library usage
+*****************************************
 
-When you load (or autoload) the Session library, you must now load it as a driver instead of a library. This means
-calling ``$this->load->driver('session')`` instead of ``$this->load->library('session')`` and/or listing 'session'
-in ``$autoload['drivers']`` instead of ``$autoload['libraries']``.
+The :doc:`Session Library </libraries/sessions>` has been completely
+re-written in CodeIgniter 3 and now comes with a bunch of new features,
+but that also means that there are changes that you should make ...
 
-With the change from a single Session Library to the new Session Driver, two new config items have been added:
+Most notably, the library now uses separate storage drivers instead of
+always relying on (encrypted) cookies.
+In fact, cookies as storage have now been removed and you must always use
+some kind of server-side storage engine, with the file-system being the
+default option.
 
-   -  ``$config['sess_driver']`` selects which driver to initially load. Options are:
-       -  'cookie' (the default) for classic CodeIgniter cookie-based sessions
-       -  'native' for native PHP Session support
-       -  the name of a custom driver you have provided (see :doc:`Session Driver <../libraries/sessions>` for more info)
-   -  ``$config['sess_valid_drivers']`` provides an array of additional custom drivers to make available for loading
+The Session Class now utilizes PHP's own mechanisms for building custom
+session handlers, which also means that your session data is now
+accessible via the ``$_SESSION`` superglobal (though, we've kept the
+possibility to use it as "userdata", like you've done until now).
 
-As the new Session Driver library loads the classic Cookie driver by default and always makes 'cookie' and 'native'
-available as valid drivers, neither of these configuration items are required. However, it is recommended that you
-add them for clarity and ease of configuration in the future.
+A few configuration options have been removed and a few have been added.
+You should really read the whole :doc:`Session library manual
+</libraries/sessions>` for the details, but here's a short list of changes
+that you should make:
 
-If you have written a Session extension, you must move it into a 'Session' sub-directory of 'libraries', following the
-standard for Drivers. Also beware that some functions which are not part of the external Session API have moved into
-the drivers, so your extension may have to be broken down into separate library and driver class extensions.
+  - Set your ``$config['sess_driver']`` value
+
+    It will default to 'files', unles you've previously used
+    ``$config['sess_use_database']``, in which case it will be set to
+    'database'.
+
+  - Set a ``$config['sess_save_path']`` value
+
+    For the 'database' driver, a fallback to ``$config['sess_table_name']``
+    is in place, but otherwise requires you to read the manual for the
+    specific driver of your choice.
+
+  - Update your ``ci_sessions`` table ('database' driver only)
+
+    The table structure has changed a bit, and more specifically:
+
+      - ``session_id`` field is renamed to ``id``
+      - ``user_agent`` field is dropped
+      - ``user_data`` field is renamed to ``data`` and under MySQL is now of type BLOB
+      - ``last_activity`` field is renamed to ``timestamp``
+
+    This is accompanied by a slight change in the table indexes too, so
+    please read the manual about the `Session Database Driver
+    <../libraries/sessions.html#database-driver>`_ for more information.
+
+    .. important:: Only MySQL and PostgreSQL are officially supported
+    	now. Other databases may still work, but due to lack of advisory
+    	locking features, they are unsafe for concurrent requests and
+    	you should consider using another driver instead.
+
+  - Remove ``$config['sess_match_useragent']``
+
+    The user-agent string is input supplied by the user's browser, or in
+    other words: client side input. As such, it is an ineffective feature
+    and hence why it has been removed.
+
+  - Remove ``$config['sess_encrypt_cookie']``
+
+    As already noted, the library no longer uses cookies as a storage
+    mechanism, which renders this option useless.
+
+  - Remove ``$config['sess_expire_on_close']``
+
+    This option is still usable, but only for backwards compatibility
+    purposes and it should be otherwise removed. The same effect is
+    achieved by setting ``$config['sess_expiration']`` to 0.
+
+  - Check "flashdata" for collisions with "userdata"
+
+    Flashdata is now just regular "userdata", only marked for deletion on
+    the next request. In other words: you can't have both "userdata" and
+    "flashdata" with the same name, because it's the same thing.
+
+  - Check usage of session metadata
+
+    Previously, you could access the 'session_id', 'ip_address',
+    'user_agent' and 'last_activity' metadata items as userdata.
+    This is no longer possible, and you should read the notes about
+    `Session Metadata <../libraries/sessions.html#accessing-session-metadata>`_
+    if your application relies on those values.
+
+  - Check ``unset_userdata()`` usage
+
+    Previously, this method used to accept an associative array of
+    ``'key' => 'dummy value'`` pairs for unsetting multiple keys. That
+    however makes no sense and you now have to pass *only* the keys, as
+    the elements of an array.
+
+    ::
+
+    	// Old
+    	$this->session->unset_userdata(array('item' => '', 'item2' => ''));
+
+    	// New
+    	$this->session->unset_userdata(array('item', 'item2'));
+
+Finally, if you have written a Session extension, you must now move it to
+the *application/libraries/Session/* directory, although chances are that
+it will now also have to be re-factored.
 
 ***************************************
 Step 7: Update your config/database.php
 ***************************************
 
-Due to 3.0.0's renaming of Active Record to Query Builder, inside your `config/database.php`, you will
-need to rename the `$active_record` variable to `$query_builder`
-::
+Due to 3.0.0's renaming of Active Record to Query Builder, inside your
+**config/database.php**, you will need to rename the ``$active_record``
+variable to ``$query_builder``::
 
 	$active_group = 'default';
 	// $active_record = TRUE;
@@ -217,7 +297,7 @@ Otherwise however, please review your usage of the following functions:
    - input->server()
    - input->input_stream()
 
- - :doc:`Cookie Helper <../helpers/cookie_helper>` :func:`get_cookie()`
+ - :doc:`Cookie Helper <../helpers/cookie_helper>` :php:func:`get_cookie()`
 
 .. important:: Another related change is that the ``$_GET``, ``$_POST``,
 	``$_COOKIE`` and ``$_SERVER`` superglobals are no longer
@@ -447,7 +527,7 @@ CodeIgniter 3.1+.
 String helper repeater()
 ========================
 
-:doc:`String Helper <../helpers/string_helper>` function :func:`repeater()` is now just an alias for
+:doc:`String Helper <../helpers/string_helper>` function :php:func:`repeater()` is now just an alias for
 PHP's native ``str_repeat()`` function. It is deprecated and scheduled for removal in CodeIgniter 3.1+.
 
 .. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
@@ -456,20 +536,32 @@ PHP's native ``str_repeat()`` function. It is deprecated and scheduled for remov
 String helper trim_slashes()
 ============================
 
-:doc:`String Helper <../helpers/string_helper>` function :func:`trim_slashes()` is now just an alias
+:doc:`String Helper <../helpers/string_helper>` function :php:func:`trim_slashes()` is now just an alias
 for PHP's native ``trim()`` function (with a slash passed as its second argument). It is deprecated and
 scheduled for removal in CodeIgniter 3.1+.
 
 .. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
 	rather than later.
 
+Form helper form_prep()
+=======================
+
+:doc:`Form Helper <../helpers/form_helper>` function :php:func:`form_prep()`
+is now just an alias for :doc:`common function </general/common_functions>`
+:func:`html_escape()`. It is deprecated and will be removed in the future.
+
+Please use :php:func:`html_escape()` instead.
+
+.. note:: This function is still available, but you're strongly encouraged
+	to remove its usage sooner rather than later.
+
 Email helper functions
 ======================
 
 :doc:`Email Helper <../helpers/email_helper>` only has two functions
 
- - :func:`valid_email()`
- - :func:`send_email()`
+ - :php:func:`valid_email()`
+ - :php:func:`send_email()`
 
 Both of them are now aliases for PHP's native ``filter_var()`` and ``mail()`` functions, respectively.
 Therefore the :doc:`Email Helper <../helpers/email_helper>` altogether is being deprecated and
@@ -531,7 +623,7 @@ CodeIgniter 3.1+.
 String helper random_string() types 'unique' and 'encrypt'
 ==========================================================
 
-When using the :doc:`String Helper <../helpers/string_helper>` function :func:`random_string()`,
+When using the :doc:`String Helper <../helpers/string_helper>` function :php:func:`random_string()`,
 you should no longer pass the **unique** and **encrypt** randomization types. They are only
 aliases for **md5** and **sha1** respectively and are now deprecated and scheduled for removal
 in CodeIgniter 3.1+.
@@ -542,7 +634,7 @@ in CodeIgniter 3.1+.
 URL helper url_title() separators 'dash' and 'underscore'
 =========================================================
 
-When using the :doc:`URL Helper <../helpers/url_helper>` function :func:`url_title()`, you
+When using the :doc:`URL Helper <../helpers/url_helper>` function :php:func:`url_title()`, you
 should no longer pass **dash** or **underscore** as the word separator. This function will
 now accept any character and you should just pass the chosen character directly, so you
 should write '-' instead of 'dash' and '_' instead of 'underscore'.
@@ -622,7 +714,7 @@ Input library method is_cli_request()
 Calls to the ``CI_Input::is_cli_request()`` method are necessary at many places
 in the CodeIgniter internals and this is often before the :doc:`Input Library
 <../libraries/input>` is loaded. Because of that, it is being replaced by a common
-function named :func:`is_cli()` and this method is now just an alias.
+function named :php:func:`is_cli()` and this method is now just an alias.
 
 The new function is both available at all times for you to use and shorter to type.
 

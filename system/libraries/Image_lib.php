@@ -392,7 +392,7 @@ class CI_Image_lib {
 			$this->initialize($props);
 		}
 
-		log_message('debug', 'Image Lib Class Initialized');
+		log_message('info', 'Image Lib Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -1212,6 +1212,13 @@ class CI_Image_lib {
 			imagecopymerge($src_img, $wm_img, $x_axis, $y_axis, 0, 0, $wm_width, $wm_height, $this->wm_opacity);
 		}
 
+		// We can preserve transparency for PNG images
+		if ($this->image_type === 3)
+		{
+			imagealphablending($src_img, FALSE);
+			imagesavealpha($src_img, TRUE);
+		}
+
 		// Output the image
 		if ($this->dynamic_output === TRUE)
 		{
@@ -1304,12 +1311,14 @@ class CI_Image_lib {
 		$y_axis = $this->wm_vrt_offset + $this->wm_padding;
 
 		if ($this->wm_use_drop_shadow === FALSE)
+		{
 			$this->wm_shadow_distance = 0;
+		}
 
 		$this->wm_vrt_alignment = strtoupper($this->wm_vrt_alignment[0]);
 		$this->wm_hor_alignment = strtoupper($this->wm_hor_alignment[0]);
 
-		// Set verticle alignment
+		// Set vertical alignment
 		if ($this->wm_vrt_alignment === 'M')
 		{
 			$y_axis += ($this->orig_height / 2) + ($fontheight / 2);
@@ -1318,53 +1327,67 @@ class CI_Image_lib {
 		{
 			$y_axis += $this->orig_height - $fontheight - $this->wm_shadow_distance - ($fontheight / 2);
 		}
-
-		$x_shad = $x_axis + $this->wm_shadow_distance;
-		$y_shad = $y_axis + $this->wm_shadow_distance;
-
+		
+		// Set horizontal alignment
+		if ($this->wm_hor_alignment === 'R')
+		{
+			$x_axis += $this->orig_width - ($fontwidth * strlen($this->wm_text)) - $this->wm_shadow_distance;
+		}
+		elseif ($this->wm_hor_alignment === 'C')
+		{
+			$x_axis += floor(($this->orig_width - ($fontwidth * strlen($this->wm_text))) / 2);
+		}
+		
 		if ($this->wm_use_drop_shadow)
 		{
-			// Set horizontal alignment
-			if ($this->wm_hor_alignment === 'R')
-			{
-				$x_shad += $this->orig_width - ($fontwidth * strlen($this->wm_text));
-				$x_axis += $this->orig_width - ($fontwidth * strlen($this->wm_text));
-			}
-			elseif ($this->wm_hor_alignment === 'C')
-			{
-				$x_shad += floor(($this->orig_width - ($fontwidth * strlen($this->wm_text))) / 2);
-				$x_axis += floor(($this->orig_width - ($fontwidth * strlen($this->wm_text))) / 2);
-			}
-
-			/* Set RGB values for text and shadow
+			// Offset from text
+			$x_shad = $x_axis + $this->wm_shadow_distance;
+			$y_shad = $y_axis + $this->wm_shadow_distance;
+				
+			/* Set RGB values for shadow
 			 *
 			 * First character is #, so we don't really need it.
 			 * Get the rest of the string and split it into 2-length
 			 * hex values:
 			 */
-			$txt_color = str_split(substr($this->wm_font_color, 1, 6), 2);
-			$txt_color = imagecolorclosest($src_img, hexdec($txt_color[0]), hexdec($txt_color[1]), hexdec($txt_color[2]));
 			$drp_color = str_split(substr($this->wm_shadow_color, 1, 6), 2);
 			$drp_color = imagecolorclosest($src_img, hexdec($drp_color[0]), hexdec($drp_color[1]), hexdec($drp_color[2]));
-
-			// Add the text to the source image
+			
+			// Add the shadow to the source image
 			if ($this->wm_use_truetype)
 			{
 				imagettftext($src_img, $this->wm_font_size, 0, $x_shad, $y_shad, $drp_color, $this->wm_font_path, $this->wm_text);
-				imagettftext($src_img, $this->wm_font_size, 0, $x_axis, $y_axis, $txt_color, $this->wm_font_path, $this->wm_text);
 			}
 			else
 			{
 				imagestring($src_img, $this->wm_font_size, $x_shad, $y_shad, $this->wm_text, $drp_color);
-				imagestring($src_img, $this->wm_font_size, $x_axis, $y_axis, $this->wm_text, $txt_color);
 			}
+		}
+		
+		/* Set RGB values for text
+		 *
+		 * First character is #, so we don't really need it.
+		 * Get the rest of the string and split it into 2-length
+		 * hex values:
+		 */
+		$txt_color = str_split(substr($this->wm_font_color, 1, 6), 2);
+		$txt_color = imagecolorclosest($src_img, hexdec($txt_color[0]), hexdec($txt_color[1]), hexdec($txt_color[2]));
 
-			// We can preserve transparency for PNG images
-			if ($this->image_type === 3)
-			{
-				imagealphablending($src_img, FALSE);
-				imagesavealpha($src_img, TRUE);
-			}
+		// Add the text to the source image
+		if ($this->wm_use_truetype)
+		{
+			imagettftext($src_img, $this->wm_font_size, 0, $x_axis, $y_axis, $txt_color, $this->wm_font_path, $this->wm_text);
+		}
+		else
+		{
+			imagestring($src_img, $this->wm_font_size, $x_axis, $y_axis, $this->wm_text, $txt_color);
+		}
+		
+		// We can preserve transparency for PNG images
+		if ($this->image_type === 3)
+		{
+			imagealphablending($src_img, FALSE);
+			imagesavealpha($src_img, TRUE);
 		}
 
 		// Output the final image
@@ -1794,6 +1817,3 @@ class CI_Image_lib {
 	}
 
 }
-
-/* End of file Image_lib.php */
-/* Location: ./system/libraries/Image_lib.php */

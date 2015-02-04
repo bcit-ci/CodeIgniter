@@ -314,7 +314,7 @@ class CI_Xmlrpc {
 
 		$this->initialize($config);
 
-		log_message('debug', 'XML-RPC Class Initialized');
+		log_message('info', 'XML-RPC Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -1900,6 +1900,3 @@ class XML_RPC_Values extends CI_Xmlrpc
 	}
 
 } // END XML_RPC_Values Class
-
-/* End of file Xmlrpc.php */
-/* Location: ./system/libraries/Xmlrpc.php */

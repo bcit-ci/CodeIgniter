@@ -456,16 +456,16 @@ seven types of values that you can send via XML-RPC:
 Class Reference
 ***************
 
-.. class:: CI_Xmlrpc
+.. php:class:: CI_Xmlrpc
 
-	.. method:: initialize([$config = array()])
+	.. php:method:: initialize([$config = array()])
 
 		:param	array	$config: Configuration data
 		:rtype:	void
 
 		Initializes the XML-RPC library. Accepts an associative array containing your settings.
 
-	.. method:: server($url[, $port = 80[, $proxy = FALSE[, $proxy_port = 8080]]])
+	.. php:method:: server($url[, $port = 80[, $proxy = FALSE[, $proxy_port = 8080]]])
 
 		:param	string	$url: XML-RPC server URL
 		:param	int	$port: Server port
@@ -481,7 +481,7 @@ Class Reference
 
 			$this->xmlrpc->server('http://user:pass@localhost/', 80);
 
-	.. method:: timeout($seconds = 5)
+	.. php:method:: timeout($seconds = 5)
 
 		:param	int	$seconds: Timeout in seconds
 		:rtype:	void
@@ -490,7 +490,7 @@ Class Reference
 
 			$this->xmlrpc->timeout(6);
 
-	.. method:: method($function)
+	.. php:method:: method($function)
 
 		:param	string	$function: Method name
 		:rtype:	void
@@ -501,7 +501,7 @@ Class Reference
 
 		Where method is the name of the method.
 
-	.. method:: request($incoming)
+	.. php:method:: request($incoming)
 
 		:param	array	$incoming: Request data
 		:rtype:	void
@@ -511,7 +511,7 @@ Class Reference
 			$request = array(array('My Photoblog', 'string'), 'http://www.yoursite.com/photoblog/');
 			$this->xmlrpc->request($request);
 
-	.. method:: send_request()
+	.. php:method:: send_request()
 
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
@@ -525,7 +525,7 @@ Class Reference
 
 		Enables or disables debugging, which will display a variety of information and error data helpful during development.
 
-	.. method:: display_error()
+	.. php:method:: display_error()
 
 		:returns:	Error message string
 		:rtype:	string
@@ -535,7 +535,7 @@ Class Reference
 
 			echo $this->xmlrpc->display_error();
 
-	.. method:: display_response()
+	.. php:method:: display_response()
 
 		:returns:	Response
 		:rtype:	mixed
@@ -545,7 +545,7 @@ Class Reference
 
 			$this->xmlrpc->display_response();
 
-	.. method:: send_error_message($number, $message)
+	.. php:method:: send_error_message($number, $message)
 
 		:param	int	$number: Error number
 		:param	string	$message: Error message

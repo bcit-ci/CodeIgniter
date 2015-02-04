@@ -449,6 +449,3 @@ if ( ! function_exists('octal_permissions'))
 		return substr(sprintf('%o', $perms), -3);
 	}
 }
-
-/* End of file file_helper.php */
-/* Location: ./system/helpers/file_helper.php */

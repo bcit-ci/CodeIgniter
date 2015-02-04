@@ -25,7 +25,7 @@ Available Functions
 The following functions are available:
 
 
-.. function:: auto_typography($str[, $reduce_linebreaks = FALSE])
+.. php:function:: auto_typography($str[, $reduce_linebreaks = FALSE])
 
 	:param	string	$str: Input string
 	:param	bool	$reduce_linebreaks: Whether to reduce multiple instances of double newlines to two
@@ -49,7 +49,7 @@ The following functions are available:
 		pages.
 
 
-.. function:: nl2br_except_pre($str)
+.. php:function:: nl2br_except_pre($str)
 
 	:param	string	$str: Input string
 	:returns:	String with HTML-formatted line breaks
@@ -63,7 +63,7 @@ The following functions are available:
 
 		$string = nl2br_except_pre($string);
 
-.. function:: entity_decode($str, $charset = NULL)
+.. php:function:: entity_decode($str, $charset = NULL)
 
 	:param	string	$str: Input string
 	:param	string	$charset: Character set

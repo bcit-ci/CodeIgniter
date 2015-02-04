@@ -140,7 +140,7 @@ class CI_URI {
 			}
 		}
 
-		log_message('debug', 'URI Class Initialized');
+		log_message('info', 'URI Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -639,6 +639,3 @@ class CI_URI {
 	}
 
 }
-
-/* End of file URI.php */
-/* Location: ./system/core/URI.php */

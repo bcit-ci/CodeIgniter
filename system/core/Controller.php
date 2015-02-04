@@ -77,7 +77,7 @@ class CI_Controller {
 
 		$this->load =& load_class('Loader', 'core');
 		$this->load->initialize();
-		log_message('debug', 'Controller Class Initialized');
+		log_message('info', 'Controller Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -94,6 +94,3 @@ class CI_Controller {
 	}
 
 }
-
-/* End of file Controller.php */
-/* Location: ./system/core/Controller.php */

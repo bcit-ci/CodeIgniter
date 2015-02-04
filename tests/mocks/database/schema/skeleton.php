@@ -24,6 +24,13 @@ class Mock_Database_Schema_Skeleton {
 	{
 		if (empty(self::$db) && empty(self::$forge))
 		{
+			// E_DEPRECATED notices thrown by mysql_connect(), mysql_pconnect()
+			// on PHP 5.5+ cause the tests to fail
+			if ($driver === 'mysql' && version_compare(PHP_VERSION, '5.5', '>='))
+			{
+				error_reporting(E_ALL & ~E_DEPRECATED);
+			}
+
 			$config = Mock_Database_DB::config($driver);
 			$connection = new Mock_Database_DB($config);
 			$db = Mock_Database_DB::DB($connection->set_dsn($driver), TRUE);

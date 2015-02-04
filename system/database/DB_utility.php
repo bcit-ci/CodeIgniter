@@ -87,7 +87,7 @@ abstract class CI_DB_utility {
 	public function __construct(&$db)
 	{
 		$this->db =& $db;
-		log_message('debug', 'Database Utility Class Initialized');
+		log_message('info', 'Database Utility Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -421,6 +421,3 @@ abstract class CI_DB_utility {
 	}
 
 }
-
-/* End of file DB_utility.php */
-/* Location: ./system/database/DB_utility.php */

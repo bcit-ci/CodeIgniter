@@ -146,7 +146,7 @@ class CI_Form_validation {
 		// Automatically load the form helper
 		$this->CI->load->helper('form');
 
-		log_message('debug', 'Form Validation Class Initialized');
+		log_message('info', 'Form Validation Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -1449,6 +1449,20 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Value should be within an array of values
+	 *
+	 * @param	string
+	 * @param	string
+	 * @return	bool
+	 */
+	public function in_list($value, $list)
+	{
+		return in_array($value, explode(',', $list), TRUE);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Is a Natural number  (0,1,2,3, etc.)
 	 *
 	 * @param	string
@@ -1589,6 +1603,3 @@ class CI_Form_validation {
 	}
 
 }
-
-/* End of file Form_validation.php */
-/* Location: ./system/libraries/Form_validation.php */

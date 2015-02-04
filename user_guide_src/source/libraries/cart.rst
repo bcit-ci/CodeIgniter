@@ -7,7 +7,7 @@ while a user is browsing your site. These items can be retrieved and
 displayed in a standard "shopping cart" format, allowing the user to
 update the quantity or remove items from the cart.
 
-.. important:: The Card library is DEPRECATED and should not be used. 
+.. important:: The Cart library is DEPRECATED and should not be used. 
 	It is currently only kept for backwards compatibility.
 
 Please note that the Cart Class ONLY provides the core "cart"
@@ -285,7 +285,7 @@ the update form is submitted. Please examine the construction of the
 Class Reference
 ***************
 
-.. class:: CI_Cart
+.. php:class:: CI_Cart
 
 	.. attribute:: $product_id_rules = '\.a-z0-9_-'
 
@@ -302,7 +302,7 @@ Class Reference
 		Whether or not to only allow safe product names. Default TRUE.
 
 
-	.. method:: insert([$items = array()])
+	.. php:method:: insert([$items = array()])
 
 		:param	array	$items: Items to insert into the cart
 		:returns:	TRUE on success, FALSE on failure
@@ -312,7 +312,7 @@ Class Reference
 		on success and FALSE on failure.
 
 
-	.. method:: update([$items = array()])
+	.. php:method:: update([$items = array()])
 
 		:param	array	$items: Items to update in the cart
 		:returns:	TRUE on success, FALSE on failure
@@ -323,7 +323,7 @@ Class Reference
 		to the quantity before checkout. That array must contain the rowid
 		for each item.
 
-	.. method:: remove($rowid)
+	.. php:method:: remove($rowid)
 
 		:param	int	$rowid: ID of the item to remove from the cart
 		:returns:	TRUE on success, FALSE on failure
@@ -332,7 +332,7 @@ Class Reference
 		Allows you to remove an item from the shopping cart by passing it the
 		``$rowid``.
 
-	.. method:: total()
+	.. php:method:: total()
 
 		:returns:	Total amount
 		:rtype:	int
@@ -340,7 +340,7 @@ Class Reference
 		Displays the total amount in the cart.
 
 
-	.. method:: total_items()
+	.. php:method:: total_items()
 
 		:returns:	Total amount of items in the cart
 		:rtype:	int
@@ -348,7 +348,7 @@ Class Reference
 		Displays the total number of items in the cart.
 
 
-	.. method:: contents([$newest_first = FALSE])
+	.. php:method:: contents([$newest_first = FALSE])
 
 		:param	bool	$newest_first: Whether to order the array with newest items first
 		:returns:	An array of cart contents
@@ -359,7 +359,7 @@ Class Reference
 		will be sorted from newest to oldest, otherwise it is sorted from oldest
 		to newest.
 
-	.. method:: get_item($row_id)
+	.. php:method:: get_item($row_id)
 
 		:param	int	$row_id: Row ID to retrieve
 		:returns:	Array of item data
@@ -368,7 +368,7 @@ Class Reference
 		Returns an array containing data for the item matching the specified row
 		ID, or FALSE if no such item exists.
 
-	.. method:: has_options($row_id = '')
+	.. php:method:: has_options($row_id = '')
 
 		:param	int	$row_id: Row ID to inspect
 		:returns:	TRUE if options exist, FALSE otherwise
@@ -379,7 +379,7 @@ Class Reference
 		you must pass the rowid to this method, as shown in the Displaying
 		the Cart example above.
 
-	.. method:: product_options([$row_id = ''])
+	.. php:method:: product_options([$row_id = ''])
 
 		:param	int	$row_id: Row ID
 		:returns:	Array of product options
@@ -390,7 +390,7 @@ Class Reference
 		must pass the rowid to this method, as shown in the Displaying the
 		Cart example above.
 
-	.. method:: destroy()
+	.. php:method:: destroy()
 
 		:rtype: void
 

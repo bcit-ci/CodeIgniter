@@ -1699,7 +1699,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * Groups tables in FROM clauses if needed, so there is no confusion
 	 * about operator precedence.
 	 *
-	 * Note: This is only used (and overriden) by MySQL and CUBRID.
+	 * Note: This is only used (and overridden) by MySQL and CUBRID.
 	 *
 	 * @return	string
 	 */
@@ -2723,6 +2723,3 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	}
 
 }
-
-/* End of file DB_query_builder.php */
-/* Location: ./system/database/DB_query_builder.php */

@@ -421,7 +421,7 @@ class CI_Email {
 		$this->_safe_mode = ( ! is_php('5.4') && ini_get('safe_mode'));
 		$this->charset = strtoupper($this->charset);
 
-		log_message('debug', 'Email Class Initialized');
+		log_message('info', 'Email Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -2271,6 +2271,3 @@ class CI_Email {
 	}
 
 }
-
-/* End of file Email.php */
-/* Location: ./system/libraries/Email.php */

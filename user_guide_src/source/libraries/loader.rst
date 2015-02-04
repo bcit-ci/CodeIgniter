@@ -77,9 +77,9 @@ calling ``add_package_path()``.
 Class Reference
 ***************
 
-.. class:: CI_Loader
+.. php:class:: CI_Loader
 
-	.. method:: library($library[, $params = NULL[, $object_name = NULL]])
+	.. php:method:: library($library[, $params = NULL[, $object_name = NULL]])
 
 		:param	mixed	$library: Library name as a string or an array with multiple libraries
 		:param	array	$params: Optional array of parameters to pass to the loaded library's constructor
@@ -156,7 +156,7 @@ Class Reference
 		Please take note, when multiple libraries are supplied in an array for
 		the first parameter, this parameter is discarded.
 
-	.. method:: driver($library[, $params = NULL[, $object_name]])
+	.. php:method:: driver($library[, $params = NULL[, $object_name]])
 
 		:param	mixed	$library: Library name as a string or an array with multiple libraries
 		:param	array	$params: Optional array of parameters to pass to the loaded library's constructor
@@ -217,7 +217,7 @@ Class Reference
 			// Session class is now accessed using:
 			$this->my_session
 
-	.. method:: view($view[, $vars = array()[, return = FALSE]])
+	.. php:method:: view($view[, $vars = array()[, return = FALSE]])
 
 		:param	string	$view: View name
 		:param	array	$vars: An associative array of variables
@@ -251,7 +251,7 @@ Class Reference
 
 			$string = $this->load->view('myfile', '', TRUE);
 
-	.. method:: vars($vars[, $val = ''])
+	.. php:method:: vars($vars[, $val = ''])
 
 		:param	mixed	$vars: An array of variables or a single variable name
 		:param	mixed	$val: Optional variable value
@@ -268,7 +268,7 @@ Class Reference
 		have multiple calls to this method. The data get cached and merged
 		into one array for conversion to variables.
 
-	.. method:: get_var($key)
+	.. php:method:: get_var($key)
 
 		:param	string	$key: Variable name key
 		:returns:	Value if key is found, NULL if not
@@ -278,21 +278,21 @@ Class Reference
 		your views. This is useful if for any reason a var is set in a library
 		or another controller method using ``$this->load->vars()``.
 
-	.. method:: get_vars()
+	.. php:method:: get_vars()
 
 		:returns:	An array of all assigned view variables
 		:rtype:	array
 
 		This method retrieves all variables available to your views.
 
-	.. method:: clear_vars()
+	.. php:method:: clear_vars()
 
 		:returns:	CI_Loader instance (method chaining)
 		:rtype:	CI_Loader
 
 		Clears cached view variables.
 
-	.. method:: model($model[, $name = ''[, $db_conn = FALSE]])
+	.. php:method:: model($model[, $name = ''[, $db_conn = FALSE]])
 
 		:param	mixed	$model: Model name or an array containing multiple models
 		:param	string	$name: Optional object name to assign the model to
@@ -317,7 +317,7 @@ Class Reference
 			$this->load->model('model_name', 'fubar');
 			$this->fubar->method();
 
-	.. method:: database([$params = ''[, $return = FALSE[, $query_builder = NULL]]])
+	.. php:method:: database([$params = ''[, $return = FALSE[, $query_builder = NULL]]])
 
 		:param	mixed	$params: Database group name or configuration options
 		:param	bool	$return: Whether to return the loaded database object
@@ -329,7 +329,7 @@ Class Reference
 		**optional**. Please see the :doc:`database <../database/index>`
 		section for more info.
 
-	.. method:: dbforge([$db = NULL[, $return = FALSE]])
+	.. php:method:: dbforge([$db = NULL[, $return = FALSE]])
 
 		:param	object	$db: Database object
 		:param	bool	$return: Whether to return the Database Forge instance
@@ -339,7 +339,7 @@ Class Reference
 		Loads the :doc:`Database Forge <../database/forge>` class, please refer
 		to that manual for more info.
 
-	.. method:: dbutil([$db = NULL[, $return = FALSE]])
+	.. php:method:: dbutil([$db = NULL[, $return = FALSE]])
 
 		:param	object	$db: Database object
 		:param	bool	$return: Whether to return the Database Utilities instance
@@ -349,7 +349,7 @@ Class Reference
 		Loads the :doc:`Database Utilities <../database/utilities>` class, please
 		refer to that manual for more info.
 
-	.. method:: helper($helpers)
+	.. php:method:: helper($helpers)
 
 		:param	mixed	$helpers: Helper name as a string or an array containing multiple helpers
 		:returns:	CI_Loader instance (method chaining)
@@ -358,7 +358,7 @@ Class Reference
 		This method loads helper files, where file_name is the name of the
 		file, without the _helper.php extension.
 
-	.. method:: file($path[, $return = FALSE])
+	.. php:method:: file($path[, $return = FALSE])
 
 		:param	string	$path: File path
 		:param	bool	$return: Whether to return the loaded file
@@ -371,7 +371,7 @@ Class Reference
 		second parameter to boolean TRUE it will instead return the data as a
 		string.
 
-	.. method:: language($files[, $lang = ''])
+	.. php:method:: language($files[, $lang = ''])
 
 		:param	mixed	$files: Language file name or an array of multiple language files
 		:param	string	$lang: Language name
@@ -381,7 +381,7 @@ Class Reference
 		This method is an alias of the :doc:`language loading
 		method <language>`: ``$this->lang->load()``.
 
-	.. method:: config($file[, $use_sections = FALSE[, $fail_gracefully = FALSE]])
+	.. php:method:: config($file[, $use_sections = FALSE[, $fail_gracefully = FALSE]])
 
 		:param	string	$file: Configuration file name
 		:param	bool	$use_sections: Whether configuration values should be loaded into their own section
@@ -392,7 +392,7 @@ Class Reference
 		This method is an alias of the :doc:`config file loading
 		method <config>`: ``$this->config->load()``
 
-	.. method:: is_loaded($class)
+	.. php:method:: is_loaded($class)
 
 		:param	string	$class: Class name
 		:returns:	Singleton property name if found, FALSE if not
@@ -420,7 +420,7 @@ Class Reference
 
 			$this->load->is_loaded('Form_validation');	// returns 'fv'
 
-	.. method:: add_package_path($path[, $view_cascade = TRUE])
+	.. php:method:: add_package_path($path[, $view_cascade = TRUE])
 
 		:param	string	$path: Path to add
 		:param	bool	$view_cascade: Whether to use cascading views
@@ -435,7 +435,7 @@ Class Reference
 			$this->load->add_package_path(APPPATH.'third_party/foo_bar/')
 				->library('foo_bar');
 
-	.. method:: remove_package_path([$path = ''])
+	.. php:method:: remove_package_path([$path = ''])
 
 		:param	string	$path: Path to remove
 		:returns:	CI_Loader instance (method chaining)
@@ -452,7 +452,7 @@ Class Reference
 
 			$this->load->remove_package_path(APPPATH.'third_party/foo_bar/');
 
-	.. method:: get_package_paths([$include_base = TRUE])
+	.. php:method:: get_package_paths([$include_base = TRUE])
 
 		:param	bool	$include_base: Whether to include BASEPATH
 		:returns:	An array of package paths

@@ -92,6 +92,3 @@ if ( ! function_exists('byte_format'))
 		return number_format($num, $precision).' '.$unit;
 	}
 }
-
-/* End of file number_helper.php */
-/* Location: ./system/helpers/number_helper.php */

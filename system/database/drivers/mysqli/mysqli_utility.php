@@ -211,6 +211,3 @@ class CI_DB_mysqli_utility extends CI_DB_utility {
 	}
 
 }
-
-/* End of file mysqli_utility.php */
-/* Location: ./system/database/drivers/mysqli/mysqli_utility.php */

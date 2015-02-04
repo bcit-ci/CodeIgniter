@@ -13,9 +13,9 @@ This article is intended to be a reference for them.
 	some of them may fail (and return FALSE) if the underlying
 	driver does not support them.
 
-.. class:: CI_DB_driver
+.. php:class:: CI_DB_driver
 
-	.. method:: initialize()
+	.. php:method:: initialize()
 
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
@@ -23,7 +23,7 @@ This article is intended to be a reference for them.
 		Initialize database settings, establish a connection to
 		the database.
 
-	.. method:: db_connect($persistent = TRUE)
+	.. php:method:: db_connect($persistent = TRUE)
 
 		:param	bool	$persistent: Whether to establish a persistent connection or a regular one
 		:returns:	Database connection resource/object or FALSE on failure
@@ -35,7 +35,7 @@ This article is intended to be a reference for them.
 			driver in use. For example, a ``mysqli`` instance
 			will be returned with the 'mysqli' driver.
 
-	.. method:: db_pconnect()
+	.. php:method:: db_pconnect()
 
 		:returns:	Database connection resource/object or FALSE on failure
 		:rtype:	mixed
@@ -44,7 +44,7 @@ This article is intended to be a reference for them.
 
 		.. note:: This method is just an alias for ``db_connect(TRUE)``.
 
-	.. method:: reconnect()
+	.. php:method:: reconnect()
 
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
@@ -53,7 +53,7 @@ This article is intended to be a reference for them.
 		have been sent for a length of time exceeding the
 		server's idle timeout.
 
-	.. method:: db_select([$database = ''])
+	.. php:method:: db_select([$database = ''])
 
 		:param	string	$database: Database name
 		:returns:	TRUE on success, FALSE on failure
@@ -61,7 +61,7 @@ This article is intended to be a reference for them.
 
 		Select / switch the current database.
 
-	.. method:: db_set_charset($charset)
+	.. php:method:: db_set_charset($charset)
 
 		:param	string	$charset: Character set name
 		:returns:	TRUE on success, FALSE on failure
@@ -69,21 +69,21 @@ This article is intended to be a reference for them.
 
 		Set client character set.
 
-	.. method:: platform()
+	.. php:method:: platform()
 
 		:returns:	Platform name
 		:rtype:	string
 
 		The name of the platform in use (mysql, mssql, etc...).
 
-	.. method:: version()
+	.. php:method:: version()
 
 		:returns:	The version of the database being used
 		:rtype:	string
 
 		Database version number.
 
-	.. method:: query($sql[, $binds = FALSE[, $return_object = NULL]]])
+	.. php:method:: query($sql[, $binds = FALSE[, $return_object = NULL]]])
 
 		:param	string	$sql: The SQL statement to execute
 		:param	array	$binds: An array of binding data
@@ -106,7 +106,7 @@ This article is intended to be a reference for them.
 			page will be displayed instead of returning FALSE
 			on failures and script execution will stop.
 
-	.. method:: simple_query($sql)
+	.. php:method:: simple_query($sql)
 
 		:param	string	$sql: The SQL statement to execute
 		:returns:	Whatever the underlying driver's "query" function returns
@@ -116,7 +116,7 @@ This article is intended to be a reference for them.
 		for use when you don't need to get a result object or to
 		just send a query to the database and not care for the result.
 
-	.. method:: trans_strict([$mode = TRUE])
+	.. php:method:: trans_strict([$mode = TRUE])
 
 		:param	bool	$mode: Strict mode flag
 		:rtype:	void
@@ -131,26 +131,26 @@ This article is intended to be a reference for them.
 		autonomously, meaning a failure of one group will not
 		affect any others.
 
-	.. method:: trans_off()
+	.. php:method:: trans_off()
 
 		:rtype:	void
 
 		Disables transactions at run-time.
 
-	.. method:: trans_start([$test_mode = FALSE])
+	.. php:method:: trans_start([$test_mode = FALSE])
 
 		:param	bool	$test_mode: Test mode flag
 		:rtype:	void
 
 		Start a transaction.
 
-	.. method:: trans_complete()
+	.. php:method:: trans_complete()
 
 		:rtype:	void
 
 		Complete Transaction.
 
-	.. method:: trans_status()
+	.. php:method:: trans_status()
 
                 :returns:	TRUE if the transaction succeeded, FALSE if it failed
 		:rtype:	bool
@@ -158,7 +158,7 @@ This article is intended to be a reference for them.
 		Lets you retrieve the transaction status flag to
 		determine if it has failed.
 
-	.. method:: compile_binds($sql, $binds)
+	.. php:method:: compile_binds($sql, $binds)
 
 		:param	string	$sql: The SQL statement 
 		:param	array	$binds: An array of binding data
@@ -167,7 +167,7 @@ This article is intended to be a reference for them.
 
 		Compiles an SQL query with the bind values passed for it.
 
-	.. method:: is_write_type($sql)
+	.. php:method:: is_write_type($sql)
 
 		:param	string	$sql: The SQL statement 
 		:returns:	TRUE if the SQL statement is of "write type", FALSE if not
@@ -176,7 +176,7 @@ This article is intended to be a reference for them.
 		Determines if a query is of a "write" type (such as
 		INSERT, UPDATE, DELETE) or "read" type (i.e. SELECT).
 
-	.. method:: elapsed_time([$decimals = 6])
+	.. php:method:: elapsed_time([$decimals = 6])
 
 		:param	int	$decimals: The number of decimal places
 		:returns:	The aggregate query elapsed time, in microseconds
@@ -184,7 +184,7 @@ This article is intended to be a reference for them.
 
 		Calculate the aggregate query elapsed time.
 
-	.. method:: total_queries()
+	.. php:method:: total_queries()
 
 		:returns:	The total number of queries executed
 		:rtype:	int
@@ -192,14 +192,14 @@ This article is intended to be a reference for them.
 		Returns the total number of queries that have been
 		executed so far.
 
-	.. method:: last_query()
+	.. php:method:: last_query()
 
 		:returns:	The last query executed
 		:rtype:	string
 
 		Returns the last query that was executed.
 
-	.. method:: escape($str)
+	.. php:method:: escape($str)
 
 		:param	mixed	$str: The value to escape, or an array of multiple ones
 		:returns:	The escaped value(s)
@@ -208,7 +208,7 @@ This article is intended to be a reference for them.
 		Escapes input data based on type, including boolean and
 		NULLs.
 
-	.. method:: escape_str($str[, $like = FALSE])
+	.. php:method:: escape_str($str[, $like = FALSE])
 
 		:param	mixed	$str: A string value or array of multiple ones
 		:param	bool	$like: Whether or not the string will be used in a LIKE condition
@@ -220,7 +220,7 @@ This article is intended to be a reference for them.
 		.. warning:: The returned strings do NOT include quotes
 			around them.
 
-	.. method:: escape_like_str($str)
+	.. php:method:: escape_like_str($str)
 
 		:param	mixed	$str: A string value or array of multiple ones
 		:returns:	The escaped string(s)
@@ -232,7 +232,7 @@ This article is intended to be a reference for them.
 		and ``_`` wildcard characters, so that they don't cause
 		false-positives in LIKE conditions.
 
-	.. method:: primary($table)
+	.. php:method:: primary($table)
 
 		:param	string	$table: Table name
 		:returns:	The primary key name, FALSE if none
@@ -244,7 +244,7 @@ This article is intended to be a reference for them.
 			key detection, the first column name may be assumed
 			as the primary key.
 
-	.. method:: count_all([$table = ''])
+	.. php:method:: count_all([$table = ''])
 
 		:param	string	$table: Table name
 		:returns:	Row count for the specified table
@@ -253,7 +253,7 @@ This article is intended to be a reference for them.
 		Returns the total number of rows in a table, or 0 if no
 		table was provided.
 
-	.. method:: list_tables([$constrain_by_prefix = FALSE])
+	.. php:method:: list_tables([$constrain_by_prefix = FALSE])
 
 		:param	bool	$constrain_by_prefix: TRUE to match table names by the configured dbprefix
 		:returns:	Array of table names or FALSE on failure
@@ -261,7 +261,7 @@ This article is intended to be a reference for them.
 
 		Gets a list of the tables in the current database.
 
-	.. method:: table_exists($table_name)
+	.. php:method:: table_exists($table_name)
 
 		:param	string	$table_name: The table name
 		:returns:	TRUE if that table exists, FALSE if not
@@ -269,7 +269,7 @@ This article is intended to be a reference for them.
 
 		Determine if a particular table exists.
 
-	.. method:: list_fields($table)
+	.. php:method:: list_fields($table)
 
 		:param	string	$table: The table name
 		:returns:	Array of field names or FALSE on failure
@@ -277,7 +277,7 @@ This article is intended to be a reference for them.
 
 		Gets a list of the field names in a table.
 
-	.. method:: field_exists($field_name, $table_name)
+	.. php:method:: field_exists($field_name, $table_name)
 
 		:param	string	$table_name: The table name
 		:param	string	$field_name: The field name
@@ -286,7 +286,7 @@ This article is intended to be a reference for them.
 
 		Determine if a particular field exists.
 
-	.. method:: field_data($table)
+	.. php:method:: field_data($table)
 
 		:param	string	$table: The table name
 		:returns:	Array of field data items or FALSE on failure
@@ -294,7 +294,7 @@ This article is intended to be a reference for them.
 
 		Gets a list containing field data about a table.
 
-	.. method:: escape_identifiers($item)
+	.. php:method:: escape_identifiers($item)
 
 		:param	mixed	$item: The item or array of items to escape
 		:returns:	The input item(s), escaped
@@ -302,7 +302,7 @@ This article is intended to be a reference for them.
 
 		Escape SQL identifiers, such as column, table and names.
 
-	.. method:: insert_string($table, $data)
+	.. php:method:: insert_string($table, $data)
 
 		:param	string	$table: The target table
 		:param	array	$data: An associative array of key/value pairs
@@ -311,7 +311,7 @@ This article is intended to be a reference for them.
 
 		Generate an INSERT statement string.
 
-	.. method:: update_string($table, $data, $where)
+	.. php:method:: update_string($table, $data, $where)
 
 		:param	string	$table: The target table
 		:param	array	$data: An associative array of key/value pairs
@@ -321,7 +321,7 @@ This article is intended to be a reference for them.
 
 		Generate an UPDATE statement string.
 
-	.. method:: call_function($function)
+	.. php:method:: call_function($function)
 
 		:param	string	$function: Function name
 		:returns:	The function result
@@ -330,28 +330,28 @@ This article is intended to be a reference for them.
 		Runs a native PHP function , using a platform agnostic
 		wrapper.
 
-	.. method:: cache_set_path([$path = ''])
+	.. php:method:: cache_set_path([$path = ''])
 
 		:param	string	$path: Path to the cache directory
 		:rtype:	void
 
 		Sets the directory path to use for caching storage.
 
-	.. method:: cache_on()
+	.. php:method:: cache_on()
 
 		:returns:	TRUE if caching is on, FALSE if not
 		:rtype:	bool
 
 		Enable database results caching.
 
-	.. method:: cache_off()
+	.. php:method:: cache_off()
 
 		:returns:	TRUE if caching is on, FALSE if not
 		:rtype:	bool
 
 		Disable database results caching.
 
-	.. method:: cache_delete([$segment_one = ''[, $segment_two = '']])
+	.. php:method:: cache_delete([$segment_one = ''[, $segment_two = '']])
 
 		:param	string	$segment_one: First URI segment
 		:param	string	$segment_two: Second URI segment
@@ -360,20 +360,20 @@ This article is intended to be a reference for them.
 
 		Delete the cache files associated with a particular URI.
 
-	.. method:: cache_delete_all()
+	.. php:method:: cache_delete_all()
 
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
 
 		Delete all cache files.
 
-	.. method:: close()
+	.. php:method:: close()
 
 		:rtype:	void
 
 		Close the DB Connection.
 
-	.. method:: display_error([$error = ''[, $swap = ''[, $native = FALSE]]])
+	.. php:method:: display_error([$error = ''[, $swap = ''[, $native = FALSE]]])
 
 		:param	string	$error: The error message
 		:param	string	$swap: Any "swap" values
@@ -388,7 +388,7 @@ This article is intended to be a reference for them.
 		The message is displayed using the
 		*application/views/errors/error_db.php* template.
 
-	.. method:: protect_identifiers($item[, $prefix_single = FALSE[, $protect_identifiers = NULL[, $field_exists = TRUE]]])
+	.. php:method:: protect_identifiers($item[, $prefix_single = FALSE[, $protect_identifiers = NULL[, $field_exists = TRUE]]])
 
 		:param	string	$item: The item to work with
 		:param	bool	$prefix_single: Whether to apply the dbprefix even if the input item is a single identifier

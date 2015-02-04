@@ -183,7 +183,7 @@ class CI_User_agent {
 			$this->_compile_data();
 		}
 
-		log_message('debug', 'User Agent Class Initialized');
+		log_message('info', 'User Agent Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -681,6 +681,3 @@ class CI_User_agent {
 	}
 
 }
-
-/* End of file User_agent.php */
-/* Location: ./system/libraries/User_agent.php */

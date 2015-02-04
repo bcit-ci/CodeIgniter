@@ -112,7 +112,7 @@ class CI_FTP {
 	public function __construct($config = array())
 	{
 		empty($config) OR $this->initialize($config);
-		log_message('debug', 'FTP Class Initialized');
+		log_message('info', 'FTP Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -665,6 +665,3 @@ class CI_FTP {
 	}
 
 }
-
-/* End of file Ftp.php */
-/* Location: ./system/libraries/Ftp.php */

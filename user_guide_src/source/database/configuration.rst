@@ -165,9 +165,9 @@ Explanation of Values:
 **password**		The password used to connect to the database.
 **database**		The name of the database you want to connect to.
 **dbdriver**		The database type. ie: mysqli, postgre, odbc, etc. Must be specified in lower case.
-**dbprefix**		An optional table prefix which will added to the table name when running :doc:
-			`Query Builder <query_builder>` queries. This permits multiple CodeIgniter installations
-			to share one database.
+**dbprefix**		An optional table prefix which will added to the table name when running
+			:doc:`Query Builder <query_builder>` queries. This permits multiple CodeIgniter
+			installations to share one database.
 **pconnect**		TRUE/FALSE (boolean) - Whether to use a persistent connection.
 **db_debug**		TRUE/FALSE (boolean) - Whether database errors should be displayed.
 **cache_on**		TRUE/FALSE (boolean) - Whether database query caching is enabled,

@@ -113,6 +113,3 @@ if ( ! function_exists('elements'))
 		return $return;
 	}
 }
-
-/* End of file array_helper.php */
-/* Location: ./system/helpers/array_helper.php */

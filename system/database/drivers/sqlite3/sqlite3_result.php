@@ -98,7 +98,7 @@ class CI_DB_sqlite3_result extends CI_DB_result {
 		);
 
 		$retval = array();
-		for ($i = 0, $c = $this->num_fields(); $i < $this->num_fields(); $i++)
+		for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 		{
 			$retval[$i]			= new stdClass();
 			$retval[$i]->name		= $this->result_id->columnName($i);
@@ -192,6 +192,3 @@ class CI_DB_sqlite3_result extends CI_DB_result {
 	}
 
 }
-
-/* End of file sqlite3_result.php */
-/* Location: ./system/database/drivers/sqlite3/sqlite3_result.php */

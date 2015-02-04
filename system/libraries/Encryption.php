@@ -171,7 +171,7 @@ class CI_Encryption {
 			$this->_key = $key;
 		}
 
-		log_message('debug', 'Encryption Class Initialized');
+		log_message('info', 'Encryption Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -248,7 +248,7 @@ class CI_Encryption {
 			$params['mode'] = strtolower($params['mode']);
 			if ( ! isset($this->_modes['mcrypt'][$params['mode']]))
 			{
-				log_message('error', 'Encryption: MCrypt mode '.strtotupper($params['mode']).' is not available.');
+				log_message('error', 'Encryption: MCrypt mode '.strtoupper($params['mode']).' is not available.');
 			}
 			else
 			{
@@ -268,7 +268,7 @@ class CI_Encryption {
 
 			if ($this->_handle = mcrypt_module_open($this->_cipher, '', $this->_mode, ''))
 			{
-				log_message('debug', 'Encryption: MCrypt cipher '.strtoupper($this->_cipher).' initialized in '.strtoupper($this->_mode).' mode.');
+				log_message('info', 'Encryption: MCrypt cipher '.strtoupper($this->_cipher).' initialized in '.strtoupper($this->_mode).' mode.');
 			}
 			else
 			{
@@ -299,7 +299,7 @@ class CI_Encryption {
 			$params['mode'] = strtolower($params['mode']);
 			if ( ! isset($this->_modes['openssl'][$params['mode']]))
 			{
-				log_message('error', 'Encryption: OpenSSL mode '.strtotupper($params['mode']).' is not available.');
+				log_message('error', 'Encryption: OpenSSL mode '.strtoupper($params['mode']).' is not available.');
 			}
 			else
 			{
@@ -322,7 +322,7 @@ class CI_Encryption {
 			else
 			{
 				$this->_handle = $handle;
-				log_message('debug', 'Encryption: OpenSSL initialized with method '.strtoupper($handle).'.');
+				log_message('info', 'Encryption: OpenSSL initialized with method '.strtoupper($handle).'.');
 			}
 		}
 	}
@@ -924,6 +924,3 @@ class CI_Encryption {
 			: substr($str, $start);
 	}
 }
-
-/* End of file Encryption.php */
-/* Location: ./system/libraries/Encryption.php */

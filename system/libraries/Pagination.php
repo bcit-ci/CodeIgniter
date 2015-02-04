@@ -299,6 +299,13 @@ class CI_Pagination {
 	protected $reuse_query_string = FALSE;
 
 	/**
+	 * Use global URL suffix flag
+	 *
+	 * @var	bool
+	 */
+	protected $use_global_url_suffix = FALSE;
+
+	/**
 	 * Data page attribute
 	 *
 	 * @var	string
@@ -333,7 +340,7 @@ class CI_Pagination {
 		}
 
 		$this->initialize($params);
-		log_message('debug', 'Pagination Class Initialized');
+		log_message('info', 'Pagination Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -371,6 +378,11 @@ class CI_Pagination {
 		if ($this->CI->config->item('enable_query_strings') === TRUE)
 		{
 			$this->page_query_string = TRUE;
+		}
+
+		if ($this->use_global_url_suffix === TRUE)
+		{
+			$this->suffix = $this->CI->config->item('url_suffix');
 		}
 
 		return $this;
@@ -682,6 +694,3 @@ class CI_Pagination {
 	}
 
 }
-
-/* End of file Pagination.php */
-/* Location: ./system/libraries/Pagination.php */

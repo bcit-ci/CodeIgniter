@@ -172,7 +172,6 @@ class CI_Typography {
 		// Build our finalized string.  We cycle through the array, skipping tags, and processing the contained text
 		$str = '';
 		$process = TRUE;
-		$paragraph = FALSE;
 
 		for ($i = 0, $c = count($chunks) - 1; $i <= $c; $i++)
 		{
@@ -423,6 +422,3 @@ class CI_Typography {
 	}
 
 }
-
-/* End of file Typography.php */
-/* Location: ./system/libraries/Typography.php */

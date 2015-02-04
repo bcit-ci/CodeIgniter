@@ -288,5 +288,3 @@ EOH;
 	}
 
 }
-
-/* End of file form_helper_test.php */

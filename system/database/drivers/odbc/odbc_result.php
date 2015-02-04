@@ -266,6 +266,3 @@ if ( ! function_exists('odbc_fetch_object'))
 		return $rs_object;
 	}
 }
-
-/* End of file odbc_result.php */
-/* Location: ./system/database/drivers/odbc/odbc_result.php */

@@ -80,9 +80,9 @@ Once loaded, the Encrypt library object will be available using::
 Class Reference
 ***************
 
-.. class:: CI_Encrypt
+.. php:class:: CI_Encrypt
 
-	.. method:: encode($string[, $key = ''])
+	.. php:method:: encode($string[, $key = ''])
 
 		:param	string	$string: Data to encrypt
 		:param	string	$key: Encryption key
@@ -103,7 +103,7 @@ Class Reference
 
 			$encrypted_string = $this->encrypt->encode($msg, $key);
 
-	.. method:: decode($string[, $key = ''])
+	.. php:method:: decode($string[, $key = ''])
 
 		:param	string	$string: String to decrypt
 		:param	string	$key: Encryption key
@@ -124,7 +124,7 @@ Class Reference
 
 			$encrypted_string = $this->encrypt->decode($msg, $key);
 
-	.. method:: set_cipher($cipher)
+	.. php:method:: set_cipher($cipher)
 
 		:param	int	$cipher: Valid PHP MCrypt cypher constant
 		:returns:	CI_Encrypt instance (method chaining)
@@ -142,7 +142,7 @@ Class Reference
 
 			echo extension_loaded('mcrypt') ? 'Yup' : 'Nope';
 
-	.. method:: set_mode($mode)
+	.. php:method:: set_mode($mode)
 
 		:param	int	$mode: Valid PHP MCrypt mode constant
 		:returns:	CI_Encrypt instance (method chaining)
@@ -155,7 +155,7 @@ Class Reference
 
 		Please visit php.net for a list of `available modes <http://php.net/mcrypt>`_.
 
-	.. method:: encode_from_legacy($string[, $legacy_mode = MCRYPT_MODE_ECB[, $key = '']])
+	.. php:method:: encode_from_legacy($string[, $legacy_mode = MCRYPT_MODE_ECB[, $key = '']])
 
 		:param	string	$string: String to encrypt
 		:param	int	$legacy_mode: Valid PHP MCrypt cipher constant

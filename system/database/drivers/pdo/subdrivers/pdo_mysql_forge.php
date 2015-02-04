@@ -199,8 +199,6 @@ class CI_DB_pdo_mysql_forge extends CI_DB_pdo_forge {
 			$extra_clause = ' FIRST';
 		}
 
-		$comment_clause = isset($field['comment']) ? ' COMMENT ' . $field['comment'] : '';
-
 		return $this->db->escape_identifiers($field['name'])
 			.(empty($field['new_name']) ? '' : ' '.$this->db->escape_identifiers($field['new_name']))
 			.' '.$field['type'].$field['length']
@@ -256,6 +254,3 @@ class CI_DB_pdo_mysql_forge extends CI_DB_pdo_forge {
 	}
 
 }
-
-/* End of file pdo_mysql_forge.php */
-/* Location: ./system/database/drivers/pdo/subdrivers/pdo_mysql_forge.php */

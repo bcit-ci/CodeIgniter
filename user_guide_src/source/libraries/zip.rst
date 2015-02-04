@@ -2,9 +2,8 @@
 Zip Encoding Class
 ##################
 
-CodeIgniter's Zip Encoding Class classes permit you to create Zip
-archives. Archives can be downloaded to your desktop or saved to a
-directory.
+CodeIgniter's Zip Encoding Class permits you to create Zip archives.
+Archives can be downloaded to your desktop or saved to a directory.
 
 .. contents::
   :local:
@@ -52,7 +51,7 @@ your server, and download it to your desktop.
 Class Reference
 ***************
 
-.. class:: CI_Zip
+.. php:class:: CI_Zip
 
 	.. attribute:: $compression_level = 2
 
@@ -62,7 +61,7 @@ Class Reference
 
 			$this->zip->compression_level = 0;
 
-	.. method:: add_data($filepath[, $data = NULL])
+	.. php:method:: add_data($filepath[, $data = NULL])
 
 		:param	mixed	$filepath: A single file path or an array of file => data pairs
 		:param	array	$data: File contents (ignored if $filepath is an array)
@@ -101,7 +100,7 @@ Class Reference
 
 		The above example will place my_bio.txt inside a folder called personal.
 
-	.. method:: add_dir($directory)
+	.. php:method:: add_dir($directory)
 
 		:param	mixed	$directory: Directory name string or an array of multiple directories
 		:rtype:	void
@@ -112,7 +111,7 @@ Class Reference
 
 			$this->zip->add_dir('myfolder'); // Creates a directory called "myfolder"
 
-	.. method:: read_file($path[, $archive_filepath = FALSE])
+	.. php:method:: read_file($path[, $archive_filepath = FALSE])
 
 		:param	string	$path: Path to file
 		:param	mixed	$archive_filepath: New file name/path (string) or (boolean) whether to maintain the original filepath
@@ -151,7 +150,7 @@ Class Reference
 			// Download ZIP archive containing /new/path/some_photo.jpg
 			$this->zip->download('my_archive.zip');
 
-	.. method:: read_dir($path[, $preserve_filepath = TRUE[, $root_path = NULL]])
+	.. php:method:: read_dir($path[, $preserve_filepath = TRUE[, $root_path = NULL]])
 
 		:param	string	$path: Path to directory
 		:param	bool	$preserve_filepath: Whether to maintain the original path
@@ -181,7 +180,7 @@ Class Reference
 		This will create a ZIP with a directory named "directory" inside, then all sub-directories
 		stored correctly inside that, but will not include the */path/to/your* part of the path.
 
-	.. method:: archive($filepath)
+	.. php:method:: archive($filepath)
 
 		:param	string	$filepath: Path to target zip archive
 		:returns:	TRUE on success, FALSE on failure
@@ -193,7 +192,7 @@ Class Reference
 
 			$this->zip->archive('/path/to/folder/myarchive.zip'); // Creates a file named myarchive.zip
 
-	.. method:: download($filename = 'backup.zip')
+	.. php:method:: download($filename = 'backup.zip')
 
 		:param	string	$filename: Archive file name
 		:rtype:	void
@@ -207,7 +206,7 @@ Class Reference
 			this method since it sends various server headers that cause the
 			download to happen and the file to be treated as binary.
 
-	.. method:: get_zip()
+	.. php:method:: get_zip()
 
 		:returns:	Zip file content
 		:rtype:	string
@@ -222,7 +221,7 @@ Class Reference
 
 			$zip_file = $this->zip->get_zip();
 
-	.. method:: clear_data()
+	.. php:method:: clear_data()
 
 		:rtype:	void
 

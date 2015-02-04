@@ -138,7 +138,7 @@ class CI_Calendar {
 
 		empty($config) OR $this->initialize($config);
 
-		log_message('debug', 'Calendar Class Initialized');
+		log_message('info', 'Calendar Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -548,6 +548,3 @@ class CI_Calendar {
 	}
 
 }
-
-/* End of file Calendar.php */
-/* Location: ./system/libraries/Calendar.php */

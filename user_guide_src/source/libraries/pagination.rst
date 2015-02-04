@@ -131,6 +131,12 @@ the offset segment.
 A custom suffix added to the path. The sufix value will be right after
 the offset segment.
 
+**$config['use_global_url_suffix'] = FALSE;**
+
+When set to TRUE, it will **override** the ``$config['suffix']`` value and
+instead set it to the one that you have in ``$config['url_suffix']`` in
+your **application/config/config.php** file.
+
 ***********************
 Adding Enclosing Markup
 ***********************
@@ -290,9 +296,9 @@ you can pass boolean FALSE as a regular attribute
 Class Reference
 ***************
 
-.. class:: CI_Pagination
+.. php:class:: CI_Pagination
 
-	.. method:: initialize([$params = array()])
+	.. php:method:: initialize([$params = array()])
 
 		:param	array	$params: Configuration parameters
 		:returns:	CI_Pagination instance (method chaining)
@@ -300,7 +306,7 @@ Class Reference
 
 		Initializes the Pagination class with your preferred options.
 
-	.. method:: create_links()
+	.. php:method:: create_links()
 
 		:returns:	HTML-formatted pagination
 		:rtype:	string

@@ -196,6 +196,3 @@ if ( ! function_exists('hash_pbkdf2'))
 		return substr($raw_output ? $hash : bin2hex($hash), 0, $length);
 	}
 }
-
-/* End of file hash.php */
-/* Location: ./system/core/compat/hash.php */

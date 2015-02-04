@@ -296,7 +296,7 @@ class CI_Upload {
 		$this->_mimes =& get_mimes();
 		$this->_CI =& get_instance();
 
-		log_message('debug', 'Upload Class Initialized');
+		log_message('info', 'Upload Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -338,11 +338,9 @@ class CI_Upload {
 					$this->$key = $defaults[$key];
 				}
 			}
-		
 		}
 		else
 		{
-			
 			foreach ($config as $key => &$value)
 			{
 				if ($key[0] !== '_' && $reflection->hasProperty($key))
@@ -357,7 +355,6 @@ class CI_Upload {
 					}
 				}
 			}
-			
 		}
 
 		// if a file_name was provided in the config, use it instead of the user input
@@ -1300,6 +1297,3 @@ class CI_Upload {
 	}
 
 }
-
-/* End of file Upload.php */
-/* Location: ./system/libraries/Upload.php */

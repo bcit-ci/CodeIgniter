@@ -387,6 +387,3 @@ if ( ! function_exists('quoted_printable_encode'))
 		return $output;
 	}
 }
-
-/* End of file standard.php */
-/* Location: ./system/core/compat/standard.php */

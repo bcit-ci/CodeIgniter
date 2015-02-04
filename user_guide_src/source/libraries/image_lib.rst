@@ -316,9 +316,9 @@ Preference              Default Value       Options             Description
 Class Reference
 ***************
 
-.. class:: CI_Image_lib
+.. php:class:: CI_Image_lib
 
-	.. method:: initialize([$props = array()])
+	.. php:method:: initialize([$props = array()])
 
 		:param	array	$props: Image processing preferences
 		:returns:	TRUE on success, FALSE in case of invalid settings
@@ -326,7 +326,7 @@ Class Reference
 
 		Initializes the class for processing an image.
 
-	.. method:: resize()
+	.. php:method:: resize()
 
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
@@ -373,7 +373,7 @@ Class Reference
 		new_image) are used, the resizing method will instead target the
 		original image for processing.
 
-	.. method:: crop()
+	.. php:method:: crop()
 
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
@@ -409,7 +409,7 @@ Class Reference
 			in ExpressionEngine, the CMS we develop. We added a JavaScript UI that
 			lets the cropping area be selected.
 
-	.. method:: rotate()
+	.. php:method:: rotate()
 
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
@@ -441,7 +441,7 @@ Class Reference
 				echo $this->image_lib->display_errors();
 			}
 
-	.. method:: watermark()
+	.. php:method:: watermark()
 
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
@@ -449,7 +449,7 @@ Class Reference
 		Creates a watermark over an image, please refer to the :ref:`watermarking`
 		section for more info.		
 
-	.. method:: clear()
+	.. php:method:: clear()
 
 		:rtype:	void
 
@@ -461,7 +461,7 @@ Class Reference
 
 			$this->image_lib->clear();
 
-	.. method:: display_errors([$open = '<p>[, $close = '</p>']])
+	.. php:method:: display_errors([$open = '<p>[, $close = '</p>']])
 
 		:param	string	$open: Error message opening tag
 		:param	string	$close: Error message closing tag

@@ -474,9 +474,9 @@ appear and become widely available.
 Class Reference
 ***************
 
-.. class:: CI_Encryption
+.. php:class:: CI_Encryption
 
-	.. method:: initialize($params)
+	.. php:method:: initialize($params)
 
 		:param	array	$params: Configuration parameters
 		:returns:	CI_Encryption instance (method chaining)
@@ -493,7 +493,7 @@ Class Reference
 
 		Please refer to the :ref:`configuration` section for detailed info.
 
-	.. method:: encrypt($data[, $params = NULL])
+	.. php:method:: encrypt($data[, $params = NULL])
 
 		:param	string	$data: Data to encrypt
 		:param	array	$params: Optional parameters
@@ -509,7 +509,7 @@ Class Reference
 		Please refer to the :ref:`custom-parameters` section for information
 		on the optional parameters.
 
-	.. method:: decrypt($data[, $params = NULL])
+	.. php:method:: decrypt($data[, $params = NULL])
 
 		:param	string	$data: Data to decrypt
 		:param	array	$params: Optional parameters
@@ -525,7 +525,7 @@ Class Reference
 		Please refer to the :ref:`custom-parameters` secrion for information
 		on the optional parameters.
 
-	.. method:: hkdf($key[, $digest = 'sha512'[, $salt = NULL[, $length = NULL[, $info = '']]]])
+	.. php:method:: hkdf($key[, $digest = 'sha512'[, $salt = NULL[, $length = NULL[, $info = '']]]])
 
 		:param	string	$key: Input key material
 		:param	string	$digest: A SHA-2 family digest algorithm

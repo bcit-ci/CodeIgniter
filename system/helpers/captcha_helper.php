@@ -251,6 +251,3 @@ if ( ! function_exists('create_captcha'))
 		return array('word' => $word, 'time' => $now, 'image' => $img, 'filename' => $img_filename);
 	}
 }
-
-/* End of file captcha_helper.php */
-/* Location: ./system/helpers/captcha_helper.php */

@@ -116,6 +116,7 @@ class CI_Profiler {
 		}
 
 		$this->set_sections($config);
+		log_message('info', 'Profiler Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -573,6 +574,3 @@ class CI_Profiler {
 	}
 
 }
-
-/* End of file Profiler.php */
-/* Location: ./system/libraries/Profiler.php */

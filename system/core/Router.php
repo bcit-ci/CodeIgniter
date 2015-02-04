@@ -147,7 +147,7 @@ class CI_Router {
 			}
 		}
 
-		log_message('debug', 'Router Class Initialized');
+		log_message('info', 'Router Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -525,6 +525,3 @@ class CI_Router {
 	}
 
 }
-
-/* End of file Router.php */
-/* Location: ./system/core/Router.php */

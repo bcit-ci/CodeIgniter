@@ -59,6 +59,3 @@ class CI_DB_sqlite3_utility extends CI_DB_utility {
 	}
 
 }
-
-/* End of file sqlite3_utility.php */
-/* Location: ./system/database/drivers/sqlite3/sqlite3_utility.php */

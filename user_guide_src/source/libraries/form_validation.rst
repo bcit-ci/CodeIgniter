@@ -352,9 +352,9 @@ commonly is::
 	set_value('field name')
 
 Open your myform.php view file and update the **value** in each field
-using the :func:`set_value()` function:
+using the :php:func:`set_value()` function:
 
-**Don't forget to include each field name in the :func:`set_value()`
+**Don't forget to include each field name in the :php:func:`set_value()`
 function calls!**
 
 ::
@@ -643,7 +643,7 @@ Showing Errors Individually
 ===========================
 
 If you prefer to show an error message next to each form field, rather
-than as a list, you can use the :func:`form_error()` function.
+than as a list, you can use the :php:func:`form_error()` function.
 
 Try it! Change your form so that it looks like this::
 
@@ -961,6 +961,7 @@ Rule                      Parameter  Description                                
                                      not numeric.
 **less_than_equal_to**    Yes        Returns FALSE if the form element is greater than the parameter value,                        less_than_equal_to[8]
                                      or not numeric.
+**in_list**               Yes        Returns FALSE if the form element is not within a predetermined list.                         in_list[red,blue,green]
 **alpha**                 No         Returns FALSE if the form element contains anything other than alphabetical characters.
 **alpha_numeric**         No         Returns FALSE if the form element contains anything other than alpha-numeric characters.
 **alpha_numeric_spaces**  No         Returns FALSE if the form element contains anything other than alpha-numeric characters
@@ -1017,9 +1018,9 @@ Name                 Parameter Description
 Class Reference
 ***************
 
-.. class:: CI_Form_validation
+.. php:class:: CI_Form_validation
 
-	.. method:: set_rules($field[, $label = ''[, $rules = '']])
+	.. php:method:: set_rules($field[, $label = ''[, $rules = '']])
 
 		:param	string	$field: Field name
 		:param	string	$label: Field label
@@ -1033,7 +1034,7 @@ Class Reference
 		-  :ref:`setting-validation-rules`
 		-  :ref:`saving-groups`
 
-	.. method:: run([$group = ''])
+	.. php:method:: run([$group = ''])
 
 		:param	string	$group: The name of the validation group to run
 		:returns:	TRUE on success, FALSE if validation failed
@@ -1043,7 +1044,7 @@ Class Reference
 		on failure. You can optionally pass the name of the validation group via
 		the method, as described in: :ref:`saving-groups`
 
-	.. method:: set_message($lang[, $val = ''])
+	.. php:method:: set_message($lang[, $val = ''])
 
 		:param	string	$lang: The rule the message is for
 		:param	string	$val: The message
@@ -1052,7 +1053,7 @@ Class Reference
 
 		Permits you to set custom error messages. See :ref:`setting-error-messages`
 
-	.. method:: set_error_delimiters([$prefix = '<p>'[, $suffix = '</p>']])
+	.. php:method:: set_error_delimiters([$prefix = '<p>'[, $suffix = '</p>']])
 
 		:param	string	$prefix: Error message prefix
 		:param	string	$suffix: Error message suffix
@@ -1061,7 +1062,7 @@ Class Reference
 
 		Sets the default prefix and suffix for error messages.
 
-	.. method:: set_data($data)
+	.. php:method:: set_data($data)
 
 		:param	array	$data: Array of data validate
 		:returns:	CI_Form_validation instance (method chaining)
@@ -1070,7 +1071,7 @@ Class Reference
 		Permits you to set an array for validation, instead of using the default
 		``$_POST`` array.
 
-	.. method:: reset_validation()
+	.. php:method:: reset_validation()
 
 		:returns:	CI_Form_validation instance (method chaining)
 		:rtype:	CI_Form_validation
@@ -1078,14 +1079,14 @@ Class Reference
 		Permits you to reset the validation when you validate more than one array.
 		This method should be called before validating each new array.
 
-	.. method:: error_array()
+	.. php:method:: error_array()
 
 		:returns:	Array of error messages
 		:rtype:	array
 
 		Returns the error messages as an array.
 
-	.. method:: error_string([$prefix = ''[, $suffix = '']])
+	.. php:method:: error_string([$prefix = ''[, $suffix = '']])
 
 		:param	string	$prefix: Error message prefix
 		:param	string	$suffix: Error message suffix
@@ -1095,7 +1096,7 @@ Class Reference
 		Returns all error messages (as returned from error_array()) formatted as a
 		string and separated by a newline character.
 
-	.. method:: error($field[, $prefix = ''[, $suffix = '']])
+	.. php:method:: error($field[, $prefix = ''[, $suffix = '']])
 
 		:param	string $field: Field name
 		:param	string $prefix: Optional prefix
@@ -1106,7 +1107,7 @@ Class Reference
 		Returns the error message for a specific field, optionally adding a
 		prefix and/or suffix to it (usually HTML tags).
 
-	.. method:: has_rule($field)
+	.. php:method:: has_rule($field)
 
 		:param	string	$field: Field name
 		:returns:	TRUE if the field has rules set, FALSE if not
@@ -1123,12 +1124,12 @@ Helper Reference
 Please refer to the :doc:`Form Helper <../helpers/form_helper>` manual for
 the following functions:
 
--  :func:`form_error()`
--  :func:`validation_errors()`
--  :func:`set_value()`
--  :func:`set_select()`
--  :func:`set_checkbox()`
--  :func:`set_radio()`
+-  :php:func:`form_error()`
+-  :php:func:`validation_errors()`
+-  :php:func:`set_value()`
+-  :php:func:`set_select()`
+-  :php:func:`set_checkbox()`
+-  :php:func:`set_radio()`
 
 Note that these are procedural functions, so they **do not** require you
 to prepend them with ``$this->form_validation``.

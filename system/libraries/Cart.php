@@ -115,7 +115,7 @@ class CI_Cart {
 			$this->_cart_contents = array('cart_total' => 0, 'total_items' => 0);
 		}
 
-		log_message('debug', 'Cart Class Initialized');
+		log_message('info', 'Cart Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -565,6 +565,3 @@ class CI_Cart {
 	}
 
 }
-
-/* End of file Cart.php */
-/* Location: ./system/libraries/Cart.php */
