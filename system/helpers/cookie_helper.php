@@ -87,7 +87,7 @@ if ( ! function_exists('get_cookie'))
 	 */
 	function get_cookie($index, $xss_clean = NULL)
 	{
-		return get_instance()->input->cookie($prefix.$index, $xss_clean);
+		return get_instance()->input->cookie($index, $xss_clean);
 	}
 }
 
