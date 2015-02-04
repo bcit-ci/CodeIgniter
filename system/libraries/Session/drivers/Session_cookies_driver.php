@@ -21,7 +21,6 @@ class CI_Session_cookies_driver extends CI_Session_driver implements SessionHand
 	
 	/*
 	 * Encrypt data cookie?
-	 * Set $config['sess_encrypt_data_cookie'] = TRUE in config.php to enable encryption
 	 * 
 	 * @var bool
 	 */
