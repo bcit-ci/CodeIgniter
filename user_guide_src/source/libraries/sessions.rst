@@ -72,6 +72,39 @@ automatic.
 .. note:: Under CLI, the Session library will automatically halt itself,
 	as this is a concept based entirely on the HTTP protocol.
 
+A note about concurrency
+------------------------
+
+Unless you're developing a website with heavy AJAX usage, you can skip this
+section. If you are, however, and if you're experiencing performance
+issues, then this note is exactly what you're looking for.
+
+Sessions in previous versions of CodeIgniter didn't implement locking,
+which meant that two HTTP requests using the same session could run exactly
+at the same time. To use a more appropriate technical term - requests were
+non-blocking.
+
+However, non-blocking requests in the context of sessions also means
+unsafe, because modifications to session data (or session ID regeneration)
+in one request can interfere with the execution of a second, concurrent
+request. This detail was at the root of many issues and the main reason why
+CodeIgniter 3.0 has a completely re-written Session library.
+
+Why are we telling you this? Because it is likely that after trying to
+find the reason for your performance issues, you may conclude that locking
+is the issue and therefore look into how to remove the locks ...
+
+DO NOT DO THAT! Removing locks would be **wrong** and it will cause you
+more problems!
+
+Locking is not the issue, it is a solution. Your issue is that you still
+have the session open, while you've already processed it and therefore no
+longer need it. So, what you need is to close the session for the
+current request after you no longer need it.
+
+Long story short - call ``session_write_close()`` once you no longer need
+anything to do with session variables.
+
 What is Session Data?
 =====================
 
@@ -542,7 +575,7 @@ In order to use the 'database' session driver, you must also create this
 table that we already mentioned and then set it as your
 ``$config['sess_save_path']`` value.
 For example, if you would like to use 'ci_sessions' as your table name,
-you would do this:
+you would do this::
 
 	$config['sess_driver'] = 'database';
 	$config['sess_save_path'] = 'ci_sessions';
