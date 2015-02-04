@@ -279,7 +279,9 @@ class CI_Input {
 	 */
 	public function cookie($index = NULL, $xss_clean = NULL)
 	{
-		return $this->_fetch_from_array($_COOKIE, $index, $xss_clean);
+		is_bool($xss_clean) OR $xss_clean = (config_item('global_xss_filtering') === TRUE);
+		$prefix = config_item('cookie_prefix');
+		return $this->_fetch_from_array($_COOKIE, $prefix . $index, $xss_clean);
 	}
 
 	// --------------------------------------------------------------------
