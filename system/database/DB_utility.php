@@ -417,7 +417,7 @@ abstract class CI_DB_utility {
 			return gzencode($this->_backup($prefs));
 		}
 
-		return '';
+		return;
 	}
 
 }
