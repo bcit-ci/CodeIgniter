@@ -671,11 +671,19 @@ class CI_Email {
 
 		if ($this->_get_protocol() === 'smtp' OR ($this->bcc_batch_mode && count($bcc) > $this->bcc_batch_size))
 		{
-			$this->_bcc_array = $bcc;
+			if (count($this->_bcc_array))
+			{
+				$this->_bcc_array = array_merge($this->_bcc_array, $bcc);
+			}
+			else
+			{
+				$this->_bcc_array = $bcc;
+			}
 		}
 		else
 		{
-			$this->set_header('Bcc', implode(', ', $bcc));
+			$bcc = (isset($this->_headers['Bcc']) ? $this->_headers['Bcc'] : '' ) . ', ' . implode(', ', $bcc);
+			$this->set_header('Bcc', $bcc);
 		}
 
 		return $this;
