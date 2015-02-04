@@ -171,7 +171,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 			return $session_data;
 		}
 
-		return FALSE;
+		return '';
 	}
 
 	// ------------------------------------------------------------------------
