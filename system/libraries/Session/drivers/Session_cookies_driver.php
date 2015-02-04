@@ -44,7 +44,7 @@ class CI_Session_cookies_driver extends CI_Session_driver implements SessionHand
 		parent::__construct($params);
 		
 		// Load additional config parameters specific to this driver
-		isset($this->_config['encryption_key']) OR $this->_config['encryption_key'] = config_item('encryption_key');
+		$this->_config['encryption_key'] = config_item('encryption_key');
 		isset($this->_config['encrypt_data_cookie']) OR $this->_config['encrypt_data_cookie'] = config_item('sess_encrypt_data_cookie');
 		
 		// Sanitize session_data cookie name
@@ -65,11 +65,11 @@ class CI_Session_cookies_driver extends CI_Session_driver implements SessionHand
 			$this->_encryption_key = $this->_config['encryption_key'];
 		}
 		
-		if ( ! empty($this->_config['encrypt_data_cookie']))
+		if ( ! empty($this->_config['encrypt_data_cookie']) && $this->_config['encrypt_data_cookie'] === TRUE)
 		{
 			$this->_CI =& get_instance();
 			$this->_CI->load->library('encryption');
-			$this->_encrypt_data_cookie = (bool) $this->_config['encrypt_data_cookie'];
+			$this->_encrypt_data_cookie = TRUE;
 		}
 	}
 
