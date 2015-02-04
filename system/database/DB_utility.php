@@ -316,7 +316,7 @@ abstract class CI_DB_utility {
 	 * Database Backup
 	 *
 	 * @param	array	$params
-	 * @return	mixed
+	 * @return	string
 	 */
 	public function backup($params = array())
 	{
@@ -417,7 +417,7 @@ abstract class CI_DB_utility {
 			return gzencode($this->_backup($prefs));
 		}
 
-		return;
+		return '';
 	}
 
 }

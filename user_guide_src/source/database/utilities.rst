@@ -252,8 +252,8 @@ Class Reference
 	.. php:method:: backup([$params = array()])
 
 		:param	array	$params: An associative array of options
-		:returns:	mixed
-		:rtype:	void
+		:returns:	string
+		:rtype:	string
 
 		Perform a database backup, per user preferences.
 
