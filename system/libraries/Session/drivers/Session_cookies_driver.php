@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * CodeIgniter Session Files Driver
+ * CodeIgniter Session Cookies Driver
  *
  * @package	CodeIgniter
  * @subpackage	Libraries
