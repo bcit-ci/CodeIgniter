@@ -65,7 +65,7 @@ class CI_Session_cookies_driver extends CI_Session_driver implements SessionHand
 	 *
 	 * Reads session data and acquires a lock
 	 *
-	 * @param	string	$session_id	Session ID, unused
+	 * @param	string	$session_id	Session ID
 	 * @return	string	Serialized session data
 	 */
 	public function read($session_id)
@@ -83,7 +83,7 @@ class CI_Session_cookies_driver extends CI_Session_driver implements SessionHand
 			if ($len <= 0)
 			{
 				log_message('error', 'Session: The session cookie was not signed.');
-				return FALSE;
+				return '';
 			}
 			// Check cookie authentication
 			$hmac = substr($session, $len);
@@ -99,81 +99,22 @@ class CI_Session_cookies_driver extends CI_Session_driver implements SessionHand
 			if ($diff !== 0)
 			{
 				log_message('error', 'Session: HMAC mismatch. The session cookie data did not match what was expected.');
-				return FALSE;
+				return '';
 			}
-									
-			$session_data = $this->_unserialize($session);
+			
+			$session = $this->_unserialize($session);
 			
 			// Does IP match?
-			if ($this->_config['match_ip'] && ( ! isset($session_data['ip_address']) OR $session_data['ip_address'] !== $_SERVER['REMOTE_ADDR']))
-				return FALSE;
+			if ($this->_config['match_ip'] && ( ! isset($session['ip_address']) OR $session['ip_address'] !== $_SERVER['REMOTE_ADDR']))
+				return '';
+			
+			$session_data = $session['data'];
 			
 			$this->_fingerprint = md5($session_data);
 			return $session_data;
 		}
 
-		return FALSE;
-		
-		// HMAC authentication
-		$len = strlen($session) - 40;
-		if ($len <= 0)
-		{
-			log_message('error', 'Session: The session cookie was not signed.');
-			return FALSE;
-		}
-		// Check cookie authentication
-		$hmac = substr($session, $len);
-		$session = substr($session, 0, $len);
-		// Time-attack-safe comparison
-		$hmac_check = hash_hmac('sha1', $session, $this->encryption_key);
-		$diff = 0;
-		for ($i = 0; $i < 40; $i++)
-		{
-			$xor = ord($hmac[$i]) ^ ord($hmac_check[$i]);
-			$diff |= $xor;
-		}
-		if ($diff !== 0)
-		{
-			log_message('error', 'Session: HMAC mismatch. The session cookie data did not match what was expected.');
-			$this->sess_destroy();
-			return FALSE;
-		}
-		// Decrypt the cookie data
-		if ($this->sess_encrypt_cookie == TRUE)
-		{
-			$session = $this->CI->encrypt->decode($session);
-		}
-		// Unserialize the session array
-		$session = $this->_unserialize($session);
-		// Is the session data we unserialized an array with the correct format?
-		if ( ! is_array($session) OR ! isset($session['session_id']) OR ! isset($session['ip_address']) OR ! isset($session['user_agent']) OR ! isset($session['last_activity']))
-		{
-			$this->sess_destroy();
-			return FALSE;
-		}
-		// Is the session current?
-		if (($session['last_activity'] + $this->sess_expiration) < $this->now)
-		{
-			$this->sess_destroy();
-			return FALSE;
-		}
-		// Does the IP Match?
-		if ($this->sess_match_ip == TRUE AND $session['ip_address'] != $this->CI->input->ip_address())
-		{
-			$this->sess_destroy();
-			return FALSE;
-		}
-		// Does the User Agent Match?
-		if ($this->sess_match_useragent == TRUE AND trim($session['user_agent']) != trim(substr($this->CI->input->user_agent(), 0, 120)))
-		{
-			$this->sess_destroy();
-			return FALSE;
-		}
-		
-		// Session is valid!
-		$this->userdata = $session;
-		unset($session);
-		return TRUE;
+		return '';
 	}
 
 	// ------------------------------------------------------------------------
@@ -189,50 +130,43 @@ class CI_Session_cookies_driver extends CI_Session_driver implements SessionHand
 	 */
 	public function write($session_id, $session_data)
 	{
-		// If the two IDs don't match, we have a session_regenerate_id() call
-		// and we need to close the old handle and open a new one
-		if ($session_id !== $this->_session_id && ( ! $this->close() OR $this->read($session_id) === FALSE))
+		// Was the ID regenerated?
+		if ($session_id !== $this->_session_id)
 		{
-			return FALSE;
+			$this->_fingerprint = md5('');
+			$this->_session_id = $session_id;
 		}
-
-		if ( ! is_resource($this->_file_handle))
+		
+		if ($this->_fingerprint !== ($fingerprint = md5($session_data)))
 		{
-			return FALSE;
-		}
-		elseif ($this->_fingerprint === md5($session_data))
-		{
-			return ($this->_file_new)
-				? TRUE
-				: touch($this->_file_path.$session_id);
-		}
-
-		if ( ! $this->_file_new)
-		{
-			ftruncate($this->_file_handle, 0);
-			rewind($this->_file_handle);
-		}
-
-		if (($length = strlen($session_data)) > 0)
-		{
-			for ($written = 0; $written < $length; $written += $result)
+			// Serialize the userdata for the cookie
+			$session = array('data' => $session_data);
+			if ($this->_config['match_ip'])
 			{
-				if (($result = fwrite($this->_file_handle, substr($session_data, $written))) === FALSE)
-				{
-					break;
-				}
+				$session['ip_address'] = $_SERVER['REMOTE_ADDR'];
 			}
+			$session = $this->_serialize($session);
 
-			if ( ! is_int($result))
-			{
-				$this->_fingerprint = md5(substr($session_data, 0, $written));
-				log_message('error', 'Session: Unable to write data.');
-				return FALSE;
-			}
+			// Sign session data
+			$session .= hash_hmac('sha1', $session, $this->_encryption_key);
+			
+			// Set the cookie
+			$expiration = $this->_config['expiration'] + time();
+			setcookie(
+				$this->_config['save_path'],
+				$session,
+				$expiration,
+				$this->_config['cookie_path'],
+				$this->_config['cookie_domain'],
+				$this->_config['cookie_secure'],
+				TRUE
+			);
+			
+			$this->_fingerprint = $fingerprint;
+			return TRUE;
 		}
 
-		$this->_fingerprint = md5($session_data);
-		return TRUE;
+		return FALSE;
 	}
 
 	// ------------------------------------------------------------------------
@@ -246,15 +180,6 @@ class CI_Session_cookies_driver extends CI_Session_driver implements SessionHand
 	 */
 	public function close()
 	{
-		if (is_resource($this->_file_handle))
-		{
-			flock($this->_file_handle, LOCK_UN);
-			fclose($this->_file_handle);
-
-			$this->_file_handle = $this->_file_new = $this->_session_id = NULL;
-			return TRUE;
-		}
-
 		return TRUE;
 	}
 
@@ -270,19 +195,15 @@ class CI_Session_cookies_driver extends CI_Session_driver implements SessionHand
 	 */
 	public function destroy($session_id)
 	{
-		if ($this->close())
-		{
-			return unlink($this->_file_path.$session_id) && $this->_cookie_destroy();
-		}
-		elseif ($this->_file_path !== NULL)
-		{
-			clearstatcache();
-			return file_exists($this->_file_path.$session_id)
-				? (unlink($this->_file_path.$session_id) && $this->_cookie_destroy())
-				: TRUE;
-		}
-
-		return FALSE;
+		return setcookie(
+			$this->_config['save_path'],
+			NULL,
+			1,
+			$this->_config['cookie_path'],
+			$this->_config['cookie_domain'],
+			$this->_config['cookie_secure'],
+			TRUE
+		) && $this->_cookie_destroy();
 	}
 
 	// ------------------------------------------------------------------------
@@ -297,28 +218,7 @@ class CI_Session_cookies_driver extends CI_Session_driver implements SessionHand
 	 */
 	public function gc($maxlifetime)
 	{
-		if ( ! is_dir($this->_config['save_path']) OR ($files = scandir($this->_config['save_path'])) === FALSE)
-		{
-			log_message('debug', "Session: Garbage collector couldn't list files under directory '".$this->_config['save_path']."'.");
-			return FALSE;
-		}
-
-		$ts = time() - $maxlifetime;
-
-		foreach ($files as $file)
-		{
-			// If the filename doesn't match this pattern, it's either not a session file or is not ours
-			if ( ! preg_match('/(?:[0-9a-f]{32})?[0-9a-f]{40}$/i', $file)
-				OR ! is_file($this->_config['save_path'].DIRECTORY_SEPARATOR.$file)
-				OR ($mtime = filemtime($this->_config['save_path'].DIRECTORY_SEPARATOR.$file)) === FALSE
-				OR $mtime > $ts)
-			{
-				continue;
-			}
-
-			unlink($this->_config['save_path'].DIRECTORY_SEPARATOR.$file);
-		}
-
+		// Not necessary, browser takes care of that.
 		return TRUE;
 	}
 
@@ -370,7 +270,7 @@ class CI_Session_cookies_driver extends CI_Session_driver implements SessionHand
 	 */
 	private function _unserialize($data)
 	{
-		$data = @unserialize(strip_slashes($data));
+		$data = @unserialize(stripslashes($data));
 		if (is_array($data))
 		{
 			foreach ($data as $key => $val)
