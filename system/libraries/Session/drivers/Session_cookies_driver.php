@@ -19,6 +19,21 @@ class CI_Session_cookies_driver extends CI_Session_driver implements SessionHand
 	 */
 	protected $_encryption_key;
 	
+	/*
+	 * Encrypt data cookie?
+	 * Set $config['sess_encrypt_data_cookie'] = TRUE in config.php to enable encryption
+	 * 
+	 * @var bool
+	 */
+	protected $_encrypt_data_cookie = FALSE;
+	
+	/*
+	 * Reference to CodeIgniter core object
+	 * 
+	 * @var object
+	 */
+	protected $_CI;
+	
 	/**
 	 * Class constructor
 	 *
@@ -29,17 +44,34 @@ class CI_Session_cookies_driver extends CI_Session_driver implements SessionHand
 	{
 		parent::__construct($params);
 		
+		// Load additional config parameters specific to this driver
+		isset($this->_config['encryption_key']) OR $this->_config['encryption_key'] = config_item('encryption_key');
+		isset($this->_config['encrypt_data_cookie']) OR $this->_config['encrypt_data_cookie'] = config_item('sess_encrypt_data_cookie');
+		
 		// Sanitize session_data cookie name
 		if (isset($this->_config['save_path']))
 		{
-			$this->_config['save_path'] = preg_replace("/[^a-zA-Z0-9\_\-\.]+/", "", $this->_config['save_path']);
+			$this->_config['save_path'] = preg_replace("/[^a-zA-Z0-9\_\-]+/", "", $this->_config['save_path']);
 		}
 		else
 		{
 			$this->_config['save_path'] = 'ci_session_data';
 		}
 		
-		$this->_encryption_key = $this->_config['encryption_key'];
+		if (empty($this->_config['encryption_key']))
+		{
+			log_message('error', 'Session: encryption_key is not set, aborting.');
+		} else 
+		{
+			$this->_encryption_key = $this->_config['encryption_key'];
+		}
+		
+		if ( ! empty($this->_config['encrypt_data_cookie']))
+		{
+			$this->_CI =& get_instance();
+			$this->_CI->load->library('encryption');
+			$this->_encrypt_data_cookie = (bool) $this->_config['encrypt_data_cookie'];
+		}
 	}
 
 	// ------------------------------------------------------------------------
@@ -55,7 +87,8 @@ class CI_Session_cookies_driver extends CI_Session_driver implements SessionHand
 	 */
 	public function open($save_path, $name)
 	{
-		return TRUE;
+		// Driver is unusable if no encryption key is set
+		return isset($this->_encryption_key);
 	}
 
 	// ------------------------------------------------------------------------
@@ -70,6 +103,9 @@ class CI_Session_cookies_driver extends CI_Session_driver implements SessionHand
 	 */
 	public function read($session_id)
 	{
+		if ( ! isset($this->_encryption_key))
+			return FALSE;
+		
 		if (isset($_COOKIE[$this->_config['save_path']]))
 		{
 			// Needed by write() to detect session_regenerate_id() calls
@@ -83,7 +119,7 @@ class CI_Session_cookies_driver extends CI_Session_driver implements SessionHand
 			if ($len <= 0)
 			{
 				log_message('error', 'Session: The session cookie was not signed.');
-				return '';
+				return FALSE;
 			}
 			// Check cookie authentication
 			$hmac = substr($session, $len);
@@ -99,14 +135,20 @@ class CI_Session_cookies_driver extends CI_Session_driver implements SessionHand
 			if ($diff !== 0)
 			{
 				log_message('error', 'Session: HMAC mismatch. The session cookie data did not match what was expected.');
-				return '';
+				return FALSE;
+			}
+			
+			// Decrypt the cookie data
+			if ($this->_encrypt_data_cookie == TRUE)
+			{
+				$session = $this->_CI->encryption->decrypt($session);
 			}
 			
 			$session = $this->_unserialize($session);
 			
 			// Does IP match?
 			if ($this->_config['match_ip'] && ( ! isset($session['ip_address']) OR $session['ip_address'] !== $_SERVER['REMOTE_ADDR']))
-				return '';
+				return FALSE;
 			
 			$session_data = $session['data'];
 			
@@ -130,6 +172,9 @@ class CI_Session_cookies_driver extends CI_Session_driver implements SessionHand
 	 */
 	public function write($session_id, $session_data)
 	{
+		if ( ! isset($this->_encryption_key))
+			return FALSE;
+		
 		// Was the ID regenerated?
 		if ($session_id !== $this->_session_id)
 		{
@@ -146,6 +191,12 @@ class CI_Session_cookies_driver extends CI_Session_driver implements SessionHand
 				$session['ip_address'] = $_SERVER['REMOTE_ADDR'];
 			}
 			$session = $this->_serialize($session);
+			
+			// Encrypt the cookie data
+			if ($this->_encrypt_data_cookie == TRUE)
+			{
+				$session = $this->_CI->encryption->encrypt($session);
+			}
 
 			// Sign session data
 			$session .= hash_hmac('sha1', $session, $this->_encryption_key);
