@@ -421,7 +421,7 @@ class CI_Migration {
 	 * Stores the current schema version
 	 *
 	 * @param	string	$migration	Migration reached
-	 * @return	void	Outputs a report of the migration
+	 * @return	object	Outputs a report of the migration
 	 */
 	protected function _update_version($migration)
 	{

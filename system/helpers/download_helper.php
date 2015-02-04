@@ -59,7 +59,7 @@ if ( ! function_exists('force_download'))
 	 * @param	string	filename
 	 * @param	mixed	the data to be downloaded
 	 * @param	bool	whether to try and send the actual file MIME type
-	 * @return	void
+	 * @return	bool
 	 */
 	function force_download($filename = '', $data = '', $set_mime = FALSE)
 	{

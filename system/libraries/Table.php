@@ -502,7 +502,7 @@ class CI_Table {
 	/**
 	 * Default Template
 	 *
-	 * @return	void
+	 * @return	array
 	 */
 	protected function _default_template()
 	{

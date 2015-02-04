@@ -86,7 +86,7 @@ if ( ! function_exists('is_really_writable'))
 	 *
 	 * @link	https://bugs.php.net/bug.php?id=54709
 	 * @param	string
-	 * @return	void
+	 * @return	bool
 	 */
 	function is_really_writable($file)
 	{

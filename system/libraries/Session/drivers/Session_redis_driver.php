@@ -230,7 +230,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	 *
 	 * Releases locks and closes connection.
 	 *
-	 * @return	void
+	 * @return	bool
 	 */
 	public function close()
 	{
