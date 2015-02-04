@@ -475,13 +475,14 @@ Preference         Default         Description
 Session Drivers
 ===============
 
-As already mentioned, the Session library comes with 4 drivers, or storage
+As already mentioned, the Session library comes with 5 drivers, or storage
 engines, that you can use:
 
   - files
   - database
   - redis
   - memcached
+  - cookies
 
 By default, the `Files Driver`_ will be used when a session is initialized,
 because it is the most safe choice and is expected to work everywhere
@@ -494,13 +495,6 @@ get yourself familiar with them (below) before you make that choice.
 
 In addition, you may also create and use `Custom Drivers`_, if the ones
 provided by default don't satisfy your use case.
-
-.. note:: In previous CodeIgniter versions, a different, "cookie driver"
-	was the only option and we have received negative feedback on not
-	providing that option. While we do listen to feedback from the
-	community, we want to warn you that it was dropped because it is
-	**unsafe** and we advise you NOT to try to replicate it via a
-	custom driver.
 
 Files Driver
 ------------
@@ -695,6 +689,26 @@ separate the multiple server paths with commas::
 	// localhost will be given higher priority (5) here,
 	// compared to 192.0.2.1 with a weight of 1.
 	$config['sess_save_path'] = 'localhost:11211:5,192.0.2.1:11211:1';
+
+Cookies Driver
+------------
+
+The cookies driver saves session data in user's browser cookie. It is the 
+old CI2 'Session Library' that was rewritten as a driver to meet new CI3 
+Session Library requirements.
+
+The downside of the cookies driver is lack of locks (the only one non-blocking 
+driver) and the presence of second cookie for data storage besides the first 
+one that stores session ID. Integrity and security check of input cookies are 
+done via HMAC signatures. This means that you *MUST* set 
+``$config['encryption_key']`` in order to make this driver work. 
+Also driver supports optional data encryption. 
+
+
+The name of the data cookie is configurable with
+``$config['sess_save_path']`` setting. The data cookie encryption is controlled 
+by ``$config['sess_encrypt_data_cookie']``. All other data cookie parameters 
+are equal to the params for session cookie.
 
 Custom Drivers
 --------------
