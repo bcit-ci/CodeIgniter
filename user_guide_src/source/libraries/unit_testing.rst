@@ -177,9 +177,9 @@ template. Note the required pseudo-variables::
 Class Reference
 ***************
 
-.. class:: CI_Unit_test
+.. php:class:: CI_Unit_test
 
-	.. method:: set_test_items($items)
+	.. php:method:: set_test_items($items)
 
 		:param array $items: List of visible test items
 		:returns: void
@@ -195,7 +195,7 @@ Class Reference
 		  - line
 		  - notes
 
-	.. method:: run($test[, $expected = TRUE[, $test_name = 'undefined'[, $notes = '']]])
+	.. php:method:: run($test[, $expected = TRUE[, $test_name = 'undefined'[, $notes = '']]])
 
 		:param	mixed	$test: Test data
 		:param	mixed	$expected: Expected result
@@ -206,7 +206,7 @@ Class Reference
 
 		Runs unit tests.
 
-	.. method:: report([$result = array()])
+	.. php:method:: report([$result = array()])
 
 		:param	array	$result: Array containing tests results
 		:returns:	Test report
@@ -214,21 +214,21 @@ Class Reference
 
 		Generates a report about already complete tests.
 
-	.. method:: use_strict([$state = TRUE])
+	.. php:method:: use_strict([$state = TRUE])
 
 		:param	bool	$state: Strict state flag
 		:rtype:	void
 
 		Enables/disables strict type comparison in tests.
 
-	.. method:: active([$state = TRUE])
+	.. php:method:: active([$state = TRUE])
 
 		:param	bool	$state: Whether to enable testing
 		:rtype:	void
 
 		Enables/disables unit testing.
 
-	.. method:: result([$results = array()])
+	.. php:method:: result([$results = array()])
 
 		:param	array	$results: Tests results list
 		:returns:	Array of raw result data
@@ -236,7 +236,7 @@ Class Reference
 
 		Returns raw tests results data.
 
-	.. method:: set_template($template)
+	.. php:method:: set_template($template)
 
 		:param	string	$template: Test result template
 		:rtype:	void

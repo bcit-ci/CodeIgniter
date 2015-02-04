@@ -1044,9 +1044,9 @@ run the query::
 Class Reference
 ***************
 
-.. class:: CI_DB_query_builder
+.. php:class:: CI_DB_query_builder
 
-	.. method:: reset_query()
+	.. php:method:: reset_query()
 
 		:returns:	CI_DB_query_builder instance (method chaining)
 		:rtype:	CI_DB_query_builder
@@ -1054,28 +1054,28 @@ Class Reference
 		Resets the current Query Builder state.  Useful when you want
 		to build a query that can be cancelled under certain conditions.
 
-	.. method:: start_cache()
+	.. php:method:: start_cache()
 
 		:returns:	CI_DB_query_builder instance (method chaining)
 		:rtype:	CI_DB_query_builder
 
 		Starts the Query Builder cache.
 
-	.. method:: stop_cache()
+	.. php:method:: stop_cache()
 
 		:returns:	CI_DB_query_builder instance (method chaining)
 		:rtype:	CI_DB_query_builder
 
 		Stops the Query Builder cache.
 
-	.. method:: flush_cache()
+	.. php:method:: flush_cache()
 
 		:returns:	CI_DB_query_builder instance (method chaining)
 		:rtype:	CI_DB_query_builder
 
 		Empties the Query Builder cache.
 
-	.. method:: set_dbprefix([$prefix = ''])
+	.. php:method:: set_dbprefix([$prefix = ''])
 
 		:param	string	$prefix: The new prefix to use
 		:returns:	The DB prefix in use
@@ -1083,7 +1083,7 @@ Class Reference
 
 		Sets the database prefix, without having to reconnect.
 
-	.. method:: dbprefix([$table = ''])
+	.. php:method:: dbprefix([$table = ''])
 
 		:param	string	$table: The table name to prefix
 		:returns:	The prefixed table name
@@ -1091,7 +1091,7 @@ Class Reference
 
 		Prepends a database prefix, if one exists in configuration.
 
-	.. method:: count_all_results([$table = ''])
+	.. php:method:: count_all_results([$table = ''])
 
 		:param	string	$table: Table name
 		:returns:	Number of rows in the query result
@@ -1100,7 +1100,7 @@ Class Reference
 		Generates a platform-specific query string that counts
 		all records returned by an Query Builder query.
 
-	.. method:: get([$table = ''[, $limit = NULL[, $offset = NULL]]])
+	.. php:method:: get([$table = ''[, $limit = NULL[, $offset = NULL]]])
 
 		:param	string	$table: The table to query
 		:param	int	$limit: The LIMIT clause
@@ -1111,7 +1111,7 @@ Class Reference
 		Compiles and runs SELECT statement based on the already
 		called Query Builder methods.
 
-	.. method:: get_where([$table = ''[, $where = NULL[, $limit = NULL[, $offset = NULL]]]])
+	.. php:method:: get_where([$table = ''[, $where = NULL[, $limit = NULL[, $offset = NULL]]]])
 
 		:param	mixed	$table: The table(s) to fetch data from; string or array
 		:param	string	$where: The WHERE clause
@@ -1122,7 +1122,7 @@ Class Reference
 
 		Same as ``get()``, but also allows the WHERE to be added directly.
 
-	.. method:: select([$select = '*'[, $escape = NULL]])
+	.. php:method:: select([$select = '*'[, $escape = NULL]])
 
 		:param	string	$select: The SELECT portion of a query
 		:param	bool	$escape: Whether to escape values and identifiers
@@ -1131,7 +1131,7 @@ Class Reference
 
 		Adds a SELECT clause to a query.
 
-	.. method:: select_avg([$select = ''[, $alias = '']])
+	.. php:method:: select_avg([$select = ''[, $alias = '']])
 
 		:param	string	$select: Field to compute the average of
 		:param	string	$alias: Alias for the resulting value name
@@ -1140,7 +1140,7 @@ Class Reference
 
 		Adds a SELECT AVG(field) clause to a query.
 
-	.. method:: select_max([$select = ''[, $alias = '']])
+	.. php:method:: select_max([$select = ''[, $alias = '']])
 
 		:param	string	$select: Field to compute the maximum of
 		:param	string	$alias: Alias for the resulting value name
@@ -1149,7 +1149,7 @@ Class Reference
 
 		Adds a SELECT MAX(field) clause to a query.
 
-	.. method:: select_min([$select = ''[, $alias = '']])
+	.. php:method:: select_min([$select = ''[, $alias = '']])
 
 		:param	string	$select: Field to compute the minimum of
 		:param	string	$alias: Alias for the resulting value name
@@ -1158,7 +1158,7 @@ Class Reference
 
 		Adds a SELECT MIN(field) clause to a query.
 
-	.. method:: select_sum([$select = ''[, $alias = '']])
+	.. php:method:: select_sum([$select = ''[, $alias = '']])
 
 		:param	string	$select: Field to compute the sum of
 		:param	string	$alias: Alias for the resulting value name
@@ -1167,7 +1167,7 @@ Class Reference
 
 		Adds a SELECT SUM(field) clause to a query.
 
-	.. method:: distinct([$val = TRUE])
+	.. php:method:: distinct([$val = TRUE])
 
 		:param	bool	$val: Desired value of the "distinct" flag
 		:returns:	CI_DB_query_builder instance (method chaining)
@@ -1176,7 +1176,7 @@ Class Reference
 		Sets a flag which tells the query builder to add
 		a DISTINCT clause to the SELECT portion of the query.
 
-	.. method:: from($from)
+	.. php:method:: from($from)
 
 		:param	mixed	$from: Table name(s); string or array
 		:returns:	CI_DB_query_builder instance (method chaining)
@@ -1184,7 +1184,7 @@ Class Reference
 
 		Specifies the FROM clause of a query.
 
-	.. method:: join($table, $cond[, $type = ''[, $escape = NULL]])
+	.. php:method:: join($table, $cond[, $type = ''[, $escape = NULL]])
 
 		:param	string	$table: Table name to join
 		:param	string	$cond: The JOIN ON condition
@@ -1195,7 +1195,7 @@ Class Reference
 
 		Adds a JOIN clause to a query.
 
-	.. method:: where($key[, $value = NULL[, $escape = NULL]])
+	.. php:method:: where($key[, $value = NULL[, $escape = NULL]])
 
 		:param	mixed	$key: Name of field to compare, or associative array
 		:param	mixed	$value: If a single key, compared to this value
@@ -1206,7 +1206,7 @@ Class Reference
 		Generates the WHERE portion of the query.
                 Separates multiple calls with 'AND'.
 
-	.. method:: or_where($key[, $value = NULL[, $escape = NULL]])
+	.. php:method:: or_where($key[, $value = NULL[, $escape = NULL]])
 
 		:param	mixed	$key: Name of field to compare, or associative array
 		:param	mixed	$value: If a single key, compared to this value
@@ -1217,7 +1217,7 @@ Class Reference
 		Generates the WHERE portion of the query.
                 Separates multiple calls with 'OR'.
 
-	.. method:: or_where_in([$key = NULL[, $values = NULL[, $escape = NULL]]])
+	.. php:method:: or_where_in([$key = NULL[, $values = NULL[, $escape = NULL]]])
 
 		:param	string	$key: The field to search
 		:param	array	$values: The values searched on
@@ -1228,7 +1228,7 @@ Class Reference
 		Generates a WHERE field IN('item', 'item') SQL query,
                 joined with 'OR' if appropriate.
 
-	.. method:: or_where_not_in([$key = NULL[, $values = NULL[, $escape = NULL]]])
+	.. php:method:: or_where_not_in([$key = NULL[, $values = NULL[, $escape = NULL]]])
 
 		:param	string	$key: The field to search
 		:param	array	$values: The values searched on
@@ -1239,7 +1239,7 @@ Class Reference
 		Generates a WHERE field NOT IN('item', 'item') SQL query,
                 joined with 'OR' if appropriate.
 
-	.. method:: where_in([$key = NULL[, $values = NULL[, $escape = NULL]]])
+	.. php:method:: where_in([$key = NULL[, $values = NULL[, $escape = NULL]]])
 
 		:param	string	$key: Name of field to examine
 		:param	array	$values: Array of target values
@@ -1250,7 +1250,7 @@ Class Reference
 		Generates a WHERE field IN('item', 'item') SQL query,
                 joined with 'AND' if appropriate.
 
-	.. method:: where_not_in([$key = NULL[, $values = NULL[, $escape = NULL]]])
+	.. php:method:: where_not_in([$key = NULL[, $values = NULL[, $escape = NULL]]])
 
 		:param	string	$key: Name of field to examine
 		:param	array	$values: Array of target values
@@ -1261,42 +1261,42 @@ Class Reference
 		Generates a WHERE field NOT IN('item', 'item') SQL query,
                 joined with 'AND' if appropriate.
 
-	.. method:: group_start()
+	.. php:method:: group_start()
 
 		:returns:	CI_DB_query_builder instance (method chaining)
 		:rtype:	CI_DB_query_builder
 
 		Starts a group expression, using ANDs for the conditions inside it.
 
-	.. method:: or_group_start()
+	.. php:method:: or_group_start()
 
 		:returns:	CI_DB_query_builder instance (method chaining)
 		:rtype:	CI_DB_query_builder
 
 		Starts a group expression, using ORs for the conditions inside it.
 
-	.. method:: not_group_start()
+	.. php:method:: not_group_start()
 
 		:returns:	CI_DB_query_builder instance (method chaining)
 		:rtype:	CI_DB_query_builder
 
 		Starts a group expression, using AND NOTs for the conditions inside it.
 
-	.. method:: or_not_group_start()
+	.. php:method:: or_not_group_start()
 
 		:returns:	CI_DB_query_builder instance (method chaining)
 		:rtype:	CI_DB_query_builder
 
 		Starts a group expression, using OR NOTs for the conditions inside it.
 
-	.. method:: group_end()
+	.. php:method:: group_end()
 
 		:returns:	DB_query_builder instance
 		:rtype:	object
 
 		Ends a group expression.
 
-	.. method:: like($field[, $match = ''[, $side = 'both'[, $escape = NULL]]])
+	.. php:method:: like($field[, $match = ''[, $side = 'both'[, $escape = NULL]]])
 
 		:param	string	$field: Field name
 		:param	string	$match: Text portion to match
@@ -1307,7 +1307,7 @@ Class Reference
 
 		Adds a LIKE clause to a query, separating multiple calls with AND.
 
-	.. method:: or_like($field[, $match = ''[, $side = 'both'[, $escape = NULL]]])
+	.. php:method:: or_like($field[, $match = ''[, $side = 'both'[, $escape = NULL]]])
 
 		:param	string	$field: Field name
 		:param	string	$match: Text portion to match
@@ -1318,7 +1318,7 @@ Class Reference
 
 		Adds a LIKE clause to a query, separating multiple class with OR.
 
-	.. method:: not_like($field[, $match = ''[, $side = 'both'[, $escape = NULL]]])
+	.. php:method:: not_like($field[, $match = ''[, $side = 'both'[, $escape = NULL]]])
 
 		:param	string	$field: Field name
 		:param	string	$match: Text portion to match
@@ -1329,7 +1329,7 @@ Class Reference
 
 		Adds a NOT LIKE clause to a query, separating multiple calls with AND.
 
-	.. method:: or_not_like($field[, $match = ''[, $side = 'both'[, $escape = NULL]]])
+	.. php:method:: or_not_like($field[, $match = ''[, $side = 'both'[, $escape = NULL]]])
 
 		:param	string	$field: Field name
 		:param	string	$match: Text portion to match
@@ -1340,7 +1340,7 @@ Class Reference
 
 		Adds a NOT LIKE clause to a query, separating multiple calls with OR.
 
-	.. method:: having($key[, $value = NULL[, $escape = NULL]])
+	.. php:method:: having($key[, $value = NULL[, $escape = NULL]])
 
 		:param	mixed	$key: Identifier (string) or associative array of field/value pairs
 		:param	string	$value: Value sought if $key is an identifier
@@ -1350,7 +1350,7 @@ Class Reference
 
 		Adds a HAVING clause to a query, separating multiple calls with AND.
 
-	.. method:: or_having($key[, $value = NULL[, $escape = NULL]])
+	.. php:method:: or_having($key[, $value = NULL[, $escape = NULL]])
 
 		:param	mixed	$key: Identifier (string) or associative array of field/value pairs
 		:param	string	$value: Value sought if $key is an identifier
@@ -1360,7 +1360,7 @@ Class Reference
 
 		Adds a HAVING clause to a query, separating multiple calls with OR.
 
-	.. method:: group_by($by[, $escape = NULL])
+	.. php:method:: group_by($by[, $escape = NULL])
 
 		:param	mixed	$by: Field(s) to group by; string or array
 		:returns:	CI_DB_query_builder instance (method chaining)
@@ -1368,7 +1368,7 @@ Class Reference
 
 		Adds a GROUP BY clause to a query.
 
-	.. method:: order_by($orderby[, $direction = ''[, $escape = NULL]])
+	.. php:method:: order_by($orderby[, $direction = ''[, $escape = NULL]])
 
 		:param	string	$orderby: Field to order by
 		:param	string	$direction: The order requested - ASC, DESC or random
@@ -1378,7 +1378,7 @@ Class Reference
 
 		Adds an ORDER BY clause to a query.
 
-	.. method:: limit($value[, $offset = 0])
+	.. php:method:: limit($value[, $offset = 0])
 
 		:param	int	$value: Number of rows to limit the results to
 		:param	int	$offset: Number of rows to skip
@@ -1387,7 +1387,7 @@ Class Reference
 
 		Adds LIMIT and OFFSET clauses to a query.
 
-	.. method:: offset($offset)
+	.. php:method:: offset($offset)
 
 		:param	int	$offset: Number of rows to skip
 		:returns:	CI_DB_query_builder instance (method chaining)
@@ -1395,7 +1395,7 @@ Class Reference
 
 		Adds an OFFSET clause to a query.
 
-	.. method:: set($key[, $value = ''[, $escape = NULL]])
+	.. php:method:: set($key[, $value = ''[, $escape = NULL]])
 
 		:param	mixed	$key: Field name, or an array of field/value pairs
 		:param	string	$value: Field value, if $key is a single field
@@ -1406,7 +1406,7 @@ Class Reference
 		Adds field/value pairs to be passed later to ``insert()``,
 		``update()`` or ``replace()``.
 
-	.. method:: insert([$table = ''[, $set = NULL[, $escape = NULL]]])
+	.. php:method:: insert([$table = ''[, $set = NULL[, $escape = NULL]]])
 
 		:param	string	$table: Table name
 		:param	array	$set: An associative array of field/value pairs
@@ -1416,7 +1416,7 @@ Class Reference
 
 		Compiles and executes an INSERT statement.
 
-	.. method:: insert_batch([$table = ''[, $set = NULL[, $escape = NULL]]])
+	.. php:method:: insert_batch([$table = ''[, $set = NULL[, $escape = NULL]]])
 
 		:param	string	$table: Table name
 		:param	array	$set: Data to insert
@@ -1426,7 +1426,7 @@ Class Reference
 
 		Compiles and executes batch INSERT statements.
 
-	.. method:: set_insert_batch($key[, $value = ''[, $escape = NULL]])
+	.. php:method:: set_insert_batch($key[, $value = ''[, $escape = NULL]])
 
 		:param	mixed	$key: Field name or an array of field/value pairs
 		:param	string	$value: Field value, if $key is a single field
@@ -1436,7 +1436,7 @@ Class Reference
 
 		Adds field/value pairs to be inserted in a table later via ``insert_batch()``.
 
-	.. method:: update([$table = ''[, $set = NULL[, $where = NULL[, $limit = NULL]]]])
+	.. php:method:: update([$table = ''[, $set = NULL[, $where = NULL[, $limit = NULL]]]])
 
 		:param	string	$table: Table name
 		:param	array	$set: An associative array of field/value pairs
@@ -1447,7 +1447,7 @@ Class Reference
 
 		Compiles and executes an UPDATE statement.
 
-	.. method:: update_batch([$table = ''[, $set = NULL[, $value = NULL]]])
+	.. php:method:: update_batch([$table = ''[, $set = NULL[, $value = NULL]]])
 
 		:param	string	$table: Table name
 		:param	array	$set: Field name, or an associative array of field/value pairs
@@ -1457,7 +1457,7 @@ Class Reference
 
 		Compiles and executes batch UPDATE statements.
 
-	.. method:: set_update_batch($key[, $value = ''[, $escape = NULL]])
+	.. php:method:: set_update_batch($key[, $value = ''[, $escape = NULL]])
 
 		:param	mixed	$key: Field name or an array of field/value pairs
 		:param	string	$value: Field value, if $key is a single field
@@ -1467,7 +1467,7 @@ Class Reference
 
 		Adds field/value pairs to be updated in a table later via ``update_batch()``.
 
-	.. method:: replace([$table = ''[, $set = NULL]])
+	.. php:method:: replace([$table = ''[, $set = NULL]])
 
 		:param	string	$table: Table name
 		:param	array	$set: An associative array of field/value pairs
@@ -1476,7 +1476,7 @@ Class Reference
 
 		Compiles and executes a REPLACE statement.
 
-	.. method:: delete([$table = ''[, $where = ''[, $limit = NULL[, $reset_data = TRUE]]]])
+	.. php:method:: delete([$table = ''[, $where = ''[, $limit = NULL[, $reset_data = TRUE]]]])
 
 		:param	mixed	$table: The table(s) to delete from; string or array
 		:param	string	$where: The WHERE clause
@@ -1487,7 +1487,7 @@ Class Reference
 
 		Compiles and executes a DELETE query.
 
-	.. method:: truncate([$table = ''])
+	.. php:method:: truncate([$table = ''])
 
 		:param	string	$table: Table name
 		:returns:	TRUE on success, FALSE on failure
@@ -1498,7 +1498,7 @@ Class Reference
 		.. note:: If the database platform in use doesn't support TRUNCATE,
 			a DELETE statement will be used instead.
 
-	.. method:: empty_table([$table = ''])
+	.. php:method:: empty_table([$table = ''])
 
 		:param	string	$table: Table name
 		:returns:	TRUE on success, FALSE on failure
@@ -1506,7 +1506,7 @@ Class Reference
 
 		Deletes all records from a table via a DELETE statement.
 
-	.. method:: get_compiled_select([$table = ''[, $reset = TRUE]])
+	.. php:method:: get_compiled_select([$table = ''[, $reset = TRUE]])
 
 		:param	string	$table: Table name
 		:param	bool	$reset: Whether to reset the current QB values or not
@@ -1515,7 +1515,7 @@ Class Reference
 
 		Compiles a SELECT statement and returns it as a string.
 
-	.. method:: get_compiled_insert([$table = ''[, $reset = TRUE]])
+	.. php:method:: get_compiled_insert([$table = ''[, $reset = TRUE]])
 
 		:param	string	$table: Table name
 		:param	bool	$reset: Whether to reset the current QB values or not
@@ -1524,7 +1524,7 @@ Class Reference
 
 		Compiles an INSERT statement and returns it as a string.
 
-	.. method:: get_compiled_update([$table = ''[, $reset = TRUE]])
+	.. php:method:: get_compiled_update([$table = ''[, $reset = TRUE]])
 
 		:param	string	$table: Table name
 		:param	bool	$reset: Whether to reset the current QB values or not
@@ -1533,7 +1533,7 @@ Class Reference
 
 		Compiles an UPDATE statement and returns it as a string.
 
-	.. method:: get_compiled_delete([$table = ''[, $reset = TRUE]])
+	.. php:method:: get_compiled_delete([$table = ''[, $reset = TRUE]])
 
 		:param	string	$table: Table name
 		:param	bool	$reset: Whether to reset the current QB values or not

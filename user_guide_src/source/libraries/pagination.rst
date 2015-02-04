@@ -296,9 +296,9 @@ you can pass boolean FALSE as a regular attribute
 Class Reference
 ***************
 
-.. class:: CI_Pagination
+.. php:class:: CI_Pagination
 
-	.. method:: initialize([$params = array()])
+	.. php:method:: initialize([$params = array()])
 
 		:param	array	$params: Configuration parameters
 		:returns:	CI_Pagination instance (method chaining)
@@ -306,7 +306,7 @@ Class Reference
 
 		Initializes the Pagination class with your preferred options.
 
-	.. method:: create_links()
+	.. php:method:: create_links()
 
 		:returns:	HTML-formatted pagination
 		:rtype:	string

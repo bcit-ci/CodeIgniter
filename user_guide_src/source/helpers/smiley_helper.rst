@@ -54,7 +54,7 @@ The Controller
 In your **application/controllers/** directory, create a file called
 Smileys.php and place the code below in it.
 
-.. important:: Change the URL in the :func:`get_clickable_smileys()`
+.. important:: Change the URL in the :php:func:`get_clickable_smileys()`
 	function below so that it points to your smiley folder.
 
 You'll notice that in addition to the smiley helper, we are also using
@@ -115,7 +115,7 @@ To map the alias to the field id, pass them both into the
 Available Functions
 ===================
 
-.. function:: get_clickable_smileys($image_url[, $alias = ''[, $smileys = NULL]])
+.. php:function:: get_clickable_smileys($image_url[, $alias = ''[, $smileys = NULL]])
 
 	:param	string	$image_url: URL path to the smileys directory
 	:param	string	$alias: Field alias
@@ -130,7 +130,7 @@ Available Functions
 
 		$image_array = get_clickable_smileys('http://example.com/images/smileys/', 'comment');
 
-.. function:: smiley_js([$alias = ''[, $field_id = ''[, $inline = TRUE]]])
+.. php:function:: smiley_js([$alias = ''[, $field_id = ''[, $inline = TRUE]]])
 
 	:param	string	$alias: Field alias
 	:param	string	$field_id: Field ID
@@ -148,7 +148,7 @@ Available Functions
 
 		<?php echo smiley_js(); ?>
 
-.. function:: parse_smileys([$str = ''[, $image_url = ''[, $smileys = NULL]]])
+.. php:function:: parse_smileys([$str = ''[, $image_url = ''[, $smileys = NULL]]])
 
 	:param	string	$str: Text containing smiley codes
 	:param	string	$image_url: URL path to the smileys directory

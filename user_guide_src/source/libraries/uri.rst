@@ -20,9 +20,9 @@ information about the re-routed segments.
 Class Reference
 ***************
 
-.. class:: CI_URI
+.. php:class:: CI_URI
 
-	.. method:: segment($n[, $no_result = NULL])
+	.. php:method:: segment($n[, $no_result = NULL])
 
 		:param	int	$n: Segment index number
 		:param	mixed	$no_result: What to return if the searched segment is not found
@@ -59,7 +59,7 @@ Class Reference
 				$product_id = $this->uri->segment(3);
 			}
 
-	.. method:: rsegment($n[, $no_result = NULL])
+	.. php:method:: rsegment($n[, $no_result = NULL])
 
 		:param	int	$n: Segment index number
 		:param	mixed	$no_result: What to return if the searched segment is not found
@@ -70,7 +70,7 @@ Class Reference
 		a specific segment from your re-routed URI in the event you are
 		using CodeIgniter's :doc:`URI Routing <../general/routing>` feature.
 
-	.. method:: slash_segment($n[, $where = 'trailing'])
+	.. php:method:: slash_segment($n[, $where = 'trailing'])
 
 		:param	int	$n: Segment index number
 		:param	string	$where: Where to add the slash ('trailing' or 'leading')
@@ -91,7 +91,7 @@ Class Reference
 		#. /segment
 		#. /segment/
 
-	.. method:: slash_rsegment($n[, $where = 'trailing'])
+	.. php:method:: slash_rsegment($n[, $where = 'trailing'])
 
 		:param	int	$n: Segment index number
 		:param	string	$where: Where to add the slash ('trailing' or 'leading')
@@ -103,7 +103,7 @@ Class Reference
 		are using CodeIgniter's :doc:`URI Routing <../general/routing>`
 		feature.
 
-	.. method:: uri_to_assoc([$n = 3[, $default = array()]])
+	.. php:method:: uri_to_assoc([$n = 3[, $default = array()]])
 
 		:param	int	$n: Segment index number
 		:param	array	$default: Default values
@@ -145,7 +145,7 @@ Class Reference
 		Lastly, if a corresponding value is not found for a given key (if there
 		is an odd number of URI segments) the value will be set to NULL.
 
-	.. method:: ruri_to_assoc([$n = 3[, $default = array()]])
+	.. php:method:: ruri_to_assoc([$n = 3[, $default = array()]])
 
 		:param	int	$n: Segment index number
 		:param	array	$default: Default values
@@ -156,7 +156,7 @@ Class Reference
 		an associative array using the re-routed URI in the event you are using
 		CodeIgniter's :doc:`URI Routing <../general/routing>` feature.
 
-	.. method:: assoc_to_uri($array)
+	.. php:method:: assoc_to_uri($array)
 
 		:param	array	$array: Input array of key/value pairs
 		:returns:	URI string
@@ -170,7 +170,7 @@ Class Reference
 
 			// Produces: product/shoes/size/large/color/red
 
-	.. method:: uri_string()
+	.. php:method:: uri_string()
 
 		:returns:	URI string
 		:rtype:	string
@@ -183,7 +183,7 @@ Class Reference
 
 			news/local/345
 
-	.. method:: ruri_string()
+	.. php:method:: ruri_string()
 
 		:returns:	Routed URI string
 		:rtype:	string
@@ -192,14 +192,14 @@ Class Reference
 		the re-routed URI in the event you are using CodeIgniter's :doc:`URI
 		Routing <../general/routing>` feature.
 
-	.. method:: total_segments()
+	.. php:method:: total_segments()
 
 		:returns:	Count of URI segments
 		:rtype:	int
 
 		Returns the total number of segments.
 
-	.. method:: total_rsegments()
+	.. php:method:: total_rsegments()
 
 		:returns:	Count of routed URI segments
 		:rtype:	int
@@ -208,7 +208,7 @@ Class Reference
 		the total number of segments in your re-routed URI in the event you are
 		using CodeIgniter's :doc:`URI Routing <../general/routing>` feature.
 
-	.. method:: segment_array()
+	.. php:method:: segment_array()
 
 		:returns:	URI segments array
 		:rtype:	array
@@ -223,7 +223,7 @@ Class Reference
 				echo '<br />';
 			}
 
-	.. method:: rsegment_array()
+	.. php:method:: rsegment_array()
 
 		:returns:	Routed URI segments array
 		:rtype:	array

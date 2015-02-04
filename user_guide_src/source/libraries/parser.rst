@@ -276,9 +276,9 @@ Result::
 Class Reference
 ***************
 
-.. class:: CI_Parser
+.. php:class:: CI_Parser
 
-	.. method:: parse($template, $data[, $return = FALSE])
+	.. php:method:: parse($template, $data[, $return = FALSE])
 
 		:param	string	$template: Path to view file
 		:param	array	$data: Variable data
@@ -288,7 +288,7 @@ Class Reference
 
 		Parses a template from the provided path and variables.
 
-	.. method:: parse_string($template, $data[, $return = FALSE])
+	.. php:method:: parse_string($template, $data[, $return = FALSE])
 
 		:param	string	$template: Path to view file
 		:param	array	$data: Variable data
@@ -299,7 +299,7 @@ Class Reference
 		This method works exactly like ``parse()``, only it accepts
 		the template as a string instead of loading a view file.
 
-	.. method:: set_delimiters([$l = '{'[, $r = '}']])
+	.. php:method:: set_delimiters([$l = '{'[, $r = '}']])
 
 		:param	string	$l: Left delimiter
 		:param	string	$r: Right delimiter

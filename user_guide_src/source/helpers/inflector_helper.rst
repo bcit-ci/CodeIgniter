@@ -25,7 +25,7 @@ Available Functions
 The following functions are available:
 
 
-.. function:: singular($str)
+.. php:function:: singular($str)
 
 	:param	string	$str: Input string
 	:returns:	A singular word
@@ -35,7 +35,7 @@ The following functions are available:
 
 		echo singular('dogs'); // Prints 'dog'
 
-.. function:: plural($str)
+.. php:function:: plural($str)
 
 	:param	string	$str: Input string
 	:returns:	A plular word
@@ -45,7 +45,7 @@ The following functions are available:
 
 		echo plural('dog'); // Prints 'dogs'
 
-.. function:: camelize($str)
+.. php:function:: camelize($str)
 
 	:param	string	$str: Input string
 	:returns:	Camelized string
@@ -56,7 +56,7 @@ The following functions are available:
 
 		echo camelize('my_dog_spot'); // Prints 'myDogSpot'
 
-.. function:: underscore($str)
+.. php:function:: underscore($str)
 
 	:param	string	$str: Input string
 	:returns:	String containing underscores instead of spaces
@@ -67,7 +67,7 @@ The following functions are available:
 
 		echo underscore('my dog spot'); // Prints 'my_dog_spot'
 
-.. function:: humanize($str[, $separator = '_'])
+.. php:function:: humanize($str[, $separator = '_'])
 
 	:param	string	$str: Input string
 	:param	string	$separator: Input separator
@@ -85,7 +85,7 @@ The following functions are available:
 
 		echo humanize('my-dog-spot', '-'); // Prints 'My Dog Spot'
 
-.. function:: is_countable($word)
+.. php:function:: is_countable($word)
 
 	:param	string	$word: Input string
 	:returns:	TRUE if the word is countable or FALSE if not

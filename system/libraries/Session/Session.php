@@ -489,7 +489,7 @@ class CI_Session {
 					return FALSE;
 				}
 
-				$temp[$k] = $ts;
+				$temp[$k] = $v;
 			}
 
 			$_SESSION['__ci_vars'] = isset($_SESSION['__ci_vars'])

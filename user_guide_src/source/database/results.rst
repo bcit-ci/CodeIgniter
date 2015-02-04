@@ -245,9 +245,9 @@ TRUE on success or FALSE on failure.
 Class Reference
 ***************
 
-.. class:: CI_DB_result
+.. php:class:: CI_DB_result
 
-	.. method:: result([$type = 'object'])
+	.. php:method:: result([$type = 'object'])
 
 		:param	string	$type: Type of requested results - array, object, or class name
 		:returns:	Array containing the fetched rows
@@ -258,7 +258,7 @@ Class Reference
 
 		Usage: see `Result Arrays`_.
 
-	.. method:: result_array()
+	.. php:method:: result_array()
 
 		:returns:	Array containing the fetched rows
 		:rtype:	array
@@ -268,7 +268,7 @@ Class Reference
 
 		Usage: see `Result Arrays`_.
 
-	.. method:: result_object()
+	.. php:method:: result_object()
 
 		:returns:	Array containing the fetched rows
 		:rtype:	array
@@ -278,7 +278,7 @@ Class Reference
 
 		Usage: see `Result Arrays`_.
 
-	.. method:: custom_result_object($class_name)
+	.. php:method:: custom_result_object($class_name)
 
 		:param	string	$class_name: Class name for the resulting rows
 		:returns:	Array containing the fetched rows
@@ -287,7 +287,7 @@ Class Reference
 		Returns the query results as an array of rows, where each
 		row is an instance of the specified class.
 
-	.. method:: row([$n = 0[, $type = 'object']])
+	.. php:method:: row([$n = 0[, $type = 'object']])
 
 		:param	int	$n: Index of the query results row to be returned
 		:param	string	$type: Type of the requested result - array, object, or class name
@@ -299,7 +299,7 @@ Class Reference
 
 		Usage: see `Result Rows`_.
 
-	.. method:: unbuffered_row([$type = 'object'])
+	.. php:method:: unbuffered_row([$type = 'object'])
 
 		:param	string	$type: Type of the requested result - array, object, or class name
 		:returns:	Next row from the result set or NULL if it doesn't exist
@@ -310,7 +310,7 @@ Class Reference
 
 		Usage: see `Result Rows`_.
 
-	.. method:: row_array([$n = 0])
+	.. php:method:: row_array([$n = 0])
 
 		:param	int	$n: Index of the query results row to be returned
 		:returns:	The requested row or NULL if it doesn't exist
@@ -320,7 +320,7 @@ Class Reference
 
 		Usage: see `Result Rows`_.
 
-	.. method:: row_object([$n = 0])
+	.. php:method:: row_object([$n = 0])
 
 		:param	int	$n: Index of the query results row to be returned
                 :returns:	The requested row or NULL if it doesn't exist
@@ -331,7 +331,7 @@ Class Reference
 
 		Usage: see `Result Rows`_.
 
-	.. method:: custom_row_object($n, $type)
+	.. php:method:: custom_row_object($n, $type)
 
 		:param	int	$n: Index of the results row to return
 		:param	string	$class_name: Class name for the resulting row
@@ -341,7 +341,7 @@ Class Reference
 		Returns the requested result row as an instance of the
 		requested class.
 
-	.. method:: data_seek([$n = 0])
+	.. php:method:: data_seek([$n = 0])
 
 		:param	int	$n: Index of the results row to be returned next
 		:returns:	TRUE on success, FALSE on failure
@@ -351,7 +351,7 @@ Class Reference
 
 		Usage: see `Result Helper Methods`_.
 
-	.. method:: set_row($key[, $value = NULL])
+	.. php:method:: set_row($key[, $value = NULL])
 
 		:param	mixed	$key: Column name or array of key/value pairs
 		:param	mixed	$value: Value to assign to the column, $key is a single field name
@@ -359,7 +359,7 @@ Class Reference
 
 		Assigns a value to a particular column.
 
-	.. method:: next_row([$type = 'object'])
+	.. php:method:: next_row([$type = 'object'])
 
 		:param	string	$type: Type of the requested result - array, object, or class name
 		:returns:	Next row of result set, or NULL if it doesn't exist
@@ -367,7 +367,7 @@ Class Reference
 
 		Returns the next row from the result set.
 
-	.. method:: previous_row([$type = 'object'])
+	.. php:method:: previous_row([$type = 'object'])
 
 		:param	string	$type: Type of the requested result - array, object, or class name
 		:returns:	Previous row of result set, or NULL if it doesn't exist
@@ -375,7 +375,7 @@ Class Reference
 
 		Returns the previous row from the result set.
 
-	.. method:: first_row([$type = 'object'])
+	.. php:method:: first_row([$type = 'object'])
 
 		:param	string	$type: Type of the requested result - array, object, or class name
 		:returns:	First row of result set, or NULL if it doesn't exist
@@ -383,7 +383,7 @@ Class Reference
 
 		Returns the first row from the result set.
 
-	.. method:: last_row([$type = 'object'])
+	.. php:method:: last_row([$type = 'object'])
 
 		:param	string	$type: Type of the requested result - array, object, or class name
 		:returns:	Last row of result set, or NULL if it doesn't exist
@@ -391,7 +391,7 @@ Class Reference
 
 		Returns the last row from the result set.
 
-	.. method:: num_rows()
+	.. php:method:: num_rows()
 
 		:returns:	Number of rows in the result set
 		:rtype:	int
@@ -400,7 +400,7 @@ Class Reference
 
 		Usage: see `Result Helper Methods`_.
 
-	.. method:: num_fields()
+	.. php:method:: num_fields()
 
 		:returns:	Number of fields in the result set
 		:rtype:	int
@@ -409,7 +409,7 @@ Class Reference
 
 		Usage: see `Result Helper Methods`_.
 
-	.. method:: field_data()
+	.. php:method:: field_data()
 
 		:returns:	Array containing field meta-data
 		:rtype:	array
@@ -417,7 +417,7 @@ Class Reference
 		Generates an array of ``stdClass`` objects containing
 		field meta-data.
 
-	.. method:: free_result()
+	.. php:method:: free_result()
 
 		:rtype:	void
 
@@ -425,7 +425,7 @@ Class Reference
 
 		Usage: see `Result Helper Methods`_.
 
-	.. method:: list_fields()
+	.. php:method:: list_fields()
 
 		:returns:	Array of column names
 		:rtype:	array
