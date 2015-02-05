@@ -21,7 +21,7 @@ approach because it greatly simplifies the process of running
 transactions. In most cases all that is required are two lines of code.
 
 Traditionally, transactions have required a fair amount of work to
-implement since they demand that you to keep track of your queries and
+implement since they demand that you keep track of your queries and
 determine whether to commit or rollback based on the success or failure
 of your queries. This is particularly cumbersome with nested queries. In
 contrast, we've implemented a smart transaction system that does all
