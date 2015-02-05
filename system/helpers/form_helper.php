@@ -676,18 +676,19 @@ if ( ! function_exists('set_value'))
 	 *
 	 * @param	string	$field		Field name
 	 * @param	string	$default	Default value
-	 * @param	bool	$escaped	Escaped value
+	 * @param	bool	$html_escape	HTML escaped value
 	 * @return	string
 	 */
-	function set_value($field, $default = '',$escaped = TRUE)
+	function set_value($field, $default = '', $html_escape = TRUE)
 	{
 		$CI =& get_instance();
 
 		$value = (isset($CI->form_validation) && is_object($CI->form_validation) && $CI->form_validation->has_rule($field))
 			? $CI->form_validation->set_value($field, $default)
 			: $CI->input->post($field, FALSE);
-		$value = ($value === NULL) ? $default : $value;
-		return $escaped ? html_escape($value) : $value;
+			
+		isset($value) OR $value = $default;
+		return ($html_escape) ? html_escape($value) : $value;
 	}
 }
 
