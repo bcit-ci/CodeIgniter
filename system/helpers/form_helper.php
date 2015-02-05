@@ -676,7 +676,7 @@ if ( ! function_exists('set_value'))
 	 *
 	 * @param	string	$field		Field name
 	 * @param	string	$default	Default value
-	 * @param	bool	$html_escape	HTML escaped value
+	 * @param	bool	$html_escape	Whether to escape HTML special characters or not
 	 * @return	string
 	 */
 	function set_value($field, $default = '', $html_escape = TRUE)
