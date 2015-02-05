@@ -581,7 +581,9 @@ The following functions are available:
 	Permits you to set the value of an input form or textarea. You must
 	supply the field name via the first parameter of the function. The
 	second (optional) parameter allows you to set a default value for the
-	form.
+	form. The third (optional) parameter allows you to turn off HTML escaping
+	of the value, in case you need to use this function in combination with
+	i.e. :php:func:`form_input()` and avoid double-escaping.
 
 	Example::
 
@@ -589,11 +591,7 @@ The following functions are available:
 
 	The above form will show "0" when loaded for the first time.
 
-	.. note:: Only use this function with raw HTML fields, as it
-		internally calls :php:func:`html_escape()` and combining its
-		usage with other form helper functions will result in
-		double HTML encoding!
-
+	
 .. php:function:: set_select($field[, $value = ''[, $default = FALSE]])
 
 	:param	string	$field: Field name

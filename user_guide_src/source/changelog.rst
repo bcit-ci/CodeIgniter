@@ -105,6 +105,7 @@ Release Date: Not Released
 
       - :php:func:`form_dropdown()` will now also take an array for unity with other form helpers.
       - :php:func:`form_prep()` is now DEPRECATED and only acts as an alias for :doc:`common function <general/common_functions>` :php:func:`html_escape()`.
+      - :php:func:`set_value()` will now also accept a third argument, allowing to turn off HTML escaping of the value.
 
    -  :doc:`Security Helper <helpers/security_helper>` changes include:
 
