@@ -591,7 +591,7 @@ The following functions are available:
 
 	The above form will show "0" when loaded for the first time.
 
-	
+
 .. php:function:: set_select($field[, $value = ''[, $default = FALSE]])
 
 	:param	string	$field: Field name
