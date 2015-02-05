@@ -65,7 +65,7 @@ if ( ! function_exists('force_download'))
 	{
 		if ($filename === '' OR $data === '')
 		{
-			return FALSE;
+			return;
 		}
 		elseif ($data === NULL)
 		{
@@ -77,7 +77,7 @@ if ( ! function_exists('force_download'))
 			}
 			else
 			{
-				return FALSE;
+				return;
 			}
 		}
 		else
@@ -98,7 +98,7 @@ if ( ! function_exists('force_download'))
 				/* If we're going to detect the MIME type,
 				 * we'll need a file extension.
 				 */
-				return FALSE;
+				return;
 			}
 
 			// Load the mime types
@@ -125,7 +125,7 @@ if ( ! function_exists('force_download'))
 
 		if ($data === NULL && ($fp = @fopen($filepath, 'rb')) === FALSE)
 		{
-			return FALSE;
+			return;
 		}
 
 		// Clean output buffer

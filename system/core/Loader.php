@@ -1244,7 +1244,7 @@ class CI_Loader {
 
 		if ( ! isset($autoload))
 		{
-			return FALSE;
+			return;
 		}
 
 		// Autoload packages

@@ -229,7 +229,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 	 *
 	 * Releases locks and closes connection.
 	 *
-	 * @return	void
+	 * @return	bool
 	 */
 	public function close()
 	{

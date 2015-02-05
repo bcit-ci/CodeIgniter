@@ -252,7 +252,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	 *
 	 * Releases locks
 	 *
-	 * @return	void
+	 * @return	bool
 	 */
 	public function close()
 	{

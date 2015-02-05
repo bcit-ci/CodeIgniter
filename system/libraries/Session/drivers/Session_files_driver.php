@@ -269,7 +269,7 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 	 *
 	 * Releases locks and closes file descriptor.
 	 *
-	 * @return	void
+	 * @return	bool
 	 */
 	public function close()
 	{
