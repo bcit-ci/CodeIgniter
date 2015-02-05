@@ -571,28 +571,25 @@ The following functions are available:
 		// Would produce:  </form> </div></div>
 
 
-.. php:function:: set_value($field[, $default = ''])
+.. php:function:: set_value($field[, $default = '', $html_escape = FALSE])
 
 	:param	string	$field: Field name
 	:param	string	$default: Default value
+	:param	bool	$html_escape: HTML escape value
 	:returns:	Field value
 	:rtype:	string
 
 	Permits you to set the value of an input form or textarea. You must
 	supply the field name via the first parameter of the function. The
 	second (optional) parameter allows you to set a default value for the
-	form.
+	form. The third (optional) parameter allows you to choose if you want the html_escape() to be applied to the value.
 
 	Example::
 
 		<input type="text" name="quantity" value="<?php echo set_value('quantity', '0'); ?>" size="50" />
 
 	The above form will show "0" when loaded for the first time.
-
-	.. note:: Only use this function with raw HTML fields, as it
-		internally calls :php:func:`html_escape()` and combining its
-		usage with other form helper functions will result in
-		double HTML encoding!
+	
 
 .. php:function:: set_select($field[, $value = ''[, $default = FALSE]])
 
