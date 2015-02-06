@@ -2117,7 +2117,15 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->_reset_write();
 		}
 
-		return ($this->return_delete_sql === TRUE) ? $sql : $this->query($sql);
+		if($this->return_delete_sql === TRUE)
+		{
+			return $sql;
+		}
+		else
+		{
+			$this->query($sql);
+			return ($this->affected_rows() != 0);
+		}
 	}
 
 	// --------------------------------------------------------------------
