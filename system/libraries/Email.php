@@ -2171,12 +2171,16 @@ class CI_Email {
 
 	/**
 	 * Get Hostname
-	 *
+	 * 
+	 * There are only two legal types of hostname either a fully qualified domain
+	 * name (eg: "mail.example.com") or an "IP literal" (eg: "[1.2.3.4]").
+	 *     
+	 * @link	http://cbl.abuseat.org/namingproblems.html
 	 * @return	string
 	 */
 	protected function _get_hostname()
 	{
-		return isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : 'localhost.localdomain';
+		return isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '[' . $_SERVER['SERVER_ADDR'] . ']';
 	}
 
 	// --------------------------------------------------------------------
