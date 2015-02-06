@@ -104,6 +104,14 @@ class CI_Input {
 	protected $headers = array();
 
 	/**
+	 * Raw input stream data
+	 *
+	 * @see	CI_Input::input_stream()
+	 * @var	array
+	 */
+	protected $_raw_input_stream = NULL;
+
+	/**
 	 * Input stream data
 	 *
 	 * Parsed from php://input at runtime
@@ -111,7 +119,7 @@ class CI_Input {
 	 * @see	CI_Input::input_stream()
 	 * @var	array
 	 */
-	protected $_input_stream = NULL;
+	protected $_input_stream = NULL; // Kept for backward compatible.
 
 	/**
 	 * Class constructor
@@ -299,6 +307,25 @@ class CI_Input {
 	// ------------------------------------------------------------------------
 
 	/**
+	 * Fetch raw data from php://input stream
+	 *
+	 * Useful when data is not an array and might contain = and & symbols.
+	 */
+	public function raw_input_stream()
+	{
+		// Prior to PHP 5.6, the input stream can only be read once,
+		// so we'll need to check if we have already done that first.
+		if (is_null($this->_raw_input_stream))
+		{
+			$this->_raw_input_stream = file_get_contents('php://input');
+		}
+
+		return $this->_raw_input_stream;
+	}
+	
+	// ------------------------------------------------------------------------
+
+	/**
 	 * Fetch an item from the php://input stream
 	 *
 	 * Useful when you need to access PUT, DELETE or PATCH request data.
@@ -309,15 +336,25 @@ class CI_Input {
 	 */
 	public function input_stream($index = NULL, $xss_clean = NULL)
 	{
-		// Prior to PHP 5.6, the input stream can only be read once,
-		// so we'll need to check if we have already done that first.
-		if ( ! is_array($this->_input_stream))
-		{
-			parse_str(file_get_contents('php://input'), $this->_input_stream);
-			is_array($this->_input_stream) OR $this->_input_stream = array();
-		}
-
+		parse_str($this->raw_input_stream(), $this->_input_stream);
 		return $this->_fetch_from_array($this->_input_stream, $index, $xss_clean);
+	}
+	
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Fetch an item from the php://input stream
+	 *
+	 * Useful when you need to access input that's been send as raw json data'
+	 *
+	 * @param	string	$index		Index for item to be fetched
+	 * @param	bool	$xss_clean	Whether to apply XSS filtering
+	 * @return	mixed
+	 */
+	public function json_input_stream($index = NULL, $xss_clean = NULL)
+	{
+		$json_input_stream = json_decode($this->raw_input_stream(), true);
+		return $this->_fetch_from_array($json_input_stream, $index, $xss_clean);
 	}
 
 	// ------------------------------------------------------------------------
