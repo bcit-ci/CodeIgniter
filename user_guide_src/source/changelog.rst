@@ -355,6 +355,7 @@ Release Date: Not Released
       -  Added rule **differs** to check if the value of a field differs from the value of another field.
       -  Added rule **valid_url**.
       -  Added rule **in_list** to check if the value of a field is within a given list.
+      -  Added rule **exists** to check if the value of a field exists in a database table field.
       -  Added support for named parameters in error messages.
       -  :doc:`Language <libraries/language>` line keys must now be prefixed with **form_validation_**.
       -  Added rule **alpha_numeric_spaces**.
