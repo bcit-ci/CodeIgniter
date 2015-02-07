@@ -318,7 +318,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 
 		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{
-			$sql ." LIKE '".$this->escape_like_str($this->dbprefix)."%'";
+			return $sql." LIKE '".$this->escape_like_str($this->dbprefix)."%'";
 		}
 
 		return $sql;
