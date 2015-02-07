@@ -113,7 +113,7 @@ class CI_DB_pdo_cubrid_driver extends CI_DB_pdo_driver {
 
 		if ($prefix_limit === TRUE && $this->dbprefix !== '')
 		{
-			$sql ." LIKE '".$this->escape_like_str($this->dbprefix)."%'";
+			return $sql." LIKE '".$this->escape_like_str($this->dbprefix)."%'";
 		}
 
 		return $sql;
