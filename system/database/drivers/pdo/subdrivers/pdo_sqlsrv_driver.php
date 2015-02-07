@@ -183,17 +183,17 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		return 'SELECT '.$this->escape_identifiers('name')
-			.' FROM '.$this->escape_identifiers('sysobjects')
-			.' WHERE '.$this->escape_identifiers('type')." = 'U'";
+		$sql = 'SELECT '.$this->escape_identifiers('name')
+			  .' FROM '.$this->escape_identifiers('sysobjects')
+			  .' WHERE '.$this->escape_identifiers('type')." = 'U'";
 
 		if ($prefix_limit === TRUE && $this->dbprefix !== '')
 		{
 			$sql .= ' AND '.$this->escape_identifiers('name')." LIKE '".$this->escape_like_str($this->dbprefix)."%' "
-				.sprintf($this->_like_escape_str, $this->_like_escape_chr);
+					.sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
 
-		return $sql.' ORDER BY '.$this->escape_identifiers('name');
+		return $sql .= ' ORDER BY '.$this->escape_identifiers('name');
 	}
 
 	// --------------------------------------------------------------------
