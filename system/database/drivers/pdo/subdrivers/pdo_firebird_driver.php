@@ -120,7 +120,7 @@ class CI_DB_pdo_firebird_driver extends CI_DB_pdo_driver {
 
 		if ($prefix_limit === TRUE && $this->dbprefix !== '')
 		{
-			$sql .' AND "RDB$RELATION_NAME" LIKE \''.$this->escape_like_str($this->dbprefix)."%' "
+			return $sql.' AND "RDB$RELATION_NAME" LIKE \''.$this->escape_like_str($this->dbprefix)."%' "
 				.sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
 
