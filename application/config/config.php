@@ -344,7 +344,7 @@ $config['encryption_key'] = '';
 |
 |	How many seconds between CI regenerating the session ID.
 |
-| 'sess_regenerate_delete'
+| 'sess_regenerate_destroy'
 |
 |	Whether to destroy session data associated with the old session ID
 |	when auto-regenerating the session ID. When set to FALSE, the data
