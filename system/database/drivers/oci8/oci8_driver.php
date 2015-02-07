@@ -494,7 +494,7 @@ class CI_DB_oci8_driver extends CI_DB {
 
 		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{
-			return $sql.' WHERE "TABLE_NAME" LIKE \''.$this->escape_like_str($this->dbprefix)."%' "
+			$sql .' WHERE "TABLE_NAME" LIKE \''.$this->escape_like_str($this->dbprefix)."%' "
 				.sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
 

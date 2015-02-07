@@ -430,7 +430,7 @@ class CI_DB_postgre_driver extends CI_DB {
 
 		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{
-			return $sql.' AND "table_name" LIKE \''
+			$sql .' AND "table_name" LIKE \''
 				.$this->escape_like_str($this->dbprefix)."%' "
 				.sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
