@@ -421,11 +421,11 @@ class CI_Migration {
 	 * Stores the current schema version
 	 *
 	 * @param	string	$migration	Migration reached
-	 * @return	void	Outputs a report of the migration
+	 * @return	void
 	 */
 	protected function _update_version($migration)
 	{
-		return $this->db->update($this->_migration_table, array(
+		$this->db->update($this->_migration_table, array(
 			'version' => $migration
 		));
 	}

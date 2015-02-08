@@ -105,6 +105,7 @@ Release Date: Not Released
 
       - :php:func:`form_dropdown()` will now also take an array for unity with other form helpers.
       - :php:func:`form_prep()` is now DEPRECATED and only acts as an alias for :doc:`common function <general/common_functions>` :php:func:`html_escape()`.
+      - :php:func:`set_value()` will now also accept a third argument, allowing to turn off HTML escaping of the value.
 
    -  :doc:`Security Helper <helpers/security_helper>` changes include:
 
@@ -766,6 +767,7 @@ Bug fixes for 3.0
 -  Fixed a bug in :doc:`Zip Library <libraries/zip>` internal method ``_get_mod_time()`` where it was not parsing result returned by ``filemtime()``.
 -  Fixed a bug (#3161) - :doc:`Cache Library <libraries/caching>` methods `increment()`, `decrement()` didn't auto-create non-existent items when using redis and/or file storage.
 -  Fixed a bug (#3189) - :doc:`Parser Library <libraries/parser>` used double replacement on ``key->value`` pairs, exposing a potential template injection vulnerability.
+-  Fixed a bug (#3573) - :doc:`Email Library <libraries/email>` violated `RFC5321 <https://tools.ietf.org/rfc/rfc5321.txt>`_ by sending 'localhost.localdomain' as a hostname.
 
 Version 2.2.1
 =============

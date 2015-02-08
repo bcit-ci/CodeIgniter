@@ -822,7 +822,7 @@ abstract class CI_DB_driver {
 	{
 		if ( ! $this->trans_enabled)
 		{
-			return FALSE;
+			return;
 		}
 
 		// When transactions are nested we only begin/commit/rollback the outermost ones

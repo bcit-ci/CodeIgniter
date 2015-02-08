@@ -143,8 +143,7 @@ class CI_Session {
 		session_start();
 
 		// Is session ID auto-regeneration configured? (ignoring ajax requests)
-		if ( ! empty($_SERVER['HTTP_X_REQUESTED_WITH'])
-			&& strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest'
+		if ((empty($_SERVER['HTTP_X_REQUESTED_WITH']) OR strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest')
 			&& ($regenerate_time = config_item('sess_time_to_update')) > 0
 		)
 		{
@@ -154,7 +153,7 @@ class CI_Session {
 			}
 			elseif ($_SESSION['__ci_last_regenerate'] < (time() - $regenerate_time))
 			{
-				$this->sess_regenerate(FALSE);
+				$this->sess_regenerate((bool) config_item('sess_regenerate_destroy'));
 			}
 		}
 		// Another work-around ... PHP doesn't seem to send the session cookie

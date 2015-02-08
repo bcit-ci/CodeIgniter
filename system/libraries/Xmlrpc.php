@@ -1792,6 +1792,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 	 *
 	 * @param	string
 	 * @param	mixed
+	 * @return	string
 	 */
 	public function serializedata($typ, $val)
 	{

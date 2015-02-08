@@ -316,7 +316,7 @@ abstract class CI_DB_utility {
 	 * Database Backup
 	 *
 	 * @param	array	$params
-	 * @return	void
+	 * @return	string
 	 */
 	public function backup($params = array())
 	{
