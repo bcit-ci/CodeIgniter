@@ -183,7 +183,7 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		return 'SELECT '.$this->escape_identifiers('name')
+		$sql = 'SELECT '.$this->escape_identifiers('name')
 			.' FROM '.$this->escape_identifiers('sysobjects')
 			.' WHERE '.$this->escape_identifiers('type')." = 'U'";
 
