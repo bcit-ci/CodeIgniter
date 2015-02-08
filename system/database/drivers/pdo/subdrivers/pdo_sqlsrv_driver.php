@@ -193,7 +193,7 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver {
 				.sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
 
-		return $sql .' ORDER BY '.$this->escape_identifiers('name');
+		return $sql.' ORDER BY '.$this->escape_identifiers('name');
 	}
 
 	// --------------------------------------------------------------------
