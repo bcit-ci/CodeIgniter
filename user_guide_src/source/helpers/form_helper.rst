@@ -571,10 +571,11 @@ The following functions are available:
 		// Would produce:  </form> </div></div>
 
 
-.. php:function:: set_value($field[, $default = ''])
+.. php:function:: set_value($field[, $default = ''[, $html_escape = TRUE]])
 
 	:param	string	$field: Field name
 	:param	string	$default: Default value
+	:param  bool	$html_escape: Whether to turn off HTML escaping of the value
 	:returns:	Field value
 	:rtype:	string
 
