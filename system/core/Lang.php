@@ -123,6 +123,14 @@ class CI_Lang {
 		{
 			include($basepath);
 		}
+		
+		// Override language settings with any found in application/language
+		$basepath = APPPATH.'language/'.$idiom.'/'.$langfile;
+		if (file_exists($basepath) === TRUE)
+		{
+			include($basepath);
+			$found = TRUE;
+		}
 
 		// Do we have an alternative path to look in?
 		if ($alt_path !== '')
