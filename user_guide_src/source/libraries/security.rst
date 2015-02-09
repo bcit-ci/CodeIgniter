@@ -41,9 +41,6 @@ application/config/config.php file and setting this::
 
 	$config['global_xss_filtering'] = TRUE;
 
-.. note:: If you use the form validation class, it gives you the option of
-	XSS filtering as well.
-
 An optional second parameter, *is_image*, allows this function to be used
 to test images for potential XSS attacks, useful for file upload
 security. When this second parameter is set to TRUE, instead of
