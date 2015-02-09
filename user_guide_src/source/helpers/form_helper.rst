@@ -571,7 +571,7 @@ The following functions are available:
 		// Would produce:  </form> </div></div>
 
 
-.. php:function:: set_value($field[, $default = ''[,$html_escape = TRUE]])
+.. php:function:: set_value($field[, $default = ''[, $html_escape = TRUE]])
 
 	:param	string	$field: Field name
 	:param	string	$default: Default value
