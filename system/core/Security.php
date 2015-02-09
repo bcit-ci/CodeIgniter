@@ -513,7 +513,7 @@ class CI_Security {
 			$str_compare = $str;
 
 			// Decode standard entities, avoiding false positives
-			if ($c = preg_match_all('/&[a-z]{2,}(?![a-z;])/i', $str, $matches))
+			if (preg_match_all('/\&[a-z]{2,}(?![a-z;])/i', $str, $matches))
 			{
 				if ( ! isset($_entities))
 				{
@@ -538,7 +538,7 @@ class CI_Security {
 
 				$replace = array();
 				$matches = array_unique(array_map('strtolower', $matches[0]));
-				for ($i = 0; $i < $c; $i++)
+				for ($i = 0, $c = count($matches); $i < $c; $i++)
 				{
 					if (($char = array_search($matches[$i].';', $_entities, TRUE)) !== FALSE)
 					{
