@@ -361,7 +361,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 		{
 			if ( ! $this->_memcached->delete($this->_lock_key) && $this->_memcached->getResultCode() !== Memcached::RES_NOTFOUND)
 			{
-				log_message('error', 'Session: Error while trying to free lock for '.$this->_key_prefix.$session_id);
+				log_message('error', 'Session: Error while trying to free lock for '.$this->_lock_key);
 				return FALSE;
 			}
 
