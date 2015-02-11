@@ -103,6 +103,7 @@ decide whether to run the data through ``xss_clean()`` by passing
 a boolean value as the second parameter::
 
 	$this->input->input_stream('key', TRUE); // XSS Clean
+	$this->input->input_stream(NULL, TRUE); // Entire stream, with XSS filter
 	$this->input->input_stream('key', FALSE); // No XSS filter
 
 .. note:: You can utilize ``method()`` in order to know if you're reading
