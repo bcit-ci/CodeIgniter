@@ -88,7 +88,7 @@ Continuing down, you can see a condition that checks whether the form
 validation ran successfully. If it did not, the form is displayed, if it
 was submitted **and** passed all the rules, the model is called. After
 this, a view is loaded to display a success message. Create a view at
-application/view/news/success.php and write a success message.
+application/views/news/success.php and write a success message.
 
 Model
 -----
