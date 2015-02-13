@@ -567,3 +567,31 @@ if ( ! function_exists('redirect'))
 		exit;
 	}
 }
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('elixir'))
+{
+    /**
+     * Get the path to a versioned Elixir file.
+     *
+     * @param  string  $file
+     * @return string
+     */
+    function elixir($file)
+    {
+        static $manifest = null;
+
+        if (is_null($manifest))
+        {
+            $manifest = json_decode(file_get_contents(get_instance()->config->base_url('/build/rev-manifest.json')), true);
+        }
+
+        if (isset($manifest[$file]))
+        {
+            return get_instance()->config->base_url('/build/'.$manifest[$file]);
+        }
+
+        show_error("Elixir error, File {$file} not defined in asset manifest.");
+    }
+}
