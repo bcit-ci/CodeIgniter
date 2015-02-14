@@ -630,6 +630,11 @@ also do the following, after creating the table::
 Redis Driver
 ------------
 
+.. note:: Since Redis doesn't have a locking mechanism exposed, locks for
+	this driver are emulated by a separate value that is kept for up
+	to 5 seconds. You may experience issues if your page loads take
+	longer than that!
+
 Redis is a storage engine typically used for caching and popular because
 of its high performance, which is also probably your reason to use the
 'redis' session driver.
@@ -662,6 +667,11 @@ sufficient::
 
 Memcached Driver
 ----------------
+
+.. note:: Since Memcache doesn't have a locking mechanism exposed, locks
+	for this driver are emulated by a separate value that is kept for
+	up to 5 seconds. You may experience issues if your page loads take
+	longer than that!
 
 The 'memcached' driver is very similar to the 'redis' one in all of its
 properties, except perhaps for availability, because PHP's `Memcached
