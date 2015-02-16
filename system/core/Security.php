@@ -160,6 +160,13 @@ class CI_Security {
 		'Redirect\s+30\d',
 		"([\"'])?data\s*:[^\\1]*?base64[^\\1]*?,[^\\1]*?\\1?"
 	);
+	
+	/**
+	 * Private safety counter for remove_evil_attributes_callback
+	 * 
+	 * @var integer
+	 */
+	private $_remove_evil_attributes_count;
 
 	/**
 	 * Class constructor
@@ -746,6 +753,22 @@ class CI_Security {
 	{
 		return preg_replace('/\s+/s', '', $matches[1]).$matches[2];
 	}
+	
+	// --------------------------------------------------------------------
+	/**
+	 * Remove Evil Attributes Callback
+	 * 
+	 * Callback method for _remove_evil_attributes
+	 * 
+	 * @used-by	CI_Security::_remove_evil_attributes()
+	 * @param	array	$matches
+	 * @return	string
+	 */
+	private function _remove_evil_attributes_callback($matches)
+    	{
+        	$this->_remove_evil_attributes_count++;
+        	return '';
+    	}
 
 	// --------------------------------------------------------------------
 
@@ -775,43 +798,26 @@ class CI_Security {
 		$evil_attributes = array('on\w*', 'style', 'xmlns', 'formaction', 'form', 'xlink:href');
 
 		if ($is_image === TRUE)
-		{
-			/*
-			 * Adobe Photoshop puts XML metadata into JFIF images,
-			 * including namespacing, so we have to allow this for images.
-			 */
-			unset($evil_attributes[array_search('xmlns', $evil_attributes)]);
-		}
+        	{
+		   	/*
+	            	 * Adobe Photoshop puts XML metadata into JFIF images,
+	            	 * including namespacing, so we have to allow this for images.
+	            	 */
+            		unset($evil_attributes[array_search('xmlns', $evil_attributes)]);
+        	}
 
-		do {
-			$count = 0;
-			$attribs = array();
+        	do {
+            		$this->_remove_evil_attributes_count = 0;
 
-			// find occurrences of illegal attribute strings with quotes (042 and 047 are octal quotes)
-			preg_match_all('/(?<!\w)('.implode('|', $evil_attributes).')\s*=\s*(\042|\047)([^\\2]*?)(\\2)/is', $str, $matches, PREG_SET_ORDER);
+	            	// find occurrences of illegal attribute strings with quotes (042 and 047 are octal quotes)
+	            	$str = preg_replace_callback('/('.implode('|', $evil_attributes).')\s*=\s*(\042|\047|&quot;)([^\\2]*?)(\\2)/is', array($this, '_remove_evil_attributes_callback'), $str);
+	
+	            	$str = preg_replace_callback('/('.implode('|', $evil_attributes).')\s*=\s*([^\s>]*)/is',  array($this, '_remove_evil_attributes_callback'), $str);
 
-			foreach ($matches as $attr)
-			{
-				$attribs[] = preg_quote($attr[0], '/');
-			}
 
-			// find occurrences of illegal attribute strings without quotes
-			preg_match_all('/(?<!\w)('.implode('|', $evil_attributes).')\s*=\s*([^\s>]*)/is', $str, $matches, PREG_SET_ORDER);
+        	} while ($this->_remove_evil_attributes_count);
 
-			foreach ($matches as $attr)
-			{
-				$attribs[] = preg_quote($attr[0], '/');
-			}
-
-			// replace illegal attribute strings that are inside an html tag
-			if (count($attribs) > 0)
-			{
-				$str = preg_replace('/(<?)(\/?[^><]+?)([^A-Za-z<>\-])(.*?)('.implode('|', $attribs).')(.*?)([\s><]?)([><]*)/i', '$1$2 $4$6$7$8', $str, -1, $count);
-			}
-		}
-		while ($count);
-
-		return $str;
+        	return $str;
 	}
 
 	// --------------------------------------------------------------------
