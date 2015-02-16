@@ -74,7 +74,7 @@ includes the following code:
 
             <em>&copy; 2014</em>
         </body>
-    <html>
+    </html>
 
 Adding logic to the controller
 ------------------------------
