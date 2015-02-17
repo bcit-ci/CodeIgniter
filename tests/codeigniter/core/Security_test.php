@@ -79,6 +79,18 @@ class Security_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
+	public function test_remove_evil_attributes()
+	{
+		$this->assertEquals('<foo [removed]>', $this->security->remove_evil_attributes('<foo onAttribute="bar">', false));
+		$this->assertEquals('<foo [removed]>', $this->security->remove_evil_attributes('<foo onAttributeNoQuotes=bar>', false));
+		$this->assertEquals('<foo [removed]>', $this->security->remove_evil_attributes('<foo onAttributeWithSpaces = bar>', false));
+		$this->assertEquals('<foo prefixOnAttribute="bar">', $this->security->remove_evil_attributes('<foo prefixOnAttribute="bar">', false));
+		$this->assertEquals('<foo>onOutsideOfTag=test</foo>', $this->security->remove_evil_attributes('<foo>onOutsideOfTag=test</foo>', false));
+		$this->assertEquals('onNoTagAtAll = true', $this->security->remove_evil_attributes('onNoTagAtAll = true', false));
+	}
+
+	// --------------------------------------------------------------------
+
 	public function test_xss_hash()
 	{
 		$this->assertEmpty($this->security->xss_hash);
