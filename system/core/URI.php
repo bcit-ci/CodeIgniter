@@ -107,37 +107,34 @@ class CI_URI {
 			$this->_permitted_uri_chars = $this->config->item('permitted_uri_chars');
 
 			// If it's a CLI request, ignore the configuration
-			if (is_cli() OR ($protocol = strtoupper($this->config->item('uri_protocol'))) === 'CLI')
+			if (is_cli())
 			{
-				$this->_set_uri_string($this->_parse_argv());
-			}
-			elseif ($protocol === 'AUTO')
-			{
-				// Is there a PATH_INFO variable? This should be the easiest solution.
-				if (isset($_SERVER['PATH_INFO']))
-				{
-					$this->_set_uri_string($_SERVER['PATH_INFO']);
-				}
-				// No PATH_INFO? Let's try REQUST_URI or QUERY_STRING then
-				elseif (($uri = $this->_parse_request_uri()) !== '' OR ($uri = $this->_parse_query_string()) !== '')
-				{
-					$this->_set_uri_string($uri);
-				}
-				// As a last ditch effor, let's try using the $_GET array
-				elseif (is_array($_GET) && count($_GET) === 1 && trim(key($_GET), '/') !== '')
-				{
-					$this->_set_uri_string(key($_GET));
-				}
-			}
-			elseif (method_exists($this, ($method = '_parse_'.strtolower($protocol))))
-			{
-				$this->_set_uri_string($this->$method());
+				$uri = $this->_parse_argv();
 			}
 			else
 			{
-				$uri = isset($_SERVER[$protocol]) ? $_SERVER[$protocol] : @getenv($protocol);
-				$this->_set_uri_string($uri);
+				$protocol = $this->config->item('uri_protocol');
+				empty($protocol) && $protocol = 'REQUEST_URI';
+
+				switch ($protocol)
+				{
+					case 'AUTO': // For BC purposes only
+					case 'REQUEST_URI':
+						$uri = $this->_parse_request_uri();
+						break;
+					case 'QUERY_STRING':
+						$uri = $this->_parse_query_string();
+						break;
+					case 'PATH_INFO':
+					default:
+						$uri = isset($_SERVER[$protocol])
+							? $_SERVER[$protocol]
+							: $this->_parse_request_uri();
+						break;
+				}
 			}
+
+			$this->_set_uri_string($uri);
 		}
 
 		log_message('info', 'URI Class Initialized');
@@ -206,7 +203,7 @@ class CI_URI {
 
 		$uri = parse_url($_SERVER['REQUEST_URI']);
 		$query = isset($uri['query']) ? $uri['query'] : '';
-		$uri = isset($uri['path']) ? rawurldecode($uri['path']) : '';
+		$uri = isset($uri['path']) ? $uri['path'] : '';
 
 		if (strpos($uri, $_SERVER['SCRIPT_NAME']) === 0)
 		{
@@ -222,7 +219,7 @@ class CI_URI {
 		if (trim($uri, '/') === '' && strncmp($query, '/', 1) === 0)
 		{
 			$query = explode('?', $query, 2);
-			$uri = rawurldecode($query[0]);
+			$uri = $query[0];
 			$_SERVER['QUERY_STRING'] = isset($query[1]) ? $query[1] : '';
 		}
 		else
@@ -262,7 +259,7 @@ class CI_URI {
 		{
 			$uri = explode('?', $uri, 2);
 			$_SERVER['QUERY_STRING'] = isset($uri[1]) ? $uri[1] : '';
-			$uri = rawurldecode($uri[0]);
+			$uri = $uri[0];
 		}
 
 		parse_str($_SERVER['QUERY_STRING'], $_GET);
