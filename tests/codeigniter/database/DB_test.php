@@ -34,6 +34,9 @@ class DB_test extends CI_TestCase {
 
 	// ------------------------------------------------------------------------
 
+	/**
+	 * @expectedException RuntimeException
+	 */
 	public function test_db_failover()
 	{
 		$config = Mock_Database_DB::config(DB_DRIVER);

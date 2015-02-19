@@ -133,7 +133,7 @@ class Mock_Database_DB {
 		}
 		catch (Exception $e)
 		{
-			throw new InvalidArgumentException($e->getMessage());
+			throw new RuntimeException($e->getMessage());
 		}
 
 		return $db;
