@@ -31,10 +31,6 @@ matrix:
   allow_failures:
     - php: 5.2
     - php: hhvm
-    - php: 5.5
-      env: DB=mysql
-    - php: 5.6
-      env: DB=mysql
   exclude:
     - php: hhvm
       env: DB=pgsql
