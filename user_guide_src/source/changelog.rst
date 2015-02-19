@@ -155,6 +155,8 @@ Release Date: Not Released
    -  DEPRECATED the 'mysql', 'sqlite', 'mssql' and 'pdo/dblib' (also known as 'pdo/mssql' or 'pdo/sybase') drivers.
    -  Added **dsn** configuration setting for drivers that support DSN strings (PDO, PostgreSQL, Oracle, ODBC, CUBRID).
    -  Added **schema** configuration setting (defaults to *public*) for drivers that might need it (currently used by PostgreSQL and ODBC).
+   -  Added **save_queries** configuration setting to *application/config/database.php* (defaults to ``TRUE``).
+   -  Removed **autoinit** configuration setting as it doesn't make sense to instantiate the database class but not connect to the database.
    -  Added subdrivers support (currently only used by PDO).
    -  Added an optional database name parameter to ``db_select()``.
    -  Removed ``protect_identifiers()`` and renamed internal method ``_protect_identifiers()`` to it instead - it was just an alias.
@@ -173,7 +175,6 @@ Release Date: Not Released
    -  Added support for SQLite3 database driver.
    -  Added Interbase/Firebird database support via the *ibase* driver.
    -  Added ODBC support for ``create_database()``, ``drop_database()`` and ``drop_table()`` in :doc:`Database Forge <database/forge>`.
-   -  Added **save_queries** configuration setting to *application/config/database.php* (defaults to ``TRUE``).
    -  Added support to binding arrays as ``IN()`` sets in ``query()``.
 
    -  :doc:`Query Builder <database/query_builder>` changes include:

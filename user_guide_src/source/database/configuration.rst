@@ -27,7 +27,6 @@ prototype::
 		'char_set' => 'utf8',
 		'dbcollat' => 'utf8_general_ci',
 		'swap_pre' => '',
-		'autoinit' => TRUE,
 		'encrypt' => FALSE,
 		'compress' => FALSE,
 		'stricton' => FALSE,
@@ -70,7 +69,6 @@ These failovers can be specified by setting the failover for a connection like t
 				'char_set' => 'utf8',
 				'dbcollat' => 'utf8_general_ci',
 				'swap_pre' => '',
-				'autoinit' => TRUE,
 				'encrypt' => FALSE,
 				'compress' => FALSE,
 				'stricton' => FALSE
@@ -89,7 +87,6 @@ These failovers can be specified by setting the failover for a connection like t
 				'char_set' => 'utf8',
 				'dbcollat' => 'utf8_general_ci',
 				'swap_pre' => '',
-				'autoinit' => TRUE,
 				'encrypt' => FALSE,
 				'compress' => FALSE,
 				'stricton' => FALSE
@@ -120,7 +117,6 @@ example, to set up a "test" environment you would do this::
 		'char_set' => 'utf8',
 		'dbcollat' => 'utf8_general_ci',
 		'swap_pre' => '',
-		'autoinit' => TRUE,
 		'compress' => FALSE,
 		'encrypt' => FALSE,
 		'stricton' => FALSE,
@@ -181,8 +177,6 @@ Explanation of Values:
 **swap_pre**		A default table prefix that should be swapped with dbprefix. This is useful for distributed
 			applications where you might run manually written queries, and need the prefix to still be
 			customizable by the end user.
-**autoinit**		Whether or not to automatically connect to the database when the library loads. If set to false,
-			you will have to manually connect via the ``$this->db->db_connect()`` method.
 **schema**		The database schema, defaults to 'public'. Used by PostgreSQL and ODBC drivers.
 **encrypt**		Whether or not to use an encrypted connection.
 **compress**		Whether or not to use client compression (MySQL only).

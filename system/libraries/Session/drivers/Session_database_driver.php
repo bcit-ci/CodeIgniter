@@ -122,7 +122,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	public function open($save_path, $name)
 	{
 		return empty($this->_db->conn_id)
-			? ( ! $this->_db->autoinit && $this->_db->db_connect())
+			? (bool) $this->_db->db_connect()
 			: TRUE;
 	}
 
