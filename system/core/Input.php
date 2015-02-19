@@ -104,9 +104,9 @@ class CI_Input {
 	protected $headers = array();
 
 	/**
-	 * Raw input stream data
+	 * Raw input stream data as received from php://input
 	 *
-	 * @see	CI_Input::input_stream()
+	 * @see	CI_Input::raw_input_stream()
 	 * @var	array
 	 */
 	protected $_raw_input_stream = NULL;
@@ -114,12 +114,12 @@ class CI_Input {
 	/**
 	 * Input stream data
 	 *
-	 * Parsed from php://input at runtime
+	 * Parsed from raw_input_stream at runtime
 	 *
 	 * @see	CI_Input::input_stream()
 	 * @var	array
 	 */
-	protected $_input_stream = NULL; // Kept for backward compatible.
+	protected $_input_stream = NULL;
 
 	/**
 	 * Class constructor
@@ -309,7 +309,7 @@ class CI_Input {
 	/**
 	 * Fetch raw data from php://input stream
 	 *
-	 * Useful when data is not an array and might contain = and & symbols.
+	 * Useful when data is not an array.
 	 */
 	public function raw_input_stream()
 	{
@@ -326,7 +326,7 @@ class CI_Input {
 	// ------------------------------------------------------------------------
 
 	/**
-	 * Fetch an item from the php://input stream
+	 * Fetch an item from the input stream
 	 *
 	 * Useful when you need to access PUT, DELETE or PATCH request data.
 	 *
@@ -343,9 +343,9 @@ class CI_Input {
 	// ------------------------------------------------------------------------
 
 	/**
-	 * Fetch an item from the php://input stream
+	 * Fetch an item from the input stream
 	 *
-	 * Useful when you need to access input that's been send as raw json data'
+	 * Useful when you need to access input that's been send as json'
 	 *
 	 * @param	string	$index		Index for item to be fetched
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
