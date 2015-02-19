@@ -2,6 +2,9 @@
 
 class DB_test extends CI_TestCase {
 
+	/**
+	 * @expectedException	InvalidArgumentException
+	 */
 	public function test_db_invalid()
 	{
 		$connection = new Mock_Database_DB(array(
@@ -34,17 +37,20 @@ class DB_test extends CI_TestCase {
 
 	// ------------------------------------------------------------------------
 
-	/**
-	 * @expectedException RuntimeException
-	 */
 	public function test_db_failover()
 	{
 		$config = Mock_Database_DB::config(DB_DRIVER);
 		$connection = new Mock_Database_DB($config);
-		$db = Mock_Database_DB::DB($connection->set_dsn(DB_DRIVER.'_failover'), TRUE);
 
-		$this->assertTrue($db instanceof CI_DB);
-		$this->assertTrue($db instanceof CI_DB_Driver);
+		try
+		{
+			$db = Mock_Database_DB::DB($connection->set_dsn(DB_DRIVER.'_failover'), TRUE);
+		}
+		catch (RuntimeException $e)
+		{
+			$this->assertTrue($db instanceof CI_DB);
+			$this->assertTrue($db instanceof CI_DB_Driver);
+		}
 	}
 
 }
