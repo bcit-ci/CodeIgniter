@@ -492,6 +492,11 @@ if ( ! function_exists('set_status_header'))
 	 */
 	function set_status_header($code = 200, $text = '')
 	{
+		if (is_cli())
+		{
+			return;
+		}
+
 		$stati = array(
 			200	=> 'OK',
 			201	=> 'Created',
