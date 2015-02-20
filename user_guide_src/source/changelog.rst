@@ -492,6 +492,8 @@ Release Date: Not Released
       -  Added an option for ``_clean_input_keys()`` to return FALSE instead of terminating the whole script.
       -  Deprecated the ``is_cli_request()`` method, it is now an alias for the new :php:func:`is_cli()` common function.
       -  Added an ``$xss_clean`` parameter to method ``user_agent()`` and removed the ``$user_agent`` property.
+      -  Added gettable property ``raw_input_stream`` to access the **php://input** data.
+      -  Changed method ``input_stream()`` to obtain the data from ``raw_input_stream`` property.
 
    -  :doc:`Common functions <general/common_functions>` changes include:
 

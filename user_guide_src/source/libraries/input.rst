@@ -91,8 +91,14 @@ the ``$_POST`` array, because it will always exist and you can try
 and access multiple variables without caring that you might only have
 one shot at all of the POST data.
 
-CodeIgniter will take care of that for you, and you can access data
-from the **php://input** stream at any time, just by calling the
+CodeIgniter will take care of that for you, and you can read the data
+from the **php://input** stream at any time, just by using the
+``raw_input_stream`` property::
+
+	$this->input->raw_input_stream;
+
+Additionally if the input stream is formated in a query string fashion
+you can access it's values, just by calling the
 ``input_stream()`` method::
 
 	$this->input->input_stream('key');
