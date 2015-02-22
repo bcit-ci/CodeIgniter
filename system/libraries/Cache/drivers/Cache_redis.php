@@ -243,15 +243,13 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function is_supported()
 	{
-		if (extension_loaded('redis'))
-		{
-			return $this->_setup_redis();
-		}
-		else
+		if ( ! extension_loaded('redis'))
 		{
 			log_message('debug', 'The Redis extension must be loaded to use Redis cache.');
 			return FALSE;
 		}
+
+		return $this->_setup_redis();
 	}
 
 	// ------------------------------------------------------------------------
