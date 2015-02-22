@@ -724,13 +724,19 @@ class CI_Session {
 		{
 			foreach ($key as $k)
 			{
-				unset($_SESSION[$k]);
+				if(isset($_SESSION[$k]))
+				{
+					unset($_SESSION[$k]);
+				}
 			}
 
 			return;
 		}
 
-		unset($_SESSION[$key]);
+		if(isset($_SESSION[$key]))
+		{
+			unset($_SESSION[$key]);
+		}
 	}
 
 	// ------------------------------------------------------------------------
