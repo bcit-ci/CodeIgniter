@@ -272,7 +272,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	{
 		if (isset($this->_redis, $this->_lock_key))
 		{
-			if ($this->_redis->delete($this->_key_prefix.$session_id) !== 1)
+			if (($result = $this->_redis->delete($this->_key_prefix.$session_id)) !== 1)
 			{
 				log_message('debug', 'Session: Redis::delete() expected to return 1, got '.var_export($result, TRUE).' instead.');
 			}
