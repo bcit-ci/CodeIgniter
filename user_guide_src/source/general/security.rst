@@ -133,6 +133,10 @@ with that. Please read below.
    provides them for you as long as you're running at least PHP version
    5.3.7 (and if you don't meet that requirement - please, upgrade).
 
+   If you're one of the really unlucky people who can't even upgrade to a
+   more recent PHP version, use `hash_pbkdf() <http://php.net/hash_pbkdf2>`,
+   which we also provide in our compatibility layer.
+
 -  DO NOT ever display or send a password in plain-text format!
 
    Even to the password's owner, if you need a "Forgotten password"
