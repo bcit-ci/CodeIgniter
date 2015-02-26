@@ -103,16 +103,16 @@ class CI_Input {
 	 */
 	protected $headers = array();
 
-	protected $_raw_input_stream = NULL;
+	protected $_raw_input_stream;
 
 	/**
-	* Input stream data
-	*
-	* Parsed from php://input at runtime
-	*
-	* @see	CI_Input::input_stream()
-	* @var	array
-	*/
+	 * Input stream data
+	 *
+	 * Parsed from php://input at runtime
+	 *
+	 * @see	CI_Input::input_stream()
+	 * @var	array
+	 */
 	protected $_input_stream = NULL;
 
 	/**
@@ -301,23 +301,25 @@ class CI_Input {
 	// ------------------------------------------------------------------------
 
 	/**
-	* Fetch an item from the php://input stream
-	*
-	* Useful when you need to access PUT, DELETE or PATCH request data.
-	*
-	* @param	string $index Index for item to be fetched
-	* @param	bool $xss_clean Whether to apply XSS filtering
-	* @return	mixed
-	*/
+	 * Fetch an item from the php://input stream
+	 *
+	 * Useful when you need to access PUT, DELETE or PATCH request data.
+	 *
+	 * @param	string $index Index for item to be fetched
+	 * @param	bool $xss_clean Whether to apply XSS filtering
+	 * @return	mixed
+	 */
 	public function input_stream($index = NULL, $xss_clean = NULL)
 	{
-	// Prior to PHP 5.6, the input stream can only be read once,
-	// so we'll need to check if we have already done that first.
+		// Prior to PHP 5.6, the input stream can only be read once,
+		// so we'll need to check if we have already done that first.
 		if ( ! is_array($this->_input_stream))
 		{
+			// $this->raw_input_stream will trigger __get().
 			parse_str($this->raw_input_stream, $this->_input_stream);
 			is_array($this->_input_stream) OR $this->_input_stream = array();
 		}
+		
 		return $this->_fetch_from_array($this->_input_stream, $index, $xss_clean);
 	}
 
