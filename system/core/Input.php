@@ -305,8 +305,8 @@ class CI_Input {
 	 *
 	 * Useful when you need to access PUT, DELETE or PATCH request data.
 	 *
-	 * @param	string $index Index for item to be fetched
-	 * @param	bool $xss_clean Whether to apply XSS filtering
+	 * @param	string	$index		Index for item to be fetched
+	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
 	public function input_stream($index = NULL, $xss_clean = NULL)
@@ -319,7 +319,7 @@ class CI_Input {
 			parse_str($this->raw_input_stream, $this->_input_stream);
 			is_array($this->_input_stream) OR $this->_input_stream = array();
 		}
-		
+
 		return $this->_fetch_from_array($this->_input_stream, $index, $xss_clean);
 	}
 
