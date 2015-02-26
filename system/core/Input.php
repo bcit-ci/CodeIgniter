@@ -103,6 +103,8 @@ class CI_Input {
 	 */
 	protected $headers = array();
 
+	protected $_raw_input_stream;
+
 	/**
 	 * Input stream data
 	 *
@@ -313,11 +315,23 @@ class CI_Input {
 		// so we'll need to check if we have already done that first.
 		if ( ! is_array($this->_input_stream))
 		{
-			parse_str(file_get_contents('php://input'), $this->_input_stream);
+			// $this->raw_input_stream will trigger __get().
+			parse_str($this->raw_input_stream, $this->_input_stream);
 			is_array($this->_input_stream) OR $this->_input_stream = array();
 		}
 
 		return $this->_fetch_from_array($this->_input_stream, $index, $xss_clean);
+	}
+
+	// ------------------------------------------------------------------------
+
+	public function __get($name)
+	{
+		if ($name === 'raw_input_stream')
+		{
+			isset($this->_raw_input_stream) OR $this->_raw_input_stream = file_get_contents('php://input');
+			return $this->_raw_input_stream;
+		}
 	}
 
 	// ------------------------------------------------------------------------
