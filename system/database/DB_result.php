@@ -42,8 +42,7 @@ class CI_DB_result {
 	/**
 	 * Query result.  Acts as a wrapper function for the following functions.
 	 *
-	 * @access	public
-	 * @param	string	can be "object" or "array"
+	 * @param	string	$type  can be "object" or "array"
 	 * @return	mixed	either a result object or array
 	 */
 	public function result($type = 'object')
@@ -58,7 +57,7 @@ class CI_DB_result {
 	/**
 	 * Custom query result.
 	 *
-	 * @param class_name A string that represents the type of object you want back
+	 * @param class_name $class_name A string that represents the type of object you want back
 	 * @return array of objects
 	 */
 	public function custom_result_object($class_name)
@@ -98,7 +97,6 @@ class CI_DB_result {
 	/**
 	 * Query result.  "object" version.
 	 *
-	 * @access	public
 	 * @return	object
 	 */
 	public function result_object()
@@ -130,7 +128,6 @@ class CI_DB_result {
 	/**
 	 * Query result.  "array" version.
 	 *
-	 * @access	public
 	 * @return	array
 	 */
 	public function result_array()
@@ -162,9 +159,8 @@ class CI_DB_result {
 	/**
 	 * Query result.  Acts as a wrapper function for the following functions.
 	 *
-	 * @access	public
-	 * @param	string
-	 * @param	string	can be "object" or "array"
+	 * @param	string  $n
+	 * @param	mixed	$type  can be "object" or "array"
 	 * @return	mixed	either a result object or array
 	 */
 	public function row($n = 0, $type = 'object')
@@ -196,7 +192,8 @@ class CI_DB_result {
 	/**
 	 * Assigns an item into a particular column slot
 	 *
-	 * @access	public
+	 * @param	mixed  $key
+	 * @param	mixed  $value
 	 * @return	object
 	 */
 	public function set_row($key, $value = NULL)
@@ -228,7 +225,8 @@ class CI_DB_result {
 	/**
 	 * Returns a single result row - custom object version
 	 *
-	 * @access	public
+	 * @param	string  $n
+	 * @param	mixed	$type  can be "object" or "array"
 	 * @return	object
 	 */
 	public function custom_row_object($n, $type)
@@ -251,7 +249,7 @@ class CI_DB_result {
 	/**
 	 * Returns a single result row - object version
 	 *
-	 * @access	public
+	 * @param	string  $n
 	 * @return	object
 	 */
 	public function row_object($n = 0)
@@ -276,7 +274,7 @@ class CI_DB_result {
 	/**
 	 * Returns a single result row - array version
 	 *
-	 * @access	public
+	 * @param	string  $n
 	 * @return	array
 	 */
 	public function row_array($n = 0)
@@ -302,7 +300,7 @@ class CI_DB_result {
 	/**
 	 * Returns the "first" row
 	 *
-	 * @access	public
+	 * @param	string  $type
 	 * @return	object
 	 */
 	public function first_row($type = 'object')
@@ -321,7 +319,7 @@ class CI_DB_result {
 	/**
 	 * Returns the "last" row
 	 *
-	 * @access	public
+	 * @param	string  $type
 	 * @return	object
 	 */
 	public function last_row($type = 'object')
@@ -340,7 +338,7 @@ class CI_DB_result {
 	/**
 	 * Returns the "next" row
 	 *
-	 * @access	public
+	 * @param	string  $type
 	 * @return	object
 	 */
 	public function next_row($type = 'object')
@@ -365,7 +363,7 @@ class CI_DB_result {
 	/**
 	 * Returns the "previous" row
 	 *
-	 * @access	public
+	 * @param	string  $type
 	 * @return	object
 	 */
 	public function previous_row($type = 'object')

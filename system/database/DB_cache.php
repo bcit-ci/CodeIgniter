@@ -48,11 +48,10 @@ class CI_DB_Cache {
 	/**
 	 * Set Cache Directory Path
 	 *
-	 * @access	public
-	 * @param	string	the path to the cache directory
+	 * @param	string	$path  the path to the cache directory
 	 * @return	bool
 	 */
-	function check_path($path = '')
+	public function check_path($path = '')
 	{
 		if ($path == '')
 		{
@@ -85,10 +84,10 @@ class CI_DB_Cache {
 	 * The URI being requested will become the name of the cache sub-folder.
 	 * An MD5 hash of the SQL statement will become the cache file name
 	 *
-	 * @access	public
+	 * @param   string  $sql
 	 * @return	string
 	 */
-	function read($sql)
+	public function read($sql)
 	{
 		if ( ! $this->check_path())
 		{
@@ -114,10 +113,11 @@ class CI_DB_Cache {
 	/**
 	 * Write a query to a cache file
 	 *
-	 * @access	public
+	 * @param   string  $sql
+	 * @param   object  $object
 	 * @return	bool
 	 */
-	function write($sql, $object)
+	public function write($sql, $object)
 	{
 		if ( ! $this->check_path())
 		{
@@ -156,10 +156,11 @@ class CI_DB_Cache {
 	/**
 	 * Delete cache files within a particular directory
 	 *
-	 * @access	public
+	 * @param   string  $segment_one
+	 * @param   string  $segment_two
 	 * @return	bool
 	 */
-	function delete($segment_one = '', $segment_two = '')
+	public function delete($segment_one = '', $segment_two = '')
 	{
 		if ($segment_one == '')
 		{
@@ -181,10 +182,9 @@ class CI_DB_Cache {
 	/**
 	 * Delete all existing cache files
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
-	function delete_all()
+	public function delete_all()
 	{
 		delete_files($this->db->cachedir, TRUE);
 	}
