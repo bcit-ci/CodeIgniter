@@ -39,7 +39,7 @@ matrix:
     - php: hhvm
       env: DB=pdo/pgsql
     - php: 7
-      env: mysql
+      env: DB=mysql
     - php: 5.2
       env: DB=sqlite
     - php: 5.2
