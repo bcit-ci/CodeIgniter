@@ -795,7 +795,7 @@ It is now deprecated and scheduled for removal in CodeIgniter 3.1+.
 	sooner rather than later.
 
 ***********************************************************
-Step 18: Check your usage of Text helper highlight_phrase()
+Step 20: Check your usage of Text helper highlight_phrase()
 ***********************************************************
 
 The default HTML tag used by :doc:`Text Helper <../helpers/text_helper>` function
