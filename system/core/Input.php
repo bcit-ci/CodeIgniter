@@ -103,17 +103,26 @@ class CI_Input {
 	 */
 	protected $headers = array();
 
+	/**
+	 * Raw input stream data
+	 *
+	 * Holds a cache of php://input contents
+	 *
+	 * @var	string
+	 */
 	protected $_raw_input_stream;
 
 	/**
-	 * Input stream data
+	 * Parsed input stream data
 	 *
 	 * Parsed from php://input at runtime
 	 *
 	 * @see	CI_Input::input_stream()
 	 * @var	array
 	 */
-	protected $_input_stream = NULL;
+	protected $_input_stream;
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Class constructor
@@ -321,17 +330,6 @@ class CI_Input {
 		}
 
 		return $this->_fetch_from_array($this->_input_stream, $index, $xss_clean);
-	}
-
-	// ------------------------------------------------------------------------
-
-	public function __get($name)
-	{
-		if ($name === 'raw_input_stream')
-		{
-			isset($this->_raw_input_stream) OR $this->_raw_input_stream = file_get_contents('php://input');
-			return $this->_raw_input_stream;
-		}
 	}
 
 	// ------------------------------------------------------------------------
@@ -858,6 +856,25 @@ class CI_Input {
 		return ($upper)
 			? strtoupper($this->server('REQUEST_METHOD'))
 			: strtolower($this->server('REQUEST_METHOD'));
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Magic __get()
+	 *
+	 * Allows read access to protected properties
+	 *
+	 * @param	string	$name
+	 * @return	mixed
+	 */
+	public function __get($name)
+	{
+		if ($name === 'raw_input_stream')
+		{
+			isset($this->_raw_input_stream) OR $this->_raw_input_stream = file_get_contents('php://input');
+			return $this->_raw_input_stream;
+		}
 	}
 
 }
