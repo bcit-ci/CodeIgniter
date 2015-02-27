@@ -70,13 +70,6 @@ class CI_Log {
 	protected $_threshold = 1;
 
 	/**
-	 * Highest level of logging
-	 *
-	 * @var int
-	 */
-	protected $_threshold_max = 0;
-
-	/**
 	 * Array of threshold levels to log
 	 *
 	 * @var array
@@ -139,7 +132,7 @@ class CI_Log {
 		}
 		elseif (is_array($config['log_threshold']))
 		{
-			$this->_threshold = $this->_threshold_max;
+			$this->_threshold = 0;
 			$this->_threshold_array = array_flip($config['log_threshold']);
 		}
 
