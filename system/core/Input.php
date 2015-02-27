@@ -55,7 +55,7 @@ class CI_Input {
 	 *
 	 * @var	string
 	 */
-	public $ip_address = FALSE;
+	protected $ip_address = FALSE;
 
 	/**
 	 * Allow GET array flag
@@ -877,6 +877,10 @@ class CI_Input {
 		{
 			isset($this->_raw_input_stream) OR $this->_raw_input_stream = file_get_contents('php://input');
 			return $this->_raw_input_stream;
+		}
+		elseif ($name === 'ip_address')
+		{
+			return $this->ip_address;
 		}
 	}
 
