@@ -122,6 +122,8 @@ class CI_Input {
 	 */
 	protected $_input_stream;
 
+	protected $security;
+
 	// --------------------------------------------------------------------
 
 	/**
