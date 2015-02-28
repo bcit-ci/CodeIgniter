@@ -480,6 +480,7 @@ Release Date: Not Released
 
    -  :doc:`Input Library <libraries/input>` changes include:
 
+      -  Deprecated the ``$config['global_xss_filtering']`` setting.
       -  Added ``method()`` to retrieve ``$_SERVER['REQUEST_METHOD']``.
       -  Added support for arrays and network addresses (e.g. 192.168.1.1/24) for use with the *proxy_ips* setting.
       -  Added method ``input_stream()`` to aid in using **php://input** stream data such as one passed via PUT, DELETE and PATCH requests.

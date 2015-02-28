@@ -551,6 +551,22 @@ PHP's native ``hash()`` function. It is deprecated and scheduled for removal in 
 .. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
 	rather than later.
 
+The $config['global_xss_filtering'] setting
+===========================================
+
+As already explained above, XSS filtering should not be done on input data,
+but on output instead. Therefore, the ``$config['global_xss_filtering']``,
+which automatically filters *input* data, is considered a bad practice and
+is now deprecated.
+
+Instead, you should manually escape any user-provided data via the
+:php:func:`xss_clean()` function when you need to output it, or use a
+library like `HTML Purifier <http://htmlpurifier.org/>`_ that does that
+for you.
+
+.. note:: The setting is still available, but you're strongly encouraged to
+	remove its usage sooner rather than later.
+
 File helper read_file()
 =======================
 

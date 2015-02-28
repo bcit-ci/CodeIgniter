@@ -53,6 +53,10 @@ this::
 Please refer to the :doc:`Security class <security>` documentation for
 information on using XSS Filtering in your application.
 
+.. important:: The 'global_xss_filtering' setting is DEPRECATED and kept
+	solely for backwards-compatibility purposes. XSS escaping should
+	be performed on *output*, not *input*!
+
 *******************
 Accessing form data
 *******************
