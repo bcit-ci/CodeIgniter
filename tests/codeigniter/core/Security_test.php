@@ -126,5 +126,24 @@ class Security_test extends CI_TestCase {
 
 		$this->assertEquals('foo', $safe_filename);
 	}
+        
+        // --------------------------------------------------------------------
 
+	public function test_strip_image_tags()
+	{
+                $imgtags = Array(
+                    '<img src="smiley.gif" alt="Smiley face" height="42" width="42">',
+                    '<img src="http://www.w3schools.com/images/w3schools_green.jpg">'
+                );
+                
+                $urls = Array(
+                    'smiley.gif',
+                    'http://www.w3schools.com/images/w3schools_green.jpg'
+                );
+                
+                for($i = 0; $i < count($imgtags); $i++) 
+                {
+                    $this->assertEquals($urls[$i], $this->security->strip_image_tags($imgtags[$i]));
+                }
+	}
 }
