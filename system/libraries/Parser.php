@@ -139,6 +139,8 @@ class CI_Parser {
 		{
 			return FALSE;
 		}
+        
+        $template = $this->_parse_includes($template, $data);
 
 		$replace = array();
 		foreach ($data as $key => $val)
@@ -189,7 +191,10 @@ class CI_Parser {
 	 */
 	protected function _parse_single($key, $val, $string)
 	{
-		return array($this->l_delim.$key.$this->r_delim => (string) $val);
+		return array(
+            $this->l_delim.$this->l_delim.$key.$this->r_delim.$this->r_delim => (string) $val,
+            $this->l_delim.$key.$this->r_delim => (string) htmlspecialchars( $val )
+        );
 	}
 
 	// --------------------------------------------------------------------
@@ -208,7 +213,7 @@ class CI_Parser {
 	{
 		$replace = array();
 		preg_match_all(
-			'#'.preg_quote($this->l_delim.$variable.$this->r_delim).'(.+?)'.preg_quote($this->l_delim.'/'.$variable.$this->r_delim).'#s',
+			'#'.preg_quote($this->l_delim).'?'.preg_quote($this->l_delim.$variable.$this->r_delim.$this->r_delim).'?(.+?)'.preg_quote($this->l_delim).'?'.preg_quote($this->l_delim.'/'.$variable.$this->r_delim.$this->r_delim).'?#s',
 			$string,
 			$matches,
 			PREG_SET_ORDER
@@ -233,7 +238,8 @@ class CI_Parser {
 						continue;
 					}
 
-					$temp[$this->l_delim.$key.$this->r_delim] = $val;
+					$temp[$this->l_delim.$this->l_delim.$key.$this->r_delim.$this->r_delim] = $val;
+					$temp[$this->l_delim.$key.$this->r_delim] = htmlspecialchars( $val );
 				}
 
 				$str .= strtr($match[1], $temp);
@@ -244,5 +250,35 @@ class CI_Parser {
 
 		return $replace;
 	}
+    
+    // --------------------------------------------------------------------
+
+	/**
+	 * Parse includes
+	 *
+	 * Parses includes: @include(view_name)
+	 *
+	 * @param	string
+     * @param	array
+	 * @return	string
+	 */
+	protected function _parse_includes($string, $data)
+	{
+        preg_match_all(
+			'#@include\((.+)\)#',
+			$string,
+			$matches,
+			PREG_SET_ORDER
+		);
+        
+        $replace = array();
+        
+        foreach ($matches as $match)
+		{
+            $replace[$match[0]] = $this->_parse_includes( $this->CI->load->view($match[1], $data, TRUE), $data );
+        }
+        
+        return strtr($string, $replace);
+    }
 
 }
