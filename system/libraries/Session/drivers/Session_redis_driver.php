@@ -205,7 +205,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 
 		if (isset($this->_lock_key))
 		{
-			$this->_redis->setTimeout($this->_lock_key, 5);
+			$this->_redis->setTimeout($this->_lock_key, 300);
 			if ($this->_fingerprint !== ($fingerprint = md5($session_data)))
 			{
 				if ($this->_redis->set($this->_key_prefix.$session_id, $session_data, $this->_config['expiration']))
@@ -313,40 +313,21 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	{
 		if (isset($this->_lock_key))
 		{
-			return $this->_redis->setTimeout($this->_lock_key, 5);
+			return $this->_redis->setTimeout($this->_lock_key, 300);
 		}
 
+		// 30 attempts to obtain a lock, in case another request already has it
 		$lock_key = $this->_key_prefix.$session_id.':lock';
-		if (($ttl = $this->_redis->ttl($lock_key)) < 1)
-		{
-			if ( ! $this->_redis->setex($lock_key, 5, time()))
-			{
-				log_message('error', 'Session: Error while trying to obtain lock for '.$this->_key_prefix.$session_id);
-				return FALSE;
-			}
-
-			$this->_lock_key = $lock_key;
-
-			if ($ttl === -1)
-			{
-				log_message('debug', 'Session: Lock for '.$this->_key_prefix.$session_id.' had no TTL, overriding.');
-			}
-
-			$this->_lock = TRUE;
-			return TRUE;
-		}
-
-		// Another process has the lock, we'll try to wait for it to free itself ...
 		$attempt = 0;
-		while ($attempt++ < 5)
+		do
 		{
-			usleep(($ttl * 1000000) - 20000);
 			if (($ttl = $this->_redis->ttl($lock_key)) > 0)
 			{
+				sleep(1);
 				continue;
 			}
 
-			if ( ! $this->_redis->setex($lock_key, 5, time()))
+			if ( ! $this->_redis->setex($lock_key, 300, time()))
 			{
 				log_message('error', 'Session: Error while trying to obtain lock for '.$this->_key_prefix.$session_id);
 				return FALSE;
@@ -355,11 +336,16 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 			$this->_lock_key = $lock_key;
 			break;
 		}
+		while ($attempt++ < 30);
 
-		if ($attempt === 5)
+		if ($attempt === 30)
 		{
-			log_message('error', 'Session: Unable to obtain lock for '.$this->_key_prefix.$session_id.' after 5 attempts, aborting.');
+			log_message('error', 'Session: Unable to obtain lock for '.$this->_key_prefix.$session_id.' after 30 attempts, aborting.');
 			return FALSE;
+		}
+		elseif ($ttl === -1)
+		{
+			log_message('debug', 'Session: Lock for '.$this->_key_prefix.$session_id.' had no TTL, overriding.');
 		}
 
 		$this->_lock = TRUE;
