@@ -133,12 +133,24 @@ class Security_test extends CI_TestCase {
 	{
                 $imgtags = Array(
                     '<img src="smiley.gif" alt="Smiley face" height="42" width="42">',
-                    '<img src="http://www.w3schools.com/images/w3schools_green.jpg">'
+                    '<img alt="Smiley face" height="42" width="42" src="smiley.gif">',
+                    '<img src="http://www.w3schools.com/images/w3schools_green.jpg">',
+                    '<img src="/img/sunset.gif" height="100%" width="100%">',
+                    '<img src="mdn-logo-sm.png" alt="MD Logo" srcset="mdn-logo-HD.png 2x, mdn-logo-small.png 15w, mdn-banner-HD.png 100w 2x" />',
+                    '<img sqrc="/img/sunset.gif" height="100%" width="100%">',
+                    '<img srqc="/img/sunset.gif" height="100%" width="100%">',
+                    '<img srcq="/img/sunset.gif" height="100%" width="100%">'
                 );
                 
                 $urls = Array(
                     'smiley.gif',
-                    'http://www.w3schools.com/images/w3schools_green.jpg'
+                    'smiley.gif',
+                    'http://www.w3schools.com/images/w3schools_green.jpg',
+                    '/img/sunset.gif',
+                    'mdn-logo-sm.png',
+                    '<img sqrc="/img/sunset.gif" height="100%" width="100%">',
+                    '<img srqc="/img/sunset.gif" height="100%" width="100%">',
+                    '<img srcq="/img/sunset.gif" height="100%" width="100%">'
                 );
                 
                 for($i = 0; $i < count($imgtags); $i++) 
