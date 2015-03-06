@@ -102,7 +102,14 @@ class CI_Config {
 
 			$this->set_item('base_url', $base_url);
 		}
-
+		
+		// Add loaded confing path to list 
+		if (isset($this->config['__is_loaded'])) 
+		{
+        		$this->is_loaded = $this->config['__is_loaded'];
+        		unset($this->config['__is_loaded']);
+        	}
+        	
 		log_message('info', 'Config Class Initialized');
 	}
 
@@ -128,7 +135,7 @@ class CI_Config {
 				$file_path = $path.'config/'.$location.'.php';
 				if (in_array($file_path, $this->is_loaded, TRUE))
 				{
-					return TRUE;
+					continue;
 				}
 
 				if ( ! file_exists($file_path))
