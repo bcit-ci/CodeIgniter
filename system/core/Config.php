@@ -103,7 +103,7 @@ class CI_Config {
 			$this->set_item('base_url', $base_url);
 		}
 		
-		// Add loaded confing path to list 
+		// Add loaded config path to list 
 		if (isset($this->config['__is_loaded'])) 
 		{
         		$this->is_loaded = $this->config['__is_loaded'];
