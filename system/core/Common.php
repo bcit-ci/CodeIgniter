@@ -247,12 +247,14 @@ if ( ! function_exists('get_config'))
 			{
 				$found = TRUE;
 				require($file_path);
+				$config['__is_loaded'][] = $file_path;
 			}
 
 			// Is the config file in the environment folder?
 			if (file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config.php'))
 			{
 				require($file_path);
+				$config['__is_loaded'][] = $file_path;
 			}
 			elseif ( ! $found)
 			{
