@@ -326,7 +326,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 
 		if ($attempt === 30)
 		{
-			log_message('error', 'Session: Unable to obtain lock for '.$this->_key_prefix.$session_id.' after 5 attempts, aborting.');
+			log_message('error', 'Session: Unable to obtain lock for '.$this->_key_prefix.$session_id.' after 30 attempts, aborting.');
 			return FALSE;
 		}
 

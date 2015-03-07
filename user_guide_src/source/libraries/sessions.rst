@@ -363,7 +363,7 @@ To read a tempdata variable, again you can just access it through the
 
 .. important:: The ``userdata()`` method will NOT return tempdata items.
 
-Or if you want to be sure that you're reading "flashdata" (and not any
+Or if you want to be sure that you're reading "tempdata" (and not any
 other kind), you can also use the ``tempdata()`` method::
 
 	$this->session->tempdata('item');
