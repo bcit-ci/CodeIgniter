@@ -295,7 +295,7 @@ Class Reference
 
 		Repairs a database table.
 
-	.. php:method:: csv_from_results($query[, $delim = ','[, $newline = "\n"[, $enclosure = '"']]])
+	.. php:method:: csv_from_result($query[, $delim = ','[, $newline = "\n"[, $enclosure = '"']]])
 
 		:param	object	$query:	A database result object
 		:param	string	$delim: The CSV field delimiter to use
@@ -306,7 +306,7 @@ Class Reference
 
 		Translates a database result object into a CSV document.
 
-	.. php:method:: xml_from_results($query[, $params = array()])
+	.. php:method:: xml_from_result($query[, $params = array()])
 
 		:param	object	$query: A database result object
 		:param	array	$params: An associative array of preferences
