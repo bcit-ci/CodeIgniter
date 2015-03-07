@@ -55,7 +55,7 @@ class CI_Input {
 	 *
 	 * @var	string
 	 */
-	public $ip_address = FALSE;
+	protected $ip_address = FALSE;
 
 	/**
 	 * Allow GET array flag
@@ -104,14 +104,28 @@ class CI_Input {
 	protected $headers = array();
 
 	/**
-	 * Input stream data
+	 * Raw input stream data
+	 *
+	 * Holds a cache of php://input contents
+	 *
+	 * @var	string
+	 */
+	protected $_raw_input_stream;
+
+	/**
+	 * Parsed input stream data
 	 *
 	 * Parsed from php://input at runtime
 	 *
 	 * @see	CI_Input::input_stream()
 	 * @var	array
 	 */
-	protected $_input_stream = NULL;
+	protected $_input_stream;
+
+	protected $security;
+	protected $uni;
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Class constructor
@@ -313,7 +327,8 @@ class CI_Input {
 		// so we'll need to check if we have already done that first.
 		if ( ! is_array($this->_input_stream))
 		{
-			parse_str(file_get_contents('php://input'), $this->_input_stream);
+			// $this->raw_input_stream will trigger __get().
+			parse_str($this->raw_input_stream, $this->_input_stream);
 			is_array($this->_input_stream) OR $this->_input_stream = array();
 		}
 
@@ -844,6 +859,29 @@ class CI_Input {
 		return ($upper)
 			? strtoupper($this->server('REQUEST_METHOD'))
 			: strtolower($this->server('REQUEST_METHOD'));
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Magic __get()
+	 *
+	 * Allows read access to protected properties
+	 *
+	 * @param	string	$name
+	 * @return	mixed
+	 */
+	public function __get($name)
+	{
+		if ($name === 'raw_input_stream')
+		{
+			isset($this->_raw_input_stream) OR $this->_raw_input_stream = file_get_contents('php://input');
+			return $this->_raw_input_stream;
+		}
+		elseif ($name === 'ip_address')
+		{
+			return $this->ip_address;
+		}
 	}
 
 }

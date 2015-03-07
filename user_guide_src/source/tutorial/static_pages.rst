@@ -11,12 +11,16 @@ static pages. A controller is simply a class that helps delegate work.
 It is the glue of your web application.
 
 For example, when a call is made to:
-``http://example.com/news/latest/10`` We might imagine that there is a
-controller named "news". The method being called on news would be
-"latest". The news method's job could be to grab 10 news items, and
-render them on the page. Very often in MVC, you'll see URL patterns that
-match:
-``http://example.com/[controller-class]/[controller-method]/[arguments]``
+
+	http://example.com/news/latest/10
+
+We might imagine that there is a controller named "news". The method
+being called on news would be "latest". The news method's job could be to
+grab 10 news items, and render them on the page. Very often in MVC,
+you'll see URL patterns that match:
+
+	http://example.com/[controller-class]/[controller-method]/[arguments]
+
 As URL schemes become more complex, this may change. But for now, this
 is all we will need to know.
 
@@ -25,15 +29,13 @@ code.
 
 ::
 
-    <?php 
-    class Pages extends CI_Controller { 
+	<?php 
+	class Pages extends CI_Controller { 
 
-        public function view($page = 'home') 
-        {
-	
-        }
-		 
-    }
+		public function view($page = 'home') 
+		{
+	        }
+	}
 
 You have created a class named "pages", with a view method that accepts
 one argument named $page. The pages class is extending the
@@ -56,13 +58,13 @@ following code.
 
 ::
 
-    <html>
-        <head>
-            <title>CodeIgniter Tutorial</title>
-        </head>
-        <body>
+	<html>
+		<head>
+			<title>CodeIgniter Tutorial</title>
+		</head>
+		<body>
 
-            <h1>CodeIgniter Tutorial</h1>
+			<h1>CodeIgniter Tutorial</h1>
 
 The header contains the basic HTML code that you'll want to display
 before loading the main view, together with a heading. It will also
@@ -72,16 +74,16 @@ includes the following code:
 
 ::
 
-            <em>&copy; 2014</em>
-        </body>
-    </html>
+			<em>&copy; 2014</em>
+		</body>
+	</html>
 
 Adding logic to the controller
 ------------------------------
 
-Earlier you set up a controller with a view() method. The method accepts
-one parameter, which is the name of the page to be loaded. The static
-page templates will be located in the application/views/pages/
+Earlier you set up a controller with a ``view()`` method. The method
+accepts one parameter, which is the name of the page to be loaded. The
+static page templates will be located in the application/views/pages/
 directory.
 
 In that directory, create two files named home.php and about.php. Within
@@ -93,43 +95,40 @@ page actually exists:
 
 ::
 
-    <?php 
-    public function view($page = 'home')
-    {
-                
-        if ( ! file_exists(APPPATH.'/views/pages/'.$page.'.php'))
-        {
-            // Whoops, we don't have a page for that!
-            show_404();
-        }
-        
-        $data['title'] = ucfirst($page); // Capitalize the first letter
-        
-        $this->load->view('templates/header', $data);
-        $this->load->view('pages/'.$page, $data);
-        $this->load->view('templates/footer', $data);
+	public function view($page = 'home')
+	{
+	        if ( ! file_exists(APPPATH.'/views/pages/'.$page.'.php'))
+		{
+			// Whoops, we don't have a page for that!
+			show_404();
+		}
 
-    }
+		$data['title'] = ucfirst($page); // Capitalize the first letter
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('pages/'.$page, $data);
+		$this->load->view('templates/footer', $data);
+	}
 
 Now, when the page does exist, it is loaded, including the header and
 footer, and displayed to the user. If the page doesn't exist, a "404
 Page not found" error is shown.
 
 The first line in this method checks whether the page actually exists.
-PHP's native file\_exists() function is used to check whether the file
-is where it's expected to be. show\_404() is a built-in CodeIgniter
+PHP's native ``file_exists()`` function is used to check whether the file
+is where it's expected to be. ``show_404()`` is a built-in CodeIgniter
 function that renders the default error page.
 
-In the header template, the $title variable was used to customize the
+In the header template, the ``$title`` variable was used to customize the
 page title. The value of title is defined in this method, but instead of
 assigning the value to a variable, it is assigned to the title element
 in the $data array.
 
 The last thing that has to be done is loading the views in the order
-they should be displayed. The second parameter in the view() method is
-used to pass values to the view. Each value in the $data array is
+they should be displayed. The second parameter in the ``view()`` method is
+used to pass values to the view. Each value in the ``$data`` array is
 assigned to a variable with the name of its key. So the value of
-$data['title'] in the controller is equivalent to $title in the view.
+``$data['title']`` in the controller is equivalent to $title in the view.
 
 Routing
 -------
@@ -149,8 +148,8 @@ all other code that sets any element in the $route array.
 
 ::
 
-    $route['default_controller'] = 'pages/view';
-    $route['(:any)'] = 'pages/view/$1';
+	$route['default_controller'] = 'pages/view';
+	$route['(:any)'] = 'pages/view/$1';
 
 CodeIgniter reads its routing rules from top to bottom and routes the
 request to the first matching rule. Each rule is a regular expression
@@ -163,8 +162,8 @@ More information about routing can be found in the URI Routing
 `documentation <../general/routing.html>`_.
 
 Here, the second rule in the $routes array matches **any** request using
-the wildcard string (:any). and passes the parameter to the view()
+the wildcard string (:any). and passes the parameter to the ``view()``
 method of the pages class.
 
-Now visit index.php/about. Did it get routed correctly to the view()
+Now visit index.php/about. Did it get routed correctly to the ``view()``
 method in the pages controller? Awesome!

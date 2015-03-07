@@ -1,5 +1,5 @@
 #############################
-Upgrading from 2.2.1 to 3.0.0
+Upgrading from 2.2.x to 3.0.0
 #############################
 
 .. note:: These upgrade notes are for a version that is yet to be released.
@@ -551,6 +551,22 @@ PHP's native ``hash()`` function. It is deprecated and scheduled for removal in 
 .. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
 	rather than later.
 
+The $config['global_xss_filtering'] setting
+===========================================
+
+As already explained above, XSS filtering should not be done on input data,
+but on output instead. Therefore, the ``$config['global_xss_filtering']``,
+which automatically filters *input* data, is considered a bad practice and
+is now deprecated.
+
+Instead, you should manually escape any user-provided data via the
+:php:func:`xss_clean()` function when you need to output it, or use a
+library like `HTML Purifier <http://htmlpurifier.org/>`_ that does that
+for you.
+
+.. note:: The setting is still available, but you're strongly encouraged to
+	remove its usage sooner rather than later.
+
 File helper read_file()
 =======================
 
@@ -795,7 +811,7 @@ It is now deprecated and scheduled for removal in CodeIgniter 3.1+.
 	sooner rather than later.
 
 ***********************************************************
-Step 18: Check your usage of Text helper highlight_phrase()
+Step 20: Check your usage of Text helper highlight_phrase()
 ***********************************************************
 
 The default HTML tag used by :doc:`Text Helper <../helpers/text_helper>` function

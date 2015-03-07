@@ -53,6 +53,10 @@ this::
 Please refer to the :doc:`Security class <security>` documentation for
 information on using XSS Filtering in your application.
 
+.. important:: The 'global_xss_filtering' setting is DEPRECATED and kept
+	solely for backwards-compatibility purposes. XSS escaping should
+	be performed on *output*, not *input*!
+
 *******************
 Accessing form data
 *******************
@@ -91,8 +95,14 @@ the ``$_POST`` array, because it will always exist and you can try
 and access multiple variables without caring that you might only have
 one shot at all of the POST data.
 
-CodeIgniter will take care of that for you, and you can access data
-from the **php://input** stream at any time, just by calling the
+CodeIgniter will take care of that for you, and you can read the data
+from the **php://input** stream at any time, just by using the
+``$raw_input_stream`` property::
+
+	$this->input->raw_input_stream;
+
+Additionally if the input stream is form-encoded like $_POST you can 
+access its values by calling the
 ``input_stream()`` method::
 
 	$this->input->input_stream('key');
@@ -113,6 +123,12 @@ Class Reference
 ***************
 
 .. php:class:: CI_Input
+
+	.. attribute:: $raw_input_stream
+		
+		Read only property that will return php://input data as is.
+		
+		The property can be read multiple times.
 
 	.. php:method:: post([$index = NULL[, $xss_clean = NULL]])
 
