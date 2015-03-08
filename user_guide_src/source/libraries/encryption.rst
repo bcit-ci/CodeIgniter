@@ -106,6 +106,18 @@ and set::
 
 	$config['encryption_key'] = 'YOUR KEY';
 
+You'll notice that the ``create_key()`` method outputs binary data, which
+is hard to deal with (i.e. a copy-paste may damage it), so you may use
+``bin2hex()``, ``hex2bin()`` or Base64-encoding to work with the key in
+a more friendly manner. For example::
+
+	// Get a hex-encoded representation of the key:
+	$key = bin2hex($this->encryption->create_key(16));
+
+	// Put the same value in your config with hex2bin(),
+	// so that it is still passed as binary to the library:
+	$config['encryption_key'] = hex2bin(<your hex-encoded key>);
+
 .. _ciphers-and-modes:
 
 Supported encryption ciphers and modes
@@ -524,6 +536,15 @@ Class Reference
 
 		Please refer to the :ref:`custom-parameters` secrion for information
 		on the optional parameters.
+
+	.. php:method:: create_key($length)
+
+		:param	int	$length: Output length
+		:returns:	A pseudo-random cryptographic key with the specified length, or FALSE on failure
+		:rtype:	string
+
+		Creates a cryptographic key by fetching random data from
+		the operating system's sources (i.e. /dev/urandom).
 
 	.. php:method:: hkdf($key[, $digest = 'sha512'[, $salt = NULL[, $length = NULL[, $info = '']]]])
 
