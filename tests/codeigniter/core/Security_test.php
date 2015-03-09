@@ -45,7 +45,7 @@ class Security_test extends CI_TestCase {
 
 		$this->assertInstanceOf('CI_Security', $this->security->csrf_verify());
 	}
-
+        
 	// --------------------------------------------------------------------
 
 	public function test_get_csrf_hash()
@@ -70,13 +70,70 @@ class Security_test extends CI_TestCase {
 
 		$this->assertEquals("Hello, i try to [removed]alert&#40;'Hack'&#41;;[removed] your site", $harmless_string);
 	}
+        
+        // --------------------------------------------------------------------
 
+        public function test_xss_clean_string_array()
+	{
+                $harm_strings = array(
+                    "Hello, i try to <script>alert('Hack');</script> your site",
+                    "Simple clean string",
+                    "Hello, i try to <script>alert('Hack');</script> your site"
+                );
+
+		$harmless_strings = $this->security->xss_clean($harm_strings);
+                
+                $this->assertEquals("Hello, i try to [removed]alert&#40;'Hack'&#41;;[removed] your site", $harmless_strings[0]);
+                $this->assertEquals("Simple clean string", $harmless_strings[1]);
+                $this->assertEquals("Hello, i try to [removed]alert&#40;'Hack'&#41;;[removed] your site", $harmless_strings[2]);
+	}
+        
+        // --------------------------------------------------------------------
+        
+        public function test_xss_clean_image_valid()
+	{
+                $harm_string = '<img src="test.png">';
+
+		$xss_clean_return = $this->security->xss_clean($harm_string, TRUE);
+
+		$this->assertTrue($xss_clean_return);
+	}
+        
+        // --------------------------------------------------------------------
+        
+        public function test_xss_clean_image_invalid()
+	{
+                $harm_string = '<img src=javascript:alert(String.fromCharCode(88,83,83))>';
+
+		$xss_clean_return = $this->security->xss_clean($harm_string, TRUE);
+
+		$this->assertFalse($xss_clean_return);
+	}
+        
+        // --------------------------------------------------------------------
+        
 	public function test_xss_clean_entity_double_encoded()
 	{
 		$input = '<a href="&#38&#35&#49&#48&#54&#38&#35&#57&#55&#38&#35&#49&#49&#56&#38&#35&#57&#55&#38&#35&#49&#49&#53&#38&#35&#57&#57&#38&#35&#49&#49&#52&#38&#35&#49&#48&#53&#38&#35&#49&#49&#50&#38&#35&#49&#49&#54&#38&#35&#53&#56&#38&#35&#57&#57&#38&#35&#49&#49&#49&#38&#35&#49&#49&#48&#38&#35&#49&#48&#50&#38&#35&#49&#48&#53&#38&#35&#49&#49&#52&#38&#35&#49&#48&#57&#38&#35&#52&#48&#38&#35&#52&#57&#38&#35&#52&#49">Clickhere</a>';
 		$this->assertEquals('<a >Clickhere</a>', $this->security->xss_clean($input));
 	}
-
+        
+        // --------------------------------------------------------------------
+        
+        public function test_xss_clean_js_img_removal()
+	{
+		$input = '<img src="&#38&#35&#49&#48&#54&#38&#35&#57&#55&#38&#35&#49&#49&#56&#38&#35&#57&#55&#38&#35&#49&#49&#53&#38&#35&#57&#57&#38&#35&#49&#49&#52&#38&#35&#49&#48&#53&#38&#35&#49&#49&#50&#38&#35&#49&#49&#54&#38&#35&#53&#56&#38&#35&#57&#57&#38&#35&#49&#49&#49&#38&#35&#49&#49&#48&#38&#35&#49&#48&#50&#38&#35&#49&#48&#53&#38&#35&#49&#49&#52&#38&#35&#49&#48&#57&#38&#35&#52&#48&#38&#35&#52&#57&#38&#35&#52&#49">Clickhere';
+		$this->assertEquals('<img >', $this->security->xss_clean($input));
+	}
+        
+        // --------------------------------------------------------------------
+        
+        public function test_xss_clean_sanitize_naughty_html()
+	{
+		$input = '<blink>';
+		$this->assertEquals('&lt;blink&gt;', $this->security->xss_clean($input));
+	}
+        
 	// --------------------------------------------------------------------
 
 	public function test_remove_evil_attributes()
@@ -101,7 +158,19 @@ class Security_test extends CI_TestCase {
 		$this->assertTrue(preg_match('#^[0-9a-f]{32}$#iS', $this->security->xss_hash) === 1);
 	}
 
-	// --------------------------------------------------------------------
+        // --------------------------------------------------------------------
+        
+        public function test_get_random_bytes()
+        {
+                $length = "invalid";
+                $this->assertFalse($this->security->get_random_bytes($length));
+
+
+                $length = 10;
+                $this->assertNotEmpty($this->security->get_random_bytes($length));
+        }
+	
+        // --------------------------------------------------------------------
 
 	public function test_entity_decode()
 	{
@@ -158,4 +227,23 @@ class Security_test extends CI_TestCase {
                     $this->assertEquals($urls[$i], $this->security->strip_image_tags($imgtags[$i]));
                 }
 	}
+        
+        // --------------------------------------------------------------------
+        
+        public function test_csrf_set_hash()
+	{
+                // Set cookie for security test
+		$_COOKIE['ci_csrf_cookie'] = md5(uniqid(mt_rand(), TRUE));
+
+		// Set config for Security class
+		$this->ci_set_config('csrf_protection', TRUE);
+		$this->ci_set_config('csrf_token_name', 'ci_csrf_token');
+                
+                // leave csrf_cookie_name as blank to test _csrf_set_hash function
+		$this->ci_set_config('csrf_cookie_name', '');
+
+		$this->security = new Mock_Core_Security();
+                
+                $this->assertNotEmpty($this->security->get_csrf_hash());
+        }
 }
