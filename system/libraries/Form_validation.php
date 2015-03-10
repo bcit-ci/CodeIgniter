@@ -1328,7 +1328,7 @@ class CI_Form_validation {
 	 */
 	public function alpha_numeric_spaces($str)
 	{
-		return (bool) preg_match('/^[A-Z0-9 ]+$/i', $str);
+		return (bool) preg_match('/^[A-ZА-ЯЁ0-9 ]+$/i', $str);
 	}
 
 	// --------------------------------------------------------------------
@@ -1341,7 +1341,7 @@ class CI_Form_validation {
 	 */
 	public function alpha_dash($str)
 	{
-		return (bool) preg_match('/^[a-z0-9_-]+$/i', $str);
+		return (bool) preg_match('/^[a-zа-яё0-9_-]+$/i', $str);
 	}
 
 	// --------------------------------------------------------------------
