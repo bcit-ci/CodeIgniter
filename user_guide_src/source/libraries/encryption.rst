@@ -2,6 +2,11 @@
 Encryption Library
 ##################
 
+.. important:: DO NOT use this or any other *encryption* library for
+	user password storage! Passwords must be *hashed* instead, and you
+	should do that via PHP's own `Password Hashing extension
+	<http://php.net/password>`_.
+
 The Encryption Library provides two-way data encryption. To do so in
 a cryptographically secure way, it utilizes PHP extensions that are
 unfortunately not always available on all systems.
