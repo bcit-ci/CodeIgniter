@@ -31,7 +31,7 @@ The following functions are available:
 	:param	string	$h: Heading level
 	:param	mixed	$attributes: HTML attributes
 	:returns:	HTML heading tag
-	:rtype:		string
+	:rtype:	string
 
 	Lets you create HTML heading tags. The first parameter will contain the
 	data, the second the size of the heading. Example::
@@ -41,8 +41,8 @@ The following functions are available:
 	The above would produce: <h3>Welcome!</h3>
 
 	Additionally, in order to add attributes to the heading tag such as HTML
-	classes, ids or inline styles, a third parameter is available either 
-	as a string or as an array::
+	classes, ids or inline styles, a third parameter accepts either a string
+	or an array::
 
 		echo heading('Welcome!', 3, 'class="pink"');
 		echo heading('How are you?', 4, array('id' => 'question', 'class' => 'green'));
