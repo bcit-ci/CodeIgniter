@@ -94,10 +94,7 @@ class CI_Session {
 			$this->_driver = 'database';
 		}
 
-		if (($class = $this->_ci_load_classes($this->_driver)) === FALSE)
-		{
-			return;
-		}
+		$class = $this->_ci_load_classes($this->_driver);
 
 		// Configuration ...
 		$this->_configure($params);
@@ -230,8 +227,7 @@ class CI_Session {
 
 			if ( ! class_exists('CI_'.$class, FALSE) && ! class_exists($class, FALSE))
 			{
-				log_message('error', "Session: Configured driver '".$driver."' was not found. Aborting.");
-				return FALSE;
+				throw new \UnexpectedValueException("Session: Configured driver '".$driver."' was not found. Aborting.");
 			}
 		}
 
