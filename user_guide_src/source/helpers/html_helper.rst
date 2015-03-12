@@ -52,7 +52,7 @@ The following functions are available:
 	.. code-block:: html
 
 		<h3 class="pink">Welcome!<h3>
-		<h3 id="question" class="green">How are you?</h3>
+		<h4 id="question" class="green">How are you?</h4>
 
 .. php:function:: img([$src = ''[, $index_page = FALSE[, $attributes = '']]])
 
