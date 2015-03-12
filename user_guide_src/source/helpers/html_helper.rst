@@ -27,11 +27,11 @@ The following functions are available:
 
 .. php:function:: heading([$data = ''[, $h = '1'[, $attributes = '']]])
 
-	:param	string	$data: Content
-	:param	string	$h: Heading level
-	:param	array	$attributes: HTML attributes
-	:returns:	HTML heading tag
-	:rtype:	string
+	:param	string		$data: Content
+	:param	string		$h: Heading level
+	:param	array|string	$attributes: HTML attributes
+	:returns:		HTML heading tag
+	:rtype:			string
 
 	Lets you create HTML heading tags. The first parameter will contain the
 	data, the second the size of the heading. Example::
@@ -41,15 +41,18 @@ The following functions are available:
 	The above would produce: <h3>Welcome!</h3>
 
 	Additionally, in order to add attributes to the heading tag such as HTML
-	classes, ids or inline styles, a third parameter is available::
+	classes, ids or inline styles, a third parameter is available either 
+	as a string or as an array::
 
-		echo heading('Welcome!', 3, 'class="pink"')
+		echo heading('Welcome!', 3, 'class="pink"');
+		echo heading('How are you?', 4, array('id'=>'question', 'class'=>'green');
 
 	The above code produces:
 
 	.. code-block:: html
 
 		<h3 class="pink">Welcome!<h3>
+		<h3 id="question" class="green">How are you?</h3>
 
 .. php:function:: img([$src = ''[, $index_page = FALSE[, $attributes = '']]])
 
