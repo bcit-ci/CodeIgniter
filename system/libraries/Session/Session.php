@@ -227,7 +227,7 @@ class CI_Session {
 
 			if ( ! class_exists('CI_'.$class, FALSE) && ! class_exists($class, FALSE))
 			{
-				throw new \UnexpectedValueException("Session: Configured driver '".$driver."' was not found. Aborting.");
+				throw new UnexpectedValueException("Session: Configured driver '".$driver."' was not found. Aborting.");
 			}
 		}
 
