@@ -362,6 +362,7 @@ Release Date: Not Released
       -  Added support for custom error messages per field rule.
       -  Added support for callable rules when they are passed as an array.
       -  Added support for non-ASCII domains in **valid_email** rule, depending on the Intl extension.
+      -  Changed the debug message about an error message not being set to include the rule name it is about.
 
    -  :doc:`Caching Library <libraries/caching>` changes include:
 
