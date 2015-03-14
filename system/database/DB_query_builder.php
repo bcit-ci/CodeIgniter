@@ -1366,10 +1366,11 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		$result = ($this->qb_distinct === TRUE)
 			? $this->query($this->_count_string.$this->protect_identifiers('numrows')."\nFROM (\n".$this->_compile_select()."\n) CI_count_all_results")
 			: $this->query($this->_compile_select($this->_count_string.$this->protect_identifiers('numrows')));
-        if($reset)
-        {
-		    $this->_reset_select();
-        }
+
+                if($reset)
+                {
+		        $this->_reset_select();
+                }
 
 		if ($result->num_rows() === 0)
 		{
