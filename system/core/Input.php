@@ -191,28 +191,25 @@ class CI_Input {
 		{
 			$value = $array[$index];
 		}
-		elseif (($count = preg_match_all('/(?:^[^\[]+)|\[[^]]*\]/', $index, $matches)) > 1) // Does the index contain array notation (Eg. Foo[Bar])
+		elseif (($count = preg_match_all('/(?:^[^\[]+)|\[[^]]*\]/', $index, $matches)) > 1) // Does the index contain array notation
 		{
 			$value = $array;
-			$found = False;
 			for ($i = 0; $i < $count; $i++)
 			{
 				$key = trim($matches[0][$i], '[]');
 				if ($key === '') // Empty notation will return the value as array
 				{
-					continue;
+					break;
 				}
 
 				if (isset($value[$key]))
 				{
 					$value = $value[$key];
-					$found = True;
-					break;
 				}
-			}
-			if (!$found)
-			{
-				return NULL;
+				else
+				{
+					return NULL;
+				}
 			}
 		}
 		else
