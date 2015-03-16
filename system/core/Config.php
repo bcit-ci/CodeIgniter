@@ -123,7 +123,7 @@ class CI_Config {
 
 		foreach ($this->_config_paths as $path)
 		{
-			foreach (array($file, ENVIRONMENT.'/'.$file) as $location)
+			foreach (array($file, ENVIRONMENT.DIRECTORY_SEPARATOR.$file) as $location)
 			{
 				$file_path = $path.'config/'.$location.'.php';
 				if (in_array($file_path, $this->is_loaded, TRUE))
