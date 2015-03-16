@@ -192,6 +192,7 @@ Release Date: Not Released
       - Methods ``insert_batch()`` and ``update_batch()`` now return an integer representing the number of rows affected by them.
       - Methods ``where()``, ``or_where()``, ``having()`` and ``or_having()`` now convert trailing  ``=`` and ``<>``,  ``!=`` SQL operators to ``IS NULL`` and ``IS NOT NULL`` respectively when the supplied comparison value is ``NULL``.
       - Added method chaining support to ``reset_query()``, ``start_cache()``, ``stop_cache()`` and ``flush_cache()``.
+      - Added an optional second to ``count_all_results()`` to disable resetting of QB values.
 
    -  :doc:`Database Results <database/results>` changes include:
 
