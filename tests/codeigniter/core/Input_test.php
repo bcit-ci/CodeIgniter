@@ -148,7 +148,7 @@ class Input_test extends CI_TestCase {
 		$this->assertNull($this->input->fetch_from_array($data, 'baz[bar]'));
 		
 		// Empty notation
-		$this->assertNull($this->input->fetch_from_array($data, 'baz[]'));
+		$this->assertEquals($data, $this->input->fetch_from_array($data, 'baz[]'));
 	}
 
 	// --------------------------------------------------------------------
