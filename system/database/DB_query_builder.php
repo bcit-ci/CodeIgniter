@@ -1353,7 +1353,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * returned by an Query Builder query.
 	 *
 	 * @param	string
-	 * @param	bool	TRUE: resets QB values; FALSE: leave QB vaules alone
+	 * @param	bool	the reset clause
 	 * @return	int
 	 */
 	public function count_all_results($table = '', $reset = TRUE)
@@ -1368,9 +1368,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			? $this->query($this->_count_string.$this->protect_identifiers('numrows')."\nFROM (\n".$this->_compile_select()."\n) CI_count_all_results")
 			: $this->query($this->_compile_select($this->_count_string.$this->protect_identifiers('numrows')));
 
-		if($reset === TRUE)
+		if ($reset === TRUE)
 		{
-		    $this->_reset_select();
+			$this->_reset_select();
 		}
 
 		if ($result->num_rows() === 0)

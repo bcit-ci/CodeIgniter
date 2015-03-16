@@ -527,6 +527,12 @@ where(), or_where(), like(), or_like(), etc. Example::
 	$this->db->from('my_table');
 	echo $this->db->count_all_results(); // Produces an integer, like 17
 
+The second paramater is to disable resetting of QB values. Example::
+
+	echo $this->db->count_all_results('my_table');  // Produces an integer, like 25
+	$this->db->like('title', 'match');
+	echo $this->db->count_all_results(); // Produces an integer, like 17
+
 **$this->db->count_all()**
 
 Permits you to determine the number of rows in a particular table.
