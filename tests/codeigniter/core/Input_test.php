@@ -144,10 +144,11 @@ class Input_test extends CI_TestCase {
 		$this->assertEquals("Hello, i try to <script>alert('Hack');</script> your site", $harm);
 		$this->assertEquals("Hello, i try to [removed]alert&#40;'Hack'&#41;;[removed] your site", $harmless);
 		
-		// Empty notation
-		$this->assertNull($this->input->fetch_from_array($data, 'baz[]'));
+		// No value found
 		$this->assertNull($this->input->fetch_from_array($data, 'baz[bar]'));
 		
+		// Empty notation
+		$this->assertNull($this->input->fetch_from_array($data, 'baz[]'));
 	}
 
 	// --------------------------------------------------------------------
