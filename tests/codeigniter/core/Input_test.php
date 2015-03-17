@@ -134,6 +134,15 @@ class Input_test extends CI_TestCase {
 		$this->assertEquals('bar', $foo);
 		$this->assertEquals("Hello, i try to <script>alert('Hack');</script> your site", $harm);
 		$this->assertEquals("Hello, i try to [removed]alert&#40;'Hack'&#41;;[removed] your site", $harmless);
+		
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+		$_POST['foo']['bar'] = 'baz';
+		$barArray = array( 'bar' => 'baz' );
+		
+		$this->assertEquals('baz', $this->input->post('foo[bar]'));
+		$this->assertEquals($barArray, $this->input->post('foo[]'));
+		$this->assertNull($this->input->post('foo[baz]'));
+		
 	}
 
 	// --------------------------------------------------------------------
