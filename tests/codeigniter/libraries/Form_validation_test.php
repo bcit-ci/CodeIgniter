@@ -256,8 +256,8 @@ class Form_validation_test extends CI_TestCase {
         $this->assertTrue($this->run_rule('valid_url', ''));
         $this->assertTrue($this->run_rule('valid_url', 'www.codeigniter.com'));
         $this->assertTrue($this->run_rule('valid_url', 'http://codeigniter.eu'));
-        
-        $this->assertFalse($this->run_rule('valid_url', 'codeigniter.c'));
+   
+        $this->assertFalse($this->run_rule('valid_url', 'codeigniter'));
     }
     
     public function test_rule_valid_email()
