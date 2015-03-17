@@ -1091,14 +1091,12 @@ class CI_Form_validation {
 	 * Match one field to another
 	 *
 	 * @param	string	$str	string to compare against
-	 * @param	string	$field
+	 * @param	string	$param  The string desired
 	 * @return	bool
 	 */
-	public function matches($str, $field)
+	public function matches($str, $param)
 	{
-		return isset($this->_field_data[$field], $this->_field_data[$field]['postdata'])
-			? ($str === $this->_field_data[$field]['postdata'])
-			: FALSE;
+		return ($str === $param);
 	}
 
 	// --------------------------------------------------------------------
@@ -1107,12 +1105,12 @@ class CI_Form_validation {
 	 * Differs from another field
 	 *
 	 * @param	string
-	 * @param	string	field
+	 * @param	string	param is the value provided in the form
 	 * @return	bool
 	 */
-	public function differs($str, $field)
+	public function differs($str, $param)
 	{
-		return ! (isset($this->_field_data[$field]) && $this->_field_data[$field]['postdata'] === $str);
+		return ($str !== $param);
 	}
 
 	// --------------------------------------------------------------------
@@ -1493,7 +1491,7 @@ class CI_Form_validation {
 	 */
 	public function valid_base64($str)
 	{
-		return (base64_encode(base64_decode($str)) === $str);
+		return (base64_decode($str, true) !== false);
 	}
 
 	// --------------------------------------------------------------------
