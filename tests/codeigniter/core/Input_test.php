@@ -250,9 +250,10 @@ class Input_test extends CI_TestCase {
 		$this->assertEquals('127.0.0.1', $this->input->ip_address());
 		
 		$this->input->ip_address = FALSE;
-		$this->ci_set_config('proxy_ips', 'http://foo/bar/baz, 127.0.0.1/1');
+		$this->ci_set_config('proxy_ips', 'http://foo/bar/baz, 127.0.0.2');
 		$_SERVER['HTTP_CLIENT_IP'] = '127.0.0.2'; 
-		$this->assertNotEquals('127.0.0.1', $this->input->ip_address());
+		$_SERVER['REMOTE_ADDR'] = '127.0.0.2';
+		$this->assertEquals('127.0.0.2', $this->input->ip_address());
 		
 		//IPv6
 		$this->input->ip_address = FALSE;
