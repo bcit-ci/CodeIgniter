@@ -299,7 +299,7 @@ class Form_validation_test extends CI_TestCase {
 		$this->assertTrue($this->run_rule('valid_base64', ''));
 		$this->assertTrue($this->run_rule('valid_base64', base64_encode('string')));
 		
-		$this->assertTrue($this->run_rule('valid_base64', "FA08GG"));
+		$this->assertFalse($this->run_rule('valid_base64', "FA08GG"));
 	}
 
 	public function run_rule($rule, $test_value)
