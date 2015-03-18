@@ -362,6 +362,12 @@ class CI_Security {
 		// Remove Invisible Characters
 		$str = remove_invisible_characters($str);
 
+		// Removes all non-UTF-8 characters
+		// && Remove NULL characters (ignored by some browsers).
+		$utf8 = new CI_Utf8();
+		$str = $utf8->clean_string($str);
+		$str = $utf8->normalize_whitespace($str);
+
 		/*
 		 * URL Decode
 		 *
@@ -389,6 +395,9 @@ class CI_Security {
 
 		// Remove Invisible Characters Again!
 		$str = remove_invisible_characters($str);
+
+		// Remove Netscape 4 JS entities.
+		$str = preg_replace('%&\s*\{[^}]*(\}\s*;?|$)%', '', $str);
 
 		/*
 		 * Convert all tabs to spaces
@@ -664,15 +673,21 @@ class CI_Security {
 
 				$replace = array();
 				$matches = array_unique(array_map('strtolower', $matches[0]));
-				for ($i = 0, $c = count($matches); $i < $c; $i++)
-				{
-					if (($char = array_search($matches[$i].';', $_entities, TRUE)) !== FALSE)
-					{
-						$replace[$matches[$i]] = $char;
-					}
-				}
 
-				$str = str_ireplace(array_keys($replace), array_values($replace), $str);
+				$c = count($matches);
+				if ($c > 0)
+				{
+					for ($i = 0; $i < $c; $i++)
+					{
+						$char = array_search($matches[$i] . ';', $_entities, true);
+						if ($char !== false)
+						{
+							$replace[$matches[$i]] = $char;
+						}
+					}
+
+					$str = str_ireplace(array_keys($replace), array_values($replace), $str);
+				}
 			}
 
 			// Decode numeric & UTF16 two byte entities
@@ -683,6 +698,7 @@ class CI_Security {
 			);
 		}
 		while ($str_compare !== $str);
+
 		return $str;
 	}
 
@@ -772,7 +788,7 @@ class CI_Security {
 	 */
 	protected function _remove_evil_attributes($str, $is_image)
 	{
-		$evil_attributes = array('on\w*', 'style', 'xmlns', 'formaction', 'form', 'xlink:href');
+		$evil_attributes = array('on\w*', 'style', 'xmlns', 'formaction', 'form', 'xlink:href', 'seekSegmentTime', 'FSCommand');
 
 		if ($is_image === TRUE)
 		{

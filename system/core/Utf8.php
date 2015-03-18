@@ -59,6 +59,10 @@ class CI_Utf8 {
 	 */
 	public function __construct()
 	{
+		if (defined('UTF8_ENABLED')) {
+			return;
+		}
+
 		if (
 			defined('PREG_BAD_UTF8_ERROR')				// PCRE must support UTF-8
 			&& (ICONV_ENABLED === TRUE OR MB_ENABLED === TRUE)	// iconv or mbstring must be installed
@@ -75,6 +79,60 @@ class CI_Utf8 {
 		}
 
 		log_message('info', 'Utf8 Class Initialized');
+	}
+
+	// --------------------------------------------------------------------
+
+
+	/**
+	 * normalize whitespace
+	 *
+	 * @param string $str The string to be normalized.
+	 *
+	 * @return string
+	 */
+	public function normalize_whitespace($str)
+	{
+		$whitespaces = implode('|', $this->whitespace_table());
+		$regx = '/(' . $whitespaces . ')/s';
+		return preg_replace($regx, ' ', $str);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * returns an array with all utf8 whitespace characters as per
+	 * http://www.bogofilter.org/pipermail/bogofilter/2003-March/001889.html
+	 *
+	 * @author: Derek E. derek.isname@gmail.com
+	 *
+	 * @return array an array with all known whitespace characters as values and the type of whitespace as keys
+	 *         as defined in above URL
+	 */
+	public function whitespace_table()
+	{
+		$whitespace = array(
+				'SPACE'                     => "\x20",
+				'NO-BREAK SPACE'            => "\xc2\xa0",
+				'OGHAM SPACE MARK'          => "\xe1\x9a\x80",
+				'EN QUAD'                   => "\xe2\x80\x80",
+				'EM QUAD'                   => "\xe2\x80\x81",
+				'EN SPACE'                  => "\xe2\x80\x82",
+				'EM SPACE'                  => "\xe2\x80\x83",
+				'THREE-PER-EM SPACE'        => "\xe2\x80\x84",
+				'FOUR-PER-EM SPACE'         => "\xe2\x80\x85",
+				'SIX-PER-EM SPACE'          => "\xe2\x80\x86",
+				'FIGURE SPACE'              => "\xe2\x80\x87",
+				'PUNCTUATION SPACE'         => "\xe2\x80\x88",
+				'THIN SPACE'                => "\xe2\x80\x89",
+				'HAIR SPACE'                => "\xe2\x80\x8a",
+				'ZERO WIDTH SPACE'          => "\xe2\x80\x8b",
+				'NARROW NO-BREAK SPACE'     => "\xe2\x80\xaf",
+				'MEDIUM MATHEMATICAL SPACE' => "\xe2\x81\x9f",
+				'IDEOGRAPHIC SPACE'         => "\xe3\x80\x80"
+		);
+
+		return $whitespace;
 	}
 
 	// --------------------------------------------------------------------
