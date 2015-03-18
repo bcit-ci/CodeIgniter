@@ -295,13 +295,26 @@ class CI_Router {
 			show_error('Unable to determine what should be displayed. A default route has not been specified in the routing file.');
 		}
 
-		// Is the method being specified?
-		if (sscanf($this->default_controller, '%[^/]/%s', $class, $method) !== 2)
+		// Is there sub-directory included?
+		if (strpos($this->default_controller, '/') !== FALSE)
 		{
+			$segments = explode('/', $this->default_controller);
+			
+			// Get valid and return correct class name
+			$class = $this->_validate_request($segments)[0];
 			$method = 'index';
 		}
+		else
+		{
+			if (sscanf($this->default_controller, '%[^/]/%s', $class, $method) !== 2)
+			{
+				$method = 'index';
+			}
+		}
 
-		if ( ! file_exists(APPPATH.'controllers/'.$this->directory.ucfirst($class).'.php'))
+
+		// Is the method being specified?
+		if ( ! file_exists(APPPATH.'controllers/'.$this->directory.'/'.ucfirst($class).'.php'))
 		{
 			// This will trigger 404 later
 			return;
