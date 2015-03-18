@@ -49,28 +49,28 @@ class Form_validation_test extends CI_TestCase {
 	{
 		// Empty input should pass any rule unless required is also specified
 		$_POST['to_match'] = 'sample';
-		$this->assertTrue($this->run_rule('matches[to_match]', ''));
+		$this->assertTrue($this->run_rule('matches[to_match]', '', FALSE));
 		$_POST['to_match'] = 'sample';
-		$this->assertTrue($this->run_rule('matches[to_match]', 'sample'));
+		$this->assertTrue($this->run_rule('matches[to_match]', 'sample', FALSE));
 
 		$_POST['to_match'] = 'sample';
-		$this->assertFalse($this->run_rule('matches[to_match]', 'Sample'));
+		$this->assertFalse($this->run_rule('matches[to_match]', 'Sample', FALSE));
 		$_POST['to_match'] = 'sample';
-		$this->assertFalse($this->run_rule('matches[to_match]', ' sample'));
+		$this->assertFalse($this->run_rule('matches[to_match]', ' sample', FALSE));
 	}
 
 	public function test_rule_differs()
 	{
 		// Empty input should pass any rule unless required is also specified
 		$_POST['to_differ'] = 'sample';
-		$this->assertTrue($this->run_rule('differs[to_differ]', ''));
+		$this->assertTrue($this->run_rule('differs[to_differ]', '', FALSE));
 		$_POST['to_differ'] = 'sample';
-		$this->assertTrue($this->run_rule('differs[to_differ]', 'Sample'));
+		$this->assertTrue($this->run_rule('differs[to_differ]', 'Sample', FALSE));
 		$_POST['to_differ'] = 'sample';
-		$this->assertTrue($this->run_rule('differs[to_differ]', ' sample'));
+		$this->assertTrue($this->run_rule('differs[to_differ]', ' sample', FALSE));
 
 		$_POST['to_differ'] = 'sample';
-		$this->assertFalse($this->run_rule('differs[to_differ]', 'sample'));
+		$this->assertFalse($this->run_rule('differs[to_differ]', 'sample', FALSE));
 	}
 
 	public function test_rule_min_length()
@@ -302,13 +302,15 @@ class Form_validation_test extends CI_TestCase {
 		$this->assertFalse($this->run_rule('valid_base64', "FA08GG"));
 	}
 
-	public function run_rule($rule, $test_value)
+	public function run_rule($rule, $test_value, $reset_post = TRUE)
 	{
 //        $this->markTestSkipped('Not designed to be a unit test');
-		// Reset the _$POST array
-		$_POST = array();
 		$this->form_validation->reset_validation();
-
+		if ($reset_post === TRUE)
+		{
+			$_POST = array();
+		}
+		
 		$this->form_validation->set_rules('field', 'name', $rule);
 		$_POST['field'] = $test_value;
 		return $this->form_validation->run();
