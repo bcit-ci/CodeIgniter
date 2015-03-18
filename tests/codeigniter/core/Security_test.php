@@ -138,12 +138,12 @@ class Security_test extends CI_TestCase {
 
 	public function test_remove_evil_attributes()
 	{
-		$this->assertEquals('<foo [removed]>', $this->security->remove_evil_attributes('<foo onAttribute="bar">', false));
-		$this->assertEquals('<foo [removed]>', $this->security->remove_evil_attributes('<foo onAttributeNoQuotes=bar>', false));
-		$this->assertEquals('<foo [removed]>', $this->security->remove_evil_attributes('<foo onAttributeWithSpaces = bar>', false));
-		$this->assertEquals('<foo prefixOnAttribute="bar">', $this->security->remove_evil_attributes('<foo prefixOnAttribute="bar">', false));
-		$this->assertEquals('<foo>onOutsideOfTag=test</foo>', $this->security->remove_evil_attributes('<foo>onOutsideOfTag=test</foo>', false));
-		$this->assertEquals('onNoTagAtAll = true', $this->security->remove_evil_attributes('onNoTagAtAll = true', false));
+		$this->assertEquals('<foo [removed]>', $this->security->remove_evil_attributes('<foo onAttribute="bar">', FALSE));
+		$this->assertEquals('<foo [removed]>', $this->security->remove_evil_attributes('<foo onAttributeNoQuotes=bar>', FALSE));
+		$this->assertEquals('<foo [removed]>', $this->security->remove_evil_attributes('<foo onAttributeWithSpaces = bar>', FALSE));
+		$this->assertEquals('<foo prefixOnAttribute="bar">', $this->security->remove_evil_attributes('<foo prefixOnAttribute="bar">', FALSE));
+		$this->assertEquals('<foo>onOutsideOfTag=test</foo>', $this->security->remove_evil_attributes('<foo>onOutsideOfTag=test</foo>', FALSE));
+		$this->assertEquals('onNoTagAtAll = true', $this->security->remove_evil_attributes('onNoTagAtAll = true', FALSE));
 	}
 
 	// --------------------------------------------------------------------
@@ -199,7 +199,7 @@ class Security_test extends CI_TestCase {
 
 	public function test_strip_image_tags()
 	{
-		$imgtags = Array(
+		$imgtags = array(
 			'<img src="smiley.gif" alt="Smiley face" height="42" width="42">',
 			'<img alt="Smiley face" height="42" width="42" src="smiley.gif">',
 			'<img src="http://www.w3schools.com/images/w3schools_green.jpg">',
@@ -210,7 +210,7 @@ class Security_test extends CI_TestCase {
 			'<img srcq="/img/sunset.gif" height="100%" width="100%">'
 		);
 
-		$urls = Array(
+		$urls = array(
 			'smiley.gif',
 			'smiley.gif',
 			'http://www.w3schools.com/images/w3schools_green.jpg',
@@ -221,7 +221,7 @@ class Security_test extends CI_TestCase {
 			'<img srcq="/img/sunset.gif" height="100%" width="100%">'
 		);
 
-		for($i = 0; $i < count($imgtags); $i++) 
+		for ($i = 0; $i < count($imgtags); $i++)
 		{
 			$this->assertEquals($urls[$i], $this->security->strip_image_tags($imgtags[$i]));
 		}
