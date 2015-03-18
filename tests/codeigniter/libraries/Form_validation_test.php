@@ -8,14 +8,14 @@ class Form_validation_test extends CI_TestCase {
 
 		// Create a mock loader since load->helper() looks in the wrong directories for unit tests,
 		// We'll use CI_TestCase->helper() instead
-        $loader = $this->getMock('CI_Loader', array('helper'));
+		$loader = $this->getMock('CI_Loader', array('helper'));
 		// At current, CI_Form_Validation only calls load->helper("form")
 		// Assert this so that if that changes this fails fast
-        $loader->expects($this->once())
-                ->method('helper')
-                ->with($this->equalTo('form'));
+		$loader->expects($this->once())
+				->method('helper')
+				->with($this->equalTo('form'));
 		// Same applies for lang
-		$lang = $this->getMock('CI_Lang', array('load'));		
+		$lang = $this->getMock('CI_Lang', array('load'));
 
 		$this->ci_set_config('charset', 'UTF-8');
 		$utf8 = new Mock_Core_Utf8();
@@ -298,7 +298,7 @@ class Form_validation_test extends CI_TestCase {
 		// Empty input should pass any rule unless required is also specified
 		$this->assertTrue($this->run_rule('valid_base64', ''));
 		$this->assertTrue($this->run_rule('valid_base64', base64_encode('string')));
-		
+
 		$this->assertFalse($this->run_rule('valid_base64', "FA08GG"));
 	}
 
@@ -310,7 +310,7 @@ class Form_validation_test extends CI_TestCase {
 		{
 			$_POST = array();
 		}
-		
+
 		$this->form_validation->set_rules('field', 'name', $rule);
 		$_POST['field'] = $test_value;
 		return $this->form_validation->run();
