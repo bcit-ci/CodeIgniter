@@ -836,7 +836,7 @@ Class Reference
 		.. note:: This method is DEPRECATED. Use ``userdata()``
 			with no parameters instead.
 
-	.. php:method:: &get_usedata()
+	.. php:method:: &get_userdata()
 
 		:returns:	A reference to ``$_SESSION``
 		:rtype:	array
