@@ -210,8 +210,7 @@ class Input_test extends CI_TestCase {
 	
 	public function test_get_request_header()
 	{
-		//TODO: Find a way to test HTTP headers
-		$this->assertNull($this->input->get_request_header('test'));
+		$this->markTestSkipped('TODO: Find a way to test HTTP headers');
 	}
 	
 	// --------------------------------------------------------------------
