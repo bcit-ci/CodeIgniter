@@ -217,8 +217,8 @@ class Input_test extends CI_TestCase {
 	
 	public function test_ip_address()
 	{	
-		$this->input->ip_address = TRUE;
-		$this->assertTrue($this->input->ip_address());
+		$this->input->ip_address = '127.0.0.1';
+		$this->assertEquals('127.0.0.1', $this->input->ip_address());
 		
 		// 127.0.0.1 is set in our Bootstrap file
 		$this->input->ip_address = FALSE;
