@@ -93,6 +93,10 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		{
 			throw new Exception('Configured database connection is persistent. Aborting.');
 		}
+		elseif ($this->_db->cache_on)
+		{
+			throw new Exception('Configured database connection has cache enabled. Aborting.');
+		}
 
 		$db_driver = $this->_db->dbdriver.(empty($this->_db->subdriver) ? '' : '_'.$this->_db->subdriver);
 		if (strpos($db_driver, 'mysql') !== FALSE)

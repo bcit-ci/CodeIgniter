@@ -11,7 +11,8 @@ get_instance()
 
 .. php:function:: get_instance()
 
-	:returns:	object of class CI_Controller
+	:returns:	Reference to your controller's instance
+	:rtype:	CI_Controller
 
 **Any class that you instantiate within your controller methods can
 access CodeIgniter's native resources** simply by using the
@@ -44,17 +45,9 @@ Once you've assigned the object to a variable, you'll use that variable
 	$CI->config->item('base_url');
 	// etc.
 
-.. note:: You'll notice that the above get_instance() ``function`` is being
-	passed by reference::
-
-		$CI =& get_instance();
-
-	This is very important. Assigning by reference allows you to use the
-	original CodeIgniter object rather than creating a copy of it.
-
-Furthermore, if you'll be using ``get_instance()`` inside another class,
-then it would be better if you assign it to a property. This way, you
-won't need to call ``get_instance()`` in every single method.
+If you'll be using ``get_instance()`` inside another class, then it would
+be better if you assign it to a property. This way, you won't need to call
+``get_instance()`` in every single method.
 
 Example::
 
@@ -80,7 +73,6 @@ Example::
 		{
 			$this->CI->config->item('base_url');
 		}
-
 	}
 
 In the above example, both methods ``foo()`` and ``bar()`` will work

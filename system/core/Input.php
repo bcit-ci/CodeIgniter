@@ -490,9 +490,9 @@ class CI_Input {
 								)
 							);
 
-							for ($i = 0; $i < 8; $i++)
+							for ($j = 0; $j < 8; $j++)
 							{
-								$ip[$i] = intval($ip[$i], 16);
+								$ip[$j] = intval($ip[$j], 16);
 							}
 
 							$sprintf = '%016b%016b%016b%016b%016b%016b%016b%016b';
