@@ -39,38 +39,63 @@ class Form_validation_test extends CI_TestCase {
 
 	public function test_rule_required()
 	{
-		$this->assertTrue($this->run_rule('required', ' someValue'));
+		$rules = array(array('field' => 'foo', 'label' => 'foo_label', 'rules' => 'required'));
+		$this->assertTrue($this->run_rules($rules, array('foo' => 'bar')));
 
-		$this->assertFalse($this->run_rule('required', ''));
-		$this->assertFalse($this->run_rule('required', ' '));
+		$this->assertFalse($this->run_rules($rules, array('foo' => '')));
+		$this->assertFalse($this->run_rules($rules, array('foo' => ' ')));
 	}
 
 	public function test_rule_matches()
-	{
-		// Empty input should pass any rule unless required is also specified
-		$_POST['to_match'] = 'sample';
-		$this->assertTrue($this->run_rule('matches[to_match]', '', FALSE));
-		$_POST['to_match'] = 'sample';
-		$this->assertTrue($this->run_rule('matches[to_match]', 'sample', FALSE));
+	{	
+		$rules = array(
+			array('field' => 'foo', 'label' => 'label', 'rules' => 'required'),
+			array('field' => 'bar', 'label' => 'label2', 'rules' => 'matches[foo]'));
+		$values_base = array('foo' => 'sample');
+		
+		$this->assertTrue($this->run_rules(
+				$rules,
+				array_merge($values_base, array('bar' => ''))
+				));
+		$this->assertTrue($this->run_rules(
+				$rules,
+				array_merge($values_base, array('bar' => 'sample'))
+				));
 
-		$_POST['to_match'] = 'sample';
-		$this->assertFalse($this->run_rule('matches[to_match]', 'Sample', FALSE));
-		$_POST['to_match'] = 'sample';
-		$this->assertFalse($this->run_rule('matches[to_match]', ' sample', FALSE));
+		$this->assertFalse($this->run_rules(
+				$rules,
+				array_merge($values_base, array('bar' => 'Sample'))
+				));
+		$this->assertFalse($this->run_rules(
+				$rules,
+				array_merge($values_base, array('bar' => ' sample'))
+				));
 	}
 
 	public function test_rule_differs()
-	{
-		// Empty input should pass any rule unless required is also specified
-		$_POST['to_differ'] = 'sample';
-		$this->assertTrue($this->run_rule('differs[to_differ]', '', FALSE));
-		$_POST['to_differ'] = 'sample';
-		$this->assertTrue($this->run_rule('differs[to_differ]', 'Sample', FALSE));
-		$_POST['to_differ'] = 'sample';
-		$this->assertTrue($this->run_rule('differs[to_differ]', ' sample', FALSE));
+	{		
+		$rules = array(
+			array('field' => 'foo', 'label' => 'label', 'rules' => 'required'),
+			array('field' => 'bar', 'label' => 'label2', 'rules' => 'differs[foo]'));
+		$values_base = array('foo' => 'sample');
+		
+		$this->assertTrue($this->run_rules(
+				$rules,
+				array_merge($values_base, array('bar' => 'does_not_match'))
+				));
+		$this->assertTrue($this->run_rules(
+				$rules,
+				array_merge($values_base, array('bar' => 'Sample'))
+				));
+		$this->assertTrue($this->run_rules(
+				$rules,
+				array_merge($values_base, array('bar' => ' sample'))
+				));
 
-		$_POST['to_differ'] = 'sample';
-		$this->assertFalse($this->run_rule('differs[to_differ]', 'sample', FALSE));
+		$this->assertFalse($this->run_rules(
+				$rules,
+				array_merge($values_base, array('bar' => 'sample'))
+				));
 	}
 
 	public function test_rule_min_length()
@@ -284,7 +309,6 @@ class Form_validation_test extends CI_TestCase {
 		// Reset test environment
 		$_POST = array();  
 		$this->form_validation->reset_validation();
-		
 		$data = array('field' => 'some_data');
 		$this->form_validation->set_data($data);
 		$this->form_validation->set_rules('field', 'label', 'required');
@@ -292,11 +316,13 @@ class Form_validation_test extends CI_TestCase {
 		
 		// Test with empty array
 		$_POST = array();
-		$data = array();		
 		$this->form_validation->reset_validation();
+		$data = array('field' => 'some_data');
 		$this->form_validation->set_data($data);
+		// This should do nothing. Old data will still be used
+		$this->form_validation->set_data(array());
 		$this->form_validation->set_rules('field', 'label', 'required');
-		$this->assertFalse($this->form_validation->run());		
+		$this->assertTrue($this->form_validation->run());		
 	}
 	
 	public function test_set_message()
@@ -329,17 +355,18 @@ class Form_validation_test extends CI_TestCase {
 		$this->assertEquals('', $this->form_validation->error('req_field'));		
 	}
 
-	public function run_rule($rule, $test_value, $reset_post = TRUE)
+	public function run_rules($rules, $values)
 	{
 //        $this->markTestSkipped('Not designed to be a unit test');
 		$this->form_validation->reset_validation();
-		if ($reset_post === TRUE)
-		{
-			$_POST = array();
-		}
+		$_POST = array();
 
-		$this->form_validation->set_rules('field', 'name', $rule);
-		$_POST['field'] = $test_value;
+		$this->form_validation->set_rules($rules);
+		foreach ($values as $field => $value)
+		{
+			$_POST[$field] = $value;
+		}
+		
 		return $this->form_validation->run();
 	}
 
