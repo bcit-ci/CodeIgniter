@@ -111,7 +111,7 @@ class CI_Cache_redis extends CI_Driver
 	{
 		if (is_array($data) OR is_object($data))
 		{
-			if ( ! $this->_redis->sAdd('_ci_redis_serialized', $id))
+			if ( ! $this->_redis->sIsMember('_ci_redis_serialized', $id) && ! $this->_redis->sAdd('_ci_redis_serialized', $id))
 			{
 				return FALSE;
 			}
