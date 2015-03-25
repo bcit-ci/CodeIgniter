@@ -62,7 +62,7 @@ The following functions are available:
 	:returns:	TRUE if the mail was successfully sent, FALSE in case of an error
 	:rtype:	bool
 
-	Sends an email using PHP's native `mail() <http://www.php.net/function.mail>`_
+	Sends an email using PHP's native `mail() <http://php.net/function.mail>`_
 	function.
 
 	.. note:: All that this function does is to use PHP's native ``mail``

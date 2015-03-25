@@ -640,7 +640,7 @@ of its high performance, which is also probably your reason to use the
 'redis' session driver.
 
 The downside is that it is not as ubiquitous as relational databases and
-requires the `phpredis <https://github.com/nicolasff/phpredis>`_ PHP
+requires the `phpredis <https://github.com/phpredis/phpredis>`_ PHP
 extension to be installed on your system, and that one doesn't come
 bundled with PHP.
 Chances are, you're only be using the 'redis' driver only if you're already

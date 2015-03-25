@@ -238,7 +238,7 @@ Class Reference
 
 		The second **optional** parameter can take an associative array or an
 		object as input, which it runs through the PHP
-		`extract() <http://www.php.net/extract>`_ function to convert to variables
+		`extract() <http://php.net/extract>`_ function to convert to variables
 		that can be used in your view files. Again, read the
 		:doc:`Views <../general/views>` page to learn how this might be useful.
 
@@ -259,7 +259,7 @@ Class Reference
 		:rtype:	CI_Loader
 
 		This method takes an associative array as input and generates
-		variables using the PHP `extract() <http://www.php.net/extract>`_
+		variables using the PHP `extract() <http://php.net/extract>`_
 		function. This method produces the same result as using the second
 		parameter of the ``$this->load->view()`` method above. The reason you
 		might want to use this method independently is if you would like to
