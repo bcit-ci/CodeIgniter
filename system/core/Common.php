@@ -741,7 +741,6 @@ if ( ! function_exists('html_escape'))
 	 */
 	function html_escape($var, $double_encode = TRUE)
 	{
-		// If empty, skip escaping
 		if (empty($var))
 		{
 			return $var;
