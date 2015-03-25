@@ -1079,17 +1079,26 @@ class CI_Loader {
 			log_message('debug', $library_name.' class already loaded. Second attempt ignored.');
 			return;
 		}
-		elseif (file_exists(APPPATH.'libraries/'.$file_path.$library_name.'.php'))
+
+		$paths = $this->_ci_library_paths;
+		array_pop($paths); // BASEPATH
+		array_pop($paths); // APPPATH (needs to be the first path checked)
+		array_unshift($paths, APPPATH);
+
+		foreach ($paths as $path)
 		{
-			// Override
-			include_once(APPPATH.'libraries/'.$file_path.$library_name.'.php');
-			if (class_exists($prefix.$library_name, FALSE))
+			if (file_exists($path = $path.'libraries/'.$file_path.$library_name.'.php'))
 			{
-				return $this->_ci_init_library($library_name, $prefix, $params, $object_name);
-			}
-			else
-			{
-				log_message('debug', APPPATH.'libraries/'.$file_path.$library_name.'.php exists, but does not declare '.$prefix.$library_name);
+				// Override
+				include_once($path);
+				if (class_exists($prefix.$library_name, FALSE))
+				{
+					return $this->_ci_init_library($library_name, $prefix, $params, $object_name);
+				}
+				else
+				{
+					log_message('debug', $path.' exists, but does not declare '.$prefix.$library_name);
+				}
 			}
 		}
 
@@ -1097,16 +1106,20 @@ class CI_Loader {
 
 		// Check for extensions
 		$subclass = config_item('subclass_prefix').$library_name;
-		if (file_exists(APPPATH.'libraries/'.$file_path.$subclass.'.php'))
+		foreach ($paths as $path)
 		{
-			include_once(APPPATH.'libraries/'.$file_path.$subclass.'.php');
-			if (class_exists($subclass, FALSE))
+			if (file_exists($path = $path.'libraries/'.$file_path.$subclass.'.php'))
 			{
-				$prefix = config_item('subclass_prefix');
-			}
-			else
-			{
-				log_message('debug', APPPATH.'libraries/'.$file_path.$subclass.'.php exists, but does not declare '.$subclass);
+				include_once($path);
+				if (class_exists($subclass, FALSE))
+				{
+					$prefix = config_item('subclass_prefix');
+					break;
+				}
+				else
+				{
+					log_message('debug', APPPATH.'libraries/'.$file_path.$subclass.'.php exists, but does not declare '.$subclass);
+				}
 			}
 		}
 
