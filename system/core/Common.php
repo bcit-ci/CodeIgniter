@@ -741,14 +741,14 @@ if ( ! function_exists('html_escape'))
 	 */
 	function html_escape($var, $double_encode = TRUE)
 	{
+		// If empty, skip escaping
+		if (empty($var))
+		{
+			return $var;
+		}
+		
 		if (is_array($var))
 		{
-			// If empty array, skip escaping
-			if ( empty($var) )
-			{
-				return $var;
-			}
-			
 			return array_map('html_escape', $var, array_fill(0, count($var), $double_encode));
 		}
 
