@@ -482,7 +482,7 @@ The reason for not including other popular algorithms, such as
 MD5 or SHA1 is that they are no longer considered secure enough
 and as such, we don't want to encourage their usage.
 If you absolutely need to use them, it is easy to do so via PHP's
-native `hash_hmac() <http://php.net/hash_hmac()>`_ function.
+native `hash_hmac() <http://php.net/manual/en/function.hash-hmac.php>`_ function.
 
 Stronger algorithms of course will be added in the future as they
 appear and become widely available.

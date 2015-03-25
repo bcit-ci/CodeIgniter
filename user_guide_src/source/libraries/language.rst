@@ -19,7 +19,7 @@ your **application/language/** directory, with separate sub-directories for each
 
 The CodeIgniter framework comes with a set of language files for the "english" idiom.
 Additional approved translations for different idioms may be found in the
-`CodeIgniter 3 Translations repositories <https://github.com/codeigniter3-translations>`_.
+`CodeIgniter 3 Translations repositories <https://github.com/bcit-ci/codeigniter3-translations>`_.
 Each repository deals with a single idiom.
 
 When CodeIgniter loads language files, it will load the one in **system/language/**

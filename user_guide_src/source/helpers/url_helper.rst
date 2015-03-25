@@ -144,7 +144,7 @@ Available Functions
 	be a string or an array.
 
 	.. note:: If you are building links that are internal to your application
-		do not include the base URL (http://...). This will be added
+		do not include the base URL (http&#58;//...). This will be added
 		automatically from the information specified in your config file.
 		Include only the URI segments you wish appended to the URL.
 
@@ -317,7 +317,7 @@ Available Functions
 	:returns:	Protocol-prefixed URL string
 	:rtype:	string
 
-	This function will add http:// in the event that a protocol prefix
+	This function will add http&#58;// in the event that a protocol prefix
 	is missing from a URL.
 
 	Pass the URL string to the function like this::

@@ -56,7 +56,7 @@ Release Date: Not Released
    -  Added availability checks where usage of dangerous functions like ``eval()`` and ``exec()`` is required.
    -  Added support for changing the file extension of log files using ``$config['log_file_extension']``.
    -  Added support for turning newline standardization on/off via ``$config['standardize_newlines']`` and set it to FALSE by default.
-   -  Added configuration setting ``$config['composer_autoload']`` to enable loading of a `Composer <https://getcomposer.org/>`_ auto-loader.
+   -  Added configuration setting ``$config['composer_autoload']`` to enable loading of a `Composer <https://getcomposer.org>`_ auto-loader.
    -  Removed the automatic conversion of 'programmatic characters' to HTML entities from the :doc:`URI Library <libraries/uri>`.
    -  Changed log messages that say a class or file was loaded to "info" level instead of "debug", so that they don't pollute log files when ``$config['log_threshold']`` is set to 2 (debug).
 
@@ -67,7 +67,7 @@ Release Date: Not Released
       - Added an optional third parameter to :php:func:`timespan()` that constrains the number of time units displayed.
       - Added an optional parameter to :php:func:`timezone_menu()` that allows more attributes to be added to the generated select tag.
       - Added function :php:func:`date_range()` that generates a list of dates between a specified period.
-      - Deprecated ``standard_date()``, which now just uses the native ``date()`` with `DateTime constants <http://www.php.net/manual/en/class.datetime.php#datetime.constants.types>`_.
+      - Deprecated ``standard_date()``, which now just uses the native ``date()`` with `DateTime constants <http://php.net/manual/en/class.datetime.php#datetime.constants.types>`_.
       - Changed :php:func:`now()` to work with all timezone strings supported by PHP.
       - Changed :php:func:`days_in_month()` to use the native ``cal_days_in_month()`` PHP function, if available.
 
@@ -1137,12 +1137,8 @@ Bug fixes for 2.0.2
    class <libraries/input>`.
 -  Added form_validation_lang entries for decimal, less_than and
    greater_than.
--  `Fixed issue
-   #153 <https://bitbucket.org/ellislab/codeigniter-reactor/issue/153/escape-str-bug-in-mssql-driver>`_
-   Escape Str Bug in MSSQL driver.
--  `Fixed issue
-   #172 <https://bitbucket.org/ellislab/codeigniter-reactor/issue/172/bug-in-chrome-and-form_open-in-201>`_
-   Google Chrome 11 posts incorrectly when action is empty.
+-  Fixed issue #153 Escape Str Bug in MSSQL driver.
+-  Fixed issue #172 Google Chrome 11 posts incorrectly when action is empty.
 
 Version 2.0.1
 =============
@@ -1235,8 +1231,7 @@ Hg Tag: v2.0.0
       libraries, models, config files, etc. in a single "package"
       directory. See the :doc:`Loader class <libraries/loader>`
       documentation for more details.
-   -  In-development code is now hosted at
-      `BitBucket <http://bitbucket.org/ellislab/codeigniter-reactor/>`_.
+   -  In-development code is now hosted at BitBucket .
    -  Removed the deprecated Validation Class.
    -  Added CI\_ Prefix to all core classes.
    -  Package paths can now be set in application/config/autoload.php.
@@ -1378,7 +1373,7 @@ Hg Tag: v2.0.0
       precision.
    -  Added alpha, and sha1 string types to random_string() in the
       :doc:`String Helper <helpers/string_helper>`.
-   -  Modified prep_url() so as to not prepend http:// if the supplied
+   -  Modified prep_url() so as to not prepend http&#58;// if the supplied
       string already has a scheme.
    -  Modified get_file_info in the file helper, changing filectime()
       to filemtime() for dates.
@@ -2118,7 +2113,7 @@ Bugfixes for 1.6.2
    instantiating new Language and Exception objects, and not using the
    error heading.
 -  Fixed a bug (#4413) where a URI containing slashes only e.g.
-   'http://example.com/index.php?//' would result in PHP errors
+   'http&#58;//example.com/index.php?//' would result in PHP errors
 -  Fixed an array to string conversion error in the Validation library
    (#4425)
 -  Fixed bug (#4451, #4299, #4339) where failed transactions will not
@@ -2770,8 +2765,7 @@ Release Date: September 17, 2006
    the core files.
 -  Added the ability to organize controller files :doc:`into
    sub-folders <general/controllers>`. Kudos to Marco for
-   `suggesting <http://codeigniter.com/forums/viewthread/627/>`_ this
-   (and the next two) feature.
+   suggesting this (and the next two) feature.
 -  Added regular expressions support for :doc:`routing
    rules <./general/routing>`.
 -  Added the ability to :doc:`remap function

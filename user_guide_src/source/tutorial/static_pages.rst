@@ -3,7 +3,7 @@ Static pages
 ############
 
 **Note:** This tutorial assumes you've downloaded CodeIgniter and
-`installed the framework <../installation/index.html>`_ in your
+:doc:`installed the framework <../installation/index>` in your
 development environment.
 
 The first thing you're going to do is set up a **controller** to handle
@@ -12,14 +12,14 @@ It is the glue of your web application.
 
 For example, when a call is made to:
 
-	http://example.com/news/latest/10
+	http&#58;//example.com/news/latest/10
 
 We might imagine that there is a controller named "news". The method
 being called on news would be "latest". The news method's job could be to
 grab 10 news items, and render them on the page. Very often in MVC,
 you'll see URL patterns that match:
 
-	http://example.com/[controller-class]/[controller-method]/[arguments]
+	http&#58;//example.com/[controller-class]/[controller-method]/[arguments]
 
 As URL schemes become more complex, this may change. But for now, this
 is all we will need to know.
@@ -159,7 +159,7 @@ match, and calls the appropriate controller and method, possibly with
 arguments.
 
 More information about routing can be found in the URI Routing
-`documentation <../general/routing.html>`_.
+:doc:`documentation <../general/routing>`.
 
 Here, the second rule in the $routes array matches **any** request using
 the wildcard string (:any). and passes the parameter to the ``view()``

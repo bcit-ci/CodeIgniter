@@ -627,7 +627,7 @@ Date helper standard_date()
 ===========================
 
 :doc:`Date Helper <../helpers/date_helper>` function ``standard_date()`` is being deprecated due
-to the availability of native PHP `constants <http://www.php.net/manual/en/class.datetime.php#datetime.constants.types>`_,
+to the availability of native PHP `constants <http://php.net/manual/en/class.datetime.php#datetime.constants.types>`_,
 which when combined with ``date()`` provide the same functionality. Furthermore, they have the
 exact same names as the ones supported by ``standard_date()``. Here are examples of how to replace
 its usage:
