@@ -326,7 +326,7 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 	 */
 	public function gc($maxlifetime)
 	{
-		if ( ! is_dir($this->_config['save_path']) OR ($files = scandir($this->_config['save_path'])) === FALSE)
+		if ( ! is_dir($this->_config['save_path']) OR ($directory = opendir($this->_config['save_path'])) === FALSE)
 		{
 			log_message('debug', "Session: Garbage collector couldn't list files under directory '".$this->_config['save_path']."'.");
 			return FALSE;
@@ -340,7 +340,7 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 			($this->_config['match_ip'] === TRUE ? 72 : 40)
 		);
 
-		foreach ($files as $file)
+		while (($file = readdir($directory)) !== FALSE)
 		{
 			// If the filename doesn't match this pattern, it's either not a session file or is not ours
 			if ( ! preg_match($pattern, $file)
@@ -353,6 +353,8 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 
 			unlink($this->_config['save_path'].DIRECTORY_SEPARATOR.$file);
 		}
+
+		closedir($directory);
 
 		return TRUE;
 	}
