@@ -32,7 +32,7 @@ class Lang_test extends CI_TestCase {
 		// A language other than english
 		$this->ci_vfs_clone('system/language/english/email_lang.php', 'system/language/german/');
 		$this->assertTrue($this->lang->load('email', 'german'));
-		$this->assertEquals('german', $this->lang->is_loaded['email_lang.php'] );
+		$this->assertEquals('german', $this->lang->is_loaded['email_lang.php']);
 
 		// Non-alpha idiom (should act the same as unspecified language)
 		$this->ci_vfs_clone('system/language/english/number_lang.php');
@@ -60,5 +60,4 @@ class Lang_test extends CI_TestCase {
 		$this->assertFalse($this->lang->line('nonexistent_string'));
 		$this->assertFalse($this->lang->line(NULL));
 	}
-
 }

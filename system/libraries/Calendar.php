@@ -130,11 +130,7 @@ class CI_Calendar {
 	public function __construct($config = array())
 	{
 		$this->CI =& get_instance();
-
-		if ( ! isset($this->CI->lang->is_loaded['calendar_lang.php']))
-		{
-			$this->CI->lang->load('calendar');
-		}
+		$this->CI->lang->load('calendar');
 
 		empty($config) OR $this->initialize($config);
 
