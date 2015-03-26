@@ -320,7 +320,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	public function stored_procedure($package, $procedure, $params)
 	{
-		if ($package === '' OR $procedure === '' OR ! is_array($params))
+		if ($procedure == '' OR ! is_array($params))
 		{
 			log_message('error', 'Invalid query: '.$package.'.'.$procedure);
 			return ($this->db_debug) ? $this->display_error('db_invalid_query') : FALSE;
@@ -328,6 +328,7 @@ class CI_DB_oci8_driver extends CI_DB {
 
 		// build the query string
 		$sql = 'BEGIN '.$package.'.'.$procedure.'(';
+		$sql = 'BEGIN '.($package==''?'':"$package.").$procedure.'(';
 
 		$have_cursor = FALSE;
 		foreach ($params as $param)
@@ -344,7 +345,10 @@ class CI_DB_oci8_driver extends CI_DB {
 		$this->stmt_id = FALSE;
 		$this->_set_stmt_id($sql);
 		$this->_bind_params($params);
-		return $this->query($sql, FALSE, $have_cursor);
+		return @oci_execute($this->stmt_id, $this->_commit);
+		//Here fails the bind, because when excecute the query it assign another id connection to the stmt_id.
+		//For now We'll send the excecute directly.
+		//return $this->query($sql, FALSE, $have_cursor);
 	}
 
 	// --------------------------------------------------------------------
