@@ -144,6 +144,8 @@ class Security_test extends CI_TestCase {
 		$this->assertEquals('<foo prefixOnAttribute="bar">', $this->security->remove_evil_attributes('<foo prefixOnAttribute="bar">', FALSE));
 		$this->assertEquals('<foo>onOutsideOfTag=test</foo>', $this->security->remove_evil_attributes('<foo>onOutsideOfTag=test</foo>', FALSE));
 		$this->assertEquals('onNoTagAtAll = true', $this->security->remove_evil_attributes('onNoTagAtAll = true', FALSE));
+		$this->assertEquals('<foo [removed]>', $this->security->remove_evil_attributes('<foo fscommand=case-insensitive>', FALSE));
+		$this->assertEquals('<foo [removed]>', $this->security->remove_evil_attributes('<foo seekSegmentTime=whatever>', FALSE));
 	}
 
 	// --------------------------------------------------------------------
