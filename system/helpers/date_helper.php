@@ -178,7 +178,11 @@ if ( ! function_exists('timespan'))
 	function timespan($seconds = 1, $time = '', $units = 7)
 	{
 		$CI =& get_instance();
-		$CI->lang->load('date');
+
+		if ( ! isset($CI->lang->is_loaded['date_lang.php']))
+		{
+			$CI->lang->load('date');
+		}
 
 		is_numeric($seconds) OR $seconds = 1;
 		is_numeric($time) OR $time = time();

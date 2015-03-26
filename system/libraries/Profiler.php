@@ -98,7 +98,11 @@ class CI_Profiler {
 	public function __construct($config = array())
 	{
 		$this->CI =& get_instance();
-		$this->CI->load->language('profiler');
+
+		if ( ! isset($this->CI->lang->is_loaded['profiler_lang.php']))
+		{
+			$this->CI->lang->load('profiler');
+		}
 
 		if (isset($config['query_toggle_count']))
 		{

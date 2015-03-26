@@ -141,7 +141,10 @@ class CI_Migration {
 		$this->_migration_path = rtrim($this->_migration_path, '/').'/';
 
 		// Load migration language
-		$this->lang->load('migration');
+		if ( ! isset($this->lang->is_loaded['migration_lang.php']))
+		{
+			$this->lang->load('migration');
+		}
 
 		// They'll probably be using dbforge
 		$this->load->dbforge();

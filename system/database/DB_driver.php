@@ -1656,7 +1656,11 @@ abstract class CI_DB_driver {
 	public function display_error($error = '', $swap = '', $native = FALSE)
 	{
 		$LANG =& load_class('Lang', 'core');
-		$LANG->load('db');
+
+		if ( ! isset($LANG->is_loaded['db_lang.php']))
+		{
+			$LANG->load('db');
+		}
 
 		$heading = $LANG->line('db_error_heading');
 

@@ -2245,7 +2245,11 @@ class CI_Email {
 	protected function _set_error_message($msg, $val = '')
 	{
 		$CI =& get_instance();
-		$CI->lang->load('email');
+
+		if ( ! isset($CI->lang->is_loaded['email_lang.php']))
+		{
+			$CI->lang->load('email');
+		}
 
 		if (sscanf($msg, 'lang:%s', $line) !== 1 OR FALSE === ($line = $CI->lang->line($line)))
 		{
