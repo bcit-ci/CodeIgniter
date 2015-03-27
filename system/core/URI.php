@@ -205,11 +205,11 @@ class CI_URI {
 		$query = isset($uri['query']) ? $uri['query'] : '';
 		$uri = isset($uri['path']) ? $uri['path'] : '';
 
-		if (strpos($uri, $_SERVER['SCRIPT_NAME']) === 0)
+		if (!empty($_SERVER['SCRIPT_NAME']) && strpos($uri, $_SERVER['SCRIPT_NAME']) === 0)
 		{
 			$uri = (string) substr($uri, strlen($_SERVER['SCRIPT_NAME']));
 		}
-		elseif (strpos($uri, dirname($_SERVER['SCRIPT_NAME'])) === 0)
+		elseif (!empty($_SERVER['SCRIPT_NAME']) && strpos($uri, dirname($_SERVER['SCRIPT_NAME'])) === 0)
 		{
 			$uri = (string) substr($uri, strlen(dirname($_SERVER['SCRIPT_NAME'])));
 		}
