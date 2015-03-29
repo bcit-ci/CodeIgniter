@@ -38,7 +38,7 @@ class Lang_test extends CI_TestCase {
 		$this->ci_vfs_clone('system/language/english/number_lang.php');
 		$this->assertTrue($this->lang->load('number'));
 		$this->assertEquals('Bytes', $this->lang->language['bytes']);
-		
+
 		// Non-existent file
 		$this->setExpectedException(
 			'RuntimeException',
