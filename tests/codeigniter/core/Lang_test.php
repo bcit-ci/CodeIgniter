@@ -38,7 +38,7 @@ class Lang_test extends CI_TestCase {
 		$this->ci_vfs_clone('system/language/english/number_lang.php');
 		$this->assertTrue($this->lang->load('number'));
 		$this->assertEquals('Bytes', $this->lang->language['bytes']);
-
+		
 		// Non-existent file
 		$this->setExpectedException(
 			'RuntimeException',
@@ -46,7 +46,30 @@ class Lang_test extends CI_TestCase {
 		);
 		$this->lang->load('nonexistent');
 	}
+	
+	// --------------------------------------------------------------------
+	
+	public function test_multiple_file_load()
+	{	
+		// Multiple files
+		$this->ci_vfs_clone('system/language/english/profiler_lang.php');
+		$files = Array('profiler', 'nonexistent');
+		$this->setExpectedException(
+			'RuntimeException',
+			'CI Error: Unable to load the requested language file: language/english/nonexistent_lang.php'
+		);
+		$this->assertTrue($this->lang->load($files, 'english'));
+	}
 
+	// --------------------------------------------------------------------
+	
+	public function test_alternative_path_load()
+	{
+		// Alternative Path
+		$this->ci_vfs_clone('system/language/english/profiler_lang.php');
+		$this->assertTrue($this->lang->load('profiler', 'english', FALSE, TRUE, 'vfs://system/'));
+	}
+	
 	// --------------------------------------------------------------------
 
 	/**
