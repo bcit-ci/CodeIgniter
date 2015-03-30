@@ -869,7 +869,7 @@ class CI_Session {
 	public function set_tempdata($data, $value = NULL, $ttl = 300)
 	{
 		$this->set_userdata($data, $value);
-		$this->mark_as_temp($data, $ttl);
+		$this->mark_as_temp(is_array($data) ? array_keys($data) : $data, $ttl);
 	}
 
 	// ------------------------------------------------------------------------
