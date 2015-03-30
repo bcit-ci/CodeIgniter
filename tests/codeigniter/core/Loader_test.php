@@ -39,7 +39,7 @@ class Loader_test extends CI_TestCase {
 		$this->assertAttributeInstanceOf($class, $lib, $this->ci_obj);
 		
 		// Create library in VFS
-		$lib = Array('unit_test_lib'=>'unit_test_lib');
+		$lib = Array('unit_test_lib' => 'unit_test_lib');
 		
 		// Test loading as an array (int).
 		$this->assertInstanceOf('CI_Loader', $this->load->library($lib));
