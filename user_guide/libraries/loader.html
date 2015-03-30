@@ -1,0 +1,1041 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Loader Class &mdash; CodeIgniter 3.0.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/ci-icon.ico"/>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="CodeIgniter 3.0.0 documentation" href="../index.html"/>
+        <link rel="up" title="Libraries" href="index.html"/>
+        <link rel="next" title="Migrations Class" href="migration.html"/>
+        <link rel="prev" title="Language Class" href="language.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../index.html" class="fa fa-home"> CodeIgniter</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/welcome.html">Welcome to CodeIgniter</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation Instructions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/downloads.html">Downloading CodeIgniter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/index.html">Installation Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/upgrading.html">Upgrading From a Previous Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/index.html">CodeIgniter Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/at_a_glance.html">CodeIgniter at a Glance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/features.html">Supported Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/appflow.html">Application Flow Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/mvc.html">Model-View-Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/goals.html">Architectural Goals</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/static_pages.html">Static pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/news_section.html">News section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/create_news_items.html">Create news items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/conclusion.html">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/index.html">General Topics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../general/urls.html">CodeIgniter URLs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/controllers.html">Controllers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/reserved_names.html">Reserved Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/views.html">Views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/libraries.html">Using CodeIgniter Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_libraries.html">Creating Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/drivers.html">Using CodeIgniter Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_drivers.html">Creating Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/core_classes.html">Creating Core System Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/ancillary_classes.html">Creating Ancillary Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/hooks.html">Hooks - Extending the Framework Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/autoloader.html">Auto-loading Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/common_functions.html">Common Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/compatibility_functions.html">Compatibility Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/routing.html">URI Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/errors.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/caching.html">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/profiling.html">Profiling Your Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/cli.html">Running via the CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/managing_apps.html">Managing your Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/environments.html">Handling Multiple Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/alternative_php.html">Alternate PHP Syntax for View Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/security.html">Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/styleguide.html">PHP Style Guide</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Libraries</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="benchmark.html">Benchmarking Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caching.html">Caching Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calendar.html">Calendaring Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cart.html">Shopping Cart Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">Config Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.html">Email Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encrypt.html">Encrypt Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encryption.html">Encryption Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="file_uploading.html">File Uploading Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="form_validation.html">Form Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ftp.html">FTP Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image_lib.html">Image Manipulation Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input.html">Input Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="javascript.html">Javascript Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="language.html">Language Class</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Loader Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migration.html">Migrations Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="output.html">Output Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pagination.html">Pagination Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parser.html">Template Parser Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="security.html">Security Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sessions.html">Session Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="table.html">HTML Table Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trackback.html">Trackback Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typography.html">Typography Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit_testing.html">Unit Testing Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uri.html">URI Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_agent.html">User Agent Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xmlrpc.html">XML-RPC and XML-RPC Server Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zip.html">Zip Encoding Class</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../database/examples.html">Quick Start: Usage Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/configuration.html">Database Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/connecting.html">Connecting to a Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/queries.html">Running Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/results.html">Generating Query Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/helpers.html">Query Helper Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/query_builder.html">Query Builder Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/transactions.html">Transactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/metadata.html">Getting MetaData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/call_function.html">Custom Function Calls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/caching.html">Query Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/forge.html">Database Manipulation with Database Forge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/utilities.html">Database Utilities Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/db_driver_reference.html">Database Driver Reference</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../helpers/index.html">Helpers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/array_helper.html">Array Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/captcha_helper.html">CAPTCHA Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/cookie_helper.html">Cookie Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/date_helper.html">Date Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/directory_helper.html">Directory Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/download_helper.html">Download Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/email_helper.html">Email Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/file_helper.html">File Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/form_helper.html">Form Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/html_helper.html">HTML Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/inflector_helper.html">Inflector Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/language_helper.html">Language Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/number_helper.html">Number Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/path_helper.html">Path Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/security_helper.html">Security Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/smiley_helper.html">Smiley Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/string_helper.html">String Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/text_helper.html">Text Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/typography_helper.html">Typography Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/url_helper.html">URL Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/xml_helper.html">XML Helper</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing to CodeIgniter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../documentation/index.html">Writing CodeIgniter Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../DCO.html">Developer&#8217;s Certificate of Origin 1.1</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">CodeIgniter</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Libraries</a> &raquo;</li>
+      
+    <li>Loader Class</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="loader-class">
+<h1>Loader Class<a class="headerlink" href="#loader-class" title="Permalink to this headline">¶</a></h1>
+<p>Loader, as the name suggests, is used to load elements. These elements
+can be libraries (classes) <a class="reference internal" href="../general/views.html"><em>View files</em></a>,
+<a class="reference internal" href="../general/drivers.html"><em>Drivers</em></a>,
+<a class="reference internal" href="../general/helpers.html"><em>Helpers</em></a>,
+<a class="reference internal" href="../general/models.html"><em>Models</em></a>, or your own files.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This class is initialized automatically by the system so there
+is no need to do it manually.</p>
+</div>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#application-packages" id="id2">Application &#8220;Packages&#8221;</a><ul>
+<li><a class="reference internal" href="#package-view-files" id="id3">Package view files</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#class-reference" id="id4">Class Reference</a></li>
+</ul>
+</div>
+<div class="custom-index container"></div><div class="section" id="application-packages">
+<h2><a class="toc-backref" href="#id2">Application &#8220;Packages&#8221;</a><a class="headerlink" href="#application-packages" title="Permalink to this headline">¶</a></h2>
+<p>An application package allows for the easy distribution of complete sets
+of resources in a single directory, complete with its own libraries,
+models, helpers, config, and language files. It is recommended that
+these packages be placed in the application/third_party directory. Below
+is a sample map of an package directory.</p>
+<p>The following is an example of a directory for an application package
+named &#8220;Foo Bar&#8221;.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="o">/</span><span class="nx">application</span><span class="o">/</span><span class="nx">third_party</span><span class="o">/</span><span class="nx">foo_bar</span>
+
+<span class="nx">config</span><span class="o">/</span>
+<span class="nx">helpers</span><span class="o">/</span>
+<span class="nx">language</span><span class="o">/</span>
+<span class="nx">libraries</span><span class="o">/</span>
+<span class="nx">models</span><span class="o">/</span>
+</pre></div>
+</div>
+<p>Whatever the purpose of the &#8220;Foo Bar&#8221; application package, it has its
+own config files, helpers, language files, libraries, and models. To use
+these resources in your controllers, you first need to tell the Loader
+that you are going to be loading resources from a package, by adding the
+package path via the <tt class="docutils literal"><span class="pre">add_package_path()</span></tt> method.</p>
+<div class="section" id="package-view-files">
+<h3><a class="toc-backref" href="#id3">Package view files</a><a class="headerlink" href="#package-view-files" title="Permalink to this headline">¶</a></h3>
+<p>By Default, package view files paths are set when <tt class="docutils literal"><span class="pre">add_package_path()</span></tt>
+is called. View paths are looped through, and once a match is
+encountered that view is loaded.</p>
+<p>In this instance, it is possible for view naming collisions within
+packages to occur, and possibly the incorrect package being loaded. To
+ensure against this, set an optional second parameter of FALSE when
+calling <tt class="docutils literal"><span class="pre">add_package_path()</span></tt>.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">add_package_path</span><span class="p">(</span><span class="nx">APPPATH</span><span class="o">.</span><span class="s1">&#39;my_app&#39;</span><span class="p">,</span> <span class="k">FALSE</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">view</span><span class="p">(</span><span class="s1">&#39;my_app_index&#39;</span><span class="p">);</span> <span class="c1">// Loads</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">view</span><span class="p">(</span><span class="s1">&#39;welcome_message&#39;</span><span class="p">);</span> <span class="c1">// Will not load the default welcome_message b/c the second param to add_package_path is FALSE</span>
+
+<span class="c1">// Reset things</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">remove_package_path</span><span class="p">(</span><span class="nx">APPPATH</span><span class="o">.</span><span class="s1">&#39;my_app&#39;</span><span class="p">);</span>
+
+<span class="c1">// Again without the second parameter:</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">add_package_path</span><span class="p">(</span><span class="nx">APPPATH</span><span class="o">.</span><span class="s1">&#39;my_app&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">view</span><span class="p">(</span><span class="s1">&#39;my_app_index&#39;</span><span class="p">);</span> <span class="c1">// Loads</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">view</span><span class="p">(</span><span class="s1">&#39;welcome_message&#39;</span><span class="p">);</span> <span class="c1">// Loads</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="class-reference">
+<h2><a class="toc-backref" href="#id4">Class Reference</a><a class="headerlink" href="#class-reference" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="CI_Loader">
+<em class="property">class </em><tt class="descname">CI_Loader</tt><a class="headerlink" href="#CI_Loader" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="CI_Loader::library">
+<tt class="descname">library</tt><big>(</big><em>$library</em><span class="optional">[</span>, <em>$params = NULL</em><span class="optional">[</span>, <em>$object_name = NULL</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_Loader::library" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$library</strong> (<em>mixed</em>) &#8211; Library name as a string or an array with multiple libraries</li>
+<li><strong>$params</strong> (<em>array</em>) &#8211; Optional array of parameters to pass to the loaded library&#8217;s constructor</li>
+<li><strong>$object_name</strong> (<em>string</em>) &#8211; Optional object name to assign the library to</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_Loader instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_Loader</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This method is used to load core classes.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">We use the terms &#8220;class&#8221; and &#8220;library&#8221; interchangeably.</p>
+</div>
+<p>For example, if you would like to send email with CodeIgniter, the first
+step is to load the email class within your controller:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">library</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Once loaded, the library will be ready for use, using <tt class="docutils literal"><span class="pre">$this-&gt;email</span></tt>.</p>
+<p>Library files can be stored in subdirectories within the main
+&#8220;libraries&#8221; directory, or within your personal <em>application/libraries</em>
+directory. To load a file located in a subdirectory, simply include the
+path, relative to the &#8220;libraries&#8221; directory. For example, if you have
+file located at:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nx">libraries</span><span class="o">/</span><span class="nx">flavors</span><span class="o">/</span><span class="nx">Chocolate</span><span class="o">.</span><span class="nx">php</span>
+</pre></div>
+</div>
+<p>You will load it using:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">library</span><span class="p">(</span><span class="s1">&#39;flavors/chocolate&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>You may nest the file in as many subdirectories as you want.</p>
+<p>Additionally, multiple libraries can be loaded at the same time by
+passing an array of libraries to the load method.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">library</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;table&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+<p><strong>Setting options</strong></p>
+<p>The second (optional) parameter allows you to optionally pass
+configuration setting. You will typically pass these as an array:</p>
+<div class="highlight-ci"><div class="highlight"><pre>$config = array (
+        &#39;mailtype&#39; =&gt; &#39;html&#39;,
+        &#39;charset&#39;  =&gt; &#39;utf-8,
+        &#39;priority&#39; =&gt; &#39;1&#39;
+);
+
+$this-&gt;load-&gt;library(&#39;email&#39;, $config);
+</pre></div>
+</div>
+<p>Config options can usually also be set via a config file. Each library
+is explained in detail in its own page, so please read the information
+regarding each one you would like to use.</p>
+<p>Please take note, when multiple libraries are supplied in an array for
+the first parameter, each will receive the same parameter information.</p>
+<p><strong>Assigning a Library to a different object name</strong></p>
+<p>If the third (optional) parameter is blank, the library will usually be
+assigned to an object with the same name as the library. For example, if
+the library is named Calendar, it will be assigned to a variable named
+<tt class="docutils literal"><span class="pre">$this-&gt;calendar</span></tt>.</p>
+<p>If you prefer to set your own class names you can pass its value to the
+third parameter:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">library</span><span class="p">(</span><span class="s1">&#39;calendar&#39;</span><span class="p">,</span> <span class="k">NULL</span><span class="p">,</span> <span class="s1">&#39;my_calendar&#39;</span><span class="p">);</span>
+
+<span class="c1">// Calendar class is now accessed using:</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">my_calendar</span>
+</pre></div>
+</div>
+<p>Please take note, when multiple libraries are supplied in an array for
+the first parameter, this parameter is discarded.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Loader::driver">
+<tt class="descname">driver</tt><big>(</big><em>$library</em><span class="optional">[</span>, <em>$params = NULL</em><span class="optional">[</span>, <em>$object_name</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_Loader::driver" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$library</strong> (<em>mixed</em>) &#8211; Library name as a string or an array with multiple libraries</li>
+<li><strong>$params</strong> (<em>array</em>) &#8211; Optional array of parameters to pass to the loaded library&#8217;s constructor</li>
+<li><strong>$object_name</strong> (<em>string</em>) &#8211; Optional object name to assign the library to</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_Loader instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_Loader</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This method is used to load driver libraries, acts very much like the
+<tt class="docutils literal"><span class="pre">library()</span></tt> method.</p>
+<p>As an example, if you would like to use sessions with CodeIgniter, the first
+step is to load the session driver within your controller:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">driver</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Once loaded, the library will be ready for use, using <tt class="docutils literal"><span class="pre">$this-&gt;session</span></tt>.</p>
+<p>Driver files must be stored in a subdirectory within the main
+&#8220;libraries&#8221; directory, or within your personal <em>application/libraries</em>
+directory. The subdirectory must match the parent class name. Read the
+<a class="reference internal" href="../general/drivers.html"><em>Drivers</em></a> description for details.</p>
+<p>Additionally, multiple driver libraries can be loaded at the same time by
+passing an array of drivers to the load method.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">driver</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">,</span> <span class="s1">&#39;cache&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+<p><strong>Setting options</strong></p>
+<p>The second (optional) parameter allows you to optionally pass
+configuration settings. You will typically pass these as an array:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$config</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;sess_driver&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;cookie&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;sess_encrypt_cookie&#39;</span>  <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
+        <span class="s1">&#39;encryption_key&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;mysecretkey&#39;</span>
+<span class="p">);</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">driver</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">,</span> <span class="nv">$config</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Config options can usually also be set via a config file. Each library
+is explained in detail in its own page, so please read the information
+regarding each one you would like to use.</p>
+<p><strong>Assigning a Driver to a different object name</strong></p>
+<p>If the third (optional) parameter is blank, the library will be assigned
+to an object with the same name as the parent class. For example, if
+the library is named Session, it will be assigned to a variable named
+<tt class="docutils literal"><span class="pre">$this-&gt;session</span></tt>.</p>
+<p>If you prefer to set your own class names you can pass its value to the
+third parameter:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">library</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;my_session&#39;</span><span class="p">);</span>
+
+<span class="c1">// Session class is now accessed using:</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">my_session</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Loader::view">
+<tt class="descname">view</tt><big>(</big><em>$view</em><span class="optional">[</span>, <em>$vars = array()</em><span class="optional">[</span>, <em>return = FALSE</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_Loader::view" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$view</strong> (<em>string</em>) &#8211; View name</li>
+<li><strong>$vars</strong> (<em>array</em>) &#8211; An associative array of variables</li>
+<li><strong>$return</strong> (<em>bool</em>) &#8211; Whether to return the loaded view</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">View content string if $return is set to TRUE, otherwise CI_Loader instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This method is used to load your View files. If you haven&#8217;t read the
+<a class="reference internal" href="../general/views.html"><em>Views</em></a> section of the user guide it is
+recommended that you do since it shows you how this method is
+typically used.</p>
+<p>The first parameter is required. It is the name of the view file you
+would like to load.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The .php file extension does not need to be specified unless
+you use something other than .php.</p>
+</div>
+<p>The second <strong>optional</strong> parameter can take an associative array or an
+object as input, which it runs through the PHP
+<a class="reference external" href="http://php.net/extract">extract()</a> function to convert to variables
+that can be used in your view files. Again, read the
+<a class="reference internal" href="../general/views.html"><em>Views</em></a> page to learn how this might be useful.</p>
+<p>The third <strong>optional</strong> parameter lets you change the behavior of the
+method so that it returns data as a string rather than sending it to
+your browser. This can be useful if you want to process the data in some
+way. If you set the parameter to TRUE (boolean) it will return data. The
+default behavior is FALSE, which sends it to your browser. Remember to
+assign it to a variable if you want the data returned:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$string</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">view</span><span class="p">(</span><span class="s1">&#39;myfile&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">);</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Loader::vars">
+<tt class="descname">vars</tt><big>(</big><em>$vars</em><span class="optional">[</span>, <em>$val = ''</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_Loader::vars" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$vars</strong> (<em>mixed</em>) &#8211; An array of variables or a single variable name</li>
+<li><strong>$val</strong> (<em>mixed</em>) &#8211; Optional variable value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_Loader instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_Loader</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This method takes an associative array as input and generates
+variables using the PHP <a class="reference external" href="http://php.net/extract">extract()</a>
+function. This method produces the same result as using the second
+parameter of the <tt class="docutils literal"><span class="pre">$this-&gt;load-&gt;view()</span></tt> method above. The reason you
+might want to use this method independently is if you would like to
+set some global variables in the constructor of your controller and have
+them become available in any view file loaded from any method. You can
+have multiple calls to this method. The data get cached and merged
+into one array for conversion to variables.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Loader::get_var">
+<tt class="descname">get_var</tt><big>(</big><em>$key</em><big>)</big><a class="headerlink" href="#CI_Loader::get_var" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>string</em>) &#8211; Variable name key</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Value if key is found, NULL if not</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This method checks the associative array of variables available to
+your views. This is useful if for any reason a var is set in a library
+or another controller method using <tt class="docutils literal"><span class="pre">$this-&gt;load-&gt;vars()</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Loader::get_vars">
+<tt class="descname">get_vars</tt><big>(</big><big>)</big><a class="headerlink" href="#CI_Loader::get_vars" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">An array of all assigned view variables</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">array</td>
+</tr>
+</tbody>
+</table>
+<p>This method retrieves all variables available to your views.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Loader::clear_vars">
+<tt class="descname">clear_vars</tt><big>(</big><big>)</big><a class="headerlink" href="#CI_Loader::clear_vars" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">CI_Loader instance (method chaining)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">CI_Loader</td>
+</tr>
+</tbody>
+</table>
+<p>Clears cached view variables.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Loader::model">
+<tt class="descname">model</tt><big>(</big><em>$model</em><span class="optional">[</span>, <em>$name = ''</em><span class="optional">[</span>, <em>$db_conn = FALSE</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_Loader::model" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$model</strong> (<em>mixed</em>) &#8211; Model name or an array containing multiple models</li>
+<li><strong>$name</strong> (<em>string</em>) &#8211; Optional object name to assign the model to</li>
+<li><strong>$db_conn</strong> (<em>string</em>) &#8211; Optional database configuration group to load</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_Loader instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_Loader</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">model</span><span class="p">(</span><span class="s1">&#39;model_name&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>If your model is located in a subdirectory, include the relative path
+from your models directory. For example, if you have a model located at
+<em>application/models/blog/Queries.php</em> you&#8217;ll load it using:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">model</span><span class="p">(</span><span class="s1">&#39;blog/queries&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>If you would like your model assigned to a different object name you can
+specify it via the second parameter of the loading method:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">model</span><span class="p">(</span><span class="s1">&#39;model_name&#39;</span><span class="p">,</span> <span class="s1">&#39;fubar&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">fubar</span><span class="o">-&gt;</span><span class="na">method</span><span class="p">();</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Loader::database">
+<tt class="descname">database</tt><big>(</big><span class="optional">[</span><em>$params = ''</em><span class="optional">[</span>, <em>$return = FALSE</em><span class="optional">[</span>, <em>$query_builder = NULL</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_Loader::database" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$params</strong> (<em>mixed</em>) &#8211; Database group name or configuration options</li>
+<li><strong>$return</strong> (<em>bool</em>) &#8211; Whether to return the loaded database object</li>
+<li><strong>$query_builder</strong> (<em>bool</em>) &#8211; Whether to load the Query Builder</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Loaded CI_DB instance or FALSE on failure if $return is set to TRUE, otherwise CI_Loader instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This method lets you load the database class. The two parameters are
+<strong>optional</strong>. Please see the <a class="reference internal" href="../database/index.html"><em>database</em></a>
+section for more info.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Loader::dbforge">
+<tt class="descname">dbforge</tt><big>(</big><span class="optional">[</span><em>$db = NULL</em><span class="optional">[</span>, <em>$return = FALSE</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_Loader::dbforge" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$db</strong> (<em>object</em>) &#8211; Database object</li>
+<li><strong>$return</strong> (<em>bool</em>) &#8211; Whether to return the Database Forge instance</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Loaded CI_DB_forge instance if $return is set to TRUE, otherwise CI_Loader instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Loads the <a class="reference internal" href="../database/forge.html"><em>Database Forge</em></a> class, please refer
+to that manual for more info.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Loader::dbutil">
+<tt class="descname">dbutil</tt><big>(</big><span class="optional">[</span><em>$db = NULL</em><span class="optional">[</span>, <em>$return = FALSE</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_Loader::dbutil" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$db</strong> (<em>object</em>) &#8211; Database object</li>
+<li><strong>$return</strong> (<em>bool</em>) &#8211; Whether to return the Database Utilities instance</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Loaded CI_DB_utility instance if $return is set to TRUE, otherwise CI_Loader instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Loads the <a class="reference internal" href="../database/utilities.html"><em>Database Utilities</em></a> class, please
+refer to that manual for more info.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Loader::helper">
+<tt class="descname">helper</tt><big>(</big><em>$helpers</em><big>)</big><a class="headerlink" href="#CI_Loader::helper" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$helpers</strong> (<em>mixed</em>) &#8211; Helper name as a string or an array containing multiple helpers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_Loader instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_Loader</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This method loads helper files, where file_name is the name of the
+file, without the _helper.php extension.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Loader::file">
+<tt class="descname">file</tt><big>(</big><em>$path</em><span class="optional">[</span>, <em>$return = FALSE</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_Loader::file" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$path</strong> (<em>string</em>) &#8211; File path</li>
+<li><strong>$return</strong> (<em>bool</em>) &#8211; Whether to return the loaded file</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">File contents if $return is set to TRUE, otherwise CI_Loader instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This is a generic file loading method. Supply the filepath and name in
+the first parameter and it will open and read the file. By default the
+data is sent to your browser, just like a View file, but if you set the
+second parameter to boolean TRUE it will instead return the data as a
+string.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Loader::language">
+<tt class="descname">language</tt><big>(</big><em>$files</em><span class="optional">[</span>, <em>$lang = ''</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_Loader::language" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$files</strong> (<em>mixed</em>) &#8211; Language file name or an array of multiple language files</li>
+<li><strong>$lang</strong> (<em>string</em>) &#8211; Language name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_Loader instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_Loader</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This method is an alias of the <a class="reference internal" href="language.html"><em>language loading
+method</em></a>: <tt class="docutils literal"><span class="pre">$this-&gt;lang-&gt;load()</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Loader::config">
+<tt class="descname">config</tt><big>(</big><em>$file</em><span class="optional">[</span>, <em>$use_sections = FALSE</em><span class="optional">[</span>, <em>$fail_gracefully = FALSE</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_Loader::config" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$file</strong> (<em>string</em>) &#8211; Configuration file name</li>
+<li><strong>$use_sections</strong> (<em>bool</em>) &#8211; Whether configuration values should be loaded into their own section</li>
+<li><strong>$fail_gracefully</strong> (<em>bool</em>) &#8211; Whether to just return FALSE in case of failure</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">TRUE on success, FALSE on failure</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This method is an alias of the <a class="reference internal" href="config.html"><em>config file loading
+method</em></a>: <tt class="docutils literal"><span class="pre">$this-&gt;config-&gt;load()</span></tt></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Loader::is_loaded">
+<tt class="descname">is_loaded</tt><big>(</big><em>$class</em><big>)</big><a class="headerlink" href="#CI_Loader::is_loaded" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$class</strong> (<em>string</em>) &#8211; Class name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Singleton property name if found, FALSE if not</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Allows you to check if a class has already been loaded or not.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The word &#8220;class&#8221; here refers to libraries and drivers.</p>
+</div>
+<p>If the requested class has been loaded, the method returns its assigned
+name in the CI Super-object and FALSE if it&#8217;s not:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">library</span><span class="p">(</span><span class="s1">&#39;form_validation&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">is_loaded</span><span class="p">(</span><span class="s1">&#39;Form_validation&#39;</span><span class="p">);</span>      <span class="c1">// returns &#39;form_validation&#39;</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">is_loaded</span><span class="p">(</span><span class="s1">&#39;Nonexistent_library&#39;</span><span class="p">);</span>  <span class="c1">// returns FALSE</span>
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">If you have more than one instance of a class (assigned to
+different properties), then the first one will be returned.</p>
+</div>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">library</span><span class="p">(</span><span class="s1">&#39;form_validation&#39;</span><span class="p">,</span> <span class="nv">$config</span><span class="p">,</span> <span class="s1">&#39;fv&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">library</span><span class="p">(</span><span class="s1">&#39;form_validation&#39;</span><span class="p">);</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">is_loaded</span><span class="p">(</span><span class="s1">&#39;Form_validation&#39;</span><span class="p">);</span>      <span class="c1">// returns &#39;fv&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Loader::add_package_path">
+<tt class="descname">add_package_path</tt><big>(</big><em>$path</em><span class="optional">[</span>, <em>$view_cascade = TRUE</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_Loader::add_package_path" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$path</strong> (<em>string</em>) &#8211; Path to add</li>
+<li><strong>$view_cascade</strong> (<em>bool</em>) &#8211; Whether to use cascading views</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_Loader instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_Loader</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adding a package path instructs the Loader class to prepend a given path
+for subsequent requests for resources. As an example, the &#8220;Foo Bar&#8221;
+application package above has a library named Foo_bar.php. In our
+controller, we&#8217;d do the following:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">add_package_path</span><span class="p">(</span><span class="nx">APPPATH</span><span class="o">.</span><span class="s1">&#39;third_party/foo_bar/&#39;</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="na">library</span><span class="p">(</span><span class="s1">&#39;foo_bar&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Loader::remove_package_path">
+<tt class="descname">remove_package_path</tt><big>(</big><span class="optional">[</span><em>$path = ''</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_Loader::remove_package_path" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$path</strong> (<em>string</em>) &#8211; Path to remove</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_Loader instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_Loader</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>When your controller is finished using resources from an application
+package, and particularly if you have other application packages you
+want to work with, you may wish to remove the package path so the Loader
+no longer looks in that directory for resources. To remove the last path
+added, simply call the method with no parameters.</p>
+<p>Or to remove a specific package path, specify the same path previously
+given to <tt class="docutils literal"><span class="pre">add_package_path()</span></tt> for a package.:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">remove_package_path</span><span class="p">(</span><span class="nx">APPPATH</span><span class="o">.</span><span class="s1">&#39;third_party/foo_bar/&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Loader::get_package_paths">
+<tt class="descname">get_package_paths</tt><big>(</big><span class="optional">[</span><em>$include_base = TRUE</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_Loader::get_package_paths" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$include_base</strong> (<em>bool</em>) &#8211; Whether to include BASEPATH</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An array of package paths</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns all currently available package paths.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="migration.html" class="btn btn-neutral float-right" title="Migrations Class">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="language.html" class="btn btn-neutral" title="Language Class"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014 - 2015, British Columbia Institute of Technology.
+      Last updated on Mar 30, 2015.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
