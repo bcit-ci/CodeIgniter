@@ -22,6 +22,9 @@ class Loader_test extends CI_TestCase {
 
 	public function test_library()
 	{
+		// Test getting CI_Loader object
+		$this->assertInstanceOf('CI_Loader', $this->load->library(NULL));
+		
 		// Create library in VFS
 		$lib = 'unit_test_lib';
 		$class = 'CI_'.ucfirst($lib);
@@ -34,6 +37,13 @@ class Loader_test extends CI_TestCase {
 		$this->assertInstanceOf('CI_Loader', $this->load->library(array($lib)));
 		$this->assertTrue(class_exists($class), $class.' does not exist');
 		$this->assertAttributeInstanceOf($class, $lib, $this->ci_obj);
+		
+		// Create library in VFS
+		$lib = array('unit_test_lib' => 'unit_test_lib');
+		
+		// Test loading as an array (int).
+		$this->assertInstanceOf('CI_Loader', $this->load->library($lib));
+		$this->assertTrue(class_exists($class), $class.' does not exist');
 
 		// Test a string given to params
 		$this->assertInstanceOf('CI_Loader', $this->load->library($lib, ' '));
@@ -316,6 +326,24 @@ class Loader_test extends CI_TestCase {
 		$this->assertEquals($val1, $this->load->get_var($key1));
 		$this->assertEquals(array($key1 => $val1, $key2 => $val2), $this->load->get_vars());
 	}
+	
+	// --------------------------------------------------------------------
+
+	public function test_clear_vars()
+	{
+		$key1 = 'foo';
+		$val1 = 'bar';
+		$key2 = 'boo';
+		$val2 = 'hoo';
+		$this->assertInstanceOf('CI_Loader', $this->load->vars(array($key1 => $val1)));
+		$this->assertInstanceOf('CI_Loader', $this->load->vars($key2, $val2));
+		$this->assertEquals($val1, $this->load->get_var($key1));
+		$this->assertEquals(array($key1 => $val1, $key2 => $val2), $this->load->get_vars());
+		
+		$this->assertInstanceOf('CI_Loader', $this->load->clear_vars());
+		$this->assertEquals('', $this->load->get_var($key1));
+		$this->assertEquals('', $this->load->get_var($key2));
+	}
 
 	// --------------------------------------------------------------------
 
@@ -443,6 +471,24 @@ class Loader_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
+	public function test_remove_package_path()
+	{
+		$dir = 'third-party';
+		$path = APPPATH.$dir.'/';
+		$path2 = APPPATH.'another/';
+		$paths = $this->load->get_package_paths(TRUE);
+		
+		$this->assertInstanceOf('CI_Loader', $this->load->add_package_path($path));
+		$this->assertInstanceOf('CI_Loader', $this->load->remove_package_path($path));
+		$this->assertEquals($paths, $this->load->get_package_paths(TRUE));
+		
+		$this->assertInstanceOf('CI_Loader', $this->load->add_package_path($path2));
+		$this->assertInstanceOf('CI_Loader', $this->load->remove_package_path());
+		$this->assertNotContains($path2, $this->load->get_package_paths(TRUE));
+	}
+
+	// --------------------------------------------------------------------
+	
 	public function test_load_config()
 	{
 		$cfg = 'someconfig';
