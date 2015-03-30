@@ -431,13 +431,11 @@ class Form_validation_test extends CI_TestCase {
 	public function test_set_select()
 	{
 		// Test 1: No options selected
-		$this->form_validation->reset_validation();
-		$this->form_validation->set_rules('select', 'label', 'alpha_numeric');
+		$this->form_validation->reset_validation();		
 		$_POST = array();
 		$this->form_validation->run();
 		
-		$this->assertEquals('', $this->form_validation->set_select('select', 'foo'));
-		// This fails. Default is only used when no rules are defined. Is this really the desired behaviour?
+		$this->assertEquals('', $this->form_validation->set_select('select', 'foo'));		
 		$this->assertEquals(' selected="selected"', $this->form_validation->set_select('select', 'bar', TRUE));
 		
 		// Test 2: 1 option selected
@@ -453,28 +451,27 @@ class Form_validation_test extends CI_TestCase {
 		
 		// Test 3: Multiple options selected
 		$this->form_validation->reset_validation();
-		$this->form_validation->set_rules('select', 'label', 'alpha_numeric');
+		$this->form_validation->set_rules('select[]', 'label', 'alpha_numeric');
 		$_POST = array('select' => array('foo', 'bar'));
 		$this->form_validation->run();
 		
-		$this->assertEquals(' selected="selected"', $this->form_validation->set_select('select', 'foo'));
-		$this->assertEquals(' selected="selected"', $this->form_validation->set_select('select', 'foo', TRUE));
-		$this->assertEquals(' selected="selected"', $this->form_validation->set_select('select', 'bar'));
-		$this->assertEquals(' selected="selected"', $this->form_validation->set_select('select', 'bar', TRUE));
-		$this->assertEquals('', $this->form_validation->set_select('select', 'foobar'));
-		$this->assertEquals('', $this->form_validation->set_select('select', 'foobar', TRUE));
+		$this->assertEquals(' selected="selected"', $this->form_validation->set_select('select[]', 'foo'));
+		$this->assertEquals(' selected="selected"', $this->form_validation->set_select('select[]', 'foo', TRUE));
+		$this->assertEquals(' selected="selected"', $this->form_validation->set_select('select[]', 'bar'));
+		$this->assertEquals(' selected="selected"', $this->form_validation->set_select('select[]', 'bar', TRUE));
+		$this->assertEquals('', $this->form_validation->set_select('select[]', 'foobar'));
+		$this->assertEquals('', $this->form_validation->set_select('select[]', 'foobar', TRUE));
 	}
 	
 	public function test_set_radio()
 	{
 		// Test 1: No options selected
-		$this->form_validation->reset_validation();
-		$this->form_validation->set_rules('select', 'label', 'alpha_numeric');
+		$this->form_validation->reset_validation();		
 		$_POST = array();
 		$this->form_validation->run();
 		
 		$this->assertEquals('', $this->form_validation->set_radio('select', 'foo'));
-		// This fails. Default is only used when no rules are defined. Is this really the desired behaviour?
+		// Default should only work when no rules are set
 		$this->assertEquals(' checked="checked"', $this->form_validation->set_radio('select', 'bar', TRUE));
 		
 		// Test 2: 1 option selected
@@ -490,28 +487,26 @@ class Form_validation_test extends CI_TestCase {
 		
 		// Test 3: Multiple options checked
 		$this->form_validation->reset_validation();
-		$this->form_validation->set_rules('select', 'label', 'alpha_numeric');
+		$this->form_validation->set_rules('select[]', 'label', 'alpha_numeric');
 		$_POST = array('select' => array('foo', 'bar'));
 		$this->form_validation->run();
 		
-		$this->assertEquals(' checked="checked"', $this->form_validation->set_radio('select', 'foo'));
-		$this->assertEquals(' checked="checked"', $this->form_validation->set_radio('select', 'foo', TRUE));
-		$this->assertEquals(' checked="checked"', $this->form_validation->set_radio('select', 'bar'));
-		$this->assertEquals(' checked="checked"', $this->form_validation->set_radio('select', 'bar', TRUE));
-		$this->assertEquals('', $this->form_validation->set_radio('select', 'foobar'));
-		$this->assertEquals('', $this->form_validation->set_radio('select', 'foobar', TRUE));
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_radio('select[]', 'foo'));
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_radio('select[]', 'foo', TRUE));
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_radio('select[]', 'bar'));
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_radio('select[]', 'bar', TRUE));
+		$this->assertEquals('', $this->form_validation->set_radio('select[]', 'foobar'));
+		$this->assertEquals('', $this->form_validation->set_radio('select[]', 'foobar', TRUE));
 	}
 	
 	public function test_set_checkbox()
 	{
 		// Test 1: No options selected
-		$this->form_validation->reset_validation();
-		$this->form_validation->set_rules('select', 'label', 'alpha_numeric');
+		$this->form_validation->reset_validation();		
 		$_POST = array();
 		$this->form_validation->run();
 		
-		$this->assertEquals('', $this->form_validation->set_checkbox('select', 'foo'));
-		// This fails. Default is only used when no rules are defined. Is this really the desired behaviour?
+		$this->assertEquals('', $this->form_validation->set_checkbox('select', 'foo'));		
 		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select', 'bar', TRUE));
 		
 		// Test 2: 1 option selected
@@ -527,16 +522,16 @@ class Form_validation_test extends CI_TestCase {
 		
 		// Test 3: Multiple options selected
 		$this->form_validation->reset_validation();
-		$this->form_validation->set_rules('select', 'label', 'alpha_numeric');
+		$this->form_validation->set_rules('select[]', 'label', 'alpha_numeric');
 		$_POST = array('select' => array('foo', 'bar'));
 		$this->form_validation->run();
 		
-		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select', 'foo'));
-		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select', 'foo', TRUE));
-		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select', 'bar'));
-		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select', 'bar', TRUE));
-		$this->assertEquals('', $this->form_validation->set_checkbox('select', 'foobar'));
-		$this->assertEquals('', $this->form_validation->set_checkbox('select', 'foobar', TRUE));
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select[]', 'foo'));
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select[]', 'foo', TRUE));
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select[]', 'bar'));
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select[]', 'bar', TRUE));
+		$this->assertEquals('', $this->form_validation->set_checkbox('select[]', 'foobar'));
+		$this->assertEquals('', $this->form_validation->set_checkbox('select[]', 'foobar', TRUE));
 	}
 	
 	public function test_regex_match()
