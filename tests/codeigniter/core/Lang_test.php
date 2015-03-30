@@ -46,15 +46,15 @@ class Lang_test extends CI_TestCase {
 		);
 		$this->lang->load('nonexistent');
 	}
-	
+
 	// --------------------------------------------------------------------
-	
+
 	public function test_multiple_file_load()
-	{	
+	{
 		// Multiple files
 		$this->ci_vfs_clone('system/language/english/profiler_lang.php');
 		$files = array(
-			0 => 'profiler', 
+			0 => 'profiler',
 			1 => 'nonexistent'
 		);
 		$this->setExpectedException(
@@ -65,14 +65,14 @@ class Lang_test extends CI_TestCase {
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	public function test_alternative_path_load()
 	{
 		// Alternative Path
 		$this->ci_vfs_clone('system/language/english/profiler_lang.php');
 		$this->assertTrue($this->lang->load('profiler', 'english', FALSE, TRUE, 'vfs://system/'));
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
