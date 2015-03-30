@@ -346,7 +346,8 @@ class Form_validation_test extends CI_TestCase {
 		$this->form_validation->set_rules('foo', 'label', 'required');
 		$_POST = array('foo' => '');
 		$this->form_validation->run();
-		$this->assertEquals($error_message, $this->form_validation->error_array()['foo']);
+		$err_arr = $this->form_validation->error_array();
+		$this->assertEquals($error_message, $err_arr['foo']);
 	}
 
 	public function test_error_string()
