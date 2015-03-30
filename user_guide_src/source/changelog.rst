@@ -2,10 +2,10 @@
 Change Log
 ##########
 
-Version 3.0 (planned)
-=======================
+Version 3.0.0
+=============
 
-Release Date: Not Released
+Release Date: March 30, 2015
 
 -  License
 
