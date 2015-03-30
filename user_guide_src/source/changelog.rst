@@ -565,7 +565,7 @@ Release Date: Not Released
       -  Changed the library constructor to try to create the **log_path** directory if it doesn't exist.
       -  Added support for microseconds ("u" date format character) in ``$config['log_date_format']``.
 
-   -  Added `compatibility layers <general/compatibility_functions>` for:
+   -  Added :doc:`compatibility layers <general/compatibility_functions>` for:
 
       - `Multibyte String <http://php.net/mbstring>`_ (limited support).
       - `Hash <http://php.net/hash>`_ (``hash_equals()``, ``hash_pbkdf2()``).
