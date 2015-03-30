@@ -1118,7 +1118,7 @@ class CI_Loader {
 				}
 				else
 				{
-					log_message('debug', APPPATH.'libraries/'.$file_path.$subclass.'.php exists, but does not declare '.$subclass);
+    				log_message('debug', $path.' exists, but does not declare '.$subclass);
 				}
 			}
 		}
