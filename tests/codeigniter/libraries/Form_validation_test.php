@@ -248,7 +248,7 @@ class Form_validation_test extends CI_TestCase {
 		$this->assertTrue($this->form_validation->valid_emails('1@sample.com,2@sample.com'));
 		$this->assertTrue($this->form_validation->valid_emails('email@sample.com'));
 
-		$this->assertFalse($this->form_validation->valid_emails('valid_email', '@sample.com'));	
+		$this->assertFalse($this->form_validation->valid_emails('valid_email', '@sample.com'));
 		$this->assertFalse($this->form_validation->valid_emails('@sample.com,2@sample.com,validemail@email.ca'));
 	}
 
@@ -323,6 +323,254 @@ class Form_validation_test extends CI_TestCase {
 		$this->assertEquals('', $this->form_validation->error('req_field'));
 	}
 
+	public function test_set_error_delimiters()
+	{
+		$this->form_validation->reset_validation();
+		$prefix = '<div class="error">';
+		$suffix = '</div>';
+		$this->form_validation->set_error_delimiters($prefix, $suffix);
+		$this->form_validation->set_rules('foo', 'label', 'required');
+		$_POST = array('foo' => '');
+		$this->form_validation->run();
+		$error_msg = $this->form_validation->error('foo');
+
+		$this->assertTrue(strrpos($error_msg, $prefix) === 0);
+		$this->assertTrue(strrpos($error_msg, $suffix, -strlen($suffix)) === (strlen($error_msg) - strlen($suffix)));
+	}
+
+	public function test_error_array()
+	{
+		$this->form_validation->reset_validation();
+		$error_message = 'What a terrible error!';
+		$this->form_validation->set_message('required', $error_message);
+		$this->form_validation->set_rules('foo', 'label', 'required');
+		$_POST = array('foo' => '');
+		$this->form_validation->run();
+		$error_array = $this->form_validation->error_array();
+		$this->assertEquals($error_message, $error_array['foo']);
+	}
+
+	public function test_error_string()
+	{
+		$this->form_validation->reset_validation();
+		$error_message = 'What a terrible error!';
+		$prefix_default = '<foo>';
+		$suffix_default = '</foo>';
+		$prefix_test = '<bar>';
+		$suffix_test = '</bar>';
+		$this->form_validation->set_error_delimiters($prefix_default, $suffix_default);
+		$this->form_validation->set_message('required', $error_message);
+		$this->form_validation->set_rules('foo', 'label', 'required');
+		$_POST = array('foo' => '');
+		$this->form_validation->run();
+
+		$this->assertEquals($prefix_default.$error_message.$suffix_default."\n", $this->form_validation->error_string());
+		$this->assertEquals($prefix_test.$error_message.$suffix_default."\n", $this->form_validation->error_string($prefix_test, ''));
+		$this->assertEquals($prefix_default.$error_message.$suffix_test."\n", $this->form_validation->error_string('', $suffix_test));
+		$this->assertEquals($prefix_test.$error_message.$suffix_test."\n", $this->form_validation->error_string($prefix_test, $suffix_test));
+
+		$this->form_validation->reset_validation();
+		$this->form_validation->set_rules('foo', 'label', 'required');
+		$_POST = array('foo' => 'bar');
+		$this->form_validation->run();
+		$this->assertEquals('', $this->form_validation->error_string());
+	}
+
+	public function test_run()
+	{
+		// form_validation->run() is tested in many of the other unit tests
+		// This test will only test run(group='') when group is not empty
+		$config = array(
+			'pass' => array(
+				array(
+					'field' => 'username',
+					'label' => 'user',
+					'rules' => 'alpha_numeric'
+				)
+			),
+			'fail' => array(
+				array(
+					'field' => 'username',
+					'label' => 'user',
+					'rules' => 'alpha'
+				)
+			)
+		);
+		$_POST = array('username' => 'foo42');
+		$form_validation = new CI_Form_validation($config);
+		$this->assertTrue($form_validation->run('pass'));
+
+		$form_validation = new CI_Form_validation($config);
+		$this->assertFalse($form_validation->run('fail'));
+	}
+
+	public function test_has_rule()
+	{
+		$this->form_validation->reset_validation();
+		$this->form_validation->set_rules('foo', 'label', 'required');
+
+		$this->assertTrue($this->form_validation->has_rule('foo'));
+		$this->assertFalse($this->form_validation->has_rule('bar'));
+	}
+
+	public function test_set_value()
+	{
+		$this->form_validation->reset_validation();
+		$default = 'default';
+		$this->form_validation->set_rules('foo', 'label', 'required');
+		$this->form_validation->set_rules('bar[]', 'label', 'required');
+
+		// No post data yet: should return the default value provided
+		$this->assertEquals($default, $this->form_validation->set_value('foo', $default));
+		$_POST = array('foo' => 'foo', 'bar' => array('bar1', 'bar2'));
+		$this->form_validation->run();
+		$this->assertEquals('foo', $this->form_validation->set_value('foo', $default));
+		$this->assertEquals('bar1', $this->form_validation->set_value('bar[]', $default));
+		$this->assertEquals('bar2', $this->form_validation->set_value('bar[]', $default));
+	}
+	
+	public function test_set_select()
+	{
+		// Test 1: No options selected
+		$this->form_validation->reset_validation();		
+		$_POST = array();
+		$this->form_validation->run();
+		
+		$this->assertEquals('', $this->form_validation->set_select('select', 'foo'));		
+		$this->assertEquals(' selected="selected"', $this->form_validation->set_select('select', 'bar', TRUE));
+		
+		// Test 2: 1 option selected
+		$this->form_validation->reset_validation();
+		$this->form_validation->set_rules('select', 'label', 'alpha_numeric');
+		$_POST = array('select' => 'foo');
+		$this->form_validation->run();
+		
+		$this->assertEquals(' selected="selected"', $this->form_validation->set_select('select', 'foo'));
+		$this->assertEquals(' selected="selected"', $this->form_validation->set_select('select', 'foo', TRUE));
+		$this->assertEquals('', $this->form_validation->set_select('select', 'bar'));
+		$this->assertEquals('', $this->form_validation->set_select('select', 'bar', TRUE));
+		
+		// Test 3: Multiple options selected
+		$this->form_validation->reset_validation();
+		$this->form_validation->set_rules('select[]', 'label', 'alpha_numeric');
+		$_POST = array('select' => array('foo', 'bar'));
+		$this->form_validation->run();
+		
+		$this->assertEquals(' selected="selected"', $this->form_validation->set_select('select[]', 'foo'));
+		$this->assertEquals(' selected="selected"', $this->form_validation->set_select('select[]', 'foo', TRUE));
+		$this->assertEquals(' selected="selected"', $this->form_validation->set_select('select[]', 'bar'));
+		$this->assertEquals(' selected="selected"', $this->form_validation->set_select('select[]', 'bar', TRUE));
+		$this->assertEquals('', $this->form_validation->set_select('select[]', 'foobar'));
+		$this->assertEquals('', $this->form_validation->set_select('select[]', 'foobar', TRUE));
+	}
+	
+	public function test_set_radio()
+	{
+		// Test 1: No options selected
+		$this->form_validation->reset_validation();		
+		$_POST = array();
+		$this->form_validation->run();
+		
+		$this->assertEquals('', $this->form_validation->set_radio('select', 'foo'));
+		// Default should only work when no rules are set
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_radio('select', 'bar', TRUE));
+		
+		// Test 2: 1 option selected
+		$this->form_validation->reset_validation();
+		$this->form_validation->set_rules('select', 'label', 'alpha_numeric');
+		$_POST = array('select' => 'foo');
+		$this->form_validation->run();
+		
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_radio('select', 'foo'));
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_radio('select', 'foo', TRUE));
+		$this->assertEquals('', $this->form_validation->set_radio('select', 'bar'));
+		$this->assertEquals('', $this->form_validation->set_radio('select', 'bar', TRUE));
+		
+		// Test 3: Multiple options checked
+		$this->form_validation->reset_validation();
+		$this->form_validation->set_rules('select[]', 'label', 'alpha_numeric');
+		$_POST = array('select' => array('foo', 'bar'));
+		$this->form_validation->run();
+		
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_radio('select[]', 'foo'));
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_radio('select[]', 'foo', TRUE));
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_radio('select[]', 'bar'));
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_radio('select[]', 'bar', TRUE));
+		$this->assertEquals('', $this->form_validation->set_radio('select[]', 'foobar'));
+		$this->assertEquals('', $this->form_validation->set_radio('select[]', 'foobar', TRUE));
+	}
+	
+	public function test_set_checkbox()
+	{
+		// Test 1: No options selected
+		$this->form_validation->reset_validation();		
+		$_POST = array();
+		$this->form_validation->run();
+		
+		$this->assertEquals('', $this->form_validation->set_checkbox('select', 'foo'));		
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select', 'bar', TRUE));
+		
+		// Test 2: 1 option selected
+		$this->form_validation->reset_validation();
+		$this->form_validation->set_rules('select', 'label', 'alpha_numeric');
+		$_POST = array('select' => 'foo');
+		$this->form_validation->run();
+		
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select', 'foo'));
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select', 'foo', TRUE));
+		$this->assertEquals('', $this->form_validation->set_checkbox('select', 'bar'));
+		$this->assertEquals('', $this->form_validation->set_checkbox('select', 'bar', TRUE));
+		
+		// Test 3: Multiple options selected
+		$this->form_validation->reset_validation();
+		$this->form_validation->set_rules('select[]', 'label', 'alpha_numeric');
+		$_POST = array('select' => array('foo', 'bar'));
+		$this->form_validation->run();
+		
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select[]', 'foo'));
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select[]', 'foo', TRUE));
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select[]', 'bar'));
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select[]', 'bar', TRUE));
+		$this->assertEquals('', $this->form_validation->set_checkbox('select[]', 'foobar'));
+		$this->assertEquals('', $this->form_validation->set_checkbox('select[]', 'foobar', TRUE));
+	}
+	
+	public function test_regex_match()
+	{
+		$regex = '/f[a-zA-Z]+/';
+		$this->assertTrue($this->form_validation->regex_match('foo', $regex));
+		$this->assertFalse($this->form_validation->regex_match('bar', $regex));		
+	}
+	
+	public function test_prep_for_form()
+	{
+		$this->form_validation->reset_validation();
+		$error_msg_unprepped = '<error =\'foobar\'">';
+		$error_msg_prepped = '&lt;error =&#39;foobar&#39;&quot;&gt;';
+		$this->form_validation->set_rules('foo', 'label', 'required', array('required' => $error_msg_unprepped));
+		$_POST = array('foo' => '');
+		$this->form_validation->run();
+		$error_arr = $this->form_validation->error_array();
+
+		$this->assertEquals('', $this->form_validation->prep_for_form(''));
+		$this->assertEquals(array('foo' => $error_msg_prepped), $this->form_validation->prep_for_form($error_arr));
+	}
+	
+	public function test_prep_url()
+	{
+		$this->assertEquals('', $this->form_validation->prep_url(''));
+		$this->assertEquals('http://codeigniter.com', $this->form_validation->prep_url('codeigniter.com'));
+		$this->assertEquals('https://codeigniter.com', $this->form_validation->prep_url('https://codeigniter.com'));
+		$this->assertEquals('http://codeigniter.com', $this->form_validation->prep_url('http://codeigniter.com'));
+		$this->assertEquals('http://www.codeigniter.com', $this->form_validation->prep_url('www.codeigniter.com'));
+	}
+	
+	public function test_encode_php_tags()
+	{
+		$this->assertEquals("&lt;?php", $this->form_validation->encode_php_tags('<?php'));
+		$this->assertEquals('?&gt;', $this->form_validation->encode_php_tags('?>'));
+	}
+	
 	/**
 	 * Run rules
 	 *
