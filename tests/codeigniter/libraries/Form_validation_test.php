@@ -313,7 +313,7 @@ class Form_validation_test extends CI_TestCase {
 		$this->form_validation->set_data($erroneous_data);
 		$this->form_validation->set_rules($rules);
 		$this->form_validation->run();
-		$this->assertEquals('<p>' . $err_message . '</p>', $this->form_validation->error('req_field'));
+		$this->assertEquals('<p>'.$err_message.'</p>', $this->form_validation->error('req_field'));
 
 		$this->form_validation->reset_validation();
 		$this->form_validation->set_message('required', $err_message);
@@ -346,8 +346,8 @@ class Form_validation_test extends CI_TestCase {
 		$this->form_validation->set_rules('foo', 'label', 'required');
 		$_POST = array('foo' => '');
 		$this->form_validation->run();
-		$err_arr = $this->form_validation->error_array();
-		$this->assertEquals($error_message, $err_arr['foo']);
+		$error_array = $this->form_validation->error_array();
+		$this->assertEquals($error_message, $error_array['foo']);
 	}
 
 	public function test_error_string()
@@ -364,16 +364,16 @@ class Form_validation_test extends CI_TestCase {
 		$_POST = array('foo' => '');
 		$this->form_validation->run();
 
-		$this->assertEquals($prefix_default . $error_message . $suffix_default . "\n", $this->form_validation->error_string());
-		$this->assertEquals($prefix_test . $error_message . $suffix_default . "\n", $this->form_validation->error_string($prefix_test, ''));
-		$this->assertEquals($prefix_default . $error_message . $suffix_test . "\n", $this->form_validation->error_string('', $suffix_test));
-		$this->assertEquals($prefix_test . $error_message . $suffix_test . "\n", $this->form_validation->error_string($prefix_test, $suffix_test));
-		
+		$this->assertEquals($prefix_default.$error_message.$suffix_default."\n", $this->form_validation->error_string());
+		$this->assertEquals($prefix_test.$error_message.$suffix_default."\n", $this->form_validation->error_string($prefix_test, ''));
+		$this->assertEquals($prefix_default.$error_message.$suffix_test."\n", $this->form_validation->error_string('', $suffix_test));
+		$this->assertEquals($prefix_test.$error_message.$suffix_test."\n", $this->form_validation->error_string($prefix_test, $suffix_test));
+
 		$this->form_validation->reset_validation();
 		$this->form_validation->set_rules('foo', 'label', 'required');
 		$_POST = array('foo' => 'bar');
 		$this->form_validation->run();
-		$this->assertEquals('', $this->form_validation->error_string());	
+		$this->assertEquals('', $this->form_validation->error_string());
 	}
 
 	public function test_run()
@@ -399,27 +399,27 @@ class Form_validation_test extends CI_TestCase {
 		$_POST = array('username' => 'foo42');
 		$form_validation = new CI_Form_validation($config);
 		$this->assertTrue($form_validation->run('pass'));
-		
-		$form_validation = new CI_Form_validation($config);		
+
+		$form_validation = new CI_Form_validation($config);
 		$this->assertFalse($form_validation->run('fail'));
 	}
-	
+
 	public function test_has_rule()
 	{
 		$this->form_validation->reset_validation();
 		$this->form_validation->set_rules('foo', 'label', 'required');
-		
+
 		$this->assertTrue($this->form_validation->has_rule('foo'));
 		$this->assertFalse($this->form_validation->has_rule('bar'));
 	}
-	
+
 	public function test_set_value()
 	{
 		$this->form_validation->reset_validation();
 		$default = 'default';
 		$this->form_validation->set_rules('foo', 'label', 'required');
 		$this->form_validation->set_rules('bar[]', 'label', 'required');
-		
+
 		// No post data yet: should return the default value provided
 		$this->assertEquals($default, $this->form_validation->set_value('foo', $default));
 		$_POST = array('foo' => 'foo', 'bar' => array('bar1', 'bar2'));
@@ -545,15 +545,15 @@ class Form_validation_test extends CI_TestCase {
 	public function test_prep_for_form()
 	{
 		$this->form_validation->reset_validation();
-		$err_msg_unprepped = '<error =\'foobar\'">';
-		$err_msg_prepped = '&lt;error =&#39;foobar&#39;&quot;&gt;';
-		$this->form_validation->set_rules('foo', 'label', 'required', array('required' => $err_msg_unprepped));
+		$error_msg_unprepped = '<error =\'foobar\'">';
+		$error_msg_prepped = '&lt;error =&#39;foobar&#39;&quot;&gt;';
+		$this->form_validation->set_rules('foo', 'label', 'required', array('required' => $error_msg_unprepped));
 		$_POST = array('foo' => '');
 		$this->form_validation->run();
-		$err_arr = $this->form_validation->error_array();		
-		
+		$error_arr = $this->form_validation->error_array();
+
 		$this->assertEquals('', $this->form_validation->prep_for_form(''));
-		$this->assertEquals(array('foo' => $err_msg_prepped), $this->form_validation->prep_for_form($err_arr));
+		$this->assertEquals(array('foo' => $error_msg_prepped), $this->form_validation->prep_for_form($error_arr));
 	}
 	
 	public function test_prep_url()
@@ -590,5 +590,4 @@ class Form_validation_test extends CI_TestCase {
 
 		return $this->form_validation->run();
 	}
-
 }
