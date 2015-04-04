@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Encryption
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/zip.html
+ * @link		http://codeigniter.com/userguide3/libraries/zip.html
  */
 class CI_Zip {
 

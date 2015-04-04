@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Drivers
  * @category	Database
  * @author		Esen Sagynov
- * @link		http://codeigniter.com/user_guide/database/
+ * @link		http://codeigniter.com/userguide3/database/
  */
 class CI_DB_cubrid_driver extends CI_DB {
 

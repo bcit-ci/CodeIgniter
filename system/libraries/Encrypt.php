@@ -46,7 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Libraries
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/encryption.html
+ * @link		http://codeigniter.com/userguide3/libraries/encryption.html
  */
 class CI_Encrypt {
 
@@ -198,7 +198,7 @@ class CI_Encrypt {
 	 * This allows for backwards compatibility and a method to transition to the
 	 * new encryption algorithms.
 	 *
-	 * For more details, see http://codeigniter.com/user_guide/installation/upgrade_200.html#encryption
+	 * For more details, see http://codeigniter.com/userguide3/installation/upgrade_200.html#encryption
 	 *
 	 * @param	string
 	 * @param	int		(mcrypt mode constant)

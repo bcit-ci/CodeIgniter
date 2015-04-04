@@ -46,7 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Libraries
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/general/hooks.html
+ * @link		http://codeigniter.com/userguide3/general/hooks.html
  */
 class CI_Hooks {
 

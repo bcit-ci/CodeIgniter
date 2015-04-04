@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Libraries
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/ftp.html
+ * @link		http://codeigniter.com/userguide3/libraries/ftp.html
  */
 class CI_FTP {
 

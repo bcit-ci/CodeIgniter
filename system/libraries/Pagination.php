@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Pagination
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/pagination.html
+ * @link		http://codeigniter.com/userguide3/libraries/pagination.html
  */
 class CI_Pagination {
 
