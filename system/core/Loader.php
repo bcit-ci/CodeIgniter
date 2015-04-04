@@ -1305,11 +1305,32 @@ class CI_Loader {
 				$this->database();
 				$autoload['libraries'] = array_diff($autoload['libraries'], array('database'));
 			}
-
-			// Load all other libraries
-			foreach ($autoload['libraries'] as $item)
-			{
-				$this->library($item);
+			
+			/**
+			 * Load all other libraries with fixing issue #3733
+			 *
+			 * @url: https://github.com/bcit-ci/CodeIgniter/issues/3733
+			 * @author: Adam Liszkai <contact@liszkaiadam.hu>
+			 * @date: 2015.04.04 16:00
+			 *
+			 * previous snippet:
+			 *
+			 * foreach ($autoload['libraries'] as $item)
+			 * {
+		     *		$this->library($item);
+			 * }
+			 *
+			 */
+			foreach ($autoload['libraries'] as $item => $name)
+			{			    
+			    if(is_int($item))
+			    {
+				    $this->library($name);
+				}
+				else
+				{
+				    $this->library($item, NULL, $name);
+				}
 			}
 		}
 
