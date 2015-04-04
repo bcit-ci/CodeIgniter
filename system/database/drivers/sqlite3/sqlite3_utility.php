@@ -42,7 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * @category	Database
  * @author	Andrey Andreev
- * @link	http://codeigniter.com/user_guide/database/
+ * @link	http://codeigniter.com/userguide3/database/
  */
 class CI_DB_sqlite3_utility extends CI_DB_utility {
 

@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * @category	Database
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @link		http://codeigniter.com/userguide3/database/
  */
 class CI_DB_sqlsrv_result extends CI_DB_result {
 

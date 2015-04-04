@@ -46,7 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	UTF-8
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/utf8.html
+ * @link		http://codeigniter.com/userguide3/libraries/utf8.html
  */
 class CI_Utf8 {
 

@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Shopping Cart
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/cart.html
+ * @link		http://codeigniter.com/userguide3/libraries/cart.html
  * @deprecated	3.0.0	This class is too specific for CI.
  */
 class CI_Cart {

@@ -49,8 +49,8 @@ Open your application/config/config.php file and ADD these new items::
     | This item allows you to set the filename/classname prefix when extending
     | native libraries.  For more information please see the user guide:
     |
-    | http://codeigniter.com/user_guide/general/core_classes.html
-    | http://codeigniter.com/user_guide/general/creating_libraries.html
+    | http://codeigniter.com/userguide3/general/core_classes.html
+    | http://codeigniter.com/userguide3/general/creating_libraries.html
     |
     */
     $config['subclass_prefix'] = 'MY_';
