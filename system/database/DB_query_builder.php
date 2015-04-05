@@ -925,6 +925,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				? $this->_group_get_type('') : $this->_group_get_type($type);
 
 			$v = $this->escape_like_str($v);
+			
+			// lowercase $side for user habits to write in UPPERCASE
+			$side = strtlower($side);
 
 			if ($side === 'none')
 			{
