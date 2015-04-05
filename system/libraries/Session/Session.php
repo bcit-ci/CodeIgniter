@@ -700,8 +700,11 @@ class CI_Session {
 
 			return;
 		}
-
-		$_SESSION[$data] = $value;
+		
+		if(is_string($data) OR is_int($data))
+		{
+			$_SESSION[$data] = $value;
+		}
 	}
 
 	// ------------------------------------------------------------------------
@@ -720,13 +723,19 @@ class CI_Session {
 		{
 			foreach ($key as $k)
 			{
-				unset($_SESSION[$k]);
+				if(is_string($k) OR is_int($k))
+				{
+					unset($_SESSION[$k]);
+				}
 			}
 
 			return;
 		}
 
-		unset($_SESSION[$key]);
+		if(is_string($key) OR is_int($key))
+		{
+			unset($_SESSION[$key]);
+		}
 	}
 
 	// ------------------------------------------------------------------------
