@@ -737,8 +737,7 @@ class CI_Output {
 	/**
 	 * Delete cache
 	 *
-	 * @param	string	$uri	    URI string
-	 * @param       bool    $is_mobile  Whether to delete the mobile cache
+	 * @param	string	$uri  URI string
 	 * @return	bool
 	 */
 	public function delete_cache($uri = '')
