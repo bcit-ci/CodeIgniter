@@ -576,10 +576,10 @@ class CI_Output {
 			$uri .= '?'.$_SERVER['QUERY_STRING'];
 		}
         
-        if ($CI->config->item('separate_mobile_cache') && $this->user_agent->is_mobile)
-        {
-            $uri .= self::MOBILE_HASHTAG;
-        }
+		if ($CI->config->item('separate_mobile_cache') && $this->user_agent->is_mobile)
+		{
+			$uri .= self::MOBILE_HASHTAG;
+		}
 
 		$cache_path .= md5($uri);
 
