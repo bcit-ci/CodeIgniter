@@ -781,7 +781,7 @@ class CI_Output {
 			$mobile_uri = $uri . self::MOBILE_HASHTAG;
 			$mobile_cachepath .= md5($CI->config->item('base_url').$CI->config->item('index_page').$mobile_uri);
 			
-			if (file_exists($mobile_cache_path) && ! @unlink($mobile_cachepath))
+			if (file_exists($mobile_cachepath) && ! @unlink($mobile_cachepath))
 			{
 				log_message('error', 'Unable to delete mobile cache file for '.$uri);
 				$success = FALSE;
