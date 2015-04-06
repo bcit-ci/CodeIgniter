@@ -501,6 +501,16 @@ if ( ! is_php('5.4'))
 
 /*
  * ------------------------------------------------------
+ *  If separate mobile cache is enabled, then the 
+ *  CI_User_agent class has already been instantiated.
+ *  Automatically load it into the controller.
+ * ------------------------------------------------------
+ */
+	$CI->user_agent = $OUT->user_agent;
+
+
+/*
+ * ------------------------------------------------------
  *  Is there a "post_controller_constructor" hook?
  * ------------------------------------------------------
  */
