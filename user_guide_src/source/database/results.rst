@@ -102,7 +102,7 @@ You can also add a second String parameter, which is the name of a class
 to instantiate the row with::
 
 	$query = $this->db->query("SELECT * FROM users LIMIT 1;");
-	$query->row(0, 'User');
+	$row = $query->row(0, 'User');
 	
 	echo $row->name; // access attributes
 	echo $row->reverse_name(); // or methods defined on the 'User' class

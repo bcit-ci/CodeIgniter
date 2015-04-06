@@ -213,10 +213,6 @@ function &DB($params = '', $query_builder_override = NULL)
 		}
 	}
 
-	if ($DB->autoinit === TRUE)
-	{
-		$DB->initialize();
-	}
-
+	$DB->initialize();
 	return $DB;
 }

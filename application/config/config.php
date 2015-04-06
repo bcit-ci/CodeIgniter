@@ -37,17 +37,16 @@ $config['index_page'] = 'index.php';
 |--------------------------------------------------------------------------
 |
 | This item determines which server global should be used to retrieve the
-| URI string.  The default setting of 'AUTO' works for most servers.
+| URI string.  The default setting of 'REQUEST_URI' works for most servers.
 | If your links do not seem to work, try one of the other delicious flavors:
 |
-| 'AUTO'		Default - auto detects
-| 'CLI' or 'argv'	Uses $_SERVER['argv'] (for php-cli only)
-| 'PATH_INFO'		Uses $_SERVER['PATH_INFO']
-| 'REQUEST_URI'		Uses $_SERVER['REQUEST_URI']
-| 'QUERY_STRING'	Uses $_SERVER['QUERY_STRING']
+| 'REQUEST_URI'    Uses $_SERVER['REQUEST_URI']
+| 'QUERY_STRING'   Uses $_SERVER['QUERY_STRING']
+| 'PATH_INFO'      Uses $_SERVER['PATH_INFO']
 |
+| WARNING: If you set this to 'PATH_INFO', URIs will always be URL-decoded!
 */
-$config['uri_protocol']	= 'AUTO';
+$config['uri_protocol']	= 'REQUEST_URI';
 
 /*
 |--------------------------------------------------------------------------
@@ -204,7 +203,7 @@ $config['directory_trigger'] = 'd';
 |	3 = Informational Messages
 |	4 = All Messages
 |
-| You can also pass in a array with threshold levels to show individual error types
+| You can also pass an array with threshold levels to show individual error types
 |
 | 	array(2) = Debug Messages, without Error Messages
 |
@@ -331,6 +330,8 @@ $config['encryption_key'] = '';
 |	The location to save sessions to, driver dependant.
 |
 |	For the 'files' driver, it's a path to a writable directory.
+|	WARNING: Only absolute paths are supported!
+|
 |	For the 'database' driver, it's a table name.
 |	Please read up the manual for the format with other session drivers.
 |
@@ -404,6 +405,9 @@ $config['standardize_newlines'] = FALSE;
 |
 | Determines whether the XSS filter is always active when GET, POST or
 | COOKIE data is encountered
+|
+| WARNING: This feature is DEPRECATED and currently available only
+|          for backwards compatibility purposes!
 |
 */
 $config['global_xss_filtering'] = FALSE;

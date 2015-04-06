@@ -16,6 +16,11 @@ class Mock_Core_Security extends CI_Security {
 		return isset($this->{'_'.$property}) ? $this->{'_'.$property} : NULL;
 	}
 
+	public function remove_evil_attributes($str, $is_image)
+	{
+		return $this->_remove_evil_attributes($str, $is_image);
+	}
+
 	// Override inaccessible protected method
 	public function __call($method, $params)
 	{

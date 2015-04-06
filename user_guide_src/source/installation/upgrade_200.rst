@@ -64,8 +64,8 @@ string using the improved methods. This will enable you to easily
 replace stale encrypted data with fresh in your applications, either on
 the fly or en masse.
 
-Please read `how to use this
-method <../libraries/encrypt.html#legacy>`_ in the Encrypt library
+Please read :doc:`how to use this
+method <../libraries/encrypt>` in the Encrypt library
 documentation.
 
 Step 5: Remove loading calls for the compatibility helper.

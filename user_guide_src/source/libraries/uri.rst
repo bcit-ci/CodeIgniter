@@ -110,7 +110,7 @@ Class Reference
 		:returns:	Associative URI segments array
 		:rtype:	array
 
-		This method lets you turn URI segments into and associative array of
+		This method lets you turn URI segments into an associative array of
 		key/value pairs. Consider this URI::
 
 			index.php/user/search/name/joe/location/UK/gender/male

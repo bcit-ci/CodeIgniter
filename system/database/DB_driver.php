@@ -124,15 +124,6 @@ abstract class CI_DB_driver {
 	public $dbcollat		= 'utf8_general_ci';
 
 	/**
-	 * Auto-init flag
-	 *
-	 * Whether to automatically initialize the DB connection.
-	 *
-	 * @var	bool
-	 */
-	public $autoinit		= TRUE;
-
-	/**
 	 * Encryption flag/data
 	 *
 	 * @var	mixed

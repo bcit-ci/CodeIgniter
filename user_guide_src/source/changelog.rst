@@ -2,10 +2,24 @@
 Change Log
 ##########
 
-Version 3.0 (planned)
-=======================
+Version 3.0.1
+=============
 
 Release Date: Not Released
+
+-  Core
+
+   -  Added DoS mitigation to :php:func:`hash_pbkdf2()` :doc:`compatibility function <general/compatibility_functions>`.
+
+Bug fixes for 3.0.1
+-------------------
+
+-  Fixed a bug (#3733) - Autoloading of libraries with aliases didn't work, although it was advertised to.
+
+Version 3.0.0
+=============
+
+Release Date: March 30, 2015
 
 -  License
 
@@ -56,7 +70,7 @@ Release Date: Not Released
    -  Added availability checks where usage of dangerous functions like ``eval()`` and ``exec()`` is required.
    -  Added support for changing the file extension of log files using ``$config['log_file_extension']``.
    -  Added support for turning newline standardization on/off via ``$config['standardize_newlines']`` and set it to FALSE by default.
-   -  Added configuration setting ``$config['composer_autoload']`` to enable loading of a `Composer <https://getcomposer.org/>`_ auto-loader.
+   -  Added configuration setting ``$config['composer_autoload']`` to enable loading of a `Composer <https://getcomposer.org>`_ auto-loader.
    -  Removed the automatic conversion of 'programmatic characters' to HTML entities from the :doc:`URI Library <libraries/uri>`.
    -  Changed log messages that say a class or file was loaded to "info" level instead of "debug", so that they don't pollute log files when ``$config['log_threshold']`` is set to 2 (debug).
 
@@ -67,7 +81,7 @@ Release Date: Not Released
       - Added an optional third parameter to :php:func:`timespan()` that constrains the number of time units displayed.
       - Added an optional parameter to :php:func:`timezone_menu()` that allows more attributes to be added to the generated select tag.
       - Added function :php:func:`date_range()` that generates a list of dates between a specified period.
-      - Deprecated ``standard_date()``, which now just uses the native ``date()`` with `DateTime constants <http://www.php.net/manual/en/class.datetime.php#datetime.constants.types>`_.
+      - Deprecated ``standard_date()``, which now just uses the native ``date()`` with `DateTime constants <http://php.net/manual/en/class.datetime.php#datetime.constants.types>`_.
       - Changed :php:func:`now()` to work with all timezone strings supported by PHP.
       - Changed :php:func:`days_in_month()` to use the native ``cal_days_in_month()`` PHP function, if available.
 
@@ -155,6 +169,8 @@ Release Date: Not Released
    -  DEPRECATED the 'mysql', 'sqlite', 'mssql' and 'pdo/dblib' (also known as 'pdo/mssql' or 'pdo/sybase') drivers.
    -  Added **dsn** configuration setting for drivers that support DSN strings (PDO, PostgreSQL, Oracle, ODBC, CUBRID).
    -  Added **schema** configuration setting (defaults to *public*) for drivers that might need it (currently used by PostgreSQL and ODBC).
+   -  Added **save_queries** configuration setting to *application/config/database.php* (defaults to ``TRUE``).
+   -  Removed **autoinit** configuration setting as it doesn't make sense to instantiate the database class but not connect to the database.
    -  Added subdrivers support (currently only used by PDO).
    -  Added an optional database name parameter to ``db_select()``.
    -  Removed ``protect_identifiers()`` and renamed internal method ``_protect_identifiers()`` to it instead - it was just an alias.
@@ -173,7 +189,6 @@ Release Date: Not Released
    -  Added support for SQLite3 database driver.
    -  Added Interbase/Firebird database support via the *ibase* driver.
    -  Added ODBC support for ``create_database()``, ``drop_database()`` and ``drop_table()`` in :doc:`Database Forge <database/forge>`.
-   -  Added **save_queries** configuration setting to *application/config/database.php* (defaults to ``TRUE``).
    -  Added support to binding arrays as ``IN()`` sets in ``query()``.
 
    -  :doc:`Query Builder <database/query_builder>` changes include:
@@ -191,6 +206,7 @@ Release Date: Not Released
       - Methods ``insert_batch()`` and ``update_batch()`` now return an integer representing the number of rows affected by them.
       - Methods ``where()``, ``or_where()``, ``having()`` and ``or_having()`` now convert trailing  ``=`` and ``<>``,  ``!=`` SQL operators to ``IS NULL`` and ``IS NOT NULL`` respectively when the supplied comparison value is ``NULL``.
       - Added method chaining support to ``reset_query()``, ``start_cache()``, ``stop_cache()`` and ``flush_cache()``.
+      - Added an optional second parameter to ``count_all_results()`` to disable resetting of QB values.
 
    -  :doc:`Database Results <database/results>` changes include:
 
@@ -361,6 +377,7 @@ Release Date: Not Released
       -  Added support for custom error messages per field rule.
       -  Added support for callable rules when they are passed as an array.
       -  Added support for non-ASCII domains in **valid_email** rule, depending on the Intl extension.
+      -  Changed the debug message about an error message not being set to include the rule name it is about.
 
    -  :doc:`Caching Library <libraries/caching>` changes include:
 
@@ -459,7 +476,7 @@ Release Date: Not Released
       -  Renamed internal method ``_detect_uri()`` to ``_parse_request_uri()``.
       -  Changed ``_parse_request_uri()`` to accept absolute URIs for compatibility with HTTP/1.1 as per `RFC2616 <http://www.ietf.org/rfc/rfc2616.txt>`.
       -  Added protected method ``_parse_query_string()`` to URI paths in the the **QUERY_STRING** value, like ``_parse_request_uri()`` does.
-      -  Changed URI string detection logic to try the **PATH_INFO** variable first when auto-detecting.
+      -  Changed URI string detection logic to always default to **REQUEST_URI** unless configured otherwise or under CLI.
       -  Removed methods ``_remove_url_suffix()``, ``_explode_segments()`` and moved their logic into ``_set_uri_string()``.
       -  Removed method ``_fetch_uri_string()`` and moved its logic into the class constructor.
       -  Removed method ``_reindex_segments()``.
@@ -479,6 +496,7 @@ Release Date: Not Released
 
    -  :doc:`Input Library <libraries/input>` changes include:
 
+      -  Deprecated the ``$config['global_xss_filtering']`` setting.
       -  Added ``method()`` to retrieve ``$_SERVER['REQUEST_METHOD']``.
       -  Added support for arrays and network addresses (e.g. 192.168.1.1/24) for use with the *proxy_ips* setting.
       -  Added method ``input_stream()`` to aid in using **php://input** stream data such as one passed via PUT, DELETE and PATCH requests.
@@ -492,6 +510,7 @@ Release Date: Not Released
       -  Added an option for ``_clean_input_keys()`` to return FALSE instead of terminating the whole script.
       -  Deprecated the ``is_cli_request()`` method, it is now an alias for the new :php:func:`is_cli()` common function.
       -  Added an ``$xss_clean`` parameter to method ``user_agent()`` and removed the ``$user_agent`` property.
+      -  Added property ``$raw_input_stream`` to access **php://input** data.
 
    -  :doc:`Common functions <general/common_functions>` changes include:
 
@@ -507,7 +526,8 @@ Release Date: Not Released
       -  Changed internal function ``load_class()`` to accept a constructor parameter instead of (previously unused) class name prefix.
       -  Removed default parameter value of :php:func:`is_php()`.
       -  Added a second argument ``$double_encode`` to :php:func:`html_escape()`.
-      -  Changed function ``config_item()`` to return NULL instead of FALSE when no value is found.
+      -  Changed function :php:func:`config_item()` to return NULL instead of FALSE when no value is found.
+      -  Changed function :php:func:`set_status_header()` to return immediately when run under CLI.
 
    -  :doc:`Output Library <libraries/output>` changes include:
 
@@ -559,7 +579,7 @@ Release Date: Not Released
       -  Changed the library constructor to try to create the **log_path** directory if it doesn't exist.
       -  Added support for microseconds ("u" date format character) in ``$config['log_date_format']``.
 
-   -  Added `compatibility layers <general/compatibility_functions>` for:
+   -  Added :doc:`compatibility layers <general/compatibility_functions>` for:
 
       - `Multibyte String <http://php.net/mbstring>`_ (limited support).
       - `Hash <http://php.net/hash>`_ (``hash_equals()``, ``hash_pbkdf2()``).
@@ -573,7 +593,7 @@ Release Date: Not Released
 
 
 Bug fixes for 3.0
-------------------
+-----------------
 
 -  Fixed a bug where ``unlink()`` raised an error if cache file did not exist when you try to delete it.
 -  Fixed a bug (#181) - a typo in the form validation language file.
@@ -660,7 +680,6 @@ Bug fixes for 3.0
 -  Fixed a bug (#10) - :doc:`URI Library <libraries/uri>` internal method ``_detect_uri()`` failed with paths containing a colon.
 -  Fixed a bug (#1387) - :doc:`Query Builder <database/query_builder>` method ``from()`` didn't escape table aliases.
 -  Fixed a bug (#520) - :doc:`Date Helper <helpers/date_helper>` function :php:func:``nice_date()`` failed when the optional second parameter is not passed.
--  Fixed a bug (#167) - ``$config['permitted_uri_chars']`` didn't affect URL-encoded characters.
 -  Fixed a bug (#318) - :doc:`Profiling Library <general/profiling>` setting *query_toggle_count* was not settable as described in the manual.
 -  Fixed a bug (#938) - :doc:`Config Library <libraries/config>` method ``site_url()`` added a question mark to the URL string when query strings are enabled even if it already existed.
 -  Fixed a bug (#999) - :doc:`Config Library <libraries/config>` method ``site_url()`` always appended ``$config['url_suffix']`` to the end of the URL string, regardless of whether a query string exists in it.
@@ -705,7 +724,6 @@ Bug fixes for 3.0
 -  Fixed a bug (#50) - :doc:`Session Library <libraries/sessions>` unnecessarily stripped slashed from serialized data, making it impossible to read objects in a namespace.
 -  Fixed a bug (#658) - :doc:`Routing <general/routing>` wildcard **:any** didn't work as advertised and matched multiple URI segments instead of all characters within a single segment.
 -  Fixed a bug (#1938) - :doc:`Email Library <libraries/email>` removed multiple spaces inside a pre-formatted plain text message.
--  Fixed a bug (#388, #705) - :doc:`URI Library <libraries/uri>` didn't apply URL-decoding to URI segments that it got from **REQUEST_URI** and/or **QUERY_STRING**.
 -  Fixed a bug (#122) - :doc:`URI Library <libraries/uri>` method ``ruri_string()`` didn't include a directory if one is used.
 -  Fixed a bug - :doc:`Routing Library <general/routing>` didn't properly handle *default_controller* in a subdirectory when a method is also specified.
 -  Fixed a bug (#953) - :doc:`post_controller_constructor hook <general/hooks>` wasn't called with a *404_override*.
@@ -768,6 +786,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#3161) - :doc:`Cache Library <libraries/caching>` methods `increment()`, `decrement()` didn't auto-create non-existent items when using redis and/or file storage.
 -  Fixed a bug (#3189) - :doc:`Parser Library <libraries/parser>` used double replacement on ``key->value`` pairs, exposing a potential template injection vulnerability.
 -  Fixed a bug (#3573) - :doc:`Email Library <libraries/email>` violated `RFC5321 <https://tools.ietf.org/rfc/rfc5321.txt>`_ by sending 'localhost.localdomain' as a hostname.
+-  Fixed a bug (#3572) - ``CI_Security::_remove_evil_attributes()`` failed for large-sized inputs due to *pcre.backtrack_limit* and didn't properly match HTML tags.
 
 Version 2.2.1
 =============
@@ -1132,12 +1151,8 @@ Bug fixes for 2.0.2
    class <libraries/input>`.
 -  Added form_validation_lang entries for decimal, less_than and
    greater_than.
--  `Fixed issue
-   #153 <https://bitbucket.org/ellislab/codeigniter-reactor/issue/153/escape-str-bug-in-mssql-driver>`_
-   Escape Str Bug in MSSQL driver.
--  `Fixed issue
-   #172 <https://bitbucket.org/ellislab/codeigniter-reactor/issue/172/bug-in-chrome-and-form_open-in-201>`_
-   Google Chrome 11 posts incorrectly when action is empty.
+-  Fixed issue #153 Escape Str Bug in MSSQL driver.
+-  Fixed issue #172 Google Chrome 11 posts incorrectly when action is empty.
 
 Version 2.0.1
 =============
@@ -1230,8 +1245,7 @@ Hg Tag: v2.0.0
       libraries, models, config files, etc. in a single "package"
       directory. See the :doc:`Loader class <libraries/loader>`
       documentation for more details.
-   -  In-development code is now hosted at
-      `BitBucket <http://bitbucket.org/ellislab/codeigniter-reactor/>`_.
+   -  In-development code is now hosted at BitBucket .
    -  Removed the deprecated Validation Class.
    -  Added CI\_ Prefix to all core classes.
    -  Package paths can now be set in application/config/autoload.php.
@@ -1373,7 +1387,7 @@ Hg Tag: v2.0.0
       precision.
    -  Added alpha, and sha1 string types to random_string() in the
       :doc:`String Helper <helpers/string_helper>`.
-   -  Modified prep_url() so as to not prepend http:// if the supplied
+   -  Modified prep_url() so as to not prepend http&#58;// if the supplied
       string already has a scheme.
    -  Modified get_file_info in the file helper, changing filectime()
       to filemtime() for dates.
@@ -2113,7 +2127,7 @@ Bugfixes for 1.6.2
    instantiating new Language and Exception objects, and not using the
    error heading.
 -  Fixed a bug (#4413) where a URI containing slashes only e.g.
-   'http://example.com/index.php?//' would result in PHP errors
+   'http&#58;//example.com/index.php?//' would result in PHP errors
 -  Fixed an array to string conversion error in the Validation library
    (#4425)
 -  Fixed bug (#4451, #4299, #4339) where failed transactions will not
@@ -2765,8 +2779,7 @@ Release Date: September 17, 2006
    the core files.
 -  Added the ability to organize controller files :doc:`into
    sub-folders <general/controllers>`. Kudos to Marco for
-   `suggesting <http://codeigniter.com/forums/viewthread/627/>`_ this
-   (and the next two) feature.
+   suggesting this (and the next two) feature.
 -  Added regular expressions support for :doc:`routing
    rules <./general/routing>`.
 -  Added the ability to :doc:`remap function

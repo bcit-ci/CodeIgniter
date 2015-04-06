@@ -405,7 +405,7 @@ class CI_Email {
 	 * @param	array	$config = array()
 	 * @return	void
 	 */
-	public function __construct($config = array())
+	public function __construct(array $config = array())
 	{
 		$this->charset = config_item('charset');
 

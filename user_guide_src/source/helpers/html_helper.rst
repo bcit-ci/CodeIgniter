@@ -29,7 +29,7 @@ The following functions are available:
 
 	:param	string	$data: Content
 	:param	string	$h: Heading level
-	:param	array	$attributes: HTML attributes
+	:param	mixed	$attributes: HTML attributes
 	:returns:	HTML heading tag
 	:rtype:	string
 
@@ -41,15 +41,18 @@ The following functions are available:
 	The above would produce: <h3>Welcome!</h3>
 
 	Additionally, in order to add attributes to the heading tag such as HTML
-	classes, ids or inline styles, a third parameter is available::
+	classes, ids or inline styles, a third parameter accepts either a string
+	or an array::
 
-		echo heading('Welcome!', 3, 'class="pink"')
+		echo heading('Welcome!', 3, 'class="pink"');
+		echo heading('How are you?', 4, array('id' => 'question', 'class' => 'green'));
 
 	The above code produces:
 
 	.. code-block:: html
 
 		<h3 class="pink">Welcome!<h3>
+		<h4 id="question" class="green">How are you?</h4>
 
 .. php:function:: img([$src = ''[, $index_page = FALSE[, $attributes = '']]])
 

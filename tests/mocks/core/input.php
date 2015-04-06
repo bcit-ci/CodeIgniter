@@ -38,4 +38,12 @@ class Mock_Core_Input extends CI_Input {
 		return FALSE;
 	}
 
+	public function __set($name, $value)
+	{
+		if ($name === 'ip_address')
+		{
+			$this->ip_address = $value;
+		}
+	}
+
 }

@@ -50,7 +50,7 @@ The following functions are available:
 	:returns:	MySQL-formatted date
 	:rtype:	string
 
-	This function is identical to PHP's `date() <http://www.php.net/date>`_
+	This function is identical to PHP's `date() <http://php.net/manual/en/function.date.php>`_
 	function, except that it lets you use MySQL style date codes, where each
 	code letter is preceded with a percent sign, e.g. `%Y %m %d`
 
@@ -84,7 +84,7 @@ The following functions are available:
 
 	.. note:: This function is DEPRECATED. Use the native ``date()`` combined with
 		`DateTime's format constants
-		<http://www.php.net/manual/en/class.datetime.php#datetime.constants.types>`_
+		<http://php.net/manual/en/class.datetime.php#datetime.constants.types>`_
 		instead::
 
 			echo date(DATE_RFC822, time());

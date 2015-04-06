@@ -227,7 +227,7 @@ Execute a DROP TABLE statement and optionally add an IF EXISTS clause.
 	$this->dbforge->drop_table('table_name');
 
 	// Produces: DROP TABLE IF EXISTS table_name
-	$this->dbforge->drop_table('table_name');
+	$this->dbforge->drop_table('table_name',TRUE);
 
 
 Renaming a table

@@ -925,6 +925,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				? $this->_group_get_type('') : $this->_group_get_type($type);
 
 			$v = $this->escape_like_str($v);
+			
+			// lowercase $side for in case of UPPERCASE string
+			$side = strtolower($side);
 
 			if ($side === 'none')
 			{
@@ -1353,9 +1356,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * returned by an Query Builder query.
 	 *
 	 * @param	string
+	 * @param	bool	the reset clause
 	 * @return	int
 	 */
-	public function count_all_results($table = '')
+	public function count_all_results($table = '', $reset = TRUE)
 	{
 		if ($table !== '')
 		{
@@ -1366,7 +1370,11 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		$result = ($this->qb_distinct === TRUE)
 			? $this->query($this->_count_string.$this->protect_identifiers('numrows')."\nFROM (\n".$this->_compile_select()."\n) CI_count_all_results")
 			: $this->query($this->_compile_select($this->_count_string.$this->protect_identifiers('numrows')));
-		$this->_reset_select();
+
+		if ($reset === TRUE)
+		{
+			$this->_reset_select();
+		}
 
 		if ($result->num_rows() === 0)
 		{

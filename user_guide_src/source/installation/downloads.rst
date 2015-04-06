@@ -2,14 +2,14 @@
 Downloading CodeIgniter
 #######################
 
--  `CodeIgniter v3.0.0 (Current version) <https://github.com/bcit-ci/CodeIgniter/archive/develop.zip>`_
--  `CodeIgniter v2.2.1 <https://github.com/bcit-ci/CodeIgniter/archive/2.2.1.zip>`_
--  `CodeIgniter v2.2.0 <https://github.com/bcit-ci/CodeIgniter/archive/2.2.0.zip>`_
--  `CodeIgniter v2.1.4 <https://github.com/bcit-ci/CodeIgniter/archive/2.1.4.zip>`_
--  `CodeIgniter v2.1.3 <https://github.com/bcit-ci/CodeIgniter/archive/2.1.3.zip>`_
--  `CodeIgniter v2.1.2 <https://github.com/bcit-ci/CodeIgniter/archive/2.1.2.zip>`_
--  `CodeIgniter v2.1.1 <https://github.com/bcit-ci/CodeIgniter/archive/2.1.1.zip>`_
--  `CodeIgniter v2.1.0 <https://github.com/bcit-ci/CodeIgniter/archive/v2.1.0.zip>`_
+-  `CodeIgniter v3.0.0 (Current version) <https://codeload.github.com/bcit-ci/CodeIgniter/zip/develop>`_
+-  `CodeIgniter v2.2.1 <https://codeload.github.com/bcit-ci/CodeIgniter/zip/2.2.1>`_
+-  `CodeIgniter v2.2.0 <https://codeload.github.com/bcit-ci/CodeIgniter/zip/2.2.0>`_
+-  `CodeIgniter v2.1.4 <https://codeload.github.com/bcit-ci/CodeIgniter/zip/2.1.4>`_
+-  `CodeIgniter v2.1.3 <https://codeload.github.com/bcit-ci/CodeIgniter/zip/2.1.3>`_
+-  `CodeIgniter v2.1.2 <https://codeload.github.com/bcit-ci/CodeIgniter/zip/2.1.2>`_
+-  `CodeIgniter v2.1.1 <https://codeload.github.com/bcit-ci/CodeIgniter/zip/2.1.1>`_
+-  `CodeIgniter v2.1.0 <https://codeload.github.com/bcit-ci/CodeIgniter/zip/v2.1.0>`_
 
 ******
 GitHub

@@ -76,7 +76,7 @@ The following functions are available:
 
 		write_file('./path/to/file.php', $data, 'r+');
 
-	The default mode is 'wb'. Please see the `PHP user guide <http://php.net/fopen>`_
+	The default mode is 'wb'. Please see the `PHP user guide <http://php.net/manual/en/function.fopen.php>`_
 	for mode options.
 
 	.. note: In order for this function to write data to a file, its permissions must

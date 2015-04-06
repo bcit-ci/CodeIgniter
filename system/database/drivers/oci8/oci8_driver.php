@@ -243,10 +243,6 @@ class CI_DB_oci8_driver extends CI_DB {
 		{
 			return $this->data_cache['version'];
 		}
-		elseif ( ! $this->conn_id)
-		{
-			$this->initialize();
-		}
 
 		if ( ! $this->conn_id OR ($version = oci_server_version($this->conn_id)) === FALSE)
 		{

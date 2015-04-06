@@ -223,7 +223,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 			$CI =& get_instance();
 			if ($CI->input->method() === 'post')
 			{
-				$data = http_build_query($CI->input->input_stream(NULL, FALSE));
+				$data = $CI->input->raw_input_stream;
 			}
 		}
 
@@ -233,14 +233,15 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 
 		$parser = xml_parser_create($this->xmlrpc_defencoding);
 		$parser_object = new XML_RPC_Message('filler');
+		$pname = (string) $parser;
 
-		$parser_object->xh[$parser] = array(
-			'isf' =>	0,
-			'isf_reason' =>	'',
-			'params' =>	array(),
-			'stack' =>	array(),
-			'valuestack' =>	array(),
-			'method' =>	''
+		$parser_object->xh[$pname] = array(
+			'isf' => 0,
+			'isf_reason' => '',
+			'params' => array(),
+			'stack' => array(),
+			'valuestack' => array(),
+			'method' => ''
 		);
 
 		xml_set_object($parser, $parser_object);
@@ -263,7 +264,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 				xml_get_current_line_number($parser)));
 			xml_parser_free($parser);
 		}
-		elseif ($parser_object->xh[$parser]['isf'])
+		elseif ($parser_object->xh[$pname]['isf'])
 		{
 			return new XML_RPC_Response(0, $this->xmlrpcerr['invalid_return'], $this->xmlrpcstr['invalid_return']);
 		}
@@ -271,17 +272,17 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 		{
 			xml_parser_free($parser);
 
-			$m = new XML_RPC_Message($parser_object->xh[$parser]['method']);
+			$m = new XML_RPC_Message($parser_object->xh[$pname]['method']);
 			$plist = '';
 
-			for ($i = 0, $c = count($parser_object->xh[$parser]['params']); $i < $c; $i++)
+			for ($i = 0, $c = count($parser_object->xh[$pname]['params']); $i < $c; $i++)
 			{
 				if ($this->debug === TRUE)
 				{
-					$plist .= $i.' - '.print_r(get_object_vars($parser_object->xh[$parser]['params'][$i]), TRUE).";\n";
+					$plist .= $i.' - '.print_r(get_object_vars($parser_object->xh[$pname]['params'][$i]), TRUE).";\n";
 				}
 
-				$m->addParam($parser_object->xh[$parser]['params'][$i]);
+				$m->addParam($parser_object->xh[$pname]['params'][$i]);
 			}
 
 			if ($this->debug === TRUE)

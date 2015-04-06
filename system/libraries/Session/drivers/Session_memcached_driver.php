@@ -204,7 +204,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 
 		if (isset($this->_lock_key))
 		{
-			$this->_memcached->replace($this->_lock_key, time(), 5);
+			$this->_memcached->replace($this->_lock_key, time(), 300);
 			if ($this->_fingerprint !== ($fingerprint = md5($session_data)))
 			{
 				if ($this->_memcached->set($this->_key_prefix.$session_id, $session_data, $this->_config['expiration']))
@@ -299,34 +299,21 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 	{
 		if (isset($this->_lock_key))
 		{
-			return $this->_memcached->replace($this->_lock_key, time(), 5);
+			return $this->_memcached->replace($this->_lock_key, time(), 300);
 		}
 
+		// 30 attempts to obtain a lock, in case another request already has it
 		$lock_key = $this->_key_prefix.$session_id.':lock';
-		if ( ! ($ts = $this->_memcached->get($lock_key)))
-		{
-			if ( ! $this->_memcached->set($lock_key, TRUE, 5))
-			{
-				log_message('error', 'Session: Error while trying to obtain lock for '.$this->_key_prefix.$session_id);
-				return FALSE;
-			}
-
-			$this->_lock_key = $lock_key;
-			$this->_lock = TRUE;
-			return TRUE;
-		}
-
-		// Another process has the lock, we'll try to wait for it to free itself ...
 		$attempt = 0;
-		while ($attempt++ < 5)
+		do
 		{
-			usleep(((time() - $ts) * 1000000) - 20000);
-			if (($ts = $this->_memcached->get($lock_key)) < time())
+			if ($this->_memcached->get($lock_key))
 			{
+				sleep(1);
 				continue;
 			}
 
-			if ( ! $this->_memcached->set($lock_key, time(), 5))
+			if ( ! $this->_memcached->set($lock_key, time(), 300))
 			{
 				log_message('error', 'Session: Error while trying to obtain lock for '.$this->_key_prefix.$session_id);
 				return FALSE;
@@ -335,10 +322,11 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 			$this->_lock_key = $lock_key;
 			break;
 		}
+		while ($attempt++ < 30);
 
-		if ($attempt === 5)
+		if ($attempt === 30)
 		{
-			log_message('error', 'Session: Unable to obtain lock for '.$this->_key_prefix.$session_id.' after 5 attempts, aborting.');
+			log_message('error', 'Session: Unable to obtain lock for '.$this->_key_prefix.$session_id.' after 30 attempts, aborting.');
 			return FALSE;
 		}
 
@@ -361,7 +349,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 		{
 			if ( ! $this->_memcached->delete($this->_lock_key) && $this->_memcached->getResultCode() !== Memcached::RES_NOTFOUND)
 			{
-				log_message('error', 'Session: Error while trying to free lock for '.$this->_key_prefix.$session_id);
+				log_message('error', 'Session: Error while trying to free lock for '.$this->_lock_key);
 				return FALSE;
 			}
 

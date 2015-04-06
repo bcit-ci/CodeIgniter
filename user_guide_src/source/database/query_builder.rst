@@ -520,12 +520,18 @@ The second parameter lets you set a result offset.
 
 Permits you to determine the number of rows in a particular Active
 Record query. Queries will accept Query Builder restrictors such as
-where(), or_where(), like(), or_like(), etc. Example::
+``where()``, ``or_where()``, ``like()``, ``or_like()``, etc. Example::
 
 	echo $this->db->count_all_results('my_table');  // Produces an integer, like 25
 	$this->db->like('title', 'match');
 	$this->db->from('my_table');
 	echo $this->db->count_all_results(); // Produces an integer, like 17
+
+However, this method also resets any field values that you may have passed
+to ``select()``. If you need to keep them, you can pass ``FALSE`` as the
+second parameter::
+
+	echo $this->db->count_all_results('my_table', FALSE);
 
 **$this->db->count_all()**
 
@@ -1091,9 +1097,10 @@ Class Reference
 
 		Prepends a database prefix, if one exists in configuration.
 
-	.. php:method:: count_all_results([$table = ''])
+	.. php:method:: count_all_results([$table = '', [$reset = TRUE]])
 
 		:param	string	$table: Table name
+		:param	bool	$reset: Whether to reset values for SELECTs
 		:returns:	Number of rows in the query result
 		:rtype:	int
 
@@ -1221,7 +1228,7 @@ Class Reference
 
 		:param	string	$key: The field to search
 		:param	array	$values: The values searched on
-		:param	boolean	$escape: Whether to escape values and identifiers
+		:param	boolean	$escape: Whether to escape identifiers
 		:returns:	DB_query_builder instance
 		:rtype:	object
 
@@ -1232,7 +1239,7 @@ Class Reference
 
 		:param	string	$key: The field to search
 		:param	array	$values: The values searched on
-		:param	boolean	$escape: Whether to escape values and identifiers
+		:param	boolean	$escape: Whether to escape identifiers
 		:returns:	DB_query_builder instance
 		:rtype:	object
 
@@ -1243,7 +1250,7 @@ Class Reference
 
 		:param	string	$key: Name of field to examine
 		:param	array	$values: Array of target values
-		:param	boolean	$escape: Whether to escape values and identifiers
+		:param	boolean	$escape: Whether to escape identifiers
 		:returns:	DB_query_builder instance
 		:rtype:	object
 
@@ -1254,7 +1261,7 @@ Class Reference
 
 		:param	string	$key: Name of field to examine
 		:param	array	$values: Array of target values
-		:param	boolean	$escape: Whether to escape values and identifiers
+		:param	boolean	$escape: Whether to escape identifiers
 		:returns:	DB_query_builder instance
 		:rtype:	object
 

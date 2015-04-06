@@ -831,7 +831,7 @@ class CI_Form_validation {
 						// DEPRECATED support for non-prefixed keys
 						&& FALSE === ($line = $this->CI->lang->line($rule, FALSE)))
 					{
-						$line = $this->CI->lang->line('form_validation_error_message_not_set');
+						$line = $this->CI->lang->line('form_validation_error_message_not_set').'('.$rule.')';
 					}
 				}
 				else
@@ -1151,9 +1151,7 @@ class CI_Form_validation {
 			return FALSE;
 		}
 
-		return (MB_ENABLED === TRUE)
-			? ($val <= mb_strlen($str))
-			: ($val <= strlen($str));
+		return ($val <= mb_strlen($str));
 	}
 
 	// --------------------------------------------------------------------
@@ -1172,9 +1170,7 @@ class CI_Form_validation {
 			return FALSE;
 		}
 
-		return (MB_ENABLED === TRUE)
-			? ($val >= mb_strlen($str))
-			: ($val >= strlen($str));
+		return ($val >= mb_strlen($str));
 	}
 
 	// --------------------------------------------------------------------
@@ -1193,9 +1189,7 @@ class CI_Form_validation {
 			return FALSE;
 		}
 
-		return (MB_ENABLED === TRUE)
-			? (mb_strlen($str) === (int) $val)
-			: (strlen($str) === (int) $val);
+		return (mb_strlen($str) === (int) $val);
 	}
 
 	// --------------------------------------------------------------------

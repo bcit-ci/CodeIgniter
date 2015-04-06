@@ -18,7 +18,7 @@ database or other data stores. They represent your data.
 Open up the application/models directory and create a new file called
 News_model.php and add the following code. Make sure you've configured
 your database properly as described
-`here <../database/configuration.html>`_.
+:doc:`here <../database/configuration>`.
 
 ::
 
@@ -53,10 +53,10 @@ seed records.
 
 Now that the database and a model have been set up, you'll need a method
 to get all of our posts from our database. To do this, the database
-abstraction layer that is included with CodeIgniter — `Active
-Record <../database/query_builder.html>`_ — is used. This makes it
-possible to write your 'queries' once and make them work on `all
-supported database systems <../general/requirements.html>`_. Add the
+abstraction layer that is included with CodeIgniter — 
+:doc:`Query Builder <../database/query_builder>` — is used. This makes it
+possible to write your 'queries' once and make them work on :doc:`all
+supported database systems <../general/requirements>`. Add the
 following code to your model.
 
 ::
@@ -151,14 +151,14 @@ and add the next piece of code.
 		<div class="main">
 			<?php echo $news_item['text'] ?>
 		</div>
-		<p><a href="news/<?php echo $news_item['slug'] ?>">View article</a></p>
+		<p><a href="<?php echo $news_item['slug'] ?>">View article</a></p>
 
 	<?php endforeach ?>
 
 Here, each news item is looped and displayed to the user. You can see we
 wrote our template in PHP mixed with HTML. If you prefer to use a
-template language, you can use CodeIgniter's `Template
-Parser <../libraries/parser>`_ class or a third party parser.
+template language, you can use CodeIgniter's :doc:`Template
+Parser <../libraries/parser>` class or a third party parser.
 
 The news overview page is now done, but a page to display individual
 news items is still absent. The model created earlier is made in such
