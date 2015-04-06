@@ -121,7 +121,22 @@ class CI_Output {
 	 * @var	bool
 	 */
 	public $parse_exec_vars = TRUE;
-
+    
+    /**
+     * User agent information class
+     * 
+     * Used to determine whether the request is from a mobile device, if separate mobile
+     * caching is enabled
+     * 
+     * @var CI_User_agent
+     */
+    private $user_agent;
+    
+    /**
+     * The hashtag appended to a URI to indicate it is mobile (for separate mobile caching, if enabled)
+     */
+    const MOBILE_HASHTAG = "#mobile";
+    
 	/**
 	 * Class constructor
 	 *
@@ -560,6 +575,11 @@ class CI_Output {
 		{
 			$uri .= '?'.$_SERVER['QUERY_STRING'];
 		}
+        
+        if ($CI->config->item('separate_mobile_cache') && $this->user_agent->is_mobile)
+        {
+            $uri .= self::MOBILE_HASHTAG;
+        }
 
 		$cache_path .= md5($uri);
 
@@ -650,6 +670,16 @@ class CI_Output {
 		{
 			$uri .= '?'.$_SERVER['QUERY_STRING'];
 		}
+        
+        if ($CFG->item('separate_mobile_cache'))
+        {
+            require_once(BASEPATH.'libraries/User_agent.php');
+            $this->user_agent = new CI_User_agent();
+            if ($this->user_agent->is_mobile)
+            {
+                $uri .= self::MOBILE_HASHTAG;
+            }
+        }
 
 		$filepath = $cache_path.md5($uri);
 
@@ -710,7 +740,7 @@ class CI_Output {
 	 * @param	string	$uri	URI string
 	 * @return	bool
 	 */
-	public function delete_cache($uri = '')
+	public function delete_cache($uri = '', $is_mobile = false)
 	{
 		$CI =& get_instance();
 		$cache_path = $CI->config->item('cache_path');
@@ -733,8 +763,17 @@ class CI_Output {
 			{
 				$uri .= '?'.$_SERVER['QUERY_STRING'];
 			}
+            
+            if ($CI->config->item('separate_mobile_cache') && $this->user_agent->is_mobile)
+            {
+                $uri .= self::MOBILE_HASHTAG;
+            }
 		}
-
+        else if ($is_mobile)
+        {
+            $uri .= self::MOBILE_HASHTAG;
+        }
+        
 		$cache_path .= md5($CI->config->item('base_url').$CI->config->item('index_page').$uri);
 
 		if ( ! @unlink($cache_path))
