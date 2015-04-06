@@ -296,6 +296,18 @@ $config['cache_query_string'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
+| Separate Mobile Cache
+|--------------------------------------------------------------------------
+|
+| Set this to TRUE if you want to use different cache files for mobile 
+| visitors.  Please be aware that this will result in twice as many cache 
+| files.
+|
+*/
+$config['separate_mobile_cache'] = FALSE;
+
+/*
+|--------------------------------------------------------------------------
 | Encryption Key
 |--------------------------------------------------------------------------
 |
