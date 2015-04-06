@@ -121,7 +121,22 @@ class CI_Output {
 	 * @var	bool
 	 */
 	public $parse_exec_vars = TRUE;
-
+    
+	/**
+	 * User agent information class
+	 * 
+	 * Used to determine whether the request is from a mobile device, if separate mobile
+	 * caching is enabled
+	 * 
+	 * @var CI_User_agent
+	 */
+	 public $user_agent;
+    	
+	 /**
+	 * The hashtag appended to a URI to indicate it is mobile (for separate mobile caching, if enabled)
+	 */
+	 const MOBILE_HASHTAG = "#mobile";
+    
 	/**
 	 * Class constructor
 	 *
@@ -560,6 +575,11 @@ class CI_Output {
 		{
 			$uri .= '?'.$_SERVER['QUERY_STRING'];
 		}
+        
+		if ($CI->config->item('separate_mobile_cache') && $this->user_agent->is_mobile)
+		{
+			$uri .= self::MOBILE_HASHTAG;
+		}
 
 		$cache_path .= md5($uri);
 
@@ -650,6 +670,16 @@ class CI_Output {
 		{
 			$uri .= '?'.$_SERVER['QUERY_STRING'];
 		}
+        
+		if ($CFG->item('separate_mobile_cache'))
+		{
+			require_once(BASEPATH.'libraries/User_agent.php');
+			$this->user_agent = new CI_User_agent();
+			if ($this->user_agent->is_mobile)
+			{
+				$uri .= self::MOBILE_HASHTAG;
+			}
+		}
 
 		$filepath = $cache_path.md5($uri);
 
@@ -734,16 +764,31 @@ class CI_Output {
 				$uri .= '?'.$_SERVER['QUERY_STRING'];
 			}
 		}
-
+        	
+        	// If separate mobile cache is enabled, remember the cache path for mobile as well
+        	$mobile_cachepath = $cache_path;
 		$cache_path .= md5($CI->config->item('base_url').$CI->config->item('index_page').$uri);
-
-		if ( ! @unlink($cache_path))
+		
+		$success = TRUE;
+		if (file_exists($cache_path) && ! @unlink($cache_path))
 		{
-			log_message('error', 'Unable to delete cache file for '.$uri);
-			return FALSE;
+			log_message('error', 'Unable to delete standard cache file for '.$uri);
+			$success = FALSE;
 		}
-
-		return TRUE;
+		
+		if ($CI->config->item('separate_mobile_cache'))
+		{
+			$mobile_uri = $uri . self::MOBILE_HASHTAG;
+			$mobile_cachepath .= md5($CI->config->item('base_url').$CI->config->item('index_page').$mobile_uri);
+			
+			if (file_exists($mobile_cachepath) && ! @unlink($mobile_cachepath))
+			{
+				log_message('error', 'Unable to delete mobile cache file for '.$uri);
+				$success = FALSE;
+			}
+		}
+		
+		return $success;
 	}
 
 	// --------------------------------------------------------------------

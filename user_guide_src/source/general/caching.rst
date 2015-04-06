@@ -69,3 +69,10 @@ method::
 
 	// Deletes cache for /foo/bar
 	$this->output->delete_cache('/foo/bar');
+
+Separate Mobile Cache
+=====================
+
+If you wish to serve files from a separate cache for mobile visitors, you can 
+set the *separate_mobile_cache* parameter in *application/config/config.php* 
+to TRUE.  Please note that this may produce up to twice as many cache files.
