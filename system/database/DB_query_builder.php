@@ -918,6 +918,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		is_bool($escape) OR $escape = $this->_protect_identifiers;
+		// lowercase $side in case somebody writes e.g. 'BEFORE' instead of 'before' (doh)
+		$side = strtolower($side);
 
 		foreach ($field as $k => $v)
 		{
@@ -925,9 +927,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				? $this->_group_get_type('') : $this->_group_get_type($type);
 
 			$v = $this->escape_like_str($v);
-			
-			// lowercase $side for in case of UPPERCASE string
-			$side = strtolower($side);
 
 			if ($side === 'none')
 			{
