@@ -737,7 +737,7 @@ class CI_Output {
 	/**
 	 * Delete cache
 	 *
-	 * @param	string	$uri  URI string
+	 * @param	string	$uri	URI string
 	 * @return	bool
 	 */
 	public function delete_cache($uri = '')
