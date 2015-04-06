@@ -305,7 +305,7 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function server($index, $xss_clean = NULL)
+	public function server($index = NULL, $xss_clean = NULL)
 	{
 		return $this->_fetch_from_array($_SERVER, $index, $xss_clean);
 	}
