@@ -122,20 +122,20 @@ class CI_Output {
 	 */
 	public $parse_exec_vars = TRUE;
     
-    /**
-     * User agent information class
-     * 
-     * Used to determine whether the request is from a mobile device, if separate mobile
-     * caching is enabled
-     * 
-     * @var CI_User_agent
-     */
-    private $user_agent;
-    
-    /**
-     * The hashtag appended to a URI to indicate it is mobile (for separate mobile caching, if enabled)
-     */
-    const MOBILE_HASHTAG = "#mobile";
+	/**
+	 * User agent information class
+	 * 
+	 * Used to determine whether the request is from a mobile device, if separate mobile
+	 * caching is enabled
+	 * 
+	 * @var CI_User_agent
+	 */
+	 public $user_agent;
+    	
+	 /**
+	 * The hashtag appended to a URI to indicate it is mobile (for separate mobile caching, if enabled)
+	 */
+	 const MOBILE_HASHTAG = "#mobile";
     
 	/**
 	 * Class constructor
