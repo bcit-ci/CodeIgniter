@@ -302,7 +302,11 @@ class CI_Cache_redis extends CI_Driver
 
 		if (isset($config['password']))
 		{
-			$this->_redis->auth($config['password']);
+			if ( ! $this->_redis->auth($config['password']))
+			{
+				log_message('debug', 'Cache: Redis authentication failed.');
+				return FALSE;
+			}
 		}
 
 		// Initialize the index of serialized values.
