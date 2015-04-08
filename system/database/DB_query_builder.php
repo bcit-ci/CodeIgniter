@@ -2255,7 +2255,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			else
 			{
 				// Cycle through the "select" portion of the query and prep each column name.
-				// The reason we protect identifiers here rather then in the select() function
+				// The reason we protect identifiers here rather than in the select() function
 				// is because until the user calls the from() function we don't know if there are aliases
 				foreach ($this->qb_select as $key => $val)
 				{
