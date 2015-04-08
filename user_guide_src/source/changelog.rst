@@ -417,6 +417,7 @@ Release Date: Not Released
 
       -  Added support for timestamp-based migrations (enabled by default).
       -  Added ``$config['migration_type']`` to allow switching between *sequential* and *timestamp* migrations.
+      -  Load Migrations On Demand.
 
    -  :doc:`XML-RPC Library <libraries/xmlrpc>` changes include:
 
