@@ -154,11 +154,12 @@ class CI_Log {
 	 *
 	 * Generally this function will be called using the global log_message() function
 	 *
-	 * @param	string	the error level: 'error', 'debug' or 'info'
-	 * @param	string	the error message
+	 * @param	string	$level  the error level: 'error', 'debug' or 'info'
+	 * @param	string	$msg  the error message
+	 * @param	string	$file_name  log file name
 	 * @return	bool
 	 */
-	public function write_log($level, $msg)
+	public function write_log($level, $msg, $file_name = null)
 	{
 		if ($this->_enabled === FALSE)
 		{
@@ -173,7 +174,12 @@ class CI_Log {
 			return FALSE;
 		}
 
-		$filepath = $this->_log_path.'log-'.date('Y-m-d').'.'.$this->_file_ext;
+        if(empty($file_name) || !is_string($file_name))
+        {
+            $file_name = 'log-';
+        }
+
+		$filepath = $this->_log_path.$file_name.date('Y-m-d').'.'.$this->_file_ext;
 		$message = '';
 
 		if ( ! file_exists($filepath))
