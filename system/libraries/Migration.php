@@ -244,16 +244,6 @@ class CI_Migration {
 				return FALSE;
 			}
 
-			include_once($file);
-			$class = 'Migration_'.ucfirst(strtolower($this->_get_migration_name(basename($file, '.php'))));
-
-			// Validate the migration file structure
-			if ( ! class_exists($class, FALSE))
-			{
-				$this->_error_string = sprintf($this->lang->line('migration_class_doesnt_exist'), $class);
-				return FALSE;
-			}
-
 			$previous = $number;
 
 			// Run migrations that are inside the target range
@@ -262,6 +252,16 @@ class CI_Migration {
 				($method === 'down' && $number <= $current_version && $number > $target_version)
 			)
 			{
+				include_once($file);
+				$class = 'Migration_'.ucfirst(strtolower($this->_get_migration_name(basename($file, '.php'))));
+
+				// Validate the migration file structure
+				if ( ! class_exists($class, FALSE))
+				{
+					$this->_error_string = sprintf($this->lang->line('migration_class_doesnt_exist'), $class);
+					return FALSE;
+				}
+
 				$instance = new $class();
 				if ( ! is_callable(array($instance, $method)))
 				{
