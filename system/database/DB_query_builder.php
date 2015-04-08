@@ -263,7 +263,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Generates the SELECT portion of the query
 	 *
-	 * @param	string
+	 * @param	mixed	the field(s). string or array
 	 * @param	mixed
 	 * @return	CI_DB_query_builder
 	 */
@@ -1969,7 +1969,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Compiles a delete string and runs "DELETE FROM table"
 	 *
-	 * @param	string	the table to empty
+	 * @param	string	the table(s) to empty. String or array
 	 * @return	object
 	 */
 	public function empty_table($table = '')
@@ -1982,6 +1982,14 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			}
 
 			$table = $this->qb_from[0];
+		}
+		elseif (is_array($table))
+		{
+			foreach ($table as $single_table)
+			{
+				$this->empty_table($single_table);
+			}
+			return;
 		}
 		else
 		{
@@ -2002,7 +2010,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * If the database does not support the truncate() command
 	 * This function maps to "DELETE FROM table"
 	 *
-	 * @param	string	the table to truncate
+	 * @param	mixed	the table(s) to truncate. String or array
 	 * @return	object
 	 */
 	public function truncate($table = '')
@@ -2015,6 +2023,14 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			}
 
 			$table = $this->qb_from[0];
+		}
+		elseif (is_array($table))
+		{
+			foreach ($table as $single_table)
+			{
+				$this->truncate($single_table);
+			}
+			return;
 		}
 		else
 		{

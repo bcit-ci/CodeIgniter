@@ -11,6 +11,9 @@ Release Date: Not Released
 
    -  Added DoS mitigation to :php:func:`hash_pbkdf2()` :doc:`compatibility function <general/compatibility_functions>`.
 
+-  Database
+   -  Updated ``truncate()`` and ``empty_table()`` to accept an array of fields as well as strings.
+
 Bug fixes for 3.0.1
 -------------------
 
