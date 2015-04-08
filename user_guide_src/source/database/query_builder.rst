@@ -918,6 +918,9 @@ query.::
 
 	  $this->db->empty_table('mytable'); // Produces: DELETE FROM mytable
 
+An array of table names can be passed into empty_table() if you would like to
+empty more than 1 table.
+
 **$this->db->truncate()**
 
 Generates a truncate SQL string and runs the query.
@@ -931,8 +934,15 @@ Generates a truncate SQL string and runs the query.
 
 	$this->db->truncate('mytable');
 
-	// Produce:
+	// Produces:
 	// TRUNCATE mytable
+
+An array of table names can be passed into truncate() if you would like to
+truncate more than 1 table.
+
+::
+
+	$this->db->truncate(array('table1', 'table2', 'table3'));
 
 .. note:: If the TRUNCATE command isn't available, truncate() will
 	execute as "DELETE FROM table".
@@ -1131,7 +1141,7 @@ Class Reference
 
 	.. php:method:: select([$select = '*'[, $escape = NULL]])
 
-		:param	string	$select: The SELECT portion of a query
+		:param	mixed	$select: The SELECT portion of a query or array of fields
 		:param	bool	$escape: Whether to escape values and identifiers
 		:returns:	CI_DB_query_builder instance (method chaining)
 		:rtype:	CI_DB_query_builder
@@ -1496,7 +1506,7 @@ Class Reference
 
 	.. php:method:: truncate([$table = ''])
 
-		:param	string	$table: Table name
+		:param	mixed	$table: The table(s) to truncate; string or array
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
 
@@ -1507,7 +1517,7 @@ Class Reference
 
 	.. php:method:: empty_table([$table = ''])
 
-		:param	string	$table: Table name
+		:param	mixed	$table: The table(s) to empty; string or array
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
 
