@@ -461,11 +461,12 @@ if ( ! function_exists('log_message'))
 	 * We use this as a simple mechanism to access the logging
 	 * class and send messages to be logged.
 	 *
-	 * @param	string	the error level: 'error', 'debug' or 'info'
-	 * @param	string	the error message
+	 * @param	string	$level  the error level: 'error', 'debug' or 'info'
+	 * @param	string	$message  the error message
+	 * @param	string	$file_name  log file name
 	 * @return	void
 	 */
-	function log_message($level, $message)
+	function log_message($level, $message, $file_name = null)
 	{
 		static $_log;
 
@@ -475,7 +476,7 @@ if ( ! function_exists('log_message'))
 			$_log[0] =& load_class('Log', 'core');
 		}
 
-		$_log[0]->write_log($level, $message);
+		$_log[0]->write_log($level, $message, $file_name);
 	}
 }
 
