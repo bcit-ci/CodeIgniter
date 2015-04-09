@@ -1118,7 +1118,7 @@ class CI_Loader {
 				}
 				else
 				{
-					log_message('debug', APPPATH.'libraries/'.$file_path.$subclass.'.php exists, but does not declare '.$subclass);
+					log_message('debug', $path.' exists, but does not declare '.$subclass);
 				}
 			}
 		}
@@ -1307,10 +1307,7 @@ class CI_Loader {
 			}
 
 			// Load all other libraries
-			foreach ($autoload['libraries'] as $item)
-			{
-				$this->library($item);
-			}
+			$this->library($autoload['libraries']);
 		}
 
 		// Autoload models

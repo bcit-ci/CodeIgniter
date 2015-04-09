@@ -12,14 +12,14 @@ It is the glue of your web application.
 
 For example, when a call is made to:
 
-	http&#58;//example.com/news/latest/10
+	http://example.com/news/latest/10
 
 We might imagine that there is a controller named "news". The method
 being called on news would be "latest". The news method's job could be to
 grab 10 news items, and render them on the page. Very often in MVC,
 you'll see URL patterns that match:
 
-	http&#58;//example.com/[controller-class]/[controller-method]/[arguments]
+	http://example.com/[controller-class]/[controller-method]/[arguments]
 
 As URL schemes become more complex, this may change. But for now, this
 is all we will need to know.
@@ -64,7 +64,7 @@ following code.
 		</head>
 		<body>
 
-			<h1>CodeIgniter Tutorial</h1>
+			<h1><?php echo $title ?></h1>
 
 The header contains the basic HTML code that you'll want to display
 before loading the main view, together with a heading. It will also

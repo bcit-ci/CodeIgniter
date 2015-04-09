@@ -2,10 +2,24 @@
 Change Log
 ##########
 
-Version 3.0 (planned)
-=======================
+Version 3.0.1
+=============
 
 Release Date: Not Released
+
+-  Core
+
+   -  Added DoS mitigation to :php:func:`hash_pbkdf2()` :doc:`compatibility function <general/compatibility_functions>`.
+
+Bug fixes for 3.0.1
+-------------------
+
+-  Fixed a bug (#3733) - Autoloading of libraries with aliases didn't work, although it was advertised to.
+
+Version 3.0.0
+=============
+
+Release Date: March 30, 2015
 
 -  License
 
@@ -565,7 +579,7 @@ Release Date: Not Released
       -  Changed the library constructor to try to create the **log_path** directory if it doesn't exist.
       -  Added support for microseconds ("u" date format character) in ``$config['log_date_format']``.
 
-   -  Added `compatibility layers <general/compatibility_functions>` for:
+   -  Added :doc:`compatibility layers <general/compatibility_functions>` for:
 
       - `Multibyte String <http://php.net/mbstring>`_ (limited support).
       - `Hash <http://php.net/hash>`_ (``hash_equals()``, ``hash_pbkdf2()``).
@@ -579,7 +593,7 @@ Release Date: Not Released
 
 
 Bug fixes for 3.0
-------------------
+-----------------
 
 -  Fixed a bug where ``unlink()`` raised an error if cache file did not exist when you try to delete it.
 -  Fixed a bug (#181) - a typo in the form validation language file.

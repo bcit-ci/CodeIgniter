@@ -2,8 +2,6 @@
 Upgrading from 2.2.x to 3.0.0
 #############################
 
-.. note:: These upgrade notes are for a version that is yet to be released.
-
 Before performing an update you should take your site offline by replacing the index.php file with a static one.
 
 *************************************

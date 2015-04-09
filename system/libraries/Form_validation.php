@@ -198,22 +198,20 @@ class CI_Form_validation {
 			return $this;
 		}
 
-		// No fields? Nothing to do...
-		if ( ! is_string($field) OR $field === '')
+		// No fields or no rules? Nothing to do...
+		if ( ! is_string($field) OR $field === '' OR empty($rules))
 		{
 			return $this;
 		}
 		elseif ( ! is_array($rules))
 		{
 			// BC: Convert pipe-separated rules string to an array
-			if (is_string($rules))
-			{
-				$rules = explode('|', $rules);
-			}
-			else
+			if ( ! is_string($rules))
 			{
 				return $this;
 			}
+
+			$rules = explode('|', $rules);
 		}
 
 		// If the field label wasn't passed we use the field name
