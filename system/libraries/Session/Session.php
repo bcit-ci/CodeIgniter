@@ -691,7 +691,7 @@ class CI_Session {
 	 */
 	public function set_userdata($data, $value = NULL)
 	{
-		if (is_array($data))
+		if (is_array($data) || is_object($data))
 		{
 			foreach ($data as $key => &$value)
 			{
