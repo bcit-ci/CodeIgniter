@@ -223,7 +223,7 @@ class CI_Cache_redis extends CI_Driver
 	{
 		$value = $this->get($key);
 
-		if ($value)
+		if ($value !== FALSE)
 		{
 			return array(
 				'expire' => time() + $this->_redis->ttl($key),
