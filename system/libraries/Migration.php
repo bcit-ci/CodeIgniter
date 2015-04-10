@@ -232,6 +232,11 @@ class CI_Migration {
 			return TRUE;
 		}
 
+		if ($target_version == $current_version)
+		{
+			return TRUE;
+		}
+
 		$previous = FALSE;
 
 		// Validate all available migrations, and run the ones within our target range

@@ -16,6 +16,7 @@ Bug fixes for 3.0.1
 
 -  Fixed a bug (#3733) - Autoloading of libraries with aliases didn't work, although it was advertised to.
 -  Fixed a bug (#3744) - Redis :doc:`Caching <libraries/caching>` driver didn't handle authentication failures properly.
+-  Fixed a bug - :doc:`Migration Library <libraries/migration>` didn't return true if already latest.
 
 Version 3.0.0
 =============
