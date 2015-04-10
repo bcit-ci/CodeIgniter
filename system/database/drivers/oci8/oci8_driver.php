@@ -102,6 +102,15 @@ class CI_DB_oci8_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Identifier escape character
+	 *
+	 * Must be empty for OCI8.
+	 *
+	 * @var	string
+	 */
+	protected $_escape_char = '';
+
+	/**
 	 * List of reserved identifiers
 	 *
 	 * Identifiers that must NOT be escaped.
