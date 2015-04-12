@@ -10,11 +10,13 @@
 |
 |	http://example.com/
 |
-| If this is not set then CodeIgniter will guess the protocol, domain and
-| path to your installation.
+| If this is not set then CodeIgniter will try to guess the protocol, domain
+| and path to your installation. However, you should always configure this
+| explicitly and never rely on auto-guessing, especially in production
+| environments.
 |
 */
-$config['base_url']	= '';
+$config['base_url'] = '';
 
 /*
 |--------------------------------------------------------------------------

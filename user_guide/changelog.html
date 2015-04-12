@@ -57,6 +57,23 @@ Change Log
 
 <h1>Change Log</h1>
 
+<h2>Version 2.2.2</h2>
+<p>Release Date: Not Released</p>
+
+<ul>
+	<li>General Changes</li>
+		<ul>
+			<li>Added HTTP "Host" header character validation to prevent cache poisoning attacks when <kbd>base_url</kbd> auto-detection is used.</li>
+			<li>Added <kbd>FSCommand</kbd> and <kbd>seekSegmentTime</kbd> to the "evil attributes" list in <samp>CI_Security::xss_clean()</samp>.</li>
+		</ul>
+	</li>
+</ul>
+
+<h3>Bug fixes:</h3>
+<ul>
+	<li>Fixed a bug (#3665) - <samp>CI_Security::entity_decode()</samp> triggered warnings under some circumstances.</li>
+</ul>
+
 <h2>Version 2.2.1</h2>
 <p>Release Date: January 22, 2015</p>
 
