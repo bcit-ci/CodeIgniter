@@ -55,6 +55,22 @@
  */
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
+
+/*
+ *---------------------------------------------------------------
+ * APPLICATION DIRECTORY SEPARATOR
+ *---------------------------------------------------------------
+ *
+ * You can use the conguration depending of your server.   
+ *
+ *     DIRECTORY_SEPARATOR
+ *     '/' 
+ *     '\' 
+ * 
+ */  
+
+	define('DIR_SEPARATOR', DIRECTORY_SEPARATOR);
+
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
