@@ -506,6 +506,9 @@ if ( ! function_exists('set_status_header'))
 		{
 			is_int($code) OR $code = (int) $code;
 			$stati = array(
+				100	=> 'Continue',
+				101	=> 'Switching Protocols',
+
 				200	=> 'OK',
 				201	=> 'Created',
 				202	=> 'Accepted',
@@ -524,6 +527,7 @@ if ( ! function_exists('set_status_header'))
 
 				400	=> 'Bad Request',
 				401	=> 'Unauthorized',
+				402	=> 'Payment Required',
 				403	=> 'Forbidden',
 				404	=> 'Not Found',
 				405	=> 'Method Not Allowed',
