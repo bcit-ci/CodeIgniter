@@ -18,6 +18,7 @@ Bug fixes for 3.0.1
 -  Fixed a bug (#3744) - Redis :doc:`Caching <libraries/caching>` driver didn't handle authentication failures properly.
 -  Fixed a bug (#3761) - :doc:`URL Helper <helpers/url_helper>` function :php:func:`anchor()` didn't work with array inputs.
 -  Fixed a bug (#3773) - ``db_select()`` didn't work for MySQL with the PDO :doc:`Database <database/index>` driver.
+-  Fixed a bug (#3771) - :doc:`Form Validation Library <libraries/form_validation>` was looking for a 'form_validation_' prefix when trying to translate field name labels.
 
 Version 3.0.0
 =============

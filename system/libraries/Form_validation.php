@@ -870,17 +870,11 @@ class CI_Form_validation {
 	 */
 	protected function _translate_fieldname($fieldname)
 	{
-		// Do we need to translate the field name?
-		// We look for the prefix lang: to determine this
-		if (sscanf($fieldname, 'lang:%s', $line) === 1)
+		// Do we need to translate the field name? We look for the prefix 'lang:' to determine this
+		// If we find one, but there's no translation for the string - just return it
+		if (sscanf($fieldname, 'lang:%s', $line) === 1 && FALSE === ($fieldname = $this->CI->lang->line($line, FALSE)))
 		{
-			// Were we able to translate the field name?  If not we use $line
-			if (FALSE === ($fieldname = $this->CI->lang->line('form_validation_'.$line))
-				// DEPRECATED support for non-prefixed keys
-				&& FALSE === ($fieldname = $this->CI->lang->line($line, FALSE)))
-			{
-				return $line;
-			}
+			return $line;
 		}
 
 		return $fieldname;
