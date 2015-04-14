@@ -62,7 +62,7 @@ if ( ! function_exists('element'))
 	 * @param	mixed
 	 * @return	mixed	depends on what the array contains
 	 */
-	function element($item, $array, $default = NULL)
+	function element($item, array $array, $default = NULL)
 	{
 		return array_key_exists($item, $array) ? $array[$item] : $default;
 	}
@@ -99,7 +99,7 @@ if ( ! function_exists('elements'))
 	 * @param	mixed
 	 * @return	mixed	depends on what the array contains
 	 */
-	function elements($items, $array, $default = NULL)
+	function elements($items, array $array, $default = NULL)
 	{
 		$return = array();
 
