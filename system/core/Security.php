@@ -258,7 +258,15 @@ class CI_Security {
 	 */
 	public function csrf_set_cookie()
 	{
-		$expire = time() + $this->_csrf_expire;
+		if ($this->_csrf_expire==0)
+			{
+				$expire = 0;
+			}
+			else
+			{
+				$expire = time() + $this->_csrf_expire;
+			}
+		
 		$secure_cookie = (bool) config_item('cookie_secure');
 
 		if ($secure_cookie && ! is_https())
