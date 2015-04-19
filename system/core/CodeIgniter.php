@@ -430,9 +430,23 @@ if ( ! is_php('5.4'))
 	{
 		if ( ! empty($RTR->routes['404_override']))
 		{
-			if (sscanf($RTR->routes['404_override'], '%[^/]/%s', $error_class, $error_method) !== 2)
+			$tokens = explode('/', trim($RTR->routes['404_override'], '/'));
+
+			$error_class = $tokens[0];
+
+			if (sizeof($tokens) >= 2)
+			{
+				$error_method = $tokens[1];
+			}
+			else
 			{
 				$error_method = 'index';
+			}
+
+			// Populate $error_params
+			for ($i = 2; $i < sizeof($tokens);$i++) 
+			{
+				$error_params[] = $tokens[$i];
 			}
 
 			$error_class = ucfirst($error_class);
@@ -470,6 +484,15 @@ if ( ! is_php('5.4'))
 				1 => $class,
 				2 => $method
 			);
+
+			// Add all controller method params to URI rsegments
+			if (isset($error_params)) 
+			{
+				for ($i = 0;$i<sizeof($error_params);$i++) 
+				{
+					$URI->rsegments[] = $error_params[$i];
+				}
+			}
 		}
 		else
 		{
