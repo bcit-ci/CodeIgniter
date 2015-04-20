@@ -907,7 +907,7 @@ if ( ! function_exists('_parse_form_attributes'))
 		{
 			if ($key === 'value')
 			{
-				$val = html_escape($val);
+				$val = html_escape($val, FALSE);
 			}
 			elseif ($key === 'name' && ! strlen($default['name']))
 			{
