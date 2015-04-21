@@ -598,7 +598,7 @@ class XML_RPC_Client extends CI_Xmlrpc
 	 * @var	string
 	 */
 	public $password;
-
+	
 	/**
 	 * Proxy hostname
 	 *
@@ -640,6 +640,13 @@ class XML_RPC_Client extends CI_Xmlrpc
 	 * @var	bool
 	 */
 	public $no_multicall	= FALSE;
+	
+	/**
+	 * Cookie string
+	 *
+	 * @var	string
+	 */
+	public $cookie;
 
 	// --------------------------------------------------------------------
 
@@ -731,6 +738,7 @@ class XML_RPC_Client extends CI_Xmlrpc
 			.'Host: '.$this->server.$r
 			.'Content-Type: text/xml'.$r
 			.(isset($this->username, $this->password) ? 'Authorization: Basic '.base64_encode($this->username.':'.$this->password).$r : '')
+			.(!empty($this->cookie) ? 'Cookie: '.trim($this->cookie).$r : '')
 			.'User-Agent: '.$this->xmlrpcName.$r
 			.'Content-Length: '.strlen($msg->payload).$r.$r
 			.$msg->payload;
