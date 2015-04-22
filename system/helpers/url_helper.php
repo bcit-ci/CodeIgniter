@@ -531,6 +531,15 @@ if ( ! function_exists('redirect'))
 	 */
 	function redirect($uri = '', $method = 'auto', $code = NULL)
 	{
+		if($uri === 'back') 
+		{
+	            if(!empty($_SERVER['HTTP_REFERER']))
+	            {
+	                header( 'Location: ' . $_SERVER[ 'HTTP_REFERER' ] );
+	                exit;
+	            }
+        	}
+		
 		if ( ! preg_match('#^(\w+:)?//#i', $uri))
 		{
 			$uri = site_url($uri);
@@ -560,11 +569,6 @@ if ( ! function_exists('redirect'))
 			case 'refresh':
 				header('Refresh:0;url='.$uri);
 				break;
-			case 'back' :
-                		if(!empty($_SERVER['HTTP_REFERER'])) :
-                    		    header( 'Location: ' . $_SERVER[ 'HTTP_REFERER' ] );
-        			endif;
-                		break;
 			default:
 				header('Location: '.$uri, TRUE, $code);
 				break;
