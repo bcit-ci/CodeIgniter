@@ -96,7 +96,7 @@ if ( ! function_exists('current_url'))
 	 * Current URL
 	 *
 	 * Returns the full URL (including segments) of the page where this
-	 * function is placed
+	 * function is placedr
 	 *
 	 * @return	string
 	 */
@@ -560,6 +560,11 @@ if ( ! function_exists('redirect'))
 			case 'refresh':
 				header('Refresh:0;url='.$uri);
 				break;
+			case 'back' :
+                		if(!empty($_SERVER['HTTP_REFERER'])) :
+                    		    header( 'Location: ' . $_SERVER[ 'HTTP_REFERER' ] );
+        			endif;
+                		break;
 			default:
 				header('Location: '.$uri, TRUE, $code);
 				break;
