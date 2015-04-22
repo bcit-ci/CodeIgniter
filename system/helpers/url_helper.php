@@ -96,7 +96,7 @@ if ( ! function_exists('current_url'))
 	 * Current URL
 	 *
 	 * Returns the full URL (including segments) of the page where this
-	 * function is placedr
+	 * function is placed
 	 *
 	 * @return	string
 	 */
