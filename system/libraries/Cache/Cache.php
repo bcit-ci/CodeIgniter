@@ -81,7 +81,7 @@ class CI_Cache extends CI_Driver_Library {
 	 *
 	 * @var string
 	 */
-	protected $_backup_driver = 'dummy';
+	protected $_backup = 'dummy';
 
 	/**
 	 * Cache key prefix
@@ -119,23 +119,23 @@ class CI_Cache extends CI_Driver_Library {
 
 		if (isset($config['backup']) && in_array($config['backup'], $this->valid_drivers))
 		{
-			$this->_backup_driver = $config['backup'];
+			$this->_backup = $config['backup'];
 		}
 
 		// If the specified adapter isn't available, check the backup.
 		if ( ! $this->is_supported($this->_adapter))
 		{
-			if ( ! $this->is_supported($this->_backup_driver))
+			if ( ! $this->is_supported($this->_backup))
 			{
 				// Backup isn't supported either. Default to 'Dummy' driver.
-				log_message('error', 'Cache adapter "'.$this->_adapter.'" and backup "'.$this->_backup_driver.'" are both unavailable. Cache is now using "Dummy" adapter.');
+				log_message('error', 'Cache adapter "'.$this->_adapter.'" and backup "'.$this->_backup.'" are both unavailable. Cache is now using "Dummy" adapter.');
 				$this->_adapter = 'dummy';
 			}
 			else
 			{
 				// Backup is supported. Set it to primary.
-				log_message('debug', 'Cache adapter "'.$this->_adapter.'" is unavailable. Falling back to "'.$this->_backup_driver.'" backup adapter.');
-				$this->_adapter = $this->_backup_driver;
+				log_message('debug', 'Cache adapter "'.$this->_adapter.'" is unavailable. Falling back to "'.$this->_backup.'" backup adapter.');
+				$this->_adapter = $this->_backup;
 			}
 		}
 	}
