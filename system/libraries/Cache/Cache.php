@@ -100,27 +100,18 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	public function __construct($config = array())
 	{
-		$default_config = array(
-			'adapter',
-			'memcached'
-		);
-
-		foreach ($default_config as $key)
+		// Loop through the available driver types and overwrite them as they're found.
+		foreach (array('adapter', 'backup') as $driver_type)
 		{
-			if (isset($config[$key]))
+			if (isset($config[$driver_type]) && in_array($config[$driver_type], $this->valid_drivers))
 			{
-				$param = '_'.$key;
-
-				$this->{$param} = $config[$key];
+				$option = '_'.$driver_type;
+				$this->{$option} = $config[$driver_type];
 			}
 		}
 
+		// Overwrite the default key prefix.
 		isset($config['key_prefix']) && $this->key_prefix = $config['key_prefix'];
-
-		if (isset($config['backup']) && in_array($config['backup'], $this->valid_drivers))
-		{
-			$this->_backup = $config['backup'];
-		}
 
 		// If the specified adapter isn't available, check the backup.
 		if ( ! $this->is_supported($this->_adapter))
