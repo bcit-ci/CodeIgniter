@@ -209,10 +209,21 @@ class CI_Migration {
 
 		$migrations = $this->find_migrations();
 
+		if (empty($migrations))
+		{
+			$this->_error_string = $this->lang->line('migration_none_found');
+			return FALSE;
+		}
+
 		if ($target_version > 0 && ! isset($migrations[$target_version]))
 		{
 			$this->_error_string = sprintf($this->lang->line('migration_not_found'), $target_version);
 			return FALSE;
+		}
+
+		if ($target_version == $current_version)
+		{
+			return TRUE;
 		}
 
 		if ($target_version > $current_version)
@@ -225,16 +236,6 @@ class CI_Migration {
 			// Moving Down, apply in reverse order
 			$method = 'down';
 			krsort($migrations);
-		}
-
-		if (empty($migrations))
-		{
-			return TRUE;
-		}
-
-		if ($target_version == $current_version)
-		{
-			return TRUE;
 		}
 
 		$previous = FALSE;
