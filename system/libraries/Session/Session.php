@@ -708,7 +708,6 @@ class CI_Session {
 				? $_SESSION['__ci_flash']['old'][$key]
 				: NULL;
 		}
-
 		return isset($_SESSION['__ci_flash'], $_SESSION['__ci_flash']['old']) 
                 ? $_SESSION['__ci_flash']['old'] 
                 : array();
