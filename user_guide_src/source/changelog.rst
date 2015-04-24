@@ -20,6 +20,7 @@ Bug fixes for 3.0.1
 -  Fixed a bug (#3773) - ``db_select()`` didn't work for MySQL with the PDO :doc:`Database <database/index>` driver.
 -  Fixed a bug (#3771) - :doc:`Form Validation Library <libraries/form_validation>` was looking for a 'form_validation_' prefix when trying to translate field name labels.
 -  Fixed a bug (#3787) - :doc:`FTP Library <libraries/ftp>` method ``delete_dir()`` failed when the target has subdirectories.
+-  Fixed a bug (#3801) - :doc: The `Output class <libraries/output>` method ``_display_cache()`` assigned incorrect timestamps.
 
 Version 3.0.0
 =============
