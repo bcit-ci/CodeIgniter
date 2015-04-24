@@ -57,7 +57,7 @@ class CI_Session {
 
 	protected $_driver = 'files';
 	protected $_config;
-
+    
 	// ------------------------------------------------------------------------
 
 	/**
@@ -336,13 +336,7 @@ class CI_Session {
 
 			foreach ($_SESSION['__ci_vars'] as $key => &$value)
 			{
-				if ($value === 'new')
-				{
-					$_SESSION['__ci_vars'][$key] = 'old';
-				}
-				// Hacky, but 'old' will (implicitly) always be less than time() ;)
-				// DO NOT move this above the 'new' check!
-				elseif ($value < $current_time)
+				if ($value < $current_time)
 				{
 					unset($_SESSION[$key], $_SESSION['__ci_vars'][$key]);
 				}
@@ -354,69 +348,17 @@ class CI_Session {
 			}
 		}
 
+        if( isset($_SESSION['__ci_flash'], $_SESSION['__ci_flash']['new']) ){
+            $_SESSION['__ci_flash']['old'] = $_SESSION['__ci_flash']['new'];
+            unset($_SESSION['__ci_flash']['new']);
+            
+        }elseif(isset($_SESSION['__ci_flash'])){
+            unset($_SESSION['__ci_flash']);
+        }
+
 		$this->userdata =& $_SESSION;
 	}
 
-	// ------------------------------------------------------------------------
-
-	/**
-	 * Mark as flash
-	 *
-	 * @param	mixed	$key	Session data key(s)
-	 * @return	bool
-	 */
-	public function mark_as_flash($key)
-	{
-		if (is_array($key))
-		{
-			for ($i = 0, $c = count($key); $i < $c; $i++)
-			{
-				if ( ! isset($_SESSION[$key[$i]]))
-				{
-					return FALSE;
-				}
-			}
-
-			$new = array_fill_keys($key, 'new');
-
-			$_SESSION['__ci_vars'] = isset($_SESSION['__ci_vars'])
-				? array_merge($_SESSION['__ci_vars'], $new)
-				: $new;
-
-			return TRUE;
-		}
-
-		if ( ! isset($_SESSION[$key]))
-		{
-			return FALSE;
-		}
-
-		$_SESSION['__ci_vars'][$key] = 'new';
-		return TRUE;
-	}
-
-	// ------------------------------------------------------------------------
-
-	/**
-	 * Get flash keys
-	 *
-	 * @return	array
-	 */
-	public function get_flash_keys()
-	{
-		if ( ! isset($_SESSION['__ci_vars']))
-		{
-			return array();
-		}
-
-		$keys = array();
-		foreach (array_keys($_SESSION['__ci_vars']) as $key)
-		{
-			is_int($_SESSION['__ci_vars'][$key]) OR $keys[] = $key;
-		}
-
-		return $keys;
-	}
 
 	// ------------------------------------------------------------------------
 
@@ -428,25 +370,16 @@ class CI_Session {
 	 */
 	public function unmark_flash($key)
 	{
-		if (empty($_SESSION['__ci_vars']))
-		{
-			return;
-		}
-
-		is_array($key) OR $key = array($key);
-
-		foreach ($key as $k)
-		{
-			if (isset($_SESSION['__ci_vars'][$k]) && ! is_int($_SESSION['__ci_vars'][$k]))
-			{
-				unset($_SESSION['__ci_vars'][$k]);
-			}
-		}
-
-		if (empty($_SESSION['__ci_vars']))
-		{
-			unset($_SESSION['__ci_vars']);
-		}
+        $state=false;
+		if(isset($_SESSION['__ci_flash'], $_SESSION['__ci_flash']['old'], $_SESSION['__ci_flash']['old'][$key])){
+            $state='old';
+        }elseif(isset($_SESSION['__ci_flash'], $_SESSION['__ci_flash']['new'], $_SESSION['__ci_flash']['new'][$key])){
+            $state='new';
+        }
+        if($state){
+            $_SESSION[$key] = $_SESSION['__ci_flash'][$state][$key];
+            unset($_SESSION['__ci_flash'][$state][$key]);
+        }
 	}
 
 	// ------------------------------------------------------------------------
@@ -662,8 +595,7 @@ class CI_Session {
 
 		$userdata = array();
 		$_exclude = array_merge(
-			array('__ci_vars'),
-			$this->get_flash_keys(),
+			array('__ci_vars', '__ci_flash'),
 			$this->get_temp_keys()
 		);
 
@@ -772,22 +704,14 @@ class CI_Session {
 	{
 		if (isset($key))
 		{
-			return (isset($_SESSION['__ci_vars'], $_SESSION['__ci_vars'][$key], $_SESSION[$key]) && ! is_int($_SESSION['__ci_vars'][$key]))
-				? $_SESSION[$key]
+			return isset($_SESSION['__ci_flash'], $_SESSION['__ci_flash']['old'], $_SESSION['__ci_flash']['old'][$key]) 
+				? $_SESSION['__ci_flash']['old'][$key]
 				: NULL;
 		}
 
-		$flashdata = array();
-
-		if ( ! empty($_SESSION['__ci_vars']))
-		{
-			foreach ($_SESSION['__ci_vars'] as $key => &$value)
-			{
-				is_int($value) OR $flashdata[$key] = $_SESSION[$key];
-			}
-		}
-
-		return $flashdata;
+		return isset($_SESSION['__ci_flash'], $_SESSION['__ci_flash']['old']) 
+                ? $_SESSION['__ci_flash']['old'] 
+                : array();
 	}
 
 	// ------------------------------------------------------------------------
@@ -803,12 +727,32 @@ class CI_Session {
 	 */
 	public function set_flashdata($data, $value = NULL)
 	{
-		$this->set_userdata($data, $value);
-		$this->mark_as_flash(is_array($data) ? array_keys($data) : $data);
+        is_array($data) or $data = array($data => $value);
+        
+        $this->newflash_create();
+        
+        foreach($data as $k => $v) {
+            $_SESSION['__ci_flash']['new'][$k] = $v;
+        }
 	}
 
 	// ------------------------------------------------------------------------
 
+	/**
+	 * Checks and creates the __ci_flash key for new values
+	 *
+	 * Legacy CI_Session compatibility method
+	 *
+	 * @return	bool
+	 */
+    private function newflash_create(){
+        isset($_SESSION['__ci_flash']) or $_SESSION['__ci_flash'] = array();
+        isset($_SESSION['__ci_flash']['new']) or $_SESSION['__ci_flash']['new'] = array();
+        //returns true to be easy to use in boolean evaluations
+        return true;
+    }
+	// ------------------------------------------------------------------------
+    
 	/**
 	 * Keep flashdata
 	 *
@@ -819,7 +763,9 @@ class CI_Session {
 	 */
 	public function keep_flashdata($key)
 	{
-		$this->mark_as_flash($key);
+		isset($_SESSION['__ci_flash'], $_SESSION['__ci_flash']['old'], $_SESSION['__ci_flash']['old'][$key]) 
+            and $this->newflash_create() 
+            and $_SESSION['__ci_flash']['new'][$key] = $_SESSION['__ci_flash']['old'][$key];
 	}
 
 	// ------------------------------------------------------------------------
