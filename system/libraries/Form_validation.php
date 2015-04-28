@@ -1298,6 +1298,19 @@ class CI_Form_validation {
 	}
 
 	// --------------------------------------------------------------------
+	
+	/**
+	 * Alpha w/ spaces
+	 *
+	 * @param	string
+	 * @return	bool
+	 */
+	public function alpha_spaces($str)
+	{
+		return (bool) preg_match('/^[A-Z ]+$/i', $str);
+	}
+	
+	// --------------------------------------------------------------------
 
 	/**
 	 * Alpha-numeric
