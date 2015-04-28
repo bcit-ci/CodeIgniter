@@ -10,6 +10,7 @@ $lang['min_length']			= "The %s field must be at least %s characters in length."
 $lang['max_length']			= "The %s field can not exceed %s characters in length.";
 $lang['exact_length']		= "The %s field must be exactly %s characters in length.";
 $lang['alpha']				= "The %s field may only contain alphabetical characters.";
+$lang['alpha_space']		= "The %s field may only contain apphabetical characters and spaces";
 $lang['alpha_numeric']		= "The %s field may only contain alpha-numeric characters.";
 $lang['alpha_dash']			= "The %s field may only contain alpha-numeric characters, underscores, and dashes.";
 $lang['numeric']			= "The %s field must contain only numbers.";
