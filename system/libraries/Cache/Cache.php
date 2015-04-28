@@ -100,24 +100,8 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	public function __construct($config = array())
 	{
-		if (isset($config['adapter']) && in_array($config['adapter'], $this->valid_drivers))
-		{
-			$this->_adapter = $config['adapter'];
-		}
-		elseif (! in_array($config['adapter'], $this->valid_drivers))
-		{
-			log_message('error', 'Cache adapter "'.$config['adapter'].'" is invalid.');
-		}
-
-		if (isset($config['backup']) && in_array($config['backup'], $this->valid_drivers))
-		{
-			$this->_backup_driver = $config['backup'];
-		}
-		elseif (! in_array($config['backup'], $this->valid_drivers))
-		{
-			log_message('error', 'Cache backup adapter "'.$config['backup'].'" is invalid.');
-		}
-
+		isset($config['adapter']) && $this->_adapter = $config['adapter'];
+		isset($config['backup']) && $this->_backup_driver = $config['backup'];
 		isset($config['key_prefix']) && $this->key_prefix = $config['key_prefix'];
 
 		// If the specified adapter isn't available, check the backup.
