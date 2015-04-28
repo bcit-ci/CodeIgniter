@@ -963,7 +963,6 @@ Rule                      Parameter  Description                                
                                      or not numeric.
 **in_list**               Yes        Returns FALSE if the form element is not within a predetermined list.                         in_list[red,blue,green]
 **alpha**                 No         Returns FALSE if the form element contains anything other than alphabetical characters.
-**alpha_spaces**          No         Returns FALSE if the form element contains anything other than alphabetical characters or spaces.
 **alpha_numeric**         No         Returns FALSE if the form element contains anything other than alpha-numeric characters.
 **alpha_numeric_spaces**  No         Returns FALSE if the form element contains anything other than alpha-numeric characters
                                      or spaces.  Should be used after trim to avoid spaces at the beginning or end.
