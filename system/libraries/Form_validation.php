@@ -1105,7 +1105,7 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Alpha-spaces
+	 * Alpha with spaces
 	 *
 	 * @access	public
 	 * @param	string
