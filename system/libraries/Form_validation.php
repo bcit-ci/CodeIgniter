@@ -1105,13 +1105,13 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Alpha-space
+	 * Alpha-spaces
 	 *
 	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
-	public function alpha_space($str)
+	public function alpha_spaces($str)
 	{
 		return (! preg_match("/^([a-z ])+$/i", $str)) ? FALSE : TRUE;
 	}
