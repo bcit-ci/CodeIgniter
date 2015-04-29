@@ -284,9 +284,9 @@ class CI_Migration {
 			$this->_update_version($current_version);
 		}
 
-		log_message('debug', 'Finished migrating to '.$current_version);
+		log_message('debug', 'Finished migrating to '.$target_version);
 
-		return $current_version;
+		return $target_version;
 	}
 
 	// --------------------------------------------------------------------
