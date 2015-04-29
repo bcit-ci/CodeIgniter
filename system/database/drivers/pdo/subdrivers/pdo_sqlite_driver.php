@@ -130,6 +130,23 @@ class CI_DB_pdo_sqlite_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _list_columns($table = '')
 	{
+		if ($table === "")
+		{
+			return FALSE;
+		}
+		
+		$field_data = $this->field_data($table);
+		
+		$fields = array();
+		foreach($field_data as $id => $col)
+		{
+			$fields[] = 'SELECT '.$id.' AS "COLUMN_ID", \''.$col->name.'\' AS "COLUMN_NAME"';
+		}
+		
+		if (!empty($fields))
+		{
+			return 'SELECT "COLUMN_NAME" FROM ('.implode(' UNION ',$fields).') AS "LIST_COLUMNS" ORDER BY "COLUMN_ID" ASC';
+		}
 		// Not supported
 		return FALSE;
 	}
