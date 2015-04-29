@@ -11,6 +11,10 @@ Release Date: Not Released
 
    -  Added DoS mitigation to :php:func:`hash_pbkdf2()` :doc:`compatibility function <general/compatibility_functions>`.
 
+- Database
+
+   -  Added ``list_fields()`` support for SQLite ('sqlite3' and 'pdo_sqlite' drivers).
+
 Bug fixes for 3.0.1
 -------------------
 
