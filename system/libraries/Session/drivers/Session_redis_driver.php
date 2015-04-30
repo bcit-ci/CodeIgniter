@@ -336,7 +336,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 			$this->_lock_key = $lock_key;
 			break;
 		}
-		while ($attempt++ < 30);
+		while (++$attempt < 30);
 
 		if ($attempt === 30)
 		{
