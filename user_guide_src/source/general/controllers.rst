@@ -138,7 +138,7 @@ present, as will be the case when only your site root URL is requested.
 To specify a default controller, open your **application/config/routes.php**
 file and set this variable::
 
-	$route['default_controller'] = 'Blog';
+	$route['default_controller'] = 'blog';
 
 Where Blog is the name of the controller class you want used. If you now
 load your main index.php file without specifying any URI segments you'll
