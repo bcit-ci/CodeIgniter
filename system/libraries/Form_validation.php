@@ -1300,14 +1300,14 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 	
 	/**
-	 * Alpha w/ spaces
+	 * Full Names
 	 *
 	 * @param	string
 	 * @return	bool
 	 */
-	public function alpha_spaces($str)
+	public function full_names($str)
 	{
-		return (bool) preg_match('/^[A-Z ]+$/i', $str);
+		return (bool) preg_match('/^[-A-Z\' ]+$/i', $str);
 	}
 	
 	// --------------------------------------------------------------------
