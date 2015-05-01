@@ -48,5 +48,5 @@ Configuration Files
 Optionally, you can have CodeIgniter load environment-specific
 configuration files. This may be useful for managing things like
 differing API keys across multiple environments. This is described in
-more detail in the environment section of the :doc:`Config
+more detail in the environment section of the `Config
 Class <../libraries/config#environments>`_ documentation.
