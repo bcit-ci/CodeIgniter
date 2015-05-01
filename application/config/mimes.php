@@ -127,7 +127,7 @@ return array(
 	'rsa'   =>	'application/x-pkcs7',
 	'cer'   =>	array('application/pkix-cert', 'application/x-x509-ca-cert'),
 	'3g2'   =>	'video/3gpp2',
-	'3gp'   =>	array('video/3gp','video/3gpp'),
+	'3gp'   =>	array('video/3gp', 'video/3gpp'),
 	'mp4'   =>	'video/mp4',
 	'm4a'   =>	'audio/x-m4a',
 	'f4v'   =>	'video/mp4',
