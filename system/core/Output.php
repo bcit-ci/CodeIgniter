@@ -735,7 +735,7 @@ class CI_Output {
 			}
 		}
 
-		$cache_path .= md5($CI->config->item('base_url').$CI->config->item('index_page').$uri);
+		$cache_path .= md5($CI->config->item('base_url').$CI->config->item('index_page').ltrim($uri, '/'));
 
 		if ( ! @unlink($cache_path))
 		{
