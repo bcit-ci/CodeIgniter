@@ -422,9 +422,14 @@ $config['global_xss_filtering'] = FALSE;
 |
 | 'csrf_token_name' = The token name
 | 'csrf_cookie_name' = The cookie name
-| 'csrf_expire' = The number in seconds the token should expire.
+| 'csrf_expire' = The number of seconds before token should expire.
 | 'csrf_regenerate' = Regenerate token on every submission
 | 'csrf_exclude_uris' = Array of URIs which ignore CSRF checks
+|
+| Options:
+|
+| Set 'csrf_expire' to 0 to mark the cookie as "session-only" which
+| will is a cookie that only expires when the browser is closed.
 */
 $config['csrf_protection'] = FALSE;
 $config['csrf_token_name'] = 'csrf_test_name';
