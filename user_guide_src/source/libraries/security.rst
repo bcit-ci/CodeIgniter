@@ -90,6 +90,20 @@ may alter this behavior by editing the following config parameter
 
 	$config['csrf_regeneration'] = TRUE;
 
+You can set the CSRF cookie to either expire after a set number of
+seconds or as a session-only cookie (set as 0) and the CSRF cookie
+will expire when the browser is closed.
+
+	$config['csrf_expire'] = INT;
+
+.. note:: If you use the session-only option, please also make sure
+you set the 'cookie_httponly' config parameter to TRUE so that an
+attacker can't attack your users using an XSS vulnerability and
+retrieve their CSRF token using JavaScript. If you can't use 'HTTPonly'
+cookies because you're also using a JavaScript framework, it is
+probably better for the user's security that you set the CSRF cookie
+to expire set duration of an hour or two.
+
 Select URIs can be whitelisted from csrf protection (for example API
 endpoints expecting externally POSTed content). You can add these URIs
 by editing the 'csrf_exclude_uris' config parameter::
