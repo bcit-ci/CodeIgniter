@@ -1,7 +1,6 @@
 {
 	"description": "The CodeIgniter framework",
 	"name": "codeigniter/framework",
-	"description": "CodeIgniter is a powerful PHP framework with a very small footprint, built for developers who need a simple and elegant toolkit to create full-featured web applications.",
 	"type": "project",
 	"homepage": "http://codeigniter.com",
 	"license": "MIT",
