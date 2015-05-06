@@ -27,6 +27,7 @@ Bug fixes for 3.0.1
 -  Fixed a bug (#3801) - :doc:`Output Library <libraries/output>` method ``_display_cache()`` incorrectly looked for the last modified time of a directory instead of the cache file.
 -  Fixed a bug (#3816) - :doc:`Form Validation Library <libraries/form_validation>` treated empty string values as non-existing ones.
 -  Fixed a bug (#3823) - :doc:`Session Library <libraries/sessions>` drivers Redis and Memcached didn't properly handle locks that are blocking the request for more than 30 seconds.
+-  Fixed a bug (#3836) - Redis :doc:`Caching <libraries/caching>` function ``increment()`` and ``decrement`` didn't work with offset.
 
 Version 3.0.0
 =============
