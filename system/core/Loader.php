@@ -851,6 +851,12 @@ class CI_Loader {
 					$file_exists = TRUE;
 					break;
 				}
+				else if(file_exists($_ci_view_file.strtolower($_ci_file)))
+				{
+					$_ci_path = $_ci_view_file.strtolower($_ci_file);
+					$file_exists = TRUE;
+					break;
+				}
 
 				if ( ! $cascade)
 				{
