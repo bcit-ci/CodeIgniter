@@ -92,9 +92,9 @@ Fetching Config Items
 
 To retrieve an item from your config file, use the following function::
 
-	$this->config->item('item name');
+	$this->config->item('item_name');
 
-Where item name is the $config array index you want to retrieve. For
+Where item_name is the $config array index you want to retrieve. For
 example, to fetch your language choice you'll do this::
 
 	$lang = $this->config->item('language');

@@ -66,7 +66,7 @@ Class Reference
 		hosting environment.
 		::
 
-			if ($this->cache->apc->is_supported()
+			if ($this->cache->apc->is_supported())
 			{
 				if ($data = $this->cache->apc->get('my_cache'))
 				{
