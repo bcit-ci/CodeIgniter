@@ -33,7 +33,7 @@ $config['migration_type'] = 'timestamp';
 
 /*
 |--------------------------------------------------------------------------
-| Migrations table
+| Migrations Table
 |--------------------------------------------------------------------------
 |
 | This is the name of the table that will store the current migrations state.
@@ -61,7 +61,7 @@ $config['migration_auto_latest'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
-| Migrations version
+| Migrations Version
 |--------------------------------------------------------------------------
 |
 | This is used to set migration version that the file system should be on.
