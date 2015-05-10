@@ -88,7 +88,7 @@ may alter this behavior by editing the following config parameter
 
 ::
 
-	$config['csrf_regeneration'] = TRUE;
+	$config['csrf_regenerate'] = TRUE;
 
 Select URIs can be whitelisted from csrf protection (for example API
 endpoints expecting externally POSTed content). You can add these URIs

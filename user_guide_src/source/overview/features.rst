@@ -8,8 +8,8 @@ how intuitively or intelligently it is designed. Features don't reveal
 anything about the quality of the code, or the performance, or the
 attention to detail, or security practices. The only way to really judge
 an app is to try it and get to know the code.
-:doc:`Installing <../installation/>`_ CodeIgniter is child's play so we
-encourage you to do just that. In the mean time here's a list of
+:doc:`Installing <../installation/index>` CodeIgniter is child's play so
+we encourage you to do just that. In the mean time here's a list of
 CodeIgniter's main features.
 
 -  Model-View-Controller Based System

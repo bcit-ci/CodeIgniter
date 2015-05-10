@@ -161,7 +161,7 @@ if ( ! function_exists('anchor'))
 
 		$site_url = is_array($uri)
 			? site_url($uri)
-			: preg_match('#^(\w+:)?//#i', $uri) ? $uri : site_url($uri);
+			: (preg_match('#^(\w+:)?//#i', $uri) ? $uri : site_url($uri));
 
 		if ($title === '')
 		{
