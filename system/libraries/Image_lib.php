@@ -1080,7 +1080,7 @@ class CI_Image_lib {
 				$top = 0;
 				$bottom = $height - 1;
 
-				while ($top < $botttom)
+				while ($top < $bottom)
 				{
 					$ct = imagecolorat($src_img, $i, $top);
 					$cb = imagecolorat($src_img, $i, $bottom);
