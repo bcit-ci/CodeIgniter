@@ -143,17 +143,17 @@ and add the next piece of code.
 
 ::
 
-	<h2><?php echo $title ?></h2>
+	<h2><?php echo $title; ?></h2>
 	
 	<?php foreach ($news as $news_item): ?>
 
-		<h3><?php echo $news_item['title'] ?></h3>
+		<h3><?php echo $news_item['title']; ?></h3>
 		<div class="main">
-			<?php echo $news_item['text'] ?>
+			<?php echo $news_item['text']; ?>
 		</div>
-		<p><a href="<?php echo $news_item['slug'] ?>">View article</a></p>
+		<p><a href="<?php echo $news_item['slug']; ?>">View article</a></p>
 
-	<?php endforeach ?>
+	<?php endforeach; ?>
 
 Here, each news item is looped and displayed to the user. You can see we
 wrote our template in PHP mixed with HTML. If you prefer to use a
