@@ -127,7 +127,7 @@ class CI_Image_lib {
 	public $maintain_ratio		= TRUE;
 
 	/**
-	 * auto, height, or width.  Determines what to use as the master dimension
+	 * auto, height, or width. Determines what to use as the master dimension
 	 *
 	 * @var string
 	 */
@@ -269,10 +269,6 @@ class CI_Image_lib {
 	 * @var int
 	 */
 	public $wm_opacity		= 50;
-
-	// --------------------------------------------------------------------------
-	// Private Vars
-	// --------------------------------------------------------------------------
 
 	/**
 	 * Source image folder
@@ -762,7 +758,7 @@ class CI_Image_lib {
 		if ($action === 'crop')
 		{
 			// Reassign the source width/height if cropping
-			$this->orig_width  = $this->width;
+			$this->orig_width = $this->width;
 			$this->orig_height = $this->height;
 
 			// GD 2.0 has a cropping bug so we'll test for it
@@ -779,7 +775,7 @@ class CI_Image_lib {
 			$this->y_axis = 0;
 		}
 
-		//  Create the image handle
+		// Create the image handle
 		if ( ! ($src_img = $this->image_create_gd()))
 		{
 			return FALSE;
@@ -845,7 +841,7 @@ class CI_Image_lib {
 	 */
 	public function image_process_imagemagick($action = 'resize')
 	{
-		//  Do we have a vaild library path?
+		// Do we have a vaild library path?
 		if ($this->library_path === '')
 		{
 			$this->set_error('imglib_libpath_invalid');
@@ -873,7 +869,7 @@ class CI_Image_lib {
 		}
 		else // Resize
 		{
-			if($this->maintain_ratio === TRUE)
+			if ($this->maintain_ratio === TRUE)
 			{
 				$cmd .= ' -resize '.$this->width.'x'.$this->height.' "'.$this->full_src_path.'" "'.$this->full_dst_path.'" 2>&1';
 			}
@@ -1010,7 +1006,7 @@ class CI_Image_lib {
 		// going to have to figure out how to determine the color
 		// of the alpha channel in a future release.
 
-		$white	= imagecolorallocate($src_img, 255, 255, 255);
+		$white = imagecolorallocate($src_img, 255, 255, 255);
 
 		// Rotate it!
 		$dst_img = imagerotate($src_img, $this->rotation_angle, $white);
@@ -1050,7 +1046,7 @@ class CI_Image_lib {
 			return FALSE;
 		}
 
-		$width  = $this->orig_width;
+		$width = $this->orig_width;
 		$height = $this->orig_height;
 
 		if ($this->rotation_angle === 'hor')
@@ -1152,7 +1148,7 @@ class CI_Image_lib {
 		$wm_height	= $props['height'];
 
 		// Create two image resources
-		$wm_img  = $this->image_create_gd($this->wm_overlay_path, $wm_img_type);
+		$wm_img = $this->image_create_gd($this->wm_overlay_path, $wm_img_type);
 		$src_img = $this->image_create_gd($this->full_src_path);
 
 		// Reverse the offset if necessary
@@ -1195,7 +1191,7 @@ class CI_Image_lib {
 			$x_axis += $this->orig_width - $wm_width;
 		}
 
-		//  Build the finalized image
+		// Build the finalized image
 		if ($wm_img_type === 3 && function_exists('imagealphablending'))
 		{
 			@imagealphablending($src_img, TRUE);
@@ -1205,7 +1201,7 @@ class CI_Image_lib {
 		$rgba = imagecolorat($wm_img, $this->wm_x_transp, $this->wm_y_transp);
 		$alpha = ($rgba & 0x7F000000) >> 24;
 
-		// make a best guess as to whether we're dealing with an image with alpha transparency or no/binary transparency
+		// Make a best guess as to whether we're dealing with an image with alpha transparency or no/binary transparency
 		if ($alpha > 0)
 		{
 			// copy the image directly, the image's alpha transparency being the sole determinant of blending
@@ -1308,7 +1304,7 @@ class CI_Image_lib {
 		}
 		else
 		{
-			$fontwidth  = imagefontwidth($this->wm_font_size);
+			$fontwidth = imagefontwidth($this->wm_font_size);
 			$fontheight = imagefontheight($this->wm_font_size);
 		}
 
@@ -1333,7 +1329,7 @@ class CI_Image_lib {
 		{
 			$y_axis += $this->orig_height - $fontheight - $this->wm_shadow_distance - ($fontheight / 2);
 		}
-		
+
 		// Set horizontal alignment
 		if ($this->wm_hor_alignment === 'R')
 		{
@@ -1343,13 +1339,13 @@ class CI_Image_lib {
 		{
 			$x_axis += floor(($this->orig_width - ($fontwidth * strlen($this->wm_text))) / 2);
 		}
-		
+
 		if ($this->wm_use_drop_shadow)
 		{
 			// Offset from text
 			$x_shad = $x_axis + $this->wm_shadow_distance;
 			$y_shad = $y_axis + $this->wm_shadow_distance;
-				
+
 			/* Set RGB values for shadow
 			 *
 			 * First character is #, so we don't really need it.
@@ -1358,7 +1354,7 @@ class CI_Image_lib {
 			 */
 			$drp_color = str_split(substr($this->wm_shadow_color, 1, 6), 2);
 			$drp_color = imagecolorclosest($src_img, hexdec($drp_color[0]), hexdec($drp_color[1]), hexdec($drp_color[2]));
-			
+
 			// Add the shadow to the source image
 			if ($this->wm_use_truetype)
 			{
@@ -1369,7 +1365,7 @@ class CI_Image_lib {
 				imagestring($src_img, $this->wm_font_size, $x_shad, $y_shad, $this->wm_text, $drp_color);
 			}
 		}
-		
+
 		/* Set RGB values for text
 		 *
 		 * First character is #, so we don't really need it.
@@ -1388,7 +1384,7 @@ class CI_Image_lib {
 		{
 			imagestring($src_img, $this->wm_font_size, $x_axis, $y_axis, $this->wm_text, $txt_color);
 		}
-		
+
 		// We can preserve transparency for PNG images
 		if ($this->image_type === 3)
 		{
@@ -1723,7 +1719,7 @@ class CI_Image_lib {
 	 * Explode source_image
 	 *
 	 * This is a helper function that extracts the extension
-	 * from the source_image.  This function lets us deal with
+	 * from the source_image. This function lets us deal with
 	 * source_images with multiple periods, like: my.cool.jpg
 	 * It returns an associative array with two elements:
 	 * $array['ext']  = '.jpg';

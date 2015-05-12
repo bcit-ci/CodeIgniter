@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------------
-| Memcached settings
+| Memcached Settings
 | -------------------------------------------------------------------------
 | Your Memcached servers can be specified below.
 |
@@ -12,8 +12,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $config = array(
 	'default' => array(
-		'hostname' => '127.0.0.1',
-		'port'     => '11211',
-		'weight'   => '1',
-	),
+		'hostname'	=> '127.0.0.1',
+		'port'		=> '11211',
+		'weight'	=> '1'
+	)
 );
