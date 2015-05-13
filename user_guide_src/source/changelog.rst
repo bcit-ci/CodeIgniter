@@ -18,7 +18,6 @@ Release Date: Not Released
 Bug fixes for 3.0.1
 -------------------
 
--  Fixed a bug (#3854) - Using field_data() on Oracle databases
 -  Fixed a bug (#3733) - Autoloading of libraries with aliases didn't work, although it was advertised to.
 -  Fixed a bug (#3744) - Redis :doc:`Caching <libraries/caching>` driver didn't handle authentication failures properly.
 -  Fixed a bug (#3761) - :doc:`URL Helper <helpers/url_helper>` function :php:func:`anchor()` didn't work with array inputs.
@@ -29,6 +28,7 @@ Bug fixes for 3.0.1
 -  Fixed a bug (#3816) - :doc:`Form Validation Library <libraries/form_validation>` treated empty string values as non-existing ones.
 -  Fixed a bug (#3823) - :doc:`Session Library <libraries/sessions>` drivers Redis and Memcached didn't properly handle locks that are blocking the request for more than 30 seconds.
 -  Fixed a bug (#3846) - :doc:`Image Manipulation Library <libraries/image_lib>` method `image_mirror_gd()` didn't properly initialize its variables.
+-  Fixed a bug (#3854) - `field_data()` didn't work properly with the Oracle (OCI8) database driver.
 
 Version 3.0.0
 =============
