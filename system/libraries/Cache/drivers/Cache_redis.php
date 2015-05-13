@@ -125,9 +125,7 @@ class CI_Cache_redis extends CI_Driver
 			$this->_redis->sRemove('_ci_redis_serialized', $id);
 		}
 
-		return ($ttl)
-			? $this->_redis->setex($id, $ttl, $data)
-			: $this->_redis->set($id, $data);
+		return $this->_redis->set($id, $data, $ttl);
 	}
 
 	// ------------------------------------------------------------------------
