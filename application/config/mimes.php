@@ -152,5 +152,7 @@ return array(
 	'wma'	=>	array('audio/x-ms-wma', 'video/x-ms-asf'),
 	'jar'	=>	array('application/java-archive', 'application/x-java-application', 'application/x-jar', 'application/x-compressed'),
 	'svg'	=>	array('image/svg+xml', 'application/xml', 'text/xml'),
-	'vcf'	=>	'text/x-vcard'
+	'vcf'	=>	'text/x-vcard',
+	'srt'	=>	array('text/srt', 'text/plain'),
+	'vtt'	=>	array('text/vtt', 'text/plain')
 );
