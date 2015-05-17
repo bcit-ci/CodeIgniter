@@ -328,7 +328,7 @@ rules like this::
 
 	$this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[12]');
 	$this->form_validation->set_rules('password', 'Password', 'trim|required|md5');
-	$this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|required|matches[password]');
+	$this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|required|md5|matches[password]');
 	$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
 
 In the above example, we are "trimming" the fields, checking for length
