@@ -88,7 +88,7 @@ as *20121031100537_add_blog.php*.
 		}
 	}
 
-Then in **application/config/migration.php** set ``$config['migration_version'] = 1;``.
+Then in **application/config/migration.php** set ``$config['migration_version'] = 20121031100537;``.
 
 *************
 Usage Example

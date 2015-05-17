@@ -918,6 +918,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		is_bool($escape) OR $escape = $this->_protect_identifiers;
+		// lowercase $side in case somebody writes e.g. 'BEFORE' instead of 'before' (doh)
+		$side = strtolower($side);
 
 		foreach ($field as $k => $v)
 		{
@@ -925,9 +927,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				? $this->_group_get_type('') : $this->_group_get_type($type);
 
 			$v = $this->escape_like_str($v);
-			
-			// lowercase $side for in case of UPPERCASE string
-			$side = strtolower($side);
 
 			if ($side === 'none')
 			{
@@ -2256,7 +2255,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			else
 			{
 				// Cycle through the "select" portion of the query and prep each column name.
-				// The reason we protect identifiers here rather then in the select() function
+				// The reason we protect identifiers here rather than in the select() function
 				// is because until the user calls the from() function we don't know if there are aliases
 				foreach ($this->qb_select as $key => $val)
 				{

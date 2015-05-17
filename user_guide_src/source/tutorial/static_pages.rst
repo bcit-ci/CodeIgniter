@@ -64,7 +64,7 @@ following code.
 		</head>
 		<body>
 
-			<h1><?php echo $title ?></h1>
+			<h1><?php echo $title; ?></h1>
 
 The header contains the basic HTML code that you'll want to display
 before loading the main view, together with a heading. It will also

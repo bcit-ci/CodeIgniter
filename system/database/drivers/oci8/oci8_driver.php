@@ -573,7 +573,7 @@ class CI_DB_oci8_driver extends CI_DB {
 			{
 				$default = '';
 			}
-			$retval[$i]->default		= $query[$i]->COLUMN_DEFAULT;
+			$retval[$i]->default = $default;
 		}
 
 		return $retval;

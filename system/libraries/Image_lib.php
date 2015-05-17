@@ -1055,8 +1055,11 @@ class CI_Image_lib {
 
 		if ($this->rotation_angle === 'hor')
 		{
-			for ($i = 0; $i < $height; $i++, $left = 0, $right = $width-1)
+			for ($i = 0; $i < $height; $i++)
 			{
+				$left = 0;
+				$right = $width - 1;
+
 				while ($left < $right)
 				{
 					$cl = imagecolorat($src_img, $left, $i);
@@ -1072,18 +1075,21 @@ class CI_Image_lib {
 		}
 		else
 		{
-			for ($i = 0; $i < $width; $i++, $top = 0, $bot = $height-1)
+			for ($i = 0; $i < $width; $i++)
 			{
-				while ($top < $bot)
+				$top = 0;
+				$bottom = $height - 1;
+
+				while ($top < $bottom)
 				{
 					$ct = imagecolorat($src_img, $i, $top);
-					$cb = imagecolorat($src_img, $i, $bot);
+					$cb = imagecolorat($src_img, $i, $bottom);
 
 					imagesetpixel($src_img, $i, $top, $cb);
-					imagesetpixel($src_img, $i, $bot, $ct);
+					imagesetpixel($src_img, $i, $bottom, $ct);
 
 					$top++;
-					$bot--;
+					$bottom--;
 				}
 			}
 		}

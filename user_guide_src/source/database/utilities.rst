@@ -18,7 +18,7 @@ Initializing the Utility Class
 
 Load the Utility Class as follows::
 
-	$this->load->dbutil()
+	$this->load->dbutil();
 
 You can also pass another database object to the DB Utility loader, in case
 the database you want to manage isn't the default one::
@@ -35,7 +35,7 @@ assigning it directly to ``$this->dbutil``.
 Once initialized you will access the methods using the ``$this->dbutil``
 object::
 
-	$this->dbutil->some_method()
+	$this->dbutil->some_method();
 
 ****************************
 Using the Database Utilities
