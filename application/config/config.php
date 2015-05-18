@@ -496,3 +496,20 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+
+/*
+|--------------------------------------------------------------------------
+| Use ucfirst for controllers & models
+|--------------------------------------------------------------------------
+|
+| What to set the first letter uppercase for - models, controllers, filenames.
+| Implemented for backwards compatibility, when CI didn't require uppercase
+| for both class names and their files.
+|
+| Possible options:
+| 'class' - only uppercase first letter of classes (use this for backwards compatibility)
+| 'file' - only uppercase first letter of files
+| 'both' - uppercase first letter of both (CI default)
+|
+*/
+$config['uppercase_class_file'] = 'both';
