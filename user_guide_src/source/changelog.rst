@@ -10,6 +10,7 @@ Release Date: Not Released
 -  Core
 
    -  Added DoS mitigation to :php:func:`hash_pbkdf2()` :doc:`compatibility function <general/compatibility_functions>`.
+   -  Added backwards compatibility config option for uppercase first letter of classes/files for models, controllers.
 
 - Database
 

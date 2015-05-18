@@ -290,16 +290,18 @@ class CI_Loader {
 			load_class('Model', 'core');
 		}
 
-		$model = ucfirst(strtolower($model));
+		$uc_config = $CI->config->item('uppercase_class_file');
+		$model = ($uc_config == 'class' || $uc_config == 'both' ? ucfirst(strtolower($model)) : strtolower($model));
+		$model_file = ($uc_config == 'file' || $uc_config == 'both' ? ucfirst(strtolower($model)) : strtolower($model));
 
 		foreach ($this->_ci_model_paths as $mod_path)
 		{
-			if ( ! file_exists($mod_path.'models/'.$path.$model.'.php'))
+			if ( ! file_exists($mod_path.'models/'.$path.$model_file.'.php'))
 			{
 				continue;
 			}
 
-			require_once($mod_path.'models/'.$path.$model.'.php');
+			require_once($mod_path.'models/'.$path.$model_file.'.php');
 
 			$this->_ci_models[] = $name;
 			$CI->$name = new $model();

@@ -396,16 +396,18 @@ if ( ! is_php('5.4'))
  */
 
 	$e404 = FALSE;
-	$class = ucfirst($RTR->class);
+	$uc_config = $CFG->item('uppercase_class_file');
+	$class = ($uc_config == 'class' || $uc_config == 'both' ? ucfirst($RTR->class) : $RTR->class);
+	$class_file = ($uc_config == 'file' || $uc_config == 'both' ? ucfirst($RTR->class) : $RTR->class);
 	$method = $RTR->method;
 
-	if (empty($class) OR ! file_exists(APPPATH.'controllers/'.$RTR->directory.$class.'.php'))
+	if (empty($class) OR ! file_exists(APPPATH.'controllers/'.$RTR->directory.$class_file.'.php'))
 	{
 		$e404 = TRUE;
 	}
 	else
 	{
-		require_once(APPPATH.'controllers/'.$RTR->directory.$class.'.php');
+		require_once(APPPATH.'controllers/'.$RTR->directory.$class_file.'.php');
 
 		if ( ! class_exists($class, FALSE) OR $method[0] === '_' OR method_exists('CI_Controller', $method))
 		{
@@ -435,17 +437,18 @@ if ( ! is_php('5.4'))
 				$error_method = 'index';
 			}
 
-			$error_class = ucfirst($error_class);
+			$error_class = ($uc_config == 'class' || $uc_config == 'both' ? ucfirst($error_class) : strtolower($error_class));
+			$error_class_file = ($uc_config == 'file' || $uc_config == 'both' ? ucfirst($error_class) : strtolower($error_class));
 
 			if ( ! class_exists($error_class, FALSE))
 			{
-				if (file_exists(APPPATH.'controllers/'.$RTR->directory.$error_class.'.php'))
+				if (file_exists(APPPATH.'controllers/'.$RTR->directory.$error_class_file.'.php'))
 				{
-					require_once(APPPATH.'controllers/'.$RTR->directory.$error_class.'.php');
+					require_once(APPPATH.'controllers/'.$RTR->directory.$error_class_file.'.php');
 					$e404 = ! class_exists($error_class, FALSE);
 				}
 				// Were we in a directory? If so, check for a global override
-				elseif ( ! empty($RTR->directory) && file_exists(APPPATH.'controllers/'.$error_class.'.php'))
+				elseif ( ! empty($RTR->directory) && file_exists(APPPATH.'controllers/'.$error_class_file.'.php'))
 				{
 					require_once(APPPATH.'controllers/'.$error_class.'.php');
 					if (($e404 = ! class_exists($error_class, FALSE)) === FALSE)
