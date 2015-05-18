@@ -327,15 +327,15 @@ can also prep your data in various ways. For example, you can set up
 rules like this::
 
 	$this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[12]');
-	$this->form_validation->set_rules('password', 'Password', 'trim|required|md5');
+	$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]');
 	$this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|required|matches[password]');
 	$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
 
 In the above example, we are "trimming" the fields, checking for length
-where necessary and converting the password to MD5.
+where necessary and making sure that both password fields match.
 
 **Any native PHP function that accepts one parameter can be used as a
-rule, like htmlspecialchars, trim, md5, etc.**
+rule, like ``htmlspecialchars()``, ``trim()``, etc.**
 
 .. note:: You will generally want to use the prepping functions
 	**after** the validation rules so if there is an error, the
