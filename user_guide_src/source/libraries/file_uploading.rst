@@ -118,7 +118,7 @@ this code and save it to your **application/controllers/** directory::
 
 			$this->load->library('upload', $config);
 
-			if ( ! $this->upload->do_upload())
+			if ( ! $this->upload->do_upload('userfile'))
 			{
 				$error = array('error' => $this->upload->display_errors());
 
