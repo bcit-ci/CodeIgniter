@@ -416,18 +416,18 @@ There are numerous rules available which you can read about in the validation re
 For example, you can set up rules like this:</p>
 
 <code>
-$this->form_validation->set_rules('username', 'Username', '<kbd>trim</kbd>|required|min_length[5]|max_length[12]|<kbd>xss_clean</kbd>');<br />
-$this->form_validation->set_rules('password', 'Password', '<kbd>trim</kbd>|required|matches[passconf]|<kbd>md5</kbd>');<br />
+$this->form_validation->set_rules('username', 'Username', '<kbd>trim</kbd>|required|min_length[5]|max_length[12]');<br />
+$this->form_validation->set_rules('password', 'Password', '<kbd>trim</kbd>|required|min_length[8]|matches[passconf]');<br />
 $this->form_validation->set_rules('passconf', 'Password Confirmation', '<kbd>trim</kbd>|required');<br />
 $this->form_validation->set_rules('email', 'Email', '<kbd>trim</kbd>|required|valid_email');<br />
 </code>
 
 
-<p>In the above example, we are "trimming" the fields, converting the password to MD5, and running the username through
-the "xss_clean" function, which removes malicious data.</p>
+<p>In the above example, we are "trimming" the fields, checking for length where necessary
+and making sure that both password fields match.</p>
 
-<p><strong>Any native PHP function that accepts one parameter can be used as a rule, like <dfn>htmlspecialchars</dfn>,
-<dfn>trim</dfn>,  <dfn>MD5</dfn>, etc.</strong></p>
+<p><strong>Any native PHP function that accepts one parameter can be used as a rule, like <dfn>htmlspecialchars()</dfn>,
+<dfn>trim()</dfn>, etc.</strong></p>
 
 <p><strong>Note:</strong> You will generally want to use the prepping functions <strong>after</strong>
 the validation rules so if there is an error, the original data will be shown in the form.</p>
