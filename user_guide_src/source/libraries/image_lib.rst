@@ -89,7 +89,7 @@ If they fail you can retrieve the error message using this function::
 
 	echo $this->image_lib->display_errors();
 
-A good practice is use the processing function conditionally, showing an
+A good practice is to use the processing function conditionally, showing an
 error upon failure, like this::
 
 	if ( ! $this->image_lib->resize())
@@ -187,7 +187,7 @@ Two Types of Watermarking
 
 There are two types of watermarking that you can use:
 
--  **Text**: The watermark message will be generating using text, either
+-  **Text**: The watermark message will be generated using text, either
    with a True Type font that you specify, or using the native text
    output that the GD library supports. If you use the True Type version
    your GD installation must be compiled with True Type support (most
@@ -231,7 +231,7 @@ bottom/center of the image, 20 pixels from the bottom of the image.
 Watermarking Preferences
 ========================
 
-This table shown the preferences that are available for both types of
+This table shows the preferences that are available for both types of
 watermarking (text or overlay)
 
 ======================= =================== ======================= ==========================================================================
@@ -264,7 +264,7 @@ Preference              Default Value       Options                 Description
 Text Preferences
 ----------------
 
-This table shown the preferences that are available for the text type of
+This table shows the preferences that are available for the text type of
 watermarking.
 
 ======================= =================== =================== ==========================================================================
@@ -289,7 +289,7 @@ Preference              Default Value       Options             Description
 Overlay Preferences
 -------------------
 
-This table shown the preferences that are available for the overlay type
+This table shows the preferences that are available for the overlay type
 of watermarking.
 
 ======================= =================== =================== ==========================================================================
