@@ -29,6 +29,7 @@ Bug fixes for 3.0.1
 -  Fixed a bug (#3823) - :doc:`Session Library <libraries/sessions>` drivers Redis and Memcached didn't properly handle locks that are blocking the request for more than 30 seconds.
 -  Fixed a bug (#3846) - :doc:`Image Manipulation Library <libraries/image_lib>` method `image_mirror_gd()` didn't properly initialize its variables.
 -  Fixed a bug (#3854) - `field_data()` didn't work properly with the Oracle (OCI8) database driver.
+-  Fixed a bug in the :doc:`Database Utility Class <database/utilities>` method ``csv_from_result()`` didn't work with a whitespace CSV delimiter.
 
 Version 3.0.0
 =============

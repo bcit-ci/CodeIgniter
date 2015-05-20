@@ -249,7 +249,7 @@ abstract class CI_DB_utility {
 			$out .= $enclosure.str_replace($enclosure, $enclosure.$enclosure, $name).$enclosure.$delim;
 		}
 
-		$out = substr(rtrim($out), 0, -strlen($delim)).$newline;
+		$out = substr($out, 0, -strlen($delim)).$newline;
 
 		// Next blast through the result array and build out the rows
 		while ($row = $query->unbuffered_row('array'))
@@ -258,7 +258,7 @@ abstract class CI_DB_utility {
 			{
 				$out .= $enclosure.str_replace($enclosure, $enclosure.$enclosure, $item).$enclosure.$delim;
 			}
-			$out = substr(rtrim($out), 0, -strlen($delim)).$newline;
+			$out = substr($out, 0, -strlen($delim)).$newline;
 		}
 
 		return $out;
