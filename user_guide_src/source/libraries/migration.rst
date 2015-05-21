@@ -164,7 +164,7 @@ Class Reference
 
 	.. php:method:: latest()
 
-		:returns:	current version string on success, FALSE on failure
+		:returns:	Current version string on success, FALSE on failure
 		:rtype:	mixed
 
 		This works much the same way as ``current()`` but instead of looking for 

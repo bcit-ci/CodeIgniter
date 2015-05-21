@@ -294,7 +294,7 @@ class CI_Migration {
 	/**
 	 * Sets the schema to the latest migration
 	 *
-	 * @return	mixed	current version string on success, FALSE on failure
+	 * @return	mixed	Current version string on success, FALSE on failure
 	 */
 	public function latest()
 	{
