@@ -1526,7 +1526,7 @@ class CI_Email {
 
 				// If we're at the character limit, add the line to the output,
 				// reset our temp variable, and keep on chuggin'
-				if ((strlen($temp) + strlen($char)) >= 76)
+				if ($this->wordwrap === TRUE && $this->mailtype !== 'html' && (strlen($temp) + strlen($char)) >= $this->wrapchars)
 				{
 					$output .= $temp.$escape.$this->crlf;
 					$temp = '';
