@@ -966,6 +966,20 @@ class CI_Loader {
 		// but we don't want a leading slash
 		$class = str_replace('.php', '', trim($class, '/'));
 
+		// Autoload namespaced classname
+		if (strpos($class, '\\') !== FALSE)
+		{
+			if (class_exists($class))
+			{
+				if ($object_name === NULL)
+				{
+					$class_parts = explode('\\', $class);
+					$object_name = strtolower(array_pop($class_parts));
+				}
+				return $this->_ci_init_library($class, '', $params, $object_name);
+			}
+		}
+
 		// Was the path included with the class name?
 		// We look for a slash to determine this
 		if (($last_slash = strrpos($class, '/')) !== FALSE)
@@ -1156,28 +1170,36 @@ class CI_Loader {
 				$found = FALSE;
 				foreach ($config_component->_config_paths as $path)
 				{
+					$config_file = strtolower($class).'.php';
+
+					// Namespaced classname
+					if (strpos($class, '\\') !== FALSE)
+					{
+						$config_file = str_replace('\\', '_', $config_file);
+					}
+
 					// We test for both uppercase and lowercase, for servers that
 					// are case-sensitive with regard to file names. Load global first,
 					// override with environment next
-					if (file_exists($path.'config/'.strtolower($class).'.php'))
+					if (file_exists($path.'config/'.$config_file))
 					{
-						include($path.'config/'.strtolower($class).'.php');
+						include($path.'config/'.$config_file);
 						$found = TRUE;
 					}
-					elseif (file_exists($path.'config/'.ucfirst(strtolower($class)).'.php'))
+					elseif (file_exists($path.'config/'.ucfirst($config_file)))
 					{
-						include($path.'config/'.ucfirst(strtolower($class)).'.php');
+						include($path.'config/'.ucfirst($config_file));
 						$found = TRUE;
 					}
 
-					if (file_exists($path.'config/'.ENVIRONMENT.'/'.strtolower($class).'.php'))
+					if (file_exists($path.'config/'.ENVIRONMENT.'/'.$config_file))
 					{
-						include($path.'config/'.ENVIRONMENT.'/'.strtolower($class).'.php');
+						include($path.'config/'.ENVIRONMENT.'/'.$config_file);
 						$found = TRUE;
 					}
-					elseif (file_exists($path.'config/'.ENVIRONMENT.'/'.ucfirst(strtolower($class)).'.php'))
+					elseif (file_exists($path.'config/'.ENVIRONMENT.'/'.ucfirst($config_file)))
 					{
-						include($path.'config/'.ENVIRONMENT.'/'.ucfirst(strtolower($class)).'.php');
+						include($path.'config/'.ENVIRONMENT.'/'.ucfirst($config_file));
 						$found = TRUE;
 					}
 
