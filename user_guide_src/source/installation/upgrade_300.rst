@@ -34,12 +34,12 @@ For example, if you have the following library file:
 The same goes for driver libraries and extensions and/or overrides of CodeIgniter's
 own libraries and core classes.
 
-	application/libraries/MY_email.php
+	application/libraries/MY_email.php  
 	application/core/MY_log.php
 
 The above files should respectively be renamed to the following:
 
-	application/libraries/MY_Email.php
+	application/libraries/MY_Email.php  
 	application/core/MY_Log.php
 
 Controllers:
@@ -76,9 +76,9 @@ Step 5: Move your Log class overrides or extensions
 
 The Log Class is considered as a "core" class and is now located in the
 **system/core/** directory. Therefore, in order for your Log class overrides
-or extensions to work, you need to move them to **application/core/**::
+or extensions to work, you need to move them to **application/core/**:
 
-	application/libraries/Log.php -> application/core/Log.php
+	application/libraries/Log.php -> application/core/Log.php  
 	application/libraries/MY_Log.php -> application/core/MY_Log.php
 
 *****************************************
