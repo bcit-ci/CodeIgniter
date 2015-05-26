@@ -237,19 +237,19 @@ TRUE, FALSE, and NULL
 =====================
 
 **TRUE**, **FALSE**, and **NULL** keywords should always be fully
-uppercase.
+lowercase. Only constants shoud be uppercased
 
 **INCORRECT**::
-
-	if ($foo == true)
-	$bar = false;
-	function foo($bar = null)
-
-**CORRECT**::
 
 	if ($foo == TRUE)
 	$bar = FALSE;
 	function foo($bar = NULL)
+
+**CORRECT**::
+
+	if ($foo == true)
+	$bar = false;
+	function foo($bar = null)
 
 Logical Operators
 =================
