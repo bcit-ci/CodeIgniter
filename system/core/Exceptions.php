@@ -182,7 +182,12 @@ class CI_Exceptions {
 		include($templates_path.$template.'.php');
 		$buffer = ob_get_contents();
 		ob_end_clean();
-		return $buffer;
+
+		if (str_ireplace(array('off', 'none', 'no', 'false', 'null'), '', ini_get('display_errors')))
+		{
+			return $buffer;
+		}
+		return;
 	}
 
 	// --------------------------------------------------------------------
