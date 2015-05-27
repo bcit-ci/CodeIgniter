@@ -35,12 +35,6 @@ To filter data through the XSS filter use the ``xss_clean()`` method::
 
 	$data = $this->security->xss_clean($data);
 
-If you want the filter to run automatically every time it encounters
-POST or COOKIE data you can enable it by opening your
-application/config/config.php file and setting this::
-
-	$config['global_xss_filtering'] = TRUE;
-
 An optional second parameter, *is_image*, allows this function to be used
 to test images for potential XSS attacks, useful for file upload
 security. When this second parameter is set to TRUE, instead of
