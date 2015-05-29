@@ -8,9 +8,13 @@ Before performing an update you should take your site offline by replacing the i
 Step 1: Update your CodeIgniter files
 *************************************
 
-Replace all files and directories in your "system" folder and replace
-your index.php file. If any modifications were made to your index.php
-they will need to be made fresh in this new one.
+**Replace** all files and directories in your *system/* directory and
+replace your index.php file. If any modifications were made to your
+index.php they will need to be made fresh in this new one.
+
+.. important:: You have to delete the old *system/* directory first and
+	then put the new one in its place. A simple copy-paste may cause
+	issues.
 
 .. note:: If you have any custom developed files in these folders please
 	make copies of them first.
