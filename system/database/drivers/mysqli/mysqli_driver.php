@@ -60,6 +60,21 @@ class CI_DB_mysqli_driver extends CI_DB {
 	public $dbdriver = 'mysqli';
 
 	/**
+	 * Database options list
+	 *
+	 * Used to set various database options and values.
+	 *
+	 * @example http://php.net/manual/en/mysqli.options.php		Allows to set options not built-in/handled by CI.
+	 *
+	 * <code>
+	 * array( MYSQLI_OPT_SSL_VERIFY_SERVER_CERT => true );
+	 * </code>
+	 *
+	 * @var array
+	 */
+	public $db_options		= array();
+
+	/**
 	 * Compression flag
 	 *
 	 * @var	bool
@@ -85,6 +100,41 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 * @var	bool
 	 */
 	public $stricton = FALSE;
+
+	/**
+	 * @see http://php.net/manual/en/mysqli.ssl-set.php		Documentation for MySQLi
+	 *
+	 * @var string
+	 */
+	public $ssl_key		= '';
+
+	/**
+	 * @see http://php.net/manual/en/mysqli.ssl-set.php		Documentation for MySQLi
+	 *
+	 * @var string
+	 */
+	public $ssl_cert		= '';
+
+	/**
+	 * @see http://php.net/manual/en/mysqli.ssl-set.php		Documentation for MySQLi
+	 *
+	 * @var string
+	 */
+	public $ssl_ca		= '';
+
+	/**
+	 * @see http://php.net/manual/en/mysqli.ssl-set.php		Documentation for MySQLi
+	 *
+	 * @var string
+	 */
+	public $ssl_capath		= '';
+
+	/**
+	 * @see http://php.net/manual/en/mysqli.ssl-set.php		Documentation for MySQLi
+	 *
+	 * @var string
+	 */
+	public $ssl_cipher		= '';
 
 	// --------------------------------------------------------------------
 
@@ -132,8 +182,46 @@ class CI_DB_mysqli_driver extends CI_DB {
 			$mysqli->options(MYSQLI_INIT_COMMAND, 'SET SESSION sql_mode="STRICT_ALL_TABLES"');
 		}
 
-		return $mysqli->real_connect($hostname, $this->username, $this->password, $this->database, $port, $socket, $client_flags)
-			? $mysqli : FALSE;
+		foreach ($this->db_options AS $key => $value)
+		{
+			$mysqli->options($key, $value);
+		}
+
+		if ($this->encrypt === TRUE)
+		{
+			$mysqli->ssl_set($this->ssl_key, $this->ssl_cert, $this->ssl_ca, $this->ssl_capath, $this->ssl_cipher);
+			$client_flags |= MYSQLI_CLIENT_SSL;
+		}
+
+		$connected = @$mysqli->real_connect($hostname, $this->username, $this->password, $this->database, $port, $socket, $client_flags);
+
+		if ($connected)
+		{
+			// If SSL was requested we want to do some checking and log an error if an SSL connection wasn't established.
+			if ($this->encrypt === TRUE)
+			{
+				$res        = $mysqli->query("SHOW STATUS LIKE 'ssl_cipher';");
+				$ssl_status = $res->fetch_row();
+
+				if ($ssl_status[1] == '')
+				{
+					log_message('error',
+							"Problem With MySQLi SSL: An SSL connection was requested but the resulting connection is not using SSL!");
+				}
+			}
+
+			return $mysqli;
+		}
+		else
+		{
+			if ($mysqli->connect_errno)
+			{
+				log_message('error',
+						'msqli connect failed, error: ' . mysqli_connect_error() . " | " . $mysqli->connect_error . " | " . $mysqli->connect_errno);
+			}
+		}
+
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
