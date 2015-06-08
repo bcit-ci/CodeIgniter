@@ -186,6 +186,13 @@ Explanation of Values:
 			::
 
 				$db['default']['port'] = 5432;
+
+**db_options**		Used to set various database connections options and values. (MySQLi only)
+**ssl_key**		The path name to the key file. (MySQLi only)
+**ssl_cert**		The path name to the certificate file. (MySQLi only)
+**ssl_ca**		The path name to the certificate authority file. (MySQLi only)
+**ssl_capath**		The pathname to a directory that contains trusted SSL CA certificates in PEM format. (MySQLi only)
+**ssl_cipher**		A list of allowable ciphers to use for SSL encryption. (MySQLi only)
 ======================  ==================================================================================================
 
 .. note:: Depending on what database platform you are using (MySQL, PostgreSQL,

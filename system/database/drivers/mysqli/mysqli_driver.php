@@ -102,6 +102,8 @@ class CI_DB_mysqli_driver extends CI_DB {
 	public $stricton = FALSE;
 
 	/**
+	 * The path name to the key file.
+	 *
 	 * @see http://php.net/manual/en/mysqli.ssl-set.php		Documentation for MySQLi
 	 *
 	 * @var string
@@ -109,6 +111,8 @@ class CI_DB_mysqli_driver extends CI_DB {
 	public $ssl_key		= '';
 
 	/**
+	 * The path name to the certificate file.
+	 *
 	 * @see http://php.net/manual/en/mysqli.ssl-set.php		Documentation for MySQLi
 	 *
 	 * @var string
@@ -116,6 +120,8 @@ class CI_DB_mysqli_driver extends CI_DB {
 	public $ssl_cert		= '';
 
 	/**
+	 * The path name to the certificate authority file.
+	 *
 	 * @see http://php.net/manual/en/mysqli.ssl-set.php		Documentation for MySQLi
 	 *
 	 * @var string
@@ -123,6 +129,8 @@ class CI_DB_mysqli_driver extends CI_DB {
 	public $ssl_ca		= '';
 
 	/**
+	 * The pathname to a directory that contains trusted SSL CA certificates in PEM format.
+	 *
 	 * @see http://php.net/manual/en/mysqli.ssl-set.php		Documentation for MySQLi
 	 *
 	 * @var string
@@ -130,6 +138,8 @@ class CI_DB_mysqli_driver extends CI_DB {
 	public $ssl_capath		= '';
 
 	/**
+	 * A list of allowable ciphers to use for SSL encryption.
+	 *
 	 * @see http://php.net/manual/en/mysqli.ssl-set.php		Documentation for MySQLi
 	 *
 	 * @var string
