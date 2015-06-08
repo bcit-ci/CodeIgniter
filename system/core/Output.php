@@ -302,7 +302,8 @@ class CI_Output {
 			return NULL;
 		}
 
-		for ($i = 0, $c = count($headers); $i < $c; $i++)
+		$c = count($headers);
+		for ($i = 0; $i < $c; $i++)
 		{
 			if (strncasecmp($header, $headers[$i], $l = strlen($header)) === 0)
 			{
