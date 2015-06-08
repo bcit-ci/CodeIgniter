@@ -11,6 +11,10 @@ Release Date: Not Released
 
    -  Added DoS mitigation to :php:func:`hash_pbkdf2()` :doc:`compatibility function <general/compatibility_functions>`.
 
+- Database
+
+   -  Added ``list_fields()`` support for SQLite ('sqlite3' and 'pdo_sqlite' drivers).
+
 Bug fixes for 3.0.1
 -------------------
 
@@ -19,6 +23,14 @@ Bug fixes for 3.0.1
 -  Fixed a bug (#3761) - :doc:`URL Helper <helpers/url_helper>` function :php:func:`anchor()` didn't work with array inputs.
 -  Fixed a bug (#3773) - ``db_select()`` didn't work for MySQL with the PDO :doc:`Database <database/index>` driver.
 -  Fixed a bug (#3771) - :doc:`Form Validation Library <libraries/form_validation>` was looking for a 'form_validation_' prefix when trying to translate field name labels.
+-  Fixed a bug (#3787) - :doc:`FTP Library <libraries/ftp>` method ``delete_dir()`` failed when the target has subdirectories.
+-  Fixed a bug (#3801) - :doc:`Output Library <libraries/output>` method ``_display_cache()`` incorrectly looked for the last modified time of a directory instead of the cache file.
+-  Fixed a bug (#3816) - :doc:`Form Validation Library <libraries/form_validation>` treated empty string values as non-existing ones.
+-  Fixed a bug (#3823) - :doc:`Session Library <libraries/sessions>` drivers Redis and Memcached didn't properly handle locks that are blocking the request for more than 30 seconds.
+-  Fixed a bug (#3846) - :doc:`Image Manipulation Library <libraries/image_lib>` method `image_mirror_gd()` didn't properly initialize its variables.
+-  Fixed a bug (#3854) - `field_data()` didn't work properly with the Oracle (OCI8) database driver.
+-  Fixed a bug in the :doc:`Database Utility Class <database/utilities>` method ``csv_from_result()`` didn't work with a whitespace CSV delimiter.
+-  Fixed a bug (#3890) - :doc:`Input Library <libraries/input>` method ``get_request_header()`` treated header names as case-sensitive.
 
 Version 3.0.0
 =============

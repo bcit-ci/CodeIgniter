@@ -35,12 +35,6 @@ To filter data through the XSS filter use the ``xss_clean()`` method::
 
 	$data = $this->security->xss_clean($data);
 
-If you want the filter to run automatically every time it encounters
-POST or COOKIE data you can enable it by opening your
-application/config/config.php file and setting this::
-
-	$config['global_xss_filtering'] = TRUE;
-
 An optional second parameter, *is_image*, allows this function to be used
 to test images for potential XSS attacks, useful for file upload
 security. When this second parameter is set to TRUE, instead of
@@ -88,7 +82,7 @@ may alter this behavior by editing the following config parameter
 
 ::
 
-	$config['csrf_regeneration'] = TRUE;
+	$config['csrf_regenerate'] = TRUE;
 
 Select URIs can be whitelisted from csrf protection (for example API
 endpoints expecting externally POSTed content). You can add these URIs

@@ -88,7 +88,7 @@ as *20121031100537_add_blog.php*.
 		}
 	}
 
-Then in **application/config/migration.php** set ``$config['migration_version'] = 1;``.
+Then in **application/config/migration.php** set ``$config['migration_version'] = 20121031100537;``.
 
 *************
 Usage Example
@@ -164,7 +164,7 @@ Class Reference
 
 	.. php:method:: latest()
 
-		:returns:	TRUE if no migrations are found, current version string on success, FALSE on failure
+		:returns:	Current version string on success, FALSE on failure
 		:rtype:	mixed
 
 		This works much the same way as ``current()`` but instead of looking for 

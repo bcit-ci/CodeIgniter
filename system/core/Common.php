@@ -749,7 +749,7 @@ if ( ! function_exists('html_escape'))
 		{
 			return $var;
 		}
-		
+
 		if (is_array($var))
 		{
 			return array_map('html_escape', $var, array_fill(0, count($var), $double_encode));

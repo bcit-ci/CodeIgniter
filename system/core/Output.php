@@ -674,7 +674,7 @@ class CI_Output {
 		$cache_info = unserialize($match[1]);
 		$expire = $cache_info['expire'];
 
-		$last_modified = filemtime($cache_path);
+		$last_modified = filemtime($filepath);
 
 		// Has the file expired?
 		if ($_SERVER['REQUEST_TIME'] >= $expire && is_really_writable($cache_path))
