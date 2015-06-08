@@ -30,6 +30,12 @@ prototype::
 		'encrypt' => FALSE,
 		'compress' => FALSE,
 		'stricton' => FALSE,
+		'db_options' => array(),
+		'ssl_key' => '',
+		'ssl_cert' => '',
+		'ssl_ca' => '',
+		'ssl_capath' => '',
+		'ssl_cipher' => '',
 		'failover' => array()
 	);
 
@@ -71,7 +77,13 @@ These failovers can be specified by setting the failover for a connection like t
 				'swap_pre' => '',
 				'encrypt' => FALSE,
 				'compress' => FALSE,
-				'stricton' => FALSE
+				'stricton' => FALSE,
+				'db_options' => array(),
+				'ssl_key' => '',
+				'ssl_cert' => '',
+				'ssl_ca' => '',
+				'ssl_capath' => '',
+				'ssl_cipher' => ''
 			),
 			array(
 				'hostname' => 'localhost2',
@@ -89,7 +101,13 @@ These failovers can be specified by setting the failover for a connection like t
 				'swap_pre' => '',
 				'encrypt' => FALSE,
 				'compress' => FALSE,
-				'stricton' => FALSE
+				'stricton' => FALSE,
+				'db_options' => array(),
+				'ssl_key' => '',
+				'ssl_cert' => '',
+				'ssl_ca' => '',
+				'ssl_capath' => '',
+				'ssl_cipher' => ''
 			)
 		);
 
@@ -120,6 +138,12 @@ example, to set up a "test" environment you would do this::
 		'compress' => FALSE,
 		'encrypt' => FALSE,
 		'stricton' => FALSE,
+		'db_options' => array(),
+		'ssl_key' => '',
+		'ssl_cert' => '',
+		'ssl_ca' => '',
+		'ssl_capath' => '',
+		'ssl_cipher' => '',
 		'failover' => array()
 	);
 

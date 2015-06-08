@@ -43,6 +43,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |	['compress'] Whether or not to use client compression (MySQL only)
 |	['stricton'] TRUE/FALSE - forces 'Strict Mode' connections
 |							- good for ensuring strict SQL while developing
+|	['db_options']	Used to set various database connections options and values. (MySQLi only)
+|	['ssl_key']		The path name to the key file. (MySQLi only)
+|	['ssl_cert']	The path name to the certificate file. (MySQLi only)
+|	['ssl_ca']		The path name to the certificate authority file. (MySQLi only)
+|	['ssl_capath']	The pathname to a directory that contains trusted SSL CA certificates in PEM format. (MySQLi only)
+|	['ssl_cipher']	A list of allowable ciphers to use for SSL encryption. (MySQLi only)
 |	['failover'] array - A array with 0 or more data for connections if the main should fail.
 |	['save_queries'] TRUE/FALSE - Whether to "save" all executed queries.
 | 				NOTE: Disabling this will also effectively disable both
@@ -80,6 +86,12 @@ $db['default'] = array(
 	'encrypt' => FALSE,
 	'compress' => FALSE,
 	'stricton' => FALSE,
+	'db_options' => array(),
+	'ssl_key' => '',
+	'ssl_cert' => '',
+	'ssl_ca' => '',
+	'ssl_capath' => '',
+	'ssl_cipher' => '',
 	'failover' => array(),
 	'save_queries' => TRUE
 );
