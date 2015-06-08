@@ -341,6 +341,12 @@ rule, like htmlspecialchars, trim, md5, etc.**
 	**after** the validation rules so if there is an error, the
 	original data will be shown in the form.
 
+.. note:: The example above uses the **md5** function to obscure a password value.
+        This is not recommended, as it is easily cracked. Unfortunately, the
+        recommended **password_hash** function in PHP takes two parameters,
+        and cannot be used with this data prepping.
+        See :doc:`password handling <../general/security>` writeup for more details.
+
 Re-populating the form
 ======================
 
