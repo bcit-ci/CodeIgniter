@@ -1395,6 +1395,45 @@ abstract class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Generate a replace string
+	 *
+	 * @param	string	the table upon which the query will be performed
+	 * @param	array	an associative array data of key/values
+	 * @return	string
+	 */
+	public function replace_string($table, $data)
+	{
+		$fields = $values = array();
+
+		foreach ($data as $key => $val)
+		{
+			$fields[] = $this->escape_identifiers($key);
+			$values[] = $this->escape($val);
+		}
+
+		return $this->_replace($this->protect_identifiers($table, TRUE, NULL, FALSE), $fields, $values);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Replace statement
+	 *
+	 * Generates a platform-specific replace string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @param	array	the replace keys
+	 * @param	array	the replace values
+	 * @return	string
+	 */
+	protected function _replace($table, $keys, $values)
+	{
+		return 'REPLACE INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Generate an update string
 	 *
 	 * @param	string	the table upon which the query will be performed
