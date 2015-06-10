@@ -31,6 +31,7 @@ Bug fixes for 3.0.1
 -  Fixed a bug (#3854) - `field_data()` didn't work properly with the Oracle (OCI8) database driver.
 -  Fixed a bug in the :doc:`Database Utility Class <database/utilities>` method ``csv_from_result()`` didn't work with a whitespace CSV delimiter.
 -  Fixed a bug (#3890) - :doc:`Input Library <libraries/input>` method ``get_request_header()`` treated header names as case-sensitive.
+-  Fixed a bug (#3903) - :doc:`Form Validation Library <libraries/form_validation>` ignored "unnamed" closure validation rules.
 
 Version 3.0.0
 =============
