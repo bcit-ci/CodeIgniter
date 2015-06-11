@@ -618,6 +618,12 @@ class CI_Form_validation {
 					$rules = array(1 => $rule);
 					break;
 				}
+				elseif (is_array($rule) && isset($rule[0], $rule[1]) && is_callable($rule[1]))
+				{
+					$callback = TRUE;
+					$rules = array($rule[0] => $rule[1]);
+					break;
+				}
 			}
 
 			if ( ! $callback)
