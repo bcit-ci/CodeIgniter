@@ -621,7 +621,7 @@ class CI_Form_validation {
 				elseif (is_array($rule) && isset($rule[0], $rule[1]) && is_callable($rule[1]))
 				{
 					$callback = TRUE;
-					$rules = array($rule[0] => $rule[1]);
+					$rules = array(array($rule[0], $rule[1]));
 					break;
 				}
 			}
