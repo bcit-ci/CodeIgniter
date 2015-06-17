@@ -483,8 +483,6 @@ if ( ! function_exists('form_radio'))
 		is_array($data) OR $data = array('name' => $data);
 		$data['type'] = 'radio';
 
-		$extra = _attributes_to_string($extra);
-
 		return form_checkbox($data, $value, $checked, $extra);
 	}
 }

@@ -8,12 +8,18 @@ Version 3.0.1
 Release Date: Not Released
 
 -  Core
-
+   
    -  Added DoS mitigation to :php:func:`hash_pbkdf2()` :doc:`compatibility function <general/compatibility_functions>`.
 
-- Database
-
+-  Database
+   
    -  Added ``list_fields()`` support for SQLite ('sqlite3' and 'pdo_sqlite' drivers).
+
+-  Helpers
+   
+   -  :doc:`Form Helper <helpers/form_helper>` changes include:
+
+      -  Made all form helpers consistent by allowing an array to be passed for extra attributes.
 
 Bug fixes for 3.0.1
 -------------------

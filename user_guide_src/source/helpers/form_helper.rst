@@ -191,7 +191,7 @@ The following functions are available:
 
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
-	:param	mixed	$extra: Extra attributes to be added to the tag *as is* either as array or string
+	:param	mixed	$extra: Extra attributes to be added to the tag either as array or string
 	:returns:	An HTML text input field tag
 	:rtype:	string
 
@@ -235,7 +235,7 @@ The following functions are available:
 
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
-	:param	mixed	$extra: Extra attributes to be added to the tag *as is* either as array or string
+	:param	mixed	$extra: Extra attributes to be added to the tag either as array or string
 	:returns:	An HTML password input field tag
 	:rtype:	string
 
@@ -247,7 +247,7 @@ The following functions are available:
 
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
-	:param	mixed	$extra: Extra attributes to be added to the tag *as is* either as array or string
+	:param	mixed	$extra: Extra attributes to be added to the tag either as array or string
 	:returns:	An HTML file upload input field tag
 	:rtype:	string
 
@@ -260,7 +260,7 @@ The following functions are available:
 
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
-	:param	mixed	$extra: Extra attributes to be added to the tag *as is* either as array or string
+	:param	mixed	$extra: Extra attributes to be added to the tag either as array or string
 	:returns:	An HTML textarea tag
 	:rtype:	string
 
@@ -275,7 +275,7 @@ The following functions are available:
 	:param	string	$name: Field name
 	:param	array	$options: An associative array of options to be listed
 	:param	array	$selected: List of fields to mark with the *selected* attribute
-	:param	mixed	$extra: Extra attributes to be added to the tag *as is* either as array or string
+	:param	mixed	$extra: Extra attributes to be added to the tag either as array or string
 	:returns:	An HTML dropdown select field tag
 	:rtype:	string
 
@@ -344,7 +344,7 @@ The following functions are available:
 	:param	string	$name: Field name
 	:param	array	$options: An associative array of options to be listed
 	:param	array	$selected: List of fields to mark with the *selected* attribute
-	:param	mixed	$extra: Extra attributes to be added to the tag *as is* either as array or string
+	:param	mixed	$extra: Extra attributes to be added to the tag either as array or string
 	:returns:	An HTML dropdown multiselect field tag
 	:rtype:	string
 
@@ -427,7 +427,7 @@ The following functions are available:
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
 	:param	bool	$checked: Whether to mark the checkbox as being *checked*
-	:param	mixed	$extra: Extra attributes to be added to the tag *as is* either as array or string
+	:param	mixed	$extra: Extra attributes to be added to the tag either as array or string
 	:returns:	An HTML checkbox input tag
 	:rtype:	string
 
@@ -471,7 +471,7 @@ The following functions are available:
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
 	:param	bool	$checked: Whether to mark the radio button as being *checked*
-	:param	mixed	$extra: Extra attributes to be added to the tag *as is* either as array or string
+	:param	mixed	$extra: Extra attributes to be added to the tag either as array or string
 	:returns:	An HTML radio input tag
 	:rtype:	string
 
@@ -510,7 +510,7 @@ The following functions are available:
 
 	:param	string	$data: Button name
 	:param	string	$value: Button value
-	:param	mixed	$extra: Extra attributes to be added to the tag *as is* either as array or string
+	:param	mixed	$extra: Extra attributes to be added to the tag either as array or string
 	:returns:	An HTML input submit tag
 	:rtype:	string
 
@@ -528,7 +528,7 @@ The following functions are available:
 
 	:param	string	$data: Button name
 	:param	string	$value: Button value
-	:param	mixed	$extra: Extra attributes to be added to the tag *as is* either as array or string
+	:param	mixed	$extra: Extra attributes to be added to the tag either as array or string
 	:returns:	An HTML input reset button tag
 	:rtype:	string
 
@@ -540,7 +540,7 @@ The following functions are available:
 
 	:param	string	$data: Button name
 	:param	string	$content: Button label
-	:param	mixed	$extra: Extra attributes to be added to the tag *as is* either as array or string
+	:param	mixed	$extra: Extra attributes to be added to the tag either as array or string
 	:returns:	An HTML button tag
 	:rtype:	string
 
