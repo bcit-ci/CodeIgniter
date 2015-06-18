@@ -1323,11 +1323,12 @@ class CI_DB_active_record extends CI_DB_driver {
 		// Combine any cached components with the current statements
 		$this->_merge_cache();
 
-		if (is_null($index))
+		// $index as an array
+		if (count($index)==0)
 		{
 			if ($this->db_debug)
 			{
-				return $this->display_error('db_must_use_index');
+				return $this->display_error('db_must_use_index_as_array_with_atleast_one_fieldname');
 			}
 
 			return FALSE;
@@ -1365,7 +1366,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		// Batch this baby
 		for ($i = 0, $total = count($this->ar_set); $i < $total; $i = $i + 100)
 		{
-			$sql = $this->_update_batch($this->_protect_identifiers($table, TRUE, NULL, FALSE), array_slice($this->ar_set, $i, 100), $this->_protect_identifiers($index), $this->ar_where);
+			$sql = $this->_update_batch($this->_protect_identifiers($table, TRUE, NULL, FALSE), array_slice($this->ar_set, $i, 100), $this->_protect_identifiers($index[$i]), $this->ar_where);
 
 			$this->query($sql);
 		}
@@ -1383,7 +1384,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	boolean
 	 * @return	object
 	 */
-	public function set_update_batch($key, $index = '', $escape = TRUE)
+	public function set_update_batch($key, $index = array(), $escape = TRUE)
 	{
 		$key = $this->_object_to_array_batch($key);
 
@@ -1399,7 +1400,8 @@ class CI_DB_active_record extends CI_DB_driver {
 
 			foreach ($v as $k2 => $v2)
 			{
-				if ($k2 == $index)
+				// find field in index array
+				if (in_array($k2,$index)
 				{
 					$index_set = TRUE;
 				}
