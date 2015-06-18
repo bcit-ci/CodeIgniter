@@ -60,21 +60,6 @@ class CI_DB_mysqli_driver extends CI_DB {
 	public $dbdriver = 'mysqli';
 
 	/**
-	 * Database options list
-	 *
-	 * Used to set various database options and values.
-	 *
-	 * @example http://php.net/manual/en/mysqli.options.php		Allows to set options not built-in/handled by CI.
-	 *
-	 * <code>
-	 * array( MYSQLI_OPT_SSL_VERIFY_SERVER_CERT => true );
-	 * </code>
-	 *
-	 * @var array
-	 */
-	public $db_options		= array();
-
-	/**
 	 * Compression flag
 	 *
 	 * @var	bool
@@ -102,49 +87,19 @@ class CI_DB_mysqli_driver extends CI_DB {
 	public $stricton = FALSE;
 
 	/**
-	 * The path name to the key file.
+	 * Used to set various SSL options that can be used when making SSL connections.
 	 *
 	 * @see http://php.net/manual/en/mysqli.ssl-set.php		Documentation for MySQLi
 	 *
-	 * @var string
+	 * @var array
 	 */
-	public $ssl_key		= '';
-
-	/**
-	 * The path name to the certificate file.
-	 *
-	 * @see http://php.net/manual/en/mysqli.ssl-set.php		Documentation for MySQLi
-	 *
-	 * @var string
-	 */
-	public $ssl_cert		= '';
-
-	/**
-	 * The path name to the certificate authority file.
-	 *
-	 * @see http://php.net/manual/en/mysqli.ssl-set.php		Documentation for MySQLi
-	 *
-	 * @var string
-	 */
-	public $ssl_ca		= '';
-
-	/**
-	 * The pathname to a directory that contains trusted SSL CA certificates in PEM format.
-	 *
-	 * @see http://php.net/manual/en/mysqli.ssl-set.php		Documentation for MySQLi
-	 *
-	 * @var string
-	 */
-	public $ssl_capath		= '';
-
-	/**
-	 * A list of allowable ciphers to use for SSL encryption.
-	 *
-	 * @see http://php.net/manual/en/mysqli.ssl-set.php		Documentation for MySQLi
-	 *
-	 * @var string
-	 */
-	public $ssl_cipher		= '';
+	public $ssl_options = array(
+			"ssl_key"    => '', // The path name to the key file.
+			"ssl_cert"   => '', // The path name to the certificate file.
+			"ssl_ca"     => '', // The path name to the certificate authority file.
+			"ssl_capath" => '', // The pathname to a directory that contains trusted SSL CA certificates in PEM format.
+			"ssl_cipher" => '' // A list of allowable ciphers to use for SSL encryption.
+	);
 
 	// --------------------------------------------------------------------
 
@@ -192,14 +147,15 @@ class CI_DB_mysqli_driver extends CI_DB {
 			$mysqli->options(MYSQLI_INIT_COMMAND, 'SET SESSION sql_mode="STRICT_ALL_TABLES"');
 		}
 
-		foreach ($this->db_options AS $key => $value)
-		{
-			$mysqli->options($key, $value);
-		}
-
 		if ($this->encrypt === TRUE)
 		{
-			$mysqli->ssl_set($this->ssl_key, $this->ssl_cert, $this->ssl_ca, $this->ssl_capath, $this->ssl_cipher);
+			$ssl_key    = array_key_exists('ssl_key', $this->ssl_options) ? $this->ssl_options['ssl_key'] : '';
+			$ssl_cert   = array_key_exists('ssl_cert', $this->ssl_options) ? $this->ssl_options['ssl_cert'] : '';
+			$ssl_ca     = array_key_exists('ssl_ca', $this->ssl_options) ? $this->ssl_options['ssl_ca'] : '';
+			$ssl_capath = array_key_exists('ssl_capath', $this->ssl_options) ? $this->ssl_options['ssl_capath'] : '';
+			$ssl_cipher = array_key_exists('ssl_cipher', $this->ssl_options) ? $this->ssl_options['ssl_cipher'] : '';
+
+			$mysqli->ssl_set($ssl_key, $ssl_cert, $ssl_ca, $ssl_capath, $ssl_cipher);
 			$client_flags |= MYSQLI_CLIENT_SSL;
 		}
 

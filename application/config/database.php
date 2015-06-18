@@ -86,12 +86,7 @@ $db['default'] = array(
 	'encrypt' => FALSE,
 	'compress' => FALSE,
 	'stricton' => FALSE,
-	'db_options' => array(),
-	'ssl_key' => '',
-	'ssl_cert' => '',
-	'ssl_ca' => '',
-	'ssl_capath' => '',
-	'ssl_cipher' => '',
+	'ssl_options' => array(),
 	'failover' => array(),
 	'save_queries' => TRUE
 );

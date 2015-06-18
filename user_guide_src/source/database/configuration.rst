@@ -30,12 +30,7 @@ prototype::
 		'encrypt' => FALSE,
 		'compress' => FALSE,
 		'stricton' => FALSE,
-		'db_options' => array(),
-		'ssl_key' => '',
-		'ssl_cert' => '',
-		'ssl_ca' => '',
-		'ssl_capath' => '',
-		'ssl_cipher' => '',
+		'ssl_options' => array(),
 		'failover' => array()
 	);
 
@@ -78,12 +73,7 @@ These failovers can be specified by setting the failover for a connection like t
 				'encrypt' => FALSE,
 				'compress' => FALSE,
 				'stricton' => FALSE,
-				'db_options' => array(),
-				'ssl_key' => '',
-				'ssl_cert' => '',
-				'ssl_ca' => '',
-				'ssl_capath' => '',
-				'ssl_cipher' => ''
+				'ssl_options' => array()
 			),
 			array(
 				'hostname' => 'localhost2',
@@ -102,12 +92,7 @@ These failovers can be specified by setting the failover for a connection like t
 				'encrypt' => FALSE,
 				'compress' => FALSE,
 				'stricton' => FALSE,
-				'db_options' => array(),
-				'ssl_key' => '',
-				'ssl_cert' => '',
-				'ssl_ca' => '',
-				'ssl_capath' => '',
-				'ssl_cipher' => ''
+				'ssl_options' => array()
 			)
 		);
 
@@ -138,12 +123,7 @@ example, to set up a "test" environment you would do this::
 		'compress' => FALSE,
 		'encrypt' => FALSE,
 		'stricton' => FALSE,
-		'db_options' => array(),
-		'ssl_key' => '',
-		'ssl_cert' => '',
-		'ssl_ca' => '',
-		'ssl_capath' => '',
-		'ssl_cipher' => '',
+		'ssl_options' => array(),
 		'failover' => array()
 	);
 
@@ -211,12 +191,7 @@ Explanation of Values:
 
 				$db['default']['port'] = 5432;
 
-**db_options**		Used to set various database connections options and values. (MySQLi only)
-**ssl_key**		The path name to the key file. (MySQLi only)
-**ssl_cert**		The path name to the certificate file. (MySQLi only)
-**ssl_ca**		The path name to the certificate authority file. (MySQLi only)
-**ssl_capath**		The pathname to a directory that contains trusted SSL CA certificates in PEM format. (MySQLi only)
-**ssl_cipher**		A list of allowable ciphers to use for SSL encryption. (MySQLi only)
+**ssl_options**		Used to set various SSL connection options and values.
 ======================  ==================================================================================================
 
 .. note:: Depending on what database platform you are using (MySQL, PostgreSQL,
