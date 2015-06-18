@@ -618,6 +618,12 @@ class CI_Form_validation {
 					$rules = array(1 => $rule);
 					break;
 				}
+				elseif (is_array($rule) && isset($rule[0], $rule[1]) && is_callable($rule[1]))
+				{
+					$callback = TRUE;
+					$rules = array(array($rule[0], $rule[1]));
+					break;
+				}
 			}
 
 			if ( ! $callback)
@@ -815,11 +821,10 @@ class CI_Form_validation {
 				// Callable rules might not have named error messages
 				if ( ! is_string($rule))
 				{
-					return;
+					$line = $this->CI->lang->line('form_validation_error_message_not_set').'(Anonymous function)';
 				}
-
 				// Check if a custom message is defined
-				if (isset($this->_field_data[$row['field']]['errors'][$rule]))
+				elseif (isset($this->_field_data[$row['field']]['errors'][$rule]))
 				{
 					$line = $this->_field_data[$row['field']]['errors'][$rule];
 				}

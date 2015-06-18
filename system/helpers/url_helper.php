@@ -474,7 +474,7 @@ if ( ! function_exists('url_title'))
 	 * @param	string	$str		Input string
 	 * @param	string	$separator	Word separator
 	 *			(usually '-' or '_')
-	 * @param	bool	$lowercase	Wether to transform the output string to lowercase
+	 * @param	bool	$lowercase	Whether to transform the output string to lowercase
 	 * @return	string
 	 */
 	function url_title($str, $separator = '-', $lowercase = FALSE)
