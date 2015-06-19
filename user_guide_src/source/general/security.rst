@@ -61,7 +61,7 @@ data from the SERVER array, you are encouraged to practice this three
 step approach:
 
 #. Validate the data to ensure it conforms to the correct type, length,
-   size, etc. (sometimes this step can replace step one)
+   size, etc.
 #. Filter the data as if it were tainted.
 #. Escape the data before submitting it into your database or outputting
    it to a browser.
