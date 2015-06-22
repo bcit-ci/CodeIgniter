@@ -154,5 +154,6 @@ return array(
 	'svg'	=>	array('image/svg+xml', 'application/xml', 'text/xml'),
 	'vcf'	=>	'text/x-vcard',
 	'srt'	=>	array('text/srt', 'text/plain'),
-	'vtt'	=>	array('text/vtt', 'text/plain')
+	'vtt'	=>	array('text/vtt', 'text/plain'),
+	'ico'	=>	'image/x-icon'
 );
