@@ -11,9 +11,18 @@ Release Date: Not Released
 
    -  Added DoS mitigation to :php:func:`hash_pbkdf2()` :doc:`compatibility function <general/compatibility_functions>`.
 
-- Database
+-  Database
 
    -  Added ``list_fields()`` support for SQLite ('sqlite3' and 'pdo_sqlite' drivers).
+
+-  Libraries
+
+   -  :doc:`File Uploading Library <libraries/file_uploading>` changes:
+
+      - Changed method ``set_error()`` to accept a custom log level (defaults to 'error').
+      - Errors "no_file_selected", "file_partial", "stopped_by_extension", "no_file_types", "invalid_filetype", "bad_filename" are now logged at the 'debug' level.
+      - Errors "file_exceeds_limit", "file_exceeds_form_limit", "invalid_filesize", "invalid_dimensions" are now logged at the 'info' level.
+
 
 Bug fixes for 3.0.1
 -------------------
