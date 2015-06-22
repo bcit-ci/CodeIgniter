@@ -2126,11 +2126,31 @@ class CI_Email {
 	protected function _send_data($data)
 	{
 		$data .= $this->newline;
-		for ($written = 0, $length = strlen($data); $written < $length; $written += $result)
+		for ($written = $timestamp = 0, $length = strlen($data); $written < $length; $written += $result)
 		{
 			if (($result = fwrite($this->_smtp_connect, substr($data, $written))) === FALSE)
 			{
 				break;
+			}
+			// See https://bugs.php.net/bug.php?id=39598 and http://php.net/manual/en/function.fwrite.php#96951
+			elseif ($result === 0)
+			{
+				if ($timestamp === 0)
+				{
+					$timestamp = time();
+				}
+				elseif ($timestamp < (time() - $this->smtp_timeout))
+				{
+					$result = FALSE;
+					break;
+				}
+
+				usleep(250000);
+				continue;
+			}
+			else
+			{
+				$timestamp = 0;
 			}
 		}
 
