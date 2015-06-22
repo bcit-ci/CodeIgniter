@@ -16,7 +16,7 @@ for a given task.
 CodeIgniter is Free
 ===================
 
-CodeIgniter is licensed under an Apache/BSD-style open source license so
+CodeIgniter is licensed under an MIT license so
 you can use it however you please. For more information please read the
 :doc:`license agreement <../license>`.
 
