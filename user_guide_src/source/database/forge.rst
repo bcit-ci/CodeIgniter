@@ -149,7 +149,7 @@ Creating an id field
 --------------------
 
 There is a special exception for creating id fields. A field with type
-id will automatically be assinged as an INT(9) auto_incrementing
+id will automatically be assigned as an INT(9) auto_incrementing
 Primary Key.
 
 ::
