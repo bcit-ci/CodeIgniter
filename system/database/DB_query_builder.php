@@ -2326,7 +2326,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 				// Split multiple conditions
 				$conditions = preg_split(
-					'/(\s+AND\s+|\s+OR\s+)/i',
+					'/((^|\s+)AND\s+|(^|\s+)OR\s+)/i',
 					$this->{$qb_key}[$i]['condition'],
 					-1,
 					PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
