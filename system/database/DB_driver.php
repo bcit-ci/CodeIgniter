@@ -894,61 +894,72 @@ abstract class CI_DB_driver {
 	 * @param	array	an array of bind data
 	 * @return	string
 	 */
-	public function compile_binds($sql, $binds)
-	{
-		if (empty($binds) OR empty($this->bind_marker) OR strpos($sql, $this->bind_marker) === FALSE)
-		{
-			return $sql;
-		}
-		elseif ( ! is_array($binds))
-		{
-			$binds = array($binds);
-			$bind_count = 1;
-		}
-		else
-		{
-			// Make sure we're using numeric keys
-			$binds = array_values($binds);
-			$bind_count = count($binds);
-		}
+    public function compile_binds($sql, $binds)
+    {
+        if (is_scalar($binds))
+        {
+            $binds = array($binds);
+        }
 
-		// We'll need the marker length later
-		$ml = strlen($this->bind_marker);
+        if (empty($binds))
+        {
+            return $sql;
+        }
 
-		// Make sure not to replace a chunk inside a string that happens to match the bind marker
-		if ($c = preg_match_all("/'[^']*'/i", $sql, $matches))
-		{
-			$c = preg_match_all('/'.preg_quote($this->bind_marker, '/').'/i',
-				str_replace($matches[0],
-					str_replace($this->bind_marker, str_repeat(' ', $ml), $matches[0]),
-					$sql, $c),
-				$matches, PREG_OFFSET_CAPTURE);
+        if (empty($this->bind_marker))
+        {
+            return $sql;
+        }
 
-			// Bind values' count must match the count of markers in the query
-			if ($bind_count !== $c)
-			{
-				return $sql;
-			}
-		}
-		elseif (($c = preg_match_all('/'.preg_quote($this->bind_marker, '/').'/i', $sql, $matches, PREG_OFFSET_CAPTURE)) !== $bind_count)
-		{
-			return $sql;
-		}
+        if (strpos($sql, $this->bind_marker) === false)
+        {
+            return $sql;
+        }
 
-		do
-		{
-			$c--;
-			$escaped_value = $this->escape($binds[$c]);
-			if (is_array($escaped_value))
-			{
-				$escaped_value = '('.implode(',', $escaped_value).')';
-			}
-			$sql = substr_replace($sql, $escaped_value, $matches[0][$c][1], $ml);
-		}
-		while ($c !== 0);
+        // Make sure we're using numeric keys
+        $binds = array_values($binds);
+        $bindCount = count($binds);
 
-		return $sql;
-	}
+        // We'll need the marker length later
+        $markLength = strlen($this->bind_marker);
+
+        // Make sure not to replace a chunk inside a string that happens to match the bind marker
+        $singleQuotePattern = "/'[^']*'/i";
+        $doubleQuotePattern = '/"[^"]*"/i';
+        $bindMarkerPattern = '/' . preg_quote($this->bind_marker, '/') . '/i';
+        if ($c = preg_match_all($singleQuotePattern, $sql, $matches)
+            OR $c = preg_match_all($doubleQuotePattern, $sql, $matches))
+        {
+            $sqlSiftMarker = str_replace($matches[0],
+                str_replace($this->bind_marker, str_repeat(' ', $markLength), $matches[0]),
+                $sql, $c);
+            $c = preg_match_all($bindMarkerPattern, $sqlSiftMarker, $matches, PREG_OFFSET_CAPTURE);
+
+            // Bind values' count must not be less than the count of markers in the query
+            if ($bindCount < $c)
+            {
+                return $sql;
+            }
+        }
+        elseif (($c = preg_match_all($bindMarkerPattern, $sql, $matches, PREG_OFFSET_CAPTURE)) > $bindCount)
+        {
+            return $sql;
+        }
+
+        do
+        {
+            $c --;
+            $escapedValue = $this->escape($binds[$c]);
+            if (is_array($escapedValue))
+            {
+                $escapedValue = '(' . implode(',', $escapedValue) . ')';
+            }
+            $sql = substr_replace($sql, $escapedValue, $matches[0][$c][1], $markLength);
+        }
+        while ($c);
+
+        return $sql;
+    }
 
 	// --------------------------------------------------------------------
 
