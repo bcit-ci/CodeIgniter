@@ -235,7 +235,7 @@ abstract class CI_DB_utility {
 	 * @param	string	$enclosure	Enclosure (default: ")
 	 * @return	string
 	 */
-	public function csv_from_result($query, $delim = ',', $newline = "\n", $enclosure = '"')
+	public function csv_from_result($query, $delim = ',', $newline = "\n", $enclosure = '"', $newline_delim = ' ')
 	{
 		if ( ! is_object($query) OR ! method_exists($query, 'list_fields'))
 		{
@@ -246,7 +246,7 @@ abstract class CI_DB_utility {
 		// First generate the headings from the table column names
 		foreach ($query->list_fields() as $name)
 		{
-			$out .= $enclosure.str_replace($enclosure, $enclosure.$enclosure, $name).$enclosure.$delim;
+			$out .= $enclosure.str_replace(PHP_EOL, $newline_delim, str_replace($enclosure, $enclosure.$enclosure, $name)).$enclosure.$delim;
 		}
 
 		$out = substr($out, 0, -strlen($delim)).$newline;
@@ -256,7 +256,7 @@ abstract class CI_DB_utility {
 		{
 			foreach ($row as $item)
 			{
-				$out .= $enclosure.str_replace($enclosure, $enclosure.$enclosure, $item).$enclosure.$delim;
+				$out .= $enclosure.str_replace(PHP_EOL, $newline_delim, str_replace($enclosure, $enclosure.$enclosure, $item)).$enclosure.$delim;
 			}
 			$out = substr($out, 0, -strlen($delim)).$newline;
 		}
