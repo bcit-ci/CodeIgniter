@@ -82,6 +82,15 @@ class CI_Security {
 	public $charset = 'UTF-8';
 
 	/**
+	 * Disable csrf for specific controller or method
+	 *
+	 * Will be overridden by the constructor.
+	 *
+	 * @var	bool
+	 */
+	public $disable_csrf  =  FALSE;
+
+	/**
 	 * XSS Hash
 	 *
 	 * Random Hash for protecting URLs.
@@ -223,11 +232,15 @@ class CI_Security {
 			}
 		}
 
-		// Do the tokens exist in both the _POST and _COOKIE arrays?
-		if ( ! isset($_POST[$this->_csrf_token_name], $_COOKIE[$this->_csrf_cookie_name])
-			OR $_POST[$this->_csrf_token_name] !== $_COOKIE[$this->_csrf_cookie_name]) // Do the tokens match?
+		//Is the csrf enabled?
+		if($this->disable_csrf === FALSE)
 		{
-			$this->csrf_show_error();
+			// Do the tokens exist in both the _POST and _COOKIE arrays?
+			if ( ! isset($_POST[$this->_csrf_token_name], $_COOKIE[$this->_csrf_cookie_name])
+				OR $_POST[$this->_csrf_token_name] !== $_COOKIE[$this->_csrf_cookie_name]) // Do the tokens match?
+			{
+				$this->csrf_show_error();
+			}
 		}
 
 		// We kill this since we're done and we don't want to polute the _POST array
