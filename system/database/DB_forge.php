@@ -454,11 +454,8 @@ abstract class CI_DB_forge {
 		}
 
 		$query = $this->_drop_table($this->db->dbprefix.$table_name, $if_exists);
-		if ($query === FALSE)
-		{
-			return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
-		}
-		elseif ($query === TRUE)
+
+		if ($query === TRUE)
 		{
 			return TRUE;
 		}
