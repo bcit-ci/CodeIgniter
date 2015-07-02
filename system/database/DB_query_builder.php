@@ -2092,10 +2092,13 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 		elseif (is_array($table))
 		{
+			empty($where) && $reset_data = FALSE;
+
 			foreach ($table as $single_table)
 			{
 				$this->delete($single_table, $where, $limit, $reset_data);
 			}
+
 			return;
 		}
 		else
