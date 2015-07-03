@@ -257,6 +257,13 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	protected function _prep_query($sql)
 	{
+		// If the last query was a DELETE query with no WHERE clause, all
+		// of the records will have been deleted from the table but this
+		// function will return zero with MySQL versions prior to 4.1.2.
+		if (version_compare($this->version(), '4.1.2', '>='))
+		{
+			$this->delete_hack = FALSE;
+		}
 		// mysql_affected_rows() returns 0 for "DELETE FROM TABLE" queries. This hack
 		// modifies the query so that it a proper number of affected rows is returned.
 		if ($this->delete_hack === TRUE && preg_match('/^\s*DELETE\s+FROM\s+(\S+)\s*$/i', $sql))
