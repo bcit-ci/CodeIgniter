@@ -140,7 +140,7 @@ class CI_DB_pdo_sqlite_driver extends CI_DB_pdo_driver {
 		}
 
 		$this->data_cache['field_names'][$table] = array();
-		foreach ($result as $row)
+		foreach ($result->result_array() as $row)
 		{
 			$this->data_cache['field_names'][$table][] = $row['name'];
 		}
