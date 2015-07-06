@@ -76,6 +76,7 @@ result. Here is a list of allowed comparison types:
 -  is_double
 -  is_array
 -  is_null
+-  is_resource
 
 Generating Reports
 ==================
