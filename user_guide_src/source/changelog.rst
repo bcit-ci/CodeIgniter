@@ -23,6 +23,8 @@ Release Date: Not Released
       - Errors "no_file_selected", "file_partial", "stopped_by_extension", "no_file_types", "invalid_filetype", "bad_filename" are now logged at the 'debug' level.
       - Errors "file_exceeds_limit", "file_exceeds_form_limit", "invalid_filesize", "invalid_dimensions" are now logged at the 'info' level.
 
+   -  Added 'is_resource' to the available expectations in :doc:`Unit Testing Library <libraries/unit_testing>`.
+
 
 Bug fixes for 3.0.1
 -------------------
@@ -46,6 +48,7 @@ Bug fixes for 3.0.1
 -  Fixed a bug (#3913) - :doc:`Cache Library <libraries/caching>` didn't work with the direct ``$this->cache->$driver_name->method()`` syntax with Redis and Memcache(d).
 -  Fixed a bug (#3932) - :doc:`Query Builder <database/query_builder>` didn't properly compile WHERE and HAVING conditions for field names that end with "and", "or".
 -  Fixed a bug in :doc:`Query Builder <database/query_builder>` where ``delete()`` didn't properly work on multiple tables with a WHERE condition previously set via ``where()``.
+-  Fixed a bug (#3955) - :doc:`Cache Library <libraries/caching>` methods ``increment()`` and ``decrement()`` ignored the 'key_prefix' setting.
 
 Version 3.0.0
 =============
