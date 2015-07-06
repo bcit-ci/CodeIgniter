@@ -105,7 +105,7 @@ class CI_Router {
 	/**
 	 * Enable query strings flag
 	 *
-	 * Determines wether to use GET parameters or segment URIs
+	 * Determines whether to use GET parameters or segment URIs
 	 *
 	 * @var	bool
 	 */
