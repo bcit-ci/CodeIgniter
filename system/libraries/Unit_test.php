@@ -55,14 +55,14 @@ class CI_Unit_test {
 	 *
 	 * @var	bool
 	 */
-	public $active			= TRUE;
+	public $active = TRUE;
 
 	/**
 	 * Test results
 	 *
 	 * @var	array
 	 */
-	public $results			= array();
+	public $results = array();
 
 	/**
 	 * Strict comparison flag
@@ -71,21 +71,21 @@ class CI_Unit_test {
 	 *
 	 * @var	bool
 	 */
-	public $strict			= FALSE;
+	public $strict = FALSE;
 
 	/**
 	 * Template
 	 *
 	 * @var	string
 	 */
-	protected $_template		= NULL;
+	protected $_template = NULL;
 
 	/**
 	 * Template rows
 	 *
 	 * @var	string
 	 */
-	protected $_template_rows	= NULL;
+	protected $_template_rows = NULL;
 
 	/**
 	 * List of visible test items
@@ -93,13 +93,13 @@ class CI_Unit_test {
 	 * @var	array
 	 */
 	protected $_test_items_visible	= array(
-			'test_name',
-			'test_datatype',
-			'res_datatype',
-			'result',
-			'file',
-			'line',
-			'notes'
+		'test_name',
+		'test_datatype',
+		'res_datatype',
+		'result',
+		'file',
+		'line',
+		'notes'
 	);
 
 	// --------------------------------------------------------------------
@@ -167,14 +167,14 @@ class CI_Unit_test {
 		$back = $this->_backtrace();
 
 		$report = array (
-							'test_name'			=> $test_name,
-							'test_datatype'		=> gettype($test),
-							'res_datatype'		=> $extype,
-							'result'			=> ($result === TRUE) ? 'passed' : 'failed',
-							'file'				=> $back['file'],
-							'line'				=> $back['line'],
-							'notes'				=> $notes
-						);
+			'test_name'     => $test_name,
+			'test_datatype' => gettype($test),
+			'res_datatype'  => $extype,
+			'result'        => ($result === TRUE) ? 'passed' : 'failed',
+			'file'          => $back['file'],
+			'line'          => $back['line'],
+			'notes'         => $notes
+		);
 
 		$this->results[] = $report;
 
@@ -336,9 +336,9 @@ class CI_Unit_test {
 	{
 		$back = debug_backtrace();
 		return array(
-				'file' => (isset($back[1]['file']) ? $back[1]['file'] : ''),
-				'line' => (isset($back[1]['line']) ? $back[1]['line'] : '')
-			);
+			'file' => (isset($back[1]['file']) ? $back[1]['file'] : ''),
+			'line' => (isset($back[1]['line']) ? $back[1]['line'] : '')
+		);
 	}
 
 	// --------------------------------------------------------------------
