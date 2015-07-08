@@ -291,10 +291,12 @@ class CI_Unit_test {
 				{
 					continue;
 				}
-
-				if (FALSE !== ($line = $CI->lang->line(strtolower('ut_'.$val), FALSE)))
+				elseif (in_array($key, array('test_name', 'test_datatype', 'test_res_datatype', 'result'), TRUE))
 				{
-					$val = $line;
+					if (FALSE !== ($line = $CI->lang->line(strtolower('ut_'.$val), FALSE)))
+					{
+						$val = $line;
+					}
 				}
 
 				$temp[$CI->lang->line('ut_'.$key, FALSE)] = $val;

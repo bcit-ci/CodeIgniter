@@ -50,6 +50,7 @@ Bug fixes for 3.0.1
 -  Fixed a bug in :doc:`Query Builder <database/query_builder>` where ``delete()`` didn't properly work on multiple tables with a WHERE condition previously set via ``where()``.
 -  Fixed a bug (#3952) - :doc:`Database <database/index>` method ``list_fields()`` didn't work with SQLite3.
 -  Fixed a bug (#3955) - :doc:`Cache Library <libraries/caching>` methods ``increment()`` and ``decrement()`` ignored the 'key_prefix' setting.
+-  Fixed a bug (#3963) - :doc:`Unit Testing Library <libraries/unit_testing>` wrongly tried to translate filenames, line numbers and notes values in test results.
 
 Version 3.0.0
 =============
