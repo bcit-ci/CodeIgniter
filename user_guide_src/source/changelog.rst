@@ -28,7 +28,7 @@ Release Date: Not Released
 
 Bug fixes for 3.0.1
 -------------------
-
+- Fixed a bug (#3968) - DB Forge didn't allow insertion of multiple keys by passing an array unless the second parameter was set to TRUE (primary key)
 -  Fixed a bug (#3733) - Autoloading of libraries with aliases didn't work, although it was advertised to.
 -  Fixed a bug (#3744) - Redis :doc:`Caching <libraries/caching>` driver didn't handle authentication failures properly.
 -  Fixed a bug (#3761) - :doc:`URL Helper <helpers/url_helper>` function :php:func:`anchor()` didn't work with array inputs.
