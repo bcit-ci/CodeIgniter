@@ -143,7 +143,7 @@ string into the field definitions with add_field()
 	$this->dbforge->add_field("label varchar(100) NOT NULL DEFAULT 'default label'");
 
 
-..note:: Passing raw strings as fields cannot be followed by ``add_key()`` calls on those fields.
+.. note:: Passing raw strings as fields cannot be followed by ``add_key()`` calls on those fields.
 
 .. note:: Multiple calls to add_field() are cumulative.
 
