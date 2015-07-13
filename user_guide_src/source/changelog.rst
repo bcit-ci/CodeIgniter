@@ -52,6 +52,7 @@ Bug fixes for 3.0.1
 -  Fixed a bug (#3955) - :doc:`Cache Library <libraries/caching>` methods ``increment()`` and ``decrement()`` ignored the 'key_prefix' setting.
 -  Fixed a bug (#3963) - :doc:`Unit Testing Library <libraries/unit_testing>` wrongly tried to translate filenames, line numbers and notes values in test results.
 -  Fixed a bug (#3965) - :doc:`File Uploading Library <libraries/file_uploading>` ignored the "encrypt_name" setting when "overwrite" is enabled.
+-  Fixed a bug (#3970) - :doc:`URL Helper <helpers/url_helper>` function "url_title()" doesn't work with unicode string
 
 Version 3.0.0
 =============
