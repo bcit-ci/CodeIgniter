@@ -34,7 +34,7 @@
  * @var string
  *
  */
-	define('CI_VERSION', '2.2.2');
+	define('CI_VERSION', '2.2.3');
 
 /**
  * CodeIgniter Branch (Core = TRUE, Reactor = FALSE)
