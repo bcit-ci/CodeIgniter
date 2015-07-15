@@ -25,6 +25,9 @@ Release Date: Not Released
 
    -  Added 'is_resource' to the available expectations in :doc:`Unit Testing Library <libraries/unit_testing>`.
 
+-  Helpers
+
+   -  Added Unicode support to :doc:`URL Helper <helpers/url_helper>` function :php:func:`url_title()`.
 
 Bug fixes for 3.0.1
 -------------------
