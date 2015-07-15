@@ -8,7 +8,7 @@ Version 3.0.1
 Release Date: Not Released
 
 -  Core
-   
+
    -  Added DoS mitigation to :php:func:`hash_pbkdf2()` :doc:`compatibility function <general/compatibility_functions>`.
 
 -  Database
