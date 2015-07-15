@@ -197,7 +197,7 @@ if ( ! function_exists('form_input'))
 	 *
 	 * @param	mixed
 	 * @param	string
-	 * @param	string
+	 * @param	mixed
 	 * @return	string
 	 */
 	function form_input($data = '', $value = '', $extra = '')
@@ -207,6 +207,8 @@ if ( ! function_exists('form_input'))
 			'name' => is_array($data) ? '' : $data,
 			'value' => $value
 		);
+
+		$extra = _attributes_to_string($extra);
 
 		return '<input '._parse_form_attributes($data, $defaults).$extra." />\n";
 	}
@@ -223,7 +225,7 @@ if ( ! function_exists('form_password'))
 	 *
 	 * @param	mixed
 	 * @param	string
-	 * @param	string
+	 * @param	mixed
 	 * @return	string
 	 */
 	function form_password($data = '', $value = '', $extra = '')
@@ -245,7 +247,7 @@ if ( ! function_exists('form_upload'))
 	 *
 	 * @param	mixed
 	 * @param	string
-	 * @param	string
+	 * @param	mixed
 	 * @return	string
 	 */
 	function form_upload($data = '', $value = '', $extra = '')
@@ -253,6 +255,9 @@ if ( ! function_exists('form_upload'))
 		$defaults = array('type' => 'file', 'name' => '');
 		is_array($data) OR $data = array('name' => $data);
 		$data['type'] = 'file';
+
+		$extra = _attributes_to_string($extra);
+		
 		return '<input '._parse_form_attributes($data, $defaults).$extra." />\n";
 	}
 }
@@ -266,7 +271,7 @@ if ( ! function_exists('form_textarea'))
 	 *
 	 * @param	mixed	$data
 	 * @param	string	$value
-	 * @param	string	$extra
+	 * @param	mixed	$extra
 	 * @return	string
 	 */
 	function form_textarea($data = '', $value = '', $extra = '')
@@ -287,6 +292,8 @@ if ( ! function_exists('form_textarea'))
 			unset($data['value']); // textareas don't use the value attribute
 		}
 
+		$extra = _attributes_to_string($extra);
+
 		return '<textarea '._parse_form_attributes($data, $defaults).$extra.'>'.html_escape($val)."</textarea>\n";
 	}
 }
@@ -301,11 +308,13 @@ if ( ! function_exists('form_multiselect'))
 	 * @param	string
 	 * @param	array
 	 * @param	mixed
-	 * @param	string
+	 * @param	mixed
 	 * @return	string
 	 */
 	function form_multiselect($name = '', $options = array(), $selected = array(), $extra = '')
 	{
+		$extra = _attributes_to_string($extra);
+
 		if ( ! strpos($extra, 'multiple'))
 		{
 			$extra .= ' multiple="multiple"';
@@ -420,7 +429,7 @@ if ( ! function_exists('form_checkbox'))
 	 * @param	mixed
 	 * @param	string
 	 * @param	bool
-	 * @param	string
+	 * @param	mixed
 	 * @return	string
 	 */
 	function form_checkbox($data = '', $value = '', $checked = FALSE, $extra = '')
@@ -450,6 +459,8 @@ if ( ! function_exists('form_checkbox'))
 			unset($defaults['checked']);
 		}
 
+		$extra = _attributes_to_string($extra);
+
 		return '<input '._parse_form_attributes($data, $defaults).$extra." />\n";
 	}
 }
@@ -464,13 +475,14 @@ if ( ! function_exists('form_radio'))
 	 * @param	mixed
 	 * @param	string
 	 * @param	bool
-	 * @param	string
+	 * @param	mixed
 	 * @return	string
 	 */
 	function form_radio($data = '', $value = '', $checked = FALSE, $extra = '')
 	{
 		is_array($data) OR $data = array('name' => $data);
 		$data['type'] = 'radio';
+
 		return form_checkbox($data, $value, $checked, $extra);
 	}
 }
@@ -484,7 +496,7 @@ if ( ! function_exists('form_submit'))
 	 *
 	 * @param	mixed
 	 * @param	string
-	 * @param	string
+	 * @param	mixed
 	 * @return	string
 	 */
 	function form_submit($data = '', $value = '', $extra = '')
@@ -494,6 +506,8 @@ if ( ! function_exists('form_submit'))
 			'name' => is_array($data) ? '' : $data,
 			'value' => $value
 		);
+
+		$extra = _attributes_to_string($extra);
 
 		return '<input '._parse_form_attributes($data, $defaults).$extra." />\n";
 	}
@@ -508,7 +522,7 @@ if ( ! function_exists('form_reset'))
 	 *
 	 * @param	mixed
 	 * @param	string
-	 * @param	string
+	 * @param	mixed
 	 * @return	string
 	 */
 	function form_reset($data = '', $value = '', $extra = '')
@@ -518,6 +532,8 @@ if ( ! function_exists('form_reset'))
 			'name' => is_array($data) ? '' : $data,
 			'value' => $value
 		);
+
+		$extra = _attributes_to_string($extra);
 
 		return '<input '._parse_form_attributes($data, $defaults).$extra." />\n";
 	}
@@ -532,7 +548,7 @@ if ( ! function_exists('form_button'))
 	 *
 	 * @param	mixed
 	 * @param	string
-	 * @param	string
+	 * @param	mixed
 	 * @return	string
 	 */
 	function form_button($data = '', $content = '', $extra = '')
@@ -547,6 +563,8 @@ if ( ! function_exists('form_button'))
 			$content = $data['content'];
 			unset($data['content']); // content is not an attribute
 		}
+
+		$extra = _attributes_to_string($extra);
 
 		return '<button '._parse_form_attributes($data, $defaults).$extra.'>'.$content."</button>\n";
 	}

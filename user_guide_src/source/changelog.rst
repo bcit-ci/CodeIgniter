@@ -8,7 +8,7 @@ Version 3.0.1
 Release Date: Not Released
 
 -  Core
-
+   
    -  Added DoS mitigation to :php:func:`hash_pbkdf2()` :doc:`compatibility function <general/compatibility_functions>`.
 
 -  Database
@@ -28,6 +28,7 @@ Release Date: Not Released
 -  Helpers
 
    -  Added Unicode support to :doc:`URL Helper <helpers/url_helper>` function :php:func:`url_title()`.
+   -  Added support for passing the "extra" parameter as an array to all :doc:`Form Helper <helpers/form_helper>` functions that use it.
 
 Bug fixes for 3.0.1
 -------------------
