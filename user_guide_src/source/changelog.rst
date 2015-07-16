@@ -14,6 +14,7 @@ Release Date: Not Released
 -  Database
 
    -  Added ``list_fields()`` support for SQLite ('sqlite3' and 'pdo_sqlite' drivers).
+   -  Added support for setting SSL options for the 'mysqli' driver.
 
 -  Libraries
 
