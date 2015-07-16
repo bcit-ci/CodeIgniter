@@ -188,6 +188,7 @@ Explanation of Values:
 			    - 'ssl_ca'     - Path to the certificate authority file
 			    - 'ssl_capath' - Path to a directory containing trusted CA certificats in PEM format
 			    - 'ssl_cipher' - List of *allowed* ciphers to be used for the encryption, separated by colons (':')
+			    - 'ssl_verify' - TRUE/FALSE; Whether to verify the server certificate or not ('mysqli' only)
 
 **compress**		Whether or not to use client compression (MySQL only).
 **stricton**		TRUE/FALSE (boolean) - Whether to force "Strict Mode" connections, good for ensuring strict SQL

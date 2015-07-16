@@ -142,6 +142,11 @@ class CI_DB_mysqli_driver extends CI_DB {
 
 			if ( ! empty($ssl))
 			{
+				if ( ! empty($this->encrypt['ssl_verify']) && defined('MYSQLI_OPT_SSL_VERIFY_SERVER_CERT'))
+				{
+					$mysqli->options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, TRUE);
+				}
+
 				$client_flags |= MYSQLI_CLIENT_SSL;
 				$mysqli->ssl_set(
 					isset($ssl['key'])    ? $ssl['key']    : NULL,
