@@ -86,6 +86,21 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	public $stricton = FALSE;
 
+	/**
+	 * Used to set various SSL options that can be used when making SSL connections.
+	 *
+	 * @see http://php.net/manual/en/mysqli.ssl-set.php		Documentation for MySQLi
+	 *
+	 * @var array
+	 */
+	public $ssl_options = array(
+			"ssl_key"    => '', // The path name to the key file.
+			"ssl_cert"   => '', // The path name to the certificate file.
+			"ssl_ca"     => '', // The path name to the certificate authority file.
+			"ssl_capath" => '', // The pathname to a directory that contains trusted SSL CA certificates in PEM format.
+			"ssl_cipher" => '' // A list of allowable ciphers to use for SSL encryption.
+	);
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -132,8 +147,47 @@ class CI_DB_mysqli_driver extends CI_DB {
 			$mysqli->options(MYSQLI_INIT_COMMAND, 'SET SESSION sql_mode="STRICT_ALL_TABLES"');
 		}
 
-		return $mysqli->real_connect($hostname, $this->username, $this->password, $this->database, $port, $socket, $client_flags)
-			? $mysqli : FALSE;
+		if ($this->encrypt === TRUE)
+		{
+			$ssl_key    = array_key_exists('ssl_key', $this->ssl_options) ? $this->ssl_options['ssl_key'] : '';
+			$ssl_cert   = array_key_exists('ssl_cert', $this->ssl_options) ? $this->ssl_options['ssl_cert'] : '';
+			$ssl_ca     = array_key_exists('ssl_ca', $this->ssl_options) ? $this->ssl_options['ssl_ca'] : '';
+			$ssl_capath = array_key_exists('ssl_capath', $this->ssl_options) ? $this->ssl_options['ssl_capath'] : '';
+			$ssl_cipher = array_key_exists('ssl_cipher', $this->ssl_options) ? $this->ssl_options['ssl_cipher'] : '';
+
+			$mysqli->ssl_set($ssl_key, $ssl_cert, $ssl_ca, $ssl_capath, $ssl_cipher);
+			$client_flags |= MYSQLI_CLIENT_SSL;
+		}
+
+		$connected = @$mysqli->real_connect($hostname, $this->username, $this->password, $this->database, $port, $socket, $client_flags);
+
+		if ($connected)
+		{
+			// If SSL was requested we want to do some checking and log an error if an SSL connection wasn't established.
+			if ($this->encrypt === TRUE)
+			{
+				$res        = $mysqli->query("SHOW STATUS LIKE 'ssl_cipher';");
+				$ssl_status = $res->fetch_row();
+
+				if ($ssl_status[1] == '')
+				{
+					log_message('error',
+							"Problem With MySQLi SSL: An SSL connection was requested but the resulting connection is not using SSL!");
+				}
+			}
+
+			return $mysqli;
+		}
+		else
+		{
+			if ($mysqli->connect_errno)
+			{
+				log_message('error',
+						'msqli connect failed, error: ' . mysqli_connect_error() . " | " . $mysqli->connect_error . " | " . $mysqli->connect_errno);
+			}
+		}
+
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------

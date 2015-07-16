@@ -30,6 +30,7 @@ prototype::
 		'encrypt' => FALSE,
 		'compress' => FALSE,
 		'stricton' => FALSE,
+		'ssl_options' => array(),
 		'failover' => array()
 	);
 
@@ -71,7 +72,8 @@ These failovers can be specified by setting the failover for a connection like t
 				'swap_pre' => '',
 				'encrypt' => FALSE,
 				'compress' => FALSE,
-				'stricton' => FALSE
+				'stricton' => FALSE,
+				'ssl_options' => array()
 			),
 			array(
 				'hostname' => 'localhost2',
@@ -89,7 +91,8 @@ These failovers can be specified by setting the failover for a connection like t
 				'swap_pre' => '',
 				'encrypt' => FALSE,
 				'compress' => FALSE,
-				'stricton' => FALSE
+				'stricton' => FALSE,
+				'ssl_options' => array()
 			)
 		);
 
@@ -120,6 +123,7 @@ example, to set up a "test" environment you would do this::
 		'compress' => FALSE,
 		'encrypt' => FALSE,
 		'stricton' => FALSE,
+		'ssl_options' => array(),
 		'failover' => array()
 	);
 
@@ -186,6 +190,8 @@ Explanation of Values:
 			::
 
 				$db['default']['port'] = 5432;
+
+**ssl_options**		Used to set various SSL connection options and values.
 ======================  ==================================================================================================
 
 .. note:: Depending on what database platform you are using (MySQL, PostgreSQL,
