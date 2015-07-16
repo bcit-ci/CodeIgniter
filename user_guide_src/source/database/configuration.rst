@@ -30,7 +30,6 @@ prototype::
 		'encrypt' => FALSE,
 		'compress' => FALSE,
 		'stricton' => FALSE,
-		'ssl_options' => array(),
 		'failover' => array()
 	);
 
@@ -72,8 +71,7 @@ These failovers can be specified by setting the failover for a connection like t
 				'swap_pre' => '',
 				'encrypt' => FALSE,
 				'compress' => FALSE,
-				'stricton' => FALSE,
-				'ssl_options' => array()
+				'stricton' => FALSE
 			),
 			array(
 				'hostname' => 'localhost2',
@@ -91,8 +89,7 @@ These failovers can be specified by setting the failover for a connection like t
 				'swap_pre' => '',
 				'encrypt' => FALSE,
 				'compress' => FALSE,
-				'stricton' => FALSE,
-				'ssl_options' => array()
+				'stricton' => FALSE
 			)
 		);
 
@@ -123,7 +120,6 @@ example, to set up a "test" environment you would do this::
 		'compress' => FALSE,
 		'encrypt' => FALSE,
 		'stricton' => FALSE,
-		'ssl_options' => array(),
 		'failover' => array()
 	);
 
@@ -156,9 +152,9 @@ when the database classes are initialized.
 Explanation of Values:
 ----------------------
 
-======================  ==================================================================================================
+======================  ===========================================================================================================
  Name Config             Description
-======================  ==================================================================================================
+======================  ===========================================================================================================
 **dsn**			The DSN connect string (an all-in-one configuration sequence).
 **hostname** 		The hostname of your database server. Often this is 'localhost'.
 **username**		The username used to connect to the database.
@@ -183,6 +179,16 @@ Explanation of Values:
 			customizable by the end user.
 **schema**		The database schema, defaults to 'public'. Used by PostgreSQL and ODBC drivers.
 **encrypt**		Whether or not to use an encrypted connection.
+
+			  - 'mysql' (deprecated), 'sqlsrv' and 'pdo/sqlsrv' drivers accept TRUE/FALSE
+			  - 'mysqli' and 'pdo/mysql' drivers accept an array with the following options:
+			  
+			    - 'ssl_key'    - Path to the private key file
+			    - 'ssl_cert'   - Path to the public key certificate file
+			    - 'ssl_ca'     - Path to the certificate authority file
+			    - 'ssl_capath' - Path to a directory containing trusted CA certificats in PEM format
+			    - 'ssl_cipher' - List of *allowed* ciphers to be used for the encryption, separated by colons (':')
+
 **compress**		Whether or not to use client compression (MySQL only).
 **stricton**		TRUE/FALSE (boolean) - Whether to force "Strict Mode" connections, good for ensuring strict SQL
 			while developing an application.
@@ -191,8 +197,7 @@ Explanation of Values:
 
 				$db['default']['port'] = 5432;
 
-**ssl_options**		Used to set various SSL connection options and values.
-======================  ==================================================================================================
+======================  ===========================================================================================================
 
 .. note:: Depending on what database platform you are using (MySQL, PostgreSQL,
 	etc.) not all values will be needed. For example, when using SQLite you
