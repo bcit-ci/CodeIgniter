@@ -42,7 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |	['encrypt']  Whether or not to use an encrypted connection.
 |
 |			'mysql' (deprecated), 'sqlsrv' and 'pdo/sqlsrv' drivers accept TRUE/FALSE
-|			'mysqli' driver accepts an array with the following options:
+|			'mysqli' and 'pdo/mysql' drivers accept an array with the following options:
 |
 |				'ssl_key'    - Path to the private key file
 |				'ssl_cert'   - Path to the public key certificate file
