@@ -156,16 +156,16 @@ class CI_DB_mysqli_driver extends CI_DB {
 		if ($mysqli->real_connect($hostname, $this->username, $this->password, $this->database, $port, $socket, $client_flags))
 		{
 			// Prior to version 5.7.3, MySQL silently downgrades to an unencrypted connection if SSL setup fails
-			if (($client_flags & MYSQLI_CLIENT_SSL) && version_compare($mysqli->client_info, '5.7.3', '<='))
+			if (
+				($client_flags & MYSQLI_CLIENT_SSL)
+				&& version_compare($mysqli->client_info, '5.7.3', '<=')
+				&& empty($mysqli->query("SHOW STATUS LIKE 'ssl_cipher'")->fetch_object()->Value)
+			)
 			{
-				$ssl = $mysqli->query("SHOW STATUS LIKE 'ssl_cipher'")->fetch_row();
-				if (empty($ssl[1]))
-				{
-					$mysqli->close();
-					$message = 'MySQLi was configured for an SSL connection, but got an unencrypted connection instead!';
-					log_message('error', $message);
-					return ($this->db->db_debug) ? $this->db->display_error($message, '', TRUE) : FALSE;
-				}
+				$mysqli->close();
+				$message = 'MySQLi was configured for an SSL connection, but got an unencrypted connection instead!';
+				log_message('error', $message);
+				return ($this->db->db_debug) ? $this->db->display_error($message, '', TRUE) : FALSE;
 			}
 
 			return $mysqli;
