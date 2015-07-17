@@ -64,6 +64,7 @@ Bug fixes for 3.0.1
 -  Fixed a bug (#3968) - :doc:`Database Forge <database/forge>` method ``add_key()`` didn't treat array inputs as composite keys unless it's a PRIMARY KEY.
 -  Fixed a bug (#3715) - :doc:`Pagination Library <libraries/pagination>` could generate broken link when a protocol-relative base URL is used.
 -  Fixed a bug (#3828) - :doc:`Output Library <libraries/output>` method ``delete_cache()`` couldn't delete index page caches.
+-  Fixed a bug (#3704) - :doc:`Database <database>` method ``stored_procedure()`` in the 'oci8' driver didn't properly bind parameters.
 
 Version 3.0.0
 =============
