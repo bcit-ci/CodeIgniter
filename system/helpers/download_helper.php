@@ -69,16 +69,14 @@ if ( ! function_exists('force_download'))
 		}
 		elseif ($data === NULL)
 		{
-			if (@is_file($filename) && ($filesize = @filesize($filename)) !== FALSE)
-			{
-				$filepath = $filename;
-				$filename = explode('/', str_replace(DIRECTORY_SEPARATOR, '/', $filename));
-				$filename = end($filename);
-			}
-			else
+			if ( ! @is_file($filename) OR ($filesize = @filesize($filename)) === FALSE)
 			{
 				return;
 			}
+
+			$filepath = $filename;
+			$filename = explode('/', str_replace(DIRECTORY_SEPARATOR, '/', $filename));
+			$filename = end($filename);
 		}
 		else
 		{
@@ -140,14 +138,7 @@ if ( ! function_exists('force_download'))
 		header('Expires: 0');
 		header('Content-Transfer-Encoding: binary');
 		header('Content-Length: '.$filesize);
-
-		// Internet Explorer-specific headers
-		if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE)
-		{
-			header('Cache-Control: no-cache, no-store, must-revalidate');
-		}
-
-		header('Pragma: no-cache');
+		header('Cache-Control: private, no-transform, no-store, must-revalidate');
 
 		// If we have raw data - just dump it
 		if ($data !== NULL)

@@ -65,6 +65,7 @@ Bug fixes for 3.0.1
 -  Fixed a bug (#3715) - :doc:`Pagination Library <libraries/pagination>` could generate broken link when a protocol-relative base URL is used.
 -  Fixed a bug (#3828) - :doc:`Output Library <libraries/output>` method ``delete_cache()`` couldn't delete index page caches.
 -  Fixed a bug (#3704) - :doc:`Database <database>` method ``stored_procedure()`` in the 'oci8' driver didn't properly bind parameters.
+-  Fixed a bug (#3778) - :doc:`Download Helper <helpers/download_helper>` function :php:func:`force_download()` incorrectly sent a *Pragma* response header.
 
 Version 3.0.0
 =============
