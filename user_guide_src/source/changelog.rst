@@ -841,6 +841,30 @@ Bug fixes for 3.0
 -  Fixed a bug (#3573) - :doc:`Email Library <libraries/email>` violated `RFC5321 <https://tools.ietf.org/rfc/rfc5321.txt>`_ by sending 'localhost.localdomain' as a hostname.
 -  Fixed a bug (#3572) - ``CI_Security::_remove_evil_attributes()`` failed for large-sized inputs due to *pcre.backtrack_limit* and didn't properly match HTML tags.
 
+Version 2.2.3
+=============
+
+Release Date: July 14, 2015
+
+-  Security
+
+   - Removed a fallback to ``mysql_escape_string()`` in the 'mysql' database driver (``escape_str()`` method) when there's no active database connection.
+
+Version 2.2.2
+=============
+
+Release Date: April 15, 2015
+
+-  General Changes
+
+   - Added HTTP "Host" header character validation to prevent cache poisoning attacks when *base_url* auto-detection is used.
+   - Added *FSCommand* and *seekSegmentTime* to the "evil attributes" list in ``CI_Security::xss_clean()``.
+
+Bug fixes for 2.2.2
+-------------------
+
+-  Fixed a bug (#3665) - ``CI_Security::entity_decode()`` triggered warnings under some circumstances.
+
 Version 2.2.1
 =============
 
