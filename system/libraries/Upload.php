@@ -533,15 +533,9 @@ class CI_Upload {
 		 * If it returns false there was a problem.
 		 */
 		$this->orig_name = $this->file_name;
-
-		if ($this->overwrite === FALSE)
+		if (FALSE === ($this->file_name = $this->set_filename($this->upload_path, $this->file_name)))
 		{
-			$this->file_name = $this->set_filename($this->upload_path, $this->file_name);
-
-			if ($this->file_name === FALSE)
-			{
-				return FALSE;
-			}
+			return FALSE;
 		}
 
 		/*
@@ -656,7 +650,7 @@ class CI_Upload {
 			$filename = md5(uniqid(mt_rand())).$this->file_ext;
 		}
 
-		if ( ! file_exists($path.$filename))
+		if ($this->overwrite === TRUE OR ! file_exists($path.$filename))
 		{
 			return $filename;
 		}

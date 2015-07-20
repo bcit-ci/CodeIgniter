@@ -239,7 +239,7 @@ abstract class CI_DB_forge {
 	 */
 	public function add_key($key, $primary = FALSE)
 	{
-		if ($primary === TRUE && is_array($key))
+		if (is_array($key))
 		{
 			foreach ($key as $one)
 			{
