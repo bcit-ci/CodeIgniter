@@ -6,7 +6,7 @@ Status : [![Build Status](https://secure.travis-ci.org/bcit-ci/CodeIgniter.png?b
 
 This is the preliminary CodeIgniter testing documentation. It
 will cover both internal as well as external APIs and the reasoning
-behind their implemenation, where appropriate. As with all CodeIgniter
+behind their implementation, where appropriate. As with all CodeIgniter
 documentation, this file should maintain a mostly human readable
 format to facilitate clean api design. [see http://arrenbrecht.ch/testing/]
 
