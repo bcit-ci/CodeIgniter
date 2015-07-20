@@ -1733,7 +1733,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			return FALSE;
 		}
 
-		$sql = $this->_update($this->protect_identifiers($this->qb_from[0], TRUE, NULL, FALSE), $this->qb_set);
+		$sql = $this->_update($this->qb_from[0], $this->qb_set);
 
 		if ($reset === TRUE)
 		{
@@ -1781,7 +1781,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->limit($limit);
 		}
 
-		$sql = $this->_update($this->protect_identifiers($this->qb_from[0], TRUE, NULL, FALSE), $this->qb_set);
+		$sql = $this->_update($this->qb_from[0], $this->qb_set);
 		$this->_reset_write();
 		return $this->query($sql);
 	}
@@ -1798,7 +1798,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	string	the table to update data on
 	 * @return	bool
 	 */
-	protected function _validate_update($table = '')
+	protected function _validate_update($table)
 	{
 		if (count($this->qb_set) === 0)
 		{
@@ -1807,7 +1807,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		if ($table !== '')
 		{
-			$this->qb_from[0] = $table;
+			$this->qb_from = array($this->protect_identifiers($table, TRUE, NULL, FALSE));
 		}
 		elseif ( ! isset($this->qb_from[0]))
 		{
