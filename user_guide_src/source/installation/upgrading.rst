@@ -8,7 +8,8 @@ upgrading from.
 .. toctree::
 	:titlesonly:
 
-	Upgrading from 2.2.x to 3.0.0 <upgrade_300>
+	Upgrading from 3.0.0 to 3.0.1 <upgrade_301>
+	Upgrading from 2.2.x to 3.0.x <upgrade_300>
 	Upgrading from 2.2.0 to 2.2.1 <upgrade_221>
 	Upgrading from 2.1.4 to 2.2.0 <upgrade_220>
 	Upgrading from 2.1.3 to 2.1.4 <upgrade_214>
