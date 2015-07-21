@@ -177,7 +177,7 @@ Custom Result Objects
 *********************
 
 You can have the results returned as an instance of a custom class instead of a stdClass or array,
-as the ``result()`` and ``result_array()`` methods allow.This requires that the class is already
+as the ``result()`` and ``result_array()`` methods allow. This requires that the class is already
 loaded into memory. The class will have all values returned from the database set on the class
 as class variables. If your class already has those class variables created and ``protected`` then
 you should provide a ``__set()`` method to allow the class variables to be set.
