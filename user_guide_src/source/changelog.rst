@@ -67,7 +67,7 @@ Bug fixes for 3.0.1
 -  Fixed a bug (#3704) - :doc:`Database <database/index>` method ``stored_procedure()`` in the 'oci8' driver didn't properly bind parameters.
 -  Fixed a bug (#3778) - :doc:`Download Helper <helpers/download_helper>` function :php:func:`force_download()` incorrectly sent a *Pragma* response header.
 -  Fixed a bug (#3752) - ``$routing['directory']`` overrides were not properly handled and always resulted in a 404 "Not Found" error.
--  Fixed an internal bug in :doc:`Query Builder <database/query_builder>` escaping logic where if field name escaping is force-disabled, methods ``where()`` and ``having()`` will also treat values as fields.
+-  Fixed an internal bug (#3989) - :doc:`Query Builder <database/query_builder>` escaping logic where if field name escaping is force-disabled, would also treat values as fields in methods ``where()``, ``having()``, ``set()``, ``set_insert_batch()``, ``set_update_batch()``.
 -  Fixed a bug (#3279) - :doc:`Query Builder <database/query_builder>` methods ``update()`` and ``get_compiled_update()`` did double escaping on the table name if it was provided via ``from()``.
 
 Version 3.0.0

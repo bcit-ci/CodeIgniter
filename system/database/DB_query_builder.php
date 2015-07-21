@@ -1276,8 +1276,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		foreach ($key as $k => $v)
 		{
-			$this->qb_set[$this->protect_identifiers($k, FALSE, $escape)] = ($escape)
-				? $this->escape($v) : $v;
+			$this->qb_set[$this->protect_identifiers($k, FALSE, $escape)] = $this->escape($v);
 		}
 
 		return $this;
@@ -1516,15 +1515,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 			ksort($row); // puts $row in the same order as our keys
 
-			if ($escape !== FALSE)
+			foreach ($row as $k => $v)
 			{
-				$clean = array();
-				foreach ($row as $value)
-				{
-					$clean[] = $this->escape($value);
-				}
-
-				$row = $clean;
+				$row[$k] = $this->escape($v);
 			}
 
 			$this->qb_set[] = '('.implode(',', $row).')';
@@ -1945,7 +1938,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 					$index_set = TRUE;
 				}
 
-				$clean[$this->protect_identifiers($k2, FALSE, $escape)] = ($escape === FALSE) ? $v2 : $this->escape($v2);
+				$clean[$this->protect_identifiers($k2, FALSE, $escape)] = $this->escape($v2);
 			}
 
 			if ($index_set === FALSE)
