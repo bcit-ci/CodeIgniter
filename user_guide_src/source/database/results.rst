@@ -173,6 +173,93 @@ the returned value's type::
 	$query->unbuffered_row('array');	// associative array
 
 *********************
+Custom Result Objects
+*********************
+
+You can have the results returned as an instance of a custom class instead of a stdClass or array,
+as the ``result()`` and ``result_array()`` methods allow.This requires that the class is already
+loaded into memory. The class will have all values returned from the database set on the class
+as class variables. If your class already has those class variables created and ``protected`` then
+you should provide a ``__set()`` method to allow the class variables to be set.
+
+Example::
+
+	class User {
+		protected $id;
+		protected $email;
+		protected $username;
+		protected $last_login;
+
+		public function last_login($format)
+		{
+			return date($format, $this->last_login);
+		}
+
+		public function __set($name, $value)
+		{
+			$allowed_vars = array('id', 'email', 'username');
+
+			if (in_array($allowed_vars, $name)
+			{
+				$this->$name = $value;
+			}
+		}
+
+		public function __get($name)
+		{
+			if (isset($this->$name))
+			{
+				return $this->$name;
+			}
+		}
+	}
+
+In addition to the two methods listed below, the following methods also can take a class name
+to return the results as: ``first_row()``, ``last_row()``, ``next_row()``, and ``previous_row()``.
+
+**custom_result_object()**
+
+Returns the entire result set as an array of instances of the class requested. The only parameter
+is the name of the class to instantiate.
+
+Example::
+
+	$query = $this->db->query("YOUR QUERY");
+
+	if ($query->num_rows() > 0)
+	{
+		foreach ($query->custom_result_object('User') as $row)
+		{
+			echo $row->id;
+			echo $row->email;
+			echo $row->last_login('Y-m-d');
+		}
+	}
+
+**custom_row_object()**
+
+Returns a single row from your query results. The first parameter is the row number of the results.
+The second parameter is the class name to instantiate.
+
+Example::
+
+	$query = $this->db->query("YOUR QUERY");
+
+	if ($query->num_rows() > 0)
+	{
+		$row = $query->custom_row_object(0, 'User);
+
+		echo $row->email;   // access attributes
+		echo $row->last_login('Y-m-d');   // access class methods
+	}
+
+You can also use the ``row()`` method in exactly the same way.
+
+Example::
+
+	$row = $query->custom_row_object(0, 'User);
+
+*********************
 Result Helper Methods
 *********************
 
