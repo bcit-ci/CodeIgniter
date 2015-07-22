@@ -568,6 +568,31 @@ class CI_Input {
 		return (bool) filter_var($ip, FILTER_VALIDATE_IP, $which);
 	}
 
+	// -------------------------------------------------------------------
+
+	/**
+	 * Validate MAC Adress
+	 *
+	 * @param $mac string	$mac MAC address
+	 * @return bool
+	 */
+	public function valid_mac($mac)
+	{
+		if(empty($mac))
+		{
+			return FALSE;
+		}
+
+		if(version_compare(PHP_VERSION, '5.5.0', ">="))
+		{
+			return (bool) filter_var($mac, FILTER_VALIDATE_MAC);
+		}else{
+			$mac_reg = '/^([0-9a-fA-F]{2})((([:][0-9a-fA-F]{2}){5})|(([-][0-9a-fA-F]{2}){5}))$/i';
+			return (bool) preg_match($mac_reg, $mac);
+		}
+
+	}
+
 	// --------------------------------------------------------------------
 
 	/**

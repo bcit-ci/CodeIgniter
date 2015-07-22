@@ -1292,6 +1292,19 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Validate MAC Address
+	 *
+	 * @param $mac string $mac MAC address
+	 * @return bool
+	 */
+	public function valid_mac($mac)
+	{
+		return $this->CI->input->valid_mac($mac);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Alpha
 	 *
 	 * @param	string
