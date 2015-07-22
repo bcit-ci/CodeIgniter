@@ -178,13 +178,14 @@ Custom Result Objects
 
 You can have the results returned as an instance of a custom class instead of a stdClass or array,
 as the ``result()`` and ``result_array()`` methods allow. This requires that the class is already
-loaded into memory. The class will have all values returned from the database set on the class
-as class variables. If your class already has those class variables created and ``protected`` then
-you should provide a ``__set()`` method to allow the class variables to be set.
+loaded into memory. The object will have all values returned from the database set as properties.
+If these have been declared and are non-public then you should provide a ``__set()``
+method to allow them to be set.
 
 Example::
 
 	class User {
+
 		protected $id;
 		protected $email;
 		protected $username;
@@ -192,7 +193,8 @@ Example::
 
 		public function last_login($format)
 		{
-			return date($format, $this->last_login);
+			$date = DateTime::setTimestamp($this->last_login);
+			return $date->format($format);
 		}
 
 		public function __set($name, $value)
@@ -226,14 +228,13 @@ Example::
 
 	$query = $this->db->query("YOUR QUERY");
 
-	if ($query->num_rows() > 0)
+	$rows = $query->custom_result_object('User');
+
+	foreach ($rows as $row)
 	{
-		foreach ($query->custom_result_object('User') as $row)
-		{
-			echo $row->id;
-			echo $row->email;
-			echo $row->last_login('Y-m-d');
-		}
+		echo $row->id;
+		echo $row->email;
+		echo $row->last_login('Y-m-d');
 	}
 
 **custom_row_object()**
@@ -247,7 +248,7 @@ Example::
 
 	if ($query->num_rows() > 0)
 	{
-		$row = $query->custom_row_object(0, 'User);
+		$row = $query->custom_row_object(0, 'User');
 
 		echo $row->email;   // access attributes
 		echo $row->last_login('Y-m-d');   // access class methods
@@ -257,7 +258,7 @@ You can also use the ``row()`` method in exactly the same way.
 
 Example::
 
-	$row = $query->custom_row_object(0, 'User);
+	$row = $query->custom_row_object(0, 'User');
 
 *********************
 Result Helper Methods
