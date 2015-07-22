@@ -34,6 +34,7 @@ Release Date: Not Released
 -  Core
 
    -  Added support for defining a list of specific query parameters in ``$config['cache_query_string']`` for the :doc:`Output Library <libraries/output>`.
+   -  Added class existence and inheritance checks to ``CI_Loader::model()`` in order to ease debugging in case of name collisions.
 
 Bug fixes for 3.0.1
 -------------------
