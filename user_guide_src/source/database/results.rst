@@ -193,18 +193,15 @@ Example::
 
 		public function last_login($format)
 		{
-			$date = DateTime::setTimestamp($this->last_login);
-			return $date->format($format);
+			return $this->last_login->format($format);
 		}
 
 		public function __set($name, $value)
 		{
-			$allowed_vars = array('id', 'email', 'username');
-
-			if (in_array($allowed_vars, $name)
-			{
-				$this->$name = $value;
-			}
+			if ($name === 'last_login')
+            {
+                $this->last_login = DateTime::createFromFormat('U', $value);
+            }
 		}
 
 		public function __get($name)
