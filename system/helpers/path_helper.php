@@ -61,7 +61,7 @@ if ( ! function_exists('set_realpath'))
 	function set_realpath($path, $check_existance = FALSE)
 	{
 		// Security check to make sure the path is NOT a URL. No remote file inclusion!
-		if (preg_match('#^(http:\/\/|https:\/\/|www\.|ftp)#i', $path))
+		if (preg_match('#^(http:\/\/|https:\/\/|www\.|ftp)#i', $path) || (!filter_var($ip, FILTER_VALIDATE_IP) === false))
 		{
 			show_error('The path you submitted must be a local server path, not a URL');
 		}
