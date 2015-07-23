@@ -41,7 +41,6 @@ encouraged to test the result first::
 		echo $row->body;
 	}
 
-
 You can also pass a string to result() which represents a class to
 instantiate for each result object (note: this class must be loaded)
 
