@@ -199,9 +199,9 @@ Example::
 		public function __set($name, $value)
 		{
 			if ($name === 'last_login')
-            {
-                $this->last_login = DateTime::createFromFormat('U', $value);
-            }
+			{
+				$this->last_login = DateTime::createFromFormat('U', $value);
+			}
 		}
 
 		public function __get($name)
@@ -243,10 +243,10 @@ Example::
 
 	$query = $this->db->query("YOUR QUERY");
 
-	if ($query->num_rows() > 0)
-	{
-		$row = $query->custom_row_object(0, 'User');
+	$row = $query->custom_row_object(0, 'User');
 
+	if (is_object($row))
+	{
 		echo $row->email;   // access attributes
 		echo $row->last_login('Y-m-d');   // access class methods
 	}
