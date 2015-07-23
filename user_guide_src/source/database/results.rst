@@ -176,19 +176,21 @@ the returned value's type::
 Custom Result Objects
 *********************
 
-You can have the results returned as an instance of a custom class instead of a stdClass or array,
-as the ``result()`` and ``result_array()`` methods allow. This requires that the class is already
-loaded into memory. The object will have all values returned from the database set as properties.
-If these have been declared and are non-public then you should provide a ``__set()``
-method to allow them to be set.
+You can have the results returned as an instance of a custom class instead
+of a ``stdClass`` or array, as the ``result()`` and ``result_array()``
+methods allow. This requires that the class is already loaded into memory.
+The object will have all values returned from the database set as properties.
+If these have been declared and are non-public then you should provide a
+``__set()`` method to allow them to be set.
 
 Example::
 
 	class User {
 
-		protected $id;
-		protected $email;
-		protected $username;
+		public $id;
+		public $email;
+		public $username;
+
 		protected $last_login;
 
 		public function last_login($format)
@@ -213,13 +215,14 @@ Example::
 		}
 	}
 
-In addition to the two methods listed below, the following methods also can take a class name
-to return the results as: ``first_row()``, ``last_row()``, ``next_row()``, and ``previous_row()``.
+In addition to the two methods listed below, the following methods also can
+take a class name to return the results as: ``first_row()``, ``last_row()``,
+``next_row()``, and ``previous_row()``.
 
 **custom_result_object()**
 
-Returns the entire result set as an array of instances of the class requested. The only parameter
-is the name of the class to instantiate.
+Returns the entire result set as an array of instances of the class requested.
+The only parameter is the name of the class to instantiate.
 
 Example::
 
@@ -236,8 +239,8 @@ Example::
 
 **custom_row_object()**
 
-Returns a single row from your query results. The first parameter is the row number of the results.
-The second parameter is the class name to instantiate.
+Returns a single row from your query results. The first parameter is the row
+number of the results. The second parameter is the class name to instantiate.
 
 Example::
 
@@ -245,7 +248,7 @@ Example::
 
 	$row = $query->custom_row_object(0, 'User');
 
-	if (is_object($row))
+	if (isset($row))
 	{
 		echo $row->email;   // access attributes
 		echo $row->last_login('Y-m-d');   // access class methods
