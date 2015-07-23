@@ -71,6 +71,7 @@ Bug fixes for 3.0.1
 -  Fixed an internal bug (#3989) - :doc:`Query Builder <database/query_builder>` escaping logic where if field name escaping is force-disabled, would also treat values as fields in methods ``where()``, ``having()``, ``set()``, ``set_insert_batch()``, ``set_update_batch()``.
 -  Fixed a bug (#3279) - :doc:`Query Builder <database/query_builder>` methods ``update()`` and ``get_compiled_update()`` did double escaping on the table name if it was provided via ``from()``.
 -  Fixed a bug (#3991) - ``$config['rewrite_short_tags']`` never worked due to ``function_exists('eval')`` always returning FALSE.
+-  Fixed a bug where the :doc:`File Uploadin Library <libraries/file_uploading>` library will not properly configure its maximum file size unless the input value is of type integer.
 
 Version 3.0.0
 =============
