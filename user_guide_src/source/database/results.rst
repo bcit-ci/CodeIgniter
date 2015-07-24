@@ -83,7 +83,7 @@ one row, it returns only the first row. The result is returned as an
 
 	$row = $query->row();
 
-	if (is_object($row))
+	if (isset($row))
 	{
 		echo $row->title;
 		echo $row->name;
@@ -113,7 +113,7 @@ Example::
 
 	$row = $query->row_array();
 
-	if (is_array($row))
+	if (isset($row))
 	{
 		echo $row['title'];
 		echo $row['name'];
