@@ -33,15 +33,12 @@ If you run queries that might **not** produce a result, you are
 encouraged to test the result first::
 
 	$query = $this->db->query("YOUR QUERY");
-	
-	if ($query->num_rows() > 0)
+
+	foreach ($query->result() as $row)
 	{
-		foreach ($query->result() as $row)
-		{
-			echo $row->title;
-			echo $row->name;
-			echo $row->body;
-		}
+		echo $row->title;
+		echo $row->name;
+		echo $row->body;
 	}
 
 You can also pass a string to result() which represents a class to
@@ -83,11 +80,11 @@ one row, it returns only the first row. The result is returned as an
 **object**. Here's a usage example::
 
 	$query = $this->db->query("YOUR QUERY");
-	
-	if ($query->num_rows() > 0)
+
+	$row = $query->row();
+
+	if (isset($row))
 	{
-		$row = $query->row();
-		
 		echo $row->title;
 		echo $row->name;
 		echo $row->body;
@@ -113,11 +110,11 @@ Identical to the above ``row()`` method, except it returns an array.
 Example::
 
 	$query = $this->db->query("YOUR QUERY");
-	
-	if ($query->num_rows() > 0)
+
+	$row = $query->row_array();
+
+	if (isset($row))
 	{
-		$row = $query->row_array();
-		
 		echo $row['title'];
 		echo $row['name'];
 		echo $row['body'];
