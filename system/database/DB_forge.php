@@ -143,7 +143,7 @@ abstract class CI_DB_forge {
 	protected $_unsigned		= TRUE;
 
 	/**
-	 * NULL value representatin in CREATE/ALTER TABLE statements
+	 * NULL value representation in CREATE/ALTER TABLE statements
 	 *
 	 * @var	string
 	 */

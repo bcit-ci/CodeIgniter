@@ -254,7 +254,7 @@ if ( ! function_exists('word_censor'))
 	 * word you've submitted.
 	 *
 	 * @param	string	the text string
-	 * @param	string	the array of censoered words
+	 * @param	string	the array of censored words
 	 * @param	string	the optional replacement value
 	 * @return	string
 	 */
