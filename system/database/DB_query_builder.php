@@ -1290,7 +1290,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * Compiles a SELECT query string and returns the sql.
 	 *
 	 * @param	string	the table name to select from (optional)
-	 * @param	bool	TRUE: resets QB values; FALSE: leave QB vaules alone
+	 * @param	bool	TRUE: resets QB values; FALSE: leave QB values alone
 	 * @return	string
 	 */
 	public function get_compiled_select($table = '', $reset = TRUE)

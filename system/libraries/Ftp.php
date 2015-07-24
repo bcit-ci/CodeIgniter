@@ -466,7 +466,7 @@ class CI_FTP {
 
 	/**
 	 * Delete a folder and recursively delete everything (including sub-folders)
-	 * containted within it.
+	 * contained within it.
 	 *
 	 * @param	string	$filepath
 	 * @return	bool
