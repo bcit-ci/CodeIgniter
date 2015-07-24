@@ -19,7 +19,7 @@ This method returns the query result as an array of **objects**, or
 loop, like this::
 
 	$query = $this->db->query("YOUR QUERY");
-	
+
 	foreach ($query->result() as $row)
 	{
 		echo $row->title;
@@ -41,7 +41,7 @@ encouraged to test the result first::
 		echo $row->body;
 	}
 
-You can also pass a string to result() which represents a class to
+You can also pass a string to ``result()`` which represents a class to
 instantiate for each result object (note: this class must be loaded)
 
 ::
@@ -61,7 +61,7 @@ array when no result is produced. Typically you'll use this in a foreach
 loop, like this::
 
 	$query = $this->db->query("YOUR QUERY");
-	
+
 	foreach ($query->result_array() as $row)
 	{
 		echo $row['title'];
@@ -154,7 +154,7 @@ it returns the current row and moves the internal data pointer ahead.
 ::
 
 	$query = $this->db->query("YOUR QUERY");
-	
+
 	while ($row = $query->unbuffered_row())
 	{	
 		echo $row->title;
@@ -267,7 +267,7 @@ The number of rows returned by the query. Note: In this example, $query
 is the variable that the query result object is assigned to::
 
 	$query = $this->db->query('SELECT * FROM my_table');
-	
+
 	echo $query->num_rows();
 
 .. note:: Not all database drivers have a native way of getting the total
@@ -281,7 +281,7 @@ The number of FIELDS (columns) returned by the query. Make sure to call
 the method using your query result object::
 
 	$query = $this->db->query('SELECT * FROM my_table');
-	
+
 	echo $query->num_fields();
 
 **free_result()**
@@ -295,7 +295,7 @@ result has been generated in order to cut down on memory consumption.
 Example::
 
 	$query = $this->db->query('SELECT title FROM my_table');
-	
+
 	foreach ($query->result() as $row)
 	{
 		echo $row->title;
