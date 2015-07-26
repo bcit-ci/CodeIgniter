@@ -72,6 +72,7 @@ Bug fixes for 3.0.1
 -  Fixed a bug (#3279) - :doc:`Query Builder <database/query_builder>` methods ``update()`` and ``get_compiled_update()`` did double escaping on the table name if it was provided via ``from()``.
 -  Fixed a bug (#3991) - ``$config['rewrite_short_tags']`` never worked due to ``function_exists('eval')`` always returning FALSE.
 -  Fixed a bug where the :doc:`File Uploadin Library <libraries/file_uploading>` library will not properly configure its maximum file size unless the input value is of type integer.
+-  Fixed a bug (#4000) - :doc:`Pagination Library <libraries/pagination>` didn't enable "rel" attributes by default if no attributes-related config options were used.
 
 Version 3.0.0
 =============

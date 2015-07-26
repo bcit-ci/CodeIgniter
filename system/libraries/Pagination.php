@@ -353,7 +353,8 @@ class CI_Pagination {
 	 */
 	public function initialize(array $params = array())
 	{
-		if (isset($params['attributes']) && is_array($params['attributes']))
+		isset($params['attributes']) OR $params['attributes'] = array();
+		if (is_array($params['attributes']))
 		{
 			$this->_parse_attributes($params['attributes']);
 			unset($params['attributes']);
