@@ -689,8 +689,12 @@ In this case, you can specify the array to be validated::
 
 	$this->form_validation->set_data($data);
 
-Creating validation rules, running the validation, and retrieving error messages works the
-same whether you are validating ``$_POST`` data or an array.
+Creating validation rules, running the validation, and retrieving error
+messages works the same whether you are validating ``$_POST`` data or
+another array of your choice.
+
+.. important:: You have to call the ``set_data()`` method *before* defining
+	any validation rules.
 
 .. important:: If you want to validate more than one array during a single
 	execution, then you should call the ``reset_validation()`` method
