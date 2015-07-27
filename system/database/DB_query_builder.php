@@ -657,7 +657,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 			if ($v !== NULL)
 			{
-				$v = ' '.$this->escape($v);
+				if ($escape === TRUE)
+				{
+					$v = ' '.$this->escape($v);
+				}
 
 				if ( ! $this->_has_operator($k))
 				{
