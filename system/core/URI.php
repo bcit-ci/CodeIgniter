@@ -201,7 +201,7 @@ class CI_URI {
 			return '';
 		}
 
-		$uri = parse_url($_SERVER['REQUEST_URI']);
+		$uri = parse_url($_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI']);
 		$query = isset($uri['query']) ? $uri['query'] : '';
 		$uri = isset($uri['path']) ? $uri['path'] : '';
 
