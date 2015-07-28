@@ -29,18 +29,6 @@ loop, like this::
 
 The above method is an alias of ``result_object()``.
 
-If you run queries that might **not** produce a result, you are
-encouraged to test the result first::
-
-	$query = $this->db->query("YOUR QUERY");
-
-	foreach ($query->result() as $row)
-	{
-		echo $row->title;
-		echo $row->name;
-		echo $row->body;
-	}
-
 You can also pass a string to ``result()`` which represents a class to
 instantiate for each result object (note: this class must be loaded)
 
