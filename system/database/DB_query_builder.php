@@ -794,10 +794,17 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		$not = ($not) ? ' NOT' : '';
 
-		$where_in = array();
-		foreach ($values as $value)
+		if ($escape === TRUE)
 		{
-			$where_in[] = $this->escape($value);
+			$where_in = array();
+			foreach ($values as $value)
+			{
+				$where_in[] = $this->escape($value);
+			}
+		}
+		else
+		{
+			$where_in = array_values($values);
 		}
 
 		$prefix = (count($this->qb_where) === 0) ? $this->_group_get_type('') : $this->_group_get_type($type);
@@ -926,7 +933,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$prefix = (count($this->qb_where) === 0 && count($this->qb_cache_where) === 0)
 				? $this->_group_get_type('') : $this->_group_get_type($type);
 
-			$v = $this->escape_like_str($v);
+			if ($escape === TRUE)
+			{
+				$v = $this->escape_like_str($v);
+			}
 
 			if ($side === 'none')
 			{
@@ -946,7 +956,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			}
 
 			// some platforms require an escape sequence definition for LIKE wildcards
-			if ($this->_like_escape_str !== '')
+			if ($escape === TRUE && $this->_like_escape_str !== '')
 			{
 				$like_statement .= sprintf($this->_like_escape_str, $this->_like_escape_chr);
 			}
