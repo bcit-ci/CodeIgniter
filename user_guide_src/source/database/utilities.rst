@@ -65,7 +65,7 @@ Returns a boolean TRUE/FALSE. Usage example::
 		// some code...
 	}
 
-.. note:: Replace *database_name* with the name of the table you are
+.. note:: Replace *database_name* with the name of the database you are
 	looking for. This method is case sensitive.
 
 Optimize a Table
@@ -111,7 +111,7 @@ FALSE on failure.
 		print_r($result);
 	}
 
-.. note:: Not all database platforms support table optimization. It
+.. note:: Not all database platforms support database optimization. It
 	it is mostly for use with MySQL.
 
 Export a Query Result as a CSV File
