@@ -1216,7 +1216,7 @@ Class Reference
 
 		:param	mixed	$key: Name of field to compare, or associative array
 		:param	mixed	$value: If a single key, compared to this value
-		:param	boolean	$escape: Whether to escape values and identifiers
+		:param	bool	$escape: Whether to escape values and identifiers
 		:returns:	DB_query_builder instance
 		:rtype:	object
 
@@ -1227,7 +1227,7 @@ Class Reference
 
 		:param	mixed	$key: Name of field to compare, or associative array
 		:param	mixed	$value: If a single key, compared to this value
-		:param	boolean	$escape: Whether to escape values and identifiers
+		:param	bool	$escape: Whether to escape values and identifiers
 		:returns:	DB_query_builder instance
 		:rtype:	object
 
@@ -1238,7 +1238,7 @@ Class Reference
 
 		:param	string	$key: The field to search
 		:param	array	$values: The values searched on
-		:param	boolean	$escape: Whether to escape values and identifiers
+		:param	bool	$escape: Whether to escape values and identifiers
 		:returns:	DB_query_builder instance
 		:rtype:	object
 
@@ -1249,7 +1249,7 @@ Class Reference
 
 		:param	string	$key: The field to search
 		:param	array	$values: The values searched on
-		:param	boolean	$escape: Whether to escape values and identifiers
+		:param	bool	$escape: Whether to escape values and identifiers
 		:returns:	DB_query_builder instance
 		:rtype:	object
 
@@ -1260,7 +1260,7 @@ Class Reference
 
 		:param	string	$key: Name of field to examine
 		:param	array	$values: Array of target values
-		:param	boolean	$escape: Whether to escape values and identifiers
+		:param	bool	$escape: Whether to escape values and identifiers
 		:returns:	DB_query_builder instance
 		:rtype:	object
 
@@ -1271,7 +1271,7 @@ Class Reference
 
 		:param	string	$key: Name of field to examine
 		:param	array	$values: Array of target values
-		:param	boolean	$escape: Whether to escape values and identifiers
+		:param	bool	$escape: Whether to escape values and identifiers
 		:returns:	DB_query_builder instance
 		:rtype:	object
 
