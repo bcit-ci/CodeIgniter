@@ -1,5 +1,5 @@
 #############################
-Upgrading from 2.2.x to 3.0.0
+Upgrading from 2.2.x to 3.0.x
 #############################
 
 Before performing an update you should take your site offline by replacing the index.php file with a static one.
