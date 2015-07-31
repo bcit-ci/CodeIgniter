@@ -807,7 +807,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$where_in = array_values($values);
 		}
 
-		$prefix = (count($this->qb_where) === 0) ? $this->_group_get_type('') : $this->_group_get_type($type);
+		$prefix = (count($this->qb_where) === 0 && count($this->qb_cache_where) === 0)
+			? $this->_group_get_type('')
+			: $this->_group_get_type($type);
+
 		$where_in = array(
 			'condition' => $prefix.$key.$not.' IN('.implode(', ', $where_in).')',
 			'escape' => $escape

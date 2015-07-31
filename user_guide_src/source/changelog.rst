@@ -74,6 +74,7 @@ Bug fixes for 3.0.1
 -  Fixed a bug (#4000) - :doc:`Pagination Library <libraries/pagination>` didn't enable "rel" attributes by default if no attributes-related config options were used.
 -  Fixed a bug (#4004) - :doc:`URI Class <libraries/uri>` didn't properly parse the request URI if it contains a colon followed by a digit.
 -  Fixed a bug in :doc:`Query Builder <database/query_builder>` where the ``$escape`` parameter for some methods only affected field names.
+-  Fixed a bug (#4012) - :doc:`Query Builder <database/query_builder>` methods ``where_in()``, ``or_where_in()``, ``where_not_in()``, ``or_where_not_in()`` didn't take into account previously cached WHERE conditions when query cache is in use.
 
 Version 3.0.0
 =============
