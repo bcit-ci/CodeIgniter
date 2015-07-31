@@ -145,7 +145,7 @@ The following functions are available:
 	:returns:	HTML-formatted unordered list
 	:rtype:	string
 
-	Permits you to generate ordered or unordered HTML lists from simple or
+	Permits you to generate unordered HTML lists from simple or
 	multi-dimensional arrays. Example::
 
 		$list = array(
