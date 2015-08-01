@@ -172,24 +172,6 @@ class CI_DB_postgre_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Reconnect
-	 *
-	 * Keep / reestablish the db connection if no queries have been
-	 * sent for a length of time exceeding the server's idle timeout
-	 *
-	 * @return	void
-	 */
-	public function reconnect()
-	{
-		if (pg_ping($this->conn_id) === FALSE)
-		{
-			$this->conn_id = FALSE;
-		}
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Set client character set
 	 *
 	 * @param	string	$charset
