@@ -258,7 +258,7 @@ class CI_Migration {
 
 			// Run migrations that are inside the target range
 			if (
-				($method === 'up'   && $number > $current_version && $number <= $target_version) OR
+				($method === 'up' && $number > $current_version && $number <= $target_version) OR
 				($method === 'down' && $number <= $current_version && $number > $target_version)
 			)
 			{

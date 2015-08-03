@@ -118,7 +118,7 @@ class CI_Typography {
 			$str = str_replace(array("\r\n", "\r"), "\n", $str);
 		}
 
-		// Reduce line breaks.  If there are more than two consecutive linebreaks
+		// Reduce line breaks. If there are more than two consecutive linebreaks
 		// we'll compress them down to a maximum of two since there's no benefit to more.
 		if ($reduce_linebreaks === TRUE)
 		{
@@ -136,7 +136,7 @@ class CI_Typography {
 			}
 		}
 
-		// match and yank <pre> tags if they exist.  It's cheaper to do this separately since most content will
+		// match and yank <pre> tags if they exist. It's cheaper to do this separately since most content will
 		// not contain <pre> tags, and it keeps the PCRE patterns below simpler and faster
 		if (strpos($str, '<pre') !== FALSE)
 		{
@@ -152,8 +152,8 @@ class CI_Typography {
 			$str = preg_replace_callback('#\{.+?\}#si', array($this, '_protect_characters'), $str);
 		}
 
-		// Convert "ignore" tags to temporary marker.  The parser splits out the string at every tag
-		// it encounters.  Certain inline tags, like image tags, links, span tags, etc. will be
+		// Convert "ignore" tags to temporary marker. The parser splits out the string at every tag
+		// it encounters. Certain inline tags, like image tags, links, span tags, etc. will be
 		// adversely affected if they are split out so we'll convert the opening bracket < temporarily to: {@TAG}
 		$str = preg_replace('#<(/*)('.$this->inline_elements.')([ >])#i', '{@TAG}\\1\\2\\3', $str);
 
@@ -169,7 +169,7 @@ class CI_Typography {
 		 */
 		$chunks = preg_split('/(<(?:[^<>]+(?:"[^"]*"|\'[^\']*\')?)+>)/', $str, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
 
-		// Build our finalized string.  We cycle through the array, skipping tags, and processing the contained text
+		// Build our finalized string. We cycle through the array, skipping tags, and processing the contained text
 		$str = '';
 		$process = TRUE;
 

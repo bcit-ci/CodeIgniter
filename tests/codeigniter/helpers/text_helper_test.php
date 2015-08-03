@@ -8,7 +8,7 @@ class Text_helper_test extends CI_TestCase {
 	{
 		$this->helper('text');
 
-		$this->_long_string = 'Once upon a time, a framework had no tests.  It sad.  So some nice people began to write tests.  The more time that went on, the happier it became.  Everyone was happy.';
+		$this->_long_string = 'Once upon a time, a framework had no tests. It sad. So some nice people began to write tests. The more time that went on, the happier it became. Everyone was happy.';
 	}
 
 	// ------------------------------------------------------------------------
@@ -106,11 +106,11 @@ class Text_helper_test extends CI_TestCase {
 	public function test_highlight_phrase()
 	{
 		$strs = array(
-			'this is a phrase'          => '<mark>this is</mark> a phrase',
-			'this is another'           => '<mark>this is</mark> another',
-			'Gimme a test, Sally'       => 'Gimme a test, Sally',
-			'Or tell me what this is'   => 'Or tell me what <mark>this is</mark>',
-			''                          => ''
+			'this is a phrase'			=> '<mark>this is</mark> a phrase',
+			'this is another'			=> '<mark>this is</mark> another',
+			'Gimme a test, Sally'		=> 'Gimme a test, Sally',
+			'Or tell me what this is'	=> 'Or tell me what <mark>this is</mark>',
+			''							=> ''
 		);
 
 		foreach ($strs as $str => $expect)

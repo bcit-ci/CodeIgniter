@@ -40,10 +40,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * CodeIgniter Redis Caching Class
  *
- * @package	   CodeIgniter
- * @subpackage Libraries
- * @category   Core
- * @author	   Anton Lindqvist <anton@qvister.se>
+ * @package		CodeIgniter
+ * @subpackage	Libraries
+ * @category	Core
+ * @author		Anton Lindqvist <anton@qvister.se>
  * @link
  */
 class CI_Cache_redis extends CI_Driver

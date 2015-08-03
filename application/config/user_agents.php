@@ -27,7 +27,7 @@ $platforms = array(
 	'win98'				=> 'Windows 98',
 	'windows 95'		=> 'Windows 95',
 	'win95'				=> 'Windows 95',
-	'windows phone'			=> 'Windows Phone',
+	'windows phone'		=> 'Windows Phone',
 	'windows'			=> 'Unknown Windows OS',
 	'android'			=> 'Android',
 	'blackberry'		=> 'BlackBerry',
@@ -55,7 +55,6 @@ $platforms = array(
 	'symbian' 			=> 'Symbian OS'
 );
 
-
 // The order of this array should NOT be changed. Many browsers return
 // multiple browser types so we want to identify the sub-type first.
 $browsers = array(
@@ -64,10 +63,10 @@ $browsers = array(
 	'Edge'			=> 'Spartan',
 	'Chrome'		=> 'Chrome',
 	// Opera 10+ always reports Opera/9.80 and appends Version/<real version> to the user agent string
-	'Opera.*?Version'	=> 'Opera',
+	'Opera.*?Version'		=> 'Opera',
 	'Opera'			=> 'Opera',
 	'MSIE'			=> 'Internet Explorer',
-	'Internet Explorer'	=> 'Internet Explorer',
+	'Internet Explorer'		=> 'Internet Explorer',
 	'Trident.* rv'	=> 'Internet Explorer',
 	'Shiira'		=> 'Shiira',
 	'Firefox'		=> 'Firefox',
@@ -93,7 +92,7 @@ $browsers = array(
 $mobiles = array(
 	// legacy array, old values commented out
 	'mobileexplorer'	=> 'Mobile Explorer',
-//  'openwave'			=> 'Open Wave',
+//	'openwave'			=> 'Open Wave',
 //	'opera mini'		=> 'Opera Mini',
 //	'operamini'			=> 'Opera Mini',
 //	'elaine'			=> 'Palm',
@@ -133,8 +132,8 @@ $mobiles = array(
 	'ipaq'			=> 'HP iPaq',
 	'mot-'			=> 'Motorola',
 	'playstation portable'	=> 'PlayStation Portable',
-	'playstation 3'		=> 'PlayStation 3',
-	'playstation vita'  	=> 'PlayStation Vita',
+	'playstation 3'	=> 'PlayStation 3',
+	'playstation vita'		=> 'PlayStation Vita',
 	'hiptop'		=> 'Danger Hiptop',
 	'nec-'			=> 'NEC',
 	'panasonic'		=> 'Panasonic',
@@ -194,18 +193,18 @@ $mobiles = array(
 $robots = array(
 	'googlebot'		=> 'Googlebot',
 	'msnbot'		=> 'MSNBot',
-	'baiduspider'		=> 'Baiduspider',
+	'baiduspider'	=> 'Baiduspider',
 	'bingbot'		=> 'Bing',
 	'slurp'			=> 'Inktomi Slurp',
 	'yahoo'			=> 'Yahoo',
-	'ask jeeves'		=> 'Ask Jeeves',
-	'fastcrawler'		=> 'FastCrawler',
+	'ask jeeves'	=> 'Ask Jeeves',
+	'fastcrawler'	=> 'FastCrawler',
 	'infoseek'		=> 'InfoSeek Robot 1.0',
 	'lycos'			=> 'Lycos',
 	'yandex'		=> 'YandexBot',
 	'mediapartners-google'	=> 'MediaPartners Google',
-	'CRAZYWEBCRAWLER'	=> 'Crazy Webcrawler',
-	'adsbot-google'		=> 'AdsBot Google',
+	'CRAZYWEBCRAWLER'		=> 'Crazy Webcrawler',
+	'adsbot-google'	=> 'AdsBot Google',
 	'feedfetcher-google'	=> 'Feedfetcher Google',
-	'curious george'	=> 'Curious George'
+	'curious george'		=> 'Curious George'
 );

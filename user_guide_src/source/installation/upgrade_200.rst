@@ -114,7 +114,7 @@ impact your code:
 - The JavaScript calendar plugin was removed.
 - The *system/cache* and *system/logs* directories are now in the application
   directory.
-- The Validation class has been removed.  Please see the
+- The Validation class has been removed. Please see the
   :doc:`Form Validation library </libraries/form_validation>`
 - "default" is now a reserved name.
 - The xss_clean() function has moved to the :doc:`Security Class

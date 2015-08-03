@@ -455,7 +455,7 @@ class CI_Session {
 	 * Mark as temp
 	 *
 	 * @param	mixed	$key	Session data key(s)
-	 * @param	int	$ttl	Time-to-live in seconds
+	 * @param	int		$ttl	Time-to-live in seconds
 	 * @return	bool
 	 */
 	public function mark_as_temp($key, $ttl = 300)
@@ -863,7 +863,7 @@ class CI_Session {
 	 *
 	 * @param	mixed	$data	Session data key or an associative array of items
 	 * @param	mixed	$value	Value to store
-	 * @param	int	$ttl	Time-to-live in seconds
+	 * @param	int		$ttl	Time-to-live in seconds
 	 * @return	void
 	 */
 	public function set_tempdata($data, $value = NULL, $ttl = 300)

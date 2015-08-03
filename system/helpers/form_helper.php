@@ -600,7 +600,7 @@ if ( ! function_exists('form_fieldset'))
 	/**
 	 * Fieldset Tag
 	 *
-	 * Used to produce <fieldset><legend>text</legend>.  To close fieldset
+	 * Used to produce <fieldset><legend>text</legend>. To close fieldset
 	 * use form_fieldset_close()
 	 *
 	 * @param	string	The legend text

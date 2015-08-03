@@ -3,8 +3,8 @@ Writing CodeIgniter Documentation
 #################################
 
 CodeIgniter uses Sphinx to generate its documentation in a variety of formats,
-using reStructuredText to handle the formatting.  If you are familiar with
-Markdown or Textile, you will quickly grasp reStructuredText.  The focus is
+using reStructuredText to handle the formatting. If you are familiar with
+Markdown or Textile, you will quickly grasp reStructuredText. The focus is
 on readability and user friendliness.
 While they can be quite technical, we always write for humans!
 
@@ -36,8 +36,8 @@ Tools Required
 **************
 
 To see the rendered HTML, ePub, PDF, etc., you will need to install Sphinx
-along with the PHP domain extension for Sphinx.  The underlying requirement
-is to have Python installed.  Lastly, you will install the CI Lexer for
+along with the PHP domain extension for Sphinx. The underlying requirement
+is to have Python installed. Lastly, you will install the CI Lexer for
 Pygments, so that code blocks can be properly highlighted.
 
 .. code-block:: bash
@@ -57,8 +57,8 @@ Page and Section Headings and Subheadings
 Headings not only provide order and sections within a page, but they also
 are used to automatically build both the page and document table of contents.
 Headings are formed by using certain characters as underlines for a bit of
-text.  Major headings, like page titles and section headings also use
-overlines.  Other headings just use underlines, with the following hierarchy::
+text. Major headings, like page titles and section headings also use
+overlines. Other headings just use underlines, with the following hierarchy::
 
 	# with overline for page titles
 	* with overline for major sections
@@ -110,7 +110,7 @@ Method Documentation
 ********************
 
 When documenting class methods for third party developers, Sphinx provides
-directives to assist and keep things simple.  
+directives to assist and keep things simple. 
 For example, consider the following ReST:
 
 .. code-block:: rst

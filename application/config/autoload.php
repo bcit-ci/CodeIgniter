@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | In order to keep the framework as light-weight as possible only the
 | absolute minimal resources are loaded by default. For example,
 | the database is not connected to automatically since no assumption
-| is made regarding whether you intend to use it.  This file lets
+| is made regarding whether you intend to use it. This file lets
 | you globally define which systems you would like loaded with every
 | request.
 |
@@ -94,7 +94,7 @@ $autoload['helper'] = array();
 |	$autoload['config'] = array('config1', 'config2');
 |
 | NOTE: This item is intended for use ONLY if you have created custom
-| config files.  Otherwise, leave it blank.
+| config files. Otherwise, leave it blank.
 |
 */
 $autoload['config'] = array();
@@ -107,7 +107,7 @@ $autoload['config'] = array();
 |
 |	$autoload['language'] = array('lang1', 'lang2');
 |
-| NOTE: Do not include the "_lang" part of your file.  For example
+| NOTE: Do not include the "_lang" part of your file. For example
 | "codeigniter_lang.php" would be referenced as array('codeigniter');
 |
 */

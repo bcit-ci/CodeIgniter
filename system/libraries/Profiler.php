@@ -153,7 +153,7 @@ class CI_Profiler {
 	 *
 	 * This function cycles through the entire array of mark points and
 	 * matches any two points that are named identically (ending in "_start"
-	 * and "_end" respectively).  It then compiles the execution times for
+	 * and "_end" respectively). It then compiles the execution times for
 	 * all points and returns it as an array
 	 *
 	 * @return	array

@@ -34,16 +34,16 @@ Open your application/config/config.php file and add this new item::
     | Output Compression
     |--------------------------------------------------------------------------
     |
-    | Enables Gzip output compression for faster page loads.  When enabled,
+    | Enables Gzip output compression for faster page loads. When enabled,
     | the output class will test whether your server supports Gzip.
     | Even if it does, however, not all browsers support compression
     | so enable only if you are reasonably sure your visitors can handle it.
     |
     | VERY IMPORTANT:  If you are getting a blank page when compression is enabled it
     | means you are prematurely outputting something to your browser. It could
-    | even be a line of whitespace at the end of one of your scripts.  For
+    | even be a line of whitespace at the end of one of your scripts. For
     | compression to work, nothing can be sent before the output buffer is called
-    | by the output class.  Do not "echo" any values with compression enabled.
+    | by the output class. Do not "echo" any values with compression enabled.
     |
     */
     $config['compress_output'] = FALSE;

@@ -37,12 +37,12 @@ $config['index_page'] = 'index.php';
 |--------------------------------------------------------------------------
 |
 | This item determines which server global should be used to retrieve the
-| URI string.  The default setting of 'REQUEST_URI' works for most servers.
+| URI string. The default setting of 'REQUEST_URI' works for most servers.
 | If your links do not seem to work, try one of the other delicious flavors:
 |
-| 'REQUEST_URI'    Uses $_SERVER['REQUEST_URI']
-| 'QUERY_STRING'   Uses $_SERVER['QUERY_STRING']
-| 'PATH_INFO'      Uses $_SERVER['PATH_INFO']
+| 'REQUEST_URI'		Uses $_SERVER['REQUEST_URI']
+| 'QUERY_STRING'	Uses $_SERVER['QUERY_STRING']
+| 'PATH_INFO'		Uses $_SERVER['PATH_INFO']
 |
 | WARNING: If you set this to 'PATH_INFO', URIs will always be URL-decoded!
 */
@@ -91,7 +91,7 @@ $config['charset'] = 'UTF-8';
 |--------------------------------------------------------------------------
 |
 | If you would like to use the 'hooks' feature you must enable it by
-| setting this variable to TRUE (boolean).  See the user guide for details.
+| setting this variable to TRUE (boolean). See the user guide for details.
 |
 */
 $config['enable_hooks'] = FALSE;
@@ -102,7 +102,7 @@ $config['enable_hooks'] = FALSE;
 |--------------------------------------------------------------------------
 |
 | This item allows you to set the filename/classname prefix when extending
-| native libraries.  For more information please see the user guide:
+| native libraries. For more information please see the user guide:
 |
 | http://codeigniter.com/user_guide/general/core_classes.html
 | http://codeigniter.com/user_guide/general/creating_libraries.html
@@ -142,7 +142,7 @@ $config['composer_autoload'] = FALSE;
 | get a warning message.
 |
 | As a security measure you are STRONGLY encouraged to restrict URLs to
-| as few characters as possible.  By default only these are allowed: a-z 0-9~%.:_-
+| as few characters as possible. By default only these are allowed: a-z 0-9~%.:_-
 |
 | Leave blank to allow all characters -- but only if you are insane.
 |
@@ -162,7 +162,7 @@ $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
 | By default CodeIgniter uses search-engine friendly segment based URLs:
 | example.com/who/what/where/
 |
-| By default CodeIgniter enables access to the $_GET array.  If for some
+| By default CodeIgniter enables access to the $_GET array. If for some
 | reason you would like to disable it, set 'allow_get_array' to FALSE.
 |
 | You can optionally enable standard query string based URLs:
@@ -263,7 +263,7 @@ $config['log_date_format'] = 'Y-m-d H:i:s';
 |--------------------------------------------------------------------------
 |
 | Leave this BLANK unless you would like to set something other than the default
-| application/views/errors/ directory.  Use a full server path with trailing slash.
+| application/views/errors/ directory. Use a full server path with trailing slash.
 |
 */
 $config['error_views_path'] = '';
@@ -274,7 +274,7 @@ $config['error_views_path'] = '';
 |--------------------------------------------------------------------------
 |
 | Leave this BLANK unless you would like to set something other than the default
-| application/cache/ directory.  Use a full server path with trailing slash.
+| application/cache/ directory. Use a full server path with trailing slash.
 |
 */
 $config['cache_path'] = '';
@@ -441,7 +441,7 @@ $config['csrf_exclude_uris'] = array();
 | Output Compression
 |--------------------------------------------------------------------------
 |
-| Enables Gzip output compression for faster page loads.  When enabled,
+| Enables Gzip output compression for faster page loads. When enabled,
 | the output class will test whether your server supports Gzip.
 | Even if it does, however, not all browsers support compression
 | so enable only if you are reasonably sure your visitors can handle it.
@@ -451,9 +451,9 @@ $config['csrf_exclude_uris'] = array();
 |
 | VERY IMPORTANT:  If you are getting a blank page when compression is enabled it
 | means you are prematurely outputting something to your browser. It could
-| even be a line of whitespace at the end of one of your scripts.  For
+| even be a line of whitespace at the end of one of your scripts. For
 | compression to work, nothing can be sent before the output buffer is called
-| by the output class.  Do not 'echo' any values with compression enabled.
+| by the output class. Do not 'echo' any values with compression enabled.
 |
 */
 $config['compress_output'] = FALSE;
@@ -478,7 +478,7 @@ $config['time_reference'] = 'local';
 |
 | If your PHP installation does not have short tag support enabled CI
 | can rewrite the tags on-the-fly, enabling you to utilize that syntax
-| in your view files.  Options are TRUE or FALSE (boolean)
+| in your view files. Options are TRUE or FALSE (boolean)
 |
 | Note: You need to have eval() enabled for this to work.
 |

@@ -55,7 +55,7 @@ if ( ! function_exists('smiley_js'))
 	/**
 	 * Smiley Javascript
 	 *
-	 * Returns the javascript required for the smiley insertion.  Optionally takes
+	 * Returns the javascript required for the smiley insertion. Optionally takes
 	 * an array of aliases to loosely couple the smiley array to the view.
 	 *
 	 * @param	mixed	alias name or array of alias->field_id pairs

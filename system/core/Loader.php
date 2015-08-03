@@ -514,7 +514,7 @@ class CI_Loader {
 	 *
 	 * Clears the cached variables.
 	 *
-	 * @return  object
+	 * @return	object
 	 */
 	public function clear_vars()
 	{

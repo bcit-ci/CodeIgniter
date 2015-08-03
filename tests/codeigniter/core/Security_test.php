@@ -71,7 +71,7 @@ class Security_test extends CI_TestCase {
 		$this->assertEquals("Hello, i try to [removed]alert&#40;'Hack'&#41;;[removed] your site", $harmless_string);
 	}
 
-        // --------------------------------------------------------------------
+	// --------------------------------------------------------------------
 
 	public function test_xss_clean_string_array()
 	{

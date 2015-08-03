@@ -203,9 +203,9 @@ comment blocks and code.
 	$parts = explode("\n", $str);
 
 	// A longer comment that needs to give greater detail on what is
-	// occurring and why can use multiple single-line comments.  Try to
+	// occurring and why can use multiple single-line comments. Try to
 	// keep the width reasonable, around 70 characters is the easiest to
-	// read.  Don't hesitate to link to permanent external resources
+	// read. Don't hesitate to link to permanent external resources
 	// that may provide greater detail:
 	//
 	// http://example.com/information_about_something/in_particular/

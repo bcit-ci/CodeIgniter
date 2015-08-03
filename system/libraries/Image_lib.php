@@ -127,7 +127,7 @@ class CI_Image_lib {
 	public $maintain_ratio		= TRUE;
 
 	/**
-	 * auto, height, or width.  Determines what to use as the master dimension
+	 * auto, height, or width. Determines what to use as the master dimension
 	 *
 	 * @var string
 	 */
@@ -166,7 +166,7 @@ class CI_Image_lib {
 	public $wm_text			= '';
 
 	/**
-	 * Type of watermarking.  Options:  text/overlay
+	 * Type of watermarking. Options:  text/overlay
 	 *
 	 * @var string
 	 */
@@ -779,7 +779,7 @@ class CI_Image_lib {
 			$this->y_axis = 0;
 		}
 
-		//  Create the image handle
+		// Create the image handle
 		if ( ! ($src_img = $this->image_create_gd()))
 		{
 			return FALSE;
@@ -1195,7 +1195,7 @@ class CI_Image_lib {
 			$x_axis += $this->orig_width - $wm_width;
 		}
 
-		//  Build the finalized image
+		// Build the finalized image
 		if ($wm_img_type === 3 && function_exists('imagealphablending'))
 		{
 			@imagealphablending($src_img, TRUE);
@@ -1723,7 +1723,7 @@ class CI_Image_lib {
 	 * Explode source_image
 	 *
 	 * This is a helper function that extracts the extension
-	 * from the source_image.  This function lets us deal with
+	 * from the source_image. This function lets us deal with
 	 * source_images with multiple periods, like: my.cool.jpg
 	 * It returns an associative array with two elements:
 	 * $array['ext']  = '.jpg';

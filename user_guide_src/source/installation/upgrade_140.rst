@@ -40,7 +40,7 @@ Open your application/config/config.php file and add these new items::
     |--------------------------------------------------------------------------
     |
     | If you would like to use the "hooks" feature you must enable it by
-    | setting this variable to TRUE (boolean).  See the user guide for details.
+    | setting this variable to TRUE (boolean). See the user guide for details.
     |
     */
     $config['enable_hooks'] = FALSE;
@@ -56,7 +56,7 @@ Open your application/config/config.php file and add these new items::
     | get a warning message.
     |
     | As a security measure you are STRONGLY encouraged to restrict URLs to
-    | as few characters as possible.  By default only these are allowed: a-z 0-9~%.:_-
+    | as few characters as possible. By default only these are allowed: a-z 0-9~%.:_-
     |
     | Leave blank to allow all characters -- but only if you are insane.
     |

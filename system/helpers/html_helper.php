@@ -134,7 +134,7 @@ if ( ! function_exists('_list'))
 			.'<'.$type._stringify_attributes($attributes).">\n";
 
 
-		// Cycle through the list elements.  If an array is
+		// Cycle through the list elements. If an array is
 		// encountered we will recursively call _list()
 
 		static $_last_list_item = '';

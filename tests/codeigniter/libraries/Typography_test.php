@@ -28,7 +28,7 @@ class Typography_test extends CI_TestCase {
 			'foo...'						=> 'foo&#8230;',
 			'foo..'							=> 'foo..',
 			'foo...bar.'					=> 'foo&#8230;bar.',
-			'test.  new'					=> 'test.&nbsp; new',
+			'test. new'					=> 'test.&nbsp; new',
 		);
 
 		foreach ($strs as $str => $expected)
@@ -42,7 +42,7 @@ class Typography_test extends CI_TestCase {
 	public function test_nl2br_except_pre()
 	{
 		$str = <<<EOH
-Hello, I'm a happy string with some new lines.  
+Hello, I'm a happy string with some new lines. 
 
 I like to skip.
 
@@ -51,7 +51,7 @@ Jump
 and sing.
 
 <pre>
-I am inside a pre tag.  Please don't mess with me.
+I am inside a pre tag. Please don't mess with me.
 
 k?
 </pre>
@@ -62,7 +62,7 @@ The End.
 EOH;
 
 		$expected = <<<EOH
-Hello, I'm a happy string with some new lines.  <br />
+Hello, I'm a happy string with some new lines. <br />
 <br />
 I like to skip.<br />
 <br />
@@ -71,7 +71,7 @@ Jump<br />
 and sing.<br />
 <br />
 <pre>
-I am inside a pre tag.  Please don't mess with me.
+I am inside a pre tag. Please don't mess with me.
 
 k?
 </pre><br />

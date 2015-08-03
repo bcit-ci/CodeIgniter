@@ -514,7 +514,7 @@ The second parameter lets you set a result offset.
 
 ::
 
-	$this->db->limit(10, 20);  // Produces: LIMIT 20, 10 (in MySQL.  Other databases have slightly different syntax)
+	$this->db->limit(10, 20);  // Produces: LIMIT 20, 10 (in MySQL. Other databases have slightly different syntax)
 
 **$this->db->count_all_results()**
 
@@ -1067,7 +1067,7 @@ Class Reference
 		:returns:	CI_DB_query_builder instance (method chaining)
 		:rtype:	CI_DB_query_builder
 
-		Resets the current Query Builder state.  Useful when you want
+		Resets the current Query Builder state. Useful when you want
 		to build a query that can be cancelled under certain conditions.
 
 	.. php:method:: start_cache()

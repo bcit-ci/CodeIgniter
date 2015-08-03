@@ -970,7 +970,7 @@ Rule                      Parameter  Description                                
 **alpha**                 No         Returns FALSE if the form element contains anything other than alphabetical characters.
 **alpha_numeric**         No         Returns FALSE if the form element contains anything other than alpha-numeric characters.
 **alpha_numeric_spaces**  No         Returns FALSE if the form element contains anything other than alpha-numeric characters
-                                     or spaces.  Should be used after trim to avoid spaces at the beginning or end.
+                                     or spaces. Should be used after trim to avoid spaces at the beginning or end.
 **alpha_dash**            No         Returns FALSE if the form element contains anything other than alpha-numeric characters,
                                      underscores or dashes.
 **numeric**               No         Returns FALSE if the form element contains anything other than numeric characters.

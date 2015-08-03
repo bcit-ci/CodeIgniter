@@ -286,7 +286,7 @@ The following functions are available:
 		// Generates:  <meta name="description" content="My Great Site" />
 
 		echo meta('Content-type', 'text/html; charset=utf-8', 'equiv');
-		// Note the third parameter.  Can be "equiv" or "name"
+		// Note the third parameter. Can be "equiv" or "name"
 		// Generates:  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 
 		echo meta(array('name' => 'robots', 'content' => 'no-cache'));

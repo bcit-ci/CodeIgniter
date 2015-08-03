@@ -60,7 +60,7 @@ if ( ! function_exists('set_cookie'))
 	 * @param	mixed
 	 * @param	string	the value of the cookie
 	 * @param	string	the number of seconds until expiration
-	 * @param	string	the cookie domain.  Usually:  .yourdomain.com
+	 * @param	string	the cookie domain. Usually:  .yourdomain.com
 	 * @param	string	the cookie path
 	 * @param	string	the cookie prefix
 	 * @param	bool	true makes the cookie secure
