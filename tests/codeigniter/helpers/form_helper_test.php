@@ -30,12 +30,12 @@ EOH;
 EOH;
 
 		$data = array(
-			'name'        => 'username',
-			'id'          => 'username',
-			'value'       => 'johndoe',
-			'maxlength'   => '100',
-			'size'        => '50',
-			'style'       => 'width:50%',
+			'name'		=> 'username',
+			'id'		=> 'username',
+			'value'		=> 'johndoe',
+			'maxlength'	=> '100',
+			'size'		=> '50',
+			'style'		=> 'width:50%',
 		);
 
 		$this->assertEquals($expected, form_input($data));

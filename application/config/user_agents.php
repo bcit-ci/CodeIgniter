@@ -132,7 +132,7 @@ $mobiles = array(
 	'ipaq'			=> 'HP iPaq',
 	'mot-'			=> 'Motorola',
 	'playstation portable'	=> 'PlayStation Portable',
-	'playstation 3'			=> 'PlayStation 3',
+	'playstation 3'	=> 'PlayStation 3',
 	'playstation vita'		=> 'PlayStation Vita',
 	'hiptop'		=> 'Danger Hiptop',
 	'nec-'			=> 'NEC',
@@ -204,7 +204,7 @@ $robots = array(
 	'yandex'		=> 'YandexBot',
 	'mediapartners-google'	=> 'MediaPartners Google',
 	'CRAZYWEBCRAWLER'		=> 'Crazy Webcrawler',
-	'adsbot-google'			=> 'AdsBot Google',
+	'adsbot-google'	=> 'AdsBot Google',
 	'feedfetcher-google'	=> 'Feedfetcher Google',
 	'curious george'		=> 'Curious George'
 );

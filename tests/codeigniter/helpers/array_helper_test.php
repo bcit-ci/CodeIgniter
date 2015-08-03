@@ -3,10 +3,10 @@
 class Array_helper_test extends CI_TestCase {
 
 	public $my_array = array(
-		'foo'    => 'bar',
-		'sally'  => 'jim',
-		'maggie' => 'bessie',
-		'herb'   => 'cook'
+		'foo'		=> 'bar',
+		'sally'		=> 'jim',
+		'maggie'	=> 'bessie',
+		'herb'		=> 'cook'
 	);
 
 	public function set_up()
