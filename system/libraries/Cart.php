@@ -200,7 +200,7 @@ class CI_Cart {
 
 		// --------------------------------------------------------------------
 
-		// Prep the quantity. It can only be a number.  Duh... also trim any leading zeros
+		// Prep the quantity. It can only be a number. Duh... also trim any leading zeros
 		$items['qty'] = (float) $items['qty'];
 
 		// If the quantity is zero or blank there's nothing for us to do
@@ -216,7 +216,7 @@ class CI_Cart {
 		// Note: These can be user-specified by setting the $this->product_id_rules variable.
 		if ( ! preg_match('/^['.$this->product_id_rules.']+$/i', $items['id']))
 		{
-			log_message('error', 'Invalid product ID.  The product ID can only contain alpha-numeric characters, dashes, and underscores');
+			log_message('error', 'Invalid product ID. The product ID can only contain alpha-numeric characters, dashes, and underscores');
 			return FALSE;
 		}
 
@@ -293,7 +293,7 @@ class CI_Cart {
 		}
 
 		// You can either update a single product using a one-dimensional array,
-		// or multiple products using a multi-dimensional one.  The way we
+		// or multiple products using a multi-dimensional one. The way we
 		// determine the array type is by looking for a required array key named "rowid".
 		// If it's not found we assume it's a multi-dimensional array
 		$save_cart = FALSE;

@@ -759,10 +759,10 @@ class CI_Email {
 		}
 
 		$this->_attachments[] = array(
-			'name'		=> array($file, $newname),
-			'disposition'	=> empty($disposition) ? 'attachment' : $disposition,  // Can also be 'inline'  Not sure if it matters
-			'type'		=> $mime,
-			'content'	=> chunk_split(base64_encode($file_content))
+			'name'			=> array($file, $newname),
+			'disposition'	=> empty($disposition) ? 'attachment' : $disposition, // Can also be 'inline'. Not sure if it matters
+			'type'			=> $mime,
+			'content'		=> chunk_split(base64_encode($file_content))
 		);
 
 		return $this;

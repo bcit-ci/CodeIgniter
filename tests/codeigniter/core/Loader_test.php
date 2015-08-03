@@ -262,7 +262,7 @@ class Loader_test extends CI_TestCase {
 		$view = 'unit_test_view';
 		$var = 'hello';
 		$value = 'World!';
-		$content = 'This is my test page.  ';
+		$content = 'This is my test page. ';
 		$this->ci_vfs_create($view, $content.'<?php echo $'.$var.';', $this->ci_app_root, 'views');
 
 		// Test returning view

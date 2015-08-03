@@ -167,13 +167,13 @@ class CI_Unit_test {
 		$back = $this->_backtrace();
 
 		$report = array (
-			'test_name'     => $test_name,
-			'test_datatype' => gettype($test),
-			'res_datatype'  => $extype,
-			'result'        => ($result === TRUE) ? 'passed' : 'failed',
-			'file'          => $back['file'],
-			'line'          => $back['line'],
-			'notes'         => $notes
+			'test_name'	 	=> $test_name,
+			'test_datatype'	=> gettype($test),
+			'res_datatype'	=> $extype,
+			'result'		=> ($result === TRUE) ? 'passed' : 'failed',
+			'file'			=> $back['file'],
+			'line'			=> $back['line'],
+			'notes'			=> $notes
 		);
 
 		$this->results[] = $report;

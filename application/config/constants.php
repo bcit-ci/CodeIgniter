@@ -7,10 +7,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |--------------------------------------------------------------------------
 |
 | These prefs are used when checking and setting modes when working
-| with the file system.  The defaults are fine on servers with proper
+| with the file system. The defaults are fine on servers with proper
 | security, but you may wish (or even need) to change the values in
 | certain environments (Apache running a separate process for each
-| user, PHP under CGI with Apache suEXEC, etc.).  Octal values should
+| user, PHP under CGI with Apache suEXEC, etc.). Octal values should
 | always be used to set the mode correctly.
 |
 */
@@ -55,8 +55,8 @@ define('SHOW_DEBUG_BACKTRACE', TRUE);
 |
 | Used to indicate the conditions under which the script is exit()ing.
 | While there is no universal standard for error codes, there are some
-| broad conventions.  Three such conventions are mentioned below, for
-| those who wish to make use of them.  The CodeIgniter defaults were
+| broad conventions. Three such conventions are mentioned below, for
+| those who wish to make use of them. The CodeIgniter defaults were
 | chosen for the least overlap with these conventions, while still
 | leaving room for others to be defined in future versions and user
 | applications.
@@ -73,13 +73,13 @@ define('SHOW_DEBUG_BACKTRACE', TRUE);
 |       http://tldp.org/LDP/abs/html/exitcodes.html
 |
 */
-define('EXIT_SUCCESS', 0); // no errors
-define('EXIT_ERROR', 1); // generic error
-define('EXIT_CONFIG', 3); // configuration error
-define('EXIT_UNKNOWN_FILE', 4); // file not found
-define('EXIT_UNKNOWN_CLASS', 5); // unknown class
-define('EXIT_UNKNOWN_METHOD', 6); // unknown class member
-define('EXIT_USER_INPUT', 7); // invalid user input
-define('EXIT_DATABASE', 8); // database error
-define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
-define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+define('EXIT_SUCCESS', 0);			// no errors
+define('EXIT_ERROR', 1);			// generic error
+define('EXIT_CONFIG', 3);			// configuration error
+define('EXIT_UNKNOWN_FILE', 4);		// file not found
+define('EXIT_UNKNOWN_CLASS', 5);	// unknown class
+define('EXIT_UNKNOWN_METHOD', 6);	// unknown class member
+define('EXIT_USER_INPUT', 7);		// invalid user input
+define('EXIT_DATABASE', 8);			// database error
+define('EXIT__AUTO_MIN', 9);		// lowest automatically-assigned error code
+define('EXIT__AUTO_MAX', 125);		// highest automatically-assigned error code

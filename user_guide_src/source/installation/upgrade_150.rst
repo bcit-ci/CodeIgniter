@@ -47,7 +47,7 @@ Open your application/config/config.php file and ADD these new items::
     |--------------------------------------------------------------------------
     |
     | This item allows you to set the filename/classname prefix when extending
-    | native libraries.  For more information please see the user guide:
+    | native libraries. For more information please see the user guide:
     |
     | http://codeigniter.com/user_guide/general/core_classes.html
     | http://codeigniter.com/user_guide/general/creating_libraries.html
@@ -62,7 +62,7 @@ Open your application/config/config.php file and ADD these new items::
     |
     | If your PHP installation does not have short tag support enabled CI
     | can rewrite the tags on-the-fly, enabling you to utilize that syntax
-    | in your view files.  Options are TRUE or FALSE (boolean)
+    | in your view files. Options are TRUE or FALSE (boolean)
     |
     */
     $config['rewrite_short_tags'] = FALSE;
@@ -76,7 +76,7 @@ In that same file REMOVE this item::
     |--------------------------------------------------------------------------
     |
     | If you would like errors or debug messages logged set this variable to
-    | TRUE (boolean).  Note: You must set the file permissions on the "logs" folder
+    | TRUE (boolean). Note: You must set the file permissions on the "logs" folder
     | such that it is writable.
     |
     */

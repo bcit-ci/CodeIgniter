@@ -1499,7 +1499,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * The "set_insert_batch" function.  Allows key/value pairs to be set for batch inserts
+	 * The "set_insert_batch" function. Allows key/value pairs to be set for batch inserts
 	 *
 	 * @param	mixed
 	 * @param	string
@@ -1932,7 +1932,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * The "set_update_batch" function.  Allows key/value pairs to be set for batch updating
+	 * The "set_update_batch" function. Allows key/value pairs to be set for batch updating
 	 *
 	 * @param	array
 	 * @param	string
@@ -2685,7 +2685,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Resets the query builder values.  Called by the get() function
+	 * Resets the query builder values. Called by the get() function
 	 *
 	 * @param	array	An array of fields to reset
 	 * @return	void
@@ -2701,7 +2701,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Resets the query builder values.  Called by the get() function
+	 * Resets the query builder values. Called by the get() function
 	 *
 	 * @return	void
 	 */

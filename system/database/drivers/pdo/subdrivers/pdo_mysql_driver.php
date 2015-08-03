@@ -154,11 +154,11 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 		if (is_array($this->encrypt) && is_php('5.3.7'))
 		{
 			$ssl = array();
-			empty($this->encrypt['ssl_key'])    OR $ssl[PDO::MYSQL_ATTR_SSL_KEY]    = $this->encrypt['ssl_key'];
-			empty($this->encrypt['ssl_cert'])   OR $ssl[PDO::MYSQL_ATTR_SSL_CERT]   = $this->encrypt['ssl_cert'];
-			empty($this->encrypt['ssl_ca'])     OR $ssl[PDO::MYSQL_ATTR_SSL_CA]     = $this->encrypt['ssl_ca'];
-			empty($this->encrypt['ssl_capath']) OR $ssl[PDO::MYSQL_ATTR_SSL_CAPATH] = $this->encrypt['ssl_capath'];
-			empty($this->encrypt['ssl_cipher']) OR $ssl[PDO::MYSQL_ATTR_SSL_CIPHER] = $this->encrypt['ssl_cipher'];
+			empty($this->encrypt['ssl_key'])	OR $ssl[PDO::MYSQL_ATTR_SSL_KEY]	= $this->encrypt['ssl_key'];
+			empty($this->encrypt['ssl_cert'])	OR $ssl[PDO::MYSQL_ATTR_SSL_CERT]	= $this->encrypt['ssl_cert'];
+			empty($this->encrypt['ssl_ca'])		OR $ssl[PDO::MYSQL_ATTR_SSL_CA]		= $this->encrypt['ssl_ca'];
+			empty($this->encrypt['ssl_capath'])	OR $ssl[PDO::MYSQL_ATTR_SSL_CAPATH]	= $this->encrypt['ssl_capath'];
+			empty($this->encrypt['ssl_cipher'])	OR $ssl[PDO::MYSQL_ATTR_SSL_CIPHER]	= $this->encrypt['ssl_cipher'];
 
 			// DO NOT use array_merge() here!
 			// It re-indexes numeric keys and the PDO_MYSQL_ATTR_SSL_* constants are integers.

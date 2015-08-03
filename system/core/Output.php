@@ -518,7 +518,7 @@ class CI_Output {
 		}
 
 		// Does the controller contain a function named _output()?
-		// If so send the output there.  Otherwise, echo it.
+		// If so send the output there. Otherwise, echo it.
 		if (method_exists($CI, '_output'))
 		{
 			$CI->_output($output);

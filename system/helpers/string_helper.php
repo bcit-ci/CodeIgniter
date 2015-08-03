@@ -170,7 +170,7 @@ if ( ! function_exists('reduce_multiples'))
 	/**
 	 * Reduce Multiples
 	 *
-	 * Reduces multiple instances of a particular character.  Example:
+	 * Reduces multiple instances of a particular character. Example:
 	 *
 	 * Fred, Bill,, Joe, Jimmy
 	 *
@@ -199,7 +199,7 @@ if ( ! function_exists('random_string'))
 	 *
 	 * Useful for generating passwords or hashes.
 	 *
-	 * @param	string	type of random string.  basic, alpha, alnum, numeric, nozero, unique, md5, encrypt and sha1
+	 * @param	string	type of random string. basic, alpha, alnum, numeric, nozero, unique, md5, encrypt and sha1
 	 * @param	int	number of characters
 	 * @return	string
 	 */

@@ -134,11 +134,11 @@ class CI_DB_mysqli_driver extends CI_DB {
 		if (is_array($this->encrypt))
 		{
 			$ssl = array();
-			empty($this->encrypt['ssl_key'])    OR $ssl['key']    = $this->encrypt['ssl_key'];
-			empty($this->encrypt['ssl_cert'])   OR $ssl['cert']   = $this->encrypt['ssl_cert'];
-			empty($this->encrypt['ssl_ca'])     OR $ssl['ca']     = $this->encrypt['ssl_ca'];
-			empty($this->encrypt['ssl_capath']) OR $ssl['capath'] = $this->encrypt['ssl_capath'];
-			empty($this->encrypt['ssl_cipher']) OR $ssl['cipher'] = $this->encrypt['ssl_cipher'];
+			empty($this->encrypt['ssl_key'])	OR $ssl['key']		= $this->encrypt['ssl_key'];
+			empty($this->encrypt['ssl_cert'])	OR $ssl['cert']		= $this->encrypt['ssl_cert'];
+			empty($this->encrypt['ssl_ca'])		OR $ssl['ca']		= $this->encrypt['ssl_ca'];
+			empty($this->encrypt['ssl_capath'])	OR $ssl['capath']	= $this->encrypt['ssl_capath'];
+			empty($this->encrypt['ssl_cipher'])	OR $ssl['cipher']	= $this->encrypt['ssl_cipher'];
 
 			if ( ! empty($ssl))
 			{
@@ -149,11 +149,11 @@ class CI_DB_mysqli_driver extends CI_DB {
 
 				$client_flags |= MYSQLI_CLIENT_SSL;
 				$mysqli->ssl_set(
-					isset($ssl['key'])    ? $ssl['key']    : NULL,
-					isset($ssl['cert'])   ? $ssl['cert']   : NULL,
-					isset($ssl['ca'])     ? $ssl['ca']     : NULL,
-					isset($ssl['capath']) ? $ssl['capath'] : NULL,
-					isset($ssl['cipher']) ? $ssl['cipher'] : NULL
+					isset($ssl['key'])		? $ssl['key']		: NULL,
+					isset($ssl['cert'])		? $ssl['cert']		: NULL,
+					isset($ssl['ca'])		? $ssl['ca']		: NULL,
+					isset($ssl['capath'])	? $ssl['capath']	: NULL,
+					isset($ssl['cipher'])	? $ssl['cipher']	: NULL
 				);
 			}
 		}

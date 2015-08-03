@@ -297,7 +297,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Stored Procedure.  Executes a stored procedure
+	 * Stored Procedure. Executes a stored procedure
 	 *
 	 * @param	string	package name in which the stored procedure is in
 	 * @param	string	stored procedure name to execute
@@ -308,7 +308,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * KEY	  OPTIONAL	NOTES
 	 * name		no	the name of the parameter should be in :<param_name> format
-	 * value	no	the value of the parameter.  If this is an OUT or IN OUT parameter,
+	 * value	no	the value of the parameter. If this is an OUT or IN OUT parameter,
 	 *				this should be a reference to a variable
 	 * type		yes	the type of the parameter
 	 * length	yes	the max size of the parameter

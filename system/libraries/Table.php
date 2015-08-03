@@ -417,7 +417,7 @@ class CI_Table {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Clears the table arrays.  Useful if multiple tables are being generated
+	 * Clears the table arrays. Useful if multiple tables are being generated
 	 *
 	 * @return	CI_Table
 	 */

@@ -106,11 +106,11 @@ class Text_helper_test extends CI_TestCase {
 	public function test_highlight_phrase()
 	{
 		$strs = array(
-			'this is a phrase'          => '<mark>this is</mark> a phrase',
-			'this is another'           => '<mark>this is</mark> another',
-			'Gimme a test, Sally'       => 'Gimme a test, Sally',
-			'Or tell me what this is'   => 'Or tell me what <mark>this is</mark>',
-			''                          => ''
+			'this is a phrase'			=> '<mark>this is</mark> a phrase',
+			'this is another'			=> '<mark>this is</mark> another',
+			'Gimme a test, Sally'		=> 'Gimme a test, Sally',
+			'Or tell me what this is'	=> 'Or tell me what <mark>this is</mark>',
+			''							=> ''
 		);
 
 		foreach ($strs as $str => $expect)

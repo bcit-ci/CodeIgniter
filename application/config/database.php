@@ -44,12 +44,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |			'mysql' (deprecated), 'sqlsrv' and 'pdo/sqlsrv' drivers accept TRUE/FALSE
 |			'mysqli' and 'pdo/mysql' drivers accept an array with the following options:
 |
-|				'ssl_key'    - Path to the private key file
-|				'ssl_cert'   - Path to the public key certificate file
-|				'ssl_ca'     - Path to the certificate authority file
-|				'ssl_capath' - Path to a directory containing trusted CA certificats in PEM format
-|				'ssl_cipher' - List of *allowed* ciphers to be used for the encryption, separated by colons (':')
-|				'ssl_verify' - TRUE/FALSE; Whether verify the server certificate or not ('mysqli' only)
+|				'ssl_key'		- Path to the private key file
+|				'ssl_cert'		- Path to the public key certificate file
+|				'ssl_ca'		- Path to the certificate authority file
+|				'ssl_capath'	- Path to a directory containing trusted CA certificats in PEM format
+|				'ssl_cipher'	- List of *allowed* ciphers to be used for the encryption, separated by colons (':')
+|				'ssl_verify'	- TRUE/FALSE; Whether verify the server certificate or not ('mysqli' only)
 |
 |	['compress'] Whether or not to use client compression (MySQL only)
 |	['stricton'] TRUE/FALSE - forces 'Strict Mode' connections
@@ -65,7 +65,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | 				a lot of SQL queries ... disable this to avoid that problem.
 |
 | The $active_group variable lets you choose which connection group to
-| make active.  By default there is only one group (the 'default' group).
+| make active. By default there is only one group (the 'default' group).
 |
 | The $query_builder variables lets you determine whether or not to load
 | the query builder class.

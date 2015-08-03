@@ -150,11 +150,11 @@ switch (ENVIRONMENT)
  *
  * Un-comment the $routing array below to use this feature
  */
-	// The directory name, relative to the "controllers" folder.  Leave blank
+	// The directory name, relative to the "controllers" folder. Leave blank
 	// if your controller is not in a sub-folder within the "controllers" folder
 	// $routing['directory'] = '';
 
-	// The controller class file name.  Example:  mycontroller
+	// The controller class file name. Example:  mycontroller
 	// $routing['controller'] = '';
 
 	// The controller function you wish to be called.
@@ -180,7 +180,7 @@ switch (ENVIRONMENT)
 
 
 // --------------------------------------------------------------------
-// END OF USER CONFIGURABLE SETTINGS.  DO NOT EDIT BELOW THIS LINE
+// END OF USER CONFIGURABLE SETTINGS. DO NOT EDIT BELOW THIS LINE
 // --------------------------------------------------------------------
 
 /*

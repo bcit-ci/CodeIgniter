@@ -127,9 +127,9 @@ Availability Legend:
 ======================= ======================= =============================== =========================================================================== =============
 Preference              Default Value           Options                         Description                                                                 Availability
 ======================= ======================= =============================== =========================================================================== =============
-**image_library**       GD2                     GD, GD2, ImageMagick, NetPBM    Sets the image library to be used.                                          R, C, X, W
+**image_library**       GD2                     GD, GD2, ImageMagick, NetPBM    Sets the image library to be used.                                         R, C, X, W
 **library_path**        None                    None                            Sets the server path to your ImageMagick or NetPBM library. If you use      R, C, X
-                                                                                either of those libraries you must supply the path.                         R, C, S, W
+                                                                                either of those libraries you must supply the path.                        R, C, S, W
 **source_image**        None                    None                            Sets the source image name/path. The path must be a relative or absolute
                                                                                 server path, not a URL.
 **dynamic_output**      FALSE                   TRUE/FALSE (boolean)            Determines whether the new image file should be written to disk or          R, C, X, W
@@ -144,9 +144,9 @@ Preference              Default Value           Options                         
 **new_image**           None                    None                            Sets the destination image name/path. You'll use this preference when       R, C, X, W
                                                                                 creating an image copy. The path must be a relative or absolute server
                                                                                 path, not a URL.
-**width**               None                    None                            Sets the width you would like the image set to.                             R, C
-**height**              None                    None                            Sets the height you would like the image set to.                            R, C
-**create_thumb**        FALSE                   TRUE/FALSE (boolean)            Tells the image processing function to create a thumb.                      R
+**width**               None                    None                            Sets the width you would like the image set to.                            R, C
+**height**              None                    None                            Sets the height you would like the image set to.                           R, C
+**create_thumb**        FALSE                   TRUE/FALSE (boolean)            Tells the image processing function to create a thumb.                     R
 **thumb_marker**        _thumb                  None                            Specifies the thumbnail indicator. It will be inserted just before the      R
                                                                                 file extension, so mypic.jpg would become mypic_thumb.jpg
 **maintain_ratio**      TRUE                    TRUE/FALSE (boolean)            Specifies whether to maintain the original aspect ratio when resizing or    R, C
