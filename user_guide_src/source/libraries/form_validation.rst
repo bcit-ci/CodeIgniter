@@ -949,15 +949,15 @@ use:
 Rule                      Parameter  Description                                                                                   Example
 ========================= ========== ============================================================================================= =======================
 **required**              No         Returns FALSE if the form element is empty.
-**matches**               Yes        Returns FALSE if the form element does not match the one in the parameter.                   matches[form_item]
-**regex_match**           Yes        Returns FALSE if the form element does not match the regular expression.                     regex_match[/regex/]
-**differs**               Yes        Returns FALSE if the form element does not differ from the one in the parameter.             differs[form_item]
+**matches**               Yes        Returns FALSE if the form element does not match the one in the parameter.                    matches[form_item]
+**regex_match**           Yes        Returns FALSE if the form element does not match the regular expression.                      regex_match[/regex/]
+**differs**               Yes        Returns FALSE if the form element does not differ from the one in the parameter.              differs[form_item]
 **is_unique**             Yes        Returns FALSE if the form element is not unique to the table and field name in the            is_unique[table.field]
                                      parameter. Note: This rule requires :doc:`Query Builder <../database/query_builder>` to be
                                      enabled in order to work.
-**min_length**            Yes        Returns FALSE if the form element is shorter than the parameter value.                       min_length[3]
-**max_length**            Yes        Returns FALSE if the form element is longer than the parameter value.                        max_length[12]
-**exact_length**          Yes        Returns FALSE if the form element is not exactly the parameter value.                        exact_length[8]
+**min_length**            Yes        Returns FALSE if the form element is shorter than the parameter value.                        min_length[3]
+**max_length**            Yes        Returns FALSE if the form element is longer than the parameter value.                         max_length[12]
+**exact_length**          Yes        Returns FALSE if the form element is not exactly the parameter value.                         exact_length[8]
 **greater_than**          Yes        Returns FALSE if the form element is less than or equal to the parameter value or not         greater_than[8]
                                      numeric.
 **greater_than_equal_to** Yes        Returns FALSE if the form element is less than the parameter value,                           greater_than_equal_to[8]
@@ -966,7 +966,7 @@ Rule                      Parameter  Description                                
                                      not numeric.
 **less_than_equal_to**    Yes        Returns FALSE if the form element is greater than the parameter value,                        less_than_equal_to[8]
                                      or not numeric.
-**in_list**               Yes        Returns FALSE if the form element is not within a predetermined list.                        in_list[red,blue,green]
+**in_list**               Yes        Returns FALSE if the form element is not within a predetermined list.                         in_list[red,blue,green]
 **alpha**                 No         Returns FALSE if the form element contains anything other than alphabetical characters.
 **alpha_numeric**         No         Returns FALSE if the form element contains anything other than alpha-numeric characters.
 **alpha_numeric_spaces**  No         Returns FALSE if the form element contains anything other than alpha-numeric characters
