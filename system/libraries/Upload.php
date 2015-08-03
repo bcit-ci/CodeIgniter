@@ -1023,7 +1023,7 @@ class CI_Upload {
 
 		if (count($x) === 1)
 		{
-		    return '';
+			return '';
 		}
 
 		$ext = ($this->file_ext_tolower) ? strtolower(end($x)) : end($x);

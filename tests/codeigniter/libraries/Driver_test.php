@@ -4,6 +4,7 @@
  * Driver library base class unit test
  */
 class Driver_test extends CI_TestCase {
+
 	/**
 	 * Set up test framework
 	 */
@@ -13,11 +14,11 @@ class Driver_test extends CI_TestCase {
 		$this->subclass = 'Mock_Libraries_';
 		$this->ci_set_config('subclass_prefix', $this->subclass);
 
-        // Mock Loader->get_package_paths
-        $paths = 'get_package_paths';
-        $ldr = $this->getMock('CI_Loader', array($paths));
-        $ldr->expects($this->any())->method($paths)->will($this->returnValue(array(APPPATH, BASEPATH)));
-        $this->ci_instance_var('load', $ldr);
+		// Mock Loader->get_package_paths
+		$paths = 'get_package_paths';
+		$ldr = $this->getMock('CI_Loader', array($paths));
+		$ldr->expects($this->any())->method($paths)->will($this->returnValue(array(APPPATH, BASEPATH)));
+		$this->ci_instance_var('load', $ldr);
 
 		// Create mock driver library
 		$this->name = 'Driver';
