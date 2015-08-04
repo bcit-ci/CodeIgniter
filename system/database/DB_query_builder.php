@@ -267,6 +267,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	mixed
 	 * @return	CI_DB_query_builder
 	 */
+	 // $select parameter can also accept array
 	public function select($select = '*', $escape = NULL)
 	{
 		if (is_string($select))
@@ -277,20 +278,23 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		// If the escape value was not set, we will base it on the global setting
 		is_bool($escape) OR $escape = $this->_protect_identifiers;
 
-		foreach ($select as $val)
+		if(is_array($select))
 		{
-			$val = trim($val);
-
-			if ($val !== '')
+			foreach ($select as $val)
 			{
-				$this->qb_select[] = $val;
-				$this->qb_no_escape[] = $escape;
+				$val = trim($val);
 
-				if ($this->qb_caching === TRUE)
+				if ($val !== '')
 				{
-					$this->qb_cache_select[] = $val;
-					$this->qb_cache_exists[] = 'select';
-					$this->qb_cache_no_escape[] = $escape;
+					$this->qb_select[] = $val;
+					$this->qb_no_escape[] = $escape;
+
+					if ($this->qb_caching === TRUE)
+					{
+						$this->qb_cache_select[] = $val;
+						$this->qb_cache_exists[] = 'select';
+						$this->qb_cache_no_escape[] = $escape;
+					}
 				}
 			}
 		}
