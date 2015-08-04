@@ -242,8 +242,8 @@ if ( ! function_exists('increment_string'))
 	 */
 	function increment_string($str, $separator = '_', $first = 1)
 	{
-		preg_match('/(.+)' . preg_quote($separator) . '([0-9]+)$/', $str, $match);
-		return isset($match[2]) ? $match[1].$separator.($match[2] + 1) : $str.$separator.$first;
+		preg_match('/(.+)'.preg_quote($separator, '/').'([0-9]+)$/', $str, $match);
+		return isset($match[2]) ? $match[1].preg_quote($separator, '/').($match[2] + 1) : $str.$separator.$first;
 	}
 }
 

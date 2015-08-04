@@ -125,6 +125,7 @@ Release Date: Not Released
       - Deprecated function ``repeater()`` - it's just an alias for PHP's native ``str_repeat()``.
       - Deprecated function ``trim_slashes()`` - it's just an alias for PHP's native ``trim()`` (with a slash as its second argument).
       - Deprecated randomization type options **unique** and **encrypt** for funcion :func:`random_string()` (they are only aliases for **md5** and **sha1** respectively).
+      - Changed function ``increment_string()`` to prevent potential regular expression injection and mitigate the risk of a ReDoS (Regular Expression Denial of Service)
 
    -  :doc:`CAPTCHA Helper <helpers/captcha_helper>` changes include:
 
