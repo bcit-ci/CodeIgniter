@@ -281,15 +281,16 @@ by the pagination class, you can set them as key/value pairs in the
 	is deprecated.
 
 *****************************
-The "rel" attribute
+Disabling the "rel" attribute
 *****************************
 
-If you want to add and append rel attributes to the appropriate anchors 
-you can enable this feature in the configuration.
+By default the rel attribute is dynamically generated and appended to
+the appropriate anchors. If for some reason you want to turn it off,
+you can pass boolean FALSE as a regular attribute
 
 ::
 
-	$config['attributes']['rel'] = TRUE;
+	$config['attributes']['rel'] = FALSE;
 
 ***************
 Class Reference
