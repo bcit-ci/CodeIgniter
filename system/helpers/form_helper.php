@@ -922,7 +922,7 @@ if ( ! function_exists('_parse_form_attributes'))
 			{
 				continue;
 			}
-			elseif($key === 'escape_html')
+			elseif($key === 'escape_html' && $val === FALSE)
 			{
 				$escape_html = FALSE;
 			}
