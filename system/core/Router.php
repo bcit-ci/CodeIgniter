@@ -375,16 +375,19 @@ class CI_Router {
 		// Is there a literal match?  If so we're done
 		if (isset($this->routes[$uri]))
 		{
-			// Check default routes format
-			if (is_string($this->routes[$uri]))
+			// Is it an HTTP verb-based route?
+			if (is_array($this->routes[$uri]))
+			{
+				$route = array_change_key_case($this->routes[$uri], CASE_LOWER);
+				if (isset($route[$http_verb]))
+				{
+					$this->_set_request(explode('/', $route[$http_verb]));
+					return;
+				}
+			}
+			else
 			{
 				$this->_set_request(explode('/', $this->routes[$uri]));
-				return;
-			}
-			// Is there a matching http verb?
-			elseif (is_array($this->routes[$uri]) && isset($this->routes[$uri][$http_verb]))
-			{
-				$this->_set_request(explode('/', $this->routes[$uri][$http_verb]));
 				return;
 			}
 		}
@@ -392,9 +395,10 @@ class CI_Router {
 		// Loop through the route array looking for wildcards
 		foreach ($this->routes as $key => $val)
 		{
-			// Check if route format is using http verb
+			// Check if route format is using HTTP verbs
 			if (is_array($val))
 			{
+				$val = array_change_key_case($val, CASE_LOWER);
 				if (isset($val[$http_verb]))
 				{
 					$val = $val[$http_verb];
