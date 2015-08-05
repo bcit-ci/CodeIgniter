@@ -200,9 +200,10 @@ if ( ! function_exists('form_input'))
 	 * @param	mixed
 	 * @return	string
 	 */
-	function form_input($data = '', $value = '', $extra = '')
+	function form_input($data = '', $value = '', $extra = '',$escape_html = TRUE)
 	{
 		$defaults = array(
+			'escape_html' => $escape_html,
 			'type' => 'text',
 			'name' => is_array($data) ? '' : $data,
 			'value' => $value
@@ -270,7 +271,7 @@ if ( ! function_exists('form_textarea'))
 	 * @param	mixed	$extra
 	 * @return	string
 	 */
-	function form_textarea($data = '', $value = '', $extra = '')
+	function form_textarea($data = '', $value = '', $extra = '',$escape_html = TRUE)
 	{
 		$defaults = array(
 			'name' => is_array($data) ? '' : $data,
@@ -289,7 +290,7 @@ if ( ! function_exists('form_textarea'))
 		}
 
 		return '<textarea '._parse_form_attributes($data, $defaults)._attributes_to_string($extra).'>'
-			.html_escape($val)
+			.(($escape_html===TRUE) ? html_escape($val) : $val)
 			."</textarea>\n";
 	}
 }
@@ -909,16 +910,21 @@ if ( ! function_exists('_parse_form_attributes'))
 		}
 
 		$att = '';
-
+		
+		$escape_html = TRUE;
 		foreach ($default as $key => $val)
 		{
 			if ($key === 'value')
 			{
-				$val = html_escape($val);
+				$val = ($escape_html===TRUE) ? html_escape($val) : $val;
 			}
 			elseif ($key === 'name' && ! strlen($default['name']))
 			{
 				continue;
+			}
+			elseif($key === 'escape_html')
+			{
+				$escape_html = FALSE;
 			}
 
 			$att .= $key.'="'.$val.'" ';
