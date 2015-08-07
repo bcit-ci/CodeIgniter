@@ -5,6 +5,9 @@ String Helper
 The String Helper file contains functions that assist in working with
 strings.
 
+.. important:: Please note that these functions are NOT intended, nor
+	suitable to be used for any kind of security-related logic.
+
 .. contents::
   :local:
 
