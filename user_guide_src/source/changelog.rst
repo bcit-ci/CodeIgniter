@@ -5,7 +5,7 @@ Change Log
 Version 3.0.1
 =============
 
-Release Date: Not Released
+Release Date: August 7, 2015
 
 -  Core
 
