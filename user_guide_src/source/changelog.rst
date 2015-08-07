@@ -7,6 +7,10 @@ Version 3.0.2
 
 Release Date: Not Released
 
+Bug fixes for 3.0.2
+-------------------
+
+-  Fixed a bug (#2284) - :doc:`Database <database/index>` method ``protect_identifiers()`` breaks when :doc:`Query Builder <database/query_builder>` isn't enabled.
 
 Version 3.0.1
 =============
