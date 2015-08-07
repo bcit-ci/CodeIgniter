@@ -1,0 +1,630 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Javascript Class &mdash; CodeIgniter 3.0.1 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/ci-icon.ico"/>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/citheme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="CodeIgniter 3.0.1 documentation" href="../index.html"/>
+        <link rel="up" title="Libraries" href="index.html"/>
+        <link rel="next" title="Language Class" href="language.html"/>
+        <link rel="prev" title="Input Class" href="input.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../index.html" class="fa fa-home"> CodeIgniter</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/welcome.html">Welcome to CodeIgniter</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation Instructions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/downloads.html">Downloading CodeIgniter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/index.html">Installation Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/upgrading.html">Upgrading From a Previous Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/index.html">CodeIgniter Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/at_a_glance.html">CodeIgniter at a Glance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/features.html">Supported Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/appflow.html">Application Flow Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/mvc.html">Model-View-Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/goals.html">Architectural Goals</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/static_pages.html">Static pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/news_section.html">News section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/create_news_items.html">Create news items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/conclusion.html">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/index.html">General Topics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../general/urls.html">CodeIgniter URLs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/controllers.html">Controllers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/reserved_names.html">Reserved Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/views.html">Views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/libraries.html">Using CodeIgniter Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_libraries.html">Creating Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/drivers.html">Using CodeIgniter Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_drivers.html">Creating Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/core_classes.html">Creating Core System Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/ancillary_classes.html">Creating Ancillary Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/hooks.html">Hooks - Extending the Framework Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/autoloader.html">Auto-loading Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/common_functions.html">Common Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/compatibility_functions.html">Compatibility Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/routing.html">URI Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/errors.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/caching.html">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/profiling.html">Profiling Your Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/cli.html">Running via the CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/managing_apps.html">Managing your Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/environments.html">Handling Multiple Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/alternative_php.html">Alternate PHP Syntax for View Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/security.html">Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/styleguide.html">PHP Style Guide</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Libraries</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="benchmark.html">Benchmarking Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caching.html">Caching Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calendar.html">Calendaring Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cart.html">Shopping Cart Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">Config Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.html">Email Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encrypt.html">Encrypt Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encryption.html">Encryption Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="file_uploading.html">File Uploading Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="form_validation.html">Form Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ftp.html">FTP Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image_lib.html">Image Manipulation Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input.html">Input Class</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Javascript Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="language.html">Language Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loader.html">Loader Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migration.html">Migrations Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="output.html">Output Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pagination.html">Pagination Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parser.html">Template Parser Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="security.html">Security Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sessions.html">Session Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="table.html">HTML Table Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trackback.html">Trackback Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typography.html">Typography Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit_testing.html">Unit Testing Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uri.html">URI Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_agent.html">User Agent Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xmlrpc.html">XML-RPC and XML-RPC Server Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zip.html">Zip Encoding Class</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../database/examples.html">Quick Start: Usage Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/configuration.html">Database Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/connecting.html">Connecting to a Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/queries.html">Running Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/results.html">Generating Query Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/helpers.html">Query Helper Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/query_builder.html">Query Builder Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/transactions.html">Transactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/metadata.html">Getting MetaData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/call_function.html">Custom Function Calls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/caching.html">Query Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/forge.html">Database Manipulation with Database Forge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/utilities.html">Database Utilities Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/db_driver_reference.html">Database Driver Reference</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../helpers/index.html">Helpers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/array_helper.html">Array Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/captcha_helper.html">CAPTCHA Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/cookie_helper.html">Cookie Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/date_helper.html">Date Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/directory_helper.html">Directory Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/download_helper.html">Download Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/email_helper.html">Email Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/file_helper.html">File Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/form_helper.html">Form Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/html_helper.html">HTML Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/inflector_helper.html">Inflector Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/language_helper.html">Language Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/number_helper.html">Number Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/path_helper.html">Path Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/security_helper.html">Security Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/smiley_helper.html">Smiley Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/string_helper.html">String Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/text_helper.html">Text Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/typography_helper.html">Typography Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/url_helper.html">URL Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/xml_helper.html">XML Helper</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing to CodeIgniter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../documentation/index.html">Writing CodeIgniter Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../DCO.html">Developer&#8217;s Certificate of Origin 1.1</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">CodeIgniter</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Libraries</a> &raquo;</li>
+      
+    <li>Javascript Class</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="javascript-class">
+<h1>Javascript Class<a class="headerlink" href="#javascript-class" title="Permalink to this headline">¶</a></h1>
+<p>CodeIgniter provides a library to help you with certain common functions
+that you may want to use with Javascript. Please note that CodeIgniter
+does not require the jQuery library to run, and that any scripting
+library will work equally well. The jQuery library is simply presented
+as a convenience if you choose to use it.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">This library is DEPRECATED and should not be used. It has always
+been with an &#8216;experimental&#8217; status and is now no longer supported.
+Currently only kept for backwards compatibility.</p>
+</div>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#using-the-javascript-class" id="id3">Using the Javascript Class</a><ul>
+<li><a class="reference internal" href="#initializing-the-class" id="id4">Initializing the Class</a></li>
+<li><a class="reference internal" href="#setup-and-configuration" id="id5">Setup and Configuration</a><ul>
+<li><a class="reference internal" href="#set-these-variables-in-your-view" id="id6">Set these variables in your view</a></li>
+<li><a class="reference internal" href="#set-the-path-to-the-librarys-with-config-items" id="id7">Set the path to the librarys with config items</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-jquery-class" id="id8">The jQuery Class</a></li>
+<li><a class="reference internal" href="#jquery-events" id="id9">jQuery Events</a></li>
+<li><a class="reference internal" href="#effects" id="id10">Effects</a><ul>
+<li><a class="reference internal" href="#hide-show" id="id11">hide() / show()</a></li>
+<li><a class="reference internal" href="#toggle" id="id12">toggle()</a></li>
+<li><a class="reference internal" href="#animate" id="id13">animate()</a></li>
+<li><a class="reference internal" href="#fadein-fadeout" id="id14">fadeIn() / fadeOut()</a></li>
+<li><a class="reference internal" href="#toggleclass" id="id15">toggleClass()</a></li>
+<li><a class="reference internal" href="#id2" id="id16">fadeIn() / fadeOut()</a></li>
+<li><a class="reference internal" href="#slideup-slidedown-slidetoggle" id="id17">slideUp() / slideDown() / slideToggle()</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#plugins" id="id18">Plugins</a><ul>
+<li><a class="reference internal" href="#corner" id="id19">corner()</a></li>
+<li><a class="reference internal" href="#tablesorter" id="id20">tablesorter()</a></li>
+<li><a class="reference internal" href="#modal" id="id21">modal()</a></li>
+<li><a class="reference internal" href="#calendar" id="id22">calendar()</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="custom-index container"></div><div class="section" id="using-the-javascript-class">
+<h2><a class="toc-backref" href="#id3">Using the Javascript Class</a><a class="headerlink" href="#using-the-javascript-class" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="initializing-the-class">
+<h3><a class="toc-backref" href="#id4">Initializing the Class</a><a class="headerlink" href="#initializing-the-class" title="Permalink to this headline">¶</a></h3>
+<p>To initialize the Javascript class manually in your controller
+constructor, use the <tt class="docutils literal"><span class="pre">$this-&gt;load-&gt;library()</span></tt> method. Currently,
+the only available library is jQuery, which will automatically be
+loaded like this:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">library</span><span class="p">(</span><span class="s1">&#39;javascript&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The Javascript class also accepts parameters:</p>
+<ul class="simple">
+<li>js_library_driver (string) <em>default: &#8216;jquery&#8217;</em></li>
+<li>autoload (bool) <em>default: TRUE</em></li>
+</ul>
+<p>You may override the defaults by sending an associative array:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">library</span><span class="p">(</span>
+        <span class="s1">&#39;javascript&#39;</span><span class="p">,</span>
+        <span class="k">array</span><span class="p">(</span>
+                <span class="s1">&#39;js_library_driver&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;scripto&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;autoload&#39;</span> <span class="o">=&gt;</span> <span class="k">FALSE</span>
+        <span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>Again, presently only &#8216;jquery&#8217; is available. You may wish to set
+autoload to FALSE, though, if you do not want the jQuery library to
+automatically include a script tag for the main jQuery script file. This
+is useful if you are loading it from a location outside of CodeIgniter,
+or already have the script tag in your markup.</p>
+<p>Once loaded, the jQuery library object will be available using:</p>
+<blockquote>
+<div>$this-&gt;javascript</div></blockquote>
+</div>
+<div class="section" id="setup-and-configuration">
+<h3><a class="toc-backref" href="#id5">Setup and Configuration</a><a class="headerlink" href="#setup-and-configuration" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="set-these-variables-in-your-view">
+<h4><a class="toc-backref" href="#id6">Set these variables in your view</a><a class="headerlink" href="#set-these-variables-in-your-view" title="Permalink to this headline">¶</a></h4>
+<p>As a Javascript library, your files must be available to your
+application.</p>
+<p>As Javascript is a client side language, the library must be able to
+write content into your final output. This generally means a view.
+You&#8217;ll need to include the following variables in the <tt class="docutils literal"><span class="pre">&lt;head&gt;</span></tt>
+sections of your output.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> <span class="k">echo</span> <span class="nv">$library_src</span><span class="p">;</span><span class="cp">?&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$script_head</span><span class="p">;</span><span class="cp">?&gt;</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">$library_src</span></tt>, is where the actual library file will be loaded, as
+well as any subsequent plugin script calls; $script_head is where
+specific events, functions and other commands will be rendered.</p>
+</div>
+<div class="section" id="set-the-path-to-the-librarys-with-config-items">
+<h4><a class="toc-backref" href="#id7">Set the path to the librarys with config items</a><a class="headerlink" href="#set-the-path-to-the-librarys-with-config-items" title="Permalink to this headline">¶</a></h4>
+<p>There are some configuration items in Javascript library. These can
+either be set in <em>application/config.php</em>, within its own
+<em>config/javascript.php</em> file, or within any controller usings the
+<tt class="docutils literal"><span class="pre">set_item()</span></tt> function.</p>
+<p>An image to be used as an &#8220;ajax loader&#8221;, or progress indicator. Without
+one, the simple text message of &#8220;loading&#8221; will appear when Ajax calls
+need to be made.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;javascript_location&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;http://localhost/codeigniter/themes/js/jquery/&#39;</span><span class="p">;</span>
+<span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;javascript_ajax_img&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;images/ajax-loader.gif&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>If you keep your files in the same directories they were downloaded
+from, then you need not set this configuration items.</p>
+</div>
+</div>
+<div class="section" id="the-jquery-class">
+<h3><a class="toc-backref" href="#id8">The jQuery Class</a><a class="headerlink" href="#the-jquery-class" title="Permalink to this headline">¶</a></h3>
+<p>To initialize the jQuery class manually in your controller constructor,
+use the <tt class="docutils literal"><span class="pre">$this-&gt;load-&gt;library()</span></tt> method:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">library</span><span class="p">(</span><span class="s1">&#39;javascript/jquery&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>You may send an optional parameter to determine whether or not a script
+tag for the main jQuery file will be automatically included when loading
+the library. It will be created by default. To prevent this, load the
+library as follows:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">library</span><span class="p">(</span><span class="s1">&#39;javascript/jquery&#39;</span><span class="p">,</span> <span class="k">FALSE</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Once loaded, the jQuery library object will be available using:</p>
+<blockquote>
+<div>$this-&gt;jquery</div></blockquote>
+</div>
+<div class="section" id="jquery-events">
+<h3><a class="toc-backref" href="#id9">jQuery Events</a><a class="headerlink" href="#jquery-events" title="Permalink to this headline">¶</a></h3>
+<p>Events are set using the following syntax.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">jquery</span><span class="o">-&gt;</span><span class="na">event</span><span class="p">(</span><span class="s1">&#39;element_path&#39;</span><span class="p">,</span> <span class="nx">code_to_run</span><span class="p">());</span>
+</pre></div>
+</div>
+<p>In the above example:</p>
+<ul class="simple">
+<li>&#8220;event&#8221; is any of blur, change, click, dblclick, error, focus, hover,
+keydown, keyup, load, mousedown, mouseup, mouseover, mouseup, resize,
+scroll, or unload.</li>
+<li>&#8220;element_path&#8221; is any valid <a class="reference external" href="http://api.jquery.com/category/selectors/">jQuery selector</a>. Due to jQuery&#8217;s unique
+selector syntax, this is usually an element id, or CSS selector. For
+example &#8220;#notice_area&#8221; would effect <tt class="docutils literal"><span class="pre">&lt;div</span> <span class="pre">id=&quot;notice_area&quot;&gt;</span></tt>, and
+&#8220;#content a.notice&#8221; would effect all anchors with a class of &#8220;notice&#8221;
+in the div with id &#8220;content&#8221;.</li>
+<li>&#8220;<tt class="docutils literal"><span class="pre">code_to_run()</span></tt>&#8221; is script your write yourself, or an action such as
+an effect from the jQuery library below.</li>
+</ul>
+</div>
+<div class="section" id="effects">
+<h3><a class="toc-backref" href="#id10">Effects</a><a class="headerlink" href="#effects" title="Permalink to this headline">¶</a></h3>
+<p>The query library supports a powerful
+<a class="reference external" href="http://api.jquery.com/category/effects/">Effects</a> repertoire. Before an effect
+can be used, it must be loaded:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">jquery</span><span class="o">-&gt;</span><span class="na">effect</span><span class="p">([</span><span class="nx">optional</span> <span class="nx">path</span><span class="p">]</span> <span class="nx">plugin</span> <span class="nx">name</span><span class="p">);</span> <span class="c1">// for example $this-&gt;jquery-&gt;effect(&#39;bounce&#39;);</span>
+</pre></div>
+</div>
+<div class="section" id="hide-show">
+<h4><a class="toc-backref" href="#id11">hide() / show()</a><a class="headerlink" href="#hide-show" title="Permalink to this headline">¶</a></h4>
+<p>Each of this functions will affect the visibility of an item on your
+page. hide() will set an item invisible, show() will reveal it.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">jquery</span><span class="o">-&gt;</span><span class="na">hide</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">optional</span> <span class="nx">speed</span><span class="p">,</span> <span class="nx">optional</span> <span class="nx">extra</span> <span class="nx">information</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">jquery</span><span class="o">-&gt;</span><span class="na">show</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">optional</span> <span class="nx">speed</span><span class="p">,</span> <span class="nx">optional</span> <span class="nx">extra</span> <span class="nx">information</span><span class="p">);</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>&#8220;target&#8221; will be any valid jQuery selector or selectors.</li>
+<li>&#8220;speed&#8221; is optional, and is set to either slow, normal, fast, or
+alternatively a number of milliseconds.</li>
+<li>&#8220;extra information&#8221; is optional, and could include a callback, or
+other additional information.</li>
+</ul>
+</div>
+<div class="section" id="toggle">
+<h4><a class="toc-backref" href="#id12">toggle()</a><a class="headerlink" href="#toggle" title="Permalink to this headline">¶</a></h4>
+<p>toggle() will change the visibility of an item to the opposite of its
+current state, hiding visible elements, and revealing hidden ones.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">jquery</span><span class="o">-&gt;</span><span class="na">toggle</span><span class="p">(</span><span class="nx">target</span><span class="p">);</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>&#8220;target&#8221; will be any valid jQuery selector or selectors.</li>
+</ul>
+</div>
+<div class="section" id="animate">
+<h4><a class="toc-backref" href="#id13">animate()</a><a class="headerlink" href="#animate" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">jquery</span><span class="o">-&gt;</span><span class="na">animate</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">parameters</span><span class="p">,</span> <span class="nx">optional</span> <span class="nx">speed</span><span class="p">,</span> <span class="nx">optional</span> <span class="nx">extra</span> <span class="nx">information</span><span class="p">);</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>&#8220;target&#8221; will be any valid jQuery selector or selectors.</li>
+<li>&#8220;parameters&#8221; in jQuery would generally include a series of CSS
+properties that you wish to change.</li>
+<li>&#8220;speed&#8221; is optional, and is set to either slow, normal, fast, or
+alternatively a number of milliseconds.</li>
+<li>&#8220;extra information&#8221; is optional, and could include a callback, or
+other additional information.</li>
+</ul>
+<p>For a full summary, see
+<a class="reference external" href="http://api.jquery.com/animate/">http://api.jquery.com/animate/</a></p>
+<p>Here is an example of an animate() called on a div with an id of &#8220;note&#8221;,
+and triggered by a click using the jQuery library&#8217;s click() event.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$params</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+<span class="s1">&#39;height&#39;</span> <span class="o">=&gt;</span> <span class="mi">80</span><span class="p">,</span>
+<span class="s1">&#39;width&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;50%&#39;</span><span class="p">,</span>
+<span class="s1">&#39;marginLeft&#39;</span> <span class="o">=&gt;</span> <span class="mi">125</span>
+<span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">jquery</span><span class="o">-&gt;</span><span class="na">click</span><span class="p">(</span><span class="s1">&#39;#trigger&#39;</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">jquery</span><span class="o">-&gt;</span><span class="na">animate</span><span class="p">(</span><span class="s1">&#39;#note&#39;</span><span class="p">,</span> <span class="nv">$params</span><span class="p">,</span> <span class="s1">&#39;normal&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fadein-fadeout">
+<h4><a class="toc-backref" href="#id14">fadeIn() / fadeOut()</a><a class="headerlink" href="#fadein-fadeout" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">jquery</span><span class="o">-&gt;</span><span class="na">fadeIn</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span>  <span class="nx">optional</span> <span class="nx">speed</span><span class="p">,</span> <span class="nx">optional</span> <span class="nx">extra</span> <span class="nx">information</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">jquery</span><span class="o">-&gt;</span><span class="na">fadeOut</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span>  <span class="nx">optional</span> <span class="nx">speed</span><span class="p">,</span> <span class="nx">optional</span> <span class="nx">extra</span> <span class="nx">information</span><span class="p">);</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>&#8220;target&#8221; will be any valid jQuery selector or selectors.</li>
+<li>&#8220;speed&#8221; is optional, and is set to either slow, normal, fast, or
+alternatively a number of milliseconds.</li>
+<li>&#8220;extra information&#8221; is optional, and could include a callback, or
+other additional information.</li>
+</ul>
+</div>
+<div class="section" id="toggleclass">
+<h4><a class="toc-backref" href="#id15">toggleClass()</a><a class="headerlink" href="#toggleclass" title="Permalink to this headline">¶</a></h4>
+<p>This function will add or remove a CSS class to its target.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">jquery</span><span class="o">-&gt;</span><span class="na">toggleClass</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">class</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>&#8220;target&#8221; will be any valid jQuery selector or selectors.</li>
+<li>&#8220;class&#8221; is any CSS classname. Note that this class must be defined
+and available in a CSS that is already loaded.</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h4><a class="toc-backref" href="#id16">fadeIn() / fadeOut()</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<p>These effects cause an element(s) to disappear or reappear over time.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">jquery</span><span class="o">-&gt;</span><span class="na">fadeIn</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span>  <span class="nx">optional</span> <span class="nx">speed</span><span class="p">,</span> <span class="nx">optional</span> <span class="nx">extra</span> <span class="nx">information</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">jquery</span><span class="o">-&gt;</span><span class="na">fadeOut</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span>  <span class="nx">optional</span> <span class="nx">speed</span><span class="p">,</span> <span class="nx">optional</span> <span class="nx">extra</span> <span class="nx">information</span><span class="p">);</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>&#8220;target&#8221; will be any valid jQuery selector or selectors.</li>
+<li>&#8220;speed&#8221; is optional, and is set to either slow, normal, fast, or
+alternatively a number of milliseconds.</li>
+<li>&#8220;extra information&#8221; is optional, and could include a callback, or
+other additional information.</li>
+</ul>
+</div>
+<div class="section" id="slideup-slidedown-slidetoggle">
+<h4><a class="toc-backref" href="#id17">slideUp() / slideDown() / slideToggle()</a><a class="headerlink" href="#slideup-slidedown-slidetoggle" title="Permalink to this headline">¶</a></h4>
+<p>These effects cause an element(s) to slide.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">jquery</span><span class="o">-&gt;</span><span class="na">slideUp</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span>  <span class="nx">optional</span> <span class="nx">speed</span><span class="p">,</span> <span class="nx">optional</span> <span class="nx">extra</span> <span class="nx">information</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">jquery</span><span class="o">-&gt;</span><span class="na">slideDown</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span>  <span class="nx">optional</span> <span class="nx">speed</span><span class="p">,</span> <span class="nx">optional</span> <span class="nx">extra</span> <span class="nx">information</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">jquery</span><span class="o">-&gt;</span><span class="na">slideToggle</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span>  <span class="nx">optional</span> <span class="nx">speed</span><span class="p">,</span> <span class="nx">optional</span> <span class="nx">extra</span> <span class="nx">information</span><span class="p">);</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>&#8220;target&#8221; will be any valid jQuery selector or selectors.</li>
+<li>&#8220;speed&#8221; is optional, and is set to either slow, normal, fast, or
+alternatively a number of milliseconds.</li>
+<li>&#8220;extra information&#8221; is optional, and could include a callback, or
+other additional information.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="plugins">
+<h3><a class="toc-backref" href="#id18">Plugins</a><a class="headerlink" href="#plugins" title="Permalink to this headline">¶</a></h3>
+<p>Some select jQuery plugins are made available using this library.</p>
+<div class="section" id="corner">
+<h4><a class="toc-backref" href="#id19">corner()</a><a class="headerlink" href="#corner" title="Permalink to this headline">¶</a></h4>
+<p>Used to add distinct corners to page elements. For full details see
+<a class="reference external" href="http://malsup.com/jquery/corner/">http://malsup.com/jquery/corner/</a></p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">jquery</span><span class="o">-&gt;</span><span class="na">corner</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">corner_style</span><span class="p">);</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>&#8220;target&#8221; will be any valid jQuery selector or selectors.</li>
+<li>&#8220;corner_style&#8221; is optional, and can be set to any valid style such
+as round, sharp, bevel, bite, dog, etc. Individual corners can be set
+by following the style with a space and using &#8220;tl&#8221; (top left), &#8220;tr&#8221;
+(top right), &#8220;bl&#8221; (bottom left), or &#8220;br&#8221; (bottom right).</li>
+</ul>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">jquery</span><span class="o">-&gt;</span><span class="na">corner</span><span class="p">(</span><span class="s2">&quot;#note&quot;</span><span class="p">,</span> <span class="s2">&quot;cool tl br&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tablesorter">
+<h4><a class="toc-backref" href="#id20">tablesorter()</a><a class="headerlink" href="#tablesorter" title="Permalink to this headline">¶</a></h4>
+<p>description to come</p>
+</div>
+<div class="section" id="modal">
+<h4><a class="toc-backref" href="#id21">modal()</a><a class="headerlink" href="#modal" title="Permalink to this headline">¶</a></h4>
+<p>description to come</p>
+</div>
+<div class="section" id="calendar">
+<h4><a class="toc-backref" href="#id22">calendar()</a><a class="headerlink" href="#calendar" title="Permalink to this headline">¶</a></h4>
+<p>description to come</p>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="language.html" class="btn btn-neutral float-right" title="Language Class">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="input.html" class="btn btn-neutral" title="Input Class"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014 - 2015, British Columbia Institute of Technology.
+      Last updated on Aug 07, 2015.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
