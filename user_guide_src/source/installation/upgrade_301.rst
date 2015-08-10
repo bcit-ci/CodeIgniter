@@ -16,4 +16,4 @@ Replace all files and directories in your *system/* directory.
 Step 2: Update your CLI error templates
 =======================================
 
-Replace all files under your *application/errors/cli/* directory.
+Replace all files under your *application/views/errors/cli/* directory.
