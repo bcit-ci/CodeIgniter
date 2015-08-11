@@ -123,8 +123,12 @@ class CI_Cache_redis extends CI_Driver
 			throw new RuntimeException('Cache: Redis connection refused ('.$e->getMessage().')');
 		}
 
-		if (isset($config['password']) && ! $this->_redis->auth($config['password']))
-		{
+		try {
+			if (isset($config['password']) && ! $this->_redis->auth($config['password']))
+			{
+				throw new RuntimeException('Cache: Redis authentication failed.');
+			}
+		} catch (RedisException $e) {
 			throw new RuntimeException('Cache: Redis authentication failed.');
 		}
 
