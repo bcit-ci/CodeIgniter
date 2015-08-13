@@ -8,6 +8,20 @@ Version 3.1.0
 Release Date: Not Released
 
 
+Version 3.0.2
+=============
+
+Release Date: Not Released
+
+-  General Changes
+
+   -  Updated the *application/config/constants.php* file to check if constants aren't already defined before doing that.
+
+Bug fixes for 3.0.2
+-------------------
+
+-  Fixed a bug (#2284) - :doc:`Database <database/index>` method ``protect_identifiers()`` breaks when :doc:`Query Builder <database/query_builder>` isn't enabled.
+
 Version 3.0.1
 =============
 
