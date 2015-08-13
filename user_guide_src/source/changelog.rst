@@ -7,6 +7,10 @@ Version 3.0.2
 
 Release Date: Not Released
 
+-  General Changes
+
+   -  Updated the *application/config/constants.php* file to check if constants aren't already defined before doing that.
+
 Bug fixes for 3.0.2
 -------------------
 
