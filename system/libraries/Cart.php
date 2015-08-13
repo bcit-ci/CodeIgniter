@@ -2,26 +2,37 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP
  *
- * NOTICE OF LICENSE
+ * This content is released under the MIT License (MIT)
  *
- * Licensed under the Open Software License version 3.0
+ * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
  *
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2006 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	http://codeigniter.com
+ * @since	Version 1.0.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -34,6 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @category	Shopping Cart
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/cart.html
+ * @deprecated	3.0.0	This class is too specific for CI.
  */
 class CI_Cart {
 
@@ -43,7 +55,7 @@ class CI_Cart {
 	 *
 	 * @var string
 	 */
-	public $product_id_rules	= '\.a-z0-9_-';
+	public $product_id_rules = '\.a-z0-9_-';
 
 	/**
 	 * These are the regular expression rules that we use to validate the product ID and product name
@@ -51,14 +63,14 @@ class CI_Cart {
 	 *
 	 * @var string
 	 */
-	public $product_name_rules	= '\w \-\.\:';
+	public $product_name_rules = '\w \-\.\:';
 
 	/**
 	 * only allow safe product names
 	 *
 	 * @var bool
 	 */
-	public $product_name_safe	= TRUE;
+	public $product_name_safe = TRUE;
 
 	// --------------------------------------------------------------------------
 
@@ -74,7 +86,7 @@ class CI_Cart {
 	 *
 	 * @var array
 	 */
-	protected $_cart_contents	= array();
+	protected $_cart_contents = array();
 
 	/**
 	 * Shopping Class Constructor
@@ -103,7 +115,7 @@ class CI_Cart {
 			$this->_cart_contents = array('cart_total' => 0, 'total_items' => 0);
 		}
 
-		log_message('debug', 'Cart Class Initialized');
+		log_message('info', 'Cart Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -553,6 +565,3 @@ class CI_Cart {
 	}
 
 }
-
-/* End of file Cart.php */
-/* Location: ./system/libraries/Cart.php */

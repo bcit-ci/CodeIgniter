@@ -137,7 +137,7 @@ view::
 		{
 			$this->load->model('blog');
 
-			$data['query'] = $this->Blog->get_last_ten_entries();
+			$data['query'] = $this->blog->get_last_ten_entries();
 
 			$this->load->view('blog', $data);
 		}

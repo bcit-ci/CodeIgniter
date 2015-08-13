@@ -2,11 +2,16 @@
 Contributing to CodeIgniter
 ###########################
 
+.. toctree::
+	:titlesonly:
+
+	../documentation/index
+	../DCO
+
 CodeIgniter is a community driven project and accepts contributions of code
 and documentation from the community. These contributions are made in the form
-of Issues or `Pull Requests <http://help.github.com/send-pull-requests/>`_ on
-the `EllisLab CodeIgniter repository
-<https://github.com/EllisLab/CodeIgniter>`_ on GitHub.
+of Issues or `Pull Requests <https://help.github.com/articles/using-pull-requests/>`_ 
+on the `CodeIgniter repository <https://github.com/bcit-ci/CodeIgniter>`_ on GitHub.
 
 Issues are a quick way to point out a bug. If you find a bug or documentation
 error in CodeIgniter then please check a few things first:
@@ -19,6 +24,42 @@ error in CodeIgniter then please check a few things first:
 Reporting issues is helpful but an even better approach is to send a Pull
 Request, which is done by "Forking" the main repository and committing to your
 own copy. This will require you to use the version control system called Git.
+
+*******
+Support
+*******
+
+Note that GitHub is not for general support questions!
+
+If you are having trouble using a feature of CodeIgniter, ask for help on the forum.
+
+If you are wondering if you are using
+something correctly or if you have found a bug, ask on the forum first.
+
+****************************
+Tips for a Good Issue Report
+****************************
+
+Use a descriptive subject line (eg parser library chokes on commas) rather than a vague one (eg. your code broke).
+
+Address a single issue in a report.
+
+Identify the CodeIgniter version (eg 3.0-develop) and the component if you know it (eg. parser library)
+
+Explain what you expected to happen, and what did happen.
+Include error messages and stacktrace, if any.
+
+Include short code segments if they help to explain.
+Use a pastebin or dropbox facility to include longer segments of code or screenshots - do not include them in the issue report itself.
+This means setting a reasonable expiry for those, until the issue is resolved or closed.
+
+If you know how to fix the issue, you can do so in your own fork & branch, and submit a pull request.
+The issue report information above should be part of that.
+
+If your issue report can describe the steps to reproduce the problem, that is great.
+If you can include a unit test that reproduces the problem, that is even better, as it gives whoever is fixing
+it a clearer target!
+
 
 **********
 Guidelines
@@ -33,7 +74,7 @@ PHP Style
 =========
 
 All code must meet the `Style Guide
-<http://ellislab.com/codeigniter/user-guide/general/styleguide.html>`_, which is
+<http://www.codeigniter.com/userguide3/general/styleguide.html>`_, which is
 essentially the `Allman indent style
 <http://en.wikipedia.org/wiki/Indent_style#Allman_style>`_, underscores and
 readable operators. This makes certain that all code is the same format as the
@@ -50,9 +91,10 @@ must also be updated for every change. Also PHPDoc blocks must be maintained.
 Compatibility
 =============
 
-CodeIgniter is compatible with PHP 5.2.4 so all code supplied must stick to
-this requirement. If PHP 5.3 or 5.4 functions or features are used then there
-must be a fallback for PHP 5.2.4.
+CodeIgniter recommends PHP 5.4 or newer to be used, but it should be
+compatible with PHP 5.2.4 so all code supplied must stick to this
+requirement. If PHP 5.3 (and above) functions or features are used then
+there must be a fallback for PHP 5.2.4.
 
 Branching
 =========
@@ -96,10 +138,10 @@ This will sign your commits with the information setup in your git config, e.g.
 
 	Signed-off-by: John Q Public <john.public@example.com>
 
-If you are using Tower there is a "Sign-Off" checkbox in the commit window. You 
-could even alias git commit to use the -s flag so you don’t have to think about 
+If you are using Tower there is a "Sign-Off" checkbox in the commit window. You
+could even alias git commit to use the -s flag so you don’t have to think about
 it.
 
-By signing your work in this manner, you certify to a "Developer's Certificate 
+By signing your work in this manner, you certify to a "Developer's Certificate
 or Origin". The current version of this certificate is in the :doc:`/DCO` file
 in the root of this documentation.

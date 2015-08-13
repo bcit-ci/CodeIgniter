@@ -25,7 +25,7 @@ Available Functions
 The following functions are available:
 
 
-.. function:: lang($line[, $for = ''[, $attributes = array()]])
+.. php:function:: lang($line[, $for = ''[, $attributes = array()]])
 
  	:param	string	$line: Language line key
  	:param	string	$for: HTML "for" attribute (ID of the element we're creating a label for)

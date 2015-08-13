@@ -315,5 +315,3 @@ class Date_helper_test extends CI_TestCase {
 	}
 
 }
-
-/* End of file date_helper_test.php */

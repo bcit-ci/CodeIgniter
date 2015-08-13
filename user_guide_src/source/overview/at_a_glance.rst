@@ -16,8 +16,8 @@ for a given task.
 CodeIgniter is Free
 ===================
 
-CodeIgniter is licensed under an Apache/BSD-style open source license so
-you can use it however you please. For more information please read the
+CodeIgniter is licensed under the MIT license so you can use it however
+you please. For more information please read the
 :doc:`license agreement <../license>`.
 
 CodeIgniter is Light Weight
@@ -111,4 +111,4 @@ CodeIgniter has a Friendly Community of Users
 =============================================
 
 Our growing community of users can be seen actively participating in our
-`Community Forums <http://ellislab.com/forums/>`_.
+`Community Forums <http://forum.codeigniter.com/>`_.

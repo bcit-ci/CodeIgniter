@@ -2,7 +2,7 @@
 
 class Mock_Libraries_Encrypt extends CI_Encrypt {
 
-	// Overide inaccesible protected method
+	// Override inaccessible protected method
 	public function __call($method, $params)
 	{
 		if (is_callable(array($this, '_'.$method)))

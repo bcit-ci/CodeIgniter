@@ -2,26 +2,37 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP
  *
- * NOTICE OF LICENSE
+ * This content is released under the MIT License (MIT)
  *
- * Licensed under the Open Software License version 3.0
+ * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
  *
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	http://codeigniter.com
+ * @since	Version 1.0.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -96,40 +107,37 @@ class CI_URI {
 			$this->_permitted_uri_chars = $this->config->item('permitted_uri_chars');
 
 			// If it's a CLI request, ignore the configuration
-			if (is_cli() OR ($protocol = strtoupper($this->config->item('uri_protocol'))) === 'CLI')
+			if (is_cli())
 			{
-				$this->_set_uri_string($this->_parse_argv());
-			}
-			elseif ($protocol === 'AUTO')
-			{
-				// Is there a PATH_INFO variable? This should be the easiest solution.
-				if (isset($_SERVER['PATH_INFO']))
-				{
-					$this->_set_uri_string($_SERVER['PATH_INFO']);
-				}
-				// No PATH_INFO? Let's try REQUST_URI or QUERY_STRING then
-				elseif (($uri = $this->_parse_request_uri()) !== '' OR ($uri = $this->_parse_query_string()) !== '')
-				{
-					$this->_set_uri_string($uri);
-				}
-				// As a last ditch effor, let's try using the $_GET array
-				elseif (is_array($_GET) && count($_GET) === 1 && trim(key($_GET), '/') !== '')
-				{
-					$this->_set_uri_string(key($_GET));
-				}
-			}
-			elseif (method_exists($this, ($method = '_parse_'.strtolower($protocol))))
-			{
-				$this->_set_uri_string($this->$method());
+				$uri = $this->_parse_argv();
 			}
 			else
 			{
-				$uri = isset($_SERVER[$protocol]) ? $_SERVER[$protocol] : @getenv($protocol);
-				$this->_set_uri_string($uri);
+				$protocol = $this->config->item('uri_protocol');
+				empty($protocol) && $protocol = 'REQUEST_URI';
+
+				switch ($protocol)
+				{
+					case 'AUTO': // For BC purposes only
+					case 'REQUEST_URI':
+						$uri = $this->_parse_request_uri();
+						break;
+					case 'QUERY_STRING':
+						$uri = $this->_parse_query_string();
+						break;
+					case 'PATH_INFO':
+					default:
+						$uri = isset($_SERVER[$protocol])
+							? $_SERVER[$protocol]
+							: $this->_parse_request_uri();
+						break;
+				}
 			}
+
+			$this->_set_uri_string($uri);
 		}
 
-		log_message('debug', 'URI Class Initialized');
+		log_message('info', 'URI Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -162,8 +170,9 @@ class CI_URI {
 			// Populate the segments array
 			foreach (explode('/', trim($this->uri_string, '/')) as $val)
 			{
+				$val = trim($val);
 				// Filter segments for security
-				$val = trim($this->filter_uri($val));
+				$this->filter_uri($val);
 
 				if ($val !== '')
 				{
@@ -192,17 +201,22 @@ class CI_URI {
 			return '';
 		}
 
-		$uri = parse_url($_SERVER['REQUEST_URI']);
+		// parse_url() returns false if no host is present, but the path or query string
+		// contains a colon followed by a number
+		$uri = parse_url('http://dummy'.$_SERVER['REQUEST_URI']);
 		$query = isset($uri['query']) ? $uri['query'] : '';
-		$uri = isset($uri['path']) ? rawurldecode($uri['path']) : '';
+		$uri = isset($uri['path']) ? $uri['path'] : '';
 
-		if (strpos($uri, $_SERVER['SCRIPT_NAME']) === 0)
+		if (isset($_SERVER['SCRIPT_NAME'][0]))
 		{
-			$uri = (string) substr($uri, strlen($_SERVER['SCRIPT_NAME']));
-		}
-		elseif (strpos($uri, dirname($_SERVER['SCRIPT_NAME'])) === 0)
-		{
-			$uri = (string) substr($uri, strlen(dirname($_SERVER['SCRIPT_NAME'])));
+			if (strpos($uri, $_SERVER['SCRIPT_NAME']) === 0)
+			{
+				$uri = (string) substr($uri, strlen($_SERVER['SCRIPT_NAME']));
+			}
+			elseif (strpos($uri, dirname($_SERVER['SCRIPT_NAME'])) === 0)
+			{
+				$uri = (string) substr($uri, strlen(dirname($_SERVER['SCRIPT_NAME'])));
+			}
 		}
 
 		// This section ensures that even on servers that require the URI to be in the query string (Nginx) a correct
@@ -210,7 +224,7 @@ class CI_URI {
 		if (trim($uri, '/') === '' && strncmp($query, '/', 1) === 0)
 		{
 			$query = explode('?', $query, 2);
-			$uri = rawurldecode($query[0]);
+			$uri = $query[0];
 			$_SERVER['QUERY_STRING'] = isset($query[1]) ? $query[1] : '';
 		}
 		else
@@ -250,7 +264,7 @@ class CI_URI {
 		{
 			$uri = explode('?', $uri, 2);
 			$_SERVER['QUERY_STRING'] = isset($uri[1]) ? $uri[1] : '';
-			$uri = rawurldecode($uri[0]);
+			$uri = $uri[0];
 		}
 
 		parse_str($_SERVER['QUERY_STRING'], $_GET);
@@ -307,21 +321,14 @@ class CI_URI {
 	 * Filters segments for malicious characters.
 	 *
 	 * @param	string	$str
-	 * @return	string
+	 * @return	void
 	 */
-	public function filter_uri($str)
+	public function filter_uri(&$str)
 	{
 		if ( ! empty($str) && ! empty($this->_permitted_uri_chars) && ! preg_match('/^['.$this->_permitted_uri_chars.']+$/i'.(UTF8_ENABLED ? 'u' : ''), $str))
 		{
 			show_error('The URI you submitted has disallowed characters.', 400);
 		}
-
-		// Convert programatic characters to entities and return
-		return str_replace(
-			array('$',     '(',     ')',     '%28',   '%29'),	// Bad
-			array('&#36;', '&#40;', '&#41;', '&#40;', '&#41;'),	// Good
-			$str
-		);
 	}
 
 	// --------------------------------------------------------------------
@@ -634,6 +641,3 @@ class CI_URI {
 	}
 
 }
-
-/* End of file URI.php */
-/* Location: ./system/core/URI.php */

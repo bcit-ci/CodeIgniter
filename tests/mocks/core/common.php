@@ -32,7 +32,7 @@ if ( ! function_exists('config_item'))
 
 		if ( ! isset($config[$item]))
 		{
-			return FALSE;
+			return NULL;
 		}
 
 		return $config[$item];

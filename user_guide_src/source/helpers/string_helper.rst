@@ -5,6 +5,9 @@ String Helper
 The String Helper file contains functions that assist in working with
 strings.
 
+.. important:: Please note that these functions are NOT intended, nor
+	suitable to be used for any kind of security-related logic.
+
 .. contents::
   :local:
 
@@ -25,7 +28,7 @@ Available Functions
 The following functions are available:
 
 
-.. function:: random_string([$type = 'alnum'[, $len = 8]])
+.. php:function:: random_string([$type = 'alnum'[, $len = 8]])
 
 	:param	string	$type: Randomization type
 	:param	int	$len: Output string length
@@ -53,7 +56,7 @@ The following functions are available:
 	.. note:: Usage of the *unique* and *encrypt* types is DEPRECATED. They
 		are just aliases for *md5* and *sha1* respectively.
 
-.. function:: increment_string($str[, $separator = '_'[, $first = 1]])
+.. php:function:: increment_string($str[, $separator = '_'[, $first = 1]])
 
 	:param	string	$str: Input string
 	:param	string	$separator: Separator to append a duplicate number with
@@ -72,7 +75,7 @@ The following functions are available:
 		echo increment_string('file_4'); // "file_5"
 
 
-.. function:: alternator($args)
+.. php:function:: alternator($args)
 
 	:param	mixed	$args: A variable number of arguments
 	:returns:	Alternated string(s)
@@ -99,7 +102,7 @@ The following functions are available:
 	.. note:: To use multiple separate calls to this function simply call the
 		function with no arguments to re-initialize.
 
-.. function:: repeater($data[, $num = 1])
+.. php:function:: repeater($data[, $num = 1])
 
 	:param	string	$data: Input
 	:param	int	$num: Number of times to repeat
@@ -117,14 +120,14 @@ The following functions are available:
 		instead.
 
 
-.. function:: reduce_double_slashes($str)
+.. php:function:: reduce_double_slashes($str)
 
 	:param	string	$str: Input string
 	:returns:	A string with normalized slashes
 	:rtype:	string
 
 	Converts double slashes in a string to a single slash, except those
-	found in URL protocol prefixes (e.g. http://).
+	found in URL protocol prefixes (e.g. http&#58;//).
 
 	Example::
 
@@ -132,7 +135,7 @@ The following functions are available:
 		echo reduce_double_slashes($string); // results in "http://example.com/index.php"
 
 
-.. function:: strip_slashes($data)
+.. php:function:: strip_slashes($data)
 
 	:param	mixed	$data: Input string or an array of strings
 	:returns:	String(s) with stripped slashes
@@ -160,7 +163,7 @@ The following functions are available:
 		and handle string inputs. This however makes it just an
 		alias for ``stripslashes()``.
 
-.. function:: trim_slashes($str)
+.. php:function:: trim_slashes($str)
 
 	:param	string	$str: Input string
 	:returns:	Slash-trimmed string
@@ -175,7 +178,7 @@ The following functions are available:
 		|
 		| trim($str, '/');
 
-.. function:: reduce_multiples($str[, $character = ''[, $trim = FALSE]])
+.. php:function:: reduce_multiples($str[, $character = ''[, $trim = FALSE]])
 
 	:param	string	$str: Text to search in
 	:param	string	$character: Character to reduce
@@ -195,7 +198,7 @@ The following functions are available:
 		$string = ",Fred, Bill,, Joe, Jimmy,";
 		$string = reduce_multiples($string, ", ", TRUE); //results in "Fred, Bill, Joe, Jimmy"
 
-.. function:: quotes_to_entities($str)
+.. php:function:: quotes_to_entities($str)
 
 	:param	string	$str: Input string
 	:returns:	String with quotes converted to HTML entities
@@ -208,7 +211,7 @@ The following functions are available:
 		$string = quotes_to_entities($string); //results in "Joe&#39;s &quot;dinner&quot;"
 
 
-.. function:: strip_quotes($str)
+.. php:function:: strip_quotes($str)
 
 	:param	string	$str: Input string
 	:returns:	String with quotes stripped

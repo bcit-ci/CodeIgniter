@@ -18,7 +18,7 @@ requirements are not met.
 Example Usage
 *************
 
-The following example will load the cache driver, specify `APC <#apc>`_
+The following example will load the cache driver, specify `APC <#alternative-php-cache-apc-caching>`_
 as the driver to use, and fall back to file-based caching if APC is not
 available in the hosting environment.
 
@@ -52,9 +52,9 @@ to avoid collisions when you're running multiple applications on the same enviro
 Class Reference
 ***************
 
-.. class:: CI_Cache
+.. php:class:: CI_Cache
 
-	.. method:: is_supported($driver)
+	.. php:method:: is_supported($driver)
 
 		:param	string	$driver: the name of the caching driver
 		:returns:	TRUE if supported, FALSE if not
@@ -66,7 +66,7 @@ Class Reference
 		hosting environment.
 		::
 
-			if ($this->cache->apc->is_supported()
+			if ($this->cache->apc->is_supported())
 			{
 				if ($data = $this->cache->apc->get('my_cache'))
 				{
@@ -74,7 +74,7 @@ Class Reference
 				}
 			}
 
-	.. method:: get($id)
+	.. php:method:: get($id)
 
 		:param	string	$id: Cache item name
 		:returns:	Item value or FALSE if not found
@@ -86,7 +86,7 @@ Class Reference
 
 			$foo = $this->cache->get('my_cached_item');
 
-	.. method:: save($id, $data[, $ttl = 60[, $raw = FALSE]])
+	.. php:method:: save($id, $data[, $ttl = 60[, $raw = FALSE]])
 
 		:param	string	$id: Cache item name
 		:param	mixed	$data: the data to save
@@ -104,7 +104,7 @@ Class Reference
 		.. note:: The ``$raw`` parameter is only utilized by APC and Memcache,
 			in order to allow usage of ``increment()`` and ``decrement()``.
 
-	.. method:: delete($id)
+	.. php:method:: delete($id)
 
 		:param	string	$id: name of cached item
 		:returns:	TRUE on success, FALSE on failure
@@ -116,7 +116,7 @@ Class Reference
 
 			$this->cache->delete('cache_item_id');
 
-	.. method:: increment($id[, $offset = 1])
+	.. php:method:: increment($id[, $offset = 1])
 
 		:param	string	$id: Cache ID
 		:param	int	$offset: Step/value to add
@@ -132,7 +132,7 @@ Class Reference
 
 			$this->cache->increment('iterator', 3); // 'iterator' is now 6
 
-	.. method:: decrement($id[, $offset = 1])
+	.. php:method:: decrement($id[, $offset = 1])
 
 		:param	string	$id: Cache ID
 		:param	int	$offset: Step/value to reduce by
@@ -148,7 +148,7 @@ Class Reference
 
 			$this->cache->decrement('iterator', 2); // 'iterator' is now 3
 
-	.. method:: clean()
+	.. php:method:: clean()
 
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
@@ -159,7 +159,7 @@ Class Reference
 
 			$this->cache->clean();
 
-	.. method:: cache_info()
+	.. php:method:: cache_info()
 
 		:returns:	Information on the entire cache database
 		:rtype:	mixed
@@ -172,7 +172,7 @@ Class Reference
 		.. note:: The information returned and the structure of the data is dependent
 			on which adapter is being used.
 
-	.. method:: get_metadata($id)
+	.. php:method:: get_metadata($id)
 
 		:param	string	$id: Cache item name
 		:returns:	Metadata for the cached item
@@ -250,8 +250,7 @@ Redis Caching
 =============
 
 Redis is an in-memory key-value store which can operate in LRU cache mode. 
-To use it, you need Redis server and phpredis PHP extension 
-`https://github.com/nicolasff/phpredis <https://github.com/nicolasff/phpredis>`_.
+To use it, you need `Redis server and phpredis PHP extension <https://github.com/phpredis/phpredis>`_.
 
 Config options to connect to redis server must be stored in the application/config/redis.php file.
 Available options are::

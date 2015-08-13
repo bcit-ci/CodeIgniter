@@ -18,11 +18,11 @@ application/views/news/create.php.
 
 ::
 
-    <h2>Create a news item</h2>
+    <h2><?php echo $title; ?></h2>
 
     <?php echo validation_errors(); ?>
 
-    <?php echo form_open('news/create') ?>
+    <?php echo form_open('news/create'); ?>
 
         <label for="title">Title</label> 
         <input type="input" name="title" /><br />
@@ -37,16 +37,16 @@ application/views/news/create.php.
 There are only two things here that probably look unfamiliar to you: the
 form_open() function and the validation_errors() function.
 
-The first function is provided by the `form
-helper <../helpers/form_helper.html>`_ and renders the form element and
-adds extra functionality, like adding a hidden `CSRF prevention
-field <../libraries/security.html>`_. The latter is used to report
+The first function is provided by the :doc:`form
+helper <../helpers/form_helper>` and renders the form element and
+adds extra functionality, like adding a hidden :doc:`CSRF prevention
+field <../libraries/security>`. The latter is used to report
 errors related to form validation.
 
 Go back to your news controller. You're going to do two things here,
 check whether the form was submitted and whether the submitted data
-passed the validation rules. You'll use the `form
-validation <../libraries/form_validation.html>`_ library to do this.
+passed the validation rules. You'll use the :doc:`form
+validation <../libraries/form_validation>` library to do this.
 
 ::
 
@@ -81,14 +81,14 @@ the name of the input field, the name to be used in error messages, and
 the rule. In this case the title and text fields are required.
 
 CodeIgniter has a powerful form validation library as demonstrated
-above. You can read `more about this library
-here <../libraries/form_validation.html>`_.
+above. You can read :doc:`more about this library
+here <../libraries/form_validation>`.
 
 Continuing down, you can see a condition that checks whether the form
 validation ran successfully. If it did not, the form is displayed, if it
 was submitted **and** passed all the rules, the model is called. After
 this, a view is loaded to display a success message. Create a view at
-application/view/news/success.php and write a success message.
+application/views/news/success.php and write a success message.
 
 Model
 -----
@@ -117,7 +117,7 @@ the model created earlier and add the following:
 
 This new method takes care of inserting the news item into the database.
 The third line contains a new function, url\_title(). This function -
-provided by the `URL helper <../helpers/url_helper.html>`_ - strips down
+provided by the :doc:`URL helper <../helpers/url_helper>` - strips down
 the string you pass it, replacing all spaces by dashes (-) and makes
 sure everything is in lowercase characters. This leaves you with a nice
 slug, perfect for creating URIs.
@@ -125,8 +125,8 @@ slug, perfect for creating URIs.
 Let's continue with preparing the record that is going to be inserted
 later, inside the $data array. Each element corresponds with a column in
 the database table created earlier. You might notice a new method here,
-namely the post() method from the `input
-library <../libraries/input.html>`_. This method makes sure the data is
+namely the post() method from the :doc:`input
+library <../libraries/input>`. This method makes sure the data is
 sanitized, protecting you from nasty attacks from others. The input
 library is loaded by default. At last, you insert our $data array into
 our database.

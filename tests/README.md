@@ -1,12 +1,12 @@
 # CodeIgniter Unit Tests #
 
-Status : [![Build Status](https://secure.travis-ci.org/EllisLab/CodeIgniter.png?branch=develop)](http://travis-ci.org/EllisLab/CodeIgniter)
+Status : [![Build Status](https://secure.travis-ci.org/bcit-ci/CodeIgniter.png?branch=develop)](http://travis-ci.org/bcit-ci/CodeIgniter)
 
 ### Introduction:
 
 This is the preliminary CodeIgniter testing documentation. It
 will cover both internal as well as external APIs and the reasoning
-behind their implemenation, where appropriate. As with all CodeIgniter
+behind their implementation, where appropriate. As with all CodeIgniter
 documentation, this file should maintain a mostly human readable
 format to facilitate clean api design. [see http://arrenbrecht.ch/testing/]
 

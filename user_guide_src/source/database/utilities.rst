@@ -5,22 +5,20 @@ Database Utility Class
 The Database Utility Class contains methods that help you manage your
 database.
 
-.. contents:: Table of Contents
+.. contents::
+    :local:
+    :depth: 2
 
-
-******************
-Function Reference
-******************
-
+******************************
 Initializing the Utility Class
-==============================
+******************************
 
 .. important:: In order to initialize the Utility class, your database
 	driver must already be running, since the utilities class relies on it.
 
 Load the Utility Class as follows::
 
-	$this->load->dbutil()
+	$this->load->dbutil();
 
 You can also pass another database object to the DB Utility loader, in case
 the database you want to manage isn't the default one::
@@ -37,9 +35,13 @@ assigning it directly to ``$this->dbutil``.
 Once initialized you will access the methods using the ``$this->dbutil``
 object::
 
-	$this->dbutil->some_method()
+	$this->dbutil->some_method();
 
-$this->dbutil->list_databases();
+****************************
+Using the Database Utilities
+****************************
+
+Retrieve list of database names
 ================================
 
 Returns an array of database names::
@@ -51,8 +53,9 @@ Returns an array of database names::
  		echo $db;
 	}
 
-$this->dbutil->database_exists();
-=================================
+
+Determine If a Database Exists
+==============================
 
 Sometimes it's helpful to know whether a particular database exists.
 Returns a boolean TRUE/FALSE. Usage example::
@@ -62,11 +65,11 @@ Returns a boolean TRUE/FALSE. Usage example::
 		// some code...
 	}
 
-.. note:: Replace *database_name* with the name of the table you are
+.. note:: Replace *database_name* with the name of the database you are
 	looking for. This method is case sensitive.
 
-$this->dbutil->optimize_table('table_name');
-============================================
+Optimize a Table
+================
 
 Permits you to optimize a table using the table name specified in the
 first parameter. Returns TRUE/FALSE based on success or failure::
@@ -79,8 +82,8 @@ first parameter. Returns TRUE/FALSE based on success or failure::
 .. note:: Not all database platforms support table optimization. It is
 	mostly for use with MySQL.
 
-$this->dbutil->repair_table('table_name');
-==========================================
+Repair a Table
+==============
 
 Permits you to repair a table using the table name specified in the
 first parameter. Returns TRUE/FALSE based on success or failure::
@@ -92,8 +95,8 @@ first parameter. Returns TRUE/FALSE based on success or failure::
 
 .. note:: Not all database platforms support table repairs.
 
-$this->dbutil->optimize_database();
-====================================
+Optimize a Database
+===================
 
 Permits you to optimize the database your DB class is currently
 connected to. Returns an array containing the DB status messages or
@@ -108,11 +111,11 @@ FALSE on failure.
 		print_r($result);
 	}
 
-.. note:: Not all database platforms support table optimization. It
+.. note:: Not all database platforms support database optimization. It
 	it is mostly for use with MySQL.
 
-$this->dbutil->csv_from_result($db_result);
-===========================================
+Export a Query Result as a CSV File
+===================================
 
 Permits you to generate a CSV file from a query result. The first
 parameter of the method must contain the result object from your
@@ -139,8 +142,8 @@ is used as the enclosure. Example::
 	simply creates the CSV layout. If you need to write the file
 	use the :doc:`File Helper <../helpers/file_helper>`.
 
-$this->dbutil->xml_from_result($db_result);
-===========================================
+Export a Query Result as an XML Document
+========================================
 
 Permits you to generate an XML file from a query result. The first
 parameter expects a query result object, the second may contain an
@@ -163,8 +166,12 @@ optional array of config parameters. Example::
 	simply creates the XML layout. If you need to write the file
 	use the :doc:`File Helper <../helpers/file_helper>`.
 
-$this->dbutil->backup();
-========================
+********************
+Backup Your Database
+********************
+
+Database Backup Notes
+=====================
 
 Permits you to backup your full database or individual tables. The
 backup data can be compressed in either Zip or Gzip format.
@@ -173,7 +180,7 @@ backup data can be compressed in either Zip or Gzip format.
 
 .. note:: For Interbase/Firebird databases, the backup file name is the only parameter.
 
-		Eg. $this->dbutil->backup('db_backup_filename');
+		$this->dbutil->backup('db_backup_filename');
 
 .. note:: Due to the limited execution time and memory available to PHP,
 	backing up very large databases may not be possible. If your database is
@@ -182,7 +189,7 @@ backup data can be compressed in either Zip or Gzip format.
 	have root privileges.
 
 Usage Example
--------------
+=============
 
 ::
 
@@ -190,7 +197,7 @@ Usage Example
 	$this->load->dbutil();
 
 	// Backup your entire database and assign it to a variable
-	$backup =& $this->dbutil->backup();
+	$backup = $this->dbutil->backup();
 
 	// Load the file helper and write the file to your server
 	$this->load->helper('file');
@@ -201,7 +208,7 @@ Usage Example
 	force_download('mybackup.gz', $backup);
 
 Setting Backup Preferences
---------------------------
+==========================
 
 Backup preferences are set by submitting an array of values to the first
 parameter of the ``backup()`` method. Example::
@@ -219,7 +226,7 @@ parameter of the ``backup()`` method. Example::
 	$this->dbutil->backup($prefs);
 
 Description of Backup Preferences
----------------------------------
+=================================
 
 ======================= ======================= ======================= ========================================================================
 Preference              Default Value           Options                 Description
@@ -235,3 +242,75 @@ Preference              Default Value           Options                 Descript
 **newline**              "\\n"                   "\\n", "\\r", "\\r\\n"  Type of newline to use in your SQL export file.
 **foreign_key_checks**   TRUE                    TRUE/FALSE              Whether output should keep foreign key checks enabled.
 ======================= ======================= ======================= ========================================================================
+
+***************
+Class Reference
+***************
+
+.. php:class:: CI_DB_utility
+
+	.. php:method:: backup([$params = array()])
+
+		:param	array	$params: An associative array of options
+		:returns:	raw/(g)zipped SQL query string
+		:rtype:	string
+
+		Perform a database backup, per user preferences.
+
+	.. php:method:: database_exists($database_name)
+
+		:param	string	$database_name: Database name
+		:returns:	TRUE if the database exists, FALSE otherwise
+		:rtype:	bool
+
+		Check for the existence of a database.
+
+	.. php:method:: list_databases()
+
+		:returns:	Array of database names found
+		:rtype:	array
+
+		Retrieve a list of all the database names.
+
+	.. php:method:: optimize_database()
+
+		:returns:	Array of optimization messages or FALSE on failure
+		:rtype:	array
+
+		Optimizes the database.
+
+	.. php:method:: optimize_table($table_name)
+
+		:param	string	$table_name:	Name of the table to optimize
+		:returns:	Array of optimization messages or FALSE on failure
+		:rtype:	array
+
+		Optimizes a database table.
+
+	.. php:method:: repair_table($table_name)
+
+		:param	string	$table_name:	Name of the table to repair
+		:returns:	Array of repair messages or FALSE on failure
+		:rtype:	array
+
+		Repairs a database table.
+
+	.. php:method:: csv_from_result($query[, $delim = ','[, $newline = "\n"[, $enclosure = '"']]])
+
+		:param	object	$query:	A database result object
+		:param	string	$delim: The CSV field delimiter to use
+		:param	string	$newline: The newline character to use
+		:param	string	$enclosure: The enclosure delimiter to use
+		:returns:	The generated CSV file as a string
+		:rtype:	string
+
+		Translates a database result object into a CSV document.
+
+	.. php:method:: xml_from_result($query[, $params = array()])
+
+		:param	object	$query: A database result object
+		:param	array	$params: An associative array of preferences
+		:returns:	The generated XML document as a string
+		:rtype:	string
+
+		Translates a database result object into an XML document.

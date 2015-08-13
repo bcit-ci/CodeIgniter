@@ -2,26 +2,37 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP
  *
- * NOTICE OF LICENSE
+ * This content is released under the MIT License (MIT)
  *
- * Licensed under the Open Software License version 3.0
+ * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
  *
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	http://codeigniter.com
+ * @since	Version 1.0.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -68,6 +79,7 @@ class CI_Parser {
 	public function __construct()
 	{
 		$this->CI =& get_instance();
+		log_message('info', 'Parser Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -128,12 +140,19 @@ class CI_Parser {
 			return FALSE;
 		}
 
+		$replace = array();
 		foreach ($data as $key => $val)
 		{
-			$template = is_array($val)
+			$replace = array_merge(
+				$replace,
+				is_array($val)
 					? $this->_parse_pair($key, $val, $template)
-					: $template = $this->_parse_single($key, (string) $val, $template);
+					: $this->_parse_single($key, (string) $val, $template)
+			);
 		}
+
+		unset($data);
+		$template = strtr($template, $replace);
 
 		if ($return === FALSE)
 		{
@@ -170,7 +189,7 @@ class CI_Parser {
 	 */
 	protected function _parse_single($key, $val, $string)
 	{
-		return str_replace($this->l_delim.$key.$this->r_delim, (string) $val, $string);
+		return array($this->l_delim.$key.$this->r_delim => (string) $val);
 	}
 
 	// --------------------------------------------------------------------
@@ -187,53 +206,43 @@ class CI_Parser {
 	 */
 	protected function _parse_pair($variable, $data, $string)
 	{
-		if (FALSE === ($matches = $this->_match_pair($string, $variable)))
-		{
-			return $string;
-		}
+		$replace = array();
+		preg_match_all(
+			'#'.preg_quote($this->l_delim.$variable.$this->r_delim).'(.+?)'.preg_quote($this->l_delim.'/'.$variable.$this->r_delim).'#s',
+			$string,
+			$matches,
+			PREG_SET_ORDER
+		);
 
-		$str = '';
-		$search = $replace = array();
 		foreach ($matches as $match)
 		{
 			$str = '';
 			foreach ($data as $row)
 			{
-				$temp = $match[1];
+				$temp = array();
 				foreach ($row as $key => $val)
 				{
-					$temp = is_array($val)
-						? $this->_parse_pair($key, $val, $temp)
-						: $this->_parse_single($key, $val, $temp);
+					if (is_array($val))
+					{
+						$pair = $this->_parse_pair($key, $val, $match[1]);
+						if ( ! empty($pair))
+						{
+							$temp = array_merge($temp, $pair);
+						}
+
+						continue;
+					}
+
+					$temp[$this->l_delim.$key.$this->r_delim] = $val;
 				}
 
-				$str .= $temp;
+				$str .= strtr($match[1], $temp);
 			}
 
-			$search[] = $match[0];
-			$replace[] = $str;
+			$replace[$match[0]] = $str;
 		}
 
-		return str_replace($search, $replace, $string);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Matches a variable pair
-	 *
-	 * @param	string	$string
-	 * @param	string	$variable
-	 * @return	mixed
-	 */
-	protected function _match_pair($string, $variable)
-	{
-		return preg_match_all('|'.preg_quote($this->l_delim).$variable.preg_quote($this->r_delim).'(.+?)'.preg_quote($this->l_delim).'/'.$variable.preg_quote($this->r_delim).'|s',
-					$string, $match, PREG_SET_ORDER)
-			? $match : FALSE;
+		return $replace;
 	}
 
 }
-
-/* End of file Parser.php */
-/* Location: ./system/libraries/Parser.php */

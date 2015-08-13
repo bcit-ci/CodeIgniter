@@ -2,26 +2,37 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP
  *
- * NOTICE OF LICENSE
+ * This content is released under the MIT License (MIT)
  *
- * Licensed under the Open Software License version 3.0
+ * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
  *
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	http://codeigniter.com
+ * @since	Version 1.4.1
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -89,6 +100,14 @@ class CI_DB_oci8_driver extends CI_DB {
 	public $limit_used;
 
 	// --------------------------------------------------------------------
+
+	/**
+	 * Reset $stmt_id flag
+	 *
+	 * Used by stored_procedure() to prevent _execute() from
+	 * re-setting the statement ID.
+	 */
+	protected $_reset_stmt_id = TRUE;
 
 	/**
 	 * List of reserved identifiers
@@ -232,10 +251,6 @@ class CI_DB_oci8_driver extends CI_DB {
 		{
 			return $this->data_cache['version'];
 		}
-		elseif ( ! $this->conn_id)
-		{
-			$this->initialize();
-		}
 
 		if ( ! $this->conn_id OR ($version = oci_server_version($this->conn_id)) === FALSE)
 		{
@@ -258,26 +273,13 @@ class CI_DB_oci8_driver extends CI_DB {
 		/* Oracle must parse the query before it is run. All of the actions with
 		 * the query are based on the statement id returned by oci_parse().
 		 */
-		$this->stmt_id = FALSE;
-		$this->_set_stmt_id($sql);
-		oci_set_prefetch($this->stmt_id, 1000);
-		return oci_execute($this->stmt_id, $this->commit_mode);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Generate a statement ID
-	 *
-	 * @param	string	$sql	an SQL query
-	 * @return	void
-	 */
-	protected function _set_stmt_id($sql)
-	{
-		if ( ! is_resource($this->stmt_id))
+		if ($this->_reset_stmt_id === TRUE)
 		{
 			$this->stmt_id = oci_parse($this->conn_id, $sql);
 		}
+
+		oci_set_prefetch($this->stmt_id, 1000);
+		return oci_execute($this->stmt_id, $this->commit_mode);
 	}
 
 	// --------------------------------------------------------------------
@@ -304,22 +306,22 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * params array keys
 	 *
-	 * KEY	  OPTIONAL	NOTES
-	 * name		no	the name of the parameter should be in :<param_name> format
-	 * value	no	the value of the parameter.  If this is an OUT or IN OUT parameter,
-	 *				this should be a reference to a variable
-	 * type		yes	the type of the parameter
-	 * length	yes	the max size of the parameter
+	 * KEY      OPTIONAL  NOTES
+	 * name     no        the name of the parameter should be in :<param_name> format
+	 * value    no        the value of the parameter.  If this is an OUT or IN OUT parameter,
+	 *                    this should be a reference to a variable
+	 * type     yes       the type of the parameter
+	 * length   yes       the max size of the parameter
 	 */
-	public function stored_procedure($package, $procedure, $params)
+	public function stored_procedure($package, $procedure, array $params)
 	{
-		if ($package === '' OR $procedure === '' OR ! is_array($params))
+		if ($package === '' OR $procedure === '')
 		{
 			log_message('error', 'Invalid query: '.$package.'.'.$procedure);
 			return ($this->db_debug) ? $this->display_error('db_invalid_query') : FALSE;
 		}
 
-		// build the query string
+		// Build the query string
 		$sql = 'BEGIN '.$package.'.'.$procedure.'(';
 
 		$have_cursor = FALSE;
@@ -334,10 +336,12 @@ class CI_DB_oci8_driver extends CI_DB {
 		}
 		$sql = trim($sql, ',').'); END;';
 
-		$this->stmt_id = FALSE;
-		$this->_set_stmt_id($sql);
+		$this->_reset_stmt_id = FALSE;
+		$this->stmt_id = oci_parse($this->conn_id, $sql);
 		$this->_bind_params($params);
-		return $this->query($sql, FALSE, $have_cursor);
+		$result = $this->query($sql, FALSE, $have_cursor);
+		$this->_reset_stmt_id = TRUE;
+		return $result;
 	}
 
 	// --------------------------------------------------------------------
@@ -524,13 +528,9 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * @param	string	$table
 	 * @return	array
 	 */
-	public function field_data($table = '')
+	public function field_data($table)
 	{
-		if ($table === '')
-		{
-			return ($this->db_debug) ? $this->display_error('db_field_param_missing') : FALSE;
-		}
-		elseif (strpos($table, '.') !== FALSE)
+		if (strpos($table, '.') !== FALSE)
 		{
 			sscanf($table, '%[^.].%s', $owner, $table);
 		}
@@ -570,7 +570,7 @@ class CI_DB_oci8_driver extends CI_DB {
 			{
 				$default = '';
 			}
-			$retval[$i]->default		= $query[$i]->COLUMN_DEFAULT;
+			$retval[$i]->default = $default;
 		}
 
 		return $retval;
@@ -701,6 +701,3 @@ class CI_DB_oci8_driver extends CI_DB {
 	}
 
 }
-
-/* End of file oci8_driver.php */
-/* Location: ./system/database/drivers/oci8/oci8_driver.php */

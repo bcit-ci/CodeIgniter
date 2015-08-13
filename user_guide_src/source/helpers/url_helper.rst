@@ -23,7 +23,7 @@ The following functions are available:
 Available Functions
 ===================
 
-.. function:: site_url([$uri = ''[, $protocol = NULL]])
+.. php:function:: site_url([$uri = ''[, $protocol = NULL]])
 
 	:param	string	$uri: URI string
 	:param	string	$protocol: Protocol, e.g. 'http' or 'https'
@@ -55,7 +55,7 @@ Available Functions
 	This function is an alias for ``CI_Config::site_url()``. For more info,
 	please see the :doc:`Config Library <../libraries/config>` documentation.
 
-.. function:: base_url($uri = '', $protocol = NULL)
+.. php:function:: base_url($uri = '', $protocol = NULL)
 
 	:param	string	$uri: URI string
 	:param	string	$protocol: Protocol, e.g. 'http' or 'https'
@@ -66,10 +66,10 @@ Available Functions
 
 		echo base_url();
 
-	This function returns the same thing as :func:`site_url()`, without
+	This function returns the same thing as :php:func:`site_url()`, without
 	the *index_page* or *url_suffix* being appended.
 
-	Also like :func:`site_url()`, you can supply segments as a string or
+	Also like :php:func:`site_url()`, you can supply segments as a string or
 	an array. Here is a string example::
 
 		echo base_url("blog/post/123");
@@ -77,7 +77,7 @@ Available Functions
 	The above example would return something like:
 	*http://example.com/blog/post/123*
 
-	This is useful because unlike :func:`site_url()`, you can supply a
+	This is useful because unlike :php:func:`site_url()`, you can supply a
 	string to a file, such as an image or stylesheet. For example::
 
 		echo base_url("images/icons/edit.png");
@@ -88,7 +88,7 @@ Available Functions
 	This function is an alias for ``CI_Config::base_url()``. For more info,
 	please see the :doc:`Config Library <../libraries/config>` documentation.
 
-.. function:: current_url()
+.. php:function:: current_url()
 
 	:returns:	The current URL
 	:rtype:	string
@@ -101,7 +101,7 @@ Available Functions
 		| site_url(uri_string());
 
 
-.. function:: uri_string()
+.. php:function:: uri_string()
 
 	:returns:	An URI string
 	:rtype:	string
@@ -119,7 +119,7 @@ Available Functions
 	please see the :doc:`Config Library <../libraries/config>` documentation.
 
 
-.. function:: index_page()
+.. php:function:: index_page()
 
 	:returns:	'index_page' value
 	:rtype:	mixed
@@ -129,7 +129,7 @@ Available Functions
 
 		echo index_page();
 
-.. function:: anchor($uri = '', $title = '', $attributes = '')
+.. php:function:: anchor($uri = '', $title = '', $attributes = '')
 
 	:param	string	$uri: URI string
 	:param	string	$title: Anchor title
@@ -140,11 +140,11 @@ Available Functions
 	Creates a standard HTML anchor link based on your local site URL.
 
 	The first parameter can contain any segments you wish appended to the
-	URL. As with the :func:`site_url()` function above, segments can
+	URL. As with the :php:func:`site_url()` function above, segments can
 	be a string or an array.
 
 	.. note:: If you are building links that are internal to your application
-		do not include the base URL (http://...). This will be added
+		do not include the base URL (http&#58;//...). This will be added
 		automatically from the information specified in your config file.
 		Include only the URI segments you wish appended to the URL.
 
@@ -167,7 +167,7 @@ Available Functions
 		// Prints: <a href="http://example.com">Click Here</a>
 
 
-.. function:: anchor_popup($uri = '', $title = '', $attributes = FALSE)
+.. php:function:: anchor_popup($uri = '', $title = '', $attributes = FALSE)
 
 	:param	string	$uri: URI string
 	:param	string	$title: Anchor title
@@ -175,7 +175,7 @@ Available Functions
 	:returns:	Pop-up hyperlink
 	:rtype:	string
 
-	Nearly identical to the :func:`anchor()` function except that it
+	Nearly identical to the :php:func:`anchor()` function except that it
 	opens the URL in a new window. You can specify JavaScript window
 	attributes in the third parameter to control how the window is opened.
 	If the third parameter is not set it will simply open a new window with
@@ -211,7 +211,7 @@ Available Functions
 		HTML attribute to the anchor tag.
 
 
-.. function:: mailto($email, $title = '', $attributes = '')
+.. php:function:: mailto($email, $title = '', $attributes = '')
 
 	:param	string	$email: E-mail address
 	:param	string	$title: Anchor title
@@ -223,13 +223,13 @@ Available Functions
 
 		echo mailto('me@my-site.com', 'Click Here to Contact Me');
 
-	As with the :func:`anchor()` tab above, you can set attributes using the
+	As with the :php:func:`anchor()` tab above, you can set attributes using the
 	third parameter::
 
 		$attributes = array('title' => 'Mail me');
 		echo mailto('me@my-site.com', 'Contact Me', $attributes);
 
-.. function:: safe_mailto($email, $title = '', $attributes = '')
+.. php:function:: safe_mailto($email, $title = '', $attributes = '')
 
 	:param	string	$email: E-mail address
 	:param	string	$title: Anchor title
@@ -237,11 +237,11 @@ Available Functions
 	:returns:	A spam-safe "mail to" hyperlink
 	:rtype:	string
 
-	Identical to the :func:`mailto()` function except it writes an obfuscated
+	Identical to the :php:func:`mailto()` function except it writes an obfuscated
 	version of the *mailto* tag using ordinal numbers written with JavaScript to
 	help prevent the e-mail address from being harvested by spam bots.
 
-.. function:: auto_link($str, $type = 'both', $popup = FALSE)
+.. php:function:: auto_link($str, $type = 'both', $popup = FALSE)
 
 	:param	string	$str: Input string
 	:param	string	$type: Link type ('email', 'url' or 'both')
@@ -256,7 +256,7 @@ Available Functions
 
 	The second parameter determines whether URLs and e-mails are converted or
 	just one or the other. Default behavior is both if the parameter is not
-	specified. E-mail links are encoded as :func:`safe_mailto()` as shown
+	specified. E-mail links are encoded as :php:func:`safe_mailto()` as shown
 	above.
 
 	Converts only URLs::
@@ -273,7 +273,7 @@ Available Functions
 		$string = auto_link($string, 'both', TRUE);
 
 
-.. function:: url_title($str, $separator = '-', $lowercase = FALSE)
+.. php:function:: url_title($str, $separator = '-', $lowercase = FALSE)
 
 	:param	string	$str: Input string
 	:param	string	$separator: Word separator
@@ -311,13 +311,13 @@ Available Functions
 		// Produces: whats_wrong_with_css
 
 
-.. function:: prep_url($str = '')
+.. php:function:: prep_url($str = '')
 
 	:param	string	$str: URL string
 	:returns:	Protocol-prefixed URL string
 	:rtype:	string
 
-	This function will add http:// in the event that a protocol prefix
+	This function will add http&#58;// in the event that a protocol prefix
 	is missing from a URL.
 
 	Pass the URL string to the function like this::
@@ -325,7 +325,7 @@ Available Functions
 		$url = prep_url('example.com');
 
 
-.. function:: redirect($uri = '', $method = 'auto', $code = NULL)
+.. php:function:: redirect($uri = '', $method = 'auto', $code = NULL)
 
 	:param	string	$uri: URI string
 	:param	string	$method: Redirect method ('auto', 'location' or 'refresh')

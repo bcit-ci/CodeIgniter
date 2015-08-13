@@ -13,7 +13,10 @@ CodeIgniter User Guide
 Welcome
 *******
 
-- :doc:`general/welcome`
+.. toctree::
+	:titlesonly:
+
+	general/welcome
 
 **********
 Basic Info
@@ -25,32 +28,31 @@ Basic Info
 ************
 Installation
 ************
+.. toctree::
+	:includehidden:
+	:maxdepth: 2
+	:titlesonly:
 
-- :doc:`installation/downloads`
-- :doc:`installation/index`
-- :doc:`installation/upgrading`
-- :doc:`installation/troubleshooting`
+	installation/index
 
 ************
 Introduction
 ************
 
-- :doc:`overview/getting_started`
-- :doc:`overview/at_a_glance`
-- :doc:`overview/features`
-- :doc:`overview/appflow`
-- :doc:`overview/mvc`
-- :doc:`overview/goals`
+.. toctree::
+	:titlesonly:
+
+	overview/index
 
 ********
 Tutorial
 ********
 
-- :doc:`tutorial/index`
-- :doc:`tutorial/static_pages`
-- :doc:`tutorial/news_section`
-- :doc:`tutorial/create_news_items`
-- :doc:`tutorial/conclusion`
+.. toctree::
+	:includehidden:
+	:titlesonly:
+
+	tutorial/index
 
 **************
 General Topics
@@ -59,7 +61,7 @@ General Topics
 .. toctree::
 	:glob:
 	:titlesonly:
-	
+
 	general/index
 
 *****************
@@ -69,17 +71,18 @@ Library Reference
 .. toctree::
 	:glob:
 	:titlesonly:
-	
+
 	libraries/index
 
-****************
-Driver Reference
-****************
+******************
+Database Reference
+******************
 
-- :doc:`libraries/caching`
-- :doc:`database/index`
-- :doc:`libraries/javascript`
-- :doc:`libraries/sessions`
+.. toctree::
+	:glob:
+	:titlesonly:
+
+	database/index
 
 ****************
 Helper Reference
@@ -88,7 +91,7 @@ Helper Reference
 .. toctree::
 	:glob:
 	:titlesonly:
-	
+
 	helpers/index
 
 ***************************
@@ -98,15 +101,14 @@ Contributing to CodeIgniter
 .. toctree::
 	:glob:
 	:titlesonly:
-	
+
 	contributing/index
-	DCO
 
 .. toctree::
 	:glob:
 	:titlesonly:
 	:hidden:
-	
+
 	*
 	overview/index
 	general/requirements
@@ -116,6 +118,5 @@ Contributing to CodeIgniter
 	libraries/index
 	helpers/index
 	database/index
-	documentation/index
 	tutorial/index
 	general/credits

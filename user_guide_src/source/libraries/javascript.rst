@@ -2,15 +2,15 @@
 Javascript Class
 ################
 
-.. note:: This library is DEPRECATED and should not be used. It has always
-	been with an 'experimental' status and is now no longer supported.
-	Currently only kept for backwards compatibility.
-
 CodeIgniter provides a library to help you with certain common functions
 that you may want to use with Javascript. Please note that CodeIgniter
 does not require the jQuery library to run, and that any scripting
 library will work equally well. The jQuery library is simply presented
 as a convenience if you choose to use it.
+
+.. important:: This library is DEPRECATED and should not be used. It has always
+	been with an 'experimental' status and is now no longer supported.
+	Currently only kept for backwards compatibility.
 
 .. contents::
   :local:
@@ -135,7 +135,7 @@ In the above example:
    keydown, keyup, load, mousedown, mouseup, mouseover, mouseup, resize,
    scroll, or unload.
 -  "element_path" is any valid `jQuery selector
-   <http://docs.jquery.com/Selectors>`_. Due to jQuery's unique
+   <http://api.jquery.com/category/selectors/>`_. Due to jQuery's unique
    selector syntax, this is usually an element id, or CSS selector. For
    example "#notice_area" would effect ``<div id="notice_area">``, and
    "#content a.notice" would effect all anchors with a class of "notice"
@@ -147,7 +147,7 @@ Effects
 =======
 
 The query library supports a powerful
-`Effects <http://docs.jquery.com/Effects>`_ repertoire. Before an effect
+`Effects <http://api.jquery.com/category/effects/>`_ repertoire. Before an effect
 can be used, it must be loaded::
 
 	$this->jquery->effect([optional path] plugin name); // for example $this->jquery->effect('bounce');
@@ -201,7 +201,7 @@ animate()
    other additional information.
 
 For a full summary, see
-`http://docs.jquery.com/Effects/animate <http://docs.jquery.com/Effects/animate>`_
+`http://api.jquery.com/animate/ <http://api.jquery.com/animate/>`_
 
 Here is an example of an animate() called on a div with an id of "note",
 and triggered by a click using the jQuery library's click() event.
@@ -288,7 +288,7 @@ corner()
 --------
 
 Used to add distinct corners to page elements. For full details see
-`http://www.malsup.com/jquery/corner/ <http://www.malsup.com/jquery/corner/>`_
+`http://malsup.com/jquery/corner/ <http://malsup.com/jquery/corner/>`_
 
 ::
 

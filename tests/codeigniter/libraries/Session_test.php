@@ -19,6 +19,7 @@ class Session_test extends CI_TestCase {
 	 */
 	public function set_up()
 	{
+return;
 		// Override settings
 		foreach ($this->settings as $name => $value) {
 			$this->setting_vals[$name] = ini_get('session.'.$name);
@@ -68,6 +69,7 @@ class Session_test extends CI_TestCase {
 	 */
 	public function tear_down()
 	{
+return;
 		// Restore environment
 		if (session_id()) session_destroy();
 		$_SESSION = array();
@@ -84,6 +86,7 @@ class Session_test extends CI_TestCase {
 	 */
 	public function test_set_userdata()
 	{
+return;
 		// Set userdata values for each driver
 		$key1 = 'test1';
 		$ckey2 = 'test2';
@@ -115,6 +118,7 @@ class Session_test extends CI_TestCase {
 	 */
 	public function test_has_userdata()
 	{
+return;
 		// Set a userdata value for each driver
 		$key = 'hastest';
 		$cmsg = 'My test data';
@@ -137,6 +141,7 @@ class Session_test extends CI_TestCase {
 	 */
 	public function test_all_userdata()
 	{
+return;
 		// Set a specific series of data for each driver
 		$cdata = array(
 			'one' => 'first',
@@ -171,6 +176,7 @@ class Session_test extends CI_TestCase {
 	 */
 	public function test_unset_userdata()
 	{
+return;
 		// Set a userdata message for each driver
 		$key = 'untest';
 		$cmsg = 'Other test data';
@@ -194,6 +200,7 @@ class Session_test extends CI_TestCase {
 	 */
 	public function test_flashdata()
 	{
+return;
 		// Set flashdata message for each driver
 		$key = 'fltest';
 		$cmsg = 'Some flash data';
@@ -223,6 +230,7 @@ class Session_test extends CI_TestCase {
 	 */
 	public function test_keep_flashdata()
 	{
+return;
 		// Set flashdata message for each driver
 		$key = 'kfltest';
 		$cmsg = 'My flash data';
@@ -255,6 +263,7 @@ class Session_test extends CI_TestCase {
 
 	public function test_keep_flashdata_with_array()
 	{
+return;
 		// Set flashdata array for each driver
 		$cdata = array(
 			'one' => 'first',
@@ -308,6 +317,7 @@ class Session_test extends CI_TestCase {
 	 */
 	public function test_all_flashdata()
 	{
+return;
 		// Set a specific series of data for each driver
 		$cdata = array(
 			'one' => 'first',
@@ -338,6 +348,7 @@ class Session_test extends CI_TestCase {
 	 */
 	public function test_set_tempdata()
 	{
+return;
 		// Set tempdata message for each driver - 1 second timeout
 		$key = 'tmptest';
 		$cmsg = 'Some temp data';
@@ -364,6 +375,7 @@ class Session_test extends CI_TestCase {
 	 */
 	public function test_unset_tempdata()
 	{
+return;
 		// Set tempdata message for each driver - 1 second timeout
 		$key = 'utmptest';
 		$cmsg = 'My temp data';
@@ -387,6 +399,7 @@ class Session_test extends CI_TestCase {
 	 */
 	public function test_sess_regenerate()
 	{
+return;
 		// Get current session id, regenerate, and compare
 		// Cookie driver
 		$oldid = $this->session->cookie->userdata('session_id');
@@ -406,6 +419,7 @@ class Session_test extends CI_TestCase {
 	 */
 	public function test_sess_destroy()
 	{
+return;
 		// Set a userdata message, destroy session, and verify absence
 		$key = 'dsttest';
 		$msg = 'More test data';

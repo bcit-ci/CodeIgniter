@@ -57,5 +57,3 @@ class Directory_helper_test extends CI_TestCase {
 	}
 
 }
-
-/* End of file directory_helper_test.php */

@@ -89,7 +89,7 @@ If they fail you can retrieve the error message using this function::
 
 	echo $this->image_lib->display_errors();
 
-A good practice is use the processing function conditionally, showing an
+A good practice is to use the processing function conditionally, showing an
 error upon failure, like this::
 
 	if ( ! $this->image_lib->resize())
@@ -137,6 +137,8 @@ Preference              Default Value           Options                         
                                                                                 image can be shown at a time, and it can't be positioned on the page. It
                                                                                 simply outputs the raw image dynamically to your browser, along with
                                                                                 image headers.
+**file_permissions**    0644                    (integer)                       File system permissions to apply on the resulting image file,               R, C, X, W
+                                                                                writing it to the disk. WARNING: Use octal integer notation!
 **quality**             90%                     1 - 100%                        Sets the quality of the image. The higher the quality the larger the        R, C, X, W
                                                                                 file size.
 **new_image**           None                    None                            Sets the destination image name/path. You'll use this preference when       R, C, X, W
@@ -185,7 +187,7 @@ Two Types of Watermarking
 
 There are two types of watermarking that you can use:
 
--  **Text**: The watermark message will be generating using text, either
+-  **Text**: The watermark message will be generated using text, either
    with a True Type font that you specify, or using the native text
    output that the GD library supports. If you use the True Type version
    your GD installation must be compiled with True Type support (most
@@ -229,7 +231,7 @@ bottom/center of the image, 20 pixels from the bottom of the image.
 Watermarking Preferences
 ========================
 
-This table shown the preferences that are available for both types of
+This table shows the preferences that are available for both types of
 watermarking (text or overlay)
 
 ======================= =================== ======================= ==========================================================================
@@ -262,7 +264,7 @@ Preference              Default Value       Options                 Description
 Text Preferences
 ----------------
 
-This table shown the preferences that are available for the text type of
+This table shows the preferences that are available for the text type of
 watermarking.
 
 ======================= =================== =================== ==========================================================================
@@ -287,7 +289,7 @@ Preference              Default Value       Options             Description
 Overlay Preferences
 -------------------
 
-This table shown the preferences that are available for the overlay type
+This table shows the preferences that are available for the overlay type
 of watermarking.
 
 ======================= =================== =================== ==========================================================================
@@ -314,9 +316,9 @@ Preference              Default Value       Options             Description
 Class Reference
 ***************
 
-.. class:: CI_Image_lib
+.. php:class:: CI_Image_lib
 
-	.. method:: initialize([$props = array()])
+	.. php:method:: initialize([$props = array()])
 
 		:param	array	$props: Image processing preferences
 		:returns:	TRUE on success, FALSE in case of invalid settings
@@ -324,7 +326,7 @@ Class Reference
 
 		Initializes the class for processing an image.
 
-	.. method:: resize()
+	.. php:method:: resize()
 
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
@@ -371,7 +373,7 @@ Class Reference
 		new_image) are used, the resizing method will instead target the
 		original image for processing.
 
-	.. method:: crop()
+	.. php:method:: crop()
 
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
@@ -407,7 +409,7 @@ Class Reference
 			in ExpressionEngine, the CMS we develop. We added a JavaScript UI that
 			lets the cropping area be selected.
 
-	.. method:: rotate()
+	.. php:method:: rotate()
 
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
@@ -439,7 +441,7 @@ Class Reference
 				echo $this->image_lib->display_errors();
 			}
 
-	.. method:: watermark()
+	.. php:method:: watermark()
 
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
@@ -447,7 +449,7 @@ Class Reference
 		Creates a watermark over an image, please refer to the :ref:`watermarking`
 		section for more info.		
 
-	.. method:: clear()
+	.. php:method:: clear()
 
 		:rtype:	void
 
@@ -459,7 +461,7 @@ Class Reference
 
 			$this->image_lib->clear();
 
-	.. method:: display_errors([$open = '<p>[, $close = '</p>']])
+	.. php:method:: display_errors([$open = '<p>[, $close = '</p>']])
 
 		:param	string	$open: Error message opening tag
 		:param	string	$close: Error message closing tag

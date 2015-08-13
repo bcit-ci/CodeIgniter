@@ -274,14 +274,14 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 	 * @param	string	Path from base directory
 	 * @return	bool	TRUE on success, otherwise FALSE
 	 */
-	public function ci_vfs_clone($path)
+	public function ci_vfs_clone($path, $dest='')
 	{
 		// Check for array
 		if (is_array($path))
 		{
 			foreach ($path as $file)
 			{
-				$this->ci_vfs_clone($file);
+				$this->ci_vfs_clone($file, $dest);
 			}
 			return;
 		}
@@ -294,7 +294,12 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 			return FALSE;
 		}
 
-		$this->ci_vfs_create(basename($path), $content, NULL, dirname($path));
+		if (empty($dest))
+		{
+			$dest = dirname($path);
+		}
+
+		$this->ci_vfs_create(basename($path), $content, NULL, $dest);
 		return TRUE;
 	}
 

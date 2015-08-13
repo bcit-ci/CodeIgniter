@@ -13,7 +13,7 @@ loading any libraries or helpers.
 
   <div class="custom-index container"></div>
 
-.. function:: is_php($version)
+.. php:function:: is_php($version)
 
 	:param	string	$version: Version number
 	:returns:	TRUE if the running PHP version is at least the one specified or FALSE if not
@@ -33,7 +33,7 @@ loading any libraries or helpers.
 	greater than the supplied version number. Returns FALSE if the installed
 	version of PHP is lower than the supplied version number.
 
-.. function:: is_really_writable($file)
+.. php:function:: is_really_writable($file)
 
 	:param	string	$file: File path
 	:returns:	TRUE if the path is writable, FALSE if not
@@ -60,10 +60,10 @@ loading any libraries or helpers.
 
 	.. note:: See also `PHP bug #54709 <https://bugs.php.net/bug.php?id=54709>`_ for more info.
 
-.. function:: config_item($key)
+.. php:function:: config_item($key)
 
 	:param	string	$key: Config item key
-	:returns:	Configuration key value or FALSE if not found
+	:returns:	Configuration key value or NULL if not found
 	:rtype:	mixed
 
 	The :doc:`Config Library <../libraries/config>` is the preferred way of
@@ -99,7 +99,7 @@ loading any libraries or helpers.
 	This function is an alias for ``CI_Log::write_log()``. For more info,
 	please see the :doc:`Error Handling <errors>` documentation.
 
-.. function:: set_status_header($code[, $text = ''])
+.. php:function:: set_status_header($code[, $text = ''])
 
 	:param	int	$code: HTTP Reponse status code
 	:param	string	$text: A custom message to set with the status code
@@ -113,7 +113,7 @@ loading any libraries or helpers.
 	`See here <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html>`_ for
 	a full list of headers.
 
-.. function:: remove_invisible_characters($str[, $url_encoded = TRUE])
+.. php:function:: remove_invisible_characters($str[, $url_encoded = TRUE])
 
 	:param	string	$str: Input string
 	:param	bool	$url_encoded: Whether to remove URL-encoded characters as well
@@ -128,7 +128,7 @@ loading any libraries or helpers.
 		remove_invisible_characters('Java\\0script');
 		// Returns: 'Javascript'
 
-.. function:: html_escape($var)
+.. php:function:: html_escape($var)
 
 	:param	mixed	$var: Variable to escape (string or array)
 	:returns:	HTML escaped string(s)
@@ -139,7 +139,7 @@ loading any libraries or helpers.
 
 	It is useful in preventing Cross Site Scripting (XSS).
 
-.. function:: get_mimes()
+.. php:function:: get_mimes()
 
 	:returns:	An associative array of file types
 	:rtype:	array
@@ -147,7 +147,7 @@ loading any libraries or helpers.
 	This function returns a *reference* to the MIMEs array from
 	*application/config/mimes.php*.
 
-.. function:: is_https()
+.. php:function:: is_https()
 
 	:returns:	TRUE if currently using HTTP-over-SSL, FALSE if not
 	:rtype:	bool
@@ -155,7 +155,7 @@ loading any libraries or helpers.
 	Returns TRUE if a secure (HTTPS) connection is used and FALSE
 	in any other case (including non-HTTP requests).
 
-.. function:: is_cli()
+.. php:function:: is_cli()
 
 	:returns:	TRUE if currently running under CLI, FALSE otherwise
 	:rtype:	bool
@@ -166,7 +166,7 @@ loading any libraries or helpers.
 	.. note:: This function checks both if the ``PHP_SAPI`` value is 'cli'
 		or if the ``STDIN`` constant is defined.
 
-.. function:: function_usable($function_name)
+.. php:function:: function_usable($function_name)
 
 	:param	string	$function_name: Function name
 	:returns:	TRUE if the function can be used, FALSE if not

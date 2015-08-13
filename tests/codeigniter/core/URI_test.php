@@ -11,7 +11,7 @@ class URI_test extends CI_TestCase {
 
 	/* As of the following commit, _set_uri_string() is a protected method:
 
-		https://github.com/EllisLab/CodeIgniter/commit/d461934184d95b0cfb2feec93f27b621ef72a5c2
+		https://github.com/bcit-ci/CodeIgniter/commit/d461934184d95b0cfb2feec93f27b621ef72a5c2
 
 	public function test_set_uri_string()
 	{
@@ -119,26 +119,12 @@ class URI_test extends CI_TestCase {
 	*/
 	// --------------------------------------------------------------------
 
-	public function test_filter_uri()
+	public function test_filter_uri_passing()
 	{
 		$this->uri->_set_permitted_uri_chars('a-z 0-9~%.:_\-');
 
-		$str_in = 'abc01239~%.:_-';
-		$str = $this->uri->filter_uri($str_in);
-
-		$this->assertEquals($str, $str_in);
-	}
-
-	// --------------------------------------------------------------------
-
-	public function test_filter_uri_escaping()
-	{
-		// ensure escaping even if dodgey characters are permitted
-		$this->uri->_set_permitted_uri_chars('a-z 0-9~%.:_\-()$');
-
-		$str = $this->uri->filter_uri('$destroy_app(foo)');
-
-		$this->assertEquals($str, '&#36;destroy_app&#40;foo&#41;');
+		$str = 'abc01239~%.:_-';
+		$this->uri->filter_uri($str);
 	}
 
 	// --------------------------------------------------------------------
@@ -149,7 +135,8 @@ class URI_test extends CI_TestCase {
 
 		$this->uri->config->set_item('enable_query_strings', FALSE);
 		$this->uri->_set_permitted_uri_chars('a-z 0-9~%.:_\-');
-		$this->uri->filter_uri('$this()');
+		$segment = '$this()'; // filter_uri() accepts by reference
+		$this->uri->filter_uri($segment);
 	}
 
 	// --------------------------------------------------------------------
@@ -265,6 +252,3 @@ class URI_test extends CI_TestCase {
 	}
 
 }
-
-/* End of file URI_test.php */
-/* Location: ./tests/core/URI_test.php */

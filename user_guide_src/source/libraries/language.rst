@@ -5,16 +5,25 @@ Language Class
 The Language Class provides functions to retrieve language files and
 lines of text for purposes of internationalization.
 
-In your CodeIgniter system folder you'll find one called language
-containing sets of language files. You can create your own language
-files as needed in order to display error and other messages in other
-languages.
+In your CodeIgniter **system** folder, you will find a **language** sub-directory
+containing a set of language files for the **english** idiom.
+The files in this directory (**system/language/english/**) define the regular messages,
+error messages, and other generally output terms or expressions, for the different parts
+of the CodeIgniter framework.
 
-Language files are typically stored in your **system/language/** directory.
-Alternately you can create a directory called language inside your
-application folder and store them there. CodeIgniter will always load the
-one in **system/language/** first and will then look for an override in
-your **application/language/** directory.
+You can create or incorporate your own language files, as needed, in order to provide
+application-specific error and other messages, or to provide translations of the core
+messages into other languages. These translations or additional messages would go inside
+your **application/language/** directory, with separate sub-directories for each idiom
+(for instance, 'french' or 'german').
+
+The CodeIgniter framework comes with a set of language files for the "english" idiom.
+Additional approved translations for different idioms may be found in the
+`CodeIgniter 3 Translations repositories <https://github.com/bcit-ci/codeigniter3-translations>`_.
+Each repository deals with a single idiom.
+
+When CodeIgniter loads language files, it will load the one in **system/language/**
+first and will then look for an override in your **application/language/** directory.
 
 .. note:: Each language should be stored in its own folder. For example,
 	the English files are located at: system/language/english
@@ -25,6 +34,71 @@ your **application/language/** directory.
 .. raw:: html
 
   <div class="custom-index container"></div>
+
+***************************
+Handling Multiple Languages
+***************************
+
+If you want to support multiple languages in your application, you would provide folders inside
+your **application/language/** directory for each of them, and you would specify the default
+language in your **application/config/config.php**.
+
+The **application/language/english/** directory would contain any additional language files
+needed by your application, for instance for error messages.
+
+Each of the other idiom-specific directories would contain the core language files that you
+obtained from the translations repositories, or that you translated yourself, as well as
+any additional ones needed by your application.
+
+You would store the language you are currently using, for instance in a session variable.
+
+Sample Language Files
+=====================
+
+::
+
+	system/
+		language/
+			english/
+				...
+				email_lang.php
+				form_validation_lang.php
+				...
+
+	application/
+		language/
+			english/
+				error_messages_lang.php
+			french/
+				...
+				email_lang.php
+				error_messages_lang.php
+				form_validation_lang.php
+				...
+
+Example of switching languages
+==============================
+
+::
+
+	$idiom = $this->session->get_userdata('language');
+	$this->lang->load('error_messages', $idiom);
+	$oops = $this->lang->line('message_key');
+
+********************
+Internationalization
+********************
+
+The Language class in CodeIgniter is meant to provide an easy and lightweight
+way to support multiplelanguages in your application. It is not meant to be a
+full implementation of what is commonly called `internationalization and localization
+<http://en.wikipedia.org/wiki/Internationalization_and_localization>`_.
+
+We use the term "idiom" to refer to a language using its common name,
+rather than using any of the international standards, such as "en", "en-US",
+or "en-CA-x-ca" for English and some of its variants.
+
+.. note:: There is nothing to prevent you from using those abbreviations in your application!
 
 ************************
 Using the Language Class
@@ -66,6 +140,11 @@ file extension), and language is the language set containing it (ie,
 english). If the second parameter is missing, the default language set
 in your **application/config/config.php** file will be used.
 
+You can also load multiple language files at the same time by passing an array of language files as first parameter.
+::
+
+	$this->lang->load(array('filename1', 'filename2'));
+
 .. note:: The *language* parameter can only consist of letters.
 
 Fetching a Line of Text
@@ -90,7 +169,7 @@ Using language lines as form labels
 -----------------------------------
 
 This feature has been deprecated from the language library and moved to
-the :func:`lang()` function of the :doc:`Language Helper
+the :php:func:`lang()` function of the :doc:`Language Helper
 <../helpers/language_helper>`.
 
 Auto-loading Languages
@@ -106,11 +185,11 @@ language(s) to the autoload array.
 Class Reference
 ***************
 
-.. class:: CI_Lang
+.. php:class:: CI_Lang
 
-	.. method:: load($langfile[, $idiom = ''[, $return = FALSE[, $add_suffix = TRUE[, $alt_path = '']]]])
+	.. php:method:: load($langfile[, $idiom = ''[, $return = FALSE[, $add_suffix = TRUE[, $alt_path = '']]]])
 
-		:param	string	$langfile: Language file to load
+		:param	mixed	$langfile: Language file to load or array with multiple files
 		:param	string	$idiom: Language name (i.e. 'english')
 		:param	bool	$return: Whether to return the loaded array of translations
 		:param	bool	$add_suffix: Whether to add the '_lang' suffix to the language file name
@@ -120,7 +199,7 @@ Class Reference
 
 		Loads a language file.
 
-	.. method:: line($line[, $log_errors = TRUE])
+	.. php:method:: line($line[, $log_errors = TRUE])
 
 		:param	string	$line: Language line key name
 		:param	bool	$log_errors: Whether to log an error if the line isn't found

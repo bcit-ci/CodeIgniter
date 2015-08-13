@@ -134,6 +134,14 @@ class Input_test extends CI_TestCase {
 		$this->assertEquals('bar', $foo);
 		$this->assertEquals("Hello, i try to <script>alert('Hack');</script> your site", $harm);
 		$this->assertEquals("Hello, i try to [removed]alert&#40;'Hack'&#41;;[removed] your site", $harmless);
+
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+		$_POST['foo']['bar'] = 'baz';
+		$barArray = array('bar' => 'baz');
+
+		$this->assertEquals('baz', $this->input->post('foo[bar]'));
+		$this->assertEquals($barArray, $this->input->post('foo[]'));
+		$this->assertNull($this->input->post('foo[baz]'));
 	}
 
 	// --------------------------------------------------------------------
@@ -198,9 +206,22 @@ class Input_test extends CI_TestCase {
 		$this->markTestSkipped('TODO: Find a way to test HTTP headers');
 	}
 
+	// --------------------------------------------------------------------
+
+	public function test_get_request_header()
+	{
+		$this->markTestSkipped('TODO: Find a way to test HTTP headers');
+	}
+
+	// --------------------------------------------------------------------
+
 	public function test_ip_address()
 	{
+		$this->input->ip_address = '127.0.0.1';
+		$this->assertEquals('127.0.0.1', $this->input->ip_address());
+
 		// 127.0.0.1 is set in our Bootstrap file
+		$this->input->ip_address = FALSE;
 		$this->assertEquals('127.0.0.1', $this->input->ip_address());
 
 		// Invalid
@@ -208,10 +229,47 @@ class Input_test extends CI_TestCase {
 		$this->input->ip_address = FALSE; // reset cached value
 		$this->assertEquals('0.0.0.0', $this->input->ip_address());
 
-		// TODO: Add proxy_ips tests
+		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
-		// Back to reality
+		// Proxy_ips tests
+		$this->input->ip_address = FALSE;
+		$this->ci_set_config('proxy_ips', '127.0.0.3, 127.0.0.4, 127.0.0.2');
+		$_SERVER['HTTP_CLIENT_IP'] = '127.0.0.2';
+		$this->assertEquals('127.0.0.1', $this->input->ip_address());
+
+		// Invalid spoof
+		$this->input->ip_address = FALSE;
+		$this->ci_set_config('proxy_ips', 'invalid_ip_address');
+		$_SERVER['HTTP_CLIENT_IP'] = 'invalid_ip_address';
+		$this->assertEquals('127.0.0.1', $this->input->ip_address());
+
+		$this->input->ip_address = FALSE;
+		$this->ci_set_config('proxy_ips', 'http://foo/bar/baz, 127.0.0.1/1');
+		$_SERVER['HTTP_CLIENT_IP'] = '127.0.0.1';
+		$this->assertEquals('127.0.0.1', $this->input->ip_address());
+
+		$this->input->ip_address = FALSE;
+		$this->ci_set_config('proxy_ips', 'http://foo/bar/baz, 127.0.0.2');
+		$_SERVER['HTTP_CLIENT_IP'] = '127.0.0.2';
+		$_SERVER['REMOTE_ADDR'] = '127.0.0.2';
+		$this->assertEquals('127.0.0.2', $this->input->ip_address());
+
+		//IPv6
+		$this->input->ip_address = FALSE;
+		$this->ci_set_config('proxy_ips', 'FE80:0000:0000:0000:0202:B3FF:FE1E:8329/1, FE80:0000:0000:0000:0202:B3FF:FE1E:8300/2');
+		$_SERVER['HTTP_CLIENT_IP'] = 'FE80:0000:0000:0000:0202:B3FF:FE1E:8300';
+		$_SERVER['REMOTE_ADDR'] = 'FE80:0000:0000:0000:0202:B3FF:FE1E:8329';
+		$this->assertEquals('FE80:0000:0000:0000:0202:B3FF:FE1E:8300', $this->input->ip_address());
+
+		$this->input->ip_address = FALSE;
 		$_SERVER['REMOTE_ADDR'] = '127.0.0.1'; // back to reality
 	}
 
+	// --------------------------------------------------------------------
+
+	public function test_user_agent()
+	{
+		$_SERVER['HTTP_USER_AGENT'] = 'test';
+		$this->assertEquals('test', $this->input->user_agent());
+	}
 }

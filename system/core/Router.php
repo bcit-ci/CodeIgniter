@@ -2,26 +2,37 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP
  *
- * NOTICE OF LICENSE
+ * This content is released under the MIT License (MIT)
  *
- * Licensed under the Open Software License version 3.0
+ * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
  *
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	http://codeigniter.com
+ * @since	Version 1.0.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -72,7 +83,7 @@ class CI_Router {
 	 *
 	 * @var	string
 	 */
-	public $directory =	'';
+	public $directory;
 
 	/**
 	 * Default controller (and method if specific)
@@ -94,7 +105,7 @@ class CI_Router {
 	/**
 	 * Enable query strings flag
 	 *
-	 * Determines wether to use GET parameters or segment URIs
+	 * Determines whether to use GET parameters or segment URIs
 	 *
 	 * @var	bool
 	 */
@@ -115,28 +126,19 @@ class CI_Router {
 		$this->uri =& load_class('URI', 'core');
 
 		$this->enable_query_strings = ( ! is_cli() && $this->config->item('enable_query_strings') === TRUE);
+
+		// If a directory override is configured, it has to be set before any dynamic routing logic
+		is_array($routing) && isset($routing['directory']) && $this->set_directory($routing['directory']);
 		$this->_set_routing();
 
 		// Set any routing overrides that may exist in the main index file
 		if (is_array($routing))
 		{
-			if (isset($routing['directory']))
-			{
-				$this->set_directory($routing['directory']);
-			}
-
-			if ( ! empty($routing['controller']))
-			{
-				$this->set_class($routing['controller']);
-			}
-
-			if ( ! empty($routing['function']))
-			{
-				$this->set_method($routing['function']);
-			}
+			empty($routing['controller']) OR $this->set_class($routing['controller']);
+			empty($routing['function'])   OR $this->set_method($routing['function']);
 		}
 
-		log_message('debug', 'Router Class Initialized');
+		log_message('info', 'Router Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -156,22 +158,30 @@ class CI_Router {
 		// If this feature is enabled, we will gather the directory/class/method a little differently
 		if ($this->enable_query_strings)
 		{
-			$_d = $this->config->item('directory_trigger');
-			$_d = isset($_GET[$_d]) ? trim($_GET[$_d], " \t\n\r\0\x0B/") : '';
-			if ($_d !== '')
+			// If the directory is set at this time, it means an override exists, so skip the checks
+			if ( ! isset($this->directory))
 			{
-				$this->set_directory($this->uri->filter_uri($_d));
+				$_d = $this->config->item('directory_trigger');
+				$_d = isset($_GET[$_d]) ? trim($_GET[$_d], " \t\n\r\0\x0B/") : '';
+
+				if ($_d !== '')
+				{
+					$this->uri->filter_uri($_d);
+					$this->set_directory($_d);
+				}
 			}
 
-			$_c = $this->config->item('controller_trigger');
+			$_c = trim($this->config->item('controller_trigger'));
 			if ( ! empty($_GET[$_c]))
 			{
-				$this->set_class(trim($this->uri->filter_uri(trim($_GET[$_c]))));
+				$this->uri->filter_uri($_GET[$_c]);
+				$this->set_class($_GET[$_c]);
 
-				$_f = $this->config->item('function_trigger');
+				$_f = trim($this->config->item('function_trigger'));
 				if ( ! empty($_GET[$_f]))
 				{
-					$this->set_method(trim($this->uri->filter_uri($_GET[$_f])));
+					$this->uri->filter_uri($_GET[$_f]);
+					$this->set_method($_GET[$_f]);
 				}
 
 				$this->uri->rsegments = array(
@@ -319,6 +329,8 @@ class CI_Router {
 	protected function _validate_request($segments)
 	{
 		$c = count($segments);
+		$directory_override = isset($this->directory);
+
 		// Loop through our segments and return as soon as a controller
 		// is found or when such a directory doesn't exist
 		while ($c-- > 0)
@@ -326,7 +338,10 @@ class CI_Router {
 			$test = $this->directory
 				.ucfirst($this->translate_uri_dashes === TRUE ? str_replace('-', '_', $segments[0]) : $segments[0]);
 
-			if ( ! file_exists(APPPATH.'controllers/'.$test.'.php') && is_dir(APPPATH.'controllers/'.$this->directory.$segments[0]))
+			if ( ! file_exists(APPPATH.'controllers/'.$test.'.php')
+				&& $directory_override === FALSE
+				&& is_dir(APPPATH.'controllers/'.$this->directory.$segments[0])
+			)
 			{
 				$this->set_directory(array_shift($segments), TRUE);
 				continue;
@@ -360,16 +375,19 @@ class CI_Router {
 		// Is there a literal match?  If so we're done
 		if (isset($this->routes[$uri]))
 		{
-			// Check default routes format
-			if (is_string($this->routes[$uri]))
+			// Is it an HTTP verb-based route?
+			if (is_array($this->routes[$uri]))
+			{
+				$route = array_change_key_case($this->routes[$uri], CASE_LOWER);
+				if (isset($route[$http_verb]))
+				{
+					$this->_set_request(explode('/', $route[$http_verb]));
+					return;
+				}
+			}
+			else
 			{
 				$this->_set_request(explode('/', $this->routes[$uri]));
-				return;
-			}
-			// Is there a matching http verb?
-			elseif (is_array($this->routes[$uri]) && isset($this->routes[$uri][$http_verb]))
-			{
-				$this->_set_request(explode('/', $this->routes[$uri][$http_verb]));
 				return;
 			}
 		}
@@ -377,9 +395,10 @@ class CI_Router {
 		// Loop through the route array looking for wildcards
 		foreach ($this->routes as $key => $val)
 		{
-			// Check if route format is using http verb
+			// Check if route format is using HTTP verbs
 			if (is_array($val))
 			{
+				$val = array_change_key_case($val, CASE_LOWER);
 				if (isset($val[$http_verb]))
 				{
 					$val = $val[$http_verb];
@@ -479,7 +498,7 @@ class CI_Router {
 	 * Set directory name
 	 *
 	 * @param	string	$dir	Directory name
-	 * @param	bool	$appent	Whether we're appending rather then setting the full value
+	 * @param	bool	$append	Whether we're appending rather than setting the full value
 	 * @return	void
 	 */
 	public function set_directory($dir, $append = FALSE)
@@ -511,6 +530,3 @@ class CI_Router {
 	}
 
 }
-
-/* End of file Router.php */
-/* Location: ./system/core/Router.php */

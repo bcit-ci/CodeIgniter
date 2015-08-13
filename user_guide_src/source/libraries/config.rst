@@ -92,9 +92,9 @@ Fetching Config Items
 
 To retrieve an item from your config file, use the following function::
 
-	$this->config->item('item name');
+	$this->config->item('item_name');
 
-Where item name is the $config array index you want to retrieve. For
+Where item_name is the $config array index you want to retrieve. For
 example, to fetch your language choice you'll do this::
 
 	$lang = $this->config->item('language');
@@ -171,7 +171,7 @@ folders:
 Class Reference
 ***************
 
-.. class:: CI_Config
+.. php:class:: CI_Config
 
 	.. attribute:: $config
 
@@ -182,7 +182,7 @@ Class Reference
 		Array of all loaded config files
 
 
-	.. method:: item($item[, $index=''])
+	.. php:method:: item($item[, $index=''])
 
 		:param	string	$item: Config item name
 		:param	string	$index: Index name
@@ -191,7 +191,7 @@ Class Reference
 
 		Fetch a config file item.
 
-	.. method:: set_item($item, $value)
+	.. php:method:: set_item($item, $value)
 
 		:param	string	$item: Config item name
 		:param	string	$value: Config item value
@@ -199,7 +199,7 @@ Class Reference
 
 		Sets a config file item to the specified value.
 
-	.. method:: slash_item($item)
+	.. php:method:: slash_item($item)
 
 		:param	string	$item: config item name
 		:returns:	Config item value with a trailing forward slash or NULL if not found
@@ -208,7 +208,7 @@ Class Reference
 		This method is identical to ``item()``, except it appends a forward
 		slash to the end of the item, if it exists.
 
-	.. method:: load([$file = ''[, $use_sections = FALSE[, $fail_gracefully = FALSE]]])
+	.. php:method:: load([$file = ''[, $use_sections = FALSE[, $fail_gracefully = FALSE]]])
 
 		:param	string	$file: Configuration file name
 		:param	bool	$use_sections: Whether config values shoud be loaded into their own section (index of the main config array)
@@ -218,7 +218,7 @@ Class Reference
 
 		Loads a configuration file.
 
-	.. method:: site_url()
+	.. php:method:: site_url()
 
 		:returns:	Site URL
 		:rtype:	string
@@ -229,7 +229,7 @@ Class Reference
 		This method is normally accessed via the corresponding functions in the
 		:doc:`URL Helper </helpers/url_helper>`.
 
-	.. method:: base_url()
+	.. php:method:: base_url()
 
 		:returns:	Base URL
 		:rtype:	string
@@ -240,7 +240,7 @@ Class Reference
 		This method is normally accessed via the corresponding functions in the
 		:doc:`URL Helper </helpers/url_helper>`.
 
-	.. method:: system_url()
+	.. php:method:: system_url()
 
 		:returns:	URL pointing at your CI system/ directory
 		:rtype:	string

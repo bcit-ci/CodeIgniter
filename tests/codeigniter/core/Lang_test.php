@@ -29,6 +29,11 @@ class Lang_test extends CI_TestCase {
 		$this->assertTrue($this->lang->load('date'));
 		$this->assertEquals('Year', $this->lang->language['date_year']);
 
+		// A language other than english
+		$this->ci_vfs_clone('system/language/english/email_lang.php', 'system/language/german/');
+		$this->assertTrue($this->lang->load('email', 'german'));
+		$this->assertEquals('german', $this->lang->is_loaded['email_lang.php']);
+
 		// Non-alpha idiom (should act the same as unspecified language)
 		$this->ci_vfs_clone('system/language/english/number_lang.php');
 		$this->assertTrue($this->lang->load('number'));
@@ -44,6 +49,32 @@ class Lang_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
+	public function test_multiple_file_load()
+	{
+		// Multiple files
+		$this->ci_vfs_clone('system/language/english/profiler_lang.php');
+		$files = array(
+			0 => 'profiler',
+			1 => 'nonexistent'
+		);
+		$this->setExpectedException(
+			'RuntimeException',
+			'CI Error: Unable to load the requested language file: language/english/nonexistent_lang.php'
+		);
+		$this->lang->load($files, 'english');
+	}
+
+	// --------------------------------------------------------------------
+
+	public function test_alternative_path_load()
+	{
+		// Alternative Path
+		$this->ci_vfs_clone('system/language/english/profiler_lang.php');
+		$this->assertTrue($this->lang->load('profiler', 'english', FALSE, TRUE, 'vfs://system/'));
+	}
+
+	// --------------------------------------------------------------------
+
 	/**
 	 * @depends	test_load
 	 */
@@ -55,5 +86,4 @@ class Lang_test extends CI_TestCase {
 		$this->assertFalse($this->lang->line('nonexistent_string'));
 		$this->assertFalse($this->lang->line(NULL));
 	}
-
 }

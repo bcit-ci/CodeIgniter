@@ -1,29 +1,4 @@
 <?php
-/**
- * CodeIgniter
- *
- * An open source application development framework for PHP 5.2.4 or newer
- *
- * NOTICE OF LICENSE
- *
- * Licensed under the Academic Free License version 3.0
- *
- * This source file is subject to the Academic Free License (AFL 3.0) that is
- * bundled with this package in the files license_afl.txt / license_afl.rst.
- * It is also available through the world wide web at this URL:
- * http://opensource.org/licenses/AFL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
- *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/AFL-3.0 Academic Free License (AFL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
- * @filesource
- */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
@@ -35,8 +10,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | mobile device data. The array keys are used to identify the device
 | and the array values are used to set the actual name of the item.
 */
-
 $platforms = array(
+	'windows nt 10.0'	=> 'Windows 10',
 	'windows nt 6.3'	=> 'Windows 8.1',
 	'windows nt 6.2'	=> 'Windows 8',
 	'windows nt 6.1'	=> 'Windows 7',
@@ -86,6 +61,7 @@ $platforms = array(
 $browsers = array(
 	'OPR'			=> 'Opera',
 	'Flock'			=> 'Flock',
+	'Edge'			=> 'Spartan',
 	'Chrome'		=> 'Chrome',
 	// Opera 10+ always reports Opera/9.80 and appends Version/<real version> to the user agent string
 	'Opera.*?Version'	=> 'Opera',
@@ -218,16 +194,18 @@ $mobiles = array(
 $robots = array(
 	'googlebot'		=> 'Googlebot',
 	'msnbot'		=> 'MSNBot',
-	'baiduspider'	=> 'Baiduspider',
+	'baiduspider'		=> 'Baiduspider',
 	'bingbot'		=> 'Bing',
 	'slurp'			=> 'Inktomi Slurp',
 	'yahoo'			=> 'Yahoo',
-	'askjeeves'		=> 'AskJeeves',
-	'fastcrawler'	=> 'FastCrawler',
+	'ask jeeves'		=> 'Ask Jeeves',
+	'fastcrawler'		=> 'FastCrawler',
 	'infoseek'		=> 'InfoSeek Robot 1.0',
 	'lycos'			=> 'Lycos',
-	'yandex'		=> 'YandexBot'
+	'yandex'		=> 'YandexBot',
+	'mediapartners-google'	=> 'MediaPartners Google',
+	'CRAZYWEBCRAWLER'	=> 'Crazy Webcrawler',
+	'adsbot-google'		=> 'AdsBot Google',
+	'feedfetcher-google'	=> 'Feedfetcher Google',
+	'curious george'	=> 'Curious George'
 );
-
-/* End of file user_agents.php */
-/* Location: ./application/config/user_agents.php */

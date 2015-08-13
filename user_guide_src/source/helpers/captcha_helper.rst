@@ -33,6 +33,8 @@ Once loaded you can generate a CAPTCHA like this::
 		'img_height'	=> 30,
 		'expiration'	=> 7200,
 		'word_length'	=> 8,
+		'font_size'	=> 16,
+		'img_id'	=> 'Imageid',
 		'pool'		=> '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
 
 		// White background and border, black text and red grid
@@ -54,11 +56,13 @@ Once loaded you can generate a CAPTCHA like this::
    can draw randomly from.
 -  If you do not specify a path to a TRUE TYPE font, the native ugly GD
    font will be used.
--  The "captcha" folder must be writable (666, or 777)
+-  The "captcha" directory must be writable
 -  The **expiration** (in seconds) signifies how long an image will remain
    in the captcha folder before it will be deleted. The default is two
    hours.
 -  **word_length** defaults to 8, **pool** defaults to '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+-  **font_size** defaults to 16, the native GD font has a size limit. Specify a "true type" font for bigger sizes.
+-  The **img_id** will be set as the "id" of the captcha image.
 -  If any of the **colors** values is missing, it will be replaced by the default.
 
 Adding a Database
@@ -128,7 +132,7 @@ Available Functions
 
 The following functions are available:
 
-.. function:: create_captcha([$data = ''[, $img_path = ''[, $img_url = ''[, $font_path = '']]]])
+.. php:function:: create_captcha([$data = ''[, $img_path = ''[, $img_url = ''[, $font_path = '']]]])
 
 	:param	array	$data: Array of data for the CAPTCHA
 	:param	string	$img_path: Path to create the image in

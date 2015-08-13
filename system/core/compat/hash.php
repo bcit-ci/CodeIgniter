@@ -2,26 +2,37 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP
  *
- * NOTICE OF LICENSE
+ * This content is released under the MIT License (MIT)
  *
- * Licensed under the Open Software License version 3.0
+ * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
  *
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 3.0
+ * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	http://codeigniter.com
+ * @since	Version 3.0.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -163,9 +174,56 @@ if ( ! function_exists('hash_pbkdf2'))
 		}
 
 		$hash_length = strlen(hash($algo, NULL, TRUE));
-		if (empty($length))
+		empty($length) && $length = $hash_length;
+
+		// Pre-hash password inputs longer than the algorithm's block size
+		// (i.e. prepare HMAC key) to mitigate potential DoS attacks.
+		static $block_sizes;
+		empty($block_sizes) && $block_sizes = array(
+			'gost' => 32,
+			'haval128,3' => 128,
+			'haval160,3' => 128,
+			'haval192,3' => 128,
+			'haval224,3' => 128,
+			'haval256,3' => 128,
+			'haval128,4' => 128,
+			'haval160,4' => 128,
+			'haval192,4' => 128,
+			'haval224,4' => 128,
+			'haval256,4' => 128,
+			'haval128,5' => 128,
+			'haval160,5' => 128,
+			'haval192,5' => 128,
+			'haval224,5' => 128,
+			'haval256,5' => 128,
+			'md2' => 16,
+			'md4' => 64,
+			'md5' => 64,
+			'ripemd128' => 64,
+			'ripemd160' => 64,
+			'ripemd256' => 64,
+			'ripemd320' => 64,
+			'salsa10' => 64,
+			'salsa20' => 64,
+			'sha1' => 64,
+			'sha224' => 64,
+			'sha256' => 64,
+			'sha384' => 128,
+			'sha512' => 128,
+			'snefru' => 32,
+			'snefru256' => 32,
+			'tiger128,3' => 64,
+			'tiger160,3' => 64,
+			'tiger192,3' => 64,
+			'tiger128,4' => 64,
+			'tiger160,4' => 64,
+			'tiger192,4' => 64,
+			'whirlpool' => 64
+		);
+
+		if (isset($block_sizes[$algo]) && strlen($password) > $block_sizes[$algo])
 		{
-			$length = $hash_length;
+			$password = hash($algo, $password, TRUE);
 		}
 
 		$hash = '';
@@ -185,6 +243,3 @@ if ( ! function_exists('hash_pbkdf2'))
 		return substr($raw_output ? $hash : bin2hex($hash), 0, $length);
 	}
 }
-
-/* End of file hash.php */
-/* Location: ./system/core/compat/hash.php */

@@ -16,31 +16,30 @@ the ones used by that class, otherwise your local methods will
 override them. The following is a list of reserved names. Do not name
 your controller any of these:
 
--  Controller
--  CI_Base
--  _ci_initialize
+-  CI_Controller
 -  Default
 -  index
 
 Functions
 ---------
 
--  :func:`is_php()`
--  :func:`is_really_writable()`
+-  :php:func:`is_php()`
+-  :php:func:`is_really_writable()`
 -  ``load_class()``
 -  ``is_loaded()``
 -  ``get_config()``
--  :func:`config_item()`
--  :func:`show_error()`
--  :func:`show_404()`
--  :func:`log_message()`
--  :func:`set_status_header()`
--  :func:`get_mimes()`
--  :func:`html_escape()`
--  :func:`remove_invisible_characters()`
--  :func:`is_https()`
--  :func:`function_usable()`
--  :func:`get_instance()`
+-  :php:func:`config_item()`
+-  :php:func:`show_error()`
+-  :php:func:`show_404()`
+-  :php:func:`log_message()`
+-  :php:func:`set_status_header()`
+-  :php:func:`get_mimes()`
+-  :php:func:`html_escape()`
+-  :php:func:`remove_invisible_characters()`
+-  :php:func:`is_https()`
+-  :php:func:`function_usable()`
+-  :php:func:`get_instance()`
+-  ``_error_handler()``
 -  ``_exception_handler()``
 -  ``_stringify_attributes()``
 
@@ -76,6 +75,7 @@ Constants
 -  FOPEN_READ_WRITE_CREATE
 -  FOPEN_WRITE_CREATE_STRICT
 -  FOPEN_READ_WRITE_CREATE_STRICT
+-  SHOW_DEBUG_BACKTRACE
 -  EXIT_SUCCESS
 -  EXIT_ERROR
 -  EXIT_CONFIG

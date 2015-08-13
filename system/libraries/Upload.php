@@ -2,26 +2,37 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP
  *
- * NOTICE OF LICENSE
+ * This content is released under the MIT License (MIT)
  *
- * Licensed under the Open Software License version 3.0
+ * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
  *
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	http://codeigniter.com
+ * @since	Version 1.0.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -285,7 +296,7 @@ class CI_Upload {
 		$this->_mimes =& get_mimes();
 		$this->_CI =& get_instance();
 
-		log_message('debug', 'Upload Class Initialized');
+		log_message('info', 'Upload Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -327,21 +338,21 @@ class CI_Upload {
 					$this->$key = $defaults[$key];
 				}
 			}
-
-			return $this;
 		}
-
-		foreach ($config as $key => &$value)
+		else
 		{
-			if ($key[0] !== '_' && $reflection->hasProperty($key))
+			foreach ($config as $key => &$value)
 			{
-				if ($reflection->hasMethod('set_'.$key))
+				if ($key[0] !== '_' && $reflection->hasProperty($key))
 				{
-					$this->{'set_'.$key}($value);
-				}
-				else
-				{
-					$this->$key = $value;
+					if ($reflection->hasMethod('set_'.$key))
+					{
+						$this->{'set_'.$key}($value);
+					}
+					else
+					{
+						$this->$key = $value;
+					}
 				}
 			}
 		}
@@ -386,7 +397,7 @@ class CI_Upload {
 
 		if ( ! isset($_file))
 		{
-			$this->set_error('upload_no_file_selected');
+			$this->set_error('upload_no_file_selected', 'debug');
 			return FALSE;
 		}
 
@@ -405,28 +416,28 @@ class CI_Upload {
 			switch ($error)
 			{
 				case UPLOAD_ERR_INI_SIZE:
-					$this->set_error('upload_file_exceeds_limit');
+					$this->set_error('upload_file_exceeds_limit', 'info');
 					break;
 				case UPLOAD_ERR_FORM_SIZE:
-					$this->set_error('upload_file_exceeds_form_limit');
+					$this->set_error('upload_file_exceeds_form_limit', 'info');
 					break;
 				case UPLOAD_ERR_PARTIAL:
-					$this->set_error('upload_file_partial');
+					$this->set_error('upload_file_partial', 'debug');
 					break;
 				case UPLOAD_ERR_NO_FILE:
-					$this->set_error('upload_no_file_selected');
+					$this->set_error('upload_no_file_selected', 'debug');
 					break;
 				case UPLOAD_ERR_NO_TMP_DIR:
-					$this->set_error('upload_no_temp_directory');
+					$this->set_error('upload_no_temp_directory', 'error');
 					break;
 				case UPLOAD_ERR_CANT_WRITE:
-					$this->set_error('upload_unable_to_write_file');
+					$this->set_error('upload_unable_to_write_file', 'error');
 					break;
 				case UPLOAD_ERR_EXTENSION:
-					$this->set_error('upload_stopped_by_extension');
+					$this->set_error('upload_stopped_by_extension', 'debug');
 					break;
 				default:
-					$this->set_error('upload_no_file_selected');
+					$this->set_error('upload_no_file_selected', 'debug');
 					break;
 			}
 
@@ -452,7 +463,7 @@ class CI_Upload {
 		// Is the file type allowed to be uploaded?
 		if ( ! $this->is_allowed_filetype())
 		{
-			$this->set_error('upload_invalid_filetype');
+			$this->set_error('upload_invalid_filetype', 'debug');
 			return FALSE;
 		}
 
@@ -474,7 +485,7 @@ class CI_Upload {
 
 			if ( ! $this->is_allowed_filetype(TRUE))
 			{
-				$this->set_error('upload_invalid_filetype');
+				$this->set_error('upload_invalid_filetype', 'debug');
 				return FALSE;
 			}
 		}
@@ -488,7 +499,7 @@ class CI_Upload {
 		// Is the file size within the allowed maximum?
 		if ( ! $this->is_allowed_filesize())
 		{
-			$this->set_error('upload_invalid_filesize');
+			$this->set_error('upload_invalid_filesize', 'info');
 			return FALSE;
 		}
 
@@ -496,7 +507,7 @@ class CI_Upload {
 		// Note: This can fail if the server has an open_basedir restriction.
 		if ( ! $this->is_allowed_dimensions())
 		{
-			$this->set_error('upload_invalid_dimensions');
+			$this->set_error('upload_invalid_dimensions', 'info');
 			return FALSE;
 		}
 
@@ -522,15 +533,9 @@ class CI_Upload {
 		 * If it returns false there was a problem.
 		 */
 		$this->orig_name = $this->file_name;
-
-		if ($this->overwrite === FALSE)
+		if (FALSE === ($this->file_name = $this->set_filename($this->upload_path, $this->file_name)))
 		{
-			$this->file_name = $this->set_filename($this->upload_path, $this->file_name);
-
-			if ($this->file_name === FALSE)
-			{
-				return FALSE;
-			}
+			return FALSE;
 		}
 
 		/*
@@ -541,7 +546,7 @@ class CI_Upload {
 		 */
 		if ($this->xss_clean && $this->do_xss_clean() === FALSE)
 		{
-			$this->set_error('upload_unable_to_write_file');
+			$this->set_error('upload_unable_to_write_file', 'error');
 			return FALSE;
 		}
 
@@ -556,7 +561,7 @@ class CI_Upload {
 		{
 			if ( ! @move_uploaded_file($this->file_temp, $this->upload_path.$this->file_name))
 			{
-				$this->set_error('upload_destination_error');
+				$this->set_error('upload_destination_error', 'error');
 				return FALSE;
 			}
 		}
@@ -645,7 +650,7 @@ class CI_Upload {
 			$filename = md5(uniqid(mt_rand())).$this->file_ext;
 		}
 
-		if ( ! file_exists($path.$filename))
+		if ($this->overwrite === TRUE OR ! file_exists($path.$filename))
 		{
 			return $filename;
 		}
@@ -664,7 +669,7 @@ class CI_Upload {
 
 		if ($new_filename === '')
 		{
-			$this->set_error('upload_bad_filename');
+			$this->set_error('upload_bad_filename', 'debug');
 			return FALSE;
 		}
 		else
@@ -685,6 +690,22 @@ class CI_Upload {
 	{
 		$this->max_size = ($n < 0) ? 0 : (int) $n;
 		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set Maximum File Size
+	 *
+	 * An internal alias to set_max_filesize() to help with configuration
+	 * as initialize() will look for a set_<property_name>() method ...
+	 *
+	 * @param	int	$n
+	 * @return	CI_Upload
+	 */
+	protected function set_max_size($n)
+	{
+		return $this->set_max_filesize($n);
 	}
 
 	// --------------------------------------------------------------------
@@ -864,7 +885,7 @@ class CI_Upload {
 
 		if (empty($this->allowed_types) OR ! is_array($this->allowed_types))
 		{
-			$this->set_error('upload_no_file_types');
+			$this->set_error('upload_no_file_types', 'debug');
 			return FALSE;
 		}
 
@@ -963,7 +984,7 @@ class CI_Upload {
 	{
 		if ($this->upload_path === '')
 		{
-			$this->set_error('upload_no_filepath');
+			$this->set_error('upload_no_filepath', 'error');
 			return FALSE;
 		}
 
@@ -974,13 +995,13 @@ class CI_Upload {
 
 		if ( ! is_dir($this->upload_path))
 		{
-			$this->set_error('upload_no_filepath');
+			$this->set_error('upload_no_filepath', 'error');
 			return FALSE;
 		}
 
 		if ( ! is_really_writable($this->upload_path))
 		{
-			$this->set_error('upload_not_writable');
+			$this->set_error('upload_not_writable', 'error');
 			return FALSE;
 		}
 
@@ -1002,7 +1023,7 @@ class CI_Upload {
 
 		if (count($x) === 1)
 		{
-		    return '';
+			return '';
 		}
 
 		$ext = ($this->file_ext_tolower) ? strtolower(end($x)) : end($x);
@@ -1110,17 +1131,16 @@ class CI_Upload {
 	 * @param	string	$msg
 	 * @return	CI_Upload
 	 */
-	public function set_error($msg)
+	public function set_error($msg, $log_level = 'error')
 	{
 		$this->_CI->lang->load('upload');
 
 		is_array($msg) OR $msg = array($msg);
-
 		foreach ($msg as $val)
 		{
 			$msg = ($this->_CI->lang->line($val) === FALSE) ? $val : $this->_CI->lang->line($val);
 			$this->error_msg[] = $msg;
-			log_message('error', $msg);
+			log_message($log_level, $msg);
 		}
 
 		return $this;
@@ -1155,28 +1175,14 @@ class CI_Upload {
 	 */
 	protected function _prep_filename($filename)
 	{
-		if ($this->mod_mime_fix === FALSE OR $this->allowed_types === '*' OR strpos($filename, '.') === FALSE)
+		if ($this->mod_mime_fix === FALSE OR $this->allowed_types === '*' OR ($ext_pos = strrpos($filename, '.')) === FALSE)
 		{
 			return $filename;
 		}
 
-		$parts		= explode('.', $filename);
-		$ext		= array_pop($parts);
-		$filename	= array_shift($parts);
-
-		foreach ($parts as $part)
-		{
-			if ( ! in_array(strtolower($part), $this->allowed_types) OR ! isset($this->_mimes[strtolower($part)]))
-			{
-				$filename .= '.'.$part.'_';
-			}
-			else
-			{
-				$filename .= '.'.$part;
-			}
-		}
-
-		return $filename.'.'.$ext;
+		$ext = substr($filename, $ext_pos);
+		$filename = substr($filename, 0, $ext_pos);
+		return str_replace('.', '_', $filename).$ext;
 	}
 
 	// --------------------------------------------------------------------
@@ -1300,6 +1306,3 @@ class CI_Upload {
 	}
 
 }
-
-/* End of file Upload.php */
-/* Location: ./system/libraries/Upload.php */

@@ -29,7 +29,7 @@ need to.
 Class Reference
 ***************
 
-.. class:: CI_Output
+.. php:class:: CI_Output
 
 	.. attribute:: $parse_exec_vars = TRUE;
 
@@ -41,7 +41,7 @@ Class Reference
 
 			$this->output->parse_exec_vars = FALSE;
 
-	.. method:: set_output($output)
+	.. php:method:: set_output($output)
 
 		:param	string	$output: String to set the output to
 		:returns:	CI_Output instance (method chaining)
@@ -55,7 +55,7 @@ Class Reference
 			in the function you call it from. For example, if you build a page in one
 			of your controller methods, don't set the output until the end.
 
-	.. method:: set_content_type($mime_type[, $charset = NULL])
+	.. php:method:: set_content_type($mime_type[, $charset = NULL])
 
 		:param	string	$mime_type: MIME Type idenitifer string
 		:param	string	$charset: Character set
@@ -80,7 +80,7 @@ Class Reference
 
 			$this->output->set_content_type('css', 'utf-8');
 
-	.. method:: get_content_type()
+	.. php:method:: get_content_type()
 
 		:returns:	Content-Type string
 		:rtype:	string
@@ -92,7 +92,7 @@ Class Reference
 
 		.. note:: If not set, the default return value is 'text/html'.
 
-	.. method:: get_header($header)
+	.. php:method:: get_header($header)
 
 		:param	string	$header: HTTP header name
 		:returns:	HTTP response header or NULL if not found
@@ -109,7 +109,7 @@ Class Reference
 
 		.. note:: Raw headers sent via PHP's native ``header()`` function are also detected.
 
-	.. method:: get_output()
+	.. php:method:: get_output()
 
 		:returns:	Output string
 		:rtype:	string
@@ -123,7 +123,7 @@ Class Reference
 		been previously sent to the output class by one of the CodeIgniter
 		functions like ``$this->load->view()``.
 
-	.. method:: append_output($output)
+	.. php:method:: append_output($output)
 
 		:param	string	$output: Additional output data to append
 		:returns:	CI_Output instance (method chaining)
@@ -134,7 +134,7 @@ Class Reference
 
 			$this->output->append_output($data);
 
-	.. method:: set_header($header[, $replace = TRUE])
+	.. php:method:: set_header($header[, $replace = TRUE])
 
 		:param	string	$header: HTTP response header
 		:param	bool	$replace: Whether to replace the old header value, if it is already set
@@ -151,7 +151,7 @@ Class Reference
 			$this->output->set_header('Cache-Control: post-check=0, pre-check=0');
 			$this->output->set_header('Pragma: no-cache');
 
-	.. method:: set_status_header([$code = 200[, $text = '']])
+	.. php:method:: set_status_header([$code = 200[, $text = '']])
 
 		:param	int	$code: HTTP status code
 		:param	string	$text: Optional message
@@ -160,7 +160,7 @@ Class Reference
 
 		Permits you to manually set a server status header. Example::
 
-			$this->output->set_status_header('401');
+			$this->output->set_status_header(401);
 			// Sets the header as:  Unauthorized
 
 		`See here <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html>`_ for a full list of headers.
@@ -168,7 +168,7 @@ Class Reference
 		.. note:: This method is an alias for :doc:`Common function <../general/common_functions>`
 			:func:`set_status_header()`.
 
-	.. method:: enable_profiler([$val = TRUE])
+	.. php:method:: enable_profiler([$val = TRUE])
 
 		:param	bool	$val: Whether to enable or disable the Profiler
 		:returns:	CI_Output instance (method chaining)
@@ -188,7 +188,7 @@ Class Reference
 
 			$this->output->enable_profiler(FALSE);
 
-	.. method:: set_profiler_sections($sections)
+	.. php:method:: set_profiler_sections($sections)
 
 		:param	array	$sections: Profiler sections
 		:returns:	CI_Output instance (method chaining)
@@ -197,7 +197,7 @@ Class Reference
 		Permits you to enable/disable specific sections of the Profiler when it is enabled.
 		Please refer to the :doc:`Profiler <../general/profiling>` documentation for further information.
 
-	.. method:: cache($time)
+	.. php:method:: cache($time)
 
 		:param	int	$time: Cache expiration time in seconds
 		:returns:	CI_Output instance (method chaining)
@@ -207,7 +207,7 @@ Class Reference
 
 		For more information, please see the :doc:`caching documentation <../general/caching>`.
 
-	.. method:: _display([$output = ''])
+	.. php:method:: _display([$output = ''])
 
 		:param	string	$output: Output data override
 		:returns:	void
@@ -220,6 +220,7 @@ Class Reference
 			call it manually unless you are aborting script execution using ``exit()`` or ``die()`` in your code.
 		
 		Example::
+
 			$response = array('status' => 'OK');
 
 			$this->output

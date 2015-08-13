@@ -2,26 +2,37 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP
  *
- * NOTICE OF LICENSE
+ * This content is released under the MIT License (MIT)
  *
- * Licensed under the Open Software License version 3.0
+ * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
  *
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	http://codeigniter.com
+ * @since	Version 1.0.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -135,7 +146,7 @@ class CI_Form_validation {
 		// Automatically load the form helper
 		$this->CI->load->helper('form');
 
-		log_message('debug', 'Form Validation Class Initialized');
+		log_message('info', 'Form Validation Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -187,22 +198,20 @@ class CI_Form_validation {
 			return $this;
 		}
 
-		// No fields? Nothing to do...
-		if ( ! is_string($field) OR $field === '')
+		// No fields or no rules? Nothing to do...
+		if ( ! is_string($field) OR $field === '' OR empty($rules))
 		{
 			return $this;
 		}
 		elseif ( ! is_array($rules))
 		{
 			// BC: Convert pipe-separated rules string to an array
-			if (is_string($rules))
-			{
-				$rules = explode('|', $rules);
-			}
-			else
+			if ( ! is_string($rules))
 			{
 				return $this;
 			}
+
+			$rules = explode('|', $rules);
 		}
 
 		// If the field label wasn't passed we use the field name
@@ -452,7 +461,7 @@ class CI_Form_validation {
 			{
 				$this->_field_data[$field]['postdata'] = $this->_reduce_array($validation_array, $row['keys']);
 			}
-			elseif (isset($validation_array[$field]) && $validation_array[$field] !== '')
+			elseif (isset($validation_array[$field]))
 			{
 				$this->_field_data[$field]['postdata'] = $validation_array[$field];
 			}
@@ -609,6 +618,12 @@ class CI_Form_validation {
 					$rules = array(1 => $rule);
 					break;
 				}
+				elseif (is_array($rule) && isset($rule[0], $rule[1]) && is_callable($rule[1]))
+				{
+					$callback = TRUE;
+					$rules = array(array($rule[0], $rule[1]));
+					break;
+				}
 			}
 
 			if ( ! $callback)
@@ -701,6 +716,12 @@ class CI_Form_validation {
 			{
 				$callable = TRUE;
 			}
+			elseif (is_array($rule) && isset($rule[0], $rule[1]) && is_callable($rule[1]))
+			{
+				// We have a "named" callable, so save the name
+				$callable = $rule[0];
+				$rule = $rule[1];
+			}
 
 			// Strip the parameter (if exists) from the rule
 			// Rules can contain a parameter: max_length[5]
@@ -712,7 +733,7 @@ class CI_Form_validation {
 			}
 
 			// Call the function that corresponds to the rule
-			if ($callback OR $callable)
+			if ($callback OR $callable !== FALSE)
 			{
 				if ($callback)
 				{
@@ -730,8 +751,14 @@ class CI_Form_validation {
 				else
 				{
 					$result = is_array($rule)
-						? $rule[0]->{$rule[1]}($postdata, $param)
-						: $rule($postdata, $param);
+						? $rule[0]->{$rule[1]}($postdata)
+						: $rule($postdata);
+
+					// Is $callable set to a rule name?
+					if ($callable !== FALSE)
+					{
+						$rule = $callable;
+					}
 				}
 
 				// Re-assign the result to the master data array
@@ -791,14 +818,13 @@ class CI_Form_validation {
 			// Did the rule test negatively? If so, grab the error.
 			if ($result === FALSE)
 			{
-				// Callable rules don't have named error messages
+				// Callable rules might not have named error messages
 				if ( ! is_string($rule))
 				{
-					return;
+					$line = $this->CI->lang->line('form_validation_error_message_not_set').'(Anonymous function)';
 				}
-
 				// Check if a custom message is defined
-				if (isset($this->_field_data[$row['field']]['errors'][$rule]))
+				elseif (isset($this->_field_data[$row['field']]['errors'][$rule]))
 				{
 					$line = $this->_field_data[$row['field']]['errors'][$rule];
 				}
@@ -808,7 +834,7 @@ class CI_Form_validation {
 						// DEPRECATED support for non-prefixed keys
 						&& FALSE === ($line = $this->CI->lang->line($rule, FALSE)))
 					{
-						$line = 'Unable to access an error message corresponding to your field name.';
+						$line = $this->CI->lang->line('form_validation_error_message_not_set').'('.$rule.')';
 					}
 				}
 				else
@@ -849,17 +875,11 @@ class CI_Form_validation {
 	 */
 	protected function _translate_fieldname($fieldname)
 	{
-		// Do we need to translate the field name?
-		// We look for the prefix lang: to determine this
-		if (sscanf($fieldname, 'lang:%s', $line) === 1)
+		// Do we need to translate the field name? We look for the prefix 'lang:' to determine this
+		// If we find one, but there's no translation for the string - just return it
+		if (sscanf($fieldname, 'lang:%s', $line) === 1 && FALSE === ($fieldname = $this->CI->lang->line($line, FALSE)))
 		{
-			// Were we able to translate the field name?  If not we use $line
-			if (FALSE === ($fieldname = $this->CI->lang->line('form_validation_'.$line))
-				// DEPRECATED support for non-prefixed keys
-				&& FALSE === ($fieldname = $this->CI->lang->line($line, FALSE)))
-			{
-				return $line;
-			}
+			return $line;
 		}
 
 		return $fieldname;
@@ -1128,9 +1148,7 @@ class CI_Form_validation {
 			return FALSE;
 		}
 
-		return (MB_ENABLED === TRUE)
-			? ($val <= mb_strlen($str))
-			: ($val <= strlen($str));
+		return ($val <= mb_strlen($str));
 	}
 
 	// --------------------------------------------------------------------
@@ -1149,9 +1167,7 @@ class CI_Form_validation {
 			return FALSE;
 		}
 
-		return (MB_ENABLED === TRUE)
-			? ($val >= mb_strlen($str))
-			: ($val >= strlen($str));
+		return ($val >= mb_strlen($str));
 	}
 
 	// --------------------------------------------------------------------
@@ -1170,9 +1186,7 @@ class CI_Form_validation {
 			return FALSE;
 		}
 
-		return (MB_ENABLED === TRUE)
-			? (mb_strlen($str) === (int) $val)
-			: (strlen($str) === (int) $val);
+		return (mb_strlen($str) === (int) $val);
 	}
 
 	// --------------------------------------------------------------------
@@ -1426,6 +1440,20 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Value should be within an array of values
+	 *
+	 * @param	string
+	 * @param	string
+	 * @return	bool
+	 */
+	public function in_list($value, $list)
+	{
+		return in_array($value, explode(',', $list), TRUE);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Is a Natural number  (0,1,2,3, etc.)
 	 *
 	 * @param	string
@@ -1535,19 +1563,6 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
-	 * XSS Clean
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	public function xss_clean($str)
-	{
-		return $this->CI->security->xss_clean($str);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Convert PHP tags to entities
 	 *
 	 * @param	string
@@ -1579,6 +1594,3 @@ class CI_Form_validation {
 	}
 
 }
-
-/* End of file Form_validation.php */
-/* Location: ./system/libraries/Form_validation.php */

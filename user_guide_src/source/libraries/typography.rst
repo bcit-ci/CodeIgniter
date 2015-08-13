@@ -31,7 +31,7 @@ Once loaded, the Typography library object will be available using::
 Class Reference
 ***************
 
-.. class:: CI_Typography
+.. php:class:: CI_Typography
 
 	.. attribute:: $protect_braced_quotes = FALSE
 
@@ -75,7 +75,7 @@ Class Reference
 		.. note:: Typographic formatting can be processor intensive, particularly if you have a lot of content being formatted.
 			If you choose to use this method you may want to consider :doc:`caching <../general/caching>` your pages.
 
-	.. method:: format_characters($str)
+	.. php:method:: format_characters($str)
 
 		:param	string	$str: Input string
 		:returns:	Formatted string
@@ -93,7 +93,7 @@ Class Reference
 
 			$string = $this->typography->format_characters($string);
 
-	.. method:: nl2br_except_pre($str)
+	.. php:method:: nl2br_except_pre($str)
 
 		:param	string	$str: Input string
 		:returns:	Formatted string

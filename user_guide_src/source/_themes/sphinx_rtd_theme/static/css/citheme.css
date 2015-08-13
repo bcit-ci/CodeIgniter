@@ -1,0 +1,7 @@
+@import 'theme.css';
+
+.highlighted {
+	padding: 0px !important;
+	font-weight: inherit !important;
+	background-color: #f1d40f !important;	
+}

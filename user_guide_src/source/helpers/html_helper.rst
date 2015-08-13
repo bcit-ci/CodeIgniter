@@ -25,11 +25,11 @@ Available Functions
 The following functions are available:
 
 
-.. function:: heading([$data = ''[, $h = '1'[, $attributes = '']]])
+.. php:function:: heading([$data = ''[, $h = '1'[, $attributes = '']]])
 
 	:param	string	$data: Content
 	:param	string	$h: Heading level
-	:param	array	$attributes: HTML attributes
+	:param	mixed	$attributes: HTML attributes
 	:returns:	HTML heading tag
 	:rtype:	string
 
@@ -41,17 +41,20 @@ The following functions are available:
 	The above would produce: <h3>Welcome!</h3>
 
 	Additionally, in order to add attributes to the heading tag such as HTML
-	classes, ids or inline styles, a third parameter is available::
+	classes, ids or inline styles, a third parameter accepts either a string
+	or an array::
 
-		echo heading('Welcome!', 3, 'class="pink"')
+		echo heading('Welcome!', 3, 'class="pink"');
+		echo heading('How are you?', 4, array('id' => 'question', 'class' => 'green'));
 
 	The above code produces:
 
 	.. code-block:: html
 
 		<h3 class="pink">Welcome!<h3>
+		<h4 id="question" class="green">How are you?</h4>
 
-.. function:: img([$src = ''[, $index_page = FALSE[, $attributes = '']]])
+.. php:function:: img([$src = ''[, $index_page = FALSE[, $attributes = '']]])
 
 	:param	string	$src: Image source data
 	:param	bool	$index_page: Whether to treat $src as a routed URI string
@@ -90,7 +93,7 @@ The following functions are available:
 		img($image_properties);
 		// <img src="http://site.com/index.php/images/picture.jpg" alt="Me, demonstrating how to eat 4 slices of pizza at one time" class="post_images" width="200" height="200" title="That was quite a night" rel="lightbox" />
 
-.. function:: link_tag([$href = ''[, $rel = 'stylesheet'[, $type = 'text/css'[, $title = ''[, $media = ''[, $index_page = FALSE]]]]]])
+.. php:function:: link_tag([$href = ''[, $rel = 'stylesheet'[, $type = 'text/css'[, $title = ''[, $media = ''[, $index_page = FALSE]]]]]])
 
 	:param	string	$href: What are we linking to
 	:param	string	$rel: Relation type
@@ -135,14 +138,14 @@ The following functions are available:
 		// <link href="http://site.com/css/printer.css" rel="stylesheet" type="text/css" media="print" />
 
 
-.. function:: ul($list[, $attributes = ''])
+.. php:function:: ul($list[, $attributes = ''])
 
 	:param	array	$list: List entries
 	:param	array	$attributes: HTML attributes
 	:returns:	HTML-formatted unordered list
 	:rtype:	string
 
-	Permits you to generate ordered or unordered HTML lists from simple or
+	Permits you to generate unordered HTML lists from simple or
 	multi-dimensional arrays. Example::
 
 		$list = array(
@@ -255,17 +258,17 @@ The following functions are available:
 			</li>
 		</ul>
 
-.. function:: ol($list, $attributes = '')
+.. php:function:: ol($list, $attributes = '')
 
 	:param	array	$list: List entries
 	:param	array	$attributes: HTML attributes
 	:returns:	HTML-formatted ordered list
 	:rtype:	string
 
-	Identical to :func:`ul()`, only it produces the <ol> tag for
+	Identical to :php:func:`ul()`, only it produces the <ol> tag for
 	ordered lists instead of <ul>.
 
-.. function:: meta([$name = ''[, $content = ''[, $type = 'name'[, $newline = "\n"]]]])
+.. php:function:: meta([$name = ''[, $content = ''[, $type = 'name'[, $newline = "\n"]]]])
 
 	:param	string	$name: Meta name
 	:param	string	$content: Meta content
@@ -321,7 +324,7 @@ The following functions are available:
 		// <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 
 
-.. function:: doctype([$type = 'xhtml1-strict'])
+.. php:function:: doctype([$type = 'xhtml1-strict'])
 
 	:param	string	$type: Doctype name
 	:returns:	HTML DocType tag
@@ -363,7 +366,7 @@ The following functions are available:
 	XHTML+RDFa 1.1                  xhtml-rdfa-2        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.1//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-2.dtd">
 	=============================== =================== ==================================================================================================================================================
 
-.. function:: br([$count = 1])
+.. php:function:: br([$count = 1])
 
 	:param	int	$count: Number of times to repeat the tag
 	:returns:	HTML line break tag
@@ -383,7 +386,7 @@ The following functions are available:
 	.. note:: This function is DEPRECATED. Use the native ``str_repeat()``
 		in combination with ``<br />`` instead.
 
-.. function:: nbs([$num = 1])
+.. php:function:: nbs([$num = 1])
 
 	:param	int	$num: Number of space entities to produce
 	:returns:	A sequence of non-breaking space HTML entities
