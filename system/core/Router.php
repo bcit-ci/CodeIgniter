@@ -372,26 +372,6 @@ class CI_Router {
 		// Get HTTP verb
 		$http_verb = isset($_SERVER['REQUEST_METHOD']) ? strtolower($_SERVER['REQUEST_METHOD']) : 'cli';
 
-		// Is there a literal match?  If so we're done
-		if (isset($this->routes[$uri]))
-		{
-			// Is it an HTTP verb-based route?
-			if (is_array($this->routes[$uri]))
-			{
-				$route = array_change_key_case($this->routes[$uri], CASE_LOWER);
-				if (isset($route[$http_verb]))
-				{
-					$this->_set_request(explode('/', $route[$http_verb]));
-					return;
-				}
-			}
-			else
-			{
-				$this->_set_request(explode('/', $this->routes[$uri]));
-				return;
-			}
-		}
-
 		// Loop through the route array looking for wildcards
 		foreach ($this->routes as $key => $val)
 		{
