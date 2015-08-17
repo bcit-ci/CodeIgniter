@@ -10,6 +10,7 @@ Release Date: Not Released
 -  General Changes
 
    -  Updated the *application/config/constants.php* file to check if constants aren't already defined before doing that.
+   -  Changed :doc:`Loader Library <libraries/loader>` method ``model()`` to only apply ``ucfirst()`` and not ``strtolower()`` to the requested class name.
 
 Bug fixes for 3.0.2
 -------------------
