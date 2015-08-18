@@ -41,7 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	}
 
 	h1 img {
-	   	display: block;
+		display: block;
 	}
 
 	h2 {
