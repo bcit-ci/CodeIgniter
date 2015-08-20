@@ -57,13 +57,24 @@ Change Log
 
 <h1>Change Log</h1>
 
+<h2>Version 2.2.4</h2>
+<p>Release Date: August 20, 2015</p>
+
+<ul>
+	<li><b>Security</b></li>
+		<ul>
+			<li>Fixed an SQL injection vulnerability in <a href="database/active_record.html">Active Record</a> method <samp>offset()</samp>.</li>
+		</ul>
+	</li>
+</ul>
+
 <h2>Version 2.2.3</h2>
 <p>Release Date: July 14, 2015</p>
 
 <ul>
-	<li>General Changes</li>
+	<li><b>Security</b></li>
 		<ul>
-			<li><b>Security:</b> Removed a fallback to <samp>mysql_escape_string()</samp> in the 'mysql' database driver (<samp>escape_str()</samp> method) when there's no active database connection.</li>
+			<li>Removed a fallback to <samp>mysql_escape_string()</samp> in the 'mysql' database driver (<samp>escape_str()</samp> method) when there's no active database connection.</li>
 		</ul>
 	</li>
 </ul>
@@ -72,7 +83,7 @@ Change Log
 <p>Release Date: April 15, 2015</p>
 
 <ul>
-	<li>General Changes</li>
+	<li><b>Security</b></li>
 		<ul>
 			<li>Added HTTP "Host" header character validation to prevent cache poisoning attacks when <kbd>base_url</kbd> auto-detection is used.</li>
 			<li>Added <kbd>FSCommand</kbd> and <kbd>seekSegmentTime</kbd> to the "evil attributes" list in <samp>CI_Security::xss_clean()</samp>.</li>
