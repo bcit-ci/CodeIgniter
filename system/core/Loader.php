@@ -99,6 +99,13 @@ class CI_Loader {
 	 * @var	array
 	 */
 	protected $_ci_classes =	array();
+	
+	/**
+	 * Default Namespace for libraries if library is namespaced
+	 *
+	 * @var	string
+	 */
+	protected $_ci_libraries_namespace = "Library";
 
 	/**
 	 * List of loaded models
@@ -106,6 +113,13 @@ class CI_Loader {
 	 * @var	array
 	 */
 	protected $_ci_models =	array();
+
+	/**
+	 * Default Namespace for models if model is namespaced
+	 *
+	 * @var	string
+	 */
+	protected $_ci_models_namespace = "Model";
 
 	/**
 	 * List of loaded helpers
@@ -300,8 +314,21 @@ class CI_Loader {
 					continue;
 				}
 
+				// Load the model file
 				require_once($mod_path.'models/'.$path.$model.'.php');
-				if ( ! class_exists($model, FALSE))
+				
+				// Generate namespaced class name
+				$namespace = $this->_ci_models_namespace;
+				$segments = explode(DIRECTORY_SEPARATOR, $path);
+				foreach($segments as $dir) $namespace .= '\\'.ucwords($dir);
+				
+				if( class_exists($namespace.$model, FALSE))
+				{
+					// If class exists then change the model name with
+					// the namespaced for instantiate
+					$model = $namespace.$model;
+				}
+				elseif ( ! class_exists($model, FALSE))
 				{
 					throw new RuntimeException($mod_path."models/".$path.$model.".php exists, but doesn't declare class ".$model);
 				}
@@ -1054,6 +1081,19 @@ class CI_Loader {
 			}
 
 			include_once($filepath);
+			
+			// Generate namespaced class name
+			$namespace = $this->_ci_libraries_namespace;
+			$segments = explode(DIRECTORY_SEPARATOR, $subdir);
+			foreach($segments as $dir) $namespace .= '\\'.ucwords($dir);
+			
+			if( class_exists($namespace.$class, FALSE))
+			{
+				// If class exists then change the model name with
+				// the namespaced for instantiate
+				$class = $namespace.$class;
+			}
+			
 			return $this->_ci_init_library($class, '', $params, $object_name);
 		}
 
@@ -1252,7 +1292,7 @@ class CI_Loader {
 
 			show_error("Resource '".$object_name."' already exists and is not a ".$class_name." instance.");
 		}
-
+		
 		// Save the class name and object name
 		$this->_ci_classes[$object_name] = $class;
 		
