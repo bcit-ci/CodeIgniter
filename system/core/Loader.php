@@ -320,7 +320,22 @@ class CI_Loader {
 		}
 
 		$this->_ci_models[] = $name;
-		$CI->$name = new $model();
+		
+		// If available the ReflectionClass (>=PHP5.3)
+		if(class_exists('ReflectionClass'))
+		{
+			// Then check the class is abstract
+			// Because if it is then cannot instantiate
+			$class = new ReflectionClass($model);
+			$abstract = $class->isAbstract();
+		}
+		
+		if(!class_exists('ReflectionClass') || !$abstract)
+		{
+			// Instantiate the class
+			$CI->$name = new $model();
+		}
+		
 		return $this;
 	}
 
@@ -1240,11 +1255,23 @@ class CI_Loader {
 
 		// Save the class name and object name
 		$this->_ci_classes[$object_name] = $class;
-
-		// Instantiate the class
-		$CI->$object_name = isset($config)
-			? new $class_name($config)
-			: new $class_name();
+		
+		// If available the ReflectionClass (>=PHP5.3)
+		if(class_exists('ReflectionClass'))
+		{
+			// Then check the class is abstract
+			// Because if it is then cannot instantiate
+			$class = new ReflectionClass($class_name);
+			$abstract = $class->isAbstract();
+		}
+		
+		if(!class_exists('ReflectionClass') || !$abstract)
+		{
+			// Instantiate the class
+			$CI->$object_name = isset($config)
+				? new $class_name($config)
+				: new $class_name();
+		}
 	}
 
 	// --------------------------------------------------------------------
