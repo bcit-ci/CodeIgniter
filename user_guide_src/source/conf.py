@@ -261,3 +261,7 @@ epub_copyright = u'2014 - 2015, British Columbia Institute of Technology'
 
 # Allow duplicate toc entries.
 #epub_tocdup = True
+
+# Custom tab-width, default: 8
+from sphinx.environment import default_settings
+default_settings['tab_width'] = 8
