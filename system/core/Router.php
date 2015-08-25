@@ -436,19 +436,6 @@ class CI_Router {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Fetch the current class
-	 *
-	 * @deprecated	3.0.0	Read the 'class' property instead
-	 * @return	string
-	 */
-	public function fetch_class()
-	{
-		return $this->class;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Set method name
 	 *
 	 * @param	string	$method	Method name
@@ -457,19 +444,6 @@ class CI_Router {
 	public function set_method($method)
 	{
 		$this->method = $method;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Fetch the current method
-	 *
-	 * @deprecated	3.0.0	Read the 'method' property instead
-	 * @return	string
-	 */
-	public function fetch_method()
-	{
-		return $this->method;
 	}
 
 	// --------------------------------------------------------------------
@@ -491,22 +465,6 @@ class CI_Router {
 		{
 			$this->directory .= str_replace('.', '', trim($dir, '/')).'/';
 		}
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Fetch directory
-	 *
-	 * Feches the sub-directory (if any) that contains the requested
-	 * controller class.
-	 *
-	 * @deprecated	3.0.0	Read the 'directory' property instead
-	 * @return	string
-	 */
-	public function fetch_directory()
-	{
-		return $this->directory;
 	}
 
 }
