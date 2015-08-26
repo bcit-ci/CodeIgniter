@@ -49,33 +49,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('trim_slashes'))
-{
-	/**
-	 * Trim Slashes
-	 *
-	 * Removes any leading/trailing slashes from a string:
-	 *
-	 * /this/that/theother/
-	 *
-	 * becomes:
-	 *
-	 * this/that/theother
-	 *
-	 * @todo	Remove in version 3.1+.
-	 * @deprecated	3.0.0	This is just an alias for PHP's native trim()
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	function trim_slashes($str)
-	{
-		return trim($str, '/');
-	}
-}
-
-// ------------------------------------------------------------------------
-
 if ( ! function_exists('strip_slashes'))
 {
 	/**
@@ -199,7 +172,7 @@ if ( ! function_exists('random_string'))
 	 *
 	 * Useful for generating passwords or hashes.
 	 *
-	 * @param	string	type of random string.  basic, alpha, alnum, numeric, nozero, unique, md5, encrypt and sha1
+	 * @param	string	type of random string.  basic, alpha, alnum, numeric, nozero, md5 and sha1
 	 * @param	int	number of characters
 	 * @return	string
 	 */
@@ -229,10 +202,8 @@ if ( ! function_exists('random_string'))
 						break;
 				}
 				return substr(str_shuffle(str_repeat($pool, ceil($len / strlen($pool)))), 0, $len);
-			case 'unique': // todo: remove in 3.1+
 			case 'md5':
 				return md5(uniqid(mt_rand()));
-			case 'encrypt': // todo: remove in 3.1+
 			case 'sha1':
 				return sha1(uniqid(mt_rand(), TRUE));
 		}
@@ -281,25 +252,5 @@ if ( ! function_exists('alternator'))
 		}
 		$args = func_get_args();
 		return $args[($i++ % count($args))];
-	}
-}
-
-// ------------------------------------------------------------------------
-
-if ( ! function_exists('repeater'))
-{
-	/**
-	 * Repeater function
-	 *
-	 * @todo	Remove in version 3.1+.
-	 * @deprecated	3.0.0	This is just an alias for PHP's native str_repeat()
-	 *
-	 * @param	string	$data	String to repeat
-	 * @param	int	$num	Number of repeats
-	 * @return	string
-	 */
-	function repeater($data, $num = 1)
-	{
-		return ($num > 0) ? str_repeat($data, $num) : '';
 	}
 }
