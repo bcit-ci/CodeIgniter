@@ -803,7 +803,7 @@ class CI_Input {
 
 		if ( ! isset($headers))
 		{
-			empty($this->headers) OR $this->request_headers();
+			empty($this->headers) && $this->request_headers();
 			foreach ($this->headers as $key => $value)
 			{
 				$headers[strtolower($key)] = $value;
