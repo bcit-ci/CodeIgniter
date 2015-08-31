@@ -697,7 +697,7 @@ classname will appear.
 
 	<style type="text/css">
 		.has-error { border: 1px solid red; }
-		. my-highlight-classname { border: 1px solid orange; }
+		.my-highlight-classname { border: 1px solid orange; }
 	</style>
 
 .. important:: If you use an array as the name of a form field, you
