@@ -674,6 +674,40 @@ message will appear.
 
 For more info please see the :ref:`using-arrays-as-field-names` section below.
 
+Highlighting Fields On Error
+===========================
+
+If you want to highlight the fields in case of any error determined by validation rules.
+
+Use the Helper Method :php:func:`field_highlight()` like this::
+
+	<h5>Username</h5>	
+	<input type="text" name="username" value="<?php echo set_value('username'); ?>" size="50" class="<?php echo field_highlight('username'); ?>" />
+
+	// Or using form_input:		
+	echo form_input('username', '', 'class="form-control '. field_highlight('username', 'my-highlight-classname') .'"')
+
+	// Assuming that the 'username' field value was incorrect,
+	// would produce: <input type="text" name="username" value="" class="form-control my-highlight-classname">
+
+If there are no errors, nothing will be shown. If there is an error, the
+classname will appear.
+
+.. important:: You must supply a CSS stylizing the classname defined. Example::
+
+	<style type="text/css">
+		.has-error { border: 1px solid red; }
+		. my-highlight-classname { border: 1px solid orange; }
+	</style>
+
+.. important:: If you use an array as the name of a form field, you
+	must supply it as an array to the function. Example::
+
+	<h5>Size</h5>	
+	<input type="text" name="options[size]" value="<?php echo set_value('options[size]'); ?>" class="<?php echo field_highlight('options[size]'); ?>" />
+
+For more info please see the :ref:`using-arrays-as-field-names` section below.
+
 Validating an Array (other than $_POST)
 =======================================
 
@@ -1135,6 +1169,7 @@ the following functions:
 -  :php:func:`set_select()`
 -  :php:func:`set_checkbox()`
 -  :php:func:`set_radio()`
+-  :php:func:`field_highlight()`
 
 Note that these are procedural functions, so they **do not** require you
 to prepend them with ``$this->form_validation``.

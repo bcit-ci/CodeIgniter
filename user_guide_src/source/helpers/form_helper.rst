@@ -741,3 +741,25 @@ The following functions are available:
 	.. note:: This function is DEPRECATED and is just an alias for
 		:doc:`common function <../general/common_functions>`
 		:func:`html_escape()` - please use that instead.
+
+.. php:function:: field_highlight([$field [, $classname = 'has-error'] ])
+
+	:param	string	$field:	Field name
+	:param	string	$classname: HTML class name to append	
+	:returns:	HTML class name specified (or default) on error OR blank on success
+	:rtype:	string
+
+	Returns a string to use as HTML class in case of any error determined by :doc:`Form Validation Library
+	<../libraries/form_validation>`, associated with the specified field name.
+
+	Example::
+
+		// Assuming that the 'username' field value was incorrect:		
+		echo form_input('username', '', 'class="form-control '. field_highlight('username') .'"')
+
+		// Would produce: <input type="text" name="username" value="" class="form-control has-error">
+
+		// Assuming that the 'example2' field value was incorrect:		
+		echo form_input('example2', '', 'class="'. field_highlight('example2', 'highlighted') .'"')
+
+		// Would produce: <input type="text" name="example2" value="" class="highlighted">

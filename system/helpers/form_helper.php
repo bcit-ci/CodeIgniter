@@ -1005,3 +1005,26 @@ if ( ! function_exists('_get_validation_object'))
 		return $return;
 	}
 }
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('field_highlight'))
+{
+	/**
+	 * Field Hightlight
+	 *
+	 * Returns a HTML class name to be used as highlight on field validation error.
+	 *
+	 * @param	string
+	 * @param	string
+	 * @return	string
+	 */
+	function field_highlight($field, $classname = 'has-error')
+	{
+		if(form_error($field) != ''){
+			return $classname;
+		}
+
+		return '';
+	}
+}

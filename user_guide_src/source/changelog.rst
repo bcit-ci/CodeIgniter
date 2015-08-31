@@ -17,6 +17,10 @@ Release Date: Not Released
 
    -  Updated the *application/config/constants.php* file to check if constants aren't already defined before doing that.
 
+-  Helpers
+
+   -  Added method :php:func:`field_hightlight()` to :doc:`Form Helper <helpers/form_helper>`.
+
 Bug fixes for 3.0.2
 -------------------
 
