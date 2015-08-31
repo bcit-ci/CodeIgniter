@@ -20,6 +20,7 @@ Bug fixes for 3.0.2
 -  Fixed a bug (#4056) - :doc:`Input Library <libraries/input>` method ``get_request_header()`` could not return a value unless ``request_headers()`` was called beforehand.
 -  Fixed a bug where the :doc:`Database Class <database/index>` entered an endless loop if it fails to connect with the 'sqlsrv' driver.
 -  Fixed a bug (#4065) - :doc:`Database <database/index>` method ``protect_identifiers()`` treats a traling space as an alias separator if the input doesn't contain ' AS '.
+-  Fixed a bug (#4066) - :doc:`Cache Library <libraries/caching>` couldn't fallback to a backup driver if the primary one is Memcache(d) or Redis.
 
 Version 3.0.1
 =============
