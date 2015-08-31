@@ -1011,7 +1011,7 @@ if ( ! function_exists('_get_validation_object'))
 if ( ! function_exists('field_highlight'))
 {
 	/**
-	 * Field Hightlight
+	 * Field Highlight
 	 *
 	 * Returns a HTML class name to be used as highlight on field validation error.
 	 *

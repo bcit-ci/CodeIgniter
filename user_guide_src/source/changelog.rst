@@ -19,7 +19,7 @@ Release Date: Not Released
 
 -  Helpers
 
-   -  Added method :php:func:`field_hightlight()` to :doc:`Form Helper <helpers/form_helper>`.
+   -  Added method :php:func:`field_highlight()` to :doc:`Form Helper <helpers/form_helper>`.
 
 Bug fixes for 3.0.2
 -------------------
