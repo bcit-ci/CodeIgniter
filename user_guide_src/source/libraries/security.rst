@@ -27,10 +27,6 @@ or other types of code that attempt to hijack cookies or do other
 malicious things. If anything disallowed is encountered it is rendered
 safe by converting the data to character entities.
 
-Note: This function should only be used to deal with data upon
-submission. It's not something that should be used for general runtime
-processing since it requires a fair amount of processing overhead.
-
 To filter data through the XSS filter use the ``xss_clean()`` method::
 
 	$data = $this->security->xss_clean($data);
