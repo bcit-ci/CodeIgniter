@@ -153,6 +153,12 @@ class CI_Input {
 		// Sanitize global arrays
 		$this->_sanitize_globals();
 
+		// CSRF Protection check
+		if ($this->_enable_csrf === TRUE && ! is_cli())
+		{
+			$this->security->csrf_verify();
+		}
+
 		log_message('info', 'Input Class Initialized');
 	}
 
@@ -646,12 +652,6 @@ class CI_Input {
 
 		// Sanitize PHP_SELF
 		$_SERVER['PHP_SELF'] = strip_tags($_SERVER['PHP_SELF']);
-
-		// CSRF Protection check
-		if ($this->_enable_csrf === TRUE && ! is_cli())
-		{
-			$this->security->csrf_verify();
-		}
 
 		log_message('debug', 'Global POST, GET and COOKIE data sanitized');
 	}
