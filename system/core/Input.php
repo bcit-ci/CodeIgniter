@@ -606,7 +606,7 @@ class CI_Input {
 		{
 			$_GET = array();
 		}
-		elseif (is_array($_GET) && count($_GET) > 0)
+		elseif (is_array($_GET))
 		{
 			foreach ($_GET as $key => $val)
 			{
@@ -615,7 +615,7 @@ class CI_Input {
 		}
 
 		// Clean $_POST Data
-		if (is_array($_POST) && count($_POST) > 0)
+		if (is_array($_POST))
 		{
 			foreach ($_POST as $key => $val)
 			{
@@ -624,7 +624,7 @@ class CI_Input {
 		}
 
 		// Clean $_COOKIE Data
-		if (is_array($_COOKIE) && count($_COOKIE) > 0)
+		if (is_array($_COOKIE))
 		{
 			// Also get rid of specially treated cookies that might be set by a server
 			// or silly application, that are of no use to a CI application anyway
