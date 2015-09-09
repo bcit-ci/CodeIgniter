@@ -211,7 +211,7 @@ class CI_Form_validation {
 				return $this;
 			}
 
-			$rules = explode('|', $rules);
+			$rules = preg_split('/\|(?![^\[]*\])/', $rules);
 		}
 
 		// If the field label wasn't passed we use the field name
