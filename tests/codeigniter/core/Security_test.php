@@ -146,6 +146,14 @@ class Security_test extends CI_TestCase {
 		$this->assertEquals('onNoTagAtAll = true', $this->security->remove_evil_attributes('onNoTagAtAll = true', FALSE));
 		$this->assertEquals('<foo [removed]>', $this->security->remove_evil_attributes('<foo fscommand=case-insensitive>', FALSE));
 		$this->assertEquals('<foo [removed]>', $this->security->remove_evil_attributes('<foo seekSegmentTime=whatever>', FALSE));
+		$this->assertEquals(
+			'<foo bar=">" baz=\'\' [removed]>',
+			$this->security->remove_evil_attributes('<foo bar=">" baz=\'\' onAfterGreaterThan="quotes">', FALSE)
+		);
+		$this->assertEquals(
+			'<foo bar=">" baz=\'\'[removed]>',
+			$this->security->remove_evil_attributes('<foo bar=">" baz=\'\' onAfterGreaterThan=noQuotes>', FALSE)
+		);
 	}
 
 	// --------------------------------------------------------------------
