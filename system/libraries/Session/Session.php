@@ -267,7 +267,7 @@ class CI_Session {
 		}
 		else
 		{
-			$params['cookie_lifetime'] = ( ! isset($expiration) && config_item('sess_expire_on_close'))
+			$params['cookie_lifetime'] = ( empty($expiration) && config_item('sess_expire_on_close'))
 				? 0 : (int) $expiration;
 		}
 
