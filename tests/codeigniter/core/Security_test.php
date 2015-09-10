@@ -154,6 +154,11 @@ class Security_test extends CI_TestCase {
 			'<foo bar=">" baz=\'>\' [removed]>',
 			$this->security->remove_evil_attributes('<foo bar=">" baz=\'>\' onAfterGreaterThan=noQuotes>', FALSE)
 		);
+
+		$this->assertEquals(
+			'<img src="x" [removed]> on=<svg> onerror=alert(1)>',
+			$this->security->remove_evil_attributes('<img src="x" on=""> on=<svg> onerror=alert(1)>', FALSE)
+		);
 	}
 
 	// --------------------------------------------------------------------

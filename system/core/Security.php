@@ -787,7 +787,7 @@ class CI_Security {
 			$count = $temp_count = 0;
 
 			// replace occurrences of illegal attribute strings with quotes (042 and 047 are octal quotes)
-			$str = preg_replace('/<([^>]+(((?<=\042)[^\042]*(?=\042)|(?<=\047)[^\047]*(?=\047))[^>]*)*)(?<!\w)('.implode('|', $evil_attributes).')\s*=\s*(\042|\047)([^\\4]*?)(\\4)/is', '<$1[removed]', $str, -1, $temp_count);
+			$str = preg_replace('/<([^>]+(((?<=\042)[^\042]*(?=\042)|(?<=\047)[^\047]*(?=\047))[^>]*)*)(?<!\w)('.implode('|', $evil_attributes).')\s*=\s*(\042|\047)([^\\5]*?)(\\5)/is', '<$1[removed]', $str, -1, $temp_count);
 			$count += $temp_count;
 
 			// find occurrences of illegal attribute strings without quotes
