@@ -151,7 +151,7 @@ class Security_test extends CI_TestCase {
 			$this->security->remove_evil_attributes('<foo bar=">" baz=\'\' onAfterGreaterThan="quotes">', FALSE)
 		);
 		$this->assertEquals(
-			'<foo bar=">" baz=\'\'[removed]>',
+			'<foo bar=">" baz=\'\' [removed]>',
 			$this->security->remove_evil_attributes('<foo bar=">" baz=\'\' onAfterGreaterThan=noQuotes>', FALSE)
 		);
 	}
