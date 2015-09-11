@@ -795,7 +795,7 @@ class CI_Security {
 			.')*' // end optional attributes group
 			.')' // end catching evil attribute prefix
 			// evil attribute starts here
-			.'([\s\042\047>/=]+' // non-attribute characters (we'll replace that with a single space)
+			.'([\s\042\047/=]+' // non-attribute characters (we'll replace that with a single space), again excluding '>'
 			.'('.implode('|', $evil_attributes).')'
 			.'\s*=\s*' // attribute-value separator
 			.'(\042[^042]+\042|\047[^047]+\047|[^\s\042\047=><`]+)' // attribute value; single, double or non-quotes
