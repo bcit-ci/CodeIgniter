@@ -495,8 +495,28 @@ class CI_Security {
 		 * So this: <blink>
 		 * Becomes: &lt;blink&gt;
 		 */
-		$naughty = 'alert|prompt|confirm|applet|audio|basefont|base|behavior|bgsound|blink|body|embed|expression|form|frameset|frame|head|html|ilayer|iframe|input|button|select|isindex|layer|link|meta|keygen|object|plaintext|style|script|textarea|title|math|video|svg|xml|xss';
-		$str = preg_replace_callback('#<(/*\s*)('.$naughty.')([^><]*)([><]*)#is', array($this, '_sanitize_naughty_html'), $str);
+		$pattern = '#'
+			.'<((/*\s*)([a-z0-9]+)(?=[^a-z0-9])' // tag start and name, followed by a non-tag character
+			// optional attributes
+			.'([\s\042\047/=]+' // non-attribute characters, excluding > (tag close) for obvious reasons
+			.'[^\s\042\047>/=]+' // attribute characters
+			// optional attribue-value
+			.'(\s*=\s*' // attribute-value separator
+			.'(\042[^\042]*\042|\047[^\047]*\047|[^\s\042\047=><`]*)' // single, double or non-quoted value
+			.')?' // end optional attribute-value group
+			.')*' // end optional attributes group
+			.'[^>]*)>#isS';
+
+		// Note: It would be nice to optimize this for speed, BUT
+		//       only matching the naughty elements here results in
+		//       false positives and in turn - vulnerabilities!
+		do
+		{
+			$old_str = $str;
+			$str = preg_replace_callback($pattern, array($this, '_sanitize_naughty_html'), $str);
+		}
+		while ($old_str !== $str);
+		unset($old_str);
 
 		/*
 		 * Sanitize naughty scripting elements
@@ -824,9 +844,21 @@ class CI_Security {
 	 */
 	protected function _sanitize_naughty_html($matches)
 	{
-		return '&lt;'.$matches[1].$matches[2].$matches[3] // encode opening brace
-			// encode captured opening or closing brace to prevent recursive vectors:
-			.str_replace(array('>', '<'), array('&gt;', '&lt;'), $matches[4]);
+		static $naughty = array(
+			'alert', 'prompt', 'confirm', 'applet', 'audio', 'basefont', 'base', 'behavior', 'bgsound',
+			'blink', 'body', 'embed', 'expression', 'form', 'frameset', 'frame', 'head', 'html', 'ilayer',
+			'iframe', 'input', 'button', 'select', 'isindex', 'layer', 'link', 'meta', 'keygen', 'object',
+			'plaintext', 'style', 'script', 'textarea', 'title', 'math', 'video', 'svg', 'xml', 'xss'
+		);
+
+		// Is the element that we caught naughty?
+		// If not, just return it back.
+		if ( ! in_array(strtolower($matches[3]), $naughty, TRUE))
+		{
+			return $matches[0];
+		}
+
+		return '&lt;'.$matches[1].'&gt;';
 	}
 
 	// --------------------------------------------------------------------

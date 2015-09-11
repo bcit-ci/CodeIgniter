@@ -130,8 +130,13 @@ class Security_test extends CI_TestCase {
 
 	public function test_xss_clean_sanitize_naughty_html()
 	{
-		$input = '<blink>';
-		$this->assertEquals('&lt;blink&gt;', $this->security->xss_clean($input));
+		$this->assertEquals('&lt;blink&gt;', $this->security->xss_clean('<blink>'));
+		$this->assertEquals('<fubar>', $this->security->xss_clean('<fubar>'));
+
+		$this->assertEquals(
+			'<img <svg=""> src="x">',
+			$this->security->xss_clean('<img <svg=""> src="x">')
+		);
 	}
 
 	// --------------------------------------------------------------------
