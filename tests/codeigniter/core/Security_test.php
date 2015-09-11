@@ -156,8 +156,13 @@ class Security_test extends CI_TestCase {
 		);
 
 		$this->assertEquals(
-			'<img src="x" [removed]> on=<svg> onerror=alert(1)>',
+			'<img src="x" on=""> on=<svg> onerror=alert(1)>',
 			$this->security->remove_evil_attributes('<img src="x" on=""> on=<svg> onerror=alert(1)>', FALSE)
+		);
+
+		$this->assertEquals(
+			'<img src="on=\'">"<svg> onerror=alert(1) onmouseover=alert(1)>',
+			$this->security->remove_evil_attributes('<img src="on=\'">"<svg> onerror=alert(1) onmouseover=alert(1)>', FALSE)
 		);
 	}
 

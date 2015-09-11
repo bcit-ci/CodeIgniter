@@ -783,16 +783,28 @@ class CI_Security {
 			unset($evil_attributes[array_search('xmlns', $evil_attributes)]);
 		}
 
+		$pattern = '#(' // catch everything in the tag preceeding the evil attribute
+			.'<[a-z0-9]+(?=[^>a-z0-9])' // tag start and name, followed by a non-tag character
+			// optional attributes
+			.'([\s\042\047/=]+' // non-attribute characters, excluding > (tag close) for obvious reasons
+			.'[^\s\042\047>/=]+' // attribute characters
+			// optional attribue-value
+			.'(\s*=\s*' // attribute-value separator
+			.'(\042[^\042]*\042|\047[^\047]*\047|[^\s\042\047=><`]*)' // single, double or non-quoted value
+			.')?' // end optional attribute-value group
+			.')*' // end optional attributes group
+			.')' // end catching evil attribute prefix
+			// evil attribute starts here
+			.'([\s\042\047>/=]+' // non-attribute characters (we'll replace that with a single space)
+			.'('.implode('|', $evil_attributes).')'
+			.'\s*=\s*' // attribute-value separator
+			.'(\042[^042]+\042|\047[^047]+\047|[^\s\042\047=><`]+)' // attribute value; single, double or non-quotes
+			.')' // end evil attribute
+			.'#isS';
+
 		do {
-			$count = $temp_count = 0;
-
-			// replace occurrences of illegal attribute strings with quotes (042 and 047 are octal quotes)
-			$str = preg_replace('/<([^>]+(((?<=\042)[^\042]*(?=\042)|(?<=\047)[^\047]*(?=\047))[^>]*)*)(?<!\w)('.implode('|', $evil_attributes).')\s*=\s*(\042|\047)([^\\5]*?)(\\5)/is', '<$1[removed]', $str, -1, $temp_count);
-			$count += $temp_count;
-
-			// find occurrences of illegal attribute strings without quotes
-			$str = preg_replace('/<([^>]+(((?<=\042)[^\042]*(?=\042)|(?<=\047)[^\047]*(?=\047))[^>]*)*)(?<!\w)('.implode('|', $evil_attributes).')\s*=\s*([^\s>]*)/is', '<$1[removed]', $str, -1, $temp_count);
-			$count += $temp_count;
+			$count = 0;
+			$str = preg_replace($pattern, '$1 [removed]', $str, -1, $count);
 		}
 		while ($count);
 
