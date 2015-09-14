@@ -178,6 +178,20 @@ class Security_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
+	/**
+	 * @depends test_xss_clean_sanitize_naughty_html
+	 * @depends test_remove_evil_attributes
+	 */
+	public function test_naughty_html_plus_evil_attributes()
+	{
+		$this->assertEquals(
+			'&lt;svg<img &gt; src="x" [removed]>',
+			$this->security->xss_clean('<svg<img > src="x" onerror="location=/javascript/.source+/:alert/.source+/(1)/.source">')
+		);
+	}
+
+	// --------------------------------------------------------------------
+
 	public function test_xss_hash()
 	{
 		$this->assertEmpty($this->security->xss_hash);

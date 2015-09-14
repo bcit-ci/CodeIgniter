@@ -480,11 +480,7 @@ class CI_Security {
 			}
 		}
 		while ($original !== $str);
-
 		unset($original);
-
-		// Remove evil attributes such as style, onclick and xmlns
-		$str = $this->_remove_evil_attributes($str, $is_image);
 
 		/*
 		 * Sanitize naughty HTML elements
@@ -517,6 +513,9 @@ class CI_Security {
 		}
 		while ($old_str !== $str);
 		unset($old_str);
+
+		// Remove evil attributes such as style, onclick and xmlns
+		$str = $this->_remove_evil_attributes($str, $is_image);
 
 		/*
 		 * Sanitize naughty scripting elements
