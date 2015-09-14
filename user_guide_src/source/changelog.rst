@@ -27,6 +27,7 @@ Bug fixes for 3.0.2
 -  Fixed a bug (#4093) - :doc:`Query Builder <database/query_builder>` modified string values containing 'AND', 'OR' while compiling WHERE conditions.
 -  Fixed a bug (#4096) - :doc:`Query Builder <database/query_builder>` didn't apply *dbprefix* when compiling BETWEEN conditions.
 -  Fixed a bug (#4105) - :doc:`Form Validation Library <libraries/form_validation>` didn't allow pipe characters inside "bracket parameters" when using a string ruleset.
+-  Fixed a bug (#4109) - :doc:`Routing <general/routing>` to *default_controller* didn't work when *enable_query_strings* is set to TRUE.
 
 Version 3.0.1
 =============
