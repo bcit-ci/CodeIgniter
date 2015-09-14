@@ -251,4 +251,27 @@ class URI_test extends CI_TestCase {
 		$this->assertEquals('segment/', $this->uri->slash_rsegment(1, 'trailing'));
 	}
 
+	// --------------------------------------------------------------------
+
+	public function test_cli_query_string()
+	{
+		$mock = new ReflectionMethod('CI_URI', '_parse_argv');
+		$mock->setAccessible(true);
+
+		$this->ci_set_config('charset', 'UTF-8');
+		$security = new Mock_Core_Security();
+		$utf8 = new Mock_Core_Utf8();
+		$input = new Mock_Core_Input($security, $utf8);
+
+		$_SERVER['argv'] = array('index.php', 'one', 'two', '-key=value');
+		$this->assertEquals('one/two', $mock->invoke($this->uri));
+		$this->assertEquals('value', $_GET['key']);
+		$this->assertEquals('value', $input->get('key'));
+
+		$_SERVER['argv'] = array('index.php', 'one', 'two', '-key=value', '--foo=bar');
+		$this->assertEquals('one/two', $mock->invoke($this->uri));
+		$this->assertEquals('bar', $_GET['foo']);
+		$this->assertEquals('bar', $input->get('foo'));
+	}
+
 }

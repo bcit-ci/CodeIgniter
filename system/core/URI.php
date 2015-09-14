@@ -284,6 +284,22 @@ class CI_URI {
 	protected function _parse_argv()
 	{
 		$args = array_slice($_SERVER['argv'], 1);
+		$get = array();
+
+		foreach ($args as $key => $value) {
+			if (strpos($value, '=') !== false) {
+				$value = ltrim($value, '-');
+				list($req, $val) = explode('=', $value);
+				$get[$req] = $val;
+				unset($args[$key]);
+			}
+		}
+
+		if ($get) {
+			$_SERVER['QUERY_STRING'] = http_build_query($get);
+			parse_str($_SERVER['QUERY_STRING'], $_GET);
+		}
+
 		return $args ? implode('/', $args) : '';
 	}
 
