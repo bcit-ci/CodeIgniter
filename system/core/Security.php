@@ -493,6 +493,7 @@ class CI_Security {
 		 */
 		$pattern = '#'
 			.'<((/*\s*)([a-z0-9]+)(?=[^a-z0-9])' // tag start and name, followed by a non-tag character
+			.'[^>a-z0-9]*' // a valid attribute character immediately after the tag would count as a separator
 			// optional attributes
 			.'([\s\042\047/=]+' // non-attribute characters, excluding > (tag close) for obvious reasons
 			.'[^\s\042\047>/=]+' // attribute characters
@@ -804,6 +805,7 @@ class CI_Security {
 
 		$pattern = '#(' // catch everything in the tag preceeding the evil attribute
 			.'<[a-z0-9]+(?=[^>a-z0-9])' // tag start and name, followed by a non-tag character
+			.'[^>a-z0-9]*' // a valid attribute character immediately after the tag would count as a separator
 			// optional attributes
 			.'([\s\042\047/=]+' // non-attribute characters, excluding > (tag close) for obvious reasons
 			.'[^\s\042\047>/=]+' // attribute characters
@@ -821,7 +823,8 @@ class CI_Security {
 			.')' // end evil attribute
 			.'#isS';
 
-		do {
+		do
+		{
 			$count = 0;
 			$str = preg_replace($pattern, '$1 [removed]', $str, -1, $count);
 		}
