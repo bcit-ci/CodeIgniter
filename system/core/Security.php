@@ -436,7 +436,7 @@ class CI_Security {
 		$words = array(
 			'javascript', 'expression', 'vbscript', 'jscript', 'wscript',
 			'vbs', 'script', 'base64', 'applet', 'alert', 'document',
-			'write', 'cookie', 'window', 'confirm', 'prompt'
+			'write', 'cookie', 'window', 'confirm', 'prompt', 'eval'
 		);
 
 		foreach ($words as $word)
@@ -902,12 +902,15 @@ class CI_Security {
 	 */
 	protected function _js_img_removal($match)
 	{
-		return str_replace($match[1],
-					preg_replace('#src=.*?(?:(?:alert|prompt|confirm)(?:\(|&\#40;)|javascript:|livescript:|mocha:|charset=|window\.|document\.|\.cookie|<script|<xss|base64\s*,)#si',
-							'',
-							$this->_filter_attributes(str_replace(array('<', '>'), '', $match[1]))
-					),
-					$match[0]);
+		return str_replace(
+			$match[1],
+			preg_replace(
+				'#src=.*?(?:(?:alert|prompt|confirm|eval)(?:\(|&\#40;)|javascript:|livescript:|mocha:|charset=|window\.|document\.|\.cookie|<script|<xss|base64\s*,)#si',
+				'',
+				$this->_filter_attributes(str_replace(array('<', '>'), '', $match[1]))
+			),
+			$match[0]
+		);
 	}
 
 	// --------------------------------------------------------------------
