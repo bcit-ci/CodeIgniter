@@ -11,6 +11,7 @@ Release Date: Not Released
 
    -  Updated the *application/config/constants.php* file to check if constants aren't already defined before doing that.
    -  Changed :doc:`Loader Library <libraries/loader>` method ``model()`` to only apply ``ucfirst()`` and not ``strtolower()`` to the requested class name.
+   -  Changed :doc:`Config Library <libraries/config>` methods ``base_url()``, ``site_url()`` to allow protocol-relative URLs by passing an empty string as the protocol.
 
 Bug fixes for 3.0.2
 -------------------
