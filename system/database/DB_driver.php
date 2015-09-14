@@ -791,10 +791,13 @@ abstract class CI_DB_driver {
 
 	/**
 	 * Enable/disable Transaction Strict Mode
+	 *
 	 * When strict mode is enabled, if you are running multiple groups of
-	 * transactions, if one group fails all groups will be rolled back.
-	 * If strict mode is disabled, each group is treated autonomously, meaning
-	 * a failure of one group will not affect any others
+	 * transactions, if one group fails all subsequent groups will be
+	 * rolled back.
+	 *
+	 * If strict mode is disabled, each group is treated autonomously,
+	 * meaning a failure of one group will not affect any others
 	 *
 	 * @param	bool	$mode = TRUE
 	 * @return	void
@@ -861,8 +864,8 @@ abstract class CI_DB_driver {
 			$this->trans_rollback();
 
 			// If we are NOT running in strict mode, we will reset
-			// the _trans_status flag so that subsequent groups of transactions
-			// will be permitted.
+			// the _trans_status flag so that subsequent groups of
+			// transactions will be permitted.
 			if ($this->trans_strict === FALSE)
 			{
 				$this->_trans_status = TRUE;

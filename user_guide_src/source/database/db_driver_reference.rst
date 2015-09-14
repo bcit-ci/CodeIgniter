@@ -124,8 +124,8 @@ This article is intended to be a reference for them.
 		Enable/disable transaction "strict" mode.
 
 		When strict mode is enabled, if you are running multiple
-		groups of transactions and one group fails, all groups
-		will be rolled back.
+		groups of transactions and one group fails, all subsequent
+		groups will be rolled back.
 
 		If strict mode is disabled, each group is treated
 		autonomously, meaning a failure of one group will not
