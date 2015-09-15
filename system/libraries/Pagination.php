@@ -560,7 +560,7 @@ class CI_Pagination {
 		if ($this->first_link !== FALSE && $this->cur_page > ($this->num_links + 1 + ! $this->num_links))
 		{
 			// Take the general parameters, and squeeze this pagination-page attr in for JS frameworks.
-			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, 1);
+			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, 0);
 
 			$output .= $this->first_tag_open.'<a href="'.$first_url.'"'.$attributes.$this->_attr_rel('start').'>'
 				.$this->first_link.'</a>'.$this->first_tag_close;
