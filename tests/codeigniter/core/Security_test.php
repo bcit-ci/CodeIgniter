@@ -130,6 +130,7 @@ class Security_test extends CI_TestCase {
 
 	public function test_xss_clean_sanitize_naughty_html_tags()
 	{
+		$this->assertEquals('&lt;unclosedTag', $this->security->xss_clean('<unclosedTag'));
 		$this->assertEquals('&lt;blink&gt;', $this->security->xss_clean('<blink>'));
 		$this->assertEquals('<fubar>', $this->security->xss_clean('<fubar>'));
 

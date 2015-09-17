@@ -492,7 +492,7 @@ class CI_Security {
 		 * Becomes: &lt;blink&gt;
 		 */
 		$pattern = '#'
-			.'<((?<closeTag>/*\s*)(?<tagName>[a-z0-9]+)(?=[^a-z0-9])' // tag start and name, followed by a non-tag character
+			.'<((?<slash>/*\s*)(?<tagName>[a-z0-9]+)(?=[^a-z0-9]|$)' // tag start and name, followed by a non-tag character
 			.'[^\s\042\047a-z0-9>/=]*' // a valid attribute character immediately after the tag would count as a separator
 			// optional attributes
 			.'(?<attributes>(?:[\s\042\047/=]*' // non-attribute characters, excluding > (tag close) for obvious reasons
@@ -502,7 +502,7 @@ class CI_Security {
 					.'(?:\042[^\042]*\042|\047[^\047]*\047|[^\s\042\047=><`]*)' // single, double or non-quoted value
 				.')?' // end optional attribute-value group
 			.')*)' // end optional attributes group
-			.'[^>]*)>#isS';
+			.'[^>]*)(?<closeTag>\>)?#isS';
 
 		// Note: It would be nice to optimize this for speed, BUT
 		//       only matching the naughty elements here results in
@@ -790,8 +790,13 @@ class CI_Security {
 			'on\w+', 'style', 'xmlns', 'formaction', 'form', 'xlink:href', 'FSCommand', 'seekSegmentTime'
 		);
 
+		// First, escape unclosed tags
+		if (empty($matches['closeTag']))
+		{
+			return '&lt;'.$matches[1];
+		}
 		// Is the element that we caught naughty? If so, escape it
-		if (in_array(strtolower($matches['tagName']), $naughty_tags, TRUE))
+		elseif (in_array(strtolower($matches['tagName']), $naughty_tags, TRUE))
 		{
 			return '&lt;'.$matches[1].'&gt;';
 		}
@@ -827,7 +832,7 @@ class CI_Security {
 
 				// Note: This will strip some non-space characters and/or
 				//       reduce multiple spaces between attributes.
-				return '<'.$matches['closeTag'].$matches['tagName'].' '.trim($matches['attributes']).'>';
+				return '<'.$matches['slash'].$matches['tagName'].' '.trim($matches['attributes']).'>';
 			}
 		}
 
