@@ -821,6 +821,19 @@ class CI_Loader {
 		return $this;
 	}
 
+	/**
+	 * Unset Model by Name
+	 *
+	 * Once a Model is not needed it is unloaded from ci_models
+	 *
+	 * @param	string The model alias for removing it from the _ci_models array
+	 * @return	void
+	 */
+	public function unload_model($model_name)
+	{
+		unset($this->_ci_models[array_search($model_name,$this->_ci_models)]);
+	}
+	
 	// --------------------------------------------------------------------
 
 	/**
