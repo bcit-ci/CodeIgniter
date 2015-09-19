@@ -126,12 +126,15 @@ class CI_Migration {
 			$this->{'_'.$key} = $val;
 		}
 
-		log_message('info', 'Migrations Class Initialized');
+		// Load migration language
+		$this->lang->load('migration');
+
+		log_message('info', $this->lang->line('migration_initilization'));
 
 		// Are they trying to use migrations while it is disabled?
 		if ($this->_migration_enabled !== TRUE)
 		{
-			show_error('Migrations has been loaded but is disabled or set up incorrectly.');
+			show_error($this->lang->line('migration_disabled'));
 		}
 
 		// If not set, set it
@@ -140,16 +143,13 @@ class CI_Migration {
 		// Add trailing slash if not set
 		$this->_migration_path = rtrim($this->_migration_path, '/').'/';
 
-		// Load migration language
-		$this->lang->load('migration');
-
 		// They'll probably be using dbforge
 		$this->load->dbforge();
 
 		// Make sure the migration table name was set.
 		if (empty($this->_migration_table))
 		{
-			show_error('Migrations configuration file (migration.php) must have "migration_table" set.');
+			show_error($this->lang->line('migration_table_name_setting'));
 		}
 
 		// Migration basename regex
@@ -160,7 +160,7 @@ class CI_Migration {
 		// Make sure a valid migration numbering type was set.
 		if ( ! in_array($this->_migration_type, array('sequential', 'timestamp')))
 		{
-			show_error('An invalid migration numbering type was specified: '.$this->_migration_type);
+			show_error(sprintf($this->lang->line('migration_invalid_numbering_type'), $this->_migration_type));
 		}
 
 		// If the migrations table is missing, make it

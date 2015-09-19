@@ -37,11 +37,15 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+$lang['migration_initilization'] = 'Migrations Class Initialized';
 $lang['migration_none_found'] = 'No migrations were found.';
 $lang['migration_not_found'] = 'No migration could be found with the version number: %s.';
+$lang['migration_disabled'] = 'Migrations has been loaded but is disabled or set up incorrectly.';
 $lang['migration_sequence_gap'] = 'There is a gap in the migration sequence near version number: %s.';
 $lang['migration_multiple_version'] = 'There are multiple migrations with the same version number: %s.';
 $lang['migration_class_doesnt_exist'] = 'The migration class "%s" could not be found.';
 $lang['migration_missing_up_method'] = 'The migration class "%s" is missing an "up" method.';
 $lang['migration_missing_down_method'] = 'The migration class "%s" is missing a "down" method.';
 $lang['migration_invalid_filename'] = 'Migration "%s" has an invalid filename.';
+$lang['migration_table_name_setting'] = 'Migrations configuration file (migration.php) must have "migration_table" set.';
+$lang['migration_invalid_numbering_type'] = 'An invalid migration numbering type was specified: %s.';
