@@ -37,7 +37,6 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$lang['migration_initilization'] = 'Migrations Class Initialized';
 $lang['migration_none_found'] = 'No migrations were found.';
 $lang['migration_not_found'] = 'No migration could be found with the version number: %s.';
 $lang['migration_disabled'] = 'Migrations has been loaded but is disabled or set up incorrectly.';

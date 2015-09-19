@@ -129,7 +129,7 @@ class CI_Migration {
 		// Load migration language
 		$this->lang->load('migration');
 
-		log_message('info', $this->lang->line('migration_initilization'));
+		log_message('info', 'Migrations Class Initialized');
 
 		// Are they trying to use migrations while it is disabled?
 		if ($this->_migration_enabled !== TRUE)
