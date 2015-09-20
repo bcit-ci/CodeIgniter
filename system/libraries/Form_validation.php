@@ -402,6 +402,33 @@ class CI_Form_validation {
 
 		return $str;
 	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Pull out all of the post fields defined in the config.
+	 * 
+	 * This ensures that only the items that were validated are used 
+	 * and any others are ignored.  Particularly useful when passing
+	 * into a query builder so that extra inputs (such as the submit
+	 * button) or user injected fields are not processed.
+	 * 
+	 * @return array
+	 */
+	 public function get_valid_data()
+	 {
+		$valid_data = array();
+		foreach ($this->_field_data as $k => $v )
+		{
+			// remove [] if field name is an array.
+			$k = preg_replace("/\[\]$/", "", $k);                                                                                                                                                                                             
+			if ( array_key_exists($k, $_POST) ) 
+			{
+				$valid_data[$k] = $v['postdata'];
+			}
+		}
+		return $valid_data;
+	 }
 
 	// --------------------------------------------------------------------
 
