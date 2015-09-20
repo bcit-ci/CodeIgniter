@@ -68,7 +68,7 @@ class CI_Lang {
 	 * 
 	 * @var string
 	 */
-	public $base_language = $this->base_language;
+	public $base_language = 'english';
 
 	/**
 	 * Class constructor
