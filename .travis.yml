@@ -20,14 +20,19 @@ env:
 
 sudo: false
 
+install:
+  - apt-get install python-sphinx=1.2.3
+  - apt-get install python-sphinxcontrib.phpdomain  
+
 before_script:
   - sh -c "if [ '$TRAVIS_PHP_VERSION' = '5.2' ]; then pear channel-discover pear.bovigo.org && pear install bovigo/vfsStream-beta; else composer install --dev --no-progress; fi"
   - sh -c "if [ '$DB' = 'pgsql' ] || [ '$DB' = 'pdo/pgsql' ]; then psql -c 'DROP DATABASE IF EXISTS ci_test;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'pgsql' ] || [ '$DB' = 'pdo/pgsql' ]; then psql -c 'create database ci_test;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'mysql' ] || [ '$DB' = 'mysqli' ] || [ '$DB' = 'pdo/mysql' ]; then mysql -e 'create database IF NOT EXISTS ci_test;'; fi"
 
-script: phpunit -d zend.enable_gc=0 -d date.timezone=UTC --coverage-text --configuration tests/travis/$DB.phpunit.xml
-# test travis, trivial change
+script: 
+  - phpunit -d zend.enable_gc=0 -d date.timezone=UTC --coverage-text --configuration tests/travis/$DB.phpunit.xml
+  - cd user_guide_src && make html
 
 matrix:
   allow_failures:
