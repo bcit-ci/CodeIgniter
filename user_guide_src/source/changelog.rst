@@ -22,6 +22,7 @@ Bug fixes for 3.0.2
 
 -  Fixed a bug (#2284) - :doc:`Database <database/index>` method ``protect_identifiers()`` breaks when :doc:`Query Builder <database/query_builder>` isn't enabled.
 -  Fixed a bug (#4052) - :doc:`Routing <general/routing>` with anonymous functions didn't work for routes that don't use regular expressions.
+-  Fixed a bug - the Lang unit testing claimed to be testing for non-alpha idioms, but wasn't.
 
 Version 3.0.1
 =============
