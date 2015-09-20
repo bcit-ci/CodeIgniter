@@ -4,8 +4,7 @@ class Lang_test extends CI_TestCase {
 
     protected $lang;
 
-    public function set_up()
-    {
+    public function set_up() {
         $loader_cls = $this->ci_core_class('load');
         $this->ci_instance_var('load', new $loader_cls);
         $cls = $this->ci_core_class('lang');
@@ -14,8 +13,7 @@ class Lang_test extends CI_TestCase {
 
     // --------------------------------------------------------------------
 
-    public function test_load()
-    {
+    public function test_load() {
         // Regular usage
         $this->ci_vfs_clone('system/language/english/profiler_lang.php');
         $this->assertTrue($this->lang->load('profiler', 'english'));
@@ -43,8 +41,7 @@ class Lang_test extends CI_TestCase {
 
     // --------------------------------------------------------------------
 
-    public function test_non_alpha_idiom()
-    {
+    public function test_non_alpha_idiom() {
         // Non-alpha idiom (should act the same as unspecified language)
         // test with existing file
         $this->ci_vfs_clone('system/language/english/number_lang.php');
@@ -60,8 +57,7 @@ class Lang_test extends CI_TestCase {
 
     // --------------------------------------------------------------------
 
-    public function test_multiple_file_load()
-    {
+    public function test_multiple_file_load() {
         // Multiple files
         $this->ci_vfs_clone('system/language/english/profiler_lang.php');
         $files = array(
@@ -76,8 +72,7 @@ class Lang_test extends CI_TestCase {
 
     // --------------------------------------------------------------------
 
-    public function test_alternative_path_load()
-    {
+    public function test_alternative_path_load() {
         // Alternative Path
         $this->ci_vfs_clone('system/language/english/profiler_lang.php');
         $this->assertTrue($this->lang->load('profiler', 'english', FALSE, TRUE, 'vfs://system/'));
@@ -88,8 +83,7 @@ class Lang_test extends CI_TestCase {
     /**
      * @depends	test_load
      */
-    public function test_line()
-    {
+    public function test_line() {
         $this->ci_vfs_clone('system/language/english/profiler_lang.php');
         $this->lang->load('profiler', 'english');
         $this->assertEquals('URI STRING', $this->lang->line('profiler_uri_string'));
