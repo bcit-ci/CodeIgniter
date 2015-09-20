@@ -27,6 +27,7 @@ before_script:
   - sh -c "if [ '$DB' = 'mysql' ] || [ '$DB' = 'mysqli' ] || [ '$DB' = 'pdo/mysql' ]; then mysql -e 'create database IF NOT EXISTS ci_test;'; fi"
 
 script: phpunit -d zend.enable_gc=0 -d date.timezone=UTC --coverage-text --configuration tests/travis/$DB.phpunit.xml
+# test travis, trivial change
 
 matrix:
   allow_failures:
