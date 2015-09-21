@@ -68,7 +68,6 @@ class CI_Form_validation {
 	 * @var array
 	 */
 	protected $_config_rules	= array();
-	private $_default_config_rules = array();
 
 	/**
 	 * Array of validation errors
@@ -142,7 +141,7 @@ class CI_Form_validation {
 		}
 
 		// Validation rules can be stored in a config file.
-		$this->_default_config_rules = $this->_config_rules = $rules;
+		$this->_config_rules = $rules;
 
 		// Automatically load the form helper
 		$this->CI->load->helper('form');
@@ -1582,12 +1581,14 @@ class CI_Form_validation {
 	 * Prevents subsequent validation routines from being affected by the
 	 * results of any previous validation routine due to the CI singleton.
 	 *
+	 * @param	bool
 	 * @return	CI_Form_validation
 	 */
-	public function reset_validation()
+	public function reset_validation($keep_config=false)
 	{
 		$this->_field_data = array();
-		$this->_config_rules = $this->_default_config_rules;
+		if( ! $keep_config)
+			$this->_config_rules = array();
 		$this->_error_array = array();
 		$this->_error_messages = array();
 		$this->error_string = '';
