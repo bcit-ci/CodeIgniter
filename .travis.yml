@@ -55,4 +55,3 @@ branches:
   only:
     - develop
     - /^feature\/.+$/
-    - ci-doc
