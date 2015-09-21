@@ -808,7 +808,7 @@ class CI_Security {
 				.'([\s\042\047/=]*)' // non-attribute characters, excluding > (tag close) for obvious reasons
 				.'(?<name>[^\s\042\047>/=]+)' // attribute characters
 				// optional attribute-value
-				.'(?:\s*=\s*\042[^\042]+\042|\s*=\s*\047[^\047]+\047|\s*=\s*[^\s\042\047=><`]+)?' // attribute-value separator
+				.'(?:\s*=\s*\042[^\042]+\042|\s*=\s*\047[^\047]+\047|\s*=\s*[^\s\042\047=><`]*)?' // attribute-value separator
 				.'#i';
 
 			if ($count = preg_match_all($pattern, $matches['attributes'], $attributes, PREG_SET_ORDER | PREG_OFFSET_CAPTURE))
@@ -861,7 +861,7 @@ class CI_Security {
 			preg_replace(
 				'#href=.*?(?:(?:alert|prompt|confirm)(?:\(|&\#40;)|javascript:|livescript:|mocha:|charset=|window\.|document\.|\.cookie|<script|<xss|data\s*:)#si',
 				'',
-				$this->_filter_attributes(str_replace(array('<', '>'), '', $match[1]))
+				$this->_filter_attributes($match[1])
 			),
 			$match[0]
 		);
@@ -889,7 +889,7 @@ class CI_Security {
 			preg_replace(
 				'#src=.*?(?:(?:alert|prompt|confirm|eval)(?:\(|&\#40;)|javascript:|livescript:|mocha:|charset=|window\.|document\.|\.cookie|<script|<xss|base64\s*,)#si',
 				'',
-				$this->_filter_attributes(str_replace(array('<', '>'), '', $match[1]))
+				$this->_filter_attributes($match[1])
 			),
 			$match[0]
 		);

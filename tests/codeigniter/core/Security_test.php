@@ -120,6 +120,17 @@ class Security_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
+	public function text_xss_clean_js_link_removal()
+	{
+		// This one is to prevent a false positive
+		$this->assertEquals(
+			"<a href=\"javascrip\n<t\n:alert\n&#40;1&#41;\"\n>",
+			$this->security->xss_clean("<a href=\"javascrip\n<t\n:alert\n(1)\"\n>")
+		);
+	}
+
+	// --------------------------------------------------------------------
+
 	public function test_xss_clean_js_img_removal()
 	{
 		$input = '<img src="&#38&#35&#49&#48&#54&#38&#35&#57&#55&#38&#35&#49&#49&#56&#38&#35&#57&#55&#38&#35&#49&#49&#53&#38&#35&#57&#57&#38&#35&#49&#49&#52&#38&#35&#49&#48&#53&#38&#35&#49&#49&#50&#38&#35&#49&#49&#54&#38&#35&#53&#56&#38&#35&#57&#57&#38&#35&#49&#49&#49&#38&#35&#49&#49&#48&#38&#35&#49&#48&#50&#38&#35&#49&#48&#53&#38&#35&#49&#49&#52&#38&#35&#49&#48&#57&#38&#35&#52&#48&#38&#35&#52&#57&#38&#35&#52&#49">Clickhere';
@@ -190,6 +201,11 @@ class Security_test extends CI_TestCase {
 		$this->assertEquals(
 			'<img src="x"> on=\'x\' onerror=,xssm()>',
 			$this->security->xss_clean('<img src="x"> on=\'x\' onerror=,xssm()>')
+		);
+
+		$this->assertEquals(
+			'<image src="<>" [removed]>',
+			$this->security->xss_clean('<image src="<>" onerror=\'alert(1)\'>')
 		);
 	}
 
