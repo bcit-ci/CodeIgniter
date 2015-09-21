@@ -41,10 +41,24 @@ class Lang_test extends CI_TestCase {
 
 		// Non-existent file
 		$this->setExpectedException(
-			'RuntimeException',
-			'CI Error: Unable to load the requested language file: language/english/nonexistent_lang.php'
+				'RuntimeException', 'CI Error: Unable to load the requested language file: language/english/nonexistent_lang.php'
 		);
 		$this->lang->load('nonexistent');
+	}
+
+	// --------------------------------------------------------------------
+
+	public function test_fallback()
+	{
+		// settings in parent only
+		$this->ci_vfs_clone('system/language/english/number_lang.php', 'application/language/german/');
+		$this->assertTrue($this->lang->load('number', 'german'));
+		$this->assertEquals('Bytes', $this->lang->language['bytes']);
+
+		// settings in both places
+		$this->ci_vfs_create('application/language/german/email_lang.php', "<?php \$lang['fruit'] = 'Apfel';");
+		$this->assertTrue($this->lang->load('email', 'german'));
+		$this->assertEquals('Apfel', $this->lang->language['fruit']);
 	}
 
 	// --------------------------------------------------------------------
@@ -58,8 +72,7 @@ class Lang_test extends CI_TestCase {
 			1 => 'nonexistent'
 		);
 		$this->setExpectedException(
-			'RuntimeException',
-			'CI Error: Unable to load the requested language file: language/english/nonexistent_lang.php'
+				'RuntimeException', 'CI Error: Unable to load the requested language file: language/english/nonexistent_lang.php'
 		);
 		$this->lang->load($files, 'english');
 	}
@@ -86,4 +99,5 @@ class Lang_test extends CI_TestCase {
 		$this->assertFalse($this->lang->line('nonexistent_string'));
 		$this->assertFalse($this->lang->line(NULL));
 	}
+
 }

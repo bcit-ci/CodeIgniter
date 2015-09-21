@@ -16,6 +16,7 @@ Release Date: Not Released
 -  General Changes
 
    -  Updated the *application/config/constants.php* file to check if constants aren't already defined before doing that.
+   -  Enhanced *system/core/Lang.php* to fallback to english for missing language settings.
 
 Bug fixes for 3.0.2
 -------------------
