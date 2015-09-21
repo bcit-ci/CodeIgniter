@@ -50,15 +50,25 @@ class Lang_test extends CI_TestCase {
 
 	public function test_fallback()
 	{
-		// settings in parent only
-		$this->ci_vfs_clone('system/language/english/number_lang.php', 'application/language/german/');
-		$this->assertTrue($this->lang->load('number', 'german'));
+		// system target language file
+		$this->ci_vfs_create('system/language/martian/number_lang.php', "<?php \$lang['fruit'] = 'Apfel';");
+		$this->assertTrue($this->lang->load('number', 'martian'));
+		$this->assertEquals('Apfel', $this->lang->language['fruit']);
 		$this->assertEquals('Bytes', $this->lang->language['bytes']);
 
-		// settings in both places
-		$this->ci_vfs_create('application/language/german/email_lang.php', "<?php \$lang['fruit'] = 'Apfel';");
-		$this->assertTrue($this->lang->load('email', 'german'));
+		// application target language file
+		$this->ci_vfs_create('application/language/klingon/number_lang.php', "<?php \$lang['fruit'] = 'Apfel';");
+		$this->assertTrue($this->lang->load('number', 'klingon'));
 		$this->assertEquals('Apfel', $this->lang->language['fruit']);
+		$this->assertEquals('Bytes', $this->lang->language['bytes']);
+
+		// both system & application language files
+		$this->ci_vfs_create('system/language/romulan/number_lang.php', "<?php \$lang['apple'] = 'Core';");
+		$this->ci_vfs_create('application/language/romulan/number_lang.php', "<?php \$lang['fruit'] = 'Cherry';");
+		$this->assertTrue($this->lang->load('number', 'romulan'));
+		$this->assertEquals('Cherry', $this->lang->language['fruit']);
+		$this->assertEquals('Bytes', $this->lang->language['bytes']);
+		$this->assertEquals('Core', $this->lang->language['apple']);
 	}
 
 	// --------------------------------------------------------------------
