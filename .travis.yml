@@ -20,9 +20,6 @@ env:
 
 sudo: true
 
-before_install:
-  - sudo apt-get install python-pip
-
 install:
   - sudo pip install sphinx==1.2.3
   - sudo pip install sphinxcontrib-phpdomain
