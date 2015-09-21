@@ -86,6 +86,19 @@ Example of switching languages
 	$oops = $this->lang->line('message_key');
 
 ********************
+Language Fallback
+********************
+
+When loading a language file, CodeIgniter will load first the english version,
+if appropriate, and then the one appropriate to the language you specify.
+This lets you define only the language settings that you wish to over-ride
+in your idiom-specific files.
+
+This has the added benefit of the language facility not breaking if a new
+language setting is added to the built-in ones (english), but not yet
+provided for in one of the translations.
+
+********************
 Internationalization
 ********************
 
