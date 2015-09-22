@@ -1584,14 +1584,16 @@ class CI_Form_validation {
 	 * @param	bool
 	 * @return	CI_Form_validation
 	 */
-	public function reset_validation($keep_config=false)
+	public function reset_validation($keep_config = FALSE)
 	{
 		$this->_field_data = array();
-		if( ! $keep_config)
-			$this->_config_rules = array();
 		$this->_error_array = array();
 		$this->_error_messages = array();
 		$this->error_string = '';
+		if ( ! $keep_config)
+		{
+			$this->_config_rules = array();
+		}
 		return $this;
 	}
 
