@@ -418,11 +418,11 @@ class CI_Form_validation {
 	 public function get_valid_data()
 	 {
 		$valid_data = array();
-		foreach ($this->_field_data as $k => $v )
+		foreach ($this->_field_data as $k => $v)
 		{
 			// remove [] if field name is an array.
 			$k = preg_replace("/\[\]$/", "", $k);                                                                                                                                                                                             
-			if ( array_key_exists($k, $_POST) ) 
+			if (array_key_exists($k, $_POST)) 
 			{
 				$valid_data[$k] = $v['postdata'];
 			}
