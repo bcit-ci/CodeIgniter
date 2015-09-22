@@ -16,13 +16,13 @@ Release Date: Not Released
 -  General Changes
 
    -  Updated the *application/config/constants.php* file to check if constants aren't already defined before doing that.
+   -  Added optional parameter to ``reset_validation()`` in :doc:`form validation<libraries/form_validation>` that stops ``_config_rules`` from being cleared.
 
 Bug fixes for 3.0.2
 -------------------
 
 -  Fixed a bug (#2284) - :doc:`Database <database/index>` method ``protect_identifiers()`` breaks when :doc:`Query Builder <database/query_builder>` isn't enabled.
 -  Fixed a bug (#4052) - :doc:`Routing <general/routing>` with anonymous functions didn't work for routes that don't use regular expressions.
--  Fixed a bug (#4126) - Added optional parameter to ``reset_validation()`` in ``Form_validation`` that stops ``_config_rules`` from being cleared.
 
 Version 3.0.1
 =============
