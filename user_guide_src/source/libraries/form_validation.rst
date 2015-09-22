@@ -714,8 +714,6 @@ file. You can organize these rules into "groups". These groups can
 either be loaded automatically when a matching controller/method is
 called, or you can manually call each set as needed.
 
-.. important:: Make sure that when using the ``reset_validation()`` method you pass ``true`` as a parameter.  If you do not then all the validation rules loaded from the config file will be cleared as well!
-
 How to save your rules
 ======================
 
@@ -1078,9 +1076,9 @@ Class Reference
 		Permits you to set an array for validation, instead of using the default
 		``$_POST`` array.
 
-	.. php:method:: reset_validation($keep_config=false)
+	.. php:method:: reset_validation($keep_config = FALSE)
 
-		:param	bool	$keep_config: Will leave configured validation rules alone when true or clear them when false.  This parameter must be true if your rules are being loaded from a config file
+		:param	bool	$keep_config: Whether to reset validation rules from config files
 		:returns:	CI_Form_validation instance (method chaining)
 		:rtype:	CI_Form_validation
 
