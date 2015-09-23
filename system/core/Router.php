@@ -83,7 +83,7 @@ class CI_Router {
 	 *
 	 * @var	string
 	 */
-	public $directory =	'';
+	public $directory;
 
 	/**
 	 * Default controller (and method if specific)
@@ -105,7 +105,7 @@ class CI_Router {
 	/**
 	 * Enable query strings flag
 	 *
-	 * Determines wether to use GET parameters or segment URIs
+	 * Determines whether to use GET parameters or segment URIs
 	 *
 	 * @var	bool
 	 */
@@ -126,25 +126,16 @@ class CI_Router {
 		$this->uri =& load_class('URI', 'core');
 
 		$this->enable_query_strings = ( ! is_cli() && $this->config->item('enable_query_strings') === TRUE);
+
+		// If a directory override is configured, it has to be set before any dynamic routing logic
+		is_array($routing) && isset($routing['directory']) && $this->set_directory($routing['directory']);
 		$this->_set_routing();
 
 		// Set any routing overrides that may exist in the main index file
 		if (is_array($routing))
 		{
-			if (isset($routing['directory']))
-			{
-				$this->set_directory($routing['directory']);
-			}
-
-			if ( ! empty($routing['controller']))
-			{
-				$this->set_class($routing['controller']);
-			}
-
-			if ( ! empty($routing['function']))
-			{
-				$this->set_method($routing['function']);
-			}
+			empty($routing['controller']) OR $this->set_class($routing['controller']);
+			empty($routing['function'])   OR $this->set_method($routing['function']);
 		}
 
 		log_message('info', 'Router Class Initialized');
@@ -167,12 +158,17 @@ class CI_Router {
 		// If this feature is enabled, we will gather the directory/class/method a little differently
 		if ($this->enable_query_strings)
 		{
-			$_d = $this->config->item('directory_trigger');
-			$_d = isset($_GET[$_d]) ? trim($_GET[$_d], " \t\n\r\0\x0B/") : '';
-			if ($_d !== '')
+			// If the directory is set at this time, it means an override exists, so skip the checks
+			if ( ! isset($this->directory))
 			{
-				$this->uri->filter_uri($_d);
-				$this->set_directory($_d);
+				$_d = $this->config->item('directory_trigger');
+				$_d = isset($_GET[$_d]) ? trim($_GET[$_d], " \t\n\r\0\x0B/") : '';
+
+				if ($_d !== '')
+				{
+					$this->uri->filter_uri($_d);
+					$this->set_directory($_d);
+				}
 			}
 
 			$_c = trim($this->config->item('controller_trigger'));
@@ -333,6 +329,8 @@ class CI_Router {
 	protected function _validate_request($segments)
 	{
 		$c = count($segments);
+		$directory_override = isset($this->directory);
+
 		// Loop through our segments and return as soon as a controller
 		// is found or when such a directory doesn't exist
 		while ($c-- > 0)
@@ -340,7 +338,10 @@ class CI_Router {
 			$test = $this->directory
 				.ucfirst($this->translate_uri_dashes === TRUE ? str_replace('-', '_', $segments[0]) : $segments[0]);
 
-			if ( ! file_exists(APPPATH.'controllers/'.$test.'.php') && is_dir(APPPATH.'controllers/'.$this->directory.$segments[0]))
+			if ( ! file_exists(APPPATH.'controllers/'.$test.'.php')
+				&& $directory_override === FALSE
+				&& is_dir(APPPATH.'controllers/'.$this->directory.$segments[0])
+			)
 			{
 				$this->set_directory(array_shift($segments), TRUE);
 				continue;
@@ -493,7 +494,7 @@ class CI_Router {
 	 * Set directory name
 	 *
 	 * @param	string	$dir	Directory name
-	 * @param	bool	$appent	Whether we're appending rather then setting the full value
+	 * @param	bool	$appent	Whether we're appending rather than setting the full value
 	 * @return	void
 	 */
 	public function set_directory($dir, $append = FALSE)

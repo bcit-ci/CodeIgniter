@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @var	string
  *
  */
-	define('CI_VERSION', '3.0.0');
+	define('CI_VERSION', '3.0.1-dev');
 
 /*
  * ------------------------------------------------------

@@ -247,17 +247,31 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Show column query
+	 * Fetch Field Names
 	 *
-	 * Generates a platform-specific query string so that the column names can be fetched
-	 *
-	 * @param	string	$table
-	 * @return	string
+	 * @param	string	$table	Table name
+	 * @return	array
 	 */
-	protected function _list_columns($table = '')
+	public function list_fields($table)
 	{
-		// Not supported
-		return FALSE;
+		// Is there a cached result?
+		if (isset($this->data_cache['field_names'][$table]))
+		{
+			return $this->data_cache['field_names'][$table];
+		}
+
+		if (($result = $this->query('PRAGMA TABLE_INFO('.$this->protect_identifiers($table, TRUE, NULL, FALSE).')')) === FALSE)
+		{
+			return FALSE;
+		}
+
+		$this->data_cache['field_names'][$table] = array();
+		foreach ($result->result_array() as $row)
+		{
+			$this->data_cache['field_names'][$table][] = $row['name'];
+		}
+
+		return $this->data_cache['field_names'][$table];
 	}
 
 	// --------------------------------------------------------------------

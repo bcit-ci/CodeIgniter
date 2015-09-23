@@ -657,10 +657,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 			if ($v !== NULL)
 			{
-				if ($escape === TRUE)
-				{
-					$v = ' '.$this->escape($v);
-				}
+				$v = ' '.$this->escape($v);
 
 				if ( ! $this->_has_operator($k))
 				{
@@ -918,6 +915,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		is_bool($escape) OR $escape = $this->_protect_identifiers;
+		// lowercase $side in case somebody writes e.g. 'BEFORE' instead of 'before' (doh)
+		$side = strtolower($side);
 
 		foreach ($field as $k => $v)
 		{
@@ -1277,8 +1276,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		foreach ($key as $k => $v)
 		{
-			$this->qb_set[$this->protect_identifiers($k, FALSE, $escape)] = ($escape)
-				? $this->escape($v) : $v;
+			$this->qb_set[$this->protect_identifiers($k, FALSE, $escape)] = $this->escape($v);
 		}
 
 		return $this;
@@ -1517,15 +1515,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 			ksort($row); // puts $row in the same order as our keys
 
-			if ($escape !== FALSE)
+			foreach ($row as $k => $v)
 			{
-				$clean = array();
-				foreach ($row as $value)
-				{
-					$clean[] = $this->escape($value);
-				}
-
-				$row = $clean;
+				$row[$k] = $this->escape($v);
 			}
 
 			$this->qb_set[] = '('.implode(',', $row).')';
@@ -1734,7 +1726,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			return FALSE;
 		}
 
-		$sql = $this->_update($this->protect_identifiers($this->qb_from[0], TRUE, NULL, FALSE), $this->qb_set);
+		$sql = $this->_update($this->qb_from[0], $this->qb_set);
 
 		if ($reset === TRUE)
 		{
@@ -1782,7 +1774,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->limit($limit);
 		}
 
-		$sql = $this->_update($this->protect_identifiers($this->qb_from[0], TRUE, NULL, FALSE), $this->qb_set);
+		$sql = $this->_update($this->qb_from[0], $this->qb_set);
 		$this->_reset_write();
 		return $this->query($sql);
 	}
@@ -1799,7 +1791,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	string	the table to update data on
 	 * @return	bool
 	 */
-	protected function _validate_update($table = '')
+	protected function _validate_update($table)
 	{
 		if (count($this->qb_set) === 0)
 		{
@@ -1808,7 +1800,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		if ($table !== '')
 		{
-			$this->qb_from[0] = $table;
+			$this->qb_from = array($this->protect_identifiers($table, TRUE, NULL, FALSE));
 		}
 		elseif ( ! isset($this->qb_from[0]))
 		{
@@ -1946,7 +1938,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 					$index_set = TRUE;
 				}
 
-				$clean[$this->protect_identifiers($k2, FALSE, $escape)] = ($escape === FALSE) ? $v2 : $this->escape($v2);
+				$clean[$this->protect_identifiers($k2, FALSE, $escape)] = $this->escape($v2);
 			}
 
 			if ($index_set === FALSE)
@@ -2090,10 +2082,13 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 		elseif (is_array($table))
 		{
+			empty($where) && $reset_data = FALSE;
+
 			foreach ($table as $single_table)
 			{
 				$this->delete($single_table, $where, $limit, $reset_data);
 			}
+
 			return;
 		}
 		else
@@ -2253,7 +2248,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			else
 			{
 				// Cycle through the "select" portion of the query and prep each column name.
-				// The reason we protect identifiers here rather then in the select() function
+				// The reason we protect identifiers here rather than in the select() function
 				// is because until the user calls the from() function we don't know if there are aliases
 				foreach ($this->qb_select as $key => $val)
 				{
@@ -2324,7 +2319,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 				// Split multiple conditions
 				$conditions = preg_split(
-					'/(\s*AND\s+|\s*OR\s+)/i',
+					'/((^|\s+)AND\s+|(^|\s+)OR\s+)/i',
 					$this->{$qb_key}[$i]['condition'],
 					-1,
 					PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY

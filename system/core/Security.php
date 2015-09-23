@@ -275,7 +275,7 @@ class CI_Security {
 			$secure_cookie,
 			config_item('cookie_httponly')
 		);
-		log_message('info', 'CRSF cookie sent');
+		log_message('info', 'CSRF cookie sent');
 
 		return $this;
 	}

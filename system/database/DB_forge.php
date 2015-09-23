@@ -239,7 +239,7 @@ abstract class CI_DB_forge {
 	 */
 	public function add_key($key, $primary = FALSE)
 	{
-		if ($primary === TRUE && is_array($key))
+		if (is_array($key))
 		{
 			foreach ($key as $one)
 			{
@@ -453,12 +453,7 @@ abstract class CI_DB_forge {
 			return ($this->db->db_debug) ? $this->db->display_error('db_table_name_required') : FALSE;
 		}
 
-		$query = $this->_drop_table($this->db->dbprefix.$table_name, $if_exists);
-		if ($query === FALSE)
-		{
-			return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
-		}
-		elseif ($query === TRUE)
+		if (($query = $this->_drop_table($this->db->dbprefix.$table_name, $if_exists)) === TRUE)
 		{
 			return TRUE;
 		}

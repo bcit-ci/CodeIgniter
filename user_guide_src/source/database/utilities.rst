@@ -18,7 +18,7 @@ Initializing the Utility Class
 
 Load the Utility Class as follows::
 
-	$this->load->dbutil()
+	$this->load->dbutil();
 
 You can also pass another database object to the DB Utility loader, in case
 the database you want to manage isn't the default one::
@@ -35,7 +35,7 @@ assigning it directly to ``$this->dbutil``.
 Once initialized you will access the methods using the ``$this->dbutil``
 object::
 
-	$this->dbutil->some_method()
+	$this->dbutil->some_method();
 
 ****************************
 Using the Database Utilities
@@ -180,7 +180,7 @@ backup data can be compressed in either Zip or Gzip format.
 
 .. note:: For Interbase/Firebird databases, the backup file name is the only parameter.
 
-		Eg. $this->dbutil->backup('db_backup_filename');
+		$this->dbutil->backup('db_backup_filename');
 
 .. note:: Due to the limited execution time and memory available to PHP,
 	backing up very large databases may not be possible. If your database is
@@ -197,7 +197,7 @@ Usage Example
 	$this->load->dbutil();
 
 	// Backup your entire database and assign it to a variable
-	$backup =& $this->dbutil->backup();
+	$backup = $this->dbutil->backup();
 
 	// Load the file helper and write the file to your server
 	$this->load->helper('file');

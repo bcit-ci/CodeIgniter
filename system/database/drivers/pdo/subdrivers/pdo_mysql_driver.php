@@ -119,7 +119,6 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 	 *
 	 * @param	bool	$persistent
 	 * @return	object
-	 * @todo	SSL support
 	 */
 	public function db_connect($persistent = FALSE)
 	{
@@ -151,7 +150,59 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 			$this->options[PDO::MYSQL_ATTR_COMPRESS] = TRUE;
 		}
 
-		return parent::db_connect($persistent);
+		// SSL support was added to PDO_MYSQL in PHP 5.3.7
+		if (is_array($this->encrypt) && is_php('5.3.7'))
+		{
+			$ssl = array();
+			empty($this->encrypt['ssl_key'])    OR $ssl[PDO::MYSQL_ATTR_SSL_KEY]    = $this->encrypt['ssl_key'];
+			empty($this->encrypt['ssl_cert'])   OR $ssl[PDO::MYSQL_ATTR_SSL_CERT]   = $this->encrypt['ssl_cert'];
+			empty($this->encrypt['ssl_ca'])     OR $ssl[PDO::MYSQL_ATTR_SSL_CA]     = $this->encrypt['ssl_ca'];
+			empty($this->encrypt['ssl_capath']) OR $ssl[PDO::MYSQL_ATTR_SSL_CAPATH] = $this->encrypt['ssl_capath'];
+			empty($this->encrypt['ssl_cipher']) OR $ssl[PDO::MYSQL_ATTR_SSL_CIPHER] = $this->encrypt['ssl_cipher'];
+
+			// DO NOT use array_merge() here!
+			// It re-indexes numeric keys and the PDO_MYSQL_ATTR_SSL_* constants are integers.
+			empty($ssl) OR $this->options += $ssl;
+		}
+
+		// Prior to version 5.7.3, MySQL silently downgrades to an unencrypted connection if SSL setup fails
+		if (
+			($pdo = parent::db_connect($persistent)) !== FALSE
+			&& ! empty($ssl)
+			&& version_compare($pdo->getAttribute(PDO::ATTR_CLIENT_VERSION), '5.7.3', '<=')
+			&& empty($pdo->query("SHOW STATUS LIKE 'ssl_cipher'")->fetchObject()->Value)
+		)
+		{
+			$message = 'PDO_MYSQL was configured for an SSL connection, but got an unencrypted connection instead!';
+			log_message('error', $message);
+			return ($this->db->db_debug) ? $this->db->display_error($message, '', TRUE) : FALSE;
+		}
+
+		return $pdo;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Select the database
+	 *
+	 * @param	string	$database
+	 * @return	bool
+	 */
+	public function db_select($database = '')
+	{
+		if ($database === '')
+		{
+			$database = $this->database;
+		}
+
+		if (FALSE !== $this->simple_query('USE '.$this->escape_identifiers($database)))
+		{
+			$this->database = $database;
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------

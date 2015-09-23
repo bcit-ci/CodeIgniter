@@ -121,7 +121,7 @@ class CI_Encryption {
 	);
 
 	/**
-	 * List of supported HMAC algorightms
+	 * List of supported HMAC algorithms
 	 *
 	 * name => digest size pairs
 	 *

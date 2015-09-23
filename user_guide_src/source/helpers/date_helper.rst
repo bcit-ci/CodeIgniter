@@ -400,7 +400,7 @@ UM10            (UTC - 10:00) Hawaii-Aleutian Standard Time, Cook Islands
 UM95            (UTC - 09:30) Marquesas Islands
 UM9             (UTC - 09:00) Alaska Standard Time, Gambier Islands
 UM8             (UTC - 08:00) Pacific Standard Time, Clipperton Island
-UM7             (UTC - 11:00) Mountain Standard Time
+UM7             (UTC - 07:00) Mountain Standard Time
 UM6             (UTC - 06:00) Central Standard Time
 UM5             (UTC - 05:00) Eastern Standard Time, Western Caribbean
 UM45            (UTC - 04:30) Venezuelan Standard Time

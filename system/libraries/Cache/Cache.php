@@ -100,27 +100,9 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	public function __construct($config = array())
 	{
-		$default_config = array(
-			'adapter',
-			'memcached'
-		);
-
-		foreach ($default_config as $key)
-		{
-			if (isset($config[$key]))
-			{
-				$param = '_'.$key;
-
-				$this->{$param} = $config[$key];
-			}
-		}
-
+		isset($config['adapter']) && $this->_adapter = $config['adapter'];
+		isset($config['backup']) && $this->_backup_driver = $config['backup'];
 		isset($config['key_prefix']) && $this->key_prefix = $config['key_prefix'];
-
-		if (isset($config['backup']) && in_array($config['backup'], $this->valid_drivers))
-		{
-			$this->_backup_driver = $config['backup'];
-		}
 
 		// If the specified adapter isn't available, check the backup.
 		if ( ! $this->is_supported($this->_adapter))
@@ -196,7 +178,7 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	public function increment($id, $offset = 1)
 	{
-		return $this->{$this->_adapter}->increment($id, $offset);
+		return $this->{$this->_adapter}->increment($this->key_prefix.$id, $offset);
 	}
 
 	// ------------------------------------------------------------------------
@@ -210,7 +192,7 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	public function decrement($id, $offset = 1)
 	{
-		return $this->{$this->_adapter}->decrement($id, $offset);
+		return $this->{$this->_adapter}->decrement($this->key_prefix.$id, $offset);
 	}
 
 	// ------------------------------------------------------------------------
@@ -261,14 +243,13 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	public function is_supported($driver)
 	{
-		static $support = array();
+		static $support;
 
-		if ( ! isset($support[$driver]))
+		if ( ! isset($support, $support[$driver]))
 		{
 			$support[$driver] = $this->{$driver}->is_supported();
 		}
 
 		return $support[$driver];
 	}
-
 }

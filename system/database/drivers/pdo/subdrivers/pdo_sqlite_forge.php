@@ -89,6 +89,7 @@ class CI_DB_pdo_sqlite_forge extends CI_DB_pdo_forge {
 		if (version_compare($this->db->version(), '3.3', '<'))
 		{
 			$this->_create_table_if = FALSE;
+			$this->_drop_table_if   = FALSE;
 		}
 	}
 

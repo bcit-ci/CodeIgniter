@@ -229,7 +229,7 @@ class Loader_test extends CI_TestCase {
 		$this->ci_obj->$obj = new stdClass();
 		$this->setExpectedException(
 			'RuntimeException',
-			'CI Error: The model name you are loading is the name of a resource that is already being used: '.$obj
+			'The model name you are loading is the name of a resource that is already being used: '.$obj
 		);
 		$this->load->model('not_real', $obj);
 	}
@@ -240,7 +240,7 @@ class Loader_test extends CI_TestCase {
 	{
 		$this->setExpectedException(
 			'RuntimeException',
-			'CI Error: Unable to locate the model you have specified: Ci_test_nonexistent_model.php'
+			'Unable to locate the model you have specified: Ci_test_nonexistent_model.php'
 		);
 
 		$this->load->model('ci_test_nonexistent_model.php');

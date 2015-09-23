@@ -74,7 +74,8 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 
 		if (version_compare($this->db->version(), '3.3', '<'))
 		{
-			$this->create_table_if = FALSE;
+			$this->_create_table_if = FALSE;
+			$this->_drop_table_if   = FALSE;
 		}
 	}
 

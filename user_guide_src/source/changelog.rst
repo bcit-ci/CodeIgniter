@@ -2,10 +2,80 @@
 Change Log
 ##########
 
-Version 3.0 (planned)
-=======================
+Version 3.0.1
+=============
 
 Release Date: Not Released
+
+-  Core
+
+   -  Added DoS mitigation to :php:func:`hash_pbkdf2()` :doc:`compatibility function <general/compatibility_functions>`.
+
+-  Database
+
+   -  Added ``list_fields()`` support for SQLite ('sqlite3' and 'pdo_sqlite' drivers).
+   -  Added SSL connection support for the 'mysqli' and 'pdo_mysql' drivers.
+
+-  Libraries
+
+   -  :doc:`File Uploading Library <libraries/file_uploading>` changes:
+
+      - Changed method ``set_error()`` to accept a custom log level (defaults to 'error').
+      - Errors "no_file_selected", "file_partial", "stopped_by_extension", "no_file_types", "invalid_filetype", "bad_filename" are now logged at the 'debug' level.
+      - Errors "file_exceeds_limit", "file_exceeds_form_limit", "invalid_filesize", "invalid_dimensions" are now logged at the 'info' level.
+
+   -  Added 'is_resource' to the available expectations in :doc:`Unit Testing Library <libraries/unit_testing>`.
+
+-  Helpers
+
+   -  Added Unicode support to :doc:`URL Helper <helpers/url_helper>` function :php:func:`url_title()`.
+   -  Added support for passing the "extra" parameter as an array to all :doc:`Form Helper <helpers/form_helper>` functions that use it.
+
+-  Core
+
+   -  Added support for defining a list of specific query parameters in ``$config['cache_query_string']`` for the :doc:`Output Library <libraries/output>`.
+   -  Added class existence and inheritance checks to ``CI_Loader::model()`` in order to ease debugging in case of name collisions.
+
+Bug fixes for 3.0.1
+-------------------
+
+-  Fixed a bug (#3733) - Autoloading of libraries with aliases didn't work, although it was advertised to.
+-  Fixed a bug (#3744) - Redis :doc:`Caching <libraries/caching>` driver didn't handle authentication failures properly.
+-  Fixed a bug (#3761) - :doc:`URL Helper <helpers/url_helper>` function :php:func:`anchor()` didn't work with array inputs.
+-  Fixed a bug (#3773) - ``db_select()`` didn't work for MySQL with the PDO :doc:`Database <database/index>` driver.
+-  Fixed a bug (#3771) - :doc:`Form Validation Library <libraries/form_validation>` was looking for a 'form_validation\_' prefix when trying to translate field name labels.
+-  Fixed a bug (#3787) - :doc:`FTP Library <libraries/ftp>` method ``delete_dir()`` failed when the target has subdirectories.
+-  Fixed a bug (#3801) - :doc:`Output Library <libraries/output>` method ``_display_cache()`` incorrectly looked for the last modified time of a directory instead of the cache file.
+-  Fixed a bug (#3816) - :doc:`Form Validation Library <libraries/form_validation>` treated empty string values as non-existing ones.
+-  Fixed a bug (#3823) - :doc:`Session Library <libraries/sessions>` drivers Redis and Memcached didn't properly handle locks that are blocking the request for more than 30 seconds.
+-  Fixed a bug (#3846) - :doc:`Image Manipulation Library <libraries/image_lib>` method `image_mirror_gd()` didn't properly initialize its variables.
+-  Fixed a bug (#3854) - `field_data()` didn't work properly with the Oracle (OCI8) database driver.
+-  Fixed a bug in the :doc:`Database Utility Class <database/utilities>` method ``csv_from_result()`` didn't work with a whitespace CSV delimiter.
+-  Fixed a bug (#3890) - :doc:`Input Library <libraries/input>` method ``get_request_header()`` treated header names as case-sensitive.
+-  Fixed a bug (#3903) - :doc:`Form Validation Library <libraries/form_validation>` ignored "unnamed" closure validation rules.
+-  Fixed a bug (#3904) - :doc:`Form Validation Library <libraries/form_validation>` ignored "named" callback rules when the field is empty and there's no 'required' rule.
+-  Fixed a bug (#3922) - :doc:`Email <libraries/email>` and :doc:`XML-RPC <libraries/xmlrpc>` libraries could enter an infinite loop due to `PHP bug #39598 <https://bugs.php.net/bug.php?id=39598>`_.
+-  Fixed a bug (#3913) - :doc:`Cache Library <libraries/caching>` didn't work with the direct ``$this->cache->$driver_name->method()`` syntax with Redis and Memcache(d).
+-  Fixed a bug (#3932) - :doc:`Query Builder <database/query_builder>` didn't properly compile WHERE and HAVING conditions for field names that end with "and", "or".
+-  Fixed a bug in :doc:`Query Builder <database/query_builder>` where ``delete()`` didn't properly work on multiple tables with a WHERE condition previously set via ``where()``.
+-  Fixed a bug (#3952) - :doc:`Database <database/index>` method ``list_fields()`` didn't work with SQLite3.
+-  Fixed a bug (#3955) - :doc:`Cache Library <libraries/caching>` methods ``increment()`` and ``decrement()`` ignored the 'key_prefix' setting.
+-  Fixed a bug (#3963) - :doc:`Unit Testing Library <libraries/unit_testing>` wrongly tried to translate filenames, line numbers and notes values in test results.
+-  Fixed a bug (#3965) - :doc:`File Uploading Library <libraries/file_uploading>` ignored the "encrypt_name" setting when "overwrite" is enabled.
+-  Fixed a bug (#3968) - :doc:`Database Forge <database/forge>` method ``add_key()`` didn't treat array inputs as composite keys unless it's a PRIMARY KEY.
+-  Fixed a bug (#3715) - :doc:`Pagination Library <libraries/pagination>` could generate broken link when a protocol-relative base URL is used.
+-  Fixed a bug (#3828) - :doc:`Output Library <libraries/output>` method ``delete_cache()`` couldn't delete index page caches.
+-  Fixed a bug (#3704) - :doc:`Database <database/index>` method ``stored_procedure()`` in the 'oci8' driver didn't properly bind parameters.
+-  Fixed a bug (#3778) - :doc:`Download Helper <helpers/download_helper>` function :php:func:`force_download()` incorrectly sent a *Pragma* response header.
+-  Fixed a bug (#3752) - ``$routing['directory']`` overrides were not properly handled and always resulted in a 404 "Not Found" error.
+-  Fixed an internal bug (#3989) - :doc:`Query Builder <database/query_builder>` escaping logic where if field name escaping is force-disabled, would also treat values as fields in methods ``where()``, ``having()``, ``set()``, ``set_insert_batch()``, ``set_update_batch()``.
+-  Fixed a bug (#3279) - :doc:`Query Builder <database/query_builder>` methods ``update()`` and ``get_compiled_update()`` did double escaping on the table name if it was provided via ``from()``.
+-  Fixed a bug (#3991) - ``$config['rewrite_short_tags']`` never worked due to ``function_exists('eval')`` always returning FALSE.
+
+Version 3.0.0
+=============
+
+Release Date: March 30, 2015
 
 -  License
 
@@ -579,7 +649,7 @@ Release Date: Not Released
 
 
 Bug fixes for 3.0
-------------------
+-----------------
 
 -  Fixed a bug where ``unlink()`` raised an error if cache file did not exist when you try to delete it.
 -  Fixed a bug (#181) - a typo in the form validation language file.
@@ -773,6 +843,30 @@ Bug fixes for 3.0
 -  Fixed a bug (#3189) - :doc:`Parser Library <libraries/parser>` used double replacement on ``key->value`` pairs, exposing a potential template injection vulnerability.
 -  Fixed a bug (#3573) - :doc:`Email Library <libraries/email>` violated `RFC5321 <https://tools.ietf.org/rfc/rfc5321.txt>`_ by sending 'localhost.localdomain' as a hostname.
 -  Fixed a bug (#3572) - ``CI_Security::_remove_evil_attributes()`` failed for large-sized inputs due to *pcre.backtrack_limit* and didn't properly match HTML tags.
+
+Version 2.2.3
+=============
+
+Release Date: July 14, 2015
+
+-  Security
+
+   - Removed a fallback to ``mysql_escape_string()`` in the 'mysql' database driver (``escape_str()`` method) when there's no active database connection.
+
+Version 2.2.2
+=============
+
+Release Date: April 15, 2015
+
+-  General Changes
+
+   - Added HTTP "Host" header character validation to prevent cache poisoning attacks when *base_url* auto-detection is used.
+   - Added *FSCommand* and *seekSegmentTime* to the "evil attributes" list in ``CI_Security::xss_clean()``.
+
+Bug fixes for 2.2.2
+-------------------
+
+-  Fixed a bug (#3665) - ``CI_Security::entity_decode()`` triggered warnings under some circumstances.
 
 Version 2.2.1
 =============

@@ -373,7 +373,7 @@ Class Reference
 			foreach ($list as $address)
 			{
 				$this->email->to($address);
-				$cid = $this->email->attach_cid($filename);
+				$cid = $this->email->attachment_cid($filename);
 				$this->email->message('<img src='cid:". $cid ."' alt="photo1" />');
 				$this->email->send();
 			}

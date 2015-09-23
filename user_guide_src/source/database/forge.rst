@@ -143,13 +143,15 @@ string into the field definitions with add_field()
 	$this->dbforge->add_field("label varchar(100) NOT NULL DEFAULT 'default label'");
 
 
+.. note:: Passing raw strings as fields cannot be followed by ``add_key()`` calls on those fields.
+
 .. note:: Multiple calls to add_field() are cumulative.
 
 Creating an id field
 --------------------
 
 There is a special exception for creating id fields. A field with type
-id will automatically be assinged as an INT(9) auto_incrementing
+id will automatically be assigned as an INT(9) auto_incrementing
 Primary Key.
 
 ::
@@ -227,7 +229,7 @@ Execute a DROP TABLE statement and optionally add an IF EXISTS clause.
 	$this->dbforge->drop_table('table_name');
 
 	// Produces: DROP TABLE IF EXISTS table_name
-	$this->dbforge->drop_table('table_name');
+	$this->dbforge->drop_table('table_name',TRUE);
 
 
 Renaming a table

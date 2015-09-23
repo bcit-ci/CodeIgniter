@@ -61,7 +61,7 @@ data from the SERVER array, you are encouraged to practice this three
 step approach:
 
 #. Validate the data to ensure it conforms to the correct type, length,
-   size, etc. (sometimes this step can replace step one)
+   size, etc.
 #. Filter the data as if it were tainted.
 #. Escape the data before submitting it into your database or outputting
    it to a browser.
@@ -143,11 +143,15 @@ with that. Please read below.
    feature, just randomly generate a new, one-time (this is also important)
    password and send that instead.
 
--  DO NOT put artificial limits on your users' passwords.
+-  DO NOT put unnecessary limits on your users' passwords.
 
-   There's no point in forcing a rule that a password can only be up to
-   a number of characters, or that it can't contain a certain set of
-   special characters.
+   If you're using a hashing algorithm other than BCrypt (which has a limit
+   of 72 characters), you should set a relatively high limit on password
+   lengths in order to mitigate DoS attacks - say, 1024 characters.
+
+   Other than that however, there's no point in forcing a rule that a
+   password can only be up to a number of characters, or that it can't
+   contain a certain set of special characters.
 
    Not only does this **reduce** security instead of improving it, but
    there's literally no reason to do it. No technical limitations and

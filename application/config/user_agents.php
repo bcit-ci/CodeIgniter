@@ -10,7 +10,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | mobile device data. The array keys are used to identify the device
 | and the array values are used to set the actual name of the item.
 */
-
 $platforms = array(
 	'windows nt 10.0'	=> 'Windows 10',
 	'windows nt 6.3'	=> 'Windows 8.1',
@@ -62,6 +61,7 @@ $platforms = array(
 $browsers = array(
 	'OPR'			=> 'Opera',
 	'Flock'			=> 'Flock',
+	'Edge'			=> 'Spartan',
 	'Chrome'		=> 'Chrome',
 	// Opera 10+ always reports Opera/9.80 and appends Version/<real version> to the user agent string
 	'Opera.*?Version'	=> 'Opera',
@@ -198,7 +198,7 @@ $robots = array(
 	'bingbot'		=> 'Bing',
 	'slurp'			=> 'Inktomi Slurp',
 	'yahoo'			=> 'Yahoo',
-	'askjeeves'		=> 'AskJeeves',
+	'ask jeeves'		=> 'Ask Jeeves',
 	'fastcrawler'		=> 'FastCrawler',
 	'infoseek'		=> 'InfoSeek Robot 1.0',
 	'lycos'			=> 'Lycos',

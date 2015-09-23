@@ -556,9 +556,16 @@ class CI_Output {
 			.$CI->config->item('index_page')
 			.$CI->uri->uri_string();
 
-		if ($CI->config->item('cache_query_string') && ! empty($_SERVER['QUERY_STRING']))
+		if (($cache_query_string = $CI->config->item('cache_query_string')) && ! empty($_SERVER['QUERY_STRING']))
 		{
-			$uri .= '?'.$_SERVER['QUERY_STRING'];
+			if (is_array($cache_query_string))
+			{
+				$uri .= '?'.http_build_query(array_intersect_key($_GET, array_flip($cache_query_string)));
+			}
+			else
+			{
+				$uri .= '?'.$_SERVER['QUERY_STRING'];
+			}
 		}
 
 		$cache_path .= md5($uri);
@@ -646,9 +653,16 @@ class CI_Output {
 		// Build the file path. The file name is an MD5 hash of the full URI
 		$uri = $CFG->item('base_url').$CFG->item('index_page').$URI->uri_string;
 
-		if ($CFG->item('cache_query_string') && ! empty($_SERVER['QUERY_STRING']))
+		if (($cache_query_string = $CFG->item('cache_query_string')) && ! empty($_SERVER['QUERY_STRING']))
 		{
-			$uri .= '?'.$_SERVER['QUERY_STRING'];
+			if (is_array($cache_query_string))
+			{
+				$uri .= '?'.http_build_query(array_intersect_key($_GET, array_flip($cache_query_string)));
+			}
+			else
+			{
+				$uri .= '?'.$_SERVER['QUERY_STRING'];
+			}
 		}
 
 		$filepath = $cache_path.md5($uri);
@@ -674,7 +688,7 @@ class CI_Output {
 		$cache_info = unserialize($match[1]);
 		$expire = $cache_info['expire'];
 
-		$last_modified = filemtime($cache_path);
+		$last_modified = filemtime($filepath);
 
 		// Has the file expired?
 		if ($_SERVER['REQUEST_TIME'] >= $expire && is_really_writable($cache_path))
@@ -729,13 +743,20 @@ class CI_Output {
 		{
 			$uri = $CI->uri->uri_string();
 
-			if ($CI->config->item('cache_query_string') && ! empty($_SERVER['QUERY_STRING']))
+			if (($cache_query_string = $CI->config->item('cache_query_string')) && ! empty($_SERVER['QUERY_STRING']))
 			{
-				$uri .= '?'.$_SERVER['QUERY_STRING'];
+				if (is_array($cache_query_string))
+				{
+					$uri .= '?'.http_build_query(array_intersect_key($_GET, array_flip($cache_query_string)));
+				}
+				else
+				{
+					$uri .= '?'.$_SERVER['QUERY_STRING'];
+				}
 			}
 		}
 
-		$cache_path .= md5($CI->config->item('base_url').$CI->config->item('index_page').$uri);
+		$cache_path .= md5($CI->config->item('base_url').$CI->config->item('index_page').ltrim($uri, '/'));
 
 		if ( ! @unlink($cache_path))
 		{

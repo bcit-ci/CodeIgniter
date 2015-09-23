@@ -1,0 +1,22 @@
+# This file tells which files and directories should be ignored and
+# NOT downloaded when using composer to pull down a project with
+# the --prefer-dist option selected. Used to remove development
+# specific files so user has a clean download.
+
+# git files
+.gitattributes export-ignore
+# .gitignore
+
+# helper config files
+.travis.yml export-ignore
+phpdoc.dist.xml export-ignore
+
+# Misc other files
+readme.rst
+
+# They don't want all of our tests...
+tests/codeigniter/ export-ignore
+tests/travis/ export-ignore
+
+# User Guide Source Files
+user_guide_src
