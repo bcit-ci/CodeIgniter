@@ -34,11 +34,6 @@ class Lang_test extends CI_TestCase {
 		$this->assertTrue($this->lang->load('email', 'german'));
 		$this->assertEquals('german', $this->lang->is_loaded['email_lang.php']);
 
-		// Non-alpha idiom (should act the same as unspecified language)
-		$this->ci_vfs_clone('system/language/english/number_lang.php');
-		$this->assertTrue($this->lang->load('number'));
-		$this->assertEquals('Bytes', $this->lang->language['bytes']);
-
 		// Non-existent file
 		$this->setExpectedException(
 			'RuntimeException',
