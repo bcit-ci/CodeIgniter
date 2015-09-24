@@ -103,5 +103,4 @@ class Lang_test extends CI_TestCase {
 		$this->assertFalse($this->lang->line('nonexistent_string'));
 		$this->assertFalse($this->lang->line(NULL));
 	}
-
 }
