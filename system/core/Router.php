@@ -290,6 +290,14 @@ class CI_Router {
 		{
 			show_error('Unable to determine what should be displayed. A default route has not been specified in the routing file.');
 		}
+		
+		// directory check
+		$args = array_filter(explode('/', $this->default_controller));
+		while (isset($args[0]) && is_dir(APPPATH.'controllers/'.$this->directory.$args[0]))
+		{
+			$this->set_directory(array_shift($args), TRUE);
+		}
+		$this->default_controller = implode('/', $args);
 
 		// Is the method being specified?
 		if (sscanf($this->default_controller, '%[^/]/%s', $class, $method) !== 2)
