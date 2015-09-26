@@ -1581,19 +1581,14 @@ class CI_Form_validation {
 	 * Prevents subsequent validation routines from being affected by the
 	 * results of any previous validation routine due to the CI singleton.
 	 *
-	 * @param	bool
 	 * @return	CI_Form_validation
 	 */
-	public function reset_validation($keep_config = FALSE)
+	public function reset_validation()
 	{
 		$this->_field_data = array();
 		$this->_error_array = array();
 		$this->_error_messages = array();
 		$this->error_string = '';
-		if ( ! $keep_config)
-		{
-			$this->_config_rules = array();
-		}
 		return $this;
 	}
 
