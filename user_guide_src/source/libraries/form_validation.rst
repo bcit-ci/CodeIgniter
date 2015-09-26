@@ -1076,9 +1076,8 @@ Class Reference
 		Permits you to set an array for validation, instead of using the default
 		``$_POST`` array.
 
-	.. php:method:: reset_validation($keep_config = FALSE)
+	.. php:method:: reset_validation()
 
-		:param	bool	$keep_config: Whether to reset validation rules from config files
 		:returns:	CI_Form_validation instance (method chaining)
 		:rtype:	CI_Form_validation
 
