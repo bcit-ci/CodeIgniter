@@ -179,7 +179,7 @@ will be placed within a pair of pseudo-variables as shown here::
 
 		{cal_cell_blank}&nbsp;{/cal_cell_blank}
 
-		{cal_cell_other}{day}{cal_cel_other}
+		{cal_cell_other}{day}{/cal_cel_other}
 
 		{cal_cell_end}</td>{/cal_cell_end}
 		{cal_cell_end_today}</td>{/cal_cell_end_today}
