@@ -56,7 +56,7 @@ class Lang_test extends CI_TestCase {
 		// test without existing file
 		$this->ci_vfs_clone('system/language/english/email_lang.php');
 		$this->assertTrue($this->lang->load('email', '456funny'));
-		$this->assertEquals('Bytes', $this->lang->language['bytes']);
+		$this->assertEquals('You did not specify a SMTP hostname.', $this->lang->language['email_no_hostname']);
 	}
 
 	// --------------------------------------------------------------------
