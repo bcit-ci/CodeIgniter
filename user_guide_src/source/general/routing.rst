@@ -170,11 +170,16 @@ There are three reserved routes::
 
 	$route['default_controller'] = 'welcome';
 
-This route indicates which controller class should be loaded if the URI
-contains no data, which will be the case when people load your root URL.
-In the above example, the "welcome" class would be loaded. You are
-encouraged to always have a default route otherwise a 404 page will
-appear by default.
+This route points to the action that should be executed if the URI contains
+no data, which will be the case when people load your root URL.
+The setting accepts a **controller/method** value and ``index()`` would be
+the default method if you don't specify one. In the above example, it is
+``Welcome::index()`` that would be called.
+
+.. note:: You can NOT use a directory as a part of this setting!
+
+You are encouraged to always have a default route as otherwise a 404 page
+will appear by default.
 
 ::
 
