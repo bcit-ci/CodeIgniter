@@ -34,17 +34,29 @@ class Lang_test extends CI_TestCase {
 		$this->assertTrue($this->lang->load('email', 'german'));
 		$this->assertEquals('german', $this->lang->is_loaded['email_lang.php']);
 
-		// Non-alpha idiom (should act the same as unspecified language)
-		$this->ci_vfs_clone('system/language/english/number_lang.php');
-		$this->assertTrue($this->lang->load('number'));
-		$this->assertEquals('Bytes', $this->lang->language['bytes']);
-
 		// Non-existent file
 		$this->setExpectedException(
 			'RuntimeException',
 			'CI Error: Unable to load the requested language file: language/english/nonexistent_lang.php'
 		);
 		$this->lang->load('nonexistent');
+	}
+
+	// --------------------------------------------------------------------
+
+	public function test_non_alpha_idiom()
+	{
+		// Non-alpha idiom (should act the same as unspecified language)
+		// test with existing file
+		$this->ci_vfs_clone('system/language/english/number_lang.php');
+		$this->ci_vfs_clone('system/language/english/number_lang.php', 'system/language/123funny/');
+		$this->assertTrue($this->lang->load('number', '123funny'));
+		$this->assertEquals('Bytes', $this->lang->language['bytes']);
+
+		// test without existing file
+		$this->ci_vfs_clone('system/language/english/email_lang.php');
+		$this->assertTrue($this->lang->load('email', '456funny'));
+		$this->assertEquals('You did not specify a SMTP hostname.', $this->lang->language['email_no_hostname']);
 	}
 
 	// --------------------------------------------------------------------
