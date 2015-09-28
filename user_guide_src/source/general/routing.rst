@@ -187,10 +187,12 @@ will appear by default.
 
 This route indicates which controller class should be loaded if the
 requested controller is not found. It will override the default 404
-error page. It won't affect to the ``show_404()`` function, which will
+error page. Same per-directory rules as with 'default_controller'
+apply here as well.
+
+It won't affect to the ``show_404()`` function, which will
 continue loading the default *error_404.php* file at
 *application/views/errors/error_404.php*.
-
 
 ::
 
