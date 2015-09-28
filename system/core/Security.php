@@ -575,7 +575,14 @@ class CI_Security {
 		}
 
 		// Unfortunately, none of the following PRNGs is guaranteed to exist ...
-		if (defined('MCRYPT_DEV_URANDOM') && ($output = mcrypt_create_iv($length, MCRYPT_DEV_URANDOM)) !== FALSE)
+		if (is_php('5.3') && stripos(php_uname('a'), 'win') === 0)
+		{
+			if (defined('MCRYPT_RAND') && ($output = mcrypt_create_iv($length, MCRYPT_RAND)) !== FALSE)
+			{
+				return $output;
+			}
+		}
+		else if (defined('MCRYPT_DEV_URANDOM') && ($output = mcrypt_create_iv($length, MCRYPT_DEV_URANDOM)) !== FALSE)
 		{
 			return $output;
 		}
