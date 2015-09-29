@@ -34,6 +34,7 @@ Bug fixes for 3.0.2
 -  Fixed a bug (#4116) - :doc:`Pagination Library <libraries/pagination>` set the wrong page number on the "data-ci-pagination-page" attribute in generated links.
 -  Fixed a bug where :doc:`Pagination Library` added the 'rel="start"' attribute to the first displayed link even if it's not actually linking the first page.
 -  Fixed a bug (#4137) - :doc:`Error Handling <general/errors>` breaks for the new ``Error`` exceptions under PHP 7.
+-  Fixed a bug (#4126) - :doc:`Form Validation Library <libraries/form_validation>` method ``reset_validation()`` discarded validation rules from config files.
 
 Version 3.0.1
 =============
