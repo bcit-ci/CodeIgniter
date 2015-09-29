@@ -1586,7 +1586,6 @@ class CI_Form_validation {
 	public function reset_validation()
 	{
 		$this->_field_data = array();
-		$this->_config_rules = array();
 		$this->_error_array = array();
 		$this->_error_messages = array();
 		$this->error_string = '';
