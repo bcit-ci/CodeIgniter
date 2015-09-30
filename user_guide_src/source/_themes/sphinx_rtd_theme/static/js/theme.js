@@ -49,6 +49,8 @@ $(document).ready(function () {
         $('#closeMe').trigger('click');
         //$('#nav').slideToggle();
     }
+	// END MODIFICATION ---
+
 });
 
 // Rufnex Cookie functions
