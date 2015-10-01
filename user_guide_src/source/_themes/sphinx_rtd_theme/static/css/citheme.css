@@ -31,11 +31,11 @@
 
 div#pulldown-menu { 
 	-moz-column-count: 5;
-    -moz-column-gap: 20px;
-    -webkit-column-count: 5;
-    -webkit-column-gap: 20px;
-    column-count: 5;
-    column-gap: 20px;
+	-moz-column-gap: 20px;
+	-webkit-column-count: 5;
+	-webkit-column-gap: 20px;
+	column-count: 5;
+	column-gap: 20px;
 	-webkit-column-rule: 1px groove #B8B8B8;
 	-moz-column-rule: 1px groove #B8B8B8;
 	column-rule: 1px groove #B8B8B8;
@@ -45,8 +45,8 @@ div#pulldown-menu {
 	padding-top: 10px;
 	padding-bottom: 10px;
 	-webkit-column-break-inside: avoid; /*Chrome, Safari*/
-	display: table; 					/*Firefox*/
-	break-inside: avoid;				/*IE 10+ theoretically*/
+	display: table;	/*Firefox*/
+	break-inside: avoid; /*IE 10+ theoretically*/
 }
 
 #pulldown-menu ul li.toctree-l2 { 
