@@ -808,7 +808,7 @@ class CI_Security {
 				.'([\s\042\047/=]*)' // non-attribute characters, excluding > (tag close) for obvious reasons
 				.'(?<name>[^\s\042\047>/=]+)' // attribute characters
 				// optional attribute-value
-				.'(?:\s*=\s*\042[^\042]+\042|\s*=\s*\047[^\047]+\047|\s*=\s*[^\s\042\047=><`]*)?' // attribute-value separator
+				.'(?:\s*=(?:[^\s\042\047=><`]+|\s*\042[^\042]+\042|\s*\047[^\047]+\047|\s*(?U:[^\s\042\047=><`]*)))' // attribute-value separator
 				.'#i';
 
 			if ($count = preg_match_all($pattern, $matches['attributes'], $attributes, PREG_SET_ORDER | PREG_OFFSET_CAPTURE))

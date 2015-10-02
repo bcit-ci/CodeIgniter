@@ -162,7 +162,7 @@ class Security_test extends CI_TestCase {
 	{
 		$this->assertEquals('<foo [removed]>', $this->security->xss_clean('<foo onAttribute="bar">'));
 		$this->assertEquals('<foo [removed]>', $this->security->xss_clean('<foo onAttributeNoQuotes=bar>'));
-		$this->assertEquals('<foo [removed]>', $this->security->xss_clean('<foo onAttributeWithSpaces = bar>'));
+		$this->assertEquals('<foo [removed]bar>', $this->security->xss_clean('<foo onAttributeWithSpaces = bar>'));
 		$this->assertEquals('<foo prefixOnAttribute="bar">', $this->security->xss_clean('<foo prefixOnAttribute="bar">'));
 		$this->assertEquals('<foo>onOutsideOfTag=test</foo>', $this->security->xss_clean('<foo>onOutsideOfTag=test</foo>'));
 		$this->assertEquals('onNoTagAtAll = true', $this->security->xss_clean('onNoTagAtAll = true'));
@@ -206,6 +206,11 @@ class Security_test extends CI_TestCase {
 		$this->assertEquals(
 			'<image src="<>" [removed]>',
 			$this->security->xss_clean('<image src="<>" onerror=\'alert(1)\'>')
+		);
+
+		$this->assertEquals(
+			'<b "=<=  [removed]>',
+			$this->security->xss_clean('<b "=<= onmouseover=alert(1)>')
 		);
 	}
 
