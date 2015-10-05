@@ -115,17 +115,17 @@ class CI_Cache_redis extends CI_Driver
 
 			if ( ! $success)
 			{
-				throw new RuntimeException('Cache: Redis connection failed. Check your configuration.');
+				log_message('error', 'Cache: Redis connection failed. Check your configuration.');
+			}
+
+			if (isset($config['password']) && ! $this->_redis->auth($config['password']))
+			{
+				log_message('error', 'Cache: Redis authentication failed.');
 			}
 		}
 		catch (RedisException $e)
 		{
-			throw new RuntimeException('Cache: Redis connection refused ('.$e->getMessage().')');
-		}
-
-		if (isset($config['password']) && ! $this->_redis->auth($config['password']))
-		{
-			throw new RuntimeException('Cache: Redis authentication failed.');
+			log_message('error', 'Cache: Redis connection refused ('.$e->getMessage().')');
 		}
 
 		// Initialize the index of serialized values.
@@ -298,13 +298,7 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function is_supported()
 	{
-		if ( ! extension_loaded('redis'))
-		{
-			log_message('debug', 'The Redis extension must be loaded to use Redis cache.');
-			return FALSE;
-		}
-
-		return TRUE;
+		return extension_loaded('redis');
 	}
 
 	// ------------------------------------------------------------------------
