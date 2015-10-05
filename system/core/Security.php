@@ -498,8 +498,8 @@ class CI_Security {
 			.'(?<attributes>(?:[\s\042\047/=]*' // non-attribute characters, excluding > (tag close) for obvious reasons
 			.'[^\s\042\047>/=]+' // attribute characters
 			// optional attribute-value
-				.'(?:\s*=\s*' // attribute-value separator
-					.'(?:\042[^\042]*\042|\047[^\047]*\047|[^\s\042\047=><`]*)' // single, double or non-quoted value
+				.'(?:\s*=' // attribute-value separator
+					.'(?:[^\s\042\047=><`]+|\s*\042[^\042]*\042|\s*\047[^\047]*\047|\s*(?U:[^\s\042\047=><`]*))' // single, double or non-quoted value
 				.')?' // end optional attribute-value group
 			.')*)' // end optional attributes group
 			.'[^>]*)(?<closeTag>\>)?#isS';
@@ -808,7 +808,7 @@ class CI_Security {
 				.'([\s\042\047/=]*)' // non-attribute characters, excluding > (tag close) for obvious reasons
 				.'(?<name>[^\s\042\047>/=]+)' // attribute characters
 				// optional attribute-value
-				.'(?:\s*=(?:[^\s\042\047=><`]+|\s*\042[^\042]+\042|\s*\047[^\047]+\047|\s*(?U:[^\s\042\047=><`]*)))' // attribute-value separator
+				.'(?:\s*=(?<value>[^\s\042\047=><`]+|\s*\042[^\042]*\042|\s*\047[^\047]*\047|\s*(?U:[^\s\042\047=><`]*)))' // attribute-value separator
 				.'#i';
 
 			if ($count = preg_match_all($pattern, $matches['attributes'], $attributes, PREG_SET_ORDER | PREG_OFFSET_CAPTURE))
@@ -818,8 +818,14 @@ class CI_Security {
 				// so we don't damage the string.
 				for ($i = $count - 1; $i > -1; $i--)
 				{
-					// Is it indeed an "evil" attribute?
-					if (preg_match('#^('.implode('|', $evil_attributes).')$#i', $attributes[$i]['name'][0]))
+					if (
+						// Is it indeed an "evil" attribute?
+						preg_match('#^('.implode('|', $evil_attributes).')$#i', $attributes[$i]['name'][0])
+						// Or an attribute not starting with a letter? Some parsers get confused by that
+						OR ! ctype_alpha($attributes[$i]['name'][0][0])
+						// Does it have an equals sign, but no value and not quoted? Strip that too!
+						OR (trim($attributes[$i]['value'][0]) === '')
+					)
 					{
 						$matches['attributes'] = substr_replace(
 							$matches['attributes'],

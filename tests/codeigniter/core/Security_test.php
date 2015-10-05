@@ -146,7 +146,7 @@ class Security_test extends CI_TestCase {
 		$this->assertEquals('<fubar>', $this->security->xss_clean('<fubar>'));
 
 		$this->assertEquals(
-			'<img <svg=""> src="x">',
+			'<img [removed]> src="x">',
 			$this->security->xss_clean('<img <svg=""> src="x">')
 		);
 
@@ -209,8 +209,13 @@ class Security_test extends CI_TestCase {
 		);
 
 		$this->assertEquals(
-			'<b "=<=  [removed]>',
+			'<b [removed] [removed]>',
 			$this->security->xss_clean('<b "=<= onmouseover=alert(1)>')
+		);
+
+		$this->assertEquals(
+			'<b [removed] [removed]alert&#40;1&#41;,1>1">',
+			$this->security->xss_clean('<b a=<=" onmouseover="alert(1),1>1">')
 		);
 	}
 
