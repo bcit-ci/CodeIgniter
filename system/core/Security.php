@@ -355,7 +355,7 @@ class CI_Security {
 		$words = array(
 			'javascript', 'expression', 'vbscript', 'jscript', 'wscript',
 			'vbs', 'script', 'base64', 'applet', 'alert', 'document',
-			'write', 'cookie', 'window', 'confirm', 'prompt'
+			'write', 'cookie', 'window', 'confirm', 'prompt', 'eval'
 		);
 
 		foreach ($words as $word)
@@ -399,11 +399,7 @@ class CI_Security {
 			}
 		}
 		while($original !== $str);
-
 		unset($original);
-
-		// Remove evil attributes such as style, onclick and xmlns
-		$str = $this->_remove_evil_attributes($str, $is_image);
 
 		/*
 		 * Sanitize naughty HTML elements
@@ -414,8 +410,29 @@ class CI_Security {
 		 * So this: <blink>
 		 * Becomes: &lt;blink&gt;
 		 */
-		$naughty = 'alert|prompt|confirm|applet|audio|basefont|base|behavior|bgsound|blink|body|embed|expression|form|frameset|frame|head|html|ilayer|iframe|input|button|select|isindex|layer|link|meta|keygen|object|plaintext|style|script|textarea|title|math|video|svg|xml|xss';
-		$str = preg_replace_callback('#<(/*\s*)('.$naughty.')([^><]*)([><]*)#is', array($this, '_sanitize_naughty_html'), $str);
+		$pattern = '#'
+			.'<((?<slash>/*\s*)(?<tagName>[a-z0-9]+)(?=[^a-z0-9]|$)' // tag start and name, followed by a non-tag character
+			.'[^\s\042\047a-z0-9>/=]*' // a valid attribute character immediately after the tag would count as a separator
+			// optional attributes
+			.'(?<attributes>(?:[\s\042\047/=]*' // non-attribute characters, excluding > (tag close) for obvious reasons
+			.'[^\s\042\047>/=]+' // attribute characters
+			// optional attribute-value
+				.'(?:\s*=' // attribute-value separator
+					.'(?:[^\s\042\047=><`]+|\s*\042[^\042]*\042|\s*\047[^\047]*\047|\s*(?U:[^\s\042\047=><`]*))' // single, double or non-quoted value
+				.')?' // end optional attribute-value group
+			.')*)' // end optional attributes group
+			.'[^>]*)(?<closeTag>\>)?#isS';
+
+		// Note: It would be nice to optimize this for speed, BUT
+		//       only matching the naughty elements here results in
+		//       false positives and in turn - vulnerabilities!
+		do
+		{
+			$old_str = $str;
+			$str = preg_replace_callback($pattern, array($this, '_sanitize_naughty_html'), $str);
+		}
+		while ($old_str !== $str);
+		unset($old_str);
 
 		/*
 		 * Sanitize naughty scripting elements
@@ -626,69 +643,6 @@ class CI_Security {
 
 	// --------------------------------------------------------------------
 
-	/*
-	 * Remove Evil HTML Attributes (like evenhandlers and style)
-	 *
-	 * It removes the evil attribute and either:
-	 * 	- Everything up until a space
-	 *		For example, everything between the pipes:
-	 *		<a |style=document.write('hello');alert('world');| class=link>
-	 * 	- Everything inside the quotes
-	 *		For example, everything between the pipes:
-	 *		<a |style="document.write('hello'); alert('world');"| class="link">
-	 *
-	 * @param string $str The string to check
-	 * @param boolean $is_image TRUE if this is an image
-	 * @return string The string with the evil attributes removed
-	 */
-	protected function _remove_evil_attributes($str, $is_image)
-	{
-		// All javascript event handlers (e.g. onload, onclick, onmouseover), style, and xmlns
-		$evil_attributes = array('on\w*', 'style', 'xmlns', 'formaction', 'form', 'xlink:href', 'FSCommand', 'seekSegmentTime');
-
-		if ($is_image === TRUE)
-		{
-			/*
-			 * Adobe Photoshop puts XML metadata into JFIF images,
-			 * including namespacing, so we have to allow this for images.
-			 */
-			unset($evil_attributes[array_search('xmlns', $evil_attributes)]);
-		}
-
-		do {
-			$count = 0;
-			$attribs = array();
-
-			// find occurrences of illegal attribute strings with quotes (042 and 047 are octal quotes)
-			preg_match_all('/(?<!\w)('.implode('|', $evil_attributes).')\s*=\s*(\042|\047)([^\\2]*?)(\\2)/is', $str, $matches, PREG_SET_ORDER);
-
-			foreach ($matches as $attr)
-			{
-				$attribs[] = preg_quote($attr[0], '/');
-			}
-
-			// find occurrences of illegal attribute strings without quotes
-			preg_match_all('/(?<!\w)('.implode('|', $evil_attributes).')\s*=\s*([^\s>]*)/is', $str, $matches, PREG_SET_ORDER);
-
-			foreach ($matches as $attr)
-			{
-				$attribs[] = preg_quote($attr[0], '/');
-			}
-
-			// replace illegal attribute strings that are inside an html tag
-			if (count($attribs) > 0)
-			{
-				$str = preg_replace('/(<?)(\/?[^><]+?)([^A-Za-z<>\-])(.*?)('.implode('|', $attribs).')(.*?)([\s><]?)([><]*)/i', '$1$2 $4$6$7$8', $str, -1, $count);
-			}
-
-		}
-		while ($count);
-
-		return $str;
-	}
-
-	// --------------------------------------------------------------------
-
 	/**
 	 * Sanitize Naughty HTML
 	 *
@@ -699,9 +653,70 @@ class CI_Security {
 	 */
 	protected function _sanitize_naughty_html($matches)
 	{
-		return '&lt;'.$matches[1].$matches[2].$matches[3] // encode opening brace
-			// encode captured opening or closing brace to prevent recursive vectors:
-			.str_replace(array('>', '<'), array('&gt;', '&lt;'), $matches[4]);
+		static $naughty_tags    = array(
+			'alert', 'prompt', 'confirm', 'applet', 'audio', 'basefont', 'base', 'behavior', 'bgsound',
+			'blink', 'body', 'embed', 'expression', 'form', 'frameset', 'frame', 'head', 'html', 'ilayer',
+			'iframe', 'input', 'button', 'select', 'isindex', 'layer', 'link', 'meta', 'keygen', 'object',
+			'plaintext', 'style', 'script', 'textarea', 'title', 'math', 'video', 'svg', 'xml', 'xss'
+		);
+
+		static $evil_attributes = array(
+			'on\w+', 'style', 'xmlns', 'formaction', 'form', 'xlink:href', 'FSCommand', 'seekSegmentTime'
+		);
+
+		// First, escape unclosed tags
+		if (empty($matches['closeTag']))
+		{
+			return '&lt;'.$matches[1];
+		}
+		// Is the element that we caught naughty? If so, escape it
+		elseif (in_array(strtolower($matches['tagName']), $naughty_tags, TRUE))
+		{
+			return '&lt;'.$matches[1].'&gt;';
+		}
+		// For other tags, see if their attributes are "evil" and strip those
+		elseif (isset($matches['attributes']))
+		{
+			// We'll need to catch all attributes separately first
+			$pattern = '#'
+				.'([\s\042\047/=]*)' // non-attribute characters, excluding > (tag close) for obvious reasons
+				.'(?<name>[^\s\042\047>/=]+)' // attribute characters
+				// optional attribute-value
+				.'(?:\s*=(?<value>[^\s\042\047=><`]+|\s*\042[^\042]*\042|\s*\047[^\047]*\047|\s*(?U:[^\s\042\047=><`]*)))' // attribute-value separator
+				.'#i';
+
+			if ($count = preg_match_all($pattern, $matches['attributes'], $attributes, PREG_SET_ORDER | PREG_OFFSET_CAPTURE))
+			{
+				// Since we'll be using substr_replace() below, we
+				// need to handle the attributes in reverse order,
+				// so we don't damage the string.
+				for ($i = $count - 1; $i > -1; $i--)
+				{
+					if (
+						// Is it indeed an "evil" attribute?
+						preg_match('#^('.implode('|', $evil_attributes).')$#i', $attributes[$i]['name'][0])
+						// Or an attribute not starting with a letter? Some parsers get confused by that
+						OR ! ctype_alpha($attributes[$i]['name'][0][0])
+						// Does it have an equals sign, but no value and not quoted? Strip that too!
+						OR (trim($attributes[$i]['value'][0]) === '')
+					)
+					{
+						$matches['attributes'] = substr_replace(
+							$matches['attributes'],
+							' [removed]',
+							$attributes[$i][0][1],
+							strlen($attributes[$i][0][0])
+						);
+					}
+				}
+
+				// Note: This will strip some non-space characters and/or
+				//       reduce multiple spaces between attributes.
+				return '<'.$matches['slash'].$matches['tagName'].' '.trim($matches['attributes']).'>';
+			}
+		}
+
+		return $matches[0];
 	}
 
 	// --------------------------------------------------------------------
@@ -724,7 +739,7 @@ class CI_Security {
 			preg_replace(
 				'#href=.*?(?:(?:alert|prompt|confirm)(?:\(|&\#40;)|javascript:|livescript:|mocha:|charset=|window\.|document\.|\.cookie|<script|<xss|data\s*:)#si',
 				'',
-				$this->_filter_attributes(str_replace(array('<', '>'), '', $match[1]))
+				$this->_filter_attributes($match[1])
 			),
 			$match[0]
 		);
@@ -748,9 +763,9 @@ class CI_Security {
 		return str_replace(
 			$match[1],
 			preg_replace(
-				'#src=.*?(?:(?:alert|prompt|confirm)(?:\(|&\#40;)|javascript:|livescript:|mocha:|charset=|window\.|document\.|\.cookie|<script|<xss|base64\s*,)#si',
+				'#src=.*?(?:(?:alert|prompt|confirm|eval)(?:\(|&\#40;)|javascript:|livescript:|mocha:|charset=|window\.|document\.|\.cookie|<script|<xss|base64\s*,)#si',
 				'',
-				$this->_filter_attributes(str_replace(array('<', '>'), '', $match[1]))
+				$this->_filter_attributes($match[1])
 			),
 			$match[0]
 		);
