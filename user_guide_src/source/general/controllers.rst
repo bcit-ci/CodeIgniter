@@ -145,7 +145,7 @@ load your main index.php file without specifying any URI segments you'll
 see your "Hello World" message by default.
 
 For more information, please refer to the "Reserved Routes" section of the
-:doc:`URI Routing <general/routing>` documentation.
+:doc:`URI Routing <routing>` documentation.
 
 Remapping Method Calls
 ======================
