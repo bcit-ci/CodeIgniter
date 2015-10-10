@@ -82,7 +82,7 @@ function &DB($params = '', $query_builder_override = NULL)
 			}
 		}
 
-		if ( ! isset($db) OR count($db) === 0)
+		if (empty($db))
 		{
 			show_error('No database connection settings were found in the database config file.');
 		}

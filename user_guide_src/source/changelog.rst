@@ -2,6 +2,16 @@
 Change Log
 ##########
 
+Version 3.1.0
+=============
+
+Release Date: October 8, 2015
+
+-  **Security**
+
+   -  Fixed a number of XSS attack vectors in :doc:`Security Library <libraries/security>` method ``xss_clean()``  (thanks to Frans Rosén from `Detectify <https://detectify.com/>`_).
+
+
 Version 3.0.2
 =============
 
