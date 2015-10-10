@@ -267,7 +267,7 @@ class CI_Cache_file extends CI_Driver {
 	 */
 	protected function _get($id)
 	{
-		if ( ! file_exists($this->_cache_path.$id))
+		if ( ! is_file($this->_cache_path.$id))
 		{
 			return FALSE;
 		}

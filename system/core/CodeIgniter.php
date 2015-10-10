@@ -55,7 +55,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @var	string
  *
  */
+<<<<<<< HEAD
 	define('CI_VERSION', '3.1.0-dev');
+=======
+	define('CI_VERSION', '3.0.2');
+>>>>>>> upstream/3.0-stable
 
 /*
  * ------------------------------------------------------

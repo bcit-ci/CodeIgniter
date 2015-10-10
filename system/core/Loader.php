@@ -290,7 +290,7 @@ class CI_Loader {
 			load_class('Model', 'core');
 		}
 
-		$model = ucfirst(strtolower($model));
+		$model = ucfirst($model);
 		if ( ! class_exists($model))
 		{
 			foreach ($this->_ci_model_paths as $mod_path)

@@ -381,9 +381,19 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	public function error()
 	{
-		$query = $this->query('SELECT @@ERROR AS code');
-		$query = $query->row();
-		return array('code' => $query->code, 'message' => mssql_get_last_message());
+		// We need this because the error info is discarded by the
+		// server the first time you request it, and query() already
+		// calls error() once for logging purposes when a query fails.
+		static $error = array('code' => 0, 'message' => NULL);
+
+		$message = mssql_get_last_message();
+		if ( ! empty($message))
+		{
+			$error['code']    = $this->query('SELECT @@ERROR AS code')->row()->code;
+			$error['message'] = $message;
+		}
+
+		return $error;
 	}
 
 	// --------------------------------------------------------------------

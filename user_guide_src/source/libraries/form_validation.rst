@@ -547,7 +547,10 @@ All of the native error messages are located in the following language
 file: **system/language/english/form_validation_lang.php**
 
 To set your own global custom message for a rule, you can either 
-edit that file, or use the following method::
+extend/override the language file by creating your own in
+**application/language/english/form_validation_lang.php** (read more
+about this in the :doc:`Language Class <language>` documentation),
+or use the following method::
 
 	$this->form_validation->set_message('rule', 'Error Message');
 

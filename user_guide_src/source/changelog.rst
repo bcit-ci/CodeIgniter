@@ -11,17 +11,40 @@ Release Date: Not Released
 Version 3.0.2
 =============
 
-Release Date: Not Released
+Release Date: October 8, 2015
+
+-  **Security**
+
+   -  Fixed a number of XSS attack vectors in :doc:`Security Library <libraries/security>` method ``xss_clean()``  (thanks to Frans Rosén from `Detectify <https://detectify.com/>`_).
 
 -  General Changes
 
    -  Updated the *application/config/constants.php* file to check if constants aren't already defined before doing that.
+   -  Changed :doc:`Loader Library <libraries/loader>` method ``model()`` to only apply ``ucfirst()`` and not ``strtolower()`` to the requested class name.
+   -  Changed :doc:`Config Library <libraries/config>` methods ``base_url()``, ``site_url()`` to allow protocol-relative URLs by passing an empty string as the protocol.
 
 Bug fixes for 3.0.2
 -------------------
 
 -  Fixed a bug (#2284) - :doc:`Database <database/index>` method ``protect_identifiers()`` breaks when :doc:`Query Builder <database/query_builder>` isn't enabled.
 -  Fixed a bug (#4052) - :doc:`Routing <general/routing>` with anonymous functions didn't work for routes that don't use regular expressions.
+-  Fixed a bug (#4056) - :doc:`Input Library <libraries/input>` method ``get_request_header()`` could not return a value unless ``request_headers()`` was called beforehand.
+-  Fixed a bug where the :doc:`Database Class <database/index>` entered an endless loop if it fails to connect with the 'sqlsrv' driver.
+-  Fixed a bug (#4065) - :doc:`Database <database/index>` method ``protect_identifiers()`` treats a traling space as an alias separator if the input doesn't contain ' AS '.
+-  Fixed a bug (#4066) - :doc:`Cache Library <libraries/caching>` couldn't fallback to a backup driver if the primary one is Memcache(d) or Redis.
+-  Fixed a bug (#4073) - :doc:`Email Library <libraries/email>` method ``send()`` could return TRUE in case of an actual failure when an SMTP command fails.
+-  Fixed a bug (#4086) - :doc:`Query Builder <database/query_builder>` didn't apply *dbprefix* to LIKE conditions if the pattern included spaces.
+-  Fixed a bug (#4091) - :doc:`Cache Library <libraries/caching>` 'file' driver could be tricked into accepting empty cache item IDs.
+-  Fixed a bug (#4093) - :doc:`Query Builder <database/query_builder>` modified string values containing 'AND', 'OR' while compiling WHERE conditions.
+-  Fixed a bug (#4096) - :doc:`Query Builder <database/query_builder>` didn't apply *dbprefix* when compiling BETWEEN conditions.
+-  Fixed a bug (#4105) - :doc:`Form Validation Library <libraries/form_validation>` didn't allow pipe characters inside "bracket parameters" when using a string ruleset.
+-  Fixed a bug (#4109) - :doc:`Routing <general/routing>` to *default_controller* didn't work when *enable_query_strings* is set to TRUE.
+-  Fixed a bug (#4044) - :doc:`Cache Library <libraries/caching>` 'redis' driver didn't catch ``RedisException`` that could be thrown during authentication.
+-  Fixed a bug (#4120) - :doc:`Database <database/index>` method ``error()`` didn't return error info when called after ``query()`` with the 'mssql' driver.
+-  Fixed a bug (#4116) - :doc:`Pagination Library <libraries/pagination>` set the wrong page number on the "data-ci-pagination-page" attribute in generated links.
+-  Fixed a bug where :doc:`Pagination Library <libraries/pagination>` added the 'rel="start"' attribute to the first displayed link even if it's not actually linking the first page.
+-  Fixed a bug (#4137) - :doc:`Error Handling <general/errors>` breaks for the new ``Error`` exceptions under PHP 7.
+-  Fixed a bug (#4126) - :doc:`Form Validation Library <libraries/form_validation>` method ``reset_validation()`` discarded validation rules from config files.
 
 Version 3.0.1
 =============

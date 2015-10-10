@@ -123,4 +123,12 @@ class Where_test extends CI_TestCase {
 		$this->assertEquals('Musician', $jobs[1]['name']);
 	}
 
+	// ------------------------------------------------------------------------
+
+	public function test_issue4093()
+	{
+		$input = 'bar and baz or qux';
+		$sql = $this->db->where('foo', $input)->get_compiled_select('dummy');
+		$this->assertEquals("'".$input."'", substr($sql, -20));
+	}
 }
