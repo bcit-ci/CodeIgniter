@@ -71,3 +71,10 @@ div#pulldown-menu {
 	font-family: Lucida Grande,Verdana,Geneva,sans-serif;
 	color: #aaaaaa;
 }
+
+/*disable switch layout on mobile devices*/
+@media (max-width: 768px) { 
+  #closeMe {
+    display: none;
+  }
+}
