@@ -187,7 +187,7 @@ class CI_Exceptions {
 
 	// --------------------------------------------------------------------
 
-	public function show_exception(Exception $exception)
+	public function show_exception($exception)
 	{
 		$templates_path = config_item('error_views_path');
 		if (empty($templates_path))
