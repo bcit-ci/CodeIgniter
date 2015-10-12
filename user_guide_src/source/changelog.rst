@@ -2,6 +2,18 @@
 Change Log
 ##########
 
+Version 3.0.3
+=============
+
+Release Date: Not Released
+
+-  Database
+
+   -  Optimized :doc:`Database Utility <database/utilities>` method ``csv_from_result()`` for speed with larger result sets.
+
+Bug fixes for 3.0.3
+-------------------
+
 Version 3.0.2
 =============
 
