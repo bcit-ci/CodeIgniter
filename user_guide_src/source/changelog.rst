@@ -14,6 +14,8 @@ Release Date: Not Released
 Bug fixes for 3.0.3
 -------------------
 
+-  Fixed a bug (#4170) - :doc:`Database <database/index>` method ``insert_id()`` could return an identity from the wrong scope with the 'sqlsrv' driver.
+
 Version 3.0.2
 =============
 

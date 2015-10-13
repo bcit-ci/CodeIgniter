@@ -275,9 +275,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function insert_id()
 	{
-		$query = $this->query('SELECT @@IDENTITY AS insert_id');
-		$query = $query->row();
-		return $query->insert_id;
+		return $this->query('SELECT SCOPE_IDENTITY() AS insert_id')->row()->insert_id;
 	}
 
 	// --------------------------------------------------------------------
