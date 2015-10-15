@@ -76,6 +76,15 @@ class CI_DB_postgre_driver extends CI_DB {
 	protected $_random_keyword = array('RANDOM()', 'RANDOM()');
 
 	// --------------------------------------------------------------------
+        
+        /**
+	 * Result resource from query execution
+	 *
+	 * @var	array
+	 */
+	protected $result_resource = array();
+
+	// --------------------------------------------------------------------        
 
 	/**
 	 * Class constructor
@@ -239,7 +248,19 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return pg_query($this->conn_id, $sql);
+            /** Send query */
+            pg_send_query($this->conn_id, $sql);
+            /** Get the result */
+            $result = pg_get_result($this->conn_id);
+            /** Set the result resource to a variable that can be used later on error() */
+            $this->result_resource = $result;
+            /** Verify if state is 0 which means OK, else return false */
+            $state = pg_result_error_field($result, PGSQL_DIAG_SQLSTATE);
+            if ($state == 0) {
+                return $result;
+            }else{
+                return false;
+            }	
 	}
 
 	// --------------------------------------------------------------------
@@ -496,7 +517,10 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function error()
 	{
-		return array('code' => '', 'message' => pg_last_error($this->conn_id));
+            	return array(
+                    'code' => pg_result_error_field($this->result_resource, PGSQL_DIAG_SQLSTATE), 
+                    'message' => pg_result_error_field($this->result_resource, PGSQL_DIAG_MESSAGE_PRIMARY)
+                );
 	}
 
 	// --------------------------------------------------------------------
