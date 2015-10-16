@@ -81,8 +81,8 @@ The basic prototype for a model class is this::
 	}
 
 Where **Model_name** is the name of your class. Class names **must** have
-the first letter capitalized with the rest of the name lowercase. Make
-sure your class extends the base Model class.
+the first letter capitalized. Make sure your class extends the base Model
+class.
 
 The file name must match the class name. For example, if this is your class::
 
