@@ -25,7 +25,7 @@ $(document).ready(function () {
     $('#closeMe').toggle(
         function ()
         {
-            setCookie('ciNav', true, 365);
+            setCookie('ciNav', 'true', 365);
             $('#nav2').show();
             $('#topMenu').remove();
             $('body').css({background: 'none'});
@@ -35,7 +35,7 @@ $(document).ready(function () {
         },
         function ()
         {
-            setCookie('ciNav', false, 365);
+            setCookie('ciNav', 'false', 365);
             $('#topMenu').remove();
             $('#nav').hide();
             $('#nav2').hide();
@@ -50,14 +50,19 @@ $(document).ready(function () {
         //$('#nav').slideToggle();
     }
     // END MODIFICATION ---
+
 });
 
 // Rufnex Cookie functions
 function setCookie(cname, cvalue, exdays) {
+    // expire the old cookie if existed to avoid multiple cookies with the same name
+    if  (getCookie(cname) != false) {
+        document.cookie = cname + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
     var d = new Date();
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
     var expires = "expires=" + d.toGMTString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
+    document.cookie = cname + "=" + cvalue + "; " + expires + "; path=/";
 }
 function getCookie(cname) {
     var name = cname + "=";
@@ -73,6 +78,27 @@ function getCookie(cname) {
     return false;
 }
 // End
+
+// resize window
+$(window).on('resize', function(){
+    // show side nav on small screens when pulldown is enabled
+    if (getCookie('ciNav') == 'true' && $(window).width() <= 768) { // 768px is the tablet size defined by the theme
+        $('.wy-nav-side').show();
+    }
+    // changing css with jQuenry seems to override the default css media query
+    // change margin
+    else if (getCookie('ciNav') == 'false' && $(window).width() <= 768) {
+        $('.wy-nav-content-wrap').css({'margin-left': 0});
+    }
+    // hide side nav on large screens when pulldown is enabled
+    else if (getCookie('ciNav') == 'true' && $(window).width() > 768) {
+        $('.wy-nav-side').hide();
+    }
+    // change margin
+    else if (getCookie('ciNav') == 'false' && $(window).width() > 768) {
+        $('.wy-nav-content-wrap').css({'margin-left': '300px'});
+    }
+});
 
 window.SphinxRtdTheme = (function (jquery) {
     var stickyNav = (function () {
