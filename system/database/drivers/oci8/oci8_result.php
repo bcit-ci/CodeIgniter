@@ -6,7 +6,7 @@
  *
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
- * @copyright   Copyright (c) 2008 - 2011, EllisLab, Inc.
+ * @copyright   Copyright (c) 2008 - 2014, EllisLab, Inc.
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -43,11 +43,11 @@ class CI_DB_oci8_result extends CI_DB_result {
 		if ($this->num_rows === 0 && count($this->result_array()) > 0)
 		{
 			$this->num_rows = count($this->result_array());
-			@oci_execute($this->stmt_id);
+			@oci_execute($this->stmt_id, OCI_DEFAULT);
 
 			if ($this->curs_id)
 			{
-				@oci_execute($this->curs_id);
+				@oci_execute($this->curs_id, OCI_DEFAULT);
 			}
 		}
 

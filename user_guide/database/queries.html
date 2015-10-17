@@ -28,7 +28,7 @@
 <div id="masthead">
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>
-<td><h1>CodeIgniter User Guide Version 2.1.4</h1></td>
+<td><h1>CodeIgniter User Guide Version 2.2.0</h1></td>
 <td id="breadcrumb_right"><a href="../toc.html">Table of Contents Page</a></td>
 </tr>
 </table>
@@ -95,6 +95,8 @@ $this-&gt;db-&gt;dbprefix('tablename');<br />
 <p>In many databases it is advisable to protect table and field names - for example with backticks in MySQL. <strong>Active Record queries are automatically protected</strong>, however if you need to manually protect an identifier you can use:</p>
 <p><code>$this-&gt;db-&gt;protect_identifiers('table_name');</code></p>
 
+<p class="important">Although Active Record will try its best to properly quote any field and table names that you feed it, note that it is NOT designed to work with arbitrary user input. DO NOT feed it with unsanitized user data.</p>
+
 <p>This function will also add a table prefix to your table, assuming you have a prefix specified in your database config file. To enable the prefixing set <kbd>TRUE</kbd> (boolen) via the second parameter:</p>
 <p><code>$this-&gt;db-&gt;protect_identifiers('table_name', <kbd>TRUE</kbd>);</code></p>
 
@@ -151,7 +153,7 @@ Previous Topic:&nbsp;&nbsp;<a href="connecting.html">Connecting to your Database
 <a href="../index.html">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
 Next Topic:&nbsp;&nbsp;<a href="results.html">Query Results</a>
 </p>
-<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2012 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006 - 2014 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">EllisLab, Inc.</a></p>
 </div>
 
 </body>
