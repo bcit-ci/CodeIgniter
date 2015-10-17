@@ -665,14 +665,17 @@ class CI_Session {
 		$expire = ($this->sess_expire_on_close === TRUE) ? 0 : $this->sess_expiration + time();
 
 		// Set the cookie
-		setcookie(
-					$this->sess_cookie_name,
-					$cookie_data,
-					$expire,
-					$this->cookie_path,
-					$this->cookie_domain,
-					$this->cookie_secure
-				);
+		if ( ! $this->CI->input->is_cli_request())
+        {
+            setcookie(
+                $this->sess_cookie_name,
+                $cookie_data,
+                $expire,
+                $this->cookie_path,
+                $this->cookie_domain,
+                $this->cookie_secure
+            );
+        }
 	}
 
 	// --------------------------------------------------------------------
