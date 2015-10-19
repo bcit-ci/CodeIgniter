@@ -16,6 +16,7 @@ Bug fixes for 3.0.3
 
 -  Fixed a bug (#4170) - :doc:`Database <database/index>` method ``insert_id()`` could return an identity from the wrong scope with the 'sqlsrv' driver.
 -  Fixed a bug (#4179) - :doc:`Session Library <libraries/sessions>` doesn't properly maintain its state after ID regeneration with the 'database' driver on PHP7.
+-  Fixed a bug (#4173) - :doc:`Database Forge <database/forge>` method ``add_key()`` didn't allow creation of non-PRIMARY composite keys after the "bugfix" for #3968.
 
 Version 3.0.2
 =============

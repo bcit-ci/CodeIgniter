@@ -239,7 +239,13 @@ abstract class CI_DB_forge {
 	 */
 	public function add_key($key, $primary = FALSE)
 	{
-		if (is_array($key))
+		// DO NOT change this! This condition is only applicable
+		// for PRIMARY keys because you can only have one such,
+		// and therefore all fields you add to it will be included
+		// in the same, composite PRIMARY KEY.
+		//
+		// It's not the same for regular indexes.
+		if ($primary === TRUE && is_array($key))
 		{
 			foreach ($key as $one)
 			{
