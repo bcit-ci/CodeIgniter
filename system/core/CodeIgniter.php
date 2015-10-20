@@ -399,13 +399,13 @@ if ( ! is_php('5.4'))
 	$class = ucfirst($RTR->class);
 	$method = $RTR->method;
 
-	if (empty($class) OR ! file_exists(APPPATH.'controllers/'.$RTR->directory.$class.'.php'))
+	if (empty($class) OR ! file_exists($RTR->folder.'controllers/'.$RTR->directory.$class.'.php'))
 	{
 		$e404 = TRUE;
 	}
 	else
 	{
-		require_once(APPPATH.'controllers/'.$RTR->directory.$class.'.php');
+		require_once($RTR->folder.'controllers/'.$RTR->directory.$class.'.php');
 
 		if ( ! class_exists($class, FALSE) OR $method[0] === '_' OR method_exists('CI_Controller', $method))
 		{
@@ -439,15 +439,15 @@ if ( ! is_php('5.4'))
 
 			if ( ! class_exists($error_class, FALSE))
 			{
-				if (file_exists(APPPATH.'controllers/'.$RTR->directory.$error_class.'.php'))
+				if (file_exists($RTR->folder.'controllers/'.$RTR->directory.$error_class.'.php'))
 				{
-					require_once(APPPATH.'controllers/'.$RTR->directory.$error_class.'.php');
+					require_once($RTR->folder.'controllers/'.$RTR->directory.$error_class.'.php');
 					$e404 = ! class_exists($error_class, FALSE);
 				}
 				// Were we in a directory? If so, check for a global override
-				elseif ( ! empty($RTR->directory) && file_exists(APPPATH.'controllers/'.$error_class.'.php'))
+				elseif ( ! empty($RTR->directory) && file_exists($RTR->folder.'controllers/'.$error_class.'.php'))
 				{
-					require_once(APPPATH.'controllers/'.$error_class.'.php');
+					require_once($RTR->folder.'controllers/'.$error_class.'.php');
 					if (($e404 = ! class_exists($error_class, FALSE)) === FALSE)
 					{
 						$RTR->directory = '';

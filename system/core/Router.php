@@ -72,6 +72,13 @@ class CI_Router {
 	public $class =		'';
 
 	/**
+	 * The search directory folder the controller was found in
+	 *
+	 * @var string
+	 */
+	public $folder = 	'';
+
+	/**
 	 * Current method name
 	 *
 	 * @var	string
@@ -84,6 +91,14 @@ class CI_Router {
 	 * @var	string
 	 */
 	public $directory;
+
+	/**
+	 * List of directories whose 'controllers'-subdir will be searched for controller classes,
+	 * in descending priority order
+	 *
+	 * @var array
+	 */
+	public $search_directories = array(APPPATH);
 
 	/**
 	 * Default controller (and method if specific)
@@ -288,33 +303,33 @@ class CI_Router {
 	 */
 	protected function _set_default_controller()
 	{
-		if (empty($this->default_controller))
-		{
+		if (empty($this->default_controller)) {
 			show_error('Unable to determine what should be displayed. A default route has not been specified in the routing file.');
 		}
 
 		// Is the method being specified?
-		if (sscanf($this->default_controller, '%[^/]/%s', $class, $method) !== 2)
-		{
+		if (sscanf($this->default_controller, '%[^/]/%s', $class, $method) !== 2) {
 			$method = 'index';
 		}
 
-		if ( ! file_exists(APPPATH.'controllers/'.$this->directory.ucfirst($class).'.php'))
-		{
-			// This will trigger 404 later
-			return;
+		foreach ($this->search_directories as $search_directory) {
+			if (file_exists($search_directory . 'controllers/' . $this->directory . ucfirst($class) . '.php')) {
+				$this->set_class($class);
+				$this->set_folder($search_directory);
+				$this->set_method($method);
+
+				// Assign routed segments, index starting from 1
+				$this->uri->rsegments = array(
+					1 => $class,
+					2 => $method
+				);
+
+				log_message('debug', 'No URI present. Default controller set.');
+				break;
+			}
 		}
 
-		$this->set_class($class);
-		$this->set_method($method);
-
-		// Assign routed segments, index starting from 1
-		$this->uri->rsegments = array(
-			1 => $class,
-			2 => $method
-		);
-
-		log_message('debug', 'No URI present. Default controller set.');
+		// Surviving until here will trigger 404 later
 	}
 
 	// --------------------------------------------------------------------
@@ -333,23 +348,24 @@ class CI_Router {
 		$c = count($segments);
 		$directory_override = isset($this->directory);
 
-		// Loop through our segments and return as soon as a controller
-		// is found or when such a directory doesn't exist
-		while ($c-- > 0)
-		{
-			$test = $this->directory
-				.ucfirst($this->translate_uri_dashes === TRUE ? str_replace('-', '_', $segments[0]) : $segments[0]);
+		foreach ($this->search_directories as $search_dir) {
+			// Loop through our segments and return as soon as a controller
+			// is found or when such a directory doesn't exist
+			while ($c-- > 0) {
+				$test = ucfirst($this->translate_uri_dashes === TRUE ? str_replace('-', '_', $segments[0]) : $segments[0]);
 
-			if ( ! file_exists(APPPATH.'controllers/'.$test.'.php')
-				&& $directory_override === FALSE
-				&& is_dir(APPPATH.'controllers/'.$this->directory.$segments[0])
-			)
-			{
-				$this->set_directory(array_shift($segments), TRUE);
-				continue;
+				if (!file_exists($search_dir . 'controllers/' . $test . '.php')
+					&& $directory_override === FALSE
+					&& is_dir($search_dir . 'controllers/' . $this->directory . $segments[0])
+				) {
+					$this->set_directory(array_shift($segments), TRUE);
+					continue;
+				}
+
+				// We've got something!
+				$this->set_folder($search_dir);
+				return $segments;
 			}
-
-			return $segments;
 		}
 
 		// This means that all segments were actually directories
@@ -446,6 +462,19 @@ class CI_Router {
 	public function fetch_class()
 	{
 		return $this->class;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set folder name
+	 *
+	 * @param string $folder Name of the folder the controller was found in
+	 * @return void
+	 */
+	public function set_folder($folder)
+	{
+		$this->folder = $folder;
 	}
 
 	// --------------------------------------------------------------------
