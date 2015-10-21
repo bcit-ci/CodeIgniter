@@ -71,3 +71,18 @@ div#pulldown-menu {
 	font-family: Lucida Grande,Verdana,Geneva,sans-serif;
 	color: #aaaaaa;
 }
+
+/*hide pulldown menu on mobile devices*/
+@media (max-width: 768px) { /*tablet size defined by theme*/
+	#closeMe {
+		display: none;
+	}
+
+	#pulldown {
+		display: none;
+	}
+
+	#openToc {
+		display: none;
+	}
+}
