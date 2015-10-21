@@ -787,7 +787,20 @@ class CI_Security {
 		);
 
 		static $evil_attributes = array(
-			'on\w+', 'style', 'xmlns', 'formaction', 'form', 'xlink:href', 'FSCommand', 'seekSegmentTime'
+			'onclick', 'oncontextmenu', 'ondbclick', 'onmousedown', 'onmouseenter', 'onmouseleave',
+			'onmousemove', 'onmouseover', 'onmouseout', 'onmouseup', 'onkeydown', 'onkeypress',
+			'onkeyup', 'onabort', 'onbeforeunload', 'onerror', 'onhashchange', 'onload', 'onpageshow',
+			'onpagehide', 'onresize', 'onscroll', 'onunload', 'onblur', 'onchange', 'onfocus', 'onfocusin',
+			'onfocusout', 'oninput', 'oninvalid', 'onreset', 'onsearch', 'onselect', 'onsubmit', 'ondrag',
+			'ondragend', 'ondragenter', 'ondragleave', 'ondragover', 'ondragstart', 'ondrop', 'oncopy',
+			'oncut', 'onpaste', 'onafterprint', 'onbeforeprint', 'oncanplay', 'oncanplaythrough',
+			'ondurationchange', 'onemptied', 'onended', 'onerror', 'onloadeddata', 'onloadedmetadata',
+			'onloadstart', 'onpause', 'onplay', 'onplaying', 'onprogress', 'onratechange', 'onseeked',
+			'onseeking', 'onstalled', 'onsuspend', 'ontimeupdate', 'onvolumechange', 'onwaiting',
+			'animationend', 'animationiteration', 'animationstart', 'transitionend', 'onerror', 'onmessage',
+			'onopen', 'ononline', 'onoffline', 'onpopstate', 'onshow', 'onstorage', 'ontoggle', 'onwheel',
+			'ontouchcancel', 'ontouchend', 'ontouchmove', 'ontouchstart', 'style', 'xmlns', 'formaction',
+			'form', 'xlink:href', 'FSCommand', 'seekSegmentTime'
 		);
 
 		// First, escape unclosed tags
