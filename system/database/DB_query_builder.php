@@ -785,7 +785,15 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			return $this;
 		}
 
-		if ( ! is_array($values))
+		if (is_array($values))
+		{
+			// Empty $values array given, but this produce an empty IN() statement ==> db error.
+			if (count($values) == 0)
+			{
+				return $this;
+			}
+		}
+		else
 		{
 			$values = array($values);
 		}
