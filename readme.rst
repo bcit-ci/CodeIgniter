@@ -59,7 +59,8 @@ Resources
 -  `Community Wiki <https://github.com/bcit-ci/CodeIgniter/wiki>`_
 -  `Community IRC <http://www.codeigniter.com/irc>`_
 
-Report security issues to our `Security Panel <mailto:security@codeigniter.com>`_, thank you.
+Report security issues to our `Security Panel <mailto:security@codeigniter.com>`_
+or via our `page on HackerOne <https://hackerone.com/codeigniter>`_, thank you.
 
 ***************
 Acknowledgement
