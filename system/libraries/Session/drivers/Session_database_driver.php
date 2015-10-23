@@ -109,7 +109,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		}
 
 		// Note: BC work-around for the old 'sess_table_name' setting, should be removed in the future.
-		isset($this->_config['save_path']) OR $this->_config['save_path'] = config_item('sess_table_name');
+		isset($this->_config['sess_save_path']) OR $this->_config['sess_save_path'] = config_item('sess_table_name');
 	}
 
 	// ------------------------------------------------------------------------
@@ -149,7 +149,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 			$this->_db
 				->select('data')
-				->from($this->_config['save_path'])
+				->from($this->_config['sess_save_path'])
 				->where('id', $session_id);
 
 			if ($this->_config['match_ip'])
@@ -217,7 +217,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 				'data' => ($this->_platform === 'postgre' ? base64_encode($session_data) : $session_data)
 			);
 
-			if ($this->_db->insert($this->_config['save_path'], $insert_data))
+			if ($this->_db->insert($this->_config['sess_save_path'], $insert_data))
 			{
 				$this->_fingerprint = md5($session_data);
 				return $this->_row_exists = TRUE;
@@ -240,7 +240,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 				: $session_data;
 		}
 
-		if ($this->_db->update($this->_config['save_path'], $update_data))
+		if ($this->_db->update($this->_config['sess_save_path'], $update_data))
 		{
 			$this->_fingerprint = md5($session_data);
 			return TRUE;
@@ -285,7 +285,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 				$this->_db->where('ip_address', $_SERVER['REMOTE_ADDR']);
 			}
 
-			return $this->_db->delete($this->_config['save_path'])
+			return $this->_db->delete($this->_config['sess_save_path'])
 				? ($this->close() && $this->_cookie_destroy())
 				: FALSE;
 		}
@@ -305,7 +305,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	 */
 	public function gc($maxlifetime)
 	{
-		return $this->_db->delete($this->_config['save_path'], 'timestamp < '.(time() - $maxlifetime));
+		return $this->_db->delete($this->_config['sess_save_path'], 'timestamp < '.(time() - $maxlifetime));
 	}
 
 	// ------------------------------------------------------------------------
