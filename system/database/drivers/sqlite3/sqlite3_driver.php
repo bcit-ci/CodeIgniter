@@ -112,6 +112,19 @@ class CI_DB_sqlite3_driver extends CI_DB {
 		$version = SQLite3::version();
 		return $this->data_cache['version'] = $version['versionString'];
 	}
+	
+	// --------------------------------------------------------------------
+	 
+	/**
+	 * Execute the query
+	 *
+	 * @param	string	$sql	an SQL query
+	 * @return	string
+	 */
+	protected function _explain($sql)
+	{
+		return 'EXPLAIN QUERY PLAN ' . $sql;
+	}
 
 	// --------------------------------------------------------------------
 

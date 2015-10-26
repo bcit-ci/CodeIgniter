@@ -593,7 +593,7 @@ abstract class CI_DB_driver {
 	 * @param	bool	$return_object = NULL
 	 * @return	mixed
 	 */
-	public function query($sql, $binds = FALSE, $return_object = NULL)
+	public function query($sql, $binds = FALSE, $return_object = NULL, $explain = FALSE)
 	{
 		if ($sql === '')
 		{
@@ -615,6 +615,17 @@ abstract class CI_DB_driver {
 		if ($binds !== FALSE)
 		{
 			$sql = $this->compile_binds($sql, $binds);
+		}
+		
+		// Add explain syntax if needed
+		if ($explain)
+		{
+			if (FALSE === ($sql = $this->_explain($sql)))
+			{
+				// Log error
+				log_message('error', 'explain not supported for driver: ' . $this->dbdriver);
+				return FALSE;
+			}
 		}
 
 		// Is query caching enabled? If the query is a "read type"
@@ -733,6 +744,19 @@ abstract class CI_DB_driver {
 		return $RES;
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * _explain function that will be overwritten by individual drivers
+	 * 
+	 * @param	string	query to be explained
+	 * @return	boolean
+	 */
+	protected function _explain($sql)
+	{
+		return FALSE;
+	}
+	
 	// --------------------------------------------------------------------
 
 	/**
