@@ -83,11 +83,12 @@ This article is intended to be a reference for them.
 
 		Database version number.
 
-	.. php:method:: query($sql[, $binds = FALSE[, $return_object = NULL]]])
+	.. php:method:: query($sql[, $binds = FALSE[, $return_object = NULL[, $explain = FALSE]]]])
 
 		:param	string	$sql: The SQL statement to execute
 		:param	array	$binds: An array of binding data
 		:param	bool	$return_object: Whether to return a result object or not
+                :param  bool    $explain: Whether to return the query plan or execute the query
 		:returns:	TRUE for successful "write-type" queries, CI_DB_result instance (method chaining) on "query" success, FALSE on failure
 		:rtype:	mixed
 

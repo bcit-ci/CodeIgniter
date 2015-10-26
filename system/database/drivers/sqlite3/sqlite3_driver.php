@@ -112,6 +112,19 @@ class CI_DB_sqlite3_driver extends CI_DB {
 		$version = SQLite3::version();
 		return $this->data_cache['version'] = $version['versionString'];
 	}
+	
+	// --------------------------------------------------------------------
+	 
+	/**
+	 * Execute the query
+	 *
+	 * @param	string	$sql	an SQL query
+	 * @return	string
+	 */
+	protected function _explain($sql)
+	{
+		return 'EXPLAIN QUERY PLAN ' . $sql;
+	}
 
 	// --------------------------------------------------------------------
 
@@ -122,7 +135,7 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 * @param	string	$sql
 	 * @return	mixed	SQLite3Result object or bool
 	 */
-	protected function _execute($sql)
+	protected function _execute($sql, $explain = FALSE)
 	{
 		return $this->is_write_type($sql)
 			? $this->conn_id->exec($sql)

@@ -103,6 +103,19 @@ class CI_DB_sqlite_driver extends CI_DB {
 	}
 
 	// --------------------------------------------------------------------
+	 
+	/**
+	 * Execute the query
+	 *
+	 * @param	string	$sql	an SQL query
+	 * @return	string
+	 */
+	protected function _explain($sql)
+	{
+		return 'EXPLAIN QUERY PLAN ' . $sql;
+	}
+	
+	// --------------------------------------------------------------------
 
 	/**
 	 * Execute the query
@@ -110,8 +123,8 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 * @param	string	$sql	an SQL query
 	 * @return	resource
 	 */
-	protected function _execute($sql)
-	{
+	protected function _execute($sql, $explain)
+	{		
 		return $this->is_write_type($sql)
 			? sqlite_exec($this->conn_id, $sql)
 			: sqlite_query($this->conn_id, $sql);

@@ -230,6 +230,19 @@ class CI_DB_postgre_driver extends CI_DB {
 	}
 
 	// --------------------------------------------------------------------
+	
+	/**
+	 * Execute the query
+	 *
+	 * @param	string	$sql	an SQL query
+	 * @return	string
+	 */
+	protected function _explain($sql)
+	{
+		return 'EXPLAIN ' . $sql;
+	}
+	
+	// --------------------------------------------------------------------
 
 	/**
 	 * Execute the query
