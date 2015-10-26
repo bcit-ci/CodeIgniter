@@ -124,7 +124,7 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 * @return	resource
 	 */
 	protected function _execute($sql)
-	{		
+	{
 		return $this->is_write_type($sql)
 			? sqlite_exec($this->conn_id, $sql)
 			: sqlite_query($this->conn_id, $sql);
