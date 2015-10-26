@@ -132,10 +132,9 @@ class CI_DB_sqlite3_driver extends CI_DB {
 	 * Execute the query
 	 *
 	 * @todo	Implement use of SQLite3::querySingle(), if needed
-	 * @param	string	$sql
 	 * @return	mixed	SQLite3Result object or bool
 	 */
-	protected function _execute($sql, $explain = FALSE)
+	protected function _execute($sql)
 	{
 		return $this->is_write_type($sql)
 			? $this->conn_id->exec($sql)
