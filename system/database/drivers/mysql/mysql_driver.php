@@ -231,6 +231,19 @@ class CI_DB_mysql_driver extends CI_DB {
 
 		return $this->data_cache['version'] = $version;
 	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Execute the query
+	 *
+	 * @param	string	$sql	an SQL query
+	 * @return	string
+	 */
+	protected function _explain($sql)
+	{
+		return 'EXPLAIN ' . $sql;
+	}
 
 	// --------------------------------------------------------------------
 
