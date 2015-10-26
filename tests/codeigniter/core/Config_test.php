@@ -79,46 +79,33 @@ class Config_test extends CI_TestCase {
 		$old_script_name = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : NULL;
 		$old_script_filename = $_SERVER['SCRIPT_FILENAME'];
 		$old_https = isset($_SERVER['HTTPS']) ? $_SERVER['HTTPS'] : NULL;
+		$old_server_addr = isset($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : NULL;
 
-		// Setup server vars for detection
-		$host = 'test.com';
-		$path = '/';
-		$script = 'base_test.php';
-		$_SERVER['HTTP_HOST'] = $host;
-		$_SERVER['SCRIPT_NAME'] = $path.$script;
-		$_SERVER['SCRIPT_FILENAME'] = '/foo/bar/'.$script;
-
-		// Rerun constructor
+		// The 'Host' header is user input and must not be trusted
+		$_SERVER['HTTP_HOST'] = 'test.com';
 		$this->config = new $cls;
+		$this->assertEquals('http://localhost/', $this->config->base_url());
 
-		// Test plain detected (root)
-		$this->assertEquals('http://'.$host.$path, $this->config->base_url());
-
-		// Rerun constructor
-		$path = '/path/';
-		$_SERVER['SCRIPT_NAME'] = $path.$script;
-		$_SERVER['SCRIPT_FILENAME'] = '/foo/bar/'.$path.$script;
+		// However, we may fallback to the server's IP address
+		$_SERVER['SERVER_ADDR'] = '127.0.0.1';
+		$_SERVER['SCRIPT_NAME'] = '/base_test.php';
+		$_SERVER['SCRIPT_FILENAME'] = '/foo/bar/base_test.php';
 		$this->config = new $cls;
+		$this->assertEquals('http://127.0.0.1/', $this->config->base_url());
 
-		// Test plain detected (subfolder)
-		$this->assertEquals('http://'.$host.$path, $this->config->base_url());
-
-		// Rerun constructor
+		// Making sure that HTTPS and URI path are also detected
 		$_SERVER['HTTPS'] = 'on';
+		$_SERVER['SCRIPT_NAME'] = '/path/base_test.php';
+		$_SERVER['SCRIPT_FILENAME'] = '/foo/bar/path/base_test.php';
 		$this->config = new $cls;
-
-		// Test secure detected
-		$this->assertEquals('https://'.$host.$path, $this->config->base_url());
+		$this->assertEquals('https://127.0.0.1/path/', $this->config->base_url());
 
 		// Restore server vars
-		if ($old_host === NULL) unset($_SERVER['HTTP_HOST']);
-		else $_SERVER['HTTP_HOST'] = $old_host;
-		if ($old_script_name === NULL) unset($_SERVER['SCRIPT_NAME']);
-		else $_SERVER['SCRIPT_NAME'] = $old_script_name;
-		if ($old_https === NULL) unset($_SERVER['HTTPS']);
-		else $_SERVER['HTTPS'] = $old_https;
-
+		$_SERVER['HTTP_HOST'] = $old_host;
+		$_SERVER['SCRIPT_NAME'] = $old_script_name;
 		$_SERVER['SCRIPT_FILENAME'] = $old_script_filename;
+		$_SERVER['HTTPS'] = $old_https;
+		$_SERVER['SERVER_ADDR'] = $old_server_addr;
 	}
 
 	// --------------------------------------------------------------------
