@@ -68,3 +68,8 @@ Acknowledgement
 
 The CodeIgniter team would like to thank EllisLab, all the
 contributors to the CodeIgniter project and you, the CodeIgniter user.
+
+|GitHub license|
+
+.. |GitHub license| image:: https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square
+   :target: https://raw.githubusercontent.com/bcit-ci/CodeIgniter/master/license.txt
