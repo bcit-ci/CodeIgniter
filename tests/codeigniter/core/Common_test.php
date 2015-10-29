@@ -49,4 +49,21 @@ class Common_test extends CI_TestCase {
 		);
 	}
 
+	// ------------------------------------------------------------------------
+
+	public function test_show_error()
+	{
+		$error_message = "test show_error exception";
+		$error_code = 403;
+		try
+		{
+			show_error($error_message, 403);
+		}
+		catch (Exception $e)
+		{
+			$this->assertEquals('CI Error: '.$error_message, $e->getMessage());
+			$this->assertEquals($error_code, $e->getCode());
+		}
+	}
+
 }

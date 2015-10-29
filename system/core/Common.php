@@ -393,11 +393,13 @@ if ( ! function_exists('show_error'))
 	/**
 	 * Error Handler
 	 *
-	 * This function lets us invoke the exception class and
-	 * display errors using the standard error template located
-	 * in application/views/errors/error_general.php
-	 * This function will send the error page directly to the
-	 * browser and exit.
+	 * This function will be deprecated in version 3.1.0.
+	 * It is encouraged to use PHP exceptions in your application.
+	 * If there is a need to render error page accordingly, you will need to 
+	 * invoke the exception class and display errors using the 
+	 * standard error template located in 
+	 * application/views/errors/error_general.php
+	 * This function will simply throw an exception for smooth transition.
 	 *
 	 * @param	string
 	 * @param	int
@@ -406,25 +408,7 @@ if ( ! function_exists('show_error'))
 	 */
 	function show_error($message, $status_code = 500, $heading = 'An Error Was Encountered')
 	{
-		$status_code = abs($status_code);
-		if ($status_code < 100)
-		{
-			$exit_status = $status_code + 9; // 9 is EXIT__AUTO_MIN
-			if ($exit_status > 125) // 125 is EXIT__AUTO_MAX
-			{
-				$exit_status = 1; // EXIT_ERROR
-			}
-
-			$status_code = 500;
-		}
-		else
-		{
-			$exit_status = 1; // EXIT_ERROR
-		}
-
-		$_error =& load_class('Exceptions', 'core');
-		echo $_error->show_error($heading, $message, 'error_general', $status_code);
-		exit($exit_status);
+		throw new RuntimeException('CI Error: '.$message, $status_code);
 	}
 }
 
