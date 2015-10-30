@@ -21,6 +21,7 @@ Bug fixes for 3.0.3
 -  Fixed a bug (#4171) - :doc:`Database Transactions <database/transactions>` didn't work with nesting in methods ``trans_begin()``, ``trans_commit()``, ``trans_rollback()``.
 -  Fixed a bug where :doc:`Database Transaction <database/transactions>` methods ``trans_begin()``, ``trans_commit()``, ``trans_rollback()`` ignored failures.
 -  Fixed a bug where all :doc:`Database Transaction <database/transactions>` methods returned TRUE while transactions are actually disabled.
+-  Fixed a bug (#3201) - :doc:`Common function <general/common_functions>` :php:func:`html_escape()` modified keys of its array inputs.
 
 Version 3.0.2
 =============
