@@ -42,7 +42,7 @@
 <td id="breadcrumb">
 <a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
 <a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
-Upgrading from 2.2.4 to 2.2.5
+Upgrading from 2.2.5 to 2.2.6
 </td>
 <td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
 </tr>
@@ -55,7 +55,7 @@ Upgrading from 2.2.4 to 2.2.5
 <!-- START CONTENT -->
 <div id="content">
 
-<h1>Upgrading from 2.2.4 to 2.2.5</h1>
+<h1>Upgrading from 2.2.5 to 2.2.6</h1>
 
 <p>Before performing an update you should take your site offline by replacing the index.php file with a static one.</p>
 
@@ -64,6 +64,49 @@ Upgrading from 2.2.4 to 2.2.5
 <p>Replace all files and directories in your "system" folder and replace your index.php file. If any modifications were made to your index.php they will need to be made fresh in this new one.</p>
 
 <p class="important"><strong>Note:</strong> If you have any custom developed files in these folders please make copies of them first.</p>
+
+<h1>Step 2: Make sure your 'base_url' configuration value is not empty</h1>
+
+<p>When <samp>$config['base_url']</samp> is not set, CodeIgniter tries to automatically
+detect what your website's base URL is. This is done purely for convenience
+when you are starting development of a new application.</p>
+
+<p>Auto-detection is never reliable and also has security implications, which
+is why you should <b>always</b> have it manually configured!</p>
+
+<p>One of the changes in CodeIgniter 2.2.6 is how this auto-detection works,
+and more specifically it now falls back to the server's IP address instead
+of the hostname requested by the client. Therefore, if you've ever relied
+on auto-detection, it will change how your website works now.</p>
+
+<p>In case you need to allow e.g. multiple domains, or both http:// and
+https:// prefixes to be dynamically used depending on the request,
+remember that application/config/config.php is still a PHP script, in
+which you can create this logic with a few lines of code. For example::</p>
+
+<pre>
+	$allowed_domains = array('domain1.tld', 'domain2.tld');
+	$default_domain  = 'domain1.tld';
+
+	if (in_array($_SERVER['HTTP_HOST'], $allowed_domains, TRUE))
+	{
+		$domain = $_SERVER['HTTP_HOST'];
+	}
+	else
+	{
+		$domain = $default_domain;
+	}
+
+	if ( ! empty($_SERVER['HTTPS']))
+	{
+		$config['base_url'] = 'https://'.$domain;
+	}
+	else
+	{
+		$config['base_url'] = 'http://'.$domain;
+	}
+</pre>
+</p>
 
 </div>
 <!-- END CONTENT -->
