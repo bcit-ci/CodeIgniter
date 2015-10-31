@@ -1,9 +1,0 @@
-#######
-Helpers
-#######
-
-.. toctree::
-	:glob:
-	:titlesonly:
-	
-	*
