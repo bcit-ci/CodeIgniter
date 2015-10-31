@@ -107,18 +107,93 @@ if ( ! function_exists('create_captcha'))
 		// Do we have a "word" yet?
 		// -----------------------------------
 
-	   if ($word == '')
-	   {
+		// -----------------------------------
+		// Do we have a "word" yet?
+		// -----------------------------------
+
+		if (empty($word))
+		{
+			$word = '';
 			$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+			$pool_length = strlen($pool);
+			$rand_max = $pool_length - 1;
 
-			$str = '';
-			for ($i = 0; $i < 8; $i++)
+			// PHP7 or a suitable polyfill
+			if (function_exists('random_int'))
 			{
-				$str .= substr($pool, mt_rand(0, strlen($pool) -1), 1);
+				try
+				{
+					for ($i = 0; $i < $word_length; $i++)
+					{
+						$word .= $pool[random_int(0, $rand_max)];
+					}
+				}
+				catch (Exception $e)
+				{
+					// This means fallback to the next possible
+					// alternative to random_int()
+					$word = '';
+				}
 			}
+		}
 
-			$word = $str;
-	   }
+		if (empty($word))
+		{
+			// To avoid numerous get_random_bytes() calls, we'll
+			// just try fetching as much bytes as we need at once.
+			if (($bytes = _ci_captcha_get_random_bytes($pool_length)) !== FALSE)
+			{
+				$byte_index = $word_index = 0;
+				while ($word_index < $word_length)
+				{
+					if (($rand_index = unpack('C', $bytes[$byte_index++])) > $rand_max)
+					{
+						// Was this the last byte we have?
+						// If so, try to fetch more.
+						if ($byte_index === $pool_length)
+						{
+							// No failures should be possible if
+							// the first get_random_bytes() call
+							// didn't return FALSE, but still ...
+							for ($i = 0; $i < 5; $i++)
+							{
+								if (($bytes = _ci_captcha_get_random_bytes($pool_length)) === FALSE)
+								{
+									continue;
+								}
+
+								$byte_index = 0;
+								break;
+							}
+
+							if ($bytes === FALSE)
+							{
+								// Sadly, this means fallback to mt_rand()
+								$word = '';
+								break;
+							}
+						}
+
+						continue;
+					}
+
+					$word .= $pool[$rand_index];
+					$word_index++;
+				}
+			}
+		}
+
+		if (empty($word))
+		{
+			for ($i = 0; $i < $word_length; $i++)
+			{
+				$word .= $pool[mt_rand(0, $rand_max)];
+			}
+		}
+		elseif ( ! is_string($word))
+		{
+			$word = (string) $word;
+		}
 
 		// -----------------------------------
 		// Determine angle and position
@@ -238,6 +313,20 @@ if ( ! function_exists('create_captcha'))
 		ImageDestroy($im);
 
 		return array('word' => $word, 'time' => $now, 'image' => $img);
+	}
+
+	function _ci_captcha_get_random_bytes($length)
+	{
+		if (defined('MCRYPT_DEV_URANDOM'))
+		{
+			return mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
+		}
+		elseif (function_exists('openssl_random_pseudo_bytes'))
+		{
+			return openssl_random_pseudo_bytes($length);
+		}
+
+		return FALSE;
 	}
 }
 
