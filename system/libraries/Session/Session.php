@@ -888,9 +888,11 @@ class CI_Session {
 	}
 	
 	/**
+	 * Show flashdata
+	 * 
 	 * Calling flasdata, and avoiding if-else check
 	 * 
-	 * Can be called as foolwing in the view file.
+	 * Can be called as follwing in the view file.
 	 * <?= $this->session->show_flashdata('login_success', 'alert success'); ?>
 	 * 
 	 */
