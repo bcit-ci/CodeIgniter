@@ -886,5 +886,20 @@ class CI_Session {
 	{
 		$this->unmark_temp($key);
 	}
+	
+	/**
+	 * Calling flasdata, and avoiding if-else check
+	 * 
+	 * Can be called as foolwing in the view file.
+	 * <?= $this->session->show_flashdata('login_success', 'alert success'); ?>
+	 * 
+	 */
+	public function show_flashdata($key, $classes='success', $tag='p')
+	{
+		$ci =& get_instance();
+		if ($ci->session->flashdata($key)) {
+			return '<'.$tag.' class="'.$classes.'">'.$ci->session->flashdata($key).'</'.$tag.'>';
+		}
+	}
 
 }
