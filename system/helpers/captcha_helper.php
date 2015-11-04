@@ -125,9 +125,94 @@ if ( ! function_exists('create_captcha'))
 		if (empty($word))
 		{
 			$word = '';
-			for ($i = 0, $mt_rand_max = strlen($pool) - 1; $i < $word_length; $i++)
+			$pool_length = strlen($pool);
+			$rand_max = $pool_length - 1;
+
+			// PHP7 or a suitable polyfill
+			if (function_exists('random_int'))
 			{
-				$word .= $pool[mt_rand(0, $mt_rand_max)];
+				try
+				{
+					for ($i = 0; $i < $word_length; $i++)
+					{
+						$word .= $pool[random_int(0, $rand_max)];
+					}
+				}
+				catch (Exception $e)
+				{
+					// This means fallback to the next possible
+					// alternative to random_int()
+					$word = '';
+				}
+			}
+		}
+
+		if (empty($word))
+		{
+			// Nobody will have a larger character pool than
+			// 256 characters, but let's handle it just in case ...
+			//
+			// No, I do not care that the fallback to mt_rand() can
+			// handle it; if you trigger this, you're very obviously
+			// trying to break it. -- Narf
+			if ($pool_length > 256)
+			{
+				return FALSE;
+			}
+
+			// We'll try using the operating system's PRNG first,
+			// which we can access through CI_Security::get_random_bytes()
+			$security = get_instance()->security;
+
+			// To avoid numerous get_random_bytes() calls, we'll
+			// just try fetching as much bytes as we need at once.
+			if (($bytes = $security->get_random_bytes($pool_length)) !== FALSE)
+			{
+				$byte_index = $word_index = 0;
+				while ($word_index < $word_length)
+				{
+					if (($rand_index = unpack('C', $bytes[$byte_index++])) > $rand_max)
+					{
+						// Was this the last byte we have?
+						// If so, try to fetch more.
+						if ($byte_index === $pool_length)
+						{
+							// No failures should be possible if
+							// the first get_random_bytes() call
+							// didn't return FALSE, but still ...
+							for ($i = 0; $i < 5; $i++)
+							{
+								if (($bytes = $security->get_random_bytes($pool_length)) === FALSE)
+								{
+									continue;
+								}
+
+								$byte_index = 0;
+								break;
+							}
+
+							if ($bytes === FALSE)
+							{
+								// Sadly, this means fallback to mt_rand()
+								$word = '';
+								break;
+							}
+						}
+
+						continue;
+					}
+
+					$word .= $pool[$rand_index];
+					$word_index++;
+				}
+			}
+		}
+
+		if (empty($word))
+		{
+			for ($i = 0; $i < $word_length; $i++)
+			{
+				$word .= $pool[mt_rand(0, $rand_max)];
 			}
 		}
 		elseif ( ! is_string($word))

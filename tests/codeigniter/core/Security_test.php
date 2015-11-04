@@ -115,7 +115,7 @@ class Security_test extends CI_TestCase {
 	public function test_xss_clean_entity_double_encoded()
 	{
 		$input = '<a href="&#38&#35&#49&#48&#54&#38&#35&#57&#55&#38&#35&#49&#49&#56&#38&#35&#57&#55&#38&#35&#49&#49&#53&#38&#35&#57&#57&#38&#35&#49&#49&#52&#38&#35&#49&#48&#53&#38&#35&#49&#49&#50&#38&#35&#49&#49&#54&#38&#35&#53&#56&#38&#35&#57&#57&#38&#35&#49&#49&#49&#38&#35&#49&#49&#48&#38&#35&#49&#48&#50&#38&#35&#49&#48&#53&#38&#35&#49&#49&#52&#38&#35&#49&#48&#57&#38&#35&#52&#48&#38&#35&#52&#57&#38&#35&#52&#49">Clickhere</a>';
-		$this->assertEquals('<a >Clickhere</a>', $this->security->xss_clean($input));
+		$this->assertEquals('<a>Clickhere</a>', $this->security->xss_clean($input));
 	}
 
 	// --------------------------------------------------------------------
@@ -134,7 +134,7 @@ class Security_test extends CI_TestCase {
 	public function test_xss_clean_js_img_removal()
 	{
 		$input = '<img src="&#38&#35&#49&#48&#54&#38&#35&#57&#55&#38&#35&#49&#49&#56&#38&#35&#57&#55&#38&#35&#49&#49&#53&#38&#35&#57&#57&#38&#35&#49&#49&#52&#38&#35&#49&#48&#53&#38&#35&#49&#49&#50&#38&#35&#49&#49&#54&#38&#35&#53&#56&#38&#35&#57&#57&#38&#35&#49&#49&#49&#38&#35&#49&#49&#48&#38&#35&#49&#48&#50&#38&#35&#49&#48&#53&#38&#35&#49&#49&#52&#38&#35&#49&#48&#57&#38&#35&#52&#48&#38&#35&#52&#57&#38&#35&#52&#49">Clickhere';
-		$this->assertEquals('<img >', $this->security->xss_clean($input));
+		$this->assertEquals('<img>', $this->security->xss_clean($input));
 	}
 
 	// --------------------------------------------------------------------
@@ -146,7 +146,7 @@ class Security_test extends CI_TestCase {
 		$this->assertEquals('<fubar>', $this->security->xss_clean('<fubar>'));
 
 		$this->assertEquals(
-			'<img [removed]> src="x">',
+			'<img svg=""> src="x">',
 			$this->security->xss_clean('<img <svg=""> src="x">')
 		);
 
@@ -160,21 +160,21 @@ class Security_test extends CI_TestCase {
 
 	public function test_xss_clean_sanitize_naughty_html_attributes()
 	{
-		$this->assertEquals('<foo [removed]>', $this->security->xss_clean('<foo onAttribute="bar">'));
-		$this->assertEquals('<foo [removed]>', $this->security->xss_clean('<foo onAttributeNoQuotes=bar>'));
-		$this->assertEquals('<foo [removed]bar>', $this->security->xss_clean('<foo onAttributeWithSpaces = bar>'));
+		$this->assertEquals('<foo xss=removed>', $this->security->xss_clean('<foo onAttribute="bar">'));
+		$this->assertEquals('<foo xss=removed>', $this->security->xss_clean('<foo onAttributeNoQuotes=bar>'));
+		$this->assertEquals('<foo xss=removed>', $this->security->xss_clean('<foo onAttributeWithSpaces = bar>'));
 		$this->assertEquals('<foo prefixOnAttribute="bar">', $this->security->xss_clean('<foo prefixOnAttribute="bar">'));
 		$this->assertEquals('<foo>onOutsideOfTag=test</foo>', $this->security->xss_clean('<foo>onOutsideOfTag=test</foo>'));
 		$this->assertEquals('onNoTagAtAll = true', $this->security->xss_clean('onNoTagAtAll = true'));
-		$this->assertEquals('<foo [removed]>', $this->security->xss_clean('<foo fscommand=case-insensitive>'));
-		$this->assertEquals('<foo [removed]>', $this->security->xss_clean('<foo seekSegmentTime=whatever>'));
+		$this->assertEquals('<foo xss=removed>', $this->security->xss_clean('<foo fscommand=case-insensitive>'));
+		$this->assertEquals('<foo xss=removed>', $this->security->xss_clean('<foo seekSegmentTime=whatever>'));
 
 		$this->assertEquals(
-			'<foo bar=">" baz=\'>\' [removed]>',
+			'<foo bar=">" baz=\'>\' xss=removed>',
 			$this->security->xss_clean('<foo bar=">" baz=\'>\' onAfterGreaterThan="quotes">')
 		);
 		$this->assertEquals(
-			'<foo bar=">" baz=\'>\' [removed]>',
+			'<foo bar=">" baz=\'>\' xss=removed>',
 			$this->security->xss_clean('<foo bar=">" baz=\'>\' onAfterGreaterThan=noQuotes>')
 		);
 
@@ -194,7 +194,7 @@ class Security_test extends CI_TestCase {
 		);
 
 		$this->assertEquals(
-			'<a [removed]>',
+			'<a xss=removed>',
 			$this->security->xss_clean('<a< onmouseover="alert(1)">')
 		);
 
@@ -204,18 +204,23 @@ class Security_test extends CI_TestCase {
 		);
 
 		$this->assertEquals(
-			'<image src="<>" [removed]>',
+			'<image src="<>" xss=removed>',
 			$this->security->xss_clean('<image src="<>" onerror=\'alert(1)\'>')
 		);
 
 		$this->assertEquals(
-			'<b [removed] [removed]>',
+			'<b xss=removed>',
 			$this->security->xss_clean('<b "=<= onmouseover=alert(1)>')
 		);
 
 		$this->assertEquals(
-			'<b [removed] [removed]alert&#40;1&#41;,1>1">',
+			'<b xss=removed xss=removed>1">',
 			$this->security->xss_clean('<b a=<=" onmouseover="alert(1),1>1">')
+		);
+
+		$this->assertEquals(
+			'<b x=" onmouseover=alert&#40;1&#41;//">',
+			$this->security->xss_clean('<b "="< x=" onmouseover=alert(1)//">')
 		);
 	}
 
@@ -228,7 +233,7 @@ class Security_test extends CI_TestCase {
 	public function test_naughty_html_plus_evil_attributes()
 	{
 		$this->assertEquals(
-			'&lt;svg<img &gt; src="x" [removed]>',
+			'&lt;svg<img src="x" xss=removed>',
 			$this->security->xss_clean('<svg<img > src="x" onerror="location=/javascript/.source+/:alert/.source+/(1)/.source">')
 		);
 	}

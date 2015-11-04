@@ -140,13 +140,15 @@ This article is intended to be a reference for them.
 	.. php:method:: trans_start([$test_mode = FALSE])
 
 		:param	bool	$test_mode: Test mode flag
-		:rtype:	void
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Start a transaction.
 
 	.. php:method:: trans_complete()
 
-		:rtype:	void
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Complete Transaction.
 
