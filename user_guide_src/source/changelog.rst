@@ -2,6 +2,11 @@
 Change Log
 ##########
 
+Version 3.0.4
+=============
+
+Release Date: Not Released
+
 Version 3.0.3
 =============
 
