@@ -7,6 +7,10 @@ Version 3.1.0
 
 Release Date: Not Released
 
+Version 3.0.4
+=============
+
+Release Date: Not Released
 
 Version 3.0.3
 =============
