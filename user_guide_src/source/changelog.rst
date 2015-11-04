@@ -11,6 +11,7 @@ Bug fixes for 3.0.4
 -------------------
 
 -  Fixed a bug (#4212) - :doc:`Query Builder <database/query_builder>` method ``count_all_results()`` could fail if an ``ORDER BY`` condition is used.
+-  Fixed a bug where :doc:`Form Helper <helpers/form_helper>` functions `set_checkbox()`, `set_radio()` didn't "uncheck" inputs on a submitted form if the default state is "checked".
 
 Version 3.0.3
 =============
