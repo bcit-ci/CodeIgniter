@@ -8,6 +8,7 @@ upgrading from.
 .. toctree::
 	:titlesonly:
 
+	Upgrading from 3.0.3 to 3.0.4 <upgrade_304>
 	Upgrading from 3.0.2 to 3.0.3 <upgrade_303>
 	Upgrading from 3.0.1 to 3.0.2 <upgrade_302>
 	Upgrading from 3.0.0 to 3.0.1 <upgrade_301>
