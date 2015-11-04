@@ -1389,8 +1389,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			: $this->query($this->_compile_select($this->_count_string.$this->protect_identifiers('numrows')));
 
 		
-        	$this->qr_orderby = $tmp_order;
-        	$this->qr_cache_orderby = $tmp_order_cache;
+        	$this->qb_orderby = $tmp_order;
+        	$this->qb_cache_orderby = $tmp_order_cache;
         	unset($tmp_order);
         	unset($tmp_order_cache);
 
