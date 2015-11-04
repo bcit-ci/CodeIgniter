@@ -7,6 +7,11 @@ Version 3.0.4
 
 Release Date: Not Released
 
+Bug fixes for 3.0.4
+-------------------
+
+-  Fixed a bug (#4212) - :doc:`Query Builder <database/query_builder>` method ``count_all_results()`` could fail if an ``ORDER BY`` condition is used.
+
 Version 3.0.3
 =============
 
