@@ -1379,9 +1379,20 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->from($table);
 		}
 
+  		$tmp_order = $this->qb_orderby;
+        	$tmp_order_cache = $this->qb_cache_orderby;
+        	$this->qb_orderby = array();
+        	$this->qb_cache_orderby = array();
+        
 		$result = ($this->qb_distinct === TRUE)
 			? $this->query($this->_count_string.$this->protect_identifiers('numrows')."\nFROM (\n".$this->_compile_select()."\n) CI_count_all_results")
 			: $this->query($this->_compile_select($this->_count_string.$this->protect_identifiers('numrows')));
+
+		
+        	$this->qr_orderby = $tmp_order;
+        	$this->qr_cache_orderby = $tmp_order_cache;
+        	unset($tmp_order);
+        	unset($tmp_order_cache);
 
 		if ($reset === TRUE)
 		{
