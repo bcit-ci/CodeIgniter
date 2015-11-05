@@ -150,7 +150,7 @@ class CI_Lang {
 
 		if ($found !== TRUE)
 		{
-			throw new RuntimeException('CI Error: Unable to load the requested language file: language/'.$idiom.'/'.$langfile);
+			throw new RuntimeException('Unable to load the requested language file: language/'.$idiom.'/'.$langfile);
 		}
 
 		if ( ! isset($lang) OR ! is_array($lang))
