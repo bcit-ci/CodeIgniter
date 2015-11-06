@@ -92,7 +92,7 @@ class CI_Config {
 			{
 				if (strpos($_SERVER['SERVER_ADDR'], ':') !== FALSE)
 				{
-					$server_addr = '[' . $_SERVER['SERVER_ADDR'] . ']';
+					$server_addr = '['.$_SERVER['SERVER_ADDR'].']';
 				}
 				else
 				{
