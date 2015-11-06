@@ -361,13 +361,22 @@ class CI_Config {
 	/**
 	 * Set a config file item
 	 *
-	 * @param	string	$item	Config item key
-	 * @param	string	$value	Config item value
+	 * @param	string	$item		Config item key
+	 * @param	string	$value		Config item value
+	 * @param   string  $array_key 	Config array key
 	 * @return	void
 	 */
-	public function set_item($item, $value)
-	{
-		$this->config[$item] = $value;
+	public function set_item($item, $value, $array_key = NULL)
+	{	
+		if($array_key)
+		{
+			$this->config[$array_key][$item] = $value;
+		}
+		else
+		{
+			$this->config[$item] = $value;
+		}
 	}
+
 
 }
