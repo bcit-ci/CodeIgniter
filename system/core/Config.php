@@ -374,7 +374,7 @@ class CI_Config {
 		}
 		else
 		{
-			$this->config[$array_key][$item] = $value;
+			$this->config[$index][$item] = $value;
 		}
 	}
 
