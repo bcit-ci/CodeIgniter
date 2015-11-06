@@ -90,7 +90,7 @@ class CI_Config {
 		{
 			if (isset($_SERVER['SERVER_ADDR']))
 			{
-				if ((bool) filter_var($_SERVER['SERVER_ADDR'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV6))
+				if (strpos($_SERVER['SERVER_ADDR'], ':') !== FALSE)
 				{
 					$server_addr = '[' . $_SERVER['SERVER_ADDR'] . ']';
 				}
