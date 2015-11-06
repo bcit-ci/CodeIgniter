@@ -368,7 +368,7 @@ class CI_Config {
 	 */
 	public function set_item($item, $value, $index = NULL)
 	{	
-		if($index === '')
+		if ( ! isset($index))
 		{
 			$this->config[$item] = $value;
 		}
