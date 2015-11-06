@@ -363,7 +363,7 @@ class CI_Config {
 	 *
 	 * @param	string	$item		Config item key
 	 * @param	string	$value		Config item value
-	 * @param   string  $array_key 	Config array key
+	 * @param	string	$array_key	Config array key
 	 * @return	void
 	 */
 	public function set_item($item, $value, $array_key = NULL)
