@@ -31,7 +31,7 @@
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	http://codeigniter.com
+ * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
  */
@@ -56,7 +56,7 @@ if ( ! class_exists('CI_Xmlrpc', FALSE))
  * @subpackage	Libraries
  * @category	XML-RPC
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/xmlrpc.html
+ * @link		https://codeigniter.com/user_guide/libraries/xmlrpc.html
  */
 class CI_Xmlrpcs extends CI_Xmlrpc {
 

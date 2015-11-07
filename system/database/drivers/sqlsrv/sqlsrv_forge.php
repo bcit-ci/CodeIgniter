@@ -31,7 +31,7 @@
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	http://codeigniter.com
+ * @link	https://codeigniter.com
  * @since	Version 2.0.3
  * @filesource
  */
@@ -42,7 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * @category	Database
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @link		https://codeigniter.com/user_guide/database/
  */
 class CI_DB_sqlsrv_forge extends CI_DB_forge {
 
