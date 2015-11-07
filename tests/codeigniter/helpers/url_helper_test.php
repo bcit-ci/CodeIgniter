@@ -39,8 +39,8 @@ class Url_helper_test extends CI_TestCase {
 
 	public function test_prep_url()
 	{
-		$this->assertEquals('https://codeigniter.com', prep_url('codeigniter.com'));
-		$this->assertEquals('http://www.codeigniter.com', prep_url('www.codeigniter.com'));
+		$this->assertEquals('http://somewhere.com', prep_url('somewhere.com'));
+		$this->assertEquals('http://www.somewhere.com', prep_url('www.somewhere.com'));
 	}
 
 	// --------------------------------------------------------------------

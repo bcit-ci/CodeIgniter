@@ -559,10 +559,10 @@ class Form_validation_test extends CI_TestCase {
 	public function test_prep_url()
 	{
 		$this->assertEquals('', $this->form_validation->prep_url(''));
-		$this->assertEquals('https://codeigniter.com', $this->form_validation->prep_url('codeigniter.com'));
-		$this->assertEquals('https://codeigniter.com', $this->form_validation->prep_url('https://codeigniter.com'));
-		$this->assertEquals('https://codeigniter.com', $this->form_validation->prep_url('https://codeigniter.com'));
-		$this->assertEquals('http://www.codeigniter.com', $this->form_validation->prep_url('www.codeigniter.com'));
+		$this->assertEquals('http://somewhere.com', $this->form_validation->prep_url('somewhere.com'));
+		$this->assertEquals('https://somewhere.com', $this->form_validation->prep_url('https://somewhere.com'));
+		$this->assertEquals('http://somewhere.com', $this->form_validation->prep_url('http://somewhere.com'));
+		$this->assertEquals('http://www.somewhere.com', $this->form_validation->prep_url('www.somewhere.com'));
 	}
 
 	public function test_encode_php_tags()
