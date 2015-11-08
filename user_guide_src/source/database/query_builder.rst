@@ -1018,7 +1018,7 @@ Here's a usage example::
 
 
 .. note:: The following statements can be cached: select, from, join,
-	where, like, group_by, having, order_by, set
+	where, like, group_by, having, order_by
 
 
 ***********************
