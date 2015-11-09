@@ -55,7 +55,7 @@ class Loader_test extends CI_TestCase {
 		// Test non-existent class
 		$this->setExpectedException(
 			'RuntimeException',
-			'CI Error: Unable to load the requested class: '.ucfirst($lib)
+			'Unable to load the requested class: '.ucfirst($lib)
 		);
 		$this->assertInstanceOf('CI_Loader', $this->load->library($lib));
 	}
@@ -99,7 +99,7 @@ class Loader_test extends CI_TestCase {
 		// Test missing base class
 		$this->setExpectedException(
 			'RuntimeException',
-			'CI Error: Unable to load the requested class: '.$lib
+			'Unable to load the requested class: '.$lib
 		);
 		$this->assertInstanceOf('CI_Loader', $this->load->library($lib));
 	}
@@ -284,7 +284,7 @@ class Loader_test extends CI_TestCase {
 	{
 		$this->setExpectedException(
 			'RuntimeException',
-			'CI Error: Unable to load the requested file: ci_test_nonexistent_view.php'
+			'Unable to load the requested file: ci_test_nonexistent_view.php'
 		);
 
 		$this->load->view('ci_test_nonexistent_view', array('foo' => 'bar'));
@@ -307,7 +307,7 @@ class Loader_test extends CI_TestCase {
 		// Test non-existent file
 		$this->setExpectedException(
 			'RuntimeException',
-			'CI Error: Unable to load the requested file: ci_test_file_not_exists'
+			'Unable to load the requested file: ci_test_file_not_exists'
 		);
 
 		$this->load->file('ci_test_file_not_exists', TRUE);
@@ -372,7 +372,7 @@ class Loader_test extends CI_TestCase {
 		// Test bad extension
 		$this->setExpectedException(
 			'RuntimeException',
-			'CI Error: Unable to load the requested file: helpers/'.$ext.'_helper.php'
+			'Unable to load the requested file: helpers/'.$ext.'_helper.php'
 		);
 		$this->load->helper($ext);
 	}
@@ -383,7 +383,7 @@ class Loader_test extends CI_TestCase {
 	{
 		$this->setExpectedException(
 			'RuntimeException',
-			'CI Error: Unable to load the requested file: helpers/bad_helper.php'
+			'Unable to load the requested file: helpers/bad_helper.php'
 		);
 		$this->load->helper('bad');
 	}
@@ -442,7 +442,7 @@ class Loader_test extends CI_TestCase {
 		// Test failed load without path
 		$this->setExpectedException(
 			'RuntimeException',
-			'CI Error: Unable to load the requested class: '.ucfirst($lib)
+			'Unable to load the requested class: '.ucfirst($lib)
 		);
 		$this->load->library($lib);
 

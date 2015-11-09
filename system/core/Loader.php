@@ -586,7 +586,7 @@ class CI_Loader {
 				$base_helper = BASEPATH.'helpers/'.$helper.'.php';
 				if ( ! file_exists($base_helper))
 				{
-					show_error('Unable to load the requested file: helpers/'.$helper.'.php');
+					throw new RuntimeException('Unable to load the requested file: helpers/'.$helper.'.php');
 				}
 
 				include_once($base_helper);
@@ -611,7 +611,7 @@ class CI_Loader {
 			// unable to load the helper
 			if ( ! isset($this->_ci_helpers[$helper]))
 			{
-				show_error('Unable to load the requested file: helpers/'.$helper.'.php');
+				throw new RuntimeException('Unable to load the requested file: helpers/'.$helper.'.php');
 			}
 		}
 
@@ -875,7 +875,7 @@ class CI_Loader {
 
 		if ( ! $file_exists && ! file_exists($_ci_path))
 		{
-			show_error('Unable to load the requested file: '.$_ci_file);
+			throw new RuntimeException('Unable to load the requested file: '.$_ci_file);
 		}
 
 		// This allows anything loaded using $this->load (views, files, etc.)
@@ -1050,7 +1050,7 @@ class CI_Loader {
 
 		// If we got this far we were unable to find the requested class.
 		log_message('error', 'Unable to load the requested class: '.$class);
-		show_error('Unable to load the requested class: '.$class);
+		throw new RuntimeException('Unable to load the requested class: '.$class);
 	}
 
 	// --------------------------------------------------------------------
@@ -1211,7 +1211,7 @@ class CI_Loader {
 		if ( ! class_exists($class_name, FALSE))
 		{
 			log_message('error', 'Non-existent class: '.$class_name);
-			show_error('Non-existent class: '.$class_name);
+			throw new RuntimeException('Non-existent class: '.$class_name);
 		}
 
 		// Set the variable name we will assign the class to
@@ -1235,7 +1235,7 @@ class CI_Loader {
 				return;
 			}
 
-			show_error("Resource '".$object_name."' already exists and is not a ".$class_name." instance.");
+			throw new RuntimeException("Resource '".$object_name."' already exists and is not a ".$class_name." instance.");
 		}
 
 		// Save the class name and object name
