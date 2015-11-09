@@ -774,7 +774,7 @@ abstract class CI_DB_driver {
 	{
 		if ( ! $this->conn_id)
 		{
-			if( !$this->initialize() )
+			if( ! $this->initialize())
 			{
 				return FALSE;
 			}
