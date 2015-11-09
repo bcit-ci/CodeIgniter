@@ -162,5 +162,20 @@ return array(
 	'vcf'	=>	'text/x-vcard',
 	'srt'	=>	array('text/srt', 'text/plain'),
 	'vtt'	=>	array('text/vtt', 'text/plain'),
-	'ico'	=>	array('image/x-icon', 'image/x-ico', 'image/vnd.microsoft.icon')
+	'ico'	=>	array('image/x-icon', 'image/x-ico', 'image/vnd.microsoft.icon'),
+	'odt'	=>	'application/vnd.oasis.opendocument.text',
+	'ott'	=>	'application/vnd.oasis.opendocument.text-template',
+	'oth'	=>	'application/vnd.oasis.opendocument.text-web',
+	'odm'	=>	'application/vnd.oasis.opendocument.text-master',
+	'odg'	=>	'application/vnd.oasis.opendocument.graphics',
+	'otg'	=>	'application/vnd.oasis.opendocument.graphics-template',
+	'odp'	=>	'application/vnd.oasis.opendocument.presentation',
+	'otp'	=>	'application/vnd.oasis.opendocument.presentation-template',
+	'ods'	=>	'application/vnd.oasis.opendocument.spreadsheet',
+	'ots'	=>	'application/vnd.oasis.opendocument.spreadsheet-template',
+	'odc'	=>	'application/vnd.oasis.opendocument.chart',
+	'odf'	=>	'application/vnd.oasis.opendocument.formula',
+	'odb'	=>	'application/vnd.oasis.opendocument.database',
+	'odi'	=>	'application/vnd.oasis.opendocument.image',
+	'oxt'	=>	'application/vnd.openofficeorg.extension'
 );
