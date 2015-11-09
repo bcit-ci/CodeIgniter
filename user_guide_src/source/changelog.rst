@@ -14,6 +14,7 @@ Bug fixes for 3.0.4
 -  Fixed a bug where :doc:`Form Helper <helpers/form_helper>` functions `set_checkbox()`, `set_radio()` didn't "uncheck" inputs on a submitted form if the default state is "checked".
 -  Fixed a bug (#4217) - :doc:`Config Library <libraries/config>` method ``base_url()`` didn't use proper formatting for IPv6 when it falls back to ``$_SERVER['SERVER_ADDR']``.
 -  Fixed a bug where :doc:`CAPTCHA Helper <helpers/captcha_helper>` entered an infinite loop while generating a random string.
+-  Fixed a bug (#4223) - :doc:`Database <database/method>` method ``simple_query()`` blindly executes queries without checking if the connection was initialized properly.
 
 Version 3.0.3
 =============
