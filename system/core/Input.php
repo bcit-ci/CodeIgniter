@@ -259,6 +259,19 @@ class CI_Input {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Set Post
+	 *
+	 * @param	mixed	$index      Post name
+	 * @param	mixed	$value      Post value
+	 */
+	public function set_post($index, $value = '')
+	{
+		$_POST[$index] = $value;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Fetch an item from POST data with fallback to GET
 	 *
 	 * @param	string	$index		Index for item to be fetched from $_POST or $_GET
