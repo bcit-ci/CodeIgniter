@@ -345,7 +345,7 @@ inability for CodeIgniter to send proper headers.
 Compatibility
 =============
 
-CodeIgniter recommends PHP 5.4 or newer to be used, but it should be
+CodeIgniter recommends PHP 5.5 or newer to be used, but it should be
 compatible with PHP 5.2.4. Your code must either be compatible with this
 requirement, provide a suitable fallback, or be an optional feature that
 dies quietly without affecting a user's application.
