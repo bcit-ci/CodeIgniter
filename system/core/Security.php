@@ -289,7 +289,7 @@ class CI_Security {
 	 */
 	public function csrf_show_error()
 	{
-		show_error('The action you have requested is not allowed.', 403);
+		throw new RuntimeException('The action you have requested is not allowed.', 403);
 	}
 
 	// --------------------------------------------------------------------

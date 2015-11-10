@@ -31,7 +31,7 @@ class Security_test extends CI_TestCase {
 		// Without issuing $_POST[csrf_token_name], this request will triggering CSRF error
 		$_SERVER['REQUEST_METHOD'] = 'POST';
 
-		$this->setExpectedException('RuntimeException', 'CI Error: The action you have requested is not allowed');
+		$this->setExpectedException('RuntimeException', 'The action you have requested is not allowed', 403);
 
 		$this->security->csrf_verify();
 	}
