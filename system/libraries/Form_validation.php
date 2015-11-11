@@ -1358,17 +1358,17 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
-     * Numeric-spaces
-     *
-     * @param string
-     * @return bool
-     */
-    public function numeric_spaces($str)
-    {
-           return (bool) preg_match('/^[0-9 ]+$/', $str);
-    }
+     	 * Numeric-spaces
+     	 *
+     	 * @param string
+     	 * @return bool
+     	 */
+    	public function numeric_spaces($str)
+    	{
+		return (bool) preg_match('/^[0-9 ]+$/', $str);
+    	}
 
-    // --------------------------------------------------------------------
+	// --------------------------------------------------------------------
 
 	/**
 	 * Integer
