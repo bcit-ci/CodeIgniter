@@ -51,6 +51,7 @@ $lang['form_validation_alpha_numeric']		= 'The {field} field may only contain al
 $lang['form_validation_alpha_numeric_spaces']	= 'The {field} field may only contain alpha-numeric characters and spaces.';
 $lang['form_validation_alpha_dash']		= 'The {field} field may only contain alpha-numeric characters, underscores, and dashes.';
 $lang['form_validation_numeric']		= 'The {field} field must contain only numbers.';
+$lang['form_validation_numeric_spaces'] = 'The {field} field must contain only numbers and spaces.';
 $lang['form_validation_is_numeric']		= 'The {field} field must contain only numeric characters.';
 $lang['form_validation_integer']		= 'The {field} field must contain an integer.';
 $lang['form_validation_regex_match']		= 'The {field} field is not in the correct format.';
