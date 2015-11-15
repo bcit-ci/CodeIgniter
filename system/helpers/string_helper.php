@@ -303,3 +303,22 @@ if ( ! function_exists('repeater'))
 		return ($num > 0) ? str_repeat($data, $num) : '';
 	}
 }
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('truncate'))
+{
+	/**
+	 * Limit the number of characters in a string.
+	 *
+	 * @param  string  $str
+	 * @param  int     $limit
+	 * @param  string  $end
+	 * @return string
+	 */
+	function truncate($str, $limit = 100, $end = '...')
+	{
+		if (mb_strlen($str) <= $limit) return $str;
+		return rtrim(mb_substr($str, 0, $limit, 'UTF-8')).$end;
+	}
+}

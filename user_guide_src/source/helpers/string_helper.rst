@@ -221,3 +221,17 @@ The following functions are available:
 
 		$string = "Joe's \"dinner\"";
 		$string = strip_quotes($string); //results in "Joes dinner"
+		
+
+.. php:function:: truncate($str)
+
+	:param	string	$str: Input string
+	:param int $limit: maximum number of resulting characters to show
+	:param	string	$end: option argument string that concatenated with the end of the truncated string. Default value is "..."
+	:returns:	Limited character string concatenated with end string
+	:rtype:	string
+
+	Limits the number of characters in a string. Example::
+
+		$string = "Hello CodeIgniter, I am developer";
+		$string = truncate($string,17); //results in "Hello CodeIgniter..."
