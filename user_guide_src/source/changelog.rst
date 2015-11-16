@@ -16,6 +16,7 @@ Bug fixes for 3.0.4
 -  Fixed a bug where :doc:`CAPTCHA Helper <helpers/captcha_helper>` entered an infinite loop while generating a random string.
 -  Fixed a bug (#4223) - :doc:`Database <database/method>` method ``simple_query()`` blindly executes queries without checking if the connection was initialized properly.
 -  Fixed a bug (#4244) - :doc:`Email Library <libraries/email>` could improperly use "unsafe" US-ASCII characters during Quoted-printable encoding.
+-  Fixed a bug (#4245) - :doc:`Database Forge <database/forge>` couldn't properly handle ``SET`` and ``ENUM`` type fields with string values.
 
 Version 3.0.3
 =============
