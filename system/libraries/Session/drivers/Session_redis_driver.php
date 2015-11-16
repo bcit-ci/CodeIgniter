@@ -144,12 +144,12 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 		$redis = new Redis();
 		if ($this->_config['save_path']['type'] == 'unix')
 		{
-			if (! $redis->connect($this->_config['save_path']['path']))
+			if ( ! $redis->connect($this->_config['save_path']['path']))
 			{
 				log_message('error', 'Session: Unable to connect to Redis with the configured settings.');
 			}
 		}
-		elseif (! $redis->connect($this->_config['save_path']['host'], $this->_config['save_path']['port'], $this->_config['save_path']['timeout']))
+		elseif ( ! $redis->connect($this->_config['save_path']['host'], $this->_config['save_path']['port'], $this->_config['save_path']['timeout']))
 		{
 			log_message('error', 'Session: Unable to connect to Redis with the configured settings.');
 		}
