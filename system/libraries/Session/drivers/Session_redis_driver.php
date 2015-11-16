@@ -85,7 +85,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 		{
 			log_message('error', 'Session: No Redis save path configured.');
 		}
-		elseif (strpos($this->_config['save_path'], 'unix://') === 0 && preg_match('#(?:unix://)?([^:?]+)(\?.+)?#', $this->_config['save_path'], $matches))
+		elseif (preg_match('#^unix://([^\?]+)(\?.+)?$#', $this->_config['save_path'], $matches))
 		{
 			isset($matches[2]) OR $matches[2] = ''; // Just to avoid undefined index notices below
 			$this->_config['save_path'] = array(
@@ -96,7 +96,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 					'timeout' => preg_match('#timeout=(\d+\.\d+)#', $matches[2], $match) ? (float) $match[1] : NULL
 			);
 
-			preg_match('#prefix=([^\s&]+)#', $matches[3], $match) && $this->_key_prefix = $match[1];
+			preg_match('#prefix=([^\s&]+)#', $matches[2], $match) && $this->_key_prefix = $match[1];
 		}
 		elseif (preg_match('#(?:tcp://)?([^:?]+)(?:\:(\d+))?(\?.+)?#', $this->_config['save_path'], $matches))
 		{
@@ -142,15 +142,19 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 		}
 
 		$redis = new Redis();
-		if ($this->_config['save_path']['type'] == 'unix' && !$redis->connect($this->_config['save_path']['path']))
+		if ($this->_config['save_path']['type'] == 'unix')
+		{
+			if (! $redis->connect($this->_config['save_path']['path']))
+			{
+				log_message('error', 'Session: Unable to connect to Redis with the configured settings.');
+			}
+		}
+		elseif (! $redis->connect($this->_config['save_path']['host'], $this->_config['save_path']['port'], $this->_config['save_path']['timeout']))
 		{
 			log_message('error', 'Session: Unable to connect to Redis with the configured settings.');
 		}
-		else if ( ! $redis->connect($this->_config['save_path']['host'], $this->_config['save_path']['port'], $this->_config['save_path']['timeout']))
-		{
-			log_message('error', 'Session: Unable to connect to Redis with the configured settings.');
-		}
-		elseif (isset($this->_config['save_path']['password']) && ! $redis->auth($this->_config['save_path']['password']))
+
+		if (isset($this->_config['save_path']['password']) && ! $redis->auth($this->_config['save_path']['password']))
 		{
 			log_message('error', 'Session: Unable to authenticate to Redis instance.');
 		}
