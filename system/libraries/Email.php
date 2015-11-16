@@ -1524,6 +1524,10 @@ class CI_Email {
 				{
 					$char = $escape.strtoupper(sprintf('%02s', dechex($ascii)));  // =3D
 				}
+				elseif ($ascii === 27) // encode  signs
+				{
+					$char = $escape.strtoupper(sprintf('%02s', dechex($ascii)));  // =1B
+				}
 
 				// If we're at the character limit, add the line to the output,
 				// reset our temp variable, and keep on chuggin'
