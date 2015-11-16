@@ -7,6 +7,11 @@ Version 3.1.0
 
 Release Date: Not Released
 
+-  Session
+
+   -  Add unix socket support to redis session driver.
+
+
 Version 3.0.4
 =============
 
