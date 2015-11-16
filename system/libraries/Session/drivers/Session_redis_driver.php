@@ -141,31 +141,37 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 			return FALSE;
 		}
 
+		$connected = TRUE;
 		$redis = new Redis();
 		if ($this->_config['save_path']['type'] == 'unix')
 		{
 			if ( ! $redis->connect($this->_config['save_path']['path']))
 			{
 				log_message('error', 'Session: Unable to connect to Redis with the configured settings.');
+				$connected = FALSE;
 			}
 		}
 		elseif ( ! $redis->connect($this->_config['save_path']['host'], $this->_config['save_path']['port'], $this->_config['save_path']['timeout']))
 		{
 			log_message('error', 'Session: Unable to connect to Redis with the configured settings.');
+			$connected = FALSE;
 		}
 
-		if (isset($this->_config['save_path']['password']) && ! $redis->auth($this->_config['save_path']['password']))
+		if ($connected) 
 		{
-			log_message('error', 'Session: Unable to authenticate to Redis instance.');
-		}
-		elseif (isset($this->_config['save_path']['database']) && ! $redis->select($this->_config['save_path']['database']))
-		{
-			log_message('error', 'Session: Unable to select Redis database with index '.$this->_config['save_path']['database']);
-		}
-		else
-		{
-			$this->_redis = $redis;
-			return TRUE;
+			if (isset($this->_config['save_path']['password']) && ! $redis->auth($this->_config['save_path']['password']))
+			{
+				log_message('error', 'Session: Unable to authenticate to Redis instance.');
+			}
+			elseif (isset($this->_config['save_path']['database']) && ! $redis->select($this->_config['save_path']['database']))
+			{
+				log_message('error', 'Session: Unable to select Redis database with index '.$this->_config['save_path']['database']);
+			}
+			else
+			{
+				$this->_redis = $redis;
+				return TRUE;
+			}
 		}
 
 		return FALSE;
