@@ -79,7 +79,8 @@ if ( ! function_exists('create_captcha'))
 				'border'	=> array(153,102,102),
 				'text'		=> array(204,153,153),
 				'grid'		=> array(255,182,182)
-			)
+			),
+			'img_alt'	=> 'captcha'
 		);
 
 		foreach ($defaults as $key => $val)
@@ -330,7 +331,7 @@ if ( ! function_exists('create_captcha'))
 			return FALSE;
 		}
 
-		$img = '<img '.($img_id === '' ? '' : 'id="'.$img_id.'"').' src="'.$img_url.$img_filename.'" style="width: '.$img_width.'; height: '.$img_height .'; border: 0;" alt=" " />';
+		$img = '<img '.($img_id === '' ? '' : 'id="'.$img_id.'"').' src="'.$img_url.$img_filename.'" style="width: '.$img_width.'; height: '.$img_height .'; border: 0;" alt="'.$img_alt.'" />';
 		ImageDestroy($im);
 
 		return array('word' => $word, 'time' => $now, 'image' => $img, 'filename' => $img_filename);
