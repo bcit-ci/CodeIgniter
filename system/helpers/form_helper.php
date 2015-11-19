@@ -273,9 +273,7 @@ if ( ! function_exists('form_textarea'))
 	function form_textarea($data = '', $value = '', $extra = '')
 	{
 		$defaults = array(
-			'name' => is_array($data) ? '' : $data,
-			'cols' => '40',
-			'rows' => '10'
+			'name' => is_array($data) ? '' : $data
 		);
 
 		if ( ! is_array($data) OR ! isset($data['value']))
