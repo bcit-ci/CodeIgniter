@@ -418,8 +418,9 @@ $config['standardize_newlines'] = FALSE;
 | Determines whether the XSS filter is always active when GET, POST or
 | COOKIE data is encountered
 |
-| WARNING: This feature is DEPRECATED and currently available only
-|          for backwards compatibility purposes!
+| WARNING: This setting is DEPRECATED and currently available only
+|          for backwards compatibility purposes, XSS escaping should be
+|          performed on output, not input!
 |
 */
 $config['global_xss_filtering'] = FALSE;
