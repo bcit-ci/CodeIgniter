@@ -111,7 +111,7 @@ that you should make:
 
   - Set your ``$config['sess_driver']`` value
 
-    It will default to 'files', unles you've previously used
+    It will default to 'files', unless you've previously used
     ``$config['sess_use_database']``, in which case it will be set to
     'database'.
 
