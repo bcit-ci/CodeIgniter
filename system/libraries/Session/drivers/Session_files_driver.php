@@ -97,6 +97,9 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 		{
 			$this->_config['save_path'] = rtrim(ini_get('session.save_path'), '/\\');
 		}
+		
+		$expiration = config_item('sess_expiration');
+		$this->gc($expiration);
 	}
 
 	// ------------------------------------------------------------------------
