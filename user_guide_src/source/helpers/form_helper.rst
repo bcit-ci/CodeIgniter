@@ -231,6 +231,18 @@ The following functions are available:
 		$js = array('onClick' => 'some_function();');
 		echo form_input('username', 'johndoe', $js);
 
+.. php:function:: form_email([$data = ''[, $value = ''[, $extra = '']]])
+
+	:param	array	$data: Field attributes data
+	:param	string	$value: Field value
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
+	:returns:	An HTML email input field tag
+	:rtype:	string
+
+	This function is identical in all respects to the :php:func:`form_input()`
+	function above except that it uses the "email" input type.
+
+
 .. php:function:: form_password([$data = ''[, $value = ''[, $extra = '']]])
 
 	:param	array	$data: Field attributes data
@@ -240,6 +252,7 @@ The following functions are available:
 	:rtype:	string
 
 	This function is identical in all respects to the :php:func:`form_input()`
+	function and :php:func`form_email()`
 	function above except that it uses the "password" input type.
 
 
