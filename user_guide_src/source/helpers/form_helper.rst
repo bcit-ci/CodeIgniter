@@ -252,7 +252,7 @@ The following functions are available:
 	:rtype:	string
 
 	This function is identical in all respects to the :php:func:`form_input()`
-	function and :php:func`form_email()`
+	function and :php:func:`form_email()`
 	function above except that it uses the "password" input type.
 
 
