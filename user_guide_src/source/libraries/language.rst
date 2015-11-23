@@ -196,7 +196,7 @@ Class Reference
 		:param	string	$alt_path: An alternative path to look in for the language file
 		:returns:	Array of language lines if $return is set to TRUE, otherwise void
 		:rtype:	mixed
-		:throws: RuntimeException when unable to load the language file
+		:throws:	RuntimeException	If unable to load the requested language file
 
 		Loads a language file.
 

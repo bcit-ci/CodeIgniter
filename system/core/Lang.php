@@ -83,7 +83,7 @@ class CI_Lang {
 	 * @param 	bool	$add_suffix	Whether to add suffix to $langfile
 	 * @param 	string	$alt_path	Alternative path to look for the language file
 	 * @return	void|string[]	Array containing translations, if $return is set to TRUE
-	 * @throws	RuntimeException when unable to load the language file
+	 * @throws	RuntimeException	If unable to load the requested language file
 	 */
 	public function load($langfile, $idiom = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '')
 	{
