@@ -322,12 +322,13 @@ class CI_URI {
 	 *
 	 * @param	string	$str
 	 * @return	void
+	 * @throws      RuntimeException
 	 */
 	public function filter_uri(&$str)
 	{
 		if ( ! empty($str) && ! empty($this->_permitted_uri_chars) && ! preg_match('/^['.$this->_permitted_uri_chars.']+$/i'.(UTF8_ENABLED ? 'u' : ''), $str))
 		{
-			show_error('The URI you submitted has disallowed characters.', 400);
+			throw new RuntimeException('The URI you submitted has disallowed characters.');
 		}
 	}
 
