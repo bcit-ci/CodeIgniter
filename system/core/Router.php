@@ -285,7 +285,7 @@ class CI_Router {
 	 * Set default controller
 	 *
 	 * @return	void
-	 * @throws	RuntimeError
+	 * @throws	RuntimeException
 	 */
 	protected function _set_default_controller()
 	{
