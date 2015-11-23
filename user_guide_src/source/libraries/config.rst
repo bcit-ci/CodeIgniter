@@ -204,7 +204,7 @@ Class Reference
 		:param	string	$item: config item name
 		:returns:	Config item value with a trailing forward slash or NULL if not found
 		:rtype:	mixed
-                :throws: RuntimeException   Throws a runtime exception if the config file can't be found or doesn't have a valid configuration array.
+		:throws: RuntimeException   Throws a RuntimeException if no (valid) configuration file is found.
 
 		This method is identical to ``item()``, except it appends a forward
 		slash to the end of the item, if it exists.
