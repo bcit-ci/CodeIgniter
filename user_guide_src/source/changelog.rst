@@ -7,6 +7,11 @@ Version 3.0.4
 
 Release Date: Not Released
 
+-  General Changes
+
+   -  Updated :doc:`Security Library <libraries/security>` method ``get_random_bytes()`` to use PHP7's ``random_bytes()`` function when possible.
+   -  Updated :doc:`Encryption Library <libraries/security>` method ``create_key()`` to use PHP7's ``random_bytes()`` function when possible.
+
 Bug fixes for 3.0.4
 -------------------
 
