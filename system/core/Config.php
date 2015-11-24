@@ -115,7 +115,7 @@ class CI_Config {
 	 * @param	bool	$use_sections		Whether configuration values should be loaded into their own section
 	 * @param	bool	$fail_gracefully	Whether to just return FALSE or display an error message
 	 * @return	bool	TRUE if the file was loaded correctly or FALSE on failure
-	 * @throws	RuntimeException		Throws a RuntimeException if no (valid) configuration file is found.
+	 * @throws	RuntimeException	if no (valid) configuration file is found or it doesn't have a valid configuration array.
 	 */
 	public function load($file = '', $use_sections = FALSE, $fail_gracefully = FALSE)
 	{
