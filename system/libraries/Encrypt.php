@@ -188,6 +188,43 @@ class CI_Encrypt {
 		return $this->mcrypt_decode(base64_decode($string), $this->get_key($key));
 	}
 
+		/**
+	 * Decode from legacy
+	 *
+	 * Reverses the above process
+	 *
+	 * @access	public
+	 * @param	string $string
+	 * @param	string $key
+	 * @return	string $legacy_mode
+	 */
+	private function _decode_from_legacy($string, $key = '', $legacy_mode = MCRYPT_MODE_ECB)
+	{
+		// set mode temporarily to what it was when string was encoded with the legacy
+		// algorithm - typically MCRYPT_MODE_ECB
+		$current_mode = $this->_get_mode();
+		$this->set_mode($legacy_mode);
+
+		$key = $this->get_key($key);
+
+		if (preg_match('/[^a-zA-Z0-9\/\+=]/', $string))
+		{
+			return FALSE;
+		}
+
+		$dec = base64_decode($string);
+
+		if (($dec = $this->_mcrypt_decode_from_legacy($dec, $key)) === FALSE)
+		{
+			return FALSE;
+		}
+
+		$this->set_mode($current_mode);
+
+		return $this->_xor_decode($dec, $key);
+
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -207,29 +244,12 @@ class CI_Encrypt {
 	 */
 	public function encode_from_legacy($string, $legacy_mode = MCRYPT_MODE_ECB, $key = '')
 	{
-		if (preg_match('/[^a-zA-Z0-9\/\+=]/', $string))
-		{
-			return FALSE;
-		}
-
 		// decode it first
-		// set mode temporarily to what it was when string was encoded with the legacy
-		// algorithm - typically MCRYPT_MODE_ECB
-		$current_mode = $this->_get_mode();
-		$this->set_mode($legacy_mode);
+		$dec = $this->_decode_from_legacy($string, $key, $legacy_mode);
 
+		// Get the key. Make sure to do this AFTER _decode_from_legacy or else it
+		// will be md5 hashed again in that method as it calls get_key as well
 		$key = $this->get_key($key);
-		$dec = base64_decode($string);
-		if (($dec = $this->mcrypt_decode($dec, $key)) === FALSE)
-		{
-			$this->set_mode($current_mode);
-			return FALSE;
-		}
-
-		$dec = $this->_xor_decode($dec, $key);
-
-		// set the mcrypt mode back to what it should be, typically MCRYPT_MODE_CBC
-		$this->set_mode($current_mode);
 
 		// and re-encode
 		return base64_encode($this->mcrypt_encode($dec, $key));
@@ -297,6 +317,21 @@ class CI_Encrypt {
 		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
 		$init_vect = mcrypt_create_iv($init_size, MCRYPT_RAND);
 		return $this->_add_cipher_noise($init_vect.mcrypt_encrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), $key);
+	}
+
+	/**
+	 * Decrypt using Mcrypt in legacy mode
+	 *
+	 * @access	public
+	 * @param	string
+	 * @param	string
+	 * @return	string
+	 */
+	private function _mcrypt_decode_from_legacy($data, $key)
+	{
+		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
+		$init_vect = mcrypt_create_iv($init_size, MCRYPT_RAND);
+		return rtrim(mcrypt_decrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), "\0");
 	}
 
 	// --------------------------------------------------------------------
