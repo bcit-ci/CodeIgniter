@@ -116,7 +116,7 @@ this code and save it to your application/views/ folder::
 The Controller
 ==============
 
-Using a text editor, create a controller called form.php. In it, place
+Using a text editor, create a controller called Form.php. In it, place
 this code and save it to your application/controllers/ folder::
 
 	<?php
