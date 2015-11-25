@@ -67,7 +67,7 @@ class CI_Encrypt {
 	 * @param	string
 	 * @return	string
 	 */
-	function get_key($key = '')
+	public function get_key($key = '')
 	{
 		if ($key == '')
 		{
@@ -97,7 +97,7 @@ class CI_Encrypt {
 	 * @param	string
 	 * @return	void
 	 */
-	function set_key($key = '')
+	public function set_key($key = '')
 	{
 		$this->encryption_key = $key;
 	}
@@ -116,11 +116,11 @@ class CI_Encrypt {
 	 * message and key are the same.
 	 *
 	 * @access	public
-	 * @param	string	the string to encode
-	 * @param	string	the key
+	 * @param	string	$string the string to encode
+	 * @param	string	$key the key
 	 * @return	string
 	 */
-	function encode($string, $key = '')
+	public function encode($string, $key = '')
 	{
 		$key = $this->get_key($key);
 		$enc = $this->mcrypt_encode($string, $key);
@@ -140,7 +140,7 @@ class CI_Encrypt {
 	 * @param	string
 	 * @return	string
 	 */
-	function decode($string, $key = '')
+	public function decode($string, $key = '')
 	{
 		$key = $this->get_key($key);
 
@@ -157,6 +157,43 @@ class CI_Encrypt {
 		}
 
 		return $dec;
+	}
+
+	/**
+	 * Decode from legacy
+	 *
+	 * Reverses the above process
+	 *
+	 * @access	public
+	 * @param	string $string
+	 * @param	string $key
+	 * @return	string $legacy_mode
+	 */
+	private function _decode_from_legacy($string, $key = '', $legacy_mode = MCRYPT_MODE_ECB)
+	{
+		// set mode temporarily to what it was when string was encoded with the legacy
+		// algorithm - typically MCRYPT_MODE_ECB
+		$current_mode = $this->_get_mode();
+		$this->set_mode($legacy_mode);
+
+		$key = $this->get_key($key);
+
+		if (preg_match('/[^a-zA-Z0-9\/\+=]/', $string))
+		{
+			return FALSE;
+		}
+
+		$dec = base64_decode($string);
+
+		if (($dec = $this->_mcrypt_decode_from_legacy($dec, $key)) === FALSE)
+		{
+			return FALSE;
+		}
+
+		$this->set_mode($current_mode);
+
+		return $this->_xor_decode($dec, $key);
+
 	}
 
 	// --------------------------------------------------------------------
@@ -177,32 +214,14 @@ class CI_Encrypt {
 	 * @param	string
 	 * @return	string
 	 */
-	function encode_from_legacy($string, $legacy_mode = MCRYPT_MODE_ECB, $key = '')
+	public function encode_from_legacy($string, $legacy_mode = MCRYPT_MODE_ECB, $key = '')
 	{
 		// decode it first
-		// set mode temporarily to what it was when string was encoded with the legacy
-		// algorithm - typically MCRYPT_MODE_ECB
-		$current_mode = $this->_get_mode();
-		$this->set_mode($legacy_mode);
+		$dec = $this->_decode_from_legacy($string, $key, $legacy_mode);
 
+		// Get the key. Make sure to do this AFTER _decode_from_legacy or else it
+		// will be md5 hashed again in that method as it calls get_key as well
 		$key = $this->get_key($key);
-
-		if (preg_match('/[^a-zA-Z0-9\/\+=]/', $string))
-		{
-			return FALSE;
-		}
-
-		$dec = base64_decode($string);
-
-		if (($dec = $this->mcrypt_decode($dec, $key)) === FALSE)
-		{
-			return FALSE;
-		}
-
-		$dec = $this->_xor_decode($dec, $key);
-
-		// set the mcrypt mode back to what it should be, typically MCRYPT_MODE_CBC
-		$this->set_mode($current_mode);
 
 		// and re-encode
 		return base64_encode($this->mcrypt_encode($dec, $key));
@@ -221,7 +240,7 @@ class CI_Encrypt {
 	 * @param	string
 	 * @return	string
 	 */
-	function _xor_decode($string, $key)
+	private function _xor_decode($string, $key)
 	{
 		$string = $this->_xor_merge($string, $key);
 
@@ -246,7 +265,7 @@ class CI_Encrypt {
 	 * @param	string
 	 * @return	string
 	 */
-	function _xor_merge($string, $key)
+	private function _xor_merge($string, $key)
 	{
 		$hash = $this->hash($key);
 		$str = '';
@@ -268,7 +287,7 @@ class CI_Encrypt {
 	 * @param	string
 	 * @return	string
 	 */
-	function mcrypt_encode($data, $key)
+	public function mcrypt_encode($data, $key)
 	{
 		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
 		$init_vect = mcrypt_create_iv($init_size, MCRYPT_RAND);
@@ -285,7 +304,7 @@ class CI_Encrypt {
 	 * @param	string
 	 * @return	string
 	 */
-	function mcrypt_decode($data, $key)
+	public function mcrypt_decode($data, $key)
 	{
 		$data = $this->_remove_cipher_noise($data, $key);
 		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
@@ -297,6 +316,21 @@ class CI_Encrypt {
 
 		$init_vect = substr($data, 0, $init_size);
 		$data = substr($data, $init_size);
+		return rtrim(mcrypt_decrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), "\0");
+	}
+
+	/**
+	 * Decrypt using Mcrypt in legacy mode
+	 *
+	 * @access	public
+	 * @param	string
+	 * @param	string
+	 * @return	string
+	 */
+	private function _mcrypt_decode_from_legacy($data, $key)
+	{
+		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
+		$init_vect = mcrypt_create_iv($init_size, MCRYPT_RAND);
 		return rtrim(mcrypt_decrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), "\0");
 	}
 
@@ -314,7 +348,7 @@ class CI_Encrypt {
 	 * @param	string
 	 * @return	string
 	 */
-	function _add_cipher_noise($data, $key)
+	private function _add_cipher_noise($data, $key)
 	{
 		$keyhash = $this->hash($key);
 		$keylen = strlen($keyhash);
@@ -345,7 +379,7 @@ class CI_Encrypt {
 	 * @param	type
 	 * @return	type
 	 */
-	function _remove_cipher_noise($data, $key)
+	private function _remove_cipher_noise($data, $key)
 	{
 		$keyhash = $this->hash($key);
 		$keylen = strlen($keyhash);
@@ -380,7 +414,7 @@ class CI_Encrypt {
 	 * @param	constant
 	 * @return	string
 	 */
-	function set_cipher($cipher)
+	public function set_cipher($cipher)
 	{
 		$this->_mcrypt_cipher = $cipher;
 	}
@@ -394,7 +428,7 @@ class CI_Encrypt {
 	 * @param	constant
 	 * @return	string
 	 */
-	function set_mode($mode)
+	public function set_mode($mode)
 	{
 		$this->_mcrypt_mode = $mode;
 	}
@@ -407,7 +441,7 @@ class CI_Encrypt {
 	 * @access	private
 	 * @return	string
 	 */
-	function _get_cipher()
+	private function _get_cipher()
 	{
 		if ($this->_mcrypt_cipher == '')
 		{
@@ -425,7 +459,7 @@ class CI_Encrypt {
 	 * @access	private
 	 * @return	string
 	 */
-	function _get_mode()
+	private function _get_mode()
 	{
 		if ($this->_mcrypt_mode == '')
 		{
@@ -444,7 +478,7 @@ class CI_Encrypt {
 	 * @param	string
 	 * @return	string
 	 */
-	function set_hash($type = 'sha1')
+	public function set_hash($type = 'sha1')
 	{
 		$this->_hash_type = ($type != 'sha1' AND $type != 'md5') ? 'sha1' : $type;
 	}
@@ -458,7 +492,7 @@ class CI_Encrypt {
 	 * @param	string
 	 * @return	string
 	 */
-	function hash($str)
+	public function hash($str)
 	{
 		return ($this->_hash_type == 'sha1') ? $this->sha1($str) : md5($str);
 	}
@@ -472,7 +506,7 @@ class CI_Encrypt {
 	 * @param	string
 	 * @return	string
 	 */
-	function sha1($str)
+	public function sha1($str)
 	{
 		if ( ! function_exists('sha1'))
 		{
