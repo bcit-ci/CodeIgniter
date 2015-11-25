@@ -285,9 +285,9 @@ The following functions are available:
 		echo meta('description', 'My Great site');
 		// Generates:  <meta name="description" content="My Great Site" />
 
-		echo meta('Content-type', 'text/html; charset=utf-8', 'equiv');
-		// Note the third parameter.  Can be "equiv" or "name"
-		// Generates:  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+		echo meta('refresh', '30', 'http-equiv');
+		// Note the third parameter.  Can be "charset", "http-equiv", "name" or "property"
+		// Generates:  <meta http-equiv="refresh" content="30" />
 
 		echo meta(array('name' => 'robots', 'content' => 'no-cache'));
 		// Generates:  <meta name="robots" content="no-cache" />
@@ -310,8 +310,8 @@ The following functions are available:
 				'content' => 'no-cache'
 			),
 			array(
-				'name' => 'Content-type',
-				'content' => 'text/html; charset=utf-8', 'type' => 'equiv'
+				'name' => 'UTF-8',
+				'type' => 'charset'
 			)
 		);
 
@@ -321,7 +321,7 @@ The following functions are available:
 		// <meta name="description" content="My Great Site" />
 		// <meta name="keywords" content="love, passion, intrigue, deception" />
 		// <meta name="robots" content="no-cache" />
-		// <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+		// <meta charset="UTF-8" />
 
 
 .. php:function:: doctype([$type = 'xhtml1-strict'])

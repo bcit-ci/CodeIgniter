@@ -338,7 +338,7 @@ if ( ! function_exists('link_tag'))
 if ( ! function_exists('meta'))
 {
 	/**
-	 * Generates meta tags from an array of key/values
+	 * Generates meta tags from an array of key/values, compatible with html5 and open graph
 	 *
 	 * @param	array
 	 * @param	string
@@ -359,13 +359,14 @@ if ( ! function_exists('meta'))
 			// Turn single array into multidimensional
 			$name = array($name);
 		}
-
+		$allowed_type = array('charset', 'http-equiv', 'name', 'property');
 		$str = '';
 		foreach ($name as $meta)
 		{
-			$type		= (isset($meta['type']) && $meta['type'] !== 'name')	? 'http-equiv' : 'name';
+			$meta['type'] = (isset($meta['type']) && ($meta['type'] == 'equiv'))	? 'http-equiv' : $meta['type']; // backward compatibility
+			$type = (isset($meta['type']) && in_array($meta['type'], $allowed_type))? $meta['type'] : 'name';
 			$name		= isset($meta['name'])					? $meta['name'] : '';
-			$content	= isset($meta['content'])				? $meta['content'] : '';
+			$content = (isset($meta['content']) && $type != 'charset')		? $meta['content'] : '';
 			$newline	= isset($meta['newline'])				? $meta['newline'] : "\n";
 
 			$str .= '<meta '.$type.'="'.$name.'" content="'.$content.'" />'.$newline;
