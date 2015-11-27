@@ -324,6 +324,7 @@ abstract class CI_DB_forge {
 	 * @param $reference_column
 	 * @param $on_update
 	 * @param $on_delete
+	 * @author Lukas B. (greensn0w)
 	 * @return bool
 	 */
 	public function add_foreign_key($index_name, $reference_table, $reference_column, $on_update = 'no action', $on_delete = 'no action')
@@ -361,6 +362,7 @@ abstract class CI_DB_forge {
 	 * Add Foreign Key Helper
 	 *
 	 * @param $table_name
+	 * @author Lukas B. (greensn0w)
 	 * @return array
 	 */
 	private function _add_foreign_keys($table_name)
