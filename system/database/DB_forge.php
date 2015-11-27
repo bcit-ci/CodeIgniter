@@ -75,6 +75,12 @@ abstract class CI_DB_forge {
 	public $primary_keys	= array();
 
 	/**
+	 * Foreign Keys data
+	 * @var array
+	 */
+	public $foreign_keys	= array();
+
+	/**
 	 * Database character set
 	 *
 	 * @var	string
@@ -310,7 +316,81 @@ abstract class CI_DB_forge {
 	}
 
 	// --------------------------------------------------------------------
+	/**
+	 * Add Foreign Key
+	 *
+	 * @param $index_name
+	 * @param $reference_table
+	 * @param $reference_column
+	 * @param $on_update
+	 * @param $on_delete
+	 * @return bool
+	 */
+	public function add_foreign_key($index_name, $reference_table, $reference_column, $on_update = 'no action', $on_delete = 'no action')
+	{
+		$key = array(
+			'INDEX_NAME' => $index_name,
+			'REFERENCE_TABLE' => $reference_table,
+			'REFERENCE_COLUMN' => $reference_column
+		);
 
+		if($on_update !== '')
+		{
+			$key['ON_UPDATE'] = strtoupper($on_update);
+
+			if($on_delete !== '')
+			{
+				$key['ON_DELETE'] = strtoupper($on_delete);
+			}
+			else
+			{
+				$key['ON_DELETE'] = 'NO ACTION';
+			}
+		} else {
+			$key['ON_DELETE'] = 'NO ACTION';
+			$key['ON_UPDATE'] = 'NO ACTION';
+		}
+
+		$this->foreign_keys[] = $key;
+
+		return true;
+	}
+
+	// --------------------------------------------------------------------
+	/**
+	 * Add Foreign Key Helper
+	 *
+	 * @param $table_name
+	 * @return array
+	 */
+	private function _add_foreign_keys($table_name)
+	{
+		$results = array();
+
+		foreach($this->foreign_keys as $foreign_key)
+		{
+
+			$sql = 'ALTER TABLE `' . $table_name . '` ' .
+					'ADD FOREIGN KEY (`'. $foreign_key['INDEX_NAME'] . '`) ' .
+					'REFERENCES `' . $foreign_key['REFERENCE_TABLE'] . '` (`' . $foreign_key['REFERENCE_COLUMN'] . '`)';
+
+			if($foreign_key['ON_UPDATE'] !== null)
+			{
+				$sql .= ' ON UPDATE ' . $foreign_key['ON_UPDATE'];
+			}
+
+			if($foreign_key['ON_DELETE'] !== null)
+			{
+				$sql .= ' ON DELETE ' . $foreign_key['ON_DELETE'];
+			}
+
+			$results[] = $this->db->query($sql);
+		}
+
+		return $results;
+	}
+
+	// --------------------------------------------------------------------
 	/**
 	 * Create Table
 	 *
@@ -360,6 +440,7 @@ abstract class CI_DB_forge {
 			}
 		}
 
+		$this->_add_foreign_keys($table);
 		$this->_reset();
 		return $result;
 	}
