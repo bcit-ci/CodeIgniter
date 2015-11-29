@@ -230,6 +230,10 @@ class CI_Loader {
 	 * @param	string	$name		An optional object name to assign to
 	 * @param	bool	$db_conn	An optional database connection configuration to initialize
 	 * @return	object
+	 * @throws	RuntimeException	If the name of model is already being used by another resource
+	 * @throws	RuntimeException	If model file exists but does not declare class
+	 * @throws	RuntimeException	If unable to load specified model
+	 * @throws	RuntimeException	If class already exists but does not extend CI_Model
 	 */
 	public function model($model, $name = '', $db_conn = FALSE)
 	{
@@ -558,6 +562,7 @@ class CI_Loader {
 	 *
 	 * @param	string|string[]	$helpers	Helper name(s)
 	 * @return	object
+	 * @throws	RuntimeException	If unable to load the requested file
 	 */
 	public function helper($helpers = array())
 	{
@@ -835,6 +840,7 @@ class CI_Loader {
 	 * @used-by	CI_Loader::file()
 	 * @param	array	$_ci_data	Data to load
 	 * @return	object
+	 * @throws	RuntimeException	If unable to load the requsted file
 	 */
 	protected function _ci_load($_ci_data)
 	{
@@ -972,6 +978,7 @@ class CI_Loader {
 	 * @param	mixed	$params		Optional parameters to pass to the class constructor
 	 * @param	string	$object_name	Optional object name to assign to
 	 * @return	void
+	 * @throws	RuntimeException	If unable to load the requested class
 	 */
 	protected function _ci_load_library($class, $params = NULL, $object_name = NULL)
 	{
@@ -1155,6 +1162,8 @@ class CI_Loader {
 	 *						NULL to search in config paths;
 	 *						array containing configuration data
 	 * @param	string		$object_name	Optional object name to assign to
+	 * @throws	RuntimeException	If the class name is invalid or non-existent
+	 * @throws	RuntimeException	If resource already exists but is not an instance of the requested class
 	 * @return	void
 	 */
 	protected function _ci_init_library($class, $prefix, $config = FALSE, $object_name = NULL)
