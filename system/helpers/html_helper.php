@@ -229,7 +229,7 @@ if ( ! function_exists('doctype'))
 	 * @param	string	type	The doctype to be generated
 	 * @return	string
 	 */
-	function doctype($type = 'html5')
+	function doctype($type = 'xhtml1-strict')
 	{
 		static $doctypes;
 
@@ -363,13 +363,13 @@ if ( ! function_exists('meta'))
 		$str = '';
 		foreach ($name as $meta)
 		{
-			$meta['type'] = (isset($meta['type']) && ($meta['type'] == 'equiv'))	? 'http-equiv' : $meta['type']; // backward compatibility
-			$type = (isset($meta['type']) && in_array($meta['type'], $allowed_type))? $meta['type'] : 'name';
-			$name		= isset($meta['name'])					? $meta['name'] : '';
-			$content = (isset($meta['content']) && $type != 'charset')		? $meta['content'] : '';
-			$newline	= isset($meta['newline'])				? $meta['newline'] : "\n";
+			$meta['type'] = isset($meta['type']) ? (($meta['type'] === 'equiv') ? 'http-equiv' : $meta['type']) : ''; // backward compatibility
+			$type    = in_array($meta['type'], $allowed_type) ? $meta['type']    : 'name';
+			$name    = isset($meta['name'])                   ? $meta['name']    : '';
+			$content = isset($meta['content'])                ? $meta['content'] : '';
+			$newline = isset($meta['newline'])                ? $meta['newline'] : "\n";
 
-			$str .= '<meta '.$type.'="'.$name.'" content="'.$content.'" />'.$newline;
+			$str .= '<meta '.$type.'="'.$name.(($type === 'charset')?'':'" content="'.$content).'" />'.$newline;
 		}
 
 		return $str;

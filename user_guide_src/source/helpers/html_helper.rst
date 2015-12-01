@@ -285,9 +285,9 @@ The following functions are available:
 		echo meta('description', 'My Great site');
 		// Generates:  <meta name="description" content="My Great Site" />
 
-		echo meta('refresh', '30', 'http-equiv');
+		echo meta('Content-type', 'text/html; charset=utf-8', 'equiv');
 		// Note the third parameter.  Can be "charset", "http-equiv", "name" or "property"
-		// Generates:  <meta http-equiv="refresh" content="30" />
+		// Generates:  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 
 		echo meta(array('name' => 'robots', 'content' => 'no-cache'));
 		// Generates:  <meta name="robots" content="no-cache" />

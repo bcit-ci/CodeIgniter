@@ -87,6 +87,10 @@ EOH;
 
 		$this->assertEquals($expect, meta(array('name' => 'foo')));
 
+		$expect = "<meta charset=\"foo\" />\n";
+
+		$this->assertEquals($expect, meta(array('name' => 'foo', 'type' => 'charset')));
+
 	}
 
 }
