@@ -82,8 +82,8 @@ class CI_Lang {
 	 * @param	bool	$return		Whether to return the loaded array of translations
 	 * @param 	bool	$add_suffix	Whether to add suffix to $langfile
 	 * @param 	string	$alt_path	Alternative path to look for the language file
-	 *
 	 * @return	void|string[]	Array containing translations, if $return is set to TRUE
+	 * @throws	RuntimeException	If unable to load the requested language file
 	 */
 	public function load($langfile, $idiom = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '')
 	{
@@ -150,7 +150,7 @@ class CI_Lang {
 
 		if ($found !== TRUE)
 		{
-			show_error('Unable to load the requested language file: language/'.$idiom.'/'.$langfile);
+			throw new RuntimeException('Unable to load the requested language file: language/'.$idiom.'/'.$langfile);
 		}
 
 		if ( ! isset($lang) OR ! is_array($lang))

@@ -285,12 +285,13 @@ class CI_Router {
 	 * Set default controller
 	 *
 	 * @return	void
+	 * @throws	RuntimeException
 	 */
 	protected function _set_default_controller()
 	{
 		if (empty($this->default_controller))
 		{
-			show_error('Unable to determine what should be displayed. A default route has not been specified in the routing file.');
+			throw new RuntimeException('Unable to determine what should be displayed. A default route has not been specified in the routing file.');
 		}
 
 		// Is the method being specified?
