@@ -338,7 +338,7 @@ if ( ! function_exists('link_tag'))
 if ( ! function_exists('meta'))
 {
 	/**
-	 * Generates meta tags from an array of key/values, compatible with html5 and open graph
+	 * Generates meta tags from an array of key/values
 	 *
 	 * @param	array
 	 * @param	string
