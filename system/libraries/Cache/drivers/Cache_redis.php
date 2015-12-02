@@ -141,17 +141,35 @@ class CI_Cache_redis extends CI_Driver
 	 * @param	string	Cache ID
 	 * @return	mixed
 	 */
-	public function get($key)
-	{
-		$value = $this->_redis->get($key);
+	 public function get($key)
+ 	{
+ 		$values = array();
+ 		if (strpos($key,'*') !== FALSE) //we are searching
+ 		{
+ 			$keys = $this->_redis->keys($key);
+ 		}
+ 		else //single key
+ 		{
+ 			$keys = array($key);
+ 		}
 
-		if ($value !== FALSE && isset($this->_serialized[$key]))
-		{
-			return unserialize($value);
-		}
-
-		return $value;
-	}
+ 		foreach ($keys as $key)
+ 		{
+ 			$values[$key] = $this->_redis->get($key);
+ 			if ($values[$key] !== FALSE && isset($this->_serialized[$key]))
+ 			{
+ 				$values[$key] = unserialize($values[$key]);
+ 			}
+ 		}
+ 		if (count($values) == 1)
+ 		{
+ 			return $values[$key];
+ 		}
+ 		else //single key
+ 		{
+ 			return $values;
+ 		}
+ 	}
 
 	// ------------------------------------------------------------------------
 
