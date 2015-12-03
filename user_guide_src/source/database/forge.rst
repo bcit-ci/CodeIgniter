@@ -335,7 +335,7 @@ Class Reference
 		:param	array	$field: Field definition to add
 		:returns:	CI_DB_forge instance (method chaining)
 		:rtype:	CI_DB_forge
-		:throws:    RuntimeException	if field information is not specified
+		:throws:    RuntimeException	If field information is not specified
 
                 Adds a field to the set that will be used to create a table. Usage:  See `Adding fields`_.
 
@@ -363,7 +363,7 @@ Class Reference
 		:param	string	$attributes: An associative array of table attributes
 		:returns:  TRUE on success, FALSE on failure
 		:rtype:	bool
-		:throws:    RuntimeException	if table name or field information is not specified
+		:throws:    RuntimeException	If table name or field information is not specified
 
 		Creates a new table. Usage:  See `Creating a table`_.
 
@@ -399,7 +399,7 @@ Class Reference
 		:param	array	$field: Column definition(s)
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
-		:throws:    RuntimeException	if field information is not specified
+		:throws:    RuntimeException	If field information is not specified
 
 		Modifies a table column. Usage:  See `Modifying a Column in a Table`_.
 
@@ -409,6 +409,6 @@ Class Reference
 		:param	string	$new_table_name: New name of the table
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
-		:throws:    RuntimeException	if table name is not specified
+		:throws:    RuntimeException	If table name is not specified
 
 		Renames a table. Usage:  See `Renaming a table`_.
