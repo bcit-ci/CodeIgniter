@@ -204,7 +204,7 @@ Class Reference
 		:param	string	$item: config item name
 		:returns:	Config item value with a trailing forward slash or NULL if not found
 		:rtype:	mixed
-		:throws:    RuntimeException   if no (valid) configuration file is found
+		:throws:    RuntimeException   If no (valid) configuration file is found
 
 		This method is identical to ``item()``, except it appends a forward
 		slash to the end of the item, if it exists.
