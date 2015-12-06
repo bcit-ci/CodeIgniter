@@ -47,7 +47,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @param 	string|string[]	$params
  * @param 	bool		$query_builder_override
  *				Determines if query builder should be used or not
- * 
  * @throws	RuntimeException	If (valid) configuration file or DB driver doesn't exist.
  */
 function &DB($params = '', $query_builder_override = NULL)
