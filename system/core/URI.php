@@ -294,7 +294,7 @@ class CI_URI {
 	 *
 	 * Do some final cleaning of the URI and return it, currently only used in self::_parse_request_uri()
 	 *
-	 * @param	string	$url
+	 * @param	string	$uri
 	 * @return	string
 	 */
 	protected function _remove_relative_directory($uri)
