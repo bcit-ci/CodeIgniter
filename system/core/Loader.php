@@ -361,6 +361,10 @@ class CI_Loader {
 
 		// Load the DB class
 		$CI->db =& DB($params, $query_builder);
+		if (!$CI->db->conn_id) 
+		{
+			return FALSE;
+		}
 		return $this;
 	}
 
