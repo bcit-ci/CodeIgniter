@@ -1,5 +1,5 @@
 #############################
-Upgrading from 2.1.4 to 2.2.0
+Upgrading from 2.1.4 to 2.2.x
 #############################
 
 .. note:: The :doc:`Encrypt Class </libraries/encrypt>` now requires the

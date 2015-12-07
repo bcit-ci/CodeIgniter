@@ -178,7 +178,7 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	public function increment($id, $offset = 1)
 	{
-		return $this->{$this->_adapter}->increment($id, $offset);
+		return $this->{$this->_adapter}->increment($this->key_prefix.$id, $offset);
 	}
 
 	// ------------------------------------------------------------------------
@@ -192,7 +192,7 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	public function decrement($id, $offset = 1)
 	{
-		return $this->{$this->_adapter}->decrement($id, $offset);
+		return $this->{$this->_adapter}->decrement($this->key_prefix.$id, $offset);
 	}
 
 	// ------------------------------------------------------------------------

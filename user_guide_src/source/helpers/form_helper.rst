@@ -191,7 +191,7 @@ The following functions are available:
 
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
-	:param	string	$extra: Extra attributes to be added to the tag *as is*
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
 	:returns:	An HTML text input field tag
 	:rtype:	string
 
@@ -226,11 +226,16 @@ The following functions are available:
 		$js = 'onClick="some_function()"';
 		echo form_input('username', 'johndoe', $js);
 
+	Or you can pass it as an array::
+
+		$js = array('onClick' => 'some_function();');
+		echo form_input('username', 'johndoe', $js);
+
 .. php:function:: form_password([$data = ''[, $value = ''[, $extra = '']]])
 
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
-	:param	string	$extra: Extra attributes to be added to the tag *as is*
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
 	:returns:	An HTML password input field tag
 	:rtype:	string
 
@@ -242,7 +247,7 @@ The following functions are available:
 
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
-	:param	string	$extra: Extra attributes to be added to the tag *as is*
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
 	:returns:	An HTML file upload input field tag
 	:rtype:	string
 
@@ -255,7 +260,7 @@ The following functions are available:
 
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
-	:param	string	$extra: Extra attributes to be added to the tag *as is*
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
 	:returns:	An HTML textarea tag
 	:rtype:	string
 
@@ -270,7 +275,7 @@ The following functions are available:
 	:param	string	$name: Field name
 	:param	array	$options: An associative array of options to be listed
 	:param	array	$selected: List of fields to mark with the *selected* attribute
-	:param	string	$extra: Extra attributes to be added to the tag *as is*
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
 	:returns:	An HTML dropdown select field tag
 	:rtype:	string
 
@@ -324,6 +329,14 @@ The following functions are available:
 		$js = 'id="shirts" onChange="some_function();"';
 		echo form_dropdown('shirts', $options, 'large', $js);
 
+	Or you can pass it as an array::
+
+		$js = array(
+			'id'       => 'shirts',
+			'onChange' => 'some_function();'
+		);
+		echo form_dropdown('shirts', $options, 'large', $js);
+
 	If the array passed as ``$options`` is a multidimensional array, then
 	``form_dropdown()`` will produce an <optgroup> with the array key as the
 	label.
@@ -334,7 +347,7 @@ The following functions are available:
 	:param	string	$name: Field name
 	:param	array	$options: An associative array of options to be listed
 	:param	array	$selected: List of fields to mark with the *selected* attribute
-	:param	string	$extra: Extra attributes to be added to the tag *as is*
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
 	:returns:	An HTML dropdown multiselect field tag
 	:rtype:	string
 
@@ -417,7 +430,7 @@ The following functions are available:
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
 	:param	bool	$checked: Whether to mark the checkbox as being *checked*
-	:param	string	$extra: Extra attributes to be added to the tag *as is*
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
 	:returns:	An HTML checkbox input tag
 	:rtype:	string
 
@@ -450,13 +463,18 @@ The following functions are available:
 		$js = 'onClick="some_function()"';
 		echo form_checkbox('newsletter', 'accept', TRUE, $js)
 
+	Or you can pass it as an array::
+
+		$js = array('onClick' => 'some_function();');
+		echo form_checkbox('newsletter', 'accept', TRUE, $js)
+
 
 .. php:function:: form_radio([$data = ''[, $value = ''[, $checked = FALSE[, $extra = '']]]])
 
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
 	:param	bool	$checked: Whether to mark the radio button as being *checked*
-	:param	string	$extra: Extra attributes to be added to the tag *as is*
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
 	:returns:	An HTML radio input tag
 	:rtype:	string
 
@@ -495,7 +513,7 @@ The following functions are available:
 
 	:param	string	$data: Button name
 	:param	string	$value: Button value
-	:param	string	$extra: Extra attributes to be added to the tag *as is*
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
 	:returns:	An HTML input submit tag
 	:rtype:	string
 
@@ -513,7 +531,7 @@ The following functions are available:
 
 	:param	string	$data: Button name
 	:param	string	$value: Button value
-	:param	string	$extra: Extra attributes to be added to the tag *as is*
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
 	:returns:	An HTML input reset button tag
 	:rtype:	string
 
@@ -525,7 +543,7 @@ The following functions are available:
 
 	:param	string	$data: Button name
 	:param	string	$content: Button label
-	:param	string	$extra: Extra attributes to be added to the tag *as is*
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
 	:returns:	An HTML button tag
 	:rtype:	string
 
@@ -592,6 +610,11 @@ The following functions are available:
 
 	The above form will show "0" when loaded for the first time.
 
+	.. note:: If you've loaded the :doc:`Form Validation Library <../libraries/form_validation>` and
+		have set a validation rule for the field name in use with this helper, then it will
+		forward the call to the :doc:`Form Validation Library <../libraries/form_validation>`'s
+		own ``set_value()`` method. Otherwise, this function looks in ``$_POST`` for the
+		field value.
 
 .. php:function:: set_select($field[, $value = ''[, $default = FALSE]])
 

@@ -54,7 +54,7 @@ if ( ! function_exists('read_file'))
 	/**
 	 * Read File
 	 *
-	 * Opens the file specfied in the path and returns it as a string.
+	 * Opens the file specified in the path and returns it as a string.
 	 *
 	 * @todo	Remove in version 3.1+.
 	 * @deprecated	3.0.0	It is now just an alias for PHP's native file_get_contents().
@@ -343,7 +343,7 @@ if ( ! function_exists('get_mime_by_extension'))
 
 		if ( ! is_array($mimes))
 		{
-			$mimes =& get_mimes();
+			$mimes = get_mimes();
 
 			if (empty($mimes))
 			{

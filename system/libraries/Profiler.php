@@ -100,12 +100,6 @@ class CI_Profiler {
 		$this->CI =& get_instance();
 		$this->CI->load->language('profiler');
 
-		if (isset($config['query_toggle_count']))
-		{
-			$this->_query_toggle_count = (int) $config['query_toggle_count'];
-			unset($config['query_toggle_count']);
-		}
-
 		// default all sections to display
 		foreach ($this->_available_sections as $section)
 		{

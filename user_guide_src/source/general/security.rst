@@ -5,6 +5,9 @@ Security
 This page describes some "best practices" regarding web security, and
 details CodeIgniter's internal security features.
 
+.. note:: If you came here looking for a security contact, please refer to
+	our `Contribution Guide <../contributing/index>`.
+
 URI Security
 ============
 

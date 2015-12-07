@@ -47,6 +47,11 @@ class Common_test extends CI_TestCase {
 			html_escape('Here is a string containing "quoted" text.'),
 			'Here is a string containing &quot;quoted&quot; text.'
 		);
+
+		$this->assertEquals(
+			html_escape(array('associative' => 'and', array('multi' => 'dimentional'))),
+			array('associative' => 'and', array('multi' => 'dimentional'))
+		);
 	}
 
 }

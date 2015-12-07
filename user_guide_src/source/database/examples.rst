@@ -55,23 +55,6 @@ Standard Query With Multiple Results (Array Version)
 The above result_array() function returns an array of standard array
 indexes. Example: $row['title']
 
-Testing for Results
-===================
-
-If you run queries that might **not** produce a result, you are
-encouraged to test for a result first using the num_rows() function::
-
-	$query = $this->db->query("YOUR QUERY");
-	if ($query->num_rows() > 0)
-	{
-		foreach ($query->result() as $row)
-		{
-			echo $row->title;
-			echo $row->name;
-			echo $row->body;
-		}
-	}
-
 Standard Query With Single Result
 =================================
 

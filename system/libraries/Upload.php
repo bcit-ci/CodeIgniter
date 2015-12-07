@@ -533,15 +533,9 @@ class CI_Upload {
 		 * If it returns false there was a problem.
 		 */
 		$this->orig_name = $this->file_name;
-
-		if ($this->overwrite === FALSE)
+		if (FALSE === ($this->file_name = $this->set_filename($this->upload_path, $this->file_name)))
 		{
-			$this->file_name = $this->set_filename($this->upload_path, $this->file_name);
-
-			if ($this->file_name === FALSE)
-			{
-				return FALSE;
-			}
+			return FALSE;
 		}
 
 		/*
@@ -656,7 +650,7 @@ class CI_Upload {
 			$filename = md5(uniqid(mt_rand())).$this->file_ext;
 		}
 
-		if ( ! file_exists($path.$filename))
+		if ($this->overwrite === TRUE OR ! file_exists($path.$filename))
 		{
 			return $filename;
 		}
@@ -696,6 +690,22 @@ class CI_Upload {
 	{
 		$this->max_size = ($n < 0) ? 0 : (int) $n;
 		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set Maximum File Size
+	 *
+	 * An internal alias to set_max_filesize() to help with configuration
+	 * as initialize() will look for a set_<property_name>() method ...
+	 *
+	 * @param	int	$n
+	 * @return	CI_Upload
+	 */
+	protected function set_max_size($n)
+	{
+		return $this->set_max_filesize($n);
 	}
 
 	// --------------------------------------------------------------------
@@ -1013,7 +1023,7 @@ class CI_Upload {
 
 		if (count($x) === 1)
 		{
-		    return '';
+			return '';
 		}
 
 		$ext = ($this->file_ext_tolower) ? strtolower(end($x)) : end($x);

@@ -492,7 +492,7 @@ if ( ! function_exists('url_title'))
 
 		$trans = array(
 			'&.+?;'			=> '',
-			'[^a-z0-9 _-]'		=> '',
+			'[^\w\d _-]'		=> '',
 			'\s+'			=> $separator,
 			'('.$q_separator.')+'	=> $separator
 		);
@@ -500,7 +500,7 @@ if ( ! function_exists('url_title'))
 		$str = strip_tags($str);
 		foreach ($trans as $key => $val)
 		{
-			$str = preg_replace('#'.$key.'#i', $val, $str);
+			$str = preg_replace('#'.$key.'#i'.(UTF8_ENABLED ? 'u' : ''), $val, $str);
 		}
 
 		if ($lowercase === TRUE)

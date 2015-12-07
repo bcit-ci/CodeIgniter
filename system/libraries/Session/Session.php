@@ -795,7 +795,7 @@ class CI_Session {
 	/**
 	 * Set flashdata
 	 *
-	 * Legacy CI_Session compatibiliy method
+	 * Legacy CI_Session compatibility method
 	 *
 	 * @param	mixed	$data	Session data key or an associative array
 	 * @param	mixed	$value	Value to store

@@ -19,7 +19,7 @@ This method returns the query result as an array of **objects**, or
 loop, like this::
 
 	$query = $this->db->query("YOUR QUERY");
-	
+
 	foreach ($query->result() as $row)
 	{
 		echo $row->title;
@@ -29,22 +29,7 @@ loop, like this::
 
 The above method is an alias of ``result_object()``.
 
-If you run queries that might **not** produce a result, you are
-encouraged to test the result first::
-
-	$query = $this->db->query("YOUR QUERY");
-	
-	if ($query->num_rows() > 0)
-	{
-		foreach ($query->result() as $row)
-		{
-			echo $row->title;
-			echo $row->name;
-			echo $row->body;
-		}
-	}
-
-You can also pass a string to result() which represents a class to
+You can also pass a string to ``result()`` which represents a class to
 instantiate for each result object (note: this class must be loaded)
 
 ::
@@ -64,7 +49,7 @@ array when no result is produced. Typically you'll use this in a foreach
 loop, like this::
 
 	$query = $this->db->query("YOUR QUERY");
-	
+
 	foreach ($query->result_array() as $row)
 	{
 		echo $row['title'];
@@ -83,11 +68,11 @@ one row, it returns only the first row. The result is returned as an
 **object**. Here's a usage example::
 
 	$query = $this->db->query("YOUR QUERY");
-	
-	if ($query->num_rows() > 0)
+
+	$row = $query->row();
+
+	if (isset($row))
 	{
-		$row = $query->row();
-		
 		echo $row->title;
 		echo $row->name;
 		echo $row->body;
@@ -113,11 +98,11 @@ Identical to the above ``row()`` method, except it returns an array.
 Example::
 
 	$query = $this->db->query("YOUR QUERY");
-	
-	if ($query->num_rows() > 0)
+
+	$row = $query->row_array();
+
+	if (isset($row))
 	{
-		$row = $query->row_array();
-		
 		echo $row['title'];
 		echo $row['name'];
 		echo $row['body'];
@@ -157,7 +142,7 @@ it returns the current row and moves the internal data pointer ahead.
 ::
 
 	$query = $this->db->query("YOUR QUERY");
-	
+
 	while ($row = $query->unbuffered_row())
 	{	
 		echo $row->title;
@@ -173,6 +158,94 @@ the returned value's type::
 	$query->unbuffered_row('array');	// associative array
 
 *********************
+Custom Result Objects
+*********************
+
+You can have the results returned as an instance of a custom class instead
+of a ``stdClass`` or array, as the ``result()`` and ``result_array()``
+methods allow. This requires that the class is already loaded into memory.
+The object will have all values returned from the database set as properties.
+If these have been declared and are non-public then you should provide a
+``__set()`` method to allow them to be set.
+
+Example::
+
+	class User {
+
+		public $id;
+		public $email;
+		public $username;
+
+		protected $last_login;
+
+		public function last_login($format)
+		{
+			return $this->last_login->format($format);
+		}
+
+		public function __set($name, $value)
+		{
+			if ($name === 'last_login')
+			{
+				$this->last_login = DateTime::createFromFormat('U', $value);
+			}
+		}
+
+		public function __get($name)
+		{
+			if (isset($this->$name))
+			{
+				return $this->$name;
+			}
+		}
+	}
+
+In addition to the two methods listed below, the following methods also can
+take a class name to return the results as: ``first_row()``, ``last_row()``,
+``next_row()``, and ``previous_row()``.
+
+**custom_result_object()**
+
+Returns the entire result set as an array of instances of the class requested.
+The only parameter is the name of the class to instantiate.
+
+Example::
+
+	$query = $this->db->query("YOUR QUERY");
+
+	$rows = $query->custom_result_object('User');
+
+	foreach ($rows as $row)
+	{
+		echo $row->id;
+		echo $row->email;
+		echo $row->last_login('Y-m-d');
+	}
+
+**custom_row_object()**
+
+Returns a single row from your query results. The first parameter is the row
+number of the results. The second parameter is the class name to instantiate.
+
+Example::
+
+	$query = $this->db->query("YOUR QUERY");
+
+	$row = $query->custom_row_object(0, 'User');
+
+	if (isset($row))
+	{
+		echo $row->email;   // access attributes
+		echo $row->last_login('Y-m-d');   // access class methods
+	}
+
+You can also use the ``row()`` method in exactly the same way.
+
+Example::
+
+	$row = $query->custom_row_object(0, 'User');
+
+*********************
 Result Helper Methods
 *********************
 
@@ -182,7 +255,7 @@ The number of rows returned by the query. Note: In this example, $query
 is the variable that the query result object is assigned to::
 
 	$query = $this->db->query('SELECT * FROM my_table');
-	
+
 	echo $query->num_rows();
 
 .. note:: Not all database drivers have a native way of getting the total
@@ -196,7 +269,7 @@ The number of FIELDS (columns) returned by the query. Make sure to call
 the method using your query result object::
 
 	$query = $this->db->query('SELECT * FROM my_table');
-	
+
 	echo $query->num_fields();
 
 **free_result()**
@@ -210,7 +283,7 @@ result has been generated in order to cut down on memory consumption.
 Example::
 
 	$query = $this->db->query('SELECT title FROM my_table');
-	
+
 	foreach ($query->result() as $row)
 	{
 		echo $row->title;

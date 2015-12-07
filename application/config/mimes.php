@@ -9,7 +9,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Upload class to help identify allowed file types.
 |
 */
-
 return array(
 	'hqx'	=>	array('application/mac-binhex40', 'application/mac-binhex', 'application/x-binhex40', 'application/x-mac-binhex40'),
 	'cpt'	=>	'application/mac-compactpro',
@@ -78,6 +77,14 @@ return array(
 	'jpeg'	=>	array('image/jpeg', 'image/pjpeg'),
 	'jpg'	=>	array('image/jpeg', 'image/pjpeg'),
 	'jpe'	=>	array('image/jpeg', 'image/pjpeg'),
+	'jp2'	=>	array('image/jp2', 'video/mj2', 'image/jpx', 'image/jpm'),
+	'j2k'	=>	array('image/jp2', 'video/mj2', 'image/jpx', 'image/jpm'),
+	'jpf'	=>	array('image/jp2', 'video/mj2', 'image/jpx', 'image/jpm'),
+	'jpg2'	=>	array('image/jp2', 'video/mj2', 'image/jpx', 'image/jpm'),
+	'jpx'	=>	array('image/jp2', 'video/mj2', 'image/jpx', 'image/jpm'),
+	'jpm'	=>	array('image/jp2', 'video/mj2', 'image/jpx', 'image/jpm'),
+	'mj2'	=>	array('image/jp2', 'video/mj2', 'image/jpx', 'image/jpm'),
+	'mjp2'	=>	array('image/jp2', 'video/mj2', 'image/jpx', 'image/jpm'),
 	'png'	=>	array('image/png',  'image/x-png'),
 	'tiff'	=>	'image/tiff',
 	'tif'	=>	'image/tiff',
@@ -130,7 +137,8 @@ return array(
 	'3gp'   =>	array('video/3gp', 'video/3gpp'),
 	'mp4'   =>	'video/mp4',
 	'm4a'   =>	'audio/x-m4a',
-	'f4v'   =>	'video/mp4',
+	'f4v'   =>	array('video/mp4', 'video/x-f4v'),
+	'flv'	=>	'video/x-flv',
 	'webm'	=>	'video/webm',
 	'aac'   =>	'audio/x-acc',
 	'm4u'   =>	'application/vnd.mpegurl',
@@ -155,5 +163,5 @@ return array(
 	'vcf'	=>	'text/x-vcard',
 	'srt'	=>	array('text/srt', 'text/plain'),
 	'vtt'	=>	array('text/vtt', 'text/plain'),
-	'ico'	=>	'image/x-icon'
+	'ico'	=>	array('image/x-icon', 'image/x-ico', 'image/vnd.microsoft.icon')
 );

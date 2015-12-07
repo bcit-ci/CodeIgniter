@@ -65,7 +65,7 @@ class CI_Encrypt {
 	protected $_hash_type		= 'sha1';
 
 	/**
-	 * Flag for the existance of mcrypt
+	 * Flag for the existence of mcrypt
 	 *
 	 * @var bool
 	 */

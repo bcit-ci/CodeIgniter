@@ -640,18 +640,18 @@ Example::
 	$sql = $this->db->set($data)->get_compiled_insert('mytable');
 	echo $sql;
 
-	// Produces string: INSERT INTO mytable (title, name, date) VALUES ('My title', 'My name', 'My date')
+	// Produces string: INSERT INTO mytable (`title`, `name`, `date`) VALUES ('My title', 'My name', 'My date')
 
 The second parameter enables you to set whether or not the query builder query
 will be reset (by default it will be--just like $this->db->insert())::
 
 	echo $this->db->set('title', 'My Title')->get_compiled_insert('mytable', FALSE);
 
-	// Produces string: INSERT INTO mytable (title) VALUES ('My Title')
+	// Produces string: INSERT INTO mytable (`title`) VALUES ('My Title')
 
 	echo $this->db->set('content', 'My Content')->get_compiled_insert();
 
-	// Produces string: INSERT INTO mytable (title, content) VALUES ('My Title', 'My Content')
+	// Produces string: INSERT INTO mytable (`title`, `content`) VALUES ('My Title', 'My Content')
 
 The key thing to notice in the above example is that the second query did not
 utlize `$this->db->from()` nor did it pass a table name into the first
@@ -730,7 +730,7 @@ or update functions:**
 ::
 
 	$this->db->set('name', $name);
-	$this->db->insert('mytable');  // Produces: INSERT INTO mytable (name) VALUES ('{$name}')
+	$this->db->insert('mytable');  // Produces: INSERT INTO mytable (`name`) VALUES ('{$name}')
 
 If you use multiple function called they will be assembled properly
 based on whether you are doing an insert or an update::
@@ -740,18 +740,20 @@ based on whether you are doing an insert or an update::
 	$this->db->set('status', $status);
 	$this->db->insert('mytable');
 
-**set()** will also accept an optional third parameter ($escape), that
+**set()** will also accept an optional third parameter (``$escape``), that
 will prevent data from being escaped if set to FALSE. To illustrate the
-difference, here is set() used both with and without the escape
+difference, here is ``set()`` used both with and without the escape
 parameter.
 
 ::
 
 	$this->db->set('field', 'field+1', FALSE);
-	$this->db->insert('mytable'); // gives INSERT INTO mytable (field) VALUES (field+1)
-	$this->db->set('field', 'field+1');
-	$this->db->insert('mytable'); // gives INSERT INTO mytable (field) VALUES ('field+1')
+	$this->db->where('id', 2);
+	$this->db->update('mytable'); // gives UPDATE mytable SET field = field+1 WHERE id = 2
 
+	$this->db->set('field', 'field+1');
+	$this->db->where('id', 2);
+	$this->db->update('mytable'); // gives UPDATE `mytable` SET `field` = 'field+1' WHERE `id` = 2
 
 You can also pass an associative array to this function::
 
@@ -792,7 +794,11 @@ is an example using an array::
 
 	$this->db->where('id', $id);
 	$this->db->update('mytable', $data);
-	// Produces: // UPDATE mytable  // SET title = '{$title}', name = '{$name}', date = '{$date}' // WHERE id = $id
+	// Produces:
+	//
+	//	UPDATE mytable
+	//	SET title = '{$title}', name = '{$name}', date = '{$date}'
+	//	WHERE id = $id
 
 Or you can supply an object::
 
@@ -807,7 +813,11 @@ Or you can supply an object::
 	$object = new Myclass;
 	$this->db->where('id', $id);
 	$this->db->update('mytable', $object);
-	// Produces: // UPDATE mytable  // SET title = '{$title}', name = '{$name}', date = '{$date}' // WHERE id = $id
+	// Produces:
+	//
+	// UPDATE `mytable`
+	// SET `title` = '{$title}', `name` = '{$name}', `date` = '{$date}'
+	// WHERE id = `$id`
 
 .. note:: All values are escaped automatically producing safer queries.
 
@@ -1008,7 +1018,7 @@ Here's a usage example::
 
 
 .. note:: The following statements can be cached: select, from, join,
-	where, like, group_by, having, order_by, set
+	where, like, group_by, having, order_by
 
 
 ***********************
@@ -1206,7 +1216,7 @@ Class Reference
 
 		:param	mixed	$key: Name of field to compare, or associative array
 		:param	mixed	$value: If a single key, compared to this value
-		:param	boolean	$escape: Whether to escape values and identifiers
+		:param	bool	$escape: Whether to escape values and identifiers
 		:returns:	DB_query_builder instance
 		:rtype:	object
 
@@ -1217,7 +1227,7 @@ Class Reference
 
 		:param	mixed	$key: Name of field to compare, or associative array
 		:param	mixed	$value: If a single key, compared to this value
-		:param	boolean	$escape: Whether to escape values and identifiers
+		:param	bool	$escape: Whether to escape values and identifiers
 		:returns:	DB_query_builder instance
 		:rtype:	object
 
@@ -1228,7 +1238,7 @@ Class Reference
 
 		:param	string	$key: The field to search
 		:param	array	$values: The values searched on
-		:param	boolean	$escape: Whether to escape identifiers
+		:param	bool	$escape: Whether to escape values and identifiers
 		:returns:	DB_query_builder instance
 		:rtype:	object
 
@@ -1239,7 +1249,7 @@ Class Reference
 
 		:param	string	$key: The field to search
 		:param	array	$values: The values searched on
-		:param	boolean	$escape: Whether to escape identifiers
+		:param	bool	$escape: Whether to escape values and identifiers
 		:returns:	DB_query_builder instance
 		:rtype:	object
 
@@ -1250,7 +1260,7 @@ Class Reference
 
 		:param	string	$key: Name of field to examine
 		:param	array	$values: Array of target values
-		:param	boolean	$escape: Whether to escape identifiers
+		:param	bool	$escape: Whether to escape values and identifiers
 		:returns:	DB_query_builder instance
 		:rtype:	object
 
@@ -1261,7 +1271,7 @@ Class Reference
 
 		:param	string	$key: Name of field to examine
 		:param	array	$values: Array of target values
-		:param	boolean	$escape: Whether to escape identifiers
+		:param	bool	$escape: Whether to escape values and identifiers
 		:returns:	DB_query_builder instance
 		:rtype:	object
 

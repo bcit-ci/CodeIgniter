@@ -141,13 +141,14 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 			unset($connection['UID'], $connection['PWD']);
 		}
 
-		$this->conn_id = sqlsrv_connect($this->hostname, $connection);
-
-		// Determine how identifiers are escaped
-		$query = $this->query('SELECT CASE WHEN (@@OPTIONS | 256) = @@OPTIONS THEN 1 ELSE 0 END AS qi');
-		$query = $query->row_array();
-		$this->_quoted_identifier = empty($query) ? FALSE : (bool) $query['qi'];
-		$this->_escape_char = ($this->_quoted_identifier) ? '"' : array('[', ']');
+		if (FALSE !== ($this->conn_id = sqlsrv_connect($this->hostname, $connection)))
+		{
+			// Determine how identifiers are escaped
+			$query = $this->query('SELECT CASE WHEN (@@OPTIONS | 256) = @@OPTIONS THEN 1 ELSE 0 END AS qi');
+			$query = $query->row_array();
+			$this->_quoted_identifier = empty($query) ? FALSE : (bool) $query['qi'];
+			$this->_escape_char = ($this->_quoted_identifier) ? '"' : array('[', ']');
+		}
 
 		return $this->conn_id;
 	}
@@ -196,22 +197,10 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
-	 * @param	bool	$test_mode
 	 * @return	bool
 	 */
-	public function trans_begin($test_mode = FALSE)
+	protected function _trans_begin()
 	{
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
-		{
-			return TRUE;
-		}
-
-		// Reset the transaction failure flag.
-		// If the $test_mode flag is set to TRUE transactions will be rolled back
-		// even if the queries produce a successful result.
-		$this->_trans_failure = ($test_mode === TRUE);
-
 		return sqlsrv_begin_transaction($this->conn_id);
 	}
 
@@ -222,14 +211,8 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 *
 	 * @return	bool
 	 */
-	public function trans_commit()
+	protected function _trans_commit()
 	{
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
-		{
-			return TRUE;
-		}
-
 		return sqlsrv_commit($this->conn_id);
 	}
 
@@ -240,14 +223,8 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 *
 	 * @return	bool
 	 */
-	public function trans_rollback()
+	protected function _trans_rollback()
 	{
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
-		{
-			return TRUE;
-		}
-
 		return sqlsrv_rollback($this->conn_id);
 	}
 
@@ -274,9 +251,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function insert_id()
 	{
-		$query = $this->query('SELECT @@IDENTITY AS insert_id');
-		$query = $query->row();
-		return $query->insert_id;
+		return $this->query('SELECT SCOPE_IDENTITY() AS insert_id')->row()->insert_id;
 	}
 
 	// --------------------------------------------------------------------

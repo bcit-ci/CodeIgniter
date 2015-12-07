@@ -193,7 +193,11 @@ The following functions are available:
 		$string = "Here is a simple string of text that will help us demonstrate this function.";
 		echo word_wrap($string, 25);
 
-		// Would produce:  Here is a simple string of text that will help us demonstrate this function
+		// Would produce:  
+		// Here is a simple string
+		// of text that will help us
+		// demonstrate this
+		// function.
 
 .. php:function:: ellipsize($str, $max_length[, $position = 1[, $ellipsis = '&hellip;']])
 

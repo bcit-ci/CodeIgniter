@@ -182,22 +182,10 @@ class CI_DB_mssql_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
-	 * @param	bool	$test_mode
 	 * @return	bool
 	 */
-	public function trans_begin($test_mode = FALSE)
+	protected function _trans_begin()
 	{
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
-		{
-			return TRUE;
-		}
-
-		// Reset the transaction failure flag.
-		// If the $test_mode flag is set to TRUE transactions will be rolled back
-		// even if the queries produce a successful result.
-		$this->_trans_failure = ($test_mode === TRUE);
-
 		return $this->simple_query('BEGIN TRAN');
 	}
 
@@ -208,14 +196,8 @@ class CI_DB_mssql_driver extends CI_DB {
 	 *
 	 * @return	bool
 	 */
-	public function trans_commit()
+	protected function _trans_commit()
 	{
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
-		{
-			return TRUE;
-		}
-
 		return $this->simple_query('COMMIT TRAN');
 	}
 
@@ -226,14 +208,8 @@ class CI_DB_mssql_driver extends CI_DB {
 	 *
 	 * @return	bool
 	 */
-	public function trans_rollback()
+	protected function _trans_rollback()
 	{
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
-		{
-			return TRUE;
-		}
-
 		return $this->simple_query('ROLLBACK TRAN');
 	}
 
@@ -381,9 +357,19 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	public function error()
 	{
-		$query = $this->query('SELECT @@ERROR AS code');
-		$query = $query->row();
-		return array('code' => $query->code, 'message' => mssql_get_last_message());
+		// We need this because the error info is discarded by the
+		// server the first time you request it, and query() already
+		// calls error() once for logging purposes when a query fails.
+		static $error = array('code' => 0, 'message' => NULL);
+
+		$message = mssql_get_last_message();
+		if ( ! empty($message))
+		{
+			$error['code']    = $this->query('SELECT @@ERROR AS code')->row()->code;
+			$error['message'] = $message;
+		}
+
+		return $error;
 	}
 
 	// --------------------------------------------------------------------

@@ -48,4 +48,5 @@ matrix:
 branches:
   only:
     - develop
+    - 3.0-stable
     - /^feature\/.+$/
