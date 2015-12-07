@@ -303,6 +303,7 @@ Class Reference
 		:param	string	$enclosure: The enclosure delimiter to use
 		:returns:	The generated CSV file as a string
 		:rtype:	string
+		:throws:    RuntimeException	If result object is invalid
 
 		Translates a database result object into a CSV document.
 
@@ -312,5 +313,6 @@ Class Reference
 		:param	array	$params: An associative array of preferences
 		:returns:	The generated XML document as a string
 		:rtype:	string
+		:throws:    RuntimeException	If result object is invalid
 
 		Translates a database result object into an XML document.

@@ -234,12 +234,13 @@ abstract class CI_DB_utility {
 	 * @param	string	$newline	Newline character (default: \n)
 	 * @param	string	$enclosure	Enclosure (default: ")
 	 * @return	string
+	 * @throws	RuntimeException	If result object is invalid
 	 */
 	public function csv_from_result($query, $delim = ',', $newline = "\n", $enclosure = '"')
 	{
 		if ( ! is_object($query) OR ! method_exists($query, 'list_fields'))
 		{
-			show_error('You must submit a valid result object');
+			throw new RuntimeException('You must submit a valid result object');
 		}
 
 		$out = '';
@@ -273,12 +274,13 @@ abstract class CI_DB_utility {
 	 * @param	object	$query	Query result object
 	 * @param	array	$params	Any preferences
 	 * @return	string
+	 * @throws	RuntimeException	If result object is invalid
 	 */
 	public function xml_from_result($query, $params = array())
 	{
 		if ( ! is_object($query) OR ! method_exists($query, 'list_fields'))
 		{
-			show_error('You must submit a valid result object');
+			throw new RuntimeException('You must submit a valid result object');
 		}
 
 		// Set our default values
