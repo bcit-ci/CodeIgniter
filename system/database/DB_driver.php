@@ -622,7 +622,6 @@ abstract class CI_DB_driver {
 		// cached query if it exists
 		if ($this->cache_on === TRUE && $return_object === TRUE && $this->_cache_init())
 		{
-			$this->load_rdriver();
 			if (FALSE !== ($cache = $this->CACHE->read($sql)))
 			{
 				return $cache;
@@ -710,9 +709,9 @@ abstract class CI_DB_driver {
 			return TRUE;
 		}
 
-		// Load and instantiate the result driver
-		$driver		= $this->load_rdriver();
-		$RES		= new $driver($this);
+		// Instantiate the driver-specific result class
+		$driver	= 'CI_DB_'.$this->dbdriver.'_result';
+		$RES    = new $driver($this);
 
 		// Is query caching enabled? If so, we'll serialize the
 		// result object and save it to a cache file.
@@ -737,26 +736,6 @@ abstract class CI_DB_driver {
 		}
 
 		return $RES;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Load the result drivers
-	 *
-	 * @return	string	the name of the result class
-	 */
-	public function load_rdriver()
-	{
-		$driver = 'CI_DB_'.$this->dbdriver.'_result';
-
-		if ( ! class_exists($driver, FALSE))
-		{
-			require_once(BASEPATH.'database/DB_result.php');
-			require_once(BASEPATH.'database/drivers/'.$this->dbdriver.'/'.$this->dbdriver.'_result.php');
-		}
-
-		return $driver;
 	}
 
 	// --------------------------------------------------------------------
