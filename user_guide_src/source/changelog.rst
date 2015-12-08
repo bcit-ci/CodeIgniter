@@ -11,6 +11,10 @@ Release Date: Not Released
 
    -  Added UNIX socket connection support to :doc:`Session Library <libraries/sessions>` 'redis' driver.
 
+-  Database
+
+   -  CI_DB_driver::initialize() throws a "Database connection failure." RuntimeException if couldn't connect to the database.
+
 
 Version 3.0.4
 =============
