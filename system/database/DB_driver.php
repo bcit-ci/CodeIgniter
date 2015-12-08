@@ -436,7 +436,7 @@ abstract class CI_DB_driver {
 					$this->display_error('db_unable_to_connect');
 				}
 
-				return FALSE;
+				throw new RuntimeException('Database connection failure.');
 			}
 		}
 
