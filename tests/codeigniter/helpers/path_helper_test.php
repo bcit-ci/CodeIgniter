@@ -21,7 +21,7 @@ class Path_helper_test extends CI_TestCase {
 	public function test_set_realpath_error_trigger()
 	{
 		$this->setExpectedException(
-				'RuntimeException', 'CI Error: Not a valid path: /path/to/nowhere'
+				'InvalidArgumentException', 'Not a valid path: /path/to/nowhere'
 		);
 
 		set_realpath('/path/to/nowhere', TRUE);
