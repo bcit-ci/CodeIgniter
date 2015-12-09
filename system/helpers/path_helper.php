@@ -57,7 +57,7 @@ if ( ! function_exists('set_realpath'))
 	 * @param	string
 	 * @param	bool	checks to see if the path exists
 	 * @return	string
-	 * @throws	InvalidArgumentException
+	 * @throws	InvalidArgumentException	When the input path is invalid
 	 */
 	function set_realpath($path, $check_existance = FALSE)
 	{

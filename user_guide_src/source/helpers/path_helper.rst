@@ -31,7 +31,7 @@ The following functions are available:
 	:param	bool	$check_existance: Whether to check if the path actually exists
 	:returns:	An absolute path
 	:rtype:	string
-	:throws: InvalidArgumentException
+	:throws:	InvalidArgumentException	When the input path is invalid
 
 	This function will return a server path without symbolic links or
 	relative directory structures. An optional second argument will
