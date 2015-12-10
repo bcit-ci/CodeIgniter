@@ -83,7 +83,7 @@ This article is intended to be a reference for them.
 
 		Database version number.
 
-	.. php:method:: query($sql[, $binds = FALSE[, $return_object = NULL]]])
+	.. php:method:: query($sql[, $binds = FALSE[, $return_object = NULL]])
 
 		:param	string	$sql: The SQL statement to execute
 		:param	array	$binds: An array of binding data
