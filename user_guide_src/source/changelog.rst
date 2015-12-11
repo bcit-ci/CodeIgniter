@@ -24,6 +24,7 @@ Bug fixes for 3.0.4
 -  Fixed a bug (#4245) - :doc:`Database Forge <database/forge>` couldn't properly handle ``SET`` and ``ENUM`` type fields with string values.
 -  Fixed a bug (#4283) - :doc:`String Helper <helpers/string_helper>` function :php:func:`alternator()` couldn't be called without arguments.
 -  Fixed a bug (#4306) - :doc:`Database <database/index>` method ``version()`` didn't work properly with the 'mssql' driver.
+-  Fixed a bug (#4039) - :doc:`Session Library <libraries/sessions>` could generate multiple (redundant) warnings in case of a read failure with the 'files' driver, due to a bug in PHP.
 
 Version 3.0.3
 =============
