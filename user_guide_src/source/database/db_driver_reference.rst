@@ -19,6 +19,7 @@ This article is intended to be a reference for them.
 
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
+		:throws:	RuntimeException	In case of failure
 
 		Initialize database settings, establish a connection to
 		the database.

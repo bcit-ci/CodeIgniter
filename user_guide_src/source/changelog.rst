@@ -13,7 +13,7 @@ Release Date: Not Released
 
 -  Database
 
-   -  CI_DB_driver::initialize() throws a "Database connection failure." RuntimeException if couldn't connect to the database.
+   -  Failure to initialize a database connection will now throw a ``RuntimeException``.
 
 
 Version 3.0.4

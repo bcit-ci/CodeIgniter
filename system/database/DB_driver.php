@@ -381,6 +381,7 @@ abstract class CI_DB_driver {
 	 * Initialize Database Settings
 	 *
 	 * @return	bool
+	 * @throws	RuntimeException	In case of failure
 	 */
 	public function initialize()
 	{
@@ -429,14 +430,7 @@ abstract class CI_DB_driver {
 			// We still don't have a connection?
 			if ( ! $this->conn_id)
 			{
-				log_message('error', 'Unable to connect to the database');
-
-				if ($this->db_debug)
-				{
-					$this->display_error('db_unable_to_connect');
-				}
-
-				throw new RuntimeException('Database connection failure.');
+				throw new RuntimeException('Unable to connect to the database.');
 			}
 		}
 
@@ -751,14 +745,7 @@ abstract class CI_DB_driver {
 	 */
 	public function simple_query($sql)
 	{
-		if ( ! $this->conn_id)
-		{
-			if ( ! $this->initialize())
-			{
-				return FALSE;
-			}
-		}
-
+		empty($this->conn_id) && $this->initialize();
 		return $this->_execute($sql);
 	}
 
