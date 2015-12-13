@@ -86,9 +86,7 @@ Class Reference
 		:param	string	$object_name: Optional object name to assign the library to
 		:returns:	CI_Loader instance (method chaining)
 		:rtype:	CI_Loader
-		:throws:	RuntimeException	If unable to load the requested class
-		:throws:	RuntimeException	If the class name is invalid or non-existent
-		:throws:	RuntimeException	If resource already exists but is not an instance of the requested class
+		:throws:	RuntimeException	In case of failure
 
 		This method is used to load core classes.
 
@@ -166,9 +164,7 @@ Class Reference
 		:param	string	$object_name: Optional object name to assign the library to
 		:returns:	CI_Loader instance (method chaining)
 		:rtype:	CI_Loader
-		:throws:	RuntimeException	If unable to load the requested class
-		:throws:	RuntimeException	If the class name is invalid or non-existent
-		:throws:	RuntimeException	If resource already exists but is not an instance of the requested class
+		:throws:	RuntimeException	In case of failure
 
 		This method is used to load driver libraries, acts very much like the
 		``library()`` method.
@@ -306,10 +302,7 @@ Class Reference
 		:param	string	$db_conn: Optional database configuration group to load
 		:returns:	CI_Loader instance (method chaining)
 		:rtype:	CI_Loader
-		:throws:	RuntimeException	If the name of model is already being used by another resource
-		:throws:	RuntimeException	If model file exists but does not declare class
-		:throws:	RuntimeException	If unable to load specified model
-		:throws:	RuntimeException	If class already exists but does not extend CI_Model
+		:throws:	RuntimeException	In case of failure
 
 		::
 

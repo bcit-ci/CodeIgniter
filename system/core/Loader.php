@@ -230,10 +230,7 @@ class CI_Loader {
 	 * @param	string	$name		An optional object name to assign to
 	 * @param	bool	$db_conn	An optional database connection configuration to initialize
 	 * @return	object
-	 * @throws	RuntimeException	If the name of model is already being used by another resource
-	 * @throws	RuntimeException	If model file exists but does not declare class
-	 * @throws	RuntimeException	If unable to load specified model
-	 * @throws	RuntimeException	If class already exists but does not extend CI_Model
+	 * @throws	RuntimeException	In case of failure
 	 */
 	public function model($model, $name = '', $db_conn = FALSE)
 	{
@@ -1162,8 +1159,7 @@ class CI_Loader {
 	 *						NULL to search in config paths;
 	 *						array containing configuration data
 	 * @param	string		$object_name	Optional object name to assign to
-	 * @throws	RuntimeException	If the class name is invalid or non-existent
-	 * @throws	RuntimeException	If resource already exists but is not an instance of the requested class
+	 * @throws	RuntimeException	In case of failure
 	 * @return	void
 	 */
 	protected function _ci_init_library($class, $prefix, $config = FALSE, $object_name = NULL)
