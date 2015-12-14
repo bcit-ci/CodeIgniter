@@ -270,7 +270,7 @@ if ( ! function_exists('alternator'))
 	 * @param	string (as many parameters as needed)
 	 * @return	string
 	 */
-	function alternator($args)
+	function alternator()
 	{
 		static $i;
 
@@ -279,6 +279,7 @@ if ( ! function_exists('alternator'))
 			$i = 0;
 			return '';
 		}
+
 		$args = func_get_args();
 		return $args[($i++ % count($args))];
 	}

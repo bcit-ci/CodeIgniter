@@ -113,18 +113,19 @@ A typical RegEx route might look something like this::
 In the above example, a URI similar to products/shirts/123 would instead
 call the "shirts" controller class and the "id_123" method.
 
-With regular expressions, you can also catch a segment containing a
-forward slash ('/'), which would usually represent the delimiter between
-multiple segments.
-
+With regular expressions, you can also catch multiple segments at once.
 For example, if a user accesses a password protected area of your web
 application and you wish to be able to redirect them back to the same
 page after they log in, you may find this example useful::
 
 	$route['login/(.+)'] = 'auth/login/$1';
 
+.. note:: In the above example, if the ``$1`` placeholder contains a
+	slash, it will still be split into multiple parameters when
+	passed to ``Auth::login()``.
+
 For those of you who don't know regular expressions and want to learn
-more about them, `regular-expressions.info <http://www.regular-expressions.info/>`
+more about them, `regular-expressions.info <http://www.regular-expressions.info/>`_
 might be a good starting point.
 
 .. note:: You can also mix and match wildcards with regular expressions.

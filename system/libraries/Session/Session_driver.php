@@ -74,6 +74,18 @@ abstract class CI_Session_driver implements SessionHandlerInterface {
 	 */
 	protected $_session_id;
 
+	/**
+	 * Success and failure return values
+	 *
+	 * Necessary due to a bug in all PHP 5 versions where return values
+	 * from userspace handlers are not handled properly. PHP 7 fixes the
+	 * bug, so we need to return different values depending on the version.
+	 *
+	 * @see	https://wiki.php.net/rfc/session.user.return-value
+	 * @var	mixed
+	 */
+	protected $_success, $_failure;
+
 	// ------------------------------------------------------------------------
 
 	/**
@@ -85,6 +97,17 @@ abstract class CI_Session_driver implements SessionHandlerInterface {
 	public function __construct(&$params)
 	{
 		$this->_config =& $params;
+
+		if (is_php('7'))
+		{
+			$this->_success = TRUE;
+			$this->_failure = FALSE;
+		}
+		else
+		{
+			$this->_success = 0;
+			$this->_failure = -1;
+		}
 	}
 
 	// ------------------------------------------------------------------------
