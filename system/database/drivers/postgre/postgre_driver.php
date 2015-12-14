@@ -163,11 +163,11 @@ class CI_DB_postgre_driver extends CI_DB {
 				return FALSE;
 			}
 
-			if (pg_set_client_encoding($this->conn_id, $charset) !== 0)
+			if (pg_set_client_encoding($this->conn_id, $this->char_set) !== 0)
 			{
 				log_message('error', "Database: Unable to set the configured connection charset ('{$this->char_set}').");
 				pg_close($this->conn_id);
-				return ($this->db->db_debug) ? $this->display_error('db_unable_to_set_charset', $charset) : FALSE;
+				return ($this->db->db_debug) ? $this->display_error('db_unable_to_set_charset', $this->char_set) : FALSE;
 			}
 
 			empty($this->schema) OR $this->simple_query('SET search_path TO '.$this->schema.',public');
