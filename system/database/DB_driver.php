@@ -380,7 +380,7 @@ abstract class CI_DB_driver {
 	/**
 	 * Initialize Database Settings
 	 *
-	 * @return	bool
+	 * @return	void
 	 * @throws	RuntimeException	In case of failure
 	 */
 	public function initialize()
@@ -393,7 +393,7 @@ abstract class CI_DB_driver {
 		 */
 		if ($this->conn_id)
 		{
-			return TRUE;
+			return;
 		}
 
 		// ----------------------------------------------------------------
@@ -433,9 +433,6 @@ abstract class CI_DB_driver {
 				throw new RuntimeException('Unable to connect to the database.');
 			}
 		}
-
-		// Now we set the character set and that's all
-		return $this->db_set_charset($this->char_set);
 	}
 
 	// --------------------------------------------------------------------
@@ -506,31 +503,6 @@ abstract class CI_DB_driver {
 	public function error()
 	{
 		return array('code' => NULL, 'message' => NULL);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Set client character set
-	 *
-	 * @param	string
-	 * @return	bool
-	 */
-	public function db_set_charset($charset)
-	{
-		if (method_exists($this, '_db_set_charset') && ! $this->_db_set_charset($charset))
-		{
-			log_message('error', 'Unable to set database connection charset: '.$charset);
-
-			if ($this->db_debug)
-			{
-				$this->display_error('db_unable_to_set_charset', $charset);
-			}
-
-			return FALSE;
-		}
-
-		return TRUE;
 	}
 
 	// --------------------------------------------------------------------

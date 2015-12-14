@@ -13,8 +13,9 @@ Release Date: Not Released
 
 -  Database
 
-   -  Failure to initialize a database connection will now throw a ``RuntimeException``.
-
+   -  Changed method ``initialize()`` to return void and instead throw a ``RuntimeException`` in case of failure.
+   -  Changed method ``db_connect()`` to always set the connection character set (if supported by the driver) and to fail if it can't.
+   -  Removed method ``db_set_charset()`` and the ability to change a connection character set at runtime.
 
 Version 3.0.4
 =============
