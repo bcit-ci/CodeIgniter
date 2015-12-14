@@ -103,7 +103,7 @@ class CI_Driver_Library {
 		$child_name = $this->lib_name.'_'.$child;
 
 		// See if requested child is a valid driver
-		if ( ! in_array($child, $this->valid_drivers))
+		if ( ! in_array($child_name, $this->valid_drivers))
 		{
 			// The requested driver isn't valid!
 			$msg = 'Invalid driver requested: '.$child_name;
