@@ -252,12 +252,16 @@ class CI_DB_oci8_driver extends CI_DB {
 			return $this->data_cache['version'];
 		}
 
-		if ( ! $this->conn_id OR ($version = oci_server_version($this->conn_id)) === FALSE)
+		if ( ! $this->conn_id OR ($version_string = oci_server_version($this->conn_id)) === FALSE)
 		{
 			return FALSE;
 		}
+		elseif (preg_match('#Release\s(\d+(?:\.\d+)+)#', $version_string, $match))
+		{
+			return $this->data_cache['version'] = $match[1];
+		}
 
-		return $this->data_cache['version'] = $version;
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
