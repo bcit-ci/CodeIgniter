@@ -185,7 +185,7 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 		}
 		// We shouldn't need this, but apparently we do ...
 		// See https://github.com/bcit-ci/CodeIgniter/issues/4039
-		elseif ($this->_file_handler === FALSE)
+		elseif ($this->_file_handle === FALSE)
 		{
 			return $this->_failure;
 		}
