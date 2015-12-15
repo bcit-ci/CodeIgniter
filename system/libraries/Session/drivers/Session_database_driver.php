@@ -299,7 +299,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 			}
 		}
 
-		if ($this->close())
+		if ($this->close() === $this->_success)
 		{
 			$this->_cookie_destroy();
 			return $this->_success;

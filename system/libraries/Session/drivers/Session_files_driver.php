@@ -224,7 +224,7 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 	{
 		// If the two IDs don't match, we have a session_regenerate_id() call
 		// and we need to close the old handle and open a new one
-		if ($session_id !== $this->_session_id && ( ! $this->close() OR $this->read($session_id) === FALSE))
+		if ($session_id !== $this->_session_id && ($this->close() === $this->_failure OR $this->read($session_id) === $this->_failure))
 		{
 			return $this->_failure;
 		}
@@ -302,7 +302,7 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 	 */
 	public function destroy($session_id)
 	{
-		if ($this->close())
+		if ($this->close() === $this->_success)
 		{
 			if (file_exists($this->_file_path.$session_id))
 			{
