@@ -47,6 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @param 	string|string[]	$params
  * @param 	bool		$query_builder_override
  *				Determines if query builder should be used or not
+ * @throws	RuntimeException	If (valid) configuration file or DB driver doesn't exist.
  */
 function &DB($params = '', $query_builder_override = NULL)
 {
@@ -57,7 +58,7 @@ function &DB($params = '', $query_builder_override = NULL)
 		if ( ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php')
 			&& ! file_exists($file_path = APPPATH.'config/database.php'))
 		{
-			show_error('The configuration file database.php does not exist.');
+			throw new RuntimeException('The configuration file database.php does not exist.');
 		}
 
 		include($file_path);
@@ -84,7 +85,7 @@ function &DB($params = '', $query_builder_override = NULL)
 
 		if (empty($db))
 		{
-			show_error('No database connection settings were found in the database config file.');
+			throw new RuntimeException('No database connection settings were found in the database config file.');
 		}
 
 		if ($params !== '')
@@ -94,11 +95,11 @@ function &DB($params = '', $query_builder_override = NULL)
 
 		if ( ! isset($active_group))
 		{
-			show_error('You have not specified a database connection group via $active_group in your config/database.php file.');
+			throw new RuntimeException('You have not specified a database connection group via $active_group in your config/database.php file.');
 		}
 		elseif ( ! isset($db[$active_group]))
 		{
-			show_error('You have specified an invalid database connection group ('.$active_group.') in your config/database.php file.');
+			throw new RuntimeException('You have specified an invalid database connection group ('.$active_group.') in your config/database.php file.');
 		}
 
 		$params = $db[$active_group];
@@ -114,7 +115,7 @@ function &DB($params = '', $query_builder_override = NULL)
 		 */
 		if (($dsn = @parse_url($params)) === FALSE)
 		{
-			show_error('Invalid DB Connection String');
+			throw new RuntimeException('Invalid DB Connection String');
 		}
 
 		$params = array(
@@ -146,7 +147,7 @@ function &DB($params = '', $query_builder_override = NULL)
 	// No DB specified yet? Beat them senseless...
 	if (empty($params['dbdriver']))
 	{
-		show_error('You have not selected a database type to connect to.');
+		throw new RuntimeException('You have not selected a database type to connect to.');
 	}
 
 	// Load the DB classes. Note: Since the query builder class is optional
@@ -193,7 +194,11 @@ function &DB($params = '', $query_builder_override = NULL)
 	// Load the DB driver
 	$driver_file = BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver.php';
 
-	file_exists($driver_file) OR show_error('Invalid DB driver');
+	if( ! file_exists($driver_file))
+	{
+		throw new RuntimeException('Invalid DB driver');
+	}
+	
 	require_once($driver_file);
 
 	// Instantiate the DB adapter

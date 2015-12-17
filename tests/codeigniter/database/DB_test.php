@@ -15,7 +15,7 @@ class DB_test extends CI_TestCase {
 			),
 		));
 
-		$this->setExpectedException('RuntimeException', 'CI Error: Invalid DB driver');
+		$this->setExpectedException('RuntimeException', 'Invalid DB driver');
 
 		Mock_Database_DB::DB($connection->set_dsn('undefined'), TRUE);
 	}
