@@ -185,9 +185,10 @@ class CI_Lang {
 	 *
 	 * @param	string	$line		Language line key
 	 * @param	bool	$log_errors	Whether to log an error message if the line is not found
+	 * @param	array	$placeholders	Should we want to pass variables to the language line, we can do it here
 	 * @return	string	Translation
 	 */
-	public function line($line, $log_errors = TRUE)
+	public function line($line, $log_errors = TRUE, $placeholders = array())
 	{
 		$value = isset($this->language[$line]) ? $this->language[$line] : FALSE;
 
@@ -195,6 +196,11 @@ class CI_Lang {
 		if ($value === FALSE && $log_errors === TRUE)
 		{
 			log_message('error', 'Could not find the language line "'.$line.'"');
+		}
+		
+		if(!empty($placeholders))
+		{
+			$value = preg_replace_callback('/\[(.*?)\]/', function ($preg) use ($placeholders) { return isset($placeholders[$preg[1]]) ? $placeholders[$preg[1]] : $preg[0]; }, $value);
 		}
 
 		return $value;
