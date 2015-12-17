@@ -118,6 +118,7 @@ class CI_Router {
 	 *
 	 * Runs the route mapping function.
 	 *
+	 * @param	array	$routing
 	 * @return	void
 	 */
 	public function __construct($routing = NULL)

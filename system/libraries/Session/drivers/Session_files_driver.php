@@ -129,7 +129,7 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 			.$name // we'll use the session cookie name as a prefix to avoid collisions
 			.($this->_config['match_ip'] ? md5($_SERVER['REMOTE_ADDR']) : '');
 
-		return TRUE;
+		return $this->_success;
 	}
 
 	// ------------------------------------------------------------------------
@@ -156,13 +156,13 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 				if (($this->_file_handle = fopen($this->_file_path.$session_id, 'w+b')) === FALSE)
 				{
 					log_message('error', "Session: File '".$this->_file_path.$session_id."' doesn't exist and cannot be created.");
-					return FALSE;
+					return $this->_failure;
 				}
 			}
 			elseif (($this->_file_handle = fopen($this->_file_path.$session_id, 'r+b')) === FALSE)
 			{
 				log_message('error', "Session: Unable to open file '".$this->_file_path.$session_id."'.");
-				return FALSE;
+				return $this->_failure;
 			}
 
 			if (flock($this->_file_handle, LOCK_EX) === FALSE)
@@ -170,7 +170,7 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 				log_message('error', "Session: Unable to obtain lock for file '".$this->_file_path.$session_id."'.");
 				fclose($this->_file_handle);
 				$this->_file_handle = NULL;
-				return FALSE;
+				return $this->_failure;
 			}
 
 			// Needed by write() to detect session_regenerate_id() calls
@@ -182,6 +182,12 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 				$this->_fingerprint = md5('');
 				return '';
 			}
+		}
+		// We shouldn't need this, but apparently we do ...
+		// See https://github.com/bcit-ci/CodeIgniter/issues/4039
+		elseif ($this->_file_handler === FALSE)
+		{
+			return $this->_failure;
 		}
 		else
 		{
@@ -220,18 +226,18 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 		// and we need to close the old handle and open a new one
 		if ($session_id !== $this->_session_id && ( ! $this->close() OR $this->read($session_id) === FALSE))
 		{
-			return FALSE;
+			return $this->_failure;
 		}
 
 		if ( ! is_resource($this->_file_handle))
 		{
-			return FALSE;
+			return $this->_failure;
 		}
 		elseif ($this->_fingerprint === md5($session_data))
 		{
-			return ($this->_file_new)
-				? TRUE
-				: touch($this->_file_path.$session_id);
+			return ( ! $this->_file_new && ! touch($this->_file_path.$session_id))
+				? $this->_failure
+				: $this->_success;
 		}
 
 		if ( ! $this->_file_new)
@@ -254,12 +260,12 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 			{
 				$this->_fingerprint = md5(substr($session_data, 0, $written));
 				log_message('error', 'Session: Unable to write data.');
-				return FALSE;
+				return $this->_failure;
 			}
 		}
 
 		$this->_fingerprint = md5($session_data);
-		return TRUE;
+		return $this->_success;
 	}
 
 	// ------------------------------------------------------------------------
@@ -279,10 +285,9 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 			fclose($this->_file_handle);
 
 			$this->_file_handle = $this->_file_new = $this->_session_id = NULL;
-			return TRUE;
 		}
 
-		return TRUE;
+		return $this->_success;
 	}
 
 	// ------------------------------------------------------------------------
@@ -299,19 +304,31 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 	{
 		if ($this->close())
 		{
-			return file_exists($this->_file_path.$session_id)
-				? (unlink($this->_file_path.$session_id) && $this->_cookie_destroy())
-				: TRUE;
+			if (file_exists($this->_file_path.$session_id))
+			{
+				$this->_cookie_destroy();
+				return unlink($this->_file_path.$session_id)
+					? $this->_success
+					: $this->_failure;
+			}
+
+			return $this->_success;
 		}
 		elseif ($this->_file_path !== NULL)
 		{
 			clearstatcache();
-			return file_exists($this->_file_path.$session_id)
-				? (unlink($this->_file_path.$session_id) && $this->_cookie_destroy())
-				: TRUE;
+			if (file_exists($this->_file_path.$session_id))
+			{
+				$this->_cookie_destroy();
+				return unlink($this->_file_path.$session_id)
+					? $this->_success
+					: $this->_failure;
+			}
+
+			return $this->_success;
 		}
 
-		return FALSE;
+		return $this->_failure;
 	}
 
 	// ------------------------------------------------------------------------
@@ -329,7 +346,7 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 		if ( ! is_dir($this->_config['save_path']) OR ($directory = opendir($this->_config['save_path'])) === FALSE)
 		{
 			log_message('debug', "Session: Garbage collector couldn't list files under directory '".$this->_config['save_path']."'.");
-			return FALSE;
+			return $this->_failure;
 		}
 
 		$ts = time() - $maxlifetime;
@@ -356,7 +373,7 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 
 		closedir($directory);
 
-		return TRUE;
+		return $this->_success;
 	}
 
 }

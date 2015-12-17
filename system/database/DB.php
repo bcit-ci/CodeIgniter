@@ -82,7 +82,7 @@ function &DB($params = '', $query_builder_override = NULL)
 			}
 		}
 
-		if ( ! isset($db) OR count($db) === 0)
+		if (empty($db))
 		{
 			show_error('No database connection settings were found in the database config file.');
 		}
@@ -192,9 +192,12 @@ function &DB($params = '', $query_builder_override = NULL)
 
 	// Load the DB driver
 	$driver_file = BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver.php';
-
 	file_exists($driver_file) OR show_error('Invalid DB driver');
 	require_once($driver_file);
+
+	// Load the result classes as well
+	require_once(BASEPATH.'database/DB_result.php');
+	require_once(BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_result.php');
 
 	// Instantiate the DB adapter
 	$driver = 'CI_DB_'.$params['dbdriver'].'_driver';

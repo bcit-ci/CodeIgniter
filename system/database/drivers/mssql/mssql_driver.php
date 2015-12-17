@@ -108,6 +108,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	public function db_connect($persistent = FALSE)
 	{
+		ini_set('mssql.charset', $this->char_set);
 		$this->conn_id = ($persistent)
 				? mssql_pconnect($this->hostname, $this->username, $this->password)
 				: mssql_connect($this->hostname, $this->username, $this->password);
@@ -248,26 +249,13 @@ class CI_DB_mssql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set client character set
-	 *
-	 * @param	string	$charset
-	 * @return	bool
-	 */
-	protected function _db_set_charset($charset)
-	{
-		return (ini_set('mssql.charset', $charset) !== FALSE);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Version number query string
 	 *
 	 * @return	string
 	 */
 	protected function _version()
 	{
-		return 'SELECT @@VERSION AS ver';
+		return "SELECT SERVERPROPERTY('ProductVersion') AS ver";
 	}
 
 	// --------------------------------------------------------------------

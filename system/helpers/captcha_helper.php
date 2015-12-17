@@ -171,7 +171,8 @@ if ( ! function_exists('create_captcha'))
 				$byte_index = $word_index = 0;
 				while ($word_index < $word_length)
 				{
-					if (($rand_index = unpack('C', $bytes[$byte_index++])) > $rand_max)
+					list(, $rand_index) = unpack('C', $bytes[$byte_index++]);
+					if ($rand_index > $rand_max)
 					{
 						// Was this the last byte we have?
 						// If so, try to fetch more.
