@@ -200,7 +200,7 @@ class CI_Lang {
 		
 		if(!empty($placeholders))
 		{
-			$value = preg_replace_callback(/\[(.*)\]/', function ($preg) use ($placeholders) { return isset($placeholders[$preg[1]]) ? $placeholders[$preg[1]] : $preg[0]; }, $value);
+			$value = preg_replace_callback('/\[(.*)\]/', function ($preg) use ($placeholders) { return isset($placeholders[$preg[1]]) ? $placeholders[$preg[1]] : $preg[0]; }, $value);
 		}
 
 		return $value;
