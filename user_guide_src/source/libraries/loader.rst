@@ -226,7 +226,7 @@ Class Reference
 		:param	bool	$return: Whether to return the loaded view
 		:returns:	View content string if $return is set to TRUE, otherwise CI_Loader instance (method chaining)
 		:rtype:	mixed
-		:throws:	RuntimeException	If unable to load the requsted file
+		:throws:	RuntimeException	In case of failure
 
 		This method is used to load your View files. If you haven't read the
 		:doc:`Views <../general/views>` section of the user guide it is
@@ -358,7 +358,7 @@ Class Reference
 		:param	mixed	$helpers: Helper name as a string or an array containing multiple helpers
 		:returns:	CI_Loader instance (method chaining)
 		:rtype:	CI_Loader
-		:throws:	RuntimeException	If unable to load the requested file
+		:throws:	RuntimeException	In case of failure
 
 		This method loads helper files, where file_name is the name of the
 		file, without the _helper.php extension.
@@ -369,7 +369,7 @@ Class Reference
 		:param	bool	$return: Whether to return the loaded file
 		:returns:	File contents if $return is set to TRUE, otherwise CI_Loader instance (method chaining)
 		:rtype:	mixed
-		:throws:	RuntimeException	If unable to load the requsted file
+		:throws:	RuntimeException	In case of failure
 
 		This is a generic file loading method. Supply the filepath and name in
 		the first parameter and it will open and read the file. By default the
