@@ -130,7 +130,14 @@ class CI_DB_pdo_driver extends CI_DB {
 
 		try
 		{
-			return new PDO($this->dsn, $this->username, $this->password, $this->options);
+			if (empty($this->username) OR empty($this->password))
+			{
+				return new PDO($this->dsn, NULL, NULL, $this->options);
+			}
+			else
+			{
+				return new PDO($this->dsn, $this->username, $this->password, $this->options);
+			}
 		}
 		catch (PDOException $e)
 		{
