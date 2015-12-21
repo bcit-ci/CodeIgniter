@@ -204,7 +204,7 @@ class CI_Log {
 			$date = date($this->_date_fmt);
 		}
 
-		$message .= $level.' - '.$date.' --> '.$msg."\n";
+		$message .= $this->_format_log_line($level, $date, $msg);
 
 		flock($fp, LOCK_EX);
 
@@ -227,4 +227,20 @@ class CI_Log {
 		return is_int($result);
 	}
 
+	/**
+	 * Format the log line.
+	 *
+	 * This is for extensibility of log formatting.
+	 * If you want to change the log format,
+	 * extend the CI_Log class and override this method.
+	 *
+	 * @param $level
+	 * @param $date
+	 * @param $msg
+	 *
+	 * @return string formatted log line with a new line character '\n' at the end.
+	 */
+	protected function _format_log_line($level, $date, $msg){
+		return $level.' - '.$date.' --> '.$msg."\n";
+	}
 }
