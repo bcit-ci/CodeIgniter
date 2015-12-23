@@ -260,6 +260,66 @@ if ( ! function_exists('doctype'))
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('script_tag') )
+{
+	/**
+	 * Link
+	 *
+	 * Generates linked script
+	 *
+	 * @param	string	url to script
+	 * @param	string	type
+	 * @param	bool	add async attribute to tag
+	 * @param	bool	should index_page be added to the css path
+	 * @param array	[0] server path to file (relative to FCPATH)
+	 *              [1] hash function
+	 * @return	string
+	 */
+	function script_tag($src = '', $type = 'text/javascript', $async = FALSE, $index_page = FALSE, $use_sri = FALSE )
+	{
+		$CI =& get_instance();
+		$script = '<script ';
+
+		if (preg_match('#^([a-z]+:)?//#i', $src))
+		{
+			$script .= 'src="'.$src.'" ';
+		}
+		elseif ($index_page === TRUE)
+		{
+			$script .= 'src="'.$CI->config->site_url($src).'" ';
+		}
+		else
+		{
+			$script .= 'src="'.$CI->config->slash_item('base_url').$src.'" ';
+		}
+
+		$script .= 'type="'.$type.'" ';
+
+		if ($async !== FALSE)
+		{
+			$script .= 'async ';
+		}
+
+		if (is_array($use_sri))
+		{
+			$local_copy_path = trim(FCPATH, '/').DIRECTORY_SEPARATOR.trim($use_sri[0],'/\\');
+			$local_copy_contents = file_get_contents($local_copy_path);
+			$hash_function = $use_sri[1];
+
+			$hash = hash($hash_function, $local_copy_contents, true);
+
+			$hash_base64 = base64_encode($hash);
+
+			$script .= 'integrity="'.$hash_function.'-'.$hash_base64.'" ';
+		}
+
+		return trim($script)."></script>\n";
+
+	}
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('link_tag'))
 {
 	/**
