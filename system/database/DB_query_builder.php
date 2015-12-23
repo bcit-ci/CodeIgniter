@@ -2365,7 +2365,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 					//	5 => ')'		/* optional */
 					// );
 
-					if ( ! empty($matches[4]))
+					if ( ! empty($matches[4]) && $matches[4] !== '?')
 					{
 						$this->_is_literal($matches[4]) OR $matches[4] = $this->protect_identifiers(trim($matches[4]));
 						$matches[4] = ' '.$matches[4];
