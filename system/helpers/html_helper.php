@@ -303,14 +303,11 @@ if ( ! function_exists('script_tag') )
 		if (is_array($use_sri))
 		{
 			$local_copy_path = trim(FCPATH, '/').DIRECTORY_SEPARATOR.trim($use_sri[0],'/\\');
-			$local_copy_contents = file_get_contents($local_copy_path);
 			$hash_function = $use_sri[1];
 
-			$hash = hash($hash_function, $local_copy_contents, true);
+			$hash = base64_file_hash($local_copy_path, $hash_function);
 
-			$hash_base64 = base64_encode($hash);
-
-			$script .= 'integrity="'.$hash_function.'-'.$hash_base64.'" ';
+			$script .= 'integrity="'.$hash_function.'-'.$hash.'" ';
 		}
 
 		return trim($script)."></script>\n";
@@ -393,14 +390,11 @@ if ( ! function_exists('link_tag'))
 			if (is_array($use_sri))
 			{
 				$local_copy_path = trim(FCPATH, '/').DIRECTORY_SEPARATOR.trim($use_sri[0],'/\\');
-				$local_copy_contents = file_get_contents($local_copy_path);
 				$hash_function = $use_sri[1];
 
-				$hash = hash($hash_function, $local_copy_contents, true);
+				$hash = base64_file_hash($local_copy_path, $hash_function);
 
-				$hash_base64 = base64_encode($hash);
-
-				$link .= 'integrity="'.$hash_function.'-'.$hash_base64.'" '; 
+				$link .= 'integrity="'.$hash_function.'-'.$hash.'" '; 
 
 			}
 		}
