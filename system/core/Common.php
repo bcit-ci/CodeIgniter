@@ -849,3 +849,26 @@ if ( ! function_exists('function_usable'))
 		return FALSE;
 	}
 }
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('base64_file_hash') )
+{
+	/**
+	 * Base64 file hash
+	 *
+	 * Base64 hashes the contents of a file
+	 *
+	 * @param	string	path to file
+	 * @param	string	hash function
+	 * @return	string	base64 encoded hash of file
+	 */
+	function base64_file_hash($path, $hash_function = 'sha256')
+	{
+		$file_contents = file_get_contents($path);
+
+		$hash = hash($hash_function, $file_contents, true);
+
+		return base64_encode($hash);
+	}
+}
