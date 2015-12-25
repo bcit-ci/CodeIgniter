@@ -141,6 +141,38 @@ The following functions are available:
 		echo link_tag($link);
 		// <link href="http://site.com/css/printer.css" rel="stylesheet" type="text/css" media="print" />
 
+.. php:function:: script_tag([$src = ''[, $type = 'text/javascript'[, $async = FALSE[, $index_page = FALSE[, $local_copy = ''[, $hash_function = 'sha256']]]]]])
+
+	:param	string	$src: What script are we linking to
+	:param	string	$type: Type of the linked script
+	:param	string	$asyn: Is the script loaded asyncronously?
+	:param	bool	$index_page: Whether to treat $src as a routed URI string
+	:param	string	$local_copy: Server path to a local copy of the linked script (relative to FCPATH) 
+	:param	string	$hash_function: Integrity hash function
+	:returns:	HTML link tag
+	:rtype:	string
+
+	Lets you create <script /> tags. The parameters are *href*, with optional *rel*,
+	*type*, *title*, *media*, *index_page*, *local_copy*, and *hash_function*.
+
+	*index_page* is a boolean value that specifies if the *href* should have
+	the page specified by ``$config['index_page']`` added to the address it creates.
+
+	*local_copy* and *hash_function* are used to create the subresource *integrity* attribute, which allows a browser to verify that a linked file hasn't been modified in transit
+
+	Example::
+
+		echo script_tag('js/alert.js');
+		// gives <script src="http://site.com/js/alert.js" type="text/javascript"></script>
+
+	Further examples::
+
+		echo script_tag('js/cookie.js', 'text/javascript', true);
+		// gives <script src="http://site.com/js/cookie.js" type="text/javascript" async></script>
+
+		echo script_tag('js/cookie.js', 'text/javascript', true, false, 'js/cookie.js');
+		// gives <script src="http://site.com/js/cookie.js" type="text/javascript" async integrity="sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU"></script>
+
 
 .. php:function:: ul($list[, $attributes = ''])
 
