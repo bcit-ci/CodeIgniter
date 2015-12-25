@@ -280,33 +280,64 @@ if ( ! function_exists('script_tag') )
 		$CI =& get_instance();
 		$script = '<script ';
 
-		if (preg_match('#^([a-z]+:)?//#i', $src))
+		if (is_array($src))
 		{
-			$script .= 'src="'.$src.'" ';
-		}
-		elseif ($index_page === TRUE)
-		{
-			$script .= 'src="'.$CI->config->site_url($src).'" ';
+			foreach ($src as $k => $v)
+			{
+				if ($k === 'src' && ! preg_match('#^([a-z]+:)?//#i', $v))
+				{
+					if ($index_page === TRUE)
+					{
+						$script .= 'src="'.$CI->config->site_url($v).'" ';
+					}
+					else
+					{
+						$script .= 'src="'.$CI->config->slash_item('base_url').$v.'" ';
+					}
+				}
+				else
+				{					
+					if (is_bool($v))
+					{
+						$script .= $k.' ';
+					}
+					else
+					{
+						$script .= $k.'="'.$v.'" ';
+					}
+				}
+			}
 		}
 		else
 		{
-			$script .= 'src="'.$CI->config->slash_item('base_url').$src.'" ';
-		}
+			if (preg_match('#^([a-z]+:)?//#i', $src))
+			{
+				$script .= 'src="'.$src.'" ';
+			}
+			elseif ($index_page === TRUE)
+			{
+				$script .= 'src="'.$CI->config->site_url($src).'" ';
+			}
+			else
+			{
+				$script .= 'src="'.$CI->config->slash_item('base_url').$src.'" ';
+			}
 
-		$script .= 'type="'.$type.'" ';
+			$script .= 'type="'.$type.'" ';
 
-		if ($async !== FALSE)
-		{
-			$script .= 'async ';
-		}
+			if ($async !== FALSE)
+			{
+				$script .= 'async ';
+			}
 
-		if ($local_copy !== '')
-		{
-			$local_copy_path = trim(FCPATH, '/').DIRECTORY_SEPARATOR.trim($local_copy,'/\\');
+			if ($local_copy !== '')
+			{
+				$local_copy_path = trim(FCPATH, '/').DIRECTORY_SEPARATOR.trim($local_copy,'/\\');
 
-			$hash = base64_file_hash($local_copy_path, $hash_function);
+				$hash = base64_file_hash($local_copy_path, $hash_function);
 
-			$script .= 'integrity="'.$hash_function.'-'.$hash.'" ';
+				$script .= 'integrity="'.$hash_function.'-'.$hash.'" ';
+			}
 		}
 
 		return trim($script)."></script>\n";
