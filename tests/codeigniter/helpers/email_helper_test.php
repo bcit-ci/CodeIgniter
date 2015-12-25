@@ -6,7 +6,6 @@ class Email_helper_test extends CI_TestCase {
 	{
 		$this->helper('email');
 	}
-
 	
 	public function test_send_mail()
 	{
