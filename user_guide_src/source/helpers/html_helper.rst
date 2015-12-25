@@ -173,6 +173,17 @@ The following functions are available:
 		echo script_tag('js/cookie.js', 'text/javascript', true, false, 'js/cookie.js');
 		// gives <script src="http://site.com/js/cookie.js" type="text/javascript" async integrity="sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU"></script>
 
+	Additionally, an associative array can be passed to the ``link()`` function
+	for complete control over all attributes and values::
+
+		$script = array(
+			'src'	=> 'js/script.js',
+			'async'	=> TRUE,
+		);
+
+		echo script_tag($script);
+		// <script src="http://site.com/js/script.js" async></script>
+
 
 .. php:function:: ul($list[, $attributes = ''])
 
