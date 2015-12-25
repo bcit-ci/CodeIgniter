@@ -271,11 +271,11 @@ if ( ! function_exists('script_tag') )
 	 * @param	string	type
 	 * @param	bool	add async attribute to tag
 	 * @param	bool	should index_page be added to the css path
-	 * @param array	[0] server path to file (relative to FCPATH)
-	 *              [1] hash function
+	 * @param string	server path to file (relative to FCPATH)
+	 * @param string	hash function
 	 * @return	string
 	 */
-	function script_tag($src = '', $type = 'text/javascript', $async = FALSE, $index_page = FALSE, $use_sri = FALSE )
+	function script_tag($src = '', $type = 'text/javascript', $async = FALSE, $index_page = FALSE, $local_copy = '', $hash_function = 'sha256' )
 	{
 		$CI =& get_instance();
 		$script = '<script ';
@@ -300,10 +300,9 @@ if ( ! function_exists('script_tag') )
 			$script .= 'async ';
 		}
 
-		if (is_array($use_sri))
+		if ($local_copy !== '')
 		{
-			$local_copy_path = trim(FCPATH, '/').DIRECTORY_SEPARATOR.trim($use_sri[0],'/\\');
-			$hash_function = $use_sri[1];
+			$local_copy_path = trim(FCPATH, '/').DIRECTORY_SEPARATOR.trim($local_copy,'/\\');
 
 			$hash = base64_file_hash($local_copy_path, $hash_function);
 
@@ -330,11 +329,11 @@ if ( ! function_exists('link_tag'))
 	 * @param	string	title
 	 * @param	string	media
 	 * @param	bool	should index_page be added to the css path
-	 * @param array	[0] server path to file (relative to FCPATH)
-	 *              [1] hash function
+	 * @param string	server path to file (relative to FCPATH)
+	 * @param string	hash function
 	 * @return	string
 	 */
-	function link_tag($href = '', $rel = 'stylesheet', $type = 'text/css', $title = '', $media = '', $index_page = FALSE, $use_sri = FALSE)
+	function link_tag($href = '', $rel = 'stylesheet', $type = 'text/css', $title = '', $media = '', $index_page = FALSE, $local_copy = '', $hash_function = 'sha256')
 	{
 		$CI =& get_instance();
 		$link = '<link ';
@@ -387,15 +386,13 @@ if ( ! function_exists('link_tag'))
 				$link .= 'title="'.$title.'" ';
 			}
 
-			if (is_array($use_sri))
+			if ($local_copy !== '')
 			{
-				$local_copy_path = trim(FCPATH, '/').DIRECTORY_SEPARATOR.trim($use_sri[0],'/\\');
-				$hash_function = $use_sri[1];
+				$local_copy_path = trim(FCPATH, '/').DIRECTORY_SEPARATOR.trim($local_copy,'/\\');
 
 				$hash = base64_file_hash($local_copy_path, $hash_function);
 
-				$link .= 'integrity="'.$hash_function.'-'.$hash.'" '; 
-
+				$link .= 'integrity="'.$hash_function.'-'.$hash.'" ';
 			}
 		}
 
