@@ -263,11 +263,11 @@ if ( ! function_exists('doctype'))
 if ( ! function_exists('script_tag') )
 {
 	/**
-	 * Link
+	 * Script
 	 *
 	 * Generates linked script
 	 *
-	 * @param	string	url to script
+	 * @param	mixed	url to script or an array
 	 * @param	string	type
 	 * @param	bool	add async attribute to tag
 	 * @param	bool	should index_page be added to the css path
