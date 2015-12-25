@@ -1,7 +1,6 @@
 <?php
 
-class Email_helper_test extends CI_TestCase 
-{
+class Email_helper_test extends CI_TestCase {
 
 	public function set_up()
 	{
