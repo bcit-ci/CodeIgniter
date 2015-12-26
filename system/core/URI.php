@@ -203,7 +203,7 @@ class CI_URI {
 
 		// parse_url() returns false if no host is present, but the path or query string
 		// contains a colon followed by a number
-		$uri = parse_url('http://dummy/'.ltrim($_SERVER['REQUEST_URI'], '/'))
+		$uri = parse_url('http://dummy/'.ltrim($_SERVER['REQUEST_URI'], '/'));
 		$query = isset($uri['query']) ? $uri['query'] : '';
 		$uri = isset($uri['path']) ? $uri['path'] : '';
 
