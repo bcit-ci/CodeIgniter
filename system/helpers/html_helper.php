@@ -260,6 +260,93 @@ if ( ! function_exists('doctype'))
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('script_tag') )
+{
+	/**
+	 * Script
+	 *
+	 * Generates linked script
+	 *
+	 * @param	mixed	url to script or an array
+	 * @param	string	type
+	 * @param	bool	add async attribute to tag
+	 * @param	bool	should index_page be added to the css path
+	 * @param string	server path to file (relative to FCPATH)
+	 * @param string	hash function
+	 * @return	string
+	 */
+	function script_tag($src = '', $type = 'text/javascript', $async = FALSE, $index_page = FALSE, $local_copy = '', $hash_function = 'sha256' )
+	{
+		$CI =& get_instance();
+		$script = '<script ';
+
+		if (is_array($src))
+		{
+			foreach ($src as $k => $v)
+			{
+				if ($k === 'src' && ! preg_match('#^([a-z]+:)?//#i', $v))
+				{
+					if ($index_page === TRUE)
+					{
+						$script .= 'src="'.$CI->config->site_url($v).'" ';
+					}
+					else
+					{
+						$script .= 'src="'.$CI->config->slash_item('base_url').$v.'" ';
+					}
+				}
+				else
+				{					
+					if (is_bool($v))
+					{
+						$script .= $k.' ';
+					}
+					else
+					{
+						$script .= $k.'="'.$v.'" ';
+					}
+				}
+			}
+		}
+		else
+		{
+			if (preg_match('#^([a-z]+:)?//#i', $src))
+			{
+				$script .= 'src="'.$src.'" ';
+			}
+			elseif ($index_page === TRUE)
+			{
+				$script .= 'src="'.$CI->config->site_url($src).'" ';
+			}
+			else
+			{
+				$script .= 'src="'.$CI->config->slash_item('base_url').$src.'" ';
+			}
+
+			$script .= 'type="'.$type.'" ';
+
+			if ($async !== FALSE)
+			{
+				$script .= 'async ';
+			}
+
+			if ($local_copy !== '')
+			{
+				$local_copy_path = trim(FCPATH, '/').DIRECTORY_SEPARATOR.trim($local_copy,'/\\');
+
+				$hash = base64_file_hash($local_copy_path, $hash_function);
+
+				$script .= 'integrity="'.$hash_function.'-'.$hash.'" ';
+			}
+		}
+
+		return trim($script)."></script>\n";
+
+	}
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('link_tag'))
 {
 	/**
