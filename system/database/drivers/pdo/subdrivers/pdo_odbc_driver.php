@@ -263,4 +263,17 @@ class CI_DB_pdo_odbc_driver extends CI_DB_pdo_driver {
 		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$this->qb_limit.' ', $sql);
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Platform-dependant string escape
+	 *
+	 * @param	string
+	 * @return	string
+	 */
+	protected function _escape_str($str)
+	{
+		$str = remove_invisible_characters($str);
+		return $str = str_replace("'", "''", $str );
+	}
 }
