@@ -839,9 +839,9 @@ class CI_Form_validation {
 	/**
 	 * Get the error message for the rule
 	 *
-	 * @param string the rule name.
-	 * @param array
-	 * @return string
+	 * @param 	string the rule name.
+	 * @param 	array
+	 * @return 	string
 	 */
 	private function _get_raw_error_message($rule_name, $row)
 	{
