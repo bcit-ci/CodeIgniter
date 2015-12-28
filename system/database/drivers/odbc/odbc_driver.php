@@ -216,10 +216,9 @@ class CI_DB_odbc_driver extends CI_DB {
 	/**
 	 * Insert ID
 	 *
-	 * @param	string	$name
 	 * @return	int
 	 */
-	public function insert_id($name = NULL)
+	public function insert_id()
 	{
 		$sql =  'SELECT @@IDENTITY AS last_id';
 		$query = $this->query($sql);
