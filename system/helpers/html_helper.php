@@ -273,9 +273,11 @@ if ( ! function_exists('link_tag'))
 	 * @param	string	title
 	 * @param	string	media
 	 * @param	bool	should index_page be added to the css path
+	 * @param string	server path to file (relative to FCPATH)
+	 * @param string	hash function
 	 * @return	string
 	 */
-	function link_tag($href = '', $rel = 'stylesheet', $type = 'text/css', $title = '', $media = '', $index_page = FALSE)
+	function link_tag($href = '', $rel = 'stylesheet', $type = 'text/css', $title = '', $media = '', $index_page = FALSE, $local_copy = '', $hash_function = 'sha256')
 	{
 		$CI =& get_instance();
 		$link = '<link ';
@@ -326,6 +328,15 @@ if ( ! function_exists('link_tag'))
 			if ($title !== '')
 			{
 				$link .= 'title="'.$title.'" ';
+			}
+
+			if ($local_copy !== '')
+			{
+				$local_copy_path = trim(FCPATH, '/').DIRECTORY_SEPARATOR.trim($local_copy,'/\\');
+
+				$hash = base64_file_hash($local_copy_path, $hash_function);
+
+				$link .= 'integrity="'.$hash_function.'-'.$hash.'" ';
 			}
 		}
 
