@@ -210,17 +210,21 @@ class CI_DB_odbc_driver extends CI_DB {
 	{
 		return odbc_num_rows($this->result_id);
 	}
-
+        
 	// --------------------------------------------------------------------
 
 	/**
 	 * Insert ID
 	 *
-	 * @return	bool
+	 * @param	string	$name
+	 * @return	int
 	 */
-	public function insert_id()
+	public function insert_id($name = NULL)
 	{
-		return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
+		$sql =  'SELECT @@IDENTITY AS last_id';
+		$query = $this->query($sql);
+		$result = $query->row();
+		return $result->last_id;
 	}
 
 	// --------------------------------------------------------------------

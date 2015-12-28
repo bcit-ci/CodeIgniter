@@ -276,4 +276,20 @@ class CI_DB_pdo_odbc_driver extends CI_DB_pdo_driver {
 		$str = remove_invisible_characters($str);
 		return $str = str_replace("'", "''", $str );
 	}
+        
+	// --------------------------------------------------------------------
+
+	/**
+	 * Insert ID
+	 *
+	 * @param	string	$name
+	 * @return	int
+	 */
+	public function insert_id($name = NULL)
+	{
+		$sql =  'SELECT @@IDENTITY AS last_id';
+		$query = $this->query($sql);
+		$result = $query->row();
+		return $result->last_id;
+	}
 }
