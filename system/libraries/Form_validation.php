@@ -843,33 +843,33 @@ class CI_Form_validation {
 	 * @param array
 	 * @return string
 	 */
-	private function _get_raw_error_message($key, $row)
+	private function _get_raw_error_message($rule_name, $row)
 	{
 		$error_message = '';
-		// Check if a custom message is defined through validation config row.
-		if (isset($this->_field_data[$row['field']]['errors'][$key]))
+		// check if a custom message is defined through validation config row.
+		if (isset($this->_field_data[$row['field']]['errors'][$rule_name]))
 		{
-			$error_message = $this->_field_data[$row['field']]['errors'][$key];
+			$error_message = $this->_field_data[$row['field']]['errors'][$rule_name];
 		}
 		// check if a custom message has been set using the set_message() function
-		elseif (isset($this->_error_messages[$key]))
+		elseif (isset($this->_error_messages[$rule_name]))
 		{
-			$error_message = $this->_error_messages[$key];
+			$error_message = $this->_error_messages[$rule_name];
 		}
 		// check if we have an error message in lang file
-		elseif (FALSE !== ($line_tmp = $this->CI->lang->line('form_validation_'.$key)))
+		elseif (FALSE !== ($line_tmp = $this->CI->lang->line('form_validation_'.$rule_name)))
 		{
 			$error_message = $line_tmp;
 		}
 		// DEPRECATED support for non-prefixed keys, lang file again
-		elseif (FALSE !== ($line_tmp = $this->CI->lang->line($key, FALSE)))
+		elseif (FALSE !== ($line_tmp = $this->CI->lang->line($rule_name, FALSE)))
 		{
 			$error_message = $line_tmp;
 		}
-		//error message not found
+		// error message not found
 		else
 		{
-			$error_message = $this->CI->lang->line('form_validation_error_message_not_set').'('.$key.')';
+			$error_message = $this->CI->lang->line('form_validation_error_message_not_set').'('.$rule_name.')';
 		}
 
 		return $error_message;
