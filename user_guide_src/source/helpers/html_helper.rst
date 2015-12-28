@@ -93,7 +93,7 @@ The following functions are available:
 		img($image_properties);
 		// <img src="http://site.com/index.php/images/picture.jpg" alt="Me, demonstrating how to eat 4 slices of pizza at one time" class="post_images" width="200" height="200" title="That was quite a night" rel="lightbox" />
 
-.. php:function:: link_tag([$href = ''[, $rel = 'stylesheet'[, $type = 'text/css'[, $title = ''[, $media = ''[, $index_page = FALSE]]]]]])
+.. php:function:: link_tag([$href = ''[, $rel = 'stylesheet'[, $type = 'text/css'[, $title = ''[, $media = ''[, $index_page = FALSE[, $local_copy = ''[, $hash_function = 'sha256']]]]]]]])
 
 	:param	string	$href: What are we linking to
 	:param	string	$rel: Relation type
@@ -101,6 +101,8 @@ The following functions are available:
 	:param	string	$title: Link title
 	:param	string	$media: Media type
 	:param	bool	$index_page: Whether to treat $src as a routed URI string
+	:param	string	$local_copy: Server path to a local copy of the linked file (relative to FCPATH) 
+	:param	string	$hash_function: Integrity hash function
 	:returns:	HTML link tag
 	:rtype:	string
 
@@ -110,6 +112,8 @@ The following functions are available:
 
 	*index_page* is a boolean value that specifies if the *href* should have
 	the page specified by ``$config['index_page']`` added to the address it creates.
+
+	*local_copy* and *hash_function* are used to create the subresource *integrity* attribute, which allows a browser to verify that a linked file hasn't been modified in transit
 
 	Example::
 
@@ -136,6 +140,49 @@ The following functions are available:
 
 		echo link_tag($link);
 		// <link href="http://site.com/css/printer.css" rel="stylesheet" type="text/css" media="print" />
+
+.. php:function:: script_tag([$src = ''[, $type = 'text/javascript'[, $async = FALSE[, $index_page = FALSE[, $local_copy = ''[, $hash_function = 'sha256']]]]]])
+
+	:param	string	$src: What script are we linking to
+	:param	string	$type: Type of the linked script
+	:param	string	$asyn: Is the script loaded asyncronously?
+	:param	bool	$index_page: Whether to treat $src as a routed URI string
+	:param	string	$local_copy: Server path to a local copy of the linked script (relative to FCPATH) 
+	:param	string	$hash_function: Integrity hash function
+	:returns:	HTML link tag
+	:rtype:	string
+
+	Lets you create <script /> tags. The parameters are *href*, with optional *rel*,
+	*type*, *title*, *media*, *index_page*, *local_copy*, and *hash_function*.
+
+	*index_page* is a boolean value that specifies if the *href* should have
+	the page specified by ``$config['index_page']`` added to the address it creates.
+
+	*local_copy* and *hash_function* are used to create the subresource *integrity* attribute, which allows a browser to verify that a linked file hasn't been modified in transit
+
+	Example::
+
+		echo script_tag('js/alert.js');
+		// gives <script src="http://site.com/js/alert.js" type="text/javascript"></script>
+
+	Further examples::
+
+		echo script_tag('js/cookie.js', 'text/javascript', true);
+		// gives <script src="http://site.com/js/cookie.js" type="text/javascript" async></script>
+
+		echo script_tag('js/cookie.js', 'text/javascript', true, false, 'js/cookie.js');
+		// gives <script src="http://site.com/js/cookie.js" type="text/javascript" async integrity="sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU"></script>
+
+	Additionally, an associative array can be passed to the ``link()`` function
+	for complete control over all attributes and values::
+
+		$script = array(
+			'src'	=> 'js/script.js',
+			'async'	=> TRUE,
+		);
+
+		echo script_tag($script);
+		// <script src="http://site.com/js/script.js" async></script>
 
 
 .. php:function:: ul($list[, $attributes = ''])
