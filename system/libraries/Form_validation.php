@@ -1249,6 +1249,26 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Valid date
+	 *
+	 * @param	string
+	 * @param	format
+	 * @return	bool
+	 */
+	public function valid_date($str, $format)
+	{
+		if( ! $format)
+		{
+			$format = 'Y-m-d'; //default format
+		}
+
+		$date = DateTime::createFromFormat($format, $str);
+		return $date && $date->format($date) == $str;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Valid Emails
 	 *
 	 * @param	string
