@@ -1263,7 +1263,7 @@ class CI_Form_validation {
 		}
 
 		$date = DateTime::createFromFormat($format, $str);
-		return $date && $date->format($date) == $str;
+		return $date && $date->format($format) == $str;
 	}
 
 	// --------------------------------------------------------------------
