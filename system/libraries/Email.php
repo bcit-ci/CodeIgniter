@@ -1854,8 +1854,7 @@ class CI_Email {
 		// is popen() enabled?
 		if ( ! function_usable('popen')
 			OR FALSE === ($fp = @popen(
-						$this->mailpath.' -oi -f '.$this->clean_email($this->_headers['From'])
-							.' -t -r '.$this->clean_email($this->_headers['Return-Path'])
+						$this->mailpath.' -oi -f '.$this->clean_email($this->_headers['From']).' -t'
 						, 'w'))
 		) // server probably has popen disabled, so nothing we can do to get a verbose error.
 		{

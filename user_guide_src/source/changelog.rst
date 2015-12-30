@@ -29,6 +29,7 @@ Bug fixes for 3.0.4
 -  Fixed a bug (#4312) - :doc:`Form Validation Library <libraries/form_validation>` didn't provide error feedback for failed validation on empty requests.
 -  Fixed a bug where :doc:`Database <database/index>` method `version()` returned banner text instead of only the version number with the 'oci8' and 'pdo/oci' drivers.
 -  Fixed a bug (#4331) - :doc:`Database <database/index>` method ``error()`` didn't really work for connection errors with the 'mysqli' driver.
+-  Fixed a bug (#4343) - :doc:`Email Library <libraries/email>` failing with a *"More than one 'from' person"* message when using *sendmail*.
 
 Version 3.0.3
 =============
