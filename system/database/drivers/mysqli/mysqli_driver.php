@@ -98,6 +98,17 @@ class CI_DB_mysqli_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * MySQLi object
+	 *
+	 * Has to be preserved without being assigned to $conn_id.
+	 *
+	 * @var	MySQLi
+	 */
+	protected $_mysqli;
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Database connection
 	 *
 	 * @param	bool	$persistent
@@ -122,13 +133,13 @@ class CI_DB_mysqli_driver extends CI_DB {
 		}
 
 		$client_flags = ($this->compress === TRUE) ? MYSQLI_CLIENT_COMPRESS : 0;
-		$mysqli = mysqli_init();
+		$this->_mysqli = mysqli_init();
 
-		$mysqli->options(MYSQLI_OPT_CONNECT_TIMEOUT, 10);
+		$this->_mysqli->options(MYSQLI_OPT_CONNECT_TIMEOUT, 10);
 
 		if ($this->stricton)
 		{
-			$mysqli->options(MYSQLI_INIT_COMMAND, 'SET SESSION sql_mode="STRICT_ALL_TABLES"');
+			$this->_mysqli->options(MYSQLI_INIT_COMMAND, 'SET SESSION sql_mode="STRICT_ALL_TABLES"');
 		}
 
 		if (is_array($this->encrypt))
@@ -144,11 +155,11 @@ class CI_DB_mysqli_driver extends CI_DB {
 			{
 				if ( ! empty($this->encrypt['ssl_verify']) && defined('MYSQLI_OPT_SSL_VERIFY_SERVER_CERT'))
 				{
-					$mysqli->options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, TRUE);
+					$this->_mysqli->options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, TRUE);
 				}
 
 				$client_flags |= MYSQLI_CLIENT_SSL;
-				$mysqli->ssl_set(
+				$this->_mysqli->ssl_set(
 					isset($ssl['key'])    ? $ssl['key']    : NULL,
 					isset($ssl['cert'])   ? $ssl['cert']   : NULL,
 					isset($ssl['ca'])     ? $ssl['ca']     : NULL,
@@ -158,22 +169,22 @@ class CI_DB_mysqli_driver extends CI_DB {
 			}
 		}
 
-		if ($mysqli->real_connect($hostname, $this->username, $this->password, $this->database, $port, $socket, $client_flags))
+		if ($this->_mysqli->real_connect($hostname, $this->username, $this->password, $this->database, $port, $socket, $client_flags))
 		{
 			// Prior to version 5.7.3, MySQL silently downgrades to an unencrypted connection if SSL setup fails
 			if (
 				($client_flags & MYSQLI_CLIENT_SSL)
-				&& version_compare($mysqli->client_info, '5.7.3', '<=')
-				&& empty($mysqli->query("SHOW STATUS LIKE 'ssl_cipher'")->fetch_object()->Value)
+				&& version_compare($this->_mysqli->client_info, '5.7.3', '<=')
+				&& empty($this->_mysqli->query("SHOW STATUS LIKE 'ssl_cipher'")->fetch_object()->Value)
 			)
 			{
-				$mysqli->close();
+				$this->_mysqli->close();
 				$message = 'MySQLi was configured for an SSL connection, but got an unencrypted connection instead!';
 				log_message('error', $message);
 				return ($this->db->db_debug) ? $this->db->display_error($message, '', TRUE) : FALSE;
 			}
 
-			return $mysqli;
+			return $this->_mysqli;
 		}
 
 		return FALSE;
@@ -457,11 +468,11 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	public function error()
 	{
-		if ( ! empty($this->conn_id->connect_errno))
+		if ( ! empty($this->_mysqli->connect_errno))
 		{
 			return array(
-				'code' => $this->conn_id->connect_errno,
-				'message' => is_php('5.2.9') ? $this->conn_id->connect_error : mysqli_connect_error()
+				'code' => $this->_mysqli->connect_errno,
+				'message' => is_php('5.2.9') ? $this->_mysqli->connect_error : mysqli_connect_error()
 			);
 		}
 
