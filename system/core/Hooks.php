@@ -128,10 +128,17 @@ class CI_Hooks {
 	 * @uses	CI_Hooks::_run_hook()
 	 *
 	 * @param	string	$which	Hook name
+	 * @param	mixed	$data	Hook data
 	 * @return	bool	TRUE on success or FALSE on failure
 	 */
-	public function call_hook($which = '')
+	public function call_hook($which = '', $data = NULL)
 	{
+		if ( ! is_null($data)) $which = array_merge($which, array(
+			'params' => array(
+				'hook_data' => $data
+			)
+		));
+
 		if ( ! $this->enabled OR ! isset($this->hooks[$which]))
 		{
 			return FALSE;
