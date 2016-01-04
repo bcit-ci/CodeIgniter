@@ -30,6 +30,7 @@ Bug fixes for 3.0.4
 -  Fixed a bug where :doc:`Database <database/index>` method `version()` returned banner text instead of only the version number with the 'oci8' and 'pdo/oci' drivers.
 -  Fixed a bug (#4331) - :doc:`Database <database/index>` method ``error()`` didn't really work for connection errors with the 'mysqli' driver.
 -  Fixed a bug (#4343) - :doc:`Email Library <libraries/email>` failing with a *"More than one 'from' person"* message when using *sendmail*.
+-  Fixed a bug (#4350) - :doc:`Loader Library <libraries/loader>` method ``model()`` logic directly instantiated the ``CI_Model`` or ``MY_Model`` classes.
 
 Version 3.0.3
 =============
