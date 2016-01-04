@@ -26,6 +26,7 @@ Release Date: Not Released
 
    -  Updated :doc:`Security Library <libraries/security>` method ``get_random_bytes()`` to use PHP7's ``random_bytes()`` function when possible.
    -  Updated :doc:`Encryption Library <libraries/security>` method ``create_key()`` to use PHP7's ``random_bytes()`` function when possible.
+   -  Updated :doc:`Hooks Library <libraries/hooks>` method ``call_hook()`` to allow hook data to be passed to the hook functions.
 
 Bug fixes for 3.0.4
 -------------------
