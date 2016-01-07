@@ -73,7 +73,7 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 	 *
 	 * @var	bool
 	 */
-	public $stricton = FALSE;
+	public $stricton;
 
 	// --------------------------------------------------------------------
 
@@ -133,15 +133,34 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 				.(empty($this->dbcollat) ? '' : ' COLLATE '.$this->dbcollat);
 		}
 
-		if ($this->stricton)
+		if (isset($this->stricton))
 		{
-			if (empty($this->options[PDO::MYSQL_ATTR_INIT_COMMAND]))
+			if ($this->stricton)
 			{
-				$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET SESSION sql_mode="STRICT_ALL_TABLES"';
+				$sql = 'CONCAT(@@sql_mode, ",", "STRICT_ALL_TABLES")';
 			}
-			else
+			elseif (version_compare($this->version, '5.7', '>='))
 			{
-				$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] .= ', @@session.sql_mode = "STRICT_ALL_TABLES"';
+				$sql = 'REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+                                        @@sql_mode,
+                                        "STRICT_ALL_TABLES,", ""),
+                                        ",STRICT_ALL_TABLES", ""),
+                                        "STRICT_ALL_TABLES", ""),
+                                        "STRICT_TRANS_TABLES,", ""),
+                                        ",STRICT_TRANS_TABLES", ""),
+                                        "STRICT_TRANS_TABLES", "")';
+			}
+
+			if ( ! empty($sql))
+			{
+				if (empty($this->options[PDO::MYSQL_ATTR_INIT_COMMAND]))
+				{
+					$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET SESSION sql_mode = '.$sql;
+				}
+				else
+				{
+					$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] .= ', @@session.sql_mode = '.$sql;
+				}
 			}
 		}
 
