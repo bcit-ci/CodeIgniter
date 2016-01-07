@@ -147,9 +147,27 @@ class CI_DB_mysql_driver extends CI_DB {
 				: FALSE;
 		}
 
-		if ($this->stricton && is_resource($this->conn_id))
+		if (isset($this->stricton) && is_resource($this->conn_id))
 		{
-			$this->simple_query('SET SESSION sql_mode="STRICT_ALL_TABLES"');
+			if ($this->stricton)
+			{
+				$this->simple_query('SET SESSION sql_mode = CONCAT(@@sql_mode, ",", "STRICT_ALL_TABLES")');
+			}
+			else
+			{
+				$this->simple_query(
+					'SET SESSION sql_mode =
+						REPLACE(
+							REPLACE(
+								REPLACE(@@sql_mode, "STRICT_ALL_TABLES,", ""),
+								",STRICT_ALL_TABLES",
+								""
+							),
+							"STRICT_ALL_TABLES",
+							""
+						)'
+				);
+			}
 		}
 
 		return $this->conn_id;
