@@ -9,8 +9,8 @@ Release Date: Not Released
 
 -  General Changes
 
-   -  Updated :doc:`Security Library <libraries/security>` method ``get_random_bytes()`` to use PHP7's ``random_bytes()`` function when possible.
-   -  Updated :doc:`Encryption Library <libraries/security>` method ``create_key()`` to use PHP7's ``random_bytes()`` function when possible.
+   -  Updated :doc:`Security Library <libraries/security>` method ``get_random_bytes()`` to use PHP 7's ``random_bytes()`` function when possible.
+   -  Updated :doc:`Encryption Library <libraries/security>` method ``create_key()`` to use PHP 7's ``random_bytes()`` function when possible.
 
 Bug fixes for 3.0.4
 -------------------
@@ -32,6 +32,7 @@ Bug fixes for 3.0.4
 -  Fixed a bug (#4343) - :doc:`Email Library <libraries/email>` failing with a *"More than one 'from' person"* message when using *sendmail*.
 -  Fixed a bug (#4350) - :doc:`Loader Library <libraries/loader>` method ``model()`` logic directly instantiated the ``CI_Model`` or ``MY_Model`` classes.
 -  Fixed a bug (#4337) - :doc:`Database <database/index>` method ``query()`` didn't return a result set for queries with the ``RETURNING`` statement on PostgreSQL.
+-  Fixed a bug (#4362) - :doc:`Session Library <libraries/sessions>` doesn't properly maintain its state after ID regeneration with the 'redis' and 'memcached' drivers on PHP 7.
 
 Version 3.0.3
 =============
@@ -53,7 +54,7 @@ Bug fixes for 3.0.3
 -------------------
 
 -  Fixed a bug (#4170) - :doc:`Database <database/index>` method ``insert_id()`` could return an identity from the wrong scope with the 'sqlsrv' driver.
--  Fixed a bug (#4179) - :doc:`Session Library <libraries/sessions>` doesn't properly maintain its state after ID regeneration with the 'database' driver on PHP7.
+-  Fixed a bug (#4179) - :doc:`Session Library <libraries/sessions>` doesn't properly maintain its state after ID regeneration with the 'database' driver on PHP 7.
 -  Fixed a bug (#4173) - :doc:`Database Forge <database/forge>` method ``add_key()`` didn't allow creation of non-PRIMARY composite keys after the "bugfix" for #3968.
 -  Fixed a bug (#4171) - :doc:`Database Transactions <database/transactions>` didn't work with nesting in methods ``trans_begin()``, ``trans_commit()``, ``trans_rollback()``.
 -  Fixed a bug where :doc:`Database Transaction <database/transactions>` methods ``trans_begin()``, ``trans_commit()``, ``trans_rollback()`` ignored failures.
