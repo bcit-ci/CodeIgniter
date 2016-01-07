@@ -11,6 +11,7 @@ Release Date: Not Released
 
    -  Updated :doc:`Security Library <libraries/security>` method ``get_random_bytes()`` to use PHP 7's ``random_bytes()`` function when possible.
    -  Updated :doc:`Encryption Library <libraries/security>` method ``create_key()`` to use PHP 7's ``random_bytes()`` function when possible.
+   -  Updated :doc:`Database <database/index>` drivers 'oci8' and 'pdo/oci' with support for ``OFFSET-FETCH`` with Oracle 12c.
 
 Bug fixes for 3.0.4
 -------------------
