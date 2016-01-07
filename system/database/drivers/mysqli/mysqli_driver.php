@@ -143,7 +143,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 			{
 				$this->_mysqli->options(MYSQLI_INIT_COMMAND, 'SET SESSION sql_mode = CONCAT(@@sql_mode, ",", "STRICT_ALL_TABLES")');
 			}
-			elseif (version_compare($this->version(), '5.7', '>='))
+			else
 			{
 				$this->_mysqli->options(MYSQLI_INIT_COMMAND,
 					'SET SESSION sql_mode =
