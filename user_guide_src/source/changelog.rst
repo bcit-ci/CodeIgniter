@@ -11,7 +11,11 @@ Release Date: Not Released
 
    -  Updated :doc:`Security Library <libraries/security>` method ``get_random_bytes()`` to use PHP 7's ``random_bytes()`` function when possible.
    -  Updated :doc:`Encryption Library <libraries/security>` method ``create_key()`` to use PHP 7's ``random_bytes()`` function when possible.
-   -  Updated :doc:`Database <database/index>` drivers 'oci8' and 'pdo/oci' with support for ``OFFSET-FETCH`` with Oracle 12c.
+
+-  :doc:`Database <database/index>`
+
+   -  Added support for ``OFFSET-FETCH`` with Oracle 12c for the 'oci8' and 'pdo/oci' drivers.
+   -  Added support for the new ``MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT`` constant from `PHP 5.6.16 <https://secure.php.net/ChangeLog-5.php#5.6.16>`_ for the 'mysqli' driver.
 
 Bug fixes for 3.0.4
 -------------------
@@ -46,7 +50,7 @@ Release Date: October 31, 2015
    -  Changed :doc:`Config Library <libraries/config>` method ``base_url()`` to fallback to ``$_SERVER['SERVER_ADDR']`` when ``$config['base_url']`` is empty in order to avoid *Host* header injections.
    -  Changed :doc:`CAPTCHA Helper <helpers/captcha_helper>` to use the operating system's PRNG when possible.
 
--  Database
+-  :doc:`Database`
 
    -  Optimized :doc:`Database Utility <database/utilities>` method ``csv_from_result()`` for speed with larger result sets.
    -  Added proper return values to :doc:`Database Transactions <database/transactions>` method ``trans_start()``.

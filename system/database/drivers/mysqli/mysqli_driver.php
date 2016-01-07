@@ -153,9 +153,22 @@ class CI_DB_mysqli_driver extends CI_DB {
 
 			if ( ! empty($ssl))
 			{
-				if ( ! empty($this->encrypt['ssl_verify']) && defined('MYSQLI_OPT_SSL_VERIFY_SERVER_CERT'))
+				if (isset($this->encrypt['ssl_verify']))
 				{
-					$this->_mysqli->options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, TRUE);
+					if ($this->encrypt['ssl_verify'])
+					{
+						defined('MYSQLI_OPT_SSL_VERIFY_SERVER_CERT') && $this->_mysqli->options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, TRUE);
+					}
+					// Apparently (when it exists), setting MYSQLI_OPT_SSL_VERIFY_SERVER_CERT
+					// to FALSE didn't do anything, so PHP 5.6.16 introduced yet another
+					// constant ...
+					//
+					// https://secure.php.net/ChangeLog-5.php#5.6.16
+					// https://bugs.php.net/bug.php?id=68344
+					elseif (defined('MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT'))
+					{
+						$this->_mysqli->options(MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT, TRUE);
+					}
 				}
 
 				$client_flags |= MYSQLI_CLIENT_SSL;
