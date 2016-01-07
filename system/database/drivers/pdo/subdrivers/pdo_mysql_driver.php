@@ -139,7 +139,7 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 			{
 				$sql = 'CONCAT(@@sql_mode, ",", "STRICT_ALL_TABLES")';
 			}
-			elseif (version_compare($this->version, '5.7', '>='))
+			elseif (version_compare($this->version(), '5.7', '>='))
 			{
 				$sql = 'REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
                                         @@sql_mode,
