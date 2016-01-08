@@ -360,14 +360,6 @@ class CI_Pagination {
 			unset($params['attributes']);
 		}
 
-		// Deprecated legacy support for the anchor_class option
-		// Should be removed in CI 3.1+
-		if (isset($params['anchor_class']))
-		{
-			empty($params['anchor_class']) OR $attributes['class'] = $params['anchor_class'];
-			unset($params['anchor_class']);
-		}
-
 		foreach ($params as $key => $val)
 		{
 			if (property_exists($this, $key))

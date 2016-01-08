@@ -14,19 +14,6 @@ class File_helper_Test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
-	public function test_read_file()
-	{
-		$this->assertFalse(read_file('does_not_exist'));
-
-		$content = 'Jack and Jill went up the mountain to fight a billy goat.';
-
-		$file = vfsStream::newFile('my_file.txt')->withContent($content)->at($this->_test_dir);
-
-		$this->assertEquals($content, read_file(vfsStream::url('my_file.txt')));
-	}
-
-	// --------------------------------------------------------------------
-
 	public function test_octal_permissions()
 	{
 		$content = 'Jack and Jill went up the mountain to fight a billy goat.';

@@ -22,26 +22,13 @@ class String_helper_test extends CI_TestCase {
 		$this->assertEquals($expected, strip_slashes($str));
 	}
 
-	public function test_trim_slashes()
-	{
-		$strs = array(
-			'//Slashes//\/'	=> 'Slashes//\\',
-			'/var/www/html/'	=> 'var/www/html'
-		);
-
-		foreach ($strs as $str => $expect)
-		{
-			$this->assertEquals($expect, trim_slashes($str));
-		}
-	}
-
 	// --------------------------------------------------------------------
 
 	public function test_strip_quotes()
 	{
 		$strs = array(
 			'"me oh my!"'		=> 'me oh my!',
-			"it's a winner!"	=> 'its a winner!',
+			"it's a winner!"	=> 'its a winner!'
 		);
 
 		foreach ($strs as $str => $expect)
@@ -56,7 +43,7 @@ class String_helper_test extends CI_TestCase {
 	{
 		$strs = array(
 			'"me oh my!"'		=> '&quot;me oh my!&quot;',
-			"it's a winner!"	=> 'it&#39;s a winner!',
+			"it's a winner!"	=> 'it&#39;s a winner!'
 		);
 
 		foreach ($strs as $str => $expect)
@@ -103,23 +90,6 @@ class String_helper_test extends CI_TestCase {
 		foreach ($strs as $str => $expect)
 		{
 			$this->assertEquals($expect, reduce_multiples($str, ',', TRUE));
-		}
-	}
-
-	// --------------------------------------------------------------------
-
-	public function test_repeater()
-	{
-		$strs = array(
-			'a'			=> 'aaaaaaaaaa',
-			'&nbsp;'	=> '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-			'<br>'		=> '<br><br><br><br><br><br><br><br><br><br>'
-
-		);
-
-		foreach ($strs as $str => $expect)
-		{
-			$this->assertEquals($expect, repeater($str, 10));
 		}
 	}
 

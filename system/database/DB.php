@@ -156,13 +156,6 @@ function &DB($params = '', $query_builder_override = NULL)
 	{
 		$query_builder = $query_builder_override;
 	}
-	// Backwards compatibility work-around for keeping the
-	// $active_record config variable working. Should be
-	// removed in v3.1
-	elseif ( ! isset($query_builder) && isset($active_record))
-	{
-		$query_builder = $active_record;
-	}
 
 	require_once(BASEPATH.'database/DB_driver.php');
 
