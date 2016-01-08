@@ -461,12 +461,12 @@ The following functions are available:
 	fourth parameter::
 
 		$js = 'onClick="some_function()"';
-		echo form_checkbox('newsletter', 'accept', TRUE, $js)
+		echo form_checkbox('newsletter', 'accept', TRUE, $js);
 
 	Or you can pass it as an array::
 
 		$js = array('onClick' => 'some_function();');
-		echo form_checkbox('newsletter', 'accept', TRUE, $js)
+		echo form_checkbox('newsletter', 'accept', TRUE, $js);
 
 
 .. php:function:: form_radio([$data = ''[, $value = ''[, $checked = FALSE[, $extra = '']]]])
