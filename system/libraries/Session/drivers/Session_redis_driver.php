@@ -265,7 +265,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 				if ($this->_redis->ping() === '+PONG')
 				{
 					isset($this->_lock_key) && $this->_redis->delete($this->_lock_key);
-					if ( ! $this->_redis->close())
+					if ($this->_redis->close() === $this->_failure)
 					{
 						return $this->_failure;
 					}
@@ -337,7 +337,10 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	 */
 	protected function _get_lock($session_id)
 	{
-		if (isset($this->_lock_key))
+		// PHP 7 reuses the SessionHandler object on regeneration,
+		// so we need to check here if the lock key is for the
+		// correct session ID.
+		if ($this->_lock_key === $this->_key_prefix.$session_id.':lock')
 		{
 			return $this->_redis->setTimeout($this->_lock_key, 300);
 		}

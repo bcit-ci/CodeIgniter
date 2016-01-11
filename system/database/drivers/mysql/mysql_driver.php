@@ -84,7 +84,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 *
 	 * @var	bool
 	 */
-	public $stricton = FALSE;
+	public $stricton;
 
 	// --------------------------------------------------------------------
 
@@ -156,9 +156,26 @@ class CI_DB_mysql_driver extends CI_DB {
 				return ($this->db->debug) ? $this->display_error('db_unable_to_set_charset', $this->char_set) : FALSE;
 			}
 
-			if ($this->stricton)
+			if (isset($this->stricton))
 			{
-				$this->simple_query('SET SESSION sql_mode="STRICT_ALL_TABLES"');
+				if ($this->stricton)
+				{
+					$this->simple_query('SET SESSION sql_mode = CONCAT(@@sql_mode, ",", "STRICT_ALL_TABLES")');
+				}
+				else
+				{
+					$this->simple_query(
+						'SET SESSION sql_mode =
+						REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+						@@sql_mode,
+						"STRICT_ALL_TABLES,", ""),
+						",STRICT_ALL_TABLES", ""),
+						"STRICT_ALL_TABLES", ""),
+						"STRICT_TRANS_TABLES,", ""),
+						",STRICT_TRANS_TABLES", ""),
+						"STRICT_TRANS_TABLES", "")'
+					);
+				}
 			}
 
 			return $this->conn_id;

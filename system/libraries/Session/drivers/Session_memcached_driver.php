@@ -300,7 +300,10 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 	 */
 	protected function _get_lock($session_id)
 	{
-		if (isset($this->_lock_key))
+		// PHP 7 reuses the SessionHandler object on regeneration,
+		// so we need to check here if the lock key is for the
+		// correct session ID.
+		if ($this->_lock_key === $this->_key_prefix.$session_id.':lock')
 		{
 			return ($this->_memcached->replace($this->_lock_key, time(), 300))
 				? $this->_success

@@ -147,6 +147,9 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	{
 		if ($this->_get_lock($session_id) !== FALSE)
 		{
+			// Prevent previous QB calls from messing with our queries
+			$this->_db->reset_query();
+
 			// Needed by write() to detect session_regenerate_id() calls
 			$this->_session_id = $session_id;
 
@@ -199,6 +202,9 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	 */
 	public function write($session_id, $session_data)
 	{
+		// Prevent previous QB calls from messing with our queries
+		$this->_db->reset_query();
+
 		// Was the ID regenerated?
 		if ($session_id !== $this->_session_id)
 		{
@@ -287,6 +293,9 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	{
 		if ($this->_lock)
 		{
+			// Prevent previous QB calls from messing with our queries
+			$this->_db->reset_query();
+
 			$this->_db->where('id', $session_id);
 			if ($this->_config['match_ip'])
 			{
@@ -299,7 +308,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 			}
 		}
 
-		if ($this->close())
+		if ($this->close() === $this->_success)
 		{
 			$this->_cookie_destroy();
 			return $this->_success;
@@ -320,6 +329,9 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	 */
 	public function gc($maxlifetime)
 	{
+		// Prevent previous QB calls from messing with our queries
+		$this->_db->reset_query();
+
 		return ($this->_db->delete($this->_config['save_path'], 'timestamp < '.(time() - $maxlifetime)))
 			? $this->_success
 			: $this->_failure;
