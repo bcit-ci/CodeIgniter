@@ -229,7 +229,7 @@ class Form_validation_test extends CI_TestCase {
 	public function test_rule_valid_url()
 	{
 		$this->assertTrue($this->form_validation->valid_url('www.codeigniter.com'));
-		$this->assertTrue($this->form_validation->valid_url('http://codeigniter.eu'));
+		$this->assertTrue($this->form_validation->valid_url('http://codeigniter.com'));
 
 		$this->assertFalse($this->form_validation->valid_url('htt://www.codeIgniter.com'));
 		$this->assertFalse($this->form_validation->valid_url(''));
