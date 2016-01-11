@@ -286,7 +286,7 @@ The following functions are available:
 		// Generates:  <meta name="description" content="My Great Site" />
 
 		echo meta('Content-type', 'text/html; charset=utf-8', 'equiv');
-		// Note the third parameter.  Can be "equiv" or "name"
+		// Note the third parameter.  Can be "charset", "http-equiv", "name" or "property"
 		// Generates:  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 
 		echo meta(array('name' => 'robots', 'content' => 'no-cache'));
@@ -310,8 +310,8 @@ The following functions are available:
 				'content' => 'no-cache'
 			),
 			array(
-				'name' => 'Content-type',
-				'content' => 'text/html; charset=utf-8', 'type' => 'equiv'
+				'name' => 'UTF-8',
+				'type' => 'charset'
 			)
 		);
 
@@ -321,21 +321,21 @@ The following functions are available:
 		// <meta name="description" content="My Great Site" />
 		// <meta name="keywords" content="love, passion, intrigue, deception" />
 		// <meta name="robots" content="no-cache" />
-		// <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+		// <meta charset="UTF-8" />
 
 
-.. php:function:: doctype([$type = 'xhtml1-strict'])
+.. php:function:: doctype([$type = 'html5'])
 
 	:param	string	$type: Doctype name
 	:returns:	HTML DocType tag
 	:rtype:	string
 
-	Helps you generate document type declarations, or DTD's. XHTML 1.0
-	Strict is used by default, but many doctypes are available.
+	Helps you generate document type declarations, or DTD's. HTML 5
+	is used by default, but many doctypes are available.
 
 	Example::
 
-		echo doctype(); // <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+		echo doctype(); // <!DOCTYPE html>
 
 		echo doctype('html4-trans'); // <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 
