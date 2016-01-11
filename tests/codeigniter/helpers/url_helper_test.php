@@ -39,8 +39,8 @@ class Url_helper_test extends CI_TestCase {
 
 	public function test_prep_url()
 	{
-		$this->assertEquals('http://codeigniter.com', prep_url('codeigniter.com'));
-		$this->assertEquals('http://www.codeigniter.com', prep_url('www.codeigniter.com'));
+		$this->assertEquals('http://somewhere.com', prep_url('somewhere.com'));
+		$this->assertEquals('http://www.somewhere.com', prep_url('www.somewhere.com'));
 	}
 
 	// --------------------------------------------------------------------
@@ -53,7 +53,7 @@ class Url_helper_test extends CI_TestCase {
 			'<br />www.google.com' => '<br /><a href="http://www.google.com">www.google.com</a>',
 			'Download CodeIgniter at www.codeigniter.com. Period test.' => 'Download CodeIgniter at <a href="http://www.codeigniter.com">www.codeigniter.com</a>. Period test.',
 			'Download CodeIgniter at www.codeigniter.com, comma test' => 'Download CodeIgniter at <a href="http://www.codeigniter.com">www.codeigniter.com</a>, comma test',
-			'This one: ://codeigniter.com must not break this one: http://codeigniter.com' => 'This one: <a href="://codeigniter.com">://codeigniter.com</a> must not break this one: <a href="http://codeigniter.com">http://codeigniter.com</a>'
+			'This one: ://codeigniter.com must not break this one: https://codeigniter.com' => 'This one: <a href="://codeigniter.com">://codeigniter.com</a> must not break this one: <a href="https://codeigniter.com">https://codeigniter.com</a>'
 		);
 
 		foreach ($strings as $in => $out)

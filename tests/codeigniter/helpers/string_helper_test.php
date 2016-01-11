@@ -70,7 +70,7 @@ class String_helper_test extends CI_TestCase {
 	public function test_reduce_double_slashes()
 	{
 		$strs = array(
-			'http://codeigniter.com'		=> 'http://codeigniter.com',
+			'https://codeigniter.com'		=> 'https://codeigniter.com',
 			'//var/www/html/example.com/'	=> '/var/www/html/example.com/',
 			'/var/www/html//index.php'		=> '/var/www/html/index.php'
 		);
