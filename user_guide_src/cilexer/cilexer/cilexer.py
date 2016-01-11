@@ -25,7 +25,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
-# Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
+# Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
 # Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
 #
 # http://opensource.org/licenses/MIT	MIT License
