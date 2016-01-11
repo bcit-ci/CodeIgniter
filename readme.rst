@@ -16,7 +16,7 @@ Release Information
 
 This repo contains in-development code for future releases. To download the
 latest stable release please visit the `CodeIgniter Downloads
-<http://www.codeigniter.com/download>`_ page.
+<https://codeigniter.com/download>`_ page.
 
 **************************
 Changelog and New Features
@@ -39,7 +39,7 @@ issues, as well as missing features.
 Installation
 ************
 
-Please see the `installation section <http://www.codeigniter.com/user_guide/installation/index.html>`_
+Please see the `installation section <https://codeigniter.com/user_guide/installation/index.html>`_
 of the CodeIgniter User Guide.
 
 *******
@@ -53,7 +53,7 @@ agreement <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/so
 Resources
 *********
 
--  `User Guide <http://www.codeigniter.com/docs>`_
+-  `User Guide <https://codeigniter.com/docs>`_
 -  `Language File Translations <https://github.com/bcit-ci/codeigniter3-translations>`_
 -  `Community Forums <http://forum.codeigniter.com/>`_
 -  `Community Wiki <https://github.com/bcit-ci/CodeIgniter/wiki>`_

@@ -1,5 +1,5 @@
 # CodeIgniter
-# http://codeigniter.com
+# https://codeigniter.com
 # 
 # An open source application development framework for PHP
 # 

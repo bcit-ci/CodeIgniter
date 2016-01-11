@@ -2,7 +2,7 @@
 	"description": "The CodeIgniter framework",
 	"name": "codeigniter/framework",
 	"type": "project",
-	"homepage": "http://codeigniter.com",
+	"homepage": "https://codeigniter.com",
 	"license": "MIT",
 	"support": {
 		"forum": "http://forum.codeigniter.com/",
