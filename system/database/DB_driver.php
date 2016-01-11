@@ -641,19 +641,15 @@ abstract class CI_DB_driver {
 				// if transactions are enabled. If we don't call this here
 				// the error message will trigger an exit, causing the
 				// transactions to remain in limbo.
-				if ($this->_trans_depth !== 0)
+				while ($this->_trans_depth !== 0)
 				{
-					do
+					$trans_depth = $this->_trans_depth;
+					$this->trans_complete();
+					if ($trans_depth === $this->_trans_depth)
 					{
-						$trans_depth = $this->_trans_depth;
-						$this->trans_complete();
-						if ($trans_depth === $this->_trans_depth)
-						{
-							log_message('error', 'Database: Failure during an automated transaction commit/rollback!');
-							break;
-						}
+						log_message('error', 'Database: Failure during an automated transaction commit/rollback!');
+						break;
 					}
-					while ($this->_trans_depth !== 0);
 				}
 
 				// Display errors
