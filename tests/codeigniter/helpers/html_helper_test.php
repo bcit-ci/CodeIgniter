@@ -81,16 +81,24 @@ EOH;
 
 	public function test_meta()
 	{
-		$this->assertEquals("<meta name=\"test\" content=\"foo\" />\n", meta('test', 'foo'));
+		$this->assertEquals(
+			"<meta name=\"test\" content=\"foo\" />\n",
+			meta('test', 'foo')
+		);
 
-		$expect = "<meta name=\"foo\" content=\"\" />\n";
+		$this->assertEquals(
+			"<meta name=\"foo\" content=\"\" />\n",
+			meta(array('name' => 'foo'))
+		);
 
-		$this->assertEquals($expect, meta(array('name' => 'foo')));
+		$this->assertEquals(
+			"<meta charset=\"foo\" />\n",
+			meta(array('name' => 'foo', 'type' => 'charset'))
+		);
 
-		$expect = "<meta charset=\"foo\" />\n";
-
-		$this->assertEquals($expect, meta(array('name' => 'foo', 'type' => 'charset')));
-
+		$this->assertEquals(
+			"<meta charset=\"foo\" />\n",
+			meta(array('name' => 'foo', 'type' => 'charset'))
+		);
 	}
-
 }
