@@ -2,6 +2,25 @@
 Change Log
 ##########
 
+Version 3.1.0
+=============
+
+Release Date: Not Released
+
+-  Libraries
+
+   -  Added UNIX socket connection support to :doc:`Session Library <libraries/sessions>` 'redis' driver.
+
+-  Database
+
+   -  Changed method ``initialize()`` to return void and instead throw a ``RuntimeException`` in case of failure.
+   -  Changed method ``db_connect()`` to always set the connection character set (if supported by the driver) and to fail if it can't.
+   -  Removed method ``db_set_charset()`` and the ability to change a connection character set at runtime.
+
+-  Helpers
+
+   -  Updated :doc:`HTML Helper <helpers/html_helper>` function :php:func:`meta()` with support for "charset" and "property" properties.
+
 Version 3.0.4
 =============
 

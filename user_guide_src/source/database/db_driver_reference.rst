@@ -17,8 +17,8 @@ This article is intended to be a reference for them.
 
 	.. php:method:: initialize()
 
-		:returns:	TRUE on success, FALSE on failure
-		:rtype:	bool
+		:rtype:	void
+		:throws:	RuntimeException	In case of failure
 
 		Initialize database settings, establish a connection to
 		the database.
@@ -60,14 +60,6 @@ This article is intended to be a reference for them.
 		:rtype:	bool
 
 		Select / switch the current database.
-
-	.. php:method:: db_set_charset($charset)
-
-		:param	string	$charset: Character set name
-		:returns:	TRUE on success, FALSE on failure
-		:rtype:	bool
-
-		Set client character set.
 
 	.. php:method:: platform()
 

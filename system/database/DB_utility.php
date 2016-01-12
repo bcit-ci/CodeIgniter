@@ -235,13 +235,8 @@ abstract class CI_DB_utility {
 	 * @param	string	$enclosure	Enclosure (default: ")
 	 * @return	string
 	 */
-	public function csv_from_result($query, $delim = ',', $newline = "\n", $enclosure = '"')
+	public function csv_from_result(CI_DB_result $query, $delim = ',', $newline = "\n", $enclosure = '"')
 	{
-		if ( ! is_object($query) OR ! method_exists($query, 'list_fields'))
-		{
-			show_error('You must submit a valid result object');
-		}
-
 		$out = '';
 		// First generate the headings from the table column names
 		foreach ($query->list_fields() as $name)
@@ -274,13 +269,8 @@ abstract class CI_DB_utility {
 	 * @param	array	$params	Any preferences
 	 * @return	string
 	 */
-	public function xml_from_result($query, $params = array())
+	public function xml_from_result(CI_DB_result $query, $params = array())
 	{
-		if ( ! is_object($query) OR ! method_exists($query, 'list_fields'))
-		{
-			show_error('You must submit a valid result object');
-		}
-
 		// Set our default values
 		foreach (array('root' => 'root', 'element' => 'element', 'newline' => "\n", 'tab' => "\t") as $key => $val)
 		{
