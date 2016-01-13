@@ -21,10 +21,16 @@ Release Date: Not Released
 
    -  Updated :doc:`HTML Helper <helpers/html_helper>` function :php:func:`meta()` with support for "charset" and "property" properties.
 
-Version 3.0.4
+Version 3.0.5
 =============
 
 Release Date: Not Released
+
+
+Version 3.0.4
+=============
+
+Release Date: January 13, 2016
 
 -  General Changes
 
@@ -72,7 +78,7 @@ Release Date: October 31, 2015
    -  Changed :doc:`Config Library <libraries/config>` method ``base_url()`` to fallback to ``$_SERVER['SERVER_ADDR']`` when ``$config['base_url']`` is empty in order to avoid *Host* header injections.
    -  Changed :doc:`CAPTCHA Helper <helpers/captcha_helper>` to use the operating system's PRNG when possible.
 
--  :doc:`Database`
+-  :doc:`Database <database/index>`
 
    -  Optimized :doc:`Database Utility <database/utilities>` method ``csv_from_result()`` for speed with larger result sets.
    -  Added proper return values to :doc:`Database Transactions <database/transactions>` method ``trans_start()``.
