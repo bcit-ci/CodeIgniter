@@ -2,10 +2,16 @@
 Change Log
 ##########
 
-Version 3.0.4
+Version 3.0.5
 =============
 
 Release Date: Not Released
+
+
+Version 3.0.4
+=============
+
+Release Date: January 13, 2016
 
 -  General Changes
 
