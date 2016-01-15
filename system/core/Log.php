@@ -154,8 +154,8 @@ class CI_Log {
 	 *
 	 * Generally this function will be called using the global log_message() function
 	 *
-	 * @param	string	the error level: 'error', 'debug' or 'info'
-	 * @param	string	the error message
+	 * @param	string	$level 	The error level: 'error', 'debug' or 'info'
+	 * @param	string	$msg 	The error message
 	 * @return	bool
 	 */
 	public function write_log($level, $msg)
@@ -204,7 +204,7 @@ class CI_Log {
 			$date = date($this->_date_fmt);
 		}
 
-		$message .= $this->_format_log_line($level, $date, $msg);
+		$message .= $this->_format_line($level, $date, $msg);
 
 		flock($fp, LOCK_EX);
 
@@ -227,6 +227,8 @@ class CI_Log {
 		return is_int($result);
 	}
 
+	// --------------------------------------------------------------------
+
 	/**
 	 * Format the log line.
 	 *
@@ -234,13 +236,13 @@ class CI_Log {
 	 * If you want to change the log format,
 	 * extend the CI_Log class and override this method.
 	 *
-	 * @param	string	the error level: 'error', 'debug' or 'info'
-	 * @param	string	formatted date string
-	 * @param	string	the log message
+	 * @param	string	$level 	The error level
+	 * @param	string	$date 	Formatted date string
+	 * @param	string	$msg 	The log message
 	 * @return	string	formatted log line with a new line character '\n' at the end.
 	 */
-	protected function _format_log_line($level, $date, $msg)
+	protected function _format_line($level, $date, $message)
 	{
-		return $level.' - '.$date.' --> '.$msg."\n";
+		return $level.' - '.$date.' --> '.$message."\n";
 	}
 }
