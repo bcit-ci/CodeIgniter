@@ -34,8 +34,8 @@ $platforms = array(
 	'iphone'			=> 'iOS',
 	'ipad'				=> 'iOS',
 	'ipod'				=> 'iOS',
-	'os x'				=> 'Mac OS X',
-	'ppc mac'			=> 'Power PC Mac',
+	'os x'				=> 'OS X',
+	'ppc mac'			=> 'PowerPC Mac',
 	'freebsd'			=> 'FreeBSD',
 	'ppc'				=> 'Macintosh',
 	'linux'				=> 'Linux',
@@ -54,7 +54,6 @@ $platforms = array(
 	'unix'				=> 'Unknown Unix OS',
 	'symbian' 			=> 'Symbian OS'
 );
-
 
 // The order of this array should NOT be changed. Many browsers return
 // multiple browser types so we want to identify the sub-type first.
