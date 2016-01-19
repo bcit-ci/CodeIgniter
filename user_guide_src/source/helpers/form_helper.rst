@@ -243,6 +243,162 @@ The following functions are available:
 	function above except that it uses the "password" input type.
 
 
+.. php:function:: form_color([$data = ''[, $value = ''[, $extra = '']]])
+
+	:param	array	$data: Field attributes data
+	:param	string	$value: Field value
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
+	:returns:	An HTML color input field tag
+	:rtype:	string
+
+	This function is identical in all respects to the :php:func:`form_input()`
+	function above except that it uses the "color" input type.
+
+
+.. php:function:: form_date([$data = ''[, $value = ''[, $extra = '']]])
+
+	:param	array	$data: Field attributes data
+	:param	string	$value: Field value
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
+	:returns:	An HTML date input field tag
+	:rtype:	string
+
+	This function is identical in all respects to the :php:func:`form_input()`
+	function above except that it uses the "date" input type.
+
+
+.. php:function:: form_datetime([$data = ''[, $value = ''[, $extra = '']]])
+
+	:param	array	$data: Field attributes data
+	:param	string	$value: Field value
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
+	:returns:	An HTML datetime input field tag
+	:rtype:	string
+
+	This function is identical in all respects to the :php:func:`form_input()`
+	function above except that it uses the "datetime" input type.
+
+
+.. php:function:: form_datetime_local([$data = ''[, $value = ''[, $extra = '']]])
+
+	:param	array	$data: Field attributes data
+	:param	string	$value: Field value
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
+	:returns:	An HTML datetime-local input field tag
+	:rtype:	string
+
+	This function is identical in all respects to the :php:func:`form_input()`
+	function above except that it uses the "datetime-local" input type.
+
+
+.. php:function:: form_email([$data = ''[, $value = ''[, $extra = '']]])
+
+	:param	array	$data: Field attributes data
+	:param	string	$value: Field value
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
+	:returns:	An HTML email input field tag
+	:rtype:	string
+
+	This function is identical in all respects to the :php:func:`form_input()`
+	function above except that it uses the "email" input type.
+
+
+.. php:function:: form_month([$data = ''[, $value = ''[, $extra = '']]])
+
+	:param	array	$data: Field attributes data
+	:param	string	$value: Field value
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
+	:returns:	An HTML month input field tag
+	:rtype:	string
+
+	This function is identical in all respects to the :php:func:`form_input()`
+	function above except that it uses the "month" input type.
+
+
+.. php:function:: form_number([$data = ''[, $value = ''[, $extra = '']]])
+
+	:param	array	$data: Field attributes data
+	:param	string	$value: Field value
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
+	:returns:	An HTML number input field tag
+	:rtype:	string
+
+	This function is identical in all respects to the :php:func:`form_input()`
+	function above except that it uses the "number" input type.
+
+
+.. php:function:: form_range([$data = ''[, $value = ''[, $extra = '']]])
+
+	:param	array	$data: Field attributes data
+	:param	string	$value: Field value
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
+	:returns:	An HTML range input field tag
+	:rtype:	string
+
+	This function is identical in all respects to the :php:func:`form_input()`
+	function above except that it uses the "range" input type.
+
+
+.. php:function:: form_search([$data = ''[, $value = ''[, $extra = '']]])
+
+	:param	array	$data: Field attributes data
+	:param	string	$value: Field value
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
+	:returns:	An HTML search input field tag
+	:rtype:	string
+
+	This function is identical in all respects to the :php:func:`form_input()`
+	function above except that it uses the "search" input type.
+
+
+.. php:function:: form_tel([$data = ''[, $value = ''[, $extra = '']]])
+
+	:param	array	$data: Field attributes data
+	:param	string	$value: Field value
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
+	:returns:	An HTML tel input field tag
+	:rtype:	string
+
+	This function is identical in all respects to the :php:func:`form_input()`
+	function above except that it uses the "tel" input type.
+
+
+.. php:function:: form_time([$data = ''[, $value = ''[, $extra = '']]])
+
+	:param	array	$data: Field attributes data
+	:param	string	$value: Field value
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
+	:returns:	An HTML time input field tag
+	:rtype:	string
+
+	This function is identical in all respects to the :php:func:`form_input()`
+	function above except that it uses the "time" input type.
+
+
+.. php:function:: form_url([$data = ''[, $value = ''[, $extra = '']]])
+
+	:param	array	$data: Field attributes data
+	:param	string	$value: Field value
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
+	:returns:	An HTML url input field tag
+	:rtype:	string
+
+	This function is identical in all respects to the :php:func:`form_input()`
+	function above except that it uses the "url" input type.
+
+
+.. php:function:: form_week([$data = ''[, $value = ''[, $extra = '']]])
+
+	:param	array	$data: Field attributes data
+	:param	string	$value: Field value
+	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
+	:returns:	An HTML week input field tag
+	:rtype:	string
+
+	This function is identical in all respects to the :php:func:`form_input()`
+	function above except that it uses the "week" input type.
+
+
 .. php:function:: form_upload([$data = ''[, $value = ''[, $extra = '']]])
 
 	:param	array	$data: Field attributes data
