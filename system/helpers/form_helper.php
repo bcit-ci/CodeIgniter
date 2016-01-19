@@ -236,6 +236,292 @@ if ( ! function_exists('form_password'))
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('form_color'))
+{
+	/**
+	 * Password Field
+	 *
+	 * Identical to the input function but adds the "color" type
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	mixed
+	 * @return	string
+	 */
+	function form_color($data = '', $value = '', $extra = '')
+	{
+		is_array($data) OR $data = array('name' => $data);
+		$data['type'] = 'color';
+		return form_input($data, $value, $extra);
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('form_date'))
+{
+	/**
+	 * Password Field
+	 *
+	 * Identical to the input function but adds the "date" type
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	mixed
+	 * @return	string
+	 */
+	function form_date($data = '', $value = '', $extra = '')
+	{
+		is_array($data) OR $data = array('name' => $data);
+		$data['type'] = 'date';
+		return form_input($data, $value, $extra);
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('form_datetime'))
+{
+	/**
+	 * Password Field
+	 *
+	 * Identical to the input function but adds the "datetime" type
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	mixed
+	 * @return	string
+	 */
+	function form_datetime($data = '', $value = '', $extra = '')
+	{
+		is_array($data) OR $data = array('name' => $data);
+		$data['type'] = 'datetime';
+		return form_input($data, $value, $extra);
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('form_datetime_local'))
+{
+	/**
+	 * Password Field
+	 *
+	 * Identical to the input function but adds the "datetime-local" type
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	mixed
+	 * @return	string
+	 */
+	function form_datetime_local($data = '', $value = '', $extra = '')
+	{
+		is_array($data) OR $data = array('name' => $data);
+		$data['type'] = 'datetime-local';
+		return form_input($data, $value, $extra);
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('form_email'))
+{
+	/**
+	 * Password Field
+	 *
+	 * Identical to the input function but adds the "email" type
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	mixed
+	 * @return	string
+	 */
+	function form_email($data = '', $value = '', $extra = '')
+	{
+		is_array($data) OR $data = array('name' => $data);
+		$data['type'] = 'email';
+		return form_input($data, $value, $extra);
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('form_month'))
+{
+	/**
+	 * Password Field
+	 *
+	 * Identical to the input function but adds the "month" type
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	mixed
+	 * @return	string
+	 */
+	function form_month($data = '', $value = '', $extra = '')
+	{
+		is_array($data) OR $data = array('name' => $data);
+		$data['type'] = 'month';
+		return form_input($data, $value, $extra);
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('form_number'))
+{
+	/**
+	 * Password Field
+	 *
+	 * Identical to the input function but adds the "number" type
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	mixed
+	 * @return	string
+	 */
+	function form_number($data = '', $value = '', $extra = '')
+	{
+		is_array($data) OR $data = array('name' => $data);
+		$data['type'] = 'number';
+		return form_input($data, $value, $extra);
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('form_range'))
+{
+	/**
+	 * Password Field
+	 *
+	 * Identical to the input function but adds the "range" type
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	mixed
+	 * @return	string
+	 */
+	function form_range($data = '', $value = '', $extra = '')
+	{
+		is_array($data) OR $data = array('name' => $data);
+		$data['type'] = 'range';
+		return form_input($data, $value, $extra);
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('form_search'))
+{
+	/**
+	 * Password Field
+	 *
+	 * Identical to the input function but adds the "search" type
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	mixed
+	 * @return	string
+	 */
+	function form_search($data = '', $value = '', $extra = '')
+	{
+		is_array($data) OR $data = array('name' => $data);
+		$data['type'] = 'search';
+		return form_input($data, $value, $extra);
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('form_tel'))
+{
+	/**
+	 * Password Field
+	 *
+	 * Identical to the input function but adds the "tel" type
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	mixed
+	 * @return	string
+	 */
+	function form_tel($data = '', $value = '', $extra = '')
+	{
+		is_array($data) OR $data = array('name' => $data);
+		$data['type'] = 'tel';
+		return form_input($data, $value, $extra);
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('form_time'))
+{
+	/**
+	 * Password Field
+	 *
+	 * Identical to the input function but adds the "time" type
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	mixed
+	 * @return	string
+	 */
+	function form_time($data = '', $value = '', $extra = '')
+	{
+		is_array($data) OR $data = array('name' => $data);
+		$data['type'] = 'time';
+		return form_input($data, $value, $extra);
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('form_url'))
+{
+	/**
+	 * Password Field
+	 *
+	 * Identical to the input function but adds the "url" type
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	mixed
+	 * @return	string
+	 */
+	function form_url($data = '', $value = '', $extra = '')
+	{
+		is_array($data) OR $data = array('name' => $data);
+		$data['type'] = 'url';
+		return form_input($data, $value, $extra);
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('form_week'))
+{
+	/**
+	 * Password Field
+	 *
+	 * Identical to the input function but adds the "week" type
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	mixed
+	 * @return	string
+	 */
+	function form_week($data = '', $value = '', $extra = '')
+	{
+		is_array($data) OR $data = array('name' => $data);
+		$data['type'] = 'week';
+		return form_input($data, $value, $extra);
+	}
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('form_upload'))
 {
 	/**
