@@ -11,6 +11,7 @@ Bug fixes for 3.0.5
 -------------------
 
 -  Fixed a bug (#4391) - :doc:`Email Library <libraries/email>` method ``reply_to()`` didn't apply Q-encoding.
+-  Fixed a bug (#4384) - :doc:`Pagination Library <libraries/pagination>` ignored (possible) *cur_page* configuration value.
 
 Version 3.0.4
 =============
