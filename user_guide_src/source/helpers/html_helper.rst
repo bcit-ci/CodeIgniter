@@ -330,18 +330,18 @@ The following functions are available:
 		// <meta charset="UTF-8" />
 
 
-.. php:function:: doctype([$type = 'xhtml1-strict'])
+.. php:function:: doctype([$type = 'html5'])
 
 	:param	string	$type: Doctype name
 	:returns:	HTML DocType tag
 	:rtype:	string
 
-	Helps you generate document type declarations, or DTD's. XHTML 1.0
+	Helps you generate document type declarations, or DTD's. HTML 5
 	is used by default, but many doctypes are available.
 
 	Example::
 
-		echo doctype(); // <!DOCTYPE PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+		echo doctype(); // <!DOCTYPE html>
 
 		echo doctype('html4-trans'); // <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 
