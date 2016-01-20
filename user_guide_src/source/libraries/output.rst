@@ -199,11 +199,11 @@ Class Reference
 
 	.. php:method:: cache($time)
 
-		:param	int	$time: Cache expiration time in seconds
+		:param	int	$time: Cache expiration time in minutes
 		:returns:	CI_Output instance (method chaining)
 		:rtype:	CI_Output
 
-		Caches the current page for the specified amount of seconds.
+		Caches the current page for the specified amount of minutes.
 
 		For more information, please see the :doc:`caching documentation <../general/caching>`.
 
