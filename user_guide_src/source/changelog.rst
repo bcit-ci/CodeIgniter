@@ -20,6 +20,7 @@ Release Date: Not Released
 -  Helpers
 
    -  Updated :doc:`HTML Helper <helpers/html_helper>` function :php:func:`meta()` with support for "charset" and "property" properties.
+   -  Changed :doc:`HTML Helper <helpers/html_helper>` function :php:func:`doctype()` default document type to HTML 5.
 
 Version 3.0.5
 =============

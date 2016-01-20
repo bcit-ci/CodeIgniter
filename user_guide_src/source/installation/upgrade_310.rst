@@ -57,3 +57,16 @@ method would now only be to change the connection character set at runtime.
 That doesn't make sense and that's the reason why most database drivers
 don't support it at all.
 Thus, ``db_set_charset()`` is no longer necessary and is removed.
+
+Step 3: Check usage of doctype() HTML helper
+============================================
+
+The :doc:`HTML Helper <../helpers/html_helper>` function
+:php:func:`doctype()` used to default to 'xhtml1-strict' (XHTML 1.0 Strict)
+when no document type was specified. That default value is now changed to
+'html5', which obviously stands for the modern HTML 5 standard.
+
+Nothing should be really broken by this change, but if your application
+relies on the default value, you should double-check it and either
+explicitly set the desired format, or adapt your front-end to use proper
+HTML 5 formatting.
