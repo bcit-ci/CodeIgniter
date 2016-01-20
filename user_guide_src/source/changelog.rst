@@ -7,6 +7,10 @@ Version 3.0.5
 
 Release Date: Not Released
 
+Bug fixes for 3.0.5
+-------------------
+
+-  Fixed a bug (#4391) - :doc:`Email Library <libraries/email>` method ``reply_to()`` didn't apply Q-encoding.
 
 Version 3.0.4
 =============
