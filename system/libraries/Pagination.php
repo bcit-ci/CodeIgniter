@@ -512,7 +512,7 @@ class CI_Pagination {
 			{
 				$this->cur_page = str_replace(array($this->prefix, $this->suffix), '', $this->cur_page);
 			}
-		} 
+		}
 		else
 		{
 			$this->cur_page = (string) $this->cur_page;
