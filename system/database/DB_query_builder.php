@@ -1379,13 +1379,27 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->from($table);
 		}
 
-		$result = ($this->qb_distinct === TRUE OR ! empty($this->qb_orderby))
+		// ORDER BY usage is often problematic here (most notably
+		// on Microsoft SQL Server) and ultimately unnecessary
+		// for selecting COUNT(*) ...
+		if ( ! empty($this->qb_orderby))
+		{
+			$orderby = $this->qb_orderby;
+			$this->qb_orderby = NULL;
+		}
+
+		$result = ($this->qb_distinct === TRUE)
 			? $this->query($this->_count_string.$this->protect_identifiers('numrows')."\nFROM (\n".$this->_compile_select()."\n) CI_count_all_results")
 			: $this->query($this->_compile_select($this->_count_string.$this->protect_identifiers('numrows')));
 
 		if ($reset === TRUE)
 		{
 			$this->_reset_select();
+		}
+		// If we've previously reset the qb_orderby values, get them back
+		elseif ( ! isset($this->qb_orderby))
+		{
+			$this->qb_orderby = $orderby;
 		}
 
 		if ($result->num_rows() === 0)
