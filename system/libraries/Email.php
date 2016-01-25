@@ -574,14 +574,18 @@ class CI_Email {
 			$this->validate_email($this->_str_to_array($replyto));
 		}
 
-		if ($name === '')
+		if ($name !== '')
 		{
-			$name = $replyto;
-		}
-
-		if (strpos($name, '"') !== 0)
-		{
-			$name = '"'.$name.'"';
+			// only use Q encoding if there are characters that would require it
+			if ( ! preg_match('/[\200-\377]/', $name))
+			{
+				// add slashes for non-printing characters, slashes, and double quotes, and surround it in double quotes
+				$name = '"'.addcslashes($name, "\0..\37\177'\"\\").'"';
+			}
+			else
+			{
+				$name = $this->_prep_q_encoding($name);
+			}
 		}
 
 		$this->set_header('Reply-To', $name.' <'.$replyto.'>');
