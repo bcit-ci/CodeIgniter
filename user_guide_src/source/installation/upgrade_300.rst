@@ -65,7 +65,7 @@ Step 3: Replace config/mimes.php
 ********************************
 
 This config file has been updated to contain more user mime-types, please copy
-it to **application/config/mimes.php**.
+it to *application/config/mimes.php*.
 
 **************************************************************
 Step 4: Remove $autoload['core'] from your config/autoload.php
@@ -82,8 +82,8 @@ The Log Class is considered as a "core" class and is now located in the
 **system/core/** directory. Therefore, in order for your Log class overrides
 or extensions to work, you need to move them to **application/core/**:
 
-	application/libraries/Log.php -> application/core/Log.php  
-	application/libraries/MY_Log.php -> application/core/MY_Log.php
+	- application/libraries/Log.php -> application/core/Log.php
+	- application/libraries/MY_Log.php -> application/core/MY_Log.php
 
 *****************************************
 Step 6: Update your Session library usage
@@ -206,13 +206,13 @@ Step 8: Replace your error templates
 ************************************
 
 In CodeIgniter 3.0, the error templates are now considered as views and have been moved to the
-**application/views/errors** directory.
+*application/views/errors* directory.
 
 Furthermore, we've added support for CLI error templates in plain-text format that unlike HTML,
 is suitable for the command line. This of course requires another level of separation.
 
-It is safe to move your old templates from **application/errors** to **application/views/errors/html**,
-but you'll have to copy the new **application/views/errors/cli** directory from the CodeIgniter archive.
+It is safe to move your old templates from *application/errors* to *application/views/errors/html*,
+but you'll have to copy the new *application/views/errors/cli* directory from the CodeIgniter archive.
 
 ******************************************
 Step 9: Update your config/routes.php file
