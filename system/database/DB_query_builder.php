@@ -1458,20 +1458,26 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	bool	$escape	Whether to escape values and identifiers
 	 * @return	int	Number of rows inserted or FALSE on failure
 	 */
-	public function insert_batch($table = '', $set = NULL, $escape = NULL)
+	public function insert_batch($table, $set = NULL, $escape = NULL)
 	{
-		if ($set !== NULL)
+		if ($set === NULL)
 		{
+			if (empty($this->qb_set))
+			{
+				return ($this->db_debug) ? $this->display_error('db_must_use_set') : FALSE;
+			}
+		}
+		else
+		{
+			if (empty($set))
+			{
+				return ($this->db_debug) ? $this->display_error('insert_batch() called with no data') : FALSE;
+			}
+
 			$this->set_insert_batch($set, '', $escape);
 		}
 
-		if (count($this->qb_set) === 0)
-		{
-			// No valid data array. Folds in cases where keys and values did not match up
-			return ($this->db_debug) ? $this->display_error('db_must_use_set') : FALSE;
-		}
-
-		if ($table === '')
+		if (strlen($table) === 0)
 		{
 			if ( ! isset($this->qb_from[0]))
 			{
@@ -1859,7 +1865,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	string	the where key
 	 * @return	int	number of rows affected or FALSE on failure
 	 */
-	public function update_batch($table = '', $set = NULL, $index = NULL)
+	public function update_batch($table, $set = NULL, $index = NULL)
 	{
 		// Combine any cached components with the current statements
 		$this->_merge_cache();
@@ -1869,17 +1875,24 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			return ($this->db_debug) ? $this->display_error('db_must_use_index') : FALSE;
 		}
 
-		if ($set !== NULL)
+		if ($set === NULL)
 		{
+			if (empty($this->qb_set))
+			{
+				return ($this->db_debug) ? $this->display_error('db_must_use_set') : FALSE;
+			}
+		}
+		else
+		{
+			if (empty($set))
+			{
+				return ($this->db_debug) ? $this->display_error('update_batch() called with no data') : FALSE;
+			}
+
 			$this->set_update_batch($set, $index);
 		}
 
-		if (count($this->qb_set) === 0)
-		{
-			return ($this->db_debug) ? $this->display_error('db_must_use_set') : FALSE;
-		}
-
-		if ($table === '')
+		if (strlen($table) === 0)
 		{
 			if ( ! isset($this->qb_from[0]))
 			{

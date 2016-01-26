@@ -13,6 +13,7 @@ Bug fixes for 3.0.5
 -  Fixed a bug (#4391) - :doc:`Email Library <libraries/email>` method ``reply_to()`` didn't apply Q-encoding.
 -  Fixed a bug (#4384) - :doc:`Pagination Library <libraries/pagination>` ignored (possible) *cur_page* configuration value.
 -  Fixed a bug (#4395) - :doc:`Query Builder <database/query_builder>` method ``count_all_results()`` still fails if an ``ORDER BY`` condition is used.
+-  Fixed a bug (#4399) - :doc:`Query Builder <database/query_builder>` methods ``insert_batch()``, ``update_batch()`` produced confusing error messages when called with no data and *db_debug* is enabled.
 
 Version 3.0.4
 =============
