@@ -155,5 +155,5 @@ could even alias git commit to use the -s flag so you don’t have to think abou
 it.
 
 By signing your work in this manner, you certify to a "Developer's Certificate
-or Origin". The current version of this certificate is in the :doc:`/DCO` file
+of Origin". The current version of this certificate is in the :doc:`/DCO` file
 in the root of this documentation.
