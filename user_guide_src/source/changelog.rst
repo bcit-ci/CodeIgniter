@@ -16,6 +16,7 @@ Bug fixes for 3.0.5
 -  Fixed a bug (#4399) - :doc:`Query Builder <database/query_builder>` methods ``insert_batch()``, ``update_batch()`` produced confusing error messages when called with no data and *db_debug* is enabled.
 -  Fixed a bug (#4401) - :doc:`Query Builder <database/query_builder>` breaks ``WHERE`` and ``HAVING`` conditions that use ``IN()`` with strings containing a closing parenthesis.
 -  Fixed a regression in :doc:`Form Helper <helpers/form_helper>` functions :php:func:`set_checkbox()`, :php:func:`set_radio()` where "checked" inputs aren't recognized after a form submit.
+-  Fixed a bug (#4407) - :doc:`Text Helper <helpers/text_helper>` function :php:func:`word_censor()` doesn't work under PHP 7 if there's no custom replacement provided.
 
 Version 3.0.4
 =============
