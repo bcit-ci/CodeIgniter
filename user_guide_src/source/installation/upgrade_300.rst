@@ -222,7 +222,7 @@ Routes containing :any
 ======================
 
 Historically, CodeIgniter has always provided the **:any** wildcard in
-routing, with the intention of providing a way to match any characters
+routing, with the intention of providing a way to match any character
 **within** an URI segment.
 
 However, the **:any** wildcard is actually just an alias for a regular
@@ -865,7 +865,7 @@ tag ``<mark>``.
 Unless you've used your own highlighting tags, this might cause trouble
 for your visitors who use older web browsers such as Internet Explorer 8.
 We therefore suggest that you add the following code to your CSS files
-for backward compatibility with old browsers::
+for backwards compatibility with old browsers::
 
 	mark {
 		background: #ff0;
