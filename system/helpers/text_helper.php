@@ -287,7 +287,7 @@ if ( ! function_exists('word_censor'))
 			elseif (preg_match_all("/{$delim}(".$badword."){$delim}/i", $str, $matches, PREG_PATTERN_ORDER | PREG_OFFSET_CAPTURE))
 			{
 				$matches = $matches[1];
-				for ($i = count($matches); $i >= 0; $i--)
+				for ($i = count($matches) - 1; $i >= 0; $i--)
 				{
 					$length = strlen($matches[$i][0]);
 					$str = substr_replace(
