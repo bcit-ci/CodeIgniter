@@ -79,8 +79,8 @@ class Text_helper_test extends CI_TestCase {
 			'Ted bobbled the ball' 			=> 'Ted bobbled the ball',
 			'Jake is a nerdo'				=> 'Jake is a nerdo',
 			'The borg will assimilate you'	=> 'The borg will assimilate you',
-			'Did Mary Fart?'				=> 'Did Mary $*#?',
-			'Jake is really a boob'			=> 'Jake is really a $*#'
+			'Did Mary Fart?'				=> 'Did Mary $*#$*#$*#$*#?',
+			'Jake is really a boob'			=> 'Jake is really a $*#$*#$*#$*#'
 		);
 
 		foreach ($strs as $str => $expect)
