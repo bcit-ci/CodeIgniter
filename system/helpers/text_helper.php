@@ -258,7 +258,7 @@ if ( ! function_exists('word_censor'))
 	 * @param	string	the optional replacement value
 	 * @return	string
 	 */
-	function word_censor($str, $censored, $replacement = '')
+	function word_censor($str, $censored, $replacement = '#')
 	{
 		if ( ! is_array($censored))
 		{
@@ -275,14 +275,7 @@ if ( ! function_exists('word_censor'))
 
 		foreach ($censored as $badword)
 		{
-			if ($replacement !== '')
-			{
-				$str = preg_replace("/({$delim})(".str_replace('\*', '\w*?', preg_quote($badword, '/')).")({$delim})/i", "\\1{$replacement}\\3", $str);
-			}
-			else
-			{
-				$str = preg_replace("/({$delim})(".str_replace('\*', '\w*?', preg_quote($badword, '/')).")({$delim})/ie", "'\\1'.str_repeat('#', strlen('\\2')).'\\3'", $str);
-			}
+			$str = preg_replace("/({$delim})(".str_replace('\*', '\w*?', preg_quote($badword, '/')).")({$delim})/ie", "'\\1'.str_repeat('$replacement', strlen('\\2')).'\\3'", $str);
 		}
 
 		return trim($str);
