@@ -97,7 +97,7 @@ Additionally, the following key/values can be used:
 -  auto_increment/true : generates an auto_increment flag on the
    field. Note that the field type must be a type that supports this,
    such as integer.
--  unique/false : to generate a unique key for the field definition.
+-  unique/true : to generate a unique key for the field definition.
 
 ::
 
