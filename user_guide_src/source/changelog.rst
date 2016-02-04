@@ -7,6 +7,11 @@ Version 3.0.5
 
 Release Date: Not Released
 
+-  :doc:`Query Builder <database/query_builder>`
+
+   -  Added a ``$batch_size`` parameter to the ``insert_batch()`` method (defaults to 100).
+   -  Added a ``$batch_size`` parameter to the ``update_batch()`` method (defaults to 100).
+
 Bug fixes for 3.0.5
 -------------------
 
