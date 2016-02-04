@@ -532,6 +532,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		is_bool($escape) OR $escape = $this->_protect_identifiers;
 
 		// Split multiple conditions
+		$regex = "/([\(\)\[\]\w\.'-]+)(\s*[^\(\"\[`'\w]+\s*)(.+)/i";
+		
 		if ($escape === TRUE && preg_match_all('/\sAND\s|\sOR\s/i', $cond, $m, PREG_OFFSET_CAPTURE))
 		{
 			$newcond = '';
@@ -543,7 +545,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			{
 				$temp = substr($cond, $s, ($m[0][$i][1] - $s));
 
-				$newcond .= preg_match("/([\[\]\w\.'-]+)(\s*[^\"\[`'\w]+\s*)(.+)/i", $temp, $match)
+				$newcond .= preg_match($regex, $temp, $match)
 						? $this->protect_identifiers($match[1]).$match[2].$this->protect_identifiers($match[3])
 						: $temp;
 
@@ -553,7 +555,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$cond = ' ON '.$newcond;
 		}
 		// Split apart the condition and protect the identifiers
-		elseif ($escape === TRUE && preg_match("/([\[\]\w\.'-]+)(\s*[^\"\[`'\w]+\s*)(.+)/i", $cond, $match))
+		elseif ($escape === TRUE && preg_match($regex, $cond, $match))
 		{
 			$cond = ' ON '.$this->protect_identifiers($match[1]).$match[2].$this->protect_identifiers($match[3]);
 		}
