@@ -1731,7 +1731,7 @@ abstract class CI_DB_driver {
 	 * the table prefix onto it. Some logic is necessary in order to deal with
 	 * column names that include the path. Consider a query like this:
 	 *
-	 * SELECT * FROM hostname.database.table.column AS c FROM hostname.database.table
+	 * SELECT hostname.database.table.column AS c FROM hostname.database.table
 	 *
 	 * Or a query with aliasing:
 	 *
