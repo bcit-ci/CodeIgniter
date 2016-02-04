@@ -171,6 +171,14 @@ if ( ! function_exists('create_captcha'))
 				$byte_index = $word_index = 0;
 				while ($word_index < $word_length)
 				{
+					if (! isset($bytes[$byte_index]))
+					{
+						if (($bytes = $security->get_random_bytes($pool_length)) === FALSE)
+						{
+							break;
+						}
+						$byte_index = 0;
+					}
 					list(, $rand_index) = unpack('C', $bytes[$byte_index++]);
 					if ($rand_index > $rand_max)
 					{
