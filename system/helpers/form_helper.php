@@ -878,6 +878,31 @@ if ( ! function_exists('form_error'))
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('is_error'))
+{
+	/**
+	 * Is error
+	 *
+	 * Returns true or false whether there is an error for the specified field or not
+	 *
+	 * @param  string
+	 * @return bool
+	 */
+	function is_error($field)
+	{
+		if (FALSE === ($OBJ =& _get_validation_object()))
+		{
+			return '';
+		}
+
+		$error = $OBJ->error($field, null, null);
+
+		return !empty($error);
+	}
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('validation_errors'))
 {
 	/**
