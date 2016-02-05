@@ -198,16 +198,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 
 			$session_data = $this->_redis->get($this->_key_prefix.$session_id);
 
-			if ($session_data === FALSE)
-			{
-				// The session ID does not exist in redis yet, so set a flag to create it
-				$this->_key_exists = FALSE;
-				$session_data = '';
-			}
-			else
-			{
-				$this->_key_exists = TRUE;
-			}
+			is_string($session_data) && $this->_key_exists = TRUE;
 
 			$this->_fingerprint = md5($session_data);
 			return $session_data;
