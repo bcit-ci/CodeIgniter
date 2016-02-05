@@ -72,7 +72,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	/**
 	 * Key exists flag
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $_key_exists = FALSE;
 
@@ -204,6 +204,10 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 				$this->_key_exists = FALSE;
 				$session_data = '';
 			}
+			else
+			{
+				$this->_key_exists = TRUE;
+			}
 
 			$this->_fingerprint = md5($session_data);
 			return $session_data;
@@ -237,7 +241,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 				return $this->_failure;
 			}
 
-			$this->_fingerprint = md5('');
+			$this->_key_exists = FALSE;
 			$this->_session_id = $session_id;
 		}
 
@@ -249,6 +253,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 				if ($this->_redis->set($this->_key_prefix.$session_id, $session_data, $this->_config['expiration']))
 				{
 					$this->_fingerprint = $fingerprint;
+					$this->_key_exists = TRUE;
 					return $this->_success;
 				}
 
