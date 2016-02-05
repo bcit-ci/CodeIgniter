@@ -69,6 +69,13 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	 */
 	protected $_lock_key;
 
+	/**
+	 * Key exists flag
+	 *
+	 * @var boolean
+	 */
+	protected $_key_exists = FALSE;
+
 	// ------------------------------------------------------------------------
 
 	/**
@@ -189,7 +196,15 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 			// Needed by write() to detect session_regenerate_id() calls
 			$this->_session_id = $session_id;
 
-			$session_data = (string) $this->_redis->get($this->_key_prefix.$session_id);
+			$session_data = $this->_redis->get($this->_key_prefix.$session_id);
+
+			if ($session_data === FALSE)
+			{
+				// The session ID does not exist in redis yet, so set a flag to create it
+				$this->_key_exists = FALSE;
+				$session_data = '';
+			}
+
 			$this->_fingerprint = md5($session_data);
 			return $session_data;
 		}
@@ -229,7 +244,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 		if (isset($this->_lock_key))
 		{
 			$this->_redis->setTimeout($this->_lock_key, 300);
-			if ($this->_fingerprint !== ($fingerprint = md5($session_data)))
+			if ($this->_fingerprint !== ($fingerprint = md5($session_data)) OR $this->_key_exists === FALSE)
 			{
 				if ($this->_redis->set($this->_key_prefix.$session_id, $session_data, $this->_config['expiration']))
 				{
