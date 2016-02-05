@@ -240,15 +240,9 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 				return $this->_failure;
 			}
 
-			if($this->_fingerprint === md5(''))
-			{
-				// A blank session will not be written to redis, so a timeout cannot be set on it
-				return $this->_success;
-			} else {
-				return ($this->_redis->setTimeout($this->_key_prefix.$session_id, $this->_config['expiration']))
-					? $this->_success
-					: $this->_failure;
-			}
+			return ($this->_redis->setTimeout($this->_key_prefix.$session_id, $this->_config['expiration']))
+				? $this->_success
+				: $this->_failure;
 		}
 
 		return $this->_failure;
