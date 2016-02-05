@@ -198,7 +198,9 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 
 			$session_data = $this->_redis->get($this->_key_prefix.$session_id);
 
-			is_string($session_data) && $this->_key_exists = TRUE;
+			is_string($session_data)
+				? $this->_key_exists = TRUE
+				: $session_data = '';
 
 			$this->_fingerprint = md5($session_data);
 			return $session_data;
