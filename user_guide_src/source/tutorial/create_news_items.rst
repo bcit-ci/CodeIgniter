@@ -14,7 +14,7 @@ To input data into the database you need to create a form where you can
 input the information to be stored. This means you'll be needing a form
 with two fields, one for the title and one for the text. You'll derive
 the slug from our title in the model. Create the new view at
-application/views/news/create.php.
+*application/views/news/create.php*.
 
 ::
 
@@ -35,7 +35,7 @@ application/views/news/create.php.
     </form>
 
 There are only two things here that probably look unfamiliar to you: the
-form_open() function and the validation_errors() function.
+``form_open()`` function and the ``validation_errors()`` function.
 
 The first function is provided by the :doc:`form
 helper <../helpers/form_helper>` and renders the form element and
@@ -76,7 +76,7 @@ validation <../libraries/form_validation>` library to do this.
 
 The code above adds a lot of functionality. The first few lines load the
 form helper and the form validation library. After that, rules for the
-form validation are set. The set\_rules() method takes three arguments;
+form validation are set. The ``set\_rules()`` method takes three arguments;
 the name of the input field, the name to be used in error messages, and
 the rule. In this case the title and text fields are required.
 
@@ -88,7 +88,7 @@ Continuing down, you can see a condition that checks whether the form
 validation ran successfully. If it did not, the form is displayed, if it
 was submitted **and** passed all the rules, the model is called. After
 this, a view is loaded to display a success message. Create a view at
-application/views/news/success.php and write a success message.
+*application/views/news/success.php* and write a success message.
 
 Model
 -----
@@ -123,19 +123,19 @@ sure everything is in lowercase characters. This leaves you with a nice
 slug, perfect for creating URIs.
 
 Let's continue with preparing the record that is going to be inserted
-later, inside the $data array. Each element corresponds with a column in
+later, inside the ``$data`` array. Each element corresponds with a column in
 the database table created earlier. You might notice a new method here,
-namely the post() method from the :doc:`input
+namely the ``post()`` method from the :doc:`input
 library <../libraries/input>`. This method makes sure the data is
 sanitized, protecting you from nasty attacks from others. The input
-library is loaded by default. At last, you insert our $data array into
+library is loaded by default. At last, you insert our ``$data`` array into
 our database.
 
 Routing
 -------
 
 Before you can start adding news items into your CodeIgniter application
-you have to add an extra rule to config/routes.php file. Make sure your
+you have to add an extra rule to *config/routes.php* file. Make sure your
 file contains the following. This makes sure CodeIgniter sees 'create'
 as a method instead of a news item's slug.
 
