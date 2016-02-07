@@ -119,14 +119,47 @@ class CI_DB_mysql_result extends CI_DB_result {
 	 */
 	public function field_data()
 	{
-		$retval = array();
-		for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
+	$retval = array();
+		while ($field = mysql_fetch_object($this->result_id))
 		{
-			$retval[$i]			= new stdClass();
-			$retval[$i]->name		= mysql_field_name($this->result_id, $i);
-			$retval[$i]->type		= mysql_field_type($this->result_id, $i);
-			$retval[$i]->max_length		= mysql_field_len($this->result_id, $i);
-			$retval[$i]->primary_key	= (int) (strpos(mysql_field_flags($this->result_id, $i), 'primary_key') !== FALSE);
+			preg_match('/([a-zA-Z]+)(\(\d+\))?/', $field->Type, $matches);
+			$type = (array_key_exists(1, $matches)) ? $matches[1] : NULL;
+			$length = (array_key_exists(2, $matches)) ? preg_replace('/[^\d]/', '', $matches[2]) : NULL;
+			/*
+			Tanggal revisi 2 Februari 2015
+			Oleh Lukman Hakim
+			Menambahkan properties baru Enum yang berisi data di enumerasi
+			*/
+			if($type=='enum')
+			{
+				$enum=$field->Type;
+				$values="";
+				$stack="";
+    			$off = strpos($enum,"(");
+    			$enum = substr($enum, $off+1, strlen($enum)-$off-2);
+    			$values = explode(",",$enum);
+				$stack[0]=Count($values);
+	
+    			for( $n = 1; $n <= Count($values); $n++) 
+				{
+    			$val = substr( $values[$n-1], 1,strlen($values[$n-1])-2);
+    			$val = str_replace("''","'",$val);
+    			$stack[$n]=$val;
+     			}
+			}
+
+////////
+
+
+			$F				= new stdClass();
+			$F->name		= $field->Field;
+			$F->type		= $type;
+			$F->default		= $field->Default;
+			$F->max_length	= $length;
+			$F->primary_key = ( $field->Key == 'PRI' ? 1 : 0 );
+		 $F->enum= $stack;
+
+			$retval[] = $F;
 		}
 
 		return $retval;
