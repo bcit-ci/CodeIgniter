@@ -75,6 +75,13 @@ abstract class CI_DB_forge {
 	public $primary_keys	= array();
 
 	/**
+	 * Foreign keys.
+	 *
+	 * @var array Foreign keys.
+	 */
+	public $foreign_keys = array();
+
+	/**
 	 * Database character set
 	 *
 	 * @var	string
@@ -270,6 +277,44 @@ abstract class CI_DB_forge {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Add foreign key.
+	 *
+	 * @param string $key              Key index name.
+	 * @param string $reference_table  Reference table.
+	 * @param string $reference_column Reference column.
+	 * @param string $on_update        On update.
+	 * @param string $on_delete        On delete.
+	 *
+	 * @return CI_DB_forge Database forge.
+	 */
+	public function add_foreign_key($key, $reference_table, $reference_column, $on_update = 'NO ACTION', $on_delete = 'NO ACTION')
+	{
+		$foreign_key = array(
+			'key'              => $key,
+			'reference_table'  => $reference_table,
+			'reference_column' => $reference_column
+		);
+
+		if ( ! empty($on_update))
+		{
+			$on_update = 'NO ACTION';
+		}
+		if ( ! empty($on_delete))
+		{
+			$on_delete = 'NO ACTION';
+		}
+
+		$foreign_key['on_update'] = strtoupper($on_update);
+		$foreign_key['on_delete'] = strtoupper($on_delete);
+
+		$this->foreign_keys[] = $foreign_key;
+
+		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Add Field
 	 *
 	 * @param	array	$field
@@ -401,7 +446,8 @@ abstract class CI_DB_forge {
 		}
 
 		$columns = implode(',', $columns)
-				.$this->_process_primary_keys($table);
+		           . $this->_process_primary_keys($table)
+		           . $this->_process_foreign_keys($table);
 
 		// Are indexes created from within the CREATE TABLE statement? (e.g. in MySQL)
 		if ($this->_create_table_keys === TRUE)
@@ -969,6 +1015,30 @@ abstract class CI_DB_forge {
 		{
 			$sql .= ",\n\tCONSTRAINT ".$this->db->escape_identifiers('pk_'.$table)
 				.' PRIMARY KEY('.implode(', ', $this->db->escape_identifiers($this->primary_keys)).')';
+		}
+
+		return $sql;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Process foreign keys.
+	 *
+	 * @param string $table Table name.
+	 *
+	 * @return string SQL.
+	 */
+	protected function _process_foreign_keys($table)
+	{
+		$sql = '';
+
+		foreach ($this->foreign_keys as $foreign_key)
+		{
+			$sql .= PHP_EOL . 'CONSTRAINT' . $this->db->escape_identifiers('fk_' . $foreign_key['key'])
+			        . ' FOREIGN KEY (' . $this->db->escape_identifiers($foreign_key['key']) . ')' . 'REFERENCES '
+			        . $this->db->escape_identifiers($foreign_key['reference_table']) . ' ('
+			        . $this->db->escape_identifiers($foreign_key['reference_column']) . ')';
 		}
 
 		return $sql;

@@ -187,6 +187,21 @@ below is for MySQL.
 	// gives KEY `blog_name_blog_label` (`blog_name`, `blog_label`)
 
 
+Adding Foreign Keys
+===================
+
+You may want your table to have Foreign Keys. This is accomplished with $this->dbforge->add_foreign_key('field',
+'reference_table', 'reference_field'). An optional fourth and fifth parameters set the on update and on delete. Note
+that add_foreign_key() must be followed by a call to create_table().
+
+Sample output below is for MySQL.
+
+::
+
+	$this->dbforge->add_foreign_key('site_id', 'sites', 'site_id');
+	// gives FOREIGN KEY `site_id` REFERENCES `sites` (`site_id`);
+
+
 Creating a table
 ================
 
@@ -346,6 +361,19 @@ Class Reference
 		:rtype:	CI_DB_forge
 
 		Adds a key to the set that will be used to create a table. Usage:  See `Adding Keys`_.
+
+	.. php:method:: add_foreign_key($key, $reference_table, $reference_column[, $on_update = 'NO ACTION'[, $on_delete
+= 'NO ACTION']])
+
+		:param	string	$key: Name of key field.
+		:param	string	$reference_table: Name of reference table.
+		:param	string	$reference_column: Name of reference field.
+		:param	string	$on_update: On update.
+		:param	string	$on_delete: On delete.
+		:returns: CI_DB_forge instance (method chaining).
+		:rtype: CI_DB_forge
+
+		Adds a foreign key to the set that will be used to create a table. Usage: See `Adding_Foreign_Keys`_.
 
 	.. php:method:: create_database($db_name)
 
