@@ -232,14 +232,13 @@ class CI_Log {
 	/**
 	 * Format the log line.
 	 *
-	 * This is for extensibility of log formatting.
-	 * If you want to change the log format,
-	 * extend the CI_Log class and override this method.
+	 * This is for extensibility of log formatting
+	 * If you want to change the log format, extend the CI_Log class and override this method
 	 *
 	 * @param	string	$level 	The error level
 	 * @param	string	$date 	Formatted date string
 	 * @param	string	$msg 	The log message
-	 * @return	string	formatted log line with a new line character '\n' at the end.
+	 * @return	string	Formatted log line with a new line character '\n' at the end
 	 */
 	protected function _format_line($level, $date, $message)
 	{
