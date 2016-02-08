@@ -27,6 +27,7 @@ Bug fixes for 3.0.5
 -  Fixed a bug (#4430) - :doc:`File Uploading Library <libraries/file_uploading>` option **file_ext_tolower** didn't work.
 -  Fixed a bug (#4431) - :doc:`Query Builder <database/query_builder>` method ``join()`` discarded opening parentheses.
 -  Fixed a bug (#4424) - :doc:`Session Library <libraries/sessions>` triggered a PHP warning when writing a newly created session with the 'redis' driver.
+-  Fixed a bug (#4437) - :doc:`Inflector Helper <helpers/inflector_helper>` function :php:func:`humanize()` didn't escape its ``$separator`` parameter while using it in a regular expression.
 
 Version 3.0.4
 =============
