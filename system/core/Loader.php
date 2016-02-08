@@ -1248,7 +1248,7 @@ class CI_Loader {
 		// Was a custom class name supplied? If so we'll use it
 		if (empty($object_name))
 		{
-			$object_name = strtolower($class);
+			$object_name = $class;
 			if (isset($this->_ci_varmap[$object_name]))
 			{
 				$object_name = $this->_ci_varmap[$object_name];
