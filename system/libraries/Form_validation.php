@@ -637,7 +637,7 @@ class CI_Form_validation {
 				// Set the message type
 				$type = in_array('required', $rules) ? 'required' : 'isset';
 
-				$line = $this->_get_raw_error_message($type, $row);
+				$line = $this->_get_error_message($type, $row["field"]);
 
 				// Build the error message
 				$message = $this->_build_error_msg($line, $this->_translate_fieldname($row['label']));
@@ -808,7 +808,7 @@ class CI_Form_validation {
 				}
 				else
 				{
-					$line = $this->_get_raw_error_message($rule, $row);
+					$line = $this->_get_error_message($rule, $row["field"]);
 				}
 
 				// Is the parameter we are inserting into the error message the name
@@ -839,40 +839,34 @@ class CI_Form_validation {
 	/**
 	 * Get the error message for the rule
 	 *
-	 * @param 	string the rule name.
-	 * @param 	array
+	 * @param 	string $rule 	The rule name
+	 * @param 	string $field
+	 *
 	 * @return 	string
 	 */
-	private function _get_raw_error_message($rule_name, $row)
+	protected function _get_error_message($rule, $field)
 	{
-		$error_message = '';
 		// check if a custom message is defined through validation config row.
-		if (isset($this->_field_data[$row['field']]['errors'][$rule_name]))
+		if (isset($this->_field_data[$field]['errors'][$rule]))
 		{
-			$error_message = $this->_field_data[$row['field']]['errors'][$rule_name];
+			return $this->_field_data[$field]['errors'][$rule];
 		}
 		// check if a custom message has been set using the set_message() function
-		elseif (isset($this->_error_messages[$rule_name]))
+		elseif (isset($this->_error_messages[$rule]))
 		{
-			$error_message = $this->_error_messages[$rule_name];
+			return $this->_error_messages[$rule];
 		}
-		// check if we have an error message in lang file
-		elseif (FALSE !== ($line_tmp = $this->CI->lang->line('form_validation_'.$rule_name)))
+		elseif (FALSE !== ($tmp = $this->CI->lang->line('form_validation_' . $rule)))
 		{
-			$error_message = $line_tmp;
+			return $tmp;
 		}
 		// DEPRECATED support for non-prefixed keys, lang file again
-		elseif (FALSE !== ($line_tmp = $this->CI->lang->line($rule_name, FALSE)))
+		elseif (FALSE !== ($tmp = $this->CI->lang->line($rule, FALSE)))
 		{
-			$error_message = $line_tmp;
-		}
-		// error message not found
-		else
-		{
-			$error_message = $this->CI->lang->line('form_validation_error_message_not_set').'('.$rule_name.')';
+			return $tmp;
 		}
 
-		return $error_message;
+		return $this->CI->lang->line('form_validation_error_message_not_set'). '(' . $rule . ')';
 	}
 
 	// --------------------------------------------------------------------
