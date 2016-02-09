@@ -1863,7 +1863,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	string	the table to retrieve the results from
 	 * @param	array	an associative array of update values
 	 * @param	string	the where key
-	 * @return	int	Number of rows affected or FALSE on failure
+	 * @return	int	number of rows affected or FALSE on failure
 	 */
 	public function update_batch($table, $set = NULL, $index = NULL)
 	{
