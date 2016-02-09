@@ -637,7 +637,7 @@ class CI_Form_validation {
 				// Set the message type
 				$type = in_array('required', $rules) ? 'required' : 'isset';
 
-				$line = $this->_get_error_message($type, $row["field"]);
+				$line = $this->_get_error_message($type, $row['field']);
 
 				// Build the error message
 				$message = $this->_build_error_msg($line, $this->_translate_fieldname($row['label']));
@@ -808,7 +808,7 @@ class CI_Form_validation {
 				}
 				else
 				{
-					$line = $this->_get_error_message($rule, $row["field"]);
+					$line = $this->_get_error_message($rule, $row['field']);
 				}
 
 				// Is the parameter we are inserting into the error message the name
@@ -840,8 +840,7 @@ class CI_Form_validation {
 	 * Get the error message for the rule
 	 *
 	 * @param 	string $rule 	The rule name
-	 * @param 	string $field
-	 *
+	 * @param 	string $field	The field name
 	 * @return 	string
 	 */
 	protected function _get_error_message($rule, $field)
@@ -856,7 +855,7 @@ class CI_Form_validation {
 		{
 			return $this->_error_messages[$rule];
 		}
-		elseif (FALSE !== ($tmp = $this->CI->lang->line('form_validation_' . $rule)))
+		elseif (FALSE !== ($tmp = $this->CI->lang->line('form_validation_'.$rule)))
 		{
 			return $tmp;
 		}
@@ -866,7 +865,7 @@ class CI_Form_validation {
 			return $tmp;
 		}
 
-		return $this->CI->lang->line('form_validation_error_message_not_set'). '(' . $rule . ')';
+		return $this->CI->lang->line('form_validation_error_message_not_set').'('.$rule.')';
 	}
 
 	// --------------------------------------------------------------------
