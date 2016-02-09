@@ -17,7 +17,7 @@ class Log_test extends CI_TestCase {
 		$enabled    = new ReflectionProperty('CI_Log', '_enabled');
 		$enabled->setAccessible(TRUE);
 
-                $this->ci_set_config('log_path', '/root/');
+		$this->ci_set_config('log_path', '/root/');
 		$this->ci_set_config('log_threshold', 'z');
 		$this->ci_set_config('log_date_format', 'd.m.Y');
 		$this->ci_set_config('log_file_extension', '');
