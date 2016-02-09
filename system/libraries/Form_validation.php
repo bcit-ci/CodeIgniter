@@ -1214,6 +1214,14 @@ class CI_Form_validation {
 			$str = $matches[2];
 		}
 
+		// PHP 7 accepts IPv6 addresses within square brackets as hostnames,
+		// but it appears that the PR that came in with https://bugs.php.net/bug.php?id=68039
+		// was never merged into a PHP 5 branch ... https://3v4l.org/8PsSN
+		if (preg_match('/^\[([^\]]+)\]/', $str, $matches) && ! is_php('7') && filter_var($matches[1], FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) !== FALSE)
+		{
+			$str = 'ipv6.host'.substr($str, strlen($matches[1]) + 2);
+		}
+
 		$str = 'http://'.$str;
 
 		// There's a bug affecting PHP 5.2.13, 5.3.2 that considers the

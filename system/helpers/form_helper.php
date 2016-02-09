@@ -791,7 +791,7 @@ if ( ! function_exists('set_checkbox'))
 		// Unchecked checkbox and radio inputs are not even submitted by browsers ...
 		if ($CI->input->method() === 'post')
 		{
-			return ($input === 'value') ? ' checked="checked"' : '';
+			return ($input === $value) ? ' checked="checked"' : '';
 		}
 
 		return ($default === TRUE) ? ' checked="checked"' : '';
@@ -843,7 +843,7 @@ if ( ! function_exists('set_radio'))
 		// Unchecked checkbox and radio inputs are not even submitted by browsers ...
 		if ($CI->input->method() === 'post')
 		{
-			return ($input === 'value') ? ' checked="checked"' : '';
+			return ($input === $value) ? ' checked="checked"' : '';
 		}
 
 		return ($default === TRUE) ? ' checked="checked"' : '';

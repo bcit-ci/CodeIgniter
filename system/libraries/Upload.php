@@ -526,6 +526,12 @@ class CI_Upload {
 			$this->file_name = preg_replace('/\s+/', '_', $this->file_name);
 		}
 
+		if ($this->file_ext_tolower && ($ext_length = strlen($this->file_ext)))
+		{
+			// file_ext was previously lower-cased by a get_extension() call
+			$this->file_name = substr($this->file_name, 0, -$ext_length).$this->file_ext;
+		}
+
 		/*
 		 * Validate the file name
 		 * This function appends an number onto the end of

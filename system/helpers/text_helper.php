@@ -275,13 +275,28 @@ if ( ! function_exists('word_censor'))
 
 		foreach ($censored as $badword)
 		{
+			$badword = str_replace('\*', '\w*?', preg_quote($badword, '/'));
 			if ($replacement !== '')
 			{
-				$str = preg_replace("/({$delim})(".str_replace('\*', '\w*?', preg_quote($badword, '/')).")({$delim})/i", "\\1{$replacement}\\3", $str);
+				$str = preg_replace(
+					"/({$delim})(".$badword.")({$delim})/i",
+					"\\1{$replacement}\\3",
+					$str
+				);
 			}
-			else
+			elseif (preg_match_all("/{$delim}(".$badword."){$delim}/i", $str, $matches, PREG_PATTERN_ORDER | PREG_OFFSET_CAPTURE))
 			{
-				$str = preg_replace("/({$delim})(".str_replace('\*', '\w*?', preg_quote($badword, '/')).")({$delim})/ie", "'\\1'.str_repeat('#', strlen('\\2')).'\\3'", $str);
+				$matches = $matches[1];
+				for ($i = count($matches) - 1; $i >= 0; $i--)
+				{
+					$length = strlen($matches[$i][0]);
+					$str = substr_replace(
+						$str,
+						str_repeat('#', $length),
+						$matches[$i][1],
+						$length
+					);
+				}
 			}
 		}
 
