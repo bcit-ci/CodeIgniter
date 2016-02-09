@@ -855,14 +855,14 @@ class CI_Form_validation {
 		{
 			return $this->_error_messages[$rule];
 		}
-		elseif (FALSE !== ($tmp = $this->CI->lang->line('form_validation_'.$rule)))
+		elseif (FALSE !== ($line = $this->CI->lang->line('form_validation_'.$rule)))
 		{
-			return $tmp;
+			return $line;
 		}
 		// DEPRECATED support for non-prefixed keys, lang file again
-		elseif (FALSE !== ($tmp = $this->CI->lang->line($rule, FALSE)))
+		elseif (FALSE !== ($line = $this->CI->lang->line($rule, FALSE)))
 		{
-			return $tmp;
+			return $line;
 		}
 
 		return $this->CI->lang->line('form_validation_error_message_not_set').'('.$rule.')';
