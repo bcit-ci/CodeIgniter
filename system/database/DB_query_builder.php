@@ -1456,7 +1456,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	string	$table	Table to insert into
 	 * @param	array	$set 	An associative array of insert values
 	 * @param	bool	$escape	Whether to escape values and identifiers
-	 * @return	int|bool	 Number of rows inserted or FALSE on failure
+	 * @return	int	Number of rows inserted or FALSE on failure
 	 */
 	public function insert_batch($table, $set = NULL, $escape = NULL)
 	{
@@ -1863,7 +1863,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	string	the table to retrieve the results from
 	 * @param	array	an associative array of update values
 	 * @param	string	the where key
-	 * @return	int|bool	 Number of rows affected or FALSE on failure
+	 * @return	int	Number of rows affected or FALSE on failure
 	 */
 	public function update_batch($table, $set = NULL, $index = NULL)
 	{
@@ -2114,7 +2114,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	mixed	the where clause
 	 * @param	mixed	the limit clause
 	 * @param	bool
-	 * @return	CI_DB_query_builder|bool    CI_DB_query_builder instance or FALSE on failure
+	 * @return	mixed
 	 */
 	public function delete($table = '', $where = '', $limit = NULL, $reset_data = TRUE)
 	{
