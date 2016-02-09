@@ -637,21 +637,7 @@ class CI_Form_validation {
 				// Set the message type
 				$type = in_array('required', $rules) ? 'required' : 'isset';
 
-				// Check if a custom message is defined
-				if (isset($this->_field_data[$row['field']]['errors'][$type]))
-				{
-					$line = $this->_field_data[$row['field']]['errors'][$type];
-				}
-				elseif (isset($this->_error_messages[$type]))
-				{
-					$line = $this->_error_messages[$type];
-				}
-				elseif (FALSE === ($line = $this->CI->lang->line('form_validation_'.$type))
-					// DEPRECATED support for non-prefixed keys
-					&& FALSE === ($line = $this->CI->lang->line($type, FALSE)))
-				{
-					$line = 'The field was not set';
-				}
+				$line = $this->_get_error_message($type, $row['field']);
 
 				// Build the error message
 				$message = $this->_build_error_msg($line, $this->_translate_fieldname($row['label']));
@@ -820,23 +806,9 @@ class CI_Form_validation {
 				{
 					$line = $this->CI->lang->line('form_validation_error_message_not_set').'(Anonymous function)';
 				}
-				// Check if a custom message is defined
-				elseif (isset($this->_field_data[$row['field']]['errors'][$rule]))
-				{
-					$line = $this->_field_data[$row['field']]['errors'][$rule];
-				}
-				elseif ( ! isset($this->_error_messages[$rule]))
-				{
-					if (FALSE === ($line = $this->CI->lang->line('form_validation_'.$rule))
-						// DEPRECATED support for non-prefixed keys
-						&& FALSE === ($line = $this->CI->lang->line($rule, FALSE)))
-					{
-						$line = $this->CI->lang->line('form_validation_error_message_not_set').'('.$rule.')';
-					}
-				}
 				else
 				{
-					$line = $this->_error_messages[$rule];
+					$line = $this->_get_error_message($rule, $row['field']);
 				}
 
 				// Is the parameter we are inserting into the error message the name
@@ -860,6 +832,40 @@ class CI_Form_validation {
 				return;
 			}
 		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get the error message for the rule
+	 *
+	 * @param 	string $rule 	The rule name
+	 * @param 	string $field	The field name
+	 * @return 	string
+	 */
+	protected function _get_error_message($rule, $field)
+	{
+		// check if a custom message is defined through validation config row.
+		if (isset($this->_field_data[$field]['errors'][$rule]))
+		{
+			return $this->_field_data[$field]['errors'][$rule];
+		}
+		// check if a custom message has been set using the set_message() function
+		elseif (isset($this->_error_messages[$rule]))
+		{
+			return $this->_error_messages[$rule];
+		}
+		elseif (FALSE !== ($tmp = $this->CI->lang->line('form_validation_'.$rule)))
+		{
+			return $tmp;
+		}
+		// DEPRECATED support for non-prefixed keys, lang file again
+		elseif (FALSE !== ($tmp = $this->CI->lang->line($rule, FALSE)))
+		{
+			return $tmp;
+		}
+
+		return $this->CI->lang->line('form_validation_error_message_not_set').'('.$rule.')';
 	}
 
 	// --------------------------------------------------------------------
