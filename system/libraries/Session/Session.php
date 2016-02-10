@@ -77,6 +77,7 @@ class CI_Session {
 		elseif ((bool) ini_get('session.auto_start'))
 		{
 			log_message('error', 'Session: session.auto_start is enabled in php.ini. Aborting.');
+			$this->_ci_init_vars();
 			return;
 		}
 		elseif ( ! empty($params['driver']))
