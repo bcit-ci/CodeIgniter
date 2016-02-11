@@ -211,7 +211,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 			{
 				if (
 					$this->_memcached->replace($key, $session_data, $this->_config['expiration'])
-					OR ($this->_memcached->getResultCode() === Memcached::RES_NOTSTORED && $this->_memcached->set($key, $session_data, $this->_config['expiration']))
+					OR ($this->_memcached->getResultCode() === Memcached::RES_NOTFOUND && $this->_memcached->set($key, $session_data, $this->_config['expiration']))
 				)
 				{
 					$this->_fingerprint = $fingerprint;
@@ -316,7 +316,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 		{
 			if ( ! $this->_memcached->replace($this->_lock_key, time(), 300))
 			{
-				return ($this->_memcached->getResultCode() === Memcached::RES_NOTSTORED)
+				return ($this->_memcached->getResultCode() === Memcached::RES_NOTFOUND)
 					? $this->_memcached->set($this->_lock_key, time(), 300)
 					: FALSE;
 			}
