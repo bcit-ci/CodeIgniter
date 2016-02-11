@@ -1,9 +1,13 @@
 <?php
-
 class Log_test extends CI_TestCase {
 
 	public function test_configuration()
 	{
+		if ( ! is_php('5.3'))
+		{
+			return $this->markTestSkipped("PHP 5.2 doesn't have ReflectionProperty::setAccessible() and can't run this test");
+		}
+
 		$path       = new ReflectionProperty('CI_Log', '_log_path');
 		$path->setAccessible(TRUE);
 		$threshold  = new ReflectionProperty('CI_Log', '_threshold');
@@ -50,6 +54,11 @@ class Log_test extends CI_TestCase {
 
 	public function test_format_line()
 	{
+		if ( ! is_php('5.3'))
+		{
+			return $this->markTestSkipped("PHP 5.2 doesn't have ReflectionProperty::setAccessible() and can't run this test");
+		}
+
 		$this->ci_set_config('log_path', '');
 		$this->ci_set_config('log_threshold', 0);
 		$instance = new CI_Log();
