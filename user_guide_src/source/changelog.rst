@@ -30,6 +30,7 @@ Bug fixes for 3.0.5
 -  Fixed a bug (#4437) - :doc:`Inflector Helper <helpers/inflector_helper>` function :php:func:`humanize()` didn't escape its ``$separator`` parameter while using it in a regular expression.
 -  Fixed a bug where :doc:`Session Library <libraries/sessions>` didn't properly handle its locks' statuses with the 'memcached' driver.
 -  Fixed a bug where :doc:`Session Library <libraries/sessions>` triggered a PHP warning when writing a newly created session with the 'memcached' driver.
+-  Fixed a bug (#4449) - :doc:`Query Builder <database/query_builder>` method ``join()`` breaks conditions containing ``IS NULL``, ``IS NOT NULL``.
 
 Version 3.0.4
 =============
