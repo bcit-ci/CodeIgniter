@@ -696,7 +696,7 @@ class CI_Loader {
 				}
 				else
 				{
-					$this->driver($key, $params, $value)
+					$this->driver($key, $params, $value);
 				}
 			}
 
