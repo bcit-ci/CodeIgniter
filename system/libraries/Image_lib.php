@@ -1641,6 +1641,11 @@ class CI_Image_lib {
 		}
 
 		$vals = getimagesize($path);
+		if ($vals === FALSE)
+		{
+			$this->set_error('imglib_invalid_image');
+			return FALSE;
+		}
 		$types = array(1 => 'gif', 2 => 'jpeg', 3 => 'png');
 		$mime = (isset($types[$vals[2]])) ? 'image/'.$types[$vals[2]] : 'image/jpg';
 

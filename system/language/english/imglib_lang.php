@@ -51,6 +51,7 @@ $lang['imglib_libpath_invalid'] = 'The path to your image library is not correct
 $lang['imglib_image_process_failed'] = 'Image processing failed. Please verify that your server supports the chosen protocol and that the path to your image library is correct.';
 $lang['imglib_rotation_angle_required'] = 'An angle of rotation is required to rotate the image.';
 $lang['imglib_invalid_path'] = 'The path to the image is not correct.';
+$lang['imglib_invalid_image'] = 'The provided image is not valid.';
 $lang['imglib_copy_failed'] = 'The image copy routine failed.';
 $lang['imglib_missing_font'] = 'Unable to find a font to use.';
 $lang['imglib_save_failed'] = 'Unable to save the image. Please make sure the image and file directory are writable.';
