@@ -296,6 +296,13 @@ class CI_Image_lib {
 	public $mime_type		= '';
 
 	/**
+	 * Output image mime-type
+	 *
+	 * @var string
+	 */
+	public $output_mime_type		= '';
+
+	/**
 	 * Original image width
 	 *
 	 * @var int
@@ -315,6 +322,13 @@ class CI_Image_lib {
 	 * @var string
 	 */
 	public $image_type		= '';
+
+	/**
+	 * Output image format
+	 *
+	 * @var string
+	 */
+	public $output_image_type		= '';
 
 	/**
 	 * Size of current image
@@ -406,7 +420,7 @@ class CI_Image_lib {
 	 */
 	public function clear()
 	{
-		$props = array('thumb_marker', 'library_path', 'source_image', 'new_image', 'width', 'height', 'rotation_angle', 'x_axis', 'y_axis', 'wm_text', 'wm_overlay_path', 'wm_font_path', 'wm_shadow_color', 'source_folder', 'dest_folder', 'mime_type', 'orig_width', 'orig_height', 'image_type', 'size_str', 'full_src_path', 'full_dst_path');
+		$props = array('thumb_marker', 'library_path', 'source_image', 'new_image', 'width', 'height', 'rotation_angle', 'x_axis', 'y_axis', 'wm_text', 'wm_overlay_path', 'wm_font_path', 'wm_shadow_color', 'source_folder', 'dest_folder', 'mime_type', 'output_mime_type', 'orig_width', 'orig_height', 'image_type', 'output_image_type', 'size_str', 'full_src_path', 'full_dst_path');
 
 		foreach ($props as $val)
 		{
@@ -528,6 +542,43 @@ class CI_Image_lib {
 		if ( ! $this->get_image_properties($this->source_folder.$this->source_image))
 		{
 			return FALSE;
+		}
+
+		if (empty($this->output_image_type))
+		{
+			$this->output_image_type = $this->image_type;
+		}
+		else
+		{
+			$val = (int)$this->output_image_type;
+			if ($val === 0)
+			{
+				switch (strtolower($this->output_image_type))
+				{
+					case 'gif':
+						$val = 1;
+						break;
+					case 'png':
+						$val = 3;
+						break;
+					default:
+						log_message('info', 'Invalid image type, defaulting to JPG: '.$this->output_image_type);
+					case 'jpg':
+					case 'jpeg':
+						$val = 2;
+						break;
+				}
+			}
+			else if ($val < 1 || $val > 3)
+			{
+				log_message('info', 'Invalid image type, defaulting to JPG: '.$this->output_image_type);
+				$val = 2;
+			}
+			$this->output_image_type = $val;
+		}
+		if ($this->output_mime_type === '')
+		{
+			$this->output_mime_type = $this->get_mime_type($this->output_image_type);
 		}
 
 		/*
@@ -925,14 +976,23 @@ class CI_Image_lib {
 		{
 			case 1 :
 				$cmd_in		= 'giftopnm';
-				$cmd_out	= 'ppmtogif';
 				break;
 			case 2 :
 				$cmd_in		= 'jpegtopnm';
-				$cmd_out	= 'ppmtojpeg';
 				break;
 			case 3 :
 				$cmd_in		= 'pngtopnm';
+				break;
+		}
+		switch ($this->output_image_type)
+		{
+			case 1 :
+				$cmd_out	= 'ppmtogif';
+				break;
+			case 2 :
+				$cmd_out	= 'ppmtojpeg';
+				break;
+			case 3 :
 				$cmd_out	= 'ppmtopng';
 				break;
 		}
@@ -1480,7 +1540,7 @@ class CI_Image_lib {
 	 */
 	public function image_save_gd($resource)
 	{
-		switch ($this->image_type)
+		switch ($this->output_image_type)
 		{
 			case 1:
 				if ( ! function_exists('imagegif'))
@@ -1540,12 +1600,13 @@ class CI_Image_lib {
 	 */
 	public function image_display_gd($resource)
 	{
+		//The filename doesn't necessary match the output type (will print image.jpg with real type png for example)
 		header('Content-Disposition: filename='.$this->source_image.';');
-		header('Content-Type: '.$this->mime_type);
+		header('Content-Type: '.$this->output_mime_type);
 		header('Content-Transfer-Encoding: binary');
 		header('Last-Modified: '.gmdate('D, d M Y H:i:s', time()).' GMT');
 
-		switch ($this->image_type)
+		switch ($this->output_image_type)
 		{
 			case 1	:	imagegif($resource);
 				break;
@@ -1614,6 +1675,20 @@ class CI_Image_lib {
 	}
 
 	// --------------------------------------------------------------------
+	
+	/**
+	 * Get image mime-type
+	 *
+	 * @param	string
+	 * @return	string
+	 */
+	public function get_mime_type($image_type)
+	{
+		$types = array(1 => 'gif', 2 => 'jpeg', 3 => 'png');
+		return (isset($types[$image_type])) ? 'image/'.$types[$image_type] : 'image/jpg';
+	}
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Get image properties
@@ -1641,8 +1716,7 @@ class CI_Image_lib {
 		}
 
 		$vals = getimagesize($path);
-		$types = array(1 => 'gif', 2 => 'jpeg', 3 => 'png');
-		$mime = (isset($types[$vals[2]])) ? 'image/'.$types[$vals[2]] : 'image/jpg';
+		$mime = $this->get_mime_type($vals[2]);
 
 		if ($return === TRUE)
 		{
