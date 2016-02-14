@@ -325,9 +325,15 @@ class CI_URI {
 	 */
 	public function filter_uri(&$str)
 	{
-		if ( ! empty($str) && ! empty($this->_permitted_uri_chars) && ! preg_match('/^['.$this->_permitted_uri_chars.']+$/i'.(UTF8_ENABLED ? 'u' : ''), $str))
+		$exclude_cli = $this->config->item('permitted_uri_chars_exclude_cli');
+
+		// If it's a CLI request, and excluded via config, ignore the configuration
+		if ( ! is_cli() || $exclude_cli !== TRUE)
 		{
-			show_error('The URI you submitted has disallowed characters.', 400);
+			if ( ! empty($str) && ! empty($this->_permitted_uri_chars) && ! preg_match('/^['.$this->_permitted_uri_chars.']+$/i'.(UTF8_ENABLED ? 'u' : ''), $str))
+			{
+				show_error('The URI you submitted has disallowed characters.', 400);
+			}
 		}
 	}
 
