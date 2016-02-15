@@ -7,6 +7,10 @@ Version 3.1.0
 
 Release Date: Not Released
 
+-  Core
+
+   -  Changed :doc:`URI Library <libraries/uri>` to ignore the ``$config['url_suffix']``, ``$config['permitted_uri_chars']`` configuration settings for CLI requests.
+
 -  Libraries
 
    -  Added UNIX socket connection support to :doc:`Session Library <libraries/sessions>` 'redis' driver.

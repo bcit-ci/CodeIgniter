@@ -58,7 +58,20 @@ That doesn't make sense and that's the reason why most database drivers
 don't support it at all.
 Thus, ``db_set_charset()`` is no longer necessary and is removed.
 
-Step 3: Check usage of doctype() HTML helper
+Step 3: Check logic related to URI parsing of CLI requests
+==========================================================
+
+When running a CodeIgniter application from the CLI, the
+:doc:`URI Library <libraries/uri>` will now ignore the
+``$config['url_suffix']`` and ``$config['permitted_uri_chars']``
+configuration settings.
+
+These two options don't make sense under the command line (which is why
+this change was made) and therefore you shouldn't be affected by this, but
+if you've relied on them for some reason, you'd probably have to make some
+changes to your code.
+
+Step 4: Check usage of doctype() HTML helper
 ============================================
 
 The :doc:`HTML Helper <../helpers/html_helper>` function
