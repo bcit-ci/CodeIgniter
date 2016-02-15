@@ -96,7 +96,7 @@ class CI_URI {
 	 *
 	 * @return	void
 	 */
-	public function __construct(CI_Config &$config)
+	public function __construct(CI_Config $config)
 	{
 		$this->config = $config;
 
