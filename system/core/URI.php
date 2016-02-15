@@ -96,9 +96,9 @@ class CI_URI {
 	 *
 	 * @return	void
 	 */
-	public function __construct()
+	public function __construct(CI_Config &$config)
 	{
-		$this->config =& load_class('Config', 'core');
+		$this->config = $config;
 
 		// If it's a CLI request, ignore the configuration
 		if (is_cli())
