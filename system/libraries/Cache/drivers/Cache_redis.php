@@ -127,10 +127,6 @@ class CI_Cache_redis extends CI_Driver
 		{
 			log_message('error', 'Cache: Redis connection refused ('.$e->getMessage().')');
 		}
-
-		// Initialize the index of serialized values.
-		$serialized = $this->_redis->sMembers('_ci_redis_serialized');
-		empty($serialized) OR $this->_serialized = array_flip($serialized);
 	}
 
 	// ------------------------------------------------------------------------
@@ -145,7 +141,7 @@ class CI_Cache_redis extends CI_Driver
 	{
 		$value = $this->_redis->get($key);
 
-		if ($value !== FALSE && isset($this->_serialized[$key]))
+		if ($value !== FALSE)
 		{
 			return unserialize($value);
 		}
@@ -166,22 +162,7 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
-		if (is_array($data) OR is_object($data))
-		{
-			if ( ! $this->_redis->sIsMember('_ci_redis_serialized', $id) && ! $this->_redis->sAdd('_ci_redis_serialized', $id))
-			{
-				return FALSE;
-			}
-
-			isset($this->_serialized[$id]) OR $this->_serialized[$id] = TRUE;
-			$data = serialize($data);
-		}
-		elseif (isset($this->_serialized[$id]))
-		{
-			$this->_serialized[$id] = NULL;
-			$this->_redis->sRemove('_ci_redis_serialized', $id);
-		}
-
+        $data = serialize($data);
 		return $this->_redis->set($id, $data, $ttl);
 	}
 
@@ -199,13 +180,6 @@ class CI_Cache_redis extends CI_Driver
 		{
 			return FALSE;
 		}
-
-		if (isset($this->_serialized[$key]))
-		{
-			$this->_serialized[$key] = NULL;
-			$this->_redis->sRemove('_ci_redis_serialized', $key);
-		}
-
 		return TRUE;
 	}
 
