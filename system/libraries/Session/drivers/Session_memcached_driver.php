@@ -88,7 +88,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 
 		if ($this->_config['match_ip'] === TRUE)
 		{
-			$this->_key_prefix .= $_SERVER['REMOTE_ADDR'].':';
+			$this->_key_prefix .= $this->_client_ip.':';
 		}
 	}
 
