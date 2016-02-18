@@ -15,6 +15,7 @@ prototype::
 	$db['default'] = array(
 		'dsn'	=> '',
 		'hostname' => 'localhost',
+		'port' => null,
 		'username' => 'root',
 		'password' => '',
 		'database' => 'database_name',
@@ -57,6 +58,7 @@ These failovers can be specified by setting the failover for a connection like t
 	$db['default']['failover'] = array(
 			array(
 				'hostname' => 'localhost1',
+				'port' => null,
 				'username' => '',
 				'password' => '',
 				'database' => '',
@@ -75,6 +77,7 @@ These failovers can be specified by setting the failover for a connection like t
 			),
 			array(
 				'hostname' => 'localhost2',
+				'port' => null,
 				'username' => '',
 				'password' => '',
 				'database' => '',
@@ -105,6 +108,7 @@ example, to set up a "test" environment you would do this::
 	$db['test'] = array(
 		'dsn'	=> '',
 		'hostname' => 'localhost',
+		'port' => null,
 		'username' => 'root',
 		'password' => '',
 		'database' => 'database_name',
@@ -194,6 +198,8 @@ Explanation of Values:
 **stricton**		TRUE/FALSE (boolean) - Whether to force "Strict Mode" connections, good for ensuring strict SQL
 			while developing an application.
 **port**		The database port number. To use this value you have to add a line to the database config array.
+
+			Some drivers (like mysql) allow specifying port as a part of hostname (localhost:3306) but others (like mysqli) require separate port value if it's not default.
 			::
 
 				$db['default']['port'] = 5432;
