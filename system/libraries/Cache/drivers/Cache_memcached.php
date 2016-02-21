@@ -79,6 +79,12 @@ class CI_Cache_memcached extends CI_Driver {
 	 */
 	public function __construct()
 	{
+		if (!$this->is_supported())
+        {
+            log_message('error', 'Cache: Failed to create Memcache(d) object; extension not loaded?');
+            return;
+        }
+
 		// Try to load memcached server info from the config file.
 		$CI =& get_instance();
 		$defaults = $this->_memcache_conf['default'];
@@ -100,13 +106,9 @@ class CI_Cache_memcached extends CI_Driver {
 		{
 			$this->_memcached = new Memcached();
 		}
-		elseif (class_exists('Memcache', FALSE))
-		{
-			$this->_memcached = new Memcache();
-		}
 		else
 		{
-			log_message('error', 'Cache: Failed to create Memcache(d) object; extension not loaded?');
+			$this->_memcached = new Memcache();
 		}
 
 		foreach ($this->_memcache_conf as $cache_server)
