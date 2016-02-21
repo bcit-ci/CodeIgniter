@@ -67,10 +67,10 @@ class CI_Cache_file extends CI_Driver {
 		$path = $CI->config->item('cache_path');
 		$this->_cache_path = ($path === '') ? APPPATH.'cache/' : $path;
 
-        if (!$this->is_supported())
-        {
-            log_message('error', 'The cache directory is indeed writable ：' . $this->_cache_path);
-        }
+		if (!$this->is_supported())
+		{
+			log_message('error', 'The cache directory is indeed writable ：' . $this->_cache_path);
+		}
 	}
 
 	// ------------------------------------------------------------------------

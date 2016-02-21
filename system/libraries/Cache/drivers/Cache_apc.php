@@ -198,13 +198,13 @@ class CI_Cache_apc extends CI_Driver {
 	 */
 	public function is_supported()
 	{
-        if (extension_loaded('apc') AND ini_get('apc.enabled'))
-        {
-            return TRUE;
-        }
+		if (extension_loaded('apc') AND ini_get('apc.enabled'))
+		{
+			return TRUE;
+		}
 
-        log_message('debug', 'The APC PHP extension must be loaded and enabled to use APC Cache.');
-        return FALSE;
+		log_message('debug', 'The APC PHP extension must be loaded and enabled to use APC Cache.');
+		return FALSE;
 	}
 
 }
