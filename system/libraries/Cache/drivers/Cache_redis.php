@@ -97,7 +97,7 @@ class CI_Cache_redis extends CI_Driver
 			return;
 		}
 
-        $config = array();
+		$config = array();
 		$CI =& get_instance();
 
 		if ($CI->config->load('redis', TRUE, TRUE))
