@@ -246,7 +246,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 	{
 		if (isset($this->_memcached))
 		{
-			isset($this->_lock_key) && $this->_memcached->delete($this->_lock_key);
+			$this->_release_lock();
 			if ( ! $this->_memcached->quit())
 			{
 				return $this->_failure;
