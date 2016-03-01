@@ -190,6 +190,30 @@ if ( ! function_exists('form_hidden'))
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('form_color'))
+{
+	/**
+	 * Color Input Field
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	mixed
+	 * @return	string
+	 */
+	function form_color($data = '', $value = '', $extra = '')
+	{
+		$defaults = array(
+				'type' => 'color',
+				'name' => is_array($data) ? '' : $data,
+				'value' => $value
+		);
+
+		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
+	}
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('form_input'))
 {
 	/**
@@ -206,6 +230,198 @@ if ( ! function_exists('form_input'))
 			'type' => 'text',
 			'name' => is_array($data) ? '' : $data,
 			'value' => $value
+		);
+
+		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('form_email'))
+{
+	/**
+	 * E-mail Input Field
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	mixed
+	 * @return	string
+	 */
+	function form_email($data = '', $value = '', $extra = '')
+	{
+		$defaults = array(
+				'type' => 'email',
+				'name' => is_array($data) ? '' : $data,
+				'value' => $value
+		);
+
+		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('form_tel'))
+{
+	/**
+	 * Telephone Input Field
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	mixed
+	 * @return	string
+	 */
+	function form_tel($data = '', $value = '', $extra = '')
+	{
+		$defaults = array(
+				'type' => 'tel',
+				'name' => is_array($data) ? '' : $data,
+				'value' => $value
+		);
+
+		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('form_date'))
+{
+	/**
+	 * Date Input Field
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	mixed
+	 * @return	string
+	 */
+	function form_date($data = '', $value = '', $extra = '')
+	{
+		$defaults = array(
+				'type' => 'date',
+				'name' => is_array($data) ? '' : $data,
+				'value' => $value
+		);
+
+		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('form_datetime'))
+{
+	/**
+	 * Date and Time Input Field
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	mixed
+	 * @return	string
+	 */
+	function form_datetime($data = '', $value = '', $extra = '')
+	{
+		$defaults = array(
+				'type' => 'datetime-local',
+				'name' => is_array($data) ? '' : $data,
+				'value' => $value
+		);
+
+		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('form_url'))
+{
+	/**
+	 * URL Input Field
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	mixed
+	 * @return	string
+	 */
+	function form_url($data = '', $value = '', $extra = '')
+	{
+		$defaults = array(
+				'type' => 'url',
+				'name' => is_array($data) ? '' : $data,
+				'value' => $value
+		);
+
+		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('form_time'))
+{
+	/**
+	 * Time Input Field
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	mixed
+	 * @return	string
+	 */
+	function form_time($data = '', $value = '', $extra = '')
+	{
+		$defaults = array(
+				'type' => 'time',
+				'name' => is_array($data) ? '' : $data,
+				'value' => $value
+		);
+
+		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('form_week'))
+{
+	/**
+	 * Week Input Field
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	mixed
+	 * @return	string
+	 */
+	function form_week($data = '', $value = '', $extra = '')
+	{
+		$defaults = array(
+				'type' => 'week',
+				'name' => is_array($data) ? '' : $data,
+				'value' => $value
+		);
+
+		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('form_month'))
+{
+	/**
+	 * Month Input Field
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	mixed
+	 * @return	string
+	 */
+	function form_month($data = '', $value = '', $extra = '')
+	{
+		$defaults = array(
+				'type' => 'month',
+				'name' => is_array($data) ? '' : $data,
+				'value' => $value
 		);
 
 		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
@@ -253,6 +469,30 @@ if ( ! function_exists('form_upload'))
 		$defaults = array('type' => 'file', 'name' => '');
 		is_array($data) OR $data = array('name' => $data);
 		$data['type'] = 'file';
+
+		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('form_search'))
+{
+	/**
+	 * Search Input Field
+	 *
+	 * @param	mixed
+	 * @param	string
+	 * @param	mixed
+	 * @return	string
+	 */
+	function form_search($data = '', $value = '', $extra = '')
+	{
+		$defaults = array(
+				'type' => 'search',
+				'name' => is_array($data) ? '' : $data,
+				'value' => $value
+		);
 
 		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
 	}
