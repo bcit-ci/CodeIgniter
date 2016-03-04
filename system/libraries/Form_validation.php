@@ -166,6 +166,8 @@ class CI_Form_validation {
 	 */
 	public function set_rules($field, $label = '', $rules = array(), $errors = array())
 	{
+        $regex_field = FALSE;
+
 		// No reason to set rules if we have no POST data
 		// or a validation array has not been specified
 		if ($this->CI->input->method() !== 'post' && empty($this->validation_data))
@@ -224,15 +226,19 @@ class CI_Form_validation {
 		if (($is_array = (bool) preg_match_all('/\[(.*?)\]/', $field, $matches)) === TRUE)
 		{
 			sscanf($field, '%[^[][', $indexes[0]);
-
 			for ($i = 0, $c = count($matches[0]); $i < $c; $i++)
 			{
 				if ($matches[1][$i] !== '')
 				{
+                    if(preg_match($matches[1][$i],null) !== FALSE)$regex_field = TRUE;
 					$indexes[] = $matches[1][$i];
 				}
 			}
 		}
+
+        // If RegExp found in the array of field name, then it's not array and,
+        // It's just a use of the regex in field name feature
+        if($regex_field === TRUE) $is_array = FALSE;
 
 		// Build our master array
 		$this->_field_data[$field] = array(
@@ -242,6 +248,7 @@ class CI_Form_validation {
 			'errors'	=> $errors,
 			'is_array'	=> $is_array,
 			'keys'		=> $indexes,
+            'regex'     => $regex_field,
 			'postdata'	=> NULL,
 			'error'		=> ''
 		);
@@ -458,7 +465,11 @@ class CI_Form_validation {
 			{
 				$this->_field_data[$field]['postdata'] = $this->_reduce_array($validation_array, $row['keys']);
 			}
-			elseif (isset($validation_array[$field]))
+			elseif ($row['regex'] === TRUE)
+            {
+                $this->_field_data[$field]['postdata'] = $validation_array[$row['keys'][0]];
+            }
+            elseif (isset($validation_array[$field]))
 			{
 				$this->_field_data[$field]['postdata'] = $validation_array[$field];
 			}
@@ -474,8 +485,22 @@ class CI_Form_validation {
 			{
 				continue;
 			}
-
-			$this->_execute($row, $row['rules'], $this->_field_data[$field]['postdata']);
+            if($row['regex'] === TRUE){
+                foreach($row['postdata'] as $key_post => $value_post){
+                    for($i=1;$i<count($row['keys']);$i++){
+                        if(preg_match($row['keys'][$i],$key_post) != FALSE){
+                            continue;
+                        }else{
+                            if($value_post[$row['keys'][$i]]){
+                                $row['postdata'] = $value_post[$row['keys'][$i]];
+                                $this->_execute($row, $row['rules'], $value_post[$row['keys'][$i]]);
+                            }
+                        }
+                    }
+                }
+            }else {
+                $this->_execute($row, $row['rules'], $this->_field_data[$field]['postdata']);
+            }
 		}
 
 		// Did we end up with any errors?
@@ -675,14 +700,21 @@ class CI_Form_validation {
 				$postdata = $this->_field_data[$row['field']]['postdata'][$cycles];
 				$_in_array = TRUE;
 			}
-			else
-			{
-				// If we get an array field, but it's not expected - then it is most likely
-				// somebody messing with the form on the client side, so we'll just consider
-				// it an empty field
-				$postdata = is_array($this->_field_data[$row['field']]['postdata'])
-					? NULL
-					: $this->_field_data[$row['field']]['postdata'];
+			else{
+                // If we have regex interpretation in out field name,
+                // bypass the postdata array and get the one from
+                // this function call
+                if($this->_field_data[$row['field']]['regex'] === TRUE) {
+                    $postdata = $row['postdata'];
+
+                }else {
+                    // If we get an array field, but it's not expected - then it is most likely
+                    // somebody messing with the form on the client side, so we'll just consider
+                    // it an empty field
+                    $postdata = is_array($this->_field_data[$row['field']]['postdata'])
+                        ? NULL
+                        : $this->_field_data[$row['field']]['postdata'];
+                }
 			}
 
 			// Is the rule a callback?
@@ -762,6 +794,7 @@ class CI_Form_validation {
 			}
 			elseif ( ! method_exists($this, $rule))
 			{
+
 				// If our own wrapper function doesn't exist we see if a native PHP function does.
 				// Users can use any native PHP function call that has one param.
 				if (function_exists($rule))
@@ -787,7 +820,6 @@ class CI_Form_validation {
 			else
 			{
 				$result = $this->$rule($postdata, $param);
-
 				if ($_in_array === TRUE)
 				{
 					$this->_field_data[$row['field']]['postdata'][$cycles] = is_bool($result) ? $postdata : $result;
@@ -820,7 +852,6 @@ class CI_Form_validation {
 
 				// Build the error message
 				$message = $this->_build_error_msg($line, $this->_translate_fieldname($row['label']), $param);
-
 				// Save the error message
 				$this->_field_data[$row['field']]['error'] = $message;
 
