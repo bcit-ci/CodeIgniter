@@ -653,7 +653,7 @@ class CI_Input {
 		// Sanitize PHP_SELF
 		$_SERVER['PHP_SELF'] = strip_tags($_SERVER['PHP_SELF']);
 
-		log_message('debug', 'Global POST, GET and COOKIE data sanitized');
+		log_message('info', 'Global POST, GET and COOKIE data sanitized');
 	}
 
 	// --------------------------------------------------------------------
