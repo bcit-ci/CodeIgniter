@@ -39,6 +39,7 @@ Bug fixes for 3.0.5
 -  Fixed a bug where :doc:`Session Library <libraries/sessions>` didn't clean-up internal variables for emulated locks with the 'memcached' driver.
 -  Fixed a bug where :doc:`Database <database/index>` transactions didn't work with the 'ibase' driver.
 -  Fixed a bug (#4475) - :doc:`Security Library <libraries/security>` method ``strip_image_tags()`` preserves only the first URL character from non-quoted *src* attributes.
+-  Fixed a bug where :doc:`Profiler Library <general/profiling>` didn't apply ``htmlspecialchars()`` to all displayed inputs.
 
 Version 3.0.4
 =============

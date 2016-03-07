@@ -314,12 +314,14 @@ class CI_Profiler {
 
 			foreach ($_GET as $key => $val)
 			{
-				is_int($key) OR $key = "'".$key."'";
+				is_int($key) OR $key = "'".htmlspecialchars($key, ENT_QUOTES, config_item('charset'))."'";
+				$val = (is_array($val) OR is_object($val))
+					? '<pre>'.htmlspecialchars(print_r($val, TRUE), ENT_QUOTES, config_item('charset'))
+					: htmlspecialchars($val, ENT_QUOTES, config_item('charset'));
 
 				$output .= '<tr><td style="width:50%;color:#000;background-color:#ddd;padding:5px;">&#36;_GET['
 					.$key.']&nbsp;&nbsp; </td><td style="width:50%;padding:5px;color:#cd6e00;font-weight:normal;background-color:#ddd;">'
-					.((is_array($val) OR is_object($val)) ? '<pre>'.htmlspecialchars(stripslashes(print_r($val, TRUE))).'</pre>' : htmlspecialchars(stripslashes($val)))
-					."</td></tr>\n";
+					.$val."</td></tr>\n";
 			}
 
 			$output .= "</table>\n";
@@ -352,36 +354,26 @@ class CI_Profiler {
 
 			foreach ($_POST as $key => $val)
 			{
-				is_int($key) OR $key = "'".$key."'";
+				is_int($key) OR $key = "'".htmlspecialchars($key, ENT_QUOTES, config_item('charset'))."'";
+				$val = (is_array($val) OR is_object($val))
+					? '<pre>'.htmlspecialchars(print_r($val, TRUE), ENT_QUOTES, config_item('charset'))
+					: htmlspecialchars($val, ENT_QUOTES, config_item('charset'));
 
 				$output .= '<tr><td style="width:50%;padding:5px;color:#000;background-color:#ddd;">&#36;_POST['
-					.$key.']&nbsp;&nbsp; </td><td style="width:50%;padding:5px;color:#009900;font-weight:normal;background-color:#ddd;">';
-
-				if (is_array($val) OR is_object($val))
-				{
-					$output .= '<pre>'.htmlspecialchars(stripslashes(print_r($val, TRUE))).'</pre>';
-				}
-				else
-				{
-					$output .= htmlspecialchars(stripslashes($val));
-				}
-
-				$output .= "</td></tr>\n";
+					.$key.']&nbsp;&nbsp; </td><td style="width:50%;padding:5px;color:#009900;font-weight:normal;background-color:#ddd;">'
+					.$val."</td></tr>\n";
 			}
 
 			foreach ($_FILES as $key => $val)
 			{
-				is_int($key) OR $key = "'".$key."'";
+				is_int($key) OR $key = "'".htmlspecialchars($key, ENT_QUOTES, config_item('charset'))."'";
+				$val = (is_array($val) OR is_object($val))
+					? '<pre>'.htmlspecialchars(print_r($val, TRUE), ENT_QUOTES, config_item('charset'))
+					: htmlspecialchars($val, ENT_QUOTES, config_item('charset'));
 
 				$output .= '<tr><td style="width:50%;padding:5px;color:#000;background-color:#ddd;">&#36;_FILES['
-					.$key.']&nbsp;&nbsp; </td><td style="width:50%;padding:5px;color:#009900;font-weight:normal;background-color:#ddd;">';
-
-				if (is_array($val) OR is_object($val))
-				{
-					$output .= '<pre>'.htmlspecialchars(stripslashes(print_r($val, TRUE))).'</pre>';
-				}
-
-				$output .= "</td></tr>\n";
+					.$key.']&nbsp;&nbsp; </td><td style="width:50%;padding:5px;color:#009900;font-weight:normal;background-color:#ddd;">'
+					.$val."</td></tr>\n";
 			}
 
 			$output .= "</table>\n";
@@ -465,7 +457,7 @@ class CI_Profiler {
 
 		foreach (array('HTTP_ACCEPT', 'HTTP_USER_AGENT', 'HTTP_CONNECTION', 'SERVER_PORT', 'SERVER_NAME', 'REMOTE_ADDR', 'SERVER_SOFTWARE', 'HTTP_ACCEPT_LANGUAGE', 'SCRIPT_NAME', 'REQUEST_METHOD',' HTTP_HOST', 'REMOTE_HOST', 'CONTENT_TYPE', 'SERVER_PROTOCOL', 'QUERY_STRING', 'HTTP_ACCEPT_ENCODING', 'HTTP_X_FORWARDED_FOR', 'HTTP_DNT') as $header)
 		{
-			$val = isset($_SERVER[$header]) ? $_SERVER[$header] : '';
+			$val = isset($_SERVER[$header]) ? htmlspecialchars($_SERVER[$header], ENT_QUOTES, config_item('charset')) : '';
 			$output .= '<tr><td style="vertical-align:top;width:50%;padding:5px;color:#900;background-color:#ddd;">'
 				.$header.'&nbsp;&nbsp;</td><td style="width:50%;padding:5px;color:#000;background-color:#ddd;">'.$val."</td></tr>\n";
 		}
