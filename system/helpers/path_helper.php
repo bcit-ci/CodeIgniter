@@ -57,13 +57,14 @@ if ( ! function_exists('set_realpath'))
 	 * @param	string
 	 * @param	bool	checks to see if the path exists
 	 * @return	string
+	 * @throws	InvalidArgumentException	When the input path is invalid
 	 */
 	function set_realpath($path, $check_existance = FALSE)
 	{
 		// Security check to make sure the path is NOT a URL. No remote file inclusion!
 		if (preg_match('#^(http:\/\/|https:\/\/|www\.|ftp)#i', $path) OR filter_var($path, FILTER_VALIDATE_IP) === $path )
 		{
-			show_error('The path you submitted must be a local server path, not a URL');
+			throw new InvalidArgumentException('The path you submitted must be a local server path, not a URL');
 		}
 
 		// Resolve the path
@@ -73,7 +74,7 @@ if ( ! function_exists('set_realpath'))
 		}
 		elseif ($check_existance && ! is_dir($path) && ! is_file($path))
 		{
-			show_error('Not a valid path: '.$path);
+			throw new InvalidArgumentException('Not a valid path: '.$path);
 		}
 
 		// Add a trailing slash, if this is a directory

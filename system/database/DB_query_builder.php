@@ -376,6 +376,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	string	$alias
 	 * @param	string	$type
 	 * @return	CI_DB_query_builder
+	 * @throws	RuntimeException	If function type is invalid.
 	 */
 	protected function _max_min_avg_sum($select = '', $alias = '', $type = 'MAX')
 	{
@@ -388,7 +389,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		if ( ! in_array($type, array('MAX', 'MIN', 'AVG', 'SUM')))
 		{
-			show_error('Invalid function type: '.$type);
+			throw new RuntimeException('Invalid function type: '.$type);
 		}
 
 		if ($alias === '')

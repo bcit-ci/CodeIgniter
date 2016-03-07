@@ -274,6 +274,7 @@ abstract class CI_DB_forge {
 	 *
 	 * @param	array	$field
 	 * @return	CI_DB_forge
+	 * @throws	RuntimeException	If field information is not specified
 	 */
 	public function add_field($field)
 	{
@@ -294,7 +295,7 @@ abstract class CI_DB_forge {
 			{
 				if (strpos($field, ' ') === FALSE)
 				{
-					show_error('Field information is required for that operation.');
+					throw new RuntimeException('Field information is required for that operation.');
 				}
 
 				$this->fields[] = $field;
@@ -318,12 +319,13 @@ abstract class CI_DB_forge {
 	 * @param	bool	$if_not_exists	Whether to add IF NOT EXISTS condition
 	 * @param	array	$attributes	Associative array of table attributes
 	 * @return	bool
+	 * @throws	RuntimeException	If table name or field information is not specified
 	 */
 	public function create_table($table, $if_not_exists = FALSE, array $attributes = array())
 	{
 		if ($table === '')
 		{
-			show_error('A table name is required for that operation.');
+			throw new RuntimeException('A table name is required for that operation.');
 		}
 		else
 		{
@@ -332,7 +334,7 @@ abstract class CI_DB_forge {
 
 		if (count($this->fields) === 0)
 		{
-			show_error('Field information is required.');
+			throw new RuntimeException('Field information is required.');
 		}
 
 		$sql = $this->_create_table($table, $if_not_exists, $attributes);
@@ -520,12 +522,13 @@ abstract class CI_DB_forge {
 	 * @param	string	$table_name	Old table name
 	 * @param	string	$new_table_name	New table name
 	 * @return	bool
+	 * @throws	RuntimeException	If table name is not specified
 	 */
 	public function rename_table($table_name, $new_table_name)
 	{
 		if ($table_name === '' OR $new_table_name === '')
 		{
-			show_error('A table name is required for that operation.');
+			throw new RuntimeException('A table name is required for that operation.');
 			return FALSE;
 		}
 		elseif ($this->_rename_table === FALSE)
@@ -623,6 +626,7 @@ abstract class CI_DB_forge {
 	 * @param	string	$table	Table name
 	 * @param	string	$field	Column definition
 	 * @return	bool
+	 * @throws	RuntimeExceptions	If field information is not specified
 	 */
 	public function modify_column($table, $field)
 	{
@@ -636,7 +640,7 @@ abstract class CI_DB_forge {
 
 		if (count($this->fields) === 0)
 		{
-			show_error('Field information is required.');
+			throw new RuntimeException('Field information is required.');
 		}
 
 		$sqls = $this->_alter_table('CHANGE', $this->db->dbprefix.$table, $this->_process_fields());
