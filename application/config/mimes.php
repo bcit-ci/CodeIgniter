@@ -149,7 +149,7 @@ return array(
 	'au'    =>	'audio/x-au',
 	'ac3'   =>	'audio/ac3',
 	'flac'  =>	'audio/x-flac',
-	'ogg'   =>	'audio/ogg',
+	'ogg'   =>	array('audio/ogg', 'video/ogg', 'application/ogg'),
 	'kmz'	=>	array('application/vnd.google-earth.kmz', 'application/zip', 'application/x-zip'),
 	'kml'	=>	array('application/vnd.google-earth.kml+xml', 'application/xml', 'text/xml'),
 	'ics'	=>	'text/calendar',

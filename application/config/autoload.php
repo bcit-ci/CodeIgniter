@@ -72,6 +72,11 @@ $autoload['libraries'] = array();
 | Prototype:
 |
 |	$autoload['drivers'] = array('cache');
+|
+| You can also supply an alternative library name to be assigned in
+| the controller:
+|
+|   $autoload['drivers'] = array('cache' => 'cch');
 */
 $autoload['drivers'] = array();
 
