@@ -37,6 +37,7 @@ Bug fixes for 3.0.5
 -  Fixed a bug (#4449) - :doc:`Query Builder <database/query_builder>` method ``join()`` breaks conditions containing ``IS NULL``, ``IS NOT NULL``.
 -  Fixed a bug (#4491) - :doc:`Session Library <libraries/sessions>` didn't clean-up internal variables for emulated locks with the 'redis' driver.
 -  Fixed a bug where :doc:`Session Library <libraries/sessions>` didn't clean-up internal variables for emulated locks with the 'memcached' driver.
+-  Fixed a bug where :doc:`Database <database/index>` transactions didn't work with the 'ibase' driver.
 
 Version 3.0.4
 =============
