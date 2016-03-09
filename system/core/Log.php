@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,10 @@
  *
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	http://codeigniter.com
+ * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
  */
@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Logging
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/general/errors.html
+ * @link		https://codeigniter.com/user_guide/general/errors.html
  */
 class CI_Log {
 
@@ -154,8 +154,8 @@ class CI_Log {
 	 *
 	 * Generally this function will be called using the global log_message() function
 	 *
-	 * @param	string	the error level: 'error', 'debug' or 'info'
-	 * @param	string	the error message
+	 * @param	string	$level 	The error level: 'error', 'debug' or 'info'
+	 * @param	string	$msg 	The error message
 	 * @return	bool
 	 */
 	public function write_log($level, $msg)
@@ -204,7 +204,7 @@ class CI_Log {
 			$date = date($this->_date_fmt);
 		}
 
-		$message .= $level.' - '.$date.' --> '.$msg."\n";
+		$message .= $this->_format_line($level, $date, $msg);
 
 		flock($fp, LOCK_EX);
 
@@ -227,4 +227,21 @@ class CI_Log {
 		return is_int($result);
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Format the log line.
+	 *
+	 * This is for extensibility of log formatting
+	 * If you want to change the log format, extend the CI_Log class and override this method
+	 *
+	 * @param	string	$level 	The error level
+	 * @param	string	$date 	Formatted date string
+	 * @param	string	$msg 	The log message
+	 * @return	string	Formatted log line with a new line character '\n' at the end
+	 */
+	protected function _format_line($level, $date, $message)
+	{
+		return $level.' - '.$date.' --> '.$message."\n";
+	}
 }

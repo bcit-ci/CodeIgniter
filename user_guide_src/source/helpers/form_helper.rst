@@ -108,7 +108,7 @@ The following functions are available:
 				<input type="hidden" name="member_id" value="234" />
 
 
-.. php:function:: form_open_multipart([$action = ''[, $attributes = array()[, $hidden = array()]])
+.. php:function:: form_open_multipart([$action = ''[, $attributes = array()[, $hidden = array()]]])
 
 	:param	string	$action: Form action/target URI string
 	:param	array	$attributes: HTML attributes
@@ -187,7 +187,7 @@ The following functions are available:
 			<input type="hidden" name="email" value="john@example.com" id="hiddenemail" class="hiddenemail" />
 		*/
 
-.. php:function:: form_input([$data = ''[, $value = ''[, $extra = '']])
+.. php:function:: form_input([$data = ''[, $value = ''[, $extra = '']]])
 
 	:param	array	$data: Field attributes data
 	:param	string	$value: Field value
@@ -461,12 +461,12 @@ The following functions are available:
 	fourth parameter::
 
 		$js = 'onClick="some_function()"';
-		echo form_checkbox('newsletter', 'accept', TRUE, $js)
+		echo form_checkbox('newsletter', 'accept', TRUE, $js);
 
 	Or you can pass it as an array::
 
 		$js = array('onClick' => 'some_function();');
-		echo form_checkbox('newsletter', 'accept', TRUE, $js)
+		echo form_checkbox('newsletter', 'accept', TRUE, $js);
 
 
 .. php:function:: form_radio([$data = ''[, $value = ''[, $checked = FALSE[, $extra = '']]]])

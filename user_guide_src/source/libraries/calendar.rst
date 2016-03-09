@@ -60,10 +60,10 @@ parameter of the calendar generating function. Consider this example::
 	$this->load->library('calendar');
 
 	$data = array(
-		3  => 'http://example.com/news/article/2006/03/',
-		7  => 'http://example.com/news/article/2006/07/',
-		13 => 'http://example.com/news/article/2006/13/',
-		26 => 'http://example.com/news/article/2006/26/'
+		3  => 'http://example.com/news/article/2006/06/03/',
+		7  => 'http://example.com/news/article/2006/06/07/',
+		13 => 'http://example.com/news/article/2006/06/13/',
+		26 => 'http://example.com/news/article/2006/06/26/'
 	);
 
 	echo $this->calendar->generate(2006, 6, $data);

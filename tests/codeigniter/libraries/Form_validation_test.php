@@ -229,7 +229,14 @@ class Form_validation_test extends CI_TestCase {
 	public function test_rule_valid_url()
 	{
 		$this->assertTrue($this->form_validation->valid_url('www.codeigniter.com'));
-		$this->assertTrue($this->form_validation->valid_url('http://codeigniter.eu'));
+		$this->assertTrue($this->form_validation->valid_url('http://codeigniter.com'));
+
+		// https://bugs.php.net/bug.php?id=51192
+		$this->assertTrue($this->form_validation->valid_url('http://accept-dashes.tld'));
+		$this->assertFalse($this->form_validation->valid_url('http://reject_underscores.tld'));
+
+		// https://github.com/bcit-ci/CodeIgniter/issues/4415
+		$this->assertTrue($this->form_validation->valid_url('http://[::1]/ipv6'));
 
 		$this->assertFalse($this->form_validation->valid_url('htt://www.codeIgniter.com'));
 		$this->assertFalse($this->form_validation->valid_url(''));

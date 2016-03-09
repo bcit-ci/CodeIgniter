@@ -63,7 +63,8 @@ called *mypic.jpg* located in the source_image folder, then create a
 thumbnail that is 75 X 50 pixels using the GD2 image_library. Since the
 maintain_ratio option is enabled, the thumb will be as close to the
 target width and height as possible while preserving the original aspect
-ratio. The thumbnail will be called *mypic_thumb.jpg*
+ratio. The thumbnail will be called *mypic_thumb.jpg* and located at
+the same level as *source_image*.
 
 .. note:: In order for the image class to be allowed to do any
 	processing, the folder containing the image files must have write
@@ -282,7 +283,7 @@ Preference              Default Value       Options             Description
 **wm_shadow_color**     None                None                The color of the drop shadow, specified in hex. If you leave this blank
                                                                 a drop shadow will not be used. Both the full 6-length (ie, 993300) and
                                                                 the short three character abbreviated version (ie, fff) are supported.
-**wm_shadow_distance**  3                   None                The distance (in pixels) from the font that the drop shadow should
+**wm_shadow_distance**  2                   None                The distance (in pixels) from the font that the drop shadow should
                                                                 appear.
 ======================= =================== =================== ==========================================================================
 
@@ -471,4 +472,4 @@ Class Reference
 		Returns all detected errors formatted as a string.
 		::
 
-			echo $this->image_lib->diplay_errors();
+			echo $this->image_lib->display_errors();

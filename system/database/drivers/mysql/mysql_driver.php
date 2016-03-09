@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,10 @@
  *
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	http://codeigniter.com
+ * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
  */
@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Drivers
  * @category	Database
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @link		https://codeigniter.com/user_guide/database/
  */
 class CI_DB_mysql_driver extends CI_DB {
 
@@ -84,7 +84,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 *
 	 * @var	bool
 	 */
-	public $stricton = FALSE;
+	public $stricton;
 
 	// --------------------------------------------------------------------
 
@@ -147,12 +147,41 @@ class CI_DB_mysql_driver extends CI_DB {
 				: FALSE;
 		}
 
-		if ($this->stricton && is_resource($this->conn_id))
+		if (is_resource($this->conn_id))
 		{
-			$this->simple_query('SET SESSION sql_mode="STRICT_ALL_TABLES"');
+			if ( ! mysql_set_charset($this->char_set, $this->conn_id))
+			{
+				log_message('error', "Database: Unable to set the configured connection charset ('{$this->char_set}').");
+				$this->close();
+				return ($this->db->debug) ? $this->display_error('db_unable_to_set_charset', $this->char_set) : FALSE;
+			}
+
+			if (isset($this->stricton))
+			{
+				if ($this->stricton)
+				{
+					$this->simple_query('SET SESSION sql_mode = CONCAT(@@sql_mode, ",", "STRICT_ALL_TABLES")');
+				}
+				else
+				{
+					$this->simple_query(
+						'SET SESSION sql_mode =
+						REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+						@@sql_mode,
+						"STRICT_ALL_TABLES,", ""),
+						",STRICT_ALL_TABLES", ""),
+						"STRICT_ALL_TABLES", ""),
+						"STRICT_TRANS_TABLES,", ""),
+						",STRICT_TRANS_TABLES", ""),
+						"STRICT_TRANS_TABLES", "")'
+					);
+				}
+			}
+
+			return $this->conn_id;
 		}
 
-		return $this->conn_id;
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -195,19 +224,6 @@ class CI_DB_mysql_driver extends CI_DB {
 		}
 
 		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Set client character set
-	 *
-	 * @param	string	$charset
-	 * @return	bool
-	 */
-	protected function _db_set_charset($charset)
-	{
-		return mysql_set_charset($charset, $this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
