@@ -315,7 +315,7 @@ class CI_Router {
 			2 => $method
 		);
 
-		log_message('debug', 'No URI present. Default controller set.');
+		log_message('info', 'No URI present. Default controller set.');
 	}
 
 	// --------------------------------------------------------------------

@@ -71,7 +71,7 @@ class CI_Session {
 		// No sessions under CLI
 		if (is_cli())
 		{
-			log_message('debug', 'Session: Initialization under CLI aborted.');
+			log_message('info', 'Session: Initialization under CLI aborted.');
 			return;
 		}
 		elseif ((bool) ini_get('session.auto_start'))
