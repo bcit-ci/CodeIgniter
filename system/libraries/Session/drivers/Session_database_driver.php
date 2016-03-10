@@ -163,7 +163,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 				$this->_db->where('ip_address', $_SERVER['REMOTE_ADDR']);
 			}
 
-			if ( ! ($result = $this->_db->get()) OR $result->row() === NULL)
+			if ( ! ($result = $this->_db->get()) OR ($result = $result->row()) === NULL)
 			{
 				// PHP7 will reuse the same SessionHandler object after
 				// ID regeneration, so we need to explicitly set this to
