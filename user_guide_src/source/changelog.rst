@@ -11,6 +11,10 @@ Release Date: Not Released
 
    -  Changed :doc:`Loader Library <libraries/loader>` to allow ``$autoload['drivers']`` assigning with custom property names.
 
+-  General Changes
+
+   -  Updated the :doc:`Session Library <libraries/sessions>` to produce friendlier error messages on failures with drivers other than 'files'.
+
 -  :doc:`Query Builder <database/query_builder>`
 
    -  Added a ``$batch_size`` parameter to the ``insert_batch()`` method (defaults to 100).
