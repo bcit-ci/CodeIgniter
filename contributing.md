@@ -20,8 +20,8 @@ for us to maintain quality of the code-base.
 
 ### PHP Style
 
-All code must meet the [Style Guide](http://codeigniter.com/user_guide/general/styleguide.html), which is
-essentially the [Allman indent style](http://en.wikipedia.org/wiki/Indent_style#Allman_style), underscores and readable operators. This makes certain that all code is the same format as the existing code and means it will be as readable as possible.
+All code must meet the [Style Guide](https://codeigniter.com/user_guide/general/styleguide.html), which is
+essentially the [Allman indent style](https://en.wikipedia.org/wiki/Indent_style#Allman_style), underscores and readable operators. This makes certain that all code is the same format as the existing code and means it will be as readable as possible.
 
 ### Documentation
 
@@ -29,7 +29,7 @@ If you change anything that requires a change to documentation then you will nee
 
 ### Compatibility
 
-CodeIgniter recommends PHP 5.4 or newer to be used, but it should be
+CodeIgniter recommends PHP 5.5 or newer to be used, but it should be
 compatible with PHP 5.2.4 so all code supplied must stick to this
 requirement. If PHP 5.3 (and above) functions or features are used then
 there must be a fallback for PHP 5.2.4.

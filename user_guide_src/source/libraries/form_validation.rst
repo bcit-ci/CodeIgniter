@@ -116,7 +116,7 @@ this code and save it to your application/views/ folder::
 The Controller
 ==============
 
-Using a text editor, create a controller called form.php. In it, place
+Using a text editor, create a controller called Form.php. In it, place
 this code and save it to your application/controllers/ folder::
 
 	<?php
@@ -175,7 +175,7 @@ The form (myform.php) is a standard web form with a couple exceptions:
    This function will return any error messages sent back by the
    validator. If there are no messages it returns an empty string.
 
-The controller (form.php) has one method: ``index()``. This method
+The controller (Form.php) has one method: ``index()``. This method
 initializes the validation class and loads the form helper and URL
 helper used by your view files. It also runs the validation routine.
 Based on whether the validation was successful it either presents the
@@ -205,7 +205,7 @@ The above method takes **three** parameters as input:
 .. note:: If you would like the field name to be stored in a language
 	file, please see :ref:`translating-field-names`.
 
-Here is an example. In your controller (form.php), add this code just
+Here is an example. In your controller (Form.php), add this code just
 below the validation initialization method::
 
 	$this->form_validation->set_rules('username', 'Username', 'required');

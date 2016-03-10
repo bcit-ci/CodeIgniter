@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,10 @@
  *
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	http://codeigniter.com
+ * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
  */
@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Security
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/security.html
+ * @link		https://codeigniter.com/user_guide/libraries/security.html
  */
 class CI_Security {
 
@@ -593,6 +593,22 @@ class CI_Security {
 			return FALSE;
 		}
 
+		if (function_exists('random_bytes'))
+		{
+			try
+			{
+				// The cast is required to avoid TypeError
+				return random_bytes((int) $length);
+			}
+			catch (Exception $e)
+			{
+				// If random_bytes() can't do the job, we can't either ...
+				// There's no point in using fallbacks.
+				log_message('error', $e->getMessage());
+				return FALSE;
+			}
+		}
+
 		// Unfortunately, none of the following PRNGs is guaranteed to exist ...
 		if (defined('MCRYPT_DEV_URANDOM') && ($output = mcrypt_create_iv($length, MCRYPT_DEV_URANDOM)) !== FALSE)
 		{
@@ -803,43 +819,55 @@ class CI_Security {
 		// For other tags, see if their attributes are "evil" and strip those
 		elseif (isset($matches['attributes']))
 		{
-			// We'll need to catch all attributes separately first
-			$pattern = '#'
-				.'([\s\042\047/=]*)' // non-attribute characters, excluding > (tag close) for obvious reasons
+			// We'll store the already fitlered attributes here
+			$attributes = array();
+
+			// Attribute-catching pattern
+			$attributes_pattern = '#'
 				.'(?<name>[^\s\042\047>/=]+)' // attribute characters
 				// optional attribute-value
 				.'(?:\s*=(?<value>[^\s\042\047=><`]+|\s*\042[^\042]*\042|\s*\047[^\047]*\047|\s*(?U:[^\s\042\047=><`]*)))' // attribute-value separator
 				.'#i';
 
-			if ($count = preg_match_all($pattern, $matches['attributes'], $attributes, PREG_SET_ORDER | PREG_OFFSET_CAPTURE))
+			// Blacklist pattern for evil attribute names
+			$is_evil_pattern = '#^('.implode('|', $evil_attributes).')$#i';
+
+			// Each iteration filters a single attribute
+			do
 			{
-				// Since we'll be using substr_replace() below, we
-				// need to handle the attributes in reverse order,
-				// so we don't damage the string.
-				for ($i = $count - 1; $i > -1; $i--)
+				// Strip any non-alpha characters that may preceed an attribute.
+				// Browsers often parse these incorrectly and that has been a
+				// of numerous XSS issues we've had.
+				$matches['attributes'] = preg_replace('#^[^a-z]+#i', '', $matches['attributes']);
+
+				if ( ! preg_match($attributes_pattern, $matches['attributes'], $attribute, PREG_OFFSET_CAPTURE))
 				{
-					if (
-						// Is it indeed an "evil" attribute?
-						preg_match('#^('.implode('|', $evil_attributes).')$#i', $attributes[$i]['name'][0])
-						// Or an attribute not starting with a letter? Some parsers get confused by that
-						OR ! ctype_alpha($attributes[$i]['name'][0][0])
-						// Does it have an equals sign, but no value and not quoted? Strip that too!
-						OR (trim($attributes[$i]['value'][0]) === '')
-					)
-					{
-						$matches['attributes'] = substr_replace(
-							$matches['attributes'],
-							' [removed]',
-							$attributes[$i][0][1],
-							strlen($attributes[$i][0][0])
-						);
-					}
+					// No (valid) attribute found? Discard everything else inside the tag
+					break;
 				}
 
-				// Note: This will strip some non-space characters and/or
-				//       reduce multiple spaces between attributes.
-				return '<'.$matches['slash'].$matches['tagName'].' '.trim($matches['attributes']).'>';
+				if (
+					// Is it indeed an "evil" attribute?
+					preg_match($is_evil_pattern, $attribute['name'][0])
+					// Or does it have an equals sign, but no value and not quoted? Strip that too!
+					OR (trim($attribute['value'][0]) === '')
+				)
+				{
+					$attributes[] = 'xss=removed';
+				}
+				else
+				{
+					$attributes[] = $attribute[0][0];
+				}
+
+				$matches['attributes'] = substr($matches['attributes'], $attribute[0][1] + strlen($attribute[0][0]));
 			}
+			while ($matches['attributes'] !== '');
+
+			$attributes = empty($attributes)
+				? ''
+				: ' '.implode(' ', $attributes);
+			return '<'.$matches['slash'].$matches['tagName'].$attributes.'>';
 		}
 
 		return $matches[0];

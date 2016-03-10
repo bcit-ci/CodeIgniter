@@ -54,8 +54,8 @@ approach::
 
 	example.com/news/article/345
 
-Note: By default the index.php file is included in the URL but it can be
-removed using a simple .htaccess file.
+.. note:: By default the *index.php* file is included in the URL but it can
+	be removed using a simple *.htaccess* file.
 
 CodeIgniter Packs a Punch
 =========================

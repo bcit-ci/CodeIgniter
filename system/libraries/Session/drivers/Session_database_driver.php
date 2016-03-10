@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,10 @@
  *
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	http://codeigniter.com
+ * @link	https://codeigniter.com
  * @since	Version 3.0.0
  * @filesource
  */
@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Sessions
  * @author	Andrey Andreev
- * @link	http://codeigniter.com/user_guide/libraries/sessions.html
+ * @link	https://codeigniter.com/user_guide/libraries/sessions.html
  */
 class CI_Session_database_driver extends CI_Session_driver implements SessionHandlerInterface {
 
@@ -125,9 +125,12 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	 */
 	public function open($save_path, $name)
 	{
-		return empty($this->_db->conn_id)
-			? (bool) $this->_db->db_connect()
-			: TRUE;
+		if (empty($this->_db->conn_id) && ! $this->_db->db_connect())
+		{
+			return $this->_failure;
+		}
+
+		return $this->_success;
 	}
 
 	// ------------------------------------------------------------------------
@@ -144,6 +147,9 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	{
 		if ($this->_get_lock($session_id) !== FALSE)
 		{
+			// Prevent previous QB calls from messing with our queries
+			$this->_db->reset_query();
+
 			// Needed by write() to detect session_regenerate_id() calls
 			$this->_session_id = $session_id;
 
@@ -159,6 +165,10 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 			if (($result = $this->_db->get()->row()) === NULL)
 			{
+				// PHP7 will reuse the same SessionHandler object after
+				// ID regeneration, so we need to explicitly set this to
+				// FALSE instead of relying on the default ...
+				$this->_row_exists = FALSE;
 				$this->_fingerprint = md5('');
 				return '';
 			}
@@ -192,12 +202,15 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	 */
 	public function write($session_id, $session_data)
 	{
+		// Prevent previous QB calls from messing with our queries
+		$this->_db->reset_query();
+
 		// Was the ID regenerated?
 		if ($session_id !== $this->_session_id)
 		{
 			if ( ! $this->_release_lock() OR ! $this->_get_lock($session_id))
 			{
-				return FALSE;
+				return $this->_failure;
 			}
 
 			$this->_row_exists = FALSE;
@@ -205,7 +218,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		}
 		elseif ($this->_lock === FALSE)
 		{
-			return FALSE;
+			return $this->_failure;
 		}
 
 		if ($this->_row_exists === FALSE)
@@ -220,10 +233,11 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 			if ($this->_db->insert($this->_config['save_path'], $insert_data))
 			{
 				$this->_fingerprint = md5($session_data);
-				return $this->_row_exists = TRUE;
+				$this->_row_exists = TRUE;
+				return $this->_success;
 			}
 
-			return FALSE;
+			return $this->_failure;
 		}
 
 		$this->_db->where('id', $session_id);
@@ -243,10 +257,10 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		if ($this->_db->update($this->_config['save_path'], $update_data))
 		{
 			$this->_fingerprint = md5($session_data);
-			return TRUE;
+			return $this->_success;
 		}
 
-		return FALSE;
+		return $this->_failure;
 	}
 
 	// ------------------------------------------------------------------------
@@ -260,9 +274,9 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	 */
 	public function close()
 	{
-		return ($this->_lock)
-			? $this->_release_lock()
-			: TRUE;
+		return ($this->_lock && ! $this->_release_lock())
+			? $this->_failure
+			: $this->_success;
 	}
 
 	// ------------------------------------------------------------------------
@@ -279,18 +293,28 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	{
 		if ($this->_lock)
 		{
+			// Prevent previous QB calls from messing with our queries
+			$this->_db->reset_query();
+
 			$this->_db->where('id', $session_id);
 			if ($this->_config['match_ip'])
 			{
 				$this->_db->where('ip_address', $_SERVER['REMOTE_ADDR']);
 			}
 
-			return $this->_db->delete($this->_config['save_path'])
-				? ($this->close() && $this->_cookie_destroy())
-				: FALSE;
+			if ( ! $this->_db->delete($this->_config['save_path']))
+			{
+				return $this->_failure;
+			}
 		}
 
-		return ($this->close() && $this->_cookie_destroy());
+		if ($this->close() === $this->_success)
+		{
+			$this->_cookie_destroy();
+			return $this->_success;
+		}
+
+		return $this->_failure;
 	}
 
 	// ------------------------------------------------------------------------
@@ -305,7 +329,12 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	 */
 	public function gc($maxlifetime)
 	{
-		return $this->_db->delete($this->_config['save_path'], 'timestamp < '.(time() - $maxlifetime));
+		// Prevent previous QB calls from messing with our queries
+		$this->_db->reset_query();
+
+		return ($this->_db->delete($this->_config['save_path'], 'timestamp < '.(time() - $maxlifetime)))
+			? $this->_success
+			: $this->_failure;
 	}
 
 	// ------------------------------------------------------------------------

@@ -17,8 +17,8 @@ This article is intended to be a reference for them.
 
 	.. php:method:: initialize()
 
-		:returns:	TRUE on success, FALSE on failure
-		:rtype:	bool
+		:rtype:	void
+		:throws:	RuntimeException	In case of failure
 
 		Initialize database settings, establish a connection to
 		the database.
@@ -61,14 +61,6 @@ This article is intended to be a reference for them.
 
 		Select / switch the current database.
 
-	.. php:method:: db_set_charset($charset)
-
-		:param	string	$charset: Character set name
-		:returns:	TRUE on success, FALSE on failure
-		:rtype:	bool
-
-		Set client character set.
-
 	.. php:method:: platform()
 
 		:returns:	Platform name
@@ -83,7 +75,7 @@ This article is intended to be a reference for them.
 
 		Database version number.
 
-	.. php:method:: query($sql[, $binds = FALSE[, $return_object = NULL]]])
+	.. php:method:: query($sql[, $binds = FALSE[, $return_object = NULL]])
 
 		:param	string	$sql: The SQL statement to execute
 		:param	array	$binds: An array of binding data
@@ -140,13 +132,15 @@ This article is intended to be a reference for them.
 	.. php:method:: trans_start([$test_mode = FALSE])
 
 		:param	bool	$test_mode: Test mode flag
-		:rtype:	void
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Start a transaction.
 
 	.. php:method:: trans_complete()
 
-		:rtype:	void
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Complete Transaction.
 
