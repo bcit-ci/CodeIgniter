@@ -191,6 +191,8 @@ class CI_Log {
 			return FALSE;
 		}
 
+		flock($fp, LOCK_EX);
+
 		// Instantiating DateTime with microseconds appended to initial date is needed for proper support of this format
 		if (strpos($this->_date_fmt, 'u') !== FALSE)
 		{
@@ -205,8 +207,6 @@ class CI_Log {
 		}
 
 		$message .= $this->_format_line($level, $date, $msg);
-
-		flock($fp, LOCK_EX);
 
 		for ($written = 0, $length = strlen($message); $written < $length; $written += $result)
 		{

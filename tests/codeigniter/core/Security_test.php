@@ -299,7 +299,8 @@ class Security_test extends CI_TestCase {
 			'<img src="mdn-logo-sm.png" alt="MD Logo" srcset="mdn-logo-HD.png 2x, mdn-logo-small.png 15w, mdn-banner-HD.png 100w 2x" />',
 			'<img sqrc="/img/sunset.gif" height="100%" width="100%">',
 			'<img srqc="/img/sunset.gif" height="100%" width="100%">',
-			'<img srcq="/img/sunset.gif" height="100%" width="100%">'
+			'<img srcq="/img/sunset.gif" height="100%" width="100%">',
+			'<img src=non-quoted.attribute foo="bar">'
 		);
 
 		$urls = array(
@@ -310,7 +311,8 @@ class Security_test extends CI_TestCase {
 			'mdn-logo-sm.png',
 			'<img sqrc="/img/sunset.gif" height="100%" width="100%">',
 			'<img srqc="/img/sunset.gif" height="100%" width="100%">',
-			'<img srcq="/img/sunset.gif" height="100%" width="100%">'
+			'<img srcq="/img/sunset.gif" height="100%" width="100%">',
+			'non-quoted.attribute'
 		);
 
 		for ($i = 0; $i < count($imgtags); $i++)

@@ -226,6 +226,13 @@ This article is intended to be a reference for them.
 		and ``_`` wildcard characters, so that they don't cause
 		false-positives in LIKE conditions.
 
+		.. important:: The ``escape_like_str()`` method uses '!' (exclamation mark)
+			to escape special characters for *LIKE* conditions. Because this
+			method escapes partial strings that you would wrap in quotes
+			yourself, it cannot automatically add the ``ESCAPE '!'``
+			condition for you, and so you'll have to manually do that.
+
+
 	.. php:method:: primary($table)
 
 		:param	string	$table: Table name

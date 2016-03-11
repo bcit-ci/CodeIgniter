@@ -49,6 +49,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CI_Cache_apc extends CI_Driver {
 
 	/**
+	 * Class constructor
+	 *
+	 * Only present so that an error message is logged
+	 * if APC is not available.
+	 *
+	 * @return	void
+	 */
+	public function __construct()
+	{
+		if ( ! $this->is_supported())
+		{
+			log_message('error', 'Cache: Failed to initialize APC; extension not loaded/enabled?');
+		}
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
 	 * Get
 	 *
 	 * Look for a value in the cache. If it exists, return the data
@@ -198,13 +216,6 @@ class CI_Cache_apc extends CI_Driver {
 	 */
 	public function is_supported()
 	{
-		if ( ! extension_loaded('apc') OR ! ini_get('apc.enabled'))
-		{
-			log_message('debug', 'The APC PHP extension must be loaded to use APC Cache.');
-			return FALSE;
-		}
-
-		return TRUE;
+		return (extension_loaded('apc') && ini_get('apc.enabled'));
 	}
-
 }

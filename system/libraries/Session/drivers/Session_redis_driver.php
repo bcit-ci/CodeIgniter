@@ -143,7 +143,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	{
 		if (empty($this->_config['save_path']))
 		{
-			return $this->_failure;
+			return $this->_fail();
 		}
 
 		$redis = new Redis();
@@ -176,7 +176,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 			log_message('error', 'Session: Unable to connect to Redis with the configured settings.');
 		}
 
-		return $this->_failure;
+		return $this->_fail();
 	}
 
 	// ------------------------------------------------------------------------
@@ -206,7 +206,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 			return $session_data;
 		}
 
-		return $this->_failure;
+		return $this->_fail();
 	}
 
 	// ------------------------------------------------------------------------
@@ -224,14 +224,14 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	{
 		if ( ! isset($this->_redis))
 		{
-			return $this->_failure;
+			return $this->_fail();
 		}
 		// Was the ID regenerated?
 		elseif ($session_id !== $this->_session_id)
 		{
 			if ( ! $this->_release_lock() OR ! $this->_get_lock($session_id))
 			{
-				return $this->_failure;
+				return $this->_fail();
 			}
 
 			$this->_key_exists = FALSE;
@@ -250,15 +250,15 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 					return $this->_success;
 				}
 
-				return $this->_failure;
+				return $this->_fail();
 			}
 
 			return ($this->_redis->setTimeout($this->_key_prefix.$session_id, $this->_config['expiration']))
 				? $this->_success
-				: $this->_failure;
+				: $this->_fail();
 		}
 
-		return $this->_failure;
+		return $this->_fail();
 	}
 
 	// ------------------------------------------------------------------------
@@ -280,7 +280,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 					$this->_release_lock();
 					if ($this->_redis->close() === $this->_failure)
 					{
-						return $this->_failure;
+						return $this->_fail();
 					}
 				}
 			}
@@ -319,7 +319,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 			return $this->_success;
 		}
 
-		return $this->_failure;
+		return $this->_fail();
 	}
 
 	// ------------------------------------------------------------------------
