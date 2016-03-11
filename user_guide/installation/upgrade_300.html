@@ -1,0 +1,1313 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Upgrading from 2.2.x to 3.0.x &mdash; CodeIgniter 3.0.5 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/ci-icon.ico"/>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/citheme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="CodeIgniter 3.0.5 documentation" href="../index.html"/>
+        <link rel="up" title="Upgrading From a Previous Version" href="upgrading.html"/>
+        <link rel="next" title="Upgrading from 2.2.2 to 2.2.3" href="upgrade_223.html"/>
+        <link rel="prev" title="Upgrading from 3.0.0 to 3.0.1" href="upgrade_301.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div id="nav">
+  <div id="nav_inner">
+    
+    
+    
+      <div id="pulldown-menu" class="ciNav">
+        <ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/welcome.html">Welcome to CodeIgniter</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Installation Instructions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="downloads.html">Downloading CodeIgniter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html">Installation Instructions</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="upgrading.html">Upgrading From a Previous Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/index.html">CodeIgniter Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/at_a_glance.html">CodeIgniter at a Glance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/features.html">Supported Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/appflow.html">Application Flow Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/mvc.html">Model-View-Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/goals.html">Architectural Goals</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/static_pages.html">Static pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/news_section.html">News section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/create_news_items.html">Create news items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/conclusion.html">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing to CodeIgniter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../documentation/index.html">Writing CodeIgniter Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../DCO.html">Developer&#8217;s Certificate of Origin 1.1</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/index.html">General Topics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../general/urls.html">CodeIgniter URLs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/controllers.html">Controllers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/reserved_names.html">Reserved Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/views.html">Views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/libraries.html">Using CodeIgniter Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_libraries.html">Creating Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/drivers.html">Using CodeIgniter Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_drivers.html">Creating Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/core_classes.html">Creating Core System Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/ancillary_classes.html">Creating Ancillary Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/hooks.html">Hooks - Extending the Framework Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/autoloader.html">Auto-loading Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/common_functions.html">Common Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/compatibility_functions.html">Compatibility Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/routing.html">URI Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/errors.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/caching.html">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/profiling.html">Profiling Your Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/cli.html">Running via the CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/managing_apps.html">Managing your Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/environments.html">Handling Multiple Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/alternative_php.html">Alternate PHP Syntax for View Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/security.html">Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/styleguide.html">PHP Style Guide</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../libraries/index.html">Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/benchmark.html">Benchmarking Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/caching.html">Caching Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/calendar.html">Calendaring Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/cart.html">Shopping Cart Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/config.html">Config Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/email.html">Email Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/encrypt.html">Encrypt Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/encryption.html">Encryption Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/file_uploading.html">File Uploading Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/form_validation.html">Form Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/ftp.html">FTP Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/image_lib.html">Image Manipulation Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/input.html">Input Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/javascript.html">Javascript Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/language.html">Language Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/loader.html">Loader Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/migration.html">Migrations Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/output.html">Output Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/pagination.html">Pagination Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/parser.html">Template Parser Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/security.html">Security Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/sessions.html">Session Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/table.html">HTML Table Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/trackback.html">Trackback Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/typography.html">Typography Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/unit_testing.html">Unit Testing Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/uri.html">URI Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/user_agent.html">User Agent Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/xmlrpc.html">XML-RPC and XML-RPC Server Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/zip.html">Zip Encoding Class</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../database/examples.html">Quick Start: Usage Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/configuration.html">Database Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/connecting.html">Connecting to a Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/queries.html">Running Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/results.html">Generating Query Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/helpers.html">Query Helper Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/query_builder.html">Query Builder Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/transactions.html">Transactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/metadata.html">Getting MetaData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/call_function.html">Custom Function Calls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/caching.html">Query Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/forge.html">Database Manipulation with Database Forge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/utilities.html">Database Utilities Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/db_driver_reference.html">Database Driver Reference</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../helpers/index.html">Helpers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/array_helper.html">Array Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/captcha_helper.html">CAPTCHA Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/cookie_helper.html">Cookie Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/date_helper.html">Date Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/directory_helper.html">Directory Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/download_helper.html">Download Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/email_helper.html">Email Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/file_helper.html">File Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/form_helper.html">Form Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/html_helper.html">HTML Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/inflector_helper.html">Inflector Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/language_helper.html">Language Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/number_helper.html">Number Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/path_helper.html">Path Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/security_helper.html">Security Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/smiley_helper.html">Smiley Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/string_helper.html">String Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/text_helper.html">Text Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/typography_helper.html">Typography Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/url_helper.html">URL Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/xml_helper.html">XML Helper</a></li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    
+      
+  </div>
+</div>
+<div id="nav2">
+  <a href="#" id="openToc">
+    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAZABkAAD/7AARRHVja3kAAQAEAAAARgAA/+4ADkFkb2JlAGTAAAAAAf/bAIQABAMDAwMDBAMDBAYEAwQGBwUEBAUHCAYGBwYGCAoICQkJCQgKCgwMDAwMCgwMDQ0MDBERERERFBQUFBQUFBQUFAEEBQUIBwgPCgoPFA4ODhQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQU/8AAEQgAKwCaAwERAAIRAQMRAf/EAHsAAQAABwEBAAAAAAAAAAAAAAABAwQFBgcIAgkBAQAAAAAAAAAAAAAAAAAAAAAQAAEDAwICBwYEAgsAAAAAAAIBAwQAEQUSBiEHkROTVNQWGDFBUVIUCHEiMtOUFWGBobHRQlMkZIRVEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwDSC+ygkOOaUoKigUCgUCgUCgUCgUCgUCgUCgkuGguIP9FBMFb0Hqg7We+3jlmIqqYFf4ub+/QYlnOR/LqIBKGFUbf8qWv971BytQXXE7Y3Lnm3HsFhp2TaZJAdchRXpIgSpdEJWxJEW3xoKV7F5OMy7JkQn2o7D6w33XGjEAkoiqrJEqIiOIiKuhePCgqp22dyYyS3CyWHnQ5joG61HkRnmnTbaFSMhExRVQRRVJU9iUHjE7ez+fJ0MFipmUNhBV8YUd2SoIV9KkjQla9ltegttBdPLW4/qocL+UTfrMiHW4+P9M71shuyrqaHTcxsl7jegpsji8nh5ZwMvDfgTm0RTjSmjYdFCS6KoOIipdFunCgmNYTMv457MMY6U7iI6oMieDDhRm1VbIhuoOkbqtuK0Hpzb+eZcYZexUxt6UyUqK2cd0SdjtgrhOgijcgERUlJOCIl6CpgbP3blRI8XgMjNARAyKNDfeRBdFDBVUAXgQrqH4pxoJTu2NysY97LP4ac1io5q1InHFeGO24LnVKJuKOkSQ/yKir+rh7aCLG1dzypZQI2FnvTgccYOM3FeN0XWERXAUEFVQgQkUktdLpegm+Td3/Xli/L+S/mYNJIOF9G/wBeLKrZHFb0akG6W1WtQWSg3Dyg5e7V3fipE3O4/wCrktyzYA+ufas2LbZIlmnAT2kvuoN1wft95augilglX/tzP3qCu9O3LL/wV/i5v79BvmTADq14UGu91467Z6U9y0HzH/ncj/U/sT/CgynZG7I2NezpZGUjIycJkYkZSG+uQ81pbBNKLxJfjwoMqZ3/ALYHl35AJ7/cuwHcu5k7r1Q5pHetBjquqVVJWGxj9Zrtcl/Ggy3dHMvauR3HFZj5nHNxSyW5JISYDMoIwx8tFIGHZhPNaykGapr6rUAiicEoMG21lMRj8buPAz8xhJrr7uOeiPTCyAwXUaGR1mgozbTusOsFLEiJ7fbQa/h7gcjy2H3V6xppwDNtUSxCJIqp7valBuWVzJ22xuCROXNNZiJkMtms0DbjUkAZjzoDrTMd9dDRI44ZC2YsrYdKWP2WDT2S3N9dNdlRYrGMYc06IURXSYb0igrpWS485xVNS6nF4rwslkoMwnbpgZLB7bmt5uMweAhDEl4B5uSLzzqTnnyVpW2jaJHRMSIjdDiiotvy3DOE5rYTEbkl5yFn28k7JyG4c7AU2HtLH1uKfaiMPI40CdYbpNtmLdwTSn5rewLNld+7TLdeal4WarWBkbVKBjgdElMJJwAAY5fl4kB3b1fp4XvagsGS3FjJfLzDNtS8aeXx7LzT7TyzByQE5PccRGRC0ZRUDRV6y62vbjagzLmJzS2vuPK43JY6aP1TW6Jz+RIWyFtyC06y3EkiiinAo7YCqfq1AqqnGgsOH3lhZO8d1pmcpB8j5XIm9OYlBJSQ/FSS4427DKO0RC8AlcEMhFdViRR1WDWR5t3WXVuL1d106kG9vdeye2g60+1FDyW0shIcXVpyroXt8I8dfd+NB1vioAdWnD3UF1+gD4UFc6CEKpagxXN43rwJLUHz7yX2c8zokt9uHlsPIhA4aRnnHJTLptIS6CNsY7iASpxUUMkReGpfbQW0vtN5pitvrsN28rwtBD0nc0+/Yft5XhaB6TuaXfsP28rwtA9J3NPv2H7eV4Wgek7mn37D9vK8LQPSdzT79h+3leFoHpO5pd+w/byvC0D0nc0u/Yft5XhaB6TuaXfsP28rwtA9J3NLv2H7eV4Wgek7ml37D9vK8LQPSdzS79h+3leFoHpO5p9+w/byvC0E9r7Reazy2HIYVPxkS/CUHVn26cosxyv2g7h89LYmZSXOenvLEQ1YaQ222RATcQCP8rSGqqA8S02W2pQ6FhMoAIlqCtsnwoCpdKClejI4i3Sgtb+GBxVuNBSFt1pV/RQefLjPyUDy4z8lA8uM/JQPLjPyUDy4z8lA8uM/JQPLjPyUDy4z8lA8uM/JQPLjPyUDy4z8lA8utJ/koJ7WCbBU/LQXOPAFq1koK8B0pag90CggtBBf6qB0UDooHRQOigdFA6KB0UDooHRQOigdFA6KB0UDooI0EaBQf//Z" title="Toggle Table of Contents" alt="Toggle Table of Contents" />
+  </a>
+</div>
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../index.html" class="fa fa-home"> CodeIgniter</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/welcome.html">Welcome to CodeIgniter</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Installation Instructions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="downloads.html">Downloading CodeIgniter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html">Installation Instructions</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="upgrading.html">Upgrading From a Previous Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/index.html">CodeIgniter Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/at_a_glance.html">CodeIgniter at a Glance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/features.html">Supported Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/appflow.html">Application Flow Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/mvc.html">Model-View-Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/goals.html">Architectural Goals</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/static_pages.html">Static pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/news_section.html">News section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/create_news_items.html">Create news items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/conclusion.html">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing to CodeIgniter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../documentation/index.html">Writing CodeIgniter Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../DCO.html">Developer&#8217;s Certificate of Origin 1.1</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/index.html">General Topics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../general/urls.html">CodeIgniter URLs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/controllers.html">Controllers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/reserved_names.html">Reserved Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/views.html">Views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/libraries.html">Using CodeIgniter Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_libraries.html">Creating Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/drivers.html">Using CodeIgniter Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_drivers.html">Creating Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/core_classes.html">Creating Core System Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/ancillary_classes.html">Creating Ancillary Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/hooks.html">Hooks - Extending the Framework Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/autoloader.html">Auto-loading Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/common_functions.html">Common Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/compatibility_functions.html">Compatibility Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/routing.html">URI Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/errors.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/caching.html">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/profiling.html">Profiling Your Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/cli.html">Running via the CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/managing_apps.html">Managing your Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/environments.html">Handling Multiple Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/alternative_php.html">Alternate PHP Syntax for View Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/security.html">Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/styleguide.html">PHP Style Guide</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../libraries/index.html">Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/benchmark.html">Benchmarking Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/caching.html">Caching Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/calendar.html">Calendaring Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/cart.html">Shopping Cart Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/config.html">Config Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/email.html">Email Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/encrypt.html">Encrypt Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/encryption.html">Encryption Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/file_uploading.html">File Uploading Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/form_validation.html">Form Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/ftp.html">FTP Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/image_lib.html">Image Manipulation Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/input.html">Input Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/javascript.html">Javascript Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/language.html">Language Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/loader.html">Loader Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/migration.html">Migrations Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/output.html">Output Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/pagination.html">Pagination Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/parser.html">Template Parser Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/security.html">Security Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/sessions.html">Session Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/table.html">HTML Table Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/trackback.html">Trackback Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/typography.html">Typography Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/unit_testing.html">Unit Testing Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/uri.html">URI Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/user_agent.html">User Agent Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/xmlrpc.html">XML-RPC and XML-RPC Server Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libraries/zip.html">Zip Encoding Class</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../database/examples.html">Quick Start: Usage Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/configuration.html">Database Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/connecting.html">Connecting to a Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/queries.html">Running Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/results.html">Generating Query Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/helpers.html">Query Helper Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/query_builder.html">Query Builder Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/transactions.html">Transactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/metadata.html">Getting MetaData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/call_function.html">Custom Function Calls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/caching.html">Query Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/forge.html">Database Manipulation with Database Forge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/utilities.html">Database Utilities Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/db_driver_reference.html">Database Driver Reference</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../helpers/index.html">Helpers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/array_helper.html">Array Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/captcha_helper.html">CAPTCHA Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/cookie_helper.html">Cookie Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/date_helper.html">Date Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/directory_helper.html">Directory Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/download_helper.html">Download Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/email_helper.html">Email Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/file_helper.html">File Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/form_helper.html">Form Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/html_helper.html">HTML Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/inflector_helper.html">Inflector Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/language_helper.html">Language Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/number_helper.html">Number Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/path_helper.html">Path Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/security_helper.html">Security Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/smiley_helper.html">Smiley Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/string_helper.html">String Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/text_helper.html">Text Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/typography_helper.html">Typography Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/url_helper.html">URL Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/xml_helper.html">XML Helper</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">CodeIgniter</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+        <li><a href="index.html">Installation Instructions</a> &raquo;</li>
+      
+        <li><a href="upgrading.html">Upgrading From a Previous Version</a> &raquo;</li>
+      
+    <li>Upgrading from 2.2.x to 3.0.x</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+    <div style="float:right;margin-left:5px;" id="closeMe">
+      <img title="Classic Layout" alt="classic layout" src="data:image/gif;base64,R0lGODlhFAAUAJEAAAAAADMzM////wAAACH5BAUUAAIALAAAAAAUABQAAAImlI+py+0PU5gRBRDM3DxbWoXis42X13USOLauUIqnlsaH/eY6UwAAOw==" />
+    </div>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="upgrading-from-2-2-x-to-3-0-x">
+<h1>Upgrading from 2.2.x to 3.0.x<a class="headerlink" href="#upgrading-from-2-2-x-to-3-0-x" title="Permalink to this headline">¶</a></h1>
+<p>Before performing an update you should take your site offline by replacing the index.php file with a static one.</p>
+<div class="section" id="step-1-update-your-codeigniter-files">
+<h2>Step 1: Update your CodeIgniter files<a class="headerlink" href="#step-1-update-your-codeigniter-files" title="Permalink to this headline">¶</a></h2>
+<p><strong>Replace</strong> all files and directories in your <em>system/</em> directory and
+replace your index.php file. If any modifications were made to your
+index.php they will need to be made fresh in this new one.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">You have to delete the old <em>system/</em> directory first and
+then put the new one in its place. A simple copy-paste may cause
+issues.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you have any custom developed files in these folders please
+make copies of them first.</p>
+</div>
+</div>
+<div class="section" id="step-2-update-your-classes-file-names">
+<h2>Step 2: Update your classes file names<a class="headerlink" href="#step-2-update-your-classes-file-names" title="Permalink to this headline">¶</a></h2>
+<p>Starting with CodeIgniter 3.0, all class filenames (libraries, drivers, controllers
+and models) must be named in a Ucfirst-like manner or in other words - they must
+start with a capital letter.</p>
+<p>For example, if you have the following library file:</p>
+<blockquote>
+<div>application/libraries/mylibrary.php</div></blockquote>
+<p>... then you&#8217;ll have to rename it to:</p>
+<blockquote>
+<div>application/libraries/Mylibrary.php</div></blockquote>
+<p>The same goes for driver libraries and extensions and/or overrides of CodeIgniter&#8217;s
+own libraries and core classes.</p>
+<blockquote>
+<div>application/libraries/MY_email.php
+application/core/MY_log.php</div></blockquote>
+<p>The above files should respectively be renamed to the following:</p>
+<blockquote>
+<div>application/libraries/MY_Email.php
+application/core/MY_Log.php</div></blockquote>
+<p>Controllers:</p>
+<blockquote>
+<div>application/controllers/welcome.php     -&gt;      application/controllers/Welcome.php</div></blockquote>
+<p>Models:</p>
+<blockquote>
+<div>application/models/misc_model.php       -&gt;      application/models/Misc_model.php</div></blockquote>
+<p>Please note that this DOES NOT affect directories, configuration files, views,
+helpers, hooks and anything else - it is only applied to classes.</p>
+<p>You must now follow just one simple rule - class names in Ucfirst and everything else
+in lowercase.</p>
+</div>
+<div class="section" id="step-3-replace-config-mimes-php">
+<h2>Step 3: Replace config/mimes.php<a class="headerlink" href="#step-3-replace-config-mimes-php" title="Permalink to this headline">¶</a></h2>
+<p>This config file has been updated to contain more user mime-types, please copy
+it to <em>application/config/mimes.php</em>.</p>
+</div>
+<div class="section" id="step-4-remove-autoload-core-from-your-config-autoload-php">
+<h2>Step 4: Remove $autoload[&#8216;core&#8217;] from your config/autoload.php<a class="headerlink" href="#step-4-remove-autoload-core-from-your-config-autoload-php" title="Permalink to this headline">¶</a></h2>
+<p>Use of the <tt class="docutils literal"><span class="pre">$autoload['core']</span></tt> config array has been deprecated as of CodeIgniter 1.4.1 and is now removed.
+Move any entries that you might have listed there to <tt class="docutils literal"><span class="pre">$autoload['libraries']</span></tt> instead.</p>
+</div>
+<div class="section" id="step-5-move-your-log-class-overrides-or-extensions">
+<h2>Step 5: Move your Log class overrides or extensions<a class="headerlink" href="#step-5-move-your-log-class-overrides-or-extensions" title="Permalink to this headline">¶</a></h2>
+<p>The Log Class is considered as a &#8220;core&#8221; class and is now located in the
+<strong>system/core/</strong> directory. Therefore, in order for your Log class overrides
+or extensions to work, you need to move them to <strong>application/core/</strong>:</p>
+<blockquote>
+<div>application/libraries/Log.php -&gt; application/core/Log.php
+application/libraries/MY_Log.php -&gt; application/core/MY_Log.php</div></blockquote>
+</div>
+<div class="section" id="step-6-update-your-session-library-usage">
+<h2>Step 6: Update your Session library usage<a class="headerlink" href="#step-6-update-your-session-library-usage" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../libraries/sessions.html"><em>Session Library</em></a> has been completely
+re-written in CodeIgniter 3 and now comes with a bunch of new features,
+but that also means that there are changes that you should make ...</p>
+<p>Most notably, the library now uses separate storage drivers instead of
+always relying on (encrypted) cookies.
+In fact, cookies as storage have now been removed and you must always use
+some kind of server-side storage engine, with the file-system being the
+default option.</p>
+<p>The Session Class now utilizes PHP&#8217;s own mechanisms for building custom
+session handlers, which also means that your session data is now
+accessible via the <tt class="docutils literal"><span class="pre">$_SESSION</span></tt> superglobal (though, we&#8217;ve kept the
+possibility to use it as &#8220;userdata&#8221;, like you&#8217;ve done until now).</p>
+<p>A few configuration options have been removed and a few have been added.
+You should really read the whole <a class="reference internal" href="../libraries/sessions.html"><em>Session library manual</em></a> for the details, but here&#8217;s a short list of changes
+that you should make:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Set your <tt class="docutils literal"><span class="pre">$config['sess_driver']</span></tt> value</p>
+<p>It will default to &#8216;files&#8217;, unles you&#8217;ve previously used
+<tt class="docutils literal"><span class="pre">$config['sess_use_database']</span></tt>, in which case it will be set to
+&#8216;database&#8217;.</p>
+</li>
+<li><p class="first">Set a <tt class="docutils literal"><span class="pre">$config['sess_save_path']</span></tt> value</p>
+<p>For the &#8216;database&#8217; driver, a fallback to <tt class="docutils literal"><span class="pre">$config['sess_table_name']</span></tt>
+is in place, but otherwise requires you to read the manual for the
+specific driver of your choice.</p>
+</li>
+<li><p class="first">Update your <tt class="docutils literal"><span class="pre">ci_sessions</span></tt> table (&#8216;database&#8217; driver only)</p>
+<p>The table structure has changed a bit, and more specifically:</p>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">session_id</span></tt> field is renamed to <tt class="docutils literal"><span class="pre">id</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">user_agent</span></tt> field is dropped</li>
+<li><tt class="docutils literal"><span class="pre">user_data</span></tt> field is renamed to <tt class="docutils literal"><span class="pre">data</span></tt> and under MySQL is now of type BLOB</li>
+<li><tt class="docutils literal"><span class="pre">last_activity</span></tt> field is renamed to <tt class="docutils literal"><span class="pre">timestamp</span></tt></li>
+</ul>
+</div></blockquote>
+<p>This is accompanied by a slight change in the table indexes too, so
+please read the manual about the <a class="reference external" href="../libraries/sessions.html#database-driver">Session Database Driver</a> for more information.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Only MySQL and PostgreSQL are officially supported
+now. Other databases may still work, but due to lack of advisory
+locking features, they are unsafe for concurrent requests and
+you should consider using another driver instead.</p>
+</div>
+</li>
+<li><p class="first">Remove <tt class="docutils literal"><span class="pre">$config['sess_match_useragent']</span></tt></p>
+<p>The user-agent string is input supplied by the user&#8217;s browser, or in
+other words: client side input. As such, it is an ineffective feature
+and hence why it has been removed.</p>
+</li>
+<li><p class="first">Remove <tt class="docutils literal"><span class="pre">$config['sess_encrypt_cookie']</span></tt></p>
+<p>As already noted, the library no longer uses cookies as a storage
+mechanism, which renders this option useless.</p>
+</li>
+<li><p class="first">Remove <tt class="docutils literal"><span class="pre">$config['sess_expire_on_close']</span></tt></p>
+<p>This option is still usable, but only for backwards compatibility
+purposes and it should be otherwise removed. The same effect is
+achieved by setting <tt class="docutils literal"><span class="pre">$config['sess_expiration']</span></tt> to 0.</p>
+</li>
+<li><p class="first">Check &#8220;flashdata&#8221; for collisions with &#8220;userdata&#8221;</p>
+<p>Flashdata is now just regular &#8220;userdata&#8221;, only marked for deletion on
+the next request. In other words: you can&#8217;t have both &#8220;userdata&#8221; and
+&#8220;flashdata&#8221; with the same name, because it&#8217;s the same thing.</p>
+</li>
+<li><p class="first">Check usage of session metadata</p>
+<p>Previously, you could access the &#8216;session_id&#8217;, &#8216;ip_address&#8217;,
+&#8216;user_agent&#8217; and &#8216;last_activity&#8217; metadata items as userdata.
+This is no longer possible, and you should read the notes about
+<a class="reference external" href="../libraries/sessions.html#accessing-session-metadata">Session Metadata</a>
+if your application relies on those values.</p>
+</li>
+<li><p class="first">Check <tt class="docutils literal"><span class="pre">unset_userdata()</span></tt> usage</p>
+<p>Previously, this method used to accept an associative array of
+<tt class="docutils literal"><span class="pre">'key'</span> <span class="pre">=&gt;</span> <span class="pre">'dummy</span> <span class="pre">value'</span></tt> pairs for unsetting multiple keys. That
+however makes no sense and you now have to pass <em>only</em> the keys, as
+the elements of an array.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="c1">// Old</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">unset_userdata</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;item&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;item2&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;&#39;</span><span class="p">));</span>
+
+<span class="c1">// New</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">unset_userdata</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">,</span> <span class="s1">&#39;item2&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+<p>Finally, if you have written a Session extension, you must now move it to
+the <em>application/libraries/Session/</em> directory, although chances are that
+it will now also have to be re-factored.</p>
+</div>
+<div class="section" id="step-7-update-your-config-database-php">
+<h2>Step 7: Update your config/database.php<a class="headerlink" href="#step-7-update-your-config-database-php" title="Permalink to this headline">¶</a></h2>
+<p>Due to 3.0.0&#8217;s renaming of Active Record to Query Builder, inside your
+<strong>config/database.php</strong>, you will need to rename the <tt class="docutils literal"><span class="pre">$active_record</span></tt>
+variable to <tt class="docutils literal"><span class="pre">$query_builder</span></tt>:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$active_group</span> <span class="o">=</span> <span class="s1">&#39;default&#39;</span><span class="p">;</span>
+<span class="c1">// $active_record = TRUE;</span>
+<span class="nv">$query_builder</span> <span class="o">=</span> <span class="k">TRUE</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="step-8-replace-your-error-templates">
+<h2>Step 8: Replace your error templates<a class="headerlink" href="#step-8-replace-your-error-templates" title="Permalink to this headline">¶</a></h2>
+<p>In CodeIgniter 3.0, the error templates are now considered as views and have been moved to the
+<em>application/views/errors</em> directory.</p>
+<p>Furthermore, we&#8217;ve added support for CLI error templates in plain-text format that unlike HTML,
+is suitable for the command line. This of course requires another level of separation.</p>
+<p>It is safe to move your old templates from <em>application/errors</em> to <em>application/views/errors/html</em>,
+but you&#8217;ll have to copy the new <em>application/views/errors/cli</em> directory from the CodeIgniter archive.</p>
+</div>
+<div class="section" id="step-9-update-your-config-routes-php-file">
+<h2>Step 9: Update your config/routes.php file<a class="headerlink" href="#step-9-update-your-config-routes-php-file" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="routes-containing-any">
+<h3>Routes containing :any<a class="headerlink" href="#routes-containing-any" title="Permalink to this headline">¶</a></h3>
+<p>Historically, CodeIgniter has always provided the <strong>:any</strong> wildcard in
+routing, with the intention of providing a way to match any character
+<strong>within</strong> an URI segment.</p>
+<p>However, the <strong>:any</strong> wildcard is actually just an alias for a regular
+expression and used to be executed in that manner as <strong>.+</strong>. This is
+considered a bug, as it also matches the / (forward slash) character, which
+is the URI segment delimiter and that was never the intention.</p>
+<p>In CodeIgniter 3, the <strong>:any</strong> wildcard will now represent <strong>[^/]+</strong>, so
+that it will not match a forward slash.</p>
+<p>There are certainly many developers that have utilized this bug as an actual
+feature. If you&#8217;re one of them and want to match a forward slash, please use
+the <strong>.+</strong> regular expression:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="p">(</span><span class="o">.+</span><span class="p">)</span>    <span class="c1">// matches ANYTHING</span>
+<span class="p">(</span><span class="o">:</span><span class="nx">any</span><span class="p">)</span>  <span class="c1">// matches any character, except for &#39;/&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="directories-and-default-controller-404-override">
+<h3>Directories and &#8216;default_controller&#8217;, &#8216;404_override&#8217;<a class="headerlink" href="#directories-and-default-controller-404-override" title="Permalink to this headline">¶</a></h3>
+<p>As you should know, the <tt class="docutils literal"><span class="pre">$route['default_controller']</span></tt> and
+<tt class="docutils literal"><span class="pre">$route['404_override']</span></tt> settings accept not only a controller name, but
+also <em>controller/method</em> pairs. However, a bug in the routing logic has
+made it possible for some users to use that as <em>directory/controller</em>
+instead.</p>
+<p>As already said, this behavior was incidental and was never intended, nor
+documented. If you&#8217;ve relied on it, your application will break with
+CodeIgniter 3.0.</p>
+<p>Another notable change in version 3 is that &#8216;default_controller&#8217; and
+&#8216;404_override&#8217; are now applied <em>per directory</em>. To explain what this means,
+let&#8217;s take the following example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$route</span><span class="p">[</span><span class="s1">&#39;default_controller&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;main&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Now, assuming that your website is located at <em>example.com</em>, you already
+know that if a user visits <tt class="docutils literal"><span class="pre">http://example.com/</span></tt>, the above setting will
+cause your &#8216;Main&#8217; controller to be loaded.</p>
+<p>However, what happens if you have an <em>application/controllers/admin/</em>
+directory and the user visits <tt class="docutils literal"><span class="pre">http://example.com/admin/</span></tt>?
+In CodeIgniter 3, the router will look for a &#8216;Main&#8217; controller under the
+admin/ directory as well. If not found, a Not Found (404) will be triggered.</p>
+<p>The same rule applies to the &#8216;404_override&#8217; setting.</p>
+</div>
+</div>
+<div class="section" id="step-10-many-functions-now-return-null-instead-of-false-on-missing-items">
+<h2>Step 10: Many functions now return NULL instead of FALSE on missing items<a class="headerlink" href="#step-10-many-functions-now-return-null-instead-of-false-on-missing-items" title="Permalink to this headline">¶</a></h2>
+<p>Many methods and functions now return NULL instead of FALSE when the required items don&#8217;t exist:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="../general/common_functions.html"><em>Common functions</em></a><ul>
+<li>config_item()</li>
+</ul>
+</li>
+<li><a class="reference internal" href="../libraries/config.html"><em>Config Class</em></a><ul>
+<li>config-&gt;item()</li>
+<li>config-&gt;slash_item()</li>
+</ul>
+</li>
+<li><a class="reference internal" href="../libraries/input.html"><em>Input Class</em></a><ul>
+<li>input-&gt;get()</li>
+<li>input-&gt;post()</li>
+<li>input-&gt;get_post()</li>
+<li>input-&gt;cookie()</li>
+<li>input-&gt;server()</li>
+<li>input-&gt;input_stream()</li>
+<li>input-&gt;get_request_header()</li>
+</ul>
+</li>
+<li><a class="reference internal" href="../libraries/sessions.html"><em>Session Class</em></a><ul>
+<li>session-&gt;userdata()</li>
+<li>session-&gt;flashdata()</li>
+</ul>
+</li>
+<li><a class="reference internal" href="../libraries/uri.html"><em>URI Class</em></a><ul>
+<li>uri-&gt;segment()</li>
+<li>uri-&gt;rsegment()</li>
+</ul>
+</li>
+<li><a class="reference internal" href="../helpers/array_helper.html"><em>Array Helper</em></a><ul>
+<li>element()</li>
+<li>elements()</li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="step-11-usage-of-xss-filtering">
+<h2>Step 11: Usage of XSS filtering<a class="headerlink" href="#step-11-usage-of-xss-filtering" title="Permalink to this headline">¶</a></h2>
+<p>Many functions in CodeIgniter allow you to use its XSS filtering feature
+on demand by passing a boolean parameter. The default value of that
+parameter used to be boolean FALSE, but it is now changed to NULL and it
+will be dynamically determined by your <tt class="docutils literal"><span class="pre">$config['global_xss_filtering']</span></tt>
+value.</p>
+<p>If you used to manually pass a boolean value for the <tt class="docutils literal"><span class="pre">$xss_filter</span></tt>
+parameter or if you&#8217;ve always had <tt class="docutils literal"><span class="pre">$config['global_xss_filtering']</span></tt> set
+to FALSE, then this change doesn&#8217;t concern you.</p>
+<p>Otherwise however, please review your usage of the following functions:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="../libraries/input.html"><em>Input Library</em></a><ul>
+<li>input-&gt;get()</li>
+<li>input-&gt;post()</li>
+<li>input-&gt;get_post()</li>
+<li>input-&gt;cookie()</li>
+<li>input-&gt;server()</li>
+<li>input-&gt;input_stream()</li>
+</ul>
+</li>
+<li><a class="reference internal" href="../helpers/cookie_helper.html"><em>Cookie Helper</em></a> <a class="reference internal" href="../helpers/cookie_helper.html#get_cookie" title="get_cookie"><tt class="xref php php-func docutils literal"><span class="pre">get_cookie()</span></tt></a></li>
+</ul>
+</div></blockquote>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Another related change is that the <tt class="docutils literal"><span class="pre">$_GET</span></tt>, <tt class="docutils literal"><span class="pre">$_POST</span></tt>,
+<tt class="docutils literal"><span class="pre">$_COOKIE</span></tt> and <tt class="docutils literal"><span class="pre">$_SERVER</span></tt> superglobals are no longer
+automatically overwritten when global XSS filtering is turned on.</p>
+</div>
+</div>
+<div class="section" id="step-12-check-for-potential-xss-issues-with-uris">
+<h2>Step 12: Check for potential XSS issues with URIs<a class="headerlink" href="#step-12-check-for-potential-xss-issues-with-uris" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../libraries/uri.html"><em>URI Library</em></a> used to automatically convert
+a certain set of &#8220;programmatic characters&#8221; to HTML entities when they
+are encountered in a URI segment.</p>
+<p>This was aimed at providing some automatic XSS protection, in addition
+to the <tt class="docutils literal"><span class="pre">$config['permitted_uri_chars']</span></tt> setting, but has proven to be
+problematic and is now removed in CodeIgniter 3.0.</p>
+<p>If your application has relied on this feature, you should update it to
+filter URI segments through <tt class="docutils literal"><span class="pre">$this-&gt;security-&gt;xss_clean()</span></tt> whenever you
+output them.</p>
+</div>
+<div class="section" id="step-13-check-for-usage-of-the-xss-clean-form-validation-rule">
+<h2>Step 13: Check for usage of the &#8216;xss_clean&#8217; Form validation rule<a class="headerlink" href="#step-13-check-for-usage-of-the-xss-clean-form-validation-rule" title="Permalink to this headline">¶</a></h2>
+<p>A largely unknown rule about XSS cleaning is that it should <em>only be
+applied to output</em>, as opposed to input data.</p>
+<p>We&#8217;ve made that mistake ourselves with our automatic and global XSS cleaning
+feature (see previous step about XSS above), so now in an effort to discourage that
+practice, we&#8217;re also removing &#8216;xss_clean&#8217; from the officially supported
+list of <a class="reference internal" href="../libraries/form_validation.html"><em>form validation</em></a> rules.</p>
+<p>Because the <a class="reference internal" href="../libraries/form_validation.html"><em>Form Validation library</em></a>
+generally validates <em>input</em> data, the &#8216;xss_clean&#8217; rule simply doesn&#8217;t
+belong in it.</p>
+<p>If you really, really need to apply that rule, you should now also load the
+<a class="reference internal" href="../helpers/security_helper.html"><em>Security Helper</em></a>, which contains
+<tt class="docutils literal"><span class="pre">xss_clean()</span></tt> as a regular function and therefore can be also used as
+a validation rule.</p>
+</div>
+<div class="section" id="step-14-update-usage-of-input-class-s-get-post-method">
+<h2>Step 14: Update usage of Input Class&#8217;s get_post() method<a class="headerlink" href="#step-14-update-usage-of-input-class-s-get-post-method" title="Permalink to this headline">¶</a></h2>
+<p>Previously, the <a class="reference internal" href="../libraries/input.html"><em>Input Class</em></a> method <tt class="docutils literal"><span class="pre">get_post()</span></tt>
+was searching first in POST data, then in GET data. This method has been
+modified so that it searches in GET then in POST, as its name suggests.</p>
+<p>A method has been added, <tt class="docutils literal"><span class="pre">post_get()</span></tt>, which searches in POST then in GET, as
+<tt class="docutils literal"><span class="pre">get_post()</span></tt> was doing before.</p>
+</div>
+<div class="section" id="step-15-update-usage-of-directory-helper-s-directory-map-function">
+<h2>Step 15: Update usage of Directory Helper&#8217;s directory_map() function<a class="headerlink" href="#step-15-update-usage-of-directory-helper-s-directory-map-function" title="Permalink to this headline">¶</a></h2>
+<p>In the resulting array, directories now end with a trailing directory
+separator (i.e. a slash, usually).</p>
+</div>
+<div class="section" id="step-16-update-usage-of-database-forge-s-drop-table-method">
+<h2>Step 16: Update usage of Database Forge&#8217;s drop_table() method<a class="headerlink" href="#step-16-update-usage-of-database-forge-s-drop-table-method" title="Permalink to this headline">¶</a></h2>
+<p>Up until now, <tt class="docutils literal"><span class="pre">drop_table()</span></tt> added an IF EXISTS clause by default or it didn&#8217;t work
+at all with some drivers. In CodeIgniter 3.0, the IF EXISTS condition is no longer added
+by default and has an optional second parameter that allows that instead and is set to
+FALSE by default.</p>
+<p>If your application relies on IF EXISTS, you&#8217;ll have to change its usage.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="c1">// Now produces just DROP TABLE `table_name`</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">dbforge</span><span class="o">-&gt;</span><span class="na">drop_table</span><span class="p">(</span><span class="s1">&#39;table_name&#39;</span><span class="p">);</span>
+
+<span class="c1">// Produces DROP TABLE IF EXISTS `table_name`</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">dbforge</span><span class="o">-&gt;</span><span class="na">drop_table</span><span class="p">(</span><span class="s1">&#39;table_name&#39;</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The given example uses MySQL-specific syntax, but it should work across
+all drivers with the exception of ODBC.</p>
+</div>
+</div>
+<div class="section" id="step-17-change-usage-of-email-library-with-multiple-emails">
+<h2>Step 17: Change usage of Email library with multiple emails<a class="headerlink" href="#step-17-change-usage-of-email-library-with-multiple-emails" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../libraries/email.html"><em>Email Library</em></a> will automatically clear the
+set parameters after successfully sending emails. To override this behaviour,
+pass FALSE as the first parameter in the <tt class="docutils literal"><span class="pre">send()</span></tt> method:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">email</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">(</span><span class="k">FALSE</span><span class="p">))</span>
+<span class="p">{</span>
+        <span class="c1">// Parameters won&#39;t be cleared</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="step-18-update-your-form-validation-language-lines">
+<h2>Step 18: Update your Form_validation language lines<a class="headerlink" href="#step-18-update-your-form-validation-language-lines" title="Permalink to this headline">¶</a></h2>
+<p>Two improvements have been made to the <a class="reference internal" href="../libraries/form_validation.html"><em>Form Validation Library</em></a>&#8216;s <a class="reference internal" href="../libraries/language.html"><em>language</em></a>
+files and error messages format:</p>
+<blockquote>
+<div><ul>
+<li><p class="first"><a class="reference internal" href="../libraries/language.html"><em>Language Library</em></a> line keys now must be
+prefixed with <strong>form_validation_</strong> in order to avoid collisions:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="c1">// Old</span>
+<span class="nv">$lang</span><span class="p">[</span><span class="s1">&#39;rule&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">...</span>
+
+<span class="c1">// New</span>
+<span class="nv">$lang</span><span class="p">[</span><span class="s1">&#39;form_validation_rule&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">...</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">The error messages format has been changed to use named parameters, to
+allow more flexibility than what <cite>sprintf()</cite> offers:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="c1">// Old</span>
+<span class="s1">&#39;The %s field does not match the %s field.&#39;</span>
+
+<span class="c1">// New</span>
+<span class="s1">&#39;The {field} field does not match the {param} field.&#39;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The old formatting still works, but the non-prefixed line keys
+are DEPRECATED and scheduled for removal in CodeIgniter 3.1+.
+Therefore you&#8217;re encouraged to update its usage sooner rather than
+later.</p>
+</div>
+</div>
+<div class="section" id="step-19-make-sure-your-base-url-config-value-is-not-empty">
+<h2>Step 19: Make sure your &#8216;base_url&#8217; config value is not empty<a class="headerlink" href="#step-19-make-sure-your-base-url-config-value-is-not-empty" title="Permalink to this headline">¶</a></h2>
+<p>When <tt class="docutils literal"><span class="pre">$config['base_url']</span></tt> is not set, CodeIgniter tries to automatically
+detect what your website&#8217;s base URL is. This is done purely for convenience
+when you are starting development of a new application.</p>
+<p>Auto-detection is never reliable and also has security implications, which
+is why you should <strong>always</strong> have it manually configured!</p>
+<p>One of the changes in CodeIgniter 3.0.3 is how this auto-detection works,
+and more specifically it now falls back to the server&#8217;s IP address instead
+of the hostname requested by the client. Therefore, if you&#8217;ve ever relied
+on auto-detection, it will change how your website works now.</p>
+<p>In case you need to allow e.g. multiple domains, or both <a class="reference external" href="http://">http://</a> and
+<a class="reference external" href="https://">https://</a> prefixes to be dynamically used depending on the request,
+remember that <em>application/config/config.php</em> is still a PHP script, in
+which you can create this logic with a few lines of code. For example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$allowed_domains</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;domain1.tld&#39;</span><span class="p">,</span> <span class="s1">&#39;domain2.tld&#39;</span><span class="p">);</span>
+<span class="nv">$default_domain</span>  <span class="o">=</span> <span class="s1">&#39;domain1.tld&#39;</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">&#39;HTTP_HOST&#39;</span><span class="p">],</span> <span class="nv">$allowed_domains</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">))</span>
+<span class="p">{</span>
+        <span class="nv">$domain</span> <span class="o">=</span> <span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">&#39;HTTP_HOST&#39;</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="k">else</span>
+<span class="p">{</span>
+        <span class="nv">$domain</span> <span class="o">=</span> <span class="nv">$default_domain</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="p">(</span> <span class="o">!</span> <span class="k">empty</span><span class="p">(</span><span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">&#39;HTTPS&#39;</span><span class="p">]))</span>
+<span class="p">{</span>
+        <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;base_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;https://&#39;</span><span class="o">.</span><span class="nv">$domain</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">else</span>
+<span class="p">{</span>
+        <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;base_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;http://&#39;</span><span class="o">.</span><span class="nv">$domain</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="step-20-remove-usage-of-previously-deprecated-functionalities">
+<h2>Step 20: Remove usage of (previously) deprecated functionalities<a class="headerlink" href="#step-20-remove-usage-of-previously-deprecated-functionalities" title="Permalink to this headline">¶</a></h2>
+<p>In addition to the <tt class="docutils literal"><span class="pre">$autoload['core']</span></tt> configuration setting, there&#8217;s a
+number of other functionalities that have been removed in CodeIgniter 3.0.0:</p>
+<div class="section" id="the-sha1-library">
+<h3>The SHA1 library<a class="headerlink" href="#the-sha1-library" title="Permalink to this headline">¶</a></h3>
+<p>The previously deprecated SHA1 library has been removed, alter your code to use PHP&#8217;s native
+<tt class="docutils literal"><span class="pre">sha1()</span></tt> function to generate a SHA1 hash.</p>
+<p>Additionally, the <tt class="docutils literal"><span class="pre">sha1()</span></tt> method in the <a class="reference internal" href="../libraries/encrypt.html"><em>Encrypt Library</em></a> has been removed.</p>
+</div>
+<div class="section" id="the-ext-constant">
+<h3>The EXT constant<a class="headerlink" href="#the-ext-constant" title="Permalink to this headline">¶</a></h3>
+<p>Usage of the <tt class="docutils literal"><span class="pre">EXT</span></tt> constant has been deprecated since dropping support for PHP 4. There&#8217;s no
+longer a need to maintain different filename extensions and in this new CodeIgniter version,
+the <tt class="docutils literal"><span class="pre">EXT</span></tt> constant has been removed. Use just &#8216;.php&#8217; instead.</p>
+</div>
+<div class="section" id="smiley-helper">
+<h3>Smiley helper<a class="headerlink" href="#smiley-helper" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="../helpers/smiley_helper.html"><em>Smiley Helper</em></a> is a legacy feature from EllisLab&#8217;s
+ExpressionEngine product. However, it is too specific for a general purpose framework like
+CodeIgniter and as such it is now deprecated.</p>
+<p>Also, the previously deprecated <tt class="docutils literal"><span class="pre">js_insert_smiley()</span></tt> (since version 1.7.2) is now removed.</p>
+</div>
+<div class="section" id="the-encrypt-library">
+<h3>The Encrypt library<a class="headerlink" href="#the-encrypt-library" title="Permalink to this headline">¶</a></h3>
+<p>Following numerous vulnerability reports, the <a class="reference internal" href="../libraries/encrypt.html"><em>Encrypt Library</em></a> has
+been deprecated and a new, <a class="reference internal" href="../libraries/encryption.html"><em>Encryption Library</em></a> is added to take
+its place.</p>
+<p>The new library requires either the <a class="reference external" href="http://php.net/mcrypt">MCrypt extension</a> (and /dev/urandom
+availability) or PHP 5.3.3 and the <a class="reference external" href="http://php.net/openssl">OpenSSL extension</a>.
+While this might be rather inconvenient, it is a requirement that allows us to have properly
+implemented cryptographic functions.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <a class="reference internal" href="../libraries/encrypt.html"><em>Encrypt Library</em></a> is still available for the purpose
+of keeping backwards compatibility.</p>
+</div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">You are strongly encouraged to switch to the new <a class="reference internal" href="../libraries/encryption.html"><em>Encryption Library</em></a> as soon as possible!</p>
+</div>
+</div>
+<div class="section" id="the-cart-library">
+<h3>The Cart library<a class="headerlink" href="#the-cart-library" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="../libraries/cart.html"><em>Cart Library</em></a>, similarly to the <a class="reference internal" href="../helpers/smiley_helper.html"><em>Smiley Helper</em></a> is too specific for CodeIgniter. It is now deprecated
+and scheduled for removal in CodeIgniter 3.1+.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The library is still available, but you&#8217;re strongly encouraged to remove its usage sooner
+rather than later.</p>
+</div>
+</div>
+<div class="section" id="database-drivers-mysql-sqlite-mssql-pdo-dblib">
+<h3>Database drivers &#8216;mysql&#8217;, &#8216;sqlite&#8217;, &#8216;mssql&#8217;, &#8216;pdo/dblib&#8217;<a class="headerlink" href="#database-drivers-mysql-sqlite-mssql-pdo-dblib" title="Permalink to this headline">¶</a></h3>
+<p>The <strong>mysql</strong> driver utilizes the old &#8216;mysql&#8217; PHP extension, known for its aging code base and
+many low-level problems. The extension is deprecated as of PHP 5.5 and CodeIgniter deprecates
+it in version 3.0, switching the default configured MySQL driver to <strong>mysqli</strong>.</p>
+<p>Please use either the &#8216;mysqli&#8217; or &#8216;pdo/mysql&#8217; drivers for MySQL. The old &#8216;mysql&#8217; driver will be
+removed at some point in the future.</p>
+<p>The <strong>sqlite</strong>, <strong>mssql</strong> and <strong>pdo/dblib</strong> (also known as pdo/mssql or pdo/sybase) drivers
+all depend on PHP extensions that for different reasons no longer exist since PHP 5.3.</p>
+<p>Therefore we are now deprecating these drivers as we will have to remove them in one of the next
+CodeIgniter versions. You should use the more advanced, <strong>sqlite3</strong>, <strong>sqlsrv</strong> or <strong>pdo/sqlsrv</strong>
+drivers respectively.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">These drivers are still available, but you&#8217;re strongly encouraged to switch to other ones
+sooner rather than later.</p>
+</div>
+</div>
+<div class="section" id="security-helper-do-hash">
+<h3>Security helper do_hash()<a class="headerlink" href="#security-helper-do-hash" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="../helpers/security_helper.html"><em>Security Helper</em></a> function <tt class="docutils literal"><span class="pre">do_hash()</span></tt> is now just an alias for
+PHP&#8217;s native <tt class="docutils literal"><span class="pre">hash()</span></tt> function. It is deprecated and scheduled for removal in CodeIgniter 3.1+.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function is still available, but you&#8217;re strongly encouraged to remove its usage sooner
+rather than later.</p>
+</div>
+</div>
+<div class="section" id="the-config-global-xss-filtering-setting">
+<h3>The $config[&#8216;global_xss_filtering&#8217;] setting<a class="headerlink" href="#the-config-global-xss-filtering-setting" title="Permalink to this headline">¶</a></h3>
+<p>As already explained above, XSS filtering should not be done on input data,
+but on output instead. Therefore, the <tt class="docutils literal"><span class="pre">$config['global_xss_filtering']</span></tt>,
+which automatically filters <em>input</em> data, is considered a bad practice and
+is now deprecated.</p>
+<p>Instead, you should manually escape any user-provided data via the
+<a class="reference internal" href="../helpers/security_helper.html#xss_clean" title="xss_clean"><tt class="xref php php-func docutils literal"><span class="pre">xss_clean()</span></tt></a> function when you need to output it, or use a
+library like <a class="reference external" href="http://htmlpurifier.org/">HTML Purifier</a> that does that
+for you.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The setting is still available, but you&#8217;re strongly encouraged to
+remove its usage sooner rather than later.</p>
+</div>
+</div>
+<div class="section" id="file-helper-read-file">
+<h3>File helper read_file()<a class="headerlink" href="#file-helper-read-file" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="../helpers/file_helper.html"><em>File Helper</em></a> function <tt class="docutils literal"><span class="pre">read_file()</span></tt> is now just an alias for
+PHP&#8217;s native <tt class="docutils literal"><span class="pre">file_get_contents()</span></tt> function. It is deprecated and scheduled for removal in
+CodeIgniter 3.1+.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function is still available, but you&#8217;re strongly encouraged to remove its usage sooner
+rather than later.</p>
+</div>
+</div>
+<div class="section" id="string-helper-repeater">
+<h3>String helper repeater()<a class="headerlink" href="#string-helper-repeater" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="../helpers/string_helper.html"><em>String Helper</em></a> function <a class="reference internal" href="../helpers/string_helper.html#repeater" title="repeater"><tt class="xref php php-func docutils literal"><span class="pre">repeater()</span></tt></a> is now just an alias for
+PHP&#8217;s native <tt class="docutils literal"><span class="pre">str_repeat()</span></tt> function. It is deprecated and scheduled for removal in CodeIgniter 3.1+.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function is still available, but you&#8217;re strongly encouraged to remove its usage sooner
+rather than later.</p>
+</div>
+</div>
+<div class="section" id="string-helper-trim-slashes">
+<h3>String helper trim_slashes()<a class="headerlink" href="#string-helper-trim-slashes" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="../helpers/string_helper.html"><em>String Helper</em></a> function <a class="reference internal" href="../helpers/string_helper.html#trim_slashes" title="trim_slashes"><tt class="xref php php-func docutils literal"><span class="pre">trim_slashes()</span></tt></a> is now just an alias
+for PHP&#8217;s native <tt class="docutils literal"><span class="pre">trim()</span></tt> function (with a slash passed as its second argument). It is deprecated and
+scheduled for removal in CodeIgniter 3.1+.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function is still available, but you&#8217;re strongly encouraged to remove its usage sooner
+rather than later.</p>
+</div>
+</div>
+<div class="section" id="form-helper-form-prep">
+<h3>Form helper form_prep()<a class="headerlink" href="#form-helper-form-prep" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="../helpers/form_helper.html"><em>Form Helper</em></a> function <a class="reference internal" href="../helpers/form_helper.html#form_prep" title="form_prep"><tt class="xref php php-func docutils literal"><span class="pre">form_prep()</span></tt></a>
+is now just an alias for <a class="reference internal" href="../general/common_functions.html"><em>common function</em></a>
+<tt class="xref py py-func docutils literal"><span class="pre">html_escape()</span></tt>. It is deprecated and will be removed in the future.</p>
+<p>Please use <a class="reference internal" href="../general/common_functions.html#html_escape" title="html_escape"><tt class="xref php php-func docutils literal"><span class="pre">html_escape()</span></tt></a> instead.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function is still available, but you&#8217;re strongly encouraged
+to remove its usage sooner rather than later.</p>
+</div>
+</div>
+<div class="section" id="email-helper-functions">
+<h3>Email helper functions<a class="headerlink" href="#email-helper-functions" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="../helpers/email_helper.html"><em>Email Helper</em></a> only has two functions</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="../helpers/email_helper.html#valid_email" title="valid_email"><tt class="xref php php-func docutils literal"><span class="pre">valid_email()</span></tt></a></li>
+<li><a class="reference internal" href="../helpers/email_helper.html#send_email" title="send_email"><tt class="xref php php-func docutils literal"><span class="pre">send_email()</span></tt></a></li>
+</ul>
+</div></blockquote>
+<p>Both of them are now aliases for PHP&#8217;s native <tt class="docutils literal"><span class="pre">filter_var()</span></tt> and <tt class="docutils literal"><span class="pre">mail()</span></tt> functions, respectively.
+Therefore the <a class="reference internal" href="../helpers/email_helper.html"><em>Email Helper</em></a> altogether is being deprecated and
+is scheduled for removal in CodeIgniter 3.1+.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">These functions are still available, but you&#8217;re strongly encouraged to remove their usage
+sooner rather than later.</p>
+</div>
+</div>
+<div class="section" id="date-helper-standard-date">
+<h3>Date helper standard_date()<a class="headerlink" href="#date-helper-standard-date" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="../helpers/date_helper.html"><em>Date Helper</em></a> function <tt class="docutils literal"><span class="pre">standard_date()</span></tt> is being deprecated due
+to the availability of native PHP <a class="reference external" href="http://php.net/manual/en/class.datetime.php#datetime.constants.types">constants</a>,
+which when combined with <tt class="docutils literal"><span class="pre">date()</span></tt> provide the same functionality. Furthermore, they have the
+exact same names as the ones supported by <tt class="docutils literal"><span class="pre">standard_date()</span></tt>. Here are examples of how to replace
+its usage:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="c1">// Old way</span>
+<span class="nx">standard_date</span><span class="p">();</span> <span class="c1">// defaults to standard_date(&#39;DATE_RFC822&#39;, now());</span>
+
+<span class="c1">// Replacement</span>
+<span class="nb">date</span><span class="p">(</span><span class="nx">DATE_RFC822</span><span class="p">,</span> <span class="nx">now</span><span class="p">());</span>
+
+<span class="c1">// Old way</span>
+<span class="nx">standard_date</span><span class="p">(</span><span class="s1">&#39;DATE_ATOM&#39;</span><span class="p">,</span> <span class="nv">$time</span><span class="p">);</span>
+
+<span class="c1">// Replacement</span>
+<span class="nb">date</span><span class="p">(</span><span class="nx">DATE_ATOM</span><span class="p">,</span> <span class="nv">$time</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function is still available, but you&#8217;re strongly encouraged to remove its usage sooner
+rather than later as it is scheduled for removal in CodeIgniter 3.1+.</p>
+</div>
+</div>
+<div class="section" id="html-helpers-nbs-br">
+<h3>HTML helpers nbs(), br()<a class="headerlink" href="#html-helpers-nbs-br" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="../helpers/html_helper.html"><em>HTML Helper</em></a> functions <tt class="docutils literal"><span class="pre">nbs()</span></tt> and <tt class="docutils literal"><span class="pre">br()</span></tt> are just aliases
+for the native <tt class="docutils literal"><span class="pre">str_repeat()</span></tt> function used with <tt class="docutils literal"><span class="pre">&amp;nbsp;</span></tt> and <tt class="docutils literal"><span class="pre">&lt;br</span> <span class="pre">&gt;</span></tt> respectively.</p>
+<p>Because there&#8217;s no point in just aliasing native PHP functions, they are now deprecated and
+scheduled for removal in CodeIgniter 3.1+.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">These functions are still available, but you&#8217;re strongly encouraged to remove their usage
+sooner rather than later.</p>
+</div>
+</div>
+<div class="section" id="pagination-library-anchor-class-setting">
+<h3>Pagination library &#8216;anchor_class&#8217; setting<a class="headerlink" href="#pagination-library-anchor-class-setting" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="../libraries/pagination.html"><em>Pagination Library</em></a> now supports adding pretty much any HTML
+attribute to your anchors via the &#8216;attributes&#8217; configuration setting. This includes passing the
+&#8216;class&#8217; attribute and using the separate &#8216;anchor_class&#8217; setting no longer makes sense.
+As a result of that, the &#8216;anchor_class&#8217; setting is now deprecated and scheduled for removal in
+CodeIgniter 3.1+.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This setting is still available, but you&#8217;re strongly encouraged to remove its usage sooner
+rather than later.</p>
+</div>
+</div>
+<div class="section" id="string-helper-random-string-types-unique-and-encrypt">
+<h3>String helper random_string() types &#8216;unique&#8217; and &#8216;encrypt&#8217;<a class="headerlink" href="#string-helper-random-string-types-unique-and-encrypt" title="Permalink to this headline">¶</a></h3>
+<p>When using the <a class="reference internal" href="../helpers/string_helper.html"><em>String Helper</em></a> function <a class="reference internal" href="../helpers/string_helper.html#random_string" title="random_string"><tt class="xref php php-func docutils literal"><span class="pre">random_string()</span></tt></a>,
+you should no longer pass the <strong>unique</strong> and <strong>encrypt</strong> randomization types. They are only
+aliases for <strong>md5</strong> and <strong>sha1</strong> respectively and are now deprecated and scheduled for removal
+in CodeIgniter 3.1+.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">These options are still available, but you&#8217;re strongly encouraged to remove their usage
+sooner rather than later.</p>
+</div>
+</div>
+<div class="section" id="url-helper-url-title-separators-dash-and-underscore">
+<h3>URL helper url_title() separators &#8216;dash&#8217; and &#8216;underscore&#8217;<a class="headerlink" href="#url-helper-url-title-separators-dash-and-underscore" title="Permalink to this headline">¶</a></h3>
+<p>When using the <a class="reference internal" href="../helpers/url_helper.html"><em>URL Helper</em></a> function <a class="reference internal" href="../helpers/url_helper.html#url_title" title="url_title"><tt class="xref php php-func docutils literal"><span class="pre">url_title()</span></tt></a>, you
+should no longer pass <strong>dash</strong> or <strong>underscore</strong> as the word separator. This function will
+now accept any character and you should just pass the chosen character directly, so you
+should write &#8216;-&#8216; instead of &#8216;dash&#8217; and &#8216;_&#8217; instead of &#8216;underscore&#8217;.</p>
+<p><strong>dash</strong> and <strong>underscore</strong> now act as aliases and are deprecated and scheduled for removal
+in CodeIgniter 3.1+.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">These options are still available, but you&#8217;re strongly encouraged to remove their usage
+sooner rather than later.</p>
+</div>
+</div>
+<div class="section" id="session-library-method-all-userdata">
+<h3>Session Library method all_userdata()<a class="headerlink" href="#session-library-method-all-userdata" title="Permalink to this headline">¶</a></h3>
+<p>As seen in the <a class="reference internal" href="../changelog.html"><em>Change Log</em></a>, <a class="reference internal" href="../libraries/sessions.html"><em>Session Library</em></a>
+method <tt class="docutils literal"><span class="pre">userdata()</span></tt> now allows you to fetch all userdata by simply omitting its parameter:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">userdata</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>This makes the <tt class="docutils literal"><span class="pre">all_userdata()</span></tt> method redudant and therefore it is now just an alias for
+<tt class="docutils literal"><span class="pre">userdata()</span></tt> with the above shown usage and is being deprecated and scheduled for removal
+in CodeIgniter 3.1+.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method is still available, but you&#8217;re strongly encouraged to remove its usage
+sooner rather than later.</p>
+</div>
+</div>
+<div class="section" id="database-forge-method-add-column-with-an-after-clause">
+<h3>Database Forge method add_column() with an AFTER clause<a class="headerlink" href="#database-forge-method-add-column-with-an-after-clause" title="Permalink to this headline">¶</a></h3>
+<p>If you have used the <strong>third parameter</strong> for <a class="reference internal" href="../database/forge.html"><em>Database Forge</em></a> method
+<tt class="docutils literal"><span class="pre">add_column()</span></tt> to add a field for an AFTER clause, then you should change its usage.</p>
+<p>That third parameter has been deprecated and scheduled for removal in CodeIgniter 3.1+.</p>
+<p>You should now put AFTER clause field names in the field definition array instead:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="c1">// Old usage:</span>
+<span class="nv">$field</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;new_field&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;TEXT&#39;</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">dbforge</span><span class="o">-&gt;</span><span class="na">add_column</span><span class="p">(</span><span class="s1">&#39;table_name&#39;</span><span class="p">,</span> <span class="nv">$field</span><span class="p">,</span> <span class="s1">&#39;another_field&#39;</span><span class="p">);</span>
+
+<span class="c1">// New usage:</span>
+<span class="nv">$field</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;new_field&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;TEXT&#39;</span><span class="p">,</span> <span class="s1">&#39;after&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;another_field&#39;</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">dbforge</span><span class="o">-&gt;</span><span class="na">add_column</span><span class="p">(</span><span class="s1">&#39;table_name&#39;</span><span class="p">,</span> <span class="nv">$field</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The parameter is still available, but you&#8217;re strongly encouraged to remove its usage
+sooner rather than later.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is for MySQL and CUBRID databases only! Other drivers don&#8217;t support this
+clause and will silently ignore it.</p>
+</div>
+</div>
+<div class="section" id="uri-routing-methods-fetch-directory-fetch-class-fetch-method">
+<h3>URI Routing methods fetch_directory(), fetch_class(), fetch_method()<a class="headerlink" href="#uri-routing-methods-fetch-directory-fetch-class-fetch-method" title="Permalink to this headline">¶</a></h3>
+<p>With properties <tt class="docutils literal"><span class="pre">CI_Router::$directory</span></tt>, <tt class="docutils literal"><span class="pre">CI_Router::$class</span></tt> and <tt class="docutils literal"><span class="pre">CI_Router::$method</span></tt>
+being public and their respective <tt class="docutils literal"><span class="pre">fetch_*()</span></tt> no longer doing anything else to just return
+the properties - it doesn&#8217;t make sense to keep them.</p>
+<p>Those are all internal, undocumented methods, but we&#8217;ve opted to deprecate them for now
+in order to maintain backwards-compatibility just in case. If some of you have utilized them,
+then you can now just access the properties instead:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">router</span><span class="o">-&gt;</span><span class="na">directory</span><span class="p">;</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">router</span><span class="o">-&gt;</span><span class="na">class</span><span class="p">;</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">router</span><span class="o">-&gt;</span><span class="na">method</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Those methods are still available, but you&#8217;re strongly encouraged to remove their usage
+sooner rather than later.</p>
+</div>
+</div>
+<div class="section" id="input-library-method-is-cli-request">
+<h3>Input library method is_cli_request()<a class="headerlink" href="#input-library-method-is-cli-request" title="Permalink to this headline">¶</a></h3>
+<p>Calls to the <tt class="docutils literal"><span class="pre">CI_Input::is_cli_request()</span></tt> method are necessary at many places
+in the CodeIgniter internals and this is often before the <a class="reference internal" href="../libraries/input.html"><em>Input Library</em></a> is loaded. Because of that, it is being replaced by a common
+function named <a class="reference internal" href="../general/common_functions.html#is_cli" title="is_cli"><tt class="xref php php-func docutils literal"><span class="pre">is_cli()</span></tt></a> and this method is now just an alias.</p>
+<p>The new function is both available at all times for you to use and shorter to type.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="c1">// Old</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">is_cli_request</span><span class="p">();</span>
+
+<span class="c1">// New</span>
+<span class="nx">is_cli</span><span class="p">();</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">CI_Input::is_cli_request()</span></tt> is now now deprecated and scheduled for removal in
+CodeIgniter 3.1+.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method is still available, but you&#8217;re strongly encouraged to remove its usage
+sooner rather than later.</p>
+</div>
+</div>
+<div class="section" id="config-library-method-system-url">
+<h3>Config library method system_url()<a class="headerlink" href="#config-library-method-system-url" title="Permalink to this headline">¶</a></h3>
+<p>Usage of <tt class="docutils literal"><span class="pre">CI_Config::system_url()</span></tt> encourages insecure coding practices.
+Namely, your CodeIgniter <em>system/</em> directory shouldn&#8217;t be publicly accessible
+from a security point of view.</p>
+<p>Because of this, this method is now deprecated and scheduled for removal in
+CodeIgniter 3.1+.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method is still available, but you&#8217;re strongly encouraged to remove its usage
+sooner rather than later.</p>
+</div>
+<div class="section" id="the-javascript-library">
+<h4>The Javascript library<a class="headerlink" href="#the-javascript-library" title="Permalink to this headline">¶</a></h4>
+<p>The <a class="reference internal" href="../libraries/javascript.html"><em>Javascript Library</em></a> has always had an
+&#8216;experimental&#8217; status and was never really useful, nor a proper solution.</p>
+<p>It is now deprecated and scheduled for removal in CodeIgniter 3.1+.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This library is still available, but you&#8217;re strongly encouraged to remove its usage
+sooner rather than later.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="step-21-check-your-usage-of-text-helper-highlight-phrase">
+<h2>Step 21: Check your usage of Text helper highlight_phrase()<a class="headerlink" href="#step-21-check-your-usage-of-text-helper-highlight-phrase" title="Permalink to this headline">¶</a></h2>
+<p>The default HTML tag used by <a class="reference internal" href="../helpers/text_helper.html"><em>Text Helper</em></a> function
+<tt class="xref py py-func docutils literal"><span class="pre">highlight_phrase()</span></tt> has been changed from <tt class="docutils literal"><span class="pre">&lt;strong&gt;</span></tt> to the new HTML5
+tag <tt class="docutils literal"><span class="pre">&lt;mark&gt;</span></tt>.</p>
+<p>Unless you&#8217;ve used your own highlighting tags, this might cause trouble
+for your visitors who use older web browsers such as Internet Explorer 8.
+We therefore suggest that you add the following code to your CSS files
+in order to avoid backwards compatibility with old browsers:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nx">mark</span> <span class="p">{</span>
+        <span class="nx">background</span><span class="o">:</span> <span class="c1">#ff0;</span>
+        <span class="nx">color</span><span class="o">:</span> <span class="c1">#000;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="upgrade_223.html" class="btn btn-neutral float-right" title="Upgrading from 2.2.2 to 2.2.3">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="upgrade_301.html" class="btn btn-neutral" title="Upgrading from 3.0.0 to 3.0.1"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014 - 2016, British Columbia Institute of Technology.
+      Last updated on Mar 11, 2016.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
