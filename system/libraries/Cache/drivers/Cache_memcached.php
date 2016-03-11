@@ -107,6 +107,7 @@ class CI_Cache_memcached extends CI_Driver {
 		else
 		{
 			log_message('error', 'Cache: Failed to create Memcache(d) object; extension not loaded?');
+			return;
 		}
 
 		foreach ($this->_memcache_conf as $cache_server)
