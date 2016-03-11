@@ -44,6 +44,8 @@ Bug fixes for 3.0.5
 -  Fixed a bug where :doc:`Database <database/index>` transactions didn't work with the 'ibase' driver.
 -  Fixed a bug (#4475) - :doc:`Security Library <libraries/security>` method ``strip_image_tags()`` preserves only the first URL character from non-quoted *src* attributes.
 -  Fixed a bug where :doc:`Profiler Library <general/profiling>` didn't apply ``htmlspecialchars()`` to all displayed inputs.
+-  Fixed a bug (#4277) - :doc:`Cache Library <libraries/caching>` triggered fatal errors if accessing the Memcache(d) and/or Redis driver and they are not available on the system.
+-  Fixed a bug where :doc:`Cache Library <libraries/caching>` method ``is_supported()`` logged an error message on when it returns ``FALSE`` for the APC and Wincache drivers.
 
 Version 3.0.4
 =============
