@@ -10,6 +10,7 @@ Release Date: Not Released
 -  Core
 
    -  Changed :doc:`Loader Library <libraries/loader>` to allow ``$autoload['drivers']`` assigning with custom property names.
+   -  Changed :doc:`Loader Library <libraries/loader>` to ignore variables prefixed with '_ci_' when loading views.
 
 -  General Changes
 
