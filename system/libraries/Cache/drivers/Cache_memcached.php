@@ -125,7 +125,7 @@ class CI_Cache_memcached extends CI_Driver {
 					$cache_server['weight']
 				);
 			}
-			else
+			elseif ($this->_memcached instanceof Memcached)
 			{
 				$this->_memcached->addServer(
 					$cache_server['hostname'],
