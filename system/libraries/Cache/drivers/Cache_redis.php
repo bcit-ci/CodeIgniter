@@ -149,14 +149,21 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function get($key)
 	{
-		$value = $this->_redis->get($key);
+		$value = $this->_redis->hMGet($key, array('serialized', 'data'));
 
-		if ($value !== FALSE && isset($this->_serialized[$key]))
+		if ( ! is_array($value) OR  ! isset($value['serialized'], $value['data']))
 		{
-			return unserialize($value);
+			return FALSE;
 		}
 
-		return $value;
+		if ($value['serialized'])
+		{
+			return unserialize($value['data']);
+		}
+		else
+		{
+			return $value['data'];
+		}
 	}
 
 	// ------------------------------------------------------------------------
@@ -174,21 +181,12 @@ class CI_Cache_redis extends CI_Driver
 	{
 		if (is_array($data) OR is_object($data))
 		{
-			if ( ! $this->_redis->sIsMember('_ci_redis_serialized', $id) && ! $this->_redis->sAdd('_ci_redis_serialized', $id))
-			{
-				return FALSE;
-			}
-
-			isset($this->_serialized[$id]) OR $this->_serialized[$id] = TRUE;
-			$data = serialize($data);
+			return $this->_redis->hMSet($id, array('serialized' => TRUE, 'data' => serialize($data)));
 		}
-		elseif (isset($this->_serialized[$id]))
+		else
 		{
-			$this->_serialized[$id] = NULL;
-			$this->_redis->sRemove('_ci_redis_serialized', $id);
+			return $this->_redis->hMSet($id, array('serialized' => FALSE, 'data' => $data));
 		}
-
-		return $this->_redis->set($id, $data, $ttl);
 	}
 
 	// ------------------------------------------------------------------------
@@ -201,18 +199,7 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function delete($key)
 	{
-		if ($this->_redis->delete($key) !== 1)
-		{
-			return FALSE;
-		}
-
-		if (isset($this->_serialized[$key]))
-		{
-			$this->_serialized[$key] = NULL;
-			$this->_redis->sRemove('_ci_redis_serialized', $key);
-		}
-
-		return TRUE;
+		return ($this->_redis->delete($key) === 1);
 	}
 
 	// ------------------------------------------------------------------------
@@ -226,7 +213,7 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function increment($id, $offset = 1)
 	{
-		return $this->_redis->incr($id, $offset);
+		return $this->_redis->hIncrBy($id, 'data', $offset);
 	}
 
 	// ------------------------------------------------------------------------
@@ -240,7 +227,7 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function decrement($id, $offset = 1)
 	{
-		return $this->_redis->decr($id, $offset);
+		return $this->_redis->hIncrBy($id, 'data', -$offset);
 	}
 
 	// ------------------------------------------------------------------------
