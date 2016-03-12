@@ -286,4 +286,25 @@ class CI_Cache_memcached extends CI_Driver {
 	{
 		return (extension_loaded('memcached') OR extension_loaded('memcache'));
 	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Class destructor
+	 *
+	 * Closes the connection to Memcache(d) if present.
+	 *
+	 * @return	void
+	 */
+	public function __destruct()
+	{
+		if ($this->_memcached instanceof Memcache)
+		{
+			$this->_memcached->close();
+		}
+		elseif ($this->_memcached instanceof Memcached)
+		{
+			$this->_memcached->quit();
+		}
+	}
 }
