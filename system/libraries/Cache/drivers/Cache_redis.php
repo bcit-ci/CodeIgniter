@@ -102,10 +102,13 @@ class CI_Cache_redis extends CI_Driver
 
 		if ($CI->config->load('redis', TRUE, TRUE))
 		{
-			$config = $CI->config->item('redis');
+			$config = array_merge(self::$_default_config, $CI->config->item('redis'));
+		}
+		else
+		{
+			$config = self::$_default_config;
 		}
 
-		$config = array_merge(self::$_default_config, $config);
 		$this->_redis = new Redis();
 
 		try
