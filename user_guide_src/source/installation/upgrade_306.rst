@@ -13,7 +13,22 @@ Replace all files and directories in your *system/* directory.
 .. note:: If you have any custom developed files in these directories,
 	please make copies of them first.
 
-Step 2: Remove 'prep_for_form' usage (deprecation)
+Step 2: Update your index.php file (optional)
+=============================================
+
+We've made some tweaks to the index.php file, mostly related to proper
+usage of directory separators (i.e. use the ``DIRECTORY_SEPARATOR``
+constant instead of a hard coded forward slash "/").
+
+Nothing will break if you skip this step, but if you're running Windows
+or just want to be up to date with every change - we do recommend that
+you update your index.php file.
+
+*Tip: Just copy the ``ENVIRONMENT``, ``$system_path``, ``$application_folder``
+and ``$view_folder`` declarations from the old file and put them into the
+new one, replacing the defaults.*
+
+Step 3: Remove 'prep_for_form' usage (deprecation)
 ==================================================
 
 The :doc:`Form Validation Library <../libraries/form_validation>` has a
