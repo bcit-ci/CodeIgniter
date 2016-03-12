@@ -7,6 +7,10 @@ Version 3.0.6
 
 Release Date: Not Released
 
+Bug fixes for 3.0.6
+-------------------
+
+-  Fixed a bug (#4516) - :doc:`Form Validation Library <libraries/form_validation>` always accepted empty array inputs.
 
 Version 3.0.5
 =============
