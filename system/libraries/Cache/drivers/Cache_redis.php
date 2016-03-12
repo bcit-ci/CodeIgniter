@@ -56,6 +56,7 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	protected static $_default_config = array(
 		'socket_type' => 'tcp',
+		'socket' => NULL,
 		'host' => '127.0.0.1',
 		'password' => NULL,
 		'port' => 6379,
