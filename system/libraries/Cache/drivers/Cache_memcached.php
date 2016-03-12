@@ -186,7 +186,7 @@ class CI_Cache_memcached extends CI_Driver {
 	/**
 	 * Delete from Cache
 	 *
-	 * @param	mixed	key to be deleted.
+	 * @param	mixed	$id	key to be deleted.
 	 * @return	bool	true on success, false on failure
 	 */
 	public function delete($id)
@@ -251,7 +251,7 @@ class CI_Cache_memcached extends CI_Driver {
 	/**
 	 * Get Cache Metadata
 	 *
-	 * @param	mixed	key to get cache metadata on
+	 * @param	mixed	$id	key to get cache metadata on
 	 * @return	mixed	FALSE on failure, array on success.
 	 */
 	public function get_metadata($id)
