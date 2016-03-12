@@ -87,12 +87,7 @@ class CI_Cache_memcached extends CI_Driver {
 		{
 			if (is_array($CI->config->config['memcached']))
 			{
-				$this->_config = array();
-
-				foreach ($CI->config->config['memcached'] as $name => $conf)
-				{
-					$this->_config[$name] = $conf;
-				}
+				$this->_config = $CI->config->config['memcached'];
 			}
 		}
 
