@@ -240,7 +240,7 @@ switch (ENVIRONMENT)
 	{
 		if (($_temp = realpath($application_folder)) !== FALSE)
 		{
-			$application_folder = $_temp.DIRECTORY_SEPARATOR;
+			$application_folder = $_temp;
 		}
 		else
 		{
