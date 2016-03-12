@@ -184,12 +184,19 @@ class CI_Cache_redis extends CI_Driver
 	{
 		if (is_array($data) OR is_object($data))
 		{
-			return $this->_redis->hMSet($id, array('type' => gettype($data), 'data' => serialize($data)));
+			$success = $this->_redis->hMSet($id, array('type' => gettype($data), 'data' => serialize($data)));
 		}
 		else
 		{
-			return $this->_redis->hMSet($id, array('type' => gettype($data), 'data' => $data));
+			$success = $this->_redis->hMSet($id, array('type' => gettype($data), 'data' => $data));
 		}
+        
+		if ($success && $ttl)
+		{
+			$this->_redis->expireAt($id, time() + $ttl);
+		}
+
+		return $success;
 	}
 
 	// ------------------------------------------------------------------------
