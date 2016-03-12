@@ -143,19 +143,20 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function get($key)
 	{
-		$value = $this->_redis->hMGet($key, array('serialized', 'data'));
+		$value = $this->_redis->hMGet($key, array('type', 'data'));
 
-		if ( ! is_array($value) OR  ! isset($value['serialized'], $value['data']))
+		if ( ! is_array($value) OR  ! isset($value['type'], $value['data']))
 		{
 			return FALSE;
 		}
 
-		if ($value['serialized'])
+		if ($value['type'] === 'array' OR $value['type'] === 'object')
 		{
 			return unserialize($value['data']);
 		}
 		else
 		{
+			settype($value['data'], $value['type']);
 			return $value['data'];
 		}
 	}
@@ -175,11 +176,11 @@ class CI_Cache_redis extends CI_Driver
 	{
 		if (is_array($data) OR is_object($data))
 		{
-			return $this->_redis->hMSet($id, array('serialized' => TRUE, 'data' => serialize($data)));
+			return $this->_redis->hMSet($id, array('type' => gettype($data), 'data' => serialize($data)));
 		}
 		else
 		{
-			return $this->_redis->hMSet($id, array('serialized' => FALSE, 'data' => $data));
+			return $this->_redis->hMSet($id, array('type' => gettype($data), 'data' => $data));
 		}
 	}
 
