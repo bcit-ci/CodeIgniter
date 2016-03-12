@@ -145,7 +145,7 @@ class CI_Cache_redis extends CI_Driver
 	{
 		$value = $this->_redis->hMGet($key, array('type', 'data'));
 
-		if ($value === FALSE OR  $value['type'] === FALSE)
+		if ($value === FALSE OR $value['type'] === FALSE)
 		{
 			return FALSE;
 		}
