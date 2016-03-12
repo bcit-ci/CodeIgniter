@@ -145,12 +145,12 @@ class CI_Cache_redis extends CI_Driver
 	{
 		$value = $this->_redis->hMGet($key, array('serialized', 'data'));
 
-		if ( ! is_array($value))
+		if ( ! is_array($value) OR  ! isset($value['serialized'], $value['data']))
 		{
 			return FALSE;
 		}
 
-		if ( ! empty($value['serialized']))
+		if ($value['serialized'])
 		{
 			return unserialize($value['data']);
 		}
