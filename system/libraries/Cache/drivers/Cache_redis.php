@@ -69,13 +69,6 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	protected $_redis;
 
-	/**
-	 * An internal cache for storing keys of serialized values.
-	 *
-	 * @var	array
-	 */
-	protected $_serialized = array();
-
 	// ------------------------------------------------------------------------
 
 	/**
@@ -135,10 +128,6 @@ class CI_Cache_redis extends CI_Driver
 		{
 			log_message('error', 'Cache: Redis connection refused ('.$e->getMessage().')');
 		}
-
-		// Initialize the index of serialized values.
-		$serialized = $this->_redis->sMembers('_ci_redis_serialized');
-		empty($serialized) OR $this->_serialized = array_flip($serialized);
 	}
 
 	// ------------------------------------------------------------------------
