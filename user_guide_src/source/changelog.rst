@@ -14,6 +14,7 @@ Release Date: Not Released
 -  Libraries
 
    -  Added UNIX socket connection support to :doc:`Session Library <libraries/sessions>` 'redis' driver.
+   -  Changed data serialization logic in :doc:`Cache Library <libraries/caching>` 'redis' driver for better performance.
 
 -  Database
 
@@ -25,6 +26,11 @@ Release Date: Not Released
 
    -  Updated :doc:`HTML Helper <helpers/html_helper>` function :php:func:`meta()` with support for "charset" and "property" properties.
    -  Changed :doc:`HTML Helper <helpers/html_helper>` function :php:func:`doctype()` default document type to HTML 5.
+
+Bug fixes for 3.1.0
+-------------------
+
+-  Fixed a bug (#4528) - :doc:`Cache Library <libraries/caching>` stored all scalar values as strings with the 'redis' driver.
 
 Version 3.0.6
 =============

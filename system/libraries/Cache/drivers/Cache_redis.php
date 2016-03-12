@@ -151,21 +151,29 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function get($key)
 	{
-		$value = $this->_redis->hMGet($key, array('type', 'data'));
+		$data = $this->_redis->hMGet($key, array('__ci_type', '__ci_value'));
 
-		if (empty($value['type']))
+		if ( ! isset($data['__ci_type'], $data['__ci_value']) OR $data['__ci_value'] === FALSE)
 		{
 			return FALSE;
 		}
 
-		if ($value['type'] === 'array' OR $value['type'] === 'object')
+		switch ($data['__ci_type'])
 		{
-			return unserialize($value['data']);
-		}
-		else
-		{
-			settype($value['data'], $value['type']);
-			return $value['data'];
+			case 'array':
+			case 'object':
+				return unserialize($data['__ci_value']);
+			case 'boolean':
+			case 'integer':
+			case 'double': // Yes, 'double' is returned and NOT 'float'
+			case 'string':
+			case 'NULL':
+				return settype($data['__ci_value'], $data['__ci_type'])
+					? $data['__ci_value']
+					: FALSE;
+			case 'resource':
+			default:
+				return FALSE;
 		}
 	}
 
@@ -182,21 +190,33 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
-		if (is_array($data) OR is_object($data))
+		switch ($data_type = gettype($data))
 		{
-			$success = $this->_redis->hMSet($id, array('type' => gettype($data), 'data' => serialize($data)));
+			case 'array':
+			case 'object':
+				$data = serialize($data);
+				break;
+			case 'boolean':
+			case 'integer':
+			case 'double': // Yes, 'double' is returned and NOT 'float'
+			case 'string':
+			case 'NULL':
+				break;
+			case 'resource':
+			default:
+				return FALSE;
 		}
-		else
+
+		if ( ! $this->_redis->hMSet($id, array('__ci_type' => $data_type, '__ci_value' => $data)))
 		{
-			$success = $this->_redis->hMSet($id, array('type' => gettype($data), 'data' => $data));
+			return FALSE;
 		}
-        
-		if ($success && $ttl)
+		elseif ($ttl)
 		{
 			$this->_redis->expireAt($id, time() + $ttl);
 		}
 
-		return $success;
+		return TRUE;
 	}
 
 	// ------------------------------------------------------------------------
