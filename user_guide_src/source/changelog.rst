@@ -7,6 +7,10 @@ Version 3.0.6
 
 Release Date: Not Released
 
+-  General Changes
+
+   -  Added a destructor to :doc:`Cache Library <libraries/caching>` 'memcached' driver to ensure that Memcache(d) connections are properly closed.
+
 Bug fixes for 3.0.6
 -------------------
 
