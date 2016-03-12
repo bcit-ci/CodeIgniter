@@ -256,8 +256,8 @@ class CI_Cache_redis extends CI_Driver
 	 * Get cache driver info
 	 *
 	 * @param	string	$type	Not supported in Redis.
-	 *			Only included in order to offer a
-	 *			consistent cache API.
+	 *				Only included in order to offer a
+	 *				consistent cache API.
 	 * @return	array
 	 * @see		Redis::info()
 	 */
