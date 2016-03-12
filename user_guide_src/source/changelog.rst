@@ -10,6 +10,7 @@ Release Date: Not Released
 -  General Changes
 
    -  Added a destructor to :doc:`Cache Library <libraries/caching>` 'memcached' driver to ensure that Memcache(d) connections are properly closed.
+   -  Deprecated :doc:`Form Validation Library <libraries/form_validation>` method ``prep_for_form()``.
 
 Bug fixes for 3.0.6
 -------------------

@@ -1515,10 +1515,11 @@ class CI_Form_validation {
 	 * This function allows HTML to be safely shown in a form.
 	 * Special characters are converted.
 	 *
-	 * @param	string
-	 * @return	string
+	 * @deprecated	3.0.6	Not used anywhere within the framework and pretty much useless
+	 * @param	mixed	$data	Input data
+	 * @return	mixed
 	 */
-	public function prep_for_form($data = '')
+	public function prep_for_form($data)
 	{
 		if ($this->_safe_form_data === FALSE OR empty($data))
 		{
