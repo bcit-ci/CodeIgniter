@@ -115,7 +115,7 @@ class CI_Cache_memcached extends CI_Driver {
 			isset($cache_server['port']) OR $cache_server['port'] = $defaults['port'];
 			isset($cache_server['weight']) OR $cache_server['weight'] = $defaults['weight'];
 
-			if (get_class($this->_memcached) === 'Memcache')
+			if ($this->_memcached instanceof Memcache)
 			{
 				// Third parameter is persistance and defaults to TRUE.
 				$this->_memcached->addServer(
@@ -169,11 +169,11 @@ class CI_Cache_memcached extends CI_Driver {
 			$data = array($data, time(), $ttl);
 		}
 
-		if (get_class($this->_memcached) === 'Memcached')
+		if ($this->_memcached instanceof Memcached)
 		{
 			return $this->_memcached->set($id, $data, $ttl);
 		}
-		elseif (get_class($this->_memcached) === 'Memcache')
+		elseif ($this->_memcached instanceof Memcache)
 		{
 			return $this->_memcached->set($id, $data, 0, $ttl);
 		}
