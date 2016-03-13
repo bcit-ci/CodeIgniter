@@ -91,7 +91,7 @@ switch (ENVIRONMENT)
 
 /*
  *---------------------------------------------------------------
- * SYSTEM DIRCTORY NAME
+ * SYSTEM DIRECTORY NAME
  *---------------------------------------------------------------
  *
  * This variable must contain the name of your "system" directory.
