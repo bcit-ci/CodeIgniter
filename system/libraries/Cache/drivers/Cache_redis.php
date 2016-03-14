@@ -104,7 +104,7 @@ class CI_Cache_redis extends CI_Driver
 
 		try
 		{
-			if ($config['host']{0} === '/')
+			if ($config['host'][0] === '/')
 			{
 			    $config['port'] = 0; // for unix domain socket
 			}
