@@ -104,6 +104,11 @@ class CI_Cache_redis extends CI_Driver
 
 		try
 		{
+			if ($config['host']{0} === '/')
+			{
+			    $config['port'] = 0; // for unix domain socket
+			}
+
 			if ( ! $this->_redis->connect($config['host'], $config['port'], $config['timeout']))
 			{
 				log_message('error', 'Cache: Redis connection failed. Check your configuration.');
