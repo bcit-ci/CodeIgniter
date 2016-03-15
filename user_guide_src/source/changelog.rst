@@ -40,11 +40,13 @@ Release Date: Not Released
 -  General Changes
 
    -  Added a destructor to :doc:`Cache Library <libraries/caching>` 'memcached' driver to ensure that Memcache(d) connections are properly closed.
+   -  Deprecated :doc:`Form Validation Library <libraries/form_validation>` method ``prep_for_form()``.
 
 Bug fixes for 3.0.6
 -------------------
 
 -  Fixed a bug (#4516) - :doc:`Form Validation Library <libraries/form_validation>` always accepted empty array inputs.
+-  Fixed a bug where :doc:`Session Library <libraries/sessions>` allowed accessing ``$_SESSION`` values as class properties but ``isset()`` didn't work on them.
 
 Version 3.0.5
 =============
