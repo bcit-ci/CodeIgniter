@@ -16,6 +16,7 @@ Bug fixes for 3.0.6
 -------------------
 
 -  Fixed a bug (#4516) - :doc:`Form Validation Library <libraries/form_validation>` always accepted empty array inputs.
+-  Fixed a bug where :doc:`Session Library <libraries/sessions>` allowed accessing ``$_SESSION`` values as class properties but ``isset()`` didn't work on them.
 
 Version 3.0.5
 =============

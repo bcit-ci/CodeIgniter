@@ -584,6 +584,24 @@ class CI_Session {
 	// ------------------------------------------------------------------------
 
 	/**
+	 * __isset()
+	 *
+	 * @param	string	$key	'session_id' or a session data key
+	 * @return	bool
+	 */
+	public function __isset($key)
+	{
+		if ($key === 'session_id')
+		{
+			return (session_status() === PHP_SESSION_ACTIVE);
+		}
+
+		return isset($_SESSION[$key]);
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
 	 * __set()
 	 *
 	 * @param	string	$key	Session data key
