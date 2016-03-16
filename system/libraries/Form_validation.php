@@ -527,10 +527,7 @@ class CI_Form_validation {
 			{
 				if ($row['is_array'] === FALSE)
 				{
-					if (isset($_POST[$row['field']]))
-					{
-						$_POST[$row['field']] = $row['postdata'];
-					}
+					isset($_POST[$field]) && $_POST[$field] = $row['postdata'];
 				}
 				else
 				{
@@ -550,20 +547,7 @@ class CI_Form_validation {
 						}
 					}
 
-					if (is_array($row['postdata']))
-					{
-						$array = array();
-						foreach ($row['postdata'] as $k => $v)
-						{
-							$array[$k] = $v;
-						}
-
-						$post_ref = $array;
-					}
-					else
-					{
-						$post_ref = $row['postdata'];
-					}
+					$post_ref = $row['postdata'];
 				}
 			}
 		}
