@@ -130,7 +130,9 @@ class CI_Session {
 		if (isset($_COOKIE[$this->_config['cookie_name']])
 			&& (
 				! is_string($_COOKIE[$this->_config['cookie_name']])
-				OR ! preg_match('/^[0-9a-f]{40}$/', $_COOKIE[$this->_config['cookie_name']])
+				OR ($this->_config['hash_bits_per_character'] == 4 &&  ! preg_match('/^[0-9a-f]{40,128}$/', $_COOKIE[$this->_config['cookie_name']]))
+				OR ($this->_config['hash_bits_per_character'] == 5 &&  ! preg_match('/^[0-9a-v]{32,103}$/', $_COOKIE[$this->_config['cookie_name']]))
+				OR ($this->_config['hash_bits_per_character'] == 6 &&  ! preg_match('/^[0-9a-zA-Z\-,]{27,86}$/', $_COOKIE[$this->_config['cookie_name']]))
 			)
 		)
 		{
@@ -306,6 +308,10 @@ class CI_Session {
 		$params['match_ip'] = (bool) (isset($params['match_ip']) ? $params['match_ip'] : config_item('sess_match_ip'));
 
 		isset($params['save_path']) OR $params['save_path'] = config_item('sess_save_path');
+		
+		isset($params['hash_function']) OR $params['hash_function'] = config_item('sess_hash_function');
+		
+		isset($params['hash_bits_per_character']) OR $params['hash_bits_per_character'] = (int) config_item('sess_hash_bits_per_character');
 
 		$this->_config = $params;
 
@@ -314,8 +320,8 @@ class CI_Session {
 		ini_set('session.use_strict_mode', 1);
 		ini_set('session.use_cookies', 1);
 		ini_set('session.use_only_cookies', 1);
-		ini_set('session.hash_function', 1);
-		ini_set('session.hash_bits_per_character', 4);
+		ini_set('session.hash_function', $params['hash_function']);
+		ini_set('session.hash_bits_per_character', $params['hash_bits_per_character']);
 	}
 
 	// ------------------------------------------------------------------------
