@@ -486,7 +486,7 @@ class CI_Form_validation {
 		}
 
 		// Now we need to re-set the POST data with the new, processed data
-		$this->_reset_post_array();
+		empty($this->validation_data) && $this->_reset_post_array();
 
 		return ($total_errors === 0);
 	}
