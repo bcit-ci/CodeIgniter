@@ -14,7 +14,13 @@ Release Date: Not Released
 -  Libraries
 
    -  Added UNIX socket connection support to :doc:`Session Library <libraries/sessions>` 'redis' driver.
-   -  Changed data serialization logic in :doc:`Cache Library <libraries/caching>` 'redis' driver for better performance.
+
+   -  :doc:`Cache Library <libraries/caching>` changes include:
+
+      - Added UNIX socket connection support to the 'memcached' driver.
+      - Changed the 'memcached' driver to ignore configurations that don't specify a hostname.
+      - Removed the *socket_type* configuration setting from the 'redis' driver.
+      - Changed data serialization logic in 'redis' driver for better performance.
 
 -  Database
 
