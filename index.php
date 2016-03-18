@@ -53,6 +53,7 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
+ // 定义开发环境
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
 /*
@@ -63,6 +64,7 @@
  * Different environments will require different levels of error reporting.
  * By default development will show errors but testing and live will hide them.
  */
+ //根据开发环境设计报错等级
 switch (ENVIRONMENT)
 {
 	case 'development':
@@ -98,6 +100,7 @@ switch (ENVIRONMENT)
  * Include the path if the folder is not in the same directory
  * as this file.
  */
+ //system文件目录
 	$system_path = 'system';
 
 /*
@@ -113,6 +116,7 @@ switch (ENVIRONMENT)
  *
  * NO TRAILING SLASH!
  */
+ // application文件目录
 	$application_folder = 'application';
 
 /*
@@ -128,6 +132,7 @@ switch (ENVIRONMENT)
  *
  * NO TRAILING SLASH!
  */
+ //视图文件目录
 	$view_folder = '';
 
 
@@ -150,6 +155,7 @@ switch (ENVIRONMENT)
  *
  * Un-comment the $routing array below to use this feature
  */
+ // 默认控制器，但是通常不在这里设置，可以在application/config/routes.php 文件设置
 	// The directory name, relative to the "controllers" folder.  Leave blank
 	// if your controller is not in a sub-folder within the "controllers" folder
 	// $routing['directory'] = '';
@@ -175,6 +181,7 @@ switch (ENVIRONMENT)
  *
  * Un-comment the $assign_to_config array below to use this feature
  */
+ //设置配置项，甚至可以覆盖任意config.php默认项
 	// $assign_to_config['name_of_config_item'] = 'value of config item';
 
 
@@ -182,30 +189,38 @@ switch (ENVIRONMENT)
 // --------------------------------------------------------------------
 // END OF USER CONFIGURABLE SETTINGS.  DO NOT EDIT BELOW THIS LINE
 // --------------------------------------------------------------------
+//不要修改下面代码
 
 /*
  * ---------------------------------------------------------------
  *  Resolve the system path for increased reliability
  * ---------------------------------------------------------------
  */
+ //检验system路径问题
 
 	// Set the current directory correctly for CLI requests
+	// 如果是cli请求，设置当前目录
 	if (defined('STDIN'))
 	{
+		//设置为当前目录
 		chdir(dirname(__FILE__));
 	}
-
+	
+	//返回system目录绝对路径 
 	if (($_temp = realpath($system_path)) !== FALSE)
 	{
+		//存在，添加/
 		$system_path = $_temp.'/';
 	}
 	else
 	{
 		// Ensure there's a trailing slash
+		//移除右侧所有/，并加上一个/
 		$system_path = rtrim($system_path, '/').'/';
 	}
 
 	// Is the system path correct?
+	//system目录是否正确，非目录，直接返回503（服务器出错），退出
 	if ( ! is_dir($system_path))
 	{
 		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
@@ -218,6 +233,8 @@ switch (ENVIRONMENT)
  *  Now that we know the path, set the main path constants
  * -------------------------------------------------------------------
  */
+ //设置主要路径常熟
+ 	
 	// The name of THIS file
 	define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 
@@ -289,4 +306,5 @@ switch (ENVIRONMENT)
  *
  * And away we go...
  */
+ //加载引导程序
 require_once BASEPATH.'core/CodeIgniter.php';
