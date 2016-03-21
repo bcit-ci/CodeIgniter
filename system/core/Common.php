@@ -59,6 +59,7 @@ if ( ! function_exists('is_php'))
 	 * @param	string
 	 * @return	bool	TRUE if the current version is $version or higher
 	 */
+	 // 判断当前php版本是否大于等于参数
 	function is_php($version)
 	{
 		static $_is_php;
@@ -88,9 +89,11 @@ if ( ! function_exists('is_really_writable'))
 	 * @param	string
 	 * @return	bool
 	 */
+	 // 检查文件是否真的可以写人
 	function is_really_writable($file)
 	{
 		// If we're on a Unix server with safe_mode off we call is_writable
+		// 在unix服务器上，且安全模式是关闭的情况下，直接调用is_writable函数
 		if (DIRECTORY_SEPARATOR === '/' && (is_php('5.4') OR ! ini_get('safe_mode')))
 		{
 			return is_writable($file);
@@ -99,8 +102,10 @@ if ( ! function_exists('is_really_writable'))
 		/* For Windows servers and safe_mode "on" installations we'll actually
 		 * write a file then read it. Bah...
 		 */
+		 // 文件夹情况
 		if (is_dir($file))
 		{
+			// 随机在目录上生成一个文件名，然后调用fopen函数，使用ab模式打开
 			$file = rtrim($file, '/').'/'.md5(mt_rand());
 			if (($fp = @fopen($file, 'ab')) === FALSE)
 			{
@@ -114,9 +119,11 @@ if ( ! function_exists('is_really_writable'))
 		}
 		elseif ( ! is_file($file) OR ($fp = @fopen($file, 'ab')) === FALSE)
 		{
+			// 不是文件或者使用ab模式打开失败
 			return FALSE;
 		}
-
+		
+		// 总是关闭文件，返回true
 		fclose($fp);
 		return TRUE;
 	}
@@ -138,11 +145,14 @@ if ( ! function_exists('load_class'))
 	 * @param	string	an optional argument to pass to the class constructor
 	 * @return	object
 	 */
+	 // 加载类
 	function &load_class($class, $directory = 'libraries', $param = NULL)
 	{
+		// 静态类数组，函数执行完后，该变量不会被释放
 		static $_classes = array();
 
 		// Does the class exist? If so, we're done...
+		// 如果该类已经加载，直接返回
 		if (isset($_classes[$class]))
 		{
 			return $_classes[$class];
@@ -152,12 +162,13 @@ if ( ! function_exists('load_class'))
 
 		// Look for the class first in the local application/libraries folder
 		// then in the native system/libraries folder
+		// 在application 和 system 目录下 directory目录下查找该类，如果存在，则加载
 		foreach (array(APPPATH, BASEPATH) as $path)
 		{
 			if (file_exists($path.$directory.'/'.$class.'.php'))
 			{
 				$name = 'CI_'.$class;
-
+					
 				if (class_exists($name, FALSE) === FALSE)
 				{
 					require_once($path.$directory.'/'.$class.'.php');
@@ -168,8 +179,10 @@ if ( ! function_exists('load_class'))
 		}
 
 		// Is the request a class extension? If so we load it too
+		// 如果存在扩展类，则加载
 		if (file_exists(APPPATH.$directory.'/'.config_item('subclass_prefix').$class.'.php'))
 		{
+			// 对应扩展类名
 			$name = config_item('subclass_prefix').$class;
 
 			if (class_exists($name, FALSE) === FALSE)
@@ -179,18 +192,22 @@ if ( ! function_exists('load_class'))
 		}
 
 		// Did we find the class?
+		// 该类不存在
 		if ($name === FALSE)
 		{
 			// Note: We use exit() rather than show_error() in order to avoid a
 			// self-referencing loop with the Exceptions class
+			//设置http状态吗为503，服务器报错
 			set_status_header(503);
 			echo 'Unable to locate the specified class: '.$class.'.php';
 			exit(5); // EXIT_UNK_CLASS
 		}
 
 		// Keep track of what we just loaded
+		// 记录已加载类
 		is_loaded($class);
-
+		
+		// 初始化类，并放入静态数组
 		$_classes[$class] = isset($param)
 			? new $name($param)
 			: new $name();
@@ -209,6 +226,7 @@ if ( ! function_exists('is_loaded'))
 	 * @param	string
 	 * @return	array
 	 */
+	 // 记录已加载类
 	function &is_loaded($class = '')
 	{
 		static $_is_loaded = array();
@@ -235,12 +253,15 @@ if ( ! function_exists('get_config'))
 	 * @param	array
 	 * @return	array
 	 */
+	 // 
 	function &get_config(Array $replace = array())
 	{
+		//静态变量，主配置文件
 		static $config;
 
 		if (empty($config))
 		{
+			//如果$config变量为空，加载主配置文件config/config.php
 			$file_path = APPPATH.'config/config.php';
 			$found = FALSE;
 			if (file_exists($file_path))
@@ -250,12 +271,14 @@ if ( ! function_exists('get_config'))
 			}
 
 			// Is the config file in the environment folder?
+			// 如果主配置文件在环境目录下，则加载
 			if (file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config.php'))
 			{
 				require($file_path);
 			}
 			elseif ( ! $found)
 			{
+				//找不到主配置文件，报503错误
 				set_status_header(503);
 				echo 'The configuration file does not exist.';
 				exit(3); // EXIT_CONFIG
@@ -264,6 +287,7 @@ if ( ! function_exists('get_config'))
 			// Does the $config array exist in the file?
 			if ( ! isset($config) OR ! is_array($config))
 			{
+				//加载文件格式有问题，不存在config数组变量
 				set_status_header(503);
 				echo 'Your config file does not appear to be formatted correctly.';
 				exit(3); // EXIT_CONFIG
@@ -271,11 +295,13 @@ if ( ! function_exists('get_config'))
 		}
 
 		// Are any values being dynamically added or replaced?
+		// 需要替换值
 		foreach ($replace as $key => $val)
 		{
 			$config[$key] = $val;
 		}
 
+		//返回主配置文件数组
 		return $config;
 	}
 }
@@ -290,6 +316,7 @@ if ( ! function_exists('config_item'))
 	 * @param	string
 	 * @return	mixed
 	 */
+	 // 获取煮配置文件对应项
 	function config_item($item)
 	{
 		static $_config;
@@ -313,6 +340,7 @@ if ( ! function_exists('get_mimes'))
 	 *
 	 * @return	array
 	 */
+	 // 获取MIMES类型
 	function &get_mimes()
 	{
 		static $_mimes;
@@ -349,6 +377,7 @@ if ( ! function_exists('is_https'))
 	 *
 	 * @return	bool
 	 */
+	 // 是否使用https传输
 	function is_https()
 	{
 		if ( ! empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off')
@@ -380,6 +409,7 @@ if ( ! function_exists('is_cli'))
 	 *
 	 * @return 	bool
 	 */
+	 // 是否使用命令行
 	function is_cli()
 	{
 		return (PHP_SAPI === 'cli' OR defined('STDIN'));
@@ -404,6 +434,7 @@ if ( ! function_exists('show_error'))
 	 * @param	string
 	 * @return	void
 	 */
+	 // 提示错误信息
 	function show_error($message, $status_code = 500, $heading = 'An Error Was Encountered')
 	{
 		$status_code = abs($status_code);
@@ -421,7 +452,8 @@ if ( ! function_exists('show_error'))
 		{
 			$exit_status = 1; // EXIT_ERROR
 		}
-
+		
+		//异常类
 		$_error =& load_class('Exceptions', 'core');
 		echo $_error->show_error($heading, $message, 'error_general', $status_code);
 		exit($exit_status);
@@ -443,6 +475,7 @@ if ( ! function_exists('show_404'))
 	 * @param	bool
 	 * @return	void
 	 */
+	 // 404报错
 	function show_404($page = '', $log_error = TRUE)
 	{
 		$_error =& load_class('Exceptions', 'core');
@@ -465,16 +498,20 @@ if ( ! function_exists('log_message'))
 	 * @param	string	the error message
 	 * @return	void
 	 */
+	 // 记录日志
 	function log_message($level, $message)
 	{
+		// log数组
 		static $_log;
 
 		if ($_log === NULL)
 		{
 			// references cannot be directly assigned to static variables, so we use an array
+			// 加载log类
 			$_log[0] =& load_class('Log', 'core');
 		}
-
+		
+		// 写入
 		$_log[0]->write_log($level, $message);
 	}
 }
@@ -490,13 +527,15 @@ if ( ! function_exists('set_status_header'))
 	 * @param	string
 	 * @return	void
 	 */
+	 // 通过header函数设置http状态码
 	function set_status_header($code = 200, $text = '')
 	{
+		//cli模式，直接返回
 		if (is_cli())
 		{
 			return;
 		}
-
+		
 		if (empty($code) OR ! is_numeric($code))
 		{
 			show_error('Status codes must be numeric', 500);
@@ -596,6 +635,7 @@ if ( ! function_exists('_error_handler'))
 	 * @param	int	$line
 	 * @return	void
 	 */
+	 // 
 	function _error_handler($severity, $message, $filepath, $line)
 	{
 		$is_error = (((E_ERROR | E_COMPILE_ERROR | E_CORE_ERROR | E_USER_ERROR) & $severity) === $severity);
