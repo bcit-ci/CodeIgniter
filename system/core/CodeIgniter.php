@@ -55,6 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @var	string
  *
  */
+ //定义版本
 	define('CI_VERSION', '3.1.0-dev');
 
 /*
@@ -62,6 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  Load the framework constants
  * ------------------------------------------------------
  */
+ //加载框架常数，包括文件 目录 权限常数，退出码常数
 	if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/constants.php'))
 	{
 		require_once(APPPATH.'config/'.ENVIRONMENT.'/constants.php');
@@ -74,6 +76,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  Load the global functions
  * ------------------------------------------------------
  */
+ //加载出具全局函数
 	require_once(BASEPATH.'core/Common.php');
 
 
