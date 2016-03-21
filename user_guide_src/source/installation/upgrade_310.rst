@@ -62,7 +62,7 @@ Step 3: Check logic related to URI parsing of CLI requests
 ==========================================================
 
 When running a CodeIgniter application from the CLI, the
-:doc:`URI Library <libraries/uri>` will now ignore the
+:doc:`URI Library <../libraries/uri>` will now ignore the
 ``$config['url_suffix']`` and ``$config['permitted_uri_chars']``
 configuration settings.
 
@@ -71,7 +71,34 @@ this change was made) and therefore you shouldn't be affected by this, but
 if you've relied on them for some reason, you'd probably have to make some
 changes to your code.
 
-Step 4: Check usage of doctype() HTML helper
+Step 4: Check Cache Library configurations for Redis, Memcache(d)
+=================================================================
+
+The new improvements for the 'redis' and 'memcached' drivers of the
+:doc:`Cache Library <../libraries/caching>` may require some small
+adjustments to your configuration values ...
+
+Redis
+-----
+
+If you're using the 'redis' driver with a UNIX socket connection, you'll
+have to move the socket path from ``$config['socket']`` to
+``$config['host']`` instead.
+
+The ``$config['socket_type']`` option is also removed, although that won't
+affect your application - it will be ignored and the connection type will
+be determined by the format used for ``$config['host']`` instead.
+
+Memcache(d)
+-----------
+
+The 'memcached' will now ignore configurations that don't specify a ``host``
+value (previously, it just set the host to the default '127.0.0.1').
+
+Therefore, if you've added a configuration that only sets e.g. a ``port``,
+you will now have to explicitly set the ``host`` to '127.0.0.1' as well.
+
+Step 5: Check usage of doctype() HTML helper
 ============================================
 
 The :doc:`HTML Helper <../helpers/html_helper>` function
