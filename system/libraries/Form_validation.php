@@ -486,7 +486,7 @@ class CI_Form_validation {
 		}
 
 		// Now we need to re-set the POST data with the new, processed data
-		$this->_reset_post_array();
+		empty($this->validation_data) && $this->_reset_post_array();
 
 		return ($total_errors === 0);
 	}
@@ -527,10 +527,7 @@ class CI_Form_validation {
 			{
 				if ($row['is_array'] === FALSE)
 				{
-					if (isset($_POST[$row['field']]))
-					{
-						$_POST[$row['field']] = $row['postdata'];
-					}
+					isset($_POST[$field]) && $_POST[$field] = $row['postdata'];
 				}
 				else
 				{
@@ -550,20 +547,7 @@ class CI_Form_validation {
 						}
 					}
 
-					if (is_array($row['postdata']))
-					{
-						$array = array();
-						foreach ($row['postdata'] as $k => $v)
-						{
-							$array[$k] = $v;
-						}
-
-						$post_ref = $array;
-					}
-					else
-					{
-						$post_ref = $row['postdata'];
-					}
+					$post_ref = $row['postdata'];
 				}
 			}
 		}
@@ -1515,10 +1499,11 @@ class CI_Form_validation {
 	 * This function allows HTML to be safely shown in a form.
 	 * Special characters are converted.
 	 *
-	 * @param	string
-	 * @return	string
+	 * @deprecated	3.0.6	Not used anywhere within the framework and pretty much useless
+	 * @param	mixed	$data	Input data
+	 * @return	mixed
 	 */
-	public function prep_for_form($data = '')
+	public function prep_for_form($data)
 	{
 		if ($this->_safe_form_data === FALSE OR empty($data))
 		{

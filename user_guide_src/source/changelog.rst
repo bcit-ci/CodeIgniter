@@ -38,19 +38,30 @@ Bug fixes for 3.1.0
 
 -  Fixed a bug (#4528) - :doc:`Cache Library <libraries/caching>` stored all scalar values as strings with the 'redis' driver.
 
-Version 3.0.6
+Version 3.0.7
 =============
 
 Release Date: Not Released
 
+
+Version 3.0.6
+=============
+
+Release Date: March 21, 2016
+
 -  General Changes
 
    -  Added a destructor to :doc:`Cache Library <libraries/caching>` 'memcached' driver to ensure that Memcache(d) connections are properly closed.
+   -  Deprecated :doc:`Form Validation Library <libraries/form_validation>` method ``prep_for_form()``.
 
 Bug fixes for 3.0.6
 -------------------
 
 -  Fixed a bug (#4516) - :doc:`Form Validation Library <libraries/form_validation>` always accepted empty array inputs.
+-  Fixed a bug where :doc:`Session Library <libraries/sessions>` allowed accessing ``$_SESSION`` values as class properties but ``isset()`` didn't work on them.
+-  Fixed a bug where :doc:`Form Validation Library <libraries/form_validation>` modified the ``$_POST`` array when the data being validated was actually provided via ``set_data()``.
+-  Fixed a bug (#4539) - :doc:`Migration Library <libraries/migration>` applied migrations before validating that all migrations within the requested version range are valid.
+-  Fixed a bug (#4539) - :doc:`Migration Library <libraries/migration>` triggered failures for migrations that are out of the requested version range.
 
 Version 3.0.5
 =============
