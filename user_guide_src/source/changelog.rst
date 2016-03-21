@@ -5,7 +5,7 @@ Change Log
 Version 3.0.6
 =============
 
-Release Date: Not Released
+Release Date: March 21, 2016
 
 -  General Changes
 
