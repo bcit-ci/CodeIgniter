@@ -88,8 +88,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 if ( ! is_php('5.4'))
 {
+	// magic_quotes_runtime的设定值将会影响从文件中读取的数据或从数据库查询得到的数据
 	ini_set('magic_quotes_runtime', 0);
-
+	
+	// 开启全局变量
 	if ((bool) ini_get('register_globals'))
 	{
 		$_protected = array(
