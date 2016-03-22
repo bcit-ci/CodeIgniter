@@ -456,7 +456,7 @@ class CI_Image_lib {
 			{
 				if (property_exists($this, $key))
 				{
-					if (in_array($key, array('wm_font_color', 'wm_shadow_color')))
+					if (in_array($key, array('wm_font_color', 'wm_shadow_color'), TRUE))
 					{
 						if (preg_match('/^#?([0-9a-f]{3}|[0-9a-f]{6})$/i', $val, $matches))
 						{
@@ -477,6 +477,10 @@ class CI_Image_lib {
 						{
 							continue;
 						}
+					}
+					elseif (in_array($key, array('width', 'height'), TRUE) && ! ctype_digit((string) $val))
+					{
+						continue;
 					}
 
 					$this->$key = $val;
