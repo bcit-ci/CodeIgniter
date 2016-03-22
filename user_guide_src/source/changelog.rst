@@ -10,6 +10,13 @@ Release Date: Not Released
 -  General Changes
 
    -  Updated :doc:`Image Manipulation Library <libraries/image_lib>` to validate *width* and *height* configuration values.
+   -  Updated :doc:`Encryption Library <libraries/encryption>` to always prefer ``random_bytes()`` when it is available.
+
+   -  :php:func:`password_hash()` :doc:`compatibility function <general/compatibility_functions>` changes:
+
+      - Changed salt-generation logic to prefer ``random_bytes()`` when it is available.
+      - Changed salt-generation logic to prefer direct access to */dev/urandom* over ``openssl_random_pseudo_bytes()``.
+      - Changed salt-generation logic to error if ``openssl_random_pseudo_bytes()`` sets its ``$crypto_strong`` flag to FALSE.
 
 Bug fixes for 3.0.7
 -------------------
