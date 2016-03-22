@@ -7,6 +7,14 @@ Version 3.0.7
 
 Release Date: Not Released
 
+-  General Changes
+
+   -  Updated :doc:`Image Manipulation Library <libraries/image_lib>` to validate *width* and *height* configuration values.
+
+Bug fixes for 3.0.7
+-------------------
+
+-  Fixed a bug where :doc:`Image Manipulation Library <libraries/image_lib>` didn't escape image source paths passed to ImageMagick as shell arguments.
 
 Version 3.0.6
 =============
