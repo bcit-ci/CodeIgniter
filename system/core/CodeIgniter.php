@@ -111,7 +111,8 @@ if ( ! is_php('5.4'))
 			'_protected',
 			'_registered'
 		);
-
+		
+		//将php超级变量统一存放在GLOBALS数组调用
 		$_registered = ini_get('variables_order');
 		foreach (array('E' => '_ENV', 'G' => '_GET', 'P' => '_POST', 'C' => '_COOKIE', 'S' => '_SERVER') as $key => $superglobal)
 		{
@@ -137,6 +138,7 @@ if ( ! is_php('5.4'))
  *  Define a custom error handler so we can log PHP errors
  * ------------------------------------------------------
  */
+ //设置错误，异常，脚本退出触发的函数
 	set_error_handler('_error_handler');
 	set_exception_handler('_exception_handler');
 	register_shutdown_function('_shutdown_handler');
@@ -157,6 +159,7 @@ if ( ! is_php('5.4'))
  * Note: Since the config file data is cached it doesn't
  * hurt to load it here.
  */
+ //设置子类前缀
 	if ( ! empty($assign_to_config['subclass_prefix']))
 	{
 		get_config(array('subclass_prefix' => $assign_to_config['subclass_prefix']));
@@ -167,6 +170,7 @@ if ( ! is_php('5.4'))
  *  Should we use a Composer autoloader?
  * ------------------------------------------------------
  */
+ //自动加载类
 	if ($composer_autoload = config_item('composer_autoload'))
 	{
 		if ($composer_autoload === TRUE)
@@ -190,8 +194,9 @@ if ( ! is_php('5.4'))
  *  Start the timer... tick tock tick tock...
  * ------------------------------------------------------
  */
+ // 加载Benchmark，并记录total_execution_time_start,_base_classes_start两个时间点
 	$BM =& load_class('Benchmark', 'core');
-	$BM->mark('total_execution_time_start');
+	$BM->mark('total_execution_time_start,');
 	$BM->mark('loading_time:_base_classes_start');
 
 /*
@@ -199,6 +204,7 @@ if ( ! is_php('5.4'))
  *  Instantiate the hooks class
  * ------------------------------------------------------
  */
+ //加载Hooks
 	$EXT =& load_class('Hooks', 'core');
 
 /*
@@ -206,6 +212,7 @@ if ( ! is_php('5.4'))
  *  Is there a "pre_system" hook?
  * ------------------------------------------------------
  */
+ //调用pre_system钩子
 	$EXT->call_hook('pre_system');
 
 /*
@@ -218,9 +225,11 @@ if ( ! is_php('5.4'))
  * depending on another class that uses it.
  *
  */
+ //加载实例化config类
 	$CFG =& load_class('Config', 'core');
 
 	// Do we have any manually set config items in the index.php file?
+	//根据首页设置配置，替换配置文件其中项
 	if (isset($assign_to_config) && is_array($assign_to_config))
 	{
 		foreach ($assign_to_config as $key => $value)
@@ -243,6 +252,7 @@ if ( ! is_php('5.4'))
  * in it's constructor, but it's _not_ class-specific.
  *
  */
+ //设置默认字符，并加载msstring、iconv扩展
 	$charset = strtoupper(config_item('charset'));
 	ini_set('default_charset', $charset);
 
@@ -285,10 +295,13 @@ if ( ! is_php('5.4'))
  *  Load compatibility features
  * ------------------------------------------------------
  */
-
+//如果mb类函数不存在，则从新定义实现相应函数
 	require_once(BASEPATH.'core/compat/mbstring.php');
+//如果hash类函数不存在，则从新定义实现相应函数
 	require_once(BASEPATH.'core/compat/hash.php');
+//如果密码类函数不存在，则从新定义实现相应函数
 	require_once(BASEPATH.'core/compat/password.php');
+//如果普通了函数不存在，则从新定义实现相应函数
 	require_once(BASEPATH.'core/compat/standard.php');
 
 /*
@@ -296,6 +309,7 @@ if ( ! is_php('5.4'))
  *  Instantiate the UTF-8 class
  * ------------------------------------------------------
  */
+ //实例化utf8类
 	$UNI =& load_class('Utf8', 'core');
 
 /*
@@ -303,6 +317,7 @@ if ( ! is_php('5.4'))
  *  Instantiate the URI class
  * ------------------------------------------------------
  */
+ //实例化uri类
 	$URI =& load_class('URI', 'core', $CFG);
 
 /*
@@ -310,6 +325,7 @@ if ( ! is_php('5.4'))
  *  Instantiate the routing class and set the routing
  * ------------------------------------------------------
  */
+ //实例化路由类
 	$RTR =& load_class('Router', 'core', isset($routing) ? $routing : NULL);
 
 /*
@@ -317,6 +333,7 @@ if ( ! is_php('5.4'))
  *  Instantiate the output class
  * ------------------------------------------------------
  */
+ //初始化output类
 	$OUT =& load_class('Output', 'core');
 
 /*
@@ -324,6 +341,7 @@ if ( ! is_php('5.4'))
  *	Is there a valid cache file? If so, we're done...
  * ------------------------------------------------------
  */
+ //如果没有重写cache，且满足缓存条件，则直接输出缓存，退出脚本
 	if ($EXT->call_hook('cache_override') === FALSE && $OUT->_display_cache($CFG, $URI) === TRUE)
 	{
 		exit;
@@ -334,6 +352,7 @@ if ( ! is_php('5.4'))
  * Load the security class for xss and csrf support
  * -----------------------------------------------------
  */
+ //实例化Security类
 	$SEC =& load_class('Security', 'core');
 
 /*
@@ -341,6 +360,7 @@ if ( ! is_php('5.4'))
  *  Load the Input class and sanitize globals
  * ------------------------------------------------------
  */
+ //实例化input类
 	$IN	=& load_class('Input', 'core');
 
 /*
@@ -348,6 +368,7 @@ if ( ! is_php('5.4'))
  *  Load the Language class
  * ------------------------------------------------------
  */
+ //实例化Lang类
 	$LANG =& load_class('Lang', 'core');
 
 /*
@@ -356,6 +377,7 @@ if ( ! is_php('5.4'))
  * ------------------------------------------------------
  *
  */
+ //加载控制器
 	// Load the base controller class
 	require_once BASEPATH.'core/Controller.php';
 
@@ -366,17 +388,20 @@ if ( ! is_php('5.4'))
 	 *
 	 * @return object
 	 */
+	 //定义get_instance方法
 	function &get_instance()
 	{
 		return CI_Controller::get_instance();
 	}
-
+	
+	//如果存在子控制器，则加载进来
 	if (file_exists(APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php'))
 	{
 		require_once APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php';
 	}
 
 	// Set a mark point for benchmarking
+	//设置_base_classes_end时间点
 	$BM->mark('loading_time:_base_classes_end');
 
 /*
@@ -401,23 +426,29 @@ if ( ! is_php('5.4'))
  */
 
 	$e404 = FALSE;
+	//通过路由，获取当前调用的类名
 	$class = ucfirst($RTR->class);
+	//通过路由，获取当前调用的方法
 	$method = $RTR->method;
-
+	
+	//检查类名是否为空，和控制器文件是否存在，不存在则激活404状态
 	if (empty($class) OR ! file_exists(APPPATH.'controllers/'.$RTR->directory.$class.'.php'))
 	{
 		$e404 = TRUE;
 	}
 	else
 	{
+		//加载路由解析出来的控制器类
 		require_once(APPPATH.'controllers/'.$RTR->directory.$class.'.php');
 
+		//检查是否是该类，和方法是否存在，或者激活404
 		if ( ! class_exists($class, FALSE) OR $method[0] === '_' OR method_exists('CI_Controller', $method))
 		{
 			$e404 = TRUE;
 		}
-		elseif (method_exists($class, '_remap'))
-		{
+		elseif (method_exists($class, '_remap'))  // 检查类是否存在_remap方法
+		{ 
+			//设置参数和方法
 			$params = array($method, array_slice($URI->rsegments, 2));
 			$method = '_remap';
 		}
@@ -425,23 +456,30 @@ if ( ! is_php('5.4'))
 		// Furthermore, there are bug reports and feature/change requests related to it
 		// that make it unreliable to use in this context. Please, DO NOT change this
 		// work-around until a better alternative is available.
+		// 如果method方法不存在class的方法集中，激活404
 		elseif ( ! in_array(strtolower($method), array_map('strtolower', get_class_methods($class)), TRUE))
 		{
 			$e404 = TRUE;
 		}
 	}
 
+	//404激活
 	if ($e404)
 	{
+		//如果重置404
 		if ( ! empty($RTR->routes['404_override']))
 		{
+			//检查404_overri路由合法性
 			if (sscanf($RTR->routes['404_override'], '%[^/]/%s', $error_class, $error_method) !== 2)
 			{
+				//404方法
 				$error_method = 'index';
 			}
-
+			
+			//404控制器类
 			$error_class = ucfirst($error_class);
-
+			
+			//检查控制器是否存在
 			if ( ! class_exists($error_class, FALSE))
 			{
 				if (file_exists(APPPATH.'controllers/'.$RTR->directory.$error_class.'.php'))
@@ -461,6 +499,7 @@ if ( ! is_php('5.4'))
 			}
 			else
 			{
+				//如果404_override控制器类和方法无效，则取消404状态
 				$e404 = FALSE;
 			}
 		}
@@ -468,6 +507,7 @@ if ( ! is_php('5.4'))
 		// Did we reset the $e404 flag? If so, set the rsegments, starting from index 1
 		if ( ! $e404)
 		{
+			//如果取消了404状态或者本来就没用激活，则重置class和method，使用默认的404类和方法处理或者本身路由解析出来的class和method
 			$class = $error_class;
 			$method = $error_method;
 
@@ -478,12 +518,14 @@ if ( ! is_php('5.4'))
 		}
 		else
 		{
+			//如果有效，直接调用404_override的类和方法
 			show_404($RTR->directory.$class.'/'.$method);
 		}
 	}
 
 	if ($method !== '_remap')
 	{
+		//获取参数
 		$params = array_slice($URI->rsegments, 2);
 	}
 
@@ -500,8 +542,9 @@ if ( ! is_php('5.4'))
  * ------------------------------------------------------
  */
 	// Mark a start point so we can benchmark the controller
+	//记录控制器执行前时间点
 	$BM->mark('controller_execution_time_( '.$class.' / '.$method.' )_start');
-
+	//初始化类
 	$CI = new $class();
 
 /*
@@ -516,9 +559,11 @@ if ( ! is_php('5.4'))
  *  Call the requested method
  * ------------------------------------------------------
  */
+ //调用请求的方法和类
 	call_user_func_array(array(&$CI, $method), $params);
 
 	// Mark a benchmark end point
+	//记录执行结束时间点
 	$BM->mark('controller_execution_time_( '.$class.' / '.$method.' )_end');
 
 /*
@@ -526,6 +571,7 @@ if ( ! is_php('5.4'))
  *  Is there a "post_controller" hook?
  * ------------------------------------------------------
  */
+ //调用post_controller
 	$EXT->call_hook('post_controller');
 
 /*
@@ -533,6 +579,7 @@ if ( ! is_php('5.4'))
  *  Send the final rendered output to the browser
  * ------------------------------------------------------
  */
+ //输出视图
 	if ($EXT->call_hook('display_override') === FALSE)
 	{
 		$OUT->_display();
@@ -543,4 +590,5 @@ if ( ! is_php('5.4'))
  *  Is there a "post_system" hook?
  * ------------------------------------------------------
  */
+ //调用post_system钩子
 	$EXT->call_hook('post_system');
