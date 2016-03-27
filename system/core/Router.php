@@ -55,6 +55,7 @@ class CI_Router {
 	 *
 	 * @var	object
 	 */
+	 //配置文件变量
 	public $config;
 
 	/**
@@ -62,6 +63,7 @@ class CI_Router {
 	 *
 	 * @var	array
 	 */
+	 //路由列表
 	public $routes =	array();
 
 	/**
@@ -69,6 +71,7 @@ class CI_Router {
 	 *
 	 * @var	string
 	 */
+	 //当前类名
 	public $class =		'';
 
 	/**
@@ -76,6 +79,7 @@ class CI_Router {
 	 *
 	 * @var	string
 	 */
+	 //当前方法命，默认为index
 	public $method =	'index';
 
 	/**
@@ -83,6 +87,7 @@ class CI_Router {
 	 *
 	 * @var	string
 	 */
+	 //包含请求controller类的子目录名称
 	public $directory;
 
 	/**
@@ -90,6 +95,7 @@ class CI_Router {
 	 *
 	 * @var	string
 	 */
+	 //默认控制器
 	public $default_controller;
 
 	/**
@@ -100,6 +106,7 @@ class CI_Router {
 	 *
 	 * @var	bool
 	 */
+	 //uri是否已经转义
 	public $translate_uri_dashes = FALSE;
 
 	/**
@@ -109,6 +116,7 @@ class CI_Router {
 	 *
 	 * @var	bool
 	 */
+	 //是否可以使用get参赛或者uri的分段
 	public $enable_query_strings = FALSE;
 
 	// --------------------------------------------------------------------
