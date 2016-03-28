@@ -70,6 +70,18 @@ $config['url_suffix'] = '';
 
 /*
 |--------------------------------------------------------------------------
+| Controller suffix
+|--------------------------------------------------------------------------
+|
+| This option allows you to use suffixed controller names without affecting
+| autmated routing, giving you the ability to use Models without suffix
+|
+|
+*/
+$config['controller_suffix'] = '';
+
+/*
+|--------------------------------------------------------------------------
 | Default Language
 |--------------------------------------------------------------------------
 |
