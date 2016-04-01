@@ -23,6 +23,7 @@ Bug fixes for 3.0.7
 
 -  Fixed a bug where :doc:`Image Manipulation Library <libraries/image_lib>` didn't escape image source paths passed to ImageMagick as shell arguments.
 -  Fixed a bug (#861) - :doc:`Database Forge <database/forge>` method ``create_table()`` incorrectly accepts field width constraints for MSSQL/SQLSRV integer-type columns.
+-  Fixed a bug (#4562) - :doc:`Cache Library <libraries/caching>` didn't check if ``Memcached::quit()`` is available before calling it.
 
 Version 3.0.6
 =============
