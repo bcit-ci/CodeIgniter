@@ -11,6 +11,7 @@ Release Date: Not Released
 
    -  Updated :doc:`Image Manipulation Library <libraries/image_lib>` to validate *width* and *height* configuration values.
    -  Updated :doc:`Encryption Library <libraries/encryption>` to always prefer ``random_bytes()`` when it is available.
+   -  Updated :doc:`Session Library <libraries/session>` to log 'debug' messages when using fallbacks to *session.save_path* (php.ini) or 'sess_use_database', 'sess_table_name' settings.
 
    -  :php:func:`password_hash()` :doc:`compatibility function <general/compatibility_functions>` changes:
 
