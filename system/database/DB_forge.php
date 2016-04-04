@@ -1096,7 +1096,7 @@ abstract class CI_DB_forge {
 	 */
 	protected function _reset()
 	{
-		$this->fields = $this->keys = $this->primary_keys = array();
+		$this->fields = $this->keys = $this->primary_keys = $this->foreign_keys = array();
 	}
 
 }
