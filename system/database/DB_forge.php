@@ -1035,8 +1035,8 @@ abstract class CI_DB_forge {
 
 		foreach ($this->foreign_keys as $foreign_key)
 		{
-			$sql .= PHP_EOL . 'CONSTRAINT' . $this->db->escape_identifiers('fk_' . $foreign_key['key'])
-			        . ' FOREIGN KEY (' . $this->db->escape_identifiers($foreign_key['key']) . ')' . 'REFERENCES '
+			$sql .= ',' . PHP_EOL . '\tCONSTRAINT ' . $this->db->escape_identifiers('fk_' . $foreign_key['key'])
+			        . ' FOREIGN KEY (' . $this->db->escape_identifiers($foreign_key['key']) . ') REFERENCES '
 			        . $this->db->escape_identifiers($foreign_key['reference_table']) . ' ('
 			        . $this->db->escape_identifiers($foreign_key['reference_column']) . ')';
 		}
