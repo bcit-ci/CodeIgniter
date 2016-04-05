@@ -289,23 +289,23 @@ abstract class CI_DB_forge {
 	 */
 	public function add_foreign_key($key, $reference_table, $reference_column, $on_update = 'NO ACTION', $on_delete = 'NO ACTION')
 	{
-		$foreign_key = array(
-			'key'              => $key,
-			'reference_table'  => $reference_table,
-			'reference_column' => $reference_column
-		);
-
 		if (empty($on_update))
 		{
 			$on_update = 'NO ACTION';
 		}
+
 		if (empty($on_delete))
 		{
 			$on_delete = 'NO ACTION';
 		}
 
-		$foreign_key['on_update'] = strtoupper($on_update);
-		$foreign_key['on_delete'] = strtoupper($on_delete);
+		$foreign_key = array(
+			'key'              => $key,
+			'reference_table'  => $reference_table,
+			'reference_column' => $reference_column,
+			'on_update'        => $on_update,
+			'on_delete'        => $on_delete
+		);
 
 		$this->foreign_keys[] = $foreign_key;
 
@@ -1039,7 +1039,9 @@ abstract class CI_DB_forge {
 			        . $this->db->escape_identifiers('fk__' . $table . '__' . $foreign_key['reference_table'])
 			        . ' FOREIGN KEY (' . $this->db->escape_identifiers($foreign_key['key']) . ') REFERENCES '
 			        . $this->db->escape_identifiers($foreign_key['reference_table'])
-			        . ' (' . $this->db->escape_identifiers($foreign_key['reference_column']) . ')';
+			        . ' (' . $this->db->escape_identifiers($foreign_key['reference_column']) . ')'
+			        . ' ON UPDATE ' . $foreign_key['on_update']
+			        . ' ON DELETE ' . $foreign_key['on_delete'];
 		}
 
 		return $sql;
