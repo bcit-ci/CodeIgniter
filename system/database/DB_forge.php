@@ -295,11 +295,11 @@ abstract class CI_DB_forge {
 			'reference_column' => $reference_column
 		);
 
-		if ( ! empty($on_update))
+		if (empty($on_update))
 		{
 			$on_update = 'NO ACTION';
 		}
-		if ( ! empty($on_delete))
+		if (empty($on_delete))
 		{
 			$on_delete = 'NO ACTION';
 		}
