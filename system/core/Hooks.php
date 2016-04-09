@@ -198,10 +198,10 @@ class CI_Hooks {
 		// -----------------------------------
 		// Safety - Prevents run-away loops
 		// -----------------------------------
-		//防止死循环
 
 		// If the script being called happens to have the same
 		// hook call within it a loop can happen
+		//防止hooks之间相互调用，出现死循环
 		if ($this->_in_progress === TRUE)
 		{
 			return;
