@@ -56,6 +56,7 @@ class CI_Loader {
 	 *
 	 * @var	int
 	 */
+	// 输出缓存等级
 	protected $_ci_ob_level;
 
 	/**
@@ -63,6 +64,7 @@ class CI_Loader {
 	 *
 	 * @var	array
 	 */
+	// view目录路径
 	protected $_ci_view_paths =	array(VIEWPATH	=> TRUE);
 
 	/**
@@ -70,6 +72,7 @@ class CI_Loader {
 	 *
 	 * @var	array
 	 */
+	// library 路径，包括application 和 system下面的library
 	protected $_ci_library_paths =	array(APPPATH, BASEPATH);
 
 	/**
@@ -77,6 +80,7 @@ class CI_Loader {
 	 *
 	 * @var	array
 	 */
+	// model目录路径
 	protected $_ci_model_paths =	array(APPPATH);
 
 	/**
@@ -84,6 +88,7 @@ class CI_Loader {
 	 *
 	 * @var	array
 	 */
+	// helper目录路径
 	protected $_ci_helper_paths =	array(APPPATH, BASEPATH);
 
 	/**
@@ -91,6 +96,7 @@ class CI_Loader {
 	 *
 	 * @var	array
 	 */
+	//缓存变量列表
 	protected $_ci_cached_vars =	array();
 
 	/**
@@ -98,6 +104,7 @@ class CI_Loader {
 	 *
 	 * @var	array
 	 */
+	// 已经load的类
 	protected $_ci_classes =	array();
 
 	/**
@@ -105,6 +112,7 @@ class CI_Loader {
 	 *
 	 * @var	array
 	 */
+	// 已经load的model
 	protected $_ci_models =	array();
 
 	/**
@@ -112,6 +120,7 @@ class CI_Loader {
 	 *
 	 * @var	array
 	 */
+	//已经load的helper类
 	protected $_ci_helpers =	array();
 
 	/**
@@ -119,6 +128,7 @@ class CI_Loader {
 	 *
 	 * @var	array
 	 */
+	//类名映射列表
 	protected $_ci_varmap =	array(
 		'unit_test' => 'unit',
 		'user_agent' => 'agent'
@@ -135,8 +145,8 @@ class CI_Loader {
 	 */
 	public function __construct()
 	{
-		$this->_ci_ob_level = ob_get_level();
-		$this->_ci_classes =& is_loaded();
+		$this->_ci_ob_level = ob_get_level(); //返回输出缓冲机制的嵌套级别
+		$this->_ci_classes =& is_loaded();	  //已经load的类
 
 		log_message('info', 'Loader Class Initialized');
 	}
@@ -152,6 +162,7 @@ class CI_Loader {
 	 * @used-by	CI_Controller::__construct()
 	 * @return	void
 	 */
+	// 该函数在controller::__construct中调用
 	public function initialize()
 	{
 		$this->_ci_autoloader();
@@ -187,6 +198,11 @@ class CI_Loader {
 	 * @param	string	$object_name	An optional object name to assign to
 	 * @return	object
 	 */
+	// 你可以创建一个全新的类库 => application/libraries 目录
+	// 你可以扩展原生的类库 => 类在定义时必须继承自父类,你的新类名和文件名必须以 xx(可配置)_ 为前缀, 例如 ：要扩展原生的 Email 类你需要新建一个文件命名为 application/libraries/MY_Email.php ， 然后定义你的类:class MY_Email extends CI_Email{}
+	// 你可以替换掉原生的类库 => 在application/libraries目录下新建xxx.php文件，替换原生的library
+	// 加载library
+	// library => _ci_load_library =>(_ci_load_stock_library) => _ci_init_library
 	public function library($library, $params = NULL, $object_name = NULL)
 	{
 		if (empty($library))
@@ -199,10 +215,12 @@ class CI_Loader {
 			{
 				if (is_int($key))
 				{
+					//数组
 					$this->library($value, $params);
 				}
 				else
 				{
+					//
 					$this->library($key, $params, $value);
 				}
 			}
@@ -367,19 +385,24 @@ class CI_Loader {
 	 * @return	object|bool	Database object if $return is set to TRUE,
 	 *					FALSE on failure, CI_Loader instance in any other case
 	 */
+	// 自动连接数据处理函数
 	public function database($params = '', $return = FALSE, $query_builder = NULL)
 	{
 		// Grab the super object
+		// 获取ci实例
 		$CI =& get_instance();
 
 		// Do we even need to load the database class?
 		if ($return === FALSE && $query_builder === NULL && isset($CI->db) && is_object($CI->db) && ! empty($CI->db->conn_id))
 		{
+			//已经存在$CI->db实例
 			return FALSE;
 		}
 
+		// 加载system/database/DB.php
 		require_once(BASEPATH.'database/DB.php');
 
+		// 如果是要返回db对象，直接返回
 		if ($return === TRUE)
 		{
 			return DB($params, $query_builder);
@@ -390,6 +413,7 @@ class CI_Loader {
 		$CI->db = '';
 
 		// Load the DB class
+		// 初始化db类，并赋值给CI->db
 		$CI->db =& DB($params, $query_builder);
 		return $this;
 	}
@@ -1005,26 +1029,31 @@ class CI_Loader {
 	 * @used-by	CI_Loader::library()
 	 * @uses	CI_Loader::_ci_init_library()
 	 *
-	 * @param	string	$class		Class name to load
-	 * @param	mixed	$params		Optional parameters to pass to the class constructor
-	 * @param	string	$object_name	Optional object name to assign to
+	 * @param	string	$class		Class name to load 类名
+	 * @param	mixed	$params		Optional parameters to pass to the class constructor 构造函数参数
+	 * @param	string	$object_name	Optional object name to assign to 实例对象变量名称
 	 * @return	void
 	 */
+	// 加载libraries
 	protected function _ci_load_library($class, $params = NULL, $object_name = NULL)
 	{
 		// Get the class name, and while we're at it trim any slashes.
 		// The directory path can be included as part of the class name,
 		// but we don't want a leading slash
+		// class允许包含目录路径，去掉/ 和 .php
 		$class = str_replace('.php', '', trim($class, '/'));
 
 		// Was the path included with the class name?
 		// We look for a slash to determine this
+		// 查找class是否包含/
 		if (($last_slash = strrpos($class, '/')) !== FALSE)
 		{
 			// Extract the path
+			//子目录
 			$subdir = substr($class, 0, ++$last_slash);
 
 			// Get the filename from the path
+			//类名
 			$class = substr($class, $last_slash);
 		}
 		else
@@ -1032,18 +1061,28 @@ class CI_Loader {
 			$subdir = '';
 		}
 
+		// 将首写字母改成大写
 		$class = ucfirst($class);
+
+
+		/* 上面步骤获取到class的subdir和class
+		 * 下面，根据basepath 或者 _ci_library_paths 是否存在该类，如果存在，加载
+		 * _ci_load_stock_library _ci_init_library 这两个函数的区别？
+		 */
 
 		// Is this a stock library? There are a few special conditions if so ...
 		if (file_exists(BASEPATH.'libraries/'.$subdir.$class.'.php'))
 		{
+			//存在，调用ci_load_stock_library函数加载
 			return $this->_ci_load_stock_library($class, $subdir, $params, $object_name);
 		}
 
 		// Let's search for the requested library file and load it.
+		// 遍历_ci_library_paths路径,加载library
 		foreach ($this->_ci_library_paths as $path)
 		{
 			// BASEPATH has already been checked for
+			// 该路径上面已经检查过了，为什么上面要单独处理？一般library都在优化？
 			if ($path === BASEPATH)
 			{
 				continue;
@@ -1060,12 +1099,14 @@ class CI_Loader {
 				if ($object_name !== NULL)
 				{
 					$CI =& get_instance();
+					// 不存在该变量，则加载library
 					if ( ! isset($CI->$object_name))
 					{
 						return $this->_ci_init_library($class, '', $params, $object_name);
 					}
 				}
 
+				//记录class已经load，第二次加载忽略
 				log_message('debug', $class.' class already loaded. Second attempt ignored.');
 				return;
 			}
@@ -1086,6 +1127,7 @@ class CI_Loader {
 		}
 
 		// If we got this far we were unable to find the requested class.
+		// 记录为加载到的类
 		log_message('error', 'Unable to load the requested class: '.$class);
 		show_error('Unable to load the requested class: '.$class);
 	}
@@ -1093,25 +1135,30 @@ class CI_Loader {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Internal CI Stock Library Loader
+	 * Internal CI Stock Library Loader 内部ci常用的library加载器
 	 *
 	 * @used-by	CI_Loader::_ci_load_library()
 	 * @uses	CI_Loader::_ci_init_library()
 	 *
-	 * @param	string	$library	Library name to load
-	 * @param	string	$file_path	Path to the library filename, relative to libraries/
-	 * @param	mixed	$params		Optional parameters to pass to the class constructor
-	 * @param	string	$object_name	Optional object name to assign to
+	 * @param	string	$library	Library name to load	library名称
+	 * @param	string	$file_path	Path to the library filename, relative to libraries/	路径，相对于library/ 目录下
+	 * @param	mixed	$params		Optional parameters to pass to the class constructor 构造函数参数
+	 * @param	string	$object_name	Optional object name to assign to  实例名称
 	 * @return	void
 	 */
 	protected function _ci_load_stock_library($library_name, $file_path, $params, $object_name)
 	{
+		// 内部ci library类 同一 前缀 CI_
 		$prefix = 'CI_';
 
 		if (class_exists($prefix.$library_name, FALSE))
 		{
+			//CI 原始的library已定义
+
+			// 扩展的library也定义
 			if (class_exists(config_item('subclass_prefix').$library_name, FALSE))
 			{
+				//更新前缀
 				$prefix = config_item('subclass_prefix');
 			}
 
@@ -1123,10 +1170,12 @@ class CI_Loader {
 				$CI =& get_instance();
 				if ( ! isset($CI->$object_name))
 				{
+					//该实例命未定义，初始化library
 					return $this->_ci_init_library($library_name, $prefix, $params, $object_name);
 				}
 			}
 
+			// 该变量已存在，忽略
 			log_message('debug', $library_name.' class already loaded. Second attempt ignored.');
 			return;
 		}
@@ -1180,26 +1229,28 @@ class CI_Loader {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Internal CI Library Instantiator
+	 * Internal CI Library Instantiator  内部CI框架中library类实例化
 	 *
 	 * @used-by	CI_Loader::_ci_load_stock_library()
 	 * @used-by	CI_Loader::_ci_load_library()
 	 *
-	 * @param	string		$class		Class name
-	 * @param	string		$prefix		Class name prefix
-	 * @param	array|null|bool	$config		Optional configuration to pass to the class constructor:
+	 * @param	string		$class		Class name	类名
+	 * @param	string		$prefix		Class name prefix	类名前缀
+	 * @param	array|null|bool	$config		Optional configuration to pass to the class constructor: 构造函数参数
 	 *						FALSE to skip;
 	 *						NULL to search in config paths;
 	 *						array containing configuration data
-	 * @param	string		$object_name	Optional object name to assign to
+	 * @param	string		$object_name	Optional object name to assign to 实例化对象名称
 	 * @return	void
 	 */
 	protected function _ci_init_library($class, $prefix, $config = FALSE, $object_name = NULL)
 	{
 		// Is there an associated config file for this class? Note: these should always be lowercase
+		// 对于该类的对应关联数组配置文件，false 没有，null 自动搜索，array 是config关联数组
 		if ($config === NULL)
 		{
 			// Fetch the config paths containing any package paths
+			// 获取ci->config对象
 			$config_component = $this->_ci_get_component('config');
 
 			if (is_array($config_component->_config_paths))
@@ -1296,6 +1347,7 @@ class CI_Loader {
 	 */
 	protected function _ci_autoloader()
 	{
+		// 加载autoload.php文件
 		if (file_exists(APPPATH.'config/autoload.php'))
 		{
 			include(APPPATH.'config/autoload.php');
@@ -1306,12 +1358,14 @@ class CI_Loader {
 			include(APPPATH.'config/'.ENVIRONMENT.'/autoload.php');
 		}
 
+		// autoload.php不存在autoload变量数组，直接退出函数
 		if ( ! isset($autoload))
 		{
 			return;
 		}
 
 		// Autoload packages
+		// 加载packages类
 		if (isset($autoload['packages']))
 		{
 			foreach ($autoload['packages'] as $package_path)
@@ -1321,6 +1375,7 @@ class CI_Loader {
 		}
 
 		// Load any custom config file
+		// 加载config类
 		if (count($autoload['config']) > 0)
 		{
 			foreach ($autoload['config'] as $val)
@@ -1330,6 +1385,7 @@ class CI_Loader {
 		}
 
 		// Autoload helpers and languages
+		// 加载helper，language类
 		foreach (array('helper', 'language') as $type)
 		{
 			if (isset($autoload[$type]) && count($autoload[$type]) > 0)
@@ -1339,26 +1395,32 @@ class CI_Loader {
 		}
 
 		// Autoload drivers
+		// 加载drivers类
 		if (isset($autoload['drivers']))
 		{
 			$this->driver($autoload['drivers']);
 		}
 
 		// Load libraries
+		// 加载libraries
 		if (isset($autoload['libraries']) && count($autoload['libraries']) > 0)
 		{
 			// Load the database driver.
+			// 特殊判断是否存在databse，如果存在直接调用database函数，这就是为什么不需要database.php存在就可以直接连接数据库了
 			if (in_array('database', $autoload['libraries']))
 			{
 				$this->database();
+				// 去掉databse所得的差集
 				$autoload['libraries'] = array_diff($autoload['libraries'], array('database'));
 			}
 
 			// Load all other libraries
+			// 载入libraries
 			$this->library($autoload['libraries']);
 		}
 
 		// Autoload models
+		// 载入model
 		if (isset($autoload['model']))
 		{
 			$this->model($autoload['model']);
