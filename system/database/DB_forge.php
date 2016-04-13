@@ -315,6 +315,36 @@ abstract class CI_DB_forge {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Add foreign key.
+	 *
+	 * @param string $table            Table.
+	 * @param string $key              Key index name.
+	 * @param string $reference_table  Reference table.
+	 * @param string $reference_column Reference column.
+	 * @param string $on_update        On update.
+	 * @param string $on_delete        On delete.
+	 *
+	 * @return CI_DB_forge Database forge.
+	 */
+	public function add_foreign_key_to_table($table, $key, $reference_table, $reference_column, $on_update = 'NO ACTION', $on_delete = 'NO ACTION')
+	{
+		$this->add_foreign_key($key, $reference_table, $reference_column, $on_update, $on_delete);
+
+		$sql = 'ALTER TABLE ' . $this->db->escape_identifiers($table) . ' ' . $this->_process_foreign_keys($table);
+
+		$this->_reset();
+
+		if ($this->db->query($sql) === FALSE)
+		{
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Add Field
 	 *
 	 * @param	array	$field
