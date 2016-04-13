@@ -330,7 +330,8 @@ abstract class CI_DB_forge {
 	{
 		$this->add_foreign_key($key, $reference_table, $reference_column, $on_update, $on_delete);
 
-		$sql = 'ALTER TABLE ' . $this->db->escape_identifiers($table) . ' ' . $this->_process_foreign_keys($table);
+		$sql = 'ALTER TABLE ' . $this->db->escape_identifiers($table) . ' ' . $this->_process_foreign_keys($table,
+				TRUE);
 
 		$this->_reset();
 
@@ -1056,16 +1057,22 @@ abstract class CI_DB_forge {
 	 * Process foreign keys.
 	 *
 	 * @param string $table Table name.
+	 * @param bool   $first First.
 	 *
 	 * @return string SQL.
 	 */
-	protected function _process_foreign_keys($table)
+	protected function _process_foreign_keys($table, $first = FALSE)
 	{
 		$sql = '';
 
 		foreach ($this->foreign_keys as $foreign_key)
 		{
-			$sql .= ',' . PHP_EOL . "\t" . 'CONSTRAINT '
+			if ( ! $first)
+			{
+				$sql .= ',';
+			}
+
+			$sql .= PHP_EOL . "\t" . 'CONSTRAINT '
 			        . $this->db->escape_identifiers('fk__' . $table . '__' . $foreign_key['reference_table'])
 			        . ' FOREIGN KEY (' . $this->db->escape_identifiers($foreign_key['key']) . ') REFERENCES '
 			        . $this->db->escape_identifiers($foreign_key['reference_table'])
