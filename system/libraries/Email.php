@@ -767,7 +767,7 @@ class CI_Email {
 			'disposition'	=> empty($disposition) ? 'attachment' : $disposition,  // Can also be 'inline'  Not sure if it matters
 			'type'		=> $mime,
 			'content'	=> chunk_split(base64_encode($file_content)),
-			'multipart' => 'mixed'
+			'multipart'	=> 'mixed'
 		);
 
 		return $this;
@@ -1413,6 +1413,7 @@ class CI_Email {
 				$attachments_related = $attachments_indexed_by_multipart['related'];
 				$attachments_mixed = $attachments_indexed_by_multipart['mixed'];
 				$prepared_attachment_parts = array();
+				$last_boundary = NULL;
 
 				if (isset($attachments_mixed) && count($attachments_mixed) > 0)
 				{
@@ -1425,7 +1426,8 @@ class CI_Email {
 				if (isset($attachments_related) && count($attachments_related) > 0)
 				{
 					$target_container =& $hdr;
-					if (isset($last_boundary)) {
+					if (isset($last_boundary))
+					{
 						$target_container =& $body;
 						$target_container .= '--' . $last_boundary . $this->newline;
 					}
@@ -1440,7 +1442,10 @@ class CI_Email {
 					$this->_header_str .= $hdr;
 				}
 
-				if (strlen(body) > 0) $body .= $this->newline.$this->newline;
+				if (strlen(body) > 0)
+				{
+					$body .= $this->newline.$this->newline;
+				}
 				$body .= $this->_get_mime_message().$this->newline.$this->newline
 					.'--'.$last_boundary.$this->newline
 
@@ -1475,7 +1480,7 @@ class CI_Email {
 	/**
 	 * Returns attachments mapped by multipart type
 	 *
-	 * @return array
+	 * @return	array
 	 */
 	protected function _attachments_indexed_by_multipart()
 	{
@@ -1497,13 +1502,16 @@ class CI_Email {
 	/**
 	 * Prepares attachment string
 	 *
-	 * @param   array   $attachments
-	 * @param   string  $boundary	  Multipart boundary string
-	 * @return  string
+	 * @param	array	$attachments
+	 * @param	string	$boundary	Multipart boundary string
+	 * @return	string
 	 */
 	protected function _prep_attachments($attachments, $boundary)
 	{
-		if (!isset($attachments) || count($attachments) === 0) return '';
+		if (!isset($attachments) OR count($attachments) === 0)
+		{
+			return '';
+		}
 
 		$attachment_parts = array();
 		foreach ($attachments as $attachment)
