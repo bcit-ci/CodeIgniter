@@ -316,6 +316,20 @@ class CI_Input {
 		return $this->_fetch_from_array($_SERVER, $index, $xss_clean);
 	}
 
+	/**
+	 * Fetch an item from the php:/input stream json format
+	 *
+	 * @param	mixed	$index		Index for item to be fetched from php:/input stream json format
+	 * @param	bool	$xss_clean	Whether to apply XSS filtering
+	 * @return	mixed
+	 */
+	public function json($index = NULL, $xss_clean = NULL)
+	{
+		$items = json_decode($this->raw_input_stream, TRUE);
+		is_array($items) OR $items = array();
+		return $this->_fetch_from_array($items, $index, $xss_clean);
+	}
+
 	// ------------------------------------------------------------------------
 
 	/**

@@ -120,6 +120,18 @@ class Input_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
+	public function test_json()
+	{
+		$rc   = new ReflectionClass(get_class($this->input));
+		$prop = $rc->getProperty('_raw_input_stream');
+		$prop->setAccessible(true);
+		$prop->setValue($this->input, json_encode(array('foo' => 'bar')));
+
+		$this->assertEquals('bar', $this->input->json('foo'));
+	}
+
+	// --------------------------------------------------------------------
+
 	public function test_fetch_from_array()
 	{
 		$data = array(
