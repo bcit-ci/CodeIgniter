@@ -277,7 +277,7 @@ Available Functions
 
 	:param	string	$str: Input string
 	:param	string	$separator: Word separator
-	:param	string	$lowercase: Whether to transform the output string to lower-case
+	:param	bool	$lowercase: Whether to transform the output string to lower-case
 	:returns:	URL-formatted string
 	:rtype:	string
 
