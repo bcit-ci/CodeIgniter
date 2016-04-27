@@ -126,7 +126,7 @@ class CI_DB_ibase_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return ibase_query($this->conn_id, $sql);
+		return ibase_query(isset($this->_ibase_trans) ? $this->_ibase_trans : $this->conn_id, $sql);
 	}
 
 	// --------------------------------------------------------------------
