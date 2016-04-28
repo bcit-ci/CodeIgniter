@@ -39,12 +39,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 if ( ! function_exists('xml_parser_create'))
 {
-	show_error('Your PHP installation does not support XML');
+	throw new RuntimeException('Your PHP installation does not support XML');
 }
 
 if ( ! class_exists('CI_Xmlrpc', FALSE))
 {
-	show_error('You must load the Xmlrpc class before loading the Xmlrpcs class in order to create a server.');
+	throw new RuntimeException('You must load the Xmlrpc class before loading the Xmlrpcs class in order to create a server.');
 }
 
 // ------------------------------------------------------------------------
