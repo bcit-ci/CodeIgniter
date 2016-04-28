@@ -66,7 +66,7 @@ class Loader_test extends CI_TestCase {
 		$this->ci_vfs_create(ucfirst($lib), '', $this->ci_app_root, 'libraries');
 		$this->setExpectedException(
 			'RuntimeException',
-			'CI Error: Non-existent class: '.ucfirst($lib)
+			'Non-existent class: '.ucfirst($lib)
 		);
 		$this->assertInstanceOf('CI_Loader', $this->load->library($lib));
 	}
@@ -149,7 +149,7 @@ class Loader_test extends CI_TestCase {
 		$this->ci_vfs_create(ucfirst($lib), '<?php class '.$class.' { }', $this->ci_app_root, 'libraries');
 		$this->setExpectedException(
 			'RuntimeException',
-			"CI Error: Resource '".$obj."' already exists and is not a ".$class." instance."
+			"Resource '".$obj."' already exists and is not a ".$class." instance."
 		);
 		$this->load->library($lib, NULL, $obj);
 	}
