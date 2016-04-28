@@ -1406,34 +1406,34 @@ class CI_Email {
 
 				$attachment_prepared = $this->_prep_attachments($this->_attachments, $this->_atc_boundary);
 
-			break;
+				break;
 			case 'html-attach' :
 
 				$attachments_indexed_by_multipart = $this->_attachments_indexed_by_multipart();
-				$attachments_related = $attachments_indexed_by_multipart['related'];
-				$attachments_mixed = $attachments_indexed_by_multipart['mixed'];
 				$prepared_attachment_parts = array();
 				$last_boundary = NULL;
 
-				if (isset($attachments_mixed) && count($attachments_mixed) > 0)
+				if ( ! empty($attachments_indexed_by_multipart['mixed']))
 				{
 					$hdr .= 'Content-Type: multipart/mixed; boundary="'.$this->_atc_boundary.'"';
 
-					array_push($prepared_attachment_parts, $this->_prep_attachments($attachments_mixed, $this->_atc_boundary));
+					$prepared_attachment_parts[] = $this->_prep_attachments($attachments_indexed_by_multipart['mixed'], $this->_atc_boundary);
 					$last_boundary = $this->_atc_boundary;
 				}
 
-				if (isset($attachments_related) && count($attachments_related) > 0)
+				if ( ! empty($attachments_indexed_by_multipart['related']))
 				{
-					$target_container =& $hdr;
+					$rel_boundary_header = 'Content-Type: multipart/related; boundary="'.$this->_rel_boundary.'"';
 					if (isset($last_boundary))
 					{
-						$target_container =& $body;
-						$target_container .= '--' . $last_boundary . $this->newline;
+						$body .= '--' . $last_boundary . $this->newline . $rel_boundary_header;
 					}
-					$target_container .= 'Content-Type: multipart/related; boundary="'.$this->_rel_boundary.'"';
+					else
+					{
+						$hdr .= $rel_boundary_header;
+					}
 
-					array_unshift($prepared_attachment_parts, $this->_prep_attachments($attachments_related, $this->_rel_boundary));
+					array_unshift($prepared_attachment_parts, $this->_prep_attachments($attachments_indexed_by_multipart['related'], $this->_rel_boundary));
 					$last_boundary = $this->_rel_boundary;
 				}
 
@@ -1442,10 +1442,7 @@ class CI_Email {
 					$this->_header_str .= $hdr;
 				}
 
-				if (strlen(body) > 0)
-				{
-					$body .= $this->newline.$this->newline;
-				}
+				strlen($body) && $body .= $this->newline.$this->newline;
 				$body .= $this->_get_mime_message().$this->newline.$this->newline
 					.'--'.$last_boundary.$this->newline
 
@@ -1464,7 +1461,7 @@ class CI_Email {
 
 				$attachment_prepared = implode($this->newline.$this->newline, $prepared_attachment_parts);
 
-			break;
+				break;
 		}
 
 		$body .= $attachment_prepared;
@@ -1487,11 +1484,8 @@ class CI_Email {
 		foreach ($this->_attachments as $attachment)
 		{
 			$multipart = $attachment['multipart'];
-			if (!isset($attachments_indexed[$multipart]))
-			{
-				$attachments_indexed[$multipart] = array();
-			}
-			array_push($attachments_indexed[$multipart], $attachment);
+			isset($attachments_indexed[$multipart]) OR $attachments_indexed[$multipart] = array();
+			$attachments_indexed[$multipart][] = $attachment;
 		}
 
 		return $attachments_indexed;
@@ -1508,31 +1502,29 @@ class CI_Email {
 	 */
 	protected function _prep_attachments($attachments, $boundary)
 	{
-		if (!isset($attachments) OR count($attachments) === 0)
+		if (empty($attachments))
 		{
 			return '';
 		}
 
-		$attachment_parts = array();
-		foreach ($attachments as $attachment)
+		$attachment = array();
+		for ($i = 0, $c = count($attachments), $z = 0; $i < $c; $i++)
 		{
-			$filename = $attachment['name'][0];
-			$basename = ($attachment['name'][1] === NULL)
-				? basename($filename) : $attachment['name'][1];
+			$filename = $attachments[$i]['name'][0];
+			$basename = ($attachments[$i]['name'][1] === NULL)
+				? basename($filename) : $attachments[$i]['name'][1];
 
-			array_push(
-				$attachment_parts,
-				'--'.$boundary.$this->newline
-					.'Content-type: '.$attachment['type'].'; '
-					.'name="'.$basename.'"'.$this->newline
-					.'Content-Disposition: '.$attachment['disposition'].';'.$this->newline
-					.'Content-Transfer-Encoding: base64'.$this->newline
-					.(empty($attachment['cid']) ? '' : 'Content-ID: <'.$attachment['cid'].'>'.$this->newline),
-				$attachment['content']
-			);
+			$attachment[$z++] = '--'.$boundary.$this->newline
+				.'Content-type: '.$attachments[$i]['type'].'; '
+				.'name="'.$basename.'"'.$this->newline
+				.'Content-Disposition: '.$attachments[$i]['disposition'].';'.$this->newline
+				.'Content-Transfer-Encoding: base64'.$this->newline
+				.(empty($attachments[$i]['cid']) ? '' : 'Content-ID: <'.$attachments[$i]['cid'].'>'.$this->newline);
+
+			$attachment[$z++] = $attachments[$i]['content'];
 		}
 
-		return implode($this->newline, $attachment_parts).$this->newline.'--'.$boundary.'--';
+		return implode($this->newline, $attachment).$this->newline.'--'.$boundary.'--';
 	}
 
 	// --------------------------------------------------------------------
