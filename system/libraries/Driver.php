@@ -87,6 +87,7 @@ class CI_Driver_Library {
 	 *
 	 * @param	string	Driver name (w/o parent prefix)
 	 * @return	object	Child class
+	 * @throws	RuntimeException	In case of failure
 	 */
 	public function load_driver($child)
 	{
@@ -108,7 +109,7 @@ class CI_Driver_Library {
 			// The requested driver isn't valid!
 			$msg = 'Invalid driver requested: '.$child_name;
 			log_message('error', $msg);
-			show_error($msg);
+			throw new RuntimeException($msg);
 		}
 
 		// Get package paths and filename case variations to search
@@ -133,7 +134,7 @@ class CI_Driver_Library {
 					{
 						$msg = 'Unable to load the requested class: CI_'.$child_name;
 						log_message('error', $msg);
-						show_error($msg);
+						throw new RuntimeException($msg);
 					}
 
 					// Include both sources and mark found
@@ -178,7 +179,7 @@ class CI_Driver_Library {
 			{
 				$msg = 'Unable to load the requested driver: '.$class_name;
 				log_message('error', $msg);
-				show_error($msg);
+				throw new RuntimeException($msg);
 			}
 		}
 
