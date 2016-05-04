@@ -1404,20 +1404,17 @@ class CI_Email {
 					.$this->newline
 					.$this->_body.$this->newline.$this->newline;
 
-				$attachment_prepared = $this->_prep_attachments($this->_attachments, $this->_atc_boundary);
+				$body .= $this->_prep_attachments($this->_attachments, $this->_atc_boundary);
 
 				break;
 			case 'html-attach' :
 
 				$attachments_indexed_by_multipart = $this->_attachments_indexed_by_multipart();
-				$prepared_attachment_parts = array();
 				$last_boundary = NULL;
 
 				if ( ! empty($attachments_indexed_by_multipart['mixed']))
 				{
 					$hdr .= 'Content-Type: multipart/mixed; boundary="'.$this->_atc_boundary.'"';
-
-					$prepared_attachment_parts[] = $this->_prep_attachments($attachments_indexed_by_multipart['mixed'], $this->_atc_boundary);
 					$last_boundary = $this->_atc_boundary;
 				}
 
@@ -1426,14 +1423,12 @@ class CI_Email {
 					$rel_boundary_header = 'Content-Type: multipart/related; boundary="'.$this->_rel_boundary.'"';
 					if (isset($last_boundary))
 					{
-						$body .= '--' . $last_boundary . $this->newline . $rel_boundary_header;
+						$body .= '--'.$last_boundary.$this->newline.$rel_boundary_header;
 					}
 					else
 					{
 						$hdr .= $rel_boundary_header;
 					}
-
-					array_unshift($prepared_attachment_parts, $this->_prep_attachments($attachments_indexed_by_multipart['related'], $this->_rel_boundary));
 					$last_boundary = $this->_rel_boundary;
 				}
 
@@ -1459,12 +1454,15 @@ class CI_Email {
 					.$this->_prep_quoted_printable($this->_body).$this->newline.$this->newline
 					.'--'.$this->_alt_boundary.'--'.$this->newline.$this->newline;
 
-				$attachment_prepared = implode($this->newline.$this->newline, $prepared_attachment_parts);
+				( ! empty($attachments_indexed_by_multipart['related'])) && $body .= $this->newline.$this->newline
+					.$this->_prep_attachments($attachments_indexed_by_multipart['related'], $this->_rel_boundary);
+
+				( ! empty($attachments_indexed_by_multipart['mixed'])) && $body .= $this->newline.$this->newline
+					.$this->_prep_attachments($attachments_indexed_by_multipart['mixed'], $this->_atc_boundary);
 
 				break;
 		}
 
-		$body .= $attachment_prepared;
 		$this->_finalbody = ($this->_get_protocol() === 'mail')
 			? $body
 			: $hdr.$this->newline.$this->newline.$body;
