@@ -76,7 +76,7 @@ validation <../libraries/form_validation>` library to do this.
 
 The code above adds a lot of functionality. The first few lines load the
 form helper and the form validation library. After that, rules for the
-form validation are set. The ``set\_rules()`` method takes three arguments;
+form validation are set. The ``set_rules()`` method takes three arguments;
 the name of the input field, the name to be used in error messages, and
 the rule. In this case the title and text fields are required.
 
