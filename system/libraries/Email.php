@@ -2153,6 +2153,11 @@ class CI_Email {
 			return FALSE;
 		}
 
+		if ($this->smtp_keepalive)
+		{
+			$this->_smtp_auth = FALSE;
+		}
+
 		return TRUE;
 	}
 
