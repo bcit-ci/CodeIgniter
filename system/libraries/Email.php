@@ -147,7 +147,7 @@ class CI_Email {
 	 *
 	 * @var	string
 	 */
-	public $charset		= 'utf-8';
+	public $charset		= 'UTF-8';
 
 	/**
 	 * Multipart message
@@ -408,18 +408,8 @@ class CI_Email {
 	public function __construct(array $config = array())
 	{
 		$this->charset = config_item('charset');
-
-		if (count($config) > 0)
-		{
-			$this->initialize($config);
-		}
-		else
-		{
-			$this->_smtp_auth = ! ($this->smtp_user === '' && $this->smtp_pass === '');
-		}
-
+		$this->initialize($config);
 		$this->_safe_mode = ( ! is_php('5.4') && ini_get('safe_mode'));
-		$this->charset = strtoupper($this->charset);
 
 		log_message('info', 'Email Class Initialized');
 	}
@@ -427,28 +417,15 @@ class CI_Email {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Destructor - Releases Resources
-	 *
-	 * @return	void
-	 */
-	public function __destruct()
-	{
-		if (is_resource($this->_smtp_connect))
-		{
-			$this->_send_command('quit');
-		}
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Initialize preferences
 	 *
-	 * @param	array
+	 * @param	array	$config
 	 * @return	CI_Email
 	 */
-	public function initialize($config = array())
+	public function initialize(array $config = array())
 	{
+		$this->clear();
+
 		foreach ($config as $key => $val)
 		{
 			if (isset($this->$key))
@@ -465,9 +442,9 @@ class CI_Email {
 				}
 			}
 		}
-		$this->clear();
 
-		$this->_smtp_auth = ! ($this->smtp_user === '' && $this->smtp_pass === '');
+		$this->charset = strtoupper($this->charset);
+		$this->_smtp_auth = isset($this->smtp_user[0], $this->smtp_pass[0]);
 
 		return $this;
 	}
@@ -2347,4 +2324,15 @@ class CI_Email {
 		return 'application/x-unknown-content-type';
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Destructor
+	 *
+	 * @return	void
+	 */
+	public function __destruct()
+	{
+		is_resource($this->_smtp_connect) && $this->_send_command('quit');
+	}
 }
