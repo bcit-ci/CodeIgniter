@@ -18,10 +18,10 @@ This helper is loaded using the following code::
 
 	$this->load->helper('url');
 
-The following functions are available:
-
 Available Functions
 ===================
+
+The following functions are available:
 
 .. php:function:: site_url([$uri = ''[, $protocol = NULL]])
 
