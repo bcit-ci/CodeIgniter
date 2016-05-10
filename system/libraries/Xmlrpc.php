@@ -37,10 +37,8 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-if ( ! function_exists('xml_parser_create'))
-{
-	throw new RuntimeException('Your PHP installation does not support XML');
-}
+// let PHP handle XML not loaded
+// if ( ! function_exists('xml_parser_create')) ...
 
 // ------------------------------------------------------------------------
 

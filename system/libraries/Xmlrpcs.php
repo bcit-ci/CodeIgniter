@@ -37,14 +37,14 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-if ( ! function_exists('xml_parser_create'))
-{
-	throw new RuntimeException('Your PHP installation does not support XML');
-}
+// let PHP handle XML not loaded
+// if ( ! function_exists('xml_parser_create')) ...
 
+// Load Xmlrpc if needed
 if ( ! class_exists('CI_Xmlrpc', FALSE))
 {
-	throw new RuntimeException('You must load the Xmlrpc class before loading the Xmlrpcs class in order to create a server.');
+	$CI = &get_instance();
+	$CI->load->library('xmlrpc');
 }
 
 // ------------------------------------------------------------------------
