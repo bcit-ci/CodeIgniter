@@ -18,10 +18,10 @@ This helper is loaded using the following code::
 
 	$this->load->helper('url');
 
-The following functions are available:
-
 Available Functions
 ===================
+
+The following functions are available:
 
 .. php:function:: site_url([$uri = ''[, $protocol = NULL]])
 
@@ -360,7 +360,7 @@ Available Functions
 		is outputted to the browser since it utilizes server headers.
 
 	.. note:: For very fine grained control over headers, you should use the
-		`Output Library </libraries/output>` ``set_header()`` method.
+		:doc:`Output Library </libraries/output>` ``set_header()`` method.
 
 	.. note:: To IIS users: if you hide the `Server` HTTP header, the *auto*
 		method won't detect IIS, in that case it is advised you explicitly
