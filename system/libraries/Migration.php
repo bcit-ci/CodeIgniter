@@ -112,7 +112,8 @@ class CI_Migration {
 	 *
 	 * @param	array	$config
 	 * @return	void
-	 * @throws	RuntimeException	In case of failure
+	 * @throws	InvalidArgumentException	In case of improper configuration
+	 * @throws	RuntimeException	In case of other error
 	 */
 	public function __construct($config = array())
 	{
@@ -132,7 +133,7 @@ class CI_Migration {
 		// Are they trying to use migrations while it is disabled?
 		if ($this->_migration_enabled !== TRUE)
 		{
-			throw new RuntimeException('Migrations has been loaded but is disabled or set up incorrectly.');
+			throw new InvalidArgumentException('Migration: has been loaded but is disabled or set up incorrectly.');
 		}
 
 		// If not set, set it
@@ -150,7 +151,7 @@ class CI_Migration {
 		// Make sure the migration table name was set.
 		if (empty($this->_migration_table))
 		{
-			throw new RuntimeException('Migrations configuration file (migration.php) must have "migration_table" set.');
+			throw new InvalidArgumentException('Migration: configuration file (migration.php) must have "migration_table" set.');
 		}
 
 		// Migration basename regex
@@ -161,7 +162,7 @@ class CI_Migration {
 		// Make sure a valid migration numbering type was set.
 		if ( ! in_array($this->_migration_type, array('sequential', 'timestamp')))
 		{
-			throw new RuntimeException('An invalid migration numbering type was specified: '.$this->_migration_type);
+			throw new InvalidArgumentException('Migration: An invalid migration numbering type was specified: '.$this->_migration_type);
 		}
 
 		// If the migrations table is missing, make it
@@ -179,7 +180,7 @@ class CI_Migration {
 		// Do we auto migrate to the latest migration?
 		if ($this->_migration_auto_latest === TRUE && ! $this->latest())
 		{
-			throw new RuntimeException($this->error_string());
+			throw new RuntimeException('Migration: ' . $this->error_string());
 		}
 	}
 
