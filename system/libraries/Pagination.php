@@ -394,7 +394,7 @@ class CI_Pagination {
 	/**
 	 * Generate the pagination links
 	 *
-	 * @throws	RuntimeException	If the number of links was incorrectly initialized
+	 * @throws	UnexpectedValueException	If the number of links was incorrectly initialized
 	 * @return	string
 	 */
 	public function create_links()
@@ -420,7 +420,7 @@ class CI_Pagination {
 
 		if ($this->num_links < 0)
 		{
-			throw new RuntimeException('Your number of links must be a non-negative number.');
+			throw new UnexpectedValueException('Pagination: Your number of links must be positive.');
 		}
 
 		// Keep any existing query string items.
