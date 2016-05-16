@@ -581,6 +581,7 @@ class CI_Form_validation {
 		}
 
 		// If the field is blank, but NOT required, no further tests are necessary
+		$tmp_rules = [];
 		$callback = FALSE;
 		if ( ! in_array('required', $rules) && ($postdata === NULL OR $postdata === ''))
 		{
@@ -592,28 +593,28 @@ class CI_Form_validation {
 					if (strncmp($rule, 'callback_', 9) === 0)
 					{
 						$callback = TRUE;
-						$rules = array(1 => $rule);
-						break;
+						$tmp_rules[] = $rule;
 					}
 				}
 				elseif (is_callable($rule))
 				{
 					$callback = TRUE;
-					$rules = array(1 => $rule);
-					break;
+					$tmp_rules[] = $rule;
 				}
 				elseif (is_array($rule) && isset($rule[0], $rule[1]) && is_callable($rule[1]))
 				{
 					$callback = TRUE;
-					$rules = array(array($rule[0], $rule[1]));
-					break;
+					$tmp_rules[] = array($rule[0], $rule[1]);
 				}
 			}
 
-			if ( ! $callback)
-			{
+			if (count($tmp_rules)) {
+				$rules = $tmp_rules;
+			}
+			else {
 				return;
 			}
+
 		}
 
 		// Isset Test. Typically this rule will only apply to checkboxes.
