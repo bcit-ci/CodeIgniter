@@ -55,9 +55,9 @@ class Form_validation_test extends CI_TestCase {
 		);
 		$values_base = array('foo' => 'sample');
 
-		$this->assertTrue($this->run_rules($rules, array_merge($values_base, array('bar' => ''))));
 		$this->assertTrue($this->run_rules($rules, array_merge($values_base, array('bar' => 'sample'))));
 
+		$this->assertFalse($this->run_rules($rules, array_merge($values_base, array('bar' => ''))));
 		$this->assertFalse($this->run_rules($rules, array_merge($values_base, array('bar' => 'Sample'))));
 		$this->assertFalse($this->run_rules($rules, array_merge($values_base, array('bar' => ' sample'))));
 	}
