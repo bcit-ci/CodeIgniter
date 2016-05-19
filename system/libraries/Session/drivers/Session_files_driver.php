@@ -93,9 +93,14 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 			$this->_config['save_path'] = rtrim($this->_config['save_path'], '/\\');
 			ini_set('session.save_path', $this->_config['save_path']);
 		}
-		else
+		elseif (ini_get('session.save_path'))
 		{
 			$this->_config['save_path'] = rtrim(ini_get('session.save_path'), '/\\');
+		}
+		else
+		{
+			$this->_config['save_path'] = sys_get_temp_dir();
+			ini_set('session.save_path', $this->_config['save_path']);
 		}
 	}
 
