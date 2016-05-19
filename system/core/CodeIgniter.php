@@ -397,6 +397,22 @@ if ( ! is_php('5.4'))
 
 	$e404 = FALSE;
 	$class = ucfirst($RTR->class);
+	$namespace = config_item('controller_namespace');
+	if ($namespace)
+	{
+		if ($RTR->directory)
+		{
+			$classname = $namespace.'\\'.$RTR->directory.'\\'.$class;
+		}
+		else
+		{
+			$classname = $namespace.'\\'.$class;
+		}
+	}
+	else
+	{
+		$classname = $class;
+	}
 	$method = $RTR->method;
 
 	if (empty($class) OR ! file_exists(APPPATH.'controllers/'.$RTR->directory.$class.'.php'))
@@ -407,11 +423,11 @@ if ( ! is_php('5.4'))
 	{
 		require_once(APPPATH.'controllers/'.$RTR->directory.$class.'.php');
 
-		if ( ! class_exists($class, FALSE) OR $method[0] === '_' OR method_exists('CI_Controller', $method))
+		if ( ! class_exists($classname, FALSE) OR $method[0] === '_' OR method_exists('CI_Controller', $method))
 		{
 			$e404 = TRUE;
 		}
-		elseif (method_exists($class, '_remap'))
+		elseif (method_exists($classname, '_remap'))
 		{
 			$params = array($method, array_slice($URI->rsegments, 2));
 			$method = '_remap';
@@ -420,7 +436,7 @@ if ( ! is_php('5.4'))
 		// Furthermore, there are bug reports and feature/change requests related to it
 		// that make it unreliable to use in this context. Please, DO NOT change this
 		// work-around until a better alternative is available.
-		elseif ( ! in_array(strtolower($method), array_map('strtolower', get_class_methods($class)), TRUE))
+		elseif ( ! in_array(strtolower($method), array_map('strtolower', get_class_methods($classname)), TRUE))
 		{
 			$e404 = TRUE;
 		}
@@ -497,7 +513,7 @@ if ( ! is_php('5.4'))
 	// Mark a start point so we can benchmark the controller
 	$BM->mark('controller_execution_time_( '.$class.' / '.$method.' )_start');
 
-	$CI = new $class();
+	$CI = new $classname();
 
 /*
  * ------------------------------------------------------
