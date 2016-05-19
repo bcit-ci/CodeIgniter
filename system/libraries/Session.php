@@ -39,6 +39,7 @@ class CI_Session {
 	var $cookie_path				= '';
 	var $cookie_domain				= '';
 	var $cookie_secure				= FALSE;
+	var $cookie_httponly			= FALSE;
 	var $sess_time_to_update		= 300;
 	var $encryption_key				= '';
 	var $flashdata_key				= 'flash';
@@ -63,7 +64,7 @@ class CI_Session {
 
 		// Set all the session preferences, which can either be set
 		// manually via the $params array above or via the config file
-		foreach (array('sess_encrypt_cookie', 'sess_use_database', 'sess_table_name', 'sess_expiration', 'sess_expire_on_close', 'sess_match_ip', 'sess_match_useragent', 'sess_cookie_name', 'cookie_path', 'cookie_domain', 'cookie_secure', 'sess_time_to_update', 'time_reference', 'cookie_prefix', 'encryption_key') as $key)
+		foreach (array('sess_encrypt_cookie', 'sess_use_database', 'sess_table_name', 'sess_expiration', 'sess_expire_on_close', 'sess_match_ip', 'sess_match_useragent', 'sess_cookie_name', 'cookie_path', 'cookie_domain', 'cookie_secure', 'cookie_httponly', 'sess_time_to_update', 'time_reference', 'cookie_prefix', 'encryption_key') as $key)
 		{
 			$this->$key = (isset($params[$key])) ? $params[$key] : $this->CI->config->item($key);
 		}
@@ -685,7 +686,8 @@ class CI_Session {
 			$expire,
 			$this->cookie_path,
 			$this->cookie_domain,
-			$this->cookie_secure
+			$this->cookie_secure,
+			$this->cookie_httponly
 		);
 	}
 
