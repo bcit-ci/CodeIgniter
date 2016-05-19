@@ -49,6 +49,12 @@ class CI_DB_pdo_driver extends CI_DB {
 
 	var $options = array();
 
+	/**
+	 * Array of errorInfo
+	 * @var array 
+	 */
+	var $_error_info;
+
 	function __construct($params)
 	{
 		parent::__construct($params);
@@ -191,12 +197,20 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		$sql = $this->_prep_query($sql);
 		$result_id = $this->conn_id->prepare($sql);
-
-		if (is_object($result_id) && $result_id->execute())
+		
+		if (!is_object($result_id))
+		{
+			$this->affect_rows = 0;
+			$this->_error_info = $this->conn_id->errorInfo();
+			$result_id = FALSE;
+			
+		}
+		elseif ($result_id->execute())
 		{
 			if (is_numeric(stripos($sql, 'SELECT')))
 			{
 				$this->affect_rows = count($result_id->fetchAll());
+				$result_id->execute();
 			}
 			else
 			{
@@ -206,7 +220,8 @@ class CI_DB_pdo_driver extends CI_DB {
 		else
 		{
 			$this->affect_rows = 0;
-			return FALSE;
+			$this->_error_info = $result_id->errorInfo();
+			$result_id = FALSE;
 		}
 
 		return $result_id;
@@ -490,7 +505,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _error_message()
 	{
-		$error_array = $this->conn_id->errorInfo();
+		$error_array = (empty($this->_error_info)) ? $this->conn_id->errorInfo() : $this->_error_info;
 		return $error_array[2];
 	}
 
@@ -504,7 +519,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _error_number()
 	{
-		return $this->conn_id->errorCode();
+		return (empty($this->_error_info)) ? $this->conn_id->errorCode() : $this->_error_info[1];
 	}
 
 	// --------------------------------------------------------------------
