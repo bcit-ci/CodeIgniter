@@ -729,7 +729,7 @@ class CI_Session {
 	 *
 	 * Legacy CI_Session compatibility method
 	 *
-	 * @param	mixed	$data	Session data key(s)
+	 * @param	mixed	$key	Session data key(s)
 	 * @return	void
 	 */
 	public function unset_userdata($key)
