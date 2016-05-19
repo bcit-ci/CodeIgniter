@@ -174,15 +174,20 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	 */
 	function parseRequest($data='')
 	{
-		global $HTTP_RAW_POST_DATA;
-
 		//-------------------------------------
 		//  Get Data
 		//-------------------------------------
 
 		if ($data == '')
 		{
-			$data = $HTTP_RAW_POST_DATA;
+			if (isset($GLOBALS['HTTP_RAW_POST_DATA']))
+			{
+				$data = $GLOBALS['HTTP_RAW_POST_DATA'];
+			}
+			else
+			{
+				$data = file_get_contents('php://input');
+			}
 		}
 
 		//-------------------------------------
