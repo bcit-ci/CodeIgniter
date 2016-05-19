@@ -77,6 +77,13 @@ class CI_Form_validation {
 	protected $_error_array		= array();
 
 	/**
+	 * Array of validation errors defined by rule type
+	 *
+	 * @var array
+	 */
+	protected $_error_rule_array		= array();
+
+	/**
 	 * Array of custom error messages
 	 *
 	 * @var array
@@ -361,6 +368,18 @@ class CI_Form_validation {
 		return $this->_error_array;
 	}
 
+	/**
+	 * Get Array of Error Rules
+	 *
+	 * Returns the error rule types as an array
+	 *
+	 * @return	array
+	 */
+	public function error_rule_array()
+	{
+		return $this->_error_rule_array;
+	}
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -623,6 +642,7 @@ class CI_Form_validation {
 			{
 				// Set the message type
 				$type = in_array('required', $rules) ? 'required' : 'isset';
+				$this->_error_rule_array[$row['field']] = $type;
 
 				$line = $this->_get_error_message($type, $row['field']);
 
@@ -815,6 +835,8 @@ class CI_Form_validation {
 				{
 					$this->_error_array[$row['field']] = $message;
 				}
+				
+				$this->_error_rule_array[$row['field']] = $rule;
 
 				return;
 			}
@@ -1586,6 +1608,7 @@ class CI_Form_validation {
 	{
 		$this->_field_data = array();
 		$this->_error_array = array();
+		$this->_error_rule_array = array();
 		$this->_error_messages = array();
 		$this->error_string = '';
 		return $this;
