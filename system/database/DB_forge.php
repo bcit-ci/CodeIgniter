@@ -49,11 +49,10 @@ class CI_DB_forge {
 	/**
 	 * Create database
 	 *
-	 * @access	public
-	 * @param	string	the database name
+	 * @param	string	$db_name  the database name
 	 * @return	bool
 	 */
-	function create_database($db_name)
+	public function create_database($db_name)
 	{
 		$sql = $this->_create_database($db_name);
 
@@ -70,11 +69,10 @@ class CI_DB_forge {
 	/**
 	 * Drop database
 	 *
-	 * @access	public
-	 * @param	string	the database name
+	 * @param	string	$db_name  the database name
 	 * @return	bool
 	 */
-	function drop_database($db_name)
+	public function drop_database($db_name)
 	{
 		$sql = $this->_drop_database($db_name);
 
@@ -91,12 +89,11 @@ class CI_DB_forge {
 	/**
 	 * Add Key
 	 *
-	 * @access	public
-	 * @param	string	key
-	 * @param	string	type
+	 * @param	string	$key
+	 * @param	bool	$primary
 	 * @return	void
 	 */
-	function add_key($key = '', $primary = FALSE)
+	public function add_key($key = '', $primary = FALSE)
 	{
 		if (is_array($key))
 		{
@@ -128,11 +125,10 @@ class CI_DB_forge {
 	/**
 	 * Add Field
 	 *
-	 * @access	public
-	 * @param	string	collation
+	 * @param	string	$field  collation
 	 * @return	void
 	 */
-	function add_field($field = '')
+	public function add_field($field = '')
 	{
 		if ($field == '')
 		{
@@ -175,11 +171,11 @@ class CI_DB_forge {
 	/**
 	 * Create Table
 	 *
-	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	$table	the table name
+	 * @param	bool    $if_not_exists
 	 * @return	bool
 	 */
-	function create_table($table = '', $if_not_exists = FALSE)
+	public function create_table($table = '', $if_not_exists = FALSE)
 	{
 		if ($table == '')
 		{
@@ -202,11 +198,10 @@ class CI_DB_forge {
 	/**
 	 * Drop Table
 	 *
-	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	$table_name  the table name
 	 * @return	bool
 	 */
-	function drop_table($table_name)
+	public function drop_table($table_name)
 	{
 		$sql = $this->_drop_table($this->db->dbprefix.$table_name);
 
@@ -223,12 +218,11 @@ class CI_DB_forge {
 	/**
 	 * Rename Table
 	 *
-	 * @access	public
-	 * @param	string	the old table name
-	 * @param	string	the new table name
+	 * @param	string	$table_name	     the old table name
+	 * @param	string	$new_table_name	 the new table name
 	 * @return	bool
 	 */
-	function rename_table($table_name, $new_table_name)
+	public function rename_table($table_name, $new_table_name)
 	{
 		if ($table_name == '' OR $new_table_name == '')
 		{
@@ -244,13 +238,12 @@ class CI_DB_forge {
 	/**
 	 * Column Add
 	 *
-	 * @access	public
-	 * @param	string	the table name
-	 * @param	string	the column name
-	 * @param	string	the column definition
+	 * @param	string	$table	the table name
+	 * @param	array	$field	the column name
+	 * @param	string	$after_field	the column definition
 	 * @return	bool
 	 */
-	function add_column($table = '', $field = array(), $after_field = '')
+	public function add_column($table = '', $field = array(), $after_field = '')
 	{
 		if ($table == '')
 		{
@@ -288,12 +281,11 @@ class CI_DB_forge {
 	/**
 	 * Column Drop
 	 *
-	 * @access	public
-	 * @param	string	the table name
-	 * @param	string	the column name
+	 * @param	string	$table        the table name
+	 * @param	string	$column_name  the column name
 	 * @return	bool
 	 */
-	function drop_column($table = '', $column_name = '')
+	public function drop_column($table = '', $column_name = '')
 	{
 
 		if ($table == '')
@@ -316,13 +308,11 @@ class CI_DB_forge {
 	/**
 	 * Column Modify
 	 *
-	 * @access	public
-	 * @param	string	the table name
-	 * @param	string	the column name
-	 * @param	string	the column definition
+	 * @param	string	$table  the table name
+	 * @param	mixed	$field  the column
 	 * @return	bool
 	 */
-	function modify_column($table = '', $field = array())
+	public function modify_column($table = '', $field = array())
 	{
 		if ($table == '')
 		{
@@ -367,10 +357,9 @@ class CI_DB_forge {
 	 *
 	 * Resets table creation vars
 	 *
-	 * @access	private
 	 * @return	void
 	 */
-	function _reset()
+	private function _reset()
 	{
 		$this->fields		= array();
 		$this->keys			= array();

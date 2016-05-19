@@ -48,10 +48,9 @@ class CI_DB_utility extends CI_DB_forge {
 	/**
 	 * List databases
 	 *
-	 * @access	public
 	 * @return	bool
 	 */
-	function list_databases()
+	public function list_databases()
 	{
 		// Is there a cached result?
 		if (isset($this->data_cache['db_names']))
@@ -78,11 +77,10 @@ class CI_DB_utility extends CI_DB_forge {
 	/**
 	 * Determine if a particular database exists
 	 *
-	 * @access	public
-	 * @param	string
+	 * @param	string  $database_name
 	 * @return	boolean
 	 */
-	function database_exists($database_name)
+	public function database_exists($database_name)
 	{
 		// Some databases won't have access to the list_databases() function, so
 		// this is intended to allow them to override with their own functions as
@@ -103,11 +101,10 @@ class CI_DB_utility extends CI_DB_forge {
 	/**
 	 * Optimize Table
 	 *
-	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	$table_name  the table name
 	 * @return	bool
 	 */
-	function optimize_table($table_name)
+	public function optimize_table($table_name)
 	{
 		$sql = $this->_optimize_table($table_name);
 
@@ -129,10 +126,9 @@ class CI_DB_utility extends CI_DB_forge {
 	/**
 	 * Optimize Database
 	 *
-	 * @access	public
 	 * @return	array
 	 */
-	function optimize_database()
+	public function optimize_database()
 	{
 		$result = array();
 		foreach ($this->db->list_tables() as $table_name)
@@ -166,11 +162,10 @@ class CI_DB_utility extends CI_DB_forge {
 	/**
 	 * Repair Table
 	 *
-	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	$table_name  the table name
 	 * @return	bool
 	 */
-	function repair_table($table_name)
+	public function repair_table($table_name)
 	{
 		$sql = $this->_repair_table($table_name);
 
@@ -192,14 +187,13 @@ class CI_DB_utility extends CI_DB_forge {
 	/**
 	 * Generate CSV from a query result object
 	 *
-	 * @access	public
-	 * @param	object	The query result object
-	 * @param	string	The delimiter - comma by default
-	 * @param	string	The newline character - \n by default
-	 * @param	string	The enclosure - double quote by default
+	 * @param	object	$query	The query result object
+	 * @param	string	$delim	The delimiter - comma by default
+	 * @param	string	$newline	The newline character - \n by default
+	 * @param	string	$enclosure	The enclosure - double quote by default
 	 * @return	string
 	 */
-	function csv_from_result($query, $delim = ",", $newline = "\n", $enclosure = '"')
+	public function csv_from_result($query, $delim = ",", $newline = "\n", $enclosure = '"')
 	{
 		if ( ! is_object($query) OR ! method_exists($query, 'list_fields'))
 		{
@@ -236,12 +230,11 @@ class CI_DB_utility extends CI_DB_forge {
 	/**
 	 * Generate XML data from a query result object
 	 *
-	 * @access	public
-	 * @param	object	The query result object
-	 * @param	array	Any preferences
+	 * @param	object	$query   The query result object
+	 * @param	array	$params  Any preferences
 	 * @return	string
 	 */
-	function xml_from_result($query, $params = array())
+	public function xml_from_result($query, $params = array())
 	{
 		if ( ! is_object($query) OR ! method_exists($query, 'list_fields'))
 		{
@@ -286,10 +279,10 @@ class CI_DB_utility extends CI_DB_forge {
 	/**
 	 * Database Backup
 	 *
-	 * @access	public
+	 * @param   array  $params
 	 * @return	void
 	 */
-	function backup($params = array())
+	public function backup($params = array())
 	{
 		// If the parameters have not been submitted as an
 		// array then we know that it is simply the table
