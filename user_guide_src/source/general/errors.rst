@@ -2,10 +2,12 @@
 Error Handling
 ##############
 
-CodeIgniter lets you build error reporting into your applications using
-the functions described below. In addition, it has an error logging
-class that permits error and debugging messages to be saved as text
-files.
+In CodeIgniter, it is encouraged to use PHP exceptions to perform
+error handling. CodeIgniter provides an error template page to
+display error messages to end users. You will need to invoke Exceptions
+class to render the error template. In addition, CodeIgniter has an error
+logging class that permits error and debugging messages to be saved
+as text files.
 
 .. note:: By default, CodeIgniter displays all PHP errors. You might
 	wish to change this behavior once your development is complete. You'll
@@ -18,41 +20,21 @@ procedural interfaces that are available globally throughout the
 application. This approach permits error messages to get triggered
 without having to worry about class/function scoping.
 
-CodeIgniter also returns a status code whenever a portion of the core
-calls ``exit()``. This exit status code is separate from the HTTP status
-code, and serves as a notice to other processes that may be watching of
-whether the script completed successfully, or if not, what kind of
-problem it encountered that caused it to abort. These values are
-defined in *application/config/constants.php*. While exit status codes
-are most useful in CLI settings, returning the proper code helps server
-software keep track of your scripts and the health of your application.
+Example of rendering general error page::
+
+	$_error =& load_class('Exceptions', 'core');
+	echo $_error->show_error($heading, $message, 'error_general', $status_code);
+
+This above code will display the error message supplied to it using
+the error template appropriate to your execution::
+
+	application/views/errors/html/error_general.php
+
+or::
+
+	application/views/errors/cli/error_general.php
 
 The following functions let you generate errors:
-
-.. php:function:: show_error($message, $status_code, $heading = 'An Error Was Encountered')
-
-	:param	mixed	$message: Error message
-	:param	int	$status_code: HTTP Response status code
-	:param	string	$heading: Error page heading
-	:rtype:	void
-
-	This function will display the error message supplied to it using
-	the error template appropriate to your execution::
-
-		application/views/errors/html/error_general.php
-
-	or:
-
-		application/views/errors/cli/error_general.php
-
-	The optional parameter ``$status_code`` determines what HTTP status
-	code should be sent with the error. If ``$status_code`` is less
-	than 100, the HTTP status code will be set to 500, and the exit
-	status code will be set to ``$status_code + EXIT__AUTO_MIN``.
-	If that value is larger than ``EXIT__AUTO_MAX``, or if
-	``$status_code`` is 100 or higher, the exit status code will be set
-	to ``EXIT_ERROR``.
-	You can check in *application/config/constants.php* for more detail.
 
 .. php:function:: show_404($page = '', $log_error = TRUE)
 
