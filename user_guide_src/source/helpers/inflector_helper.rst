@@ -38,7 +38,7 @@ The following functions are available:
 .. php:function:: plural($str)
 
 	:param	string	$str: Input string
-	:returns:	A plular word
+	:returns:	A plural word
 	:rtype:	string
 
 	Changes a singular word to plural. Example::
