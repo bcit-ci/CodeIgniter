@@ -112,7 +112,7 @@ class CI_Migration {
 	 *
 	 * @param	array	$config
 	 * @return	void
-	 * @throws	InvalidArgumentException	In case of improper configuration
+	 * @throws	UnexpectedValueException	In case of improper configuration
 	 * @throws	RuntimeException	In case of other error
 	 */
 	public function __construct($config = array())
@@ -133,7 +133,7 @@ class CI_Migration {
 		// Are they trying to use migrations while it is disabled?
 		if ($this->_migration_enabled !== TRUE)
 		{
-			throw new InvalidArgumentException('Migration: has been loaded but is disabled or set up incorrectly.');
+			throw new UnexpectedValueException('Migration: has been loaded but is disabled or set up incorrectly.');
 		}
 
 		// If not set, set it
@@ -151,7 +151,7 @@ class CI_Migration {
 		// Make sure the migration table name was set.
 		if (empty($this->_migration_table))
 		{
-			throw new InvalidArgumentException('Migration: configuration file (migration.php) must have "migration_table" set.');
+			throw new UnexpectedValueException('Migration: configuration file (migration.php) must have "migration_table" set.');
 		}
 
 		// Migration basename regex
@@ -162,7 +162,7 @@ class CI_Migration {
 		// Make sure a valid migration numbering type was set.
 		if ( ! in_array($this->_migration_type, array('sequential', 'timestamp')))
 		{
-			throw new InvalidArgumentException('Migration: An invalid migration numbering type was specified: '.$this->_migration_type);
+			throw new UnexpectedValueException('Migration: An invalid migration numbering type was specified: '.$this->_migration_type);
 		}
 
 		// If the migrations table is missing, make it
