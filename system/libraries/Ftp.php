@@ -662,7 +662,7 @@ class CI_FTP {
 	{
 		$CI =& get_instance();
 		$CI->lang->load('ftp');
-		throw new RuntimeException($CI->lang->line($line));
+		throw new RuntimeException('Ftp: ' . $CI->lang->line($line));
 	}
 
 }
