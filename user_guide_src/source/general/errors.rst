@@ -126,8 +126,7 @@ Exception Handling
 
 The CodeIgniter components themselves use the ``show_error()`` function to 
 report problems that are not recoverable. The components use exceptions, 
-however, for problems that you might want to recover from, through program 
-logic.
+however, for problems that you might want to recover from.
 
 Use a try/catch construct if you want to handle such error conditions yourself.
 
@@ -135,11 +134,13 @@ Use a try/catch construct if you want to handle such error conditions yourself.
 
 		try
 		{
-			// statements using CoedIgniter components that might throw an exception
+                        // load the proper model, if it has been implemented
+			$this->load->model('fancymodel','mymodel');
 		}
 		catch (Exception $e)
 		{
-			// deal with the exception thrown
+                        // otherwise, load the backup model
+			$this->load->model('defaultmodel','mymodel');
 		}
 
 
