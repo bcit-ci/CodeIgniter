@@ -285,7 +285,7 @@ class CI_Output {
 	/**
 	 * Get Header
 	 *
-	 * @param	string	$header_name
+	 * @param	string	$header
 	 * @return	string
 	 */
 	public function get_header($header)
