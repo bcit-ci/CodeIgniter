@@ -107,8 +107,7 @@ class CI_Driver_Library {
 		if ( ! in_array($child, $this->valid_drivers))
 		{
 			// The requested driver isn't valid!
-			$msg = 'Invalid driver requested: '.$child_name;
-			log_message('error', $msg);
+			$msg = 'Database: Invalid driver requested: '.$child_name;
 			throw new RuntimeException($msg);
 		}
 
@@ -132,8 +131,7 @@ class CI_Driver_Library {
 					$basepath = BASEPATH.'libraries/'.$this->lib_name.'/drivers/'.$child_name.'.php';
 					if ( ! file_exists($basepath))
 					{
-						$msg = 'Unable to load the requested class: CI_'.$child_name;
-						log_message('error', $msg);
+						$msg = 'Database: Unable to load the requested class: CI_'.$child_name;
 						throw new RuntimeException($msg);
 					}
 
