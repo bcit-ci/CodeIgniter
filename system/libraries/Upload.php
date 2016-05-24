@@ -1029,7 +1029,7 @@ class CI_Upload {
 
 		if (count($x) === 1)
 		{
-			return '';
+			return '.png'; //sometime, pasteing image no ext from clipbroad,default give .png
 		}
 
 		$ext = ($this->file_ext_tolower) ? strtolower(end($x)) : end($x);
