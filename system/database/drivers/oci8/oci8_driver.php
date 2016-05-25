@@ -581,7 +581,7 @@ class CI_DB_oci8_driver extends CI_DB {
 
 		return is_array($error)
 			? $error
-			: array('code' => '', 'message');
+			: array('code' => '', 'message' => '');
 	}
 
 	// --------------------------------------------------------------------
