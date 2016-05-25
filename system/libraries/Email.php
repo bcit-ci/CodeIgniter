@@ -254,27 +254,6 @@ class CI_Email {
 	protected $_finalbody		= '';
 
 	/**
-	 * multipart/alternative boundary
-	 *
-	 * @var	string
-	 */
-	protected $_alt_boundary	= '';
-
-	/**
-	 * Attachment boundary
-	 *
-	 * @var	string
-	 */
-	protected $_atc_boundary	= '';
-
-	/**
-	 * Related Attachment boundary
-	 *
-	 * @var	string
-	 */
-	protected $_rel_boundary	= '';
-
-	/**
 	 * Final headers to send
 	 *
 	 * @var	string
@@ -934,20 +913,6 @@ class CI_Email {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set Message Boundary
-	 *
-	 * @return	void
-	 */
-	protected function _set_boundaries()
-	{
-		$this->_alt_boundary = 'B_ALT_'.uniqid(''); // multipart/alternative
-		$this->_atc_boundary = 'B_ATC_'.uniqid(''); // attachment boundary
-		$this->_rel_boundary = 'B_REL_'.uniqid(''); // related attachment boundary
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Get the Message ID
 	 *
 	 * @return	string
@@ -1014,9 +979,9 @@ class CI_Email {
 	{
 		if ($this->mailtype === 'html')
 		{
-			return (count($this->_attachments) === 0) ? 'html' : 'html-attach';
+			return empty($this->_attachments) ? 'html' : 'html-attach';
 		}
-		elseif	($this->mailtype === 'text' && count($this->_attachments) > 0)
+		elseif	($this->mailtype === 'text' && ! empty($this->_attachments))
 		{
 			return 'plain-attach';
 		}
@@ -1322,7 +1287,6 @@ class CI_Email {
 			$this->_body = $this->word_wrap($this->_body);
 		}
 
-		$this->_set_boundaries();
 		$this->_write_headers();
 
 		$hdr = ($this->_get_protocol() === 'mail') ? $this->newline : '';
@@ -1330,7 +1294,7 @@ class CI_Email {
 
 		switch ($this->_get_content_type())
 		{
-			case 'plain' :
+			case 'plain':
 
 				$hdr .= 'Content-Type: text/plain; charset='.$this->charset.$this->newline
 					.'Content-Transfer-Encoding: '.$this->_get_encoding();
@@ -1347,7 +1311,7 @@ class CI_Email {
 
 				return;
 
-			case 'html' :
+			case 'html':
 
 				if ($this->send_multipart === FALSE)
 				{
@@ -1356,14 +1320,16 @@ class CI_Email {
 				}
 				else
 				{
-					$hdr .= 'Content-Type: multipart/alternative; boundary="'.$this->_alt_boundary.'"';
+					$boundary = uniqid('B_ALT_');
+					$hdr .= 'Content-Type: multipart/alternative; boundary="'.$boundary.'"';
 
 					$body .= $this->_get_mime_message().$this->newline.$this->newline
-						.'--'.$this->_alt_boundary.$this->newline
+						.'--'.$boundary.$this->newline
 
 						.'Content-Type: text/plain; charset='.$this->charset.$this->newline
 						.'Content-Transfer-Encoding: '.$this->_get_encoding().$this->newline.$this->newline
-						.$this->_get_alt_message().$this->newline.$this->newline.'--'.$this->_alt_boundary.$this->newline
+						.$this->_get_alt_message().$this->newline.$this->newline
+						.'--'.$boundary.$this->newline
 
 						.'Content-Type: text/html; charset='.$this->charset.$this->newline
 						.'Content-Transfer-Encoding: quoted-printable'.$this->newline.$this->newline;
@@ -1382,14 +1348,15 @@ class CI_Email {
 
 				if ($this->send_multipart !== FALSE)
 				{
-					$this->_finalbody .= '--'.$this->_alt_boundary.'--';
+					$this->_finalbody .= '--'.$boundary.'--';
 				}
 
 				return;
 
-			case 'plain-attach' :
+			case 'plain-attach':
 
-				$hdr .= 'Content-Type: multipart/mixed; boundary="'.$this->_atc_boundary.'"';
+				$boundary = uniqid('B_ATC_');
+				$hdr .= 'Content-Type: multipart/mixed; boundary="'.$boundary.'"';
 
 				if ($this->_get_protocol() === 'mail')
 				{
@@ -1398,29 +1365,32 @@ class CI_Email {
 
 				$body .= $this->_get_mime_message().$this->newline
 					.$this->newline
-					.'--'.$this->_atc_boundary.$this->newline
+					.'--'.$boundary.$this->newline
 					.'Content-Type: text/plain; charset='.$this->charset.$this->newline
 					.'Content-Transfer-Encoding: '.$this->_get_encoding().$this->newline
 					.$this->newline
 					.$this->_body.$this->newline.$this->newline;
 
-				$body .= $this->_prep_attachments($this->_attachments, $this->_atc_boundary);
+				$this->_append_attachments($body, $boundary);
 
 				break;
-			case 'html-attach' :
+			case 'html-attach':
 
-				$attachments_indexed_by_multipart = $this->_attachments_indexed_by_multipart();
+				$alt_boundary = uniqid('B_ALT_');
 				$last_boundary = NULL;
 
-				if ( ! empty($attachments_indexed_by_multipart['mixed']))
+				if ($this->_attachments_have_multipart('mixed'))
 				{
-					$hdr .= 'Content-Type: multipart/mixed; boundary="'.$this->_atc_boundary.'"';
-					$last_boundary = $this->_atc_boundary;
+					$atc_boundary = uniqid('B_ATC_');
+					$hdr .= 'Content-Type: multipart/mixed; boundary="'.$atc_boundary.'"';
+					$last_boundary = $atc_boundary;
 				}
 
-				if ( ! empty($attachments_indexed_by_multipart['related']))
+				if ($this->_attachments_have_multipart('related'))
 				{
-					$rel_boundary_header = 'Content-Type: multipart/related; boundary="'.$this->_rel_boundary.'"';
+					$rel_boundary = uniqid('B_REL_');
+					$rel_boundary_header = 'Content-Type: multipart/related; boundary="'.$rel_boundary.'"';
+
 					if (isset($last_boundary))
 					{
 						$body .= '--'.$last_boundary.$this->newline.$rel_boundary_header;
@@ -1429,7 +1399,8 @@ class CI_Email {
 					{
 						$hdr .= $rel_boundary_header;
 					}
-					$last_boundary = $this->_rel_boundary;
+
+					$last_boundary = $rel_boundary;
 				}
 
 				if ($this->_get_protocol() === 'mail')
@@ -1441,24 +1412,32 @@ class CI_Email {
 				$body .= $this->_get_mime_message().$this->newline.$this->newline
 					.'--'.$last_boundary.$this->newline
 
-					.'Content-Type: multipart/alternative; boundary="'.$this->_alt_boundary.'"'.$this->newline.$this->newline
-					.'--'.$this->_alt_boundary.$this->newline
+					.'Content-Type: multipart/alternative; boundary="'.$alt_boundary.'"'.$this->newline.$this->newline
+					.'--'.$alt_boundary.$this->newline
 
 					.'Content-Type: text/plain; charset='.$this->charset.$this->newline
 					.'Content-Transfer-Encoding: '.$this->_get_encoding().$this->newline.$this->newline
-					.$this->_get_alt_message().$this->newline.$this->newline.'--'.$this->_alt_boundary.$this->newline
+					.$this->_get_alt_message().$this->newline.$this->newline
+					.'--'.$alt_boundary.$this->newline
 
 					.'Content-Type: text/html; charset='.$this->charset.$this->newline
 					.'Content-Transfer-Encoding: quoted-printable'.$this->newline.$this->newline
 
 					.$this->_prep_quoted_printable($this->_body).$this->newline.$this->newline
-					.'--'.$this->_alt_boundary.'--'.$this->newline.$this->newline;
+					.'--'.$alt_boundary.'--'.$this->newline.$this->newline;
 
-				( ! empty($attachments_indexed_by_multipart['related'])) && $body .= $this->newline.$this->newline
-					.$this->_prep_attachments($attachments_indexed_by_multipart['related'], $this->_rel_boundary);
+				// multipart/mixed attachments
+				if ( ! empty($atc_boundary))
+				{
+					$body .= $this->newline.$this->newline;
+					$this->_append_attachments($body, $atc_boundary, 'mixed');
+				}
 
-				( ! empty($attachments_indexed_by_multipart['mixed'])) && $body .= $this->newline.$this->newline
-					.$this->_prep_attachments($attachments_indexed_by_multipart['mixed'], $this->_atc_boundary);
+				if ( ! empty($rel_boundary))
+				{
+					$body .= $this->newline.$this->newline;
+					$this->_append_attachments($body, $rel_boundary, 'related');
+				}
 
 				break;
 		}
@@ -1472,21 +1451,17 @@ class CI_Email {
 
 	// --------------------------------------------------------------------
 
-	/**
-	 * Returns attachments mapped by multipart type
-	 *
-	 * @return	array
-	 */
-	protected function _attachments_indexed_by_multipart()
+	protected function _attachments_have_multipart($type)
 	{
-		foreach ($this->_attachments as $attachment)
+		foreach ($this->_attachments as &$attachment)
 		{
-			$multipart = $attachment['multipart'];
-			isset($attachments_indexed[$multipart]) OR $attachments_indexed[$multipart] = array();
-			$attachments_indexed[$multipart][] = $attachment;
+			if ($attachment[$i]['multipart'] === $type)
+			{
+				return TRUE;
+			}
 		}
 
-		return $attachments_indexed;
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -1494,35 +1469,35 @@ class CI_Email {
 	/**
 	 * Prepares attachment string
 	 *
-	 * @param	array	$attachments
-	 * @param	string	$boundary	Multipart boundary string
+	 * @param	string	$body		Message body to append to
+	 * @param	string	$boundary	Multipart boundary
+	 * @param	string	$multipart	When provided, only attachments of this type will be processed
 	 * @return	string
 	 */
-	protected function _prep_attachments($attachments, $boundary)
+	protected function _append_attachments(&$body, $boundary, $multipart = null)
 	{
-		if (empty($attachments))
+		for ($i = 0, $c = count($this->_attachments); $i < $c; $i++)
 		{
-			return '';
-		}
+			if (isset($multipart) && $this->_attachments[$i]['multipart'] !== $multipart)
+			{
+				continue;
+			}
 
-		$attachment = array();
-		for ($i = 0, $c = count($attachments), $z = 0; $i < $c; $i++)
-		{
-			$filename = $attachments[$i]['name'][0];
-			$basename = ($attachments[$i]['name'][1] === NULL)
-				? basename($filename) : $attachments[$i]['name'][1];
+			$name = isset($this->_attachments[$i]['name'][1])
+				? $this->_attachments[$i]['name'][1]
+				: basename($this->_attachments[$i]['name'][0]);
 
-			$attachment[$z++] = '--'.$boundary.$this->newline
-				.'Content-type: '.$attachments[$i]['type'].'; '
-				.'name="'.$basename.'"'.$this->newline
-				.'Content-Disposition: '.$attachments[$i]['disposition'].';'.$this->newline
+			$body .= '--'.$boundary.$this->newline
+				.'Content-Type: '.$this->_attachments[$i]['type'].'; name="'.$name.'"'.$this->newline
+				.'Content-Disposition: '.$this->_attachments[$i]['disposition'].';'.$this->newline
 				.'Content-Transfer-Encoding: base64'.$this->newline
-				.(empty($attachments[$i]['cid']) ? '' : 'Content-ID: <'.$attachments[$i]['cid'].'>'.$this->newline);
-
-			$attachment[$z++] = $attachments[$i]['content'];
+				.(empty($this->_attachments[$i]['cid']) ? '' : 'Content-ID: <'.$this->_attachments[$i]['cid'].'>'.$this->newline.$this->newline)
+				.$this->_attachments[$i]['content'].$this->newline;
 		}
 
-		return implode($this->newline, $attachment).$this->newline.'--'.$boundary.'--';
+		// $name won't be set if no attachments were appended,
+		// and therefore a boundary wouldn't be necessary
+		empty($name) OR $body .= '--'.$boundary.'--';
 	}
 
 	// --------------------------------------------------------------------
