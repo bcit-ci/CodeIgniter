@@ -696,6 +696,17 @@ class CI_Form_validation {
 				$param = $match[2];
 			}
 
+			// Ignore empty, non-required inputs with a few exceptions ...
+			if (
+				($postdata === NULL OR $postdata === '')
+				&& $callback === FALSE
+				&& $callable === FALSE
+				&& ! in_array($rule, array('required', 'isset', 'matches'), TRUE)
+			)
+			{
+				continue;
+			}
+
 			// Call the function that corresponds to the rule
 			if ($callback OR $callable !== FALSE)
 			{
