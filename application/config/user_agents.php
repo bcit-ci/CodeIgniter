@@ -208,5 +208,7 @@ $robots = array(
 	'adsbot-google'		=> 'AdsBot Google',
 	'feedfetcher-google'	=> 'Feedfetcher Google',
 	'curious george'	=> 'Curious George',
-	'ia_archiver'		=> 'Alexa Crawler'
+	'ia_archiver'		=> 'Alexa Crawler',
+	'MJ12bot'		=> 'Majestic-12',
+	'Uptimebot'		=> 'Uptimebot'
 );
