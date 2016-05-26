@@ -31,6 +31,7 @@ Bug fixes for 3.0.7
 -  Fixed a bug (#4613) - :doc:`Email Library <libraries/config>` failed to send multiple emails via SMTP due to "already authenticated" errors when keep-alive is enabled.
 -  Fixed a bug (#4633) - :doc:`Form Validation Library <libraries/form_validation>` ignored multiple "callback" rules for empty, non-required fields.
 -  Fixed a bug (#4637) - :doc:`Database <database/index>` method `error()` returned ``FALSE`` with the 'oci8' driver if there was no error.
+-  Fixed a bug (#4647) - :doc:`Query Builder <database/query_builder>` method ``count_all_results()`` doesn't take into account ``GROUP BY`` clauses while deciding whether to do a subquery or not.
 
 Version 3.0.6
 =============

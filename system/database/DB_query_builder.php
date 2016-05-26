@@ -1395,7 +1395,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->qb_orderby = NULL;
 		}
 
-		$result = ($this->qb_distinct === TRUE)
+		$result = ($this->qb_distinct === TRUE OR ! empty($this->qb_groupby))
 			? $this->query($this->_count_string.$this->protect_identifiers('numrows')."\nFROM (\n".$this->_compile_select()."\n) CI_count_all_results")
 			: $this->query($this->_compile_select($this->_count_string.$this->protect_identifiers('numrows')));
 
