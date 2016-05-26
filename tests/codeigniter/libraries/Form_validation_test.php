@@ -28,6 +28,16 @@ class Form_validation_test extends CI_TestCase {
 		$this->form_validation = new CI_Form_validation();
 	}
 
+	public function test_empty_array_input()
+	{
+		$this->assertFalse(
+			$this->run_rules(
+				array(array('field' => 'foo', 'label' => 'Foo Label', 'rules' => 'required')),
+				array('foo' => array())
+			)
+		);
+	}
+
 	public function test_rule_required()
 	{
 		$rules = array(array('field' => 'foo', 'label' => 'foo_label', 'rules' => 'required'));
