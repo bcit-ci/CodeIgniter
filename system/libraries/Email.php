@@ -1426,17 +1426,17 @@ class CI_Email {
 					.$this->_prep_quoted_printable($this->_body).$this->newline.$this->newline
 					.'--'.$alt_boundary.'--'.$this->newline.$this->newline;
 
+				if ( ! empty($rel_boundary))
+				{
+					$body .= $this->newline.$this->newline;
+					$this->_append_attachments($body, $rel_boundary, 'related');
+				}
+
 				// multipart/mixed attachments
 				if ( ! empty($atc_boundary))
 				{
 					$body .= $this->newline.$this->newline;
 					$this->_append_attachments($body, $atc_boundary, 'mixed');
-				}
-
-				if ( ! empty($rel_boundary))
-				{
-					$body .= $this->newline.$this->newline;
-					$this->_append_attachments($body, $rel_boundary, 'related');
 				}
 
 				break;
@@ -1455,7 +1455,7 @@ class CI_Email {
 	{
 		foreach ($this->_attachments as &$attachment)
 		{
-			if ($attachment[$i]['multipart'] === $type)
+			if ($attachment['multipart'] === $type)
 			{
 				return TRUE;
 			}
