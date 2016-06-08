@@ -34,6 +34,7 @@ Bug fixes for 3.0.7
 -  Fixed a bug (#4647) - :doc:`Query Builder <database/query_builder>` method ``count_all_results()`` doesn't take into account ``GROUP BY`` clauses while deciding whether to do a subquery or not.
 -  Fixed a bug where :doc:`Session Library <libraries/sessions>` 'redis' driver didn't properly detect if a connection is properly closed on PHP 5.x.
 -  Fixed a bug (#4583) - :doc:`Email Library <libraries/email>` didn't properly handle inline attachments in HTML emails.
+-  Fixed a bug where :doc:`Database <database/index>` method `db_select()` didn't clear metadata cached for the previously used database.
 
 Version 3.0.6
 =============
