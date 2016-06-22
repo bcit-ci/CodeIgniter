@@ -36,6 +36,7 @@ Bug fixes for 3.0.7
 -  Fixed a bug (#4583) - :doc:`Email Library <libraries/email>` didn't properly handle inline attachments in HTML emails.
 -  Fixed a bug where :doc:`Database <database/index>` method `db_select()` didn't clear metadata cached for the previously used database.
 -  Fixed a bug (#4675) - :doc:`File Helper <helpers/file_helper>` function :php:func:`delete_files()` treated symbolic links as regular directories.
+-  Fixed a bug (#4674) - :doc:`Database <database>` driver 'dblib' triggered E_WARNING messages while connecting.
 
 Version 3.0.6
 =============
