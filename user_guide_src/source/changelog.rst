@@ -35,6 +35,7 @@ Bug fixes for 3.0.7
 -  Fixed a bug where :doc:`Session Library <libraries/sessions>` 'redis' driver didn't properly detect if a connection is properly closed on PHP 5.x.
 -  Fixed a bug (#4583) - :doc:`Email Library <libraries/email>` didn't properly handle inline attachments in HTML emails.
 -  Fixed a bug where :doc:`Database <database/index>` method `db_select()` didn't clear metadata cached for the previously used database.
+-  Fixed a bug (#4675) - :doc:`File Helper <helpers/file_helper>` function :php:func:`delete_files()` treated symbolic links as regular directories.
 
 Version 3.0.6
 =============
