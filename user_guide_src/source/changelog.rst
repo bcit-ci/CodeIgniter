@@ -13,6 +13,7 @@ Release Date: Not Released
    -  Updated :doc:`Encryption Library <libraries/encryption>` to always prefer ``random_bytes()`` when it is available.
    -  Updated :doc:`Session Library <libraries/sessions>` to log 'debug' messages when using fallbacks to *session.save_path* (php.ini) or 'sess_use_database', 'sess_table_name' settings.
    -  Added a 'LONGTEXT' to 'STRING' alias to :doc:`Database Forge <database/forge>` for the 'cubrid', 'pdo/cubrid' drivers.
+   -  Added 'TINYINT', 'MEDIUMINT', 'INT' and 'BIGINT' aliases to 'NUMBER' to :doc:`Database Forge <database/forge>` for the 'oci8', 'pdo/oci' drivers.
 
    -  :php:func:`password_hash()` :doc:`compatibility function <general/compatibility_functions>` changes:
 
@@ -37,6 +38,7 @@ Bug fixes for 3.0.7
 -  Fixed a bug where :doc:`Database <database/index>` method `db_select()` didn't clear metadata cached for the previously used database.
 -  Fixed a bug (#4675) - :doc:`File Helper <helpers/file_helper>` function :php:func:`delete_files()` treated symbolic links as regular directories.
 -  Fixed a bug (#4674) - :doc:`Database <database>` driver 'dblib' triggered E_WARNING messages while connecting.
+-  Fixed a bug (#4678) - :doc:`Database Forge <database/forge>` tried to use unsupported `IF NOT EXISTS` clause when creating tables on Oracle.
 
 Version 3.0.6
 =============
