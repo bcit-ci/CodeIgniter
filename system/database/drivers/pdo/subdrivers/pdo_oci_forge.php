@@ -68,13 +68,6 @@ class CI_DB_pdo_oci_forge extends CI_DB_pdo_forge {
 	protected $_drop_database	= FALSE;
 
 	/**
-	 * CREATE TABLE IF statement
-	 *
-	 * @var	string
-	 */
-	protected $_create_table_if	= 'CREATE TABLE IF NOT EXISTS';
-
-	/**
 	 * UNSIGNED support
 	 *
 	 * @var	bool|array
