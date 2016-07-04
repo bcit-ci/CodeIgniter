@@ -1198,7 +1198,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 		elseif ($direction !== '')
 		{
-			$direction = in_array($direction, array('ASC', 'DESC'), TRUE) ? ' '.$direction : '';
+			$direction = preg_match('/^(ASC|DESC)(|\sNULLS\s(FIRST|LAST))$/', $direction) ? ' '.$direction : '';
 		}
 
 		is_bool($escape) OR $escape = $this->_protect_identifiers;
