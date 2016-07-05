@@ -169,7 +169,8 @@ function &DB($params = '', $query_builder_override = NULL)
 	if ( ! isset($query_builder) OR $query_builder === TRUE)
 	{
 		require_once(BASEPATH.'database/DB_query_builder.php');
-		$app_path = APPPATH.'core/'.DIRECTORY_SEPARATOR;
+		
+		$app_path = APPPATH.'core'.DIRECTORY_SEPARATOR;
 		$class = config_item('subclass_prefix').'DB_query_builder';
 		if (file_exists($app_path.$class.'.php'))
 		{
