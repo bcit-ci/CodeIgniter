@@ -169,25 +169,35 @@ function &DB($params = '', $query_builder_override = NULL)
 	if ( ! isset($query_builder) OR $query_builder === TRUE)
 	{
 		require_once(BASEPATH.'database/DB_query_builder.php');
-		if ( ! class_exists('CI_DB', FALSE))
+		$app_path = APPPATH.'core/'.DIRECTORY_SEPARATOR;
+		$class = config_item('subclass_prefix').'DB_query_builder';
+		if (file_exists($app_path.$class.'.php'))
 		{
-			/**
-			 * CI_DB
-			 *
-			 * Acts as an alias for both CI_DB_driver and CI_DB_query_builder.
-			 *
-			 * @see	CI_DB_query_builder
-			 * @see	CI_DB_driver
-			 */
-			class CI_DB extends CI_DB_query_builder { }
+			require_once($app_path.$class.'.php');
+			if ( ! class_exists($class, FALSE))
+			{
+				throw new RuntimeException($app_path.$class.".php exists, but doesn't declare class ".$class);
+			}
+		}else {
+			$class = "CI_DB_query_builder";
 		}
 	}
 	elseif ( ! class_exists('CI_DB', FALSE))
 	{
+		$class = "CI_DB_driver";
+	}
+	
+	if ( ! class_exists('CI_DB', FALSE))
+	{
 		/**
-	 	 * @ignore
+		 * CI_DB
+		 *
+		 * Acts as an alias for both CI_DB_driver and CI_DB_query_builder (or its children).
+		 *
+		 * @see	CI_DB_query_builder
+		 * @see	CI_DB_driver
 		 */
-		class CI_DB extends CI_DB_driver { }
+		eval("class CI_DB extends ".$class." { }");
 	}
 
 	// Load the DB driver
