@@ -39,6 +39,7 @@ Bug fixes for 3.0.7
 -  Fixed a bug (#4675) - :doc:`File Helper <helpers/file_helper>` function :php:func:`delete_files()` treated symbolic links as regular directories.
 -  Fixed a bug (#4674) - :doc:`Database <database/index>` driver 'dblib' triggered E_WARNING messages while connecting.
 -  Fixed a bug (#4678) - :doc:`Database Forge <database/forge>` tried to use unsupported `IF NOT EXISTS` clause when creating tables on Oracle.
+-  Fixed a bug (#4691) - :doc:`File Uploading Library <libraries/file_uploading>` method ``data()`` returns wrong 'raw_name' when the filename extension is also contained in the raw filename.
 
 Version 3.0.6
 =============
