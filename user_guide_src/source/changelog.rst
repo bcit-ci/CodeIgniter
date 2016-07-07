@@ -2,10 +2,10 @@
 Change Log
 ##########
 
-Version 3.0.7
+Version 3.1.0
 =============
 
-Release Date: Not Released
+Release Date: July 26, 2016
 
 -  **Security**
 
@@ -26,7 +26,7 @@ Release Date: Not Released
       - Changed salt-generation logic to prefer direct access to */dev/urandom* over ``openssl_random_pseudo_bytes()``.
       - Changed salt-generation logic to error if ``openssl_random_pseudo_bytes()`` sets its ``$crypto_strong`` flag to FALSE.
 
-Bug fixes for 3.0.7
+Bug fixes for 3.1.0
 -------------------
 
 -  Fixed a bug where :doc:`Image Manipulation Library <libraries/image_lib>` didn't escape image source paths passed to ImageMagick as shell arguments.
