@@ -41,3 +41,7 @@ The following functions are available:
 
 		echo lang('language_key', 'form_item_id', array('class' => 'myClass'));
 		// Outputs: <label for="form_item_id" class="myClass">Language line</label>
+
+..note:: This function only returns an HTML **label** string if the second argument
+    is given when the function is called. Otherwise, it just returns the 
+    appropriate language line.
