@@ -12,6 +12,9 @@ words to plural, singular, camel case, etc.
 
   <div class="custom-index container"></div>
 
+.. note:: This function only works with English language words.
+    There is no supported way to directly extend it to other languages.
+
 Loading this Helper
 ===================
 
