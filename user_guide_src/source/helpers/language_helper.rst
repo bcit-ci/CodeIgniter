@@ -30,7 +30,7 @@ The following functions are available:
  	:param	string	$line: Language line key
  	:param	string	$for: HTML "for" attribute (ID of the element we're creating a label for)
  	:param	array	$attributes: Any additional HTML attributes
- 	:returns:	HTML-formatted language line label
+ 	:returns:	HTML-formatted language line label **if** the "for" parameter is provided
 	:rtype:	string
 
 	This function returns a line of text from a loaded language file with
