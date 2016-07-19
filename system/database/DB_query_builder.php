@@ -1913,7 +1913,11 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		$affected_rows = 0;
 		for ($i = 0, $total = count($this->qb_set); $i < $total; $i += $batch_size)
 		{
-			$this->query($this->_update_batch($this->protect_identifiers($table, TRUE, NULL, FALSE), array_slice($this->qb_set, $i, $batch_size), $this->protect_identifiers($index)));
+			$ret = $this->query($this->_update_batch($this->protect_identifiers($table, TRUE, NULL, FALSE), array_slice($this->qb_set, $i, $batch_size), $this->protect_identifiers($index)));
+			if ($ret)
+			{
+				return ($this->db_debug) ? $this->display_error('db_invalid_query') : FALSE;
+			}
 			$affected_rows += $this->affected_rows();
 			$this->qb_where = array();
 		}
