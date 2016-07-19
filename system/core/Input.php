@@ -519,9 +519,9 @@ class CI_Input {
 					if ($separator === ':')
 					{
 						$netaddr = explode(':', str_replace('::', str_repeat(':', 9 - substr_count($netaddr, ':')), $netaddr));
-						for ($i = 0; $i < 8; $i++)
+						for ($j = 0; $j < 8; $j++)
 						{
-							$netaddr[$i] = intval($netaddr[$i], 16);
+							$netaddr[$i] = intval($netaddr[$j], 16);
 						}
 					}
 					else

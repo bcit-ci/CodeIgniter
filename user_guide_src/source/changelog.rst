@@ -40,6 +40,7 @@ Bug fixes for 3.0.7
 -  Fixed a bug (#4674) - :doc:`Database <database/index>` driver 'dblib' triggered E_WARNING messages while connecting.
 -  Fixed a bug (#4678) - :doc:`Database Forge <database/forge>` tried to use unsupported `IF NOT EXISTS` clause when creating tables on Oracle.
 -  Fixed a bug (#4691) - :doc:`File Uploading Library <libraries/file_uploading>` method ``data()`` returns wrong 'raw_name' when the filename extension is also contained in the raw filename.
+-  Fixed a bug (#4679) - :doc:`Input Library <libraries/input>` method ``ip_address()`` errors with a matching ``$config['proxy_ips']`` IPv6 address.
 
 Version 3.0.6
 =============

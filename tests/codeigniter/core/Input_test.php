@@ -262,6 +262,12 @@ class Input_test extends CI_TestCase {
 		$this->assertEquals('FE80:0000:0000:0000:0202:B3FF:FE1E:8300', $this->input->ip_address());
 
 		$this->input->ip_address = FALSE;
+		$this->ci_set_config('proxy_ips', '0::/32');
+		$_SERVER['HTTP_CLIENT_IP'] = '127.0.0.7';
+		$_SERVER['REMOTE_ADDR'] = '0000:0000:0000:0000:0000:0000:0000:0001';
+		$this->assertEquals('127.0.0.7', $this->input->ip_address());
+
+		$this->input->ip_address = FALSE;
 		$_SERVER['REMOTE_ADDR'] = '127.0.0.1'; // back to reality
 	}
 
