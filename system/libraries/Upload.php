@@ -601,7 +601,7 @@ class CI_Upload {
 				'file_type'		=> $this->file_type,
 				'file_path'		=> $this->upload_path,
 				'full_path'		=> $this->upload_path.$this->file_name,
-				'raw_name'		=> substr($this->file_name, 0, strlen($this->file_name) - strlen($this->file_ext)),
+				'raw_name'		=> substr($this->file_name, 0, -strlen($this->file_ext)),
 				'orig_name'		=> $this->orig_name,
 				'client_name'		=> $this->client_name,
 				'file_ext'		=> $this->file_ext,
