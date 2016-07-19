@@ -1919,6 +1919,7 @@ class CI_Email {
 
 		if ( ! $this->_send_command('from', $this->clean_email($this->_headers['From'])))
 		{
+			$this->_smtp_end();
 			return FALSE;
 		}
 
@@ -1926,6 +1927,7 @@ class CI_Email {
 		{
 			if ( ! $this->_send_command('to', $val))
 			{
+				$this->_smtp_end();
 				return FALSE;
 			}
 		}
@@ -1936,6 +1938,7 @@ class CI_Email {
 			{
 				if ($val !== '' && ! $this->_send_command('to', $val))
 				{
+					$this->_smtp_end();
 					return FALSE;
 				}
 			}
@@ -1947,6 +1950,7 @@ class CI_Email {
 			{
 				if ($val !== '' && ! $this->_send_command('to', $val))
 				{
+					$this->_smtp_end();
 					return FALSE;
 				}
 			}
@@ -1954,6 +1958,7 @@ class CI_Email {
 
 		if ( ! $this->_send_command('data'))
 		{
+			$this->_smtp_end();
 			return FALSE;
 		}
 
@@ -1963,8 +1968,9 @@ class CI_Email {
 		$this->_send_data('.');
 
 		$reply = $this->_get_smtp_data();
-
 		$this->_set_error_message($reply);
+
+		$this->_smtp_end();
 
 		if (strpos($reply, '250') !== 0)
 		{
@@ -1972,16 +1978,23 @@ class CI_Email {
 			return FALSE;
 		}
 
-		if ($this->smtp_keepalive)
-		{
-			$this->_send_command('reset');
-		}
-		else
-		{
-			$this->_send_command('quit');
-		}
-
 		return TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * SMTP End
+	 *
+	 * Shortcut to send RSET or QUIT depending on keep-alive
+	 *
+	 * @return	void
+	 */
+	protected function _smtp_end()
+	{
+		($this->smtp_keepalive)
+			? $this->_send_command('reset')
+			: $this->_send_command('quit');
 	}
 
 	// --------------------------------------------------------------------
