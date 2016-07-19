@@ -678,19 +678,16 @@ class CI_Session {
 			return array();
 		}
 
-		$userdata = array();
+		$userdata = $_SESSION;
+		
+		$_filter_keys = isset($_SESSION['__ci_vars']) ? array_keys($_SESSION['__ci_vars']) : array();
 		$_exclude = array_merge(
-			array('__ci_vars'),
-			$this->get_flash_keys(),
-			$this->get_temp_keys()
+			array('__ci_vars'), $_filter_keys
 		);
-
-		foreach (array_keys($_SESSION) as $key)
+		
+		foreach($_exclude as $_exclude_key)
 		{
-			if ( ! in_array($key, $_exclude, TRUE))
-			{
-				$userdata[$key] = $_SESSION[$key];
-			}
+			unset($userdata[$_exclude_key]);
 		}
 
 		return $userdata;
