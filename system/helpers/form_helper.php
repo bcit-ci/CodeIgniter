@@ -319,6 +319,63 @@ if ( ! function_exists('form_multiselect'))
 	}
 }
 
+if ( ! function_exists('_form_dropdown_options'))
+{
+	function _form_dropdown_options($options, &$selected = array(), $in_optgroup = FALSE)
+	{
+		$form = '';
+		foreach ($options as $key => $val)
+		{
+			$option = NULL;
+			$is_separator = FALSE;
+			if (is_string($key) && is_string($val))
+			{
+				// Arrayify our parameters for backward-compatibility
+				$option = array('key' => $key, 'value' => $val);
+			}
+			else if (is_array($val) && isset($val['key']))
+			{
+				// New-style construction
+				// If there are no keys to select, default to what's in the options settings
+				if (count($selected) == 0 && isset($val['selected']) && $val['selected'])
+				{
+					$selected[] = $key;
+				}
+				$option = $val;
+			}
+			else if (is_array($val) && isset($val['separator']) && is_bool($val['separator']))
+			{
+				$is_separator = TRUE;
+			}
+			else if (is_array($val) && ! empty($val) && ! $in_optgroup)
+			{
+				// Plain array, that's an optgroup
+				$form .= '<optgroup label="'.$key.'">'."\n";
+
+				$form .= _form_dropdown_options($val, $selected, TRUE);
+
+				$form .= '</optgroup>'."\n";
+				continue;
+			}
+			else
+			{
+				$key = (string) $key;
+			}
+
+			if ($is_separator)
+			{
+				$form .= '<option disabled>──────────</option>'."\n";
+			}
+			else
+			{
+				$sel = (in_array($option['key'], $selected) ? ' selected="selected"' : '');
+				$form .= '<option value="'.$option['key'].'"'.$sel.'>'.$option['value']."</option>\n";
+			}
+		}
+		return $form;
+	}
+}
+
 // --------------------------------------------------------------------
 
 if ( ! function_exists('form_dropdown'))
@@ -376,39 +433,14 @@ if ( ! function_exists('form_dropdown'))
 
 		$extra = _attributes_to_string($extra);
 
-		$multiple = (count($selected) > 1 && stripos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
+		$form_options = _form_dropdown_options($options, $selected);
+
+		// We setup multiple after building options, because this might be a
+		// new-style option array.
+		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
 
 		$form = '<select '.rtrim(_parse_form_attributes($data, $defaults)).$extra.$multiple.">\n";
-
-		foreach ($options as $key => $val)
-		{
-			$key = (string) $key;
-
-			if (is_array($val))
-			{
-				if (empty($val))
-				{
-					continue;
-				}
-
-				$form .= '<optgroup label="'.$key."\">\n";
-
-				foreach ($val as $optgroup_key => $optgroup_val)
-				{
-					$sel = in_array($optgroup_key, $selected) ? ' selected="selected"' : '';
-					$form .= '<option value="'.html_escape($optgroup_key).'"'.$sel.'>'
-						.(string) $optgroup_val."</option>\n";
-				}
-
-				$form .= "</optgroup>\n";
-			}
-			else
-			{
-				$form .= '<option value="'.html_escape($key).'"'
-					.(in_array($key, $selected) ? ' selected="selected"' : '').'>'
-					.(string) $val."</option>\n";
-			}
-		}
+		$form .= $form_options;
 
 		return $form."</select>\n";
 	}

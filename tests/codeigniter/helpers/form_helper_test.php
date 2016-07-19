@@ -145,6 +145,28 @@ EOH;
 		$this->assertEquals($expected, form_dropdown('cars', $options, array('volvo', 'audi')));
 	}
 
+	public function test_form_dropdown_duplicates()
+	{
+		$options = array(
+			array('key' => 'US', 'value' => 'United States'),
+			array('separator' => TRUE),
+			array('key' => 'US', 'value' => 'United States'),
+			array('key' => '*', 'value' => 'Rest of the world'),
+		);
+
+		$expected = <<<EOH
+<select name="countries">
+<option value="US">United States</option>
+<option disabled>──────────</option>
+<option value="US">United States</option>
+<option value="*">Rest of the world</option>
+</select>
+
+EOH;
+											// $data, $options, $selected, $attr
+		$this->assertEquals($expected, form_dropdown('countries', $options, array('FR')));
+	}
+
 	// ------------------------------------------------------------------------
 
 	public function test_form_multiselect()
