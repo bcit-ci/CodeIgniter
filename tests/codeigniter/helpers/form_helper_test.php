@@ -113,7 +113,10 @@ EOH;
 		$shirts_on_sale = array('small', 'large');
 
 		$this->assertEquals($expected, form_dropdown('shirts', $options, $shirts_on_sale));
+	}
 
+	public function test_form_dropdown_optgroups()
+	{
 		$options = array(
 			'Swedish Cars' => array(
 				'volvo'	=> 'Volvo',
