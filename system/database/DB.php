@@ -216,6 +216,10 @@ function &DB($params = '', $query_builder_override = NULL)
 		}
 	}
 
-	$DB->initialize();
-	return $DB;
+	if ($DB->initialize() !== FALSE) {
+		return $DB;
+	}
+	else {
+		return FALSE;
+	}
 }
