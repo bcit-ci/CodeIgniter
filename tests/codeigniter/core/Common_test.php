@@ -54,4 +54,18 @@ class Common_test extends CI_TestCase {
 		);
 	}
 
+	// ------------------------------------------------------------------------
+
+	public function test_remove_invisible_characters()
+	{
+		$this->assertEquals(
+				remove_invisible_characters('Here is a string containing invisible'.chr(0x08).' text %0e.', FALSE),
+			'Here is a string containing invisible text %0e.'
+		);
+
+		$this->assertEquals(
+				remove_invisible_characters('Here is a string %0econtaining url_encoded invisible%1F text.'),
+			'Here is a string containing url_encoded invisible text.'
+		);
+	}
 }
