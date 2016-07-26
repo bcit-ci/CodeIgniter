@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link		https://codeigniter.com/user_guide/database/
  */
-class CI_DB_odbc_driver extends CI_DB {
+class CI_DB_odbc_driver extends CI_DB_driver {
 
 	/**
 	 * Database driver
@@ -94,6 +94,22 @@ class CI_DB_odbc_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * ODBC result ID resource returned from odbc_prepare()
+	 *
+	 * @var	resource
+	 */
+	private $odbc_result;
+
+	/**
+	 * Values to use with odbc_execute() for prepared statements
+	 *
+	 * @var	array
+	 */
+	private $binds = array();
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Class constructor
 	 *
 	 * @param	array	$params
@@ -128,6 +144,74 @@ class CI_DB_odbc_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Compile Bindings
+	 *
+	 * @param	string	$sql	SQL statement
+	 * @param	array	$binds	An array of values to bind
+	 * @return	string
+	 */
+	public function compile_binds($sql, $binds)
+	{
+		if (empty($binds) OR empty($this->bind_marker) OR strpos($sql, $this->bind_marker) === FALSE)
+		{
+			return $sql;
+		}
+		elseif ( ! is_array($binds))
+		{
+			$binds = array($binds);
+			$bind_count = 1;
+		}
+		else
+		{
+			// Make sure we're using numeric keys
+			$binds = array_values($binds);
+			$bind_count = count($binds);
+		}
+
+		// We'll need the marker length later
+		$ml = strlen($this->bind_marker);
+
+		// Make sure not to replace a chunk inside a string that happens to match the bind marker
+		if ($c = preg_match_all("/'[^']*'/i", $sql, $matches))
+		{
+			$c = preg_match_all('/'.preg_quote($this->bind_marker, '/').'/i',
+				str_replace($matches[0],
+					str_replace($this->bind_marker, str_repeat(' ', $ml), $matches[0]),
+					$sql, $c),
+				$matches, PREG_OFFSET_CAPTURE);
+
+			// Bind values' count must match the count of markers in the query
+			if ($bind_count !== $c)
+			{
+				return $sql;
+			}
+		}
+		elseif (($c = preg_match_all('/'.preg_quote($this->bind_marker, '/').'/i', $sql, $matches, PREG_OFFSET_CAPTURE)) !== $bind_count)
+		{
+			return $sql;
+		}
+
+		if ($this->bind_marker !== '?')
+		{
+			do
+			{
+				$c--;
+				$sql = substr_replace($sql, '?', $matches[0][$c][1], $ml);
+			}
+			while ($c !== 0);
+		}
+
+		if (FALSE !== ($this->odbc_result = odbc_prepare($this->conn_id, $sql)))
+		{
+			$this->binds = array_values($binds);
+		}
+
+		return $sql;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Execute the query
 	 *
 	 * @param	string	$sql	an SQL query
@@ -135,7 +219,25 @@ class CI_DB_odbc_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return odbc_exec($this->conn_id, $sql);
+		if ( ! isset($this->odbc_result))
+		{
+			return odbc_exec($this->conn_id, $sql);
+		}
+		elseif ($this->odbc_result === FALSE)
+		{
+			return FALSE;
+		}
+
+		if (TRUE === ($success = odbc_execute($this->odbc_result, $this->binds)))
+		{
+			// For queries that return result sets, return the result_id resource on success
+			$this->is_write_type($sql) OR $success = $this->odbc_result;
+		}
+
+		$this->odbc_result = NULL;
+		$this->binds       = array();
+
+		return $success;
 	}
 
 	// --------------------------------------------------------------------
@@ -214,7 +316,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	 */
 	protected function _escape_str($str)
 	{
-		return remove_invisible_characters($str);
+		$this->db->display_error('db_unsupported_feature');
 	}
 
 	// --------------------------------------------------------------------
@@ -312,58 +414,6 @@ class CI_DB_odbc_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Update statement
-	 *
-	 * Generates a platform-specific update string from the supplied data
-	 *
-	 * @param	string	$table
-	 * @param	array	$values
-	 * @return	string
-	 */
-	protected function _update($table, $values)
-	{
-		$this->qb_limit = FALSE;
-		$this->qb_orderby = array();
-		return parent::_update($table, $values);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Truncate statement
-	 *
-	 * Generates a platform-specific truncate string from the supplied data
-	 *
-	 * If the database does not support the TRUNCATE statement,
-	 * then this method maps to 'DELETE FROM table'
-	 *
-	 * @param	string	$table
-	 * @return	string
-	 */
-	protected function _truncate($table)
-	{
-		return 'DELETE FROM '.$table;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Delete statement
-	 *
-	 * Generates a platform-specific delete string from the supplied data
-	 *
-	 * @param	string	$table
-	 * @return	string
-	 */
-	protected function _delete($table)
-	{
-		$this->qb_limit = FALSE;
-		return parent::_delete($table);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Close DB Connection
 	 *
 	 * @return	void
@@ -372,5 +422,4 @@ class CI_DB_odbc_driver extends CI_DB {
 	{
 		odbc_close($this->conn_id);
 	}
-
 }
