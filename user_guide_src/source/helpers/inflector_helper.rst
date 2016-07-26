@@ -3,7 +3,7 @@ Inflector Helper
 ################
 
 The Inflector Helper file contains functions that permits you to change
-words to plural, singular, camel case, etc.
+**English** words to plural, singular, camel case, etc.
 
 .. contents::
   :local:

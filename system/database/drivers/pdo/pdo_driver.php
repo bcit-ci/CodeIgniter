@@ -126,7 +126,10 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	public function db_connect($persistent = FALSE)
 	{
-		$this->options[PDO::ATTR_PERSISTENT] = $persistent;
+		if ($persistent === TRUE)
+		{
+			$this->options[PDO::ATTR_PERSISTENT] = TRUE;
+		}
 
 		try
 		{

@@ -159,6 +159,7 @@ class CI_DB_mssql_driver extends CI_DB {
 		if (mssql_select_db('['.$database.']', $this->conn_id))
 		{
 			$this->database = $database;
+			$this->data_cache = array();
 			return TRUE;
 		}
 

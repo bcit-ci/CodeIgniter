@@ -127,6 +127,8 @@ class Config_test extends CI_TestCase {
 		$this->assertEquals($index_page.'/'.$uri, $this->config->site_url($uri));
 		$this->assertEquals($index_page.'/'.$uri.'/'.$uri2, $this->config->site_url(array($uri, $uri2)));
 
+		$this->assertEquals($index_page.'/test/', $this->config->site_url('test/'));
+
 		$suffix = 'ing';
 		$this->config->set_item('url_suffix', $suffix);
 

@@ -218,6 +218,7 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 		if (FALSE !== $this->simple_query('USE '.$this->escape_identifiers($database)))
 		{
 			$this->database = $database;
+			$this->data_cache = array();
 			return TRUE;
 		}
 

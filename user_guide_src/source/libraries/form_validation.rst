@@ -465,7 +465,7 @@ for you to process.
 To invoke a callback just put the method name in a rule, with
 "callback\_" as the rule **prefix**. If you need to receive an extra
 parameter in your callback method, just add it normally after the
-method name between square brackets, as in: "callback_foo**[bar]**",
+method name between square brackets, as in: ``callback_foo[bar]``,
 then it will be passed as the second argument of your callback method.
 
 .. note:: You can also process the form data that is passed to your

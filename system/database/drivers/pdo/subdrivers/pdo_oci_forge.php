@@ -173,5 +173,4 @@ class CI_DB_pdo_oci_forge extends CI_DB_pdo_forge {
 			default: return;
 		}
 	}
-
 }

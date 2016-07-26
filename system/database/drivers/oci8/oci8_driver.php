@@ -559,23 +559,29 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	public function error()
 	{
-		/* oci_error() returns an array that already contains the
-		 * 'code' and 'message' keys, so we can just return it.
-		 */
+		// oci_error() returns an array that already contains
+		// 'code' and 'message' keys, but it can return false
+		// if there was no error ....
 		if (is_resource($this->curs_id))
 		{
-			return oci_error($this->curs_id);
+			$error = oci_error($this->curs_id);
 		}
 		elseif (is_resource($this->stmt_id))
 		{
-			return oci_error($this->stmt_id);
+			$error = oci_error($this->stmt_id);
 		}
 		elseif (is_resource($this->conn_id))
 		{
-			return oci_error($this->conn_id);
+			$error = oci_error($this->conn_id);
+		}
+		else
+		{
+			$error = oci_error();
 		}
 
-		return oci_error();
+		return is_array($error)
+			? $error
+			: array('code' => '', 'message' => '');
 	}
 
 	// --------------------------------------------------------------------

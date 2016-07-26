@@ -494,6 +494,63 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Prepare rules
+	 *
+	 * Re-orders the provided rules in order of importance, so that
+	 * they can easily be executed later without weird checks ...
+	 *
+	 * "Callbacks" are given the highest priority (always called),
+	 * followed by 'required' (called if callbacks didn't fail),
+	 * and then every next rule depends on the previous one passing.
+	 *
+	 * @param	array	$rules
+	 * @return	array
+	 */
+	protected function _prepare_rules($rules)
+	{
+		$new_rules = array();
+		$callbacks = array();
+
+		foreach ($rules as &$rule)
+		{
+			// Let 'required' always be the first (non-callback) rule
+			if ($rule === 'required')
+			{
+				array_unshift($new_rules, 'required');
+			}
+			// 'isset' is a kind of a weird alias for 'required' ...
+			elseif ($rule === 'isset' && (empty($new_rules) OR $new_rules[0] !== 'required'))
+			{
+				array_unshift($new_rules, 'isset');
+			}
+			// The old/classic 'callback_'-prefixed rules
+			elseif (is_string($rule) && strncmp('callback_', $rule, 9) === 0)
+			{
+				$callbacks[] = $rule;
+			}
+			// Proper callables
+			elseif (is_callable($rule))
+			{
+				$callbacks[] = $rule;
+			}
+			// "Named" callables; i.e. array('name' => $callable)
+			elseif (is_array($rule) && isset($rule[0], $rule[1]) && is_callable($rule[1]))
+			{
+				$callbacks[] = $rule;
+			}
+			// Everything else goes at the end of the queue
+			else
+			{
+				$new_rules[] = $rule;
+			}
+		}
+
+		return array_merge($callbacks, $new_rules);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Traverse a multidimensional $_POST array index until the data is found
 	 *
 	 * @param	array
@@ -580,70 +637,7 @@ class CI_Form_validation {
 			return;
 		}
 
-		// If the field is blank, but NOT required, no further tests are necessary
-		$callback = FALSE;
-		if ( ! in_array('required', $rules) && ($postdata === NULL OR $postdata === ''))
-		{
-			// Before we bail out, does the rule contain a callback?
-			foreach ($rules as &$rule)
-			{
-				if (is_string($rule))
-				{
-					if (strncmp($rule, 'callback_', 9) === 0)
-					{
-						$callback = TRUE;
-						$rules = array(1 => $rule);
-						break;
-					}
-				}
-				elseif (is_callable($rule))
-				{
-					$callback = TRUE;
-					$rules = array(1 => $rule);
-					break;
-				}
-				elseif (is_array($rule) && isset($rule[0], $rule[1]) && is_callable($rule[1]))
-				{
-					$callback = TRUE;
-					$rules = array(array($rule[0], $rule[1]));
-					break;
-				}
-			}
-
-			if ( ! $callback)
-			{
-				return;
-			}
-		}
-
-		// Isset Test. Typically this rule will only apply to checkboxes.
-		if (($postdata === NULL OR $postdata === '') && ! $callback)
-		{
-			if (in_array('isset', $rules, TRUE) OR in_array('required', $rules))
-			{
-				// Set the message type
-				$type = in_array('required', $rules) ? 'required' : 'isset';
-
-				$line = $this->_get_error_message($type, $row['field']);
-
-				// Build the error message
-				$message = $this->_build_error_msg($line, $this->_translate_fieldname($row['label']));
-
-				// Save the error message
-				$this->_field_data[$row['field']]['error'] = $message;
-
-				if ( ! isset($this->_error_array[$row['field']]))
-				{
-					$this->_error_array[$row['field']] = $message;
-				}
-			}
-
-			return;
-		}
-
-		// --------------------------------------------------------------------
-
-		// Cycle through each rule and run it
+		$rules = $this->_prepare_rules($rules);
 		foreach ($rules as $rule)
 		{
 			$_in_array = FALSE;
@@ -702,6 +696,17 @@ class CI_Form_validation {
 				$param = $match[2];
 			}
 
+			// Ignore empty, non-required inputs with a few exceptions ...
+			if (
+				($postdata === NULL OR $postdata === '')
+				&& $callback === FALSE
+				&& $callable === FALSE
+				&& ! in_array($rule, array('required', 'isset', 'matches'), TRUE)
+			)
+			{
+				continue;
+			}
+
 			// Call the function that corresponds to the rule
 			if ($callback OR $callable !== FALSE)
 			{
@@ -739,12 +744,6 @@ class CI_Form_validation {
 				else
 				{
 					$this->_field_data[$row['field']]['postdata'] = is_bool($result) ? $postdata : $result;
-				}
-
-				// If the field isn't required and we just processed a callback we'll move on...
-				if ( ! in_array('required', $rules, TRUE) && $result !== FALSE)
-				{
-					continue;
 				}
 			}
 			elseif ( ! method_exists($this, $rule))
@@ -1055,7 +1054,9 @@ class CI_Form_validation {
 	 */
 	public function required($str)
 	{
-		return is_array($str) ? (bool) count($str) : (trim($str) !== '');
+		return is_array($str)
+			? (empty($str) === FALSE)
+			: (trim($str) !== '');
 	}
 
 	// --------------------------------------------------------------------

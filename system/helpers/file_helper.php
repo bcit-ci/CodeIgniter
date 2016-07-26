@@ -138,13 +138,15 @@ if ( ! function_exists('delete_files'))
 		{
 			if ($filename !== '.' && $filename !== '..')
 			{
-				if (is_dir($path.DIRECTORY_SEPARATOR.$filename) && $filename[0] !== '.')
+				$filepath = $path.DIRECTORY_SEPARATOR.$filename;
+
+				if (is_dir($filepath) && $filename[0] !== '.' && ! is_link($filepath))
 				{
-					delete_files($path.DIRECTORY_SEPARATOR.$filename, $del_dir, $htdocs, $_level + 1);
+					delete_files($filepath, $del_dir, $htdocs, $_level + 1);
 				}
 				elseif ($htdocs !== TRUE OR ! preg_match('/^(\.htaccess|index\.(html|htm|php)|web\.config)$/i', $filename))
 				{
-					@unlink($path.DIRECTORY_SEPARATOR.$filename);
+					@unlink($filepath);
 				}
 			}
 		}

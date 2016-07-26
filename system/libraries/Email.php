@@ -387,18 +387,8 @@ class CI_Email {
 	public function __construct(array $config = array())
 	{
 		$this->charset = config_item('charset');
-
-		if (count($config) > 0)
-		{
-			$this->initialize($config);
-		}
-		else
-		{
-			$this->_smtp_auth = ! ($this->smtp_user === '' && $this->smtp_pass === '');
-		}
-
+		$this->initialize($config);
 		$this->_safe_mode = ( ! is_php('5.4') && ini_get('safe_mode'));
-		$this->charset = strtoupper($this->charset);
 
 		log_message('info', 'Email Class Initialized');
 	}
@@ -406,28 +396,15 @@ class CI_Email {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Destructor - Releases Resources
-	 *
-	 * @return	void
-	 */
-	public function __destruct()
-	{
-		if (is_resource($this->_smtp_connect))
-		{
-			$this->_send_command('quit');
-		}
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Initialize preferences
 	 *
-	 * @param	array
+	 * @param	array	$config
 	 * @return	CI_Email
 	 */
-	public function initialize($config = array())
+	public function initialize(array $config = array())
 	{
+		$this->clear();
+
 		foreach ($config as $key => $val)
 		{
 			if (isset($this->$key))
@@ -444,9 +421,9 @@ class CI_Email {
 				}
 			}
 		}
-		$this->clear();
 
-		$this->_smtp_auth = ! ($this->smtp_user === '' && $this->smtp_pass === '');
+		$this->charset = strtoupper($this->charset);
+		$this->_smtp_auth = isset($this->smtp_user[0], $this->smtp_pass[0]);
 
 		return $this;
 	}
@@ -1942,6 +1919,7 @@ class CI_Email {
 
 		if ( ! $this->_send_command('from', $this->clean_email($this->_headers['From'])))
 		{
+			$this->_smtp_end();
 			return FALSE;
 		}
 
@@ -1949,6 +1927,7 @@ class CI_Email {
 		{
 			if ( ! $this->_send_command('to', $val))
 			{
+				$this->_smtp_end();
 				return FALSE;
 			}
 		}
@@ -1959,6 +1938,7 @@ class CI_Email {
 			{
 				if ($val !== '' && ! $this->_send_command('to', $val))
 				{
+					$this->_smtp_end();
 					return FALSE;
 				}
 			}
@@ -1970,6 +1950,7 @@ class CI_Email {
 			{
 				if ($val !== '' && ! $this->_send_command('to', $val))
 				{
+					$this->_smtp_end();
 					return FALSE;
 				}
 			}
@@ -1977,6 +1958,7 @@ class CI_Email {
 
 		if ( ! $this->_send_command('data'))
 		{
+			$this->_smtp_end();
 			return FALSE;
 		}
 
@@ -1986,8 +1968,9 @@ class CI_Email {
 		$this->_send_data('.');
 
 		$reply = $this->_get_smtp_data();
-
 		$this->_set_error_message($reply);
+
+		$this->_smtp_end();
 
 		if (strpos($reply, '250') !== 0)
 		{
@@ -1995,16 +1978,23 @@ class CI_Email {
 			return FALSE;
 		}
 
-		if ($this->smtp_keepalive)
-		{
-			$this->_send_command('reset');
-		}
-		else
-		{
-			$this->_send_command('quit');
-		}
-
 		return TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * SMTP End
+	 *
+	 * Shortcut to send RSET or QUIT depending on keep-alive
+	 *
+	 * @return	void
+	 */
+	protected function _smtp_end()
+	{
+		($this->smtp_keepalive)
+			? $this->_send_command('reset')
+			: $this->_send_command('quit');
 	}
 
 	// --------------------------------------------------------------------
@@ -2191,6 +2181,11 @@ class CI_Email {
 		{
 			$this->_set_error_message('lang:email_smtp_auth_pw', $reply);
 			return FALSE;
+		}
+
+		if ($this->smtp_keepalive)
+		{
+			$this->_smtp_auth = FALSE;
 		}
 
 		return TRUE;
@@ -2382,4 +2377,15 @@ class CI_Email {
 		return 'application/x-unknown-content-type';
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Destructor
+	 *
+	 * @return	void
+	 */
+	public function __destruct()
+	{
+		is_resource($this->_smtp_connect) && $this->_send_command('quit');
+	}
 }
