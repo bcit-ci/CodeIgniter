@@ -11,6 +11,7 @@ Release Date: July 26, 2016
 
    -  Fixed an SQL injection in the 'odbc' database driver.
    -  Updated :php:func:`set_realpath()` :doc:`Path Helpr <helpers/path_helper>` function to filter-out ``php://`` wrapper inputs.
+   -  Officially dropped any kind of support for PHP 5.2.x and anything under 5.3.7.
 
 -  General Changes
 

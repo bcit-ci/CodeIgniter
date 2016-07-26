@@ -13,7 +13,18 @@ Replace all files and directories in your *system/* directory.
 .. note:: If you have any custom developed files in these directories,
 	please make copies of them first.
 
-Step 2: If you're using the 'odbc' database driver, check for usage of Query Builder
+Step 2: Check your PHP version
+==============================
+
+We recommend always running versions that are `currently supported
+<https://secure.php.net/supported-versions.php>`_, which right now is at least PHP 5.6.
+
+PHP 5.2.x versions are now officially not supported by CodeIgniter, and while 5.3.7+
+may be at least runnable, we strongly discourage you from using any PHP versions below
+the ones listed on the `PHP.net Supported Versions <https://secure.php.net/supported-versions.php>`_
+page.
+
+Step 3: If you're using the 'odbc' database driver, check for usage of Query Builder
 ====================================================================================
 
 :doc:`Query Builder <../database/query_builder>` functionality and ``escape()`` can
