@@ -1,0 +1,1406 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Encryption Library &mdash; CodeIgniter 3.1.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/ci-icon.ico"/>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/citheme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="CodeIgniter 3.1.0 documentation" href="../index.html"/>
+        <link rel="up" title="Libraries" href="index.html"/>
+        <link rel="next" title="File Uploading Class" href="file_uploading.html"/>
+        <link rel="prev" title="Encrypt Class" href="encrypt.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div id="nav">
+  <div id="nav_inner">
+    
+    
+    
+      <div id="pulldown-menu" class="ciNav">
+        <ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/welcome.html">Welcome to CodeIgniter</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation Instructions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/downloads.html">Downloading CodeIgniter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/index.html">Installation Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/upgrading.html">Upgrading From a Previous Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/index.html">CodeIgniter Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/at_a_glance.html">CodeIgniter at a Glance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/features.html">Supported Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/appflow.html">Application Flow Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/mvc.html">Model-View-Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/goals.html">Architectural Goals</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/static_pages.html">Static pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/news_section.html">News section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/create_news_items.html">Create news items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/conclusion.html">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing to CodeIgniter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../documentation/index.html">Writing CodeIgniter Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../DCO.html">Developer&#8217;s Certificate of Origin 1.1</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/index.html">General Topics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../general/urls.html">CodeIgniter URLs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/controllers.html">Controllers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/reserved_names.html">Reserved Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/views.html">Views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/libraries.html">Using CodeIgniter Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_libraries.html">Creating Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/drivers.html">Using CodeIgniter Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_drivers.html">Creating Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/core_classes.html">Creating Core System Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/ancillary_classes.html">Creating Ancillary Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/hooks.html">Hooks - Extending the Framework Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/autoloader.html">Auto-loading Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/common_functions.html">Common Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/compatibility_functions.html">Compatibility Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/routing.html">URI Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/errors.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/caching.html">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/profiling.html">Profiling Your Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/cli.html">Running via the CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/managing_apps.html">Managing your Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/environments.html">Handling Multiple Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/alternative_php.html">Alternate PHP Syntax for View Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/security.html">Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/styleguide.html">PHP Style Guide</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Libraries</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="benchmark.html">Benchmarking Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caching.html">Caching Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calendar.html">Calendaring Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cart.html">Shopping Cart Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">Config Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.html">Email Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encrypt.html">Encrypt Class</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Encryption Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="file_uploading.html">File Uploading Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="form_validation.html">Form Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ftp.html">FTP Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image_lib.html">Image Manipulation Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input.html">Input Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="javascript.html">Javascript Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="language.html">Language Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loader.html">Loader Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migration.html">Migrations Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="output.html">Output Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pagination.html">Pagination Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parser.html">Template Parser Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="security.html">Security Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sessions.html">Session Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="table.html">HTML Table Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trackback.html">Trackback Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typography.html">Typography Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit_testing.html">Unit Testing Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uri.html">URI Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_agent.html">User Agent Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xmlrpc.html">XML-RPC and XML-RPC Server Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zip.html">Zip Encoding Class</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../database/examples.html">Quick Start: Usage Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/configuration.html">Database Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/connecting.html">Connecting to a Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/queries.html">Running Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/results.html">Generating Query Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/helpers.html">Query Helper Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/query_builder.html">Query Builder Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/transactions.html">Transactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/metadata.html">Getting MetaData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/call_function.html">Custom Function Calls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/caching.html">Query Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/forge.html">Database Manipulation with Database Forge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/utilities.html">Database Utilities Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/db_driver_reference.html">Database Driver Reference</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../helpers/index.html">Helpers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/array_helper.html">Array Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/captcha_helper.html">CAPTCHA Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/cookie_helper.html">Cookie Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/date_helper.html">Date Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/directory_helper.html">Directory Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/download_helper.html">Download Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/email_helper.html">Email Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/file_helper.html">File Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/form_helper.html">Form Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/html_helper.html">HTML Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/inflector_helper.html">Inflector Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/language_helper.html">Language Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/number_helper.html">Number Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/path_helper.html">Path Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/security_helper.html">Security Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/smiley_helper.html">Smiley Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/string_helper.html">String Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/text_helper.html">Text Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/typography_helper.html">Typography Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/url_helper.html">URL Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/xml_helper.html">XML Helper</a></li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    
+      
+  </div>
+</div>
+<div id="nav2">
+  <a href="#" id="openToc">
+    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAZABkAAD/7AARRHVja3kAAQAEAAAARgAA/+4ADkFkb2JlAGTAAAAAAf/bAIQABAMDAwMDBAMDBAYEAwQGBwUEBAUHCAYGBwYGCAoICQkJCQgKCgwMDAwMCgwMDQ0MDBERERERFBQUFBQUFBQUFAEEBQUIBwgPCgoPFA4ODhQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQU/8AAEQgAKwCaAwERAAIRAQMRAf/EAHsAAQAABwEBAAAAAAAAAAAAAAABAwQFBgcIAgkBAQAAAAAAAAAAAAAAAAAAAAAQAAEDAwICBwYEAgsAAAAAAAIBAwQAEQUSBiEHkROTVNQWGDFBUVIUCHEiMtOUFWGBobHRQlMkZIRVEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwDSC+ygkOOaUoKigUCgUCgUCgUCgUCgUCgUCgkuGguIP9FBMFb0Hqg7We+3jlmIqqYFf4ub+/QYlnOR/LqIBKGFUbf8qWv971BytQXXE7Y3Lnm3HsFhp2TaZJAdchRXpIgSpdEJWxJEW3xoKV7F5OMy7JkQn2o7D6w33XGjEAkoiqrJEqIiOIiKuhePCgqp22dyYyS3CyWHnQ5joG61HkRnmnTbaFSMhExRVQRRVJU9iUHjE7ez+fJ0MFipmUNhBV8YUd2SoIV9KkjQla9ltegttBdPLW4/qocL+UTfrMiHW4+P9M71shuyrqaHTcxsl7jegpsji8nh5ZwMvDfgTm0RTjSmjYdFCS6KoOIipdFunCgmNYTMv457MMY6U7iI6oMieDDhRm1VbIhuoOkbqtuK0Hpzb+eZcYZexUxt6UyUqK2cd0SdjtgrhOgijcgERUlJOCIl6CpgbP3blRI8XgMjNARAyKNDfeRBdFDBVUAXgQrqH4pxoJTu2NysY97LP4ac1io5q1InHFeGO24LnVKJuKOkSQ/yKir+rh7aCLG1dzypZQI2FnvTgccYOM3FeN0XWERXAUEFVQgQkUktdLpegm+Td3/Xli/L+S/mYNJIOF9G/wBeLKrZHFb0akG6W1WtQWSg3Dyg5e7V3fipE3O4/wCrktyzYA+ufas2LbZIlmnAT2kvuoN1wft95augilglX/tzP3qCu9O3LL/wV/i5v79BvmTADq14UGu91467Z6U9y0HzH/ncj/U/sT/CgynZG7I2NezpZGUjIycJkYkZSG+uQ81pbBNKLxJfjwoMqZ3/ALYHl35AJ7/cuwHcu5k7r1Q5pHetBjquqVVJWGxj9Zrtcl/Ggy3dHMvauR3HFZj5nHNxSyW5JISYDMoIwx8tFIGHZhPNaykGapr6rUAiicEoMG21lMRj8buPAz8xhJrr7uOeiPTCyAwXUaGR1mgozbTusOsFLEiJ7fbQa/h7gcjy2H3V6xppwDNtUSxCJIqp7valBuWVzJ22xuCROXNNZiJkMtms0DbjUkAZjzoDrTMd9dDRI44ZC2YsrYdKWP2WDT2S3N9dNdlRYrGMYc06IURXSYb0igrpWS485xVNS6nF4rwslkoMwnbpgZLB7bmt5uMweAhDEl4B5uSLzzqTnnyVpW2jaJHRMSIjdDiiotvy3DOE5rYTEbkl5yFn28k7JyG4c7AU2HtLH1uKfaiMPI40CdYbpNtmLdwTSn5rewLNld+7TLdeal4WarWBkbVKBjgdElMJJwAAY5fl4kB3b1fp4XvagsGS3FjJfLzDNtS8aeXx7LzT7TyzByQE5PccRGRC0ZRUDRV6y62vbjagzLmJzS2vuPK43JY6aP1TW6Jz+RIWyFtyC06y3EkiiinAo7YCqfq1AqqnGgsOH3lhZO8d1pmcpB8j5XIm9OYlBJSQ/FSS4427DKO0RC8AlcEMhFdViRR1WDWR5t3WXVuL1d106kG9vdeye2g60+1FDyW0shIcXVpyroXt8I8dfd+NB1vioAdWnD3UF1+gD4UFc6CEKpagxXN43rwJLUHz7yX2c8zokt9uHlsPIhA4aRnnHJTLptIS6CNsY7iASpxUUMkReGpfbQW0vtN5pitvrsN28rwtBD0nc0+/Yft5XhaB6TuaXfsP28rwtA9J3NPv2H7eV4Wgek7mn37D9vK8LQPSdzT79h+3leFoHpO5pd+w/byvC0D0nc0u/Yft5XhaB6TuaXfsP28rwtA9J3NLv2H7eV4Wgek7ml37D9vK8LQPSdzS79h+3leFoHpO5p9+w/byvC0E9r7Reazy2HIYVPxkS/CUHVn26cosxyv2g7h89LYmZSXOenvLEQ1YaQ222RATcQCP8rSGqqA8S02W2pQ6FhMoAIlqCtsnwoCpdKClejI4i3Sgtb+GBxVuNBSFt1pV/RQefLjPyUDy4z8lA8uM/JQPLjPyUDy4z8lA8uM/JQPLjPyUDy4z8lA8uM/JQPLjPyUDy4z8lA8utJ/koJ7WCbBU/LQXOPAFq1koK8B0pag90CggtBBf6qB0UDooHRQOigdFA6KB0UDooHRQOigdFA6KB0UDooI0EaBQf//Z" title="Toggle Table of Contents" alt="Toggle Table of Contents" />
+  </a>
+</div>
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../index.html" class="fa fa-home"> CodeIgniter</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/welcome.html">Welcome to CodeIgniter</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation Instructions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/downloads.html">Downloading CodeIgniter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/index.html">Installation Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/upgrading.html">Upgrading From a Previous Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/index.html">CodeIgniter Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/at_a_glance.html">CodeIgniter at a Glance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/features.html">Supported Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/appflow.html">Application Flow Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/mvc.html">Model-View-Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/goals.html">Architectural Goals</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/static_pages.html">Static pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/news_section.html">News section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/create_news_items.html">Create news items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/conclusion.html">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing to CodeIgniter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../documentation/index.html">Writing CodeIgniter Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../DCO.html">Developer&#8217;s Certificate of Origin 1.1</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/index.html">General Topics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../general/urls.html">CodeIgniter URLs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/controllers.html">Controllers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/reserved_names.html">Reserved Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/views.html">Views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/libraries.html">Using CodeIgniter Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_libraries.html">Creating Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/drivers.html">Using CodeIgniter Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_drivers.html">Creating Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/core_classes.html">Creating Core System Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/ancillary_classes.html">Creating Ancillary Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/hooks.html">Hooks - Extending the Framework Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/autoloader.html">Auto-loading Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/common_functions.html">Common Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/compatibility_functions.html">Compatibility Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/routing.html">URI Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/errors.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/caching.html">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/profiling.html">Profiling Your Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/cli.html">Running via the CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/managing_apps.html">Managing your Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/environments.html">Handling Multiple Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/alternative_php.html">Alternate PHP Syntax for View Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/security.html">Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/styleguide.html">PHP Style Guide</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Libraries</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="benchmark.html">Benchmarking Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caching.html">Caching Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calendar.html">Calendaring Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cart.html">Shopping Cart Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">Config Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.html">Email Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encrypt.html">Encrypt Class</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Encryption Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="file_uploading.html">File Uploading Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="form_validation.html">Form Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ftp.html">FTP Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image_lib.html">Image Manipulation Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input.html">Input Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="javascript.html">Javascript Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="language.html">Language Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loader.html">Loader Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migration.html">Migrations Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="output.html">Output Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pagination.html">Pagination Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parser.html">Template Parser Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="security.html">Security Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sessions.html">Session Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="table.html">HTML Table Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trackback.html">Trackback Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typography.html">Typography Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit_testing.html">Unit Testing Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uri.html">URI Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_agent.html">User Agent Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xmlrpc.html">XML-RPC and XML-RPC Server Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zip.html">Zip Encoding Class</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../database/examples.html">Quick Start: Usage Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/configuration.html">Database Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/connecting.html">Connecting to a Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/queries.html">Running Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/results.html">Generating Query Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/helpers.html">Query Helper Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/query_builder.html">Query Builder Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/transactions.html">Transactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/metadata.html">Getting MetaData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/call_function.html">Custom Function Calls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/caching.html">Query Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/forge.html">Database Manipulation with Database Forge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/utilities.html">Database Utilities Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/db_driver_reference.html">Database Driver Reference</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../helpers/index.html">Helpers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/array_helper.html">Array Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/captcha_helper.html">CAPTCHA Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/cookie_helper.html">Cookie Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/date_helper.html">Date Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/directory_helper.html">Directory Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/download_helper.html">Download Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/email_helper.html">Email Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/file_helper.html">File Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/form_helper.html">Form Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/html_helper.html">HTML Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/inflector_helper.html">Inflector Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/language_helper.html">Language Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/number_helper.html">Number Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/path_helper.html">Path Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/security_helper.html">Security Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/smiley_helper.html">Smiley Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/string_helper.html">String Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/text_helper.html">Text Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/typography_helper.html">Typography Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/url_helper.html">URL Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/xml_helper.html">XML Helper</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">CodeIgniter</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+        <li><a href="index.html">Libraries</a> &raquo;</li>
+      
+    <li>Encryption Library</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+    <div style="float:right;margin-left:5px;" id="closeMe">
+      <img title="Classic Layout" alt="classic layout" src="data:image/gif;base64,R0lGODlhFAAUAJEAAAAAADMzM////wAAACH5BAUUAAIALAAAAAAUABQAAAImlI+py+0PU5gRBRDM3DxbWoXis42X13USOLauUIqnlsaH/eY6UwAAOw==" />
+    </div>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="encryption-library">
+<h1>Encryption Library<a class="headerlink" href="#encryption-library" title="Permalink to this headline">¶</a></h1>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">DO NOT use this or any other <em>encryption</em> library for
+user password storage! Passwords must be <em>hashed</em> instead, and you
+should do that via PHP&#8217;s own <a class="reference external" href="http://php.net/password">Password Hashing extension</a>.</p>
+</div>
+<p>The Encryption Library provides two-way data encryption. To do so in
+a cryptographically secure way, it utilizes PHP extensions that are
+unfortunately not always available on all systems.
+You must meet one of the following dependencies in order to use this
+library:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://php.net/openssl">OpenSSL</a> (and PHP 5.3.3)</li>
+<li><a class="reference external" href="http://php.net/mcrypt">MCrypt</a> (and <cite>MCRYPT_DEV_URANDOM</cite> availability)</li>
+</ul>
+<p>If neither of the above dependencies is met, we simply cannot offer
+you a good enough implementation to meet the high standards required
+for proper cryptography.</p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#using-the-encryption-library" id="id2">Using the Encryption Library</a><ul>
+<li><a class="reference internal" href="#initializing-the-class" id="id3">Initializing the Class</a></li>
+<li><a class="reference internal" href="#default-behavior" id="id4">Default behavior</a></li>
+<li><a class="reference internal" href="#setting-your-encryption-key" id="id5">Setting your encryption_key</a></li>
+<li><a class="reference internal" href="#supported-encryption-ciphers-and-modes" id="id6">Supported encryption ciphers and modes</a><ul>
+<li><a class="reference internal" href="#portable-ciphers" id="id7">Portable ciphers</a></li>
+<li><a class="reference internal" href="#driver-specific-ciphers" id="id8">Driver-specific ciphers</a></li>
+<li><a class="reference internal" href="#encryption-modes" id="id9">Encryption modes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#message-length" id="id10">Message Length</a></li>
+<li><a class="reference internal" href="#configuring-the-library" id="id11">Configuring the library</a></li>
+<li><a class="reference internal" href="#encrypting-and-decrypting-data" id="id12">Encrypting and decrypting data</a><ul>
+<li><a class="reference internal" href="#how-it-works" id="id13">How it works</a></li>
+<li><a class="reference internal" href="#using-custom-parameters" id="id14">Using custom parameters</a></li>
+<li><a class="reference internal" href="#supported-hmac-authentication-algorithms" id="id15">Supported HMAC authentication algorithms</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#class-reference" id="id16">Class Reference</a></li>
+</ul>
+</div>
+<div class="custom-index container"></div><div class="section" id="using-the-encryption-library">
+<h2><a class="toc-backref" href="#id2">Using the Encryption Library</a><a class="headerlink" href="#using-the-encryption-library" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="initializing-the-class">
+<h3><a class="toc-backref" href="#id3">Initializing the Class</a><a class="headerlink" href="#initializing-the-class" title="Permalink to this headline">¶</a></h3>
+<p>Like most other classes in CodeIgniter, the Encryption library is
+initialized in your controller using the <tt class="docutils literal"><span class="pre">$this-&gt;load-&gt;library()</span></tt>
+method:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">library</span><span class="p">(</span><span class="s1">&#39;encryption&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Once loaded, the Encryption library object will be available using:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">encryption</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="default-behavior">
+<h3><a class="toc-backref" href="#id4">Default behavior</a><a class="headerlink" href="#default-behavior" title="Permalink to this headline">¶</a></h3>
+<p>By default, the Encryption Library will use the AES-128 cipher in CBC
+mode, using your configured <em>encryption_key</em> and SHA512 HMAC authentication.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">AES-128 is chosen both because it is proven to be strong and
+because of its wide availability across different cryptographic
+software and programming languages&#8217; APIs.</p>
+</div>
+<p>However, the <em>encryption_key</em> is not used as is.</p>
+<p>If you are somewhat familiar with cryptography, you should already know
+that a HMAC also requires a secret key and using the same key for both
+encryption and authentication is a bad practice.</p>
+<p>Because of that, two separate keys are derived from your already configured
+<em>encryption_key</em>: one for encryption and one for authentication. This is
+done via a technique called <a class="reference external" href="http://en.wikipedia.org/wiki/HKDF">HMAC-based Key Derivation Function</a> (HKDF).</p>
+</div>
+<div class="section" id="setting-your-encryption-key">
+<h3><a class="toc-backref" href="#id5">Setting your encryption_key</a><a class="headerlink" href="#setting-your-encryption-key" title="Permalink to this headline">¶</a></h3>
+<p>An <em>encryption key</em> is a piece of information that controls the
+cryptographic process and permits a plain-text string to be encrypted,
+and afterwards - decrypted. It is the secret &#8220;ingredient&#8221; in the whole
+process that allows you to be the only one who is able to decrypt data
+that you&#8217;ve decided to hide from the eyes of the public.
+After one key is used to encrypt data, that same key provides the <strong>only</strong>
+means to decrypt it, so not only must you chose one carefully, but you
+must not lose it or you will also lose access to the data.</p>
+<p>It must be noted that to ensure maximum security, such key <em>should</em> not
+only be as strong as possible, but also often changed. Such behavior
+however is rarely practical or possible to implement, and that is why
+CodeIgniter gives you the ability to configure a single key that is to be
+used (almost) every time.</p>
+<p>It goes without saying that you should guard your key carefully. Should
+someone gain access to your key, the data will be easily decrypted. If
+your server is not totally under your control it&#8217;s impossible to ensure
+key security so you may want to think carefully before using it for
+anything that requires high security, like storing credit card numbers.</p>
+<p>Your encryption key <strong>must</strong> be as long as the encyption algorithm in use
+allows. For AES-128, that&#8217;s 128 bits or 16 bytes (charcters) long.
+You will find a table below that shows the supported key lengths of
+different ciphers.</p>
+<p>The key should be as random as possible and it <strong>must not</strong> be a regular
+text string, nor the output of a hashing function, etc. In order to create
+a proper key, you must use the Encryption library&#8217;s <tt class="docutils literal"><span class="pre">create_key()</span></tt> method</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="c1">// $key will be assigned a 16-byte (128-bit) random key</span>
+<span class="nv">$key</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">encryption</span><span class="o">-&gt;</span><span class="na">create_key</span><span class="p">(</span><span class="mi">16</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The key can be either stored in your <em>application/config/config.php</em>, or
+you can design your own storage mechanism and pass the key dynamically
+when encrypting/decrypting.</p>
+<p>To save your key to your <em>application/config/config.php</em>, open the file
+and set:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;encryption_key&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;YOUR KEY&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>You&#8217;ll notice that the <tt class="docutils literal"><span class="pre">create_key()</span></tt> method outputs binary data, which
+is hard to deal with (i.e. a copy-paste may damage it), so you may use
+<tt class="docutils literal"><span class="pre">bin2hex()</span></tt>, <tt class="docutils literal"><span class="pre">hex2bin()</span></tt> or Base64-encoding to work with the key in
+a more friendly manner. For example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="c1">// Get a hex-encoded representation of the key:</span>
+<span class="nv">$key</span> <span class="o">=</span> <span class="nb">bin2hex</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">encryption</span><span class="o">-&gt;</span><span class="na">create_key</span><span class="p">(</span><span class="mi">16</span><span class="p">));</span>
+
+<span class="c1">// Put the same value in your config with hex2bin(),</span>
+<span class="c1">// so that it is still passed as binary to the library:</span>
+<span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;encryption_key&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">hex2bin</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">your</span> <span class="nx">hex</span><span class="o">-</span><span class="nx">encoded</span> <span class="nb">key</span><span class="o">&gt;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="supported-encryption-ciphers-and-modes">
+<span id="ciphers-and-modes"></span><h3><a class="toc-backref" href="#id6">Supported encryption ciphers and modes</a><a class="headerlink" href="#supported-encryption-ciphers-and-modes" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The terms &#8216;cipher&#8217; and &#8216;encryption algorithm&#8217; are interchangeable.</p>
+</div>
+<div class="section" id="portable-ciphers">
+<h4><a class="toc-backref" href="#id7">Portable ciphers</a><a class="headerlink" href="#portable-ciphers" title="Permalink to this headline">¶</a></h4>
+<p>Because MCrypt and OpenSSL (also called drivers throughout this document)
+each support different sets of encryption algorithms and often implement
+them in different ways, our Encryption library is designed to use them in
+a portable fashion, or in other words - it enables you to use them
+interchangeably, at least for the ciphers supported by both drivers.</p>
+<p>It is also implemented in a way that aims to match the standard
+implementations in other programming languages and libraries.</p>
+<p>Here&#8217;s a list of the so called &#8220;portable&#8221; ciphers, where
+&#8220;CodeIgniter name&#8221; is the string value that you&#8217;d have to pass to the
+Encryption library to use that cipher:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="18%" />
+<col width="28%" />
+<col width="31%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Cipher name</th>
+<th class="head">CodeIgniter name</th>
+<th class="head">Key lengths (bits / bytes)</th>
+<th class="head">Supported modes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>AES-128 / Rijndael-128</td>
+<td>aes-128</td>
+<td>128 / 16</td>
+<td>CBC, CTR, CFB, CFB8, OFB, ECB</td>
+</tr>
+<tr class="row-odd"><td>AES-192</td>
+<td>aes-192</td>
+<td>192 / 24</td>
+<td>CBC, CTR, CFB, CFB8, OFB, ECB</td>
+</tr>
+<tr class="row-even"><td>AES-256</td>
+<td>aes-256</td>
+<td>256 / 32</td>
+<td>CBC, CTR, CFB, CFB8, OFB, ECB</td>
+</tr>
+<tr class="row-odd"><td>DES</td>
+<td>des</td>
+<td>56 / 7</td>
+<td>CBC, CFB, CFB8, OFB, ECB</td>
+</tr>
+<tr class="row-even"><td>TripleDES</td>
+<td>tripledes</td>
+<td>56 / 7, 112 / 14, 168 / 21</td>
+<td>CBC, CFB, CFB8, OFB</td>
+</tr>
+<tr class="row-odd"><td>Blowfish</td>
+<td>blowfish</td>
+<td>128-448 / 16-56</td>
+<td>CBC, CFB, OFB, ECB</td>
+</tr>
+<tr class="row-even"><td>CAST5 / CAST-128</td>
+<td>cast5</td>
+<td>88-128 / 11-16</td>
+<td>CBC, CFB, OFB, ECB</td>
+</tr>
+<tr class="row-odd"><td>RC4 / ARCFour</td>
+<td>rc4</td>
+<td>40-2048 / 5-256</td>
+<td>Stream</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Because of how MCrypt works, if you fail to provide a key
+with the appropriate length, you might end up using a different
+algorithm than the one configured, so be really careful with that!</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In case it isn&#8217;t clear from the above table, Blowfish, CAST5
+and RC4 support variable length keys. That is, any number in the
+shown ranges is valid, although in bit terms that only happens
+in 8-bit increments.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Even though CAST5 supports key lengths lower than 128 bits
+(16 bytes), in fact they will just be zero-padded to the
+maximum length, as specified in <a class="reference external" href="http://tools.ietf.org/rfc/rfc2144.txt">RFC 2144</a>.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Blowfish supports key lengths as small as 32 bits (4 bytes), but
+our tests have shown that only lengths of 128 bits (16 bytes) or
+higher are properly supported by both MCrypt and OpenSSL. It is
+also a bad practice to use such low-length keys anyway.</p>
+</div>
+</div>
+<div class="section" id="driver-specific-ciphers">
+<h4><a class="toc-backref" href="#id8">Driver-specific ciphers</a><a class="headerlink" href="#driver-specific-ciphers" title="Permalink to this headline">¶</a></h4>
+<p>As noted above, MCrypt and OpenSSL support different sets of encryption
+ciphers. For portability reasons and because we haven&#8217;t tested them
+properly, we do not advise you to use the ones that are driver-specific,
+but regardless, here&#8217;s a list of most of them:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="10%" />
+<col width="32%" />
+<col width="44%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Cipher name</th>
+<th class="head">Driver</th>
+<th class="head">Key lengths (bits / bytes)</th>
+<th class="head">Supported modes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>AES-128</td>
+<td>OpenSSL</td>
+<td>128 / 16</td>
+<td>CBC, CTR, CFB, CFB8, OFB, ECB, XTS</td>
+</tr>
+<tr class="row-odd"><td>AES-192</td>
+<td>OpenSSL</td>
+<td>192 / 24</td>
+<td>CBC, CTR, CFB, CFB8, OFB, ECB, XTS</td>
+</tr>
+<tr class="row-even"><td>AES-256</td>
+<td>OpenSSL</td>
+<td>256 / 32</td>
+<td>CBC, CTR, CFB, CFB8, OFB, ECB, XTS</td>
+</tr>
+<tr class="row-odd"><td>Rijndael-128</td>
+<td>MCrypt</td>
+<td>128 / 16, 192 / 24, 256 / 32</td>
+<td>CBC, CTR, CFB, CFB8, OFB, OFB8, ECB</td>
+</tr>
+<tr class="row-even"><td>Rijndael-192</td>
+<td>MCrypt</td>
+<td>128 / 16, 192 / 24, 256 / 32</td>
+<td>CBC, CTR, CFB, CFB8, OFB, OFB8, ECB</td>
+</tr>
+<tr class="row-odd"><td>Rijndael-256</td>
+<td>MCrypt</td>
+<td>128 / 16, 192 / 24, 256 / 32</td>
+<td>CBC, CTR, CFB, CFB8, OFB, OFB8, ECB</td>
+</tr>
+<tr class="row-even"><td>GOST</td>
+<td>MCrypt</td>
+<td>256 / 32</td>
+<td>CBC, CTR, CFB, CFB8, OFB, OFB8, ECB</td>
+</tr>
+<tr class="row-odd"><td>Twofish</td>
+<td>MCrypt</td>
+<td>128 / 16, 192 / 24, 256 / 32</td>
+<td>CBC, CTR, CFB, CFB8, OFB, OFB8, ECB</td>
+</tr>
+<tr class="row-even"><td>CAST-128</td>
+<td>MCrypt</td>
+<td>40-128 / 5-16</td>
+<td>CBC, CTR, CFB, CFB8, OFB, OFB8, ECB</td>
+</tr>
+<tr class="row-odd"><td>CAST-256</td>
+<td>MCrypt</td>
+<td>128 / 16, 192 / 24, 256 / 32</td>
+<td>CBC, CTR, CFB, CFB8, OFB, OFB8, ECB</td>
+</tr>
+<tr class="row-even"><td>Loki97</td>
+<td>MCrypt</td>
+<td>128 / 16, 192 / 24, 256 / 32</td>
+<td>CBC, CTR, CFB, CFB8, OFB, OFB8, ECB</td>
+</tr>
+<tr class="row-odd"><td>SaferPlus</td>
+<td>MCrypt</td>
+<td>128 / 16, 192 / 24, 256 / 32</td>
+<td>CBC, CTR, CFB, CFB8, OFB, OFB8, ECB</td>
+</tr>
+<tr class="row-even"><td>Serpent</td>
+<td>MCrypt</td>
+<td>128 / 16, 192 / 24, 256 / 32</td>
+<td>CBC, CTR, CFB, CFB8, OFB, OFB8, ECB</td>
+</tr>
+<tr class="row-odd"><td>XTEA</td>
+<td>MCrypt</td>
+<td>128 / 16</td>
+<td>CBC, CTR, CFB, CFB8, OFB, OFB8, ECB</td>
+</tr>
+<tr class="row-even"><td>RC2</td>
+<td>MCrypt</td>
+<td>8-1024 / 1-128</td>
+<td>CBC, CTR, CFB, CFB8, OFB, OFB8, ECB</td>
+</tr>
+<tr class="row-odd"><td>RC2</td>
+<td>OpenSSL</td>
+<td>8-1024 / 1-128</td>
+<td>CBC, CFB, OFB, ECB</td>
+</tr>
+<tr class="row-even"><td>Camellia-128</td>
+<td>OpenSSL</td>
+<td>128 / 16</td>
+<td>CBC, CFB, CFB8, OFB, ECB</td>
+</tr>
+<tr class="row-odd"><td>Camellia-192</td>
+<td>OpenSSL</td>
+<td>192 / 24</td>
+<td>CBC, CFB, CFB8, OFB, ECB</td>
+</tr>
+<tr class="row-even"><td>Camellia-256</td>
+<td>OpenSSL</td>
+<td>256 / 32</td>
+<td>CBC, CFB, CFB8, OFB, ECB</td>
+</tr>
+<tr class="row-odd"><td>Seed</td>
+<td>OpenSSL</td>
+<td>128 / 16</td>
+<td>CBC, CFB, OFB, ECB</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you wish to use one of those ciphers, you&#8217;d have to pass
+its name in lower-case to the Encryption library.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You&#8217;ve probably noticed that all AES cipers (and Rijndael-128)
+are also listed in the portable ciphers list. This is because
+drivers support different modes for these ciphers. Also, it is
+important to note that AES-128 and Rijndael-128 are actually
+the same cipher, but <strong>only</strong> when used with a 128-bit key.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">CAST-128 / CAST-5 is also listed in both the portable and
+driver-specific ciphers list. This is because OpenSSL&#8217;s
+implementation doesn&#8217;t appear to be working correctly with
+key sizes of 80 bits and lower.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">RC2 is listed as supported by both MCrypt and OpenSSL.
+However, both drivers implement them differently and they
+are not portable. It is probably worth noting that we only
+found one obscure source confirming that it is MCrypt that
+is not properly implementing it.</p>
+</div>
+</div>
+<div class="section" id="encryption-modes">
+<span id="id1"></span><h4><a class="toc-backref" href="#id9">Encryption modes</a><a class="headerlink" href="#encryption-modes" title="Permalink to this headline">¶</a></h4>
+<p>Different modes of encryption have different characteristics and serve
+for different purposes. Some are stronger than others, some are faster
+and some offer extra features.
+We are not going in depth into that here, we&#8217;ll leave that to the
+cryptography experts. The table below is to provide brief informational
+reference to our more experienced users. If you are a beginner, just
+stick to the CBC mode - it is widely accepted as strong and secure for
+general purposes.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="9%" />
+<col width="9%" />
+<col width="76%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Mode name</th>
+<th class="head">CodeIgniter name</th>
+<th class="head">Driver support</th>
+<th class="head">Additional info</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>CBC</td>
+<td>cbc</td>
+<td>MCrypt, OpenSSL</td>
+<td>A safe default choice</td>
+</tr>
+<tr class="row-odd"><td>CTR</td>
+<td>ctr</td>
+<td>MCrypt, OpenSSL</td>
+<td>Considered as theoretically better than CBC, but not as widely available</td>
+</tr>
+<tr class="row-even"><td>CFB</td>
+<td>cfb</td>
+<td>MCrypt, OpenSSL</td>
+<td>N/A</td>
+</tr>
+<tr class="row-odd"><td>CFB8</td>
+<td>cfb8</td>
+<td>MCrypt, OpenSSL</td>
+<td>Same as CFB, but operates in 8-bit mode (not recommended).</td>
+</tr>
+<tr class="row-even"><td>OFB</td>
+<td>ofb</td>
+<td>MCrypt, OpenSSL</td>
+<td>N/A</td>
+</tr>
+<tr class="row-odd"><td>OFB8</td>
+<td>ofb8</td>
+<td>MCrypt</td>
+<td>Same as OFB, but operates in 8-bit mode (not recommended).</td>
+</tr>
+<tr class="row-even"><td>ECB</td>
+<td>ecb</td>
+<td>MCrypt, OpenSSL</td>
+<td>Ignores IV (not recommended).</td>
+</tr>
+<tr class="row-odd"><td>XTS</td>
+<td>xts</td>
+<td>OpenSSL</td>
+<td>Usually used for encrypting random access data such as RAM or hard-disk storage.</td>
+</tr>
+<tr class="row-even"><td>Stream</td>
+<td>stream</td>
+<td>MCrypt, OpenSSL</td>
+<td>This is not actually a mode, it just says that a stream cipher is being used. Required because of the general cipher+mode initialization process.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="message-length">
+<h3><a class="toc-backref" href="#id10">Message Length</a><a class="headerlink" href="#message-length" title="Permalink to this headline">¶</a></h3>
+<p>It&#8217;s probably important for you to know that an encrypted string is usually
+longer than the original, plain-text string (depending on the cipher).</p>
+<p>This is influenced by the cipher algorithm itself, the IV prepended to the
+cipher-text and the HMAC authentication message that is also prepended.
+Furthermore, the encrypted message is also Base64-encoded so that it is safe
+for storage and transmission, regardless of a possible character set in use.</p>
+<p>Keep this information in mind when selecting your data storage mechanism.
+Cookies, for example, can only hold 4K of information.</p>
+</div>
+<div class="section" id="configuring-the-library">
+<span id="configuration"></span><h3><a class="toc-backref" href="#id11">Configuring the library</a><a class="headerlink" href="#configuring-the-library" title="Permalink to this headline">¶</a></h3>
+<p>For usability, performance, but also historical reasons tied to our old
+<a class="reference internal" href="encrypt.html"><em>Encrypt Class</em></a>, the Encryption library is designed to
+use repeatedly the same driver, encryption cipher, mode and key.</p>
+<p>As noted in the &#8220;Default behavior&#8221; section above, this means using an
+auto-detected driver (OpenSSL has a higher priority), the AES-128 ciper
+in CBC mode, and your <tt class="docutils literal"><span class="pre">$config['encryption_key']</span></tt> value.</p>
+<p>If you wish to change that however, you need to use the <tt class="docutils literal"><span class="pre">initialize()</span></tt>
+method. It accepts an associative array of parameters, all of which are
+optional:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Option</th>
+<th class="head">Possible values</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>driver</td>
+<td>&#8216;mcrypt&#8217;, &#8216;openssl&#8217;</td>
+</tr>
+<tr class="row-odd"><td>cipher</td>
+<td>Cipher name (see <a class="reference internal" href="#ciphers-and-modes"><em>Supported encryption ciphers and modes</em></a>)</td>
+</tr>
+<tr class="row-even"><td>mode</td>
+<td>Encryption mode (see <a class="reference internal" href="#encryption-modes"><em>Encryption modes</em></a>)</td>
+</tr>
+<tr class="row-odd"><td>key</td>
+<td>Encryption key</td>
+</tr>
+</tbody>
+</table>
+<p>For example, if you were to change the encryption algorithm and
+mode to AES-256 in CTR mode, this is what you should do:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">encryption</span><span class="o">-&gt;</span><span class="na">initialize</span><span class="p">(</span>
+        <span class="k">array</span><span class="p">(</span>
+                <span class="s1">&#39;cipher&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;aes-256&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;mode&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;ctr&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;key&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;&lt;a 32-character random string&gt;&#39;</span>
+        <span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>Note that we only mentioned that you want to change the ciper and mode,
+but we also included a key in the example. As previously noted, it is
+important that you choose a key with a proper size for the used algorithm.</p>
+<p>There&#8217;s also the ability to change the driver, if for some reason you
+have both, but want to use MCrypt instead of OpenSSL:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="c1">// Switch to the MCrypt driver</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">encryption</span><span class="o">-&gt;</span><span class="na">initialize</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;driver&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;mcrypt&#39;</span><span class="p">));</span>
+
+<span class="c1">// Switch back to the OpenSSL driver</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">encryption</span><span class="o">-&gt;</span><span class="na">initialize</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;driver&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;openssl&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="encrypting-and-decrypting-data">
+<h3><a class="toc-backref" href="#id12">Encrypting and decrypting data</a><a class="headerlink" href="#encrypting-and-decrypting-data" title="Permalink to this headline">¶</a></h3>
+<p>Encrypting and decrypting data with the already configured library
+settings is simple. As simple as just passing the string to the
+<tt class="docutils literal"><span class="pre">encrypt()</span></tt> and/or <tt class="docutils literal"><span class="pre">decrypt()</span></tt> methods:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$plain_text</span> <span class="o">=</span> <span class="s1">&#39;This is a plain-text message!&#39;</span><span class="p">;</span>
+<span class="nv">$ciphertext</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">encryption</span><span class="o">-&gt;</span><span class="na">encrypt</span><span class="p">(</span><span class="nv">$plain_text</span><span class="p">);</span>
+
+<span class="c1">// Outputs: This is a plain-text message!</span>
+<span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">encryption</span><span class="o">-&gt;</span><span class="na">decrypt</span><span class="p">(</span><span class="nv">$ciphertext</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>And that&#8217;s it! The Encryption library will do everything necessary
+for the whole process to be cryptographically secure out-of-the-box.
+You don&#8217;t need to worry about it.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Both methods will return FALSE in case of an error.
+While for <tt class="docutils literal"><span class="pre">encrypt()</span></tt> this can only mean incorrect
+configuration, you should always check the return value
+of <tt class="docutils literal"><span class="pre">decrypt()</span></tt> in production code.</p>
+</div>
+<div class="section" id="how-it-works">
+<h4><a class="toc-backref" href="#id13">How it works</a><a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h4>
+<p>If you must know how the process works, here&#8217;s what happens under
+the hood:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">$this-&gt;encryption-&gt;encrypt($plain_text)</span></tt><ol class="arabic">
+<li>Derive an encryption key and a HMAC key from your configured
+<em>encryption_key</em> via HKDF, using the SHA-512 digest algorithm.</li>
+<li>Generate a random initialization vector (IV).</li>
+<li>Encrypt the data via AES-128 in CBC mode (or another previously
+configured cipher and mode), using the above-mentioned derived
+encryption key and IV.</li>
+<li>Prepend said IV to the resulting cipher-text.</li>
+<li>Base64-encode the resulting string, so that it can be safely
+stored or transferred without worrying about character sets.</li>
+<li>Create a SHA-512 HMAC authentication message using the derived
+HMAC key to ensure data integrity and prepend it to the Base64
+string.</li>
+</ol>
+</li>
+<li><tt class="docutils literal"><span class="pre">$this-&gt;encryption-&gt;decrypt($ciphertext)</span></tt><ol class="arabic">
+<li>Derive an encryption key and a HMAC key from your configured
+<em>encryption_key</em> via HKDF, using the SHA-512 digest algorithm.
+Because your configured <em>encryption_key</em> is the same, this
+will produce the same result as in the <tt class="docutils literal"><span class="pre">encrypt()</span></tt> method
+above - otherwise you won&#8217;t be able to decrypt it.</li>
+<li>Check if the string is long enough, separate the HMAC out of
+it and validate if it is correct (this is done in a way that
+prevents timing attacks agains it). Return FALSE if either of
+the checks fails.</li>
+<li>Base64-decode the string.</li>
+<li>Separate the IV out of the cipher-text and decrypt the said
+cipher-text using that IV and the derived encryption key.</li>
+</ol>
+</li>
+</ul>
+</div>
+<div class="section" id="using-custom-parameters">
+<span id="custom-parameters"></span><h4><a class="toc-backref" href="#id14">Using custom parameters</a><a class="headerlink" href="#using-custom-parameters" title="Permalink to this headline">¶</a></h4>
+<p>Let&#8217;s say you have to interact with another system that is out
+of your control and uses another method to encrypt data. A
+method that will most certainly not match the above-described
+sequence and probably not use all of the steps either.</p>
+<p>The Encryption library allows you to change how its encryption
+and decryption processes work, so that you can easily tailor a
+custom solution for such situations.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It is possible to use the library in this way, without
+setting an <em>encryption_key</em> in your configuration file.</p>
+</div>
+<p>All you have to do is to pass an associative array with a few
+parameters to either the <tt class="docutils literal"><span class="pre">encrypt()</span></tt> or <tt class="docutils literal"><span class="pre">decrypt()</span></tt> method.
+Here&#8217;s an example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="c1">// Assume that we have $ciphertext, $key and $hmac_key</span>
+<span class="c1">// from on outside source</span>
+
+<span class="nv">$message</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">encryption</span><span class="o">-&gt;</span><span class="na">decrypt</span><span class="p">(</span>
+        <span class="nv">$ciphertext</span><span class="p">,</span>
+        <span class="k">array</span><span class="p">(</span>
+                <span class="s1">&#39;cipher&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;blowfish&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;mode&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;cbc&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;key&#39;</span> <span class="o">=&gt;</span> <span class="nv">$key</span><span class="p">,</span>
+                <span class="s1">&#39;hmac_digest&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;sha256&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;hmac_key&#39;</span> <span class="o">=&gt;</span> <span class="nv">$hmac_key</span>
+        <span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>In the above example, we are decrypting a message that was encrypted
+using the Blowfish cipher in CBC mode and authenticated via a SHA-256
+HMAC.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Note that both &#8216;key&#8217; and &#8216;hmac_key&#8217; are used in this
+example. When using custom parameters, encryption and HMAC keys
+are not derived like the default behavior of the library is.</p>
+</div>
+<p>Below is a list of the available options.</p>
+<p>However, unless you really need to and you know what you are doing,
+we advise you to not change the encryption process as this could
+impact security, so please do so with caution.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="14%" />
+<col width="26%" />
+<col width="49%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Option</th>
+<th class="head">Default value</th>
+<th class="head">Mandatory / Optional</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>cipher</td>
+<td>N/A</td>
+<td>Yes</td>
+<td>Encryption algorithm (see <a class="reference internal" href="#ciphers-and-modes"><em>Supported encryption ciphers and modes</em></a>).</td>
+</tr>
+<tr class="row-odd"><td>mode</td>
+<td>N/A</td>
+<td>Yes</td>
+<td>Encryption mode (see <a class="reference internal" href="#encryption-modes"><em>Encryption modes</em></a>).</td>
+</tr>
+<tr class="row-even"><td>key</td>
+<td>N/A</td>
+<td>Yes</td>
+<td>Encryption key.</td>
+</tr>
+<tr class="row-odd"><td>hmac</td>
+<td>TRUE</td>
+<td>No</td>
+<td>Whether to use a HMAC.
+Boolean. If set to FALSE, then <em>hmac_digest</em> and
+<em>hmac_key</em> will be ignored.</td>
+</tr>
+<tr class="row-even"><td>hmac_digest</td>
+<td>sha512</td>
+<td>No</td>
+<td>HMAC message digest algorithm (see <a class="reference internal" href="#digests"><em>Supported HMAC authentication algorithms</em></a>).</td>
+</tr>
+<tr class="row-odd"><td>hmac_key</td>
+<td>N/A</td>
+<td>Yes, unless <em>hmac</em> is FALSE</td>
+<td>HMAC key.</td>
+</tr>
+<tr class="row-even"><td>raw_data</td>
+<td>FALSE</td>
+<td>No</td>
+<td>Whether the cipher-text should be raw.
+Boolean. If set to TRUE, then Base64 encoding and
+decoding will not be performed and HMAC will not
+be a hexadecimal string.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last"><tt class="docutils literal"><span class="pre">encrypt()</span></tt> and <tt class="docutils literal"><span class="pre">decrypt()</span></tt> will return FALSE if
+a mandatory parameter is not provided or if a provided
+value is incorrect. This includes <em>hmac_key</em>, unless <em>hmac</em>
+is set to FALSE.</p>
+</div>
+</div>
+<div class="section" id="supported-hmac-authentication-algorithms">
+<span id="digests"></span><h4><a class="toc-backref" href="#id15">Supported HMAC authentication algorithms</a><a class="headerlink" href="#supported-hmac-authentication-algorithms" title="Permalink to this headline">¶</a></h4>
+<p>For HMAC message authentication, the Encryption library supports
+usage of the SHA-2 family of algorithms:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="34%" />
+<col width="47%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Algorithm</th>
+<th class="head">Raw length (bytes)</th>
+<th class="head">Hex-encoded length (bytes)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>sha512</td>
+<td>64</td>
+<td>128</td>
+</tr>
+<tr class="row-odd"><td>sha384</td>
+<td>48</td>
+<td>96</td>
+</tr>
+<tr class="row-even"><td>sha256</td>
+<td>32</td>
+<td>64</td>
+</tr>
+<tr class="row-odd"><td>sha224</td>
+<td>28</td>
+<td>56</td>
+</tr>
+</tbody>
+</table>
+<p>The reason for not including other popular algorithms, such as
+MD5 or SHA1 is that they are no longer considered secure enough
+and as such, we don&#8217;t want to encourage their usage.
+If you absolutely need to use them, it is easy to do so via PHP&#8217;s
+native <a class="reference external" href="http://php.net/manual/en/function.hash-hmac.php">hash_hmac()</a> function.</p>
+<p>Stronger algorithms of course will be added in the future as they
+appear and become widely available.</p>
+</div>
+</div>
+</div>
+<div class="section" id="class-reference">
+<h2><a class="toc-backref" href="#id16">Class Reference</a><a class="headerlink" href="#class-reference" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="CI_Encryption">
+<em class="property">class </em><tt class="descname">CI_Encryption</tt><a class="headerlink" href="#CI_Encryption" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="CI_Encryption::initialize">
+<tt class="descname">initialize</tt><big>(</big><em>$params</em><big>)</big><a class="headerlink" href="#CI_Encryption::initialize" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$params</strong> (<em>array</em>) &#8211; Configuration parameters</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_Encryption instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_Encryption</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes (configures) the library to use a different
+driver, cipher, mode or key.</p>
+<p>Example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">encryption</span><span class="o">-&gt;</span><span class="na">initialize</span><span class="p">(</span>
+        <span class="k">array</span><span class="p">(</span><span class="s1">&#39;mode&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;ctr&#39;</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>Please refer to the <a class="reference internal" href="#configuration"><em>Configuring the library</em></a> section for detailed info.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Encryption::encrypt">
+<tt class="descname">encrypt</tt><big>(</big><em>$data</em><span class="optional">[</span>, <em>$params = NULL</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_Encryption::encrypt" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$data</strong> (<em>string</em>) &#8211; Data to encrypt</li>
+<li><strong>$params</strong> (<em>array</em>) &#8211; Optional parameters</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Encrypted data or FALSE on failure</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Encrypts the input data and returns its ciphertext.</p>
+<p>Example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$ciphertext</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">encryption</span><span class="o">-&gt;</span><span class="na">encrypt</span><span class="p">(</span><span class="s1">&#39;My secret message&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Please refer to the <a class="reference internal" href="#custom-parameters"><em>Using custom parameters</em></a> section for information
+on the optional parameters.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Encryption::decrypt">
+<tt class="descname">decrypt</tt><big>(</big><em>$data</em><span class="optional">[</span>, <em>$params = NULL</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_Encryption::decrypt" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$data</strong> (<em>string</em>) &#8211; Data to decrypt</li>
+<li><strong>$params</strong> (<em>array</em>) &#8211; Optional parameters</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Decrypted data or FALSE on failure</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Decrypts the input data and returns it in plain-text.</p>
+<p>Example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">encryption</span><span class="o">-&gt;</span><span class="na">decrypt</span><span class="p">(</span><span class="nv">$ciphertext</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Please refer to the <a class="reference internal" href="#custom-parameters"><em>Using custom parameters</em></a> secrion for information
+on the optional parameters.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Encryption::create_key">
+<tt class="descname">create_key</tt><big>(</big><em>$length</em><big>)</big><a class="headerlink" href="#CI_Encryption::create_key" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$length</strong> (<em>int</em>) &#8211; Output length</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A pseudo-random cryptographic key with the specified length, or FALSE on failure</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Creates a cryptographic key by fetching random data from
+the operating system&#8217;s sources (i.e. /dev/urandom).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Encryption::hkdf">
+<tt class="descname">hkdf</tt><big>(</big><em>$key</em><span class="optional">[</span>, <em>$digest = 'sha512'</em><span class="optional">[</span>, <em>$salt = NULL</em><span class="optional">[</span>, <em>$length = NULL</em><span class="optional">[</span>, <em>$info = ''</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#CI_Encryption::hkdf" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>string</em>) &#8211; Input key material</li>
+<li><strong>$digest</strong> (<em>string</em>) &#8211; A SHA-2 family digest algorithm</li>
+<li><strong>$salt</strong> (<em>string</em>) &#8211; Optional salt</li>
+<li><strong>$length</strong> (<em>int</em>) &#8211; Optional output length</li>
+<li><strong>$info</strong> (<em>string</em>) &#8211; Optional context/application-specific info</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A pseudo-random key or FALSE on failure</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Derives a key from another, presumably weaker key.</p>
+<p>This method is used internally to derive an encryption and HMAC key
+from your configured <em>encryption_key</em>.</p>
+<p>It is publicly available due to its otherwise general purpose. It is
+described in <a class="reference external" href="https://tools.ietf.org/rfc/rfc5869.txt">RFC 5869</a>.</p>
+<p>However, as opposed to the description in RFC 5869, this implementation
+doesn&#8217;t support SHA1.</p>
+<p>Example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$hmac_key</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">encryption</span><span class="o">-&gt;</span><span class="na">hkdf</span><span class="p">(</span>
+        <span class="nv">$key</span><span class="p">,</span>
+        <span class="s1">&#39;sha512&#39;</span><span class="p">,</span>
+        <span class="k">NULL</span><span class="p">,</span>
+        <span class="k">NULL</span><span class="p">,</span>
+        <span class="s1">&#39;authentication&#39;</span>
+<span class="p">);</span>
+
+<span class="c1">// $hmac_key is a pseudo-random key with a length of 64 bytes</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="file_uploading.html" class="btn btn-neutral float-right" title="File Uploading Class">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="encrypt.html" class="btn btn-neutral" title="Encrypt Class"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014 - 2016, British Columbia Institute of Technology.
+      Last updated on Jul 26, 2016.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,9 +1,0 @@
-#########
-Libraries
-#########
-
-.. toctree::
-	:glob:
-	:titlesonly:
-	
-	*
