@@ -117,6 +117,7 @@ This article is intended to be a reference for them.
 		just send a query to the database and not care for the result.
 
 	.. php:method:: affected_rows()
+
 		:returns:	Number of rows affected
 		:rtype:	int
 

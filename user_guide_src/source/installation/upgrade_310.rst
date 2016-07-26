@@ -21,7 +21,7 @@ no longer be used with the 'odbc' database driver.
 
 This is because, due to its nature, the `ODBC extension for PHP <https://secure.php.net/odbc>`_
 does not provide a function that allows to safely escape user-supplied strings for usage
-inside an SQL query (which our :doc:`Query Builder <database/query_builder>` relies on).
+inside an SQL query (which our :doc:`Query Builder <../database/query_builder>` relies on).
 
 Thus, user inputs MUST be bound, as shown in :doc:`Running Queries <../database/queries>`,
 under the "Query Bindings" section.
