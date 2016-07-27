@@ -2278,12 +2278,12 @@ class CI_Email {
 	 */
 	protected function _get_hostname()
 	{
-		if (isset($_SERVER['SERVER_NAME']))
+		if (!empty($_SERVER['SERVER_NAME']))
 		{
 			return $_SERVER['SERVER_NAME'];
 		}
 
-		return isset($_SERVER['SERVER_ADDR']) ? '['.$_SERVER['SERVER_ADDR'].']' : '[127.0.0.1]';
+		return !empty($_SERVER['SERVER_ADDR']) ? '['.$_SERVER['SERVER_ADDR'].']' : '[127.0.0.1]';
 	}
 
 	// --------------------------------------------------------------------
