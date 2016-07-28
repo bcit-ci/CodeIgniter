@@ -149,18 +149,9 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 		// which re-reads session data
 		if ($this->_file_handle === NULL)
 		{
-			// Just using fopen() with 'c+b' mode would be perfect, but it is only
-			// available since PHP 5.2.6 and we have to set permissions for new files,
-			// so we'd have to hack around this ...
-			if (($this->_file_new = ! file_exists($this->_file_path.$session_id)) === TRUE)
-			{
-				if (($this->_file_handle = fopen($this->_file_path.$session_id, 'w+b')) === FALSE)
-				{
-					log_message('error', "Session: File '".$this->_file_path.$session_id."' doesn't exist and cannot be created.");
-					return $this->_failure;
-				}
-			}
-			elseif (($this->_file_handle = fopen($this->_file_path.$session_id, 'r+b')) === FALSE)
+			$this->_file_new = ! file_exists($this->_file_path.$session_id);
+
+			if (($this->_file_handle = fopen($this->_file_path.$session_id, 'c+b')) === FALSE)
 			{
 				log_message('error', "Session: Unable to open file '".$this->_file_path.$session_id."'.");
 				return $this->_failure;

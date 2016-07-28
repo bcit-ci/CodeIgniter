@@ -1086,13 +1086,7 @@ class CI_Upload {
 		if (memory_get_usage() && ($memory_limit = ini_get('memory_limit')))
 		{
 			$memory_limit *= 1024 * 1024;
-
-			// There was a bug/behavioural change in PHP 5.2, where numbers over one million get output
-			// into scientific notation. number_format() ensures this number is an integer
-			// http://bugs.php.net/bug.php?id=43053
-
-			$memory_limit = number_format(ceil(filesize($file) + $memory_limit), 0, '.', '');
-
+			$memory_limit = (int) ceil(filesize($file) + $memory_limit);
 			ini_set('memory_limit', $memory_limit); // When an integer is used, the value is measured in bytes. - PHP.net
 		}
 
@@ -1207,28 +1201,21 @@ class CI_Upload {
 		// We'll need this to validate the MIME info string (e.g. text/plain; charset=us-ascii)
 		$regexp = '/^([a-z\-]+\/[a-z0-9\-\.\+]+)(;\s.+)?$/';
 
-		/* Fileinfo extension - most reliable method
-		 *
-		 * Unfortunately, prior to PHP 5.3 - it's only available as a PECL extension and the
-		 * more convenient FILEINFO_MIME_TYPE flag doesn't exist.
-		 */
-		if (function_exists('finfo_file'))
+		// Fileinfo extension - most reliable method
+		$finfo = @finfo_open(FILEINFO_MIME);
+		if (is_resource($finfo)) // It is possible that a FALSE value is returned, if there is no magic MIME database file found on the system
 		{
-			$finfo = @finfo_open(FILEINFO_MIME);
-			if (is_resource($finfo)) // It is possible that a FALSE value is returned, if there is no magic MIME database file found on the system
-			{
-				$mime = @finfo_file($finfo, $file['tmp_name']);
-				finfo_close($finfo);
+			$mime = @finfo_file($finfo, $file['tmp_name']);
+			finfo_close($finfo);
 
-				/* According to the comments section of the PHP manual page,
-				 * it is possible that this function returns an empty string
-				 * for some files (e.g. if they don't exist in the magic MIME database)
-				 */
-				if (is_string($mime) && preg_match($regexp, $mime, $matches))
-				{
-					$this->file_type = $matches[1];
-					return;
-				}
+			/* According to the comments section of the PHP manual page,
+			 * it is possible that this function returns an empty string
+			 * for some files (e.g. if they don't exist in the magic MIME database)
+			 */
+			if (is_string($mime) && preg_match($regexp, $mime, $matches))
+			{
+				$this->file_type = $matches[1];
+				return;
 			}
 		}
 
