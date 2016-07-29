@@ -13,6 +13,7 @@ Bug fixes for 3.1.1
 -------------------
 
 -  Fixed a bug (#4732) - :doc:`Session Library <libraries/sessions>` triggered errors while writing data for a newly-created sessions with the 'memcached' driver.
+-  Fixed a regression (#4736) - :doc:`Image Manipulation Library <libraries/image_lib>` processing via ImageMagick didn't work.
 
 
 Version 3.1.0
