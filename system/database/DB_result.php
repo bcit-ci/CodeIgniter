@@ -660,7 +660,7 @@ class CI_DB_result {
 	 */
 	protected function _fetch_object($class_name = 'stdClass')
 	{
-		return array();
+		return new $class_name();
 	}
 
 }
