@@ -386,7 +386,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	protected function _trans_begin()
 	{
-		$this->commit_mode = is_php('5.3.2') ? OCI_NO_AUTO_COMMIT : OCI_DEFAULT;
+		$this->commit_mode = OCI_NO_AUTO_COMMIT;
 		return TRUE;
 	}
 

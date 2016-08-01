@@ -886,7 +886,7 @@ class CI_Image_lib {
 			}
 		}
 
-		$cmd .= ' "'.escapeshellarg($this->full_src_path).'" "'.escapeshellarg($this->full_dst_path).'" 2>&1';
+		$cmd .= escapeshellarg($this->full_src_path).' '.escapeshellarg($this->full_dst_path).' 2>&1';
 
 		$retval = 1;
 		// exec() might be disabled
