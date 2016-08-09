@@ -448,6 +448,21 @@ class CI_DB_mysqli_driver extends CI_DB {
 	}
 
 	// --------------------------------------------------------------------
+	
+	/**
+	 * Show indexes query
+	 *
+	 * Generates a platform-specific query string so that the indexes can be fetched
+	 *
+	 * @param	string	$table
+	 * @return	string
+	 */
+	protected function _list_indexes($table = '')
+	{
+		return 'SHOW INDEXES FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE);
+	}
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Returns an object with field data
@@ -481,6 +496,91 @@ class CI_DB_mysqli_driver extends CI_DB {
 		return $retval;
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Fetch Index Names
+	 *
+	 * @param	string	$table	Table name
+	 * @return	array
+	 */
+	public function list_indexes($table)
+	{
+		// Is there a cached result?
+		if (isset($this->data_cache['table_indexes'][$table]))
+		{
+			return $this->data_cache['table_indexes'][$table];
+		}
+	
+		if (FALSE === ($sql = $this->_list_indexes($table)))
+		{
+			return ($this->db_debug) ? $this->display_error('db_unsupported_function') : FALSE;
+		}
+	
+		$query = $this->query($sql);
+		$this->data_cache['table_indexes'][$table] = array();
+	
+		foreach ($query->result_array() as $row)
+		{
+			// Do we know from where to get the column's name?
+			if ( ! isset($key))
+			{
+				if (isset($row['Key_name']))
+				{
+					$key = 'Key_name';
+				}
+				else
+				{
+					// We have no other choice but to just get the third element's key.
+					$temp_array = array_keys($row);
+					$key = $temp[2];
+					unset($temp_array);
+				}
+			}
+	
+			$this->data_cache['table_indexes'][$table][] = $row[$key];
+		}
+	
+		return $this->data_cache['table_indexes'][$table];
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Returns an object with index data
+	 *
+	 * @param	string	$table
+	 * @return	array
+	 */
+	public function index_data($table)
+	{
+		if (($query = $this->query('SHOW INDEXES FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE))) === FALSE)
+		{
+			return FALSE;
+		}
+		
+		// The data returned by $query->result_object() looks exactly the same as the one returned by $retval, 
+		// except that the column names are not curated
+		return $query->result_object();
+	
+		/*$retval = array();
+		for ($i = 0, $c = count($query); $i < $c; $i++)
+		{
+			$retval[$i]			= new stdClass();
+			$retval[$i]->name		= $query[$i]->Field;
+	
+			sscanf($query[$i]->Type, '%[a-z](%d)',
+					$retval[$i]->type,
+					$retval[$i]->max_length
+					);
+	
+			$retval[$i]->default		= $query[$i]->Default;
+			$retval[$i]->primary_key	= (int) ($query[$i]->Key === 'PRI');
+		}
+	
+		return $retval;*/
+	}
+	
 	// --------------------------------------------------------------------
 
 	/**
