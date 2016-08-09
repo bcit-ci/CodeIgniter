@@ -352,7 +352,7 @@ class CI_Xmlrpc {
 	 */
 	public function server($url, $port = 80, $proxy = FALSE, $proxy_port = 8080)
 	{
-		if (strpos($url, 'http') !== 0)
+		if (strpos(strtolower($url), 'http') !== 0)
 		{
 			$url = 'http://'.$url;
 		}
