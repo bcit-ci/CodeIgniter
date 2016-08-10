@@ -8,10 +8,10 @@ class Form_validation_test extends CI_TestCase {
 
 		// Create a mock loader since load->helper() looks in the wrong directories for unit tests,
 		// We'll use CI_TestCase->helper() instead
-		$loader = $this->getMock('CI_Loader', array('helper'));
+		$loader = $this->getMockBuilder('CI_Loader')->setMethods(array('helper'))->getMock();
 
 		// Same applies for lang
-		$lang = $this->getMock('CI_Lang', array('load'));
+		$lang = $this->getMockBuilder('CI_Lang')->setMethods(array('load'))->getMock();
 
 		$this->ci_set_config('charset', 'UTF-8');
 		$utf8 = new Mock_Core_Utf8();
