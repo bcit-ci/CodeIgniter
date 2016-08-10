@@ -1468,7 +1468,8 @@ class CI_Email {
 				.'Content-Type: '.$this->_attachments[$i]['type'].'; name="'.$name.'"'.$this->newline
 				.'Content-Disposition: '.$this->_attachments[$i]['disposition'].';'.$this->newline
 				.'Content-Transfer-Encoding: base64'.$this->newline
-				.(empty($this->_attachments[$i]['cid']) ? '' : 'Content-ID: <'.$this->_attachments[$i]['cid'].'>'.$this->newline.$this->newline)
+				.(empty($this->_attachments[$i]['cid']) ? '' : 'Content-ID: <'.$this->_attachments[$i]['cid'].'>'.$this->newline)
+				.$this->newline
 				.$this->_attachments[$i]['content'].$this->newline;
 		}
 
@@ -1514,14 +1515,7 @@ class CI_Email {
 		// which only works with "\n".
 		if ($this->crlf === "\r\n")
 		{
-			if (is_php('5.3'))
-			{
-				return quoted_printable_encode($str);
-			}
-			elseif (function_exists('imap_8bit'))
-			{
-				return imap_8bit($str);
-			}
+			return quoted_printable_encode($str);
 		}
 
 		// Reduce multiple spaces & remove nulls
