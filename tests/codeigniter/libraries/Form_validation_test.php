@@ -259,6 +259,9 @@ class Form_validation_test extends CI_TestCase {
 		// https://github.com/bcit-ci/CodeIgniter/issues/4415
 		$this->assertTrue($this->form_validation->valid_url('http://[::1]/ipv6'));
 
+		// URI scheme case-sensitivity: https://github.com/bcit-ci/CodeIgniter/pull/4758
+		$this->assertTrue($this->form_validation->valid_url('HtTp://127.0.0.1/'));
+
 		$this->assertFalse($this->form_validation->valid_url('htt://www.codeIgniter.com'));
 		$this->assertFalse($this->form_validation->valid_url(''));
 		$this->assertFalse($this->form_validation->valid_url('code igniter'));
