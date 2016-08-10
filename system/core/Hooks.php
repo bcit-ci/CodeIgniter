@@ -26,13 +26,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @package	CodeIgniter
- * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
- * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	https://codeigniter.com
- * @since	Version 1.0.0
+ * @package    CodeIgniter
+ * @author    EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright    Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license    http://opensource.org/licenses/MIT	MIT License
+ * @link    https://codeigniter.com
+ * @since    Version 1.0.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -42,266 +42,231 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * Provides a mechanism to extend the base system without hacking.
  *
- * @package		CodeIgniter
- * @subpackage	Libraries
- * @category	Libraries
- * @author		EllisLab Dev Team
- * @link		https://codeigniter.com/user_guide/general/hooks.html
+ * @package        CodeIgniter
+ * @subpackage    Libraries
+ * @category    Libraries
+ * @author        EllisLab Dev Team
+ * @link        https://codeigniter.com/user_guide/general/hooks.html
  */
-class CI_Hooks {
+class CI_Hooks
+{
 
-	/**
-	 * Determines whether hooks are enabled
-	 *
-	 * @var	bool
-	 */
-	public $enabled = FALSE;
+    /**
+     * Determines whether hooks are enabled
+     *
+     * @var    bool
+     */
+    public $enabled = FALSE;
 
-	/**
-	 * List of all hooks set in config/hooks.php
-	 *
-	 * @var	array
-	 */
-	public $hooks =	array();
+    /**
+     * List of all hooks set in config/hooks.php
+     *
+     * @var    array
+     */
+    public $hooks = array();
 
-	/**
-	 * Array with class objects to use hooks methods
-	 *
-	 * @var array
-	 */
-	protected $_objects = array();
+    /**
+     * Array with class objects to use hooks methods
+     *
+     * @var array
+     */
+    protected $_objects = array();
 
-	/**
-	 * In progress flag
-	 *
-	 * Determines whether hook is in progress, used to prevent infinte loops
-	 *
-	 * @var	bool
-	 */
-	protected $_in_progress = FALSE;
+    /**
+     * In progress flag
+     *
+     * Determines whether hook is in progress, used to prevent infinte loops
+     *
+     * @var    bool
+     */
+    protected $_in_progress = FALSE;
 
-	/**
-	 * Class constructor
-	 *
-	 * @return	void
-	 */
-	public function __construct()
-	{
-		$CFG =& load_class('Config', 'core');
-		log_message('info', 'Hooks Class Initialized');
+    /**
+     * Class constructor
+     *
+     * @return    void
+     */
+    public function __construct()
+    {
+        $CFG =& load_class('Config', 'core');
+        log_message('info', 'Hooks Class Initialized');
 
-		// If hooks are not enabled in the config file
-		// there is nothing else to do
-		if ($CFG->item('enable_hooks') === FALSE)
-		{
-			return;
-		}
+        // If hooks are not enabled in the config file
+        // there is nothing else to do
+        if ($CFG->item('enable_hooks') === FALSE) {
+            return;
+        }
 
-		foreach ($CFG->_config_paths as $path)
-		{
-			// Grab the "hooks" definition file.
-			if (file_exists($path.'config/hooks.php'))
-			{
-				include($path.'config/hooks.php');
-			}
-			if (file_exists($path.'config/'.ENVIRONMENT.'/hooks.php'))
-			{
-				include($path.'config/'.ENVIRONMENT.'/hooks.php');
-			}
-		}
+        foreach ($CFG->_config_paths as $path) {
+            // Grab the "hooks" definition file.
+            if (file_exists($path . 'config/hooks.php')) {
+                include($path . 'config/hooks.php');
+            }
+            if (file_exists($path . 'config/' . ENVIRONMENT . '/hooks.php')) {
+                include($path . 'config/' . ENVIRONMENT . '/hooks.php');
+            }
+        }
 
-		// If there are no hooks, we're done.
-		if ( ! isset($hook) OR ! is_array($hook))
-		{
-			return;
-		}
+        // If there are no hooks, we're done.
+        if (!isset($hook) OR !is_array($hook)) {
+            return;
+        }
 
-		$this->hooks =& $hook;
-		$this->enabled = TRUE;
-	}
+        $this->hooks =& $hook;
+        $this->enabled = TRUE;
+    }
 
-	// --------------------------------------------------------------------
+    // --------------------------------------------------------------------
 
-	/**
-	 * Reload Configuration
-	 *
-	 * Reload all $hooks configuration path or particular path, usefull if you
-	 * add a new configuration path (i.e. add_package_path)
-	 *
-	 * @param	string	$path	new path to reload
-	 * @return	bool	TRUE on success or FALSE on failure
-	 */
-	public function reload_config($path = null)
-	{
-		$CFG =& load_class('Config', 'core');
+    /**
+     * Reload Configuration
+     *
+     * Reload all $hooks configuration path or particular path, usefull if you
+     * add a new configuration path (i.e. add_package_path)
+     *
+     * @param    string $path new path to reload
+     * @return    bool    TRUE on success or FALSE on failure
+     */
+    public function reload_config($path = null)
+    {
+        $CFG =& load_class('Config', 'core');
 
-		$paths = array();
-		// if is null path reload all configs_path
-		if (is_null($path))
-		{
-			$paths = $CFG->_config_paths;
-		}
-		else
-		{
-			$paths[] = $path.'/hooks.php';
-		}
-		foreach ($paths as $_path)
-		{
-			if (file_exists($_path.'config/hooks.php'))
-			{
-				include($_path.'config/hooks.php');
-			}
-		}
+        $paths = array();
+        // if is null path reload all configs_path
+        if (is_null($path)) {
+            $paths = $CFG->_config_paths;
+        } else {
+            $paths[] = $path . '/hooks.php';
+        }
+        foreach ($paths as $_path) {
+            if (file_exists($_path . 'config/hooks.php')) {
+                include($_path . 'config/hooks.php');
+            }
+        }
 
-		if ( ! isset($hook) OR ! is_array($hook))
-		{
-			return false;
-		}
-		$this->hooks =& $hook;
-		return true;
-	}
+        if (!isset($hook) OR !is_array($hook)) {
+            return false;
+        }
+        $this->hooks =& $hook;
+        return true;
+    }
 
-	/**
-	 * Call Hook
-	 *
-	 * Calls a particular hook. Called by CodeIgniter.php.
-	 *
-	 * @uses	CI_Hooks::_run_hook()
-	 *
-	 * @param	string	$which	Hook name
-	 * @return	bool	TRUE on success or FALSE on failure
-	 */
-	public function call_hook($which = '')
-	{
-		if ( ! $this->enabled OR ! isset($this->hooks[$which]))
-		{
-			return FALSE;
-		}
+    /**
+     * Call Hook
+     *
+     * Calls a particular hook. Called by CodeIgniter.php.
+     *
+     * @uses    CI_Hooks::_run_hook()
+     *
+     * @param    string $which Hook name
+     * @return    bool    TRUE on success or FALSE on failure
+     */
+    public function call_hook($which = '')
+    {
+        if (!$this->enabled OR !isset($this->hooks[$which])) {
+            return FALSE;
+        }
 
-		if (is_array($this->hooks[$which]) && ! isset($this->hooks[$which]['function']))
-		{
-			foreach ($this->hooks[$which] as $val)
-			{
-				$this->_run_hook($val);
-			}
-		}
-		else
-		{
-			$this->_run_hook($this->hooks[$which]);
-		}
+        if (is_array($this->hooks[$which]) && !isset($this->hooks[$which]['function'])) {
+            foreach ($this->hooks[$which] as $val) {
+                $this->_run_hook($val);
+            }
+        } else {
+            $this->_run_hook($this->hooks[$which]);
+        }
 
-		return TRUE;
-	}
+        return TRUE;
+    }
 
-	// --------------------------------------------------------------------
+    // --------------------------------------------------------------------
 
-	/**
-	 * Run Hook
-	 *
-	 * Runs a particular hook
-	 *
-	 * @param	array	$data	Hook details
-	 * @return	bool	TRUE on success or FALSE on failure
-	 */
-	protected function _run_hook($data)
-	{
-		// Closures/lambda functions and array($object, 'method') callables
-		if (is_callable($data))
-		{
-			is_array($data)
-				? $data[0]->{$data[1]}()
-				: $data();
+    /**
+     * Run Hook
+     *
+     * Runs a particular hook
+     *
+     * @param    array $data Hook details
+     * @return    bool    TRUE on success or FALSE on failure
+     */
+    protected function _run_hook($data)
+    {
+        // Closures/lambda functions and array($object, 'method') callables
+        if (is_callable($data)) {
+            is_array($data) ? $data[0]->{$data[1]}() : $data();
 
-			return TRUE;
-		}
-		elseif ( ! is_array($data))
-		{
-			return FALSE;
-		}
+            return TRUE;
+        } elseif (!is_array($data)) {
+            return FALSE;
+        }
 
-		// -----------------------------------
-		// Safety - Prevents run-away loops
-		// -----------------------------------
+        // -----------------------------------
+        // Safety - Prevents run-away loops
+        // -----------------------------------
 
-		// If the script being called happens to have the same
-		// hook call within it a loop can happen
-		if ($this->_in_progress === TRUE)
-		{
-			return;
-		}
+        // If the script being called happens to have the same
+        // hook call within it a loop can happen
+        if ($this->_in_progress === TRUE) {
+            return;
+        }
 
-		// -----------------------------------
-		// Set file path
-		// -----------------------------------
+        // -----------------------------------
+        // Set file path
+        // -----------------------------------
 
-		if ( ! isset($data['filepath'], $data['filename']))
-		{
-			return FALSE;
-		}
+        if (!isset($data['filepath'], $data['filename'])) {
+            return FALSE;
+        }
 
-		$filepath = APPPATH.$data['filepath'].'/'.$data['filename'];
+        $filepath = APPPATH . $data['filepath'] . '/' . $data['filename'];
 
-		if ( ! file_exists($filepath))
-		{
-			return FALSE;
-		}
+        if (!file_exists($filepath)) {
+            return FALSE;
+        }
 
-		// Determine and class and/or function names
-		$class		= empty($data['class']) ? FALSE : $data['class'];
-		$function	= empty($data['function']) ? FALSE : $data['function'];
-		$params		= isset($data['params']) ? $data['params'] : '';
+        // Determine and class and/or function names
+        $class = empty($data['class']) ? FALSE : $data['class'];
+        $function = empty($data['function']) ? FALSE : $data['function'];
+        $params = isset($data['params']) ? $data['params'] : '';
 
-		if (empty($function))
-		{
-			return FALSE;
-		}
+        if (empty($function)) {
+            return FALSE;
+        }
 
-		// Set the _in_progress flag
-		$this->_in_progress = TRUE;
+        // Set the _in_progress flag
+        $this->_in_progress = TRUE;
 
-		// Call the requested class and/or function
-		if ($class !== FALSE)
-		{
-			// The object is stored?
-			if (isset($this->_objects[$class]))
-			{
-				if (method_exists($this->_objects[$class], $function))
-				{
-					$this->_objects[$class]->$function($params);
-				}
-				else
-				{
-					return $this->_in_progress = FALSE;
-				}
-			}
-			else
-			{
-				class_exists($class, FALSE) OR require_once($filepath);
+        // Call the requested class and/or function
+        if ($class !== FALSE) {
+            // The object is stored?
+            if (isset($this->_objects[$class])) {
+                if (method_exists($this->_objects[$class], $function)) {
+                    $this->_objects[$class]->$function($params);
+                } else {
+                    return $this->_in_progress = FALSE;
+                }
+            } else {
+                class_exists($class, FALSE) OR require_once($filepath);
 
-				if ( ! class_exists($class, FALSE) OR ! method_exists($class, $function))
-				{
-					return $this->_in_progress = FALSE;
-				}
+                if (!class_exists($class, FALSE) OR !method_exists($class, $function)) {
+                    return $this->_in_progress = FALSE;
+                }
 
-				// Store the object and execute the method
-				$this->_objects[$class] = new $class();
-				$this->_objects[$class]->$function($params);
-			}
-		}
-		else
-		{
-			function_exists($function) OR require_once($filepath);
+                // Store the object and execute the method
+                $this->_objects[$class] = new $class();
+                $this->_objects[$class]->$function($params);
+            }
+        } else {
+            function_exists($function) OR require_once($filepath);
 
-			if ( ! function_exists($function))
-			{
-				return $this->_in_progress = FALSE;
-			}
+            if (!function_exists($function)) {
+                return $this->_in_progress = FALSE;
+            }
 
-			$function($params);
-		}
+            $function($params);
+        }
 
-		$this->_in_progress = FALSE;
-		return TRUE;
-	}
+        $this->_in_progress = FALSE;
+        return TRUE;
+    }
 
 }
