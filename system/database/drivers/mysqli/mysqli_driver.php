@@ -533,7 +533,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 				{
 					// We have no other choice but to just get the third element's key.
 					$temp_array = array_keys($row);
-					$key = $temp[2];
+					$key = $temp_array[2];
 					unset($temp_array);
 				}
 			}
