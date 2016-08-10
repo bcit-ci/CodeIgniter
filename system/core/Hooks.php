@@ -97,15 +97,17 @@ class CI_Hooks {
 			return;
 		}
 
-		// Grab the "hooks" definition file.
-		if (file_exists(APPPATH.'config/hooks.php'))
+		foreach ($CFG->_config_paths as $path)
 		{
-			include(APPPATH.'config/hooks.php');
-		}
-
-		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/hooks.php'))
-		{
-			include(APPPATH.'config/'.ENVIRONMENT.'/hooks.php');
+			// Grab the "hooks" definition file.
+			if (file_exists($path.'config/hooks.php'))
+			{
+				include($path.'config/hooks.php');
+			}
+			if (file_exists($path.'config/'.ENVIRONMENT.'/hooks.php'))
+			{
+				include($path.'config/'.ENVIRONMENT.'/hooks.php');
+			}
 		}
 
 		// If there are no hooks, we're done.
@@ -119,6 +121,45 @@ class CI_Hooks {
 	}
 
 	// --------------------------------------------------------------------
+
+	/**
+	 * Reload Configuration
+	 *
+	 * Reload all $hooks configuration path or particular path, usefull if you
+	 * add a new configuration path (i.e. add_package_path)
+	 *
+	 * @param	string	$path	new path to reload
+	 * @return	bool	TRUE on success or FALSE on failure
+	 */
+	public function reload_config($path = null)
+	{
+		$CFG =& load_class('Config', 'core');
+
+		$paths = array();
+		// if is null path reload all configs_path
+		if (is_null($path))
+		{
+			$paths = $CFG->_config_paths;
+		}
+		else
+		{
+			$paths[] = $path.'/hooks.php';
+		}
+		foreach ($paths as $_path)
+		{
+			if (file_exists($_path.'config/hooks.php'))
+			{
+				include($_path.'config/hooks.php');
+			}
+		}
+
+		if ( ! isset($hook) OR ! is_array($hook))
+		{
+			return false;
+		}
+		$this->hooks =& $hook;
+		return true;
+	}
 
 	/**
 	 * Call Hook
