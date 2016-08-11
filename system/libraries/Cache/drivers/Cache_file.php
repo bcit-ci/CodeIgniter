@@ -120,7 +120,7 @@ class CI_Cache_file extends CI_Driver {
 	 */
 	public function delete($id)
 	{
-		return file_exists($this->_cache_path.$id) ? unlink($this->_cache_path.$id) : FALSE;
+		return is_file($this->_cache_path.$id) ? unlink($this->_cache_path.$id) : FALSE;
 	}
 
 	// ------------------------------------------------------------------------
@@ -216,7 +216,7 @@ class CI_Cache_file extends CI_Driver {
 	 */
 	public function get_metadata($id)
 	{
-		if ( ! file_exists($this->_cache_path.$id))
+		if ( ! is_file($this->_cache_path.$id))
 		{
 			return FALSE;
 		}
