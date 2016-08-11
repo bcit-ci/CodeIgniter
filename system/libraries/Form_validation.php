@@ -1523,12 +1523,12 @@ class CI_Form_validation {
 	 */
 	public function prep_url($str = '')
 	{
-		if ($str === 'http://' OR $str === '')
+		if (strtolower($str) === 'http://' OR $str === '')
 		{
 			return '';
 		}
 
-		if (strpos($str, 'http://') !== 0 && strpos($str, 'https://') !== 0)
+		if (stripos($str, 'http://') !== 0 && stripos($str, 'https://') !== 0)
 		{
 			return 'http://'.$str;
 		}
