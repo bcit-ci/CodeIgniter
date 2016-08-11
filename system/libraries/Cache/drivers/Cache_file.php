@@ -227,7 +227,7 @@ class CI_Cache_file extends CI_Driver {
 		{
 			$mtime = filemtime($this->_cache_path.$id);
 
-			if ( ! isset($data['ttl']))
+			if ( ! isset($data['ttl']) OR ! isset($data['time']))
 			{
 				return FALSE;
 			}
