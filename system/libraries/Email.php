@@ -1206,6 +1206,7 @@ class CI_Email {
 	 */
 	protected function _build_headers()
 	{
+		$this->set_header('User-Agent', $this->useragent);
 		$this->set_header('X-Sender', $this->clean_email($this->_headers['From']));
 		$this->set_header('X-Mailer', $this->useragent);
 		$this->set_header('X-Priority', $this->_priorities[$this->priority]);
