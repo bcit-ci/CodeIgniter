@@ -147,7 +147,7 @@ class CI_Email {
 	 *
 	 * @var	string
 	 */
-	public $charset		= 'UTF-8';
+	public $charset		= 'utf-8';
 
 	/**
 	 * Alternative message (for HTML messages only)

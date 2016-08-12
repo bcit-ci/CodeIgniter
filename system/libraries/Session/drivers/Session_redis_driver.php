@@ -92,27 +92,40 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 		{
 			log_message('error', 'Session: No Redis save path configured.');
 		}
-		elseif (preg_match('#(?:tcp://)?([^:?]+)(?:\:(\d+))?(\?.+)?#', $this->_config['save_path'], $matches))
+		elseif (preg_match('#^unix://([^\?]+)(?<options>\?.+)?$#', $this->_config['save_path'], $matches))
 		{
-			isset($matches[3]) OR $matches[3] = ''; // Just to avoid undefined index notices below
-			$this->_config['save_path'] = array(
-				'host' => $matches[1],
-				'port' => empty($matches[2]) ? NULL : $matches[2],
-				'password' => preg_match('#auth=([^\s&]+)#', $matches[3], $match) ? $match[1] : NULL,
-				'database' => preg_match('#database=(\d+)#', $matches[3], $match) ? (int) $match[1] : NULL,
-				'timeout' => preg_match('#timeout=(\d+\.\d+)#', $matches[3], $match) ? (float) $match[1] : NULL
+			$save_path = array('path' => $matches[1]);
+		}
+		elseif (preg_match('#(?:tcp://)?([^:?]+)(?:\:(\d+))?(?<options>\?.+)?#', $this->_config['save_path'], $matches))
+		{
+			$save_path = array(
+				'host'    => $matches[1],
+				'port'    => empty($matches[2]) ? NULL : $matches[2],
+				'timeout' => NULL // We always pass this to Redis::connect(), so it needs to exist
 			);
-
-			preg_match('#prefix=([^\s&]+)#', $matches[3], $match) && $this->_key_prefix = $match[1];
 		}
 		else
 		{
 			log_message('error', 'Session: Invalid Redis save path format: '.$this->_config['save_path']);
 		}
 
-		if ($this->_config['match_ip'] === TRUE)
+		if (isset($save_path))
 		{
-			$this->_key_prefix .= $_SERVER['REMOTE_ADDR'].':';
+			if (isset($matches['options']))
+			{
+				$save_path['password'] = preg_match('#auth=([^\s&]+)#', $matches['options'], $match) ? $match[1] : NULL;
+				$save_path['database'] = preg_match('#database=(\d+)#', $matches['options'], $match) ? (int) $match[1] : NULL;
+				$save_path['timeout']  = preg_match('#timeout=(\d+\.\d+)#', $matches['options'], $match) ? (float) $match[1] : NULL;
+
+				preg_match('#prefix=([^\s&]+)#', $matches['options'], $match) && $this->_key_prefix = $match[1];
+			}
+
+			$this->_config['save_path'] = $save_path;
+
+			if ($this->_config['match_ip'] === TRUE)
+			{
+				$this->_key_prefix .= $_SERVER['REMOTE_ADDR'].':';
+			}
 		}
 	}
 
@@ -135,22 +148,33 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 		}
 
 		$redis = new Redis();
-		if ( ! $redis->connect($this->_config['save_path']['host'], $this->_config['save_path']['port'], $this->_config['save_path']['timeout']))
+		$connected = isset($this->_config['save_path']['path'])
+			? $redis->connect($this->_config['save_path']['path'])
+			: $redis->connect(
+				$this->_config['save_path']['host'],
+				$this->_config['save_path']['port'],
+				$this->_config['save_path']['timeout']
+			);
+
+		if ($connected)
 		{
-			log_message('error', 'Session: Unable to connect to Redis with the configured settings.');
-		}
-		elseif (isset($this->_config['save_path']['password']) && ! $redis->auth($this->_config['save_path']['password']))
-		{
-			log_message('error', 'Session: Unable to authenticate to Redis instance.');
-		}
-		elseif (isset($this->_config['save_path']['database']) && ! $redis->select($this->_config['save_path']['database']))
-		{
-			log_message('error', 'Session: Unable to select Redis database with index '.$this->_config['save_path']['database']);
+			if (isset($this->_config['save_path']['password']) && ! $redis->auth($this->_config['save_path']['password']))
+			{
+				log_message('error', 'Session: Unable to authenticate to Redis instance.');
+			}
+			elseif (isset($this->_config['save_path']['database']) && ! $redis->select($this->_config['save_path']['database']))
+			{
+				log_message('error', 'Session: Unable to select Redis database with index '.$this->_config['save_path']['database']);
+			}
+			else
+			{
+				$this->_redis = $redis;
+				return $this->_success;
+			}
 		}
 		else
 		{
-			$this->_redis = $redis;
-			return $this->_success;
+			log_message('error', 'Session: Unable to connect to Redis with the configured settings.');
 		}
 
 		return $this->_fail();

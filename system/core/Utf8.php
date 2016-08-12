@@ -66,12 +66,12 @@ class CI_Utf8 {
 			)
 		{
 			define('UTF8_ENABLED', TRUE);
-			log_message('debug', 'UTF-8 Support Enabled');
+			log_message('info', 'UTF-8 Support Enabled');
 		}
 		else
 		{
 			define('UTF8_ENABLED', FALSE);
-			log_message('debug', 'UTF-8 Support Disabled');
+			log_message('info', 'UTF-8 Support Disabled');
 		}
 
 		log_message('info', 'Utf8 Class Initialized');

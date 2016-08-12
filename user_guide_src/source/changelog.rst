@@ -2,6 +2,42 @@
 Change Log
 ##########
 
+Version 3.2.0
+=============
+
+Release Date: Not Released
+
+-  Core
+
+   -  Changed :doc:`URI Library <libraries/uri>` to ignore the ``$config['url_suffix']``, ``$config['permitted_uri_chars']`` configuration settings for CLI requests.
+
+-  Libraries
+
+   -  Added UNIX socket connection support to :doc:`Session Library <libraries/sessions>` 'redis' driver.
+
+   -  :doc:`Cache Library <libraries/caching>` changes include:
+
+      - Added UNIX socket connection support to the 'memcached' driver.
+      - Changed the 'memcached' driver to ignore configurations that don't specify a hostname.
+      - Removed the *socket_type* configuration setting from the 'redis' driver.
+      - Changed data serialization logic in 'redis' driver for better performance.
+
+-  Database
+
+   -  Changed method ``initialize()`` to return void and instead throw a ``RuntimeException`` in case of failure.
+   -  Changed method ``db_connect()`` to always set the connection character set (if supported by the driver) and to fail if it can't.
+   -  Removed method ``db_set_charset()`` and the ability to change a connection character set at runtime.
+
+-  Helpers
+
+   -  Updated :doc:`HTML Helper <helpers/html_helper>` function :php:func:`meta()` with support for "charset" and "property" properties.
+   -  Changed :doc:`HTML Helper <helpers/html_helper>` function :php:func:`doctype()` default document type to HTML 5.
+
+Bug fixes for 3.1.0
+-------------------
+
+-  Fixed a bug (#4528) - :doc:`Cache Library <libraries/caching>` stored all scalar values as strings with the 'redis' driver.
+
 Version 3.1.1
 =============
 
