@@ -178,6 +178,9 @@ class CI_DB_pdo_cubrid_forge extends CI_DB_pdo_forge {
 				$attributes['TYPE'] = 'INTEGER';
 				$attributes['UNSIGNED'] = FALSE;
 				return;
+			case 'LONGTEXT':
+				$attributes['TYPE'] = 'STRING';
+				return;
 			default: return;
 		}
 	}

@@ -161,6 +161,19 @@ class CI_DB_pdo_odbc_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Platform-dependant string escape
+	 *
+	 * @param	string
+	 * @return	string
+	 */
+	protected function _escape_str($str)
+	{
+		$this->db->display_error('db_unsupported_feature');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Determines if a query is a "write" type.
 	 *
 	 * @param	string	An SQL query string
@@ -213,72 +226,4 @@ class CI_DB_pdo_odbc_driver extends CI_DB_pdo_driver {
 	{
 		return 'SELECT column_name FROM information_schema.columns WHERE table_name = '.$this->escape($table);
 	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Update statement
-	 *
-	 * Generates a platform-specific update string from the supplied data
-	 *
-	 * @param	string	$table
-	 * @param	array	$values
-	 * @return	string
-	 */
-	protected function _update($table, $values)
-	{
-		$this->qb_limit = FALSE;
-		$this->qb_orderby = array();
-		return parent::_update($table, $values);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Truncate statement
-	 *
-	 * Generates a platform-specific truncate string from the supplied data
-	 *
-	 * If the database does not support the TRUNCATE statement,
-	 * then this method maps to 'DELETE FROM table'
-	 *
-	 * @param	string	$table
-	 * @return	string
-	 */
-	protected function _truncate($table)
-	{
-		return 'DELETE FROM '.$table;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Delete statement
-	 *
-	 * Generates a platform-specific delete string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @return	string
-	 */
-	protected function _delete($table)
-	{
-		$this->qb_limit = FALSE;
-		return parent::_delete($table);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * LIMIT
-	 *
-	 * Generates a platform-specific LIMIT clause
-	 *
-	 * @param	string	$sql	SQL Query
-	 * @return	string
-	 */
-	protected function _limit($sql)
-	{
-		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$this->qb_limit.' ', $sql);
-	}
-
 }

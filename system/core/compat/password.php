@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
-if (is_php('5.5') OR ! is_php('5.3.7') OR ! defined('CRYPT_BLOWFISH') OR CRYPT_BLOWFISH !== 1 OR defined('HHVM_VERSION'))
+if (is_php('5.5') OR ! defined('CRYPT_BLOWFISH') OR CRYPT_BLOWFISH !== 1 OR defined('HHVM_VERSION'))
 {
 	return;
 }
@@ -116,13 +116,21 @@ if ( ! function_exists('password_hash'))
 		}
 		elseif ( ! isset($options['salt']))
 		{
-			if (defined('MCRYPT_DEV_URANDOM'))
+			if (function_exists('random_bytes'))
+			{
+				try
+				{
+					$options['salt'] = random_bytes(16);
+				}
+				catch (Exception $e)
+				{
+					log_message('error', 'compat/password: Error while trying to use random_bytes(): '.$e->getMessage());
+					return FALSE;
+				}
+			}
+			elseif (defined('MCRYPT_DEV_URANDOM'))
 			{
 				$options['salt'] = mcrypt_create_iv(16, MCRYPT_DEV_URANDOM);
-			}
-			elseif (function_exists('openssl_random_pseudo_bytes'))
-			{
-				$options['salt'] = openssl_random_pseudo_bytes(16);
 			}
 			elseif (DIRECTORY_SEPARATOR === '/' && (is_readable($dev = '/dev/arandom') OR is_readable($dev = '/dev/urandom')))
 			{
@@ -147,6 +155,16 @@ if ( ! function_exists('password_hash'))
 				}
 
 				fclose($fp);
+			}
+			elseif (function_exists('openssl_random_pseudo_bytes'))
+			{
+				$is_secure = NULL;
+				$options['salt'] = openssl_random_pseudo_bytes(16, $is_secure);
+				if ($is_secure !== TRUE)
+				{
+					log_message('error', 'compat/password: openssl_random_pseudo_bytes() set the $cryto_strong flag to FALSE');
+					return FALSE;
+				}
 			}
 			else
 			{

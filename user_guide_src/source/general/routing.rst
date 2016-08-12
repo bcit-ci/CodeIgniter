@@ -133,8 +133,8 @@ might be a good starting point.
 Callbacks
 =========
 
-If you are using PHP >= 5.3 you can use callbacks in place of the normal
-routing rules to process the back-references. Example::
+You can also use callbacks in place of the normal routing rules to process
+the back-references. Example::
 
 	$route['products/([a-zA-Z]+)/edit/(\d+)'] = function ($product_type, $id)
 	{

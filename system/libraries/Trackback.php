@@ -370,7 +370,7 @@ class CI_Trackback {
 	{
 		$url = trim($url);
 
-		if (strpos($url, 'http') !== 0)
+		if (stripos($url, 'http') !== 0)
 		{
 			$url = 'http://'.$url;
 		}

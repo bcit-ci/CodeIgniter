@@ -152,10 +152,8 @@ class CI_Encryption {
 	public function __construct(array $params = array())
 	{
 		$this->_drivers = array(
-			'mcrypt' => defined('MCRYPT_DEV_URANDOM'),
-			// While OpenSSL is available for PHP 5.3.0, an IV parameter
-			// for the encrypt/decrypt functions is only available since 5.3.3
-			'openssl' => (is_php('5.3.3') && extension_loaded('openssl'))
+			'mcrypt'  => defined('MCRYPT_DEV_URANDOM'),
+			'openssl' => extension_loaded('openssl')
 		);
 
 		if ( ! $this->_drivers['mcrypt'] && ! $this->_drivers['openssl'])
@@ -339,12 +337,26 @@ class CI_Encryption {
 	{
 		if (function_exists('random_bytes'))
 		{
-			return random_bytes((int) $length);
+			try
+			{
+				return random_bytes((int) $length);
+			}
+			catch (Exception $e)
+			{
+				log_message('error', $e->getMessage());
+				return FALSE;
+			}
+		}
+		elseif (defined('MCRYPT_DEV_URANDOM'))
+		{
+			return mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
 		}
 
-		return ($this->_driver === 'mcrypt')
-			? mcrypt_create_iv($length, MCRYPT_DEV_URANDOM)
-			: openssl_random_pseudo_bytes($length);
+		$is_secure = NULL;
+		$key = openssl_random_pseudo_bytes($length, $is_secure);
+		return ($is_secure === TRUE)
+			? $key
+			: FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -400,7 +412,7 @@ class CI_Encryption {
 		// The greater-than-1 comparison is mostly a work-around for a bug,
 		// where 1 is returned for ARCFour instead of 0.
 		$iv = (($iv_size = mcrypt_enc_get_iv_size($params['handle'])) > 1)
-			? mcrypt_create_iv($iv_size, MCRYPT_DEV_URANDOM)
+			? $this->create_key($iv_size)
 			: NULL;
 
 		if (mcrypt_generic_init($params['handle'], $params['key'], $iv) < 0)
@@ -463,7 +475,7 @@ class CI_Encryption {
 		}
 
 		$iv = ($iv_size = openssl_cipher_iv_length($params['handle']))
-			? openssl_random_pseudo_bytes($iv_size)
+			? $this->create_key($iv_size)
 			: NULL;
 
 		$data = openssl_encrypt(

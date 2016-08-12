@@ -99,8 +99,9 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 		elseif (preg_match('#(?:tcp://)?([^:?]+)(?:\:(\d+))?(?<options>\?.+)?#', $this->_config['save_path'], $matches))
 		{
 			$save_path = array(
-				'host' => $matches[1],
-				'port' => empty($matches[2]) ? NULL : $matches[2]
+				'host'    => $matches[1],
+				'port'    => empty($matches[2]) ? NULL : $matches[2],
+				'timeout' => NULL // We always pass this to Redis::connect(), so it needs to exist
 			);
 		}
 		else
@@ -278,7 +279,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 				if ($this->_redis->ping() === '+PONG')
 				{
 					$this->_release_lock();
-					if ($this->_redis->close() === $this->_failure)
+					if ($this->_redis->close() === FALSE)
 					{
 						return $this->_fail();
 					}

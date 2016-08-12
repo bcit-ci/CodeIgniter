@@ -906,7 +906,7 @@ Class Reference
 		Gets a list of all ``$_SESSION`` that have been marked as
 		"flashdata".
 
-	.. php:method:: umark_flash($key)
+	.. php:method:: unmark_flash($key)
 
 		:param	mixed	$key: Key to be un-marked as flashdata, or an array of multiple keys
 		:rtype:	void
@@ -971,7 +971,7 @@ Class Reference
 		Gets a list of all ``$_SESSION`` that have been marked as
 		"tempdata".
 
-	.. php:method:: umark_temp($key)
+	.. php:method:: unmark_temp($key)
 
 		:param	mixed	$key: Key to be un-marked as tempdata, or an array of multiple keys
 		:rtype:	void

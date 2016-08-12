@@ -125,8 +125,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 		}
 		else
 		{
-			// Persistent connection support was added in PHP 5.3.0
-			$hostname = ($persistent === TRUE && is_php('5.3'))
+			$hostname = ($persistent === TRUE)
 				? 'p:'.$this->hostname : $this->hostname;
 			$port = empty($this->port) ? NULL : $this->port;
 			$socket = NULL;
@@ -263,6 +262,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 		if ($this->conn_id->select_db($database))
 		{
 			$this->database = $database;
+			$this->data_cache = array();
 			return TRUE;
 		}
 
@@ -495,8 +495,8 @@ class CI_DB_mysqli_driver extends CI_DB {
 		if ( ! empty($this->_mysqli->connect_errno))
 		{
 			return array(
-				'code' => $this->_mysqli->connect_errno,
-				'message' => is_php('5.2.9') ? $this->_mysqli->connect_error : mysqli_connect_error()
+				'code'    => $this->_mysqli->connect_errno,
+				'message' => $this->_mysqli->connect_error
 			);
 		}
 

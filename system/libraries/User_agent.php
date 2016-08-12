@@ -173,13 +173,11 @@ class CI_User_agent {
 	 */
 	public function __construct()
 	{
+		$this->_load_agent_file();
+
 		if (isset($_SERVER['HTTP_USER_AGENT']))
 		{
 			$this->agent = trim($_SERVER['HTTP_USER_AGENT']);
-		}
-
-		if ($this->agent !== NULL && $this->_load_agent_file())
-		{
 			$this->_compile_data();
 		}
 
