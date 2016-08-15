@@ -278,6 +278,19 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 		return $sql.'SELECT * FROM dual';
 	}
 
+	/**
+	 * Insert batch statement
+	 *
+	 * @param	string	$table	Table name
+	 * @param	array	$keys	INSERT keys
+	 * @param	array	$values	INSERT values
+	 * @return 	string
+	 */
+	protected function _replace_batch($table, $keys, $values)
+	{
+		return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
