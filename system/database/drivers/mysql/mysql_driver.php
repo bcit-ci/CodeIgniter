@@ -29,6 +29,17 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
+/**
+ * "mysql" extension was deprecated in PHP 5.5.0, and it was removed in PHP 7.0.0.
+ *
+ * http://php.net/manual/en/function.mysql-connect.php
+ */
+if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+    require_once dirname(dirname(__FILE__)) .'/mysqli/mysqli_driver.php';
+    class CI_DB_mysql_driver extends CI_DB_mysqli_driver{
+
+    }
+} else {
 class CI_DB_mysql_driver extends CI_DB {
 
 	var $dbdriver = 'mysql';
@@ -57,7 +68,7 @@ class CI_DB_mysql_driver extends CI_DB {
 
 	// whether SET NAMES must be used to set the character set
 	var $use_set_names;
-	
+
 	/**
 	 * Non-persistent database connection
 	 *
@@ -762,6 +773,7 @@ class CI_DB_mysql_driver extends CI_DB {
 		@mysql_close($conn_id);
 	}
 
+}
 }
 
 

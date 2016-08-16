@@ -25,6 +25,19 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
+/**
+ * "mysql" extension was deprecated in PHP 5.5.0, and it was removed in PHP 7.0.0.
+ *
+ * http://php.net/manual/en/function.mysql-connect.php
+ */
+if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+    require_once dirname(dirname(__FILE__)) . '/mysqli/mysqli_result.php';
+
+    class CI_DB_mysql_result extends CI_DB_mysqli_result
+    {
+
+    }
+} else {
 class CI_DB_mysql_result extends CI_DB_result {
 
 	/**
@@ -168,6 +181,7 @@ class CI_DB_mysql_result extends CI_DB_result {
 		return mysql_fetch_object($this->result_id);
 	}
 
+}
 }
 
 
