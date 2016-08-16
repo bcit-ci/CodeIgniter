@@ -23,6 +23,19 @@
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
+/**
+ * "mysql" extension was deprecated in PHP 5.5.0, and it was removed in PHP 7.0.0.
+ *
+ * http://php.net/manual/en/function.mysql-connect.php
+ */
+if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+    require_once dirname(dirname(__FILE__)) . '/mysqli/mysqli_forge.php';
+
+    class CI_DB_mysql_forge extends CI_DB_mysqli_forge
+    {
+
+    }
+} else {
 class CI_DB_mysql_forge extends CI_DB_forge {
 
 	/**
@@ -268,6 +281,7 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 		return $sql;
 	}
 
+}
 }
 
 /* End of file mysql_forge.php */
