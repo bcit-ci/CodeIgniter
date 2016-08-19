@@ -7,7 +7,9 @@ Version 3.1.1
 
 Release Date: Not Released
 
+-  General Changes
 
+   -  Added ``E_PARSE`` to the list of error levels detected by the shutdown handler.
 
 Bug fixes for 3.1.1
 -------------------
