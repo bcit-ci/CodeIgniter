@@ -5,7 +5,8 @@ php:
   - 5.4
   - 5.5
   - 5.6
-  - 7
+  - 7.0
+  - 7.1
   - hhvm
   
 env:
@@ -31,17 +32,16 @@ matrix:
   allow_failures:
     - php: 5.3
     - php: hhvm
+    - php: 7.1
   exclude:
     - php: hhvm
       env: DB=pgsql
     - php: hhvm
       env: DB=pdo/pgsql
-    - php: 7
+    - php: 7.0
       env: DB=mysql
-    - php: 5.2
-      env: DB=sqlite
-    - php: 5.2
-      env: DB=pdo/sqlite
+    - php: 7.1
+      env: DB=mysql
 
 branches:
   only:
