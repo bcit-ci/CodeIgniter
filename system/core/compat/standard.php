@@ -153,7 +153,7 @@ if ( ! function_exists('hex2bin'))
 	 */
 	function hex2bin($data)
 	{
-		if (in_array($type = gettype($data), array('array', 'double', 'object'), TRUE))
+		if (in_array($type = gettype($data), array('array', 'double', 'object', 'resource'), TRUE))
 		{
 			if ($type === 'object' && method_exists($data, '__toString'))
 			{
