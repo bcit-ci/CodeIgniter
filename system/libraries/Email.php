@@ -1202,7 +1202,7 @@ class CI_Email {
 	/**
 	 * Build final headers
 	 *
-	 * @return	string
+	 * @return	void
 	 */
 	protected function _build_headers()
 	{
@@ -2046,7 +2046,7 @@ class CI_Email {
 	 *
 	 * @param	string
 	 * @param	string
-	 * @return	string
+	 * @return	bool
 	 */
 	protected function _send_command($cmd, $data = '')
 	{
