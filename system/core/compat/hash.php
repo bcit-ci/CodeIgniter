@@ -119,6 +119,7 @@ if ( ! function_exists('hash_pbkdf2'))
 	 */
 	function hash_pbkdf2($algo, $password, $salt, $iterations, $length = 0, $raw_output = FALSE)
 	{
+		$algo = strtolower($algo);
 		if ( ! in_array($algo, hash_algos(), TRUE))
 		{
 			trigger_error('hash_pbkdf2(): Unknown hashing algorithm: '.$algo, E_USER_WARNING);
