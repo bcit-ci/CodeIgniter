@@ -117,39 +117,10 @@ class CI_Lang {
 			return;
 		}
 
-		// Load the base file, so any others found can override it
-		$basepath = BASEPATH.'language/'.$idiom.'/'.$langfile;
-		if (($found = file_exists($basepath)) === TRUE)
-		{
-			include($basepath);
-		}
-
-		// Do we have an alternative path to look in?
-		if ($alt_path !== '')
-		{
-			$alt_path .= 'language/'.$idiom.'/'.$langfile;
-			if (file_exists($alt_path))
-			{
-				include($alt_path);
-				$found = TRUE;
-			}
-		}
-		else
-		{
-			foreach (get_instance()->load->get_package_paths(TRUE) as $package_path)
-			{
-				$package_path .= 'language/'.$idiom.'/'.$langfile;
-				if ($basepath !== $package_path && file_exists($package_path))
-				{
-					include($package_path);
-					$found = TRUE;
-					break;
-				}
-			}
-		}
-
-		if ($found !== TRUE)
-		{
+		$language_file = $this->get_language_file($langfile, $langfile, $alt_path);
+		if ($language_file !== null) {
+			include($language_file);	//Defines $lang
+		} else {
 			show_error('Unable to load the requested language file: language/'.$idiom.'/'.$langfile);
 		}
 
@@ -200,4 +171,44 @@ class CI_Lang {
 		return $value;
 	}
 
+	/**
+	 * Gets the language file path
+	 * @param	string $idiom		Language name (english, etc.)
+	 * @param	string $langfile	Language file name
+	 * @param	string $alt_path	Alternative path to look for the language file
+	 * @return	string|null		Returns the path to load or null (not found)
+	 */
+	protected function get_language_file($idiom, $langfile, $alt_path)
+	{
+		// Load the base file, so any others found can override it
+		$basepath = BASEPATH.'language/'.$idiom.'/'.$langfile;
+		if (file_exists($basepath))
+		{
+			return $basepath;
+		}
+
+		// Do we have an alternative path to look in?
+		if ($alt_path !== '')
+		{
+			$alt_path .= 'language/'.$idiom.'/'.$langfile;
+			if (file_exists($alt_path))
+			{
+				return $alt_path;
+			}
+		}
+		else
+		{
+			foreach (get_instance()->load->get_package_paths(TRUE) as $package_path)
+			{
+				$package_path .= 'language/'.$idiom.'/'.$langfile;
+				if ($basepath !== $package_path && file_exists($package_path))
+				{
+					return $package_path;
+				}
+			}
+		}
+
+		//No language file found
+		return null;
+	}
 }
