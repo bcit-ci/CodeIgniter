@@ -117,7 +117,7 @@ class CI_Lang {
 			return;
 		}
 
-		$language_file = $this->get_language_file($langfile, $langfile, $alt_path);
+		$language_file = $this->get_language_file($idiom, $langfile, $alt_path);
 		if ($language_file !== null) {
 			include($language_file);	//Defines $lang
 		} else {
