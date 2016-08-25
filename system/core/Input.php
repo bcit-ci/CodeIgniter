@@ -606,22 +606,13 @@ class CI_Input {
 		{
 			$_GET = array();
 		}
-		elseif (is_array($_GET))
+		else
 		{
-			foreach ($_GET as $key => $val)
-			{
-				$_GET[$this->_clean_input_keys($key)] = $this->_clean_input_data($val);
-			}
+			is_array($_GET) && $_GET = $this->_clean_input_data($_GET);
 		}
 
 		// Clean $_POST Data
-		if (is_array($_POST))
-		{
-			foreach ($_POST as $key => $val)
-			{
-				$_POST[$this->_clean_input_keys($key)] = $this->_clean_input_data($val);
-			}
-		}
+		is_array($_POST) && $_POST = $this->_clean_input_data($_POST);
 
 		// Clean $_COOKIE Data
 		if (is_array($_COOKIE))
@@ -637,17 +628,7 @@ class CI_Input {
 				$_COOKIE['$Domain']
 			);
 
-			foreach ($_COOKIE as $key => $val)
-			{
-				if (($cookie_key = $this->_clean_input_keys($key)) !== FALSE)
-				{
-					$_COOKIE[$cookie_key] = $this->_clean_input_data($val);
-				}
-				else
-				{
-					unset($_COOKIE[$key]);
-				}
-			}
+			$_COOKIE = $this->_clean_input_data($_COOKIE);
 		}
 
 		// Sanitize PHP_SELF
