@@ -1231,16 +1231,16 @@ class CI_Form_validation {
 	 {
 		 if (function_exists('idn_to_ascii') && $atpos = strpos($str, '@'))
 		 {
-						 $localpart = substr($str, 0 , ++$atpos);
-						 $dominpart = substr($str, $atpos);
-						 if(!empty($dominpart)){
-								 $atpos = strpos($dominpart, '.');
-								 if($atpos == 0){
-										 return FALSE;
-								 }else{
-										 $str = $localpart . idn_to_ascii($dominpart);
-								 }
-						 }
+			$localpart = substr($str, 0 , ++$atpos);
+			$dominpart = substr($str, $atpos);
+			if(!empty($dominpart)){
+				$atpos = strpos($dominpart, '.');
+				if($atpos == 0){
+					return FALSE;
+				}else{
+					$str = $localpart . idn_to_ascii($dominpart);
+				}
+			}
 		 }
 				 return (bool) filter_var($str, FILTER_VALIDATE_EMAIL);
 	 }
