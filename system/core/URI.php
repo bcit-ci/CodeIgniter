@@ -450,6 +450,11 @@ class CI_URI {
 			return $default;
 		}
 
+		if (isset($this->keyval[$which], $this->keyval[$which][$n]))
+		{
+			return $this->keyval[$which][$n];
+		}
+
 		$total_segments = "total_{$which}s";
 		$segment_array = "{$which}_array";
 
@@ -489,10 +494,13 @@ class CI_URI {
 				}
 			}
 		}
-
-		// Cache the array for reuse
-		isset($this->keyval[$which]) OR $this->keyval[$which] = array();
-		$this->keyval[$which][$n] = $retval;
+		else
+		{
+			// Cache the array for reuse
+			isset($this->keyval[$which]) OR $this->keyval[$which] = array();
+			$this->keyval[$which][$n] = $retval;
+		}
+		
 		return $retval;
 	}
 
