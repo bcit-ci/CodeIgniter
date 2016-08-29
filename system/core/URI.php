@@ -450,11 +450,6 @@ class CI_URI {
 			return $default;
 		}
 
-		if (isset($this->keyval[$which], $this->keyval[$which][$n]))
-		{
-			return $this->keyval[$which][$n];
-		}
-
 		$total_segments = "total_{$which}s";
 		$segment_array = "{$which}_array";
 
