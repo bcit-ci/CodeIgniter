@@ -230,7 +230,7 @@ class CI_Security {
 			$this->csrf_show_error();
 		}
 
-		// We kill this since we're done and we don't want to polute the _POST array
+		// We kill this since we're done and we don't want to pollute the _POST array
 		unset($_POST[$this->_csrf_token_name]);
 
 		// Regenerate on every submission?
