@@ -23,6 +23,7 @@ Bug fixes for 3.1.1
 -  Fixed a bug (#4762) - :doc:`Cache Library <libraries/caching>` 'file' driver method ``get_metadata()`` checked TTL time against ``mtime`` instead of the cache item's creation time.
 -  Fixed a bug where :doc:`File Uploading Library <libraries/file_uploading>` generated error messages on PHP 7.1.
 -  Fixed a bug (#4780) - :doc:`compatibility function <general/compatibility_functions>` ``hex2bin()`` didn't reject inputs of type "resource".
+-  Fixed a bug (#4787) - :doc:`Form Validation Library <libraries/form_validation>` method ``valid_email()`` triggered ``E_WARNING`` when input emails have empty domain names.
 
 Version 3.1.0
 =============
