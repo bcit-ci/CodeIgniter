@@ -706,11 +706,11 @@ class CI_Input {
 	 *				key is encountered
 	 * @return	string|bool
 	 */
-	protected function _clean_input_keys($str, $fatal = FALSE)
+	protected function _clean_input_keys($str, $fatal = TRUE)
 	{
 		if ( ! preg_match('/^[a-z0-9:_\/|-]+$/i', $str))
 		{
-			if ($fatal === FALSE)
+			if ($fatal === TRUE)
 			{
 				return FALSE;
 			}
