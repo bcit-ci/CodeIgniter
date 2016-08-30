@@ -728,12 +728,6 @@ class CI_Form_validation {
 					$result = is_array($rule)
 						? $rule[0]->{$rule[1]}($postdata)
 						: $rule($postdata);
-
-					// Is $callable set to a rule name?
-					if ($callable !== FALSE)
-					{
-						$rule = $callable;
-					}
 				}
 
 				// Re-assign the result to the master data array
@@ -788,13 +782,20 @@ class CI_Form_validation {
 			if ($result === FALSE)
 			{
 				// Callable rules might not have named error messages
-				if ( ! is_string($rule))
+				if ( ! is_string($rule) && ! is_array($rule))
 				{
 					$line = $this->CI->lang->line('form_validation_error_message_not_set').'(Anonymous function)';
 				}
 				else
 				{
-					$line = $this->_get_error_message($rule, $row['field']);
+					if(is_array($rule))
+					{
+						$line = $this->_get_error_message($rule[1], $row['field']);
+					}
+					else
+					{
+						$line = $this->_get_error_message($rule, $row['field']);
+					}
 				}
 
 				// Is the parameter we are inserting into the error message the name
