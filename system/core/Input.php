@@ -655,7 +655,7 @@ class CI_Input {
 			$new_array = array();
 			foreach (array_keys($str) as $key)
 			{
-				if(($cleaned_key = $this->_clean_input_keys($key)) !== FALSE)
+				if (($cleaned_key = $this->_clean_input_keys($key)) !== FALSE)
 				{
 					$new_array[$cleaned_key] = $this->_clean_input_data($str[$key]);
 				}
