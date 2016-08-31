@@ -83,6 +83,15 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 	 * @var	string
 	 */
 	protected $_escape_char = '`';
+	
+        /**
+         * Determines whether results should return the native column type.
+         * By default this is disabled to be BC. Set this to true in config/database.php
+         * to let integers be integers, NULLS be NULLS etc
+         *
+         * @var bool
+         */
+         public $use_native_types = FALSE;
 
 	// --------------------------------------------------------------------
 
@@ -171,6 +180,12 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 			// It re-indexes numeric keys and the PDO_MYSQL_ATTR_SSL_* constants are integers.
 			empty($ssl) OR $this->options += $ssl;
 		}
+		
+	        if ($this->use_native_types)
+	        {
+	            $this->options[PDO::ATTR_EMULATE_PREPARES] = FALSE;
+	            $this->options[PDO::ATTR_STRINGIFY_FETCHES] = FALSE;
+	        }		
 
 		// Prior to version 5.7.3, MySQL silently downgrades to an unencrypted connection if SSL setup fails
 		if (
