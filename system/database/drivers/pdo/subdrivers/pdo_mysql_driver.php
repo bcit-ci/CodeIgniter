@@ -199,7 +199,7 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 			log_message('error', $message);
 			return ($this->db->db_debug) ? $this->db->display_error($message, '', TRUE) : FALSE;
 		}
-		
+
 		return $pdo;
 	}
 
