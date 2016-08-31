@@ -180,6 +180,12 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 			// It re-indexes numeric keys and the PDO_MYSQL_ATTR_SSL_* constants are integers.
 			empty($ssl) OR $this->options += $ssl;
 		}
+		
+	        if ($this->use_native_types)
+	        {
+	            $this->options[PDO::ATTR_EMULATE_PREPARES] = FALSE;
+	            $this->options[PDO::ATTR_STRINGIFY_FETCHES] = FALSE;
+	        }		
 
 		// Prior to version 5.7.3, MySQL silently downgrades to an unencrypted connection if SSL setup fails
 		if (
@@ -194,12 +200,6 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 			return ($this->db->db_debug) ? $this->db->display_error($message, '', TRUE) : FALSE;
 		}
 		
-		if ($this->use_native_types)
-        	{
-            		$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-            		$pdo->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, false);
-        	}
-
 		return $pdo;
 	}
 
