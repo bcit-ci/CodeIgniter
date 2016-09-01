@@ -35,7 +35,7 @@ The following functions are available:
 	Formats text so that it is semantically and typographically correct
 	HTML.
 
-	This function is an alias for ``CI_Typography::auto_typography``.
+	This function is an alias for ``CI_Typography::auto_typography()``.
 	For more info, please see the :doc:`Typography Library
 	<../libraries/typography>` documentation.
 
@@ -45,7 +45,7 @@ The following functions are available:
 
 	.. note:: Typographic formatting can be processor intensive, particularly if
 		you have a lot of content being formatted. If you choose to use this
-		function you may want to consider `caching <../general/caching>` your
+		function you may want to consider :doc:`caching <../general/caching>` your
 		pages.
 
 

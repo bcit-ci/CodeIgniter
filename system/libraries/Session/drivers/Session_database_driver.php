@@ -109,7 +109,10 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		}
 
 		// Note: BC work-around for the old 'sess_table_name' setting, should be removed in the future.
-		isset($this->_config['save_path']) OR $this->_config['save_path'] = config_item('sess_table_name');
+		if ( ! isset($this->_config['save_path']) && ($this->_config['save_path'] = config_item('sess_table_name')))
+		{
+			log_message('debug', 'Session: "sess_save_path" is empty; using BC fallback to "sess_table_name".');
+		}
 	}
 
 	// ------------------------------------------------------------------------

@@ -374,7 +374,7 @@ Class Reference
 			{
 				$this->email->to($address);
 				$cid = $this->email->attachment_cid($filename);
-				$this->email->message('<img src='cid:". $cid ."' alt="photo1" />');
+				$this->email->message('<img src="cid:'. $cid .'" alt="photo1" />');
 				$this->email->send();
 			}
 

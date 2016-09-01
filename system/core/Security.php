@@ -230,7 +230,7 @@ class CI_Security {
 			$this->csrf_show_error();
 		}
 
-		// We kill this since we're done and we don't want to polute the _POST array
+		// We kill this since we're done and we don't want to pollute the _POST array
 		unset($_POST[$this->_csrf_token_name]);
 
 		// Regenerate on every submission?
@@ -678,12 +678,7 @@ class CI_Security {
 			{
 				if ( ! isset($_entities))
 				{
-					$_entities = array_map(
-						'strtolower',
-						is_php('5.3.4')
-							? get_html_translation_table(HTML_ENTITIES, $flag, $charset)
-							: get_html_translation_table(HTML_ENTITIES, $flag)
-					);
+					$_entities = array_map('strtolower', get_html_translation_table(HTML_ENTITIES, $flag, $charset));
 
 					// If we're not on PHP 5.4+, add the possibly dangerous HTML 5
 					// entities to the array manually

@@ -15,7 +15,7 @@ class Date_helper_test extends CI_TestCase {
 		/*
 
 		// This stub job, is simply to cater $config['time_reference']
-		$config = $this->getMock('CI_Config');
+		$config = $this->getMockBuilder('CI_Config')->getMock();
 		$config->expects($this->any())
 			   ->method('item')
 			   ->will($this->returnValue('local'));
@@ -37,7 +37,7 @@ class Date_helper_test extends CI_TestCase {
 		/*
 
 		// This stub job, is simply to cater $config['time_reference']
-		$config = $this->getMock('CI_Config');
+		$config = $this->getMockBuilder('CI_Config')->getMock();
 		$config->expects($this->any())
 			   ->method('item')
 			   ->will($this->returnValue('UTC'));

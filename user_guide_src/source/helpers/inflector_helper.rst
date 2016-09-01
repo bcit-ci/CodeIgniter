@@ -3,7 +3,7 @@ Inflector Helper
 ################
 
 The Inflector Helper file contains functions that permits you to change
-words to plural, singular, camel case, etc.
+**English** words to plural, singular, camel case, etc.
 
 .. contents::
   :local:
@@ -38,7 +38,7 @@ The following functions are available:
 .. php:function:: plural($str)
 
 	:param	string	$str: Input string
-	:returns:	A plular word
+	:returns:	A plural word
 	:rtype:	string
 
 	Changes a singular word to plural. Example::

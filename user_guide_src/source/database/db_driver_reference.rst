@@ -116,6 +116,16 @@ This article is intended to be a reference for them.
 		for use when you don't need to get a result object or to
 		just send a query to the database and not care for the result.
 
+	.. php:method:: affected_rows()
+
+		:returns:	Number of rows affected
+		:rtype:	int
+
+		Returns the number of rows *changed* by the last executed query.
+
+		Useful for checking how much rows were created, updated or deleted
+		during the last executed query.
+
 	.. php:method:: trans_strict([$mode = TRUE])
 
 		:param	bool	$mode: Strict mode flag

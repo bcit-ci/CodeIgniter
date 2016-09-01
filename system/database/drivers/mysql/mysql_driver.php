@@ -208,6 +208,7 @@ class CI_DB_mysql_driver extends CI_DB {
 		if (mysql_select_db($database, $this->conn_id))
 		{
 			$this->database = $database;
+			$this->data_cache = array();
 			return TRUE;
 		}
 

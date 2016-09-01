@@ -111,6 +111,11 @@ class CI_DB_sqlsrv_forge extends CI_DB_forge {
 	 */
 	protected function _attr_type(&$attributes)
 	{
+		if (isset($attributes['CONSTRAINT']) && strpos($attributes['TYPE'], 'INT') !== FALSE)
+		{
+			unset($attributes['CONSTRAINT']);
+		}
+
 		switch (strtoupper($attributes['TYPE']))
 		{
 			case 'MEDIUMINT':

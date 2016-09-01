@@ -154,7 +154,6 @@ class CI_Unit_test {
 
 		if (in_array($expected, array('is_object', 'is_string', 'is_bool', 'is_true', 'is_false', 'is_int', 'is_numeric', 'is_float', 'is_double', 'is_array', 'is_null', 'is_resource'), TRUE))
 		{
-			$expected = str_replace('is_double', 'is_float', $expected);
 			$result = $expected($test);
 			$extype = str_replace(array('true', 'false'), 'bool', str_replace('is_', '', $expected));
 		}
@@ -291,7 +290,7 @@ class CI_Unit_test {
 				{
 					continue;
 				}
-				elseif (in_array($key, array('test_name', 'test_datatype', 'test_res_datatype', 'result'), TRUE))
+				elseif (in_array($key, array('test_name', 'test_datatype', 'res_datatype', 'result'), TRUE))
 				{
 					if (FALSE !== ($line = $CI->lang->line(strtolower('ut_'.$val), FALSE)))
 					{

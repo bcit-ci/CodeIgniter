@@ -56,8 +56,8 @@ defined in your associative hook array:
 -  **params** Any parameters you wish to pass to your script. This item
    is optional.
 
-If you're running PHP 5.3+, you can also use lambda/anoymous functions
-(or closures) as hooks, with a simpler syntax::
+You can also use lambda/anoymous functions (or closures) as hooks, with
+a simpler syntax::
 
 	$hook['post_controller'] = function()
 	{

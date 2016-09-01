@@ -54,6 +54,13 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 	protected $_create_database	= FALSE;
 
 	/**
+	 * CREATE TABLE IF statement
+	 *
+	 * @var	string
+	 */
+	protected $_create_table_if	= FALSE;
+
+	/**
 	 * DROP DATABASE statement
 	 *
 	 * @var	string
@@ -146,4 +153,33 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 		// Not supported - sequences and triggers must be used instead
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Field attribute TYPE
+	 *
+	 * Performs a data type mapping between different databases.
+	 *
+	 * @param	array	&$attributes
+	 * @return	void
+	 */
+	protected function _attr_type(&$attributes)
+	{
+		switch (strtoupper($attributes['TYPE']))
+		{
+			case 'TINYINT':
+				$attributes['TYPE'] = 'NUMBER';
+				return;
+			case 'MEDIUMINT':
+				$attributes['TYPE'] = 'NUMBER';
+				return;
+			case 'INT':
+				$attributes['TYPE'] = 'NUMBER';
+				return;
+			case 'BIGINT':
+				$attributes['TYPE'] = 'NUMBER';
+				return;
+			default: return;
+		}
+	}
 }
