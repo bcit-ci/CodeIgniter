@@ -1227,15 +1227,23 @@ class CI_Form_validation {
 	 * @param	string
 	 * @return	bool
 	 */
-	public function valid_email($str)
-	{
-		if (function_exists('idn_to_ascii') && $atpos = strpos($str, '@'))
-		{
-			$str = substr($str, 0, ++$atpos).idn_to_ascii(substr($str, $atpos));
-		}
-
-		return (bool) filter_var($str, FILTER_VALIDATE_EMAIL);
-	}
+	 public function valid_email($str)
+	 {
+		 if (function_exists('idn_to_ascii') && $atpos = strpos($str, '@'))
+		 {
+			$localpart = substr($str, 0 , ++$atpos);
+			$dominpart = substr($str, $atpos);
+			if(!empty($dominpart)){
+				$atpos = strpos($dominpart, '.');
+				if($atpos == 0){
+					return FALSE;
+				}else{
+					$str = $localpart . idn_to_ascii($dominpart);
+				}
+			}
+		 }
+				 return (bool) filter_var($str, FILTER_VALIDATE_EMAIL);
+	 }
 
 	// --------------------------------------------------------------------
 
