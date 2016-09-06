@@ -1094,7 +1094,7 @@ class CI_Upload {
         
    	/**
          * If the upload is an image then automatically resize the image to the max_width and max_height variables
-         * should the size not already be equal to that.
+         * should the size be greater than the max_width or the max_height dimensions
          */
         public function do_auto_resize()
         {
