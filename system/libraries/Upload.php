@@ -209,6 +209,14 @@ class CI_Upload {
 	 */
 	public $image_size_str = '';
 
+
+        /**
+         * Weather to auto resize this image if it does not equal the max_width and max_height required
+         * @var type string
+         */
+        public $auto_resize = 'false';
+        
+        
 	/**
 	 * Error messages list
 	 *
@@ -504,8 +512,9 @@ class CI_Upload {
 		}
 
 		// Are the image dimensions within the allowed size?
+                // and is auto resize not been enabled?
 		// Note: This can fail if the server has an open_basedir restriction.
-		if ( ! $this->is_allowed_dimensions())
+		if ( ! $this->is_allowed_dimensions() && $this->auto_resize != 'true')
 		{
 			$this->set_error('upload_invalid_dimensions', 'info');
 			return FALSE;
@@ -556,6 +565,18 @@ class CI_Upload {
 			return FALSE;
 		}
 
+
+   		/*
+                 * Automatically resize the image to max_width and max_height
+                 */
+                if ($this->auto_resize == 'true')
+                {
+                    if(!$this->do_auto_resize())
+                    {
+                        return FALSE;
+                    }
+                }
+                
 		/*
 		 * Move the file to the final destination
 		 * To deal with different server configurations
@@ -638,6 +659,20 @@ class CI_Upload {
 
 	// --------------------------------------------------------------------
 
+        /**
+	 * Set weather to auto resize
+	 *
+         * If the image is width and height do not equal the max_width and max_height provided then it will be resized to the width of max_width
+         * and the height of max_height
+	 *
+	 * @param	string	$resize
+	 */
+        
+        public function set_auto_resize($resize)
+        {
+            $this->auto_resize = $resize;
+        }
+        
 	/**
 	 * Set the file name
 	 *
@@ -979,6 +1014,125 @@ class CI_Upload {
 
 	// --------------------------------------------------------------------
 
+
+        /* 
+         * Determines the type of image in the filepath and then loads it.
+         * @param filepath  string
+         * 
+         * @return  resource
+         */
+        public function loadanyimage($filepath)
+        {
+            $img_type = exif_imagetype($this->file_temp);
+            switch($img_type)
+            {
+               case IMAGETYPE_GIF:
+               {
+                   return imagecreatefromgif($filepath);
+               }
+               break;
+                    
+               case IMAGETYPE_JPEG:
+               {
+                  return imagecreatefromjpeg($filepath);
+               }
+               break;
+                    
+               case IMAGETYPE_PNG:
+               {
+                  return imagecreatefrompng($filepath);
+               }
+               break;  
+                        
+               default:
+               {
+                 return FALSE;
+               }
+            }
+        }
+        
+        /* 
+         * Saves an image based on the image type passed to it
+         * The image is saved in the data passed to the filepath variable
+         *
+         * @param img       resource
+         * @param img_type  CONSTANT
+         * @param filepath  string
+         * 
+         * @return  bool
+         */
+        public function saveanyimage($img, $img_type, $filepath)
+        {
+            switch($img_type)
+            {
+               case IMAGETYPE_GIF:
+               {
+                  return imagegif($img, $filepath);
+               }
+               break;
+                    
+               case IMAGETYPE_JPEG:
+               {
+                 return imagejpeg($img, $filepath);
+               }
+               break;
+                    
+               case IMAGETYPE_PNG:
+               {
+                 return imagepng($img, $filepath);
+               }
+               break;  
+                        
+               default:
+               {
+                 return FALSE;
+               }
+            }
+            
+            return TRUE;
+        }
+        
+   	/**
+         * If the upload is an image then automatically resize the image to the max_width and max_height variables
+         * should the size not already be equal to that.
+         */
+        public function do_auto_resize()
+        {
+            if ($this->is_image())
+            {
+                $D = @getimagesize($this->file_temp);
+
+                // Resize only if one or more of the dimensions is above their maximum demension size
+                if ($D[0] > $this->max_width || $D[1] > $this->max_height)
+                {
+                    $new_width = $this->max_width;
+                    $new_height = $this->max_height;
+                    
+                    $image_p = imagecreatetruecolor($new_width, $new_height);
+                    $image = $this->loadanyimage($this->file_temp);
+                    if (!$image)
+                    {
+                        $this->set_error('upload_unsupported_image_format', 'info');
+                        return FALSE;
+                    }
+                    imagecopyresampled($image_p, $image, 0, 0, 0, 0, $new_width, $new_height, $D[0], $D[1]);
+                
+                    // Time to get the type and save the resized image
+                    $img_type = exif_imagetype($this->file_temp);
+                    if(!$this->saveanyimage($image_p, $img_type, $this->file_temp))
+                    {
+                        $this->set_error('upload_image_resize_failed', 'info');
+                        return FALSE;
+                    }
+                    
+                    return TRUE;
+                }
+            }
+            
+            // Nothing was resized as it did not need to be so just return TRUE
+            return TRUE;
+        }
+        
 	/**
 	 * Validate Upload Path
 	 *
