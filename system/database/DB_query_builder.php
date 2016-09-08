@@ -453,9 +453,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * Generates the FROM portion of the query
 	 *
 	 * @param	mixed	$from	can be a string or array
+	 * @param	bool	whether not to try to escape identifiers
 	 * @return	CI_DB_query_builder
 	 */
-	public function from($from)
+	public function from($from, $escape = true)
 	{
 		foreach ((array) $from as $val)
 		{
@@ -465,8 +466,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				{
 					$v = trim($v);
 					$this->_track_aliases($v);
-
-					$this->qb_from[] = $v = $this->protect_identifiers($v, TRUE, NULL, FALSE);
+					
+					if($escape)
+						$v = $this->protect_identifiers($v, TRUE, NULL, FALSE);
+					$this->qb_from[] = $v;
 
 					if ($this->qb_caching === TRUE)
 					{
@@ -483,7 +486,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				// in the protect_identifiers to know whether to add a table prefix
 				$this->_track_aliases($val);
 
-				$this->qb_from[] = $val = $this->protect_identifiers($val, TRUE, NULL, FALSE);
+				if($escape)
+					$val = $this->protect_identifiers($val, TRUE, NULL, FALSE);
+				$this->qb_from[] = $val;
 
 				if ($this->qb_caching === TRUE)
 				{
