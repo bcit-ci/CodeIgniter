@@ -17,7 +17,7 @@ Step 2: Replace config/mimes.php
 ================================
 
 This config file has been updated to contain more user agent types,
-please copy it to _application/config/mimes.php*.
+please copy it to *application/config/mimes.php*.
 
 Step 3: Update your user guide
 ==============================
