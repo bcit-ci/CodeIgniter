@@ -168,7 +168,7 @@ class CI_DB_pdo_odbc_driver extends CI_DB_pdo_driver {
 	 */
 	public function is_write_type($sql)
 	{
-		if (preg_match('#^(INSERT|UPDATE).*RETURNING\s.+(\,\s?.+)*$#i', $sql))
+		if (preg_match('#^(INSERT|UPDATE).*(\f)*?(\n)*?RETURNING\s.+(\,\s?.+)*$#i', $sql))
 		{
 			return FALSE;
 		}
