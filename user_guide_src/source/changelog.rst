@@ -25,6 +25,7 @@ Bug fixes for 3.1.1
 -  Fixed a bug (#4780) - :doc:`compatibility function <general/compatibility_functions>` ``hex2bin()`` didn't reject inputs of type "resource".
 -  Fixed a bug (#4787) - :doc:`Form Validation Library <libraries/form_validation>` method ``valid_email()`` triggered ``E_WARNING`` when input emails have empty domain names.
 -  Fixed a bug (#4805) - :doc:`Database <database/index>` driver 'mysqli' didn't use the ``MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT`` flag properly.
+-  Fixed a bug (#4808) - :doc:`Database <database/index>` method ``is_write_type()`` only looked at the first line of a queries using ``RETURNING`` with the 'postgre', 'pdo/pgsql', 'odbc' and 'pdo/odbc' drivers.
 
 Version 3.1.0
 =============
