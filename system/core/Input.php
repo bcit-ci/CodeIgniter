@@ -835,7 +835,10 @@ class CI_Input {
 	 */
 	public function is_ajax_request()
 	{
-		return ( ! empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
+		return ( 
+				(! empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') OR
+				(! empty($_SERVER['X-Requested-With']) && strtolower($_SERVER['X-Requested-With']) === 'xmlhttprequest')
+			);
 	}
 
 	// --------------------------------------------------------------------
