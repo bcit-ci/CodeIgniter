@@ -58,7 +58,8 @@ class CI_Cache_redis extends CI_Driver
 		'host' => '127.0.0.1',
 		'password' => NULL,
 		'port' => 6379,
-		'timeout' => 0
+		'timeout' => 0,
+		'database' => 0
 	);
 
 	/**
@@ -112,6 +113,11 @@ class CI_Cache_redis extends CI_Driver
 			if (isset($config['password']) && ! $this->_redis->auth($config['password']))
 			{
 				log_message('error', 'Cache: Redis authentication failed.');
+			}
+
+			if (isset($config['database']) && $config['database'] > 0 && ! $this->_redis->select($config['database']))
+			{
+				log_message('error', 'Cache: Redis select database failed.');
 			}
 		}
 		catch (RedisException $e)
