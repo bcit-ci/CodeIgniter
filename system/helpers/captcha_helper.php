@@ -111,7 +111,7 @@ if ( ! function_exists('create_captcha'))
 		while ($filename = @readdir($current_dir))
 		{
 			if (in_array(substr($filename, -4), array('.jpg', '.png'))
-                && (str_replace(array('.jpg', '.png'), '', $filename) + $expiration) < $now)
+				&& (str_replace(array('.jpg', '.png'), '', $filename) + $expiration) < $now)
 			{
 				@unlink($img_path.$filename);
 			}
