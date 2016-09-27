@@ -18,6 +18,7 @@ Release Date: Not Released
    -  :doc:`Cache Library <libraries/caching>` changes include:
 
       - Added UNIX socket connection support to the 'memcached' driver.
+      - Added 'database' configuration option to the 'redis' driver, allowing to auto-select another database.
       - Changed the 'memcached' driver to ignore configurations that don't specify a hostname.
       - Removed the *socket_type* configuration setting from the 'redis' driver.
       - Changed data serialization logic in 'redis' driver for better performance.
