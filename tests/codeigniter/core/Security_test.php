@@ -270,6 +270,12 @@ class Security_test extends CI_TestCase {
 
 		$this->assertEquals('<div>Hello <b>Booya</b></div>', $decoded);
 
+		$this->assertEquals('colon:',    $this->security->entity_decode('colon&colon;'));
+		$this->assertEquals("NewLine\n", $this->security->entity_decode('NewLine&NewLine;'));
+		$this->assertEquals("Tab\t",     $this->security->entity_decode('Tab&Tab;'));
+		$this->assertEquals("lpar(",     $this->security->entity_decode('lpar&lpar;'));
+		$this->assertEquals("rpar)",     $this->security->entity_decode('rpar&rpar;'));
+
 		// Issue #3057 (https://github.com/bcit-ci/CodeIgniter/issues/3057)
 		$this->assertEquals(
 			'&foo should not include a semicolon',
