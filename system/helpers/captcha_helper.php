@@ -105,13 +105,12 @@ if ( ! function_exists('create_captcha'))
 		// Remove old images
 		// -----------------------------------
 
-		$now = time();
+		$now = microtime(TRUE);
 
 		$current_dir = @opendir($img_path);
 		while ($filename = @readdir($current_dir))
 		{
-            if (in_array(substr($filename, -4), array('.jpg', '.png'))
-                && (filemtime($img_path.$filename) + $expiration) < $now)
+			if (substr($filename, -4) === '.jpg' && (str_replace('.jpg', '', $filename) + $expiration) < $now)
 			{
 				@unlink($img_path.$filename);
 			}
@@ -320,12 +319,12 @@ if ( ! function_exists('create_captcha'))
 
 		if (function_exists('imagejpeg'))
 		{
-			$img_filename = sha1($now.$word).'.jpg';
+			$img_filename = $now.'.jpg';
 			imagejpeg($im, $img_path.$img_filename);
 		}
 		elseif (function_exists('imagepng'))
 		{
-			$img_filename = sha1($now.$word).'.png';
+			$img_filename = $now.'.png';
 			imagepng($im, $img_path.$img_filename);
 		}
 		else
