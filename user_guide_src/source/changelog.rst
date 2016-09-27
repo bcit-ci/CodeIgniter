@@ -27,6 +27,7 @@ Bug fixes for 3.1.1
 -  Fixed a bug (#4805) - :doc:`Database <database/index>` driver 'mysqli' didn't use the ``MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT`` flag properly.
 -  Fixed a bug (#4808) - :doc:`Database <database/index>` method ``is_write_type()`` only looked at the first line of a queries using ``RETURNING`` with the 'postgre', 'pdo/pgsql', 'odbc' and 'pdo/odbc' drivers.
 -  Fixed a bug where :doc:`Query Builder <database/query_builder>` method ``insert_batch()`` tried to execute an unsupported SQL query with the 'ibase' and 'pdo/firebird' drivers.
+-  Fixed a bug (#4809) - :doc:`Database <database/index>` driver 'pdo/mysql' didn't turn off ``AUTOCOMMIT`` when starting a transaction.
 
 Version 3.1.0
 =============

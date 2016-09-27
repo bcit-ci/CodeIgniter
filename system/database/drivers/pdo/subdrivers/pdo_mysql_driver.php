@@ -216,6 +216,55 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Begin Transaction
+	 *
+	 * @return	bool
+	 */
+	protected function _trans_begin()
+	{
+		$this->conn_id->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
+		return $this->conn_id->beginTransaction();
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Commit Transaction
+	 *
+	 * @return	bool
+	 */
+	protected function _trans_commit()
+	{
+		if ($this->conn_id->commit())
+		{
+			$this->conn_id->setAttribute(PDO::ATTR_AUTOCOMMIT, TRUE);
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Rollback Transaction
+	 *
+	 * @return	bool
+	 */
+	protected function _trans_rollback()
+	{
+		if ($this->conn_id->rollBack())
+		{
+			$this->conn_id->setAttribute(PDO::ATTR_AUTOCOMMIT, TRUE);
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Show table query
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
