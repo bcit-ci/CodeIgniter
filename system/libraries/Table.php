@@ -277,6 +277,7 @@ class CI_Table {
 	public function set_caption($caption)
 	{
 		$this->caption = $caption;
+        return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -426,6 +427,7 @@ class CI_Table {
 		$this->rows = array();
 		$this->heading = array();
 		$this->auto_heading = TRUE;
+        $this->caption = NULL;
 		return $this;
 	}
 
