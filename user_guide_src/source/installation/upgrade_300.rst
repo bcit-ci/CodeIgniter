@@ -842,7 +842,6 @@ CodeIgniter 3.1+.
 .. note:: This method is still available, but you're strongly encouraged to remove its usage
 	sooner rather than later.
 
-======================
 The Javascript library
 ======================
 
@@ -853,6 +852,25 @@ It is now deprecated and scheduled for removal in CodeIgniter 3.1+.
 
 .. note:: This library is still available, but you're strongly encouraged to remove its usage
 	sooner rather than later.
+
+Form Validation method prep_for_form()
+======================================
+
+The :doc:`Form Validation Library <../libraries/form_validation>` has a
+``prep_for_form()`` method, which is/can also be used as a rule in
+``set_rules()`` to automatically perform HTML encoding on input data.
+
+Automatically encoding input (instead of output) data is a bad practice in
+the first place, and CodeIgniter and PHP itself offer other alternatives
+to this method anyway.
+For example, :doc:`Form Helper <../helpers/form_helper>` functions will
+automatically perform HTML escaping when necessary.
+
+Therefore, the *prep_for_form* method/rule is pretty much useless and is now
+deprecated and scheduled for removal in 3.1+.
+
+.. note:: The method is still available, but you're strongly encouraged to
+	remove its usage sooner rather than later.
 
 ***********************************************************
 Step 21: Check your usage of Text helper highlight_phrase()

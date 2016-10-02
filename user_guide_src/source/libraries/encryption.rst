@@ -13,7 +13,7 @@ unfortunately not always available on all systems.
 You must meet one of the following dependencies in order to use this
 library:
 
-- `OpenSSL <http://php.net/openssl>`_ (and PHP 5.3.3)
+- `OpenSSL <http://php.net/openssl>`_
 - `MCrypt <http://php.net/mcrypt>`_ (and `MCRYPT_DEV_URANDOM` availability)
 
 If neither of the above dependencies is met, we simply cannot offer

@@ -169,7 +169,7 @@ class CI_Config {
 				$this->is_loaded[] = $file_path;
 				$config = NULL;
 				$loaded = TRUE;
-				log_message('debug', 'Config file loaded: '.$file_path);
+				log_message('info', 'Config file loaded: '.$file_path);
 			}
 		}
 
@@ -319,7 +319,7 @@ class CI_Config {
 			}
 		}
 
-		return $base_url.ltrim($this->_uri_string($uri), '/');
+		return $base_url.$this->_uri_string($uri);
 	}
 
 	// -------------------------------------------------------------
@@ -337,11 +337,8 @@ class CI_Config {
 	{
 		if ($this->item('enable_query_strings') === FALSE)
 		{
-			if (is_array($uri))
-			{
-				$uri = implode('/', $uri);
-			}
-			return trim($uri, '/');
+			is_array($uri) && $uri = implode('/', $uri);
+			return ltrim($uri, '/');
 		}
 		elseif (is_array($uri))
 		{

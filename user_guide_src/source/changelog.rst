@@ -2,6 +2,115 @@
 Change Log
 ##########
 
+Version 3.2.0
+=============
+
+Release Date: Not Released
+
+-  Core
+
+   -  Changed :doc:`URI Library <libraries/uri>` to ignore the ``$config['url_suffix']``, ``$config['permitted_uri_chars']`` configuration settings for CLI requests.
+
+-  Libraries
+
+   -  Added UNIX socket connection support to :doc:`Session Library <libraries/sessions>` 'redis' driver.
+
+   -  :doc:`Cache Library <libraries/caching>` changes include:
+
+      - Added UNIX socket connection support to the 'memcached' driver.
+      - Added 'database' configuration option to the 'redis' driver, allowing to auto-select another database.
+      - Changed the 'memcached' driver to ignore configurations that don't specify a hostname.
+      - Removed the *socket_type* configuration setting from the 'redis' driver.
+      - Changed data serialization logic in 'redis' driver for better performance.
+
+-  Database
+
+   -  Changed method ``initialize()`` to return void and instead throw a ``RuntimeException`` in case of failure.
+   -  Changed method ``db_connect()`` to always set the connection character set (if supported by the driver) and to fail if it can't.
+   -  Removed method ``db_set_charset()`` and the ability to change a connection character set at runtime.
+
+-  Helpers
+
+   -  Updated :doc:`HTML Helper <helpers/html_helper>` function :php:func:`meta()` with support for "charset" and "property" properties.
+   -  Changed :doc:`HTML Helper <helpers/html_helper>` function :php:func:`doctype()` default document type to HTML 5.
+
+Bug fixes for 3.1.0
+-------------------
+
+-  Fixed a bug (#4528) - :doc:`Cache Library <libraries/caching>` stored all scalar values as strings with the 'redis' driver.
+
+Version 3.1.1
+=============
+
+Release Date: Not Released
+
+-  General Changes
+
+   -  Added ``E_PARSE`` to the list of error levels detected by the shutdown handler.
+
+Bug fixes for 3.1.1
+-------------------
+
+-  Fixed a bug (#4732) - :doc:`Session Library <libraries/sessions>` triggered errors while writing data for a newly-created sessions with the 'memcached' driver.
+-  Fixed a regression (#4736) - :doc:`Image Manipulation Library <libraries/image_lib>` processing via ImageMagick didn't work.
+-  Fixed a bug (#4737) - :doc:`Query Builder <database/query_builder>` didn't add an ``OFFSET`` when ``LIMIT`` is zero or unused.
+-  Fixed a regression (#4739) - :doc:`Email Library <libraries/email>` doesn't properly separate attachment bodies from headers.
+-  Fixed a bug (#4754) - :doc:`Unit Testing Library <libraries/unit_testing>` method ``result()`` didn't translate ``res_datatype``.
+-  Fixed a bug (#4759) - :doc:`Form Validation <libraries/form_validation>`, :doc:`Trackback <libraries/trackback>` and `XML-RPC <libraries/xmlrpc>` libraries treated URI schemes in a case-sensitive manner.
+-  Fixed a bug (#4762) - :doc:`Cache Library <libraries/caching>` 'file' driver method ``get_metadata()`` checked TTL time against ``mtime`` instead of the cache item's creation time.
+-  Fixed a bug where :doc:`File Uploading Library <libraries/file_uploading>` generated error messages on PHP 7.1.
+
+Version 3.1.0
+=============
+
+Release Date: July 26, 2016
+
+-  **Security**
+
+   -  Fixed an SQL injection in the 'odbc' database driver.
+   -  Updated :php:func:`set_realpath()` :doc:`Path Helpr <helpers/path_helper>` function to filter-out ``php://`` wrapper inputs.
+   -  Officially dropped any kind of support for PHP 5.2.x and anything under 5.3.7.
+
+-  General Changes
+
+   -  Updated :doc:`Image Manipulation Library <libraries/image_lib>` to validate *width* and *height* configuration values.
+   -  Updated :doc:`Encryption Library <libraries/encryption>` to always prefer ``random_bytes()`` when it is available.
+   -  Updated :doc:`Session Library <libraries/sessions>` to log 'debug' messages when using fallbacks to *session.save_path* (php.ini) or 'sess_use_database', 'sess_table_name' settings.
+   -  Added a 'LONGTEXT' to 'STRING' alias to :doc:`Database Forge <database/forge>` for the 'cubrid', 'pdo/cubrid' drivers.
+   -  Added 'TINYINT', 'MEDIUMINT', 'INT' and 'BIGINT' aliases to 'NUMBER' to :doc:`Database Forge <database/forge>` for the 'oci8', 'pdo/oci' drivers.
+
+   -  :php:func:`password_hash()` :doc:`compatibility function <general/compatibility_functions>` changes:
+
+      - Changed salt-generation logic to prefer ``random_bytes()`` when it is available.
+      - Changed salt-generation logic to prefer direct access to */dev/urandom* over ``openssl_random_pseudo_bytes()``.
+      - Changed salt-generation logic to error if ``openssl_random_pseudo_bytes()`` sets its ``$crypto_strong`` flag to FALSE.
+
+Bug fixes for 3.1.0
+-------------------
+
+-  Fixed a bug where :doc:`Image Manipulation Library <libraries/image_lib>` didn't escape image source paths passed to ImageMagick as shell arguments.
+-  Fixed a bug (#861) - :doc:`Database Forge <database/forge>` method ``create_table()`` incorrectly accepts field width constraints for MSSQL/SQLSRV integer-type columns.
+-  Fixed a bug (#4562) - :doc:`Cache Library <libraries/caching>` didn't check if ``Memcached::quit()`` is available before calling it.
+-  Fixed a bug (#4563) - :doc:`Input Library <libraries/input>` method ``request_headers()`` ignores ``$xss_clean`` parameter value after first call.
+-  Fixed a bug (#4605) - :doc:`Config Library <libraries/config>` method ``site_url()`` stripped trailing slashes from relative URIs passed to it.
+-  Fixed a bug (#4613) - :doc:`Email Library <libraries/config>` failed to send multiple emails via SMTP due to "already authenticated" errors when keep-alive is enabled.
+-  Fixed a bug (#4633) - :doc:`Form Validation Library <libraries/form_validation>` ignored multiple "callback" rules for empty, non-required fields.
+-  Fixed a bug (#4637) - :doc:`Database <database/index>` method ``error()`` returned ``FALSE`` with the 'oci8' driver if there was no error.
+-  Fixed a bug (#4647) - :doc:`Query Builder <database/query_builder>` method ``count_all_results()`` doesn't take into account ``GROUP BY`` clauses while deciding whether to do a subquery or not.
+-  Fixed a bug where :doc:`Session Library <libraries/sessions>` 'redis' driver didn't properly detect if a connection is properly closed on PHP 5.x.
+-  Fixed a bug (#4583) - :doc:`Email Library <libraries/email>` didn't properly handle inline attachments in HTML emails.
+-  Fixed a bug where :doc:`Database <database/index>` method ``db_select()`` didn't clear metadata cached for the previously used database.
+-  Fixed a bug (#4675) - :doc:`File Helper <helpers/file_helper>` function :php:func:`delete_files()` treated symbolic links as regular directories.
+-  Fixed a bug (#4674) - :doc:`Database <database/index>` driver 'dblib' triggered E_WARNING messages while connecting.
+-  Fixed a bug (#4678) - :doc:`Database Forge <database/forge>` tried to use unsupported ``IF NOT EXISTS`` clause when creating tables on Oracle.
+-  Fixed a bug (#4691) - :doc:`File Uploading Library <libraries/file_uploading>` method ``data()`` returns wrong 'raw_name' when the filename extension is also contained in the raw filename.
+-  Fixed a bug (#4679) - :doc:`Input Library <libraries/input>` method ``ip_address()`` errors with a matching ``$config['proxy_ips']`` IPv6 address.
+-  Fixed a bug (#4695) - :doc:`User Agent Library <libraries/user_agent>` didn't load the *config/user_agents.php* file when there's no ``User-Agent`` HTTP request header.
+-  Fixed a bug (#4713) - :doc:`Query Builder <database/query_builder>` methods ``insert_batch()``, ``update_batch()`` could return wrong affected rows count.
+-  Fixed a bug (#4712) - :doc:`Email Library <libraries/email>` doesn't sent ``RSET`` to SMTP servers after a failure and while using keep-alive.
+-  Fixed a bug (#4724) - :doc:`Common function <general/common_functions>` :php:func:`is_https()` compared the ``X-Forwarded-Proto`` HTTP header case-sensitively.
+-  Fixed a bug (#4725) - :doc:`Common function <general/common_functions>` :php:func:`remove_invisible_characters()` searched case-sensitively for URL-encoded characters.
+
 Version 3.0.6
 =============
 
