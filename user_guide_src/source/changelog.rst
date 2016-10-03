@@ -29,6 +29,7 @@ Bug fixes for 3.1.1
 -  Fixed a bug where :doc:`Query Builder <database/query_builder>` method ``insert_batch()`` tried to execute an unsupported SQL query with the 'ibase' and 'pdo/firebird' drivers.
 -  Fixed a bug (#4809) - :doc:`Database <database/index>` driver 'pdo/mysql' didn't turn off ``AUTOCOMMIT`` when starting a transaction.
 -  Fixed a bug (#4822) - :doc:`CAPTCHA Helper <helpers/captcha_helper>` didn't clear expired PNG images.
+-  Fixed a bug (#4823) - :doc:`Session Library <libraries/sessions>` 'files' driver could enter an infinite loop if ``mbstring.func_override`` is enabled.
 
 Version 3.1.0
 =============
