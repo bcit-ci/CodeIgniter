@@ -55,11 +55,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CI_Zip {
 
 	/**
-	 * Zip data in string form
+	 * Zip data saved as a temp file
+	 *
+	 * @var resource
+	 */
+	public $zipdata = NULL;
+
+	/**
+	 * Zip data tmpfile path
 	 *
 	 * @var string
 	 */
-	public $zipdata = '';
+	public $zipdata_path = '';
 
 	/**
 	 * Zip data for a directory in string form
@@ -113,7 +120,33 @@ class CI_Zip {
 	public function __construct()
 	{
 		$this->now = time();
+
+		if ( ! ($this->zipdata = @tmpfile()))
+		{
+			log_message('error', 'Couldn\'t create Zip temp file.');
+			return;
+		}
+
+		// The 'uri' metadata holds the full-path to temp file
+		$zipdata_metas = stream_get_meta_data($this->zipdata);
+		$this->zipdata_path = $zipdata_metas['uri'];
+
 		log_message('info', 'Zip Compression Class Initialized');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Close opened tmpfile (if any)
+	 *
+	 * @return	void
+	 */
+	public function __destruct()
+	{
+		if (is_resource($this->zipdata))
+		{
+			fclose($this->zipdata);
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -175,7 +208,7 @@ class CI_Zip {
 	{
 		$dir = str_replace('\\', '/', $dir);
 
-		$this->zipdata .=
+		$this->offset += fwrite($this->zipdata,
 			"\x50\x4b\x03\x04\x0a\x00\x00\x00\x00\x00"
 			.pack('v', $file_mtime)
 			.pack('v', $file_mdate)
@@ -188,7 +221,8 @@ class CI_Zip {
 			// below is "data descriptor" segment
 			.pack('V', 0) // crc32
 			.pack('V', 0) // compressed filesize
-			.pack('V', 0); // uncompressed filesize
+			.pack('V', 0) // uncompressed filesize
+		);
 
 		$this->directory .=
 			"\x50\x4b\x01\x02\x00\x00\x0a\x00\x00\x00\x00\x00"
@@ -206,7 +240,6 @@ class CI_Zip {
 			.pack('V', $this->offset) // relative offset of local header
 			.$dir;
 
-		$this->offset = strlen($this->zipdata);
 		$this->entries++;
 	}
 
@@ -260,7 +293,7 @@ class CI_Zip {
 		$gzdata = substr(gzcompress($data, $this->compression_level), 2, -4);
 		$compressed_size = strlen($gzdata);
 
-		$this->zipdata .=
+		$this->offset += fwrite($this->zipdata,
 			"\x50\x4b\x03\x04\x14\x00\x00\x00\x08\x00"
 			.pack('v', $file_mtime)
 			.pack('v', $file_mdate)
@@ -270,7 +303,8 @@ class CI_Zip {
 			.pack('v', strlen($filepath)) // length of filename
 			.pack('v', 0) // extra field length
 			.$filepath
-			.$gzdata; // "file data" segment
+			.$gzdata // "file data" segment
+		);
 
 		$this->directory .=
 			"\x50\x4b\x01\x02\x00\x00\x14\x00\x00\x00\x08\x00"
@@ -288,7 +322,6 @@ class CI_Zip {
 			.pack('V', $this->offset) // relative offset of local header
 			.$filepath;
 
-		$this->offset = strlen($this->zipdata);
 		$this->entries++;
 		$this->file_num++;
 	}
@@ -397,12 +430,12 @@ class CI_Zip {
 			return FALSE;
 		}
 
-		return $this->zipdata
+		return stream_get_contents($this->zipdata, -1, 0)
 			.$this->directory."\x50\x4b\x05\x06\x00\x00\x00\x00"
 			.pack('v', $this->entries) // total # of entries "on this disk"
 			.pack('v', $this->entries) // total # of entries overall
 			.pack('V', strlen($this->directory)) // size of central dir
-			.pack('V', strlen($this->zipdata)) // offset to start of central dir
+			.pack('V', $this->offset) // offset to start of central dir
 			."\x00\x00"; // .zip file comment length
 	}
 
@@ -418,25 +451,21 @@ class CI_Zip {
 	 */
 	public function archive($filepath)
 	{
-		if ( ! ($fp = @fopen($filepath, 'w+b')))
+		if ( ! copy($this->zipdata_path, $filepath))
 		{
-			return FALSE;
+			log_message('error', 'Zip Class error: "'.$filepath.'" cannot be accessed.');
 		}
 
-		flock($fp, LOCK_EX);
+		$bytes_written = file_put_contents($filepath,
+			$this->directory."\x50\x4b\x05\x06\x00\x00\x00\x00"
+			.pack('v', $this->entries) // total # of entries "on this disk"
+			.pack('v', $this->entries) // total # of entries overall
+			.pack('V', strlen($this->directory)) // size of central dir
+			.pack('V', $this->offset) // offset to start of central dir
+			."\x00\x00", // .zip file comment length
+			FILE_APPEND | LOCK_EX);
 
-		for ($result = $written = 0, $data = $this->get_zip(), $length = strlen($data); $written < $length; $written += $result)
-		{
-			if (($result = fwrite($fp, substr($data, $written))) === FALSE)
-			{
-				break;
-			}
-		}
-
-		flock($fp, LOCK_UN);
-		fclose($fp);
-
-		return is_int($result);
+		return $bytes_written !== FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -473,7 +502,22 @@ class CI_Zip {
 	 */
 	public function clear_data()
 	{
-		$this->zipdata = '';
+		if (is_resource($this->zipdata))
+		{
+			fclose($this->zipdata);
+		}
+
+		if ( ! ($this->zipdata = @tmpfile()))
+		{
+			log_message('error', 'Couldn\'t create Zip temp file.');
+
+			return FALSE;
+		}
+
+		// Set temp file full path
+		$zipdata_metas = stream_get_meta_data($this->zipdata);
+		$this->zipdata_path = $zipdata_metas['uri'];
+
 		$this->directory = '';
 		$this->entries = 0;
 		$this->file_num = 0;
