@@ -120,8 +120,9 @@ class CI_Zip {
 	public function __construct()
 	{
 		$this->now = time();
+		$this->zipdata = @tmpfile();
 
-		if ( ! ($this->zipdata = @tmpfile()))
+		if ($this->zipdata === FALSE)
 		{
 			log_message('error', 'Couldn\'t create Zip temp file.');
 			return;
@@ -507,7 +508,9 @@ class CI_Zip {
 			fclose($this->zipdata);
 		}
 
-		if ( ! ($this->zipdata = @tmpfile()))
+		$this->zipdata = @tmpfile();
+
+		if ($this->zipdata === FALSE)
 		{
 			log_message('error', 'Couldn\'t create Zip temp file.');
 
