@@ -153,7 +153,7 @@ class CI_Cache_memcached extends CI_Driver {
 	{
 		$data = $this->_memcached->get($id);
 
-		return is_array($data) ? $data[0] : $data;
+		return is_array($data) && isset($data[0]) ? $data[0] : $data;
 	}
 
 	// ------------------------------------------------------------------------
