@@ -277,7 +277,6 @@ class CI_Table {
 	public function set_caption($caption)
 	{
 		$this->caption = $caption;
-		return $this;
 	}
 
 	// --------------------------------------------------------------------
