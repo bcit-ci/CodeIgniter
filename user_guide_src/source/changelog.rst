@@ -10,7 +10,10 @@ Release Date: Not Released
 -  General Changes
 
    -  Added ``E_PARSE`` to the list of error levels detected by the shutdown handler.
-   -  Updated :doc:`Inflector Helper <helpers/inflector_helper>` function ``is_countable()`` with more words.
+   -  Updated :doc:`Inflector Helper <helpers/inflector_helper>` :php:func:`is_countable()` with more words.
+   -  Updated :doc:`common function <general/common_functions>` :php:func:`set_status_header()` with new status codes from IETF RFCs
+      `2817 https://tools.ietf.org/html/rfc2817>`_ (426)
+      and `6585 <https://tools.ietf.org/html/rfc6585>`_ (428, 429, 431, 511).
 
 Bug fixes for 3.1.1
 -------------------
@@ -40,7 +43,7 @@ Release Date: July 26, 2016
 -  **Security**
 
    -  Fixed an SQL injection in the 'odbc' database driver.
-   -  Updated :php:func:`set_realpath()` :doc:`Path Helpr <helpers/path_helper>` function to filter-out ``php://`` wrapper inputs.
+   -  Updated :php:func:`set_realpath()` :doc:`Path Helper <helpers/path_helper>` function to filter-out ``php://`` wrapper inputs.
    -  Officially dropped any kind of support for PHP 5.2.x and anything under 5.3.7.
 
 -  General Changes
