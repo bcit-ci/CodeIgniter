@@ -10,6 +10,7 @@ Release Date: Not Released
 -  General Changes
 
    -  Added ``E_PARSE`` to the list of error levels detected by the shutdown handler.
+   -  Updated :doc:`Inflector Helper <helpers/inflector_helper>` function ``is_countable()`` with more words.
 
 Bug fixes for 3.1.1
 -------------------
