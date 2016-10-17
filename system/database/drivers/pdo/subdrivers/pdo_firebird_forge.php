@@ -97,7 +97,7 @@ class CI_DB_pdo_firebird_forge extends CI_DB_pdo_forge {
 	 * @param	string	$db_name	(ignored)
 	 * @return	bool
 	 */
-	public function drop_database($db_name = '')
+	public function drop_database($db_name)
 	{
 		if ( ! ibase_drop_db($this->conn_id))
 		{
