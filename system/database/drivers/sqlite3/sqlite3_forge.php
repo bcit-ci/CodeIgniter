@@ -87,7 +87,7 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 	 * @param	string	$db_name
 	 * @return	bool
 	 */
-	public function create_database($db_name = '')
+	public function create_database($db_name)
 	{
 		// In SQLite, a database is created when you connect to the database.
 		// We'll return TRUE so that an error isn't generated
@@ -102,7 +102,7 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 	 * @param	string	$db_name	(ignored)
 	 * @return	bool
 	 */
-	public function drop_database($db_name = '')
+	public function drop_database($db_name)
 	{
 		// In SQLite, a database is dropped when we delete a file
 		if (file_exists($this->db->database))
