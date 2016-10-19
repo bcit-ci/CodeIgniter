@@ -91,6 +91,13 @@ abstract class CI_DB_forge {
 	protected $_create_database	= 'CREATE DATABASE %s';
 
 	/**
+	 * CREATE DATABASE IF statement
+	 *
+	 * @var	string
+	 */
+	protected $_create_database_if	= FALSE;
+
+	/**
 	 * DROP DATABASE statement
 	 *
 	 * @var	string
@@ -176,15 +183,17 @@ abstract class CI_DB_forge {
 	 * Create database
 	 *
 	 * @param	string	$db_name
+	 * @param	bool	$if_not_exists	Whether to add IF NOT EXISTS condition
 	 * @return	bool
 	 */
-	public function create_database($db_name)
+	public function create_database($db_name, $if_not_exists = FALSE)
 	{
-		if ($this->_create_database === FALSE)
+		$statement = ($if_not_exists === FALSE) ? '_create_database' : '_create_database_if';
+		if ($this->$statement === FALSE)
 		{
 			return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
 		}
-		elseif ( ! $this->db->query(sprintf($this->_create_database, $db_name, $this->db->char_set, $this->db->dbcollat)))
+		elseif ( ! $this->db->query(sprintf($this->$statement, $db_name, $this->db->char_set, $this->db->dbcollat)))
 		{
 			return ($this->db->db_debug) ? $this->db->display_error('db_unable_to_drop') : FALSE;
 		}
