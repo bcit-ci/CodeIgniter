@@ -92,3 +92,32 @@ if ( ! function_exists('byte_format'))
 		return number_format($num, $precision).' '.$unit;
 	}
 }
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('ordinal_format'))
+{
+	/**
+	 * Returns the English ordinal numeral for a given number
+	 *
+	 * @param  int    $number
+	 * @return string
+	 */
+	function ordinal_format($number)
+	{
+		if ( ! is_int($number) OR $number < 1)
+		{
+			return FALSE;
+		}
+
+		$ends = array('th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th');
+		if ((($number % 100) >= 11) && (($number % 100) <= 13))
+		{
+			return $number.'th';
+		}
+		else
+		{
+			return $number.$ends[$number % 10];
+		}
+	}
+}
