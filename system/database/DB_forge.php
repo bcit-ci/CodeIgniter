@@ -777,6 +777,8 @@ abstract class CI_DB_forge {
 			{
 				switch (strtoupper($attributes['TYPE']))
 				{
+					case 'TEXT': // TEXT columns can not have a length
+						break;
 					case 'ENUM':
 					case 'SET':
 						$attributes['CONSTRAINT'] = $this->db->escape($attributes['CONSTRAINT']);
