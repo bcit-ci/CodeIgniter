@@ -349,9 +349,10 @@ Class Reference
 
 		Adds a key to the set that will be used to create a table. Usage:  See `Adding Keys`_.
 
-	.. php:method:: create_database($db_name)
+	.. php:method:: create_database($db_name[, $if_not_exists = FALSE])
 
 		:param	string	$db_name: Name of the database to create
+        :param	string	$if_not_exists: Set to TRUE to add an 'IF NOT EXISTS' clause
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
 
