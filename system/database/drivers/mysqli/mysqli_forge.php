@@ -56,6 +56,13 @@ class CI_DB_mysqli_forge extends CI_DB_forge {
 	protected $_create_database	= 'CREATE DATABASE %s CHARACTER SET %s COLLATE %s';
 
 	/**
+	 * CREATE DATABASE IF statement
+	 *
+	 * @var	string
+	 */
+	protected $_create_database_if	= 'CREATE DATABASE IF NOT EXISTS %s CHARACTER SET %s COLLATE %s';
+
+	/**
 	 * CREATE TABLE keys flag
 	 *
 	 * Whether table keys are created from within the
