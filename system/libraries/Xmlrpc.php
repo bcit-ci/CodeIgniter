@@ -735,6 +735,8 @@ class XML_RPC_Client extends CI_Xmlrpc
 			.'Content-Length: '.strlen($msg->payload).$r.$r
 			.$msg->payload;
 
+		stream_set_timeout($fp, $this->timeout); // set timeout for subsequent operations
+
 		for ($written = $timestamp = 0, $length = strlen($op); $written < $length; $written += $result)
 		{
 			if (($result = fwrite($fp, substr($op, $written))) === FALSE)
@@ -753,9 +755,6 @@ class XML_RPC_Client extends CI_Xmlrpc
 					$result = FALSE;
 					break;
 				}
-
-				usleep(250000);
-				continue;
 			}
 			else
 			{
