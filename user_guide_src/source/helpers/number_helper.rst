@@ -53,13 +53,13 @@ The following functions are available:
 
 .. php:function:: ordinal_format($number)
 
-	:param	int	$number: Non-negative natural number to be converted
+	:param	int	$number: natural number to be converted
   	:returns:	Ordinal numeral for given number or FALSE on failure
   	:rtype:	string
 
-  	Returns the ordinal numeral (1st, 2nd, 3rd etc.) for a
-  	non-negative natural number. If the input is not a natural number
-  	greater than 0, the function will return boolean FALSE. Examples::
+  	Returns the ordinal numeral (0th, 1st, 2nd, 3rd etc.) for a
+  	natural number. If the input is not a natural number, the
+	function will return boolean FALSE. Examples::
 
 		echo ordinal_format(1); // Returns 1st
 		echo ordinal_format(3); // Returns 3rd
