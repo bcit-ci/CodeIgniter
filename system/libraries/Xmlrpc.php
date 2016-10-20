@@ -735,7 +735,7 @@ class XML_RPC_Client extends CI_Xmlrpc
 			.'Content-Length: '.strlen($msg->payload).$r.$r
 			.$msg->payload;
 		
-		stream_set_timeout($fp,$this->timeout); // set timeout for subsequent operations
+		stream_set_timeout($fp, $this->timeout); // set timeout for subsequent operations
 
 		for ($written = $timestamp = 0, $length = strlen($op); $written < $length; $written += $result)
 		{
