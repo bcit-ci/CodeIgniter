@@ -273,3 +273,43 @@ if ( ! function_exists('is_countable'))
 		);
 	}
 }
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('ordinal_format'))
+{
+	/**
+	 * Returns the English ordinal numeral for a given number
+	 *
+	 * @param  int    $number
+	 * @return string
+	 */
+	function ordinal_format($number)
+	{
+		if ( ! ctype_digit((string) $number) OR $number < 0)
+		{
+			return FALSE;
+		}
+
+		$last_digit = array(
+			0 => 'th',
+			1 => 'st',
+			2 => 'nd',
+			3 => 'rd',
+			4 => 'th',
+			5 => 'th',
+			6 => 'th',
+			7 => 'th',
+			8 => 'th',
+			9 => 'th'
+		);
+		if (($number % 100) >= 11 && ($number % 100) <= 13)
+		{
+			return $number.'th';
+		}
+		else
+		{
+			return $number.$last_digit[$number % 10];
+		}
+	}
+}

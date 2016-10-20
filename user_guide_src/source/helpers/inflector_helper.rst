@@ -94,3 +94,18 @@ The following functions are available:
 	Checks if the given word has a plural version. Example::
 
 		is_countable('equipment'); // Returns FALSE
+
+.. php:function:: ordinal_format($number)
+
+	:param	int	$number: natural number to be converted
+    	:returns:	Ordinal numeral for given number or FALSE on failure
+    	:rtype:	string
+
+    	Returns the ordinal numeral (0th, 1st, 2nd, 3rd etc.) for a
+    	natural number. If the input is not a natural number, the
+  	function will return boolean FALSE. Examples::
+
+		echo ordinal_format(1); // Returns 1st
+		echo ordinal_format(3); // Returns 3rd
+		echo ordinal_format(21); // Returns 21st
+		echo ordinal_format(102); // Returns 102nd
