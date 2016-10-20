@@ -23,6 +23,10 @@ Release Date: Not Released
       - Removed the *socket_type* configuration setting from the 'redis' driver.
       - Changed data serialization logic in 'redis' driver for better performance.
 
+   -  :doc:`Form Validation Library <libraries/form_validation>` changes include:
+
+      - Changed method ``set_rules()`` to throw a ``BadMethodCallException`` when its first parameter is not an array and the ``$rules`` one is unused.
+
 -  Database
 
    -  Changed method ``initialize()`` to return void and instead throw a ``RuntimeException`` in case of failure.

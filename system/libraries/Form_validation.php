@@ -164,7 +164,7 @@ class CI_Form_validation {
 	 * @param	array	$errors
 	 * @return	CI_Form_validation
 	 */
-	public function set_rules($field, $label = '', $rules = array(), $errors = array())
+	public function set_rules($field, $label = null, $rules = null, $errors = array())
 	{
 		// No reason to set rules if we have no POST data
 		// or a validation array has not been specified
@@ -196,6 +196,10 @@ class CI_Form_validation {
 			}
 
 			return $this;
+		}
+		elseif ( ! isset($rules))
+		{
+			throw new BadMethodCallException('Form_validation: set_rules() called without a $rules parameter');
 		}
 
 		// No fields or no rules? Nothing to do...
