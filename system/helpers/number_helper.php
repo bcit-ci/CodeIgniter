@@ -120,8 +120,9 @@ if ( ! function_exists('ordinal_format'))
 			6 => 'th',
 			7 => 'th',
 			8 => 'th',
-			9 => 'th');
-		if ((($number % 100) >= 11) && (($number % 100) <= 13))
+			9 => 'th'
+		);
+		if (($number % 100) >= 11 && ($number % 100) <= 13)
 		{
 			return $number.'th';
 		}
