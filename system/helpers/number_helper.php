@@ -105,7 +105,7 @@ if ( ! function_exists('ordinal_format'))
 	 */
 	function ordinal_format($number)
 	{
-		if ( ! is_int($number) OR $number < 1)
+		if ( ! is_numeric($number) OR $number < 0)
 		{
 			return FALSE;
 		}
