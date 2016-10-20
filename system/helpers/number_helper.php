@@ -110,14 +110,24 @@ if ( ! function_exists('ordinal_format'))
 			return FALSE;
 		}
 
-		$ends = array('th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th');
+		$last_digit = array(
+			0 => 'th',
+			1 => 'st',
+			2 => 'nd',
+			3 => 'rd',
+			4 => 'th',
+			5 => 'th',
+			6 => 'th',
+			7 => 'th',
+			8 => 'th',
+			9 => 'th');
 		if ((($number % 100) >= 11) && (($number % 100) <= 13))
 		{
 			return $number.'th';
 		}
 		else
 		{
-			return $number.$ends[$number % 10];
+			return $number.$last_digit[$number % 10];
 		}
 	}
 }
