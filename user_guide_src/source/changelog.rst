@@ -59,6 +59,17 @@ Bug fixes for 3.1.1
 -  Fixed a bug (#4759) - :doc:`Form Validation <libraries/form_validation>`, :doc:`Trackback <libraries/trackback>` and `XML-RPC <libraries/xmlrpc>` libraries treated URI schemes in a case-sensitive manner.
 -  Fixed a bug (#4762) - :doc:`Cache Library <libraries/caching>` 'file' driver method ``get_metadata()`` checked TTL time against ``mtime`` instead of the cache item's creation time.
 -  Fixed a bug where :doc:`File Uploading Library <libraries/file_uploading>` generated error messages on PHP 7.1.
+-  Fixed a bug (#4780) - :doc:`compatibility function <general/compatibility_functions>` ``hex2bin()`` didn't reject inputs of type "resource".
+-  Fixed a bug (#4787) - :doc:`Form Validation Library <libraries/form_validation>` method ``valid_email()`` triggered ``E_WARNING`` when input emails have empty domain names.
+-  Fixed a bug (#4805) - :doc:`Database <database/index>` driver 'mysqli' didn't use the ``MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT`` flag properly.
+-  Fixed a bug (#4808) - :doc:`Database <database/index>` method ``is_write_type()`` only looked at the first line of a queries using ``RETURNING`` with the 'postgre', 'pdo/pgsql', 'odbc' and 'pdo/odbc' drivers.
+-  Fixed a bug where :doc:`Query Builder <database/query_builder>` method ``insert_batch()`` tried to execute an unsupported SQL query with the 'ibase' and 'pdo/firebird' drivers.
+-  Fixed a bug (#4809) - :doc:`Database <database/index>` driver 'pdo/mysql' didn't turn off ``AUTOCOMMIT`` when starting a transaction.
+-  Fixed a bug (#4822) - :doc:`CAPTCHA Helper <helpers/captcha_helper>` didn't clear expired PNG images.
+-  Fixed a bug (#4823) - :doc:`Session Library <libraries/sessions>` 'files' driver could enter an infinite loop if ``mbstring.func_override`` is enabled.
+-  Fixed a bug (#4851) - :doc:`Database Forge <database/forge>` didn't quote schema names passed to its ``create_database()`` method.
+-  Fixed a bug (#4863) - :doc:`HTML Table Library <libraries/table>` method ``set_caption()`` was missing method chaining support.
+-  Fixed a bug (#4843) - :doc:`XML-RPC Library <libraries/xmlrpc>` client class didn't set a read/write socket timeout.
 
 Version 3.1.0
 =============
