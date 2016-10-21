@@ -268,7 +268,7 @@ if ( ! function_exists('is_countable'))
 				'species',
 				'swine',
 				'traffic',
-				'wheat',				
+				'wheat'
 			)
 		);
 	}
@@ -303,12 +303,12 @@ if ( ! function_exists('ordinal_format'))
 			8 => 'th',
 			9 => 'th'
 		);
-		
+
 		if (($number % 100) >= 11 && ($number % 100) <= 13)
 		{
 			return $number.'th';
 		}
-		
+
 		return $number.$last_digit[$number % 10];
 	}
 }
