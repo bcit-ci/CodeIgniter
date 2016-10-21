@@ -303,13 +303,12 @@ if ( ! function_exists('ordinal_format'))
 			8 => 'th',
 			9 => 'th'
 		);
+		
 		if (($number % 100) >= 11 && ($number % 100) <= 13)
 		{
 			return $number.'th';
 		}
-		else
-		{
-			return $number.$last_digit[$number % 10];
-		}
+		
+		return $number.$last_digit[$number % 10];
 	}
 }
