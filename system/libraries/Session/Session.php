@@ -57,6 +57,7 @@ class CI_Session {
 
 	protected $_driver = 'files';
 	protected $_config;
+	protected $_sid_regexp;
 
 	// ------------------------------------------------------------------------
 
@@ -99,6 +100,7 @@ class CI_Session {
 
 		// Configuration ...
 		$this->_configure($params);
+		$this->_config['_sid_regexp'] = $this->_sid_regexp;
 
 		$class = new $class($this->_config);
 		if ($class instanceof SessionHandlerInterface)
@@ -131,7 +133,7 @@ class CI_Session {
 		if (isset($_COOKIE[$this->_config['cookie_name']])
 			&& (
 				! is_string($_COOKIE[$this->_config['cookie_name']])
-				OR ! preg_match('/^[0-9a-f]{40}$/', $_COOKIE[$this->_config['cookie_name']])
+				OR ! preg_match('#\A'.$this->_sid_regexp.'\z#', $_COOKIE[$this->_config['cookie_name']])
 			)
 		)
 		{
@@ -315,8 +317,36 @@ class CI_Session {
 		ini_set('session.use_strict_mode', 1);
 		ini_set('session.use_cookies', 1);
 		ini_set('session.use_only_cookies', 1);
-		ini_set('session.hash_function', 1);
-		ini_set('session.hash_bits_per_character', 4);
+
+		if (PHP_VERSION_ID < 70100)
+		{
+			if ((int) ini_get('session.hash_function') === 0)
+			{
+				ini_set('session.hash_function', 1);
+				ini_set('session.hash_bits_per_character', $bits_per_character = 4);
+			}
+			else
+			{
+				$bits_per_character = (int) ini_get('session.hash_bits_per_character');
+			}
+		}
+		elseif ((int) ini_get('session.sid_length') < 40 && ($bits_per_character = (int) ini_get('session.sid_bits_per_character')) === 4)
+		{
+			ini_set('session.sid_length', 40);
+		}
+
+		switch ($bits_per_character)
+		{
+			case 4:
+				$this->_sid_regexp = '[0-9a-f]{40,}';
+				break;
+			case 5:
+				$this->_sid_regexp = '[0-9a-v]{40,}';
+				break;
+			case 6:
+				$this->_sid_regexp = '[0-9a-zA-Z,-]{40,}';
+				break;
+		}
 	}
 
 	// ------------------------------------------------------------------------
