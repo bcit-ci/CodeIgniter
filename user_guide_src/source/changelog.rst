@@ -7,6 +7,10 @@ Version 3.1.1
 
 Release Date: Not Released
 
+-  **Security**
+
+   -  Fixed a flaw in :doc:`Security Library <libraries/security>` method ``entity_decode()`` (used by ``xss_clean()``) that affects HTML 5 entities when using PHP 5.3.
+
 -  General Changes
 
    -  Added ``E_PARSE`` to the list of error levels detected by the shutdown handler.

@@ -669,6 +669,22 @@ class CI_Security {
 			? ENT_COMPAT | ENT_HTML5
 			: ENT_COMPAT;
 
+		if ( ! isset($_entities))
+		{
+			$_entities = array_map('strtolower', get_html_translation_table(HTML_ENTITIES, $flag, $charset));
+
+			// If we're not on PHP 5.4+, add the possibly dangerous HTML 5
+			// entities to the array manually
+			if ($flag === ENT_COMPAT)
+			{
+				$_entities[':'] = '&colon;';
+				$_entities['('] = '&lpar;';
+				$_entities[')'] = '&rpar;';
+				$_entities["\n"] = '&NewLine;';
+				$_entities["\t"] = '&Tab;';
+			}
+		}
+
 		do
 		{
 			$str_compare = $str;
@@ -676,22 +692,6 @@ class CI_Security {
 			// Decode standard entities, avoiding false positives
 			if (preg_match_all('/&[a-z]{2,}(?![a-z;])/i', $str, $matches))
 			{
-				if ( ! isset($_entities))
-				{
-					$_entities = array_map('strtolower', get_html_translation_table(HTML_ENTITIES, $flag, $charset));
-
-					// If we're not on PHP 5.4+, add the possibly dangerous HTML 5
-					// entities to the array manually
-					if ($flag === ENT_COMPAT)
-					{
-						$_entities[':'] = '&colon;';
-						$_entities['('] = '&lpar;';
-						$_entities[')'] = '&rpar;';
-						$_entities["\n"] = '&newline;';
-						$_entities["\t"] = '&tab;';
-					}
-				}
-
 				$replace = array();
 				$matches = array_unique(array_map('strtolower', $matches[0]));
 				foreach ($matches as &$match)
@@ -702,7 +702,7 @@ class CI_Security {
 					}
 				}
 
-				$str = str_ireplace(array_keys($replace), array_values($replace), $str);
+				$str = str_replace(array_keys($replace), array_values($replace), $str);
 			}
 
 			// Decode numeric & UTF16 two byte entities
@@ -711,6 +711,11 @@ class CI_Security {
 				$flag,
 				$charset
 			);
+
+			if ($flag === ENT_COMPAT)
+			{
+				$str = str_replace(array_values($_entities), array_keys($_entities), $str);
+			}
 		}
 		while ($str_compare !== $str);
 		return $str;
