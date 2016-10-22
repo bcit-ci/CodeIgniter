@@ -16,7 +16,7 @@ Release Date: Oct 22, 2016
    -  Added ``E_PARSE`` to the list of error levels detected by the shutdown handler.
    -  Updated :doc:`Inflector Helper <helpers/inflector_helper>` :php:func:`is_countable()` with more words.
    -  Updated :doc:`common function <general/common_functions>` :php:func:`set_status_header()` with new status codes from IETF RFCs
-      `2817 https://tools.ietf.org/html/rfc2817>`_ (426)
+      `2817 <https://tools.ietf.org/html/rfc2817>`_ (426)
       and `6585 <https://tools.ietf.org/html/rfc6585>`_ (428, 429, 431, 511).
 
 Bug fixes for 3.1.1
