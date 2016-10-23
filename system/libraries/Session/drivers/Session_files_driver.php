@@ -77,6 +77,13 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 	protected $_file_new;
 
 	/**
+	 * Validate SID regular expression
+	 *
+	 * @var	string
+	 */
+	protected $_sid_regexp;
+
+	/**
 	 * mbstring.func_override flag
 	 *
 	 * @var	bool
@@ -105,6 +112,8 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 			log_message('debug', 'Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.');
 			$this->_config['save_path'] = rtrim(ini_get('session.save_path'), '/\\');
 		}
+
+		$this->_sid_regexp = $this->_config['_sid_regexp'];
 
 		isset(self::$func_override) OR self::$func_override = (extension_loaded('mbstring') && ini_get('mbstring.func_override'));
 	}
@@ -352,10 +361,13 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 
 		$ts = time() - $maxlifetime;
 
+		$pattern = ($this->_config['match_ip'] === TRUE)
+			? '[0-9a-f]{32}'
+			: '';
+
 		$pattern = sprintf(
-			'/^%s[0-9a-f]{%d}$/',
-			preg_quote($this->_config['cookie_name'], '/'),
-			($this->_config['match_ip'] === TRUE ? 72 : 40)
+			'#\A%s'.$pattern.$this->_sid_regexp.'\z#',
+			preg_quote($this->_config['cookie_name'])
 		);
 
 		while (($file = readdir($directory)) !== FALSE)
