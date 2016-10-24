@@ -10,7 +10,7 @@ Being custom implementations, these functions will also have some
 set of dependencies on their own, but are still useful if your
 PHP setup doesn't offer them natively.
 
-.. note:: Much like the `common functions <common_functions>`, the
+.. note:: Much like the :doc:`common functions <common_functions>`, the
 	compatibility functions are always available, as long as
 	their dependencies are met.
 
