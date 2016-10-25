@@ -367,6 +367,22 @@ $config['encryption_key'] = '';
 |	when auto-regenerating the session ID. When set to FALSE, the data
 |	will be later deleted by the garbage collector.
 |
+| 'sess_hash_function'
+|
+|	Hash function used to generate the session ID.
+|
+| See http://php.net/manual/en/session.configuration.php for a list of hash algorithms.
+|
+| IMPORTANT: The hash function has to generate at least a 20 byte hash
+|	           e.g. SHA-1
+|
+| 'sess_hash_bits_per_character'
+|
+|	How many bits are stored in each character when converting the binary hash.
+| Possible values are '4', '5' and '6'.
+|
+| See http://php.net/manual/en/session.configuration.php for details on those values.
+|
 | Other session cookie settings are shared with the rest of the application,
 | except for 'cookie_prefix' and 'cookie_httponly', which are ignored here.
 |
@@ -378,6 +394,8 @@ $config['sess_save_path'] = NULL;
 $config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = FALSE;
+$config['sess_hash_function'] = 1;
+$config['sess_hash_bits_per_character'] = 4;
 
 /*
 |--------------------------------------------------------------------------
