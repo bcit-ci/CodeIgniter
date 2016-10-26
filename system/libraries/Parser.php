@@ -214,31 +214,25 @@ class CI_Parser {
 			PREG_SET_ORDER
 		);
 
-		foreach ($matches as $match)
-		{
+		foreach ($matches as $match) {
 			$str = '';
-			foreach ($data as $row)
+			$temp = array();
+			foreach ($data as $key => $val)
 			{
-				$temp = array();
-				foreach ($row as $key => $val)
+				if (is_array($data[$key]))
 				{
-					if (is_array($val))
+					$pair = $this->_parse_pair($key, $val, $match[1]);
+					if ( ! empty($pair))
 					{
-						$pair = $this->_parse_pair($key, $val, $match[1]);
-						if ( ! empty($pair))
-						{
-							$temp = array_merge($temp, $pair);
-						}
-
-						continue;
+						$temp = array_merge($temp, $pair);
 					}
-
-					$temp[$this->l_delim.$key.$this->r_delim] = $val;
+					continue;
 				}
 
-				$str .= strtr($match[1], $temp);
+				$temp[$this->l_delim.$key.$this->r_delim] = $val;
 			}
 
+			$str .= strtr($match[1], $temp);
 			$replace[$match[0]] = $str;
 		}
 
