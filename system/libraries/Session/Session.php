@@ -348,8 +348,9 @@ class CI_Session {
 				if ($hash_function !== '1')
 				{
 					ini_set('session.hash_function', 1);
-					$bits = 160;
 				}
+
+				$bits = 160;
 			}
 			elseif ( ! in_array($hash_function, hash_algos(), TRUE))
 			{
@@ -363,7 +364,7 @@ class CI_Session {
 			}
 
 			$bits_per_character = (int) ini_get('session.hash_bits_per_character');
-			$sid_length         = $bits * $bits_per_character;
+			$sid_length         = (int) ceil($bits / $bits_per_character);
 		}
 		else
 		{
