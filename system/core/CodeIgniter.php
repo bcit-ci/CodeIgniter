@@ -416,9 +416,28 @@ if ( ! is_php('5.4'))
 			$params = array($method, array_slice($URI->rsegments, 2));
 			$method = '_remap';
 		}
-		elseif ( ! is_callable(array($class, $method)))
+		elseif ( ! method_exists($class, $method))
 		{
 			$e404 = TRUE;
+		}
+		/**
+		 * DO NOT CHANGE THIS, NOTHING ELSE WORKS!
+		 *
+		 * - method_exists() returns true for non-public methods, which passes the previous elseif
+		 * - is_callable() returns false for PHP 4-style constructors, even if there's a __construct()
+		 * - method_exists($class, '__construct') won't work because CI_Controller::__construct() is inherited
+		 * - People will only complain if this doesn't work, even though it is documented that it shouldn't.
+		 *
+		 * ReflectionMethod::isConstructor() is the ONLY reliable check,
+		 * knowing which method will be executed as a constructor.
+		 */
+		elseif ( ! is_callable(array($class, $method)) && strcasecmp($class, $method) === 0)
+		{
+			$reflection = new ReflectionMethod($class, $method);
+			if ( ! $reflection->isPublic() OR $reflection->isConstructor())
+			{
+				$e404 = TRUE;
+			}
 		}
 	}
 
