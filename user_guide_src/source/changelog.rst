@@ -15,6 +15,11 @@ Release Date: Not Released
 
    -  Allowed PHP 4-style constructors (``Mathching_name::Matching_name()`` methods) to be used as routes, if there's a ``__construct()`` to override them.
 
+Bug fixes for 3.1.2
+-------------------
+
+-  Fixed a regression (#4874) - :doc:`Session Library <libraries/sessions>` didn't take into account `session.hash_bits_per_character` when validating session IDs.
+
 Version 3.1.1
 =============
 
