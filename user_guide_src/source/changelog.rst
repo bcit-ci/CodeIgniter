@@ -18,7 +18,7 @@ Release Date: Not Released
 Bug fixes for 3.1.2
 -------------------
 
--  Fixed a regression (#4874) - :doc:`Session Library <libraries/sessions>` didn't take into account `session.hash_bits_per_character` when validating session IDs.
+-  Fixed a regression (#4874) - :doc:`Session Library <libraries/sessions>` didn't take into account ``session.hash_bits_per_character`` when validating session IDs.
 
 Version 3.1.1
 =============
