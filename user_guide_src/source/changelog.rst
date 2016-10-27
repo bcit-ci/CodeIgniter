@@ -11,6 +11,10 @@ Release Date: Not Released
 
    -  Fixed a new URL-encoding attack vector in :doc:`Security Library <libraries/security>` method ``xss_clean()`` affecting Firefox.
 
+-  General Changes
+
+   -  Allowed PHP 4-style constructors (``Mathching_name::Matching_name()`` methods) to be used as routes, if there's a ``__construct()`` to override them.
+
 Version 3.1.1
 =============
 
