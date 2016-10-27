@@ -2,6 +2,15 @@
 Change Log
 ##########
 
+Version 3.1.2
+=============
+
+Release Date: Not Released
+
+-  **Security**
+
+   -  Fixed a new URL-encoding attack vector in :doc:`Security Library <libraries/security>` method ``xss_clean()`` affecting Firefox.
+
 Version 3.1.1
 =============
 
