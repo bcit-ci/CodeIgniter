@@ -84,10 +84,11 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 	/**
 	 * Create database
 	 *
-	 * @param	string	$db_name
+	 * @param	string	$db_name        (ignored)
+	 * @param	bool	$if_not_exists	Whether to add IF NOT EXISTS condition
 	 * @return	bool
 	 */
-	public function create_database($db_name = '')
+	public function create_database($db_name='', $if_not_exists = FALSE)
 	{
 		// In SQLite, a database is created when you connect to the database.
 		// We'll return TRUE so that an error isn't generated

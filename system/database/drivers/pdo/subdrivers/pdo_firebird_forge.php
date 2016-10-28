@@ -77,16 +77,17 @@ class CI_DB_pdo_firebird_forge extends CI_DB_pdo_forge {
 	 * Create database
 	 *
 	 * @param	string	$db_name
-	 * @return	string
+	 * @param	bool	$if_not_exists	Whether to add IF NOT EXISTS condition
+	 * @return	bool
 	 */
-	public function create_database($db_name)
+	public function create_database($db_name, $if_not_exists = FALSE)
 	{
 		// Firebird databases are flat files, so a path is required
 
 		// Hostname is needed for remote access
 		empty($this->db->hostname) OR $db_name = $this->hostname.':'.$db_name;
 
-		return parent::create_database('"'.$db_name.'"');
+		return parent::create_database('"'.$db_name.'"', $if_not_exists);
 	}
 
 	// --------------------------------------------------------------------
