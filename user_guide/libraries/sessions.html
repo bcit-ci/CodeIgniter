@@ -1,0 +1,1923 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Session Library &mdash; CodeIgniter 3.1.2 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/ci-icon.ico"/>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/citheme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="CodeIgniter 3.1.2 documentation" href="../index.html"/>
+        <link rel="up" title="Libraries" href="index.html"/>
+        <link rel="next" title="HTML Table Class" href="table.html"/>
+        <link rel="prev" title="Security Class" href="security.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div id="nav">
+  <div id="nav_inner">
+    
+    
+    
+      <div id="pulldown-menu" class="ciNav">
+        <ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/welcome.html">Welcome to CodeIgniter</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation Instructions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/downloads.html">Downloading CodeIgniter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/index.html">Installation Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/upgrading.html">Upgrading From a Previous Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/index.html">CodeIgniter Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/at_a_glance.html">CodeIgniter at a Glance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/features.html">Supported Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/appflow.html">Application Flow Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/mvc.html">Model-View-Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/goals.html">Architectural Goals</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/static_pages.html">Static pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/news_section.html">News section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/create_news_items.html">Create news items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/conclusion.html">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing to CodeIgniter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../documentation/index.html">Writing CodeIgniter Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../DCO.html">Developer&#8217;s Certificate of Origin 1.1</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/index.html">General Topics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../general/urls.html">CodeIgniter URLs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/controllers.html">Controllers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/reserved_names.html">Reserved Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/views.html">Views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/libraries.html">Using CodeIgniter Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_libraries.html">Creating Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/drivers.html">Using CodeIgniter Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_drivers.html">Creating Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/core_classes.html">Creating Core System Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/ancillary_classes.html">Creating Ancillary Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/hooks.html">Hooks - Extending the Framework Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/autoloader.html">Auto-loading Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/common_functions.html">Common Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/compatibility_functions.html">Compatibility Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/routing.html">URI Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/errors.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/caching.html">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/profiling.html">Profiling Your Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/cli.html">Running via the CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/managing_apps.html">Managing your Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/environments.html">Handling Multiple Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/alternative_php.html">Alternate PHP Syntax for View Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/security.html">Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/styleguide.html">PHP Style Guide</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Libraries</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="benchmark.html">Benchmarking Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caching.html">Caching Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calendar.html">Calendaring Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cart.html">Shopping Cart Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">Config Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.html">Email Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encrypt.html">Encrypt Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encryption.html">Encryption Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="file_uploading.html">File Uploading Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="form_validation.html">Form Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ftp.html">FTP Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image_lib.html">Image Manipulation Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input.html">Input Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="javascript.html">Javascript Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="language.html">Language Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loader.html">Loader Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migration.html">Migrations Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="output.html">Output Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pagination.html">Pagination Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parser.html">Template Parser Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="security.html">Security Class</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Session Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="table.html">HTML Table Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trackback.html">Trackback Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typography.html">Typography Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit_testing.html">Unit Testing Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uri.html">URI Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_agent.html">User Agent Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xmlrpc.html">XML-RPC and XML-RPC Server Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zip.html">Zip Encoding Class</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../database/examples.html">Quick Start: Usage Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/configuration.html">Database Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/connecting.html">Connecting to a Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/queries.html">Running Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/results.html">Generating Query Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/helpers.html">Query Helper Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/query_builder.html">Query Builder Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/transactions.html">Transactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/metadata.html">Getting MetaData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/call_function.html">Custom Function Calls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/caching.html">Query Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/forge.html">Database Manipulation with Database Forge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/utilities.html">Database Utilities Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/db_driver_reference.html">Database Driver Reference</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../helpers/index.html">Helpers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/array_helper.html">Array Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/captcha_helper.html">CAPTCHA Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/cookie_helper.html">Cookie Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/date_helper.html">Date Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/directory_helper.html">Directory Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/download_helper.html">Download Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/email_helper.html">Email Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/file_helper.html">File Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/form_helper.html">Form Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/html_helper.html">HTML Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/inflector_helper.html">Inflector Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/language_helper.html">Language Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/number_helper.html">Number Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/path_helper.html">Path Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/security_helper.html">Security Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/smiley_helper.html">Smiley Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/string_helper.html">String Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/text_helper.html">Text Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/typography_helper.html">Typography Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/url_helper.html">URL Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/xml_helper.html">XML Helper</a></li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    
+      
+  </div>
+</div>
+<div id="nav2">
+  <a href="#" id="openToc">
+    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAZABkAAD/7AARRHVja3kAAQAEAAAARgAA/+4ADkFkb2JlAGTAAAAAAf/bAIQABAMDAwMDBAMDBAYEAwQGBwUEBAUHCAYGBwYGCAoICQkJCQgKCgwMDAwMCgwMDQ0MDBERERERFBQUFBQUFBQUFAEEBQUIBwgPCgoPFA4ODhQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQU/8AAEQgAKwCaAwERAAIRAQMRAf/EAHsAAQAABwEBAAAAAAAAAAAAAAABAwQFBgcIAgkBAQAAAAAAAAAAAAAAAAAAAAAQAAEDAwICBwYEAgsAAAAAAAIBAwQAEQUSBiEHkROTVNQWGDFBUVIUCHEiMtOUFWGBobHRQlMkZIRVEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwDSC+ygkOOaUoKigUCgUCgUCgUCgUCgUCgUCgkuGguIP9FBMFb0Hqg7We+3jlmIqqYFf4ub+/QYlnOR/LqIBKGFUbf8qWv971BytQXXE7Y3Lnm3HsFhp2TaZJAdchRXpIgSpdEJWxJEW3xoKV7F5OMy7JkQn2o7D6w33XGjEAkoiqrJEqIiOIiKuhePCgqp22dyYyS3CyWHnQ5joG61HkRnmnTbaFSMhExRVQRRVJU9iUHjE7ez+fJ0MFipmUNhBV8YUd2SoIV9KkjQla9ltegttBdPLW4/qocL+UTfrMiHW4+P9M71shuyrqaHTcxsl7jegpsji8nh5ZwMvDfgTm0RTjSmjYdFCS6KoOIipdFunCgmNYTMv457MMY6U7iI6oMieDDhRm1VbIhuoOkbqtuK0Hpzb+eZcYZexUxt6UyUqK2cd0SdjtgrhOgijcgERUlJOCIl6CpgbP3blRI8XgMjNARAyKNDfeRBdFDBVUAXgQrqH4pxoJTu2NysY97LP4ac1io5q1InHFeGO24LnVKJuKOkSQ/yKir+rh7aCLG1dzypZQI2FnvTgccYOM3FeN0XWERXAUEFVQgQkUktdLpegm+Td3/Xli/L+S/mYNJIOF9G/wBeLKrZHFb0akG6W1WtQWSg3Dyg5e7V3fipE3O4/wCrktyzYA+ufas2LbZIlmnAT2kvuoN1wft95augilglX/tzP3qCu9O3LL/wV/i5v79BvmTADq14UGu91467Z6U9y0HzH/ncj/U/sT/CgynZG7I2NezpZGUjIycJkYkZSG+uQ81pbBNKLxJfjwoMqZ3/ALYHl35AJ7/cuwHcu5k7r1Q5pHetBjquqVVJWGxj9Zrtcl/Ggy3dHMvauR3HFZj5nHNxSyW5JISYDMoIwx8tFIGHZhPNaykGapr6rUAiicEoMG21lMRj8buPAz8xhJrr7uOeiPTCyAwXUaGR1mgozbTusOsFLEiJ7fbQa/h7gcjy2H3V6xppwDNtUSxCJIqp7valBuWVzJ22xuCROXNNZiJkMtms0DbjUkAZjzoDrTMd9dDRI44ZC2YsrYdKWP2WDT2S3N9dNdlRYrGMYc06IURXSYb0igrpWS485xVNS6nF4rwslkoMwnbpgZLB7bmt5uMweAhDEl4B5uSLzzqTnnyVpW2jaJHRMSIjdDiiotvy3DOE5rYTEbkl5yFn28k7JyG4c7AU2HtLH1uKfaiMPI40CdYbpNtmLdwTSn5rewLNld+7TLdeal4WarWBkbVKBjgdElMJJwAAY5fl4kB3b1fp4XvagsGS3FjJfLzDNtS8aeXx7LzT7TyzByQE5PccRGRC0ZRUDRV6y62vbjagzLmJzS2vuPK43JY6aP1TW6Jz+RIWyFtyC06y3EkiiinAo7YCqfq1AqqnGgsOH3lhZO8d1pmcpB8j5XIm9OYlBJSQ/FSS4427DKO0RC8AlcEMhFdViRR1WDWR5t3WXVuL1d106kG9vdeye2g60+1FDyW0shIcXVpyroXt8I8dfd+NB1vioAdWnD3UF1+gD4UFc6CEKpagxXN43rwJLUHz7yX2c8zokt9uHlsPIhA4aRnnHJTLptIS6CNsY7iASpxUUMkReGpfbQW0vtN5pitvrsN28rwtBD0nc0+/Yft5XhaB6TuaXfsP28rwtA9J3NPv2H7eV4Wgek7mn37D9vK8LQPSdzT79h+3leFoHpO5pd+w/byvC0D0nc0u/Yft5XhaB6TuaXfsP28rwtA9J3NLv2H7eV4Wgek7ml37D9vK8LQPSdzS79h+3leFoHpO5p9+w/byvC0E9r7Reazy2HIYVPxkS/CUHVn26cosxyv2g7h89LYmZSXOenvLEQ1YaQ222RATcQCP8rSGqqA8S02W2pQ6FhMoAIlqCtsnwoCpdKClejI4i3Sgtb+GBxVuNBSFt1pV/RQefLjPyUDy4z8lA8uM/JQPLjPyUDy4z8lA8uM/JQPLjPyUDy4z8lA8uM/JQPLjPyUDy4z8lA8utJ/koJ7WCbBU/LQXOPAFq1koK8B0pag90CggtBBf6qB0UDooHRQOigdFA6KB0UDooHRQOigdFA6KB0UDooI0EaBQf//Z" title="Toggle Table of Contents" alt="Toggle Table of Contents" />
+  </a>
+</div>
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../index.html" class="fa fa-home"> CodeIgniter</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/welcome.html">Welcome to CodeIgniter</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation Instructions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/downloads.html">Downloading CodeIgniter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/index.html">Installation Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/upgrading.html">Upgrading From a Previous Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/index.html">CodeIgniter Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/at_a_glance.html">CodeIgniter at a Glance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/features.html">Supported Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/appflow.html">Application Flow Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/mvc.html">Model-View-Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/goals.html">Architectural Goals</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/static_pages.html">Static pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/news_section.html">News section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/create_news_items.html">Create news items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/conclusion.html">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing to CodeIgniter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../documentation/index.html">Writing CodeIgniter Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../DCO.html">Developer&#8217;s Certificate of Origin 1.1</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/index.html">General Topics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../general/urls.html">CodeIgniter URLs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/controllers.html">Controllers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/reserved_names.html">Reserved Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/views.html">Views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/libraries.html">Using CodeIgniter Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_libraries.html">Creating Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/drivers.html">Using CodeIgniter Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_drivers.html">Creating Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/core_classes.html">Creating Core System Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/ancillary_classes.html">Creating Ancillary Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/hooks.html">Hooks - Extending the Framework Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/autoloader.html">Auto-loading Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/common_functions.html">Common Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/compatibility_functions.html">Compatibility Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/routing.html">URI Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/errors.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/caching.html">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/profiling.html">Profiling Your Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/cli.html">Running via the CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/managing_apps.html">Managing your Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/environments.html">Handling Multiple Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/alternative_php.html">Alternate PHP Syntax for View Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/security.html">Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/styleguide.html">PHP Style Guide</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Libraries</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="benchmark.html">Benchmarking Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caching.html">Caching Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calendar.html">Calendaring Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cart.html">Shopping Cart Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">Config Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.html">Email Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encrypt.html">Encrypt Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encryption.html">Encryption Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="file_uploading.html">File Uploading Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="form_validation.html">Form Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ftp.html">FTP Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image_lib.html">Image Manipulation Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input.html">Input Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="javascript.html">Javascript Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="language.html">Language Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loader.html">Loader Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migration.html">Migrations Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="output.html">Output Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pagination.html">Pagination Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parser.html">Template Parser Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="security.html">Security Class</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Session Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="table.html">HTML Table Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trackback.html">Trackback Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typography.html">Typography Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit_testing.html">Unit Testing Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uri.html">URI Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_agent.html">User Agent Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xmlrpc.html">XML-RPC and XML-RPC Server Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zip.html">Zip Encoding Class</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../database/examples.html">Quick Start: Usage Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/configuration.html">Database Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/connecting.html">Connecting to a Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/queries.html">Running Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/results.html">Generating Query Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/helpers.html">Query Helper Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/query_builder.html">Query Builder Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/transactions.html">Transactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/metadata.html">Getting MetaData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/call_function.html">Custom Function Calls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/caching.html">Query Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/forge.html">Database Manipulation with Database Forge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/utilities.html">Database Utilities Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/db_driver_reference.html">Database Driver Reference</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../helpers/index.html">Helpers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/array_helper.html">Array Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/captcha_helper.html">CAPTCHA Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/cookie_helper.html">Cookie Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/date_helper.html">Date Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/directory_helper.html">Directory Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/download_helper.html">Download Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/email_helper.html">Email Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/file_helper.html">File Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/form_helper.html">Form Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/html_helper.html">HTML Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/inflector_helper.html">Inflector Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/language_helper.html">Language Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/number_helper.html">Number Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/path_helper.html">Path Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/security_helper.html">Security Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/smiley_helper.html">Smiley Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/string_helper.html">String Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/text_helper.html">Text Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/typography_helper.html">Typography Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/url_helper.html">URL Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/xml_helper.html">XML Helper</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">CodeIgniter</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+        <li><a href="index.html">Libraries</a> &raquo;</li>
+      
+    <li>Session Library</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+    <div style="float:right;margin-left:5px;" id="closeMe">
+      <img title="Classic Layout" alt="classic layout" src="data:image/gif;base64,R0lGODlhFAAUAJEAAAAAADMzM////wAAACH5BAUUAAIALAAAAAAUABQAAAImlI+py+0PU5gRBRDM3DxbWoXis42X13USOLauUIqnlsaH/eY6UwAAOw==" />
+    </div>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="session-library">
+<h1>Session Library<a class="headerlink" href="#session-library" title="Permalink to this headline">¶</a></h1>
+<p>The Session class permits you maintain a user&#8217;s &#8220;state&#8221; and track their
+activity while they browse your site.</p>
+<p>CodeIgniter comes with a few session storage drivers:</p>
+<blockquote>
+<div><ul class="simple">
+<li>files (default; file-system based)</li>
+<li>database</li>
+<li>redis</li>
+<li>memcached</li>
+</ul>
+</div></blockquote>
+<p>In addition, you may create your own, custom session drivers based on other
+kinds of storage, while still taking advantage of the features of the
+Session class.</p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#using-the-session-class" id="id3">Using the Session Class</a><ul>
+<li><a class="reference internal" href="#initializing-a-session" id="id4">Initializing a Session</a></li>
+<li><a class="reference internal" href="#how-do-sessions-work" id="id5">How do Sessions work?</a><ul>
+<li><a class="reference internal" href="#a-note-about-concurrency" id="id6">A note about concurrency</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#what-is-session-data" id="id7">What is Session Data?</a></li>
+<li><a class="reference internal" href="#retrieving-session-data" id="id8">Retrieving Session Data</a></li>
+<li><a class="reference internal" href="#adding-session-data" id="id9">Adding Session Data</a></li>
+<li><a class="reference internal" href="#removing-session-data" id="id10">Removing Session Data</a></li>
+<li><a class="reference internal" href="#flashdata" id="id11">Flashdata</a></li>
+<li><a class="reference internal" href="#tempdata" id="id12">Tempdata</a></li>
+<li><a class="reference internal" href="#destroying-a-session" id="id13">Destroying a Session</a></li>
+<li><a class="reference internal" href="#accessing-session-metadata" id="id14">Accessing session metadata</a></li>
+<li><a class="reference internal" href="#session-preferences" id="id15">Session Preferences</a></li>
+<li><a class="reference internal" href="#session-drivers" id="id16">Session Drivers</a><ul>
+<li><a class="reference internal" href="#files-driver" id="id17">Files Driver</a><ul>
+<li><a class="reference internal" href="#bonus-tip" id="id18">Bonus Tip</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#database-driver" id="id19">Database Driver</a></li>
+<li><a class="reference internal" href="#redis-driver" id="id20">Redis Driver</a></li>
+<li><a class="reference internal" href="#memcached-driver" id="id21">Memcached Driver</a><ul>
+<li><a class="reference internal" href="#id1" id="id22">Bonus Tip</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#custom-drivers" id="id23">Custom Drivers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#class-reference" id="id24">Class Reference</a></li>
+</ul>
+</div>
+<div class="custom-index container"></div><div class="section" id="using-the-session-class">
+<h2><a class="toc-backref" href="#id3">Using the Session Class</a><a class="headerlink" href="#using-the-session-class" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="initializing-a-session">
+<h3><a class="toc-backref" href="#id4">Initializing a Session</a><a class="headerlink" href="#initializing-a-session" title="Permalink to this headline">¶</a></h3>
+<p>Sessions will typically run globally with each page load, so the Session
+class should either be initialized in your <a class="reference internal" href="../general/controllers.html"><em>controller</em></a> constructors, or it can be <a class="reference internal" href="../general/autoloader.html"><em>auto-loaded</em></a> by the system.
+For the most part the session class will run unattended in the background,
+so simply initializing the class will cause it to read, create, and update
+sessions when necessary.</p>
+<p>To initialize the Session class manually in your controller constructor,
+use the <code class="docutils literal"><span class="pre">$this-&gt;load-&gt;library()</span></code> method:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">library</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Once loaded, the Sessions library object will be available using:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span>
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Because the <a class="reference internal" href="loader.html"><em>Loader Class</em></a> is instantiated
+by CodeIgniter&#8217;s base controller, make sure to call
+<code class="docutils literal"><span class="pre">parent::__construct()</span></code> before trying to load a library from
+inside a controller constructor.</p>
+</div>
+</div>
+<div class="section" id="how-do-sessions-work">
+<h3><a class="toc-backref" href="#id5">How do Sessions work?</a><a class="headerlink" href="#how-do-sessions-work" title="Permalink to this headline">¶</a></h3>
+<p>When a page is loaded, the session class will check to see if valid
+session cookie is sent by the user&#8217;s browser. If a sessions cookie does
+<strong>not</strong> exist (or if it doesn&#8217;t match one stored on the server or has
+expired) a new session will be created and saved.</p>
+<p>If a valid session does exist, its information will be updated. With each
+update, the session ID may be regenerated if configured to do so.</p>
+<p>It&#8217;s important for you to understand that once initialized, the Session
+class runs automatically. There is nothing you need to do to cause the
+above behavior to happen. You can, as you&#8217;ll see below, work with session
+data, but the process of reading, writing, and updating a session is
+automatic.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Under CLI, the Session library will automatically halt itself,
+as this is a concept based entirely on the HTTP protocol.</p>
+</div>
+<div class="section" id="a-note-about-concurrency">
+<h4><a class="toc-backref" href="#id6">A note about concurrency</a><a class="headerlink" href="#a-note-about-concurrency" title="Permalink to this headline">¶</a></h4>
+<p>Unless you&#8217;re developing a website with heavy AJAX usage, you can skip this
+section. If you are, however, and if you&#8217;re experiencing performance
+issues, then this note is exactly what you&#8217;re looking for.</p>
+<p>Sessions in previous versions of CodeIgniter didn&#8217;t implement locking,
+which meant that two HTTP requests using the same session could run exactly
+at the same time. To use a more appropriate technical term - requests were
+non-blocking.</p>
+<p>However, non-blocking requests in the context of sessions also means
+unsafe, because modifications to session data (or session ID regeneration)
+in one request can interfere with the execution of a second, concurrent
+request. This detail was at the root of many issues and the main reason why
+CodeIgniter 3.0 has a completely re-written Session library.</p>
+<p>Why are we telling you this? Because it is likely that after trying to
+find the reason for your performance issues, you may conclude that locking
+is the issue and therefore look into how to remove the locks ...</p>
+<p>DO NOT DO THAT! Removing locks would be <strong>wrong</strong> and it will cause you
+more problems!</p>
+<p>Locking is not the issue, it is a solution. Your issue is that you still
+have the session open, while you&#8217;ve already processed it and therefore no
+longer need it. So, what you need is to close the session for the
+current request after you no longer need it.</p>
+<p>Long story short - call <code class="docutils literal"><span class="pre">session_write_close()</span></code> once you no longer need
+anything to do with session variables.</p>
+</div>
+</div>
+<div class="section" id="what-is-session-data">
+<h3><a class="toc-backref" href="#id7">What is Session Data?</a><a class="headerlink" href="#what-is-session-data" title="Permalink to this headline">¶</a></h3>
+<p>Session data is simply an array associated with a particular session ID
+(cookie).</p>
+<p>If you&#8217;ve used sessions in PHP before, you should be familiar with PHP&#8217;s
+<a class="reference external" href="http://php.net/manual/en/reserved.variables.session.php">$_SESSION superglobal</a>
+(if not, please read the content on that link).</p>
+<p>CodeIgniter gives access to its session data through the same means, as it
+uses the session handlers&#8217; mechanism provided by PHP. Using session data is
+as simple as manipulating (read, set and unset values) the <code class="docutils literal"><span class="pre">$_SESSION</span></code>
+array.</p>
+<p>In addition, CodeIgniter also provides 2 special types of session data
+that are further explained below: flashdata and tempdata.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In previous versions, regular session data in CodeIgniter was
+referred to as &#8216;userdata&#8217;. Have this in mind if that term is used
+elsewhere in the manual. Most of it is written to explain how
+the custom &#8216;userdata&#8217; methods work.</p>
+</div>
+</div>
+<div class="section" id="retrieving-session-data">
+<h3><a class="toc-backref" href="#id8">Retrieving Session Data</a><a class="headerlink" href="#retrieving-session-data" title="Permalink to this headline">¶</a></h3>
+<p>Any piece of information from the session array is available through the
+<code class="docutils literal"><span class="pre">$_SESSION</span></code> superglobal:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;item&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Or through the magic getter:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">item</span>
+</pre></div>
+</div>
+<p>And for backwards compatibility, through the <code class="docutils literal"><span class="pre">userdata()</span></code> method:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">userdata</span><span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Where item is the array key corresponding to the item you wish to fetch.
+For example, to assign a previously stored &#8216;name&#8217; item to the <code class="docutils literal"><span class="pre">$name</span></code>
+variable, you will do this:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$name</span> <span class="o">=</span> <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">];</span>
+
+<span class="c1">// or:</span>
+
+<span class="nv">$name</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">name</span>
+
+<span class="c1">// or:</span>
+
+<span class="nv">$name</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">userdata</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">userdata()</span></code> method returns NULL if the item you are trying
+to access does not exist.</p>
+</div>
+<p>If you want to retrieve all of the existing userdata, you can simply
+omit the item key (magic getter only works for properties):</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$_SESSION</span>
+
+<span class="c1">// or:</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">userdata</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="adding-session-data">
+<h3><a class="toc-backref" href="#id9">Adding Session Data</a><a class="headerlink" href="#adding-session-data" title="Permalink to this headline">¶</a></h3>
+<p>Let&#8217;s say a particular user logs into your site. Once authenticated, you
+could add their username and e-mail address to the session, making that
+data globally available to you without having to run a database query when
+you need it.</p>
+<p>You can simply assign data to the <code class="docutils literal"><span class="pre">$_SESSION</span></code> array, as with any other
+variable. Or as a property of <code class="docutils literal"><span class="pre">$this-&gt;session</span></code>.</p>
+<p>Alternatively, the old method of assigning it as &#8220;userdata&#8221; is also
+available. That however passing an array containing your new data to the
+<code class="docutils literal"><span class="pre">set_userdata()</span></code> method:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">set_userdata</span><span class="p">(</span><span class="nv">$array</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Where <code class="docutils literal"><span class="pre">$array</span></code> is an associative array containing your new data. Here&#8217;s
+an example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$newdata</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;username&#39;</span>  <span class="o">=&gt;</span> <span class="s1">&#39;johndoe&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;email&#39;</span>     <span class="o">=&gt;</span> <span class="s1">&#39;johndoe@some-site.com&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;logged_in&#39;</span> <span class="o">=&gt;</span> <span class="k">TRUE</span>
+<span class="p">);</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">set_userdata</span><span class="p">(</span><span class="nv">$newdata</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>If you want to add userdata one value at a time, <code class="docutils literal"><span class="pre">set_userdata()</span></code> also
+supports this syntax:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">set_userdata</span><span class="p">(</span><span class="s1">&#39;some_name&#39;</span><span class="p">,</span> <span class="s1">&#39;some_value&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>If you want to verify that a session value exists, simply check with
+<code class="docutils literal"><span class="pre">isset()</span></code>:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="c1">// returns FALSE if the &#39;some_name&#39; item doesn&#39;t exist or is NULL,</span>
+<span class="c1">// TRUE otherwise:</span>
+<span class="nb">isset</span><span class="p">(</span><span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;some_name&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Or you can call <code class="docutils literal"><span class="pre">has_userdata()</span></code>:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">has_userdata</span><span class="p">(</span><span class="s1">&#39;some_name&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="removing-session-data">
+<h3><a class="toc-backref" href="#id10">Removing Session Data</a><a class="headerlink" href="#removing-session-data" title="Permalink to this headline">¶</a></h3>
+<p>Just as with any other variable, unsetting a value in <code class="docutils literal"><span class="pre">$_SESSION</span></code> can be
+done through <code class="docutils literal"><span class="pre">unset()</span></code>:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nb">unset</span><span class="p">(</span><span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;some_name&#39;</span><span class="p">]);</span>
+
+<span class="c1">// or multiple values:</span>
+
+<span class="nb">unset</span><span class="p">(</span>
+        <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;some_name&#39;</span><span class="p">],</span>
+        <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;another_name&#39;</span><span class="p">]</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>Also, just as <code class="docutils literal"><span class="pre">set_userdata()</span></code> can be used to add information to a
+session, <code class="docutils literal"><span class="pre">unset_userdata()</span></code> can be used to remove it, by passing the
+session key. For example, if you wanted to remove &#8216;some_name&#8217; from your
+session data array:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">unset_userdata</span><span class="p">(</span><span class="s1">&#39;some_name&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This method also accepts an array of item keys to unset:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$array_items</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">);</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">unset_userdata</span><span class="p">(</span><span class="nv">$array_items</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In previous versions, the <code class="docutils literal"><span class="pre">unset_userdata()</span></code> method used
+to accept an associative array of <code class="docutils literal"><span class="pre">key</span> <span class="pre">=&gt;</span> <span class="pre">'dummy</span> <span class="pre">value'</span></code>
+pairs. This is no longer supported.</p>
+</div>
+</div>
+<div class="section" id="flashdata">
+<h3><a class="toc-backref" href="#id11">Flashdata</a><a class="headerlink" href="#flashdata" title="Permalink to this headline">¶</a></h3>
+<p>CodeIgniter supports &#8220;flashdata&#8221;, or session data that will only be
+available for the next request, and is then automatically cleared.</p>
+<p>This can be very useful, especially for one-time informational, error or
+status messages (for example: &#8220;Record 2 deleted&#8221;).</p>
+<p>It should be noted that flashdata variables are regular session vars,
+only marked in a specific way under the &#8216;__ci_vars&#8217; key (please don&#8217;t touch
+that one, you&#8217;ve been warned).</p>
+<p>To mark an existing item as &#8220;flashdata&#8221;:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">mark_as_flash</span><span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>If you want to mark multiple items as flashdata, simply pass the keys as an
+array:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">mark_as_flash</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">,</span> <span class="s1">&#39;item2&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>To add flashdata:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;item&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;value&#39;</span><span class="p">;</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">mark_as_flash</span><span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Or alternatively, using the <code class="docutils literal"><span class="pre">set_flashdata()</span></code> method:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">set_flashdata</span><span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>You can also pass an array to <code class="docutils literal"><span class="pre">set_flashdata()</span></code>, in the same manner as
+<code class="docutils literal"><span class="pre">set_userdata()</span></code>.</p>
+<p>Reading flashdata variables is the same as reading regular session data
+through <code class="docutils literal"><span class="pre">$_SESSION</span></code>:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;item&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">The <code class="docutils literal"><span class="pre">userdata()</span></code> method will NOT return flashdata items.</p>
+</div>
+<p>However, if you want to be sure that you&#8217;re reading &#8220;flashdata&#8221; (and not
+any other kind), you can also use the <code class="docutils literal"><span class="pre">flashdata()</span></code> method:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">flashdata</span><span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Or to get an array with all flashdata, simply omit the key parameter:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">flashdata</span><span class="p">();</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">flashdata()</span></code> method returns NULL if the item cannot be
+found.</p>
+</div>
+<p>If you find that you need to preserve a flashdata variable through an
+additional request, you can do so using the <code class="docutils literal"><span class="pre">keep_flashdata()</span></code> method.
+You can either pass a single item or an array of flashdata items to keep.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">keep_flashdata</span><span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">keep_flashdata</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;item1&#39;</span><span class="p">,</span> <span class="s1">&#39;item2&#39;</span><span class="p">,</span> <span class="s1">&#39;item3&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tempdata">
+<h3><a class="toc-backref" href="#id12">Tempdata</a><a class="headerlink" href="#tempdata" title="Permalink to this headline">¶</a></h3>
+<p>CodeIgniter also supports &#8220;tempdata&#8221;, or session data with a specific
+expiration time. After the value expires, or the session expires or is
+deleted, the value is automatically removed.</p>
+<p>Similarly to flashdata, tempdata variables are regular session vars that
+are marked in a specific way under the &#8216;__ci_vars&#8217; key (again, don&#8217;t touch
+that one).</p>
+<p>To mark an existing item as &#8220;tempdata&#8221;, simply pass its key and expiry time
+(in seconds!) to the <code class="docutils literal"><span class="pre">mark_as_temp()</span></code> method:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="c1">// &#39;item&#39; will be erased after 300 seconds</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">mark_as_temp</span><span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">,</span> <span class="mi">300</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>You can mark multiple items as tempdata in two ways, depending on whether
+you want them all to have the same expiry time or not:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="c1">// Both &#39;item&#39; and &#39;item2&#39; will expire after 300 seconds</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">mark_as_temp</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">,</span> <span class="s1">&#39;item2&#39;</span><span class="p">),</span> <span class="mi">300</span><span class="p">);</span>
+
+<span class="c1">// &#39;item&#39; will be erased after 300 seconds, while &#39;item2&#39;</span>
+<span class="c1">// will do so after only 240 seconds</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">mark_as_temp</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;item&#39;</span>  <span class="o">=&gt;</span> <span class="mi">300</span><span class="p">,</span>
+        <span class="s1">&#39;item2&#39;</span> <span class="o">=&gt;</span> <span class="mi">240</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+<p>To add tempdata:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;item&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;value&#39;</span><span class="p">;</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">mark_as_temp</span><span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">,</span> <span class="mi">300</span><span class="p">);</span> <span class="c1">// Expire in 5 minutes</span>
+</pre></div>
+</div>
+<p>Or alternatively, using the <code class="docutils literal"><span class="pre">set_tempdata()</span></code> method:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">set_tempdata</span><span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="mi">300</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>You can also pass an array to <code class="docutils literal"><span class="pre">set_tempdata()</span></code>:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$tempdata</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;newuser&#39;</span> <span class="o">=&gt;</span> <span class="k">TRUE</span><span class="p">,</span> <span class="s1">&#39;message&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Thanks for joining!&#39;</span><span class="p">);</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">set_tempdata</span><span class="p">(</span><span class="nv">$tempdata</span><span class="p">,</span> <span class="k">NULL</span><span class="p">,</span> <span class="nv">$expire</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the expiration is omitted or set to 0, the default
+time-to-live value of 300 seconds (or 5 minutes) will be used.</p>
+</div>
+<p>To read a tempdata variable, again you can just access it through the
+<code class="docutils literal"><span class="pre">$_SESSION</span></code> superglobal array:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;item&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">The <code class="docutils literal"><span class="pre">userdata()</span></code> method will NOT return tempdata items.</p>
+</div>
+<p>Or if you want to be sure that you&#8217;re reading &#8220;tempdata&#8221; (and not any
+other kind), you can also use the <code class="docutils literal"><span class="pre">tempdata()</span></code> method:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">tempdata</span><span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>And of course, if you want to retrieve all existing tempdata:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">tempdata</span><span class="p">();</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">tempdata()</span></code> method returns NULL if the item cannot be
+found.</p>
+</div>
+<p>If you need to remove a tempdata value before it expires, you can directly
+unset it from the <code class="docutils literal"><span class="pre">$_SESSION</span></code> array:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nb">unset</span><span class="p">(</span><span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;item&#39;</span><span class="p">]);</span>
+</pre></div>
+</div>
+<p>However, this won&#8217;t remove the marker that makes this specific item to be
+tempdata (it will be invalidated on the next HTTP request), so if you
+intend to reuse that same key in the same request, you&#8217;d want to use
+<code class="docutils literal"><span class="pre">unset_tempdata()</span></code>:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">unset_tempdata</span><span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="destroying-a-session">
+<h3><a class="toc-backref" href="#id13">Destroying a Session</a><a class="headerlink" href="#destroying-a-session" title="Permalink to this headline">¶</a></h3>
+<p>To clear the current session (for example, during a logout), you may
+simply use either PHP&#8217;s <a class="reference external" href="http://php.net/session_destroy">session_destroy()</a>
+function, or the <code class="docutils literal"><span class="pre">sess_destroy()</span></code> method. Both will work in exactly the
+same way:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nb">session_destroy</span><span class="p">();</span>
+
+<span class="c1">// or</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">sess_destroy</span><span class="p">();</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This must be the last session-related operation that you do
+during the same request. All session data (including flashdata and
+tempdata) will be destroyed permanently and functions will be
+unusable during the same request after you destroy the session.</p>
+</div>
+</div>
+<div class="section" id="accessing-session-metadata">
+<h3><a class="toc-backref" href="#id14">Accessing session metadata</a><a class="headerlink" href="#accessing-session-metadata" title="Permalink to this headline">¶</a></h3>
+<p>In previous CodeIgniter versions, the session data array included 4 items
+by default: &#8216;session_id&#8217;, &#8216;ip_address&#8217;, &#8216;user_agent&#8217;, &#8216;last_activity&#8217;.</p>
+<p>This was due to the specifics of how sessions worked, but is now no longer
+necessary with our new implementation. However, it may happen that your
+application relied on these values, so here are alternative methods of
+accessing them:</p>
+<blockquote>
+<div><ul class="simple">
+<li>session_id: <code class="docutils literal"><span class="pre">session_id()</span></code></li>
+<li>ip_address: <code class="docutils literal"><span class="pre">$_SERVER['REMOTE_ADDR']</span></code></li>
+<li>user_agent: <code class="docutils literal"><span class="pre">$this-&gt;input-&gt;user_agent()</span></code> (unused by sessions)</li>
+<li>last_activity: Depends on the storage, no straightforward way. Sorry!</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="session-preferences">
+<h3><a class="toc-backref" href="#id15">Session Preferences</a><a class="headerlink" href="#session-preferences" title="Permalink to this headline">¶</a></h3>
+<p>CodeIgniter will usually make everything work out of the box. However,
+Sessions are a very sensitive component of any application, so some
+careful configuration must be done. Please take your time to consider
+all of the options and their effects.</p>
+<p>You&#8217;ll find the following Session related preferences in your
+<strong>application/config/config.php</strong> file:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="9%" />
+<col width="23%" />
+<col width="53%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Preference</th>
+<th class="head">Default</th>
+<th class="head">Options</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>sess_driver</strong></td>
+<td>files</td>
+<td>files/database/redis/memcached/<em>custom</em></td>
+<td>The session storage driver to use.</td>
+</tr>
+<tr class="row-odd"><td><strong>sess_cookie_name</strong></td>
+<td>ci_session</td>
+<td>[A-Za-z_-] characters only</td>
+<td>The name used for the session cookie.</td>
+</tr>
+<tr class="row-even"><td><strong>sess_expiration</strong></td>
+<td>7200 (2 hours)</td>
+<td>Time in seconds (integer)</td>
+<td>The number of seconds you would like the session to last.
+If you would like a non-expiring session (until browser is closed) set the value to zero: 0</td>
+</tr>
+<tr class="row-odd"><td><strong>sess_save_path</strong></td>
+<td>NULL</td>
+<td>None</td>
+<td>Specifies the storage location, depends on the driver being used.</td>
+</tr>
+<tr class="row-even"><td><strong>sess_match_ip</strong></td>
+<td>FALSE</td>
+<td>TRUE/FALSE (boolean)</td>
+<td>Whether to validate the user&#8217;s IP address when reading the session cookie.
+Note that some ISPs dynamically changes the IP, so if you want a non-expiring session you
+will likely set this to FALSE.</td>
+</tr>
+<tr class="row-odd"><td><strong>sess_time_to_update</strong></td>
+<td>300</td>
+<td>Time in seconds (integer)</td>
+<td>This option controls how often the session class will regenerate itself and create a new
+session ID. Setting it to 0 will disable session ID regeneration.</td>
+</tr>
+<tr class="row-even"><td><strong>sess_regenerate_destroy</strong></td>
+<td>FALSE</td>
+<td>TRUE/FALSE (boolean)</td>
+<td>Whether to destroy session data associated with the old session ID when auto-regenerating
+the session ID. When set to FALSE, the data will be later deleted by the garbage collector.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">As a last resort, the Session library will try to fetch PHP&#8217;s
+session related INI settings, as well as legacy CI settings such as
+&#8216;sess_expire_on_close&#8217; when any of the above is not configured.
+However, you should never rely on this behavior as it can cause
+unexpected results or be changed in the future. Please configure
+everything properly.</p>
+</div>
+<p>In addition to the values above, the cookie and native drivers apply the
+following configuration values shared by the <a class="reference internal" href="input.html"><em>Input</em></a> and
+<a class="reference internal" href="security.html"><em>Security</em></a> classes:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="14%" />
+<col width="69%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Preference</th>
+<th class="head">Default</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>cookie_domain</strong></td>
+<td>&#8216;&#8217;</td>
+<td>The domain for which the session is applicable</td>
+</tr>
+<tr class="row-odd"><td><strong>cookie_path</strong></td>
+<td>/</td>
+<td>The path to which the session is applicable</td>
+</tr>
+<tr class="row-even"><td><strong>cookie_secure</strong></td>
+<td>FALSE</td>
+<td>Whether to create the session cookie only on encrypted (HTTPS) connections</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The &#8216;cookie_httponly&#8217; setting doesn&#8217;t have an effect on sessions.
+Instead the HttpOnly parameter is always enabled, for security
+reasons. Additionaly, the &#8216;cookie_prefix&#8217; setting is completely
+ignored.</p>
+</div>
+</div>
+<div class="section" id="session-drivers">
+<h3><a class="toc-backref" href="#id16">Session Drivers</a><a class="headerlink" href="#session-drivers" title="Permalink to this headline">¶</a></h3>
+<p>As already mentioned, the Session library comes with 4 drivers, or storage
+engines, that you can use:</p>
+<blockquote>
+<div><ul class="simple">
+<li>files</li>
+<li>database</li>
+<li>redis</li>
+<li>memcached</li>
+</ul>
+</div></blockquote>
+<p>By default, the <a class="reference internal" href="#files-driver">Files Driver</a> will be used when a session is initialized,
+because it is the most safe choice and is expected to work everywhere
+(virtually every environment has a file system).</p>
+<p>However, any other driver may be selected via the <code class="docutils literal"><span class="pre">$config['sess_driver']</span></code>
+line in your <strong>application/config/config.php</strong> file, if you chose to do so.
+Have it in mind though, every driver has different caveats, so be sure to
+get yourself familiar with them (below) before you make that choice.</p>
+<p>In addition, you may also create and use <a class="reference internal" href="#custom-drivers">Custom Drivers</a>, if the ones
+provided by default don&#8217;t satisfy your use case.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In previous CodeIgniter versions, a different, &#8220;cookie driver&#8221;
+was the only option and we have received negative feedback on not
+providing that option. While we do listen to feedback from the
+community, we want to warn you that it was dropped because it is
+<strong>unsafe</strong> and we advise you NOT to try to replicate it via a
+custom driver.</p>
+</div>
+<div class="section" id="files-driver">
+<h4><a class="toc-backref" href="#id17">Files Driver</a><a class="headerlink" href="#files-driver" title="Permalink to this headline">¶</a></h4>
+<p>The &#8216;files&#8217; driver uses your file system for storing session data.</p>
+<p>It can safely be said that it works exactly like PHP&#8217;s own default session
+implementation, but in case this is an important detail for you, have it
+mind that it is in fact not the same code and it has some limitations
+(and advantages).</p>
+<p>To be more specific, it doesn&#8217;t support PHP&#8217;s <a class="reference external" href="http://php.net/manual/en/session.configuration.php#ini.session.save-path">directory level and mode
+formats used in session.save_path</a>,
+and it has most of the options hard-coded for safety. Instead, only
+absolute paths are supported for <code class="docutils literal"><span class="pre">$config['sess_save_path']</span></code>.</p>
+<p>Another important thing that you should know, is to make sure that you
+don&#8217;t use a publicly-readable or shared directory for storing your session
+files. Make sure that <em>only you</em> have access to see the contents of your
+chosen <em>sess_save_path</em> directory. Otherwise, anybody who can do that, can
+also steal any of the current sessions (also known as &#8220;session fixation&#8221;
+attack).</p>
+<p>On UNIX-like operating systems, this is usually achieved by setting the
+0700 mode permissions on that directory via the <cite>chmod</cite> command, which
+allows only the directory&#8217;s owner to perform read and write operations on
+it. But be careful because the system user <em>running</em> the script is usually
+not your own, but something like &#8216;www-data&#8217; instead, so only setting those
+permissions will probable break your application.</p>
+<p>Instead, you should do something like this, depending on your environment</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nb">mkdir</span> <span class="o">/&lt;</span><span class="nx">path</span> <span class="nx">to</span> <span class="nx">your</span> <span class="nx">application</span> <span class="nx">directory</span><span class="o">&gt;/</span><span class="nx">sessions</span><span class="o">/</span>
+<span class="nb">chmod</span> <span class="mo">0700</span> <span class="o">/&lt;</span><span class="nx">path</span> <span class="nx">to</span> <span class="nx">your</span> <span class="nx">application</span> <span class="nx">directory</span><span class="o">&gt;/</span><span class="nx">sessions</span><span class="o">/</span>
+<span class="nb">chown</span> <span class="nx">www</span><span class="o">-</span><span class="nx">data</span> <span class="o">/&lt;</span><span class="nx">path</span> <span class="nx">to</span> <span class="nx">your</span> <span class="nx">application</span> <span class="nx">directory</span><span class="o">&gt;/</span><span class="nx">sessions</span><span class="o">/</span>
+</pre></div>
+</div>
+<div class="section" id="bonus-tip">
+<h5><a class="toc-backref" href="#id18">Bonus Tip</a><a class="headerlink" href="#bonus-tip" title="Permalink to this headline">¶</a></h5>
+<p>Some of you will probably opt to choose another session driver because
+file storage is usually slower. This is only half true.</p>
+<p>A very basic test will probably trick you into believing that an SQL
+database is faster, but in 99% of the cases, this is only true while you
+only have a few current sessions. As the sessions count and server loads
+increase - which is the time when it matters - the file system will
+consistently outperform almost all relational database setups.</p>
+<p>In addition, if performance is your only concern, you may want to look
+into using <a class="reference external" href="http://eddmann.com/posts/storing-php-sessions-file-caches-in-memory-using-tmpfs/">tmpfs</a>,
+(warning: external resource), which can make your sessions blazing fast.</p>
+</div>
+</div>
+<div class="section" id="database-driver">
+<h4><a class="toc-backref" href="#id19">Database Driver</a><a class="headerlink" href="#database-driver" title="Permalink to this headline">¶</a></h4>
+<p>The &#8216;database&#8217; driver uses a relational database such as MySQL or
+PostgreSQL to store sessions. This is a popular choice among many users,
+because it allows the developer easy access to the session data within
+an application - it is just another table in your database.</p>
+<p>However, there are some conditions that must be met:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Only your <strong>default</strong> database connection (or the one that you access
+as <code class="docutils literal"><span class="pre">$this-&gt;db</span></code> from your controllers) can be used.</li>
+<li>You must have the <a class="reference internal" href="../database/query_builder.html"><em>Query Builder</em></a>
+enabled.</li>
+<li>You can NOT use a persistent connection.</li>
+<li>You can NOT use a connection with the <em>cache_on</em> setting enabled.</li>
+</ul>
+</div></blockquote>
+<p>In order to use the &#8216;database&#8217; session driver, you must also create this
+table that we already mentioned and then set it as your
+<code class="docutils literal"><span class="pre">$config['sess_save_path']</span></code> value.
+For example, if you would like to use &#8216;ci_sessions&#8217; as your table name,
+you would do this:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;sess_driver&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;database&#39;</span><span class="p">;</span>
+<span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;sess_save_path&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;ci_sessions&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you&#8217;ve upgraded from a previous version of CodeIgniter and
+you don&#8217;t have &#8216;sess_save_path&#8217; configured, then the Session
+library will look for the old &#8216;sess_table_name&#8217; setting and use
+it instead. Please don&#8217;t rely on this behavior as it will get
+removed in the future.</p>
+</div>
+<p>And then of course, create the database table ...</p>
+<p>For MySQL:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nx">CREATE</span> <span class="nx">TABLE</span> <span class="k">IF</span> <span class="k">NOT</span> <span class="nx">EXISTS</span> <span class="sb">`ci_sessions`</span> <span class="p">(</span>
+        <span class="sb">`id`</span> <span class="nx">varchar</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="sb">`ip_address`</span> <span class="nx">varchar</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="sb">`timestamp`</span> <span class="nx">int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="nx">unsigned</span> <span class="k">DEFAULT</span> <span class="mi">0</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="sb">`data`</span> <span class="nx">blob</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="nx">KEY</span> <span class="sb">`ci_sessions_timestamp`</span> <span class="p">(</span><span class="sb">`timestamp`</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>For PostgreSQL:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nx">CREATE</span> <span class="nx">TABLE</span> <span class="s2">&quot;ci_sessions&quot;</span> <span class="p">(</span>
+        <span class="s2">&quot;id&quot;</span> <span class="nx">varchar</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="s2">&quot;ip_address&quot;</span> <span class="nx">varchar</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="s2">&quot;timestamp&quot;</span> <span class="nx">bigint</span> <span class="k">DEFAULT</span> <span class="mi">0</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+        <span class="s2">&quot;data&quot;</span> <span class="nx">text</span> <span class="k">DEFAULT</span> <span class="s1">&#39;&#39;</span> <span class="k">NOT</span> <span class="k">NULL</span>
+<span class="p">);</span>
+
+<span class="nx">CREATE</span> <span class="nx">INDEX</span> <span class="s2">&quot;ci_sessions_timestamp&quot;</span> <span class="nx">ON</span> <span class="s2">&quot;ci_sessions&quot;</span> <span class="p">(</span><span class="s2">&quot;timestamp&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>You will also need to add a PRIMARY KEY <strong>depending on your &#8216;sess_match_ip&#8217;
+setting</strong>. The examples below work both on MySQL and PostgreSQL:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="c1">// When sess_match_ip = TRUE</span>
+<span class="nx">ALTER</span> <span class="nx">TABLE</span> <span class="nx">ci_sessions</span> <span class="nx">ADD</span> <span class="nx">PRIMARY</span> <span class="nx">KEY</span> <span class="p">(</span><span class="nx">id</span><span class="p">,</span> <span class="nx">ip_address</span><span class="p">);</span>
+
+<span class="c1">// When sess_match_ip = FALSE</span>
+<span class="nx">ALTER</span> <span class="nx">TABLE</span> <span class="nx">ci_sessions</span> <span class="nx">ADD</span> <span class="nx">PRIMARY</span> <span class="nx">KEY</span> <span class="p">(</span><span class="nx">id</span><span class="p">);</span>
+
+<span class="c1">// To drop a previously created primary key (use when changing the setting)</span>
+<span class="nx">ALTER</span> <span class="nx">TABLE</span> <span class="nx">ci_sessions</span> <span class="nx">DROP</span> <span class="nx">PRIMARY</span> <span class="nx">KEY</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Only MySQL and PostgreSQL databases are officially
+supported, due to lack of advisory locking mechanisms on other
+platforms. Using sessions without locks can cause all sorts of
+problems, especially with heavy usage of AJAX, and we will not
+support such cases. Use <code class="docutils literal"><span class="pre">session_write_close()</span></code> after you&#8217;ve
+done processing session data if you&#8217;re having performance
+issues.</p>
+</div>
+</div>
+<div class="section" id="redis-driver">
+<h4><a class="toc-backref" href="#id20">Redis Driver</a><a class="headerlink" href="#redis-driver" title="Permalink to this headline">¶</a></h4>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Since Redis doesn&#8217;t have a locking mechanism exposed, locks for
+this driver are emulated by a separate value that is kept for up
+to 300 seconds.</p>
+</div>
+<p>Redis is a storage engine typically used for caching and popular because
+of its high performance, which is also probably your reason to use the
+&#8216;redis&#8217; session driver.</p>
+<p>The downside is that it is not as ubiquitous as relational databases and
+requires the <a class="reference external" href="https://github.com/phpredis/phpredis">phpredis</a> PHP
+extension to be installed on your system, and that one doesn&#8217;t come
+bundled with PHP.
+Chances are, you&#8217;re only be using the &#8216;redis&#8217; driver only if you&#8217;re already
+both familiar with Redis and using it for other purposes.</p>
+<p>Just as with the &#8216;files&#8217; and &#8216;database&#8217; drivers, you must also configure
+the storage location for your sessions via the
+<code class="docutils literal"><span class="pre">$config['sess_save_path']</span></code> setting.
+The format here is a bit different and complicated at the same time. It is
+best explained by the <em>phpredis</em> extension&#8217;s README file, so we&#8217;ll simply
+link you to it:</p>
+<blockquote>
+<div><a class="reference external" href="https://github.com/phpredis/phpredis#php-session-handler">https://github.com/phpredis/phpredis#php-session-handler</a></div></blockquote>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">CodeIgniter&#8217;s Session library does NOT use the actual &#8216;redis&#8217;
+<code class="docutils literal"><span class="pre">session.save_handler</span></code>. Take note <strong>only</strong> of the path format in
+the link above.</p>
+</div>
+<p>For the most common case however, a simple <code class="docutils literal"><span class="pre">host:port</span></code> pair should be
+sufficient:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;sess_driver&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;redis&#39;</span><span class="p">;</span>
+<span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;sess_save_path&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;tcp://localhost:6379&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="memcached-driver">
+<h4><a class="toc-backref" href="#id21">Memcached Driver</a><a class="headerlink" href="#memcached-driver" title="Permalink to this headline">¶</a></h4>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Since Memcache doesn&#8217;t have a locking mechanism exposed, locks
+for this driver are emulated by a separate value that is kept for
+up to 300 seconds.</p>
+</div>
+<p>The &#8216;memcached&#8217; driver is very similar to the &#8216;redis&#8217; one in all of its
+properties, except perhaps for availability, because PHP&#8217;s <a class="reference external" href="http://php.net/memcached">Memcached</a> extension is distributed via PECL and some
+Linux distrubutions make it available as an easy to install package.</p>
+<p>Other than that, and without any intentional bias towards Redis, there&#8217;s
+not much different to be said about Memcached - it is also a popular
+product that is usually used for caching and famed for its speed.</p>
+<p>However, it is worth noting that the only guarantee given by Memcached
+is that setting value X to expire after Y seconds will result in it being
+deleted after Y seconds have passed (but not necessarily that it won&#8217;t
+expire earlier than that time). This happens very rarely, but should be
+considered as it may result in loss of sessions.</p>
+<p>The <code class="docutils literal"><span class="pre">$config['sess_save_path']</span></code> format is fairly straightforward here,
+being just a <code class="docutils literal"><span class="pre">host:port</span></code> pair:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;sess_driver&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;memcached&#39;</span><span class="p">;</span>
+<span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;sess_save_path&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;localhost:11211&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="section" id="id1">
+<h5><a class="toc-backref" href="#id22">Bonus Tip</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h5>
+<p>Multi-server configuration with an optional <em>weight</em> parameter as the
+third colon-separated (<code class="docutils literal"><span class="pre">:weight</span></code>) value is also supported, but we have
+to note that we haven&#8217;t tested if that is reliable.</p>
+<p>If you want to experiment with this feature (on your own risk), simply
+separate the multiple server paths with commas:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="c1">// localhost will be given higher priority (5) here,</span>
+<span class="c1">// compared to 192.0.2.1 with a weight of 1.</span>
+<span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;sess_save_path&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;localhost:11211:5,192.0.2.1:11211:1&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="custom-drivers">
+<h4><a class="toc-backref" href="#id23">Custom Drivers</a><a class="headerlink" href="#custom-drivers" title="Permalink to this headline">¶</a></h4>
+<p>You may also create your own, custom session drivers. However, have it in
+mind that this is typically not an easy task, as it takes a lot of
+knowledge to do it properly.</p>
+<p>You need to know not only how sessions work in general, but also how they
+work specifically in PHP, how the underlying storage mechanism works, how
+to handle concurrency, avoid deadlocks (but NOT through lack of locks) and
+last but not least - how to handle the potential security issues, which
+is far from trivial.</p>
+<p>Long story short - if you don&#8217;t know how to do that already in raw PHP,
+you shouldn&#8217;t be trying to do it within CodeIgniter either. You&#8217;ve been
+warned.</p>
+<p>If you only want to add some extra functionality to your sessions, just
+extend the base Session class, which is a lot more easier. Read the
+<a class="reference internal" href="../general/creating_libraries.html"><em>Creating Libraries</em></a> article to
+learn how to do that.</p>
+<p>Now, to the point - there are three general rules that you must follow
+when creating a session driver for CodeIgniter:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Put your driver&#8217;s file under <strong>application/libraries/Session/drivers/</strong>
+and follow the naming conventions used by the Session class.</p>
+<p>For example, if you were to create a &#8216;dummy&#8217; driver, you would have
+a <code class="docutils literal"><span class="pre">Session_dummy_driver</span></code> class name, that is declared in
+<em>application/libraries/Session/drivers/Session_dummy_driver.php</em>.</p>
+</li>
+<li><p class="first">Extend the <code class="docutils literal"><span class="pre">CI_Session_driver</span></code> class.</p>
+<p>This is just a basic class with a few internal helper methods. It is
+also extendable like any other library, if you really need to do that,
+but we are not going to explain how ... if you&#8217;re familiar with how
+class extensions/overrides work in CI, then you already know how to do
+it. If not, well, you shouldn&#8217;t be doing it in the first place.</p>
+</li>
+<li><p class="first">Implement the <a class="reference external" href="http://php.net/sessionhandlerinterface">SessionHandlerInterface</a> interface.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You may notice that <code class="docutils literal"><span class="pre">SessionHandlerInterface</span></code> is provided
+by PHP since version 5.4.0. CodeIgniter will automatically declare
+the same interface if you&#8217;re running an older PHP version.</p>
+</div>
+<p>The link will explain why and how.</p>
+</li>
+</ul>
+</div></blockquote>
+<p>So, based on our &#8216;dummy&#8217; driver example above, you&#8217;d end up with something
+like this:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="c1">// application/libraries/Session/drivers/Session_dummy_driver.php:</span>
+
+<span class="k">class</span> <span class="nc">CI_Session_dummy_driver</span> <span class="k">extends</span> <span class="nx">CI_Session_driver</span> <span class="k">implements</span> <span class="nx">SessionHandlerInterface</span>
+<span class="p">{</span>
+
+        <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="o">&amp;</span><span class="nv">$params</span><span class="p">)</span>
+        <span class="p">{</span>
+                <span class="c1">// DO NOT forget this</span>
+                <span class="k">parent</span><span class="o">::</span><span class="na">__construct</span><span class="p">(</span><span class="nv">$params</span><span class="p">);</span>
+
+                <span class="c1">// Configuration &amp; other initializations</span>
+        <span class="p">}</span>
+
+        <span class="k">public</span> <span class="k">function</span> <span class="nf">open</span><span class="p">(</span><span class="nv">$save_path</span><span class="p">,</span> <span class="nv">$name</span><span class="p">)</span>
+        <span class="p">{</span>
+                <span class="c1">// Initialize storage mechanism (connection)</span>
+        <span class="p">}</span>
+
+        <span class="k">public</span> <span class="k">function</span> <span class="nf">read</span><span class="p">(</span><span class="nv">$session_id</span><span class="p">)</span>
+        <span class="p">{</span>
+                <span class="c1">// Read session data (if exists), acquire locks</span>
+        <span class="p">}</span>
+
+        <span class="k">public</span> <span class="k">function</span> <span class="nf">write</span><span class="p">(</span><span class="nv">$session_id</span><span class="p">,</span> <span class="nv">$session_data</span><span class="p">)</span>
+        <span class="p">{</span>
+                <span class="c1">// Create / update session data (it might not exist!)</span>
+        <span class="p">}</span>
+
+        <span class="k">public</span> <span class="k">function</span> <span class="nf">close</span><span class="p">()</span>
+        <span class="p">{</span>
+                <span class="c1">// Free locks, close connections / streams / etc.</span>
+        <span class="p">}</span>
+
+        <span class="k">public</span> <span class="k">function</span> <span class="nf">destroy</span><span class="p">(</span><span class="nv">$session_id</span><span class="p">)</span>
+        <span class="p">{</span>
+                <span class="c1">// Call close() method &amp; destroy data for current session (order may differ)</span>
+        <span class="p">}</span>
+
+        <span class="k">public</span> <span class="k">function</span> <span class="nf">gc</span><span class="p">(</span><span class="nv">$maxlifetime</span><span class="p">)</span>
+        <span class="p">{</span>
+                <span class="c1">// Erase data for expired sessions</span>
+        <span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>If you&#8217;ve done everything properly, you can now set your <em>sess_driver</em>
+configuration value to &#8216;dummy&#8217; and use your own driver. Congratulations!</p>
+</div>
+</div>
+</div>
+<div class="section" id="class-reference">
+<h2><a class="toc-backref" href="#id24">Class Reference</a><a class="headerlink" href="#class-reference" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="CI_Session">
+<em class="property">class </em><code class="descname">CI_Session</code><a class="headerlink" href="#CI_Session" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="CI_Session::userdata">
+<code class="descname">userdata</code><span class="sig-paren">(</span><span class="optional">[</span><em>$key = NULL</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Session::userdata" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>mixed</em>) &#8211; Session item key or NULL</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Value of the specified item key, or an array of all userdata</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Gets the value for a specific <code class="docutils literal"><span class="pre">$_SESSION</span></code> item, or an
+array of all &#8220;userdata&#8221; items if not key was specified.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is a legacy method kept only for backwards
+compatibility with older applications. You should
+directly access <code class="docutils literal"><span class="pre">$_SESSION</span></code> instead.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Session::all_userdata">
+<code class="descname">all_userdata</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Session::all_userdata" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">An array of all userdata</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">array</td>
+</tr>
+</tbody>
+</table>
+<p>Returns an array containing all &#8220;userdata&#8221; items.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method is DEPRECATED. Use <code class="docutils literal"><span class="pre">userdata()</span></code>
+with no parameters instead.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">&amp;get_userdata()</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A reference to <code class="docutils literal"><span class="pre">$_SESSION</span></code></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">array</td>
+</tr>
+</tbody>
+</table>
+<p>Returns a reference to the <code class="docutils literal"><span class="pre">$_SESSION</span></code> array.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is a legacy method kept only for backwards
+compatibility with older applications.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Session::has_userdata">
+<code class="descname">has_userdata</code><span class="sig-paren">(</span><em>$key</em><span class="sig-paren">)</span><a class="headerlink" href="#CI_Session::has_userdata" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>string</em>) &#8211; Session item key</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">TRUE if the specified key exists, FALSE if not</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Checks if an item exists in <code class="docutils literal"><span class="pre">$_SESSION</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is a legacy method kept only for backwards
+compatibility with older applications. It is just
+an alias for <code class="docutils literal"><span class="pre">isset($_SESSION[$key])</span></code> - please
+use that instead.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Session::set_userdata">
+<code class="descname">set_userdata</code><span class="sig-paren">(</span><em>$data</em><span class="optional">[</span>, <em>$value = NULL</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Session::set_userdata" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$data</strong> (<em>mixed</em>) &#8211; An array of key/value pairs to set as session data, or the key for a single item</li>
+<li><strong>$value</strong> (<em>mixed</em>) &#8211; The value to set for a specific session item, if $data is a key</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">void</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Assigns data to the <code class="docutils literal"><span class="pre">$_SESSION</span></code> superglobal.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is a legacy method kept only for backwards
+compatibility with older applications.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Session::unset_userdata">
+<code class="descname">unset_userdata</code><span class="sig-paren">(</span><em>$key</em><span class="sig-paren">)</span><a class="headerlink" href="#CI_Session::unset_userdata" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>mixed</em>) &#8211; Key for the session data item to unset, or an array of multiple keys</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">void</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Unsets the specified key(s) from the <code class="docutils literal"><span class="pre">$_SESSION</span></code>
+superglobal.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is a legacy method kept only for backwards
+compatibility with older applications. It is just
+an alias for <code class="docutils literal"><span class="pre">unset($_SESSION[$key])</span></code> - please
+use that instead.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Session::mark_as_flash">
+<code class="descname">mark_as_flash</code><span class="sig-paren">(</span><em>$key</em><span class="sig-paren">)</span><a class="headerlink" href="#CI_Session::mark_as_flash" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>mixed</em>) &#8211; Key to mark as flashdata, or an array of multiple keys</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">TRUE on success, FALSE on failure</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Marks a <code class="docutils literal"><span class="pre">$_SESSION</span></code> item key (or multiple ones) as
+&#8220;flashdata&#8221;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Session::get_flash_keys">
+<code class="descname">get_flash_keys</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Session::get_flash_keys" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Array containing the keys of all &#8220;flashdata&#8221; items.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">array</td>
+</tr>
+</tbody>
+</table>
+<p>Gets a list of all <code class="docutils literal"><span class="pre">$_SESSION</span></code> that have been marked as
+&#8220;flashdata&#8221;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Session::unmark_flash">
+<code class="descname">unmark_flash</code><span class="sig-paren">(</span><em>$key</em><span class="sig-paren">)</span><a class="headerlink" href="#CI_Session::unmark_flash" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>mixed</em>) &#8211; Key to be un-marked as flashdata, or an array of multiple keys</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">void</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Unmarks a <code class="docutils literal"><span class="pre">$_SESSION</span></code> item key (or multiple ones) as
+&#8220;flashdata&#8221;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Session::flashdata">
+<code class="descname">flashdata</code><span class="sig-paren">(</span><span class="optional">[</span><em>$key = NULL</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Session::flashdata" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>mixed</em>) &#8211; Flashdata item key or NULL</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Value of the specified item key, or an array of all flashdata</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Gets the value for a specific <code class="docutils literal"><span class="pre">$_SESSION</span></code> item that has
+been marked as &#8220;flashdata&#8221;, or an array of all &#8220;flashdata&#8221;
+items if no key was specified.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is a legacy method kept only for backwards
+compatibility with older applications. You should
+directly access <code class="docutils literal"><span class="pre">$_SESSION</span></code> instead.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Session::keep_flashdata">
+<code class="descname">keep_flashdata</code><span class="sig-paren">(</span><em>$key</em><span class="sig-paren">)</span><a class="headerlink" href="#CI_Session::keep_flashdata" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>mixed</em>) &#8211; Flashdata key to keep, or an array of multiple keys</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">TRUE on success, FALSE on failure</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Retains the specified session data key(s) as &#8220;flashdata&#8221;
+through the next request.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is a legacy method kept only for backwards
+compatibility with older applications. It is just
+an alias for the <code class="docutils literal"><span class="pre">mark_as_flash()</span></code> method.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Session::set_flashdata">
+<code class="descname">set_flashdata</code><span class="sig-paren">(</span><em>$data</em><span class="optional">[</span>, <em>$value = NULL</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Session::set_flashdata" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$data</strong> (<em>mixed</em>) &#8211; An array of key/value pairs to set as flashdata, or the key for a single item</li>
+<li><strong>$value</strong> (<em>mixed</em>) &#8211; The value to set for a specific session item, if $data is a key</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">void</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Assigns data to the <code class="docutils literal"><span class="pre">$_SESSION</span></code> superglobal and marks it
+as &#8220;flashdata&#8221;.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is a legacy method kept only for backwards
+compatibility with older applications.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Session::mark_as_temp">
+<code class="descname">mark_as_temp</code><span class="sig-paren">(</span><em>$key</em><span class="optional">[</span>, <em>$ttl = 300</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Session::mark_as_temp" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>mixed</em>) &#8211; Key to mark as tempdata, or an array of multiple keys</li>
+<li><strong>$ttl</strong> (<em>int</em>) &#8211; Time-to-live value for the tempdata, in seconds</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">TRUE on success, FALSE on failure</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Marks a <code class="docutils literal"><span class="pre">$_SESSION</span></code> item key (or multiple ones) as
+&#8220;tempdata&#8221;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Session::get_temp_keys">
+<code class="descname">get_temp_keys</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Session::get_temp_keys" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Array containing the keys of all &#8220;tempdata&#8221; items.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">array</td>
+</tr>
+</tbody>
+</table>
+<p>Gets a list of all <code class="docutils literal"><span class="pre">$_SESSION</span></code> that have been marked as
+&#8220;tempdata&#8221;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Session::unmark_temp">
+<code class="descname">unmark_temp</code><span class="sig-paren">(</span><em>$key</em><span class="sig-paren">)</span><a class="headerlink" href="#CI_Session::unmark_temp" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>mixed</em>) &#8211; Key to be un-marked as tempdata, or an array of multiple keys</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">void</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Unmarks a <code class="docutils literal"><span class="pre">$_SESSION</span></code> item key (or multiple ones) as
+&#8220;tempdata&#8221;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Session::tempdata">
+<code class="descname">tempdata</code><span class="sig-paren">(</span><span class="optional">[</span><em>$key = NULL</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Session::tempdata" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>mixed</em>) &#8211; Tempdata item key or NULL</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Value of the specified item key, or an array of all tempdata</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Gets the value for a specific <code class="docutils literal"><span class="pre">$_SESSION</span></code> item that has
+been marked as &#8220;tempdata&#8221;, or an array of all &#8220;tempdata&#8221;
+items if no key was specified.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is a legacy method kept only for backwards
+compatibility with older applications. You should
+directly access <code class="docutils literal"><span class="pre">$_SESSION</span></code> instead.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Session::set_tempdata">
+<code class="descname">set_tempdata</code><span class="sig-paren">(</span><em>$data</em><span class="optional">[</span>, <em>$value = NULL</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Session::set_tempdata" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$data</strong> (<em>mixed</em>) &#8211; An array of key/value pairs to set as tempdata, or the key for a single item</li>
+<li><strong>$value</strong> (<em>mixed</em>) &#8211; The value to set for a specific session item, if $data is a key</li>
+<li><strong>$ttl</strong> (<em>int</em>) &#8211; Time-to-live value for the tempdata item(s), in seconds</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">void</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Assigns data to the <code class="docutils literal"><span class="pre">$_SESSION</span></code> superglobal and marks it
+as &#8220;tempdata&#8221;.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is a legacy method kept only for backwards
+compatibility with older applications.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Session::sess_regenerate">
+<code class="descname">sess_regenerate</code><span class="sig-paren">(</span><span class="optional">[</span><em>$destroy = FALSE</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Session::sess_regenerate" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$destroy</strong> (<em>bool</em>) &#8211; Whether to destroy session data</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">void</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Regenerate session ID, optionally destroying the current
+session&#8217;s data.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method is just an alias for PHP&#8217;s native
+<a class="reference external" href="http://php.net/session_regenerate_id">session_regenerate_id()</a> function.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Session::sess_destroy">
+<code class="descname">sess_destroy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Session::sess_destroy" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">void</td>
+</tr>
+</tbody>
+</table>
+<p>Destroys the current session.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This must be the <em>last</em> session-related function
+that you call. All session data will be lost after
+you do that.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method is just an alias for PHP&#8217;s native
+<a class="reference external" href="http://php.net/session_destroy">session_destroy()</a> function.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Session::__get">
+<code class="descname">__get</code><span class="sig-paren">(</span><em>$key</em><span class="sig-paren">)</span><a class="headerlink" href="#CI_Session::__get" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>string</em>) &#8211; Session item key</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The requested session data item, or NULL if it doesn&#8217;t exist</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>A magic method that allows you to use
+<code class="docutils literal"><span class="pre">$this-&gt;session-&gt;item</span></code> instead of <code class="docutils literal"><span class="pre">$_SESSION['item']</span></code>,
+if that&#8217;s what you prefer.</p>
+<p>It will also return the session ID by calling
+<code class="docutils literal"><span class="pre">session_id()</span></code> if you try to access
+<code class="docutils literal"><span class="pre">$this-&gt;session-&gt;session_id</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Session::__set">
+<code class="descname">__set</code><span class="sig-paren">(</span><em>$key</em>, <em>$value</em><span class="sig-paren">)</span><a class="headerlink" href="#CI_Session::__set" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$key</strong> (<em>string</em>) &#8211; Session item key</li>
+<li><strong>$value</strong> (<em>mixed</em>) &#8211; Value to assign to the session item key</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">void</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>A magic method that allows you to assign items to
+<code class="docutils literal"><span class="pre">$_SESSION</span></code> by accessing them as <code class="docutils literal"><span class="pre">$this-&gt;session</span></code>
+properties:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">foo</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span><span class="p">;</span>
+
+<span class="c1">// Results in:</span>
+<span class="c1">// $_SESSION[&#39;foo&#39;] = &#39;bar&#39;;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="table.html" class="btn btn-neutral float-right" title="HTML Table Class">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="security.html" class="btn btn-neutral" title="Security Class"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014 - 2016, British Columbia Institute of Technology.
+      Last updated on Oct 28, 2016.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.1.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
