@@ -35,6 +35,10 @@ elif [ `grep -c -F --regexp="'$version_number'" user_guide_src/source/conf.py` -
 then
 	echo "Provided version number doesn't match in user_guide_src/source/conf.py"
 	exit 1
+elif [ `grep -c -F --regexp="$version_number (Current version) <https://codeload.github.com/bcit-ci/CodeIgniter/zip/$version_number>" user_guide_src/source/installation/downloads.rst` -ne 1 ]
+then
+	echo "user_guide_src/source/installation/downloads.rst doesn't appear to contain a link for this version"
+	exit 1
 elif [ ! -f "$upgrade_rst" ]
 then
 	echo "${upgrade_rst} doesn't exist"
