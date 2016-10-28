@@ -374,6 +374,13 @@ class CI_Email {
 		5 => '5 (Lowest)'
 	);
 
+	/**
+	 * mbstring.func_override flag
+	 *
+	 * @var	bool
+	 */
+	protected static $func_override;
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -389,6 +396,8 @@ class CI_Email {
 		$this->charset = config_item('charset');
 		$this->initialize($config);
 		$this->_safe_mode = ( ! is_php('5.4') && ini_get('safe_mode'));
+
+		isset(self::$func_override) OR self::$func_override = (extension_loaded('mbstring') && ini_get('mbstring.func_override'));
 
 		log_message('info', 'Email Class Initialized');
 	}
@@ -1037,7 +1046,7 @@ class CI_Email {
 	{
 		if (function_exists('idn_to_ascii') && $atpos = strpos($email, '@'))
 		{
-			$email = substr($email, 0, ++$atpos).idn_to_ascii(substr($email, $atpos));
+			$email = self::substr($email, 0, ++$atpos).idn_to_ascii(self::substr($email, $atpos));
 		}
 
 		return (bool) filter_var($email, FILTER_VALIDATE_EMAIL);
@@ -1154,7 +1163,7 @@ class CI_Email {
 		{
 			// Is the line within the allowed character count?
 			// If so we'll join it to the output and continue
-			if (mb_strlen($line) <= $charlim)
+			if (self::strlen($line) <= $charlim)
 			{
 				$output .= $line.$this->newline;
 				continue;
@@ -1170,10 +1179,10 @@ class CI_Email {
 				}
 
 				// Trim the word down
-				$temp .= mb_substr($line, 0, $charlim - 1);
-				$line = mb_substr($line, $charlim - 1);
+				$temp .= self::substr($line, 0, $charlim - 1);
+				$line = self::substr($line, $charlim - 1);
 			}
-			while (mb_strlen($line) > $charlim);
+			while (self::strlen($line) > $charlim);
 
 			// If $temp contains data it means we had to split up an over-length
 			// word into smaller chunks so we'll add it back to our current line
@@ -1385,7 +1394,7 @@ class CI_Email {
 					$this->_header_str .= $hdr;
 				}
 
-				strlen($body) && $body .= $this->newline.$this->newline;
+				self::strlen($body) && $body .= $this->newline.$this->newline;
 				$body .= $this->_get_mime_message().$this->newline.$this->newline
 					.'--'.$last_boundary.$this->newline
 
@@ -1532,7 +1541,7 @@ class CI_Email {
 
 		foreach (explode("\n", $str) as $line)
 		{
-			$length = strlen($line);
+			$length = self::strlen($line);
 			$temp = '';
 
 			// Loop through each character in the line to add soft-wrap
@@ -1567,7 +1576,7 @@ class CI_Email {
 
 				// If we're at the character limit, add the line to the output,
 				// reset our temp variable, and keep on chuggin'
-				if ((strlen($temp) + strlen($char)) >= 76)
+				if ((self::strlen($temp) + self::strlen($char)) >= 76)
 				{
 					$output .= $temp.$escape.$this->crlf;
 					$temp = '';
@@ -1582,7 +1591,7 @@ class CI_Email {
 		}
 
 		// get rid of extra CRLF tacked onto the end
-		return substr($output, 0, strlen($this->crlf) * -1);
+		return self::substr($output, 0, self::strlen($this->crlf) * -1);
 	}
 
 	// --------------------------------------------------------------------
@@ -1624,7 +1633,7 @@ class CI_Email {
 					// iconv_mime_encode() will always put a header field name.
 					// We've passed it an empty one, but it still prepends our
 					// encoded string with ': ', so we need to strip it.
-					return substr($output, 2);
+					return self::substr($output, 2);
 				}
 
 				$chars = iconv_strlen($str, 'UTF-8');
@@ -1636,10 +1645,10 @@ class CI_Email {
 		}
 
 		// We might already have this set for UTF-8
-		isset($chars) OR $chars = strlen($str);
+		isset($chars) OR $chars = self::strlen($str);
 
 		$output = '=?'.$this->charset.'?Q?';
-		for ($i = 0, $length = strlen($output); $i < $chars; $i++)
+		for ($i = 0, $length = self::strlen($output); $i < $chars; $i++)
 		{
 			$chr = ($this->charset === 'UTF-8' && ICONV_ENABLED === TRUE)
 				? '='.implode('=', str_split(strtoupper(bin2hex(iconv_substr($str, $i, 1, $this->charset))), 2))
@@ -1647,11 +1656,11 @@ class CI_Email {
 
 			// RFC 2045 sets a limit of 76 characters per line.
 			// We'll append ?= to the end of each line though.
-			if ($length + ($l = strlen($chr)) > 74)
+			if ($length + ($l = self::strlen($chr)) > 74)
 			{
 				$output .= '?='.$this->crlf // EOL
 					.' =?'.$this->charset.'?Q?'.$chr; // New line
-				$length = 6 + strlen($this->charset) + $l; // Reset the length for the new line
+				$length = 6 + self::strlen($this->charset) + $l; // Reset the length for the new line
 			}
 			else
 			{
@@ -1744,14 +1753,14 @@ class CI_Email {
 
 			if ($i === $float)
 			{
-				$chunk[] = substr($set, 1);
+				$chunk[] = self::substr($set, 1);
 				$float += $this->bcc_batch_size;
 				$set = '';
 			}
 
 			if ($i === $c-1)
 			{
-				$chunk[] = substr($set, 1);
+				$chunk[] = self::substr($set, 1);
 			}
 		}
 
@@ -2109,7 +2118,7 @@ class CI_Email {
 
 		$this->_debug_msg[] = '<pre>'.$cmd.': '.$reply.'</pre>';
 
-		if ((int) substr($reply, 0, 3) !== $resp)
+		if ((int) self::substr($reply, 0, 3) !== $resp)
 		{
 			$this->_set_error_message('lang:email_smtp_error', $reply);
 			return FALSE;
@@ -2196,9 +2205,9 @@ class CI_Email {
 	protected function _send_data($data)
 	{
 		$data .= $this->newline;
-		for ($written = $timestamp = 0, $length = strlen($data); $written < $length; $written += $result)
+		for ($written = $timestamp = 0, $length = self::strlen($data); $written < $length; $written += $result)
 		{
-			if (($result = fwrite($this->_smtp_connect, substr($data, $written))) === FALSE)
+			if (($result = fwrite($this->_smtp_connect, self::substr($data, $written))) === FALSE)
 			{
 				break;
 			}
@@ -2381,5 +2390,45 @@ class CI_Email {
 	public function __destruct()
 	{
 		is_resource($this->_smtp_connect) && $this->_send_command('quit');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Byte-safe strlen()
+	 *
+	 * @param	string	$str
+	 * @return	int
+	 */
+	protected static function strlen($str)
+	{
+		return (self::$func_override)
+			? mb_strlen($str, '8bit')
+			: strlen($str);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Byte-safe substr()
+	 *
+	 * @param	string	$str
+	 * @param	int	$start
+	 * @param	int	$length
+	 * @return	string
+	 */
+	protected static function substr($str, $start, $length = NULL)
+	{
+		if (self::$func_override)
+		{
+			// mb_substr($str, $start, null, '8bit') returns an empty
+			// string on PHP 5.3
+			isset($length) OR $length = ($start >= 0 ? self::strlen($str) - $start : -$start);
+			return mb_substr($str, $start, $length, '8bit');
+		}
+
+		return isset($length)
+			? substr($str, $start, $length)
+			: substr($str, $start);
 	}
 }
