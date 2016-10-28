@@ -268,7 +268,7 @@ if ( ! function_exists('is_countable'))
 				'species',
 				'swine',
 				'traffic',
-				'wheat',				
+				'wheat'
 			)
 		);
 	}
