@@ -275,8 +275,12 @@ Class Reference
 		:returns:	CI_Table instance (method chaining)
 		:rtype:	CI_Table
 
-		Lets you clear the table heading, row data and the caption. If you need to show multiple tables with different data you should to call this method
-		after each table has been generated to clear the previous table information. Example::
+		Lets you clear the table heading, row data and caption. If
+		you need to show multiple tables with different data you
+		should to call this method after each table has been
+		generated to clear the previous table information.
+
+		Example ::
 
 			$this->load->library('table');
 

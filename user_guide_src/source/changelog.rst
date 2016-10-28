@@ -27,6 +27,10 @@ Release Date: Not Released
 
       - Changed method ``set_rules()`` to throw a ``BadMethodCallException`` when its first parameter is not an array and the ``$rules`` one is unused.
 
+   -  :doc:`HTML Table Library <libraries/table>` changes include:
+
+      - Changed method ``clear()`` to also reset captions.
+
 -  Database
 
    -  Changed method ``initialize()`` to return void and instead throw a ``RuntimeException`` in case of failure.
