@@ -5,7 +5,7 @@ Change Log
 Version 3.1.2
 =============
 
-Release Date: Not Released
+Release Date: Oct 28, 2016
 
 -  **Security**
 
