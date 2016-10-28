@@ -207,7 +207,6 @@ class CI_Exceptions {
 		}
 		else
 		{
-			set_status_header(500);
 			$templates_path .= 'html'.DIRECTORY_SEPARATOR;
 		}
 

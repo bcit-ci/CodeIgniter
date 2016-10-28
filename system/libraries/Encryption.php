@@ -907,7 +907,7 @@ class CI_Encryption {
 	 * Byte-safe strlen()
 	 *
 	 * @param	string	$str
-	 * @return	integer
+	 * @return	int
 	 */
 	protected static function strlen($str)
 	{
