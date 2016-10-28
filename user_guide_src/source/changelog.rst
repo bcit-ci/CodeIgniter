@@ -5,11 +5,11 @@ Change Log
 Version 3.1.2
 =============
 
-Release Date: Not Released
+Release Date: Oct 28, 2016
 
 -  **Security**
 
-   -  Fixed a new URL-encoding attack vector in :doc:`Security Library <libraries/security>` method ``xss_clean()`` affecting Firefox.
+   -  Fixed a number of new vulnerabilities in :doc:`Security Library <libraries/security>` method ``xss_clean()``.
 
 -  General Changes
 
