@@ -9,7 +9,7 @@ Release Date: Not Released
 
 -  **Security**
 
-   -  Fixed a new URL-encoding attack vector in :doc:`Security Library <libraries/security>` method ``xss_clean()`` affecting Firefox.
+   -  Fixed a number of new vulnerabilities in :doc:`Security Library <libraries/security>` method ``xss_clean()``.
 
 -  General Changes
 
