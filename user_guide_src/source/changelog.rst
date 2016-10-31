@@ -2,14 +2,25 @@
 Change Log
 ##########
 
-Version 3.1.2
+Version 3.1.3
 =============
 
 Release Date: Not Released
 
+Bug fixes for 3.1.3
+-------------------
+
+-  Fixed a bug (#4886) - :doc:`Database Library <database/inded>` didn't differentiate bind markers inside double-quoted strings in queries.
+-  Fixed a bug (#4890) - :doc:`XML-RPC Library <libraries/xmlrpc>` didn't work on PHP 7.
+
+Version 3.1.2
+=============
+
+Release Date: Oct 28, 2016
+
 -  **Security**
 
-   -  Fixed a new URL-encoding attack vector in :doc:`Security Library <libraries/security>` method ``xss_clean()`` affecting Firefox.
+   -  Fixed a number of new vulnerabilities in :doc:`Security Library <libraries/security>` method ``xss_clean()``.
 
 -  General Changes
 
