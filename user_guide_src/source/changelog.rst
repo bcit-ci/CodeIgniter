@@ -2,6 +2,16 @@
 Change Log
 ##########
 
+Version 3.1.3
+=============
+
+Release Date: Not Released
+
+Bug fixes for 3.1.3
+-------------------
+
+-  Fixed a bug (#4886) - :doc:`Database Library <database/inded>` didn't differentiate bind markers inside double-quoted strings in queries.
+
 Version 3.1.2
 =============
 
