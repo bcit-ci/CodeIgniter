@@ -11,6 +11,7 @@ Bug fixes for 3.1.3
 -------------------
 
 -  Fixed a bug (#4886) - :doc:`Database Library <database/inded>` didn't differentiate bind markers inside double-quoted strings in queries.
+-  Fixed a bug (#4890) - :doc:`XML-RPC Library <libraries/xmlrpc>` didn't work on PHP 7.
 
 Version 3.1.2
 =============
