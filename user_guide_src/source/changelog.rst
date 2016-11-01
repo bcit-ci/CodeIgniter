@@ -12,6 +12,7 @@ Bug fixes for 3.1.3
 
 -  Fixed a bug (#4886) - :doc:`Database Library <database/inded>` didn't differentiate bind markers inside double-quoted strings in queries.
 -  Fixed a bug (#4890) - :doc:`XML-RPC Library <libraries/xmlrpc>` didn't work on PHP 7.
+-  Fixed a regression (#4887) - :doc:`File Uploading Library <libraries/file_uploading>` triggered fatal errors due to numerous PHP distribution channels (XAMPP and cPanel confirmed) explicitly disabling ext/fileinfo by default.
 
 Version 3.1.2
 =============

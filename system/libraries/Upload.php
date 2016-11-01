@@ -1218,21 +1218,31 @@ class CI_Upload {
 		// We'll need this to validate the MIME info string (e.g. text/plain; charset=us-ascii)
 		$regexp = '/^([a-z\-]+\/[a-z0-9\-\.\+]+)(;\s.+)?$/';
 
-		// Fileinfo extension - most reliable method
-		$finfo = @finfo_open(FILEINFO_MIME);
-		if (is_resource($finfo)) // It is possible that a FALSE value is returned, if there is no magic MIME database file found on the system
+		/**
+		 * Fileinfo extension - most reliable method
+		 *
+		 * Apparently XAMPP, CentOS, cPanel and who knows what
+		 * other PHP distribution channels EXPLICITLY DISABLE
+		 * ext/fileinfo, which is otherwise enabled by default
+		 * since PHP 5.3 ...
+		 */
+		if (function_exists('finfo_file'))
 		{
-			$mime = @finfo_file($finfo, $file['tmp_name']);
-			finfo_close($finfo);
-
-			/* According to the comments section of the PHP manual page,
-			 * it is possible that this function returns an empty string
-			 * for some files (e.g. if they don't exist in the magic MIME database)
-			 */
-			if (is_string($mime) && preg_match($regexp, $mime, $matches))
+			$finfo = @finfo_open(FILEINFO_MIME);
+			if (is_resource($finfo)) // It is possible that a FALSE value is returned, if there is no magic MIME database file found on the system
 			{
-				$this->file_type = $matches[1];
-				return;
+				$mime = @finfo_file($finfo, $file['tmp_name']);
+				finfo_close($finfo);
+
+				/* According to the comments section of the PHP manual page,
+				 * it is possible that this function returns an empty string
+				 * for some files (e.g. if they don't exist in the magic MIME database)
+				 */
+				if (is_string($mime) && preg_match($regexp, $mime, $matches))
+				{
+					$this->file_type = $matches[1];
+					return;
+				}
 			}
 		}
 
