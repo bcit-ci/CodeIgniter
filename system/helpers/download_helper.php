@@ -75,6 +75,11 @@ if ( ! function_exists('force_download'))
 				$filepath = key($filename);
 				$filename = current($filename);
 
+				if(is_int($filepath))
+				{
+					return;
+				}
+
 				if ( ! @is_file($filepath) OR ($filesize = @filesize($filepath)) === FALSE)
 				{
 					return;
