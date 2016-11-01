@@ -72,7 +72,7 @@ if ( ! function_exists('force_download'))
 			// Is $filename an array as ['local source path' => 'destination filename']?
 			if (is_array($filename))
 			{
-				if (count($filename) != 1)
+				if (count($filename) !== 1)
 				{
 					return;
 				}
