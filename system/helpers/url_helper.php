@@ -567,3 +567,29 @@ if ( ! function_exists('redirect'))
 		exit;
 	}
 }
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('tel'))
+{
+	/**
+	 * Creates a "tel:" anchor.
+	 *
+	 * @param	string	$tel        telephone number
+	 * @param	string	$title      link caption
+	 * @param	mixed	$attributes any attributes
+	 * @see https://tools.ietf.org/html/rfc3966
+	 * @return	string
+	 */
+	function tel($tel, $title = '', $attributes = '')
+	{
+		$title = (string) $title;
+
+		if ($title === '')
+		{
+			$title = $tel;
+		}
+
+		return '<a href="tel:'.$tel.'"'._stringify_attributes($attributes).'>'.$title.'</a>';
+	}
+}
