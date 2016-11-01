@@ -380,8 +380,7 @@ The following functions are available:
 	:returns:	A "tel" hyperlink
 	:rtype:	string
 
-	Creates a `RFC3966 <https://tools.ietf.org/html/rfc3966>`_ ``tel:``
-	link. Usage example::
+	Creates a RFC3966 ``tel:`` link. Usage example::
 
 		echo tel('+1-201-555-0123', 'Call Us');
 
