@@ -101,7 +101,7 @@ class Inflector_helper_test extends CI_TestCase {
 			1                => '1st',
 			2                => '2nd',
 			4                => '4th',
-			11               => '1th',
+			11               => '11th',
 			12               => '12th',
 			13               => '13th',
 			'something else' => 'something else',
