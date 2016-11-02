@@ -342,18 +342,18 @@ if ( ! function_exists('safe_mailto'))
 
 		$output = "<script type=\"text/javascript\">\n"
 			."//<![CDATA[\n"
-			."for(var l=[";
+			.'for(var l=[';
 
 		for ($i = 0, $c = count($x); $i < $c; $i++)
 		{
-			$output .= "'" .$x[$i] . "',";
+			$output .= "'".$x[$i]."',";
 		}
 
-		$output = rtrim($output, ',') . "]";
+		$output = rtrim($output, ',').']';
 
-		$output .= ",i = l.length-1; i >= 0; i=i-1)"
-			."l[i].substring(0, 1) === '|' ? document.write(\"&#\"+unescape(l[i].substring(1))+\";\"):"
-			."document.write(unescape(l[i]));"
+		$output .= ',i = l.length-1; i >= 0; i=i-1)'
+			.'l[i].substring(0, 1) === \'|\' ? document.write("&#"+unescape(l[i].substring(1))+";"):'
+			.'document.write(unescape(l[i]));'
 			."\n"
 			."//]]>\n"
 			.'</script>';
