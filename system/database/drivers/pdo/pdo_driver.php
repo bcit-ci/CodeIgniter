@@ -79,7 +79,11 @@ class CI_DB_pdo_driver extends CI_DB {
 	public function __construct($params)
 	{
 		parent::__construct($params);
-
+                if (preg_match('/(\w+)/', $this->dsn, $match) && get_cfg_var('pdo.dsn.' . $match[1]) !== false)
+                {
+                        $this->subdriver = $match[1];
+                        return;
+                } 
 		if (preg_match('/([^:]+):/', $this->dsn, $match) && count($match) === 2)
 		{
 			// If there is a minimum valid dsn string pattern found, we're done
