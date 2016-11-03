@@ -981,7 +981,160 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		return $this;
 	}
+	
+	// ----------- start of PostgreSQL ilike definition -------------------
 
+        // --------------------------------------------------------------------
+
+	/**
+	 * ILIKE
+	 *
+	 * Generates a %ILIKE% portion of the query.
+	 * Separates multiple calls with 'AND'.
+	 *
+	 * @param	mixed	$field
+	 * @param	string	$match
+	 * @param	string	$side
+	 * @param	bool	$escape
+	 * @return	CI_DB_query_builder
+	 */
+	public function ilike($field, $match = '', $side = 'both', $escape = NULL)
+	{
+		return $this->_ilike($field, $match, 'AND ', $side, '', $escape);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * NOT ILIKE
+	 *
+	 * Generates a NOT ILIKE portion of the query.
+	 * Separates multiple calls with 'AND'.
+	 *
+	 * @param	mixed	$field
+	 * @param	string	$match
+	 * @param	string	$side
+	 * @param	bool	$escape
+	 * @return	CI_DB_query_builder
+	 */
+	public function not_ilike($field, $match = '', $side = 'both', $escape = NULL)
+	{
+		return $this->_ilike($field, $match, 'AND ', $side, 'NOT', $escape);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * OR ILIKE
+	 *
+	 * Generates a %ILIKE% portion of the query.
+	 * Separates multiple calls with 'OR'.
+	 *
+	 * @param	mixed	$field
+	 * @param	string	$match
+	 * @param	string	$side
+	 * @param	bool	$escape
+	 * @return	CI_DB_query_builder
+	 */
+	public function or_ilike($field, $match = '', $side = 'both', $escape = NULL)
+	{
+		return $this->_ilike($field, $match, 'OR ', $side, '', $escape);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * OR NOT ILIKE
+	 *
+	 * Generates a NOT ILIKE portion of the query.
+	 * Separates multiple calls with 'OR'.
+	 *
+	 * @param	mixed	$field
+	 * @param	string	$match
+	 * @param	string	$side
+	 * @param	bool	$escape
+	 * @return	CI_DB_query_builder
+	 */
+	public function or_not_ilike($field, $match = '', $side = 'both', $escape = NULL)
+	{
+		return $this->_ilike($field, $match, 'OR ', $side, 'NOT', $escape);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Internal ILIKE
+	 *
+	 * @used-by	ilike()
+	 * @used-by	or_ilike()
+	 * @used-by	not_ilike()
+	 * @used-by	or_not_ilike()
+	 *
+	 * @param	mixed	$field
+	 * @param	string	$match
+	 * @param	string	$type
+	 * @param	string	$side
+	 * @param	string	$not
+	 * @param	bool	$escape
+	 * @return	CI_DB_query_builder
+	 */
+	protected function _ilike($field, $match = '', $type = 'AND ', $side = 'both', $not = '', $escape = NULL)
+	{
+		if ( ! is_array($field))
+		{
+			$field = array($field => $match);
+		}
+
+		is_bool($escape) OR $escape = $this->_protect_identifiers;
+		// lowercase $side in case somebody writes e.g. 'BEFORE' instead of 'before' (doh)
+		$side = strtolower($side);
+
+		foreach ($field as $k => $v)
+		{
+			$prefix = (count($this->qb_where) === 0 && count($this->qb_cache_where) === 0)
+				? $this->_group_get_type('') : $this->_group_get_type($type);
+
+			if ($escape === TRUE)
+			{
+				$v = $this->escape_like_str($v);
+			}
+
+			if ($side === 'none')
+			{
+				$ilike_statement = "{$prefix} {$k} {$not} ILIKE '{$v}'";
+			}
+			elseif ($side === 'before')
+			{
+				$ilike_statement = "{$prefix} {$k} {$not} ILIKE '%{$v}'";
+			}
+			elseif ($side === 'after')
+			{
+				$ilike_statement = "{$prefix} {$k} {$not} ILIKE '{$v}%'";
+			}
+			else
+			{
+				$ilike_statement = "{$prefix} {$k} {$not} ILIKE '%{$v}%'";
+			}
+
+			// some platforms require an escape sequence definition for LIKE wildcards
+			if ($escape === TRUE && $this->_like_escape_str !== '')
+			{
+				$ilike_statement .= sprintf($this->_like_escape_str, $this->_like_escape_chr);
+			}
+
+			$this->qb_where[] = array('condition' => $ilike_statement, 'escape' => $escape);
+			if ($this->qb_caching === TRUE)
+			{
+				$this->qb_cache_where[] = array('condition' => $ilike_statement, 'escape' => $escape);
+				$this->qb_cache_exists[] = 'where';
+			}
+		}
+
+		return $this;
+	}
+        
+        // ------------ end of PostgreSQL ilike definition --------------------
+	
 	// --------------------------------------------------------------------
 
 	/**
