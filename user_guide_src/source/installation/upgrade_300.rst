@@ -82,8 +82,8 @@ The Log Class is considered as a "core" class and is now located in the
 **system/core/** directory. Therefore, in order for your Log class overrides
 or extensions to work, you need to move them to **application/core/**:
 
-	application/libraries/Log.php -> application/core/Log.php  
-	application/libraries/MY_Log.php -> application/core/MY_Log.php
+	- application/libraries/Log.php -> application/core/Log.php
+	- application/libraries/MY_Log.php -> application/core/MY_Log.php
 
 *****************************************
 Step 6: Update your Session library usage
@@ -655,7 +655,7 @@ Please use :php:func:`html_escape()` instead.
 Email helper functions
 ======================
 
-:doc:`Email Helper <../helpers/email_helper>` only has two functions
+:doc:`Email Helper <../helpers/email_helper>` only has two functions.
 
  - :php:func:`valid_email()`
  - :php:func:`send_email()`
@@ -883,7 +883,7 @@ tag ``<mark>``.
 Unless you've used your own highlighting tags, this might cause trouble
 for your visitors who use older web browsers such as Internet Explorer 8.
 We therefore suggest that you add the following code to your CSS files
-in order to avoid backwards compatibility with old browsers::
+for backwards compatibility with old browsers::
 
 	mark {
 		background: #ff0;
