@@ -465,6 +465,28 @@ class CI_Cart {
 	}
 
 	// --------------------------------------------------------------------
+	
+	/**
+	 * Total Quantity
+	 *
+	 * Returns the total quantity count
+	 *
+	 * @access	public
+	 * @return	integer
+	 */
+	function total_qty()
+	{
+		$total=0;
+		
+		foreach($this->contents() as $item)
+		{	
+			$total+=$item['qty'];
+		}
+		
+		return $total;
+	}
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Cart Contents
