@@ -306,6 +306,10 @@ Release Date: October 8, 2015
    -  Changed :doc:`Loader Library <libraries/loader>` method ``model()`` to only apply ``ucfirst()`` and not ``strtolower()`` to the requested class name.
    -  Changed :doc:`Config Library <libraries/config>` methods ``base_url()``, ``site_url()`` to allow protocol-relative URLs by passing an empty string as the protocol.
 
+-  Helpers
+
+   -  Added method :php:func:`field_highlight()` to :doc:`Form Helper <helpers/form_helper>`.
+
 Bug fixes for 3.0.2
 -------------------
 
