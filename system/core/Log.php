@@ -60,7 +60,7 @@ class CI_Log {
 	 *
 	 * @var	int
 	 */
-	protected $_file_permissions = 0644;
+	protected $_file_permissions = FILE_READ_MODE;
 
 	/**
 	 * Level of logging
@@ -125,10 +125,9 @@ class CI_Log {
 		isset(self::$func_override) OR self::$func_override = (extension_loaded('mbstring') && ini_get('mbstring.func_override'));
 
 		$this->_log_path = ($config['log_path'] !== '') ? $config['log_path'] : APPPATH.'logs/';
-		$this->_file_ext = (isset($config['log_file_extension']) && $config['log_file_extension'] !== '')
-			? ltrim($config['log_file_extension'], '.') : 'php';
+		$this->_file_ext = ($config['log_file_extension'] !== '') ? ltrim($config['log_file_extension'], '.') : 'php';
 
-		file_exists($this->_log_path) OR mkdir($this->_log_path, 0755, TRUE);
+		file_exists($this->_log_path) OR mkdir($this->_log_path, DIR_WRITE_MODE, TRUE);
 
 		if ( ! is_dir($this->_log_path) OR ! is_really_writable($this->_log_path))
 		{
@@ -195,7 +194,7 @@ class CI_Log {
 			}
 		}
 
-		if ( ! $fp = @fopen($filepath, 'ab'))
+		if ( ! $fp = @fopen($filepath, FOPEN_WRITE_CREATE))
 		{
 			return FALSE;
 		}
