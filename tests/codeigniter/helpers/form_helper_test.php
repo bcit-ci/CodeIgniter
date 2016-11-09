@@ -55,6 +55,162 @@ EOH;
 
 	// ------------------------------------------------------------------------
 
+	public function test_form_color()
+	{
+		$expected = <<<EOH
+<input type="color" name="color" value=""  />
+
+EOH;
+
+		$this->assertEquals($expected, form_color('color'));
+	}
+
+	// ------------------------------------------------------------------------
+
+	public function test_form_date()
+	{
+		$expected = <<<EOH
+<input type="date" name="date" value=""  />
+
+EOH;
+
+		$this->assertEquals($expected, form_date('date'));
+	}
+
+	// ------------------------------------------------------------------------
+
+	public function test_form_datetime()
+	{
+		$expected = <<<EOH
+<input type="datetime" name="datetime" value=""  />
+
+EOH;
+
+		$this->assertEquals($expected, form_datetime('datetime'));
+	}
+
+	// ------------------------------------------------------------------------
+
+	public function test_form_datetime_local()
+	{
+		$expected = <<<EOH
+<input type="datetime-local" name="datetime-local" value=""  />
+
+EOH;
+
+		$this->assertEquals($expected, form_datetime_local('datetime-local'));
+	}
+
+	// ------------------------------------------------------------------------
+
+	public function test_form_email()
+	{
+		$expected = <<<EOH
+<input type="email" name="email" value=""  />
+
+EOH;
+
+		$this->assertEquals($expected, form_email('email'));
+	}
+
+	// ------------------------------------------------------------------------
+
+	public function test_form_month()
+	{
+		$expected = <<<EOH
+<input type="month" name="month" value=""  />
+
+EOH;
+
+		$this->assertEquals($expected, form_month('month'));
+	}
+
+	// ------------------------------------------------------------------------
+
+	public function test_form_number()
+	{
+		$expected = <<<EOH
+<input type="number" name="number" value=""  />
+
+EOH;
+
+		$this->assertEquals($expected, form_number('number'));
+	}
+
+	// ------------------------------------------------------------------------
+
+	public function test_form_range()
+	{
+		$expected = <<<EOH
+<input type="range" name="range" value=""  />
+
+EOH;
+
+		$this->assertEquals($expected, form_range('range'));
+	}
+
+	// ------------------------------------------------------------------------
+
+	public function test_form_search()
+	{
+		$expected = <<<EOH
+<input type="search" name="search" value=""  />
+
+EOH;
+
+		$this->assertEquals($expected, form_search('search'));
+	}
+
+	// ------------------------------------------------------------------------
+
+	public function test_form_tel()
+	{
+		$expected = <<<EOH
+<input type="tel" name="tel" value=""  />
+
+EOH;
+
+		$this->assertEquals($expected, form_tel('tel'));
+	}
+
+	// ------------------------------------------------------------------------
+
+	public function test_form_time()
+	{
+		$expected = <<<EOH
+<input type="time" name="time" value=""  />
+
+EOH;
+
+		$this->assertEquals($expected, form_time('time'));
+	}
+
+	// ------------------------------------------------------------------------
+
+	public function test_form_url()
+	{
+		$expected = <<<EOH
+<input type="url" name="url" value=""  />
+
+EOH;
+
+		$this->assertEquals($expected, form_url('url'));
+	}
+
+	// ------------------------------------------------------------------------
+
+	public function test_form_week()
+	{
+		$expected = <<<EOH
+<input type="week" name="week" value=""  />
+
+EOH;
+
+		$this->assertEquals($expected, form_week('week'));
+	}
+
+	// ------------------------------------------------------------------------
+
 	public function test_form_upload()
 	{
 		$expected = <<<EOH
