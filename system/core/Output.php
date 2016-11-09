@@ -278,7 +278,8 @@ class CI_Output {
 	 */
 	public function get_content_type()
 	{
-		for ($i = 0, $c = count($this->headers); $i < $c; $i++)
+		$c = count($this->headers);
+		for ($i = 0; $i < $c; $i++)
 		{
 			if (sscanf($this->headers[$i][0], 'Content-Type: %[^;]', $content_type) === 1)
 			{
@@ -311,7 +312,8 @@ class CI_Output {
 			return NULL;
 		}
 
-		for ($i = 0, $c = count($headers); $i < $c; $i++)
+		$c = count($headers);
+		for ($i = 0; $i < $c; $i++)
 		{
 			if (strncasecmp($header, $headers[$i], $l = self::strlen($header)) === 0)
 			{
