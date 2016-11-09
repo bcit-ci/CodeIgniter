@@ -17,3 +17,20 @@ Step 2: Update your CLI error templates
 =======================================
 
 Replace all files under your *application/views/errors/cli/* directory.
+
+Step 3: Update your config/database.php
+=======================================
+
+To disable all error output on production environment, update ``'db_debug'``::
+
+	// 'db_debug' => TRUE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+
+Step 4: Update your config files
+================================
+
+The following files have been changed:
+
+- foreign_chars.php
+- mimes.php
+- user_agents.php
