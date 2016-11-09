@@ -235,7 +235,7 @@ if ( ! function_exists('get_config'))
 	 * @param	array
 	 * @return	array
 	 */
-	function &get_config(Array $replace = array())
+	function &get_config(array $replace = array())
 	{
 		static $config;
 

@@ -336,7 +336,7 @@ if ( ! is_php('5.4'))
  *  Load the Input class and sanitize globals
  * ------------------------------------------------------
  */
-	$IN	=& load_class('Input', 'core');
+	$IN =& load_class('Input', 'core');
 
 /*
  * ------------------------------------------------------
