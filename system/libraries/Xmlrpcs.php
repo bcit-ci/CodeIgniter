@@ -339,11 +339,11 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 		//-------------------------------------
 
 		$method_parts = explode('.', $this->methods[$methName]['function']);
-		$objectCall = (isset($method_parts[1]) && $method_parts[1] !== '');
+		$objectCall   = ! empty($method_parts[1]);
 
 		if ($system_call === TRUE)
 		{
-			if ( ! is_callable(array($this,$method_parts[1])))
+			if ( ! is_callable(array($this, $method_parts[1])))
 			{
 				return new XML_RPC_Response(0, $this->xmlrpcerr['unknown_method'], $this->xmlrpcstr['unknown_method']);
 			}
@@ -400,11 +400,11 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 			}
 			elseif ($this->object === FALSE)
 			{
-				return get_instance()->$method_parts[1]($m);
+				return get_instance()->{$method_parts[1]}($m);
 			}
 			else
 			{
-				return $this->object->$method_parts[1]($m);
+				return $this->object->{$method_parts[1]}($m);
 			}
 		}
 		else

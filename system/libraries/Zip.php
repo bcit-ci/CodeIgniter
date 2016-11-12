@@ -106,12 +106,21 @@ class CI_Zip {
 	public $compression_level = 2;
 
 	/**
+	 * mbstring.func_override flag
+	 *
+	 * @var	bool
+	 */
+	protected static $func_override;
+
+	/**
 	 * Initialize zip compression class
 	 *
 	 * @return	void
 	 */
 	public function __construct()
 	{
+		isset(self::$func_override) OR self::$func_override = (extension_loaded('mbstring') && ini_get('mbstring.func_override'));
+
 		$this->now = time();
 		log_message('info', 'Zip Compression Class Initialized');
 	}
@@ -182,7 +191,7 @@ class CI_Zip {
 			.pack('V', 0) // crc32
 			.pack('V', 0) // compressed filesize
 			.pack('V', 0) // uncompressed filesize
-			.pack('v', strlen($dir)) // length of pathname
+			.pack('v', self::strlen($dir)) // length of pathname
 			.pack('v', 0) // extra field length
 			.$dir
 			// below is "data descriptor" segment
@@ -197,7 +206,7 @@ class CI_Zip {
 			.pack('V',0) // crc32
 			.pack('V',0) // compressed filesize
 			.pack('V',0) // uncompressed filesize
-			.pack('v', strlen($dir)) // length of pathname
+			.pack('v', self::strlen($dir)) // length of pathname
 			.pack('v', 0) // extra field length
 			.pack('v', 0) // file comment length
 			.pack('v', 0) // disk number start
@@ -206,7 +215,7 @@ class CI_Zip {
 			.pack('V', $this->offset) // relative offset of local header
 			.$dir;
 
-		$this->offset = strlen($this->zipdata);
+		$this->offset = self::strlen($this->zipdata);
 		$this->entries++;
 	}
 
@@ -255,10 +264,10 @@ class CI_Zip {
 	{
 		$filepath = str_replace('\\', '/', $filepath);
 
-		$uncompressed_size = strlen($data);
+		$uncompressed_size = self::strlen($data);
 		$crc32  = crc32($data);
-		$gzdata = substr(gzcompress($data, $this->compression_level), 2, -4);
-		$compressed_size = strlen($gzdata);
+		$gzdata = self::substr(gzcompress($data, $this->compression_level), 2, -4);
+		$compressed_size = self::strlen($gzdata);
 
 		$this->zipdata .=
 			"\x50\x4b\x03\x04\x14\x00\x00\x00\x08\x00"
@@ -267,7 +276,7 @@ class CI_Zip {
 			.pack('V', $crc32)
 			.pack('V', $compressed_size)
 			.pack('V', $uncompressed_size)
-			.pack('v', strlen($filepath)) // length of filename
+			.pack('v', self::strlen($filepath)) // length of filename
 			.pack('v', 0) // extra field length
 			.$filepath
 			.$gzdata; // "file data" segment
@@ -279,7 +288,7 @@ class CI_Zip {
 			.pack('V', $crc32)
 			.pack('V', $compressed_size)
 			.pack('V', $uncompressed_size)
-			.pack('v', strlen($filepath)) // length of filename
+			.pack('v', self::strlen($filepath)) // length of filename
 			.pack('v', 0) // extra field length
 			.pack('v', 0) // file comment length
 			.pack('v', 0) // disk number start
@@ -288,7 +297,7 @@ class CI_Zip {
 			.pack('V', $this->offset) // relative offset of local header
 			.$filepath;
 
-		$this->offset = strlen($this->zipdata);
+		$this->offset = self::strlen($this->zipdata);
 		$this->entries++;
 		$this->file_num++;
 	}
@@ -401,8 +410,8 @@ class CI_Zip {
 			.$this->directory."\x50\x4b\x05\x06\x00\x00\x00\x00"
 			.pack('v', $this->entries) // total # of entries "on this disk"
 			.pack('v', $this->entries) // total # of entries overall
-			.pack('V', strlen($this->directory)) // size of central dir
-			.pack('V', strlen($this->zipdata)) // offset to start of central dir
+			.pack('V', self::strlen($this->directory)) // size of central dir
+			.pack('V', self::strlen($this->zipdata)) // offset to start of central dir
 			."\x00\x00"; // .zip file comment length
 	}
 
@@ -425,9 +434,9 @@ class CI_Zip {
 
 		flock($fp, LOCK_EX);
 
-		for ($result = $written = 0, $data = $this->get_zip(), $length = strlen($data); $written < $length; $written += $result)
+		for ($result = $written = 0, $data = $this->get_zip(), $length = self::strlen($data); $written < $length; $written += $result)
 		{
-			if (($result = fwrite($fp, substr($data, $written))) === FALSE)
+			if (($result = fwrite($fp, self::substr($data, $written))) === FALSE)
 			{
 				break;
 			}
@@ -481,4 +490,43 @@ class CI_Zip {
 		return $this;
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Byte-safe strlen()
+	 *
+	 * @param	string	$str
+	 * @return	int
+	 */
+	protected static function strlen($str)
+	{
+		return (self::$func_override)
+			? mb_strlen($str, '8bit')
+			: strlen($str);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Byte-safe substr()
+	 *
+	 * @param	string	$str
+	 * @param	int	$start
+	 * @param	int	$length
+	 * @return	string
+	 */
+	protected static function substr($str, $start, $length = NULL)
+	{
+		if (self::$func_override)
+		{
+			// mb_substr($str, $start, null, '8bit') returns an empty
+			// string on PHP 5.3
+			isset($length) OR $length = ($start >= 0 ? self::strlen($str) - $start : -$start);
+			return mb_substr($str, $start, $length, '8bit');
+		}
+
+		return isset($length)
+			? substr($str, $start, $length)
+			: substr($str, $start);
+	}
 }

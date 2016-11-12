@@ -2,14 +2,28 @@
 Change Log
 ##########
 
-Version 3.1.2
+Version 3.1.3
 =============
 
 Release Date: Not Released
 
+Bug fixes for 3.1.3
+-------------------
+
+-  Fixed a bug (#4886) - :doc:`Database Library <database/inded>` didn't differentiate bind markers inside double-quoted strings in queries.
+-  Fixed a bug (#4890) - :doc:`XML-RPC Library <libraries/xmlrpc>` didn't work on PHP 7.
+-  Fixed a regression (#4887) - :doc:`File Uploading Library <libraries/file_uploading>` triggered fatal errors due to numerous PHP distribution channels (XAMPP and cPanel confirmed) explicitly disabling ext/fileinfo by default.
+-  Fixed a bug (#4679) - :doc:`Input Library <libraries/input>` method ``ip_address()`` didn't properly resolve ``$config['proxy_ips']`` IPv6 addresses.
+-  Fixed a bug (#4902) - :doc:`Image Manipulation Library <libraries/image_lib>` processing via ImageMagick didn't work.
+
+Version 3.1.2
+=============
+
+Release Date: Oct 28, 2016
+
 -  **Security**
 
-   -  Fixed a new URL-encoding attack vector in :doc:`Security Library <libraries/security>` method ``xss_clean()`` affecting Firefox.
+   -  Fixed a number of new vulnerabilities in :doc:`Security Library <libraries/security>` method ``xss_clean()``.
 
 -  General Changes
 
@@ -20,6 +34,8 @@ Bug fixes for 3.1.2
 
 -  Fixed a regression (#4874) - :doc:`Session Library <libraries/sessions>` didn't take into account ``session.hash_bits_per_character`` when validating session IDs.
 -  Fixed a bug (#4871) - :doc:`Query Builder <database/query_builder>` method ``update_batch()`` didn't properly handle identifier escaping.
+-  Fixed a bug (#4884) - :doc:`Query Builder <database/query_builder>` didn't properly parse field names ending in 'is' when used inside WHERE and HAVING statements.
+-  Fixed a bug where ``CI_Log``, ``CI_Output``, ``CI_Email`` and ``CI_Zip`` didn't handle strings in a byte-safe manner when ``mbstring.func_override`` is enabled.
 
 Version 3.1.1
 =============

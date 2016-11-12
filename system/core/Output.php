@@ -123,6 +123,13 @@ class CI_Output {
 	public $parse_exec_vars = TRUE;
 
 	/**
+	 * mbstring.func_override flag
+	 *
+	 * @var	bool
+	 */
+	protected static $func_override;
+
+	/**
 	 * Class constructor
 	 *
 	 * Determines whether zLib output compression will be used.
@@ -137,6 +144,8 @@ class CI_Output {
 			&& config_item('compress_output') === TRUE
 			&& extension_loaded('zlib')
 		);
+
+		isset(self::$func_override) OR self::$func_override = (extension_loaded('mbstring') && ini_get('mbstring.func_override'));
 
 		// Get mime types for later
 		$this->mimes =& get_mimes();
@@ -304,9 +313,9 @@ class CI_Output {
 
 		for ($i = 0, $c = count($headers); $i < $c; $i++)
 		{
-			if (strncasecmp($header, $headers[$i], $l = strlen($header)) === 0)
+			if (strncasecmp($header, $headers[$i], $l = self::strlen($header)) === 0)
 			{
-				return trim(substr($headers[$i], $l+1));
+				return trim(self::substr($headers[$i], $l+1));
 			}
 		}
 
@@ -480,13 +489,13 @@ class CI_Output {
 				if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE)
 				{
 					header('Content-Encoding: gzip');
-					header('Content-Length: '.strlen($output));
+					header('Content-Length: '.self::strlen($output));
 				}
 				else
 				{
 					// User agent doesn't support gzip compression,
 					// so we'll have to decompress our cache
-					$output = gzinflate(substr($output, 10, -8));
+					$output = gzinflate(self::substr($output, 10, -8));
 				}
 			}
 
@@ -601,9 +610,9 @@ class CI_Output {
 
 			$output = $cache_info.'ENDCI--->'.$output;
 
-			for ($written = 0, $length = strlen($output); $written < $length; $written += $result)
+			for ($written = 0, $length = self::strlen($output); $written < $length; $written += $result)
 			{
-				if (($result = fwrite($fp, substr($output, $written))) === FALSE)
+				if (($result = fwrite($fp, self::substr($output, $written))) === FALSE)
 				{
 					break;
 				}
@@ -711,7 +720,7 @@ class CI_Output {
 		}
 
 		// Display the cache
-		$this->_display(substr($cache, strlen($match[0])));
+		$this->_display(self::substr($cache, self::strlen($match[0])));
 		log_message('debug', 'Cache file is current. Sending it to browser.');
 		return TRUE;
 	}
@@ -797,4 +806,43 @@ class CI_Output {
 		}
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Byte-safe strlen()
+	 *
+	 * @param	string	$str
+	 * @return	int
+	 */
+	protected static function strlen($str)
+	{
+		return (self::$func_override)
+			? mb_strlen($str, '8bit')
+			: strlen($str);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Byte-safe substr()
+	 *
+	 * @param	string	$str
+	 * @param	int	$start
+	 * @param	int	$length
+	 * @return	string
+	 */
+	protected static function substr($str, $start, $length = NULL)
+	{
+		if (self::$func_override)
+		{
+			// mb_substr($str, $start, null, '8bit') returns an empty
+			// string on PHP 5.3
+			isset($length) OR $length = ($start >= 0 ? self::strlen($str) - $start : -$start);
+			return mb_substr($str, $start, $length, '8bit');
+		}
+
+		return isset($length)
+			? substr($str, $start, $length)
+			: substr($str, $start);
+	}
 }

@@ -133,15 +133,16 @@ class CI_Security {
 	 * @var	array
 	 */
 	protected $_never_allowed_str =	array(
-		'document.cookie'	=> '[removed]',
-		'document.write'	=> '[removed]',
-		'.parentNode'		=> '[removed]',
-		'.innerHTML'		=> '[removed]',
-		'-moz-binding'		=> '[removed]',
-		'<!--'				=> '&lt;!--',
-		'-->'				=> '--&gt;',
-		'<![CDATA['			=> '&lt;![CDATA[',
-		'<comment>'			=> '&lt;comment&gt;'
+		'document.cookie' => '[removed]',
+		'document.write'  => '[removed]',
+		'.parentNode'     => '[removed]',
+		'.innerHTML'      => '[removed]',
+		'-moz-binding'    => '[removed]',
+		'<!--'            => '&lt;!--',
+		'-->'             => '--&gt;',
+		'<![CDATA['       => '&lt;![CDATA[',
+		'<comment>'	  => '&lt;comment&gt;',
+		'<%'              => '&lt;&#37;'
 	);
 
 	/**
@@ -924,7 +925,7 @@ class CI_Security {
 		return str_replace(
 			$match[1],
 			preg_replace(
-				'#href=.*?(?:(?:alert|prompt|confirm)(?:\(|&\#40;)|javascript:|livescript:|mocha:|charset=|window\.|document\.|\.cookie|<script|<xss|data\s*:)#si',
+				'#href=.*?(?:(?:alert|prompt|confirm)(?:\(|&\#40;)|javascript:|livescript:|mocha:|charset=|window\.|document\.|\.cookie|<script|<xss|d\s*a\s*t\s*a\s*:)#si',
 				'',
 				$this->_filter_attributes($match[1])
 			),
