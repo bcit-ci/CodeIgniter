@@ -591,15 +591,21 @@ class CI_Loader {
 	 */
 	public function helper($helpers = array())
 	{
-		foreach ($this->_ci_prep_filename($helpers, '_helper') as $helper)
+		is_array($helpers) OR $helpers = array($helpers);
+		foreach ($helpers as &$helper)
 		{
+			$filename = basename($helper);
+			$filepath = ($filename === $helper) ? '' : substr($helper, 0, strlen($helper) - strlen($filename));
+			$filename = strtolower(preg_replace('#(_helper)?(.php)?$#i', '', $filename)).'_helper';
+			$helper   = $filepath.$filename;
+
 			if (isset($this->_ci_helpers[$helper]))
 			{
 				continue;
 			}
 
 			// Is this a helper extension request?
-			$ext_helper = config_item('subclass_prefix').$helper;
+			$ext_helper = config_item('subclass_prefix').$filename;
 			$ext_loaded = FALSE;
 			foreach ($this->_ci_helper_paths as $path)
 			{
@@ -1404,34 +1410,4 @@ class CI_Loader {
 		$CI =& get_instance();
 		return $CI->$component;
 	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Prep filename
-	 *
-	 * This function prepares filenames of various items to
-	 * make their loading more reliable.
-	 *
-	 * @param	string|string[]	$filename	Filename(s)
-	 * @param 	string		$extension	Filename extension
-	 * @return	array
-	 */
-	protected function _ci_prep_filename($filename, $extension)
-	{
-		if ( ! is_array($filename))
-		{
-			return array(strtolower(str_replace(array($extension, '.php'), '', $filename).$extension));
-		}
-		else
-		{
-			foreach ($filename as $key => $val)
-			{
-				$filename[$key] = strtolower(str_replace(array($extension, '.php'), '', $val).$extension);
-			}
-
-			return $filename;
-		}
-	}
-
 }
