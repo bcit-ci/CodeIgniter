@@ -664,14 +664,20 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 			if ($v !== NULL)
 			{
+				$is_array_value = is_array($v);
 				if ($escape === TRUE)
 				{
-					$v = ' '.$this->escape($v);
+					$v = $this->escape($v);
+					if ($is_array_value)
+					{
+						$v = '('.implode(',', $v).')';
+					}
+					$v = ' '.$v;
 				}
 
 				if ( ! $this->_has_operator($k))
 				{
-					$k .= ' = ';
+					$k .= $is_array_value ? ' IN ' : ' = ';
 				}
 			}
 			elseif ( ! $this->_has_operator($k))
