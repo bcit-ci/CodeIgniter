@@ -674,6 +674,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 					}
 					$v = ' '.$v;
 				}
+				elseif ($is_array_value)
+				{
+					$v = '('.implode(',', $v).')';
+				}
 
 				if ( ! $this->_has_operator($k))
 				{
