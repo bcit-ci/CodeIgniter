@@ -31,11 +31,15 @@ Release Date: Not Released
 
       - Changed method ``clear()`` to also reset captions.
 
--  Database
+-  :doc:`Database <database/index>`
 
    -  Changed method ``initialize()`` to return void and instead throw a ``RuntimeException`` in case of failure.
    -  Changed method ``db_connect()`` to always set the connection character set (if supported by the driver) and to fail if it can't.
    -  Removed method ``db_set_charset()`` and the ability to change a connection character set at runtime.
+
+   -  :doc:`Database Forge <database/forge>`:
+
+      - Added support for declaring date/time type fields default values as ``CURRENT_TIMESTAMP`` and similar.
 
 -  Helpers
 
