@@ -16,6 +16,7 @@ Bug fixes for 3.1.3
 -  Fixed a bug (#4679) - :doc:`Input Library <libraries/input>` method ``ip_address()`` didn't properly resolve ``$config['proxy_ips']`` IPv6 addresses.
 -  Fixed a bug (#4902) - :doc:`Image Manipulation Library <libraries/image_lib>` processing via ImageMagick didn't work.
 -  Fixed a bug (#4905) - :doc:`Loader Library <libraries/loader>` didn't take into account possible user-provided directory paths when loading helpers.
+-  Fixed a bug (#4916) - :doc:`Session Library <libraries/session>` with ``sess_match_ip`` enabled was unusable for IPv6 clients when using the 'database' driver on MySQL 5.7.5+.
 
 Version 3.1.2
 =============
