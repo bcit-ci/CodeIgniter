@@ -7,6 +7,10 @@ Version 3.1.3
 
 Release Date: Not Released
 
+-  General Changes
+
+   -  Deprecated :doc:`Date Helper <helpers/date_helper>` function :php:func:`nice_date()`.
+
 Bug fixes for 3.1.3
 -------------------
 
