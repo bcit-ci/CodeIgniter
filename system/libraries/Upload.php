@@ -1218,6 +1218,13 @@ class CI_Upload {
 		// We'll need this to validate the MIME info string (e.g. text/plain; charset=us-ascii)
 		$regexp = '/^([a-z\-]+\/[a-z0-9\-\.\+]+)(;\s.+)?$/';
 
+		//Check fileinfo extention is loaded or not
+		if(!extension_loaded('fileinfo')) 
+		{
+			$this->set_error('upload_fileinfo_notfound', 'error');
+			return;
+		}
+
 		// Fileinfo extension - most reliable method
 		$finfo = @finfo_open(FILEINFO_MIME);
 		if (is_resource($finfo)) // It is possible that a FALSE value is returned, if there is no magic MIME database file found on the system
