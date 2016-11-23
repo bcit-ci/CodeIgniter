@@ -912,8 +912,8 @@ abstract class CI_DB_forge {
 		// White-list CURRENT_TIMESTAMP & similar (e.g. Oracle has stuff like SYSTIMESTAMP) defaults for date/time fields
 		if (
 			isset($attributes['TYPE'])
-			&& (stripos($attributes['TYPE'],    'time') !== FALSE || stripos($attributes['TYPE'],    'date') !== FALSE)
-			&& (stripos($attributes['DEFAULT'], 'time') !== FALSE || stripos($attributes['DEFAULT'], 'date') !== FALSE)
+			&& (stripos($attributes['TYPE'],    'time') !== FALSE OR stripos($attributes['TYPE'],    'date') !== FALSE)
+			&& (stripos($attributes['DEFAULT'], 'time') !== FALSE OR stripos($attributes['DEFAULT'], 'date') !== FALSE)
 		)
 		{
 			$field['default'] = $this->_default.$attributes['DEFAULT'];
