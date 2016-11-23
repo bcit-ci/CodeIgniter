@@ -529,9 +529,9 @@ if ( ! function_exists('nice_date'))
 		}
 
 		// Date Like: YYYYMMDD
-		if (preg_match('/^(\d{2})\d{2}(\d{4})$/i', $bad_date, $matches))
+		if (preg_match('/^\d{8}$/i', $bad_date, $matches))
 		{
-			return date($format, strtotime($matches[1].'/01/'.$matches[2]));
+			return DateTime::createFromFormat('Ymd', $bad_date)->format($format);
 		}
 
 		// Date Like: MM-DD-YYYY __or__ M-D-YYYY (or anything in between)
