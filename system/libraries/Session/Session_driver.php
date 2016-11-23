@@ -86,6 +86,15 @@ abstract class CI_Session_driver implements SessionHandlerInterface {
 	 */
 	protected $_success, $_failure;
 
+	/**
+	 * Client IP if sess_match_ip used
+	 *
+	 * Necessary if you're running codeigniter behind proxy
+	 *
+	 * @var string
+	 */
+	protected $_client_ip;
+
 	// ------------------------------------------------------------------------
 
 	/**
@@ -107,6 +116,16 @@ abstract class CI_Session_driver implements SessionHandlerInterface {
 		{
 			$this->_success = 0;
 			$this->_failure = -1;
+		}
+
+		if ($this->_config['match_ip'] === TRUE)
+		{
+			$CI =& get_instance();
+			$this->_client_ip = $CI->input->ip_address();
+		}
+		else
+		{
+			$this->_client_ip = $_SERVER['REMOTE_ADDR'];
 		}
 	}
 
