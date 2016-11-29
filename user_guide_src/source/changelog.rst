@@ -22,6 +22,7 @@ Bug fixes for 3.1.3
 -  Fixed a bug (#4905) - :doc:`Loader Library <libraries/loader>` didn't take into account possible user-provided directory paths when loading helpers.
 -  Fixed a bug (#4916) - :doc:`Session Library <libraries/sessions>` with ``sess_match_ip`` enabled was unusable for IPv6 clients when using the 'database' driver on MySQL 5.7.5+.
 -  Fixed a bug (#4917) - :doc:`Date Helper <helpers/date_helper>` function :php:func:`nice_date()` didn't handle YYYYMMDD inputs properly.
+-  Fixed a bug (#4923) - :doc:`Session Library <libraries/sessions>` could execute an erroneous SQL query with the 'database' driver, if the lock attempt times out.
 
 Version 3.1.2
 =============
