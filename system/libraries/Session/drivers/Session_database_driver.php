@@ -208,8 +208,12 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		// Prevent previous QB calls from messing with our queries
 		$this->_db->reset_query();
 
+		if ($this->_lock === FALSE)
+		{
+			return $this->_fail();
+		}
 		// Was the ID regenerated?
-		if ($session_id !== $this->_session_id)
+		elseif ($session_id !== $this->_session_id)
 		{
 			if ( ! $this->_release_lock() OR ! $this->_get_lock($session_id))
 			{
@@ -218,10 +222,6 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 			$this->_row_exists = FALSE;
 			$this->_session_id = $session_id;
-		}
-		elseif ($this->_lock === FALSE)
-		{
-			return $this->_fail();
 		}
 
 		if ($this->_row_exists === FALSE)
@@ -354,7 +354,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	{
 		if ($this->_platform === 'mysql')
 		{
-			$arg = $session_id.($this->_config['match_ip'] ? '_'.$_SERVER['REMOTE_ADDR'] : '');
+			$arg = md5($session_id.($this->_config['match_ip'] ? '_'.$_SERVER['REMOTE_ADDR'] : ''));
 			if ($this->_db->query("SELECT GET_LOCK('".$arg."', 300) AS ci_session_lock")->row()->ci_session_lock)
 			{
 				$this->_lock = $arg;

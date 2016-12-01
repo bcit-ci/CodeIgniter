@@ -521,7 +521,7 @@ class CI_Input {
 						$netaddr = explode(':', str_replace('::', str_repeat(':', 9 - substr_count($netaddr, ':')), $netaddr));
 						for ($j = 0; $j < 8; $j++)
 						{
-							$netaddr[$i] = intval($netaddr[$j], 16);
+							$netaddr[$j] = intval($netaddr[$j], 16);
 						}
 					}
 					else

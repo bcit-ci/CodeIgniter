@@ -311,11 +311,12 @@ class CI_Output {
 			return NULL;
 		}
 
-		for ($i = 0, $c = count($headers); $i < $c; $i++)
+		// Count backwards, in order to get the last matching header
+		for ($c = count($headers) - 1; $c > -1; $c--)
 		{
-			if (strncasecmp($header, $headers[$i], $l = self::strlen($header)) === 0)
+			if (strncasecmp($header, $headers[$c], $l = self::strlen($header)) === 0)
 			{
-				return trim(self::substr($headers[$i], $l+1));
+				return trim(self::substr($headers[$c], $l+1));
 			}
 		}
 

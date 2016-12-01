@@ -12,3 +12,21 @@ Replace all files and directories in your *system/* directory.
 
 .. note:: If you have any custom developed files in these directories,
 	please make copies of them first.
+
+Step 2: Remove usage of nice_date() helper (deprecation)
+========================================================
+
+The :doc:`Date Helper <../helpers/date_helper>` function ``nice_date()`` is
+no longer useful since the introduction of PHP's `DateTime classes
+<https://secure.php.net/datetime>`_
+
+You can replace it with the following:
+::
+
+	DateTime::createFromFormat($input_format, $input_date)->format($desired_output_format);
+
+Thus, ``nice_date()`` is now deprecated and scheduled for removal in
+CodeIgniter 3.2+.
+
+.. note:: The function is still available, but you're strongly encouraged
+	to remove its usage sooner rather than later.
