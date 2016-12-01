@@ -239,14 +239,3 @@ Class Reference
 
 		This method is normally accessed via the corresponding functions in the
 		:doc:`URL Helper </helpers/url_helper>`.
-
-	.. php:method:: system_url()
-
-		:returns:	URL pointing at your CI system/ directory
-		:rtype:	string
-
-		This method retrieves the URL to your CodeIgniter system/ directory.
-
-		.. note:: This method is DEPRECATED because it encourages usage of
-			insecure coding practices. Your *system/* directory shouldn't
-			be publicly accessible.

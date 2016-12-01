@@ -351,20 +351,6 @@ class CI_Config {
 	// --------------------------------------------------------------------
 
 	/**
-	 * System URL
-	 *
-	 * @deprecated	3.0.0	Encourages insecure practices
-	 * @return	string
-	 */
-	public function system_url()
-	{
-		$x = explode('/', preg_replace('|/*(.+?)/*$|', '\\1', BASEPATH));
-		return $this->slash_item('base_url').end($x).'/';
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Set a config file item
 	 *
 	 * @param	string	$item	Config item key
