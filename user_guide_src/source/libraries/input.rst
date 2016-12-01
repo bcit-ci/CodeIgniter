@@ -440,25 +440,6 @@ Class Reference
 		Checks to see if the HTTP_X_REQUESTED_WITH server header has been
 		set, and returns boolean TRUE if it is or FALSE if not.
 
-	.. php:method:: is_cli_request()
-
-		:returns:	TRUE if it is a CLI request, FALSE if not
-		:rtype:	bool
-
-		Checks to see if the application was run from the command-line
-		interface.
-
-		.. note:: This method checks both the PHP SAPI name currently in use
-			and if the ``STDIN`` constant is defined, which is usually a
-			failsafe way to see if PHP is being run via the command line.
-
-		::
-
-			$this->input->is_cli_request()
-
-		.. note:: This method is DEPRECATED and is now just an alias for the
-			:func:`is_cli()` function.
-
 	.. php:method:: method([$upper = FALSE])
 
 		:param	bool	$upper: Whether to return the request method name in upper or lower case

@@ -124,3 +124,11 @@ Nothing should be really broken by this change, but if your application
 relies on the default value, you should double-check it and either
 explicitly set the desired format, or adapt your front-end to use proper
 HTML 5 formatting.
+
+Step 7: Remove usage of previously deprecated functionalities
+=============================================================
+
+The following is a list of functionalities deprecated in CodeIgniter
+version 3.0.0, that have been removed in 3.2.0:
+
+- ``CI_Input::is_cli_request()`` (use :php:func:`is_cli()` instead)
