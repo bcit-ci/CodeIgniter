@@ -14,6 +14,7 @@ Release Date: Not Released
    -  Removed previously deprecated :doc:`Routing Class <general/routing>` methods ``fetch_directory()``, ``fetch_class()`` and ``fetch_method()`` (use the respective class properties instead).
    -  Removed previously deprecated :doc:`Config Library <libraries/config>` method ``system_url()`` (encourages insecure practices).
    -  Removed previously deprecated :doc:`Date Helper <helpers/date_helper>` function ``standard_date()`` (use PHP's native ``date()`` instead).
+   -  Removed previously deprecated :doc:`Security Helper <helpers/security_helper>` function ``do_hash()`` (use PHP's native ``hash()`` instead).
    -  Removed previously deprecated *Email Helper* (had only two functions, aliases for PHP's native ``filter_var()`` and ``mail()``).
 
 -  Libraries
@@ -551,7 +552,7 @@ Release Date: March 30, 2015
 
    -  :doc:`Security Helper <helpers/security_helper>` changes include:
 
-      - :php:func:`do_hash()` now uses PHP's native ``hash()`` function (supporting more algorithms) and is deprecated.
+      - ``do_hash()`` now uses PHP's native ``hash()`` function (supporting more algorithms) and is deprecated.
       - :php:func:`strip_image_tags()` is now an alias for the same method in the :doc:`Security Library <libraries/security>`.
 
    -  :doc:`Smiley Helper <helpers/smiley_helper>` changes include:
@@ -1580,8 +1581,8 @@ Hg Tag: v2.0.2
 
 -  Helpers
 
-   -  Removed the previously deprecated dohash() from the :doc:`Security
-      helper <./helpers/security_helper>`; use do_hash() instead.
+   -  Removed the previously deprecated ``dohash()`` from the :doc:`Security
+      helper <./helpers/security_helper>`; use ``do_hash()`` instead.
    -  Changed the 'plural' function so that it doesn't ruin the
       captalization of your string. It also take into consideration
       acronyms which are all caps.
@@ -1823,7 +1824,7 @@ Hg Tag: v2.0.0
       helper <./helpers/text_helper>`.
    -  Added accept-charset to the list of inserted attributes of
       form_open() in the :doc:`Form Helper <helpers/form_helper>`.
-   -  Deprecated the dohash() function in favour of do_hash() for
+   -  Deprecated the ``dohash()`` function in favour of ``do_hash()`` for
       naming consistency.
    -  Non-backwards compatible change made to get_dir_file_info() in
       the :doc:`File Helper <helpers/file_helper>`. No longer recurses

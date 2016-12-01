@@ -138,6 +138,7 @@ version 3.0.0, that have been removed in 3.2.0:
 - ``CI_Config::system_url()`` (encourages insecure practices)
 
 - ``standard_date()`` :doc:`Date Helper <../helpers/date_helper>` function (use ``date()`` instead)
+- ``do_hash()`` :doc:`Security Helper <../helpers/security_helper>` function (use ``hash()`` instead)
 
 - The entire *Email Helper*, which only had two functions:
 

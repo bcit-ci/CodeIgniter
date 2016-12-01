@@ -25,30 +25,6 @@ class Security_helper_tests extends CI_TestCase {
 		$this->assertEquals('foo', sanitize_filename($filename));
 	}
 
-	function test_do_hash()
-	{
-		$md5 = md5('foo');
-		$sha1 = sha1('foo');
-
-		$algos = hash_algos();
-		$algo_results = array();
-		foreach ($algos as $k => $v)
-		{
-			$algo_results[$v] = hash($v, 'foo');
-		}
-
-		$this->assertEquals($sha1, do_hash('foo'));
-		$this->assertEquals($sha1, do_hash('foo', 'sha1'));
-		$this->assertEquals($md5, do_hash('foo', 'md5'));
-		$this->assertEquals($md5, do_hash('foo', 'foobar'));
-
-		// Test each algorithm available to PHP
-		foreach ($algo_results as $algo => $result)
-		{
-			$this->assertEquals($result, do_hash('foo', $algo));
-		}
-	}
-
 	function test_strip_image_tags()
 	{
 		$this->assertEquals('http://example.com/spacer.gif', strip_image_tags('http://example.com/spacer.gif'));
