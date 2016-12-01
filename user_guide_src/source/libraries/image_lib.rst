@@ -408,7 +408,7 @@ Class Reference
 			method is not very useful unless you intend to build such an
 			interface. That's exactly what we did using for the photo gallery module
 			in ExpressionEngine, the CMS we develop. We added a JavaScript UI that
-			lets the cropping area be selected.
+			lets the cropping area be selected. (from EllisLab)
 
 	.. php:method:: rotate()
 
