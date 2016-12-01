@@ -132,3 +132,6 @@ The following is a list of functionalities deprecated in CodeIgniter
 version 3.0.0, that have been removed in 3.2.0:
 
 - ``CI_Input::is_cli_request()`` (use :php:func:`is_cli()` instead)
+- ``CI_Router::fetch_directory()`` (use ``CI_Router::$directory instead)
+- ``CI_Router::fetch_class()`` (use ``CI_Router::$class`` instead)
+- ``CI_Router::fetch_method()`` (use ``CI_Router::$method`` instead)

@@ -10,7 +10,8 @@ Release Date: Not Released
 -  Core
 
    -  Changed :doc:`URI Library <libraries/uri>` to ignore the ``$config['url_suffix']``, ``$config['permitted_uri_chars']`` configuration settings for CLI requests.
-   -  Removed previously deprecated method ``is_cli_request()`` from the :doc:`Input Library <libraries/input>` (use :php:func:`is_cli()` instead).
+   -  Removed previously deprecated :doc:`Input Library <libraries/input>` method ``is_cli_request()`` (use :php:func:`is_cli()` instead).
+   -  Removed previously deprecated :doc:`Routing Class <general/routing>` methods ``fetch_directory()``, ``fetch_class()`` and ``fetch_method()`` (use the respective class properties instead).
 
 -  Libraries
 
