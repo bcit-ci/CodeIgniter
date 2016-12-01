@@ -13,6 +13,7 @@ Release Date: Not Released
    -  Removed previously deprecated :doc:`Input Library <libraries/input>` method ``is_cli_request()`` (use :php:func:`is_cli()` instead).
    -  Removed previously deprecated :doc:`Routing Class <general/routing>` methods ``fetch_directory()``, ``fetch_class()`` and ``fetch_method()`` (use the respective class properties instead).
    -  Removed previously deprecated :doc:`Config Library <libraries/config>` method ``system_url()`` (encourages insecure practices).
+   -  Removed previously deprecated *Email Helper* (had only two functions, aliases for PHP's native ``filter_var()`` and ``mail()``).
 
 -  Libraries
 
@@ -588,7 +589,7 @@ Release Date: March 30, 2015
    -  :doc:`Directory Helper <helpers/directory_helper>` :php:func:`directory_map()` will now append ``DIRECTORY_SEPARATOR`` to directory names in the returned array.
    -  :doc:`Array Helper <helpers/array_helper>` :php:func:`element()` and :php:func:`elements()` now return NULL instead of FALSE when the required elements don't exist.
    -  :doc:`Language Helper <helpers/language_helper>` :php:func:`lang()` now accepts an optional list of additional HTML attributes.
-   -  Deprecated the :doc:`Email Helper <helpers/email_helper>` as its ``valid_email()``, ``send_email()`` functions are now only aliases for PHP native functions ``filter_var()`` and ``mail()`` respectively.
+   -  Deprecated the *Email Helper* as its ``valid_email()``, ``send_email()`` functions are now only aliases for PHP native functions ``filter_var()`` and ``mail()`` respectively.
 
 -  Database
 
@@ -2764,8 +2765,7 @@ Release Date: January 30, 2008
       helper. <./helpers/html_helper>`
    -  Added img() to the :doc:`HTML helper. <./helpers/html_helper>`
    -  Added ability to :doc:`"extend" Helpers <./general/helpers>`.
-   -  Added an :doc:`email helper <./helpers/email_helper>` into core
-      helpers.
+   -  Added an *Email Helper* into core helpers.
    -  Added strip_quotes() function to :doc:`string
       helper <./helpers/string_helper>`.
    -  Added reduce_multiples() function to :doc:`string

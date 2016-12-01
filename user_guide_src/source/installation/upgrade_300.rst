@@ -655,14 +655,13 @@ Please use :php:func:`html_escape()` instead.
 Email helper functions
 ======================
 
-:doc:`Email Helper <../helpers/email_helper>` only has two functions
+The *Email Helper* only has two functions:
 
- - :php:func:`valid_email()`
- - :php:func:`send_email()`
+ - ``valid_email()``
+ - ``send_email()``
 
 Both of them are now aliases for PHP's native ``filter_var()`` and ``mail()`` functions, respectively.
-Therefore the :doc:`Email Helper <../helpers/email_helper>` altogether is being deprecated and
-is scheduled for removal in CodeIgniter 3.1+.
+Therefore, the *Email Helper* altogether is being deprecated and is scheduled for removal in CodeIgniter 3.1+.
 
 .. note:: These functions are still available, but you're strongly encouraged to remove their usage
 	sooner rather than later.
