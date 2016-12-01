@@ -17,6 +17,7 @@ Release Date: Not Released
    -  Removed previously deprecated :doc:`Security Helper <helpers/security_helper>` function ``do_hash()`` (use PHP's native ``hash()`` instead).
    -  Removed previously deprecated :doc:`HTML Helper <helpers/html_helper>` functions ``br()`` and ``nbs()`` (use PHP's native ``str_repeat()`` with ``'<br />'`` and ``'&nbsp;'`` respectively).
    -  Removed previously deprecated :doc:`String Helper <helpers/string_helper>` functions ``trim_slashes()`` and ``repeater()`` (use PHP's native ``trim()`` with ``'/'`` and ``str_repeat()`` respectively).
+   -  Removed previously deprecated :doc:`File Helper <helpers/file_helper>` function ``read_file()`` (use PHP's native ``file_get_contents()`` instead).
    -  Removed previously deprecated *Email Helper* (had only two functions, aliases for PHP's native ``filter_var()`` and ``mail()``).
 
 -  Libraries
