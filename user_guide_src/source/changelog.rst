@@ -15,6 +15,7 @@ Release Date: Not Released
    -  Removed previously deprecated :doc:`Config Library <libraries/config>` method ``system_url()`` (encourages insecure practices).
    -  Removed previously deprecated :doc:`Date Helper <helpers/date_helper>` function ``standard_date()`` (use PHP's native ``date()`` instead).
    -  Removed previously deprecated :doc:`Security Helper <helpers/security_helper>` function ``do_hash()`` (use PHP's native ``hash()`` instead).
+   -  Removed previously deprecated :doc:`HTML Helper <helpers/html_helper>` functions ``br()`` and ``nbs()`` (use PHP's native ``str_repeat()`` with ``'<br />'`` and ``'&nbsp;'`` respectively).
    -  Removed previously deprecated *Email Helper* (had only two functions, aliases for PHP's native ``filter_var()`` and ``mail()``).
 
 -  Libraries
@@ -3501,7 +3502,7 @@ Release Date: March 10, 2006
 -  Fixed a pagination problem in the scaffolding.
 -  Fixed a bug in the mysql class "where" function.
 -  Fixed a regex problem in some code that trimmed duplicate slashes.
--  Fixed a bug in the br() function in the HTML helper
+-  Fixed a bug in the ``br()`` function in the HTML helper
 -  Fixed a syntax mistake in the form_dropdown function in the Form
    Helper.
 -  Removed the "style" attributes form the form helpers.

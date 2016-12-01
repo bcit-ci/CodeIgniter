@@ -139,6 +139,8 @@ version 3.0.0, that have been removed in 3.2.0:
 
 - ``standard_date()`` :doc:`Date Helper <../helpers/date_helper>` function (use ``date()`` instead)
 - ``do_hash()`` :doc:`Security Helper <../helpers/security_helper>` function (use ``hash()`` instead)
+- ``br()`` :doc:`HTML Helper <../helpers/html_helper>` function (use ``str_repeat()`` with ``'<br />'`` instead)
+- ``nbs()`` :doc:`HTML Helper <../helpers/html_helper>` function (use ``str_repeat()`` with ``'&nbsp;'`` instead)
 
 - The entire *Email Helper*, which only had two functions:
 
