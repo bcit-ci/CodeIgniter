@@ -16,6 +16,7 @@ Release Date: Not Released
    -  Removed previously deprecated :doc:`Date Helper <helpers/date_helper>` function ``standard_date()`` (use PHP's native ``date()`` instead).
    -  Removed previously deprecated :doc:`Security Helper <helpers/security_helper>` function ``do_hash()`` (use PHP's native ``hash()`` instead).
    -  Removed previously deprecated :doc:`HTML Helper <helpers/html_helper>` functions ``br()`` and ``nbs()`` (use PHP's native ``str_repeat()`` with ``'<br />'`` and ``'&nbsp;'`` respectively).
+   -  Removed previously deprecated :doc:`String Helper <helpers/string_helper>` functions ``trim_slashes()`` and ``repeater()`` (use PHP's native ``trim()`` with ``'/'`` and ``str_repeat()`` respectively).
    -  Removed previously deprecated *Email Helper* (had only two functions, aliases for PHP's native ``filter_var()`` and ``mail()``).
 
 -  Libraries
@@ -2969,7 +2970,7 @@ Release Date: July 12, 2007
 -  Fixed various doc typos.
 -  Documented two functions from the :doc:`String
    helper <./helpers/string_helper>` that were missing from the
-   user guide: trim_slashes() and reduce_double_slashes().
+   user guide: ``trim_slashes()`` and ``reduce_double_slashes()``.
 -  Docs now validate to XHTML 1 transitional
 -  Updated the XSS Filtering to take into account the IE expression()
    ability and improved certain deletions to prevent possible exploits
@@ -3000,7 +3001,7 @@ Release Date: April 15, 2007
 -  Added array to string into the profiler
 -  Code Igniter references updated to CodeIgniter
 -  pMachine references updated to EllisLab
--  Fixed a bug in the repeater function of :doc:`string
+-  Fixed a bug in the ``repeater()`` function of :doc:`string
    helper <./helpers/string_helper>`.
 -  Fixed a bug in ODBC driver
 -  Fixed a bug in result_array() that was returning an empty array when
