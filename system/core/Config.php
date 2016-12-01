@@ -106,7 +106,13 @@ class CI_Config {
 			{
 				$base_url = 'http://localhost/';
 			}
+			$this->set_item('base_url', $base_url);
+		}elseif(is_array($this->config['base_url'])){
+			$allowed_domains = $this->config['base_url'];
+			$default_domain  = $this->config['base_url'][0];
 
+			$domain = in_array($_SERVER['HTTP_HOST'], $allowed_domains, TRUE) ? $_SERVER['HTTP_HOST'] : $default_domain;
+			$base_url = is_https() ? 'https://'.$domain : 'http://'.$domain;
 			$this->set_item('base_url', $base_url);
 		}
 
