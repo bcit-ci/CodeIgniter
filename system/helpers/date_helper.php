@@ -122,46 +122,6 @@ if ( ! function_exists('mdate'))
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('standard_date'))
-{
-	/**
-	 * Standard Date
-	 *
-	 * Returns a date formatted according to the submitted standard.
-	 *
-	 * As of PHP 5.2, the DateTime extension provides constants that
-	 * serve for the exact same purpose and are used with date().
-	 *
-	 * @todo	Remove in version 3.1+.
-	 * @deprecated	3.0.0	Use PHP's native date() instead.
-	 * @link	http://www.php.net/manual/en/class.datetime.php#datetime.constants.types
-	 *
-	 * @example	date(DATE_RFC822, now()); // default
-	 * @example	date(DATE_W3C, $time); // a different format and time
-	 *
-	 * @param	string	$fmt = 'DATE_RFC822'	the chosen format
-	 * @param	int	$time = NULL		Unix timestamp
-	 * @return	string
-	 */
-	function standard_date($fmt = 'DATE_RFC822', $time = NULL)
-	{
-		if (empty($time))
-		{
-			$time = now();
-		}
-
-		// Procedural style pre-defined constants from the DateTime extension
-		if (strpos($fmt, 'DATE_') !== 0 OR defined($fmt) === FALSE)
-		{
-			return FALSE;
-		}
-
-		return date(constant($fmt), $time);
-	}
-}
-
-// ------------------------------------------------------------------------
-
 if ( ! function_exists('timespan'))
 {
 	/**

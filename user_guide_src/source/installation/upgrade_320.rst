@@ -137,6 +137,8 @@ version 3.0.0, that have been removed in 3.2.0:
 - ``CI_Router::fetch_method()`` (use ``CI_Router::$method`` instead)
 - ``CI_Config::system_url()`` (encourages insecure practices)
 
+- ``standard_date()`` :doc:`Date Helper <../helpers/date_helper>` function (use ``date()`` instead)
+
 - The entire *Email Helper*, which only had two functions:
 
    - ``valid_email()`` (use ``filter_var($email, FILTER_VALIDATE_EMAIL)`` instead)
