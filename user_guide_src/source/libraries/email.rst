@@ -108,7 +108,7 @@ Preference          Default Value          Options                      Descript
                                                                         page. Make sure you don't have any relative links or relative image
                                                                         paths otherwise they will not work.
 **charset**         ``$config['charset']``                              Character set (utf-8, iso-8859-1, etc.).
-**validate**        FALSE                  TRUE or FALSE (boolean)      Whether to validate the email address.
+**validate**        TRUE                   TRUE or FALSE (boolean)      Whether to validate the email address.
 **priority**        3                      1, 2, 3, 4, 5                Email Priority. 1 = highest. 5 = lowest. 3 = normal.
 **crlf**            \\n                    "\\r\\n" or "\\n" or "\\r"   Newline character. (Use "\\r\\n" to comply with RFC 822).
 **newline**         \\n                    "\\r\\n" or "\\n" or "\\r"   Newline character. (Use "\\r\\n" to comply with RFC 822).

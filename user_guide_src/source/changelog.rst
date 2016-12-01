@@ -31,6 +31,10 @@ Release Date: Not Released
 
       - Changed method ``clear()`` to also reset captions.
 
+   -  :doc:`Email Library <libraries/email>` changes include:
+
+      - Changed the default value of the **validate** option to ``TRUE``.
+
 -  :doc:`Database <database/index>`
 
    -  Changed method ``initialize()`` to return void and instead throw a ``RuntimeException`` in case of failure.

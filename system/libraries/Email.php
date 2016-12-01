@@ -161,7 +161,7 @@ class CI_Email {
 	 *
 	 * @var	bool
 	 */
-	public $validate	= FALSE;
+	public $validate	= TRUE;
 
 	/**
 	 * X-Priority header value.
