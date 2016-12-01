@@ -13,6 +13,7 @@ Release Date: Not Released
    -  Removed previously deprecated :doc:`Input Library <libraries/input>` method ``is_cli_request()`` (use :php:func:`is_cli()` instead).
    -  Removed previously deprecated :doc:`Routing Class <general/routing>` methods ``fetch_directory()``, ``fetch_class()`` and ``fetch_method()`` (use the respective class properties instead).
    -  Removed previously deprecated :doc:`Config Library <libraries/config>` method ``system_url()`` (encourages insecure practices).
+   -  Removed previously deprecated :doc:`Form Validation Library <libraries/form_validation>` method ``prep_for_form()`` / rule *prep_for_form*.
    -  Removed previously deprecated :doc:`Date Helper <helpers/date_helper>` function ``standard_date()`` (use PHP's native ``date()`` instead).
    -  Removed previously deprecated :doc:`Security Helper <helpers/security_helper>` function ``do_hash()`` (use PHP's native ``hash()`` instead).
    -  Removed previously deprecated :doc:`HTML Helper <helpers/html_helper>` functions ``br()`` and ``nbs()`` (use PHP's native ``str_repeat()`` with ``'<br />'`` and ``'&nbsp;'`` respectively).
@@ -2748,7 +2749,7 @@ Release Date: January 30, 2008
       class. <./libraries/sessions>`
    -  Removed 'last_visit' from the Session class.
    -  Added a language entry for valid_ip validation error.
-   -  Modified prep_for_form() in the Validation class to accept
+   -  Modified ``prep_for_form()`` in the Validation class to accept
       arrays, adding support for POST array validation (via callbacks
       only)
    -  Added an "integer" rule into the Validation library.

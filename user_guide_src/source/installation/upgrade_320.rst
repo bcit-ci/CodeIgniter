@@ -129,13 +129,14 @@ Step 7: Remove usage of previously deprecated functionalities
 =============================================================
 
 The following is a list of functionalities deprecated in CodeIgniter
-version 3.0.0, that have been removed in 3.2.0:
+version 3.0.x, that have been removed in 3.2.0:
 
 - ``CI_Input::is_cli_request()`` (use :php:func:`is_cli()` instead)
 - ``CI_Router::fetch_directory()`` (use ``CI_Router::$directory instead)
 - ``CI_Router::fetch_class()`` (use ``CI_Router::$class`` instead)
 - ``CI_Router::fetch_method()`` (use ``CI_Router::$method`` instead)
 - ``CI_Config::system_url()`` (encourages insecure practices)
+- ``CI_Form_validation::prep_for_form()`` (the *prep_for_form* rule)
 
 - ``standard_date()`` :doc:`Date Helper <../helpers/date_helper>` function (use ``date()`` instead)
 - ``do_hash()`` :doc:`Security Helper <../helpers/security_helper>` function (use ``hash()`` instead)
