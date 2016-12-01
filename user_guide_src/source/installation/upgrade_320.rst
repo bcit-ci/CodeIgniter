@@ -98,7 +98,7 @@ value (previously, it just set the host to the default '127.0.0.1').
 Therefore, if you've added a configuration that only sets e.g. a ``port``,
 you will now have to explicitly set the ``host`` to '127.0.0.1' as well.
 
-Step 6: Check usage of the Email library
+Step 5: Check usage of the Email library
 ========================================
 
 The :doc:`Email Library <../libraries/email>` will now by default check the
@@ -112,7 +112,7 @@ everything works fine.
 If something indeed goes wrong with that, please report it as a bug to us,
 and you can disable the **validate** option to revert to the old behavior.
 
-Step 5: Check usage of doctype() HTML helper
+Step 6: Check usage of doctype() HTML helper
 ============================================
 
 The :doc:`HTML Helper <../helpers/html_helper>` function
