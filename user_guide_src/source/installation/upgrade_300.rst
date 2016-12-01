@@ -844,8 +844,8 @@ CodeIgniter 3.1+.
 The Javascript library
 ======================
 
-The :doc:`Javascript Library <../libraries/javascript>` has always had an
-'experimental' status and was never really useful, nor a proper solution.
+The *Javascript Library* has always had an 'experimental' status and was
+never really useful, nor a proper solution.
 
 It is now deprecated and scheduled for removal in CodeIgniter 3.1+.
 

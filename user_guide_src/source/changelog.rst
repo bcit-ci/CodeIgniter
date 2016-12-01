@@ -20,6 +20,7 @@ Release Date: Not Released
    -  Removed previously deprecated :doc:`File Helper <helpers/file_helper>` function ``read_file()`` (use PHP's native ``file_get_contents()`` instead).
    -  Removed previously deprecated :doc:`Form Helper <helpers/form_helper>` function ``form_prep()`` (use :php:func:`html_escape()` instead).
    -  Removed previously deprecated *Email Helper* (had only two functions, aliases for PHP's native ``filter_var()`` and ``mail()``).
+   -  Removed previously deprecated *Javascript Library* (it was always experimental in the first place).
 
 -  Libraries
 

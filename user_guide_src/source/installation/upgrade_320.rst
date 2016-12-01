@@ -146,6 +146,8 @@ version 3.0.0, that have been removed in 3.2.0:
 - ``read_file()`` :doc:`File Helper <../helpers/file_helper>` function (use ``file_get_contents()`` instead)
 - ``form_prep()`` :doc:`Form Helper <../helpers/form_helper>` function (use :php:func:`html_escape()` instead)
 
+- The entire *Javascript Library* (it was always experimental in the first place)
+
 - The entire *Email Helper*, which only had two functions:
 
    - ``valid_email()`` (use ``filter_var($email, FILTER_VALIDATE_EMAIL)`` instead)
