@@ -271,20 +271,4 @@ EOH;
 
 		$this->assertEquals($expected, form_close('</div></div>'));
 	}
-
-	// ------------------------------------------------------------------------
-
-	public function test_form_prep()
-	{
-		$this->assertEquals(
-			'Here is a string containing &quot;quoted&quot; text.',
-			form_prep('Here is a string containing "quoted" text.')
-		);
-
-		$this->assertEquals(
-			'Here is a string containing a &lt;tag&gt;.',
-			form_prep('Here is a string containing a <tag>.', TRUE)
-		);
-	}
-
 }

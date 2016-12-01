@@ -144,6 +144,7 @@ version 3.0.0, that have been removed in 3.2.0:
 - ``trim_slashes()`` :doc:`String Helper <../helpers/string_helper>` function (use ``trim()`` with ``'/'`` instead)
 - ``repeater()`` :doc:`String Helper <../helpers/string_helper>` function (use ``str_repeat()`` instead)
 - ``read_file()`` :doc:`File Helper <../helpers/file_helper>` function (use ``file_get_contents()`` instead)
+- ``form_prep()`` :doc:`Form Helper <../helpers/form_helper>` function (use :php:func:`html_escape()` instead)
 
 - The entire *Email Helper*, which only had two functions:
 

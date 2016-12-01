@@ -18,6 +18,7 @@ Release Date: Not Released
    -  Removed previously deprecated :doc:`HTML Helper <helpers/html_helper>` functions ``br()`` and ``nbs()`` (use PHP's native ``str_repeat()`` with ``'<br />'`` and ``'&nbsp;'`` respectively).
    -  Removed previously deprecated :doc:`String Helper <helpers/string_helper>` functions ``trim_slashes()`` and ``repeater()`` (use PHP's native ``trim()`` with ``'/'`` and ``str_repeat()`` respectively).
    -  Removed previously deprecated :doc:`File Helper <helpers/file_helper>` function ``read_file()`` (use PHP's native ``file_get_contents()`` instead).
+   -  Removed previously deprecated :doc:`Form Helper <helpers/form_helper>` function ``form_prep()`` (use :php:func:`html_escape()` instead).
    -  Removed previously deprecated *Email Helper* (had only two functions, aliases for PHP's native ``filter_var()`` and ``mail()``).
 
 -  Libraries
@@ -550,7 +551,7 @@ Release Date: March 30, 2015
    -  :doc:`Form Helper <helpers/form_helper>` changes include:
 
       - :php:func:`form_dropdown()` will now also take an array for unity with other form helpers.
-      - :php:func:`form_prep()` is now DEPRECATED and only acts as an alias for :doc:`common function <general/common_functions>` :php:func:`html_escape()`.
+      - ``form_prep()`` is now DEPRECATED and only acts as an alias for :doc:`common function <general/common_functions>` :php:func:`html_escape()`.
       - :php:func:`set_value()` will now also accept a third argument, allowing to turn off HTML escaping of the value.
 
    -  :doc:`Security Helper <helpers/security_helper>` changes include:
@@ -1994,7 +1995,7 @@ Hg Tag: v1.7.2
    -  Modified form_hidden() in the :doc:`Form
       helper <helpers/form_helper>` to accept multi-dimensional
       arrays.
-   -  Modified form_prep() in the :doc:`Form
+   -  Modified ``form_prep()`` in the :doc:`Form
       helper <helpers/form_helper>` to keep track of prepped
       fields to avoid multiple prep/mutation from subsequent calls which
       can occur when using Form Validation and form helper functions to
@@ -2053,7 +2054,7 @@ Bug fixes for 1.7.2
 -  Fixed a case sensitive string replacement in xss_clean()
 -  Fixed a bug in form_textarea() where form data was not prepped
    correctly.
--  Fixed a bug in form_prep() causing it to not preserve entities in
+-  Fixed a bug in ``form_prep()`` causing it to not preserve entities in
    the user's original input when called back into a form element
 -  Fixed a bug in _protect_identifiers() where the swap prefix
    ($swap_pre) was not being observed.
@@ -3142,7 +3143,7 @@ Release Date: October 30, 2006
 -  Fixed a bug in the validation class.
 -  Fixed a bug in the typography helper that was incorrectly wrapping
    block level elements in paragraph tags.
--  Fixed a problem in the form_prep() function that was double encoding
+-  Fixed a problem in the ``form_prep()`` function that was double encoding
    entities.
 -  Fixed a bug that affects some versions of PHP when output buffering
    is nested.

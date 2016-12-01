@@ -643,8 +643,8 @@ scheduled for removal in CodeIgniter 3.1+.
 Form helper form_prep()
 =======================
 
-:doc:`Form Helper <../helpers/form_helper>` function :php:func:`form_prep()`
-is now just an alias for :doc:`common function </general/common_functions>`
+:doc:`Form Helper <../helpers/form_helper>` function ``form_prep()`` is now
+just an alias for :doc:`common function </general/common_functions>`
 :func:`html_escape()`. It is deprecated and will be removed in the future.
 
 Please use :php:func:`html_escape()` instead.
