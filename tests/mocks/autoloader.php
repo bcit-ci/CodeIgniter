@@ -1,6 +1,6 @@
 <?php
 
-// This autoloader provide convinient way to working with mock object
+// This autoloader provide convenient way to working with mock object
 // make the test looks natural. This autoloader support cascade file loading as well
 // within mocks directory.
 //
