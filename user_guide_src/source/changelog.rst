@@ -21,6 +21,7 @@ Release Date: Not Released
    -  Removed previously deprecated :doc:`File Helper <helpers/file_helper>` function ``read_file()`` (use PHP's native ``file_get_contents()`` instead).
    -  Removed previously deprecated :doc:`Form Helper <helpers/form_helper>` function ``form_prep()`` (use :php:func:`html_escape()` instead).
    -  Removed previously deprecated *Email Helper* (had only two functions, aliases for PHP's native ``filter_var()`` and ``mail()``).
+   -  Removed previously deprecated *Smiley Helper*.
    -  Removed previously deprecated *Javascript Library* (it was always experimental in the first place).
 
 -  Libraries
@@ -561,7 +562,7 @@ Release Date: March 30, 2015
       - ``do_hash()`` now uses PHP's native ``hash()`` function (supporting more algorithms) and is deprecated.
       - :php:func:`strip_image_tags()` is now an alias for the same method in the :doc:`Security Library <libraries/security>`.
 
-   -  :doc:`Smiley Helper <helpers/smiley_helper>` changes include:
+   -  *Smiley Helper* changes include:
 
       - Deprecated the whole helper as too specific for CodeIgniter.
       - Removed previously deprecated function ``js_insert_smiley()``.
@@ -1850,7 +1851,7 @@ Hg Tag: v2.0.0
       string already has a scheme.
    -  Modified get_file_info in the file helper, changing filectime()
       to filemtime() for dates.
-   -  Modified smiley_js() to add optional third parameter to return
+   -  Modified ``smiley_js()`` to add optional third parameter to return
       only the javascript with no script tags.
    -  The img() function of the :doc:`HTML
       helper <./helpers/html_helper>` will now generate an empty
@@ -2005,7 +2006,7 @@ Hg Tag: v1.7.2
    -  Modified directory_map() in the :doc:`Directory
       helper <helpers/directory_helper>` to allow the inclusion of
       hidden files, and to return FALSE on failure to read directory.
-   -  Modified the :doc:`Smiley helper <helpers/smiley_helper>` to work
+   -  Modified the *Smiley helper* to work
       with multiple fields and insert the smiley at the last known
       cursor position.
 
@@ -3112,7 +3113,7 @@ Release Date: October 30, 2006
 -  Added :doc:`$this->db->platform() <./database/helpers>` function
 -  Added new :doc:`File Helper <./helpers/file_helper>`:
    get_filenames()
--  Added new helper: :doc:`Smiley Helper <./helpers/smiley_helper>`
+-  Added new helper: *Smiley Helper*
 -  Added support for <ul> and <ol> lists in the :doc:`HTML
    Helper <./helpers/html_helper>`
 -  Added the ability to rewrite :doc:`short

@@ -132,7 +132,7 @@ The following is a list of functionalities deprecated in CodeIgniter
 version 3.0.x, that have been removed in 3.2.0:
 
 - ``CI_Input::is_cli_request()`` (use :php:func:`is_cli()` instead)
-- ``CI_Router::fetch_directory()`` (use ``CI_Router::$directory instead)
+- ``CI_Router::fetch_directory()`` (use ``CI_Router::$directory`` instead)
 - ``CI_Router::fetch_class()`` (use ``CI_Router::$class`` instead)
 - ``CI_Router::fetch_method()`` (use ``CI_Router::$method`` instead)
 - ``CI_Config::system_url()`` (encourages insecure practices)
@@ -153,3 +153,5 @@ version 3.0.x, that have been removed in 3.2.0:
 
    - ``valid_email()`` (use ``filter_var($email, FILTER_VALIDATE_EMAIL)`` instead)
    - ``send_email()`` (use ``mail()`` instead)
+
+- The entire *Smiley Helper* (an archived version is available on GitHub: `bcit-ci/ci3-smiley-helper <https://github.com/bcit-ci/ci3-smiley-helper>`_)
