@@ -554,20 +554,20 @@ class CI_Image_lib {
 		}
 		else
 		{
-			$full_dest_path = str_replace('\\', '/', realpath($this->new_image));
-
 			// Is there a file name?
-			if ( ! preg_match('#\.(jpg|jpeg|gif|png)$#i', $full_dest_path))
+			if ( ! preg_match('#\.(jpg|jpeg|gif|png)$#i', $this->new_image))
 			{
 				$this->dest_image  = $this->source_image;
-				$this->dest_folder = $full_dest_path.'/';
+				$this->dest_folder = $this->new_image;
 			}
 			else
 			{
-				$x = explode('/', $full_dest_path);
+				$x = explode('/', str_replace('\\', '/', $this->new_image));
 				$this->dest_image  = end($x);
-				$this->dest_folder = str_replace($this->dest_image, '', $full_dest_path);
+				$this->dest_folder = str_replace($this->dest_image, '', $this->new_image);
 			}
+
+			$this->dest_folder = realpath($this->dest_folder).'/';
 		}
 
 		/* Compile the finalized filenames/paths
