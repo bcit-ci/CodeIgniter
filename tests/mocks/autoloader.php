@@ -33,7 +33,6 @@ function autoload($class)
 
 	$ci_libraries = array(
 		'Calendar',
-		'Cart',
 		'Driver_Library',
 		'Email',
 		'Encrypt',

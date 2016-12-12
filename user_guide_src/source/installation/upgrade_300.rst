@@ -559,12 +559,12 @@ implemented cryptographic functions.
 The Cart library
 ================
 
-The :doc:`Cart Library <../libraries/cart>`, similarly to the *Smiley Helper*
-is too specific for CodeIgniter. It is now deprecated and scheduled for
-removal in CodeIgniter 3.1+.
+The *Cart Library*, similarly to the *Smiley Helper* is too specific for
+CodeIgniter. It is now deprecated and scheduled for removal in
+CodeIgniter 3.1+.
 
-.. note:: The library is still available, but you're strongly encouraged to remove its usage sooner
-	rather than later.
+.. note:: The library is still available, but you're strongly encouraged to
+	remove its usage sooner rather than later.
 
 Database drivers 'mysql', 'sqlite', 'mssql', 'pdo/dblib'
 ========================================================

@@ -22,6 +22,7 @@ Release Date: Not Released
    -  Removed previously deprecated :doc:`Form Helper <helpers/form_helper>` function ``form_prep()`` (use :php:func:`html_escape()` instead).
    -  Removed previously deprecated *Email Helper* (had only two functions, aliases for PHP's native ``filter_var()`` and ``mail()``).
    -  Removed previously deprecated *Smiley Helper*.
+   -  Removed previously deprecated *Cart Library*.
    -  Removed previously deprecated *Javascript Library* (it was always experimental in the first place).
 
 -  Libraries
@@ -773,7 +774,7 @@ Release Date: March 30, 2015
       -  Added support for templating via an array in addition to the encoded string.
       -  Changed method ``get_total_days()`` to be an alias for :doc:`Date Helper <helpers/date_helper>` :php:func:`days_in_month()`.
 
-   -  :doc:`Cart Library <libraries/cart>` changes include:
+   -  *Cart Library* changes include:
 
       -  Deprecated the library as too specific for CodeIgniter.
       -  Added method ``remove()`` to remove a cart item, updating with quantity of 0 seemed like a hack but has remained to retain compatibility.
@@ -1042,7 +1043,7 @@ Bug fixes for 3.0
 -  Fixed a bug where :doc:`Database Forge <database/forge>` method ``create_table()`` with PostgreSQL database could lead to fetching the whole table.
 -  Fixed a bug (#795) - :doc:`Form Helper <helpers/form_helper>` :php:func:`form_open()` didn't add the default form *method* and *accept-charset* when an empty array is passed to it.
 -  Fixed a bug (#797) - :doc:`Date Helper <helpers/date_helper>` :php:func:`timespan()` was using incorrect seconds for year and month.
--  Fixed a bug in :doc:`Cart Library <libraries/cart>` method ``contents()`` where if called without a TRUE (or equal) parameter, it would fail due to a typo.
+-  Fixed a bug in *Cart Library* method ``contents()`` where if called without a TRUE (or equal) parameter, it would fail due to a typo.
 -  Fixed a bug (#406) - SQLSRV DB driver not returning resource on ``db_pconnect()``.
 -  Fixed a bug in :doc:`Image Manipulation Library <libraries/image_lib>` method ``gd_loaded()`` where it was possible for the script execution to end or a PHP E_WARNING message to be emitted.
 -  Fixed a bug in the :doc:`Pagination library <libraries/pagination>` where when use_page_numbers=TRUE previous link and page 1 link did not have the same url.
@@ -1179,7 +1180,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#2298) - :doc:`Database Results <database/results>` method ``next_row()`` kept returning the last row, allowing for infinite loops.
 -  Fixed a bug (#2236, #2639) - :doc:`Form Helper <helpers/form_helper>` functions :php:func:`set_value()`, :php:func:`set_select()`, :php:func:`set_radio()`, :php:func:`set_checkbox()` didn't parse array notation for keys if the rule was not present in the :doc:`Form Validation Library <libraries/form_validation>`.
 -  Fixed a bug (#2353) - :doc:`Query Builder <database/query_builder>` erroneously prefixed literal strings with **dbprefix**.
--  Fixed a bug (#78) - :doc:`Cart Library <libraries/cart>` didn't allow non-English letters in product names.
+-  Fixed a bug (#78) - *Cart Library* didn't allow non-English letters in product names.
 -  Fixed a bug (#77) - :doc:`Database Class <database/index>` didn't properly handle the transaction "test mode" flag.
 -  Fixed a bug (#2380) - :doc:`URI Routing <general/routing>` method ``fetch_method()`` returned 'index' if the requested method name matches its controller name.
 -  Fixed a bug (#2388) - :doc:`Email Library <libraries/email>` used to ignore attachment errors, resulting in broken emails being sent.
@@ -1414,9 +1415,8 @@ Release Date: November 14, 2011
 
 -  Libraries
 
-   -  Changed ``$this->cart->insert()`` in the :doc:`Cart
-      Library <libraries/cart>` to return the Row ID if a single
-      item was inserted successfully.
+   -  Changed ``$this->cart->insert()`` in the *Cart Library*
+      to return the Row ID if a single item was inserted successfully.
    -  Added support to set an optional parameter in your callback rules
       of validation using the :doc:`Form Validation
       Library <libraries/form_validation>`.
@@ -1524,9 +1524,8 @@ Release Date: August 20, 2011
       string. See upgrade notes if using database sessions.
    -  Added $this->db->set_dbprefix() to the :doc:`Database
       Driver <database/queries>`.
-   -  Changed $this->cart->insert() in the :doc:`Cart
-      Library <libraries/cart>` to return the Row ID if a single
-      item was inserted successfully.
+   -  Changed ``$this->cart->insert()`` in the *Cart Library*
+      to return the Row ID if a single item was inserted successfully.
    -  Added $this->load->get_var() to the :doc:`Loader
       library <libraries/loader>` to retrieve global vars set with
       $this->load->view() and $this->load->vars().
@@ -1551,8 +1550,8 @@ Bug fixes for 2.0.3
    properly escaped.
 -  Fixed issue #199 - Attributes passed as string does not include a
    space between it and the opening tag.
--  Fixed a bug where the method $this->cart->total_items() from :doc:`Cart
-   Library <libraries/cart>` now returns the sum of the quantity
+-  Fixed a bug where the method ``$this->cart->total_items()`` from
+   *Cart Library* now returns the sum of the quantity
    of all items in the cart instead of your total count.
 -  Fixed a bug where not setting 'null' when adding fields in db_forge
    for mysql and mysqli drivers would default to NULL instead of NOT
@@ -1971,7 +1970,7 @@ Hg Tag: v1.7.2
 
 -  Libraries
 
-   -  Added a new :doc:`Cart Class <libraries/cart>`.
+   -  Added a new *Cart Class*.
    -  Added the ability to pass $config['file_name'] for the :doc:`File
       Uploading Class <libraries/file_uploading>` and rename the
       uploaded file.
