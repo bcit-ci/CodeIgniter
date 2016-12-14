@@ -125,6 +125,23 @@ relies on the default value, you should double-check it and either
 explicitly set the desired format, or adapt your front-end to use proper
 HTML 5 formatting.
 
+Step 6: Check usage of form_upload() Form helper
+================================================
+
+The :doc:`Form Helper <../helpers/form_helper>` function
+:php:func:`form_upload()` used to have 3 parameters, the second of which
+(``$value``) was never used, as it doesn't make sense for an HTML ``input``
+tag of the "file" type.
+
+That dead parameter is now removed, and so if you've used the third one
+(``$extra``), having code like this::
+
+	form_upload('name', 'irrelevant value', $extra);
+
+You should change it to::
+
+	form_upload('name', $extra);
+
 Step 7: Remove usage of previously deprecated functionalities
 =============================================================
 

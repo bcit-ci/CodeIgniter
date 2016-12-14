@@ -9,27 +9,21 @@ Release Date: Not Released
 
 -  Core
 
-   -  Changed :doc:`URI Library <libraries/uri>` to ignore the ``$config['url_suffix']``, ``$config['permitted_uri_chars']`` configuration settings for CLI requests.
-   -  Removed previously deprecated ``$config['allow_get_array']``.
-   -  Removed previously deprecated ``$config['standardize_newlines']``.
    -  Removed previously deprecated ``$config['global_xss_filtering']``.
-   -  Removed previously deprecated :doc:`Input Library <libraries/input>` method ``is_cli_request()`` (use :php:func:`is_cli()` instead).
    -  Removed previously deprecated :doc:`Routing Class <general/routing>` methods ``fetch_directory()``, ``fetch_class()`` and ``fetch_method()`` (use the respective class properties instead).
    -  Removed previously deprecated :doc:`Config Library <libraries/config>` method ``system_url()`` (encourages insecure practices).
-   -  Removed previously deprecated :doc:`Form Validation Library <libraries/form_validation>` method ``prep_for_form()`` / rule *prep_for_form*.
-   -  Removed previously deprecated :doc:`Date Helper <helpers/date_helper>` function ``standard_date()`` (use PHP's native ``date()`` instead).
-   -  Removed previously deprecated :doc:`Security Helper <helpers/security_helper>` function ``do_hash()`` (use PHP's native ``hash()`` instead).
-   -  Removed previously deprecated :doc:`HTML Helper <helpers/html_helper>` functions ``br()`` and ``nbs()`` (use PHP's native ``str_repeat()`` with ``'<br />'`` and ``'&nbsp;'`` respectively).
-   -  Removed previously deprecated :doc:`String Helper <helpers/string_helper>` functions ``trim_slashes()`` and ``repeater()`` (use PHP's native ``trim()`` with ``'/'`` and ``str_repeat()`` respectively).
-   -  Removed previously deprecated :doc:`File Helper <helpers/file_helper>` function ``read_file()`` (use PHP's native ``file_get_contents()`` instead).
-   -  Removed previously deprecated :doc:`Form Helper <helpers/form_helper>` function ``form_prep()`` (use :php:func:`html_escape()` instead).
-   -  Removed previously deprecated *Email Helper* (had only two functions, aliases for PHP's native ``filter_var()`` and ``mail()``).
-   -  Removed previously deprecated *Smiley Helper*.
-   -  Removed previously deprecated *Cart Library*.
-   -  Removed previously deprecated *Javascript Library* (it was always experimental in the first place).
+   -  Changed :doc:`URI Library <libraries/uri>` to ignore the ``$config['url_suffix']``, ``$config['permitted_uri_chars']`` configuration settings for CLI requests.
+
+   -  :doc:`Input Library <libraries/input>` changes include:
+
+      - Removed previously deprecated ``$config['allow_get_array']``.
+      - Removed previously deprecated ``$config['standardize_newlines']``.
+      - Removed previously deprecated method ``is_cli_request()`` (use :php:func:`is_cli()` instead).
 
 -  Libraries
 
+   -  Removed previously deprecated *Cart Library*.
+   -  Removed previously deprecated *Javascript Library* (it was always experimental in the first place).
    -  Added UNIX socket connection support to :doc:`Session Library <libraries/sessions>` 'redis' driver.
 
    -  :doc:`Cache Library <libraries/caching>` changes include:
@@ -42,6 +36,7 @@ Release Date: Not Released
 
    -  :doc:`Form Validation Library <libraries/form_validation>` changes include:
 
+      - Removed previously deprecated method ``prep_for_form()`` / rule *prep_for_form*.
       - Changed method ``set_rules()`` to throw a ``BadMethodCallException`` when its first parameter is not an array and the ``$rules`` one is unused.
 
    -  :doc:`HTML Table Library <libraries/table>` changes include:
@@ -52,7 +47,7 @@ Release Date: Not Released
 
       - Changed the default value of the **validate** option to ``TRUE``.
 
--  :doc:`Database <database/index>`
+-  :doc:`Database <database/index>` changes include:
 
    -  Changed method ``initialize()`` to return void and instead throw a ``RuntimeException`` in case of failure.
    -  Changed method ``db_connect()`` to always set the connection character set (if supported by the driver) and to fail if it can't.
@@ -64,10 +59,31 @@ Release Date: Not Released
 
 -  Helpers
 
+   -  Removed previously deprecated *Email Helper* (had only two functions, aliases for PHP's native ``filter_var()`` and ``mail()``).
+   -  Removed previously deprecated *Smiley Helper*.
+   -  Removed previously deprecated :doc:`Date Helper <helpers/date_helper>` function ``standard_date()`` (use PHP's native ``date()`` instead).
+   -  Removed previously deprecated :doc:`Security Helper <helpers/security_helper>` function ``do_hash()`` (use PHP's native ``hash()`` instead).
+   -  Removed previously deprecated :doc:`File Helper <helpers/file_helper>` function ``read_file()`` (use PHP's native ``file_get_contents()`` instead).
    -  Added new function :php:func:`ordinal_format()` to :doc:`Inflector Helper <helpers/inflector_helper>`.
    -  Updated :doc:`Download Helper <helpers/download_helper>` :php:func:`force_download()` to allow existing files to be renamed for download.
-   -  Updated :doc:`HTML Helper <helpers/html_helper>` function :php:func:`meta()` with support for "charset" and "property" properties.
-   -  Changed :doc:`HTML Helper <helpers/html_helper>` function :php:func:`doctype()` default document type to HTML 5.
+
+   -  :doc:`String Helper <helpers/string_helper>` changes include:
+
+      - Removed previously deprecated function ``trim_slashes()`` (use PHP's native ``trim()`` with ``'/'`` instead).
+      - Removed previously deprecated function ``repeater()`` (use PHP's native ``str_repeat()`` instead).
+
+   -  :doc:`HTML Helper <helpers/html_helper>` changes include:
+
+      - Removed previously deprecated function ``br()`` (use PHP's native ``str_repeat()`` with ``'<br />'`` instead).
+      - Removed previously deprecated function ``nbs()`` (use PHP's native ``str_repeat()`` with ``'&nbsp;'`` instead).
+      - Updated function :php:func:`meta()` with support for "charset" and "property" properties.
+      - Changed function :php:func:`doctype()` default document type to HTML 5.
+
+   -  :doc:`Form Helper <helpers/form_helper>` changes include:
+
+      - Removed previously deprecated function ``form_prep()`` (use :php:func:`html_escape()` instead).
+      - Removed the second (out of three) parameter from the :php:func:`form_upload()` function (it was never used).
+
 
 Version 3.1.3
 =============

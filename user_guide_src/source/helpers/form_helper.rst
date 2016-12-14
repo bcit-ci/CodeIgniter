@@ -243,10 +243,9 @@ The following functions are available:
 	function above except that it uses the "password" input type.
 
 
-.. php:function:: form_upload([$data = ''[, $value = ''[, $extra = '']]])
+.. php:function:: form_upload([$data = '', $extra = '']])
 
 	:param	array	$data: Field attributes data
-	:param	string	$value: Field value
 	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
 	:returns:	An HTML file upload input field tag
 	:rtype:	string
