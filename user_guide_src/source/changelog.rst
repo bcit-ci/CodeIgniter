@@ -73,6 +73,8 @@ Release Date: Not Released
 
 -  General Changes
 
+   -  Deprecated ``$config['allow_get_array']``.
+   -  Deprecated ``$config['standardize_newlines']``.
    -  Deprecated :doc:`Date Helper <helpers/date_helper>` function :php:func:`nice_date()`.
 
 Bug fixes for 3.1.3
@@ -89,6 +91,10 @@ Bug fixes for 3.1.3
 -  Fixed a bug (#4923) - :doc:`Session Library <libraries/sessions>` could execute an erroneous SQL query with the 'database' driver, if the lock attempt times out.
 -  Fixed a bug (#4927) - :doc:`Output Library <libraries/output>` method ``get_header()`` returned the first matching header, regardless of whether it would be replaced by a second ``set_header()`` call.
 -  Fixed a bug (#4844) - :doc:`Email Library <libraries/email>` didn't apply ``escapeshellarg()`` to the while passing the Sendmail ``-f`` parameter through ``popen()``.
+-  Fixed a bug (#4928) - the bootstrap file didn't check if *config/constants.php* exists before trying to load it.
+-  Fixed a bug (#4937) - :doc:`Image Manipulation Library <libraries/image_lib>` method ``initialize()`` didn't translate *new_image* inputs to absolute paths.
+-  Fixed a bug (#4941) - :doc:`Query Builder <database/query_builder>` method ``order_by()`` didn't work with 'RANDOM' under the 'pdo/sqlite' driver.
+-  Fixed a regression (#4892) - :doc:`Query Builder <database/query_builder>` method ``update_batch()`` didn't properly handle identifier escaping.
 
 Version 3.1.2
 =============

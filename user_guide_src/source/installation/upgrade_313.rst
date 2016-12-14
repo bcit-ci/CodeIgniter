@@ -30,3 +30,17 @@ CodeIgniter 3.2+.
 
 .. note:: The function is still available, but you're strongly encouraged
 	to remove its usage sooner rather than later.
+
+Step 3: Remove usage of $config['standardize_newlines']
+=======================================================
+
+The :doc:`Input Library <../libraries/input>` would optionally replace
+occurences of `\r\n`, `\r`, `\n` in input data with whatever the ``PHP_EOL``
+value is on your system - if you've set ``$config['standardize_newlines']``
+to ``TRUE`` in your *application/config/config.php*.
+
+This functionality is now deprecated and scheduled for removal in
+CodeIgniter 3.2.+.
+
+.. note:: The functionality is still available, but you're strongly
+	encouraged to remove its usage sooner rather than later.
