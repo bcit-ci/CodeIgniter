@@ -9,12 +9,10 @@ class Mock_Core_Input extends CI_Input {
 	 *
 	 * @covers CI_Input::__construct()
 	 */
-	public function __construct($security, $utf8)
+	public function __construct($security)
 	{
-		$this->_enable_csrf	= (config_item('csrf_protection') === TRUE);
-
-		// Assign Security and Utf8 classes
-		$this->security = $security;
+		$this->_enable_csrf = (config_item('csrf_protection') === TRUE);
+		$this->security     = $security;
 	}
 
 	public function fetch_from_array($array, $index = '', $xss_clean = FALSE)

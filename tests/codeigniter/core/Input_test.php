@@ -15,9 +15,7 @@ class Input_test extends CI_TestCase {
 		$security = new Mock_Core_Security();
 
 		$this->ci_set_config('charset', 'UTF-8');
-		$utf8 = new Mock_Core_Utf8();
-
-		$this->input = new Mock_Core_Input($security, $utf8);
+		$this->input = new Mock_Core_Input($security);
 	}
 
 	// --------------------------------------------------------------------

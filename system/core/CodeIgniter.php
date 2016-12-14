@@ -243,7 +243,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  Instantiate the UTF-8 class
  * ------------------------------------------------------
  */
-	$UNI =& load_class('Utf8', 'core');
+	$UNI =& load_class('Utf8', 'core', $charset);
 
 /*
  * ------------------------------------------------------
@@ -288,7 +288,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  Load the Input class and sanitize globals
  * ------------------------------------------------------
  */
-	$IN	=& load_class('Input', 'core');
+	$IN =& load_class('Input', 'core', $SEC);
 
 /*
  * ------------------------------------------------------

@@ -113,11 +113,10 @@ class CI_Input {
 	 *
 	 * @return	void
 	 */
-	public function __construct()
+	public function __construct(CI_Security &$security)
 	{
-		$this->_enable_csrf		= (config_item('csrf_protection') === TRUE);
-
-		$this->security =& load_class('Security', 'core');
+		$this->_enable_csrf = (config_item('csrf_protection') === TRUE);
+		$this->security     = $security;
 
 		// CSRF Protection check
 		if ($this->_enable_csrf === TRUE && ! is_cli())

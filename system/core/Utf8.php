@@ -57,13 +57,13 @@ class CI_Utf8 {
 	 *
 	 * @return	void
 	 */
-	public function __construct()
+	public function __construct($charset)
 	{
 		if (
-			defined('PREG_BAD_UTF8_ERROR')				// PCRE must support UTF-8
-			&& (ICONV_ENABLED === TRUE OR MB_ENABLED === TRUE)	// iconv or mbstring must be installed
-			&& strtoupper(config_item('charset')) === 'UTF-8'	// Application charset must be UTF-8
-			)
+			defined('PREG_BAD_UTF8_ERROR')                     // PCRE must support UTF-8
+			&& (ICONV_ENABLED === TRUE OR MB_ENABLED === TRUE) // iconv or mbstring must be installed
+			&& $charset === 'UTF-8'                            // Application charset must be UTF-8
+		)
 		{
 			define('UTF8_ENABLED', TRUE);
 			log_message('info', 'UTF-8 Support Enabled');
