@@ -128,8 +128,11 @@ HTML 5 formatting.
 Step 7: Remove usage of previously deprecated functionalities
 =============================================================
 
-The following is a list of functionalities deprecated in CodeIgniter
-version 3.0.x, that have been removed in 3.2.0:
+The following is a list of functionalities deprecated in previous
+CodeIgniter versions that have been removed in 3.2.0:
+
+- ``$config['allow_get_array']`` (use ``$_GET = array();`` instead)
+- ``$config['standardize_newlines']``
 
 - ``CI_Input::is_cli_request()`` (use :php:func:`is_cli()` instead)
 - ``CI_Router::fetch_directory()`` (use ``CI_Router::$directory`` instead)

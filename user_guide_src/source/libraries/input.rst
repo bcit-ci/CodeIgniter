@@ -28,16 +28,12 @@ The security filtering method is called automatically when a new
 :doc:`controller <../general/controllers>` is invoked. It does the
 following:
 
--  If ``$config['allow_get_array']`` is FALSE (default is TRUE), destroys
-   the global GET array.
 -  Destroys all global variables in the event register_globals is
    turned on.
 -  Filters the GET/POST/COOKIE array keys, permitting only alpha-numeric
    (and a few other) characters.
 -  Provides XSS (Cross-site Scripting Hacks) filtering. This can be
    enabled globally, or upon request.
--  Standardizes newline characters to ``PHP_EOL`` (\\n in UNIX-based OSes,
-   \\r\\n under Windows). This is configurable.
 
 XSS Filtering
 =============

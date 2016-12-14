@@ -193,20 +193,6 @@ $config['directory_trigger'] = 'd';
 
 /*
 |--------------------------------------------------------------------------
-| Allow $_GET array
-|--------------------------------------------------------------------------
-|
-| By default CodeIgniter enables access to the $_GET array.  If for some
-| reason you would like to disable it, set 'allow_get_array' to FALSE.
-|
-| WARNING: This feature is DEPRECATED and currently available only
-|          for backwards compatibility purposes!
-|
-*/
-$config['allow_get_array'] = TRUE;
-
-/*
-|--------------------------------------------------------------------------
 | Error Logging Threshold
 |--------------------------------------------------------------------------
 |
@@ -409,20 +395,6 @@ $config['cookie_domain']	= '';
 $config['cookie_path']		= '/';
 $config['cookie_secure']	= FALSE;
 $config['cookie_httponly'] 	= FALSE;
-
-/*
-|--------------------------------------------------------------------------
-| Standardize newlines
-|--------------------------------------------------------------------------
-|
-| Determines whether to standardize newline characters in input data,
-| meaning to replace \r\n, \r, \n occurrences with the PHP_EOL value.
-|
-| WARNING: This feature is DEPRECATED and currently available only
-|          for backwards compatibility purposes!
-|
-*/
-$config['standardize_newlines'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------

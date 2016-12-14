@@ -58,15 +58,6 @@ class CI_Input {
 	protected $ip_address = FALSE;
 
 	/**
-	 * Allow GET array flag
-	 *
-	 * If set to FALSE, then $_GET will be set to an empty array.
-	 *
-	 * @var	bool
-	 */
-	protected $_allow_get_array = TRUE;
-
-	/**
 	 * Enable XSS flag
 	 *
 	 * Determines whether the XSS filter is always active when
@@ -128,7 +119,6 @@ class CI_Input {
 	 */
 	public function __construct()
 	{
-		$this->_allow_get_array		= (config_item('allow_get_array') === TRUE);
 		$this->_enable_xss		= (config_item('global_xss_filtering') === TRUE);
 		$this->_enable_csrf		= (config_item('csrf_protection') === TRUE);
 
@@ -147,13 +137,6 @@ class CI_Input {
 		if ($this->_enable_csrf === TRUE && ! is_cli())
 		{
 			$this->security->csrf_verify();
-		}
-
-		if ( ! empty($_POST) && config_item('standardize_newlines') === TRUE)
-		{
-			array_walk_recursive($_POST, function(&$value) {
-				$value = preg_replace('/(?:\r\n|[\r\n])/', PHP_EOL, $value);
-			});
 		}
 
 		log_message('info', 'Input Class Initialized');
@@ -598,11 +581,7 @@ class CI_Input {
 	protected function _sanitize_globals()
 	{
 		// Is $_GET data allowed? If not we'll set the $_GET to an empty array
-		if ($this->_allow_get_array === FALSE)
-		{
-			$_GET = array();
-		}
-		elseif (is_array($_GET))
+		if (is_array($_GET))
 		{
 			foreach ($_GET as $key => $val)
 			{
