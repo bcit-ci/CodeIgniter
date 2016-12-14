@@ -13,7 +13,18 @@ Replace all files and directories in your *system/* directory.
 .. note:: If you have any custom developed files in these directories,
 	please make copies of them first.
 
-Step 2: Change database connection handling
+Step 2: Check your PHP version
+==============================
+
+We recommend always running versions that are `currently supported
+<https://secure.php.net/supported-versions.php>`_, which right now is at least PHP 5.6.
+
+PHP 5.3.x versions are now officially not supported by CodeIgniter, and while 5.4.8+
+may be at least runnable, we strongly discourage you from using any PHP versions below
+the ones listed on the `PHP.net Supported Versions <https://secure.php.net/supported-versions.php>`_
+page.
+
+Step 3: Change database connection handling
 ===========================================
 
 "Loading" a database, whether by using the *config/autoload.php* settings
@@ -58,7 +69,7 @@ That doesn't make sense and that's the reason why most database drivers
 don't support it at all.
 Thus, ``db_set_charset()`` is no longer necessary and is removed.
 
-Step 3: Check logic related to URI parsing of CLI requests
+Step 4: Check logic related to URI parsing of CLI requests
 ==========================================================
 
 When running a CodeIgniter application from the CLI, the
@@ -71,7 +82,7 @@ this change was made) and therefore you shouldn't be affected by this, but
 if you've relied on them for some reason, you'd probably have to make some
 changes to your code.
 
-Step 4: Check Cache Library configurations for Redis, Memcache(d)
+Step 5: Check Cache Library configurations for Redis, Memcache(d)
 =================================================================
 
 The new improvements for the 'redis' and 'memcached' drivers of the
@@ -98,7 +109,7 @@ value (previously, it just set the host to the default '127.0.0.1').
 Therefore, if you've added a configuration that only sets e.g. a ``port``,
 you will now have to explicitly set the ``host`` to '127.0.0.1' as well.
 
-Step 5: Check usage of the Email library
+Step 6: Check usage of the Email library
 ========================================
 
 The :doc:`Email Library <../libraries/email>` will now by default check the
@@ -112,7 +123,7 @@ everything works fine.
 If something indeed goes wrong with that, please report it as a bug to us,
 and you can disable the **validate** option to revert to the old behavior.
 
-Step 6: Check usage of doctype() HTML helper
+Step 7: Check usage of doctype() HTML helper
 ============================================
 
 The :doc:`HTML Helper <../helpers/html_helper>` function
@@ -125,7 +136,7 @@ relies on the default value, you should double-check it and either
 explicitly set the desired format, or adapt your front-end to use proper
 HTML 5 formatting.
 
-Step 6: Check usage of form_upload() Form helper
+Step 8: Check usage of form_upload() Form helper
 ================================================
 
 The :doc:`Form Helper <../helpers/form_helper>` function
@@ -142,7 +153,7 @@ You should change it to::
 
 	form_upload('name', $extra);
 
-Step 7: Remove usage of previously deprecated functionalities
+Step 9: Remove usage of previously deprecated functionalities
 =============================================================
 
 The following is a list of functionalities deprecated in previous
@@ -177,8 +188,8 @@ CodeIgniter versions that have been removed in 3.2.0:
 
 - The entire *Smiley Helper* (an archived version is available on GitHub: `bcit-ci/ci3-smiley-helper <https://github.com/bcit-ci/ci3-smiley-helper>`_)
 
-Step 8: Make sure you're validating all user inputs
-===================================================
+Step 10: Make sure you're validating all user inputs
+====================================================
 
 The :doc:`Input Library <../libraries/input>` used to (often
 unconditionally) filter and/or sanitize user input in the ``$_GET``,

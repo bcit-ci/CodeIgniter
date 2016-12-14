@@ -32,7 +32,6 @@ that is otherwise available only since PHP 5.5.
 Dependencies
 ============
 
-- PHP 5.3.7
 - ``CRYPT_BLOWFISH`` support for ``crypt()``
 
 Constants

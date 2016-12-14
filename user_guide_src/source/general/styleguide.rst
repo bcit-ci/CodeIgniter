@@ -346,7 +346,7 @@ Compatibility
 =============
 
 CodeIgniter recommends PHP 5.6 or newer to be used, but it should be
-compatible with PHP 5.3.7. Your code must either be compatible with this
+compatible with PHP 5.4.8. Your code must either be compatible with this
 requirement, provide a suitable fallback, or be an optional feature that
 dies quietly without affecting a user's application.
 
