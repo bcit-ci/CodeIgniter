@@ -67,15 +67,6 @@ class CI_Input {
 	protected $_allow_get_array = TRUE;
 
 	/**
-	 * Standardize new lines flag
-	 *
-	 * If set to TRUE, then newlines are standardized.
-	 *
-	 * @var	bool
-	 */
-	protected $_standardize_newlines;
-
-	/**
 	 * Enable XSS flag
 	 *
 	 * Determines whether the XSS filter is always active when
@@ -140,7 +131,6 @@ class CI_Input {
 		$this->_allow_get_array		= (config_item('allow_get_array') === TRUE);
 		$this->_enable_xss		= (config_item('global_xss_filtering') === TRUE);
 		$this->_enable_csrf		= (config_item('csrf_protection') === TRUE);
-		$this->_standardize_newlines	= (bool) config_item('standardize_newlines');
 
 		$this->security =& load_class('Security', 'core');
 
@@ -157,6 +147,13 @@ class CI_Input {
 		if ($this->_enable_csrf === TRUE && ! is_cli())
 		{
 			$this->security->csrf_verify();
+		}
+
+		if ( ! empty($_POST) && config_item('standardize_newlines') === TRUE)
+		{
+			array_walk_recursive($_POST, function(&$value) {
+				$value = preg_replace('/(?:\r\n|[\r\n])/', PHP_EOL, $value);
+			});
 		}
 
 		log_message('info', 'Input Class Initialized');
@@ -595,7 +592,6 @@ class CI_Input {
 	 *
 	 *	- Unsets $_GET data, if query strings are not enabled
 	 *	- Cleans POST, COOKIE and SERVER data
-	 * 	- Standardizes newline characters to PHP_EOL
 	 *
 	 * @return	void
 	 */
@@ -697,12 +693,6 @@ class CI_Input {
 
 		// Remove control characters
 		$str = remove_invisible_characters($str, FALSE);
-
-		// Standardize newlines if needed
-		if ($this->_standardize_newlines === TRUE)
-		{
-			return preg_replace('/(?:\r\n|[\r\n])/', PHP_EOL, $str);
-		}
 
 		return $str;
 	}
