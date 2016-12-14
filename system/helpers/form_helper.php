@@ -244,11 +244,10 @@ if ( ! function_exists('form_upload'))
 	 * Identical to the input function but adds the "file" type
 	 *
 	 * @param	mixed
-	 * @param	string
 	 * @param	mixed
 	 * @return	string
 	 */
-	function form_upload($data = '', $value = '', $extra = '')
+	function form_upload($data = '', $extra = '')
 	{
 		$defaults = array('type' => 'file', 'name' => '');
 		is_array($data) OR $data = array('name' => $data);
