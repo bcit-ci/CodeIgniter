@@ -32,26 +32,6 @@ following:
    turned on.
 -  Filters the GET/POST/COOKIE array keys, permitting only alpha-numeric
    (and a few other) characters.
--  Provides XSS (Cross-site Scripting Hacks) filtering. This can be
-   enabled globally, or upon request.
-
-XSS Filtering
-=============
-
-The Input class has the ability to filter input automatically to prevent
-cross-site scripting attacks. If you want the filter to run
-automatically every time it encounters POST or COOKIE data you can
-enable it by opening your *application/config/config.php* file and setting
-this::
-
-	$config['global_xss_filtering'] = TRUE;
-
-Please refer to the :doc:`Security class <security>` documentation for
-information on using XSS Filtering in your application.
-
-.. important:: The 'global_xss_filtering' setting is DEPRECATED and kept
-	solely for backwards-compatibility purposes. XSS escaping should
-	be performed on *output*, not *input*!
 
 *******************
 Accessing form data
@@ -126,7 +106,7 @@ Class Reference
 		
 		The property can be read multiple times.
 
-	.. php:method:: post([$index = NULL[, $xss_clean = NULL]])
+	.. php:method:: post([$index = NULL[, $xss_clean = FALSE]])
 
 		:param	mixed	$index: POST parameter name
 		:param	bool	$xss_clean: Whether to apply XSS filtering
@@ -143,7 +123,6 @@ Class Reference
 
 		The second optional parameter lets you run the data through the XSS
 		filter. It's enabled by setting the second parameter to boolean TRUE
-		or by setting your ``$config['global_xss_filtering']`` to TRUE.
 		::
 
 			$this->input->post('some_data', TRUE);
@@ -169,7 +148,7 @@ Class Reference
 
 			$this->input->post(array('field1', 'field2'), TRUE);
 
-	.. php:method:: get([$index = NULL[, $xss_clean = NULL]])
+	.. php:method:: get([$index = NULL[, $xss_clean = FALSE]])
 
 		:param	mixed	$index: GET parameter name
 		:param	bool	$xss_clean: Whether to apply XSS filtering
@@ -202,7 +181,7 @@ Class Reference
 
 			$this->input->get(array('field1', 'field2'), TRUE);
 
-	.. php:method:: post_get($index[, $xss_clean = NULL])
+	.. php:method:: post_get($index[, $xss_clean = FALSE])
 
 		:param	string	$index: POST/GET parameter name
 		:param	bool	$xss_clean: Whether to apply XSS filtering
@@ -215,7 +194,7 @@ Class Reference
 
 			$this->input->post_get('some_data', TRUE);
 
-	.. php:method:: get_post($index[, $xss_clean = NULL])
+	.. php:method:: get_post($index[, $xss_clean = FALSE])
 
 		:param	string	$index: GET/POST parameter name
 		:param	bool	$xss_clean: Whether to apply XSS filtering
@@ -230,7 +209,7 @@ Class Reference
 		.. note:: This method used to act EXACTLY like ``post_get()``, but it's
 			behavior has changed in CodeIgniter 3.0.
 
-	.. php:method:: cookie([$index = NULL[, $xss_clean = NULL]])
+	.. php:method:: cookie([$index = NULL[, $xss_clean = FALSE]])
 
 		:param	mixed	$index: COOKIE name
 		:param	bool	$xss_clean: Whether to apply XSS filtering
@@ -253,7 +232,7 @@ Class Reference
 			function :php:func:`get_cookie()`, this method does NOT prepend
 			your configured ``$config['cookie_prefix']`` value.
 
-	.. php:method:: server($index[, $xss_clean = NULL])
+	.. php:method:: server($index[, $xss_clean = FALSE])
 
 		:param	mixed	$index: Value name
 		:param	bool	$xss_clean: Whether to apply XSS filtering
@@ -271,7 +250,7 @@ Class Reference
 
 			$this->input->server(array('SERVER_PROTOCOL', 'REQUEST_URI'));
 
-	.. php:method:: input_stream([$index = NULL[, $xss_clean = NULL]])
+	.. php:method:: input_stream([$index = NULL[, $xss_clean = FALSE]])
 
 		:param	mixed	$index: Key name
 		:param	bool	$xss_clean: Whether to apply XSS filtering
@@ -386,7 +365,7 @@ Class Reference
 		Accepts an optional second string parameter of 'ipv4' or 'ipv6' to specify
 		an IP format. The default checks for both formats.
 
-	.. php:method:: user_agent([$xss_clean = NULL])
+	.. php:method:: user_agent([$xss_clean = FALSE])
 
 		:returns:	User agent string or NULL if not set
 		:param	bool	$xss_clean: Whether to apply XSS filtering

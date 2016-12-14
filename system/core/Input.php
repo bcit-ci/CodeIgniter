@@ -58,17 +58,6 @@ class CI_Input {
 	protected $ip_address = FALSE;
 
 	/**
-	 * Enable XSS flag
-	 *
-	 * Determines whether the XSS filter is always active when
-	 * GET, POST or COOKIE data is encountered.
-	 * Set automatically based on config setting.
-	 *
-	 * @var	bool
-	 */
-	protected $_enable_xss = FALSE;
-
-	/**
 	 * Enable CSRF flag
 	 *
 	 * Enables a CSRF cookie token to be set.
@@ -119,7 +108,6 @@ class CI_Input {
 	 */
 	public function __construct()
 	{
-		$this->_enable_xss		= (config_item('global_xss_filtering') === TRUE);
 		$this->_enable_csrf		= (config_item('csrf_protection') === TRUE);
 
 		$this->security =& load_class('Security', 'core');
@@ -154,10 +142,8 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	protected function _fetch_from_array(&$array, $index = NULL, $xss_clean = NULL)
+	protected function _fetch_from_array(&$array, $index = NULL, $xss_clean = FALSE)
 	{
-		is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
-
 		// If $index is NULL, it means that the whole $array is requested
 		isset($index) OR $index = array_keys($array);
 
@@ -217,7 +203,7 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function get($index = NULL, $xss_clean = NULL)
+	public function get($index = NULL, $xss_clean = FALSE)
 	{
 		return $this->_fetch_from_array($_GET, $index, $xss_clean);
 	}
@@ -231,7 +217,7 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function post($index = NULL, $xss_clean = NULL)
+	public function post($index = NULL, $xss_clean = FALSE)
 	{
 		return $this->_fetch_from_array($_POST, $index, $xss_clean);
 	}
@@ -245,7 +231,7 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function post_get($index, $xss_clean = NULL)
+	public function post_get($index, $xss_clean = FALSE)
 	{
 		return isset($_POST[$index])
 			? $this->post($index, $xss_clean)
@@ -261,7 +247,7 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function get_post($index, $xss_clean = NULL)
+	public function get_post($index, $xss_clean = FALSE)
 	{
 		return isset($_GET[$index])
 			? $this->get($index, $xss_clean)
@@ -277,7 +263,7 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function cookie($index = NULL, $xss_clean = NULL)
+	public function cookie($index = NULL, $xss_clean = FALSE)
 	{
 		return $this->_fetch_from_array($_COOKIE, $index, $xss_clean);
 	}
@@ -291,7 +277,7 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function server($index, $xss_clean = NULL)
+	public function server($index, $xss_clean = FALSE)
 	{
 		return $this->_fetch_from_array($_SERVER, $index, $xss_clean);
 	}
@@ -307,7 +293,7 @@ class CI_Input {
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
 	 * @return	mixed
 	 */
-	public function input_stream($index = NULL, $xss_clean = NULL)
+	public function input_stream($index = NULL, $xss_clean = FALSE)
 	{
 		// Prior to PHP 5.6, the input stream can only be read once,
 		// so we'll need to check if we have already done that first.
@@ -561,7 +547,7 @@ class CI_Input {
 	 *
 	 * @return	string|null	User Agent string or NULL if it doesn't exist
 	 */
-	public function user_agent($xss_clean = NULL)
+	public function user_agent($xss_clean = FALSE)
 	{
 		return $this->_fetch_from_array($_SERVER, 'HTTP_USER_AGENT', $xss_clean);
 	}

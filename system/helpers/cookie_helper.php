@@ -85,9 +85,8 @@ if ( ! function_exists('get_cookie'))
 	 * @param	bool
 	 * @return	mixed
 	 */
-	function get_cookie($index, $xss_clean = NULL)
+	function get_cookie($index, $xss_clean = FALSE)
 	{
-		is_bool($xss_clean) OR $xss_clean = (config_item('global_xss_filtering') === TRUE);
 		$prefix = isset($_COOKIE[$index]) ? '' : config_item('cookie_prefix');
 		return get_instance()->input->cookie($prefix.$index, $xss_clean);
 	}
