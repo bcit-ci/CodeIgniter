@@ -9,6 +9,8 @@ Release Date: Not Released
 
 -  General Changes
 
+   -  Deprecated ``$config['allow_get_array']``.
+   -  Deprecated ``$config['standardize_newlines']``.
    -  Deprecated :doc:`Date Helper <helpers/date_helper>` function :php:func:`nice_date()`.
 
 Bug fixes for 3.1.3
