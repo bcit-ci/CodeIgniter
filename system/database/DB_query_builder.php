@@ -1946,13 +1946,13 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		$ids = array();
 		foreach ($values as $key => $val)
 		{
-			$ids[] = $val[$index];
+			$ids[] = $val[$index_escaped];
 
 			foreach (array_keys($val) as $field)
 			{
 				if ($field !== $index)
 				{
-					$final[$field][] = 'WHEN '.$index_escaped.' = '.$val[$index].' THEN '.$val[$field];
+					$final[$field][] = 'WHEN '.$index_escaped.' = '.$val[$index_escaped].' THEN '.$val[$field];
 				}
 			}
 		}
