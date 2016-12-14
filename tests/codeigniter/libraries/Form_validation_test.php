@@ -13,8 +13,8 @@ class Form_validation_test extends CI_TestCase {
 		// Same applies for lang
 		$lang = $this->getMockBuilder('CI_Lang')->setMethods(array('load'))->getMock();
 
-		$security = new Mock_Core_Security();
-		$input = new Mock_Core_Input($security);
+		$security = new Mock_Core_Security('UTF-8');
+		$input = new CI_Input($security);
 
 		$this->ci_instance_var('lang', $lang);
 		$this->ci_instance_var('load', $loader);

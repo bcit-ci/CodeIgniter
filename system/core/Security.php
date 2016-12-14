@@ -167,10 +167,12 @@ class CI_Security {
 	 *
 	 * @return	void
 	 */
-	public function __construct()
+	public function __construct($charset)
 	{
+		$this->charset = $charset;
+
 		// Is CSRF protection enabled?
-		if (config_item('csrf_protection'))
+		if (config_item('csrf_protection') && ! is_cli())
 		{
 			// CSRF config
 			foreach (array('csrf_expire', 'csrf_token_name', 'csrf_cookie_name') as $key)
@@ -189,9 +191,8 @@ class CI_Security {
 
 			// Set the CSRF hash
 			$this->_csrf_set_hash();
+			$this->csrf_verify();
 		}
-
-		$this->charset = strtoupper(config_item('charset'));
 
 		log_message('info', 'Security Class Initialized');
 	}

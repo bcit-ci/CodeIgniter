@@ -281,7 +281,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Load the security class for xss and csrf support
  * -----------------------------------------------------
  */
-	$SEC =& load_class('Security', 'core');
+	$SEC =& load_class('Security', 'core', $charset);
 
 /*
  * ------------------------------------------------------

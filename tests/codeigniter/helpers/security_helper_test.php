@@ -6,7 +6,7 @@ class Security_helper_tests extends CI_TestCase {
 	{
 		$this->helper('security');
 		$obj = new stdClass;
-		$obj->security = new Mock_Core_Security();
+		$obj->security = new Mock_Core_Security('UTF-8');
 		$this->ci_instance($obj);
 	}
 

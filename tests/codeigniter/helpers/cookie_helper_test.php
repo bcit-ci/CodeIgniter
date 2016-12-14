@@ -28,9 +28,9 @@ class Cookie_helper_test extends CI_TestCase {
 	{
 		$_COOKIE['foo'] = 'bar';
 
-		$security = new Mock_Core_Security();
+		$security = new Mock_Core_Security('UTF-8');
 		$input_cls = $this->ci_core_class('input');
-		$this->ci_instance_var('input', new Mock_Core_Input($security));
+		$this->ci_instance_var('input', new CI_Input($security));
 
 		$this->assertEquals('bar', get_cookie('foo', FALSE));
 		$this->assertEquals('bar', get_cookie('foo', TRUE));

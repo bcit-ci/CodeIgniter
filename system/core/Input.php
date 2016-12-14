@@ -58,16 +58,6 @@ class CI_Input {
 	protected $ip_address = FALSE;
 
 	/**
-	 * Enable CSRF flag
-	 *
-	 * Enables a CSRF cookie token to be set.
-	 * Set automatically based on config setting.
-	 *
-	 * @var	bool
-	 */
-	protected $_enable_csrf = FALSE;
-
-	/**
 	 * List of all HTTP request headers
 	 *
 	 * @var array
@@ -115,15 +105,7 @@ class CI_Input {
 	 */
 	public function __construct(CI_Security &$security)
 	{
-		$this->_enable_csrf = (config_item('csrf_protection') === TRUE);
-		$this->security     = $security;
-
-		// CSRF Protection check
-		if ($this->_enable_csrf === TRUE && ! is_cli())
-		{
-			$this->security->csrf_verify();
-		}
-
+		$this->security = $security;
 		log_message('info', 'Input Class Initialized');
 	}
 
