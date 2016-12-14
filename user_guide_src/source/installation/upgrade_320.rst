@@ -159,3 +159,21 @@ CodeIgniter versions that have been removed in 3.2.0:
    - ``send_email()`` (use ``mail()`` instead)
 
 - The entire *Smiley Helper* (an archived version is available on GitHub: `bcit-ci/ci3-smiley-helper <https://github.com/bcit-ci/ci3-smiley-helper>`_)
+
+Step 8: Make sure you're validating all user inputs
+===================================================
+
+The :doc:`Input Library <../libraries/input>` used to (often
+unconditionally) filter and/or sanitize user input in the ``$_GET``,
+``$_POST`` and ``$_COOKIE`` superglobals.
+
+This was a legacy feature from older times, when things like
+`register_globals <https://secure.php.net/register_globals>`_ and
+`magic_quotes_gpc <https://secure.php.net/magic_quotes_gpc>`_ existed in
+PHP.
+It was a necessity back then, but this is no longer the case and reliance
+on global filters is a bad practice, giving you a false sense of security.
+
+This functionality is now removed, and so if you've relied on it for
+whatever reasons, you should double-check that you are properly validating
+all user inputs in your application (as you always should do).

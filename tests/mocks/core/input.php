@@ -11,31 +11,15 @@ class Mock_Core_Input extends CI_Input {
 	 */
 	public function __construct($security, $utf8)
 	{
-		$this->_allow_get_array	= (config_item('allow_get_array') === TRUE);
-		$this->_enable_xss	= (config_item('global_xss_filtering') === TRUE);
 		$this->_enable_csrf	= (config_item('csrf_protection') === TRUE);
 
 		// Assign Security and Utf8 classes
 		$this->security = $security;
-		$this->uni = $utf8;
-
-		// Sanitize global arrays
-		$this->_sanitize_globals();
 	}
 
 	public function fetch_from_array($array, $index = '', $xss_clean = FALSE)
 	{
 		return parent::_fetch_from_array($array, $index, $xss_clean);
-	}
-
-	/**
-	 * Lie about being a CLI request
-	 *
-	 * We take advantage of this in libraries/Session_test
-	 */
-	public function is_cli_request()
-	{
-		return FALSE;
 	}
 
 	public function __set($name, $value)
@@ -45,5 +29,4 @@ class Mock_Core_Input extends CI_Input {
 			$this->ip_address = $value;
 		}
 	}
-
 }

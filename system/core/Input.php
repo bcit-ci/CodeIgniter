@@ -93,8 +93,15 @@ class CI_Input {
 	 */
 	protected $_input_stream;
 
+	/**
+	 * CI_Security instance
+	 *
+	 * Used for the optional $xss_filter parameter that most
+	 * getter methods have here.
+	 *
+	 * @var	CI_Security
+	 */
 	protected $security;
-	protected $uni;
 
 	// --------------------------------------------------------------------
 
@@ -111,15 +118,6 @@ class CI_Input {
 		$this->_enable_csrf		= (config_item('csrf_protection') === TRUE);
 
 		$this->security =& load_class('Security', 'core');
-
-		// Do we need the UTF-8 class?
-		if (UTF8_ENABLED === TRUE)
-		{
-			$this->uni =& load_class('Utf8', 'core');
-		}
-
-		// Sanitize global arrays
-		$this->_sanitize_globals();
 
 		// CSRF Protection check
 		if ($this->_enable_csrf === TRUE && ! is_cli())
@@ -550,156 +548,6 @@ class CI_Input {
 	public function user_agent($xss_clean = FALSE)
 	{
 		return $this->_fetch_from_array($_SERVER, 'HTTP_USER_AGENT', $xss_clean);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Sanitize Globals
-	 *
-	 * Internal method serving for the following purposes:
-	 *
-	 *	- Unsets $_GET data, if query strings are not enabled
-	 *	- Cleans POST, COOKIE and SERVER data
-	 *
-	 * @return	void
-	 */
-	protected function _sanitize_globals()
-	{
-		// Is $_GET data allowed? If not we'll set the $_GET to an empty array
-		if (is_array($_GET))
-		{
-			foreach ($_GET as $key => $val)
-			{
-				$_GET[$this->_clean_input_keys($key)] = $this->_clean_input_data($val);
-			}
-		}
-
-		// Clean $_POST Data
-		if (is_array($_POST))
-		{
-			foreach ($_POST as $key => $val)
-			{
-				$_POST[$this->_clean_input_keys($key)] = $this->_clean_input_data($val);
-			}
-		}
-
-		// Clean $_COOKIE Data
-		if (is_array($_COOKIE))
-		{
-			// Also get rid of specially treated cookies that might be set by a server
-			// or silly application, that are of no use to a CI application anyway
-			// but that when present will trip our 'Disallowed Key Characters' alarm
-			// http://www.ietf.org/rfc/rfc2109.txt
-			// note that the key names below are single quoted strings, and are not PHP variables
-			unset(
-				$_COOKIE['$Version'],
-				$_COOKIE['$Path'],
-				$_COOKIE['$Domain']
-			);
-
-			foreach ($_COOKIE as $key => $val)
-			{
-				if (($cookie_key = $this->_clean_input_keys($key)) !== FALSE)
-				{
-					$_COOKIE[$cookie_key] = $this->_clean_input_data($val);
-				}
-				else
-				{
-					unset($_COOKIE[$key]);
-				}
-			}
-		}
-
-		// Sanitize PHP_SELF
-		$_SERVER['PHP_SELF'] = strip_tags($_SERVER['PHP_SELF']);
-
-		log_message('info', 'Global POST, GET and COOKIE data sanitized');
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Clean Input Data
-	 *
-	 * Internal method that aids in escaping data and
-	 * standardizing newline characters to PHP_EOL.
-	 *
-	 * @param	string|string[]	$str	Input string(s)
-	 * @return	string
-	 */
-	protected function _clean_input_data($str)
-	{
-		if (is_array($str))
-		{
-			$new_array = array();
-			foreach (array_keys($str) as $key)
-			{
-				$new_array[$this->_clean_input_keys($key)] = $this->_clean_input_data($str[$key]);
-			}
-			return $new_array;
-		}
-
-		/* We strip slashes if magic quotes is on to keep things consistent
-
-		   NOTE: In PHP 5.4 get_magic_quotes_gpc() will always return 0 and
-		         it will probably not exist in future versions at all.
-		*/
-		if ( ! is_php('5.4') && get_magic_quotes_gpc())
-		{
-			$str = stripslashes($str);
-		}
-
-		// Clean UTF-8 if supported
-		if (UTF8_ENABLED === TRUE)
-		{
-			$str = $this->uni->clean_string($str);
-		}
-
-		// Remove control characters
-		$str = remove_invisible_characters($str, FALSE);
-
-		return $str;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Clean Keys
-	 *
-	 * Internal method that helps to prevent malicious users
-	 * from trying to exploit keys we make sure that keys are
-	 * only named with alpha-numeric text and a few other items.
-	 *
-	 * @param	string	$str	Input string
-	 * @param	bool	$fatal	Whether to terminate script exection
-	 *				or to return FALSE if an invalid
-	 *				key is encountered
-	 * @return	string|bool
-	 */
-	protected function _clean_input_keys($str, $fatal = TRUE)
-	{
-		if ( ! preg_match('/^[a-z0-9:_\/|-]+$/i', $str))
-		{
-			if ($fatal === TRUE)
-			{
-				return FALSE;
-			}
-			else
-			{
-				set_status_header(503);
-				echo 'Disallowed Key Characters.';
-				exit(7); // EXIT_USER_INPUT
-			}
-		}
-
-		// Clean UTF-8 if supported
-		if (UTF8_ENABLED === TRUE)
-		{
-			return $this->uni->clean_string($str);
-		}
-
-		return $str;
 	}
 
 	// --------------------------------------------------------------------

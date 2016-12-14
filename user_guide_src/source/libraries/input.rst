@@ -2,10 +2,8 @@
 Input Class
 ###########
 
-The Input Class serves two purposes:
-
-#. It pre-processes global input data for security.
-#. It provides some helper methods for fetching input data and pre-processing it.
+The Input Class provides some helper methods for accessing input data
+and pre-processing it.
 
 .. note:: This class is initialized automatically by the system so there
 	is no need to do it manually.
@@ -17,25 +15,9 @@ The Input Class serves two purposes:
 
   <div class="custom-index container"></div>
 
-***************
-Input Filtering
-***************
-
-Security Filtering
-==================
-
-The security filtering method is called automatically when a new
-:doc:`controller <../general/controllers>` is invoked. It does the
-following:
-
--  Destroys all global variables in the event register_globals is
-   turned on.
--  Filters the GET/POST/COOKIE array keys, permitting only alpha-numeric
-   (and a few other) characters.
-
-*******************
-Accessing form data
-*******************
+********************
+Accessing input data
+********************
 
 Using POST, GET, COOKIE, or SERVER Data
 =======================================
