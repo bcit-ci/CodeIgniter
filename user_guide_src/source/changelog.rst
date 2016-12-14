@@ -13,6 +13,7 @@ Release Date: Not Released
 
 -  Core
 
+   -  Removed ``$config['rewrite_short_tags']`` (irrelevant on PHP 5.4+).
    -  Removed previously deprecated ``$config['global_xss_filtering']``.
    -  Removed previously deprecated :doc:`Routing Class <general/routing>` methods ``fetch_directory()``, ``fetch_class()`` and ``fetch_method()`` (use the respective class properties instead).
    -  Removed previously deprecated :doc:`Config Library <libraries/config>` method ``system_url()`` (encourages insecure practices).
@@ -53,9 +54,10 @@ Release Date: Not Released
 
 -  :doc:`Database <database/index>` changes include:
 
+   -  Removed previously deprecated 'sqlite' driver (used for SQLite version 2; no longer shipped with PHP 5.4+).
+   -  Removed method ``db_set_charset()`` and the ability to change a connection character set at runtime.
    -  Changed method ``initialize()`` to return void and instead throw a ``RuntimeException`` in case of failure.
    -  Changed method ``db_connect()`` to always set the connection character set (if supported by the driver) and to fail if it can't.
-   -  Removed method ``db_set_charset()`` and the ability to change a connection character set at runtime.
 
    -  :doc:`Database Forge <database/forge>`:
 

@@ -203,8 +203,6 @@ if ( ! function_exists('hash_pbkdf2'))
 			'ripemd160' => 64,
 			'ripemd256' => 64,
 			'ripemd320' => 64,
-			'salsa10' => 64,
-			'salsa20' => 64,
 			'sha1' => 64,
 			'sha224' => 64,
 			'sha256' => 64,

@@ -161,6 +161,9 @@ CodeIgniter versions that have been removed in 3.2.0:
 
 - ``$config['allow_get_array']`` (use ``$_GET = array();`` instead)
 - ``$config['standardize_newlines']``
+- ``$config['rewrite_short_tags']`` (no impact; irrelevant on PHP 5.4+)
+
+- 'sqlite' database driver (no longer shipped with PHP 5.4+; 'sqlite3' is still available)
 
 - ``CI_Input::is_cli_request()`` (use :php:func:`is_cli()` instead)
 - ``CI_Router::fetch_directory()`` (use ``CI_Router::$directory`` instead)

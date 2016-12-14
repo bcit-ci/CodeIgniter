@@ -220,12 +220,3 @@ Function reference
 
 	For more information, please refer to the `PHP manual for
 	array_column() <http://php.net/array_column>`_.
-
-.. php:function:: hex2bin($data)
-
-	:param	array	$data: Hexadecimal representation of data
-	:returns:	Binary representation of the given data
-	:rtype:	string
-
-	For more information, please refer to the `PHP manual for hex2bin()
-	<http://php.net/hex2bin>`_.
