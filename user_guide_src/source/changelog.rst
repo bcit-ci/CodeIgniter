@@ -7,6 +7,10 @@ Version 3.2.0
 
 Release Date: Not Released
 
+-  General Changes
+
+   -  Officially dropped any kind of support for anything under PHP 5.4.8.
+
 -  Core
 
    -  Removed previously deprecated ``$config['global_xss_filtering']``.
