@@ -9,6 +9,8 @@ Release Date: Not Released
 
 -  General Changes
 
+   -  Deprecated ``$config['allow_get_array']``.
+   -  Deprecated ``$config['standardize_newlines']``.
    -  Deprecated :doc:`Date Helper <helpers/date_helper>` function :php:func:`nice_date()`.
 
 Bug fixes for 3.1.3
@@ -41,7 +43,7 @@ Release Date: Oct 28, 2016
 
 -  General Changes
 
-   -  Allowed PHP 4-style constructors (``Mathching_name::Matching_name()`` methods) to be used as routes, if there's a ``__construct()`` to override them.
+   -  Allowed PHP 4-style constructors (``Matching_name::Matching_name()`` methods) to be used as routes, if there's a ``__construct()`` to override them.
 
 Bug fixes for 3.1.2
 -------------------
