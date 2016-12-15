@@ -102,7 +102,7 @@ if ( ! function_exists('character_limiter'))
 		}
 
 		// a bit complicated, but faster than preg_replace with \s+
-		$str = preg_replace('/ {2,}/', ' ', str_replace(array("\r", "\n", "\t", "\x0B", "\x0C"), ' ', $str));
+		$str = preg_replace('/ {2,}/', ' ', str_replace(array("\r", "\n", "\t", "\v", "\f"), ' ', $str));
 
 		if (mb_strlen($str) <= $n)
 		{
