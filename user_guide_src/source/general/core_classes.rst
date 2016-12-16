@@ -101,6 +101,7 @@ your new class in your application controller's constructors.
 		public function __construct()
 		{
 			parent::__construct();
+			// Your own constructor code
 		}
 
 		public function index()
