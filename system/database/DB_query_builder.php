@@ -1553,6 +1553,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		is_bool($escape) OR $escape = $this->_protect_identifiers;
 
+		reset($key);
 		$keys = array_keys($this->_object_to_array(current($key)));
 		sort($keys);
 
