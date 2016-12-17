@@ -1119,13 +1119,23 @@ class CI_Form_validation {
 	 * @param	string	$field
 	 * @return	bool
 	 */
-	public function is_unique($str, $field)
-	{
-		sscanf($field, '%[^.].%[^.]', $table, $field);
-		return isset($this->CI->db)
-			? ($this->CI->db->limit(1)->get_where($table, array($field => $str))->num_rows() === 0)
-			: FALSE;
-	}
+	 public function is_unique($str, $params)
+   {
+       $data = explode('.', $params);
+       $table = $data[0];
+       $field = $data[1];
+
+       $this->CI->db->where($field,$str);
+
+       if(isset($data[2]))
+       {
+           $this->CI->db->where('id !=',$data[2]);
+       }
+
+       $rs = $this->CI->db->get($table)->row();
+
+       return count($rs)==0?TRUE:FALSE;
+   }
 
 	// --------------------------------------------------------------------
 
