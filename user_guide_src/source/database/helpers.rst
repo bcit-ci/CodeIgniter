@@ -1,9 +1,11 @@
-######################
-Query Helper Functions
-######################
+####################
+Query Helper Methods
+####################
 
-$this->db->insert_id()
-======================
+Information From Executing a Query
+==================================
+
+**$this->db->insert_id()**
 
 The insert ID number when performing database inserts.
 
@@ -11,8 +13,7 @@ The insert ID number when performing database inserts.
 	driver, this function requires a $name parameter, which specifies the 
 	appropriate sequence to check for the insert id.
 
-$this->db->affected_rows()
-==========================
+**$this->db->affected_rows()**
 
 Displays the number of affected rows, when doing "write" type queries
 (insert, update, etc.).
@@ -22,33 +23,7 @@ Displays the number of affected rows, when doing "write" type queries
 	affected rows. By default this hack is enabled but it can be turned off
 	in the database driver file.
 
-$this->db->count_all()
-======================
-
-Permits you to determine the number of rows in a particular table.
-Submit the table name in the first parameter. Example::
-
-	echo $this->db->count_all('my_table');
-	
-	// Produces an integer, like 25
-
-$this->db->platform()
-=====================
-
-Outputs the database platform you are running (MySQL, MS SQL, Postgres,
-etc...)::
-
-	echo $this->db->platform();
-
-$this->db->version()
-====================
-
-Outputs the database version you are running::
-
-	echo $this->db->version();
-
-$this->db->last_query()
-=======================
+**$this->db->last_query()**
 
 Returns the last query that was run (the query string, not the result).
 Example::
@@ -61,8 +36,35 @@ Example::
 .. note:: Disabling the **save_queries** setting in your database
 	configuration will render this function useless.
 
-$this->db->insert_string()
+Information About Your Database
+===============================
+
+**$this->db->count_all()**
+
+Permits you to determine the number of rows in a particular table.
+Submit the table name in the first parameter. Example::
+
+	echo $this->db->count_all('my_table');
+	
+	// Produces an integer, like 25
+
+**$this->db->platform()**
+
+Outputs the database platform you are running (MySQL, MS SQL, Postgres,
+etc...)::
+
+	echo $this->db->platform();
+
+**$this->db->version()**
+
+Outputs the database version you are running::
+
+	echo $this->db->version();
+
+Making Your Queries Easier
 ==========================
+
+**$this->db->insert_string()**
 
 This function simplifies the process of writing database inserts. It
 returns a correctly formatted SQL insert string. Example::
@@ -78,8 +80,7 @@ array with the data to be inserted. The above example produces::
 
 .. note:: Values are automatically escaped, producing safer queries.
 
-$this->db->update_string()
-==========================
+**$this->db->update_string()**
 
 This function simplifies the process of writing database updates. It
 returns a correctly formatted SQL update string. Example::

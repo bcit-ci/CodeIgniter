@@ -26,7 +26,7 @@ Available Functions
 
 The following functions are available:
 
-.. function:: xml_convert($str[, $protect_all = FALSE])
+.. php:function:: xml_convert($str[, $protect_all = FALSE])
 
 	:param string $str: the text string to convert
 	:param bool $protect_all: Whether to protect all content that looks like a potential entity instead of just numbered entities, e.g. &foo;

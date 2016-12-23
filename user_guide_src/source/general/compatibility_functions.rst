@@ -10,7 +10,7 @@ Being custom implementations, these functions will also have some
 set of dependencies on their own, but are still useful if your
 PHP setup doesn't offer them natively.
 
-.. note:: Much like the `common functions <common_functions>`, the
+.. note:: Much like the :doc:`common functions <common_functions>`, the
 	compatibility functions are always available, as long as
 	their dependencies are met.
 
@@ -32,7 +32,6 @@ that is otherwise available only since PHP 5.5.
 Dependencies
 ============
 
-- PHP 5.3.7
 - ``CRYPT_BLOWFISH`` support for ``crypt()``
 
 Constants
@@ -44,7 +43,7 @@ Constants
 Function reference
 ==================
 
-.. function:: password_get_info($hash)
+.. php:function:: password_get_info($hash)
 
 	:param	string	$hash: Password hash
 	:returns:	Information about the hashed password
@@ -53,7 +52,7 @@ Function reference
 	For more information, please refer to the `PHP manual for
 	password_get_info() <http://php.net/password_get_info>`_.
 
-.. function:: password_hash($password, $algo[, $options = array()])
+.. php:function:: password_hash($password, $algo[, $options = array()])
 
 	:param	string	$password: Plain-text password
 	:param	int	$algo: Hashing algorithm
@@ -72,7 +71,7 @@ Function reference
 		- /dev/arandom
 		- /dev/urandom
 
-.. function:: password_needs_rehash()
+.. php:function:: password_needs_rehash()
 
 	:param	string	$hash: Password hash
 	:param	int	$algo: Hashing algorithm
@@ -83,7 +82,7 @@ Function reference
 	For more information, please refer to the `PHP manual for
 	password_needs_rehash() <http://php.net/password_needs_rehash>`_.
 
-.. function:: password_verify($password, $hash)
+.. php:function:: password_verify($password, $hash)
 
 	:param	string	$password: Plain-text password
 	:param	string	$hash: Password hash
@@ -109,7 +108,7 @@ Dependencies
 Function reference
 ==================
 
-.. function:: hash_equals($known_string, $user_string)
+.. php:function:: hash_equals($known_string, $user_string)
 
 	:param	string	$known_string: Known string
 	:param	string	$user_string: User-supplied string
@@ -119,7 +118,7 @@ Function reference
 	For more information, please refer to the `PHP manual for
 	hash_equals() <http://php.net/hash_equals>`_.
 
-.. function:: hash_pbkdf2($algo, $password, $salt, $iterations[, $length = 0[, $raw_output = FALSE]])
+.. php:function:: hash_pbkdf2($algo, $password, $salt, $iterations[, $length = 0[, $raw_output = FALSE]])
 
 	:param	string	$algo: Hashing algorithm
 	:param	string	$password: Password
@@ -162,7 +161,7 @@ Dependencies
 Function reference
 ==================
 
-.. function:: mb_strlen($str[, $encoding = NULL])
+.. php:function:: mb_strlen($str[, $encoding = NULL])
 
 	:param	string	$str: Input string
 	:param	string	$encoding: Character set
@@ -172,7 +171,7 @@ Function reference
 	For more information, please refer to the `PHP manual for
 	mb_strlen() <http://php.net/mb_strlen>`_.
 
-.. function:: mb_strpos($haystack, $needle[, $offset = 0[, $encoding = NULL]])
+.. php:function:: mb_strpos($haystack, $needle[, $offset = 0[, $encoding = NULL]])
 
 	:param	string	$haystack: String to search in
 	:param	string	$needle: Part of string to search for
@@ -184,7 +183,7 @@ Function reference
 	For more information, please refer to the `PHP manual for
 	mb_strpos() <http://php.net/mb_strpos>`_.
 
-.. function:: mb_substr($str, $start[, $length = NULL[, $encoding = NULL]])
+.. php:function:: mb_substr($str, $start[, $length = NULL[, $encoding = NULL]])
 
 	:param	string	$str: Input string
 	:param	int	$start: Position of first character
@@ -211,7 +210,7 @@ Dependencies
 Function reference
 ==================
 
-.. function:: array_column(array $array, $column_key[, $index_key = NULL])
+.. php:function:: array_column(array $array, $column_key[, $index_key = NULL])
 
 	:param	array	$array: Array to fetch results from
 	:param	mixed	$column_key: Key of the column to return values from
@@ -221,44 +220,3 @@ Function reference
 
 	For more information, please refer to the `PHP manual for
 	array_column() <http://php.net/array_column>`_.
-
-.. function:: array_replace(array $array1[, ...])
-
-	:param	array	$array1: Array in which to replace elements
-	:param	array	...: Array (or multiple ones) from which to extract elements
-	:returns:	Modified array
-	:rtype:	array
-
-	For more information, please refer to the `PHP manual for
-	array_replace() <http://php.net/array_replace>`_.
-
-.. function:: array_replace_recursive(array $array1[, ...])
-
-	:param	array	$array1: Array in which to replace elements
-	:param	array	...: Array (or multiple ones) from which to extract elements
-	:returns:	Modified array
-	:rtype:	array
-
-	For more information, please refer to the `PHP manual for
-	array_replace_recursive() <http://php.net/array_replace_recursive>`_.
-
-	.. important:: Only PHP's native function can detect endless recursion.
-		Unless you are running PHP 5.3+, be careful with references!
-
-.. function:: hex2bin($data)
-
-	:param	array	$data: Hexadecimal representation of data
-	:returns:	Binary representation of the given data
-	:rtype:	string
-
-	For more information, please refer to the `PHP manual for hex2bin()
-	<http://php.net/hex2bin>`_.
-
-.. function:: quoted_printable_encode($str)
-
-	:param	string	$str: Input string
-	:returns:	8bit-encoded string
-	:rtype:	string
-
-	For more information, please refer to the `PHP manual for
-	quoted_printable_encode() <http://php.net/quoted_printable_encode>`_.

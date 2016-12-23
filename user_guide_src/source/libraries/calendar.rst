@@ -60,10 +60,10 @@ parameter of the calendar generating function. Consider this example::
 	$this->load->library('calendar');
 
 	$data = array(
-		3  => 'http://example.com/news/article/2006/03/',
-		7  => 'http://example.com/news/article/2006/07/',
-		13 => 'http://example.com/news/article/2006/13/',
-		26 => 'http://example.com/news/article/2006/26/'
+		3  => 'http://example.com/news/article/2006/06/03/',
+		7  => 'http://example.com/news/article/2006/06/07/',
+		13 => 'http://example.com/news/article/2006/06/13/',
+		26 => 'http://example.com/news/article/2006/06/26/'
 	);
 
 	echo $this->calendar->generate(2006, 6, $data);
@@ -179,7 +179,7 @@ will be placed within a pair of pseudo-variables as shown here::
 
 		{cal_cell_blank}&nbsp;{/cal_cell_blank}
 
-		{cal_cell_other}{day}{cal_cel_other}
+		{cal_cell_other}{day}{/cal_cel_other}
 
 		{cal_cell_end}</td>{/cal_cell_end}
 		{cal_cell_end_today}</td>{/cal_cell_end_today}
@@ -213,9 +213,9 @@ Example::
 Class Reference
 ***************
 
-.. class:: CI_Calendar
+.. php:class:: CI_Calendar
 
-	.. method:: initialize([$config = array()])
+	.. php:method:: initialize([$config = array()])
 
 		:param	array	$config: Configuration parameters
 		:returns:	CI_Calendar instance (method chaining)
@@ -223,7 +223,7 @@ Class Reference
 
 		Initializes the Calendaring preferences. Accepts an associative array as input, containing display preferences.
 
-	.. method:: generate([$year = ''[, $month = ''[, $data = array()]]])
+	.. php:method:: generate([$year = ''[, $month = ''[, $data = array()]]])
 
 		:param	int	$year: Year
 		:param	int	$month: Month
@@ -234,7 +234,7 @@ Class Reference
 		Generate the calendar.
 
 
-	.. method:: get_month_name($month)
+	.. php:method:: get_month_name($month)
 
 		:param	int	$month: Month
 		:returns:	Month name
@@ -242,7 +242,7 @@ Class Reference
 
 		Generates a textual month name based on the numeric month provided.
 
-	.. method:: get_day_names($day_type = '')
+	.. php:method:: get_day_names($day_type = '')
 
 		:param	string	$day_type: 'long', 'short', or 'abr'
 		:returns:	Array of day names
@@ -253,7 +253,7 @@ Class Reference
 		if an invalid type is provided) this method will return the "abbreviated"
 		style.
 
-	.. method:: adjust_date($month, $year)
+	.. php:method:: adjust_date($month, $year)
 
 		:param	int	$month: Month
 		:param	int	$year: Year
@@ -274,7 +274,7 @@ Class Reference
 				[year] => '2015'
 			)
 
-	.. method:: get_total_days($month, $year)
+	.. php:method:: get_total_days($month, $year)
 
 		:param	int	$month: Month
 		:param	int	$year: Year
@@ -287,9 +287,9 @@ Class Reference
 			// 29
 
 		.. note:: This method is an alias for :doc:`Date Helper
-			<../helpers/date_helper>` function :func:`days_in_month()`.
+			<../helpers/date_helper>` function :php:func:`days_in_month()`.
 
-	.. method:: default_template()
+	.. php:method:: default_template()
 
 		:returns:	An array of template values
 		:rtype:	array
@@ -298,7 +298,7 @@ Class Reference
 		your own template.
 
 
-	.. method:: parse_template()
+	.. php:method:: parse_template()
 
 		:returns:	CI_Calendar instance (method chaining)
 		:rtype:	CI_Calendar

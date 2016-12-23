@@ -3,7 +3,7 @@ Inflector Helper
 ################
 
 The Inflector Helper file contains functions that permits you to change
-words to plural, singular, camel case, etc.
+**English** words to plural, singular, camel case, etc.
 
 .. contents::
   :local:
@@ -25,7 +25,7 @@ Available Functions
 The following functions are available:
 
 
-.. function:: singular($str)
+.. php:function:: singular($str)
 
 	:param	string	$str: Input string
 	:returns:	A singular word
@@ -35,17 +35,17 @@ The following functions are available:
 
 		echo singular('dogs'); // Prints 'dog'
 
-.. function:: plural($str)
+.. php:function:: plural($str)
 
 	:param	string	$str: Input string
-	:returns:	A plular word
+	:returns:	A plural word
 	:rtype:	string
 
 	Changes a singular word to plural. Example::
 
 		echo plural('dog'); // Prints 'dogs'
 
-.. function:: camelize($str)
+.. php:function:: camelize($str)
 
 	:param	string	$str: Input string
 	:returns:	Camelized string
@@ -56,7 +56,7 @@ The following functions are available:
 
 		echo camelize('my_dog_spot'); // Prints 'myDogSpot'
 
-.. function:: underscore($str)
+.. php:function:: underscore($str)
 
 	:param	string	$str: Input string
 	:returns:	String containing underscores instead of spaces
@@ -67,7 +67,7 @@ The following functions are available:
 
 		echo underscore('my dog spot'); // Prints 'my_dog_spot'
 
-.. function:: humanize($str[, $separator = '_'])
+.. php:function:: humanize($str[, $separator = '_'])
 
 	:param	string	$str: Input string
 	:param	string	$separator: Input separator
@@ -85,7 +85,7 @@ The following functions are available:
 
 		echo humanize('my-dog-spot', '-'); // Prints 'My Dog Spot'
 
-.. function:: is_countable($word)
+.. php:function:: is_countable($word)
 
 	:param	string	$word: Input string
 	:returns:	TRUE if the word is countable or FALSE if not
@@ -94,3 +94,19 @@ The following functions are available:
 	Checks if the given word has a plural version. Example::
 
 		is_countable('equipment'); // Returns FALSE
+
+.. php:function:: ordinal_format($number)
+
+	:param	int	$number: non-negative natural number to be converted
+    	:returns:	Ordinal numeral for given number or original value on failure
+    	:rtype:	string
+
+    	Returns the ordinal numeral (1st, 2nd, 3rd etc.) for a
+    	non-negative natural number. If the input is not a natural number
+    	greater than 0, the function will return the original value. Examples::
+
+		echo ordinal_format(1); // Returns 1st
+		echo ordinal_format(3); // Returns 3rd
+		echo ordinal_format(21); // Returns 21st
+		echo ordinal_format(102); // Returns 102nd
+		echo ordinal_format(-5); // Invalid input, will return -5

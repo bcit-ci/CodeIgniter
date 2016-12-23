@@ -88,7 +88,7 @@ as *20121031100537_add_blog.php*.
 		}
 	}
 
-Then in **application/config/migration.php** set ``$config['migration_version'] = 1;``.
+Then in **application/config/migration.php** set ``$config['migration_version'] = 20121031100537;``.
 
 *************
 Usage Example
@@ -138,9 +138,9 @@ Preference                 Default                Options                    Des
 Class Reference
 ***************
 
-.. class:: CI_Migration
+.. php:class:: CI_Migration
 
-	.. method:: current()
+	.. php:method:: current()
 
 		:returns:	TRUE if no migrations are found, current version string on success, FALSE on failure
 		:rtype:	mixed
@@ -148,30 +148,30 @@ Class Reference
 		Migrates up to the current version (whatever is set for
 		``$config['migration_version']`` in *application/config/migration.php*).
 
-	.. method:: error_string()
+	.. php:method:: error_string()
 
 		:returns:	Error messages
 		:rtype:	string
 
 		This returns a string of errors that were detected while performing a migration.
 
-	.. method:: find_migrations()
+	.. php:method:: find_migrations()
 
 		:returns:	An array of migration files
 		:rtype:	array
 
 		An array of migration filenames are returned that are found in the **migration_path** property.
 
-	.. method:: latest()
+	.. php:method:: latest()
 
-		:returns:	TRUE if no migrations are found, current version string on success, FALSE on failure
+		:returns:	Current version string on success, FALSE on failure
 		:rtype:	mixed
 
 		This works much the same way as ``current()`` but instead of looking for 
 		the ``$config['migration_version']`` the Migration class will use the very 
 		newest migration found in the filesystem.
 
-	.. method:: version($target_version)
+	.. php:method:: version($target_version)
 
 		:param	mixed	$target_version: Migration version to process
 		:returns:	TRUE if no migrations are found, current version string on success, FALSE on failure

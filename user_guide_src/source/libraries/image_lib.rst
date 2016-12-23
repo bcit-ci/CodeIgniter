@@ -63,7 +63,8 @@ called *mypic.jpg* located in the source_image folder, then create a
 thumbnail that is 75 X 50 pixels using the GD2 image_library. Since the
 maintain_ratio option is enabled, the thumb will be as close to the
 target width and height as possible while preserving the original aspect
-ratio. The thumbnail will be called *mypic_thumb.jpg*
+ratio. The thumbnail will be called *mypic_thumb.jpg* and located at
+the same level as *source_image*.
 
 .. note:: In order for the image class to be allowed to do any
 	processing, the folder containing the image files must have write
@@ -89,7 +90,7 @@ If they fail you can retrieve the error message using this function::
 
 	echo $this->image_lib->display_errors();
 
-A good practice is use the processing function conditionally, showing an
+A good practice is to use the processing function conditionally, showing an
 error upon failure, like this::
 
 	if ( ! $this->image_lib->resize())
@@ -137,6 +138,8 @@ Preference              Default Value           Options                         
                                                                                 image can be shown at a time, and it can't be positioned on the page. It
                                                                                 simply outputs the raw image dynamically to your browser, along with
                                                                                 image headers.
+**file_permissions**    0644                    (integer)                       File system permissions to apply on the resulting image file,               R, C, X, W
+                                                                                writing it to the disk. WARNING: Use octal integer notation!
 **quality**             90%                     1 - 100%                        Sets the quality of the image. The higher the quality the larger the        R, C, X, W
                                                                                 file size.
 **new_image**           None                    None                            Sets the destination image name/path. You'll use this preference when       R, C, X, W
@@ -185,7 +188,7 @@ Two Types of Watermarking
 
 There are two types of watermarking that you can use:
 
--  **Text**: The watermark message will be generating using text, either
+-  **Text**: The watermark message will be generated using text, either
    with a True Type font that you specify, or using the native text
    output that the GD library supports. If you use the True Type version
    your GD installation must be compiled with True Type support (most
@@ -229,7 +232,7 @@ bottom/center of the image, 20 pixels from the bottom of the image.
 Watermarking Preferences
 ========================
 
-This table shown the preferences that are available for both types of
+This table shows the preferences that are available for both types of
 watermarking (text or overlay)
 
 ======================= =================== ======================= ==========================================================================
@@ -262,7 +265,7 @@ Preference              Default Value       Options                 Description
 Text Preferences
 ----------------
 
-This table shown the preferences that are available for the text type of
+This table shows the preferences that are available for the text type of
 watermarking.
 
 ======================= =================== =================== ==========================================================================
@@ -280,14 +283,14 @@ Preference              Default Value       Options             Description
 **wm_shadow_color**     None                None                The color of the drop shadow, specified in hex. If you leave this blank
                                                                 a drop shadow will not be used. Both the full 6-length (ie, 993300) and
                                                                 the short three character abbreviated version (ie, fff) are supported.
-**wm_shadow_distance**  3                   None                The distance (in pixels) from the font that the drop shadow should
+**wm_shadow_distance**  2                   None                The distance (in pixels) from the font that the drop shadow should
                                                                 appear.
 ======================= =================== =================== ==========================================================================
 
 Overlay Preferences
 -------------------
 
-This table shown the preferences that are available for the overlay type
+This table shows the preferences that are available for the overlay type
 of watermarking.
 
 ======================= =================== =================== ==========================================================================
@@ -314,9 +317,9 @@ Preference              Default Value       Options             Description
 Class Reference
 ***************
 
-.. class:: CI_Image_lib
+.. php:class:: CI_Image_lib
 
-	.. method:: initialize([$props = array()])
+	.. php:method:: initialize([$props = array()])
 
 		:param	array	$props: Image processing preferences
 		:returns:	TRUE on success, FALSE in case of invalid settings
@@ -324,7 +327,7 @@ Class Reference
 
 		Initializes the class for processing an image.
 
-	.. method:: resize()
+	.. php:method:: resize()
 
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
@@ -371,7 +374,7 @@ Class Reference
 		new_image) are used, the resizing method will instead target the
 		original image for processing.
 
-	.. method:: crop()
+	.. php:method:: crop()
 
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
@@ -405,9 +408,9 @@ Class Reference
 			method is not very useful unless you intend to build such an
 			interface. That's exactly what we did using for the photo gallery module
 			in ExpressionEngine, the CMS we develop. We added a JavaScript UI that
-			lets the cropping area be selected.
+			lets the cropping area be selected. (from EllisLab)
 
-	.. method:: rotate()
+	.. php:method:: rotate()
 
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
@@ -439,7 +442,7 @@ Class Reference
 				echo $this->image_lib->display_errors();
 			}
 
-	.. method:: watermark()
+	.. php:method:: watermark()
 
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
@@ -447,7 +450,7 @@ Class Reference
 		Creates a watermark over an image, please refer to the :ref:`watermarking`
 		section for more info.		
 
-	.. method:: clear()
+	.. php:method:: clear()
 
 		:rtype:	void
 
@@ -459,7 +462,7 @@ Class Reference
 
 			$this->image_lib->clear();
 
-	.. method:: display_errors([$open = '<p>[, $close = '</p>']])
+	.. php:method:: display_errors([$open = '<p>[, $close = '</p>']])
 
 		:param	string	$open: Error message opening tag
 		:param	string	$close: Error message closing tag
@@ -469,4 +472,4 @@ Class Reference
 		Returns all detected errors formatted as a string.
 		::
 
-			echo $this->image_lib->diplay_errors();
+			echo $this->image_lib->display_errors();

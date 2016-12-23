@@ -23,33 +23,7 @@ Available Functions
 
 The following functions are available:
 
-
-.. function:: read_file($file)
-
-	:param	string	$file: File path
-	:returns:	File contents or FALSE on failure
-	:rtype:	string
-
-	Returns the data contained in the file specified in the path.
-
-	Example::
-
-		$string = read_file('./path/to/file.php');
-
-	The path can be a relative or full server path. Returns FALSE (boolean) on failure.
-
-	.. note:: The path is relative to your main site index.php file, NOT your
-		controller or view files. CodeIgniter uses a front controller so paths
-		are always relative to the main site index.
-
-	.. note:: This function is DEPRECATED. Use the native ``file_get_contents()``
-		instead.
-
-	.. important:: If your server is running an **open_basedir** restriction this
-		function might not work if you are trying to access a file above the
-		calling script.
-
-.. function:: write_file($path, $data[, $mode = 'wb'])
+.. php:function:: write_file($path, $data[, $mode = 'wb'])
 
 	:param	string	$path: File path
 	:param	string	$data: Data to write to file
@@ -76,12 +50,12 @@ The following functions are available:
 
 		write_file('./path/to/file.php', $data, 'r+');
 
-	The default mode is 'wb'. Please see the `PHP user guide <http://php.net/fopen>`_
+	The default mode is 'wb'. Please see the `PHP user guide <http://php.net/manual/en/function.fopen.php>`_
 	for mode options.
 
 	.. note: In order for this function to write data to a file, its permissions must
-		be set such that it is writable (666, 777, etc.). If the file does not
-		already exist, the directory containing it must be writable.
+		be set such that it is writable. If the file does not already exist,
+		then the directory containing it must be writable.
 
 	.. note:: The path is relative to your main site index.php file, NOT your
 		controller or view files. CodeIgniter uses a front controller so paths
@@ -89,7 +63,7 @@ The following functions are available:
 
 	.. note:: This function acquires an exclusive lock on the file while writing to it.
 
-.. function:: delete_files($path[, $del_dir = FALSE[, $htdocs = FALSE]])
+.. php:function:: delete_files($path[, $del_dir = FALSE[, $htdocs = FALSE]])
 
 	:param	string	$path: Directory path
 	:param	bool	$del_dir: Whether to also delete directories
@@ -112,7 +86,7 @@ The following functions are available:
 
 	.. note:: The files must be writable or owned by the system in order to be deleted.
 
-.. function:: get_filenames($source_dir[, $include_path = FALSE])
+.. php:function:: get_filenames($source_dir[, $include_path = FALSE])
 
 	:param	string	$source_dir: Directory path
 	:param	bool	$include_path: Whether to include the path as part of the filenames
@@ -127,7 +101,7 @@ The following functions are available:
 
 		$controllers = get_filenames(APPPATH.'controllers/');
 
-.. function:: get_dir_file_info($source_dir, $top_level_only)
+.. php:function:: get_dir_file_info($source_dir, $top_level_only)
 
 	:param	string	$source_dir: Directory path
 	:param	bool	$top_level_only: Whether to look only at the specified directory (excluding sub-directories)
@@ -143,7 +117,7 @@ The following functions are available:
 
 		$models_info = get_dir_file_info(APPPATH.'models/');
 
-.. function:: get_file_info($file[, $returned_values = array('name', 'server_path', 'size', 'date')])
+.. php:function:: get_file_info($file[, $returned_values = array('name', 'server_path', 'size', 'date')])
 
 	:param	string	$file: File path
 	:param	array	$returned_values: What type of info to return
@@ -157,7 +131,7 @@ The following functions are available:
 	Valid ``$returned_values`` options are: `name`, `size`, `date`, `readable`, `writeable`,
 	`executable` and `fileperms`.
 
-.. function:: get_mime_by_extension($filename)
+.. php:function:: get_mime_by_extension($filename)
 
 	:param	string	$filename: File name
 	:returns:	MIME type string or FALSE on failure
@@ -175,7 +149,7 @@ The following functions are available:
 		is here strictly for convenience. It should not be used for security
 		purposes.
 
-.. function:: symbolic_permissions($perms)
+.. php:function:: symbolic_permissions($perms)
 
 	:param	int	$perms: Permissions
 	:returns:	Symbolic permissions string
@@ -188,7 +162,7 @@ The following functions are available:
 
 		echo symbolic_permissions(fileperms('./index.php'));  // -rw-r--r--
 
-.. function:: octal_permissions($perms)
+.. php:function:: octal_permissions($perms)
 
 	:param	int	$perms: Permissions
 	:returns:	Octal permissions string

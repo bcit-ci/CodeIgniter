@@ -2,26 +2,37 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP
  *
- * NOTICE OF LICENSE
+ * This content is released under the MIT License (MIT)
  *
- * Licensed under the Open Software License version 3.0
+ * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
  *
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 3.0
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	https://codeigniter.com
+ * @since	Version 3.0.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -35,7 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Libraries
  * @author		Andrey Andreev
- * @link		http://codeigniter.com/user_guide/libraries/encryption.html
+ * @link		https://codeigniter.com/user_guide/libraries/encryption.html
  */
 class CI_Encryption {
 
@@ -110,7 +121,7 @@ class CI_Encryption {
 	);
 
 	/**
-	 * List of supported HMAC algorightms
+	 * List of supported HMAC algorithms
 	 *
 	 * name => digest size pairs
 	 *
@@ -141,15 +152,13 @@ class CI_Encryption {
 	public function __construct(array $params = array())
 	{
 		$this->_drivers = array(
-			'mcrypt' => defined('MCRYPT_DEV_URANDOM'),
-			// While OpenSSL is available for PHP 5.3.0, an IV parameter
-			// for the encrypt/decrypt functions is only available since 5.3.3
-			'openssl' => (is_php('5.3.3') && extension_loaded('openssl'))
+			'mcrypt'  => defined('MCRYPT_DEV_URANDOM'),
+			'openssl' => extension_loaded('openssl')
 		);
 
 		if ( ! $this->_drivers['mcrypt'] && ! $this->_drivers['openssl'])
 		{
-			return show_error('Encryption: Unable to find an available encryption driver.');
+			show_error('Encryption: Unable to find an available encryption driver.');
 		}
 
 		isset(self::$func_override) OR self::$func_override = (extension_loaded('mbstring') && ini_get('mbstring.func_override'));
@@ -160,7 +169,7 @@ class CI_Encryption {
 			$this->_key = $key;
 		}
 
-		log_message('debug', 'Encryption Class Initialized');
+		log_message('info', 'Encryption Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -201,6 +210,7 @@ class CI_Encryption {
 			log_message('debug', "Encryption: Auto-configured driver '".$this->_driver."'.");
 		}
 
+		empty($params['cipher']) && $params['cipher'] = $this->_cipher;
 		empty($params['key']) OR $this->_key = $params['key'];
 		$this->{'_'.$this->_driver.'_initialize'}($params);
 		return $this;
@@ -236,7 +246,7 @@ class CI_Encryption {
 			$params['mode'] = strtolower($params['mode']);
 			if ( ! isset($this->_modes['mcrypt'][$params['mode']]))
 			{
-				log_message('error', 'Encryption: MCrypt mode '.strtotupper($params['mode']).' is not available.');
+				log_message('error', 'Encryption: MCrypt mode '.strtoupper($params['mode']).' is not available.');
 			}
 			else
 			{
@@ -256,7 +266,7 @@ class CI_Encryption {
 
 			if ($this->_handle = mcrypt_module_open($this->_cipher, '', $this->_mode, ''))
 			{
-				log_message('debug', 'Encryption: MCrypt cipher '.strtoupper($this->_cipher).' initialized in '.strtoupper($this->_mode).' mode.');
+				log_message('info', 'Encryption: MCrypt cipher '.strtoupper($this->_cipher).' initialized in '.strtoupper($this->_mode).' mode.');
 			}
 			else
 			{
@@ -287,7 +297,7 @@ class CI_Encryption {
 			$params['mode'] = strtolower($params['mode']);
 			if ( ! isset($this->_modes['openssl'][$params['mode']]))
 			{
-				log_message('error', 'Encryption: OpenSSL mode '.strtotupper($params['mode']).' is not available.');
+				log_message('error', 'Encryption: OpenSSL mode '.strtoupper($params['mode']).' is not available.');
 			}
 			else
 			{
@@ -310,7 +320,7 @@ class CI_Encryption {
 			else
 			{
 				$this->_handle = $handle;
-				log_message('debug', 'Encryption: OpenSSL initialized with method '.strtoupper($handle).'.');
+				log_message('info', 'Encryption: OpenSSL initialized with method '.strtoupper($handle).'.');
 			}
 		}
 	}
@@ -325,9 +335,28 @@ class CI_Encryption {
 	 */
 	public function create_key($length)
 	{
-		return ($this->_driver === 'mcrypt')
-			? mcrypt_create_iv($length, MCRYPT_DEV_URANDOM)
-			: openssl_random_pseudo_bytes($length);
+		if (function_exists('random_bytes'))
+		{
+			try
+			{
+				return random_bytes((int) $length);
+			}
+			catch (Exception $e)
+			{
+				log_message('error', $e->getMessage());
+				return FALSE;
+			}
+		}
+		elseif (defined('MCRYPT_DEV_URANDOM'))
+		{
+			return mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
+		}
+
+		$is_secure = NULL;
+		$key = openssl_random_pseudo_bytes($length, $is_secure);
+		return ($is_secure === TRUE)
+			? $key
+			: FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -383,7 +412,7 @@ class CI_Encryption {
 		// The greater-than-1 comparison is mostly a work-around for a bug,
 		// where 1 is returned for ARCFour instead of 0.
 		$iv = (($iv_size = mcrypt_enc_get_iv_size($params['handle'])) > 1)
-			? mcrypt_create_iv($iv_size, MCRYPT_DEV_URANDOM)
+			? $this->create_key($iv_size)
 			: NULL;
 
 		if (mcrypt_generic_init($params['handle'], $params['key'], $iv) < 0)
@@ -446,14 +475,14 @@ class CI_Encryption {
 		}
 
 		$iv = ($iv_size = openssl_cipher_iv_length($params['handle']))
-			? openssl_random_pseudo_bytes($iv_size)
+			? $this->create_key($iv_size)
 			: NULL;
 
 		$data = openssl_encrypt(
 			$data,
 			$params['handle'],
 			$params['key'],
-			1, // DO NOT TOUCH!
+			OPENSSL_RAW_DATA,
 			$iv
 		);
 
@@ -612,7 +641,7 @@ class CI_Encryption {
 				$data,
 				$params['handle'],
 				$params['key'],
-				1, // DO NOT TOUCH!
+				OPENSSL_RAW_DATA,
 				$iv
 			);
 	}
@@ -878,7 +907,7 @@ class CI_Encryption {
 	 * Byte-safe strlen()
 	 *
 	 * @param	string	$str
-	 * @return	integer
+	 * @return	int
 	 */
 	protected static function strlen($str)
 	{
@@ -901,9 +930,6 @@ class CI_Encryption {
 	{
 		if (self::$func_override)
 		{
-			// mb_substr($str, $start, null, '8bit') returns an empty
-			// string on PHP 5.3
-			isset($length) OR $length = ($start >= 0 ? self::strlen($str) - $start : -$start);
 			return mb_substr($str, $start, $length, '8bit');
 		}
 
@@ -912,6 +938,3 @@ class CI_Encryption {
 			: substr($str, $start);
 	}
 }
-
-/* End of file Encryption.php */
-/* Location: ./system/libraries/Encryption.php */

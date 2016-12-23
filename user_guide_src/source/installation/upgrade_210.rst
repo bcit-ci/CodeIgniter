@@ -13,11 +13,11 @@ Replace all files and directories in your "system" folder.
 .. note:: If you have any custom developed files in these folders please
 	make copies of them first.
 
-Step 2: Replace config/user_agents.php
-======================================
+Step 2: Replace config/mimes.php
+================================
 
 This config file has been updated to contain more user agent types,
-please copy it to _application/config/user_agents.php*.
+please copy it to *application/config/mimes.php*.
 
 Step 3: Update your user guide
 ==============================

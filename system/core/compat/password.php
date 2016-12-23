@@ -2,26 +2,37 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP
  *
- * NOTICE OF LICENSE
+ * This content is released under the MIT License (MIT)
  *
- * Licensed under the Open Software License version 3.0
+ * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
  *
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 3.0
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	https://codeigniter.com
+ * @since	Version 3.0.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -33,13 +44,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	CodeIgniter
  * @category	Compatibility
  * @author		Andrey Andreev
- * @link		http://codeigniter.com/user_guide/
+ * @link		https://codeigniter.com/user_guide/
  * @link		http://php.net/password
  */
 
 // ------------------------------------------------------------------------
 
-if (is_php('5.5') OR ! is_php('5.3.7') OR ! defined('CRYPT_BLOWFISH') OR CRYPT_BLOWFISH !== 1 OR defined('HHVM_VERSION'))
+if (is_php('5.5') OR ! defined('CRYPT_BLOWFISH') OR CRYPT_BLOWFISH !== 1 OR defined('HHVM_VERSION'))
 {
 	return;
 }
@@ -105,13 +116,21 @@ if ( ! function_exists('password_hash'))
 		}
 		elseif ( ! isset($options['salt']))
 		{
-			if (defined('MCRYPT_DEV_URANDOM'))
+			if (function_exists('random_bytes'))
+			{
+				try
+				{
+					$options['salt'] = random_bytes(16);
+				}
+				catch (Exception $e)
+				{
+					log_message('error', 'compat/password: Error while trying to use random_bytes(): '.$e->getMessage());
+					return FALSE;
+				}
+			}
+			elseif (defined('MCRYPT_DEV_URANDOM'))
 			{
 				$options['salt'] = mcrypt_create_iv(16, MCRYPT_DEV_URANDOM);
-			}
-			elseif (function_exists('openssl_random_pseudo_bytes'))
-			{
-				$options['salt'] = openssl_random_pseudo_bytes(16);
 			}
 			elseif (DIRECTORY_SEPARATOR === '/' && (is_readable($dev = '/dev/arandom') OR is_readable($dev = '/dev/urandom')))
 			{
@@ -120,6 +139,9 @@ if ( ! function_exists('password_hash'))
 					log_message('error', 'compat/password: Unable to open '.$dev.' for reading.');
 					return FALSE;
 				}
+
+				// Try not to waste entropy ...
+				stream_set_chunk_size($fp, 16);
 
 				$options['salt'] = '';
 				for ($read = 0; $read < 16; $read = ($func_override) ? mb_strlen($options['salt'], '8bit') : strlen($options['salt']))
@@ -133,6 +155,16 @@ if ( ! function_exists('password_hash'))
 				}
 
 				fclose($fp);
+			}
+			elseif (function_exists('openssl_random_pseudo_bytes'))
+			{
+				$is_secure = NULL;
+				$options['salt'] = openssl_random_pseudo_bytes(16, $is_secure);
+				if ($is_secure !== TRUE)
+				{
+					log_message('error', 'compat/password: openssl_random_pseudo_bytes() set the $cryto_strong flag to FALSE');
+					return FALSE;
+				}
 			}
 			else
 			{
@@ -217,6 +249,3 @@ if ( ! function_exists('password_verify'))
 		return ($compare === 0);
 	}
 }
-
-/* End of file password.php */
-/* Location: ./system/core/compat/password.php */

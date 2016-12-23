@@ -8,11 +8,6 @@ class password_test extends CI_TestCase {
 		{
 			return $this->markTestSkipped('ext/standard/password is available on PHP 5.5');
 		}
-		elseif ( ! is_php('5.3.7'))
-		{
-			$this->assertFalse(defined('PASSWORD_BCRYPT'));
-			return $this->markTestSkipped("PHP versions prior to 5.3.7 don't have the '2y' Blowfish version");
-		}
 		// defined as of HHVM 2.3.0, which is also when they introduce password_*() as well
 		// Note: Do NOT move this after the CRYPT_BLOWFISH check
 		elseif (defined('HHVM_VERSION'))
@@ -132,7 +127,7 @@ class password_test extends CI_TestCase {
 		$this->assertFalse(password_needs_rehash('$2y$10$MTIzNDU2Nzg5MDEyMzQ1Nej0NmcAWSLR.oP7XOR9HD/vjUuOj100y', PASSWORD_BCRYPT, array('cost' => 10, 'foo' => 3)));
 
 		// invalid: different (lower) cost
-		$this->assertTrue(password_needs_rehash('$2y$10$MTIzNDU2Nzg5MDEyMzQ1Nej0NmcAWSLR.oP7XOR9HD/vjUuOj100y', PASSWORD_BCRYPT, array('cost' => 09)));
+		$this->assertTrue(password_needs_rehash('$2y$10$MTIzNDU2Nzg5MDEyMzQ1Nej0NmcAWSLR.oP7XOR9HD/vjUuOj100y', PASSWORD_BCRYPT, array('cost' => 9)));
 
 		// invalid: different (higher) cost
 		$this->assertTrue(password_needs_rehash('$2y$10$MTIzNDU2Nzg5MDEyMzQ1Nej0NmcAWSLR.oP7XOR9HD/vjUuOj100y', PASSWORD_BCRYPT, array('cost' => 11)));

@@ -26,7 +26,7 @@ Available Functions
 The following functions are available:
 
 
-.. function:: element($item, $array[, $default = NULL])
+.. php:function:: element($item, $array[, $default = NULL])
 
 	:param	string	$item: Item to fetch from the array
 	:param	array	$array: Input array
@@ -51,7 +51,7 @@ The following functions are available:
 		echo element('size', $array, 'foobar'); // returns "foobar"
 
 
-.. function:: elements($items, $array[, $default = NULL])
+.. php:function:: elements($items, $array[, $default = NULL])
 
 	:param	string	$item: Item to fetch from the array
 	:param	array	$array: Input array
@@ -111,7 +111,7 @@ The following functions are available:
 	updated.
 
 
-.. function:: random_element($array)
+.. php:function:: random_element($array)
 
 	:param	array	$array: Input array
 	:returns:	A random element from the array

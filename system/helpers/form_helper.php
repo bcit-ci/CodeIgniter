@@ -2,26 +2,37 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP
  *
- * NOTICE OF LICENSE
+ * This content is released under the MIT License (MIT)
  *
- * Licensed under the Open Software License version 3.0
+ * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
  *
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	https://codeigniter.com
+ * @since	Version 1.0.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -33,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Helpers
  * @category	Helpers
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/helpers/form_helper.html
+ * @link		https://codeigniter.com/user_guide/helpers/form_helper.html
  */
 
 // ------------------------------------------------------------------------
@@ -89,7 +100,7 @@ if ( ! function_exists('form_open'))
 		{
 			foreach ($hidden as $name => $value)
 			{
-				$form .= '<input type="hidden" name="'.$name.'" value="'.form_prep($value).'" style="display:none;" />'."\n";
+				$form .= '<input type="hidden" name="'.$name.'" value="'.html_escape($value).'" />'."\n";
 			}
 		}
 
@@ -162,7 +173,7 @@ if ( ! function_exists('form_hidden'))
 
 		if ( ! is_array($value))
 		{
-			$form .= '<input type="hidden" name="'.$name.'" value="'.form_prep($value)."\" />\n";
+			$form .= '<input type="hidden" name="'.$name.'" value="'.html_escape($value)."\" />\n";
 		}
 		else
 		{
@@ -186,7 +197,7 @@ if ( ! function_exists('form_input'))
 	 *
 	 * @param	mixed
 	 * @param	string
-	 * @param	string
+	 * @param	mixed
 	 * @return	string
 	 */
 	function form_input($data = '', $value = '', $extra = '')
@@ -197,7 +208,7 @@ if ( ! function_exists('form_input'))
 			'value' => $value
 		);
 
-		return '<input '._parse_form_attributes($data, $defaults).$extra." />\n";
+		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
 	}
 }
 
@@ -212,7 +223,7 @@ if ( ! function_exists('form_password'))
 	 *
 	 * @param	mixed
 	 * @param	string
-	 * @param	string
+	 * @param	mixed
 	 * @return	string
 	 */
 	function form_password($data = '', $value = '', $extra = '')
@@ -233,16 +244,16 @@ if ( ! function_exists('form_upload'))
 	 * Identical to the input function but adds the "file" type
 	 *
 	 * @param	mixed
-	 * @param	string
-	 * @param	string
+	 * @param	mixed
 	 * @return	string
 	 */
-	function form_upload($data = '', $value = '', $extra = '')
+	function form_upload($data = '', $extra = '')
 	{
 		$defaults = array('type' => 'file', 'name' => '');
 		is_array($data) OR $data = array('name' => $data);
 		$data['type'] = 'file';
-		return '<input '._parse_form_attributes($data, $defaults).$extra." />\n";
+
+		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
 	}
 }
 
@@ -255,7 +266,7 @@ if ( ! function_exists('form_textarea'))
 	 *
 	 * @param	mixed	$data
 	 * @param	string	$value
-	 * @param	string	$extra
+	 * @param	mixed	$extra
 	 * @return	string
 	 */
 	function form_textarea($data = '', $value = '', $extra = '')
@@ -276,7 +287,9 @@ if ( ! function_exists('form_textarea'))
 			unset($data['value']); // textareas don't use the value attribute
 		}
 
-		return '<textarea '._parse_form_attributes($data, $defaults).$extra.'>'.form_prep($val, TRUE)."</textarea>\n";
+		return '<textarea '._parse_form_attributes($data, $defaults)._attributes_to_string($extra).'>'
+			.html_escape($val)
+			."</textarea>\n";
 	}
 }
 
@@ -290,12 +303,13 @@ if ( ! function_exists('form_multiselect'))
 	 * @param	string
 	 * @param	array
 	 * @param	mixed
-	 * @param	string
+	 * @param	mixed
 	 * @return	string
 	 */
 	function form_multiselect($name = '', $options = array(), $selected = array(), $extra = '')
 	{
-		if ( ! strpos($extra, 'multiple'))
+		$extra = _attributes_to_string($extra);
+		if (stripos($extra, 'multiple') === FALSE)
 		{
 			$extra .= ' multiple="multiple"';
 		}
@@ -361,7 +375,7 @@ if ( ! function_exists('form_dropdown'))
 
 		$extra = _attributes_to_string($extra);
 
-		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
+		$multiple = (count($selected) > 1 && stripos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
 
 		$form = '<select '.rtrim(_parse_form_attributes($data, $defaults)).$extra.$multiple.">\n";
 
@@ -381,7 +395,7 @@ if ( ! function_exists('form_dropdown'))
 				foreach ($val as $optgroup_key => $optgroup_val)
 				{
 					$sel = in_array($optgroup_key, $selected) ? ' selected="selected"' : '';
-					$form .= '<option value="'.form_prep($optgroup_key).'"'.$sel.'>'
+					$form .= '<option value="'.html_escape($optgroup_key).'"'.$sel.'>'
 						.(string) $optgroup_val."</option>\n";
 				}
 
@@ -389,7 +403,7 @@ if ( ! function_exists('form_dropdown'))
 			}
 			else
 			{
-				$form .= '<option value="'.form_prep($key).'"'
+				$form .= '<option value="'.html_escape($key).'"'
 					.(in_array($key, $selected) ? ' selected="selected"' : '').'>'
 					.(string) $val."</option>\n";
 			}
@@ -409,7 +423,7 @@ if ( ! function_exists('form_checkbox'))
 	 * @param	mixed
 	 * @param	string
 	 * @param	bool
-	 * @param	string
+	 * @param	mixed
 	 * @return	string
 	 */
 	function form_checkbox($data = '', $value = '', $checked = FALSE, $extra = '')
@@ -439,7 +453,7 @@ if ( ! function_exists('form_checkbox'))
 			unset($defaults['checked']);
 		}
 
-		return '<input '._parse_form_attributes($data, $defaults).$extra." />\n";
+		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
 	}
 }
 
@@ -453,13 +467,14 @@ if ( ! function_exists('form_radio'))
 	 * @param	mixed
 	 * @param	string
 	 * @param	bool
-	 * @param	string
+	 * @param	mixed
 	 * @return	string
 	 */
 	function form_radio($data = '', $value = '', $checked = FALSE, $extra = '')
 	{
 		is_array($data) OR $data = array('name' => $data);
 		$data['type'] = 'radio';
+
 		return form_checkbox($data, $value, $checked, $extra);
 	}
 }
@@ -473,7 +488,7 @@ if ( ! function_exists('form_submit'))
 	 *
 	 * @param	mixed
 	 * @param	string
-	 * @param	string
+	 * @param	mixed
 	 * @return	string
 	 */
 	function form_submit($data = '', $value = '', $extra = '')
@@ -484,7 +499,7 @@ if ( ! function_exists('form_submit'))
 			'value' => $value
 		);
 
-		return '<input '._parse_form_attributes($data, $defaults).$extra." />\n";
+		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
 	}
 }
 
@@ -497,7 +512,7 @@ if ( ! function_exists('form_reset'))
 	 *
 	 * @param	mixed
 	 * @param	string
-	 * @param	string
+	 * @param	mixed
 	 * @return	string
 	 */
 	function form_reset($data = '', $value = '', $extra = '')
@@ -508,7 +523,7 @@ if ( ! function_exists('form_reset'))
 			'value' => $value
 		);
 
-		return '<input '._parse_form_attributes($data, $defaults).$extra." />\n";
+		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
 	}
 }
 
@@ -521,7 +536,7 @@ if ( ! function_exists('form_button'))
 	 *
 	 * @param	mixed
 	 * @param	string
-	 * @param	string
+	 * @param	mixed
 	 * @return	string
 	 */
 	function form_button($data = '', $content = '', $extra = '')
@@ -537,7 +552,9 @@ if ( ! function_exists('form_button'))
 			unset($data['content']); // content is not an attribute
 		}
 
-		return '<button '._parse_form_attributes($data, $defaults).$extra.'>'.$content."</button>\n";
+		return '<button '._parse_form_attributes($data, $defaults)._attributes_to_string($extra).'>'
+			.$content
+			."</button>\n";
 	}
 }
 
@@ -550,7 +567,7 @@ if ( ! function_exists('form_label'))
 	 *
 	 * @param	string	The text to appear onscreen
 	 * @param	string	The id the label applies to
-	 * @param	string	Additional attributes
+	 * @param	array	Additional attributes
 	 * @return	string
 	 */
 	function form_label($label_text = '', $id = '', $attributes = array())
@@ -635,40 +652,6 @@ if ( ! function_exists('form_close'))
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('form_prep'))
-{
-	/**
-	 * Form Prep
-	 *
-	 * Formats text so that it can be safely placed in a form field in the event it has HTML tags.
-	 *
-	 * @param	string|string[]	$str		Value to escape
-	 * @param	bool		$is_textarea	Whether we're escaping for a textarea element
-	 * @return	string|string[]	Escaped values
-	 */
-	function form_prep($str = '', $is_textarea = FALSE)
-	{
-		if (is_array($str))
-		{
-			foreach (array_keys($str) as $key)
-			{
-				$str[$key] = form_prep($str[$key], $is_textarea);
-			}
-
-			return $str;
-		}
-
-		if ($is_textarea === TRUE)
-		{
-			return str_replace(array('<', '>'), array('&lt;', '&gt;'), stripslashes($str));
-		}
-
-		return str_replace(array("'", '"'), array('&#39;', '&quot;'), stripslashes($str));
-	}
-}
-
-// ------------------------------------------------------------------------
-
 if ( ! function_exists('set_value'))
 {
 	/**
@@ -680,10 +663,10 @@ if ( ! function_exists('set_value'))
 	 *
 	 * @param	string	$field		Field name
 	 * @param	string	$default	Default value
-	 * @param	bool	$is_textarea	Whether the field is a textarea element
+	 * @param	bool	$html_escape	Whether to escape HTML special characters or not
 	 * @return	string
 	 */
-	function set_value($field = '', $default = '', $is_textarea = FALSE)
+	function set_value($field, $default = '', $html_escape = TRUE)
 	{
 		$CI =& get_instance();
 
@@ -691,7 +674,8 @@ if ( ! function_exists('set_value'))
 			? $CI->form_validation->set_value($field, $default)
 			: $CI->input->post($field, FALSE);
 
-		return form_prep($value === NULL ? $default : $value, $is_textarea);
+		isset($value) OR $value = $default;
+		return ($html_escape) ? html_escape($value) : $value;
 	}
 }
 
@@ -710,7 +694,7 @@ if ( ! function_exists('set_select'))
 	 * @param	bool
 	 * @return	string
 	 */
-	function set_select($field = '', $value = '', $default = FALSE)
+	function set_select($field, $value = '', $default = FALSE)
 	{
 		$CI =& get_instance();
 
@@ -757,7 +741,7 @@ if ( ! function_exists('set_checkbox'))
 	 * @param	bool
 	 * @return	string
 	 */
-	function set_checkbox($field = '', $value = '', $default = FALSE)
+	function set_checkbox($field, $value = '', $default = FALSE)
 	{
 		$CI =& get_instance();
 
@@ -765,12 +749,11 @@ if ( ! function_exists('set_checkbox'))
 		{
 			return $CI->form_validation->set_checkbox($field, $value, $default);
 		}
-		elseif (($input = $CI->input->post($field, FALSE)) === NULL)
-		{
-			return ($default === TRUE) ? ' checked="checked"' : '';
-		}
 
+		// Form inputs are always strings ...
 		$value = (string) $value;
+		$input = $CI->input->post($field, FALSE);
+
 		if (is_array($input))
 		{
 			// Note: in_array('', array(0)) returns TRUE, do not use it
@@ -785,7 +768,13 @@ if ( ! function_exists('set_checkbox'))
 			return '';
 		}
 
-		return ($input === $value) ? ' checked="checked"' : '';
+		// Unchecked checkbox and radio inputs are not even submitted by browsers ...
+		if ($CI->input->method() === 'post')
+		{
+			return ($input === $value) ? ' checked="checked"' : '';
+		}
+
+		return ($default === TRUE) ? ' checked="checked"' : '';
 	}
 }
 
@@ -804,7 +793,7 @@ if ( ! function_exists('set_radio'))
 	 * @param	bool	$default
 	 * @return	string
 	 */
-	function set_radio($field = '', $value = '', $default = FALSE)
+	function set_radio($field, $value = '', $default = FALSE)
 	{
 		$CI =& get_instance();
 
@@ -812,12 +801,32 @@ if ( ! function_exists('set_radio'))
 		{
 			return $CI->form_validation->set_radio($field, $value, $default);
 		}
-		elseif (($input = $CI->input->post($field, FALSE)) === NULL)
+
+		// Form inputs are always strings ...
+		$value = (string) $value;
+		$input = $CI->input->post($field, FALSE);
+
+		if (is_array($input))
 		{
-			return ($default === TRUE) ? ' checked="checked"' : '';
+			// Note: in_array('', array(0)) returns TRUE, do not use it
+			foreach ($input as &$v)
+			{
+				if ($value === $v)
+				{
+					return ' checked="checked"';
+				}
+			}
+
+			return '';
 		}
 
-		return ($input === (string) $value) ? ' checked="checked"' : '';
+		// Unchecked checkbox and radio inputs are not even submitted by browsers ...
+		if ($CI->input->method() === 'post')
+		{
+			return ($input === $value) ? ' checked="checked"' : '';
+		}
+
+		return ($default === TRUE) ? ' checked="checked"' : '';
 	}
 }
 
@@ -910,7 +919,7 @@ if ( ! function_exists('_parse_form_attributes'))
 		{
 			if ($key === 'value')
 			{
-				$val = form_prep($val);
+				$val = html_escape($val);
 			}
 			elseif ($key === 'name' && ! strlen($default['name']))
 			{
@@ -1001,6 +1010,3 @@ if ( ! function_exists('_get_validation_object'))
 		return $return;
 	}
 }
-
-/* End of file form_helper.php */
-/* Location: ./system/helpers/form_helper.php */

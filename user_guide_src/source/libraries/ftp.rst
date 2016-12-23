@@ -90,9 +90,9 @@ In this example a local directory is mirrored on the server.
 Class Reference
 ***************
 
-.. class:: CI_FTP
+.. php:class:: CI_FTP
 
-	.. method:: connect([$config = array()])
+	.. php:method:: connect([$config = array()])
 
 		:param	array	$config: Connection values
 		:returns:	TRUE on success, FALSE on failure
@@ -135,7 +135,7 @@ Class Reference
 		**passive**    TRUE            TRUE/FALSE (boolean): Whether to use passive mode
 		============== =============== =============================================================================
 
-	.. method:: upload($locpath, $rempath[, $mode = 'auto'[, $permissions = NULL]])
+	.. php:method:: upload($locpath, $rempath[, $mode = 'auto'[, $permissions = NULL]])
 
 		:param	string	$locpath: Local file path
 		:param	string	$rempath: Remote file path
@@ -154,7 +154,7 @@ Class Reference
 
 		If set, permissions have to be passed as an octal value.
 
-	.. method:: download($rempath, $locpath[, $mode = 'auto'])
+	.. php:method:: download($rempath, $locpath[, $mode = 'auto'])
 
 		:param	string	$rempath: Remote file path
 		:param	string	$locpath: Local file path
@@ -172,7 +172,7 @@ Class Reference
 		Returns FALSE if the download does not execute successfully
 		(including if PHP does not have permission to write the local file).
 
-	.. method:: rename($old_file, $new_file[, $move = FALSE])
+	.. php:method:: rename($old_file, $new_file[, $move = FALSE])
 
 		:param	string	$old_file: Old file name
 		:param	string	$new_file: New file name
@@ -186,7 +186,7 @@ Class Reference
 			// Renames green.html to blue.html
 			$this->ftp->rename('/public_html/foo/green.html', '/public_html/foo/blue.html');
 
-	.. method:: move($old_file, $new_file)
+	.. php:method:: move($old_file, $new_file)
 
 		:param	string	$old_file: Old file name
 		:param	string	$new_file: New file name
@@ -200,7 +200,7 @@ Class Reference
 
 		.. note:: If the destination file name is different the file will be renamed.
 
-	.. method:: delete_file($filepath)
+	.. php:method:: delete_file($filepath)
 
 		:param	string	$filepath: Path to file to delete
 		:returns:	TRUE on success, FALSE on failure
@@ -211,7 +211,7 @@ Class Reference
 
 			 $this->ftp->delete_file('/public_html/joe/blog.html');
 
-	.. method:: delete_dir($filepath)
+	.. php:method:: delete_dir($filepath)
 
 		:param	string	$filepath: Path to directory to delete
 		:returns:	TRUE on success, FALSE on failure
@@ -229,7 +229,7 @@ Class Reference
 
 			 $this->ftp->delete_dir('/public_html/path/to/folder/');
 
-	.. method:: list_files([$path = '.'])
+	.. php:method:: list_files([$path = '.'])
 
 		:param	string	$path: Directory path
 		:returns:	An array list of files or FALSE on failure
@@ -242,7 +242,7 @@ Class Reference
 			$list = $this->ftp->list_files('/public_html/');
 			print_r($list);
 
-	.. method:: mirror($locpath, $rempath)
+	.. php:method:: mirror($locpath, $rempath)
 
 		:param	string	$locpath: Local path
 		:param	string	$rempath: Remote path
@@ -256,7 +256,7 @@ Class Reference
 
 			 $this->ftp->mirror('/path/to/myfolder/', '/public_html/myfolder/');
 
-	.. method:: mkdir($path[, $permissions = NULL])
+	.. php:method:: mkdir($path[, $permissions = NULL])
 
 		:param	string	$path: Path to directory to create
 		:param	int	$permissions: Permissions (octal)
@@ -270,9 +270,9 @@ Class Reference
 		::
 
 			// Creates a folder named "bar"
-			$this->ftp->mkdir('/public_html/foo/bar/', DIR_WRITE_MODE);
+			$this->ftp->mkdir('/public_html/foo/bar/', 0755);
 
-	.. method:: chmod($path, $perm)
+	.. php:method:: chmod($path, $perm)
 
 		:param	string	$path: Path to alter permissions for
 		:param	int	$perm: Permissions (octal)
@@ -282,10 +282,10 @@ Class Reference
 		Permits you to set file permissions. Supply the path to the file or
 		directory you wish to alter permissions on::
 
-			// Chmod "bar" to 777
-			$this->ftp->chmod('/public_html/foo/bar/', DIR_WRITE_MODE);
+			// Chmod "bar" to 755
+			$this->ftp->chmod('/public_html/foo/bar/', 0755);
 
-	.. method:: changedir($path[, $suppress_debug = FALSE])
+	.. php:method:: changedir($path[, $suppress_debug = FALSE])
 
 		:param	string	$path: Directory path
 		:param	bool	$suppress_debug: Whether to turn off debug messages for this command
@@ -297,7 +297,7 @@ Class Reference
 		The ``$suppress_debug`` parameter is useful in case you want to use this method
 		as an ``is_dir()`` alternative for FTP.
 
-	.. method:: close()
+	.. php:method:: close()
 
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool

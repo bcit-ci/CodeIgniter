@@ -2,13 +2,18 @@
 Encryption Library
 ##################
 
+.. important:: DO NOT use this or any other *encryption* library for
+	user password storage! Passwords must be *hashed* instead, and you
+	should do that via PHP's own `Password Hashing extension
+	<http://php.net/password>`_.
+
 The Encryption Library provides two-way data encryption. To do so in
 a cryptographically secure way, it utilizes PHP extensions that are
 unfortunately not always available on all systems.
 You must meet one of the following dependencies in order to use this
 library:
 
-- `OpenSSL <http://php.net/openssl>`_ (and PHP 5.3.3)
+- `OpenSSL <http://php.net/openssl>`_
 - `MCrypt <http://php.net/mcrypt>`_ (and `MCRYPT_DEV_URANDOM` availability)
 
 If neither of the above dependencies is met, we simply cannot offer
@@ -70,7 +75,7 @@ process that allows you to be the only one who is able to decrypt data
 that you've decided to hide from the eyes of the public.
 After one key is used to encrypt data, that same key provides the **only**
 means to decrypt it, so not only must you chose one carefully, but you
-must not lose it or you will also use the encrypted data.
+must not lose it or you will also lose access to the data.
 
 It must be noted that to ensure maximum security, such key *should* not
 only be as strong as possible, but also often changed. Such behavior
@@ -105,6 +110,18 @@ To save your key to your *application/config/config.php*, open the file
 and set::
 
 	$config['encryption_key'] = 'YOUR KEY';
+
+You'll notice that the ``create_key()`` method outputs binary data, which
+is hard to deal with (i.e. a copy-paste may damage it), so you may use
+``bin2hex()``, ``hex2bin()`` or Base64-encoding to work with the key in
+a more friendly manner. For example::
+
+	// Get a hex-encoded representation of the key:
+	$key = bin2hex($this->encryption->create_key(16));
+
+	// Put the same value in your config with hex2bin(),
+	// so that it is still passed as binary to the library:
+	$config['encryption_key'] = hex2bin(<your hex-encoded key>);
 
 .. _ciphers-and-modes:
 
@@ -465,7 +482,7 @@ The reason for not including other popular algorithms, such as
 MD5 or SHA1 is that they are no longer considered secure enough
 and as such, we don't want to encourage their usage.
 If you absolutely need to use them, it is easy to do so via PHP's
-native `hash_hmac() <http://php.net/hash_hmac()>`_ function.
+native `hash_hmac() <http://php.net/manual/en/function.hash-hmac.php>`_ function.
 
 Stronger algorithms of course will be added in the future as they
 appear and become widely available.
@@ -474,9 +491,9 @@ appear and become widely available.
 Class Reference
 ***************
 
-.. class:: CI_Encryption
+.. php:class:: CI_Encryption
 
-	.. method:: initialize($params)
+	.. php:method:: initialize($params)
 
 		:param	array	$params: Configuration parameters
 		:returns:	CI_Encryption instance (method chaining)
@@ -493,7 +510,7 @@ Class Reference
 
 		Please refer to the :ref:`configuration` section for detailed info.
 
-	.. method:: encrypt($data[, $params = NULL])
+	.. php:method:: encrypt($data[, $params = NULL])
 
 		:param	string	$data: Data to encrypt
 		:param	array	$params: Optional parameters
@@ -509,7 +526,7 @@ Class Reference
 		Please refer to the :ref:`custom-parameters` section for information
 		on the optional parameters.
 
-	.. method:: decrypt($data[, $params = NULL])
+	.. php:method:: decrypt($data[, $params = NULL])
 
 		:param	string	$data: Data to decrypt
 		:param	array	$params: Optional parameters
@@ -525,7 +542,16 @@ Class Reference
 		Please refer to the :ref:`custom-parameters` secrion for information
 		on the optional parameters.
 
-	.. method:: hkdf($key[, $digest = 'sha512'[, $salt = NULL[, $length = NULL[, $info = '']]]])
+	.. php:method:: create_key($length)
+
+		:param	int	$length: Output length
+		:returns:	A pseudo-random cryptographic key with the specified length, or FALSE on failure
+		:rtype:	string
+
+		Creates a cryptographic key by fetching random data from
+		the operating system's sources (i.e. /dev/urandom).
+
+	.. php:method:: hkdf($key[, $digest = 'sha512'[, $salt = NULL[, $length = NULL[, $info = '']]]])
 
 		:param	string	$key: Input key material
 		:param	string	$digest: A SHA-2 family digest algorithm
@@ -533,6 +559,7 @@ Class Reference
 		:param	int	$length: Optional output length
 		:param	string	$info: Optional context/application-specific info
 		:returns:	A pseudo-random key or FALSE on failure
+		:rtype:	string
 
 		Derives a key from another, presumably weaker key.
 

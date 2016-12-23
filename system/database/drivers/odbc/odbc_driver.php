@@ -2,26 +2,37 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP
  *
- * NOTICE OF LICENSE
+ * This content is released under the MIT License (MIT)
  *
- * Licensed under the Open Software License version 3.0
+ * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
  *
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	https://codeigniter.com
+ * @since	Version 1.3.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -37,9 +48,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Drivers
  * @category	Database
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @link		https://codeigniter.com/user_guide/database/
  */
-class CI_DB_odbc_driver extends CI_DB {
+class CI_DB_odbc_driver extends CI_DB_driver {
 
 	/**
 	 * Database driver
@@ -83,6 +94,22 @@ class CI_DB_odbc_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * ODBC result ID resource returned from odbc_prepare()
+	 *
+	 * @var	resource
+	 */
+	private $odbc_result;
+
+	/**
+	 * Values to use with odbc_execute() for prepared statements
+	 *
+	 * @var	array
+	 */
+	private $binds = array();
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Class constructor
 	 *
 	 * @param	array	$params
@@ -117,6 +144,74 @@ class CI_DB_odbc_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Compile Bindings
+	 *
+	 * @param	string	$sql	SQL statement
+	 * @param	array	$binds	An array of values to bind
+	 * @return	string
+	 */
+	public function compile_binds($sql, $binds)
+	{
+		if (empty($binds) OR empty($this->bind_marker) OR strpos($sql, $this->bind_marker) === FALSE)
+		{
+			return $sql;
+		}
+		elseif ( ! is_array($binds))
+		{
+			$binds = array($binds);
+			$bind_count = 1;
+		}
+		else
+		{
+			// Make sure we're using numeric keys
+			$binds = array_values($binds);
+			$bind_count = count($binds);
+		}
+
+		// We'll need the marker length later
+		$ml = strlen($this->bind_marker);
+
+		// Make sure not to replace a chunk inside a string that happens to match the bind marker
+		if ($c = preg_match_all("/'[^']*'|\"[^\"]*\"/i", $sql, $matches))
+		{
+			$c = preg_match_all('/'.preg_quote($this->bind_marker, '/').'/i',
+				str_replace($matches[0],
+					str_replace($this->bind_marker, str_repeat(' ', $ml), $matches[0]),
+					$sql, $c),
+				$matches, PREG_OFFSET_CAPTURE);
+
+			// Bind values' count must match the count of markers in the query
+			if ($bind_count !== $c)
+			{
+				return $sql;
+			}
+		}
+		elseif (($c = preg_match_all('/'.preg_quote($this->bind_marker, '/').'/i', $sql, $matches, PREG_OFFSET_CAPTURE)) !== $bind_count)
+		{
+			return $sql;
+		}
+
+		if ($this->bind_marker !== '?')
+		{
+			do
+			{
+				$c--;
+				$sql = substr_replace($sql, '?', $matches[0][$c][1], $ml);
+			}
+			while ($c !== 0);
+		}
+
+		if (FALSE !== ($this->odbc_result = odbc_prepare($this->conn_id, $sql)))
+		{
+			$this->binds = array_values($binds);
+		}
+
+		return $sql;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Execute the query
 	 *
 	 * @param	string	$sql	an SQL query
@@ -124,7 +219,25 @@ class CI_DB_odbc_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return odbc_exec($this->conn_id, $sql);
+		if ( ! isset($this->odbc_result))
+		{
+			return odbc_exec($this->conn_id, $sql);
+		}
+		elseif ($this->odbc_result === FALSE)
+		{
+			return FALSE;
+		}
+
+		if (TRUE === ($success = odbc_execute($this->odbc_result, $this->binds)))
+		{
+			// For queries that return result sets, return the result_id resource on success
+			$this->is_write_type($sql) OR $success = $this->odbc_result;
+		}
+
+		$this->odbc_result = NULL;
+		$this->binds       = array();
+
+		return $success;
 	}
 
 	// --------------------------------------------------------------------
@@ -132,22 +245,10 @@ class CI_DB_odbc_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
-	 * @param	bool	$test_mode
 	 * @return	bool
 	 */
-	public function trans_begin($test_mode = FALSE)
+	protected function _trans_begin()
 	{
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
-		{
-			return TRUE;
-		}
-
-		// Reset the transaction failure flag.
-		// If the $test_mode flag is set to TRUE transactions will be rolled back
-		// even if the queries produce a successful result.
-		$this->_trans_failure = ($test_mode === TRUE);
-
 		return odbc_autocommit($this->conn_id, FALSE);
 	}
 
@@ -158,17 +259,15 @@ class CI_DB_odbc_driver extends CI_DB {
 	 *
 	 * @return	bool
 	 */
-	public function trans_commit()
+	protected function _trans_commit()
 	{
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
+		if (odbc_commit($this->conn_id))
 		{
+			odbc_autocommit($this->conn_id, TRUE);
 			return TRUE;
 		}
 
-		$ret = odbc_commit($this->conn_id);
-		odbc_autocommit($this->conn_id, TRUE);
-		return $ret;
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -178,17 +277,33 @@ class CI_DB_odbc_driver extends CI_DB {
 	 *
 	 * @return	bool
 	 */
-	public function trans_rollback()
+	protected function _trans_rollback()
 	{
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
+		if (odbc_rollback($this->conn_id))
 		{
+			odbc_autocommit($this->conn_id, TRUE);
 			return TRUE;
 		}
 
-		$ret = odbc_rollback($this->conn_id);
-		odbc_autocommit($this->conn_id, TRUE);
-		return $ret;
+		return FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Determines if a query is a "write" type.
+	 *
+	 * @param	string	An SQL query string
+	 * @return	bool
+	 */
+	public function is_write_type($sql)
+	{
+		if (preg_match('#^(INSERT|UPDATE).*RETURNING\s.+(\,\s?.+)*$#is', $sql))
+		{
+			return FALSE;
+		}
+
+		return parent::is_write_type($sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -201,7 +316,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	 */
 	protected function _escape_str($str)
 	{
-		return remove_invisible_characters($str);
+		$this->db->display_error('db_unsupported_feature');
 	}
 
 	// --------------------------------------------------------------------
@@ -299,58 +414,6 @@ class CI_DB_odbc_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Update statement
-	 *
-	 * Generates a platform-specific update string from the supplied data
-	 *
-	 * @param	string	$table
-	 * @param	array	$values
-	 * @return	string
-	 */
-	protected function _update($table, $values)
-	{
-		$this->qb_limit = FALSE;
-		$this->qb_orderby = array();
-		return parent::_update($table, $values);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Truncate statement
-	 *
-	 * Generates a platform-specific truncate string from the supplied data
-	 *
-	 * If the database does not support the TRUNCATE statement,
-	 * then this method maps to 'DELETE FROM table'
-	 *
-	 * @param	string	$table
-	 * @return	string
-	 */
-	protected function _truncate($table)
-	{
-		return 'DELETE FROM '.$table;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Delete statement
-	 *
-	 * Generates a platform-specific delete string from the supplied data
-	 *
-	 * @param	string	$table
-	 * @return	string
-	 */
-	protected function _delete($table)
-	{
-		$this->qb_limit = FALSE;
-		return parent::_delete($table);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Close DB Connection
 	 *
 	 * @return	void
@@ -359,8 +422,4 @@ class CI_DB_odbc_driver extends CI_DB {
 	{
 		odbc_close($this->conn_id);
 	}
-
 }
-
-/* End of file odbc_driver.php */
-/* Location: ./system/database/drivers/odbc/odbc_driver.php */

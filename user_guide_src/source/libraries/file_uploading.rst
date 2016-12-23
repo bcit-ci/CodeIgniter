@@ -118,7 +118,7 @@ this code and save it to your **application/controllers/** directory::
 
 			$this->load->library('upload', $config);
 
-			if ( ! $this->upload->do_upload())
+			if ( ! $this->upload->do_upload('userfile'))
 			{
 				$error = array('error' => $this->upload->display_errors());
 
@@ -252,16 +252,16 @@ preferences in a config file.
 Class Reference
 ***************
 
-.. class:: CI_Upload
+.. php:class:: CI_Upload
 
-	.. method:: initialize([array $config = array()[, $reset = TRUE]])
+	.. php:method:: initialize([array $config = array()[, $reset = TRUE]])
 
 		:param	array	$config: Preferences
 		:param	bool	$reset: Whether to reset preferences (that are not provided in $config) to their defaults
 		:returns:	CI_Upload instance (method chaining)
 		:rtype:	CI_Upload
 
-	.. method:: do_upload([$field = 'userfile'])
+	.. php:method:: do_upload([$field = 'userfile'])
 
 		:param	string	$field: Name of the form field
 		:returns:	TRUE on success, FALSE on failure
@@ -283,7 +283,7 @@ Class Reference
 			$field_name = "some_field_name";
 			$this->upload->do_upload($field_name);
 
-	.. method:: display_errors([$open = '<p>'[, $close = '</p>']])
+	.. php:method:: display_errors([$open = '<p>'[, $close = '</p>']])
 
 		:param	string	$open: Opening markup
 		:param	string	$close: Closing markup
@@ -302,7 +302,7 @@ Class Reference
 				$this->upload->display_errors('<p>', '</p>');
 
 
-	.. method:: data([$index = NULL])
+	.. php:method:: data([$index = NULL])
 
 		:param	string	$data: Element to return instead of the full array
 		:returns:	Information about the uploaded file

@@ -56,8 +56,7 @@ class Mock_Database_DB {
 			'char_set' => 'utf8',
 			'dbcollat' => 'utf8_general_ci',
 			'swap_pre' => '',
-			'autoinit' => TRUE,
-			'stricton' => FALSE,
+			'stricton' => FALSE
 		);
 
 		$config = array_merge($this->config[$group], $params);
@@ -134,7 +133,7 @@ class Mock_Database_DB {
 		}
 		catch (Exception $e)
 		{
-			throw new InvalidArgumentException($e->getMessage());
+			throw new RuntimeException($e->getMessage());
 		}
 
 		return $db;

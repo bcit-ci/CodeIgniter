@@ -54,8 +54,6 @@ Classes should have this basic prototype::
 		}
 	}
 
-	/* End of file Someclass.php */
-
 .. note:: We are using the name Someclass purely as an example.
 
 Using Your Class
@@ -170,7 +168,7 @@ methods, you're encouraged to assign it to a property instead::
 
 		public function bar()
 		{
-			echo $this->CI->config_item('base_url');
+			echo $this->CI->config->item('base_url');
 		}
 
 	}

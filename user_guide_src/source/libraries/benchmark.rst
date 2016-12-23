@@ -131,16 +131,16 @@ this pseudo-variable, if you prefer not to use the pure PHP::
 Class Reference
 ***************
 
-.. class:: CI_Benchmark
+.. php:class:: CI_Benchmark
 
-	.. method:: mark($name)
+	.. php:method:: mark($name)
 
 		:param	string	$name: the name you wish to assign to your marker
 		:rtype:	void
 
 		Sets a benchmark marker.
 
-	.. method:: elapsed_time([$point1 = ''[, $point2 = ''[, $decimals = 4]]])
+	.. php:method:: elapsed_time([$point1 = ''[, $point2 = ''[, $decimals = 4]]])
 
 		:param	string	$point1: a particular marked point
 		:param	string	$point2: a particular marked point
@@ -156,7 +156,7 @@ Class Reference
 		swap the real value for this variable.
 
 
-	.. method:: memory_usage()
+	.. php:method:: memory_usage()
 
 		:returns:	Memory usage info
 		:rtype:	string

@@ -24,7 +24,7 @@ Available Functions
 The following functions are available:
 
 
-.. function:: xss_clean($str[, $is_image = FALSE])
+.. php:function:: xss_clean($str[, $is_image = FALSE])
 
 	:param	string	$str: Input data
 	:param	bool	$is_image: Whether we're dealing with an image
@@ -36,7 +36,7 @@ The following functions are available:
 	This function is an alias for ``CI_Input::xss_clean()``. For more info,
 	please see the :doc:`Input Library <../libraries/input>` documentation.
 
-.. function:: sanitize_filename($filename)
+.. php:function:: sanitize_filename($filename)
 
 	:param	string	$filename: Filename
 	:returns:	Sanitized file name
@@ -48,32 +48,7 @@ The following functions are available:
 	For more info, please see the :doc:`Security Library <../libraries/security>`
 	documentation.
 
-
-.. function:: do_hash($str[, $type = 'sha1'])
-
-	:param	string	$str: Input
-	:param	string	$type: Algorithm
-	:returns:	Hex-formatted hash
-	:rtype:	string
-
-	Permits you to create one way hashes suitable for encrypting
-	passwords. Will use SHA1 by default.
-
-	See `hash_algos() <http://php.net/function.hash_algos>`_
-	for a full list of supported algorithms.
-
-	Examples::
-
-		$str = do_hash($str); // SHA1
-		$str = do_hash($str, 'md5'); // MD5
-
-	.. note:: This function was formerly named ``dohash()``, which has been
-		removed in favor of ``do_hash()``.
-
-	.. note:: This function is DEPRECATED. Use the native ``hash()`` instead.
-
-
-.. function:: strip_image_tags($str)
+.. php:function:: strip_image_tags($str)
 
 	:param	string	$str: Input string
 	:returns:	The input string with no image tags
@@ -91,7 +66,7 @@ The following functions are available:
 	documentation.
 
 
-.. function:: encode_php_tags($str)
+.. php:function:: encode_php_tags($str)
 
 	:param	string	$str: Input string
 	:returns:	Safely formatted string
@@ -99,7 +74,7 @@ The following functions are available:
 
 	This is a security function that converts PHP tags to entities.
 
-	.. note:: :func:`xss_clean()` does this automatically, if you use it.
+	.. note:: :php:func:`xss_clean()` does this automatically, if you use it.
 
 	Example::
 

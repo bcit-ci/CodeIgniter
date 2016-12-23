@@ -72,9 +72,9 @@ is available.
 Class Reference
 ***************
 
-.. class:: CI_User_agent
+.. php:class:: CI_User_agent
 
-	.. method:: is_browser([$key = NULL])
+	.. php:method:: is_browser([$key = NULL])
 
 		:param	string	$key: Optional browser name
 		:returns:	TRUE if the user agent is a (specified) browser, FALSE if not
@@ -96,7 +96,7 @@ Class Reference
 			You can find this list in **application/config/user_agents.php** if you want to add new
 			browsers or change the stings.
 
-	.. method:: is_mobile([$key = NULL])
+	.. php:method:: is_mobile([$key = NULL])
 
 		:param	string	$key: Optional mobile device name
 		:returns:	TRUE if the user agent is a (specified) mobile device, FALSE if not
@@ -118,7 +118,7 @@ Class Reference
 				$this->load->view('web/home');
 			}
 
-	.. method:: is_robot([$key = NULL])
+	.. php:method:: is_robot([$key = NULL])
 
 		:param	string	$key: Optional robot name
 		:returns:	TRUE if the user agent is a (specified) robot, FALSE if not
@@ -131,49 +131,49 @@ Class Reference
 			that commonly visit your site are missing from the list you can add them to your
 			**application/config/user_agents.php** file.
 
-	.. method:: is_referral()
+	.. php:method:: is_referral()
 
 		:returns:	TRUE if the user agent is a referral, FALSE if not
 		:rtype:	bool
 
 		Returns TRUE/FALSE (boolean) if the user agent was referred from another site.
 
-	.. method:: browser()
+	.. php:method:: browser()
 
 		:returns:	Detected browser or an empty string
 		:rtype:	string
 
 		Returns a string containing the name of the web browser viewing your site.
 
-	.. method:: version()
+	.. php:method:: version()
 
 		:returns:	Detected browser version or an empty string
 		:rtype:	string
 
 		Returns a string containing the version number of the web browser viewing your site.
 
-	.. method:: mobile()
+	.. php:method:: mobile()
 
 		:returns:	Detected mobile device brand or an empty string
 		:rtype:	string
 
 		Returns a string containing the name of the mobile device viewing your site.
 
-	.. method:: robot()
+	.. php:method:: robot()
 
 		:returns:	Detected robot name or an empty string
 		:rtype:	string
 
 		Returns a string containing the name of the robot viewing your site.
 
-	.. method:: platform()
+	.. php:method:: platform()
 
 		:returns:	Detected operating system or an empty string
 		:rtype:	string
 
 		Returns a string containing the platform viewing your site (Linux, Windows, OS X, etc.).
 
-	.. method:: referrer()
+	.. php:method:: referrer()
 
 		:returns:	Detected referrer or an empty string
 		:rtype:	string
@@ -185,7 +185,7 @@ Class Reference
 				echo $this->agent->referrer();
 			}
 
-	.. method:: agent_string()
+	.. php:method:: agent_string()
 
 		:returns:	Full user agent string or an empty string
 		:rtype:	string
@@ -194,7 +194,7 @@ Class Reference
 
 			Mozilla/5.0 (Macintosh; U; Intel Mac OS X; en-US; rv:1.8.0.4) Gecko/20060613 Camino/1.0.2
 
-	.. method:: accept_lang([$lang = 'en'])
+	.. php:method:: accept_lang([$lang = 'en'])
 
 		:param	string	$lang: Language key
 		:returns:	TRUE if provided language is accepted, FALSE if not
@@ -210,14 +210,14 @@ Class Reference
 		.. note:: This method is not typically very reliable since some	browsers do not provide language info,
 			and even among those that do, it is not always accurate.
 
-	.. method:: languages()
+	.. php:method:: languages()
 
 		:returns:	An array list of accepted languages
 		:rtype:	array
 
 		Returns an array of languages supported by the user agent.
 
-	.. method:: accept_charset([$charset = 'utf-8'])
+	.. php:method:: accept_charset([$charset = 'utf-8'])
 
 		:param	string	$charset: Character set
 		:returns:	TRUE if the character set is accepted, FALSE if not
@@ -233,14 +233,14 @@ Class Reference
 		.. note:: This method is not typically very reliable since some browsers do not provide character-set info,
 			and even among those that do, it is not always accurate.
 
-	.. method:: charsets()
+	.. php:method:: charsets()
 
 		:returns:	An array list of accepted character sets
 		:rtype:	array
 
 		Returns an array of character sets accepted by the user agent.
 
-	.. method:: parse($string)
+	.. php:method:: parse($string)
 
 		:param	string	$string: A custom user-agent string
 		:rtype:	void
