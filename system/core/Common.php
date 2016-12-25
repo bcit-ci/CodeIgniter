@@ -123,6 +123,31 @@ if ( ! function_exists('is_really_writable'))
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('loaded_classes'))
+{
+	/**
+	 * Get or set loaded classes
+	 *
+	 * @param string $class_name
+	 * @param object $class
+	 * @return array
+	 */
+	function &loaded_classes($class_name = '', $class = null)
+	{
+		static $_loaded_classes = array();
+
+		if ($class_name && $class)
+		{
+			$_loaded_classes[$class_name] = $class;
+		}
+
+		return $_loaded_classes;
+	}
+}
+
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('load_class'))
 {
 	/**
@@ -139,7 +164,7 @@ if ( ! function_exists('load_class'))
 	 */
 	function &load_class($class, $directory = 'libraries', $param = NULL)
 	{
-		static $_classes = array();
+        $_classes =& loaded_classes();
 
 		// Does the class exist? If so, we're done...
 		if (isset($_classes[$class]))
@@ -190,10 +215,13 @@ if ( ! function_exists('load_class'))
 		// Keep track of what we just loaded
 		is_loaded($class);
 
-		$_classes[$class] = isset($param)
-			? new $name($param)
-			: new $name();
-		return $_classes[$class];
+        $class_object = isset($param)
+            ? new $name($param)
+            : new $name();
+
+        loaded_classes($class, $class_object);
+
+		return $class_object;
 	}
 }
 
