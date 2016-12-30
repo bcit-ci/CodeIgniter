@@ -1860,9 +1860,18 @@ class CI_Email {
 		}
 		else
 		{
-			// most documentation of sendmail using the "-f" flag lacks a space after it, however
-			// we've encountered servers that seem to require it to be in place.
-			return mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str, '-f '.$this->clean_email($this->_headers['Return-Path']));
+			$params = NULL;
+			$return_path = $this->clean_email($this->_headers['Return-Path']);
+
+			// CVE-2016-10033, CVE-2016-10045: Don't pass -f if characters will be escaped.
+			if ($this->isShellSafe($return_path))
+			{
+				// most documentation of sendmail using the "-f" flag lacks a space after it, however
+				// we've encountered servers that seem to require it to be in place.
+				$params = '-f '.$return_path;
+			}
+
+			return mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str, $params);
 		}
 	}
 
@@ -1875,13 +1884,24 @@ class CI_Email {
 	 */
 	protected function _send_with_sendmail()
 	{
-		// is popen() enabled?
-		if ( ! function_usable('popen')
-			OR FALSE === ($fp = @popen(
-						$this->mailpath.' -oi -f '.$this->clean_email($this->_headers['From']).' -t'
-						, 'w'))
-		) // server probably has popen disabled, so nothing we can do to get a verbose error.
+		$return_path = $this->clean_email($this->_headers['Return-Path']);
+
+		// CVE-2016-10033, CVE-2016-10045: Don't pass -f if characters will be escaped.
+		if ($this->isShellSafe($return_path))
 		{
+			// most documentation of sendmail using the "-f" flag lacks a space after it, however
+			// we've encountered servers that seem to require it to be in place.
+			$return_path = '-f '.$return_path;
+		}
+		else
+		{
+			$return_path = '';
+		}
+
+		// is popen() enabled?
+		if ( ! function_usable('popen') OR FALSE === ($fp = @popen($this->mailpath.' -oi '.$return_path.' -t', 'w')))
+		{
+			// server probably has popen disabled, so nothing we can do to get a verbose error.
 			return FALSE;
 		}
 
@@ -1895,6 +1915,44 @@ class CI_Email {
 			$this->_set_error_message('lang:email_exit_status', $status);
 			$this->_set_error_message('lang:email_no_socket');
 			return FALSE;
+		}
+
+		return TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Prevent attacks similar to CVE-2016-10033, CVE-2016-10045, and CVE-2016-10074
+	 * by disallowing potentially unsafe shell characters.
+	 *
+	 * Note that escapeshellarg and escapeshellcmd are inadequate for our purposes, especially on Windows.
+	 *
+	 * @param  string $string The string to be tested for shell safety
+	 * @see  https://gist.github.com/Zenexer/40d02da5e07f151adeaeeaa11af9ab36
+	 * @author Paul Buonopane <paul@namepros.com>
+	 * @license Public doman per CC0 1.0. Attribution appreciated by not required.
+	 * @return boolean Whether or not the string is safe for shell usage
+	 */
+	protected function isShellSafe($string)
+	{
+		// Future-proof
+		if (escapeshellcmd($string) !== $string OR ! in_array(escapeshellarg($string), array("'${string}'", "\"${string}\"")))
+		{
+			return FALSE;
+		}
+
+		for ($i = 0, $length = strlen($string); $i < $length; $i++)
+		{
+			$c = $string[$i];
+
+			// All other characters have a special meaning in at least one common shell, including = and +.
+			// Full stop (.) has a special meaning in cmd.exe, but its impact should be negligible here.
+			// Note that this does permit non-Latin alphanumeric characters based on the current locale.
+			if ( ! ctype_alnum($c) && strpos('@_-.', $c) === FALSE)
+			{
+				return FALSE;
+			}
 		}
 
 		return TRUE;
