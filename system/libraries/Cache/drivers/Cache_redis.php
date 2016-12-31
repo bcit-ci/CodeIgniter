@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 3.0.0
@@ -58,7 +58,8 @@ class CI_Cache_redis extends CI_Driver
 		'host' => '127.0.0.1',
 		'password' => NULL,
 		'port' => 6379,
-		'timeout' => 0
+		'timeout' => 0,
+		'database' => 0
 	);
 
 	/**
@@ -112,6 +113,11 @@ class CI_Cache_redis extends CI_Driver
 			if (isset($config['password']) && ! $this->_redis->auth($config['password']))
 			{
 				log_message('error', 'Cache: Redis authentication failed.');
+			}
+
+			if (isset($config['database']) && $config['database'] > 0 && ! $this->_redis->select($config['database']))
+			{
+				log_message('error', 'Cache: Redis select database failed.');
 			}
 		}
 		catch (RedisException $e)

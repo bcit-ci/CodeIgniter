@@ -243,10 +243,9 @@ The following functions are available:
 	function above except that it uses the "password" input type.
 
 
-.. php:function:: form_upload([$data = ''[, $value = ''[, $extra = '']]])
+.. php:function:: form_upload([$data = '', $extra = '']])
 
 	:param	array	$data: Field attributes data
-	:param	string	$value: Field value
 	:param	mixed	$extra: Extra attributes to be added to the tag either as an array or a literal string
 	:returns:	An HTML file upload input field tag
 	:rtype:	string
@@ -724,20 +723,3 @@ The following functions are available:
 			<span class="error">The "password" field doesn't match the "repeat_password" field!</span>
 
 		 */
-
-.. php:function:: form_prep($str)
-
-	:param	string	$str: Value to escape
-	:returns:	Escaped value
-	:rtype:	string
-
-	Allows you to safely use HTML and characters such as quotes within form
-	elements without breaking out of the form.
-
-	.. note:: If you use any of the form helper functions listed in this page the form
-		values will be prepped automatically, so there is no need to call this
-		function. Use it only if you are creating your own form elements.
-
-	.. note:: This function is DEPRECATED and is just an alias for
-		:doc:`common function <../general/common_functions>`
-		:func:`html_escape()` - please use that instead.

@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
@@ -46,33 +46,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link		https://codeigniter.com/user_guide/helpers/string_helper.html
  */
-
-// ------------------------------------------------------------------------
-
-if ( ! function_exists('trim_slashes'))
-{
-	/**
-	 * Trim Slashes
-	 *
-	 * Removes any leading/trailing slashes from a string:
-	 *
-	 * /this/that/theother/
-	 *
-	 * becomes:
-	 *
-	 * this/that/theother
-	 *
-	 * @todo	Remove in version 3.1+.
-	 * @deprecated	3.0.0	This is just an alias for PHP's native trim()
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	function trim_slashes($str)
-	{
-		return trim($str, '/');
-	}
-}
 
 // ------------------------------------------------------------------------
 
@@ -282,25 +255,5 @@ if ( ! function_exists('alternator'))
 
 		$args = func_get_args();
 		return $args[($i++ % count($args))];
-	}
-}
-
-// ------------------------------------------------------------------------
-
-if ( ! function_exists('repeater'))
-{
-	/**
-	 * Repeater function
-	 *
-	 * @todo	Remove in version 3.1+.
-	 * @deprecated	3.0.0	This is just an alias for PHP's native str_repeat()
-	 *
-	 * @param	string	$data	String to repeat
-	 * @param	int	$num	Number of repeats
-	 * @return	string
-	 */
-	function repeater($data, $num = 1)
-	{
-		return ($num > 0) ? str_repeat($data, $num) : '';
 	}
 }

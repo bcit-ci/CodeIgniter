@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
@@ -387,39 +387,5 @@ if ( ! function_exists('meta'))
 		}
 
 		return $str;
-	}
-}
-
-// ------------------------------------------------------------------------
-
-if ( ! function_exists('br'))
-{
-	/**
-	 * Generates HTML BR tags based on number supplied
-	 *
-	 * @deprecated	3.0.0	Use str_repeat() instead
-	 * @param	int	$count	Number of times to repeat the tag
-	 * @return	string
-	 */
-	function br($count = 1)
-	{
-		return str_repeat('<br />', $count);
-	}
-}
-
-// ------------------------------------------------------------------------
-
-if ( ! function_exists('nbs'))
-{
-	/**
-	 * Generates non-breaking space entities based on number supplied
-	 *
-	 * @deprecated	3.0.0	Use str_repeat() instead
-	 * @param	int
-	 * @return	string
-	 */
-	function nbs($num = 1)
-	{
-		return str_repeat('&nbsp;', $num);
 	}
 }

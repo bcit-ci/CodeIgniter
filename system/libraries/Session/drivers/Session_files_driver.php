@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 3.0.0
@@ -76,6 +76,20 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 	 */
 	protected $_file_new;
 
+	/**
+	 * Validate SID regular expression
+	 *
+	 * @var	string
+	 */
+	protected $_sid_regexp;
+
+	/**
+	 * mbstring.func_override flag
+	 *
+	 * @var	bool
+	 */
+	protected static $func_override;
+
 	// ------------------------------------------------------------------------
 
 	/**
@@ -95,8 +109,13 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 		}
 		else
 		{
+			log_message('debug', 'Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.');
 			$this->_config['save_path'] = rtrim(ini_get('session.save_path'), '/\\');
 		}
+
+		$this->_sid_regexp = $this->_config['_sid_regexp'];
+
+		isset(self::$func_override) OR self::$func_override = (extension_loaded('mbstring') && ini_get('mbstring.func_override'));
 	}
 
 	// ------------------------------------------------------------------------
@@ -148,18 +167,9 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 		// which re-reads session data
 		if ($this->_file_handle === NULL)
 		{
-			// Just using fopen() with 'c+b' mode would be perfect, but it is only
-			// available since PHP 5.2.6 and we have to set permissions for new files,
-			// so we'd have to hack around this ...
-			if (($this->_file_new = ! file_exists($this->_file_path.$session_id)) === TRUE)
-			{
-				if (($this->_file_handle = fopen($this->_file_path.$session_id, 'w+b')) === FALSE)
-				{
-					log_message('error', "Session: File '".$this->_file_path.$session_id."' doesn't exist and cannot be created.");
-					return $this->_failure;
-				}
-			}
-			elseif (($this->_file_handle = fopen($this->_file_path.$session_id, 'r+b')) === FALSE)
+			$this->_file_new = ! file_exists($this->_file_path.$session_id);
+
+			if (($this->_file_handle = fopen($this->_file_path.$session_id, 'c+b')) === FALSE)
 			{
 				log_message('error', "Session: Unable to open file '".$this->_file_path.$session_id."'.");
 				return $this->_failure;
@@ -195,7 +205,7 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 		}
 
 		$session_data = '';
-		for ($read = 0, $length = filesize($this->_file_path.$session_id); $read < $length; $read += strlen($buffer))
+		for ($read = 0, $length = filesize($this->_file_path.$session_id); $read < $length; $read += self::strlen($buffer))
 		{
 			if (($buffer = fread($this->_file_handle, $length - $read)) === FALSE)
 			{
@@ -351,10 +361,13 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 
 		$ts = time() - $maxlifetime;
 
+		$pattern = ($this->_config['match_ip'] === TRUE)
+			? '[0-9a-f]{32}'
+			: '';
+
 		$pattern = sprintf(
-			'/^%s[0-9a-f]{%d}$/',
-			preg_quote($this->_config['cookie_name'], '/'),
-			($this->_config['match_ip'] === TRUE ? 72 : 40)
+			'#\A%s'.$pattern.$this->_sid_regexp.'\z#',
+			preg_quote($this->_config['cookie_name'])
 		);
 
 		while (($file = readdir($directory)) !== FALSE)
@@ -376,4 +389,18 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 		return $this->_success;
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Byte-safe strlen()
+	 *
+	 * @param	string	$str
+	 * @return	int
+	 */
+	protected static function strlen($str)
+	{
+		return (self::$func_override)
+			? mb_strlen($str, '8bit')
+			: strlen($str);
+	}
 }

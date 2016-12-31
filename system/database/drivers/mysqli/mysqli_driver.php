@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.3.0
@@ -125,8 +125,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 		}
 		else
 		{
-			// Persistent connection support was added in PHP 5.3.0
-			$hostname = ($persistent === TRUE && is_php('5.3'))
+			$hostname = ($persistent === TRUE)
 				? 'p:'.$this->hostname : $this->hostname;
 			$port = empty($this->port) ? NULL : $this->port;
 			$socket = NULL;
@@ -184,7 +183,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 					// https://bugs.php.net/bug.php?id=68344
 					elseif (defined('MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT'))
 					{
-						$this->_mysqli->options(MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT, TRUE);
+						$client_flags |= MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
 					}
 				}
 
@@ -263,6 +262,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 		if ($this->conn_id->select_db($database))
 		{
 			$this->database = $database;
+			$this->data_cache = array();
 			return TRUE;
 		}
 
@@ -495,8 +495,8 @@ class CI_DB_mysqli_driver extends CI_DB {
 		if ( ! empty($this->_mysqli->connect_errno))
 		{
 			return array(
-				'code' => $this->_mysqli->connect_errno,
-				'message' => is_php('5.2.9') ? $this->_mysqli->connect_error : mysqli_connect_error()
+				'code'    => $this->_mysqli->connect_errno,
+				'message' => $this->_mysqli->connect_error
 			);
 		}
 

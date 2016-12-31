@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 3.0.0
@@ -109,7 +109,10 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		}
 
 		// Note: BC work-around for the old 'sess_table_name' setting, should be removed in the future.
-		isset($this->_config['save_path']) OR $this->_config['save_path'] = config_item('sess_table_name');
+		if ( ! isset($this->_config['save_path']) && ($this->_config['save_path'] = config_item('sess_table_name')))
+		{
+			log_message('debug', 'Session: "sess_save_path" is empty; using BC fallback to "sess_table_name".');
+		}
 	}
 
 	// ------------------------------------------------------------------------
@@ -205,8 +208,12 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		// Prevent previous QB calls from messing with our queries
 		$this->_db->reset_query();
 
+		if ($this->_lock === FALSE)
+		{
+			return $this->_fail();
+		}
 		// Was the ID regenerated?
-		if ($session_id !== $this->_session_id)
+		elseif ($session_id !== $this->_session_id)
 		{
 			if ( ! $this->_release_lock() OR ! $this->_get_lock($session_id))
 			{
@@ -215,10 +222,6 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 			$this->_row_exists = FALSE;
 			$this->_session_id = $session_id;
-		}
-		elseif ($this->_lock === FALSE)
-		{
-			return $this->_fail();
 		}
 
 		if ($this->_row_exists === FALSE)
@@ -351,7 +354,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	{
 		if ($this->_platform === 'mysql')
 		{
-			$arg = $session_id.($this->_config['match_ip'] ? '_'.$_SERVER['REMOTE_ADDR'] : '');
+			$arg = md5($session_id.($this->_config['match_ip'] ? '_'.$_SERVER['REMOTE_ADDR'] : ''));
 			if ($this->_db->query("SELECT GET_LOCK('".$arg."', 300) AS ci_session_lock")->row()->ci_session_lock)
 			{
 				$this->_lock = $arg;

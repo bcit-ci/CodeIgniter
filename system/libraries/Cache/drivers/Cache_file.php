@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 2.0
@@ -120,7 +120,7 @@ class CI_Cache_file extends CI_Driver {
 	 */
 	public function delete($id)
 	{
-		return file_exists($this->_cache_path.$id) ? unlink($this->_cache_path.$id) : FALSE;
+		return is_file($this->_cache_path.$id) ? unlink($this->_cache_path.$id) : FALSE;
 	}
 
 	// ------------------------------------------------------------------------
@@ -216,7 +216,7 @@ class CI_Cache_file extends CI_Driver {
 	 */
 	public function get_metadata($id)
 	{
-		if ( ! file_exists($this->_cache_path.$id))
+		if ( ! is_file($this->_cache_path.$id))
 		{
 			return FALSE;
 		}
@@ -227,13 +227,13 @@ class CI_Cache_file extends CI_Driver {
 		{
 			$mtime = filemtime($this->_cache_path.$id);
 
-			if ( ! isset($data['ttl']))
+			if ( ! isset($data['ttl'], $data['time']))
 			{
 				return FALSE;
 			}
 
 			return array(
-				'expire' => $mtime + $data['ttl'],
+				'expire' => $data['time'] + $data['ttl'],
 				'mtime'	 => $mtime
 			);
 		}

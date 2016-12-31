@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
@@ -104,6 +104,13 @@ class CI_Log {
 	 */
 	protected $_levels = array('ERROR' => 1, 'DEBUG' => 2, 'INFO' => 3, 'ALL' => 4);
 
+	/**
+	 * mbstring.func_override flag
+	 *
+	 * @var	bool
+	 */
+	protected static $func_override;
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -114,6 +121,8 @@ class CI_Log {
 	public function __construct()
 	{
 		$config =& get_config();
+
+		isset(self::$func_override) OR self::$func_override = (extension_loaded('mbstring') && ini_get('mbstring.func_override'));
 
 		$this->_log_path = ($config['log_path'] !== '') ? $config['log_path'] : APPPATH.'logs/';
 		$this->_file_ext = (isset($config['log_file_extension']) && $config['log_file_extension'] !== '')
@@ -208,9 +217,9 @@ class CI_Log {
 
 		$message .= $this->_format_line($level, $date, $msg);
 
-		for ($written = 0, $length = strlen($message); $written < $length; $written += $result)
+		for ($written = 0, $length = self::strlen($message); $written < $length; $written += $result)
 		{
-			if (($result = fwrite($fp, substr($message, $written))) === FALSE)
+			if (($result = fwrite($fp, self::substr($message, $written))) === FALSE)
 			{
 				break;
 			}
@@ -237,11 +246,48 @@ class CI_Log {
 	 *
 	 * @param	string	$level 	The error level
 	 * @param	string	$date 	Formatted date string
-	 * @param	string	$msg 	The log message
+	 * @param	string	$message 	The log message
 	 * @return	string	Formatted log line with a new line character '\n' at the end
 	 */
 	protected function _format_line($level, $date, $message)
 	{
 		return $level.' - '.$date.' --> '.$message."\n";
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Byte-safe strlen()
+	 *
+	 * @param	string	$str
+	 * @return	int
+	 */
+	protected static function strlen($str)
+	{
+		return (self::$func_override)
+			? mb_strlen($str, '8bit')
+			: strlen($str);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Byte-safe substr()
+	 *
+	 * @param	string	$str
+	 * @param	int	$start
+	 * @param	int	$length
+	 * @return	string
+	 */
+	protected static function substr($str, $start, $length = NULL)
+	{
+		if (self::$func_override)
+		{
+			return mb_substr($str, $start, $length, '8bit');
+		}
+
+		return isset($length)
+			? substr($str, $start, $length)
+			: substr($str, $start);
 	}
 }

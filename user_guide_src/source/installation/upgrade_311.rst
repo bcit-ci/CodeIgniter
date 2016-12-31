@@ -1,5 +1,5 @@
 #############################
-Upgrading from 3.0.6 to 3.0.7
+Upgrading from 3.1.0 to 3.1.1
 #############################
 
 Before performing an update you should take your site offline by

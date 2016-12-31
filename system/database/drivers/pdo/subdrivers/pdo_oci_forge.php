@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 3.0.0
@@ -54,18 +54,18 @@ class CI_DB_pdo_oci_forge extends CI_DB_pdo_forge {
 	protected $_create_database	= FALSE;
 
 	/**
+	 * CREATE TABLE IF statement
+	 *
+	 * @var	string
+	 */
+	protected $_create_table_if	= FALSE;
+
+	/**
 	 * DROP DATABASE statement
 	 *
 	 * @var	string
 	 */
 	protected $_drop_database	= FALSE;
-
-	/**
-	 * CREATE TABLE IF statement
-	 *
-	 * @var	string
-	 */
-	protected $_create_table_if	= 'CREATE TABLE IF NOT EXISTS';
 
 	/**
 	 * UNSIGNED support
@@ -146,4 +146,31 @@ class CI_DB_pdo_oci_forge extends CI_DB_pdo_forge {
 		// Not supported - sequences and triggers must be used instead
 	}
 
+	/**
+	 * Field attribute TYPE
+	 *
+	 * Performs a data type mapping between different databases.
+	 *
+	 * @param	array	&$attributes
+	 * @return	void
+	 */
+	protected function _attr_type(&$attributes)
+	{
+		switch (strtoupper($attributes['TYPE']))
+		{
+			case 'TINYINT':
+				$attributes['TYPE'] = 'NUMBER';
+				return;
+			case 'MEDIUMINT':
+				$attributes['TYPE'] = 'NUMBER';
+				return;
+			case 'INT':
+				$attributes['TYPE'] = 'NUMBER';
+				return;
+			case 'BIGINT':
+				$attributes['TYPE'] = 'NUMBER';
+				return;
+			default: return;
+		}
+	}
 }

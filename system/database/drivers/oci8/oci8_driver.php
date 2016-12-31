@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.4.1
@@ -386,7 +386,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	protected function _trans_begin()
 	{
-		$this->commit_mode = is_php('5.3.2') ? OCI_NO_AUTO_COMMIT : OCI_DEFAULT;
+		$this->commit_mode = OCI_NO_AUTO_COMMIT;
 		return TRUE;
 	}
 
@@ -559,23 +559,29 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	public function error()
 	{
-		/* oci_error() returns an array that already contains the
-		 * 'code' and 'message' keys, so we can just return it.
-		 */
+		// oci_error() returns an array that already contains
+		// 'code' and 'message' keys, but it can return false
+		// if there was no error ....
 		if (is_resource($this->curs_id))
 		{
-			return oci_error($this->curs_id);
+			$error = oci_error($this->curs_id);
 		}
 		elseif (is_resource($this->stmt_id))
 		{
-			return oci_error($this->stmt_id);
+			$error = oci_error($this->stmt_id);
 		}
 		elseif (is_resource($this->conn_id))
 		{
-			return oci_error($this->conn_id);
+			$error = oci_error($this->conn_id);
+		}
+		else
+		{
+			$error = oci_error();
 		}
 
-		return oci_error();
+		return is_array($error)
+			? $error
+			: array('code' => '', 'message' => '');
 	}
 
 	// --------------------------------------------------------------------

@@ -594,7 +594,7 @@ And then of course, create the database table ...
 For MySQL::
 
 	CREATE TABLE IF NOT EXISTS `ci_sessions` (
-		`id` varchar(40) NOT NULL,
+		`id` varchar(128) NOT NULL,
 		`ip_address` varchar(45) NOT NULL,
 		`timestamp` int(10) unsigned DEFAULT 0 NOT NULL,
 		`data` blob NOT NULL,
@@ -604,7 +604,7 @@ For MySQL::
 For PostgreSQL::
 
 	CREATE TABLE "ci_sessions" (
-		"id" varchar(40) NOT NULL,
+		"id" varchar(128) NOT NULL,
 		"ip_address" varchar(45) NOT NULL,
 		"timestamp" bigint DEFAULT 0 NOT NULL,
 		"data" text DEFAULT '' NOT NULL
@@ -906,7 +906,7 @@ Class Reference
 		Gets a list of all ``$_SESSION`` that have been marked as
 		"flashdata".
 
-	.. php:method:: umark_flash($key)
+	.. php:method:: unmark_flash($key)
 
 		:param	mixed	$key: Key to be un-marked as flashdata, or an array of multiple keys
 		:rtype:	void
@@ -971,7 +971,7 @@ Class Reference
 		Gets a list of all ``$_SESSION`` that have been marked as
 		"tempdata".
 
-	.. php:method:: umark_temp($key)
+	.. php:method:: unmark_temp($key)
 
 		:param	mixed	$key: Key to be un-marked as tempdata, or an array of multiple keys
 		:rtype:	void

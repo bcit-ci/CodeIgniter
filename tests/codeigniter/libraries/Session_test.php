@@ -37,7 +37,8 @@ return;
 		$ci = $this->ci_instance();
 		$ldr = $this->ci_core_class('load');
 		$ci->load = new $ldr();
-		$ci->input = new Mock_Core_Input(NULL, NULL);
+		$security = new Mock_Core_Security('UTF-8');
+		$ci->input = new CI_Input($security);
 
 		// Make sure string helper is available
 		$this->ci_vfs_clone('system/helpers/string_helper.php');

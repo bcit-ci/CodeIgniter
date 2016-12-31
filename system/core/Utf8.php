@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 2.0.0
@@ -57,13 +57,13 @@ class CI_Utf8 {
 	 *
 	 * @return	void
 	 */
-	public function __construct()
+	public function __construct($charset)
 	{
 		if (
-			defined('PREG_BAD_UTF8_ERROR')				// PCRE must support UTF-8
-			&& (ICONV_ENABLED === TRUE OR MB_ENABLED === TRUE)	// iconv or mbstring must be installed
-			&& strtoupper(config_item('charset')) === 'UTF-8'	// Application charset must be UTF-8
-			)
+			defined('PREG_BAD_UTF8_ERROR')                     // PCRE must support UTF-8
+			&& (ICONV_ENABLED === TRUE OR MB_ENABLED === TRUE) // iconv or mbstring must be installed
+			&& $charset === 'UTF-8'                            // Application charset must be UTF-8
+		)
 		{
 			define('UTF8_ENABLED', TRUE);
 			log_message('info', 'UTF-8 Support Enabled');

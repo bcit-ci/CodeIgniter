@@ -9,13 +9,6 @@ class Html_helper_test extends CI_TestCase {
 
 	// ------------------------------------------------------------------------
 
-	public function test_br()
-	{
-		$this->assertEquals('<br /><br />', br(2));
-	}
-
-	// ------------------------------------------------------------------------
-
 	public function test_heading()
 	{
 		$this->assertEquals('<h1>foobar</h1>', heading('foobar'));
@@ -68,13 +61,6 @@ EOH;
 		$this->assertEquals($expect, ul($list, 'class="test"'));
 
 		$this->assertEquals($expect, ul($list, array('class' => 'test')));
-	}
-
-	// ------------------------------------------------------------------------
-
-	public function test_NBS()
-	{
-		$this->assertEquals('&nbsp;&nbsp;&nbsp;', nbs(3));
 	}
 
 	// ------------------------------------------------------------------------

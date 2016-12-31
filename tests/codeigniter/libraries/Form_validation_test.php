@@ -8,15 +8,13 @@ class Form_validation_test extends CI_TestCase {
 
 		// Create a mock loader since load->helper() looks in the wrong directories for unit tests,
 		// We'll use CI_TestCase->helper() instead
-		$loader = $this->getMock('CI_Loader', array('helper'));
+		$loader = $this->getMockBuilder('CI_Loader')->setMethods(array('helper'))->getMock();
 
 		// Same applies for lang
-		$lang = $this->getMock('CI_Lang', array('load'));
+		$lang = $this->getMockBuilder('CI_Lang')->setMethods(array('load'))->getMock();
 
-		$this->ci_set_config('charset', 'UTF-8');
-		$utf8 = new Mock_Core_Utf8();
-		$security = new Mock_Core_Security();
-		$input = new Mock_Core_Input($security, $utf8);
+		$security = new Mock_Core_Security('UTF-8');
+		$input = new CI_Input($security);
 
 		$this->ci_instance_var('lang', $lang);
 		$this->ci_instance_var('load', $loader);
@@ -40,11 +38,22 @@ class Form_validation_test extends CI_TestCase {
 
 	public function test_rule_required()
 	{
-		$rules = array(array('field' => 'foo', 'label' => 'foo_label', 'rules' => 'required'));
-		$this->assertTrue($this->run_rules($rules, array('foo' => 'bar')));
+		$rules = array(array('field' => 'foo', 'label' => 'Foo', 'rules' => 'is_numeric'));
 
+		// Empty, not required
+		$this->assertTrue($this->run_rules($rules, array('foo' => '')));
+
+
+		// Not required, but also not empty
+		$this->assertTrue($this->run_rules($rules, array('foo' => '123')));
+		$this->assertFalse($this->run_rules($rules, array('foo' => 'bar')));
+
+		// Required variations
+		$rules[0]['rules'] .= '|required';
+		$this->assertTrue($this->run_rules($rules, array('foo' => '123')));
 		$this->assertFalse($this->run_rules($rules, array('foo' => '')));
 		$this->assertFalse($this->run_rules($rules, array('foo' => ' ')));
+		$this->assertFalse($this->run_rules($rules, array('foo' => 'bar')));
 	}
 
 	public function test_rule_matches()
@@ -55,9 +64,9 @@ class Form_validation_test extends CI_TestCase {
 		);
 		$values_base = array('foo' => 'sample');
 
-		$this->assertTrue($this->run_rules($rules, array_merge($values_base, array('bar' => ''))));
 		$this->assertTrue($this->run_rules($rules, array_merge($values_base, array('bar' => 'sample'))));
 
+		$this->assertFalse($this->run_rules($rules, array_merge($values_base, array('bar' => ''))));
 		$this->assertFalse($this->run_rules($rules, array_merge($values_base, array('bar' => 'Sample'))));
 		$this->assertFalse($this->run_rules($rules, array_merge($values_base, array('bar' => ' sample'))));
 	}
@@ -248,6 +257,9 @@ class Form_validation_test extends CI_TestCase {
 		// https://github.com/bcit-ci/CodeIgniter/issues/4415
 		$this->assertTrue($this->form_validation->valid_url('http://[::1]/ipv6'));
 
+		// URI scheme case-sensitivity: https://github.com/bcit-ci/CodeIgniter/pull/4758
+		$this->assertTrue($this->form_validation->valid_url('HtTp://127.0.0.1/'));
+
 		$this->assertFalse($this->form_validation->valid_url('htt://www.codeIgniter.com'));
 		$this->assertFalse($this->form_validation->valid_url(''));
 		$this->assertFalse($this->form_validation->valid_url('code igniter'));
@@ -421,6 +433,12 @@ class Form_validation_test extends CI_TestCase {
 		$this->assertFalse($form_validation->run('fail'));
 	}
 
+	public function test_set_rules_exception()
+	{
+		$this->setExpectedException('BadMethodCallException');
+		$this->form_validation->set_rules('foo', 'bar');
+	}
+
 	public function test_has_rule()
 	{
 		$this->form_validation->reset_validation();
@@ -557,20 +575,6 @@ class Form_validation_test extends CI_TestCase {
 		$regex = '/f[a-zA-Z]+/';
 		$this->assertTrue($this->form_validation->regex_match('foo', $regex));
 		$this->assertFalse($this->form_validation->regex_match('bar', $regex));
-	}
-
-	public function test_prep_for_form()
-	{
-		$this->form_validation->reset_validation();
-		$error_msg_unprepped = '<error =\'foobar\'">';
-		$error_msg_prepped = '&lt;error =&#39;foobar&#39;&quot;&gt;';
-		$this->form_validation->set_rules('foo', 'label', 'required', array('required' => $error_msg_unprepped));
-		$_POST = array('foo' => '');
-		$this->form_validation->run();
-		$error_arr = $this->form_validation->error_array();
-
-		$this->assertEquals('', $this->form_validation->prep_for_form(''));
-		$this->assertEquals(array('foo' => $error_msg_prepped), $this->form_validation->prep_for_form($error_arr));
 	}
 
 	public function test_prep_url()
