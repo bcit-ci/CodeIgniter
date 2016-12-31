@@ -310,5 +310,7 @@ Class Reference
 
 		:returns:	HTML-formatted pagination
 		:rtype:	string
+                :throws: UnexpectedValueException
 
 		Returns a "pagination" bar, containing the generated links or an empty string if there's just a single page.
+                It will throw an exception if the number of links was improperly initialized.
