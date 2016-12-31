@@ -656,12 +656,13 @@ class CI_FTP {
 	 *
 	 * @param	string	$line
 	 * @return	void
+	 * @throws	RuntimeException	In case of failure
 	 */
 	protected function _error($line)
 	{
 		$CI =& get_instance();
 		$CI->lang->load('ftp');
-		show_error($CI->lang->line($line));
+		throw new RuntimeException('Ftp: ' . $CI->lang->line($line));
 	}
 
 }

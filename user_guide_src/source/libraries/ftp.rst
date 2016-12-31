@@ -97,6 +97,7 @@ Class Reference
 		:param	array	$config: Connection values
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
+		:throws:	RuntimeException	In case of failure
 
 		Connects and logs into to the FTP server. Connection preferences are set
 		by passing an array to the function, or you can store them in a config
@@ -143,6 +144,7 @@ Class Reference
 		:param	int	$permissions: File permissions (octal)
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
+		:throws:	RuntimeException	In case of failure
 
 		Uploads a file to your server. You must supply the local path and the
 		remote path, and you can optionally set the mode and permissions.
@@ -161,6 +163,7 @@ Class Reference
 		:param	string	$mode: FTP mode, defaults to 'auto' (options are: 'auto', 'binary', 'ascii')
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
+		:throws:	RuntimeException	In case of failure
 
 		Downloads a file from your server. You must supply the remote path and
 		the local path, and you can optionally set the mode. Example::
@@ -179,6 +182,7 @@ Class Reference
 		:param	bool	$move: Whether a move is being performed
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
+		:throws:	RuntimeException	In case of failure
 
 		Permits you to rename a file. Supply the source file name/path and the new file name/path.
 		::
@@ -192,6 +196,7 @@ Class Reference
 		:param	string	$new_file: New file name
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
+		:throws:	RuntimeException	In case of failure
 
 		Lets you move a file. Supply the source and destination paths::
 
@@ -205,6 +210,7 @@ Class Reference
 		:param	string	$filepath: Path to file to delete
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
+		:throws:	RuntimeException	In case of failure
 
 		Lets you delete a file. Supply the source path with the file name.
 		::
@@ -216,6 +222,7 @@ Class Reference
 		:param	string	$filepath: Path to directory to delete
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
+		:throws:	RuntimeException	In case of failure
 
 		Lets you delete a directory and everything it contains. Supply the
 		source path to the directory with a trailing slash.
@@ -234,6 +241,7 @@ Class Reference
 		:param	string	$path: Directory path
 		:returns:	An array list of files or FALSE on failure
 		:rtype:	array
+		:throws:	RuntimeException	In case of failure
 
 		Permits you to retrieve a list of files on your server returned as an
 		array. You must supply the path to the desired directory.
@@ -248,6 +256,7 @@ Class Reference
 		:param	string	$rempath: Remote path
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
+		:throws:	RuntimeException	In case of failure
 
 		Recursively reads a local folder and everything it contains (including
 		sub-folders) and creates a mirror via FTP based on it. Whatever the
@@ -262,6 +271,7 @@ Class Reference
 		:param	int	$permissions: Permissions (octal)
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
+		:throws:	RuntimeException	In case of failure
 
 		Lets you create a directory on your server. Supply the path ending in
 		the folder name you wish to create, with a trailing slash.
@@ -278,6 +288,7 @@ Class Reference
 		:param	int	$perm: Permissions (octal)
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
+		:throws:	RuntimeException	In case of failure
 
 		Permits you to set file permissions. Supply the path to the file or
 		directory you wish to alter permissions on::
@@ -291,6 +302,7 @@ Class Reference
 		:param	bool	$suppress_debug: Whether to turn off debug messages for this command
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
+		:throws:	RuntimeException	In case of failure
 
 		Changes the current working directory to the specified path.
 
