@@ -75,6 +75,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 *
 	 * @param	array	$params
 	 * @return	void
+	 * @throws	RuntimeException	In case of failure
 	 */
 	public function __construct($params)
 	{
@@ -109,7 +110,7 @@ class CI_DB_pdo_driver extends CI_DB {
 
 			if ($this->db_debug)
 			{
-				show_error('Invalid or non-existent PDO subdriver');
+				throw new RuntimeException('Database: Invalid or non-existent PDO subdriver');
 			}
 		}
 

@@ -118,3 +118,14 @@ The following functions let you generate errors:
 		*application/config/config.php*. You might, for example,
 		only want error messages to be logged, and not the other
 		two types. If you set it to zero logging will be disabled.
+
+##################
+Exception Handling
+##################
+
+The CodeIgniter components themselves use the ``show_error()`` function to 
+report problems that are not recoverable. The components use exceptions, 
+however, for problems that you might want to recover from, through program 
+logic.
+
+
