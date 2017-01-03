@@ -1,8 +1,13 @@
+# Deploy to Azure Support
+This repository comes with deploy to Azure Support. Click on the button below to deploy it to Azure with MYSQL Database which is InApp MYSQL (Preview) by Microsoft.
+
+[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
+
+
 ###################
 What is CodeIgniter
 ###################
 
-[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
 
 CodeIgniter is an Application Development Framework - a toolkit - for people
 who build web sites using PHP. Its goal is to enable you to develop projects
