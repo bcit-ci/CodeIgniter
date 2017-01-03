@@ -31,6 +31,7 @@ Bug fixes for 3.1.3
 -  Fixed a bug (#4937) - :doc:`Image Manipulation Library <libraries/image_lib>` method ``initialize()`` didn't translate *new_image* inputs to absolute paths.
 -  Fixed a bug (#4941) - :doc:`Query Builder <database/query_builder>` method ``order_by()`` didn't work with 'RANDOM' under the 'pdo/sqlite' driver.
 -  Fixed a regression (#4892) - :doc:`Query Builder <database/query_builder>` method ``update_batch()`` didn't properly handle identifier escaping.
+-  Fixed a bug (#4953) - :doc:`Database Forge <database/forge>` method ``create_table()`` didn't update an internal tables list cache if it exists but is empty.
 
 Version 3.1.2
 =============
