@@ -32,6 +32,7 @@ Bug fixes for 3.1.3
 -  Fixed a bug (#4941) - :doc:`Query Builder <database/query_builder>` method ``order_by()`` didn't work with 'RANDOM' under the 'pdo/sqlite' driver.
 -  Fixed a regression (#4892) - :doc:`Query Builder <database/query_builder>` method ``update_batch()`` didn't properly handle identifier escaping.
 -  Fixed a bug (#4953) - :doc:`Database Forge <database/forge>` method ``create_table()`` didn't update an internal tables list cache if it exists but is empty.
+-  Fixed a bug (#4958) - :doc:`Query Builder <database/query_builder>` method ``count_all_results()`` didn't take into account cached ``ORDER BY`` clauses.
 
 Version 3.1.2
 =============
