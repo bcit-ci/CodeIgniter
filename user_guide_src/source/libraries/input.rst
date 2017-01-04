@@ -242,7 +242,7 @@ Class Reference
 		This method is identical to ``get()``, ``post()`` and ``cookie()``,
 		only it fetches the *php://input* stream data.
 
-	.. php:method:: set_cookie($name = ''[, $value = ''[, $expire = ''[, $domain = ''[, $path = '/'[, $prefix = ''[, $secure = FALSE[, $httponly = FALSE]]]]]]])
+	.. php:method:: set_cookie($name = ''[, $value = ''[, $expire = 0[, $domain = ''[, $path = '/'[, $prefix = ''[, $secure = FALSE[, $httponly = FALSE]]]]]]])
 
 		:param	mixed	$name: Cookie name or an array of parameters
 		:param	string	$value: Cookie value
@@ -267,7 +267,7 @@ Class Reference
 			$cookie = array(
 				'name'   => 'The Cookie Name',
 				'value'  => 'The Value',
-				'expire' => '86500',
+				'expire' => 86500,
 				'domain' => '.some-domain.com',
 				'path'   => '/',
 				'prefix' => 'myprefix_',
@@ -278,8 +278,8 @@ Class Reference
 
 		**Notes**
 
-		Only the name and value are required. To delete a cookie set it with the
-		expiration blank.
+		Only the name and value are required. To delete a cookie set the expiry
+		time to a negative, or non-numeric value.
 
 		The expiration is set in **seconds**, which will be added to the current
 		time. Do not include the time, but rather only the number of seconds
