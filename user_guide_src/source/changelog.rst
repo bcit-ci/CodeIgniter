@@ -10,6 +10,7 @@ Release Date: Not Released
 -  **Security**
 
    -  Fixed an XSS vulnerability in :doc:`Security Library <libraries/security>` method ``xss_clean()``.
+   -  Added protection against timing side-channel attacks in :doc:`Security Library <libraries/security>` method ``csrf_verify()``.
 
 -  General Changes
 
