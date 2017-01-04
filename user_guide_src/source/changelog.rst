@@ -7,6 +7,10 @@ Version 3.1.3
 
 Release Date: Not Released
 
+-  **Security**
+
+   -  Fixed an XSS vulnerability in :doc:`Security Library <libraries/security>` method ``xss_clean()``.
+
 -  General Changes
 
    -  Deprecated ``$config['allow_get_array']``.
