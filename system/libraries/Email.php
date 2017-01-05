@@ -1843,6 +1843,33 @@ class CI_Email {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Validate email for shell
+	 *
+	 * Applies stricter, shell-safe validation to email addresses.
+	 * Introduced to prevent RCE via sendmail's -f option.
+	 *
+	 * @see	https://github.com/bcit-ci/CodeIgniter/issues/4963
+	 * @see	https://gist.github.com/Zenexer/40d02da5e07f151adeaeeaa11af9ab36
+	 * @license	https://creativecommons.org/publicdomain/zero/1.0/	CC0 1.0, Public Domain
+	 *
+	 * Credits for the base concept go to Paul Buonopane <paul@namepros.com>
+	 *
+	 * @param	string	$email
+	 * @return	bool
+	 */
+	protected function _validate_email_for_shell(&$email)
+	{
+		if (function_exists('idn_to_ascii') && $atpos = strpos($email, '@'))
+		{
+			$email = self::substr($email, 0, ++$atpos).idn_to_ascii(self::substr($email, $atpos));
+		}
+
+		return (filter_var($email, FILTER_VALIDATE_EMAIL) === $email && preg_match('#\A[a-z0-9._+-]+@[a-z0-9.-]{1,253}\z#i', $email));
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Send using mail()
 	 *
 	 * @return	bool
@@ -1854,7 +1881,11 @@ class CI_Email {
 			$this->_recipients = implode(', ', $this->_recipients);
 		}
 
-		if ($this->_safe_mode === TRUE)
+		// _validate_email_for_shell() below accepts by reference,
+		// so this needs to be assigned to a variable
+		$from = $this->clean_email($this->_headers['Return-Path']);
+
+		if ($this->_safe_mode === TRUE || ! $this->_validate_email_for_shell($from))
 		{
 			return mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str);
 		}
@@ -1862,7 +1893,7 @@ class CI_Email {
 		{
 			// most documentation of sendmail using the "-f" flag lacks a space after it, however
 			// we've encountered servers that seem to require it to be in place.
-			return mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str, '-f '.$this->clean_email($this->_headers['Return-Path']));
+			return mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str, '-f '.$from);
 		}
 	}
 
@@ -1875,13 +1906,22 @@ class CI_Email {
 	 */
 	protected function _send_with_sendmail()
 	{
-		// is popen() enabled?
-		if ( ! function_usable('popen')
-			OR FALSE === ($fp = @popen(
-						$this->mailpath.' -oi -f '.escapeshellarg($this->clean_email($this->_headers['From'])).' -t'
-						, 'w'))
-		) // server probably has popen disabled, so nothing we can do to get a verbose error.
+		// _validate_email_for_shell() below accepts by reference,
+		// so this needs to be assigned to a variable
+		$from = $this->clean_email($this->_headers['From']);
+		if ($this->_validate_email_for_shell($from))
 		{
+			$from = '-f '.$from;
+		}
+		else
+		{
+			$from = '';
+		}
+
+		// is popen() enabled?
+		if ( ! function_usable('popen')	OR FALSE === ($fp = @popen($this->mailpath.' -oi '.$from.' -t', 'w')))
+		{
+			// server probably has popen disabled, so nothing we can do to get a verbose error.
 			return FALSE;
 		}
 
