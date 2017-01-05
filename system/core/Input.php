@@ -343,7 +343,7 @@ class CI_Input {
 			$httponly = config_item('cookie_httponly');
 		}
 
-		if ( ! is_numeric($expire) || $expire < 0)
+		if ( ! is_numeric($expire) OR $expire < 0)
 		{
 			$expire = 1;
 		}
