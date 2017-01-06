@@ -1639,25 +1639,31 @@ class CI_Image_lib {
 		}
 
 		$vals = getimagesize($path);
+		if ($vals === FALSE)
+		{
+			$this->set_error('imglib_invalid_image');
+			return FALSE;
+		}
+
 		$types = array(1 => 'gif', 2 => 'jpeg', 3 => 'png');
-		$mime = (isset($types[$vals[2]])) ? 'image/'.$types[$vals[2]] : 'image/jpg';
+		$mime = isset($types[$vals[2]]) ? 'image/'.$types[$vals[2]] : 'image/jpg';
 
 		if ($return === TRUE)
 		{
 			return array(
-					'width' =>	$vals[0],
-					'height' =>	$vals[1],
-					'image_type' =>	$vals[2],
-					'size_str' =>	$vals[3],
-					'mime_type' =>	$mime
-				);
+				'width'      => $vals[0],
+				'height'     => $vals[1],
+				'image_type' => $vals[2],
+				'size_str'   => $vals[3],
+				'mime_type'  => $mime
+			);
 		}
 
-		$this->orig_width	= $vals[0];
-		$this->orig_height	= $vals[1];
-		$this->image_type	= $vals[2];
-		$this->size_str		= $vals[3];
-		$this->mime_type	= $mime;
+		$this->orig_width  = $vals[0];
+		$this->orig_height = $vals[1];
+		$this->image_type  = $vals[2];
+		$this->size_str    = $vals[3];
+		$this->mime_type   = $mime;
 
 		return TRUE;
 	}

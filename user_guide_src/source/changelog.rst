@@ -35,6 +35,8 @@ Bug fixes for 3.1.3
 -  Fixed a bug (#4958) - :doc:`Query Builder <database/query_builder>` method ``count_all_results()`` didn't take into account cached ``ORDER BY`` clauses.
 -  Fixed a bug (#4804) - :doc:`Query Builder <database/query_builder>` method ``insert_batch()`` could fail if the input array pointer was modified.
 -  Fixed a bug (#4962) - :doc:`Database Force <database/forge>` method ``alter_table()`` would fail with the 'oci8' driver.
+-  Fixed a bug (#4457) - :doc:`Image Manipulation Library <libraries/image_lib>` method ``get_image_properties()`` didn't detect invalid images.
+-  Fixed a bug (#4765) - :doc:`Email Library <libraries/email>` didn't send the ``User-Agent`` header without a prior call to ``clear()``.
 
 Version 3.1.2
 =============
