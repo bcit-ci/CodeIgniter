@@ -126,6 +126,8 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 					$sqls[] = $sql.' RENAME COLUMN '.$this->db->escape_identifiers($field[$i]['name'])
 						.' '.$this->db->escape_identifiers($field[$i]['new_name']);
 				}
+
+				$field[$i] = "\n\t".$field[$i]['_literal'];
 			}
 		}
 
@@ -136,7 +138,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 
 		// RENAME COLUMN must be executed after MODIFY
 		array_unshift($sqls, $sql);
-		return $sql;
+		return $sqls;
 	}
 
 	// --------------------------------------------------------------------
