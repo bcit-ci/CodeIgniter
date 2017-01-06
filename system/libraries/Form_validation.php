@@ -1294,7 +1294,7 @@ class CI_Form_validation {
 		if ( ! is_php('5.5'))
 		{
 			// Most common format, with either dash or colon delimiters
-			if (preg_match('#\A[0-9a-f]{2}(?<delimiter>[:-])([0-9a-f]{2}((?P=delimiter)|\z)){5}#i', $mac))
+			if (preg_match('#\A[0-9a-f]{2}(?<delimiter>[:-])([0-9a-f]{2}(?P=delimiter)){4}[0-9a-f]{2}\z#i', $mac))
 			{
 				return TRUE;
 			}
