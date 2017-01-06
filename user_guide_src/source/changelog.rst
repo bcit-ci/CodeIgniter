@@ -75,7 +75,11 @@ Release Date: Not Released
    -  Removed previously deprecated :doc:`File Helper <helpers/file_helper>` function ``read_file()`` (use PHP's native ``file_get_contents()`` instead).
    -  Added new function :php:func:`ordinal_format()` to :doc:`Inflector Helper <helpers/inflector_helper>`.
    -  Added 'img_alt' option to :php:func`create_captcha()` :doc:`CAPTCHA Helper` with a default value of 'captcha'.
-   -  Updated :doc:`Download Helper <helpers/download_helper>` :php:func:`force_download()` to allow existing files to be renamed for download.
+
+   -  :doc:`Download Helper <helpers/download_helper>` changes include:
+
+      - Updated :php:func:`force_download()` to allow existing files to be renamed for download.
+      - Updated :php:func:`force_download()` to better utilize available server memory.
 
    -  :doc:`String Helper <helpers/string_helper>` changes include:
 
