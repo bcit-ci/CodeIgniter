@@ -145,11 +145,6 @@ if ( ! function_exists('force_download'))
 			$filename = implode('.', $x);
 		}
 
-		if ($data === NULL && ($fp = @fopen($filepath, 'rb')) === FALSE)
-		{
-			return;
-		}
-
 		// Clean output buffer
 		if (ob_get_level() !== 0 && @ob_end_clean() === FALSE)
 		{
@@ -170,13 +165,12 @@ if ( ! function_exists('force_download'))
 			exit($data);
 		}
 
-		// Flush 1MB chunks of data
-		while ( ! feof($fp) && ($data = fread($fp, 1048576)) !== FALSE)
+		// Flush the file
+		if (@readfile($filepath) === FALSE)
 		{
-			echo $data;
+			return;
 		}
 
-		fclose($fp);
 		exit;
 	}
 }
