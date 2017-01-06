@@ -268,7 +268,6 @@ class Form_validation_test extends CI_TestCase {
 	public function test_rule_valid_email()
 	{
 		$this->assertTrue($this->form_validation->valid_email('email@sample.com'));
-
 		$this->assertFalse($this->form_validation->valid_email('valid_email', '@sample.com'));
 	}
 
@@ -294,10 +293,22 @@ class Form_validation_test extends CI_TestCase {
 		$this->assertFalse($this->form_validation->valid_ip('127.0.0.259'));
 	}
 
+	public function test_rule_valid_mac()
+	{
+		$this->assertTrue($this->form_validation->valid_mac("01-23-45-67-89-aB"));
+		$this->assertTrue($this->form_validation->valid_mac("01:23:45:67:89:aB"));
+		$this->assertTrue($this->form_validation->valid_mac("0123.4567.89aB"));
+
+		$this->assertFalse($this->form_validation->valid_mac("-01-23-45-67-89-ab"));
+		$this->assertFalse($this->form_validation->valid_mac("01:23:45:67:89:ab:"));
+		$this->assertFalse($this->form_validation->valid_mac("01:23:45:67:89:ab\n"));
+		$this->assertFalse($this->form_validation->valid_mac("01:23:45:67:89:ag:"));
+		$this->assertFalse($this->form_validation->valid_mac('0123456789ab'));
+	}
+
 	public function test_rule_valid_base64()
 	{
 		$this->assertTrue($this->form_validation->valid_base64(base64_encode('string')));
-
 		$this->assertFalse($this->form_validation->valid_base64('FA08GG'));
 	}
 

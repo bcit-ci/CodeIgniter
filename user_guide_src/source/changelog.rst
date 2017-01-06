@@ -45,6 +45,7 @@ Release Date: Not Released
 
       - Removed previously deprecated method ``prep_for_form()`` / rule *prep_for_form*.
       - Changed method ``set_rules()`` to throw a ``BadMethodCallException`` when its first parameter is not an array and the ``$rules`` one is unused.
+      - Added rule **valid_mac**, which replicates PHP's native ``filter_var()`` with ``FILTER_VALIDATE_MAC``.
 
    -  :doc:`HTML Table Library <libraries/table>` changes include:
 

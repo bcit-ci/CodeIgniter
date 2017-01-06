@@ -1284,6 +1284,31 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Validate MAC address
+	 *
+	 * @param	string	$mac
+	 * @return	bool
+	 */
+	public function valid_mac($mac)
+	{
+		if ( ! is_php('5.5'))
+		{
+			// Most common format, with either dash or colon delimiters
+			if (preg_match('#\A[0-9a-f]{2}(?<delimiter>[:-])([0-9a-f]{2}((?P=delimiter)|\z)){5}#i', $mac))
+			{
+				return TRUE;
+			}
+
+			// The less common format; e.g. 0123.4567.89ab
+			return (bool) preg_match('#((\A|\.)[0-9a-f]{4}){3}\z#i', $mac);
+		}
+
+		return (bool) filter_var($mac, FILTER_VALIDATE_MAC);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Alpha
 	 *
 	 * @param	string
