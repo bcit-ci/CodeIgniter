@@ -68,6 +68,7 @@ if ( ! function_exists('create_captcha'))
 			'img_url'	=> '',
 			'img_width'	=> '150',
 			'img_height'	=> '30',
+			'img_alt'	=> 'captcha'
 			'font_path'	=> '',
 			'expiration'	=> 7200,
 			'word_length'	=> 8,
@@ -79,8 +80,7 @@ if ( ! function_exists('create_captcha'))
 				'border'	=> array(153,102,102),
 				'text'		=> array(204,153,153),
 				'grid'		=> array(255,182,182)
-			),
-			'img_alt'	=> 'captcha'
+			)
 		);
 
 		foreach ($defaults as $key => $val)
