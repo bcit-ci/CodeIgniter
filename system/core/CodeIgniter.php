@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @var	string
  *
  */
-	const CI_VERSION = '3.1.3';
+	const CI_VERSION = '3.1.4-dev';
 
 /*
  * ------------------------------------------------------
