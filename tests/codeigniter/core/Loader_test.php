@@ -295,8 +295,10 @@ class Loader_test extends CI_TestCase {
 		$output->expects($this->once())->method('append_output')->with($content.$value);
 		$this->ci_instance_var('output', $output);
 
-		// Test view output
-		$this->assertInstanceOf('CI_Loader', $this->load->view($view, array($var => $value)));
+		// Test view output and $vars as an object
+		$vars = new stdClass();
+		$vars->$var = $value;
+		$this->assertInstanceOf('CI_Loader', $this->load->view($view, $vars));
 	}
 
 	// --------------------------------------------------------------------

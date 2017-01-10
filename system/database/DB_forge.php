@@ -348,7 +348,7 @@ abstract class CI_DB_forge {
 
 		if (($result = $this->db->query($sql)) !== FALSE)
 		{
-			empty($this->db->data_cache['table_names']) OR $this->db->data_cache['table_names'][] = $table;
+			isset($this->db->data_cache['table_names']) && $this->db->data_cache['table_names'][] = $table;
 
 			// Most databases don't support creating indexes from within the CREATE TABLE statement
 			if ( ! empty($this->keys))

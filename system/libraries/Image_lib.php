@@ -392,6 +392,16 @@ class CI_Image_lib {
 			$this->initialize($props);
 		}
 
+		/**
+		 * A work-around for some improperly formatted, but
+		 * usable JPEGs; known to be produced by Samsung
+		 * smartphones' front-facing cameras.
+		 *
+		 * @see	https://github.com/bcit-ci/CodeIgniter/issues/4967
+		 * @see	https://bugs.php.net/bug.php?id=72404
+		 */
+		ini_set('gd.jpeg_ignore_warning', 1);
+
 		log_message('info', 'Image Lib Class Initialized');
 	}
 
@@ -1644,25 +1654,26 @@ class CI_Image_lib {
 			$this->set_error('imglib_invalid_image');
 			return FALSE;
 		}
+
 		$types = array(1 => 'gif', 2 => 'jpeg', 3 => 'png');
-		$mime = (isset($types[$vals[2]])) ? 'image/'.$types[$vals[2]] : 'image/jpg';
+		$mime = isset($types[$vals[2]]) ? 'image/'.$types[$vals[2]] : 'image/jpg';
 
 		if ($return === TRUE)
 		{
 			return array(
-					'width' =>	$vals[0],
-					'height' =>	$vals[1],
-					'image_type' =>	$vals[2],
-					'size_str' =>	$vals[3],
-					'mime_type' =>	$mime
-				);
+				'width'      => $vals[0],
+				'height'     => $vals[1],
+				'image_type' => $vals[2],
+				'size_str'   => $vals[3],
+				'mime_type'  => $mime
+			);
 		}
 
-		$this->orig_width	= $vals[0];
-		$this->orig_height	= $vals[1];
-		$this->image_type	= $vals[2];
-		$this->size_str		= $vals[3];
-		$this->mime_type	= $mime;
+		$this->orig_width  = $vals[0];
+		$this->orig_height = $vals[1];
+		$this->image_type  = $vals[2];
+		$this->size_str    = $vals[3];
+		$this->mime_type   = $mime;
 
 		return TRUE;
 	}
