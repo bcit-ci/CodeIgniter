@@ -7,6 +7,10 @@ Version 3.1.4
 
 Release Date: Not Released
 
+-  General Changes
+
+   -  Updated the :doc:`Image Manipulation Library <libraries/image_lib>` to work-around an issue with some JPEGs when using GD.
+
 Bug fixes for 3.1.4
 -------------------
 
