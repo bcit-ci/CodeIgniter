@@ -5,9 +5,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <head>
 	<meta charset="utf-8">
 	<title>Welcome to CodeIgniter</title>
-
+        <?php //通用css,js引入
+            require_once 'layout/script.php';
+        ?>
 	<style type="text/css">
-
+        
 	::selection { background-color: #E13300; color: white; }
 	::-moz-selection { background-color: #E13300; color: white; }
 
@@ -84,6 +86,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>
 </div>
-
+    <script>
+    $(function(){
+       $("p.footer").hide();
+       setTimeout(function(){
+           $("p.footer").show();
+       },2000);
+    });
+    </script>
 </body>
 </html>
