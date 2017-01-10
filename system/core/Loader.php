@@ -1368,7 +1368,7 @@ class CI_Loader {
 	 * Prepare variables for _ci_vars, to be later extract()-ed inside views
 	 *
 	 * Converts objects to associative arrays and filters-out internal
-	 * variable names (i.e. keys prexied with '_ci_').
+	 * variable names (i.e. keys prefixed with '_ci_').
 	 *
 	 * @param	mixed	$vars
 	 * @return	array
@@ -1378,7 +1378,7 @@ class CI_Loader {
 		if ( ! is_array($vars))
 		{
 			$vars = is_object($vars)
-				? get_object_vars($object)
+				? get_object_vars($vars)
 				: array();
 		}
 
