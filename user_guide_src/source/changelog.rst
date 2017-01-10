@@ -7,6 +7,10 @@ Version 3.1.4
 
 Release Date: Not Released
 
+Bug fixes for 3.1.4
+-------------------
+
+-  Fixed a regression (#4975) - :doc:`Loader Library <libraries/loader>` couldn't handle objects passed as view variables.
 
 Version 3.1.3
 =============
