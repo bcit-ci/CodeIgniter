@@ -590,7 +590,7 @@ class CI_Loader {
 		{
 			$filename = basename($helper);
 			$filepath = ($filename === $helper) ? '' : substr($helper, 0, strlen($helper) - strlen($filename));
-			$filename = strtolower(preg_replace('#(_helper)?(.php)?$#i', '', $filename)).'_helper';
+			$filename = strtolower(preg_replace('#(_helper)?(\.php)?$#i', '', $filename)).'_helper';
 			$helper   = $filepath.$filename;
 
 			if (isset($this->_ci_helpers[$helper]))
