@@ -15,6 +15,7 @@ Bug fixes for 3.1.4
 -------------------
 
 -  Fixed a regression (#4975) - :doc:`Loader Library <libraries/loader>` couldn't handle objects passed as view variables.
+-  Fixed a bug (#4977) - :doc:`Loader Library <libraries/loader>` method ``helper()`` could accept any character as a filename extension separator.
 
 Version 3.1.3
 =============
