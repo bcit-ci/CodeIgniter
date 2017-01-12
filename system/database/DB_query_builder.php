@@ -2642,7 +2642,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function dump_cache()
     {
-        return [
+        return array(
             'qb_cache_select'    => $this->qb_cache_select,
             'qb_cache_from'      => $this->qb_cache_from,
             'qb_cache_join'      => $this->qb_cache_join,
@@ -2653,7 +2653,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
             'qb_cache_set'       => $this->qb_cache_set,
             'qb_cache_exists'    => $this->qb_cache_exists,
             'qb_cache_no_escape' => $this->qb_cache_no_escape
-        ];
+        );
     }
 
 	// --------------------------------------------------------------------
