@@ -2632,6 +2632,47 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	}
 
 	// --------------------------------------------------------------------
+	
+	/**
+	 * Dump Cache
+	 *
+	 * Save (Dump) the QB cache
+	 *
+	 * @return	Array
+	 */
+	public function dump_cache()
+    {
+        return [
+            'qb_cache_select'    => $this->qb_cache_select,
+            'qb_cache_from'      => $this->qb_cache_from,
+            'qb_cache_join'      => $this->qb_cache_join,
+            'qb_cache_where'     => $this->qb_cache_where,
+            'qb_cache_groupby'   => $this->qb_cache_groupby,
+            'qb_cache_having'    => $this->qb_cache_having,
+            'qb_cache_orderby'   => $this->qb_cache_orderby,
+            'qb_cache_set'       => $this->qb_cache_set,
+            'qb_cache_exists'    => $this->qb_cache_exists,
+            'qb_cache_no_escape' => $this->qb_cache_no_escape
+        ];
+    }
+
+	// --------------------------------------------------------------------
+
+    /**
+	 * Restore Cache
+	 *
+	 * Restore the QB cache from saved QB cache
+	 *
+	 * @return	CI_DB_query_builder
+	 */
+	public function restore_cache($qb_cache = [])
+    {
+        $this->_reset_run($qb_cache);
+
+        return $this;
+    }
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Merge Cache
