@@ -382,7 +382,7 @@ the hood:
 
   #. Check if the string is long enough, separate the HMAC out of
      it and validate if it is correct (this is done in a way that
-     prevents timing attacks agains it). Return FALSE if either of
+     prevents timing attacks against it). Return FALSE if either of
      the checks fails.
 
   #. Base64-decode the string.

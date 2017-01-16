@@ -348,7 +348,7 @@ Class Reference
 
 			$this->email->attach('http://example.com/filename.pdf');
 
-		If you'd like to use a custom file name, you can use the third paramater::
+		If you'd like to use a custom file name, you can use the third parameter::
 
 			$this->email->attach('filename.pdf', 'attachment', 'report.pdf');
 
@@ -387,7 +387,7 @@ Class Reference
 		:rtype:	string
 
 		Returns a string containing any server messages, the email headers, and
-		the email messsage. Useful for debugging.
+		the email message. Useful for debugging.
 
 		You can optionally specify which parts of the message should be printed.
 		Valid options are: **headers**, **subject**, **body**.

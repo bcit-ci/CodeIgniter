@@ -101,7 +101,7 @@ loading any libraries or helpers.
 
 .. php:function:: set_status_header($code[, $text = ''])
 
-	:param	int	$code: HTTP Reponse status code
+	:param	int	$code: HTTP Response status code
 	:param	string	$text: A custom message to set with the status code
 	:rtype:	void
 

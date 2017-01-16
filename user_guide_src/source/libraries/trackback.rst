@@ -262,7 +262,7 @@ Class Reference
 		:returns:	Data value or empty string if not found
 		:rtype:	string
 
-		Returns a single item from the reponse data array.
+		Returns a single item from the response data array.
 
 	.. php:method:: process($url, $data)
 

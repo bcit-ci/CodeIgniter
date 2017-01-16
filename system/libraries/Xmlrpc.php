@@ -238,7 +238,7 @@ class CI_Xmlrpc {
 	public $result;
 
 	/**
-	 * XML-RPC Reponse
+	 * XML-RPC Response
 	 *
 	 * @var	array
 	 */

@@ -31,7 +31,7 @@ The following functions are available:
 	:rtype:	int
 
 	Returns the current time as a UNIX timestamp, referenced either to your server's
-	local time or any PHP suported timezone, based on the "time reference" setting
+	local time or any PHP supported timezone, based on the "time reference" setting
 	in your config file. If you do not intend to set your master time reference to
 	any other PHP supported timezone (which you'll typically do if you run a site
 	that lets each user set their own timezone settings) there is no benefit to using
