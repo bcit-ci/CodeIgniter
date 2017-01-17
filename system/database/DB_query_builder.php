@@ -2630,7 +2630,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		$this->_reset_run(array(
 			'qb_cache_select'		=> array(),
 			'qb_cache_from'			=> array(),
-			'qb_cache_join'			=> array(),	
+			'qb_cache_join'			=> array(),
 			'qb_cache_where'		=> array(),
 			'qb_cache_groupby'		=> array(),
 			'qb_cache_having'		=> array(),
@@ -2638,7 +2638,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			'qb_cache_set'			=> array(),
 			'qb_cache_exists'		=> array(),
 			'qb_cache_no_escape'	=> array(),
-			'qb_cache_aliased_tables'	=> array(),
+			'qb_cache_aliased_tables'	=> array()
 		));
 
 		return $this;
