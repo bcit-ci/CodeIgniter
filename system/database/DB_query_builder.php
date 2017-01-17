@@ -215,7 +215,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	protected $qb_cache_join			= array();
 
 	/**
-	 * QB Cache aliased tables list data
+	 * QB Cache aliased tables list
 	 *
 	 * @var	array
 	 */
@@ -2288,10 +2288,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$table = trim(strrchr($table, ' '));
 
 			// Store the alias, if it doesn't already exist
-			if ( ! in_array($table, $this->qb_aliased_tables))
+			if ( ! in_array($table, $this->qb_aliased_tables, TRUE))
 			{
 				$this->qb_aliased_tables[] = $table;
-				if ($this->qb_caching === TRUE && ! in_array($table, $this->qb_cache_aliased_tables))
+				if ($this->qb_caching === TRUE && ! in_array($table, $this->qb_cache_aliased_tables, TRUE))
 				{
 					$this->qb_cache_aliased_tables[] = $table;
 					$this->qb_cache_exists[] = 'aliased_tables';
@@ -2628,17 +2628,17 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	public function flush_cache()
 	{
 		$this->_reset_run(array(
-			'qb_cache_select'			=> array(),
-			'qb_cache_from'				=> array(),
-			'qb_cache_join'				=> array(),
+			'qb_cache_select'		=> array(),
+			'qb_cache_from'			=> array(),
+			'qb_cache_join'			=> array(),	
+			'qb_cache_where'		=> array(),
+			'qb_cache_groupby'		=> array(),
+			'qb_cache_having'		=> array(),
+			'qb_cache_orderby'		=> array(),
+			'qb_cache_set'			=> array(),
+			'qb_cache_exists'		=> array(),
+			'qb_cache_no_escape'	=> array(),
 			'qb_cache_aliased_tables'	=> array(),
-			'qb_cache_where'			=> array(),
-			'qb_cache_groupby'			=> array(),
-			'qb_cache_having'			=> array(),
-			'qb_cache_orderby'			=> array(),
-			'qb_cache_set'				=> array(),
-			'qb_cache_exists'			=> array(),
-			'qb_cache_no_escape'		=> array()
 		));
 
 		return $this;
