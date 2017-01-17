@@ -17,6 +17,7 @@ Bug fixes for 3.1.4
 -  Fixed a regression (#4975) - :doc:`Loader Library <libraries/loader>` couldn't handle objects passed as view variables.
 -  Fixed a bug (#4977) - :doc:`Loader Library <libraries/loader>` method ``helper()`` could accept any character as a filename extension separator.
 -  Fixed a regression where the :doc:`Session Library <libraries/sessions>` would fail on a ``session_regenerate_id(TRUE)`` call with the 'database' driver.
+-  Fixed a bug (#4987) - :doc:`Query Builder <database/query_builder>` caching didn't keep track of table aliases.
 
 Version 3.1.3
 =============
