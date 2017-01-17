@@ -110,7 +110,7 @@ class CI_Cache_memcached extends CI_Driver {
 
 			if ($this->_memcached instanceof Memcache)
 			{
-				// Third parameter is persistance and defaults to TRUE.
+				// Third parameter is persistence and defaults to TRUE.
 				$this->_memcached->addServer(
 					$cache_server['hostname'],
 					$cache_server['port'],

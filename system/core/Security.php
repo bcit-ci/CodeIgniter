@@ -869,7 +869,7 @@ class CI_Security {
 			// Each iteration filters a single attribute
 			do
 			{
-				// Strip any non-alpha characters that may preceed an attribute.
+				// Strip any non-alpha characters that may precede an attribute.
 				// Browsers often parse these incorrectly and that has been a
 				// of numerous XSS issues we've had.
 				$matches['attributes'] = preg_replace('#^[^a-z]+#i', '', $matches['attributes']);
