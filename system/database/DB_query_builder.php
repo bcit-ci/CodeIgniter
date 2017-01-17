@@ -215,6 +215,13 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	protected $qb_cache_join			= array();
 
 	/**
+	 * QB Cache aliased tables list
+	 *
+	 * @var	array
+	 */
+	protected $qb_cache_aliased_tables			= array();
+
+	/**
 	 * QB Cache WHERE data
 	 *
 	 * @var	array
@@ -2281,9 +2288,14 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$table = trim(strrchr($table, ' '));
 
 			// Store the alias, if it doesn't already exist
-			if ( ! in_array($table, $this->qb_aliased_tables))
+			if ( ! in_array($table, $this->qb_aliased_tables, TRUE))
 			{
 				$this->qb_aliased_tables[] = $table;
+				if ($this->qb_caching === TRUE && ! in_array($table, $this->qb_cache_aliased_tables, TRUE))
+				{
+					$this->qb_cache_aliased_tables[] = $table;
+					$this->qb_cache_exists[] = 'aliased_tables';
+				}
 			}
 		}
 	}
@@ -2625,7 +2637,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			'qb_cache_orderby'		=> array(),
 			'qb_cache_set'			=> array(),
 			'qb_cache_exists'		=> array(),
-			'qb_cache_no_escape'	=> array()
+			'qb_cache_no_escape'	=> array(),
+			'qb_cache_aliased_tables'	=> array()
 		));
 
 		return $this;
@@ -2675,13 +2688,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			{
 				$this->qb_no_escape = $qb_no_escape;
 			}
-		}
-
-		// If we are "protecting identifiers" we need to examine the "from"
-		// portion of the query to determine if there are any aliases
-		if ($this->_protect_identifiers === TRUE && count($this->qb_cache_from) > 0)
-		{
-			$this->_track_aliases($this->qb_from);
 		}
 	}
 
