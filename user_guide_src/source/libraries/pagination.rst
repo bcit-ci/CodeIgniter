@@ -101,7 +101,7 @@ like::
 
 If you have ``$config['enable_query_strings']`` set to TRUE your links
 will automatically be re-written using Query Strings. This option can
-also be explictly set. Using ``$config['page_query_string']`` set to TRUE,
+also be explicitly set. Using ``$config['page_query_string']`` set to TRUE,
 the pagination link will become::
 
 	http://example.com/index.php?c=test&m=page&per_page=20

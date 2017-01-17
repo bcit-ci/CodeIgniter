@@ -2441,7 +2441,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Escapes identifiers in GROUP BY statements at execution time.
 	 *
-	 * Required so that aliases are tracked properly, regardless of wether
+	 * Required so that aliases are tracked properly, regardless of whether
 	 * group_by() is called prior to from(), join() and dbprefix is added
 	 * only if needed.
 	 *
@@ -2477,7 +2477,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Escapes identifiers in ORDER BY statements at execution time.
 	 *
-	 * Required so that aliases are tracked properly, regardless of wether
+	 * Required so that aliases are tracked properly, regardless of whether
 	 * order_by() is called prior to from(), join() and dbprefix is added
 	 * only if needed.
 	 *
