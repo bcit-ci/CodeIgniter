@@ -118,7 +118,7 @@ default, and required explicitly setting the **validate** option to ``TRUE``
 in order to enable it.
 
 Naturally, a validity check should not result in any problems, but this is
-technically a backwards-compability break and you should check that
+technically a backwards-compatibility break and you should check that
 everything works fine.
 If something indeed goes wrong with that, please report it as a bug to us,
 and you can disable the **validate** option to revert to the old behavior.

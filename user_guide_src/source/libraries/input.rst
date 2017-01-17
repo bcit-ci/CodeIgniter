@@ -124,7 +124,7 @@ Class Reference
 
 			$this->input->post(array('field1', 'field2'));
 
-		Same rule applied here, to retrive the parameters with XSS filtering enabled, set the
+		Same rule applied here, to retrieve the parameters with XSS filtering enabled, set the
 		second parameter to boolean TRUE.
 		::
 
@@ -157,7 +157,7 @@ Class Reference
 
 			$this->input->get(array('field1', 'field2'));
 
-		Same rule applied here, to retrive the parameters with XSS filtering enabled, set the
+		Same rule applied here, to retrieve the parameters with XSS filtering enabled, set the
 		second parameter to boolean TRUE.
 		::
 

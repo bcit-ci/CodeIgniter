@@ -165,7 +165,7 @@ Handling Errors
 
 **$this->db->error();**
 
-If you need to get the last error that has occured, the error() method
+If you need to get the last error that has occurred, the error() method
 will return an array containing its code and message. Here's a quick
 example::
 
