@@ -87,7 +87,7 @@ If you would like to disable transactions you can do so using
 	$this->db->query('AN SQL QUERY...');
 	$this->db->trans_complete();
 
-When transactions are disabled, your queries will be auto-commited, just as
+When transactions are disabled, your queries will be auto-committed, just as
 they are when running queries without transactions, practically ignoring
 any calls to ``trans_start()``, ``trans_complete()``, etc.
 

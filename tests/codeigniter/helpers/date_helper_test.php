@@ -296,7 +296,7 @@ class Date_helper_test extends CI_TestCase {
 		}
 
 		$this->assertArrayHasKey('UP3', timezones());
-		$this->assertEquals(0, timezones('non_existant'));
+		$this->assertEquals(0, timezones('non_existent'));
 	}
 
 	// ------------------------------------------------------------------------
