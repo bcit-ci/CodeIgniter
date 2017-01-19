@@ -174,7 +174,7 @@ if ( ! function_exists('hash_pbkdf2'))
 		}
 
 		$hash_length = defined('MB_OVERLOAD_STRING')
-			? mb_strlen(hash($algo, NULL, TRUE))
+			? mb_strlen(hash($algo, NULL, TRUE), '8bit')
 			: strlen(hash($algo, NULL, TRUE));
 		empty($length) && $length = $hash_length;
 
@@ -248,7 +248,7 @@ if ( ! function_exists('hash_pbkdf2'))
 		}
 
 		return defined('MB_OVERLOAD_STRING')
-			? mb_substr($hash, 0, $length)
+			? mb_substr($hash, 0, $length, '8bit')
 			: substr($hash, 0, $length);
 	}
 }
