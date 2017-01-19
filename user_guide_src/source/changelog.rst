@@ -12,7 +12,7 @@ Release Date: Not Released
    -  Updated :doc:`Encrypt Library <libraries/encrypt>` (DEPRECATED) to call ``mcrypt_create_iv()`` with ``MCRYPT_DEV_URANDOM``.
    -  Fixed byte-safety issues in :doc:`Encrypt Library <libraries/encrypt>` (DEPRECATED) when ``mbstring.func_overload`` is enabled.
    -  Fixed byte-safety issues in :doc:`Encryption Library <libraries/encryption>` when ``mbstring.func_overload`` is enabled.
-   -  Fixed byte-safety issues in :doc:`compatibility function <general/compatibility_functions>` ``password_hash()`` when ``mbstring.func_overload`` is enabled.
+   -  Fixed byte-safety issues in :doc:`compatibility functions <general/compatibility_functions>` ``password_hash()``, ``hash_pbkdf2()`` when ``mbstring.func_overload`` is enabled.
 
 -  General Changes
 
