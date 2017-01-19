@@ -12,6 +12,7 @@ Release Date: Not Released
    -  Updated :doc:`Encrypt Library <libraries/encrypt>` (DEPRECATED) to call ``mcrypt_create_iv()`` with ``MCRYPT_DEV_URANDOM``.
    -  Fixed byte-safety issues in :doc:`Encrypt Library <libraries/encrypt>` (DEPRECATED) when ``mbstring.func_overload`` is enabled.
    -  Fixed byte-safety issues in :doc:`Encryption Library <libraries/encryption>` when ``mbstring.func_overload`` is enabled.
+   -  Fixed byte-safety issues in :doc:`compatibility function <general/compatibility_functions>` ``password_hash()`` when ``mbstring.func_overload`` is enabled.
 
 -  General Changes
 
@@ -25,6 +26,8 @@ Bug fixes for 3.1.4
 -  Fixed a regression where the :doc:`Session Library <libraries/sessions>` would fail on a ``session_regenerate_id(TRUE)`` call with the 'database' driver.
 -  Fixed a bug (#4987) - :doc:`Query Builder <database/query_builder>` caching didn't keep track of table aliases.
 -  Fixed a bug where :doc:`Text Helper <helpers/text_helper>` function ``ascii_to_entities()`` wasn't byte-safe when ``mbstring.func_overload`` is enabled.
+-  Fixed a bug where ``CI_Log``, ``CI_Output``, ``CI_Email`` and ``CI_Zip`` didn't handle strings in a byte-safe manner when ``mbstring.func_overload`` is enabled.
+-  Fixed a bug where :doc:`Session Library <libraries/sessions>` didn't read session data in a byte-safe manner when ``mbstring.func_overload`` is enabled.
 
 Version 3.1.3
 =============
