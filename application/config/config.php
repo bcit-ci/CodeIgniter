@@ -23,7 +23,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = '';
+
+if(ENVIRONMENT == "development"){
+		// TESTING
+    $config['base_url'] = '';
+}else{
+		//PRODUCTION | RELEASE
+    $config['base_url'] = 'http://www.example.com/';
+}
 
 /*
 |--------------------------------------------------------------------------
