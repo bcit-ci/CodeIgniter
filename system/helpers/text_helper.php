@@ -138,7 +138,10 @@ if ( ! function_exists('ascii_to_entities'))
 	function ascii_to_entities($str)
 	{
 		$out = '';
-		for ($i = 0, $s = strlen($str) - 1, $count = 1, $temp = array(); $i <= $s; $i++)
+		$length = defined('MB_OVERLOAD_STRING')
+			? mb_strlen($str, '8bit') - 1
+			: strlen($str) - 1;
+		for ($i = 0, $count = 1, $temp = array(); $i <= $length; $i++)
 		{
 			$ordinal = ord($str[$i]);
 
@@ -176,7 +179,7 @@ if ( ! function_exists('ascii_to_entities'))
 					$temp = array();
 				}
 				// If this is the last iteration, just output whatever we have
-				elseif ($i === $s)
+				elseif ($i === $length)
 				{
 					$out .= '&#'.implode(';', $temp).';';
 				}

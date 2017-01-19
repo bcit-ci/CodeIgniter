@@ -94,10 +94,22 @@ class Encryption_test extends CI_TestCase {
 		}
 
 		// Test default length, it must match the digest size
-		$this->assertEquals(64, strlen($this->encryption->hkdf('foobar', 'sha512')));
+		$hkdf_result = $this->encryption->hkdf('foobar', 'sha512');
+		$this->assertEquals(
+			64,
+			defined('MB_OVERLOAD_STRING')
+				? mb_strlen($hkdf_result, '8bit')
+				: strlen($hkdf_result)
+		);
 
 		// Test maximum length (RFC5869 says that it must be up to 255 times the digest size)
-		$this->assertEquals(12240, strlen($this->encryption->hkdf('foobar', 'sha384', NULL, 48 * 255)));
+		$hkdf_result = $this->encryption->hkdf('foobar', 'sha384', NULL, 48 * 255);
+		$this->assertEquals(
+			12240,
+			defined('MB_OVERLOAD_STRING')
+				? mb_strlen($hkdf_result, '8bit')
+				: strlen($hkdf_result)
+		);
 		$this->assertFalse($this->encryption->hkdf('foobar', 'sha224', NULL, 28 * 255 + 1));
 
 		// CI-specific test for an invalid digest
