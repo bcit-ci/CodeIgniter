@@ -105,11 +105,11 @@ class CI_Log {
 	protected $_levels = array('ERROR' => 1, 'DEBUG' => 2, 'INFO' => 3, 'ALL' => 4);
 
 	/**
-	 * mbstring.func_override flag
+	 * mbstring.func_overload flag
 	 *
 	 * @var	bool
 	 */
-	protected static $func_override;
+	protected static $func_overload;
 
 	// --------------------------------------------------------------------
 
@@ -122,7 +122,7 @@ class CI_Log {
 	{
 		$config =& get_config();
 
-		isset(self::$func_override) OR self::$func_override = (extension_loaded('mbstring') && ini_get('mbstring.func_override'));
+		isset(self::$func_overload) OR self::$func_overload = (extension_loaded('mbstring') && ini_get('mbstring.func_overload'));
 
 		$this->_log_path = ($config['log_path'] !== '') ? $config['log_path'] : APPPATH.'logs/';
 		$this->_file_ext = (isset($config['log_file_extension']) && $config['log_file_extension'] !== '')
@@ -264,7 +264,7 @@ class CI_Log {
 	 */
 	protected static function strlen($str)
 	{
-		return (self::$func_override)
+		return (self::$func_overload)
 			? mb_strlen($str, '8bit')
 			: strlen($str);
 	}
@@ -281,7 +281,7 @@ class CI_Log {
 	 */
 	protected static function substr($str, $start, $length = NULL)
 	{
-		if (self::$func_override)
+		if (self::$func_overload)
 		{
 			// mb_substr($str, $start, null, '8bit') returns an empty
 			// string on PHP 5.3

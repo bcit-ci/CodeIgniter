@@ -123,11 +123,11 @@ class CI_Output {
 	public $parse_exec_vars = TRUE;
 
 	/**
-	 * mbstring.func_override flag
+	 * mbstring.func_overload flag
 	 *
 	 * @var	bool
 	 */
-	protected static $func_override;
+	protected static $func_overload;
 
 	/**
 	 * Class constructor
@@ -145,7 +145,7 @@ class CI_Output {
 			&& extension_loaded('zlib')
 		);
 
-		isset(self::$func_override) OR self::$func_override = (extension_loaded('mbstring') && ini_get('mbstring.func_override'));
+		isset(self::$func_overload) OR self::$func_overload = (extension_loaded('mbstring') && ini_get('mbstring.func_overload'));
 
 		// Get mime types for later
 		$this->mimes =& get_mimes();
@@ -817,7 +817,7 @@ class CI_Output {
 	 */
 	protected static function strlen($str)
 	{
-		return (self::$func_override)
+		return (self::$func_overload)
 			? mb_strlen($str, '8bit')
 			: strlen($str);
 	}
@@ -834,7 +834,7 @@ class CI_Output {
 	 */
 	protected static function substr($str, $start, $length = NULL)
 	{
-		if (self::$func_override)
+		if (self::$func_overload)
 		{
 			// mb_substr($str, $start, null, '8bit') returns an empty
 			// string on PHP 5.3
