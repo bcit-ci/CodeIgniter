@@ -94,8 +94,8 @@ if ( ! function_exists('password_hash'))
 	 */
 	function password_hash($password, $algo, array $options = array())
 	{
-		static $func_override;
-		isset($func_override) OR $func_override = (extension_loaded('mbstring') && ini_get('mbstring.func_override'));
+		static $func_overload;
+		isset($func_overload) OR $func_overload = (extension_loaded('mbstring') && ini_get('mbstring.func_overload'));
 
 		if ($algo !== 1)
 		{
@@ -109,7 +109,7 @@ if ( ! function_exists('password_hash'))
 			return NULL;
 		}
 
-		if (isset($options['salt']) && ($saltlen = ($func_override ? mb_strlen($options['salt'], '8bit') : strlen($options['salt']))) < 22)
+		if (isset($options['salt']) && ($saltlen = ($func_overload ? mb_strlen($options['salt'], '8bit') : strlen($options['salt']))) < 22)
 		{
 			trigger_error('password_hash(): Provided salt is too short: '.$saltlen.' expecting 22', E_USER_WARNING);
 			return NULL;
@@ -144,7 +144,7 @@ if ( ! function_exists('password_hash'))
 				is_php('5.4') && stream_set_chunk_size($fp, 16);
 
 				$options['salt'] = '';
-				for ($read = 0; $read < 16; $read = ($func_override) ? mb_strlen($options['salt'], '8bit') : strlen($options['salt']))
+				for ($read = 0; $read < 16; $read = ($func_overload) ? mb_strlen($options['salt'], '8bit') : strlen($options['salt']))
 				{
 					if (($read = fread($fp, 16 - $read)) === FALSE)
 					{
