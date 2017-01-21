@@ -490,7 +490,7 @@ class CI_Profiler {
 			}
 
 			$output .= '<tr><td style="padding:5px;vertical-align:top;color:#900;background-color:#ddd;">'
-				.$config.'&nbsp;&nbsp;</td><td style="padding:5px;color:#000;background-color:#ddd;">'.htmlspecialchars($val)."</td></tr>\n";
+				.$config.'&nbsp;&nbsp;</td><td style="padding:5px;color:#000;background-color:#ddd;">'.htmlspecialchars($val, ENT_QUOTES, config_item('charset'))."</td></tr>\n";
 		}
 
 		return $output."</table>\n</fieldset>";
@@ -522,7 +522,7 @@ class CI_Profiler {
 			}
 
 			$output .= '<tr><td style="padding:5px;vertical-align:top;color:#900;background-color:#ddd;">'
-				.$key.'&nbsp;&nbsp;</td><td style="padding:5px;color:#000;background-color:#ddd;">'.htmlspecialchars($val)."</td></tr>\n";
+				.$key.'&nbsp;&nbsp;</td><td style="padding:5px;color:#000;background-color:#ddd;">'.htmlspecialchars($val, ENT_QUOTES, config_item('charset'))."</td></tr>\n";
 		}
 
 		return $output."</table>\n</fieldset>";
