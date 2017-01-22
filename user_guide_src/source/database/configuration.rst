@@ -7,7 +7,7 @@ connection values (username, password, database name, etc.). The config
 file is located at application/config/database.php. You can also set
 database connection values for specific
 :doc:`environments <../libraries/config>` by placing **database.php**
-it the respective environment config folder.
+in the respective environment config folder.
 
 The config settings are stored in a multi-dimensional array with this
 prototype::

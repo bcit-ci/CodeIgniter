@@ -10,12 +10,20 @@ class Date_helper_test extends CI_TestCase {
 
 	// ------------------------------------------------------------------------
 
+	public function test_nice_date()
+	{
+		$this->assertEquals('2016-11-01', nice_date('201611',   'Y-m-d'));
+		$this->assertEquals('2016-11-23', nice_date('20161123', 'Y-m-d'));
+	}
+
+	// ------------------------------------------------------------------------
+
 	public function test_now_local()
 	{
 		/*
 
 		// This stub job, is simply to cater $config['time_reference']
-		$config = $this->getMock('CI_Config');
+		$config = $this->getMockBuilder('CI_Config')->getMock();
 		$config->expects($this->any())
 			   ->method('item')
 			   ->will($this->returnValue('local'));
@@ -37,7 +45,7 @@ class Date_helper_test extends CI_TestCase {
 		/*
 
 		// This stub job, is simply to cater $config['time_reference']
-		$config = $this->getMock('CI_Config');
+		$config = $this->getMockBuilder('CI_Config')->getMock();
 		$config->expects($this->any())
 			   ->method('item')
 			   ->will($this->returnValue('UTC'));
@@ -60,106 +68,6 @@ class Date_helper_test extends CI_TestCase {
 		$this->assertEquals(
 			date('Y-m-d - h:i a', $this->time),
 			mdate('%Y-%m-%d - %h:%i %a', $this->time)
-		);
-	}
-
-	// ------------------------------------------------------------------------
-
-	public function test_standard_date_rfc822()
-	{
-		$this->assertEquals(
-			date(DATE_RFC822, $this->time),
-			standard_date('DATE_RFC822', $this->time)
-		);
-	}
-
-	// ------------------------------------------------------------------------
-
-	public function test_standard_date_atom()
-	{
-		$this->assertEquals(
-			date(DATE_ATOM, $this->time),
-			standard_date('DATE_ATOM', $this->time)
-		);
-	}
-
-	// ------------------------------------------------------------------------
-
-	public function test_standard_date_cookie()
-	{
-		$this->assertEquals(
-			date(DATE_COOKIE, $this->time),
-			standard_date('DATE_COOKIE', $this->time)
-		);
-	}
-
-	// ------------------------------------------------------------------------
-
-	public function test_standard_date_iso8601()
-	{
-		$this->assertEquals(
-			date(DATE_ISO8601, $this->time),
-			standard_date('DATE_ISO8601', $this->time)
-		);
-	}
-
-	// ------------------------------------------------------------------------
-
-	public function test_standard_date_rfc850()
-	{
-		$this->assertEquals(
-			date(DATE_RFC850, $this->time),
-			standard_date('DATE_RFC850', $this->time)
-		);
-	}
-
-	// ------------------------------------------------------------------------
-
-	public function test_standard_date_rfc1036()
-	{
-		$this->assertEquals(
-			date(DATE_RFC1036, $this->time),
-			standard_date('DATE_RFC1036', $this->time)
-		);
-	}
-
-	// ------------------------------------------------------------------------
-
-	public function test_standard_date_rfc1123()
-	{
-		$this->assertEquals(
-			date(DATE_RFC1123, $this->time),
-			standard_date('DATE_RFC1123', $this->time)
-		);
-	}
-
-	// ------------------------------------------------------------------------
-
-	public function test_standard_date_rfc2822()
-	{
-		$this->assertEquals(
-			date(DATE_RFC2822, $this->time),
-			standard_date('DATE_RFC2822', $this->time)
-		);
-	}
-
-	// ------------------------------------------------------------------------
-
-	public function test_standard_date_rss()
-	{
-		$this->assertEquals(
-			date(DATE_RSS, $this->time),
-			standard_date('DATE_RSS', $this->time)
-		);
-	}
-
-	// ------------------------------------------------------------------------
-
-	public function test_standard_date_w3c()
-	{
-		$this->assertEquals(
-			date(DATE_W3C, $this->time),
-			standard_date('DATE_W3C', $this->time)
 		);
 	}
 
@@ -288,7 +196,7 @@ class Date_helper_test extends CI_TestCase {
 		}
 
 		$this->assertArrayHasKey('UP3', timezones());
-		$this->assertEquals(0, timezones('non_existant'));
+		$this->assertEquals(0, timezones('non_existent'));
 	}
 
 	// ------------------------------------------------------------------------

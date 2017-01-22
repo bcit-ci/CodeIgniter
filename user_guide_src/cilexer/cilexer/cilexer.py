@@ -1,11 +1,11 @@
 # CodeIgniter
-# http://codeigniter.com
-# 
+# https://codeigniter.com
+#
 # An open source application development framework for PHP
-# 
+#
 # This content is released under the MIT License (MIT)
 #
-# Copyright (c) 2014 - 2015, British Columbia Institute of Technology
+# Copyright (c) 2014 - 2017, British Columbia Institute of Technology
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -25,8 +25,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
-# Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
-# Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+# Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+# Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
 #
 # http://opensource.org/licenses/MIT	MIT License
 

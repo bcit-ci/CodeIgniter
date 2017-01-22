@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,10 @@
  *
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	http://codeigniter.com
+ * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
  */
@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Helpers
  * @category	Helpers
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/helpers/download_helper.html
+ * @link		https://codeigniter.com/user_guide/helpers/download_helper.html
  */
 
 // ------------------------------------------------------------------------
@@ -56,7 +56,7 @@ if ( ! function_exists('force_download'))
 	 *
 	 * Generates headers that force a download to happen
 	 *
-	 * @param	string	filename
+	 * @param	mixed	filename (or an array of local file path => destination filename)
 	 * @param	mixed	the data to be downloaded
 	 * @param	bool	whether to try and send the actual file MIME type
 	 * @return	void
@@ -69,14 +69,38 @@ if ( ! function_exists('force_download'))
 		}
 		elseif ($data === NULL)
 		{
-			if ( ! @is_file($filename) OR ($filesize = @filesize($filename)) === FALSE)
+			// Is $filename an array as ['local source path' => 'destination filename']?
+			if (is_array($filename))
 			{
-				return;
-			}
+				if (count($filename) !== 1)
+				{
+					return;
+				}
 
-			$filepath = $filename;
-			$filename = explode('/', str_replace(DIRECTORY_SEPARATOR, '/', $filename));
-			$filename = end($filename);
+				$filepath = key($filename);
+				$filename = current($filename);
+
+				if (is_int($filepath))
+				{
+					return;
+				}
+
+				if ( ! @is_file($filepath) OR ($filesize = @filesize($filepath)) === FALSE)
+				{
+					return;
+				}
+			}
+			else
+			{
+				if ( ! @is_file($filename) OR ($filesize = @filesize($filename)) === FALSE)
+				{
+					return;
+				}
+
+				$filepath = $filename;
+				$filename = explode('/', str_replace(DIRECTORY_SEPARATOR, '/', $filename));
+				$filename = end($filename);
+			}
 		}
 		else
 		{
@@ -121,11 +145,6 @@ if ( ! function_exists('force_download'))
 			$filename = implode('.', $x);
 		}
 
-		if ($data === NULL && ($fp = @fopen($filepath, 'rb')) === FALSE)
-		{
-			return;
-		}
-
 		// Clean output buffer
 		if (ob_get_level() !== 0 && @ob_end_clean() === FALSE)
 		{
@@ -146,13 +165,12 @@ if ( ! function_exists('force_download'))
 			exit($data);
 		}
 
-		// Flush 1MB chunks of data
-		while ( ! feof($fp) && ($data = fread($fp, 1048576)) !== FALSE)
+		// Flush the file
+		if (@readfile($filepath) === FALSE)
 		{
-			echo $data;
+			return;
 		}
 
-		fclose($fp);
 		exit;
 	}
 }

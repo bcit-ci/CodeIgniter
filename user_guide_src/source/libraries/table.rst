@@ -275,11 +275,16 @@ Class Reference
 		:returns:	CI_Table instance (method chaining)
 		:rtype:	CI_Table
 
-		Lets you clear the table heading and row data. If you need to show multiple tables with different data you should to call this method
-		after each table has been generated to clear the previous table information. Example::
+		Lets you clear the table heading, row data and caption. If
+		you need to show multiple tables with different data you
+		should to call this method after each table has been
+		generated to clear the previous table information.
+
+		Example ::
 
 			$this->load->library('table');
 
+			$this->table->set_caption('Preferences');
 			$this->table->set_heading('Name', 'Color', 'Size');
 			$this->table->add_row('Fred', 'Blue', 'Small');
 			$this->table->add_row('Mary', 'Red', 'Large');
@@ -289,6 +294,7 @@ Class Reference
 
 			$this->table->clear();
 
+			$this->table->set_caption('Shipping');
 			$this->table->set_heading('Name', 'Day', 'Delivery');
 			$this->table->add_row('Fred', 'Wednesday', 'Express');
 			$this->table->add_row('Mary', 'Monday', 'Air');

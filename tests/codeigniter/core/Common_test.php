@@ -47,6 +47,23 @@ class Common_test extends CI_TestCase {
 			html_escape('Here is a string containing "quoted" text.'),
 			'Here is a string containing &quot;quoted&quot; text.'
 		);
+
+		$this->assertEquals(
+			html_escape(array('associative' => 'and', array('multi' => 'dimentional'))),
+			array('associative' => 'and', array('multi' => 'dimentional'))
+		);
 	}
 
+	// ------------------------------------------------------------------------
+
+	public function test_remove_invisible_characters()
+	{
+		$raw_string = 'Here is a string containing invisible'.chr(0x08).' text %0e.';
+		$removed_string = 'Here is a string containing invisible text %0e.';
+		$this->assertEquals($removed_string, remove_invisible_characters($raw_string, FALSE));
+
+		$raw_string = 'Here is a string %0econtaining url_encoded invisible%1F text.';
+		$removed_string = 'Here is a string containing url_encoded invisible text.';
+		$this->assertEquals($removed_string, remove_invisible_characters($raw_string));
+	}
 }

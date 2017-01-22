@@ -471,7 +471,7 @@ Preference         Default         Description
 
 .. note:: The 'cookie_httponly' setting doesn't have an effect on sessions.
 	Instead the HttpOnly parameter is always enabled, for security
-	reasons. Additionaly, the 'cookie_prefix' setting is completely
+	reasons. Additionally, the 'cookie_prefix' setting is completely
 	ignored.
 
 Session Drivers
@@ -594,31 +594,36 @@ And then of course, create the database table ...
 For MySQL::
 
 	CREATE TABLE IF NOT EXISTS `ci_sessions` (
-		`id` varchar(40) NOT NULL,
+		`id` varchar(128) NOT NULL,
 		`ip_address` varchar(45) NOT NULL,
 		`timestamp` int(10) unsigned DEFAULT 0 NOT NULL,
 		`data` blob NOT NULL,
-		PRIMARY KEY (id),
 		KEY `ci_sessions_timestamp` (`timestamp`)
 	);
 
 For PostgreSQL::
 
 	CREATE TABLE "ci_sessions" (
-		"id" varchar(40) NOT NULL,
+		"id" varchar(128) NOT NULL,
 		"ip_address" varchar(45) NOT NULL,
 		"timestamp" bigint DEFAULT 0 NOT NULL,
-		"data" text DEFAULT '' NOT NULL,
-		PRIMARY KEY ("id")
+		"data" text DEFAULT '' NOT NULL
 	);
 
 	CREATE INDEX "ci_sessions_timestamp" ON "ci_sessions" ("timestamp");
 
-However, if you want to turn on the *sess_match_ip* setting, you should
-also do the following, after creating the table::
+You will also need to add a PRIMARY KEY **depending on your 'sess_match_ip'
+setting**. The examples below work both on MySQL and PostgreSQL::
 
-	// Works both on MySQL and PostgreSQL
-	ALTER TABLE ci_sessions ADD CONSTRAINT ci_sessions_id_ip UNIQUE (id, ip_address);
+	// When sess_match_ip = TRUE
+	ALTER TABLE ci_sessions ADD PRIMARY KEY (id, ip_address);
+
+	// When sess_match_ip = FALSE
+	ALTER TABLE ci_sessions ADD PRIMARY KEY (id);
+
+	// To drop a previously created primary key (use when changing the setting)
+	ALTER TABLE ci_sessions DROP PRIMARY KEY;
+
 
 .. important:: Only MySQL and PostgreSQL databases are officially
 	supported, due to lack of advisory locking mechanisms on other
@@ -901,7 +906,7 @@ Class Reference
 		Gets a list of all ``$_SESSION`` that have been marked as
 		"flashdata".
 
-	.. php:method:: umark_flash($key)
+	.. php:method:: unmark_flash($key)
 
 		:param	mixed	$key: Key to be un-marked as flashdata, or an array of multiple keys
 		:rtype:	void
@@ -966,7 +971,7 @@ Class Reference
 		Gets a list of all ``$_SESSION`` that have been marked as
 		"tempdata".
 
-	.. php:method:: umark_temp($key)
+	.. php:method:: unmark_temp($key)
 
 		:param	mixed	$key: Key to be un-marked as tempdata, or an array of multiple keys
 		:rtype:	void

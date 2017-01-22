@@ -10,6 +10,10 @@ class Encrypt_test extends CI_TestCase {
 		{
 			return;
 		}
+		elseif (version_compare(PHP_VERSION, '7.1.0-alpha', '>='))
+		{
+			return $this->markTestSkipped('ext/mcrypt is deprecated since PHP 7.1 and will generate notices here.');
+		}
 
 		$this->encrypt = new Mock_Libraries_Encrypt();
 		$this->ci_instance_var('encrypt', $this->encrypt);

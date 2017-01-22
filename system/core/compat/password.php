@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,10 @@
  *
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	http://codeigniter.com
+ * @link	https://codeigniter.com
  * @since	Version 3.0.0
  * @filesource
  */
@@ -44,13 +44,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	CodeIgniter
  * @category	Compatibility
  * @author		Andrey Andreev
- * @link		http://codeigniter.com/user_guide/
+ * @link		https://codeigniter.com/user_guide/
  * @link		http://php.net/password
  */
 
 // ------------------------------------------------------------------------
 
-if (is_php('5.5') OR ! is_php('5.3.7') OR ! defined('CRYPT_BLOWFISH') OR CRYPT_BLOWFISH !== 1 OR defined('HHVM_VERSION'))
+if (is_php('5.5') OR ! defined('CRYPT_BLOWFISH') OR CRYPT_BLOWFISH !== 1 OR defined('HHVM_VERSION'))
 {
 	return;
 }
@@ -116,13 +116,21 @@ if ( ! function_exists('password_hash'))
 		}
 		elseif ( ! isset($options['salt']))
 		{
-			if (defined('MCRYPT_DEV_URANDOM'))
+			if (function_exists('random_bytes'))
+			{
+				try
+				{
+					$options['salt'] = random_bytes(16);
+				}
+				catch (Exception $e)
+				{
+					log_message('error', 'compat/password: Error while trying to use random_bytes(): '.$e->getMessage());
+					return FALSE;
+				}
+			}
+			elseif (defined('MCRYPT_DEV_URANDOM'))
 			{
 				$options['salt'] = mcrypt_create_iv(16, MCRYPT_DEV_URANDOM);
-			}
-			elseif (function_exists('openssl_random_pseudo_bytes'))
-			{
-				$options['salt'] = openssl_random_pseudo_bytes(16);
 			}
 			elseif (DIRECTORY_SEPARATOR === '/' && (is_readable($dev = '/dev/arandom') OR is_readable($dev = '/dev/urandom')))
 			{
@@ -133,7 +141,7 @@ if ( ! function_exists('password_hash'))
 				}
 
 				// Try not to waste entropy ...
-				is_php('5.4') && stream_set_chunk_size($fp, 16);
+				stream_set_chunk_size($fp, 16);
 
 				$options['salt'] = '';
 				for ($read = 0; $read < 16; $read = ($func_override) ? mb_strlen($options['salt'], '8bit') : strlen($options['salt']))
@@ -147,6 +155,16 @@ if ( ! function_exists('password_hash'))
 				}
 
 				fclose($fp);
+			}
+			elseif (function_exists('openssl_random_pseudo_bytes'))
+			{
+				$is_secure = NULL;
+				$options['salt'] = openssl_random_pseudo_bytes(16, $is_secure);
+				if ($is_secure !== TRUE)
+				{
+					log_message('error', 'compat/password: openssl_random_pseudo_bytes() set the $cryto_strong flag to FALSE');
+					return FALSE;
+				}
 			}
 			else
 			{

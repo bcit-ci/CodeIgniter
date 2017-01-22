@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,10 @@
  *
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	http://codeigniter.com
+ * @link	https://codeigniter.com
  * @since	Version 3.0.0
  * @filesource
  */
@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Sessions
  * @author	Andrey Andreev
- * @link	http://codeigniter.com/user_guide/libraries/sessions.html
+ * @link	https://codeigniter.com/user_guide/libraries/sessions.html
  */
 class CI_Session_memcached_driver extends CI_Session_driver implements SessionHandlerInterface {
 
@@ -117,7 +117,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 		{
 			$this->_memcached = NULL;
 			log_message('error', 'Session: Invalid Memcached save path format: '.$this->_config['save_path']);
-			return FALSE;
+			return $this->_fail();
 		}
 
 		foreach ($matches as $match)
@@ -142,10 +142,10 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 		if (empty($server_list))
 		{
 			log_message('error', 'Session: Memcached server pool is empty.');
-			return FALSE;
+			return $this->_fail();
 		}
 
-		return TRUE;
+		return $this->_success;
 	}
 
 	// ------------------------------------------------------------------------
@@ -170,7 +170,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 			return $session_data;
 		}
 
-		return FALSE;
+		return $this->_fail();
 	}
 
 	// ------------------------------------------------------------------------
@@ -186,40 +186,44 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 	 */
 	public function write($session_id, $session_data)
 	{
-		if ( ! isset($this->_memcached))
+		if ( ! isset($this->_memcached, $this->_lock_key))
 		{
-			return FALSE;
+			return $this->_fail();
 		}
 		// Was the ID regenerated?
 		elseif ($session_id !== $this->_session_id)
 		{
 			if ( ! $this->_release_lock() OR ! $this->_get_lock($session_id))
 			{
-				return FALSE;
+				return $this->_fail();
 			}
 
 			$this->_fingerprint = md5('');
 			$this->_session_id = $session_id;
 		}
 
-		if (isset($this->_lock_key))
-		{
-			$this->_memcached->replace($this->_lock_key, time(), 300);
-			if ($this->_fingerprint !== ($fingerprint = md5($session_data)))
-			{
-				if ($this->_memcached->set($this->_key_prefix.$session_id, $session_data, $this->_config['expiration']))
-				{
-					$this->_fingerprint = $fingerprint;
-					return TRUE;
-				}
+		$key = $this->_key_prefix.$session_id;
 
-				return FALSE;
+		$this->_memcached->replace($this->_lock_key, time(), 300);
+		if ($this->_fingerprint !== ($fingerprint = md5($session_data)))
+		{
+			if ($this->_memcached->set($key, $session_data, $this->_config['expiration']))
+			{
+				$this->_fingerprint = $fingerprint;
+				return $this->_success;
 			}
 
-			return $this->_memcached->touch($this->_key_prefix.$session_id, $this->_config['expiration']);
+			return $this->_fail();
+		}
+		elseif (
+			$this->_memcached->touch($key, $this->_config['expiration'])
+			OR ($this->_memcached->getResultCode() === Memcached::RES_NOTFOUND && $this->_memcached->set($key, $session_data, $this->_config['expiration']))
+		)
+		{
+			return $this->_success;
 		}
 
-		return FALSE;
+		return $this->_fail();
 	}
 
 	// ------------------------------------------------------------------------
@@ -235,17 +239,17 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 	{
 		if (isset($this->_memcached))
 		{
-			isset($this->_lock_key) && $this->_memcached->delete($this->_lock_key);
+			$this->_release_lock();
 			if ( ! $this->_memcached->quit())
 			{
-				return FALSE;
+				return $this->_fail();
 			}
 
 			$this->_memcached = NULL;
-			return TRUE;
+			return $this->_success;
 		}
 
-		return FALSE;
+		return $this->_fail();
 	}
 
 	// ------------------------------------------------------------------------
@@ -263,10 +267,11 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 		if (isset($this->_memcached, $this->_lock_key))
 		{
 			$this->_memcached->delete($this->_key_prefix.$session_id);
-			return $this->_cookie_destroy();
+			$this->_cookie_destroy();
+			return $this->_success;
 		}
 
-		return FALSE;
+		return $this->_fail();
 	}
 
 	// ------------------------------------------------------------------------
@@ -282,7 +287,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 	public function gc($maxlifetime)
 	{
 		// Not necessary, Memcached takes care of that.
-		return TRUE;
+		return $this->_success;
 	}
 
 	// ------------------------------------------------------------------------
@@ -297,9 +302,17 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 	 */
 	protected function _get_lock($session_id)
 	{
-		if (isset($this->_lock_key))
+		// PHP 7 reuses the SessionHandler object on regeneration,
+		// so we need to check here if the lock key is for the
+		// correct session ID.
+		if ($this->_lock_key === $this->_key_prefix.$session_id.':lock')
 		{
-			return $this->_memcached->replace($this->_lock_key, time(), 300);
+			if ( ! $this->_memcached->replace($this->_lock_key, time(), 300))
+			{
+				return ($this->_memcached->getResultCode() === Memcached::RES_NOTFOUND)
+					? $this->_memcached->set($this->_lock_key, time(), 300)
+					: FALSE;
+			}
 		}
 
 		// 30 attempts to obtain a lock, in case another request already has it
@@ -359,5 +372,4 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 
 		return TRUE;
 	}
-
 }

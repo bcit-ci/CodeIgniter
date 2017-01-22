@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,10 @@
  *
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	http://codeigniter.com
+ * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
  */
@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Drivers
  * @category	Database
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @link		https://codeigniter.com/user_guide/database/
  */
 abstract class CI_DB_driver {
 
@@ -380,7 +380,8 @@ abstract class CI_DB_driver {
 	/**
 	 * Initialize Database Settings
 	 *
-	 * @return	bool
+	 * @return	void
+	 * @throws	RuntimeException	In case of failure
 	 */
 	public function initialize()
 	{
@@ -392,7 +393,7 @@ abstract class CI_DB_driver {
 		 */
 		if ($this->conn_id)
 		{
-			return TRUE;
+			return;
 		}
 
 		// ----------------------------------------------------------------
@@ -429,19 +430,9 @@ abstract class CI_DB_driver {
 			// We still don't have a connection?
 			if ( ! $this->conn_id)
 			{
-				log_message('error', 'Unable to connect to the database');
-
-				if ($this->db_debug)
-				{
-					$this->display_error('db_unable_to_connect');
-				}
-
-				return FALSE;
+				throw new RuntimeException('Unable to connect to the database.');
 			}
 		}
-
-		// Now we set the character set and that's all
-		return $this->db_set_charset($this->char_set);
 	}
 
 	// --------------------------------------------------------------------
@@ -505,26 +496,13 @@ abstract class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set client character set
+	 * Last error
 	 *
-	 * @param	string
-	 * @return	bool
+	 * @return	array
 	 */
-	public function db_set_charset($charset)
+	public function error()
 	{
-		if (method_exists($this, '_db_set_charset') && ! $this->_db_set_charset($charset))
-		{
-			log_message('error', 'Unable to set database connection charset: '.$charset);
-
-			if ($this->db_debug)
-			{
-				$this->display_error('db_unable_to_set_charset', $charset);
-			}
-
-			return FALSE;
-		}
-
-		return TRUE;
+		return array('code' => NULL, 'message' => NULL);
 	}
 
 	// --------------------------------------------------------------------
@@ -622,7 +600,6 @@ abstract class CI_DB_driver {
 		// cached query if it exists
 		if ($this->cache_on === TRUE && $return_object === TRUE && $this->_cache_init())
 		{
-			$this->load_rdriver();
 			if (FALSE !== ($cache = $this->CACHE->read($sql)))
 			{
 				return $cache;
@@ -647,7 +624,10 @@ abstract class CI_DB_driver {
 			}
 
 			// This will trigger a rollback if transactions are being used
-			$this->_trans_status = FALSE;
+			if ($this->_trans_depth !== 0)
+			{
+				$this->_trans_status = FALSE;
+			}
 
 			// Grab the error now, as we might run some additional queries before displaying the error
 			$error = $this->error();
@@ -661,13 +641,15 @@ abstract class CI_DB_driver {
 				// if transactions are enabled. If we don't call this here
 				// the error message will trigger an exit, causing the
 				// transactions to remain in limbo.
-				if ($this->_trans_depth !== 0)
+				while ($this->_trans_depth !== 0)
 				{
-					do
+					$trans_depth = $this->_trans_depth;
+					$this->trans_complete();
+					if ($trans_depth === $this->_trans_depth)
 					{
-						$this->trans_complete();
+						log_message('error', 'Database: Failure during an automated transaction commit/rollback!');
+						break;
 					}
-					while ($this->_trans_depth !== 0);
 				}
 
 				// Display errors
@@ -701,9 +683,9 @@ abstract class CI_DB_driver {
 			return TRUE;
 		}
 
-		// Load and instantiate the result driver
-		$driver		= $this->load_rdriver();
-		$RES		= new $driver($this);
+		// Instantiate the driver-specific result class
+		$driver	= 'CI_DB_'.$this->dbdriver.'_result';
+		$RES    = new $driver($this);
 
 		// Is query caching enabled? If so, we'll serialize the
 		// result object and save it to a cache file.
@@ -733,26 +715,6 @@ abstract class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Load the result drivers
-	 *
-	 * @return	string	the name of the result class
-	 */
-	public function load_rdriver()
-	{
-		$driver = 'CI_DB_'.$this->dbdriver.'_result';
-
-		if ( ! class_exists($driver, FALSE))
-		{
-			require_once(BASEPATH.'database/DB_result.php');
-			require_once(BASEPATH.'database/drivers/'.$this->dbdriver.'/'.$this->dbdriver.'_result.php');
-		}
-
-		return $driver;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Simple Query
 	 * This is a simplified version of the query() function. Internally
 	 * we only use it when running transaction commands since they do
@@ -763,11 +725,7 @@ abstract class CI_DB_driver {
 	 */
 	public function simple_query($sql)
 	{
-		if ( ! $this->conn_id)
-		{
-			$this->initialize();
-		}
-
+		empty($this->conn_id) && $this->initialize();
 		return $this->_execute($sql);
 	}
 
@@ -788,10 +746,13 @@ abstract class CI_DB_driver {
 
 	/**
 	 * Enable/disable Transaction Strict Mode
+	 *
 	 * When strict mode is enabled, if you are running multiple groups of
-	 * transactions, if one group fails all groups will be rolled back.
-	 * If strict mode is disabled, each group is treated autonomously, meaning
-	 * a failure of one group will not affect any others
+	 * transactions, if one group fails all subsequent groups will be
+	 * rolled back.
+	 *
+	 * If strict mode is disabled, each group is treated autonomously,
+	 * meaning a failure of one group will not affect any others
 	 *
 	 * @param	bool	$mode = TRUE
 	 * @return	void
@@ -807,24 +768,16 @@ abstract class CI_DB_driver {
 	 * Start Transaction
 	 *
 	 * @param	bool	$test_mode = FALSE
-	 * @return	void
+	 * @return	bool
 	 */
 	public function trans_start($test_mode = FALSE)
 	{
 		if ( ! $this->trans_enabled)
 		{
-			return;
+			return FALSE;
 		}
 
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 0)
-		{
-			$this->_trans_depth += 1;
-			return;
-		}
-
-		$this->trans_begin($test_mode);
-		$this->_trans_depth += 1;
+		return $this->trans_begin($test_mode);
 	}
 
 	// --------------------------------------------------------------------
@@ -841,25 +794,14 @@ abstract class CI_DB_driver {
 			return FALSE;
 		}
 
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 1)
-		{
-			$this->_trans_depth -= 1;
-			return TRUE;
-		}
-		else
-		{
-			$this->_trans_depth = 0;
-		}
-
 		// The query() function will set this flag to FALSE in the event that a query failed
 		if ($this->_trans_status === FALSE OR $this->_trans_failure === TRUE)
 		{
 			$this->trans_rollback();
 
 			// If we are NOT running in strict mode, we will reset
-			// the _trans_status flag so that subsequent groups of transactions
-			// will be permitted.
+			// the _trans_status flag so that subsequent groups of
+			// transactions will be permitted.
 			if ($this->trans_strict === FALSE)
 			{
 				$this->_trans_status = TRUE;
@@ -869,8 +811,7 @@ abstract class CI_DB_driver {
 			return FALSE;
 		}
 
-		$this->trans_commit();
-		return TRUE;
+		return $this->trans_commit();
 	}
 
 	// --------------------------------------------------------------------
@@ -888,6 +829,87 @@ abstract class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Begin Transaction
+	 *
+	 * @param	bool	$test_mode
+	 * @return	bool
+	 */
+	public function trans_begin($test_mode = FALSE)
+	{
+		if ( ! $this->trans_enabled)
+		{
+			return FALSE;
+		}
+		// When transactions are nested we only begin/commit/rollback the outermost ones
+		elseif ($this->_trans_depth > 0)
+		{
+			$this->_trans_depth++;
+			return TRUE;
+		}
+
+		// Reset the transaction failure flag.
+		// If the $test_mode flag is set to TRUE transactions will be rolled back
+		// even if the queries produce a successful result.
+		$this->_trans_failure = ($test_mode === TRUE);
+
+		if ($this->_trans_begin())
+		{
+			$this->_trans_depth++;
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Commit Transaction
+	 *
+	 * @return	bool
+	 */
+	public function trans_commit()
+	{
+		if ( ! $this->trans_enabled OR $this->_trans_depth === 0)
+		{
+			return FALSE;
+		}
+		// When transactions are nested we only begin/commit/rollback the outermost ones
+		elseif ($this->_trans_depth > 1 OR $this->_trans_commit())
+		{
+			$this->_trans_depth--;
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Rollback Transaction
+	 *
+	 * @return	bool
+	 */
+	public function trans_rollback()
+	{
+		if ( ! $this->trans_enabled OR $this->_trans_depth === 0)
+		{
+			return FALSE;
+		}
+		// When transactions are nested we only begin/commit/rollback the outermost ones
+		elseif ($this->_trans_depth > 1 OR $this->_trans_rollback())
+		{
+			$this->_trans_depth--;
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Compile Bindings
 	 *
 	 * @param	string	the sql statement
@@ -896,7 +918,7 @@ abstract class CI_DB_driver {
 	 */
 	public function compile_binds($sql, $binds)
 	{
-		if (empty($binds) OR empty($this->bind_marker) OR strpos($sql, $this->bind_marker) === FALSE)
+		if (empty($this->bind_marker) OR strpos($sql, $this->bind_marker) === FALSE)
 		{
 			return $sql;
 		}
@@ -916,7 +938,7 @@ abstract class CI_DB_driver {
 		$ml = strlen($this->bind_marker);
 
 		// Make sure not to replace a chunk inside a string that happens to match the bind marker
-		if ($c = preg_match_all("/'[^']*'/i", $sql, $matches))
+		if ($c = preg_match_all("/'[^']*'|\"[^\"]*\"/i", $sql, $matches))
 		{
 			$c = preg_match_all('/'.preg_quote($this->bind_marker, '/').'/i',
 				str_replace($matches[0],
@@ -1089,7 +1111,7 @@ abstract class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Platform-dependant string escape
+	 * Platform-dependent string escape
 	 *
 	 * @param	string
 	 * @return	string
@@ -1477,18 +1499,18 @@ abstract class CI_DB_driver {
 				? '\s+'.preg_quote(trim(sprintf($this->_like_escape_str, $this->_like_escape_chr)), '/')
 				: '';
 			$_operators = array(
-				'\s*(?:<|>|!)?=\s*',		// =, <=, >=, !=
-				'\s*<>?\s*',			// <, <>
-				'\s*>\s*',			// >
-				'\s+IS NULL',			// IS NULL
-				'\s+IS NOT NULL',		// IS NOT NULL
-				'\s+EXISTS\s*\([^\)]+\)',	// EXISTS(sql)
-				'\s+NOT EXISTS\s*\([^\)]+\)',	// NOT EXISTS(sql)
-				'\s+BETWEEN\s+\S+\s+AND\s+\S+',	// BETWEEN value AND value
-				'\s+IN\s*\([^\)]+\)',		// IN(list)
-				'\s+NOT IN\s*\([^\)]+\)',	// NOT IN (list)
-				'\s+LIKE\s+\S+'.$_les,		// LIKE 'expr'[ ESCAPE '%s']
-				'\s+NOT LIKE\s+\S+'.$_les	// NOT LIKE 'expr'[ ESCAPE '%s']
+				'\s*(?:<|>|!)?=\s*',             // =, <=, >=, !=
+				'\s*<>?\s*',                     // <, <>
+				'\s*>\s*',                       // >
+				'\s+IS NULL',                    // IS NULL
+				'\s+IS NOT NULL',                // IS NOT NULL
+				'\s+EXISTS\s*\(.*\)',        // EXISTS(sql)
+				'\s+NOT EXISTS\s*\(.*\)',    // NOT EXISTS(sql)
+				'\s+BETWEEN\s+',                 // BETWEEN value AND value
+				'\s+IN\s*\(.*\)',            // IN(list)
+				'\s+NOT IN\s*\(.*\)',        // NOT IN (list)
+				'\s+LIKE\s+\S.*('.$_les.')?',    // LIKE 'expr'[ ESCAPE '%s']
+				'\s+NOT LIKE\s+\S.*('.$_les.')?' // NOT LIKE 'expr'[ ESCAPE '%s']
 			);
 
 		}
@@ -1709,7 +1731,7 @@ abstract class CI_DB_driver {
 	 * the table prefix onto it. Some logic is necessary in order to deal with
 	 * column names that include the path. Consider a query like this:
 	 *
-	 * SELECT * FROM hostname.database.table.column AS c FROM hostname.database.table
+	 * SELECT hostname.database.table.column AS c FROM hostname.database.table
 	 *
 	 * Or a query with aliasing:
 	 *
@@ -1757,7 +1779,7 @@ abstract class CI_DB_driver {
 		}
 
 		// Convert tabs or multiple spaces into single spaces
-		$item = preg_replace('/\s+/', ' ', $item);
+		$item = preg_replace('/\s+/', ' ', trim($item));
 
 		// If the item has an alias declaration we remove it and set it aside.
 		// Note: strripos() is used in order to support spaces in table names
@@ -1785,12 +1807,15 @@ abstract class CI_DB_driver {
 		// with an alias. While we're at it, we will escape the components
 		if (strpos($item, '.') !== FALSE)
 		{
-			$parts	= explode('.', $item);
+			$parts = explode('.', $item);
 
 			// Does the first segment of the exploded item match
 			// one of the aliases previously identified? If so,
 			// we have nothing more to do other than escape the item
-			if (in_array($parts[0], $this->qb_aliased_tables))
+			//
+			// NOTE: The ! empty() condition prevents this method
+			//       from breaking when QB isn't enabled.
+			if ( ! empty($this->qb_aliased_tables) && in_array($parts[0], $this->qb_aliased_tables))
 			{
 				if ($protect_identifiers === TRUE)
 				{

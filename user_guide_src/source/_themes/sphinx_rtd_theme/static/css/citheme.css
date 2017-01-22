@@ -3,5 +3,86 @@
 .highlighted {
 	padding: 0px !important;
 	font-weight: inherit !important;
-	background-color: #f1d40f !important;	
+	background-color: #f1d40f !important;
+}
+
+#nav {
+	background-color: #494949;
+	margin: 0;
+	padding: 0;
+	display: none;
+}
+
+#nav2 {
+	background: url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAZABkAAD/7AARRHVja3kAAQAEAAAARgAA/+4ADkFkb2JlAGTAAAAAAf/bAIQABAMDAwMDBAMDBAYEAwQGBwUEBAUHCAYGBwYGCAoICQkJCQgKCgwMDAwMCgwMDQ0MDBERERERFBQUFBQUFBQUFAEEBQUIBwgPCgoPFA4ODhQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQU/8AAEQgAMgAzAwERAAIRAQMRAf/EAFkAAQADAQAAAAAAAAAAAAAAAAABBQcIAQEAAAAAAAAAAAAAAAAAAAAAEAABAgYDAAAAAAAAAAAAAAAAAVERAtMEFJRVBxgRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AMRAAAAAAAA7a87dZcCu3e1wHnbrLgV272uA87dZcCu3e1wHnbrLgV272uA87dZcCu3e1wHnbrLgV272uA87dZcCu3e1wN/wJGAYEjAMCRgGBIwDAkYBgSMAwJGAsoIwCCMAgjAIIwCCMAgjAIIwEgAAAAAAAAAAAAAAAAAAAAAAAH//2Q==) repeat-x scroll left top transparent;
+	margin: 0;
+	padding: 0 310px 0 0;
+	text-align: right;
+	display: none;
+}
+
+#nav_inner {
+	background-color: transparent;
+	font-family: Lucida Grande,Verdana,Geneva,sans-serif;
+	font-size: 11px;
+	margin: 0;
+	padding: 8px 12px 0 20px;
+}
+
+div#pulldown-menu {
+	-moz-column-count: 5;
+	-moz-column-gap: 20px;
+	-webkit-column-count: 5;
+	-webkit-column-gap: 20px;
+	column-count: 5;
+	column-gap: 20px;
+	-webkit-column-rule: 1px groove #b8b8b8;
+	-moz-column-rule: 1px groove #b8b8b8;
+	column-rule: 1px groove #b8b8b8;
+}
+
+#pulldown-menu > ul {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	-webkit-column-break-inside: avoid; /*Chrome, Safari*/
+	display: table;	/*Firefox*/
+	break-inside: avoid; /*IE 10+ theoretically*/
+}
+
+#pulldown-menu ul li.toctree-l2 {
+	font-size: 0.82em;
+	margin-left: 20px;
+	list-style-image: url(data:image/gif;base64,R0lGODlhCwAJALMJAO7u7uTk5PLy8unp6fb29t7e3vj4+Li4uIWFheTk5AAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAAkALAAAAAALAAkAAAQoMJ1JqTQ4Z3SI98jHCWSJkByArCyiHkMsIzEX3DeCc0Xv+4hEa5iIAAA7);
+}
+
+#pulldown-menu ul li.toctree-l1 a {
+	color: #ffffff;
+	text-decoration: none;
+	font-size: 12px;
+	font-family: "Roboto Slab","ff-tisa-web-pro","Georgia",Arial,sans-serif;
+	font-weight: 700;
+}
+
+#pulldown-menu ul li.toctree-l2 a {
+	text-decoration: none;
+	font-size: 11px;
+	line-height: 1.4em;
+	font-weight: 300;
+	font-family: Lucida Grande,Verdana,Geneva,sans-serif;
+	color: #aaaaaa;
+}
+
+/*hide pulldown menu on mobile devices*/
+@media (max-width: 768px) { /*tablet size defined by theme*/
+	#closeMe {
+		display: none;
+	}
+
+	#pulldown {
+		display: none;
+	}
+
+	#openToc {
+		display: none;
+	}
 }

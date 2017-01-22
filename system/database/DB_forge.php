@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,10 @@
  *
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	http://codeigniter.com
+ * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
  */
@@ -42,7 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * @category	Database
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @link		https://codeigniter.com/user_guide/database/
  */
 abstract class CI_DB_forge {
 
@@ -184,7 +184,7 @@ abstract class CI_DB_forge {
 		{
 			return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
 		}
-		elseif ( ! $this->db->query(sprintf($this->_create_database, $db_name, $this->db->char_set, $this->db->dbcollat)))
+		elseif ( ! $this->db->query(sprintf($this->_create_database, $this->db->escape_identifiers($db_name), $this->db->char_set, $this->db->dbcollat)))
 		{
 			return ($this->db->db_debug) ? $this->db->display_error('db_unable_to_drop') : FALSE;
 		}
@@ -211,7 +211,7 @@ abstract class CI_DB_forge {
 		{
 			return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
 		}
-		elseif ( ! $this->db->query(sprintf($this->_drop_database, $db_name)))
+		elseif ( ! $this->db->query(sprintf($this->_drop_database, $this->db->escape_identifiers($db_name))))
 		{
 			return ($this->db->db_debug) ? $this->db->display_error('db_unable_to_drop') : FALSE;
 		}
@@ -239,7 +239,13 @@ abstract class CI_DB_forge {
 	 */
 	public function add_key($key, $primary = FALSE)
 	{
-		if (is_array($key))
+		// DO NOT change this! This condition is only applicable
+		// for PRIMARY keys because you can only have one such,
+		// and therefore all fields you add to it will be included
+		// in the same, composite PRIMARY KEY.
+		//
+		// It's not the same for regular indexes.
+		if ($primary === TRUE && is_array($key))
 		{
 			foreach ($key as $one)
 			{
@@ -342,7 +348,7 @@ abstract class CI_DB_forge {
 
 		if (($result = $this->db->query($sql)) !== FALSE)
 		{
-			empty($this->db->data_cache['table_names']) OR $this->db->data_cache['table_names'][] = $table;
+			isset($this->db->data_cache['table_names']) && $this->db->data_cache['table_names'][] = $table;
 
 			// Most databases don't support creating indexes from within the CREATE TABLE statement
 			if ( ! empty($this->keys))
@@ -774,10 +780,6 @@ abstract class CI_DB_forge {
 					case 'ENUM':
 					case 'SET':
 						$attributes['CONSTRAINT'] = $this->db->escape($attributes['CONSTRAINT']);
-						$field['length'] = is_array($attributes['CONSTRAINT'])
-							? "('".implode("','", $attributes['CONSTRAINT'])."')"
-							: '('.$attributes['CONSTRAINT'].')';
-						break;
 					default:
 						$field['length'] = is_array($attributes['CONSTRAINT'])
 							? '('.implode(',', $attributes['CONSTRAINT']).')'
@@ -892,21 +894,33 @@ abstract class CI_DB_forge {
 			return;
 		}
 
-		if (array_key_exists('DEFAULT', $attributes))
+		if ( ! array_key_exists('DEFAULT', $attributes))
 		{
-			if ($attributes['DEFAULT'] === NULL)
-			{
-				$field['default'] = empty($this->_null) ? '' : $this->_default.$this->_null;
-
-				// Override the NULL attribute if that's our default
-				$attributes['NULL'] = TRUE;
-				$field['null'] = empty($this->_null) ? '' : ' '.$this->_null;
-			}
-			else
-			{
-				$field['default'] = $this->_default.$this->db->escape($attributes['DEFAULT']);
-			}
+			return;
 		}
+
+		if ($attributes['DEFAULT'] === NULL)
+		{
+			$field['default'] = empty($this->_null) ? '' : $this->_default.$this->_null;
+
+			// Override the NULL attribute if that's our default
+			$attributes['NULL'] = TRUE;
+			$field['null'] = empty($this->_null) ? '' : ' '.$this->_null;
+			return;
+		}
+
+		// White-list CURRENT_TIMESTAMP & similar (e.g. Oracle has stuff like SYSTIMESTAMP) defaults for date/time fields
+		if (
+			isset($attributes['TYPE'])
+			&& (stripos($attributes['TYPE'],    'time') !== FALSE OR stripos($attributes['TYPE'],    'date') !== FALSE)
+			&& (stripos($attributes['DEFAULT'], 'time') !== FALSE OR stripos($attributes['DEFAULT'], 'date') !== FALSE)
+		)
+		{
+			$field['default'] = $this->_default.$attributes['DEFAULT'];
+			return;
+		}
+
+		$field['default'] = $this->_default.$this->db->escape($attributes['DEFAULT']);
 	}
 
 	// --------------------------------------------------------------------

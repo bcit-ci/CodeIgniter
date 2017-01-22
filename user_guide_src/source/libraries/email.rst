@@ -108,7 +108,7 @@ Preference          Default Value          Options                      Descript
                                                                         page. Make sure you don't have any relative links or relative image
                                                                         paths otherwise they will not work.
 **charset**         ``$config['charset']``                              Character set (utf-8, iso-8859-1, etc.).
-**validate**        FALSE                  TRUE or FALSE (boolean)      Whether to validate the email address.
+**validate**        TRUE                   TRUE or FALSE (boolean)      Whether to validate the email address.
 **priority**        3                      1, 2, 3, 4, 5                Email Priority. 1 = highest. 5 = lowest. 3 = normal.
 **crlf**            \\n                    "\\r\\n" or "\\n" or "\\r"   Newline character. (Use "\\r\\n" to comply with RFC 822).
 **newline**         \\n                    "\\r\\n" or "\\n" or "\\r"   Newline character. (Use "\\r\\n" to comply with RFC 822).
@@ -348,7 +348,7 @@ Class Reference
 
 			$this->email->attach('http://example.com/filename.pdf');
 
-		If you'd like to use a custom file name, you can use the third paramater::
+		If you'd like to use a custom file name, you can use the third parameter::
 
 			$this->email->attach('filename.pdf', 'attachment', 'report.pdf');
 
@@ -374,7 +374,7 @@ Class Reference
 			{
 				$this->email->to($address);
 				$cid = $this->email->attachment_cid($filename);
-				$this->email->message('<img src='cid:". $cid ."' alt="photo1" />');
+				$this->email->message('<img src="cid:'. $cid .'" alt="photo1" />');
 				$this->email->send();
 			}
 
@@ -387,7 +387,7 @@ Class Reference
 		:rtype:	string
 
 		Returns a string containing any server messages, the email headers, and
-		the email messsage. Useful for debugging.
+		the email message. Useful for debugging.
 
 		You can optionally specify which parts of the message should be printed.
 		Valid options are: **headers**, **subject**, **body**.

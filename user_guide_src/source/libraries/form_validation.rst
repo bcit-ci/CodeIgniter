@@ -116,7 +116,7 @@ this code and save it to your application/views/ folder::
 The Controller
 ==============
 
-Using a text editor, create a controller called form.php. In it, place
+Using a text editor, create a controller called Form.php. In it, place
 this code and save it to your application/controllers/ folder::
 
 	<?php
@@ -175,7 +175,7 @@ The form (myform.php) is a standard web form with a couple exceptions:
    This function will return any error messages sent back by the
    validator. If there are no messages it returns an empty string.
 
-The controller (form.php) has one method: ``index()``. This method
+The controller (Form.php) has one method: ``index()``. This method
 initializes the validation class and loads the form helper and URL
 helper used by your view files. It also runs the validation routine.
 Based on whether the validation was successful it either presents the
@@ -205,7 +205,7 @@ The above method takes **three** parameters as input:
 .. note:: If you would like the field name to be stored in a language
 	file, please see :ref:`translating-field-names`.
 
-Here is an example. In your controller (form.php), add this code just
+Here is an example. In your controller (Form.php), add this code just
 below the validation initialization method::
 
 	$this->form_validation->set_rules('username', 'Username', 'required');
@@ -465,7 +465,7 @@ for you to process.
 To invoke a callback just put the method name in a rule, with
 "callback\_" as the rule **prefix**. If you need to receive an extra
 parameter in your callback method, just add it normally after the
-method name between square brackets, as in: "callback_foo**[bar]**",
+method name between square brackets, as in: ``callback_foo[bar]``,
 then it will be passed as the second argument of your callback method.
 
 .. note:: You can also process the form data that is passed to your
@@ -495,8 +495,7 @@ The above code would use the ``valid_username()`` method from your
 
 This is just an example of course, and callbacks aren't limited to models.
 You can use any object/method that accepts the field value as its' first
-parameter. Or if you're running PHP 5.3+, you can also use an anonymous
-function::
+parameter. You can also use an anonymous function::
 
 	$this->form_validation->set_rules(
 		'username', 'Username',
@@ -522,7 +521,7 @@ the second element of an array, with the first one being the rule name::
 		)
 	);
 
-Anonymous function (PHP 5.3+) version::
+Anonymous function version::
 
 	$this->form_validation->set_rules(
 		'username', 'Username',
@@ -547,7 +546,10 @@ All of the native error messages are located in the following language
 file: **system/language/english/form_validation_lang.php**
 
 To set your own global custom message for a rule, you can either 
-edit that file, or use the following method::
+extend/override the language file by creating your own in
+**application/language/english/form_validation_lang.php** (read more
+about this in the :doc:`Language Class <language>` documentation),
+or use the following method::
 
 	$this->form_validation->set_message('rule', 'Error Message');
 
@@ -983,8 +985,9 @@ Rule                      Parameter  Description                                
 **valid_url**             No         Returns FALSE if the form element does not contain a valid URL.
 **valid_email**           No         Returns FALSE if the form element does not contain a valid email address.
 **valid_emails**          No         Returns FALSE if any value provided in a comma separated list is not a valid email.
-**valid_ip**              No         Returns FALSE if the supplied IP is not valid.
+**valid_ip**              Yes        Returns FALSE if the supplied IP address is not valid.
                                      Accepts an optional parameter of 'ipv4' or 'ipv6' to specify an IP format.
+**valid_mac**             No         Returns FALSE if the supplied MAC address is not valid.
 **valid_base64**          No         Returns FALSE if the supplied string contains anything other than valid Base64 characters.
 ========================= ========== ============================================================================================= =======================
 
@@ -1004,14 +1007,13 @@ Prepping Reference
 The following is a list of all the prepping methods that are available
 to use:
 
-==================== ========= =======================================================================================================
+==================== ========= ==============================================================================================================
 Name                 Parameter Description
-==================== ========= =======================================================================================================
-**prep_for_form**    No        Converts special characters so that HTML data can be shown in a form field without breaking it.
+==================== ========= ==============================================================================================================
 **prep_url**         No        Adds "\http://" to URLs if missing.
 **strip_image_tags** No        Strips the HTML from image tags leaving the raw URL.
 **encode_php_tags**  No        Converts PHP tags to entities.
-==================== ========= =======================================================================================================
+==================== ========= ==============================================================================================================
 
 .. note:: You can also use any native PHP functions that permits one
 	parameter, like ``trim()``, ``htmlspecialchars()``, ``urldecode()``,
@@ -1025,12 +1027,14 @@ Class Reference
 
 .. php:class:: CI_Form_validation
 
-	.. php:method:: set_rules($field[, $label = ''[, $rules = '']])
+	.. php:method:: set_rules($field[, $label = null[, $rules = null[, $errors = array()]]])
 
 		:param	string	$field: Field name
 		:param	string	$label: Field label
 		:param	mixed	$rules: Validation rules, as a string list separated by a pipe "|", or as an array or rules
+		:param	array	$errors: A list of custom error messages
 		:returns:	CI_Form_validation instance (method chaining)
+		:throws:	BadMethodCallException	If $field is not an array and $rules was not used
 		:rtype:	CI_Form_validation
 
 		Permits you to set validation rules, as described in the tutorial

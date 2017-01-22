@@ -31,7 +31,7 @@ The following functions are available:
 	:rtype:	int
 
 	Returns the current time as a UNIX timestamp, referenced either to your server's
-	local time or any PHP suported timezone, based on the "time reference" setting
+	local time or any PHP supported timezone, based on the "time reference" setting
 	in your config file. If you do not intend to set your master time reference to
 	any other PHP supported timezone (which you'll typically do if you run a site
 	that lets each user set their own timezone settings) there is no benefit to using
@@ -66,45 +66,6 @@ The following functions are available:
 
 	If a timestamp is not included in the second parameter the current time
 	will be used.
-
-.. php:function:: standard_date([$fmt = 'DATE_RFC822'[, $time = NULL]])
-
-	:param	string	$fmt: Date format
-	:param	int	$time: UNIX timestamp
-	:returns:	Formatted date or FALSE on invalid format
-	:rtype:	string
-
-	Lets you generate a date string in one of several standardized formats.
-
-	Example::
-
-		$format = 'DATE_RFC822';
-		$time = time();
-		echo standard_date($format, $time);
-
-	.. note:: This function is DEPRECATED. Use the native ``date()`` combined with
-		`DateTime's format constants
-		<http://php.net/manual/en/class.datetime.php#datetime.constants.types>`_
-		instead::
-
-			echo date(DATE_RFC822, time());
-
-	**Supported formats:**
-
-	===============	=======================	======================================
-	Constant        Description             Example
-	===============	=======================	======================================
-	DATE_ATOM       Atom                    2005-08-15T16:13:03+0000
-	DATE_COOKIE     HTTP Cookies            Sun, 14 Aug 2005 16:13:03 UTC
-	DATE_ISO8601    ISO-8601                2005-08-14T16:13:03+00:00
-	DATE_RFC822     RFC 822                 Sun, 14 Aug 05 16:13:03 UTC
-	DATE_RFC850     RFC 850                 Sunday, 14-Aug-05 16:13:03 UTC
-	DATE_RFC1036    RFC 1036                Sunday, 14-Aug-05 16:13:03 UTC
-	DATE_RFC1123    RFC 1123                Sun, 14 Aug 2005 16:13:03 UTC
-	DATE_RFC2822    RFC 2822                Sun, 14 Aug 2005 16:13:03 +0000
-	DATE_RSS        RSS                     Sun, 14 Aug 2005 16:13:03 UTC
-	DATE_W3C        W3C                     2005-08-14T16:13:03+0000
-	===============	=======================	======================================
 
 .. php:function:: local_to_gmt([$time = ''])
 
@@ -219,6 +180,9 @@ The following functions are available:
 		$bad_date = '9-11-2001';
 		// Should Produce: 2001-09-11
 		$better_date = nice_date($bad_date, 'Y-m-d');
+
+	.. note:: This function is DEPRECATED. Use PHP's native `DateTime class
+		<https://secure.php.net/datetime>`_ instead.
 
 .. php:function:: timespan([$seconds = 1[, $time = ''[, $units = '']]])
 

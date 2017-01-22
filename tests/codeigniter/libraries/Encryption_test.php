@@ -240,6 +240,10 @@ class Encryption_test extends CI_TestCase {
 		{
 			return $this->markTestSkipped('Cannot test MCrypt because it is not available.');
 		}
+		elseif (version_compare(PHP_VERSION, '7.1.0-alpha', '>='))
+		{
+			return $this->markTestSkipped('ext/mcrypt is deprecated since PHP 7.1 and will generate notices here.');
+		}
 
 		$this->assertTrue(is_resource($this->encryption->__driver_get_handle('mcrypt', 'rijndael-128', 'cbc')));
 	}
@@ -273,6 +277,10 @@ class Encryption_test extends CI_TestCase {
 		{
 			$this->markTestSkipped('Both MCrypt and OpenSSL support are required for portability tests.');
 			return;
+		}
+		elseif (version_compare(PHP_VERSION, '7.1.0-alpha', '>='))
+		{
+			return $this->markTestSkipped('ext/mcrypt is deprecated since PHP 7.1 and will generate notices here.');
 		}
 
 		$message = 'This is a message encrypted via MCrypt and decrypted via OpenSSL, or vice-versa.';

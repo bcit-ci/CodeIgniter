@@ -24,7 +24,7 @@ you'll see URL patterns that match:
 As URL schemes become more complex, this may change. But for now, this
 is all we will need to know.
 
-Create a file at application/controllers/Pages.php with the following
+Create a file at *application/controllers/Pages.php* with the following
 code.
 
 ::
@@ -97,7 +97,7 @@ page actually exists:
 
 	public function view($page = 'home')
 	{
-	        if ( ! file_exists(APPPATH.'/views/pages/'.$page.'.php'))
+	        if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
 		{
 			// Whoops, we don't have a page for that!
 			show_404();

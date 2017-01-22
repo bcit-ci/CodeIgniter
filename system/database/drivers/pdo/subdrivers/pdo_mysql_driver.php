@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,10 @@
  *
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	http://codeigniter.com
+ * @link	https://codeigniter.com
  * @since	Version 3.0.0
  * @filesource
  */
@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Drivers
  * @category	Database
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @link		https://codeigniter.com/user_guide/database/
  */
 class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 
@@ -73,7 +73,7 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 	 *
 	 * @var	bool
 	 */
-	public $stricton = FALSE;
+	public $stricton;
 
 	// --------------------------------------------------------------------
 
@@ -106,7 +106,7 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 			empty($this->database) OR $this->dsn .= ';dbname='.$this->database;
 			empty($this->char_set) OR $this->dsn .= ';charset='.$this->char_set;
 		}
-		elseif ( ! empty($this->char_set) && strpos($this->dsn, 'charset=', 6) === FALSE && is_php('5.3.6'))
+		elseif ( ! empty($this->char_set) && strpos($this->dsn, 'charset=', 6) === FALSE)
 		{
 			$this->dsn .= ';charset='.$this->char_set;
 		}
@@ -122,26 +122,34 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 	 */
 	public function db_connect($persistent = FALSE)
 	{
-		/* Prior to PHP 5.3.6, even if the charset was supplied in the DSN
-		 * on connect - it was ignored. This is a work-around for the issue.
-		 *
-		 * Reference: http://www.php.net/manual/en/ref.pdo-mysql.connection.php
-		 */
-		if ( ! is_php('5.3.6') && ! empty($this->char_set))
+		if (isset($this->stricton))
 		{
-			$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES '.$this->char_set
-				.(empty($this->dbcollat) ? '' : ' COLLATE '.$this->dbcollat);
-		}
-
-		if ($this->stricton)
-		{
-			if (empty($this->options[PDO::MYSQL_ATTR_INIT_COMMAND]))
+			if ($this->stricton)
 			{
-				$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET SESSION sql_mode="STRICT_ALL_TABLES"';
+				$sql = 'CONCAT(@@sql_mode, ",", "STRICT_ALL_TABLES")';
 			}
 			else
 			{
-				$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] .= ', @@session.sql_mode = "STRICT_ALL_TABLES"';
+				$sql = 'REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+                                        @@sql_mode,
+                                        "STRICT_ALL_TABLES,", ""),
+                                        ",STRICT_ALL_TABLES", ""),
+                                        "STRICT_ALL_TABLES", ""),
+                                        "STRICT_TRANS_TABLES,", ""),
+                                        ",STRICT_TRANS_TABLES", ""),
+                                        "STRICT_TRANS_TABLES", "")';
+			}
+
+			if ( ! empty($sql))
+			{
+				if (empty($this->options[PDO::MYSQL_ATTR_INIT_COMMAND]))
+				{
+					$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET SESSION sql_mode = '.$sql;
+				}
+				else
+				{
+					$this->options[PDO::MYSQL_ATTR_INIT_COMMAND] .= ', @@session.sql_mode = '.$sql;
+				}
 			}
 		}
 
@@ -150,8 +158,7 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 			$this->options[PDO::MYSQL_ATTR_COMPRESS] = TRUE;
 		}
 
-		// SSL support was added to PDO_MYSQL in PHP 5.3.7
-		if (is_array($this->encrypt) && is_php('5.3.7'))
+		if (is_array($this->encrypt))
 		{
 			$ssl = array();
 			empty($this->encrypt['ssl_key'])    OR $ssl[PDO::MYSQL_ATTR_SSL_KEY]    = $this->encrypt['ssl_key'];
@@ -199,6 +206,56 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 		if (FALSE !== $this->simple_query('USE '.$this->escape_identifiers($database)))
 		{
 			$this->database = $database;
+			$this->data_cache = array();
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Begin Transaction
+	 *
+	 * @return	bool
+	 */
+	protected function _trans_begin()
+	{
+		$this->conn_id->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
+		return $this->conn_id->beginTransaction();
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Commit Transaction
+	 *
+	 * @return	bool
+	 */
+	protected function _trans_commit()
+	{
+		if ($this->conn_id->commit())
+		{
+			$this->conn_id->setAttribute(PDO::ATTR_AUTOCOMMIT, TRUE);
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Rollback Transaction
+	 *
+	 * @return	bool
+	 */
+	protected function _trans_rollback()
+	{
+		if ($this->conn_id->rollBack())
+		{
+			$this->conn_id->setAttribute(PDO::ATTR_AUTOCOMMIT, TRUE);
 			return TRUE;
 		}
 

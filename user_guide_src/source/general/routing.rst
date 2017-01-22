@@ -113,18 +113,19 @@ A typical RegEx route might look something like this::
 In the above example, a URI similar to products/shirts/123 would instead
 call the "shirts" controller class and the "id_123" method.
 
-With regular expressions, you can also catch a segment containing a
-forward slash ('/'), which would usually represent the delimiter between
-multiple segments.
-
+With regular expressions, you can also catch multiple segments at once.
 For example, if a user accesses a password protected area of your web
 application and you wish to be able to redirect them back to the same
 page after they log in, you may find this example useful::
 
 	$route['login/(.+)'] = 'auth/login/$1';
 
+.. note:: In the above example, if the ``$1`` placeholder contains a
+	slash, it will still be split into multiple parameters when
+	passed to ``Auth::login()``.
+
 For those of you who don't know regular expressions and want to learn
-more about them, `regular-expressions.info <http://www.regular-expressions.info/>`
+more about them, `regular-expressions.info <http://www.regular-expressions.info/>`_
 might be a good starting point.
 
 .. note:: You can also mix and match wildcards with regular expressions.
@@ -132,8 +133,8 @@ might be a good starting point.
 Callbacks
 =========
 
-If you are using PHP >= 5.3 you can use callbacks in place of the normal
-routing rules to process the back-references. Example::
+You can also use callbacks in place of the normal routing rules to process
+the back-references. Example::
 
 	$route['products/([a-zA-Z]+)/edit/(\d+)'] = function ($product_type, $id)
 	{
@@ -170,11 +171,16 @@ There are three reserved routes::
 
 	$route['default_controller'] = 'welcome';
 
-This route indicates which controller class should be loaded if the URI
-contains no data, which will be the case when people load your root URL.
-In the above example, the "welcome" class would be loaded. You are
-encouraged to always have a default route otherwise a 404 page will
-appear by default.
+This route points to the action that should be executed if the URI contains
+no data, which will be the case when people load your root URL.
+The setting accepts a **controller/method** value and ``index()`` would be
+the default method if you don't specify one. In the above example, it is
+``Welcome::index()`` that would be called.
+
+.. note:: You can NOT use a directory as a part of this setting!
+
+You are encouraged to always have a default route as otherwise a 404 page
+will appear by default.
 
 ::
 
@@ -182,10 +188,12 @@ appear by default.
 
 This route indicates which controller class should be loaded if the
 requested controller is not found. It will override the default 404
-error page. It won't affect to the ``show_404()`` function, which will
+error page. Same per-directory rules as with 'default_controller'
+apply here as well.
+
+It won't affect to the ``show_404()`` function, which will
 continue loading the default *error_404.php* file at
 *application/views/errors/error_404.php*.
-
 
 ::
 
