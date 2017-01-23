@@ -10,6 +10,7 @@ Release Date: Not Released
 -  General Changes
 
    -  Officially dropped any kind of support for anything under PHP 5.4.8.
+   -  Updated Welcome view and HTML error templates with new styling.
 
 -  Core
 
