@@ -543,12 +543,15 @@ class CI_FTP {
 	 * FTP List files in the specified directory
 	 *
 	 * @param	string	$path
+	 * @param	bool	$detailed
 	 * @return	array
 	 */
-	public function list_files($path = '.')
+	public function list_files($path = '.', $detailed = FALSE)
 	{
 		return $this->_is_conn()
-			? ftp_nlist($this->conn_id, $path)
+			? ($detailed 
+				? ftp_rawlist($this->conn_id, $path)
+				: ftp_nlist($this->conn_id, $path))
 			: FALSE;
 	}
 
