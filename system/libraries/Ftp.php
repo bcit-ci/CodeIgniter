@@ -548,11 +548,12 @@ class CI_FTP {
 	 */
 	public function list_files($path = '.', $detailed = FALSE)
 	{
-		return $this->_is_conn()
-			? ($detailed 
-				? ftp_rawlist($this->conn_id, $path)
-				: ftp_nlist($this->conn_id, $path))
-			: FALSE;
+		if ($this->_is_conn())
+		{
+			if ($detailed) return ftp_rawlist($this->conn_id, $path);
+			else return ftp_nlist($this->conn_id, $path));
+		}
+		else return FALSE;
 	}
 
 	// ------------------------------------------------------------------------
