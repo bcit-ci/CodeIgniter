@@ -44,7 +44,7 @@ Class Reference
 			$this->load->library('typography');
 			$this->typography->protect_braced_quotes = TRUE;
 
-	.. method auto_typography($str[, $reduce_linebreaks = FALSE])
+	.. php:method:: auto_typography($str[, $reduce_linebreaks = FALSE])
 
 		:param	string	$str: Input string
 		:param	bool	$reduce_linebreaks: Whether to reduce consequitive linebreaks
