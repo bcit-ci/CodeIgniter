@@ -25,7 +25,7 @@ Available Functions
 The following functions are available:
 
 
-.. php:function:: set_cookie($name[, $value = ''[, $expire = ''[, $domain = ''[, $path = '/'[, $prefix = ''[, $secure = FALSE[, $httponly = FALSE]]]]]]])
+.. php:function:: set_cookie($name[, $value = ''[, $expire = ''[, $domain = ''[, $path = '/'[, $prefix = ''[, $secure = NULL[, $httponly = NULL]]]]]]])
 
 	:param	mixed	$name: Cookie name *or* associative array of all of the parameters available to this function
 	:param	string	$value: Cookie value

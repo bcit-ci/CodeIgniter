@@ -30,6 +30,7 @@ Bug fixes for 3.1.4
 -  Fixed a bug where :doc:`Session Library <libraries/sessions>` didn't read session data in a byte-safe manner when ``mbstring.func_overload`` is enabled.
 -  Fixed a bug (#4990) - :doc:`Profiler <general/profiling>` didn't close ``<pre>`` tags it generated.
 -  Fixed a bug (#4990) - :doc:`Profiler <general/profiling>` didn't HTML-escape quotes for ``$_SESSION`` variables.
+-  Fixed a bug where :doc:`Input Library <libraries/input>` method ``set_cookie()`` didn't allow its *httponly* and *secure* parameters to be overriden to ``FALSE``.
 
 Version 3.1.3
 =============
