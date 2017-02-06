@@ -318,6 +318,13 @@ class CI_Input {
 			}
 		}
 
+		// Do not send secure cookie if not https
+		$secure_cookie = (bool) config_item('cookie_secure');
+		if ($secure_cookie && ! is_https())
+		{
+			return;
+		}
+		
 		if ($prefix === '' && config_item('cookie_prefix') !== '')
 		{
 			$prefix = config_item('cookie_prefix');
