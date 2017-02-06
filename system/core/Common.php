@@ -318,17 +318,16 @@ if ( ! function_exists('get_mimes'))
 
 		if (empty($_mimes))
 		{
+			$_mimes = array();
+
+			if (file_exists(APPPATH.'config/mimes.php'))
+			{
+				$_mimes = array_merge($_mimes, include(APPPATH.'config/mimes.php'));
+			}
+
 			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
 			{
-				$_mimes = include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
-			}
-			elseif (file_exists(APPPATH.'config/mimes.php'))
-			{
-				$_mimes = include(APPPATH.'config/mimes.php');
-			}
-			else
-			{
-				$_mimes = array();
+				$_mimes = array_merge($_mimes, include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'));
 			}
 		}
 
@@ -718,6 +717,7 @@ if ( ! function_exists('remove_invisible_characters'))
 		{
 			$non_displayables[] = '/%0[0-8bcef]/i';	// url encoded 00-08, 11, 12, 14, 15
 			$non_displayables[] = '/%1[0-9a-f]/i';	// url encoded 16-31
+			$non_displayables[] = '/%7f/i';	// url encoded 127
 		}
 
 		$non_displayables[] = '/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]+/S';	// 00-08, 11, 12, 14-31, 127
