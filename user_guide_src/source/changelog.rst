@@ -31,6 +31,8 @@ Bug fixes for 3.1.4
 -  Fixed a bug (#4990) - :doc:`Profiler <general/profiling>` didn't close ``<pre>`` tags it generated.
 -  Fixed a bug (#4990) - :doc:`Profiler <general/profiling>` didn't HTML-escape quotes for ``$_SESSION`` variables.
 -  Fixed a bug where :doc:`Input Library <libraries/input>` method ``set_cookie()`` didn't allow its *httponly* and *secure* parameters to be overriden to ``FALSE``.
+-  Fixed a bug (#5006) - :doc:`common function <general/common_functions>` :php:func:`get_mimes()` didn't load *application/config/mimes.php* if an environment specific config exists.
+-  Fixed a bug (#5006) - :doc:`common function <general/common_functions>` :php:func:`remove_invisible_characters()` didn't remove URL-encoded ``0x7F``.
 
 Version 3.1.3
 =============
