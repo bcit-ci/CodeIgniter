@@ -124,7 +124,9 @@ class CI_Log {
 
 		isset(self::$func_override) OR self::$func_override = (extension_loaded('mbstring') && ini_get('mbstring.func_override'));
 
-		$this->_log_path = ($config['log_path'] !== '') ? $config['log_path'] : APPPATH.'logs/';
+		$this->_log_path = ($config['log_path'] !== '')
+			? rtrim($config['log_path'], '/\\').DIRECTORY_SEPARATOR : APPPATH.'logs'.DIRECTORY_SEPARATOR;
+
 		$this->_file_ext = (isset($config['log_file_extension']) && $config['log_file_extension'] !== '')
 			? ltrim($config['log_file_extension'], '.') : 'php';
 

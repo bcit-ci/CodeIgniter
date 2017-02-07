@@ -554,7 +554,7 @@ class CI_Output {
 	{
 		$CI =& get_instance();
 		$path = $CI->config->item('cache_path');
-		$cache_path = ($path === '') ? APPPATH.'cache/' : $path;
+		$cache_path = ($path === '') ? APPPATH.'cache'.DIRECTORY_SEPARATOR : rtrim($path, '/\\').DIRECTORY_SEPARATOR;
 
 		if ( ! is_dir($cache_path) OR ! is_really_writable($cache_path))
 		{
