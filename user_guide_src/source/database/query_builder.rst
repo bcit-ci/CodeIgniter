@@ -452,6 +452,52 @@ setting it to FALSE.
 
 Identical to having(), only separates multiple clauses with "OR".
 
+**$this->db->having_in()**
+
+Generates a HAVING field IN ('item', 'item') SQL query joined with AND if
+appropriate
+
+::
+
+	$names = array('Frank', 'Todd', 'James');
+	$this->db->having_in('username', $names);
+	// Produces: HAVING username IN ('Frank', 'Todd', 'James')
+
+
+**$this->db->or_having_in()**
+
+Generates a HAVING field IN ('item', 'item') SQL query joined with OR if
+appropriate
+
+::
+
+	$names = array('Frank', 'Todd', 'James');
+	$this->db->or_having_in('username', $names);
+	// Produces: OR username IN ('Frank', 'Todd', 'James')
+
+**$this->db->having_not_in()**
+
+Generates a HAVING field NOT IN ('item', 'item') SQL query joined with
+AND if appropriate
+
+::
+
+	$names = array('Frank', 'Todd', 'James');
+	$this->db->having_not_in('username', $names);
+	// Produces: HAVING username NOT IN ('Frank', 'Todd', 'James')
+
+
+**$this->db->or_having_not_in()**
+
+Generates a HAVING field NOT IN ('item', 'item') SQL query joined with OR
+if appropriate
+
+::
+
+	$names = array('Frank', 'Todd', 'James');
+	$this->db->or_having_not_in('username', $names);
+	// Produces: OR username NOT IN ('Frank', 'Todd', 'James')
+
 ****************
 Ordering results
 ****************
