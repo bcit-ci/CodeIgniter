@@ -785,6 +785,78 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * HAVING IN
+	 *
+	 * Generates a HAVING field IN('item', 'item') SQL query,
+	 * joined with 'AND' if appropriate.
+	 *
+	 * @param	string	$key	The field to search
+	 * @param	array	$values	The values searched on
+	 * @param	bool	$escape
+	 * @return	CI_DB_query_builder
+	 */
+	public function having_in($key = NULL, $values = NULL, $escape = NULL)
+	{
+		return $this->_wh_in('qb_having', $key, $values, FALSE, 'AND ', $escape);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * OR HAVING IN
+	 *
+	 * Generates a HAVING field IN('item', 'item') SQL query,
+	 * joined with 'OR' if appropriate.
+	 *
+	 * @param	string	$key	The field to search
+	 * @param	array	$values	The values searched on
+	 * @param	bool	$escape
+	 * @return	CI_DB_query_builder
+	 */
+	public function or_having_in($key = NULL, $values = NULL, $escape = NULL)
+	{
+		return $this->_wh_in('qb_having', $key, $values, FALSE, 'OR ', $escape);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * HAVING NOT IN
+	 *
+	 * Generates a HAVING field NOT IN('item', 'item') SQL query,
+	 * joined with 'AND' if appropriate.
+	 *
+	 * @param	string	$key	The field to search
+	 * @param	array	$values	The values searched on
+	 * @param	bool	$escape
+	 * @return	CI_DB_query_builder
+	 */
+	public function having_not_in($key = NULL, $values = NULL, $escape = NULL)
+	{
+		return $this->_wh_in('qb_having', $key, $values, TRUE, 'AND ', $escape);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * OR HAVING NOT IN
+	 *
+	 * Generates a HAVING field NOT IN('item', 'item') SQL query,
+	 * joined with 'OR' if appropriate.
+	 *
+	 * @param	string	$key	The field to search
+	 * @param	array	$values	The values searched on
+	 * @param	bool	$escape
+	 * @return	CI_DB_query_builder
+	 */
+	public function or_having_not_in($key = NULL, $values = NULL, $escape = NULL)
+	{
+		return $this->_wh_in('qb_having', $key, $values, TRUE, 'OR ', $escape);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Internal WHERE/HAVING IN
 	 *
 	 * @used-by	where_in()
