@@ -725,7 +725,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function where_in($key = NULL, $values = NULL, $escape = NULL)
 	{
-		return $this->_where_in($key, $values, FALSE, 'AND ', $escape);
+		return $this->_wh_in('qb_where', $key, $values, FALSE, 'AND ', $escape);
 	}
 
 	// --------------------------------------------------------------------
@@ -743,7 +743,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function or_where_in($key = NULL, $values = NULL, $escape = NULL)
 	{
-		return $this->_where_in($key, $values, FALSE, 'OR ', $escape);
+		return $this->_wh_in('qb_where', $key, $values, FALSE, 'OR ', $escape);
 	}
 
 	// --------------------------------------------------------------------
@@ -761,7 +761,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function where_not_in($key = NULL, $values = NULL, $escape = NULL)
 	{
-		return $this->_where_in($key, $values, TRUE, 'AND ', $escape);
+		return $this->_wh_in('qb_where', $key, $values, TRUE, 'AND ', $escape);
 	}
 
 	// --------------------------------------------------------------------
@@ -779,19 +779,24 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function or_where_not_in($key = NULL, $values = NULL, $escape = NULL)
 	{
-		return $this->_where_in($key, $values, TRUE, 'OR ', $escape);
+		return $this->_wh_in('qb_where', $key, $values, TRUE, 'OR ', $escape);
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Internal WHERE IN
+	 * Internal WHERE/HAVING IN
 	 *
 	 * @used-by	where_in()
 	 * @used-by	or_where_in()
 	 * @used-by	where_not_in()
 	 * @used-by	or_where_not_in()
+	 * @used-by	having_in()
+	 * @used-by	or_having_in()
+	 * @used-by	having_not_in()
+	 * @used-by	or_having_not_in()
 	 *
+	 * @param	string	$qb_key	'qb_where' or 'qb_having'
 	 * @param	string	$key	The field to search
 	 * @param	array	$values	The values searched on
 	 * @param	bool	$not	If the statement would be IN or NOT IN
@@ -799,8 +804,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	bool	$escape
 	 * @return	CI_DB_query_builder
 	 */
-	protected function _where_in($key = NULL, $values = NULL, $not = FALSE, $type = 'AND ', $escape = NULL)
+	protected function _wh_in($qb_key, $key = NULL, $values = NULL, $not = FALSE, $type = 'AND ', $escape = NULL)
 	{
+		$qb_cache_key = ($qb_key === 'qb_having') ? 'qb_cache_having' : 'qb_cache_where';
+
 		if ($key === NULL OR $values === NULL)
 		{
 			return $this;
@@ -817,31 +824,31 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		if ($escape === TRUE)
 		{
-			$where_in = array();
+			$wh_in = array();
 			foreach ($values as $value)
 			{
-				$where_in[] = $this->escape($value);
+				$wh_in[] = $this->escape($value);
 			}
 		}
 		else
 		{
-			$where_in = array_values($values);
+			$wh_in = array_values($values);
 		}
 
-		$prefix = (count($this->qb_where) === 0 && count($this->qb_cache_where) === 0)
+		$prefix = (count($this->$qb_key) === 0 && count($this->$qb_cache_key) === 0)
 			? $this->_group_get_type('')
 			: $this->_group_get_type($type);
 
-		$where_in = array(
-			'condition' => $prefix.$key.$not.' IN('.implode(', ', $where_in).')',
+		$wh_in = array(
+			'condition' => $prefix.$key.$not.' IN('.implode(', ', $wh_in).')',
 			'escape' => $escape
 		);
 
-		$this->qb_where[] = $where_in;
+		$this->{$qb_key}[] = $wh_in;
 		if ($this->qb_caching === TRUE)
 		{
-			$this->qb_cache_where[] = $where_in;
-			$this->qb_cache_exists[] = 'where';
+			$this->{$qb_cache_key}[] = $wh_in;
+			$this->qb_cache_exists[] = substr($qb_key, 3);
 		}
 
 		return $this;
