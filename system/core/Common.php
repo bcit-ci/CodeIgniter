@@ -319,15 +319,17 @@ if ( ! function_exists('get_mimes'))
 		if (empty($_mimes))
 		{
 			$_mimes = array();
+			$mime_paths = array(
+				APPPATH.'config/mimes.php',
+				APPPATH.'config/'.ENVIRONMENT.'/mimes.php',
+			);
 
-			if (file_exists(APPPATH.'config/mimes.php'))
+			foreach ($mime_paths as $path)
 			{
-				$_mimes = array_merge($_mimes, include(APPPATH.'config/mimes.php'));
-			}
-
-			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
-			{
-				$_mimes = array_merge($_mimes, include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'));
+				if (file_exists($path))
+				{
+					$_mimes = array_merge($_mimes, include($path));
+				}
 			}
 		}
 
