@@ -84,22 +84,17 @@ if ( ! function_exists('force_download'))
 				{
 					return;
 				}
-
-				if ( ! @is_file($filepath) OR ($filesize = @filesize($filepath)) === FALSE)
-				{
-					return;
-				}
 			}
 			else
 			{
-				if ( ! @is_file($filename) OR ($filesize = @filesize($filename)) === FALSE)
-				{
-					return;
-				}
-
 				$filepath = $filename;
 				$filename = explode('/', str_replace(DIRECTORY_SEPARATOR, '/', $filename));
 				$filename = end($filename);
+			}
+
+			if ( ! @is_file($filepath) OR ($filesize = @filesize($filepath)) === FALSE)
+			{
+				return;
 			}
 		}
 		else
