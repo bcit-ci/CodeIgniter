@@ -77,6 +77,7 @@ if ( ! function_exists('force_download'))
 					return;
 				}
 
+				reset($filename);
 				$filepath = key($filename);
 				$filename = current($filename);
 
