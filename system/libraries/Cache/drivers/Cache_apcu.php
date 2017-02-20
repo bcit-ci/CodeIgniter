@@ -198,9 +198,9 @@ class CI_Cache_apcu extends CI_Driver {
 		list($data, $time, $ttl) = $stored;
 
 		return array(
-			'expire'	=> $time + $ttl,
-			'mtime'		=> $time,
-			'data'		=> unserialize($data)
+			'expire'  => $time + $ttl,
+			'mtime'   => $time,
+			'data'    => unserialize($data)
 		);
 	}
 
