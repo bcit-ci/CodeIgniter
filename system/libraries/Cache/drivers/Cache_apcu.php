@@ -38,7 +38,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * CodeIgniter APC Caching Class
+ * CodeIgniter APCu Caching Class
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
@@ -46,13 +46,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link
  */
-class CI_Cache_apc extends CI_Driver {
+class CI_Cache_apcu extends CI_Driver {
 
 	/**
 	 * Class constructor
 	 *
 	 * Only present so that an error message is logged
-	 * if APC is not available.
+	 * if APCu is not available.
 	 *
 	 * @return	void
 	 */
@@ -60,7 +60,7 @@ class CI_Cache_apc extends CI_Driver {
 	{
 		if ( ! $this->is_supported())
 		{
-			log_message('error', 'Cache: Failed to initialize APC; extension not loaded/enabled?');
+			log_message('error', 'Cache: Failed to initialize APCu; extension not loaded/enabled?');
 		}
 	}
 
@@ -78,7 +78,7 @@ class CI_Cache_apc extends CI_Driver {
 	public function get($id)
 	{
 		$success = FALSE;
-		$data = apc_fetch($id, $success);
+		$data = apcu_fetch($id, $success);
 
 		if ($success === TRUE)
 		{
@@ -105,7 +105,7 @@ class CI_Cache_apc extends CI_Driver {
 	{
 		$ttl = (int) $ttl;
 
-		return apc_store(
+		return apcu_store(
 			$id,
 			($raw === TRUE ? $data : array(serialize($data), time(), $ttl)),
 			$ttl
@@ -122,7 +122,7 @@ class CI_Cache_apc extends CI_Driver {
 	 */
 	public function delete($id)
 	{
-		return apc_delete($id);
+		return apcu_delete($id);
 	}
 
 	// ------------------------------------------------------------------------
@@ -136,7 +136,7 @@ class CI_Cache_apc extends CI_Driver {
 	 */
 	public function increment($id, $offset = 1)
 	{
-		return apc_inc($id, $offset);
+		return apcu_inc($id, $offset);
 	}
 
 	// ------------------------------------------------------------------------
@@ -150,7 +150,7 @@ class CI_Cache_apc extends CI_Driver {
 	 */
 	public function decrement($id, $offset = 1)
 	{
-		return apc_dec($id, $offset);
+		return apcu_dec($id, $offset);
 	}
 
 	// ------------------------------------------------------------------------
@@ -162,7 +162,7 @@ class CI_Cache_apc extends CI_Driver {
 	 */
 	public function clean()
 	{
-		return apc_clear_cache('user');
+		return apcu_clear_cache();
 	}
 
 	// ------------------------------------------------------------------------
@@ -170,12 +170,12 @@ class CI_Cache_apc extends CI_Driver {
 	/**
 	 * Cache Info
 	 *
-	 * @param	string	user/filehits
+	 * @param	bool	Whether to exclude the individual list of cache entries
 	 * @return	mixed	array on success, false on failure
 	 */
-	 public function cache_info($type = NULL)
+	 public function cache_info($limited = FALSE)
 	 {
-		 return apc_cache_info($type);
+		 return apcu_cache_info($limited);
 	 }
 
 	// ------------------------------------------------------------------------
@@ -189,7 +189,7 @@ class CI_Cache_apc extends CI_Driver {
 	public function get_metadata($id)
 	{
 		$success = FALSE;
-		$stored = apc_fetch($id, $success);
+		$stored = apcu_fetch($id, $success);
 
 		if ($success === FALSE OR count($stored) !== 3)
 		{
@@ -210,12 +210,12 @@ class CI_Cache_apc extends CI_Driver {
 	/**
 	 * is_supported()
 	 *
-	 * Check to see if APC is available on this system, bail if it isn't.
+	 * Check to see if APCu is available on this system, bail if it isn't.
 	 *
 	 * @return	bool
 	 */
 	public function is_supported()
 	{
-		return (extension_loaded('apc') && ini_get('apc.enabled'));
+		return (extension_loaded('apcu') && ini_get('apc.enabled'));
 	}
 }
