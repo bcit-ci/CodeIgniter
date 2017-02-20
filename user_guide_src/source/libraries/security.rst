@@ -40,6 +40,9 @@ browser may attempt to execute.
 		// file failed the XSS test
 	}
 
+.. important:: If you want to filter HTML attribute values, use
+	:php:func:`html_escape()` instead!
+
 *********************************
 Cross-site request forgery (CSRF)
 *********************************
@@ -101,7 +104,11 @@ Class Reference
 		:rtype:	mixed
 
 		Tries to remove XSS exploits from the input data and returns the cleaned string.
-		If the optional second parameter is set to true, it will return boolean TRUE if the image is safe to use and FALSE if malicious data was detected in it.
+		If the optional second parameter is set to true, it will return boolean TRUE if
+		the image is safe to use and FALSE if malicious data was detected in it.
+
+		.. important:: This method is not suitable for filtering HTML attribute vales!
+			Use :php:func:`html_escape()` for that instead.
 
 	.. php:method:: sanitize_filename($str[, $relative_path = FALSE])
 
