@@ -82,7 +82,7 @@ class CI_Cache_apcu extends CI_Driver {
 		if ($success === TRUE)
 		{
 			return is_array($data)
-				? unserialize($data[0])
+				? $data[0]
 				: $data;
 		}
 
@@ -106,7 +106,7 @@ class CI_Cache_apcu extends CI_Driver {
 
 		return apcu_store(
 			$id,
-			($raw === TRUE ? $data : array(serialize($data), time(), $ttl)),
+			($raw === TRUE ? $data : array($data, time(), $ttl)),
 			$ttl
 		);
 	}
@@ -199,7 +199,7 @@ class CI_Cache_apcu extends CI_Driver {
 		return array(
 			'expire'  => $time + $ttl,
 			'mtime'   => $time,
-			'data'    => unserialize($data)
+			'data'    => $data
 		);
 	}
 
