@@ -44,7 +44,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Core
  * @author		CodeIgniter Dev team
- * @link
  */
 class CI_Cache_apcu extends CI_Driver {
 
