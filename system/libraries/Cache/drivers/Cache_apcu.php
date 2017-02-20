@@ -169,12 +169,11 @@ class CI_Cache_apcu extends CI_Driver {
 	/**
 	 * Cache Info
 	 *
-	 * @param	bool	Whether to exclude the individual list of cache entries
 	 * @return	mixed	array on success, false on failure
 	 */
-	 public function cache_info($limited = FALSE)
+	 public function cache_info()
 	 {
-		 return apcu_cache_info($limited);
+		 return apcu_cache_info();
 	 }
 
 	// ------------------------------------------------------------------------
