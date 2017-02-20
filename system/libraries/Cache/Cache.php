@@ -55,6 +55,7 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	protected $valid_drivers = array(
 		'apc',
+		'apcu',
 		'dummy',
 		'file',
 		'memcached',
