@@ -32,94 +32,34 @@
  * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
- * @since	Version 2.0.0
+ * @since	Version 3.2.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * CodeIgniter Caching Class
+ * CodeIgniter APCu Caching Class
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Core
- * @author		EllisLab Dev Team
- * @link
+ * @author		CodeIgniter Dev team
  */
-class CI_Cache extends CI_Driver_Library {
+class CI_Cache_apcu extends CI_Driver {
 
 	/**
-	 * Valid cache drivers
+	 * Class constructor
 	 *
-	 * @var array
-	 */
-	protected $valid_drivers = array(
-		'apc',
-		'apcu',
-		'dummy',
-		'file',
-		'memcached',
-		'redis',
-		'wincache'
-	);
-
-	/**
-	 * Path of cache files (if file-based cache)
+	 * Only present so that an error message is logged
+	 * if APCu is not available.
 	 *
-	 * @var string
-	 */
-	protected $_cache_path = NULL;
-
-	/**
-	 * Reference to the driver
-	 *
-	 * @var mixed
-	 */
-	protected $_adapter = 'dummy';
-
-	/**
-	 * Fallback driver
-	 *
-	 * @var string
-	 */
-	protected $_backup_driver = 'dummy';
-
-	/**
-	 * Cache key prefix
-	 *
-	 * @var	string
-	 */
-	public $key_prefix = '';
-
-	/**
-	 * Constructor
-	 *
-	 * Initialize class properties based on the configuration array.
-	 *
-	 * @param	array	$config = array()
 	 * @return	void
 	 */
-	public function __construct($config = array())
+	public function __construct()
 	{
-		isset($config['adapter']) && $this->_adapter = $config['adapter'];
-		isset($config['backup']) && $this->_backup_driver = $config['backup'];
-		isset($config['key_prefix']) && $this->key_prefix = $config['key_prefix'];
-
-		// If the specified adapter isn't available, check the backup.
-		if ( ! $this->is_supported($this->_adapter))
+		if ( ! $this->is_supported())
 		{
-			if ( ! $this->is_supported($this->_backup_driver))
-			{
-				// Backup isn't supported either. Default to 'Dummy' driver.
-				log_message('error', 'Cache adapter "'.$this->_adapter.'" and backup "'.$this->_backup_driver.'" are both unavailable. Cache is now using "Dummy" adapter.');
-				$this->_adapter = 'dummy';
-			}
-			else
-			{
-				// Backup is supported. Set it to primary.
-				log_message('debug', 'Cache adapter "'.$this->_adapter.'" is unavailable. Falling back to "'.$this->_backup_driver.'" backup adapter.');
-				$this->_adapter = $this->_backup_driver;
-			}
+			log_message('error', 'Cache: Failed to initialize APCu; extension not loaded/enabled?');
 		}
 	}
 
@@ -131,12 +71,22 @@ class CI_Cache extends CI_Driver_Library {
 	 * Look for a value in the cache. If it exists, return the data
 	 * if not, return FALSE
 	 *
-	 * @param	string	$id
-	 * @return	mixed	value matching $id or FALSE on failure
+	 * @param	string
+	 * @return	mixed	value that is stored/FALSE on failure
 	 */
 	public function get($id)
 	{
-		return $this->{$this->_adapter}->get($this->key_prefix.$id);
+		$success = FALSE;
+		$data = apcu_fetch($id, $success);
+
+		if ($success === TRUE)
+		{
+			return is_array($data)
+				? $data[0]
+				: $data;
+		}
+
+		return FALSE;
 	}
 
 	// ------------------------------------------------------------------------
@@ -146,13 +96,19 @@ class CI_Cache extends CI_Driver_Library {
 	 *
 	 * @param	string	$id	Cache ID
 	 * @param	mixed	$data	Data to store
-	 * @param	int	$ttl	Cache TTL (in seconds)
+	 * @param	int	$ttl	Length of time (in seconds) to cache the data
 	 * @param	bool	$raw	Whether to store the raw value
 	 * @return	bool	TRUE on success, FALSE on failure
 	 */
 	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
-		return $this->{$this->_adapter}->save($this->key_prefix.$id, $data, $ttl, $raw);
+		$ttl = (int) $ttl;
+
+		return apcu_store(
+			$id,
+			($raw === TRUE ? $data : array($data, time(), $ttl)),
+			$ttl
+		);
 	}
 
 	// ------------------------------------------------------------------------
@@ -160,12 +116,12 @@ class CI_Cache extends CI_Driver_Library {
 	/**
 	 * Delete from Cache
 	 *
-	 * @param	string	$id	Cache ID
-	 * @return	bool	TRUE on success, FALSE on failure
+	 * @param	mixed	unique identifier of the item in the cache
+	 * @return	bool	true on success/false on failure
 	 */
 	public function delete($id)
 	{
-		return $this->{$this->_adapter}->delete($this->key_prefix.$id);
+		return apcu_delete($id);
 	}
 
 	// ------------------------------------------------------------------------
@@ -179,7 +135,7 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	public function increment($id, $offset = 1)
 	{
-		return $this->{$this->_adapter}->increment($this->key_prefix.$id, $offset);
+		return apcu_inc($id, $offset);
 	}
 
 	// ------------------------------------------------------------------------
@@ -193,7 +149,7 @@ class CI_Cache extends CI_Driver_Library {
 	 */
 	public function decrement($id, $offset = 1)
 	{
-		return $this->{$this->_adapter}->decrement($this->key_prefix.$id, $offset);
+		return apcu_dec($id, $offset);
 	}
 
 	// ------------------------------------------------------------------------
@@ -201,11 +157,11 @@ class CI_Cache extends CI_Driver_Library {
 	/**
 	 * Clean the cache
 	 *
-	 * @return	bool	TRUE on success, FALSE on failure
+	 * @return	bool	false on failure/true on success
 	 */
 	public function clean()
 	{
-		return $this->{$this->_adapter}->clean();
+		return apcu_clear_cache();
 	}
 
 	// ------------------------------------------------------------------------
@@ -213,44 +169,51 @@ class CI_Cache extends CI_Driver_Library {
 	/**
 	 * Cache Info
 	 *
-	 * @param	string	$type = 'user'	user/filehits
-	 * @return	mixed	array containing cache info on success OR FALSE on failure
+	 * @return	mixed	array on success, false on failure
 	 */
-	public function cache_info($type = 'user')
-	{
-		return $this->{$this->_adapter}->cache_info($type);
-	}
+	 public function cache_info()
+	 {
+		 return apcu_cache_info();
+	 }
 
 	// ------------------------------------------------------------------------
 
 	/**
 	 * Get Cache Metadata
 	 *
-	 * @param	string	$id	key to get cache metadata on
-	 * @return	mixed	cache item metadata
+	 * @param	mixed	key to get cache metadata on
+	 * @return	mixed	array on success/false on failure
 	 */
 	public function get_metadata($id)
 	{
-		return $this->{$this->_adapter}->get_metadata($this->key_prefix.$id);
+		$success = FALSE;
+		$stored = apcu_fetch($id, $success);
+
+		if ($success === FALSE OR count($stored) !== 3)
+		{
+			return FALSE;
+		}
+
+		list($data, $time, $ttl) = $stored;
+
+		return array(
+			'expire'  => $time + $ttl,
+			'mtime'   => $time,
+			'data'    => $data
+		);
 	}
 
 	// ------------------------------------------------------------------------
 
 	/**
-	 * Is the requested driver supported in this environment?
+	 * is_supported()
 	 *
-	 * @param	string	$driver	The driver to test
-	 * @return	array
+	 * Check to see if APCu is available on this system, bail if it isn't.
+	 *
+	 * @return	bool
 	 */
-	public function is_supported($driver)
+	public function is_supported()
 	{
-		static $support;
-
-		if ( ! isset($support, $support[$driver]))
-		{
-			$support[$driver] = $this->{$driver}->is_supported();
-		}
-
-		return $support[$driver];
+		return (extension_loaded('apcu') && ini_get('apc.enabled'));
 	}
 }
