@@ -68,6 +68,10 @@ Release Date: Not Released
 
       - Added support for declaring date/time type fields default values as ``CURRENT_TIMESTAMP`` and similar.
 
+   -  :doc:`Query Builder <database/query_builder>`:
+
+      - Added methods ``having_in()``, ``or_having_in()``, ``not_having_in()``, ``or_not_having_in()``.
+
 -  Helpers
 
    -  Removed previously deprecated *Email Helper* (had only two functions, aliases for PHP's native ``filter_var()`` and ``mail()``).
