@@ -187,6 +187,13 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	protected $qb_caching				= FALSE;
 
 	/**
+	 * QB Cache merge flag
+	 *
+	 * @var	bool
+	 */
+	protected $qb_cache_merged				= FALSE;
+
+	/**
 	 * QB Cache exists list
 	 *
 	 * @var	array
@@ -2735,6 +2742,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	protected function _merge_cache()
 	{
+		if ($this->qb_cache_merged === TRUE)
+		{
+			return;
+		}
+		$this->qb_cache_merged = TRUE;
+
 		if (count($this->qb_cache_exists) === 0)
 		{
 			return;
@@ -2853,7 +2866,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			'qb_no_escape'		=> array(),
 			'qb_distinct'		=> FALSE,
 			'qb_limit'		=> FALSE,
-			'qb_offset'		=> FALSE
+			'qb_offset'		=> FALSE,
+			'qb_cache_merged'	=> FALSE
 		));
 	}
 
@@ -2876,7 +2890,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			'qb_where'	=> array(),
 			'qb_orderby'	=> array(),
 			'qb_keys'	=> array(),
-			'qb_limit'	=> FALSE
+			'qb_limit'	=> FALSE,
+			'qb_cache_merged'	=> FALSE
 		));
 	}
 
