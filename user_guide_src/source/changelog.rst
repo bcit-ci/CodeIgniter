@@ -34,6 +34,7 @@ Bug fixes for 3.1.4
 -  Fixed a bug (#5006) - :doc:`common function <general/common_functions>` :php:func:`get_mimes()` didn't load *application/config/mimes.php* if an environment specific config exists.
 -  Fixed a bug (#5006) - :doc:`common function <general/common_functions>` :php:func:`remove_invisible_characters()` didn't remove URL-encoded ``0x7F``.
 -  Fixed a bug (#4815) - :doc:`Database Library <database/index>` stripped URL-encoded sequences while escaping strings with the 'mssql' driver.
+-  Fixed a bug (#5044) - :doc:`HTML Helper <helpers/html_helper>` function :php:func:`img()` didn't accept ``data:`` URI schemes for the image source.
 
 Version 3.1.3
 =============
