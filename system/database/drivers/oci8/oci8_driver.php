@@ -697,7 +697,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	protected function _wh_in($qb_key, $key = NULL, $values = NULL, $not = FALSE, $type = 'AND ', $escape = NULL)
 	{
-		if ( count($values) < 1000 ) {
+		if ( count($values) <= 1000 ) {
 			return parent::_wh_in($qb_key, $key, $values, $not, $type, $escape);
 		}
 
