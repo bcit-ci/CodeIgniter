@@ -205,6 +205,3 @@ underscores in the controller and method URI segments, thus saving you
 additional route entries if you need to do that.
 This is required, because the dash isn't a valid class or method name
 character and would cause a fatal error if you try to use it.
-
-.. important:: The reserved routes must come before any wildcard or
-	regular expression routes.
