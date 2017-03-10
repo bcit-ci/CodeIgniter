@@ -676,6 +676,42 @@ class CI_DB_oci8_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Internal WHERE/HAVING IN
+	 *
+	 * @used-by	where_in()
+	 * @used-by	or_where_in()
+	 * @used-by	where_not_in()
+	 * @used-by	or_where_not_in()
+	 * @used-by	having_in()
+	 * @used-by	or_having_in()
+	 * @used-by	having_not_in()
+	 * @used-by	or_having_not_in()
+	 *
+	 * @param	string	$qb_key	'qb_where' or 'qb_having'
+	 * @param	string	$key	The field to search
+	 * @param	array	$values	The values searched on
+	 * @param	bool	$not	If the statement would be IN or NOT IN
+	 * @param	string	$type
+	 * @param	bool	$escape
+	 * @return	CI_DB_query_builder
+	 */
+	protected function _wh_in($qb_key, $key = NULL, $values = NULL, $not = FALSE, $type = 'AND ', $escape = NULL)
+	{
+		if ( count($values) < 1000 ) {
+			return parent::_wh_in($qb_key, $key, $values, $not, $type, $escape);
+		}
+
+		$this->group_start((($not)? 'NOT ' : '' ), $type);
+		foreach ( array_chunk($values, 1000) as $split_values ) {
+			parent::_wh_in($qb_key, $key, $split_values, FALSE, 'OR ', $escape);
+		}
+		$this->group_end();
+		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Close DB Connection
 	 *
 	 * @return	void
