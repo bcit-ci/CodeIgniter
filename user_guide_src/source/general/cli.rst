@@ -47,11 +47,11 @@ in it::
 
 Then save the file to your *application/controllers/* folder.
 
-Now normally you would visit the your site using a URL similar to this::
+Now normally you would visit the site using a URL similar to this::
 
 	example.com/index.php/tools/message/to
 
-Instead, we are going to open Terminal in Mac/Linux or go to Run > "cmd"
+Instead, we are going to open the terminal in Mac/Linux or go to Run > "cmd"
 in Windows and navigate to our CodeIgniter project.
 
 .. code-block:: bash

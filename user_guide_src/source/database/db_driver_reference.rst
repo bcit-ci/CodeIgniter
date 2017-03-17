@@ -17,8 +17,8 @@ This article is intended to be a reference for them.
 
 	.. php:method:: initialize()
 
-		:returns:	TRUE on success, FALSE on failure
-		:rtype:	bool
+		:rtype:	void
+		:throws:	RuntimeException	In case of failure
 
 		Initialize database settings, establish a connection to
 		the database.
@@ -61,14 +61,6 @@ This article is intended to be a reference for them.
 
 		Select / switch the current database.
 
-	.. php:method:: db_set_charset($charset)
-
-		:param	string	$charset: Character set name
-		:returns:	TRUE on success, FALSE on failure
-		:rtype:	bool
-
-		Set client character set.
-
 	.. php:method:: platform()
 
 		:returns:	Platform name
@@ -83,7 +75,7 @@ This article is intended to be a reference for them.
 
 		Database version number.
 
-	.. php:method:: query($sql[, $binds = FALSE[, $return_object = NULL]]])
+	.. php:method:: query($sql[, $binds = FALSE[, $return_object = NULL]])
 
 		:param	string	$sql: The SQL statement to execute
 		:param	array	$binds: An array of binding data
@@ -116,6 +108,16 @@ This article is intended to be a reference for them.
 		for use when you don't need to get a result object or to
 		just send a query to the database and not care for the result.
 
+	.. php:method:: affected_rows()
+
+		:returns:	Number of rows affected
+		:rtype:	int
+
+		Returns the number of rows *changed* by the last executed query.
+
+		Useful for checking how much rows were created, updated or deleted
+		during the last executed query.
+
 	.. php:method:: trans_strict([$mode = TRUE])
 
 		:param	bool	$mode: Strict mode flag
@@ -124,8 +126,8 @@ This article is intended to be a reference for them.
 		Enable/disable transaction "strict" mode.
 
 		When strict mode is enabled, if you are running multiple
-		groups of transactions and one group fails, all groups
-		will be rolled back.
+		groups of transactions and one group fails, all subsequent
+		groups will be rolled back.
 
 		If strict mode is disabled, each group is treated
 		autonomously, meaning a failure of one group will not
@@ -140,13 +142,15 @@ This article is intended to be a reference for them.
 	.. php:method:: trans_start([$test_mode = FALSE])
 
 		:param	bool	$test_mode: Test mode flag
-		:rtype:	void
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Start a transaction.
 
 	.. php:method:: trans_complete()
 
-		:rtype:	void
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
 		Complete Transaction.
 
@@ -231,6 +235,13 @@ This article is intended to be a reference for them.
 		Similar to ``escape_str()``, but will also escape the ``%``
 		and ``_`` wildcard characters, so that they don't cause
 		false-positives in LIKE conditions.
+
+		.. important:: The ``escape_like_str()`` method uses '!' (exclamation mark)
+			to escape special characters for *LIKE* conditions. Because this
+			method escapes partial strings that you would wrap in quotes
+			yourself, it cannot automatically add the ``ESCAPE '!'``
+			condition for you, and so you'll have to manually do that.
+
 
 	.. php:method:: primary($table)
 

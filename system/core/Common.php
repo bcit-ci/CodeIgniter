@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,10 @@
  *
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	http://codeigniter.com
+ * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
  */
@@ -46,7 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	CodeIgniter
  * @category	Common Functions
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/
+ * @link		https://codeigniter.com/user_guide/
  */
 
 // ------------------------------------------------------------------------
@@ -81,8 +81,7 @@ if ( ! function_exists('is_really_writable'))
 	 * Tests for file writability
 	 *
 	 * is_writable() returns TRUE on Windows servers when you really can't write to
-	 * the file, based on the read-only attribute. is_writable() is also unreliable
-	 * on Unix servers if safe_mode is on.
+	 * the file, based on the read-only attribute.
 	 *
 	 * @link	https://bugs.php.net/bug.php?id=54709
 	 * @param	string
@@ -90,8 +89,8 @@ if ( ! function_exists('is_really_writable'))
 	 */
 	function is_really_writable($file)
 	{
-		// If we're on a Unix server with safe_mode off we call is_writable
-		if (DIRECTORY_SEPARATOR === '/' && (is_php('5.4') OR ! ini_get('safe_mode')))
+		// If we're on a UNIX-like server, just is_writable()
+		if (DIRECTORY_SEPARATOR === '/')
 		{
 			return is_writable($file);
 		}
@@ -319,17 +318,16 @@ if ( ! function_exists('get_mimes'))
 
 		if (empty($_mimes))
 		{
+			$_mimes = array();
+
+			if (file_exists(APPPATH.'config/mimes.php'))
+			{
+				$_mimes = array_merge($_mimes, include(APPPATH.'config/mimes.php'));
+			}
+
 			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
 			{
-				$_mimes = include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
-			}
-			elseif (file_exists(APPPATH.'config/mimes.php'))
-			{
-				$_mimes = include(APPPATH.'config/mimes.php');
-			}
-			else
-			{
-				$_mimes = array();
+				$_mimes = array_merge($_mimes, include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'));
 			}
 		}
 
@@ -355,7 +353,7 @@ if ( ! function_exists('is_https'))
 		{
 			return TRUE;
 		}
-		elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
+		elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https')
 		{
 			return TRUE;
 		}
@@ -410,11 +408,6 @@ if ( ! function_exists('show_error'))
 		if ($status_code < 100)
 		{
 			$exit_status = $status_code + 9; // 9 is EXIT__AUTO_MIN
-			if ($exit_status > 125) // 125 is EXIT__AUTO_MAX
-			{
-				$exit_status = 1; // EXIT_ERROR
-			}
-
 			$status_code = 500;
 		}
 		else
@@ -544,13 +537,18 @@ if ( ! function_exists('set_status_header'))
 				416	=> 'Requested Range Not Satisfiable',
 				417	=> 'Expectation Failed',
 				422	=> 'Unprocessable Entity',
+				426	=> 'Upgrade Required',
+				428	=> 'Precondition Required',
+				429	=> 'Too Many Requests',
+				431	=> 'Request Header Fields Too Large',
 
 				500	=> 'Internal Server Error',
 				501	=> 'Not Implemented',
 				502	=> 'Bad Gateway',
 				503	=> 'Service Unavailable',
 				504	=> 'Gateway Timeout',
-				505	=> 'HTTP Version Not Supported'
+				505	=> 'HTTP Version Not Supported',
+				511	=> 'Network Authentication Required',
 			);
 
 			if (isset($stati[$code]))
@@ -598,7 +596,7 @@ if ( ! function_exists('_error_handler'))
 	 */
 	function _error_handler($severity, $message, $filepath, $line)
 	{
-		$is_error = (((E_ERROR | E_COMPILE_ERROR | E_CORE_ERROR | E_USER_ERROR) & $severity) === $severity);
+		$is_error = (((E_ERROR | E_PARSE | E_COMPILE_ERROR | E_CORE_ERROR | E_USER_ERROR) & $severity) === $severity);
 
 		// When an error occurred, set the status header to '500 Internal Server Error'
 		// to indicate to the client something went wrong.
@@ -656,6 +654,7 @@ if ( ! function_exists('_exception_handler'))
 		$_error =& load_class('Exceptions', 'core');
 		$_error->log_exception('error', 'Exception: '.$exception->getMessage(), $exception->getFile(), $exception->getLine());
 
+		is_cli() OR set_status_header(500);
 		// Should we display the error?
 		if (str_ireplace(array('off', 'none', 'no', 'false', 'null'), '', ini_get('display_errors')))
 		{
@@ -716,8 +715,9 @@ if ( ! function_exists('remove_invisible_characters'))
 		// carriage return (dec 13) and horizontal tab (dec 09)
 		if ($url_encoded)
 		{
-			$non_displayables[] = '/%0[0-8bcef]/';	// url encoded 00-08, 11, 12, 14, 15
-			$non_displayables[] = '/%1[0-9a-f]/';	// url encoded 16-31
+			$non_displayables[] = '/%0[0-8bcef]/i';	// url encoded 00-08, 11, 12, 14, 15
+			$non_displayables[] = '/%1[0-9a-f]/i';	// url encoded 16-31
+			$non_displayables[] = '/%7f/i';	// url encoded 127
 		}
 
 		$non_displayables[] = '/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]+/S';	// 00-08, 11, 12, 14-31, 127
@@ -752,7 +752,12 @@ if ( ! function_exists('html_escape'))
 
 		if (is_array($var))
 		{
-			return array_map('html_escape', $var, array_fill(0, count($var), $double_encode));
+			foreach (array_keys($var) as $key)
+			{
+				$var[$key] = html_escape($var[$key], $double_encode);
+			}
+
+			return $var;
 		}
 
 		return htmlspecialchars($var, ENT_QUOTES, config_item('charset'), $double_encode);
@@ -816,7 +821,7 @@ if ( ! function_exists('function_usable'))
 	 * terminate script execution if a disabled function is executed.
 	 *
 	 * The above described behavior turned out to be a bug in Suhosin,
-	 * but even though a fix was commited for 0.9.34 on 2012-02-12,
+	 * but even though a fix was committed for 0.9.34 on 2012-02-12,
 	 * that version is yet to be released. This function will therefore
 	 * be just temporary, but would probably be kept for a few years.
 	 *

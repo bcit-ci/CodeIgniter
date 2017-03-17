@@ -42,7 +42,8 @@ to avoid collisions when you're running multiple applications on the same enviro
 
 ::
 
-	$this->load->driver('cache',
+	$this->load->driver(
+		'cache',
 		array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'my_')
 	);
 
@@ -101,7 +102,7 @@ Class Reference
 
 			$this->cache->save('cache_item_id', 'data_to_cache');
 
-		.. note:: The ``$raw`` parameter is only utilized by APC and Memcache,
+		.. note:: The ``$raw`` parameter is only utilized by APC, APCu and Memcache,
 			in order to allow usage of ``increment()`` and ``decrement()``.
 
 	.. php:method:: delete($id)
@@ -201,7 +202,19 @@ specific adapter to the driver loader as follows::
 	$this->cache->apc->save('foo', 'bar', 10);
 
 For more information on APC, please see
-`http://php.net/apc <http://php.net/apc>`_.
+`https://php.net/apc <https://php.net/apc>`_.
+
+APC User Cache (APCu) Caching
+=============================
+
+All of the methods listed above can be accessed without passing a
+specific adapter to the driver loader as follows::
+
+	$this->load->driver('cache');
+	$this->cache->apcu->save('foo', 'bar', 10);
+
+For more information on APCu, please see
+`https://php.net/apcu <https://php.net/apcu>`_.
 
 File-based Caching
 ==================
@@ -230,7 +243,7 @@ specific adapter to the driver loader as follows::
 	$this->cache->memcached->save('foo', 'bar', 10);
 
 For more information on Memcached, please see
-`http://php.net/memcached <http://php.net/memcached>`_.
+`https://php.net/memcached <https://php.net/memcached>`_.
 
 WinCache Caching
 ================
@@ -244,7 +257,7 @@ specific adapter to the driver loader as follows::
 	$this->cache->wincache->save('foo', 'bar', 10);
 
 For more information on WinCache, please see
-`http://php.net/wincache <http://php.net/wincache>`_.
+`https://php.net/wincache <https://php.net/wincache>`_.
 
 Redis Caching
 =============
@@ -255,8 +268,6 @@ To use it, you need `Redis server and phpredis PHP extension <https://github.com
 Config options to connect to redis server must be stored in the application/config/redis.php file.
 Available options are::
 	
-	$config['socket_type'] = 'tcp'; //`tcp` or `unix`
-	$config['socket'] = '/var/run/redis.sock'; // in case of `unix` socket type
 	$config['host'] = '127.0.0.1';
 	$config['password'] = NULL;
 	$config['port'] = 6379;
@@ -269,7 +280,7 @@ specific adapter to the driver loader as follows::
 	$this->cache->redis->save('foo', 'bar', 10);
 
 For more information on Redis, please see
-`http://redis.io <http://redis.io>`_.
+`https://redis.io <https://redis.io>`_.
 
 Dummy Cache
 ===========

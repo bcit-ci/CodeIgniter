@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,10 @@
  *
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	http://codeigniter.com
+ * @link	https://codeigniter.com
  * @since	Version 3.0.0
  * @filesource
  */
@@ -50,6 +50,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link
  */
 class CI_Cache_wincache extends CI_Driver {
+
+	/**
+	 * Class constructor
+	 *
+	 * Only present so that an error message is logged
+	 * if APC is not available.
+	 *
+	 * @return	void
+	 */
+	public function __construct()
+	{
+		if ( ! $this->is_supported())
+		{
+			log_message('error', 'Cache: Failed to initialize Wincache; extension not loaded/enabled?');
+		}
+	}
+
+	// ------------------------------------------------------------------------
 
 	/**
 	 * Get
@@ -194,13 +212,6 @@ class CI_Cache_wincache extends CI_Driver {
 	 */
 	public function is_supported()
 	{
-		if ( ! extension_loaded('wincache') OR ! ini_get('wincache.ucenabled'))
-		{
-			log_message('debug', 'The Wincache PHP extension must be loaded to use Wincache Cache.');
-			return FALSE;
-		}
-
-		return TRUE;
+		return (extension_loaded('wincache') && ini_get('wincache.ucenabled'));
 	}
-
 }

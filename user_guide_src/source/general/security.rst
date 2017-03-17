@@ -5,6 +5,9 @@ Security
 This page describes some "best practices" regarding web security, and
 details CodeIgniter's internal security features.
 
+.. note:: If you came here looking for a security contact, please refer to
+	our `Contribution Guide <../contributing/index>`.
+
 URI Security
 ============
 
@@ -130,12 +133,7 @@ with that. Please read below.
    in PHP's own `Password Hashing <http://php.net/password>`_ functions.
 
    Please use them, even if you're not running PHP 5.5+, CodeIgniter
-   provides them for you as long as you're running at least PHP version
-   5.3.7 (and if you don't meet that requirement - please, upgrade).
-
-   If you're one of the really unlucky people who can't even upgrade to a
-   more recent PHP version, use `hash_pbkdf() <http://php.net/hash_pbkdf2>`,
-   which we also provide in our compatibility layer.
+   provides them for you.
 
 -  DO NOT ever display or send a password in plain-text format!
 

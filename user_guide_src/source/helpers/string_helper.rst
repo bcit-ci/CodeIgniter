@@ -27,7 +27,6 @@ Available Functions
 
 The following functions are available:
 
-
 .. php:function:: random_string([$type = 'alnum'[, $len = 8]])
 
 	:param	string	$type: Randomization type
@@ -102,24 +101,6 @@ The following functions are available:
 	.. note:: To use multiple separate calls to this function simply call the
 		function with no arguments to re-initialize.
 
-.. php:function:: repeater($data[, $num = 1])
-
-	:param	string	$data: Input
-	:param	int	$num: Number of times to repeat
-	:returns:	Repeated string
-	:rtype:	string
-
-	Generates repeating copies of the data you submit. Example::
-
-		$string = "\n";
-		echo repeater($string, 30);
-
-	The above would generate 30 newlines.
-
-	.. note:: This function is DEPRECATED. Use the native ``str_repeat()``
-		instead.
-
-
 .. php:function:: reduce_double_slashes($str)
 
 	:param	string	$str: Input string
@@ -133,7 +114,6 @@ The following functions are available:
 
 		$string = "http://example.com//index.php";
 		echo reduce_double_slashes($string); // results in "http://example.com/index.php"
-
 
 .. php:function:: strip_slashes($data)
 
@@ -163,21 +143,6 @@ The following functions are available:
 		and handle string inputs. This however makes it just an
 		alias for ``stripslashes()``.
 
-.. php:function:: trim_slashes($str)
-
-	:param	string	$str: Input string
-	:returns:	Slash-trimmed string
-	:rtype:	string
-
-	Removes any leading/trailing slashes from a string. Example::
-
-		$string = "/this/that/theother/";
-		echo trim_slashes($string); // results in this/that/theother
-
-	.. note:: This function is DEPRECATED. Use the native ``trim()`` instead:
-		|
-		| trim($str, '/');
-
 .. php:function:: reduce_multiples($str[, $character = ''[, $trim = FALSE]])
 
 	:param	string	$str: Text to search in
@@ -186,7 +151,7 @@ The following functions are available:
 	:returns:	Reduced string
 	:rtype:	string
 
-	Reduces multiple instances of a particular character occuring directly
+	Reduces multiple instances of a particular character occurring directly
 	after each other. Example::
 
 		$string = "Fred, Bill,, Joe, Jimmy";

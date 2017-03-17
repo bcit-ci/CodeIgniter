@@ -286,7 +286,7 @@ The following functions are available:
 		// Generates:  <meta name="description" content="My Great Site" />
 
 		echo meta('Content-type', 'text/html; charset=utf-8', 'equiv');
-		// Note the third parameter.  Can be "equiv" or "name"
+		// Note the third parameter.  Can be "charset", "http-equiv", "name" or "property"
 		// Generates:  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 
 		echo meta(array('name' => 'robots', 'content' => 'no-cache'));
@@ -310,8 +310,13 @@ The following functions are available:
 				'content' => 'no-cache'
 			),
 			array(
-				'name' => 'Content-type',
-				'content' => 'text/html; charset=utf-8', 'type' => 'equiv'
+				'name' => 'Content-Type',
+				'type' => 'http-equiv',
+				'content' => 'text/html; charset=utf-8'
+			),
+			array(
+				'name' => 'UTF-8',
+				'type' => 'charset'
 			)
 		);
 
@@ -321,21 +326,22 @@ The following functions are available:
 		// <meta name="description" content="My Great Site" />
 		// <meta name="keywords" content="love, passion, intrigue, deception" />
 		// <meta name="robots" content="no-cache" />
-		// <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+		// <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		// <meta charset="UTF-8" />
 
 
-.. php:function:: doctype([$type = 'xhtml1-strict'])
+.. php:function:: doctype([$type = 'html5'])
 
 	:param	string	$type: Doctype name
 	:returns:	HTML DocType tag
 	:rtype:	string
 
-	Helps you generate document type declarations, or DTD's. XHTML 1.0
-	Strict is used by default, but many doctypes are available.
+	Helps you generate document type declarations, or DTD's. HTML 5
+	is used by default, but many doctypes are available.
 
 	Example::
 
-		echo doctype(); // <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+		echo doctype(); // <!DOCTYPE html>
 
 		echo doctype('html4-trans'); // <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 
@@ -365,43 +371,3 @@ The following functions are available:
 	XHTML+RDFa 1.0                  xhtml-rdfa-1        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
 	XHTML+RDFa 1.1                  xhtml-rdfa-2        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.1//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-2.dtd">
 	=============================== =================== ==================================================================================================================================================
-
-.. php:function:: br([$count = 1])
-
-	:param	int	$count: Number of times to repeat the tag
-	:returns:	HTML line break tag
-	:rtype:	string
-
-	Generates line break tags (<br />) based on the number you submit.
-	Example::
-
-		echo br(3);
-
-	The above would produce:
-
-	.. code-block:: html
-
-		<br /><br /><br />
-
-	.. note:: This function is DEPRECATED. Use the native ``str_repeat()``
-		in combination with ``<br />`` instead.
-
-.. php:function:: nbs([$num = 1])
-
-	:param	int	$num: Number of space entities to produce
-	:returns:	A sequence of non-breaking space HTML entities
-	:rtype:	string
-
-	Generates non-breaking spaces (&nbsp;) based on the number you submit.
-	Example::
-
-		echo nbs(3);
-
-	The above would produce:
-
-	.. code-block:: html
-
-		&nbsp;&nbsp;&nbsp;
-
-	.. note:: This function is DEPRECATED. Use the native ``str_repeat()``
-		in combination with ``&nbsp;`` instead.

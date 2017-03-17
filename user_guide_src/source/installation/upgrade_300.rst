@@ -65,7 +65,7 @@ Step 3: Replace config/mimes.php
 ********************************
 
 This config file has been updated to contain more user mime-types, please copy
-it to _application/config/mimes.php*.
+it to *application/config/mimes.php*.
 
 **************************************************************
 Step 4: Remove $autoload['core'] from your config/autoload.php
@@ -111,7 +111,7 @@ that you should make:
 
   - Set your ``$config['sess_driver']`` value
 
-    It will default to 'files', unles you've previously used
+    It will default to 'files', unless you've previously used
     ``$config['sess_use_database']``, in which case it will be set to
     'database'.
 
@@ -206,13 +206,13 @@ Step 8: Replace your error templates
 ************************************
 
 In CodeIgniter 3.0, the error templates are now considered as views and have been moved to the
-_application/views/errors* directory.
+*application/views/errors* directory.
 
 Furthermore, we've added support for CLI error templates in plain-text format that unlike HTML,
 is suitable for the command line. This of course requires another level of separation.
 
-It is safe to move your old templates from _application/errors* to _application/views/errors/html*,
-but you'll have to copy the new _application/views/errors/cli* directory from the CodeIgniter archive.
+It is safe to move your old templates from *application/errors* to *application/views/errors/html*,
+but you'll have to copy the new *application/views/errors/cli* directory from the CodeIgniter archive.
 
 ******************************************
 Step 9: Update your config/routes.php file
@@ -266,8 +266,7 @@ cause your 'Main' controller to be loaded.
 However, what happens if you have an *application/controllers/admin/*
 directory and the user visits ``http://example.com/admin/``?
 In CodeIgniter 3, the router will look for a 'Main' controller under the
-admin/ directory as well. If not found, it will fallback to the parent
-(*application/controllers/*) directory, like in version 2.x.
+admin/ directory as well. If not found, a Not Found (404) will be triggered.
 
 The same rule applies to the '404_override' setting.
 
@@ -465,8 +464,51 @@ files and error messages format:
 	Therefore you're encouraged to update its usage sooner rather than
 	later.
 
+************************************************************
+Step 19: Make sure your 'base_url' config value is not empty
+************************************************************
+
+When ``$config['base_url']`` is not set, CodeIgniter tries to automatically
+detect what your website's base URL is. This is done purely for convenience
+when you are starting development of a new application.
+
+Auto-detection is never reliable and also has security implications, which
+is why you should **always** have it manually configured!
+
+One of the changes in CodeIgniter 3.0.3 is how this auto-detection works,
+and more specifically it now falls back to the server's IP address instead
+of the hostname requested by the client. Therefore, if you've ever relied
+on auto-detection, it will change how your website works now.
+
+In case you need to allow e.g. multiple domains, or both http:// and
+https:// prefixes to be dynamically used depending on the request,
+remember that *application/config/config.php* is still a PHP script, in
+which you can create this logic with a few lines of code. For example::
+
+	$allowed_domains = array('domain1.tld', 'domain2.tld');
+	$default_domain  = 'domain1.tld';
+
+	if (in_array($_SERVER['HTTP_HOST'], $allowed_domains, TRUE))
+	{
+		$domain = $_SERVER['HTTP_HOST'];
+	}
+	else
+	{
+		$domain = $default_domain;
+	}
+
+	if ( ! empty($_SERVER['HTTPS']))
+	{
+		$config['base_url'] = 'https://'.$domain;
+	}
+	else
+	{
+		$config['base_url'] = 'http://'.$domain;
+	}
+
+
 ****************************************************************
-Step 19: Remove usage of (previously) deprecated functionalities
+Step 20: Remove usage of (previously) deprecated functionalities
 ****************************************************************
 
 In addition to the ``$autoload['core']`` configuration setting, there's a
@@ -490,9 +532,9 @@ the ``EXT`` constant has been removed. Use just '.php' instead.
 Smiley helper
 =============
 
-The :doc:`Smiley Helper <../helpers/smiley_helper>` is a legacy feature from EllisLab's
-ExpressionEngine product. However, it is too specific for a general purpose framework like
-CodeIgniter and as such it is now deprecated.
+The *Smiley Helper* is a legacy feature from EllisLab's ExpressionEngine product.
+However, it is too specific for a general purpose framework like CodeIgniter
+and as such it is now deprecated.
 
 Also, the previously deprecated ``js_insert_smiley()`` (since version 1.7.2) is now removed.
 
@@ -517,12 +559,12 @@ implemented cryptographic functions.
 The Cart library
 ================
 
-The :doc:`Cart Library <../libraries/cart>`, similarly to the :doc:`Smiley Helper
-<../helpers/smiley_helper>` is too specific for CodeIgniter. It is now deprecated
-and scheduled for removal in CodeIgniter 3.1+.
+The *Cart Library*, similarly to the *Smiley Helper* is too specific for
+CodeIgniter. It is now deprecated and scheduled for removal in
+CodeIgniter 3.1+.
 
-.. note:: The library is still available, but you're strongly encouraged to remove its usage sooner
-	rather than later.
+.. note:: The library is still available, but you're strongly encouraged to
+	remove its usage sooner rather than later.
 
 Database drivers 'mysql', 'sqlite', 'mssql', 'pdo/dblib'
 ========================================================
@@ -582,7 +624,7 @@ CodeIgniter 3.1+.
 String helper repeater()
 ========================
 
-:doc:`String Helper <../helpers/string_helper>` function :php:func:`repeater()` is now just an alias for
+:doc:`String Helper <../helpers/string_helper>` function ``repeater()`` is now just an alias for
 PHP's native ``str_repeat()`` function. It is deprecated and scheduled for removal in CodeIgniter 3.1+.
 
 .. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
@@ -591,7 +633,7 @@ PHP's native ``str_repeat()`` function. It is deprecated and scheduled for remov
 String helper trim_slashes()
 ============================
 
-:doc:`String Helper <../helpers/string_helper>` function :php:func:`trim_slashes()` is now just an alias
+:doc:`String Helper <../helpers/string_helper>` function ``trim_slashes()`` is now just an alias
 for PHP's native ``trim()`` function (with a slash passed as its second argument). It is deprecated and
 scheduled for removal in CodeIgniter 3.1+.
 
@@ -601,8 +643,8 @@ scheduled for removal in CodeIgniter 3.1+.
 Form helper form_prep()
 =======================
 
-:doc:`Form Helper <../helpers/form_helper>` function :php:func:`form_prep()`
-is now just an alias for :doc:`common function </general/common_functions>`
+:doc:`Form Helper <../helpers/form_helper>` function ``form_prep()`` is now
+just an alias for :doc:`common function </general/common_functions>`
 :func:`html_escape()`. It is deprecated and will be removed in the future.
 
 Please use :php:func:`html_escape()` instead.
@@ -613,14 +655,13 @@ Please use :php:func:`html_escape()` instead.
 Email helper functions
 ======================
 
-:doc:`Email Helper <../helpers/email_helper>` only has two functions
+The *Email Helper* only has two functions:
 
- - :php:func:`valid_email()`
- - :php:func:`send_email()`
+ - ``valid_email()``
+ - ``send_email()``
 
 Both of them are now aliases for PHP's native ``filter_var()`` and ``mail()`` functions, respectively.
-Therefore the :doc:`Email Helper <../helpers/email_helper>` altogether is being deprecated and
-is scheduled for removal in CodeIgniter 3.1+.
+Therefore, the *Email Helper* altogether is being deprecated and is scheduled for removal in CodeIgniter 3.1+.
 
 .. note:: These functions are still available, but you're strongly encouraged to remove their usage
 	sooner rather than later.
@@ -800,20 +841,38 @@ CodeIgniter 3.1+.
 .. note:: This method is still available, but you're strongly encouraged to remove its usage
 	sooner rather than later.
 
-======================
 The Javascript library
 ======================
 
-The :doc:`Javascript Library <../libraries/javascript>` has always had an
-'experimental' status and was never really useful, nor a proper solution.
+The *Javascript Library* has always had an 'experimental' status and was
+never really useful, nor a proper solution.
 
 It is now deprecated and scheduled for removal in CodeIgniter 3.1+.
 
 .. note:: This library is still available, but you're strongly encouraged to remove its usage
 	sooner rather than later.
 
+Form Validation method prep_for_form()
+======================================
+
+The :doc:`Form Validation Library <../libraries/form_validation>` has a
+``prep_for_form()`` method, which is/can also be used as a rule in
+``set_rules()`` to automatically perform HTML encoding on input data.
+
+Automatically encoding input (instead of output) data is a bad practice in
+the first place, and CodeIgniter and PHP itself offer other alternatives
+to this method anyway.
+For example, :doc:`Form Helper <../helpers/form_helper>` functions will
+automatically perform HTML escaping when necessary.
+
+Therefore, the *prep_for_form* method/rule is pretty much useless and is now
+deprecated and scheduled for removal in 3.1+.
+
+.. note:: The method is still available, but you're strongly encouraged to
+	remove its usage sooner rather than later.
+
 ***********************************************************
-Step 20: Check your usage of Text helper highlight_phrase()
+Step 21: Check your usage of Text helper highlight_phrase()
 ***********************************************************
 
 The default HTML tag used by :doc:`Text Helper <../helpers/text_helper>` function

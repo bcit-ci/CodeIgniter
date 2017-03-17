@@ -48,14 +48,25 @@ class Loader_test extends CI_TestCase {
 		// Test a string given to params
 		$this->assertInstanceOf('CI_Loader', $this->load->library($lib, ' '));
 
-		// Create library w/o class
-		$lib = 'bad_test_lib';
-		$this->ci_vfs_create($lib, '', $this->ci_base_root, 'libraries');
+		// test non existent lib
+		$lib = 'non_existent_test_lib';
 
-		// Test non-existent class
 		$this->setExpectedException(
 			'RuntimeException',
 			'CI Error: Unable to load the requested class: '.ucfirst($lib)
+		);
+		$this->assertInstanceOf('CI_Loader', $this->load->library($lib));
+	}
+
+	// --------------------------------------------------------------------
+
+	public function test_bad_library()
+	{
+		$lib = 'bad_test_lib';
+		$this->ci_vfs_create(ucfirst($lib), '', $this->ci_app_root, 'libraries');
+		$this->setExpectedException(
+			'RuntimeException',
+			'CI Error: Non-existent class: '.ucfirst($lib)
 		);
 		$this->assertInstanceOf('CI_Loader', $this->load->library($lib));
 	}
@@ -131,6 +142,16 @@ class Loader_test extends CI_TestCase {
 
 		// Test is_loaded
 		$this->assertEquals($obj, $this->load->is_loaded(ucfirst($lib)));
+
+		// Test to load another class with the same object name
+		$lib = 'another_test_lib';
+		$class = ucfirst($lib);
+		$this->ci_vfs_create(ucfirst($lib), '<?php class '.$class.' { }', $this->ci_app_root, 'libraries');
+		$this->setExpectedException(
+			'RuntimeException',
+			"CI Error: Resource '".$obj."' already exists and is not a ".$class." instance."
+		);
+		$this->load->library($lib, NULL, $obj);
 	}
 
 	// --------------------------------------------------------------------
@@ -270,12 +291,14 @@ class Loader_test extends CI_TestCase {
 		$this->assertEquals($content.$value, $out);
 
 		// Mock output class
-		$output = $this->getMock('CI_Output', array('append_output'));
+		$output = $this->getMockBuilder('CI_Output')->setMethods(array('append_output'))->getMock();
 		$output->expects($this->once())->method('append_output')->with($content.$value);
 		$this->ci_instance_var('output', $output);
 
-		// Test view output
-		$this->assertInstanceOf('CI_Loader', $this->load->view($view, array($var => $value)));
+		// Test view output and $vars as an object
+		$vars = new stdClass();
+		$vars->$var = $value;
+		$this->assertInstanceOf('CI_Loader', $this->load->view($view, $vars));
 	}
 
 	// --------------------------------------------------------------------
@@ -420,7 +443,7 @@ class Loader_test extends CI_TestCase {
 	{
 		// Mock lang class and test load call
 		$file = 'test';
-		$lang = $this->getMock('CI_Lang', array('load'));
+		$lang = $this->getMockBuilder('CI_Lang')->setMethods(array('load'))->getMock();
 		$lang->expects($this->once())->method('load')->with($file);
 		$this->ci_instance_var('lang', $lang);
 		$this->assertInstanceOf('CI_Loader', $this->load->language($file));

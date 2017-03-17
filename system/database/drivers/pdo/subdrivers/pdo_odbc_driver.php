@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,10 @@
  *
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	http://codeigniter.com
+ * @link	https://codeigniter.com
  * @since	Version 3.0.0
  * @filesource
  */
@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Drivers
  * @category	Database
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @link		https://codeigniter.com/user_guide/database/
  */
 class CI_DB_pdo_odbc_driver extends CI_DB_pdo_driver {
 
@@ -161,6 +161,37 @@ class CI_DB_pdo_odbc_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Platform-dependent string escape
+	 *
+	 * @param	string
+	 * @return	string
+	 */
+	protected function _escape_str($str)
+	{
+		$this->db->display_error('db_unsupported_feature');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Determines if a query is a "write" type.
+	 *
+	 * @param	string	An SQL query string
+	 * @return	bool
+	 */
+	public function is_write_type($sql)
+	{
+		if (preg_match('#^(INSERT|UPDATE).*RETURNING\s.+(\,\s?.+)*$#is', $sql))
+		{
+			return FALSE;
+		}
+
+		return parent::is_write_type($sql);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Show table query
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
@@ -195,72 +226,4 @@ class CI_DB_pdo_odbc_driver extends CI_DB_pdo_driver {
 	{
 		return 'SELECT column_name FROM information_schema.columns WHERE table_name = '.$this->escape($table);
 	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Update statement
-	 *
-	 * Generates a platform-specific update string from the supplied data
-	 *
-	 * @param	string	$table
-	 * @param	array	$values
-	 * @return	string
-	 */
-	protected function _update($table, $values)
-	{
-		$this->qb_limit = FALSE;
-		$this->qb_orderby = array();
-		return parent::_update($table, $values);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Truncate statement
-	 *
-	 * Generates a platform-specific truncate string from the supplied data
-	 *
-	 * If the database does not support the TRUNCATE statement,
-	 * then this method maps to 'DELETE FROM table'
-	 *
-	 * @param	string	$table
-	 * @return	string
-	 */
-	protected function _truncate($table)
-	{
-		return 'DELETE FROM '.$table;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Delete statement
-	 *
-	 * Generates a platform-specific delete string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @return	string
-	 */
-	protected function _delete($table)
-	{
-		$this->qb_limit = FALSE;
-		return parent::_delete($table);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * LIMIT
-	 *
-	 * Generates a platform-specific LIMIT clause
-	 *
-	 * @param	string	$sql	SQL Query
-	 * @return	string
-	 */
-	protected function _limit($sql)
-	{
-		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$this->qb_limit.' ', $sql);
-	}
-
 }

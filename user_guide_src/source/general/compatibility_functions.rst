@@ -10,7 +10,7 @@ Being custom implementations, these functions will also have some
 set of dependencies on their own, but are still useful if your
 PHP setup doesn't offer them natively.
 
-.. note:: Much like the `common functions <common_functions>`, the
+.. note:: Much like the :doc:`common functions <common_functions>`, the
 	compatibility functions are always available, as long as
 	their dependencies are met.
 
@@ -32,7 +32,6 @@ that is otherwise available only since PHP 5.5.
 Dependencies
 ============
 
-- PHP 5.3.7
 - ``CRYPT_BLOWFISH`` support for ``crypt()``
 
 Constants
@@ -221,44 +220,3 @@ Function reference
 
 	For more information, please refer to the `PHP manual for
 	array_column() <http://php.net/array_column>`_.
-
-.. php:function:: array_replace(array $array1[, ...])
-
-	:param	array	$array1: Array in which to replace elements
-	:param	array	...: Array (or multiple ones) from which to extract elements
-	:returns:	Modified array
-	:rtype:	array
-
-	For more information, please refer to the `PHP manual for
-	array_replace() <http://php.net/array_replace>`_.
-
-.. php:function:: array_replace_recursive(array $array1[, ...])
-
-	:param	array	$array1: Array in which to replace elements
-	:param	array	...: Array (or multiple ones) from which to extract elements
-	:returns:	Modified array
-	:rtype:	array
-
-	For more information, please refer to the `PHP manual for
-	array_replace_recursive() <http://php.net/array_replace_recursive>`_.
-
-	.. important:: Only PHP's native function can detect endless recursion.
-		Unless you are running PHP 5.3+, be careful with references!
-
-.. php:function:: hex2bin($data)
-
-	:param	array	$data: Hexadecimal representation of data
-	:returns:	Binary representation of the given data
-	:rtype:	string
-
-	For more information, please refer to the `PHP manual for hex2bin()
-	<http://php.net/hex2bin>`_.
-
-.. php:function:: quoted_printable_encode($str)
-
-	:param	string	$str: Input string
-	:returns:	8bit-encoded string
-	:rtype:	string
-
-	For more information, please refer to the `PHP manual for
-	quoted_printable_encode() <http://php.net/quoted_printable_encode>`_.

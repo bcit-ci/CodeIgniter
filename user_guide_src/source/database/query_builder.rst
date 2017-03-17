@@ -452,6 +452,52 @@ setting it to FALSE.
 
 Identical to having(), only separates multiple clauses with "OR".
 
+**$this->db->having_in()**
+
+Generates a HAVING field IN ('item', 'item') SQL query joined with AND if
+appropriate
+
+::
+
+	$names = array('Frank', 'Todd', 'James');
+	$this->db->having_in('username', $names);
+	// Produces: HAVING username IN ('Frank', 'Todd', 'James')
+
+
+**$this->db->or_having_in()**
+
+Generates a HAVING field IN ('item', 'item') SQL query joined with OR if
+appropriate
+
+::
+
+	$names = array('Frank', 'Todd', 'James');
+	$this->db->or_having_in('username', $names);
+	// Produces: OR username IN ('Frank', 'Todd', 'James')
+
+**$this->db->having_not_in()**
+
+Generates a HAVING field NOT IN ('item', 'item') SQL query joined with
+AND if appropriate
+
+::
+
+	$names = array('Frank', 'Todd', 'James');
+	$this->db->having_not_in('username', $names);
+	// Produces: HAVING username NOT IN ('Frank', 'Todd', 'James')
+
+
+**$this->db->or_having_not_in()**
+
+Generates a HAVING field NOT IN ('item', 'item') SQL query joined with OR
+if appropriate
+
+::
+
+	$names = array('Frank', 'Todd', 'James');
+	$this->db->or_having_not_in('username', $names);
+	// Produces: OR username NOT IN ('Frank', 'Todd', 'James')
+
 ****************
 Ordering results
 ****************
@@ -1018,7 +1064,7 @@ Here's a usage example::
 
 
 .. note:: The following statements can be cached: select, from, join,
-	where, like, group_by, having, order_by, set
+	where, like, group_by, having, order_by
 
 
 ***********************
@@ -1433,15 +1479,20 @@ Class Reference
 
 		Compiles and executes an INSERT statement.
 
-	.. php:method:: insert_batch([$table = ''[, $set = NULL[, $escape = NULL]]])
+	.. php:method:: insert_batch($table[, $set = NULL[, $escape = NULL[, $batch_size = 100]]])
 
 		:param	string	$table: Table name
 		:param	array	$set: Data to insert
 		:param	bool	$escape: Whether to escape values and identifiers
+		:param	int	$batch_size: Count of rows to insert at once
 		:returns:	Number of rows inserted or FALSE on failure
 		:rtype:	mixed
 
-		Compiles and executes batch INSERT statements.
+		Compiles and executes batch ``INSERT`` statements.
+
+		.. note:: When more than ``$batch_size`` rows are provided, multiple
+			``INSERT`` queries will be executed, each trying to insert
+			up to ``$batch_size`` rows.
 
 	.. php:method:: set_insert_batch($key[, $value = ''[, $escape = NULL]])
 
@@ -1464,15 +1515,20 @@ Class Reference
 
 		Compiles and executes an UPDATE statement.
 
-	.. php:method:: update_batch([$table = ''[, $set = NULL[, $value = NULL]]])
+	.. php:method:: update_batch($table[, $set = NULL[, $value = NULL[, $batch_size = 100]]])
 
 		:param	string	$table: Table name
 		:param	array	$set: Field name, or an associative array of field/value pairs
 		:param	string	$value: Field value, if $set is a single field
+		:param	int	$batch_size: Count of conditions to group in a single query
 		:returns:	Number of rows updated or FALSE on failure
 		:rtype:	mixed
 
-		Compiles and executes batch UPDATE statements.
+		Compiles and executes batch ``UPDATE`` statements.
+
+		.. note:: When more than ``$batch_size`` field/value pairs are provided,
+			multiple queries will be executed, each handling up to
+			``$batch_size`` field/value pairs.
 
 	.. php:method:: set_update_batch($key[, $value = ''[, $escape = NULL]])
 

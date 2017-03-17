@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,10 @@
  *
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	http://codeigniter.com
+ * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
  */
@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Image_lib
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/image_lib.html
+ * @link		https://codeigniter.com/user_guide/libraries/image_lib.html
  */
 class CI_Image_lib {
 
@@ -392,6 +392,16 @@ class CI_Image_lib {
 			$this->initialize($props);
 		}
 
+		/**
+		 * A work-around for some improperly formatted, but
+		 * usable JPEGs; known to be produced by Samsung
+		 * smartphones' front-facing cameras.
+		 *
+		 * @see	https://github.com/bcit-ci/CodeIgniter/issues/4967
+		 * @see	https://bugs.php.net/bug.php?id=72404
+		 */
+		ini_set('gd.jpeg_ignore_warning', 1);
+
 		log_message('info', 'Image Lib Class Initialized');
 	}
 
@@ -456,7 +466,7 @@ class CI_Image_lib {
 			{
 				if (property_exists($this, $key))
 				{
-					if (in_array($key, array('wm_font_color', 'wm_shadow_color')))
+					if (in_array($key, array('wm_font_color', 'wm_shadow_color'), TRUE))
 					{
 						if (preg_match('/^#?([0-9a-f]{3}|[0-9a-f]{6})$/i', $val, $matches))
 						{
@@ -477,6 +487,10 @@ class CI_Image_lib {
 						{
 							continue;
 						}
+					}
+					elseif (in_array($key, array('width', 'height'), TRUE) && ! ctype_digit((string) $val))
+					{
+						continue;
 					}
 
 					$this->$key = $val;
@@ -540,37 +554,30 @@ class CI_Image_lib {
 		 */
 		if ($this->new_image === '')
 		{
-			$this->dest_image = $this->source_image;
+			$this->dest_image  = $this->source_image;
 			$this->dest_folder = $this->source_folder;
 		}
-		elseif (strpos($this->new_image, '/') === FALSE)
+		elseif (strpos($this->new_image, '/') === FALSE && strpos($this->new_image, '\\') === FALSE)
 		{
+			$this->dest_image  = $this->new_image;
 			$this->dest_folder = $this->source_folder;
-			$this->dest_image = $this->new_image;
 		}
 		else
 		{
-			if (strpos($this->new_image, '/') === FALSE && strpos($this->new_image, '\\') === FALSE)
+			// Is there a file name?
+			if ( ! preg_match('#\.(jpg|jpeg|gif|png)$#i', $this->new_image))
 			{
-				$full_dest_path = str_replace('\\', '/', realpath($this->new_image));
+				$this->dest_image  = $this->source_image;
+				$this->dest_folder = $this->new_image;
 			}
 			else
 			{
-				$full_dest_path = $this->new_image;
+				$x = explode('/', str_replace('\\', '/', $this->new_image));
+				$this->dest_image  = end($x);
+				$this->dest_folder = str_replace($this->dest_image, '', $this->new_image);
 			}
 
-			// Is there a file name?
-			if ( ! preg_match('#\.(jpg|jpeg|gif|png)$#i', $full_dest_path))
-			{
-				$this->dest_folder = $full_dest_path.'/';
-				$this->dest_image = $this->source_image;
-			}
-			else
-			{
-				$x = explode('/', $full_dest_path);
-				$this->dest_image = end($x);
-				$this->dest_folder = str_replace($this->dest_image, '', $full_dest_path);
-			}
+			$this->dest_folder = realpath($this->dest_folder).'/';
 		}
 
 		/* Compile the finalized filenames/paths
@@ -862,26 +869,27 @@ class CI_Image_lib {
 
 		if ($action === 'crop')
 		{
-			$cmd .= ' -crop '.$this->width.'x'.$this->height.'+'.$this->x_axis.'+'.$this->y_axis.' "'.$this->full_src_path.'" "'.$this->full_dst_path .'" 2>&1';
+			$cmd .= ' -crop '.$this->width.'x'.$this->height.'+'.$this->x_axis.'+'.$this->y_axis;
 		}
 		elseif ($action === 'rotate')
 		{
-			$angle = ($this->rotation_angle === 'hor' OR $this->rotation_angle === 'vrt')
-					? '-flop' : '-rotate '.$this->rotation_angle;
-
-			$cmd .= ' '.$angle.' "'.$this->full_src_path.'" "'.$this->full_dst_path.'" 2>&1';
+			$cmd .= ($this->rotation_angle === 'hor' OR $this->rotation_angle === 'vrt')
+					? ' -flop'
+					: ' -rotate '.$this->rotation_angle;
 		}
 		else // Resize
 		{
 			if($this->maintain_ratio === TRUE)
 			{
-				$cmd .= ' -resize '.$this->width.'x'.$this->height.' "'.$this->full_src_path.'" "'.$this->full_dst_path.'" 2>&1';
+				$cmd .= ' -resize '.$this->width.'x'.$this->height;
 			}
 			else
 			{
-				$cmd .= ' -resize '.$this->width.'x'.$this->height.'\! "'.$this->full_src_path.'" "'.$this->full_dst_path.'" 2>&1';
+				$cmd .= ' -resize '.$this->width.'x'.$this->height.'\!';
 			}
 		}
+
+		$cmd .= ' '.escapeshellarg($this->full_src_path).' '.escapeshellarg($this->full_dst_path).' 2>&1';
 
 		$retval = 1;
 		// exec() might be disabled
@@ -1196,7 +1204,7 @@ class CI_Image_lib {
 		}
 
 		// Build the finalized image
-		if ($wm_img_type === 3 && function_exists('imagealphablending'))
+		if ($wm_img_type === 3)
 		{
 			@imagealphablending($src_img, TRUE);
 		}
@@ -1641,25 +1649,31 @@ class CI_Image_lib {
 		}
 
 		$vals = getimagesize($path);
+		if ($vals === FALSE)
+		{
+			$this->set_error('imglib_invalid_image');
+			return FALSE;
+		}
+
 		$types = array(1 => 'gif', 2 => 'jpeg', 3 => 'png');
-		$mime = (isset($types[$vals[2]])) ? 'image/'.$types[$vals[2]] : 'image/jpg';
+		$mime = isset($types[$vals[2]]) ? 'image/'.$types[$vals[2]] : 'image/jpg';
 
 		if ($return === TRUE)
 		{
 			return array(
-					'width' =>	$vals[0],
-					'height' =>	$vals[1],
-					'image_type' =>	$vals[2],
-					'size_str' =>	$vals[3],
-					'mime_type' =>	$mime
-				);
+				'width'      => $vals[0],
+				'height'     => $vals[1],
+				'image_type' => $vals[2],
+				'size_str'   => $vals[3],
+				'mime_type'  => $mime
+			);
 		}
 
-		$this->orig_width	= $vals[0];
-		$this->orig_height	= $vals[1];
-		$this->image_type	= $vals[2];
-		$this->size_str		= $vals[3];
-		$this->mime_type	= $mime;
+		$this->orig_width  = $vals[0];
+		$this->orig_height = $vals[1];
+		$this->image_type  = $vals[2];
+		$this->size_str    = $vals[3];
+		$this->mime_type   = $mime;
 
 		return TRUE;
 	}

@@ -24,9 +24,9 @@ loading any libraries or helpers.
 
 	Example::
 
-		if (is_php('5.3'))
+		if (is_php('5.5'))
 		{
-			$str = quoted_printable_encode($str);
+			echo json_last_error_msg();
 		}
 
 	Returns boolean TRUE if the installed version of PHP is equal to or
@@ -101,7 +101,7 @@ loading any libraries or helpers.
 
 .. php:function:: set_status_header($code[, $text = ''])
 
-	:param	int	$code: HTTP Reponse status code
+	:param	int	$code: HTTP Response status code
 	:param	string	$text: A custom message to set with the status code
 	:rtype:	void
 

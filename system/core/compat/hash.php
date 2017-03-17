@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,10 @@
  *
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	http://codeigniter.com
+ * @link	https://codeigniter.com
  * @since	Version 3.0.0
  * @filesource
  */
@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	CodeIgniter
  * @category	Compatibility
  * @author		Andrey Andreev
- * @link		http://codeigniter.com/user_guide/
+ * @link		https://codeigniter.com/user_guide/
  * @link		http://php.net/hash
  */
 
@@ -119,7 +119,7 @@ if ( ! function_exists('hash_pbkdf2'))
 	 */
 	function hash_pbkdf2($algo, $password, $salt, $iterations, $length = 0, $raw_output = FALSE)
 	{
-		if ( ! in_array($algo, hash_algos(), TRUE))
+		if ( ! in_array(strtolower($algo), hash_algos(), TRUE))
 		{
 			trigger_error('hash_pbkdf2(): Unknown hashing algorithm: '.$algo, E_USER_WARNING);
 			return FALSE;
@@ -203,8 +203,6 @@ if ( ! function_exists('hash_pbkdf2'))
 			'ripemd160' => 64,
 			'ripemd256' => 64,
 			'ripemd320' => 64,
-			'salsa10' => 64,
-			'salsa20' => 64,
 			'sha1' => 64,
 			'sha224' => 64,
 			'sha256' => 64,

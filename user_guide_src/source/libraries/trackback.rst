@@ -239,7 +239,7 @@ Class Reference
 		This method simply validates the incoming TB data, returning TRUE on success and FALSE on failure.
 		If the data is valid it is set to the ``$this->data`` array so that it can be inserted into a database.
 
-	.. php:method:: send_error([$message = 'Incomplete information')
+	.. php:method:: send_error([$message = 'Incomplete information'])
 
 		:param	string	$message: Error message
 		:rtype: void
@@ -262,7 +262,7 @@ Class Reference
 		:returns:	Data value or empty string if not found
 		:rtype:	string
 
-		Returns a single item from the reponse data array.
+		Returns a single item from the response data array.
 
 	.. php:method:: process($url, $data)
 

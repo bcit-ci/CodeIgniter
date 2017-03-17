@@ -24,7 +24,7 @@ your controller using the $this->load->library function::
 
 	$this->load->library('zip');
 
-Once loaded, the Zip library object will be available using:
+Once loaded, the Zip library object will be available using::
 
 	$this->zip
 

@@ -13,7 +13,7 @@ unfortunately not always available on all systems.
 You must meet one of the following dependencies in order to use this
 library:
 
-- `OpenSSL <http://php.net/openssl>`_ (and PHP 5.3.3)
+- `OpenSSL <http://php.net/openssl>`_
 - `MCrypt <http://php.net/mcrypt>`_ (and `MCRYPT_DEV_URANDOM` availability)
 
 If neither of the above dependencies is met, we simply cannot offer
@@ -75,7 +75,7 @@ process that allows you to be the only one who is able to decrypt data
 that you've decided to hide from the eyes of the public.
 After one key is used to encrypt data, that same key provides the **only**
 means to decrypt it, so not only must you chose one carefully, but you
-must not lose it or you will also use the encrypted data.
+must not lose it or you will also lose access to the data.
 
 It must be noted that to ensure maximum security, such key *should* not
 only be as strong as possible, but also often changed. Such behavior
@@ -382,7 +382,7 @@ the hood:
 
   #. Check if the string is long enough, separate the HMAC out of
      it and validate if it is correct (this is done in a way that
-     prevents timing attacks agains it). Return FALSE if either of
+     prevents timing attacks against it). Return FALSE if either of
      the checks fails.
 
   #. Base64-decode the string.

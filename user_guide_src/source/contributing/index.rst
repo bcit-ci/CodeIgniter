@@ -29,12 +29,24 @@ own copy. This will require you to use the version control system called Git.
 Support
 *******
 
-Note that GitHub is not for general support questions!
+Please note that GitHub is not for general support questions! If you are
+having trouble using a feature of CodeIgniter, ask for help on our
+`forums <http://forum.codeigniter.com/>`_ instead.
 
-If you are having trouble using a feature of CodeIgniter, ask for help on the forum.
+If you are not sure whether you are using something correctly or if you
+have found a bug, again - please ask on the forums first.
 
-If you are wondering if you are using
-something correctly or if you have found a bug, ask on the forum first.
+********
+Security
+********
+
+Did you find a security issue in CodeIgniter?
+
+Please *don't* disclose it publicly, but e-mail us at security@codeigniter.com,
+or report it via our page on `HackerOne <https://hackerone.com/codeigniter>`_.
+
+If you've found a critical vulnerability, we'd be happy to credit you in our
+`ChangeLog <../changelog>`.
 
 ****************************
 Tips for a Good Issue Report
@@ -74,9 +86,9 @@ PHP Style
 =========
 
 All code must meet the `Style Guide
-<http://www.codeigniter.com/userguide3/general/styleguide.html>`_, which is
+<https://codeigniter.com/userguide3/general/styleguide.html>`_, which is
 essentially the `Allman indent style
-<http://en.wikipedia.org/wiki/Indent_style#Allman_style>`_, underscores and
+<https://en.wikipedia.org/wiki/Indent_style#Allman_style>`_, underscores and
 readable operators. This makes certain that all code is the same format as the
 existing code and means it will be as readable as possible.
 
@@ -91,10 +103,10 @@ must also be updated for every change. Also PHPDoc blocks must be maintained.
 Compatibility
 =============
 
-CodeIgniter recommends PHP 5.4 or newer to be used, but it should be
-compatible with PHP 5.2.4 so all code supplied must stick to this
-requirement. If PHP 5.3 (and above) functions or features are used then
-there must be a fallback for PHP 5.2.4.
+CodeIgniter recommends PHP 5.6 or newer to be used, but it should be
+compatible with PHP 5.4.8 so all code supplied must stick to this
+requirement. If PHP 5.5 (and above) functions or features are used then
+there must be a fallback for PHP 5.4.8.
 
 Branching
 =========
@@ -143,5 +155,5 @@ could even alias git commit to use the -s flag so you don’t have to think abou
 it.
 
 By signing your work in this manner, you certify to a "Developer's Certificate
-or Origin". The current version of this certificate is in the :doc:`/DCO` file
+of Origin". The current version of this certificate is in the :doc:`/DCO` file
 in the root of this documentation.

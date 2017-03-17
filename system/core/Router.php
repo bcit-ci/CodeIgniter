@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,10 @@
  *
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	http://codeigniter.com
+ * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
  */
@@ -46,7 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Libraries
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/general/routing.html
+ * @link		https://codeigniter.com/user_guide/general/routing.html
  */
 class CI_Router {
 
@@ -118,6 +118,7 @@ class CI_Router {
 	 *
 	 * Runs the route mapping function.
 	 *
+	 * @param	array	$routing
 	 * @return	void
 	 */
 	public function __construct($routing = NULL)
@@ -153,6 +154,28 @@ class CI_Router {
 	 */
 	protected function _set_routing()
 	{
+		// Load the routes.php file. It would be great if we could
+		// skip this for enable_query_strings = TRUE, but then
+		// default_controller would be empty ...
+		if (file_exists(APPPATH.'config/routes.php'))
+		{
+			include(APPPATH.'config/routes.php');
+		}
+
+		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/routes.php'))
+		{
+			include(APPPATH.'config/'.ENVIRONMENT.'/routes.php');
+		}
+
+		// Validate & get reserved routes
+		if (isset($route) && is_array($route))
+		{
+			isset($route['default_controller']) && $this->default_controller = $route['default_controller'];
+			isset($route['translate_uri_dashes']) && $this->translate_uri_dashes = $route['translate_uri_dashes'];
+			unset($route['default_controller'], $route['translate_uri_dashes']);
+			$this->routes = $route;
+		}
+
 		// Are query strings enabled in the config file? Normally CI doesn't utilize query strings
 		// since URI segments are more search-engine friendly, but they can optionally be used.
 		// If this feature is enabled, we will gather the directory/class/method a little differently
@@ -197,26 +220,6 @@ class CI_Router {
 			// Routing rules don't apply to query strings and we don't need to detect
 			// directories, so we're done here
 			return;
-		}
-
-		// Load the routes.php file.
-		if (file_exists(APPPATH.'config/routes.php'))
-		{
-			include(APPPATH.'config/routes.php');
-		}
-
-		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/routes.php'))
-		{
-			include(APPPATH.'config/'.ENVIRONMENT.'/routes.php');
-		}
-
-		// Validate & get reserved routes
-		if (isset($route) && is_array($route))
-		{
-			isset($route['default_controller']) && $this->default_controller = $route['default_controller'];
-			isset($route['translate_uri_dashes']) && $this->translate_uri_dashes = $route['translate_uri_dashes'];
-			unset($route['default_controller'], $route['translate_uri_dashes']);
-			$this->routes = $route;
 		}
 
 		// Is there anything to parse?
@@ -436,19 +439,6 @@ class CI_Router {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Fetch the current class
-	 *
-	 * @deprecated	3.0.0	Read the 'class' property instead
-	 * @return	string
-	 */
-	public function fetch_class()
-	{
-		return $this->class;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Set method name
 	 *
 	 * @param	string	$method	Method name
@@ -457,19 +447,6 @@ class CI_Router {
 	public function set_method($method)
 	{
 		$this->method = $method;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Fetch the current method
-	 *
-	 * @deprecated	3.0.0	Read the 'method' property instead
-	 * @return	string
-	 */
-	public function fetch_method()
-	{
-		return $this->method;
 	}
 
 	// --------------------------------------------------------------------
@@ -492,21 +469,4 @@ class CI_Router {
 			$this->directory .= str_replace('.', '', trim($dir, '/')).'/';
 		}
 	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Fetch directory
-	 *
-	 * Feches the sub-directory (if any) that contains the requested
-	 * controller class.
-	 *
-	 * @deprecated	3.0.0	Read the 'directory' property instead
-	 * @return	string
-	 */
-	public function fetch_directory()
-	{
-		return $this->directory;
-	}
-
 }

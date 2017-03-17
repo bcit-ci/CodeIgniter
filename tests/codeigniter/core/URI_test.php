@@ -119,8 +119,13 @@ class URI_test extends CI_TestCase {
 	*/
 	// --------------------------------------------------------------------
 
+	/**
+	 * @runInSeparateProcess
+	 */
 	public function test_filter_uri_passing()
 	{
+		define('UTF8_ENABLED', FALSE);
+
 		$this->uri->_set_permitted_uri_chars('a-z 0-9~%.:_\-');
 
 		$str = 'abc01239~%.:_-';
@@ -129,8 +134,12 @@ class URI_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
+	/**
+	 * @runInSeparateProcess
+	 */
 	public function test_filter_uri_throws_error()
 	{
+		define('UTF8_ENABLED', FALSE);
 		$this->setExpectedException('RuntimeException');
 
 		$this->uri->config->set_item('enable_query_strings', FALSE);
