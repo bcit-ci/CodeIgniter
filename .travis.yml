@@ -17,7 +17,11 @@ env:
   - DB=pdo/pgsql
   - DB=pdo/sqlite
 
-sudo: false
+sudo: true
+
+install:
+  - sudo pip install sphinx==1.2.3
+  - sudo pip install sphinxcontrib-phpdomain
 
 before_script:
   - sh -c "composer install --dev --no-progress"
@@ -25,7 +29,9 @@ before_script:
   - sh -c "if [ '$DB' = 'pgsql' ] || [ '$DB' = 'pdo/pgsql' ]; then psql -c 'create database ci_test;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'mysql' ] || [ '$DB' = 'mysqli' ] || [ '$DB' = 'pdo/mysql' ]; then mysql -e 'create database IF NOT EXISTS ci_test;'; fi"
 
-script: phpunit -d zend.enable_gc=0 -d date.timezone=UTC --coverage-text --configuration tests/travis/$DB.phpunit.xml
+script: 
+  - phpunit -d zend.enable_gc=0 -d date.timezone=UTC --coverage-text --configuration tests/travis/$DB.phpunit.xml
+  - cd user_guide_src && make html
 
 matrix:
   allow_failures:
