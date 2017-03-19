@@ -80,6 +80,22 @@ array with the data to be inserted. The above example produces::
 
 .. note:: Values are automatically escaped, producing safer queries.
 
+**$this->db->replace_string()**
+
+This function simplifies the process of writing database replaces. It
+returns a correctly formatted SQL replace string. Example::
+
+	$data = array('name' => $name, 'email' => $email, 'url' => $url);
+	
+	$str = $this->db->replace_string('table_name', $data);
+
+The first parameter is the table name, the second is an associative
+array with the data to be replaced. The above example produces::
+
+	REPLACE INTO table_name (name, email, url) VALUES ('Rick', 'rick@example.com', 'example.com')
+
+.. note:: Values are automatically escaped, producing safer queries.
+
 **$this->db->update_string()**
 
 This function simplifies the process of writing database updates. It
