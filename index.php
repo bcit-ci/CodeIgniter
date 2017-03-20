@@ -62,6 +62,7 @@
  *
  * Different environments will require different levels of error reporting.
  * By default development will show errors but testing and live will hide them.
+ * Passing in the value -1 will show every possible error, even when new levels and constants are added in future PHP versions.
  */
 switch (ENVIRONMENT)
 {
