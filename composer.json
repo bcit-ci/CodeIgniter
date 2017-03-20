@@ -17,6 +17,7 @@
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
 	},
 	"require-dev": {
+		"ext-mcrypt": "*",
 		"mikey179/vfsStream": "1.1.*"
 	}
 }
