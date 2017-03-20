@@ -562,12 +562,12 @@ if ( ! function_exists('set_status_header'))
 		if (strpos(PHP_SAPI, 'cgi') === 0)
 		{
 			header('Status: '.$code.' '.$text, TRUE);
+			return;
 		}
-		else
-		{
-			$server_protocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
-			header($server_protocol.' '.$code.' '.$text, TRUE, $code);
-		}
+
+		$server_protocol = (isset($_SERVER['SERVER_PROTOCOL']) && in_array($_SERVER['SERVER_PROTOCOL'], array('HTTP/1.0', 'HTTP/1.1', 'HTTP/2'), TRUE))
+			? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
+		header($server_protocol.' '.$code.' '.$text, TRUE, $code);
 	}
 }
 
