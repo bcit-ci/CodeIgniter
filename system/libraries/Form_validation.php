@@ -1282,6 +1282,33 @@ class CI_Form_validation {
 	}
 
 	// --------------------------------------------------------------------
+	
+	/**
+	 * Valid DNI
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	bool
+	 */
+	public function valid_dni($str)
+	{
+
+		if ( !preg_match("/^[0-9]{7,8}[a-zA-Z]{1}$/" , $str) )
+		{
+			return FALSE;
+		}
+		else
+		{
+			$n = substr($str, 0 , -1);		
+			$letter = substr($str,-1);
+			$letter2 = substr ("TRWAGMYFPDXBNJZSQVHLCKE", $n%23, 1); 
+			if(strtolower($letter) != strtolower($letter2))
+				return FALSE;
+		}
+		return TRUE;
+	}
+	
+	// --------------------------------------------------------------------
 
 	/**
 	 * Validate MAC address
