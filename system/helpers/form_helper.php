@@ -347,6 +347,36 @@ if ( ! function_exists('form_multiselect'))
 	}
 }
 
+
+// ------------------------------------------------------------------------
+
+/**
+ * a Better Multi-select menu
+ *
+ * @access	public
+ * @param	array
+ * @return	string
+ */
+if ( ! function_exists('form_better_dropdown'))
+{
+  function form_better_dropdown($items = array())
+  {
+    if ( is_array($items) ) {
+      if (!isset($items['options'])) {
+        $items['selected'] = false;
+      }     
+      if (!isset($items['selected'])) {
+        $items['selected'] = false;
+      }
+      if (!isset($items['extra'])) {
+        $items['extra'] = false;
+      }
+      
+      return form_dropdown($items['name'], $items['options'], $items['selected'], $items['extra']);
+    }
+  }
+}
+
 // --------------------------------------------------------------------
 
 if ( ! function_exists('form_dropdown'))
