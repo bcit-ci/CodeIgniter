@@ -11,7 +11,7 @@ Release Date: Not Released
 Version 3.1.4
 =============
 
-Release Date: March 23, 2017
+Release Date: March 20, 2017
 
 -  **Security**
 
