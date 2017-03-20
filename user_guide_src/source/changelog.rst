@@ -36,6 +36,7 @@ Bug fixes for 3.1.4
 -  Fixed a bug (#4815) - :doc:`Database Library <database/index>` stripped URL-encoded sequences while escaping strings with the 'mssql' driver.
 -  Fixed a bug (#5044) - :doc:`HTML Helper <helpers/html_helper>` function :php:func:`img()` didn't accept ``data:`` URI schemes for the image source.
 -  Fixed a bug (#5050) - :doc:`Database Library <database/index>` tried to access an undefined property in a number of error handling cases.
+-  Fixed a bug (#5057) - :doc:`Database <database/index>` driver 'postgre' didn't actually apply extra options (such as 'connect_timeout') to its DSN.
 
 Version 3.1.3
 =============

@@ -130,9 +130,9 @@ class CI_DB_postgre_driver extends CI_DB {
 		 */
 		foreach (array('connect_timeout', 'options', 'sslmode', 'service') as $key)
 		{
-			if (isset($this->$key) && is_string($this->key) && $this->key !== '')
+			if (isset($this->$key) && is_string($this->$key) && $this->$key !== '')
 			{
-				$this->dsn .= $key."='".$this->key."' ";
+				$this->dsn .= $key."='".$this->$key."' ";
 			}
 		}
 
