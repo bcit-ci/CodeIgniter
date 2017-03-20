@@ -1467,6 +1467,42 @@ class CI_Form_validation {
 	{
 		return in_array($value, explode(',', $list), TRUE);
 	}
+	
+		// --------------------------------------------------------------------
+
+	/**
+	 * Value should be a valid date in the given or default format
+	 *
+	 * @param	string date
+	 * @param	string date format
+	 * @return	bool
+	 */
+	    public function is_valid_date($date,$format){
+		if(!$format){
+			$format ='d-m-Y';
+		}
+		$d = DateTime::createFromFormat($format, $date);
+		$ret = $d && $d->format($format) == $date;
+		return $ret;
+	    }
+
+    // --------------------------------------------------------------------
+
+    /**
+	 * Value should be a valid date in the given or default format
+	 *
+	 * @param	string date
+	 * @param	string date format
+	 * @return	bool
+	 */
+	    public function is_valid_time($time,$format){
+		if(!$format){
+			$format='h:ia';
+		}
+		$d = DateTime::createFromFormat($format, $time);
+		return $d && $d->format($format) == $time;
+	    }
+	
 
 	// --------------------------------------------------------------------
 
