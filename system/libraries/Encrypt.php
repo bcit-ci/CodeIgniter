@@ -76,14 +76,14 @@ class CI_Encrypt {
 	 *
 	 * @var string
 	 */
-	protected $_mcrypt_cipher;
+	protected $_mcrypt_cipher	= '';
 
 	/**
 	 * Method for encrypting/decrypting data
 	 *
 	 * @var int
 	 */
-	protected $_mcrypt_mode;
+	protected $_mcrypt_mode		= '';
 
 	/**
 	 * Initialize Encryption class
