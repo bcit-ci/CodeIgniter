@@ -316,7 +316,7 @@ class CI_DB_odbc_driver extends CI_DB_driver {
 	 */
 	protected function _escape_str($str)
 	{
-		$this->db->display_error('db_unsupported_feature');
+		$this->display_error('db_unsupported_feature');
 	}
 
 	// --------------------------------------------------------------------
@@ -340,7 +340,7 @@ class CI_DB_odbc_driver extends CI_DB_driver {
 	 */
 	public function insert_id()
 	{
-		return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
+		return ($this->db_debug) ? $this->display_error('db_unsupported_feature') : FALSE;
 	}
 
 	// --------------------------------------------------------------------

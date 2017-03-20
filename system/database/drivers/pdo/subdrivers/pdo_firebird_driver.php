@@ -274,6 +274,6 @@ class CI_DB_pdo_firebird_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _insert_batch($table, $keys, $values)
 	{
-		return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
+		return ($this->db_debug) ? $this->display_error('db_unsupported_feature') : FALSE;
 	}
 }
