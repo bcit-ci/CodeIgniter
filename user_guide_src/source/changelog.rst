@@ -5,7 +5,7 @@ Change Log
 Version 3.1.4
 =============
 
-Release Date: Not Released
+Release Date: March 23, 2017
 
 -  **Security**
 
