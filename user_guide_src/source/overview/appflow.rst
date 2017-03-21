@@ -20,4 +20,4 @@ The following graphic illustrates how data flows throughout the system:
    seen. If caching is enabled, the view is cached first so that on
    subsequent requests it can be served.
 
-.. |CodeIgniter application flow| image:: ../images/appflowchart.gif
+.. |CodeIgniter application flow| image:: ../images/appflowchart.png
