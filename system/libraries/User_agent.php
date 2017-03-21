@@ -649,6 +649,39 @@ class CI_User_agent {
 	{
 		return in_array(strtolower($charset), $this->charsets(), TRUE);
 	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+ 	* Is real Browser
+ 	*
+ 	* Added the example of how to use the get browser method into the library for ease of use and tidyness
+ 	*
+	* @access public
+ 	* @return bool
+ 	*
+ 	*/
+ 	public function is_Real_browser()
+ 	{
+ 		 if ($this->is_browser())
+  		{
+      			$agent = $this->browser().' '.$this->version();
+  		}
+  		elseif ($this->is_robot())
+  		{
+      			$agent = $this->robot();
+  		}
+  		elseif ($this->is_mobile())
+  		{
+      			$agent = $this->mobile();
+  		}
+  		else
+  		{
+      			$agent = 'Uknown';
+  		}
+
+  	return $agent;
+ 	}
 
 	// --------------------------------------------------------------------
 
