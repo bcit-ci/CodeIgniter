@@ -148,7 +148,7 @@ if ( ! function_exists('load_class'))
 		}
 
 		$name = FALSE;
-
+		$class = ucfirst($class);
 		// Look for the class first in the local application/libraries folder
 		// then in the native system/libraries folder
 		foreach (array(APPPATH, BASEPATH) as $path)
