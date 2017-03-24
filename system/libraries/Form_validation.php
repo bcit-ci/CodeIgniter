@@ -540,7 +540,7 @@ class CI_Form_validation {
 			// "Named" callables; i.e. array('name' => $callable)
 			elseif (is_array($rule) && isset($rule[0], $rule[1]) && is_callable($rule[1]))
 			{
-				$callbacks[$rule[0]] = $rule;
+				$callbacks[] = $rule;
 			}
 			// Everything else goes at the end of the queue
 			else
@@ -549,7 +549,7 @@ class CI_Form_validation {
 			}
 		}
 
-		return array_merge($callbacks, $new_rules);
+		return array_merge($new_rules, $callbacks);
 	}
 
 	// --------------------------------------------------------------------
