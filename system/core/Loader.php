@@ -887,7 +887,7 @@ class CI_Loader {
 		if (is_string($_ci_path) && $_ci_path !== '')
 		{
 			$_ci_path = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $_ci_path);
-			$_ci_x = explode('/', $_ci_path);
+			$_ci_x = explode(DIRECTORY_SEPARATOR, $_ci_path);
 			$_ci_file = end($_ci_x);
 		}
 		else
