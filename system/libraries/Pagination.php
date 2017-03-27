@@ -406,7 +406,18 @@ class CI_Pagination {
 		}
 
 		// Calculate the total number of pages
-		$num_pages = (int) ceil($this->total_rows / $this->per_page);
+		$num_pages = (int) ($this->total_rows / $this->per_page);
+
+
+		if ($num_pages==0 && $this->total_rows != 0) {
+
+			$num_pages = (int) ceil($this->total_rows / $this->per_page);
+		}
+
+		if ($num_pages === 0)
+		{
+			return '';
+		}
 
 		// Is there only one page? Hm... nothing more to do here then.
 		if ($num_pages === 1)
