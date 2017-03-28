@@ -40,6 +40,7 @@ Release Date: Not Released
       - Added 'apcu' driver.
       - Added UNIX socket connection support to the 'memcached' driver.
       - Added 'database' configuration option to the 'redis' driver, allowing to auto-select another database.
+      - Added method ``get_loaded_driver()`` to return the currently used driver.
       - Changed the 'memcached' driver to ignore configurations that don't specify a hostname.
       - Removed the *socket_type* configuration setting from the 'redis' driver.
       - Changed data serialization logic in 'redis' driver for better performance.
