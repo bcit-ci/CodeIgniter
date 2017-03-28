@@ -190,7 +190,7 @@ Class Reference
 
 	.. php:method:: get_loaded_driver()
 
-		:returns:	Loaded driver name, based on initialization config ('apc', 'apcu', 'dummy', 'file', 'memcached', 'redis' or 'wincache')
+		:returns:	Loaded driver name after initialization ('apc', 'apcu', 'dummy', 'file', 'memcached', 'redis' or 'wincache')
 		:rtype:	string
 
 		This method will return the caching driver currently used after initialization.
