@@ -188,6 +188,16 @@ Class Reference
 		.. note:: The information returned and the structure of the data is dependent
 			on which adapter is being used.
 
+	.. php:method:: get_loaded_driver()
+
+		:returns:	Loaded driver name after initialization ('apc', 'apcu', 'dummy', 'file', 'memcached', 'redis' or 'wincache')
+		:rtype:	string
+
+		This method will return the caching driver currently used after initialization.
+		::
+
+			echo $this->cache->get_loaded_driver(); // Will return something like "file"
+
 *******
 Drivers
 *******
