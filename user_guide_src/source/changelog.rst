@@ -7,6 +7,10 @@ Version 3.1.5
 
 Release Date: Not Released
 
+Bug fixes for 3.1.5
+-------------------
+
+-  Fixed a bug (#5070) - :doc:`Email Library <libraries/email>` didn't properly detect 7-bit encoding.
 
 Version 3.1.4
 =============

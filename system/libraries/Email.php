@@ -941,7 +941,7 @@ class CI_Email {
 
 		foreach ($this->_base_charsets as $charset)
 		{
-			if (strpos($charset, $this->charset) === 0)
+			if (strpos($this->charset, $charset) === 0)
 			{
 				$this->_encoding = '7bit';
 			}
