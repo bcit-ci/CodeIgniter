@@ -136,10 +136,11 @@ function &DB($params = '', $query_builder_override = NULL)
 				if (is_string($val) && in_array(strtoupper($val), array('TRUE', 'FALSE', 'NULL')))
 				{
 					$val = var_export($val, TRUE);
+					$extra[$key] = $val;
 				}
-
-				$params[$key] = $val;
 			}
+
+			$params['extra'] = $extra;
 		}
 	}
 

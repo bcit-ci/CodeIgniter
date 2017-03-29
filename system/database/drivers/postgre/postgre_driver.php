@@ -128,11 +128,11 @@ class CI_DB_postgre_driver extends CI_DB {
 		 *
 		 * postgre://username:password@localhost:5432/database?connect_timeout=5&sslmode=1
 		 */
-		foreach (array('connect_timeout', 'options', 'sslmode', 'service') as $key)
+		if (isset($this->extra))
 		{
-			if (isset($this->$key) && is_string($this->$key) && $this->$key !== '')
+			foreach ($this->extra as $property=>$value)
 			{
-				$this->dsn .= $key."='".$this->$key."' ";
+				$this->dsn .= "$property='$value' ";
 			}
 		}
 
