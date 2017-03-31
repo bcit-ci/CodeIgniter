@@ -226,4 +226,19 @@ class CI_DB_pdo_odbc_driver extends CI_DB_pdo_driver {
 	{
 		return 'SELECT column_name FROM information_schema.columns WHERE table_name = '.$this->escape($table);
 	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * LIMIT
+	 *
+	 * Generates a platform-specific LIMIT clause
+	 *
+	 * @param	string	$sql	SQL Query
+	 * @return	string
+	 */
+	protected function _limit($sql)
+	{
+		return str_replace('SELECT ', 'SELECT TOP('.$this->qb_limit.') ', $sql);
+	}
 }
