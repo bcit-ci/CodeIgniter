@@ -130,7 +130,7 @@ class CI_DB_postgre_driver extends CI_DB {
 		 */
 		if (isset($this->extra))
 		{
-			foreach ($this->extra as $property=>$value)
+			foreach ($this->extra as $property => $value)
 			{
 				$this->dsn .= "$property='$value' ";
 			}
