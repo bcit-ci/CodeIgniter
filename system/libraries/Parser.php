@@ -145,7 +145,7 @@ class CI_Parser {
 		{
 			$replace = array_merge(
 				$replace,
-				is_array($val)
+				is_array($val) || is_object($val)
 					? $this->_parse_pair($key, $val, $template)
 					: $this->_parse_single($key, (string) $val, $template)
 			);
