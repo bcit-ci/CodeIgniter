@@ -1417,6 +1417,23 @@ abstract class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Insert ignore statement
+	 *
+	 * Generates a platform-specific insert ignore string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @param	array	the insert keys
+	 * @param	array	the insert values
+	 * @return	string
+	 */
+	protected function _insert_ignore($table, $keys, $values)
+	{
+		return 'INSERT IGNORE INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Generate an update string
 	 *
 	 * @param	string	the table upon which the query will be performed
