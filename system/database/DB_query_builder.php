@@ -1749,6 +1749,41 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Insert Ignore
+	 *
+	 * Compiles an insert ignore string and runs the query
+	 *
+	 * @param	string	the table to insert data into
+	 * @param	array	an associative array of insert values
+	 * @return	object
+	 */
+	public function insert_ignore($table = '', $set = NULL)
+	{
+		if ( ! is_null($set))
+		{
+			$this->set($set);
+		}
+
+		if ($this->_validate_insert($table) === FALSE)
+		{
+			return FALSE;
+		}
+
+		$sql = $this->_insert_ignore(
+			$this->protect_identifiers(
+				$this->qb_from[0], TRUE, NULL, FALSE
+			),
+			array_keys($this->qb_set),
+			array_values($this->qb_set)
+		);
+		
+		$this->_reset_write();
+		return $this->query($sql);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Validate Insert
 	 *
 	 * This method is used by both insert() and get_compiled_insert() to
