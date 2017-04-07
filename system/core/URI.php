@@ -643,7 +643,7 @@ class CI_URI {
 	 */
 	public function uri_string()
 	{
-		return $this->uri_string;
+		return '/'.$this->uri_string;
 	}
 
 	// --------------------------------------------------------------------
