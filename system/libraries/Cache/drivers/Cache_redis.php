@@ -322,7 +322,9 @@ class CI_Cache_redis extends CI_Driver
 	{
 		if ($this->_redis)
 		{
-			$this->_redis->close();
+			if($this->_redis->isConnected()) {
+				$this->_redis->close();
+			}
 		}
 	}
 }
