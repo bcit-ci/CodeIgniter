@@ -51,7 +51,7 @@
 致謝
 ***************
 
-`CodeIgniter`_ 團隊要感謝 EllisLab， `CodeIgniter 專案`_ 的所有貢獻者以及使用者。 
+`CodeIgniter`_ 團隊要感謝 `EllisLab`_， `CodeIgniter 專案`_ 的所有貢獻者以及使用者。 
 
 
 .. _CodeIgniter: https://codeigniter.com/
@@ -66,12 +66,13 @@
 .. _改版歷程:     user_guide_src/source/changelog.rst
 .. _授權合約:     user_guide_src/source/license.rst
 .. _安全回報:     mailto:security@codeigniter.com
-
+.. _HackerOne:    https://hackerone.com/codeigniter
 
 .. _CodeIgniter-TW 正體中文使用手冊: https://github.com/CodeIgniter-TW/CodeIgniter-UserGuide
 
 .. _PHP:          http://php.net/
-.. _HackerOne:    https://hackerone.com/codeigniter
+.. _EllisLab:     https://ellislab.com/
+
 
 
 
