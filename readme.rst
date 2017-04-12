@@ -1,70 +1,80 @@
 ###################
-What is CodeIgniter
+ `CodeIgniter`_ 是什麼
 ###################
+`CodeIgniter`_ 是一個適用於使用 `PHP`_ 建置網站的框架開發工具套件。
 
-CodeIgniter is an Application Development Framework - a toolkit - for people
-who build web sites using PHP. Its goal is to enable you to develop projects
-much faster than you could if you were writing code from scratch, by providing
-a rich set of libraries for commonly needed tasks, as well as a simple
-interface and logical structure to access these libraries. CodeIgniter lets
-you creatively focus on your project by minimizing the amount of code needed
-for a given task.
+目的是使開發人員能透過 `CodeIgniter`_ 所提供的程式庫、邏輯結構，更快更少的程式碼來完成您的網站專案。
 
 *******************
-Release Information
+發佈資訊
 *******************
+`CodeIgniter 專案`_ 中，包含正在開發以及未來即將發佈的原始程式碼。
 
-This repo contains in-development code for future releases. To download the
-latest stable release please visit the `CodeIgniter Downloads
-<https://codeigniter.com/download>`_ page.
+穩定版本請到 `下載頁面`_ 取得。
 
 **************************
-Changelog and New Features
+改版歷程和新功能
 **************************
-
-You can find a list of all changes for each release in the `user
-guide change log <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/changelog.rst>`_.
+您可以在 `使用手冊`_ 中的 `改版歷程`_，找到每個版本的更新的清單。
 
 *******************
-Server Requirements
+伺服器需求
 *******************
+最低需求 `PHP`_ 5.4.8 版本，建議是 5.6 或更高版本。
 
-PHP version 5.6 or newer is recommended.
-
-It should work on 5.4.8 as well, but we strongly advise you NOT to run
-such old versions of PHP, because of potential security and performance
-issues, as well as missing features.
+我們強烈建議不要在舊版本的 `PHP`_ 執行，因為可能潛在的安全、性能、函數未定義等問題。
 
 ************
-Installation
+安裝
 ************
-
-Please see the `installation section <https://codeigniter.com/user_guide/installation/index.html>`_
-of the CodeIgniter User Guide.
+安裝部分請參閱 `使用手冊`_ 中的 `安裝說明`_ 一節。
 
 *******
-License
+授權
 *******
-
-Please see the `license
-agreement <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/license.rst>`_.
+請參閱 `授權合約`_。
 
 *********
-Resources
+資源
 *********
+-  `使用手冊`_ 
+-  `語系翻譯`_
+-  `社區論壇`_
+-  `社區維基`_
+-  `社區 IRC`_
+-  `CodeIgniter-TW 正體中文使用手冊`_
+-  `PHP`_
 
--  `User Guide <https://codeigniter.com/docs>`_
--  `Language File Translations <https://github.com/bcit-ci/codeigniter3-translations>`_
--  `Community Forums <http://forum.codeigniter.com/>`_
--  `Community Wiki <https://github.com/bcit-ci/CodeIgniter/wiki>`_
--  `Community IRC <https://webchat.freenode.net/?channels=%23codeigniter>`_
-
-Report security issues to our `Security Panel <mailto:security@codeigniter.com>`_
-or via our `page on HackerOne <https://hackerone.com/codeigniter>`_, thank you.
+安全問題可以通過 `安全回報`_ 信箱或 `HackerOne`_ 網頁向我們反應，謝謝您。
 
 ***************
-Acknowledgement
+致謝
 ***************
 
-The CodeIgniter team would like to thank EllisLab, all the
-contributors to the CodeIgniter project and you, the CodeIgniter user.
+`CodeIgniter`_ 團隊要感謝 EllisLab， `CodeIgniter 專案`_ 的所有貢獻者以及使用者。 
+
+
+.. _CodeIgniter: https://codeigniter.com/
+.. _CodeIgniter 專案: https://github.com/bcit-ci/CodeIgniter/
+.. _使用手冊:     https://codeigniter.com/docs/
+.. _下載頁面:     https://codeigniter.com/download/
+.. _安裝說明:     https://codeigniter.com/user_guide/installation/index.html
+.. _語系翻譯:     https://github.com/bcit-ci/codeigniter3-translations/
+.. _社區論壇:     http://forum.codeigniter.com/
+.. _社區維基:     https://github.com/bcit-ci/CodeIgniter/wiki/
+.. _社區 IRC:     https://webchat.freenode.net/?channels=%23codeigniter/
+.. _改版歷程:     user_guide_src/source/changelog.rst
+.. _授權合約:     user_guide_src/source/license.rst
+.. _安全回報:     mailto:security@codeigniter.com
+
+
+.. _CodeIgniter-TW 正體中文使用手冊: https://github.com/CodeIgniter-TW/CodeIgniter-UserGuide
+
+.. _PHP:          http://php.net/
+.. _HackerOne:    https://hackerone.com/codeigniter
+
+
+
+
+
+ 
