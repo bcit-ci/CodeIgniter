@@ -34,7 +34,7 @@ CodeIgniter 請按以下四個步驟來進行安裝：
 -define       define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'testing');
 -define       define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'production');
 
-如果您是 CodeIgniter 的初學者，請參閱 :doc:`入門指南 <../overview/getting_started> 的章節，來學習如何建置動態 PHP 應用程式。
+如果您是 CodeIgniter 的初學者，請參閱 :doc:`入門指南 <../overview/getting_started>` 的章節，來學習如何建置動態 PHP 應用程式。
 
 .. toctree::
 	:hidden:
