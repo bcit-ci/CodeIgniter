@@ -1,50 +1,40 @@
 #########################
-Installation Instructions
+安裝說明
 #########################
 
-CodeIgniter is installed in four steps:
+CodeIgniter 請按以下四個步驟來進行安裝：
 
-#. Unzip the package.
-#. Upload the CodeIgniter folders and files to your server. Normally the
-   *index.php* file will be at your root.
-#. Open the *application/config/config.php* file with a text editor and
-   set your base URL. If you intend to use encryption or sessions, set
-   your encryption key.
-#. If you intend to use a database, open the
-   *application/config/database.php* file with a text editor and set your
-   database settings.
+1. 下載 `CodeIgniter 專案`_ 並解壓縮。
+2. 上傳 Codeigniter_ 目錄下的所有檔案到您的主機，一般來說 index.php_ 會在主機的根目錄。
+3. 組態設定檔_   
+  - 使用文字編輯器開啟 組態設定檔_，找到 ``$config['base_url']`` = '您的網址';。     
+  - 如果想要加密或使用通信期( **sessions** )，找到 ``$config['encryption_key']`` = '您的密鑰';。
 
-If you wish to increase security by hiding the location of your
-CodeIgniter files you can rename the system and application folders to
-something more private. If you do rename them, you must open your main
-*index.php* file and set the ``$system_path`` and ``$application_folder``
-variables at the top of the file with the new name you've chosen.
+4. 如果要使用資料庫，則開啟 資料庫設定檔_，編輯您的 `資料庫組態設定`_。
 
-For the best security, both the system and any application folders
-should be placed above web root so that they are not directly accessible
-via a browser. By default, *.htaccess* files are included in each folder
-to help prevent direct access, but it is best to remove them from public
-access entirely in case the web server configuration changes or doesn't
-abide by the *.htaccess*.
+系統安全性
+=========================
+預設是在所有的資料夾都放 *.htaccess* 檔案來避免直接存取，但有些主機並不支援 *.htaccess* 檔案，所以還是將 web 根目錄上的 system_ 以及 application_ 二個目錄移動到瀏覽器無法直接存取的位置，才是最安全的做法。
 
-If you would like to keep your views public it is also possible to move
-the views folder out of your application folder.
+如果您希望隱藏 Codeigniter_ 目錄來增加安全性，則可以重新命名 system_、application_。
 
-After moving them, open your main index.php file and set the
-``$system_path``, ``$application_folder`` and ``$view_folder`` variables,
-preferably with a full path, e.g. '*/www/MyUser/system*'.
+如果您希望可以存取 views_ 資料夾，那麼請將其從 application_ 資料夾移出。
 
-One additional measure to take in production environments is to disable
-PHP error reporting and any other development-only functionality. In
-CodeIgniter, this can be done by setting the ``ENVIRONMENT`` constant, which
-is more fully described on the :doc:`security
-page <../general/security>`.
+當改變 system_、application_ 以及 views_ 資料夾，都必須在根目錄的 index.php_ 檔案中找到 ``$system_path`` = ``'system';`` 以及 ``$application_folder`` = ``'application';`` 以及 ``$view_folder`` = ''; 變數並設定成您希望的目錄名稱。
 
-That's it!
+以上路徑設定最好是完整的路徑，例如： '*/www/MyUser/system*'.。
 
-If you're new to CodeIgniter, please read the :doc:`Getting
-Started <../overview/getting_started>` section of the User Guide
-to begin learning how to build dynamic PHP applications. Enjoy!
+另外在產品發佈時，CodeIgniter_ 預設取消 PHP 錯誤訊息及自訂函數。
+
+您可以在根目錄 index.php_ 檔案中，重新定義 ENVIRONMENT 常數來改變，詳情請參閱 :doc:`安全性 <../general/security>` 的章節。 
+
+例如:
+
+-define       define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+-define       define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'testing');
+-define       define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'production');
+
+如果您是 CodeIgniter 的初學者，請參閱 :doc:`入門指南 <../overview/getting_started> 的章節，來學習如何建置動態 PHP 應用程式。
 
 .. toctree::
 	:hidden:
@@ -54,4 +44,18 @@ to begin learning how to build dynamic PHP applications. Enjoy!
 	self
 	upgrading
 	troubleshooting
+
+.. _CodeIgniter 專案: https://codeigniter.com/download
+.. _CodeIgniter:      https://github.com/gamearming/CodeIgniter/
+.. _index.php:        /index.php
+.. _application:      /application
+.. _views:            /application/views/
+.. _system:           /system
+.. _組態設定檔:        /application/config/config.php
+.. _資料庫設定檔:      /application/config/database.php
+.. _資料庫組態設定:    /user_guide_src/source/database/configuration.rst
+
+
+
+
 
