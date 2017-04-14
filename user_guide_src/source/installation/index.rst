@@ -1,3 +1,13 @@
+.. _CodeIgniter 專案: https://codeigniter.com/download
+.. _CodeIgniter:      https://github.com/gamearming/CodeIgniter/
+.. _index.php:        /index.php
+.. _application:      /application
+.. _views:            /application/views/
+.. _system:           /system
+.. _組態設定檔:        /application/config/config.php
+.. _資料庫設定檔:      /application/config/database.php
+.. _資料庫組態設定:    /user_guide_src/source/database/configuration.rst
+
 #########################
 安裝說明
 #########################
@@ -44,18 +54,4 @@ CodeIgniter 請按以下四個步驟來進行安裝：
 	self
 	upgrading
 	troubleshooting
-
-.. _CodeIgniter 專案: https://codeigniter.com/download
-.. _CodeIgniter:      https://github.com/gamearming/CodeIgniter/
-.. _index.php:        /index.php
-.. _application:      /application
-.. _views:            /application/views/
-.. _system:           /system
-.. _組態設定檔:        /application/config/config.php
-.. _資料庫設定檔:      /application/config/database.php
-.. _資料庫組態設定:    /user_guide_src/source/database/configuration.rst
-
-
-
-
-
+	
