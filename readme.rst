@@ -41,7 +41,7 @@ CodeIgniter_ 是一個適用於使用 PHP_ 建置網站的框架工具套件。
 -  語系翻譯_
 -  社區論壇_
 -  社區維基_
--  社區 IRC_
+-  `社區 IRC`_
 -  PHP_
 -  `CodeIgniter-TW 正體中文使用手冊`_
 
