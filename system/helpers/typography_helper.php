@@ -84,6 +84,25 @@ if ( ! function_exists('auto_typography'))
 	}
 }
 
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('format_characters'))
+{
+	/**
+	 * Format Characters Wrapper Function
+	 *
+	 * @access	public
+	 * @param	string
+	 * @return	string
+	 */
+	function format_characters($str)
+	{
+		$CI =& get_instance();
+		$CI->load->library('typography');
+		return $CI->typography->format_characters($str);
+	}
+}
+
 // --------------------------------------------------------------------
 
 if ( ! function_exists('entity_decode'))
