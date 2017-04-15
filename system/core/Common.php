@@ -471,6 +471,69 @@ if ( ! function_exists('log_message'))
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('log_error'))
+{
+	/**
+	 * Error Logging Interface
+	 *
+	 * We use this as a simple mechanism to access the logging
+	 * class and send messages to be logged.
+	 *
+	 * @param	string
+	 * @param	bool
+	 * @return	void
+	 * @see		log_message()
+	 */
+	function log_error($message, $php_error = FALSE)
+	{
+		log_message('error', $message, $php_error);
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('log_debug'))
+{
+	/**
+	 * Error Logging Interface
+	 *
+	 * We use this as a simple mechanism to access the logging
+	 * class and send messages to be logged.
+	 *
+	 * @param	string
+	 * @param	bool
+	 * @return	void
+	 * @see		log_message()
+	 */
+	function log_debug($message, $php_error = FALSE)
+	{
+		log_message('debug', $message, $php_error);
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('log_info'))
+{
+	/**
+	 * Error Logging Interface
+	 *
+	 * We use this as a simple mechanism to access the logging
+	 * class and send messages to be logged.
+	 *
+	 * @param	string
+	 * @param	bool
+	 * @return	void
+	 * @see		log_message()
+	 */
+	function log_info($message, $php_error = FALSE)
+	{
+		log_message('info', $message, $php_error);
+	}
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('set_status_header'))
 {
 	/**
