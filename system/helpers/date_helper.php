@@ -273,6 +273,42 @@ if ( ! function_exists('days_in_month'))
 }
 
 // ------------------------------------------------------------------------
+  
+if ( ! function_exists('last_weekday_in_month'))
+{
+	/** 
+	 * Last weekday in the month
+	 *
+	 * Takes a month/year as input and returns the last weekday
+	 * for the given month/year.
+	 *
+	 * @access	public
+	 * @param	integer	a numeric month
+	 * @param	integer	a numeric year
+	 * @return	integer
+	 */
+	function last_weekday_in_month($month = 0, $year = '') 
+	{
+		$days_in_month = days_in_month($month, $year);
+		
+		if ( ! $days_in_month)
+		{
+			return 0;
+		}
+		
+		$last_day = date('N', strtotime($year.'-'.$month.'-'.$days_in_month));
+
+		while ($last_day > 5) 
+		{ 
+			$days_in_month--; 
+			$last_day--;
+		}
+		
+		return $days_in_month;
+	}
+}
+
+// ------------------------------------------------------------------------
 
 if ( ! function_exists('local_to_gmt'))
 {
