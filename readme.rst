@@ -1,3 +1,5 @@
+.. image:: https://travis-ci.org/EllisLab/CodeIgniter.png
+   :target: https://travis-ci.org/EllisLab/CodeIgniter
 ###################
 What is CodeIgniter
 ###################
