@@ -600,6 +600,17 @@ For MySQL::
 		`data` blob NOT NULL,
 		KEY `ci_sessions_timestamp` (`timestamp`)
 	);
+And if you use PostgreSQL here is the prototype for it required by the session class::
+
+	CREATE TABLE  ci_sessions (
+		session_id varchar(40) DEFAULT '0' NOT NULL,
+		ip_address varchar(45) DEFAULT '0' NOT NULL,
+		user_agent varchar(120) NOT NULL,
+		last_activity bigint DEFAULT 0 NOT NULL,
+		user_data text NOT NULL,
+ 		PRIMARY KEY (session_id)
+	);
+	CREATE INDEX last_activity_idx ON ci_sessions(last_activity);
 
 For PostgreSQL::
 
