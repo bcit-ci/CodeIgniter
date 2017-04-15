@@ -55,6 +55,7 @@ For example, to create an image thumbnail you'll do this::
 	$config['height']	= 50;
 
 	$this->load->library('image_lib', $config); 
+	$this->image_lib->initialize( $config );
 
 	$this->image_lib->resize();
 
