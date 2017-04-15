@@ -1052,6 +1052,11 @@ abstract class CI_DB_driver {
 		{
 			return 'NULL';
 		}
+		elseif (is_object($str))
+		{
+			$obj =& $str;
+			$str = $this->escape(method_exists($obj, '__toString') ? $obj->__toString() : '');
+		}
 
 		return $str;
 	}
