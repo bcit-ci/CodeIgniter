@@ -104,7 +104,7 @@ if ( ! function_exists('array_column'))
 		}
 
 		$result = array();
-		foreach ($array as &$a)
+		foreach ($array as $a)
 		{
 			if ($column_key === NULL)
 			{
