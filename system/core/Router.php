@@ -446,6 +446,8 @@ class CI_Router {
 	 */
 	public function set_method($method)
 	{
+		if (empty($method)) return;
+
 		$this->method = $method;
 	}
 
