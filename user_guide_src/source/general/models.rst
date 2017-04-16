@@ -118,7 +118,7 @@ same name as your class::
 	$this->model_name->method();
 
 If you would like your model assigned to a different object name you can
-specify it via the second parameter of the loading method::
+specify it via the second parameter of the loading method:
 
 	$this->load->model('model_name', 'foobar');
 
