@@ -179,8 +179,6 @@ add some code to the controller and create a new view. Go back to the
 			show_404();
 		}
 
-		$data['title'] = $data['news_item']['title'];
-
 		$this->load->view('templates/header', $data);
 		$this->load->view('news/view', $data);
 		$this->load->view('templates/footer');
