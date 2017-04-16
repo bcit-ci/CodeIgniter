@@ -136,6 +136,8 @@ keep certain queries from being cached. Example::
 	$this->db->cache_on();
 	$query = $this->db->query("SELECT * FROM another_table");
 
+:returns:   TRUE if caching is enabled, FALSE if not
+
 $this->db->cache_delete()
 ==========================
 
@@ -153,6 +155,8 @@ delete those particular cache files you will use::
 If you do not use any parameters the current URI will be used when
 determining what should be cleared.
 
+:returns:   FALSE on failure, void otherwise
+
 $this->db->cache_delete_all()
 ===============================
 
@@ -160,3 +164,4 @@ Clears all existing cache files. Example::
 
 	$this->db->cache_delete_all();
 
+:returns:   FALSE on failure, void otherwise
