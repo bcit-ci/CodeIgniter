@@ -1320,6 +1320,19 @@ class CI_Form_validation {
 	}
 
 	// --------------------------------------------------------------------
+	
+	/**
+	 * Full Names
+	 *
+	 * @param	string
+	 * @return	bool
+	 */
+	public function full_names($str)
+	{
+		return (bool) preg_match('/^[-A-Z\' ]+$/i', $str);
+	}
+	
+	// --------------------------------------------------------------------
 
 	/**
 	 * Alpha-numeric
