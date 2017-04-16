@@ -660,7 +660,11 @@ class CI_FTP {
 	protected function _error($line)
 	{
 		$CI =& get_instance();
-		$CI->lang->load('ftp');
+
+		if ( ! isset($CI->lang->is_loaded['ftp_lang.php']))
+		{
+			$CI->lang->load('ftp');
+		}
 		show_error($CI->lang->line($line));
 	}
 

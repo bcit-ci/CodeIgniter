@@ -1150,7 +1150,10 @@ class CI_Upload {
 	 */
 	public function set_error($msg, $log_level = 'error')
 	{
-		$this->_CI->lang->load('upload');
+		if ( ! isset($this->_CI->lang->is_loaded['upload_lang.php']))
+		{
+			$this->_CI->lang->load('upload');
+		}
 
 		is_array($msg) OR $msg = array($msg);
 		foreach ($msg as $val)
