@@ -942,7 +942,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function like($field, $match = '', $side = 'both', $escape = NULL)
 	{
-		return $this->_like($field, $match, 'AND ', $side, '', $escape);
+		return $this->_like($field, $match, 'AND ', strtolower($side), '', $escape);
 	}
 
 	// --------------------------------------------------------------------
