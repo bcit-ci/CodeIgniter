@@ -567,3 +567,30 @@ if ( ! function_exists('redirect'))
 		exit;
 	}
 }
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('tel'))
+{
+	/**
+	 * Tel Link
+	 *
+	 * @param	string	the phone
+	 * @param	string	the link title
+	 * @param	mixed	any attributes
+	 * @return	string
+	 */
+	function tel($phone, $title = '', $attributes = '')
+	{
+		$title = (string) $title;
+
+		if ($title === '')
+		{
+			$title = $phone;
+		}
+
+		return '<a href="tel:'.$phone.'"'._stringify_attributes($attributes).'>'.$title.'</a>';
+	}
+}
+
+// ------------------------------------------------------------------------
