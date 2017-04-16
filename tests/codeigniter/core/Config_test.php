@@ -39,6 +39,9 @@ class Config_test extends CI_TestCase {
 
 		$this->config->set_item('not_yet_set', 'is set');
 		$this->assertEquals('is set', $this->config->item('not_yet_set'));
+
+		$this->config->set_item('not_yet_set', 'is set', 'default');
+		$this->assertEquals('is set', $this->config->item('not_yet_set', 'default'));
 	}
 
 	// --------------------------------------------------------------------
