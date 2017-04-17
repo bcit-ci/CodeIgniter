@@ -157,6 +157,13 @@ class CI_Cache_memcached extends CI_Driver {
 	}
 
 	// ------------------------------------------------------------------------
+	
+	public function  __construct() {
+		// force setup of server
+	        if(empty($this->_memcached))
+	        	$this->_setup_memcached();
+	}
+
 
 	/**
 	 * Save
