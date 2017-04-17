@@ -237,7 +237,7 @@ if ( ! function_exists('form_input'))
 			'value' => $value
 		);
 
-		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
+		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)."/>\n";
 	}
 }
 
@@ -282,7 +282,7 @@ if ( ! function_exists('form_upload'))
 		is_array($data) OR $data = array('name' => $data);
 		$data['type'] = 'file';
 
-		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
+		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)."/>\n";
 	}
 }
 
@@ -482,7 +482,7 @@ if ( ! function_exists('form_checkbox'))
 			unset($defaults['checked']);
 		}
 
-		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
+		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)."/>\n";
 	}
 }
 
@@ -528,7 +528,7 @@ if ( ! function_exists('form_submit'))
 			'value' => $value
 		);
 
-		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
+		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)."/>\n";
 	}
 }
 
@@ -552,7 +552,7 @@ if ( ! function_exists('form_reset'))
 			'value' => $value
 		);
 
-		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
+		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)."/>\n";
 	}
 }
 
@@ -606,15 +606,12 @@ if ( ! function_exists('form_label'))
 
 		if ($id !== '')
 		{
-			$label .= ' for="'.$id.'"';
+			$label .= ' for="'.$id.'" ';
 		}
 
 		if (is_array($attributes) && count($attributes) > 0)
 		{
-			foreach ($attributes as $key => $val)
-			{
-				$label .= ' '.$key.'="'.$val.'"';
-			}
+			$label .= _attributes_to_string($attributes);
 		}
 
 		return $label.'>'.$label_text.'</label>';
@@ -949,13 +946,15 @@ if ( ! function_exists('_parse_form_attributes'))
 			if ($key === 'value')
 			{
 				$val = html_escape($val);
+				$att .= $key.'="'.$val.'" ';
+				continue;
 			}
 			elseif ($key === 'name' && ! strlen($default['name']))
 			{
 				continue;
 			}
 
-			$att .= $key.'="'.$val.'" ';
+			($val) ? $att .= $key.'="'.$val.'" ' :  $att .= $key.' ' ;
 		}
 
 		return $att;
@@ -988,14 +987,14 @@ if ( ! function_exists('_attributes_to_string'))
 
 		if (is_array($attributes))
 		{
-			$atts = '';
+			$att = '';
 
 			foreach ($attributes as $key => $val)
 			{
-				$atts .= ' '.$key.'="'.$val.'"';
+				($val) ? $att .= $key.'="'.$val.'" ' :  $att .= $key.' ' ;
 			}
 
-			return $atts;
+			return $att;
 		}
 
 		if (is_string($attributes))

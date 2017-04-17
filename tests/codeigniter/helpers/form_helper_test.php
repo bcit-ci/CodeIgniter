@@ -25,7 +25,7 @@ EOH;
 	public function test_form_input()
 	{
 		$expected = <<<EOH
-<input type="text" name="username" value="johndoe" id="username" maxlength="100" size="50" style="width:50%"  />
+<input type="text" name="username" value="johndoe" id="username" maxlength="100" size="50" style="width:50%" disabled />
 
 EOH;
 
@@ -36,6 +36,7 @@ EOH;
 			'maxlength'   => '100',
 			'size'        => '50',
 			'style'       => 'width:50%',
+			'disabled'    => '',
 		);
 
 		$this->assertEquals($expected, form_input($data));
@@ -46,7 +47,7 @@ EOH;
 	public function test_form_password()
 	{
 		$expected = <<<EOH
-<input type="password" name="password" value=""  />
+<input type="password" name="password" value="" />
 
 EOH;
 
@@ -58,7 +59,7 @@ EOH;
 	public function test_form_upload()
 	{
 		$expected = <<<EOH
-<input type="file" name="attachment"  />
+<input type="file" name="attachment" />
 
 EOH;
 
@@ -195,7 +196,7 @@ EOH;
 	public function test_form_checkbox()
 	{
 		$expected = <<<EOH
-<input type="checkbox" name="newsletter" value="accept" checked="checked"  />
+<input type="checkbox" name="newsletter" value="accept" checked="checked" />
 
 EOH;
 
@@ -207,7 +208,7 @@ EOH;
 	public function test_form_radio()
 	{
 		$expected = <<<EOH
-<input type="radio" name="newsletter" value="accept" checked="checked"  />
+<input type="radio" name="newsletter" value="accept" checked="checked" />
 
 EOH;
 
@@ -219,7 +220,7 @@ EOH;
 	public function test_form_submit()
 	{
 		$expected = <<<EOH
-<input type="submit" name="mysubmit" value="Submit Post!"  />
+<input type="submit" name="mysubmit" value="Submit Post!" />
 
 EOH;
 
@@ -231,7 +232,7 @@ EOH;
 	public function test_form_label()
 	{
 		$expected = <<<EOH
-<label for="username">What is your Name</label>
+<label for="username" >What is your Name</label>
 EOH;
 
 		$this->assertEquals($expected, form_label('What is your Name', 'username'));
@@ -242,7 +243,7 @@ EOH;
 	public function test_form_reset()
 	{
 		$expected = <<<EOH
-<input type="reset" name="myreset" value="Reset"  />
+<input type="reset" name="myreset" value="Reset" />
 
 EOH;
 
