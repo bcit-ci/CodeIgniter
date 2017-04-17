@@ -330,7 +330,7 @@ class CI_Pagination {
 	public function __construct($params = array())
 	{
 		$this->CI =& get_instance();
-		$this->CI->load->language('pagination');
+		$this->CI->load->language('pagination', (isset($params['language']) ? $params['language'] : 'english'));
 		foreach (array('first_link', 'next_link', 'prev_link', 'last_link') as $key)
 		{
 			if (($val = $this->CI->lang->line('pagination_'.$key)) !== FALSE)
