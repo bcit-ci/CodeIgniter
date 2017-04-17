@@ -406,6 +406,12 @@ class CI_Router {
 
 					// Execute the callback using the values in matches as its parameters.
 					$val = call_user_func_array($val, $matches);
+					
+					// Try next route if callback returns false
+					if ($val === FALSE)
+					{
+						continue;
+					}
 				}
 				// Are we using the default routing method for back-references?
 				elseif (strpos($val, '$') !== FALSE && strpos($key, '(') !== FALSE)
