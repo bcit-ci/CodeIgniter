@@ -233,10 +233,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * ------------------------------------------------------
  */
 
-	require_once(BASEPATH.'core/compat/mbstring.php');
-	require_once(BASEPATH.'core/compat/hash.php');
-	require_once(BASEPATH.'core/compat/password.php');
-	require_once(BASEPATH.'core/compat/standard.php');
+	$compats = glob(BASEPATH.'core/compat/*.php');
+	foreach ($compats as $file)
+	{
+		require_once($file);
+	}
 
 /*
  * ------------------------------------------------------
