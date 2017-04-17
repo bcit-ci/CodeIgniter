@@ -128,6 +128,17 @@ one, you can do so using::
 Where item_name is the $config array index you want to change, and
 item_value is its value.
 
+If you are using the second parameter of the $this->config->load
+function in order to assign your config items to a specific index you
+can retrieve it by specifying the index name in the third parameter of
+the $this->config->set_item() function. Example::
+
+	// Loads a config file named blog_settings.php and assigns it to an index named "blog_settings"
+	$this->config->load('blog_settings', TRUE);
+
+	// Set a config item named site_name contained within the blog_settings array
+	$site_name = $this->config->item('site_name', 'Site Name', 'blog_settings');
+
 .. _config-environments:
 
 Environments
@@ -191,10 +202,11 @@ Class Reference
 
 		Fetch a config file item.
 
-	.. php:method:: set_item($item, $value)
+	.. php:method:: set_item($item, $value[, $index=''])
 
 		:param	string	$item: Config item name
 		:param	string	$value: Config item value
+		:param	string	$index: Index name
 		:rtype:	void
 
 		Sets a config file item to the specified value.
