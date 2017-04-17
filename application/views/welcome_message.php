@@ -73,7 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		 padding:0;
 	}
 
-	p.footer {
+	.footer {
 		text-align: right;
 		font-size: 12px;
 		border-top: 1px solid #d0d0d0;
