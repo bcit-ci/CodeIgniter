@@ -35,6 +35,29 @@
  * @since	Version 1.0.0
  * @filesource
  */
+ 
+ /**
+ * This makes our life easier when dealing with paths.
+ * Everything is relative
+ * to the application root now.
+ */
+chdir(dirname(__DIR__));
+
+// Decline static file requests back to the PHP built-in webserver
+if (php_sapi_name() === 'cli-server') {
+    $path = realpath(__DIR__ . parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+    if (__FILE__ !== $path && is_file($path)) {
+        return false;
+    }
+    unset($path);
+}
+/*
+ * Define APP_ROOT_PATH for the system folder and application folder.
+ */
+if(!defined('APP_ROOT_PATH')){
+    define('APP_ROOT_PATH', dirname(__DIR__) . '/');
+}
+
 
 /*
  *---------------------------------------------------------------
@@ -90,7 +113,7 @@ switch (ENVIRONMENT)
  * This variable must contain the name of your "system" directory.
  * Set the path if it is not in the same directory as this file.
  */
-	$system_path = 'system';
+	$system_path = __DIR__.'/system';
 
 /*
  *---------------------------------------------------------------
@@ -107,7 +130,7 @@ switch (ENVIRONMENT)
  *
  * NO TRAILING SLASH!
  */
-	$application_folder = 'application';
+	$application_folder = __DIR__.'/application';
 
 /*
  *---------------------------------------------------------------
