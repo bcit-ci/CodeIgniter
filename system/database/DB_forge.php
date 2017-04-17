@@ -459,7 +459,9 @@ abstract class CI_DB_forge {
 			return ($this->db->db_debug) ? $this->db->display_error('db_table_name_required') : FALSE;
 		}
 
-		if (($query = $this->_drop_table($this->db->dbprefix.$table_name, $if_exists)) === TRUE)
+		$query = $this->_drop_table($this->db->dbprefix.$table_name, $if_exists);
+
+		if ($query === TRUE)
 		{
 			return TRUE;
 		}
