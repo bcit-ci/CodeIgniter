@@ -89,12 +89,15 @@ class CI_Lang {
 	{
 		if (is_array($langfile))
 		{
+			$results = array();
 			foreach ($langfile as $value)
 			{
-				$this->load($value, $idiom, $return, $add_suffix, $alt_path);
+				$results[$value] = $this->load($value, $idiom, $return, $add_suffix, $alt_path);
 			}
-
-			return;
+			if($return){
+				return $results;
+			}
+			return TRUE;
 		}
 
 		$langfile = str_replace('.php', '', $langfile);
