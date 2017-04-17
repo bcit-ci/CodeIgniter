@@ -256,7 +256,9 @@ class CI_Hooks {
 				return $this->_in_progress = FALSE;
 			}
 
-			$function($params);
+			if (is_callable($function)) {
+				$function($params);
+			}
 		}
 
 		$this->_in_progress = FALSE;
