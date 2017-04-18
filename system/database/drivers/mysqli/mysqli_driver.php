@@ -135,6 +135,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 		$this->_mysqli = mysqli_init();
 
 		$this->_mysqli->options(MYSQLI_OPT_CONNECT_TIMEOUT, 10);
+                $this->_mysqli->options(MYSQLI_OPT_INT_AND_FLOAT_NATIVE, 1);
 
 		if (isset($this->stricton))
 		{
