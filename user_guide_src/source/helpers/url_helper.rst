@@ -371,3 +371,21 @@ The following functions are available:
 		via POST and HTTP/1.1 is used.
 
 	.. important:: This function will terminate script execution.
+
+.. php:function:: tel($tel, $title = '', $attributes = '')
+
+	:param	string	$tel: Telephone number
+	:param	string	$title: Anchor title
+	:param	mixed	$attributes: HTML attributes
+	:returns:	A "tel" hyperlink
+	:rtype:	string
+
+	Creates a RFC3966 ``tel:`` link. Usage example::
+
+		echo tel('+1-201-555-0123', 'Call Us');
+
+	As with the :php:func:`anchor()` function above, you can set attributes using the
+	third parameter::
+
+		$attributes = array('title' => 'Call me');
+		echo tel('+1-201-555-0123', 'Contact Me', $attributes);
