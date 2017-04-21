@@ -209,7 +209,7 @@ if ( ! function_exists('form_hidden'))
 			foreach ($value as $k => $v)
 			{
 				$k = is_int($k) ? '' : $k;
-				form_hidden($name.'['.$k.']', $v, TRUE);
+				form_hidden($name.'['.$k.']', html_escape($v), TRUE);
 			}
 		}
 
