@@ -246,6 +246,8 @@ abstract class CI_DB_utility {
 
 		$out = substr($out, 0, -strlen($delim)).$newline;
 
+		$query->data_seek(0);
+
 		// Next blast through the result array and build out the rows
 		while ($row = $query->unbuffered_row('array'))
 		{
