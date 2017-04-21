@@ -1188,9 +1188,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	/**
 	 * ORDER BY
 	 *
-	 * @param	string	$orderby
-	 * @param	string	$direction	ASC, DESC or RANDOM
-	 * @param	bool	$escape
+	 * @param	string|array	$orderby
+	 * @param	string			$direction	ASC, DESC or RANDOM
+	 * @param	bool			$escape
 	 * @return	CI_DB_query_builder
 	 */
 	public function order_by($orderby, $direction = '', $escape = NULL)
@@ -1223,8 +1223,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 		else
 		{
+			if (is_string($orderby))
+			{
+				$orderby = explode(',', $orderby);
+			}
 			$qb_orderby = array();
-			foreach (explode(',', $orderby) as $field)
+			foreach ($orderby as $field)
 			{
 				$qb_orderby[] = ($direction === '' && preg_match('/\s+(ASC|DESC)$/i', rtrim($field), $match, PREG_OFFSET_CAPTURE))
 					? array('field' => ltrim(substr($field, 0, $match[0][1])), 'direction' => ' '.$match[1][0], 'escape' => TRUE)
