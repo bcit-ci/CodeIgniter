@@ -420,7 +420,7 @@ if ( ! function_exists('form_dropdown'))
 					continue;
 				}
 
-				$form .= '<optgroup label="'.$key."\">\n";
+				$form .= '<optgroup label="'.html_escape($key)."\">\n";
 
 				foreach ($val as $optgroup_key => $optgroup_val)
 				{
@@ -435,7 +435,7 @@ if ( ! function_exists('form_dropdown'))
 			{
 				$form .= '<option value="'.html_escape($key).'"'
 					.(in_array($key, $selected) ? ' selected="selected"' : '').'>'
-					.(string) $val."</option>\n";
+					.(string) html_escape($val)."</option>\n";
 			}
 		}
 
@@ -583,7 +583,7 @@ if ( ! function_exists('form_button'))
 		}
 
 		return '<button '._parse_form_attributes($data, $defaults)._attributes_to_string($extra).'>'
-			.$content
+			.xss_clean($content)
 			."</button>\n";
 	}
 }
@@ -607,18 +607,18 @@ if ( ! function_exists('form_label'))
 
 		if ($id !== '')
 		{
-			$label .= ' for="'.$id.'"';
+			$label .= ' for="'.html_escape($id).'"';
 		}
 
 		if (is_array($attributes) && count($attributes) > 0)
 		{
 			foreach ($attributes as $key => $val)
 			{
-				$label .= ' '.$key.'="'.$val.'"';
+				$label .= ' '.html_escape($key).'="'.html_escape($val).'"';
 			}
 		}
 
-		return $label.'>'.$label_text.'</label>';
+		return $label.'>'.xss_clean($label_text).'</label>';
 	}
 }
 
@@ -641,7 +641,7 @@ if ( ! function_exists('form_fieldset'))
 		$fieldset = '<fieldset'._attributes_to_string($attributes).">\n";
 		if ($legend_text !== '')
 		{
-			return $fieldset.'<legend>'.$legend_text."</legend>\n";
+			return $fieldset.'<legend>'.xss_clean($legend_text)."</legend>\n";
 		}
 
 		return $fieldset;
@@ -956,7 +956,7 @@ if ( ! function_exists('_parse_form_attributes'))
 				continue;
 			}
 
-			$att .= $key.'="'.$val.'" ';
+			$att .= html_escape($key).'="'.html_escape($val).'" ';
 		}
 
 		return $att;
