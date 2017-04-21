@@ -88,7 +88,7 @@ if ( ! function_exists('form_open'))
 			$attributes .= ' accept-charset="'.strtolower(config_item('charset')).'"';
 		}
 
-		$form = '<form action="'.$action.'"'.$attributes.">\n";
+		$form = '<form action="'.html_escape($action).'"'.$attributes.">\n";
 
 		if (is_array($hidden))
 		{
