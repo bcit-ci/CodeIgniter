@@ -208,8 +208,9 @@ if ( ! function_exists('form_hidden'))
 		{
 			foreach ($value as $k => $v)
 			{
-				$k = is_int($k) ? '' : $k;
-				form_hidden($name.'['.$k.']', html_escape($v), TRUE);
+				$k = is_int($k) ? '' : html_escape($k);
+				$n = html_escape($name).'['.$k.']';
+				form_hidden($n, html_escape($v), TRUE);
 			}
 		}
 
