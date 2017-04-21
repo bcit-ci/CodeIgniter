@@ -583,7 +583,7 @@ if ( ! function_exists('form_button'))
 		}
 
 		return '<button '._parse_form_attributes($data, $defaults)._attributes_to_string($extra).'>'
-			.xss_clean($content)
+			.$content
 			."</button>\n";
 	}
 }
@@ -618,7 +618,7 @@ if ( ! function_exists('form_label'))
 			}
 		}
 
-		return $label.'>'.xss_clean($label_text).'</label>';
+		return $label.'>'.$label_text.'</label>';
 	}
 }
 
@@ -641,7 +641,7 @@ if ( ! function_exists('form_fieldset'))
 		$fieldset = '<fieldset'._attributes_to_string($attributes).">\n";
 		if ($legend_text !== '')
 		{
-			return $fieldset.'<legend>'.xss_clean($legend_text)."</legend>\n";
+			return $fieldset.'<legend>'.$legend_text."</legend>\n";
 		}
 
 		return $fieldset;
