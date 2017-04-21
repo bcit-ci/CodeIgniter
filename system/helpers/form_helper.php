@@ -992,7 +992,7 @@ if ( ! function_exists('_attributes_to_string'))
 
 			foreach ($attributes as $key => $val)
 			{
-				$atts .= ' '.$key.'="'.html_escape($val).'"';
+				$atts .= ' '.html_escape($key).'="'.html_escape($val).'"';
 			}
 
 			return $atts;
