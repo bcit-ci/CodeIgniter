@@ -210,7 +210,7 @@ if ( ! function_exists('form_hidden'))
 			{
 				$k = is_int($k) ? '' : html_escape($k);
 				$n = html_escape($name).'['.$k.']';
-				form_hidden($n, html_escape($v), TRUE);
+				form_hidden($n, $v, TRUE);
 			}
 		}
 
