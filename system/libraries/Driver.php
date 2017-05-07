@@ -112,7 +112,7 @@ class CI_Driver_Library {
 		}
 
 		// Get package paths and filename case variations to search
-		$CI = get_instance();
+		$CI =& get_instance();
 		$paths = $CI->load->get_package_paths(TRUE);
 
 		// Is there an extension?
