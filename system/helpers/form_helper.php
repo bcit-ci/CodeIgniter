@@ -88,13 +88,13 @@ if ( ! function_exists('form_open'))
 			$attributes .= ' accept-charset="'.strtolower(config_item('charset')).'"';
 		}
 
-		$form = '<form action="'.$action.'"'.$attributes.">\n";
+		$form = '<form action="'.html_escape($action).'"'.$attributes.">\n";
 
 		if (is_array($hidden))
 		{
 			foreach ($hidden as $name => $value)
 			{
-				$form .= '<input type="hidden" name="'.$name.'" value="'.html_escape($value).'" />'."\n";
+				$form .= '<input type="hidden" name="'.html_escape($name).'" value="'.html_escape($value).'" />'."\n";
 			}
 		}
 
@@ -202,14 +202,15 @@ if ( ! function_exists('form_hidden'))
 
 		if ( ! is_array($value))
 		{
-			$form .= '<input type="hidden" name="'.$name.'" value="'.html_escape($value)."\" />\n";
+			$form .= '<input type="hidden" name="'.html_escape($name).'" value="'.html_escape($value)."\" />\n";
 		}
 		else
 		{
 			foreach ($value as $k => $v)
 			{
-				$k = is_int($k) ? '' : $k;
-				form_hidden($name.'['.$k.']', $v, TRUE);
+				$k = is_int($k) ? '' : html_escape($k);
+				$n = html_escape($name).'['.$k.']';
+				form_hidden($n, $v, TRUE);
 			}
 		}
 
@@ -419,7 +420,7 @@ if ( ! function_exists('form_dropdown'))
 					continue;
 				}
 
-				$form .= '<optgroup label="'.$key."\">\n";
+				$form .= '<optgroup label="'.html_escape($key)."\">\n";
 
 				foreach ($val as $optgroup_key => $optgroup_val)
 				{
@@ -434,7 +435,7 @@ if ( ! function_exists('form_dropdown'))
 			{
 				$form .= '<option value="'.html_escape($key).'"'
 					.(in_array($key, $selected) ? ' selected="selected"' : '').'>'
-					.(string) $val."</option>\n";
+					.(string) html_escape($val)."</option>\n";
 			}
 		}
 
@@ -606,14 +607,14 @@ if ( ! function_exists('form_label'))
 
 		if ($id !== '')
 		{
-			$label .= ' for="'.$id.'"';
+			$label .= ' for="'.html_escape($id).'"';
 		}
 
 		if (is_array($attributes) && count($attributes) > 0)
 		{
 			foreach ($attributes as $key => $val)
 			{
-				$label .= ' '.$key.'="'.$val.'"';
+				$label .= ' '.html_escape($key).'="'.html_escape($val).'"';
 			}
 		}
 
@@ -955,7 +956,7 @@ if ( ! function_exists('_parse_form_attributes'))
 				continue;
 			}
 
-			$att .= $key.'="'.$val.'" ';
+			$att .= html_escape($key).'="'.html_escape($val).'" ';
 		}
 
 		return $att;
@@ -992,7 +993,7 @@ if ( ! function_exists('_attributes_to_string'))
 
 			foreach ($attributes as $key => $val)
 			{
-				$atts .= ' '.$key.'="'.$val.'"';
+				$atts .= ' '.html_escape($key).'="'.html_escape($val).'"';
 			}
 
 			return $atts;
