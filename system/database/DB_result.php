@@ -183,7 +183,7 @@ class CI_DB_result {
 		{
 			return $this->custom_result_object[$class_name];
 		}
-		elseif ($this->result_id === FALSE OR $this->num_rows === 0)
+		elseif ( ! $this->result_id OR $this->num_rows === 0)
 		{
 			return array();
 		}
