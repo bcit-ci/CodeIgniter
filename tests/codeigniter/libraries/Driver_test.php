@@ -31,7 +31,7 @@ class Driver_test extends CI_TestCase {
 	public function test_load_driver()
 	{
 		// Create driver file
-		$driver = 'basic';
+		$driver = 'Driver_basic';
 		$file = $this->name.'_'.$driver;
 		$class = 'CI_'.$file;
 		$prop = 'called';
