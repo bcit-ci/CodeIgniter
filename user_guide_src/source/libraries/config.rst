@@ -9,7 +9,16 @@ These preferences can come from the default config file
 .. note:: This class is initialized automatically by the system so there
 	is no need to do it manually.
 
-.. contents:: Page Contents
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
+
+*****************************
+Working with the Config Class
+*****************************
 
 Anatomy of a Config File
 ========================
@@ -83,9 +92,9 @@ Fetching Config Items
 
 To retrieve an item from your config file, use the following function::
 
-	$this->config->item('item name');
+	$this->config->item('item_name');
 
-Where item name is the $config array index you want to retrieve. For
+Where item_name is the $config array index you want to retrieve. For
 example, to fetch your language choice you'll do this::
 
 	$lang = $this->config->item('language');
@@ -157,27 +166,76 @@ folders:
 	that you wish to change for your environment. The config items declared in your environment
 	folders always overwrite those in your global config files.
 
-Helper Functions
-================
 
-The config class has the following helper functions:
+***************
+Class Reference
+***************
 
-$this->config->site_url();
-***************************
+.. php:class:: CI_Config
 
-This function retrieves the URL to your site, along with the "index"
-value you've specified in the config file.
+	.. attribute:: $config
 
-$this->config->base_url();
-***************************
+		Array of all loaded config values
 
-This function retrieves the URL to your site, plus an optional path such
-as to a stylesheet or image.
+	.. attribute:: $is_loaded
 
-The two functions above are normally accessed via the corresponding
-functions in the :doc:`URL Helper </helpers/url_helper>`.
+		Array of all loaded config files
 
-$this->config->system_url();
-*****************************
 
-This function retrieves the URL to your system folder.
+	.. php:method:: item($item[, $index=''])
+
+		:param	string	$item: Config item name
+		:param	string	$index: Index name
+		:returns:	Config item value or NULL if not found
+		:rtype:	mixed
+
+		Fetch a config file item.
+
+	.. php:method:: set_item($item, $value)
+
+		:param	string	$item: Config item name
+		:param	string	$value: Config item value
+		:rtype:	void
+
+		Sets a config file item to the specified value.
+
+	.. php:method:: slash_item($item)
+
+		:param	string	$item: config item name
+		:returns:	Config item value with a trailing forward slash or NULL if not found
+		:rtype:	mixed
+
+		This method is identical to ``item()``, except it appends a forward
+		slash to the end of the item, if it exists.
+
+	.. php:method:: load([$file = ''[, $use_sections = FALSE[, $fail_gracefully = FALSE]]])
+
+		:param	string	$file: Configuration file name
+		:param	bool	$use_sections: Whether config values should be loaded into their own section (index of the main config array)
+		:param	bool	$fail_gracefully: Whether to return FALSE or to display an error message
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
+
+		Loads a configuration file.
+
+	.. php:method:: site_url()
+
+		:returns:	Site URL
+		:rtype:	string
+
+		This method retrieves the URL to your site, along with the "index" value
+		you've specified in the config file.
+
+		This method is normally accessed via the corresponding functions in the
+		:doc:`URL Helper </helpers/url_helper>`.
+
+	.. php:method:: base_url()
+
+		:returns:	Base URL
+		:rtype:	string
+
+		This method retrieves the URL to your site, plus an optional path such
+		as to a stylesheet or image.
+
+		This method is normally accessed via the corresponding functions in the
+		:doc:`URL Helper </helpers/url_helper>`.

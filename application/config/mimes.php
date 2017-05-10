@@ -1,29 +1,5 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/**
- * CodeIgniter
- *
- * An open source application development framework for PHP 5.2.4 or newer
- *
- * NOTICE OF LICENSE
- *
- * Licensed under the Academic Free License version 3.0
- *
- * This source file is subject to the Academic Free License (AFL 3.0) that is
- * bundled with this package in the files license_afl.txt / license_afl.rst.
- * It is also available through the world wide web at this URL:
- * http://opensource.org/licenses/AFL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
- *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/AFL-3.0 Academic Free License (AFL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
- * @filesource
- */
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------
@@ -33,7 +9,6 @@
 | Upload class to help identify allowed file types.
 |
 */
-
 return array(
 	'hqx'	=>	array('application/mac-binhex40', 'application/mac-binhex', 'application/x-binhex40', 'application/x-mac-binhex40'),
 	'cpt'	=>	'application/mac-compactpro',
@@ -57,7 +32,7 @@ return array(
 	'smil'	=>	'application/smil',
 	'mif'	=>	'application/vnd.mif',
 	'xls'	=>	array('application/vnd.ms-excel', 'application/msexcel', 'application/x-msexcel', 'application/x-ms-excel', 'application/x-excel', 'application/x-dos_ms_excel', 'application/xls', 'application/x-xls', 'application/excel', 'application/download', 'application/vnd.ms-office', 'application/msword'),
-	'ppt'	=>	array('application/powerpoint', 'application/vnd.ms-powerpoint'),
+	'ppt'	=>	array('application/powerpoint', 'application/vnd.ms-powerpoint', 'application/vnd.ms-office', 'application/msword'),
 	'pptx'	=> 	array('application/vnd.openxmlformats-officedocument.presentationml.presentation', 'application/x-zip', 'application/zip'),
 	'wbxml'	=>	'application/wbxml',
 	'wmlc'	=>	'application/wmlc',
@@ -102,6 +77,14 @@ return array(
 	'jpeg'	=>	array('image/jpeg', 'image/pjpeg'),
 	'jpg'	=>	array('image/jpeg', 'image/pjpeg'),
 	'jpe'	=>	array('image/jpeg', 'image/pjpeg'),
+	'jp2'	=>	array('image/jp2', 'video/mj2', 'image/jpx', 'image/jpm'),
+	'j2k'	=>	array('image/jp2', 'video/mj2', 'image/jpx', 'image/jpm'),
+	'jpf'	=>	array('image/jp2', 'video/mj2', 'image/jpx', 'image/jpm'),
+	'jpg2'	=>	array('image/jp2', 'video/mj2', 'image/jpx', 'image/jpm'),
+	'jpx'	=>	array('image/jp2', 'video/mj2', 'image/jpx', 'image/jpm'),
+	'jpm'	=>	array('image/jp2', 'video/mj2', 'image/jpx', 'image/jpm'),
+	'mj2'	=>	array('image/jp2', 'video/mj2', 'image/jpx', 'image/jpm'),
+	'mjp2'	=>	array('image/jp2', 'video/mj2', 'image/jpx', 'image/jpm'),
 	'png'	=>	array('image/png',  'image/x-png'),
 	'tiff'	=>	'image/tiff',
 	'tif'	=>	'image/tiff',
@@ -151,10 +134,11 @@ return array(
 	'rsa'   =>	'application/x-pkcs7',
 	'cer'   =>	array('application/pkix-cert', 'application/x-x509-ca-cert'),
 	'3g2'   =>	'video/3gpp2',
-	'3gp'   =>	'video/3gp',
+	'3gp'   =>	array('video/3gp', 'video/3gpp'),
 	'mp4'   =>	'video/mp4',
 	'm4a'   =>	'audio/x-m4a',
-	'f4v'   =>	'video/mp4',
+	'f4v'   =>	array('video/mp4', 'video/x-f4v'),
+	'flv'	=>	'video/x-flv',
 	'webm'	=>	'video/webm',
 	'aac'   =>	'audio/x-acc',
 	'm4u'   =>	'application/vnd.mpegurl',
@@ -165,16 +149,35 @@ return array(
 	'au'    =>	'audio/x-au',
 	'ac3'   =>	'audio/ac3',
 	'flac'  =>	'audio/x-flac',
-	'ogg'   =>	'audio/ogg',
+	'ogg'   =>	array('audio/ogg', 'video/ogg', 'application/ogg'),
 	'kmz'	=>	array('application/vnd.google-earth.kmz', 'application/zip', 'application/x-zip'),
 	'kml'	=>	array('application/vnd.google-earth.kml+xml', 'application/xml', 'text/xml'),
 	'ics'	=>	'text/calendar',
+	'ical'	=>	'text/calendar',
 	'zsh'	=>	'text/x-scriptzsh',
 	'7zip'	=>	array('application/x-compressed', 'application/x-zip-compressed', 'application/zip', 'multipart/x-zip'),
 	'cdr'	=>	array('application/cdr', 'application/coreldraw', 'application/x-cdr', 'application/x-coreldraw', 'image/cdr', 'image/x-cdr', 'zz-application/zz-winassoc-cdr'),
 	'wma'	=>	array('audio/x-ms-wma', 'video/x-ms-asf'),
-	'jar'	=>	array('application/java-archive', 'application/x-java-application', 'application/x-jar', 'application/x-compressed')
+	'jar'	=>	array('application/java-archive', 'application/x-java-application', 'application/x-jar', 'application/x-compressed'),
+	'svg'	=>	array('image/svg+xml', 'application/xml', 'text/xml'),
+	'vcf'	=>	'text/x-vcard',
+	'srt'	=>	array('text/srt', 'text/plain'),
+	'vtt'	=>	array('text/vtt', 'text/plain'),
+	'ico'	=>	array('image/x-icon', 'image/x-ico', 'image/vnd.microsoft.icon'),
+	'odc'	=>	'application/vnd.oasis.opendocument.chart',
+	'otc'	=>	'application/vnd.oasis.opendocument.chart-template',
+	'odf'	=>	'application/vnd.oasis.opendocument.formula',
+	'otf'	=>	'application/vnd.oasis.opendocument.formula-template',
+	'odg'	=>	'application/vnd.oasis.opendocument.graphics',
+	'otg'	=>	'application/vnd.oasis.opendocument.graphics-template',
+	'odi'	=>	'application/vnd.oasis.opendocument.image',
+	'oti'	=>	'application/vnd.oasis.opendocument.image-template',
+	'odp'	=>	'application/vnd.oasis.opendocument.presentation',
+	'otp'	=>	'application/vnd.oasis.opendocument.presentation-template',
+	'ods'	=>	'application/vnd.oasis.opendocument.spreadsheet',
+	'ots'	=>	'application/vnd.oasis.opendocument.spreadsheet-template',
+	'odt'	=>	'application/vnd.oasis.opendocument.text',
+	'odm'	=>	'application/vnd.oasis.opendocument.text-master',
+	'ott'	=>	'application/vnd.oasis.opendocument.text-template',
+	'oth'	=>	'application/vnd.oasis.opendocument.text-web'
 );
-
-/* End of file mimes.php */
-/* Location: ./application/config/mimes.php */

@@ -7,29 +7,34 @@ fast and dynamic caching. All but file-based caching require specific
 server requirements, and a Fatal Exception will be thrown if server
 requirements are not met.
 
-.. contents:: Table of Contents
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
 
 *************
 Example Usage
 *************
 
-The following example will load the cache driver, specify `APC <#apc>`_
+The following example will load the cache driver, specify `APC <#alternative-php-cache-apc-caching>`_
 as the driver to use, and fall back to file-based caching if APC is not
 available in the hosting environment.
 
 ::
 
 	$this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-	
+
 	if ( ! $foo = $this->cache->get('foo'))
 	{
 		echo 'Saving to the cache!<br />';
 		$foo = 'foobarbaz!';
-		
+
 		// Save into the cache for 5 minutes
 		$this->cache->save('foo', $foo, 300);
 	}
-	
+
 	echo $foo;
 
 You can also prefix cache item names via the **key_prefix** setting, which is useful
@@ -37,35 +42,32 @@ to avoid collisions when you're running multiple applications on the same enviro
 
 ::
 
-	$this->load->driver('cache',
+	$this->load->driver(
+		'cache',
 		array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'my_')
 	);
 
 	$this->cache->get('foo'); // Will get the cache entry named 'my_foo'
 
-******************
-Function Reference
-******************
+***************
+Class Reference
+***************
 
 .. php:class:: CI_Cache
 
-is_supported()
-==============
+	.. php:method:: is_supported($driver)
 
-	.. php:method:: is_supported ( $driver )
+		:param	string	$driver: the name of the caching driver
+		:returns:	TRUE if supported, FALSE if not
+		:rtype:	bool
 
-		This function is automatically called when accessing drivers via
-		$this->cache->get(). However, if the individual drivers are used, make
-		sure to call this function to ensure the driver is supported in the
+		This method is automatically called when accessing drivers via
+		``$this->cache->get()``. However, if the individual drivers are used,
+		make sure to call this method to ensure the driver is supported in the
 		hosting environment.
-		
-		:param string $driver: the name of the caching driver
-		:returns: TRUE if supported, FALSE if not
-		:rtype: Boolean
-		
 		::
-				
-			if ($this->cache->apc->is_supported()
+
+			if ($this->cache->apc->is_supported())
 			{
 				if ($data = $this->cache->apc->get('my_cache'))
 				{
@@ -73,109 +75,128 @@ is_supported()
 				}
 			}
 
+	.. php:method:: get($id)
 
-get()
-=====
+		:param	string	$id: Cache item name
+		:returns:	Item value or FALSE if not found
+		:rtype:	mixed
 
-	.. php:method:: get ( $id )
-	
-		This function will attempt to fetch an item from the cache store. If the
-		item does not exist, the function will return FALSE.
-
-		:param string $id: name of cached item
-		:returns: The item if it exists, FALSE if it does not
-		:rtype: Mixed
-		
+		This method will attempt to fetch an item from the cache store. If the
+		item does not exist, the method will return FALSE.
 		::
 
 			$foo = $this->cache->get('my_cached_item');
 
+	.. php:method:: save($id, $data[, $ttl = 60[, $raw = FALSE]])
 
-save()
-======
+		:param	string	$id: Cache item name
+		:param	mixed	$data: the data to save
+		:param	int	$ttl: Time To Live, in seconds (default 60)
+		:param	bool	$raw: Whether to store the raw value
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	string
 
-	.. php:method:: save ( $id , $data [, $ttl])
-	
-		This function will save an item to the cache store. If saving fails, the
-		function will return FALSE.
-
-		:param string $id: name of the cached item
-		:param mixed $data: the data to save
-		:param int $ttl: Time To Live, in seconds (default 60)
-		:returns: TRUE on success, FALSE on failure
-		:rtype: Boolean
-
+		This method will save an item to the cache store. If saving fails, the
+		method will return FALSE.
 		::
 
 			$this->cache->save('cache_item_id', 'data_to_cache');
-	
-delete()
-========
 
-	.. php:method:: delete ( $id )
-	
-		This function will delete a specific item from the cache store. If item
-		deletion fails, the function will return FALSE.
+		.. note:: The ``$raw`` parameter is only utilized by APC, APCu and Memcache,
+			in order to allow usage of ``increment()`` and ``decrement()``.
 
-		:param string $id: name of cached item
-		:returns: TRUE if deleted, FALSE if the deletion fails
-		:rtype: Boolean
-		
+	.. php:method:: delete($id)
+
+		:param	string	$id: name of cached item
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
+
+		This method will delete a specific item from the cache store. If item
+		deletion fails, the method will return FALSE.
 		::
 
 			$this->cache->delete('cache_item_id');
 
-clean()
-=======
+	.. php:method:: increment($id[, $offset = 1])
 
-	.. php:method:: clean ( )
-	
-		This function will 'clean' the entire cache. If the deletion of the
-		cache files fails, the function will return FALSE.
+		:param	string	$id: Cache ID
+		:param	int	$offset: Step/value to add
+		:returns:	New value on success, FALSE on failure
+		:rtype:	mixed
 
-		:returns: TRUE if deleted, FALSE if the deletion fails
-		:rtype: Boolean
-		
+		Performs atomic incrementation of a raw stored value.
+		::
+
+			// 'iterator' has a value of 2
+
+			$this->cache->increment('iterator'); // 'iterator' is now 3
+
+			$this->cache->increment('iterator', 3); // 'iterator' is now 6
+
+	.. php:method:: decrement($id[, $offset = 1])
+
+		:param	string	$id: Cache ID
+		:param	int	$offset: Step/value to reduce by
+		:returns:	New value on success, FALSE on failure
+		:rtype:	mixed
+
+		Performs atomic decrementation of a raw stored value.
+		::
+
+			// 'iterator' has a value of 6
+
+			$this->cache->decrement('iterator'); // 'iterator' is now 5
+
+			$this->cache->decrement('iterator', 2); // 'iterator' is now 3
+
+	.. php:method:: clean()
+
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
+
+		This method will 'clean' the entire cache. If the deletion of the
+		cache files fails, the method will return FALSE.
 		::
 
 			$this->cache->clean();
 
-cache_info()
-============
+	.. php:method:: cache_info()
 
-	.. php:method:: cache_info ( )
+		:returns:	Information on the entire cache database
+		:rtype:	mixed
 
-		This function will return information on the entire cache.
-
-		:returns: information on the entire cache
-		:rtype: Mixed
-		
+		This method will return information on the entire cache.
 		::
 
 			var_dump($this->cache->cache_info());
-		
+
 		.. note:: The information returned and the structure of the data is dependent
 			on which adapter is being used.
-	
 
-get_metadata()
-==============
+	.. php:method:: get_metadata($id)
 
-	.. php:method:: get_metadata ( $id )
-	
-		This function will return detailed information on a specific item in the
+		:param	string	$id: Cache item name
+		:returns:	Metadata for the cached item
+		:rtype:	mixed
+
+		This method will return detailed information on a specific item in the
 		cache.
-		
-		:param string $id: name of cached item
-		:returns: metadadta for the cached item
-		:rtype: Mixed
-		
 		::
 
 			var_dump($this->cache->get_metadata('my_cached_item'));
 
 		.. note:: The information returned and the structure of the data is dependent
 			on which adapter is being used.
+
+	.. php:method:: get_loaded_driver()
+
+		:returns:	Loaded driver name after initialization ('apc', 'apcu', 'dummy', 'file', 'memcached', 'redis' or 'wincache')
+		:rtype:	string
+
+		This method will return the caching driver currently used after initialization.
+		::
+
+			echo $this->cache->get_loaded_driver(); // Will return something like "file"
 
 *******
 Drivers
@@ -184,14 +205,26 @@ Drivers
 Alternative PHP Cache (APC) Caching
 ===================================
 
-All of the functions listed above can be accessed without passing a
+All of the methods listed above can be accessed without passing a
 specific adapter to the driver loader as follows::
 
 	$this->load->driver('cache');
 	$this->cache->apc->save('foo', 'bar', 10);
 
 For more information on APC, please see
-`http://php.net/apc <http://php.net/apc>`_.
+`https://php.net/apc <https://php.net/apc>`_.
+
+APC User Cache (APCu) Caching
+=============================
+
+All of the methods listed above can be accessed without passing a
+specific adapter to the driver loader as follows::
+
+	$this->load->driver('cache');
+	$this->cache->apcu->save('foo', 'bar', 10);
+
+For more information on APCu, please see
+`https://php.net/apcu <https://php.net/apcu>`_.
 
 File-based Caching
 ==================
@@ -201,7 +234,7 @@ allows for pieces of view files to be cached. Use this with care, and
 make sure to benchmark your application, as a point can come where disk
 I/O will negate positive gains by caching.
 
-All of the functions listed above can be accessed without passing a
+All of the methods listed above can be accessed without passing a
 specific adapter to the driver loader as follows::
 
 	$this->load->driver('cache');
@@ -220,34 +253,31 @@ specific adapter to the driver loader as follows::
 	$this->cache->memcached->save('foo', 'bar', 10);
 
 For more information on Memcached, please see
-`http://php.net/memcached <http://php.net/memcached>`_.
+`https://php.net/memcached <https://php.net/memcached>`_.
 
 WinCache Caching
 ================
 
 Under Windows, you can also utilize the WinCache driver.
 
-All of the functions listed above can be accessed without passing a
+All of the methods listed above can be accessed without passing a
 specific adapter to the driver loader as follows::
 
 	$this->load->driver('cache');
 	$this->cache->wincache->save('foo', 'bar', 10);
 
 For more information on WinCache, please see
-`http://php.net/wincache <http://php.net/wincache>`_.
+`https://php.net/wincache <https://php.net/wincache>`_.
 
 Redis Caching
 =============
 
 Redis is an in-memory key-value store which can operate in LRU cache mode. 
-To use it, you need Redis server and phpredis PHP extension 
-`https://github.com/nicolasff/phpredis <https://github.com/nicolasff/phpredis>`_.
+To use it, you need `Redis server and phpredis PHP extension <https://github.com/phpredis/phpredis>`_.
 
 Config options to connect to redis server must be stored in the application/config/redis.php file.
 Available options are::
 	
-	$config['socket_type'] = 'tcp'; //`tcp` or `unix`
-	$config['socket'] = '/var/run/redis.sock'; // in case of `unix` socket type
 	$config['host'] = '127.0.0.1';
 	$config['password'] = NULL;
 	$config['port'] = 6379;
@@ -260,7 +290,7 @@ specific adapter to the driver loader as follows::
 	$this->cache->redis->save('foo', 'bar', 10);
 
 For more information on Redis, please see
-`http://redis.io <http://redis.io>`_.
+`https://redis.io <https://redis.io>`_.
 
 Dummy Cache
 ===========

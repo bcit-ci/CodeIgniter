@@ -2,26 +2,37 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP
  *
- * NOTICE OF LICENSE
+ * This content is released under the MIT License (MIT)
  *
- * Licensed under the Open Software License version 3.0
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	https://codeigniter.com
+ * @since	Version 1.0.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -33,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Validation
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/form_validation.html
+ * @link		https://codeigniter.com/user_guide/libraries/form_validation.html
  */
 class CI_Form_validation {
 
@@ -135,7 +146,7 @@ class CI_Form_validation {
 		// Automatically load the form helper
 		$this->CI->load->helper('form');
 
-		log_message('debug', 'Form Validation Class Initialized');
+		log_message('info', 'Form Validation Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -144,7 +155,7 @@ class CI_Form_validation {
 	 * Set Rules
 	 *
 	 * This function takes an array of field names and validation
-	 * rules as input, any custom error messages, validates the info, 
+	 * rules as input, any custom error messages, validates the info,
 	 * and stores it
 	 *
 	 * @param	mixed	$field
@@ -153,7 +164,7 @@ class CI_Form_validation {
 	 * @param	array	$errors
 	 * @return	CI_Form_validation
 	 */
-	public function set_rules($field, $label = '', $rules = '', $errors = array())
+	public function set_rules($field, $label = null, $rules = null, $errors = array())
 	{
 		// No reason to set rules if we have no POST data
 		// or a validation array has not been specified
@@ -186,26 +197,35 @@ class CI_Form_validation {
 
 			return $this;
 		}
-
-		// Convert an array of rules to a string
-		if (is_array($rules))
+		elseif ( ! isset($rules))
 		{
-			$rules = implode('|', $rules);
+			throw new BadMethodCallException('Form_validation: set_rules() called without a $rules parameter');
 		}
 
-		// No fields? Nothing to do...
-		if ( ! is_string($field) OR ! is_string($rules) OR $field === '')
+		// No fields or no rules? Nothing to do...
+		if ( ! is_string($field) OR $field === '' OR empty($rules))
 		{
 			return $this;
+		}
+		elseif ( ! is_array($rules))
+		{
+			// BC: Convert pipe-separated rules string to an array
+			if ( ! is_string($rules))
+			{
+				return $this;
+			}
+
+			$rules = preg_split('/\|(?![^\[]*\])/', $rules);
 		}
 
 		// If the field label wasn't passed we use the field name
 		$label = ($label === '') ? $field : $label;
 
+		$indexes = array();
+
 		// Is the field name an array? If it is an array, we break it apart
 		// into its components so that we can fetch the corresponding POST data later
-		$indexes = array();
-		if (preg_match_all('/\[(.*?)\]/', $field, $matches))
+		if (($is_array = (bool) preg_match_all('/\[(.*?)\]/', $field, $matches)) === TRUE)
 		{
 			sscanf($field, '%[^[][', $indexes[0]);
 
@@ -216,12 +236,6 @@ class CI_Form_validation {
 					$indexes[] = $matches[1][$i];
 				}
 			}
-
-			$is_array = TRUE;
-		}
-		else
-		{
-			$is_array	= FALSE;
 		}
 
 		// Build our master array
@@ -252,7 +266,7 @@ class CI_Form_validation {
 	 * each array due to the limitations of CI's singleton
 	 *
 	 * @param	array	$data
-	 * @return	void
+	 * @return	CI_Form_validation
 	 */
 	public function set_data(array $data)
 	{
@@ -260,6 +274,8 @@ class CI_Form_validation {
 		{
 			$this->validation_data = $data;
 		}
+
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -403,12 +419,9 @@ class CI_Form_validation {
 	 */
 	public function run($group = '')
 	{
-		// Do we even have any data to process?  Mm?
-		$validation_array = empty($this->validation_data) ? $_POST : $this->validation_data;
-		if (count($validation_array) === 0)
-		{
-			return FALSE;
-		}
+		$validation_array = empty($this->validation_data)
+			? $_POST
+			: $this->validation_data;
 
 		// Does the _field_data array containing the validation rules exist?
 		// If not, we look to see if they were assigned via a config file
@@ -441,7 +454,7 @@ class CI_Form_validation {
 		$this->CI->lang->load('form_validation');
 
 		// Cycle through the rules for each field and match the corresponding $validation_data item
-		foreach ($this->_field_data as $field => $row)
+		foreach ($this->_field_data as $field => &$row)
 		{
 			// Fetch the data from the validation_data array item and cache it in the _field_data array.
 			// Depending on whether the field name is an array or a string will determine where we get it from.
@@ -449,7 +462,7 @@ class CI_Form_validation {
 			{
 				$this->_field_data[$field]['postdata'] = $this->_reduce_array($validation_array, $row['keys']);
 			}
-			elseif (isset($validation_array[$field]) && $validation_array[$field] !== '')
+			elseif (isset($validation_array[$field]))
 			{
 				$this->_field_data[$field]['postdata'] = $validation_array[$field];
 			}
@@ -458,7 +471,7 @@ class CI_Form_validation {
 		// Execute validation rules
 		// Note: A second foreach (for now) is required in order to avoid false-positives
 		//	 for rules like 'matches', which correlate to other validation fields.
-		foreach ($this->_field_data as $field => $row)
+		foreach ($this->_field_data as $field => &$row)
 		{
 			// Don't try to validate if we have no rules set
 			if (empty($row['rules']))
@@ -466,7 +479,7 @@ class CI_Form_validation {
 				continue;
 			}
 
-			$this->_execute($row, explode('|', $row['rules']), $this->_field_data[$field]['postdata']);
+			$this->_execute($row, $row['rules'], $row['postdata']);
 		}
 
 		// Did we end up with any errors?
@@ -477,9 +490,66 @@ class CI_Form_validation {
 		}
 
 		// Now we need to re-set the POST data with the new, processed data
-		$this->_reset_post_array();
+		empty($this->validation_data) && $this->_reset_post_array();
 
 		return ($total_errors === 0);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Prepare rules
+	 *
+	 * Re-orders the provided rules in order of importance, so that
+	 * they can easily be executed later without weird checks ...
+	 *
+	 * "Callbacks" are given the highest priority (always called),
+	 * followed by 'required' (called if callbacks didn't fail),
+	 * and then every next rule depends on the previous one passing.
+	 *
+	 * @param	array	$rules
+	 * @return	array
+	 */
+	protected function _prepare_rules($rules)
+	{
+		$new_rules = array();
+		$callbacks = array();
+
+		foreach ($rules as &$rule)
+		{
+			// Let 'required' always be the first (non-callback) rule
+			if ($rule === 'required')
+			{
+				array_unshift($new_rules, 'required');
+			}
+			// 'isset' is a kind of a weird alias for 'required' ...
+			elseif ($rule === 'isset' && (empty($new_rules) OR $new_rules[0] !== 'required'))
+			{
+				array_unshift($new_rules, 'isset');
+			}
+			// The old/classic 'callback_'-prefixed rules
+			elseif (is_string($rule) && strncmp('callback_', $rule, 9) === 0)
+			{
+				$callbacks[] = $rule;
+			}
+			// Proper callables
+			elseif (is_callable($rule))
+			{
+				$callbacks[] = $rule;
+			}
+			// "Named" callables; i.e. array('name' => $callable)
+			elseif (is_array($rule) && isset($rule[0], $rule[1]) && is_callable($rule[1]))
+			{
+				$callbacks[] = $rule;
+			}
+			// Everything else goes at the end of the queue
+			else
+			{
+				$new_rules[] = $rule;
+			}
+		}
+
+		return array_merge($callbacks, $new_rules);
 	}
 
 	// --------------------------------------------------------------------
@@ -518,10 +588,7 @@ class CI_Form_validation {
 			{
 				if ($row['is_array'] === FALSE)
 				{
-					if (isset($_POST[$row['field']]))
-					{
-						$_POST[$row['field']] = $row['postdata'];
-					}
+					isset($_POST[$field]) && $_POST[$field] = $row['postdata'];
 				}
 				else
 				{
@@ -541,20 +608,7 @@ class CI_Form_validation {
 						}
 					}
 
-					if (is_array($row['postdata']))
-					{
-						$array = array();
-						foreach ($row['postdata'] as $k => $v)
-						{
-							$array[$k] = $v;
-						}
-
-						$post_ref = $array;
-					}
-					else
-					{
-						$post_ref = $row['postdata'];
-					}
+					$post_ref = $row['postdata'];
 				}
 			}
 		}
@@ -574,7 +628,10 @@ class CI_Form_validation {
 	protected function _execute($row, $rules, $postdata = NULL, $cycles = 0)
 	{
 		// If the $_POST data is an array we will run a recursive call
-		if (is_array($postdata))
+		//
+		// Note: We MUST check if the array is empty or not!
+		//       Otherwise empty arrays will always pass validation.
+		if (is_array($postdata) && ! empty($postdata))
 		{
 			foreach ($postdata as $key => $val)
 			{
@@ -584,64 +641,7 @@ class CI_Form_validation {
 			return;
 		}
 
-		// If the field is blank, but NOT required, no further tests are necessary
-		$callback = FALSE;
-		if ( ! in_array('required', $rules) && ($postdata === NULL OR $postdata === ''))
-		{
-			// Before we bail out, does the rule contain a callback?
-			if (preg_match('/(callback_\w+(\[.*?\])?)/', implode(' ', $rules), $match))
-			{
-				$callback = TRUE;
-				$rules = array(1 => $match[1]);
-			}
-			else
-			{
-				return;
-			}
-		}
-
-		// Isset Test. Typically this rule will only apply to checkboxes.
-		if (($postdata === NULL OR $postdata === '') && $callback === FALSE)
-		{
-			if (in_array('isset', $rules, TRUE) OR in_array('required', $rules))
-			{
-				// Set the message type
-				$type = in_array('required', $rules) ? 'required' : 'isset';
-
-				// Check if a custom message is defined
-				if (isset($this->_field_data[$row['field']]['errors'][$type]))
-				{
-					$line = $this->_field_data[$row['field']]['errors'][$type];
-				}
-				elseif (isset($this->_error_messages[$type]))
-				{
-					$line = $this->_error_messages[$type];
-				}
-				elseif (FALSE === ($line = $this->CI->lang->line('form_validation_'.$type))
-					// DEPRECATED support for non-prefixed keys
-					&& FALSE === ($line = $this->CI->lang->line($type, FALSE)))
-				{
-					$line = 'The field was not set';
-				}
-
-				// Build the error message
-				$message = $this->_build_error_msg($line, $this->_translate_fieldname($row['label']));
-
-				// Save the error message
-				$this->_field_data[$row['field']]['error'] = $message;
-
-				if ( ! isset($this->_error_array[$row['field']]))
-				{
-					$this->_error_array[$row['field']] = $message;
-				}
-			}
-
-			return;
-		}
-
-		// --------------------------------------------------------------------
-
-		// Cycle through each rule and run it
+		$rules = $this->_prepare_rules($rules);
 		foreach ($rules as $rule)
 		{
 			$_in_array = FALSE;
@@ -666,39 +666,78 @@ class CI_Form_validation {
 				// somebody messing with the form on the client side, so we'll just consider
 				// it an empty field
 				$postdata = is_array($this->_field_data[$row['field']]['postdata'])
-						? NULL
-						: $this->_field_data[$row['field']]['postdata'];
+					? NULL
+					: $this->_field_data[$row['field']]['postdata'];
 			}
 
 			// Is the rule a callback?
-			$callback = FALSE;
-			if (strpos($rule, 'callback_') === 0)
+			$callback = $callable = FALSE;
+			if (is_string($rule))
 			{
-				$rule = substr($rule, 9);
-				$callback = TRUE;
+				if (strpos($rule, 'callback_') === 0)
+				{
+					$rule = substr($rule, 9);
+					$callback = TRUE;
+				}
+			}
+			elseif (is_callable($rule))
+			{
+				$callable = TRUE;
+			}
+			elseif (is_array($rule) && isset($rule[0], $rule[1]) && is_callable($rule[1]))
+			{
+				// We have a "named" callable, so save the name
+				$callable = $rule[0];
+				$rule = $rule[1];
 			}
 
 			// Strip the parameter (if exists) from the rule
 			// Rules can contain a parameter: max_length[5]
 			$param = FALSE;
-			if (preg_match('/(.*?)\[(.*)\]/', $rule, $match))
+			if ( ! $callable && preg_match('/(.*?)\[(.*)\]/', $rule, $match))
 			{
 				$rule = $match[1];
 				$param = $match[2];
 			}
 
-			// Call the function that corresponds to the rule
-			if ($callback === TRUE)
+			// Ignore empty, non-required inputs with a few exceptions ...
+			if (
+				($postdata === NULL OR $postdata === '')
+				&& $callback === FALSE
+				&& $callable === FALSE
+				&& ! in_array($rule, array('required', 'isset', 'matches'), TRUE)
+			)
 			{
-				if ( ! method_exists($this->CI, $rule))
+				continue;
+			}
+
+			// Call the function that corresponds to the rule
+			if ($callback OR $callable !== FALSE)
+			{
+				if ($callback)
 				{
-					log_message('debug', 'Unable to find callback validation rule: '.$rule);
-					$result = FALSE;
+					if ( ! method_exists($this->CI, $rule))
+					{
+						log_message('debug', 'Unable to find callback validation rule: '.$rule);
+						$result = FALSE;
+					}
+					else
+					{
+						// Run the function and grab the result
+						$result = $this->CI->$rule($postdata, $param);
+					}
 				}
 				else
 				{
-					// Run the function and grab the result
-					$result = $this->CI->$rule($postdata, $param);
+					$result = is_array($rule)
+						? $rule[0]->{$rule[1]}($postdata)
+						: $rule($postdata);
+
+					// Is $callable set to a rule name?
+					if ($callable !== FALSE)
+					{
+						$rule = $callable;
+					}
 				}
 
 				// Re-assign the result to the master data array
@@ -710,12 +749,6 @@ class CI_Form_validation {
 				{
 					$this->_field_data[$row['field']]['postdata'] = is_bool($result) ? $postdata : $result;
 				}
-
-				// If the field isn't required and we just processed a callback we'll move on...
-				if ( ! in_array('required', $rules, TRUE) && $result !== FALSE)
-				{
-					continue;
-				}
 			}
 			elseif ( ! method_exists($this, $rule))
 			{
@@ -723,6 +756,7 @@ class CI_Form_validation {
 				// Users can use any native PHP function call that has one param.
 				if (function_exists($rule))
 				{
+					// Native PHP functions issue warnings if you pass them more parameters than they use
 					$result = ($param !== FALSE) ? $rule($postdata, $param) : $rule($postdata);
 
 					if ($_in_array === TRUE)
@@ -757,23 +791,14 @@ class CI_Form_validation {
 			// Did the rule test negatively? If so, grab the error.
 			if ($result === FALSE)
 			{
-				// Check if a custom message is defined
-				if (isset($this->_field_data[$row['field']]['errors'][$rule]))
+				// Callable rules might not have named error messages
+				if ( ! is_string($rule))
 				{
-					$line = $this->_field_data[$row['field']]['errors'][$rule];
-				}
-				elseif ( ! isset($this->_error_messages[$rule]))
-				{
-					if (FALSE === ($line = $this->CI->lang->line('form_validation_'.$rule))
-						// DEPRECATED support for non-prefixed keys
-						&& FALSE === ($line = $this->CI->lang->line($rule, FALSE)))
-					{
-						$line = 'Unable to access an error message corresponding to your field name.';
-					}
+					$line = $this->CI->lang->line('form_validation_error_message_not_set').'(Anonymous function)';
 				}
 				else
 				{
-					$line = $this->_error_messages[$rule];
+					$line = $this->_get_error_message($rule, $row['field']);
 				}
 
 				// Is the parameter we are inserting into the error message the name
@@ -802,6 +827,40 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Get the error message for the rule
+	 *
+	 * @param 	string $rule 	The rule name
+	 * @param 	string $field	The field name
+	 * @return 	string
+	 */
+	protected function _get_error_message($rule, $field)
+	{
+		// check if a custom message is defined through validation config row.
+		if (isset($this->_field_data[$field]['errors'][$rule]))
+		{
+			return $this->_field_data[$field]['errors'][$rule];
+		}
+		// check if a custom message has been set using the set_message() function
+		elseif (isset($this->_error_messages[$rule]))
+		{
+			return $this->_error_messages[$rule];
+		}
+		elseif (FALSE !== ($line = $this->CI->lang->line('form_validation_'.$rule)))
+		{
+			return $line;
+		}
+		// DEPRECATED support for non-prefixed keys, lang file again
+		elseif (FALSE !== ($line = $this->CI->lang->line($rule, FALSE)))
+		{
+			return $line;
+		}
+
+		return $this->CI->lang->line('form_validation_error_message_not_set').'('.$rule.')';
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Translate a field name
 	 *
 	 * @param	string	the field name
@@ -809,17 +868,11 @@ class CI_Form_validation {
 	 */
 	protected function _translate_fieldname($fieldname)
 	{
-		// Do we need to translate the field name?
-		// We look for the prefix lang: to determine this
-		if (sscanf($fieldname, 'lang:%s', $line) === 1)
+		// Do we need to translate the field name? We look for the prefix 'lang:' to determine this
+		// If we find one, but there's no translation for the string - just return it
+		if (sscanf($fieldname, 'lang:%s', $line) === 1 && FALSE === ($fieldname = $this->CI->lang->line($line, FALSE)))
 		{
-			// Were we able to translate the field name?  If not we use $line
-			if (FALSE === ($fieldname = $this->CI->lang->line('form_validation_'.$line))
-				// DEPRECATED support for non-prefixed keys
-				&& FALSE === ($fieldname = $this->CI->lang->line($line, FALSE)))
-			{
-				return $line;
-			}
+			return $line;
 		}
 
 		return $fieldname;
@@ -1005,7 +1058,9 @@ class CI_Form_validation {
 	 */
 	public function required($str)
 	{
-		return is_array($str) ? (bool) count($str) : (trim($str) !== '');
+		return is_array($str)
+			? (empty($str) === FALSE)
+			: (trim($str) !== '');
 	}
 
 	// --------------------------------------------------------------------
@@ -1060,19 +1115,16 @@ class CI_Form_validation {
 	 * Check if the input value doesn't already exist
 	 * in the specified database field.
 	 *
-	 * @param	string
-	 * @param	string	field
+	 * @param	string	$str
+	 * @param	string	$field
 	 * @return	bool
 	 */
 	public function is_unique($str, $field)
 	{
 		sscanf($field, '%[^.].%[^.]', $table, $field);
-		if (isset($this->CI->db))
-		{
-			$query = $this->CI->db->limit(1)->get_where($table, array($field => $str));
-			return $query->num_rows() === 0;
-		}
-		return FALSE;
+		return isset($this->CI->db)
+			? ($this->CI->db->limit(1)->get_where($table, array($field => $str))->num_rows() === 0)
+			: FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -1090,14 +1142,8 @@ class CI_Form_validation {
 		{
 			return FALSE;
 		}
-		else
-		{
-			$val = (int) $val;
-		}
 
-		return (MB_ENABLED === TRUE)
-			? ($val <= mb_strlen($str))
-			: ($val <= strlen($str));
+		return ($val <= mb_strlen($str));
 	}
 
 	// --------------------------------------------------------------------
@@ -1115,14 +1161,8 @@ class CI_Form_validation {
 		{
 			return FALSE;
 		}
-		else
-		{
-			$val = (int) $val;
-		}
 
-		return (MB_ENABLED === TRUE)
-			? ($val >= mb_strlen($str))
-			: ($val >= strlen($str));
+		return ($val >= mb_strlen($str));
 	}
 
 	// --------------------------------------------------------------------
@@ -1140,14 +1180,8 @@ class CI_Form_validation {
 		{
 			return FALSE;
 		}
-		else
-		{
-			$val = (int) $val;
-		}
 
-		return (MB_ENABLED === TRUE)
-			? (mb_strlen($str) === $val)
-			: (strlen($str) === $val);
+		return (mb_strlen($str) === (int) $val);
 	}
 
 	// --------------------------------------------------------------------
@@ -1170,7 +1204,7 @@ class CI_Form_validation {
 			{
 				return FALSE;
 			}
-			elseif ( ! in_array($matches[1], array('http', 'https'), TRUE))
+			elseif ( ! in_array(strtolower($matches[1]), array('http', 'https'), TRUE))
 			{
 				return FALSE;
 			}
@@ -1178,18 +1212,15 @@ class CI_Form_validation {
 			$str = $matches[2];
 		}
 
-		$str = 'http://'.$str;
-
-		// There's a bug affecting PHP 5.2.13, 5.3.2 that considers the
-		// underscore to be a valid hostname character instead of a dash.
-		// Reference: https://bugs.php.net/bug.php?id=51192
-		if (version_compare(PHP_VERSION, '5.2.13', '==') === 0 OR version_compare(PHP_VERSION, '5.3.2', '==') === 0)
+		// PHP 7 accepts IPv6 addresses within square brackets as hostnames,
+		// but it appears that the PR that came in with https://bugs.php.net/bug.php?id=68039
+		// was never merged into a PHP 5 branch ... https://3v4l.org/8PsSN
+		if (preg_match('/^\[([^\]]+)\]/', $str, $matches) && ! is_php('7') && filter_var($matches[1], FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) !== FALSE)
 		{
-			sscanf($str, 'http://%[^/]', $host);
-			$str = substr_replace($str, strtr($host, array('_' => '-', '-' => '_')), 7, strlen($host));
+			$str = 'ipv6.host'.substr($str, strlen($matches[1]) + 2);
 		}
 
-		return (filter_var($str, FILTER_VALIDATE_URL) !== FALSE);
+		return (filter_var('http://'.$str, FILTER_VALIDATE_URL) !== FALSE);
 	}
 
 	// --------------------------------------------------------------------
@@ -1202,6 +1233,11 @@ class CI_Form_validation {
 	 */
 	public function valid_email($str)
 	{
+		if (function_exists('idn_to_ascii') && sscanf($str, '%[^@]@%s', $name, $domain) === 2)
+		{
+			$str = $name.'@'.idn_to_ascii($domain);
+		}
+
 		return (bool) filter_var($str, FILTER_VALIDATE_EMAIL);
 	}
 
@@ -1243,6 +1279,31 @@ class CI_Form_validation {
 	public function valid_ip($ip, $which = '')
 	{
 		return $this->CI->input->valid_ip($ip, $which);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Validate MAC address
+	 *
+	 * @param	string	$mac
+	 * @return	bool
+	 */
+	public function valid_mac($mac)
+	{
+		if ( ! is_php('5.5'))
+		{
+			// Most common format, with either dash or colon delimiters
+			if (preg_match('#\A[0-9a-f]{2}(?<delimiter>[:-])([0-9a-f]{2}(?P=delimiter)){4}[0-9a-f]{2}\z#i', $mac))
+			{
+				return TRUE;
+			}
+
+			// The less common format; e.g. 0123.4567.89ab
+			return (bool) preg_match('#((\A|\.)[0-9a-f]{4}){3}\z#i', $mac);
+		}
+
+		return (bool) filter_var($mac, FILTER_VALIDATE_MAC);
 	}
 
 	// --------------------------------------------------------------------
@@ -1396,6 +1457,20 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Value should be within an array of values
+	 *
+	 * @param	string
+	 * @param	string
+	 * @return	bool
+	 */
+	public function in_list($value, $list)
+	{
+		return in_array($value, explode(',', $list), TRUE);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Is a Natural number  (0,1,2,3, etc.)
 	 *
 	 * @param	string
@@ -1438,37 +1513,6 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Prep data for form
-	 *
-	 * This function allows HTML to be safely shown in a form.
-	 * Special characters are converted.
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	public function prep_for_form($data = '')
-	{
-		if ($this->_safe_form_data === FALSE OR empty($data))
-		{
-			return $data;
-		}
-
-		if (is_array($data))
-		{
-			foreach ($data as $key => $val)
-			{
-				$data[$key] = $this->prep_for_form($val);
-			}
-
-			return $data;
-		}
-
-		return str_replace(array("'", '"', '<', '>'), array('&#39;', '&quot;', '&lt;', '&gt;'), stripslashes($data));
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Prep URL
 	 *
 	 * @param	string
@@ -1476,12 +1520,7 @@ class CI_Form_validation {
 	 */
 	public function prep_url($str = '')
 	{
-		if ($str === 'http://' OR $str === '')
-		{
-			return '';
-		}
-
-		if (strpos($str, 'http://') !== 0 && strpos($str, 'https://') !== 0)
+		if ($str !== '' && stripos($str, 'http://') !== 0 && stripos($str, 'https://') !== 0)
 		{
 			return 'http://'.$str;
 		}
@@ -1505,19 +1544,6 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
-	 * XSS Clean
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	public function xss_clean($str)
-	{
-		return $this->CI->security->xss_clean($str);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Convert PHP tags to entities
 	 *
 	 * @param	string
@@ -1536,18 +1562,15 @@ class CI_Form_validation {
 	 * Prevents subsequent validation routines from being affected by the
 	 * results of any previous validation routine due to the CI singleton.
 	 *
-	 * @return	void
+	 * @return	CI_Form_validation
 	 */
 	public function reset_validation()
 	{
 		$this->_field_data = array();
-		$this->_config_rules = array();
 		$this->_error_array = array();
 		$this->_error_messages = array();
 		$this->error_string = '';
+		return $this;
 	}
 
 }
-
-/* End of file Form_validation.php */
-/* Location: ./system/libraries/Form_validation.php */

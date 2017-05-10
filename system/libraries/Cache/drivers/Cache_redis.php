@@ -2,26 +2,37 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP
  *
- * NOTICE OF LICENSE
+ * This content is released under the MIT License (MIT)
  *
- * Licensed under the Open Software License version 3.0
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 3.0
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	https://codeigniter.com
+ * @since	Version 3.0.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -44,11 +55,11 @@ class CI_Cache_redis extends CI_Driver
 	 * @var	array
 	 */
 	protected static $_default_config = array(
-		'socket_type' => 'tcp',
 		'host' => '127.0.0.1',
 		'password' => NULL,
 		'port' => 6379,
-		'timeout' => 0
+		'timeout' => 0,
+		'database' => 0
 	);
 
 	/**
@@ -61,14 +72,94 @@ class CI_Cache_redis extends CI_Driver
 	// ------------------------------------------------------------------------
 
 	/**
+	 * Class constructor
+	 *
+	 * Setup Redis
+	 *
+	 * Loads Redis config file if present. Will halt execution
+	 * if a Redis connection can't be established.
+	 *
+	 * @return	void
+	 * @see		Redis::connect()
+	 */
+	public function __construct()
+	{
+		if ( ! $this->is_supported())
+		{
+			log_message('error', 'Cache: Failed to create Redis object; extension not loaded?');
+			return;
+		}
+
+		$CI =& get_instance();
+
+		if ($CI->config->load('redis', TRUE, TRUE))
+		{
+			$config = array_merge(self::$_default_config, $CI->config->item('redis'));
+		}
+		else
+		{
+			$config = self::$_default_config;
+		}
+
+		$this->_redis = new Redis();
+
+		try
+		{
+			if ( ! $this->_redis->connect($config['host'], ($config['host'][0] === '/' ? 0 : $config['port']), $config['timeout']))
+			{
+				log_message('error', 'Cache: Redis connection failed. Check your configuration.');
+			}
+
+			if (isset($config['password']) && ! $this->_redis->auth($config['password']))
+			{
+				log_message('error', 'Cache: Redis authentication failed.');
+			}
+
+			if (isset($config['database']) && $config['database'] > 0 && ! $this->_redis->select($config['database']))
+			{
+				log_message('error', 'Cache: Redis select database failed.');
+			}
+		}
+		catch (RedisException $e)
+		{
+			log_message('error', 'Cache: Redis connection refused ('.$e->getMessage().')');
+		}
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
 	 * Get cache
 	 *
-	 * @param	string	Cache ID
+	 * @param	string	$key	Cache ID
 	 * @return	mixed
 	 */
 	public function get($key)
 	{
-		return $this->_redis->get($key);
+		$data = $this->_redis->hMGet($key, array('__ci_type', '__ci_value'));
+
+		if ( ! isset($data['__ci_type'], $data['__ci_value']) OR $data['__ci_value'] === FALSE)
+		{
+			return FALSE;
+		}
+
+		switch ($data['__ci_type'])
+		{
+			case 'array':
+			case 'object':
+				return unserialize($data['__ci_value']);
+			case 'boolean':
+			case 'integer':
+			case 'double': // Yes, 'double' is returned and NOT 'float'
+			case 'string':
+			case 'NULL':
+				return settype($data['__ci_value'], $data['__ci_type'])
+					? $data['__ci_value']
+					: FALSE;
+			case 'resource':
+			default:
+				return FALSE;
+		}
 	}
 
 	// ------------------------------------------------------------------------
@@ -84,9 +175,33 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
-		return ($ttl)
-			? $this->_redis->setex($id, $ttl, $data)
-			: $this->_redis->set($id, $data);
+		switch ($data_type = gettype($data))
+		{
+			case 'array':
+			case 'object':
+				$data = serialize($data);
+				break;
+			case 'boolean':
+			case 'integer':
+			case 'double': // Yes, 'double' is returned and NOT 'float'
+			case 'string':
+			case 'NULL':
+				break;
+			case 'resource':
+			default:
+				return FALSE;
+		}
+
+		if ( ! $this->_redis->hMSet($id, array('__ci_type' => $data_type, '__ci_value' => $data)))
+		{
+			return FALSE;
+		}
+		elseif ($ttl)
+		{
+			$this->_redis->expireAt($id, time() + $ttl);
+		}
+
+		return TRUE;
 	}
 
 	// ------------------------------------------------------------------------
@@ -94,7 +209,7 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Delete from cache
 	 *
-	 * @param	string	Cache key
+	 * @param	string	$key	Cache key
 	 * @return	bool
 	 */
 	public function delete($key)
@@ -113,9 +228,7 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function increment($id, $offset = 1)
 	{
-		return $this->_redis->exists($id)
-			? $this->_redis->incr($id, $offset)
-			: FALSE;
+		return $this->_redis->hIncrBy($id, 'data', $offset);
 	}
 
 	// ------------------------------------------------------------------------
@@ -129,9 +242,7 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function decrement($id, $offset = 1)
 	{
-		return $this->_redis->exists($id)
-			? $this->_redis->decr($id, $offset)
-			: FALSE;
+		return $this->_redis->hIncrBy($id, 'data', -$offset);
 	}
 
 	// ------------------------------------------------------------------------
@@ -152,9 +263,9 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Get cache driver info
 	 *
-	 * @param	string	Not supported in Redis.
-	 *			Only included in order to offer a
-	 *			consistent cache API.
+	 * @param	string	$type	Not supported in Redis.
+	 *				Only included in order to offer a
+	 *				consistent cache API.
 	 * @return	array
 	 * @see		Redis::info()
 	 */
@@ -168,14 +279,14 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Get cache metadata
 	 *
-	 * @param	string	Cache key
+	 * @param	string	$key	Cache key
 	 * @return	array
 	 */
 	public function get_metadata($key)
 	{
 		$value = $this->get($key);
 
-		if ($value)
+		if ($value !== FALSE)
 		{
 			return array(
 				'expire' => time() + $this->_redis->ttl($key),
@@ -195,77 +306,12 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function is_supported()
 	{
-		if (extension_loaded('redis'))
-		{
-			return $this->_setup_redis();
-		}
-		else
-		{
-			log_message('debug', 'The Redis extension must be loaded to use Redis cache.');
-			return FALSE;
-		}
+		return extension_loaded('redis');
 	}
 
 	// ------------------------------------------------------------------------
 
 	/**
-	 * Setup Redis config and connection
-	 *
-	 * Loads Redis config file if present. Will halt execution
-	 * if a Redis connection can't be established.
-	 *
-	 * @return	bool
-	 * @see		Redis::connect()
-	 */
-	protected function _setup_redis()
-	{
-		$config = array();
-		$CI =& get_instance();
-
-		if ($CI->config->load('redis', TRUE, TRUE))
-		{
-			$config += $CI->config->item('redis');
-		}
-
-		$config = array_merge(self::$_default_config, $config);
-
-		$this->_redis = new Redis();
-
-		try
-		{
-			if ($config['socket_type'] === 'unix')
-			{
-				$success = $this->_redis->connect($config['socket']);
-			}
-			else // tcp socket
-			{
-				$success = $this->_redis->connect($config['host'], $config['port'], $config['timeout']);
-			}
-
-			if ( ! $success)
-			{
-				log_message('debug', 'Cache: Redis connection refused. Check the config.');
-				return FALSE;
-			}
-		}
-		catch (RedisException $e)
-		{
-			log_message('debug', 'Cache: Redis connection refused ('.$e->getMessage().')');
-			return FALSE;
-		}
-
-		if (isset($config['password']))
-		{
-			$this->_redis->auth($config['password']);
-		}
-
-		return TRUE;
-	}
-
-	// ------------------------------------------------------------------------
-
-	/**
-
 	 * Class destructor
 	 *
 	 * Closes the connection to Redis if present.
@@ -279,8 +325,4 @@ class CI_Cache_redis extends CI_Driver
 			$this->_redis->close();
 		}
 	}
-
 }
-
-/* End of file Cache_redis.php */
-/* Location: ./system/libraries/Cache/drivers/Cache_redis.php */

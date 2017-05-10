@@ -22,8 +22,15 @@ class Mock_Database_Schema_Skeleton {
 	 */
 	public static function init($driver)
 	{
-		if (empty(static::$db) && empty(static::$forge))
+		if (empty(self::$db) && empty(self::$forge))
 		{
+			// E_DEPRECATED notices thrown by mysql_connect(), mysql_pconnect()
+			// on PHP 5.5+ cause the tests to fail
+			if ($driver === 'mysql' && version_compare(PHP_VERSION, '5.5', '>='))
+			{
+				error_reporting(E_ALL & ~E_DEPRECATED);
+			}
+
 			$config = Mock_Database_DB::config($driver);
 			$connection = new Mock_Database_DB($config);
 			$db = Mock_Database_DB::DB($connection->set_dsn($driver), TRUE);
@@ -34,12 +41,12 @@ class Mock_Database_Schema_Skeleton {
 			$loader->dbforge();
 			$forge = CI_TestCase::instance()->ci_instance_var('dbforge');
 
-			static::$db = $db;
-			static::$forge = $forge;
-			static::$driver = $driver;
+			self::$db = $db;
+			self::$forge = $forge;
+			self::$driver = $driver;
 		}
 
-		return static::$db;
+		return self::$db;
 	}
 
 	/**
@@ -50,7 +57,7 @@ class Mock_Database_Schema_Skeleton {
 	public static function create_tables()
 	{
 		// User Table
-		static::$forge->add_field(array(
+		self::$forge->add_field(array(
 			'id' => array(
 				'type' => 'INTEGER',
 				'constraint' => 3
@@ -68,11 +75,11 @@ class Mock_Database_Schema_Skeleton {
 				'constraint' => 40
 			)
 		));
-		static::$forge->add_key('id', TRUE);
-		static::$forge->create_table('user', TRUE);
+		self::$forge->add_key('id', TRUE);
+		self::$forge->create_table('user', TRUE);
 
 		// Job Table
-		static::$forge->add_field(array(
+		self::$forge->add_field(array(
 			'id' => array(
 				'type' => 'INTEGER',
 				'constraint' => 3
@@ -85,11 +92,11 @@ class Mock_Database_Schema_Skeleton {
 				'type' => 'TEXT'
 			)
 		));
-		static::$forge->add_key('id', TRUE);
-		static::$forge->create_table('job', TRUE);
+		self::$forge->add_key('id', TRUE);
+		self::$forge->create_table('job', TRUE);
 
 		// Misc Table
-		static::$forge->add_field(array(
+		self::$forge->add_field(array(
 			'id' => array(
 				'type' => 'INTEGER',
 				'constraint' => 3
@@ -102,8 +109,8 @@ class Mock_Database_Schema_Skeleton {
 				'type' => 'TEXT'
 			)
 		));
-		static::$forge->add_key('id', TRUE);
-		static::$forge->create_table('misc', TRUE);
+		self::$forge->add_key('id', TRUE);
+		self::$forge->create_table('misc', TRUE);
 	}
 
 	/**
@@ -124,7 +131,7 @@ class Mock_Database_Schema_Skeleton {
 			'job' => array(
 				array('id' => 1, 'name' => 'Developer', 'description' => 'Awesome job, but sometimes makes you bored'),
 				array('id' => 2, 'name' => 'Politician', 'description' => 'This is not really a job'),
-    				array('id' => 3, 'name' => 'Accountant', 'description' => 'Boring job, but you will get free snack at lunch'),
+				array('id' => 3, 'name' => 'Accountant', 'description' => 'Boring job, but you will get free snack at lunch'),
 				array('id' => 4, 'name' => 'Musician', 'description' => 'Only Coldplay can actually called Musician')
 			),
 			'misc' => array(
@@ -136,11 +143,11 @@ class Mock_Database_Schema_Skeleton {
 
 		foreach ($data as $table => $dummy_data)
 		{
-			static::$db->truncate($table);
+			self::$db->truncate($table);
 
 			foreach ($dummy_data as $single_dummy_data)
 			{
-				static::$db->insert($table, $single_dummy_data);
+				self::$db->insert($table, $single_dummy_data);
 			}
 		}
 	}

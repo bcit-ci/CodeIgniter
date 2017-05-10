@@ -116,7 +116,7 @@ this code and save it to your application/views/ folder::
 The Controller
 ==============
 
-Using a text editor, create a controller called form.php. In it, place
+Using a text editor, create a controller called Form.php. In it, place
 this code and save it to your application/controllers/ folder::
 
 	<?php
@@ -175,7 +175,7 @@ The form (myform.php) is a standard web form with a couple exceptions:
    This function will return any error messages sent back by the
    validator. If there are no messages it returns an empty string.
 
-The controller (form.php) has one method: ``index()``. This method
+The controller (Form.php) has one method: ``index()``. This method
 initializes the validation class and loads the form helper and URL
 helper used by your view files. It also runs the validation routine.
 Based on whether the validation was successful it either presents the
@@ -205,7 +205,7 @@ The above method takes **three** parameters as input:
 .. note:: If you would like the field name to be stored in a language
 	file, please see :ref:`translating-field-names`.
 
-Here is an example. In your controller (form.php), add this code just
+Here is an example. In your controller (Form.php), add this code just
 below the validation initialization method::
 
 	$this->form_validation->set_rules('username', 'Username', 'required');
@@ -326,17 +326,16 @@ In addition to the validation method like the ones we used above, you
 can also prep your data in various ways. For example, you can set up
 rules like this::
 
-	$this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[12]|xss_clean');
-	$this->form_validation->set_rules('password', 'Password', 'trim|required|md5');
+	$this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[12]');
+	$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]');
 	$this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|required|matches[password]');
 	$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
 
-In the above example, we are "trimming" the fields, converting the
-password to MD5, and running the username through the `xss_clean()`
-method, which removes malicious data.
+In the above example, we are "trimming" the fields, checking for length
+where necessary and making sure that both password fields match.
 
 **Any native PHP function that accepts one parameter can be used as a
-rule, like htmlspecialchars, trim, md5, etc.**
+rule, like ``htmlspecialchars()``, ``trim()``, etc.**
 
 .. note:: You will generally want to use the prepping functions
 	**after** the validation rules so if there is an error, the
@@ -353,10 +352,10 @@ commonly is::
 	set_value('field name')
 
 Open your myform.php view file and update the **value** in each field
-using the ``set_value()`` function:
+using the :php:func:`set_value()` function:
 
-**Don't forget to include each field name in the ``set_value()``
-functions!**
+**Don't forget to include each field name in the :php:func:`set_value()`
+function calls!**
 
 ::
 
@@ -393,11 +392,11 @@ Now reload your page and submit the form so that it triggers an error.
 Your form fields should now be re-populated
 
 .. note:: The :ref:`class-reference` section below
-	contains functions that permit you to re-populate <select> menus,
+	contains methods that permit you to re-populate <select> menus,
 	radio buttons, and checkboxes.
 
-**Important Note:** If you use an array as the name of a form field, you
-must supply it as an array to the function. Example::
+.. important:: If you use an array as the name of a form field, you
+	must supply it as an array to the function. Example::
 
 	<input type="text" name="colors[]" value="<?php echo set_value('colors[]'); ?>" size="50" />
 
@@ -466,13 +465,77 @@ for you to process.
 To invoke a callback just put the method name in a rule, with
 "callback\_" as the rule **prefix**. If you need to receive an extra
 parameter in your callback method, just add it normally after the
-method name between square brackets, as in: "callback_foo**[bar]**",
+method name between square brackets, as in: ``callback_foo[bar]``,
 then it will be passed as the second argument of your callback method.
 
 .. note:: You can also process the form data that is passed to your
 	callback and return it. If your callback returns anything other than a
 	boolean TRUE/FALSE it is assumed that the data is your newly processed
 	form data.
+
+Callable: Use anything as a rule
+================================
+
+If callback rules aren't good enough for you (for example, because they are
+limited to your controller), don't get disappointed, there's one more way
+to create custom rules: anything that ``is_callable()`` would return TRUE for.
+
+Consider the following example::
+
+	$this->form_validation->set_rules(
+		'username', 'Username',
+		array(
+			'required',
+			array($this->users_model, 'valid_username')
+		)
+	);
+
+The above code would use the ``valid_username()`` method from your
+``Users_model`` object.
+
+This is just an example of course, and callbacks aren't limited to models.
+You can use any object/method that accepts the field value as its' first
+parameter. You can also use an anonymous function::
+
+	$this->form_validation->set_rules(
+		'username', 'Username',
+		array(
+			'required',
+			function($value)
+			{
+				// Check $value
+			}
+		)
+	);
+
+Of course, since a Callable rule by itself is not a string, it isn't
+a rule name either. That is a problem when you want to set error messages
+for them. In order to get around that problem, you can put such rules as
+the second element of an array, with the first one being the rule name::
+
+	$this->form_validation->set_rules(
+		'username', 'Username',
+		array(
+			'required',
+			array('username_callable', array($this->users_model, 'valid_username'))
+		)
+	);
+
+Anonymous function version::
+
+	$this->form_validation->set_rules(
+		'username', 'Username',
+		array(
+			'required',
+			array(
+				'username_callable',
+				function($str)
+				{
+					// Check validity of $str and return TRUE or FALSE
+				}
+			)
+		)
+	);
 
 .. _setting-error-messages:
 
@@ -483,7 +546,10 @@ All of the native error messages are located in the following language
 file: **system/language/english/form_validation_lang.php**
 
 To set your own global custom message for a rule, you can either 
-edit that file, or use the following method::
+extend/override the language file by creating your own in
+**application/language/english/form_validation_lang.php** (read more
+about this in the :doc:`Language Class <language>` documentation),
+or use the following method::
 
 	$this->form_validation->set_message('rule', 'Error Message');
 
@@ -491,14 +557,14 @@ If you need to set a custom error message for a particular field on
 some particular rule, use the set_rules() method::
 
 	$this->form_validation->set_rules('field_name', 'Field Label', 'rule1|rule2|rule3',
-		array('rule2'	=> 'Error Message on rule2 for this field_name')
+		array('rule2' => 'Error Message on rule2 for this field_name')
 	);
 
 Where rule corresponds to the name of a particular rule, and Error
 Message is the text you would like displayed.
 
-If you'd like to include a field's "human" name, or the optional 
-parameter some rules allow for (such as max_length), you can add the 
+If you'd like to include a field's "human" name, or the optional
+parameter some rules allow for (such as max_length), you can add the
 **{field}** and **{param}** tags to your message, respectively::
 
 	$this->form_validation->set_message('min_length', '{field} must have at least {param} characters.');
@@ -579,7 +645,7 @@ Showing Errors Individually
 ===========================
 
 If you prefer to show an error message next to each form field, rather
-than as a list, you can use the ``form_error()`` function.
+than as a list, you can use the :php:func:`form_error()` function.
 
 Try it! Change your form so that it looks like this::
 
@@ -625,8 +691,12 @@ In this case, you can specify the array to be validated::
 
 	$this->form_validation->set_data($data);
 
-Creating validation rules, running the validation, and retrieving error messages works the
-same whether you are validating ``$_POST`` data or an array.
+Creating validation rules, running the validation, and retrieving error
+messages works the same whether you are validating ``$_POST`` data or
+another array of your choice.
+
+.. important:: You have to call the ``set_data()`` method *before* defining
+	any validation rules.
 
 .. important:: If you want to validate more than one array during a single
 	execution, then you should call the ``reset_validation()`` method
@@ -880,15 +950,16 @@ use:
 ========================= ========== ============================================================================================= =======================
 Rule                      Parameter  Description                                                                                   Example
 ========================= ========== ============================================================================================= =======================
-**required**              No         Returns FALSE if the form element is empty.                                                                          
-**matches**               Yes        Returns FALSE if the form element does not match the one in the parameter.                    matches[form_item]     
-**differs**               Yes        Returns FALSE if the form element does not differ from the one in the parameter.              differs[form_item]     
-**is_unique**             Yes        Returns FALSE if the form element is not unique to the table and field name in the            is_unique[table.field] 
-                                     parameter. Note: This rule requires :doc:`Query Builder <../database/query_builder>` to be                             
+**required**              No         Returns FALSE if the form element is empty.
+**matches**               Yes        Returns FALSE if the form element does not match the one in the parameter.                    matches[form_item]
+**regex_match**           Yes        Returns FALSE if the form element does not match the regular expression.                      regex_match[/regex/]
+**differs**               Yes        Returns FALSE if the form element does not differ from the one in the parameter.              differs[form_item]
+**is_unique**             Yes        Returns FALSE if the form element is not unique to the table and field name in the            is_unique[table.field]
+                                     parameter. Note: This rule requires :doc:`Query Builder <../database/query_builder>` to be
                                      enabled in order to work.
-**min_length**            Yes        Returns FALSE if the form element is shorter then the parameter value.                        min_length[3]         
-**max_length**            Yes        Returns FALSE if the form element is longer then the parameter value.                         max_length[12]         
-**exact_length**          Yes        Returns FALSE if the form element is not exactly the parameter value.                         exact_length[8]        
+**min_length**            Yes        Returns FALSE if the form element is shorter than the parameter value.                        min_length[3]
+**max_length**            Yes        Returns FALSE if the form element is longer than the parameter value.                         max_length[12]
+**exact_length**          Yes        Returns FALSE if the form element is not exactly the parameter value.                         exact_length[8]
 **greater_than**          Yes        Returns FALSE if the form element is less than or equal to the parameter value or not         greater_than[8]
                                      numeric.
 **greater_than_equal_to** Yes        Returns FALSE if the form element is less than the parameter value,                           greater_than_equal_to[8]
@@ -897,15 +968,16 @@ Rule                      Parameter  Description                                
                                      not numeric.
 **less_than_equal_to**    Yes        Returns FALSE if the form element is greater than the parameter value,                        less_than_equal_to[8]
                                      or not numeric.
-**alpha**                 No         Returns FALSE if the form element contains anything other than alphabetical characters.                              
+**in_list**               Yes        Returns FALSE if the form element is not within a predetermined list.                         in_list[red,blue,green]
+**alpha**                 No         Returns FALSE if the form element contains anything other than alphabetical characters.
 **alpha_numeric**         No         Returns FALSE if the form element contains anything other than alpha-numeric characters.
 **alpha_numeric_spaces**  No         Returns FALSE if the form element contains anything other than alpha-numeric characters
-                                     or spaces.  Should be used after trim to avoid spaces at the beginning or end.                             
-**alpha_dash**            No         Returns FALSE if the form element contains anything other than alpha-numeric characters,                             
-                                     underscores or dashes.                                                                                               
-**numeric**               No         Returns FALSE if the form element contains anything other than numeric characters.                                   
-**integer**               No         Returns FALSE if the form element contains anything other than an integer.                                           
-**decimal**               No         Returns FALSE if the form element contains anything other than a decimal number.                                     
+                                     or spaces.  Should be used after trim to avoid spaces at the beginning or end.
+**alpha_dash**            No         Returns FALSE if the form element contains anything other than alpha-numeric characters,
+                                     underscores or dashes.
+**numeric**               No         Returns FALSE if the form element contains anything other than numeric characters.
+**integer**               No         Returns FALSE if the form element contains anything other than an integer.
+**decimal**               No         Returns FALSE if the form element contains anything other than a decimal number.
 **is_natural**            No         Returns FALSE if the form element contains anything other than a natural number:
                                      0, 1, 2, 3, etc.
 **is_natural_no_zero**    No         Returns FALSE if the form element contains anything other than a natural
@@ -913,8 +985,9 @@ Rule                      Parameter  Description                                
 **valid_url**             No         Returns FALSE if the form element does not contain a valid URL.
 **valid_email**           No         Returns FALSE if the form element does not contain a valid email address.
 **valid_emails**          No         Returns FALSE if any value provided in a comma separated list is not a valid email.
-**valid_ip**              No         Returns FALSE if the supplied IP is not valid.
+**valid_ip**              Yes        Returns FALSE if the supplied IP address is not valid.
                                      Accepts an optional parameter of 'ipv4' or 'ipv6' to specify an IP format.
+**valid_mac**             No         Returns FALSE if the supplied MAC address is not valid.
 **valid_base64**          No         Returns FALSE if the supplied string contains anything other than valid Base64 characters.
 ========================= ========== ============================================================================================= =======================
 
@@ -934,15 +1007,13 @@ Prepping Reference
 The following is a list of all the prepping methods that are available
 to use:
 
-==================== ========= =======================================================================================================
+==================== ========= ==============================================================================================================
 Name                 Parameter Description
-==================== ========= =======================================================================================================
-**xss_clean**        No        Runs the data through the XSS filtering method, described in the :doc:`Security Class <security>` page.
-**prep_for_form**    No        Converts special characters so that HTML data can be shown in a form field without breaking it.
+==================== ========= ==============================================================================================================
 **prep_url**         No        Adds "\http://" to URLs if missing.
 **strip_image_tags** No        Strips the HTML from image tags leaving the raw URL.
 **encode_php_tags**  No        Converts PHP tags to entities.
-==================== ========= =======================================================================================================
+==================== ========= ==============================================================================================================
 
 .. note:: You can also use any native PHP functions that permits one
 	parameter, like ``trim()``, ``htmlspecialchars()``, ``urldecode()``,
@@ -954,76 +1025,104 @@ Name                 Parameter Description
 Class Reference
 ***************
 
-.. php:class:: Form_validation
+.. php:class:: CI_Form_validation
 
-The following methods are intended for use in your controller.
+	.. php:method:: set_rules($field[, $label = null[, $rules = null[, $errors = array()]]])
 
-$this->form_validation->set_rules()
-===================================
-
-	.. php:method:: set_rules ($field, $label = '', $rules = '', $errors = array())
-
-		:param string $field: The field name
-		:param string $label: The field label
-		:param mixed $rules: The rules, as a string with rules separated by a pipe "|", or an array or rules.
-		:param array $errors: Custom error messages
-		:rtype: Object
+		:param	string	$field: Field name
+		:param	string	$label: Field label
+		:param	mixed	$rules: Validation rules, as a string list separated by a pipe "|", or as an array or rules
+		:param	array	$errors: A list of custom error messages
+		:returns:	CI_Form_validation instance (method chaining)
+		:throws:	BadMethodCallException	If $field is not an array and $rules was not used
+		:rtype:	CI_Form_validation
 
 		Permits you to set validation rules, as described in the tutorial
 		sections above:
 
-	-  :ref:`setting-validation-rules`
-	-  :ref:`saving-groups`
+		-  :ref:`setting-validation-rules`
+		-  :ref:`saving-groups`
 
-$this->form_validation->run()
-=============================
-	
-	.. php:method:: run ($group = '')
+	.. php:method:: run([$group = ''])
 
-		:param string $group: The name of the validation group to run
-		:rtype: Boolean
+		:param	string	$group: The name of the validation group to run
+		:returns:	TRUE on success, FALSE if validation failed
+		:rtype:	bool
 
 		Runs the validation routines. Returns boolean TRUE on success and FALSE
 		on failure. You can optionally pass the name of the validation group via
 		the method, as described in: :ref:`saving-groups`
 
-$this->form_validation->set_message()
-=====================================
-	
-	.. php:method:: set_message ($lang, $val = '')
+	.. php:method:: set_message($lang[, $val = ''])
 
-		:param string $lang: The rule the message is for
-		:param string $val: The message
-		:rtype: Object
+		:param	string	$lang: The rule the message is for
+		:param	string	$val: The message
+		:returns:	CI_Form_validation instance (method chaining)
+		:rtype:	CI_Form_validation
 
 		Permits you to set custom error messages. See :ref:`setting-error-messages`
 
-$this->form_validation->set_data()
-==================================
-	
-	.. php:method:: set_data ($data = '')
+	.. php:method:: set_error_delimiters([$prefix = '<p>'[, $suffix = '</p>']])
 
-		:param array $data: The data to validate
+		:param	string	$prefix: Error message prefix
+		:param	string	$suffix: Error message suffix
+		:returns:	CI_Form_validation instance (method chaining)
+		:rtype:	CI_Form_validation
+
+		Sets the default prefix and suffix for error messages.
+
+	.. php:method:: set_data($data)
+
+		:param	array	$data: Array of data validate
+		:returns:	CI_Form_validation instance (method chaining)
+		:rtype:	CI_Form_validation
 
 		Permits you to set an array for validation, instead of using the default
-		$_POST array.
+		``$_POST`` array.
 
-$this->form_validation->reset_validation()
-==========================================
+	.. php:method:: reset_validation()
 
-	.. php:method:: reset_validation ()
+		:returns:	CI_Form_validation instance (method chaining)
+		:rtype:	CI_Form_validation
 
 		Permits you to reset the validation when you validate more than one array.
 		This method should be called before validating each new array.
 
-$this->form_validation->error_array()
-=====================================
-	
-	.. php:method:: error_array ()
+	.. php:method:: error_array()
 
-		:rtype: Array
+		:returns:	Array of error messages
+		:rtype:	array
 
 		Returns the error messages as an array.
+
+	.. php:method:: error_string([$prefix = ''[, $suffix = '']])
+
+		:param	string	$prefix: Error message prefix
+		:param	string	$suffix: Error message suffix
+		:returns:	Error messages as a string
+		:rtype:	string
+
+		Returns all error messages (as returned from error_array()) formatted as a
+		string and separated by a newline character.
+
+	.. php:method:: error($field[, $prefix = ''[, $suffix = '']])
+
+		:param	string $field: Field name
+		:param	string $prefix: Optional prefix
+		:param	string $suffix: Optional suffix
+		:returns:	Error message string
+		:rtype:	string
+
+		Returns the error message for a specific field, optionally adding a
+		prefix and/or suffix to it (usually HTML tags).
+
+	.. php:method:: has_rule($field)
+
+		:param	string	$field: Field name
+		:returns:	TRUE if the field has rules set, FALSE if not
+		:rtype:	bool
+
+		Checks to see if there is a rule set for the specified field.
 
 .. _helper-functions:
 
@@ -1031,78 +1130,15 @@ $this->form_validation->error_array()
 Helper Reference
 ****************
 
-The following helper functions are available for use in the view files
-containing your forms. Note that these are procedural functions, so they
-**do not** require you to prepend them with $this->form_validation.
+Please refer to the :doc:`Form Helper <../helpers/form_helper>` manual for
+the following functions:
 
-form_error()
-============
+-  :php:func:`form_error()`
+-  :php:func:`validation_errors()`
+-  :php:func:`set_value()`
+-  :php:func:`set_select()`
+-  :php:func:`set_checkbox()`
+-  :php:func:`set_radio()`
 
-Shows an individual error message associated with the field name
-supplied to the function. Example::
-
-	<?php echo form_error('username'); ?>
-
-The error delimiters can be optionally specified. See the
-:ref:`changing-delimiters` section above.
-
-validation_errors()
-===================
-
-Shows all error messages as a string: Example::
-
-	<?php echo validation_errors(); ?>
-
-The error delimiters can be optionally specified. See the 
-:ref:`changing-delimiters` section above.
-
-set_value()
-===========
-
-Permits you to set the value of an input form or textarea. You must
-supply the field name via the first parameter of the function. The
-second (optional) parameter allows you to set a default value for the
-form. Example::
-
-	<input type="text" name="quantity" value="<?php echo set_value('quantity', '0'); ?>" size="50" />
-
-The above form will show "0" when loaded for the first time.
-
-set_select()
-============
-
-If you use a <select> menu, this function permits you to display the
-menu item that was selected. The first parameter must contain the name
-of the select menu, the second parameter must contain the value of each
-item, and the third (optional) parameter lets you set an item as the
-default (use boolean TRUE/FALSE).
-
-Example::
-
-	<select name="myselect">
-	<option value="one" <?php echo set_select('myselect', 'one', TRUE); ?> >One</option>
-	<option value="two" <?php echo set_select('myselect', 'two'); ?> >Two</option>
-	<option value="three" <?php echo set_select('myselect', 'three'); ?> >Three</option>
-	</select>
-
-set_checkbox()
-==============
-
-Permits you to display a checkbox in the state it was submitted. The
-first parameter must contain the name of the checkbox, the second
-parameter must contain its value, and the third (optional) parameter
-lets you set an item as the default (use boolean TRUE/FALSE). Example::
-
-	<input type="checkbox" name="mycheck[]" value="1" <?php echo set_checkbox('mycheck[]', '1'); ?> />
-	<input type="checkbox" name="mycheck[]" value="2" <?php echo set_checkbox('mycheck[]', '2'); ?> />
-
-set_radio()
-===========
-
-Permits you to display radio buttons in the state they were submitted.
-This function is identical to the **set_checkbox()** function above.
-
-::
-
-	<input type="radio" name="myradio" value="1" <?php echo set_radio('myradio', '1', TRUE); ?> />
-	<input type="radio" name="myradio" value="2" <?php echo set_radio('myradio', '2'); ?> />
+Note that these are procedural functions, so they **do not** require you
+to prepend them with ``$this->form_validation``.

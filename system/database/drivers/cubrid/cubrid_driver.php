@@ -2,26 +2,37 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP
  *
- * NOTICE OF LICENSE
+ * This content is released under the MIT License (MIT)
  *
- * Licensed under the Open Software License version 3.0
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 2.1
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	https://codeigniter.com
+ * @since	Version 2.1.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -37,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Drivers
  * @category	Database
  * @author		Esen Sagynov
- * @link		http://codeigniter.com/user_guide/database/
+ * @link		https://codeigniter.com/user_guide/database/
  */
 class CI_DB_cubrid_driver extends CI_DB {
 
@@ -102,61 +113,23 @@ class CI_DB_cubrid_driver extends CI_DB {
 	/**
 	 * Non-persistent database connection
 	 *
-	 * @return	resource
-	 */
-	public function db_connect()
-	{
-		return $this->_cubrid_connect();
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Persistent database connection
-	 *
-	 * In CUBRID persistent DB connection is supported natively in CUBRID
-	 * engine which can be configured in the CUBRID Broker configuration
-	 * file by setting the CCI_PCONNECT parameter to ON. In that case, all
-	 * connections established between the client application and the
-	 * server will become persistent.
-	 *
-	 * @return	resource
-	 */
-	public function db_pconnect()
-	{
-		return $this->_cubrid_connect(TRUE);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * CUBRID connection
-	 *
-	 * A CUBRID-specific method to create a connection to the database.
-	 * Except for determining if a persistent connection should be used,
-	 * the rest of the logic is the same for db_connect() and db_pconnect().
-	 *
 	 * @param	bool	$persistent
 	 * @return	resource
 	 */
-	protected function _cubrid_connect($persistent = FALSE)
+	public function db_connect($persistent = FALSE)
 	{
 		if (preg_match('/^CUBRID:[^:]+(:[0-9][1-9]{0,4})?:[^:]+:([^:]*):([^:]*):(\?.+)?$/', $this->dsn, $matches))
 		{
-			$_temp = ($persistent !== TRUE) ? 'cubrid_connect_with_url' : 'cubrid_pconnect_with_url';
-			$conn_id = ($matches[2] === '' && $matches[3] === '' && $this->username !== '' && $this->password !== '')
-					? $_temp($this->dsn, $this->username, $this->password)
-					: $_temp($this->dsn);
-		}
-		else
-		{
-			$_temp = ($persistent !== TRUE) ? 'cubrid_connect' : 'cubrid_pconnect';
-			$conn_id = ($this->username !== '')
-					? $_temp($this->hostname, $this->port, $this->database, $this->username, $this->password)
-					: $_temp($this->hostname, $this->port, $this->database);
+			$func = ($persistent !== TRUE) ? 'cubrid_connect_with_url' : 'cubrid_pconnect_with_url';
+			return ($matches[2] === '' && $matches[3] === '' && $this->username !== '' && $this->password !== '')
+				? $func($this->dsn, $this->username, $this->password)
+				: $func($this->dsn);
 		}
 
-		return $conn_id;
+		$func = ($persistent !== TRUE) ? 'cubrid_connect' : 'cubrid_pconnect';
+		return ($this->username !== '')
+			? $func($this->hostname, $this->port, $this->database, $this->username, $this->password)
+			: $func($this->hostname, $this->port, $this->database);
 	}
 
 	// --------------------------------------------------------------------
@@ -190,10 +163,6 @@ class CI_DB_cubrid_driver extends CI_DB {
 		{
 			return $this->data_cache['version'];
 		}
-		elseif ( ! $this->conn_id)
-		{
-			$this->initialize();
-		}
 
 		return ( ! $this->conn_id OR ($version = cubrid_get_server_info($this->conn_id)) === FALSE)
 			? FALSE
@@ -210,7 +179,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return @cubrid_query($sql, $this->conn_id);
+		return cubrid_query($sql, $this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -218,25 +187,17 @@ class CI_DB_cubrid_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
-	 * @param	bool	$test_mode
 	 * @return	bool
 	 */
-	public function trans_begin($test_mode = FALSE)
+	protected function _trans_begin()
 	{
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
+		if (($autocommit = cubrid_get_autocommit($this->conn_id)) === NULL)
 		{
-			return TRUE;
+			return FALSE;
 		}
-
-		// Reset the transaction failure flag.
-		// If the $test_mode flag is set to TRUE transactions will be rolled back
-		// even if the queries produce a successful result.
-		$this->_trans_failure = ($test_mode === TRUE);
-
-		if (cubrid_get_autocommit($this->conn_id))
+		elseif ($autocommit === TRUE)
 		{
-			cubrid_set_autocommit($this->conn_id, CUBRID_AUTOCOMMIT_FALSE);
+			return cubrid_set_autocommit($this->conn_id, CUBRID_AUTOCOMMIT_FALSE);
 		}
 
 		return TRUE;
@@ -249,19 +210,16 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 *
 	 * @return	bool
 	 */
-	public function trans_commit()
+	protected function _trans_commit()
 	{
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
+		if ( ! cubrid_commit($this->conn_id))
 		{
-			return TRUE;
+			return FALSE;
 		}
-
-		cubrid_commit($this->conn_id);
 
 		if ($this->auto_commit && ! cubrid_get_autocommit($this->conn_id))
 		{
-			cubrid_set_autocommit($this->conn_id, CUBRID_AUTOCOMMIT_TRUE);
+			return cubrid_set_autocommit($this->conn_id, CUBRID_AUTOCOMMIT_TRUE);
 		}
 
 		return TRUE;
@@ -274,15 +232,12 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 *
 	 * @return	bool
 	 */
-	public function trans_rollback()
+	protected function _trans_rollback()
 	{
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
+		if ( ! cubrid_rollback($this->conn_id))
 		{
-			return TRUE;
+			return FALSE;
 		}
-
-		cubrid_rollback($this->conn_id);
 
 		if ($this->auto_commit && ! cubrid_get_autocommit($this->conn_id))
 		{
@@ -295,21 +250,14 @@ class CI_DB_cubrid_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Platform-dependant string escape
+	 * Platform-dependent string escape
 	 *
 	 * @param	string
 	 * @return	string
 	 */
 	protected function _escape_str($str)
 	{
-		if (function_exists('cubrid_real_escape_string') &&
-			(is_resource($this->conn_id)
-				OR (get_resource_type($this->conn_id) === 'Unknown' && preg_match('/Resource id #/', strval($this->conn_id)))))
-		{
-			return cubrid_real_escape_string($str, $this->conn_id);
-		}
-
-		return addslashes($str);
+		return cubrid_real_escape_string($str, $this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -321,7 +269,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	public function affected_rows()
 	{
-		return @cubrid_affected_rows();
+		return cubrid_affected_rows();
 	}
 
 	// --------------------------------------------------------------------
@@ -333,7 +281,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	public function insert_id()
 	{
-		return @cubrid_insert_id($this->conn_id);
+		return cubrid_insert_id($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -381,13 +329,8 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 * @param	string	$table
 	 * @return	array
 	 */
-	public function field_data($table = '')
+	public function field_data($table)
 	{
-		if ($table === '')
-		{
-			return ($this->db_debug) ? $this->display_error('db_field_param_missing') : FALSE;
-		}
-
 		if (($query = $this->query('SHOW COLUMNS FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE))) === FALSE)
 		{
 			return FALSE;
@@ -418,7 +361,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 * Error
 	 *
 	 * Returns an array containing code and message of the last
-	 * database error that has occured.
+	 * database error that has occurred.
 	 *
 	 * @return	array
 	 */
@@ -456,10 +399,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	protected function _close()
 	{
-		@cubrid_close($this->conn_id);
+		cubrid_close($this->conn_id);
 	}
 
 }
-
-/* End of file cubrid_driver.php */
-/* Location: ./system/database/drivers/cubrid/cubrid_driver.php */

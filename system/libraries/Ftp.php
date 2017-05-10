@@ -2,26 +2,37 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP
  *
- * NOTICE OF LICENSE
+ * This content is released under the MIT License (MIT)
  *
- * Licensed under the Open Software License version 3.0
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	https://codeigniter.com
+ * @since	Version 1.0.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -33,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Libraries
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/ftp.html
+ * @link		https://codeigniter.com/user_guide/libraries/ftp.html
  */
 class CI_FTP {
 
@@ -42,35 +53,35 @@ class CI_FTP {
 	 *
 	 * @var	string
 	 */
-	public $hostname	= '';
+	public $hostname = '';
 
 	/**
 	 * FTP Username
 	 *
 	 * @var	string
 	 */
-	public $username	= '';
+	public $username = '';
 
 	/**
 	 * FTP Password
 	 *
 	 * @var	string
 	 */
-	public $password	= '';
+	public $password = '';
 
 	/**
 	 * FTP Server port
 	 *
 	 * @var	int
 	 */
-	public $port		= 21;
+	public $port = 21;
 
 	/**
 	 * Passive mode flag
 	 *
 	 * @var	bool
 	 */
-	public $passive		= TRUE;
+	public $passive = TRUE;
 
 	/**
 	 * Debug flag
@@ -79,14 +90,16 @@ class CI_FTP {
 	 *
 	 * @var	bool
 	 */
-	public $debug		= FALSE;
+	public $debug = FALSE;
+
+	// --------------------------------------------------------------------
 
 	/**
-	 * Connection
+	 * Connection ID
 	 *
 	 * @var	resource
 	 */
-	public $conn_id		= FALSE;
+	protected $conn_id;
 
 	// --------------------------------------------------------------------
 
@@ -98,12 +111,8 @@ class CI_FTP {
 	 */
 	public function __construct($config = array())
 	{
-		if (count($config) > 0)
-		{
-			$this->initialize($config);
-		}
-
-		log_message('debug', 'FTP Class Initialized');
+		empty($config) OR $this->initialize($config);
+		log_message('info', 'FTP Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -149,6 +158,7 @@ class CI_FTP {
 			{
 				$this->_error('ftp_unable_to_connect');
 			}
+
 			return FALSE;
 		}
 
@@ -158,6 +168,7 @@ class CI_FTP {
 			{
 				$this->_error('ftp_unable_to_login');
 			}
+
 			return FALSE;
 		}
 
@@ -197,8 +208,10 @@ class CI_FTP {
 			{
 				$this->_error('ftp_no_connection');
 			}
+
 			return FALSE;
 		}
+
 		return TRUE;
 	}
 
@@ -232,6 +245,7 @@ class CI_FTP {
 			{
 				$this->_error('ftp_unable_to_changedir');
 			}
+
 			return FALSE;
 		}
 
@@ -262,6 +276,7 @@ class CI_FTP {
 			{
 				$this->_error('ftp_unable_to_mkdir');
 			}
+
 			return FALSE;
 		}
 
@@ -316,6 +331,7 @@ class CI_FTP {
 			{
 				$this->_error('ftp_unable_to_upload');
 			}
+
 			return FALSE;
 		}
 
@@ -363,6 +379,7 @@ class CI_FTP {
 			{
 				$this->_error('ftp_unable_to_download');
 			}
+
 			return FALSE;
 		}
 
@@ -394,6 +411,7 @@ class CI_FTP {
 			{
 				$this->_error('ftp_unable_to_'.($move === FALSE ? 'rename' : 'move'));
 			}
+
 			return FALSE;
 		}
 
@@ -437,6 +455,7 @@ class CI_FTP {
 			{
 				$this->_error('ftp_unable_to_delete');
 			}
+
 			return FALSE;
 		}
 
@@ -447,7 +466,7 @@ class CI_FTP {
 
 	/**
 	 * Delete a folder and recursively delete everything (including sub-folders)
-	 * containted within it.
+	 * contained within it.
 	 *
 	 * @param	string	$filepath
 	 * @return	bool
@@ -463,28 +482,26 @@ class CI_FTP {
 		$filepath = preg_replace('/(.+?)\/*$/', '\\1/', $filepath);
 
 		$list = $this->list_files($filepath);
-
-		if ($list !== FALSE && count($list) > 0)
+		if ( ! empty($list))
 		{
-			foreach ($list as $item)
+			for ($i = 0, $c = count($list); $i < $c; $i++)
 			{
-				// If we can't delete the item it's probaly a folder so
-				// we'll recursively call delete_dir()
-				if ( ! @ftp_delete($this->conn_id, $item))
+				// If we can't delete the item it's probably a directory,
+				// so we'll recursively call delete_dir()
+				if ( ! preg_match('#/\.\.?$#', $list[$i]) && ! @ftp_delete($this->conn_id, $list[$i]))
 				{
-					$this->delete_dir($item);
+					$this->delete_dir($filepath.$list[$i]);
 				}
 			}
 		}
 
-		$result = @ftp_rmdir($this->conn_id, $filepath);
-
-		if ($result === FALSE)
+		if (@ftp_rmdir($this->conn_id, $filepath) === FALSE)
 		{
 			if ($this->debug === TRUE)
 			{
 				$this->_error('ftp_unable_to_delete');
 			}
+
 			return FALSE;
 		}
 
@@ -507,14 +524,13 @@ class CI_FTP {
 			return FALSE;
 		}
 
-		$result = @ftp_chmod($this->conn_id, $perm, $path);
-
-		if ($result === FALSE)
+		if (@ftp_chmod($this->conn_id, $perm, $path) === FALSE)
 		{
 			if ($this->debug === TRUE)
 			{
 				$this->_error('ftp_unable_to_chmod');
 			}
+
 			return FALSE;
 		}
 
@@ -531,12 +547,9 @@ class CI_FTP {
 	 */
 	public function list_files($path = '.')
 	{
-		if ( ! $this->_is_conn())
-		{
-			return FALSE;
-		}
-
-		return ftp_nlist($this->conn_id, $path);
+		return $this->_is_conn()
+			? ftp_nlist($this->conn_id, $path)
+			: FALSE;
 	}
 
 	// ------------------------------------------------------------------------
@@ -572,7 +585,7 @@ class CI_FTP {
 			// Recursively read the local directory
 			while (FALSE !== ($file = readdir($fp)))
 			{
-				if (@is_dir($locpath.$file) && $file[0] !== '.')
+				if (is_dir($locpath.$file) && $file[0] !== '.')
 				{
 					$this->mirror($locpath.$file.'/', $rempath.$file.'/');
 				}
@@ -585,6 +598,7 @@ class CI_FTP {
 					$this->upload($locpath.$file, $rempath.$file, $mode);
 				}
 			}
+
 			return TRUE;
 		}
 
@@ -601,13 +615,9 @@ class CI_FTP {
 	 */
 	protected function _getext($filename)
 	{
-		if (FALSE === strpos($filename, '.'))
-		{
-			return 'txt';
-		}
-
-		$x = explode('.', $filename);
-		return end($x);
+		return (($dot = strrpos($filename, '.')) === FALSE)
+			? 'txt'
+			: substr($filename, $dot + 1);
 	}
 
 	// --------------------------------------------------------------------
@@ -620,23 +630,9 @@ class CI_FTP {
 	 */
 	protected function _settype($ext)
 	{
-		$text_types = array(
-					'txt',
-					'text',
-					'php',
-					'phps',
-					'php4',
-					'js',
-					'css',
-					'htm',
-					'html',
-					'phtml',
-					'shtml',
-					'log',
-					'xml'
-				);
-
-		return in_array($ext, $text_types) ? 'ascii' : 'binary';
+		return in_array($ext, array('txt', 'text', 'php', 'phps', 'php4', 'js', 'css', 'htm', 'html', 'phtml', 'shtml', 'log', 'xml'), TRUE)
+			? 'ascii'
+			: 'binary';
 	}
 
 	// ------------------------------------------------------------------------
@@ -648,12 +644,9 @@ class CI_FTP {
 	 */
 	public function close()
 	{
-		if ( ! $this->_is_conn())
-		{
-			return FALSE;
-		}
-
-		return @ftp_close($this->conn_id);
+		return $this->_is_conn()
+			? @ftp_close($this->conn_id)
+			: FALSE;
 	}
 
 	// ------------------------------------------------------------------------
@@ -672,6 +665,3 @@ class CI_FTP {
 	}
 
 }
-
-/* End of file Ftp.php */
-/* Location: ./system/libraries/Ftp.php */

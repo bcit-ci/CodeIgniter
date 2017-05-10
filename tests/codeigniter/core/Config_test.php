@@ -76,36 +76,36 @@ class Config_test extends CI_TestCase {
 
 		// Capture server vars
 		$old_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : NULL;
-		$old_script = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : NULL;
+		$old_script_name = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : NULL;
+		$old_script_filename = $_SERVER['SCRIPT_FILENAME'];
 		$old_https = isset($_SERVER['HTTPS']) ? $_SERVER['HTTPS'] : NULL;
+		$old_server_addr = isset($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : NULL;
 
-		// Setup server vars for detection
-		$host = 'test.com';
-		$path = '/path/';
-		$script = 'base_test.php';
-		$_SERVER['HTTP_HOST'] = $host;
-		$_SERVER['SCRIPT_NAME'] = $path.$script;
-
-		// Rerun constructor
+		// The 'Host' header is user input and must not be trusted
+		$_SERVER['HTTP_HOST'] = 'test.com';
 		$this->config = new $cls;
+		$this->assertEquals('http://localhost/', $this->config->base_url());
 
-		// Test plain detected
-		$this->assertEquals('http://'.$host.$path, $this->config->base_url());
+		// However, we may fallback to the server's IP address
+		$_SERVER['SERVER_ADDR'] = '127.0.0.1';
+		$_SERVER['SCRIPT_NAME'] = '/base_test.php';
+		$_SERVER['SCRIPT_FILENAME'] = '/foo/bar/base_test.php';
+		$this->config = new $cls;
+		$this->assertEquals('http://127.0.0.1/', $this->config->base_url());
 
-		// Rerun constructor
+		// Making sure that HTTPS and URI path are also detected
 		$_SERVER['HTTPS'] = 'on';
+		$_SERVER['SCRIPT_NAME'] = '/path/base_test.php';
+		$_SERVER['SCRIPT_FILENAME'] = '/foo/bar/path/base_test.php';
 		$this->config = new $cls;
-
-		// Test secure detected
-		$this->assertEquals('https://'.$host.$path, $this->config->base_url());
+		$this->assertEquals('https://127.0.0.1/path/', $this->config->base_url());
 
 		// Restore server vars
-		if ($old_host === NULL) unset($_SERVER['HTTP_HOST']);
-		else $_SERVER['HTTP_HOST'] = $old_host;
-		if ($old_script === NULL) unset($_SERVER['SCRIPT_NAME']);
-		else $_SERVER['SCRIPT_NAME'] = $old_script;
-		if ($old_https === NULL) unset($_SERVER['HTTPS']);
-		else $_SERVER['HTTPS'] = $old_https;
+		$_SERVER['HTTP_HOST'] = $old_host;
+		$_SERVER['SCRIPT_NAME'] = $old_script_name;
+		$_SERVER['SCRIPT_FILENAME'] = $old_script_filename;
+		$_SERVER['HTTPS'] = $old_https;
+		$_SERVER['SERVER_ADDR'] = $old_server_addr;
 	}
 
 	// --------------------------------------------------------------------
@@ -127,6 +127,8 @@ class Config_test extends CI_TestCase {
 		$this->assertEquals($index_page.'/'.$uri, $this->config->site_url($uri));
 		$this->assertEquals($index_page.'/'.$uri.'/'.$uri2, $this->config->site_url(array($uri, $uri2)));
 
+		$this->assertEquals($index_page.'/test/', $this->config->site_url('test/'));
+
 		$suffix = 'ing';
 		$this->config->set_item('url_suffix', $suffix);
 
@@ -146,13 +148,6 @@ class Config_test extends CI_TestCase {
 
 		// back to home base
 		$this->config->set_item('enable_query_strings', $q_string);
-	}
-
-	// --------------------------------------------------------------------
-
-	public function test_system_url()
-	{
-		$this->assertEquals($this->cfg['base_url'].'system/', $this->config->system_url());
 	}
 
 	// --------------------------------------------------------------------
@@ -180,7 +175,7 @@ class Config_test extends CI_TestCase {
 		$cfg = array(
 			'one' => 'prime',
 			'two' => 2,
-			'three' => true
+			'three' => TRUE
 		);
 		$this->ci_vfs_create($file.'.php', '<?php $config = '.var_export($cfg, TRUE).';', $this->ci_app_root, 'config');
 		$this->assertTrue($this->config->load($file, TRUE));
@@ -192,13 +187,18 @@ class Config_test extends CI_TestCase {
 			'number' => 42,
 			'letter' => 'Z'
 		);
+
 		$pkg_dir = 'package';
-		$this->ci_vfs_create($file.'.php', '<?php $config = '.var_export($cfg2, TRUE).';', $this->ci_app_root,
-			array($pkg_dir, 'config'));
-		$this->config->_config_paths[] = $this->ci_vfs_path($pkg_dir.'/', APPPATH);
+		$this->ci_vfs_create(
+			$file.'.php',
+			'<?php $config = '.var_export($cfg2, TRUE).';',
+			$this->ci_app_root,
+			array($pkg_dir, 'config')
+		);
+		array_unshift($this->config->_config_paths, $this->ci_vfs_path($pkg_dir.'/', APPPATH));
 		$this->assertTrue($this->config->load($file, TRUE));
 		$this->assertEquals(array_merge($cfg, $cfg2), $this->config->item($file));
-		array_pop($this->config->_config_paths);
+		array_shift($this->config->_config_paths);
 
 		// Test graceful fail of invalid file
 		$file = 'badfile';

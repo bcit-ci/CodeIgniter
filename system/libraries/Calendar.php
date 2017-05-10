@@ -2,26 +2,37 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP
  *
- * NOTICE OF LICENSE
+ * This content is released under the MIT License (MIT)
  *
- * Licensed under the Open Software License version 3.0
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	https://codeigniter.com
+ * @since	Version 1.0.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -35,65 +46,58 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Libraries
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/calendar.html
+ * @link		https://codeigniter.com/user_guide/libraries/calendar.html
  */
 class CI_Calendar {
 
 	/**
-	 * Reference to CodeIgniter instance
-	 *
-	 * @var object
-	 */
-	protected $CI;
-
-	/**
-	 * Current local time
-	 *
-	 * @var int
-	 */
-	public $local_time;
-
-	/**
 	 * Calendar layout template
 	 *
-	 * @var string
+	 * @var mixed
 	 */
-	public $template		= '';
+	public $template = '';
+
+	/**
+	 * Replacements array for template
+	 *
+	 * @var array
+	 */
+	public $replacements = array();
 
 	/**
 	 * Day of the week to start the calendar on
 	 *
 	 * @var string
 	 */
-	public $start_day		= 'sunday';
+	public $start_day = 'sunday';
 
 	/**
 	 * How to display months
 	 *
 	 * @var string
 	 */
-	public $month_type		= 'long';
+	public $month_type = 'long';
 
 	/**
 	 * How to display names of days
 	 *
 	 * @var string
 	 */
-	public $day_type		= 'abr';
+	public $day_type = 'abr';
 
 	/**
 	 * Whether to show next/prev month links
 	 *
 	 * @var bool
 	 */
-	public $show_next_prev		= FALSE;
+	public $show_next_prev = FALSE;
 
 	/**
 	 * Url base to use for next/prev month links
 	 *
 	 * @var bool
 	 */
-	public $next_prev_url		= '';
+	public $next_prev_url = '';
 
 	/**
 	 * Show days of other months
@@ -101,6 +105,17 @@ class CI_Calendar {
 	 * @var bool
 	 */
 	public $show_other_days = FALSE;
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * CI Singleton
+	 *
+	 * @var object
+	 */
+	protected $CI;
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Class constructor
@@ -115,20 +130,11 @@ class CI_Calendar {
 	public function __construct($config = array())
 	{
 		$this->CI =& get_instance();
+		$this->CI->lang->load('calendar');
 
-		if ( ! in_array('calendar_lang.php', $this->CI->lang->is_loaded, TRUE))
-		{
-			$this->CI->lang->load('calendar');
-		}
+		empty($config) OR $this->initialize($config);
 
-		$this->local_time = time();
-
-		if (count($config) > 0)
-		{
-			$this->initialize($config);
-		}
-
-		log_message('debug', 'Calendar Class Initialized');
+		log_message('info', 'Calendar Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -139,7 +145,7 @@ class CI_Calendar {
 	 * Accepts an associative array as input, containing display preferences
 	 *
 	 * @param	array	config preferences
-	 * @return	void
+	 * @return	CI_Calendar
 	 */
 	public function initialize($config = array())
 	{
@@ -156,6 +162,8 @@ class CI_Calendar {
 		{
 			$this->next_prev_url = $this->CI->config->site_url($this->CI->router->class.'/'.$this->CI->router->method);
 		}
+
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -170,10 +178,12 @@ class CI_Calendar {
 	 */
 	public function generate($year = '', $month = '', $data = array())
 	{
+		$local_time = time();
+
 		// Set and validate the supplied month/year
 		if (empty($year))
 		{
-			$year = date('Y', $this->local_time);
+			$year = date('Y', $local_time);
 		}
 		elseif (strlen($year) === 1)
 		{
@@ -186,7 +196,7 @@ class CI_Calendar {
 
 		if (empty($month))
 		{
-			$month = date('m', $this->local_time);
+			$month = date('m', $local_time);
 		}
 		elseif (strlen($month) === 1)
 		{
@@ -217,9 +227,9 @@ class CI_Calendar {
 
 		// Set the current month/year/day
 		// We use this to determine the "today" date
-		$cur_year	= date('Y', $this->local_time);
-		$cur_month	= date('m', $this->local_time);
-		$cur_day	= date('j', $this->local_time);
+		$cur_year	= date('Y', $local_time);
+		$cur_month	= date('m', $local_time);
+		$cur_day	= date('j', $local_time);
 
 		$is_current_month = ($cur_year == $year && $cur_month == $month);
 
@@ -227,7 +237,7 @@ class CI_Calendar {
 		$this->parse_template();
 
 		// Begin building the calendar output
-		$out = $this->temp['table_open']."\n\n".$this->temp['heading_row_start']."\n";
+		$out = $this->replacements['table_open']."\n\n".$this->replacements['heading_row_start']."\n";
 
 		// "previous" month link
 		if ($this->show_next_prev === TRUE)
@@ -236,97 +246,97 @@ class CI_Calendar {
 			$this->next_prev_url = preg_replace('/(.+?)\/*$/', '\\1/', $this->next_prev_url);
 
 			$adjusted_date = $this->adjust_date($month - 1, $year);
-			$out .= str_replace('{previous_url}', $this->next_prev_url.$adjusted_date['year'].'/'.$adjusted_date['month'], $this->temp['heading_previous_cell'])."\n";
+			$out .= str_replace('{previous_url}', $this->next_prev_url.$adjusted_date['year'].'/'.$adjusted_date['month'], $this->replacements['heading_previous_cell'])."\n";
 		}
 
 		// Heading containing the month/year
 		$colspan = ($this->show_next_prev === TRUE) ? 5 : 7;
 
-		$this->temp['heading_title_cell'] = str_replace('{colspan}', $colspan,
-								str_replace('{heading}', $this->get_month_name($month).'&nbsp;'.$year, $this->temp['heading_title_cell']));
+		$this->replacements['heading_title_cell'] = str_replace('{colspan}', $colspan,
+								str_replace('{heading}', $this->get_month_name($month).'&nbsp;'.$year, $this->replacements['heading_title_cell']));
 
-		$out .= $this->temp['heading_title_cell']."\n";
+		$out .= $this->replacements['heading_title_cell']."\n";
 
 		// "next" month link
 		if ($this->show_next_prev === TRUE)
 		{
 			$adjusted_date = $this->adjust_date($month + 1, $year);
-			$out .= str_replace('{next_url}', $this->next_prev_url.$adjusted_date['year'].'/'.$adjusted_date['month'], $this->temp['heading_next_cell']);
+			$out .= str_replace('{next_url}', $this->next_prev_url.$adjusted_date['year'].'/'.$adjusted_date['month'], $this->replacements['heading_next_cell']);
 		}
 
-		$out .= "\n".$this->temp['heading_row_end']."\n\n"
+		$out .= "\n".$this->replacements['heading_row_end']."\n\n"
 			// Write the cells containing the days of the week
-			.$this->temp['week_row_start']."\n";
+			.$this->replacements['week_row_start']."\n";
 
 		$day_names = $this->get_day_names();
 
 		for ($i = 0; $i < 7; $i ++)
 		{
-			$out .= str_replace('{week_day}', $day_names[($start_day + $i) %7], $this->temp['week_day_cell']);
+			$out .= str_replace('{week_day}', $day_names[($start_day + $i) %7], $this->replacements['week_day_cell']);
 		}
 
-		$out .= "\n".$this->temp['week_row_end']."\n";
+		$out .= "\n".$this->replacements['week_row_end']."\n";
 
 		// Build the main body of the calendar
 		while ($day <= $total_days)
 		{
-			$out .= "\n".$this->temp['cal_row_start']."\n";
+			$out .= "\n".$this->replacements['cal_row_start']."\n";
 
 			for ($i = 0; $i < 7; $i++)
 			{
 				if ($day > 0 && $day <= $total_days)
 				{
-					$out .= ($is_current_month === TRUE && $day == $cur_day) ? $this->temp['cal_cell_start_today'] : $this->temp['cal_cell_start'];
+					$out .= ($is_current_month === TRUE && $day == $cur_day) ? $this->replacements['cal_cell_start_today'] : $this->replacements['cal_cell_start'];
 
 					if (isset($data[$day]))
 					{
 						// Cells with content
 						$temp = ($is_current_month === TRUE && $day == $cur_day) ?
-								$this->temp['cal_cell_content_today'] : $this->temp['cal_cell_content'];
+								$this->replacements['cal_cell_content_today'] : $this->replacements['cal_cell_content'];
 						$out .= str_replace(array('{content}', '{day}'), array($data[$day], $day), $temp);
 					}
 					else
 					{
 						// Cells with no content
 						$temp = ($is_current_month === TRUE && $day == $cur_day) ?
-								$this->temp['cal_cell_no_content_today'] : $this->temp['cal_cell_no_content'];
+								$this->replacements['cal_cell_no_content_today'] : $this->replacements['cal_cell_no_content'];
 						$out .= str_replace('{day}', $day, $temp);
 					}
 
-					$out .= ($is_current_month === TRUE && $day == $cur_day) ? $this->temp['cal_cell_end_today'] : $this->temp['cal_cell_end'];
+					$out .= ($is_current_month === TRUE && $day == $cur_day) ? $this->replacements['cal_cell_end_today'] : $this->replacements['cal_cell_end'];
 				}
 				elseif ($this->show_other_days === TRUE)
 				{
-					$out .= $this->temp['cal_cell_start_other'];
+					$out .= $this->replacements['cal_cell_start_other'];
 
 					if ($day <= 0)
 					{
 						// Day of previous month
 						$prev_month = $this->adjust_date($month - 1, $year);
 						$prev_month_days = $this->get_total_days($prev_month['month'], $prev_month['year']);
-						$out .= str_replace('{day}', $prev_month_days + $day, $this->temp['cal_cell_other']);
+						$out .= str_replace('{day}', $prev_month_days + $day, $this->replacements['cal_cell_other']);
 					}
 					else
 					{
 						// Day of next month
-						$out .= str_replace('{day}', $day - $total_days, $this->temp['cal_cell_other']);
+						$out .= str_replace('{day}', $day - $total_days, $this->replacements['cal_cell_other']);
 					}
 
-					$out .= $this->temp['cal_cell_end_other'];
+					$out .= $this->replacements['cal_cell_end_other'];
 				}
 				else
 				{
 					// Blank cells
-					$out .= $this->temp['cal_cell_start'].$this->temp['cal_cell_blank'].$this->temp['cal_cell_end'];
+					$out .= $this->replacements['cal_cell_start'].$this->replacements['cal_cell_blank'].$this->replacements['cal_cell_end'];
 				}
 
 				$day++;
 			}
 
-			$out .= "\n".$this->temp['cal_row_end']."\n";
+			$out .= "\n".$this->replacements['cal_row_end']."\n";
 		}
 
-		return $out .= "\n".$this->temp['table_close'];
+		return $out .= "\n".$this->replacements['table_close'];
 	}
 
 	// --------------------------------------------------------------------
@@ -362,7 +372,7 @@ class CI_Calendar {
 	 * Get Day Names
 	 *
 	 * Returns an array of day names (Sunday, Monday, etc.) based
-	 * on the type. Options: long, short, abrev
+	 * on the type. Options: long, short, abr
 	 *
 	 * @param	string
 	 * @return	array
@@ -447,23 +457,8 @@ class CI_Calendar {
 	 */
 	public function get_total_days($month, $year)
 	{
-		$days_in_month	= array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
-
-		if ($month < 1 OR $month > 12)
-		{
-			return 0;
-		}
-
-		// Is the year a leap year?
-		if ($month == 2)
-		{
-			if ($year % 400 === 0 OR ($year % 4 === 0 && $year % 100 !== 0))
-			{
-				return 29;
-			}
-		}
-
-		return $days_in_month[$month - 1];
+		$this->CI->load->helper('date');
+		return days_in_month($month, $year);
 	}
 
 	// --------------------------------------------------------------------
@@ -513,33 +508,39 @@ class CI_Calendar {
 	 * Harvests the data within the template {pseudo-variables}
 	 * used to display the calendar
 	 *
-	 * @return	void
+	 * @return	CI_Calendar
 	 */
 	public function parse_template()
 	{
-		$this->temp = $this->default_template();
+		$this->replacements = $this->default_template();
 
-		if ($this->template === '')
+		if (empty($this->template))
 		{
-			return;
+			return $this;
 		}
 
-		$today = array('cal_cell_start_today', 'cal_cell_content_today', 'cal_cell_no_content_today', 'cal_cell_end_today');
-
-		foreach (array('table_open', 'table_close', 'heading_row_start', 'heading_previous_cell', 'heading_title_cell', 'heading_next_cell', 'heading_row_end', 'week_row_start', 'week_day_cell', 'week_row_end', 'cal_row_start', 'cal_cell_start', 'cal_cell_content', 'cal_cell_no_content', 'cal_cell_blank', 'cal_cell_end', 'cal_row_end', 'cal_cell_start_today', 'cal_cell_content_today', 'cal_cell_no_content_today', 'cal_cell_end_today', 'cal_cell_start_other', 'cal_cell_other', 'cal_cell_end_other') as $val)
+		if (is_string($this->template))
 		{
-			if (preg_match('/\{'.$val.'\}(.*?)\{\/'.$val.'\}/si', $this->template, $match))
+			$today = array('cal_cell_start_today', 'cal_cell_content_today', 'cal_cell_no_content_today', 'cal_cell_end_today');
+
+			foreach (array('table_open', 'table_close', 'heading_row_start', 'heading_previous_cell', 'heading_title_cell', 'heading_next_cell', 'heading_row_end', 'week_row_start', 'week_day_cell', 'week_row_end', 'cal_row_start', 'cal_cell_start', 'cal_cell_content', 'cal_cell_no_content', 'cal_cell_blank', 'cal_cell_end', 'cal_row_end', 'cal_cell_start_today', 'cal_cell_content_today', 'cal_cell_no_content_today', 'cal_cell_end_today', 'cal_cell_start_other', 'cal_cell_other', 'cal_cell_end_other') as $val)
 			{
-				$this->temp[$val] = $match[1];
-			}
-			elseif (in_array($val, $today, TRUE))
-			{
-				$this->temp[$val] = $this->temp[substr($val, 0, -6)];
+				if (preg_match('/\{'.$val.'\}(.*?)\{\/'.$val.'\}/si', $this->template, $match))
+				{
+					$this->replacements[$val] = $match[1];
+				}
+				elseif (in_array($val, $today, TRUE))
+				{
+					$this->replacements[$val] = $this->replacements[substr($val, 0, -6)];
+				}
 			}
 		}
+		elseif (is_array($this->template))
+		{
+			$this->replacements = array_merge($this->replacements, $this->template);
+		}
+
+		return $this;
 	}
 
 }
-
-/* End of file Calendar.php */
-/* Location: ./system/libraries/Calendar.php */

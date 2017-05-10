@@ -19,6 +19,6 @@ Reference** and **Helper Reference** pages to learn to utilize the
 native libraries and helper files.
 
 Feel free to take advantage of our `Community
-Forums <http://codeigniter.com/forums/>`_ if you have questions or
-problems, and our `Wiki <http://codeigniter.com/wiki/>`_ to see code
+Forums <http://forum.codeigniter.com/>`_ if you have questions or
+problems, and our `Wiki <https://github.com/bcit-ci/CodeIgniter/wiki>`_ to see code
 examples posted by other users.

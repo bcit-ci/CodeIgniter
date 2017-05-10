@@ -1,15 +1,25 @@
 <?php
-
+/**
+ * @requires extension mcrypt
+ */
 class Encrypt_test extends CI_TestCase {
 
 	public function set_up()
 	{
+		if ( ! extension_loaded('mcrypt'))
+		{
+			return;
+		}
+		elseif (version_compare(PHP_VERSION, '7.1.0-alpha', '>='))
+		{
+			return $this->markTestSkipped('ext/mcrypt is deprecated since PHP 7.1 and will generate notices here.');
+		}
+
 		$this->encrypt = new Mock_Libraries_Encrypt();
 		$this->ci_instance_var('encrypt', $this->encrypt);
 
 		$this->ci_set_config('encryption_key', "Encryptin'glike@boss!");
 		$this->msg = 'My secret message';
-		$this->mcrypt = extension_loaded('mcrypt');
 	}
 
 	// --------------------------------------------------------------------
@@ -40,12 +50,6 @@ class Encrypt_test extends CI_TestCase {
 
 	public function test_default_cipher()
 	{
-		if ( ! $this->mcrypt)
-		{
-			$this->markTestSkipped('MCrypt not available');
-			return;
-		}
-
 		$this->assertEquals('rijndael-256', $this->encrypt->get_cipher());
 	}
 
@@ -53,12 +57,6 @@ class Encrypt_test extends CI_TestCase {
 
 	public function test_set_cipher()
 	{
-		if ( ! $this->mcrypt)
-		{
-			$this->markTestSkipped('MCrypt not available');
-			return;
-		}
-
 		$this->encrypt->set_cipher(MCRYPT_BLOWFISH);
 		$this->assertEquals('blowfish', $this->encrypt->get_cipher());
 	}
@@ -67,12 +65,6 @@ class Encrypt_test extends CI_TestCase {
 
 	public function test_default_mode()
 	{
-		if ( ! $this->mcrypt)
-		{
-			$this->markTestSkipped('MCrypt not available');
-			return;
-		}
-
 		$this->assertEquals('cbc', $this->encrypt->get_mode());
 	}
 
@@ -80,12 +72,6 @@ class Encrypt_test extends CI_TestCase {
 
 	public function test_set_mode()
 	{
-		if ( ! $this->mcrypt)
-		{
-			$this->markTestSkipped('MCrypt not available');
-			return;
-		}
-
 		$this->encrypt->set_mode(MCRYPT_MODE_CFB);
 		$this->assertEquals('cfb', $this->encrypt->get_mode());
 	}

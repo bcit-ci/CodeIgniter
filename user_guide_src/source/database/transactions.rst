@@ -21,7 +21,7 @@ approach because it greatly simplifies the process of running
 transactions. In most cases all that is required are two lines of code.
 
 Traditionally, transactions have required a fair amount of work to
-implement since they demand that you to keep track of your queries and
+implement since they demand that you keep track of your queries and
 determine whether to commit or rollback based on the success or failure
 of your queries. This is particularly cumbersome with nested queries. In
 contrast, we've implemented a smart transaction system that does all
@@ -75,12 +75,11 @@ debugging is turned off, you can manage your own errors like this::
 		// generate an error... or use the log_message() function to log your error
 	}
 
-Enabling Transactions
-=====================
+Disabling Transactions
+======================
 
-Transactions are enabled automatically the moment you use
-$this->db->trans_start(). If you would like to disable transactions you
-can do so using $this->db->trans_off()::
+If you would like to disable transactions you can do so using
+``$this->db->trans_off()``::
 
 	$this->db->trans_off();
 	
@@ -88,8 +87,9 @@ can do so using $this->db->trans_off()::
 	$this->db->query('AN SQL QUERY...');
 	$this->db->trans_complete();
 
-When transactions are disabled, your queries will be auto-commited, just
-as they are when running queries without transactions.
+When transactions are disabled, your queries will be auto-committed, just as
+they are when running queries without transactions, practically ignoring
+any calls to ``trans_start()``, ``trans_complete()``, etc.
 
 Test Mode
 =========

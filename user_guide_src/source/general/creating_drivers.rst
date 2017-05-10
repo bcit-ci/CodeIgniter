@@ -19,3 +19,7 @@ Sample driver directory and file structure layout:
 .. note:: In order to maintain compatibility on case-sensitive
 	file systems, the Driver_name directory must be
 	named in the format returned by ``ucfirst()``.
+
+.. note:: The Driver library's architecture is such that
+	the subclasses don't extend and therefore don't inherit
+	properties or methods of the main driver.
