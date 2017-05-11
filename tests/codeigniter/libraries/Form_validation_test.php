@@ -554,7 +554,9 @@ class Form_validation_test extends CI_TestCase {
 		$this->form_validation->run();
 
 		$this->assertEquals('', $this->form_validation->set_checkbox('select', 'foo'));
+		$this->assertEquals('', $this->form_validation->set_checkbox('select', 'foo', ['bar']));
 		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select', 'bar', TRUE));
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select', 'bar', ['foo','bar']));
 
 		// Test 2: 1 option selected
 		$this->form_validation->reset_validation();
@@ -564,8 +566,10 @@ class Form_validation_test extends CI_TestCase {
 
 		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select', 'foo'));
 		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select', 'foo', TRUE));
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select', 'foo', ['bar']));
 		$this->assertEquals('', $this->form_validation->set_checkbox('select', 'bar'));
 		$this->assertEquals('', $this->form_validation->set_checkbox('select', 'bar', TRUE));
+		$this->assertEquals('', $this->form_validation->set_checkbox('select', 'bar', ['bar']));
 
 		// Test 3: Multiple options selected
 		$this->form_validation->reset_validation();
@@ -575,10 +579,13 @@ class Form_validation_test extends CI_TestCase {
 
 		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select[]', 'foo'));
 		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select[]', 'foo', TRUE));
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select[]', 'foo', ['bar']));
 		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select[]', 'bar'));
 		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select[]', 'bar', TRUE));
+		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select[]', 'bar', ['foo']));
 		$this->assertEquals('', $this->form_validation->set_checkbox('select[]', 'foobar'));
 		$this->assertEquals('', $this->form_validation->set_checkbox('select[]', 'foobar', TRUE));
+		$this->assertEquals('', $this->form_validation->set_checkbox('select[]', 'foobar', ['foo', 'bar', 'foobar']));
 	}
 
 	public function test_regex_match()
