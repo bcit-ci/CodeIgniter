@@ -223,6 +223,14 @@ class CI_Email {
 	 */
 	public $bcc_batch_size	= 200;
 
+	/**
+	 *  Verify peer in ssl connection 
+	 *
+	 * 
+	 * @var	bool
+	 */
+	public $ssl_peer_verification	= FALSE;
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -2034,11 +2042,21 @@ class CI_Email {
 
 		$ssl = ($this->smtp_crypto === 'ssl') ? 'ssl://' : '';
 
-		$this->_smtp_connect = fsockopen($ssl.$this->smtp_host,
-							$this->smtp_port,
-							$errno,
-							$errstr,
-							$this->smtp_timeout);
+		if (($this->smtp_crypto === 'ssl') and (!$ssl_peer_verification)) 
+		{
+			$context_options = array
+				(
+					'ssl' => array
+						(
+							'verify_peer' => FALSE,
+							'verify_peer_name' => FALSE
+						)
+				);
+			$context = stream_context_create($context_options);		
+			$this->_smtp_connect = stream_socket_client($ssl.$this->smtp_host.":".$this->smtp_port, $errno, $errstr, $this->smtp_timeout, STREAM_CLIENT_CONNECT, $context);		
+		}
+		else
+			$this->_smtp_connect = stream_socket_client($ssl.$this->smtp_host.":".$this->smtp_port, $errno, $errstr, $this->smtp_timeout, STREAM_CLIENT_CONNECT);
 
 		if ( ! is_resource($this->_smtp_connect))
 		{
