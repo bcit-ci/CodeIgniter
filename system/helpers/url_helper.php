@@ -297,24 +297,11 @@ if ( ! function_exists('safe_mailto'))
 
 		if ($attributes !== '')
 		{
-			if (is_array($attributes))
+			$attributes = _stringify_attributes($attributes);
+
+			for ($i = 0, $l = strlen($attributes); $i < $l; $i++)
 			{
-				foreach ($attributes as $key => $val)
-				{
-					$x[] = ' '.$key.'="';
-					for ($i = 0, $l = strlen($val); $i < $l; $i++)
-					{
-						$x[] = '|'.ord($val[$i]);
-					}
-					$x[] = '"';
-				}
-			}
-			else
-			{
-				for ($i = 0, $l = strlen($attributes); $i < $l; $i++)
-				{
-					$x[] = $attributes[$i];
-				}
+				$x[] = $attributes[$i];
 			}
 		}
 
@@ -354,19 +341,21 @@ if ( ! function_exists('safe_mailto'))
 		$x = array_reverse($x);
 
 		$output = "<script type=\"text/javascript\">\n"
-			."\t//<![CDATA[\n"
-			."\tvar l=new Array();\n";
+			."//<![CDATA[\n"
+			.'for(var l=[';
 
 		for ($i = 0, $c = count($x); $i < $c; $i++)
 		{
-			$output .= "\tl[".$i."] = '".$x[$i]."';\n";
+			$output .= "'".$x[$i]."',";
 		}
 
-		$output .= "\n\tfor (var i = l.length-1; i >= 0; i=i-1) {\n"
-			."\t\tif (l[i].substring(0, 1) === '|') document.write(\"&#\"+unescape(l[i].substring(1))+\";\");\n"
-			."\t\telse document.write(unescape(l[i]));\n"
-			."\t}\n"
-			."\t//]]>\n"
+		$output = rtrim($output, ',').']';
+
+		$output .= ',i = l.length-1; i >= 0; i=i-1)'
+			.'l[i].substring(0, 1) === \'|\' ? document.write("&#"+unescape(l[i].substring(1))+";"):'
+			.'document.write(unescape(l[i]));'
+			."\n"
+			."//]]>\n"
 			.'</script>';
 
 		return $output;
