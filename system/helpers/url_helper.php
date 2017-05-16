@@ -524,13 +524,21 @@ if ( ! function_exists('redirect'))
 	 * Library's set_header() function.
 	 *
 	 * @param	string	$uri	URL
+	 * @param	int	$code	HTTP Response status code
 	 * @param	string	$method	Redirect method
 	 *			'auto', 'location' or 'refresh'
-	 * @param	int	$code	HTTP Response status code
 	 * @return	void
 	 */
-	function redirect($uri = '', $method = 'auto', $code = NULL)
+	function redirect($uri = '', $code = NULL, $method = 'auto')
 	{
+		// BC - support old function signature ($method before $code)
+		if (is_numeric($method))
+		{
+			$tmp = $code;
+			$code = $method;
+			$method = $tmp;
+		}
+
 		if ( ! preg_match('#^(\w+:)?//#i', $uri))
 		{
 			$uri = site_url($uri);
