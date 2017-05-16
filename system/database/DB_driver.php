@@ -1548,6 +1548,156 @@ abstract class CI_DB_driver {
 
 	// --------------------------------------------------------------------
 
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Execute the mysqli stored procedure
+		*
+		*
+	 * @param	string	$procedureName			Procedure Name
+	 * @param	array	$binds = FALSE			An array of binding data
+	 * @param	bool	$resultData = TRUE		Result type FALSE is free result
+	 * @return	mixed
+	 */
+	
+	public function call($procedureName, $binds = FALSE, $resultData = TRUE)
+	{
+		if($this->dbdriver === 'mysqli' || $this->dbdriver === 'sqlsrv')
+		{
+			if ($procedureName === '')
+			{
+				log_message('error', 'Invalid procedure name: '.$procedureName);
+				
+				return ($this->db_debug) ? $this->display_error('db_invalid_query') : FALSE;
+			}
+			
+			// Create procedure query string
+			switch($this->dbdriver)
+			{
+			case 'mysqli':
+				$sql	= 'CALL '.$procedureName;
+			break;
+			case 'sqlsrv':
+				$sql	= 'EXECUTE '.$procedureName;
+			break;
+			}
+			
+			// Compile binds if needed
+			if ($binds !== FALSE)
+			{
+				$sql = $this->compile_binds($sql, $binds);
+			}
+			
+			// Is query caching enabled? If the query is a "read type"
+			// we will load the caching class and return the previously
+			// cached query if it exists
+			if ($this->cache_on === TRUE && $return_object === TRUE && $this->_cache_init())
+			{
+				$this->load_rdriver();
+				if (FALSE !== ($cache = $this->CACHE->read($sql)))
+				{
+					return $cache;
+				}
+			}
+			
+			// Save the query for debugging
+			if ($this->save_queries === TRUE)
+			{
+				$this->queries[] = $sql;
+			}
+			
+			// Start the Query Timer
+			$time_start = microtime(TRUE);
+			
+			
+			if ( ! $this->conn_id)
+			{
+				$this->initialize();
+			}
+			
+			// Run the Query
+			if (FALSE === ($this->result_id = $this->_execute_procedure($sql, $resultData)))
+			{
+				if ($this->save_queries === TRUE)
+				{
+					$this->query_times[] = 0;
+				}
+				
+				// This will trigger a rollback if transactions are being used
+				$this->_trans_status = FALSE;
+				
+				// Grab the error now, as we might run some additional queries before displaying the error
+				$error = $this->error();
+				
+				// Log errors
+				log_message('error', 'Query error: '.$error['message'].' - Invalid query: '.$sql);
+				
+				if ($this->db_debug)
+				{
+					// We call this function in order to roll-back queries
+					// if transactions are enabled. If we don't call this here
+					// the error message will trigger an exit, causing the
+					// transactions to remain in limbo.
+					$this->trans_complete();
+					
+					// Display errors
+					return $this->display_error(array('Error Number: '.$error['code'], $error['message'], $sql));
+				}
+				
+				return FALSE;
+			}
+			
+			// Stop and aggregate the query time results
+			$time_end = microtime(TRUE);
+			$this->benchmark += $time_end - $time_start;
+			
+			if ($this->save_queries === TRUE)
+			{
+				$this->query_times[] = $time_end - $time_start;
+			}
+			
+			// Increment the query counter
+			$this->query_count++;
+			
+			// Return TRUE if we don't need to create a result object
+			if ($resultData !== TRUE)
+			{
+				return TRUE;
+			}
+			
+			// Load and instantiate the result driver
+			$driver		= $this->load_rdriver();
+			$RES		= new $driver($this);
+			
+			// Is query caching enabled? If so, we'll serialize the
+			// result object and save it to a cache file.
+			if ($this->cache_on === TRUE && $this->_cache_init())
+			{
+				// We'll create a new instance of the result object
+				// only without the platform specific driver since
+				// we can't use it with cached data (the query result
+				// resource ID won't be any good once we've cached the
+				// result object, so we'll have to compile the data
+				// and save it)
+				$CR = new CI_DB_result($this);
+				$CR->result_object	= $RES->result_object();
+				$CR->result_array	= $RES->result_array();
+				$CR->num_rows		= $RES->num_rows();
+				
+				// Reset these since cached objects can not utilize resource IDs.
+				$CR->conn_id		= NULL;
+				$CR->result_id		= NULL;
+				
+				$this->CACHE->write($sql, $CR);
+			}
+			
+			return $RES;
+			
+		}else{
+			return ($this->db_debug) ? $this->display_error('db_unsupported_function') : FALSE;
+		}
+	}
+	
 	/**
 	 * Set Cache Directory Path
 	 *

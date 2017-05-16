@@ -299,6 +299,32 @@ class CI_DB_mysqli_driver extends CI_DB {
 		return $this->conn_id->query($this->_prep_query($sql));
 	}
 
+	/**
+	 * Execute the stored produce
+		*
+	 * @param	string	$sql					an SQL query
+	 * @param	bool	$resultType = TRUE		Result type FALSE is free result
+	 * @return	mixed
+	 */
+	protected function _execute_procedure($sql, $resultType)
+	{
+		@$this->conn_id->multi_query($this->_prep_query($sql));
+		
+		if($resultType)
+		{
+			$result	= @$this->conn_id->store_result();	
+			}else{
+			$result	= @$this->conn_id->free_result();
+		}
+		
+		if (@$this->conn_id->more_results())
+		{
+			@$this->conn_id->next_result();            
+        }
+		
+		return $result;
+	}
+	
 	// --------------------------------------------------------------------
 
 	/**
