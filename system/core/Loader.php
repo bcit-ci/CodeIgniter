@@ -1242,7 +1242,7 @@ class CI_Loader {
 		$class_name = $prefix.$class;
 
 		// Is the class name valid?
-		if ( ! class_exists($class_name, FALSE))
+		if ( ! class_exists($class_name, FALSE) && (strpos($object_name,'/')===false))
 		{
 			log_message('error', 'Non-existent class: '.$class_name);
 			show_error('Non-existent class: '.$class_name);
@@ -1261,24 +1261,103 @@ class CI_Loader {
 
 		// Don't overwrite existing properties
 		$CI =& get_instance();
-		if (isset($CI->$object_name))
-		{
-			if ($CI->$object_name instanceof $class_name)
+		if(strpos($object_name,'/')!==false){
+			$this->internal_worker($class_name,$object_name,$config);
+		}else{
+			/* NORMAL */
+			if (isset($CI->$object_name))
 			{
-				log_message('debug', $class_name." has already been instantiated as '".$object_name."'. Second attempt aborted.");
-				return;
+				if ($CI->$object_name instanceof $class_name)
+				{
+					log_message('debug', $class_name." has already been instantiated as '".$object_name."'. Second attempt aborted.");
+					return;
+				}
+				show_error("Resource '".$object_name."' already exists and is not a ".$class_name." instance.");
 			}
-
-			show_error("Resource '".$object_name."' already exists and is not a ".$class_name." instance.");
+	
+			// Save the class name and object name
+			$this->_ci_classes[$object_name] = $class;
+	
+			// Instantiate the class
+			$CI->$object_name = isset($config)
+				? new $class_name($config)
+				: new $class_name();
 		}
-
-		// Save the class name and object name
-		$this->_ci_classes[$object_name] = $class;
-
-		// Instantiate the class
-		$CI->$object_name = isset($config)
-			? new $class_name($config)
-			: new $class_name();
+	}
+	private $max_inner=9;
+	
+	/**
+	 * Internal CI Library worker for Nested Classes
+	 *
+	 * @used-by	CI_Loader::_ci_init_library()
+	 *
+	 * @param	string		$class_name		Class name
+	 * @param	string		$object_name	Optional object name to assign to
+	 * @param	array|null|bool	$config		Optional configuration to pass to the class constructor:
+	 *						FALSE to skip;
+	 *						NULL to search in config paths;
+	 *						array containing configuration data
+	 * @return	void
+	 */
+	private function internal_worker($class_name='',$object_name='',$config=null){
+		$CI=&get_instance();
+		$class_names=array_filter(explode('/',$object_name), create_function('$value', 'return $value !== "";'));
+		$reversed_class_names=array_reverse($class_names);
+		$count=count($reversed_class_names);
+		$cc=0;
+		$last_parent='';
+		$PO=(object) array();
+		foreach($reversed_class_names as $name){
+			 $PO_G=$this->internal_worker_parent_obj($class_names);
+			 if(($cc==0) && ($PO_G!==null) && ($count>1)){
+				$PO_G->$name = isset($config)
+				? new $name($config)
+				: new $name();
+				$PO = $PO_G;
+			 }elseif(($PO_G!==null) && ($count>1)){
+				$PO_G->$name=$PO;
+				$PO = $PO_G;
+			 }elseif($count>1){
+				$CI->$name=$PO;
+			 }else{
+				$CI->$name=isset($config)
+					? new $name($config)
+					: new $name();
+			 }
+			 $cc++;
+		 }
+	}
+	/**
+	 * Internal CI Library worker for Nested Classes
+	 *
+	 * Gets the parent Class Object of class
+	 *
+	 * @used-by	CI_Loader::internal_worker()
+	 *
+	 * @param	string		$class_names		The Classes names
+	 * @return	object|null
+	 */
+	private function internal_worker_parent_obj(&$Class_names){
+		$CI=&get_instance();
+		array_pop($Class_names);
+		$cc=0;
+		$count=count($Class_names);
+		if($count==0){
+			return NULL;
+		}
+		$current_object=(object) array();
+		foreach($Class_names as $name){
+			if($cc==0){
+				$current_object=$CI->$name;
+			}elseif(@is_object($current_object->$name)){
+				$current_object=$current_object->$name;
+			}else{
+				return null;
+			}
+			$cc++;
+			/* END OF CYCLE */
+		}
+		return $current_object;
 	}
 
 	// --------------------------------------------------------------------
