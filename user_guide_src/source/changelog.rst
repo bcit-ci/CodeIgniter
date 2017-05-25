@@ -7,6 +7,10 @@ Version 3.1.5
 
 Release Date: Not Released
 
+-  General Changes
+
+   -  Updated :doc:`Form Helper <helpers/form_helper>` function :php:func:`form_label()` to accept HTML attributes as a string.
+
 Bug fixes for 3.1.5
 -------------------
 
