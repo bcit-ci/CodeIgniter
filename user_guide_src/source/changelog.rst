@@ -7,12 +7,17 @@ Version 3.1.5
 
 Release Date: Not Released
 
+-  General Changes
+
+   -  Updated :doc:`Form Helper <helpers/form_helper>` function :php:func:`form_label()` to accept HTML attributes as a string.
+
 Bug fixes for 3.1.5
 -------------------
 
 -  Fixed a bug (#5070) - :doc:`Email Library <libraries/email>` didn't properly detect 7-bit encoding.
 -  Fixed a bug (#5084) - :doc:`XML-RPC Library <libraries/xmlrpc>` errored because of a variable name typo.
 -  Fixed a bug (#5108) - :doc:`Inflector Helper <helpers/inflector_helper>` function :php:func:`singular()` didn't properly handle 'quizzes'.
+-  Fixed a regression (#5131) - private controller methods triggered PHP errors instead of a 404 response.
 
 Version 3.1.4
 =============
