@@ -1,0 +1,19 @@
+version: '2'
+
+volumes:
+    cache:
+        driver: local
+    logs:
+        driver: local
+
+services:
+    codeigniter:
+        image: php:7-alpine
+        working_dir: /var/www
+        command: php -S 0.0.0.0:8080
+        ports:
+            - 8080:8080
+        volumes:
+            - .:/var/www
+            - cache:/var/www/application/cache
+            - logs:/var/www/application/logs
