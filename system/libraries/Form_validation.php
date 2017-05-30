@@ -1192,7 +1192,7 @@ class CI_Form_validation {
 	 * @param	string	$str
 	 * @return	bool
 	 */
-	public function valid_url($str)
+	public function valid_url($str, $scheme = FALSE)
 	{
 		if (empty($str))
 		{
@@ -1210,6 +1210,10 @@ class CI_Form_validation {
 			}
 
 			$str = $matches[2];
+		}
+		elseif ($scheme)
+		{
+			return FALSE;
 		}
 
 		// PHP 7 accepts IPv6 addresses within square brackets as hostnames,
