@@ -1187,6 +1187,7 @@ class CI_Loader {
 		{
 			// Fetch the config paths containing any package paths
 			$config_component = $this->_ci_get_component('config');
+			$router_component = $this->_ci_get_component('router');
 
 			if (is_array($config_component->_config_paths))
 			{
@@ -1196,26 +1197,39 @@ class CI_Loader {
 					// We test for both uppercase and lowercase, for servers that
 					// are case-sensitive with regard to file names. Load global first,
 					// override with environment next
-					if (file_exists($path.'config/'.strtolower($class).'.php'))
+					foreach (array($path.'config/', $path.'config/'.ENVIRONMENT ) as $location)
 					{
-						include($path.'config/'.strtolower($class).'.php');
-						$found = TRUE;
-					}
-					elseif (file_exists($path.'config/'.ucfirst(strtolower($class)).'.php'))
-					{
-						include($path.'config/'.ucfirst(strtolower($class)).'.php');
-						$found = TRUE;
-					}
+						if (file_exists($location.strtolower($class).'.php'))
+						{
+							include($location.strtolower($class).'.php');
+							$found = TRUE;
+						}
+						elseif (file_exists($location.ucfirst(strtolower($class)).'.php'))
+						{
+							include($location.ucfirst(strtolower($class)).'.php');
+							$found = TRUE;
+						}
 
-					if (file_exists($path.'config/'.ENVIRONMENT.'/'.strtolower($class).'.php'))
-					{
-						include($path.'config/'.ENVIRONMENT.'/'.strtolower($class).'.php');
-						$found = TRUE;
-					}
-					elseif (file_exists($path.'config/'.ENVIRONMENT.'/'.ucfirst(strtolower($class)).'.php'))
-					{
-						include($path.'config/'.ENVIRONMENT.'/'.ucfirst(strtolower($class)).'.php');
-						$found = TRUE;
+						if ($found = TRUE)
+						{
+							$tmp_config = $config;
+						}
+
+						if (file_exists($location.strtolower($class).DIRECTORY_SEPARATOR.$router_component->class.'.php'))
+						{
+							include($location.strtolower($class).DIRECTORY_SEPARATOR.$router_component->class.'.php');
+							$found = TRUE;
+						}
+						elseif (file_exists($location.ucfirst(strtolower($class)).DIRECTORY_SEPARATOR.$router_component->class.'.php'))
+						{
+							include($location.ucfirst(strtolower($class)).DIRECTORY_SEPARATOR.$router_component->class.'.php');
+							$found = TRUE;
+						}
+
+						if ( ! empty($tmp_config) && is_array($tmp_config) )
+						{
+							$config = array_merge($tmp_config, $config);
+						}
 					}
 
 					// Break on the first found configuration, thus package

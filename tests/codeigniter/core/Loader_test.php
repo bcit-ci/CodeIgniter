@@ -22,6 +22,10 @@ class Loader_test extends CI_TestCase {
 
 	public function test_library()
 	{
+		$router = new stdClass;
+		$router->class = '';
+		$this->ci_instance_var('router', $router);
+
 		// Test getting CI_Loader object
 		$this->assertInstanceOf('CI_Loader', $this->load->library(NULL));
 
@@ -62,6 +66,10 @@ class Loader_test extends CI_TestCase {
 
 	public function test_bad_library()
 	{
+		$router = new stdClass;
+		$router->class = '';
+		$this->ci_instance_var('router', $router);
+
 		$lib = 'bad_test_lib';
 		$this->ci_vfs_create(ucfirst($lib), '', $this->ci_app_root, 'libraries');
 		$this->setExpectedException(
@@ -75,6 +83,10 @@ class Loader_test extends CI_TestCase {
 
 	public function test_library_extension()
 	{
+		$router = new stdClass;
+		$router->class = '';
+		$this->ci_instance_var('router', $router);
+
 		// Create library and extension in VFS
 		$name = 'ext_test_lib';
 		$lib = ucfirst($name);
@@ -119,6 +131,10 @@ class Loader_test extends CI_TestCase {
 
 	public function test_library_config()
 	{
+		$router = new stdClass;
+		$router->class = 'unit_test_class';
+		$this->ci_instance_var('router', $router);
+
 		// Create library in VFS
 		$lib = 'unit_test_config_lib';
 		$class = 'CI_'.ucfirst($lib);
@@ -133,12 +149,19 @@ class Loader_test extends CI_TestCase {
 		);
 		$this->ci_vfs_create($lib, '<?php $config = '.var_export($cfg, TRUE).';', $this->ci_app_root, 'config');
 
+		$class_cfg = array(
+			'qux'    => 'quux',
+			'quux'   => 'foobar',
+			'foobar' => true
+		);
+		$this->ci_vfs_create($router->class, '<?php $config = '.var_export($class_cfg, TRUE).';', $this->ci_app_root, 'config/' . $lib);
+
 		// Test object name and config
 		$obj = 'testy';
 		$this->assertInstanceOf('CI_Loader', $this->load->library($lib, NULL, $obj));
 		$this->assertTrue(class_exists($class), $class.' does not exist');
 		$this->assertAttributeInstanceOf($class, $obj, $this->ci_obj);
-		$this->assertEquals($cfg, $this->ci_obj->$obj->config);
+		$this->assertEquals(array_merge($cfg, $class_cfg), $this->ci_obj->$obj->config);
 
 		// Test is_loaded
 		$this->assertEquals($obj, $this->load->is_loaded(ucfirst($lib)));
@@ -158,6 +181,10 @@ class Loader_test extends CI_TestCase {
 
 	public function test_load_library_in_application_dir()
 	{
+		$router = new stdClass;
+		$router->class = 'unit_test_class';
+		$this->ci_instance_var('router', $router);
+
 		// Create library in VFS
 		$lib = 'super_test_library';
 		$class = ucfirst($lib);
@@ -175,6 +202,10 @@ class Loader_test extends CI_TestCase {
 
 	public function test_driver()
 	{
+		$router = new stdClass;
+		$router->class = 'unit_test_class';
+		$this->ci_instance_var('router', $router);
+
 		// Call the autoloader, to include system/libraries/Driver.php
 		class_exists('CI_Driver_Library', TRUE);
 
@@ -523,6 +554,10 @@ class Loader_test extends CI_TestCase {
 
 	public function test_initialize()
 	{
+		$router = new stdClass;
+		$router->class = 'unit_test_class';
+		$this->ci_instance_var('router', $router);
+
 		// Create helper in VFS
 		$helper = 'autohelp';
 		$hlp_func = '_autohelp_test_func';
