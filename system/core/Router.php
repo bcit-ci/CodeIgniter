@@ -111,6 +111,11 @@ class CI_Router {
 	 */
 	public $enable_query_strings = FALSE;
 
+	/**
+	 * Controller Suffix
+	 */
+	 protected $controllerSuffix = '';
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -125,6 +130,7 @@ class CI_Router {
 	{
 		$this->config =& load_class('Config', 'core');
 		$this->uri =& load_class('URI', 'core');
+		$this->controllerSuffix = $this->config->config['controller_suffix'];
 
 		$this->enable_query_strings = ( ! is_cli() && $this->config->item('enable_query_strings') === TRUE);
 
@@ -300,7 +306,7 @@ class CI_Router {
 			$method = 'index';
 		}
 
-		if ( ! file_exists(APPPATH.'controllers/'.$this->directory.ucfirst($class).'.php'))
+		if ( ! file_exists(APPPATH.'controllers/'.$this->directory.ucfirst($class).$this->controllerSuffix.'.php'))
 		{
 			// This will trigger 404 later
 			return;
@@ -341,7 +347,7 @@ class CI_Router {
 			$test = $this->directory
 				.ucfirst($this->translate_uri_dashes === TRUE ? str_replace('-', '_', $segments[0]) : $segments[0]);
 
-			if ( ! file_exists(APPPATH.'controllers/'.$test.'.php')
+			if ( ! file_exists(APPPATH.'controllers/'.$test.$this->controllerSuffix.'.php')
 				&& $directory_override === FALSE
 				&& is_dir(APPPATH.'controllers/'.$this->directory.$segments[0])
 			)

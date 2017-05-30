@@ -348,7 +348,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 
 	$e404 = FALSE;
-	$class = ucfirst($RTR->class);
+	$controllerSuffix = $CFG->config['controller_suffix'];
+	$class = ucfirst($RTR->class).$controllerSuffix;
 	$method = $RTR->method;
 
 	if (empty($class) OR ! file_exists(APPPATH.'controllers/'.$RTR->directory.$class.'.php'))
