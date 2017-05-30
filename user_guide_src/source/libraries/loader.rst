@@ -358,6 +358,8 @@ Class Reference
 		This method loads helper files, where file_name is the name of the
 		file, without the _helper.php extension.
 
+		.. note:: The ``helpers()`` alias could be used for semantic purposes (especially when loading more than one helper).
+
 	.. php:method:: file($path[, $return = FALSE])
 
 		:param	string	$path: File path
