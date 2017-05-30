@@ -83,6 +83,15 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 	 * @var	string
 	 */
 	protected $_escape_char = '`';
+	
+        /**
+         * Determines whether results should return the native column type.
+         * By default this is disabled to be BC. Set this to true in config/database.php
+         * to let integers be integers, NULLS be NULLS etc
+         *
+         * @var bool
+         */
+         public $use_native_types = FALSE;
 
 	// --------------------------------------------------------------------
 
@@ -184,6 +193,12 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 			log_message('error', $message);
 			return ($this->db_debug) ? $this->display_error($message, '', TRUE) : FALSE;
 		}
+		
+		if ($this->use_native_types)
+        	{
+            		$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            		$pdo->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, false);
+        	}
 
 		return $pdo;
 	}
