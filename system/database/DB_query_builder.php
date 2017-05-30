@@ -467,9 +467,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * Generates the FROM portion of the query
 	 *
 	 * @param	mixed	$from	can be a string or array
+	 * @param	bool	whether not to try to escape identifiers
 	 * @return	CI_DB_query_builder
 	 */
-	public function from($from)
+	public function from($from, $escape = true)
 	{
 		foreach ((array) $from as $val)
 		{
@@ -479,8 +480,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				{
 					$v = trim($v);
 					$this->_track_aliases($v);
-
-					$this->qb_from[] = $v = $this->protect_identifiers($v, TRUE, NULL, FALSE);
+					
+					if($escape)
+						$v = $this->protect_identifiers($v, TRUE, NULL, FALSE);
+					$this->qb_from[] = $v;
 
 					if ($this->qb_caching === TRUE)
 					{
@@ -497,7 +500,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				// in the protect_identifiers to know whether to add a table prefix
 				$this->_track_aliases($val);
 
-				$this->qb_from[] = $val = $this->protect_identifiers($val, TRUE, NULL, FALSE);
+				if($escape)
+					$val = $this->protect_identifiers($val, TRUE, NULL, FALSE);
+				$this->qb_from[] = $val;
 
 				if ($this->qb_caching === TRUE)
 				{
@@ -529,7 +534,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			$type = strtoupper(trim($type));
 
-			if ( ! in_array($type, array('LEFT', 'RIGHT', 'OUTER', 'INNER', 'LEFT OUTER', 'RIGHT OUTER'), TRUE))
+			if ( ! in_array($type, array('LEFT', 'RIGHT', 'OUTER', 'INNER', 'LEFT OUTER', 'RIGHT OUTER', 'NATURAL'), TRUE))
 			{
 				$type = '';
 			}
@@ -544,46 +549,49 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		$this->_track_aliases($table);
 
 		is_bool($escape) OR $escape = $this->_protect_identifiers;
-
-		if ( ! $this->_has_operator($cond))
+		
+		if ( $cond !== '' )
 		{
-			$cond = ' USING ('.($escape ? $this->escape_identifiers($cond) : $cond).')';
-		}
-		elseif ($escape === FALSE)
-		{
-			$cond = ' ON '.$cond;
-		}
-		else
-		{
-			// Split multiple conditions
-			if (preg_match_all('/\sAND\s|\sOR\s/i', $cond, $joints, PREG_OFFSET_CAPTURE))
+			if ( ! $this->_has_operator($cond))
 			{
-				$conditions = array();
-				$joints = $joints[0];
-				array_unshift($joints, array('', 0));
-
-				for ($i = count($joints) - 1, $pos = strlen($cond); $i >= 0; $i--)
-				{
-					$joints[$i][1] += strlen($joints[$i][0]); // offset
-					$conditions[$i] = substr($cond, $joints[$i][1], $pos - $joints[$i][1]);
-					$pos = $joints[$i][1] - strlen($joints[$i][0]);
-					$joints[$i] = $joints[$i][0];
-				}
+				$cond = ' USING ('.($escape ? $this->escape_identifiers($cond) : $cond).')';
+			}
+			elseif ($escape === FALSE)
+			{
+				$cond = ' ON '.$cond;
 			}
 			else
 			{
-				$conditions = array($cond);
-				$joints = array('');
-			}
-
-			$cond = ' ON ';
-			for ($i = 0, $c = count($conditions); $i < $c; $i++)
-			{
-				$operator = $this->_get_operator($conditions[$i]);
-				$cond .= $joints[$i];
-				$cond .= preg_match("/(\(*)?([\[\]\w\.'-]+)".preg_quote($operator)."(.*)/i", $conditions[$i], $match)
-					? $match[1].$this->protect_identifiers($match[2]).$operator.$this->protect_identifiers($match[3])
-					: $conditions[$i];
+				// Split multiple conditions
+				if (preg_match_all('/\sAND\s|\sOR\s/i', $cond, $joints, PREG_OFFSET_CAPTURE))
+				{
+					$conditions = array();
+					$joints = $joints[0];
+					array_unshift($joints, array('', 0));
+	
+					for ($i = count($joints) - 1, $pos = strlen($cond); $i >= 0; $i--)
+					{
+						$joints[$i][1] += strlen($joints[$i][0]); // offset
+						$conditions[$i] = substr($cond, $joints[$i][1], $pos - $joints[$i][1]);
+						$pos = $joints[$i][1] - strlen($joints[$i][0]);
+						$joints[$i] = $joints[$i][0];
+					}
+				}
+				else
+				{
+					$conditions = array($cond);
+					$joints = array('');
+				}
+	
+				$cond = ' ON ';
+				for ($i = 0, $c = count($conditions); $i < $c; $i++)
+				{
+					$operator = $this->_get_operator($conditions[$i]);
+					$cond .= $joints[$i];
+					$cond .= preg_match("/(\(*)?([\[\]\w\.'-]+)".preg_quote($operator)."(.*)/i", $conditions[$i], $match)
+						? $match[1].$this->protect_identifiers($match[2]).$operator.$this->protect_identifiers($match[3])
+						: $conditions[$i];
+				}
 			}
 		}
 
