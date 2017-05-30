@@ -1673,6 +1673,7 @@ abstract class CI_DB_driver {
 	 * @param	string	the error message
 	 * @param	string	any "swap" values
 	 * @param	bool	whether to localize the message
+	 * @throws      CI_DB_Exception
 	 * @return	string	sends the application/views/errors/error_db.php template
 	 */
 	public function display_error($error = '', $swap = '', $native = FALSE)
@@ -1716,8 +1717,12 @@ abstract class CI_DB_driver {
 		}
 
 		$error =& load_class('Exceptions', 'core');
-		echo $error->show_error($heading, $message, 'error_db');
-		exit(8); // EXIT_DATABASE
+	        if (defined("DB_ERROR_MODE_EXCEPTION") && DB_ERROR_MODE_EXCEPTION === true) {
+	            throw new CI_DB_Exception($message, 8);
+	        } else {
+	            echo $error->show_error($heading, $message, 'error_db');
+	            exit(8); // EXIT_DATABASE
+	        }
 	}
 
 	// --------------------------------------------------------------------
