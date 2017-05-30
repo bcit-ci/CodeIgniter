@@ -352,6 +352,8 @@ $config['encryption_key'] = '';
 |
 |	WARNING: If you're using the database driver, don't forget to update
 |	         your session table's PRIMARY KEY when changing this setting.
+|          You have to run this query after selecting your database:
+|          ALTER TABLE ci_sessions DROP PRIMARY KEY, ADD PRIMARY KEY(session_id, ip_address);
 |
 | 'sess_time_to_update'
 |
