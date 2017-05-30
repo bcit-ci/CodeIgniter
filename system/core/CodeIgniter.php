@@ -118,8 +118,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	{
 		if ($composer_autoload === TRUE)
 		{
-			file_exists(APPPATH.'vendor/autoload.php')
-				? require_once(APPPATH.'vendor/autoload.php')
+			file_exists(APPPATH.'../vendor/autoload.php')
+				? require_once(APPPATH.'../vendor/autoload.php')
 				: log_message('error', '$config[\'composer_autoload\'] is set to TRUE but '.APPPATH.'vendor/autoload.php was not found.');
 		}
 		elseif (file_exists($composer_autoload))
