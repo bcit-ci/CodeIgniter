@@ -185,9 +185,10 @@ class CI_Lang {
 	 *
 	 * @param	string	$line		Language line key
 	 * @param	bool	$log_errors	Whether to log an error message if the line is not found
+	 * @param	bool	$return_line	Whether to return the line key (between **) if that line is not found
 	 * @return	string	Translation
 	 */
-	public function line($line, $log_errors = TRUE)
+	public function line($line, $log_errors = TRUE, $return_line = TRUE)
 	{
 		$value = isset($this->language[$line]) ? $this->language[$line] : FALSE;
 
@@ -195,6 +196,10 @@ class CI_Lang {
 		if ($value === FALSE && $log_errors === TRUE)
 		{
 			log_message('error', 'Could not find the language line "'.$line.'"');
+		}
+		if ($value === FALSE && $return_line === TRUE)
+		{
+			$value = "**" . $line . "**";
 		}
 
 		return $value;
