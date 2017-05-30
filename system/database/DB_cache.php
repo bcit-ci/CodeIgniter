@@ -106,7 +106,7 @@ class CI_DB_Cache {
 			? rtrim(realpath($path), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR
 			: rtrim($path, '/').'/';
 
-		if ( ! is_dir($path))
+		if ( ! is_dir($path) && ! @mkdir($path, 0750, TURE))
 		{
 			log_message('debug', 'DB cache path error: '.$path);
 
