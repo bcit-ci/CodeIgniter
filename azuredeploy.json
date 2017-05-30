@@ -1,0 +1,103 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "siteName": {
+      "type": "string"
+    },
+    "hostingPlanName": {
+      "type": "string"
+    },
+    "siteLocation": {
+      "type": "string"
+    },
+    "sku": {
+      "type": "string",
+      "allowedValues": [
+        "F1",
+        "B1",
+        "S1"
+      ],
+      "defaultValue": "S1"
+    },
+    "repoUrl": {
+      "type": "string"
+    },
+    "branch": {
+      "type": "string",
+      "defaultValue": "master"
+    },
+    "SiteAdminusername":    {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "SiteAdminPassword":{  
+         "type":"string",
+         "defaultValue":""
+      }
+  },
+  "resources": [
+    {
+      "apiVersion": "2015-08-01",
+      "name": "[parameters('hostingPlanName')]",
+      "type": "Microsoft.Web/serverFarms",
+      "location": "[parameters('siteLocation')]",
+      "properties": {
+        
+      },
+      "sku": {
+        "name": "[parameters('sku')]",
+        "capacity": 1
+      }
+    },
+    {
+      "apiVersion": "2015-08-01",
+      "name": "[parameters('siteName')]",
+      "type": "Microsoft.Web/Sites",
+      "location": "[parameters('siteLocation')]",
+      "dependsOn": [
+        "[concat('Microsoft.Web/serverFarms/', parameters('hostingPlanName'))]"
+      ],
+      "properties": {
+        "name": "[parameters('siteName')]",
+        "serverFarmId": "[parameters('hostingPlanName')]",
+        "siteConfig": {
+          "localMySqlEnabled": true,
+           "appSettings": [
+            { "name": "WEBSITE_MYSQL_GENERAL_LOG", "value": "0" },
+            { "name": "WEBSITE_MYSQL_SLOW_QUERY_LOG", "value": "0" },
+            { "name": "WEBSITE_MYSQL_ARGUMENTS", "value": "--max_allowed_packet=16M" },
+            { "name": "SITE_ADMIN_USERNAME", "value": "[parameters('SiteAdminusername')]" },
+            { "name": "SITE_ADMIN_PASSWORD", "value": "[parameters('SiteAdminPassword')]" }             
+          ]
+        }
+      },
+      "resources": [
+        {
+          "apiVersion": "2015-08-01",
+          "name": "web",
+          "type": "sourcecontrols",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites', parameters('siteName'))]"
+          ],
+          "properties": {
+            "RepoUrl": "[parameters('repoUrl')]",
+            "branch": "[parameters('branch')]",
+            "IsManualIntegration": true
+          }
+        },
+        {
+          "apiVersion": "2014-06-01",
+          "name": "web",
+          "type": "config",
+          "dependsOn": [
+            "[concat('Microsoft.Web/sites/', parameters('siteName'))]"
+          ],
+          "properties": {
+            "phpVersion": "5.6"
+          }
+        }
+      ]
+    }
+  ]
+}
