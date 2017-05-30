@@ -734,7 +734,7 @@ class CI_Form_validation {
 						: $rule($postdata);
 
 					// Is $callable set to a rule name?
-					if ($callable !== FALSE)
+					if (!is_bool($callable))
 					{
 						$rule = $callable;
 					}
@@ -794,7 +794,14 @@ class CI_Form_validation {
 				// Callable rules might not have named error messages
 				if ( ! is_string($rule))
 				{
-					$line = $this->CI->lang->line('form_validation_error_message_not_set').'(Anonymous function)';
+					if(is_array($rule) && (count($rule) >= 2) && isset($this->_error_messages[$rule[1]]))
+					{
+						$line = $this->_error_messages[$rule[1]];
+					}
+					else
+					{
+						$line = $this->CI->lang->line('form_validation_error_message_not_set').'(Anonymous function)';
+					}
 				}
 				else
 				{
