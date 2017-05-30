@@ -151,6 +151,9 @@ class CI_FTP {
 		{
 			$this->initialize($config);
 		}
+		
+		// Close old connection before creating new one
+		$this->close();
 
 		if (FALSE === ($this->conn_id = @ftp_connect($this->hostname, $this->port)))
 		{
@@ -664,4 +667,17 @@ class CI_FTP {
 		show_error($CI->lang->line($line));
 	}
 
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Destructor
+	 *
+	 * Close the connection.
+	 *
+	 * @return	void
+	 */
+	public function __destruct()
+	{
+		$this->close();
+	}
 }
