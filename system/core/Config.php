@@ -98,8 +98,10 @@ class CI_Config {
 				{
 					$server_addr = $_SERVER['SERVER_ADDR'];
 				}
+				
+				$port = $_SERVER['SERVER_PORT'] == '80' ? '' : ':'.$_SERVER['SERVER_PORT'];
 
-				$base_url = (is_https() ? 'https' : 'http').'://'.$server_addr
+				$base_url = (is_https() ? 'https' : 'http').'://'.$server_addr.$port
 					.substr($_SERVER['SCRIPT_NAME'], 0, strpos($_SERVER['SCRIPT_NAME'], basename($_SERVER['SCRIPT_FILENAME'])));
 			}
 			else
