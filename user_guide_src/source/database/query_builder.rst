@@ -1494,6 +1494,21 @@ Class Reference
 			``INSERT`` queries will be executed, each trying to insert
 			up to ``$batch_size`` rows.
 
+    .. php:method:: replace_batch($table[, $set = NULL[, $escape = NULL[, $batch_size = 100]]])
+
+            :param	string	$table: Table name
+                :param	array	$set: Data to insert
+                :param	bool	$escape: Whether to escape values and identifiers
+                :param	int	$batch_size: Count of rows to insert at once
+                :returns:	Number of rows inserted or FALSE on failure
+                :rtype:	mixed
+
+                Compiles and executes batch ``REPLACE`` statements.
+
+            .. note:: When more than ``$batch_size`` rows are provided, multiple
+    ``REPLACE`` queries will be executed, each trying to insert
+                up to ``$batch_size`` rows.
+
 	.. php:method:: set_insert_batch($key[, $value = ''[, $escape = NULL]])
 
 		:param	mixed	$key: Field name or an array of field/value pairs

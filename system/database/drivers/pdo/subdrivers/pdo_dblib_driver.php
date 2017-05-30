@@ -334,4 +334,25 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 		return ($this->db_debug) ? $this->display_error('db_unsupported_feature') : FALSE;
 	}
 
+	/**
+	 * Replace batch statement
+	 *
+	 * Generates a platform-specific insert string from the supplied data.
+	 *
+	 * @param	string	$table	Table name
+	 * @param	array	$keys	INSERT keys
+	 * @param	array	$values	INSERT values
+	 * @return	string|bool
+	 */
+	protected function _replace_batch($table, $keys, $values)
+	{
+		// Multiple-value inserts are only supported as of SQL Server 2008
+		if (version_compare($this->version(), '10', '>='))
+		{
+			return parent::_replace_batch($table, $keys, $values);
+		}
+
+		return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
+	}
+
 }
