@@ -194,7 +194,7 @@ class CI_Lang {
 		// Because killer robots like unicorns!
 		if ($value === FALSE && $log_errors === TRUE)
 		{
-			log_message('error', 'Could not find the language line "'.$line.'"');
+			log_message('error', 'Could not find the language line "'.$line.'", used in '.next(debug_backtrace())['file'].', code line '.next(debug_backtrace())['line']);
 		}
 
 		return $value;
