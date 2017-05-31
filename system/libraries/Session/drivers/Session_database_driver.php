@@ -243,6 +243,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 			return $this->_fail();
 		}
 
+		$this->_db->flush_cache();
 		$this->_db->where('id', $session_id);
 		if ($this->_config['match_ip'])
 		{
