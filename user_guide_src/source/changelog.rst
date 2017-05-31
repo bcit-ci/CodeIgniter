@@ -994,6 +994,8 @@ Release Date: March 30, 2015
       - Added support for changing the compression level.
 
    -  :doc:`Trackback Library <libraries/trackback>` method ``receive()`` will now utilize ``iconv()`` if it is available but ``mb_convert_encoding()`` is not.
+   
+   -  :doc:`Password generator <libraries/Password_generator>` added to CodeIgniter.
 
 -  Core
 
