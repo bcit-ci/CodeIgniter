@@ -138,7 +138,7 @@ the views.
 	}
 
 The code above gets all news records from the model and assigns it to a
-variable. The value for the title is also assigned to the ``$data['title']``
+variable ,add this code in index() method of your News Controller. The value for the title is also assigned to the ``$data['title']``
 element and all data is passed to the views. You now need to create a
 view to render the news items. Create *application/views/news/index.php*
 and add the next piece of code.
