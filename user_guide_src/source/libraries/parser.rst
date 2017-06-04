@@ -37,6 +37,8 @@ representations that allow you to eliminate PHP from your templates
 .. important:: The Template Parser Class is **not** a full-blown
 	template parsing solution. We've kept it very lean on purpose in order
 	to maintain maximum performance.
+	
+.. important:: Variables in {var} (single brackets) will be escaped, if you want to print unescaped data you should use {{var}} (double brackets).
 
 .. contents::
   :local:
@@ -271,6 +273,21 @@ Result::
 		<li><a href="/first">First Link</a></li>
 		<li><a href="/second">Second Link</a></li>
 	</ul>
+	
+Template includes
+==============
+You could include one template to another using ``@include(view_name)``,
+so if you create view like this::
+
+	@include(header_template)
+	<p>Hello, {username}</p>
+	@include(footer_template)
+
+You could load it using following code::
+
+	$this->parser->parse('some_template', $data);
+	
+Parser class will automaticaly load and combine header_template + some_template + footer_template (all variables will be replaced)
 
 ***************
 Class Reference
