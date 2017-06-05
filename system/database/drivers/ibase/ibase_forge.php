@@ -91,7 +91,7 @@ class CI_DB_ibase_forge extends CI_DB_forge {
 	 * Create database
 	 *
 	 * @param	string	$db_name
-	 * @return	string
+	 * @return	bool
 	 */
 	public function create_database($db_name)
 	{
