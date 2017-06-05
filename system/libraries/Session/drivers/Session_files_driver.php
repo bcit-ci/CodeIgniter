@@ -207,7 +207,7 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 		$session_data = '';
 		for ($read = 0, $length = filesize($this->_file_path.$session_id); $read < $length; $read += self::strlen($buffer))
 		{
-			if (($buffer = fread($this->_file_handle, $length - $read)) === FALSE)
+			if ((($buffer = fread($this->_file_handle, $length - $read)) === FALSE) || (feof($this->_file_handle)))
 			{
 				break;
 			}
