@@ -157,12 +157,15 @@ $config['composer_autoload'] = FALSE;
 | The configured value is actually a regular expression character group
 | and it will be executed as: ! preg_match('/^[<permitted_uri_chars>]+$/i
 |
+| Set permitted_uri_chars_exclude_cli to TRUE to permit all CLI requests
+|
 | DO NOT CHANGE THIS UNLESS YOU FULLY UNDERSTAND THE REPERCUSSIONS!!
 |
 | Note: This option is ignored for CLI requests.
 |
 */
 $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
+$config['permitted_uri_chars_exclude_cli'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
