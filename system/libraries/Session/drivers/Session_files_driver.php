@@ -201,7 +201,11 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 		}
 		else
 		{
-			rewind($this->_file_handle);
+			if ($this->_session_id === $session_id) {
+				rewind($this->_file_handle);
+			}else{
+				return $this->close() === $this->_failure ? $this->_failure : $this->read($session_id);
+			}
 		}
 
 		$session_data = '';
