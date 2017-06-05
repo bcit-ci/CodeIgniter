@@ -258,7 +258,7 @@ class CI_Security {
 	 * CSRF Set Cookie
 	 *
 	 * @codeCoverageIgnore
-	 * @return	CI_Security
+	 * @return	CI_Security|bool
 	 */
 	public function csrf_set_cookie()
 	{
