@@ -51,7 +51,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	/**
 	 * phpRedis instance
 	 *
-	 * @var	resource
+	 * @var	Redis
 	 */
 	protected $_redis;
 
