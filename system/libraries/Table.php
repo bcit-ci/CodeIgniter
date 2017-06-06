@@ -435,7 +435,7 @@ class CI_Table {
 	/**
 	 * Set table data from a database result object
 	 *
-	 * @param	CI_DB_result	$db_result	Database result object
+	 * @param	CI_DB_result	$object	Database result object
 	 * @return	void
 	 */
 	protected function _set_from_db_result($object)
