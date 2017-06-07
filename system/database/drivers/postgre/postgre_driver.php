@@ -128,7 +128,11 @@ class CI_DB_postgre_driver extends CI_DB {
 		 *
 		 * postgre://username:password@localhost:5432/database?connect_timeout=5&sslmode=1
 		 */
-		foreach (array('connect_timeout', 'options', 'sslmode', 'service') as $key)
+		foreach (array('connect_timeout', 'client_encoding', 'options',
+			'application_name', 'fallback_application_name', 'keepalives',
+			'keepalives_idle', 'keepalives_interval', 'keepalives_count', 'tty',
+			'sslmode', 'requiressl', 'sslcert', 'sslkey', 'sslrootcert', 'sslcrl',
+			'requirepeer', 'krbsrvname', 'gsslib', 'service') as $key)
 		{
 			if (isset($this->$key) && is_string($this->$key) && $this->$key !== '')
 			{
