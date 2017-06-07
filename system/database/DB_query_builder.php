@@ -1303,6 +1303,11 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		else
 		{
 			$qb_orderby = array();
+			if(is_array($orderby)) 
+			{
+				array_walk($orderby, create_function('&$i,$k','$i=" $k $i";'));
+				$orderby = implode($orderby, ",");
+			}
 			foreach (explode(',', $orderby) as $field)
 			{
 				$qb_orderby[] = ($direction === '' && preg_match('/\s+(ASC|DESC)$/i', rtrim($field), $match, PREG_OFFSET_CAPTURE))
