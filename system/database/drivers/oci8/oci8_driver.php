@@ -373,7 +373,7 @@ class CI_DB_oci8_driver extends CI_DB {
 				}
 			}
 
-			oci_bind_by_name($this->stmt_id, $param['name'], $param['value'], $param['length'], $param['type']);
+			oci_bind_by_name($this->stmt_id, $param['name'], $param['value'], empty($param['length'])?-1:$param['length'], empty($param['type'])?SQLT_CHR:$param['type']);
 		}
 	}
 
