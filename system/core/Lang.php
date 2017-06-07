@@ -200,4 +200,30 @@ class CI_Lang {
 		return $value;
 	}
 
+    // --------------------------------------------------------------------
+
+    /**
+     * Language line
+     *
+     * Fetches a single line of text from the language array
+     *
+     * @param	string	$line		Language line key
+     * @param   mixed   $replace    String or array of strings to replace %S with
+     * @param	bool	$log_errors	Whether to log an error message if the line is not found
+     * @return	string	Translation
+     */
+    public function line_replace($line, $replace, $log_errors = TRUE)
+    {
+        $value = isset($this->language[$line]) ? $this->language[$line] : FALSE;
+
+        // Because killer robots like unicorns!
+        if ($value === FALSE && $log_errors === TRUE)
+        {
+            log_message('error', 'Could not find the language line "'.$line.'"');
+        }
+
+        $value = str_replace('%S', $replace, $value);
+
+        return $value;
+    }
 }
