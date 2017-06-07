@@ -348,6 +348,53 @@ if ( ! function_exists('get_mime_by_extension'))
 
 // --------------------------------------------------------------------
 
+/**
+ * Get Extension by Mime
+ *
+ * Translates a mime type into a file extension based on config/mimes.php.
+ * Returns FALSE if it can't determine the extension, or open the mime config file
+ *
+ * @access	public
+ * @param	string	mime type
+ * @return	mixed
+ */
+if ( ! function_exists('get_extension_by_mime'))
+{
+	function get_extension_by_mime($mime_type)
+	{
+		global $mimes;
+
+		if ( ! is_array($mimes))
+		{
+			if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+			{
+				include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
+			}
+			elseif (is_file(APPPATH.'config/mimes.php'))
+			{
+				include(APPPATH.'config/mimes.php');
+			}
+
+			if ( ! is_array($mimes))
+			{
+				return FALSE;
+			}
+		}
+
+		foreach ($mimes as $ext => $mime)
+		{
+			if ((is_string($mime) && $mime == $mime_type) || (is_array($mime) && in_array($mime_type, $mime)))
+			{
+				return $ext;
+			}
+		}
+
+		return FALSE;
+	}
+}
+
+// --------------------------------------------------------------------
+
 if ( ! function_exists('symbolic_permissions'))
 {
 	/**
