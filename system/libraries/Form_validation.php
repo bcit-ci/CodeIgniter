@@ -1039,11 +1039,12 @@ class CI_Form_validation {
 	 *
 	 * @param	string
 	 * @param	string
-	 * @param	bool
+	 * @param	bool|array
 	 * @return	string
 	 */
 	public function set_checkbox($field = '', $value = '', $default = FALSE)
 	{
+		$default = (is_array($default)) ? in_array($value, $default, TRUE) : $default;
 		// Logic is exactly the same as for radio fields
 		return $this->set_radio($field, $value, $default);
 	}

@@ -762,7 +762,7 @@ if ( ! function_exists('set_checkbox'))
 	 * @param	string
 	 * @param	string
 	 * @param	bool
-	 * @return	string
+	 * @return	bool|array
 	 */
 	function set_checkbox($field, $value = '', $default = FALSE)
 	{
@@ -797,7 +797,8 @@ if ( ! function_exists('set_checkbox'))
 			return ($input === $value) ? ' checked="checked"' : '';
 		}
 
-		return ($default === TRUE) ? ' checked="checked"' : '';
+		$default = (is_array($default)) ? in_array($value, $default, TRUE) : $default;
+		return ($default === TRUE ) ? ' checked="checked"' : '';
 	}
 }
 
