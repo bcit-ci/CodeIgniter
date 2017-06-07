@@ -245,6 +245,20 @@ class CI_Upload {
 	public $mod_mime_fix = TRUE;
 
 	/**
+	 * Auto rotage flag
+	 *
+	 * @var	bool
+	 */
+	public $auto_rotate = TRUE;
+
+	/**
+	 * Auto rotage JPEG quality
+	 *
+	 * @var	int
+	 */
+	public $rotation_quality = 95;
+
+	/**
 	 * Temporary filename prefix
 	 *
 	 * @var	string
@@ -542,6 +556,71 @@ class CI_Upload {
 		if (FALSE === ($this->file_name = $this->set_filename($this->upload_path, $this->file_name)))
 		{
 			return FALSE;
+		}
+
+		/*
+		 * Auto rotate image based on Exif orientation metadata in the file
+		 * An orientation value of 1 can be ignored since it indicates the image is not rotated
+		 */
+		$orientation = $this->get_orientation();
+		if ($this->auto_rotate && $orientation > 1 && $orientation <= 8)
+		{
+			switch ($orientation)
+			{
+				 case 2:
+					// Image is flipped horizontally
+					$rotations = array ('hor');
+					break;
+
+				case 3:
+					// Image is rotated 180 degrees
+					$rotations = array('180');
+					break;
+
+				case 4:
+					// Image is flipped vertically
+					$rotations = array('vrt');
+					break;
+
+				case 5:
+					// Image is rotated 90 degrees and flipped vertically
+					$rotations = array('90', 'vrt');
+					break;
+
+				case 6:
+					// Image is rotated 270 degrees
+					$rotations = array('270');
+					break;
+
+				case 7:
+					// Image is rotated 270 degrees and flipped vertically
+					$rotations = array('270', 'vrt');
+					break;
+
+				case 8:
+					// Image is rotated 90 degrees
+					$rotations = array('90');
+					break;
+			}
+
+			// Load the image library
+			$this->_CI->load->library('image_lib');
+
+			$config['source_image'] = $this->file_temp;
+			$config['quality']      = $this->rotation_quality;
+
+			foreach ($rotations as $rotation) {
+
+				$config['rotation_angle'] = $rotation;
+				$this->_CI->image_lib->initialize($config);
+
+				// Rotate and overwrite the temp file
+				if ($this->_CI->image_lib->rotate())
+				{
+					// Update the filesize data to match the new file
+					$this->file_size = filesize($this->file_temp);
+				}
+			}
 		}
 
 		/*
@@ -872,6 +951,68 @@ class CI_Upload {
 		$img_mimes = array('image/gif',	'image/jpeg', 'image/png');
 
 		return in_array($this->file_type, $img_mimes, TRUE);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set Auto rotate
+	 *
+	 * Enable auto rotating images based on their Exif metadata.
+	 *
+	 * @param	bool	$flag
+	 * @return	CI_Upload
+	 */
+	public function set_auto_rotate($flag = TRUE)
+	{
+		$this->auto_rotate = ($flag === TRUE);
+
+		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set JPEG quality when auto rotating images
+	 *
+	 * @param	int	$quality
+	 * @return	CI_Upload
+	 */
+	public function set_rotation_quality($quality = 95)
+	{
+		if ($quality >= 1 && $quality <= 100)
+		{
+			$this->rotation_quality = $quality;
+		}
+
+		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	* Get the orientation of an image based on Exif metadata
+	*
+	* @return mixed
+	*/
+	public function get_orientation()
+	{
+
+		// Only JPEG supports Exif based rotation
+		if ($this->file_type !== 'image/jpeg')
+		{
+			return FALSE;
+		}
+
+		$exif = @exif_read_data($this->file_temp);
+
+		// Check if Exif orientation exists and contains an int between 1 and 8
+		if (!empty($exif['Orientation']) && $exif['Orientation'] >= 1 && $exif['Orientation'] <= 8)
+		{
+			return $exif['Orientation'];
+		}
+
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
