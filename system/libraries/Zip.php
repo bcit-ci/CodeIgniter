@@ -454,18 +454,32 @@ class CI_Zip {
 	 * Download
 	 *
 	 * @param	string	$filename	the file name
+	 * @param	bool	$time		unix timestamp of request
+	 * @param	bool	$time_first	should name be $filename.time() or opposite
 	 * @return	void
 	 */
-	public function download($filename = 'backup.zip')
+	public function download($filename = 'backup', $time = FALSE, $time_first = FALSE)
 	{
+		if ($filename === 'backup') {
+			$time = true;
+		}
+
+		if (false !== $time) {
+			if ($timeFirst === false) {
+				$filename = $filename.'_'.(string)$this->now;
+			} else {
+				$filename = (string)$this->now.'_'.$filename;
+			}
+		}
+
 		if ( ! preg_match('|.+?\.zip$|', $filename))
 		{
 			$filename .= '.zip';
 		}
 
 		get_instance()->load->helper('download');
-		$get_zip = $this->get_zip();
-		$zip_content =& $get_zip;
+		$getZip = $this->getZip();
+		$zip_content =& $getZip;
 
 		force_download($filename, $zip_content);
 	}
