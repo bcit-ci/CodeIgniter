@@ -226,4 +226,20 @@ class CI_DB_pdo_odbc_driver extends CI_DB_pdo_driver {
 	{
 		return 'SELECT column_name FROM information_schema.columns WHERE table_name = '.$this->escape($table);
 	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Insert ID
+	 *
+	 * Returns the last id created in the Identity column.
+	 *
+	 * @return	string
+	 */
+	public function insert_id()
+	{
+		$query = $this->query('SELECT @@IDENTITY AS last_id')->row();
+
+		return (int)$query->last_id;
+	}
 }
