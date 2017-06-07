@@ -886,11 +886,13 @@ class CI_Loader {
 		// Set the path to the requested file
 		if (is_string($_ci_path) && $_ci_path !== '')
 		{
-			$_ci_x = explode('/', $_ci_path);
+			$_ci_path = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $_ci_path);
+			$_ci_x = explode(DIRECTORY_SEPARATOR, $_ci_path);
 			$_ci_file = end($_ci_x);
 		}
 		else
 		{
+			$_ci_view = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $_ci_view);
 			$_ci_ext = pathinfo($_ci_view, PATHINFO_EXTENSION);
 			$_ci_file = ($_ci_ext === '') ? $_ci_view.'.php' : $_ci_view;
 
