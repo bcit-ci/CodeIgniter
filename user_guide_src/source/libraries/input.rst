@@ -277,10 +277,11 @@ Class Reference
 			$this->input->set_cookie($cookie);
 
 		**Notes**
-
+		
 		Only the name and value are required. To delete a cookie set the expiry
 		time to a negative, or non-numeric value.
-
+		warning:if you set domain,when you delete this cookie must set the domain,
+		Otherwise, it will not be deleted.
 		The expiration is set in **seconds**, which will be added to the current
 		time. Do not include the time, but rather only the number of seconds
 		from *now* that you wish the cookie to be valid. If the expiration is
