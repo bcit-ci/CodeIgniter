@@ -657,5 +657,20 @@ class CI_URI {
 	{
 		return ltrim(load_class('Router', 'core')->directory, '/').implode('/', $this->rsegments);
 	}
-
+	/**
+	 * Fetch uri_string with level
+	 *
+	 * @return	string
+	 */
+	public function level($n)
+	{
+		if($n <= 0) return '';
+		$arr = array();
+		for($i=1; $i<=$n; $i++)
+		{
+			$sg = $this->segment($i);
+			if($sg != "") $arr[] = $sg;
+		}
+		return implode("/", $arr);
+	}
 }
