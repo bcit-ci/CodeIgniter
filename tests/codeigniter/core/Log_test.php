@@ -16,33 +16,49 @@ class Log_test extends CI_TestCase {
 		$enabled    = new ReflectionProperty('CI_Log', '_enabled');
 		$enabled->setAccessible(TRUE);
 
-		$this->ci_set_config('log_path', '/root/');
+		$log_path = '/root/';
+		$this->ci_set_config('log_path', $log_path);
 		$this->ci_set_config('log_threshold', 'z');
 		$this->ci_set_config('log_date_format', 'd.m.Y');
 		$this->ci_set_config('log_file_extension', '');
 		$this->ci_set_config('log_file_permissions', '');
 		$instance = new CI_Log();
+				
+		$real_enabled = FALSE;
+		file_exists($log_path) OR mkdir($log_path, 0755, TRUE);
+		if (is_dir($log_path) && is_really_writable($log_path))
+		{
+			$real_enabled = TRUE;
+		}
 
-		$this->assertEquals($path->getValue($instance), '/root/');
+		$this->assertEquals($path->getValue($instance), $log_path);
 		$this->assertEquals($threshold->getValue($instance), 1);
 		$this->assertEquals($date_fmt->getValue($instance), 'd.m.Y');
 		$this->assertEquals($file_ext->getValue($instance), 'php');
 		$this->assertEquals($file_perms->getValue($instance), 0644);
-		$this->assertEquals($enabled->getValue($instance), FALSE);
+		$this->assertEquals($enabled->getValue($instance), $real_enabled);
 
+		$log_path = APPPATH.'logs/';
 		$this->ci_set_config('log_path', '');
 		$this->ci_set_config('log_threshold', '0');
 		$this->ci_set_config('log_date_format', '');
 		$this->ci_set_config('log_file_extension', '.log');
 		$this->ci_set_config('log_file_permissions', 0600);
 		$instance = new CI_Log();
+		
+		$real_enabled = FALSE;
+		file_exists($log_path) OR mkdir($log_path, 0755, TRUE);
+		if (is_dir($log_path) && is_really_writable($log_path))
+		{
+			$real_enabled = TRUE;
+		}
 
-		$this->assertEquals($path->getValue($instance), APPPATH.'logs/');
+		$this->assertEquals($path->getValue($instance), $log_path);
 		$this->assertEquals($threshold->getValue($instance), 0);
 		$this->assertEquals($date_fmt->getValue($instance), 'Y-m-d H:i:s');
 		$this->assertEquals($file_ext->getValue($instance), 'log');
 		$this->assertEquals($file_perms->getValue($instance), 0600);
-		$this->assertEquals($enabled->getValue($instance), TRUE);
+		$this->assertEquals($enabled->getValue($instance), $real_enabled);
 	}
 
 	// --------------------------------------------------------------------
