@@ -129,6 +129,7 @@ Release Date: March 20, 2017
 -  General Changes
 
    -  Updated the :doc:`Image Manipulation Library <libraries/image_lib>` to work-around an issue with some JPEGs when using GD.
+   -  Added **exists** rule to :doc:`Form Validation Library <libraries/form_validation>`
 
 Bug fixes for 3.1.4
 -------------------
