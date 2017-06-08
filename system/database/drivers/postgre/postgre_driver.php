@@ -471,7 +471,25 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function error()
 	{
-		return array('code' => '', 'message' => pg_last_error($this->conn_id));
+		//Set postgres' last error to a variable
+		$last_error = pg_last_error($this->conn_id);
+		
+		//Check if there is an error or not (pg_last_error returns FALSE when it's empty)
+		if(!$last_error) 
+		{
+			//If we can't find errors then we'll return false
+			$retval = FALSE;
+		}
+		//If there's an error in pg_last_error
+		else
+		{
+			//Returning array with code and message 
+			//(since pg_last_error do not support error codes we leave it blank as it was)
+			$retval = array('code'=>'', 'message'=>$last_error);
+		}
+		
+		//Finally return the result of the evaluation
+		return $retval;
 	}
 
 	// --------------------------------------------------------------------
