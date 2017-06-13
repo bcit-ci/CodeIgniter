@@ -469,3 +469,13 @@ $config['time_reference'] = 'local';
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+
+/*
+|--------------------------------------------------------------------------
+| Bootstrap class Framework
+|--------------------------------------------------------------------------
+|
+| Add class: form-control to inputs and btn btn-default to buttons
+|
+*/
+$config['enable_bootstrap'] = TRUE;

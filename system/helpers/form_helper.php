@@ -231,11 +231,20 @@ if ( ! function_exists('form_input'))
 	 */
 	function form_input($data = '', $value = '', $extra = '')
 	{
+		$CI =& get_instance();
+
 		$defaults = array(
 			'type' => 'text',
 			'name' => is_array($data) ? '' : $data,
 			'value' => $value
 		);
+
+		if ($CI->config->item('enable_bootstrap') === TRUE)
+		{
+			$defaults = array_merge($defaults, array(
+				'class' => 'form-control'
+			));
+		}
 
 		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
 	}
@@ -300,11 +309,20 @@ if ( ! function_exists('form_textarea'))
 	 */
 	function form_textarea($data = '', $value = '', $extra = '')
 	{
+		$CI =& get_instance();
+
 		$defaults = array(
 			'name' => is_array($data) ? '' : $data,
 			'cols' => '40',
 			'rows' => '10'
 		);
+
+		if ($CI->config->item('enable_bootstrap') === TRUE)
+		{
+			$defaults = array_merge($defaults, array(
+				'class' => 'form-control'
+			));
+		}
 
 		if ( ! is_array($data) OR ! isset($data['value']))
 		{
@@ -362,6 +380,8 @@ if ( ! function_exists('form_dropdown'))
 	 */
 	function form_dropdown($data = '', $options = array(), $selected = array(), $extra = '')
 	{
+		$CI =& get_instance();
+
 		$defaults = array();
 
 		if (is_array($data))
@@ -381,6 +401,12 @@ if ( ! function_exists('form_dropdown'))
 		else
 		{
 			$defaults = array('name' => $data);
+			if ($CI->config->item('enable_bootstrap') === TRUE)
+			{
+				$defaults = array_merge($defaults, array(
+					'class' => 'form-control'
+				));
+			}
 		}
 
 		is_array($selected) OR $selected = array($selected);
@@ -522,11 +548,20 @@ if ( ! function_exists('form_submit'))
 	 */
 	function form_submit($data = '', $value = '', $extra = '')
 	{
+		$CI =& get_instance();
+
 		$defaults = array(
 			'type' => 'submit',
 			'name' => is_array($data) ? '' : $data,
 			'value' => $value
 		);
+
+		if ($CI->config->item('enable_bootstrap') === TRUE)
+		{
+			$defaults = array_merge($defaults, array(
+				'class' => 'btn btn-primary'
+			));
+		}
 
 		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
 	}
@@ -546,11 +581,20 @@ if ( ! function_exists('form_reset'))
 	 */
 	function form_reset($data = '', $value = '', $extra = '')
 	{
+		$CI =& get_instance();
+
 		$defaults = array(
 			'type' => 'reset',
 			'name' => is_array($data) ? '' : $data,
 			'value' => $value
 		);
+
+		if ($CI->config->item('enable_bootstrap') === TRUE)
+		{
+			$defaults = array_merge($defaults, array(
+				'class' => 'btn btn-primary'
+			));
+		}
 
 		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
 	}
@@ -570,10 +614,19 @@ if ( ! function_exists('form_button'))
 	 */
 	function form_button($data = '', $content = '', $extra = '')
 	{
+		$CI =& get_instance();
+		
 		$defaults = array(
 			'name' => is_array($data) ? '' : $data,
 			'type' => 'button'
 		);
+
+		if ($CI->config->item('enable_bootstrap') === TRUE)
+		{
+			$defaults = array_merge($defaults, array(
+				'class' => 'btn btn-primary'
+			));
+		}
 
 		if (is_array($data) && isset($data['content']))
 		{
