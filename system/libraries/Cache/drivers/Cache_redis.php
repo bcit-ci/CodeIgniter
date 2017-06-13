@@ -320,7 +320,7 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function __destruct()
 	{
-		if ($this->_redis)
+		if ($this->_redis && $this->_redis->isConnected())
 		{
 			$this->_redis->close();
 		}
