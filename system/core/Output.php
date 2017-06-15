@@ -58,6 +58,13 @@ class CI_Output {
 	public $final_output;
 
 	/**
+	 * Cache mobile
+	 *
+	 * @var	bool
+	 */
+	public $is_mobile;
+
+	/**
 	 * Cache expiration time
 	 *
 	 * @var	int
@@ -147,6 +154,19 @@ class CI_Output {
 
 		isset(self::$func_overload) OR self::$func_overload = (extension_loaded('mbstring') && ini_get('mbstring.func_overload'));
 
+		// If true, load user_agent library
+		if ( config_item('responsive_caching') )
+	    {
+			$mobile =& load_class('user_agent', 'libraries');
+			if ( $mobile->is_mobile )
+			{
+				$this->is_mobile = TRUE;
+			}
+			else
+			{
+				$this->is_mobile = FALSE;
+			}
+		}
 		// Get mime types for later
 		$this->mimes =& get_mimes();
 
@@ -553,8 +573,33 @@ class CI_Output {
 	public function _write_cache($output)
 	{
 		$CI =& get_instance();
-		$path = $CI->config->item('cache_path');
-		$cache_path = ($path === '') ? APPPATH.'cache'.DIRECTORY_SEPARATOR : rtrim($path, '/\\').DIRECTORY_SEPARATOR;
+		// Test if responsive caching is enabled
+		// If true, we use subdirectories
+		if( $CI->config->item('responsive_caching') )
+		{
+			if( $this->is_mobile )
+			{
+				if ( !file_exists(APPPATH.'cache/mobile') )
+			    {
+				    mkdir(APPPATH.'cache/mobile', 0777, true);
+				}
+				$cache_path = APPPATH.'cache/mobile/';
+			}
+			else
+			{
+				if ( !file_exists(APPPATH.'cache/desktop') )
+			    {
+				    mkdir(APPPATH.'cache/desktop', 0777, true);
+				}
+				$cache_path = APPPATH.'cache/desktop/';
+			}
+		}
+		else
+		{
+			$path = $CI->config->item('cache_path');
+			$cache_path = ($path === '') ? APPPATH.'cache'.DIRECTORY_SEPARATOR : rtrim($path, '/\\').DIRECTORY_SEPARATOR;
+		}
+		
 
 		if ( ! is_dir($cache_path) OR ! is_really_writable($cache_path))
 		{
@@ -658,7 +703,23 @@ class CI_Output {
 	 */
 	public function _display_cache(&$CFG, &$URI)
 	{
-		$cache_path = ($CFG->item('cache_path') === '') ? APPPATH.'cache/' : $CFG->item('cache_path');
+		// Test if responsive caching is enabled
+		// If true, we use subdirectories
+		if( $CFG->item('responsive_caching') )
+		{
+			if( $this->is_mobile )
+			{
+				$cache_path = APPPATH.'cache/mobile/';
+			}
+			else
+			{
+				$cache_path = APPPATH.'cache/desktop/';
+			}
+		}
+		else
+		{
+			$cache_path = ($CFG->item('cache_path') === '') ? APPPATH.'cache/' : $CFG->item('cache_path');
+		}
 
 		// Build the file path. The file name is an MD5 hash of the full URI
 		$uri = $CFG->item('base_url').$CFG->item('index_page').$URI->uri_string;
@@ -740,7 +801,17 @@ class CI_Output {
 		$cache_path = $CI->config->item('cache_path');
 		if ($cache_path === '')
 		{
-			$cache_path = APPPATH.'cache/';
+			if($CI->config->item('responsive_caching')){
+				if($this->user_agent->is_mobile){
+					$cache_path = APPPATH.'cache/mobile/';
+				}
+				else{
+					$cache_path = APPPATH.'cache/desktop/';
+				}
+			}
+			else{
+					$cache_path = APPPATH.'cache/';
+			}
 		}
 
 		if ( ! is_dir($cache_path))

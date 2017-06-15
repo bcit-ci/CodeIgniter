@@ -305,6 +305,20 @@ $config['cache_query_string'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
+| Responive caching
+|--------------------------------------------------------------------------
+|
+| Whether to use subdirectories for caching web pages
+| 
+|	FALSE      = Disabled
+|	TRUE       = Enabled, use desktop folder for caching desktop web pages
+|                use mobile folder for caching mobile web pages
+|
+*/
+$config['responsive_caching'] = FALSE;
+
+/*
+|--------------------------------------------------------------------------
 | Encryption Key
 |--------------------------------------------------------------------------
 |
