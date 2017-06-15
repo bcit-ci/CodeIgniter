@@ -35,4 +35,14 @@ class Count_test extends CI_TestCase {
 		$this->assertEquals(2, $this->db->like('name', 'ian')->count_all_results('job'));
 	}
 
+	// ------------------------------------------------------------------------
+
+	/**
+	 * @see ./mocks/schema/skeleton.php
+	 */
+	public function test_count_all_results_limit()
+	{
+		$this->assertEquals(1, $this->db->like('name', 'ian')->limit(1)->count_all_results('job'));
+	}
+
 }
