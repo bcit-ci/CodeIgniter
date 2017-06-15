@@ -19,7 +19,7 @@ access CodeIgniter's native resources** simply by using the
 ``get_instance()`` function. This function returns the main
 CodeIgniter object.
 
-Normally, to call any of the available CodeIgniter methods requires
+Normally, to call any of the available methods, CodeIgniter requires
 you to use the ``$this`` construct::
 
 	$this->load->helper('url');
