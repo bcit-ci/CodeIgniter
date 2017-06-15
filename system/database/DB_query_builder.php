@@ -1488,15 +1488,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->qb_orderby = NULL;
 		}
 
-		//ignore LIMIT
-		if ($this->qb_limit OR $this->qb_offset)
-		{
-			$limit = $this->qb_limit;
-			$this->qb_limit = NULL;
-			$offset = $this->qb_offset;
-			$this->qb_offset = NULL;
-		}
-
 		$result = ($this->qb_distinct === TRUE OR ! empty($this->qb_groupby) OR ! empty($this->qb_cache_groupby))
 			? $this->query($this->_count_string.$this->protect_identifiers('numrows')."\nFROM (\n".$this->_compile_select()."\n) CI_count_all_results")
 			: $this->query($this->_compile_select($this->_count_string.$this->protect_identifiers('numrows')));
@@ -1505,19 +1496,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			$this->_reset_select();
 		}
-		// If we've previously reset the qb_orderby,qb_limit or qb_offset values, get them back
-		else
+		// If we've previously reset the qb_orderby values, get them back
+		elseif ( ! isset($this->qb_orderby))
 		{
-			if ( ! isset($this->qb_orderby))
-			{
-				$this->qb_orderby = $orderby;
-			}
-
-			if ( ! isset($this->qb_limit))
-			{
-				$this->qb_limit = $limit;
-				$this->qb_offset = $offset;
-			}
+			$this->qb_orderby = $orderby;
 		}
 
 		if ($result->num_rows() === 0)
