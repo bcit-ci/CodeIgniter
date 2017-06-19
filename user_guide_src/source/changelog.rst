@@ -5,7 +5,7 @@ Change Log
 Version 3.1.5
 =============
 
-Release Date: Not Released
+Release Date: Jun 19, 2017
 
 -  **Security**
 
@@ -28,7 +28,7 @@ Bug fixes for 3.1.5
 Version 3.1.4
 =============
 
-Release Date: March 20, 2017
+Release Date: Mar 20, 2017
 
 -  **Security**
 
