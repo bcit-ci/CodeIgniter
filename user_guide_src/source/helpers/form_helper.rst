@@ -485,7 +485,7 @@ The following functions are available:
 
 	:param	string	$label_text: Text to put in the <label> tag
 	:param	string	$id: ID of the form element that we're making a label for
-	:param	string	$attributes: HTML attributes
+	:param	mixed	$attributes: HTML attributes
 	:returns:	An HTML field label tag
 	:rtype:	string
 
