@@ -43,7 +43,6 @@ class Form_validation_test extends CI_TestCase {
 		// Empty, not required
 		$this->assertTrue($this->run_rules($rules, array('foo' => '')));
 
-
 		// Not required, but also not empty
 		$this->assertTrue($this->run_rules($rules, array('foo' => '123')));
 		$this->assertFalse($this->run_rules($rules, array('foo' => 'bar')));
@@ -54,6 +53,13 @@ class Form_validation_test extends CI_TestCase {
 		$this->assertFalse($this->run_rules($rules, array('foo' => '')));
 		$this->assertFalse($this->run_rules($rules, array('foo' => ' ')));
 		$this->assertFalse($this->run_rules($rules, array('foo' => 'bar')));
+	}
+
+	public function test_rule_is_array()
+	{
+		$rules = array(array('field' => 'foo', 'label' => 'Foo', 'rules' => 'is_array'));
+		$this->assertTrue($this->run_rules($rules,  array('foo' => array('1', '2'))));
+		$this->assertFalse($this->run_rules($rules, array('foo' => '')));
 	}
 
 	public function test_rule_matches()

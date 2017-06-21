@@ -627,11 +627,13 @@ class CI_Form_validation {
 	 */
 	protected function _execute($row, $rules, $postdata = NULL, $cycles = 0)
 	{
+		$allow_arrays = in_array('is_array', $rules, TRUE);
+
 		// If the $_POST data is an array we will run a recursive call
 		//
 		// Note: We MUST check if the array is empty or not!
 		//       Otherwise empty arrays will always pass validation.
-		if (is_array($postdata) && ! empty($postdata))
+		if ($allow_arrays === FALSE && is_array($postdata) && ! empty($postdata))
 		{
 			foreach ($postdata as $key => $val)
 			{
@@ -660,14 +662,16 @@ class CI_Form_validation {
 				$postdata = $this->_field_data[$row['field']]['postdata'][$cycles];
 				$_in_array = TRUE;
 			}
+			// If we get an array field, but it's not expected - then it is most likely
+			// somebody messing with the form on the client side, so we'll just consider
+			// it an empty field
+			elseif ($allow_arrays === FALSE && is_array($this->_field_data[$row['field']]['postdata']))
+			{
+				$postdata = NULL;
+			}
 			else
 			{
-				// If we get an array field, but it's not expected - then it is most likely
-				// somebody messing with the form on the client side, so we'll just consider
-				// it an empty field
-				$postdata = is_array($this->_field_data[$row['field']]['postdata'])
-					? NULL
-					: $this->_field_data[$row['field']]['postdata'];
+				$postdata = $this->_field_data[$row['field']]['postdata'];
 			}
 
 			// Is the rule a callback?
@@ -702,7 +706,7 @@ class CI_Form_validation {
 
 			// Ignore empty, non-required inputs with a few exceptions ...
 			if (
-				($postdata === NULL OR $postdata === '')
+				($postdata === NULL OR ($allow_arrays === FALSE && $postdata === ''))
 				&& $callback === FALSE
 				&& $callable === FALSE
 				&& ! in_array($rule, array('required', 'isset', 'matches'), TRUE)
