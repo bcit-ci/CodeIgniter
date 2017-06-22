@@ -1235,7 +1235,7 @@ class CI_Email {
 	/**
 	 * Build Final Body and attachments
 	 *
-	 * @return	bool
+	 * @return	void
 	 */
 	protected function _build_message()
 	{
@@ -1402,8 +1402,6 @@ class CI_Email {
 		$this->_finalbody = ($this->_get_protocol() === 'mail')
 			? $body
 			: $hdr.$this->newline.$this->newline.$body;
-
-		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -1677,21 +1675,17 @@ class CI_Email {
 
 		if ($this->bcc_batch_mode && count($this->_bcc_array) > $this->bcc_batch_size)
 		{
-			$result = $this->batch_bcc_send();
+			$this->batch_bcc_send();
 
-			if ($result && $auto_clear)
+			if ($auto_clear)
 			{
 				$this->clear();
 			}
 
-			return $result;
+			return TRUE;
 		}
 
-		if ($this->_build_message() === FALSE)
-		{
-			return FALSE;
-		}
-
+		$this->_build_message();
 		$result = $this->_spool_email();
 
 		if ($result && $auto_clear)
@@ -1750,11 +1744,7 @@ class CI_Email {
 				$this->_bcc_array = $bcc;
 			}
 
-			if ($this->_build_message() === FALSE)
-			{
-				return FALSE;
-			}
-
+			$this->_build_message();
 			$this->_spool_email();
 		}
 	}

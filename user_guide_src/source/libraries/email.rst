@@ -312,13 +312,17 @@ Class Reference
 		This method will automatically clear all parameters if the request was
 		successful. To stop this behaviour pass FALSE::
 
-		 	if ($this->email->send(FALSE))
-		 	{
-		 		// Parameters won't be cleared
-		 	}
+			if ($this->email->send(FALSE))
+			{
+				// Parameters won't be cleared
+			}
 
 		.. note:: In order to use the ``print_debugger()`` method, you need
 			to avoid clearing the email parameters.
+
+		.. note:: If ``batch_bcc_mode`` is enabled, and there are more than
+			``batch_bcc_size`` recipients, this method will always return
+			boolean ``TRUE``.
 
 	.. php:method:: attach($filename[, $disposition = ''[, $newname = NULL[, $mime = '']]])
 

@@ -60,6 +60,7 @@ Release Date: Not Released
    -  :doc:`Email Library <libraries/email>` changes include:
 
       - Changed the default value of the **validate** option to ``TRUE``.
+      - Changed the ``send()`` method to always return ``TRUE`` when sending multiple batches of emails.
 
 -  :doc:`Database <database/index>` changes include:
 
