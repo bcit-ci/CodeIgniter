@@ -105,13 +105,6 @@ class CI_Form_validation {
 	protected $error_string		= '';
 
 	/**
-	 * Whether the form data has been validated as safe
-	 *
-	 * @var bool
-	 */
-	protected $_safe_form_data	= FALSE;
-
-	/**
 	 * Custom data to validate
 	 *
 	 * @var array
@@ -414,10 +407,11 @@ class CI_Form_validation {
 	 *
 	 * This function does all the work.
 	 *
-	 * @param	string	$group
+	 * @param	string	$config
+	 * @param	array	$data
 	 * @return	bool
 	 */
-	public function run($group = '')
+	public function run($config = NULL, &$data = NULL)
 	{
 		$validation_array = empty($this->validation_data)
 			? $_POST
@@ -428,19 +422,19 @@ class CI_Form_validation {
 		if (count($this->_field_data) === 0)
 		{
 			// No validation rules?  We're done...
-			if (count($this->_config_rules) === 0)
+			if (empty($this->_config_rules))
 			{
 				return FALSE;
 			}
 
-			if (empty($group))
+			if (empty($config))
 			{
 				// Is there a validation rule for the particular URI being accessed?
-				$group = trim($this->CI->uri->ruri_string(), '/');
-				isset($this->_config_rules[$group]) OR $group = $this->CI->router->class.'/'.$this->CI->router->method;
+				$config = trim($this->CI->uri->ruri_string(), '/');
+				isset($this->_config_rules[$config]) OR $config = $this->CI->router->class.'/'.$this->CI->router->method;
 			}
 
-			$this->set_rules(isset($this->_config_rules[$group]) ? $this->_config_rules[$group] : $this->_config_rules);
+			$this->set_rules(isset($this->_config_rules[$config]) ? $this->_config_rules[$config] : $this->_config_rules);
 
 			// Were we able to set the rules correctly?
 			if (count($this->_field_data) === 0)
@@ -482,17 +476,22 @@ class CI_Form_validation {
 			$this->_execute($row, $row['rules'], $row['postdata']);
 		}
 
-		// Did we end up with any errors?
-		$total_errors = count($this->_error_array);
-		if ($total_errors > 0)
+		if ( ! empty($this->_error_array))
 		{
-			$this->_safe_form_data = TRUE;
+			return FALSE;
 		}
 
-		// Now we need to re-set the POST data with the new, processed data
-		empty($this->validation_data) && $this->_reset_post_array();
+		// Fill $data if requested, otherwise modify $_POST, as long as
+		// set_data() wasn't used (yea, I know it sounds confusing)
+		if (func_num_args() >= 2)
+		{
+			$data = empty($this->validation_data) ? $_POST : $this->validation_data;
+			$this->_reset_data_array($data);
+			return TRUE;
+		}
 
-		return ($total_errors === 0);
+		empty($this->validation_data) && $this->_reset_data_array($_POST);
+		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -580,7 +579,7 @@ class CI_Form_validation {
 	 *
 	 * @return	void
 	 */
-	protected function _reset_post_array()
+	protected function _reset_data_array(&$data)
 	{
 		foreach ($this->_field_data as $field => $row)
 		{
@@ -588,27 +587,24 @@ class CI_Form_validation {
 			{
 				if ($row['is_array'] === FALSE)
 				{
-					isset($_POST[$field]) && $_POST[$field] = $row['postdata'];
+					isset($data[$field]) && $data[$field] = $row['postdata'];
 				}
 				else
 				{
-					// start with a reference
-					$post_ref =& $_POST;
-
 					// before we assign values, make a reference to the right POST key
 					if (count($row['keys']) === 1)
 					{
-						$post_ref =& $post_ref[current($row['keys'])];
+						$data_ref =& $data[current($row['keys'])];
 					}
 					else
 					{
 						foreach ($row['keys'] as $val)
 						{
-							$post_ref =& $post_ref[$val];
+							$data_ref =& $data_ref[$val];
 						}
 					}
 
-					$post_ref = $row['postdata'];
+					$data_ref = $row['postdata'];
 				}
 			}
 		}

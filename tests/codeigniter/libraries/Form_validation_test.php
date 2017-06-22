@@ -610,6 +610,24 @@ class Form_validation_test extends CI_TestCase {
 		$this->assertEquals('?&gt;', $this->form_validation->encode_php_tags('?>'));
 	}
 
+	public function test_validated_data_assignment()
+	{
+		$_POST = $post_original = array('foo' => ' bar ', 'bar' => 'baz');
+
+		$this->form_validation->set_data($_POST);
+		$this->form_validation->set_rules('foo', 'Foo', 'required|trim');
+
+		$data_processed = NULL;
+		$validation_result = $this->form_validation->run('', $data_processed);
+
+		$this->assertTrue($validation_result);
+		$this->assertEquals($post_original, $_POST);
+		$this->assertEquals(array('foo' => 'bar', 'bar' => 'baz'), $data_processed);
+
+		$this->form_validation->reset_validation();
+		$_POST = array();
+	}
+
 	/**
 	 * Run rules
 	 *

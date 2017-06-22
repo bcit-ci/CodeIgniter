@@ -52,6 +52,7 @@ Release Date: Not Released
       - Changed method ``set_rules()`` to throw a ``BadMethodCallException`` when its first parameter is not an array and the ``$rules`` one is unused.
       - Added rule **valid_mac**, which replicates PHP's native ``filter_var()`` with ``FILTER_VALIDATE_MAC``.
       - Added ability to validate entire arrays at once, if ``is_array`` is within the list of rules.
+      - Added ability to fetch processed data via a second parameter to ``run()``.
 
    -  :doc:`HTML Table Library <libraries/table>` changes include:
 

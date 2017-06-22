@@ -881,6 +881,24 @@ When a rule group is named identically to a controller class/method it
 will be used automatically when the ``run()`` method is invoked from that
 class/method.
 
+Accessing validated/processed data
+==================================
+
+By default, validation will be performed directly on the ``$_POST`` array,
+and any possible modifications (like trimming whitespace, for example)
+would be written back onto it.  
+However, if you want to keep the original input data intact, or have used
+``set_data()`` to pass a custom set of inputs, you would likely want to
+fetch the now-modified data. In order to do that, you can pass a variable
+as the second parameter to ``run()``::
+
+	$input  = array('name' => '   White Space  ');
+	$output = NULL;
+	
+	$this->form_validation->set_rules('name', 'Name', 'required|trim');
+	$this->form_validation->run(NULL, $output);
+	// $output will now contain: array('name' => 'White Space');
+
 .. _using-arrays-as-field-names:
 
 ***************************
@@ -1043,9 +1061,10 @@ Class Reference
 		-  :ref:`setting-validation-rules`
 		-  :ref:`saving-groups`
 
-	.. php:method:: run([$group = ''])
+	.. php:method:: run([$config = NULL[, $data = NULL]])
 
 		:param	string	$group: The name of the validation group to run
+		:param	mixed	$data: Optional variable to assign validated data to
 		:returns:	TRUE on success, FALSE if validation failed
 		:rtype:	bool
 
