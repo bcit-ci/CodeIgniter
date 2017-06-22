@@ -305,9 +305,10 @@ This article is intended to be a reference for them.
 
 		Gets a list containing field data about a table.
 
-	.. php:method:: escape_identifiers($item)
+	.. php:method:: escape_identifiers($item, $split = TRUE)
 
 		:param	mixed	$item: The item or array of items to escape
+		:param	bool	$split: Whether to split identifiers when a dot is encountered
 		:returns:	The input item(s), escaped
 		:rtype:	mixed
 

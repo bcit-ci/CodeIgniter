@@ -1320,10 +1320,11 @@ abstract class CI_DB_driver {
 	 *
 	 * This function escapes column and table names
 	 *
-	 * @param	mixed
+	 * @param	mixed	$item	Identifier to escape
+	 * @param	bool	$split	Whether to split identifiers when a dot is encountered
 	 * @return	mixed
 	 */
-	public function escape_identifiers($item)
+	public function escape_identifiers($item, $split = TRUE)
 	{
 		if ($this->_escape_char === '' OR empty($item) OR in_array($item, $this->_reserved_identifiers))
 		{
@@ -1344,22 +1345,22 @@ abstract class CI_DB_driver {
 			return $item;
 		}
 
-		static $preg_ec = array();
+		static $preg_ec;
 
 		if (empty($preg_ec))
 		{
 			if (is_array($this->_escape_char))
 			{
 				$preg_ec = array(
-					preg_quote($this->_escape_char[0], '/'),
-					preg_quote($this->_escape_char[1], '/'),
+					preg_quote($this->_escape_char[0]),
+					preg_quote($this->_escape_char[1]),
 					$this->_escape_char[0],
 					$this->_escape_char[1]
 				);
 			}
 			else
 			{
-				$preg_ec[0] = $preg_ec[1] = preg_quote($this->_escape_char, '/');
+				$preg_ec[0] = $preg_ec[1] = preg_quote($this->_escape_char);
 				$preg_ec[2] = $preg_ec[3] = $this->_escape_char;
 			}
 		}
@@ -1368,11 +1369,13 @@ abstract class CI_DB_driver {
 		{
 			if (strpos($item, '.'.$id) !== FALSE)
 			{
-				return preg_replace('/'.$preg_ec[0].'?([^'.$preg_ec[1].'\.]+)'.$preg_ec[1].'?\./i', $preg_ec[2].'$1'.$preg_ec[3].'.', $item);
+				return preg_replace('#'.$preg_ec[0].'?([^'.$preg_ec[1].'\.]+)'.$preg_ec[1].'?\.#i', $preg_ec[2].'$1'.$preg_ec[3].'.', $item);
 			}
 		}
 
-		return preg_replace('/'.$preg_ec[0].'?([^'.$preg_ec[1].'\.]+)'.$preg_ec[1].'?(\.)?/i', $preg_ec[2].'$1'.$preg_ec[3].'$2', $item);
+		$dot = ($split !== FALSE) ? '\.' : '';
+
+		return preg_replace('#'.$preg_ec[0].'?([^'.$preg_ec[1].$dot.']+)'.$preg_ec[1].'?(\.)?#i', $preg_ec[2].'$1'.$preg_ec[3].'$2', $item);
 	}
 
 	// --------------------------------------------------------------------
@@ -1786,14 +1789,14 @@ abstract class CI_DB_driver {
 		if ($offset = strripos($item, ' AS '))
 		{
 			$alias = ($protect_identifiers)
-				? substr($item, $offset, 4).$this->escape_identifiers(substr($item, $offset + 4))
+				? substr($item, $offset, 4).$this->escape_identifiers(substr($item, $offset + 4), FALSE)
 				: substr($item, $offset);
 			$item = substr($item, 0, $offset);
 		}
 		elseif ($offset = strrpos($item, ' '))
 		{
 			$alias = ($protect_identifiers)
-				? ' '.$this->escape_identifiers(substr($item, $offset + 1))
+				? ' '.$this->escape_identifiers(substr($item, $offset + 1), FALSE)
 				: substr($item, $offset);
 			$item = substr($item, 0, $offset);
 		}

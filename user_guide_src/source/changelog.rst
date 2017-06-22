@@ -77,6 +77,7 @@ Release Date: Not Released
    -  :doc:`Query Builder <database/query_builder>`:
 
       - Added methods ``having_in()``, ``or_having_in()``, ``not_having_in()``, ``or_not_having_in()``.
+      - Updated logic to allow dots in alias names.
 
 -  Helpers
 
