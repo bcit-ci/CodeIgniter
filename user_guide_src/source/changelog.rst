@@ -2,10 +2,20 @@
 Change Log
 ##########
 
-Version 3.1.5
+Version 3.1.6
 =============
 
 Release Date: Not Released
+
+
+Version 3.1.5
+=============
+
+Release Date: Jun 19, 2017
+
+-  **Security**
+
+   -  :doc:`Form Validation Library <libraries/form_validation>` rule ``valid_email`` could be bypassed if ``idn_to_ascii()`` is available.
 
 -  General Changes
 
@@ -24,7 +34,7 @@ Bug fixes for 3.1.5
 Version 3.1.4
 =============
 
-Release Date: March 20, 2017
+Release Date: Mar 20, 2017
 
 -  **Security**
 
