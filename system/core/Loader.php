@@ -783,7 +783,7 @@ class CI_Loader {
 
 		// Add config file path
 		$config =& $this->_ci_get_component('config');
-		$config->_config_paths[] = $path;
+		array_unshift($config->_config_paths, $path);
 
 		return $this;
 	}
