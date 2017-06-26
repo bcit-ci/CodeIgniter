@@ -107,7 +107,7 @@ Class Reference
 		If the optional second parameter is set to true, it will return boolean TRUE if
 		the image is safe to use and FALSE if malicious data was detected in it.
 
-		.. important:: This method is not suitable for filtering HTML attribute vales!
+		.. important:: This method is not suitable for filtering HTML attribute values!
 			Use :php:func:`html_escape()` for that instead.
 
 	.. php:method:: sanitize_filename($str[, $relative_path = FALSE])
