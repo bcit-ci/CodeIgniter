@@ -1044,7 +1044,7 @@ class CI_Loader {
 			if ( ! isset($property))
 			{
 				$property = strtolower($class);
-				isset($this->_ci_varmap[$property]) && $property = $this->_ci_varmap[$object_name];
+				isset($this->_ci_varmap[$property]) && $property = $this->_ci_varmap[$property];
 			}
 
 			$CI =& get_instance();
