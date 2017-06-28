@@ -1041,7 +1041,7 @@ class CI_Loader {
 		if (class_exists($class, FALSE))
 		{
 			$property = $object_name;
-			if ( ! isset($property))
+			if (empty($property))
 			{
 				$property = strtolower($class);
 				isset($this->_ci_varmap[$property]) && $property = $this->_ci_varmap[$property];
@@ -1113,16 +1113,17 @@ class CI_Loader {
 				$prefix = config_item('subclass_prefix');
 			}
 
-			// Before we deem this to be a duplicate request, let's see
-			// if a custom object name is being supplied. If so, we'll
-			// return a new instance of the object
-			if ($object_name !== NULL)
+			$property = $object_name;
+			if (empty($property))
 			{
-				$CI =& get_instance();
-				if ( ! isset($CI->$object_name))
-				{
-					return $this->_ci_init_library($library_name, $prefix, $params, $object_name);
-				}
+				$property = strtolower($library_name);
+				isset($this->_ci_varmap[$property]) && $property = $this->_ci_varmap[$property];
+			}
+
+			$CI =& get_instance();
+			if ( ! isset($CI->$property))
+			{
+				return $this->_ci_init_library($library_name, $prefix, $params, $object_name);
 			}
 
 			log_message('debug', $library_name.' class already loaded. Second attempt ignored.');
