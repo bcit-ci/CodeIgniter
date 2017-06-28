@@ -1145,10 +1145,8 @@ class CI_Loader {
 				{
 					return $this->_ci_init_library($library_name, $prefix, $params, $object_name);
 				}
-				else
-				{
-					log_message('debug', $path.' exists, but does not declare '.$prefix.$library_name);
-				}
+
+				log_message('debug', $path.' exists, but does not declare '.$prefix.$library_name);
 			}
 		}
 
@@ -1166,10 +1164,8 @@ class CI_Loader {
 					$prefix = config_item('subclass_prefix');
 					break;
 				}
-				else
-				{
-					log_message('debug', $path.' exists, but does not declare '.$subclass);
-				}
+
+				log_message('debug', $path.' exists, but does not declare '.$subclass);
 			}
 		}
 
