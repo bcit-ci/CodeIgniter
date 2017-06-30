@@ -1486,6 +1486,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			$orderby = $this->qb_orderby;
 			$this->qb_orderby = NULL;
+			
+			
+            		$c_orderby = $this->qb_cache_orderby;
+            		$this->qb_cache_orderby = NULL;
 		}
 
 		$result = ($this->qb_distinct === TRUE OR ! empty($this->qb_groupby) OR ! empty($this->qb_cache_groupby) OR $this->qb_limit OR $this->qb_offset)
@@ -1500,6 +1504,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		elseif ( ! isset($this->qb_orderby))
 		{
 			$this->qb_orderby = $orderby;
+            		$this->qb_cache_orderby = $c_orderby;
 		}
 
 		if ($result->num_rows() === 0)
