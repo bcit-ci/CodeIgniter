@@ -1403,11 +1403,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		// ORDER BY usage is often problematic here (most notably
 		// on Microsoft SQL Server) and ultimately unnecessary
 		// for selecting COUNT(*) ...
-		if ( ! empty($this->qb_orderby))
-		{
-			$orderby = $this->qb_orderby;
-			$this->qb_orderby = NULL;
-		}
+		$qb_orderby       = $this->qb_order_by;
+		$qb_cache_orderby = $this->qb_cache_orderby;
+		$this->qb_orderby = $this->qb_cache_orderby = NULL;
 
 		$result = ($this->qb_distinct === TRUE OR ! empty($this->qb_groupby) OR ! empty($this->qb_cache_groupby) OR $this->qb_limit OR $this->qb_offset)
 			? $this->query($this->_count_string.$this->protect_identifiers('numrows')."\nFROM (\n".$this->_compile_select()."\n) CI_count_all_results")
@@ -1417,10 +1415,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			$this->_reset_select();
 		}
-		// If we've previously reset the qb_orderby values, get them back
-		elseif ( ! isset($this->qb_orderby))
+		else
 		{
-			$this->qb_orderby = $orderby;
+			$this->qb_orderby       = $qb_orderby;
+			$this->qb_cache_orderby = $qb_cache_orderby;
 		}
 
 		if ($result->num_rows() === 0)
