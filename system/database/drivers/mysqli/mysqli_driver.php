@@ -456,7 +456,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	public function field_data($table)
 	{
-		if (($query = $this->query('SHOW COLUMNS FROM '.$this->protect_identifiers($table, TRUE, NULL, FALSE))) === FALSE)
+		if (($query = $this->query($this->_list_columns($table))) === FALSE)
 		{
 			return FALSE;
 		}
