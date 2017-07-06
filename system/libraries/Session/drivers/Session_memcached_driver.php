@@ -326,11 +326,8 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 				continue;
 			}
 
-			$result = ($this->_memcached->getResultCode() === Memcached::RES_NOTFOUND)
-				? $this->_memcached->add($lock_key, time(), 300)
-				: $this->_memcached->set($lock_key, time(), 300);
-
-			if ( ! $result)
+			$method = ($this->_memcached->getResultCode() === Memcached::RES_NOTFOUND) ? 'add' : 'set';
+			if ( ! $this->_memcached->$method($lock_key, time(), 300))
 			{
 				log_message('error', 'Session: Error while trying to obtain lock for '.$this->_key_prefix.$session_id);
 				return FALSE;
