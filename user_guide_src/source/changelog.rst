@@ -17,6 +17,7 @@ Bug fixes for 3.1.6
 
 -  Fixed a bug (#5164) - :doc:`Loader Library <libraries/loader>` method ``library()`` ignored requests to load libraries previously assigned to super-object properties named differently than the library name.
 -  Fixed a bug (#5168) - :doc:`Query Builder <database/query_builder>` method ``count_all_results()`` produced erroneous queries on Microsoft SQL Server when ``ORDER BY`` clauses are cached.
+-  Fixed a bug (#5128) - :doc:`Profiler <general/profiling>` didn't wrap ``$_SESSION`` and configuration arrays in ``<pre>`` tags.
 
 Version 3.1.5
 =============

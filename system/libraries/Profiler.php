@@ -484,13 +484,19 @@ class CI_Profiler {
 
 		foreach ($this->CI->config->config as $config => $val)
 		{
+			$pre       = '';
+			$pre_close = '';
+                        
 			if (is_array($val) OR is_object($val))
 			{
 				$val = print_r($val, TRUE);
+                                
+				$pre       = '<pre>' ;
+ 				$pre_close = '</pre>';
 			}
 
 			$output .= '<tr><td style="padding:5px;vertical-align:top;color:#900;background-color:#ddd;">'
-				.$config.'&nbsp;&nbsp;</td><td style="padding:5px;color:#000;background-color:#ddd;">'.htmlspecialchars($val, ENT_QUOTES, config_item('charset'))."</td></tr>\n";
+				.$config.'&nbsp;&nbsp;</td><td style="padding:5px;color:#000;background-color:#ddd;">'.$pre.htmlspecialchars($val, ENT_QUOTES, config_item('charset')).$pre_close."</td></tr>\n";
 		}
 
 		return $output."</table>\n</fieldset>";
@@ -516,13 +522,19 @@ class CI_Profiler {
 
 		foreach ($this->CI->session->userdata() as $key => $val)
 		{
+			$pre       = '';
+			$pre_close = '';
+                        
 			if (is_array($val) OR is_object($val))
 			{
 				$val = print_r($val, TRUE);
+                                
+				$pre       = '<pre>' ;
+ 				$pre_close = '</pre>';
 			}
 
 			$output .= '<tr><td style="padding:5px;vertical-align:top;color:#900;background-color:#ddd;">'
-				.$key.'&nbsp;&nbsp;</td><td style="padding:5px;color:#000;background-color:#ddd;">'.htmlspecialchars($val, ENT_QUOTES, config_item('charset'))."</td></tr>\n";
+				.$key.'&nbsp;&nbsp;</td><td style="padding:5px;color:#000;background-color:#ddd;">'.$pre.htmlspecialchars($val, ENT_QUOTES, config_item('charset')).$pre_close."</td></tr>\n";
 		}
 
 		return $output."</table>\n</fieldset>";
