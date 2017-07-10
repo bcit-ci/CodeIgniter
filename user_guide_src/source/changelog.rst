@@ -7,6 +7,10 @@ Version 3.1.6
 
 Release Date: Not Released
 
+-  General Changes
+
+   -  Updated the :doc:`Session Library <libraries/sessions>` 'redis', 'memcached' drivers to reduce the potential of a locking race conditions.
+
 
 Bug fixes for 3.1.6
 -------------------
