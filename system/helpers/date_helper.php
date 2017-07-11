@@ -346,6 +346,7 @@ if ( ! function_exists('mysql_to_unix'))
 		// YYYY-MM-DD HH:MM:SS
 
 		$time = str_replace(array('-', ':', ' '), '', $time);
+		$time = str_pad($time, 14, '0');
 
 		// YYYYMMDDHHMMSS
 		return mktime(
