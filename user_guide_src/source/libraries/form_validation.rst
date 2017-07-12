@@ -975,7 +975,7 @@ Rule                      Parameter  Description                                
 **is_unique**             Yes        Returns FALSE if the form element is not unique to the table and field name in the            is_unique[table.field]
                                      parameter. Note: This rule requires :doc:`Query Builder <../database/query_builder>` to be
                                      enabled in order to work.
-**is_in**                 Yes        Returns FALSE if the form element is not matches with a value in the table and field name     is_in[table.field]
+**is_in**                 Yes        Returns FALSE if the form element does not match with a value in the table and field name     is_in[table.field]
                                      in the parameter. Note: This rule requires :doc:`Query Builder <../database/query_builder>`
                                      to be enabled in order to work.
 **min_length**            Yes        Returns FALSE if the form element is shorter than the parameter value.                        min_length[3]
