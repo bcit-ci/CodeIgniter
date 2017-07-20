@@ -45,8 +45,8 @@ of such a file, using the "negative" method in which everything is redirected
 except the specified items::
 	
 	RewriteEngine On
-	RewriteCond %{REQUEST_FILENAME} -f [OR]
-	RewriteCond %{REQUEST_FILENAME} -d [OR]
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteRule ^(.*)$ index.php/$1 [L]
 
 In the above example, any HTTP request other than those for existing
