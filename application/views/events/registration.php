@@ -40,30 +40,32 @@ $(function() {
 				</div>
 				<div class="panel-body">
 					<div class="row">
-						<div class="col-lg-12">   
-							<form action="" method="post">
+						<div class="col-lg-12"> 
+							<?php if(isset($error)) echo $error;?>
+							<?php echo validation_errors(); ?>				
+							<form action="" method="post" name="event_registration" enctype="multipart/form-data">
 								<div class="form-group">
-									<input type="text" class="form-control" name="event_title" placeholder="Event Title" required="" value="<?php echo !empty($user['event_title'])?$user['event_title']:''; ?>">
+									<input type="text" class="form-control" name="event_title" placeholder="Event Title" required="" value="<?php echo !empty($event['event_title'])?$event['event_title']:''; ?>">
 								  <?php echo form_error('event_title','<span class="help-block">','</span>'); ?>
 								</div>
 								<div class="form-group">
-									<input type="text" class="form-control" name="event_description" placeholder="Event Description" required="" value="<?php echo !empty($user['event_description'])?$user['event_description']:''; ?>">
+									<input type="text" class="form-control" name="event_description" placeholder="Event Description" required="" value="<?php echo !empty($event['event_description'])?$event['event_description']:''; ?>">
 								  <?php echo form_error('event_description','<span class="help-block">','</span>'); ?>
 								</div>
 								<div class="form-group">
-									<input type="text" class="form-control" name="event_type" placeholder="Event Type" required="" value="<?php echo !empty($user['event_type'])?$user['event_type']:''; ?>">
+									<input type="text" class="form-control" name="event_type" placeholder="Event Type" required="" value="<?php echo !empty($event['event_type'])?$event['event_type']:''; ?>">
 								  <?php echo form_error('event_type','<span class="help-block">','</span>'); ?>
 								</div>																
 								<div class="form-group">
-									<input type="text" class="form-control" name="event_contact" placeholder="Event Contact" required="" value="<?php echo !empty($user['event_contact'])?$user['event_contact']:''; ?>">
+									<input type="text" class="form-control" name="event_contact" placeholder="Event Contact" required="" value="<?php echo !empty($event['event_contact'])?$event['event_contact']:''; ?>">
 								  <?php echo form_error('event_contact','<span class="help-block">','</span>'); ?>
 								</div>
 								<div class="form-group">
-									<input type="text" class="form-control date" name="event_starttime" id="event_starttime" placeholder="Event Start Time" required="" value="<?php echo !empty($user['event_starttime'])?$user['event_starttime']:''; ?>">
+									<input type="text" class="form-control date" name="event_starttime" id="event_starttime" placeholder="Event Start Time" required="" value="<?php echo !empty($event['event_starttime'])?$event['event_starttime']:''; ?>">
 								  <?php echo form_error('event_starttime','<span class="help-block">','</span>'); ?>
 								</div>
 								<div class="form-group">
-									<input type="text" class="form-control date" name="event_endtime" id="event_endtime" placeholder="Event End Time" required="" value="<?php echo !empty($user['event_endtime'])?$user['event_endtime']:''; ?>">
+									<input type="text" class="form-control date" name="event_endtime" id="event_endtime" placeholder="Event End Time" required="" value="<?php echo !empty($event['event_endtime'])?$event['event_endtime']:''; ?>">
 								  <?php echo form_error('event_endtime','<span class="help-block">','</span>'); ?>
 								</div>								
 								<div class="form-group">
