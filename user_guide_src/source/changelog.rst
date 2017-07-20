@@ -11,7 +11,7 @@ Release Date: Not Released
 
    -  Officially dropped any kind of support for anything under PHP 5.4.8.
    -  Updated Welcome view and HTML error templates with new styling.
-   -  Updated configurable directory paths to handle missing trailing ``DIRECTORY_SEPARATOR``s automatically.
+   -  Updated configurable directory paths to handle missing trailing ``DIRECTORY_SEPARATOR`` automatically.
 
 -  Core
 
@@ -87,7 +87,7 @@ Release Date: Not Released
    -  Removed previously deprecated :doc:`Security Helper <helpers/security_helper>` function ``do_hash()`` (use PHP's native ``hash()`` instead).
    -  Removed previously deprecated :doc:`File Helper <helpers/file_helper>` function ``read_file()`` (use PHP's native ``file_get_contents()`` instead).
    -  Added new function :php:func:`ordinal_format()` to :doc:`Inflector Helper <helpers/inflector_helper>`.
-   -  Added 'img_alt' option to :php:func`create_captcha()` :doc:`CAPTCHA Helper` with a default value of 'captcha'.
+   -  Added 'img_alt' option to :php:func`create_captcha()` :doc:`CAPTCHA Helper <helpers/captcha_helper>` with a default value of 'captcha'.
 
    -  :doc:`Download Helper <helpers/download_helper>` changes include:
 
