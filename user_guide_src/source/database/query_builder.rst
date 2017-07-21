@@ -119,7 +119,7 @@ escaping of fields may break them.
 
 ::
 
-	$this->db->select('(SELECT SUM(payments.amount) FROM payments WHERE payments.invoice_id=4') AS amount_paid', FALSE);
+	$this->db->select('(SELECT SUM(payments.amount) FROM payments WHERE payments.invoice_id=4) AS amount_paid', FALSE);
 	$query = $this->db->get('mytable');
 
 **$this->db->select_max()**
