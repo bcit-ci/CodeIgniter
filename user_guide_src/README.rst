@@ -13,17 +13,19 @@ output it to various formats.  Pages are written in human-readable
 Prerequisites
 =============
 
-Sphinx requires Python, which is already installed if you are running OS X.
+Sphinx requires Python 2.7.  If you are on OS X, then you already have Python.
 You can confirm in a Terminal window by executing the ``python`` command
 without any parameters.  It should load up and tell you which version you have
-installed.  If you're not on 2.7+, go ahead and install 2.7.2 from
-http://python.org/download/releases/2.7.2/
+installed.
+
+Note: If you're not on Python 2.7, then you must upgrade. E.g. Install 2.7.2
+from http://python.org/download/releases/2.7.2/
 
 Installation
 ============
 
 1. Install `easy_install <http://peak.telecommunity.com/DevCenter/EasyInstall#installing-easy-install>`_
-2. ``easy_install "sphinx==1.2.3"``
+2. ``easy_install "sphinx==1.6.3"``
 3. ``easy_install "sphinxcontrib-phpdomain==0.1.3.post1"``
 4. Install the CI Lexer which allows PHP, HTML, CSS, and JavaScript syntax highlighting in code examples (see *cilexer/README*)
 5. ``cd user_guide_src``
