@@ -11,10 +11,14 @@ class Events extends CI_Controller {
     }
 	
 	public function index() {
-		
+		$this->load->library('parser');
+		$data['events'] = $this->Event_model->getEvents();
+		//print '<pre>';print_r($data);die;
+		$this->parser->parse('events/listing', $data);
+		//$this->load->view('events/listing', $data);		
 	}
 	
-	public function list() {
+	public function listing() {
 		
 	}
 	
@@ -24,24 +28,38 @@ class Events extends CI_Controller {
     public function registration(){
         $data = array();
         $eventData = array();
+		//print '<pre>';print_r($this->input);die;
         if($this->input->post('eventSubmit')){
 			
             $this->form_validation->set_rules('event_title', 'Event Title', 'required');
-			$this->form_validation->set_rules('event_description', 'Event Description', 'required');			
-            $this->form_validation->set_rules('event_type', 'Event Type', 'required');
+			$this->form_validation->set_rules('event_description', 'Event Description', 'required');
+            if($this->input->post('event_address') != 'This is Online event') {
+				$this->form_validation->set_rules('event_address', 'Address', 'required');
+				$this->form_validation->set_rules('event_city', 'City', 'required');
+				$this->form_validation->set_rules('event_state', 'State', 'required');
+				$this->form_validation->set_rules('event_zipcode', 'Zipcode', 'required');
+			}
+			$this->form_validation->set_rules('event_type', 'Event Type', 'required');
 			$this->form_validation->set_rules('event_contact', 'Event Contact', 'required');
+			//$this->form_validation->set_rules('event_location', 'Event End Time', 'required');
 			$this->form_validation->set_rules('event_starttime', 'Event Start Time', 'required');
-			$this->form_validation->set_rules('event_endtime', 'Event End Time', 'required');           
+			$this->form_validation->set_rules('event_endtime', 'Event End Time', 'required');
+			$this->form_validation->set_rules('event_privacy', 'Visibility', 'required');
+			
 			
 			$eventData = array(				
                 'event_title' => strip_tags($this->input->post('event_title')),
-				'event_description' => strip_tags($this->input->post('event_description')),                        
+				'event_description' => strip_tags($this->input->post('event_description')),
+				'event_address' => strip_tags($this->input->post('event_address')),
+				'event_city' => strip_tags($this->input->post('event_city')),
+				'event_state' => strip_tags($this->input->post('event_state')),
+				'event_zipcode' => strip_tags($this->input->post('event_zipcode')),
                 'event_type' => strip_tags($this->input->post('event_type')),
 				'event_contact' => strip_tags($this->input->post('event_contact')),
 				'event_starttime' => strip_tags($this->input->post('event_starttime')),
-				'event_endtime' => strip_tags($this->input->post('event_endtime'))
+				'event_endtime' => strip_tags($this->input->post('event_endtime')),
+				'event_privacy' => strip_tags($this->input->post('event_privacy'))
             );
-
             if($this->form_validation->run() == true){
 				
 				$config['upload_path']   = './assets/files/event/'; 
@@ -63,7 +81,7 @@ class Events extends CI_Controller {
                 $insert = $this->Event_model->insert($eventData);
                 if($insert){					
                     $this->session->set_userdata('success_msg', 'Your Event registration was successfully.');
-                    redirect('event');
+                    redirect('events');
                 }else{
                     $data['error_msg'] = 'Some problems occured, please try again.';
                 }

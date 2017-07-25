@@ -65,7 +65,7 @@ class Users extends CI_Controller {
             }
         }
         //load the view
-        $this->load->view('users/event', $data);
+        $this->load->view('users/login', $data);
     }
     
     /*

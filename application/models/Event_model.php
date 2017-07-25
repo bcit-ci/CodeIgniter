@@ -14,7 +14,7 @@ class Event_model extends CI_Model{
     function getEvents($params = array()){
         $this->db->select('*');
         $this->db->from($this->eventTbl.' u');
-		$this->db->join($this->userdetailsTbl. ' p','p.uid = e.user_id');
+		//$this->db->join($this->userdetailsTbl. ' p','p.uid = e.user_id');
         
         //fetch data by conditions
         if(array_key_exists("conditions",$params)){

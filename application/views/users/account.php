@@ -6,7 +6,7 @@
 </head>
 <body>
 <div class="container">
-    <h2>User Account</h2> | <span><a href="<?php echo base_url(); ?>logout">Logout</a>
+    <h2>User Account</h2> | <span><a href="<?php echo base_url(); ?>event">Create Event</a></span> | <span><a href="<?php echo base_url(); ?>logout">Logout</a></span>
     <h3>Welcome <?php echo $user['first_name']; ?>!</h3>
     <div class="account-info">
         <p><b>Name: </b><?php echo $user['first_name']." ".$user['last_name']; ?></p>

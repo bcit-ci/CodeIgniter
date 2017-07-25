@@ -53,7 +53,8 @@ $route['register'] = 'Users/registration';
 $route['login'] = 'Users/login';
 $route['logout'] = 'Users/logout';
 $route['profile'] = 'Users/account';
-$route['event'] = 'Events/registration';
+$route['events'] = 'Events/index';
+$route['add-event'] = 'Events/registration';
 
 $route['default_controller'] = 'users/login';
 $route['404_override'] = '';
