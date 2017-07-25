@@ -4,8 +4,13 @@
 <title>Event Registration</title>
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link href="<?php echo base_url(); ?>assets/css/style.css?7678232" rel='stylesheet' type='text/css' />
+
+<!--load jquery-->
+<script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 </head>
 <body>
+<?php $this->view('shared/header'); ?>
 <div class="container">
     <div class="row">
 		<?php foreach($events as $event): ?>
@@ -24,6 +29,7 @@
          </div>
 		 <?php endforeach; ?>
     </div>
-  </div>
+</div>
+<?php $this->view('shared/footer'); ?>
 </body>
 </html>

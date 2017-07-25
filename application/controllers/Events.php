@@ -13,13 +13,13 @@ class Events extends CI_Controller {
 	public function index() {
 		$this->load->library('parser');
 		$data['events'] = $this->Event_model->getEvents();
-		//print '<pre>';print_r($data);die;
-		$this->parser->parse('events/listing', $data);
-		//$this->load->view('events/listing', $data);		
+		$this->parser->parse('events/listing', $data);		
 	}
 	
-	public function listing() {
-		
+	public function view($event_id) {
+		echo $event_id;
+		$data['events'] = $this->Event_model->getEvents(array('event_id'=>$event_id));
+		print '<pre>';print_r($data);die;
 	}
 	
 	/*
@@ -33,15 +33,15 @@ class Events extends CI_Controller {
 			
             $this->form_validation->set_rules('event_title', 'Event Title', 'required');
 			$this->form_validation->set_rules('event_description', 'Event Description', 'required');
-            if($this->input->post('event_address') != 'This is Online event') {
+            if($this->input->post('event_place') === 2) {
+				$this->form_validation->set_rules('event_venue', 'Venue', 'required');
 				$this->form_validation->set_rules('event_address', 'Address', 'required');
 				$this->form_validation->set_rules('event_city', 'City', 'required');
 				$this->form_validation->set_rules('event_state', 'State', 'required');
 				$this->form_validation->set_rules('event_zipcode', 'Zipcode', 'required');
-			}
+			} 
 			$this->form_validation->set_rules('event_type', 'Event Type', 'required');
 			$this->form_validation->set_rules('event_contact', 'Event Contact', 'required');
-			//$this->form_validation->set_rules('event_location', 'Event End Time', 'required');
 			$this->form_validation->set_rules('event_starttime', 'Event Start Time', 'required');
 			$this->form_validation->set_rules('event_endtime', 'Event End Time', 'required');
 			$this->form_validation->set_rules('event_privacy', 'Visibility', 'required');
@@ -50,6 +50,7 @@ class Events extends CI_Controller {
 			$eventData = array(				
                 'event_title' => strip_tags($this->input->post('event_title')),
 				'event_description' => strip_tags($this->input->post('event_description')),
+				'event_venue' => ($this->input->post('event_place') === 2)? strip_tags($this->input->post('event_venue')):strip_tags($this->input->post('event_online')),
 				'event_address' => strip_tags($this->input->post('event_address')),
 				'event_city' => strip_tags($this->input->post('event_city')),
 				'event_state' => strip_tags($this->input->post('event_state')),

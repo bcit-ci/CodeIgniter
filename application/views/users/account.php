@@ -2,11 +2,15 @@
 <html lang="en">  
 <head>
 <title>Profile | <?php echo $user['first_name']; ?></title>
-<link href="<?php echo base_url(); ?>assets/css/style.css" rel='stylesheet' type='text/css' />
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link href="<?php echo base_url(); ?>assets/css/style.css?as3" rel='stylesheet' type='text/css' />
+<!--load jquery-->
+<script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container">
-    <h2>User Account</h2> | <span><a href="<?php echo base_url(); ?>event">Create Event</a></span> | <span><a href="<?php echo base_url(); ?>logout">Logout</a></span>
+<?php $this->view('shared/header'); ?>
+<div class="container">    
     <h3>Welcome <?php echo $user['first_name']; ?>!</h3>
     <div class="account-info">
         <p><b>Name: </b><?php echo $user['first_name']." ".$user['last_name']; ?></p>
@@ -21,5 +25,6 @@
         <p><b>Created: </b><?php echo $user['created']; ?></p>        
     </div>
 </div>
+<?php $this->view('shared/footer'); ?>
 </body>
 </html>

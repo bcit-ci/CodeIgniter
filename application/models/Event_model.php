@@ -23,8 +23,8 @@ class Event_model extends CI_Model{
             }
         }
         
-        if(array_key_exists("id",$params)){
-            $this->db->where('id',$params['id']);
+        if(array_key_exists("event_id",$params)){
+            $this->db->where('event_id',$params['event_id']);
             $query = $this->db->get();
             $result = $query->row_array();
         }else{

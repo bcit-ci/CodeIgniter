@@ -57,6 +57,7 @@ class Users extends CI_Controller {
                 $checkLogin = $this->user->getRows($con);
                 if($checkLogin){
                     $this->session->set_userdata('isUserLoggedIn',TRUE);
+					$this->session->set_userdata('name',$checkLogin['first_name']." ".$checkLogin['last_name']);
                     $this->session->set_userdata('userId',$checkLogin['id']);
                     redirect('users/account/');
                 }else{

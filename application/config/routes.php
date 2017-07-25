@@ -54,6 +54,7 @@ $route['login'] = 'Users/login';
 $route['logout'] = 'Users/logout';
 $route['profile'] = 'Users/account';
 $route['events'] = 'Events/index';
+$route['event/(:num)'] = 'Events/view/$1';
 $route['add-event'] = 'Events/registration';
 
 $route['default_controller'] = 'users/login';
