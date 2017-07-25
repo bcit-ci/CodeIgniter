@@ -59,21 +59,22 @@ if ( ! function_exists('form_open'))
 	 * @param	string	the URI segments of the form destination
 	 * @param	array	a key/value pair of attributes
 	 * @param	array	a key/value pair hidden data
+	 * @param	string the protocol to use in the url comparison
 	 * @return	string
 	 */
-	function form_open($action = '', $attributes = array(), $hidden = array())
+	function form_open($action = '', $attributes = array(), $hidden = array(), $protocol = NULL)
 	{
 		$CI =& get_instance();
 
 		// If no action is provided then set to the current url
 		if ( ! $action)
 		{
-			$action = $CI->config->site_url($CI->uri->uri_string());
+			$action = $CI->config->site_url($CI->uri->uri_string(), $protocol);
 		}
 		// If an action is not a full URL then turn it into one
 		elseif (strpos($action, '://') === FALSE)
 		{
-			$action = $CI->config->site_url($action);
+			$action = $CI->config->site_url($action, $protocol);
 		}
 
 		$attributes = _attributes_to_string($attributes);
@@ -99,7 +100,7 @@ if ( ! function_exists('form_open'))
 		}
 
 		// Add CSRF field if enabled, but leave it out for GET requests and requests to external websites
-		if ($CI->config->item('csrf_protection') === TRUE && strpos($action, $CI->config->base_url()) !== FALSE && ! stripos($form, 'method="get"'))
+		if ($CI->config->item('csrf_protection') === TRUE && strpos($action, $CI->config->base_url('', $protocol)) !== FALSE && ! stripos($form, 'method="get"'))
 		{
 			// Prepend/append random-length "white noise" around the CSRF
 			// token input, as a form of protection against BREACH attacks
