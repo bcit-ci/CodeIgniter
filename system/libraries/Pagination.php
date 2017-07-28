@@ -313,6 +313,13 @@ class CI_Pagination {
 	protected $data_page_attr = 'data-ci-pagination-page';
 
 	/**
+	 * Data offset attribute
+	 *
+	 * @var	string
+	 */
+	protected $data_offset_attr = 'data-ci-pagination-offset';
+
+	/**
 	 * CI Singleton
 	 *
 	 * @var	object
@@ -564,7 +571,14 @@ class CI_Pagination {
 		if ($this->first_link !== FALSE && $this->cur_page > ($this->num_links + 1 + ! $this->num_links))
 		{
 			// Take the general parameters, and squeeze this pagination-page attr in for JS frameworks.
-			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, 1);
+			if($this->use_page_numbers)
+			{
+			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, 1);	
+			}
+			else
+			{
+			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_offset_attr, 0);	
+			}
 
 			$output .= $this->first_tag_open.'<a href="'.$first_url.'"'.$attributes.$this->_attr_rel('start').'>'
 				.$this->first_link.'</a>'.$this->first_tag_close;
@@ -575,7 +589,14 @@ class CI_Pagination {
 		{
 			$i = ($this->use_page_numbers) ? $uri_page_number - 1 : $uri_page_number - $this->per_page;
 
+			if($this->use_page_numbers)
+			{
 			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, ($this->cur_page - 1));
+			}
+			else
+			{
+			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_offset_attr, $i);	
+			}
 
 			if ($i === $base_page)
 			{
@@ -599,8 +620,14 @@ class CI_Pagination {
 			for ($loop = $start - 1; $loop <= $end; $loop++)
 			{
 				$i = ($this->use_page_numbers) ? $loop : ($loop * $this->per_page) - $this->per_page;
-
+				if($this->use_page_numbers)
+				{
 				$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, $loop);
+				}
+				else
+				{
+				$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_offset_attr, $i);	
+				}
 
 				if ($i >= $base_page)
 				{
@@ -629,8 +656,14 @@ class CI_Pagination {
 		if ($this->next_link !== FALSE && $this->cur_page < $num_pages)
 		{
 			$i = ($this->use_page_numbers) ? $this->cur_page + 1 : $this->cur_page * $this->per_page;
-
+			if($this->use_page_numbers)
+			{
 			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, $this->cur_page + 1);
+			}
+			else
+			{
+			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_offset_attr, $i);	
+			}
 
 			$output .= $this->next_tag_open.'<a href="'.$base_url.$this->prefix.$i.$this->suffix.'"'.$attributes
 				.$this->_attr_rel('next').'>'.$this->next_link.'</a>'.$this->next_tag_close;
@@ -641,7 +674,14 @@ class CI_Pagination {
 		{
 			$i = ($this->use_page_numbers) ? $num_pages : ($num_pages * $this->per_page) - $this->per_page;
 
+			if($this->use_page_numbers)
+			{
 			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, $num_pages);
+			}
+			else
+			{
+			$attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_offset_attr, $i);	
+			}
 
 			$output .= $this->last_tag_open.'<a href="'.$base_url.$this->prefix.$i.$this->suffix.'"'.$attributes.'>'
 				.$this->last_link.'</a>'.$this->last_tag_close;
