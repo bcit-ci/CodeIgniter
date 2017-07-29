@@ -1528,6 +1528,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	{
 		if ($table !== '')
 		{
+			$this->_track_aliases($table);
 			$this->from($table);
 		}
 
