@@ -488,9 +488,12 @@ class CI_Image_lib {
 							continue;
 						}
 					}
-					elseif (in_array($key, array('width', 'height'), TRUE) && ! ctype_digit((string) $val))
+					elseif (in_array($key, array('width', 'height'), TRUE))
 					{
-						continue;
+						if ( ! is_numeric($val))
+							continue;
+						elseif ( ! is_int($val))
+							$val = intval($val);
 					}
 
 					$this->$key = $val;
