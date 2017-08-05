@@ -412,7 +412,7 @@ class CI_Output {
 	 * @param	string	$output	Output data override
 	 * @return	void
 	 */
-	public function _display($output = '')
+	public function _display($output = NULL)
 	{
 		// Note:  We use load_class() because we can't use $CI =& get_instance()
 		// since this function is sometimes called by the caching mechanism,
@@ -429,7 +429,7 @@ class CI_Output {
 		// --------------------------------------------------------------------
 
 		// Set the output data
-		if ($output === '')
+		if ($output === NULL)
 		{
 			$output =& $this->final_output;
 		}
