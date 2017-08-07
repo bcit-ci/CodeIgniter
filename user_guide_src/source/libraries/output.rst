@@ -207,7 +207,7 @@ Class Reference
 
 		For more information, please see the :doc:`caching documentation <../general/caching>`.
 
-	.. php:method:: _display([$output = ''])
+	.. php:method:: _display([$output = NULL])
 
 		:param	string	$output: Output data override
 		:returns:	void
