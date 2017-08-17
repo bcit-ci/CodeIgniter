@@ -68,7 +68,7 @@ if ( ! function_exists('singular'))
 			return $result;
 		}
 
-		$singular_rules = array(
+		$singular_rules = [
 			'/(matr)ices$/'		=> '\1ix',
 			'/(vert|ind)ices$/'	=> '\1ex',
 			'/^(ox)en/'		=> '\1',
@@ -97,7 +97,7 @@ if ( ! function_exists('singular'))
 			'/(n)ews$/'		=> '\1\2ews',
 			'/(quiz)zes$/'		=> '\1',
 			'/([^us])s$/'		=> '\1'
-		);
+		];
 
 		foreach ($singular_rules as $rule => $replacement)
 		{
@@ -133,7 +133,7 @@ if ( ! function_exists('plural'))
 			return $result;
 		}
 
-		$plural_rules = array(
+		$plural_rules = [
 			'/(quiz)$/'                => '\1zes',      // quizzes
 			'/^(ox)$/'                 => '\1\2en',     // ox
 			'/([m|l])ouse$/'           => '\1ice',      // mouse, louse
@@ -154,7 +154,7 @@ if ( ! function_exists('plural'))
 			'/(ax|cris|test)is$/'      => '\1es',       // axis, crisis
 			'/s$/'                     => 's',          // no change (compatibility)
 			'/$/'                      => 's',
-		);
+		];
 
 		foreach ($plural_rules as $rule => $replacement)
 		{
@@ -238,7 +238,7 @@ if ( ! function_exists('is_countable'))
 	{
 		return ! in_array(
 			strtolower($word),
-			array(
+			[
 				'audio',
 				'bison',
 				'chassis',
@@ -270,7 +270,7 @@ if ( ! function_exists('is_countable'))
 				'swine',
 				'traffic',
 				'wheat'
-			)
+			]
 		);
 	}
 }
@@ -292,7 +292,7 @@ if ( ! function_exists('ordinal_format'))
 			return $number;
 		}
 
-		$last_digit = array(
+		$last_digit = [
 			0 => 'th',
 			1 => 'st',
 			2 => 'nd',
@@ -303,7 +303,7 @@ if ( ! function_exists('ordinal_format'))
 			7 => 'th',
 			8 => 'th',
 			9 => 'th'
-		);
+		];
 
 		if (($number % 100) >= 11 && ($number % 100) <= 13)
 		{

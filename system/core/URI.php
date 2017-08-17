@@ -55,7 +55,7 @@ class CI_URI {
 	 *
 	 * @var	array
 	 */
-	public $keyval = array();
+	public $keyval = [];
 
 	/**
 	 * Current URI string
@@ -71,7 +71,7 @@ class CI_URI {
 	 *
 	 * @var	array
 	 */
-	public $segments = array();
+	public $segments = [];
 
 	/**
 	 * List of routed URI segments
@@ -80,7 +80,7 @@ class CI_URI {
 	 *
 	 * @var	array
 	 */
-	public $rsegments = array();
+	public $rsegments = [];
 
 	/**
 	 * Permitted URI chars
@@ -317,7 +317,7 @@ class CI_URI {
 	 */
 	protected function _remove_relative_directory($uri)
 	{
-		$uris = array();
+		$uris = [];
 		$tok = strtok($uri, '/');
 		while ($tok !== FALSE)
 		{
@@ -406,7 +406,7 @@ class CI_URI {
 	 * @param	array	$default	Default values
 	 * @return	array
 	 */
-	public function uri_to_assoc($n = 3, $default = array())
+	public function uri_to_assoc($n = 3, $default = [])
 	{
 		return $this->_uri_to_assoc($n, $default, 'segment');
 	}
@@ -424,7 +424,7 @@ class CI_URI {
 	 * @param 	array	$default	Default values
 	 * @return 	array
 	 */
-	public function ruri_to_assoc($n = 3, $default = array())
+	public function ruri_to_assoc($n = 3, $default = [])
 	{
 		return $this->_uri_to_assoc($n, $default, 'rsegment');
 	}
@@ -443,7 +443,7 @@ class CI_URI {
 	 * @param	string	$which		Array name ('segment' or 'rsegment')
 	 * @return	array
 	 */
-	protected function _uri_to_assoc($n = 3, $default = array(), $which = 'segment')
+	protected function _uri_to_assoc($n = 3, $default = [], $which = 'segment')
 	{
 		if ( ! is_numeric($n))
 		{
@@ -461,14 +461,14 @@ class CI_URI {
 		if ($this->$total_segments() < $n)
 		{
 			return (count($default) === 0)
-				? array()
+				? []
 				: array_fill_keys($default, NULL);
 		}
 
 		$segments = array_slice($this->$segment_array(), ($n - 1));
 		$i = 0;
 		$lastval = '';
-		$retval = array();
+		$retval = [];
 		foreach ($segments as $seg)
 		{
 			if ($i % 2)
@@ -496,7 +496,7 @@ class CI_URI {
 		}
 
 		// Cache the array for reuse
-		isset($this->keyval[$which]) OR $this->keyval[$which] = array();
+		isset($this->keyval[$which]) OR $this->keyval[$which] = [];
 		$this->keyval[$which][$n] = $retval;
 		return $retval;
 	}
@@ -513,7 +513,7 @@ class CI_URI {
 	 */
 	public function assoc_to_uri($array)
 	{
-		$temp = array();
+		$temp = [];
 		foreach ((array) $array as $key => $val)
 		{
 			$temp[] = $key;

@@ -62,14 +62,14 @@ class CI_Hooks {
 	 *
 	 * @var	array
 	 */
-	public $hooks =	array();
+	public $hooks =	[];
 
 	/**
 	 * Array with class objects to use hooks methods
 	 *
 	 * @var array
 	 */
-	protected $_objects = array();
+	protected $_objects = [];
 
 	/**
 	 * In progress flag

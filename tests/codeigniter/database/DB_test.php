@@ -4,16 +4,16 @@ class DB_test extends CI_TestCase {
 
 	public function test_db_invalid()
 	{
-		$connection = new Mock_Database_DB(array(
-			'undefined' => array(
+		$connection = new Mock_Database_DB([
+			'undefined' => [
 				'dsn' => '',
 				'hostname' => 'undefined',
 				'username' => 'undefined',
 				'password' => 'undefined',
 				'database' => 'undefined',
 				'dbdriver' => 'undefined',
-			),
-		));
+			],
+		]);
 
 		$this->setExpectedException('RuntimeException', 'CI Error: Invalid DB driver');
 

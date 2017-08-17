@@ -74,8 +74,8 @@ if ( ! function_exists('password_get_info'))
 	function password_get_info($hash)
 	{
 		return (strlen($hash) < 60 OR sscanf($hash, '$2y$%d', $hash) !== 1)
-			? array('algo' => 0, 'algoName' => 'unknown', 'options' => array())
-			: array('algo' => 1, 'algoName' => 'bcrypt', 'options' => array('cost' => $hash));
+			? ['algo' => 0, 'algoName' => 'unknown', 'options' => []]
+			: ['algo' => 1, 'algoName' => 'bcrypt', 'options' => ['cost' => $hash]];
 	}
 }
 
@@ -92,7 +92,7 @@ if ( ! function_exists('password_hash'))
 	 * @param	array	$options
 	 * @return	mixed
 	 */
-	function password_hash($password, $algo, array $options = array())
+	function password_hash($password, $algo, array $options = [])
 	{
 		static $func_overload;
 		isset($func_overload) OR $func_overload = (extension_loaded('mbstring') && ini_get('mbstring.func_overload'));
@@ -200,7 +200,7 @@ if ( ! function_exists('password_needs_rehash'))
 	 * @param	array	$options
 	 * @return	bool
 	 */
-	function password_needs_rehash($hash, $algo, array $options = array())
+	function password_needs_rehash($hash, $algo, array $options = [])
 	{
 		$info = password_get_info($hash);
 

@@ -80,7 +80,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 *
 	 * @var	array
 	 */
-	protected $_random_keyword = array('RANDOM()', 'RANDOM(%d)');
+	protected $_random_keyword = ['RANDOM()', 'RANDOM(%d)'];
 
 	// --------------------------------------------------------------------
 
@@ -337,7 +337,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 		}
 		$query = $query->result_object();
 
-		$retval = array();
+		$retval = [];
 		for ($i = 0, $c = count($query); $i < $c; $i++)
 		{
 			$retval[$i]			= new stdClass();
@@ -367,7 +367,7 @@ class CI_DB_cubrid_driver extends CI_DB {
 	 */
 	public function error()
 	{
-		return array('code' => cubrid_errno($this->conn_id), 'message' => cubrid_error($this->conn_id));
+		return ['code' => cubrid_errno($this->conn_id), 'message' => cubrid_error($this->conn_id)];
 	}
 
 	// --------------------------------------------------------------------

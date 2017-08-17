@@ -53,7 +53,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 *
 	 * @var	array
 	 */
-	protected $_unsigned		= array(
+	protected $_unsigned		= [
 		'INT2'		=> 'INTEGER',
 		'SMALLINT'	=> 'INTEGER',
 		'INT'		=> 'BIGINT',
@@ -63,7 +63,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 		'BIGINT'	=> 'NUMERIC',
 		'REAL'		=> 'DOUBLE PRECISION',
 		'FLOAT'		=> 'DOUBLE PRECISION'
-	);
+	];
 
 	/**
 	 * NULL value representation in CREATE/ALTER TABLE statements
@@ -102,13 +102,13 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 */
 	protected function _alter_table($alter_type, $table, $field)
  	{
-		if (in_array($alter_type, array('DROP', 'ADD'), TRUE))
+		if (in_array($alter_type, ['DROP', 'ADD'], TRUE))
 		{
 			return parent::_alter_table($alter_type, $table, $field);
 		}
 
 		$sql = 'ALTER TABLE '.$this->db->escape_identifiers($table);
-		$sqls = array();
+		$sqls = [];
 		for ($i = 0, $c = count($field); $i < $c; $i++)
 		{
 			if ($field[$i]['_literal'] !== FALSE)

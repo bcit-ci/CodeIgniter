@@ -60,13 +60,13 @@ class CI_Cache_memcached extends CI_Driver {
 	 *
 	 * @var array
 	 */
-	protected $_config = array(
-		'default' => array(
+	protected $_config = [
+		'default' => [
 			'host'		=> '127.0.0.1',
 			'port'		=> 11211,
 			'weight'	=> 1
-		)
-	);
+		]
+	];
 
 	// ------------------------------------------------------------------------
 
@@ -171,7 +171,7 @@ class CI_Cache_memcached extends CI_Driver {
 	{
 		if ($raw !== TRUE)
 		{
-			$data = array($data, time(), $ttl);
+			$data = [$data, time(), $ttl];
 		}
 
 		if ($this->_memcached instanceof Memcached)
@@ -270,11 +270,11 @@ class CI_Cache_memcached extends CI_Driver {
 
 		list($data, $time, $ttl) = $stored;
 
-		return array(
+		return [
 			'expire'	=> $time + $ttl,
 			'mtime'		=> $time,
 			'data'		=> $data
-		);
+		];
 	}
 
 	// ------------------------------------------------------------------------

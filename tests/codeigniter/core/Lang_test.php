@@ -65,10 +65,10 @@ class Lang_test extends CI_TestCase {
 	{
 		// Multiple files
 		$this->ci_vfs_clone('system/language/english/profiler_lang.php');
-		$files = array(
+		$files = [
 			0 => 'profiler',
 			1 => 'nonexistent'
-		);
+		];
 		$this->setExpectedException(
 			'RuntimeException',
 			'CI Error: Unable to load the requested language file: language/english/nonexistent_lang.php'

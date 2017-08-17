@@ -106,7 +106,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 	if ( ! empty($assign_to_config['subclass_prefix']))
 	{
-		get_config(array('subclass_prefix' => $assign_to_config['subclass_prefix']));
+		get_config(['subclass_prefix' => $assign_to_config['subclass_prefix']]);
 	}
 
 /*
@@ -365,7 +365,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}
 		elseif (method_exists($class, '_remap'))
 		{
-			$params = array($method, array_slice($URI->rsegments, 2));
+			$params = [$method, array_slice($URI->rsegments, 2)];
 			$method = '_remap';
 		}
 		elseif ( ! method_exists($class, $method))
@@ -383,7 +383,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		 * ReflectionMethod::isConstructor() is the ONLY reliable check,
 		 * knowing which method will be executed as a constructor.
 		 */
-		elseif ( ! is_callable(array($class, $method)))
+		elseif ( ! is_callable([$class, $method]))
 		{
 			$reflection = new ReflectionMethod($class, $method);
 			if ( ! $reflection->isPublic() OR $reflection->isConstructor())
@@ -433,10 +433,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$class = $error_class;
 			$method = $error_method;
 
-			$URI->rsegments = array(
+			$URI->rsegments = [
 				1 => $class,
 				2 => $method
-			);
+			];
 		}
 		else
 		{
@@ -478,7 +478,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  Call the requested method
  * ------------------------------------------------------
  */
-	call_user_func_array(array(&$CI, $method), $params);
+	call_user_func_array([&$CI, $method], $params);
 
 	// Mark a benchmark end point
 	$BM->mark('controller_execution_time_( '.$class.' / '.$method.' )_end');

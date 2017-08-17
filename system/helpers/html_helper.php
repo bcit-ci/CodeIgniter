@@ -120,7 +120,7 @@ if ( ! function_exists('_list'))
 	 * @param	int
 	 * @return	string
 	 */
-	function _list($type = 'ul', $list = array(), $attributes = '', $depth = 0)
+	function _list($type = 'ul', $list = [], $attributes = '', $depth = 0)
 	{
 		// If an array wasn't submitted there's nothing to do...
 		if ( ! is_array($list))
@@ -179,7 +179,7 @@ if ( ! function_exists('img'))
 	{
 		if ( ! is_array($src) )
 		{
-			$src = array('src' => $src);
+			$src = ['src' => $src];
 		}
 
 		// If there is no alt attribute defined, set it to an empty string
@@ -247,7 +247,7 @@ if ( ! function_exists('doctype'))
 
 			if (empty($_doctypes) OR ! is_array($_doctypes))
 			{
-				$doctypes = array();
+				$doctypes = [];
 				return FALSE;
 			}
 
@@ -352,15 +352,15 @@ if ( ! function_exists('meta'))
 		// or a multidimensional one, we need to do a little prepping.
 		if ( ! is_array($name))
 		{
-			$name = array(array('name' => $name, 'content' => $content, 'type' => $type, 'newline' => $newline));
+			$name = [['name' => $name, 'content' => $content, 'type' => $type, 'newline' => $newline]];
 		}
 		elseif (isset($name['name']))
 		{
 			// Turn single array into multidimensional
-			$name = array($name);
+			$name = [$name];
 		}
 
-		$allowed_types = array('charset', 'http-equiv', 'name', 'property');
+		$allowed_types = ['charset', 'http-equiv', 'name', 'property'];
 		$str = '';
 		foreach ($name as $meta)
 		{

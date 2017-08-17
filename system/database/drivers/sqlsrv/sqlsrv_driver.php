@@ -78,7 +78,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 *
 	 * @var	array
 	 */
-	protected $_random_keyword = array('NEWID()', 'RAND(%d)');
+	protected $_random_keyword = ['NEWID()', 'RAND(%d)'];
 
 	/**
 	 * Quoted identifier flag
@@ -121,10 +121,10 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function db_connect($pooling = FALSE)
 	{
-		$charset = in_array(strtolower($this->char_set), array('utf-8', 'utf8'), TRUE)
+		$charset = in_array(strtolower($this->char_set), ['utf-8', 'utf8'], TRUE)
 			? 'UTF-8' : SQLSRV_ENC_CHAR;
 
-		$connection = array(
+		$connection = [
 			'UID'			=> empty($this->username) ? '' : $this->username,
 			'PWD'			=> empty($this->password) ? '' : $this->password,
 			'Database'		=> $this->database,
@@ -132,7 +132,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 			'CharacterSet'		=> $charset,
 			'Encrypt'		=> ($this->encrypt === TRUE) ? 1 : 0,
 			'ReturnDatesAsStrings'	=> 1
-		);
+		];
 
 		// If the username and password are both empty, assume this is a
 		// 'Windows Authentication Mode' connection.
@@ -147,7 +147,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 			$query = $this->query('SELECT CASE WHEN (@@OPTIONS | 256) = @@OPTIONS THEN 1 ELSE 0 END AS qi');
 			$query = $query->row_array();
 			$this->_quoted_identifier = empty($query) ? FALSE : (bool) $query['qi'];
-			$this->_escape_char = ($this->_quoted_identifier) ? '"' : array('[', ']');
+			$this->_escape_char = ($this->_quoted_identifier) ? '"' : ['[', ']'];
 		}
 
 		return $this->conn_id;
@@ -171,7 +171,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		if ($this->_execute('USE '.$this->escape_identifiers($database)))
 		{
 			$this->database = $database;
-			$this->data_cache = array();
+			$this->data_cache = [];
 			return TRUE;
 		}
 
@@ -190,7 +190,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	{
 		return ($this->scrollable === FALSE OR $this->is_write_type($sql))
 			? sqlsrv_query($this->conn_id, $sql)
-			: sqlsrv_query($this->conn_id, $sql, NULL, array('Scrollable' => $this->scrollable));
+			: sqlsrv_query($this->conn_id, $sql, NULL, ['Scrollable' => $this->scrollable]);
 	}
 
 	// --------------------------------------------------------------------
@@ -339,7 +339,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		}
 		$query = $query->result_object();
 
-		$retval = array();
+		$retval = [];
 		for ($i = 0, $c = count($query); $i < $c; $i++)
 		{
 			$retval[$i]			= new stdClass();
@@ -364,7 +364,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	public function error()
 	{
-		$error = array('code' => '00000', 'message' => '');
+		$error = ['code' => '00000', 'message' => ''];
 		$sqlsrv_errors = sqlsrv_errors(SQLSRV_ERR_ERRORS);
 
 		if ( ! is_array($sqlsrv_errors))
@@ -404,7 +404,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	protected function _update($table, $values)
 	{
 		$this->qb_limit = FALSE;
-		$this->qb_orderby = array();
+		$this->qb_orderby = [];
 		return parent::_update($table, $values);
 	}
 
@@ -485,7 +485,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 			else
 			{
 				// Use only field names and their aliases, everything else is out of our scope.
-				$select = array();
+				$select = [];
 				$field_regexp = ($this->_quoted_identifier)
 					? '("[^\"]+")' : '(\[[^\]]+\])';
 				for ($i = 0, $c = count($this->qb_select); $i < $c; $i++)

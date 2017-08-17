@@ -28,7 +28,7 @@ class Delete_test extends CI_TestCase {
 		$this->assertEquals('Developer', $job1->name);
 
 		// Do the delete
-		$this->db->delete('job', array('id' => 1));
+		$this->db->delete('job', ['id' => 1]);
 
 		// Check the record
 		$job1 = $this->db->where('id', 1)->get('job');
@@ -51,7 +51,7 @@ class Delete_test extends CI_TestCase {
 		$this->assertEquals('Chris Martin', $user4->name);
 
 		// Do the delete
-		$this->db->delete(array('job', 'user'), array('id' => 4));
+		$this->db->delete(['job', 'user'], ['id' => 4]);
 
 		// Check the record
 		$job4 = $this->db->where('id', 4)->get('job');

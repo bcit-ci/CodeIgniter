@@ -68,7 +68,7 @@ if ( ! function_exists('directory_map'))
 	{
 		if ($fp = @opendir($source_dir))
 		{
-			$filedata	= array();
+			$filedata	= [];
 			$new_depth	= $directory_depth - 1;
 			$source_dir	= rtrim($source_dir, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
 

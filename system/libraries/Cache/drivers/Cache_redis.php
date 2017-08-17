@@ -54,13 +54,13 @@ class CI_Cache_redis extends CI_Driver
 	 * @static
 	 * @var	array
 	 */
-	protected static $_default_config = array(
+	protected static $_default_config = [
 		'host' => '127.0.0.1',
 		'password' => NULL,
 		'port' => 6379,
 		'timeout' => 0,
 		'database' => 0
-	);
+	];
 
 	/**
 	 * Redis connection
@@ -136,7 +136,7 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function get($key)
 	{
-		$data = $this->_redis->hMGet($key, array('__ci_type', '__ci_value'));
+		$data = $this->_redis->hMGet($key, ['__ci_type', '__ci_value']);
 
 		if ( ! isset($data['__ci_type'], $data['__ci_value']) OR $data['__ci_value'] === FALSE)
 		{
@@ -192,7 +192,7 @@ class CI_Cache_redis extends CI_Driver
 				return FALSE;
 		}
 
-		if ( ! $this->_redis->hMSet($id, array('__ci_type' => $data_type, '__ci_value' => $data)))
+		if ( ! $this->_redis->hMSet($id, ['__ci_type' => $data_type, '__ci_value' => $data]))
 		{
 			return FALSE;
 		}
@@ -288,10 +288,10 @@ class CI_Cache_redis extends CI_Driver
 
 		if ($value !== FALSE)
 		{
-			return array(
+			return [
 				'expire' => time() + $this->_redis->ttl($key),
 				'data' => $value
-			);
+			];
 		}
 
 		return FALSE;

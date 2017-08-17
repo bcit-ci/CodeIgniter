@@ -62,7 +62,7 @@ class CI_Calendar {
 	 *
 	 * @var array
 	 */
-	public $replacements = array();
+	public $replacements = [];
 
 	/**
 	 * Day of the week to start the calendar on
@@ -127,7 +127,7 @@ class CI_Calendar {
 	 * @param	array	$config	Calendar options
 	 * @return	void
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		$this->CI =& get_instance();
 		$this->CI->lang->load('calendar');
@@ -147,7 +147,7 @@ class CI_Calendar {
 	 * @param	array	config preferences
 	 * @return	CI_Calendar
 	 */
-	public function initialize($config = array())
+	public function initialize($config = [])
 	{
 		foreach ($config as $key => $val)
 		{
@@ -176,7 +176,7 @@ class CI_Calendar {
 	 * @param	array	the data to be shown in the calendar cells
 	 * @return	string
 	 */
-	public function generate($year = '', $month = '', $data = array())
+	public function generate($year = '', $month = '', $data = [])
 	{
 		$local_time = time();
 
@@ -212,7 +212,7 @@ class CI_Calendar {
 		$total_days = $this->get_total_days($month, $year);
 
 		// Set the starting day of the week
-		$start_days	= array('sunday' => 0, 'monday' => 1, 'tuesday' => 2, 'wednesday' => 3, 'thursday' => 4, 'friday' => 5, 'saturday' => 6);
+		$start_days	= ['sunday' => 0, 'monday' => 1, 'tuesday' => 2, 'wednesday' => 3, 'thursday' => 4, 'friday' => 5, 'saturday' => 6];
 		$start_day	= isset($start_days[$this->start_day]) ? $start_days[$this->start_day] : 0;
 
 		// Set the starting day number
@@ -293,7 +293,7 @@ class CI_Calendar {
 						// Cells with content
 						$temp = ($is_current_month === TRUE && $day == $cur_day) ?
 								$this->replacements['cal_cell_content_today'] : $this->replacements['cal_cell_content'];
-						$out .= str_replace(array('{content}', '{day}'), array($data[$day], $day), $temp);
+						$out .= str_replace(['{content}', '{day}'], [$data[$day], $day], $temp);
 					}
 					else
 					{
@@ -354,11 +354,11 @@ class CI_Calendar {
 	{
 		if ($this->month_type === 'short')
 		{
-			$month_names = array('01' => 'cal_jan', '02' => 'cal_feb', '03' => 'cal_mar', '04' => 'cal_apr', '05' => 'cal_may', '06' => 'cal_jun', '07' => 'cal_jul', '08' => 'cal_aug', '09' => 'cal_sep', '10' => 'cal_oct', '11' => 'cal_nov', '12' => 'cal_dec');
+			$month_names = ['01' => 'cal_jan', '02' => 'cal_feb', '03' => 'cal_mar', '04' => 'cal_apr', '05' => 'cal_may', '06' => 'cal_jun', '07' => 'cal_jul', '08' => 'cal_aug', '09' => 'cal_sep', '10' => 'cal_oct', '11' => 'cal_nov', '12' => 'cal_dec'];
 		}
 		else
 		{
-			$month_names = array('01' => 'cal_january', '02' => 'cal_february', '03' => 'cal_march', '04' => 'cal_april', '05' => 'cal_mayl', '06' => 'cal_june', '07' => 'cal_july', '08' => 'cal_august', '09' => 'cal_september', '10' => 'cal_october', '11' => 'cal_november', '12' => 'cal_december');
+			$month_names = ['01' => 'cal_january', '02' => 'cal_february', '03' => 'cal_march', '04' => 'cal_april', '05' => 'cal_mayl', '06' => 'cal_june', '07' => 'cal_july', '08' => 'cal_august', '09' => 'cal_september', '10' => 'cal_october', '11' => 'cal_november', '12' => 'cal_december'];
 		}
 
 		return ($this->CI->lang->line($month_names[$month]) === FALSE)
@@ -386,18 +386,18 @@ class CI_Calendar {
 
 		if ($this->day_type === 'long')
 		{
-			$day_names = array('sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday');
+			$day_names = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 		}
 		elseif ($this->day_type === 'short')
 		{
-			$day_names = array('sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat');
+			$day_names = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 		}
 		else
 		{
-			$day_names = array('su', 'mo', 'tu', 'we', 'th', 'fr', 'sa');
+			$day_names = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'];
 		}
 
-		$days = array();
+		$days = [];
 		for ($i = 0, $c = count($day_names); $i < $c; $i++)
 		{
 			$days[] = ($this->CI->lang->line('cal_'.$day_names[$i]) === FALSE) ? ucfirst($day_names[$i]) : $this->CI->lang->line('cal_'.$day_names[$i]);
@@ -421,7 +421,7 @@ class CI_Calendar {
 	 */
 	public function adjust_date($month, $year)
 	{
-		$date = array();
+		$date = [];
 
 		$date['month']	= $month;
 		$date['year']	= $year;
@@ -472,7 +472,7 @@ class CI_Calendar {
 	 */
 	public function default_template()
 	{
-		return array(
+		return [
 			'table_open'				=> '<table border="0" cellpadding="4" cellspacing="0">',
 			'heading_row_start'			=> '<tr>',
 			'heading_previous_cell'		=> '<th><a href="{previous_url}">&lt;&lt;</a></th>',
@@ -497,7 +497,7 @@ class CI_Calendar {
 			'cal_cell_end_other'		=> '</td>',
 			'cal_row_end'				=> '</tr>',
 			'table_close'				=> '</table>'
-		);
+		];
 	}
 
 	// --------------------------------------------------------------------
@@ -521,9 +521,9 @@ class CI_Calendar {
 
 		if (is_string($this->template))
 		{
-			$today = array('cal_cell_start_today', 'cal_cell_content_today', 'cal_cell_no_content_today', 'cal_cell_end_today');
+			$today = ['cal_cell_start_today', 'cal_cell_content_today', 'cal_cell_no_content_today', 'cal_cell_end_today'];
 
-			foreach (array('table_open', 'table_close', 'heading_row_start', 'heading_previous_cell', 'heading_title_cell', 'heading_next_cell', 'heading_row_end', 'week_row_start', 'week_day_cell', 'week_row_end', 'cal_row_start', 'cal_cell_start', 'cal_cell_content', 'cal_cell_no_content', 'cal_cell_blank', 'cal_cell_end', 'cal_row_end', 'cal_cell_start_today', 'cal_cell_content_today', 'cal_cell_no_content_today', 'cal_cell_end_today', 'cal_cell_start_other', 'cal_cell_other', 'cal_cell_end_other') as $val)
+			foreach (['table_open', 'table_close', 'heading_row_start', 'heading_previous_cell', 'heading_title_cell', 'heading_next_cell', 'heading_row_end', 'week_row_start', 'week_day_cell', 'week_row_end', 'cal_row_start', 'cal_cell_start', 'cal_cell_content', 'cal_cell_no_content', 'cal_cell_blank', 'cal_cell_end', 'cal_row_end', 'cal_cell_start_today', 'cal_cell_content_today', 'cal_cell_no_content_today', 'cal_cell_end_today', 'cal_cell_start_other', 'cal_cell_other', 'cal_cell_end_other'] as $val)
 			{
 				if (preg_match('/\{'.$val.'\}(.*?)\{\/'.$val.'\}/si', $this->template, $match))
 				{

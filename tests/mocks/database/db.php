@@ -5,7 +5,7 @@ class Mock_Database_DB {
 	/**
 	 * @var array DB configuration
 	 */
-	private $config = array();
+	private $config = [];
 
 	/**
 	 * @var string DB driver name
@@ -23,7 +23,7 @@ class Mock_Database_DB {
 	 * @param  array 	DB configuration to set
 	 * @return void
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		$this->config = $config;
 	}
@@ -47,7 +47,7 @@ class Mock_Database_DB {
 			self::$subdriver = $this->config[$group]['subdriver'];
 		}
 
-		$params = array(
+		$params = [
 			'dbprefix' => '',
 			'pconnect' => FALSE,
 			'db_debug' => FALSE,
@@ -57,7 +57,7 @@ class Mock_Database_DB {
 			'dbcollat' => 'utf8_general_ci',
 			'swap_pre' => '',
 			'stricton' => FALSE
-		);
+		];
 
 		$config = array_merge($this->config[$group], $params);
 		$dsnstring = empty($config['dsn']) ? FALSE : $config['dsn'];
@@ -103,26 +103,26 @@ class Mock_Database_DB {
 		$case = CI_TestCase::instance();
 		$driver = self::$dbdriver;
 		$subdriver = self::$subdriver;
-		$case->ci_vfs_create(array(
+		$case->ci_vfs_create([
 			'DB_driver.php' => '',
 			'DB_result.php' => '',
 			'DB_forge.php' => '',
 			'DB_query_builder.php' => ''
-		), '', $case->ci_base_root, 'database');
+		], '', $case->ci_base_root, 'database');
 		if (file_exists(SYSTEM_PATH.'database/drivers/'.$driver.'/'.$driver.'_driver.php'))
 		{
-			$case->ci_vfs_create(array(
+			$case->ci_vfs_create([
 				$driver.'_driver.php' => '',
 				$driver.'_result.php' => '',
 				$driver.'_forge.php' => ''
-			), '', $case->ci_base_root, 'database/drivers/'.$driver);
+			], '', $case->ci_base_root, 'database/drivers/'.$driver);
 		}
 		if ($subdriver)
 		{
-			$case->ci_vfs_create(array(
+			$case->ci_vfs_create([
 				$driver.'_'.$subdriver.'_driver.php' => '',
 				$driver.'_'.$subdriver.'_forge.php' => ''
-			), '', $case->ci_base_root, 'database/drivers/'.$driver.'/subdrivers');
+			], '', $case->ci_base_root, 'database/drivers/'.$driver.'/subdrivers');
 		}
 
 		include_once(SYSTEM_PATH.'database/DB.php');

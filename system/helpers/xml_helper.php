@@ -72,8 +72,8 @@ if ( ! function_exists('xml_convert'))
 		}
 
 		$str = str_replace(
-			array('&', '<', '>', '"', "'", '-'),
-			array('&amp;', '&lt;', '&gt;', '&quot;', '&apos;', '&#45;'),
+			['&', '<', '>', '"', "'", '-'],
+			['&amp;', '&lt;', '&gt;', '&quot;', '&apos;', '&#45;'],
 			$str
 		);
 

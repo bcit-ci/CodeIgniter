@@ -139,7 +139,7 @@ if ( ! function_exists('load_class'))
 	 */
 	function &load_class($class, $directory = 'libraries', $param = NULL)
 	{
-		static $_classes = array();
+		static $_classes = [];
 
 		// Does the class exist? If so, we're done...
 		if (isset($_classes[$class]))
@@ -151,7 +151,7 @@ if ( ! function_exists('load_class'))
 
 		// Look for the class first in the local application/libraries folder
 		// then in the native system/libraries folder
-		foreach (array(APPPATH, BASEPATH) as $path)
+		foreach ([APPPATH, BASEPATH] as $path)
 		{
 			if (file_exists($path.$directory.'/'.$class.'.php'))
 			{
@@ -210,7 +210,7 @@ if ( ! function_exists('is_loaded'))
 	 */
 	function &is_loaded($class = '')
 	{
-		static $_is_loaded = array();
+		static $_is_loaded = [];
 
 		if ($class !== '')
 		{
@@ -234,7 +234,7 @@ if ( ! function_exists('get_config'))
 	 * @param	array
 	 * @return	array
 	 */
-	function &get_config(Array $replace = array())
+	function &get_config(Array $replace = [])
 	{
 		static $config;
 
@@ -320,7 +320,7 @@ if ( ! function_exists('get_mimes'))
 		{
 			$_mimes = file_exists(APPPATH.'config/mimes.php')
 				? include(APPPATH.'config/mimes.php')
-				: array();
+				: [];
 
 			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
 			{
@@ -495,7 +495,7 @@ if ( ! function_exists('set_status_header'))
 		if (empty($text))
 		{
 			is_int($code) OR $code = (int) $code;
-			$stati = array(
+			$stati = [
 				100	=> 'Continue',
 				101	=> 'Switching Protocols',
 
@@ -546,7 +546,7 @@ if ( ! function_exists('set_status_header'))
 				504	=> 'Gateway Timeout',
 				505	=> 'HTTP Version Not Supported',
 				511	=> 'Network Authentication Required',
-			);
+			];
 
 			if (isset($stati[$code]))
 			{
@@ -564,7 +564,7 @@ if ( ! function_exists('set_status_header'))
 			return;
 		}
 
-		$server_protocol = (isset($_SERVER['SERVER_PROTOCOL']) && in_array($_SERVER['SERVER_PROTOCOL'], array('HTTP/1.0', 'HTTP/1.1', 'HTTP/2'), TRUE))
+		$server_protocol = (isset($_SERVER['SERVER_PROTOCOL']) && in_array($_SERVER['SERVER_PROTOCOL'], ['HTTP/1.0', 'HTTP/1.1', 'HTTP/2'], TRUE))
 			? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
 		header($server_protocol.' '.$code.' '.$text, TRUE, $code);
 	}
@@ -617,7 +617,7 @@ if ( ! function_exists('_error_handler'))
 		$_error->log_exception($severity, $message, $filepath, $line);
 
 		// Should we display the error?
-		if (str_ireplace(array('off', 'none', 'no', 'false', 'null'), '', ini_get('display_errors')))
+		if (str_ireplace(['off', 'none', 'no', 'false', 'null'], '', ini_get('display_errors')))
 		{
 			$_error->show_php_error($severity, $message, $filepath, $line);
 		}
@@ -653,7 +653,7 @@ if ( ! function_exists('_exception_handler'))
 
 		is_cli() OR set_status_header(500);
 		// Should we display the error?
-		if (str_ireplace(array('off', 'none', 'no', 'false', 'null'), '', ini_get('display_errors')))
+		if (str_ireplace(['off', 'none', 'no', 'false', 'null'], '', ini_get('display_errors')))
 		{
 			$_error->show_exception($exception);
 		}
@@ -706,7 +706,7 @@ if ( ! function_exists('remove_invisible_characters'))
 	 */
 	function remove_invisible_characters($str, $url_encoded = TRUE)
 	{
-		$non_displayables = array();
+		$non_displayables = [];
 
 		// every control character except newline (dec 10),
 		// carriage return (dec 13) and horizontal tab (dec 09)
@@ -837,7 +837,7 @@ if ( ! function_exists('function_usable'))
 			{
 				$_suhosin_func_blacklist = extension_loaded('suhosin')
 					? explode(',', trim(ini_get('suhosin.executor.func.blacklist')))
-					: array();
+					: [];
 			}
 
 			return ! in_array($function_name, $_suhosin_func_blacklist, TRUE);

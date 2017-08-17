@@ -61,7 +61,7 @@ if ( ! function_exists('form_open'))
 	 * @param	array	a key/value pair hidden data
 	 * @return	string
 	 */
-	function form_open($action = '', $attributes = array(), $hidden = array())
+	function form_open($action = '', $attributes = [], $hidden = [])
 	{
 		$CI =& get_instance();
 
@@ -151,7 +151,7 @@ if ( ! function_exists('form_open_multipart'))
 	 * @param	array	a key/value pair hidden data
 	 * @return	string
 	 */
-	function form_open_multipart($action = '', $attributes = array(), $hidden = array())
+	function form_open_multipart($action = '', $attributes = [], $hidden = [])
 	{
 		if (is_string($attributes))
 		{
@@ -231,11 +231,11 @@ if ( ! function_exists('form_input'))
 	 */
 	function form_input($data = '', $value = '', $extra = '')
 	{
-		$defaults = array(
+		$defaults = [
 			'type' => 'text',
 			'name' => is_array($data) ? '' : $data,
 			'value' => $value
-		);
+		];
 
 		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
 	}
@@ -257,7 +257,7 @@ if ( ! function_exists('form_password'))
 	 */
 	function form_password($data = '', $value = '', $extra = '')
 	{
-		is_array($data) OR $data = array('name' => $data);
+		is_array($data) OR $data = ['name' => $data];
 		$data['type'] = 'password';
 		return form_input($data, $value, $extra);
 	}
@@ -278,8 +278,8 @@ if ( ! function_exists('form_upload'))
 	 */
 	function form_upload($data = '', $extra = '')
 	{
-		$defaults = array('type' => 'file', 'name' => '');
-		is_array($data) OR $data = array('name' => $data);
+		$defaults = ['type' => 'file', 'name' => ''];
+		is_array($data) OR $data = ['name' => $data];
 		$data['type'] = 'file';
 
 		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
@@ -300,11 +300,11 @@ if ( ! function_exists('form_textarea'))
 	 */
 	function form_textarea($data = '', $value = '', $extra = '')
 	{
-		$defaults = array(
+		$defaults = [
 			'name' => is_array($data) ? '' : $data,
 			'cols' => '40',
 			'rows' => '10'
-		);
+		];
 
 		if ( ! is_array($data) OR ! isset($data['value']))
 		{
@@ -335,7 +335,7 @@ if ( ! function_exists('form_multiselect'))
 	 * @param	mixed
 	 * @return	string
 	 */
-	function form_multiselect($name = '', $options = array(), $selected = array(), $extra = '')
+	function form_multiselect($name = '', $options = [], $selected = [], $extra = '')
 	{
 		$extra = _attributes_to_string($extra);
 		if (stripos($extra, 'multiple') === FALSE)
@@ -360,9 +360,9 @@ if ( ! function_exists('form_dropdown'))
 	 * @param	mixed	$extra
 	 * @return	string
 	 */
-	function form_dropdown($data = '', $options = array(), $selected = array(), $extra = '')
+	function form_dropdown($data = '', $options = [], $selected = [], $extra = '')
 	{
-		$defaults = array();
+		$defaults = [];
 
 		if (is_array($data))
 		{
@@ -380,11 +380,11 @@ if ( ! function_exists('form_dropdown'))
 		}
 		else
 		{
-			$defaults = array('name' => $data);
+			$defaults = ['name' => $data];
 		}
 
-		is_array($selected) OR $selected = array($selected);
-		is_array($options) OR $options = array($options);
+		is_array($selected) OR $selected = [$selected];
+		is_array($options) OR $options = [$options];
 
 		// If no selected state was submitted we will attempt to set it automatically
 		if (empty($selected))
@@ -393,12 +393,12 @@ if ( ! function_exists('form_dropdown'))
 			{
 				if (isset($data['name'], $_POST[$data['name']]))
 				{
-					$selected = array($_POST[$data['name']]);
+					$selected = [$_POST[$data['name']]];
 				}
 			}
 			elseif (isset($_POST[$data]))
 			{
-				$selected = array($_POST[$data]);
+				$selected = [$_POST[$data]];
 			}
 		}
 
@@ -457,7 +457,7 @@ if ( ! function_exists('form_checkbox'))
 	 */
 	function form_checkbox($data = '', $value = '', $checked = FALSE, $extra = '')
 	{
-		$defaults = array('type' => 'checkbox', 'name' => ( ! is_array($data) ? $data : ''), 'value' => $value);
+		$defaults = ['type' => 'checkbox', 'name' => ( ! is_array($data) ? $data : ''), 'value' => $value];
 
 		if (is_array($data) && array_key_exists('checked', $data))
 		{
@@ -501,7 +501,7 @@ if ( ! function_exists('form_radio'))
 	 */
 	function form_radio($data = '', $value = '', $checked = FALSE, $extra = '')
 	{
-		is_array($data) OR $data = array('name' => $data);
+		is_array($data) OR $data = ['name' => $data];
 		$data['type'] = 'radio';
 
 		return form_checkbox($data, $value, $checked, $extra);
@@ -522,11 +522,11 @@ if ( ! function_exists('form_submit'))
 	 */
 	function form_submit($data = '', $value = '', $extra = '')
 	{
-		$defaults = array(
+		$defaults = [
 			'type' => 'submit',
 			'name' => is_array($data) ? '' : $data,
 			'value' => $value
-		);
+		];
 
 		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
 	}
@@ -546,11 +546,11 @@ if ( ! function_exists('form_reset'))
 	 */
 	function form_reset($data = '', $value = '', $extra = '')
 	{
-		$defaults = array(
+		$defaults = [
 			'type' => 'reset',
 			'name' => is_array($data) ? '' : $data,
 			'value' => $value
-		);
+		];
 
 		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";
 	}
@@ -570,10 +570,10 @@ if ( ! function_exists('form_button'))
 	 */
 	function form_button($data = '', $content = '', $extra = '')
 	{
-		$defaults = array(
+		$defaults = [
 			'name' => is_array($data) ? '' : $data,
 			'type' => 'button'
-		);
+		];
 
 		if (is_array($data) && isset($data['content']))
 		{
@@ -599,7 +599,7 @@ if ( ! function_exists('form_label'))
 	 * @param	mixed	Additional attributes
 	 * @return	string
 	 */
-	function form_label($label_text = '', $id = '', $attributes = array())
+	function form_label($label_text = '', $id = '', $attributes = [])
 	{
 
 		$label = '<label';
@@ -629,7 +629,7 @@ if ( ! function_exists('form_fieldset'))
 	 * @param	array	Additional attributes
 	 * @return	string
 	 */
-	function form_fieldset($legend_text = '', $attributes = array())
+	function form_fieldset($legend_text = '', $attributes = [])
 	{
 		$fieldset = '<fieldset'._attributes_to_string($attributes).">\n";
 		if ($legend_text !== '')

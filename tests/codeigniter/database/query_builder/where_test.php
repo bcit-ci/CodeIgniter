@@ -46,7 +46,7 @@ class Where_test extends CI_TestCase {
 	 */
 	public function test_where_associative_array()
 	{
-		$where = array('id >' => 2, 'name !=' => 'Accountant');
+		$where = ['id >' => 2, 'name !=' => 'Accountant'];
 		$jobs = $this->db->where($where)->get('job')->result_array();
 
 		$this->assertEquals(1, count($jobs));
@@ -98,7 +98,7 @@ class Where_test extends CI_TestCase {
 	 */
 	public function test_where_in()
 	{
-		$jobs = $this->db->where_in('name', array('Politician', 'Accountant'))
+		$jobs = $this->db->where_in('name', ['Politician', 'Accountant'])
 							->get('job')
 							->result_array();
 
@@ -114,7 +114,7 @@ class Where_test extends CI_TestCase {
 	 */
 	public function test_where_not_in()
 	{
-		$jobs = $this->db->where_not_in('name', array('Politician', 'Accountant'))
+		$jobs = $this->db->where_not_in('name', ['Politician', 'Accountant'])
 							->get('job')
 							->result_array();
 

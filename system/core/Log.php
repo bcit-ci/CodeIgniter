@@ -74,7 +74,7 @@ class CI_Log {
 	 *
 	 * @var array
 	 */
-	protected $_threshold_array = array();
+	protected $_threshold_array = [];
 
 	/**
 	 * Format of timestamp for log files
@@ -102,7 +102,7 @@ class CI_Log {
 	 *
 	 * @var array
 	 */
-	protected $_levels = array('ERROR' => 1, 'DEBUG' => 2, 'INFO' => 3, 'ALL' => 4);
+	protected $_levels = ['ERROR' => 1, 'DEBUG' => 2, 'INFO' => 3, 'ALL' => 4];
 
 	/**
 	 * mbstring.func_overload flag

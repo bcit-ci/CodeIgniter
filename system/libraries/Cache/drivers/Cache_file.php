@@ -95,11 +95,11 @@ class CI_Cache_file extends CI_Driver {
 	 */
 	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
-		$contents = array(
+		$contents = [
 			'time'		=> time(),
 			'ttl'		=> $ttl,
 			'data'		=> $data
-		);
+		];
 
 		if (write_file($this->_cache_path.$id, serialize($contents)))
 		{
@@ -138,7 +138,7 @@ class CI_Cache_file extends CI_Driver {
 
 		if ($data === FALSE)
 		{
-			$data = array('data' => 0, 'ttl' => 60);
+			$data = ['data' => 0, 'ttl' => 60];
 		}
 		elseif ( ! is_int($data['data']))
 		{
@@ -166,7 +166,7 @@ class CI_Cache_file extends CI_Driver {
 
 		if ($data === FALSE)
 		{
-			$data = array('data' => 0, 'ttl' => 60);
+			$data = ['data' => 0, 'ttl' => 60];
 		}
 		elseif ( ! is_int($data['data']))
 		{
@@ -232,10 +232,10 @@ class CI_Cache_file extends CI_Driver {
 				return FALSE;
 			}
 
-			return array(
+			return [
 				'expire' => $data['time'] + $data['ttl'],
 				'mtime'	 => $mtime
-			);
+			];
 		}
 
 		return FALSE;

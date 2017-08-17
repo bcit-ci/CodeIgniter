@@ -68,14 +68,14 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 	 *
 	 * @var	string[]
 	 */
-	protected $_reserved_identifiers = array('*', 'rownum');
+	protected $_reserved_identifiers = ['*', 'rownum'];
 
 	/**
 	 * ORDER BY random keyword
 	 *
 	 * @var	array
 	 */
-	protected $_random_keyword = array('ASC', 'ASC'); // Currently not supported
+	protected $_random_keyword = ['ASC', 'ASC']; // Currently not supported
 
 	/**
 	 * COUNT string
@@ -229,7 +229,7 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 		}
 		$query = $query->result_object();
 
-		$retval = array();
+		$retval = [];
 		for ($i = 0, $c = count($query); $i < $c; $i++)
 		{
 			$retval[$i]			= new stdClass();

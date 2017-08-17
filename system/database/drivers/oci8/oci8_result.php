@@ -121,7 +121,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 */
 	public function list_fields()
 	{
-		$field_names = array();
+		$field_names = [];
 		for ($c = 1, $fieldCount = $this->num_fields(); $c <= $fieldCount; $c++)
 		{
 			$field_names[] = oci_field_name($this->stmt_id, $c);
@@ -140,7 +140,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 */
 	public function field_data()
 	{
-		$retval = array();
+		$retval = [];
 		for ($c = 1, $fieldCount = $this->num_fields(); $c <= $fieldCount; $c++)
 		{
 			$F		= new stdClass();
