@@ -5,12 +5,12 @@
  */
 class Session_test extends CI_TestCase {
 
-	protected $settings = array(
+	protected $settings = [
 		'use_cookies' => 0,
 		'use_only_cookies' => 0,
 		'cache_limiter' => FALSE
-	);
-	protected $setting_vals = array();
+	];
+	protected $setting_vals = [];
 	protected $cookie_vals;
 	protected $session;
 
@@ -28,7 +28,7 @@ return;
 
 		// Start with clean environment
 		$this->cookie_vals = $_COOKIE;
-		$_COOKIE = array();
+		$_COOKIE = [];
 
 		// Set subclass prefix to match our mock
 		$this->ci_set_config('subclass_prefix', 'Mock_Libraries_');
@@ -44,7 +44,7 @@ return;
 		$this->ci_vfs_clone('system/helpers/string_helper.php');
 
 		// Attach session instance locally
-		$config = array(
+		$config = [
 			'sess_encrypt_cookie' => FALSE,
 			'sess_use_database' => FALSE,
 			'sess_table_name' => '',
@@ -61,7 +61,7 @@ return;
 			'time_reference' => 'local',
 			'cookie_prefix' => '',
 			'encryption_key' => 'foobar'
-		);
+		];
 		$this->session = new Mock_Libraries_Session($config);
 	}
 
@@ -73,7 +73,7 @@ return;
 return;
 		// Restore environment
 		if (session_id()) session_destroy();
-		$_SESSION = array();
+		$_SESSION = [];
 		$_COOKIE = $this->cookie_vals;
 
 		// Restore settings
@@ -144,20 +144,20 @@ return;
 	{
 return;
 		// Set a specific series of data for each driver
-		$cdata = array(
+		$cdata = [
 			'one' => 'first',
 			'two' => 'second',
 			'three' => 'third',
 			'foo' => 'bar',
 			'bar' => 'baz'
-		);
-		$ndata = array(
+		];
+		$ndata = [
 			'one' => 'gold',
 			'two' => 'silver',
 			'three' => 'bronze',
 			'foo' => 'baz',
 			'bar' => 'foo'
-		);
+		];
 		$this->session->cookie->set_userdata($cdata);
 		$this->session->native->set_userdata($ndata);
 
@@ -266,27 +266,27 @@ return;
 	{
 return;
 		// Set flashdata array for each driver
-		$cdata = array(
+		$cdata = [
 			'one' => 'first',
 			'two' => 'second',
 			'three' => 'third',
 			'foo' => 'bar',
 			'bar' => 'baz'
-		);
-		$ndata = array(
+		];
+		$ndata = [
 			'one' => 'gold',
 			'two' => 'silver',
 			'three' => 'bronze',
 			'foo' => 'baz',
 			'bar' => 'foo'
-		);
-		$kdata = array(
+		];
+		$kdata = [
 			'one',
 			'two',
 			'three',
 			'foo',
 			'bar'
-		);
+		];
 		$this->session->cookie->set_flashdata($cdata);
 		$this->session->native->set_flashdata($ndata);
 
@@ -320,20 +320,20 @@ return;
 	{
 return;
 		// Set a specific series of data for each driver
-		$cdata = array(
+		$cdata = [
 			'one' => 'first',
 			'two' => 'second',
 			'three' => 'third',
 			'foo' => 'bar',
 			'bar' => 'baz'
-		);
-		$ndata = array(
+		];
+		$ndata = [
 			'one' => 'gold',
 			'two' => 'silver',
 			'three' => 'bronze',
 			'foo' => 'baz',
 			'bar' => 'foo'
-		);
+		];
 		$this->session->cookie->set_flashdata($cdata);
 		$this->session->native->set_flashdata($ndata);
 

@@ -160,7 +160,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 
 		if (is_array($this->encrypt))
 		{
-			$ssl = array();
+			$ssl = [];
 			empty($this->encrypt['ssl_key'])    OR $ssl['key']    = $this->encrypt['ssl_key'];
 			empty($this->encrypt['ssl_cert'])   OR $ssl['cert']   = $this->encrypt['ssl_cert'];
 			empty($this->encrypt['ssl_ca'])     OR $ssl['ca']     = $this->encrypt['ssl_ca'];
@@ -262,7 +262,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 		if ($this->conn_id->select_db($database))
 		{
 			$this->database = $database;
-			$this->data_cache = array();
+			$this->data_cache = [];
 			return TRUE;
 		}
 
@@ -462,7 +462,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 		}
 		$query = $query->result_object();
 
-		$retval = array();
+		$retval = [];
 		for ($i = 0, $c = count($query); $i < $c; $i++)
 		{
 			$retval[$i]			= new stdClass();
@@ -494,13 +494,13 @@ class CI_DB_mysqli_driver extends CI_DB {
 	{
 		if ( ! empty($this->_mysqli->connect_errno))
 		{
-			return array(
+			return [
 				'code'    => $this->_mysqli->connect_errno,
 				'message' => $this->_mysqli->connect_error
-			);
+			];
 		}
 
-		return array('code' => $this->conn_id->errno, 'message' => $this->conn_id->error);
+		return ['code' => $this->conn_id->errno, 'message' => $this->conn_id->error];
 	}
 
 	// --------------------------------------------------------------------

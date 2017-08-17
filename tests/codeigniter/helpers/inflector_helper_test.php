@@ -9,13 +9,13 @@ class Inflector_helper_test extends CI_TestCase {
 
 	public function test_singular()
 	{
-		$strs = array(
+		$strs = [
 			'tellies'      => 'telly',
 			'smellies'     => 'smelly',
 			'abjectnesses' => 'abjectness',
 			'smells'       => 'smell',
 			'equipment'    => 'equipment'
-		);
+		];
 
 		foreach ($strs as $str => $expect)
 		{
@@ -27,14 +27,14 @@ class Inflector_helper_test extends CI_TestCase {
 
 	public function test_plural()
 	{
-		$strs = array(
+		$strs = [
 			'telly'      => 'tellies',
 			'smelly'     => 'smellies',
 			'abjectness' => 'abjectnesses', // ref : http://en.wiktionary.org/wiki/abjectnesses
 			'smell'      => 'smells',
 			'witch'      => 'witches',
 			'equipment'  => 'equipment'
-		);
+		];
 
 		foreach ($strs as $str => $expect)
 		{
@@ -46,12 +46,12 @@ class Inflector_helper_test extends CI_TestCase {
 
 	public function test_camelize()
 	{
-		$strs = array(
+		$strs = [
 			'this is the string'	=> 'thisIsTheString',
 			'this is another one'   => 'thisIsAnotherOne',
 			'i-am-playing-a-trick'  => 'i-am-playing-a-trick',
 			'what_do_you_think-yo?' => 'whatDoYouThink-yo?',
-		);
+		];
 
 		foreach ($strs as $str => $expect)
 		{
@@ -63,12 +63,12 @@ class Inflector_helper_test extends CI_TestCase {
 
 	public function test_underscore()
 	{
-		$strs = array(
+		$strs = [
 			'this is the string'    => 'this_is_the_string',
 			'this is another one'   => 'this_is_another_one',
 			'i-am-playing-a-trick'  => 'i-am-playing-a-trick',
 			'what_do_you_think-yo?' => 'what_do_you_think-yo?',
-		);
+		];
 
 		foreach ($strs as $str => $expect)
 		{
@@ -80,12 +80,12 @@ class Inflector_helper_test extends CI_TestCase {
 
 	public function test_humanize()
 	{
-		$strs = array(
+		$strs = [
 			'this_is_the_string'    => 'This Is The String',
 			'this_is_another_one'   => 'This Is Another One',
 			'i-am-playing-a-trick'  => 'I-am-playing-a-trick',
 			'what_do_you_think-yo?' => 'What Do You Think-yo?',
-		);
+		];
 
 		foreach ($strs as $str => $expect)
 		{
@@ -97,7 +97,7 @@ class Inflector_helper_test extends CI_TestCase {
 
 	public function test_ordinal_format()
 	{
-		$strs = array(
+		$strs = [
 			1                => '1st',
 			2                => '2nd',
 			4                => '4th',
@@ -105,7 +105,7 @@ class Inflector_helper_test extends CI_TestCase {
 			12               => '12th',
 			13               => '13th',
 			'something else' => 'something else',
-		);
+		];
 
 		foreach ($strs as $str => $expect)
 		{

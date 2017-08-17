@@ -8,13 +8,13 @@ class Mock_Core_URI extends CI_URI {
 		$cls =& $test->ci_core_class('cfg');
 
 		// set predictable config values
-		$test->ci_set_config(array(
+		$test->ci_set_config([
 			'index_page'		=> 'index.php',
 			'base_url'		=> 'http://example.com/',
 			'subclass_prefix'	=> 'MY_',
 			'enable_query_strings'	=> FALSE,
 			'permitted_uri_chars'	=> 'a-z 0-9~%.:_\-'
-		));
+		]);
 
 		$this->config = new $cls;
 

@@ -64,7 +64,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 *
 	 * @var	array
 	 */
-	public $options = array();
+	public $options = [];
 
 	// --------------------------------------------------------------------
 
@@ -95,7 +95,7 @@ class CI_DB_pdo_driver extends CI_DB {
 			$this->subdriver = $match[1];
 			return;
 		}
-		elseif (in_array($this->subdriver, array('mssql', 'sybase'), TRUE))
+		elseif (in_array($this->subdriver, ['mssql', 'sybase'], TRUE))
 		{
 			$this->subdriver = 'dblib';
 		}
@@ -103,7 +103,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		{
 			$this->subdriver = '4d';
 		}
-		elseif ( ! in_array($this->subdriver, array('4d', 'cubrid', 'dblib', 'firebird', 'ibm', 'informix', 'mysql', 'oci', 'odbc', 'pgsql', 'sqlite', 'sqlsrv'), TRUE))
+		elseif ( ! in_array($this->subdriver, ['4d', 'cubrid', 'dblib', 'firebird', 'ibm', 'informix', 'mysql', 'oci', 'odbc', 'pgsql', 'sqlite', 'sqlsrv'], TRUE))
 		{
 			log_message('error', 'PDO: Invalid or non-existent subdriver');
 
@@ -291,7 +291,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	public function error()
 	{
-		$error = array('code' => '00000', 'message' => '');
+		$error = ['code' => '00000', 'message' => ''];
 		$pdo_error = $this->conn_id->errorInfo();
 
 		if (empty($pdo_error[0]))

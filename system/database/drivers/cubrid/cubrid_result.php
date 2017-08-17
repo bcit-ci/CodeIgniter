@@ -97,7 +97,7 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	 */
 	public function field_data()
 	{
-		$retval = array();
+		$retval = [];
 
 		for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 		{

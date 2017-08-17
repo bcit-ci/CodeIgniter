@@ -67,7 +67,7 @@ class CI_Session {
 	 * @param	array	$params	Configuration parameters
 	 * @return	void
 	 */
-	public function __construct(array $params = array())
+	public function __construct(array $params = [])
 	{
 		// No sessions under CLI
 		if (is_cli())
@@ -464,10 +464,10 @@ class CI_Session {
 	{
 		if ( ! isset($_SESSION['__ci_vars']))
 		{
-			return array();
+			return [];
 		}
 
-		$keys = array();
+		$keys = [];
 		foreach (array_keys($_SESSION['__ci_vars']) as $key)
 		{
 			is_int($_SESSION['__ci_vars'][$key]) OR $keys[] = $key;
@@ -491,7 +491,7 @@ class CI_Session {
 			return;
 		}
 
-		is_array($key) OR $key = array($key);
+		is_array($key) OR $key = [$key];
 
 		foreach ($key as $k)
 		{
@@ -522,7 +522,7 @@ class CI_Session {
 
 		if (is_array($key))
 		{
-			$temp = array();
+			$temp = [];
 
 			foreach ($key as $k => $v)
 			{
@@ -572,10 +572,10 @@ class CI_Session {
 	{
 		if ( ! isset($_SESSION['__ci_vars']))
 		{
-			return array();
+			return [];
 		}
 
-		$keys = array();
+		$keys = [];
 		foreach (array_keys($_SESSION['__ci_vars']) as $key)
 		{
 			is_int($_SESSION['__ci_vars'][$key]) && $keys[] = $key;
@@ -599,7 +599,7 @@ class CI_Session {
 			return;
 		}
 
-		is_array($key) OR $key = array($key);
+		is_array($key) OR $key = [$key];
 
 		foreach ($key as $k)
 		{
@@ -733,12 +733,12 @@ class CI_Session {
 		}
 		elseif (empty($_SESSION))
 		{
-			return array();
+			return [];
 		}
 
-		$userdata = array();
+		$userdata = [];
 		$_exclude = array_merge(
-			array('__ci_vars'),
+			['__ci_vars'],
 			$this->get_flash_keys(),
 			$this->get_temp_keys()
 		);
@@ -853,7 +853,7 @@ class CI_Session {
 				: NULL;
 		}
 
-		$flashdata = array();
+		$flashdata = [];
 
 		if ( ! empty($_SESSION['__ci_vars']))
 		{
@@ -917,7 +917,7 @@ class CI_Session {
 				: NULL;
 		}
 
-		$tempdata = array();
+		$tempdata = [];
 
 		if ( ! empty($_SESSION['__ci_vars']))
 		{

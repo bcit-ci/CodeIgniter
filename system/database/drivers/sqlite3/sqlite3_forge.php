@@ -218,7 +218,7 @@ class CI_DB_sqlite3_forge extends CI_DB_forge {
 			$field['unique'] = '';
 			$field['auto_increment'] = ' AUTOINCREMENT';
 
-			$this->primary_keys = array();
+			$this->primary_keys = [];
 		}
 	}
 

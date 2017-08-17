@@ -140,7 +140,7 @@ class CI_Parser {
 			return FALSE;
 		}
 
-		$replace = array();
+		$replace = [];
 		foreach ($data as $key => $val)
 		{
 			$replace = array_merge(
@@ -189,7 +189,7 @@ class CI_Parser {
 	 */
 	protected function _parse_single($key, $val, $string)
 	{
-		return array($this->l_delim.$key.$this->r_delim => (string) $val);
+		return [$this->l_delim.$key.$this->r_delim => (string) $val];
 	}
 
 	// --------------------------------------------------------------------
@@ -206,7 +206,7 @@ class CI_Parser {
 	 */
 	protected function _parse_pair($variable, $data, $string)
 	{
-		$replace = array();
+		$replace = [];
 		preg_match_all(
 			'#'.preg_quote($this->l_delim.$variable.$this->r_delim).'(.+?)'.preg_quote($this->l_delim.'/'.$variable.$this->r_delim).'#s',
 			$string,
@@ -219,7 +219,7 @@ class CI_Parser {
 			$str = '';
 			foreach ($data as $row)
 			{
-				$temp = array();
+				$temp = [];
 				foreach ($row as $key => $val)
 				{
 					if (is_array($val))

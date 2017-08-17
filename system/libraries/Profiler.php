@@ -59,7 +59,7 @@ class CI_Profiler {
 	 *
 	 * @var array
 	 */
-	protected $_available_sections = array(
+	protected $_available_sections = [
 		'benchmarks',
 		'get',
 		'memory_usage',
@@ -70,7 +70,7 @@ class CI_Profiler {
 		'http_headers',
 		'session_data',
 		'config'
-	);
+	];
 
 	/**
 	 * Number of queries to show before making the additional queries togglable
@@ -95,7 +95,7 @@ class CI_Profiler {
 	 *
 	 * @param	array	$config	Parameters
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		$this->CI =& get_instance();
 		$this->CI->load->language('profiler');
@@ -154,7 +154,7 @@ class CI_Profiler {
 	 */
 	protected function _compile_benchmarks()
 	{
-		$profile = array();
+		$profile = [];
 		foreach ($this->CI->benchmark->marker as $key => $val)
 		{
 			// We match the "end" marker so that the list ends
@@ -178,7 +178,7 @@ class CI_Profiler {
 
 		foreach ($profile as $key => $val)
 		{
-			$key = ucwords(str_replace(array('_', '-'), ' ', $key));
+			$key = ucwords(str_replace(['_', '-'], ' ', $key));
 			$output .= '<tr><td style="padding:5px;width:50%;color:#000;font-weight:bold;background-color:#ddd;">'
 					.$key.'&nbsp;&nbsp;</td><td style="padding:5px;width:50%;color:#900;font-weight:normal;background-color:#ddd;">'
 					.$val."</td></tr>\n";
@@ -196,7 +196,7 @@ class CI_Profiler {
 	 */
 	protected function _compile_queries()
 	{
-		$dbs = array();
+		$dbs = [];
 
 		// Let's determine which databases are currently connected to
 		foreach (get_object_vars($this->CI) as $name => $cobject)
@@ -236,7 +236,7 @@ class CI_Profiler {
 		$this->CI->load->helper('text');
 
 		// Key words we want bolded
-		$highlight = array('SELECT', 'DISTINCT', 'FROM', 'WHERE', 'AND', 'LEFT&nbsp;JOIN', 'ORDER&nbsp;BY', 'GROUP&nbsp;BY', 'LIMIT', 'INSERT', 'INTO', 'VALUES', 'UPDATE', 'OR&nbsp;', 'HAVING', 'OFFSET', 'NOT&nbsp;IN', 'IN', 'LIKE', 'NOT&nbsp;LIKE', 'COUNT', 'MAX', 'MIN', 'ON', 'AS', 'AVG', 'SUM', '(', ')');
+		$highlight = ['SELECT', 'DISTINCT', 'FROM', 'WHERE', 'AND', 'LEFT&nbsp;JOIN', 'ORDER&nbsp;BY', 'GROUP&nbsp;BY', 'LIMIT', 'INSERT', 'INTO', 'VALUES', 'UPDATE', 'OR&nbsp;', 'HAVING', 'OFFSET', 'NOT&nbsp;IN', 'IN', 'LIKE', 'NOT&nbsp;LIKE', 'COUNT', 'MAX', 'MIN', 'ON', 'AS', 'AVG', 'SUM', '(', ')'];
 
 		$output  = "\n\n";
 		$count = 0;
@@ -455,7 +455,7 @@ class CI_Profiler {
 			.'&nbsp;&nbsp;(<span style="cursor: pointer;" onclick="var s=document.getElementById(\'ci_profiler_httpheaders_table\').style;s.display=s.display==\'none\'?\'\':\'none\';this.innerHTML=this.innerHTML==\''.$this->CI->lang->line('profiler_section_show').'\'?\''.$this->CI->lang->line('profiler_section_hide').'\':\''.$this->CI->lang->line('profiler_section_show').'\';">'.$this->CI->lang->line('profiler_section_show')."</span>)</legend>\n\n\n"
 			.'<table style="width:100%;display:none;" id="ci_profiler_httpheaders_table">'."\n";
 
-		foreach (array('HTTP_ACCEPT', 'HTTP_USER_AGENT', 'HTTP_CONNECTION', 'SERVER_PORT', 'SERVER_NAME', 'REMOTE_ADDR', 'SERVER_SOFTWARE', 'HTTP_ACCEPT_LANGUAGE', 'SCRIPT_NAME', 'REQUEST_METHOD',' HTTP_HOST', 'REMOTE_HOST', 'CONTENT_TYPE', 'SERVER_PROTOCOL', 'QUERY_STRING', 'HTTP_ACCEPT_ENCODING', 'HTTP_X_FORWARDED_FOR', 'HTTP_DNT') as $header)
+		foreach (['HTTP_ACCEPT', 'HTTP_USER_AGENT', 'HTTP_CONNECTION', 'SERVER_PORT', 'SERVER_NAME', 'REMOTE_ADDR', 'SERVER_SOFTWARE', 'HTTP_ACCEPT_LANGUAGE', 'SCRIPT_NAME', 'REQUEST_METHOD',' HTTP_HOST', 'REMOTE_HOST', 'CONTENT_TYPE', 'SERVER_PROTOCOL', 'QUERY_STRING', 'HTTP_ACCEPT_ENCODING', 'HTTP_X_FORWARDED_FOR', 'HTTP_DNT'] as $header)
 		{
 			$val = isset($_SERVER[$header]) ? htmlspecialchars($_SERVER[$header], ENT_QUOTES, config_item('charset')) : '';
 			$output .= '<tr><td style="vertical-align:top;width:50%;padding:5px;color:#900;background-color:#ddd;">'

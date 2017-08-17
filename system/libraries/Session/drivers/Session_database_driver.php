@@ -103,7 +103,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		{
 			$this->_platform = 'mysql';
 		}
-		elseif (in_array($db_driver, array('postgre', 'pdo_pgsql'), TRUE))
+		elseif (in_array($db_driver, ['postgre', 'pdo_pgsql'], TRUE))
 		{
 			$this->_platform = 'postgre';
 		}
@@ -226,12 +226,12 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 		if ($this->_row_exists === FALSE)
 		{
-			$insert_data = array(
+			$insert_data = [
 				'id' => $session_id,
 				'ip_address' => $_SERVER['REMOTE_ADDR'],
 				'timestamp' => time(),
 				'data' => ($this->_platform === 'postgre' ? base64_encode($session_data) : $session_data)
-			);
+			];
 
 			if ($this->_db->insert($this->_config['save_path'], $insert_data))
 			{
@@ -249,7 +249,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 			$this->_db->where('ip_address', $_SERVER['REMOTE_ADDR']);
 		}
 
-		$update_data = array('timestamp' => time());
+		$update_data = ['timestamp' => time()];
 		if ($this->_fingerprint !== md5($session_data))
 		{
 			$update_data['data'] = ($this->_platform === 'postgre')

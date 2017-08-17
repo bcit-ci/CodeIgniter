@@ -55,14 +55,14 @@ class CI_Config {
 	 *
 	 * @var	array
 	 */
-	public $config = array();
+	public $config = [];
 
 	/**
 	 * List of all loaded config files
 	 *
 	 * @var	array
 	 */
-	public $is_loaded =	array();
+	public $is_loaded =	[];
 
 	/**
 	 * List of paths to search when trying to load a config file.
@@ -70,7 +70,7 @@ class CI_Config {
 	 * @used-by	CI_Loader
 	 * @var		array
 	 */
-	public $_config_paths =	array(APPPATH);
+	public $_config_paths =	[APPPATH];
 
 	// --------------------------------------------------------------------
 
@@ -130,7 +130,7 @@ class CI_Config {
 
 		foreach ($this->_config_paths as $path)
 		{
-			foreach (array($file, ENVIRONMENT.DIRECTORY_SEPARATOR.$file) as $location)
+			foreach ([$file, ENVIRONMENT.DIRECTORY_SEPARATOR.$file] as $location)
 			{
 				$file_path = $path.'config/'.$location.'.php';
 				if (in_array($file_path, $this->is_loaded, TRUE))

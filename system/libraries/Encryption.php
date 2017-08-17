@@ -90,15 +90,15 @@ class CI_Encryption {
 	 *
 	 * @var	array
 	 */
-	protected $_drivers = array();
+	protected $_drivers = [];
 
 	/**
 	 * List of available modes
 	 *
 	 * @var	array
 	 */
-	protected $_modes = array(
-		'mcrypt' => array(
+	protected $_modes = [
+		'mcrypt' => [
 			'cbc' => 'cbc',
 			'ecb' => 'ecb',
 			'ofb' => 'nofb',
@@ -107,8 +107,8 @@ class CI_Encryption {
 			'cfb8' => 'cfb',
 			'ctr' => 'ctr',
 			'stream' => 'stream'
-		),
-		'openssl' => array(
+		],
+		'openssl' => [
 			'cbc' => 'cbc',
 			'ecb' => 'ecb',
 			'ofb' => 'ofb',
@@ -117,8 +117,8 @@ class CI_Encryption {
 			'ctr' => 'ctr',
 			'stream' => '',
 			'xts' => 'xts'
-		)
-	);
+		]
+	];
 
 	/**
 	 * List of supported HMAC algorithms
@@ -127,12 +127,12 @@ class CI_Encryption {
 	 *
 	 * @var	array
 	 */
-	protected $_digests = array(
+	protected $_digests = [
 		'sha224' => 28,
 		'sha256' => 32,
 		'sha384' => 48,
 		'sha512' => 64
-	);
+	];
 
 	/**
 	 * mbstring.func_overload flag
@@ -149,12 +149,12 @@ class CI_Encryption {
 	 * @param	array	$params	Configuration parameters
 	 * @return	void
 	 */
-	public function __construct(array $params = array())
+	public function __construct(array $params = [])
 	{
-		$this->_drivers = array(
+		$this->_drivers = [
 			'mcrypt'  => defined('MCRYPT_DEV_URANDOM'),
 			'openssl' => extension_loaded('openssl')
-		);
+		];
 
 		if ( ! $this->_drivers['mcrypt'] && ! $this->_drivers['openssl'])
 		{
@@ -427,7 +427,7 @@ class CI_Encryption {
 
 		// Use PKCS#7 padding in order to ensure compatibility with OpenSSL
 		// and other implementations outside of PHP.
-		if (in_array(strtolower(mcrypt_enc_get_modes_name($params['handle'])), array('cbc', 'ecb'), TRUE))
+		if (in_array(strtolower(mcrypt_enc_get_modes_name($params['handle'])), ['cbc', 'ecb'], TRUE))
 		{
 			$block_size = mcrypt_enc_get_block_size($params['handle']);
 			$pad = $block_size - (self::strlen($data) % $block_size);
@@ -600,7 +600,7 @@ class CI_Encryption {
 
 		$data = mdecrypt_generic($params['handle'], $data);
 		// Remove PKCS#7 padding, if necessary
-		if (in_array(strtolower(mcrypt_enc_get_modes_name($params['handle'])), array('cbc', 'ecb'), TRUE))
+		if (in_array(strtolower(mcrypt_enc_get_modes_name($params['handle'])), ['cbc', 'ecb'], TRUE))
 		{
 			$data = self::substr($data, 0, -ord($data[self::strlen($data)-1]));
 		}
@@ -659,7 +659,7 @@ class CI_Encryption {
 		if (empty($params))
 		{
 			return isset($this->_cipher, $this->_mode, $this->_key, $this->_handle)
-				? array(
+				? [
 					'handle' => $this->_handle,
 					'cipher' => $this->_cipher,
 					'mode' => $this->_mode,
@@ -667,7 +667,7 @@ class CI_Encryption {
 					'base64' => TRUE,
 					'hmac_digest' => 'sha512',
 					'hmac_key' => NULL
-				)
+				]
 				: FALSE;
 		}
 		elseif ( ! isset($params['cipher'], $params['mode'], $params['key']))
@@ -712,7 +712,7 @@ class CI_Encryption {
 			}
 		}
 
-		$params = array(
+		$params = [
 			'handle' => NULL,
 			'cipher' => $params['cipher'],
 			'mode' => $params['mode'],
@@ -720,7 +720,7 @@ class CI_Encryption {
 			'base64' => isset($params['raw_data']) ? ! $params['raw_data'] : FALSE,
 			'hmac_digest' => $params['hmac_digest'],
 			'hmac_key' => $params['hmac_key']
-		);
+		];
 
 		$this->_cipher_alias($params['cipher']);
 		$params['handle'] = ($params['cipher'] !== $this->_cipher OR $params['mode'] !== $this->_mode)
@@ -777,8 +777,8 @@ class CI_Encryption {
 
 		if (empty($dictionary))
 		{
-			$dictionary = array(
-				'mcrypt' => array(
+			$dictionary = [
+				'mcrypt' => [
 					'aes-128' => 'rijndael-128',
 					'aes-192' => 'rijndael-128',
 					'aes-256' => 'rijndael-128',
@@ -787,16 +787,16 @@ class CI_Encryption {
 					'cast5' => 'cast-128',
 					'rc4' => 'arcfour',
 					'rc4-40' => 'arcfour'
-				),
-				'openssl' => array(
+				],
+				'openssl' => [
 					'rijndael-128' => 'aes-128',
 					'tripledes' => 'des-ede3',
 					'blowfish' => 'bf',
 					'cast-128' => 'cast5',
 					'arcfour' => 'rc4-40',
 					'rc4' => 'rc4-40'
-				)
-			);
+				]
+			];
 
 			// Notes:
 			//
@@ -893,7 +893,7 @@ class CI_Encryption {
 		{
 			return array_search($this->_mode, $this->_modes[$this->_driver], TRUE);
 		}
-		elseif (in_array($key, array('cipher', 'driver', 'drivers', 'digests'), TRUE))
+		elseif (in_array($key, ['cipher', 'driver', 'drivers', 'digests'], TRUE))
 		{
 			return $this->{'_'.$key};
 		}

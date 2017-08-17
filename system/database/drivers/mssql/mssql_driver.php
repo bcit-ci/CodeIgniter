@@ -66,7 +66,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 *
 	 * @var	array
 	 */
-	protected $_random_keyword = array('NEWID()', 'RAND(%d)');
+	protected $_random_keyword = ['NEWID()', 'RAND(%d)'];
 
 	/**
 	 * Quoted identifier flag
@@ -134,7 +134,7 @@ class CI_DB_mssql_driver extends CI_DB {
 		$query = $this->query('SELECT CASE WHEN (@@OPTIONS | 256) = @@OPTIONS THEN 1 ELSE 0 END AS qi');
 		$query = $query->row_array();
 		$this->_quoted_identifier = empty($query) ? FALSE : (bool) $query['qi'];
-		$this->_escape_char = ($this->_quoted_identifier) ? '"' : array('[', ']');
+		$this->_escape_char = ($this->_quoted_identifier) ? '"' : ['[', ']'];
 
 		return $this->conn_id;
 	}
@@ -159,7 +159,7 @@ class CI_DB_mssql_driver extends CI_DB {
 		if (mssql_select_db('['.$database.']', $this->conn_id))
 		{
 			$this->database = $database;
-			$this->data_cache = array();
+			$this->data_cache = [];
 			return TRUE;
 		}
 
@@ -321,7 +321,7 @@ class CI_DB_mssql_driver extends CI_DB {
 		}
 		$query = $query->result_object();
 
-		$retval = array();
+		$retval = [];
 		for ($i = 0, $c = count($query); $i < $c; $i++)
 		{
 			$retval[$i]			= new stdClass();
@@ -349,7 +349,7 @@ class CI_DB_mssql_driver extends CI_DB {
 		// We need this because the error info is discarded by the
 		// server the first time you request it, and query() already
 		// calls error() once for logging purposes when a query fails.
-		static $error = array('code' => 0, 'message' => NULL);
+		static $error = ['code' => 0, 'message' => NULL];
 
 		$message = mssql_get_last_message();
 		if ( ! empty($message))
@@ -375,7 +375,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	protected function _update($table, $values)
 	{
 		$this->qb_limit = FALSE;
-		$this->qb_orderby = array();
+		$this->qb_orderby = [];
 		return parent::_update($table, $values);
 	}
 
@@ -448,7 +448,7 @@ class CI_DB_mssql_driver extends CI_DB {
 			else
 			{
 				// Use only field names and their aliases, everything else is out of our scope.
-				$select = array();
+				$select = [];
 				$field_regexp = ($this->_quoted_identifier)
 					? '("[^\"]+")' : '(\[[^\]]+\])';
 				for ($i = 0, $c = count($this->qb_select); $i < $c; $i++)

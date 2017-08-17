@@ -289,7 +289,7 @@ class CI_Pagination {
 	 * @see	CI_Pagination::_attr_rel()
 	 * @var	array
 	 */
-	protected $_link_types = array();
+	protected $_link_types = [];
 
 	/**
 	 * Reuse query string flag
@@ -327,11 +327,11 @@ class CI_Pagination {
 	 * @param	array	$params	Initialization parameters
 	 * @return	void
 	 */
-	public function __construct($params = array())
+	public function __construct($params = [])
 	{
 		$this->CI =& get_instance();
 		$this->CI->load->language('pagination');
-		foreach (array('first_link', 'next_link', 'prev_link', 'last_link') as $key)
+		foreach (['first_link', 'next_link', 'prev_link', 'last_link'] as $key)
 		{
 			if (($val = $this->CI->lang->line('pagination_'.$key)) !== FALSE)
 			{
@@ -351,9 +351,9 @@ class CI_Pagination {
 	 * @param	array	$params	Initialization parameters
 	 * @return	CI_Pagination
 	 */
-	public function initialize(array $params = array())
+	public function initialize(array $params = [])
 	{
-		isset($params['attributes']) OR $params['attributes'] = array();
+		isset($params['attributes']) OR $params['attributes'] = [];
 		if (is_array($params['attributes']))
 		{
 			$this->_parse_attributes($params['attributes']);
@@ -433,7 +433,7 @@ class CI_Pagination {
 		}
 		else
 		{
-			$get = array();
+			$get = [];
 		}
 
 		// Put together our base and first URLs.
@@ -462,7 +462,7 @@ class CI_Pagination {
 
 			// Add the page segment to the end of the query string, where the
 			// page number will be appended.
-			$base_url .= $query_string_sep.http_build_query(array_merge($get, array($this->query_string_segment => '')));
+			$base_url .= $query_string_sep.http_build_query(array_merge($get, [$this->query_string_segment => '']));
 		}
 		else
 		{
@@ -510,7 +510,7 @@ class CI_Pagination {
 			// Remove any specified prefix/suffix from the segment.
 			if ($this->prefix !== '' OR $this->suffix !== '')
 			{
-				$this->cur_page = str_replace(array($this->prefix, $this->suffix), '', $this->cur_page);
+				$this->cur_page = str_replace([$this->prefix, $this->suffix], '', $this->cur_page);
 			}
 		}
 		else
@@ -667,8 +667,8 @@ class CI_Pagination {
 	{
 		isset($attributes['rel']) OR $attributes['rel'] = TRUE;
 		$this->_link_types = ($attributes['rel'])
-			? array('start' => 'start', 'prev' => 'prev', 'next' => 'next')
-			: array();
+			? ['start' => 'start', 'prev' => 'prev', 'next' => 'next']
+			: [];
 		unset($attributes['rel']);
 
 		$this->_attributes = '';

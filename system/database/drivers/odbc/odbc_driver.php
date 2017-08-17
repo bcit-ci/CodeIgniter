@@ -89,7 +89,7 @@ class CI_DB_odbc_driver extends CI_DB_driver {
 	 *
 	 * @var	array
 	 */
-	protected $_random_keyword = array('RND()', 'RND(%d)');
+	protected $_random_keyword = ['RND()', 'RND(%d)'];
 
 	// --------------------------------------------------------------------
 
@@ -105,7 +105,7 @@ class CI_DB_odbc_driver extends CI_DB_driver {
 	 *
 	 * @var	array
 	 */
-	private $binds = array();
+	private $binds = [];
 
 	// --------------------------------------------------------------------
 
@@ -158,7 +158,7 @@ class CI_DB_odbc_driver extends CI_DB_driver {
 		}
 		elseif ( ! is_array($binds))
 		{
-			$binds = array($binds);
+			$binds = [$binds];
 			$bind_count = 1;
 		}
 		else
@@ -235,7 +235,7 @@ class CI_DB_odbc_driver extends CI_DB_driver {
 		}
 
 		$this->odbc_result = NULL;
-		$this->binds       = array();
+		$this->binds       = [];
 
 		return $success;
 	}
@@ -408,7 +408,7 @@ class CI_DB_odbc_driver extends CI_DB_driver {
 	 */
 	public function error()
 	{
-		return array('code' => odbc_error($this->conn_id), 'message' => odbc_errormsg($this->conn_id));
+		return ['code' => odbc_error($this->conn_id), 'message' => odbc_errormsg($this->conn_id)];
 	}
 
 	// --------------------------------------------------------------------

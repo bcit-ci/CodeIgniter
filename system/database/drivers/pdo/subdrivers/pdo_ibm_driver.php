@@ -202,7 +202,7 @@ class CI_DB_pdo_ibm_driver extends CI_DB_pdo_driver {
 	protected function _update($table, $values)
 	{
 		$this->qb_limit = FALSE;
-		$this->qb_orderby = array();
+		$this->qb_orderby = [];
 		return parent::_update($table, $values);
 	}
 

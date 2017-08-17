@@ -69,14 +69,14 @@ class CI_Output {
 	 *
 	 * @var	array
 	 */
-	public $headers = array();
+	public $headers = [];
 
 	/**
 	 * List of mime types
 	 *
 	 * @var	array
 	 */
-	public $mimes =	array();
+	public $mimes =	[];
 
 	/**
 	 * Mime-type for the current page
@@ -111,7 +111,7 @@ class CI_Output {
 	 *
 	 * @var	array
 	 */
-	protected $_profiler_sections =	array();
+	protected $_profiler_sections =	[];
 
 	/**
 	 * Parse markers flag
@@ -224,7 +224,7 @@ class CI_Output {
 			return $this;
 		}
 
-		$this->headers[] = array($header, $replace);
+		$this->headers[] = [$header, $replace];
 		return $this;
 	}
 
@@ -265,7 +265,7 @@ class CI_Output {
 		$header = 'Content-Type: '.$mime_type
 			.(empty($charset) ? '' : '; charset='.$charset);
 
-		$this->headers[] = array($header, TRUE);
+		$this->headers[] = [$header, TRUE];
 		return $this;
 	}
 
@@ -454,7 +454,7 @@ class CI_Output {
 		if ($this->parse_exec_vars === TRUE)
 		{
 			$memory	= round(memory_get_usage() / 1024 / 1024, 2).'MB';
-			$output = str_replace(array('{elapsed_time}', '{memory_usage}'), array($elapsed, $memory), $output);
+			$output = str_replace(['{elapsed_time}', '{memory_usage}'], [$elapsed, $memory], $output);
 		}
 
 		// --------------------------------------------------------------------
@@ -609,10 +609,10 @@ class CI_Output {
 		$expire = time() + ($this->cache_expiration * 60);
 
 		// Put together our serialized info.
-		$cache_info = serialize(array(
+		$cache_info = serialize([
 			'expire'	=> $expire,
 			'headers'	=> $this->headers
-		));
+		]);
 
 		$output = $cache_info.'ENDCI--->'.$output;
 

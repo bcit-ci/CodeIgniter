@@ -116,14 +116,14 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * @var	string[]
 	 */
-	protected $_reserved_identifiers = array('*', 'rownum');
+	protected $_reserved_identifiers = ['*', 'rownum'];
 
 	/**
 	 * ORDER BY random keyword
 	 *
 	 * @var	array
 	 */
-	protected $_random_keyword = array('ASC', 'ASC'); // not currently supported
+	protected $_random_keyword = ['ASC', 'ASC']; // not currently supported
 
 	/**
 	 * COUNT string
@@ -147,17 +147,17 @@ class CI_DB_oci8_driver extends CI_DB {
 	{
 		parent::__construct($params);
 
-		$valid_dsns = array(
+		$valid_dsns = [
 			'tns'	=> '/^\(DESCRIPTION=(\(.+\)){2,}\)$/', // TNS
 			// Easy Connect string (Oracle 10g+)
 			'ec'	=> '/^(\/\/)?[a-z0-9.:_-]+(:[1-9][0-9]{0,4})?(\/[a-z0-9$_]+)?(:[^\/])?(\/[a-z0-9$_]+)?$/i',
 			'in'	=> '/^[a-z0-9$_]+$/i' // Instance name (defined in tnsnames.ora)
-		);
+		];
 
 		/* Space characters don't have any effect when actually
 		 * connecting, but can be a hassle while validating the DSN.
 		 */
-		$this->dsn = str_replace(array("\n", "\r", "\t", ' '), '', $this->dsn);
+		$this->dsn = str_replace(["\n", "\r", "\t", ' '], '', $this->dsn);
 
 		if ($this->dsn !== '')
 		{
@@ -171,7 +171,7 @@ class CI_DB_oci8_driver extends CI_DB {
 		}
 
 		// Legacy support for TNS in the hostname configuration field
-		$this->hostname = str_replace(array("\n", "\r", "\t", ' '), '', $this->hostname);
+		$this->hostname = str_replace(["\n", "\r", "\t", ' '], '', $this->hostname);
 		if (preg_match($valid_dsns['tns'], $this->hostname))
 		{
 			$this->dsn = $this->hostname;
@@ -206,7 +206,7 @@ class CI_DB_oci8_driver extends CI_DB {
 			return;
 		}
 
-		$this->database = str_replace(array("\n", "\r", "\t", ' '), '', $this->database);
+		$this->database = str_replace(["\n", "\r", "\t", ' '], '', $this->database);
 		foreach ($valid_dsns as $regexp)
 		{
 			if (preg_match($regexp, $this->database))
@@ -365,7 +365,7 @@ class CI_DB_oci8_driver extends CI_DB {
 
 		foreach ($params as $param)
 		{
-			foreach (array('name', 'value', 'type', 'length') as $val)
+			foreach (['name', 'value', 'type', 'length'] as $val)
 			{
 				if ( ! isset($param[$val]))
 				{
@@ -521,7 +521,7 @@ class CI_DB_oci8_driver extends CI_DB {
 		}
 		$query = $query->result_object();
 
-		$retval = array();
+		$retval = [];
 		for ($i = 0, $c = count($query); $i < $c; $i++)
 		{
 			$retval[$i]			= new stdClass();
@@ -581,7 +581,7 @@ class CI_DB_oci8_driver extends CI_DB {
 
 		return is_array($error)
 			? $error
-			: array('code' => '', 'message' => '');
+			: ['code' => '', 'message' => ''];
 	}
 
 	// --------------------------------------------------------------------

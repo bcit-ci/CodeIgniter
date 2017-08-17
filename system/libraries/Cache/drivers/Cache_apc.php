@@ -107,7 +107,7 @@ class CI_Cache_apc extends CI_Driver {
 
 		return apc_store(
 			$id,
-			($raw === TRUE ? $data : array(serialize($data), time(), $ttl)),
+			($raw === TRUE ? $data : [serialize($data), time(), $ttl]),
 			$ttl
 		);
 	}
@@ -198,11 +198,11 @@ class CI_Cache_apc extends CI_Driver {
 
 		list($data, $time, $ttl) = $stored;
 
-		return array(
+		return [
 			'expire'	=> $time + $ttl,
 			'mtime'		=> $time,
 			'data'		=> unserialize($data)
-		);
+		];
 	}
 
 	// ------------------------------------------------------------------------

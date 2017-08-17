@@ -25,7 +25,7 @@ class Insert_test extends CI_TestCase {
 	 */
 	public function test_insert()
 	{
-		$job_data = array('id' => 1, 'name' => 'Grocery Sales', 'description' => 'Discount!');
+		$job_data = ['id' => 1, 'name' => 'Grocery Sales', 'description' => 'Discount!'];
 
 		// Do normal insert
 		$this->assertTrue($this->db->insert('job', $job_data));
@@ -44,10 +44,10 @@ class Insert_test extends CI_TestCase {
 	 */
 	public function test_insert_batch()
 	{
-		$job_datas = array(
-			array('id' => 2, 'name' => 'Commedian', 'description' => 'Theres something in your teeth'),
-			array('id' => 3, 'name' => 'Cab Driver', 'description' => 'Iam yellow'),
-		);
+		$job_datas = [
+			['id' => 2, 'name' => 'Commedian', 'description' => 'Theres something in your teeth'],
+			['id' => 3, 'name' => 'Cab Driver', 'description' => 'Iam yellow'],
+		];
 
 		// Do insert batch except for sqlite driver
 		if (strpos(DB_DRIVER, 'sqlite') === FALSE)

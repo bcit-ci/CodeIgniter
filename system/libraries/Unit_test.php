@@ -62,7 +62,7 @@ class CI_Unit_test {
 	 *
 	 * @var	array
 	 */
-	public $results = array();
+	public $results = [];
 
 	/**
 	 * Strict comparison flag
@@ -92,7 +92,7 @@ class CI_Unit_test {
 	 *
 	 * @var	array
 	 */
-	protected $_test_items_visible	= array(
+	protected $_test_items_visible	= [
 		'test_name',
 		'test_datatype',
 		'res_datatype',
@@ -100,7 +100,7 @@ class CI_Unit_test {
 		'file',
 		'line',
 		'notes'
-	);
+	];
 
 	// --------------------------------------------------------------------
 
@@ -152,10 +152,10 @@ class CI_Unit_test {
 			return FALSE;
 		}
 
-		if (in_array($expected, array('is_object', 'is_string', 'is_bool', 'is_true', 'is_false', 'is_int', 'is_numeric', 'is_float', 'is_double', 'is_array', 'is_null', 'is_resource'), TRUE))
+		if (in_array($expected, ['is_object', 'is_string', 'is_bool', 'is_true', 'is_false', 'is_int', 'is_numeric', 'is_float', 'is_double', 'is_array', 'is_null', 'is_resource'], TRUE))
 		{
 			$result = $expected($test);
-			$extype = str_replace(array('true', 'false'), 'bool', str_replace('is_', '', $expected));
+			$extype = str_replace(['true', 'false'], 'bool', str_replace('is_', '', $expected));
 		}
 		else
 		{
@@ -165,7 +165,7 @@ class CI_Unit_test {
 
 		$back = $this->_backtrace();
 
-		$report = array (
+		$report =  [
 			'test_name'     => $test_name,
 			'test_datatype' => gettype($test),
 			'res_datatype'  => $extype,
@@ -173,11 +173,11 @@ class CI_Unit_test {
 			'file'          => $back['file'],
 			'line'          => $back['line'],
 			'notes'         => $notes
-		);
+		];
 
 		$this->results[] = $report;
 
-		return $this->report($this->result(array($report)));
+		return $this->report($this->result([$report]));
 	}
 
 	// --------------------------------------------------------------------
@@ -190,7 +190,7 @@ class CI_Unit_test {
 	 * @param	array	 $result
 	 * @return	string
 	 */
-	public function report($result = array())
+	public function report($result = [])
 	{
 		if (count($result) === 0)
 		{
@@ -221,7 +221,7 @@ class CI_Unit_test {
 					}
 				}
 
-				$table .= str_replace(array('{item}', '{result}'), array($key, $val), $this->_template_rows);
+				$table .= str_replace(['{item}', '{result}'], [$key, $val], $this->_template_rows);
 			}
 
 			$r .= str_replace('{rows}', $table, $this->_template);
@@ -270,7 +270,7 @@ class CI_Unit_test {
 	 * @param	array	$results
 	 * @return	array
 	 */
-	public function result($results = array())
+	public function result($results = [])
 	{
 		$CI =& get_instance();
 		$CI->load->language('unit_test');
@@ -280,17 +280,17 @@ class CI_Unit_test {
 			$results = $this->results;
 		}
 
-		$retval = array();
+		$retval = [];
 		foreach ($results as $result)
 		{
-			$temp = array();
+			$temp = [];
 			foreach ($result as $key => $val)
 			{
 				if ( ! in_array($key, $this->_test_items_visible))
 				{
 					continue;
 				}
-				elseif (in_array($key, array('test_name', 'test_datatype', 'res_datatype', 'result'), TRUE))
+				elseif (in_array($key, ['test_name', 'test_datatype', 'res_datatype', 'result'], TRUE))
 				{
 					if (FALSE !== ($line = $CI->lang->line(strtolower('ut_'.$val), FALSE)))
 					{
@@ -334,10 +334,10 @@ class CI_Unit_test {
 	protected function _backtrace()
 	{
 		$back = debug_backtrace();
-		return array(
+		return [
 			'file' => (isset($back[1]['file']) ? $back[1]['file'] : ''),
 			'line' => (isset($back[1]['line']) ? $back[1]['line'] : '')
-		);
+		];
 	}
 
 	// --------------------------------------------------------------------

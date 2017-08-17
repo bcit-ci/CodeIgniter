@@ -85,7 +85,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	 */
 	public function list_fields()
 	{
-		$field_names = array();
+		$field_names = [];
 		$this->result_id->field_seek(0);
 		while ($field = $this->result_id->fetch_field())
 		{
@@ -106,7 +106,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	 */
 	public function field_data()
 	{
-		$retval = array();
+		$retval = [];
 		$field_data = $this->result_id->fetch_fields();
 		for ($i = 0, $c = count($field_data); $i < $c; $i++)
 		{

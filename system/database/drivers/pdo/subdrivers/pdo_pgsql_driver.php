@@ -73,7 +73,7 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	 *
 	 * @var	array
 	 */
-	protected $_random_keyword = array('RANDOM()', 'RANDOM()');
+	protected $_random_keyword = ['RANDOM()', 'RANDOM()'];
 
 	// --------------------------------------------------------------------
 
@@ -278,7 +278,7 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 		}
 		$query = $query->result_object();
 
-		$retval = array();
+		$retval = [];
 		for ($i = 0, $c = count($query); $i < $c; $i++)
 		{
 			$retval[$i]			= new stdClass();
@@ -305,7 +305,7 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	protected function _update($table, $values)
 	{
 		$this->qb_limit = FALSE;
-		$this->qb_orderby = array();
+		$this->qb_orderby = [];
 		return parent::_update($table, $values);
 	}
 
@@ -323,7 +323,7 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	 */
 	protected function _update_batch($table, $values, $index)
 	{
-		$ids = array();
+		$ids = [];
 		foreach ($values as $key => $val)
 		{
 			$ids[] = $val[$index]['value'];

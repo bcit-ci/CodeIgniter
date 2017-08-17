@@ -9,15 +9,15 @@ class String_helper_test extends CI_TestCase {
 
 	public function test_strip_slashes()
 	{
-		$expected = array(
+		$expected = [
 			"Is your name O'reilly?",
 			"No, my name is O'connor."
-		);
+		];
 
-		$str = array(
+		$str = [
 			"Is your name O\'reilly?",
 			"No, my name is O\'connor."
-		);
+		];
 
 		$this->assertEquals($expected, strip_slashes($str));
 	}
@@ -26,10 +26,10 @@ class String_helper_test extends CI_TestCase {
 
 	public function test_strip_quotes()
 	{
-		$strs = array(
+		$strs = [
 			'"me oh my!"'		=> 'me oh my!',
 			"it's a winner!"	=> 'its a winner!',
-		);
+		];
 
 		foreach ($strs as $str => $expect)
 		{
@@ -41,10 +41,10 @@ class String_helper_test extends CI_TestCase {
 
 	public function test_quotes_to_entities()
 	{
-		$strs = array(
+		$strs = [
 			'"me oh my!"'		=> '&quot;me oh my!&quot;',
 			"it's a winner!"	=> 'it&#39;s a winner!',
-		);
+		];
 
 		foreach ($strs as $str => $expect)
 		{
@@ -56,11 +56,11 @@ class String_helper_test extends CI_TestCase {
 
 	public function test_reduce_double_slashes()
 	{
-		$strs = array(
+		$strs = [
 			'http://codeigniter.com'		=> 'http://codeigniter.com',
 			'//var/www/html/example.com/'	=> '/var/www/html/example.com/',
 			'/var/www/html//index.php'		=> '/var/www/html/index.php'
-		);
+		];
 
 		foreach ($strs as $str => $expect)
 		{
@@ -72,20 +72,20 @@ class String_helper_test extends CI_TestCase {
 
 	public function test_reduce_multiples()
 	{
-		$strs = array(
+		$strs = [
 			'Fred, Bill,, Joe, Jimmy'	=> 'Fred, Bill, Joe, Jimmy',
 			'Ringo, John, Paul,,'		=> 'Ringo, John, Paul,'
-		);
+		];
 
 		foreach ($strs as $str => $expect)
 		{
 			$this->assertEquals($expect, reduce_multiples($str));
 		}
 
-		$strs = array(
+		$strs = [
 			'Fred, Bill,, Joe, Jimmy'	=> 'Fred, Bill, Joe, Jimmy',
 			'Ringo, John, Paul,,'		=> 'Ringo, John, Paul'
-		);
+		];
 
 		foreach ($strs as $str => $expect)
 		{

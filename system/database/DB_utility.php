@@ -109,7 +109,7 @@ abstract class CI_DB_utility {
 			return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
 		}
 
-		$this->db->data_cache['db_names'] = array();
+		$this->db->data_cache['db_names'] = [];
 
 		$query = $this->db->query($this->_list_databases);
 		if ($query === FALSE)
@@ -177,7 +177,7 @@ abstract class CI_DB_utility {
 			return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
 		}
 
-		$result = array();
+		$result = [];
 		foreach ($this->db->list_tables() as $table_name)
 		{
 			$res = $this->db->query(sprintf($this->_optimize_table, $this->db->escape_identifiers($table_name)));
@@ -249,7 +249,7 @@ abstract class CI_DB_utility {
 		// Next blast through the result array and build out the rows
 		while ($row = $query->unbuffered_row('array'))
 		{
-			$line = array();
+			$line = [];
 			foreach ($row as $item)
 			{
 				$line[] = $enclosure.str_replace($enclosure, $enclosure.$enclosure, $item).$enclosure;
@@ -269,10 +269,10 @@ abstract class CI_DB_utility {
 	 * @param	array	$params	Any preferences
 	 * @return	string
 	 */
-	public function xml_from_result(CI_DB_result $query, $params = array())
+	public function xml_from_result(CI_DB_result $query, $params = [])
 	{
 		// Set our default values
-		foreach (array('root' => 'root', 'element' => 'element', 'newline' => "\n", 'tab' => "\t") as $key => $val)
+		foreach (['root' => 'root', 'element' => 'element', 'newline' => "\n", 'tab' => "\t"] as $key => $val)
 		{
 			if ( ! isset($params[$key]))
 			{
@@ -309,27 +309,27 @@ abstract class CI_DB_utility {
 	 * @param	array	$params
 	 * @return	string
 	 */
-	public function backup($params = array())
+	public function backup($params = [])
 	{
 		// If the parameters have not been submitted as an
 		// array then we know that it is simply the table
 		// name, which is a valid short cut.
 		if (is_string($params))
 		{
-			$params = array('tables' => $params);
+			$params = ['tables' => $params];
 		}
 
 		// Set up our default preferences
-		$prefs = array(
-			'tables'		=> array(),
-			'ignore'		=> array(),
+		$prefs = [
+			'tables'		=> [],
+			'ignore'		=> [],
 			'filename'		=> '',
 			'format'		=> 'gzip', // gzip, zip, txt
 			'add_drop'		=> TRUE,
 			'add_insert'		=> TRUE,
 			'newline'		=> "\n",
 			'foreign_key_checks'	=> TRUE
-		);
+		];
 
 		// Did the user submit any preferences? If so set them....
 		if (count($params) > 0)
@@ -351,7 +351,7 @@ abstract class CI_DB_utility {
 		}
 
 		// Validate the format
-		if ( ! in_array($prefs['format'], array('gzip', 'zip', 'txt'), TRUE))
+		if ( ! in_array($prefs['format'], ['gzip', 'zip', 'txt'], TRUE))
 		{
 			$prefs['format'] = 'txt';
 		}

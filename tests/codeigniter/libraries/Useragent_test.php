@@ -83,19 +83,19 @@ class UserAgent_test extends CI_TestCase {
 	public function test_charsets()
 	{
 		$_SERVER['HTTP_ACCEPT_CHARSET'] = 'utf8';
-		$this->agent->charsets = array();
+		$this->agent->charsets = [];
 		$this->agent->charsets();
 		$this->assertTrue($this->agent->accept_charset('utf8'));
 		$this->assertFalse($this->agent->accept_charset('foo'));
 		$this->assertEquals('utf8', $this->agent->charsets[0]);
 
 		$_SERVER['HTTP_ACCEPT_CHARSET'] = '';
-		$this->agent->charsets = array();
+		$this->agent->charsets = [];
 		$this->assertFalse($this->agent->accept_charset());
 		$this->assertEquals('Undefined', $this->agent->charsets[0]);
 
 		$_SERVER['HTTP_ACCEPT_CHARSET'] = 'iso-8859-5, unicode-1-1; q=0.8';
-		$this->agent->charsets = array();
+		$this->agent->charsets = [];
 		$this->assertTrue($this->agent->accept_charset('iso-8859-5'));
 		$this->assertTrue($this->agent->accept_charset('unicode-1-1'));
 		$this->assertFalse($this->agent->accept_charset('foo'));

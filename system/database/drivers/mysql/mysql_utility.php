@@ -75,7 +75,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 	 * @param	array	$params	Preferences
 	 * @return	mixed
 	 */
-	protected function _backup($params = array())
+	protected function _backup($params = [])
 	{
 		if (count($params) === 0)
 		{
@@ -149,12 +149,12 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 
 			$i = 0;
 			$field_str = '';
-			$is_int = array();
+			$is_int = [];
 			while ($field = mysql_fetch_field($query->result_id))
 			{
 				// Most versions of MySQL store timestamp as a string
 				$is_int[$i] = in_array(strtolower(mysql_field_type($query->result_id, $i)),
-							array('tinyint', 'smallint', 'mediumint', 'int', 'bigint'), //, 'timestamp'),
+							['tinyint', 'smallint', 'mediumint', 'int', 'bigint'], //, 'timestamp'),
 							TRUE);
 
 				// Create a string of field names
