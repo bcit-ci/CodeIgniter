@@ -139,6 +139,11 @@ class CI_Hooks {
 
 		if (is_array($this->hooks[$which]) && ! isset($this->hooks[$which]['function']))
 		{
+			if (is_callable($this->hooks[$which]))
+			{
+				$this->_run_hook($this->hooks[$which]);
+				return TRUE;
+			}
 			foreach ($this->hooks[$which] as $val)
 			{
 				$this->_run_hook($val);
