@@ -20,6 +20,7 @@ Bug fixes for 3.1.6
 -  Fixed a bug (#5128) - :doc:`Profiler <general/profiling>` didn't wrap ``$_SESSION`` and configuration arrays in ``<pre>`` tags.
 -  Fixed a bug (#5183) - :doc:`Database Library <database/index>` method ``is_write_type()`` didn't return TRUE for ``MERGE`` statements.
 -  Fixed a bug where :doc:`Image Manipulation Library <libraries/image_lib>` didn't escape image source paths passed to NetPBM as shell arguments.
+-  Fixed a bug (#5236) - :doc:`Query Builder <database/query_builder>` methods ``limit()``, ``offset()`` break SQL Server 2005, 2008 queries with ``"<tablename>".*`` in the ``SELECT`` clause.
 
 Version 3.1.5
 =============
