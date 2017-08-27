@@ -529,9 +529,16 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			$type = strtoupper(trim($type));
 
-			if ( ! in_array($type, array('LEFT', 'RIGHT', 'OUTER', 'INNER', 'LEFT OUTER', 'RIGHT OUTER'), TRUE))
+			if ( ! in_array($type, array('LEFT', 'RIGHT', 'OUTER', 'INNER', 'LEFT OUTER', 'RIGHT OUTER', 'NATURAL'), TRUE))
 			{
-				$type = '';
+				if( in_array($type, array('STRAIGHT_JOIN', 'STRAIGHT')) )
+				{
+					$type = 'STRAIGHT_';
+				}
+				else
+				{
+					$type = '';
+				}
 			}
 			else
 			{
@@ -545,7 +552,11 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		is_bool($escape) OR $escape = $this->_protect_identifiers;
 
-		if ( ! $this->_has_operator($cond))
+		if($type === 'NATURAL ')
+		{
+			$cond = '';
+		}
+		elseif ( ! $this->_has_operator($cond))
 		{
 			$cond = ' USING ('.($escape ? $this->escape_identifiers($cond) : $cond).')';
 		}
