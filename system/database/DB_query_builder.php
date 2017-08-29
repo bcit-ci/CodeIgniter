@@ -525,8 +525,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function join($table, $cond, $type = '', $escape = NULL)
 	{
-		$type = strtoupper(trim($type));
-		preg_match('#^(NATURAL(?=\s|$)\s*)?((LEFT|RIGHT)(?=\s|$))?\s*(INNER|OUTER)?$#', $type) OR $type = '';
+		$type = trim(strtoupper($type).' JOIN');
+		preg_match('#^(NATURAL\s+)?((LEFT|RIGHT)\s+)?((INNER|OUTER)\s+)?JOIN$#', $type) OR $type = 'JOIN';
 
 		// Extract any aliases that might exist. We use this information
 		// in the protect_identifiers to know whether to add a table prefix
@@ -587,7 +587,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		// Assemble the JOIN statement
-		$this->qb_join[] = $join = $type.' JOIN '.$table.$cond;
+		$this->qb_join[] = $join = $type.' '.$table.$cond;
 
 		if ($this->qb_caching === TRUE)
 		{
