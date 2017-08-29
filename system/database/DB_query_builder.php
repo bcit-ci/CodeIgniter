@@ -525,17 +525,23 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function join($table, $cond, $type = '', $escape = NULL)
 	{
+		$natural_join = FALSE;
 		if ($type !== '')
 		{
 			$type = strtoupper(trim($type));
 
-			if ( ! in_array($type, array('LEFT', 'RIGHT', 'OUTER', 'INNER', 'LEFT OUTER', 'RIGHT OUTER'), TRUE))
+			if ( in_array($type, array('LEFT', 'RIGHT', 'OUTER', 'INNER', 'LEFT OUTER', 'RIGHT OUTER'), TRUE))
 			{
-				$type = '';
+				$type .= ' ';
+			}
+			elseif ( in_array($type, array('NATURAL', 'NATURAL LEFT', 'NATURAL RIGHT', 'NATURAL LEFT OUTER', 'NATURAL RIGHT OUTER'), TRUE))
+			{
+				$type .= ' ';
+				$natural_join = TRUE;
 			}
 			else
 			{
-				$type .= ' ';
+				$type = '';
 			}
 		}
 
@@ -594,7 +600,14 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		// Assemble the JOIN statement
-		$this->qb_join[] = $join = $type.'JOIN '.$table.$cond;
+		if($natural_join === FALSE)
+		{
+			$this->qb_join[] = $join = $type.'JOIN '.$table.$cond;
+		}
+		else
+		{
+			$this->qb_join[] = $join = $type.'JOIN '.$table;
+		}
 
 		if ($this->qb_caching === TRUE)
 		{
