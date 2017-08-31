@@ -334,4 +334,20 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 		return ($this->db_debug) ? $this->display_error('db_unsupported_feature') : FALSE;
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Database version number
+	 *
+	 * @return      string
+	 */
+	public function version()
+	{
+		if (isset($this->data_cache['version']))
+		{
+			return $this->data_cache['version'];
+		}
+
+		return $this->data_cache['version'] = $this->conn_id->query("SELECT SERVERPROPERTY('ProductVersion') AS ver")->fetchColumn(0);
+	}
 }
