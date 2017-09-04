@@ -22,6 +22,7 @@ Bug fixes for 3.1.6
 -  Fixed a bug where :doc:`Image Manipulation Library <libraries/image_lib>` didn't escape image source paths passed to NetPBM as shell arguments.
 -  Fixed a bug (#5236) - :doc:`Query Builder <database/query_builder>` methods ``limit()``, ``offset()`` break SQL Server 2005, 2008 queries with ``"<tablename>".*`` in the ``SELECT`` clause.
 -  Fixed a bug (#5243) - :doc:`Database Library <database/index>` method ``version()`` didn't work with the 'pdo/dblib' driver.
+-  Fixed a bug (#5246) - :doc:`Database transactions <database/transactions>` status wasn't reset unless ``trans_complete()`` was called.
 
 Version 3.1.5
 =============
