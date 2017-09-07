@@ -1039,7 +1039,7 @@ class CI_Loader {
 			$filepath = $path.'libraries/'.$subdir.$class.'.php';
 
 			// Safety: Was the class already loaded by a previous call?
-			if (class_exists($class, FALSE))
+			if (class_exists($class, FALSE) && isset($CI->{strtolower($class)}))
 			{
 				// Before we deem this to be a duplicate request, let's see
 				// if a custom object name is being supplied. If so, we'll
