@@ -105,6 +105,13 @@ class CI_Log {
 	protected $_levels = array('ERROR' => 1, 'DEBUG' => 2, 'INFO' => 3, 'ALL' => 4);
 
 	/**
+	 * track string in log files
+	 *
+	 * @var string
+	 */
+	protected $_track_id = '';
+
+	/**
 	 * mbstring.func_overload flag
 	 *
 	 * @var	bool
@@ -155,6 +162,12 @@ class CI_Log {
 		if ( ! empty($config['log_file_permissions']) && is_int($config['log_file_permissions']))
 		{
 			$this->_file_permissions = $config['log_file_permissions'];
+		}
+
+		if ( ! empty($config['log_enable_track']) && $config['log_enable_track'] == TRUE)
+		{
+			$string = '1234567890abcdefghijklmnopqrstuvwxyz';
+			$this->_track_id = substr(str_shuffle($string), 0, 20);;
 		}
 	}
 
@@ -253,7 +266,7 @@ class CI_Log {
 	 */
 	protected function _format_line($level, $date, $message)
 	{
-		return $level.' - '.$date.' --> '.$message."\n";
+		return $level.' - '.$date. ' '. $this->_track_id. ' --> '.$message."\n";
 	}
 
 	// --------------------------------------------------------------------
