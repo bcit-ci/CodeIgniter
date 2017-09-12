@@ -182,9 +182,9 @@ class CI_Loader {
 	 * Loads and instantiates libraries.
 	 * Designed to be called from application controllers.
 	 *
-	 * @param	mixed	$library	Library name
-	 * @param	array	$params		Optional parameters to pass to the library class constructor
-	 * @param	string	$object_name	An optional object name to assign to
+	 * @param	string|string[]	$library	Library name
+	 * @param	array		$params		Optional parameters to pass to the library class constructor
+	 * @param	string		$object_name	An optional object name to assign to
 	 * @return	object
 	 */
 	public function library($library, $params = NULL, $object_name = NULL)
@@ -226,9 +226,9 @@ class CI_Loader {
 	 *
 	 * Loads and instantiates models.
 	 *
-	 * @param	string	$model		Model name
-	 * @param	string	$name		An optional object name to assign to
-	 * @param	bool	$db_conn	An optional database connection configuration to initialize
+	 * @param	string|string[]	$model		Model name
+	 * @param	string		$name		An optional object name to assign to
+	 * @param	bool		$db_conn	An optional database connection configuration to initialize
 	 * @return	object
 	 */
 	public function model($model, $name = '', $db_conn = FALSE)
