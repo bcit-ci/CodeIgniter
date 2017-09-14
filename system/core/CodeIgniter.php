@@ -339,6 +339,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *	2) a query string which doesn't go through a
  *	   file_exists() check
  *	3) a regular request for a non-existing page
+ * 	4) Arguments count test
  *
  *  We handle all of these as a 404 error.
  *
@@ -387,6 +388,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		{
 			$reflection = new ReflectionMethod($class, $method);
 			if ( ! $reflection->isPublic() OR $reflection->isConstructor())
+			{
+				$e404 = TRUE;
+			}
+		}
+		else
+		{
+			/**
+			 * Throw on passing too few function arguments
+			 * http://php.net/manual/en/migration71.incompatible.php
+			 */
+			$reflection = new ReflectionMethod($class, $method);
+			$args_min = $reflection->getNumberOfRequiredParameters();
+			$args_max = $reflection->getNumberOfParameters();
+			$args_count = count(array_slice($URI->rsegments, 2));
+			if ($args_count < $args_min || $args_count > $args_max)
 			{
 				$e404 = TRUE;
 			}
