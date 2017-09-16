@@ -66,7 +66,7 @@ the following::
 If for any reason you would like to change the prefix programatically
 without needing to create a new connection, you can use this method::
 
-	$this->db->set_dbprefix('newprefix');
+	$this->db->set_dbprefix('newprefix_');
 	$this->db->dbprefix('tablename'); // outputs newprefix_tablename
 
 
