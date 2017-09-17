@@ -64,10 +64,11 @@ class CI_Log {
 
 	/**
 	 * Level of logging
+	 * Defaults to 4 - "WARNING" and higher
 	 *
 	 * @var int
 	 */
-	protected $_threshold = 1;
+	protected $_threshold = 4;
 
 	/**
 	 * Array of threshold levels to log
@@ -102,7 +103,16 @@ class CI_Log {
 	 *
 	 * @var array
 	 */
-	protected $_levels = array('ERROR' => 1, 'DEBUG' => 2, 'INFO' => 3, 'ALL' => 4);
+	protected $_levels = array(
+		1 => 'DEBUG',    # Detailed information for debugging purposes
+		2 => 'INFO',     # Interesting events
+		3 => 'NOTICE',   # Normal but significant events
+		4 => 'WARNING',  # Unusual or undesirable occurances which are not errors
+		5 => 'ERROR',    # Errors which do not require immediate attention but should be monitored
+		6 => 'CRITICAL', # Critical conditions
+		7 => 'ALERT',    # Immediate action is required
+		8 => 'EMERGENCY' # The system is unusable
+	);
 
 	/**
 	 * mbstring.func_overload flag
@@ -163,7 +173,7 @@ class CI_Log {
 	 *
 	 * Generally this function will be called using the global log_message() function
 	 *
-	 * @param	string	$level 	The error level: 'error', 'debug' or 'info'
+	 * @param	string/int	$level 	The error level: 'error', 'debug' or 'info'
 	 * @param	string	$msg 	The error message
 	 * @return	bool
 	 */
@@ -174,10 +184,18 @@ class CI_Log {
 			return FALSE;
 		}
 
-		$level = strtoupper($level);
+		if (is_string($level))
+		{
+			$level = strtoupper($level);
+			$level = array_search($level, $this->_levels, true);
+		}
+		elseif (!is_int($level) || $level > max(array_keys($this->_levels)))
+		{
+			# $level must be an integer within the keys of the levels array or a string
+			return FALSE;
+		}
 
-		if (( ! isset($this->_levels[$level]) OR ($this->_levels[$level] > $this->_threshold))
-			&& ! isset($this->_threshold_array[$this->_levels[$level]]))
+		if (!$level || $level < $this->_threshold)
 		{
 			return FALSE;
 		}
