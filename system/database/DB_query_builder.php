@@ -148,6 +148,13 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @var	array
 	 */
 	protected $qb_set			= array();
+        
+	/**
+	 * QB update data sets when insert
+	 *
+	 * @var	array
+	 */
+	private $qb_update_string = '';
 
 	/**
 	 * QB data set for update_batch()
@@ -1403,9 +1410,11 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		// ORDER BY usage is often problematic here (most notably
 		// on Microsoft SQL Server) and ultimately unnecessary
 		// for selecting COUNT(*) ...
-		$qb_orderby       = $this->qb_orderby;
-		$qb_cache_orderby = $this->qb_cache_orderby;
-		$this->qb_orderby = $this->qb_cache_orderby = NULL;
+		if ( ! empty($this->qb_orderby))
+		{
+			$orderby = $this->qb_orderby;
+			$this->qb_orderby = NULL;
+		}
 
 		$result = ($this->qb_distinct === TRUE OR ! empty($this->qb_groupby) OR ! empty($this->qb_cache_groupby) OR $this->qb_limit OR $this->qb_offset)
 			? $this->query($this->_count_string.$this->protect_identifiers('numrows')."\nFROM (\n".$this->_compile_select()."\n) CI_count_all_results")
@@ -1415,10 +1424,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			$this->_reset_select();
 		}
-		else
+		// If we've previously reset the qb_orderby values, get them back
+		elseif ( ! isset($this->qb_orderby))
 		{
-			$this->qb_orderby       = $qb_orderby;
-			$this->qb_cache_orderby = $qb_cache_orderby;
+			$this->qb_orderby = $orderby;
 		}
 
 		if ($result->num_rows() === 0)
@@ -1477,7 +1486,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	bool	$escape	Whether to escape values and identifiers
 	 * @return	int	Number of rows inserted or FALSE on failure
 	 */
-	public function insert_batch($table, $set = NULL, $escape = NULL, $batch_size = 100)
+	public function insert_batch($table, $set = NULL, $escape = NULL, $batch_size = 100, $duplicate_check = false )
 	{
 		if ($set === NULL)
 		{
@@ -1510,7 +1519,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		$affected_rows = 0;
 		for ($i = 0, $total = count($this->qb_set); $i < $total; $i += $batch_size)
 		{
-			if ($this->query($this->_insert_batch($this->protect_identifiers($table, TRUE, $escape, FALSE), $this->qb_keys, array_slice($this->qb_set, $i, $batch_size))))
+			if ($this->query($this->_insert_batch($this->protect_identifiers($table, TRUE, $escape, FALSE), $this->qb_keys, array_slice($this->qb_set, $i, $batch_size), $duplicate_check)))
 			{
 				$affected_rows += $this->affected_rows();
 			}
@@ -1532,12 +1541,43 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	array	$values	INSERT values
 	 * @return	string
 	 */
-	protected function _insert_batch($table, $keys, $values)
+	protected function _insert_batch($table, $keys, $values, $duplicate_check)
 	{
-		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES '.implode(', ', $values);
+            if( false !== $duplicate_check && is_array( $duplicate_check ) ){
+                $this->_duplicate_checker( $keys, $duplicate_check );
+            }
+            return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES '.implode(', ', $values) . ' '. $this->qb_update_string;
 	}
+        
+        /**
+         * Duplicate checking when insert row/rows
+         * 
+         * @param array $keys
+         * @param array $custom_keys
+         * @return string
+         */
+        private function _duplicate_checker($keys, $custom_keys ){
+            $this->qb_update_string = 'ON DUPLICATE KEY UPDATE ';
+            $check_duplicate_keys = $custom_keys[ 0 ] === 'all' ? $keys : $custom_keys;
+            for($i=0; $i<count( $check_duplicate_keys );$i++){
+                $key = $this->_remove_str( $check_duplicate_keys[ $i ] );
+                if( $i > 0) $this->qb_update_string .= ', ';
+                $this->qb_update_string .= $key ." = VALUES({$key})";
+            }
+            return $this->qb_update_string;
+        }
+        
+        /**
+         * Remove unwanted char 
+         * 
+         * @param string $str
+         * @return string
+         */
+        private function _remove_str( $str ){
+            return str_replace('`', '', $str);
+        }
 
-	// --------------------------------------------------------------------
+        // --------------------------------------------------------------------
 
 	/**
 	 * The "set_insert_batch" function.  Allows key/value pairs to be set for batch inserts
