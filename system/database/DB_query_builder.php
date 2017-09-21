@@ -148,6 +148,13 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @var	array
 	 */
 	protected $qb_set			= array();
+        
+	/**
+	 * QB update data sets when insert
+	 *
+	 * @var	array
+	 */
+	private $qb_update_string = '';
 
 	/**
 	 * QB data set for update_batch()
@@ -525,8 +532,19 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function join($table, $cond, $type = '', $escape = NULL)
 	{
-		$type = trim(strtoupper($type).' JOIN');
-		preg_match('#^(NATURAL\s+)?((LEFT|RIGHT)\s+)?((INNER|OUTER)\s+)?JOIN$#', $type) OR $type = 'JOIN';
+		if ($type !== '')
+		{
+			$type = strtoupper(trim($type));
+
+			if ( ! in_array($type, array('LEFT', 'RIGHT', 'OUTER', 'INNER', 'LEFT OUTER', 'RIGHT OUTER'), TRUE))
+			{
+				$type = '';
+			}
+			else
+			{
+				$type .= ' ';
+			}
+		}
 
 		// Extract any aliases that might exist. We use this information
 		// in the protect_identifiers to know whether to add a table prefix
@@ -534,11 +552,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		is_bool($escape) OR $escape = $this->_protect_identifiers;
 
-		if (strpos($type, 'NATURAL') === 0)
-		{
-			$cond = '';
-		}
-		elseif ( ! $this->_has_operator($cond))
+		if ( ! $this->_has_operator($cond))
 		{
 			$cond = ' USING ('.($escape ? $this->escape_identifiers($cond) : $cond).')';
 		}
@@ -587,7 +601,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		// Assemble the JOIN statement
-		$this->qb_join[] = $join = $type.' '.$table.$cond;
+		$this->qb_join[] = $join = $type.'JOIN '.$table.$cond;
 
 		if ($this->qb_caching === TRUE)
 		{
@@ -718,7 +732,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function where_in($key = NULL, $values = NULL, $escape = NULL)
 	{
-		return $this->_wh_in('qb_where', $key, $values, FALSE, 'AND ', $escape);
+		return $this->_where_in($key, $values, FALSE, 'AND ', $escape);
 	}
 
 	// --------------------------------------------------------------------
@@ -736,7 +750,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function or_where_in($key = NULL, $values = NULL, $escape = NULL)
 	{
-		return $this->_wh_in('qb_where', $key, $values, FALSE, 'OR ', $escape);
+		return $this->_where_in($key, $values, FALSE, 'OR ', $escape);
 	}
 
 	// --------------------------------------------------------------------
@@ -754,7 +768,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function where_not_in($key = NULL, $values = NULL, $escape = NULL)
 	{
-		return $this->_wh_in('qb_where', $key, $values, TRUE, 'AND ', $escape);
+		return $this->_where_in($key, $values, TRUE, 'AND ', $escape);
 	}
 
 	// --------------------------------------------------------------------
@@ -772,96 +786,19 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function or_where_not_in($key = NULL, $values = NULL, $escape = NULL)
 	{
-		return $this->_wh_in('qb_where', $key, $values, TRUE, 'OR ', $escape);
+		return $this->_where_in($key, $values, TRUE, 'OR ', $escape);
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * HAVING IN
-	 *
-	 * Generates a HAVING field IN('item', 'item') SQL query,
-	 * joined with 'AND' if appropriate.
-	 *
-	 * @param	string	$key	The field to search
-	 * @param	array	$values	The values searched on
-	 * @param	bool	$escape
-	 * @return	CI_DB_query_builder
-	 */
-	public function having_in($key = NULL, $values = NULL, $escape = NULL)
-	{
-		return $this->_wh_in('qb_having', $key, $values, FALSE, 'AND ', $escape);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * OR HAVING IN
-	 *
-	 * Generates a HAVING field IN('item', 'item') SQL query,
-	 * joined with 'OR' if appropriate.
-	 *
-	 * @param	string	$key	The field to search
-	 * @param	array	$values	The values searched on
-	 * @param	bool	$escape
-	 * @return	CI_DB_query_builder
-	 */
-	public function or_having_in($key = NULL, $values = NULL, $escape = NULL)
-	{
-		return $this->_wh_in('qb_having', $key, $values, FALSE, 'OR ', $escape);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * HAVING NOT IN
-	 *
-	 * Generates a HAVING field NOT IN('item', 'item') SQL query,
-	 * joined with 'AND' if appropriate.
-	 *
-	 * @param	string	$key	The field to search
-	 * @param	array	$values	The values searched on
-	 * @param	bool	$escape
-	 * @return	CI_DB_query_builder
-	 */
-	public function having_not_in($key = NULL, $values = NULL, $escape = NULL)
-	{
-		return $this->_wh_in('qb_having', $key, $values, TRUE, 'AND ', $escape);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * OR HAVING NOT IN
-	 *
-	 * Generates a HAVING field NOT IN('item', 'item') SQL query,
-	 * joined with 'OR' if appropriate.
-	 *
-	 * @param	string	$key	The field to search
-	 * @param	array	$values	The values searched on
-	 * @param	bool	$escape
-	 * @return	CI_DB_query_builder
-	 */
-	public function or_having_not_in($key = NULL, $values = NULL, $escape = NULL)
-	{
-		return $this->_wh_in('qb_having', $key, $values, TRUE, 'OR ', $escape);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Internal WHERE/HAVING IN
+	 * Internal WHERE IN
 	 *
 	 * @used-by	where_in()
 	 * @used-by	or_where_in()
 	 * @used-by	where_not_in()
 	 * @used-by	or_where_not_in()
-	 * @used-by	having_in()
-	 * @used-by	or_having_in()
-	 * @used-by	having_not_in()
-	 * @used-by	or_having_not_in()
 	 *
-	 * @param	string	$qb_key	'qb_where' or 'qb_having'
 	 * @param	string	$key	The field to search
 	 * @param	array	$values	The values searched on
 	 * @param	bool	$not	If the statement would be IN or NOT IN
@@ -869,10 +806,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	bool	$escape
 	 * @return	CI_DB_query_builder
 	 */
-	protected function _wh_in($qb_key, $key = NULL, $values = NULL, $not = FALSE, $type = 'AND ', $escape = NULL)
+	protected function _where_in($key = NULL, $values = NULL, $not = FALSE, $type = 'AND ', $escape = NULL)
 	{
-		$qb_cache_key = ($qb_key === 'qb_having') ? 'qb_cache_having' : 'qb_cache_where';
-
 		if ($key === NULL OR $values === NULL)
 		{
 			return $this;
@@ -889,31 +824,31 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		if ($escape === TRUE)
 		{
-			$wh_in = array();
+			$where_in = array();
 			foreach ($values as $value)
 			{
-				$wh_in[] = $this->escape($value);
+				$where_in[] = $this->escape($value);
 			}
 		}
 		else
 		{
-			$wh_in = array_values($values);
+			$where_in = array_values($values);
 		}
 
-		$prefix = (count($this->$qb_key) === 0 && count($this->$qb_cache_key) === 0)
+		$prefix = (count($this->qb_where) === 0 && count($this->qb_cache_where) === 0)
 			? $this->_group_get_type('')
 			: $this->_group_get_type($type);
 
-		$wh_in = array(
-			'condition' => $prefix.$key.$not.' IN('.implode(', ', $wh_in).')',
+		$where_in = array(
+			'condition' => $prefix.$key.$not.' IN('.implode(', ', $where_in).')',
 			'escape' => $escape
 		);
 
-		$this->{$qb_key}[] = $wh_in;
+		$this->qb_where[] = $where_in;
 		if ($this->qb_caching === TRUE)
 		{
-			$this->{$qb_cache_key}[] = $wh_in;
-			$this->qb_cache_exists[] = substr($qb_key, 3);
+			$this->qb_cache_where[] = $where_in;
+			$this->qb_cache_exists[] = 'where';
 		}
 
 		return $this;
@@ -1551,7 +1486,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	bool	$escape	Whether to escape values and identifiers
 	 * @return	int	Number of rows inserted or FALSE on failure
 	 */
-	public function insert_batch($table, $set = NULL, $escape = NULL, $batch_size = 100)
+	public function insert_batch($table, $set = NULL, $escape = NULL, $batch_size = 100, $duplicate_check = false )
 	{
 		if ($set === NULL)
 		{
@@ -1584,7 +1519,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		$affected_rows = 0;
 		for ($i = 0, $total = count($this->qb_set); $i < $total; $i += $batch_size)
 		{
-			if ($this->query($this->_insert_batch($this->protect_identifiers($table, TRUE, $escape, FALSE), $this->qb_keys, array_slice($this->qb_set, $i, $batch_size))))
+			if ($this->query($this->_insert_batch($this->protect_identifiers($table, TRUE, $escape, FALSE), $this->qb_keys, array_slice($this->qb_set, $i, $batch_size), $duplicate_check)))
 			{
 				$affected_rows += $this->affected_rows();
 			}
@@ -1606,12 +1541,43 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @param	array	$values	INSERT values
 	 * @return	string
 	 */
-	protected function _insert_batch($table, $keys, $values)
+	protected function _insert_batch($table, $keys, $values, $duplicate_check)
 	{
-		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES '.implode(', ', $values);
+            if( false !== $duplicate_check && is_array( $duplicate_check ) ){
+                $this->_duplicate_checker( $keys, $duplicate_check );
+            }
+            return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES '.implode(', ', $values) . ' '. $this->qb_update_string;
 	}
+        
+        /**
+         * Duplicate checking when insert row/rows
+         * 
+         * @param array $keys
+         * @param array $custom_keys
+         * @return string
+         */
+        private function _duplicate_checker($keys, $custom_keys ){
+            $this->qb_update_string = 'ON DUPLICATE KEY UPDATE ';
+            $check_duplicate_keys = $custom_keys[ 0 ] === 'all' ? $keys : $custom_keys;
+            for($i=0; $i<count( $check_duplicate_keys );$i++){
+                $key = $this->_remove_str( $check_duplicate_keys[ $i ] );
+                if( $i > 0) $this->qb_update_string .= ', ';
+                $this->qb_update_string .= $key ." = VALUES({$key})";
+            }
+            return $this->qb_update_string;
+        }
+        
+        /**
+         * Remove unwanted char 
+         * 
+         * @param string $str
+         * @return string
+         */
+        private function _remove_str( $str ){
+            return str_replace('`', '', $str);
+        }
 
-	// --------------------------------------------------------------------
+        // --------------------------------------------------------------------
 
 	/**
 	 * The "set_insert_batch" function.  Allows key/value pairs to be set for batch inserts
