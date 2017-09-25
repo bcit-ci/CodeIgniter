@@ -7,8 +7,13 @@ Version 3.1.6
 
 Release Date: Not Released
 
+-  **Security**
+
+   -  Fixed a potential object injection in :doc:`Cache Library <libraries/caching>` 'apc' driver when ``save()`` is used with ``$raw = TRUE`` (thanks to Tomas Bortoli).
+
 -  General Changes
 
+   -  Deprecated :doc:`Cache Library Library <libraries/caching>` driver 'apc'.
    -  Updated the :doc:`Session Library <libraries/sessions>` 'redis', 'memcached' drivers to reduce the potential of a locking race conditions.
 
 
