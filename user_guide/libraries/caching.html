@@ -1,0 +1,895 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Caching Driver &mdash; CodeIgniter 3.1.6 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/ci-icon.ico"/>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/citheme.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="CodeIgniter 3.1.6 documentation" href="../index.html"/>
+        <link rel="up" title="Libraries" href="index.html"/>
+        <link rel="next" title="Calendaring Class" href="calendar.html"/>
+        <link rel="prev" title="Benchmarking Class" href="benchmark.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div id="nav">
+  <div id="nav_inner">
+    
+    
+    
+      <div id="pulldown-menu" class="ciNav">
+        <ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/welcome.html">Welcome to CodeIgniter</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation Instructions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/downloads.html">Downloading CodeIgniter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/index.html">Installation Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/upgrading.html">Upgrading From a Previous Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/index.html">CodeIgniter Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/at_a_glance.html">CodeIgniter at a Glance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/features.html">Supported Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/appflow.html">Application Flow Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/mvc.html">Model-View-Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/goals.html">Architectural Goals</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/static_pages.html">Static pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/news_section.html">News section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/create_news_items.html">Create news items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/conclusion.html">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing to CodeIgniter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../documentation/index.html">Writing CodeIgniter Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../DCO.html">Developer’s Certificate of Origin 1.1</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/index.html">General Topics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../general/urls.html">CodeIgniter URLs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/controllers.html">Controllers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/reserved_names.html">Reserved Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/views.html">Views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/libraries.html">Using CodeIgniter Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_libraries.html">Creating Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/drivers.html">Using CodeIgniter Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_drivers.html">Creating Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/core_classes.html">Creating Core System Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/ancillary_classes.html">Creating Ancillary Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/hooks.html">Hooks - Extending the Framework Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/autoloader.html">Auto-loading Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/common_functions.html">Common Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/compatibility_functions.html">Compatibility Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/routing.html">URI Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/errors.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/caching.html">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/profiling.html">Profiling Your Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/cli.html">Running via the CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/managing_apps.html">Managing your Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/environments.html">Handling Multiple Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/alternative_php.html">Alternate PHP Syntax for View Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/security.html">Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/styleguide.html">PHP Style Guide</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Libraries</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="benchmark.html">Benchmarking Class</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Caching Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calendar.html">Calendaring Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cart.html">Shopping Cart Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">Config Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.html">Email Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encrypt.html">Encrypt Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encryption.html">Encryption Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="file_uploading.html">File Uploading Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="form_validation.html">Form Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ftp.html">FTP Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image_lib.html">Image Manipulation Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input.html">Input Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="javascript.html">Javascript Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="language.html">Language Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loader.html">Loader Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migration.html">Migrations Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="output.html">Output Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pagination.html">Pagination Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parser.html">Template Parser Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="security.html">Security Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sessions.html">Session Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="table.html">HTML Table Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trackback.html">Trackback Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typography.html">Typography Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit_testing.html">Unit Testing Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uri.html">URI Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_agent.html">User Agent Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xmlrpc.html">XML-RPC and XML-RPC Server Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zip.html">Zip Encoding Class</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../database/examples.html">Quick Start: Usage Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/configuration.html">Database Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/connecting.html">Connecting to a Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/queries.html">Running Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/results.html">Generating Query Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/helpers.html">Query Helper Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/query_builder.html">Query Builder Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/transactions.html">Transactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/metadata.html">Getting MetaData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/call_function.html">Custom Function Calls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/caching.html">Query Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/forge.html">Database Manipulation with Database Forge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/utilities.html">Database Utilities Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/db_driver_reference.html">Database Driver Reference</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../helpers/index.html">Helpers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/array_helper.html">Array Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/captcha_helper.html">CAPTCHA Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/cookie_helper.html">Cookie Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/date_helper.html">Date Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/directory_helper.html">Directory Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/download_helper.html">Download Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/email_helper.html">Email Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/file_helper.html">File Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/form_helper.html">Form Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/html_helper.html">HTML Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/inflector_helper.html">Inflector Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/language_helper.html">Language Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/number_helper.html">Number Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/path_helper.html">Path Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/security_helper.html">Security Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/smiley_helper.html">Smiley Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/string_helper.html">String Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/text_helper.html">Text Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/typography_helper.html">Typography Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/url_helper.html">URL Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/xml_helper.html">XML Helper</a></li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    
+      
+  </div>
+</div>
+<div id="nav2">
+  <a href="#" id="openToc">
+    <img src="data:image/jpeg;base64,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" title="Toggle Table of Contents" alt="Toggle Table of Contents" />
+  </a>
+</div>
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../index.html" class="fa fa-home"> CodeIgniter</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/welcome.html">Welcome to CodeIgniter</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation Instructions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/downloads.html">Downloading CodeIgniter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/index.html">Installation Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/upgrading.html">Upgrading From a Previous Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/index.html">CodeIgniter Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/at_a_glance.html">CodeIgniter at a Glance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/features.html">Supported Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/appflow.html">Application Flow Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/mvc.html">Model-View-Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/goals.html">Architectural Goals</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/static_pages.html">Static pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/news_section.html">News section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/create_news_items.html">Create news items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/conclusion.html">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing to CodeIgniter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../documentation/index.html">Writing CodeIgniter Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../DCO.html">Developer’s Certificate of Origin 1.1</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/index.html">General Topics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../general/urls.html">CodeIgniter URLs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/controllers.html">Controllers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/reserved_names.html">Reserved Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/views.html">Views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/libraries.html">Using CodeIgniter Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_libraries.html">Creating Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/drivers.html">Using CodeIgniter Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_drivers.html">Creating Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/core_classes.html">Creating Core System Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/ancillary_classes.html">Creating Ancillary Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/hooks.html">Hooks - Extending the Framework Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/autoloader.html">Auto-loading Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/common_functions.html">Common Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/compatibility_functions.html">Compatibility Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/routing.html">URI Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/errors.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/caching.html">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/profiling.html">Profiling Your Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/cli.html">Running via the CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/managing_apps.html">Managing your Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/environments.html">Handling Multiple Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/alternative_php.html">Alternate PHP Syntax for View Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/security.html">Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/styleguide.html">PHP Style Guide</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Libraries</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="benchmark.html">Benchmarking Class</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Caching Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calendar.html">Calendaring Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cart.html">Shopping Cart Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">Config Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.html">Email Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encrypt.html">Encrypt Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encryption.html">Encryption Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="file_uploading.html">File Uploading Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="form_validation.html">Form Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ftp.html">FTP Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image_lib.html">Image Manipulation Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input.html">Input Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="javascript.html">Javascript Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="language.html">Language Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loader.html">Loader Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migration.html">Migrations Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="output.html">Output Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pagination.html">Pagination Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parser.html">Template Parser Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="security.html">Security Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sessions.html">Session Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="table.html">HTML Table Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trackback.html">Trackback Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typography.html">Typography Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit_testing.html">Unit Testing Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uri.html">URI Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_agent.html">User Agent Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xmlrpc.html">XML-RPC and XML-RPC Server Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zip.html">Zip Encoding Class</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../database/examples.html">Quick Start: Usage Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/configuration.html">Database Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/connecting.html">Connecting to a Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/queries.html">Running Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/results.html">Generating Query Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/helpers.html">Query Helper Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/query_builder.html">Query Builder Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/transactions.html">Transactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/metadata.html">Getting MetaData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/call_function.html">Custom Function Calls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/caching.html">Query Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/forge.html">Database Manipulation with Database Forge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/utilities.html">Database Utilities Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/db_driver_reference.html">Database Driver Reference</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../helpers/index.html">Helpers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/array_helper.html">Array Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/captcha_helper.html">CAPTCHA Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/cookie_helper.html">Cookie Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/date_helper.html">Date Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/directory_helper.html">Directory Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/download_helper.html">Download Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/email_helper.html">Email Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/file_helper.html">File Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/form_helper.html">Form Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/html_helper.html">HTML Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/inflector_helper.html">Inflector Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/language_helper.html">Language Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/number_helper.html">Number Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/path_helper.html">Path Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/security_helper.html">Security Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/smiley_helper.html">Smiley Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/string_helper.html">String Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/text_helper.html">Text Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/typography_helper.html">Typography Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/url_helper.html">URL Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/xml_helper.html">XML Helper</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">CodeIgniter</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+        <li><a href="index.html">Libraries</a> &raquo;</li>
+      
+    <li>Caching Driver</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+    <div style="float:right;margin-left:5px;" id="closeMe">
+      <img title="Classic Layout" alt="classic layout" src="data:image/gif;base64,R0lGODlhFAAUAJEAAAAAADMzM////wAAACH5BAUUAAIALAAAAAAUABQAAAImlI+py+0PU5gRBRDM3DxbWoXis42X13USOLauUIqnlsaH/eY6UwAAOw==" />
+    </div>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="caching-driver">
+<h1>Caching Driver<a class="headerlink" href="#caching-driver" title="Permalink to this headline">¶</a></h1>
+<p>CodeIgniter features wrappers around some of the most popular forms of
+fast and dynamic caching. All but file-based caching require specific
+server requirements, and a Fatal Exception will be thrown if server
+requirements are not met.</p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#example-usage" id="id1">Example Usage</a></li>
+<li><a class="reference internal" href="#class-reference" id="id2">Class Reference</a></li>
+<li><a class="reference internal" href="#drivers" id="id3">Drivers</a><ul>
+<li><a class="reference internal" href="#alternative-php-cache-apc-caching" id="id4">Alternative PHP Cache (APC) Caching</a></li>
+<li><a class="reference internal" href="#file-based-caching" id="id5">File-based Caching</a></li>
+<li><a class="reference internal" href="#memcached-caching" id="id6">Memcached Caching</a></li>
+<li><a class="reference internal" href="#wincache-caching" id="id7">WinCache Caching</a></li>
+<li><a class="reference internal" href="#redis-caching" id="id8">Redis Caching</a></li>
+<li><a class="reference internal" href="#dummy-cache" id="id9">Dummy Cache</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="custom-index container"></div><div class="section" id="example-usage">
+<h2><a class="toc-backref" href="#id1">Example Usage</a><a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h2>
+<p>The following example will load the cache driver, specify <a class="reference external" href="#alternative-php-cache-apc-caching">APC</a>
+as the driver to use, and fall back to file-based caching if APC is not
+available in the hosting environment.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">driver</span><span class="p">(</span><span class="s1">&#39;cache&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;adapter&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;apc&#39;</span><span class="p">,</span> <span class="s1">&#39;backup&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;file&#39;</span><span class="p">));</span>
+
+<span class="k">if</span> <span class="p">(</span> <span class="o">!</span> <span class="nv">$foo</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cache</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">))</span>
+<span class="p">{</span>
+        <span class="k">echo</span> <span class="s1">&#39;Saving to the cache!&lt;br /&gt;&#39;</span><span class="p">;</span>
+        <span class="nv">$foo</span> <span class="o">=</span> <span class="s1">&#39;foobarbaz!&#39;</span><span class="p">;</span>
+
+        <span class="c1">// Save into the cache for 5 minutes</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cache</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="nv">$foo</span><span class="p">,</span> <span class="mi">300</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">echo</span> <span class="nv">$foo</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>You can also prefix cache item names via the <strong>key_prefix</strong> setting, which is useful
+to avoid collisions when you’re running multiple applications on the same environment.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">driver</span><span class="p">(</span><span class="s1">&#39;cache&#39;</span><span class="p">,</span>
+        <span class="k">array</span><span class="p">(</span><span class="s1">&#39;adapter&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;apc&#39;</span><span class="p">,</span> <span class="s1">&#39;backup&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;file&#39;</span><span class="p">,</span> <span class="s1">&#39;key_prefix&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;my_&#39;</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cache</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">);</span> <span class="c1">// Will get the cache entry named &#39;my_foo&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="class-reference">
+<h2><a class="toc-backref" href="#id2">Class Reference</a><a class="headerlink" href="#class-reference" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="CI_Cache">
+<em class="property">class </em><code class="descname">CI_Cache</code><a class="headerlink" href="#CI_Cache" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="CI_Cache::is_supported">
+<code class="descname">is_supported</code><span class="sig-paren">(</span><em>$driver</em><span class="sig-paren">)</span><a class="headerlink" href="#CI_Cache::is_supported" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$driver</strong> (<em>string</em>) – the name of the caching driver</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">TRUE if supported, FALSE if not</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This method is automatically called when accessing drivers via
+<code class="docutils literal"><span class="pre">$this-&gt;cache-&gt;get()</span></code>. However, if the individual drivers are used,
+make sure to call this method to ensure the driver is supported in the
+hosting environment.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cache</span><span class="o">-&gt;</span><span class="na">apc</span><span class="o">-&gt;</span><span class="na">is_supported</span><span class="p">())</span>
+<span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$data</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cache</span><span class="o">-&gt;</span><span class="na">apc</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;my_cache&#39;</span><span class="p">))</span>
+        <span class="p">{</span>
+                <span class="c1">// do things.</span>
+        <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Cache::get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>$id</em><span class="sig-paren">)</span><a class="headerlink" href="#CI_Cache::get" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$id</strong> (<em>string</em>) – Cache item name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Item value or FALSE if not found</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This method will attempt to fetch an item from the cache store. If the
+item does not exist, the method will return FALSE.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$foo</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cache</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;my_cached_item&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Cache::save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>$id</em>, <em>$data</em><span class="optional">[</span>, <em>$ttl = 60</em><span class="optional">[</span>, <em>$raw = FALSE</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Cache::save" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$id</strong> (<em>string</em>) – Cache item name</li>
+<li><strong>$data</strong> (<em>mixed</em>) – the data to save</li>
+<li><strong>$ttl</strong> (<em>int</em>) – Time To Live, in seconds (default 60)</li>
+<li><strong>$raw</strong> (<em>bool</em>) – Whether to store the raw value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">TRUE on success, FALSE on failure</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This method will save an item to the cache store. If saving fails, the
+method will return FALSE.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cache</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="s1">&#39;cache_item_id&#39;</span><span class="p">,</span> <span class="s1">&#39;data_to_cache&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">$raw</span></code> parameter is only utilized by APC and Memcache,
+in order to allow usage of <code class="docutils literal"><span class="pre">increment()</span></code> and <code class="docutils literal"><span class="pre">decrement()</span></code>.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Cache::delete">
+<code class="descname">delete</code><span class="sig-paren">(</span><em>$id</em><span class="sig-paren">)</span><a class="headerlink" href="#CI_Cache::delete" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$id</strong> (<em>string</em>) – name of cached item</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">TRUE on success, FALSE on failure</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This method will delete a specific item from the cache store. If item
+deletion fails, the method will return FALSE.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cache</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">(</span><span class="s1">&#39;cache_item_id&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Cache::increment">
+<code class="descname">increment</code><span class="sig-paren">(</span><em>$id</em><span class="optional">[</span>, <em>$offset = 1</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Cache::increment" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$id</strong> (<em>string</em>) – Cache ID</li>
+<li><strong>$offset</strong> (<em>int</em>) – Step/value to add</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">New value on success, FALSE on failure</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Performs atomic incrementation of a raw stored value.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="c1">// &#39;iterator&#39; has a value of 2</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cache</span><span class="o">-&gt;</span><span class="na">increment</span><span class="p">(</span><span class="s1">&#39;iterator&#39;</span><span class="p">);</span> <span class="c1">// &#39;iterator&#39; is now 3</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cache</span><span class="o">-&gt;</span><span class="na">increment</span><span class="p">(</span><span class="s1">&#39;iterator&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span> <span class="c1">// &#39;iterator&#39; is now 6</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Cache::decrement">
+<code class="descname">decrement</code><span class="sig-paren">(</span><em>$id</em><span class="optional">[</span>, <em>$offset = 1</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Cache::decrement" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$id</strong> (<em>string</em>) – Cache ID</li>
+<li><strong>$offset</strong> (<em>int</em>) – Step/value to reduce by</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">New value on success, FALSE on failure</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Performs atomic decrementation of a raw stored value.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="c1">// &#39;iterator&#39; has a value of 6</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cache</span><span class="o">-&gt;</span><span class="na">decrement</span><span class="p">(</span><span class="s1">&#39;iterator&#39;</span><span class="p">);</span> <span class="c1">// &#39;iterator&#39; is now 5</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cache</span><span class="o">-&gt;</span><span class="na">decrement</span><span class="p">(</span><span class="s1">&#39;iterator&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span> <span class="c1">// &#39;iterator&#39; is now 3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Cache::clean">
+<code class="descname">clean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Cache::clean" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">TRUE on success, FALSE on failure</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+<p>This method will ‘clean’ the entire cache. If the deletion of the
+cache files fails, the method will return FALSE.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cache</span><span class="o">-&gt;</span><span class="na">clean</span><span class="p">();</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Cache::cache_info">
+<code class="descname">cache_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Cache::cache_info" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Information on the entire cache database</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">mixed</td>
+</tr>
+</tbody>
+</table>
+<p>This method will return information on the entire cache.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nb">var_dump</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cache</span><span class="o">-&gt;</span><span class="na">cache_info</span><span class="p">());</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The information returned and the structure of the data is dependent
+on which adapter is being used.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Cache::get_metadata">
+<code class="descname">get_metadata</code><span class="sig-paren">(</span><em>$id</em><span class="sig-paren">)</span><a class="headerlink" href="#CI_Cache::get_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$id</strong> (<em>string</em>) – Cache item name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Metadata for the cached item</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This method will return detailed information on a specific item in the
+cache.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nb">var_dump</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cache</span><span class="o">-&gt;</span><span class="na">get_metadata</span><span class="p">(</span><span class="s1">&#39;my_cached_item&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The information returned and the structure of the data is dependent
+on which adapter is being used.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="drivers">
+<h2><a class="toc-backref" href="#id3">Drivers</a><a class="headerlink" href="#drivers" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="alternative-php-cache-apc-caching">
+<h3><a class="toc-backref" href="#id4">Alternative PHP Cache (APC) Caching</a><a class="headerlink" href="#alternative-php-cache-apc-caching" title="Permalink to this headline">¶</a></h3>
+<p>All of the methods listed above can be accessed without passing a
+specific adapter to the driver loader as follows:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">driver</span><span class="p">(</span><span class="s1">&#39;cache&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cache</span><span class="o">-&gt;</span><span class="na">apc</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>For more information on APC, please see
+<a class="reference external" href="http://php.net/apc">http://php.net/apc</a>.</p>
+</div>
+<div class="section" id="file-based-caching">
+<h3><a class="toc-backref" href="#id5">File-based Caching</a><a class="headerlink" href="#file-based-caching" title="Permalink to this headline">¶</a></h3>
+<p>Unlike caching from the Output Class, the driver file-based caching
+allows for pieces of view files to be cached. Use this with care, and
+make sure to benchmark your application, as a point can come where disk
+I/O will negate positive gains by caching.</p>
+<p>All of the methods listed above can be accessed without passing a
+specific adapter to the driver loader as follows:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">driver</span><span class="p">(</span><span class="s1">&#39;cache&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cache</span><span class="o">-&gt;</span><span class="na">file</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="memcached-caching">
+<h3><a class="toc-backref" href="#id6">Memcached Caching</a><a class="headerlink" href="#memcached-caching" title="Permalink to this headline">¶</a></h3>
+<p>Multiple Memcached servers can be specified in the memcached.php
+configuration file, located in the _application/config/* directory.</p>
+<p>All of the methods listed above can be accessed without passing a
+specific adapter to the driver loader as follows:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">driver</span><span class="p">(</span><span class="s1">&#39;cache&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cache</span><span class="o">-&gt;</span><span class="na">memcached</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>For more information on Memcached, please see
+<a class="reference external" href="http://php.net/memcached">http://php.net/memcached</a>.</p>
+</div>
+<div class="section" id="wincache-caching">
+<h3><a class="toc-backref" href="#id7">WinCache Caching</a><a class="headerlink" href="#wincache-caching" title="Permalink to this headline">¶</a></h3>
+<p>Under Windows, you can also utilize the WinCache driver.</p>
+<p>All of the methods listed above can be accessed without passing a
+specific adapter to the driver loader as follows:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">driver</span><span class="p">(</span><span class="s1">&#39;cache&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cache</span><span class="o">-&gt;</span><span class="na">wincache</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>For more information on WinCache, please see
+<a class="reference external" href="http://php.net/wincache">http://php.net/wincache</a>.</p>
+</div>
+<div class="section" id="redis-caching">
+<h3><a class="toc-backref" href="#id8">Redis Caching</a><a class="headerlink" href="#redis-caching" title="Permalink to this headline">¶</a></h3>
+<p>Redis is an in-memory key-value store which can operate in LRU cache mode.
+To use it, you need <a class="reference external" href="https://github.com/phpredis/phpredis">Redis server and phpredis PHP extension</a>.</p>
+<p>Config options to connect to redis server must be stored in the application/config/redis.php file.
+Available options are:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;socket_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;tcp&#39;</span><span class="p">;</span> <span class="c1">//`tcp` or `unix`</span>
+<span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;socket&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;/var/run/redis.sock&#39;</span><span class="p">;</span> <span class="c1">// in case of `unix` socket type</span>
+<span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;127.0.0.1&#39;</span><span class="p">;</span>
+<span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">NULL</span><span class="p">;</span>
+<span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;port&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">6379</span><span class="p">;</span>
+<span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;timeout&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>All of the methods listed above can be accessed without passing a
+specific adapter to the driver loader as follows:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">driver</span><span class="p">(</span><span class="s1">&#39;cache&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cache</span><span class="o">-&gt;</span><span class="na">redis</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>For more information on Redis, please see
+<a class="reference external" href="http://redis.io">http://redis.io</a>.</p>
+</div>
+<div class="section" id="dummy-cache">
+<h3><a class="toc-backref" href="#id9">Dummy Cache</a><a class="headerlink" href="#dummy-cache" title="Permalink to this headline">¶</a></h3>
+<p>This is a caching backend that will always ‘miss.’ It stores no data,
+but lets you keep your caching code in place in environments that don’t
+support your chosen cache.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="calendar.html" class="btn btn-neutral float-right" title="Calendaring Class">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="benchmark.html" class="btn btn-neutral" title="Benchmarking Class"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014 - 2017, British Columbia Institute of Technology.
+      Last updated on Sep 25, 2017.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.1.6',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

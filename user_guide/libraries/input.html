@@ -1,0 +1,1191 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Input Class &mdash; CodeIgniter 3.1.6 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/ci-icon.ico"/>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/citheme.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="CodeIgniter 3.1.6 documentation" href="../index.html"/>
+        <link rel="up" title="Libraries" href="index.html"/>
+        <link rel="next" title="Javascript Class" href="javascript.html"/>
+        <link rel="prev" title="Image Manipulation Class" href="image_lib.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div id="nav">
+  <div id="nav_inner">
+    
+    
+    
+      <div id="pulldown-menu" class="ciNav">
+        <ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/welcome.html">Welcome to CodeIgniter</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation Instructions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/downloads.html">Downloading CodeIgniter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/index.html">Installation Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/upgrading.html">Upgrading From a Previous Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/index.html">CodeIgniter Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/at_a_glance.html">CodeIgniter at a Glance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/features.html">Supported Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/appflow.html">Application Flow Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/mvc.html">Model-View-Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/goals.html">Architectural Goals</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/static_pages.html">Static pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/news_section.html">News section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/create_news_items.html">Create news items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/conclusion.html">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing to CodeIgniter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../documentation/index.html">Writing CodeIgniter Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../DCO.html">Developer’s Certificate of Origin 1.1</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/index.html">General Topics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../general/urls.html">CodeIgniter URLs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/controllers.html">Controllers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/reserved_names.html">Reserved Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/views.html">Views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/libraries.html">Using CodeIgniter Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_libraries.html">Creating Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/drivers.html">Using CodeIgniter Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_drivers.html">Creating Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/core_classes.html">Creating Core System Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/ancillary_classes.html">Creating Ancillary Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/hooks.html">Hooks - Extending the Framework Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/autoloader.html">Auto-loading Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/common_functions.html">Common Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/compatibility_functions.html">Compatibility Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/routing.html">URI Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/errors.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/caching.html">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/profiling.html">Profiling Your Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/cli.html">Running via the CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/managing_apps.html">Managing your Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/environments.html">Handling Multiple Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/alternative_php.html">Alternate PHP Syntax for View Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/security.html">Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/styleguide.html">PHP Style Guide</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Libraries</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="benchmark.html">Benchmarking Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caching.html">Caching Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calendar.html">Calendaring Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cart.html">Shopping Cart Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">Config Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.html">Email Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encrypt.html">Encrypt Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encryption.html">Encryption Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="file_uploading.html">File Uploading Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="form_validation.html">Form Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ftp.html">FTP Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image_lib.html">Image Manipulation Class</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Input Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="javascript.html">Javascript Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="language.html">Language Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loader.html">Loader Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migration.html">Migrations Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="output.html">Output Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pagination.html">Pagination Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parser.html">Template Parser Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="security.html">Security Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sessions.html">Session Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="table.html">HTML Table Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trackback.html">Trackback Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typography.html">Typography Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit_testing.html">Unit Testing Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uri.html">URI Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_agent.html">User Agent Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xmlrpc.html">XML-RPC and XML-RPC Server Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zip.html">Zip Encoding Class</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../database/examples.html">Quick Start: Usage Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/configuration.html">Database Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/connecting.html">Connecting to a Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/queries.html">Running Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/results.html">Generating Query Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/helpers.html">Query Helper Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/query_builder.html">Query Builder Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/transactions.html">Transactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/metadata.html">Getting MetaData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/call_function.html">Custom Function Calls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/caching.html">Query Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/forge.html">Database Manipulation with Database Forge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/utilities.html">Database Utilities Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/db_driver_reference.html">Database Driver Reference</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../helpers/index.html">Helpers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/array_helper.html">Array Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/captcha_helper.html">CAPTCHA Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/cookie_helper.html">Cookie Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/date_helper.html">Date Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/directory_helper.html">Directory Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/download_helper.html">Download Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/email_helper.html">Email Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/file_helper.html">File Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/form_helper.html">Form Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/html_helper.html">HTML Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/inflector_helper.html">Inflector Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/language_helper.html">Language Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/number_helper.html">Number Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/path_helper.html">Path Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/security_helper.html">Security Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/smiley_helper.html">Smiley Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/string_helper.html">String Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/text_helper.html">Text Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/typography_helper.html">Typography Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/url_helper.html">URL Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/xml_helper.html">XML Helper</a></li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    
+      
+  </div>
+</div>
+<div id="nav2">
+  <a href="#" id="openToc">
+    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAZABkAAD/7AARRHVja3kAAQAEAAAARgAA/+4ADkFkb2JlAGTAAAAAAf/bAIQABAMDAwMDBAMDBAYEAwQGBwUEBAUHCAYGBwYGCAoICQkJCQgKCgwMDAwMCgwMDQ0MDBERERERFBQUFBQUFBQUFAEEBQUIBwgPCgoPFA4ODhQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQU/8AAEQgAKwCaAwERAAIRAQMRAf/EAHsAAQAABwEBAAAAAAAAAAAAAAABAwQFBgcIAgkBAQAAAAAAAAAAAAAAAAAAAAAQAAEDAwICBwYEAgsAAAAAAAIBAwQAEQUSBiEHkROTVNQWGDFBUVIUCHEiMtOUFWGBobHRQlMkZIRVEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwDSC+ygkOOaUoKigUCgUCgUCgUCgUCgUCgUCgkuGguIP9FBMFb0Hqg7We+3jlmIqqYFf4ub+/QYlnOR/LqIBKGFUbf8qWv971BytQXXE7Y3Lnm3HsFhp2TaZJAdchRXpIgSpdEJWxJEW3xoKV7F5OMy7JkQn2o7D6w33XGjEAkoiqrJEqIiOIiKuhePCgqp22dyYyS3CyWHnQ5joG61HkRnmnTbaFSMhExRVQRRVJU9iUHjE7ez+fJ0MFipmUNhBV8YUd2SoIV9KkjQla9ltegttBdPLW4/qocL+UTfrMiHW4+P9M71shuyrqaHTcxsl7jegpsji8nh5ZwMvDfgTm0RTjSmjYdFCS6KoOIipdFunCgmNYTMv457MMY6U7iI6oMieDDhRm1VbIhuoOkbqtuK0Hpzb+eZcYZexUxt6UyUqK2cd0SdjtgrhOgijcgERUlJOCIl6CpgbP3blRI8XgMjNARAyKNDfeRBdFDBVUAXgQrqH4pxoJTu2NysY97LP4ac1io5q1InHFeGO24LnVKJuKOkSQ/yKir+rh7aCLG1dzypZQI2FnvTgccYOM3FeN0XWERXAUEFVQgQkUktdLpegm+Td3/Xli/L+S/mYNJIOF9G/wBeLKrZHFb0akG6W1WtQWSg3Dyg5e7V3fipE3O4/wCrktyzYA+ufas2LbZIlmnAT2kvuoN1wft95augilglX/tzP3qCu9O3LL/wV/i5v79BvmTADq14UGu91467Z6U9y0HzH/ncj/U/sT/CgynZG7I2NezpZGUjIycJkYkZSG+uQ81pbBNKLxJfjwoMqZ3/ALYHl35AJ7/cuwHcu5k7r1Q5pHetBjquqVVJWGxj9Zrtcl/Ggy3dHMvauR3HFZj5nHNxSyW5JISYDMoIwx8tFIGHZhPNaykGapr6rUAiicEoMG21lMRj8buPAz8xhJrr7uOeiPTCyAwXUaGR1mgozbTusOsFLEiJ7fbQa/h7gcjy2H3V6xppwDNtUSxCJIqp7valBuWVzJ22xuCROXNNZiJkMtms0DbjUkAZjzoDrTMd9dDRI44ZC2YsrYdKWP2WDT2S3N9dNdlRYrGMYc06IURXSYb0igrpWS485xVNS6nF4rwslkoMwnbpgZLB7bmt5uMweAhDEl4B5uSLzzqTnnyVpW2jaJHRMSIjdDiiotvy3DOE5rYTEbkl5yFn28k7JyG4c7AU2HtLH1uKfaiMPI40CdYbpNtmLdwTSn5rewLNld+7TLdeal4WarWBkbVKBjgdElMJJwAAY5fl4kB3b1fp4XvagsGS3FjJfLzDNtS8aeXx7LzT7TyzByQE5PccRGRC0ZRUDRV6y62vbjagzLmJzS2vuPK43JY6aP1TW6Jz+RIWyFtyC06y3EkiiinAo7YCqfq1AqqnGgsOH3lhZO8d1pmcpB8j5XIm9OYlBJSQ/FSS4427DKO0RC8AlcEMhFdViRR1WDWR5t3WXVuL1d106kG9vdeye2g60+1FDyW0shIcXVpyroXt8I8dfd+NB1vioAdWnD3UF1+gD4UFc6CEKpagxXN43rwJLUHz7yX2c8zokt9uHlsPIhA4aRnnHJTLptIS6CNsY7iASpxUUMkReGpfbQW0vtN5pitvrsN28rwtBD0nc0+/Yft5XhaB6TuaXfsP28rwtA9J3NPv2H7eV4Wgek7mn37D9vK8LQPSdzT79h+3leFoHpO5pd+w/byvC0D0nc0u/Yft5XhaB6TuaXfsP28rwtA9J3NLv2H7eV4Wgek7ml37D9vK8LQPSdzS79h+3leFoHpO5p9+w/byvC0E9r7Reazy2HIYVPxkS/CUHVn26cosxyv2g7h89LYmZSXOenvLEQ1YaQ222RATcQCP8rSGqqA8S02W2pQ6FhMoAIlqCtsnwoCpdKClejI4i3Sgtb+GBxVuNBSFt1pV/RQefLjPyUDy4z8lA8uM/JQPLjPyUDy4z8lA8uM/JQPLjPyUDy4z8lA8uM/JQPLjPyUDy4z8lA8utJ/koJ7WCbBU/LQXOPAFq1koK8B0pag90CggtBBf6qB0UDooHRQOigdFA6KB0UDooHRQOigdFA6KB0UDooI0EaBQf//Z" title="Toggle Table of Contents" alt="Toggle Table of Contents" />
+  </a>
+</div>
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../index.html" class="fa fa-home"> CodeIgniter</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/welcome.html">Welcome to CodeIgniter</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation Instructions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/downloads.html">Downloading CodeIgniter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/index.html">Installation Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/upgrading.html">Upgrading From a Previous Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/index.html">CodeIgniter Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/at_a_glance.html">CodeIgniter at a Glance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/features.html">Supported Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/appflow.html">Application Flow Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/mvc.html">Model-View-Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/goals.html">Architectural Goals</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/static_pages.html">Static pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/news_section.html">News section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/create_news_items.html">Create news items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/conclusion.html">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing to CodeIgniter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../documentation/index.html">Writing CodeIgniter Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../DCO.html">Developer’s Certificate of Origin 1.1</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/index.html">General Topics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../general/urls.html">CodeIgniter URLs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/controllers.html">Controllers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/reserved_names.html">Reserved Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/views.html">Views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/libraries.html">Using CodeIgniter Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_libraries.html">Creating Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/drivers.html">Using CodeIgniter Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_drivers.html">Creating Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/core_classes.html">Creating Core System Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/ancillary_classes.html">Creating Ancillary Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/hooks.html">Hooks - Extending the Framework Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/autoloader.html">Auto-loading Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/common_functions.html">Common Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/compatibility_functions.html">Compatibility Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/routing.html">URI Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/errors.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/caching.html">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/profiling.html">Profiling Your Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/cli.html">Running via the CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/managing_apps.html">Managing your Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/environments.html">Handling Multiple Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/alternative_php.html">Alternate PHP Syntax for View Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/security.html">Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/styleguide.html">PHP Style Guide</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Libraries</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="benchmark.html">Benchmarking Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caching.html">Caching Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calendar.html">Calendaring Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cart.html">Shopping Cart Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">Config Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.html">Email Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encrypt.html">Encrypt Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encryption.html">Encryption Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="file_uploading.html">File Uploading Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="form_validation.html">Form Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ftp.html">FTP Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image_lib.html">Image Manipulation Class</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Input Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="javascript.html">Javascript Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="language.html">Language Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loader.html">Loader Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migration.html">Migrations Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="output.html">Output Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pagination.html">Pagination Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parser.html">Template Parser Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="security.html">Security Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sessions.html">Session Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="table.html">HTML Table Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trackback.html">Trackback Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typography.html">Typography Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit_testing.html">Unit Testing Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uri.html">URI Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_agent.html">User Agent Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xmlrpc.html">XML-RPC and XML-RPC Server Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zip.html">Zip Encoding Class</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../database/examples.html">Quick Start: Usage Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/configuration.html">Database Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/connecting.html">Connecting to a Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/queries.html">Running Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/results.html">Generating Query Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/helpers.html">Query Helper Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/query_builder.html">Query Builder Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/transactions.html">Transactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/metadata.html">Getting MetaData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/call_function.html">Custom Function Calls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/caching.html">Query Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/forge.html">Database Manipulation with Database Forge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/utilities.html">Database Utilities Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/db_driver_reference.html">Database Driver Reference</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../helpers/index.html">Helpers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/array_helper.html">Array Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/captcha_helper.html">CAPTCHA Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/cookie_helper.html">Cookie Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/date_helper.html">Date Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/directory_helper.html">Directory Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/download_helper.html">Download Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/email_helper.html">Email Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/file_helper.html">File Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/form_helper.html">Form Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/html_helper.html">HTML Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/inflector_helper.html">Inflector Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/language_helper.html">Language Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/number_helper.html">Number Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/path_helper.html">Path Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/security_helper.html">Security Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/smiley_helper.html">Smiley Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/string_helper.html">String Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/text_helper.html">Text Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/typography_helper.html">Typography Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/url_helper.html">URL Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/xml_helper.html">XML Helper</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">CodeIgniter</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+        <li><a href="index.html">Libraries</a> &raquo;</li>
+      
+    <li>Input Class</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+    <div style="float:right;margin-left:5px;" id="closeMe">
+      <img title="Classic Layout" alt="classic layout" src="data:image/gif;base64,R0lGODlhFAAUAJEAAAAAADMzM////wAAACH5BAUUAAIALAAAAAAUABQAAAImlI+py+0PU5gRBRDM3DxbWoXis42X13USOLauUIqnlsaH/eY6UwAAOw==" />
+    </div>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="input-class">
+<h1>Input Class<a class="headerlink" href="#input-class" title="Permalink to this headline">¶</a></h1>
+<p>The Input Class serves two purposes:</p>
+<ol class="arabic simple">
+<li>It pre-processes global input data for security.</li>
+<li>It provides some helper methods for fetching input data and pre-processing it.</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This class is initialized automatically by the system so there
+is no need to do it manually.</p>
+</div>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#input-filtering" id="id1">Input Filtering</a><ul>
+<li><a class="reference internal" href="#security-filtering" id="id2">Security Filtering</a></li>
+<li><a class="reference internal" href="#xss-filtering" id="id3">XSS Filtering</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#accessing-form-data" id="id4">Accessing form data</a><ul>
+<li><a class="reference internal" href="#using-post-get-cookie-or-server-data" id="id5">Using POST, GET, COOKIE, or SERVER Data</a></li>
+<li><a class="reference internal" href="#using-the-php-input-stream" id="id6">Using the php://input stream</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#class-reference" id="id7">Class Reference</a></li>
+</ul>
+</div>
+<div class="custom-index container"></div><div class="section" id="input-filtering">
+<h2><a class="toc-backref" href="#id1">Input Filtering</a><a class="headerlink" href="#input-filtering" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="security-filtering">
+<h3><a class="toc-backref" href="#id2">Security Filtering</a><a class="headerlink" href="#security-filtering" title="Permalink to this headline">¶</a></h3>
+<p>The security filtering method is called automatically when a new
+<a class="reference internal" href="../general/controllers.html"><span class="doc">controller</span></a> is invoked. It does the
+following:</p>
+<ul class="simple">
+<li>If <code class="docutils literal"><span class="pre">$config['allow_get_array']</span></code> is FALSE (default is TRUE), destroys
+the global GET array.</li>
+<li>Destroys all global variables in the event register_globals is
+turned on.</li>
+<li>Filters the GET/POST/COOKIE array keys, permitting only alpha-numeric
+(and a few other) characters.</li>
+<li>Provides XSS (Cross-site Scripting Hacks) filtering. This can be
+enabled globally, or upon request.</li>
+<li>Standardizes newline characters to <code class="docutils literal"><span class="pre">PHP_EOL</span></code> (\n in UNIX-based OSes,
+\r\n under Windows). This is configurable.</li>
+</ul>
+</div>
+<div class="section" id="xss-filtering">
+<h3><a class="toc-backref" href="#id3">XSS Filtering</a><a class="headerlink" href="#xss-filtering" title="Permalink to this headline">¶</a></h3>
+<p>The Input class has the ability to filter input automatically to prevent
+cross-site scripting attacks. If you want the filter to run
+automatically every time it encounters POST or COOKIE data you can
+enable it by opening your <em>application/config/config.php</em> file and setting
+this:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;global_xss_filtering&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">TRUE</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Please refer to the <a class="reference internal" href="security.html"><span class="doc">Security class</span></a> documentation for
+information on using XSS Filtering in your application.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">The ‘global_xss_filtering’ setting is DEPRECATED and kept
+solely for backwards-compatibility purposes. XSS escaping should
+be performed on <em>output</em>, not <em>input</em>!</p>
+</div>
+</div>
+</div>
+<div class="section" id="accessing-form-data">
+<h2><a class="toc-backref" href="#id4">Accessing form data</a><a class="headerlink" href="#accessing-form-data" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="using-post-get-cookie-or-server-data">
+<h3><a class="toc-backref" href="#id5">Using POST, GET, COOKIE, or SERVER Data</a><a class="headerlink" href="#using-post-get-cookie-or-server-data" title="Permalink to this headline">¶</a></h3>
+<p>CodeIgniter comes with helper methods that let you fetch POST, GET,
+COOKIE or SERVER items. The main advantage of using the provided
+methods rather than fetching an item directly (<code class="docutils literal"><span class="pre">$_POST['something']</span></code>)
+is that the methods will check to see if the item is set and return
+NULL if not. This lets you conveniently use data without
+having to test whether an item exists first. In other words, normally
+you might do something like this:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$something</span> <span class="o">=</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;something&#39;</span><span class="p">])</span> <span class="o">?</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;something&#39;</span><span class="p">]</span> <span class="o">:</span> <span class="k">NULL</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>With CodeIgniter’s built in methods you can simply do this:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$something</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">post</span><span class="p">(</span><span class="s1">&#39;something&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The main methods are:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">$this-&gt;input-&gt;post()</span></code></li>
+<li><code class="docutils literal"><span class="pre">$this-&gt;input-&gt;get()</span></code></li>
+<li><code class="docutils literal"><span class="pre">$this-&gt;input-&gt;cookie()</span></code></li>
+<li><code class="docutils literal"><span class="pre">$this-&gt;input-&gt;server()</span></code></li>
+</ul>
+</div>
+<div class="section" id="using-the-php-input-stream">
+<h3><a class="toc-backref" href="#id6">Using the php://input stream</a><a class="headerlink" href="#using-the-php-input-stream" title="Permalink to this headline">¶</a></h3>
+<p>If you want to utilize the PUT, DELETE, PATCH or other exotic request
+methods, they can only be accessed via a special input stream, that
+can only be read once. This isn’t as easy as just reading from e.g.
+the <code class="docutils literal"><span class="pre">$_POST</span></code> array, because it will always exist and you can try
+and access multiple variables without caring that you might only have
+one shot at all of the POST data.</p>
+<p>CodeIgniter will take care of that for you, and you can read the data
+from the <strong>php://input</strong> stream at any time, just by using the
+<code class="docutils literal"><span class="pre">$raw_input_stream</span></code> property:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">raw_input_stream</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Additionally if the input stream is form-encoded like $_POST you can
+access its values by calling the
+<code class="docutils literal"><span class="pre">input_stream()</span></code> method:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">input_stream</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Similar to other methods such as <code class="docutils literal"><span class="pre">get()</span></code> and <code class="docutils literal"><span class="pre">post()</span></code>, if the
+requested data is not found, it will return NULL and you can also
+decide whether to run the data through <code class="docutils literal"><span class="pre">xss_clean()</span></code> by passing
+a boolean value as the second parameter:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">input_stream</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">);</span> <span class="c1">// XSS Clean</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">input_stream</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="k">FALSE</span><span class="p">);</span> <span class="c1">// No XSS filter</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can utilize <code class="docutils literal"><span class="pre">method()</span></code> in order to know if you’re reading
+PUT, DELETE or PATCH data.</p>
+</div>
+</div>
+</div>
+<div class="section" id="class-reference">
+<h2><a class="toc-backref" href="#id7">Class Reference</a><a class="headerlink" href="#class-reference" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="CI_Input">
+<em class="property">class </em><code class="descname">CI_Input</code><a class="headerlink" href="#CI_Input" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt>
+<code class="descname">$raw_input_stream</code></dt>
+<dd><p>Read only property that will return php://input data as is.</p>
+<p>The property can be read multiple times.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Input::post">
+<code class="descname">post</code><span class="sig-paren">(</span><span class="optional">[</span><em>$index = NULL</em><span class="optional">[</span>, <em>$xss_clean = NULL</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Input::post" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$index</strong> (<em>mixed</em>) – POST parameter name</li>
+<li><strong>$xss_clean</strong> (<em>bool</em>) – Whether to apply XSS filtering</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">$_POST if no parameters supplied, otherwise the POST value if found or NULL if not</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The first parameter will contain the name of the POST item you are
+looking for:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">post</span><span class="p">(</span><span class="s1">&#39;some_data&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The method returns NULL if the item you are attempting to retrieve
+does not exist.</p>
+<p>The second optional parameter lets you run the data through the XSS
+filter. It’s enabled by setting the second parameter to boolean TRUE
+or by setting your <code class="docutils literal"><span class="pre">$config['global_xss_filtering']</span></code> to TRUE.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">post</span><span class="p">(</span><span class="s1">&#39;some_data&#39;</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>To return an array of all POST items call without any parameters.</p>
+<p>To return all POST items and pass them through the XSS filter set the
+first parameter NULL while setting the second parameter to boolean TRUE.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">post</span><span class="p">(</span><span class="k">NULL</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">);</span> <span class="c1">// returns all POST items with XSS filter</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">post</span><span class="p">(</span><span class="k">NULL</span><span class="p">,</span> <span class="k">FALSE</span><span class="p">);</span> <span class="c1">// returns all POST items without XSS filter</span>
+</pre></div>
+</div>
+<p>To return an array of multiple POST parameters, pass all the required keys
+as an array.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">post</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;field1&#39;</span><span class="p">,</span> <span class="s1">&#39;field2&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>Same rule applied here, to retrieve the parameters with XSS filtering enabled, set the
+second parameter to boolean TRUE.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">post</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;field1&#39;</span><span class="p">,</span> <span class="s1">&#39;field2&#39;</span><span class="p">),</span> <span class="k">TRUE</span><span class="p">);</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Input::get">
+<code class="descname">get</code><span class="sig-paren">(</span><span class="optional">[</span><em>$index = NULL</em><span class="optional">[</span>, <em>$xss_clean = NULL</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Input::get" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$index</strong> (<em>mixed</em>) – GET parameter name</li>
+<li><strong>$xss_clean</strong> (<em>bool</em>) – Whether to apply XSS filtering</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">$_GET if no parameters supplied, otherwise the GET value if found or NULL if not</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This method is identical to <code class="docutils literal"><span class="pre">post()</span></code>, only it fetches GET data.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;some_data&#39;</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>To return an array of all GET items call without any parameters.</p>
+<p>To return all GET items and pass them through the XSS filter set the
+first parameter NULL while setting the second parameter to boolean TRUE.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="k">NULL</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">);</span> <span class="c1">// returns all GET items with XSS filter</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="k">NULL</span><span class="p">,</span> <span class="k">FALSE</span><span class="p">);</span> <span class="c1">// returns all GET items without XSS filtering</span>
+</pre></div>
+</div>
+<p>To return an array of multiple GET parameters, pass all the required keys
+as an array.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;field1&#39;</span><span class="p">,</span> <span class="s1">&#39;field2&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>Same rule applied here, to retrieve the parameters with XSS filtering enabled, set the
+second parameter to boolean TRUE.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;field1&#39;</span><span class="p">,</span> <span class="s1">&#39;field2&#39;</span><span class="p">),</span> <span class="k">TRUE</span><span class="p">);</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Input::post_get">
+<code class="descname">post_get</code><span class="sig-paren">(</span><em>$index</em><span class="optional">[</span>, <em>$xss_clean = NULL</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Input::post_get" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$index</strong> (<em>string</em>) – POST/GET parameter name</li>
+<li><strong>$xss_clean</strong> (<em>bool</em>) – Whether to apply XSS filtering</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">POST/GET value if found, NULL if not</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This method works pretty much the same way as <code class="docutils literal"><span class="pre">post()</span></code> and <code class="docutils literal"><span class="pre">get()</span></code>,
+only combined. It will search through both POST and GET streams for data,
+looking in POST first, and then in GET:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">post_get</span><span class="p">(</span><span class="s1">&#39;some_data&#39;</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">);</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Input::get_post">
+<code class="descname">get_post</code><span class="sig-paren">(</span><em>$index</em><span class="optional">[</span>, <em>$xss_clean = NULL</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Input::get_post" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$index</strong> (<em>string</em>) – GET/POST parameter name</li>
+<li><strong>$xss_clean</strong> (<em>bool</em>) – Whether to apply XSS filtering</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">GET/POST value if found, NULL if not</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This method works the same way as <code class="docutils literal"><span class="pre">post_get()</span></code> only it looks for GET
+data first.</p>
+<blockquote>
+<div>$this-&gt;input-&gt;get_post(‘some_data’, TRUE);</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method used to act EXACTLY like <code class="docutils literal"><span class="pre">post_get()</span></code>, but it’s
+behavior has changed in CodeIgniter 3.0.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Input::cookie">
+<code class="descname">cookie</code><span class="sig-paren">(</span><span class="optional">[</span><em>$index = NULL</em><span class="optional">[</span>, <em>$xss_clean = NULL</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Input::cookie" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$index</strong> (<em>mixed</em>) – COOKIE name</li>
+<li><strong>$xss_clean</strong> (<em>bool</em>) – Whether to apply XSS filtering</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">$_COOKIE if no parameters supplied, otherwise the COOKIE value if found or NULL if not</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This method is identical to <code class="docutils literal"><span class="pre">post()</span></code> and <code class="docutils literal"><span class="pre">get()</span></code>, only it fetches cookie
+data:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">cookie</span><span class="p">(</span><span class="s1">&#39;some_cookie&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">cookie</span><span class="p">(</span><span class="s1">&#39;some_cookie&#39;</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">);</span> <span class="c1">// with XSS filter</span>
+</pre></div>
+</div>
+<p>To return an array of multiple cookie values, pass all the required keys
+as an array.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">cookie</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;some_cookie&#39;</span><span class="p">,</span> <span class="s1">&#39;some_cookie2&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Unlike the <a class="reference internal" href="../helpers/cookie_helper.html"><span class="doc">Cookie Helper</span></a>
+function <a class="reference internal" href="../helpers/cookie_helper.html#get_cookie" title="get_cookie"><code class="xref php php-func docutils literal"><span class="pre">get_cookie()</span></code></a>, this method does NOT prepend
+your configured <code class="docutils literal"><span class="pre">$config['cookie_prefix']</span></code> value.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Input::server">
+<code class="descname">server</code><span class="sig-paren">(</span><em>$index</em><span class="optional">[</span>, <em>$xss_clean = NULL</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Input::server" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$index</strong> (<em>mixed</em>) – Value name</li>
+<li><strong>$xss_clean</strong> (<em>bool</em>) – Whether to apply XSS filtering</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">$_SERVER item value if found, NULL if not</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This method is identical to the <code class="docutils literal"><span class="pre">post()</span></code>, <code class="docutils literal"><span class="pre">get()</span></code> and <code class="docutils literal"><span class="pre">cookie()</span></code>
+methods, only it fetches server data (<code class="docutils literal"><span class="pre">$_SERVER</span></code>):</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">server</span><span class="p">(</span><span class="s1">&#39;some_data&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>To return an array of multiple <code class="docutils literal"><span class="pre">$_SERVER</span></code> values, pass all the required keys
+as an array.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">server</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;SERVER_PROTOCOL&#39;</span><span class="p">,</span> <span class="s1">&#39;REQUEST_URI&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Input::input_stream">
+<code class="descname">input_stream</code><span class="sig-paren">(</span><span class="optional">[</span><em>$index = NULL</em><span class="optional">[</span>, <em>$xss_clean = NULL</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Input::input_stream" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$index</strong> (<em>mixed</em>) – Key name</li>
+<li><strong>$xss_clean</strong> (<em>bool</em>) – Whether to apply XSS filtering</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Input stream array if no parameters supplied, otherwise the specified value if found or NULL if not</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This method is identical to <code class="docutils literal"><span class="pre">get()</span></code>, <code class="docutils literal"><span class="pre">post()</span></code> and <code class="docutils literal"><span class="pre">cookie()</span></code>,
+only it fetches the <em>php://input</em> stream data.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Input::set_cookie">
+<code class="descname">set_cookie</code><span class="sig-paren">(</span><em>$name = ''</em><span class="optional">[</span>, <em>$value = ''</em><span class="optional">[</span>, <em>$expire = ''</em><span class="optional">[</span>, <em>$domain = ''</em><span class="optional">[</span>, <em>$path = '/'</em><span class="optional">[</span>, <em>$prefix = ''</em><span class="optional">[</span>, <em>$secure = NULL</em><span class="optional">[</span>, <em>$httponly = NULL</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Input::set_cookie" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$name</strong> (<em>mixed</em>) – Cookie name or an array of parameters</li>
+<li><strong>$value</strong> (<em>string</em>) – Cookie value</li>
+<li><strong>$expire</strong> (<em>int</em>) – Cookie expiration time in seconds</li>
+<li><strong>$domain</strong> (<em>string</em>) – Cookie domain</li>
+<li><strong>$path</strong> (<em>string</em>) – Cookie path</li>
+<li><strong>$prefix</strong> (<em>string</em>) – Cookie name prefix</li>
+<li><strong>$secure</strong> (<em>bool</em>) – Whether to only transfer the cookie through HTTPS</li>
+<li><strong>$httponly</strong> (<em>bool</em>) – Whether to only make the cookie accessible for HTTP requests (no JavaScript)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">void</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Sets a cookie containing the values you specify. There are two ways to
+pass information to this method so that a cookie can be set: Array
+Method, and Discrete Parameters:</p>
+<p><strong>Array Method</strong></p>
+<p>Using this method, an associative array is passed to the first
+parameter:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$cookie</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;name&#39;</span>   <span class="o">=&gt;</span> <span class="s1">&#39;The Cookie Name&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;value&#39;</span>  <span class="o">=&gt;</span> <span class="s1">&#39;The Value&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;expire&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;86500&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;domain&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;.some-domain.com&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;path&#39;</span>   <span class="o">=&gt;</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;prefix&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;myprefix_&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;secure&#39;</span> <span class="o">=&gt;</span> <span class="k">TRUE</span>
+<span class="p">);</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">set_cookie</span><span class="p">(</span><span class="nv">$cookie</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><strong>Notes</strong></p>
+<p>Only the name and value are required. To delete a cookie set it with the
+expiration blank.</p>
+<p>The expiration is set in <strong>seconds</strong>, which will be added to the current
+time. Do not include the time, but rather only the number of seconds
+from <em>now</em> that you wish the cookie to be valid. If the expiration is
+set to zero the cookie will only last as long as the browser is open.</p>
+<p>For site-wide cookies regardless of how your site is requested, add your
+URL to the <strong>domain</strong> starting with a period, like this:
+.your-domain.com</p>
+<p>The path is usually not needed since the method sets a root path.</p>
+<p>The prefix is only needed if you need to avoid name collisions with
+other identically named cookies for your server.</p>
+<p>The <em>httponly</em> and <em>secure</em> flags, when omitted, will default to your
+<code class="docutils literal"><span class="pre">$config['cookie_httponly']</span></code> and <code class="docutils literal"><span class="pre">$config['cookie_secure']</span></code> settings.</p>
+<p><strong>Discrete Parameters</strong></p>
+<p>If you prefer, you can set the cookie by passing data using individual
+parameters:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">set_cookie</span><span class="p">(</span><span class="nv">$name</span><span class="p">,</span> <span class="nv">$value</span><span class="p">,</span> <span class="nv">$expire</span><span class="p">,</span> <span class="nv">$domain</span><span class="p">,</span> <span class="nv">$path</span><span class="p">,</span> <span class="nv">$prefix</span><span class="p">,</span> <span class="nv">$secure</span><span class="p">);</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Input::ip_address">
+<code class="descname">ip_address</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Input::ip_address" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Visitor’s IP address or ‘0.0.0.0’ if not valid</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">string</td>
+</tr>
+</tbody>
+</table>
+<p>Returns the IP address for the current user. If the IP address is not
+valid, the method will return ‘0.0.0.0’:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">ip_address</span><span class="p">();</span>
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">This method takes into account the <code class="docutils literal"><span class="pre">$config['proxy_ips']</span></code>
+setting and will return the reported HTTP_X_FORWARDED_FOR,
+HTTP_CLIENT_IP, HTTP_X_CLIENT_IP or HTTP_X_CLUSTER_CLIENT_IP
+address for the allowed IP addresses.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Input::valid_ip">
+<code class="descname">valid_ip</code><span class="sig-paren">(</span><em>$ip</em><span class="optional">[</span>, <em>$which = ''</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Input::valid_ip" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$ip</strong> (<em>string</em>) – IP address</li>
+<li><strong>$which</strong> (<em>string</em>) – IP protocol (‘ipv4’ or ‘ipv6’)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">TRUE if the address is valid, FALSE if not</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Takes an IP address as input and returns TRUE or FALSE (boolean) depending
+on whether it is valid or not.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The $this-&gt;input-&gt;ip_address() method above automatically
+validates the IP address.</p>
+</div>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span> <span class="o">!</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">valid_ip</span><span class="p">(</span><span class="nv">$ip</span><span class="p">))</span>
+<span class="p">{</span>
+        <span class="k">echo</span> <span class="s1">&#39;Not Valid&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">else</span>
+<span class="p">{</span>
+        <span class="k">echo</span> <span class="s1">&#39;Valid&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Accepts an optional second string parameter of ‘ipv4’ or ‘ipv6’ to specify
+an IP format. The default checks for both formats.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Input::user_agent">
+<code class="descname">user_agent</code><span class="sig-paren">(</span><span class="optional">[</span><em>$xss_clean = NULL</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Input::user_agent" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">User agent string or NULL if not set</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$xss_clean</strong> (<em>bool</em>) – Whether to apply XSS filtering</li>
+</ul>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mixed</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns the user agent string (web browser) being used by the current user,
+or NULL if it’s not available.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">user_agent</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>See the <a class="reference internal" href="user_agent.html"><span class="doc">User Agent Class</span></a> for methods which extract
+information from the user agent string.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Input::request_headers">
+<code class="descname">request_headers</code><span class="sig-paren">(</span><span class="optional">[</span><em>$xss_clean = FALSE</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Input::request_headers" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$xss_clean</strong> (<em>bool</em>) – Whether to apply XSS filtering</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An array of HTTP request headers</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns an array of HTTP request headers.
+Useful if running in a non-Apache environment where
+<a class="reference external" href="http://php.net/apache_request_headers">apache_request_headers()</a>
+will not be supported.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$headers</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">request_headers</span><span class="p">();</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Input::get_request_header">
+<code class="descname">get_request_header</code><span class="sig-paren">(</span><em>$index</em><span class="optional">[</span>, <em>$xss_clean = FALSE</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Input::get_request_header" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$index</strong> (<em>string</em>) – HTTP request header name</li>
+<li><strong>$xss_clean</strong> (<em>bool</em>) – Whether to apply XSS filtering</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An HTTP request header or NULL if not found</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns a single member of the request headers array or NULL
+if the searched header is not found.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">get_request_header</span><span class="p">(</span><span class="s1">&#39;some-header&#39;</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">);</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Input::is_ajax_request">
+<code class="descname">is_ajax_request</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Input::is_ajax_request" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">TRUE if it is an Ajax request, FALSE if not</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+<p>Checks to see if the HTTP_X_REQUESTED_WITH server header has been
+set, and returns boolean TRUE if it is or FALSE if not.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Input::is_cli_request">
+<code class="descname">is_cli_request</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Input::is_cli_request" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">TRUE if it is a CLI request, FALSE if not</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+<p>Checks to see if the application was run from the command-line
+interface.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method checks both the PHP SAPI name currently in use
+and if the <code class="docutils literal"><span class="pre">STDIN</span></code> constant is defined, which is usually a
+failsafe way to see if PHP is being run via the command line.</p>
+</div>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">is_cli_request</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method is DEPRECATED and is now just an alias for the
+<code class="xref py py-func docutils literal"><span class="pre">is_cli()</span></code> function.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Input::method">
+<code class="descname">method</code><span class="sig-paren">(</span><span class="optional">[</span><em>$upper = FALSE</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Input::method" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$upper</strong> (<em>bool</em>) – Whether to return the request method name in upper or lower case</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">HTTP request method</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns the <code class="docutils literal"><span class="pre">$_SERVER['REQUEST_METHOD']</span></code>, with the option to set it
+in uppercase or lowercase.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">method</span><span class="p">(</span><span class="k">TRUE</span><span class="p">);</span> <span class="c1">// Outputs: POST</span>
+<span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">method</span><span class="p">(</span><span class="k">FALSE</span><span class="p">);</span> <span class="c1">// Outputs: post</span>
+<span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">method</span><span class="p">();</span> <span class="c1">// Outputs: post</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="javascript.html" class="btn btn-neutral float-right" title="Javascript Class">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="image_lib.html" class="btn btn-neutral" title="Image Manipulation Class"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014 - 2017, British Columbia Institute of Technology.
+      Last updated on Sep 25, 2017.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.1.6',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
