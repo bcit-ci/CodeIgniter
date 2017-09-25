@@ -125,7 +125,7 @@ Class Reference
 
 			$config = array (
 				'mailtype' => 'html',
-				'charset'  => 'utf-8,
+				'charset'  => 'utf-8',
 				'priority' => '1'
 			);
 

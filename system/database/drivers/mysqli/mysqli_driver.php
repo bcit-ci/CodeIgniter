@@ -210,7 +210,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 				$this->_mysqli->close();
 				$message = 'MySQLi was configured for an SSL connection, but got an unencrypted connection instead!';
 				log_message('error', $message);
-				return ($this->db->db_debug) ? $this->db->display_error($message, '', TRUE) : FALSE;
+				return ($this->db_debug) ? $this->display_error($message, '', TRUE) : FALSE;
 			}
 
 			return $this->_mysqli;
@@ -381,7 +381,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Platform-dependant string escape
+	 * Platform-dependent string escape
 	 *
 	 * @param	string
 	 * @return	string

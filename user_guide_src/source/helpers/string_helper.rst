@@ -186,7 +186,7 @@ The following functions are available:
 	:returns:	Reduced string
 	:rtype:	string
 
-	Reduces multiple instances of a particular character occuring directly
+	Reduces multiple instances of a particular character occurring directly
 	after each other. Example::
 
 		$string = "Fred, Bill,, Joe, Jimmy";

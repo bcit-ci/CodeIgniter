@@ -66,7 +66,7 @@ the following::
 If for any reason you would like to change the prefix programatically
 without needing to create a new connection, you can use this method::
 
-	$this->db->set_dbprefix('newprefix');
+	$this->db->set_dbprefix('newprefix_');
 	$this->db->dbprefix('tablename'); // outputs newprefix_tablename
 
 
@@ -165,7 +165,7 @@ Handling Errors
 
 **$this->db->error();**
 
-If you need to get the last error that has occured, the error() method
+If you need to get the last error that has occurred, the error() method
 will return an array containing its code and message. Here's a quick
 example::
 

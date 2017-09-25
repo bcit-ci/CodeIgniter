@@ -135,7 +135,7 @@ if ( ! function_exists('load_class'))
 	 *
 	 * @param	string	the class name being requested
 	 * @param	string	the directory where the class should be found
-	 * @param	string	an optional argument to pass to the class constructor
+	 * @param	mixed	an optional argument to pass to the class constructor
 	 * @return	object
 	 */
 	function &load_class($class, $directory = 'libraries', $param = NULL)
@@ -319,17 +319,13 @@ if ( ! function_exists('get_mimes'))
 
 		if (empty($_mimes))
 		{
+			$_mimes = file_exists(APPPATH.'config/mimes.php')
+				? include(APPPATH.'config/mimes.php')
+				: array();
+
 			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
 			{
-				$_mimes = include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
-			}
-			elseif (file_exists(APPPATH.'config/mimes.php'))
-			{
-				$_mimes = include(APPPATH.'config/mimes.php');
-			}
-			else
-			{
-				$_mimes = array();
+				$_mimes = array_merge($_mimes, include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'));
 			}
 		}
 
@@ -410,11 +406,6 @@ if ( ! function_exists('show_error'))
 		if ($status_code < 100)
 		{
 			$exit_status = $status_code + 9; // 9 is EXIT__AUTO_MIN
-			if ($exit_status > 125) // 125 is EXIT__AUTO_MAX
-			{
-				$exit_status = 1; // EXIT_ERROR
-			}
-
 			$status_code = 500;
 		}
 		else
@@ -571,12 +562,12 @@ if ( ! function_exists('set_status_header'))
 		if (strpos(PHP_SAPI, 'cgi') === 0)
 		{
 			header('Status: '.$code.' '.$text, TRUE);
+			return;
 		}
-		else
-		{
-			$server_protocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
-			header($server_protocol.' '.$code.' '.$text, TRUE, $code);
-		}
+
+		$server_protocol = (isset($_SERVER['SERVER_PROTOCOL']) && in_array($_SERVER['SERVER_PROTOCOL'], array('HTTP/1.0', 'HTTP/1.1', 'HTTP/2'), TRUE))
+			? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
+		header($server_protocol.' '.$code.' '.$text, TRUE, $code);
 	}
 }
 
@@ -724,6 +715,7 @@ if ( ! function_exists('remove_invisible_characters'))
 		{
 			$non_displayables[] = '/%0[0-8bcef]/i';	// url encoded 00-08, 11, 12, 14, 15
 			$non_displayables[] = '/%1[0-9a-f]/i';	// url encoded 16-31
+			$non_displayables[] = '/%7f/i';	// url encoded 127
 		}
 
 		$non_displayables[] = '/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]+/S';	// 00-08, 11, 12, 14-31, 127
@@ -827,7 +819,7 @@ if ( ! function_exists('function_usable'))
 	 * terminate script execution if a disabled function is executed.
 	 *
 	 * The above described behavior turned out to be a bug in Suhosin,
-	 * but even though a fix was commited for 0.9.34 on 2012-02-12,
+	 * but even though a fix was committed for 0.9.34 on 2012-02-12,
 	 * that version is yet to be released. This function will therefore
 	 * be just temporary, but would probably be kept for a few years.
 	 *

@@ -284,7 +284,7 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 			$sql = trim(substr($sql, 0, strrpos($sql, $orderby)));
 
 			// Get the fields to select from our subquery, so that we can avoid CI_rownum appearing in the actual results
-			if (count($this->qb_select) === 0)
+			if (count($this->qb_select) === 0 OR strpos(implode(',', $this->qb_select), '*') !== FALSE)
 			{
 				$select = '*'; // Inevitable
 			}
@@ -331,7 +331,23 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver {
 			return parent::_insert_batch($table, $keys, $values);
 		}
 
-		return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : FALSE;
+		return ($this->db_debug) ? $this->display_error('db_unsupported_feature') : FALSE;
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Database version number
+	 *
+	 * @return      string
+	 */
+	public function version()
+	{
+		if (isset($this->data_cache['version']))
+		{
+			return $this->data_cache['version'];
+		}
+
+		return $this->data_cache['version'] = $this->conn_id->query("SELECT SERVERPROPERTY('ProductVersion') AS ver")->fetchColumn(0);
+	}
 }

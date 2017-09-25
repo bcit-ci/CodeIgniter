@@ -270,7 +270,7 @@ class Form_validation_test extends CI_TestCase {
 	public function test_rule_valid_email()
 	{
 		$this->assertTrue($this->form_validation->valid_email('email@sample.com'));
-
+		$this->assertFalse($this->form_validation->valid_email('email@sample.com foo bar'));
 		$this->assertFalse($this->form_validation->valid_email('valid_email', '@sample.com'));
 	}
 

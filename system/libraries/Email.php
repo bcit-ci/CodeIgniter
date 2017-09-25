@@ -375,11 +375,11 @@ class CI_Email {
 	);
 
 	/**
-	 * mbstring.func_override flag
+	 * mbstring.func_overload flag
 	 *
 	 * @var	bool
 	 */
-	protected static $func_override;
+	protected static $func_overload;
 
 	// --------------------------------------------------------------------
 
@@ -397,7 +397,7 @@ class CI_Email {
 		$this->initialize($config);
 		$this->_safe_mode = ( ! is_php('5.4') && ini_get('safe_mode'));
 
-		isset(self::$func_override) OR self::$func_override = (extension_loaded('mbstring') && ini_get('mbstring.func_override'));
+		isset(self::$func_overload) OR self::$func_overload = (extension_loaded('mbstring') && ini_get('mbstring.func_overload'));
 
 		log_message('info', 'Email Class Initialized');
 	}
@@ -913,18 +913,13 @@ class CI_Email {
 	/**
 	 * Get Mail Protocol
 	 *
-	 * @param	bool
 	 * @return	mixed
 	 */
-	protected function _get_protocol($return = TRUE)
+	protected function _get_protocol()
 	{
 		$this->protocol = strtolower($this->protocol);
 		in_array($this->protocol, $this->_protocols, TRUE) OR $this->protocol = 'mail';
-
-		if ($return === TRUE)
-		{
-			return $this->protocol;
-		}
+		return $this->protocol;
 	}
 
 	// --------------------------------------------------------------------
@@ -932,25 +927,21 @@ class CI_Email {
 	/**
 	 * Get Mail Encoding
 	 *
-	 * @param	bool
 	 * @return	string
 	 */
-	protected function _get_encoding($return = TRUE)
+	protected function _get_encoding()
 	{
 		in_array($this->_encoding, $this->_bit_depths) OR $this->_encoding = '8bit';
 
 		foreach ($this->_base_charsets as $charset)
 		{
-			if (strpos($charset, $this->charset) === 0)
+			if (strpos($this->charset, $charset) === 0)
 			{
 				$this->_encoding = '7bit';
 			}
 		}
 
-		if ($return === TRUE)
-		{
-			return $this->_encoding;
-		}
+		return $this->_encoding;
 	}
 
 	// --------------------------------------------------------------------
@@ -1829,14 +1820,15 @@ class CI_Email {
 	{
 		$this->_unwrap_specials();
 
-		$method = '_send_with_'.$this->_get_protocol();
+		$protocol = $this->_get_protocol();
+		$method   = '_send_with_'.$protocol;
 		if ( ! $this->$method())
 		{
-			$this->_set_error_message('lang:email_send_failure_'.($this->_get_protocol() === 'mail' ? 'phpmail' : $this->_get_protocol()));
+			$this->_set_error_message('lang:email_send_failure_'.($protocol === 'mail' ? 'phpmail' : $protocol));
 			return FALSE;
 		}
 
-		$this->_set_error_message('lang:email_sent', $this->_get_protocol());
+		$this->_set_error_message('lang:email_sent', $protocol);
 		return TRUE;
 	}
 
@@ -2442,7 +2434,7 @@ class CI_Email {
 	 */
 	protected static function strlen($str)
 	{
-		return (self::$func_override)
+		return (self::$func_overload)
 			? mb_strlen($str, '8bit')
 			: strlen($str);
 	}
@@ -2459,7 +2451,7 @@ class CI_Email {
 	 */
 	protected static function substr($str, $start, $length = NULL)
 	{
-		if (self::$func_override)
+		if (self::$func_overload)
 		{
 			// mb_substr($str, $start, null, '8bit') returns an empty
 			// string on PHP 5.3

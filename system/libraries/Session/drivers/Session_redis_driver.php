@@ -51,7 +51,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	/**
 	 * phpRedis instance
 	 *
-	 * @var	resource
+	 * @var	Redis
 	 */
 	protected $_redis;
 
@@ -341,7 +341,11 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 				continue;
 			}
 
-			if ( ! $this->_redis->setex($lock_key, 300, time()))
+			$result = ($ttl === -2)
+				? $this->_redis->set($lock_key, time(), array('nx', 'ex' => 300))
+				: $this->_redis->setex($lock_key, 300, time());
+
+			if ( ! $result)
 			{
 				log_message('error', 'Session: Error while trying to obtain lock for '.$this->_key_prefix.$session_id);
 				return FALSE;

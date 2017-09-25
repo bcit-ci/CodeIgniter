@@ -112,13 +112,67 @@ class CI_DB_mysqli_result extends CI_DB_result {
 		{
 			$retval[$i]			= new stdClass();
 			$retval[$i]->name		= $field_data[$i]->name;
-			$retval[$i]->type		= $field_data[$i]->type;
+			$retval[$i]->type		= static::_get_field_type($field_data[$i]->type);
 			$retval[$i]->max_length		= $field_data[$i]->max_length;
-			$retval[$i]->primary_key	= (int) ($field_data[$i]->flags & 2);
+			$retval[$i]->primary_key	= (int) ($field_data[$i]->flags & MYSQLI_PRI_KEY_FLAG);
 			$retval[$i]->default		= $field_data[$i]->def;
 		}
 
 		return $retval;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get field type
+	 *
+	 * Extracts field type info from the bitflags returned by
+	 * mysqli_result::fetch_fields()
+	 *
+	 * @used-by	CI_DB_mysqli_result::field_data()
+	 * @param	int	$flags
+	 * @return	string
+	 */
+	private static function _get_field_type($flags)
+	{
+		static $map;
+		isset($map) OR $map = array(
+			MYSQLI_TYPE_DECIMAL     => 'decimal',
+			MYSQLI_TYPE_BIT         => 'bit',
+			MYSQLI_TYPE_TINY        => 'tinyint',
+			MYSQLI_TYPE_SHORT       => 'smallint',
+			MYSQLI_TYPE_INT24       => 'mediumint',
+			MYSQLI_TYPE_LONG        => 'int',
+			MYSQLI_TYPE_LONGLONG    => 'bigint',
+			MYSQLI_TYPE_FLOAT       => 'float',
+			MYSQLI_TYPE_DOUBLE      => 'double',
+			MYSQLI_TYPE_TIMESTAMP   => 'timestamp',
+			MYSQLI_TYPE_DATE        => 'date',
+			MYSQLI_TYPE_TIME        => 'time',
+			MYSQLI_TYPE_DATETIME    => 'datetime',
+			MYSQLI_TYPE_YEAR        => 'year',
+			MYSQLI_TYPE_NEWDATE     => 'date',
+			MYSQLI_TYPE_INTERVAL    => 'interval',
+			MYSQLI_TYPE_ENUM        => 'enum',
+			MYSQLI_TYPE_SET         => 'set',
+			MYSQLI_TYPE_TINY_BLOB   => 'tinyblob',
+			MYSQLI_TYPE_MEDIUM_BLOB => 'mediumblob',
+			MYSQLI_TYPE_BLOB        => 'blob',
+			MYSQLI_TYPE_LONG_BLOB   => 'longblob',
+			MYSQLI_TYPE_STRING      => 'char',
+			MYSQLI_TYPE_VAR_STRING  => 'varchar',
+			MYSQLI_TYPE_GEOMETRY    => 'geometry'
+		);
+
+		foreach ($map as $flag => $name)
+		{
+			if ($flags & $flag)
+			{
+				return $name;
+			}
+		}
+
+		return $flags;
 	}
 
 	// --------------------------------------------------------------------

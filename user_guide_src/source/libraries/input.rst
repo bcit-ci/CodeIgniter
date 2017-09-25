@@ -167,7 +167,7 @@ Class Reference
 
 			$this->input->post(array('field1', 'field2'));
 
-		Same rule applied here, to retrive the parameters with XSS filtering enabled, set the
+		Same rule applied here, to retrieve the parameters with XSS filtering enabled, set the
 		second parameter to boolean TRUE.
 		::
 
@@ -200,7 +200,7 @@ Class Reference
 
 			$this->input->get(array('field1', 'field2'));
 
-		Same rule applied here, to retrive the parameters with XSS filtering enabled, set the
+		Same rule applied here, to retrieve the parameters with XSS filtering enabled, set the
 		second parameter to boolean TRUE.
 		::
 
@@ -245,7 +245,7 @@ Class Reference
 		data::
 
 			$this->input->cookie('some_cookie');
-			$this->input->cookie('some_cookie, TRUE); // with XSS filter
+			$this->input->cookie('some_cookie', TRUE); // with XSS filter
 
 		To return an array of multiple cookie values, pass all the required keys
 		as an array.
@@ -285,7 +285,7 @@ Class Reference
 		This method is identical to ``get()``, ``post()`` and ``cookie()``,
 		only it fetches the *php://input* stream data.
 
-	.. php:method:: set_cookie($name = ''[, $value = ''[, $expire = ''[, $domain = ''[, $path = '/'[, $prefix = ''[, $secure = FALSE[, $httponly = FALSE]]]]]]])
+	.. php:method:: set_cookie($name = ''[, $value = ''[, $expire = ''[, $domain = ''[, $path = '/'[, $prefix = ''[, $secure = NULL[, $httponly = NULL]]]]]]])
 
 		:param	mixed	$name: Cookie name or an array of parameters
 		:param	string	$value: Cookie value
@@ -338,8 +338,8 @@ Class Reference
 		The prefix is only needed if you need to avoid name collisions with
 		other identically named cookies for your server.
 
-		The secure boolean is only needed if you want to make it a secure cookie
-		by setting it to TRUE.
+		The *httponly* and *secure* flags, when omitted, will default to your
+		``$config['cookie_httponly']`` and ``$config['cookie_secure']`` settings.
 
 		**Discrete Parameters**
 

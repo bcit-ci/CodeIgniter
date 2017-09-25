@@ -99,7 +99,7 @@ class Loader_test extends CI_TestCase {
 		// Test reloading
 		unset($this->ci_obj->$name);
 		$this->assertInstanceOf('CI_Loader', $this->load->library($lib));
-		$this->assertObjectNotHasAttribute($name, $this->ci_obj);
+		$this->assertObjectHasAttribute($name, $this->ci_obj);
 
 		// Create baseless library
 		$name = 'ext_baseless_lib';
@@ -295,8 +295,10 @@ class Loader_test extends CI_TestCase {
 		$output->expects($this->once())->method('append_output')->with($content.$value);
 		$this->ci_instance_var('output', $output);
 
-		// Test view output
-		$this->assertInstanceOf('CI_Loader', $this->load->view($view, array($var => $value)));
+		// Test view output and $vars as an object
+		$vars = new stdClass();
+		$vars->$var = $value;
+		$this->assertInstanceOf('CI_Loader', $this->load->view($view, $vars));
 	}
 
 	// --------------------------------------------------------------------

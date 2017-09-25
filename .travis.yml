@@ -1,4 +1,5 @@
 language: php
+dist: precise
 
 php:
   - 5.3
@@ -26,13 +27,11 @@ before_script:
   - sh -c "if [ '$DB' = 'pgsql' ] || [ '$DB' = 'pdo/pgsql' ]; then psql -c 'create database ci_test;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'mysql' ] || [ '$DB' = 'mysqli' ] || [ '$DB' = 'pdo/mysql' ]; then mysql -e 'create database IF NOT EXISTS ci_test;'; fi"
 
-script: phpunit -d zend.enable_gc=0 -d date.timezone=UTC --coverage-text --configuration tests/travis/$DB.phpunit.xml
+script: php -d zend.enable_gc=0 -d date.timezone=UTC -d mbstring.func_overload=7 -d mbstring.internal_encoding=UTF-8 vendor/bin/phpunit --coverage-text --configuration tests/travis/$DB.phpunit.xml
 
 matrix:
   allow_failures:
-    - php: 5.3
     - php: hhvm
-    - php: 7.1
   exclude:
     - php: hhvm
       env: DB=pgsql

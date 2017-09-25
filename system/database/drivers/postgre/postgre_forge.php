@@ -163,7 +163,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 */
 	protected function _attr_type(&$attributes)
 	{
-		// Reset field lenghts for data types that don't support it
+		// Reset field lengths for data types that don't support it
 		if (isset($attributes['CONSTRAINT']) && stripos($attributes['TYPE'], 'int') !== FALSE)
 		{
 			$attributes['CONSTRAINT'] = NULL;

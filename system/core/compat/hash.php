@@ -173,7 +173,9 @@ if ( ! function_exists('hash_pbkdf2'))
 			return FALSE;
 		}
 
-		$hash_length = strlen(hash($algo, NULL, TRUE));
+		$hash_length = defined('MB_OVERLOAD_STRING')
+			? mb_strlen(hash($algo, NULL, TRUE), '8bit')
+			: strlen(hash($algo, NULL, TRUE));
 		empty($length) && $length = $hash_length;
 
 		// Pre-hash password inputs longer than the algorithm's block size
@@ -221,14 +223,14 @@ if ( ! function_exists('hash_pbkdf2'))
 			'whirlpool' => 64
 		);
 
-		if (isset($block_sizes[$algo]) && strlen($password) > $block_sizes[$algo])
+		if (isset($block_sizes[$algo], $password[$block_sizes[$algo]]))
 		{
 			$password = hash($algo, $password, TRUE);
 		}
 
 		$hash = '';
 		// Note: Blocks are NOT 0-indexed
-		for ($bc = ceil($length / $hash_length), $bi = 1; $bi <= $bc; $bi++)
+		for ($bc = (int) ceil($length / $hash_length), $bi = 1; $bi <= $bc; $bi++)
 		{
 			$key = $derived_key = hash_hmac($algo, $salt.pack('N', $bi), $password, TRUE);
 			for ($i = 1; $i < $iterations; $i++)
@@ -240,6 +242,13 @@ if ( ! function_exists('hash_pbkdf2'))
 		}
 
 		// This is not RFC-compatible, but we're aiming for natural PHP compatibility
-		return substr($raw_output ? $hash : bin2hex($hash), 0, $length);
+		if ( ! $raw_output)
+		{
+			$hash = bin2hex($hash);
+		}
+
+		return defined('MB_OVERLOAD_STRING')
+			? mb_substr($hash, 0, $length, '8bit')
+			: substr($hash, 0, $length);
 	}
 }

@@ -195,9 +195,7 @@ if ( ! function_exists('reduce_multiples'))
 if ( ! function_exists('random_string'))
 {
 	/**
-	 * Create a Random String
-	 *
-	 * Useful for generating passwords or hashes.
+	 * Create a "Random" String
 	 *
 	 * @param	string	type of random string.  basic, alpha, alnum, numeric, nozero, unique, md5, encrypt and sha1
 	 * @param	int	number of characters
