@@ -114,11 +114,40 @@ Release Date: Not Released
       - Removed the second (out of three) parameter from the :php:func:`form_upload()` function (it was never used).
 
 
-Version 3.1.6
+Version 3.1.7
 =============
 
 Release Date: Not Released
 
+
+Version 3.1.6
+=============
+
+Release Date: Sep 25, 2017
+
+-  **Security**
+
+   -  Fixed a potential object injection in :doc:`Cache Library <libraries/caching>` 'apc' driver when ``save()`` is used with ``$raw = TRUE`` (thanks to Tomas Bortoli).
+
+-  General Changes
+
+   -  Deprecated :doc:`Cache Library Library <libraries/caching>` driver 'apc'.
+   -  Updated the :doc:`Session Library <libraries/sessions>` 'redis', 'memcached' drivers to reduce the potential of a locking race conditions.
+
+
+Bug fixes for 3.1.6
+-------------------
+
+-  Fixed a bug (#5164) - :doc:`Loader Library <libraries/loader>` method ``library()`` ignored requests to load libraries previously assigned to super-object properties named differently than the library name.
+-  Fixed a bug (#5168) - :doc:`Query Builder <database/query_builder>` method ``count_all_results()`` produced erroneous queries on Microsoft SQL Server when ``ORDER BY`` clauses are cached.
+-  Fixed a bug (#5128) - :doc:`Profiler <general/profiling>` didn't wrap ``$_SESSION`` and configuration arrays in ``<pre>`` tags.
+-  Fixed a bug (#5183) - :doc:`Database Library <database/index>` method ``is_write_type()`` didn't return TRUE for ``MERGE`` statements.
+-  Fixed a bug where :doc:`Image Manipulation Library <libraries/image_lib>` didn't escape image source paths passed to NetPBM as shell arguments.
+-  Fixed a bug (#5236) - :doc:`Query Builder <database/query_builder>` methods ``limit()``, ``offset()`` break SQL Server 2005, 2008 queries with ``"<tablename>".*`` in the ``SELECT`` clause.
+-  Fixed a bug (#5243) - :doc:`Database Library <database/index>` method ``version()`` didn't work with the 'pdo/dblib' driver.
+-  Fixed a bug (#5246) - :doc:`Database transactions <database/transactions>` status wasn't reset unless ``trans_complete()`` was called.
+-  Fixed a bug (#5260) - :doc:`Database Utilities <database/utilities>` method ``backup()`` generated incorrect ``INSERT`` statements with the 'mysqli' driver.
+-  Fixed a bug where :doc:`Database Results <database/results>` method ``field_data()`` didn't parse field types with the 'mysqli' driver.
 
 Version 3.1.5
 =============
