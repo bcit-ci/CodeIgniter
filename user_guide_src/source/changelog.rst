@@ -2,13 +2,24 @@
 Change Log
 ##########
 
-Version 3.1.6
+Version 3.1.7
 =============
 
 Release Date: Not Released
 
+
+Version 3.1.6
+=============
+
+Release Date: Sep 25, 2017
+
+-  **Security**
+
+   -  Fixed a potential object injection in :doc:`Cache Library <libraries/caching>` 'apc' driver when ``save()`` is used with ``$raw = TRUE`` (thanks to Tomas Bortoli).
+
 -  General Changes
 
+   -  Deprecated :doc:`Cache Library Library <libraries/caching>` driver 'apc'.
    -  Updated the :doc:`Session Library <libraries/sessions>` 'redis', 'memcached' drivers to reduce the potential of a locking race conditions.
 
 
@@ -22,6 +33,9 @@ Bug fixes for 3.1.6
 -  Fixed a bug where :doc:`Image Manipulation Library <libraries/image_lib>` didn't escape image source paths passed to NetPBM as shell arguments.
 -  Fixed a bug (#5236) - :doc:`Query Builder <database/query_builder>` methods ``limit()``, ``offset()`` break SQL Server 2005, 2008 queries with ``"<tablename>".*`` in the ``SELECT`` clause.
 -  Fixed a bug (#5243) - :doc:`Database Library <database/index>` method ``version()`` didn't work with the 'pdo/dblib' driver.
+-  Fixed a bug (#5246) - :doc:`Database transactions <database/transactions>` status wasn't reset unless ``trans_complete()`` was called.
+-  Fixed a bug (#5260) - :doc:`Database Utilities <database/utilities>` method ``backup()`` generated incorrect ``INSERT`` statements with the 'mysqli' driver.
+-  Fixed a bug where :doc:`Database Results <database/results>` method ``field_data()`` didn't parse field types with the 'mysqli' driver.
 
 Version 3.1.5
 =============
