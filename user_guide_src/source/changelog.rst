@@ -7,6 +7,11 @@ Version 3.1.7
 
 Release Date: Not Released
 
+Bug fixes for 3.1.7
+-------------------
+
+-  Fixed a regression (#5276) - :doc:`Database Utilities <database/utilities>` method ``backup()`` generated incorrect ``INSERT`` statements with the 'mysqli' driver.
+-  Fixed a regression where :doc:`Database Results <database/results>` method ``field_data()`` returned incorrect type names.
 
 Version 3.1.6
 =============
