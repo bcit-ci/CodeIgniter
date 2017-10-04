@@ -591,6 +591,8 @@ class CI_Form_validation {
 				}
 				else
 				{
+					$data_ref =& $data;
+
 					// before we assign values, make a reference to the right POST key
 					if (count($row['keys']) === 1)
 					{
