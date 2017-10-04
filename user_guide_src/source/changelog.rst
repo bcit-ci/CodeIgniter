@@ -13,6 +13,7 @@ Bug fixes for 3.1.7
 -  Fixed a regression (#5276) - :doc:`Database Utilities <database/utilities>` method ``backup()`` generated incorrect ``INSERT`` statements with the 'mysqli' driver.
 -  Fixed a regression where :doc:`Database Results <database/results>` method ``field_data()`` returned incorrect type names.
 -  Fixed a bug (#5278) - :doc:`URL Helper <helpers/url_helper>` function :php:func:`auto_link()` didn't detect trailing slashes in URLs.
+-  Fixed a regression (#5282) - :doc:`Query Builder <database/query_builder>` method ``count_all_results()`` breaks ``ORDER BY`` clauses for subsequent queries.
 
 Version 3.1.6
 =============
