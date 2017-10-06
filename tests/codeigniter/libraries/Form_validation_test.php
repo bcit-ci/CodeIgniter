@@ -482,6 +482,20 @@ class Form_validation_test extends CI_TestCase {
 		$this->assertEquals('bar2', $this->form_validation->set_value('bar[]', $default));
 	}
 
+	public function test_issue_5202()
+	{
+		$data = array('person' => array('firstname' => 'Dick', 'lastname' => 'Tracy '));
+		$this->form_validation->reset_validation();
+		$this->form_validation->set_rules('person[firstname]', 'First Name', 'required|trim');
+		$this->form_validation->set_rules('person[lastname]', 'Last Name', 'required|trim');
+		$this->form_validation->set_data($data);
+		$valid = $this->form_validation->run('', $data);
+
+		$this->assertEquals(TRUE, $valid);
+		$this->assertEquals('Dick', $data['person']['firstname']);
+		$this->assertEquals('Tracy', $data['person']['lastname']);
+	}
+
 	public function test_set_select()
 	{
 		// Test 1: No options selected
