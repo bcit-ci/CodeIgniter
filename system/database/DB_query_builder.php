@@ -862,7 +862,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @used-by	or_having_not_in()
 	 *
 	 * @param	string	$qb_key	'qb_where' or 'qb_having'
-	 * @param	string	$key	The field to search
+	 * @param	mixed	$key	The field to search
 	 * @param	array	$values	The values searched on
 	 * @param	bool	$not	If the statement would be IN or NOT IN
 	 * @param	string	$type
@@ -898,6 +898,14 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		else
 		{
 			$wh_in = array_values($values);
+		}
+		
+		if (is_array($key))
+		{
+			$key = '('.implode(', ', $key).')';
+			$wh_in = array_map(function ($value) {
+				return '('.implode(', ', $value).')';
+			}, $wh_in);
 		}
 
 		$prefix = (count($this->$qb_key) === 0 && count($this->$qb_cache_key) === 0)
