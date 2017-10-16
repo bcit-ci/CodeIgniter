@@ -128,7 +128,7 @@ the offset segment.
 
 **$config['suffix'] = '';**
 
-A custom suffix added to the path. The sufix value will be right after
+A custom suffix added to the path. The suffix value will be right after
 the offset segment.
 
 **$config['use_global_url_suffix'] = FALSE;**

@@ -119,6 +119,19 @@ Version 3.1.7
 
 Release Date: Not Released
 
+-  General Changes
+
+   -  Updated :doc:`Form Validation Library <libraries/form_validation>` rule ``valid_email`` to use ``INTL_IDNA_VARIANT_UCS46`` for non-ASCII domain names.
+   -  Updated :doc:`Email Library <libraries/email>` to use ``INTL_IDNA_VARIANT_UCS46`` for non-ASCII domain names.
+
+Bug fixes for 3.1.7
+-------------------
+
+-  Fixed a regression (#5276) - :doc:`Database Utilities <database/utilities>` method ``backup()`` generated incorrect ``INSERT`` statements with the 'mysqli' driver.
+-  Fixed a regression where :doc:`Database Results <database/results>` method ``field_data()`` returned incorrect type names.
+-  Fixed a bug (#5278) - :doc:`URL Helper <helpers/url_helper>` function :php:func:`auto_link()` didn't detect trailing slashes in URLs.
+-  Fixed a regression (#5282) - :doc:`Query Builder <database/query_builder>` method ``count_all_results()`` breaks ``ORDER BY`` clauses for subsequent queries.
+-  Fixed a bug (#5279) - :doc:`Query Builder <database/query_builder>` didn't account for already escaped identifiers while applying database name prefixes.
 
 Version 3.1.6
 =============
