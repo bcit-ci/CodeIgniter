@@ -42,9 +42,9 @@ By default, the **index.php** file will be included in your URLs::
 If your Apache server has *mod_rewrite* enabled, you can easily remove this
 file by using a .htaccess file with some simple rules. Here is an example
 of such a file, using the "negative" method in which everything is redirected
-except the specified items::
+except the specified items:
 	
-.. code-block:: console
+.. code-block:: apache
 
 	RewriteEngine On
 	RewriteCond %{REQUEST_FILENAME} !-f
