@@ -180,11 +180,19 @@ class CI_Input {
 	 *
 	 * @param	mixed	$index		Index for item to be fetched from $_GET
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
+	 * @param	bool 	$clean_get	unset GET Data
 	 * @return	mixed
 	 */
-	public function get($index = NULL, $xss_clean = FALSE)
+	public function get($index = NULL, $xss_clean = FALSE, $clean_get = FALSE)
 	{
-		return $this->_fetch_from_array($_GET, $index, $xss_clean);
+		$get = $this->_fetch_from_array($_GET, $index, $xss_clean);
+		
+		if($clean_post === TRUE){
+			
+			$_POST = array();
+		}
+		
+		return $get;
 	}
 
 	// --------------------------------------------------------------------
@@ -194,11 +202,19 @@ class CI_Input {
 	 *
 	 * @param	mixed	$index		Index for item to be fetched from $_POST
 	 * @param	bool	$xss_clean	Whether to apply XSS filtering
+	 * @param	bool 	$clean_post	unset Post Data
 	 * @return	mixed
 	 */
-	public function post($index = NULL, $xss_clean = FALSE)
-	{
-		return $this->_fetch_from_array($_POST, $index, $xss_clean);
+	public function post($index = NULL, $xss_clean = FALSE, $clean_post = FALSE)
+	{	
+		$post = $this->_fetch_from_array($_POST, $index, $xss_clean);
+		
+		if($clean_post === TRUE){
+			
+			$_POST = array();
+		}
+		
+		return $post;
 	}
 
 	// --------------------------------------------------------------------
