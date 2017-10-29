@@ -153,12 +153,15 @@ class CI_Migration {
 		}
 
 		// Migration basename regex
-		$this->_migration_regex = ($this->_migration_type === 'timestamp')
-			? '/^\d{10}_(\w+)$/'
-			: '/^\d{3}_(\w+)$/';
+    switch($this->_migration_type)
+    {
+      case 'timestamp': $this->_migration_regex = '/^\d{10}_(\w+)$/'; break;
+      case 'sequential': $this->_migration_regex = '/^\d{3}_(\w+)$/'; break;
+      case 'datetime': $this->_migration_regex = '/^\d{14}_(\w+)$/'; break;
+    }
 
 		// Make sure a valid migration numbering type was set.
-		if ( ! in_array($this->_migration_type, array('sequential', 'timestamp')))
+		if ( ! in_array($this->_migration_type, array('sequential', 'timestamp', 'datetime')))
 		{
 			show_error('An invalid migration numbering type was specified: '.$this->_migration_type);
 		}
