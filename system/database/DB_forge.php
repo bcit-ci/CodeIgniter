@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
@@ -348,7 +348,7 @@ abstract class CI_DB_forge {
 
 		if (($result = $this->db->query($sql)) !== FALSE)
 		{
-			isset($this->db->data_cache['table_names']) && $this->db->data_cache['table_names'][] = $table;
+			empty($this->db->data_cache['table_names']) OR $this->db->data_cache['table_names'][] = $table;
 
 			// Most databases don't support creating indexes from within the CREATE TABLE statement
 			if ( ! empty($this->keys))
@@ -488,7 +488,7 @@ abstract class CI_DB_forge {
 	 *
 	 * @param	string	$table		Table name
 	 * @param	bool	$if_exists	Whether to add an IF EXISTS condition
-	 * @return	mixed	(Returns a platform-specific DROP table string, or TRUE to indicate there's nothing to do)
+	 * @return	string
 	 */
 	protected function _drop_table($table, $if_exists)
 	{
@@ -655,6 +655,62 @@ abstract class CI_DB_forge {
 		}
 
 		return TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Seed Data
+	 *
+	 * @param	string	$table	Table name
+	 * @param	string	$fields	Column definition
+	 * @param	string	$data_array	array of data
+	 * @return	bool
+	 */
+	public function seed_data($table, $fields, $data_array)
+	{
+		if ($table === '')
+		{
+			return ($this->db->db_debug) ? $this->db->display_error('db_table_name_required') : FALSE;
+		}
+
+    foreach($data_array as $data)
+    {
+      $seed = array();
+      foreach($fields as $key=>$field)
+      {
+        $seed[$field] = $data[$key];
+      }
+      $this->db->insert($table, $seed);
+    }
+		return TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Truncate Table
+	 *
+	 * @param	string	$table_name	Table name
+	 * @return	bool
+	 */
+	public function truncate_table($table)
+	{
+		if ($table === '')
+		{
+			return ($this->db->db_debug) ? $this->db->display_error('db_table_name_required') : FALSE;
+		}
+    
+		$sql = 'TRUNCATE TABLE';
+
+    if ( ! $this->db->table_exists($table))
+    {
+      return TRUE;
+    }
+		
+		$query  = $sql.' '.$this->db->escape_identifiers($table);
+    $this->db->query($query);
+    return true;
 	}
 
 	// --------------------------------------------------------------------
@@ -894,33 +950,21 @@ abstract class CI_DB_forge {
 			return;
 		}
 
-		if ( ! array_key_exists('DEFAULT', $attributes))
+		if (array_key_exists('DEFAULT', $attributes))
 		{
-			return;
+			if ($attributes['DEFAULT'] === NULL)
+			{
+				$field['default'] = empty($this->_null) ? '' : $this->_default.$this->_null;
+
+				// Override the NULL attribute if that's our default
+				$attributes['NULL'] = TRUE;
+				$field['null'] = empty($this->_null) ? '' : ' '.$this->_null;
+			}
+			else
+			{
+				$field['default'] = $this->_default.$this->db->escape($attributes['DEFAULT']);
+			}
 		}
-
-		if ($attributes['DEFAULT'] === NULL)
-		{
-			$field['default'] = empty($this->_null) ? '' : $this->_default.$this->_null;
-
-			// Override the NULL attribute if that's our default
-			$attributes['NULL'] = TRUE;
-			$field['null'] = empty($this->_null) ? '' : ' '.$this->_null;
-			return;
-		}
-
-		// White-list CURRENT_TIMESTAMP & similar (e.g. Oracle has stuff like SYSTIMESTAMP) defaults for date/time fields
-		if (
-			isset($attributes['TYPE'])
-			&& (stripos($attributes['TYPE'],    'time') !== FALSE OR stripos($attributes['TYPE'],    'date') !== FALSE)
-			&& (stripos($attributes['DEFAULT'], 'time') !== FALSE OR stripos($attributes['DEFAULT'], 'date') !== FALSE)
-		)
-		{
-			$field['default'] = $this->_default.$attributes['DEFAULT'];
-			return;
-		}
-
-		$field['default'] = $this->_default.$this->db->escape($attributes['DEFAULT']);
 	}
 
 	// --------------------------------------------------------------------
@@ -991,8 +1035,8 @@ abstract class CI_DB_forge {
 	/**
 	 * Process indexes
 	 *
-	 * @param	string	$table	Table name
-	 * @return	string[] list of SQL statements
+	 * @param	string	$table
+	 * @return	string
 	 */
 	protected function _process_indexes($table)
 	{
