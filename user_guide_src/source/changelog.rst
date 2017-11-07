@@ -128,6 +128,7 @@ Release Date: Not Released
 
    -  Updated :doc:`Form Validation Library <libraries/form_validation>` rule ``valid_email`` to use ``INTL_IDNA_VARIANT_UCS46`` for non-ASCII domain names.
    -  Updated :doc:`Email Library <libraries/email>` to use ``INTL_IDNA_VARIANT_UCS46`` for non-ASCII domain names.
+   -  Deprecated usage of :doc:`CAPTCHA Helper <helpers/captcha_helper>` function :php:func:`create_captcha()` with parameters other than ``$data``.
 
 Bug fixes for 3.1.7
 -------------------
