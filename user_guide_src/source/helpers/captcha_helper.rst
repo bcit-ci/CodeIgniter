@@ -135,9 +135,9 @@ The following functions are available:
 .. php:function:: create_captcha([$data = ''[, $img_path = ''[, $img_url = ''[, $font_path = '']]]])
 
 	:param	array	$data: Array of data for the CAPTCHA
-	:param	string	$img_path: Path to create the image in
-	:param	string	$img_url: URL to the CAPTCHA image folder
-	:param	string	$font_path: Server path to font
+	:param	string	$img_path: Path to create the image in (DEPRECATED)
+	:param	string	$img_url: URL to the CAPTCHA image folder (DEPRECATED)
+	:param	string	$font_path: Server path to font (DEPRECATED)
 	:returns:	array('word' => $word, 'time' => $now, 'image' => $img)
 	:rtype:	array
 
@@ -162,3 +162,7 @@ The following functions are available:
 
 	The **word** is the word that appears in the captcha image, which if not
 	supplied to the function, will be a random string.
+
+	.. note:: Usage of the ``$img_path``, ``$img_url`` and ``$font_path``
+		parameters is DEPRECATED. Provide them in the ``$data`` array
+		instead.
