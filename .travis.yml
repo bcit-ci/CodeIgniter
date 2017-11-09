@@ -31,7 +31,6 @@ script: php -d zend.enable_gc=0 -d date.timezone=UTC -d mbstring.func_overload=7
 
 matrix:
   allow_failures:
-    - php: 7.2
     - php: hhvm
   exclude:
     - php: hhvm
