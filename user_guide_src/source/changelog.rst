@@ -21,6 +21,7 @@ Bug fixes for 3.1.7
 -  Fixed a bug (#5278) - :doc:`URL Helper <helpers/url_helper>` function :php:func:`auto_link()` didn't detect trailing slashes in URLs.
 -  Fixed a regression (#5282) - :doc:`Query Builder <database/query_builder>` method ``count_all_results()`` breaks ``ORDER BY`` clauses for subsequent queries.
 -  Fixed a bug (#5279) - :doc:`Query Builder <database/query_builder>` didn't account for already escaped identifiers while applying database name prefixes.
+-  Fixed a bug (#5331) - :doc:`URL Helper <helpers/url_helper>` function :php:func:`auto_link()` converted e-mail addresses starting with 'www.' to both "url" and "email" links.
 
 Version 3.1.6
 =============
