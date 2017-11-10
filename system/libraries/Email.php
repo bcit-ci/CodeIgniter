@@ -1034,10 +1034,13 @@ class CI_Email {
 	 */
 	public function valid_email($email)
 	{
-		if (function_exists('idn_to_ascii') && $atpos = strpos($email, '@'))
+		if (function_exists('idn_to_ascii') && strpos($email, '@'))
 		{
-			$variant = defined('INTL_IDNA_VARIANT_UTS46') ? INTL_IDNA_VARIANT_UTS46 : INTL_IDNA_VARIANT_2003;
-			$email = self::substr($email, 0, ++$atpos).idn_to_ascii(self::substr($email, $atpos), $variant);
+			list($account, $domain) = explode('@', $email, 2);
+			$domain = is_php('5.4')
+				? idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46)
+				: idn_to_ascii($domain);
+			$email = $account.'@'.$domain;
 		}
 
 		return (bool) filter_var($email, FILTER_VALIDATE_EMAIL);
@@ -1852,10 +1855,13 @@ class CI_Email {
 	 */
 	protected function _validate_email_for_shell(&$email)
 	{
-		if (function_exists('idn_to_ascii') && $atpos = strpos($email, '@'))
+		if (function_exists('idn_to_ascii') && strpos($email, '@'))
 		{
-			$variant = defined('INTL_IDNA_VARIANT_UTS46') ? INTL_IDNA_VARIANT_UTS46 : INTL_IDNA_VARIANT_2003;
-			$email = self::substr($email, 0, ++$atpos).idn_to_ascii(self::substr($email, $atpos), $variant);
+			list($account, $domain) = explode('@', $email, 2);
+			$domain = is_php('5.4')
+				? idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46)
+				: idn_to_ascii($domain);
+			$email = $account.'@'.$domain;
 		}
 
 		return (filter_var($email, FILTER_VALIDATE_EMAIL) === $email && preg_match('#\A[a-z0-9._+-]+@[a-z0-9.-]{1,253}\z#i', $email));
