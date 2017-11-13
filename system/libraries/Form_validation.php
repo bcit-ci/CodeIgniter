@@ -591,6 +591,8 @@ class CI_Form_validation {
 				}
 				else
 				{
+					$data_ref =& $data;
+
 					// before we assign values, make a reference to the right POST key
 					if (count($row['keys']) === 1)
 					{
@@ -1235,7 +1237,7 @@ class CI_Form_validation {
 	{
 		if (function_exists('idn_to_ascii') && preg_match('#\A([^@]+)@(.+)\z#', $str, $matches))
 		{
-			$str = $matches[1].'@'.idn_to_ascii($matches[2]);
+			$str = $matches[1].'@'.idn_to_ascii($matches[2], 0, INTL_IDNA_VARIANT_UTS46);
 		}
 
 		return (bool) filter_var($str, FILTER_VALIDATE_EMAIL);
