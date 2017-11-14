@@ -77,4 +77,13 @@ class Url_helper_test extends CI_TestCase {
 		}
 	}
 
+	// --------------------------------------------------------------------
+
+	public function test_issue_5331()
+	{
+		$this->assertEquals(
+			'this is some text that includes '.safe_mailto('www.email@domain.com').' which is causing an issue',
+			auto_link('this is some text that includes www.email@domain.com which is causing an issue')
+		);
+	}
 }
