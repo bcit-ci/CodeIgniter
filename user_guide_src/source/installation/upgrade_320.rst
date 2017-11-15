@@ -24,7 +24,47 @@ may be at least runnable, we strongly discourage you from using any PHP versions
 the ones listed on the `PHP.net Supported Versions <https://secure.php.net/supported-versions.php>`_
 page.
 
-Step 3: Change database connection handling
+Step 3: Remove calls to ``CI_Model::__construct()``
+===================================================
+
+The class constructor for ``CI_Model`` never contained vital code or useful
+logic, only a single line to log a message. A change in CodeIgniter 3.1.7
+moved this log message elsewhere and that naturally made the constructor
+completely unnecessary. However, it was left in place to avoid immedate BC
+breaks in a minor release.
+
+In version 3.2.0, that constructor is entirely removed, which would result
+in fatal errors on attempts to call it. Particularly in code like this:
+::
+
+	class Some_model extends CI_Model {
+
+		public function __construct()
+		{
+			parent::__construct(); // calls CI_Model::__construct()
+
+			do_some_other_thing();
+		}
+	}
+
+All you need to do is remove that ``parent::__construct()`` call. On a side
+note, the following seems to be a very common practice:
+::
+
+	class Some_class extends CI_Something {
+
+		public function __construct()
+		{
+			parent::__construct();
+		}
+	}
+
+Please, do NOT do this! It's pointless; it serves no purpose and doesn't do
+anything. If a parent class has a ``__construct()`` method, it will be
+inherited by all its child classes and will execute just fine - you DON'T
+have to explicitly call it unless you want to extend its logic.
+
+Step 4: Change database connection handling
 ===========================================
 
 "Loading" a database, whether by using the *config/autoload.php* settings
@@ -69,7 +109,7 @@ That doesn't make sense and that's the reason why most database drivers
 don't support it at all.
 Thus, ``db_set_charset()`` is no longer necessary and is removed.
 
-Step 4: Check logic related to URI parsing of CLI requests
+Step 5: Check logic related to URI parsing of CLI requests
 ==========================================================
 
 When running a CodeIgniter application from the CLI, the
@@ -82,7 +122,7 @@ this change was made) and therefore you shouldn't be affected by this, but
 if you've relied on them for some reason, you'd probably have to make some
 changes to your code.
 
-Step 5: Check Cache Library configurations for Redis, Memcache(d)
+Step 6: Check Cache Library configurations for Redis, Memcache(d)
 =================================================================
 
 The new improvements for the 'redis' and 'memcached' drivers of the
@@ -109,7 +149,7 @@ value (previously, it just set the host to the default '127.0.0.1').
 Therefore, if you've added a configuration that only sets e.g. a ``port``,
 you will now have to explicitly set the ``host`` to '127.0.0.1' as well.
 
-Step 6: Check usage of the Email library
+Step 7: Check usage of the Email library
 ========================================
 
 The :doc:`Email Library <../libraries/email>` will now by default check the
@@ -123,7 +163,7 @@ everything works fine.
 If something indeed goes wrong with that, please report it as a bug to us,
 and you can disable the **validate** option to revert to the old behavior.
 
-Step 7: Check usage of doctype() HTML helper
+Step 8: Check usage of doctype() HTML helper
 ============================================
 
 The :doc:`HTML Helper <../helpers/html_helper>` function
@@ -136,7 +176,7 @@ relies on the default value, you should double-check it and either
 explicitly set the desired format, or adapt your front-end to use proper
 HTML 5 formatting.
 
-Step 8: Check usage of form_upload() Form helper
+Step 9: Check usage of form_upload() Form helper
 ================================================
 
 The :doc:`Form Helper <../helpers/form_helper>` function
@@ -153,7 +193,7 @@ You should change it to::
 
 	form_upload('name', $extra);
 
-Step 9: Remove usage of previously deprecated functionalities
+Step 10: Remove usage of previously deprecated functionalities
 =============================================================
 
 The following is a list of functionalities deprecated in previous
@@ -191,7 +231,7 @@ CodeIgniter versions that have been removed in 3.2.0:
 
 - The entire *Smiley Helper* (an archived version is available on GitHub: `bcit-ci/ci3-smiley-helper <https://github.com/bcit-ci/ci3-smiley-helper>`_)
 
-Step 10: Make sure you're validating all user inputs
+Step 11: Make sure you're validating all user inputs
 ====================================================
 
 The :doc:`Input Library <../libraries/input>` used to (often
