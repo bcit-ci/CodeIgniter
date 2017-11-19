@@ -54,7 +54,14 @@ except the specified items:
 In the above example, any HTTP request other than those for existing
 directories and existing files is treated as a request for your index.php file.
 
-.. note:: These specific rules might not work for all server configurations.
+For Nginx server, you can set everything else routing to index.php:
+
+.. code-block:: nginx
+
+	location / {
+                try_files $uri $uri/ /index.php;
+        }
+
 
 .. note:: Make sure to also exclude from the above rule any assets that you
 	might need to be accessible from the outside world.
