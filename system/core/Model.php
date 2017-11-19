@@ -49,6 +49,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CI_Model {
 
 	/**
+	 * Class constructor
+	 *
+	 * @link	https://github.com/bcit-ci/CodeIgniter/issues/5332
+	 * @return	void
+	 */
+	public function __construct() {}
+
+	/**
 	 * __get magic
 	 *
 	 * Allows models to access CI's loaded classes using the same
