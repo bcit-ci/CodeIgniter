@@ -226,7 +226,7 @@ class CI_Loader {
 	 *
 	 * Loads and instantiates models.
 	 *
-	 * @param	string	$model		Model name
+	 * @param	mixed	$model		Model name
 	 * @param	string	$name		An optional object name to assign to
 	 * @param	bool	$db_conn	An optional database connection configuration to initialize
 	 * @return	object
@@ -303,6 +303,8 @@ class CI_Loader {
 				{
 					throw new RuntimeException($app_path."Model.php exists, but doesn't declare class CI_Model");
 				}
+
+				log_message('info', 'CI_Model class loaded');
 			}
 			elseif ( ! class_exists('CI_Model', FALSE))
 			{
@@ -317,6 +319,8 @@ class CI_Loader {
 				{
 					throw new RuntimeException($app_path.$class.".php exists, but doesn't declare class ".$class);
 				}
+
+				log_message('info', config_item('subclass_prefix').'Model class loaded');
 			}
 		}
 
@@ -351,7 +355,9 @@ class CI_Loader {
 		}
 
 		$this->_ci_models[] = $name;
-		$CI->$name = new $model();
+		$model = new $model();
+		$CI->$name = $model;
+		log_message('info', 'Model "'.get_class($model).'" initialized');
 		return $this;
 	}
 
@@ -1027,6 +1033,26 @@ class CI_Loader {
 			return $this->_ci_load_stock_library($class, $subdir, $params, $object_name);
 		}
 
+		// Safety: Was the class already loaded by a previous call?
+		if (class_exists($class, FALSE))
+		{
+			$property = $object_name;
+			if (empty($property))
+			{
+				$property = strtolower($class);
+				isset($this->_ci_varmap[$property]) && $property = $this->_ci_varmap[$property];
+			}
+
+			$CI =& get_instance();
+			if (isset($CI->$property))
+			{
+				log_message('debug', $class.' class already loaded. Second attempt ignored.');
+				return;
+			}
+
+			return $this->_ci_init_library($class, '', $params, $object_name);
+		}
+
 		// Let's search for the requested library file and load it.
 		foreach ($this->_ci_library_paths as $path)
 		{
@@ -1037,27 +1063,8 @@ class CI_Loader {
 			}
 
 			$filepath = $path.'libraries/'.$subdir.$class.'.php';
-
-			// Safety: Was the class already loaded by a previous call?
-			if (class_exists($class, FALSE))
-			{
-				// Before we deem this to be a duplicate request, let's see
-				// if a custom object name is being supplied. If so, we'll
-				// return a new instance of the object
-				if ($object_name !== NULL)
-				{
-					$CI =& get_instance();
-					if ( ! isset($CI->$object_name))
-					{
-						return $this->_ci_init_library($class, '', $params, $object_name);
-					}
-				}
-
-				log_message('debug', $class.' class already loaded. Second attempt ignored.');
-				return;
-			}
 			// Does the file exist? No? Bummer...
-			elseif ( ! file_exists($filepath))
+			if ( ! file_exists($filepath))
 			{
 				continue;
 			}
@@ -1102,16 +1109,17 @@ class CI_Loader {
 				$prefix = config_item('subclass_prefix');
 			}
 
-			// Before we deem this to be a duplicate request, let's see
-			// if a custom object name is being supplied. If so, we'll
-			// return a new instance of the object
-			if ($object_name !== NULL)
+			$property = $object_name;
+			if (empty($property))
 			{
-				$CI =& get_instance();
-				if ( ! isset($CI->$object_name))
-				{
-					return $this->_ci_init_library($library_name, $prefix, $params, $object_name);
-				}
+				$property = strtolower($library_name);
+				isset($this->_ci_varmap[$property]) && $property = $this->_ci_varmap[$property];
+			}
+
+			$CI =& get_instance();
+			if ( ! isset($CI->$property))
+			{
+				return $this->_ci_init_library($library_name, $prefix, $params, $object_name);
 			}
 
 			log_message('debug', $library_name.' class already loaded. Second attempt ignored.');
@@ -1133,10 +1141,8 @@ class CI_Loader {
 				{
 					return $this->_ci_init_library($library_name, $prefix, $params, $object_name);
 				}
-				else
-				{
-					log_message('debug', $path.' exists, but does not declare '.$prefix.$library_name);
-				}
+
+				log_message('debug', $path.' exists, but does not declare '.$prefix.$library_name);
 			}
 		}
 
@@ -1154,10 +1160,8 @@ class CI_Loader {
 					$prefix = config_item('subclass_prefix');
 					break;
 				}
-				else
-				{
-					log_message('debug', $path.' exists, but does not declare '.$subclass);
-				}
+
+				log_message('debug', $path.' exists, but does not declare '.$subclass);
 			}
 		}
 

@@ -99,7 +99,7 @@ class Loader_test extends CI_TestCase {
 		// Test reloading
 		unset($this->ci_obj->$name);
 		$this->assertInstanceOf('CI_Loader', $this->load->library($lib));
-		$this->assertObjectNotHasAttribute($name, $this->ci_obj);
+		$this->assertObjectHasAttribute($name, $this->ci_obj);
 
 		// Create baseless library
 		$name = 'ext_baseless_lib';

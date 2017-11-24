@@ -1,4 +1,5 @@
 language: php
+dist: precise
 
 php:
   - 5.4
@@ -6,6 +7,8 @@ php:
   - 5.6
   - 7.0
   - 7.1
+  - 7.2
+  - master
   - hhvm
   
 env:
@@ -30,6 +33,7 @@ script: php -d zend.enable_gc=0 -d date.timezone=UTC -d mbstring.func_overload=7
 matrix:
   allow_failures:
     - php: hhvm
+    - php: master
   exclude:
     - php: hhvm
       env: DB=pgsql
@@ -38,6 +42,10 @@ matrix:
     - php: 7.0
       env: DB=mysql
     - php: 7.1
+      env: DB=mysql
+    - php: 7.2
+      env: DB=mysql
+    - php: master
       env: DB=mysql
 
 branches:

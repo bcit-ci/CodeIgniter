@@ -525,19 +525,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function join($table, $cond, $type = '', $escape = NULL)
 	{
-		if ($type !== '')
-		{
-			$type = strtoupper(trim($type));
-
-			if ( ! in_array($type, array('LEFT', 'RIGHT', 'OUTER', 'INNER', 'LEFT OUTER', 'RIGHT OUTER'), TRUE))
-			{
-				$type = '';
-			}
-			else
-			{
-				$type .= ' ';
-			}
-		}
+		$type = trim(strtoupper($type).' JOIN');
+		preg_match('#^(NATURAL\s+)?((LEFT|RIGHT)\s+)?((INNER|OUTER)\s+)?JOIN$#', $type) OR $type = 'JOIN';
 
 		// Extract any aliases that might exist. We use this information
 		// in the protect_identifiers to know whether to add a table prefix
@@ -545,7 +534,11 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		is_bool($escape) OR $escape = $this->_protect_identifiers;
 
-		if ( ! $this->_has_operator($cond))
+		if (strpos($type, 'NATURAL') === 0)
+		{
+			$cond = '';
+		}
+		elseif ( ! $this->_has_operator($cond))
 		{
 			$cond = ' USING ('.($escape ? $this->escape_identifiers($cond) : $cond).')';
 		}
@@ -594,7 +587,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 
 		// Assemble the JOIN statement
-		$this->qb_join[] = $join = $type.'JOIN '.$table.$cond;
+		$this->qb_join[] = $join = $type.' '.$table.$cond;
 
 		if ($this->qb_caching === TRUE)
 		{
@@ -1482,11 +1475,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		// ORDER BY usage is often problematic here (most notably
 		// on Microsoft SQL Server) and ultimately unnecessary
 		// for selecting COUNT(*) ...
-		if ( ! empty($this->qb_orderby))
-		{
-			$orderby = $this->qb_orderby;
-			$this->qb_orderby = NULL;
-		}
+		$qb_orderby       = $this->qb_orderby;
+		$qb_cache_orderby = $this->qb_cache_orderby;
+		$this->qb_orderby = $this->qb_cache_orderby = array();
 
 		$result = ($this->qb_distinct === TRUE OR ! empty($this->qb_groupby) OR ! empty($this->qb_cache_groupby) OR $this->qb_limit OR $this->qb_offset)
 			? $this->query($this->_count_string.$this->protect_identifiers('numrows')."\nFROM (\n".$this->_compile_select()."\n) CI_count_all_results")
@@ -1496,10 +1487,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			$this->_reset_select();
 		}
-		// If we've previously reset the qb_orderby values, get them back
-		elseif ( ! isset($this->qb_orderby))
+		else
 		{
-			$this->qb_orderby = $orderby;
+			$this->qb_orderby       = $qb_orderby;
+			$this->qb_cache_orderby = $qb_cache_orderby;
 		}
 
 		if ($result->num_rows() === 0)
