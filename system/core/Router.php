@@ -62,7 +62,7 @@ class CI_Router {
 	 *
 	 * @var	array
 	 */
-	public $routes =	array();
+	public $routes =	[];
 
 	/**
 	 * Current class name
@@ -207,10 +207,10 @@ class CI_Router {
 					$this->set_method($_GET[$_f]);
 				}
 
-				$this->uri->rsegments = array(
+				$this->uri->rsegments = [
 					1 => $this->class,
-					2 => $this->method
-				);
+					2 => $this->method,
+				];
 			}
 			else
 			{
@@ -245,7 +245,7 @@ class CI_Router {
 	 * @param	array	$segments	URI segments
 	 * @return	void
 	 */
-	protected function _set_request($segments = array())
+	protected function _set_request($segments = [])
 	{
 		$segments = $this->_validate_request($segments);
 		// If we don't have any segments left - try the default controller;
@@ -310,10 +310,10 @@ class CI_Router {
 		$this->set_method($method);
 
 		// Assign routed segments, index starting from 1
-		$this->uri->rsegments = array(
+		$this->uri->rsegments = [
 			1 => $class,
-			2 => $method
-		);
+			2 => $method,
+		];
 
 		log_message('debug', 'No URI present. Default controller set.');
 	}
@@ -393,7 +393,7 @@ class CI_Router {
 			}
 
 			// Convert wildcards to RegEx
-			$key = str_replace(array(':any', ':num'), array('[^/]+', '[0-9]+'), $key);
+			$key = str_replace([':any', ':num'], ['[^/]+', '[0-9]+'], $key);
 
 			// Does the RegEx match?
 			if (preg_match('#^'.$key.'$#', $uri, $matches))
@@ -433,7 +433,7 @@ class CI_Router {
 	 */
 	public function set_class($class)
 	{
-		$this->class = str_replace(array('/', '.'), '', $class);
+		$this->class = str_replace(['/', '.'], '', $class);
 	}
 
 	// --------------------------------------------------------------------

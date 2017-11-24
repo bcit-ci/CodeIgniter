@@ -76,11 +76,11 @@ class Security_test extends CI_TestCase {
 
 	public function test_xss_clean_string_array()
 	{
-		$harm_strings = array(
+		$harm_strings = [
 			"Hello, i try to <script>alert('Hack');</script> your site",
 			"Simple clean string",
-			"Hello, i try to <script>alert('Hack');</script> your site"
-		);
+			"Hello, i try to <script>alert('Hack');</script> your site",
+		];
 
 		$harmless_strings = $this->security->xss_clean($harm_strings);
 
@@ -303,7 +303,7 @@ class Security_test extends CI_TestCase {
 
 	public function test_strip_image_tags()
 	{
-		$imgtags = array(
+		$imgtags = [
 			'<img src="smiley.gif" alt="Smiley face" height="42" width="42">',
 			'<img alt="Smiley face" height="42" width="42" src="smiley.gif">',
 			'<img src="http://www.w3schools.com/images/w3schools_green.jpg">',
@@ -312,10 +312,10 @@ class Security_test extends CI_TestCase {
 			'<img sqrc="/img/sunset.gif" height="100%" width="100%">',
 			'<img srqc="/img/sunset.gif" height="100%" width="100%">',
 			'<img srcq="/img/sunset.gif" height="100%" width="100%">',
-			'<img src=non-quoted.attribute foo="bar">'
-		);
+			'<img src=non-quoted.attribute foo="bar">',
+		];
 
-		$urls = array(
+		$urls = [
 			'smiley.gif',
 			'smiley.gif',
 			'http://www.w3schools.com/images/w3schools_green.jpg',
@@ -324,8 +324,8 @@ class Security_test extends CI_TestCase {
 			'<img sqrc="/img/sunset.gif" height="100%" width="100%">',
 			'<img srqc="/img/sunset.gif" height="100%" width="100%">',
 			'<img srcq="/img/sunset.gif" height="100%" width="100%">',
-			'non-quoted.attribute'
-		);
+			'non-quoted.attribute',
+		];
 
 		for ($i = 0; $i < count($imgtags); $i++)
 		{

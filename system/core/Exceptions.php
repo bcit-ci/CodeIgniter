@@ -60,7 +60,7 @@ class CI_Exceptions {
 	 *
 	 * @var	array
 	 */
-	public $levels = array(
+	public $levels = [
 		E_ERROR			=>	'Error',
 		E_WARNING		=>	'Warning',
 		E_PARSE			=>	'Parsing Error',
@@ -72,8 +72,8 @@ class CI_Exceptions {
 		E_USER_ERROR		=>	'User Error',
 		E_USER_WARNING		=>	'User Warning',
 		E_USER_NOTICE		=>	'User Notice',
-		E_STRICT		=>	'Runtime Notice'
-	);
+		E_STRICT		=>	'Runtime Notice',
+	];
 
 	/**
 	 * Class constructor

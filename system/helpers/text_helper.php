@@ -102,7 +102,7 @@ if ( ! function_exists('character_limiter'))
 		}
 
 		// a bit complicated, but faster than preg_replace with \s+
-		$str = preg_replace('/ {2,}/', ' ', str_replace(array("\r", "\n", "\t", "\v", "\f"), ' ', $str));
+		$str = preg_replace('/ {2,}/', ' ', str_replace(["\r", "\n", "\t", "\v", "\f"], ' ', $str));
 
 		if (mb_strlen($str) <= $n)
 		{
@@ -141,7 +141,7 @@ if ( ! function_exists('ascii_to_entities'))
 		$length = defined('MB_OVERLOAD_STRING')
 			? mb_strlen($str, '8bit') - 1
 			: strlen($str) - 1;
-		for ($i = 0, $count = 1, $temp = array(); $i <= $length; $i++)
+		for ($i = 0, $count = 1, $temp = []; $i <= $length; $i++)
 		{
 			$ordinal = ord($str[$i]);
 
@@ -176,7 +176,7 @@ if ( ! function_exists('ascii_to_entities'))
 
 					$out .= '&#'.$number.';';
 					$count = 1;
-					$temp = array();
+					$temp = [];
 				}
 				// If this is the last iteration, just output whatever we have
 				elseif ($i === $length)
@@ -235,8 +235,8 @@ if ( ! function_exists('entities_to_ascii'))
 		if ($all)
 		{
 			return str_replace(
-				array('&amp;', '&lt;', '&gt;', '&quot;', '&apos;', '&#45;'),
-				array('&', '<', '>', '"', "'", '-'),
+				['&amp;', '&lt;', '&gt;', '&quot;', '&apos;', '&#45;'],
+				['&', '<', '>', '"', "'", '-'],
 				$str
 			);
 		}
@@ -329,8 +329,8 @@ if ( ! function_exists('highlight_code'))
 		 * and thus, thwart the highlighting.
 		 */
 		$str = str_replace(
-			array('&lt;', '&gt;', '<?', '?>', '<%', '%>', '\\', '</script>'),
-			array('<', '>', 'phptagopen', 'phptagclose', 'asptagopen', 'asptagclose', 'backslashtmp', 'scriptclose'),
+			['&lt;', '&gt;', '<?', '?>', '<%', '%>', '\\', '</script>'],
+			['<', '>', 'phptagopen', 'phptagclose', 'asptagopen', 'asptagclose', 'backslashtmp', 'scriptclose'],
 			$str
 		);
 
@@ -340,23 +340,23 @@ if ( ! function_exists('highlight_code'))
 
 		// Remove our artificially added PHP, and the syntax highlighting that came with it
 		$str = preg_replace(
-			array(
+			[
 				'/<span style="color: #([A-Z0-9]+)">&lt;\?php(&nbsp;| )/i',
 				'/(<span style="color: #[A-Z0-9]+">.*?)\?&gt;<\/span>\n<\/span>\n<\/code>/is',
-				'/<span style="color: #[A-Z0-9]+"\><\/span>/i'
-			),
-			array(
+				'/<span style="color: #[A-Z0-9]+"\><\/span>/i',
+			],
+			[
 				'<span style="color: #$1">',
 				"$1</span>\n</span>\n</code>",
-				''
-			),
+				'',
+			],
 			$str
 		);
 
 		// Replace our markers back to PHP tags.
 		return str_replace(
-			array('phptagopen', 'phptagclose', 'asptagopen', 'asptagclose', 'backslashtmp', 'scriptclose'),
-			array('&lt;?', '?&gt;', '&lt;%', '%&gt;', '\\', '&lt;/script&gt;'),
+			['phptagopen', 'phptagclose', 'asptagopen', 'asptagclose', 'backslashtmp', 'scriptclose'],
+			['&lt;?', '?&gt;', '&lt;%', '%&gt;', '\\', '&lt;/script&gt;'],
 			$str
 		);
 	}
@@ -413,8 +413,8 @@ if ( ! function_exists('convert_accented_characters'))
 
 			if (empty($foreign_characters) OR ! is_array($foreign_characters))
 			{
-				$array_from = array();
-				$array_to = array();
+				$array_from = [];
+				$array_to = [];
 
 				return $str;
 			}
@@ -453,12 +453,12 @@ if ( ! function_exists('word_wrap'))
 		// Standardize newlines
 		if (strpos($str, "\r") !== FALSE)
 		{
-			$str = str_replace(array("\r\n", "\r"), "\n", $str);
+			$str = str_replace(["\r\n", "\r"], "\n", $str);
 		}
 
 		// If the current word is surrounded by {unwrap} tags we'll
 		// strip the entire chunk and replace it with a marker.
-		$unwrap = array();
+		$unwrap = [];
 		if (preg_match_all('|\{unwrap\}(.+?)\{/unwrap\}|s', $str, $matches))
 		{
 			for ($i = 0, $c = count($matches[0]); $i < $c; $i++)

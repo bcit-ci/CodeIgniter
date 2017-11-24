@@ -7,7 +7,7 @@ class Upload_test extends CI_TestCase {
 		$ci = $this->ci_instance();
 		$ci->upload = new CI_Upload();
 		$ci->security = new Mock_Core_Security('UTF-8');
-		$ci->lang = $this->getMockBuilder('CI_Lang')->setMethods(array('load', 'line'))->getMock();
+		$ci->lang = $this->getMockBuilder('CI_Lang')->setMethods(['load', 'line'])->getMock();
 		$ci->lang->expects($this->any())->method('line')->will($this->returnValue(FALSE));
 		$this->upload = $ci->upload;
 	}
@@ -19,10 +19,10 @@ class Upload_test extends CI_TestCase {
 		// via __construct
 
 		$upload = new CI_Upload(
-			array(
+			[
 				'file_name' => 'foo',
-				'file_ext_tolower' => TRUE
-			)
+				'file_ext_tolower' => TRUE,
+			]
 		);
 
 		$reflection = new ReflectionClass($upload);
@@ -34,13 +34,13 @@ class Upload_test extends CI_TestCase {
 
 		// reset (defaults to true)
 
-		$upload->initialize(array('file_name' => 'bar'));
+		$upload->initialize(['file_name' => 'bar']);
 		$this->assertEquals('bar', $upload->file_name);
 		$this->assertFalse($upload->file_ext_tolower);
 
 		// no reset
 
-		$upload->initialize(array('file_ext_tolower' => TRUE), FALSE);
+		$upload->initialize(['file_ext_tolower' => TRUE], FALSE);
 		$this->assertTrue($upload->file_ext_tolower);
 		$this->assertEquals('bar', $upload->file_name);
 	}
@@ -56,7 +56,7 @@ class Upload_test extends CI_TestCase {
 
 	function test_data()
 	{
-		$data = array(
+		$data = [
 				'file_name'		=> 'hello.txt',
 				'file_type'		=> 'text/plain',
 				'file_path'		=> '/tmp/',
@@ -70,8 +70,8 @@ class Upload_test extends CI_TestCase {
 				'image_width'		=> '',
 				'image_height'		=> '',
 				'image_type'		=> '',
-				'image_size_str'	=> ''
-			);
+				'image_size_str'	=> '',
+			];
 
 		$this->upload->set_upload_path('/tmp/');
 
@@ -136,7 +136,7 @@ class Upload_test extends CI_TestCase {
 		$this->assertEquals('*', $this->upload->allowed_types);
 
 		$this->upload->set_allowed_types('foo|bar');
-		$this->assertEquals(array('foo', 'bar'), $this->upload->allowed_types);
+		$this->assertEquals(['foo', 'bar'], $this->upload->allowed_types);
 	}
 
 	function test_set_image_properties()
@@ -144,12 +144,12 @@ class Upload_test extends CI_TestCase {
 		$this->upload->file_type = 'image/gif';
 		$this->upload->file_temp = realpath(PROJECT_BASE.'tests/mocks/uploads/ci_logo.gif');
 
-		$props = array(
+		$props = [
 			'image_width'	=>	170,
 			'image_height'	=>	73,
 			'image_type'	=>	'gif',
-			'image_size_str'	=>	'width="170" height="73"'
-		);
+			'image_size_str'	=>	'width="170" height="73"',
+		];
 
 		$this->upload->set_image_properties($this->upload->file_temp);
 
@@ -179,7 +179,7 @@ class Upload_test extends CI_TestCase {
 
 	function test_is_allowed_filetype()
 	{
-		$this->upload->allowed_types = array('html', 'gif');
+		$this->upload->allowed_types = ['html', 'gif'];
 
 		$this->upload->file_ext = '.txt';
 		$this->upload->file_type = 'text/plain';
@@ -276,9 +276,9 @@ class Upload_test extends CI_TestCase {
 
 	function test_set_error()
 	{
-		$errors = array(
-			'An error!'
-		);
+		$errors = [
+			'An error!',
+		];
 
 		$another = 'Another error!';
 

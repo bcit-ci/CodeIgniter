@@ -53,15 +53,15 @@ class CI_Cache extends CI_Driver_Library {
 	 *
 	 * @var array
 	 */
-	protected $valid_drivers = array(
+	protected $valid_drivers = [
 		'apc',
 		'apcu',
 		'dummy',
 		'file',
 		'memcached',
 		'redis',
-		'wincache'
-	);
+		'wincache',
+	];
 
 	/**
 	 * Path of cache files (if file-based cache)
@@ -99,7 +99,7 @@ class CI_Cache extends CI_Driver_Library {
 	 * @param	array	$config = array()
 	 * @return	void
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		isset($config['adapter']) && $this->_adapter = $config['adapter'];
 		isset($config['backup']) && $this->_backup_driver = $config['backup'];

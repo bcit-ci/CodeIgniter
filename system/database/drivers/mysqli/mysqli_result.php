@@ -85,7 +85,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	 */
 	public function list_fields()
 	{
-		$field_names = array();
+		$field_names = [];
 		$this->result_id->field_seek(0);
 		while ($field = $this->result_id->fetch_field())
 		{
@@ -106,7 +106,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	 */
 	public function field_data()
 	{
-		$retval = array();
+		$retval = [];
 		$field_data = $this->result_id->fetch_fields();
 		for ($i = 0, $c = count($field_data); $i < $c; $i++)
 		{
@@ -136,7 +136,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 	private static function _get_field_type($type)
 	{
 		static $map;
-		isset($map) OR $map = array(
+		isset($map) OR $map = [
 			MYSQLI_TYPE_DECIMAL     => 'decimal',
 			MYSQLI_TYPE_BIT         => 'bit',
 			MYSQLI_TYPE_TINY        => 'tinyint',
@@ -161,8 +161,8 @@ class CI_DB_mysqli_result extends CI_DB_result {
 			MYSQLI_TYPE_LONG_BLOB   => 'longblob',
 			MYSQLI_TYPE_STRING      => 'char',
 			MYSQLI_TYPE_VAR_STRING  => 'varchar',
-			MYSQLI_TYPE_GEOMETRY    => 'geometry'
-		);
+			MYSQLI_TYPE_GEOMETRY    => 'geometry',
+		];
 
 		return isset($map[$type]) ? $map[$type] : $type;
 	}

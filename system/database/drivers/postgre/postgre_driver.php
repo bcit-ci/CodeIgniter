@@ -73,7 +73,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 *
 	 * @var	array
 	 */
-	protected $_random_keyword = array('RANDOM()', 'RANDOM()');
+	protected $_random_keyword = ['RANDOM()', 'RANDOM()'];
 
 	// --------------------------------------------------------------------
 
@@ -128,7 +128,7 @@ class CI_DB_postgre_driver extends CI_DB {
 		 *
 		 * postgre://username:password@localhost:5432/database?connect_timeout=5&sslmode=1
 		 */
-		foreach (array('connect_timeout', 'options', 'sslmode', 'service') as $key)
+		foreach (['connect_timeout', 'options', 'sslmode', 'service'] as $key)
 		{
 			if (isset($this->$key) && is_string($this->$key) && $this->$key !== '')
 			{
@@ -446,7 +446,7 @@ class CI_DB_postgre_driver extends CI_DB {
 		}
 		$query = $query->result_object();
 
-		$retval = array();
+		$retval = [];
 		for ($i = 0, $c = count($query); $i < $c; $i++)
 		{
 			$retval[$i]			= new stdClass();
@@ -471,7 +471,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function error()
 	{
-		return array('code' => '', 'message' => pg_last_error($this->conn_id));
+		return ['code' => '', 'message' => pg_last_error($this->conn_id)];
 	}
 
 	// --------------------------------------------------------------------
@@ -523,7 +523,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	protected function _update($table, $values)
 	{
 		$this->qb_limit = FALSE;
-		$this->qb_orderby = array();
+		$this->qb_orderby = [];
 		return parent::_update($table, $values);
 	}
 
@@ -541,7 +541,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	protected function _update_batch($table, $values, $index)
 	{
-		$ids = array();
+		$ids = [];
 		foreach ($values as $key => $val)
 		{
 			$ids[] = $val[$index]['value'];

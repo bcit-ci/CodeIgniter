@@ -80,7 +80,7 @@ class CI_DB_sqlsrv_result extends CI_DB_result {
 	public function num_rows()
 	{
 		// sqlsrv_num_rows() doesn't work with the FORWARD and DYNAMIC cursors (FALSE is the same as FORWARD)
-		if ( ! in_array($this->scrollable, array(FALSE, SQLSRV_CURSOR_FORWARD, SQLSRV_CURSOR_DYNAMIC), TRUE))
+		if ( ! in_array($this->scrollable, [FALSE, SQLSRV_CURSOR_FORWARD, SQLSRV_CURSOR_DYNAMIC], TRUE))
 		{
 			return parent::num_rows();
 		}
@@ -113,7 +113,7 @@ class CI_DB_sqlsrv_result extends CI_DB_result {
 	 */
 	public function list_fields()
 	{
-		$field_names = array();
+		$field_names = [];
 		foreach (sqlsrv_field_metadata($this->result_id) as $offset => $field)
 		{
 			$field_names[] = $field['Name'];
@@ -133,7 +133,7 @@ class CI_DB_sqlsrv_result extends CI_DB_result {
 	 */
 	public function field_data()
 	{
-		$retval = array();
+		$retval = [];
 		foreach (sqlsrv_field_metadata($this->result_id) as $i => $field)
 		{
 			$retval[$i]		= new stdClass();

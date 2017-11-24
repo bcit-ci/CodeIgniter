@@ -8,7 +8,7 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 	protected $ci_instance;
 	protected static $ci_test_instance;
 
-	private $global_map = array(
+	private $global_map = [
 		'benchmark'	=> 'bm',
 		'config'	=> 'cfg',
 		'hooks'		=> 'ext',
@@ -19,8 +19,8 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 		'input'		=> 'in',
 		'lang'		=> 'lang',
 		'loader'	=> 'load',
-		'model'		=> 'model'
-	);
+		'model'		=> 'model',
+	];
 
 	// --------------------------------------------------------------------
 
@@ -93,7 +93,7 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 
 	public function ci_get_config()
 	{
-		return isset($this->ci_instance->config) ? $this->ci_instance->config->config : array();
+		return isset($this->ci_instance->config) ? $this->ci_instance->config->config : [];
 	}
 
 	// --------------------------------------------------------------------
@@ -217,10 +217,10 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 		}
 
 		// Build content
-		$tree = array($file => $content);
+		$tree = [$file => $content];
 
 		// Check for path
-		$subs = array();
+		$subs = [];
 		if ($path)
 		{
 			// Explode if not array
@@ -258,7 +258,7 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 			foreach (array_reverse($subs) as $dir)
 			{
 				// Wrap content in subdirectory for creation
-				$tree = array($dir => $tree);
+				$tree = [$dir => $tree];
 			}
 		}
 

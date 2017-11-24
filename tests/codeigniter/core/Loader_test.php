@@ -34,12 +34,12 @@ class Loader_test extends CI_TestCase {
 		$this->assertFalse($this->load->is_loaded(ucfirst($lib)));
 
 		// Test loading as an array.
-		$this->assertInstanceOf('CI_Loader', $this->load->library(array($lib)));
+		$this->assertInstanceOf('CI_Loader', $this->load->library([$lib]));
 		$this->assertTrue(class_exists($class), $class.' does not exist');
 		$this->assertAttributeInstanceOf($class, $lib, $this->ci_obj);
 
 		// Create library in VFS
-		$lib = array('unit_test_lib' => 'unit_test_lib');
+		$lib = ['unit_test_lib' => 'unit_test_lib'];
 
 		// Test loading as an array (int).
 		$this->assertInstanceOf('CI_Loader', $this->load->library($lib));
@@ -126,11 +126,11 @@ class Loader_test extends CI_TestCase {
 		$this->ci_vfs_create(ucfirst($lib), $content, $this->ci_base_root, 'libraries');
 
 		// Create config file
-		$cfg = array(
+		$cfg = [
 			'foo' => 'bar',
 			'bar' => 'baz',
-			'baz' => false
-		);
+			'baz' => false,
+		];
 		$this->ci_vfs_create($lib, '<?php $config = '.var_export($cfg, TRUE).';', $this->ci_app_root, 'config');
 
 		// Test object name and config
@@ -186,7 +186,7 @@ class Loader_test extends CI_TestCase {
 		$this->ci_vfs_create(ucfirst($driver), $content, $this->ci_base_root, 'libraries/'.$dir);
 
 		// Test loading as an array.
-		$this->assertInstanceOf('CI_Loader', $this->load->driver(array($driver)));
+		$this->assertInstanceOf('CI_Loader', $this->load->driver([$driver]));
 		$this->assertTrue(class_exists($class), $class.' does not exist');
 		$this->assertAttributeInstanceOf($class, $driver, $this->ci_obj);
 
@@ -233,7 +233,7 @@ class Loader_test extends CI_TestCase {
 		$base = 'CI_Model';
 		$subdir = 'cars';
 		$this->ci_vfs_create($model, '<?php class '.$model.' extends '.$base.' { }', $this->ci_app_root,
-			array('models', $subdir));
+			['models', $subdir]);
 
 		// Load model
 		$name = 'testors';
@@ -306,11 +306,11 @@ class Loader_test extends CI_TestCase {
 		$this->ci_vfs_create($view, $content.'<?php echo $'.$var.';', $this->ci_app_root, 'views');
 
 		// Test returning view
-		$out = $this->load->view($view, array($var => $value), TRUE);
+		$out = $this->load->view($view, [$var => $value], TRUE);
 		$this->assertEquals($content.$value, $out);
 
 		// Mock output class
-		$output = $this->getMockBuilder('CI_Output')->setMethods(array('append_output'))->getMock();
+		$output = $this->getMockBuilder('CI_Output')->setMethods(['append_output'])->getMock();
 		$output->expects($this->once())->method('append_output')->with($content.$value);
 		$this->ci_instance_var('output', $output);
 
@@ -329,7 +329,7 @@ class Loader_test extends CI_TestCase {
 			'CI Error: Unable to load the requested file: ci_test_nonexistent_view.php'
 		);
 
-		$this->load->view('ci_test_nonexistent_view', array('foo' => 'bar'));
+		$this->load->view('ci_test_nonexistent_view', ['foo' => 'bar']);
 	}
 
 	// --------------------------------------------------------------------
@@ -363,10 +363,10 @@ class Loader_test extends CI_TestCase {
 		$val1 = 'bar';
 		$key2 = 'boo';
 		$val2 = 'hoo';
-		$this->assertInstanceOf('CI_Loader', $this->load->vars(array($key1 => $val1)));
+		$this->assertInstanceOf('CI_Loader', $this->load->vars([$key1 => $val1]));
 		$this->assertInstanceOf('CI_Loader', $this->load->vars($key2, $val2));
 		$this->assertEquals($val1, $this->load->get_var($key1));
-		$this->assertEquals(array($key1 => $val1, $key2 => $val2), $this->load->get_vars());
+		$this->assertEquals([$key1 => $val1, $key2 => $val2], $this->load->get_vars());
 	}
 
 	// --------------------------------------------------------------------
@@ -377,10 +377,10 @@ class Loader_test extends CI_TestCase {
 		$val1 = 'bar';
 		$key2 = 'boo';
 		$val2 = 'hoo';
-		$this->assertInstanceOf('CI_Loader', $this->load->vars(array($key1 => $val1)));
+		$this->assertInstanceOf('CI_Loader', $this->load->vars([$key1 => $val1]));
 		$this->assertInstanceOf('CI_Loader', $this->load->vars($key2, $val2));
 		$this->assertEquals($val1, $this->load->get_var($key1));
-		$this->assertEquals(array($key1 => $val1, $key2 => $val2), $this->load->get_vars());
+		$this->assertEquals([$key1 => $val1, $key2 => $val2], $this->load->get_vars());
 
 		$this->assertInstanceOf('CI_Loader', $this->load->clear_vars());
 		$this->assertEquals('', $this->load->get_var($key1));
@@ -435,9 +435,9 @@ class Loader_test extends CI_TestCase {
 	public function test_loading_multiple_helpers()
 	{
 		// Create helpers in VFS
-		$helpers = array();
-		$funcs = array();
-		$files = array();
+		$helpers = [];
+		$funcs = [];
+		$files = [];
 		for ($i = 1; $i <= 3; ++$i) {
 			$helper = 'test'.$i;
 			$helpers[] = $helper;
@@ -462,7 +462,7 @@ class Loader_test extends CI_TestCase {
 	{
 		// Mock lang class and test load call
 		$file = 'test';
-		$lang = $this->getMockBuilder('CI_Lang')->setMethods(array('load'))->getMock();
+		$lang = $this->getMockBuilder('CI_Lang')->setMethods(['load'])->getMock();
 		$lang->expects($this->once())->method('load')->with($file);
 		$this->ci_instance_var('lang', $lang);
 		$this->assertInstanceOf('CI_Loader', $this->load->language($file));
@@ -476,7 +476,7 @@ class Loader_test extends CI_TestCase {
 		$dir = 'third-party';
 		$lib = 'unit_test_package';
 		$class = ucfirst($lib);
-		$this->ci_vfs_create(ucfirst($lib), '<?php class '.$class.' { }', $this->ci_app_root, array($dir, 'libraries'));
+		$this->ci_vfs_create(ucfirst($lib), '<?php class '.$class.' { }', $this->ci_app_root, [$dir, 'libraries']);
 
 		// Get paths
 		$paths = $this->load->get_package_paths(TRUE);
@@ -557,23 +557,23 @@ class Loader_test extends CI_TestCase {
 		$drv = 'autodrv';
 		$subdir = ucfirst($drv);
 		$drv_class = 'CI_'.$subdir;
-		$this->ci_vfs_create(ucfirst($drv), '<?php class '.$drv_class.' { }', $this->ci_base_root, array('libraries', $subdir));
+		$this->ci_vfs_create(ucfirst($drv), '<?php class '.$drv_class.' { }', $this->ci_base_root, ['libraries', $subdir]);
 
 		// Create model in VFS package path
 		$dir = 'testdir';
 		$path = APPPATH.$dir.'/';
 		$model = 'Automod';
-		$this->ci_vfs_create($model, '<?php class '.$model.' extends CI_Model { }', $this->ci_app_root, array($dir, 'models'));
+		$this->ci_vfs_create($model, '<?php class '.$model.' extends CI_Model { }', $this->ci_app_root, [$dir, 'models']);
 
 		// Create autoloader config
-		$cfg = array(
-			'packages' => array($path),
-			'helper' => array($helper),
-			'libraries' => array($lib),
-			'drivers' => array($drv),
-			'model' => array($model),
-			'config' => array('config1', 'config2')
-		);
+		$cfg = [
+			'packages' => [$path],
+			'helper' => [$helper],
+			'libraries' => [$lib],
+			'drivers' => [$drv],
+			'model' => [$model],
+			'config' => ['config1', 'config2'],
+		];
 		$this->ci_vfs_create('autoload', '<?php $autoload = '.var_export($cfg, TRUE).';', $this->ci_app_root, 'config');
 
 		$this->load->initialize();

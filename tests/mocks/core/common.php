@@ -48,7 +48,7 @@ if ( ! function_exists('get_mimes'))
 	 */
 	function &get_mimes()
 	{
-		static $_mimes = array();
+		static $_mimes = [];
 
 		if (empty($_mimes))
 		{
@@ -122,7 +122,7 @@ if ( ! function_exists('is_loaded'))
 {
 	function &is_loaded()
 	{
-		$loaded = array();
+		$loaded = [];
 		return $loaded;
 	}
 }

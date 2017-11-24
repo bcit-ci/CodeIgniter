@@ -25,52 +25,52 @@ class standard_test extends CI_TestCase {
 	{
 		// Basic tests
 
-		$input = array(
-			array(
+		$input = [
+			[
 				'id' => 1,
 				'first_name' => 'John',
-				'last_name' => 'Doe'
-			),
-			array(
+				'last_name' => 'Doe',
+			],
+			[
 				'id' => 2,
 				'first_name' => 'Sally',
-				'last_name' => 'Smith'
-			),
-			array(
+				'last_name' => 'Smith',
+			],
+			[
 				'id' => 3,
 				'first_name' => 'Jane',
-				'last_name' => 'Jones'
-			)
-		);
+				'last_name' => 'Jones',
+			],
+		];
 
 		// Ensure internal array position doesn't break it
 		next($input);
 
 		$this->assertEquals(
-			array('John', 'Sally', 'Jane'),
+			['John', 'Sally', 'Jane'],
 			array_column($input, 'first_name')
 		);
 
 		$this->assertEquals(
-			array(1, 2, 3),
+			[1, 2, 3],
 			array_column($input, 'id')
 		);
 
 		$this->assertEquals(
-			array(
+			[
 				1 => 'Doe',
 				2 => 'Smith',
-				3 => 'Jones'
-			),
+				3 => 'Jones',
+			],
 			array_column($input, 'last_name', 'id')
 		);
 
 		$this->assertEquals(
-			array(
+			[
 				'John' => 'Doe',
 				'Sally' => 'Smith',
-				'Jane' => 'Jones'
-			),
+				'Jane' => 'Jones',
+			],
 			array_column($input, 'last_name', 'first_name')
 		);
 
@@ -80,79 +80,79 @@ class standard_test extends CI_TestCase {
 		$b = new Bar();
 
 		$this->assertEquals(
-			array('Doe', 'Smith', 'Jones'),
+			['Doe', 'Smith', 'Jones'],
 			array_column($input, $f)
 		);
 
 		$this->assertEquals(
-			array(
+			[
 				'John' => 'Doe',
 				'Sally' => 'Smith',
-				'Jane' => 'Jones'
-			),
+				'Jane' => 'Jones',
+			],
 			array_column($input, $f, $b)
 		);
 
 		// NULL parameters
 
-		$input = array(
-			456 => array(
+		$input = [
+			456 => [
 				'id' => '3',
 				'title' => 'Foo',
-				'date' => '2013-03-25'
-			),
-			457 => array(
+				'date' => '2013-03-25',
+			],
+			457 => [
 				'id' => '5',
 				'title' => 'Bar',
-				'date' => '2012-05-20'
-			)
-		);
+				'date' => '2012-05-20',
+			],
+		];
 
 		$this->assertEquals(
-			array(
-				3 => array(
+			[
+				3 => [
 					'id' => '3',
 					'title' => 'Foo',
-					'date' => '2013-03-25'
-				),
-				5 => array(
+					'date' => '2013-03-25',
+				],
+				5 => [
 					'id' => '5',
 					'title' => 'Bar',
-					'date' => '2012-05-20'
-				)
-			),
+					'date' => '2012-05-20',
+				],
+			],
 			array_column($input, NULL, 'id')
 		);
 
 		$this->assertEquals(
-			array(
-				array(
+			[
+				[
 					'id' => '3',
 					'title' => 'Foo',
-					'date' => '2013-03-25'
-				),
-				array(
+					'date' => '2013-03-25',
+				],
+				[
 					'id' => '5',
 					'title' => 'Bar',
-					'date' => '2012-05-20'
-				)
-			),
+					'date' => '2012-05-20',
+				],
+			],
 			array_column($input, NULL, 'foo')
 		);
 
 		$this->assertEquals(
-			array(
-				array(
+			[
+				[
 					'id' => '3',
 					'title' => 'Foo',
-					'date' => '2013-03-25'
-				),
-				array(
+					'date' => '2013-03-25',
+				],
+				[
 					'id' => '5',
 					'title' => 'Bar',
-					'date' => '2012-05-20'
-				)
-			),
+					'date' => '2012-05-20',
+				],
+			],
 			array_column($input, NULL)
 		);
 
@@ -160,43 +160,43 @@ class standard_test extends CI_TestCase {
 
 		$fh = fopen(__FILE__, 'r', TRUE);
 		$stdClass = new stdClass();
-		$input = array(
-			array(
+		$input = [
+			[
 				'id' => 1,
-				'value' => $stdClass
-			),
-			array(
+				'value' => $stdClass,
+			],
+			[
 				'id' => 2,
-				'value' => 34.2345
-			),
-			array(
+				'value' => 34.2345,
+			],
+			[
 				'id' => 3,
-				'value' => TRUE
-			),
-			array(
+				'value' => TRUE,
+			],
+			[
 				'id' => 4,
-				'value' => FALSE
-			),
-			array(
+				'value' => FALSE,
+			],
+			[
 				'id' => 5,
-				'value' => NULL
-			),
-			array(
+				'value' => NULL,
+			],
+			[
 				'id' => 6,
-				'value' => 1234
-			),
-			array(
+				'value' => 1234,
+			],
+			[
 				'id' => 7,
-				'value' => 'Foo'
-			),
-			array(
+				'value' => 'Foo',
+			],
+			[
 				'id' => 8,
-				'value' => $fh
-			)
-		);
+				'value' => $fh,
+			],
+		];
 
 		$this->assertEquals(
-			array(
+			[
 				$stdClass,
 				34.2345,
 				TRUE,
@@ -204,13 +204,13 @@ class standard_test extends CI_TestCase {
 				NULL,
 				1234,
 				'Foo',
-				$fh
-			),
+				$fh,
+			],
 			array_column($input, 'value')
 		);
 
 		$this->assertEquals(
-			array(
+			[
 				1 => $stdClass,
 				2 => 34.2345,
 				3 => TRUE,
@@ -218,110 +218,110 @@ class standard_test extends CI_TestCase {
 				5 => NULL,
 				6 => 1234,
 				7 => 'Foo',
-				8 => $fh
-			),
+				8 => $fh,
+			],
 			array_column($input, 'value', 'id')
 		);
 
 		// Numeric column keys
 
-		$input = array(
-			array('aaa', '111'),
-			array('bbb', '222'),
-			array('ccc', '333', -1 => 'ddd')
-		);
+		$input = [
+			['aaa', '111'],
+			['bbb', '222'],
+			['ccc', '333', -1 => 'ddd'],
+		];
 
 		$this->assertEquals(
-			array('111', '222', '333'),
+			['111', '222', '333'],
 			array_column($input, 1)
 		);
 
 		$this->assertEquals(
-			array(
+			[
 				'aaa' => '111',
 				'bbb' => '222',
-				'ccc' => '333'
-			),
+				'ccc' => '333',
+			],
 			array_column($input, 1, 0)
 		);
 
 		$this->assertEquals(
-			array(
+			[
 				'aaa' => '111',
 				'bbb' => '222',
-				'ccc' => '333'
-			),
+				'ccc' => '333',
+			],
 			array_column($input, 1, 0.123)
 		);
 
 		$this->assertEquals(
-			array(
+			[
 				0 => '111',
 				1 => '222',
-				'ddd' => '333'
-			),
+				'ddd' => '333',
+			],
 			array_column($input, 1, -1)
 		);
 
 		// Non-existing columns
 
-		$this->assertEquals(array(), array_column($input, 2));
-		$this->assertEquals(array(), array_column($input, 'foo'));
+		$this->assertEquals([], array_column($input, 2));
+		$this->assertEquals([], array_column($input, 'foo'));
 		$this->assertEquals(
-			array('aaa', 'bbb', 'ccc'),
+			['aaa', 'bbb', 'ccc'],
 			array_column($input, 0, 'foo')
 		);
-		$this->assertEquals(array(), array_column($input, 3.14));
+		$this->assertEquals([], array_column($input, 3.14));
 
 		// One-dimensional array
-		$this->assertEquals(array(), array_column(array('foo', 'bar', 'baz'), 1));
+		$this->assertEquals([], array_column(['foo', 'bar', 'baz'], 1));
 
 		// Columns not present in all rows
 
-		$input = array(
-			array('a' => 'foo', 'b' => 'bar', 'e' => 'bbb'),
-			array('a' => 'baz', 'c' => 'qux', 'd' => 'aaa'),
-			array('a' => 'eee', 'b' => 'fff', 'e' => 'ggg')
-		);
+		$input = [
+			['a' => 'foo', 'b' => 'bar', 'e' => 'bbb'],
+			['a' => 'baz', 'c' => 'qux', 'd' => 'aaa'],
+			['a' => 'eee', 'b' => 'fff', 'e' => 'ggg'],
+		];
 
 		$this->assertEquals(
-			array('qux'),
+			['qux'],
 			array_column($input, 'c')
 		);
 
 		$this->assertEquals(
-			array('baz' => 'qux'),
+			['baz' => 'qux'],
 			array_column($input, 'c', 'a')
 		);
 
 		$this->assertEquals(
-			array(
+			[
 				0 => 'foo',
 				'aaa' => 'baz',
-				1 => 'eee'
-			),
+				1 => 'eee',
+			],
 			array_column($input, 'a', 'd')
 		);
 
 		$this->assertEquals(
-			array(
+			[
 				'bbb' => 'foo',
 				0 => 'baz',
-				'ggg' => 'eee'
-			),
+				'ggg' => 'eee',
+			],
 			array_column($input, 'a', 'e')
 		);
 
 		$this->assertEquals(
-			array('bar', 'fff'),
+			['bar', 'fff'],
 			array_column($input, 'b')
 		);
 
 		$this->assertEquals(
-			array(
+			[
 				'foo' => 'bar',
-				'eee' => 'fff'
-			),
+				'eee' => 'fff',
+			],
 			array_column($input, 'b', 'a')
 		);
 	}

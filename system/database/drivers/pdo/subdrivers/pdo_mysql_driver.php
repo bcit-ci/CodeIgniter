@@ -160,7 +160,7 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 
 		if (is_array($this->encrypt))
 		{
-			$ssl = array();
+			$ssl = [];
 			empty($this->encrypt['ssl_key'])    OR $ssl[PDO::MYSQL_ATTR_SSL_KEY]    = $this->encrypt['ssl_key'];
 			empty($this->encrypt['ssl_cert'])   OR $ssl[PDO::MYSQL_ATTR_SSL_CERT]   = $this->encrypt['ssl_cert'];
 			empty($this->encrypt['ssl_ca'])     OR $ssl[PDO::MYSQL_ATTR_SSL_CA]     = $this->encrypt['ssl_ca'];
@@ -206,7 +206,7 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 		if (FALSE !== $this->simple_query('USE '.$this->escape_identifiers($database)))
 		{
 			$this->database = $database;
-			$this->data_cache = array();
+			$this->data_cache = [];
 			return TRUE;
 		}
 
@@ -315,7 +315,7 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 		}
 		$query = $query->result_object();
 
-		$retval = array();
+		$retval = [];
 		for ($i = 0, $c = count($query); $i < $c; $i++)
 		{
 			$retval[$i]			= new stdClass();

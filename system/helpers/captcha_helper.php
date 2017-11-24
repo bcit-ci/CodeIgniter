@@ -62,7 +62,7 @@ if ( ! function_exists('create_captcha'))
 	 */
 	function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = '')
 	{
-		$defaults = array(
+		$defaults = [
 			'word'		=> '',
 			'img_path'	=> '',
 			'img_url'	=> '',
@@ -75,13 +75,13 @@ if ( ! function_exists('create_captcha'))
 			'word_length'	=> 8,
 			'img_id'	=> '',
 			'pool'		=> '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
-			'colors'	=> array(
-				'background'	=> array(255,255,255),
-				'border'	=> array(153,102,102),
-				'text'		=> array(204,153,153),
-				'grid'		=> array(255,182,182)
-			)
-		);
+			'colors'	=> [
+				'background'	=> [255, 255, 255],
+				'border'	=> [153, 102, 102],
+				'text'		=> [204, 153, 153],
+				'grid'		=> [255, 182, 182],
+			],
+		];
 
 		foreach ($defaults as $key => $val)
 		{
@@ -355,6 +355,6 @@ if ( ! function_exists('create_captcha'))
 		$img = '<img '.($img_id === '' ? '' : 'id="'.$img_id.'"').' src="'.$img_src.'" style="width: '.$img_width.'; height: '.$img_height .'; border: 0;" alt="'.$img_alt.'" />';
 		ImageDestroy($im);
 
-		return array('word' => $word, 'time' => $now, 'image' => $img, 'filename' => $img_filename);
+		return ['word' => $word, 'time' => $now, 'image' => $img, 'filename' => $img_filename];
 	}
 }

@@ -181,7 +181,7 @@ if ( ! function_exists('hash_pbkdf2'))
 		// Pre-hash password inputs longer than the algorithm's block size
 		// (i.e. prepare HMAC key) to mitigate potential DoS attacks.
 		static $block_sizes;
-		empty($block_sizes) && $block_sizes = array(
+		empty($block_sizes) && $block_sizes = [
 			'gost' => 32,
 			'haval128,3' => 128,
 			'haval160,3' => 128,
@@ -218,8 +218,8 @@ if ( ! function_exists('hash_pbkdf2'))
 			'tiger128,4' => 64,
 			'tiger160,4' => 64,
 			'tiger192,4' => 64,
-			'whirlpool' => 64
-		);
+			'whirlpool' => 64,
+		];
 
 		if (isset($block_sizes[$algo], $password[$block_sizes[$algo]]))
 		{

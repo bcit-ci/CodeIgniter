@@ -20,7 +20,7 @@ class Input_test extends CI_TestCase {
 
 	public function test_get_not_exists()
 	{
-		$this->assertTrue($this->input->get() === array());
+		$this->assertTrue($this->input->get() === []);
 		$this->assertTrue($this->input->get('foo') === NULL);
 	}
 
@@ -51,7 +51,7 @@ class Input_test extends CI_TestCase {
 
 	public function test_post_not_exists()
 	{
-		$this->assertTrue($this->input->post() === array());
+		$this->assertTrue($this->input->post() === []);
 		$this->assertTrue($this->input->post('foo') === NULL);
 	}
 
@@ -121,10 +121,10 @@ class Input_test extends CI_TestCase {
 		$reflection = new ReflectionMethod($this->input, '_fetch_from_array');
 		$reflection->setAccessible(TRUE);
 
-		$data = array(
+		$data = [
 			'foo' => 'bar',
 			'harm' => 'Hello, i try to <script>alert(\'Hack\');</script> your site',
-		);
+		];
 
 		$foo      = $reflection->invokeArgs($this->input, [&$data, 'foo']);
 		$harm     = $reflection->invokeArgs($this->input, [&$data, 'harm']);
@@ -136,7 +136,7 @@ class Input_test extends CI_TestCase {
 
 		$_SERVER['REQUEST_METHOD'] = 'POST';
 		$_POST['foo']['bar'] = 'baz';
-		$barArray = array('bar' => 'baz');
+		$barArray = ['bar' => 'baz'];
 
 		$this->assertEquals('baz', $this->input->post('foo[bar]'));
 		$this->assertEquals($barArray, $this->input->post('foo[]'));
@@ -155,11 +155,11 @@ class Input_test extends CI_TestCase {
 		// v6 tests
 		$this->assertFalse($this->input->valid_ip('192.18.0.1', 'ipv6'));
 
-		$ip_v6 = array(
+		$ip_v6 = [
 			'2001:0db8:0000:85a3:0000:0000:ac1f:8001',
 			'2001:db8:0:85a3:0:0:ac1f:8001',
-			'2001:db8:0:85a3::ac1f:8001'
-		);
+			'2001:db8:0:85a3::ac1f:8001',
+		];
 
 		foreach ($ip_v6 as $ip)
 		{

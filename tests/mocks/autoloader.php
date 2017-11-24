@@ -13,7 +13,7 @@ function autoload($class)
 {
 	$dir = realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR;
 
-	$ci_core = array(
+	$ci_core = [
 		'Benchmark',
 		'Config',
 		'Controller',
@@ -28,10 +28,10 @@ function autoload($class)
 		'Router',
 		'Security',
 		'URI',
-		'Utf8'
-	);
+		'Utf8',
+	];
 
-	$ci_libraries = array(
+	$ci_libraries = [
 		'Calendar',
 		'Driver_Library',
 		'Email',
@@ -52,14 +52,14 @@ function autoload($class)
 		'Upload',
 	   	'User_agent',
 		'Xmlrpc',
-		'Zip'
-	);
+		'Zip',
+	];
 
-	$ci_drivers = array('Session', 'Cache');
+	$ci_drivers = ['Session', 'Cache'];
 
 	if (strpos($class, 'Mock_') === 0)
 	{
-		$class = strtolower(str_replace(array('Mock_', '_'), array('', DIRECTORY_SEPARATOR), $class));
+		$class = strtolower(str_replace(['Mock_', '_'], ['', DIRECTORY_SEPARATOR], $class));
 	}
 	elseif (strpos($class, 'CI_') === 0)
 	{
@@ -99,7 +99,7 @@ function autoload($class)
 		elseif (strpos($class, 'CI_DB') === 0)
 		{
 			$dir = SYSTEM_PATH.'database'.DIRECTORY_SEPARATOR;
-			$file = $dir.str_replace(array('CI_DB','active_record'), array('DB', 'active_rec'), $subclass).'.php';
+			$file = $dir.str_replace(['CI_DB', 'active_record'], ['DB', 'active_rec'], $subclass).'.php';
 		}
 		else
 		{

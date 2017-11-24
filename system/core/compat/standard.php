@@ -69,7 +69,7 @@ if ( ! function_exists('array_column'))
 	 */
 	function array_column(array $array, $column_key, $index_key = NULL)
 	{
-		if ( ! in_array($type = gettype($column_key), array('integer', 'string', 'NULL'), TRUE))
+		if ( ! in_array($type = gettype($column_key), ['integer', 'string', 'NULL'], TRUE))
 		{
 			if ($type === 'double')
 			{
@@ -86,7 +86,7 @@ if ( ! function_exists('array_column'))
 			}
 		}
 
-		if ( ! in_array($type = gettype($index_key), array('integer', 'string', 'NULL'), TRUE))
+		if ( ! in_array($type = gettype($index_key), ['integer', 'string', 'NULL'], TRUE))
 		{
 			if ($type === 'double')
 			{
@@ -103,7 +103,7 @@ if ( ! function_exists('array_column'))
 			}
 		}
 
-		$result = array();
+		$result = [];
 		foreach ($array as &$a)
 		{
 			if ($column_key === NULL)

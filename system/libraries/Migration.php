@@ -113,10 +113,10 @@ class CI_Migration {
 	 * @param	array	$config
 	 * @return	void
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		// Only run this constructor on main library load
-		if ( ! in_array(get_class($this), array('CI_Migration', config_item('subclass_prefix').'Migration'), TRUE))
+		if ( ! in_array(get_class($this), ['CI_Migration', config_item('subclass_prefix').'Migration'], TRUE))
 		{
 			return;
 		}
@@ -158,7 +158,7 @@ class CI_Migration {
 			: '/^\d{3}_(\w+)$/';
 
 		// Make sure a valid migration numbering type was set.
-		if ( ! in_array($this->_migration_type, array('sequential', 'timestamp')))
+		if ( ! in_array($this->_migration_type, ['sequential', 'timestamp']))
 		{
 			show_error('An invalid migration numbering type was specified: '.$this->_migration_type);
 		}
@@ -166,13 +166,13 @@ class CI_Migration {
 		// If the migrations table is missing, make it
 		if ( ! $this->db->table_exists($this->_migration_table))
 		{
-			$this->dbforge->add_field(array(
-				'version' => array('type' => 'BIGINT', 'constraint' => 20),
-			));
+			$this->dbforge->add_field([
+				'version' => ['type' => 'BIGINT', 'constraint' => 20],
+			]);
 
 			$this->dbforge->create_table($this->_migration_table, TRUE);
 
-			$this->db->insert($this->_migration_table, array('version' => 0));
+			$this->db->insert($this->_migration_table, ['version' => 0]);
 		}
 
 		// Do we auto migrate to the latest migration?
@@ -237,7 +237,7 @@ class CI_Migration {
 		// in order to avoid leaving the procedure in a broken state.
 		//
 		// See https://github.com/bcit-ci/CodeIgniter/issues/4539
-		$pending = array();
+		$pending = [];
 		foreach ($migrations as $number => $file)
 		{
 			// Ignore versions out of our range.
@@ -288,13 +288,13 @@ class CI_Migration {
 				$this->_error_string = sprintf($this->lang->line('migration_class_doesnt_exist'), $class);
 				return FALSE;
 			}
-			elseif ( ! is_callable(array($class, $method)))
+			elseif ( ! is_callable([$class, $method]))
 			{
 				$this->_error_string = sprintf($this->lang->line('migration_missing_'.$method.'_method'), $class);
 				return FALSE;
 			}
 
-			$pending[$number] = array($class, $method);
+			$pending[$number] = [$class, $method];
 		}
 
 		// Now just run the necessary migrations
@@ -377,7 +377,7 @@ class CI_Migration {
 	 */
 	public function find_migrations()
 	{
-		$migrations = array();
+		$migrations = [];
 
 		// Load all *_*.php files in the migrations path
 		foreach (glob($this->_migration_path.'*_*.php') as $file)
@@ -456,9 +456,9 @@ class CI_Migration {
 	 */
 	protected function _update_version($migration)
 	{
-		$this->db->update($this->_migration_table, array(
-			'version' => $migration
-		));
+		$this->db->update($this->_migration_table, [
+			'version' => $migration,
+		]);
 	}
 
 	// --------------------------------------------------------------------

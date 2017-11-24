@@ -108,6 +108,6 @@ if ( ! function_exists('encode_php_tags'))
 	 */
 	function encode_php_tags($str)
 	{
-		return str_replace(array('<?', '?>'), array('&lt;?', '?&gt;'), $str);
+		return str_replace(['<?', '?>'], ['&lt;?', '?&gt;'], $str);
 	}
 }

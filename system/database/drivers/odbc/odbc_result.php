@@ -102,7 +102,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 */
 	public function list_fields()
 	{
-		$field_names = array();
+		$field_names = [];
 		$num_fields = $this->num_fields();
 
 		if ($num_fields > 0)
@@ -127,7 +127,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 */
 	public function field_data()
 	{
-		$retval = array();
+		$retval = [];
 		for ($i = 0, $odbc_index = 1, $c = $this->num_fields(); $i < $c; $i++, $odbc_index++)
 		{
 			$retval[$i]			= new stdClass();
@@ -217,13 +217,13 @@ if ( ! function_exists('odbc_fetch_array'))
 	 */
 	function odbc_fetch_array(&$result, $rownumber = 1)
 	{
-		$rs = array();
+		$rs = [];
 		if ( ! odbc_fetch_into($result, $rs, $rownumber))
 		{
 			return FALSE;
 		}
 
-		$rs_assoc = array();
+		$rs_assoc = [];
 		foreach ($rs as $k => $v)
 		{
 			$field_name = odbc_field_name($result, $k+1);
@@ -250,7 +250,7 @@ if ( ! function_exists('odbc_fetch_object'))
 	 */
 	function odbc_fetch_object(&$result, $rownumber = 1)
 	{
-		$rs = array();
+		$rs = [];
 		if ( ! odbc_fetch_into($result, $rs, $rownumber))
 		{
 			return FALSE;

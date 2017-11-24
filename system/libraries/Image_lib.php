@@ -363,7 +363,7 @@ class CI_Image_lib {
 	 *
 	 * @var array
 	 */
-	public $error_msg		= array();
+	public $error_msg		= [];
 
 	/**
 	 * Whether to have a drop shadow on watermark
@@ -385,7 +385,7 @@ class CI_Image_lib {
 	 * @param	array	$props
 	 * @return	void
 	 */
-	public function __construct($props = array())
+	public function __construct($props = [])
 	{
 		if (count($props) > 0)
 		{
@@ -416,7 +416,7 @@ class CI_Image_lib {
 	 */
 	public function clear()
 	{
-		$props = array('thumb_marker', 'library_path', 'source_image', 'new_image', 'width', 'height', 'rotation_angle', 'x_axis', 'y_axis', 'wm_text', 'wm_overlay_path', 'wm_font_path', 'wm_shadow_color', 'source_folder', 'dest_folder', 'mime_type', 'orig_width', 'orig_height', 'image_type', 'size_str', 'full_src_path', 'full_dst_path');
+		$props = ['thumb_marker', 'library_path', 'source_image', 'new_image', 'width', 'height', 'rotation_angle', 'x_axis', 'y_axis', 'wm_text', 'wm_overlay_path', 'wm_font_path', 'wm_shadow_color', 'source_folder', 'dest_folder', 'mime_type', 'orig_width', 'orig_height', 'image_type', 'size_str', 'full_src_path', 'full_dst_path'];
 
 		foreach ($props as $val)
 		{
@@ -444,7 +444,7 @@ class CI_Image_lib {
 		$this->wm_opacity 			= 50;
 		$this->create_fnc 			= 'imagecreatetruecolor';
 		$this->copy_fnc 			= 'imagecopyresampled';
-		$this->error_msg 			= array();
+		$this->error_msg 			= [];
 		$this->wm_use_drop_shadow 	= FALSE;
 		$this->wm_use_truetype 		= FALSE;
 	}
@@ -457,7 +457,7 @@ class CI_Image_lib {
 	 * @param	array
 	 * @return	bool
 	 */
-	public function initialize($props = array())
+	public function initialize($props = [])
 	{
 		// Convert array elements into class variables
 		if (count($props) > 0)
@@ -466,7 +466,7 @@ class CI_Image_lib {
 			{
 				if (property_exists($this, $key))
 				{
-					if (in_array($key, array('wm_font_color', 'wm_shadow_color'), TRUE))
+					if (in_array($key, ['wm_font_color', 'wm_shadow_color'], TRUE))
 					{
 						if (preg_match('/^#?([0-9a-f]{3}|[0-9a-f]{6})$/i', $val, $matches))
 						{
@@ -488,7 +488,7 @@ class CI_Image_lib {
 							continue;
 						}
 					}
-					elseif (in_array($key, array('width', 'height'), TRUE) && ! ctype_digit((string) $val))
+					elseif (in_array($key, ['width', 'height'], TRUE) && ! ctype_digit((string) $val))
 					{
 						continue;
 					}
@@ -707,7 +707,7 @@ class CI_Image_lib {
 	public function rotate()
 	{
 		// Allowed rotation values
-		$degs = array(90, 180, 270, 'vrt', 'hor');
+		$degs = [90, 180, 270, 'vrt', 'hor'];
 
 		if ($this->rotation_angle === '' OR ! in_array($this->rotation_angle, $degs))
 		{
@@ -1448,7 +1448,7 @@ class CI_Image_lib {
 			case 1:
 				if ( ! function_exists('imagecreatefromgif'))
 				{
-					$this->set_error(array('imglib_unsupported_imagecreate', 'imglib_gif_not_supported'));
+					$this->set_error(['imglib_unsupported_imagecreate', 'imglib_gif_not_supported']);
 					return FALSE;
 				}
 
@@ -1456,7 +1456,7 @@ class CI_Image_lib {
 			case 2:
 				if ( ! function_exists('imagecreatefromjpeg'))
 				{
-					$this->set_error(array('imglib_unsupported_imagecreate', 'imglib_jpg_not_supported'));
+					$this->set_error(['imglib_unsupported_imagecreate', 'imglib_jpg_not_supported']);
 					return FALSE;
 				}
 
@@ -1464,13 +1464,13 @@ class CI_Image_lib {
 			case 3:
 				if ( ! function_exists('imagecreatefrompng'))
 				{
-					$this->set_error(array('imglib_unsupported_imagecreate', 'imglib_png_not_supported'));
+					$this->set_error(['imglib_unsupported_imagecreate', 'imglib_png_not_supported']);
 					return FALSE;
 				}
 
 				return imagecreatefrompng($path);
 			default:
-				$this->set_error(array('imglib_unsupported_imagecreate'));
+				$this->set_error(['imglib_unsupported_imagecreate']);
 				return FALSE;
 		}
 	}
@@ -1493,7 +1493,7 @@ class CI_Image_lib {
 			case 1:
 				if ( ! function_exists('imagegif'))
 				{
-					$this->set_error(array('imglib_unsupported_imagecreate', 'imglib_gif_not_supported'));
+					$this->set_error(['imglib_unsupported_imagecreate', 'imglib_gif_not_supported']);
 					return FALSE;
 				}
 
@@ -1506,7 +1506,7 @@ class CI_Image_lib {
 			case 2:
 				if ( ! function_exists('imagejpeg'))
 				{
-					$this->set_error(array('imglib_unsupported_imagecreate', 'imglib_jpg_not_supported'));
+					$this->set_error(['imglib_unsupported_imagecreate', 'imglib_jpg_not_supported']);
 					return FALSE;
 				}
 
@@ -1519,7 +1519,7 @@ class CI_Image_lib {
 			case 3:
 				if ( ! function_exists('imagepng'))
 				{
-					$this->set_error(array('imglib_unsupported_imagecreate', 'imglib_png_not_supported'));
+					$this->set_error(['imglib_unsupported_imagecreate', 'imglib_png_not_supported']);
 					return FALSE;
 				}
 
@@ -1530,7 +1530,7 @@ class CI_Image_lib {
 				}
 			break;
 			default:
-				$this->set_error(array('imglib_unsupported_imagecreate'));
+				$this->set_error(['imglib_unsupported_imagecreate']);
 				return FALSE;
 			break;
 		}
@@ -1655,18 +1655,18 @@ class CI_Image_lib {
 			return FALSE;
 		}
 
-		$types = array(1 => 'gif', 2 => 'jpeg', 3 => 'png');
+		$types = [1 => 'gif', 2 => 'jpeg', 3 => 'png'];
 		$mime = isset($types[$vals[2]]) ? 'image/'.$types[$vals[2]] : 'image/jpg';
 
 		if ($return === TRUE)
 		{
-			return array(
+			return [
 				'width'      => $vals[0],
 				'height'     => $vals[1],
 				'image_type' => $vals[2],
 				'size_str'   => $vals[3],
-				'mime_type'  => $mime
-			);
+				'mime_type'  => $mime,
+			];
 		}
 
 		$this->orig_width  = $vals[0];
@@ -1704,7 +1704,7 @@ class CI_Image_lib {
 			return;
 		}
 
-		$allowed = array('new_width', 'new_height', 'width', 'height');
+		$allowed = ['new_width', 'new_height', 'width', 'height'];
 
 		foreach ($allowed as $item)
 		{
@@ -1751,7 +1751,7 @@ class CI_Image_lib {
 		$ext = strrchr($source_image, '.');
 		$name = ($ext === FALSE) ? $source_image : substr($source_image, 0, -strlen($ext));
 
-		return array('ext' => $ext, 'name' => $name);
+		return ['ext' => $ext, 'name' => $name];
 	}
 
 	// --------------------------------------------------------------------

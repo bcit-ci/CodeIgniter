@@ -2,9 +2,9 @@
 
 class CI_TestConfig extends CI_Config {
 
-	public $config = array();
-	public $_config_paths = array(APPPATH);
-	public $loaded = array();
+	public $config = [];
+	public $_config_paths = [APPPATH];
+	public $loaded = [];
 
 	public function item($key, $index = '')
 	{

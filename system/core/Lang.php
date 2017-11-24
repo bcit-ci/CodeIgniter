@@ -53,14 +53,14 @@ class CI_Lang {
 	 *
 	 * @var	array
 	 */
-	public $language =	array();
+	public $language =	[];
 
 	/**
 	 * List of loaded language files
 	 *
 	 * @var	array
 	 */
-	public $is_loaded =	array();
+	public $is_loaded =	[];
 
 	/**
 	 * Class constructor
@@ -159,7 +159,7 @@ class CI_Lang {
 
 			if ($return === TRUE)
 			{
-				return array();
+				return [];
 			}
 			return;
 		}

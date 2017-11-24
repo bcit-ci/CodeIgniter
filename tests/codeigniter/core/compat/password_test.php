@@ -41,11 +41,11 @@ class password_test extends CI_TestCase {
 	 */
 	public function test_password_get_info()
 	{
-		$expected = array(
+		$expected = [
 			'algo' => 1,
 			'algoName' => 'bcrypt',
-			'options' => array('cost' => 10)
-		);
+			'options' => ['cost' => 10],
+		];
 
 		// default
 		$this->assertEquals($expected, password_get_info('$2y$10$MTIzNDU2Nzg5MDEyMzQ1Nej0NmcAWSLR.oP7XOR9HD/vjUuOj100y'));
@@ -55,11 +55,11 @@ class password_test extends CI_TestCase {
 		// cost
 		$this->assertEquals($expected, password_get_info('$2y$11$MTIzNDU2Nzg5MDEyMzQ1Nej0NmcAWSLR.oP7XOR9HD/vjUuOj100y'));
 
-		$expected = array(
+		$expected = [
 			'algo' => 0,
 			'algoName' => 'unknown',
-			'options' => array()
-		);
+			'options' => [],
+		];
 
 		// invalid length
 		$this->assertEquals($expected, password_get_info('$2y$11$MTIzNDU2Nzg5MDEyMzQ1Nej0NmcAWSLR.oP7XOR9HD/vjUuOj100'));
@@ -94,12 +94,12 @@ class password_test extends CI_TestCase {
 
 		$this->assertEquals(
 			'$2y$07$usesomesillystringfore2uDLvp1Ii2e./U9C8sBjqp8I90dH6hi',
-			password_hash('rasmuslerdorf', PASSWORD_BCRYPT, array('cost' => 7, 'salt' => 'usesomesillystringforsalt'))
+			password_hash('rasmuslerdorf', PASSWORD_BCRYPT, ['cost' => 7, 'salt' => 'usesomesillystringforsalt'])
 		);
 
 		$this->assertEquals(
 			'$2y$10$MTIzNDU2Nzg5MDEyMzQ1Nej0NmcAWSLR.oP7XOR9HD/vjUuOj100y',
-			password_hash('test', PASSWORD_BCRYPT, array('salt' => '123456789012345678901'.chr(0)))
+			password_hash('test', PASSWORD_BCRYPT, ['salt' => '123456789012345678901'.chr(0)])
 		);
 	}
 
@@ -121,22 +121,22 @@ class password_test extends CI_TestCase {
 		$this->assertFalse(password_needs_rehash('', 0));
 
 		// valid with same cost
-		$this->assertFalse(password_needs_rehash('$2y$10$MTIzNDU2Nzg5MDEyMzQ1Nej0NmcAWSLR.oP7XOR9HD/vjUuOj100y', PASSWORD_BCRYPT, array('cost' => 10)));
+		$this->assertFalse(password_needs_rehash('$2y$10$MTIzNDU2Nzg5MDEyMzQ1Nej0NmcAWSLR.oP7XOR9HD/vjUuOj100y', PASSWORD_BCRYPT, ['cost' => 10]));
 
 		// valid with same cost and additional parameters
-		$this->assertFalse(password_needs_rehash('$2y$10$MTIzNDU2Nzg5MDEyMzQ1Nej0NmcAWSLR.oP7XOR9HD/vjUuOj100y', PASSWORD_BCRYPT, array('cost' => 10, 'foo' => 3)));
+		$this->assertFalse(password_needs_rehash('$2y$10$MTIzNDU2Nzg5MDEyMzQ1Nej0NmcAWSLR.oP7XOR9HD/vjUuOj100y', PASSWORD_BCRYPT, ['cost' => 10, 'foo' => 3]));
 
 		// invalid: different (lower) cost
-		$this->assertTrue(password_needs_rehash('$2y$10$MTIzNDU2Nzg5MDEyMzQ1Nej0NmcAWSLR.oP7XOR9HD/vjUuOj100y', PASSWORD_BCRYPT, array('cost' => 9)));
+		$this->assertTrue(password_needs_rehash('$2y$10$MTIzNDU2Nzg5MDEyMzQ1Nej0NmcAWSLR.oP7XOR9HD/vjUuOj100y', PASSWORD_BCRYPT, ['cost' => 9]));
 
 		// invalid: different (higher) cost
-		$this->assertTrue(password_needs_rehash('$2y$10$MTIzNDU2Nzg5MDEyMzQ1Nej0NmcAWSLR.oP7XOR9HD/vjUuOj100y', PASSWORD_BCRYPT, array('cost' => 11)));
+		$this->assertTrue(password_needs_rehash('$2y$10$MTIzNDU2Nzg5MDEyMzQ1Nej0NmcAWSLR.oP7XOR9HD/vjUuOj100y', PASSWORD_BCRYPT, ['cost' => 11]));
 
 		// valid with default cost
 		$this->assertFalse(password_needs_rehash('$2y$'.str_pad(10, 2, '0', STR_PAD_LEFT).'$MTIzNDU2Nzg5MDEyMzQ1Nej0NmcAWSLR.oP7XOR9HD/vjUuOj100y', PASSWORD_BCRYPT));
 
 		// invalid: 'foo' is cast to 0
-		$this->assertTrue(password_needs_rehash('$2y$10$MTIzNDU2Nzg5MDEyMzQ1Nej0NmcAWSLR.oP7XOR9HD/vjUuOj100y', PASSWORD_BCRYPT, array('cost' => 'foo')));
+		$this->assertTrue(password_needs_rehash('$2y$10$MTIzNDU2Nzg5MDEyMzQ1Nej0NmcAWSLR.oP7XOR9HD/vjUuOj100y', PASSWORD_BCRYPT, ['cost' => 'foo']));
 	}
 
 	// ------------------------------------------------------------------------

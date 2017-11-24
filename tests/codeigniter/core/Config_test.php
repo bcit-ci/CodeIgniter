@@ -7,11 +7,11 @@ class Config_test extends CI_TestCase {
 		$cls =& $this->ci_core_class('cfg');
 
 		// set predictable config values
-		$this->cfg = array(
+		$this->cfg = [
 			'index_page'		=> 'index.php',
 			'base_url'		=> 'http://example.com/',
-			'subclass_prefix'	=> 'MY_'
-		);
+			'subclass_prefix'	=> 'MY_',
+		];
 		$this->ci_set_config($this->cfg);
 
 		$this->config = new $cls;
@@ -125,7 +125,7 @@ class Config_test extends CI_TestCase {
 		$uri = 'test';
 		$uri2 = '1';
 		$this->assertEquals($index_page.'/'.$uri, $this->config->site_url($uri));
-		$this->assertEquals($index_page.'/'.$uri.'/'.$uri2, $this->config->site_url(array($uri, $uri2)));
+		$this->assertEquals($index_page.'/'.$uri.'/'.$uri2, $this->config->site_url([$uri, $uri2]));
 
 		$this->assertEquals($index_page.'/test/', $this->config->site_url('test/'));
 
@@ -140,7 +140,7 @@ class Config_test extends CI_TestCase {
 		$this->config->set_item('enable_query_strings', TRUE);
 
 		$this->assertEquals($index_page.'?'.$uri, $this->config->site_url($uri));
-		$this->assertEquals($index_page.'?0='.$uri.'&1='.$uri2, $this->config->site_url(array($uri, $uri2)));
+		$this->assertEquals($index_page.'?0='.$uri.'&1='.$uri2, $this->config->site_url([$uri, $uri2]));
 
 		$this->config->set_item('base_url', $old_base);
 
@@ -158,42 +158,42 @@ class Config_test extends CI_TestCase {
 		$file = 'test.php';
 		$key = 'testconfig';
 		$val = 'my_value';
-		$cfg = array($key => $val);
+		$cfg = [$key => $val];
 		$this->ci_vfs_create($file, '<?php $config = '.var_export($cfg, TRUE).';', $this->ci_app_root, 'config');
 		$this->assertTrue($this->config->load($file));
 		$this->assertEquals($val, $this->config->item($key));
 
 		// Test reload - value should not change
 		$val2 = 'new_value';
-		$cfg = array($key => $val2);
+		$cfg = [$key => $val2];
 		$this->ci_vfs_create($file, '<?php $config = '.var_export($cfg, TRUE).';', $this->ci_app_root, 'config');
 		$this->assertTrue($this->config->load($file));
 		$this->assertEquals($val, $this->config->item($key));
 
 		// Test section load
 		$file = 'secttest';
-		$cfg = array(
+		$cfg = [
 			'one' => 'prime',
 			'two' => 2,
-			'three' => TRUE
-		);
+			'three' => TRUE,
+		];
 		$this->ci_vfs_create($file.'.php', '<?php $config = '.var_export($cfg, TRUE).';', $this->ci_app_root, 'config');
 		$this->assertTrue($this->config->load($file, TRUE));
 		$this->assertEquals($cfg, $this->config->item($file));
 
 		// Test section merge
-		$cfg2 = array(
+		$cfg2 = [
 			'three' => 'tres',
 			'number' => 42,
-			'letter' => 'Z'
-		);
+			'letter' => 'Z',
+		];
 
 		$pkg_dir = 'package';
 		$this->ci_vfs_create(
 			$file.'.php',
 			'<?php $config = '.var_export($cfg2, TRUE).';',
 			$this->ci_app_root,
-			array($pkg_dir, 'config')
+			[$pkg_dir, 'config']
 		);
 		array_unshift($this->config->_config_paths, $this->ci_vfs_path($pkg_dir.'/', APPPATH));
 		$this->assertTrue($this->config->load($file, TRUE));

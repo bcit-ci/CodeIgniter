@@ -62,13 +62,13 @@ class CI_Trackback {
 	 *
 	 * @var	array
 	 */
-	public $data = array(
+	public $data = [
 		'url' => '',
 		'title' => '',
 		'excerpt' => '',
 		'blog_name' => '',
-		'charset' => ''
-	);
+		'charset' => '',
+	];
 
 	/**
 	 * Convert ASCII flag
@@ -92,7 +92,7 @@ class CI_Trackback {
 	 *
 	 * @var	string[]
 	 */
-	public $error_msg = array();
+	public $error_msg = [];
 
 	// --------------------------------------------------------------------
 
@@ -123,7 +123,7 @@ class CI_Trackback {
 		}
 
 		// Pre-process the Trackback Data
-		foreach (array('url', 'title', 'excerpt', 'blog_name', 'ping_url') as $item)
+		foreach (['url', 'title', 'excerpt', 'blog_name', 'ping_url'] as $item)
 		{
 			if ( ! isset($tb_data[$item]))
 			{
@@ -148,7 +148,7 @@ class CI_Trackback {
 			}
 
 			// Convert High ASCII Characters
-			if ($this->convert_ascii === TRUE && in_array($item, array('excerpt', 'title', 'blog_name'), TRUE))
+			if ($this->convert_ascii === TRUE && in_array($item, ['excerpt', 'title', 'blog_name'], TRUE))
 			{
 				$$item = $this->convert_ascii($$item);
 			}
@@ -190,7 +190,7 @@ class CI_Trackback {
 	 */
 	public function receive()
 	{
-		foreach (array('url', 'title', 'blog_name', 'excerpt') as $val)
+		foreach (['url', 'title', 'blog_name', 'excerpt'] as $val)
 		{
 			if (empty($_POST[$val]))
 			{
@@ -352,7 +352,7 @@ class CI_Trackback {
 		// Break into an array via commas and remove duplicates
 		$urls = array_unique(preg_split('/[,]/', rtrim($urls, ',')));
 
-		array_walk($urls, array($this, 'validate_url'));
+		array_walk($urls, [$this, 'validate_url']);
 		return $urls;
 	}
 
@@ -429,13 +429,13 @@ class CI_Trackback {
 	{
 		$temp = '__TEMP_AMPERSANDS__';
 
-		$str = preg_replace(array('/&#(\d+);/', '/&(\w+);/'), $temp.'\\1;', $str);
+		$str = preg_replace(['/&#(\d+);/', '/&(\w+);/'], $temp.'\\1;', $str);
 
-		$str = str_replace(array('&', '<', '>', '"', "'", '-'),
-					array('&amp;', '&lt;', '&gt;', '&quot;', '&#39;', '&#45;'),
+		$str = str_replace(['&', '<', '>', '"', "'", '-'],
+					['&amp;', '&lt;', '&gt;', '&quot;', '&#39;', '&#45;'],
 					$str);
 
-		return preg_replace(array('/'.$temp.'(\d+);/', '/'.$temp.'(\w+);/'), array('&#\\1;', '&\\1;'), $str);
+		return preg_replace(['/'.$temp.'(\d+);/', '/'.$temp.'(\w+);/'], ['&#\\1;', '&\\1;'], $str);
 	}
 
 	// --------------------------------------------------------------------
@@ -457,7 +457,7 @@ class CI_Trackback {
 			return $str;
 		}
 
-		$str = preg_replace('/\s+/', ' ', str_replace(array("\r\n", "\r", "\n"), ' ', $str));
+		$str = preg_replace('/\s+/', ' ', str_replace(["\r\n", "\r", "\n"], ' ', $str));
 
 		if (strlen($str) <= $n)
 		{
@@ -490,7 +490,7 @@ class CI_Trackback {
 	{
 		$count	= 1;
 		$out	= '';
-		$temp	= array();
+		$temp	= [];
 
 		for ($i = 0, $s = strlen($str); $i < $s; $i++)
 		{
@@ -517,7 +517,7 @@ class CI_Trackback {
 
 					$out .= '&#'.$number.';';
 					$count = 1;
-					$temp = array();
+					$temp = [];
 				}
 			}
 		}

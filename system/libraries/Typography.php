@@ -74,7 +74,7 @@ class CI_Typography {
 	 *
 	 * @var array
 	 */
-	public $inner_block_required = array('blockquote');
+	public $inner_block_required = ['blockquote'];
 
 	/**
 	 * the last block element parsed
@@ -115,7 +115,7 @@ class CI_Typography {
 		// Standardize Newlines to make matching easier
 		if (strpos($str, "\r") !== FALSE)
 		{
-			$str = str_replace(array("\r\n", "\r"), "\n", $str);
+			$str = str_replace(["\r\n", "\r"], "\n", $str);
 		}
 
 		// Reduce line breaks.  If there are more than two consecutive linebreaks
@@ -126,7 +126,7 @@ class CI_Typography {
 		}
 
 		// HTML comment tags don't conform to patterns of normal tags, so pull them out separately, only if needed
-		$html_comments = array();
+		$html_comments = [];
 		if (strpos($str, '<!--') !== FALSE && preg_match_all('#(<!\-\-.*?\-\->)#s', $str, $matches))
 		{
 			for ($i = 0, $total = count($matches[0]); $i < $total; $i++)
@@ -140,16 +140,16 @@ class CI_Typography {
 		// not contain <pre> tags, and it keeps the PCRE patterns below simpler and faster
 		if (strpos($str, '<pre') !== FALSE)
 		{
-			$str = preg_replace_callback('#<pre.*?>.*?</pre>#si', array($this, '_protect_characters'), $str);
+			$str = preg_replace_callback('#<pre.*?>.*?</pre>#si', [$this, '_protect_characters'], $str);
 		}
 
 		// Convert quotes within tags to temporary markers.
-		$str = preg_replace_callback('#<.+?>#si', array($this, '_protect_characters'), $str);
+		$str = preg_replace_callback('#<.+?>#si', [$this, '_protect_characters'], $str);
 
 		// Do the same with braces if necessary
 		if ($this->protect_braced_quotes === TRUE)
 		{
-			$str = preg_replace_callback('#\{.+?\}#si', array($this, '_protect_characters'), $str);
+			$str = preg_replace_callback('#\{.+?\}#si', [$this, '_protect_characters'], $str);
 		}
 
 		// Convert "ignore" tags to temporary marker.  The parser splits out the string at every tag
@@ -228,7 +228,7 @@ class CI_Typography {
 		}
 
 		// Final clean up
-		$table = array(
+		$table = [
 
 						// If the user submitted their own paragraph tags within the text
 						// we will retain them instead of using our tags.
@@ -259,8 +259,8 @@ class CI_Typography {
 
 						// Similarly, there might be cases where a closing </block> will follow
 						// a closing </p> tag, so we'll correct it by adding a newline in between
-						'#</p></#'			=> "</p>\n</"
-						);
+						'#</p></#'			=> "</p>\n</",
+						];
 
 		// Do we need to reduce empty lines?
 		if ($reduce_linebreaks === TRUE)
@@ -296,7 +296,7 @@ class CI_Typography {
 
 		if ( ! isset($table))
 		{
-			$table = array(
+			$table = [
 							// nested smart quotes, opening and closing
 							// note that rules for grammar (English) allow only for two levels deep
 							// and that single quotes are _supposed_ to always be on the outside
@@ -336,8 +336,8 @@ class CI_Typography {
 							'/(\W)  /'						=> '$1&nbsp; ',
 
 							// ampersands, if not a character entity
-							'/&(?!#?[a-zA-Z0-9]{2,};)/'		=> '&amp;'
-						);
+							'/&(?!#?[a-zA-Z0-9]{2,};)/'		=> '&amp;',
+						];
 		}
 
 		return preg_replace(array_keys($table), $table, $str);
@@ -395,7 +395,7 @@ class CI_Typography {
 	 */
 	protected function _protect_characters($match)
 	{
-		return str_replace(array("'",'"','--','  '), array('{@SQ}', '{@DQ}', '{@DD}', '{@NBS}'), $match[0]);
+		return str_replace(["'", '"', '--', '  '], ['{@SQ}', '{@DQ}', '{@DD}', '{@NBS}'], $match[0]);
 	}
 
 	// --------------------------------------------------------------------

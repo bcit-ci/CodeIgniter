@@ -152,7 +152,7 @@ class URI_test extends CI_TestCase {
 
 	public function test_segment()
 	{
-		$this->uri->segments = array(1 => 'controller');
+		$this->uri->segments = [1 => 'controller'];
 		$this->assertEquals($this->uri->segment(1), 'controller');
 		$this->assertEquals($this->uri->segment(2, 'default'), 'default');
 	}
@@ -161,7 +161,7 @@ class URI_test extends CI_TestCase {
 
 	public function test_rsegment()
 	{
-		$this->uri->rsegments = array(1 => 'method');
+		$this->uri->rsegments = [1 => 'method'];
 		$this->assertEquals($this->uri->rsegment(1), 'method');
 		$this->assertEquals($this->uri->rsegment(2, 'default'), 'default');
 	}
@@ -170,33 +170,33 @@ class URI_test extends CI_TestCase {
 
 	public function test_uri_to_assoc()
 	{
-		$this->uri->segments = array('a', '1', 'b', '2', 'c', '3');
+		$this->uri->segments = ['a', '1', 'b', '2', 'c', '3'];
 
 		$this->assertEquals(
-			array('a' => '1', 'b' => '2', 'c' => '3'),
+			['a' => '1', 'b' => '2', 'c' => '3'],
 			$this->uri->uri_to_assoc(1)
 		);
 
 		$this->assertEquals(
-			array('b' => '2', 'c' => '3'),
+			['b' => '2', 'c' => '3'],
 			$this->uri->uri_to_assoc(3)
 		);
 
-		$this->uri->keyval = array(); // reset cache
-		$this->uri->segments = array('a', '1', 'b', '2', 'c');
+		$this->uri->keyval = []; // reset cache
+		$this->uri->segments = ['a', '1', 'b', '2', 'c'];
 
 		$this->assertEquals(
-			array('a' => '1', 'b' => '2', 'c' => FALSE),
+			['a' => '1', 'b' => '2', 'c' => FALSE],
 			$this->uri->uri_to_assoc(1)
 		);
 
-		$this->uri->keyval = array(); // reset cache
-		$this->uri->segments = array('a', '1');
+		$this->uri->keyval = []; // reset cache
+		$this->uri->segments = ['a', '1'];
 
 		// test default
 		$this->assertEquals(
-			array('a' => '1', 'b' => FALSE),
-			$this->uri->uri_to_assoc(1, array('a', 'b'))
+			['a' => '1', 'b' => FALSE],
+			$this->uri->uri_to_assoc(1, ['a', 'b'])
 		);
 	}
 
@@ -204,33 +204,33 @@ class URI_test extends CI_TestCase {
 
 	public function test_ruri_to_assoc()
 	{
-		$this->uri->rsegments = array('x', '1', 'y', '2', 'z', '3');
+		$this->uri->rsegments = ['x', '1', 'y', '2', 'z', '3'];
 
 		$this->assertEquals(
-			array('x' => '1', 'y' => '2', 'z' => '3'),
+			['x' => '1', 'y' => '2', 'z' => '3'],
 			$this->uri->ruri_to_assoc(1)
 		);
 
 		$this->assertEquals(
-			array('y' => '2', 'z' => '3'),
+			['y' => '2', 'z' => '3'],
 			$this->uri->ruri_to_assoc(3)
 		);
 
-		$this->uri->keyval = array(); // reset cache
-		$this->uri->rsegments = array('x', '1', 'y', '2', 'z');
+		$this->uri->keyval = []; // reset cache
+		$this->uri->rsegments = ['x', '1', 'y', '2', 'z'];
 
 		$this->assertEquals(
-			array('x' => '1', 'y' => '2', 'z' => FALSE),
+			['x' => '1', 'y' => '2', 'z' => FALSE],
 			$this->uri->ruri_to_assoc(1)
 		);
 
-		$this->uri->keyval = array(); // reset cache
-		$this->uri->rsegments = array('x', '1');
+		$this->uri->keyval = []; // reset cache
+		$this->uri->rsegments = ['x', '1'];
 
 		// test default
 		$this->assertEquals(
-			array('x' => '1', 'y' => FALSE),
-			$this->uri->ruri_to_assoc(1, array('x', 'y'))
+			['x' => '1', 'y' => FALSE],
+			$this->uri->ruri_to_assoc(1, ['x', 'y'])
 		);
 	}
 
@@ -239,7 +239,7 @@ class URI_test extends CI_TestCase {
 	public function test_assoc_to_uri()
 	{
 		$this->uri->config->set_item('uri_string_slashes', 'none');
-		$this->assertEquals('a/1/b/2', $this->uri->assoc_to_uri(array('a' => '1', 'b' => '2')));
+		$this->assertEquals('a/1/b/2', $this->uri->assoc_to_uri(['a' => '1', 'b' => '2']));
 	}
 
 	// --------------------------------------------------------------------

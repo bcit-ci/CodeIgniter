@@ -77,10 +77,10 @@ class File_helper_Test extends CI_TestCase {
 		// Test the rest
 
 		// First pass in an array
-		$vals = array(
+		$vals = [
 			'name', 'server_path', 'size', 'date',
-			'readable', 'writable', 'executable', 'fileperms'
-		);
+			'readable', 'writable', 'executable', 'fileperms',
+		];
 
 		$this->_test_get_file_info($vals);
 
@@ -98,7 +98,7 @@ class File_helper_Test extends CI_TestCase {
 			->lastModified($last_modified)
 			->at($this->_test_dir);
 
-		$ret_values = array(
+		$ret_values = [
 			'name'        => 'my_file.txt',
 			'server_path' => 'vfs://my_file.txt',
 			'size'        => 57,
@@ -106,8 +106,8 @@ class File_helper_Test extends CI_TestCase {
 			'readable'    => TRUE,
 			'writable'    => TRUE,
 			'executable'  => TRUE,
-			'fileperms'   => 33279
-		);
+			'fileperms'   => 33279,
+		];
 
 		$info = get_file_info(vfsStream::url('my_file.txt'), $vals);
 

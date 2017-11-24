@@ -16,15 +16,15 @@ class Directory_helper_test extends CI_TestCase {
 	{
 		$ds = DIRECTORY_SEPARATOR;
 
-		$structure = array(
-			'libraries' => array(
+		$structure = [
+			'libraries' => [
 				'benchmark.html' => '',
-				'database' => array('active_record.html' => '', 'binds.html' => ''),
+				'database' => ['active_record.html' => '', 'binds.html' => ''],
 				'email.html' => '',
 				'0' => '',
-				'.hiddenfile.txt' => ''
-			)
-		);
+				'.hiddenfile.txt' => '',
+			],
+		];
 
 		vfsStream::create($structure, $this->_test_dir);
 
@@ -36,14 +36,14 @@ class Directory_helper_test extends CI_TestCase {
 		}
 
 		// test default recursive behavior
-		$expected = array(
-			'libraries'.$ds => array(
+		$expected = [
+			'libraries'.$ds => [
 				'benchmark.html',
-				'database'.$ds => array('active_record.html', 'binds.html'),
+				'database'.$ds => ['active_record.html', 'binds.html'],
 				'email.html',
-				'0'
-			)
-		);
+				'0',
+			],
+		];
 
 		$this->assertEquals($expected, directory_map(vfsStream::url('testDir')));
 
@@ -53,7 +53,7 @@ class Directory_helper_test extends CI_TestCase {
 		$this->assertEquals($expected, directory_map(vfsStream::url('testDir'), 0, TRUE));
 
 		// test recursion depth behavior
-		$this->assertEquals(array('libraries'.$ds), directory_map(vfsStream::url('testDir'), 1));
+		$this->assertEquals(['libraries'.$ds], directory_map(vfsStream::url('testDir'), 1));
 	}
 
 }

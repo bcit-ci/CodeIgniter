@@ -17,7 +17,7 @@ class Typography_test extends CI_TestCase {
 	 */
 	public function test_format_characters()
 	{
-		$strs = array(
+		$strs = [
 			'"double quotes"' 				=> '&#8220;double quotes&#8221;',
 			'"testing" in "theory" that is' => '&#8220;testing&#8221; in &#8220;theory&#8221; that is',
 			"Here's what I'm" 				=> 'Here&#8217;s what I&#8217;m',
@@ -29,7 +29,7 @@ class Typography_test extends CI_TestCase {
 			'foo..'							=> 'foo..',
 			'foo...bar.'					=> 'foo&#8230;bar.',
 			'test.  new'					=> 'test.&nbsp; new',
-		);
+		];
 
 		foreach ($strs as $str => $expected)
 		{
@@ -109,10 +109,10 @@ EOH;
 
 	private function _standardize_new_lines()
 	{
-		$strs = array(
+		$strs = [
 			"My string\rhas return characters"	=> "<p>My string<br />\nhas return characters</p>",
-			'This one does not!' 				=> '<p>This one does not!</p>'
-		);
+			'This one does not!' 				=> '<p>This one does not!</p>',
+		];
 
 		foreach ($strs as $str => $expect)
 		{

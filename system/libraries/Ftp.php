@@ -109,7 +109,7 @@ class CI_FTP {
 	 * @param	array	$config
 	 * @return	void
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		empty($config) OR $this->initialize($config);
 		log_message('info', 'FTP Class Initialized');
@@ -123,7 +123,7 @@ class CI_FTP {
 	 * @param	array	$config
 	 * @return	void
 	 */
-	public function initialize($config = array())
+	public function initialize($config = [])
 	{
 		foreach ($config as $key => $val)
 		{
@@ -145,7 +145,7 @@ class CI_FTP {
 	 * @param	array	 $config	Connection values
 	 * @return	bool
 	 */
-	public function connect($config = array())
+	public function connect($config = [])
 	{
 		if (count($config) > 0)
 		{
@@ -630,7 +630,7 @@ class CI_FTP {
 	 */
 	protected function _settype($ext)
 	{
-		return in_array($ext, array('txt', 'text', 'php', 'phps', 'php4', 'js', 'css', 'htm', 'html', 'phtml', 'shtml', 'log', 'xml'), TRUE)
+		return in_array($ext, ['txt', 'text', 'php', 'phps', 'php4', 'js', 'css', 'htm', 'html', 'phtml', 'shtml', 'log', 'xml'], TRUE)
 			? 'ascii'
 			: 'binary';
 	}
