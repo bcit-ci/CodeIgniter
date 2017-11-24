@@ -41,7 +41,7 @@ class Get_test extends CI_TestCase {
 	 */
 	public function test_get_where()
 	{
-		$job1 = $this->db->get_where('job', array('id' => 1))->result_array();
+		$job1 = $this->db->get_where('job', ['id' => 1])->result_array();
 
 		// Dummy jobs contain 1 rows
 		$this->assertCount(1, $job1);

@@ -8,10 +8,10 @@ class Form_validation_test extends CI_TestCase {
 
 		// Create a mock loader since load->helper() looks in the wrong directories for unit tests,
 		// We'll use CI_TestCase->helper() instead
-		$loader = $this->getMockBuilder('CI_Loader')->setMethods(array('helper'))->getMock();
+		$loader = $this->getMockBuilder('CI_Loader')->setMethods(['helper'])->getMock();
 
 		// Same applies for lang
-		$lang = $this->getMockBuilder('CI_Lang')->setMethods(array('load'))->getMock();
+		$lang = $this->getMockBuilder('CI_Lang')->setMethods(['load'])->getMock();
 
 		$security = new Mock_Core_Security('UTF-8');
 		$input = new CI_Input($security);
@@ -30,66 +30,66 @@ class Form_validation_test extends CI_TestCase {
 	{
 		$this->assertFalse(
 			$this->run_rules(
-				array(array('field' => 'foo', 'label' => 'Foo Label', 'rules' => 'required')),
-				array('foo' => array())
+				[['field' => 'foo', 'label' => 'Foo Label', 'rules' => 'required']],
+				['foo' => []]
 			)
 		);
 	}
 
 	public function test_rule_required()
 	{
-		$rules = array(array('field' => 'foo', 'label' => 'Foo', 'rules' => 'is_numeric'));
+		$rules = [['field' => 'foo', 'label' => 'Foo', 'rules' => 'is_numeric']];
 
 		// Empty, not required
-		$this->assertTrue($this->run_rules($rules, array('foo' => '')));
+		$this->assertTrue($this->run_rules($rules, ['foo' => '']));
 
 		// Not required, but also not empty
-		$this->assertTrue($this->run_rules($rules, array('foo' => '123')));
-		$this->assertFalse($this->run_rules($rules, array('foo' => 'bar')));
+		$this->assertTrue($this->run_rules($rules, ['foo' => '123']));
+		$this->assertFalse($this->run_rules($rules, ['foo' => 'bar']));
 
 		// Required variations
 		$rules[0]['rules'] .= '|required';
-		$this->assertTrue($this->run_rules($rules, array('foo' => '123')));
-		$this->assertFalse($this->run_rules($rules, array('foo' => '')));
-		$this->assertFalse($this->run_rules($rules, array('foo' => ' ')));
-		$this->assertFalse($this->run_rules($rules, array('foo' => 'bar')));
+		$this->assertTrue($this->run_rules($rules, ['foo' => '123']));
+		$this->assertFalse($this->run_rules($rules, ['foo' => '']));
+		$this->assertFalse($this->run_rules($rules, ['foo' => ' ']));
+		$this->assertFalse($this->run_rules($rules, ['foo' => 'bar']));
 	}
 
 	public function test_rule_is_array()
 	{
-		$rules = array(array('field' => 'foo', 'label' => 'Foo', 'rules' => 'is_array'));
-		$this->assertTrue($this->run_rules($rules,  array('foo' => array('1', '2'))));
-		$this->assertFalse($this->run_rules($rules, array('foo' => '')));
+		$rules = [['field' => 'foo', 'label' => 'Foo', 'rules' => 'is_array']];
+		$this->assertTrue($this->run_rules($rules,  ['foo' => ['1', '2']]));
+		$this->assertFalse($this->run_rules($rules, ['foo' => '']));
 	}
 
 	public function test_rule_matches()
 	{
-		$rules = array(
-			array('field' => 'foo', 'label' => 'label', 'rules' => 'required'),
-			array('field' => 'bar', 'label' => 'label2', 'rules' => 'matches[foo]')
-		);
-		$values_base = array('foo' => 'sample');
+		$rules = [
+			['field' => 'foo', 'label' => 'label', 'rules' => 'required'],
+			['field' => 'bar', 'label' => 'label2', 'rules' => 'matches[foo]']
+		];
+		$values_base = ['foo' => 'sample'];
 
-		$this->assertTrue($this->run_rules($rules, array_merge($values_base, array('bar' => 'sample'))));
+		$this->assertTrue($this->run_rules($rules, array_merge($values_base, ['bar' => 'sample'])));
 
-		$this->assertFalse($this->run_rules($rules, array_merge($values_base, array('bar' => ''))));
-		$this->assertFalse($this->run_rules($rules, array_merge($values_base, array('bar' => 'Sample'))));
-		$this->assertFalse($this->run_rules($rules, array_merge($values_base, array('bar' => ' sample'))));
+		$this->assertFalse($this->run_rules($rules, array_merge($values_base, ['bar' => ''])));
+		$this->assertFalse($this->run_rules($rules, array_merge($values_base, ['bar' => 'Sample'])));
+		$this->assertFalse($this->run_rules($rules, array_merge($values_base, ['bar' => ' sample'])));
 	}
 
 	public function test_rule_differs()
 	{
-		$rules = array(
-			array('field' => 'foo', 'label' => 'label', 'rules' => 'required'),
-			array('field' => 'bar', 'label' => 'label2', 'rules' => 'differs[foo]')
-		);
-		$values_base = array('foo' => 'sample');
+		$rules = [
+			['field' => 'foo', 'label' => 'label', 'rules' => 'required'],
+			['field' => 'bar', 'label' => 'label2', 'rules' => 'differs[foo]']
+		];
+		$values_base = ['foo' => 'sample'];
 
-		$this->assertTrue($this->run_rules($rules, array_merge($values_base, array('bar' => 'does_not_match'))));
-		$this->assertTrue($this->run_rules($rules, array_merge($values_base, array('bar' => 'Sample'))));
-		$this->assertTrue($this->run_rules($rules, array_merge($values_base, array('bar' => ' sample'))));
+		$this->assertTrue($this->run_rules($rules, array_merge($values_base, ['bar' => 'does_not_match'])));
+		$this->assertTrue($this->run_rules($rules, array_merge($values_base, ['bar' => 'Sample'])));
+		$this->assertTrue($this->run_rules($rules, array_merge($values_base, ['bar' => ' sample'])));
 
-		$this->assertFalse($this->run_rules($rules, array_merge($values_base, array('bar' => 'sample'))));
+		$this->assertFalse($this->run_rules($rules, array_merge($values_base, ['bar' => 'sample'])));
 	}
 
 	public function test_rule_min_length()
@@ -321,18 +321,18 @@ class Form_validation_test extends CI_TestCase {
 
 	public function test_set_data()
 	{
-		$data = array('field' => 'some_data');
+		$data = ['field' => 'some_data'];
 		$this->form_validation->set_data($data);
 		$this->form_validation->set_rules('field', 'label', 'required');
 		$this->assertTrue($this->form_validation->run());
 
 		// Test with empty array
-		$_POST = array();
+		$_POST = [];
 		$this->form_validation->reset_validation();
-		$data = array('field' => 'some_data');
+		$data = ['field' => 'some_data'];
 		$this->form_validation->set_data($data);
 		// This should do nothing. Old data will still be used
-		$this->form_validation->set_data(array());
+		$this->form_validation->set_data([]);
 		$this->form_validation->set_rules('field', 'label', 'required');
 		$this->assertTrue($this->form_validation->run());
 	}
@@ -340,15 +340,15 @@ class Form_validation_test extends CI_TestCase {
 	public function test_set_message()
 	{
 		$err_message = 'What a terrible error!';
-		$rules = array(
-			array(
+		$rules = [
+			[
 				'field' => 'req_field',
 				'label' => 'label',
 				'rules' => 'required'
-			)
-		);
-		$errorless_data = array('req_field' => 'some text');
-		$erroneous_data = array('req_field' => '');
+			]
+		];
+		$errorless_data = ['req_field' => 'some text'];
+		$erroneous_data = ['req_field' => ''];
 
 		$this->form_validation->set_message('required', $err_message);
 		$this->form_validation->set_data($erroneous_data);
@@ -370,7 +370,7 @@ class Form_validation_test extends CI_TestCase {
 		$suffix = '</div>';
 		$this->form_validation->set_error_delimiters($prefix, $suffix);
 		$this->form_validation->set_rules('foo', 'label', 'required');
-		$_POST = array('foo' => '');
+		$_POST = ['foo' => ''];
 		$this->form_validation->run();
 		$error_msg = $this->form_validation->error('foo');
 
@@ -385,7 +385,7 @@ class Form_validation_test extends CI_TestCase {
 		$error_message = 'What a terrible error!';
 		$this->form_validation->set_message('required', $error_message);
 		$this->form_validation->set_rules('foo', 'label', 'required');
-		$_POST = array('foo' => '');
+		$_POST = ['foo' => ''];
 		$this->form_validation->run();
 		$error_array = $this->form_validation->error_array();
 		$this->assertEquals($error_message, $error_array['foo']);
@@ -403,7 +403,7 @@ class Form_validation_test extends CI_TestCase {
 		$this->form_validation->set_error_delimiters($prefix_default, $suffix_default);
 		$this->form_validation->set_message('required', $error_message);
 		$this->form_validation->set_rules('foo', 'label', 'required');
-		$_POST = array('foo' => '');
+		$_POST = ['foo' => ''];
 		$this->form_validation->run();
 
 		$this->assertEquals($prefix_default.$error_message.$suffix_default."\n", $this->form_validation->error_string());
@@ -413,7 +413,7 @@ class Form_validation_test extends CI_TestCase {
 
 		$this->form_validation->reset_validation();
 		$this->form_validation->set_rules('foo', 'label', 'required');
-		$_POST = array('foo' => 'bar');
+		$_POST = ['foo' => 'bar'];
 		$this->form_validation->run();
 		$this->assertEquals('', $this->form_validation->error_string());
 
@@ -424,23 +424,23 @@ class Form_validation_test extends CI_TestCase {
 	{
 		// form_validation->run() is tested in many of the other unit tests
 		// This test will only test run(group='') when group is not empty
-		$config = array(
-			'pass' => array(
-				array(
+		$config = [
+			'pass' => [
+				[
 					'field' => 'username',
 					'label' => 'user',
 					'rules' => 'alpha_numeric'
-				)
-			),
-			'fail' => array(
-				array(
+				]
+			],
+			'fail' => [
+				[
 					'field' => 'username',
 					'label' => 'user',
 					'rules' => 'alpha'
-				)
-			)
-		);
-		$_POST = array('username' => 'foo42');
+				]
+			]
+		];
+		$_POST = ['username' => 'foo42'];
 		$form_validation = new CI_Form_validation($config);
 		$this->assertTrue($form_validation->run('pass'));
 
@@ -472,7 +472,7 @@ class Form_validation_test extends CI_TestCase {
 
 		// No post data yet: should return the default value provided
 		$this->assertEquals($default, $this->form_validation->set_value('foo', $default));
-		$_POST = array('foo' => 'foo', 'bar' => array('bar1', 'bar2'));
+		$_POST = ['foo' => 'foo', 'bar' => ['bar1', 'bar2']];
 		$this->form_validation->run();
 		$this->assertEquals('foo', $this->form_validation->set_value('foo', $default));
 		$this->assertEquals('bar1', $this->form_validation->set_value('bar[]', $default));
@@ -505,7 +505,7 @@ class Form_validation_test extends CI_TestCase {
 		// Test 2: 1 option selected
 		$this->form_validation->reset_validation();
 		$this->form_validation->set_rules('select', 'label', 'alpha_numeric');
-		$_POST = array('select' => 'foo');
+		$_POST = ['select' => 'foo'];
 		$this->form_validation->run();
 
 		$this->assertEquals(' selected="selected"', $this->form_validation->set_select('select', 'foo'));
@@ -516,7 +516,7 @@ class Form_validation_test extends CI_TestCase {
 		// Test 3: Multiple options selected
 		$this->form_validation->reset_validation();
 		$this->form_validation->set_rules('select[]', 'label', 'alpha_numeric');
-		$_POST = array('select' => array('foo', 'bar'));
+		$_POST = ['select' => ['foo', 'bar']];
 		$this->form_validation->run();
 
 		$this->assertEquals(' selected="selected"', $this->form_validation->set_select('select[]', 'foo'));
@@ -541,7 +541,7 @@ class Form_validation_test extends CI_TestCase {
 		// Test 2: 1 option selected
 		$this->form_validation->reset_validation();
 		$this->form_validation->set_rules('select', 'label', 'alpha_numeric');
-		$_POST = array('select' => 'foo');
+		$_POST = ['select' => 'foo'];
 		$this->form_validation->run();
 
 		$this->assertEquals(' checked="checked"', $this->form_validation->set_radio('select', 'foo'));
@@ -552,7 +552,7 @@ class Form_validation_test extends CI_TestCase {
 		// Test 3: Multiple options checked
 		$this->form_validation->reset_validation();
 		$this->form_validation->set_rules('select[]', 'label', 'alpha_numeric');
-		$_POST = array('select' => array('foo', 'bar'));
+		$_POST = ['select' => ['foo', 'bar']];
 		$this->form_validation->run();
 
 		$this->assertEquals(' checked="checked"', $this->form_validation->set_radio('select[]', 'foo'));
@@ -576,7 +576,7 @@ class Form_validation_test extends CI_TestCase {
 		// Test 2: 1 option selected
 		$this->form_validation->reset_validation();
 		$this->form_validation->set_rules('select', 'label', 'alpha_numeric');
-		$_POST = array('select' => 'foo');
+		$_POST = ['select' => 'foo'];
 		$this->form_validation->run();
 
 		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select', 'foo'));
@@ -587,7 +587,7 @@ class Form_validation_test extends CI_TestCase {
 		// Test 3: Multiple options selected
 		$this->form_validation->reset_validation();
 		$this->form_validation->set_rules('select[]', 'label', 'alpha_numeric');
-		$_POST = array('select' => array('foo', 'bar'));
+		$_POST = ['select' => ['foo', 'bar']];
 		$this->form_validation->run();
 
 		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select[]', 'foo'));
@@ -624,7 +624,7 @@ class Form_validation_test extends CI_TestCase {
 
 	public function test_validated_data_assignment()
 	{
-		$_POST = $post_original = array('foo' => ' bar ', 'bar' => 'baz');
+		$_POST = $post_original = ['foo' => ' bar ', 'bar' => 'baz'];
 
 		$this->form_validation->set_data($_POST);
 		$this->form_validation->set_rules('foo', 'Foo', 'required|trim');
@@ -634,9 +634,9 @@ class Form_validation_test extends CI_TestCase {
 
 		$this->assertTrue($validation_result);
 		$this->assertEquals($post_original, $_POST);
-		$this->assertEquals(array('foo' => 'bar', 'bar' => 'baz'), $data_processed);
+		$this->assertEquals(['foo' => 'bar', 'bar' => 'baz'], $data_processed);
 
-		$_POST = array();
+		$_POST = [];
 	}
 
 	/**
@@ -648,7 +648,8 @@ class Form_validation_test extends CI_TestCase {
 	public function run_rules($rules, $values)
 	{
 		$this->form_validation->reset_validation();
-		$_POST = array();
+		$_POST = [];
+
 		$this->form_validation->set_rules($rules);
 
 		foreach ($values as $field => $value)

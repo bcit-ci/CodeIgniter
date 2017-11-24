@@ -18,13 +18,13 @@ class Html_helper_test extends CI_TestCase {
 	public function test_heading_array_attributes()
 	{
 		// Test array of attributes
-		$this->assertEquals('<h2 class="bar" id="foo">foobar</h2>', heading('foobar', 2, array('class' => 'bar', 'id' => 'foo')));
+		$this->assertEquals('<h2 class="bar" id="foo">foobar</h2>', heading('foobar', 2, ['class' => 'bar', 'id' => 'foo']));
 	}
 
 	public function test_heading_object_attributes()
 	{
 		// Test array of attributes
-		$this->assertEquals('<h2 class="bar" id="foo">foobar</h2>', heading('foobar', 2, array('class' => 'bar', 'id' => 'foo')));
+		$this->assertEquals('<h2 class="bar" id="foo">foobar</h2>', heading('foobar', 2, ['class' => 'bar', 'id' => 'foo']));
 		$test = new stdClass;
 		$test->class = "bar";
 		$test->id = "foo";
@@ -58,7 +58,7 @@ class Html_helper_test extends CI_TestCase {
 EOH;
 
 		$expect = ltrim($expect);
-		$list = array('foo', 'bar');
+		$list = ['foo', 'bar'];
 
 		$this->assertEquals(ltrim($expect), ul($list));
 
@@ -74,7 +74,7 @@ EOH;
 
 		$this->assertEquals($expect, ul($list, 'class="test"'));
 
-		$this->assertEquals($expect, ul($list, array('class' => 'test')));
+		$this->assertEquals($expect, ul($list, ['class' => 'test']));
 	}
 
 	// ------------------------------------------------------------------------
@@ -88,17 +88,17 @@ EOH;
 
 		$this->assertEquals(
 			"<meta name=\"foo\" content=\"\" />\n",
-			meta(array('name' => 'foo'))
+			meta(['name' => 'foo'])
 		);
 
 		$this->assertEquals(
 			"<meta charset=\"foo\" />\n",
-			meta(array('name' => 'foo', 'type' => 'charset'))
+			meta(['name' => 'foo', 'type' => 'charset'])
 		);
 
 		$this->assertEquals(
 			"<meta charset=\"foo\" />\n",
-			meta(array('name' => 'foo', 'type' => 'charset'))
+			meta(['name' => 'foo', 'type' => 'charset'])
 		);
 	}
 }

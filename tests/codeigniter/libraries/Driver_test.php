@@ -16,8 +16,8 @@ class Driver_test extends CI_TestCase {
 
 		// Mock Loader->get_package_paths
 		$paths = 'get_package_paths';
-		$ldr = $this->getMockBuilder('CI_Loader')->setMethods(array($paths))->getMock();
-		$ldr->expects($this->any())->method($paths)->will($this->returnValue(array(APPPATH, BASEPATH)));
+		$ldr = $this->getMockBuilder('CI_Loader')->setMethods([$paths])->getMock();
+		$ldr->expects($this->any())->method($paths)->will($this->returnValue([APPPATH, BASEPATH]));
 		$this->ci_instance_var('load', $ldr);
 
 		// Create mock driver library
@@ -37,7 +37,7 @@ class Driver_test extends CI_TestCase {
 		$prop = 'called';
 		$content = '<?php class '.$class.' extends CI_Driver { public $'.$prop.' = FALSE; '.
 			'public function decorate($parent) { $this->'.$prop.' = TRUE; } }';
-		$this->ci_vfs_create($file, $content, $this->ci_base_root, array('libraries', $this->name, 'drivers'));
+		$this->ci_vfs_create($file, $content, $this->ci_base_root, ['libraries', $this->name, 'drivers']);
 
 		// Make driver valid
 		$this->lib->driver_list($driver);
@@ -74,11 +74,11 @@ class Driver_test extends CI_TestCase {
 		$class = 'CI_'.$file;
 		$content = '<?php class '.$class.' extends CI_Driver {  }';
 		$this->ci_vfs_create($file, $content, $this->ci_app_root,
-			array('libraries', $this->name, 'drivers'));
+			['libraries', $this->name, 'drivers']);
 
 		// Make valid list
 		$nodriver = 'absent';
-		$this->lib->driver_list(array($driver, $nodriver));
+		$this->lib->driver_list([$driver, $nodriver]);
 
 		// Load driver
 		$this->assertNotNull($this->lib->load_driver($driver));
@@ -104,12 +104,12 @@ class Driver_test extends CI_TestCase {
 		$base = $this->name.'_'.$driver;
 		$baseclass = 'CI_'.$base;
 		$content = '<?php class '.$baseclass.' extends CI_Driver {  }';
-		$this->ci_vfs_create($base, $content, $this->ci_base_root, array('libraries', $this->name, 'drivers'));
+		$this->ci_vfs_create($base, $content, $this->ci_base_root, ['libraries', $this->name, 'drivers']);
 
 		// Create driver file
 		$class = $this->subclass.$base;
 		$content = '<?php class '.$class.' extends '.$baseclass.' {  }';
-		$this->ci_vfs_create($class, $content, $this->ci_app_root, array('libraries', $this->name, 'drivers'));
+		$this->ci_vfs_create($class, $content, $this->ci_app_root, ['libraries', $this->name, 'drivers']);
 
 		// Make valid list
 		$this->lib->driver_list($driver);
@@ -128,7 +128,7 @@ class Driver_test extends CI_TestCase {
 		$base = $this->name.'_'.$driver;
 		$class = $this->subclass.$base;
 		$content = '<?php class '.$class.' extends CI_Driver {  }';
-		$this->ci_vfs_create($class, $content, $this->ci_app_root, array('libraries', $this->name, 'drivers'));
+		$this->ci_vfs_create($class, $content, $this->ci_app_root, ['libraries', $this->name, 'drivers']);
 		$this->lib->driver_list($driver);
 
 		// Do we get an error when base class isn't found?

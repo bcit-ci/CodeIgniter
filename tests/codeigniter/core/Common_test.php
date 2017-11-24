@@ -12,7 +12,7 @@ class Common_test extends CI_TestCase {
 
 	public function test_stringify_attributes()
 	{
-		$this->assertEquals(' class="foo" id="bar"', _stringify_attributes(array('class' => 'foo', 'id' => 'bar')));
+		$this->assertEquals(' class="foo" id="bar"', _stringify_attributes(['class' => 'foo', 'id' => 'bar']));
 
 		$atts = new stdClass;
 		$atts->class = 'foo';
@@ -24,14 +24,14 @@ class Common_test extends CI_TestCase {
 
 		$this->assertEquals(' class="foo" id="bar"', _stringify_attributes('class="foo" id="bar"'));
 
-		$this->assertEquals('', _stringify_attributes(array()));
+		$this->assertEquals('', _stringify_attributes([]));
 	}
 
 	// ------------------------------------------------------------------------
 
 	public function test_stringify_js_attributes()
 	{
-		$this->assertEquals('width=800,height=600', _stringify_attributes(array('width' => '800', 'height' => '600'), TRUE));
+		$this->assertEquals('width=800,height=600', _stringify_attributes(['width' => '800', 'height' => '600'], TRUE));
 
 		$atts = new stdClass;
 		$atts->width = 800;
@@ -49,8 +49,8 @@ class Common_test extends CI_TestCase {
 		);
 
 		$this->assertEquals(
-			html_escape(array('associative' => 'and', array('multi' => 'dimentional'))),
-			array('associative' => 'and', array('multi' => 'dimentional'))
+			html_escape(['associative' => 'and', ['multi' => 'dimentional']]),
+			['associative' => 'and', ['multi' => 'dimentional']]
 		);
 	}
 
