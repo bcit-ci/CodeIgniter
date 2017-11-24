@@ -27,7 +27,7 @@ class Update_test extends CI_TestCase {
 		$this->assertEquals('Developer', $job1->name);
 
 		// Do the update
-		$this->db->where('id', 1)->update('job', array('name' => 'Programmer'));
+		$this->db->where('id', 1)->update('job', ['name' => 'Programmer']);
 
 		// Check updated record
 		$job1 = $this->db->where('id', 1)->get('job')->row();

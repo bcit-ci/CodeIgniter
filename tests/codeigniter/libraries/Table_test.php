@@ -15,7 +15,7 @@ class Table_test extends CI_TestCase {
 	{
 		$this->assertFalse($this->table->set_template('not an array'));
 
-		$template = array('a' => 'b');
+		$template = ['a' => 'b'];
 
 		$this->table->set_template($template);
 		$this->assertEquals($template, $this->table->template);
@@ -45,11 +45,11 @@ class Table_test extends CI_TestCase {
 		$this->table->set_heading('name', 'color', 'size');
 
 		$this->assertEquals(
-			array(
-				array('data' => 'name'),
-				array('data' => 'color'),
-				array('data' => 'size')
-			),
+			[
+				['data' => 'name'],
+				['data' => 'color'],
+				['data' => 'size']
+			],
 			$this->table->heading
 		);
 	}
@@ -70,11 +70,11 @@ class Table_test extends CI_TestCase {
 		$this->assertEquals(count($this->table->rows), 3);
 
 		$this->assertEquals(
-			array(
-				array('data' => 'your'),
-				array('data' => 'pony'),
-				array('data' => 'stinks')
-			),
+			[
+				['data' => 'your'],
+				['data' => 'pony'],
+				['data' => 'stinks']
+			],
 			$this->table->rows[1]
 		);
 	}
@@ -84,30 +84,30 @@ class Table_test extends CI_TestCase {
 
 	public function test_prep_args()
 	{
-		$expected = array(
-			array('data' => 'name'),
-			array('data' => 'color'),
-			array('data' => 'size')
-		);
+		$expected = [
+			['data' => 'name'],
+			['data' => 'color'],
+			['data' => 'size']
+		];
 
 		$this->assertEquals(
 			$expected,
-			$this->table->prep_args(array('name', 'color', 'size'))
+			$this->table->prep_args(['name', 'color', 'size'])
 		);
 
 		// with cell attributes
 		// need to add that new argument row to our expected outcome
-		$expected[] = array('data' => 'weight', 'class' => 'awesome');
+		$expected[] = ['data' => 'weight', 'class' => 'awesome'];
 
 		$this->assertEquals(
 			$expected,
-			$this->table->prep_args(array('name', 'color', 'size', array('data' => 'weight', 'class' => 'awesome')))
+			$this->table->prep_args(['name', 'color', 'size', ['data' => 'weight', 'class' => 'awesome']])
 		);
 	}
 
 	public function test_default_template_keys()
 	{
-		$keys = array(
+		$keys = [
 			'table_open',
 			'thead_open', 'thead_close',
 			'heading_row_start', 'heading_row_end', 'heading_cell_start', 'heading_cell_end',
@@ -115,7 +115,7 @@ class Table_test extends CI_TestCase {
 			'row_start', 'row_end', 'cell_start', 'cell_end',
 			'row_alt_start', 'row_alt_end', 'cell_alt_start', 'cell_alt_end',
 			'table_close'
-		);
+		];
 
 		foreach ($keys as $key)
 		{
@@ -128,14 +128,14 @@ class Table_test extends CI_TestCase {
 		$this->assertFalse($this->table->set_template('invalid_junk'));
 
 		// non default key
-		$this->table->set_template(array('nonsense' => 'foo'));
+		$this->table->set_template(['nonsense' => 'foo']);
 		$this->table->compile_template();
 
 		$this->assertArrayHasKey('nonsense', $this->table->template);
 		$this->assertEquals('foo', $this->table->template['nonsense']);
 
 		// override default
-		$this->table->set_template(array('table_close' => '</table junk>'));
+		$this->table->set_template(['table_close' => '</table junk>']);
 		$this->table->compile_template();
 
 		$this->assertArrayHasKey('table_close', $this->table->template);
@@ -146,15 +146,15 @@ class Table_test extends CI_TestCase {
 	{
 		// Test bogus parameters
 		$this->assertFalse($this->table->make_columns('invalid_junk'));
-		$this->assertFalse($this->table->make_columns(array()));
-		$this->assertFalse($this->table->make_columns(array('one', 'two'), '2.5'));
+		$this->assertFalse($this->table->make_columns([]));
+		$this->assertFalse($this->table->make_columns(['one', 'two'], '2.5'));
 
 		// Now on to the actual column creation
 
-		$five_values = array(
+		$five_values = [
 			'Laura', 'Red', '15',
 			'Katie', 'Blue'
-		);
+		];
 
 		// No column count - no changes to the array
 		$this->assertEquals(
@@ -164,10 +164,10 @@ class Table_test extends CI_TestCase {
 
 		// Column count of 3 leaves us with one &nbsp;
 		$this->assertEquals(
-			array(
-				array('Laura', 'Red', '15'),
-				array('Katie', 'Blue', '&nbsp;')
-			),
+			[
+				['Laura', 'Red', '15'],
+				['Katie', 'Blue', '&nbsp;']
+			],
 			$this->table->make_columns($five_values, 3)
 		);
 	}
@@ -177,10 +177,10 @@ class Table_test extends CI_TestCase {
 		$this->table->set_heading('Name', 'Color', 'Size');
 
 		// Make columns changes auto_heading
-		$rows = $this->table->make_columns(array(
+		$rows = $this->table->make_columns([
 			'Laura', 'Red', '15',
 			'Katie', 'Blue'
-		), 3);
+		], 3);
 
 		foreach ($rows as $row)
 		{
@@ -200,11 +200,11 @@ class Table_test extends CI_TestCase {
 
 	public function test_set_from_array()
 	{
-		$data = array(
-			array('name', 'color', 'number'),
-			array('Laura', 'Red', '22'),
-			array('Katie', 'Blue')
-		);
+		$data = [
+			['name', 'color', 'number'],
+			['Laura', 'Red', '22'],
+			['Katie', 'Blue']
+		];
 
 		$this->table->auto_heading = FALSE;
 		$this->table->set_from_array($data);
@@ -215,18 +215,18 @@ class Table_test extends CI_TestCase {
 		$this->table->set_from_array($data);
 		$this->assertEquals(count($this->table->rows), 2);
 
-		$expected = array(
-			array('data' => 'name'),
-			array('data' => 'color'),
-			array('data' => 'number')
-		);
+		$expected = [
+			['data' => 'name'],
+			['data' => 'color'],
+			['data' => 'number']
+		];
 
 		$this->assertEquals($expected, $this->table->heading);
 
-		$expected = array(
-			array('data' => 'Katie'),
-			array('data' => 'Blue'),
-		);
+		$expected = [
+			['data' => 'Katie'],
+			['data' => 'Blue'],
+		];
 
 		$this->assertEquals($expected, $this->table->rows[1]);
 	}
@@ -242,17 +242,17 @@ class Table_test extends CI_TestCase {
 
 		$this->table->set_from_db_result($db_result);
 
-		$expected = array(
-			array('data' => 'name'),
-			array('data' => 'email')
-		);
+		$expected = [
+			['data' => 'name'],
+			['data' => 'email']
+		];
 
 		$this->assertEquals($expected, $this->table->heading);
 
-		$expected = array(
-			'name' => array('data' => 'Foo Bar'),
-			'email' => array('data' => 'foo@bar.com'),
-		);
+		$expected = [
+			'name' => ['data' => 'Foo Bar'],
+			'email' => ['data' => 'foo@bar.com'],
+		];
 
 		$this->assertEquals($expected, $this->table->rows[1]);
 	}
@@ -260,12 +260,12 @@ class Table_test extends CI_TestCase {
 	public function test_generate()
 	{
 		// Prepare the data
-		$data = array(
-			array('Name', 'Color', 'Size'),
-			array('Fred', 'Blue', 'Small'),
-			array('Mary', 'Red', 'Large'),
-			array('John', 'Green', 'Medium')
-		);
+		$data = [
+			['Name', 'Color', 'Size'],
+			['Fred', 'Blue', 'Small'],
+			['Mary', 'Red', 'Large'],
+			['John', 'Green', 'Medium']
+		];
 
 		$table = $this->table->generate($data);
 
@@ -287,14 +287,14 @@ class DB_result_dummy extends CI_DB_result
 {
 	public function list_fields()
 	{
-		return array('name', 'email');
+		return ['name', 'email'];
 	}
 
 	public function result_array()
 	{
-		return array(
-			array('name' => 'John Doe', 'email' => 'john@doe.com'),
-			array('name' => 'Foo Bar', 'email' => 'foo@bar.com')
-		);
+		return [
+			['name' => 'John Doe', 'email' => 'john@doe.com'],
+			['name' => 'Foo Bar', 'email' => 'foo@bar.com']
+		];
 	}
 }

@@ -147,7 +147,7 @@ class Date_helper_test extends CI_TestCase {
 
 	public function test_timezones()
 	{
-		$zones = array(
+		$zones = [
 			'UM12'		=> -12,
 			'UM11'		=> -11,
 			'UM10'		=> -10,
@@ -188,7 +188,7 @@ class Date_helper_test extends CI_TestCase {
 			'UP1275'	=> +12.75,
 			'UP13'		=> +13,
 			'UP14'		=> +14
-		);
+		];
 
 		foreach ($zones AS $test => $expected)
 		{
@@ -203,7 +203,7 @@ class Date_helper_test extends CI_TestCase {
 
 	public function test_date_range()
 	{
-		$dates = array(
+		$dates = [
 			'29-01-2012', '30-01-2012', '31-01-2012',
 			'01-02-2012', '02-02-2012', '03-02-2012',
 			'04-02-2012', '05-02-2012', '06-02-2012',
@@ -215,7 +215,7 @@ class Date_helper_test extends CI_TestCase {
 			'22-02-2012', '23-02-2012', '24-02-2012',
 			'25-02-2012', '26-02-2012', '27-02-2012',
 			'28-02-2012', '29-02-2012', '01-03-2012'
-		);
+		];
 
 		$this->assertEquals($dates, date_range(mktime(12, 0, 0, 1, 29, 2012), mktime(12, 0, 0, 3, 1, 2012), TRUE, 'd-m-Y'));
 		array_pop($dates);
