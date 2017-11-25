@@ -66,7 +66,6 @@ else
 is_php('5.6') && ini_set('php.internal_encoding', 'UTF-8');
 
 include_once SYSTEM_PATH.'core/compat/mbstring.php';
-include_once SYSTEM_PATH.'core/compat/standard.php';
 
 include_once $dir.'/mocks/autoloader.php';
 spl_autoload_register('autoload');
