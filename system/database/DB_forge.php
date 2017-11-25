@@ -58,21 +58,21 @@ abstract class CI_DB_forge {
 	 *
 	 * @var	array
 	 */
-	public $fields		= array();
+	public $fields		= [];
 
 	/**
 	 * Keys data
 	 *
 	 * @var	array
 	 */
-	public $keys		= array();
+	public $keys		= [];
 
 	/**
 	 * Primary Keys data
 	 *
 	 * @var	array
 	 */
-	public $primary_keys	= array();
+	public $primary_keys	= [];
 
 	/**
 	 * Database character set
@@ -281,13 +281,13 @@ abstract class CI_DB_forge {
 		{
 			if ($field === 'id')
 			{
-				$this->add_field(array(
-					'id' => array(
+				$this->add_field([
+					'id' => [
 						'type' => 'INT',
 						'constraint' => 9,
-						'auto_increment' => TRUE
-					)
-				));
+						'auto_increment' => TRUE,
+					],
+				]);
 				$this->add_key('id', TRUE);
 			}
 			else
@@ -319,7 +319,7 @@ abstract class CI_DB_forge {
 	 * @param	array	$attributes	Associative array of table attributes
 	 * @return	bool
 	 */
-	public function create_table($table, $if_not_exists = FALSE, array $attributes = array())
+	public function create_table($table, $if_not_exists = FALSE, array $attributes = [])
 	{
 		if ($table === '')
 		{
@@ -564,7 +564,7 @@ abstract class CI_DB_forge {
 	public function add_column($table, $field, $_after = NULL)
 	{
 		// Work-around for literal column definitions
-		is_array($field) OR $field = array($field);
+		is_array($field) OR $field = [$field];
 
 		foreach (array_keys($field) as $k)
 		{
@@ -574,7 +574,7 @@ abstract class CI_DB_forge {
 				$field[$k]['after'] = $_after;
 			}
 
-			$this->add_field(array($k => $field[$k]));
+			$this->add_field([$k => $field[$k]]);
 		}
 
 		$sqls = $this->_alter_table('ADD', $this->db->dbprefix.$table, $this->_process_fields());
@@ -627,11 +627,11 @@ abstract class CI_DB_forge {
 	public function modify_column($table, $field)
 	{
 		// Work-around for literal column definitions
-		is_array($field) OR $field = array($field);
+		is_array($field) OR $field = [$field];
 
 		foreach (array_keys($field) as $k)
 		{
-			$this->add_field(array($k => $field[$k]));
+			$this->add_field([$k => $field[$k]]);
 		}
 
 		if (count($this->fields) === 0)
@@ -681,7 +681,7 @@ abstract class CI_DB_forge {
 			? 'ADD '
 			: $alter_type.' COLUMN ';
 
-		$sqls = array();
+		$sqls = [];
 		for ($i = 0, $c = count($field); $i < $c; $i++)
 		{
 			$sqls[] = $sql
@@ -701,13 +701,13 @@ abstract class CI_DB_forge {
 	 */
 	protected function _process_fields($create_table = FALSE)
 	{
-		$fields = array();
+		$fields = [];
 
 		foreach ($this->fields as $key => $attributes)
 		{
 			if (is_int($key) && ! is_array($attributes))
 			{
-				$fields[] = array('_literal' => $attributes);
+				$fields[] = ['_literal' => $attributes];
 				continue;
 			}
 
@@ -720,7 +720,7 @@ abstract class CI_DB_forge {
 
 			isset($attributes['TYPE']) && $this->_attr_type($attributes);
 
-			$field = array(
+			$field = [
 				'name'			=> $key,
 				'new_name'		=> isset($attributes['NAME']) ? $attributes['NAME'] : NULL,
 				'type'			=> isset($attributes['TYPE']) ? $attributes['TYPE'] : NULL,
@@ -730,8 +730,8 @@ abstract class CI_DB_forge {
 				'unique'		=> '',
 				'default'		=> '',
 				'auto_increment'	=> '',
-				'_literal'		=> FALSE
-			);
+				'_literal'		=> FALSE,
+			];
 
 			isset($attributes['TYPE']) && $this->_attr_unsigned($attributes, $field);
 
@@ -996,7 +996,7 @@ abstract class CI_DB_forge {
 	 */
 	protected function _process_indexes($table)
 	{
-		$sqls = array();
+		$sqls = [];
 
 		for ($i = 0, $c = count($this->keys); $i < $c; $i++)
 		{
@@ -1017,7 +1017,7 @@ abstract class CI_DB_forge {
 				continue;
 			}
 
-			is_array($this->keys[$i]) OR $this->keys[$i] = array($this->keys[$i]);
+			is_array($this->keys[$i]) OR $this->keys[$i] = [$this->keys[$i]];
 
 			$sqls[] = 'CREATE INDEX '.$this->db->escape_identifiers($table.'_'.implode('_', $this->keys[$i]))
 				.' ON '.$this->db->escape_identifiers($table)
@@ -1038,7 +1038,7 @@ abstract class CI_DB_forge {
 	 */
 	protected function _reset()
 	{
-		$this->fields = $this->keys = $this->primary_keys = array();
+		$this->fields = $this->keys = $this->primary_keys = [];
 	}
 
 }

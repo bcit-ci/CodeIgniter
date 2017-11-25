@@ -117,14 +117,14 @@ function &DB($params = '', $query_builder_override = NULL)
 			show_error('Invalid DB Connection String');
 		}
 
-		$params = array(
+		$params = [
 			'dbdriver'	=> $dsn['scheme'],
 			'hostname'	=> isset($dsn['host']) ? rawurldecode($dsn['host']) : '',
 			'port'		=> isset($dsn['port']) ? rawurldecode($dsn['port']) : '',
 			'username'	=> isset($dsn['user']) ? rawurldecode($dsn['user']) : '',
 			'password'	=> isset($dsn['pass']) ? rawurldecode($dsn['pass']) : '',
-			'database'	=> isset($dsn['path']) ? rawurldecode(substr($dsn['path'], 1)) : ''
-		);
+			'database'	=> isset($dsn['path']) ? rawurldecode(substr($dsn['path'], 1)) : '',
+		];
 
 		// Were additional config items set?
 		if (isset($dsn['query']))
@@ -133,7 +133,7 @@ function &DB($params = '', $query_builder_override = NULL)
 
 			foreach ($extra as $key => $val)
 			{
-				if (is_string($val) && in_array(strtoupper($val), array('TRUE', 'FALSE', 'NULL')))
+				if (is_string($val) && in_array(strtoupper($val), ['TRUE', 'FALSE', 'NULL']))
 				{
 					$val = var_export($val, TRUE);
 				}

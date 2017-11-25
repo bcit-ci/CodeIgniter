@@ -1,34 +1,34 @@
 <?php
 
-return array(
+return [
 
 	// Typical Database configuration
-	'pgsql' => array(
+	'pgsql' => [
 		'dsn' => '',
 		'hostname' => 'localhost',
 		'username' => 'postgres',
 		'password' => '',
 		'database' => 'ci_test',
-		'dbdriver' => 'postgre'
-	),
+		'dbdriver' => 'postgre',
+	],
 
 	// Database configuration with failover
-	'pgsql_failover' => array(
+	'pgsql_failover' => [
 		'dsn' => '',
 		'hostname' => 'localhost',
 		'username' => 'not_travis',
 		'password' => 'wrong password',
 		'database' => 'not_ci_test',
 		'dbdriver' => 'postgre',
-		'failover' => array(
-			array(
+		'failover' => [
+			[
 				'dsn' => '',
 				'hostname' => 'localhost',
 				'username' => 'postgres',
 				'password' => '',
 				'database' => 'ci_test',
 				'dbdriver' => 'postgre',
-			)
-		)
-	)
-);
+			],
+		],
+	],
+];

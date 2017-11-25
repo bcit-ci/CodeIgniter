@@ -220,7 +220,7 @@ class CI_DB_mysql_driver extends CI_DB {
 		if (mysql_select_db($database, $this->conn_id))
 		{
 			$this->database = $database;
-			$this->data_cache = array();
+			$this->data_cache = [];
 			return TRUE;
 		}
 
@@ -423,7 +423,7 @@ class CI_DB_mysql_driver extends CI_DB {
 		}
 		$query = $query->result_object();
 
-		$retval = array();
+		$retval = [];
 		for ($i = 0, $c = count($query); $i < $c; $i++)
 		{
 			$retval[$i]			= new stdClass();
@@ -453,7 +453,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 */
 	public function error()
 	{
-		return array('code' => mysql_errno($this->conn_id), 'message' => mysql_error($this->conn_id));
+		return ['code' => mysql_errno($this->conn_id), 'message' => mysql_error($this->conn_id)];
 	}
 
 	// --------------------------------------------------------------------

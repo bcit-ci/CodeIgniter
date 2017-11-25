@@ -65,12 +65,12 @@ class CI_DB_pdo_sqlsrv_forge extends CI_DB_pdo_forge {
 	 *
 	 * @var	array
 	 */
-	protected $_unsigned		= array(
+	protected $_unsigned		= [
 		'TINYINT'	=> 'SMALLINT',
 		'SMALLINT'	=> 'INT',
 		'INT'		=> 'BIGINT',
-		'REAL'		=> 'FLOAT'
-	);
+		'REAL'		=> 'FLOAT',
+	];
 
 	// --------------------------------------------------------------------
 
@@ -84,13 +84,13 @@ class CI_DB_pdo_sqlsrv_forge extends CI_DB_pdo_forge {
 	 */
 	protected function _alter_table($alter_type, $table, $field)
 	{
-		if (in_array($alter_type, array('ADD', 'DROP'), TRUE))
+		if (in_array($alter_type, ['ADD', 'DROP'], TRUE))
 		{
 			return parent::_alter_table($alter_type, $table, $field);
 		}
 
 		$sql = 'ALTER TABLE '.$this->db->escape_identifiers($table).' ALTER COLUMN ';
-		$sqls = array();
+		$sqls = [];
 		for ($i = 0, $c = count($field); $i < $c; $i++)
 		{
 			$sqls[] = $sql.$this->_process_column($field[$i]);

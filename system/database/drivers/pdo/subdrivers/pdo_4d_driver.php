@@ -64,7 +64,7 @@ class CI_DB_pdo_4d_driver extends CI_DB_pdo_driver {
 	 *
 	 * @var	string[]
 	 */
-	protected $_escape_char = array('[', ']');
+	protected $_escape_char = ['[', ']'];
 
 	// --------------------------------------------------------------------
 
@@ -162,7 +162,7 @@ class CI_DB_pdo_4d_driver extends CI_DB_pdo_driver {
 	protected function _update($table, $values)
 	{
 		$this->qb_limit = FALSE;
-		$this->qb_orderby = array();
+		$this->qb_orderby = [];
 		return parent::_update($table, $values);
 	}
 

@@ -100,7 +100,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	public function list_fields()
 	{
-		$field_names = array();
+		$field_names = [];
 		for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 		{
 			// Might trigger an E_WARNING due to not all subdrivers
@@ -125,7 +125,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 	{
 		try
 		{
-			$retval = array();
+			$retval = [];
 
 			for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 			{

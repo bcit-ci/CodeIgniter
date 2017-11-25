@@ -130,28 +130,28 @@ class CI_Xmlrpc {
 	 *
 	 * @var	array
 	 */
-	public $xmlrpcTypes	= array();
+	public $xmlrpcTypes	= [];
 
 	/**
 	 * Valid parents list
 	 *
 	 * @var	array
 	 */
-	public $valid_parents	= array();
+	public $valid_parents	= [];
 
 	/**
 	 * Response error numbers list
 	 *
 	 * @var	array
 	 */
-	public $xmlrpcerr		= array();
+	public $xmlrpcerr		= [];
 
 	/**
 	 * Response error messages list
 	 *
 	 * @var	string[]
 	 */
-	public $xmlrpcstr		= array();
+	public $xmlrpcstr		= [];
 
 	/**
 	 * Encoding charset
@@ -242,7 +242,7 @@ class CI_Xmlrpc {
 	 *
 	 * @var	array
 	 */
-	public $response		= array(); // Response from remote server
+	public $response		= []; // Response from remote server
 
 	/**
 	 * XSS Filter flag
@@ -261,12 +261,12 @@ class CI_Xmlrpc {
 	 * @param	array	$config
 	 * @return	void
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		$this->xmlrpc_backslash = chr(92).chr(92);
 
 		// Types for info sent back and forth
-		$this->xmlrpcTypes = array(
+		$this->xmlrpcTypes = [
 			$this->xmlrpcI4	 		=> '1',
 			$this->xmlrpcInt		=> '1',
 			$this->xmlrpcBoolean	=> '1',
@@ -275,28 +275,28 @@ class CI_Xmlrpc {
 			$this->xmlrpcDateTime	=> '1',
 			$this->xmlrpcBase64		=> '1',
 			$this->xmlrpcArray		=> '2',
-			$this->xmlrpcStruct		=> '3'
-		);
+			$this->xmlrpcStruct		=> '3',
+		];
 
 		// Array of Valid Parents for Various XML-RPC elements
-		$this->valid_parents = array('BOOLEAN' => array('VALUE'),
-			'I4'				=> array('VALUE'),
-			'INT'				=> array('VALUE'),
-			'STRING'			=> array('VALUE'),
-			'DOUBLE'			=> array('VALUE'),
-			'DATETIME.ISO8601'	=> array('VALUE'),
-			'BASE64'			=> array('VALUE'),
-			'ARRAY'			=> array('VALUE'),
-			'STRUCT'			=> array('VALUE'),
-			'PARAM'			=> array('PARAMS'),
-			'METHODNAME'		=> array('METHODCALL'),
-			'PARAMS'			=> array('METHODCALL', 'METHODRESPONSE'),
-			'MEMBER'			=> array('STRUCT'),
-			'NAME'				=> array('MEMBER'),
-			'DATA'				=> array('ARRAY'),
-			'FAULT'			=> array('METHODRESPONSE'),
-			'VALUE'			=> array('MEMBER', 'DATA', 'PARAM', 'FAULT')
-		);
+		$this->valid_parents = ['BOOLEAN' => ['VALUE'],
+			'I4'				=> ['VALUE'],
+			'INT'				=> ['VALUE'],
+			'STRING'			=> ['VALUE'],
+			'DOUBLE'			=> ['VALUE'],
+			'DATETIME.ISO8601'	=> ['VALUE'],
+			'BASE64'			=> ['VALUE'],
+			'ARRAY'			=> ['VALUE'],
+			'STRUCT'			=> ['VALUE'],
+			'PARAM'			=> ['PARAMS'],
+			'METHODNAME'		=> ['METHODCALL'],
+			'PARAMS'			=> ['METHODCALL', 'METHODRESPONSE'],
+			'MEMBER'			=> ['STRUCT'],
+			'NAME'				=> ['MEMBER'],
+			'DATA'				=> ['ARRAY'],
+			'FAULT'			=> ['METHODRESPONSE'],
+			'VALUE'			=> ['MEMBER', 'DATA', 'PARAM', 'FAULT'],
+		];
 
 		// XML-RPC Responses
 		$this->xmlrpcerr['unknown_method'] = '1';
@@ -325,7 +325,7 @@ class CI_Xmlrpc {
 	 * @param	array	$config
 	 * @return	void
 	 */
-	public function initialize($config = array())
+	public function initialize($config = [])
 	{
 		if (count($config) > 0)
 		{
@@ -419,7 +419,7 @@ class CI_Xmlrpc {
 			return;
 		}
 
-		$this->data = array();
+		$this->data = [];
 
 		foreach ($incoming as $key => $value)
 		{
@@ -811,7 +811,7 @@ class XML_RPC_Response
 	 *
 	 * @var	array
 	 */
-	public $headers		= array();
+	public $headers		= [];
 
 	/**
 	 * XSS Filter flag
@@ -978,7 +978,7 @@ class XML_RPC_Response
 		{
 			reset($xmlrpc_val->me);
 			$b = current($xmlrpc_val->me);
-			$arr = array();
+			$arr = [];
 
 			for ($i = 0, $size = count($b); $i < $size; $i++)
 			{
@@ -989,7 +989,7 @@ class XML_RPC_Response
 		elseif ($kind === 'struct')
 		{
 			reset($xmlrpc_val->me['struct']);
-			$arr = array();
+			$arr = [];
 
 			foreach ($xmlrpc_val->me['struct'] as $key => &$value)
 			{
@@ -1052,14 +1052,14 @@ class XML_RPC_Message extends CI_Xmlrpc
 	 *
 	 * @var	array
 	 */
-	public $params		= array();
+	public $params		= [];
 
 	/**
 	 * XH?
 	 *
 	 * @var	array
 	 */
-	public $xh		= array();
+	public $xh		= [];
 
 	// --------------------------------------------------------------------
 
@@ -1151,14 +1151,14 @@ class XML_RPC_Message extends CI_Xmlrpc
 
 		$parser = xml_parser_create($this->xmlrpc_defencoding);
 		$pname = (string) $parser;
-		$this->xh[$pname] = array(
+		$this->xh[$pname] = [
 			'isf'		=> 0,
 			'ac'		=> '',
-			'headers'	=> array(),
-			'stack'		=> array(),
-			'valuestack'	=> array(),
-			'isf_reason'	=> 0
-		);
+			'headers'	=> [],
+			'stack'		=> [],
+			'valuestack'	=> [],
+			'isf_reason'	=> 0,
+		];
 
 		xml_set_object($parser, $this);
 		xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, TRUE);
@@ -1306,7 +1306,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 			case 'STRUCT':
 			case 'ARRAY':
 				// Creates array for child elements
-				$cur_val = array('value' => array(), 'type' => $name);
+				$cur_val = ['value' => [], 'type' => $name];
 				array_unshift($this->xh[$the_parser]['valuestack'], $cur_val);
 				break;
 			case 'METHODNAME':
@@ -1395,7 +1395,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 			case 'STRUCT':
 			case 'ARRAY':
 				$cur_val = array_shift($this->xh[$the_parser]['valuestack']);
-				$this->xh[$the_parser]['value'] = isset($cur_val['values']) ? $cur_val['values'] : array();
+				$this->xh[$the_parser]['value'] = isset($cur_val['values']) ? $cur_val['values'] : [];
 				$this->xh[$the_parser]['vt']	= strtolower($name);
 				break;
 			case 'NAME':
@@ -1555,7 +1555,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 	 * @param	array	$array
 	 * @return	array
 	 */
-	public function output_parameters(array $array = array())
+	public function output_parameters(array $array = [])
 	{
 		$CI =& get_instance();
 
@@ -1578,7 +1578,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 			return $array;
 		}
 
-		$parameters = array();
+		$parameters = [];
 
 		for ($i = 0, $c = count($this->params); $i < $c; $i++)
 		{
@@ -1617,7 +1617,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 		{
 			reset($param->me);
 			$b = current($param->me);
-			$arr = array();
+			$arr = [];
 
 			for ($i = 0, $c = count($b); $i < $c; $i++)
 			{
@@ -1629,7 +1629,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 		elseif ($kind === 'struct')
 		{
 			reset($param->me['struct']);
-			$arr = array();
+			$arr = [];
 
 			foreach ($param->me['struct'] as $key => &$value)
 			{
@@ -1656,7 +1656,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 	 *
 	 * @var	array
 	 */
-	public $me	= array();
+	public $me	= [];
 
 	/**
 	 * Value type
@@ -1884,7 +1884,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 	public function serializeval($o)
 	{
 		$array = $o->me;
-		list($value, $type) = array(reset($array), key($array));
+		list($value, $type) = [reset($array), key($array)];
 		return "<value>\n".$this->serializedata($type, $value)."</value>\n";
 	}
 

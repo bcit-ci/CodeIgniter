@@ -1,20 +1,20 @@
 <?php
 
-return array(
+return [
 
 	// Typical Database configuration
-	'pdo/sqlite' => array(
+	'pdo/sqlite' => [
 		'dsn' => 'sqlite:/'.realpath(__DIR__.'/../..').'/ci_test.sqlite',
 		'hostname' => 'localhost',
 		'username' => 'sqlite',
 		'password' => 'sqlite',
 		'database' => 'sqlite',
 		'dbdriver' => 'pdo',
-		'subdriver' => 'sqlite'
-	),
+		'subdriver' => 'sqlite',
+	],
 
 	// Database configuration with failover
-	'pdo/sqlite_failover' => array(
+	'pdo/sqlite_failover' => [
 		'dsn' => 'sqlite:not_exists.sqlite',
 		'hostname' => 'localhost',
 		'username' => 'sqlite',
@@ -22,16 +22,16 @@ return array(
 		'database' => 'sqlite',
 		'dbdriver' => 'pdo',
 		'subdriver' => 'sqlite',
-		'failover' => array(
-			array(
+		'failover' => [
+			[
 				'dsn' => 'sqlite:/'.realpath(__DIR__.'/../..').'/ci_test.sqlite',
 				'hostname' => 'localhost',
 				'username' => 'sqlite',
 				'password' => 'sqlite',
 				'database' => 'sqlite',
 				'dbdriver' => 'pdo',
-				'subdriver' => 'sqlite'
-			)
-		)
-	)
-);
+				'subdriver' => 'sqlite',
+			],
+		],
+	],
+];

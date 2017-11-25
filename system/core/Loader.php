@@ -63,66 +63,66 @@ class CI_Loader {
 	 *
 	 * @var	array
 	 */
-	protected $_ci_view_paths =	array(VIEWPATH	=> TRUE);
+	protected $_ci_view_paths =	[VIEWPATH	=> TRUE];
 
 	/**
 	 * List of paths to load libraries from
 	 *
 	 * @var	array
 	 */
-	protected $_ci_library_paths =	array(APPPATH, BASEPATH);
+	protected $_ci_library_paths =	[APPPATH, BASEPATH];
 
 	/**
 	 * List of paths to load models from
 	 *
 	 * @var	array
 	 */
-	protected $_ci_model_paths =	array(APPPATH);
+	protected $_ci_model_paths =	[APPPATH];
 
 	/**
 	 * List of paths to load helpers from
 	 *
 	 * @var	array
 	 */
-	protected $_ci_helper_paths =	array(APPPATH, BASEPATH);
+	protected $_ci_helper_paths =	[APPPATH, BASEPATH];
 
 	/**
 	 * List of cached variables
 	 *
 	 * @var	array
 	 */
-	protected $_ci_cached_vars =	array();
+	protected $_ci_cached_vars =	[];
 
 	/**
 	 * List of loaded classes
 	 *
 	 * @var	array
 	 */
-	protected $_ci_classes =	array();
+	protected $_ci_classes =	[];
 
 	/**
 	 * List of loaded models
 	 *
 	 * @var	array
 	 */
-	protected $_ci_models =	array();
+	protected $_ci_models =	[];
 
 	/**
 	 * List of loaded helpers
 	 *
 	 * @var	array
 	 */
-	protected $_ci_helpers =	array();
+	protected $_ci_helpers =	[];
 
 	/**
 	 * List of class name mappings
 	 *
 	 * @var	array
 	 */
-	protected $_ci_varmap =	array(
+	protected $_ci_varmap =	[
 		'unit_test' => 'unit',
-		'user_agent' => 'agent'
-	);
+		'user_agent' => 'agent',
+	];
 
 	// --------------------------------------------------------------------
 
@@ -491,9 +491,9 @@ class CI_Loader {
 	 *				or leave it to the Output class
 	 * @return	object|string
 	 */
-	public function view($view, $vars = array(), $return = FALSE)
+	public function view($view, $vars = [], $return = FALSE)
 	{
-		return $this->_ci_load(array('_ci_view' => $view, '_ci_vars' => $this->_ci_prepare_view_vars($vars), '_ci_return' => $return));
+		return $this->_ci_load(['_ci_view' => $view, '_ci_vars' => $this->_ci_prepare_view_vars($vars), '_ci_return' => $return]);
 	}
 
 	// --------------------------------------------------------------------
@@ -507,7 +507,7 @@ class CI_Loader {
 	 */
 	public function file($path, $return = FALSE)
 	{
-		return $this->_ci_load(array('_ci_path' => $path, '_ci_return' => $return));
+		return $this->_ci_load(['_ci_path' => $path, '_ci_return' => $return]);
 	}
 
 	// --------------------------------------------------------------------
@@ -527,7 +527,7 @@ class CI_Loader {
 	public function vars($vars, $val = '')
 	{
 		$vars = is_string($vars)
-			? array($vars => $val)
+			? [$vars => $val]
 			: $this->_ci_prepare_view_vars($vars);
 
 		foreach ($vars as $key => $val)
@@ -549,7 +549,7 @@ class CI_Loader {
 	 */
 	public function clear_vars()
 	{
-		$this->_ci_cached_vars = array();
+		$this->_ci_cached_vars = [];
 		return $this;
 	}
 
@@ -590,9 +590,9 @@ class CI_Loader {
 	 * @param	string|string[]	$helpers	Helper name(s)
 	 * @return	object
 	 */
-	public function helper($helpers = array())
+	public function helper($helpers = [])
 	{
-		is_array($helpers) OR $helpers = array($helpers);
+		is_array($helpers) OR $helpers = [$helpers];
 		foreach ($helpers as &$helper)
 		{
 			$filename = basename($helper);
@@ -667,7 +667,7 @@ class CI_Loader {
 	 * @param	string|string[]	$helpers	Helper name(s)
 	 * @return	object
 	 */
-	public function helpers($helpers = array())
+	public function helpers($helpers = [])
 	{
 		return $this->helper($helpers);
 	}
@@ -785,7 +785,7 @@ class CI_Loader {
 		array_unshift($this->_ci_model_paths, $path);
 		array_unshift($this->_ci_helper_paths, $path);
 
-		$this->_ci_view_paths = array($path.'views/' => $view_cascade) + $this->_ci_view_paths;
+		$this->_ci_view_paths = [$path.'views/' => $view_cascade] + $this->_ci_view_paths;
 
 		// Add config file path
 		$config =& $this->_ci_get_component('config');
@@ -836,7 +836,7 @@ class CI_Loader {
 		else
 		{
 			$path = rtrim($path, '/').'/';
-			foreach (array('_ci_library_paths', '_ci_model_paths', '_ci_helper_paths') as $var)
+			foreach (['_ci_library_paths', '_ci_model_paths', '_ci_helper_paths'] as $var)
 			{
 				if (($key = array_search($path, $this->{$var})) !== FALSE)
 				{
@@ -856,11 +856,11 @@ class CI_Loader {
 		}
 
 		// make sure the application default paths are still in the array
-		$this->_ci_library_paths = array_unique(array_merge($this->_ci_library_paths, array(APPPATH, BASEPATH)));
-		$this->_ci_helper_paths = array_unique(array_merge($this->_ci_helper_paths, array(APPPATH, BASEPATH)));
-		$this->_ci_model_paths = array_unique(array_merge($this->_ci_model_paths, array(APPPATH)));
-		$this->_ci_view_paths = array_merge($this->_ci_view_paths, array(APPPATH.'views/' => TRUE));
-		$config->_config_paths = array_unique(array_merge($config->_config_paths, array(APPPATH)));
+		$this->_ci_library_paths = array_unique(array_merge($this->_ci_library_paths, [APPPATH, BASEPATH]));
+		$this->_ci_helper_paths = array_unique(array_merge($this->_ci_helper_paths, [APPPATH, BASEPATH]));
+		$this->_ci_model_paths = array_unique(array_merge($this->_ci_model_paths, [APPPATH]));
+		$this->_ci_view_paths = array_merge($this->_ci_view_paths, [APPPATH.'views/' => TRUE]);
+		$config->_config_paths = array_unique(array_merge($config->_config_paths, [APPPATH]));
 
 		return $this;
 	}
@@ -883,7 +883,7 @@ class CI_Loader {
 	protected function _ci_load($_ci_data)
 	{
 		// Set the default data variables
-		foreach (array('_ci_view', '_ci_vars', '_ci_path', '_ci_return') as $_ci_val)
+		foreach (['_ci_view', '_ci_vars', '_ci_path', '_ci_return'] as $_ci_val)
 		{
 			$$_ci_val = isset($_ci_data[$_ci_val]) ? $_ci_data[$_ci_val] : FALSE;
 		}
@@ -1321,7 +1321,7 @@ class CI_Loader {
 		}
 
 		// Autoload helpers and languages
-		foreach (array('helper', 'language') as $type)
+		foreach (['helper', 'language'] as $type)
 		{
 			if (isset($autoload[$type]) && count($autoload[$type]) > 0)
 			{
@@ -1342,7 +1342,7 @@ class CI_Loader {
 			if (in_array('database', $autoload['libraries']))
 			{
 				$this->database();
-				$autoload['libraries'] = array_diff($autoload['libraries'], array('database'));
+				$autoload['libraries'] = array_diff($autoload['libraries'], ['database']);
 			}
 
 			// Load all other libraries
@@ -1373,7 +1373,7 @@ class CI_Loader {
 		{
 			$vars = is_object($vars)
 				? get_object_vars($vars)
-				: array();
+				: [];
 		}
 
 		foreach (array_keys($vars) as $key)

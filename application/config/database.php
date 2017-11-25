@@ -73,7 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
-$db['default'] = array(
+$db['default'] = [
 	'dsn'	=> '',
 	'hostname' => 'localhost',
 	'username' => '',
@@ -91,6 +91,6 @@ $db['default'] = array(
 	'encrypt' => FALSE,
 	'compress' => FALSE,
 	'stricton' => FALSE,
-	'failover' => array(),
-	'save_queries' => TRUE
-);
+	'failover' => [],
+	'save_queries' => TRUE,
+];

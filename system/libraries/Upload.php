@@ -214,7 +214,7 @@ class CI_Upload {
 	 *
 	 * @var	array
 	 */
-	public $error_msg = array();
+	public $error_msg = [];
 
 	/**
 	 * Remove spaces flag
@@ -272,7 +272,7 @@ class CI_Upload {
 	 *
 	 * @var	array
 	 */
-	protected $_mimes = array();
+	protected $_mimes = [];
 
 	/**
 	 * CI Singleton
@@ -289,7 +289,7 @@ class CI_Upload {
 	 * @param	array	$config
 	 * @return	void
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		empty($config) OR $this->initialize($config, FALSE);
 
@@ -308,7 +308,7 @@ class CI_Upload {
 	 * @param	bool	$reset
 	 * @return	CI_Upload
 	 */
-	public function initialize(array $config = array(), $reset = TRUE)
+	public function initialize(array $config = [], $reset = TRUE)
 	{
 		$reflection = new ReflectionClass($this);
 
@@ -596,7 +596,7 @@ class CI_Upload {
 	 */
 	public function data($index = NULL)
 	{
-		$data = array(
+		$data = [
 				'file_name'		=> $this->file_name,
 				'file_type'		=> $this->file_type,
 				'file_path'		=> $this->upload_path,
@@ -611,7 +611,7 @@ class CI_Upload {
 				'image_height'		=> $this->image_height,
 				'image_type'		=> $this->image_type,
 				'image_size_str'	=> $this->image_size_str,
-			);
+			];
 
 		if ( ! empty($index))
 		{
@@ -816,7 +816,7 @@ class CI_Upload {
 		{
 			if (FALSE !== ($D = @getimagesize($path)))
 			{
-				$types = array(1 => 'gif', 2 => 'jpeg', 3 => 'png');
+				$types = [1 => 'gif', 2 => 'jpeg', 3 => 'png'];
 
 				$this->image_width	= $D[0];
 				$this->image_height	= $D[1];
@@ -857,8 +857,8 @@ class CI_Upload {
 		// IE will sometimes return odd mime-types during upload, so here we just standardize all
 		// jpegs or pngs to the same file type.
 
-		$png_mimes  = array('image/x-png');
-		$jpeg_mimes = array('image/jpg', 'image/jpe', 'image/jpeg', 'image/pjpeg');
+		$png_mimes  = ['image/x-png'];
+		$jpeg_mimes = ['image/jpg', 'image/jpe', 'image/jpeg', 'image/pjpeg'];
 
 		if (in_array($this->file_type, $png_mimes))
 		{
@@ -869,7 +869,7 @@ class CI_Upload {
 			$this->file_type = 'image/jpeg';
 		}
 
-		$img_mimes = array('image/gif',	'image/jpeg', 'image/png');
+		$img_mimes = ['image/gif',	'image/jpeg', 'image/png'];
 
 		return in_array($this->file_type, $img_mimes, TRUE);
 	}
@@ -903,7 +903,7 @@ class CI_Upload {
 		}
 
 		// Images get some additional checks
-		if (in_array($ext, array('gif', 'jpg', 'jpeg', 'jpe', 'png'), TRUE) && @getimagesize($this->file_temp) === FALSE)
+		if (in_array($ext, ['gif', 'jpg', 'jpeg', 'jpe', 'png'], TRUE) && @getimagesize($this->file_temp) === FALSE)
 		{
 			return FALSE;
 		}
@@ -1152,7 +1152,7 @@ class CI_Upload {
 	{
 		$this->_CI->lang->load('upload');
 
-		is_array($msg) OR $msg = array($msg);
+		is_array($msg) OR $msg = [$msg];
 		foreach ($msg as $val)
 		{
 			$msg = ($this->_CI->lang->line($val) === FALSE) ? $val : $this->_CI->lang->line($val);

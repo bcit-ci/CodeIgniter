@@ -287,42 +287,42 @@ class CI_Email {
 	 * @see	CI_Email::print_debugger()
 	 * @var	string
 	 */
-	protected $_debug_msg		= array();
+	protected $_debug_msg		= [];
 
 	/**
 	 * Recipients
 	 *
 	 * @var	string[]
 	 */
-	protected $_recipients		= array();
+	protected $_recipients		= [];
 
 	/**
 	 * CC Recipients
 	 *
 	 * @var	string[]
 	 */
-	protected $_cc_array		= array();
+	protected $_cc_array		= [];
 
 	/**
 	 * BCC Recipients
 	 *
 	 * @var	string[]
 	 */
-	protected $_bcc_array		= array();
+	protected $_bcc_array		= [];
 
 	/**
 	 * Message headers
 	 *
 	 * @var	string[]
 	 */
-	protected $_headers		= array();
+	protected $_headers		= [];
 
 	/**
 	 * Attachment data
 	 *
 	 * @var	array
 	 */
-	protected $_attachments		= array();
+	protected $_attachments		= [];
 
 	/**
 	 * Valid $protocol values
@@ -330,7 +330,7 @@ class CI_Email {
 	 * @see	CI_Email::$protocol
 	 * @var	string[]
 	 */
-	protected $_protocols		= array('mail', 'sendmail', 'smtp');
+	protected $_protocols		= ['mail', 'sendmail', 'smtp'];
 
 	/**
 	 * Base charsets
@@ -340,7 +340,7 @@ class CI_Email {
 	 *
 	 * @var	string[]
 	 */
-	protected $_base_charsets	= array('us-ascii', 'iso-2022-');
+	protected $_base_charsets	= ['us-ascii', 'iso-2022-'];
 
 	/**
 	 * Bit depths
@@ -350,7 +350,7 @@ class CI_Email {
 	 * @see	CI_Email::$_encoding
 	 * @var	string[]
 	 */
-	protected $_bit_depths		= array('7bit', '8bit');
+	protected $_bit_depths		= ['7bit', '8bit'];
 
 	/**
 	 * $priority translations
@@ -359,13 +359,13 @@ class CI_Email {
 	 *
 	 * @var	string[]
 	 */
-	protected $_priorities = array(
+	protected $_priorities = [
 		1 => '1 (Highest)',
 		2 => '2 (High)',
 		3 => '3 (Normal)',
 		4 => '4 (Low)',
-		5 => '5 (Lowest)'
-	);
+		5 => '5 (Lowest)',
+	];
 
 	/**
 	 * mbstring.func_overload flag
@@ -384,7 +384,7 @@ class CI_Email {
 	 * @param	array	$config = array()
 	 * @return	void
 	 */
-	public function __construct(array $config = array())
+	public function __construct(array $config = [])
 	{
 		$this->charset = config_item('charset');
 		$this->initialize($config);
@@ -402,7 +402,7 @@ class CI_Email {
 	 * @param	array	$config
 	 * @return	CI_Email
 	 */
-	public function initialize(array $config = array())
+	public function initialize(array $config = [])
 	{
 		$this->clear();
 
@@ -444,17 +444,17 @@ class CI_Email {
 		$this->_finalbody	= '';
 		$this->_header_str	= '';
 		$this->_replyto_flag	= FALSE;
-		$this->_recipients	= array();
-		$this->_cc_array	= array();
-		$this->_bcc_array	= array();
-		$this->_headers		= array();
-		$this->_debug_msg	= array();
+		$this->_recipients	= [];
+		$this->_cc_array	= [];
+		$this->_bcc_array	= [];
+		$this->_headers		= [];
+		$this->_debug_msg	= [];
 
 		$this->set_header('Date', $this->_set_date());
 
 		if ($clear_attachments !== FALSE)
 		{
-			$this->_attachments = array();
+			$this->_attachments = [];
 		}
 
 		return $this;
@@ -706,13 +706,13 @@ class CI_Email {
 			$file_content =& $file; // buffered file
 		}
 
-		$this->_attachments[] = array(
-			'name'		=> array($file, $newname),
+		$this->_attachments[] = [
+			'name'		=> [$file, $newname],
 			'disposition'	=> empty($disposition) ? 'attachment' : $disposition,  // Can also be 'inline'  Not sure if it matters
 			'type'		=> $mime,
 			'content'	=> chunk_split(base64_encode($file_content)),
-			'multipart'	=> 'mixed'
-		);
+			'multipart'	=> 'mixed',
+		];
 
 		return $this;
 	}
@@ -753,7 +753,7 @@ class CI_Email {
 	 */
 	public function set_header($header, $value)
 	{
-		$this->_headers[$header] = str_replace(array("\n", "\r"), '', $value);
+		$this->_headers[$header] = str_replace(["\n", "\r"], '', $value);
 		return $this;
 	}
 
@@ -857,7 +857,7 @@ class CI_Email {
 	 */
 	public function set_newline($newline = "\n")
 	{
-		$this->newline = in_array($newline, array("\n", "\r\n", "\r")) ? $newline : "\n";
+		$this->newline = in_array($newline, ["\n", "\r\n", "\r"]) ? $newline : "\n";
 		return $this;
 	}
 
@@ -884,7 +884,7 @@ class CI_Email {
 	 */
 	protected function _get_message_id()
 	{
-		$from = str_replace(array('>', '<'), '', $this->_headers['Return-Path']);
+		$from = str_replace(['>', '<'], '', $this->_headers['Return-Path']);
 		return '<'.uniqid('').strstr($from, '@').'>';
 	}
 
@@ -1037,7 +1037,7 @@ class CI_Email {
 			return preg_match('/\<(.*)\>/', $email, $match) ? $match[1] : $email;
 		}
 
-		$clean_email = array();
+		$clean_email = [];
 
 		foreach ($email as $addy)
 		{
@@ -1104,7 +1104,7 @@ class CI_Email {
 		// Standardize newlines
 		if (strpos($str, "\r") !== FALSE)
 		{
-			$str = str_replace(array("\r\n", "\r"), "\n", $str);
+			$str = str_replace(["\r\n", "\r"], "\n", $str);
 		}
 
 		// Reduce multiple spaces at end of line
@@ -1112,7 +1112,7 @@ class CI_Email {
 
 		// If the current word is surrounded by {unwrap} tags we'll
 		// strip the entire chunk and replace it with a marker.
-		$unwrap = array();
+		$unwrap = [];
 		if (preg_match_all('|\{unwrap\}(.+?)\{/unwrap\}|s', $str, $matches))
 		{
 			for ($i = 0, $c = count($matches[0]); $i < $c; $i++)
@@ -1472,7 +1472,7 @@ class CI_Email {
 		// ASCII code numbers for "safe" characters that can always be
 		// used literally, without encoding, as described in RFC 2049.
 		// http://www.ietf.org/rfc/rfc2049.txt
-		static $ascii_safe_chars = array(
+		static $ascii_safe_chars = [
 			// ' (  )   +   ,   -   .   /   :   =   ?
 			39, 40, 41, 43, 44, 45, 46, 47, 58, 61, 63,
 			// numbers
@@ -1480,12 +1480,12 @@ class CI_Email {
 			// upper-case letters
 			65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90,
 			// lower-case letters
-			97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122
-		);
+			97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122,
+		];
 
 		// We are intentionally wrapping so mail servers will encode characters
 		// properly and MUAs will behave, so {unwrap} must go!
-		$str = str_replace(array('{unwrap}', '{/unwrap}'), '', $str);
+		$str = str_replace(['{unwrap}', '{/unwrap}'], '', $str);
 
 		// RFC 2045 specifies CRLF as "\r\n".
 		// However, many developers choose to override that and violate
@@ -1497,12 +1497,12 @@ class CI_Email {
 		}
 
 		// Reduce multiple spaces & remove nulls
-		$str = preg_replace(array('| +|', '/\x00+/'), array(' ', ''), $str);
+		$str = preg_replace(['| +|', '/\x00+/'], [' ', ''], $str);
 
 		// Standardize newlines
 		if (strpos($str, "\r") !== FALSE)
 		{
-			$str = str_replace(array("\r\n", "\r"), "\n", $str);
+			$str = str_replace(["\r\n", "\r"], "\n", $str);
 		}
 
 		$escape = '=';
@@ -1577,7 +1577,7 @@ class CI_Email {
 	 */
 	protected function _prep_q_encoding($str)
 	{
-		$str = str_replace(array("\r", "\n"), '', $str);
+		$str = str_replace(["\r", "\n"], '', $str);
 
 		if ($this->charset === 'UTF-8')
 		{
@@ -1587,13 +1587,13 @@ class CI_Email {
 			if (ICONV_ENABLED === TRUE)
 			{
 				$output = @iconv_mime_encode('', $str,
-					array(
+					[
 						'scheme' => 'Q',
 						'line-length' => 76,
 						'input-charset' => $this->charset,
 						'output-charset' => $this->charset,
-						'line-break-chars' => $this->crlf
-					)
+						'line-break-chars' => $this->crlf,
+					]
 				);
 
 				// There are reports that iconv_mime_encode() might fail and return FALSE
@@ -1707,7 +1707,7 @@ class CI_Email {
 	{
 		$float = $this->bcc_batch_size - 1;
 		$set = '';
-		$chunk = array();
+		$chunk = [];
 
 		for ($i = 0, $c = count($this->_bcc_array); $i < $c; $i++)
 		{
@@ -1758,7 +1758,7 @@ class CI_Email {
 	 */
 	protected function _unwrap_specials()
 	{
-		$this->_finalbody = preg_replace_callback('/\{unwrap\}(.*?)\{\/unwrap\}/si', array($this, '_remove_nl_callback'), $this->_finalbody);
+		$this->_finalbody = preg_replace_callback('/\{unwrap\}(.*?)\{\/unwrap\}/si', [$this, '_remove_nl_callback'], $this->_finalbody);
 	}
 
 	// --------------------------------------------------------------------
@@ -1773,7 +1773,7 @@ class CI_Email {
 	{
 		if (strpos($matches[1], "\r") !== FALSE OR strpos($matches[1], "\n") !== FALSE)
 		{
-			$matches[1] = str_replace(array("\r\n", "\r", "\n"), '', $matches[1]);
+			$matches[1] = str_replace(["\r\n", "\r", "\n"], '', $matches[1]);
 		}
 
 		return $matches[1];
@@ -2280,13 +2280,13 @@ class CI_Email {
 	 *					Valid options are: 'headers', 'subject', 'body'
 	 * @return	string
 	 */
-	public function print_debugger($include = array('headers', 'subject', 'body'))
+	public function print_debugger($include = ['headers', 'subject', 'body'])
 	{
 		$msg = implode('', $this->_debug_msg);
 
 		// Determine which parts of our raw data needs to be printed
 		$raw_data = '';
-		is_array($include) OR $include = array($include);
+		is_array($include) OR $include = [$include];
 
 		in_array('headers', $include, TRUE) && $raw_data  = htmlspecialchars($this->_header_str)."\n";
 		in_array('subject', $include, TRUE) && $raw_data .= htmlspecialchars($this->_subject)."\n";

@@ -56,7 +56,7 @@ class CI_Benchmark {
 	 *
 	 * @var	array
 	 */
-	public $marker = array();
+	public $marker = [];
 
 	/**
 	 * Set a benchmark marker

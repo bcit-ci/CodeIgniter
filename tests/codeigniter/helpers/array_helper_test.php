@@ -2,12 +2,12 @@
 
 class Array_helper_test extends CI_TestCase {
 
-	public $my_array = array(
+	public $my_array = [
 		'foo'    => 'bar',
 		'sally'  => 'jim',
 		'maggie' => 'bessie',
-		'herb'   => 'cook'
-	);
+		'herb'   => 'cook',
+	];
 
 	public function set_up()
 	{

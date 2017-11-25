@@ -85,7 +85,7 @@ class CI_DB_postgre_result extends CI_DB_result {
 	 */
 	public function list_fields()
 	{
-		$field_names = array();
+		$field_names = [];
 		for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 		{
 			$field_names[] = pg_field_name($this->result_id, $i);
@@ -105,7 +105,7 @@ class CI_DB_postgre_result extends CI_DB_result {
 	 */
 	public function field_data()
 	{
-		$retval = array();
+		$retval = [];
 		for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 		{
 			$retval[$i]			= new stdClass();

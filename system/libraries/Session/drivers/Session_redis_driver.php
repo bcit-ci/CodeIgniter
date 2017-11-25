@@ -94,15 +94,15 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 		}
 		elseif (preg_match('#^unix://([^\?]+)(?<options>\?.+)?$#', $this->_config['save_path'], $matches))
 		{
-			$save_path = array('path' => $matches[1]);
+			$save_path = ['path' => $matches[1]];
 		}
 		elseif (preg_match('#(?:tcp://)?([^:?]+)(?:\:(\d+))?(?<options>\?.+)?#', $this->_config['save_path'], $matches))
 		{
-			$save_path = array(
+			$save_path = [
 				'host'    => $matches[1],
 				'port'    => empty($matches[2]) ? NULL : $matches[2],
-				'timeout' => NULL // We always pass this to Redis::connect(), so it needs to exist
-			);
+				'timeout' => NULL, // We always pass this to Redis::connect(), so it needs to exist
+			];
 		}
 		else
 		{
@@ -366,7 +366,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 			}
 
 			$result = ($ttl === -2)
-				? $this->_redis->set($lock_key, time(), array('nx', 'ex' => 300))
+				? $this->_redis->set($lock_key, time(), ['nx', 'ex' => 300])
 				: $this->_redis->setex($lock_key, 300, time());
 
 			if ( ! $result)

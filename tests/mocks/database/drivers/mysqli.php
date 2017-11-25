@@ -8,7 +8,7 @@ class Mock_Database_Drivers_Mysqli extends Mock_Database_DB_Driver {
 	 * @param	array	DB configuration to set
 	 * @return	void
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		parent::__construct('CI_DB_mysqli_driver', $config);
 	}

@@ -106,7 +106,7 @@ class CI_Cache_apcu extends CI_Driver {
 
 		return apcu_store(
 			$id,
-			($raw === TRUE ? $data : array($data, time(), $ttl)),
+			($raw === TRUE ? $data : [$data, time(), $ttl]),
 			$ttl
 		);
 	}
@@ -196,11 +196,11 @@ class CI_Cache_apcu extends CI_Driver {
 
 		list($data, $time, $ttl) = $stored;
 
-		return array(
+		return [
 			'expire'  => $time + $ttl,
 			'mtime'   => $time,
-			'data'    => $data
-		);
+			'data'    => $data,
+		];
 	}
 
 	// ------------------------------------------------------------------------

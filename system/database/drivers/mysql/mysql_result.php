@@ -98,7 +98,7 @@ class CI_DB_mysql_result extends CI_DB_result {
 	 */
 	public function list_fields()
 	{
-		$field_names = array();
+		$field_names = [];
 		mysql_field_seek($this->result_id, 0);
 		while ($field = mysql_fetch_field($this->result_id))
 		{
@@ -119,7 +119,7 @@ class CI_DB_mysql_result extends CI_DB_result {
 	 */
 	public function field_data()
 	{
-		$retval = array();
+		$retval = [];
 		for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 		{
 			$retval[$i]			= new stdClass();
