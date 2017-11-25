@@ -10,7 +10,7 @@ class Encrypt_test extends CI_TestCase {
 		{
 			return;
 		}
-		elseif (version_compare(PHP_VERSION, '7.1.0-alpha', '>='))
+		elseif (version_compare(PHP_VERSION, '7.1.0', '>='))
 		{
 			return $this->markTestSkipped('ext/mcrypt is deprecated since PHP 7.1 and will generate notices here.');
 		}

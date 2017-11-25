@@ -252,7 +252,7 @@ class Encryption_test extends CI_TestCase {
 		{
 			return $this->markTestSkipped('Cannot test MCrypt because it is not available.');
 		}
-		elseif (version_compare(PHP_VERSION, '7.1.0-alpha', '>='))
+		elseif (version_compare(PHP_VERSION, '7.1.0', '>='))
 		{
 			return $this->markTestSkipped('ext/mcrypt is deprecated since PHP 7.1 and will generate notices here.');
 		}
@@ -290,7 +290,7 @@ class Encryption_test extends CI_TestCase {
 			$this->markTestSkipped('Both MCrypt and OpenSSL support are required for portability tests.');
 			return;
 		}
-		elseif (version_compare(PHP_VERSION, '7.1.0-alpha', '>='))
+		elseif (version_compare(PHP_VERSION, '7.1.0', '>='))
 		{
 			return $this->markTestSkipped('ext/mcrypt is deprecated since PHP 7.1 and will generate notices here.');
 		}
