@@ -63,7 +63,7 @@ else
 	defined('ICONV_ENABLED') OR define('ICONV_ENABLED', FALSE);
 }
 
-is_php('5.6') && ini_set('php.internal_encoding', 'UTF-8');
+ini_set('php.internal_encoding', 'UTF-8');
 
 include_once SYSTEM_PATH.'core/compat/mbstring.php';
 
