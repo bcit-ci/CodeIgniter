@@ -339,6 +339,8 @@ class CI_Pagination {
 			}
 		}
 
+		// Enable rel attribute by default
+		isset($params['attributes']) OR $params['attributes'] = array();
 		$this->initialize($params);
 		log_message('info', 'Pagination Class Initialized');
 	}
