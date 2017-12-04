@@ -389,3 +389,23 @@ if ( ! function_exists('meta'))
 		return $str;
 	}
 }
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('paragraph'))
+{
+	/**
+	 * Paragraph
+	 *
+	 * Generates an HTML paragraph tag.
+	 *
+	 * @param	string	content
+	 * @param	string
+	 * @return	string
+	 */
+	function paragraph($data = '', $attributes = '')
+	{
+		return "<p"._stringify_attributes($attributes).">".$data."</p>";
+	}
+}
+

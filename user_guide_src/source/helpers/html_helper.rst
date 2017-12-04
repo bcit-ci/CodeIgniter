@@ -54,6 +54,35 @@ The following functions are available:
 		<h3 class="pink">Welcome!<h3>
 		<h4 id="question" class="green">How are you?</h4>
 
+
+.. php:function:: paragraph([$data = ''[, $attributes = '']])
+
+	:param	string	$data: Content
+	:param	mixed	$attributes: HTML attributes
+	:returns:	HTML paragraph tag
+	:rtype:	string
+
+	Lets you create HTML paragraph tags. The first parameter will contain the
+	data. Example::
+
+		echo paragraph('Welcome! to my blog', 3);
+
+	The above would produce: <p>Welcome! to my blog</p>
+
+	Additionally, in order to add attributes to the paragraph tag such as HTML
+	classes, ids or inline styles, a second parameter accepts either a string
+	or an array::
+
+		echo paragraph('Welcome!', 'class="pink"');
+		echo paragraph('How are you?', array('id' => 'question', 'class' => 'green'));
+
+	The above code produces:
+
+	.. code-block:: html
+
+		<p class="pink">Welcome!<p>
+		<p id="question" class="green">How are you?</p>
+
 .. php:function:: img([$src = ''[, $index_page = FALSE[, $attributes = '']]])
 
 	:param	string	$src: Image source data
