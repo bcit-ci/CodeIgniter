@@ -44,7 +44,7 @@ class Like_test extends CI_TestCase {
 							->result_array();
 
 		// Check the result
-		$this->assertEquals(3, count($jobs));
+		$this->assertCount(3, $jobs);
 		$this->assertEquals('Developer', $jobs[0]['name']);
 		$this->assertEquals('Politician', $jobs[1]['name']);
 		$this->assertEquals('Musician', $jobs[2]['name']);
@@ -62,7 +62,7 @@ class Like_test extends CI_TestCase {
 							->result_array();
 
 		// Check the result
-		$this->assertEquals(3, count($jobs));
+		$this->assertCount(3, $jobs);
 		$this->assertEquals('Politician', $jobs[0]['name']);
 		$this->assertEquals('Accountant', $jobs[1]['name']);
 		$this->assertEquals('Musician', $jobs[2]['name']);
@@ -81,7 +81,7 @@ class Like_test extends CI_TestCase {
 							->result_array();
 
 		// Check the result
-		$this->assertEquals(3, count($jobs));
+		$this->assertCount(3, $jobs);
 		$this->assertEquals('Politician', $jobs[0]['name']);
 		$this->assertEquals('Accountant', $jobs[1]['name']);
 		$this->assertEquals('Musician', $jobs[2]['name']);
@@ -99,8 +99,8 @@ class Like_test extends CI_TestCase {
 		$spaces = $this->db->like('value', '   ')->get('misc')->result_array();
 		$tabs = $this->db->like('value', "\t")->get('misc')->result_array();
 
-		$this->assertEquals(1, count($spaces));
-		$this->assertEquals(1, count($tabs));
+		$this->assertCount(1, $spaces);
+		$this->assertCount(1, $tabs);
 	}
 
 }
