@@ -99,13 +99,16 @@ class CI_Config {
 					$server_addr = $_SERVER['SERVER_ADDR'];
 				}
 
-				$base_url = (is_https() ? 'https' : 'http').'://'.$server_addr
-					.substr($_SERVER['SCRIPT_NAME'], 0, strpos($_SERVER['SCRIPT_NAME'], basename($_SERVER['SCRIPT_FILENAME'])));
-			}
-			else
-			{
-				$base_url = 'http://localhost/';
-			}
+                $base_url = (is_https() ? 'https' : 'http').'://'.$server_addr
+                    . ($_SERVER['SERVER_PORT'] == (is_https() ? '443' : '80') ? '' : ':' . $_SERVER['SERVER_PORT'])
+                    .substr($_SERVER['SCRIPT_NAME'], 0, strpos($_SERVER['SCRIPT_NAME'], basename($_SERVER['SCRIPT_FILENAME'])));
+            }
+            else
+            {
+                $base_url = (is_https() ? 'https' : 'http') . '://localhost'
+                    . ($_SERVER['SERVER_PORT'] == (is_https() ? '443' : '80') ? '' : ':' . $_SERVER['SERVER_PORT'])
+                    . '/';
+            }
 
 			$this->set_item('base_url', $base_url);
 		}
