@@ -133,7 +133,7 @@ class CI_Config {
 			foreach (array($file, ENVIRONMENT.DIRECTORY_SEPARATOR.$file) as $location)
 			{
 				$file_path = $path.'config/'.$location.'.php';
-				if (in_array($file_path, $this->is_loaded, TRUE))
+				if (isset($this->is_loaded[$file_path]) && $use_sections == $this->is_loaded[$file_path])
 				{
 					return TRUE;
 				}
@@ -166,7 +166,7 @@ class CI_Config {
 					$this->config = array_merge($this->config, $config);
 				}
 
-				$this->is_loaded[] = $file_path;
+				$this->is_loaded[$file_path] = $use_sections;
 				$config = NULL;
 				$loaded = TRUE;
 				log_message('info', 'Config file loaded: '.$file_path);
