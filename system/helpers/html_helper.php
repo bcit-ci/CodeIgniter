@@ -229,7 +229,7 @@ if ( ! function_exists('doctype'))
 	 * @param	string	type	The doctype to be generated
 	 * @return	string
 	 */
-	function doctype($type = 'xhtml1-strict')
+	function doctype($type = 'html5')
 	{
 		static $doctypes;
 
@@ -360,51 +360,32 @@ if ( ! function_exists('meta'))
 			$name = array($name);
 		}
 
+		$allowed_types = array('charset', 'http-equiv', 'name', 'property');
 		$str = '';
 		foreach ($name as $meta)
 		{
-			$type		= (isset($meta['type']) && $meta['type'] !== 'name')	? 'http-equiv' : 'name';
-			$name		= isset($meta['name'])					? $meta['name'] : '';
-			$content	= isset($meta['content'])				? $meta['content'] : '';
-			$newline	= isset($meta['newline'])				? $meta['newline'] : "\n";
+			// This is to preserve BC with pre-3.1 versions where only
+			// 'http-equiv' (default) and 'name' were supported.
+			if (isset($meta['type']))
+			{
+				if ($meta['type'] === 'equiv')
+				{
+					$meta['type'] === 'http-equiv';
+				}
+				elseif ( ! in_array($meta['type'], $allowed_types, TRUE))
+				{
+					$meta['type'] = 'name';
+				}
+			}
 
-			$str .= '<meta '.$type.'="'.$name.'" content="'.$content.'" />'.$newline;
+			$type    = isset($meta['type'])    ? $meta['type']    : 'name';
+			$name    = isset($meta['name'])    ? $meta['name']    : '';
+			$content = isset($meta['content']) ? $meta['content'] : '';
+			$newline = isset($meta['newline']) ? $meta['newline'] : "\n";
+
+			$str .= '<meta '.$type.'="'.$name.($type === 'charset' ? '' : '" content="'.$content).'" />'.$newline;
 		}
 
 		return $str;
-	}
-}
-
-// ------------------------------------------------------------------------
-
-if ( ! function_exists('br'))
-{
-	/**
-	 * Generates HTML BR tags based on number supplied
-	 *
-	 * @deprecated	3.0.0	Use str_repeat() instead
-	 * @param	int	$count	Number of times to repeat the tag
-	 * @return	string
-	 */
-	function br($count = 1)
-	{
-		return str_repeat('<br />', $count);
-	}
-}
-
-// ------------------------------------------------------------------------
-
-if ( ! function_exists('nbs'))
-{
-	/**
-	 * Generates non-breaking space entities based on number supplied
-	 *
-	 * @deprecated	3.0.0	Use str_repeat() instead
-	 * @param	int
-	 * @return	string
-	 */
-	function nbs($num = 1)
-	{
-		return str_repeat('&nbsp;', $num);
 	}
 }

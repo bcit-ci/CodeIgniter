@@ -105,23 +105,7 @@ class CI_Session {
 		$class = new $class($this->_config);
 		if ($class instanceof SessionHandlerInterface)
 		{
-			if (is_php('5.4'))
-			{
-				session_set_save_handler($class, TRUE);
-			}
-			else
-			{
-				session_set_save_handler(
-					array($class, 'open'),
-					array($class, 'close'),
-					array($class, 'read'),
-					array($class, 'write'),
-					array($class, 'destroy'),
-					array($class, 'gc')
-				);
-
-				register_shutdown_function('session_write_close');
-			}
+			session_set_save_handler($class, TRUE);
 		}
 		else
 		{
@@ -190,9 +174,6 @@ class CI_Session {
 	 */
 	protected function _ci_load_classes($driver)
 	{
-		// PHP 5.4 compatibility
-		interface_exists('SessionHandlerInterface', FALSE) OR require_once(BASEPATH.'libraries/Session/SessionHandlerInterface.php');
-
 		$prefix = config_item('subclass_prefix');
 
 		if ( ! class_exists('CI_Session_driver', FALSE))

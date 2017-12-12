@@ -50,7 +50,8 @@ Once loaded you can generate a CAPTCHA like this::
 	echo $cap['image'];
 
 -  The captcha function requires the GD image library.
--  Only the **img_path** and **img_url** are required.
+-  The **img_path** and **img_url** are both required if you want to write images to disk.
+   To create ``data:image/png;base64`` images, simply omit these options.
 -  If a **word** is not supplied, the function will generate a random
    ASCII string. You might put together your own word library that you
    can draw randomly from.
@@ -89,10 +90,6 @@ Here is an example of usage with a database. On the page where the
 CAPTCHA will be shown you'll have something like this::
 
 	$this->load->helper('captcha');
-	$vals = array(     
-		'img_path'	=> './captcha/',     
-		'img_url'	=> 'http://example.com/captcha/'     
-	);
 
 	$cap = create_captcha($vals);
 	$data = array(     
@@ -135,9 +132,9 @@ The following functions are available:
 .. php:function:: create_captcha([$data = ''[, $img_path = ''[, $img_url = ''[, $font_path = '']]]])
 
 	:param	array	$data: Array of data for the CAPTCHA
-	:param	string	$img_path: Path to create the image in
-	:param	string	$img_url: URL to the CAPTCHA image folder
-	:param	string	$font_path: Server path to font
+	:param	string	$img_path: Path to create the image in (DEPRECATED)
+	:param	string	$img_url: URL to the CAPTCHA image folder (DEPRECATED)
+	:param	string	$font_path: Server path to font (DEPRECATED)
 	:returns:	array('word' => $word, 'time' => $now, 'image' => $img)
 	:rtype:	array
 
@@ -155,10 +152,14 @@ The following functions are available:
 
 	The **image** is the actual image tag::
 
-		<img src="http://example.com/captcha/12345.jpg" width="140" height="50" />
+		<img src="data:image/png;base64,RHVtbXkgZXhhbXBsZQ==" width="140" height="50" />
 
 	The **time** is the micro timestamp used as the image name without the
 	file extension. It will be a number like this: 1139612155.3422
 
 	The **word** is the word that appears in the captcha image, which if not
 	supplied to the function, will be a random string.
+
+	.. note:: Usage of the ``$img_path``, ``$img_url`` and ``$font_path``
+		parameters is DEPRECATED. Provide them in the ``$data`` array
+		instead.

@@ -108,7 +108,7 @@ Preference          Default Value          Options                      Descript
                                                                         page. Make sure you don't have any relative links or relative image
                                                                         paths otherwise they will not work.
 **charset**         ``$config['charset']``                              Character set (utf-8, iso-8859-1, etc.).
-**validate**        FALSE                  TRUE or FALSE (boolean)      Whether to validate the email address.
+**validate**        TRUE                   TRUE or FALSE (boolean)      Whether to validate the email address.
 **priority**        3                      1, 2, 3, 4, 5                Email Priority. 1 = highest. 5 = lowest. 3 = normal.
 **crlf**            \\n                    "\\r\\n" or "\\n" or "\\r"   Newline character. (Use "\\r\\n" to comply with RFC 822).
 **newline**         \\n                    "\\r\\n" or "\\n" or "\\r"   Newline character. (Use "\\r\\n" to comply with RFC 822).
@@ -312,13 +312,17 @@ Class Reference
 		This method will automatically clear all parameters if the request was
 		successful. To stop this behaviour pass FALSE::
 
-		 	if ($this->email->send(FALSE))
-		 	{
-		 		// Parameters won't be cleared
-		 	}
+			if ($this->email->send(FALSE))
+			{
+				// Parameters won't be cleared
+			}
 
 		.. note:: In order to use the ``print_debugger()`` method, you need
 			to avoid clearing the email parameters.
+
+		.. note:: If ``batch_bcc_mode`` is enabled, and there are more than
+			``batch_bcc_size`` recipients, this method will always return
+			boolean ``TRUE``.
 
 	.. php:method:: attach($filename[, $disposition = ''[, $newname = NULL[, $mime = '']]])
 

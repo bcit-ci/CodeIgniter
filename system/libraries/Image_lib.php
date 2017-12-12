@@ -1204,7 +1204,7 @@ class CI_Image_lib {
 		}
 
 		// Build the finalized image
-		if ($wm_img_type === 3 && function_exists('imagealphablending'))
+		if ($wm_img_type === 3)
 		{
 			@imagealphablending($src_img, TRUE);
 		}

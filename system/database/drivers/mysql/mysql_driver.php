@@ -147,29 +147,41 @@ class CI_DB_mysql_driver extends CI_DB {
 				: FALSE;
 		}
 
-		if (isset($this->stricton) && is_resource($this->conn_id))
+		if (is_resource($this->conn_id))
 		{
-			if ($this->stricton)
+			if ( ! mysql_set_charset($this->char_set, $this->conn_id))
 			{
-				$this->simple_query('SET SESSION sql_mode = CONCAT(@@sql_mode, ",", "STRICT_ALL_TABLES")');
+				log_message('error', "Database: Unable to set the configured connection charset ('{$this->char_set}').");
+				$this->close();
+				return ($this->db->debug) ? $this->display_error('db_unable_to_set_charset', $this->char_set) : FALSE;
 			}
-			else
+
+			if (isset($this->stricton))
 			{
-				$this->simple_query(
-					'SET SESSION sql_mode =
-					REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
-					@@sql_mode,
-					"STRICT_ALL_TABLES,", ""),
-					",STRICT_ALL_TABLES", ""),
-					"STRICT_ALL_TABLES", ""),
-					"STRICT_TRANS_TABLES,", ""),
-					",STRICT_TRANS_TABLES", ""),
-					"STRICT_TRANS_TABLES", "")'
-				);
+				if ($this->stricton)
+				{
+					$this->simple_query('SET SESSION sql_mode = CONCAT(@@sql_mode, ",", "STRICT_ALL_TABLES")');
+				}
+				else
+				{
+					$this->simple_query(
+						'SET SESSION sql_mode =
+						REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+						@@sql_mode,
+						"STRICT_ALL_TABLES,", ""),
+						",STRICT_ALL_TABLES", ""),
+						"STRICT_ALL_TABLES", ""),
+						"STRICT_TRANS_TABLES,", ""),
+						",STRICT_TRANS_TABLES", ""),
+						"STRICT_TRANS_TABLES", "")'
+					);
+				}
 			}
+
+			return $this->conn_id;
 		}
 
-		return $this->conn_id;
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -213,19 +225,6 @@ class CI_DB_mysql_driver extends CI_DB {
 		}
 
 		return FALSE;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Set client character set
-	 *
-	 * @param	string	$charset
-	 * @return	bool
-	 */
-	protected function _db_set_charset($charset)
-	{
-		return mysql_set_charset($charset, $this->conn_id);
 	}
 
 	// --------------------------------------------------------------------

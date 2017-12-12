@@ -152,13 +152,6 @@ class Config_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
-	public function test_system_url()
-	{
-		$this->assertEquals($this->cfg['base_url'].'system/', $this->config->system_url());
-	}
-
-	// --------------------------------------------------------------------
-
 	public function test_load()
 	{
 		// Test regular load

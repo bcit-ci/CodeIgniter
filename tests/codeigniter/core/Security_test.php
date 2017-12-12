@@ -12,7 +12,8 @@ class Security_test extends CI_TestCase {
 		$this->ci_set_config('csrf_token_name', 'ci_csrf_token');
 		$this->ci_set_config('csrf_cookie_name', 'ci_csrf_cookie');
 
-		$this->security = new Mock_Core_Security();
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+		$this->security = new Mock_Core_Security('UTF-8');
 	}
 
 	// --------------------------------------------------------------------
@@ -346,7 +347,7 @@ class Security_test extends CI_TestCase {
 		// leave csrf_cookie_name as blank to test _csrf_set_hash function
 		$this->ci_set_config('csrf_cookie_name', '');
 
-		$this->security = new Mock_Core_Security();
+		$this->security = new Mock_Core_Security('UTF-8');
 
 		$this->assertNotEmpty($this->security->get_csrf_hash());
 	}

@@ -54,10 +54,10 @@ if ( ! function_exists('create_captcha'))
 	/**
 	 * Create CAPTCHA
 	 *
-	 * @param	array	$data		data for the CAPTCHA
-	 * @param	string	$img_path	path to create the image in
-	 * @param	string	$img_url	URL to the CAPTCHA image folder
-	 * @param	string	$font_path	server path to font
+	 * @param	array	$data		Data for the CAPTCHA
+	 * @param	string	$img_path	Path to create the image in (deprecated)
+	 * @param	string	$img_url	URL to the CAPTCHA image folder (deprecated)
+	 * @param	string	$font_path	Server path to font (deprecated)
 	 * @return	string
 	 */
 	function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = '')
@@ -68,10 +68,11 @@ if ( ! function_exists('create_captcha'))
 			'img_url'	=> '',
 			'img_width'	=> '150',
 			'img_height'	=> '30',
+			'img_alt'	=> 'captcha',
 			'font_path'	=> '',
+			'font_size'	=> 16,
 			'expiration'	=> 7200,
 			'word_length'	=> 8,
-			'font_size'	=> 16,
 			'img_id'	=> '',
 			'pool'		=> '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
 			'colors'	=> array(
@@ -94,30 +95,41 @@ if ( ! function_exists('create_captcha'))
 			}
 		}
 
-		if ($img_path === '' OR $img_url === ''
-			OR ! is_dir($img_path) OR ! is_really_writable($img_path)
-			OR ! extension_loaded('gd'))
+		if ( ! extension_loaded('gd'))
 		{
 			return FALSE;
 		}
 
-		// -----------------------------------
-		// Remove old images
-		// -----------------------------------
-
-		$now = microtime(TRUE);
-
-		$current_dir = @opendir($img_path);
-		while ($filename = @readdir($current_dir))
+		if ($img_url !== '' OR $img_path !== '')
 		{
-			if (in_array(substr($filename, -4), array('.jpg', '.png'))
-				&& (str_replace(array('.jpg', '.png'), '', $filename) + $expiration) < $now)
+			if ($img_path === '' OR $img_url === '' OR ! is_dir($img_path) OR ! is_really_writable($img_path))
 			{
-				@unlink($img_path.$filename);
+				return FALSE;
 			}
-		}
 
-		@closedir($current_dir);
+			/**
+			 * Remove old images
+			 */
+			$now = microtime(TRUE);
+
+			$current_dir = @opendir($img_path);
+			while ($filename = @readdir($current_dir))
+			{
+				if (preg_match('#^(?<ts>\d{10})\.png$#', $filename, $match) && ($match['ts'] + $expiration) < $now)
+				{
+					@unlink($img_path.$filename);
+				}
+			}
+
+			@closedir($current_dir);
+
+			// This variable will later be used later to determine whether we write to disk or output a data:image URI
+			$img_filename = $now.'.png';
+		}
+		else
+		{
+			$img_filename = NULL;
+		}
 
 		// -----------------------------------
 		// Do we have a "word" yet?
@@ -227,8 +239,8 @@ if ( ! function_exists('create_captcha'))
 		// Determine angle and position
 		// -----------------------------------
 		$length	= strlen($word);
-		$angle	= ($length >= 6) ? mt_rand(-($length-6), ($length-6)) : 0;
-		$x_axis	= mt_rand(6, (360/$length)-16);
+		$angle	= ($length >= 6) ? mt_rand(-($length - 6), ($length - 6)) : 0;
+		$x_axis	= mt_rand(6, (360 / $length)-16);
 		$y_axis = ($angle >= 0) ? mt_rand($img_height, $img_width) : mt_rand(6, $img_height);
 
 		// Create image
@@ -316,24 +328,31 @@ if ( ! function_exists('create_captcha'))
 		// -----------------------------------
 		//  Generate the image
 		// -----------------------------------
-		$img_url = rtrim($img_url, '/').'/';
 
-		if (function_exists('imagejpeg'))
+		if (isset($img_filename))
 		{
-			$img_filename = $now.'.jpg';
-			imagejpeg($im, $img_path.$img_filename);
-		}
-		elseif (function_exists('imagepng'))
-		{
-			$img_filename = $now.'.png';
+			$img_src = rtrim($img_url, '/').'/'.$img_filename;
 			imagepng($im, $img_path.$img_filename);
 		}
 		else
 		{
-			return FALSE;
+			// I don't see an easier way to get the image contents without writing to file
+			$buffer = fopen('php://memory', 'wb+');
+			imagepng($im, $buffer);
+			rewind($buffer);
+			$img_src = '';
+
+			// fread() will return an empty string (not FALSE) after the entire contents are read
+			while (strlen($read = fread($buffer, 4096)))
+			{
+				$img_src .= $read;
+			}
+
+			fclose($buffer);
+			$img_src = 'data:image/png;base64,'.base64_encode($img_src);
 		}
 
-		$img = '<img '.($img_id === '' ? '' : 'id="'.$img_id.'"').' src="'.$img_url.$img_filename.'" style="width: '.$img_width.'; height: '.$img_height .'; border: 0;" alt=" " />';
+		$img = '<img '.($img_id === '' ? '' : 'id="'.$img_id.'"').' src="'.$img_src.'" style="width: '.$img_width.'; height: '.$img_height .'; border: 0;" alt="'.$img_alt.'" />';
 		ImageDestroy($im);
 
 		return array('word' => $word, 'time' => $now, 'image' => $img, 'filename' => $img_filename);

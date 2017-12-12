@@ -24,9 +24,9 @@ loading any libraries or helpers.
 
 	Example::
 
-		if (is_php('5.3'))
+		if (is_php('5.5'))
 		{
-			$str = quoted_printable_encode($str);
+			echo json_last_error_msg();
 		}
 
 	Returns boolean TRUE if the installed version of PHP is equal to or

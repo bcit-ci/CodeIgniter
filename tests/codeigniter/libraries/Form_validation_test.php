@@ -13,10 +13,8 @@ class Form_validation_test extends CI_TestCase {
 		// Same applies for lang
 		$lang = $this->getMockBuilder('CI_Lang')->setMethods(array('load'))->getMock();
 
-		$this->ci_set_config('charset', 'UTF-8');
-		$utf8 = new Mock_Core_Utf8();
-		$security = new Mock_Core_Security();
-		$input = new Mock_Core_Input($security, $utf8);
+		$security = new Mock_Core_Security('UTF-8');
+		$input = new CI_Input($security);
 
 		$this->ci_instance_var('lang', $lang);
 		$this->ci_instance_var('load', $loader);
@@ -45,7 +43,6 @@ class Form_validation_test extends CI_TestCase {
 		// Empty, not required
 		$this->assertTrue($this->run_rules($rules, array('foo' => '')));
 
-
 		// Not required, but also not empty
 		$this->assertTrue($this->run_rules($rules, array('foo' => '123')));
 		$this->assertFalse($this->run_rules($rules, array('foo' => 'bar')));
@@ -56,6 +53,13 @@ class Form_validation_test extends CI_TestCase {
 		$this->assertFalse($this->run_rules($rules, array('foo' => '')));
 		$this->assertFalse($this->run_rules($rules, array('foo' => ' ')));
 		$this->assertFalse($this->run_rules($rules, array('foo' => 'bar')));
+	}
+
+	public function test_rule_is_array()
+	{
+		$rules = array(array('field' => 'foo', 'label' => 'Foo', 'rules' => 'is_array'));
+		$this->assertTrue($this->run_rules($rules,  array('foo' => array('1', '2'))));
+		$this->assertFalse($this->run_rules($rules, array('foo' => '')));
 	}
 
 	public function test_rule_matches()
@@ -296,18 +300,27 @@ class Form_validation_test extends CI_TestCase {
 		$this->assertFalse($this->form_validation->valid_ip('127.0.0.259'));
 	}
 
+	public function test_rule_valid_mac()
+	{
+		$this->assertTrue($this->form_validation->valid_mac("01-23-45-67-89-aB"));
+		$this->assertTrue($this->form_validation->valid_mac("01:23:45:67:89:aB"));
+		$this->assertTrue($this->form_validation->valid_mac("0123.4567.89aB"));
+
+		$this->assertFalse($this->form_validation->valid_mac("-01-23-45-67-89-ab"));
+		$this->assertFalse($this->form_validation->valid_mac("01:23:45:67:89:ab:"));
+		$this->assertFalse($this->form_validation->valid_mac("01:23:45:67:89:ab\n"));
+		$this->assertFalse($this->form_validation->valid_mac("01:23:45:67:89:ag:"));
+		$this->assertFalse($this->form_validation->valid_mac('0123456789ab'));
+	}
+
 	public function test_rule_valid_base64()
 	{
 		$this->assertTrue($this->form_validation->valid_base64(base64_encode('string')));
-
 		$this->assertFalse($this->form_validation->valid_base64('FA08GG'));
 	}
 
 	public function test_set_data()
 	{
-		// Reset test environment
-		$_POST = array();
-		$this->form_validation->reset_validation();
 		$data = array('field' => 'some_data');
 		$this->form_validation->set_data($data);
 		$this->form_validation->set_rules('field', 'label', 'required');
@@ -326,9 +339,6 @@ class Form_validation_test extends CI_TestCase {
 
 	public function test_set_message()
 	{
-		// Reset test environment
-		$_POST = array();
-		$this->form_validation->reset_validation();
 		$err_message = 'What a terrible error!';
 		$rules = array(
 			array(
@@ -356,7 +366,6 @@ class Form_validation_test extends CI_TestCase {
 
 	public function test_set_error_delimiters()
 	{
-		$this->form_validation->reset_validation();
 		$prefix = '<div class="error">';
 		$suffix = '</div>';
 		$this->form_validation->set_error_delimiters($prefix, $suffix);
@@ -367,11 +376,12 @@ class Form_validation_test extends CI_TestCase {
 
 		$this->assertTrue(strrpos($error_msg, $prefix) === 0);
 		$this->assertTrue(strrpos($error_msg, $suffix, -strlen($suffix)) === (strlen($error_msg) - strlen($suffix)));
+
+		$_POST = array();
 	}
 
 	public function test_error_array()
 	{
-		$this->form_validation->reset_validation();
 		$error_message = 'What a terrible error!';
 		$this->form_validation->set_message('required', $error_message);
 		$this->form_validation->set_rules('foo', 'label', 'required');
@@ -379,11 +389,12 @@ class Form_validation_test extends CI_TestCase {
 		$this->form_validation->run();
 		$error_array = $this->form_validation->error_array();
 		$this->assertEquals($error_message, $error_array['foo']);
+
+		$_POST = array();
 	}
 
 	public function test_error_string()
 	{
-		$this->form_validation->reset_validation();
 		$error_message = 'What a terrible error!';
 		$prefix_default = '<foo>';
 		$suffix_default = '</foo>';
@@ -405,6 +416,8 @@ class Form_validation_test extends CI_TestCase {
 		$_POST = array('foo' => 'bar');
 		$this->form_validation->run();
 		$this->assertEquals('', $this->form_validation->error_string());
+
+		$_POST = array();
 	}
 
 	public function test_run()
@@ -433,11 +446,18 @@ class Form_validation_test extends CI_TestCase {
 
 		$form_validation = new CI_Form_validation($config);
 		$this->assertFalse($form_validation->run('fail'));
+
+		$_POST = array();
+	}
+
+	public function test_set_rules_exception()
+	{
+		$this->setExpectedException('BadMethodCallException');
+		$this->form_validation->set_rules('foo', 'bar');
 	}
 
 	public function test_has_rule()
 	{
-		$this->form_validation->reset_validation();
 		$this->form_validation->set_rules('foo', 'label', 'required');
 
 		$this->assertTrue($this->form_validation->has_rule('foo'));
@@ -446,7 +466,6 @@ class Form_validation_test extends CI_TestCase {
 
 	public function test_set_value()
 	{
-		$this->form_validation->reset_validation();
 		$default = 'default';
 		$this->form_validation->set_rules('foo', 'label', 'required');
 		$this->form_validation->set_rules('bar[]', 'label', 'required');
@@ -458,13 +477,26 @@ class Form_validation_test extends CI_TestCase {
 		$this->assertEquals('foo', $this->form_validation->set_value('foo', $default));
 		$this->assertEquals('bar1', $this->form_validation->set_value('bar[]', $default));
 		$this->assertEquals('bar2', $this->form_validation->set_value('bar[]', $default));
+
+		$_POST = array();
+	}
+
+	public function test_issue_5202()
+	{
+		$data = array('person' => array('firstname' => 'Dick', 'lastname' => 'Tracy '));
+		$this->form_validation->set_rules('person[firstname]', 'First Name', 'required|trim');
+		$this->form_validation->set_rules('person[lastname]', 'Last Name', 'required|trim');
+		$this->form_validation->set_data($data);
+		$valid = $this->form_validation->run('', $data);
+
+		$this->assertEquals(TRUE, $valid);
+		$this->assertEquals('Dick', $data['person']['firstname']);
+		$this->assertEquals('Tracy', $data['person']['lastname']);
 	}
 
 	public function test_set_select()
 	{
 		// Test 1: No options selected
-		$this->form_validation->reset_validation();
-		$_POST = array();
 		$this->form_validation->run();
 
 		$this->assertEquals('', $this->form_validation->set_select('select', 'foo'));
@@ -493,13 +525,13 @@ class Form_validation_test extends CI_TestCase {
 		$this->assertEquals(' selected="selected"', $this->form_validation->set_select('select[]', 'bar', TRUE));
 		$this->assertEquals('', $this->form_validation->set_select('select[]', 'foobar'));
 		$this->assertEquals('', $this->form_validation->set_select('select[]', 'foobar', TRUE));
+
+		$_POST = array();
 	}
 
 	public function test_set_radio()
 	{
 		// Test 1: No options selected
-		$this->form_validation->reset_validation();
-		$_POST = array();
 		$this->form_validation->run();
 
 		$this->assertEquals('', $this->form_validation->set_radio('select', 'foo'));
@@ -529,13 +561,13 @@ class Form_validation_test extends CI_TestCase {
 		$this->assertEquals(' checked="checked"', $this->form_validation->set_radio('select[]', 'bar', TRUE));
 		$this->assertEquals('', $this->form_validation->set_radio('select[]', 'foobar'));
 		$this->assertEquals('', $this->form_validation->set_radio('select[]', 'foobar', TRUE));
+
+		$_POST = array();
 	}
 
 	public function test_set_checkbox()
 	{
 		// Test 1: No options selected
-		$this->form_validation->reset_validation();
-		$_POST = array();
 		$this->form_validation->run();
 
 		$this->assertEquals('', $this->form_validation->set_checkbox('select', 'foo'));
@@ -564,6 +596,8 @@ class Form_validation_test extends CI_TestCase {
 		$this->assertEquals(' checked="checked"', $this->form_validation->set_checkbox('select[]', 'bar', TRUE));
 		$this->assertEquals('', $this->form_validation->set_checkbox('select[]', 'foobar'));
 		$this->assertEquals('', $this->form_validation->set_checkbox('select[]', 'foobar', TRUE));
+
+		$_POST = array();
 	}
 
 	public function test_regex_match()
@@ -571,20 +605,6 @@ class Form_validation_test extends CI_TestCase {
 		$regex = '/f[a-zA-Z]+/';
 		$this->assertTrue($this->form_validation->regex_match('foo', $regex));
 		$this->assertFalse($this->form_validation->regex_match('bar', $regex));
-	}
-
-	public function test_prep_for_form()
-	{
-		$this->form_validation->reset_validation();
-		$error_msg_unprepped = '<error =\'foobar\'">';
-		$error_msg_prepped = '&lt;error =&#39;foobar&#39;&quot;&gt;';
-		$this->form_validation->set_rules('foo', 'label', 'required', array('required' => $error_msg_unprepped));
-		$_POST = array('foo' => '');
-		$this->form_validation->run();
-		$error_arr = $this->form_validation->error_array();
-
-		$this->assertEquals('', $this->form_validation->prep_for_form(''));
-		$this->assertEquals(array('foo' => $error_msg_prepped), $this->form_validation->prep_for_form($error_arr));
 	}
 
 	public function test_prep_url()
@@ -602,6 +622,23 @@ class Form_validation_test extends CI_TestCase {
 		$this->assertEquals('?&gt;', $this->form_validation->encode_php_tags('?>'));
 	}
 
+	public function test_validated_data_assignment()
+	{
+		$_POST = $post_original = array('foo' => ' bar ', 'bar' => 'baz');
+
+		$this->form_validation->set_data($_POST);
+		$this->form_validation->set_rules('foo', 'Foo', 'required|trim');
+
+		$data_processed = NULL;
+		$validation_result = $this->form_validation->run('', $data_processed);
+
+		$this->assertTrue($validation_result);
+		$this->assertEquals($post_original, $_POST);
+		$this->assertEquals(array('foo' => 'bar', 'bar' => 'baz'), $data_processed);
+
+		$_POST = array();
+	}
+
 	/**
 	 * Run rules
 	 *
@@ -612,13 +649,16 @@ class Form_validation_test extends CI_TestCase {
 	{
 		$this->form_validation->reset_validation();
 		$_POST = array();
-
 		$this->form_validation->set_rules($rules);
+
 		foreach ($values as $field => $value)
 		{
 			$_POST[$field] = $value;
 		}
 
-		return $this->form_validation->run();
+		$valid = $this->form_validation->run();
+		$_POST = array();
+
+		return $valid;
 	}
 }

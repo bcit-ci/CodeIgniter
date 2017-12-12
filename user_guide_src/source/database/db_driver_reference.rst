@@ -17,8 +17,8 @@ This article is intended to be a reference for them.
 
 	.. php:method:: initialize()
 
-		:returns:	TRUE on success, FALSE on failure
-		:rtype:	bool
+		:rtype:	void
+		:throws:	RuntimeException	In case of failure
 
 		Initialize database settings, establish a connection to
 		the database.
@@ -60,14 +60,6 @@ This article is intended to be a reference for them.
 		:rtype:	bool
 
 		Select / switch the current database.
-
-	.. php:method:: db_set_charset($charset)
-
-		:param	string	$charset: Character set name
-		:returns:	TRUE on success, FALSE on failure
-		:rtype:	bool
-
-		Set client character set.
 
 	.. php:method:: platform()
 
@@ -313,9 +305,10 @@ This article is intended to be a reference for them.
 
 		Gets a list containing field data about a table.
 
-	.. php:method:: escape_identifiers($item)
+	.. php:method:: escape_identifiers($item, $split = TRUE)
 
 		:param	mixed	$item: The item or array of items to escape
+		:param	bool	$split: Whether to split identifiers when a dot is encountered
 		:returns:	The input item(s), escaped
 		:rtype:	mixed
 
