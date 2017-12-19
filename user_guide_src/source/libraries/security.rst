@@ -65,7 +65,7 @@ and ``get_csrf_hash()``
 
 	...
 
-	<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
+	<input type="hidden" name="<?php echo $csrf['name'];?>" value="<?php echo $csrf['hash'];?>" />
 
 Tokens may be either regenerated on every submission (default) or
 kept the same throughout the life of the CSRF cookie. The default
