@@ -163,10 +163,8 @@ class CI_DB_result {
 		{
 			return $this->result_object();
 		}
-		else
-		{
-			return $this->custom_result_object($type);
-		}
+
+		return $this->custom_result_object($type);
 	}
 
 	// --------------------------------------------------------------------
@@ -336,7 +334,7 @@ class CI_DB_result {
 
 		if ($type === 'object') return $this->row_object($n);
 		elseif ($type === 'array') return $this->row_array($n);
-		else return $this->custom_row_object($n, $type);
+		return $this->custom_row_object($n, $type);
 	}
 
 	// --------------------------------------------------------------------

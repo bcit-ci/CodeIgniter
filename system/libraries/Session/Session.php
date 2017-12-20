@@ -222,10 +222,8 @@ class CI_Session {
 			{
 				return $prefix.$class;
 			}
-			else
-			{
-				log_message('debug', 'Session: '.$prefix.$class.".php found but it doesn't declare class ".$prefix.$class.'.');
-			}
+
+			log_message('debug', 'Session: '.$prefix.$class.".php found but it doesn't declare class ".$prefix.$class.'.');
 		}
 
 		return 'CI_'.$class;

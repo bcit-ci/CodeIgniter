@@ -941,10 +941,8 @@ class CI_Email {
 		{
 			return 'plain-attach';
 		}
-		else
-		{
-			return 'plain';
-		}
+
+		return 'plain';
 	}
 
 	// --------------------------------------------------------------------
@@ -2209,10 +2207,8 @@ class CI_Email {
 				usleep(250000);
 				continue;
 			}
-			else
-			{
-				$timestamp = 0;
-			}
+
+			$timestamp = 0;
 		}
 
 		if ($result === FALSE)

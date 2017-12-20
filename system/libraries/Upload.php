@@ -678,10 +678,8 @@ class CI_Upload {
 			$this->set_error('upload_bad_filename', 'debug');
 			return FALSE;
 		}
-		else
-		{
-			return $new_filename;
-		}
+
+		return $new_filename;
 	}
 
 	// --------------------------------------------------------------------
