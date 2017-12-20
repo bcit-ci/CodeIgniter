@@ -151,7 +151,7 @@ class Encryption_test extends CI_TestCase {
 			'hmac_key' => str_repeat("\x0", 16)
 		);
 
-		$this->assertTrue(is_array($this->encryption->__get_params($params)));
+		$this->assertInternalType('array', $this->encryption->__get_params($params));
 
 		$params['base64'] = TRUE;
 		$params['hmac_digest'] = 'sha512';
@@ -257,7 +257,7 @@ class Encryption_test extends CI_TestCase {
 			return $this->markTestSkipped('ext/mcrypt is deprecated since PHP 7.1 and will generate notices here.');
 		}
 
-		$this->assertTrue(is_resource($this->encryption->__driver_get_handle('mcrypt', 'rijndael-128', 'cbc')));
+		$this->assertInternalType('resource', $this->encryption->__driver_get_handle('mcrypt', 'rijndael-128', 'cbc'));
 	}
 
 	// --------------------------------------------------------------------
