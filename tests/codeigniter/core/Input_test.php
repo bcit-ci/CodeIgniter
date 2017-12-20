@@ -20,8 +20,8 @@ class Input_test extends CI_TestCase {
 
 	public function test_get_not_exists()
 	{
-		$this->assertTrue($this->input->get() === array());
-		$this->assertTrue($this->input->get('foo') === NULL);
+		$this->assertSame(array(), $this->input->get());
+		$this->assertNull($this->input->get('foo'));
 	}
 
 	// --------------------------------------------------------------------
@@ -51,8 +51,8 @@ class Input_test extends CI_TestCase {
 
 	public function test_post_not_exists()
 	{
-		$this->assertTrue($this->input->post() === array());
-		$this->assertTrue($this->input->post('foo') === NULL);
+		$this->assertSame(array(), $this->input->post());
+		$this->assertNull($this->input->post('foo'));
 	}
 
 	// --------------------------------------------------------------------

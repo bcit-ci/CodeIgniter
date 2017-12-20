@@ -15,7 +15,7 @@ class Benchmark_test extends CI_TestCase {
 
 		$this->benchmark->mark('code_start');
 
-		$this->assertEquals(1, count($this->benchmark->marker));
+		$this->assertCount(1, $this->benchmark->marker);
 		$this->assertArrayHasKey('code_start', $this->benchmark->marker);
 	}
 
