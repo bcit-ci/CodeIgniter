@@ -61,7 +61,7 @@ class Utf8_test extends CI_TestCase {
 		elseif (ICONV_ENABLED)
 		{
 			// This is a known issue, iconv doesn't always work with //IGNORE
-			$this->assertTrue(in_array($this->utf8->clean_string($illegal_utf8), array('тест', ''), TRUE));
+			$this->assertContains($utf8->clean_string($illegal_utf8), array('тест', ''));
 		}
 		else
 		{

@@ -27,7 +27,7 @@ class Order_test extends CI_TestCase {
 		                      ->result_array();
 
 		// Check the result
-		$this->assertEquals(4, count($jobs));
+		$this->assertCount(4, $jobs);
 		$this->assertEquals('Accountant', $jobs[0]['name']);
 		$this->assertEquals('Developer', $jobs[1]['name']);
 		$this->assertEquals('Musician', $jobs[2]['name']);
@@ -45,7 +45,7 @@ class Order_test extends CI_TestCase {
 		                      ->get('job')
 		                      ->result_array();
 
-		$this->assertEquals(4, count($jobs));
+		$this->assertCount(4, $jobs);
 		$this->assertEquals('Politician', $jobs[0]['name']);
 		$this->assertEquals('Musician', $jobs[1]['name']);
 		$this->assertEquals('Developer', $jobs[2]['name']);

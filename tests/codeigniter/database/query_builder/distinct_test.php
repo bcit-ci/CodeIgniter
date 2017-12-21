@@ -27,7 +27,7 @@ class Distinct_test extends CI_TestCase {
 					->get('user')
 					->result_array();
 
-		$this->assertEquals(3, count($users));
+		$this->assertCount(3, $users);
 	}
 
 }

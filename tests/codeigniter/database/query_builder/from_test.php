@@ -26,7 +26,7 @@ class From_test extends CI_TestCase {
 					->get()
 					->result_array();
 
-		$this->assertEquals(4, count($jobs));
+		$this->assertCount(4, $jobs);
 	}
 
 	// ------------------------------------------------------------------------
