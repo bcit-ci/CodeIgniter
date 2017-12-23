@@ -67,7 +67,7 @@ class Table_test extends CI_TestCase {
 		$this->table->add_row('your', 'pony', 'stinks');
 		$this->table->add_row('my pony', '>', 'your pony');
 
-		$this->assertEquals(count($this->table->rows), 3);
+		$this->assertCount(3, $this->table->rows);
 
 		$this->assertEquals(
 			array(
@@ -188,8 +188,8 @@ class Table_test extends CI_TestCase {
 		}
 
 		$this->assertFalse($this->table->auto_heading);
-		$this->assertEquals(count($this->table->heading), 3);
-		$this->assertEquals(count($this->table->rows), 2);
+		$this->assertCount(3, $this->table->heading);
+		$this->assertCount(2, $this->table->rows);
 
 		$this->table->clear();
 
@@ -213,7 +213,7 @@ class Table_test extends CI_TestCase {
 		$this->table->clear();
 
 		$this->table->set_from_array($data);
-		$this->assertEquals(count($this->table->rows), 2);
+		$this->assertCount(2, $this->table->rows);
 
 		$expected = array(
 			array('data' => 'name'),
@@ -270,14 +270,14 @@ class Table_test extends CI_TestCase {
 		$table = $this->table->generate($data);
 
 		// Test the table header
-		$this->assertTrue(strpos($table, '<th>Name</th>') !== FALSE);
-		$this->assertTrue(strpos($table, '<th>Color</th>') !== FALSE);
-		$this->assertTrue(strpos($table, '<th>Size</th>') !== FALSE);
+		$this->assertContains('<th>Name</th>', $table);
+		$this->assertContains('<th>Color</th>', $table);
+		$this->assertContains('<th>Size</th>', $table);
 
 		// Test the first entry
-		$this->assertTrue(strpos($table, '<td>Fred</td>') !== FALSE);
-		$this->assertTrue(strpos($table, '<td>Blue</td>') !== FALSE);
-		$this->assertTrue(strpos($table, '<td>Small</td>') !== FALSE);
+		$this->assertContains('<td>Fred</td>', $table);
+		$this->assertContains('<td>Blue</td>', $table);
+		$this->assertContains('<td>Small</td>', $table);
 	}
 
 }

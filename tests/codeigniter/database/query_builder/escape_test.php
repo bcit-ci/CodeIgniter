@@ -37,7 +37,7 @@ class Escape_test extends CI_TestCase {
 		$res = $this->db->query($sql)->result_array();
 
 		// Check the result
-		$this->assertEquals(1, count($res));
+		$this->assertCount(1, $res);
 	}
 
 	// ------------------------------------------------------------------------
@@ -62,7 +62,7 @@ class Escape_test extends CI_TestCase {
 		$res = $this->db->query($sql)->result_array();
 
 		// Check the result
-		$this->assertEquals(2, count($res));
+		$this->assertCount(2, $res);
 	}
 
 }

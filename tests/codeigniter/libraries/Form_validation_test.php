@@ -358,7 +358,7 @@ class Form_validation_test extends CI_TestCase {
 		$this->form_validation->run();
 		$error_msg = $this->form_validation->error('foo');
 
-		$this->assertTrue(strrpos($error_msg, $prefix) === 0);
+		$this->assertStringStartsWith($prefix, $error_msg);
 		$this->assertTrue(strrpos($error_msg, $suffix, -strlen($suffix)) === (strlen($error_msg) - strlen($suffix)));
 
 		$_POST = array();
