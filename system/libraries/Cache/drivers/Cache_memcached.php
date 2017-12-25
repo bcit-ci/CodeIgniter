@@ -210,6 +210,7 @@ class CI_Cache_memcached extends CI_Driver {
 	 */
 	public function increment($id, $offset = 1)
 	{
+		$this->_memcached->add($id, 0);
 		return $this->_memcached->increment($id, $offset);
 	}
 
@@ -224,6 +225,7 @@ class CI_Cache_memcached extends CI_Driver {
 	 */
 	public function decrement($id, $offset = 1)
 	{
+		$this->_memcached->add($id, 0);
 		return $this->_memcached->decrement($id, $offset);
 	}
 
