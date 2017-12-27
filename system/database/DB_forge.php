@@ -382,10 +382,8 @@ abstract class CI_DB_forge {
 			{
 				return TRUE;
 			}
-			else
-			{
-				$if_not_exists = FALSE;
-			}
+
+			$if_not_exists = FALSE;
 		}
 
 		$sql = ($if_not_exists)
