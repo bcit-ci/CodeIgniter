@@ -155,7 +155,7 @@ class CI_Form_validation {
 	 * @param	string	$label
 	 * @param	mixed	$rules
 	 * @param	array	$errors
-	 * @return	CI_Form_validation
+	 * @return	self
 	 */
 	public function set_rules($field, $label = null, $rules = null, $errors = array())
 	{
@@ -259,7 +259,7 @@ class CI_Form_validation {
 	 * each array due to the limitations of CI's singleton
 	 *
 	 * @param	array	$data
-	 * @return	CI_Form_validation
+	 * @return	self
 	 */
 	public function set_data(array $data)
 	{
@@ -281,7 +281,7 @@ class CI_Form_validation {
 	 *
 	 * @param	array
 	 * @param	string
-	 * @return	CI_Form_validation
+	 * @return	self
 	 */
 	public function set_message($lang, $val = '')
 	{
@@ -303,7 +303,7 @@ class CI_Form_validation {
 	 *
 	 * @param	string
 	 * @param	string
-	 * @return	CI_Form_validation
+	 * @return	self
 	 */
 	public function set_error_delimiters($prefix = '<p>', $suffix = '</p>')
 	{
@@ -1564,7 +1564,7 @@ class CI_Form_validation {
 	 * Prevents subsequent validation routines from being affected by the
 	 * results of any previous validation routine due to the CI singleton.
 	 *
-	 * @return	CI_Form_validation
+	 * @return	self
 	 */
 	public function reset_validation()
 	{
