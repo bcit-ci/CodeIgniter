@@ -682,10 +682,8 @@ class CI_Encryption {
 			{
 				return FALSE;
 			}
-			else
-			{
-				$params['mode'] = $this->_modes[$this->_driver][$params['mode']];
-			}
+
+			$params['mode'] = $this->_modes[$this->_driver][$params['mode']];
 		}
 
 		if (isset($params['hmac']) && $params['hmac'] === FALSE)
