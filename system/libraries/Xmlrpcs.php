@@ -402,15 +402,11 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 			{
 				return get_instance()->{$method_parts[1]}($m);
 			}
-			else
-			{
-				return $this->object->{$method_parts[1]}($m);
-			}
+
+			return $this->object->{$method_parts[1]}($m);
 		}
-		else
-		{
-			return call_user_func($this->methods[$methName]['function'], $m);
-		}
+
+		return call_user_func($this->methods[$methName]['function'], $m);
 	}
 
 	// --------------------------------------------------------------------
@@ -499,10 +495,8 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 
 			return new XML_RPC_Response(new XML_RPC_Values($docstring, 'string'));
 		}
-		else
-		{
-			return new XML_RPC_Response(0, $this->xmlrpcerr['introspect_unknown'], $this->xmlrpcstr['introspect_unknown']);
-		}
+
+		return new XML_RPC_Response(0, $this->xmlrpcerr['introspect_unknown'], $this->xmlrpcstr['introspect_unknown']);
 	}
 
 	// --------------------------------------------------------------------
