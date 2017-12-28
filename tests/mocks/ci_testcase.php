@@ -377,10 +377,8 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 		{
 			return call_user_func_array($this->{$method},$args);
 		}
-		else
-		{
-			return parent::__call($method, $args);
-		}
+
+		return parent::__call($method, $args);
 	}
 
 }
