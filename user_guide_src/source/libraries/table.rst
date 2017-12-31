@@ -44,7 +44,7 @@ method described in the function reference below).
 		array('Name', 'Color', 'Size'),
 		array('Fred', 'Blue', 'Small'),
 		array('Mary', 'Red', 'Large'),
-		array('John', 'Green', 'Medium')	
+		array('John', 'Green', 'Medium')
 	);
 
 	echo $this->table->generate($data);
@@ -136,7 +136,7 @@ example, only the table opening tag is being changed::
 	);
 
 	$this->table->set_template($template);
-	
+
 You can also set defaults for these in a config file.
 
 ***************
@@ -256,7 +256,7 @@ Class Reference
 			$template = array(
 				'table_open'  => '<table border="1" cellpadding="2" cellspacing="1" class="mytable">'
 			);
-		
+
 			$this->table->set_template($template);
 
 	.. php:method:: set_empty($value)

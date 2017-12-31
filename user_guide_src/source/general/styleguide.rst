@@ -272,7 +272,7 @@ always precede and follow ``!``.
 	if ($foo && $bar) // recommended
 	if ( ! $foo)
 	if ( ! is_array($foo))
-	
+
 
 Comparing Return Values and Typecasting
 =======================================
@@ -358,7 +358,7 @@ One File per Class
 ==================
 
 Use separate files for each class, unless the classes are *closely related*.
-An example of a CodeIgniter file that contains multiple classes is the 
+An example of a CodeIgniter file that contains multiple classes is the
 Xmlrpc library file.
 
 Whitespace
@@ -408,7 +408,7 @@ same level as the control statement that "owns" them.
 			// ...
 			}
 		}
-		
+
 	try {
 		// ...
 	}
@@ -444,8 +444,8 @@ same level as the control statement that "owns" them.
 			// ...
 		}
 	}
-	
-	try 
+
+	try
 	{
 		// ...
 	}

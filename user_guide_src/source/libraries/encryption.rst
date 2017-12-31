@@ -297,7 +297,7 @@ Option   Possible values
 driver   'mcrypt', 'openssl'
 cipher   Cipher name (see :ref:`ciphers-and-modes`)
 mode     Encryption mode (see :ref:`encryption-modes`)
-key      Encryption key 
+key      Encryption key
 ======== ===============================================
 
 For example, if you were to change the encryption algorithm and

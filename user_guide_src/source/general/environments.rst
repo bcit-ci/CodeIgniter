@@ -17,9 +17,9 @@ the value provided in ``$_SERVER['CI_ENV']``, otherwise defaults to
 
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
-This server variable can be set in your .htaccess file, or Apache 
-config using `SetEnv <https://httpd.apache.org/docs/2.2/mod/mod_env.html#setenv>`_. 
-Alternative methods are available for nginx and other servers, or you can 
+This server variable can be set in your .htaccess file, or Apache
+config using `SetEnv <https://httpd.apache.org/docs/2.2/mod/mod_env.html#setenv>`_.
+Alternative methods are available for nginx and other servers, or you can
 remove this logic entirely and set the constant based on the server's IP address.
 
 In addition to affecting some basic framework behavior (see the next

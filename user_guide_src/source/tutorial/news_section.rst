@@ -52,7 +52,7 @@ Also add some seed records.
 
 Now that the database and a model have been set up, you'll need a method
 to get all of our posts from our database. To do this, the database
-abstraction layer that is included with CodeIgniter — 
+abstraction layer that is included with CodeIgniter —
 :doc:`Query Builder <../database/query_builder>` — is used. This makes it
 possible to write your 'queries' once and make them work on :doc:`all
 supported database systems <../general/requirements>`. Add the
@@ -146,7 +146,7 @@ and add the next piece of code.
 ::
 
 	<h2><?php echo $title; ?></h2>
-	
+
 	<?php foreach ($news as $news_item): ?>
 
 		<h3><?php echo $news_item['title']; ?></h3>

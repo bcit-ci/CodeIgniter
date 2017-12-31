@@ -827,7 +827,7 @@ Class Reference
 
 		Gets the value for a specific ``$_SESSION`` item, or an
 		array of all "userdata" items if not key was specified.
-	
+
 		.. note:: This is a legacy method kept only for backwards
 			compatibility with older applications. You should
 			directly access ``$_SESSION`` instead.
@@ -923,7 +923,7 @@ Class Reference
 		Gets the value for a specific ``$_SESSION`` item that has
 		been marked as "flashdata", or an array of all "flashdata"
 		items if no key was specified.
-	
+
 		.. note:: This is a legacy method kept only for backwards
 			compatibility with older applications. You should
 			directly access ``$_SESSION`` instead.
@@ -988,7 +988,7 @@ Class Reference
 		Gets the value for a specific ``$_SESSION`` item that has
 		been marked as "tempdata", or an array of all "tempdata"
 		items if no key was specified.
-	
+
 		.. note:: This is a legacy method kept only for backwards
 			compatibility with older applications. You should
 			directly access ``$_SESSION`` instead.

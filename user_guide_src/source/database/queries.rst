@@ -25,7 +25,7 @@ this::
 Simplified Queries
 ==================
 
-The **simple_query** method is a simplified version of the 
+The **simple_query** method is a simplified version of the
 $this->db->query() method. It DOES
 NOT return a database result set, nor does it set the query timer, or
 compile bind data, or store your query for debugging. It simply lets you
@@ -121,7 +121,7 @@ this:
 
 ::
 
-        $search = '20% raise'; 
+        $search = '20% raise';
         $sql = "SELECT id FROM table WHERE column LIKE '%" .
             $this->db->escape_like_str($search)."%' ESCAPE '!'";
 

@@ -2,15 +2,15 @@
 Migrations Class
 ################
 
-Migrations are a convenient way for you to alter your database in a 
-structured and organized manner. You could edit fragments of SQL by hand 
-but you would then be responsible for telling other developers that they 
-need to go and run them. You would also have to keep track of which changes 
+Migrations are a convenient way for you to alter your database in a
+structured and organized manner. You could edit fragments of SQL by hand
+but you would then be responsible for telling other developers that they
+need to go and run them. You would also have to keep track of which changes
 need to be run against the production machines next time you deploy.
 
-The database table **migration** tracks which migrations have already been 
-run so all you have to do is update your application files and 
-call ``$this->migration->current()`` to work out which migrations should be run. 
+The database table **migration** tracks which migrations have already been
+run so all you have to do is update your application files and
+call ``$this->migration->current()`` to work out which migrations should be run.
 The current version is found in **application/config/migration.php**.
 
 .. contents::
@@ -48,9 +48,9 @@ name for the migration. For example:
 ******************
 Create a Migration
 ******************
-	
-This will be the first migration for a new site which has a blog. All 
-migrations go in the **application/migrations/** directory and have names such 
+
+This will be the first migration for a new site which has a blog. All
+migrations go in the **application/migrations/** directory and have names such
 as *20121031100537_add_blog.php*.
 ::
 
@@ -94,11 +94,11 @@ Then in **application/config/migration.php** set ``$config['migration_version'] 
 Usage Example
 *************
 
-In this example some simple code is placed in **application/controllers/Migrate.php** 
+In this example some simple code is placed in **application/controllers/Migrate.php**
 to update the schema.::
 
 	<?php
-	
+
 	class Migrate extends CI_Controller
 	{
 
@@ -128,7 +128,7 @@ Preference                 Default                Options                    Des
 **migration_version**      0                      None                       The current version your database should use.
 **migration_table**        migrations             None                       The table name for storing the schema
                                                                              version number.
-**migration_auto_latest**  FALSE                  TRUE / FALSE               Enable or disable automatically 
+**migration_auto_latest**  FALSE                  TRUE / FALSE               Enable or disable automatically
                                                                              running migrations.
 **migration_type**         'timestamp'            'timestamp' / 'sequential' The type of numeric identifier used to name
                                                                              migration files.
@@ -167,8 +167,8 @@ Class Reference
 		:returns:	Current version string on success, FALSE on failure
 		:rtype:	mixed
 
-		This works much the same way as ``current()`` but instead of looking for 
-		the ``$config['migration_version']`` the Migration class will use the very 
+		This works much the same way as ``current()`` but instead of looking for
+		the ``$config['migration_version']`` the Migration class will use the very
 		newest migration found in the filesystem.
 
 	.. php:method:: version($target_version)
@@ -177,7 +177,7 @@ Class Reference
 		:returns:	TRUE if no migrations are found, current version string on success, FALSE on failure
 		:rtype:	mixed
 
-		Version can be used to roll back changes or step forwards programmatically to 
+		Version can be used to roll back changes or step forwards programmatically to
 		specific versions. It works just like ``current()`` but ignores ``$config['migration_version']``.
 		::
 

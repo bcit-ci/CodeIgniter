@@ -204,9 +204,9 @@ Example::
 		'cal_cell_start'       => '<td class="day">',
 		'cal_cell_start_today' => '<td class="today">'
 	);
-    
+
 	$this->load->library('calendar', $prefs);
-    
+
 	echo $this->calendar->generate();
 
 ***************

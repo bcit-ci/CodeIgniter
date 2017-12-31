@@ -367,11 +367,11 @@ Class Reference
 		:param	string	$filename: Existing attachment filename
 		:returns:	Attachment Content-ID or FALSE if not found
 		:rtype:	string
- 
+
 		Sets and returns an attachment's Content-ID, which enables your to embed an inline
 		(picture) attachment into HTML. First parameter must be the already attached file name.
 		::
- 
+
 			$filename = '/img/photo1.jpg';
 			$this->email->attach($filename);
 			foreach ($list as $address)

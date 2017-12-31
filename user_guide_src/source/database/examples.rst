@@ -25,14 +25,14 @@ Standard Query With Multiple Results (Object Version)
 ::
 
 	$query = $this->db->query('SELECT name, title, email FROM my_table');
-	
+
 	foreach ($query->result() as $row)
 	{
 		echo $row->title;
 		echo $row->name;
 		echo $row->email;
 	}
-	
+
 	echo 'Total Results: ' . $query->num_rows();
 
 The above result() function returns an array of **objects**. Example:
@@ -44,7 +44,7 @@ Standard Query With Multiple Results (Array Version)
 ::
 
 	$query = $this->db->query('SELECT name, title, email FROM my_table');
-	
+
 	foreach ($query->result_array() as $row)
 	{
 		echo $row['title'];
@@ -60,7 +60,7 @@ Standard Query With Single Result
 
 ::
 
-	$query = $this->db->query('SELECT name FROM my_table LIMIT 1'); 
+	$query = $this->db->query('SELECT name FROM my_table LIMIT 1');
 	$row = $query->row();
 	echo $row->name;
 
@@ -94,7 +94,7 @@ The :doc:`Query Builder Pattern <query_builder>` gives you a simplified
 means of retrieving data::
 
 	$query = $this->db->get('table_name');
-	
+
 	foreach ($query->result() as $row)
 	{
 		echo $row->title;
@@ -114,6 +114,6 @@ Query Builder Insert
 		'name' => $name,
 		'date' => $date
 	);
-	
+
 	$this->db->insert('mytable', $data);  // Produces: INSERT INTO mytable (title, name, date) VALUES ('{$title}', '{$name}', '{$date}')
 

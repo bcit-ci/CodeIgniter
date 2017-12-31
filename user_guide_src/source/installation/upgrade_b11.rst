@@ -57,20 +57,20 @@ Change the array name from $conf to $config, like this::
 Lastly, add the following new item to the config file (and edit the
 option if needed)::
 
-	
+
 	/*
 	|------------------------------------------------
 	| URI PROTOCOL
 	|------------------------------------------------
 	|
-	| This item determines which server global 
-	| should be used to retrieve the URI string. The 
+	| This item determines which server global
+	| should be used to retrieve the URI string. The
 	| default setting of "auto" works for most servers.
-	| If your links do not seem to work, try one of 
+	| If your links do not seem to work, try one of
 	| the other delicious flavors:
-	| 
+	|
 	| 'auto'	 Default - auto detects
-	| 'path_info'	 Uses the PATH_INFO 
+	| 'path_info'	 Uses the PATH_INFO
 	| 'query_string'	Uses the QUERY_STRING
 	*/
 

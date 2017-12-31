@@ -10,7 +10,7 @@ Information From Executing a Query
 The insert ID number when performing database inserts.
 
 .. note:: If using the PDO driver with PostgreSQL, or using the Interbase
-	driver, this function requires a $name parameter, which specifies the 
+	driver, this function requires a $name parameter, which specifies the
 	appropriate sequence to check for the insert id.
 
 **$this->db->affected_rows()**
@@ -29,7 +29,7 @@ Returns the last query that was run (the query string, not the result).
 Example::
 
 	$str = $this->db->last_query();
-	
+
 	// Produces:  SELECT * FROM sometable....
 
 
@@ -45,7 +45,7 @@ Permits you to determine the number of rows in a particular table.
 Submit the table name in the first parameter. Example::
 
 	echo $this->db->count_all('my_table');
-	
+
 	// Produces an integer, like 25
 
 **$this->db->platform()**
@@ -70,7 +70,7 @@ This function simplifies the process of writing database inserts. It
 returns a correctly formatted SQL insert string. Example::
 
 	$data = array('name' => $name, 'email' => $email, 'url' => $url);
-	
+
 	$str = $this->db->insert_string('table_name', $data);
 
 The first parameter is the table name, the second is an associative
@@ -86,9 +86,9 @@ This function simplifies the process of writing database updates. It
 returns a correctly formatted SQL update string. Example::
 
 	$data = array('name' => $name, 'email' => $email, 'url' => $url);
-	
+
 	$where = "author_id = 1 AND status = 'active'";
-	
+
 	$str = $this->db->update_string('table_name', $data, $where);
 
 The first parameter is the table name, the second is an associative

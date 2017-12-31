@@ -54,7 +54,7 @@ For example, to create an image thumbnail you'll do this::
 	$config['width']	 = 75;
 	$config['height']	= 50;
 
-	$this->load->library('image_lib', $config); 
+	$this->load->library('image_lib', $config);
 
 	$this->image_lib->resize();
 
@@ -217,7 +217,7 @@ watermark function. Here is an example::
 	$config['wm_hor_alignment'] = 'center';
 	$config['wm_padding'] = '20';
 
-	$this->image_lib->initialize($config); 
+	$this->image_lib->initialize($config);
 
 	$this->image_lib->watermark();
 
@@ -397,7 +397,7 @@ Class Reference
 			$config['x_axis'] = 100;
 			$config['y_axis'] = 60;
 
-			$this->image_lib->initialize($config); 
+			$this->image_lib->initialize($config);
 
 			if ( ! $this->image_lib->crop())
 			{
@@ -435,7 +435,7 @@ Class Reference
 			$config['source_image']	= '/path/to/image/mypic.jpg';
 			$config['rotation_angle'] = 'hor';
 
-			$this->image_lib->initialize($config); 
+			$this->image_lib->initialize($config);
 
 			if ( ! $this->image_lib->rotate())
 			{
@@ -448,7 +448,7 @@ Class Reference
 		:rtype:	bool
 
 		Creates a watermark over an image, please refer to the :ref:`watermarking`
-		section for more info.		
+		section for more info.
 
 	.. php:method:: clear()
 

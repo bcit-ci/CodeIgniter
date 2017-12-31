@@ -38,10 +38,10 @@ The following functions are available:
 
 	If you set the second parameter to NULL and ``$filename`` is an existing, readable
 	file path, then its content will be read instead. You may also set ``$filename``
-	as an associative array with a single element, where the key of that element would be 
+	as an associative array with a single element, where the key of that element would be
 	the local file you are trying to read and where the value is the name of the downloadable
 	file that will be sent to browser. An example of this is provided below.
-	
+
 	If you set the third parameter to boolean TRUE, then the actual file MIME type
 	(based on the filename extension) will be sent, so that if your browser has a
 	handler for that type - it can use it.

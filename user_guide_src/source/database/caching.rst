@@ -127,11 +127,11 @@ keep certain queries from being cached. Example::
 	// Turn caching on
 	$this->db->cache_on();
 	$query = $this->db->query("SELECT * FROM mytable");
-	
+
 	// Turn caching off for this one query
 	$this->db->cache_off();
 	$query = $this->db->query("SELECT * FROM members WHERE member_id = '$current_user'");
-	
+
 	// Turn caching back on
 	$this->db->cache_on();
 	$query = $this->db->query("SELECT * FROM another_table");

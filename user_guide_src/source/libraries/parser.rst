@@ -2,9 +2,9 @@
 Template Parser Class
 #####################
 
-The Template Parser Class can perform simple text substitution for 
-pseudo-variables contained within your view files. 
-It can parse simple variables or variable tag pairs. 
+The Template Parser Class can perform simple text substitution for
+pseudo-variables contained within your view files.
+It can parse simple variables or variable tag pairs.
 
 If you've never used a template engine,
 pseudo-variable names are enclosed in braces, like this::
@@ -244,7 +244,7 @@ Result::
 		<li><a href="/second">Second Link</a></li>
 	</ul>
 
-An example with the iteration controlled in the controller, 
+An example with the iteration controlled in the controller,
 using a view fragment::
 
 	$temp = '';

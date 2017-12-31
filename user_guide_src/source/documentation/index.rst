@@ -110,7 +110,7 @@ Method Documentation
 ********************
 
 When documenting class methods for third party developers, Sphinx provides
-directives to assist and keep things simple.  
+directives to assist and keep things simple.
 For example, consider the following ReST:
 
 .. code-block:: rst

@@ -17,7 +17,7 @@ Returns an array containing the names of all the tables in the database
 you are currently connected to. Example::
 
 	$tables = $this->db->list_tables();
-	
+
 	foreach ($tables as $table)
 	{
 		echo $table;
@@ -56,7 +56,7 @@ two ways:
 object::
 
 	$fields = $this->db->list_fields('table_name');
-	
+
 	foreach ($fields as $field)
 	{
 		echo $field;
@@ -66,7 +66,7 @@ object::
 calling the function from your query result object::
 
 	$query = $this->db->query('SELECT * FROM some_table');
-	
+
 	foreach ($query->list_fields() as $field)
 	{
 		echo $field;
@@ -106,7 +106,7 @@ the column type, max length, etc.
 Usage example::
 
 	$fields = $this->db->field_data('table_name');
-	
+
 	foreach ($fields as $field)
 	{
 		echo $field->name;

@@ -5,5 +5,5 @@ Helpers
 .. toctree::
 	:glob:
 	:titlesonly:
-	
+
 	*
