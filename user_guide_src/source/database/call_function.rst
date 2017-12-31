@@ -35,5 +35,5 @@ database result ID. The connection ID can be accessed using::
 The result ID can be accessed from within your result object, like this::
 
 	$query = $this->db->query("SOME QUERY");
-	
+
 	$query->result_id;

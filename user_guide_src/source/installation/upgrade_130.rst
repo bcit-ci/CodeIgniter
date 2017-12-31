@@ -63,7 +63,6 @@ Step 4: Update your config.php file
 
 Open your application/config/config.php file and add these new items::
 
-
     /*
     |------------------------------------------------
     | URL suffix
@@ -81,7 +80,6 @@ Open your application/config/config.php file and add these new items::
     |
     */
     $config['url_suffix'] = "";
-
 
     /*
     |------------------------------------------------
@@ -113,7 +111,6 @@ Step 5: Update your database.php file
 =====================================
 
 Open your application/config/database.php file and add these new items::
-
 
     $db['default']['dbprefix'] = "";
     $db['default']['active_r'] = TRUE;

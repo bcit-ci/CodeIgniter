@@ -5,5 +5,5 @@ Libraries
 .. toctree::
 	:glob:
 	:titlesonly:
-	
+
 	*

@@ -45,7 +45,7 @@ The Class File
 Classes should have this basic prototype::
 
 	<?php
-	defined('BASEPATH') OR exit('No direct script access allowed'); 
+	defined('BASEPATH') OR exit('No direct script access allowed');
 
 	class Someclass {
 
@@ -137,7 +137,7 @@ Once you've assigned the object to a variable, you'll use that variable
 
 .. note:: You'll notice that the above ``get_instance()`` function is being
 	passed by reference::
-	
+
 		$CI =& get_instance();
 
 	This is very important. Assigning by reference allows you to use the
@@ -184,7 +184,7 @@ library you'll create a file named *application/libraries/Email.php*,
 and declare your class with::
 
 	class CI_Email {
-	
+
 	}
 
 Note that most native classes are prefixed with CI\_.

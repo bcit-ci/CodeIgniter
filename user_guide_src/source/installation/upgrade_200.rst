@@ -46,7 +46,6 @@ to ::
 
 	$this->load->helper('foo');
 
-
 Step 4: Update stored encrypted data
 ====================================
 
@@ -91,7 +90,7 @@ Step 8: Move any core extensions to application/core
 ====================================================
 
 Any extensions to core classes (e.g. MY_Controller.php) in your
-application/libraries folder must be moved to the new 
+application/libraries folder must be moved to the new
 application/core folder.
 
 Step 9: Update your user guide
@@ -99,7 +98,6 @@ Step 9: Update your user guide
 
 Please replace your local copy of the user guide with the new version,
 including the image files.
-
 
 ************
 Update Notes

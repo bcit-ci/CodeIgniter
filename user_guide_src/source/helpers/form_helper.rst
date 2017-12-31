@@ -49,7 +49,6 @@ Available Functions
 
 The following functions are available:
 
-
 .. php:function:: form_open([$action = ''[, $attributes = ''[, $hidden = array()]]])
 
 	:param	string	$action: Form action/target URI string
@@ -107,7 +106,6 @@ The following functions are available:
 				<input type="hidden" name="username" value="Joe" />
 				<input type="hidden" name="member_id" value="234" />
 
-
 .. php:function:: form_open_multipart([$action = ''[, $attributes = array()[, $hidden = array()]]])
 
 	:param	string	$action: Form action/target URI string
@@ -119,7 +117,6 @@ The following functions are available:
 	This function is absolutely identical to :php:func:`form_open()` above,
 	except that it adds a *multipart* attribute, which is necessary if you
 	would like to use the form to upload files with.
-
 
 .. php:function:: form_hidden($name[, $value = ''])
 
@@ -242,7 +239,6 @@ The following functions are available:
 	This function is identical in all respects to the :php:func:`form_input()`
 	function above except that it uses the "password" input type.
 
-
 .. php:function:: form_upload([$data = '', $extra = '']])
 
 	:param	array	$data: Field attributes data
@@ -253,7 +249,6 @@ The following functions are available:
 	This function is identical in all respects to the :php:func:`form_input()`
 	function above except that it uses the "file" input type, allowing it to
 	be used to upload files.
-
 
 .. php:function:: form_textarea([$data = ''[, $value = ''[, $extra = '']]])
 
@@ -340,7 +335,6 @@ The following functions are available:
 	``form_dropdown()`` will produce an <optgroup> with the array key as the
 	label.
 
-
 .. php:function:: form_multiselect([$name = ''[, $options = array()[, $selected = array()[, $extra = '']]]])
 
 	:param	string	$name: Field name
@@ -358,7 +352,6 @@ The following functions are available:
 	The parameter usage is identical to using :php:func:`form_dropdown()` above,
 	except of course that the name of the field will need to use POST array
 	syntax, e.g. foo[].
-
 
 .. php:function:: form_fieldset([$legend_text = ''[, $attributes = array()]])
 
@@ -405,13 +398,11 @@ The following functions are available:
 			</fieldset>
 		*/
 
-
 .. php:function:: form_fieldset_close([$extra = ''])
 
 	:param	string	$extra: Anything to append after the closing tag, *as is*
 	:returns:	An HTML fieldset closing tag
 	:rtype:	string
-	
 
 	Produces a closing </fieldset> tag. The only advantage to using this
 	function is it permits you to pass data to it which will be added below
@@ -422,7 +413,6 @@ The following functions are available:
 		$string = '</div></div>';
 		echo form_fieldset_close($string);
 		// Would produce: </fieldset></div></div>
-
 
 .. php:function:: form_checkbox([$data = ''[, $value = ''[, $checked = FALSE[, $extra = '']]]])
 
@@ -467,7 +457,6 @@ The following functions are available:
 		$js = array('onClick' => 'some_function();');
 		echo form_checkbox('newsletter', 'accept', TRUE, $js);
 
-
 .. php:function:: form_radio([$data = ''[, $value = ''[, $checked = FALSE[, $extra = '']]]])
 
 	:param	array	$data: Field attributes data
@@ -479,7 +468,6 @@ The following functions are available:
 
 	This function is identical in all respects to the :php:func:`form_checkbox()`
 	function above except that it uses the "radio" input type.
-
 
 .. php:function:: form_label([$label_text = ''[, $id = ''[, $attributes = array()]]])
 
@@ -507,7 +495,6 @@ The following functions are available:
 		echo form_label('What is your Name', 'username', $attributes);
 		// Would produce:  <label for="username" class="mycustomclass" style="color: #000;">What is your Name</label>
 
-
 .. php:function:: form_submit([$data = ''[, $value = ''[, $extra = '']]])
 
 	:param	string	$data: Button name
@@ -525,7 +512,6 @@ The following functions are available:
 	first parameter if you prefer to set your own attributes. The third
 	parameter lets you add extra data to your form, like JavaScript.
 
-
 .. php:function:: form_reset([$data = ''[, $value = ''[, $extra = '']]])
 
 	:param	string	$data: Button name
@@ -536,7 +522,6 @@ The following functions are available:
 
 	Lets you generate a standard reset button. Use is identical to
 	:func:`form_submit()`.
-
 
 .. php:function:: form_button([$data = ''[, $content = ''[, $extra = '']]])
 
@@ -572,7 +557,6 @@ The following functions are available:
 		$js = 'onClick="some_function()"';
 		echo form_button('mybutton', 'Click Me', $js);
 
-
 .. php:function:: form_close([$extra = ''])
 
 	:param	string	$extra: Anything to append after the closing tag, *as is*
@@ -586,7 +570,6 @@ The following functions are available:
 		$string = '</div></div>';
 		echo form_close($string);
 		// Would produce:  </form> </div></div>
-
 
 .. php:function:: set_value($field[, $default = ''[, $html_escape = TRUE]])
 
@@ -698,7 +681,6 @@ The following functions are available:
 		echo form_error('myfield', '<div class="error">', '</div>');
 
 		// Would produce: <div class="error">Error message associated with the "username" field.</div>
-
 
 .. php:function:: validation_errors([$prefix = ''[, $suffix = '']])
 

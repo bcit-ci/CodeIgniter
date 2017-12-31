@@ -23,7 +23,6 @@ Available Functions
 
 The following functions are available:
 
-
 .. php:function:: now([$timezone = NULL])
 
 	:param	string	$timezone: Timezone
@@ -97,7 +96,6 @@ The following functions are available:
 		$timezone  = 'UM8';
 		$daylight_saving = TRUE;
 		echo gmt_to_local($timestamp, $timezone, $daylight_saving);
-
 
 	.. note:: For a list of timezones see the reference at the bottom of this page.
 
@@ -269,7 +267,6 @@ The following functions are available:
 
 		echo timezones('UM5');
 
-
 	This function is useful when used with :php:func:`timezone_menu()`.
 
 .. php:function:: timezone_menu([$default = 'UTC'[, $class = ''[, $name = 'timezones'[, $attributes = '']]]])
@@ -329,7 +326,6 @@ The following functions are available:
 				<option value='UP14'>(UTC +14:00) Line Islands</option>
 			</select>
 		</form>
-
 
 	This menu is useful if you run a membership site in which your users are
 	allowed to set their local timezone value.

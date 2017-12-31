@@ -272,12 +272,12 @@ For more information on WinCache, please see
 Redis Caching
 =============
 
-Redis is an in-memory key-value store which can operate in LRU cache mode. 
+Redis is an in-memory key-value store which can operate in LRU cache mode.
 To use it, you need `Redis server and phpredis PHP extension <https://github.com/phpredis/phpredis>`_.
 
 Config options to connect to redis server must be stored in the application/config/redis.php file.
 Available options are::
-	
+
 	$config['host'] = '127.0.0.1';
 	$config['password'] = NULL;
 	$config['port'] = 6379;

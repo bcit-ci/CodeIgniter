@@ -2,7 +2,6 @@
 PHP Style Guide
 ###############
 
-
 The following page describes the coding styles adhered to when
 contributing to the development of CodeIgniter. There is no requirement
 to use these styles in your own CodeIgniter application, though they
@@ -272,7 +271,6 @@ always precede and follow ``!``.
 	if ($foo && $bar) // recommended
 	if ( ! $foo)
 	if ( ! is_array($foo))
-	
 
 Comparing Return Values and Typecasting
 =======================================
@@ -317,7 +315,6 @@ Use **===** and **!==** as necessary.
 		}
 	}
 
-
 See also information regarding `typecasting
 <http://php.net/manual/en/language.types.type-juggling.php#language.types.typecasting>`_,
 which can be quite useful. Typecasting has a slightly different effect
@@ -358,7 +355,7 @@ One File per Class
 ==================
 
 Use separate files for each class, unless the classes are *closely related*.
-An example of a CodeIgniter file that contains multiple classes is the 
+An example of a CodeIgniter file that contains multiple classes is the
 Xmlrpc library file.
 
 Whitespace
@@ -408,7 +405,7 @@ same level as the control statement that "owns" them.
 			// ...
 			}
 		}
-		
+
 	try {
 		// ...
 	}
@@ -444,8 +441,8 @@ same level as the control statement that "owns" them.
 			// ...
 		}
 	}
-	
-	try 
+
+	try
 	{
 		// ...
 	}

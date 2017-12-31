@@ -69,7 +69,7 @@ debugging is turned off, you can manage your own errors like this::
 	$this->db->query('AN SQL QUERY...');
 	$this->db->query('ANOTHER QUERY...');
 	$this->db->trans_complete();
-	
+
 	if ($this->db->trans_status() === FALSE)
 	{
 		// generate an error... or use the log_message() function to log your error
@@ -82,7 +82,7 @@ If you would like to disable transactions you can do so using
 ``$this->db->trans_off()``::
 
 	$this->db->trans_off();
-	
+
 	$this->db->trans_start();
 	$this->db->query('AN SQL QUERY...');
 	$this->db->trans_complete();
@@ -109,11 +109,11 @@ Running Transactions Manually
 If you would like to run transactions manually you can do so as follows::
 
 	$this->db->trans_begin();
-	
+
 	$this->db->query('AN SQL QUERY...');
 	$this->db->query('ANOTHER QUERY...');
 	$this->db->query('AND YET ANOTHER QUERY...');
-	
+
 	if ($this->db->trans_status() === FALSE)
 	{
 		$this->db->trans_rollback();

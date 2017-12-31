@@ -172,7 +172,6 @@ Have it in mind that this includes not only ``$_POST`` and ``$_GET``
 variables, but also cookies, the user-agent string and basically
 *all data that is not created directly by your own code*.
 
-
 Escape all data before database insertion
 =========================================
 

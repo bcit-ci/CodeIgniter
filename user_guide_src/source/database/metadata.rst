@@ -17,12 +17,11 @@ Returns an array containing the names of all the tables in the database
 you are currently connected to. Example::
 
 	$tables = $this->db->list_tables();
-	
+
 	foreach ($tables as $table)
 	{
 		echo $table;
 	}
-
 
 Determine If a Table Exists
 ===========================
@@ -38,7 +37,6 @@ running an operation on it. Returns a boolean TRUE/FALSE. Usage example::
 	}
 
 .. note:: Replace *table_name* with the name of the table you are looking for.
-
 
 **************
 Field MetaData
@@ -56,7 +54,7 @@ two ways:
 object::
 
 	$fields = $this->db->list_fields('table_name');
-	
+
 	foreach ($fields as $field)
 	{
 		echo $field;
@@ -66,12 +64,11 @@ object::
 calling the function from your query result object::
 
 	$query = $this->db->query('SELECT * FROM some_table');
-	
+
 	foreach ($query->list_fields() as $field)
 	{
 		echo $field;
 	}
-
 
 Determine If a Field is Present in a Table
 ==========================================
@@ -90,7 +87,6 @@ performing an action. Returns a boolean TRUE/FALSE. Usage example::
 	for, and replace *table_name* with the name of the table you are
 	looking for.
 
-
 Retrieve Field Metadata
 =======================
 
@@ -106,7 +102,7 @@ the column type, max length, etc.
 Usage example::
 
 	$fields = $this->db->field_data('table_name');
-	
+
 	foreach ($fields as $field)
 	{
 		echo $field->name;

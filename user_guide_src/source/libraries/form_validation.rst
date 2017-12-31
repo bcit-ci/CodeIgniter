@@ -545,7 +545,7 @@ Setting Error Messages
 All of the native error messages are located in the following language
 file: **system/language/english/form_validation_lang.php**
 
-To set your own global custom message for a rule, you can either 
+To set your own global custom message for a rule, you can either
 extend/override the language file by creating your own in
 **application/language/english/form_validation_lang.php** (read more
 about this in the :doc:`Language Class <language>` documentation),
@@ -553,7 +553,7 @@ or use the following method::
 
 	$this->form_validation->set_message('rule', 'Error Message');
 
-If you need to set a custom error message for a particular field on 
+If you need to set a custom error message for a particular field on
 some particular rule, use the set_rules() method::
 
 	$this->form_validation->set_rules('field_name', 'Field Label', 'rule1|rule2|rule3',
@@ -886,7 +886,7 @@ Accessing validated/processed data
 
 By default, validation will be performed directly on the ``$_POST`` array,
 and any possible modifications (like trimming whitespace, for example)
-would be written back onto it.  
+would be written back onto it.
 However, if you want to keep the original input data intact, or have used
 ``set_data()`` to pass a custom set of inputs, you would likely want to
 fetch the now-modified data. In order to do that, you can pass a variable
@@ -894,7 +894,7 @@ as the second parameter to ``run()``::
 
 	$input  = array('name' => '   White Space  ');
 	$output = NULL;
-	
+
 	$this->form_validation->set_rules('name', 'Name', 'required|trim');
 	$this->form_validation->run(NULL, $output);
 	// $output will now contain: array('name' => 'White Space');
@@ -956,7 +956,6 @@ Or if you use a multidimensional array::
 When you use a helper function you'll include the bracket as well::
 
 	<?php echo form_error('options[color][]'); ?>
-
 
 **************
 Rule Reference

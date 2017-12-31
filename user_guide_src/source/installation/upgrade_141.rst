@@ -27,8 +27,6 @@ Step 2: Update your config.php file
 
 Open your application/config/config.php file and add this new item::
 
-
-
     /*
     |--------------------------------------------------------------------------
     | Output Compression

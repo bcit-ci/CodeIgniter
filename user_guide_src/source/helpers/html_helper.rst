@@ -24,7 +24,6 @@ Available Functions
 
 The following functions are available:
 
-
 .. php:function:: heading([$data = ''[, $h = '1'[, $attributes = '']]])
 
 	:param	string	$data: Content
@@ -136,7 +135,6 @@ The following functions are available:
 
 		echo link_tag($link);
 		// <link href="http://site.com/css/printer.css" rel="stylesheet" type="text/css" media="print" />
-
 
 .. php:function:: ul($list[, $attributes = ''])
 
@@ -328,7 +326,6 @@ The following functions are available:
 		// <meta name="robots" content="no-cache" />
 		// <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		// <meta charset="UTF-8" />
-
 
 .. php:function:: doctype([$type = 'html5'])
 

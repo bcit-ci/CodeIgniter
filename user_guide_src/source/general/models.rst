@@ -126,7 +126,6 @@ view::
 			$this->load->view('blog', $data);
 		}
 	}
-	
 
 Auto-loading Models
 ===================

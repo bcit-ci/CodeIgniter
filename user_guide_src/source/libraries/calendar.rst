@@ -115,7 +115,6 @@ Preference              Default            Options                              
 											   first or last week of the calendar month.
 ======================  =================  ============================================  ===================================================================
 
-
 Showing Next/Previous Month Links
 =================================
 
@@ -204,9 +203,9 @@ Example::
 		'cal_cell_start'       => '<td class="day">',
 		'cal_cell_start_today' => '<td class="today">'
 	);
-    
+
 	$this->load->library('calendar', $prefs);
-    
+
 	echo $this->calendar->generate();
 
 ***************
@@ -232,7 +231,6 @@ Class Reference
 		:rtype:	string
 
 		Generate the calendar.
-
 
 	.. php:method:: get_month_name($month)
 
@@ -296,7 +294,6 @@ Class Reference
 
 		Sets the default template. This method is used when you have not created
 		your own template.
-
 
 	.. php:method:: parse_template()
 

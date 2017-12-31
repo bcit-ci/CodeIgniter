@@ -59,7 +59,7 @@ from the **php://input** stream at any time, just by using the
 
 	$this->input->raw_input_stream;
 
-Additionally if the input stream is form-encoded like $_POST you can 
+Additionally if the input stream is form-encoded like $_POST you can
 access its values by calling the
 ``input_stream()`` method::
 
@@ -83,9 +83,9 @@ Class Reference
 .. php:class:: CI_Input
 
 	.. attribute:: $raw_input_stream
-		
+
 		Read only property that will return php://input data as is.
-		
+
 		The property can be read multiple times.
 
 	.. php:method:: post([$index = NULL[, $xss_clean = FALSE]])
@@ -253,7 +253,6 @@ Class Reference
 		:param	bool	$secure: Whether to only transfer the cookie through HTTPS
 		:param	bool	$httponly: Whether to only make the cookie accessible for HTTP requests (no JavaScript)
 		:rtype:	void
-
 
 		Sets a cookie containing the values you specify. There are two ways to
 		pass information to this method so that a cookie can be set: Array

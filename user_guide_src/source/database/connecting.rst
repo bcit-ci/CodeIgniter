@@ -83,7 +83,7 @@ page <configuration>`.
 Or you can submit your database values as a Data Source Name. DSNs must
 have this prototype::
 
-	$dsn = 'dbdriver://username:password@hostname/database';  
+	$dsn = 'dbdriver://username:password@hostname/database';
 	$this->load->database($dsn);
 
 To override default config values when connecting with a DSN string, add
@@ -91,7 +91,7 @@ the config variables as a query string.
 
 ::
 
-	$dsn = 'dbdriver://username:password@hostname/database?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=/path/to/cache';  
+	$dsn = 'dbdriver://username:password@hostname/database?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=/path/to/cache';
 	$this->load->database($dsn);
 
 Connecting to Multiple Databases
@@ -100,7 +100,7 @@ Connecting to Multiple Databases
 If you need to connect to more than one database simultaneously you can
 do so as follows::
 
-	$DB1 = $this->load->database('group_one', TRUE); 
+	$DB1 = $this->load->database('group_one', TRUE);
 	$DB2 = $this->load->database('group_two', TRUE);
 
 Note: Change the words "group_one" and "group_two" to the specific
@@ -113,7 +113,7 @@ return the database object.
 .. note:: When you connect this way, you will use your object name to issue
 	commands rather than the syntax used throughout this guide. In other
 	words, rather than issuing commands with:
-	
+
 	|
 	| $this->db->query();
 	| $this->db->result();

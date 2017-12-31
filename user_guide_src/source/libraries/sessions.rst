@@ -624,7 +624,6 @@ setting**. The examples below work both on MySQL and PostgreSQL::
 	// To drop a previously created primary key (use when changing the setting)
 	ALTER TABLE ci_sessions DROP PRIMARY KEY;
 
-
 .. important:: Only MySQL and PostgreSQL databases are officially
 	supported, due to lack of advisory locking mechanisms on other
 	platforms. Using sessions without locks can cause all sorts of
@@ -752,7 +751,6 @@ when creating a session driver for CodeIgniter:
     class extensions/overrides work in CI, then you already know how to do
     it. If not, well, you shouldn't be doing it in the first place.
 
-
   - Implement the `SessionHandlerInterface
     <http://php.net/sessionhandlerinterface>`_ interface.
 
@@ -827,7 +825,7 @@ Class Reference
 
 		Gets the value for a specific ``$_SESSION`` item, or an
 		array of all "userdata" items if not key was specified.
-	
+
 		.. note:: This is a legacy method kept only for backwards
 			compatibility with older applications. You should
 			directly access ``$_SESSION`` instead.
@@ -923,7 +921,7 @@ Class Reference
 		Gets the value for a specific ``$_SESSION`` item that has
 		been marked as "flashdata", or an array of all "flashdata"
 		items if no key was specified.
-	
+
 		.. note:: This is a legacy method kept only for backwards
 			compatibility with older applications. You should
 			directly access ``$_SESSION`` instead.
@@ -988,7 +986,7 @@ Class Reference
 		Gets the value for a specific ``$_SESSION`` item that has
 		been marked as "tempdata", or an array of all "tempdata"
 		items if no key was specified.
-	
+
 		.. note:: This is a legacy method kept only for backwards
 			compatibility with older applications. You should
 			directly access ``$_SESSION`` instead.

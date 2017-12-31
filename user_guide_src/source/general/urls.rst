@@ -43,7 +43,7 @@ If your Apache server has *mod_rewrite* enabled, you can easily remove this
 file by using a .htaccess file with some simple rules. Here is an example
 of such a file, using the "negative" method in which everything is redirected
 except the specified items:
-	
+
 .. code-block:: apache
 
 	RewriteEngine On

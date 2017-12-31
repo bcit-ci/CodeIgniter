@@ -4,7 +4,7 @@ General Topics
 
 .. toctree::
 	:titlesonly:
-	
+
 	urls
 	controllers
 	reserved_names

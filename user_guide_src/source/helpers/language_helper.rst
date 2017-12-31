@@ -24,7 +24,6 @@ Available Functions
 
 The following functions are available:
 
-
 .. php:function:: lang($line[, $for = ''[, $attributes = array()]])
 
 	:param	string	$line: Language line key

@@ -164,7 +164,7 @@ This article is intended to be a reference for them.
 
 	.. php:method:: compile_binds($sql, $binds)
 
-		:param	string	$sql: The SQL statement 
+		:param	string	$sql: The SQL statement
 		:param	array	$binds: An array of binding data
 		:returns:	The updated SQL statement
 		:rtype:	string
@@ -173,7 +173,7 @@ This article is intended to be a reference for them.
 
 	.. php:method:: is_write_type($sql)
 
-		:param	string	$sql: The SQL statement 
+		:param	string	$sql: The SQL statement
 		:returns:	TRUE if the SQL statement is of "write type", FALSE if not
 		:rtype:	bool
 
@@ -241,7 +241,6 @@ This article is intended to be a reference for them.
 			method escapes partial strings that you would wrap in quotes
 			yourself, it cannot automatically add the ``ESCAPE '!'``
 			condition for you, and so you'll have to manually do that.
-
 
 	.. php:method:: primary($table)
 
@@ -413,7 +412,7 @@ This article is intended to be a reference for them.
 		and applies the configured *dbprefix* to it.
 
 		Some logic is necessary in order to deal with
-		column names that include the path. 
+		column names that include the path.
 
 		Consider a query like this::
 

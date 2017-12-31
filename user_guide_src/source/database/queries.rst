@@ -25,7 +25,7 @@ this::
 Simplified Queries
 ==================
 
-The **simple_query** method is a simplified version of the 
+The **simple_query** method is a simplified version of the
 $this->db->query() method. It DOES
 NOT return a database result set, nor does it set the query timer, or
 compile bind data, or store your query for debugging. It simply lets you
@@ -62,13 +62,11 @@ the following::
 
 	$this->db->dbprefix('tablename'); // outputs prefix_tablename
 
-
 If for any reason you would like to change the prefix programatically
 without needing to create a new connection, you can use this method::
 
 	$this->db->set_dbprefix('newprefix_');
 	$this->db->dbprefix('tablename'); // outputs newprefix_tablename
-
 
 **********************
 Protecting identifiers
@@ -91,7 +89,6 @@ have a prefix specified in your database config file. To enable the
 prefixing set TRUE (boolean) via the second parameter::
 
 	$this->db->protect_identifiers('table_name', TRUE);
-
 
 ****************
 Escaping Queries
@@ -121,7 +118,7 @@ this:
 
 ::
 
-        $search = '20% raise'; 
+        $search = '20% raise';
         $sql = "SELECT id FROM table WHERE column LIKE '%" .
             $this->db->escape_like_str($search)."%' ESCAPE '!'";
 
@@ -130,7 +127,6 @@ this:
 	method escapes partial strings that you would wrap in quotes
 	yourself, it cannot automatically add the ``ESCAPE '!'``
 	condition for you, and so you'll have to manually do that.
-
 
 **************
 Query Bindings

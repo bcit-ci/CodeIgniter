@@ -100,7 +100,6 @@ The following functions are available:
 		|
 		| site_url(uri_string());
 
-
 .. php:function:: uri_string()
 
 	:returns:	An URI string
@@ -117,7 +116,6 @@ The following functions are available:
 
 	This function is an alias for ``CI_Config::uri_string()``. For more info,
 	please see the :doc:`Config Library <../libraries/config>` documentation.
-
 
 .. php:function:: index_page()
 
@@ -166,7 +164,6 @@ The following functions are available:
 		echo anchor('', 'Click here');
 		// Prints: <a href="http://example.com">Click Here</a>
 
-
 .. php:function:: anchor_popup($uri = '', $title = '', $attributes = FALSE)
 
 	:param	string	$uri: URI string
@@ -209,7 +206,6 @@ The following functions are available:
 
 	.. note:: Any other attribute than the listed above will be parsed as an
 		HTML attribute to the anchor tag.
-
 
 .. php:function:: mailto($email, $title = '', $attributes = '')
 
@@ -272,7 +268,6 @@ The following functions are available:
 
 		$string = auto_link($string, 'both', TRUE);
 
-
 .. php:function:: url_title($str, $separator = '-', $lowercase = FALSE)
 
 	:param	string	$str: Input string
@@ -310,7 +305,6 @@ The following functions are available:
 		$url_title = url_title($title, 'underscore', TRUE);
 		// Produces: whats_wrong_with_css
 
-
 .. php:function:: prep_url($str = '')
 
 	:param	string	$str: URL string
@@ -323,7 +317,6 @@ The following functions are available:
 	Pass the URL string to the function like this::
 
 		$url = prep_url('example.com');
-
 
 .. php:function:: redirect($uri = '', $method = 'auto', $code = NULL)
 

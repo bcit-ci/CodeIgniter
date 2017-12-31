@@ -59,7 +59,7 @@ This is valid::
 	class Blog extends CI_Controller {
 
 	}
-	
+
 This is **not** valid::
 
 	<?php

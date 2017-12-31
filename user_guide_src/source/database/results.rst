@@ -88,7 +88,7 @@ to instantiate the row with::
 
 	$query = $this->db->query("SELECT * FROM users LIMIT 1;");
 	$row = $query->row(0, 'User');
-	
+
 	echo $row->name; // access attributes
 	echo $row->reverse_name(); // or methods defined on the 'User' class
 
@@ -137,14 +137,14 @@ parameter:
 
 This method returns a single result row without prefetching the whole
 result in memory as ``row()`` does. If your query has more than one row,
-it returns the current row and moves the internal data pointer ahead. 
+it returns the current row and moves the internal data pointer ahead.
 
 ::
 
 	$query = $this->db->query("YOUR QUERY");
 
 	while ($row = $query->unbuffered_row())
-	{	
+	{
 		echo $row->title;
 		echo $row->name;
 		echo $row->body;
@@ -262,7 +262,7 @@ is the variable that the query result object is assigned to::
 	number of rows for a result set. When this is the case, all of
 	the data is prefetched and ``count()`` is manually called on the
 	resulting array in order to achieve the same result.
-	
+
 **num_fields()**
 
 The number of FIELDS (columns) returned by the query. Make sure to call
@@ -367,7 +367,7 @@ Class Reference
 		:returns:	The requested row or NULL if it doesn't exist
 		:rtype:	mixed
 
-		A wrapper for the ``row_array()``, ``row_object() and 
+		A wrapper for the ``row_array()``, ``row_object() and
 		``custom_row_object()`` methods.
 
 		Usage: see `Result Rows`_.

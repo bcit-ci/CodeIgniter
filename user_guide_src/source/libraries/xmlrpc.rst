@@ -128,7 +128,7 @@ with the data type in the second position::
 		array('Doe', 'string'),
 		array(FALSE, 'boolean'),
 		array(12345, 'int')
-	); 
+	);
 	$this->xmlrpc->request($request);
 
 The `Data Types <#datatypes>`_ section below has a full list of data
@@ -370,7 +370,6 @@ folder::
 			$this->xmlrpcs->serve();
 		}
 
-
 		public function process($request)
 		{
 			$parameters = $request->output_parameters();
@@ -386,7 +385,6 @@ folder::
 			return $this->xmlrpc->send_response($response);
 		}
 	}
-
 
 Try it!
 -------
@@ -490,7 +488,7 @@ Class Reference
 
 			$this->xmlrpc->timeout(6);
 
-		This timeout period will be used both for an initial connection to 
+		This timeout period will be used both for an initial connection to
                 the remote server, as well as for getting a response from it.
                 Make sure you set the timeout before calling ``send_request()``.
 

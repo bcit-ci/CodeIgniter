@@ -30,7 +30,7 @@ in it::
 		<h1>Welcome to my Blog!</h1>
 	</body>
 	</html>
-	
+
 Then save the file in your *application/views/* directory.
 
 Loading a View
@@ -182,14 +182,14 @@ Now open your view file and create a loop::
 	</head>
 	<body>
 		<h1><?php echo $heading;?></h1>
-	
+
 		<h3>My Todo List</h3>
 
 		<ul>
 		<?php foreach ($todo_list as $item):?>
-	
+
 			<li><?php echo $item;?></li>
-	
+
 		<?php endforeach;?>
 		</ul>
 

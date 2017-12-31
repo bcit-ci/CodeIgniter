@@ -301,7 +301,6 @@ Class Reference
 
 				$this->upload->display_errors('<p>', '</p>');
 
-
 	.. php:method:: data([$index = NULL])
 
 		:param	string	$data: Element to return instead of the full array

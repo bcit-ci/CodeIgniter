@@ -31,7 +31,6 @@ Step 2: Update your database.php file
 
 Open your application/config/database.php file and add these new items::
 
-
     $db['default']['cache_on'] = FALSE;
     $db['default']['cachedir'] = '';
 
@@ -39,7 +38,6 @@ Step 3: Update your config.php file
 ===================================
 
 Open your application/config/config.php file and ADD these new items::
-
 
     /*
     |--------------------------------------------------------------------------
@@ -68,7 +66,6 @@ Open your application/config/config.php file and ADD these new items::
     $config['rewrite_short_tags'] = FALSE;
 
 In that same file REMOVE this item::
-
 
     /*
     |--------------------------------------------------------------------------

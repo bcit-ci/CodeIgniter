@@ -53,7 +53,6 @@ Returns an array of database names::
  		echo $db;
 	}
 
-
 Determine If a Database Exists
 ==============================
 

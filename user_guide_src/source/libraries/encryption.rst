@@ -186,7 +186,6 @@ ciphers. For portability reasons and because we haven't tested them
 properly, we do not advise you to use the ones that are driver-specific,
 but regardless, here's a list of most of them:
 
-
 ============== ========= ============================== =========================================
 Cipher name    Driver    Key lengths (bits / bytes)     Supported modes
 ============== ========= ============================== =========================================
@@ -297,7 +296,7 @@ Option   Possible values
 driver   'mcrypt', 'openssl'
 cipher   Cipher name (see :ref:`ciphers-and-modes`)
 mode     Encryption mode (see :ref:`encryption-modes`)
-key      Encryption key 
+key      Encryption key
 ======== ===============================================
 
 For example, if you were to change the encryption algorithm and
