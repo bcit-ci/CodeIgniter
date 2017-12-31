@@ -135,7 +135,6 @@ include a second parameter to rename the resulting field.
 	$this->db->select_max('age', 'member_age');
 	$query = $this->db->get('members'); // Produces: SELECT MAX(age) as member_age FROM members
 
-
 **$this->db->select_min()**
 
 Writes a "SELECT MIN(field)" portion for your query. As with
@@ -147,7 +146,6 @@ the resulting field.
 	$this->db->select_min('age');
 	$query = $this->db->get('members'); // Produces: SELECT MIN(age) as age FROM members
 
-
 **$this->db->select_avg()**
 
 Writes a "SELECT AVG(field)" portion for your query. As with
@@ -158,7 +156,6 @@ the resulting field.
 
 	$this->db->select_avg('age');
 	$query = $this->db->get('members'); // Produces: SELECT AVG(age) as age FROM members
-
 
 **$this->db->select_sum()**
 
@@ -267,7 +264,6 @@ methods:
 		$where = "name='Joe' AND status='boss' OR status='active'";
 		$this->db->where($where);
 
-
 ``$this->db->where()`` accepts an optional third parameter. If you set it to
 FALSE, CodeIgniter will not try to protect your field or table names.
 
@@ -297,7 +293,6 @@ appropriate
 	$this->db->where_in('username', $names);
 	// Produces: WHERE username IN ('Frank', 'Todd', 'James')
 
-
 **$this->db->or_where_in()**
 
 Generates a WHERE field IN ('item', 'item') SQL query joined with OR if
@@ -319,7 +314,6 @@ AND if appropriate
 	$names = array('Frank', 'Todd', 'James');
 	$this->db->where_not_in('username', $names);
 	// Produces: WHERE username NOT IN ('Frank', 'Todd', 'James')
-
 
 **$this->db->or_where_not_in()**
 
@@ -374,7 +368,6 @@ searches.
 		$array = array('title' => $match, 'page1' => $match, 'page2' => $match);
 		$this->db->like($array);
 		// WHERE `title` LIKE '%match%' ESCAPE '!' AND  `page1` LIKE '%match%' ESCAPE '!' AND  `page2` LIKE '%match%' ESCAPE '!'
-
 
 **$this->db->or_like()**
 
@@ -437,7 +430,6 @@ You can also pass an array of multiple values as well::
 	$this->db->having(array('title =' => 'My Title', 'id <' => $id));
 	// Produces: HAVING title = 'My Title', id < 45
 
-
 If you are using a database that CodeIgniter escapes queries for, you
 can prevent escaping content by passing an optional third argument, and
 setting it to FALSE.
@@ -446,7 +438,6 @@ setting it to FALSE.
 
 	$this->db->having('user_id',  45);  // Produces: HAVING `user_id` = 45 in some databases such as MySQL
 	$this->db->having('user_id',  45, FALSE);  // Produces: HAVING user_id = 45
-
 
 **$this->db->or_having()**
 
@@ -462,7 +453,6 @@ appropriate
 	$names = array('Frank', 'Todd', 'James');
 	$this->db->having_in('username', $names);
 	// Produces: HAVING username IN ('Frank', 'Todd', 'James')
-
 
 **$this->db->or_having_in()**
 
@@ -485,7 +475,6 @@ AND if appropriate
 	$names = array('Frank', 'Todd', 'James');
 	$this->db->having_not_in('username', $names);
 	// Produces: HAVING username NOT IN ('Frank', 'Todd', 'James')
-
 
 **$this->db->or_having_not_in()**
 
@@ -953,7 +942,6 @@ the data to the second parameter of the function::
 	// DELETE FROM mytable
 	// WHERE id = $id
 
-
 An array of table names can be passed into delete() if you would like to
 delete data from more than 1 table.
 
@@ -962,7 +950,6 @@ delete data from more than 1 table.
 	$tables = array('table1', 'table2', 'table3');
 	$this->db->where('id', '5');
 	$this->db->delete($tables);
-
 
 If you want to delete all data from a table, you can use the truncate()
 function, or empty_table().
@@ -1062,10 +1049,8 @@ Here's a usage example::
 	$this->db->get('tablename');
 	//Generates:  SELECT `field2` FROM (`tablename`)
 
-
 .. note:: The following statements can be cached: select, from, join,
 	where, like, group_by, having, order_by
-
 
 ***********************
 Resetting Query Builder

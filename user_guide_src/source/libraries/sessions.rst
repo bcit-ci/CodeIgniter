@@ -624,7 +624,6 @@ setting**. The examples below work both on MySQL and PostgreSQL::
 	// To drop a previously created primary key (use when changing the setting)
 	ALTER TABLE ci_sessions DROP PRIMARY KEY;
 
-
 .. important:: Only MySQL and PostgreSQL databases are officially
 	supported, due to lack of advisory locking mechanisms on other
 	platforms. Using sessions without locks can cause all sorts of
@@ -751,7 +750,6 @@ when creating a session driver for CodeIgniter:
     but we are not going to explain how ... if you're familiar with how
     class extensions/overrides work in CI, then you already know how to do
     it. If not, well, you shouldn't be doing it in the first place.
-
 
   - Implement the `SessionHandlerInterface
     <http://php.net/sessionhandlerinterface>`_ interface.

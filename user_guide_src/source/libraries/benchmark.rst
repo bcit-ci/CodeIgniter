@@ -61,7 +61,6 @@ Here's an example using real code::
 		echo $this->benchmark->elapsed_time('cat', 'bird');
 		echo $this->benchmark->elapsed_time('dog', 'bird');
 
-
 Profiling Your Benchmark Points
 ===============================
 
@@ -126,7 +125,6 @@ this pseudo-variable, if you prefer not to use the pure PHP::
 
 	{memory_usage}
 
-
 ***************
 Class Reference
 ***************
@@ -154,7 +152,6 @@ Class Reference
 		``{elapsed_time}`` pseudo-variable. This permits the full system
 		execution time to be shown in a template. The output class will
 		swap the real value for this variable.
-
 
 	.. php:method:: memory_usage()
 

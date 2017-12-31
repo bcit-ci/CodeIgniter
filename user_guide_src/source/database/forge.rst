@@ -60,7 +60,6 @@ Returns TRUE/FALSE based on success or failure::
 		echo 'Database deleted!';
 	}
 
-
 ****************************
 Creating and Dropping Tables
 ****************************
@@ -86,7 +85,6 @@ also require a 'constraint' key.
 		),
 	);
 	// will translate to "users VARCHAR(100)" when the field is added.
-
 
 Additionally, the following key/values can be used:
 
@@ -124,7 +122,6 @@ Additionally, the following key/values can be used:
 		),
 	);
 
-
 After the fields have been defined, they can be added using
 ``$this->dbforge->add_field($fields);`` followed by a call to the
 ``create_table()`` method.
@@ -132,7 +129,6 @@ After the fields have been defined, they can be added using
 **$this->dbforge->add_field()**
 
 The add fields method will accept the above array.
-
 
 Passing strings as fields
 -------------------------
@@ -143,7 +139,6 @@ string into the field definitions with add_field()
 ::
 
 	$this->dbforge->add_field("label varchar(100) NOT NULL DEFAULT 'default label'");
-
 
 .. note:: Passing raw strings as fields cannot be followed by ``add_key()`` calls on those fields.
 
@@ -160,7 +155,6 @@ Primary Key.
 
 	$this->dbforge->add_field('id');
 	// gives id INT(9) NOT NULL AUTO_INCREMENT
-
 
 Adding Keys
 ===========
@@ -188,7 +182,6 @@ below is for MySQL.
 	$this->dbforge->add_key(array('blog_name', 'blog_label'));
 	// gives KEY `blog_name_blog_label` (`blog_name`, `blog_label`)
 
-
 Creating a table
 ================
 
@@ -199,7 +192,6 @@ with
 
 	$this->dbforge->create_table('table_name');
 	// gives CREATE TABLE table_name
-
 
 An optional second parameter set to TRUE adds an "IF NOT EXISTS" clause
 into the definition
@@ -219,7 +211,6 @@ You could also pass optional table attributes, such as MySQL's ``ENGINE``::
 	``create_table()`` will always add them with your configured *char_set*
 	and *dbcollat* values, as long as they are not empty (MySQL only).
 
-
 Dropping a table
 ================
 
@@ -233,7 +224,6 @@ Execute a DROP TABLE statement and optionally add an IF EXISTS clause.
 	// Produces: DROP TABLE IF EXISTS table_name
 	$this->dbforge->drop_table('table_name',TRUE);
 
-
 Renaming a table
 ================
 
@@ -243,7 +233,6 @@ Executes a TABLE rename
 
 	$this->dbforge->rename_table('old_table_name', 'new_table_name');
 	// gives ALTER TABLE old_table_name RENAME TO new_table_name
-
 
 ****************
 Modifying Tables
@@ -281,7 +270,6 @@ Examples::
 		'preferences' => array('type' => 'TEXT', 'first' => TRUE)
 	);
 
-
 Dropping a Column From a Table
 ==============================
 
@@ -292,8 +280,6 @@ Used to remove a column from a table.
 ::
 
 	$this->dbforge->drop_column('table_name', 'column_to_drop');
-
-
 
 Modifying a Column in a Table
 =============================
@@ -314,7 +300,6 @@ change the name you can add a "name" key into the field defining array.
 	);
 	$this->dbforge->modify_column('table_name', $fields);
 	// gives ALTER TABLE table_name CHANGE old_name new_name TEXT
-
 
 ***************
 Class Reference

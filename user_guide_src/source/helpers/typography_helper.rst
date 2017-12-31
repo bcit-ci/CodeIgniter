@@ -24,7 +24,6 @@ Available Functions
 
 The following functions are available:
 
-
 .. php:function:: auto_typography($str[, $reduce_linebreaks = FALSE])
 
 	:param	string	$str: Input string
@@ -47,7 +46,6 @@ The following functions are available:
 		you have a lot of content being formatted. If you choose to use this
 		function you may want to consider :doc:`caching <../general/caching>` your
 		pages.
-
 
 .. php:function:: nl2br_except_pre($str)
 

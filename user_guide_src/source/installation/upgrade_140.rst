@@ -32,8 +32,6 @@ Step 2: Update your config.php file
 
 Open your application/config/config.php file and add these new items::
 
-
-
     /*
     |--------------------------------------------------------------------------
     | Enable/Disable System Hooks
@@ -44,7 +42,6 @@ Open your application/config/config.php file and add these new items::
     |
     */
     $config['enable_hooks'] = FALSE;
-
 
     /*
     |--------------------------------------------------------------------------

@@ -2,7 +2,6 @@
 PHP Style Guide
 ###############
 
-
 The following page describes the coding styles adhered to when
 contributing to the development of CodeIgniter. There is no requirement
 to use these styles in your own CodeIgniter application, though they
@@ -273,7 +272,6 @@ always precede and follow ``!``.
 	if ( ! $foo)
 	if ( ! is_array($foo))
 
-
 Comparing Return Values and Typecasting
 =======================================
 
@@ -316,7 +314,6 @@ Use **===** and **!==** as necessary.
 
 		}
 	}
-
 
 See also information regarding `typecasting
 <http://php.net/manual/en/language.types.type-juggling.php#language.types.typecasting>`_,

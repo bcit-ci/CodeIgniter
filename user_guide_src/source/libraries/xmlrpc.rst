@@ -370,7 +370,6 @@ folder::
 			$this->xmlrpcs->serve();
 		}
 
-
 		public function process($request)
 		{
 			$parameters = $request->output_parameters();
@@ -386,7 +385,6 @@ folder::
 			return $this->xmlrpc->send_response($response);
 		}
 	}
-
 
 Try it!
 -------

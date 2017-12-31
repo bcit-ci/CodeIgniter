@@ -118,7 +118,6 @@ Release Date: Not Released
       - Added ability to generate ``data:image/png;base64`` URIs instead of writing image files to disk.
       - Updated to always create PNG images instead of JPEG.
 
-
 Version 3.1.7
 =============
 
@@ -154,7 +153,6 @@ Release Date: Sep 25, 2017
 
    -  Deprecated :doc:`Cache Library Library <libraries/caching>` driver 'apc'.
    -  Updated the :doc:`Session Library <libraries/sessions>` 'redis', 'memcached' drivers to reduce the potential of a locking race conditions.
-
 
 Bug fixes for 3.1.6
 -------------------
@@ -1211,7 +1209,6 @@ Release Date: March 30, 2015
    -  Added support for HTTP-Only cookies with new config option *cookie_httponly* (default FALSE).
    -  ``$config['time_reference']`` now supports all timezone strings supported by PHP.
    -  Fatal PHP errors are now also passed to ``_error_handler()``, so they can be logged.
-
 
 Bug fixes for 3.0
 -----------------

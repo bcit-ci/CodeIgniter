@@ -48,8 +48,6 @@ Pygments, so that code blocks can be properly highlighted.
 Then follow the directions in the README file in the :samp:`cilexer` folder
 inside the documentation repository to install the CI Lexer.
 
-
-
 *****************************************
 Page and Section Headings and Subheadings
 *****************************************
@@ -102,9 +100,6 @@ create these with the following tab triggers::
 		SubSubSubSubSection (!)
 		"""""""""""""""""""""""
 
-
-
-
 ********************
 Method Documentation
 ********************
@@ -150,17 +145,14 @@ For example, consider the following ReST:
 
 			See also :meth:`Some_class::should_do_something`
 
-
 		.. php:method:: should_do_something()
 
 			:returns: Whether or not something should be done
 			:rtype: bool
 
-
 It creates the following display:
 
 .. php:class:: Some_class
-
 
 	.. php:method:: some_method ( $foo [, $bar [, $bat]])
 
@@ -194,7 +186,6 @@ It creates the following display:
 				For real.
 
 		See also :meth:`Some_class::should_do_something`
-
 
 	.. php:method:: should_do_something()
 

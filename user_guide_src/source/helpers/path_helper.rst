@@ -24,7 +24,6 @@ Available Functions
 
 The following functions are available:
 
-
 .. php:function:: set_realpath($path[, $check_existance = FALSE])
 
 	:param	string	$path: Path

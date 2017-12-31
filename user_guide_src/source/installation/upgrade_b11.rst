@@ -57,7 +57,6 @@ Change the array name from $conf to $config, like this::
 Lastly, add the following new item to the config file (and edit the
 option if needed)::
 
-
 	/*
 	|------------------------------------------------
 	| URI PROTOCOL

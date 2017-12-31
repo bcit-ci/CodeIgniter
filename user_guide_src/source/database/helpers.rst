@@ -32,7 +32,6 @@ Example::
 
 	// Produces:  SELECT * FROM sometable....
 
-
 .. note:: Disabling the **save_queries** setting in your database
 	configuration will render this function useless.
 

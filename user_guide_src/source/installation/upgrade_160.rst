@@ -31,7 +31,6 @@ session configuration options
 
 	$config['sess_time_to_update']         = 300;
 
-
 Step 3: Add $autoload['model']
 ==============================
 
@@ -51,7 +50,6 @@ Add the following to application/config/autoload.php
 
 	$autoload['model'] = array();
 
-
 Step 4: Add to your database.php
 ================================
 
@@ -64,13 +62,11 @@ with $active_group
 
 	$active_record = TRUE;
 
-
 Remove the following from your database configuration options
 
 ::
 
 	$db['default']['active_r'] = TRUE;
-
 
 Add the following to your database configuration options
 
@@ -78,7 +74,6 @@ Add the following to your database configuration options
 
 	$db['default']['char_set'] = "utf8";
 	$db['default']['dbcollat'] = "utf8_general_ci";
-
 
 Step 5: Update your user guide
 ==============================

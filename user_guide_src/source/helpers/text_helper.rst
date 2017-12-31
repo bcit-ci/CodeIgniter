@@ -41,7 +41,6 @@ The following functions are available:
 	The third parameter is an optional suffix added to the string. By
 	default it adds an ellipsis.
 
-
 .. php:function:: character_limiter($str[, $n = 500[, $end_char = '&#8230;']])
 
 	:param	string	$str: Input string
@@ -143,7 +142,6 @@ The following functions are available:
 
 	The function uses PHP's ``highlight_string()`` function, so the
 	colors used are the ones specified in your php.ini file.
-
 
 .. php:function:: highlight_phrase($str, $phrase[, $tag_open = '<mark>'[, $tag_close = '</mark>']])
 

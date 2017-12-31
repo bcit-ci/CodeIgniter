@@ -24,7 +24,6 @@ Available Functions
 
 The following functions are available:
 
-
 .. php:function:: byte_format($num[, $precision = 1])
 
 	:param	mixed	$num: Number of bytes

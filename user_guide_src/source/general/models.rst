@@ -127,7 +127,6 @@ view::
 		}
 	}
 
-
 Auto-loading Models
 ===================
 

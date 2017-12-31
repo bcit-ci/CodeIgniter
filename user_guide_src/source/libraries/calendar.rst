@@ -115,7 +115,6 @@ Preference              Default            Options                              
 											   first or last week of the calendar month.
 ======================  =================  ============================================  ===================================================================
 
-
 Showing Next/Previous Month Links
 =================================
 
@@ -233,7 +232,6 @@ Class Reference
 
 		Generate the calendar.
 
-
 	.. php:method:: get_month_name($month)
 
 		:param	int	$month: Month
@@ -296,7 +294,6 @@ Class Reference
 
 		Sets the default template. This method is used when you have not created
 		your own template.
-
 
 	.. php:method:: parse_template()
 

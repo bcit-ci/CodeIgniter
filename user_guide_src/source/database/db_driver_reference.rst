@@ -242,7 +242,6 @@ This article is intended to be a reference for them.
 			yourself, it cannot automatically add the ``ESCAPE '!'``
 			condition for you, and so you'll have to manually do that.
 
-
 	.. php:method:: primary($table)
 
 		:param	string	$table: Table name

@@ -134,7 +134,6 @@ message like this::
 	More text that will be
 	wrapped normally.
 
-
 Place the item you do not want word-wrapped between: {unwrap} {/unwrap}
 
 ***************

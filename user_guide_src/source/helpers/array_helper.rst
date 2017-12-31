@@ -19,12 +19,10 @@ This helper is loaded using the following code::
 
 	$this->load->helper('array');
 
-
 Available Functions
 ===================
 
 The following functions are available:
-
 
 .. php:function:: element($item, $array[, $default = NULL])
 
@@ -49,7 +47,6 @@ The following functions are available:
 
 		echo element('color', $array); // returns "red"
 		echo element('size', $array, 'foobar'); // returns "foobar"
-
 
 .. php:function:: elements($items, $array[, $default = NULL])
 
@@ -109,7 +106,6 @@ The following functions are available:
 
 	This ensures that only the id, title and content fields are sent to be
 	updated.
-
 
 .. php:function:: random_element($array)
 

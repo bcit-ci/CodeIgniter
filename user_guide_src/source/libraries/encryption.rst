@@ -186,7 +186,6 @@ ciphers. For portability reasons and because we haven't tested them
 properly, we do not advise you to use the ones that are driver-specific,
 but regardless, here's a list of most of them:
 
-
 ============== ========= ============================== =========================================
 Cipher name    Driver    Key lengths (bits / bytes)     Supported modes
 ============== ========= ============================== =========================================

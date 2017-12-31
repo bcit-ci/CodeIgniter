@@ -86,7 +86,6 @@ have it loaded automatically by the system. To do this, open the
 **autoload.php** file, located at application/config/autoload.php,
 and add your config file as indicated in the file.
 
-
 Fetching Config Items
 =====================
 
@@ -166,7 +165,6 @@ folders:
 	that you wish to change for your environment. The config items declared in your environment
 	folders always overwrite those in your global config files.
 
-
 ***************
 Class Reference
 ***************
@@ -180,7 +178,6 @@ Class Reference
 	.. attribute:: $is_loaded
 
 		Array of all loaded config files
-
 
 	.. php:method:: item($item[, $index=''])
 

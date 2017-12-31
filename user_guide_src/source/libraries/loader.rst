@@ -304,7 +304,6 @@ Class Reference
 
 			$this->load->model('model_name');
 
-
 		If your model is located in a subdirectory, include the relative path
 		from your models directory. For example, if you have a model located at
 		*application/models/blog/Queries.php* you'll load it using::

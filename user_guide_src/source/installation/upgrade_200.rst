@@ -46,7 +46,6 @@ to ::
 
 	$this->load->helper('foo');
 
-
 Step 4: Update stored encrypted data
 ====================================
 
@@ -99,7 +98,6 @@ Step 9: Update your user guide
 
 Please replace your local copy of the user guide with the new version,
 including the image files.
-
 
 ************
 Update Notes

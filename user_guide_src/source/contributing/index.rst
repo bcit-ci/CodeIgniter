@@ -72,7 +72,6 @@ If your issue report can describe the steps to reproduce the problem, that is gr
 If you can include a unit test that reproduces the problem, that is even better, as it gives whoever is fixing
 it a clearer target!
 
-
 **********
 Guidelines
 **********

@@ -243,7 +243,6 @@ Class Reference
 			<td>ten</td><td>eleven</td><td>twelve</td></tr>
 			</table>
 
-
 	.. php:method:: set_template($template)
 
 		:param	array	$template: An associative array containing template values

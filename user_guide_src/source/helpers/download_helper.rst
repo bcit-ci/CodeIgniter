@@ -23,7 +23,6 @@ Available Functions
 
 The following functions are available:
 
-
 .. php:function:: force_download([$filename = ''[, $data = ''[, $set_mime = FALSE]]])
 
 	:param	mixed	$filename: Filename

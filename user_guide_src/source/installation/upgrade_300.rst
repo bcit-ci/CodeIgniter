@@ -506,7 +506,6 @@ which you can create this logic with a few lines of code. For example::
 		$config['base_url'] = 'http://'.$domain;
 	}
 
-
 ****************************************************************
 Step 20: Remove usage of (previously) deprecated functionalities
 ****************************************************************

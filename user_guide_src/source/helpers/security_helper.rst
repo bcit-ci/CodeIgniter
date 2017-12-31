@@ -23,7 +23,6 @@ Available Functions
 
 The following functions are available:
 
-
 .. php:function:: xss_clean($str[, $is_image = FALSE])
 
 	:param	string	$str: Input data
@@ -64,7 +63,6 @@ The following functions are available:
 	This function is an alias for ``CI_Security::strip_image_tags()``. For
 	more info, please see the :doc:`Security Library <../libraries/security>`
 	documentation.
-
 
 .. php:function:: encode_php_tags($str)
 

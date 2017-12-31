@@ -73,7 +73,6 @@ The following functions are available:
 		echo increment_string('file', '-', 2); // "file-2"
 		echo increment_string('file_4'); // "file_5"
 
-
 .. php:function:: alternator($args)
 
 	:param	mixed	$args: A variable number of arguments
@@ -174,7 +173,6 @@ The following functions are available:
 
 		$string = "Joe's \"dinner\"";
 		$string = quotes_to_entities($string); //results in "Joe&#39;s &quot;dinner&quot;"
-
 
 .. php:function:: strip_quotes($str)
 

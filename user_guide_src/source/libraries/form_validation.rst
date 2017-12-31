@@ -957,7 +957,6 @@ When you use a helper function you'll include the bracket as well::
 
 	<?php echo form_error('options[color][]'); ?>
 
-
 **************
 Rule Reference
 **************
