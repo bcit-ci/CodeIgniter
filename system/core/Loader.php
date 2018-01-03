@@ -952,18 +952,14 @@ class CI_Loader {
 
 		// merge with global cached vars (first call) or last state from nested
 		// call stack (subsequent nested calls)
-		// if (!empty($this->_ci_vars_stack)) {
-		// 	$_ci_vars = array_merge(end($this->_ci_vars_stack), $_ci_vars);
-		// } else if (!empty($this->_ci_cached_vars)) {
-		// 	// merge with cached vars
-		// 	$_ci_vars = array_merge($this->_ci_cached_vars, $_ci_vars);
-		// }
-
-		empty($_ci_vars) OR $this->_ci_cached_vars = array_merge($this->_ci_cached_vars, $_ci_vars);
-
+		if (!empty($this->_ci_vars_stack)) {
+			$_ci_vars = array_merge(end($this->_ci_vars_stack), $_ci_vars);
+		} else if (!empty($this->_ci_cached_vars)) {
+			$_ci_vars = array_merge($this->_ci_cached_vars, $_ci_vars);
+		}
 
 		// push current _ci_vars state to stack and extract it
-		// array_push($this->_ci_vars_stack, $_ci_vars);
+		array_push($this->_ci_vars_stack, $_ci_vars);
 		extract($this->_ci_cached_vars);
 
 		/**
@@ -983,7 +979,7 @@ class CI_Loader {
 		log_message('info', 'File loaded: '.$_ci_path);
 
 		// remove current _ci_vars state from stack
-		// array_pop($this->_ci_vars_stack);
+		array_pop($this->_ci_vars_stack);
 
 		// Return the file data if requested
 		if ($_ci_return === TRUE)
