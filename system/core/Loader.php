@@ -960,7 +960,7 @@ class CI_Loader {
 
 		// push current _ci_vars state to stack and extract it
 		array_push($this->_ci_vars_stack, $_ci_vars);
-		extract($this->_ci_cached_vars);
+		extract($_ci_vars);
 
 		/**
 		 * Buffer the output
