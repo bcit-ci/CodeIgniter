@@ -950,6 +950,11 @@ class CI_Loader {
 		 * other views can have access to these variables.
 		 */
 
+		// init current _ci_vars
+		if (!is_array($_ci_vars)) {
+			$_ci_vars = [];
+		}
+
 		// merge with global cached vars (first call) or last state from nested
 		// call stack (subsequent nested calls)
 		if (!empty($this->_ci_vars_stack)) {
