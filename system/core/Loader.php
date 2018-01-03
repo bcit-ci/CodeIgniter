@@ -938,11 +938,10 @@ class CI_Loader {
 		 *
 		 * You can either set variables using the dedicated $this->load->vars()
 		 * function or via the second parameter of this function. We'll merge
-		 * the two types and cache them so that views that are embedded within
-		 * other views can have access to these variables.
+		 * the two types.
 		 */
-		empty($_ci_vars) OR $this->_ci_cached_vars = array_merge($this->_ci_cached_vars, $_ci_vars);
-		extract($this->_ci_cached_vars);
+		empty($this->_ci_cached_vars) OR $_ci_vars = array_merge($this->_ci_cached_vars, $_ci_vars);
+		extract($_ci_vars);
 
 		/**
 		 * Buffer the output
