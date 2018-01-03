@@ -94,6 +94,13 @@ class CI_Loader {
 	protected $_ci_cached_vars =	array();
 
 	/**
+	 * stack of variables for nested _ci_load calls
+	 *
+	 * @var	array
+	 */
+	protected $_ci_vars_stack =	array();
+
+	/**
 	 * List of loaded classes
 	 *
 	 * @var	array
@@ -934,14 +941,30 @@ class CI_Loader {
 		}
 
 		/*
-		 * Extract and cache variables
+		 * Extract and stack variables
 		 *
 		 * You can either set variables using the dedicated $this->load->vars()
 		 * function or via the second parameter of this function. We'll merge
-		 * the two types.
+		 * the two types. Additionally we merge them with the last variables
+		 * from the nested call stack so that views that are embedded within
+		 * other views can have access to these variables.
 		 */
-		empty($this->_ci_cached_vars) OR $_ci_vars = array_merge($this->_ci_cached_vars, $_ci_vars);
-		extract($_ci_vars);
+
+		// merge with global cached vars (first call) or last state from nested
+		// call stack (subsequent nested calls)
+		// if (!empty($this->_ci_vars_stack)) {
+		// 	$_ci_vars = array_merge(end($this->_ci_vars_stack), $_ci_vars);
+		// } else if (!empty($this->_ci_cached_vars)) {
+		// 	// merge with cached vars
+		// 	$_ci_vars = array_merge($this->_ci_cached_vars, $_ci_vars);
+		// }
+
+		empty($_ci_vars) OR $this->_ci_cached_vars = array_merge($this->_ci_cached_vars, $_ci_vars);
+
+
+		// push current _ci_vars state to stack and extract it
+		// array_push($this->_ci_vars_stack, $_ci_vars);
+		extract($this->_ci_cached_vars);
 
 		/**
 		 * Buffer the output
@@ -958,6 +981,9 @@ class CI_Loader {
 
 		include($_ci_path); // include() vs include_once() allows for multiple views with the same name
 		log_message('info', 'File loaded: '.$_ci_path);
+
+		// remove current _ci_vars state from stack
+		// array_pop($this->_ci_vars_stack);
 
 		// Return the file data if requested
 		if ($_ci_return === TRUE)
