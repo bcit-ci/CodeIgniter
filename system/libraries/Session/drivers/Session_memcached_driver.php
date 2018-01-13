@@ -313,6 +313,8 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 					? $this->_memcached->add($this->_lock_key, time(), 300)
 					: FALSE;
 			}
+
+			return TRUE;
 		}
 
 		// 30 attempts to obtain a lock, in case another request already has it
