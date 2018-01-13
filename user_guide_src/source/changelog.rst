@@ -119,16 +119,24 @@ Release Date: Not Released
       - Updated to always create PNG images instead of JPEG.
 
 
-Version 3.1.7
+Version 3.1.8
 =============
 
 Release Date: Not Released
+
+
+Version 3.1.7
+=============
+
+Release Date: Jan 13, 2018
 
 -  General Changes
 
    -  Updated :doc:`Form Validation Library <libraries/form_validation>` rule ``valid_email`` to use ``INTL_IDNA_VARIANT_UTS46`` for non-ASCII domain names.
    -  Updated :doc:`Email Library <libraries/email>` to use ``INTL_IDNA_VARIANT_UTS46`` for non-ASCII domain names.
    -  Updated :doc:`Loader Library <libraries/loader>` method ``model()`` to log both ``CI_Model`` class loading and individual models' initialization.
+   -  Updated :doc:`Pagination Library <libraries/pagination>` to preserve previously set attributes while calling ``initialize()``.
+   -  Updated :doc:`Cache Library <libraries/caching>` to automatically add items to cache on ``increment()``, ``decrement()`` calls for missing keys.
    -  Deprecated usage of :doc:`CAPTCHA Helper <helpers/captcha_helper>` function :php:func:`create_captcha()` with parameters other than ``$data``.
 
 Bug fixes for 3.1.7
@@ -140,6 +148,8 @@ Bug fixes for 3.1.7
 -  Fixed a regression (#5282) - :doc:`Query Builder <database/query_builder>` method ``count_all_results()`` breaks ``ORDER BY`` clauses for subsequent queries.
 -  Fixed a bug (#5279) - :doc:`Query Builder <database/query_builder>` didn't account for already escaped identifiers while applying database name prefixes.
 -  Fixed a bug (#5331) - :doc:`URL Helper <helpers/url_helper>` function :php:func:`auto_link()` converted e-mail addresses starting with 'www.' to both "url" and "email" links.
+-  Fixed a bug where ``$config['allow_get_array']`` defaulted to ``FALSE`` if it didn't exist in the config file.
+-  Fixed a bug (#5379) - :doc:`Session Library <libraries/sessions>` would incorrectly fail to obtain a lock that it already has on PHP 7 with the 'memcached' driver.
 
 Version 3.1.6
 =============
