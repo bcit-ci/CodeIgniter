@@ -5,7 +5,7 @@ Change Log
 Version 3.1.7
 =============
 
-Release Date: Not Released
+Release Date: Jan 13, 2018
 
 -  General Changes
 
