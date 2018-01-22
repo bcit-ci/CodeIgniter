@@ -7,7 +7,9 @@ Version 3.1.8
 
 Release Date: Not Released
 
-- General Changes
+-  General Changes
+
+   -  Updated :doc:`Email Library <libraries/email>` to always negotiate between TLS 1.0, 1.1, 1.2 when possible (PHP 5.6+) for SMTP connections.
 
 Bug fixes for 3.1.8
 -------------------
