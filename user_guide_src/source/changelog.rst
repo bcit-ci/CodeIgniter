@@ -7,6 +7,14 @@ Version 3.1.8
 
 Release Date: Not Released
 
+-  General Changes
+
+   -  Updated :doc:`Email Library <libraries/email>` to always negotiate between TLS 1.0, 1.1, 1.2 when possible (PHP 5.6+) for SMTP connections.
+
+Bug fixes for 3.1.8
+-------------------
+
+-  Fixed a bug where :doc:`Form Validation Library <libraries/form_validation>`, :doc:`Email Library <libraries/email>` tried to use ``INTL_IDNA_VARIANT_UTS46`` when it was undeclared.
 
 Version 3.1.7
 =============
