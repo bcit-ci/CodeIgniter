@@ -250,17 +250,19 @@ class CI_User_agent {
 	 * @return	bool
 	 */
 	protected function _compile_data()
-	{
-		$this->_set_platform();
+    {
+        $this->_set_platform();
 
-		foreach (array('_set_robot', '_set_browser', '_set_mobile') as $function)
-		{
-			if ($this->$function() === TRUE)
-			{
-				break;
-			}
-		}
-	}
+        foreach (array('_set_mobile', '_set_robot', '_set_browser') as $function)
+        {
+            if ($this->$function() === TRUE)
+            {
+                if ($function != '_set_mobile'){
+                    break;
+                }
+            }
+        }
+    }
 
 	// --------------------------------------------------------------------
 
