@@ -15,6 +15,7 @@ Bug fixes for 3.1.8
 -------------------
 
 -  Fixed a bug where :doc:`Form Validation Library <libraries/form_validation>`, :doc:`Email Library <libraries/email>` tried to use ``INTL_IDNA_VARIANT_UTS46`` when it was undeclared.
+-  Fixed a bug where :doc:`Query Builder <database/query_builder>` methods ``where()``, ``having()`` treated values passed to them as arbitrary SQL.
 
 Version 3.1.7
 =============
