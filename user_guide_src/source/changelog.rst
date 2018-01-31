@@ -7,6 +7,10 @@ Version 3.1.8
 
 Release Date: Not Released
 
+- **Security**
+
+   -  Updated :doc:`URL Helper <helpers/url_helper>` function :php:func:`auto_link()` to add ``rel="noopener"`` to generated links in order to prevent tab hijacking.
+
 -  General Changes
 
    -  Updated :doc:`Email Library <libraries/email>` to always negotiate between TLS 1.0, 1.1, 1.2 when possible (PHP 5.6+) for SMTP connections.
