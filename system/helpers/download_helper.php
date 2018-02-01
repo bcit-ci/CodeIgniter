@@ -151,13 +151,10 @@ if ( ! function_exists('force_download'))
 		$encoding = config_item('charset');
 		if (strtoupper($encoding) !== 'UTF-8')
 		{
-			if (MB_ENABLED)
+			$CI =& get_instance();
+			if ($converted_filename = $CI->utf8->convert_to_utf8($utf8_filename, $encoding) )
 			{
-				$utf8_filename = mb_convert_encoding($utf8_filename, 'UTF-8', $encoding);
-			}
-			elseif (ICONV_ENABLED)
-			{
-				$utf8_filename = @iconv($encoding, 'UTF-8', $utf8_filename);
+				$utf8_filename = $converted_filename;
 			}
 		}
 
