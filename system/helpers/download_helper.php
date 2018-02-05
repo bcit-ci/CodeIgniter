@@ -147,21 +147,21 @@ if ( ! function_exists('force_download'))
 			@ob_clean();
 		}
 
-		$utf8_filename = $filename;
+		$disposition = 'attachment; filename="'.$filename.'";';
 		$charset = config_item('charset');
 		if (strtoupper($charset) !== 'UTF-8')
 		{
-			$converted_filename = get_instance()->utf8->convert_to_utf8($utf8_filename, $charset);
-			if ($converted_filename !== FALSE)
+			// charset attribute (RFC 6266 only allows UTF-8)
+			$utf8_filename = get_instance()->utf8->convert_to_utf8($filename, $charset);
+			if ($utf8_filename !== FALSE)
 			{
-				$utf8_filename = $converted_filename;
+				$disposition .= ' filename*=UTF-8\'\''.rawurlencode($utf8_filename);
 			}
 		}
 
 		// Generate the server headers
 		header('Content-Type: '.$mime);
-		// charset attribute (RFC 6266 only allows UTF-8)
-		header('Content-Disposition: attachment; filename="'.$filename.'"; filename*=UTF-8\'\''.rawurlencode($utf8_filename));
+		header('Content-Disposition: '.$disposition);
 		header('Expires: 0');
 		header('Content-Transfer-Encoding: binary');
 		header('Content-Length: '.$filesize);
