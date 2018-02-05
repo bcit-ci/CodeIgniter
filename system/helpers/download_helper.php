@@ -148,10 +148,10 @@ if ( ! function_exists('force_download'))
 		}
 
 		$utf8_filename = $filename;
-		$encoding = config_item('charset');
-		if (strtoupper($encoding) !== 'UTF-8')
+		$charset = config_item('charset');
+		if (strtoupper($charset) !== 'UTF-8')
 		{
-			$converted_filename = get_instance()->utf8->convert_to_utf8($utf8_filename, $encoding);
+			$converted_filename = get_instance()->utf8->convert_to_utf8($utf8_filename, $charset);
 			if ($converted_filename !== FALSE)
 			{
 				$utf8_filename = $converted_filename;
