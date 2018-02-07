@@ -147,21 +147,26 @@ if ( ! function_exists('force_download'))
 			@ob_clean();
 		}
 
-		$disposition = 'attachment; filename="'.$filename.'";';
-		$charset = config_item('charset');
-		if (strtoupper($charset) !== 'UTF-8')
+		// RFC 6266 allows for multibyte filenames, but only in UTF-8,
+		// so we have to make it conditional ...
+		$utf8_filename = $filename;
+		$charset = strtoupper(config_item('charset'));
+		if ($charset !== 'UTF-8')
 		{
-			// charset attribute (RFC 6266 only allows UTF-8)
-			$utf8_filename = get_instance()->utf8->convert_to_utf8($filename, $charset);
-			if ($utf8_filename !== FALSE)
-			{
-				$disposition .= ' filename*=UTF-8\'\''.rawurlencode($utf8_filename);
-			}
+			$utf8_filename = (UTF8_ENABLED === TRUE)
+				? get_instance()->utf8->convert_to_utf8($filename, $charset)
+				: FALSE;
 		}
+		else
+		{
+			$utf8_filename = $filename;
+		}
+
+		isset($utf8_filename[0]) && $utf8_filename = " filename*=UTF-8''".rawurlencode($utf8_filename);
 
 		// Generate the server headers
 		header('Content-Type: '.$mime);
-		header('Content-Disposition: '.$disposition);
+		header('Content-Disposition: attachment; filename="'.$filename.'";'.$utf8_filename);
 		header('Expires: 0');
 		header('Content-Transfer-Encoding: binary');
 		header('Content-Length: '.$filesize);

@@ -94,6 +94,7 @@ Release Date: Not Released
 
       - Updated :php:func:`force_download()` to allow existing files to be renamed for download.
       - Updated :php:func:`force_download()` to better utilize available server memory.
+      - Updated :php:func:`force_download()` to serve multibyte filenames when possible, via the ``filename*`` attribute specified by IETF `RFC 6266 <https://tools.ietf.org/html/rfc6266>`_.
 
    -  :doc:`String Helper <helpers/string_helper>` changes include:
 
