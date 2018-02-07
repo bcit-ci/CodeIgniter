@@ -1548,8 +1548,7 @@ class CI_Image_lib {
 	 */
 	public function image_display_gd($resource)
 	{
-		$filename = basename(empty($this->new_image) ? $this->source_image : $this->new_image);
-	        header('Content-Disposition: filename='.$filename.'; filename*=UTF-8\'\''.rawurlencode(iconv(config_item('charset'), 'UTF-8', $filename)));
+	        header('Content-Disposition: filename='.basename(empty($this->new_image) ? $this->source_image : $this->new_image).';');
 		header('Content-Type: '.$this->mime_type);
 		header('Content-Transfer-Encoding: binary');
 		header('Last-Modified: '.gmdate('D, d M Y H:i:s', time()).' GMT');
