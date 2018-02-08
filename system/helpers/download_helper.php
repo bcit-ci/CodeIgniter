@@ -153,9 +153,7 @@ if ( ! function_exists('force_download'))
 		$charset = strtoupper(config_item('charset'));
 		if ($charset !== 'UTF-8')
 		{
-			$utf8_filename = (UTF8_ENABLED === TRUE)
-				? get_instance()->utf8->convert_to_utf8($filename, $charset)
-				: FALSE;
+			$utf8_filename = get_instance()->utf8->convert_to_utf8($filename, $charset);
 		}
 		else
 		{
