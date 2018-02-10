@@ -1,19 +1,19 @@
 #################
-Create news items
+Crear nuevos elementos
 #################
 
-You now know how you can read data from a database using CodeIgniter, but
-you haven't written any information to the database yet. In this section
-you'll expand your news controller and model created earlier to include
-this functionality.
+Ahora que sabes como leer datos de una base de datos usando CodeIgniter, 
+pero aún no haz escrito ninguna información en la base de datos. En esta sección
+expandirá su nuevo controlador y modelo creado anteriormente para incluir
+esta funcionalidad.
 
-Create a form
+Crear una forma
 -------------
 
-To input data into the database you need to create a form where you can
-input the information to be stored. This means you'll be needing a form
-with two fields, one for the title and one for the text. You'll derive
-the slug from our title in the model. Create the new view at
+Para ingresar datos en la base de datos necesitas crear un formulario donde puedas
+ingresar la información que se almacenará. Esto significa que necesitarás una forma
+con dos campos, uno para el título y uno para el texto. Derivarás
+la cadena de nuestro título en el modelo. Creando la nueva vista en el modelo
 *application/views/news/create.php*.
 
 ::
@@ -34,19 +34,19 @@ the slug from our title in the model. Create the new view at
 
     </form>
 
-There are only two things here that probably look unfamiliar to you: the
-``form_open()`` function and the ``validation_errors()`` function.
+solamente hay dos cosas aquí que probablemente no te resultarán familiares: la
+función ``form_open()`` y la función ``validation_errors()``.
 
-The first function is provided by the :doc:`form
-helper <../helpers/form_helper>` and renders the form element and
-adds extra functionality, like adding a hidden :doc:`CSRF prevention
-field <../libraries/security>`. The latter is used to report
-errors related to form validation.
+La primera función la proporciona el :doc:`form
+helper <../helpers/form_helper>` y da la forma al elemento y 
+funcionalidades extra, como añadir un oculto :doc:`CSRF prevention
+field <../libraries/security>`. Este último se usa para informar
+errores relacionados con la validación de formulario.
 
-Go back to your news controller. You're going to do two things here,
-check whether the form was submitted and whether the submitted data
-passed the validation rules. You'll use the :doc:`form
-validation <../libraries/form_validation>` library to do this.
+Yendo de regreso a tu controlador de noticias. Harás dos cosas aquí,
+checar si la forma fue presentada y si los datos presentados
+pasaron las reglas de validación. usarás el :doc:`form
+validation <../libraries/form_validation>` para hacer esto.
 
 ::
 
@@ -74,29 +74,29 @@ validation <../libraries/form_validation>` library to do this.
         }
     }
 
-The code above adds a lot of functionality. The first few lines load the
-form helper and the form validation library. After that, rules for the
-form validation are set. The ``set_rules()`` method takes three arguments;
-the name of the input field, the name to be used in error messages, and
-the rule. In this case the title and text fields are required.
+El código anterior agrega muchas funcionalidades. Las primeras líneas cargan la
+ayuda de formas y el archivo de validación de formas. después de eso, las reglas para la
+validación de formas son puestas. El método ``set_rules()`` toma tres argumentos;
+el nombre del campo de entrada, el nombre que se usará en los mensajes de error, y
+la regla. En este caso el título y campos de texto son requeridos.
 
-CodeIgniter has a powerful form validation library as demonstrated
-above. You can read :doc:`more about this library
+CodeIgniter tiene una potente biblioteca de validación de formularios como se demostró
+antes. Puedes leer :doc:`more about this library
 here <../libraries/form_validation>`.
 
-Continuing down, you can see a condition that checks whether the form
-validation ran successfully. If it did not, the form is displayed, if it
-was submitted **and** passed all the rules, the model is called. After
-this, a view is loaded to display a success message. Create a view at
-*application/views/news/success.php* and write a success message.
+Continuando hacia abajo, puede ver una condición que verifica si la validación
+del formulario ocurrió exitosamente. Si no fue así, el formulario se muestra, si
+fue enviado **y** paso todas las reglas, el modelo es llamado. Después
+de esto, una página se carga para mostrar un mensaje de éxito. Crea una página en
+*application/views/news/success.php* y escribe un mensaje de éxito.
 
-Model
+Modelo
 -----
 
-The only thing that remains is writing a method that writes the data to
-the database. You'll use the Query Builder class to insert the
-information and use the input library to get the posted data. Open up
-the model created earlier and add the following:
+Lo único que queda es escribir un método que escriba los datos en
+la base de datos. Usarás el Query Builder class para insertar la
+información y utilizar la biblioteca de entrada para obtener los datos publicados. Abre
+el modelo creado antesy añade lo siguiente:
 
 ::
 
@@ -115,29 +115,29 @@ the model created earlier and add the following:
         return $this->db->insert('news', $data);
     }
 
-This new method takes care of inserting the news item into the database.
-The third line contains a new function, url\_title(). This function -
-provided by the :doc:`URL helper <../helpers/url_helper>` - strips down
-the string you pass it, replacing all spaces by dashes (-) and makes
-sure everything is in lowercase characters. This leaves you with a nice
-slug, perfect for creating URIs.
+Este nuevo método se encarga de insertar la noticia en la base de datos.
+la tercera línea contiene una nueva función, url\_title(). Esta función -
+proveída por el :doc:`URL helper <../helpers/url_helper>` - elimina 
+lo que acabas de pasar, reemplazando todos los espacios por guiones (-) y hac
+seguro todo que esté en minúsculas. Esto te deja con una bonita
+cadena, perfecta para crear URIs.
 
-Let's continue with preparing the record that is going to be inserted
-later, inside the ``$data`` array. Each element corresponds with a column in
-the database table created earlier. You might notice a new method here,
-namely the ``post()`` method from the :doc:`input
-library <../libraries/input>`. This method makes sure the data is
-sanitized, protecting you from nasty attacks from others. The input
-library is loaded by default. At last, you insert our ``$data`` array into
-our database.
+Continuemos con la preparación del registro que se va a insertar
+después, dentro del apartado ``$data``. Cada elemento corresponde a una columna
+de la tabla de base de datos creada anteriormente. Deberías percatarte de un nuevo método aquí,
+llamado el método ``post()`` del :doc:`input
+library <../libraries/input>`. Este método se encarga de que los datos estén
+sanos, protegiéndote de ataques de otros. La biblioteca
+de entrada se carga por defecto. Al último, insertarás nuestro apartado ``$data`` en
+nuestra base de datos.
 
-Routing
+Enrutamiento
 -------
 
-Before you can start adding news items into your CodeIgniter application
-you have to add an extra rule to *config/routes.php* file. Make sure your
-file contains the following. This makes sure CodeIgniter sees 'create'
-as a method instead of a news item's slug.
+Antes de que empieces a integrar nuevos elementos en tu aplicación CodeIgniter 
+tienes que añadir una relga extra al *config/routes.php* file. Asegurandote de que tu
+archivo contiene lo siguiente. Esto hace seguro que CodeIgniter vea 'create'
+como un método en lugar de la cadena de la noticia.
 
 ::
 
@@ -147,7 +147,7 @@ as a method instead of a news item's slug.
     $route['(:any)'] = 'pages/view/$1';
     $route['default_controller'] = 'pages/view';
 
-Now point your browser to your local development environment where you
-installed CodeIgniter and add index.php/news/create to the URL.
-Congratulations, you just created your first CodeIgniter application!
-Add some news and check out the different pages you made.
+Apunte su navegador a su entorno de desarrollo local donde ha
+instalado CodeIgniter y añade index.php/news/create a la URL.
+Felicidades, haz creado tu primera aplicación de CodeIgniter!
+Agregue algunas noticias y revise las diferentes páginas que ha creado.
