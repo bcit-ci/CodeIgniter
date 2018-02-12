@@ -538,6 +538,11 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			$cond = '';
 		}
+		// Check CROSS JOIN (JOIN ON TRUE) before checking !_has_operator
+		elseif (trim(strtoupper($cond)) === 'TRUE' )
+		{
+			$cond = ' ON TRUE ';
+		}
 		elseif ( ! $this->_has_operator($cond))
 		{
 			$cond = ' USING ('.($escape ? $this->escape_identifiers($cond) : $cond).')';
