@@ -1938,7 +1938,7 @@ Hg Tag: v2.0.0
       precision.
    -  Added alpha, and sha1 string types to random_string() in the
       :doc:`String Helper <helpers/string_helper>`.
-   -  Modified prep_url() so as to not prepend http&#58;// if the supplied
+   -  Modified prep_url() so as to not prepend \http:// if the supplied
       string already has a scheme.
    -  Modified get_file_info in the file helper, changing filectime()
       to filemtime() for dates.
@@ -2678,7 +2678,7 @@ Bugfixes for 1.6.2
    instantiating new Language and Exception objects, and not using the
    error heading.
 -  Fixed a bug (#4413) where a URI containing slashes only e.g.
-   'http&#58;//example.com/index.php?//' would result in PHP errors
+   '\http://example.com/index.php?//' would result in PHP errors
 -  Fixed an array to string conversion error in the Validation library
    (#4425)
 -  Fixed bug (#4451, #4299, #4339) where failed transactions will not
