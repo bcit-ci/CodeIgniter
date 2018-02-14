@@ -64,6 +64,11 @@ Release Date: Not Released
       - Changed the default value of the **validate** option to ``TRUE``.
       - Changed the ``send()`` method to always return ``TRUE`` when sending multiple batches of emails.
 
+
+   -  :doc:`Image Manipulation Library <libraries/image_lib>` changes include:
+
+      - Added option to change the output filename via the ``new_name`` option while directly rendering images.
+
 -  :doc:`Database <database/index>` changes include:
 
    -  Removed previously deprecated 'sqlite' driver (used for SQLite version 2; no longer shipped with PHP 5.4+).
