@@ -151,7 +151,7 @@ if ( ! function_exists('force_download'))
 		// so we have to make it conditional ...
 		$charset = strtoupper(config_item('charset'));
 		$utf8_filename = ($charset !== 'UTF-8')
-			? $utf8_filename = get_instance()->utf8->convert_to_utf8($filename, $charset)
+			? get_instance()->utf8->convert_to_utf8($filename, $charset)
 			: $filename;
 		isset($utf8_filename[0]) && $utf8_filename = " filename*=UTF-8''".rawurlencode($utf8_filename);
 
