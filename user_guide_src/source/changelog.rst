@@ -67,7 +67,8 @@ Release Date: Not Released
 
    -  :doc:`Image Manipulation Library <libraries/image_lib>` changes include:
 
-      - Added option to change the output filename via the ``new_name`` option while directly rendering images.
+      - Added option to change the output filename via the ``new_name`` option when rendering images with ``dynamic_output``.
+      - Updated to serve multibyte filenames when rendering images with ``dynamic_output``, if possible.
 
 -  :doc:`Database <database/index>` changes include:
 
