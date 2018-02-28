@@ -99,6 +99,15 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	public $limit_used;
 
+	/**
+	 * ROWID column name or table-specific column name
+	 *
+	 * Used to fetch the value from ROWID (or table-specific) column
+	 *
+	 * @var string
+	 */
+	public $rowid_column = 'ROWID';
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -134,6 +143,13 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * @var	string
 	 */
 	protected $_count_string = 'SELECT COUNT(1) AS ';
+
+	/**
+	 * OCI8 ROWID
+	 *
+	 * Used by _execute() to fetch Oracle ROWID
+	 */
+	protected $_oci8_rowid  = -1;
 
 	// --------------------------------------------------------------------
 
@@ -280,6 +296,10 @@ class CI_DB_oci8_driver extends CI_DB {
 		if ($this->_reset_stmt_id === TRUE)
 		{
 			$this->stmt_id = oci_parse($this->conn_id, $sql);
+		}
+
+		if (strstr($sql, ':ci_oci8_rowid')) {
+			oci_bind_by_name($this->stmt_id, ":ci_oci8_rowid", $this->_oci8_rowid, 255);
 		}
 
 		oci_set_prefetch($this->stmt_id, 1000);
@@ -438,8 +458,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	public function insert_id()
 	{
-		// not supported in oracle
-		return $this->display_error('db_unsupported_function');
+		return $this->_oci8_rowid;
 	}
 
 	// --------------------------------------------------------------------
@@ -582,6 +601,24 @@ class CI_DB_oci8_driver extends CI_DB {
 		return is_array($error)
 			? $error
 			: array('code' => '', 'message' => '');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Insert statement
+	 *
+	 * Generates a platform-specific insert string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @param	array	the insert keys
+	 * @param	array	the insert values
+	 * @return	string
+	 */
+	protected function _insert($table, $keys, $values)
+	{
+		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')'.
+		       ' RETURNING ' . $this->rowid_column . ' INTO :ci_oci8_rowid';
 	}
 
 	// --------------------------------------------------------------------
