@@ -14,12 +14,14 @@ Release Date: Not Released
 -  General Changes
 
    -  Updated :doc:`Email Library <libraries/email>` to always negotiate between TLS 1.0, 1.1, 1.2 when possible (PHP 5.6+) for SMTP connections.
+   -  Updated :doc:`Database Library <database/index>` method ``version()`` to exclude suffixes to the main version numbers with the 'postgre' driver.
 
 Bug fixes for 3.1.8
 -------------------
 
 -  Fixed a bug where :doc:`Form Validation Library <libraries/form_validation>`, :doc:`Email Library <libraries/email>` tried to use ``INTL_IDNA_VARIANT_UTS46`` when it was undeclared.
 -  Fixed a bug where :doc:`Query Builder <database/query_builder>` methods ``where()``, ``having()`` treated values passed to them as arbitrary SQL.
+-  Fixed a bug (#5423) - :doc:`Database Library <database/index>` method ``insert_id()`` failed due to incorrect server version parsing with the 'postgre' driver.
 
 Version 3.1.7
 =============
