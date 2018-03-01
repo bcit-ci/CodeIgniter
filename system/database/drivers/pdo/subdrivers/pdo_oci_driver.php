@@ -87,6 +87,20 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 	 */
 	protected $_count_string = 'SELECT COUNT(1) AS ';
 
+	/**
+	 * Oracle table ROWID
+	 *
+	 * Used by _execute() to fetch Oracle ROWID
+	 */
+	protected $_rowid = NULL;
+
+	/**
+	 * Oracle table
+	 *
+	 * Used by insert_id() method
+	 */
+    protected $_table = NULL;
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -202,6 +216,51 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Execute the query
+	 *
+	 * @param	string	$sql	SQL query
+	 * @return	mixed
+	 */
+	protected function _execute($sql)
+	{
+		if (strpos($sql, 'RETURNING ROWID INTO :CI_OCI8_ROWID') !== FALSE)
+		{
+			$sth = $this->conn_id->prepare($sql);
+			$sth->bindParam(1, $this->_rowid, PDO::PARAM_INPUT_OUTPUT, 255);
+			return $sth->execute();
+		}
+		return $this->conn_id->query($sql);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Insert ID
+	 *
+	 * @param	string	$name
+	 * @return	int
+	 */
+	public function insert_id($name = NULL)
+	{
+		if (! $this->_rowid) return NULL;
+
+		$column	= (func_num_args() > 0) ? func_get_arg(0) : NULL;
+
+		if ($column !== NULL)
+		{
+			$sql =  'SELECT ' . strtoupper($column) . ' AS SEQ ' .
+					'FROM ' . strtoupper($this->_table) . ' ' .
+					'WHERE ROWID = ' . $this->escape($this->_rowid);
+			$seq = $this->query($sql)->row()->SEQ;
+			return $seq;
+		}
+
+		return $this->_rowid;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Returns an object with field data
 	 *
 	 * @param	string	$table
@@ -253,6 +312,26 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 		}
 
 		return $retval;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Insert statement
+	 *
+	 * Generates a platform-specific insert string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @param	array	the insert keys
+	 * @param	array	the insert values
+	 * @return	string
+	 */
+	protected function _insert($table, $keys, $values)
+	{
+		$this->_table = $table;
+
+		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).') '.
+		       'RETURNING ROWID INTO :CI_OCI8_ROWID';
 	}
 
 	// --------------------------------------------------------------------
