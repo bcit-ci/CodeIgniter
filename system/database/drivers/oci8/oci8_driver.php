@@ -463,9 +463,9 @@ class CI_DB_oci8_driver extends CI_DB {
 
 		if ($column !== NULL)
 		{
-			$sql =  'SELECT ' . strtoupper($column) . ' AS SEQ ' .
-					'FROM ' . strtoupper($this->_table) . ' ' .
-					'WHERE ROWID = ' . $this->escape($this->_rowid);
+			$sql = 'SELECT ' . strtoupper($column) . ' AS SEQ ' .
+			       'FROM ' . strtoupper($this->_table) . ' ' .
+			       'WHERE ROWID = ' . $this->escape($this->_rowid);
 			$seq = $this->query($sql)->row()->SEQ;
 			return $seq;
 		}

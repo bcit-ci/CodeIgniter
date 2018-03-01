@@ -248,9 +248,9 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 
 		if ($column !== NULL)
 		{
-			$sql =  'SELECT ' . strtoupper($column) . ' AS SEQ ' .
-					'FROM ' . strtoupper($this->_table) . ' ' .
-					'WHERE ROWID = ' . $this->escape($this->_rowid);
+			$sql = 'SELECT ' . strtoupper($column) . ' AS SEQ ' .
+			       'FROM ' . strtoupper($this->_table) . ' ' .
+			       'WHERE ROWID = ' . $this->escape($this->_rowid);
 			$seq = $this->query($sql)->row()->SEQ;
 			return $seq;
 		}
