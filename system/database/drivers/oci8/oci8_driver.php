@@ -99,15 +99,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	public $limit_used;
 
-	/**
-	 * ROWID column name or table-specific column name
-	 *
-	 * Used to fetch the value from ROWID (or table-specific) column
-	 *
-	 * @var string
-	 */
-	public $rowid_column = 'ROWID';
-
 	// --------------------------------------------------------------------
 
 	/**
@@ -145,11 +136,18 @@ class CI_DB_oci8_driver extends CI_DB {
 	protected $_count_string = 'SELECT COUNT(1) AS ';
 
 	/**
-	 * OCI8 ROWID
+	 * Oracle table ROWID
 	 *
 	 * Used by _execute() to fetch Oracle ROWID
 	 */
-	protected $_oci8_rowid  = -1;
+	protected $_rowid = NULL;
+
+	/**
+	 * Oracle table
+	 *
+	 * Used by insert_id() method
+	 */
+    protected $_table = NULL;
 
 	// --------------------------------------------------------------------
 
@@ -298,8 +296,9 @@ class CI_DB_oci8_driver extends CI_DB {
 			$this->stmt_id = oci_parse($this->conn_id, $sql);
 		}
 
-		if (strstr($sql, ':ci_oci8_rowid')) {
-			oci_bind_by_name($this->stmt_id, ":ci_oci8_rowid", $this->_oci8_rowid, 255);
+		if (strpos($sql, 'RETURNING ROWID INTO :CI_OCI8_ROWID') !== FALSE)
+		{
+			oci_bind_by_name($this->stmt_id, ':CI_OCI8_ROWID', $this->_rowid, 255);
 		}
 
 		oci_set_prefetch($this->stmt_id, 1000);
@@ -458,7 +457,20 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	public function insert_id()
 	{
-		return $this->_oci8_rowid;
+		if (! $this->_rowid) return NULL;
+
+		$column	= (func_num_args() > 0) ? func_get_arg(0) : NULL;
+
+		if ($column !== NULL)
+		{
+			$sql =  'SELECT ' . strtoupper($column) . ' AS SEQ ' .
+					'FROM ' . strtoupper($this->_table) . ' ' .
+					'WHERE ROWID = ' . $this->escape($this->_rowid);
+			$seq = $this->query($sql)->row()->SEQ;
+			return $seq;
+		}
+
+		return $this->_rowid;
 	}
 
 	// --------------------------------------------------------------------
@@ -617,8 +629,10 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	protected function _insert($table, $keys, $values)
 	{
-		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')'.
-		       ' RETURNING ' . $this->rowid_column . ' INTO :ci_oci8_rowid';
+		$this->_table = $table;
+
+		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).') '.
+		       'RETURNING ROWID INTO :CI_OCI8_ROWID';
 	}
 
 	// --------------------------------------------------------------------
