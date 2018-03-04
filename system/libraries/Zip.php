@@ -366,7 +366,7 @@ class CI_Zip {
 
 		while (FALSE !== ($file = readdir($fp)))
 		{
-			if ($file[0] === '.')
+			if ($file === '.' OR $file === '..')
 			{
 				continue;
 			}
