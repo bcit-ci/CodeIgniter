@@ -833,7 +833,7 @@ class CI_Security {
 		// For other tags, see if their attributes are "evil" and strip those
 		elseif (isset($matches['attributes']))
 		{
-			// We'll store the already fitlered attributes here
+			// We'll store the already filtered attributes here
 			$attributes = array();
 
 			// Attribute-catching pattern
