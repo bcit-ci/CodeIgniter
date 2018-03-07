@@ -318,6 +318,15 @@ class Loader_test extends CI_TestCase {
 		$vars = new stdClass();
 		$vars->$var = $value;
 		$this->assertInstanceOf('CI_Loader', $this->load->view($view, $vars));
+
+		// Create another view in VFS, nesting the first one without its own $vars
+		$nesting_view = 'unit_test_nesting_view';
+		$nesting_content = 'Here comes a nested view.  ';
+		$this->ci_vfs_create($nesting_view, $nesting_content.'<?php $loader->view("'.$view.'");', $this->ci_app_root, 'views');
+
+		// Test $vars inheritance to nested views
+		$out = $this->load->view($nesting_view, array("loader" => $this->load, $var => $value), TRUE);
+		$this->assertEquals($nesting_content.$content.$value, $out);
 	}
 
 	// --------------------------------------------------------------------
