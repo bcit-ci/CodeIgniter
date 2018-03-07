@@ -303,11 +303,15 @@ class Loader_test extends CI_TestCase {
 		$var = 'hello';
 		$value = 'World!';
 		$content = 'This is my test page.  ';
-		$this->ci_vfs_create($view, $content.'<?php echo $'.$var.';', $this->ci_app_root, 'views');
+		$this->ci_vfs_create($view, $content.'<?php echo (isset($'.$var.') ? $'.$var.' : "undefined");', $this->ci_app_root, 'views');
 
 		// Test returning view
 		$out = $this->load->view($view, array($var => $value), TRUE);
 		$this->assertEquals($content.$value, $out);
+
+		// Test view with missing parameter in $vars
+		$out = $this->load->view($view, [], TRUE);
+		$this->assertEquals($content.'undefined', $out);
 
 		// Mock output class
 		$output = $this->getMockBuilder('CI_Output')->setMethods(array('append_output'))->getMock();
