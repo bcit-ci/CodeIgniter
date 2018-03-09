@@ -37,6 +37,7 @@ Release Date: Not Released
    -  Removed previously deprecated *Cart Library*.
    -  Removed previously deprecated *Javascript Library* (it was always experimental in the first place).
    -  Added UNIX socket connection support to :doc:`Session Library <libraries/sessions>` 'redis' driver.
+   -  Updated :doc:`ZIP Library <libraries/zip>` method ``read_dir()`` to include hidden (dot-prefixed) files.
 
    -  :doc:`Cache Library <libraries/caching>` changes include:
 
