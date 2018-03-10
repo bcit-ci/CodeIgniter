@@ -1467,7 +1467,7 @@ class CI_Email {
 				: basename($this->_attachments[$i]['name'][0]);
 
 			$body .= '--'.$boundary.$this->newline
-				.'Content-Type: '.$this->_attachments[$i]['type'].'; name="'.$name.'"'.$this->newline
+				.'Content-Type: '.$this->_attachments[$i]['type'].'; name="'.$name.'"; name*='.$this->charset.'\'\''.rawurlencode($name).$this->newline
 				.'Content-Disposition: '.$this->_attachments[$i]['disposition'].';'.$this->newline
 				.'Content-Transfer-Encoding: base64'.$this->newline
 				.(empty($this->_attachments[$i]['cid']) ? '' : 'Content-ID: <'.$this->_attachments[$i]['cid'].'>'.$this->newline)
