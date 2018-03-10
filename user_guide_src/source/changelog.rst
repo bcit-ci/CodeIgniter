@@ -10,6 +10,7 @@ Release Date: Not Released
 - **Security**
 
    -  Updated :doc:`URL Helper <helpers/url_helper>` function :php:func:`auto_link()` to add ``rel="noopener"`` to generated links in order to prevent tab hijacking.
+   -  Updated :doc:`Security Library <libraries/security>` method ``xss_clean()`` to also filter JavaScript tag functions.
 
 -  General Changes
 
