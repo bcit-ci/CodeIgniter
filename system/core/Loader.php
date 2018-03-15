@@ -957,18 +957,21 @@ class CI_Loader {
 		 */
 
 		// Init current _ci_vars as current variable configuration
-		if (!is_array($_ci_vars)) {
+		if ( ! is_array($_ci_vars))
+		{
 			$_ci_vars = [];
 		}
 
 		// Include the global cached vars into the current _ci_vars if needed
-		if (!empty($this->_ci_cached_vars)) {
+		if ( ! empty($this->_ci_cached_vars))
+		{
 			$_ci_vars = array_merge($this->_ci_cached_vars, $_ci_vars);
 		}
 
 		// Merge the last variable configuration from a parent _ci_load()
 		// call into the current _ci_vars
-		if (!empty($this->_ci_load_vars_stack)) {
+		if ( ! empty($this->_ci_load_vars_stack))
+		{
 			$previous_variable_configuration = end($this->_ci_load_vars_stack);
 			$_ci_vars = array_merge($previous_variable_configuration, $_ci_vars);
 		}
