@@ -25,6 +25,7 @@ Bug fixes for 3.1.8
 -  Fixed a bug (#5423) - :doc:`Database Library <database/index>` method ``insert_id()`` failed due to incorrect server version parsing with the 'postgre' driver.
 -  Fixed a bug (#5425) - :doc:`XML-RPC Library <libraries/xmlrpc>` produced an error message related to ``count()`` on PHP 7.2.
 -  Fixed a bug (#5434) - :doc:`Image Manipulation Library <libraries/image_lib>` attempted to ``chmod()`` while rendering images with the ``dynamic_output`` option.
+-  Fixed a bug (#5435) - :doc:`Database Results <database/results>` method ``field_data()`` hid info about one field if ``limit()`` was previously used with the 'oci8' driver.
 
 Version 3.1.7
 =============

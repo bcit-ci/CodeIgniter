@@ -97,7 +97,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * @var	bool
 	 */
-	public $limit_used;
+	public $limit_used = FALSE;
 
 	// --------------------------------------------------------------------
 
@@ -685,4 +685,17 @@ class CI_DB_oci8_driver extends CI_DB {
 		oci_close($this->conn_id);
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * We need to reset our $limit_used hack flag, so it doesn't propagate
+	 * to subsequent queries.
+	 *
+	 * @return	void
+	 */
+	protected function _reset_select()
+	{
+		$this->limit_used = FALSE;
+		parent::_reset_select();
+	}
 }
