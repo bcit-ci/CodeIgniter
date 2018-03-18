@@ -702,6 +702,7 @@ class CI_Form_validation {
 				&& $callback === FALSE
 				&& $callable === FALSE
 				&& ! in_array($rule, array('required', 'isset', 'matches'), TRUE)
+				&& method_exists($this, $rule) === FALSE
 			)
 			{
 				continue;
