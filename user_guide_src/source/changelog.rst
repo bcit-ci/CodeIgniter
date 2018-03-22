@@ -128,19 +128,37 @@ Release Date: Not Released
       - Updated to always create PNG images instead of JPEG.
 
 
-Version 3.1.8
+Version 3.1.9
 =============
 
 Release Date: Not Released
 
+
+Version 3.1.8
+=============
+
+Release Date: Mar 22, 2018
+
+- **Security**
+
+   -  Updated :doc:`URL Helper <helpers/url_helper>` function :php:func:`auto_link()` to add ``rel="noopener"`` to generated links in order to prevent tab hijacking.
+   -  Updated :doc:`Security Library <libraries/security>` method ``xss_clean()`` to also filter JavaScript tag functions.
+   -  Fixed a bug where :doc:`Security Library <libraries/security>` method ``xss_clean()`` didn't check for parentheses around JavaScript's ``document``.
+
 -  General Changes
 
    -  Updated :doc:`Email Library <libraries/email>` to always negotiate between TLS 1.0, 1.1, 1.2 when possible (PHP 5.6+) for SMTP connections.
+   -  Updated :doc:`Database Library <database/index>` method ``version()`` to exclude suffixes to the main version numbers with the 'postgre' driver.
 
 Bug fixes for 3.1.8
 -------------------
 
 -  Fixed a bug where :doc:`Form Validation Library <libraries/form_validation>`, :doc:`Email Library <libraries/email>` tried to use ``INTL_IDNA_VARIANT_UTS46`` when it was undeclared.
+-  Fixed a bug where :doc:`Query Builder <database/query_builder>` methods ``where()``, ``having()`` treated values passed to them as arbitrary SQL.
+-  Fixed a bug (#5423) - :doc:`Database Library <database/index>` method ``insert_id()`` failed due to incorrect server version parsing with the 'postgre' driver.
+-  Fixed a bug (#5425) - :doc:`XML-RPC Library <libraries/xmlrpc>` produced an error message related to ``count()`` on PHP 7.2.
+-  Fixed a bug (#5434) - :doc:`Image Manipulation Library <libraries/image_lib>` attempted to ``chmod()`` while rendering images with the ``dynamic_output`` option.
+-  Fixed a bug (#5435) - :doc:`Database Results <database/results>` method ``field_data()`` hid info about one field if ``limit()`` was previously used with the 'oci8' driver.
 
 Version 3.1.7
 =============
@@ -2057,7 +2075,7 @@ Hg Tag: v2.0.0
       precision.
    -  Added alpha, and sha1 string types to random_string() in the
       :doc:`String Helper <helpers/string_helper>`.
-   -  Modified prep_url() so as to not prepend http&#58;// if the supplied
+   -  Modified prep_url() so as to not prepend \http:// if the supplied
       string already has a scheme.
    -  Modified get_file_info in the file helper, changing filectime()
       to filemtime() for dates.
@@ -2797,7 +2815,7 @@ Bugfixes for 1.6.2
    instantiating new Language and Exception objects, and not using the
    error heading.
 -  Fixed a bug (#4413) where a URI containing slashes only e.g.
-   'http&#58;//example.com/index.php?//' would result in PHP errors
+   '\http://example.com/index.php?//' would result in PHP errors
 -  Fixed an array to string conversion error in the Validation library
    (#4425)
 -  Fixed bug (#4451, #4299, #4339) where failed transactions will not
