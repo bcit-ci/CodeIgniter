@@ -2,10 +2,16 @@
 Change Log
 ##########
 
-Version 3.1.8
+Version 3.1.9
 =============
 
 Release Date: Not Released
+
+
+Version 3.1.8
+=============
+
+Release Date: Mar 22, 2018
 
 - **Security**
 
