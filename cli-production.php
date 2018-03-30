@@ -9,7 +9,7 @@ if (php_sapi_name() !== 'cli') {
     
     die('Access Denied');
 }
-// Pre-override ENVIRONMENT constant
-define('ENVIRONMENT', 'production');
+// Set env for ENVIRONMENT 
+$_SERVER['CI_ENV'] = 'production';
 // Load app bootstrap
 require __DIR__ . '/index.php';
