@@ -500,7 +500,7 @@ class CI_User_agent {
 				$referer_host = @parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
 				$own_host = parse_url(config_item('base_url'), PHP_URL_HOST);
 
-				$this->referer = ($referer_host && $referer_host !== $own_host);
+				$this->referer = ($referer_host && $referer_host != $own_host);
 			}
 		}
 
